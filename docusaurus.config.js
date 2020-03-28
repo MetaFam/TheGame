@@ -1,96 +1,95 @@
 module.exports = {
-  title: 'My Site',
-  tagline: 'The tagline of my site',
-  url: 'https://your-docusaurus-test-site.com',
-  baseUrl: '/',
-  favicon: 'img/favicon.ico',
-  organizationName: 'facebook', // Usually your GitHub org/user name.
-  projectName: 'docusaurus', // Usually your repo name.
+  title: "MetaGame Wiki",
+  tagline: "A collaborative guide for your journey into The MetaGame",
+  url: "https://wiki.metagame.wtf",
+  baseUrl: "/",
+  favicon: "img/mg-icon.png",
+  organizationName: "MetaFam",
+  projectName: "metagame-wiki",
   themeConfig: {
     navbar: {
-      title: 'My Site',
+      title: "MetaGame Wiki",
       logo: {
-        alt: 'My Site Logo',
-        src: 'img/logo.svg',
+        alt: "MetaGame Logo",
+        src: "img/mg-icon.png"
       },
       links: [
+        { to: "docs/introduction", label: "📕 Handbook", position: "left" },
         {
-          to: 'docs/doc1',
-          activeBasePath: 'docs',
-          label: 'Docs',
-          position: 'left',
+          to: "docs/manifesto/pillar-articles",
+          label: "📜 Manifesto",
+          position: "left"
         },
-        {to: 'blog', label: 'Blog', position: 'left'},
+        { to: "docs/roadmap/phases", label: "🗺 Roadmap", position: "left" },
         {
-          href: 'https://github.com/facebook/docusaurus',
-          label: 'GitHub',
-          position: 'right',
+          to: "docs/resources/graphics",
+          label: "🌳 Resources",
+          position: "left"
         },
-      ],
+        {
+          href: "https://metagame.wtf",
+          label: "Home",
+          position: "right"
+        }
+      ]
     },
     footer: {
-      style: 'dark',
+      style: "dark",
       links: [
         {
-          title: 'Docs',
+          title: "The Game",
           items: [
             {
-              label: 'Style Guide',
-              to: 'docs/doc1',
+              label: "🌌 Interspace",
+              href: "https://interspace.metagame.wtf"
             },
             {
-              label: 'Second Doc',
-              to: 'docs/doc2',
-            },
-          ],
+              label: "🧬 The Source",
+              href: "https://metafam.github.io/TheSource/timeline/@metagame/"
+            }
+          ]
         },
         {
-          title: 'Community',
+          title: "Community",
           items: [
             {
-              label: 'Stack Overflow',
-              href: 'https://stackoverflow.com/questions/tagged/docusaurus',
+              label: "💬 Discord",
+              href: "https://discord.gg/VYZPBnx"
             },
             {
-              label: 'Discord',
-              href: 'https://discordapp.com/invite/docusaurus',
-            },
-          ],
+              label: "🧵 Forums",
+              href: "https://forum.metagame.wtf"
+            }
+          ]
         },
         {
-          title: 'Social',
+          title: "Social",
           items: [
             {
-              label: 'Blog',
-              to: 'blog',
+              label: "🐦 Twitter",
+              href: "https://twitter.com/MetaFam"
             },
             {
-              label: 'GitHub',
-              href: 'https://github.com/facebook/docusaurus',
-            },
-            {
-              label: 'Twitter',
-              href: 'https://twitter.com/docusaurus',
-            },
-          ],
-        },
-      ],
-      copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
-    },
+              label: "🗞 Newsletter",
+              href: "https://metagame.substack.com"
+            }
+          ]
+        }
+      ]
+    }
   },
   presets: [
     [
-      '@docusaurus/preset-classic',
+      "@docusaurus/preset-classic",
       {
         docs: {
-          sidebarPath: require.resolve('./sidebars.js'),
-          editUrl:
-            'https://github.com/facebook/docusaurus/edit/master/website/',
+          sidebarPath: require.resolve("./sidebars.js"),
+          editUrl: "https://github.com/MetaFam/metagame-wiki/edit/master/"
         },
         theme: {
-          customCss: require.resolve('./src/css/custom.css'),
-        },
-      },
-    ],
-  ],
+          customCss: require.resolve("./src/css/custom.css")
+        }
+      }
+    ]
+  ]
 };

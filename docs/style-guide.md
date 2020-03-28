@@ -1,7 +1,5 @@
 ---
-id: doc1
-title: Style Guide
-sidebar_label: Style Guide
+title: Markdown Style Guide
 ---
 
 You can write content using [GitHub-flavored Markdown syntax](https://github.github.com/gfm/).
@@ -171,12 +169,22 @@ This line is also a separate paragraph, but... This line is only separated by a 
 
 ## Admonitions
 
-:::note This is a note :::
+:::note
+This is a note
+:::
 
-:::tip This is a tip :::
+:::tip
+This is a tip
+:::
 
-:::important This is important :::
+:::important
+This is important
+:::
 
-:::caution This is a caution :::
+:::caution
+This is a caution
+:::
 
-:::warning This is a warning :::
+:::warning
+This is a warning
+:::
