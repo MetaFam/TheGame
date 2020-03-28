@@ -30,3 +30,7 @@
 .button {
   font-family: var(--ifm-font-family-monospace);
 }
+
+.navbar .navbar__items.navbar__items--right {
+  flex-grow: 0;
+}
