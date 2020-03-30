@@ -14,7 +14,8 @@ module.exports = {
       "manifesto/pillar-articles",
       "manifesto/metafam-way",
       "manifesto/perspective", 
-      "manifesto/founders",
+      "manifesto/founders"
+    ],
     
     "🗺 Roadmap": ["roadmap/phases", "roadmap/alignment2021"],
     "🌳 Resources": ["resources/graphics", "resources/art", "resources/memes"],
