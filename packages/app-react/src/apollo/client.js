@@ -11,7 +11,7 @@ export function createApolloClient() {
   const defaultClientState = {
     authState: 'anonymous',
     authToken: null,
-    userId: null,
+    playerId: null,
   };
 
   async function authMiddleware(operation) {

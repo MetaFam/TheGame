@@ -4,6 +4,6 @@ export const get_authState = gql`
 query AuthState {
   authState @client
   authToken @client
-  userId @client
+  playerId @client
 }
 `;

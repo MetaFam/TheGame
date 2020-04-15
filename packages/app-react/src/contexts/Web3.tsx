@@ -1,13 +1,17 @@
-import React, {createContext, useCallback, useState} from "react";
+import React, {createContext, useCallback, useState} from 'react';
 import WalletConnectProvider from '@walletconnect/web3-provider';
 import Web3Modal from 'web3modal';
 import Web3 from 'web3';
+import { ethers } from 'ethers';
+import {AsyncSendable} from 'ethers/providers';
+import {useApolloClient} from '@apollo/react-hooks';
 
 import config from '../config';
+import {createToken} from '../lib/did';
+import {loginLoading, login} from '../apollo/auth';
 
 export const Web3Context = createContext({
-  web3Provider: null,
-  address: null,
+  ethersProvider: null,
   connectWeb3: () => {},
 });
 
@@ -28,20 +32,37 @@ const web3Modal = new Web3Modal({
 
 
 const Web3ContextProvider = props => {
-  const [web3Provider, setWeb3Provider] = useState(null);
-  const [address, setAddress] = useState(null);
+
+  const apolloClient = useApolloClient();
+
+  const [ethersProvider, setEthersProvider] = useState(null);
 
   const connectWeb3 = useCallback(async () => {
 
-    const provider = await web3Modal.connect();
-    const web3Provider = new Web3(provider);
-    setWeb3Provider(web3Provider);
-    web3Provider.eth.getAccounts().then(accounts => setAddress(accounts[0]))
+    loginLoading(apolloClient);
 
-  }, []);
+    try {
+
+      const provider = await web3Modal.connect();
+
+      const web3Provider = new Web3(provider);
+      const ethersProvider = new ethers.providers.Web3Provider(web3Provider.currentProvider as AsyncSendable);
+      const signer = ethersProvider.getSigner();
+      const address = await signer.getAddress();
+
+      const token = await createToken(ethersProvider);
+      console.log(token);
+
+      await login(apolloClient, token, address);
+      setEthersProvider(ethersProvider);
+
+    } catch(error) {
+      console.error('impossible to connect', error);
+    }
+  }, [apolloClient]);
 
   return (
-    <Web3Context.Provider value={{ web3Provider, address, connectWeb3 }}>
+    <Web3Context.Provider value={{ ethersProvider, connectWeb3 }}>
       {props.children}
     </Web3Context.Provider>
   );
