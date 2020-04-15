@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "license": "MIT",
   "scripts": {
-    "docker:start": "docker-compose up --build -d",
+    "docker:start": "docker-compose up -d database && sleep 2 && docker-compose up --build -d hasura",
     "docker:stop": "docker-compose down",
     "docker:clean": "docker-compose down -v",
     "hasura": "hasura --project ./hasura",
