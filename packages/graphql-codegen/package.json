@@ -1,0 +1,22 @@
+{
+  "name": "@the-game/graphql-codegen",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "generate": "graphql-codegen --config=graphql-codegen-gql.yaml; graphql-codegen --config=graphql-codegen-typescript.yaml"
+  },
+  "dependencies": {
+    "@graphql-codegen/cli": "^1.13.2",
+    "@graphql-codegen/introspection": "^1.13.2",
+    "@graphql-codegen/typescript": "^1.13.2",
+    "@graphql-codegen/typescript-operations": "^1.13.2",
+    "@graphql-codegen/typescript-react-apollo": "^1.13.2",
+    "graphql-codegen-hasura-client-config": "^4.8.3",
+    "graphql-codegen-hasura-core": "^4.8.3",
+    "graphql-codegen-hasura-gql": "^4.8.3",
+    "graphql-codegen-hasura-react": "^4.8.3",
+    "graphql-codegen-hasura-shared": "^4.8.3",
+    "graphql-codegen-hasura-typescript": "^4.8.3"
+  }
+}
