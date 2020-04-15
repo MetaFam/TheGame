@@ -16,6 +16,7 @@ export default function PlayerList() {
   }
   return (
     <Box>
+      <h4>Player list</h4>
       {data.Player.map((player: any) =>
         <Player key={player.id} player={player} />
       )}
