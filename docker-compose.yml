@@ -1,0 +1,27 @@
+---
+version: '3.6'
+
+services:
+  hasura:
+    build: ./hasura
+    depends_on:
+      - database
+    ports:
+      - 8080:${HASURA_PORT}
+    environment:
+      PORT: ${HASURA_PORT}
+      DATABASE_URL: postgres://${DATABASE_USER}:${DATABASE_PASSWORD}@database:5432/${DATABASE_NAME}
+      HASURA_GRAPHQL_ADMIN_SECRET: ${HASURA_GRAPHQL_ADMIN_SECRET}
+
+  database:
+    image: postgres:12
+    volumes:
+      - database:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_DB: ${DATABASE_NAME}
+
+volumes:
+  database:
+...
