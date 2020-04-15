@@ -25,9 +25,12 @@ ${fragments.PlayerFragment}
 `;
 
 queries.get_MyProfile = gql`
-query GetMyProfile($ethAddress: String) {
+query GetMyProfile($eth_address: String) {
   Profile(
-  where: { identifier: { _eq: $ethAddress } }
+    where: { 
+      identifier: { _eq: $eth_address },
+      type: { _eq: "ETHEREUM" }
+    }
   ) {
     ...ProfileFragment
     Player {

@@ -1,4 +1,5 @@
 import queries from '../graphql/queries';
+import { getSignerAddress } from '../lib/did';
 
 const STORAGE_KEY = 'auth-token';
 
@@ -33,7 +34,7 @@ export async function login(client, token, ethAddress) {
 
   return client.query({
     query: queries.get_MyProfile,
-    variables: { ethAddress }
+    variables: { eth_address: ethAddress }
   })
     .then(async res => {
       if(res.data.Profile.length === 0) {
@@ -42,7 +43,7 @@ export async function login(client, token, ethAddress) {
       client.writeData({
         data: {
           authState: 'logged',
-          playerId: res.data.Player[0].id,
+          playerId: res.data.Profile[0].Player.id,
         },
       });
       setTokenInStore(token);
@@ -65,6 +66,7 @@ export function logout() {
 export function checkStoredAuth(client) {
   const token = getTokenFromStore();
   if(token) {
-    login(client, token).catch(console.error)
+    const address = getSignerAddress(token);
+    login(client, token, address).catch(console.error)
   }
 }

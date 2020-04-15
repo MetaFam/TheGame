@@ -1,4 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
+import { ethers } from "ethers";
 
 const tokenDuration = 1000 * 60 * 60 * 24 * 7; // 7 days
 
@@ -22,4 +23,17 @@ export async function createToken(provider) {
   const DIDToken = btoa(JSON.stringify([proof, serializedClaim]));
 
   return DIDToken;
+}
+
+
+export function getSignerAddress(token: string): any {
+  try {
+    const rawToken = atob(token);
+    const [proof, rawClaim] = JSON.parse(rawToken);
+    const signerAddress = ethers.utils.verifyMessage(rawClaim, proof);
+    return signerAddress;
+  } catch (e) {
+    console.error('Token verification failed', e);
+    return null;
+  }
 }
