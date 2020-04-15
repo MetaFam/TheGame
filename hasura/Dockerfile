@@ -5,7 +5,6 @@ FROM hasura/graphql-engine:v1.1.1.cli-migrations
 ENV HASURA_GRAPHQL_ENABLE_TELEMETRY false
 ENV HASURA_GRAPHQL_ENABLE_CONSOLE false
 ENV HASURA_GRAPHQL_ENABLED_LOG_TYPES startup, http-log, webhook-log, websocket-log, query-log
-ENV HASURA_GRAPHQL_UNAUTHORIZED_ROLE public
 
 ## Migrations
 

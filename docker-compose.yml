@@ -12,6 +12,7 @@ services:
       PORT: ${HASURA_PORT}
       DATABASE_URL: postgres://${DATABASE_USER}:${DATABASE_PASSWORD}@database:5432/${DATABASE_NAME}
       HASURA_GRAPHQL_ADMIN_SECRET: ${HASURA_GRAPHQL_ADMIN_SECRET}
+      HASURA_GRAPHQL_AUTH_HOOK: http://backend:${BACKEND_PORT}/auth-webhook
 
   database:
     image: postgres:12
@@ -21,6 +22,12 @@ services:
       POSTGRES_USER: ${DATABASE_USER}
       POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
       POSTGRES_DB: ${DATABASE_NAME}
+
+  backend:
+    build: ./packages/backend
+    environment:
+      PORT: ${BACKEND_PORT}
+
 
 volumes:
   database:
