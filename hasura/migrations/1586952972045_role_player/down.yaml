@@ -1,6 +1,48 @@
 - args:
     role: player
     table:
+      name: XPInterval
+      schema: public
+  type: drop_select_permission
+- args:
+    role: player
+    table:
+      name: Quest_Completed
+      schema: public
+  type: drop_select_permission
+- args:
+    role: player
+    table:
+      name: Quest
+      schema: public
+  type: drop_select_permission
+- args:
+    role: player
+    table:
+      name: Profile
+      schema: public
+  type: drop_select_permission
+- args:
+    role: player
+    table:
+      name: Guild_Member
+      schema: public
+  type: drop_select_permission
+- args:
+    role: player
+    table:
+      name: Guild
+      schema: public
+  type: drop_select_permission
+- args:
+    role: player
+    table:
+      name: Player
+      schema: public
+  type: drop_select_permission
+- args:
+    role: player
+    table:
       name: Player
       schema: public
   type: drop_update_permission
