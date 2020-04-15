@@ -7,12 +7,12 @@ services:
     depends_on:
       - database
     ports:
-      - 8080:${HASURA_PORT}
+      - ${HASURA_PORT}:8080
     environment:
-      PORT: ${HASURA_PORT}
+      PORT: 8080
       DATABASE_URL: postgres://${DATABASE_USER}:${DATABASE_PASSWORD}@database:5432/${DATABASE_NAME}
       HASURA_GRAPHQL_ADMIN_SECRET: ${HASURA_GRAPHQL_ADMIN_SECRET}
-      HASURA_GRAPHQL_AUTH_HOOK: http://backend:${BACKEND_PORT}/auth-webhook
+      HASURA_GRAPHQL_AUTH_HOOK: http://backend:4000/auth-webhook
 
   database:
     image: postgres:12
@@ -26,8 +26,9 @@ services:
   backend:
     build: ./packages/backend
     environment:
-      PORT: ${BACKEND_PORT}
-
+      PORT: 4000
+      GRAPHQL_URL: http://hasura:8080/v1/graphql
+      HASURA_GRAPHQL_ADMIN_SECRET: ${HASURA_GRAPHQL_ADMIN_SECRET}
 
 volumes:
   database:
