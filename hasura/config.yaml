@@ -1,0 +1,2 @@
+endpoint: http://localhost:8080
+admin_secret: metagame_secret

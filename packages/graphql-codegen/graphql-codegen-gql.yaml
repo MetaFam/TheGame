@@ -1,0 +1,26 @@
+schema:
+  - http://localhost:8080/v1/graphql
+documents:
+overwrite: true
+config:
+  scalars:
+    DateTime: Date
+    JSON: "{ [key: string]: any }"
+generates:
+  ./autogen/hasura/gql.ts:
+    plugins:
+      - graphql-codegen-hasura-gql
+    documents:
+      - ./customFragments.ts
+    config:
+      reactApolloVersion: 3
+      typescriptCodegenOutputPath: ../
+      trimString:
+      withQueries: true
+      withSubscriptions: false
+      withInserts: false
+      withUpdates: false
+      withDeletes: false
+  ./autogen/graphql.schema.json:
+    plugins:
+      - introspection

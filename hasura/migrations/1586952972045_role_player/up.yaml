@@ -1,0 +1,125 @@
+- args:
+    permission:
+      allow_aggregations: false
+      columns:
+        - id
+        - totalXp
+        - rank
+        - links
+        - sentences
+      computed_fields: []
+      filter: {}
+      limit: null
+    role: player
+    table:
+      name: Player
+      schema: public
+  type: create_select_permission
+- args:
+    permission:
+      allow_aggregations: false
+      columns:
+        - id
+        - name
+      computed_fields: []
+      filter: {}
+      limit: null
+    role: player
+    table:
+      name: Guild
+      schema: public
+  type: create_select_permission
+- args:
+    permission:
+      allow_aggregations: false
+      columns:
+        - guild_id
+        - player_id
+      computed_fields: []
+      filter: {}
+      limit: null
+    role: player
+    table:
+      name: Guild_Member
+      schema: public
+  type: create_select_permission
+- args:
+    permission:
+      allow_aggregations: false
+      columns:
+        - player_id
+        - identifier
+        - linkToProof
+        - type
+      computed_fields: []
+      filter: {}
+      limit: null
+    role: player
+    table:
+      name: Profile
+      schema: public
+  type: create_select_permission
+- args:
+    permission:
+      allow_aggregations: false
+      columns:
+        - id
+        - name
+        - description
+        - url
+        - xp
+      computed_fields: []
+      filter: {}
+      limit: null
+    role: player
+    table:
+      name: Quest
+      schema: public
+  type: create_select_permission
+- args:
+    permission:
+      allow_aggregations: false
+      columns:
+        - quest_id
+        - player_id
+        - time
+      computed_fields: []
+      filter: {}
+      limit: null
+    role: player
+    table:
+      name: Quest_Completed
+      schema: public
+  type: create_select_permission
+- args:
+    permission:
+      allow_aggregations: false
+      columns:
+        - player_id
+        - startTime
+        - endTime
+        - xp
+      computed_fields: []
+      filter: {}
+      limit: null
+    role: player
+    table:
+      name: XPInterval
+      schema: public
+  type: create_select_permission
+- args:
+    permission:
+      columns:
+      - sentences
+      filter:
+        id:
+          _eq: X-Hasura-User-Id
+      localPresets:
+      - key: ""
+        value: ""
+      set: {}
+    role: player
+    table:
+      name: Player
+      schema: public
+  type: create_update_permission
