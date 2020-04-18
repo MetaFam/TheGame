@@ -1,9 +1,10 @@
 import { v4 as uuidv4 } from 'uuid';
 import { ethers } from "ethers";
+import { Web3Provider } from "ethers/providers";
 
 const tokenDuration = 1000 * 60 * 60 * 24 * 7; // 7 days
 
-export async function createToken(provider) {
+export async function createToken(provider: Web3Provider) {
   const signer = provider.getSigner();
   const address = await signer.getAddress();
 
