@@ -3,14 +3,19 @@ import WalletConnectProvider from '@walletconnect/web3-provider';
 import Web3Modal from 'web3modal';
 import Web3 from 'web3';
 import { ethers } from 'ethers';
-import {AsyncSendable} from 'ethers/providers';
+import { AsyncSendable, Web3Provider } from 'ethers/providers';
 import {useApolloClient} from '@apollo/react-hooks';
 
 import config from '../config';
 import {createToken} from '../lib/did';
 import {loginLoading, login} from '../apollo/auth';
 
-export const Web3Context = createContext({
+type Web3ContextType = {
+  ethersProvider: Web3Provider | null,
+  connectWeb3: () => void;
+}
+
+export const Web3Context = createContext<Web3ContextType>({
   ethersProvider: null,
   connectWeb3: () => {},
 });
@@ -31,11 +36,11 @@ const web3Modal = new Web3Modal({
 });
 
 
-const Web3ContextProvider = props => {
+const Web3ContextProvider: React.FC = props => {
 
   const apolloClient = useApolloClient();
 
-  const [ethersProvider, setEthersProvider] = useState(null);
+  const [ethersProvider, setEthersProvider] = useState<Web3Provider | null>(null);
 
   const connectWeb3 = useCallback(async () => {
 

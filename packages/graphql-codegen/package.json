@@ -1,10 +1,10 @@
 {
   "name": "@the-game/graphql-codegen",
   "version": "1.0.0",
-  "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "generate": "graphql-codegen --config=graphql-codegen-gql.yaml; graphql-codegen --config=graphql-codegen-typescript.yaml"
+    "generate": "graphql-codegen --config=graphql-codegen-gql.yaml; graphql-codegen --config=graphql-codegen-typescript.yaml",
+    "typecheck": "echo noop"
   },
   "dependencies": {
     "@graphql-codegen/cli": "^1.13.2",
