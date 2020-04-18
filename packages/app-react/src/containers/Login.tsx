@@ -6,7 +6,7 @@ import { Web3Context } from '../contexts/Web3';
 import {localQueries} from "../apollo";
 import { useQuery } from '@apollo/react-hooks';
 
-export default function Login() {
+export const Login: React.FC = () => {
   const { data, loading } = useQuery(localQueries.get_authState);
 
   const { connectWeb3 } = useContext(Web3Context);
@@ -35,5 +35,9 @@ export default function Login() {
     );
   }
 
-  return 'Unknown state'
-}
+  return (
+    <Box>
+      Unknown state
+    </Box>
+  )
+};
