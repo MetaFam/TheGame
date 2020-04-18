@@ -2,6 +2,8 @@
   "name": "@metafam/the-game",
   "version": "0.1.0",
   "license": "MIT",
+  "private": true,
+  "workspaces": ["packages/*"],
   "scripts": {
     "docker:start": "docker-compose up -d database && sleep 2 && docker-compose up --build -d",
     "docker:stop": "docker-compose down",
