@@ -1,4 +1,4 @@
-FROM hasura/graphql-engine:v1.1.1.cli-migrations
+FROM hasura/graphql-engine:v1.2.0-beta.4.cli-migrations
 
 ## Default setup
 
