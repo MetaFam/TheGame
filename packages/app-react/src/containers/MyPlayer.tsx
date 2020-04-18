@@ -5,7 +5,7 @@ import { Box } from '@material-ui/core';
 import Player from '../components/Player';
 import { useMyPlayer } from '../graphql/hooks';
 
-export default function MyPlayer() {
+export const MyPlayer: React.FC = () => {
   const { data, called, loading, error } = useMyPlayer();
 
   if(error) {
@@ -22,4 +22,5 @@ export default function MyPlayer() {
       <Player player={myPlayer} />
     </Box>
   )
-}
+};
+
