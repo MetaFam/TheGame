@@ -1,5 +1,5 @@
 schema:
-  - ./autogen/graphql.schema.json
+  - ./schema.graphql
 overwrite: true
 config:
   scalars:
@@ -8,8 +8,8 @@ config:
 generates:
   ./autogen/index.tsx:
     documents:
-      - ./customFragments.ts
-      - ./autogen/hasura/gql.ts
+      - ./**/*.tsx
+      - ./**/*.ts
     plugins:
       - typescript
       - typescript-operations
@@ -32,10 +32,10 @@ generates:
       trimString:
       withClientAndCacheHelpers: true
       withQueries: true
-      withSubscriptions: false
-      withInserts: false
-      withUpdates: false
-      withDeletes: false
+      withSubscriptions: true
+      withInserts: true
+      withUpdates: true
+      withDeletes: true
   ./autogen/hasura/react.ts:
     documents:
       - ./customFragments.ts
@@ -46,10 +46,10 @@ generates:
       typescriptCodegenOutputPath: "../"
       trimString:
       withQueries: true
-      withSubscriptions: false
-      withInserts: false
-      withUpdates: false
-      withDeletes: false
+      withSubscriptions: true
+      withInserts: true
+      withUpdates: true
+      withDeletes: true
   ./autogen/hasura/config.ts:
     documents:
       - ./customFragments.ts

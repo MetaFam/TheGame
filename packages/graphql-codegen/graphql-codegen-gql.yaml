@@ -1,5 +1,5 @@
 schema:
-  - http://localhost:8080/v1/graphql
+  - ./schema.graphql
 documents:
 overwrite: true
 config:
@@ -17,10 +17,7 @@ generates:
       typescriptCodegenOutputPath: ../
       trimString:
       withQueries: true
-      withSubscriptions: false
-      withInserts: false
-      withUpdates: false
-      withDeletes: false
-  ./autogen/graphql.schema.json:
-    plugins:
-      - introspection
+      withSubscriptions: true
+      withInserts: true
+      withUpdates: true
+      withDeletes: true

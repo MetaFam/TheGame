@@ -1,0 +1,3009 @@
+schema {
+  query: query_root
+  mutation: mutation_root
+  subscription: subscription_root
+}
+
+scalar date
+
+"""
+expression to compare columns of type date. All fields are combined with logical 'AND'.
+"""
+input date_comparison_exp {
+  _eq: date
+  _gt: date
+  _gte: date
+  _in: [date!]
+  _is_null: Boolean
+  _lt: date
+  _lte: date
+  _neq: date
+  _nin: [date!]
+}
+
+"""
+columns and relationships of "Guild"
+"""
+type Guild {
+  """An array relationship"""
+  Guild_Members(
+    """distinct select on columns"""
+    distinct_on: [Guild_Member_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [Guild_Member_order_by!]
+
+    """filter the rows returned"""
+    where: Guild_Member_bool_exp
+  ): [Guild_Member!]!
+
+  """An aggregated array relationship"""
+  Guild_Members_aggregate(
+    """distinct select on columns"""
+    distinct_on: [Guild_Member_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [Guild_Member_order_by!]
+
+    """filter the rows returned"""
+    where: Guild_Member_bool_exp
+  ): Guild_Member_aggregate!
+  id: uuid!
+  name: String
+}
+
+"""
+aggregated selection of "Guild"
+"""
+type Guild_aggregate {
+  aggregate: Guild_aggregate_fields
+  nodes: [Guild!]!
+}
+
+"""
+aggregate fields of "Guild"
+"""
+type Guild_aggregate_fields {
+  count(columns: [Guild_select_column!], distinct: Boolean): Int
+  max: Guild_max_fields
+  min: Guild_min_fields
+}
+
+"""
+order by aggregate values of table "Guild"
+"""
+input Guild_aggregate_order_by {
+  count: order_by
+  max: Guild_max_order_by
+  min: Guild_min_order_by
+}
+
+"""
+input type for inserting array relation for remote table "Guild"
+"""
+input Guild_arr_rel_insert_input {
+  data: [Guild_insert_input!]!
+  on_conflict: Guild_on_conflict
+}
+
+"""
+Boolean expression to filter rows from the table "Guild". All fields are combined with a logical 'AND'.
+"""
+input Guild_bool_exp {
+  Guild_Members: Guild_Member_bool_exp
+  _and: [Guild_bool_exp]
+  _not: Guild_bool_exp
+  _or: [Guild_bool_exp]
+  id: uuid_comparison_exp
+  name: String_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "Guild"
+"""
+enum Guild_constraint {
+  """unique or primary key constraint"""
+  Guild_pkey
+}
+
+"""
+input type for inserting data into table "Guild"
+"""
+input Guild_insert_input {
+  Guild_Members: Guild_Member_arr_rel_insert_input
+  id: uuid
+  name: String
+}
+
+"""aggregate max on columns"""
+type Guild_max_fields {
+  id: uuid
+  name: String
+}
+
+"""
+order by max() on columns of table "Guild"
+"""
+input Guild_max_order_by {
+  id: order_by
+  name: order_by
+}
+
+"""
+columns and relationships of "Guild_Member"
+"""
+type Guild_Member {
+  """An object relationship"""
+  Guild: Guild!
+
+  """An object relationship"""
+  Player: Player!
+  guild_id: uuid!
+  player_id: uuid!
+}
+
+"""
+aggregated selection of "Guild_Member"
+"""
+type Guild_Member_aggregate {
+  aggregate: Guild_Member_aggregate_fields
+  nodes: [Guild_Member!]!
+}
+
+"""
+aggregate fields of "Guild_Member"
+"""
+type Guild_Member_aggregate_fields {
+  count(columns: [Guild_Member_select_column!], distinct: Boolean): Int
+  max: Guild_Member_max_fields
+  min: Guild_Member_min_fields
+}
+
+"""
+order by aggregate values of table "Guild_Member"
+"""
+input Guild_Member_aggregate_order_by {
+  count: order_by
+  max: Guild_Member_max_order_by
+  min: Guild_Member_min_order_by
+}
+
+"""
+input type for inserting array relation for remote table "Guild_Member"
+"""
+input Guild_Member_arr_rel_insert_input {
+  data: [Guild_Member_insert_input!]!
+  on_conflict: Guild_Member_on_conflict
+}
+
+"""
+Boolean expression to filter rows from the table "Guild_Member". All fields are combined with a logical 'AND'.
+"""
+input Guild_Member_bool_exp {
+  Guild: Guild_bool_exp
+  Player: Player_bool_exp
+  _and: [Guild_Member_bool_exp]
+  _not: Guild_Member_bool_exp
+  _or: [Guild_Member_bool_exp]
+  guild_id: uuid_comparison_exp
+  player_id: uuid_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "Guild_Member"
+"""
+enum Guild_Member_constraint {
+  """unique or primary key constraint"""
+  Guild_Member_pkey
+}
+
+"""
+input type for inserting data into table "Guild_Member"
+"""
+input Guild_Member_insert_input {
+  Guild: Guild_obj_rel_insert_input
+  Player: Player_obj_rel_insert_input
+  guild_id: uuid
+  player_id: uuid
+}
+
+"""aggregate max on columns"""
+type Guild_Member_max_fields {
+  guild_id: uuid
+  player_id: uuid
+}
+
+"""
+order by max() on columns of table "Guild_Member"
+"""
+input Guild_Member_max_order_by {
+  guild_id: order_by
+  player_id: order_by
+}
+
+"""aggregate min on columns"""
+type Guild_Member_min_fields {
+  guild_id: uuid
+  player_id: uuid
+}
+
+"""
+order by min() on columns of table "Guild_Member"
+"""
+input Guild_Member_min_order_by {
+  guild_id: order_by
+  player_id: order_by
+}
+
+"""
+response of any mutation on the table "Guild_Member"
+"""
+type Guild_Member_mutation_response {
+  """number of affected rows by the mutation"""
+  affected_rows: Int!
+
+  """data of the affected rows by the mutation"""
+  returning: [Guild_Member!]!
+}
+
+"""
+input type for inserting object relation for remote table "Guild_Member"
+"""
+input Guild_Member_obj_rel_insert_input {
+  data: Guild_Member_insert_input!
+  on_conflict: Guild_Member_on_conflict
+}
+
+"""
+on conflict condition type for table "Guild_Member"
+"""
+input Guild_Member_on_conflict {
+  constraint: Guild_Member_constraint!
+  update_columns: [Guild_Member_update_column!]!
+  where: Guild_Member_bool_exp
+}
+
+"""
+ordering options when selecting data from "Guild_Member"
+"""
+input Guild_Member_order_by {
+  Guild: Guild_order_by
+  Player: Player_order_by
+  guild_id: order_by
+  player_id: order_by
+}
+
+"""
+primary key columns input for table: "Guild_Member"
+"""
+input Guild_Member_pk_columns_input {
+  guild_id: uuid!
+  player_id: uuid!
+}
+
+"""
+select columns of table "Guild_Member"
+"""
+enum Guild_Member_select_column {
+  """column name"""
+  guild_id
+
+  """column name"""
+  player_id
+}
+
+"""
+input type for updating data in table "Guild_Member"
+"""
+input Guild_Member_set_input {
+  guild_id: uuid
+  player_id: uuid
+}
+
+"""
+update columns of table "Guild_Member"
+"""
+enum Guild_Member_update_column {
+  """column name"""
+  guild_id
+
+  """column name"""
+  player_id
+}
+
+"""aggregate min on columns"""
+type Guild_min_fields {
+  id: uuid
+  name: String
+}
+
+"""
+order by min() on columns of table "Guild"
+"""
+input Guild_min_order_by {
+  id: order_by
+  name: order_by
+}
+
+"""
+response of any mutation on the table "Guild"
+"""
+type Guild_mutation_response {
+  """number of affected rows by the mutation"""
+  affected_rows: Int!
+
+  """data of the affected rows by the mutation"""
+  returning: [Guild!]!
+}
+
+"""
+input type for inserting object relation for remote table "Guild"
+"""
+input Guild_obj_rel_insert_input {
+  data: Guild_insert_input!
+  on_conflict: Guild_on_conflict
+}
+
+"""
+on conflict condition type for table "Guild"
+"""
+input Guild_on_conflict {
+  constraint: Guild_constraint!
+  update_columns: [Guild_update_column!]!
+  where: Guild_bool_exp
+}
+
+"""
+ordering options when selecting data from "Guild"
+"""
+input Guild_order_by {
+  Guild_Members_aggregate: Guild_Member_aggregate_order_by
+  id: order_by
+  name: order_by
+}
+
+"""
+primary key columns input for table: "Guild"
+"""
+input Guild_pk_columns_input {
+  id: uuid!
+}
+
+"""
+select columns of table "Guild"
+"""
+enum Guild_select_column {
+  """column name"""
+  id
+
+  """column name"""
+  name
+}
+
+"""
+input type for updating data in table "Guild"
+"""
+input Guild_set_input {
+  id: uuid
+  name: String
+}
+
+"""
+update columns of table "Guild"
+"""
+enum Guild_update_column {
+  """column name"""
+  id
+
+  """column name"""
+  name
+}
+
+scalar json
+
+"""
+expression to compare columns of type json. All fields are combined with logical 'AND'.
+"""
+input json_comparison_exp {
+  _eq: json
+  _gt: json
+  _gte: json
+  _in: [json!]
+  _is_null: Boolean
+  _lt: json
+  _lte: json
+  _neq: json
+  _nin: [json!]
+}
+
+"""mutation root"""
+type mutation_root {
+  """
+  delete data from the table: "Guild"
+  """
+  delete_Guild(
+    """filter the rows which have to be deleted"""
+    where: Guild_bool_exp!
+  ): Guild_mutation_response
+
+  """
+  delete data from the table: "Guild_Member"
+  """
+  delete_Guild_Member(
+    """filter the rows which have to be deleted"""
+    where: Guild_Member_bool_exp!
+  ): Guild_Member_mutation_response
+
+  """
+  delete single row from the table: "Guild_Member"
+  """
+  delete_Guild_Member_by_pk(guild_id: uuid!, player_id: uuid!): Guild_Member
+
+  """
+  delete single row from the table: "Guild"
+  """
+  delete_Guild_by_pk(id: uuid!): Guild
+
+  """
+  delete data from the table: "Player"
+  """
+  delete_Player(
+    """filter the rows which have to be deleted"""
+    where: Player_bool_exp!
+  ): Player_mutation_response
+
+  """
+  delete single row from the table: "Player"
+  """
+  delete_Player_by_pk(id: uuid!): Player
+
+  """
+  delete data from the table: "Profile"
+  """
+  delete_Profile(
+    """filter the rows which have to be deleted"""
+    where: Profile_bool_exp!
+  ): Profile_mutation_response
+
+  """
+  delete data from the table: "Quest"
+  """
+  delete_Quest(
+    """filter the rows which have to be deleted"""
+    where: Quest_bool_exp!
+  ): Quest_mutation_response
+
+  """
+  delete data from the table: "Quest_Completed"
+  """
+  delete_Quest_Completed(
+    """filter the rows which have to be deleted"""
+    where: Quest_Completed_bool_exp!
+  ): Quest_Completed_mutation_response
+
+  """
+  delete single row from the table: "Quest_Completed"
+  """
+  delete_Quest_Completed_by_pk(player_id: uuid!, quest_id: uuid!): Quest_Completed
+
+  """
+  delete single row from the table: "Quest"
+  """
+  delete_Quest_by_pk(id: uuid!): Quest
+
+  """
+  delete data from the table: "XPInterval"
+  """
+  delete_XPInterval(
+    """filter the rows which have to be deleted"""
+    where: XPInterval_bool_exp!
+  ): XPInterval_mutation_response
+
+  """
+  insert data into the table: "Guild"
+  """
+  insert_Guild(
+    """the rows to be inserted"""
+    objects: [Guild_insert_input!]!
+
+    """on conflict condition"""
+    on_conflict: Guild_on_conflict
+  ): Guild_mutation_response
+
+  """
+  insert data into the table: "Guild_Member"
+  """
+  insert_Guild_Member(
+    """the rows to be inserted"""
+    objects: [Guild_Member_insert_input!]!
+
+    """on conflict condition"""
+    on_conflict: Guild_Member_on_conflict
+  ): Guild_Member_mutation_response
+
+  """
+  insert a single row into the table: "Guild_Member"
+  """
+  insert_Guild_Member_one(
+    """the row to be inserted"""
+    object: Guild_Member_insert_input!
+
+    """on conflict condition"""
+    on_conflict: Guild_Member_on_conflict
+  ): Guild_Member
+
+  """
+  insert a single row into the table: "Guild"
+  """
+  insert_Guild_one(
+    """the row to be inserted"""
+    object: Guild_insert_input!
+
+    """on conflict condition"""
+    on_conflict: Guild_on_conflict
+  ): Guild
+
+  """
+  insert data into the table: "Player"
+  """
+  insert_Player(
+    """the rows to be inserted"""
+    objects: [Player_insert_input!]!
+
+    """on conflict condition"""
+    on_conflict: Player_on_conflict
+  ): Player_mutation_response
+
+  """
+  insert a single row into the table: "Player"
+  """
+  insert_Player_one(
+    """the row to be inserted"""
+    object: Player_insert_input!
+
+    """on conflict condition"""
+    on_conflict: Player_on_conflict
+  ): Player
+
+  """
+  insert data into the table: "Profile"
+  """
+  insert_Profile(
+    """the rows to be inserted"""
+    objects: [Profile_insert_input!]!
+
+    """on conflict condition"""
+    on_conflict: Profile_on_conflict
+  ): Profile_mutation_response
+
+  """
+  insert a single row into the table: "Profile"
+  """
+  insert_Profile_one(
+    """the row to be inserted"""
+    object: Profile_insert_input!
+
+    """on conflict condition"""
+    on_conflict: Profile_on_conflict
+  ): Profile
+
+  """
+  insert data into the table: "Quest"
+  """
+  insert_Quest(
+    """the rows to be inserted"""
+    objects: [Quest_insert_input!]!
+
+    """on conflict condition"""
+    on_conflict: Quest_on_conflict
+  ): Quest_mutation_response
+
+  """
+  insert data into the table: "Quest_Completed"
+  """
+  insert_Quest_Completed(
+    """the rows to be inserted"""
+    objects: [Quest_Completed_insert_input!]!
+
+    """on conflict condition"""
+    on_conflict: Quest_Completed_on_conflict
+  ): Quest_Completed_mutation_response
+
+  """
+  insert a single row into the table: "Quest_Completed"
+  """
+  insert_Quest_Completed_one(
+    """the row to be inserted"""
+    object: Quest_Completed_insert_input!
+
+    """on conflict condition"""
+    on_conflict: Quest_Completed_on_conflict
+  ): Quest_Completed
+
+  """
+  insert a single row into the table: "Quest"
+  """
+  insert_Quest_one(
+    """the row to be inserted"""
+    object: Quest_insert_input!
+
+    """on conflict condition"""
+    on_conflict: Quest_on_conflict
+  ): Quest
+
+  """
+  insert data into the table: "XPInterval"
+  """
+  insert_XPInterval(
+    """the rows to be inserted"""
+    objects: [XPInterval_insert_input!]!
+  ): XPInterval_mutation_response
+
+  """
+  insert a single row into the table: "XPInterval"
+  """
+  insert_XPInterval_one(
+    """the row to be inserted"""
+    object: XPInterval_insert_input!
+  ): XPInterval
+
+  """
+  update data of the table: "Guild"
+  """
+  update_Guild(
+    """sets the columns of the filtered rows to the given values"""
+    _set: Guild_set_input
+
+    """filter the rows which have to be updated"""
+    where: Guild_bool_exp!
+  ): Guild_mutation_response
+
+  """
+  update data of the table: "Guild_Member"
+  """
+  update_Guild_Member(
+    """sets the columns of the filtered rows to the given values"""
+    _set: Guild_Member_set_input
+
+    """filter the rows which have to be updated"""
+    where: Guild_Member_bool_exp!
+  ): Guild_Member_mutation_response
+
+  """
+  update single row of the table: "Guild_Member"
+  """
+  update_Guild_Member_by_pk(
+    """sets the columns of the filtered rows to the given values"""
+    _set: Guild_Member_set_input
+    pk_columns: Guild_Member_pk_columns_input!
+  ): Guild_Member
+
+  """
+  update single row of the table: "Guild"
+  """
+  update_Guild_by_pk(
+    """sets the columns of the filtered rows to the given values"""
+    _set: Guild_set_input
+    pk_columns: Guild_pk_columns_input!
+  ): Guild
+
+  """
+  update data of the table: "Player"
+  """
+  update_Player(
+    """sets the columns of the filtered rows to the given values"""
+    _set: Player_set_input
+
+    """filter the rows which have to be updated"""
+    where: Player_bool_exp!
+  ): Player_mutation_response
+
+  """
+  update single row of the table: "Player"
+  """
+  update_Player_by_pk(
+    """sets the columns of the filtered rows to the given values"""
+    _set: Player_set_input
+    pk_columns: Player_pk_columns_input!
+  ): Player
+
+  """
+  update data of the table: "Profile"
+  """
+  update_Profile(
+    """sets the columns of the filtered rows to the given values"""
+    _set: Profile_set_input
+
+    """filter the rows which have to be updated"""
+    where: Profile_bool_exp!
+  ): Profile_mutation_response
+
+  """
+  update data of the table: "Quest"
+  """
+  update_Quest(
+    """sets the columns of the filtered rows to the given values"""
+    _set: Quest_set_input
+
+    """filter the rows which have to be updated"""
+    where: Quest_bool_exp!
+  ): Quest_mutation_response
+
+  """
+  update data of the table: "Quest_Completed"
+  """
+  update_Quest_Completed(
+    """sets the columns of the filtered rows to the given values"""
+    _set: Quest_Completed_set_input
+
+    """filter the rows which have to be updated"""
+    where: Quest_Completed_bool_exp!
+  ): Quest_Completed_mutation_response
+
+  """
+  update single row of the table: "Quest_Completed"
+  """
+  update_Quest_Completed_by_pk(
+    """sets the columns of the filtered rows to the given values"""
+    _set: Quest_Completed_set_input
+    pk_columns: Quest_Completed_pk_columns_input!
+  ): Quest_Completed
+
+  """
+  update single row of the table: "Quest"
+  """
+  update_Quest_by_pk(
+    """sets the columns of the filtered rows to the given values"""
+    _set: Quest_set_input
+    pk_columns: Quest_pk_columns_input!
+  ): Quest
+
+  """
+  update data of the table: "XPInterval"
+  """
+  update_XPInterval(
+    """sets the columns of the filtered rows to the given values"""
+    _set: XPInterval_set_input
+
+    """filter the rows which have to be updated"""
+    where: XPInterval_bool_exp!
+  ): XPInterval_mutation_response
+}
+
+scalar numeric
+
+"""
+expression to compare columns of type numeric. All fields are combined with logical 'AND'.
+"""
+input numeric_comparison_exp {
+  _eq: numeric
+  _gt: numeric
+  _gte: numeric
+  _in: [numeric!]
+  _is_null: Boolean
+  _lt: numeric
+  _lte: numeric
+  _neq: numeric
+  _nin: [numeric!]
+}
+
+"""column ordering options"""
+enum order_by {
+  """in the ascending order, nulls last"""
+  asc
+
+  """in the ascending order, nulls first"""
+  asc_nulls_first
+
+  """in the ascending order, nulls last"""
+  asc_nulls_last
+
+  """in the descending order, nulls first"""
+  desc
+
+  """in the descending order, nulls first"""
+  desc_nulls_first
+
+  """in the descending order, nulls last"""
+  desc_nulls_last
+}
+
+"""
+columns and relationships of "Player"
+"""
+type Player {
+  """An array relationship"""
+  Guild_Members(
+    """distinct select on columns"""
+    distinct_on: [Guild_Member_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [Guild_Member_order_by!]
+
+    """filter the rows returned"""
+    where: Guild_Member_bool_exp
+  ): [Guild_Member!]!
+
+  """An aggregated array relationship"""
+  Guild_Members_aggregate(
+    """distinct select on columns"""
+    distinct_on: [Guild_Member_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [Guild_Member_order_by!]
+
+    """filter the rows returned"""
+    where: Guild_Member_bool_exp
+  ): Guild_Member_aggregate!
+
+  """An array relationship"""
+  Profiles(
+    """distinct select on columns"""
+    distinct_on: [Profile_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [Profile_order_by!]
+
+    """filter the rows returned"""
+    where: Profile_bool_exp
+  ): [Profile!]!
+
+  """An aggregated array relationship"""
+  Profiles_aggregate(
+    """distinct select on columns"""
+    distinct_on: [Profile_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [Profile_order_by!]
+
+    """filter the rows returned"""
+    where: Profile_bool_exp
+  ): Profile_aggregate!
+
+  """An array relationship"""
+  Quest_Completeds(
+    """distinct select on columns"""
+    distinct_on: [Quest_Completed_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [Quest_Completed_order_by!]
+
+    """filter the rows returned"""
+    where: Quest_Completed_bool_exp
+  ): [Quest_Completed!]!
+
+  """An aggregated array relationship"""
+  Quest_Completeds_aggregate(
+    """distinct select on columns"""
+    distinct_on: [Quest_Completed_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [Quest_Completed_order_by!]
+
+    """filter the rows returned"""
+    where: Quest_Completed_bool_exp
+  ): Quest_Completed_aggregate!
+
+  """An array relationship"""
+  XPIntervals(
+    """distinct select on columns"""
+    distinct_on: [XPInterval_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [XPInterval_order_by!]
+
+    """filter the rows returned"""
+    where: XPInterval_bool_exp
+  ): [XPInterval!]!
+
+  """An aggregated array relationship"""
+  XPIntervals_aggregate(
+    """distinct select on columns"""
+    distinct_on: [XPInterval_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [XPInterval_order_by!]
+
+    """filter the rows returned"""
+    where: XPInterval_bool_exp
+  ): XPInterval_aggregate!
+  id: uuid!
+  links(
+    """JSON select path"""
+    path: String
+  ): json
+  rank: Rank!
+  sentences(
+    """JSON select path"""
+    path: String
+  ): json
+  totalXp: numeric
+}
+
+"""
+aggregated selection of "Player"
+"""
+type Player_aggregate {
+  aggregate: Player_aggregate_fields
+  nodes: [Player!]!
+}
+
+"""
+aggregate fields of "Player"
+"""
+type Player_aggregate_fields {
+  avg: Player_avg_fields
+  count(columns: [Player_select_column!], distinct: Boolean): Int
+  max: Player_max_fields
+  min: Player_min_fields
+  stddev: Player_stddev_fields
+  stddev_pop: Player_stddev_pop_fields
+  stddev_samp: Player_stddev_samp_fields
+  sum: Player_sum_fields
+  var_pop: Player_var_pop_fields
+  var_samp: Player_var_samp_fields
+  variance: Player_variance_fields
+}
+
+"""
+order by aggregate values of table "Player"
+"""
+input Player_aggregate_order_by {
+  avg: Player_avg_order_by
+  count: order_by
+  max: Player_max_order_by
+  min: Player_min_order_by
+  stddev: Player_stddev_order_by
+  stddev_pop: Player_stddev_pop_order_by
+  stddev_samp: Player_stddev_samp_order_by
+  sum: Player_sum_order_by
+  var_pop: Player_var_pop_order_by
+  var_samp: Player_var_samp_order_by
+  variance: Player_variance_order_by
+}
+
+"""
+input type for inserting array relation for remote table "Player"
+"""
+input Player_arr_rel_insert_input {
+  data: [Player_insert_input!]!
+  on_conflict: Player_on_conflict
+}
+
+"""aggregate avg on columns"""
+type Player_avg_fields {
+  totalXp: Float
+}
+
+"""
+order by avg() on columns of table "Player"
+"""
+input Player_avg_order_by {
+  totalXp: order_by
+}
+
+"""
+Boolean expression to filter rows from the table "Player". All fields are combined with a logical 'AND'.
+"""
+input Player_bool_exp {
+  Guild_Members: Guild_Member_bool_exp
+  Profiles: Profile_bool_exp
+  Quest_Completeds: Quest_Completed_bool_exp
+  XPIntervals: XPInterval_bool_exp
+  _and: [Player_bool_exp]
+  _not: Player_bool_exp
+  _or: [Player_bool_exp]
+  id: uuid_comparison_exp
+  links: json_comparison_exp
+  rank: Rank_comparison_exp
+  sentences: json_comparison_exp
+  totalXp: numeric_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "Player"
+"""
+enum Player_constraint {
+  """unique or primary key constraint"""
+  Player_pkey
+}
+
+"""
+input type for inserting data into table "Player"
+"""
+input Player_insert_input {
+  Guild_Members: Guild_Member_arr_rel_insert_input
+  Profiles: Profile_arr_rel_insert_input
+  Quest_Completeds: Quest_Completed_arr_rel_insert_input
+  XPIntervals: XPInterval_arr_rel_insert_input
+  id: uuid
+  links: json
+  rank: Rank
+  sentences: json
+  totalXp: numeric
+}
+
+"""aggregate max on columns"""
+type Player_max_fields {
+  id: uuid
+  totalXp: numeric
+}
+
+"""
+order by max() on columns of table "Player"
+"""
+input Player_max_order_by {
+  id: order_by
+  totalXp: order_by
+}
+
+"""aggregate min on columns"""
+type Player_min_fields {
+  id: uuid
+  totalXp: numeric
+}
+
+"""
+order by min() on columns of table "Player"
+"""
+input Player_min_order_by {
+  id: order_by
+  totalXp: order_by
+}
+
+"""
+response of any mutation on the table "Player"
+"""
+type Player_mutation_response {
+  """number of affected rows by the mutation"""
+  affected_rows: Int!
+
+  """data of the affected rows by the mutation"""
+  returning: [Player!]!
+}
+
+"""
+input type for inserting object relation for remote table "Player"
+"""
+input Player_obj_rel_insert_input {
+  data: Player_insert_input!
+  on_conflict: Player_on_conflict
+}
+
+"""
+on conflict condition type for table "Player"
+"""
+input Player_on_conflict {
+  constraint: Player_constraint!
+  update_columns: [Player_update_column!]!
+  where: Player_bool_exp
+}
+
+"""
+ordering options when selecting data from "Player"
+"""
+input Player_order_by {
+  Guild_Members_aggregate: Guild_Member_aggregate_order_by
+  Profiles_aggregate: Profile_aggregate_order_by
+  Quest_Completeds_aggregate: Quest_Completed_aggregate_order_by
+  XPIntervals_aggregate: XPInterval_aggregate_order_by
+  id: order_by
+  links: order_by
+  rank: order_by
+  sentences: order_by
+  totalXp: order_by
+}
+
+"""
+primary key columns input for table: "Player"
+"""
+input Player_pk_columns_input {
+  id: uuid!
+}
+
+"""
+select columns of table "Player"
+"""
+enum Player_select_column {
+  """column name"""
+  id
+
+  """column name"""
+  links
+
+  """column name"""
+  rank
+
+  """column name"""
+  sentences
+
+  """column name"""
+  totalXp
+}
+
+"""
+input type for updating data in table "Player"
+"""
+input Player_set_input {
+  id: uuid
+  links: json
+  rank: Rank
+  sentences: json
+  totalXp: numeric
+}
+
+"""aggregate stddev on columns"""
+type Player_stddev_fields {
+  totalXp: Float
+}
+
+"""
+order by stddev() on columns of table "Player"
+"""
+input Player_stddev_order_by {
+  totalXp: order_by
+}
+
+"""aggregate stddev_pop on columns"""
+type Player_stddev_pop_fields {
+  totalXp: Float
+}
+
+"""
+order by stddev_pop() on columns of table "Player"
+"""
+input Player_stddev_pop_order_by {
+  totalXp: order_by
+}
+
+"""aggregate stddev_samp on columns"""
+type Player_stddev_samp_fields {
+  totalXp: Float
+}
+
+"""
+order by stddev_samp() on columns of table "Player"
+"""
+input Player_stddev_samp_order_by {
+  totalXp: order_by
+}
+
+"""aggregate sum on columns"""
+type Player_sum_fields {
+  totalXp: numeric
+}
+
+"""
+order by sum() on columns of table "Player"
+"""
+input Player_sum_order_by {
+  totalXp: order_by
+}
+
+"""
+update columns of table "Player"
+"""
+enum Player_update_column {
+  """column name"""
+  id
+
+  """column name"""
+  links
+
+  """column name"""
+  rank
+
+  """column name"""
+  sentences
+
+  """column name"""
+  totalXp
+}
+
+"""aggregate var_pop on columns"""
+type Player_var_pop_fields {
+  totalXp: Float
+}
+
+"""
+order by var_pop() on columns of table "Player"
+"""
+input Player_var_pop_order_by {
+  totalXp: order_by
+}
+
+"""aggregate var_samp on columns"""
+type Player_var_samp_fields {
+  totalXp: Float
+}
+
+"""
+order by var_samp() on columns of table "Player"
+"""
+input Player_var_samp_order_by {
+  totalXp: order_by
+}
+
+"""aggregate variance on columns"""
+type Player_variance_fields {
+  totalXp: Float
+}
+
+"""
+order by variance() on columns of table "Player"
+"""
+input Player_variance_order_by {
+  totalXp: order_by
+}
+
+"""
+columns and relationships of "Profile"
+"""
+type Profile {
+  """An object relationship"""
+  Player: Player!
+  identifier: String!
+  linkToProof: String
+  player_id: uuid!
+  type: Profile_Type!
+}
+
+"""
+aggregated selection of "Profile"
+"""
+type Profile_aggregate {
+  aggregate: Profile_aggregate_fields
+  nodes: [Profile!]!
+}
+
+"""
+aggregate fields of "Profile"
+"""
+type Profile_aggregate_fields {
+  count(columns: [Profile_select_column!], distinct: Boolean): Int
+  max: Profile_max_fields
+  min: Profile_min_fields
+}
+
+"""
+order by aggregate values of table "Profile"
+"""
+input Profile_aggregate_order_by {
+  count: order_by
+  max: Profile_max_order_by
+  min: Profile_min_order_by
+}
+
+"""
+input type for inserting array relation for remote table "Profile"
+"""
+input Profile_arr_rel_insert_input {
+  data: [Profile_insert_input!]!
+  on_conflict: Profile_on_conflict
+}
+
+"""
+Boolean expression to filter rows from the table "Profile". All fields are combined with a logical 'AND'.
+"""
+input Profile_bool_exp {
+  Player: Player_bool_exp
+  _and: [Profile_bool_exp]
+  _not: Profile_bool_exp
+  _or: [Profile_bool_exp]
+  identifier: String_comparison_exp
+  linkToProof: String_comparison_exp
+  player_id: uuid_comparison_exp
+  type: Profile_Type_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "Profile"
+"""
+enum Profile_constraint {
+  """unique or primary key constraint"""
+  Profile_identifier_key
+}
+
+"""
+input type for inserting data into table "Profile"
+"""
+input Profile_insert_input {
+  Player: Player_obj_rel_insert_input
+  identifier: String
+  linkToProof: String
+  player_id: uuid
+  type: Profile_Type
+}
+
+"""aggregate max on columns"""
+type Profile_max_fields {
+  identifier: String
+  linkToProof: String
+  player_id: uuid
+}
+
+"""
+order by max() on columns of table "Profile"
+"""
+input Profile_max_order_by {
+  identifier: order_by
+  linkToProof: order_by
+  player_id: order_by
+}
+
+"""aggregate min on columns"""
+type Profile_min_fields {
+  identifier: String
+  linkToProof: String
+  player_id: uuid
+}
+
+"""
+order by min() on columns of table "Profile"
+"""
+input Profile_min_order_by {
+  identifier: order_by
+  linkToProof: order_by
+  player_id: order_by
+}
+
+"""
+response of any mutation on the table "Profile"
+"""
+type Profile_mutation_response {
+  """number of affected rows by the mutation"""
+  affected_rows: Int!
+
+  """data of the affected rows by the mutation"""
+  returning: [Profile!]!
+}
+
+"""
+input type for inserting object relation for remote table "Profile"
+"""
+input Profile_obj_rel_insert_input {
+  data: Profile_insert_input!
+  on_conflict: Profile_on_conflict
+}
+
+"""
+on conflict condition type for table "Profile"
+"""
+input Profile_on_conflict {
+  constraint: Profile_constraint!
+  update_columns: [Profile_update_column!]!
+  where: Profile_bool_exp
+}
+
+"""
+ordering options when selecting data from "Profile"
+"""
+input Profile_order_by {
+  Player: Player_order_by
+  identifier: order_by
+  linkToProof: order_by
+  player_id: order_by
+  type: order_by
+}
+
+"""
+select columns of table "Profile"
+"""
+enum Profile_select_column {
+  """column name"""
+  identifier
+
+  """column name"""
+  linkToProof
+
+  """column name"""
+  player_id
+
+  """column name"""
+  type
+}
+
+"""
+input type for updating data in table "Profile"
+"""
+input Profile_set_input {
+  identifier: String
+  linkToProof: String
+  player_id: uuid
+  type: Profile_Type
+}
+
+scalar Profile_Type
+
+"""
+expression to compare columns of type Profile_Type. All fields are combined with logical 'AND'.
+"""
+input Profile_Type_comparison_exp {
+  _eq: Profile_Type
+  _gt: Profile_Type
+  _gte: Profile_Type
+  _in: [Profile_Type!]
+  _is_null: Boolean
+  _lt: Profile_Type
+  _lte: Profile_Type
+  _neq: Profile_Type
+  _nin: [Profile_Type!]
+}
+
+"""
+update columns of table "Profile"
+"""
+enum Profile_update_column {
+  """column name"""
+  identifier
+
+  """column name"""
+  linkToProof
+
+  """column name"""
+  player_id
+
+  """column name"""
+  type
+}
+
+"""query root"""
+type query_root {
+  """
+  fetch data from the table: "Guild"
+  """
+  Guild(
+    """distinct select on columns"""
+    distinct_on: [Guild_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [Guild_order_by!]
+
+    """filter the rows returned"""
+    where: Guild_bool_exp
+  ): [Guild!]!
+
+  """
+  fetch data from the table: "Guild_Member"
+  """
+  Guild_Member(
+    """distinct select on columns"""
+    distinct_on: [Guild_Member_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [Guild_Member_order_by!]
+
+    """filter the rows returned"""
+    where: Guild_Member_bool_exp
+  ): [Guild_Member!]!
+
+  """
+  fetch aggregated fields from the table: "Guild_Member"
+  """
+  Guild_Member_aggregate(
+    """distinct select on columns"""
+    distinct_on: [Guild_Member_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [Guild_Member_order_by!]
+
+    """filter the rows returned"""
+    where: Guild_Member_bool_exp
+  ): Guild_Member_aggregate!
+
+  """fetch data from the table: "Guild_Member" using primary key columns"""
+  Guild_Member_by_pk(guild_id: uuid!, player_id: uuid!): Guild_Member
+
+  """
+  fetch aggregated fields from the table: "Guild"
+  """
+  Guild_aggregate(
+    """distinct select on columns"""
+    distinct_on: [Guild_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [Guild_order_by!]
+
+    """filter the rows returned"""
+    where: Guild_bool_exp
+  ): Guild_aggregate!
+
+  """fetch data from the table: "Guild" using primary key columns"""
+  Guild_by_pk(id: uuid!): Guild
+
+  """
+  fetch data from the table: "Player"
+  """
+  Player(
+    """distinct select on columns"""
+    distinct_on: [Player_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [Player_order_by!]
+
+    """filter the rows returned"""
+    where: Player_bool_exp
+  ): [Player!]!
+
+  """
+  fetch aggregated fields from the table: "Player"
+  """
+  Player_aggregate(
+    """distinct select on columns"""
+    distinct_on: [Player_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [Player_order_by!]
+
+    """filter the rows returned"""
+    where: Player_bool_exp
+  ): Player_aggregate!
+
+  """fetch data from the table: "Player" using primary key columns"""
+  Player_by_pk(id: uuid!): Player
+
+  """
+  fetch data from the table: "Profile"
+  """
+  Profile(
+    """distinct select on columns"""
+    distinct_on: [Profile_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [Profile_order_by!]
+
+    """filter the rows returned"""
+    where: Profile_bool_exp
+  ): [Profile!]!
+
+  """
+  fetch aggregated fields from the table: "Profile"
+  """
+  Profile_aggregate(
+    """distinct select on columns"""
+    distinct_on: [Profile_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [Profile_order_by!]
+
+    """filter the rows returned"""
+    where: Profile_bool_exp
+  ): Profile_aggregate!
+
+  """
+  fetch data from the table: "Quest"
+  """
+  Quest(
+    """distinct select on columns"""
+    distinct_on: [Quest_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [Quest_order_by!]
+
+    """filter the rows returned"""
+    where: Quest_bool_exp
+  ): [Quest!]!
+
+  """
+  fetch data from the table: "Quest_Completed"
+  """
+  Quest_Completed(
+    """distinct select on columns"""
+    distinct_on: [Quest_Completed_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [Quest_Completed_order_by!]
+
+    """filter the rows returned"""
+    where: Quest_Completed_bool_exp
+  ): [Quest_Completed!]!
+
+  """
+  fetch aggregated fields from the table: "Quest_Completed"
+  """
+  Quest_Completed_aggregate(
+    """distinct select on columns"""
+    distinct_on: [Quest_Completed_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [Quest_Completed_order_by!]
+
+    """filter the rows returned"""
+    where: Quest_Completed_bool_exp
+  ): Quest_Completed_aggregate!
+
+  """fetch data from the table: "Quest_Completed" using primary key columns"""
+  Quest_Completed_by_pk(player_id: uuid!, quest_id: uuid!): Quest_Completed
+
+  """
+  fetch aggregated fields from the table: "Quest"
+  """
+  Quest_aggregate(
+    """distinct select on columns"""
+    distinct_on: [Quest_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [Quest_order_by!]
+
+    """filter the rows returned"""
+    where: Quest_bool_exp
+  ): Quest_aggregate!
+
+  """fetch data from the table: "Quest" using primary key columns"""
+  Quest_by_pk(id: uuid!): Quest
+
+  """
+  fetch data from the table: "XPInterval"
+  """
+  XPInterval(
+    """distinct select on columns"""
+    distinct_on: [XPInterval_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [XPInterval_order_by!]
+
+    """filter the rows returned"""
+    where: XPInterval_bool_exp
+  ): [XPInterval!]!
+
+  """
+  fetch aggregated fields from the table: "XPInterval"
+  """
+  XPInterval_aggregate(
+    """distinct select on columns"""
+    distinct_on: [XPInterval_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [XPInterval_order_by!]
+
+    """filter the rows returned"""
+    where: XPInterval_bool_exp
+  ): XPInterval_aggregate!
+}
+
+"""
+columns and relationships of "Quest"
+"""
+type Quest {
+  """An array relationship"""
+  Quest_Completeds(
+    """distinct select on columns"""
+    distinct_on: [Quest_Completed_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [Quest_Completed_order_by!]
+
+    """filter the rows returned"""
+    where: Quest_Completed_bool_exp
+  ): [Quest_Completed!]!
+
+  """An aggregated array relationship"""
+  Quest_Completeds_aggregate(
+    """distinct select on columns"""
+    distinct_on: [Quest_Completed_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [Quest_Completed_order_by!]
+
+    """filter the rows returned"""
+    where: Quest_Completed_bool_exp
+  ): Quest_Completed_aggregate!
+  description: String
+  id: uuid!
+  name: String!
+  url: String!
+  xp: numeric!
+}
+
+"""
+aggregated selection of "Quest"
+"""
+type Quest_aggregate {
+  aggregate: Quest_aggregate_fields
+  nodes: [Quest!]!
+}
+
+"""
+aggregate fields of "Quest"
+"""
+type Quest_aggregate_fields {
+  avg: Quest_avg_fields
+  count(columns: [Quest_select_column!], distinct: Boolean): Int
+  max: Quest_max_fields
+  min: Quest_min_fields
+  stddev: Quest_stddev_fields
+  stddev_pop: Quest_stddev_pop_fields
+  stddev_samp: Quest_stddev_samp_fields
+  sum: Quest_sum_fields
+  var_pop: Quest_var_pop_fields
+  var_samp: Quest_var_samp_fields
+  variance: Quest_variance_fields
+}
+
+"""
+order by aggregate values of table "Quest"
+"""
+input Quest_aggregate_order_by {
+  avg: Quest_avg_order_by
+  count: order_by
+  max: Quest_max_order_by
+  min: Quest_min_order_by
+  stddev: Quest_stddev_order_by
+  stddev_pop: Quest_stddev_pop_order_by
+  stddev_samp: Quest_stddev_samp_order_by
+  sum: Quest_sum_order_by
+  var_pop: Quest_var_pop_order_by
+  var_samp: Quest_var_samp_order_by
+  variance: Quest_variance_order_by
+}
+
+"""
+input type for inserting array relation for remote table "Quest"
+"""
+input Quest_arr_rel_insert_input {
+  data: [Quest_insert_input!]!
+  on_conflict: Quest_on_conflict
+}
+
+"""aggregate avg on columns"""
+type Quest_avg_fields {
+  xp: Float
+}
+
+"""
+order by avg() on columns of table "Quest"
+"""
+input Quest_avg_order_by {
+  xp: order_by
+}
+
+"""
+Boolean expression to filter rows from the table "Quest". All fields are combined with a logical 'AND'.
+"""
+input Quest_bool_exp {
+  Quest_Completeds: Quest_Completed_bool_exp
+  _and: [Quest_bool_exp]
+  _not: Quest_bool_exp
+  _or: [Quest_bool_exp]
+  description: String_comparison_exp
+  id: uuid_comparison_exp
+  name: String_comparison_exp
+  url: String_comparison_exp
+  xp: numeric_comparison_exp
+}
+
+"""
+columns and relationships of "Quest_Completed"
+"""
+type Quest_Completed {
+  """An object relationship"""
+  Player: Player!
+
+  """An object relationship"""
+  Quest: Quest!
+  player_id: uuid!
+  quest_id: uuid!
+  time: timestamp
+}
+
+"""
+aggregated selection of "Quest_Completed"
+"""
+type Quest_Completed_aggregate {
+  aggregate: Quest_Completed_aggregate_fields
+  nodes: [Quest_Completed!]!
+}
+
+"""
+aggregate fields of "Quest_Completed"
+"""
+type Quest_Completed_aggregate_fields {
+  count(columns: [Quest_Completed_select_column!], distinct: Boolean): Int
+  max: Quest_Completed_max_fields
+  min: Quest_Completed_min_fields
+}
+
+"""
+order by aggregate values of table "Quest_Completed"
+"""
+input Quest_Completed_aggregate_order_by {
+  count: order_by
+  max: Quest_Completed_max_order_by
+  min: Quest_Completed_min_order_by
+}
+
+"""
+input type for inserting array relation for remote table "Quest_Completed"
+"""
+input Quest_Completed_arr_rel_insert_input {
+  data: [Quest_Completed_insert_input!]!
+  on_conflict: Quest_Completed_on_conflict
+}
+
+"""
+Boolean expression to filter rows from the table "Quest_Completed". All fields are combined with a logical 'AND'.
+"""
+input Quest_Completed_bool_exp {
+  Player: Player_bool_exp
+  Quest: Quest_bool_exp
+  _and: [Quest_Completed_bool_exp]
+  _not: Quest_Completed_bool_exp
+  _or: [Quest_Completed_bool_exp]
+  player_id: uuid_comparison_exp
+  quest_id: uuid_comparison_exp
+  time: timestamp_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "Quest_Completed"
+"""
+enum Quest_Completed_constraint {
+  """unique or primary key constraint"""
+  Quest_Completed_pkey
+}
+
+"""
+input type for inserting data into table "Quest_Completed"
+"""
+input Quest_Completed_insert_input {
+  Player: Player_obj_rel_insert_input
+  Quest: Quest_obj_rel_insert_input
+  player_id: uuid
+  quest_id: uuid
+  time: timestamp
+}
+
+"""aggregate max on columns"""
+type Quest_Completed_max_fields {
+  player_id: uuid
+  quest_id: uuid
+}
+
+"""
+order by max() on columns of table "Quest_Completed"
+"""
+input Quest_Completed_max_order_by {
+  player_id: order_by
+  quest_id: order_by
+}
+
+"""aggregate min on columns"""
+type Quest_Completed_min_fields {
+  player_id: uuid
+  quest_id: uuid
+}
+
+"""
+order by min() on columns of table "Quest_Completed"
+"""
+input Quest_Completed_min_order_by {
+  player_id: order_by
+  quest_id: order_by
+}
+
+"""
+response of any mutation on the table "Quest_Completed"
+"""
+type Quest_Completed_mutation_response {
+  """number of affected rows by the mutation"""
+  affected_rows: Int!
+
+  """data of the affected rows by the mutation"""
+  returning: [Quest_Completed!]!
+}
+
+"""
+input type for inserting object relation for remote table "Quest_Completed"
+"""
+input Quest_Completed_obj_rel_insert_input {
+  data: Quest_Completed_insert_input!
+  on_conflict: Quest_Completed_on_conflict
+}
+
+"""
+on conflict condition type for table "Quest_Completed"
+"""
+input Quest_Completed_on_conflict {
+  constraint: Quest_Completed_constraint!
+  update_columns: [Quest_Completed_update_column!]!
+  where: Quest_Completed_bool_exp
+}
+
+"""
+ordering options when selecting data from "Quest_Completed"
+"""
+input Quest_Completed_order_by {
+  Player: Player_order_by
+  Quest: Quest_order_by
+  player_id: order_by
+  quest_id: order_by
+  time: order_by
+}
+
+"""
+primary key columns input for table: "Quest_Completed"
+"""
+input Quest_Completed_pk_columns_input {
+  player_id: uuid!
+  quest_id: uuid!
+}
+
+"""
+select columns of table "Quest_Completed"
+"""
+enum Quest_Completed_select_column {
+  """column name"""
+  player_id
+
+  """column name"""
+  quest_id
+
+  """column name"""
+  time
+}
+
+"""
+input type for updating data in table "Quest_Completed"
+"""
+input Quest_Completed_set_input {
+  player_id: uuid
+  quest_id: uuid
+  time: timestamp
+}
+
+"""
+update columns of table "Quest_Completed"
+"""
+enum Quest_Completed_update_column {
+  """column name"""
+  player_id
+
+  """column name"""
+  quest_id
+
+  """column name"""
+  time
+}
+
+"""
+unique or primary key constraints on table "Quest"
+"""
+enum Quest_constraint {
+  """unique or primary key constraint"""
+  Quest_pkey
+}
+
+"""
+input type for inserting data into table "Quest"
+"""
+input Quest_insert_input {
+  Quest_Completeds: Quest_Completed_arr_rel_insert_input
+  description: String
+  id: uuid
+  name: String
+  url: String
+  xp: numeric
+}
+
+"""aggregate max on columns"""
+type Quest_max_fields {
+  description: String
+  id: uuid
+  name: String
+  url: String
+  xp: numeric
+}
+
+"""
+order by max() on columns of table "Quest"
+"""
+input Quest_max_order_by {
+  description: order_by
+  id: order_by
+  name: order_by
+  url: order_by
+  xp: order_by
+}
+
+"""aggregate min on columns"""
+type Quest_min_fields {
+  description: String
+  id: uuid
+  name: String
+  url: String
+  xp: numeric
+}
+
+"""
+order by min() on columns of table "Quest"
+"""
+input Quest_min_order_by {
+  description: order_by
+  id: order_by
+  name: order_by
+  url: order_by
+  xp: order_by
+}
+
+"""
+response of any mutation on the table "Quest"
+"""
+type Quest_mutation_response {
+  """number of affected rows by the mutation"""
+  affected_rows: Int!
+
+  """data of the affected rows by the mutation"""
+  returning: [Quest!]!
+}
+
+"""
+input type for inserting object relation for remote table "Quest"
+"""
+input Quest_obj_rel_insert_input {
+  data: Quest_insert_input!
+  on_conflict: Quest_on_conflict
+}
+
+"""
+on conflict condition type for table "Quest"
+"""
+input Quest_on_conflict {
+  constraint: Quest_constraint!
+  update_columns: [Quest_update_column!]!
+  where: Quest_bool_exp
+}
+
+"""
+ordering options when selecting data from "Quest"
+"""
+input Quest_order_by {
+  Quest_Completeds_aggregate: Quest_Completed_aggregate_order_by
+  description: order_by
+  id: order_by
+  name: order_by
+  url: order_by
+  xp: order_by
+}
+
+"""
+primary key columns input for table: "Quest"
+"""
+input Quest_pk_columns_input {
+  id: uuid!
+}
+
+"""
+select columns of table "Quest"
+"""
+enum Quest_select_column {
+  """column name"""
+  description
+
+  """column name"""
+  id
+
+  """column name"""
+  name
+
+  """column name"""
+  url
+
+  """column name"""
+  xp
+}
+
+"""
+input type for updating data in table "Quest"
+"""
+input Quest_set_input {
+  description: String
+  id: uuid
+  name: String
+  url: String
+  xp: numeric
+}
+
+"""aggregate stddev on columns"""
+type Quest_stddev_fields {
+  xp: Float
+}
+
+"""
+order by stddev() on columns of table "Quest"
+"""
+input Quest_stddev_order_by {
+  xp: order_by
+}
+
+"""aggregate stddev_pop on columns"""
+type Quest_stddev_pop_fields {
+  xp: Float
+}
+
+"""
+order by stddev_pop() on columns of table "Quest"
+"""
+input Quest_stddev_pop_order_by {
+  xp: order_by
+}
+
+"""aggregate stddev_samp on columns"""
+type Quest_stddev_samp_fields {
+  xp: Float
+}
+
+"""
+order by stddev_samp() on columns of table "Quest"
+"""
+input Quest_stddev_samp_order_by {
+  xp: order_by
+}
+
+"""aggregate sum on columns"""
+type Quest_sum_fields {
+  xp: numeric
+}
+
+"""
+order by sum() on columns of table "Quest"
+"""
+input Quest_sum_order_by {
+  xp: order_by
+}
+
+"""
+update columns of table "Quest"
+"""
+enum Quest_update_column {
+  """column name"""
+  description
+
+  """column name"""
+  id
+
+  """column name"""
+  name
+
+  """column name"""
+  url
+
+  """column name"""
+  xp
+}
+
+"""aggregate var_pop on columns"""
+type Quest_var_pop_fields {
+  xp: Float
+}
+
+"""
+order by var_pop() on columns of table "Quest"
+"""
+input Quest_var_pop_order_by {
+  xp: order_by
+}
+
+"""aggregate var_samp on columns"""
+type Quest_var_samp_fields {
+  xp: Float
+}
+
+"""
+order by var_samp() on columns of table "Quest"
+"""
+input Quest_var_samp_order_by {
+  xp: order_by
+}
+
+"""aggregate variance on columns"""
+type Quest_variance_fields {
+  xp: Float
+}
+
+"""
+order by variance() on columns of table "Quest"
+"""
+input Quest_variance_order_by {
+  xp: order_by
+}
+
+scalar Rank
+
+"""
+expression to compare columns of type Rank. All fields are combined with logical 'AND'.
+"""
+input Rank_comparison_exp {
+  _eq: Rank
+  _gt: Rank
+  _gte: Rank
+  _in: [Rank!]
+  _is_null: Boolean
+  _lt: Rank
+  _lte: Rank
+  _neq: Rank
+  _nin: [Rank!]
+}
+
+"""
+expression to compare columns of type String. All fields are combined with logical 'AND'.
+"""
+input String_comparison_exp {
+  _eq: String
+  _gt: String
+  _gte: String
+  _ilike: String
+  _in: [String!]
+  _is_null: Boolean
+  _like: String
+  _lt: String
+  _lte: String
+  _neq: String
+  _nilike: String
+  _nin: [String!]
+  _nlike: String
+  _nsimilar: String
+  _similar: String
+}
+
+"""subscription root"""
+type subscription_root {
+  """
+  fetch data from the table: "Guild"
+  """
+  Guild(
+    """distinct select on columns"""
+    distinct_on: [Guild_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [Guild_order_by!]
+
+    """filter the rows returned"""
+    where: Guild_bool_exp
+  ): [Guild!]!
+
+  """
+  fetch data from the table: "Guild_Member"
+  """
+  Guild_Member(
+    """distinct select on columns"""
+    distinct_on: [Guild_Member_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [Guild_Member_order_by!]
+
+    """filter the rows returned"""
+    where: Guild_Member_bool_exp
+  ): [Guild_Member!]!
+
+  """
+  fetch aggregated fields from the table: "Guild_Member"
+  """
+  Guild_Member_aggregate(
+    """distinct select on columns"""
+    distinct_on: [Guild_Member_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [Guild_Member_order_by!]
+
+    """filter the rows returned"""
+    where: Guild_Member_bool_exp
+  ): Guild_Member_aggregate!
+
+  """fetch data from the table: "Guild_Member" using primary key columns"""
+  Guild_Member_by_pk(guild_id: uuid!, player_id: uuid!): Guild_Member
+
+  """
+  fetch aggregated fields from the table: "Guild"
+  """
+  Guild_aggregate(
+    """distinct select on columns"""
+    distinct_on: [Guild_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [Guild_order_by!]
+
+    """filter the rows returned"""
+    where: Guild_bool_exp
+  ): Guild_aggregate!
+
+  """fetch data from the table: "Guild" using primary key columns"""
+  Guild_by_pk(id: uuid!): Guild
+
+  """
+  fetch data from the table: "Player"
+  """
+  Player(
+    """distinct select on columns"""
+    distinct_on: [Player_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [Player_order_by!]
+
+    """filter the rows returned"""
+    where: Player_bool_exp
+  ): [Player!]!
+
+  """
+  fetch aggregated fields from the table: "Player"
+  """
+  Player_aggregate(
+    """distinct select on columns"""
+    distinct_on: [Player_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [Player_order_by!]
+
+    """filter the rows returned"""
+    where: Player_bool_exp
+  ): Player_aggregate!
+
+  """fetch data from the table: "Player" using primary key columns"""
+  Player_by_pk(id: uuid!): Player
+
+  """
+  fetch data from the table: "Profile"
+  """
+  Profile(
+    """distinct select on columns"""
+    distinct_on: [Profile_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [Profile_order_by!]
+
+    """filter the rows returned"""
+    where: Profile_bool_exp
+  ): [Profile!]!
+
+  """
+  fetch aggregated fields from the table: "Profile"
+  """
+  Profile_aggregate(
+    """distinct select on columns"""
+    distinct_on: [Profile_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [Profile_order_by!]
+
+    """filter the rows returned"""
+    where: Profile_bool_exp
+  ): Profile_aggregate!
+
+  """
+  fetch data from the table: "Quest"
+  """
+  Quest(
+    """distinct select on columns"""
+    distinct_on: [Quest_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [Quest_order_by!]
+
+    """filter the rows returned"""
+    where: Quest_bool_exp
+  ): [Quest!]!
+
+  """
+  fetch data from the table: "Quest_Completed"
+  """
+  Quest_Completed(
+    """distinct select on columns"""
+    distinct_on: [Quest_Completed_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [Quest_Completed_order_by!]
+
+    """filter the rows returned"""
+    where: Quest_Completed_bool_exp
+  ): [Quest_Completed!]!
+
+  """
+  fetch aggregated fields from the table: "Quest_Completed"
+  """
+  Quest_Completed_aggregate(
+    """distinct select on columns"""
+    distinct_on: [Quest_Completed_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [Quest_Completed_order_by!]
+
+    """filter the rows returned"""
+    where: Quest_Completed_bool_exp
+  ): Quest_Completed_aggregate!
+
+  """fetch data from the table: "Quest_Completed" using primary key columns"""
+  Quest_Completed_by_pk(player_id: uuid!, quest_id: uuid!): Quest_Completed
+
+  """
+  fetch aggregated fields from the table: "Quest"
+  """
+  Quest_aggregate(
+    """distinct select on columns"""
+    distinct_on: [Quest_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [Quest_order_by!]
+
+    """filter the rows returned"""
+    where: Quest_bool_exp
+  ): Quest_aggregate!
+
+  """fetch data from the table: "Quest" using primary key columns"""
+  Quest_by_pk(id: uuid!): Quest
+
+  """
+  fetch data from the table: "XPInterval"
+  """
+  XPInterval(
+    """distinct select on columns"""
+    distinct_on: [XPInterval_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [XPInterval_order_by!]
+
+    """filter the rows returned"""
+    where: XPInterval_bool_exp
+  ): [XPInterval!]!
+
+  """
+  fetch aggregated fields from the table: "XPInterval"
+  """
+  XPInterval_aggregate(
+    """distinct select on columns"""
+    distinct_on: [XPInterval_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [XPInterval_order_by!]
+
+    """filter the rows returned"""
+    where: XPInterval_bool_exp
+  ): XPInterval_aggregate!
+}
+
+scalar timestamp
+
+"""
+expression to compare columns of type timestamp. All fields are combined with logical 'AND'.
+"""
+input timestamp_comparison_exp {
+  _eq: timestamp
+  _gt: timestamp
+  _gte: timestamp
+  _in: [timestamp!]
+  _is_null: Boolean
+  _lt: timestamp
+  _lte: timestamp
+  _neq: timestamp
+  _nin: [timestamp!]
+}
+
+scalar uuid
+
+"""
+expression to compare columns of type uuid. All fields are combined with logical 'AND'.
+"""
+input uuid_comparison_exp {
+  _eq: uuid
+  _gt: uuid
+  _gte: uuid
+  _in: [uuid!]
+  _is_null: Boolean
+  _lt: uuid
+  _lte: uuid
+  _neq: uuid
+  _nin: [uuid!]
+}
+
+"""
+columns and relationships of "XPInterval"
+"""
+type XPInterval {
+  """An object relationship"""
+  Player: Player!
+  endTime: date
+  player_id: uuid!
+  startTime: date
+  xp: numeric!
+}
+
+"""
+aggregated selection of "XPInterval"
+"""
+type XPInterval_aggregate {
+  aggregate: XPInterval_aggregate_fields
+  nodes: [XPInterval!]!
+}
+
+"""
+aggregate fields of "XPInterval"
+"""
+type XPInterval_aggregate_fields {
+  avg: XPInterval_avg_fields
+  count(columns: [XPInterval_select_column!], distinct: Boolean): Int
+  max: XPInterval_max_fields
+  min: XPInterval_min_fields
+  stddev: XPInterval_stddev_fields
+  stddev_pop: XPInterval_stddev_pop_fields
+  stddev_samp: XPInterval_stddev_samp_fields
+  sum: XPInterval_sum_fields
+  var_pop: XPInterval_var_pop_fields
+  var_samp: XPInterval_var_samp_fields
+  variance: XPInterval_variance_fields
+}
+
+"""
+order by aggregate values of table "XPInterval"
+"""
+input XPInterval_aggregate_order_by {
+  avg: XPInterval_avg_order_by
+  count: order_by
+  max: XPInterval_max_order_by
+  min: XPInterval_min_order_by
+  stddev: XPInterval_stddev_order_by
+  stddev_pop: XPInterval_stddev_pop_order_by
+  stddev_samp: XPInterval_stddev_samp_order_by
+  sum: XPInterval_sum_order_by
+  var_pop: XPInterval_var_pop_order_by
+  var_samp: XPInterval_var_samp_order_by
+  variance: XPInterval_variance_order_by
+}
+
+"""
+input type for inserting array relation for remote table "XPInterval"
+"""
+input XPInterval_arr_rel_insert_input {
+  data: [XPInterval_insert_input!]!
+}
+
+"""aggregate avg on columns"""
+type XPInterval_avg_fields {
+  xp: Float
+}
+
+"""
+order by avg() on columns of table "XPInterval"
+"""
+input XPInterval_avg_order_by {
+  xp: order_by
+}
+
+"""
+Boolean expression to filter rows from the table "XPInterval". All fields are combined with a logical 'AND'.
+"""
+input XPInterval_bool_exp {
+  Player: Player_bool_exp
+  _and: [XPInterval_bool_exp]
+  _not: XPInterval_bool_exp
+  _or: [XPInterval_bool_exp]
+  endTime: date_comparison_exp
+  player_id: uuid_comparison_exp
+  startTime: date_comparison_exp
+  xp: numeric_comparison_exp
+}
+
+"""
+input type for inserting data into table "XPInterval"
+"""
+input XPInterval_insert_input {
+  Player: Player_obj_rel_insert_input
+  endTime: date
+  player_id: uuid
+  startTime: date
+  xp: numeric
+}
+
+"""aggregate max on columns"""
+type XPInterval_max_fields {
+  endTime: date
+  player_id: uuid
+  startTime: date
+  xp: numeric
+}
+
+"""
+order by max() on columns of table "XPInterval"
+"""
+input XPInterval_max_order_by {
+  endTime: order_by
+  player_id: order_by
+  startTime: order_by
+  xp: order_by
+}
+
+"""aggregate min on columns"""
+type XPInterval_min_fields {
+  endTime: date
+  player_id: uuid
+  startTime: date
+  xp: numeric
+}
+
+"""
+order by min() on columns of table "XPInterval"
+"""
+input XPInterval_min_order_by {
+  endTime: order_by
+  player_id: order_by
+  startTime: order_by
+  xp: order_by
+}
+
+"""
+response of any mutation on the table "XPInterval"
+"""
+type XPInterval_mutation_response {
+  """number of affected rows by the mutation"""
+  affected_rows: Int!
+
+  """data of the affected rows by the mutation"""
+  returning: [XPInterval!]!
+}
+
+"""
+input type for inserting object relation for remote table "XPInterval"
+"""
+input XPInterval_obj_rel_insert_input {
+  data: XPInterval_insert_input!
+}
+
+"""
+ordering options when selecting data from "XPInterval"
+"""
+input XPInterval_order_by {
+  Player: Player_order_by
+  endTime: order_by
+  player_id: order_by
+  startTime: order_by
+  xp: order_by
+}
+
+"""
+select columns of table "XPInterval"
+"""
+enum XPInterval_select_column {
+  """column name"""
+  endTime
+
+  """column name"""
+  player_id
+
+  """column name"""
+  startTime
+
+  """column name"""
+  xp
+}
+
+"""
+input type for updating data in table "XPInterval"
+"""
+input XPInterval_set_input {
+  endTime: date
+  player_id: uuid
+  startTime: date
+  xp: numeric
+}
+
+"""aggregate stddev on columns"""
+type XPInterval_stddev_fields {
+  xp: Float
+}
+
+"""
+order by stddev() on columns of table "XPInterval"
+"""
+input XPInterval_stddev_order_by {
+  xp: order_by
+}
+
+"""aggregate stddev_pop on columns"""
+type XPInterval_stddev_pop_fields {
+  xp: Float
+}
+
+"""
+order by stddev_pop() on columns of table "XPInterval"
+"""
+input XPInterval_stddev_pop_order_by {
+  xp: order_by
+}
+
+"""aggregate stddev_samp on columns"""
+type XPInterval_stddev_samp_fields {
+  xp: Float
+}
+
+"""
+order by stddev_samp() on columns of table "XPInterval"
+"""
+input XPInterval_stddev_samp_order_by {
+  xp: order_by
+}
+
+"""aggregate sum on columns"""
+type XPInterval_sum_fields {
+  xp: numeric
+}
+
+"""
+order by sum() on columns of table "XPInterval"
+"""
+input XPInterval_sum_order_by {
+  xp: order_by
+}
+
+"""aggregate var_pop on columns"""
+type XPInterval_var_pop_fields {
+  xp: Float
+}
+
+"""
+order by var_pop() on columns of table "XPInterval"
+"""
+input XPInterval_var_pop_order_by {
+  xp: order_by
+}
+
+"""aggregate var_samp on columns"""
+type XPInterval_var_samp_fields {
+  xp: Float
+}
+
+"""
+order by var_samp() on columns of table "XPInterval"
+"""
+input XPInterval_var_samp_order_by {
+  xp: order_by
+}
+
+"""aggregate variance on columns"""
+type XPInterval_variance_fields {
+  xp: Float
+}
+
+"""
+order by variance() on columns of table "XPInterval"
+"""
+input XPInterval_variance_order_by {
+  xp: order_by
+}
+
