@@ -34,6 +34,13 @@ yarn hasura -- migrate squash 1586952135212
 
 [Hasura CLI documentation](https://hasura.io/docs/1.0/graphql/manual/hasura-cli/index.html)
 
+Generate GraphQL Types
+
+```shell script
+cd packages/graphql-codegen
+yarn generate
+```
+
 ### Restart with fresh database
 
 ```shell script
