@@ -5,11 +5,17 @@ Monorepo for the MetaGame applications, backend and databases.
 
 ## Development
 
+### Install Packages
+
+```shell script
+yarn
+```
+
 ### Bootstrap
 
 ```shell script
 cp .env.sample .env
-npm run docker:start
+yarn docker:start
 ```
 
 ### Tooling
@@ -17,13 +23,13 @@ npm run docker:start
 Start Hasura console
 
 ```shell script
-npm run hasura:console
+yarn hasura:console
 ```
 
 Hasura CLI example
 
 ```shell script
-npm run hasura -- migrate squash 1586952135212
+yarn hasura -- migrate squash 1586952135212
 ```
 
 [Hasura CLI documentation](https://hasura.io/docs/1.0/graphql/manual/hasura-cli/index.html)
@@ -31,6 +37,6 @@ npm run hasura -- migrate squash 1586952135212
 ### Restart with fresh database
 
 ```shell script
-npm run docker:clean
-npm run docker:start:local
+yarn docker:clean
+yarn docker:start:local
 ```
