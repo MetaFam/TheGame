@@ -40,3 +40,9 @@ yarn hasura -- migrate squash 1586952135212
 yarn docker:clean
 yarn docker:start:local
 ```
+
+### Run typechecks
+
+```shell script
+yarn typecheck
+```
