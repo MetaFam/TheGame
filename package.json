@@ -12,7 +12,8 @@
     "hasura:console": "npm run hasura console -- --no-browser",
     "hasura:migrate:init": "npm run hasura migrate create \"init\" -- --from-server",
     "hasura:migrate:apply": "npm run hasura migrate apply",
-    "test": "cd packages/tests && yarn test && cd ../.."
+    "test": "cd packages/tests && yarn test && cd ../..",
+    "typecheck": "yarn workspaces run typecheck"
   },
   "dependencies": {
     "hasura-cli": "1.1.1"
