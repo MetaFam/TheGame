@@ -1,0 +1,16 @@
+.is-ancestor {
+	height: 100%;
+	width: 100%;
+}
+
+.chips {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-evenly;
+	margin: 20px 0 0 0;
+}
+
+.dashboard {
+	display: flex;
+	flex-direction: row;
+}
