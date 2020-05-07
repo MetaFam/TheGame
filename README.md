@@ -18,6 +18,8 @@ cp .env.sample .env
 yarn docker:start
 ```
 
+If you want to locally start the backend server (not in docker) for development purposes, you can set this variable in the .env file:
+`HASURA_GRAPHQL_AUTH_HOOK=http://host.docker.internal:4000/auth-webhook`
 ### Tooling
 
 Start Hasura console

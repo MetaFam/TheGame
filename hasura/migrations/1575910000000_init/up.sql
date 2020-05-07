@@ -1,13 +1,13 @@
 -- Enums
 
-CREATE TYPE "Profile_Type" AS ENUM (
+CREATE TYPE profile_type AS ENUM (
   'ETHEREUM',
   'DISCORD',
   'GITHUB',
   'DISCOURSE'
 );
 
-CREATE TYPE "Rank" AS ENUM (
+CREATE TYPE player_rank AS ENUM (
   'PLAYER',
   'BRONZE',
   'SILVER',
@@ -21,7 +21,7 @@ CREATE TYPE "Rank" AS ENUM (
 CREATE TABLE "Player" (
   "id" uuid DEFAULT public.gen_random_uuid() NOT NULL,
   "totalXp" numeric DEFAULT 0,
-  "rank" "Rank" NOT NULL DEFAULT 'PLAYER',
+  "rank" player_rank NOT NULL DEFAULT 'PLAYER',
   "links" json,
   "sentences" json
 );
@@ -30,7 +30,7 @@ CREATE TABLE "Profile" (
   "player_id" uuid NOT NULL,
   "identifier" text NOT NULL,
   "linkToProof" text,
-  "type" "Profile_Type" NOT NULL
+  "type" profile_type NOT NULL
 );
 
 CREATE TABLE "Quest" (
