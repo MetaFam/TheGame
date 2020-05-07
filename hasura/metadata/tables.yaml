@@ -1,0 +1,210 @@
+- table:
+    schema: public
+    name: Guild
+  array_relationships:
+  - name: Guild_Members
+    using:
+      foreign_key_constraint_on:
+        column: guild_id
+        table:
+          schema: public
+          name: Guild_Member
+  select_permissions:
+  - role: player
+    permission:
+      columns:
+      - id
+      - name
+      filter: {}
+  - role: public
+    permission:
+      columns:
+      - id
+      - name
+      filter: {}
+- table:
+    schema: public
+    name: Guild_Member
+  object_relationships:
+  - name: Guild
+    using:
+      foreign_key_constraint_on: guild_id
+  - name: Player
+    using:
+      foreign_key_constraint_on: player_id
+  select_permissions:
+  - role: player
+    permission:
+      columns:
+      - guild_id
+      - player_id
+      filter: {}
+  - role: public
+    permission:
+      columns:
+      - guild_id
+      - player_id
+      filter: {}
+- table:
+    schema: public
+    name: Player
+  array_relationships:
+  - name: Guild_Members
+    using:
+      foreign_key_constraint_on:
+        column: player_id
+        table:
+          schema: public
+          name: Guild_Member
+  - name: Profiles
+    using:
+      foreign_key_constraint_on:
+        column: player_id
+        table:
+          schema: public
+          name: Profile
+  - name: Quest_Completeds
+    using:
+      foreign_key_constraint_on:
+        column: player_id
+        table:
+          schema: public
+          name: Quest_Completed
+  - name: XPIntervals
+    using:
+      foreign_key_constraint_on:
+        column: player_id
+        table:
+          schema: public
+          name: XPInterval
+  select_permissions:
+  - role: player
+    permission:
+      columns:
+      - id
+      - totalXp
+      - rank
+      - links
+      - sentences
+      filter: {}
+  - role: public
+    permission:
+      columns:
+      - id
+      - totalXp
+      - rank
+      - links
+      - sentences
+      filter: {}
+  update_permissions:
+  - role: player
+    permission:
+      columns:
+      - sentences
+      filter:
+        id:
+          _eq: X-Hasura-User-Id
+      check: null
+- table:
+    schema: public
+    name: Profile
+  object_relationships:
+  - name: Player
+    using:
+      foreign_key_constraint_on: player_id
+  select_permissions:
+  - role: player
+    permission:
+      columns:
+      - player_id
+      - identifier
+      - linkToProof
+      - type
+      filter: {}
+  - role: public
+    permission:
+      columns:
+      - player_id
+      - identifier
+      - linkToProof
+      - type
+      filter: {}
+- table:
+    schema: public
+    name: Quest
+  array_relationships:
+  - name: Quest_Completeds
+    using:
+      foreign_key_constraint_on:
+        column: quest_id
+        table:
+          schema: public
+          name: Quest_Completed
+  select_permissions:
+  - role: player
+    permission:
+      columns:
+      - id
+      - name
+      - description
+      - url
+      - xp
+      filter: {}
+  - role: public
+    permission:
+      columns:
+      - id
+      - name
+      - description
+      - url
+      - xp
+      filter: {}
+- table:
+    schema: public
+    name: Quest_Completed
+  object_relationships:
+  - name: Player
+    using:
+      foreign_key_constraint_on: player_id
+  - name: Quest
+    using:
+      foreign_key_constraint_on: quest_id
+  select_permissions:
+  - role: player
+    permission:
+      columns:
+      - quest_id
+      - player_id
+      - time
+      filter: {}
+  - role: public
+    permission:
+      columns:
+      - quest_id
+      - player_id
+      - time
+      filter: {}
+- table:
+    schema: public
+    name: XPInterval
+  object_relationships:
+  - name: Player
+    using:
+      foreign_key_constraint_on: player_id
+  select_permissions:
+  - role: player
+    permission:
+      columns:
+      - player_id
+      - startTime
+      - endTime
+      - xp
+      filter: {}
+  - role: public
+    permission:
+      columns:
+      - player_id
+      - startTime
+      - endTime
+      - xp
+      filter: {}
