@@ -7,7 +7,7 @@ import { AsyncSendable, Web3Provider } from 'ethers/providers';
 import {useApolloClient} from '@apollo/react-hooks';
 
 import config from '../config';
-import {createToken} from '../lib/did';
+import { did } from '@the-game/utils';
 import {loginLoading, login} from '../apollo/auth';
 
 type Web3ContextType = {
@@ -55,7 +55,7 @@ const Web3ContextProvider: React.FC = props => {
       const signer = ethersProvider.getSigner();
       const address = await signer.getAddress();
 
-      const token = await createToken(ethersProvider);
+      const token = await did.createToken(ethersProvider);
       console.log(token);
 
       await login(apolloClient, token, address);

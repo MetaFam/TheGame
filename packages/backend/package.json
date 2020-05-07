@@ -5,6 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "start": "node ./dist/index.js",
+    "start:backend": "yarn dev",
     "dev": "ts-node-dev --respawn --transpileOnly src/index.ts",
     "typecheck": "tsc --noEmit",
     "build": "tsc"

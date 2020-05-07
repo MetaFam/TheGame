@@ -1,5 +1,5 @@
 import queries from '../graphql/queries';
-import { getSignerAddress } from '../lib/did';
+import { did } from '@the-game/utils';
 
 const STORAGE_KEY = 'auth-token';
 
@@ -66,7 +66,7 @@ export function logout() {
 export function checkStoredAuth(client) {
   const token = getTokenFromStore();
   if(token) {
-    const address = getSignerAddress(token);
+    const address = did.getSignerAddress(token);
     login(client, token, address).catch(console.error)
   }
 }

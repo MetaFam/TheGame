@@ -6,6 +6,8 @@
   "scripts": {
     "install": "lerna bootstrap",
     "build": "lerna run build",
+    "start:app": "CI=true lerna run --parallel start:app",
+    "start:backend": "lerna run --parallel start:backend",
     "docker:start": "docker-compose up -d database && sleep 4 && docker-compose up --build -d",
     "docker:start:hasura": "docker-compose up -d database && sleep 4 && docker-compose up --build -d hasura",
     "docker:stop": "docker-compose down",
