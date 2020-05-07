@@ -1,9 +1,8 @@
 import queries from '../graphql/queries';
-import { did } from '@the-game/utils';
 
 const STORAGE_KEY = 'auth-token';
 
-function getTokenFromStore() {
+export function getTokenFromStore() {
   return localStorage.getItem(STORAGE_KEY);
 }
 
@@ -15,22 +14,16 @@ function clearToken() {
   return localStorage.removeItem(STORAGE_KEY);
 }
 
-export function loginLoading(client) {
+export function loginLoading(client, loading = true) {
   client.writeData({
     data: {
-      authState: 'loading',
+      authState: loading ? 'loading' : 'anonymous',
     },
   });
 }
 
 export async function login(client, token, ethAddress) {
-  client.writeData({
-    data: {
-      authState: 'loading',
-      authToken: token,
-    },
-  });
-  setTokenInStore(token);
+  loginLoading(client);
 
   return client.query({
   query: queries.get_MyAccount,
@@ -43,30 +36,19 @@ export async function login(client, token, ethAddress) {
       client.writeData({
         data: {
           authState: 'logged',
+          authToken: token,
           playerId: res.data.Account[0].Player.id,
         },
       });
       setTokenInStore(token);
     })
     .catch(async error => {
-      client.writeData({
-        data: {
-          authState: 'error',
-          authToken: null,
-        },
-      });
+      logout();
       throw error;
     });
 }
 
-export function logout() {
+export function logout(client) {
   clearToken();
-}
-
-export function checkStoredAuth(client) {
-  const token = getTokenFromStore();
-  if(token) {
-    const address = did.getSignerAddress(token);
-    login(client, token, address).catch(console.error)
-  }
+  client.resetStore();
 }

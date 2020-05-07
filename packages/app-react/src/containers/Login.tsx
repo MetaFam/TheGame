@@ -21,23 +21,11 @@ export const Login: React.FC = () => {
     return (
       <Box>Connected</Box>
     );
-  } else if(data?.authState === 'error') {
+  } else {
     return (
       <Box>
-        Connection error
+        Unknown state
       </Box>
-    );
-  } else if(data?.authState === 'anonymous') {
-    return (
-      <Box>
-        <button onClick={connectWeb3}>Connect</button>
-      </Box>
-    );
+    )
   }
-
-  return (
-    <Box>
-      Unknown state
-    </Box>
-  )
 };
