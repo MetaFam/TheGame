@@ -56,13 +56,13 @@
         table:
           schema: public
           name: Guild_Member
-  - name: Profiles
+  - name: Accounts
     using:
       foreign_key_constraint_on:
         column: player_id
         table:
           schema: public
-          name: Profile
+          name: Account
   - name: Quest_Completeds
     using:
       foreign_key_constraint_on:
@@ -107,7 +107,7 @@
       check: null
 - table:
     schema: public
-    name: Profile
+    name: Account
   object_relationships:
   - name: Player
     using:

@@ -36,6 +36,7 @@ const handler = async (req: Request, res: Response) => {
       'X-Hasura-Role': 'player',
       'X-Hasura-User-Id': player.id,
     };
+
     res.json(hasuraVariables);
 
   }

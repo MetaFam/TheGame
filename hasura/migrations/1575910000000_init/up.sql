@@ -26,7 +26,7 @@ CREATE TABLE "Player" (
   "sentences" json
 );
 
-CREATE TABLE "Profile" (
+CREATE TABLE "Account" (
   "player_id" uuid NOT NULL,
   "identifier" text NOT NULL,
   "linkToProof" text,
@@ -83,12 +83,12 @@ ALTER TABLE ONLY public."Guild_Member"
 
 -- Uniques
 
-ALTER TABLE ONLY public."Profile"
-  ADD CONSTRAINT "Profile_identifier_key" UNIQUE (identifier);
+ALTER TABLE ONLY public."Account"
+  ADD CONSTRAINT "Account_identifier_key" UNIQUE (identifier);
 
 -- Foreign keys
 
-ALTER TABLE "Profile" ADD CONSTRAINT "Profile_player_id_fkey" FOREIGN KEY ("player_id") REFERENCES "Player" ("id");
+ALTER TABLE "Account" ADD CONSTRAINT "Account_player_id_fkey" FOREIGN KEY ("player_id") REFERENCES "Player" ("id");
 
 ALTER TABLE "Quest_Completed" ADD CONSTRAINT "Quest_Completed_player_id_fkey" FOREIGN KEY ("player_id") REFERENCES "Player" ("id");
 ALTER TABLE "Quest_Completed" ADD CONSTRAINT "Quest_Completed_quest_id_fkey" FOREIGN KEY ("quest_id") REFERENCES "Quest" ("id");

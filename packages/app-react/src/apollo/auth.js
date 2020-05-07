@@ -33,17 +33,17 @@ export async function login(client, token, ethAddress) {
   setTokenInStore(token);
 
   return client.query({
-    query: queries.get_MyProfile,
+  query: queries.get_MyAccount,
     variables: { eth_address: ethAddress }
   })
     .then(async res => {
-      if(res.data.Profile.length === 0) {
+      if(res.data.Account.length === 0) {
         throw new Error('Impossible to fetch player, not found.');
       }
       client.writeData({
         data: {
           authState: 'logged',
-          playerId: res.data.Profile[0].Player.id,
+          playerId: res.data.Account[0].Player.id,
         },
       });
       setTokenInStore(token);
