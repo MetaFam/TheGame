@@ -1,13 +1,13 @@
 -- Enums
 
-CREATE TYPE "Profile_Type" AS ENUM (
+CREATE TYPE profile_type AS ENUM (
   'ETHEREUM',
   'DISCORD',
   'GITHUB',
   'DISCOURSE'
 );
 
-CREATE TYPE "Rank" AS ENUM (
+CREATE TYPE player_rank AS ENUM (
   'PLAYER',
   'BRONZE',
   'SILVER',
@@ -21,16 +21,16 @@ CREATE TYPE "Rank" AS ENUM (
 CREATE TABLE "Player" (
   "id" uuid DEFAULT public.gen_random_uuid() NOT NULL,
   "totalXp" numeric DEFAULT 0,
-  "rank" "Rank" NOT NULL DEFAULT 'PLAYER',
+  "rank" player_rank NOT NULL DEFAULT 'PLAYER',
   "links" json,
   "sentences" json
 );
 
-CREATE TABLE "Profile" (
+CREATE TABLE "Account" (
   "player_id" uuid NOT NULL,
   "identifier" text NOT NULL,
   "linkToProof" text,
-  "type" "Profile_Type" NOT NULL
+  "type" profile_type NOT NULL
 );
 
 CREATE TABLE "Quest" (
@@ -83,12 +83,12 @@ ALTER TABLE ONLY public."Guild_Member"
 
 -- Uniques
 
-ALTER TABLE ONLY public."Profile"
-  ADD CONSTRAINT "Profile_identifier_key" UNIQUE (identifier);
+ALTER TABLE ONLY public."Account"
+  ADD CONSTRAINT "Account_identifier_key" UNIQUE (identifier);
 
 -- Foreign keys
 
-ALTER TABLE "Profile" ADD CONSTRAINT "Profile_player_id_fkey" FOREIGN KEY ("player_id") REFERENCES "Player" ("id");
+ALTER TABLE "Account" ADD CONSTRAINT "Account_player_id_fkey" FOREIGN KEY ("player_id") REFERENCES "Player" ("id");
 
 ALTER TABLE "Quest_Completed" ADD CONSTRAINT "Quest_Completed_player_id_fkey" FOREIGN KEY ("player_id") REFERENCES "Player" ("id");
 ALTER TABLE "Quest_Completed" ADD CONSTRAINT "Quest_Completed_quest_id_fkey" FOREIGN KEY ("quest_id") REFERENCES "Quest" ("id");

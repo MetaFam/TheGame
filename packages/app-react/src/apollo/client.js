@@ -2,8 +2,8 @@ import ApolloClient from 'apollo-boost';
 
 import config from '../config';
 
-import { localQueries, logout } from './index';
-import { checkStoredAuth } from './auth';
+import * as localQueries from './localQueries';
+import { logout } from './auth';
 
 export function createApolloClient() {
   let client;
@@ -31,7 +31,6 @@ export function createApolloClient() {
     if (networkError.statusCode === 401 || graphQLErrors[0]?.extensions?.code === 'invalid-jwt') {
       console.error('Authentication error, login out');
       logout(client);
-      client.resetStore();
     }
     else {
       console.error('GraphQL request error:', networkError);
@@ -52,7 +51,6 @@ export function createApolloClient() {
     client.writeData({ data: defaultClientState })
   });
 
-  checkStoredAuth(client);
 
   return client;
 }

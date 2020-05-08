@@ -1,11 +1,15 @@
 {
-  "name": "@metafam/the-game",
+  "name": "@the-game/monorepo",
   "version": "0.1.0",
   "license": "MIT",
   "private": true,
-  "workspaces": ["packages/*"],
   "scripts": {
-    "docker:start": "docker-compose up -d database && sleep 2 && docker-compose up --build -d",
+    "install": "lerna bootstrap",
+    "build": "lerna run build",
+    "start:app": "CI=true lerna run --parallel start:app",
+    "start:backend": "lerna run --parallel start:backend",
+    "docker:start": "docker-compose up -d database && sleep 4 && docker-compose up --build -d",
+    "docker:start:hasura": "docker-compose up -d database && sleep 4 && docker-compose up --build -d hasura",
     "docker:stop": "docker-compose down",
     "docker:clean": "docker-compose down -v",
     "hasura": "hasura --project ./hasura",
@@ -15,7 +19,11 @@
     "test": "cd packages/tests && yarn test && cd ../..",
     "typecheck": "yarn workspaces run typecheck"
   },
+  "workspaces": [
+    "packages/*"
+  ],
   "dependencies": {
-    "hasura-cli": "1.1.1"
+    "lerna": "^3.16.4",
+    "hasura-cli": "1.2.1"
   }
 }

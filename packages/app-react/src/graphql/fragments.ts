@@ -5,8 +5,8 @@ fragment PlayerFragment on Player {
   id
 }
 `;
-fragments.ProfileFragment = `
-fragment ProfileFragment on Profile {
+fragments.AccountFragment = `
+fragment AccountFragment on Account {
   identifier
 }
 `;

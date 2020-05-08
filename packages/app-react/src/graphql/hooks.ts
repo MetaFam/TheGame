@@ -19,7 +19,7 @@ export function useMyPlayer() {
         },
       });
     }
-  }, [playerId]);
+  }, [getMyPlayer, playerId]);
 
   return myPlayerQuery;
 }

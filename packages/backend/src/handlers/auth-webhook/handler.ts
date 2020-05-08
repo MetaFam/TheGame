@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { verifyToken } from './did';
+import { did } from '@the-game/utils';
 import { getPlayer } from './users';
 
 const unauthorizedVariables = {
@@ -24,7 +24,7 @@ const handler = async (req: Request, res: Response) => {
   }
   else {
 
-    const claim = verifyToken(token);
+    const claim = did.verifyToken(token);
     if(!claim) {
       res.status(401).send();
       return;
@@ -36,6 +36,7 @@ const handler = async (req: Request, res: Response) => {
       'X-Hasura-Role': 'player',
       'X-Hasura-User-Id': player.id,
     };
+
     res.json(hasuraVariables);
 
   }

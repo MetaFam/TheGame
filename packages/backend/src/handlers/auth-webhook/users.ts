@@ -4,7 +4,7 @@ import config from '../../config';
 
 const getPlayerQuery = `
 query GetPlayerFromETH ($eth_address: String) {
-  Profile(
+  Account(
     where: { 
       identifier: { _eq: $eth_address },
       type: { _eq: "ETHEREUM" }
@@ -17,23 +17,15 @@ query GetPlayerFromETH ($eth_address: String) {
 }
 `;
 
-const createPlayerMutation = `
-mutation CreatePlayer {
-  insert_Player(objects: {}) {
-    returning {
-      id
-    }
-  }
-}
-`;
-
 const createProfileMutation = `
-mutation CreateProfileFromETH ($player_id: uuid, $eth_address: String) {
-  insert_Profile(
+mutation CreateAccountFromETH ($eth_address: String) {
+  insert_Account(
     objects: {
-      player_id: $player_id, 
       type: "ETHEREUM", 
       identifier: $eth_address
+      Player: {
+        data: {}
+      }
     }) {
     returning {
       identifier
@@ -65,17 +57,10 @@ interface IPlayer {
 }
 
 export async function createPlayer(ethAddress: string): Promise<IPlayer> {
-  const resPlayer = await hasuraQuery(createPlayerMutation );
-  const player = resPlayer.insert_Player.returning[0];
-
-  await hasuraQuery(createProfileMutation, {
-    player_id: player.id,
+  const resProfile = await hasuraQuery(createProfileMutation, {
     eth_address: ethAddress,
   });
-
-  // TODO do it in only one query
-
-  return player;
+  return resProfile.insert_Account.returning[0].Player;
 }
 
 export async function getPlayer(ethAddress: string): Promise<IPlayer> {
@@ -83,10 +68,9 @@ export async function getPlayer(ethAddress: string): Promise<IPlayer> {
     eth_address: ethAddress,
   });
 
-  let player = res.Profile[0]?.Player;
+  let player = res.Account[0]?.Player;
 
   if(!player) {
-    // TODO if two requests sent at the same time, collision
     player = await createPlayer(ethAddress);
   }
 

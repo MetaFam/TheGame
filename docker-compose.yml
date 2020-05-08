@@ -12,7 +12,8 @@ services:
       PORT: 8080
       DATABASE_URL: postgres://${DATABASE_USER}:${DATABASE_PASSWORD}@database:5432/${DATABASE_NAME}
       HASURA_GRAPHQL_ADMIN_SECRET: ${HASURA_GRAPHQL_ADMIN_SECRET}
-      HASURA_GRAPHQL_AUTH_HOOK: http://backend:4000/auth-webhook
+      HASURA_GRAPHQL_AUTH_HOOK: ${HASURA_GRAPHQL_AUTH_HOOK:-http://backend:4000/auth-webhook}
+      HASURA_GRAPHQL_DEV_MODE: ${HASURA_GRAPHQL_DEV_MODE:-false}
 
   database:
     image: postgres:12

@@ -24,22 +24,22 @@ query GetPlayer($player_id: uuid)  {
 ${fragments.PlayerFragment}
 `;
 
-queries.get_MyProfile = gql`
-query GetMyProfile($eth_address: String) {
-  Profile(
+queries.get_MyAccount = gql`
+query GetMyAccount($eth_address: String) {
+  Account(
     where: { 
       identifier: { _eq: $eth_address },
       type: { _eq: "ETHEREUM" }
     }
   ) {
-    ...ProfileFragment
+    ...AccountFragment
     Player {
       ...PlayerFragment
     }
   }
 }
 ${fragments.PlayerFragment}
-${fragments.ProfileFragment}
+${fragments.AccountFragment}
 `;
 
 export default queries;

@@ -1,0 +1,19 @@
+{
+  "name": "@the-game/utils",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "start:app": "tsc -w",
+    "start:backend": "tsc -w",
+    "build": "tsc"
+  },
+  "dependencies": {
+    "ethers": "^4.0.47",
+    "js-base64": "^2.5.2",
+    "typescript": "^3.8.3",
+    "uuid": "^8.0.0"
+  }
+}
