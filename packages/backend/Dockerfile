@@ -18,4 +18,4 @@ RUN ls node_modules/uuid
 RUN ls packages/utils/node_modules/@types
 RUN yarn build
 
-CMD [ "yarn", "start" ]
+CMD [ "yarn", "start:backend" ]
