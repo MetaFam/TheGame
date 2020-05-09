@@ -5,6 +5,7 @@ import ThreeBox from '3box';
 import { Box } from '@material-ui/core';
 
 import {useMyPlayer} from "../graphql/hooks";
+import {getPlayerETHAddress} from "../utils/players";
 
 function getProfilePicture(boxProfile: any) {
   const imageHash = boxProfile?.image[0]?.contentUrl['/'];
@@ -20,7 +21,7 @@ export default function PlayerDetails({ player }: { player: any }) {
   const isMyPlayer = myPlayer && myPlayer.id === player.id;
   const [boxProfile, setBoxProfile] = useState<any>();
 
-  const ethAddress = player.Accounts.find((a: any) => a.type === "ETHEREUM").identifier;
+  const ethAddress = getPlayerETHAddress(player)
 
   useEffect(() => {
     (async () => {
