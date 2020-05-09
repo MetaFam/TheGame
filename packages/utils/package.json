@@ -6,8 +6,9 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "start:app": "tsc -w",
-    "start:backend": "tsc -w",
+    "start:app:dev": "tsc -w",
+    "start:backend:dev": "tsc -w",
+    "prepare": "yarn build",
     "build": "tsc"
   },
   "dependencies": {

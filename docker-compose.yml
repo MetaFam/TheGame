@@ -26,7 +26,9 @@ services:
       POSTGRES_DB: ${DATABASE_NAME}
 
   backend:
-    build: ./packages/backend
+    build:
+      context: .
+      dockerfile: ./packages/backend/Dockerfile
     environment:
       PORT: 4000
       GRAPHQL_URL: http://hasura:8080/v1/graphql

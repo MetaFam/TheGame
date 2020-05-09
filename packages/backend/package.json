@@ -4,8 +4,9 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "start": "node ./dist/index.js",
-    "start:backend": "yarn dev",
+    "start": "yarn start:backend",
+    "start:backend": "node ./dist/index.js",
+    "start:backend:dev": "yarn dev",
     "dev": "ts-node-dev --respawn --transpileOnly src/index.ts",
     "typecheck": "tsc --noEmit",
     "build": "tsc"
