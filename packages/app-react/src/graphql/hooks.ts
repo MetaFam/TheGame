@@ -7,7 +7,7 @@ import queries from './queries';
 
 export function useMyPlayer() {
   const authStateQuery = useQuery(localQueries.get_authState);
-  const [getMyPlayer, myPlayerQuery] = useLazyQuery(queries.get_MyPlayer);
+  const [getMyPlayer, myPlayerQuery] = useLazyQuery(queries.get_Player);
 
   const playerId = authStateQuery.data?.playerId;
 
@@ -21,5 +21,5 @@ export function useMyPlayer() {
     }
   }, [getMyPlayer, playerId]);
 
-  return myPlayerQuery;
+  return myPlayerQuery.data?.Player[0];
 }

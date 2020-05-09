@@ -8,6 +8,7 @@ fragment PlayerFragment on Player {
 fragments.AccountFragment = `
 fragment AccountFragment on Account {
   identifier
+  type
 }
 `;
 

@@ -6,7 +6,7 @@ import {useQuery} from '@apollo/react-hooks';
 
 import queries from '../graphql/queries';
 
-import Player from '../components/Player';
+import PlayerListItem from '../components/PlayerListItem';
 
 export default function PlayerList() {
   const { data, loading, error } = useQuery(queries.get_Player);
@@ -21,7 +21,7 @@ export default function PlayerList() {
     <Box>
       <h4>Player list</h4>
       {data.Player.map((player: any) =>
-        <Player key={player.id} player={player} />
+        <PlayerListItem key={player.id} player={player} />
       )}
     </Box>
   )
