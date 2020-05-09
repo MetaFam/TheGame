@@ -9,8 +9,11 @@ import queries from '../graphql/queries';
 import Player from '../components/Player';
 
 export default function PlayerList() {
-  const { data, loading } = useQuery(queries.get_Player);
+  const { data, loading, error } = useQuery(queries.get_Player);
 
+  if(error) {
+    return <div>error: {error.message}</div>
+  }
   if(loading) {
     return <div>loading</div>
   }

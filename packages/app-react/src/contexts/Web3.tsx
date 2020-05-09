@@ -12,12 +12,12 @@ import {loginLoading, login, getTokenFromStore} from '../apollo/auth';
 
 type Web3ContextType = {
   ethersProvider: Web3Provider | null,
-  connectWeb3: () => void;
+  connectWeb3: () => Promise<void>;
 }
 
 export const Web3Context = createContext<Web3ContextType>({
   ethersProvider: null,
-  connectWeb3: () => {},
+  connectWeb3: async () => {},
 });
 
 const providerOptions = {
