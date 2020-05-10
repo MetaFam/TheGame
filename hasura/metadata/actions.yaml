@@ -1,6 +1,14 @@
-actions: []
+actions:
+- name: updateBoxProfile
+  definition:
+    kind: synchronous
+    handler: '{{ACTION_BASE_ENDPOINT}}/updateBoxProfile'
+    forward_client_headers: true
+  permissions:
+  - role: player
 custom_types:
   enums: []
   input_objects: []
-  objects: []
+  objects:
+  - name: UpdateBoxProfileResponse
   scalars: []

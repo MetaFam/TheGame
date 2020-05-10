@@ -8,16 +8,18 @@ import {useApolloClient} from '@apollo/react-hooks';
 
 import config from '../config';
 import { did } from '@the-game/utils';
-import {loginLoading, login, getTokenFromStore} from '../apollo/auth';
+import {loginLoading, login, logout, getTokenFromStore} from '../apollo/auth';
 
 type Web3ContextType = {
   ethersProvider: Web3Provider | null,
   connectWeb3: () => Promise<void>;
+  disconnect: () => void,
 }
 
 export const Web3Context = createContext<Web3ContextType>({
   ethersProvider: null,
   connectWeb3: async () => {},
+  disconnect: () => undefined,
 });
 
 const providerOptions = {
@@ -75,6 +77,11 @@ const Web3ContextProvider: React.FC = props => {
     }
   }, [apolloClient, connectDID]);
 
+  const disconnect = useCallback(async () => {
+    web3Modal.clearCachedProvider();
+    logout(apolloClient);
+  }, [apolloClient]);
+
   useEffect(() => {
     if(web3Modal.cachedProvider) {
       connectWeb3().catch(console.error);
@@ -82,7 +89,7 @@ const Web3ContextProvider: React.FC = props => {
   }, [connectWeb3]);
 
   return (
-    <Web3Context.Provider value={{ ethersProvider, connectWeb3 }}>
+    <Web3Context.Provider value={{ ethersProvider, connectWeb3, disconnect }}>
       {props.children}
     </Web3Context.Provider>
   );

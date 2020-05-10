@@ -1,2 +1,12 @@
+type Mutation {
+  updateBoxProfile : UpdateBoxProfileResponse
+}
 
+
+
+
+type UpdateBoxProfileResponse {
+  success : Boolean!
+  updatedProfiles : [String!]!
+}
 

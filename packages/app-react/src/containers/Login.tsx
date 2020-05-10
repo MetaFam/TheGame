@@ -10,7 +10,7 @@ import {Link} from "react-router-dom";
 export const Login: React.FC = () => {
   const { data, loading } = useQuery(localQueries.get_authState);
 
-  const { connectWeb3 } = useContext(Web3Context);
+  const { connectWeb3, disconnect } = useContext(Web3Context);
 
   const connect = useCallback(() => {
     connectWeb3().catch(console.error);
@@ -28,6 +28,7 @@ export const Login: React.FC = () => {
       <Box>
         Connected
         <Link to={`/player/${playerId}`}><button>View my player</button></Link>
+        <button onClick={disconnect}>Logout</button>
       </Box>
     );
   } else {

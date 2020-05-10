@@ -1,6 +1,4 @@
-import fetch from 'node-fetch';
-
-import config from '../../config';
+import { hasuraQuery } from '../../lib/hasuraHelpers';
 
 const getPlayerQuery = `
 query GetPlayerFromETH ($eth_address: String) {
@@ -33,25 +31,6 @@ mutation CreateAccountFromETH ($eth_address: String) {
   }
 }
 `;
-
-async function hasuraQuery(query: string, qv: any = {}) {
-  const result = await fetch(config.graphqlURL, {
-    method: 'POST',
-    body: JSON.stringify({ query: query, variables: qv }),
-    headers: {
-      'Content-Type': 'application/json',
-      'x-hasura-access-key': config.adminKey,
-    },
-  });
-
-  const { errors, data } = await result.json();
-
-  if(errors) {
-    throw new Error(JSON.stringify(errors));
-  }
-  return data;
-}
-
 interface IPlayer {
   id: string
 }
