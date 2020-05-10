@@ -7,11 +7,11 @@ import { Player } from './containers/Player';
 export default function Routes() {
   return (
     <Switch>
+      <Route exact path="/">
+        <Home />
+      </Route>
       <Route path="/player/:playerId">
         <Player />
-      </Route>
-      <Route path="/">
-        <Home />
       </Route>
       <Redirect to="/"/>
     </Switch>
