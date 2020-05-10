@@ -17,6 +17,7 @@
     "@graphql-codegen/typescript-operations": "^1.13.2",
     "@graphql-codegen/typescript-react-apollo": "^1.13.2",
     "env-cmd": "^10.1.0",
+    "get-graphql-schema": "^2.1.2",
     "graphql-codegen-hasura-client-config": "^4.8.3",
     "graphql-codegen-hasura-core": "^4.8.3",
     "graphql-codegen-hasura-gql": "^4.8.3",

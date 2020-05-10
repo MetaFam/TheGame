@@ -4,6 +4,499 @@ schema {
   subscription: subscription_root
 }
 
+"""
+columns and relationships of "Account"
+"""
+type Account {
+  """An object relationship"""
+  Player: Player!
+  identifier: String!
+  linkToProof: String
+  player_id: uuid!
+  type: profile_type!
+}
+
+"""
+aggregated selection of "Account"
+"""
+type Account_aggregate {
+  aggregate: Account_aggregate_fields
+  nodes: [Account!]!
+}
+
+"""
+aggregate fields of "Account"
+"""
+type Account_aggregate_fields {
+  count(columns: [Account_select_column!], distinct: Boolean): Int
+  max: Account_max_fields
+  min: Account_min_fields
+}
+
+"""
+order by aggregate values of table "Account"
+"""
+input Account_aggregate_order_by {
+  count: order_by
+  max: Account_max_order_by
+  min: Account_min_order_by
+}
+
+"""
+input type for inserting array relation for remote table "Account"
+"""
+input Account_arr_rel_insert_input {
+  data: [Account_insert_input!]!
+  on_conflict: Account_on_conflict
+}
+
+"""
+Boolean expression to filter rows from the table "Account". All fields are combined with a logical 'AND'.
+"""
+input Account_bool_exp {
+  Player: Player_bool_exp
+  _and: [Account_bool_exp]
+  _not: Account_bool_exp
+  _or: [Account_bool_exp]
+  identifier: String_comparison_exp
+  linkToProof: String_comparison_exp
+  player_id: uuid_comparison_exp
+  type: profile_type_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "Account"
+"""
+enum Account_constraint {
+  """unique or primary key constraint"""
+  Account_identifier_key
+
+  """unique or primary key constraint"""
+  Account_pkey
+}
+
+"""
+input type for inserting data into table "Account"
+"""
+input Account_insert_input {
+  Player: Player_obj_rel_insert_input
+  identifier: String
+  linkToProof: String
+  player_id: uuid
+  type: profile_type
+}
+
+"""aggregate max on columns"""
+type Account_max_fields {
+  identifier: String
+  linkToProof: String
+  player_id: uuid
+}
+
+"""
+order by max() on columns of table "Account"
+"""
+input Account_max_order_by {
+  identifier: order_by
+  linkToProof: order_by
+  player_id: order_by
+}
+
+"""aggregate min on columns"""
+type Account_min_fields {
+  identifier: String
+  linkToProof: String
+  player_id: uuid
+}
+
+"""
+order by min() on columns of table "Account"
+"""
+input Account_min_order_by {
+  identifier: order_by
+  linkToProof: order_by
+  player_id: order_by
+}
+
+"""
+response of any mutation on the table "Account"
+"""
+type Account_mutation_response {
+  """number of affected rows by the mutation"""
+  affected_rows: Int!
+
+  """data of the affected rows by the mutation"""
+  returning: [Account!]!
+}
+
+"""
+input type for inserting object relation for remote table "Account"
+"""
+input Account_obj_rel_insert_input {
+  data: Account_insert_input!
+  on_conflict: Account_on_conflict
+}
+
+"""
+on conflict condition type for table "Account"
+"""
+input Account_on_conflict {
+  constraint: Account_constraint!
+  update_columns: [Account_update_column!]!
+  where: Account_bool_exp
+}
+
+"""
+ordering options when selecting data from "Account"
+"""
+input Account_order_by {
+  Player: Player_order_by
+  identifier: order_by
+  linkToProof: order_by
+  player_id: order_by
+  type: order_by
+}
+
+"""
+primary key columns input for table: "Account"
+"""
+input Account_pk_columns_input {
+  identifier: String!
+}
+
+"""
+select columns of table "Account"
+"""
+enum Account_select_column {
+  """column name"""
+  identifier
+
+  """column name"""
+  linkToProof
+
+  """column name"""
+  player_id
+
+  """column name"""
+  type
+}
+
+"""
+input type for updating data in table "Account"
+"""
+input Account_set_input {
+  identifier: String
+  linkToProof: String
+  player_id: uuid
+  type: profile_type
+}
+
+"""
+update columns of table "Account"
+"""
+enum Account_update_column {
+  """column name"""
+  identifier
+
+  """column name"""
+  linkToProof
+
+  """column name"""
+  player_id
+
+  """column name"""
+  type
+}
+
+"""
+columns and relationships of "caca"
+"""
+type caca {
+  id: Int!
+  val: String!
+}
+
+"""
+aggregated selection of "caca"
+"""
+type caca_aggregate {
+  aggregate: caca_aggregate_fields
+  nodes: [caca!]!
+}
+
+"""
+aggregate fields of "caca"
+"""
+type caca_aggregate_fields {
+  avg: caca_avg_fields
+  count(columns: [caca_select_column!], distinct: Boolean): Int
+  max: caca_max_fields
+  min: caca_min_fields
+  stddev: caca_stddev_fields
+  stddev_pop: caca_stddev_pop_fields
+  stddev_samp: caca_stddev_samp_fields
+  sum: caca_sum_fields
+  var_pop: caca_var_pop_fields
+  var_samp: caca_var_samp_fields
+  variance: caca_variance_fields
+}
+
+"""
+order by aggregate values of table "caca"
+"""
+input caca_aggregate_order_by {
+  avg: caca_avg_order_by
+  count: order_by
+  max: caca_max_order_by
+  min: caca_min_order_by
+  stddev: caca_stddev_order_by
+  stddev_pop: caca_stddev_pop_order_by
+  stddev_samp: caca_stddev_samp_order_by
+  sum: caca_sum_order_by
+  var_pop: caca_var_pop_order_by
+  var_samp: caca_var_samp_order_by
+  variance: caca_variance_order_by
+}
+
+"""
+input type for inserting array relation for remote table "caca"
+"""
+input caca_arr_rel_insert_input {
+  data: [caca_insert_input!]!
+  on_conflict: caca_on_conflict
+}
+
+"""aggregate avg on columns"""
+type caca_avg_fields {
+  id: Float
+}
+
+"""
+order by avg() on columns of table "caca"
+"""
+input caca_avg_order_by {
+  id: order_by
+}
+
+"""
+Boolean expression to filter rows from the table "caca". All fields are combined with a logical 'AND'.
+"""
+input caca_bool_exp {
+  _and: [caca_bool_exp]
+  _not: caca_bool_exp
+  _or: [caca_bool_exp]
+  id: Int_comparison_exp
+  val: String_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "caca"
+"""
+enum caca_constraint {
+  """unique or primary key constraint"""
+  caca_pkey
+}
+
+"""
+input type for incrementing integer column in table "caca"
+"""
+input caca_inc_input {
+  id: Int
+}
+
+"""
+input type for inserting data into table "caca"
+"""
+input caca_insert_input {
+  id: Int
+  val: String
+}
+
+"""aggregate max on columns"""
+type caca_max_fields {
+  id: Int
+  val: String
+}
+
+"""
+order by max() on columns of table "caca"
+"""
+input caca_max_order_by {
+  id: order_by
+  val: order_by
+}
+
+"""aggregate min on columns"""
+type caca_min_fields {
+  id: Int
+  val: String
+}
+
+"""
+order by min() on columns of table "caca"
+"""
+input caca_min_order_by {
+  id: order_by
+  val: order_by
+}
+
+"""
+response of any mutation on the table "caca"
+"""
+type caca_mutation_response {
+  """number of affected rows by the mutation"""
+  affected_rows: Int!
+
+  """data of the affected rows by the mutation"""
+  returning: [caca!]!
+}
+
+"""
+input type for inserting object relation for remote table "caca"
+"""
+input caca_obj_rel_insert_input {
+  data: caca_insert_input!
+  on_conflict: caca_on_conflict
+}
+
+"""
+on conflict condition type for table "caca"
+"""
+input caca_on_conflict {
+  constraint: caca_constraint!
+  update_columns: [caca_update_column!]!
+  where: caca_bool_exp
+}
+
+"""
+ordering options when selecting data from "caca"
+"""
+input caca_order_by {
+  id: order_by
+  val: order_by
+}
+
+"""
+primary key columns input for table: "caca"
+"""
+input caca_pk_columns_input {
+  id: Int!
+}
+
+"""
+select columns of table "caca"
+"""
+enum caca_select_column {
+  """column name"""
+  id
+
+  """column name"""
+  val
+}
+
+"""
+input type for updating data in table "caca"
+"""
+input caca_set_input {
+  id: Int
+  val: String
+}
+
+"""aggregate stddev on columns"""
+type caca_stddev_fields {
+  id: Float
+}
+
+"""
+order by stddev() on columns of table "caca"
+"""
+input caca_stddev_order_by {
+  id: order_by
+}
+
+"""aggregate stddev_pop on columns"""
+type caca_stddev_pop_fields {
+  id: Float
+}
+
+"""
+order by stddev_pop() on columns of table "caca"
+"""
+input caca_stddev_pop_order_by {
+  id: order_by
+}
+
+"""aggregate stddev_samp on columns"""
+type caca_stddev_samp_fields {
+  id: Float
+}
+
+"""
+order by stddev_samp() on columns of table "caca"
+"""
+input caca_stddev_samp_order_by {
+  id: order_by
+}
+
+"""aggregate sum on columns"""
+type caca_sum_fields {
+  id: Int
+}
+
+"""
+order by sum() on columns of table "caca"
+"""
+input caca_sum_order_by {
+  id: order_by
+}
+
+"""
+update columns of table "caca"
+"""
+enum caca_update_column {
+  """column name"""
+  id
+
+  """column name"""
+  val
+}
+
+"""aggregate var_pop on columns"""
+type caca_var_pop_fields {
+  id: Float
+}
+
+"""
+order by var_pop() on columns of table "caca"
+"""
+input caca_var_pop_order_by {
+  id: order_by
+}
+
+"""aggregate var_samp on columns"""
+type caca_var_samp_fields {
+  id: Float
+}
+
+"""
+order by var_samp() on columns of table "caca"
+"""
+input caca_var_samp_order_by {
+  id: order_by
+}
+
+"""aggregate variance on columns"""
+type caca_variance_fields {
+  id: Float
+}
+
+"""
+order by variance() on columns of table "caca"
+"""
+input caca_variance_order_by {
+  id: order_by
+}
+
 scalar date
 
 """
@@ -411,6 +904,21 @@ enum Guild_update_column {
   name
 }
 
+"""
+expression to compare columns of type Int. All fields are combined with logical 'AND'.
+"""
+input Int_comparison_exp {
+  _eq: Int
+  _gt: Int
+  _gte: Int
+  _in: [Int!]
+  _is_null: Boolean
+  _lt: Int
+  _lte: Int
+  _neq: Int
+  _nin: [Int!]
+}
+
 scalar json
 
 """
@@ -430,6 +938,19 @@ input json_comparison_exp {
 
 """mutation root"""
 type mutation_root {
+  """
+  delete data from the table: "Account"
+  """
+  delete_Account(
+    """filter the rows which have to be deleted"""
+    where: Account_bool_exp!
+  ): Account_mutation_response
+
+  """
+  delete single row from the table: "Account"
+  """
+  delete_Account_by_pk(identifier: String!): Account
+
   """
   delete data from the table: "Guild"
   """
@@ -470,14 +991,6 @@ type mutation_root {
   delete_Player_by_pk(id: uuid!): Player
 
   """
-  delete data from the table: "Profile"
-  """
-  delete_Profile(
-    """filter the rows which have to be deleted"""
-    where: Profile_bool_exp!
-  ): Profile_mutation_response
-
-  """
   delete data from the table: "Quest"
   """
   delete_Quest(
@@ -510,6 +1023,54 @@ type mutation_root {
     """filter the rows which have to be deleted"""
     where: XPInterval_bool_exp!
   ): XPInterval_mutation_response
+
+  """
+  delete data from the table: "caca"
+  """
+  delete_caca(
+    """filter the rows which have to be deleted"""
+    where: caca_bool_exp!
+  ): caca_mutation_response
+
+  """
+  delete single row from the table: "caca"
+  """
+  delete_caca_by_pk(id: Int!): caca
+
+  """
+  delete data from the table: "popo"
+  """
+  delete_popo(
+    """filter the rows which have to be deleted"""
+    where: popo_bool_exp!
+  ): popo_mutation_response
+
+  """
+  delete single row from the table: "popo"
+  """
+  delete_popo_by_pk(id: uuid!): popo
+
+  """
+  insert data into the table: "Account"
+  """
+  insert_Account(
+    """the rows to be inserted"""
+    objects: [Account_insert_input!]!
+
+    """on conflict condition"""
+    on_conflict: Account_on_conflict
+  ): Account_mutation_response
+
+  """
+  insert a single row into the table: "Account"
+  """
+  insert_Account_one(
+    """the row to be inserted"""
+    object: Account_insert_input!
+
+    """on conflict condition"""
+    on_conflict: Account_on_conflict
+  ): Account
 
   """
   insert data into the table: "Guild"
@@ -578,28 +1139,6 @@ type mutation_root {
   ): Player
 
   """
-  insert data into the table: "Profile"
-  """
-  insert_Profile(
-    """the rows to be inserted"""
-    objects: [Profile_insert_input!]!
-
-    """on conflict condition"""
-    on_conflict: Profile_on_conflict
-  ): Profile_mutation_response
-
-  """
-  insert a single row into the table: "Profile"
-  """
-  insert_Profile_one(
-    """the row to be inserted"""
-    object: Profile_insert_input!
-
-    """on conflict condition"""
-    on_conflict: Profile_on_conflict
-  ): Profile
-
-  """
   insert data into the table: "Quest"
   """
   insert_Quest(
@@ -660,6 +1199,70 @@ type mutation_root {
   ): XPInterval
 
   """
+  insert data into the table: "caca"
+  """
+  insert_caca(
+    """the rows to be inserted"""
+    objects: [caca_insert_input!]!
+
+    """on conflict condition"""
+    on_conflict: caca_on_conflict
+  ): caca_mutation_response
+
+  """
+  insert a single row into the table: "caca"
+  """
+  insert_caca_one(
+    """the row to be inserted"""
+    object: caca_insert_input!
+
+    """on conflict condition"""
+    on_conflict: caca_on_conflict
+  ): caca
+
+  """
+  insert data into the table: "popo"
+  """
+  insert_popo(
+    """the rows to be inserted"""
+    objects: [popo_insert_input!]!
+
+    """on conflict condition"""
+    on_conflict: popo_on_conflict
+  ): popo_mutation_response
+
+  """
+  insert a single row into the table: "popo"
+  """
+  insert_popo_one(
+    """the row to be inserted"""
+    object: popo_insert_input!
+
+    """on conflict condition"""
+    on_conflict: popo_on_conflict
+  ): popo
+
+  """
+  update data of the table: "Account"
+  """
+  update_Account(
+    """sets the columns of the filtered rows to the given values"""
+    _set: Account_set_input
+
+    """filter the rows which have to be updated"""
+    where: Account_bool_exp!
+  ): Account_mutation_response
+
+  """
+  update single row of the table: "Account"
+  """
+  update_Account_by_pk(
+    """sets the columns of the filtered rows to the given values"""
+    _set: Account_set_input
+    pk_columns: Account_pk_columns_input!
+  ): Account
+
+  """
   update data of the table: "Guild"
   """
   update_Guild(
@@ -703,6 +1306,9 @@ type mutation_root {
   update data of the table: "Player"
   """
   update_Player(
+    """increments the integer columns with given value of the filtered values"""
+    _inc: Player_inc_input
+
     """sets the columns of the filtered rows to the given values"""
     _set: Player_set_input
 
@@ -714,26 +1320,21 @@ type mutation_root {
   update single row of the table: "Player"
   """
   update_Player_by_pk(
+    """increments the integer columns with given value of the filtered values"""
+    _inc: Player_inc_input
+
     """sets the columns of the filtered rows to the given values"""
     _set: Player_set_input
     pk_columns: Player_pk_columns_input!
   ): Player
 
   """
-  update data of the table: "Profile"
-  """
-  update_Profile(
-    """sets the columns of the filtered rows to the given values"""
-    _set: Profile_set_input
-
-    """filter the rows which have to be updated"""
-    where: Profile_bool_exp!
-  ): Profile_mutation_response
-
-  """
   update data of the table: "Quest"
   """
   update_Quest(
+    """increments the integer columns with given value of the filtered values"""
+    _inc: Quest_inc_input
+
     """sets the columns of the filtered rows to the given values"""
     _set: Quest_set_input
 
@@ -765,6 +1366,9 @@ type mutation_root {
   update single row of the table: "Quest"
   """
   update_Quest_by_pk(
+    """increments the integer columns with given value of the filtered values"""
+    _inc: Quest_inc_input
+
     """sets the columns of the filtered rows to the given values"""
     _set: Quest_set_input
     pk_columns: Quest_pk_columns_input!
@@ -774,12 +1378,61 @@ type mutation_root {
   update data of the table: "XPInterval"
   """
   update_XPInterval(
+    """increments the integer columns with given value of the filtered values"""
+    _inc: XPInterval_inc_input
+
     """sets the columns of the filtered rows to the given values"""
     _set: XPInterval_set_input
 
     """filter the rows which have to be updated"""
     where: XPInterval_bool_exp!
   ): XPInterval_mutation_response
+
+  """
+  update data of the table: "caca"
+  """
+  update_caca(
+    """increments the integer columns with given value of the filtered values"""
+    _inc: caca_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: caca_set_input
+
+    """filter the rows which have to be updated"""
+    where: caca_bool_exp!
+  ): caca_mutation_response
+
+  """
+  update single row of the table: "caca"
+  """
+  update_caca_by_pk(
+    """increments the integer columns with given value of the filtered values"""
+    _inc: caca_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: caca_set_input
+    pk_columns: caca_pk_columns_input!
+  ): caca
+
+  """
+  update data of the table: "popo"
+  """
+  update_popo(
+    """sets the columns of the filtered rows to the given values"""
+    _set: popo_set_input
+
+    """filter the rows which have to be updated"""
+    where: popo_bool_exp!
+  ): popo_mutation_response
+
+  """
+  update single row of the table: "popo"
+  """
+  update_popo_by_pk(
+    """sets the columns of the filtered rows to the given values"""
+    _set: popo_set_input
+    pk_columns: popo_pk_columns_input!
+  ): popo
 }
 
 scalar numeric
@@ -825,6 +1478,42 @@ columns and relationships of "Player"
 """
 type Player {
   """An array relationship"""
+  Accounts(
+    """distinct select on columns"""
+    distinct_on: [Account_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [Account_order_by!]
+
+    """filter the rows returned"""
+    where: Account_bool_exp
+  ): [Account!]!
+
+  """An aggregated array relationship"""
+  Accounts_aggregate(
+    """distinct select on columns"""
+    distinct_on: [Account_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [Account_order_by!]
+
+    """filter the rows returned"""
+    where: Account_bool_exp
+  ): Account_aggregate!
+
+  """An array relationship"""
   Guild_Members(
     """distinct select on columns"""
     distinct_on: [Guild_Member_select_column!]
@@ -859,42 +1548,6 @@ type Player {
     """filter the rows returned"""
     where: Guild_Member_bool_exp
   ): Guild_Member_aggregate!
-
-  """An array relationship"""
-  Profiles(
-    """distinct select on columns"""
-    distinct_on: [Profile_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [Profile_order_by!]
-
-    """filter the rows returned"""
-    where: Profile_bool_exp
-  ): [Profile!]!
-
-  """An aggregated array relationship"""
-  Profiles_aggregate(
-    """distinct select on columns"""
-    distinct_on: [Profile_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [Profile_order_by!]
-
-    """filter the rows returned"""
-    where: Profile_bool_exp
-  ): Profile_aggregate!
 
   """An array relationship"""
   Quest_Completeds(
@@ -972,7 +1625,7 @@ type Player {
     """JSON select path"""
     path: String
   ): json
-  rank: Rank!
+  rank: player_rank!
   sentences(
     """JSON select path"""
     path: String
@@ -1046,8 +1699,8 @@ input Player_avg_order_by {
 Boolean expression to filter rows from the table "Player". All fields are combined with a logical 'AND'.
 """
 input Player_bool_exp {
+  Accounts: Account_bool_exp
   Guild_Members: Guild_Member_bool_exp
-  Profiles: Profile_bool_exp
   Quest_Completeds: Quest_Completed_bool_exp
   XPIntervals: XPInterval_bool_exp
   _and: [Player_bool_exp]
@@ -1055,7 +1708,7 @@ input Player_bool_exp {
   _or: [Player_bool_exp]
   id: uuid_comparison_exp
   links: json_comparison_exp
-  rank: Rank_comparison_exp
+  rank: player_rank_comparison_exp
   sentences: json_comparison_exp
   totalXp: numeric_comparison_exp
 }
@@ -1069,16 +1722,23 @@ enum Player_constraint {
 }
 
 """
+input type for incrementing integer column in table "Player"
+"""
+input Player_inc_input {
+  totalXp: numeric
+}
+
+"""
 input type for inserting data into table "Player"
 """
 input Player_insert_input {
+  Accounts: Account_arr_rel_insert_input
   Guild_Members: Guild_Member_arr_rel_insert_input
-  Profiles: Profile_arr_rel_insert_input
   Quest_Completeds: Quest_Completed_arr_rel_insert_input
   XPIntervals: XPInterval_arr_rel_insert_input
   id: uuid
   links: json
-  rank: Rank
+  rank: player_rank
   sentences: json
   totalXp: numeric
 }
@@ -1143,8 +1803,8 @@ input Player_on_conflict {
 ordering options when selecting data from "Player"
 """
 input Player_order_by {
+  Accounts_aggregate: Account_aggregate_order_by
   Guild_Members_aggregate: Guild_Member_aggregate_order_by
-  Profiles_aggregate: Profile_aggregate_order_by
   Quest_Completeds_aggregate: Quest_Completed_aggregate_order_by
   XPIntervals_aggregate: XPInterval_aggregate_order_by
   id: order_by
@@ -1159,6 +1819,23 @@ primary key columns input for table: "Player"
 """
 input Player_pk_columns_input {
   id: uuid!
+}
+
+scalar player_rank
+
+"""
+expression to compare columns of type player_rank. All fields are combined with logical 'AND'.
+"""
+input player_rank_comparison_exp {
+  _eq: player_rank
+  _gt: player_rank
+  _gte: player_rank
+  _in: [player_rank!]
+  _is_null: Boolean
+  _lt: player_rank
+  _lte: player_rank
+  _neq: player_rank
+  _nin: [player_rank!]
 }
 
 """
@@ -1187,7 +1864,7 @@ input type for updating data in table "Player"
 input Player_set_input {
   id: uuid
   links: json
-  rank: Rank
+  rank: player_rank
   sentences: json
   totalXp: numeric
 }
@@ -1297,218 +1974,236 @@ input Player_variance_order_by {
 }
 
 """
-columns and relationships of "Profile"
+columns and relationships of "popo"
 """
-type Profile {
-  """An object relationship"""
-  Player: Player!
-  identifier: String!
-  linkToProof: String
-  player_id: uuid!
-  type: Profile_Type!
+type popo {
+  id: uuid!
+  sentences(
+    """JSON select path"""
+    path: String
+  ): json
 }
 
 """
-aggregated selection of "Profile"
+aggregated selection of "popo"
 """
-type Profile_aggregate {
-  aggregate: Profile_aggregate_fields
-  nodes: [Profile!]!
+type popo_aggregate {
+  aggregate: popo_aggregate_fields
+  nodes: [popo!]!
 }
 
 """
-aggregate fields of "Profile"
+aggregate fields of "popo"
 """
-type Profile_aggregate_fields {
-  count(columns: [Profile_select_column!], distinct: Boolean): Int
-  max: Profile_max_fields
-  min: Profile_min_fields
+type popo_aggregate_fields {
+  count(columns: [popo_select_column!], distinct: Boolean): Int
+  max: popo_max_fields
+  min: popo_min_fields
 }
 
 """
-order by aggregate values of table "Profile"
+order by aggregate values of table "popo"
 """
-input Profile_aggregate_order_by {
+input popo_aggregate_order_by {
   count: order_by
-  max: Profile_max_order_by
-  min: Profile_min_order_by
+  max: popo_max_order_by
+  min: popo_min_order_by
 }
 
 """
-input type for inserting array relation for remote table "Profile"
+input type for inserting array relation for remote table "popo"
 """
-input Profile_arr_rel_insert_input {
-  data: [Profile_insert_input!]!
-  on_conflict: Profile_on_conflict
+input popo_arr_rel_insert_input {
+  data: [popo_insert_input!]!
+  on_conflict: popo_on_conflict
 }
 
 """
-Boolean expression to filter rows from the table "Profile". All fields are combined with a logical 'AND'.
+Boolean expression to filter rows from the table "popo". All fields are combined with a logical 'AND'.
 """
-input Profile_bool_exp {
-  Player: Player_bool_exp
-  _and: [Profile_bool_exp]
-  _not: Profile_bool_exp
-  _or: [Profile_bool_exp]
-  identifier: String_comparison_exp
-  linkToProof: String_comparison_exp
-  player_id: uuid_comparison_exp
-  type: Profile_Type_comparison_exp
+input popo_bool_exp {
+  _and: [popo_bool_exp]
+  _not: popo_bool_exp
+  _or: [popo_bool_exp]
+  id: uuid_comparison_exp
+  sentences: json_comparison_exp
 }
 
 """
-unique or primary key constraints on table "Profile"
+unique or primary key constraints on table "popo"
 """
-enum Profile_constraint {
+enum popo_constraint {
   """unique or primary key constraint"""
-  Profile_identifier_key
+  popo_pkey
 }
 
 """
-input type for inserting data into table "Profile"
+input type for inserting data into table "popo"
 """
-input Profile_insert_input {
-  Player: Player_obj_rel_insert_input
-  identifier: String
-  linkToProof: String
-  player_id: uuid
-  type: Profile_Type
+input popo_insert_input {
+  id: uuid
+  sentences: json
 }
 
 """aggregate max on columns"""
-type Profile_max_fields {
-  identifier: String
-  linkToProof: String
-  player_id: uuid
+type popo_max_fields {
+  id: uuid
 }
 
 """
-order by max() on columns of table "Profile"
+order by max() on columns of table "popo"
 """
-input Profile_max_order_by {
-  identifier: order_by
-  linkToProof: order_by
-  player_id: order_by
+input popo_max_order_by {
+  id: order_by
 }
 
 """aggregate min on columns"""
-type Profile_min_fields {
-  identifier: String
-  linkToProof: String
-  player_id: uuid
+type popo_min_fields {
+  id: uuid
 }
 
 """
-order by min() on columns of table "Profile"
+order by min() on columns of table "popo"
 """
-input Profile_min_order_by {
-  identifier: order_by
-  linkToProof: order_by
-  player_id: order_by
+input popo_min_order_by {
+  id: order_by
 }
 
 """
-response of any mutation on the table "Profile"
+response of any mutation on the table "popo"
 """
-type Profile_mutation_response {
+type popo_mutation_response {
   """number of affected rows by the mutation"""
   affected_rows: Int!
 
   """data of the affected rows by the mutation"""
-  returning: [Profile!]!
+  returning: [popo!]!
 }
 
 """
-input type for inserting object relation for remote table "Profile"
+input type for inserting object relation for remote table "popo"
 """
-input Profile_obj_rel_insert_input {
-  data: Profile_insert_input!
-  on_conflict: Profile_on_conflict
+input popo_obj_rel_insert_input {
+  data: popo_insert_input!
+  on_conflict: popo_on_conflict
 }
 
 """
-on conflict condition type for table "Profile"
+on conflict condition type for table "popo"
 """
-input Profile_on_conflict {
-  constraint: Profile_constraint!
-  update_columns: [Profile_update_column!]!
-  where: Profile_bool_exp
+input popo_on_conflict {
+  constraint: popo_constraint!
+  update_columns: [popo_update_column!]!
+  where: popo_bool_exp
 }
 
 """
-ordering options when selecting data from "Profile"
+ordering options when selecting data from "popo"
 """
-input Profile_order_by {
-  Player: Player_order_by
-  identifier: order_by
-  linkToProof: order_by
-  player_id: order_by
-  type: order_by
+input popo_order_by {
+  id: order_by
+  sentences: order_by
 }
 
 """
-select columns of table "Profile"
+primary key columns input for table: "popo"
 """
-enum Profile_select_column {
+input popo_pk_columns_input {
+  id: uuid!
+}
+
+"""
+select columns of table "popo"
+"""
+enum popo_select_column {
   """column name"""
-  identifier
-
-  """column name"""
-  linkToProof
-
-  """column name"""
-  player_id
+  id
 
   """column name"""
-  type
+  sentences
 }
 
 """
-input type for updating data in table "Profile"
+input type for updating data in table "popo"
 """
-input Profile_set_input {
-  identifier: String
-  linkToProof: String
-  player_id: uuid
-  type: Profile_Type
+input popo_set_input {
+  id: uuid
+  sentences: json
 }
 
-scalar Profile_Type
+"""
+update columns of table "popo"
+"""
+enum popo_update_column {
+  """column name"""
+  id
+
+  """column name"""
+  sentences
+}
+
+scalar profile_type
 
 """
-expression to compare columns of type Profile_Type. All fields are combined with logical 'AND'.
+expression to compare columns of type profile_type. All fields are combined with logical 'AND'.
 """
-input Profile_Type_comparison_exp {
-  _eq: Profile_Type
-  _gt: Profile_Type
-  _gte: Profile_Type
-  _in: [Profile_Type!]
+input profile_type_comparison_exp {
+  _eq: profile_type
+  _gt: profile_type
+  _gte: profile_type
+  _in: [profile_type!]
   _is_null: Boolean
-  _lt: Profile_Type
-  _lte: Profile_Type
-  _neq: Profile_Type
-  _nin: [Profile_Type!]
-}
-
-"""
-update columns of table "Profile"
-"""
-enum Profile_update_column {
-  """column name"""
-  identifier
-
-  """column name"""
-  linkToProof
-
-  """column name"""
-  player_id
-
-  """column name"""
-  type
+  _lt: profile_type
+  _lte: profile_type
+  _neq: profile_type
+  _nin: [profile_type!]
 }
 
 """query root"""
 type query_root {
+  """
+  fetch data from the table: "Account"
+  """
+  Account(
+    """distinct select on columns"""
+    distinct_on: [Account_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [Account_order_by!]
+
+    """filter the rows returned"""
+    where: Account_bool_exp
+  ): [Account!]!
+
+  """
+  fetch aggregated fields from the table: "Account"
+  """
+  Account_aggregate(
+    """distinct select on columns"""
+    distinct_on: [Account_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [Account_order_by!]
+
+    """filter the rows returned"""
+    where: Account_bool_exp
+  ): Account_aggregate!
+
+  """fetch data from the table: "Account" using primary key columns"""
+  Account_by_pk(identifier: String!): Account
+
   """
   fetch data from the table: "Guild"
   """
@@ -1639,46 +2334,6 @@ type query_root {
   Player_by_pk(id: uuid!): Player
 
   """
-  fetch data from the table: "Profile"
-  """
-  Profile(
-    """distinct select on columns"""
-    distinct_on: [Profile_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [Profile_order_by!]
-
-    """filter the rows returned"""
-    where: Profile_bool_exp
-  ): [Profile!]!
-
-  """
-  fetch aggregated fields from the table: "Profile"
-  """
-  Profile_aggregate(
-    """distinct select on columns"""
-    distinct_on: [Profile_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [Profile_order_by!]
-
-    """filter the rows returned"""
-    where: Profile_bool_exp
-  ): Profile_aggregate!
-
-  """
   fetch data from the table: "Quest"
   """
   Quest(
@@ -1803,6 +2458,92 @@ type query_root {
     """filter the rows returned"""
     where: XPInterval_bool_exp
   ): XPInterval_aggregate!
+
+  """
+  fetch data from the table: "caca"
+  """
+  caca(
+    """distinct select on columns"""
+    distinct_on: [caca_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [caca_order_by!]
+
+    """filter the rows returned"""
+    where: caca_bool_exp
+  ): [caca!]!
+
+  """
+  fetch aggregated fields from the table: "caca"
+  """
+  caca_aggregate(
+    """distinct select on columns"""
+    distinct_on: [caca_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [caca_order_by!]
+
+    """filter the rows returned"""
+    where: caca_bool_exp
+  ): caca_aggregate!
+
+  """fetch data from the table: "caca" using primary key columns"""
+  caca_by_pk(id: Int!): caca
+
+  """
+  fetch data from the table: "popo"
+  """
+  popo(
+    """distinct select on columns"""
+    distinct_on: [popo_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [popo_order_by!]
+
+    """filter the rows returned"""
+    where: popo_bool_exp
+  ): [popo!]!
+
+  """
+  fetch aggregated fields from the table: "popo"
+  """
+  popo_aggregate(
+    """distinct select on columns"""
+    distinct_on: [popo_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [popo_order_by!]
+
+    """filter the rows returned"""
+    where: popo_bool_exp
+  ): popo_aggregate!
+
+  """fetch data from the table: "popo" using primary key columns"""
+  popo_by_pk(id: uuid!): popo
 }
 
 """
@@ -2013,6 +2754,7 @@ input Quest_Completed_insert_input {
 type Quest_Completed_max_fields {
   player_id: uuid
   quest_id: uuid
+  time: timestamp
 }
 
 """
@@ -2021,12 +2763,14 @@ order by max() on columns of table "Quest_Completed"
 input Quest_Completed_max_order_by {
   player_id: order_by
   quest_id: order_by
+  time: order_by
 }
 
 """aggregate min on columns"""
 type Quest_Completed_min_fields {
   player_id: uuid
   quest_id: uuid
+  time: timestamp
 }
 
 """
@@ -2035,6 +2779,7 @@ order by min() on columns of table "Quest_Completed"
 input Quest_Completed_min_order_by {
   player_id: order_by
   quest_id: order_by
+  time: order_by
 }
 
 """
@@ -2127,6 +2872,13 @@ unique or primary key constraints on table "Quest"
 enum Quest_constraint {
   """unique or primary key constraint"""
   Quest_pkey
+}
+
+"""
+input type for incrementing integer column in table "Quest"
+"""
+input Quest_inc_input {
+  xp: numeric
 }
 
 """
@@ -2363,23 +3115,6 @@ input Quest_variance_order_by {
   xp: order_by
 }
 
-scalar Rank
-
-"""
-expression to compare columns of type Rank. All fields are combined with logical 'AND'.
-"""
-input Rank_comparison_exp {
-  _eq: Rank
-  _gt: Rank
-  _gte: Rank
-  _in: [Rank!]
-  _is_null: Boolean
-  _lt: Rank
-  _lte: Rank
-  _neq: Rank
-  _nin: [Rank!]
-}
-
 """
 expression to compare columns of type String. All fields are combined with logical 'AND'.
 """
@@ -2403,6 +3138,49 @@ input String_comparison_exp {
 
 """subscription root"""
 type subscription_root {
+  """
+  fetch data from the table: "Account"
+  """
+  Account(
+    """distinct select on columns"""
+    distinct_on: [Account_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [Account_order_by!]
+
+    """filter the rows returned"""
+    where: Account_bool_exp
+  ): [Account!]!
+
+  """
+  fetch aggregated fields from the table: "Account"
+  """
+  Account_aggregate(
+    """distinct select on columns"""
+    distinct_on: [Account_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [Account_order_by!]
+
+    """filter the rows returned"""
+    where: Account_bool_exp
+  ): Account_aggregate!
+
+  """fetch data from the table: "Account" using primary key columns"""
+  Account_by_pk(identifier: String!): Account
+
   """
   fetch data from the table: "Guild"
   """
@@ -2533,46 +3311,6 @@ type subscription_root {
   Player_by_pk(id: uuid!): Player
 
   """
-  fetch data from the table: "Profile"
-  """
-  Profile(
-    """distinct select on columns"""
-    distinct_on: [Profile_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [Profile_order_by!]
-
-    """filter the rows returned"""
-    where: Profile_bool_exp
-  ): [Profile!]!
-
-  """
-  fetch aggregated fields from the table: "Profile"
-  """
-  Profile_aggregate(
-    """distinct select on columns"""
-    distinct_on: [Profile_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [Profile_order_by!]
-
-    """filter the rows returned"""
-    where: Profile_bool_exp
-  ): Profile_aggregate!
-
-  """
   fetch data from the table: "Quest"
   """
   Quest(
@@ -2697,6 +3435,92 @@ type subscription_root {
     """filter the rows returned"""
     where: XPInterval_bool_exp
   ): XPInterval_aggregate!
+
+  """
+  fetch data from the table: "caca"
+  """
+  caca(
+    """distinct select on columns"""
+    distinct_on: [caca_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [caca_order_by!]
+
+    """filter the rows returned"""
+    where: caca_bool_exp
+  ): [caca!]!
+
+  """
+  fetch aggregated fields from the table: "caca"
+  """
+  caca_aggregate(
+    """distinct select on columns"""
+    distinct_on: [caca_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [caca_order_by!]
+
+    """filter the rows returned"""
+    where: caca_bool_exp
+  ): caca_aggregate!
+
+  """fetch data from the table: "caca" using primary key columns"""
+  caca_by_pk(id: Int!): caca
+
+  """
+  fetch data from the table: "popo"
+  """
+  popo(
+    """distinct select on columns"""
+    distinct_on: [popo_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [popo_order_by!]
+
+    """filter the rows returned"""
+    where: popo_bool_exp
+  ): [popo!]!
+
+  """
+  fetch aggregated fields from the table: "popo"
+  """
+  popo_aggregate(
+    """distinct select on columns"""
+    distinct_on: [popo_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [popo_order_by!]
+
+    """filter the rows returned"""
+    where: popo_bool_exp
+  ): popo_aggregate!
+
+  """fetch data from the table: "popo" using primary key columns"""
+  popo_by_pk(id: uuid!): popo
 }
 
 scalar timestamp
@@ -2818,6 +3642,13 @@ input XPInterval_bool_exp {
   player_id: uuid_comparison_exp
   startTime: date_comparison_exp
   xp: numeric_comparison_exp
+}
+
+"""
+input type for incrementing integer column in table "XPInterval"
+"""
+input XPInterval_inc_input {
+  xp: numeric
 }
 
 """
