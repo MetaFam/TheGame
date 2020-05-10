@@ -22,7 +22,9 @@ export default function PlayerDetails({ player }: { player: any }) {
   const myPlayer = useMyPlayer();
   const isMyPlayer = myPlayer && myPlayer.id === player.id;
   const [boxProfile, setBoxProfile] = useState<any>();
+  const [usernameInput, setUsernameInput] = useState<string>(player.username);
   const [updateBoxProfiles] = useMutation(mutations.UpdateBoxProfiles);
+  const [updateUsername] = useMutation(mutations.UpdateUsername);
 
   const ethAddress = getPlayerETHAddress(player);
 
@@ -35,9 +37,20 @@ export default function PlayerDetails({ player }: { player: any }) {
     })();
   }, [ethAddress]);
 
-  const goToEdit = useCallback(() => {
+  const goToEditBoxProfile = useCallback(() => {
     window.open(`https://3box.io/${ethAddress}/edit`)
   }, []);
+
+  const editUserName = useCallback(() => {
+    // TODO Apollo does not updates caches as it expects that the mutation returns an object with id, but hasura returns { returning: [{id}] }
+    updateUsername({
+      variables: {
+        username: usernameInput
+      }
+    }).then(res =>
+      console.log('updated username', res.data)
+    );
+  }, [usernameInput]);
 
   const updateAccounts = useCallback(() => {
     updateBoxProfiles().then(res =>
@@ -47,8 +60,13 @@ export default function PlayerDetails({ player }: { player: any }) {
 
   return (
     <Box>
-      {player.id}
-      {isMyPlayer && <button onClick={goToEdit}>Edit profile</button>}
+      <h3>{player.username}</h3>
+      <h4>{player.id}</h4>
+      {isMyPlayer && <button onClick={goToEditBoxProfile}>Edit profile</button>}
+      {isMyPlayer && <div>
+        <input value={usernameInput} onChange={e => setUsernameInput(e.target.value)} />
+        <button onClick={editUserName}>Change username</button>
+      </div>}
       {boxProfile ?
         <div>
           <p><b>Name:</b> {boxProfile.name}</p>
@@ -62,7 +80,7 @@ export default function PlayerDetails({ player }: { player: any }) {
         <h4>External accounts</h4>
         <ul>
           {player.Accounts.map((account: any) =>
-            <li><b>{account.type}</b>: {account.identifier}</li>
+            <li key={account.type}><b>{account.type}</b>: {account.identifier}</li>
           )}
         </ul>
         {isMyPlayer && <button onClick={updateAccounts}>Update accounts</button>}

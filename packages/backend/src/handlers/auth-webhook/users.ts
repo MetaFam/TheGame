@@ -16,18 +16,24 @@ query GetPlayerFromETH ($eth_address: String) {
 `;
 
 const createProfileMutation = `
-mutation CreateAccountFromETH ($eth_address: String) {
+mutation CreateAccountFromETH ($eth_address: String!, $username: String!) {
   insert_Account(
     objects: {
       type: "ETHEREUM", 
       identifier: $eth_address
       Player: {
-        data: {}
+        data: {
+          username: $username
+        }
       }
     }) {
-    returning {
-      identifier
-    }
+      affected_rows
+      returning {
+        identifier
+        Player {
+          id
+        }
+      }
   }
 }
 `;
@@ -38,7 +44,11 @@ interface IPlayer {
 export async function createPlayer(ethAddress: string): Promise<IPlayer> {
   const resProfile = await hasuraQuery(createProfileMutation, {
     eth_address: ethAddress,
+    username: ethAddress,
   });
+  if(resProfile.insert_Account.affected_rows !== 2) {
+    throw new Error('error while creating profile');
+  }
   return resProfile.insert_Account.returning[0].Player;
 }
 

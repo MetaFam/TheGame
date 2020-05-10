@@ -21,6 +21,7 @@ CREATE TYPE player_rank AS ENUM (
 
 CREATE TABLE "Player" (
   "id" uuid DEFAULT public.gen_random_uuid() NOT NULL,
+  "username" text NOT NULL,
   "totalXp" numeric DEFAULT 0,
   "rank" player_rank NOT NULL DEFAULT 'PLAYER',
   "links" json,
@@ -83,6 +84,9 @@ ALTER TABLE ONLY public."Guild_Member"
   ADD CONSTRAINT "Guild_Member_pkey" PRIMARY KEY (guild_id, player_id);
 
 -- Uniques
+
+ALTER TABLE ONLY public."Player"
+  ADD CONSTRAINT "Player_username_unique_key" UNIQUE (username);
 
 ALTER TABLE ONLY public."Account"
   ADD CONSTRAINT "Account_identifier_unique_key" UNIQUE (identifier);

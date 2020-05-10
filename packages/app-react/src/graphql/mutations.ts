@@ -11,4 +11,21 @@ mutation UpdateBoxProfiles {
 }
 `;
 
+mutations.UpdateUsername = gql`
+mutation UpdateUsername($username: String!) {
+  update_Player(
+    where: {},
+    _set: {
+      username: $username
+    }
+  ) {
+    affected_rows
+    returning {
+      id
+      username
+    }
+  }
+}
+`;
+
 export default mutations;
