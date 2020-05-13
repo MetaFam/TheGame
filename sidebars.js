@@ -5,7 +5,7 @@ module.exports = {
       "handbook/play",
       "handbook/quests",
       "handbook/xp",
-      "handbook/seed-market",
+      "handbook/seed",
       "handbook/roles",
       "handbook/achievements",
       "handbook/shilling"
