@@ -5,23 +5,18 @@ import fragments from './fragments';
 const queries: any = {};
 
 queries.get_Player = gql`
-query GetPlayer {
-  Player {
-    ...PlayerFragment
-  }
-}
-${fragments.PlayerFragment}
-`;
-
-queries.get_MyPlayer = gql`
 query GetPlayer($player_id: uuid)  {
   Player(
   where: { id: { _eq: $player_id } }
   ) { 
     ...PlayerFragment
+    Accounts {
+      ...AccountFragment
+    }
   }
 }
 ${fragments.PlayerFragment}
+${fragments.AccountFragment}
 `;
 
 queries.get_MyAccount = gql`

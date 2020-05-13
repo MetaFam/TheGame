@@ -1,9 +1,10 @@
 -- Enums
 
-CREATE TYPE profile_type AS ENUM (
+CREATE TYPE account_type AS ENUM (
   'ETHEREUM',
   'DISCORD',
   'GITHUB',
+  'TWITTER',
   'DISCOURSE'
 );
 
@@ -20,6 +21,7 @@ CREATE TYPE player_rank AS ENUM (
 
 CREATE TABLE "Player" (
   "id" uuid DEFAULT public.gen_random_uuid() NOT NULL,
+  "username" text NOT NULL,
   "totalXp" numeric DEFAULT 0,
   "rank" player_rank NOT NULL DEFAULT 'PLAYER',
   "links" json,
@@ -30,7 +32,7 @@ CREATE TABLE "Account" (
   "player_id" uuid NOT NULL,
   "identifier" text NOT NULL,
   "linkToProof" text,
-  "type" profile_type NOT NULL
+  "type" account_type NOT NULL
 );
 
 CREATE TABLE "Quest" (
@@ -83,8 +85,13 @@ ALTER TABLE ONLY public."Guild_Member"
 
 -- Uniques
 
+ALTER TABLE ONLY public."Player"
+  ADD CONSTRAINT "Player_username_unique_key" UNIQUE (username);
+
 ALTER TABLE ONLY public."Account"
-  ADD CONSTRAINT "Account_identifier_key" UNIQUE (identifier);
+  ADD CONSTRAINT "Account_identifier_unique_key" UNIQUE (identifier);
+ALTER TABLE ONLY public."Account"
+  ADD CONSTRAINT "Account_identifier_type_player_key" UNIQUE (type, player_id);
 
 -- Foreign keys
 

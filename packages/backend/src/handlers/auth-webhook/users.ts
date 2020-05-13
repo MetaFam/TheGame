@@ -1,6 +1,4 @@
-import fetch from 'node-fetch';
-
-import config from '../../config';
+import { hasuraQuery } from '../../lib/hasuraHelpers';
 
 const getPlayerQuery = `
 query GetPlayerFromETH ($eth_address: String) {
@@ -18,40 +16,27 @@ query GetPlayerFromETH ($eth_address: String) {
 `;
 
 const createProfileMutation = `
-mutation CreateAccountFromETH ($eth_address: String) {
+mutation CreateAccountFromETH ($eth_address: String!, $username: String!) {
   insert_Account(
     objects: {
       type: "ETHEREUM", 
       identifier: $eth_address
       Player: {
-        data: {}
+        data: {
+          username: $username
+        }
       }
     }) {
-    returning {
-      identifier
-    }
+      affected_rows
+      returning {
+        identifier
+        Player {
+          id
+        }
+      }
   }
 }
 `;
-
-async function hasuraQuery(query: string, qv: any = {}) {
-  const result = await fetch(config.graphqlURL, {
-    method: 'POST',
-    body: JSON.stringify({ query: query, variables: qv }),
-    headers: {
-      'Content-Type': 'application/json',
-      'x-hasura-access-key': config.adminKey,
-    },
-  });
-
-  const { errors, data } = await result.json();
-
-  if(errors) {
-    throw new Error(JSON.stringify(errors));
-  }
-  return data;
-}
-
 interface IPlayer {
   id: string
 }
@@ -59,7 +44,11 @@ interface IPlayer {
 export async function createPlayer(ethAddress: string): Promise<IPlayer> {
   const resProfile = await hasuraQuery(createProfileMutation, {
     eth_address: ethAddress,
+    username: ethAddress,
   });
+  if(resProfile.insert_Account.affected_rows !== 2) {
+    throw new Error('error while creating profile');
+  }
   return resProfile.insert_Account.returning[0].Player;
 }
 

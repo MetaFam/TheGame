@@ -1,5 +1,29 @@
 - table:
     schema: public
+    name: Account
+  object_relationships:
+  - name: Player
+    using:
+      foreign_key_constraint_on: player_id
+  select_permissions:
+  - role: player
+    permission:
+      columns:
+      - player_id
+      - identifier
+      - linkToProof
+      - type
+      filter: {}
+  - role: public
+    permission:
+      columns:
+      - player_id
+      - identifier
+      - linkToProof
+      - type
+      filter: {}
+- table:
+    schema: public
     name: Guild
   array_relationships:
   - name: Guild_Members
@@ -49,13 +73,6 @@
     schema: public
     name: Player
   array_relationships:
-  - name: Guild_Members
-    using:
-      foreign_key_constraint_on:
-        column: player_id
-        table:
-          schema: public
-          name: Guild_Member
   - name: Accounts
     using:
       foreign_key_constraint_on:
@@ -63,6 +80,13 @@
         table:
           schema: public
           name: Account
+  - name: Guild_Members
+    using:
+      foreign_key_constraint_on:
+        column: player_id
+        table:
+          schema: public
+          name: Guild_Member
   - name: Quest_Completeds
     using:
       foreign_key_constraint_on:
@@ -82,53 +106,32 @@
     permission:
       columns:
       - id
-      - totalXp
-      - rank
       - links
+      - rank
       - sentences
+      - totalXp
+      - username
       filter: {}
   - role: public
     permission:
       columns:
       - id
-      - totalXp
-      - rank
       - links
+      - rank
       - sentences
+      - totalXp
+      - username
       filter: {}
   update_permissions:
   - role: player
     permission:
       columns:
       - sentences
+      - username
       filter:
         id:
           _eq: X-Hasura-User-Id
       check: null
-- table:
-    schema: public
-    name: Account
-  object_relationships:
-  - name: Player
-    using:
-      foreign_key_constraint_on: player_id
-  select_permissions:
-  - role: player
-    permission:
-      columns:
-      - player_id
-      - identifier
-      - linkToProof
-      - type
-      filter: {}
-  - role: public
-    permission:
-      columns:
-      - player_id
-      - identifier
-      - linkToProof
-      - type
-      filter: {}
 - table:
     schema: public
     name: Quest

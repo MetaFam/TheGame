@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "3box": "^1.18.1",
     "@apollo/client": "^3.0.0-beta.43",
     "@apollo/react-hooks": "^3.1.5",
     "@material-ui/core": "^4.9.10",
@@ -20,6 +21,7 @@
     "graphql-codegen-hasura-core": "^4.8.4",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.1",
     "typescript": "~3.7.2",
     "uuid": "^7.0.3",
