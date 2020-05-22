@@ -8,32 +8,29 @@ import styles from "./styles.module.css";
 
 const features = [
   {
-    title: <>Some Section</>,
+    title: <>For Players</>,
     imageUrl: "assets/icon-dark.png",
     description: (
       <>
-        Docusaurus was designed from the ground up to be easily installed and
-        used to get your website up and running quickly.
+        Join MetaGame as a player & get help forging your path. 
       </>
     )
   },
   {
-    title: <>Another Thing</>,
+    title: <>For Guilds</>,
     imageUrl: "assets/icon-plain.png",
     description: (
       <>
-        Docusaurus lets you focus on your docs, and we&apos;ll do the chores. Go
-        ahead and move your docs into the <code>docs</code> directory.
+        Join MetaGame as a project & get support building the future.
       </>
     )
   },
   {
-    title: <>Third Part</>,
+    title: <>Third Patrons</>,
     imageUrl: "assets/icon-glow.png",
     description: (
       <>
-        Extend or customize your website layout by reusing React. Docusaurus can
-        be extended while reusing the same header and footer.
+        Join the future by supporting MetaGame.
       </>
     )
   }
