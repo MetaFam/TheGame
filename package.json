@@ -4,7 +4,6 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "install": "lerna bootstrap --ignore-scripts",
     "build": "lerna run build",
     "start:app:dev": "CI=true lerna run --parallel start:app",
     "start:backend": "lerna run --scope @the-game/backend start:backend",
