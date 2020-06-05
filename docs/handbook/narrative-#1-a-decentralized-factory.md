@@ -1,5 +1,4 @@
-﻿
-# Narrative #1 — A Decentralized Factory
+# Narrative 1 — A Decentralized Factory
 
 Remember the old question of “who should own the means of production”?  
 - It became kind of irrelevant once we started fitting factories inside our backpacks, and outsourcing assembly lines to distant parts of the world.
