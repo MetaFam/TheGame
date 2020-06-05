@@ -1,4 +1,4 @@
-﻿# Narrative #2 - A Web of Opportunity
+# Narrative 2 - A Web of Opportunity
 
 ## Intro
 
