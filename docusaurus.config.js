@@ -1,6 +1,6 @@
 module.exports = {
   title: "MetaGame Wiki",
-  tagline: "A collaborative guide for your journey into The MetaGame",
+  tagline: "MetaGame is a society of global citizens with the aim of outgrowing nation states & zero-sum games of old economic thinking by building and promoting better alternatives; building a future we want to live in.",
   url: "https://wiki.metagame.wtf",
   baseUrl: "/",
   favicon: "img/mg-icon.png",
