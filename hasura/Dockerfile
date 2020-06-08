@@ -6,7 +6,6 @@ RUN chmod +x /wait
 ## Default setup
 
 ENV HASURA_GRAPHQL_ENABLE_TELEMETRY false
-ENV HASURA_GRAPHQL_ENABLE_CONSOLE false
 ENV HASURA_GRAPHQL_ENABLED_LOG_TYPES startup, http-log, webhook-log, websocket-log, query-log
 
 ## Migrations
