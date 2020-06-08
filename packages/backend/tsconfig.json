@@ -1,16 +1,10 @@
 {
+  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "target": "ES5",
-    "module": "commonjs",
-    "declaration": true,
-    "sourceMap": true,
+    "rootDir": "src",
     "outDir": "./dist",
-    "strict": true,
-    "esModuleInterop": true,
-    "typeRoots": ["./@types"]
+    "typeRoots": [
+      "../@types", "../../node_modules/@types"]
   },
-  "include": [
-    "src",
-    "./@types"
-  ]
+  "include": ["./src"]
 }

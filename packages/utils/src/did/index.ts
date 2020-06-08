@@ -1,7 +1,7 @@
-import { v4 as uuidv4 } from 'uuid';
 import { ethers } from "ethers";
 import { Web3Provider } from "ethers/providers";
 import { Base64 } from 'js-base64';
+import { v4 as uuidv4 } from 'uuid';
 
 const tokenDuration = 1000 * 60 * 60 * 24 * 7; // 7 days
 

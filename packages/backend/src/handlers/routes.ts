@@ -8,7 +8,7 @@ import authHandler from './auth-webhook/handler';
 
 const router = express.Router();
 
-router.get('/', function (req, res) {
+router.get('/', function (_, res) {
   res.send('pong')
 });
 
