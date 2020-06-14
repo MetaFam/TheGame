@@ -2,7 +2,7 @@
 
 ## 📊 How do I earn XP?
 
-XP (experience points) are earned by engaging on [Discord](https://discord.gg/ZqdPP9b), writing on [Discourse](https://metagame.trydiscourse.com/), laying down code on [GitHub](https://github.com/metafam/), or completing [Quests](https://forum.metagame.wtf/c/quest/5/l/latest?board=default). You get some XP when you create, you get more XP when people reference or react to your creation and then we have _Initiatives_ for awarding XP for things that happen outside those three platforms or aren’t appreciated enough there.
+XP (experience points) are earned by engaging on [Discord](https://discord.gg/ZqdPP9b), writing on [Discourse](https://forum.metagame.wtf/), laying down code on [GitHub](https://github.com/metafam/), or completing [Quests](https://forum.metagame.wtf/c/quest/5/l/latest?board=default). You get some XP when you create, you get more XP when people reference or react to your creation and then we have _Initiatives_ for awarding XP for things that happen outside those three platforms or aren’t appreciated enough there.
 
 Due to the way SourceCred works (PageRank) the more XP you have the more weight your engagement has. This creates a soft sybil-resistance where random accounts or profiles can’t easily embed themselves into the contribution graph without actually contributing.
 
