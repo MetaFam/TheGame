@@ -25,7 +25,8 @@ module.exports = {
     "🌳 Resources": [
       "resources/graphics", 
       "resources/art", 
-      "resources/memes"
+      "resources/memes",
+      "resources/talks"
     ],
     "About The Wiki": [
       "style-guide", 
