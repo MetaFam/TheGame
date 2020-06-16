@@ -11,7 +11,7 @@ module.exports = {
       "handbook/way-of-web3-founders",
       "handbook/narrative-1-a-decentralized-factory",
       "handbook/narrative-2-a-web-of-opportunity",
-      "handbook/metafam-way"
+      "manifesto/metafam-way"
     ],
     "🧐 How does it work?": [
       "handbook/how-metagame-works",
