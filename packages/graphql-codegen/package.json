@@ -11,18 +11,18 @@
     "typecheck": "echo noop"
   },
   "devDependencies": {
-    "@graphql-codegen/cli": "^1.13.2",
-    "@graphql-codegen/introspection": "^1.13.2",
-    "@graphql-codegen/typescript": "^1.13.2",
-    "@graphql-codegen/typescript-operations": "^1.13.2",
-    "@graphql-codegen/typescript-react-apollo": "^1.13.2",
+    "@graphql-codegen/cli": "^1.15.3",
+    "@graphql-codegen/introspection": "^1.15.3",
+    "@graphql-codegen/typescript": "^1.15.3",
+    "@graphql-codegen/typescript-operations": "^1.15.3",
+    "@graphql-codegen/typescript-react-apollo": "^1.15.3",
     "env-cmd": "^10.1.0",
     "get-graphql-schema": "^2.1.2",
-    "graphql-codegen-hasura-client-config": "^4.8.3",
-    "graphql-codegen-hasura-core": "^4.8.3",
-    "graphql-codegen-hasura-gql": "^4.8.3",
-    "graphql-codegen-hasura-react": "^4.8.3",
-    "graphql-codegen-hasura-shared": "^4.8.3",
-    "graphql-codegen-hasura-typescript": "^4.8.3"
+    "graphql-codegen-hasura-client-config": "^4.9.1",
+    "graphql-codegen-hasura-core": "^4.9.1",
+    "graphql-codegen-hasura-gql": "^4.9.1",
+    "graphql-codegen-hasura-react": "^4.9.1",
+    "graphql-codegen-hasura-shared": "^4.9.1",
+    "graphql-codegen-hasura-typescript": "^4.9.1"
   }
 }
