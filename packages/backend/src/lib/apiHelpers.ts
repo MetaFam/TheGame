@@ -11,7 +11,7 @@ export function asyncHandlerWrapper(middleware: any) {
   };
 }
 
-export function errorMiddleware(error: Error, req: Request, res: Response, next: NextFunction) {
+export function errorMiddleware(error: Error, _: Request, res: Response) {
   console.error(error);
   res.status(500).send('Unexpected error');
 }

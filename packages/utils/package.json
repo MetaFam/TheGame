@@ -6,8 +6,9 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "start:app": "tsc -w",
-    "start:backend": "tsc -w",
+    "start:app:dev": "tsc -w",
+    "start:backend:dev": "tsc -w",
+    "prepare": "yarn build",
     "build": "tsc"
   },
   "dependencies": {
@@ -15,5 +16,8 @@
     "js-base64": "^2.5.2",
     "typescript": "^3.8.3",
     "uuid": "^8.0.0"
+  },
+  "devDependencies": {
+    "@types/uuid": "^8.0.0"
   }
 }

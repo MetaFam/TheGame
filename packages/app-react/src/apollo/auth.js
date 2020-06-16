@@ -24,7 +24,11 @@ export function loginLoading(client, loading = true) {
 
 export async function login(client, token, ethAddress) {
   loginLoading(client);
-
+  client.writeData({
+    data: {
+      authToken: token,
+    },
+  });
   return client.query({
   query: queries.get_MyAccount,
     variables: { eth_address: ethAddress }
@@ -36,14 +40,13 @@ export async function login(client, token, ethAddress) {
       client.writeData({
         data: {
           authState: 'logged',
-          authToken: token,
           playerId: res.data.Account[0].Player.id,
         },
       });
       setTokenInStore(token);
     })
     .catch(async error => {
-      logout();
+      logout(client);
       throw error;
     });
 }
