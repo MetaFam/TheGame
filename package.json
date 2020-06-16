@@ -6,7 +6,7 @@
   "scripts": {
     "build": "lerna run build",
     "start:app:dev": "CI=true lerna run --parallel start:app",
-    "start:backend": "lerna run --scope @the-game/backend start:backend",
+    "start:backend": "lerna run --scope @the-game/backend --stream start:backend",
     "start:backend:dev": "lerna run --parallel start:backend:dev",
     "docker:start": "docker-compose up -d database && sleep 4 && docker-compose up --build -d",
     "docker:start:hasura": "docker-compose up -d database && sleep 4 && docker-compose up --build -d hasura",
