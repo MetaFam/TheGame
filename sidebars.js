@@ -1,32 +1,41 @@
 module.exports = {
   someSidebar: {
-    "📕 Handbook": [
+    "🤨 WTF is MetaGame?": [
       "introduction",
-      "handbook/play",
-      "handbook/quests",
+      "handbook/for-players",
+      "handbook/for-guilds",
+      "handbook/for-investors",
+      "handbook/in-search-of-commons-that-scale",
+      "handbook/the-coming-of-metagame",
+      "handbook/wtf-is-metagame",
+      "handbook/way-of-web3-founders",
+      "handbook/narrative-1-a-decentralized-factory",
+      "handbook/narrative-2-a-web-of-opportunity",
+      "handbook/metafam-way"
+    ],
+    "🧐 How does it work?": [
+      "handbook/how-metagame-works",
       "handbook/xp",
-      "handbook/seed",
-      "handbook/roles",
-      "handbook/achievements",
-      "handbook/shilling"
+      "handbook/play",
+      "handbook/become-a-founder-of-metagame",
+      "handbook/phases-of-metagame",
+      "roadmap/phases"
     ],
-    "📜 Manifesto": [
-      "manifesto/pillar-articles",
-      "manifesto/metafam-way",
-      "manifesto/perspective", 
-      "manifesto/founders"
+    "😈 Players": [
+      "roadmap/players-of-metagame",
+      "roadmap/leaderboard"
     ],
-    
-    "🗺 Roadmap": [
-      "roadmap/tldr",
-      "roadmap/phases",
-      "roadmap/alignment2021"
+    "⚔️ Guilds": [
+      "Guilding/Guilds",
+      "Guilding/guilding-101",
+      "Guilding/building-successful-teams"
     ],
-    "🌳 Resources": [
+    "🌳 Other Stuff": [
       "resources/graphics", 
       "resources/art", 
       "resources/memes",
-      "resources/talks"
+      "resources/talks",
+      "roadmap/alignment2021"
     ],
     "About The Wiki": [
       "style-guide", 
