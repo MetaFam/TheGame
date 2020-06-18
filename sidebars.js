@@ -26,7 +26,7 @@ module.exports = {
       "roadmap/leaderboard"
     ],
     "⚔️ Guilds": [
-      "Guilding/Guilds",
+      "Guilding/guilds-of-metagame",
       "Guilding/guilding-101",
       "Guilding/building-successful-teams"
     ],
