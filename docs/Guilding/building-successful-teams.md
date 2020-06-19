@@ -1,5 +1,5 @@
 ---
-title: 👨‍👩‍👦‍👦 Building Successful Teams
+title: 🫂 Building Successful Teams
 ---
 
 # On Building Successful Teams
