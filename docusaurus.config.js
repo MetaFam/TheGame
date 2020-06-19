@@ -1,6 +1,7 @@
 module.exports = {
   title: "MetaGame Wiki",
-  tagline: "MetaGame is a society of global citizens with the aim of outgrowing nation states & zero-sum games of old economic thinking by building and promoting better alternatives; building a future we want to live in.",
+  tagline:
+    "MetaGame is a society of global citizens with the aim of outgrowing nation states & zero-sum games of old economic thinking by building and promoting better alternatives; building a future we want to live in.",
   url: "https://wiki.metagame.wtf",
   baseUrl: "/",
   favicon: "img/mg-icon.png",
@@ -11,27 +12,40 @@ module.exports = {
       title: "MetaGame Wiki",
       logo: {
         alt: "MetaGame Logo",
-        src: "img/mg-icon.png"
+        src: "img/mg-icon.png",
       },
       links: [
-        { to: "docs/introduction", label: "📕 Handbook", position: "left" },
         {
-          to: "docs/manifesto/pillar-articles",
-          label: "📜 Manifesto",
-          position: "left"
+          to: "docs/introduction",
+          label: "🤨 WTF is MetaGame?",
+          position: "left",
         },
-        { to: "docs/roadmap/phases", label: "🗺 Roadmap", position: "left" },
+        {
+          to: "docs/handbook/how-metagame-works",
+          label: "🧐 How does it work?",
+          position: "left",
+        },
+        {
+          to: "docs/roadmap/players-of-metagame",
+          label: "😈 Players",
+          position: "left",
+        },
+        {
+          to: "docs/Guilding/guilds-of-metagame",
+          label: "⚔️ Guilds",
+          position: "left",
+        },
         {
           to: "docs/resources/graphics",
-          label: "🌳 Resources",
-          position: "left"
+          label: "🌳 Other Stuff",
+          position: "left",
         },
         {
           href: "https://metagame.wtf",
           label: "Home",
-          position: "right"
-        }
-      ]
+          position: "right",
+        },
+      ],
     },
     footer: {
       style: "dark",
@@ -41,42 +55,42 @@ module.exports = {
           items: [
             {
               label: "🌌 Interspace",
-              href: "https://interspace.metagame.wtf"
+              href: "https://interspace.metagame.wtf",
             },
             {
               label: "🧬 The Source",
-              href: "https://metafam.github.io/TheSource/timeline/@metagame/"
-            }
-          ]
+              href: "https://metafam.github.io/TheSource/timeline/@metagame/",
+            },
+          ],
         },
         {
           title: "Community",
           items: [
             {
               label: "💬 Discord",
-              href: "https://discord.gg/VYZPBnx"
+              href: "https://discord.gg/VYZPBnx",
             },
             {
               label: "🧵 Forums",
-              href: "https://forum.metagame.wtf"
-            }
-          ]
+              href: "https://forum.metagame.wtf",
+            },
+          ],
         },
         {
           title: "Social",
           items: [
             {
               label: "🐦 Twitter",
-              href: "https://twitter.com/MetaFam"
+              href: "https://twitter.com/MetaFam",
             },
             {
               label: "🗞 Newsletter",
-              href: "https://metagame.substack.com"
-            }
-          ]
-        }
-      ]
-    }
+              href: "https://metagame.substack.com",
+            },
+          ],
+        },
+      ],
+    },
   },
   presets: [
     [
@@ -84,12 +98,12 @@ module.exports = {
       {
         docs: {
           sidebarPath: require.resolve("./sidebars.js"),
-          editUrl: "https://github.com/MetaFam/metagame-wiki/edit/master/"
+          editUrl: "https://github.com/MetaFam/metagame-wiki/edit/master/",
         },
         theme: {
-          customCss: require.resolve("./src/css/custom.css")
-        }
-      }
-    ]
-  ]
+          customCss: require.resolve("./src/css/custom.css"),
+        },
+      },
+    ],
+  ],
 };
