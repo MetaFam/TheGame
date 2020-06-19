@@ -1,3 +1,7 @@
+---
+title: 🏭 A Decentralized Factory
+---
+
 # Narrative 1 — A Decentralized Factory
 
 Remember the old question of “who should own the means of production”?  
