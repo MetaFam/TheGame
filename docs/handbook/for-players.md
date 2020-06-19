@@ -1,4 +1,7 @@
-﻿
+---
+title: 😈 For Players
+---
+ 
 # For Players
 
 MetaGame is for those who don’t just wait for good things to happen but play an active part in making them happen. MetaGame enters your life as a weekend hobby with a potential to turn into a career path of challenging the status-quo.
