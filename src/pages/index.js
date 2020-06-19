@@ -8,35 +8,30 @@ import styles from "./styles.module.css";
 
 const features = [
   {
-    title: <>For Players</>,
+    title: "For Players",
     imageUrl: "assets/icon-dark.png",
-    description: (
-      <>
-        Join MetaGame as a player & get help forging your path. 
-      </>
-    )
+    description: "Join MetaGame as a player & get help forging your path.",
+    linkText: "Through here",
+    linkTo: "docs/handbook/for-players",
   },
   {
-    title: <>For Guilds</>,
+    title: "For Guilds",
     imageUrl: "assets/icon-plain.png",
-    description: (
-      <>
-        Join MetaGame as a project & get support building the future.
-      </>
-    )
+    description:
+      "Join MetaGame as a project & get support building the future.",
+    linkText: "Through here",
+    linkTo: "docs/handbook/for-guilds",
   },
   {
-    title: <>Third Patrons</>,
+    title: "Third Patrons",
     imageUrl: "assets/icon-glow.png",
-    description: (
-      <>
-        Join the future by supporting MetaGame.
-      </>
-    )
-  }
+    description: "Join the future by supporting MetaGame.",
+    linkText: "Through here",
+    linkTo: "docs/handbook/for-investors",
+  },
 ];
 
-function Feature({ imageUrl, title, description }) {
+function Feature({ imageUrl, title, description, linkText, linkTo }) {
   const imgUrl = useBaseUrl(imageUrl);
   return (
     <div className={classnames("col col--4", styles.feature)}>
@@ -49,9 +44,9 @@ function Feature({ imageUrl, title, description }) {
       <p>{description}</p>
       <Link
         className="button button--primary button--outline"
-        to={useBaseUrl("docs/introduction")}
+        to={useBaseUrl(linkTo)}
       >
-        Call To Action
+        {linkText}
       </Link>
     </div>
   );
