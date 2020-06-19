@@ -1,4 +1,8 @@
-﻿# Guilding 101
+---
+title: 👨‍👩‍👦‍👦 Guilding 101
+---
+
+# Guilding 101
 
 #### Wait a minute, what even is a “guild”?
 
