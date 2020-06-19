@@ -1,4 +1,7 @@
-# Narrative 2 - A Web of Opportunity
+---
+title: 🤑 A Web of Opportunity
+---
+# A Web of Opportunity
 
 ## Intro
 
