@@ -1,4 +1,7 @@
-﻿
+---
+title: 🌒 Phases of MetaGame
+---
+
 Here’s a high level overview of how I see phases of MetaGame, [drop feedback here](https://forum.metagame.wtf/t/phases-of-metagame/147).
 
 ## **Phase I - Seed Phase** (The Decentralized Factory narrative)
