@@ -71,7 +71,7 @@ function Home() {
               className="button button--primary button--lg"
               to={useBaseUrl("docs/introduction")}
             >
-              START
+              EXPLORE
             </Link>
           </div>
         </div>
