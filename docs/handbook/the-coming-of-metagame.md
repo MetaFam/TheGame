@@ -84,7 +84,7 @@ The first _MetaGame_ presentation was held by a lake with a wooden stick pointin
 
 I traveled back home, almost missing my flight;
 
--   As soon as I had my 16 hour slumber, making amends for the pilgrimage behind me — the [MetaGame was ON](https://medium.com/@pethereum/wtf-is-metagame-93d4cd1294d2).
+-   The following day, awakening from my 16 hour slumber, MetaGame was *ON*
     
 
 And that’s how MetaGame was born;
