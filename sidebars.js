@@ -2,9 +2,6 @@ module.exports = {
   someSidebar: {
     "🤨 WTF is MetaGame?": [
       "introduction",
-      "handbook/for-players",
-      "handbook/for-guilds",
-      "handbook/for-investors",
       "handbook/in-search-of-commons-that-scale",
       "handbook/the-coming-of-metagame",
       "handbook/wtf-is-metagame",
@@ -21,8 +18,14 @@ module.exports = {
       "handbook/phases-of-metagame",
       "handbook/navigation-board",
     ],
-    "😈 Players": ["roadmap/players-of-metagame", "roadmap/leaderboard"],
+    "😈 Players": [
+      "handbook/for-players",
+      "roadmap/players-of-metagame",
+      "roadmap/leaderboard",
+      "handbook/for-investors",
+    ],
     "⚔️ Guilds": [
+      "handbook/for-guilds",
       "Guilding/guilds-of-metagame",
       "Guilding/guilding-101",
       "Guilding/building-successful-teams",
