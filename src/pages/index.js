@@ -10,22 +10,21 @@ const features = [
   {
     title: "For Players",
     imageUrl: "assets/icon-dark.png",
-    description: "Join MetaGame as a player & get help forging your path.",
+    description: "",
     linkText: "Through here",
     linkTo: "docs/handbook/for-players",
   },
   {
     title: "For Guilds",
     imageUrl: "assets/icon-plain.png",
-    description:
-      "Join MetaGame as a project & get support building the future.",
+    description: "",
     linkText: "Through here",
     linkTo: "docs/handbook/for-guilds",
   },
   {
-    title: "Third Patrons",
+    title: "For Lurkers",
     imageUrl: "assets/icon-glow.png",
-    description: "Join the future by supporting MetaGame.",
+    description: "",
     linkText: "Through here",
     linkTo: "docs/handbook/for-investors",
   },
