@@ -20,8 +20,8 @@ module.exports = {
     ],
     "😈 Players": [
       "handbook/for-players",
-      "roadmap/players-of-metagame",
-      "roadmap/leaderboard",
+      "Players/players-of-metagame",
+      "Players/leaderboard",
       "handbook/for-investors",
     ],
     "⚔️ Guilds": [

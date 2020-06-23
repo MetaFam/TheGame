@@ -26,11 +26,25 @@
   padding: 0 var(--ifm-pre-padding);
 }
 
-
 .button {
   font-family: var(--ifm-font-family-monospace);
 }
 
 .navbar .navbar__items.navbar__items--right {
   flex-grow: 0;
+}
+
+.iframe-container {
+  overflow: hidden;
+  padding-top: 56.25%;
+  position: relative;
+}
+
+.iframe-container iframe {
+  border: 0;
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
 }
