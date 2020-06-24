@@ -1,5 +1,5 @@
 ---
-title: 😈 Players of MetaGame
+title: 🐙 Players of MetaGame
 ---
 
 

@@ -13,10 +13,11 @@ module.exports = {
     "🧐 How does it work?": [
       "handbook/how-metagame-works",
       "handbook/xp",
-      "handbook/play",
       "handbook/become-a-founder-of-metagame",
       "handbook/phases-of-metagame",
-      "handbook/navigation-board",
+      "handbook/how-to-become-a-player",
+      "handbook/roles-in-metagame",
+      "handbook/navigation-board"
     ],
     "😈 Players": [
       "handbook/for-players",
