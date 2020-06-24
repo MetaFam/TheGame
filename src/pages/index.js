@@ -39,14 +39,16 @@ function Feature({ imageUrl, title, description, linkText, linkTo }) {
           <img className={styles.featureImage} src={imgUrl} alt={title} />
         </div>
       )}
-      <h3>{title}</h3>
-      <p>{description}</p>
-      <Link
-        className="button button--primary button--outline"
-        to={useBaseUrl(linkTo)}
-      >
-        {linkText}
-      </Link>
+      <div className="text--center">
+        <h3>{title}</h3>
+        <p>{description}</p>
+        <Link
+          className="button button--primary button--outline"
+          to={useBaseUrl(linkTo)}
+        >
+          {linkText}
+        </Link>
+      </div>
     </div>
   );
 }
