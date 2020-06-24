@@ -5,7 +5,7 @@ title: 🗺️ State of Raids
 
 Find what interests you then join by following the instructions below or simply contacting the person connected to the raid, through [Discord](https://discord.gg/Hf54gd8).
 
-<iframe width="1024" height="720" src="https://miro.com/app/board/o9J_ksFmLEI=/?moveToWidget=3074457348561335392&cot=13" frameborder="0" scrolling="no" allowfullscreen></iframe>
+<iframe width="1024" height="1024" src="https://miro.com/app/embed/o9J_ksFmLEI=/?" frameborder="0" scrolling="no" allowfullscreen></iframe>
 
 ## XP & Seed DAO
 This is the basis for the MetaGame's economic system. Check the XP & Seeds page to learn more.
