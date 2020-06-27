@@ -6,10 +6,11 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "start:app:dev": "tsc -w",
-    "start:backend:dev": "tsc -w",
+    "start:app:dev": "yarn watch",
+    "start:backend:dev": "yarn watch",
     "prepare": "yarn build",
-    "build": "tsc"
+    "build": "tsc",
+    "watch": "tsc"
   },
   "dependencies": {
     "ethers": "^4.0.47",

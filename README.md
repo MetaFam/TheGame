@@ -13,13 +13,32 @@ yarn
 
 ### Bootstrap
 
+Create your local .env file
+
 ```shell script
 cp .env.sample .env
+```
+
+### Run services
+
+Start backend services
+
+```shell script
 yarn docker:start
 ```
 
-If you want to locally start the backend server (not in docker) for development purposes, you can set this variable in the .env file:
-`HASURA_GRAPHQL_AUTH_HOOK=http://host.docker.internal:4000/auth-webhook`
+If you want to locally start the backend server (not in docker) for development purposes: 
+ 
+```shell script
+yarn start:backend:dev
+```
+
+Set this variables in the .env file:
+```
+HASURA_GRAPHQL_AUTH_HOOK=http://host.docker.internal:4000/auth-webhook
+HASURA_ACTION_BASE_ENDPOINT=http://host.docker.internal:4000/actions
+```
+
 ### Tooling
 
 Start Hasura console
@@ -47,7 +66,7 @@ yarn generate
 
 ```shell script
 yarn docker:clean
-yarn docker:start:local
+yarn docker:start
 ```
 
 ### Run typechecks
