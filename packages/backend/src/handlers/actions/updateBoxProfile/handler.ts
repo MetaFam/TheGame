@@ -43,11 +43,11 @@ const handler = async (req: Request, res: Response) => {
     throw new Error('expected role player');
   }
 
-  const result = await hasuraQuery(getPlayerQuery, {
+  const data = await hasuraQuery(getPlayerQuery, {
     playerId,
   });
 
-  const player = result.Player[0];
+  const player = data.Player[0];
   if(!player) {
     throw new Error('unknown-player');
   }
@@ -55,16 +55,13 @@ const handler = async (req: Request, res: Response) => {
   const ethAddress = getPlayerETHAddress(player);
   const boxProfile = await Box.getProfile(ethAddress);
   const verifiedProfile = await Box.getVerifiedAccounts(boxProfile);
-  const updatedProfiles = await updateVerifiedProfiles(playerId, verifiedProfile);
+  const result = await updateVerifiedProfiles(playerId, verifiedProfile);
 
-  res.json({
-    success: true,
-    updatedProfiles,
-  });
+  res.json(result);
 
 };
 
-async function updateVerifiedProfiles(playerId: string, verifiedProfiles: any) {
+async function updateVerifiedProfiles(playerId: string, verifiedProfiles: any): Promise<UpdateBoxProfileResponse> {
   const updatedProfiles: string[] = [];
 
   if(verifiedProfiles.github) {
@@ -101,7 +98,10 @@ async function updateVerifiedProfiles(playerId: string, verifiedProfiles: any) {
     updatedProfiles.push('twitter');
   }
 
-  return updatedProfiles;
+  return {
+    success: true,
+    updatedProfiles,
+  };
 }
 
 export default handler;
