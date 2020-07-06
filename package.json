@@ -5,6 +5,7 @@
   "private": true,
   "scripts": {
     "build": "lerna run build",
+    "build:app": "CI=true lerna run --parallel build:app",
     "start:app:dev": "CI=true lerna run --parallel start:app:dev",
     "start:backend": "lerna run --scope @the-game/backend --stream start:backend",
     "start:backend:dev": "lerna run --parallel start:backend:dev",

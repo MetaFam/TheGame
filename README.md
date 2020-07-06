@@ -35,6 +35,17 @@ yarn docker:stop
 - Stops all the containers
 
 
+If you want to locally start the backend server (not in docker) for development purposes: 
+ 
+```shell script
+yarn start:backend:dev
+```
+
+Set this variable in the .env file:
+```
+BACKEND_URL=http://host.docker.internal:4000
+```
+
 ### Tooling
 
 Start Hasura console
