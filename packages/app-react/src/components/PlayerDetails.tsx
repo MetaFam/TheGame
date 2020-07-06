@@ -39,7 +39,7 @@ export default function PlayerDetails({ player }: { player: any }) {
 
   const goToEditBoxProfile = useCallback(() => {
     window.open(`https://3box.io/${ethAddress}/edit`)
-  }, []);
+  }, [ethAddress]);
 
   const editUserName = useCallback(() => {
     // TODO Apollo does not updates caches as it expects that the mutation returns an object with id, but hasura returns { returning: [{id}] }
@@ -50,13 +50,13 @@ export default function PlayerDetails({ player }: { player: any }) {
     }).then(res =>
       console.log('updated username', res.data)
     );
-  }, [usernameInput]);
+  }, [usernameInput, updateUsername]);
 
   const updateAccounts = useCallback(() => {
     updateBoxProfiles().then(res =>
       console.log('updated verified profiles', res.data.updateBoxProfile.updatedProfiles)
     );
-  }, []);
+  }, [updateBoxProfiles]);
 
   return (
     <Box>
@@ -71,7 +71,7 @@ export default function PlayerDetails({ player }: { player: any }) {
         <div>
           <p><b>Name:</b> {boxProfile.name}</p>
           <p><b>Description:</b> {boxProfile.description}</p>
-          <img src={getProfilePicture(boxProfile)} width={100} alt="profile-image"/>
+          <img src={getProfilePicture(boxProfile)} width={100} alt="profile"/>
         </div>
         :
         <p>Loading box profile</p>

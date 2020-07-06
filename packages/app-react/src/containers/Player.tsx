@@ -7,7 +7,7 @@ import PlayerDetails from '../components/PlayerDetails';
 
 import queries from "../graphql/queries";
 
-export const Player: React.FC = ({}) => {
+export const Player: React.FC = () => {
   const { playerId } = useParams();
   const { data, loading, error } = useQuery(queries.get_Player, {
     variables: {
