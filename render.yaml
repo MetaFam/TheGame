@@ -32,11 +32,11 @@ services:
     dockerContext: .
     envVars:
       - fromGroup: hasura-secrets
-      - key: GRAPHQL_SERVER
+      - key: GRAPHQL_HOST
         fromService:
           name: hasura
           type: web
-          property: hostport
+          property: host
 
   # Frontend
   - type: web
@@ -52,7 +52,7 @@ services:
     envVars:
       - key: REACT_APP_INFURA_ID
         sync: false
-      - key: REACT_APP_GRAPHQL_SERVER
+      - key: REACT_APP_GRAPHQL_URL
         sync: false
 
 databases:
