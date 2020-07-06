@@ -35,7 +35,7 @@ yarn docker:stop
 - Stops all the containers
 
 
-If you want to locally start the backend server (not in docker) for development purposes: 
+If you want to locally start the backend server (not in Docker) for debugging purposes: 
  
 ```shell script
 yarn start:backend:dev
