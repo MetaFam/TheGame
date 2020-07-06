@@ -31,6 +31,15 @@ services:
     build:
       context: .
       dockerfile: ./docker/backend/Dockerfile
+      target: base
+    command: yarn start:backend:dev
+    volumes:
+      - ./packages/@types:/usr/src/app/packages/@types
+      - ./packages/backend:/usr/src/app/packages/backend
+      - ./packages/utils:/usr/src/app/packages/utils
+      - ./package.json:/usr/src/app/package.json
+      - ./tsconfig.base.json:/usr/src/app/tsconfig.base.json
+      - ./yarn.lock:/usr/src/app/yarn.lock
     environment:
       PORT: 4000
       GRAPHQL_URL: http://hasura:8080/v1/graphql

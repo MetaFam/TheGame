@@ -10,7 +10,7 @@
     "start:backend:dev": "yarn watch",
     "prepare": "yarn build",
     "build": "tsc",
-    "watch": "tsc"
+    "watch": "tsc -w"
   },
   "dependencies": {
     "ethers": "^4.0.47",

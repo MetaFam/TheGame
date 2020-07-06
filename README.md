@@ -21,23 +21,19 @@ cp .env.sample .env
 
 ### Run services
 
-Start backend services
-
+**Start backend services**
 ```shell script
 yarn docker:start
 ```
+- Runs docker containers for backend, Hasura Engine, and PostGres database
+- will auto-restart on any changes to `packages/backend` and `packages/utils`
 
-If you want to locally start the backend server (not in docker) for development purposes: 
- 
+**Stop backend services**
 ```shell script
-yarn start:backend:dev
+yarn docker:stop
 ```
+- Stops all the containers
 
-Set this variables in the .env file:
-```
-HASURA_GRAPHQL_AUTH_HOOK=http://host.docker.internal:4000/auth-webhook
-HASURA_ACTION_BASE_ENDPOINT=http://host.docker.internal:4000/actions
-```
 
 ### Tooling
 
