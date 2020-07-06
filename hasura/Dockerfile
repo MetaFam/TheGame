@@ -5,21 +5,25 @@ RUN chmod +x /wait
 
 ## Default setup
 
+ARG BACKEND_URL
+ARG AUTH_HOOK_PATH=auth-webhook
+ARG ACTION_BASE_PATH=actions
+
+ENV HASURA_GRAPHQL_ENABLE_CONSOLE false
+ENV HASURA_GRAPHQL_DEV_MODE false
 ENV HASURA_GRAPHQL_ENABLE_TELEMETRY false
 ENV HASURA_GRAPHQL_ENABLED_LOG_TYPES startup, http-log, webhook-log, websocket-log, query-log
+ENV HASURA_GRAPHQL_AUTH_HOOK $BACKEND_URL/$AUTH_HOOK_PATH
+ENV ACTION_BASE_ENDPOINT $BACKEND_URL/$ACTION_BASE_PATH
 
 ## Migrations
 
 COPY migrations /hasura-migrations
 COPY metadata /hasura-metadata
 COPY seeds /hasura-seeds
-ENV HASURA_GRAPHQL_MIGRATIONS_DATABASE_ENV_VAR DATABASE_URL
 
 ## Execution
 
 ENTRYPOINT ["/bin/sh", "-c", "/wait && /bin/docker-entrypoint.sh /bin/sh \"$@\""]
 
-CMD graphql-engine \
-  --database-url $DATABASE_URL \
-  serve \
-  --server-port $PORT
+CMD graphql-engine serve --server-port $PORT

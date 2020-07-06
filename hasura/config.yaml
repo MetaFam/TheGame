@@ -12,4 +12,4 @@ migrations_directory: migrations
 seeds_directory: seeds
 actions:
   kind: synchronous
-  handler_webhook_baseurl: http://backend:4000/actions
+  handler_webhook_baseurl: '{{ACTION_BASE_ENDPOINT}}'

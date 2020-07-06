@@ -1,0 +1,57 @@
+services:
+  # A Docker web service
+  - type: web
+    name: hasura
+    env: docker
+    healthCheckPath: /healthz
+    numInstances: 1
+    dockerfilePath: ./hasura/Dockerfile
+    dockerContext: ./hasura
+    envVars:
+      - fromGroup: hasura-env
+      - key: HASURA_GRAPHQL_DATABASE_URL
+        fromDatabase:
+          name: metagame-db
+          property: connectionString
+      - key: BACKEND_URL
+        fromService:
+          name: backend
+          type: pserv
+          property: hostport
+
+  # backend
+  - type: pserv
+    name: backend
+    env: docker
+    numInstances: 1
+    dockerfilePath: ./docker/backend/Dockerfile
+    dockerContext: .
+    envVars:
+      - fromGroup: hasura-env
+      - key: GRAPHQL_SERVER
+          fromService:
+            name: hasura
+            type: web
+            property: hostport
+
+  # Frontend
+  - type: web
+    name: app-react
+    env: static
+    buildCommand: yarn build
+    staticPublishPath: ./packages/app-react/build
+    pullRequestPreviewsEnabled: true
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index
+
+databases:
+  - name: metagame-db
+    plan: starter
+
+envVarGroups:
+  - name: hasura-env
+    envVars:
+      - key: HASURA_GRAPHQL_ADMIN_SECRET
+        generateValue: true

@@ -3,7 +3,12 @@ version: '3.6'
 
 services:
   hasura:
-    build: ./hasura
+    build:
+      context: ./hasura
+      args:
+        BACKEND_URL: ${BACKEND_URL:-http://backend:4000}
+        AUTH_HOOK_PATH: auth-webhook
+        ACTION_BASE_PATH: actions
     depends_on:
       - database
     ports:
@@ -11,12 +16,9 @@ services:
     environment:
       WAIT_HOSTS: database:5432
       PORT: 8080
-      DATABASE_URL: postgres://${DATABASE_USER}:${DATABASE_PASSWORD}@database:5432/${DATABASE_NAME}
+      HASURA_GRAPHQL_DATABASE_URL: postgres://${DATABASE_USER}:${DATABASE_PASSWORD}@database:5432/${DATABASE_NAME}
       HASURA_GRAPHQL_ADMIN_SECRET: ${HASURA_GRAPHQL_ADMIN_SECRET}
-      HASURA_GRAPHQL_AUTH_HOOK: ${HASURA_GRAPHQL_AUTH_HOOK:-http://backend:4000/auth-webhook}
       HASURA_GRAPHQL_DEV_MODE: ${HASURA_GRAPHQL_DEV_MODE:-false}
-      HASURA_GRAPHQL_ENABLE_CONSOLE: ${HASURA_GRAPHQL_ENABLE_CONSOLE:-false}
-      ACTION_BASE_ENDPOINT: ${HASURA_ACTION_BASE_ENDPOINT:-http://backend:4000/actions}
 
   database:
     image: postgres:12
@@ -42,7 +44,7 @@ services:
       - ./yarn.lock:/usr/src/app/yarn.lock
     environment:
       PORT: 4000
-      GRAPHQL_URL: http://hasura:8080/v1/graphql
+      GRAPHQL_SERVER: http://hasura:8080
       HASURA_GRAPHQL_ADMIN_SECRET: ${HASURA_GRAPHQL_ADMIN_SECRET}
 
 volumes:
