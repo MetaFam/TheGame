@@ -6,6 +6,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
+    "build:app": "yarn build",
     "start:app:dev": "yarn watch",
     "start:backend:dev": "yarn watch",
     "prepare": "yarn build",

@@ -43,7 +43,7 @@ yarn start:backend:dev
 
 Set this variable in the .env file:
 ```
-BACKEND_URL=http://host.docker.internal:4000
+BACKEND_HOST=host.docker.internal:4000
 ```
 
 ### Tooling

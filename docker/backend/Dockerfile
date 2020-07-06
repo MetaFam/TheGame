@@ -1,6 +1,8 @@
 FROM node:12 as base
 WORKDIR /usr/src/app
 
+ENV HASURA_GRAPHQL_ADMIN_SECRET metagame_secret
+
 # Install dependencies for dev and prod
 COPY package.json .
 COPY lerna.json .

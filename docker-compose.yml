@@ -6,7 +6,7 @@ services:
     build:
       context: ./hasura
       args:
-        BACKEND_URL: ${BACKEND_URL:-http://backend:4000}
+        BACKEND_HOST: ${BACKEND_HOST:-backend:4000}
         AUTH_HOOK_PATH: auth-webhook
         ACTION_BASE_PATH: actions
     depends_on:
