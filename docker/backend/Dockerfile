@@ -1,8 +1,7 @@
-FROM node:12
-
+FROM node:12 as base
 WORKDIR /usr/src/app
 
-# Install production dependencies
+# Install dependencies for dev and prod
 COPY package.json .
 COPY lerna.json .
 COPY yarn.lock .
@@ -10,8 +9,11 @@ COPY tsconfig.base.json .
 COPY packages/backend/*.json ./packages/backend/
 COPY packages/utils/*.json ./packages/utils/
 
-# Install all dependencies
 RUN yarn install --pure-lockfile
+
+
+# Dev environment doesn't run this stage or beyond
+FROM base as build
 
 # Copy source files
 COPY packages/backend ./packages/backend/
