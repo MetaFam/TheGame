@@ -44,7 +44,7 @@ services:
       - ./yarn.lock:/usr/src/app/yarn.lock
     environment:
       PORT: 4000
-      GRAPHQL_SERVER: http://hasura:8080
+      GRAPHQL_URL: http://hasura:8080/v1/graphql
       HASURA_GRAPHQL_ADMIN_SECRET: ${HASURA_GRAPHQL_ADMIN_SECRET}
 
 volumes:
