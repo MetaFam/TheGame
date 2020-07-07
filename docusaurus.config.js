@@ -36,8 +36,8 @@ module.exports = {
           position: "left",
         },
         {
-          to: "docs/resources/graphics",
-          label: "🌳 Other Stuff",
+          to: "theroom",
+          label: "🏠 The Room",
           position: "left",
         },
         {
