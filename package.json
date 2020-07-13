@@ -28,10 +28,11 @@
     "packages/*"
   ],
   "devDependencies": {
-    "husky": "^4.2.5",
-    "lint-staged": "^10.2.11",
     "hasura-cli": "1.2.1",
+    "husky": "^4.2.5",
     "lerna": "^3.16.4",
+    "lint-staged": "^10.2.11",
+    "prettier": "^2.0.5",
     "typescript": "^3.9.6"
   }
 }

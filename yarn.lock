@@ -18370,6 +18370,11 @@ prepost@^1.1.0:
   resolved "https://registry.yarnpkg.com/prepost/-/prepost-1.1.0.tgz#6131567ab6fe3007b50762679f4b500e93e8ccbf"
   integrity sha512-HhwOYePY0JXrbqAHm0fGWdSBFqGAMCJvdTaKGxO7uO6S0cbdxXeTnMWDkgAJDS+6kXATaV3n0C0EGI6tR+nqQA==
 
+prettier@^2.0.5:
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.0.5.tgz#d6d56282455243f2f92cc1716692c08aa31522d4"
+  integrity sha512-7PtVymN48hGcO4fGjybyBSIWDsLU4H4XlvOHfq91pz9kkGlonzwTfYkaIEwiRg/dAJF9YlbsduBAgtYLi+8cFg==
+
 pretty-bytes@^5.1.0, pretty-bytes@^5.3.0:
   version "5.3.0"
   resolved "https://registry.yarnpkg.com/pretty-bytes/-/pretty-bytes-5.3.0.tgz#f2849e27db79fb4d6cfe24764fc4134f165989f2"
