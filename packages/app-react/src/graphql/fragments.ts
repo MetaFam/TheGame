@@ -1,16 +1,12 @@
-const fragments: any = {};
-
-fragments.PlayerFragment = `
+export const PlayerFragment = `
 fragment PlayerFragment on Player {
   id
   username
 }
 `;
-fragments.AccountFragment = `
+export const AccountFragment = `
 fragment AccountFragment on Account {
   identifier
   type
 }
 `;
-
-export default fragments;

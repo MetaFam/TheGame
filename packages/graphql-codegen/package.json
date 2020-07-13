@@ -10,6 +10,9 @@
     "generate": "yarn get-schema && graphql-codegen --config=graphql-codegen-gql.yaml && graphql-codegen --config=graphql-codegen-typescript.yaml",
     "typecheck": "echo noop"
   },
+  "dependencies": {
+    "graphql-tag": "^2.10.4"
+  },
   "devDependencies": {
     "@graphql-codegen/cli": "^1.13.2",
     "@graphql-codegen/introspection": "^1.13.2",

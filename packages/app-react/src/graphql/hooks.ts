@@ -1,13 +1,12 @@
+import { useLazyQuery, useQuery } from '@apollo/react-hooks';
 import { useEffect } from 'react';
 
-import { useQuery, useLazyQuery } from '@apollo/react-hooks';
-
 import { localQueries } from '../apollo';
-import queries from './queries';
+import { GetPlayer } from './queries';
 
 export function useMyPlayer() {
   const authStateQuery = useQuery(localQueries.get_authState);
-  const [getMyPlayer, myPlayerQuery] = useLazyQuery(queries.get_Player);
+  const [getMyPlayer, myPlayerQuery] = useLazyQuery(GetPlayer);
 
   const playerId = authStateQuery.data?.playerId;
 

@@ -1,14 +1,14 @@
-import React, { createContext, useCallback, useEffect, useState } from 'react';
+import { useApolloClient } from '@apollo/react-hooks';
+import { did } from '@metafam/utils';
 import WalletConnectProvider from '@walletconnect/web3-provider';
-import Web3Modal from 'web3modal';
-import Web3 from 'web3';
 import { ethers } from 'ethers';
 import { AsyncSendable, Web3Provider } from 'ethers/providers';
-import { useApolloClient } from '@apollo/react-hooks';
+import React, { createContext, useCallback, useEffect, useState } from 'react';
+import Web3 from 'web3';
+import Web3Modal from 'web3modal';
 
-import config from '../config';
-import { did } from '@metafam/utils';
-import { loginLoading, login, logout, getTokenFromStore } from '../apollo/auth';
+import { getTokenFromStore, login, loginLoading, logout } from '../apollo/auth';
+import { CONFIG } from '../config';
 
 type Web3ContextType = {
   ethersProvider: Web3Provider | null;
@@ -26,7 +26,7 @@ const providerOptions = {
   walletconnect: {
     package: WalletConnectProvider,
     options: {
-      infuraId: config.infuraId,
+      infuraId: CONFIG.infuraId,
     },
   },
 };
@@ -37,7 +37,7 @@ const web3Modal = new Web3Modal({
   providerOptions,
 });
 
-const Web3ContextProvider: React.FC = (props) => {
+export const Web3ContextProvider: React.FC = ({ children }) => {
   const apolloClient = useApolloClient();
 
   const [ethersProvider, setEthersProvider] = useState<Web3Provider | null>(
@@ -45,14 +45,14 @@ const Web3ContextProvider: React.FC = (props) => {
   );
 
   const connectDID = useCallback(
-    async (ethersProvider: Web3Provider) => {
+    async (provider: Web3Provider) => {
       let token = getTokenFromStore();
 
       if (!token) {
-        token = await did.createToken(ethersProvider);
+        token = await did.createToken(provider);
       }
 
-      const signer = ethersProvider.getSigner();
+      const signer = provider.getSigner();
       const address = await signer.getAddress();
       await login(apolloClient, token, address);
     },
@@ -63,15 +63,15 @@ const Web3ContextProvider: React.FC = (props) => {
     try {
       loginLoading(apolloClient);
 
-      const provider = await web3Modal.connect();
+      const modalProvider = await web3Modal.connect();
 
-      const web3Provider = new Web3(provider);
-      const ethersProvider = new ethers.providers.Web3Provider(
+      const web3Provider = new Web3(modalProvider);
+      const provider = new ethers.providers.Web3Provider(
         web3Provider.currentProvider as AsyncSendable,
       );
-      await connectDID(ethersProvider);
+      await connectDID(provider);
 
-      setEthersProvider(ethersProvider);
+      setEthersProvider(provider);
     } catch (e) {
       loginLoading(apolloClient, false);
       throw e;
@@ -91,9 +91,7 @@ const Web3ContextProvider: React.FC = (props) => {
 
   return (
     <Web3Context.Provider value={{ ethersProvider, connectWeb3, disconnect }}>
-      {props.children}
+      {children}
     </Web3Context.Provider>
   );
 };
-
-export default Web3ContextProvider;
