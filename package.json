@@ -1,7 +1,10 @@
 {
   "name": "@the-game/monorepo",
   "version": "0.1.0",
-  "license": "MIT",
+  "license": "GPL-3.0",
+  "engines": {
+    "node": ">=12"
+  },
   "private": true,
   "scripts": {
     "build": "lerna run build",
@@ -17,13 +20,20 @@
     "hasura:migrate:init": "npm run hasura migrate create \"init\" -- --from-server",
     "hasura:migrate:apply": "npm run hasura migrate apply",
     "test": "cd packages/tests && yarn test && cd ../..",
-    "typecheck": "yarn workspaces run typecheck"
+    "typecheck": "yarn workspaces run typecheck",
+    "precommit": "lerna run --concurrency 1 --stream precommit",
+    "prepush": "yarn typecheck"
   },
   "workspaces": [
     "packages/*"
   ],
   "dependencies": {
+  },
+  "devDependencies": {
+    "husky": "^4.2.5",
+    "lint-staged": "^10.2.11",
+    "hasura-cli": "1.2.1",
     "lerna": "^3.16.4",
-    "hasura-cli": "1.2.1"
+    "typescript": "^3.9.6"
   }
 }

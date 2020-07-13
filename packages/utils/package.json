@@ -16,7 +16,6 @@
   "dependencies": {
     "ethers": "^4.0.47",
     "js-base64": "^2.5.2",
-    "typescript": "^3.8.3",
     "uuid": "^8.0.0"
   },
   "devDependencies": {
