@@ -1,5 +1,5 @@
 {
-  "name": "@the-game/graphql-codegen",
+  "name": "@metafam/graphql-codegen",
   "version": "1.0.0",
   "license": "MIT",
   "engines": {

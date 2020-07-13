@@ -38,7 +38,7 @@ yarn docker:stop
 If you want to locally start the backend server (not in Docker) for debugging purposes: 
  
 ```shell script
-yarn start:backend:dev
+yarn backend:dev
 ```
 
 Set this variable in the .env file:

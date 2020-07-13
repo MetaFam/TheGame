@@ -1,12 +1,12 @@
 import { Request, Response } from 'express';
-import { did } from '@the-game/utils';
+import { did } from '@metafam/utils';
 import { getPlayer } from './users';
 
 const unauthorizedVariables = {
   'X-Hasura-Role': 'public',
 };
 
-function getHeaderToken(req: Request): string | null {
+function getHeaderToken(req: Request): string | null {
   const authHeader = req.headers['authorization'];
   if(!authHeader) return null;
   const token = authHeader.replace('Bearer ', '');
