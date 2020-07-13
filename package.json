@@ -20,6 +20,7 @@
     "hasura:migrate:apply": "npm run hasura migrate apply",
     "test": "lerna run test --parallel",
     "clean": "lerna clean",
+    "format": "prettier --ignore-path .gitignore --write \"{*,**/*}.{ts,tsx,js,json,yml,yaml,md}\"",
     "typecheck": "lerna run --parallel typecheck",
     "precommit": "lerna run --concurrency 1 --stream precommit",
     "prepush": "yarn typecheck"

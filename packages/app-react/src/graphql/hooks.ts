@@ -12,7 +12,7 @@ export function useMyPlayer() {
   const playerId = authStateQuery.data?.playerId;
 
   useEffect(() => {
-    if(playerId) {
+    if (playerId) {
       getMyPlayer({
         variables: {
           player_id: playerId,

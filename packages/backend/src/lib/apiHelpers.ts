@@ -2,11 +2,20 @@ import { Request, Response, NextFunction } from 'express';
 
 export function asyncHandlerWrapper(middleware: any) {
   if (middleware.length === 4) {
-    return function wrappedHandler(error: Error, req: Request, res: Response, next: NextFunction) {
+    return function wrappedHandler(
+      error: Error,
+      req: Request,
+      res: Response,
+      next: NextFunction,
+    ) {
       middleware(error, req, res, next).catch(next);
     };
   }
-  return function wrappedHandler(req: Request, res: Response, next: NextFunction) {
+  return function wrappedHandler(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) {
     middleware(req, res, next).catch(next);
   };
 }

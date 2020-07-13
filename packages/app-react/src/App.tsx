@@ -1,7 +1,7 @@
 import React from 'react';
 import { ApolloProvider } from '@apollo/react-hooks';
 import { CssBaseline } from '@material-ui/core';
-import { BrowserRouter as Router } from "react-router-dom";
+import { BrowserRouter as Router } from 'react-router-dom';
 
 import { createApolloClient } from './apollo';
 
@@ -16,10 +16,10 @@ function App() {
   return (
     <ApolloProvider client={apolloClient}>
       <Web3ContextProvider>
-        <CssBaseline/>
+        <CssBaseline />
         <Router>
-          <Header/>
-          <Routes/>
+          <Header />
+          <Routes />
         </Router>
       </Web3ContextProvider>
     </ApolloProvider>

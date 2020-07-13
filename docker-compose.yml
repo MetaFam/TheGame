@@ -49,4 +49,3 @@ services:
 
 volumes:
   database:
-...

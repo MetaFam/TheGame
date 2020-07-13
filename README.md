@@ -2,7 +2,6 @@
 
 Monorepo for the MetaGame applications, backend and databases.
 
-
 ## Development
 
 ### Install Packages
@@ -22,26 +21,30 @@ cp .env.sample .env
 ### Run services
 
 **Start backend services**
+
 ```shell script
 yarn docker:start
 ```
+
 - Runs docker containers for backend, Hasura Engine, and PostGres database
 - will auto-restart on any changes to `packages/backend` and `packages/utils`
 
 **Stop backend services**
+
 ```shell script
 yarn docker:stop
 ```
+
 - Stops all the containers
 
+If you want to locally start the backend server (not in Docker) for debugging purposes:
 
-If you want to locally start the backend server (not in Docker) for debugging purposes: 
- 
 ```shell script
 yarn backend:dev
 ```
 
 Set this variable in the .env file:
+
 ```
 BACKEND_HOST=host.docker.internal:4000
 ```

@@ -1,7 +1,7 @@
 import express from 'express';
-import bodyParser  from 'body-parser';
+import bodyParser from 'body-parser';
 
-import config  from './config';
+import config from './config';
 
 import routes from './handlers/routes';
 import { errorMiddleware } from './lib/apiHelpers';
@@ -15,5 +15,5 @@ app.use(routes);
 app.use(errorMiddleware);
 
 app.listen(config.port, function () {
-  console.log(`Listening on port ${config.port}`)
+  console.log(`Listening on port ${config.port}`);
 });
