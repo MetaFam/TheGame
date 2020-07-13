@@ -8,12 +8,28 @@ CREATE TYPE account_type AS ENUM (
   'DISCOURSE'
 );
 
+CREATE TYPE enneagram_type AS ENUM (
+  'REFORMER',
+  'HELPER',
+  'ACHIEVER',
+  'INDIVIDUALIST',
+  'INVESTIGATOR',
+  'LOYALIST',
+  'ENTHUSIAST',
+  'CHALLENGER',
+  'PEACEMAKER'
+);
+
 -- Tables
 
 CREATE TABLE "Player" (
   "id" uuid DEFAULT public.gen_random_uuid() NOT NULL,
   "username" text NOT NULL,
-  "totalXp" numeric DEFAULT 0
+  "totalXp" numeric DEFAULT 0,
+  "role" text,
+  "timezone" int,
+  "enneagram" enneagram_type,
+  "skills" text[]
 );
 
 CREATE TABLE "Account" (

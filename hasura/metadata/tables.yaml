@@ -54,6 +54,10 @@
       - id
       - totalXp
       - username
+      - enneagram
+      - role
+      - skills
+      - timezone
       filter: {}
   - role: public
     permission:
@@ -61,12 +65,20 @@
       - id
       - totalXp
       - username
+      - enneagram
+      - role
+      - skills
+      - timezone
       filter: {}
   update_permissions:
   - role: player
     permission:
       columns:
       - username
+      - enneagram
+      - role
+      - skills
+      - timezone
       filter:
         id:
           _eq: X-Hasura-User-Id
