@@ -17,22 +17,27 @@ export function createApolloClient() {
   async function authMiddleware(operation) {
     const queryLogin = client.readQuery({ query: localQueries.get_authState });
 
-    if(queryLogin.authToken) {
+    if (queryLogin.authToken) {
       operation.setContext({
         headers: {
-          'authorization': `Bearer ${queryLogin.authToken}`,
+          authorization: `Bearer ${queryLogin.authToken}`,
         },
       });
     }
   }
 
-
-  function onErrorMiddleware({ networkError = {}, graphQLErrors = {}, operation }) {
-    if (networkError.statusCode === 401 || graphQLErrors[0]?.extensions?.code === 'invalid-jwt') {
+  function onErrorMiddleware({
+    networkError = {},
+    graphQLErrors = {},
+    operation,
+  }) {
+    if (
+      networkError.statusCode === 401 ||
+      graphQLErrors[0]?.extensions?.code === 'invalid-jwt'
+    ) {
       console.error('Authentication error, login out');
       logout(client);
-    }
-    else {
+    } else {
       console.error('GraphQL request error:', networkError);
     }
   }
@@ -48,9 +53,8 @@ export function createApolloClient() {
   });
 
   client.onResetStore(() => {
-    client.writeData({ data: defaultClientState })
+    client.writeData({ data: defaultClientState });
   });
-
 
   return client;
 }

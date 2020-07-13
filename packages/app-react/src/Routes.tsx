@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Route, Redirect } from "react-router-dom";
+import { Switch, Route, Redirect } from 'react-router-dom';
 
 import { Home } from './containers/Home';
 import { Player } from './containers/Player';
@@ -13,7 +13,7 @@ export default function Routes() {
       <Route path="/player/:playerId">
         <Player />
       </Route>
-      <Redirect to="/"/>
+      <Redirect to="/" />
     </Switch>
   );
 }

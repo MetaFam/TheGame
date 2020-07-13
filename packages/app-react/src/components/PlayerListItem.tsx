@@ -7,7 +7,9 @@ export default function PlayerListItem({ player }: { player: any }) {
   return (
     <Box>
       {player.username}
-      <Link to={`/player/${player.id}`}><button>View player</button></Link>
+      <Link to={`/player/${player.id}`}>
+        <button>View player</button>
+      </Link>
     </Box>
-  )
+  );
 }

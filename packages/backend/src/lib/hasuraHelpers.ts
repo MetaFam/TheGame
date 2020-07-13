@@ -13,7 +13,7 @@ export async function hasuraQuery(query: string, qv: any = {}) {
 
   const { errors, data } = await result.json();
 
-  if(errors) {
+  if (errors) {
     throw new Error(JSON.stringify(errors));
   }
   return data;

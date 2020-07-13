@@ -1,5 +1,5 @@
-import { ethers } from "ethers";
-import { Web3Provider } from "ethers/providers";
+import { ethers } from 'ethers';
+import { Web3Provider } from 'ethers/providers';
 import { Base64 } from 'js-base64';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -27,7 +27,6 @@ export async function createToken(provider: Web3Provider) {
   return DIDToken;
 }
 
-
 export function getSignerAddress(token: string): any {
   try {
     const rawToken = Base64.decode(token);
@@ -47,7 +46,7 @@ export function verifyToken(token: string): any {
     const claim = JSON.parse(rawClaim);
 
     const signerAddress = ethers.utils.verifyMessage(rawClaim, proof);
-    if(signerAddress !== claim.iss) {
+    if (signerAddress !== claim.iss) {
       return null;
     }
     return claim;

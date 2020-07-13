@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import {hasuraQuery} from "../../../lib/hasuraHelpers";
-import {getPlayerETHAddress} from "../../../lib/playerHelpers";
+import { hasuraQuery } from '../../../lib/hasuraHelpers';
+import { getPlayerETHAddress } from '../../../lib/playerHelpers';
 import Box from '3box';
 
 const getPlayerQuery = `
@@ -34,12 +34,11 @@ mutation upsert_Account($objects: [Account_insert_input!]!) {
 `;
 
 const handler = async (req: Request, res: Response) => {
-
   const { session_variables } = req.body;
   const role = session_variables['x-hasura-role'];
   const playerId = session_variables['x-hasura-user-id'];
 
-  if(role !== 'player') {
+  if (role !== 'player') {
     throw new Error('expected role player');
   }
 
@@ -48,7 +47,7 @@ const handler = async (req: Request, res: Response) => {
   });
 
   const player = data.Player[0];
-  if(!player) {
+  if (!player) {
     throw new Error('unknown-player');
   }
 
@@ -58,13 +57,15 @@ const handler = async (req: Request, res: Response) => {
   const result = await updateVerifiedProfiles(playerId, verifiedProfile);
 
   res.json(result);
-
 };
 
-async function updateVerifiedProfiles(playerId: string, verifiedProfiles: any): Promise<UpdateBoxProfileResponse> {
+async function updateVerifiedProfiles(
+  playerId: string,
+  verifiedProfiles: any,
+): Promise<UpdateBoxProfileResponse> {
   const updatedProfiles: string[] = [];
 
-  if(verifiedProfiles.github) {
+  if (verifiedProfiles.github) {
     const result = await hasuraQuery(upsertAccount, {
       objects: [
         {
@@ -72,16 +73,16 @@ async function updateVerifiedProfiles(playerId: string, verifiedProfiles: any): 
           type: 'GITHUB',
           identifier: verifiedProfiles.github.username,
           linkToProof: verifiedProfiles.github.proof,
-        }
+        },
       ],
     });
-    if(result.affected_rows === 0) {
+    if (result.affected_rows === 0) {
       throw new Error('Error while upserting github profile');
     }
     updatedProfiles.push('github');
   }
 
-  if(verifiedProfiles.twitter) {
+  if (verifiedProfiles.twitter) {
     const result = await hasuraQuery(upsertAccount, {
       objects: [
         {
@@ -89,10 +90,10 @@ async function updateVerifiedProfiles(playerId: string, verifiedProfiles: any): 
           type: 'TWITTER',
           identifier: verifiedProfiles.twitter.username,
           linkToProof: verifiedProfiles.twitter.proof,
-        }
+        },
       ],
     });
-    if(result.affected_rows === 0) {
+    if (result.affected_rows === 0) {
       throw new Error('Error while upserting github profile');
     }
     updatedProfiles.push('twitter');

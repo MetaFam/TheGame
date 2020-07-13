@@ -16,9 +16,6 @@
     "experimentalDecorators": true,
     "sourceMap": true,
     "allowSyntheticDefaultImports": true,
-    "typeRoots": [
-      "packages/types",
-      "node_modules/@types"
-    ]
+    "typeRoots": ["packages/types", "node_modules/@types"]
   }
 }

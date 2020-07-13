@@ -4,7 +4,7 @@ overwrite: true
 config:
   scalars:
     DateTime: Date
-    JSON: "{ [key: string]: any }"
+    JSON: '{ [key: string]: any }'
 generates:
   ./autogen/index.tsx:
     documents:
@@ -28,7 +28,7 @@ generates:
       - graphql-codegen-hasura-typescript
     config:
       reactApolloVersion: 3
-      typescriptCodegenOutputPath: "../"
+      typescriptCodegenOutputPath: '../'
       trimString:
       withClientAndCacheHelpers: true
       withQueries: true
@@ -43,7 +43,7 @@ generates:
       - graphql-codegen-hasura-react
     config:
       reactApolloVersion: 3
-      typescriptCodegenOutputPath: "../"
+      typescriptCodegenOutputPath: '../'
       trimString:
       withQueries: true
       withSubscriptions: true
@@ -57,7 +57,7 @@ generates:
       - graphql-codegen-hasura-client-config
     config:
       reactApolloVersion: 3
-      typescriptCodegenOutputPath: "../"
+      typescriptCodegenOutputPath: '../'
       trimString:
       withTypePolicies: true
       withResolverTypes: true
