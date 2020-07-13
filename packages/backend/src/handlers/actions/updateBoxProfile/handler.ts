@@ -1,7 +1,8 @@
+import Box from '3box';
 import { Request, Response } from 'express';
+
 import { hasuraQuery } from '../../../lib/hasuraHelpers';
 import { getPlayerETHAddress } from '../../../lib/playerHelpers';
-import Box from '3box';
 
 const getPlayerQuery = `
 query GetPlayer ($playerId: uuid!) {
@@ -33,10 +34,10 @@ mutation upsert_Account($objects: [Account_insert_input!]!) {
 }
 `;
 
-const handler = async (req: Request, res: Response) => {
-  const { session_variables } = req.body;
-  const role = session_variables['x-hasura-role'];
-  const playerId = session_variables['x-hasura-user-id'];
+export const updateBoxProfileHandler = async (req: Request, res: Response) => {
+  const session = req.body.session_variables;
+  const role = session['x-hasura-role'];
+  const playerId = session['x-hasura-user-id'];
 
   if (role !== 'player') {
     throw new Error('expected role player');
@@ -104,5 +105,3 @@ async function updateVerifiedProfiles(
     updatedProfiles,
   };
 }
-
-export default handler;

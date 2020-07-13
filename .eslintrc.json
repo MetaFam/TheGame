@@ -11,7 +11,7 @@
     "prettier"
   ],
   "parserOptions": {
-    "project": "./tsconfig.base.json",
+    "project": "./tsconfig.json",
     "ecmaVersion": 6
   },
   "plugins": ["simple-import-sort"],
@@ -38,9 +38,15 @@
     // Using a type system makes it safe enough to spread props
     "react/jsx-props-no-spreading": "off",
 
-    "@typescript-eslint/ban-ts-comment": ["error", {
-      "ts-expect-error": "allow-with-description",
-      "minimumDescriptionLength": 5
-    }]
+    // we want to be able to use functions before definition
+    "@typescript-eslint/no-use-before-define": "off",
+
+    "@typescript-eslint/ban-ts-comment": [
+      "error",
+      {
+        "ts-expect-error": "allow-with-description",
+        "minimumDescriptionLength": 5
+      }
+    ]
   }
 }

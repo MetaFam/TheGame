@@ -1,4 +1,4 @@
-import queries from '../graphql/queries';
+import { GetMyAccount } from '../graphql/queries';
 
 const STORAGE_KEY = 'auth-token';
 
@@ -31,7 +31,7 @@ export async function login(client, token, ethAddress) {
   });
   return client
     .query({
-      query: queries.get_MyAccount,
+      query: GetMyAccount,
       variables: { eth_address: ethAddress },
     })
     .then(async (res) => {

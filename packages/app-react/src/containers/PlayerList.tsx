@@ -1,15 +1,12 @@
+import { useQuery } from '@apollo/react-hooks';
+import { Box } from '@material-ui/core';
 import React from 'react';
 
-import { Box } from '@material-ui/core';
+import { PlayerListItem } from '../components/PlayerListItem';
+import { GetPlayer } from '../graphql/queries';
 
-import { useQuery } from '@apollo/react-hooks';
-
-import queries from '../graphql/queries';
-
-import PlayerListItem from '../components/PlayerListItem';
-
-export default function PlayerList() {
-  const { data, loading, error } = useQuery(queries.get_Player);
+export const PlayerList: React.FC = () => {
+  const { data, loading, error } = useQuery(GetPlayer);
 
   if (error) {
     return <div>error: {error.message}</div>;
@@ -26,4 +23,4 @@ export default function PlayerList() {
       ))}
     </Box>
   );
-}
+};

@@ -1,6 +1,6 @@
 import { gql } from 'apollo-boost';
 
-export const get_authState = gql`
+export const GetAuthState = gql`
   query AuthState {
     authState @client
     authToken @client

@@ -1,18 +1,16 @@
-import React from 'react';
 import { ApolloProvider } from '@apollo/react-hooks';
 import { CssBaseline } from '@material-ui/core';
+import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 
 import { createApolloClient } from './apollo';
-
-import Web3ContextProvider from './contexts/Web3';
-
 import Header from './components/Header';
+import { Web3ContextProvider } from './contexts/Web3';
 import Routes from './Routes';
 
 const apolloClient = createApolloClient();
 
-function App() {
+export function App() {
   return (
     <ApolloProvider client={apolloClient}>
       <Web3ContextProvider>
@@ -25,5 +23,3 @@ function App() {
     </ApolloProvider>
   );
 }
-
-export default App;

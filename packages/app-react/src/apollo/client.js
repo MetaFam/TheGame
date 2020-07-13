@@ -1,9 +1,8 @@
 import ApolloClient from 'apollo-boost';
 
-import config from '../config';
-
-import * as localQueries from './localQueries';
+import { CONFIG } from '../config';
 import { logout } from './auth';
+import * as localQueries from './localQueries';
 
 export function createApolloClient() {
   let client;
@@ -15,7 +14,7 @@ export function createApolloClient() {
   };
 
   async function authMiddleware(operation) {
-    const queryLogin = client.readQuery({ query: localQueries.get_authState });
+    const queryLogin = client.readQuery({ query: localQueries.GetAuthState });
 
     if (queryLogin.authToken) {
       operation.setContext({
@@ -43,7 +42,7 @@ export function createApolloClient() {
   }
 
   client = new ApolloClient({
-    uri: config.graphqlURL,
+    uri: CONFIG.graphqlURL,
     request: authMiddleware,
     onError: onErrorMiddleware,
     clientState: {

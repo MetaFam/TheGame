@@ -1,13 +1,11 @@
-import React, { useState, useEffect, useCallback } from 'react';
 import { useMutation } from '@apollo/react-hooks';
-
-import ThreeBox from '3box';
-
 import { Box } from '@material-ui/core';
+import ThreeBox from '3box';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import { useMyPlayer } from '../graphql/hooks';
+import { UpdateBoxProfiles, UpdateUsername } from '../graphql/mutations';
 import { getPlayerETHAddress } from '../utils/players';
-import mutations from '../graphql/mutations';
 
 function getProfilePicture(boxProfile: any) {
   const imageHash =
@@ -18,25 +16,24 @@ function getProfilePicture(boxProfile: any) {
     boxProfile.image[0].contentUrl['/'];
   if (imageHash) {
     return `https://ipfs.infura.io/ipfs/${imageHash}`;
-  } else {
-    return 'https://i.imgur.com/RXJO8FD.png';
   }
+  return 'https://i.imgur.com/RXJO8FD.png';
 }
 
-export default function PlayerDetails({ player }: { player: any }) {
+export const PlayerDetails: React.FC<{ player: any }> = ({ player }) => {
   const myPlayer = useMyPlayer();
   const isMyPlayer = myPlayer && myPlayer.id === player.id;
   const [boxProfile, setBoxProfile] = useState<any>();
   const [usernameInput, setUsernameInput] = useState<string>(player.username);
-  const [updateBoxProfiles] = useMutation(mutations.UpdateBoxProfiles);
-  const [updateUsername] = useMutation(mutations.UpdateUsername);
+  const [updateBoxProfiles] = useMutation(UpdateBoxProfiles);
+  const [updateUsername] = useMutation(UpdateUsername);
 
   const ethAddress = getPlayerETHAddress(player);
 
   useEffect(() => {
     (async () => {
-      const boxProfile = await ThreeBox.getProfile(ethAddress);
-      setBoxProfile(boxProfile);
+      const profile = await ThreeBox.getProfile(ethAddress);
+      setBoxProfile(profile);
     })();
   }, [ethAddress]);
 
@@ -45,7 +42,7 @@ export default function PlayerDetails({ player }: { player: any }) {
   }, [ethAddress]);
 
   const editUserName = useCallback(() => {
-    // TODO Apollo does not updates caches as it expects that the mutation returns an object with id, but hasura returns { returning: [{id}] }
+    // TODO Apollo does not updates caches as it expects that the mutation returns an object with id, but hasura returns { returning: [{id}] }
     updateUsername({
       variables: {
         username: usernameInput,
@@ -66,14 +63,20 @@ export default function PlayerDetails({ player }: { player: any }) {
     <Box>
       <h3>{player.username}</h3>
       <h4>{player.id}</h4>
-      {isMyPlayer && <button onClick={goToEditBoxProfile}>Edit profile</button>}
+      {isMyPlayer && (
+        <button type="button" onClick={goToEditBoxProfile}>
+          Edit profile
+        </button>
+      )}
       {isMyPlayer && (
         <div>
           <input
             value={usernameInput}
             onChange={(e) => setUsernameInput(e.target.value)}
           />
-          <button onClick={editUserName}>Change username</button>
+          <button type="button" onClick={editUserName}>
+            Change username
+          </button>
         </div>
       )}
       {boxProfile ? (
@@ -99,9 +102,11 @@ export default function PlayerDetails({ player }: { player: any }) {
           ))}
         </ul>
         {isMyPlayer && (
-          <button onClick={updateAccounts}>Update accounts</button>
+          <button type="button" onClick={updateAccounts}>
+            Update accounts
+          </button>
         )}
       </div>
     </Box>
   );
-}
+};
