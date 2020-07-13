@@ -3,7 +3,7 @@ import { Box } from '@material-ui/core';
 import React from 'react';
 import { useParams } from 'react-router-dom';
 
-import PlayerDetails from '../components/PlayerDetails';
+import { PlayerDetails } from '../components/PlayerDetails';
 import { GetPlayer } from '../graphql/queries';
 
 export const Player: React.FC = () => {
