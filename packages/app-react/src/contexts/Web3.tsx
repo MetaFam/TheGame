@@ -7,7 +7,7 @@ import { AsyncSendable, Web3Provider } from 'ethers/providers';
 import {useApolloClient} from '@apollo/react-hooks';
 
 import config from '../config';
-import { did } from '@the-game/utils';
+import { did } from '@metafam/utils';
 import {loginLoading, login, logout, getTokenFromStore} from '../apollo/auth';
 
 type Web3ContextType = {

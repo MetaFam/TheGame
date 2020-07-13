@@ -42,7 +42,7 @@ services:
   - type: web
     name: app-react
     env: static
-    buildCommand: yarn build:app
+    buildCommand: yarn app:build
     staticPublishPath: ./packages/app-react/build
     pullRequestPreviewsEnabled: true
     routes:
