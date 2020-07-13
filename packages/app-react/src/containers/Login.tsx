@@ -7,7 +7,7 @@ import { localQueries } from '../apollo';
 import { Web3Context } from '../contexts/Web3';
 
 export const Login: React.FC = () => {
-  const { data, loading } = useQuery(localQueries.get_authState);
+  const { data, loading } = useQuery(localQueries.GetAuthState);
 
   const { connectWeb3, disconnect } = useContext(Web3Context);
 

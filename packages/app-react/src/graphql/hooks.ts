@@ -5,7 +5,7 @@ import { localQueries } from '../apollo';
 import { GetPlayer } from './queries';
 
 export function useMyPlayer() {
-  const authStateQuery = useQuery(localQueries.get_authState);
+  const authStateQuery = useQuery(localQueries.GetAuthState);
   const [getMyPlayer, myPlayerQuery] = useLazyQuery(GetPlayer);
 
   const playerId = authStateQuery.data?.playerId;
