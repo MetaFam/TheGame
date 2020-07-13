@@ -1,3 +1,10 @@
+type Query {
+  getBoxProfile (
+    address: String
+  ): BoxProfile
+}
+
+
 type Mutation {
   updateBoxProfile : UpdateBoxProfileResponse
 }
@@ -8,5 +15,14 @@ type Mutation {
 type UpdateBoxProfileResponse {
   success : Boolean!
   updatedProfiles : [String!]!
+}
+
+type BoxProfile {
+  name : String
+  description : String
+  location : String
+  job : String
+  emoji : String
+  imageUrl : String
 }
 
