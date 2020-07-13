@@ -46,6 +46,14 @@ Set this variable in the .env file:
 BACKEND_HOST=host.docker.internal:4000
 ```
 
+### Run web app
+
+Once the backend services are started, we can start the frontend application
+
+```shell script
+yarn app:start
+```
+
 ### Tooling
 
 Start Hasura console
