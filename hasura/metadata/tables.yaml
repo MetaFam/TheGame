@@ -28,13 +28,19 @@
     permission:
       columns:
       - id
+      - type
+      - identifier
       - name
+      - logo
       filter: {}
   - role: public
     permission:
       columns:
       - id
+      - type
+      - identifier
       - name
+      - logo
       filter: {}
 - table:
     schema: public

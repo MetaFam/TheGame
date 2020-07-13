@@ -20,6 +20,12 @@ CREATE TYPE enneagram_type AS ENUM (
   'PEACEMAKER'
 );
 
+CREATE TYPE guild_type AS ENUM (
+  'ARAGON',
+  'MOLOCH',
+  'EVEREST'
+);
+
 -- Tables
 
 CREATE TABLE "Player" (
@@ -40,8 +46,10 @@ CREATE TABLE "Account" (
 
 CREATE TABLE "Guild" (
   "id" uuid DEFAULT public.gen_random_uuid() NOT NULL,
+  "type" guild_type NOT NULL,
   "identifier" text NOT NULL,
-  "name" text NOT NULL
+  "name" text NOT NULL,
+  "logo" text
 );
 
 -- Primary keys
