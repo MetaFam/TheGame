@@ -1,10 +1,6 @@
 ---
 title: 🎩 How Does MetaGame Work?
 ---
-
-# How Does MetaGame Work?
-
-
 ## Organs
 
 To understand how it works, first you need to understand where MetaGame is played. I won’t go too meta on you and say “it’s played anywhere & everywhere” - although that would technically be true - the main places _we_ are currently playing MetaGame are **Discord, Discourse, Jitsi & Github.**

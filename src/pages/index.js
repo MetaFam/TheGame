@@ -7,24 +7,24 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 import styles from "./styles.module.css";
 
 const features = [
+   {
+     title: "Players",
+     imageUrl: "assets/icon-plain.png",
+     description: "",
+     linkText: "Through here",
+     linkTo: "docs/handbook/for-players",
+   },
   {
-    title: "For Players",
+    title: "Guilds",
     imageUrl: "assets/icon-dark.png",
-    description: "",
-    linkText: "Through here",
-    linkTo: "docs/handbook/for-players",
-  },
-  {
-    title: "For Guilds",
-    imageUrl: "assets/icon-plain.png",
-    description: "",
+    description: "Find out how your organization can play.",
     linkText: "Through here",
     linkTo: "docs/handbook/for-guilds",
   },
   {
-    title: "For Lurkers",
+    title: "Patrons",
     imageUrl: "assets/icon-glow.png",
-    description: "",
+    description: "Non-players can help too.",
     linkText: "Through here",
     linkTo: "docs/handbook/for-investors",
   },
@@ -70,9 +70,9 @@ function Home() {
           <div className={styles.buttons}>
             <Link
               className="button button--primary button--lg"
-              to={useBaseUrl("docs/introduction")}
+              to={useBaseUrl("docs/Players/start-here")}
             >
-              EXPLORE
+              START HERE
             </Link>
           </div>
         </div>
@@ -81,7 +81,10 @@ function Home() {
         {features && features.length && (
           <section className={styles.features}>
             <div className="container">
-              <div className="row">
+              <div className="row" style={{
+                display: 'flex',
+                justifyContent: 'center'
+              }}>
                 {features.map((props, idx) => (
                   <Feature key={idx} {...props} />
                 ))}

@@ -16,35 +16,49 @@ module.exports = {
       },
       links: [
         {
-          to: "docs/introduction",
-          label: "🤨 WTF is MetaGame?",
+          to: "docs/handbook/xp",
+          label: "🐣 Start Here",
           position: "left",
         },
         {
-          to: "docs/handbook/how-metagame-works",
-          label: "🧐 How does it work?",
+          to: "docs/Players/enter-the-house-of-metafam",
+          label: "🗺 Enter MetaGame",
           position: "left",
         },
-        {
-          to: "docs/roadmap/players-of-metagame",
-          label: "😈 Players",
-          position: "left",
-        },
-        {
-          to: "docs/Guilding/guilds-of-metagame",
-          label: "⚔️ Guilds",
-          position: "left",
-        },
-        {
-          to: "theroom",
-          label: "🏠 The Room",
-          position: "left",
-        },
-        {
-          href: "https://metagame.wtf",
-          label: "Home",
-          position: "right",
-        },
+         {
+           to: "docs/handbook/navigation-board",
+           label: "👣 Join a Quest",
+           position: "left",
+         },
+        // {
+        //   to: "docs/introduction",
+        //   label: "🤨 WTF is MetaGame?",
+        //   position: "left",
+        // },// {
+        //   to: "docs/handbook/how-metagame-works",
+        //   label: "🧐 How does it work?",
+        //   position: "left",
+        // },
+        // {
+        //   to: "docs/roadmap/players-of-metagame",
+        //   label: "😈 Players",
+        //   position: "left",
+        // },
+        // {
+        //   to: "docs/Guilding/guilds-of-metagame",
+        //   label: "⚔️ Guilds",
+        //   position: "left",
+        // },
+        // {
+        //   to: "docs/resources/graphics",
+        //   label: "🌳 Other Stuff",
+        //   position: "left",
+        // },
+        // {
+        //   href: "https://metagame.wtf",
+        //   label: "Home",
+        //   position: "right",
+        // },
       ],
     },
     footer: {
