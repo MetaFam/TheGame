@@ -1,5 +1,5 @@
 ---
-title: 🎩 How Does MetaGame Works?
+title: 🎩 How Does MetaGame Work?
 ---
 
 # How Does MetaGame Work?
