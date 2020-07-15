@@ -1,6 +1,7 @@
 module.exports = {
   someSidebar: {
     "🐣 Start Here": [
+      "Players/start-here",
       "handbook/for-players",
       "handbook/for-guilds",
       "handbook/for-investors",
@@ -9,7 +10,6 @@ module.exports = {
       "handbook/where-to-start",
     ],
     "🤨 WTF is MetaGame?": [
-      "introduction",
       "handbook/in-search-of-commons-that-scale",
       "handbook/the-coming-of-metagame",
       "handbook/wtf-is-metagame",
