@@ -72,7 +72,7 @@ function Home() {
               className="button button--primary button--lg"
               to={useBaseUrl("docs/Players/start-here")}
             >
-              START HERE
+              EXPLORE
             </Link>
           </div>
         </div>
