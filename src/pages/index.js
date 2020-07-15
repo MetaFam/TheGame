@@ -8,23 +8,23 @@ import styles from "./styles.module.css";
 
 const features = [
    {
-     title: "Players",
-     imageUrl: "assets/icon-plain.png",
+     title: "For Players",
+     imageUrl: "assets/players.png",
      description: "",
      linkText: "Through here",
      linkTo: "docs/handbook/for-players",
    },
   {
-    title: "Guilds",
-    imageUrl: "assets/icon-dark.png",
-    description: "Find out how your organization can play.",
+    title: "For Guilds",
+    imageUrl: "assets/guilds.png",
+    description: "",
     linkText: "Through here",
     linkTo: "docs/handbook/for-guilds",
   },
   {
-    title: "Patrons",
-    imageUrl: "assets/icon-glow.png",
-    description: "Non-players can help too.",
+    title: "For Patrons",
+    imageUrl: "assets/patrons.png",
+    description: "",
     linkText: "Through here",
     linkTo: "docs/handbook/for-investors",
   },
