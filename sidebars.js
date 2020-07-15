@@ -5,7 +5,6 @@ module.exports = {
       "handbook/for-players",
       "handbook/for-guilds",
       "handbook/for-investors",
-      "handbook/why-play",
       "handbook/how-to-play",
       "handbook/where-to-start",
     ],
