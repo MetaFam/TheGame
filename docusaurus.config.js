@@ -27,7 +27,7 @@ module.exports = {
         },
          {
            to: "docs/handbook/navigation-board",
-           label: "👣 Join a Quest",
+           label: "👣 Join a Raid",
            position: "left",
          },
         // {
