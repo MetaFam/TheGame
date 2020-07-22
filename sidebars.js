@@ -42,6 +42,7 @@ module.exports = {
       "resources/art",
       "resources/memes",
       "resources/talks",
+      "handbook/glossary",
       "roadmap/alignment2021",
     ],
     // "About The Wiki": ["style-guide", "mdx"],
