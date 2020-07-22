@@ -12,7 +12,7 @@ title: 📖 Glossary
 
 <!-- Inspirational quote shared vocabularies goes here. Got one? -->
 
-Request missing terms [here](https://forum.metagame.wtf/t/phases-of-metagame/TODO).
+Request missing terms [here](https://forum.metagame.wtf/t/wiki-glossary/346).
 
 <!---------------- ⭐️  A  ⭐️ ---------------->
 
