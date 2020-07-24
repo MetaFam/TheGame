@@ -12,6 +12,8 @@
     "docker:clean": "docker-compose down -v",
     "app:start": "CI=true lerna run start --parallel --scope @metafam/app-react --scope @metafam/utils",
     "app:build": "lerna run build --scope @metafam/app-react --include-dependencies --stream",
+    "web:dev": "lerna run dev --parallel --scope @metafam/web",
+    "web:build": "lerna run build --parallel --scope @metafam/web",
     "backend:dev": "lerna run dev --parallel --scope @metafam/backend --include-dependencies",
     "backend:build": "lerna run build --scope @metafam/backend --include-dependencies --stream",
     "hasura": "hasura --project ./hasura",
