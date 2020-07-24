@@ -1,5 +1,5 @@
 {
-  "extends": "../../tsconfig.base.json",
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
     "target": "esnext",
     "module": "esnext",
@@ -9,6 +9,13 @@
     "lib": ["dom", "es2017"],
     "noEmit": true
   },
-  "exclude": ["node_modules"],
+  "references": [
+    {
+      "path": "../utils/tsconfig.json"
+    },
+    {
+      "path": "../design-system/tsconfig.json"
+    }
+  ],
   "include": ["**/*.ts", "**/*.tsx", "next-env.d.ts"]
 }

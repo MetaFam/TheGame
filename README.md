@@ -18,6 +18,12 @@ Create your local .env file
 cp .env.sample .env
 ```
 
+Initial TS Compilation For Monorepo Packages 
+
+```shell script
+yarn typecheck
+```
+
 ### Run services
 
 **Start backend services**

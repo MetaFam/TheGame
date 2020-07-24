@@ -41,8 +41,5 @@ export const Fonts = () => (
     <Text fontSize="lg" fontFamily="mono" fontWeight="bold">
       In love with MetaGame - Mono Bold
     </Text>
-    <Text fontSize="lg" fontFamily="meta">
-      In love with MetaGame - Meta
-    </Text>
   </Stack>
 );

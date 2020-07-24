@@ -13,10 +13,12 @@
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "declaration": true,
+    "declarationMap": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "sourceMap": true,
     "allowSyntheticDefaultImports": true,
     "typeRoots": ["packages/@types", "node_modules/@types"]
-  }
+  },
+  "exclude": ["node_modules", "dist"]
 }

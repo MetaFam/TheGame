@@ -6,9 +6,9 @@
   "main": "dist/index.js",
   "scripts": {
     "start": "node ./dist/index.js",
-    "build": "tsc",
+    "build": "tsc -b",
     "dev": "ts-node-dev --exit-child --respawn --transpileOnly src/index.ts",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "yarn build",
     "precommit": "yarn lint-staged"
   },
   "author": "",

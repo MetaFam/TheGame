@@ -1,14 +1,13 @@
-import { theme } from '@chakra-ui/core';
+import { theme as chakraTheme } from '@chakra-ui/core';
 
-export const metaTheme = {
-  ...theme,
+export const theme: typeof chakraTheme = {
+  ...chakraTheme,
   colors: {
-    ...theme.colors,
+    ...chakraTheme.colors,
   },
   fonts: {
     body: '"IBM Plex Sans", sans-serif',
-    heading: '"IBM Plex Sans", sans-serif',
-    mono: '"IBM Plex Mono", monospace',
-    meta: '"Press Start 2P"',
+    heading: '"IBM Plex Mono", monospace',
+    mono: '"Press Start 2P"',
   },
 };
