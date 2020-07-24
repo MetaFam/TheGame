@@ -55,12 +55,18 @@ Set this variable in the .env file:
 BACKEND_HOST=host.docker.internal:4000
 ```
 
-### Run web app
+### Run web app (old)
 
 Once the backend services are started, we can start the frontend application
 
 ```shell script
 yarn app:start
+```
+
+### Run NextJS Web App dev mode (new)
+
+```shell script
+yarn web:dev
 ```
 
 ### Tooling
