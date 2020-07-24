@@ -9,5 +9,10 @@
     "noEmit": true,
     "jsx": "react"
   },
+  "references": [
+    {
+      "path": "../utils/tsconfig.json"
+    }
+  ],
   "include": ["src"]
 }
