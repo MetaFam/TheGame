@@ -1,15 +1,14 @@
+import { Box } from '@material-ui/core';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { Box } from '@material-ui/core';
+import { Login } from '../containers/Login';
 
-import {Login} from "../containers/Login";
-
-export default function Header() {
-  return (
-    <Box>
-      <Link to={`/`}><button>Home</button></Link>
-      <Login/>
-    </Box>
-  )
-}
+export const Header: React.FC = () => (
+  <Box>
+    <Link to="/">
+      <button type="button">Home</button>
+    </Link>
+    <Login />
+  </Box>
+);

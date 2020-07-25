@@ -1,29 +1,55 @@
 {
-  "name": "@the-game/monorepo",
+  "name": "@metafam/the-game",
   "version": "0.1.0",
-  "license": "MIT",
+  "license": "GPL-3.0",
+  "engines": {
+    "node": ">=12"
+  },
   "private": true,
   "scripts": {
-    "build": "lerna run build",
-    "build:app": "lerna run --stream build:app",
-    "start:app:dev": "CI=true lerna run --parallel start:app:dev",
-    "start:backend": "lerna run --scope @the-game/backend --stream start:backend",
-    "start:backend:dev": "lerna run --parallel start:backend:dev",
     "docker:start": "docker-compose up --build -d",
     "docker:stop": "docker-compose down",
     "docker:clean": "docker-compose down -v",
+    "app:start": "CI=true lerna run start --parallel --scope @metafam/app-react --scope @metafam/utils",
+    "app:build": "lerna run build --scope @metafam/app-react --include-dependencies --stream",
+    "web:dev": "lerna run dev --parallel --scope @metafam/web",
+    "web:build": "lerna run build --parallel --scope @metafam/web",
+    "backend:dev": "lerna run dev --parallel --scope @metafam/backend --include-dependencies",
+    "backend:build": "lerna run build --scope @metafam/backend --include-dependencies --stream",
     "hasura": "hasura --project ./hasura",
     "hasura:console": "npm run hasura console -- --no-browser",
     "hasura:migrate:init": "npm run hasura migrate create \"init\" -- --from-server",
     "hasura:migrate:apply": "npm run hasura migrate apply",
-    "test": "cd packages/tests && yarn test && cd ../..",
-    "typecheck": "yarn workspaces run typecheck"
+    "test": "lerna run test --parallel",
+    "clean": "lerna clean",
+    "format": "prettier --ignore-path .gitignore --write \"{*,**/*}.{ts,tsx,js,jsx,json,yml,yaml,md}\"",
+    "lint": "eslint --ignore-path .gitignore \"./packages/**/*.{ts,tsx,js,jsx}\"",
+    "typecheck": "lerna run typecheck",
+    "precommit": "lerna run --concurrency 1 --stream precommit",
+    "prepush": "yarn typecheck && yarn lint",
+    "web": "yarn --cwd packages/web/"
   },
   "workspaces": [
     "packages/*"
   ],
-  "dependencies": {
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "3.6.0",
+    "@typescript-eslint/parser": "3.6.0",
+    "eslint": "6.8.0",
+    "eslint-config-airbnb-typescript": "8.0",
+    "eslint-config-prettier": "6.11.0",
+    "eslint-import-resolver-typescript": "2.0.0",
+    "eslint-plugin-import": "2.20.0",
+    "eslint-plugin-jest": "23.18.0",
+    "eslint-plugin-jsx-a11y": "6.3.1",
+    "eslint-plugin-react": "7.20.3",
+    "eslint-plugin-react-hooks": "4.0.6",
+    "eslint-plugin-simple-import-sort": "5.0.3",
+    "hasura-cli": "1.2.1",
+    "husky": "^4.2.5",
     "lerna": "^3.16.4",
-    "hasura-cli": "1.2.1"
+    "lint-staged": "^10.2.11",
+    "prettier": "^2.0.5",
+    "typescript": "^3.9.6"
   }
 }

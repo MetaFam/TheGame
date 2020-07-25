@@ -1,18 +1,14 @@
 import express from 'express';
 
 import { asyncHandlerWrapper } from '../lib/apiHelpers';
+import { actionRoutes } from './actions/routes';
+import { authHandler } from './auth-webhook/handler';
 
-import actionsRoutes from './actions/routes';
-
-import authHandler from './auth-webhook/handler';
-
-const router = express.Router();
+export const router = express.Router();
 
 router.get('/', function (_, res) {
-  res.send('pong')
+  res.send('pong');
 });
 
 router.get('/auth-webhook', asyncHandlerWrapper(authHandler));
-router.use('/actions', actionsRoutes);
-
-export default router;
+router.use('/actions', actionRoutes);

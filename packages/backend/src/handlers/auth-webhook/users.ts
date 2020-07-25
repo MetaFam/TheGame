@@ -38,7 +38,7 @@ mutation CreateAccountFromETH ($eth_address: String!, $username: String!) {
 }
 `;
 interface IPlayer {
-  id: string
+  id: string;
 }
 
 export async function createPlayer(ethAddress: string): Promise<IPlayer> {
@@ -46,7 +46,7 @@ export async function createPlayer(ethAddress: string): Promise<IPlayer> {
     eth_address: ethAddress,
     username: ethAddress,
   });
-  if(resProfile.insert_Account.affected_rows !== 2) {
+  if (resProfile.insert_Account.affected_rows !== 2) {
     throw new Error('error while creating profile');
   }
   return resProfile.insert_Account.returning[0].Player;
@@ -59,7 +59,7 @@ export async function getPlayer(ethAddress: string): Promise<IPlayer> {
 
   let player = res.Account[0]?.Player;
 
-  if(!player) {
+  if (!player) {
     player = await createPlayer(ethAddress);
   }
 

@@ -34,7 +34,7 @@ services:
       context: .
       dockerfile: ./docker/backend/Dockerfile
       target: base
-    command: yarn start:backend:dev
+    command: yarn backend:dev
     volumes:
       - ./packages/@types:/usr/src/app/packages/@types
       - ./packages/backend:/usr/src/app/packages/backend
@@ -49,4 +49,3 @@ services:
 
 volumes:
   database:
-...

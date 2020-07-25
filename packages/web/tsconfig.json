@@ -1,0 +1,21 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "esnext",
+    "allowJs": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "lib": ["dom", "es2017"],
+    "noEmit": true
+  },
+  "references": [
+    {
+      "path": "../utils/tsconfig.json"
+    },
+    {
+      "path": "../design-system/tsconfig.json"
+    }
+  ],
+  "include": ["**/*.ts", "**/*.tsx", "next-env.d.ts"]
+}

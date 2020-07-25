@@ -1,22 +1,21 @@
 {
-  "name": "@the-game/utils",
+  "name": "@metafam/utils",
   "version": "1.0.0",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "license": "MIT",
   "private": true,
   "scripts": {
-    "build:app": "yarn build",
-    "start:app:dev": "yarn watch",
-    "start:backend:dev": "yarn watch",
-    "prepare": "yarn build",
+    "start": "yarn dev",
     "build": "tsc",
-    "watch": "tsc -w"
+    "dev": "tsc -w",
+    "typecheck": "yarn build",
+    "prepare": "yarn build",
+    "precommit": "yarn lint-staged"
   },
   "dependencies": {
     "ethers": "^4.0.47",
     "js-base64": "^2.5.2",
-    "typescript": "^3.8.3",
     "uuid": "^8.0.0"
   },
   "devDependencies": {

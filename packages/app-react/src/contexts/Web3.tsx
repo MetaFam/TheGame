@@ -1,20 +1,20 @@
-import React, {createContext, useCallback, useEffect, useState} from 'react';
+import { useApolloClient } from '@apollo/react-hooks';
+import { did } from '@metafam/utils';
 import WalletConnectProvider from '@walletconnect/web3-provider';
-import Web3Modal from 'web3modal';
-import Web3 from 'web3';
 import { ethers } from 'ethers';
 import { AsyncSendable, Web3Provider } from 'ethers/providers';
-import {useApolloClient} from '@apollo/react-hooks';
+import React, { createContext, useCallback, useEffect, useState } from 'react';
+import Web3 from 'web3';
+import Web3Modal from 'web3modal';
 
-import config from '../config';
-import { did } from '@the-game/utils';
-import {loginLoading, login, logout, getTokenFromStore} from '../apollo/auth';
+import { getTokenFromStore, login, loginLoading, logout } from '../apollo/auth';
+import { CONFIG } from '../config';
 
 type Web3ContextType = {
-  ethersProvider: Web3Provider | null,
+  ethersProvider: Web3Provider | null;
   connectWeb3: () => Promise<void>;
-  disconnect: () => void,
-}
+  disconnect: () => void;
+};
 
 export const Web3Context = createContext<Web3ContextType>({
   ethersProvider: null,
@@ -26,9 +26,9 @@ const providerOptions = {
   walletconnect: {
     package: WalletConnectProvider,
     options: {
-      infuraId: config.infuraId,
-    }
-  }
+      infuraId: CONFIG.infuraId,
+    },
+  },
 };
 
 const web3Modal = new Web3Modal({
@@ -37,41 +37,42 @@ const web3Modal = new Web3Modal({
   providerOptions,
 });
 
-
-const Web3ContextProvider: React.FC = props => {
-
+export const Web3ContextProvider: React.FC = ({ children }) => {
   const apolloClient = useApolloClient();
 
-  const [ethersProvider, setEthersProvider] = useState<Web3Provider | null>(null);
+  const [ethersProvider, setEthersProvider] = useState<Web3Provider | null>(
+    null,
+  );
 
-  const connectDID = useCallback(async (ethersProvider: Web3Provider) => {
+  const connectDID = useCallback(
+    async (provider: Web3Provider) => {
+      let token = getTokenFromStore();
 
-    let token = getTokenFromStore();
+      if (!token) {
+        token = await did.createToken(provider);
+      }
 
-    if(!token) {
-      token = await did.createToken(ethersProvider);
-    }
-
-    const signer = ethersProvider.getSigner();
-    const address = await signer.getAddress();
-    await login(apolloClient, token, address);
-
-  }, [apolloClient]);
+      const signer = provider.getSigner();
+      const address = await signer.getAddress();
+      await login(apolloClient, token, address);
+    },
+    [apolloClient],
+  );
 
   const connectWeb3 = useCallback(async () => {
     try {
-
       loginLoading(apolloClient);
 
-      const provider = await web3Modal.connect();
+      const modalProvider = await web3Modal.connect();
 
-      const web3Provider = new Web3(provider);
-      const ethersProvider = new ethers.providers.Web3Provider(web3Provider.currentProvider as AsyncSendable);
-      await connectDID(ethersProvider);
+      const web3Provider = new Web3(modalProvider);
+      const provider = new ethers.providers.Web3Provider(
+        web3Provider.currentProvider as AsyncSendable,
+      );
+      await connectDID(provider);
 
-      setEthersProvider(ethersProvider);
-
-    } catch(e) {
+      setEthersProvider(provider);
+    } catch (e) {
       loginLoading(apolloClient, false);
       throw e;
     }
@@ -83,16 +84,14 @@ const Web3ContextProvider: React.FC = props => {
   }, [apolloClient]);
 
   useEffect(() => {
-    if(web3Modal.cachedProvider) {
+    if (web3Modal.cachedProvider) {
       connectWeb3().catch(console.error);
     }
   }, [connectWeb3]);
 
   return (
     <Web3Context.Provider value={{ ethersProvider, connectWeb3, disconnect }}>
-      {props.children}
+      {children}
     </Web3Context.Provider>
   );
 };
-
-export default Web3ContextProvider;

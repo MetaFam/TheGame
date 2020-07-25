@@ -1,20 +1,20 @@
 {
-  "name": "@the-game/backend",
+  "name": "@metafam/backend",
+  "private": true,
   "version": "0.1.0",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "start": "yarn start:backend",
-    "start:backend": "node ./dist/index.js",
-    "start:backend:dev": "yarn dev",
+    "start": "node ./dist/index.js",
+    "build": "tsc -b",
     "dev": "ts-node-dev --exit-child --respawn --transpileOnly src/index.ts",
-    "typecheck": "tsc --noEmit",
-    "build": "tsc"
+    "typecheck": "yarn build",
+    "precommit": "yarn lint-staged"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@the-game/utils": "1.0.0",
+    "@metafam/utils": "1.0.0",
     "3box": "^1.18.1",
     "body-parser": "^1.19.0",
     "ethers": "^4.0.46",
@@ -25,7 +25,6 @@
     "@types/express": "^4.17.6",
     "@types/node": "^13.11.1",
     "@types/node-fetch": "^2.5.6",
-    "ts-node-dev": "^1.0.0-pre.50",
-    "typescript": "^3.8.3"
+    "ts-node-dev": "^1.0.0-pre.50"
   }
 }

@@ -1,0 +1,15 @@
+{
+  "rules": {
+    "react/react-in-jsx-scope": "off"
+  },
+  "overrides": [
+    {
+      "files": ["./pages/**/*.{ts,tsx}"],
+      "rules": {
+        // NextJS requires default exports for pages
+        "import/no-default-export": "off",
+        "import/prefer-default-export": "error"
+      }
+    }
+  ]
+}

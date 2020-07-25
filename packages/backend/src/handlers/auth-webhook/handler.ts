@@ -1,31 +1,28 @@
+import { did } from '@metafam/utils';
 import { Request, Response } from 'express';
-import { did } from '@the-game/utils';
+
 import { getPlayer } from './users';
 
 const unauthorizedVariables = {
   'X-Hasura-Role': 'public',
 };
 
-function getHeaderToken(req: Request): string | null {
-  const authHeader = req.headers['authorization'];
-  if(!authHeader) return null;
+function getHeaderToken(req: Request): string | null {
+  const authHeader = req.headers.authorization;
+  if (!authHeader) return null;
   const token = authHeader.replace('Bearer ', '');
-  if(token.length === 0) return null;
+  if (token.length === 0) return null;
   return token;
 }
 
-const handler = async (req: Request, res: Response) => {
-
+export const authHandler = async (req: Request, res: Response) => {
   const token = getHeaderToken(req);
 
-  if(!token) {
+  if (!token) {
     res.json(unauthorizedVariables);
-    return;
-  }
-  else {
-
+  } else {
     const claim = did.verifyToken(token);
-    if(!claim) {
+    if (!claim) {
       res.status(401).send();
       return;
     }
@@ -38,9 +35,5 @@ const handler = async (req: Request, res: Response) => {
     };
 
     res.json(hasuraVariables);
-
   }
-
 };
-
-export default handler;

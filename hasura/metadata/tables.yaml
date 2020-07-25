@@ -2,90 +2,90 @@
     schema: public
     name: Account
   object_relationships:
-  - name: Player
-    using:
-      foreign_key_constraint_on: player_id
+    - name: Player
+      using:
+        foreign_key_constraint_on: player_id
   select_permissions:
-  - role: player
-    permission:
-      columns:
-      - player_id
-      - identifier
-      - type
-      filter: {}
-  - role: public
-    permission:
-      columns:
-      - player_id
-      - identifier
-      - type
-      filter: {}
+    - role: player
+      permission:
+        columns:
+          - player_id
+          - identifier
+          - type
+        filter: {}
+    - role: public
+      permission:
+        columns:
+          - player_id
+          - identifier
+          - type
+        filter: {}
 - table:
     schema: public
     name: Guild
   select_permissions:
-  - role: player
-    permission:
-      columns:
-      - id
-      - type
-      - identifier
-      - name
-      - logo
-      filter: {}
-  - role: public
-    permission:
-      columns:
-      - id
-      - type
-      - identifier
-      - name
-      - logo
-      filter: {}
+    - role: player
+      permission:
+        columns:
+          - id
+          - type
+          - identifier
+          - name
+          - logo
+        filter: {}
+    - role: public
+      permission:
+        columns:
+          - id
+          - type
+          - identifier
+          - name
+          - logo
+        filter: {}
 - table:
     schema: public
     name: Player
   array_relationships:
-  - name: Accounts
-    using:
-      foreign_key_constraint_on:
-        column: player_id
-        table:
-          schema: public
-          name: Account
+    - name: Accounts
+      using:
+        foreign_key_constraint_on:
+          column: player_id
+          table:
+            schema: public
+            name: Account
   select_permissions:
-  - role: player
-    permission:
-      columns:
-      - id
-      - totalXp
-      - username
-      - enneagram
-      - role
-      - skills
-      - timezone
-      filter: {}
-  - role: public
-    permission:
-      columns:
-      - id
-      - totalXp
-      - username
-      - enneagram
-      - role
-      - skills
-      - timezone
-      filter: {}
+    - role: player
+      permission:
+        columns:
+          - id
+          - totalXp
+          - username
+          - enneagram
+          - role
+          - skills
+          - timezone
+        filter: {}
+    - role: public
+      permission:
+        columns:
+          - id
+          - totalXp
+          - username
+          - enneagram
+          - role
+          - skills
+          - timezone
+        filter: {}
   update_permissions:
-  - role: player
-    permission:
-      columns:
-      - username
-      - enneagram
-      - role
-      - skills
-      - timezone
-      filter:
-        id:
-          _eq: X-Hasura-User-Id
-      check: null
+    - role: player
+      permission:
+        columns:
+          - username
+          - enneagram
+          - role
+          - skills
+          - timezone
+        filter:
+          id:
+            _eq: X-Hasura-User-Id
+        check: null

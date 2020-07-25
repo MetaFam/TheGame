@@ -1,0 +1,10 @@
+{
+  "overrides": [
+    {
+      "files": ["./src/handlers/actions/types.ts"],
+      "rules": {
+        "@typescript-eslint/naming-convention": "off"
+      }
+    }
+  ]
+}

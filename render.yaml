@@ -38,11 +38,11 @@ services:
           type: web
           property: host
 
-  # Frontend
+  # Frontend (old)
   - type: web
     name: app-react
     env: static
-    buildCommand: yarn build:app
+    buildCommand: yarn app:build
     staticPublishPath: ./packages/app-react/build
     pullRequestPreviewsEnabled: true
     routes:
@@ -50,10 +50,17 @@ services:
         source: /*
         destination: /index
     envVars:
-      - key: REACT_APP_INFURA_ID
-        sync: false
-      - key: REACT_APP_GRAPHQL_URL
-        sync: false
+      - fromGroup: frontend
+
+  # NextJS Frontend (new)
+  - type: web
+    name: web
+    env: static
+    buildCommand: yarn web:build
+    staticPublishPath: ./packages/web/out
+    pullRequestPreviewsEnabled: true
+    envVars:
+      - fromGroup: frontend
 
 databases:
   - name: metagame-db
@@ -64,3 +71,9 @@ envVarGroups:
     envVars:
       - key: HASURA_GRAPHQL_ADMIN_SECRET
         generateValue: true
+  - name: frontend
+    envVars:
+      - key: REACT_APP_INFURA_ID
+        sync: false
+      - key: REACT_APP_GRAPHQL_URL
+        sync: false
