@@ -20,16 +20,10 @@ CREATE TYPE enneagram_type AS ENUM (
   'PEACEMAKER'
 );
 
-CREATE TYPE guild_type AS ENUM (
-  'ARAGON',
-  'MOLOCH',
-  'EVEREST'
-);
-
 -- Tables
 
 CREATE TABLE "Player" (
-  "id" uuid DEFAULT public.gen_random_uuid() NOT NULL,
+  "id" uuid DEFAULT public.gen_random_uuid() NOT NULL PRIMARY KEY,
   "username" text NOT NULL,
   "totalXp" numeric DEFAULT 0,
   "role" text,
@@ -45,20 +39,17 @@ CREATE TABLE "Account" (
 );
 
 CREATE TABLE "Guild" (
-  "id" uuid DEFAULT public.gen_random_uuid() NOT NULL,
-  "type" guild_type NOT NULL,
+  "id" uuid DEFAULT public.gen_random_uuid() NOT NULL PRIMARY KEY,
+  "type" text NOT NULL,
   "identifier" text NOT NULL,
   "name" text NOT NULL,
   "logo" text
 );
 
--- Primary keys
 
-ALTER TABLE ONLY public."Player"
-  ADD CONSTRAINT "Player_pkey" PRIMARY KEY (id);
-
-ALTER TABLE ONLY public."Guild"
-  ADD CONSTRAINT "Guild_pkey" PRIMARY KEY (id);
+CREATE TABLE "GuildType" (
+  "name" text NOT NULL PRIMARY KEY
+);
 
 -- Uniques
 
@@ -73,3 +64,13 @@ ALTER TABLE ONLY public."Account"
 -- Foreign keys
 
 ALTER TABLE "Account" ADD CONSTRAINT "Account_player_id_fkey" FOREIGN KEY ("player_id") REFERENCES "Player" ("id");
+
+-- Foreign enums
+
+ALTER TABLE "Guild" ADD CONSTRAINT
+  "Guild_type_fkey" FOREIGN KEY ("type") REFERENCES "GuildType" ("name");
+
+INSERT INTO "GuildType" ("name") VALUES
+  ('ARAGON'),
+  ('MOLOCH'),
+  ('EVEREST');
