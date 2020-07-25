@@ -80,6 +80,13 @@
         table:
           schema: public
           name: Account
+  - name: Player_Skills
+    using:
+      foreign_key_constraint_on:
+        column: player_id
+        table:
+          schema: public
+          name: Player_Skill
   select_permissions:
   - role: player
     permission:
@@ -89,7 +96,6 @@
       - username
       - enneagram
       - role
-      - skills
       - timezone
       filter: {}
   - role: public
@@ -100,7 +106,6 @@
       - username
       - enneagram
       - role
-      - skills
       - timezone
       filter: {}
   update_permissions:
@@ -110,9 +115,79 @@
       - username
       - enneagram
       - role
-      - skills
       - timezone
       filter:
         id:
           _eq: X-Hasura-User-Id
       check: null
+- table:
+    schema: public
+    name: Player_Skill
+  object_relationships:
+  - name: Player
+    using:
+      foreign_key_constraint_on: player_id
+  - name: Skill
+    using:
+      foreign_key_constraint_on: skill_id
+  insert_permissions:
+  - role: player
+    permission:
+      check:
+        player_id:
+          _eq: X-Hasura-User-Id
+      set:
+        player_id: x-hasura-User-Id
+      columns:
+      - skill_id
+      backend_only: false
+  select_permissions:
+  - role: player
+    permission:
+      columns:
+      - player_id
+      - skill_id
+      filter: {}
+  - role: public
+    permission:
+      columns:
+      - player_id
+      - skill_id
+      filter: {}
+  delete_permissions:
+  - role: player
+    permission:
+      filter:
+        player_id:
+          _eq: X-Hasura-User-Id
+- table:
+    schema: public
+    name: Skill
+  array_relationships:
+  - name: Player_Skills
+    using:
+      foreign_key_constraint_on:
+        column: skill_id
+        table:
+          schema: public
+          name: Player_Skill
+  insert_permissions:
+  - role: player
+    permission:
+      check: {}
+      columns:
+      - name
+      backend_only: false
+  select_permissions:
+  - role: player
+    permission:
+      columns:
+      - id
+      - name
+      filter: {}
+  - role: public
+    permission:
+      columns:
+      - name
+      - id
+      filter: {}

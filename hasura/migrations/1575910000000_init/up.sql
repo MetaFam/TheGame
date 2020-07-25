@@ -28,8 +28,7 @@ CREATE TABLE "Player" (
   "totalXp" numeric DEFAULT 0,
   "role" text,
   "timezone" int,
-  "enneagram" enneagram_type,
-  "skills" text[]
+  "enneagram" enneagram_type
 );
 
 CREATE TABLE "Account" (
@@ -46,9 +45,18 @@ CREATE TABLE "Guild" (
   "logo" text
 );
 
-
 CREATE TABLE "GuildType" (
   "name" text NOT NULL PRIMARY KEY
+);
+
+CREATE TABLE "Skill" (
+  "id" uuid DEFAULT public.gen_random_uuid() NOT NULL PRIMARY KEY,
+  "name" text NOT NULL
+);
+
+CREATE TABLE "Player_Skill" (
+  "player_id" uuid NOT NULL,
+  "skill_id" uuid NOT NULL
 );
 
 -- Uniques
@@ -61,9 +69,15 @@ ALTER TABLE ONLY public."Account"
 ALTER TABLE ONLY public."Account"
   ADD CONSTRAINT "Account_identifier_type_player_key" UNIQUE (type, player_id);
 
+ALTER TABLE ONLY public."Player_Skill"
+  ADD CONSTRAINT "Player_Skill_unique_key" PRIMARY KEY (player_id, skill_id);
+
 -- Foreign keys
 
 ALTER TABLE "Account" ADD CONSTRAINT "Account_player_id_fkey" FOREIGN KEY ("player_id") REFERENCES "Player" ("id");
+
+ALTER TABLE "Player_Skill" ADD CONSTRAINT "Player_Skill_player_id_fkey" FOREIGN KEY ("player_id") REFERENCES "Player" ("id");
+ALTER TABLE "Player_Skill" ADD CONSTRAINT "Player_Skill_skill_id_fkey" FOREIGN KEY ("skill_id") REFERENCES "Skill" ("id");
 
 -- Foreign enums
 
