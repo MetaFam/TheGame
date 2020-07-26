@@ -1,12 +1,18 @@
 import { Box, Heading, Image, SimpleGrid } from '@metafam/ds';
-import { GetStaticProps } from 'next';
+import { InferGetStaticPropsType } from 'next';
 
 import { MetaLink } from '../components/Link';
 import { getPokemons } from '../graphql/getPokemons';
-import { Pokemon } from '../types/pokemon';
 
-type Props = {
-  pokemon: Array<Pokemon>;
+type Props = InferGetStaticPropsType<typeof getStaticProps>;
+
+export const getStaticProps = async () => {
+  const pokemon = await getPokemons();
+  return {
+    props: {
+      pokemon,
+    },
+  };
 };
 
 const Home: React.FC<Props> = ({ pokemon }) => (
@@ -21,14 +27,5 @@ const Home: React.FC<Props> = ({ pokemon }) => (
     ))}
   </SimpleGrid>
 );
-
-export const getStaticProps: GetStaticProps<Props> = async () => {
-  const pokemon = await getPokemons();
-  return {
-    props: {
-      pokemon,
-    },
-  };
-};
 
 export default Home;

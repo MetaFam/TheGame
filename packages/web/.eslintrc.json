@@ -12,7 +12,11 @@
       "rules": {
         // NextJS requires default exports for pages
         "import/no-default-export": "off",
-        "import/prefer-default-export": "error"
+        "import/prefer-default-export": "error",
+        "@typescript-eslint/explicit-module-boundary-types": [
+          "error",
+          { "allowedNames": ["getStaticProps"] }
+        ]
       }
     }
   ]
