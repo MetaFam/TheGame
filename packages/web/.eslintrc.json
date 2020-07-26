@@ -2,6 +2,10 @@
   "rules": {
     "react/react-in-jsx-scope": "off"
   },
+  "parserOptions": {
+    "project": "./tsconfig.json",
+    "ecmaVersion": 6
+  },
   "overrides": [
     {
       "files": ["./pages/**/*.{ts,tsx}"],

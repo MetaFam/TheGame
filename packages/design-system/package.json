@@ -9,6 +9,7 @@
     "build-storybook": "build-storybook",
     "prepare": "yarn build",
     "typecheck": "yarn build",
+    "dev": "tsc -w",
     "build": "tsc",
     "precommit": "yarn lint-staged"
   },
