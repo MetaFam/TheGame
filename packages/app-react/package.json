@@ -6,7 +6,6 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "dev": "yarn start",
-    "test": "react-scripts test",
     "eject": "react-scripts eject",
     "typecheck": "tsc --noEmit",
     "precommit": "yarn lint-staged"
