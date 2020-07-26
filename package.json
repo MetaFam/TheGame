@@ -21,6 +21,7 @@
     "hasura:migrate:init": "npm run hasura migrate create \"init\" -- --from-server",
     "hasura:migrate:apply": "npm run hasura migrate apply",
     "test": "lerna run test --parallel",
+    "test:full": "yarn lint && yarn typecheck && yarn test",
     "clean": "lerna clean",
     "format": "prettier --ignore-path .gitignore --write \"{*,**/*}.{ts,tsx,js,jsx,json,yml,yaml,md}\"",
     "lint": "eslint --ignore-path .gitignore \"./packages/**/*.{ts,tsx,js,jsx}\"",
