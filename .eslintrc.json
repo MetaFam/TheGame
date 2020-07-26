@@ -48,5 +48,28 @@
         "minimumDescriptionLength": 5
       }
     ]
-  }
+  },
+  "overrides": [
+    {
+      // assuming Next.js application
+      "files": "**/pages/**/*.{ts,tsx}",
+      "rules": {
+        "react/react-in-jsx-scope": "off", // react is a global in this folder
+        "import/no-default-export": "off", // pages have to have a default export
+        "import/prefer-default-export": "error",
+        "@typescript-eslint/explicit-module-boundary-types": [ // So we can infer prop types
+          "error",
+          { "allowedNames": ["getStaticProps"] }
+        ]
+      }
+    },
+    {
+      "files": ["**/*.stories.*"],
+      "rules": {
+        // Storybook requires default exports for stories
+        "import/no-default-export": "off",
+        "@typescript-eslint/explicit-module-boundary-types": "off"
+      }
+    }
+  ]
 }
