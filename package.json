@@ -27,7 +27,7 @@
     "lint": "eslint --ignore-path .gitignore \"./packages/**/*.{ts,tsx,js,jsx}\"",
     "typecheck": "lerna run typecheck",
     "precommit": "lerna run --concurrency 1 --stream precommit",
-    "prepush": "yarn typecheck && yarn lint",
+    "prepush": "yarn typecheck",
     "web": "yarn --cwd packages/web/"
   },
   "workspaces": [
