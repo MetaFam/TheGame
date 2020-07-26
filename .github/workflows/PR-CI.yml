@@ -22,17 +22,30 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 12.x
+
       - uses: actions/cache@v2
         with:
           path: '**/node_modules'
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+          key: nodeModules-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            nodeModules-
+
       - name: Install packages
         run: yarn --frozen-lockfile
+        env:
+          CI: true
+
       - name: Linting
         run: yarn lint
+        env:
+          CI: true
+
       - name: Typechecking
         run: yarn typecheck
+        env:
+          CI: true
+
       - name: Testing
-        run: yarn test
+        run: yarn test --ci --coverage
         env:
           CI: true
