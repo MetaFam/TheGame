@@ -1,5 +1,5 @@
 import { Pokemon } from '../types/pokemon';
-import { client } from './client'
+import { client } from './client';
 
 const firstTwentyPokemonsQuery = `
   query firstTwentyPokemons {
@@ -8,15 +8,15 @@ const firstTwentyPokemonsQuery = `
       name
     }
   }
-`
+`;
 
 export const getPokemons = async (): Promise<Array<Pokemon>> => {
   const {
     data: { pokemons },
-  } = await client.query(firstTwentyPokemonsQuery).toPromise()
+  } = await client.query(firstTwentyPokemonsQuery).toPromise();
 
   return pokemons.map((pokemon: Pokemon) => ({
     ...pokemon,
     name: pokemon.name.toLowerCase(),
-  }))
-}
+  }));
+};

@@ -1,1 +1,1 @@
-export type Pokemon = { name: string, image: string }
+export type Pokemon = { name: string; image: string };

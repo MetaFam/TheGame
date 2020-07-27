@@ -73,7 +73,6 @@ async function updateVerifiedProfiles(
           player_id: playerId,
           type: 'GITHUB',
           identifier: verifiedProfiles.github.username,
-          linkToProof: verifiedProfiles.github.proof,
         },
       ],
     });
@@ -90,7 +89,6 @@ async function updateVerifiedProfiles(
           player_id: playerId,
           type: 'TWITTER',
           identifier: verifiedProfiles.twitter.username,
-          linkToProof: verifiedProfiles.twitter.proof,
         },
       ],
     });
