@@ -1,6 +1,7 @@
+import { Box, Heading, Image, SimpleGrid } from '@metafam/ds';
 import { GetStaticProps } from 'next';
-import Link from 'next/link';
 
+import { MetaLink } from '../components/Link';
 import { getPokemons } from '../graphql/getPokemons';
 import { Pokemon } from '../types/pokemon';
 
@@ -9,19 +10,16 @@ type Props = {
 };
 
 const Home: React.FC<Props> = ({ pokemon }) => (
-  <ul>
+  <SimpleGrid columns={{ sm: 2, lg: 3 }} spacing={6}>
     {pokemon.map((p) => (
-      <li key={p.name}>
-        <Link as={`/pokemon/${p.name}`} href="pokemon/[name]">
-          {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-          <a>
-            <h2 style={{ textTransform: 'capitalize' }}>{p.name}</h2>
-            <img src={p.image} alt={p.name} />
-          </a>
-        </Link>
-      </li>
+      <MetaLink as={`/pokemon/${p.name}`} href="pokemon/[name]">
+        <Box key={p.name}>
+          <Heading style={{ textTransform: 'capitalize' }}>{p.name}</Heading>
+          <Image src={p.image} alt={p.name} />
+        </Box>
+      </MetaLink>
     ))}
-  </ul>
+  </SimpleGrid>
 );
 
 export const getStaticProps: GetStaticProps<Props> = async () => {

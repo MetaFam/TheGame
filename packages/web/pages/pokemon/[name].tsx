@@ -1,3 +1,4 @@
+import { Box, Flex, Heading, Image } from '@metafam/ds';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import Error from 'next/error';
 
@@ -15,10 +16,12 @@ const PokemonPage: React.FC<Props> = ({ pokemon }) => {
   }
 
   return (
-    <div>
-      <h1>{pokemon.name}</h1>
-      <img src={pokemon.image} alt={pokemon.name} />
-    </div>
+    <Flex align="center" justify="center">
+      <Box>
+        <Heading textAlign="center">{pokemon.name}</Heading>
+        <Image src={pokemon.image} alt={pokemon.name} />
+      </Box>
+    </Flex>
   );
 };
 export default PokemonPage;
