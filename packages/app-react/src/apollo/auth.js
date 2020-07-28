@@ -1,4 +1,4 @@
-import { GetMyAccount } from '../graphql/queries';
+import { GetPlayerFromAddress } from '../graphql/queries';
 
 const STORAGE_KEY = 'auth-token';
 
@@ -31,17 +31,17 @@ export async function login(client, token, ethAddress) {
   });
   return client
     .query({
-      query: GetMyAccount,
-      variables: { eth_address: ethAddress },
+      query: GetPlayerFromAddress,
+      variables: { ethereum_address: ethAddress },
     })
     .then(async res => {
-      if (res.data.Account.length === 0) {
+      if (res.data.Player.length === 0) {
         throw new Error('Impossible to fetch player, not found.');
       }
       client.writeData({
         data: {
           authState: 'logged',
-          playerId: res.data.Account[0].Player.id,
+          playerId: res.data.Player[0].id,
         },
       });
       setTokenInStore(token);
