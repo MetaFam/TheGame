@@ -1,7 +1,7 @@
 import { makeExecutableSchema } from 'graphql-tools';
 
-import { typeDefs } from './typeDefs';
 import { getBoxProfile } from './resolvers/getBoxProfile/resolver';
+import { typeDefs } from './typeDefs';
 
 const resolvers = {
   Query: {

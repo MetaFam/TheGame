@@ -2,8 +2,8 @@ import express from 'express';
 
 import { asyncHandlerWrapper } from '../lib/apiHelpers';
 import { actionRoutes } from './actions/routes';
-import { remoteSchemaRoutes } from './remote-schemas/routes';
 import { authHandler } from './auth-webhook/handler';
+import { remoteSchemaRoutes } from './remote-schemas/routes';
 
 export const router = express.Router();
 
