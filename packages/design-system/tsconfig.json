@@ -1,4 +1,9 @@
 {
-  "extends": "./tsconfig.build.json",
-  "include": ["./src", "__tests__", "stories"]
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "noEmit": true
+  },
+  "include": ["./src", "./stories", "./test"]
 }
