@@ -18,6 +18,7 @@ type UpdateBoxProfileResponse {
 }
 
 type BoxProfile {
+  ethereumAddress : String
   name : String
   description : String
   location : String
