@@ -14,7 +14,7 @@ services:
     ports:
       - ${HASURA_PORT}:8080
     environment:
-      WAIT_HOSTS: database:5432
+      WAIT_HOSTS: database:5432, backend:4000
       PORT: 8080
       HASURA_GRAPHQL_DATABASE_URL: postgres://${DATABASE_USER}:${DATABASE_PASSWORD}@database:5432/${DATABASE_NAME}
       HASURA_GRAPHQL_ADMIN_SECRET: ${HASURA_GRAPHQL_ADMIN_SECRET}

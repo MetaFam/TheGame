@@ -5,16 +5,6 @@
     - name: Player
       using:
         foreign_key_constraint_on: player_id
-  remote_relationships:
-    - definition:
-        remote_field:
-          getBoxProfile:
-            arguments:
-              address: $identifier
-        hasura_fields:
-          - identifier
-        remote_schema: backend
-      name: boxProfile
   select_permissions:
     - role: player
       permission:
@@ -97,26 +87,38 @@
           table:
             schema: public
             name: Player_Skill
+  remote_relationships:
+    - definition:
+        remote_field:
+          getBoxProfile:
+            arguments:
+              address: $ethereum_address
+        hasura_fields:
+          - ethereum_address
+        remote_schema: backend
+      name: box_profile
   select_permissions:
     - role: player
       permission:
         columns:
-          - id
-          - totalXp
-          - username
           - enneagram
+          - ethereum_address
+          - id
           - role
           - timezone
+          - totalXp
+          - username
         filter: {}
     - role: public
       permission:
         columns:
-          - id
-          - totalXp
-          - username
           - enneagram
+          - ethereum_address
+          - id
           - role
           - timezone
+          - totalXp
+          - username
         filter: {}
   update_permissions:
     - role: player

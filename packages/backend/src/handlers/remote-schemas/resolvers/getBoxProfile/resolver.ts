@@ -3,7 +3,7 @@ import Box from '3box';
 import { CONFIG } from '../../../../config';
 
 interface BoxProfileRequest {
-  address: string,
+  address: string;
 }
 interface BoxProfileResponse {
   ethereumAddress: string | null;

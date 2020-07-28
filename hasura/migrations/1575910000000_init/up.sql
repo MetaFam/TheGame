@@ -25,6 +25,7 @@ CREATE TYPE enneagram_type AS ENUM (
 CREATE TABLE "Player" (
   "id" uuid DEFAULT public.gen_random_uuid() NOT NULL PRIMARY KEY,
   "username" text NOT NULL,
+  "ethereum_address" text NOT NULL,
   "totalXp" numeric DEFAULT 0,
   "role" text,
   "timezone" int,
@@ -63,6 +64,8 @@ CREATE TABLE "Player_Skill" (
 
 ALTER TABLE ONLY public."Player"
   ADD CONSTRAINT "Player_username_unique_key" UNIQUE (username);
+ALTER TABLE ONLY public."Player"
+  ADD CONSTRAINT "Player_ethereum_address_unique_key" UNIQUE (ethereum_address);
 
 ALTER TABLE ONLY public."Account"
   ADD CONSTRAINT "Account_identifier_unique_key" UNIQUE (identifier);
