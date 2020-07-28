@@ -13,6 +13,7 @@ const handler = async (req: Request, res: Response) => {
   }
 
   const parsedProfile: BoxProfile = {
+    ethereumAddress: address,
     name: boxProfile.name,
     description: boxProfile.description,
     location: boxProfile.location,
