@@ -24,6 +24,7 @@ const PokemonPage: React.FC<Props> = ({ pokemon }) => {
     </Flex>
   );
 };
+
 export default PokemonPage;
 
 export const getStaticPaths: GetStaticPaths = async () => {

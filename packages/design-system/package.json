@@ -2,16 +2,26 @@
   "name": "@metafam/ds",
   "version": "0.1.0",
   "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "typings": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "module": "dist/ds.esm.js",
   "license": "MIT",
   "scripts": {
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "prepare": "yarn build",
-    "typecheck": "yarn build",
-    "dev": "tsc -w",
-    "build": "tsc",
+    "typecheck": "tsc -p tsconfig.build.json",
+    "dev": "yarn start",
+    "start": "tsdx watch --tsconfig tsconfig.build.json --verbose --noClean",
+    "build": "tsdx build --tsconfig tsconfig.build.json",
+    "test": "tsdx test --passWithNoTests",
+    "prepublish": "yarn build",
     "precommit": "yarn lint-staged"
+  },
+  "peerDependencies": {
+    "react": ">=16"
   },
   "dependencies": {
     "@chakra-ui/core": "^0.8.0",
@@ -20,15 +30,16 @@
     "emotion-theming": "^10.0.27"
   },
   "devDependencies": {
-    "@babel/core": "^7.10.4",
+    "@babel/core": "^7.10.5",
     "@storybook/addon-actions": "^5.3.19",
     "@storybook/addon-docs": "^5.3.19",
+    "@storybook/addon-info": "^5.3.19",
     "@storybook/addon-links": "^5.3.19",
     "@storybook/addons": "^5.3.19",
-    "@storybook/preset-typescript": "^3.0.0",
     "@storybook/react": "^5.3.19",
     "babel-loader": "^8.1.0",
-    "fork-ts-checker-webpack-plugin": "^5.0.9",
-    "ts-loader": "^8.0.1"
+    "react-docgen-typescript-loader": "^3.7.2",
+    "ts-loader": "^8.0.1",
+    "tslib": "^2.0.0"
   }
 }
