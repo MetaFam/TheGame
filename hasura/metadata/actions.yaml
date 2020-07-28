@@ -1,22 +1,14 @@
 actions:
-- name: getBoxProfile
-  definition:
-    kind: ""
-    handler: '{{ACTION_BASE_ENDPOINT}}/getBoxProfile'
-  permissions:
-  - role: player
-  - role: public
-- name: updateBoxProfile
-  definition:
-    kind: synchronous
-    handler: '{{ACTION_BASE_ENDPOINT}}/updateBoxProfile'
-    forward_client_headers: true
-  permissions:
-  - role: player
+  - name: updateBoxProfile
+    definition:
+      kind: synchronous
+      handler: '{{ACTION_BASE_ENDPOINT}}/updateBoxProfile'
+      forward_client_headers: true
+    permissions:
+      - role: player
 custom_types:
   enums: []
   input_objects: []
   objects:
-  - name: UpdateBoxProfileResponse
-  - name: BoxProfile
+    - name: UpdateBoxProfileResponse
   scalars: []

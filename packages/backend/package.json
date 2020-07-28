@@ -14,11 +14,14 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@metafam/utils": "1.0.0",
     "3box": "^1.18.1",
+    "@metafam/utils": "1.0.0",
     "body-parser": "^1.19.0",
     "ethers": "^4.0.46",
     "express": "^4.17.1",
+    "express-graphql": "^0.11.0",
+    "graphql": "^15.3.0",
+    "graphql-tools": "^6.0.15",
     "node-fetch": "^2.6.0"
   },
   "devDependencies": {

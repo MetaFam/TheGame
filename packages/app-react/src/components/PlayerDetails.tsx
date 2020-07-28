@@ -47,11 +47,11 @@ export const PlayerDetails: React.FC<{ player: any }> = ({ player }) => {
       variables: {
         username: usernameInput,
       },
-    }).then((res) => console.log('updated username', res.data));
+    }).then(res => console.log('updated username', res.data));
   }, [usernameInput, updateUsername]);
 
   const updateAccounts = useCallback(() => {
-    updateBoxProfiles().then((res) =>
+    updateBoxProfiles().then(res =>
       console.log(
         'updated verified profiles',
         res.data.updateBoxProfile.updatedProfiles,
@@ -72,7 +72,7 @@ export const PlayerDetails: React.FC<{ player: any }> = ({ player }) => {
         <div>
           <input
             value={usernameInput}
-            onChange={(e) => setUsernameInput(e.target.value)}
+            onChange={e => setUsernameInput(e.target.value)}
           />
           <button type="button" onClick={editUserName}>
             Change username

@@ -34,7 +34,7 @@ export async function login(client, token, ethAddress) {
       query: GetMyAccount,
       variables: { eth_address: ethAddress },
     })
-    .then(async (res) => {
+    .then(async res => {
       if (res.data.Account.length === 0) {
         throw new Error('Impossible to fetch player, not found.');
       }
@@ -46,7 +46,7 @@ export async function login(client, token, ethAddress) {
       });
       setTokenInStore(token);
     })
-    .catch(async (error) => {
+    .catch(async error => {
       logout(client);
       throw error;
     });

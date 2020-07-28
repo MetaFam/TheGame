@@ -1,18 +1,28 @@
-import { Request, Response } from 'express';
 import Box from '3box';
 
-import config from '../../../config';
+import { CONFIG } from '../../../../config';
 
-const handler = async (req: Request, res: Response) => {
+interface BoxProfileRequest {
+  address: string,
+}
+interface BoxProfileResponse {
+  ethereumAddress: string | null;
+  name: string | null;
+  description: string | null;
+  location: string | null;
+  job: string | null;
+  emoji: string | null;
+  imageUrl: string | null;
+}
 
-  const { address } = req.body.input;
+export const getBoxProfile = async (_: any, { address }: BoxProfileRequest) => {
   const boxProfile = await Box.getProfile(address);
 
   if (Object.keys(boxProfile).length === 0) {
-    return res.json({});
+    return {};
   }
 
-  const parsedProfile: BoxProfile = {
+  const parsedProfile: BoxProfileResponse = {
     ethereumAddress: address,
     name: boxProfile.name,
     description: boxProfile.description,
@@ -22,7 +32,7 @@ const handler = async (req: Request, res: Response) => {
     imageUrl: getProfilePicture(boxProfile),
   };
 
-  return res.json(parsedProfile);
+  return parsedProfile;
 };
 
 function getProfilePicture(boxProfile: any) {

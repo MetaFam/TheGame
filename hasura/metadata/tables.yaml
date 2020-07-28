@@ -5,6 +5,16 @@
     - name: Player
       using:
         foreign_key_constraint_on: player_id
+  remote_relationships:
+    - definition:
+        remote_field:
+          getBoxProfile:
+            arguments:
+              address: $identifier
+        hasura_fields:
+          - identifier
+        remote_schema: backend
+      name: boxProfile
   select_permissions:
     - role: player
       permission:
