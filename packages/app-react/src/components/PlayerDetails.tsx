@@ -5,7 +5,6 @@ import React, { useCallback, useEffect, useState } from 'react';
 
 import { useMyPlayer } from '../graphql/hooks';
 import { UpdateBoxProfiles, UpdateUsername } from '../graphql/mutations';
-import { getPlayerETHAddress } from '../utils/players';
 
 function getProfilePicture(boxProfile: any) {
   const imageHash =
@@ -28,7 +27,7 @@ export const PlayerDetails: React.FC<{ player: any }> = ({ player }) => {
   const [updateBoxProfiles] = useMutation(UpdateBoxProfiles);
   const [updateUsername] = useMutation(UpdateUsername);
 
-  const ethAddress = getPlayerETHAddress(player);
+  const ethAddress = player.ethereum_address;
 
   useEffect(() => {
     (async () => {
