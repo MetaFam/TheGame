@@ -1,5 +1,4 @@
-INSERT INTO "Player" (id, username) VALUES ('58f2911a-abcd-4210-a78b-c37dddca1157', 'pacobacpac');
-INSERT INTO "Account" (player_id, identifier, type) VALUES ('58f2911a-abcd-4210-a78b-c37dddca1157', '0x4194cE73AC3FBBeCE8fFa878c2B5A8C90333E724', 'ETHEREUM');
+INSERT INTO "Player" (id, username, ethereum_address) VALUES ('58f2911a-abcd-4210-a78b-c37dddca1157', 'pacobacpac', '0x4194cE73AC3FBBeCE8fFa878c2B5A8C90333E724');
 INSERT INTO "Account" (player_id, identifier, type) VALUES ('58f2911a-abcd-4210-a78b-c37dddca1157', 'pakokrew', 'GITHUB');
 INSERT INTO "Account" (player_id, identifier, type) VALUES ('58f2911a-abcd-4210-a78b-c37dddca1157', 'pacobacpac', 'TWITTER');
 
