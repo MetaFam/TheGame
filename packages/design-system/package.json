@@ -12,7 +12,7 @@
   "scripts": {
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "typecheck": "tsc -b tsconfig.build.json",
+    "typecheck": "tsc -b tsconfig.build.json tsconfig.json",
     "dev": "yarn start",
     "start": "tsdx watch --tsconfig tsconfig.build.json --verbose --noClean",
     "build": "tsdx build --tsconfig tsconfig.build.json",
