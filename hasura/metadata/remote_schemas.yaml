@@ -1,1 +1,4 @@
-[]
+- name: backend
+  definition:
+    url_from_env: REMOTE_SCHEMA_ENDPOINT
+    timeout_seconds: 60
