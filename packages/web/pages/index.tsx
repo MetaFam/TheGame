@@ -1,8 +1,7 @@
 import { Box, Heading, Image, SimpleGrid } from '@metafam/ds';
+import { MetaLink } from 'components/Link';
+import { getPokemons } from 'graphql/getPokemons';
 import { InferGetStaticPropsType } from 'next';
-
-import { MetaLink } from '../components/Link';
-import { getPokemons } from '../graphql/getPokemons';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
