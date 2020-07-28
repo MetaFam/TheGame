@@ -28,6 +28,7 @@
     "typecheck": "lerna run typecheck",
     "precommit": "lerna run --concurrency 1 --stream precommit",
     "prepush": "yarn typecheck",
+    "utils": "yarn --cwd packages/utils/",
     "web": "yarn --cwd packages/web/",
     "ds": "yarn --cwd packages/design-system/"
   },
