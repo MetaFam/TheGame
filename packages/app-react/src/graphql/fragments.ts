@@ -5,6 +5,19 @@ fragment PlayerFragment on Player {
   ethereum_address
 }
 `;
+
+export const BoxProfileFragment = `
+fragment BoxProfileFragment on BoxProfile {
+  ethereumAddress
+  name
+  description
+  location
+  job
+  emoji
+  imageUrl
+}
+`;
+
 export const AccountFragment = `
 fragment AccountFragment on Account {
   identifier
