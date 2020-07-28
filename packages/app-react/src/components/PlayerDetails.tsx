@@ -1,40 +1,19 @@
 import { useMutation } from '@apollo/react-hooks';
 import { Box } from '@material-ui/core';
-import ThreeBox from '3box';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 
 import { useMyPlayer } from '../graphql/hooks';
 import { UpdateBoxProfiles, UpdateUsername } from '../graphql/mutations';
 
-function getProfilePicture(boxProfile: any) {
-  const imageHash =
-    boxProfile &&
-    boxProfile.image &&
-    boxProfile.image[0] &&
-    boxProfile.image[0].contentUrl &&
-    boxProfile.image[0].contentUrl['/'];
-  if (imageHash) {
-    return `https://ipfs.infura.io/ipfs/${imageHash}`;
-  }
-  return 'https://i.imgur.com/RXJO8FD.png';
-}
-
 export const PlayerDetails: React.FC<{ player: any }> = ({ player }) => {
   const myPlayer = useMyPlayer();
   const isMyPlayer = myPlayer && myPlayer.id === player.id;
-  const [boxProfile, setBoxProfile] = useState<any>();
   const [usernameInput, setUsernameInput] = useState<string>(player.username);
   const [updateBoxProfiles] = useMutation(UpdateBoxProfiles);
   const [updateUsername] = useMutation(UpdateUsername);
 
   const ethAddress = player.ethereum_address;
-
-  useEffect(() => {
-    (async () => {
-      const profile = await ThreeBox.getProfile(ethAddress);
-      setBoxProfile(profile);
-    })();
-  }, [ethAddress]);
+  const boxProfile = player.box_profile;
 
   const goToEditBoxProfile = useCallback(() => {
     window.open(`https://3box.io/${ethAddress}/edit`);
@@ -86,7 +65,7 @@ export const PlayerDetails: React.FC<{ player: any }> = ({ player }) => {
           <p>
             <b>Description:</b> {boxProfile.description}
           </p>
-          <img src={getProfilePicture(boxProfile)} width={100} alt="profile" />
+          <img src={boxProfile.imageUrl} width={100} alt="profile" />
         </div>
       ) : (
         <p>Loading box profile</p>
