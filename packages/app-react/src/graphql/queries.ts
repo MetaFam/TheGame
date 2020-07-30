@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 
-import { AccountFragment, PlayerFragment, BoxProfileFragment } from './fragments';
+import { AccountFragment, BoxProfileFragment,PlayerFragment } from './fragments';
 
 export const GetPlayerFromId = gql`
   query GetPlayer($player_id: uuid) {
