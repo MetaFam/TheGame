@@ -1,6 +1,6 @@
 import { FC } from 'react';
-import { connect } from 'react-redux';
 import { useDrag } from 'react-dnd';
+import { connect } from 'react-redux';
 
 import { ImageContainer } from '../styles/Mapping';
 
@@ -46,7 +46,7 @@ export const ImageComponent: FC<ImageProps> = ({
     })
 
     if (selectedItem === id && resizingItem) {
-        let rleft, rtop, rwidth, rheight;
+        let rleft; let rtop; let rwidth; let rheight;
 
         if (mouseX > left) {
             rleft = left;
@@ -74,10 +74,10 @@ export const ImageComponent: FC<ImageProps> = ({
                 data-type={type}
                 onClick={(e: any) => dispatch({ type: 'RESIZE_ITEM_UPDATE' })}
             >
-                <img id={`image-${id}`}/>
+                <img id={`image-${id}`} alt={id.toString()}/>
             </ImageContainer>
         )
-    } else if (url) {
+    } if (url) {
         return (
             <a href={url}>
                 <ImageContainer
@@ -86,11 +86,11 @@ export const ImageComponent: FC<ImageProps> = ({
                     data-id={id}
                     data-type={type}
                 >
-                    <img id={`image-${id}`}/>
+                    <img id={`image-${id}`} alt={id.toString()}/>
                 </ImageContainer>
             </a>
         )
-    } else {
+    } 
         return (
             <ImageContainer
                 ref={drag}
@@ -98,10 +98,10 @@ export const ImageComponent: FC<ImageProps> = ({
                 data-id={id}
                 data-type={type}
             >
-                <img id={`image-${id}`}/>
+                <img id={`image-${id}`} alt={id.toString()}/>
             </ImageContainer>
         )
-    }
+    
 }
 
 export const Image = connect(

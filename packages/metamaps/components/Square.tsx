@@ -1,6 +1,6 @@
 import { FC } from 'react';
-import { connect } from 'react-redux';
 import { useDrag } from 'react-dnd';
+import { connect } from 'react-redux';
 
 import { SquareContainer } from '../styles/Mapping';
 
@@ -46,7 +46,7 @@ export const SquareComponent: FC<SquareProps> = ({
     })
 
     if (selectedItem === id && resizingItem) {
-        let rleft, rtop, rwidth, rheight;
+        let rleft; let rtop; let rwidth; let rheight;
 
         if (mouseX > left) {
             rleft = left;
@@ -75,7 +75,7 @@ export const SquareComponent: FC<SquareProps> = ({
                 onClick={(e: any) => dispatch({ type: 'RESIZE_ITEM_UPDATE' })}
             />
         )
-    } else if (url) {
+    } if (url) {
         return (
             <a href={url}>
                 <SquareContainer
@@ -86,7 +86,7 @@ export const SquareComponent: FC<SquareProps> = ({
                 />
             </a>
         )
-    } else {
+    } 
         return (
             <SquareContainer
                 ref={drag}
@@ -97,7 +97,7 @@ export const SquareComponent: FC<SquareProps> = ({
                 onClick={(e: any) => dispatch({ type: 'OPEN_POPUP', popup })}
             />
         )
-    }
+    
 }
 
 export const Square = connect(

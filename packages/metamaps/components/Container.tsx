@@ -1,13 +1,12 @@
 import { FC } from 'react';
-import { connect } from 'react-redux';
 import { useDrop, XYCoord } from 'react-dnd';
+import { connect } from 'react-redux';
 
 import { MappingContainer } from '../styles/Mapping';
-
-import { Square } from './Square';
 import { Circle } from './Circle';
-import { Line } from './Line';
 import { Image } from './Image';
+import { Line } from './Line';
+import { Square } from './Square';
 
 export interface ContainerProps {
   dispatch: any;
@@ -34,7 +33,7 @@ export const ContainerComponent: FC<ContainerProps> = ({ dispatch, items }) => {
             case 'SQUARE':
               return(
                 <Square
-                  key={id}
+                  key={id.toString()}
                   id={id}
                   type={item.type}
                   left={item.left}
@@ -47,7 +46,7 @@ export const ContainerComponent: FC<ContainerProps> = ({ dispatch, items }) => {
             case 'CIRCLE':
               return(
                 <Circle
-                  key={id}
+                  key={id.toString()}
                   id={id}
                   type={item.type}
                   left={item.left}
@@ -60,7 +59,7 @@ export const ContainerComponent: FC<ContainerProps> = ({ dispatch, items }) => {
             case 'LINE':
               return(
                 <Line
-                  key={id}
+                  key={id.toString()}         
                   id={id}
                   type={item.type}
                   left={item.left}
@@ -75,7 +74,7 @@ export const ContainerComponent: FC<ContainerProps> = ({ dispatch, items }) => {
             case 'IMAGE':
               return(
                 <Image
-                  key={id}
+                  key={id.toString()}
                   id={id}
                   type={item.type}
                   left={item.left}
@@ -86,9 +85,9 @@ export const ContainerComponent: FC<ContainerProps> = ({ dispatch, items }) => {
                   popup={item.popup}/>
               )
             default: 
-                return(
-                  <div/>
-                )
+              return(
+                <div/>
+              )
           }
         })
       }

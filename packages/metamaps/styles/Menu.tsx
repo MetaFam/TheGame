@@ -1,5 +1,6 @@
 import styled from 'styled-components';
-import { PopupColor, ButtonColor } from './Styles';
+
+import { ButtonColor,PopupColor } from './Styles';
 
 export const MenuContainer = styled.div`
     position: fixed;
@@ -14,6 +15,7 @@ export const MenuContainer = styled.div`
     padding: 10px 15px 10px 15px;
     transition: left, top, opacity 0.25s cubic-bezier(0.45, 0, 0.55, 1);
     opacity: 0;
+    pointer-events: none;
 
     input[type="file"] { display: none; }
     input[type="text"] {

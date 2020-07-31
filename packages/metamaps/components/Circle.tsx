@@ -1,6 +1,6 @@
 import { FC } from 'react';
-import { connect } from 'react-redux';
 import { useDrag } from 'react-dnd';
+import { connect } from 'react-redux';
 
 import { CircleContainer } from '../styles/Mapping';
 
@@ -44,7 +44,7 @@ export const CircleComponent: FC<CircleProps> = ({
     })
 
     if (selectedItem === id && resizingItem) {
-        let rleft, rtop, rwidth, rheight;
+        let rleft; let rtop; let rwidth; let rheight;
 
         if (mouseX > left) {
             rleft = left;
@@ -72,10 +72,10 @@ export const CircleComponent: FC<CircleProps> = ({
                 data-type={type}
                 onClick={(e: any) => dispatch({ type: 'RESIZE_ITEM_UPDATE' })}
             >
-                <div className="circle"></div>
+                <div className="circle" />
             </CircleContainer>
         )
-    } else if (url) {
+    } if (url) {
         return(
             <a href={url}>
                 <CircleContainer
@@ -84,11 +84,11 @@ export const CircleComponent: FC<CircleProps> = ({
                     data-id={id}
                     data-type={type}
                 >
-                    <div className="circle"></div>
+                    <div className="circle" />
                 </CircleContainer>
             </a>
         )
-    } else {
+    } 
         return (
             <CircleContainer
                 ref={drag}
@@ -98,10 +98,10 @@ export const CircleComponent: FC<CircleProps> = ({
                 data-popup={popup}
                 onClick={(e: any) => dispatch({ type: 'OPEN_POPUP', popup })}
             >
-                <div className="circle"></div>
+                <div className="circle" />
             </CircleContainer>
         )
-    }
+    
 }
 
 export const Circle = connect(

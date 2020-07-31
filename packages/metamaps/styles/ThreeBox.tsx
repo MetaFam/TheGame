@@ -1,10 +1,12 @@
 import styled from 'styled-components';
-import { PopupColor, ButtonColor } from './Styles';
+
+import { PopupColor } from './Styles';
 
 export const ThreeBoxContainer = styled.div`
     position: fixed;
     left: 15px;
     bottom: 15px;
+    z-index: 1111;
     padding: 10px 15px;
     background: ${PopupColor};
     z-index: 11;

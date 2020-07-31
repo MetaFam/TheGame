@@ -1,5 +1,6 @@
 import styled from 'styled-components';
-import { SquareColor, CircleColor } from './Styles';
+
+import { CircleColor,SquareColor } from './Styles';
 
 export const MappingContainer = styled.div`
     position: relative;

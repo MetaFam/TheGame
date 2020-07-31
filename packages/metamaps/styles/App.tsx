@@ -1,5 +1,6 @@
 import styled from 'styled-components';
-import { BackgroundColor, WhiteColor, PopupColor, ButtonColor } from './Styles'; 
+
+import { BackgroundColor, ButtonColor,PopupColor, WhiteColor } from './Styles'; 
 
 export const App = styled.div`
     background: ${BackgroundColor};

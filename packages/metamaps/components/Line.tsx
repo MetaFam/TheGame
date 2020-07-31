@@ -1,6 +1,6 @@
 import { FC } from 'react';
-import { connect } from 'react-redux';
 import { useDrag } from 'react-dnd';
+import { connect } from 'react-redux';
 
 import { LineContainer } from '../styles/Mapping';
 import { LineColor } from '../styles/Styles';
@@ -31,7 +31,7 @@ export const LineComponent: FC<LineProps> = ({ dispatch, menuX, menuY, mouseX, m
     const [, drag] = useDrag({ item: { id, type, left, top } })
 
     if (createLine) {
-        let rleft: number, rtop: number, rwidth: number, rheight: number;
+        let rleft: number; let rtop: number; let rwidth: number; let rheight: number;
 
         if (mouseX > menuX) {
             rleft = menuX;
@@ -48,20 +48,20 @@ export const LineComponent: FC<LineProps> = ({ dispatch, menuX, menuY, mouseX, m
             rtop = mouseY - 5;
             rheight = menuY - mouseY + 5;
         }
-
-        let x1: number = 0;
-        let y1: number = 0;
-        let x2: number = rwidth;
-        let y2: number = rheight;
+        
+        const X1 = x1;
+        const X2 = rwidth;
+        let Y1 = y1;
+        let Y2 = rheight;
 
         if (mouseX > menuX && mouseY < menuY) {
-            y1 = rheight;
-            y2 = 0;
+            Y1 = rheight;
+            Y2 = 0;
         }
 
         if (mouseX < menuX && mouseY > menuY) {
-            y1 = rheight;
-            y2 = 0;
+            Y1 = rheight;
+            Y2 = 0;
         }
 
         return(
@@ -77,33 +77,34 @@ export const LineComponent: FC<LineProps> = ({ dispatch, menuX, menuY, mouseX, m
                     rtop,
                     rwidth,
                     rheight,
-                    x1,
-                    x2,
-                    y1,
-                    y2,
+                    x1: X1,
+                    x2: X2,
+                    y1: Y1,
+                    y2: Y2,
                 })}
             >
                 <polyline
-                    points={`${x1},${y1} ${x2},${y2}`}
-                    style={{ fill: 'none', stroke: LineColor, strokeWidth: 5 }}
-                />
-            </LineContainer>
-        )
-    } else {
-        return (
-            <LineContainer
-                ref={drag}
-                style={{ left, top, width, height }}
-                data-id={id}
-                data-type={type}
-            >
-                <polyline
-                    points={`${x1},${y1} ${x2},${y2}`}
+                    points={`${X1},${Y1} ${X2},${Y2}`}
                     style={{ fill: 'none', stroke: LineColor, strokeWidth: 5 }}
                 />
             </LineContainer>
         )
     }
+
+    return (
+        <LineContainer
+            ref={drag}
+            style={{ left, top, width, height }}
+            data-id={id}
+            data-type={type}
+        >
+            <polyline
+                points={`${x1},${y1} ${x2},${y2}`}
+                style={{ fill: 'none', stroke: LineColor, strokeWidth: 5 }}
+            />
+        </LineContainer>
+    )
+    
 }
 
 export const Line = connect(

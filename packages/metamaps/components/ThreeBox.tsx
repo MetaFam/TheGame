@@ -1,11 +1,10 @@
+import { Button,ButtonGroup } from '@chakra-ui/core';
 import { FC } from 'react';
 import { connect } from 'react-redux';
-import { ButtonGroup, Button } from '@chakra-ui/core';
 
+import { Load3BoxUrl,Save3BoxUrl } from '../redux/ThreeBox';
+import { ButtonColor,WhiteColor } from '../styles/Styles';
 import { ThreeBoxContainer } from '../styles/ThreeBox';
-import { WhiteColor, ButtonColor } from '../styles/Styles';
-
-import { Save3BoxUrl, Load3BoxUrl } from '../redux/ThreeBox';
 
 export interface ThreeBoxProps {
     dispatch: any;

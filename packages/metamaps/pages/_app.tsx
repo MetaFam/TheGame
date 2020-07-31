@@ -1,9 +1,24 @@
-import { ThemeProvider, CSSReset } from '@chakra-ui/core';
-import App, { AppInitialProps, AppContext } from "next/app";
+import { CSSReset, ThemeProvider } from '@chakra-ui/core';
+import App, { AppContext, AppInitialProps } from "next/app";
+import { connect } from 'react-redux';
 
 import { wrapper } from "../redux/Reducer";
+import { Load3BoxUrl } from '../redux/ThreeBox';
 
-class WrappedApp extends App<AppInitialProps> {
+declare const window: any;
+
+export interface AppProps extends AppInitialProps {
+  dispatch: any;
+  activeSpace: string;
+};
+
+class WrappedApp extends App<AppProps> {
+  public async componentDidMount() {
+    const accounts = await window.ethereum.enable();
+    this.props.dispatch({ type: 'UPDATE_ETH_ACCOUNTS', accounts });
+    this.props.dispatch(await Load3BoxUrl(accounts[0], this.props.activeSpace));
+  }
+
   public static getInitialProps = async ({ Component, ctx }: AppContext) => {
     return {
       pageProps: {
@@ -26,4 +41,11 @@ class WrappedApp extends App<AppInitialProps> {
   }
 }
 
-export default wrapper.withRedux(WrappedApp);
+const WrappedAppRedux = connect(
+  (state: any) => ({
+    menu: state.menu,
+    activeSpace: state.activeSpace,
+  })
+)(WrappedApp);
+
+export default wrapper.withRedux(WrappedAppRedux);
