@@ -1,10 +1,12 @@
-import { Box, Flex, Text, Image, SimpleGrid } from '@metafam/ds';
-import { MetaLink } from 'components/Link';
+import { Flex, Image, SimpleGrid, Text } from '@metafam/ds';
+import React from 'react';
+
+import { MetaLink } from '../components/Link';
 import BackgroundImage from '../public/images/background.png';
 import MetaGameImage from '../public/images/metagame.png';
 import PlayersImage from '../public/images/players.png';
 
-const Login = () => (
+const Login: React.FC<> = () => (
   <Flex
     backgroundSize="cover"
     backgroundImage={`url(${BackgroundImage})`}
@@ -24,9 +26,14 @@ const Login = () => (
       <Flex alignItems="center" justifyContent="flex-end">
         <Text fontFamily="heading" color="#F6F8F9">
           Already a Player?
-        <MetaLink fontFamily="heading" marginLeft="0.5rem" href="" color="#79F8FB">
-          Sign in
-        </MetaLink>
+          <MetaLink
+            fontFamily="heading"
+            marginLeft="0.5rem"
+            href=""
+            color="#79F8FB"
+          >
+            Sign in
+          </MetaLink>
         </Text>
       </Flex>
     </SimpleGrid>
@@ -38,15 +45,18 @@ const Login = () => (
       maxWidth="45rem"
     >
       <Image src={PlayersImage} />
-      <Text fontSize="3xl" fontFamily="mono" fontWeight="bold" color="#FFFFFF" m={5}>
+      <Text
+        fontSize="3xl"
+        fontFamily="mono"
+        fontWeight="bold"
+        color="#FFFFFF"
+        m={5}
+      >
         Become a Player
       </Text>
       <Text fontSize="lg" fontFamily="body" color="#FFFFFF" textAlign="center">
         MetaGame is an idea we can build a new world, a layer atop of the old
-        one.
-      </Text>
-      <Text fontSize="lg" fontFamily="body" color="#FFFFFF" textAlign="center">
-        A more collaborative, transparent & caring world. A world in which
+        one. A more collaborative, transparent & caring world. A world in which
         self-interest is better aligned with the common good & the ones creating
         value are more directly rewarded.
       </Text>
