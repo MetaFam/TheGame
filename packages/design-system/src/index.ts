@@ -21,6 +21,7 @@ export {
   Stack,
   useTheme,
   useToast,
+  LinkProps,
 } from '@chakra-ui/core';
 
 export { theme as MetaTheme } from './theme';

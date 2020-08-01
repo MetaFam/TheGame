@@ -6,7 +6,7 @@ import BackgroundImage from '../public/images/background.png';
 import MetaGameImage from '../public/images/metagame.png';
 import PlayersImage from '../public/images/players.png';
 
-const Login: React.FC<> = () => (
+const Login: React.FC = () => (
   <Flex
     backgroundSize="cover"
     backgroundImage={`url(${BackgroundImage})`}
@@ -25,13 +25,8 @@ const Login: React.FC<> = () => (
       </Flex>
       <Flex alignItems="center" justifyContent="flex-end">
         <Text fontFamily="heading" color="#F6F8F9">
-          Already a Player?
-          <MetaLink
-            fontFamily="heading"
-            marginLeft="0.5rem"
-            href=""
-            color="#79F8FB"
-          >
+          Already a Player?{' '}
+          <MetaLink fontFamily="heading" href="" color="#79F8FB">
             Sign in
           </MetaLink>
         </Text>
