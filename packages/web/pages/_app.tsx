@@ -1,9 +1,9 @@
-import { GlobalStyle, ThemeProvider } from '@metafam/ds';
+import { GlobalStyle, ThemeProvider, MetaTheme } from '@metafam/ds';
 import { AppProps } from 'next/app';
 
 const app: React.FC<AppProps> = ({ pageProps, Component }) => {
   return (
-    <ThemeProvider>
+    <ThemeProvider theme={MetaTheme}>
       <GlobalStyle />
       <Component {...pageProps} />
     </ThemeProvider>

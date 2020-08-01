@@ -22,5 +22,6 @@ export {
   useTheme,
   useToast,
 } from '@chakra-ui/core';
-export { theme } from './theme';
+
+export { theme as MetaTheme } from './theme';
 export { GlobalStyle } from './GlobalStyle';

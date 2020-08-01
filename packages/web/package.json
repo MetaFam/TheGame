@@ -14,8 +14,10 @@
     "graphql": "^15.0.0",
     "isomorphic-unfetch": "^3.0.0",
     "next": "latest",
+    "next-images": "^1.4.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-google-font-loader": "^1.1.0",
     "urql": "^1.9.7"
   }
 }

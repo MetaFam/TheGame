@@ -1,9 +1,9 @@
 import React from 'react';
-import { GlobalStyle, ThemeProvider, theme } from '../src';
+import { GlobalStyle, ThemeProvider, MetaTheme } from '../src';
 import GoogleFontLoader from 'react-google-font-loader';
 
 const ThemeDecorator = (storyFn) => (
-  <ThemeProvider theme={theme}>
+  <ThemeProvider theme={MetaTheme}>
     <GoogleFontLoader
       fonts={[
         {
