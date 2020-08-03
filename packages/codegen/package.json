@@ -1,5 +1,5 @@
 {
-  "name": "@metafam/graphql-codegen",
+  "name": "@metafam/codegen",
   "version": "1.0.0",
   "license": "MIT",
   "engines": {
@@ -14,11 +14,6 @@
     "graphql-tag": "^2.10.4"
   },
   "devDependencies": {
-    "@graphql-codegen/cli": "^1.13.2",
-    "@graphql-codegen/introspection": "^1.13.2",
-    "@graphql-codegen/typescript": "^1.13.2",
-    "@graphql-codegen/typescript-operations": "^1.13.2",
-    "@graphql-codegen/typescript-react-apollo": "^1.13.2",
     "env-cmd": "^10.1.0",
     "graphql-codegen-hasura-client-config": "^4.8.3",
     "graphql-codegen-hasura-core": "^4.8.3",

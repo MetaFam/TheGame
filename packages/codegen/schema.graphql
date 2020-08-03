@@ -1,0 +1,2477 @@
+schema {
+  query: query_root
+  mutation: mutation_root
+  subscription: subscription_root
+}
+
+"""
+columns and relationships of "Account"
+"""
+type Account {
+  """An object relationship"""
+  Player: Player!
+  identifier: String!
+  player_id: uuid!
+  type: account_type!
+}
+
+"""
+aggregated selection of "Account"
+"""
+type Account_aggregate {
+  aggregate: Account_aggregate_fields
+  nodes: [Account!]!
+}
+
+"""
+aggregate fields of "Account"
+"""
+type Account_aggregate_fields {
+  count(columns: [Account_select_column!], distinct: Boolean): Int
+  max: Account_max_fields
+  min: Account_min_fields
+}
+
+"""
+order by aggregate values of table "Account"
+"""
+input Account_aggregate_order_by {
+  count: order_by
+  max: Account_max_order_by
+  min: Account_min_order_by
+}
+
+"""
+input type for inserting array relation for remote table "Account"
+"""
+input Account_arr_rel_insert_input {
+  data: [Account_insert_input!]!
+  on_conflict: Account_on_conflict
+}
+
+"""
+Boolean expression to filter rows from the table "Account". All fields are combined with a logical 'AND'.
+"""
+input Account_bool_exp {
+  Player: Player_bool_exp
+  _and: [Account_bool_exp]
+  _not: Account_bool_exp
+  _or: [Account_bool_exp]
+  identifier: String_comparison_exp
+  player_id: uuid_comparison_exp
+  type: account_type_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "Account"
+"""
+enum Account_constraint {
+  """unique or primary key constraint"""
+  Account_identifier_type_player_key
+
+  """unique or primary key constraint"""
+  Account_identifier_unique_key
+}
+
+"""
+input type for inserting data into table "Account"
+"""
+input Account_insert_input {
+  Player: Player_obj_rel_insert_input
+  identifier: String
+  player_id: uuid
+  type: account_type
+}
+
+"""aggregate max on columns"""
+type Account_max_fields {
+  identifier: String
+  player_id: uuid
+}
+
+"""
+order by max() on columns of table "Account"
+"""
+input Account_max_order_by {
+  identifier: order_by
+  player_id: order_by
+}
+
+"""aggregate min on columns"""
+type Account_min_fields {
+  identifier: String
+  player_id: uuid
+}
+
+"""
+order by min() on columns of table "Account"
+"""
+input Account_min_order_by {
+  identifier: order_by
+  player_id: order_by
+}
+
+"""
+response of any mutation on the table "Account"
+"""
+type Account_mutation_response {
+  """number of affected rows by the mutation"""
+  affected_rows: Int!
+
+  """data of the affected rows by the mutation"""
+  returning: [Account!]!
+}
+
+"""
+input type for inserting object relation for remote table "Account"
+"""
+input Account_obj_rel_insert_input {
+  data: Account_insert_input!
+  on_conflict: Account_on_conflict
+}
+
+"""
+on conflict condition type for table "Account"
+"""
+input Account_on_conflict {
+  constraint: Account_constraint!
+  update_columns: [Account_update_column!]!
+  where: Account_bool_exp
+}
+
+"""
+ordering options when selecting data from "Account"
+"""
+input Account_order_by {
+  Player: Player_order_by
+  identifier: order_by
+  player_id: order_by
+  type: order_by
+}
+
+"""
+select columns of table "Account"
+"""
+enum Account_select_column {
+  """column name"""
+  identifier
+
+  """column name"""
+  player_id
+
+  """column name"""
+  type
+}
+
+"""
+input type for updating data in table "Account"
+"""
+input Account_set_input {
+  identifier: String
+  player_id: uuid
+  type: account_type
+}
+
+scalar account_type
+
+"""
+expression to compare columns of type account_type. All fields are combined with logical 'AND'.
+"""
+input account_type_comparison_exp {
+  _eq: account_type
+  _gt: account_type
+  _gte: account_type
+  _in: [account_type!]
+  _is_null: Boolean
+  _lt: account_type
+  _lte: account_type
+  _neq: account_type
+  _nin: [account_type!]
+}
+
+"""
+update columns of table "Account"
+"""
+enum Account_update_column {
+  """column name"""
+  identifier
+
+  """column name"""
+  player_id
+
+  """column name"""
+  type
+}
+
+type BoxProfile {
+  description: String
+  emoji: String
+  ethereumAddress: String
+  imageUrl: String
+  job: String
+  location: String
+  name: String
+}
+
+scalar enneagram_type
+
+"""
+expression to compare columns of type enneagram_type. All fields are combined with logical 'AND'.
+"""
+input enneagram_type_comparison_exp {
+  _eq: enneagram_type
+  _gt: enneagram_type
+  _gte: enneagram_type
+  _in: [enneagram_type!]
+  _is_null: Boolean
+  _lt: enneagram_type
+  _lte: enneagram_type
+  _neq: enneagram_type
+  _nin: [enneagram_type!]
+}
+
+"""
+columns and relationships of "Guild"
+"""
+type Guild {
+  """An object relationship"""
+  GuildType: GuildType!
+  id: uuid!
+  identifier: String!
+  logo: String
+  name: String!
+  type: GuildType_enum!
+}
+
+"""
+aggregated selection of "Guild"
+"""
+type Guild_aggregate {
+  aggregate: Guild_aggregate_fields
+  nodes: [Guild!]!
+}
+
+"""
+aggregate fields of "Guild"
+"""
+type Guild_aggregate_fields {
+  count(columns: [Guild_select_column!], distinct: Boolean): Int
+  max: Guild_max_fields
+  min: Guild_min_fields
+}
+
+"""
+order by aggregate values of table "Guild"
+"""
+input Guild_aggregate_order_by {
+  count: order_by
+  max: Guild_max_order_by
+  min: Guild_min_order_by
+}
+
+"""
+input type for inserting array relation for remote table "Guild"
+"""
+input Guild_arr_rel_insert_input {
+  data: [Guild_insert_input!]!
+  on_conflict: Guild_on_conflict
+}
+
+"""
+Boolean expression to filter rows from the table "Guild". All fields are combined with a logical 'AND'.
+"""
+input Guild_bool_exp {
+  GuildType: GuildType_bool_exp
+  _and: [Guild_bool_exp]
+  _not: Guild_bool_exp
+  _or: [Guild_bool_exp]
+  id: uuid_comparison_exp
+  identifier: String_comparison_exp
+  logo: String_comparison_exp
+  name: String_comparison_exp
+  type: GuildType_enum_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "Guild"
+"""
+enum Guild_constraint {
+  """unique or primary key constraint"""
+  Guild_pkey
+}
+
+"""
+input type for inserting data into table "Guild"
+"""
+input Guild_insert_input {
+  GuildType: GuildType_obj_rel_insert_input
+  id: uuid
+  identifier: String
+  logo: String
+  name: String
+  type: GuildType_enum
+}
+
+"""aggregate max on columns"""
+type Guild_max_fields {
+  id: uuid
+  identifier: String
+  logo: String
+  name: String
+}
+
+"""
+order by max() on columns of table "Guild"
+"""
+input Guild_max_order_by {
+  id: order_by
+  identifier: order_by
+  logo: order_by
+  name: order_by
+}
+
+"""aggregate min on columns"""
+type Guild_min_fields {
+  id: uuid
+  identifier: String
+  logo: String
+  name: String
+}
+
+"""
+order by min() on columns of table "Guild"
+"""
+input Guild_min_order_by {
+  id: order_by
+  identifier: order_by
+  logo: order_by
+  name: order_by
+}
+
+"""
+response of any mutation on the table "Guild"
+"""
+type Guild_mutation_response {
+  """number of affected rows by the mutation"""
+  affected_rows: Int!
+
+  """data of the affected rows by the mutation"""
+  returning: [Guild!]!
+}
+
+"""
+input type for inserting object relation for remote table "Guild"
+"""
+input Guild_obj_rel_insert_input {
+  data: Guild_insert_input!
+  on_conflict: Guild_on_conflict
+}
+
+"""
+on conflict condition type for table "Guild"
+"""
+input Guild_on_conflict {
+  constraint: Guild_constraint!
+  update_columns: [Guild_update_column!]!
+  where: Guild_bool_exp
+}
+
+"""
+ordering options when selecting data from "Guild"
+"""
+input Guild_order_by {
+  GuildType: GuildType_order_by
+  id: order_by
+  identifier: order_by
+  logo: order_by
+  name: order_by
+  type: order_by
+}
+
+"""
+primary key columns input for table: "Guild"
+"""
+input Guild_pk_columns_input {
+  id: uuid!
+}
+
+"""
+select columns of table "Guild"
+"""
+enum Guild_select_column {
+  """column name"""
+  id
+
+  """column name"""
+  identifier
+
+  """column name"""
+  logo
+
+  """column name"""
+  name
+
+  """column name"""
+  type
+}
+
+"""
+input type for updating data in table "Guild"
+"""
+input Guild_set_input {
+  id: uuid
+  identifier: String
+  logo: String
+  name: String
+  type: GuildType_enum
+}
+
+"""
+update columns of table "Guild"
+"""
+enum Guild_update_column {
+  """column name"""
+  id
+
+  """column name"""
+  identifier
+
+  """column name"""
+  logo
+
+  """column name"""
+  name
+
+  """column name"""
+  type
+}
+
+"""
+columns and relationships of "GuildType"
+"""
+type GuildType {
+  """An array relationship"""
+  Guilds(
+    """distinct select on columns"""
+    distinct_on: [Guild_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [Guild_order_by!]
+
+    """filter the rows returned"""
+    where: Guild_bool_exp
+  ): [Guild!]!
+
+  """An aggregated array relationship"""
+  Guilds_aggregate(
+    """distinct select on columns"""
+    distinct_on: [Guild_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [Guild_order_by!]
+
+    """filter the rows returned"""
+    where: Guild_bool_exp
+  ): Guild_aggregate!
+  name: String!
+}
+
+"""
+aggregated selection of "GuildType"
+"""
+type GuildType_aggregate {
+  aggregate: GuildType_aggregate_fields
+  nodes: [GuildType!]!
+}
+
+"""
+aggregate fields of "GuildType"
+"""
+type GuildType_aggregate_fields {
+  count(columns: [GuildType_select_column!], distinct: Boolean): Int
+  max: GuildType_max_fields
+  min: GuildType_min_fields
+}
+
+"""
+order by aggregate values of table "GuildType"
+"""
+input GuildType_aggregate_order_by {
+  count: order_by
+  max: GuildType_max_order_by
+  min: GuildType_min_order_by
+}
+
+"""
+input type for inserting array relation for remote table "GuildType"
+"""
+input GuildType_arr_rel_insert_input {
+  data: [GuildType_insert_input!]!
+  on_conflict: GuildType_on_conflict
+}
+
+"""
+Boolean expression to filter rows from the table "GuildType". All fields are combined with a logical 'AND'.
+"""
+input GuildType_bool_exp {
+  Guilds: Guild_bool_exp
+  _and: [GuildType_bool_exp]
+  _not: GuildType_bool_exp
+  _or: [GuildType_bool_exp]
+  name: String_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "GuildType"
+"""
+enum GuildType_constraint {
+  """unique or primary key constraint"""
+  GuildType_pkey
+}
+
+enum GuildType_enum {
+  ARAGON
+  EVEREST
+  MOLOCH
+}
+
+"""
+expression to compare columns of type GuildType_enum. All fields are combined with logical 'AND'.
+"""
+input GuildType_enum_comparison_exp {
+  _eq: GuildType_enum
+  _in: [GuildType_enum!]
+  _is_null: Boolean
+  _neq: GuildType_enum
+  _nin: [GuildType_enum!]
+}
+
+"""
+input type for inserting data into table "GuildType"
+"""
+input GuildType_insert_input {
+  Guilds: Guild_arr_rel_insert_input
+  name: String
+}
+
+"""aggregate max on columns"""
+type GuildType_max_fields {
+  name: String
+}
+
+"""
+order by max() on columns of table "GuildType"
+"""
+input GuildType_max_order_by {
+  name: order_by
+}
+
+"""aggregate min on columns"""
+type GuildType_min_fields {
+  name: String
+}
+
+"""
+order by min() on columns of table "GuildType"
+"""
+input GuildType_min_order_by {
+  name: order_by
+}
+
+"""
+response of any mutation on the table "GuildType"
+"""
+type GuildType_mutation_response {
+  """number of affected rows by the mutation"""
+  affected_rows: Int!
+
+  """data of the affected rows by the mutation"""
+  returning: [GuildType!]!
+}
+
+"""
+input type for inserting object relation for remote table "GuildType"
+"""
+input GuildType_obj_rel_insert_input {
+  data: GuildType_insert_input!
+  on_conflict: GuildType_on_conflict
+}
+
+"""
+on conflict condition type for table "GuildType"
+"""
+input GuildType_on_conflict {
+  constraint: GuildType_constraint!
+  update_columns: [GuildType_update_column!]!
+  where: GuildType_bool_exp
+}
+
+"""
+ordering options when selecting data from "GuildType"
+"""
+input GuildType_order_by {
+  Guilds_aggregate: Guild_aggregate_order_by
+  name: order_by
+}
+
+"""
+primary key columns input for table: "GuildType"
+"""
+input GuildType_pk_columns_input {
+  name: String!
+}
+
+"""
+select columns of table "GuildType"
+"""
+enum GuildType_select_column {
+  """column name"""
+  name
+}
+
+"""
+input type for updating data in table "GuildType"
+"""
+input GuildType_set_input {
+  name: String
+}
+
+"""
+update columns of table "GuildType"
+"""
+enum GuildType_update_column {
+  """column name"""
+  name
+}
+
+"""
+expression to compare columns of type Int. All fields are combined with logical 'AND'.
+"""
+input Int_comparison_exp {
+  _eq: Int
+  _gt: Int
+  _gte: Int
+  _in: [Int!]
+  _is_null: Boolean
+  _lt: Int
+  _lte: Int
+  _neq: Int
+  _nin: [Int!]
+}
+
+scalar json
+
+"""
+expression to compare columns of type json. All fields are combined with logical 'AND'.
+"""
+input json_comparison_exp {
+  _eq: json
+  _gt: json
+  _gte: json
+  _in: [json!]
+  _is_null: Boolean
+  _lt: json
+  _lte: json
+  _neq: json
+  _nin: [json!]
+}
+
+"""mutation root"""
+type mutation_root {
+  """
+  delete data from the table: "Account"
+  """
+  delete_Account(
+    """filter the rows which have to be deleted"""
+    where: Account_bool_exp!
+  ): Account_mutation_response
+
+  """
+  delete data from the table: "Guild"
+  """
+  delete_Guild(
+    """filter the rows which have to be deleted"""
+    where: Guild_bool_exp!
+  ): Guild_mutation_response
+
+  """
+  delete data from the table: "GuildType"
+  """
+  delete_GuildType(
+    """filter the rows which have to be deleted"""
+    where: GuildType_bool_exp!
+  ): GuildType_mutation_response
+
+  """
+  delete single row from the table: "GuildType"
+  """
+  delete_GuildType_by_pk(name: String!): GuildType
+
+  """
+  delete single row from the table: "Guild"
+  """
+  delete_Guild_by_pk(id: uuid!): Guild
+
+  """
+  delete data from the table: "Player"
+  """
+  delete_Player(
+    """filter the rows which have to be deleted"""
+    where: Player_bool_exp!
+  ): Player_mutation_response
+
+  """
+  delete data from the table: "Player_Skill"
+  """
+  delete_Player_Skill(
+    """filter the rows which have to be deleted"""
+    where: Player_Skill_bool_exp!
+  ): Player_Skill_mutation_response
+
+  """
+  delete single row from the table: "Player_Skill"
+  """
+  delete_Player_Skill_by_pk(player_id: uuid!, skill_id: uuid!): Player_Skill
+
+  """
+  delete single row from the table: "Player"
+  """
+  delete_Player_by_pk(id: uuid!): Player
+
+  """
+  delete data from the table: "Skill"
+  """
+  delete_Skill(
+    """filter the rows which have to be deleted"""
+    where: Skill_bool_exp!
+  ): Skill_mutation_response
+
+  """
+  delete single row from the table: "Skill"
+  """
+  delete_Skill_by_pk(id: uuid!): Skill
+
+  """
+  insert data into the table: "Account"
+  """
+  insert_Account(
+    """the rows to be inserted"""
+    objects: [Account_insert_input!]!
+
+    """on conflict condition"""
+    on_conflict: Account_on_conflict
+  ): Account_mutation_response
+
+  """
+  insert a single row into the table: "Account"
+  """
+  insert_Account_one(
+    """the row to be inserted"""
+    object: Account_insert_input!
+
+    """on conflict condition"""
+    on_conflict: Account_on_conflict
+  ): Account
+
+  """
+  insert data into the table: "Guild"
+  """
+  insert_Guild(
+    """the rows to be inserted"""
+    objects: [Guild_insert_input!]!
+
+    """on conflict condition"""
+    on_conflict: Guild_on_conflict
+  ): Guild_mutation_response
+
+  """
+  insert data into the table: "GuildType"
+  """
+  insert_GuildType(
+    """the rows to be inserted"""
+    objects: [GuildType_insert_input!]!
+
+    """on conflict condition"""
+    on_conflict: GuildType_on_conflict
+  ): GuildType_mutation_response
+
+  """
+  insert a single row into the table: "GuildType"
+  """
+  insert_GuildType_one(
+    """the row to be inserted"""
+    object: GuildType_insert_input!
+
+    """on conflict condition"""
+    on_conflict: GuildType_on_conflict
+  ): GuildType
+
+  """
+  insert a single row into the table: "Guild"
+  """
+  insert_Guild_one(
+    """the row to be inserted"""
+    object: Guild_insert_input!
+
+    """on conflict condition"""
+    on_conflict: Guild_on_conflict
+  ): Guild
+
+  """
+  insert data into the table: "Player"
+  """
+  insert_Player(
+    """the rows to be inserted"""
+    objects: [Player_insert_input!]!
+
+    """on conflict condition"""
+    on_conflict: Player_on_conflict
+  ): Player_mutation_response
+
+  """
+  insert data into the table: "Player_Skill"
+  """
+  insert_Player_Skill(
+    """the rows to be inserted"""
+    objects: [Player_Skill_insert_input!]!
+
+    """on conflict condition"""
+    on_conflict: Player_Skill_on_conflict
+  ): Player_Skill_mutation_response
+
+  """
+  insert a single row into the table: "Player_Skill"
+  """
+  insert_Player_Skill_one(
+    """the row to be inserted"""
+    object: Player_Skill_insert_input!
+
+    """on conflict condition"""
+    on_conflict: Player_Skill_on_conflict
+  ): Player_Skill
+
+  """
+  insert a single row into the table: "Player"
+  """
+  insert_Player_one(
+    """the row to be inserted"""
+    object: Player_insert_input!
+
+    """on conflict condition"""
+    on_conflict: Player_on_conflict
+  ): Player
+
+  """
+  insert data into the table: "Skill"
+  """
+  insert_Skill(
+    """the rows to be inserted"""
+    objects: [Skill_insert_input!]!
+
+    """on conflict condition"""
+    on_conflict: Skill_on_conflict
+  ): Skill_mutation_response
+
+  """
+  insert a single row into the table: "Skill"
+  """
+  insert_Skill_one(
+    """the row to be inserted"""
+    object: Skill_insert_input!
+
+    """on conflict condition"""
+    on_conflict: Skill_on_conflict
+  ): Skill
+
+  """
+  perform the action: "updateBoxProfile"
+  """
+  updateBoxProfile: UpdateBoxProfileResponse
+
+  """
+  update data of the table: "Account"
+  """
+  update_Account(
+    """sets the columns of the filtered rows to the given values"""
+    _set: Account_set_input
+
+    """filter the rows which have to be updated"""
+    where: Account_bool_exp!
+  ): Account_mutation_response
+
+  """
+  update data of the table: "Guild"
+  """
+  update_Guild(
+    """sets the columns of the filtered rows to the given values"""
+    _set: Guild_set_input
+
+    """filter the rows which have to be updated"""
+    where: Guild_bool_exp!
+  ): Guild_mutation_response
+
+  """
+  update data of the table: "GuildType"
+  """
+  update_GuildType(
+    """sets the columns of the filtered rows to the given values"""
+    _set: GuildType_set_input
+
+    """filter the rows which have to be updated"""
+    where: GuildType_bool_exp!
+  ): GuildType_mutation_response
+
+  """
+  update single row of the table: "GuildType"
+  """
+  update_GuildType_by_pk(
+    """sets the columns of the filtered rows to the given values"""
+    _set: GuildType_set_input
+    pk_columns: GuildType_pk_columns_input!
+  ): GuildType
+
+  """
+  update single row of the table: "Guild"
+  """
+  update_Guild_by_pk(
+    """sets the columns of the filtered rows to the given values"""
+    _set: Guild_set_input
+    pk_columns: Guild_pk_columns_input!
+  ): Guild
+
+  """
+  update data of the table: "Player"
+  """
+  update_Player(
+    """increments the integer columns with given value of the filtered values"""
+    _inc: Player_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: Player_set_input
+
+    """filter the rows which have to be updated"""
+    where: Player_bool_exp!
+  ): Player_mutation_response
+
+  """
+  update data of the table: "Player_Skill"
+  """
+  update_Player_Skill(
+    """sets the columns of the filtered rows to the given values"""
+    _set: Player_Skill_set_input
+
+    """filter the rows which have to be updated"""
+    where: Player_Skill_bool_exp!
+  ): Player_Skill_mutation_response
+
+  """
+  update single row of the table: "Player_Skill"
+  """
+  update_Player_Skill_by_pk(
+    """sets the columns of the filtered rows to the given values"""
+    _set: Player_Skill_set_input
+    pk_columns: Player_Skill_pk_columns_input!
+  ): Player_Skill
+
+  """
+  update single row of the table: "Player"
+  """
+  update_Player_by_pk(
+    """increments the integer columns with given value of the filtered values"""
+    _inc: Player_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: Player_set_input
+    pk_columns: Player_pk_columns_input!
+  ): Player
+
+  """
+  update data of the table: "Skill"
+  """
+  update_Skill(
+    """sets the columns of the filtered rows to the given values"""
+    _set: Skill_set_input
+
+    """filter the rows which have to be updated"""
+    where: Skill_bool_exp!
+  ): Skill_mutation_response
+
+  """
+  update single row of the table: "Skill"
+  """
+  update_Skill_by_pk(
+    """sets the columns of the filtered rows to the given values"""
+    _set: Skill_set_input
+    pk_columns: Skill_pk_columns_input!
+  ): Skill
+}
+
+scalar numeric
+
+"""
+expression to compare columns of type numeric. All fields are combined with logical 'AND'.
+"""
+input numeric_comparison_exp {
+  _eq: numeric
+  _gt: numeric
+  _gte: numeric
+  _in: [numeric!]
+  _is_null: Boolean
+  _lt: numeric
+  _lte: numeric
+  _neq: numeric
+  _nin: [numeric!]
+}
+
+"""column ordering options"""
+enum order_by {
+  """in the ascending order, nulls last"""
+  asc
+
+  """in the ascending order, nulls first"""
+  asc_nulls_first
+
+  """in the ascending order, nulls last"""
+  asc_nulls_last
+
+  """in the descending order, nulls first"""
+  desc
+
+  """in the descending order, nulls first"""
+  desc_nulls_first
+
+  """in the descending order, nulls last"""
+  desc_nulls_last
+}
+
+"""
+columns and relationships of "Player"
+"""
+type Player {
+  """An array relationship"""
+  Accounts(
+    """distinct select on columns"""
+    distinct_on: [Account_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [Account_order_by!]
+
+    """filter the rows returned"""
+    where: Account_bool_exp
+  ): [Account!]!
+
+  """An aggregated array relationship"""
+  Accounts_aggregate(
+    """distinct select on columns"""
+    distinct_on: [Account_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [Account_order_by!]
+
+    """filter the rows returned"""
+    where: Account_bool_exp
+  ): Account_aggregate!
+
+  """An array relationship"""
+  Player_Skills(
+    """distinct select on columns"""
+    distinct_on: [Player_Skill_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [Player_Skill_order_by!]
+
+    """filter the rows returned"""
+    where: Player_Skill_bool_exp
+  ): [Player_Skill!]!
+
+  """An aggregated array relationship"""
+  Player_Skills_aggregate(
+    """distinct select on columns"""
+    distinct_on: [Player_Skill_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [Player_Skill_order_by!]
+
+    """filter the rows returned"""
+    where: Player_Skill_bool_exp
+  ): Player_Skill_aggregate!
+
+  """Remote relationship field"""
+  box_profile: BoxProfile
+  enneagram: enneagram_type
+  ethereum_address: String!
+  id: uuid!
+  role: String
+  timezone: Int
+  totalXp: numeric
+  username: String!
+}
+
+"""
+aggregated selection of "Player"
+"""
+type Player_aggregate {
+  aggregate: Player_aggregate_fields
+  nodes: [Player!]!
+}
+
+"""
+aggregate fields of "Player"
+"""
+type Player_aggregate_fields {
+  avg: Player_avg_fields
+  count(columns: [Player_select_column!], distinct: Boolean): Int
+  max: Player_max_fields
+  min: Player_min_fields
+  stddev: Player_stddev_fields
+  stddev_pop: Player_stddev_pop_fields
+  stddev_samp: Player_stddev_samp_fields
+  sum: Player_sum_fields
+  var_pop: Player_var_pop_fields
+  var_samp: Player_var_samp_fields
+  variance: Player_variance_fields
+}
+
+"""
+order by aggregate values of table "Player"
+"""
+input Player_aggregate_order_by {
+  avg: Player_avg_order_by
+  count: order_by
+  max: Player_max_order_by
+  min: Player_min_order_by
+  stddev: Player_stddev_order_by
+  stddev_pop: Player_stddev_pop_order_by
+  stddev_samp: Player_stddev_samp_order_by
+  sum: Player_sum_order_by
+  var_pop: Player_var_pop_order_by
+  var_samp: Player_var_samp_order_by
+  variance: Player_variance_order_by
+}
+
+"""
+input type for inserting array relation for remote table "Player"
+"""
+input Player_arr_rel_insert_input {
+  data: [Player_insert_input!]!
+  on_conflict: Player_on_conflict
+}
+
+"""aggregate avg on columns"""
+type Player_avg_fields {
+  timezone: Float
+  totalXp: Float
+}
+
+"""
+order by avg() on columns of table "Player"
+"""
+input Player_avg_order_by {
+  timezone: order_by
+  totalXp: order_by
+}
+
+"""
+Boolean expression to filter rows from the table "Player". All fields are combined with a logical 'AND'.
+"""
+input Player_bool_exp {
+  Accounts: Account_bool_exp
+  Player_Skills: Player_Skill_bool_exp
+  _and: [Player_bool_exp]
+  _not: Player_bool_exp
+  _or: [Player_bool_exp]
+  enneagram: enneagram_type_comparison_exp
+  ethereum_address: String_comparison_exp
+  id: uuid_comparison_exp
+  role: String_comparison_exp
+  timezone: Int_comparison_exp
+  totalXp: numeric_comparison_exp
+  username: String_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "Player"
+"""
+enum Player_constraint {
+  """unique or primary key constraint"""
+  Player_ethereum_address_unique_key
+
+  """unique or primary key constraint"""
+  Player_pkey
+
+  """unique or primary key constraint"""
+  Player_username_unique_key
+}
+
+"""
+input type for incrementing integer column in table "Player"
+"""
+input Player_inc_input {
+  timezone: Int
+  totalXp: numeric
+}
+
+"""
+input type for inserting data into table "Player"
+"""
+input Player_insert_input {
+  Accounts: Account_arr_rel_insert_input
+  Player_Skills: Player_Skill_arr_rel_insert_input
+  enneagram: enneagram_type
+  ethereum_address: String
+  id: uuid
+  role: String
+  timezone: Int
+  totalXp: numeric
+  username: String
+}
+
+"""aggregate max on columns"""
+type Player_max_fields {
+  ethereum_address: String
+  id: uuid
+  role: String
+  timezone: Int
+  totalXp: numeric
+  username: String
+}
+
+"""
+order by max() on columns of table "Player"
+"""
+input Player_max_order_by {
+  ethereum_address: order_by
+  id: order_by
+  role: order_by
+  timezone: order_by
+  totalXp: order_by
+  username: order_by
+}
+
+"""aggregate min on columns"""
+type Player_min_fields {
+  ethereum_address: String
+  id: uuid
+  role: String
+  timezone: Int
+  totalXp: numeric
+  username: String
+}
+
+"""
+order by min() on columns of table "Player"
+"""
+input Player_min_order_by {
+  ethereum_address: order_by
+  id: order_by
+  role: order_by
+  timezone: order_by
+  totalXp: order_by
+  username: order_by
+}
+
+"""
+response of any mutation on the table "Player"
+"""
+type Player_mutation_response {
+  """number of affected rows by the mutation"""
+  affected_rows: Int!
+
+  """data of the affected rows by the mutation"""
+  returning: [Player!]!
+}
+
+"""
+input type for inserting object relation for remote table "Player"
+"""
+input Player_obj_rel_insert_input {
+  data: Player_insert_input!
+  on_conflict: Player_on_conflict
+}
+
+"""
+on conflict condition type for table "Player"
+"""
+input Player_on_conflict {
+  constraint: Player_constraint!
+  update_columns: [Player_update_column!]!
+  where: Player_bool_exp
+}
+
+"""
+ordering options when selecting data from "Player"
+"""
+input Player_order_by {
+  Accounts_aggregate: Account_aggregate_order_by
+  Player_Skills_aggregate: Player_Skill_aggregate_order_by
+  enneagram: order_by
+  ethereum_address: order_by
+  id: order_by
+  role: order_by
+  timezone: order_by
+  totalXp: order_by
+  username: order_by
+}
+
+"""
+primary key columns input for table: "Player"
+"""
+input Player_pk_columns_input {
+  id: uuid!
+}
+
+"""
+select columns of table "Player"
+"""
+enum Player_select_column {
+  """column name"""
+  enneagram
+
+  """column name"""
+  ethereum_address
+
+  """column name"""
+  id
+
+  """column name"""
+  role
+
+  """column name"""
+  timezone
+
+  """column name"""
+  totalXp
+
+  """column name"""
+  username
+}
+
+"""
+input type for updating data in table "Player"
+"""
+input Player_set_input {
+  enneagram: enneagram_type
+  ethereum_address: String
+  id: uuid
+  role: String
+  timezone: Int
+  totalXp: numeric
+  username: String
+}
+
+"""
+columns and relationships of "Player_Skill"
+"""
+type Player_Skill {
+  """An object relationship"""
+  Player: Player!
+
+  """An object relationship"""
+  Skill: Skill!
+  player_id: uuid!
+  skill_id: uuid!
+}
+
+"""
+aggregated selection of "Player_Skill"
+"""
+type Player_Skill_aggregate {
+  aggregate: Player_Skill_aggregate_fields
+  nodes: [Player_Skill!]!
+}
+
+"""
+aggregate fields of "Player_Skill"
+"""
+type Player_Skill_aggregate_fields {
+  count(columns: [Player_Skill_select_column!], distinct: Boolean): Int
+  max: Player_Skill_max_fields
+  min: Player_Skill_min_fields
+}
+
+"""
+order by aggregate values of table "Player_Skill"
+"""
+input Player_Skill_aggregate_order_by {
+  count: order_by
+  max: Player_Skill_max_order_by
+  min: Player_Skill_min_order_by
+}
+
+"""
+input type for inserting array relation for remote table "Player_Skill"
+"""
+input Player_Skill_arr_rel_insert_input {
+  data: [Player_Skill_insert_input!]!
+  on_conflict: Player_Skill_on_conflict
+}
+
+"""
+Boolean expression to filter rows from the table "Player_Skill". All fields are combined with a logical 'AND'.
+"""
+input Player_Skill_bool_exp {
+  Player: Player_bool_exp
+  Skill: Skill_bool_exp
+  _and: [Player_Skill_bool_exp]
+  _not: Player_Skill_bool_exp
+  _or: [Player_Skill_bool_exp]
+  player_id: uuid_comparison_exp
+  skill_id: uuid_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "Player_Skill"
+"""
+enum Player_Skill_constraint {
+  """unique or primary key constraint"""
+  Player_Skill_unique_key
+}
+
+"""
+input type for inserting data into table "Player_Skill"
+"""
+input Player_Skill_insert_input {
+  Player: Player_obj_rel_insert_input
+  Skill: Skill_obj_rel_insert_input
+  player_id: uuid
+  skill_id: uuid
+}
+
+"""aggregate max on columns"""
+type Player_Skill_max_fields {
+  player_id: uuid
+  skill_id: uuid
+}
+
+"""
+order by max() on columns of table "Player_Skill"
+"""
+input Player_Skill_max_order_by {
+  player_id: order_by
+  skill_id: order_by
+}
+
+"""aggregate min on columns"""
+type Player_Skill_min_fields {
+  player_id: uuid
+  skill_id: uuid
+}
+
+"""
+order by min() on columns of table "Player_Skill"
+"""
+input Player_Skill_min_order_by {
+  player_id: order_by
+  skill_id: order_by
+}
+
+"""
+response of any mutation on the table "Player_Skill"
+"""
+type Player_Skill_mutation_response {
+  """number of affected rows by the mutation"""
+  affected_rows: Int!
+
+  """data of the affected rows by the mutation"""
+  returning: [Player_Skill!]!
+}
+
+"""
+input type for inserting object relation for remote table "Player_Skill"
+"""
+input Player_Skill_obj_rel_insert_input {
+  data: Player_Skill_insert_input!
+  on_conflict: Player_Skill_on_conflict
+}
+
+"""
+on conflict condition type for table "Player_Skill"
+"""
+input Player_Skill_on_conflict {
+  constraint: Player_Skill_constraint!
+  update_columns: [Player_Skill_update_column!]!
+  where: Player_Skill_bool_exp
+}
+
+"""
+ordering options when selecting data from "Player_Skill"
+"""
+input Player_Skill_order_by {
+  Player: Player_order_by
+  Skill: Skill_order_by
+  player_id: order_by
+  skill_id: order_by
+}
+
+"""
+primary key columns input for table: "Player_Skill"
+"""
+input Player_Skill_pk_columns_input {
+  player_id: uuid!
+  skill_id: uuid!
+}
+
+"""
+select columns of table "Player_Skill"
+"""
+enum Player_Skill_select_column {
+  """column name"""
+  player_id
+
+  """column name"""
+  skill_id
+}
+
+"""
+input type for updating data in table "Player_Skill"
+"""
+input Player_Skill_set_input {
+  player_id: uuid
+  skill_id: uuid
+}
+
+"""
+update columns of table "Player_Skill"
+"""
+enum Player_Skill_update_column {
+  """column name"""
+  player_id
+
+  """column name"""
+  skill_id
+}
+
+"""aggregate stddev on columns"""
+type Player_stddev_fields {
+  timezone: Float
+  totalXp: Float
+}
+
+"""
+order by stddev() on columns of table "Player"
+"""
+input Player_stddev_order_by {
+  timezone: order_by
+  totalXp: order_by
+}
+
+"""aggregate stddev_pop on columns"""
+type Player_stddev_pop_fields {
+  timezone: Float
+  totalXp: Float
+}
+
+"""
+order by stddev_pop() on columns of table "Player"
+"""
+input Player_stddev_pop_order_by {
+  timezone: order_by
+  totalXp: order_by
+}
+
+"""aggregate stddev_samp on columns"""
+type Player_stddev_samp_fields {
+  timezone: Float
+  totalXp: Float
+}
+
+"""
+order by stddev_samp() on columns of table "Player"
+"""
+input Player_stddev_samp_order_by {
+  timezone: order_by
+  totalXp: order_by
+}
+
+"""aggregate sum on columns"""
+type Player_sum_fields {
+  timezone: Int
+  totalXp: numeric
+}
+
+"""
+order by sum() on columns of table "Player"
+"""
+input Player_sum_order_by {
+  timezone: order_by
+  totalXp: order_by
+}
+
+"""
+update columns of table "Player"
+"""
+enum Player_update_column {
+  """column name"""
+  enneagram
+
+  """column name"""
+  ethereum_address
+
+  """column name"""
+  id
+
+  """column name"""
+  role
+
+  """column name"""
+  timezone
+
+  """column name"""
+  totalXp
+
+  """column name"""
+  username
+}
+
+"""aggregate var_pop on columns"""
+type Player_var_pop_fields {
+  timezone: Float
+  totalXp: Float
+}
+
+"""
+order by var_pop() on columns of table "Player"
+"""
+input Player_var_pop_order_by {
+  timezone: order_by
+  totalXp: order_by
+}
+
+"""aggregate var_samp on columns"""
+type Player_var_samp_fields {
+  timezone: Float
+  totalXp: Float
+}
+
+"""
+order by var_samp() on columns of table "Player"
+"""
+input Player_var_samp_order_by {
+  timezone: order_by
+  totalXp: order_by
+}
+
+"""aggregate variance on columns"""
+type Player_variance_fields {
+  timezone: Float
+  totalXp: Float
+}
+
+"""
+order by variance() on columns of table "Player"
+"""
+input Player_variance_order_by {
+  timezone: order_by
+  totalXp: order_by
+}
+
+type Query {
+  getBoxProfile(address: String!): BoxProfile
+}
+
+"""query root"""
+type query_root {
+  """
+  fetch data from the table: "Account"
+  """
+  Account(
+    """distinct select on columns"""
+    distinct_on: [Account_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [Account_order_by!]
+
+    """filter the rows returned"""
+    where: Account_bool_exp
+  ): [Account!]!
+
+  """
+  fetch aggregated fields from the table: "Account"
+  """
+  Account_aggregate(
+    """distinct select on columns"""
+    distinct_on: [Account_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [Account_order_by!]
+
+    """filter the rows returned"""
+    where: Account_bool_exp
+  ): Account_aggregate!
+
+  """
+  fetch data from the table: "Guild"
+  """
+  Guild(
+    """distinct select on columns"""
+    distinct_on: [Guild_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [Guild_order_by!]
+
+    """filter the rows returned"""
+    where: Guild_bool_exp
+  ): [Guild!]!
+
+  """
+  fetch data from the table: "GuildType"
+  """
+  GuildType(
+    """distinct select on columns"""
+    distinct_on: [GuildType_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [GuildType_order_by!]
+
+    """filter the rows returned"""
+    where: GuildType_bool_exp
+  ): [GuildType!]!
+
+  """
+  fetch aggregated fields from the table: "GuildType"
+  """
+  GuildType_aggregate(
+    """distinct select on columns"""
+    distinct_on: [GuildType_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [GuildType_order_by!]
+
+    """filter the rows returned"""
+    where: GuildType_bool_exp
+  ): GuildType_aggregate!
+
+  """fetch data from the table: "GuildType" using primary key columns"""
+  GuildType_by_pk(name: String!): GuildType
+
+  """
+  fetch aggregated fields from the table: "Guild"
+  """
+  Guild_aggregate(
+    """distinct select on columns"""
+    distinct_on: [Guild_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [Guild_order_by!]
+
+    """filter the rows returned"""
+    where: Guild_bool_exp
+  ): Guild_aggregate!
+
+  """fetch data from the table: "Guild" using primary key columns"""
+  Guild_by_pk(id: uuid!): Guild
+
+  """
+  fetch data from the table: "Player"
+  """
+  Player(
+    """distinct select on columns"""
+    distinct_on: [Player_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [Player_order_by!]
+
+    """filter the rows returned"""
+    where: Player_bool_exp
+  ): [Player!]!
+
+  """
+  fetch data from the table: "Player_Skill"
+  """
+  Player_Skill(
+    """distinct select on columns"""
+    distinct_on: [Player_Skill_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [Player_Skill_order_by!]
+
+    """filter the rows returned"""
+    where: Player_Skill_bool_exp
+  ): [Player_Skill!]!
+
+  """
+  fetch aggregated fields from the table: "Player_Skill"
+  """
+  Player_Skill_aggregate(
+    """distinct select on columns"""
+    distinct_on: [Player_Skill_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [Player_Skill_order_by!]
+
+    """filter the rows returned"""
+    where: Player_Skill_bool_exp
+  ): Player_Skill_aggregate!
+
+  """fetch data from the table: "Player_Skill" using primary key columns"""
+  Player_Skill_by_pk(player_id: uuid!, skill_id: uuid!): Player_Skill
+
+  """
+  fetch aggregated fields from the table: "Player"
+  """
+  Player_aggregate(
+    """distinct select on columns"""
+    distinct_on: [Player_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [Player_order_by!]
+
+    """filter the rows returned"""
+    where: Player_bool_exp
+  ): Player_aggregate!
+
+  """fetch data from the table: "Player" using primary key columns"""
+  Player_by_pk(id: uuid!): Player
+
+  """
+  fetch data from the table: "Skill"
+  """
+  Skill(
+    """distinct select on columns"""
+    distinct_on: [Skill_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [Skill_order_by!]
+
+    """filter the rows returned"""
+    where: Skill_bool_exp
+  ): [Skill!]!
+
+  """
+  fetch aggregated fields from the table: "Skill"
+  """
+  Skill_aggregate(
+    """distinct select on columns"""
+    distinct_on: [Skill_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [Skill_order_by!]
+
+    """filter the rows returned"""
+    where: Skill_bool_exp
+  ): Skill_aggregate!
+
+  """fetch data from the table: "Skill" using primary key columns"""
+  Skill_by_pk(id: uuid!): Skill
+  getBoxProfile(address: String!): BoxProfile
+}
+
+"""
+columns and relationships of "Skill"
+"""
+type Skill {
+  """An array relationship"""
+  Player_Skills(
+    """distinct select on columns"""
+    distinct_on: [Player_Skill_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [Player_Skill_order_by!]
+
+    """filter the rows returned"""
+    where: Player_Skill_bool_exp
+  ): [Player_Skill!]!
+
+  """An aggregated array relationship"""
+  Player_Skills_aggregate(
+    """distinct select on columns"""
+    distinct_on: [Player_Skill_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [Player_Skill_order_by!]
+
+    """filter the rows returned"""
+    where: Player_Skill_bool_exp
+  ): Player_Skill_aggregate!
+  id: uuid!
+  name: String!
+}
+
+"""
+aggregated selection of "Skill"
+"""
+type Skill_aggregate {
+  aggregate: Skill_aggregate_fields
+  nodes: [Skill!]!
+}
+
+"""
+aggregate fields of "Skill"
+"""
+type Skill_aggregate_fields {
+  count(columns: [Skill_select_column!], distinct: Boolean): Int
+  max: Skill_max_fields
+  min: Skill_min_fields
+}
+
+"""
+order by aggregate values of table "Skill"
+"""
+input Skill_aggregate_order_by {
+  count: order_by
+  max: Skill_max_order_by
+  min: Skill_min_order_by
+}
+
+"""
+input type for inserting array relation for remote table "Skill"
+"""
+input Skill_arr_rel_insert_input {
+  data: [Skill_insert_input!]!
+  on_conflict: Skill_on_conflict
+}
+
+"""
+Boolean expression to filter rows from the table "Skill". All fields are combined with a logical 'AND'.
+"""
+input Skill_bool_exp {
+  Player_Skills: Player_Skill_bool_exp
+  _and: [Skill_bool_exp]
+  _not: Skill_bool_exp
+  _or: [Skill_bool_exp]
+  id: uuid_comparison_exp
+  name: String_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "Skill"
+"""
+enum Skill_constraint {
+  """unique or primary key constraint"""
+  Skill_pkey
+}
+
+"""
+input type for inserting data into table "Skill"
+"""
+input Skill_insert_input {
+  Player_Skills: Player_Skill_arr_rel_insert_input
+  id: uuid
+  name: String
+}
+
+"""aggregate max on columns"""
+type Skill_max_fields {
+  id: uuid
+  name: String
+}
+
+"""
+order by max() on columns of table "Skill"
+"""
+input Skill_max_order_by {
+  id: order_by
+  name: order_by
+}
+
+"""aggregate min on columns"""
+type Skill_min_fields {
+  id: uuid
+  name: String
+}
+
+"""
+order by min() on columns of table "Skill"
+"""
+input Skill_min_order_by {
+  id: order_by
+  name: order_by
+}
+
+"""
+response of any mutation on the table "Skill"
+"""
+type Skill_mutation_response {
+  """number of affected rows by the mutation"""
+  affected_rows: Int!
+
+  """data of the affected rows by the mutation"""
+  returning: [Skill!]!
+}
+
+"""
+input type for inserting object relation for remote table "Skill"
+"""
+input Skill_obj_rel_insert_input {
+  data: Skill_insert_input!
+  on_conflict: Skill_on_conflict
+}
+
+"""
+on conflict condition type for table "Skill"
+"""
+input Skill_on_conflict {
+  constraint: Skill_constraint!
+  update_columns: [Skill_update_column!]!
+  where: Skill_bool_exp
+}
+
+"""
+ordering options when selecting data from "Skill"
+"""
+input Skill_order_by {
+  Player_Skills_aggregate: Player_Skill_aggregate_order_by
+  id: order_by
+  name: order_by
+}
+
+"""
+primary key columns input for table: "Skill"
+"""
+input Skill_pk_columns_input {
+  id: uuid!
+}
+
+"""
+select columns of table "Skill"
+"""
+enum Skill_select_column {
+  """column name"""
+  id
+
+  """column name"""
+  name
+}
+
+"""
+input type for updating data in table "Skill"
+"""
+input Skill_set_input {
+  id: uuid
+  name: String
+}
+
+"""
+update columns of table "Skill"
+"""
+enum Skill_update_column {
+  """column name"""
+  id
+
+  """column name"""
+  name
+}
+
+"""
+expression to compare columns of type String. All fields are combined with logical 'AND'.
+"""
+input String_comparison_exp {
+  _eq: String
+  _gt: String
+  _gte: String
+  _ilike: String
+  _in: [String!]
+  _is_null: Boolean
+  _like: String
+  _lt: String
+  _lte: String
+  _neq: String
+  _nilike: String
+  _nin: [String!]
+  _nlike: String
+  _nsimilar: String
+  _similar: String
+}
+
+"""subscription root"""
+type subscription_root {
+  """
+  fetch data from the table: "Account"
+  """
+  Account(
+    """distinct select on columns"""
+    distinct_on: [Account_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [Account_order_by!]
+
+    """filter the rows returned"""
+    where: Account_bool_exp
+  ): [Account!]!
+
+  """
+  fetch aggregated fields from the table: "Account"
+  """
+  Account_aggregate(
+    """distinct select on columns"""
+    distinct_on: [Account_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [Account_order_by!]
+
+    """filter the rows returned"""
+    where: Account_bool_exp
+  ): Account_aggregate!
+
+  """
+  fetch data from the table: "Guild"
+  """
+  Guild(
+    """distinct select on columns"""
+    distinct_on: [Guild_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [Guild_order_by!]
+
+    """filter the rows returned"""
+    where: Guild_bool_exp
+  ): [Guild!]!
+
+  """
+  fetch data from the table: "GuildType"
+  """
+  GuildType(
+    """distinct select on columns"""
+    distinct_on: [GuildType_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [GuildType_order_by!]
+
+    """filter the rows returned"""
+    where: GuildType_bool_exp
+  ): [GuildType!]!
+
+  """
+  fetch aggregated fields from the table: "GuildType"
+  """
+  GuildType_aggregate(
+    """distinct select on columns"""
+    distinct_on: [GuildType_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [GuildType_order_by!]
+
+    """filter the rows returned"""
+    where: GuildType_bool_exp
+  ): GuildType_aggregate!
+
+  """fetch data from the table: "GuildType" using primary key columns"""
+  GuildType_by_pk(name: String!): GuildType
+
+  """
+  fetch aggregated fields from the table: "Guild"
+  """
+  Guild_aggregate(
+    """distinct select on columns"""
+    distinct_on: [Guild_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [Guild_order_by!]
+
+    """filter the rows returned"""
+    where: Guild_bool_exp
+  ): Guild_aggregate!
+
+  """fetch data from the table: "Guild" using primary key columns"""
+  Guild_by_pk(id: uuid!): Guild
+
+  """
+  fetch data from the table: "Player"
+  """
+  Player(
+    """distinct select on columns"""
+    distinct_on: [Player_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [Player_order_by!]
+
+    """filter the rows returned"""
+    where: Player_bool_exp
+  ): [Player!]!
+
+  """
+  fetch data from the table: "Player_Skill"
+  """
+  Player_Skill(
+    """distinct select on columns"""
+    distinct_on: [Player_Skill_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [Player_Skill_order_by!]
+
+    """filter the rows returned"""
+    where: Player_Skill_bool_exp
+  ): [Player_Skill!]!
+
+  """
+  fetch aggregated fields from the table: "Player_Skill"
+  """
+  Player_Skill_aggregate(
+    """distinct select on columns"""
+    distinct_on: [Player_Skill_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [Player_Skill_order_by!]
+
+    """filter the rows returned"""
+    where: Player_Skill_bool_exp
+  ): Player_Skill_aggregate!
+
+  """fetch data from the table: "Player_Skill" using primary key columns"""
+  Player_Skill_by_pk(player_id: uuid!, skill_id: uuid!): Player_Skill
+
+  """
+  fetch aggregated fields from the table: "Player"
+  """
+  Player_aggregate(
+    """distinct select on columns"""
+    distinct_on: [Player_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [Player_order_by!]
+
+    """filter the rows returned"""
+    where: Player_bool_exp
+  ): Player_aggregate!
+
+  """fetch data from the table: "Player" using primary key columns"""
+  Player_by_pk(id: uuid!): Player
+
+  """
+  fetch data from the table: "Skill"
+  """
+  Skill(
+    """distinct select on columns"""
+    distinct_on: [Skill_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [Skill_order_by!]
+
+    """filter the rows returned"""
+    where: Skill_bool_exp
+  ): [Skill!]!
+
+  """
+  fetch aggregated fields from the table: "Skill"
+  """
+  Skill_aggregate(
+    """distinct select on columns"""
+    distinct_on: [Skill_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [Skill_order_by!]
+
+    """filter the rows returned"""
+    where: Skill_bool_exp
+  ): Skill_aggregate!
+
+  """fetch data from the table: "Skill" using primary key columns"""
+  Skill_by_pk(id: uuid!): Skill
+}
+
+scalar timestamptz
+
+type UpdateBoxProfileResponse {
+  success: Boolean!
+  updatedProfiles: [String!]!
+}
+
+scalar uuid
+
+"""
+expression to compare columns of type uuid. All fields are combined with logical 'AND'.
+"""
+input uuid_comparison_exp {
+  _eq: uuid
+  _gt: uuid
+  _gte: uuid
+  _in: [uuid!]
+  _is_null: Boolean
+  _lt: uuid
+  _lte: uuid
+  _neq: uuid
+  _nin: [uuid!]
+}
+
