@@ -28,6 +28,8 @@
     "typecheck": "lerna run typecheck",
     "precommit": "lerna run --concurrency 1 --stream precommit",
     "prepush": "yarn typecheck",
+    "backend": "yarn --cwd packages/backend/",
+    "codegen": "yarn --cwd packages/codegen/",
     "utils": "yarn --cwd packages/utils/",
     "web": "yarn --cwd packages/web/",
     "ds": "yarn --cwd packages/design-system/"
@@ -36,6 +38,12 @@
     "packages/*"
   ],
   "devDependencies": {
+    "@graphql-codegen/cli": "^1.17.7",
+    "@graphql-codegen/introspection": "^1.17.7",
+    "@graphql-codegen/typescript": "^1.17.7",
+    "@graphql-codegen/typescript-operations": "^1.17.7",
+    "@graphql-codegen/typescript-react-apollo": "^1.17.7",
+    "@graphql-codegen/typescript-resolvers": "^1.17.7",
     "@types/node": "^13.11.1",
     "@types/react": "^16.9.43",
     "@types/react-dom": "^16.9.8",
