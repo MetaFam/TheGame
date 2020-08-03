@@ -14,7 +14,6 @@
     "graphql": "^15.0.0",
     "isomorphic-unfetch": "^3.0.0",
     "next": "latest",
-    "next-google-fonts": "^1.2.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "urql": "^1.9.7"

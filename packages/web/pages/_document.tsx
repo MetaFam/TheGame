@@ -1,4 +1,3 @@
-import GoogleFonts from 'next-google-fonts';
 import Document, {
   DocumentContext,
   DocumentInitialProps,
@@ -19,8 +18,11 @@ class MetaDocument extends Document {
   render(): JSX.Element {
     return (
       <Html>
-        <GoogleFonts href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&family=IBM+Plex+Sans:wght@400;700&family=Press+Start+2P&display=swap" />
         <Head>
+          <link
+            href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&family=IBM+Plex+Sans:wght@400;700&family=Press+Start+2P&display=swap"
+            rel="stylesheet"
+          />
           <meta charSet="UTF-8" />
           <meta
             name="viewport"
