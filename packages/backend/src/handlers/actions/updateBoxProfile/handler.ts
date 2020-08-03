@@ -1,4 +1,4 @@
-import Box from '3box';
+import Box, { VerifiedAccounts } from '3box';
 import { Request, Response } from 'express';
 
 import { hasuraQuery } from '../../../lib/hasuraHelpers';
@@ -34,7 +34,10 @@ mutation upsert_Account($objects: [Account_insert_input!]!) {
 }
 `;
 
-export const updateBoxProfileHandler = async (req: Request, res: Response) => {
+export const updateBoxProfileHandler = async (
+  req: Request,
+  res: Response,
+): Promise<void> => {
   const session = req.body.session_variables;
   const role = session['x-hasura-role'];
   const playerId = session['x-hasura-user-id'];
@@ -62,7 +65,7 @@ export const updateBoxProfileHandler = async (req: Request, res: Response) => {
 
 async function updateVerifiedProfiles(
   playerId: string,
-  verifiedProfiles: any,
+  verifiedProfiles: VerifiedAccounts,
 ): Promise<UpdateBoxProfileResponse> {
   const updatedProfiles: string[] = [];
 

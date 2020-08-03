@@ -7,11 +7,11 @@ import { remoteSchemaRoutes } from './remote-schemas/routes';
 
 export const router = express.Router();
 
-router.get('/', function (_, res) {
+router.get('/', (_, res) => {
   res.send('ok');
 });
 
-router.get('/healthz', function (_, res) {
+router.get('/healthz', (_, res) => {
   res.send('ok');
 });
 
