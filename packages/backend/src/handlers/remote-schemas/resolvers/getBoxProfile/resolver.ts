@@ -1,28 +1,19 @@
-import Box from '3box';
+import Box, { BoxProfile } from '3box';
 
 import { CONFIG } from '../../../../config';
+import { QueryResolvers } from '../../autogen/types';
 
-interface BoxProfileRequest {
-  address: string;
-}
-interface BoxProfileResponse {
-  ethereumAddress: string | null;
-  name: string | null;
-  description: string | null;
-  location: string | null;
-  job: string | null;
-  emoji: string | null;
-  imageUrl: string | null;
-}
-
-export const getBoxProfile = async (_: any, { address }: BoxProfileRequest) => {
+export const getBoxProfile: QueryResolvers['getBoxProfile'] = async (
+  _,
+  { address },
+) => {
   const boxProfile = await Box.getProfile(address);
 
   if (Object.keys(boxProfile).length === 0) {
-    return {};
+    return null;
   }
 
-  const parsedProfile: BoxProfileResponse = {
+  return {
     ethereumAddress: address,
     name: boxProfile.name,
     description: boxProfile.description,
@@ -31,11 +22,9 @@ export const getBoxProfile = async (_: any, { address }: BoxProfileRequest) => {
     emoji: boxProfile.emoji,
     imageUrl: getProfilePicture(boxProfile),
   };
-
-  return parsedProfile;
 };
 
-function getProfilePicture(boxProfile: any) {
+function getProfilePicture(boxProfile: BoxProfile) {
   const imageHash =
     boxProfile &&
     boxProfile.image &&
