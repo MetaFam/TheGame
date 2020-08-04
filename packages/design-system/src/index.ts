@@ -1,26 +1,26 @@
 export {
-  ChakraProvider,
-  CSSReset,
-  Heading,
-  Box,
-  Image,
-  Text,
   Avatar,
+  Box,
   Button,
   ButtonGroup,
-  Grid,
-  SimpleGrid,
-  Flex,
+  CSSReset,
+  ChakraProvider,
   Divider,
+  Flex,
+  Grid,
+  Heading,
   Icon,
   IconButton,
+  Image,
+  Input,
   Link,
   List,
-  Input,
   Select,
+  SimpleGrid,
   Skeleton,
   Spinner,
   Stack,
+  Text,
   useTheme,
   useToast,
 } from '@chakra-ui/core';
@@ -30,3 +30,5 @@ export { Icon3box } from './icons';
 export { EmailIcon } from '@chakra-ui/icons';
 export { MetaHeading } from './MetaHeading';
 export { MetaButton } from './MetaButton';
+export { MetaBox } from './MetaBox';
+export { MetaTag } from './MetaTag';
