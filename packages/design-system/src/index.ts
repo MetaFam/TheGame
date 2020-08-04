@@ -6,6 +6,7 @@ export {
   Text,
   Avatar,
   Button,
+  ButtonGroup,
   Grid,
   SimpleGrid,
   Flex,
