@@ -20,8 +20,6 @@ services:
           property: hostport
       - key: PORT
         value: 10000
-      - key: HASURA_GRAPHQL_MIGRATIONS_SERVER_PORT
-        value: 10000
 
   # backend
   - type: pserv
