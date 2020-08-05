@@ -33,13 +33,13 @@ jobs:
         env:
           CI: true
 
-      - name: Linting
-        run: yarn lint
+      - name: Typechecking
+        run: yarn typecheck
         env:
           CI: true
 
-      - name: Typechecking
-        run: yarn typecheck
+      - name: Linting
+        run: yarn lint
         env:
           CI: true
 
