@@ -27,4 +27,4 @@ COPY packages/@types ./packages/@types/
 # Build
 RUN yarn backend:build
 
-CMD [ "yarn", "--cwd ./packages/backend", "start" ]
+CMD [ "yarn", "backend", "start" ]
