@@ -36,15 +36,17 @@ export const getBoxProfile = async (_: any, { address }: BoxProfileRequest) => {
 };
 
 function getProfilePicture(boxProfile: any) {
-  const imageHash = boxProfile && boxProfile.image && boxProfile.image[0] && boxProfile.image[0].contentUrl && boxProfile.image[0].contentUrl['/'];
-  if(imageHash) {
-    return `${config.ipfsEndpoint}/ipfs/${imageHash}`;
-  } else {
-    return 'https://i.imgur.com/RXJO8FD.png';
+  const imageHash =
+    boxProfile &&
+    boxProfile.image &&
+    boxProfile.image[0] &&
+    boxProfile.image[0].contentUrl &&
+    boxProfile.image[0].contentUrl['/'];
+  if (imageHash) {
+    return `${CONFIG.ipfsEndpoint}/ipfs/${imageHash}`;
   }
+  return 'https://i.imgur.com/RXJO8FD.png';
 }
-
-export default handler;
 
 /**
 
@@ -62,4 +64,4 @@ export default handler;
  }
 
 
- **/
+ * */
