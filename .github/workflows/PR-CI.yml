@@ -58,7 +58,7 @@ jobs:
       - name: '@dependabot merge'
         uses: actions/github-script@v2
         with:
-          github-token: ${{secrets.GH_TOKEN}}
+          github-token: ${{github.token}}
           script: |
             await github.issues.createComment({
               owner: context.payload.repository.owner.login,
