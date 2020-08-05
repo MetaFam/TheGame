@@ -16,7 +16,7 @@ export const getStaticProps = async () => {
 
 const Home: React.FC<Props> = ({ pokemon }) => (
   <SimpleGrid columns={{ sm: 2, lg: 3 }} spacing={6}>
-    {pokemon.map(p => (
+    {pokemon.map((p) => (
       <MetaLink as={`/pokemon/${p.name}`} href="pokemon/[name]">
         <Box key={p.name}>
           <Heading style={{ textTransform: 'capitalize' }}>{p.name}</Heading>
