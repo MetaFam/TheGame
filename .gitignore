@@ -40,3 +40,6 @@ yarn-error.log*
 !.yarn/plugins
 .pnp
 .pnp.*
+
+# vim
+*.swp
