@@ -1,21 +1,22 @@
-import fetch from 'node-fetch';
+import { GraphQLClient } from 'graphql-request';
+import { Variables } from 'graphql-request/dist/types';
 
 import { CONFIG } from '../config';
 
-export async function hasuraQuery(query: string, qv: any = {}) {
-  const result = await fetch(CONFIG.graphqlURL, {
-    method: 'POST',
-    body: JSON.stringify({ query, variables: qv }),
+export async function hasuraQuery<T = any>(
+  query: string,
+  variables?: Variables,
+): Promise<T> {
+  const graphQLClient = new GraphQLClient(CONFIG.graphqlURL, {
     headers: {
       'Content-Type': 'application/json',
       'x-hasura-access-key': CONFIG.adminKey,
     },
   });
 
-  const { errors, data } = await result.json();
-
-  if (errors) {
-    throw new Error(JSON.stringify(errors));
+  try {
+    return await graphQLClient.request<T>(query, variables);
+  } catch (error) {
+    throw new Error(JSON.stringify(error, undefined, 2));
   }
-  return data;
 }

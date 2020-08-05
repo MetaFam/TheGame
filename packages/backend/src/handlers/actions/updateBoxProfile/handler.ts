@@ -1,37 +1,36 @@
 import Box, { VerifiedAccounts } from '3box';
 import { Request, Response } from 'express';
+import { gql } from 'graphql-request';
 
 import { hasuraQuery } from '../../../lib/hasuraHelpers';
-import { getPlayerETHAddress } from '../../../lib/playerHelpers';
 
-const getPlayerQuery = `
-query GetPlayer ($playerId: uuid!) {
-  Player(
-    where: { 
-      id: { _eq: $playerId }
-    }
-  ) {
-    id
-    Accounts {
-      identifier
-      type
+type PlayerResult = {
+  Player: Array<{
+    id: string;
+    ethereum_address: string | null | undefined;
+  }>;
+};
+const getPlayerQuery = gql`
+  query GetPlayer($playerId: uuid!) {
+    Player(where: { id: { _eq: $playerId } }) {
+      id
+      ethereum_address
     }
   }
-}
 `;
 
-const upsertAccount = `
-mutation upsert_Account($objects: [Account_insert_input!]!) {
-  insert_Account (
-    objects: $objects,
-    on_conflict: {
-      constraint: Account_identifier_type_player_key,
-      update_columns: [identifier]
+const upsertAccount = gql`
+  mutation upsert_Account($objects: [Account_insert_input!]!) {
+    insert_Account(
+      objects: $objects
+      on_conflict: {
+        constraint: Account_identifier_type_player_key
+        update_columns: [identifier]
+      }
+    ) {
+      affected_rows
     }
-  ) {
-    affected_rows
   }
-}
 `;
 
 export const updateBoxProfileHandler = async (
@@ -46,16 +45,16 @@ export const updateBoxProfileHandler = async (
     throw new Error('expected role player');
   }
 
-  const data = await hasuraQuery(getPlayerQuery, {
+  const data = await hasuraQuery<PlayerResult>(getPlayerQuery, {
     playerId,
   });
 
-  const player = data.Player[0];
-  if (!player) {
+  const ethAddress = data.Player[0]?.ethereum_address;
+
+  if (!ethAddress) {
     throw new Error('unknown-player');
   }
 
-  const ethAddress = getPlayerETHAddress(player);
   const boxProfile = await Box.getProfile(ethAddress);
   const verifiedProfile = await Box.getVerifiedAccounts(boxProfile);
   const result = await updateVerifiedProfiles(playerId, verifiedProfile);
