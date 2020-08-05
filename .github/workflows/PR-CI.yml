@@ -53,7 +53,7 @@ jobs:
     if: |
       github.actor == 'dependabot[bot]' &&
       github.event_name == 'pull_request' &&
-      startsWith(github.event.pull_request.title, 'chore(deps-dev):')
+      startsWith(github.event.pull_request.title, 'Bump')
     steps:
       - name: '@dependabot merge'
         uses: actions/github-script@v2
