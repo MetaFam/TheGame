@@ -97,7 +97,6 @@ Reload Schema + Generate GraphQL Types (backend needs to be running)
 yarn codegen update-schema
 ```
 
-
 ### Restart with fresh database
 
 ```shell script

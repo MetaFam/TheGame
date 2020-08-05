@@ -36,21 +36,3 @@ function getProfilePicture(boxProfile: BoxProfile) {
   }
   return 'https://i.imgur.com/RXJO8FD.png';
 }
-
-/**
-
-
- type Query {
-   get3BoxProfile(address: String): 3BoxProfile
- }
-
- type 3BoxProfile {
-   name: String
-   description: String
-   location: String
-   job: String
-   emoji: String
- }
-
-
- * */
