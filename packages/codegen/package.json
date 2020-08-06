@@ -1,5 +1,5 @@
 {
-  "name": "@metafam/graphql-codegen",
+  "name": "@metafam/codegen",
   "version": "1.0.0",
   "license": "MIT",
   "engines": {
@@ -7,18 +7,14 @@
   },
   "scripts": {
     "get-schema": "env-cmd -f ../../.env -x get-graphql-schema -h x-hasura-admin-secret=\\$HASURA_GRAPHQL_ADMIN_SECRET http://localhost:8080/v1/graphql > schema.graphql",
-    "generate": "yarn get-schema && graphql-codegen --config=graphql-codegen-gql.yaml && graphql-codegen --config=graphql-codegen-typescript.yaml",
-    "typecheck": "echo noop"
+    "update-schema": "yarn get-schema && yarn generate",
+    "generate": "graphql-codegen --config=graphql-codegen-gql.yaml && graphql-codegen --config=graphql-codegen-typescript.yaml",
+    "typecheck": "yarn generate"
   },
   "dependencies": {
     "graphql-tag": "^2.10.4"
   },
   "devDependencies": {
-    "@graphql-codegen/cli": "^1.13.2",
-    "@graphql-codegen/introspection": "^1.13.2",
-    "@graphql-codegen/typescript": "^1.13.2",
-    "@graphql-codegen/typescript-operations": "^1.13.2",
-    "@graphql-codegen/typescript-react-apollo": "^1.13.2",
     "env-cmd": "^10.1.0",
     "graphql-codegen-hasura-client-config": "^4.8.3",
     "graphql-codegen-hasura-core": "^4.8.3",

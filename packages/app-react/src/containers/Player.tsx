@@ -4,11 +4,11 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 
 import { PlayerDetails } from '../components/PlayerDetails';
-import { GetPlayer } from '../graphql/queries';
+import { GetPlayerFromId } from '../graphql/queries';
 
 export const Player: React.FC = () => {
   const { playerId } = useParams();
-  const { data, loading, error } = useQuery(GetPlayer, {
+  const { data, loading, error } = useQuery(GetPlayerFromId, {
     variables: {
       player_id: playerId,
     },

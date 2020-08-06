@@ -1,63 +1,56 @@
 import { hasuraQuery } from '../../lib/hasuraHelpers';
 
 const getPlayerQuery = `
-query GetPlayerFromETH ($eth_address: String) {
-  Account(
+query GetPlayerFromETH ($ethereum_address: String) {
+  Player(
     where: { 
-      identifier: { _eq: $eth_address },
-      type: { _eq: "ETHEREUM" }
+      ethereum_address: { _eq: $ethereum_address }
     }
   ) {
-    Player {
-      id
-    }  
+    id
   }
 }
 `;
 
 const createProfileMutation = `
-mutation CreateAccountFromETH ($eth_address: String!, $username: String!) {
-  insert_Account(
+mutation CreateAccountFromETH ($ethereum_address: String!, $username: String!) {
+  insert_Player(
     objects: {
-      type: "ETHEREUM", 
-      identifier: $eth_address
-      Player: {
-        data: {
-          username: $username
-        }
-      }
+      username: $username,
+      ethereum_address: $ethereum_address
     }) {
       affected_rows
       returning {
-        identifier
-        Player {
-          id
-        }
+        id
+        username
+        ethereum_address
       }
   }
 }
 `;
 interface IPlayer {
   id: string;
+  username: string;
+  ethereum_address: string;
 }
 
 export async function createPlayer(ethAddress: string): Promise<IPlayer> {
   const resProfile = await hasuraQuery(createProfileMutation, {
-    eth_address: ethAddress,
+    ethereum_address: ethAddress,
     username: ethAddress,
   });
-  if (resProfile.insert_Account.affected_rows !== 2) {
-    throw new Error('error while creating profile');
+  if (resProfile.insert_Player.affected_rows !== 1) {
+    throw new Error('Error while creating player');
   }
-  return resProfile.insert_Account.returning[0].Player;
+  return resProfile.insert_Player.returning[0];
 }
 
 export async function getPlayer(ethAddress: string): Promise<IPlayer> {
   const res = await hasuraQuery(getPlayerQuery, {
-    eth_address: ethAddress,
+    ethereum_address: ethAddress,
   });
 
-  let player = res.Account[0]?.Player;
+  let player = res.Player[0];
 
   if (!player) {
     player = await createPlayer(ethAddress);

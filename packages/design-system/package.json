@@ -39,6 +39,7 @@
     "@storybook/react": "^5.3.19",
     "babel-loader": "^8.1.0",
     "react-docgen-typescript-loader": "^3.7.2",
+    "react-dom": "^16.13.1",
     "react-google-font-loader": "^1.1.0",
     "ts-loader": "^8.0.1",
     "tslib": "^2.0.0"

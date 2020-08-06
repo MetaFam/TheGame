@@ -88,8 +88,13 @@ yarn hasura -- migrate squash 1586952135212
 Generate GraphQL Types
 
 ```shell script
-cd packages/graphql-codegen
-yarn generate
+yarn codegen generate
+```
+
+Reload Schema + Generate GraphQL Types (backend needs to be running)
+
+```shell script
+yarn codegen update-schema
 ```
 
 ### Restart with fresh database

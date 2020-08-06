@@ -1,11 +1,18 @@
 import gql from 'graphql-tag';
 
-import { AccountFragment, PlayerFragment } from './fragments';
+import {
+  AccountFragment,
+  BoxProfileFragment,
+  PlayerFragment,
+} from './fragments';
 
-export const GetPlayer = gql`
+export const GetPlayerFromId = gql`
   query GetPlayer($player_id: uuid) {
     Player(where: { id: { _eq: $player_id } }) {
       ...PlayerFragment
+      box_profile {
+        ...BoxProfileFragment
+      }
       Accounts {
         ...AccountFragment
       }
@@ -13,19 +20,14 @@ export const GetPlayer = gql`
   }
   ${PlayerFragment}
   ${AccountFragment}
+  ${BoxProfileFragment}
 `;
 
-export const GetMyAccount = gql`
-  query GetMyAccount($eth_address: String) {
-    Account(
-      where: { identifier: { _eq: $eth_address }, type: { _eq: "ETHEREUM" } }
-    ) {
-      ...AccountFragment
-      Player {
-        ...PlayerFragment
-      }
+export const GetPlayerFromAddress = gql`
+  query GetMyPlayer($ethereum_address: String) {
+    Player(where: { ethereum_address: { _eq: $ethereum_address } }) {
+      ...PlayerFragment
     }
   }
   ${PlayerFragment}
-  ${AccountFragment}
 `;

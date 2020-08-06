@@ -57,7 +57,8 @@
         "react/react-in-jsx-scope": "off", // react is a global in this folder
         "import/no-default-export": "off", // pages have to have a default export
         "import/prefer-default-export": "error",
-        "@typescript-eslint/explicit-module-boundary-types": [ // So we can infer prop types
+        "@typescript-eslint/explicit-module-boundary-types": [
+          // So we can infer prop types
           "error",
           { "allowedNames": ["getStaticProps"] }
         ]

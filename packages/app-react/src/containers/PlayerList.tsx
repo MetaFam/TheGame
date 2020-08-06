@@ -3,10 +3,10 @@ import { Box } from '@material-ui/core';
 import React from 'react';
 
 import { PlayerListItem } from '../components/PlayerListItem';
-import { GetPlayer } from '../graphql/queries';
+import { GetPlayerFromId } from '../graphql/queries';
 
 export const PlayerList: React.FC = () => {
-  const { data, loading, error } = useQuery(GetPlayer);
+  const { data, loading, error } = useQuery(GetPlayerFromId);
 
   if (error) {
     return <div>error: {error.message}</div>;

@@ -15,7 +15,10 @@ function getHeaderToken(req: Request): string | null {
   return token;
 }
 
-export const authHandler = async (req: Request, res: Response) => {
+export const authHandler = async (
+  req: Request,
+  res: Response,
+): Promise<void> => {
   const token = getHeaderToken(req);
 
   if (!token) {
