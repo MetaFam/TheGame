@@ -1,58 +1,34 @@
-import { Button, ButtonGroup, Flex, Text } from '@metafam/ds';
+import {
+  Button,
+  ButtonGroup,
+  EmailIcon,
+  Icon3box,
+  MetaHeading,
+} from '@metafam/ds';
 import React from 'react';
 
-import { Icon3box } from './icons/Icon3box';
+import { FlexContainer } from './Container';
 
 export const RegisterPlayer: React.FC = () => {
   return (
-    <Flex
-      alignItems="center"
-      justifyContent="center"
-      flexDirection="column"
-      flex={1}
-    >
-      <Text
-        fontSize="2xl"
-        fontFamily="mono"
-        fontWeight="bold"
-        color="white"
-        m={5}
-      >
-        Register your Player account
-      </Text>
-      <ButtonGroup spacing={5} marginTop="20">
-        <Button
-          color="white"
-          variant="outline"
-          size="lg"
-          padding="2rem"
-          width="8rem"
-          leftIcon={Icon3box}
-          textTransform="uppercase"
-          alignItems="center"
-        >
-          box
-        </Button>
-        <Button
-          color="white"
-          variant="outline"
-          size="lg"
-          padding="2rem"
-          width="8rem"
-        >
-          GitHub
-        </Button>
-        <Button
-          color="white"
-          variant="outline"
-          size="lg"
-          padding="2rem"
-          leftIcon="email"
-          width="8rem"
-        >
+    <FlexContainer flex={1}>
+      <MetaHeading m={5}>Register your Player account</MetaHeading>
+      <ButtonGroup spacing={5} mt={20}>
+        <RegisterButton textTransform="uppercase">
+          <Icon3box mr={2} /> box
+        </RegisterButton>
+        <RegisterButton>GitHub</RegisterButton>
+        <RegisterButton>
+          <EmailIcon mr={2} />
           Email
-        </Button>
+        </RegisterButton>
       </ButtonGroup>
-    </Flex>
+    </FlexContainer>
   );
 };
+
+const RegisterButton: React.FC<typeof Button> = ({ children, ...props }) => (
+  <Button variant="outline" size="lg" p={8} align="center" {...props}>
+    {children}
+  </Button>
+);

@@ -1,22 +1,14 @@
-import { Flex } from '@metafam/ds';
 import React from 'react';
 
+import { PageContainer } from '../components/Container';
 import { SuccessPlayer } from '../components/SuccessPlayer';
 import BackgroundImage from '../public/images/profile-background.png';
 
 const Profile: React.FC = () => {
   return (
-    <Flex
-      backgroundSize="cover"
-      backgroundImage={`url(${BackgroundImage})`}
-      width="100vw"
-      height="100vh"
-      padding="3rem"
-      flexDirection="column"
-      alignItems="center"
-    >
+    <PageContainer backgroundImage={`url(${BackgroundImage})`}>
       <SuccessPlayer />
-    </Flex>
+    </PageContainer>
   );
 };
 

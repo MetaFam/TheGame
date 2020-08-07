@@ -1,7 +1,8 @@
-import { Button, Flex, Image, Text } from '@metafam/ds';
+import { Image, MetaButton, MetaHeading, Text } from '@metafam/ds';
 import React from 'react';
 
 import PlayersImage from '../public/images/players.png';
+import { FlexContainer } from './Container';
 
 type Props = {
   next: () => void;
@@ -9,44 +10,23 @@ type Props = {
 
 export const WelcomePlayer: React.FC<Props> = ({ next }) => {
   return (
-    <Flex
-      alignItems="center"
-      justifyContent="center"
-      flexDirection="column"
-      flex={1}
-      maxWidth="45rem"
-    >
+    <FlexContainer flex={1} maxWidth="45rem">
       <Image src={PlayersImage} />
-      <Text
-        fontSize="2xl"
-        fontFamily="mono"
-        fontWeight="bold"
-        color="white"
-        m={5}
-      >
-        Become a Player
-      </Text>
-      <Text fontSize="lg" fontFamily="body" color="white" textAlign="center">
+      <MetaHeading m={5}>Become a Player</MetaHeading>
+      <Text fontSize="lg" textAlign="center">
         MetaGame is an idea we can build a new world, a layer atop of the old
         one. A more collaborative, transparent & caring world. A world in which
         self-interest is better aligned with the common good & the ones creating
         value are more directly rewarded.
       </Text>
-      <Button
+      <MetaButton
         onClick={() => {
           next();
         }}
-        marginTop="10"
-        variantColor="fauxblue"
-        size="lg"
-        textTransform="uppercase"
-        paddingLeft="3rem"
-        letterSpacing="0.1rem"
-        paddingRight="3rem"
-        fontSize="sm"
+        mt={10}
       >
         Register
-      </Button>
-    </Flex>
+      </MetaButton>
+    </FlexContainer>
   );
 };
