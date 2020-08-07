@@ -1,4 +1,5 @@
 import { Button, ButtonGroup } from '@chakra-ui/core';
+import { ArrowForwardIcon, EmailIcon } from '@chakra-ui/icons';
 import React from 'react';
 
 export default {
@@ -8,16 +9,16 @@ export default {
 
 export const Sizes = () => (
   <ButtonGroup spacing={4}>
-    <Button variantColor="teal" size="xs">
+    <Button colorScheme="teal" size="xs">
       Button
     </Button>
-    <Button variantColor="teal" size="sm">
+    <Button colorScheme="teal" size="sm">
       Button
     </Button>
-    <Button variantColor="teal" size="md">
+    <Button colorScheme="teal" size="md">
       Button
     </Button>
-    <Button variantColor="teal" size="lg">
+    <Button colorScheme="teal" size="lg">
       Button
     </Button>
   </ButtonGroup>
@@ -25,16 +26,16 @@ export const Sizes = () => (
 
 export const Variants = () => (
   <ButtonGroup spacing={4}>
-    <Button variantColor="teal" variant="solid">
+    <Button colorScheme="teal" variant="solid">
       Button
     </Button>
-    <Button variantColor="teal" variant="outline">
+    <Button colorScheme="teal" variant="outline">
       Button
     </Button>
-    <Button variantColor="teal" variant="ghost">
+    <Button colorScheme="teal" variant="ghost">
       Button
     </Button>
-    <Button variantColor="teal" variant="link">
+    <Button colorScheme="teal" variant="link">
       Button
     </Button>
   </ButtonGroup>
@@ -42,10 +43,14 @@ export const Variants = () => (
 
 export const Icons = () => (
   <ButtonGroup spacing={4}>
-    <Button leftIcon="email" variantColor="teal" variant="solid">
+    <Button leftIcon={<EmailIcon />} colorScheme="teal" variant="solid">
       Email
     </Button>
-    <Button rightIcon="arrow-forward" variantColor="teal" variant="outline">
+    <Button
+      rightIcon={<ArrowForwardIcon />}
+      colorScheme="teal"
+      variant="outline"
+    >
       Call us
     </Button>
   </ButtonGroup>
@@ -53,13 +58,13 @@ export const Icons = () => (
 
 export const Loading = () => (
   <ButtonGroup spacing={4}>
-    <Button isLoading variantColor="teal" variant="solid">
+    <Button isLoading colorScheme="teal" variant="solid">
       Email
     </Button>
     <Button
       isLoading
       loadingText="Submitting"
-      variantColor="teal"
+      colorScheme="teal"
       variant="outline"
     >
       Submit

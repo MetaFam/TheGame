@@ -1,39 +1,25 @@
-import { ColorHues, DefaultTheme, theme as chakraTheme } from '@chakra-ui/core';
+import chakraTheme, { Theme as ChakraTheme } from '@chakra-ui/theme';
 
 interface MetaColors {
-  transparent: string;
-  current: string;
-  black: string;
-  white: string;
-  whiteAlpha: ColorHues;
-  blackAlpha: ColorHues;
-  gray: ColorHues;
-  red: ColorHues;
-  orange: ColorHues;
-  yellow: ColorHues;
-  green: ColorHues;
-  teal: ColorHues;
-  blue: ColorHues;
-  cyan: ColorHues;
-  fauxblue: ColorHues;
-  offwhite: ColorHues;
-  purple: ColorHues;
-  pink: ColorHues;
-  linkedin: ColorHues;
-  facebook: ColorHues;
-  messenger: ColorHues;
-  whatsapp: ColorHues;
-  twitter: ColorHues;
-  telegram: ColorHues;
+  offwhite: string;
 }
 
 interface MetaTheme {
-  colors: MetaColors;
+  colors: ChakraTheme['colors'] & MetaColors;
 }
-type Theme = DefaultTheme & MetaTheme;
+
+type Theme = ChakraTheme & MetaTheme;
 
 export const theme: Theme = {
   ...chakraTheme,
+  styles: {
+    ...chakraTheme.styles,
+    global: {
+      ...chakraTheme.styles.global,
+      background: 'black',
+      color: 'white',
+    },
+  },
   colors: {
     ...chakraTheme.colors,
     cyan: {
@@ -48,19 +34,8 @@ export const theme: Theme = {
       800: '#00494b',
       900: '#001a1b',
     },
-    offwhite: {
-      50: '#f0f3f5',
-      100: '#d7dadc',
-      200: '#bbc1c5',
-      300: '#9eaab0',
-      400: '#81929b',
-      500: '#687882',
-      600: '#515d64',
-      700: '#3b4347',
-      800: '#24282b',
-      900: '#0a0e0f',
-    },
-    fauxblue: {
+    offwhite: '#f0f3f5',
+    purple: {
       50: '#eee7ff',
       100: '#c8bafc',
       200: '#a48df3',

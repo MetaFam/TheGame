@@ -1,5 +1,6 @@
 export {
-  ThemeProvider,
+  ChakraProvider,
+  CSSReset,
   Heading,
   Box,
   Image,
@@ -22,8 +23,6 @@ export {
   Stack,
   useTheme,
   useToast,
-  LinkProps,
 } from '@chakra-ui/core';
 
 export { theme as MetaTheme } from './theme';
-export { GlobalStyle } from './GlobalStyle';

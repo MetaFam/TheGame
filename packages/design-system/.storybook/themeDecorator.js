@@ -1,9 +1,9 @@
 import React from 'react';
-import { GlobalStyle, ThemeProvider, MetaTheme } from '../src';
+import { CSSReset, ChakraProvider, MetaTheme } from '../src';
 import GoogleFontLoader from 'react-google-font-loader';
 
 const ThemeDecorator = (storyFn) => (
-  <ThemeProvider theme={MetaTheme}>
+  <ChakraProvider theme={MetaTheme}>
     <GoogleFontLoader
       fonts={[
         {
@@ -19,9 +19,9 @@ const ThemeDecorator = (storyFn) => (
         },
       ]}
     />
-    <GlobalStyle />
+    <CSSReset />
     {storyFn()}
-  </ThemeProvider>
+  </ChakraProvider>
 );
 
 export default ThemeDecorator;
