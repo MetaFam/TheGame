@@ -5,6 +5,7 @@ import {
   Icon3box,
   MetaHeading,
 } from '@metafam/ds';
+import NextLink from 'next/link';
 import React from 'react';
 
 import { FlexContainer } from './Container';
