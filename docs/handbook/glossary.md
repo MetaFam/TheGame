@@ -22,7 +22,9 @@ Request missing terms [here](https://forum.metagame.wtf/t/wiki-glossary/346).
 
 ## Aragon
 
-<!-- TODO -->
+A generalized framework for creating DAOs.
+
+See [Aragon website](https://aragon.org/)
 
 <!---------------- ⭐️  B  ⭐️ ---------------->
 
@@ -30,17 +32,19 @@ Request missing terms [here](https://forum.metagame.wtf/t/wiki-glossary/346).
 
 ## Colony
 
-<!-- TODO -->
+A framework for creating DAOs with a focus on reputation and collaboration.
+
+See [Colony website](https://colony.io/)
 
 ## Commons
 
-<!-- TODO -->
+The [commons](https://wikipedia.org/wiki/Commons) are the shared resources accessible to all members of a society or community.
 
 <!---------------- ⭐️  D  ⭐️ ---------------->
 
 ## DAO
 
-<!-- TODO -->
+[Decentralized Autonomous Organizations](https://wikipedia.org/wiki/Decentralized_autonomous_organization) (DAOs) are entities whose bylaws are encoded in smart contracts, so that all participants have assurance about the rules of the game. They allow diverse groups of people across the planet to manage resources and make decisions with minimal trust in one another.
 
 ## DAOHaus
 
@@ -52,7 +56,7 @@ Request missing terms [here](https://forum.metagame.wtf/t/wiki-glossary/346).
 
 ## DApp
 
-<!-- TODO -->
+Decentralized applications (dapps) are web applications powered by smart contracts. Instead of using centralized servers or databases, dapps rely on the blockchain as their backends for program logic and storage.
 
 ## Decentralized Factory
 
@@ -60,29 +64,39 @@ Request missing terms [here](https://forum.metagame.wtf/t/wiki-glossary/346).
 
 ## DeFi
 
-<!-- TODO -->
+Decentralized finance (DeFi) is a financial ecosystem built upon smart contracts and peer-to-peer protocols (primarily Ethereum), enabling financial activities such as lending, derivatives, and trading without the authority of a centralized entity.
 
 ## Discord
 
-<!-- TODO -->
+A proprietary VoIP application used for creating and organizing communities.
+
+See [Discord website](https://discord.com)
 
 ## Discourse
 
-<!-- TODO -->
+An open-source discussion platform with a focus on constructive conversation.
+
+See [Discourse website](https://www.discourse.org/)
 
 ## Doughnut Economics
 
-<!-- TODO -->
+A visual economic framework for sustainable development shaped like a doughnut.
+
+See [Wikipedia](https://wikipedia.org/wiki/Doughnut_(economic_model))
 
 <!---------------- ⭐️  E  ⭐️ ---------------->
 
 ## ETH
 
-<!-- TODO -->
+Ether (Eth) is the native cryptocurrency of the Ethereum blockchain. It is used to pay transaction and computation fees on the network.
 
 ## Ethereum
 
-<!-- TODO -->
+An open source blockchain and community-built technology behind the cryptocurrency Ether (ETH) and an active ecosystem of decentralized applications.
+
+See [Ethereum website](https://ethereum.org/)
+
+*Alt.*: [Ethereum](https://github.com/ethereum) organization on GitHub
 
 <!---------------- ⭐️  F  ⭐️ ---------------->
 
@@ -90,11 +104,15 @@ Request missing terms [here](https://forum.metagame.wtf/t/wiki-glossary/346).
 
 ## Gamification
 
-<!-- TODO -->
+The process of incentivizing seemingly mundane tasks with feelings of epic accomplishment and meaning.
+
+See [article](https://metagame.substack.com/p/metagame-octalysis-framework-3) for more details.
 
 ## GitHub
 
-<!-- TODO -->
+A Git repository hosting service. It provides a web-based interface to host and review code, manage projects, and build software.
+
+See [GitHub website](https://github.com/)
 
 ## Guild
 
@@ -106,7 +124,9 @@ Request missing terms [here](https://forum.metagame.wtf/t/wiki-glossary/346).
 
 ## Ikigai
 
-<!-- TODO -->
+The Japanese concept of having a sense of purpose and meaning in life. It roughly translates to "a reason for being".
+
+See [Wikipedia](https://wikipedia.org/wiki/Ikigai)
 
 <!---------------- ⭐️  J  ⭐️ ---------------->
 
@@ -132,7 +152,7 @@ The group of people contributing to Metagame. See [MetaFam in the MetaManifesto]
 
 ## MetaMask
 
-<!-- TODO -->
+An Ethereum wallet available as both a [web browser extension and mobile application](https://metamask.io/download.html) used to interface with the blockchain and dapps.
 
 ## MetaMedia
 
@@ -178,7 +198,9 @@ The group of people contributing to Metagame. See [MetaFam in the MetaManifesto]
 
 ## (MetaGame) Roles
 
-<!-- TODO -->
+Roles are sets of behaviours that any MetaGame player can take on. Anyone is free to play multiple roles at any time. Passive roles are more like "wanted behaviours", while main roles require more direct and deliberate actions.
+
+See [Roles in MetaGame](/docs/handbook/roles-in-metagame)
 
 <!---------------- ⭐️  S  ⭐️ ---------------->
 
@@ -212,7 +234,8 @@ The group of people contributing to Metagame. See [MetaFam in the MetaManifesto]
 
 ## Web3
 
-<!-- TODO -->
+The problem with the Web2 era was that the internet got monopolized by huge centralized services farming humans for data & attention.
+The promise of [Web3](http://blockchainhub.net/web3-decentralized-web/) is the internet of decentralized peer-to-peer protocols, platforms & applications; tokenized & in the hands of their users.
 
 <!---------------- ⭐️  X  ⭐️ ---------------->
 
