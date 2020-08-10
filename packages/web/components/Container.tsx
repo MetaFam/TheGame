@@ -1,7 +1,9 @@
 import { Flex } from '@metafam/ds';
 import React from 'react';
 
-export const PageContainer: React.FC<typeof Flex> = ({
+type Props = React.ComponentProps<typeof Flex>
+
+export const PageContainer: React.FC<Props> = ({
   children,
   ...props
 }) => (
@@ -18,7 +20,7 @@ export const PageContainer: React.FC<typeof Flex> = ({
   </Flex>
 );
 
-export const FlexContainer: React.FC<typeof Flex> = ({
+export const FlexContainer: React.FC<Props> = ({
   children,
   ...props
 }) => (
