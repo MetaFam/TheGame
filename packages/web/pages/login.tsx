@@ -5,7 +5,7 @@ import { PageContainer } from '../components/Container';
 import { MetaLink } from '../components/Link';
 import { RegisterPlayer } from '../components/RegisterPlayer';
 import { WelcomePlayer } from '../components/WelcomePlayer';
-import BackgroundImage from '../public/images/login-background.png';
+import BackgroundImage from '../public/images/login-background.jpg';
 import MetaGameImage from '../public/images/metagame.png';
 
 const Login: React.FC = () => {

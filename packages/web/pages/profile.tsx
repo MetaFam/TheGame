@@ -2,7 +2,7 @@ import React from 'react';
 
 import { PageContainer } from '../components/Container';
 import { SuccessPlayer } from '../components/SuccessPlayer';
-import BackgroundImage from '../public/images/profile-background.png';
+import BackgroundImage from '../public/images/profile-background.jpg';
 
 const Profile: React.FC = () => {
   return (
