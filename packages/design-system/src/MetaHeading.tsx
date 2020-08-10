@@ -1,8 +1,8 @@
-import { Text, TextProps } from '@chakra-ui/core';
+import { Heading, HeadingProps } from '@chakra-ui/core';
 import React from 'react';
 
-export const MetaHeading: React.FC<TextProps> = ({ children, ...props }) => (
-  <Text fontSize="2xl" fontFamily="heading" fontWeight="bold" {...props}>
+export const MetaHeading: React.FC<HeadingProps> = ({ children, ...props }) => (
+  <Heading size="lg" textAlign="center" {...props}>
     {children}
-  </Text>
+  </Heading>
 );
