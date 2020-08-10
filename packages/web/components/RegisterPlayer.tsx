@@ -30,7 +30,7 @@ export const RegisterPlayer: React.FC = () => {
 type ButtonProps = React.ComponentProps<typeof Button>;
 
 const RegisterButton: React.FC<ButtonProps> = ({ children, ...props }) => (
-  <Button variant="outline" size="lg" p={8} align="center" {...props}>
+  <Button variant="outline" size="lg" p={8} alignItems="center" {...props}>
     {children}
   </Button>
 );
