@@ -50,7 +50,7 @@ export const theme: Theme = {
   },
   fonts: {
     body: '"IBM Plex Sans", sans-serif',
-    heading: '"IBM Plex Mono", monospace',
-    mono: '"Press Start 2P"',
-  },
+    mono: '"IBM Plex Mono", monospace',
+    heading: '"Press Start 2P", sans-serif',
+  }
 };
