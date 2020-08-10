@@ -13,7 +13,7 @@ export const SuccessPlayer: React.FC = () => {
       <MetaButton mt={5} mb={8}>
         Set up your profile
       </MetaButton>
-      <Text fontFamily="heading" color="offwhite">
+      <Text fontFamily="mono" color="offwhite">
         {`I'll do this later. `}
         <MetaLink href="">Go to my profile</MetaLink>
       </Text>
