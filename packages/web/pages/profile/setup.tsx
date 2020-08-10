@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 
 import { FlexContainer, PageContainer } from '../../components/Container';
 import { SetupHeader } from '../../components/SetupHeader';
-import BackgroundImage from '../../public/images/profile-background.png';
+import BackgroundImage from '../../public/images/profile-background.jpg';
 
 const ProfileSetup: React.FC = () => {
   const [step, setStep] = useState(0);
@@ -25,7 +25,7 @@ const ProfileSetup: React.FC = () => {
       <FlexContainer flex={1}>
         <MetaHeading mb={10}>What are your superpowers?</MetaHeading>
         <Flex align="center" mb={10}>
-          <Text fontFamily="heading" mr={4}>
+          <Text fontFamily="mono" mr={4}>
             Progress:
           </Text>
           <Input
