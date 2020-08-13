@@ -13530,9 +13530,9 @@ graphql-request@^1.5.0, graphql-request@^1.8.2:
     cross-fetch "2.2.2"
 
 graphql-request@^3.0.0-next.4:
-  version "3.0.0-next.4"
-  resolved "https://registry.yarnpkg.com/graphql-request/-/graphql-request-3.0.0-next.4.tgz#f15fc17ba4e35b5ba83af3288b04528ef7618557"
-  integrity sha512-fTdbmMGtC8AtMg14QVZDf2tZS2ox0tdBV1muVlJoGBbV5hd7WpeENLI+L4Ujp3pi0AIXeXhZiatsHDRN1Rp3lw==
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/graphql-request/-/graphql-request-3.0.0.tgz#942d81bbd621cc2223d35fbf2b42edf8be822b83"
+  integrity sha512-zW8AuLnKMYOnpVKdANU9FzLDoj4u4AoU6KZ79e+BcJaNiuw/vgCJ0p7ppDMSDrW77a12Moa7J7Mg4w0f9Kd/Kg==
   dependencies:
     cross-fetch "^3.0.4"
 
