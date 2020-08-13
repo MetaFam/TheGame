@@ -1,11 +1,13 @@
 export {
-  ThemeProvider,
+  ChakraProvider,
+  CSSReset,
   Heading,
   Box,
   Image,
   Text,
   Avatar,
   Button,
+  ButtonGroup,
   Grid,
   SimpleGrid,
   Flex,
@@ -21,8 +23,10 @@ export {
   Stack,
   useTheme,
   useToast,
-  LinkProps,
 } from '@chakra-ui/core';
 
 export { theme as MetaTheme } from './theme';
-export { GlobalStyle } from './GlobalStyle';
+export { Icon3box } from './icons';
+export { EmailIcon } from '@chakra-ui/icons';
+export { MetaHeading } from './MetaHeading';
+export { MetaButton } from './MetaButton';

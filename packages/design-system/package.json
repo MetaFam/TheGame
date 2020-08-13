@@ -24,10 +24,9 @@
     "react": ">=16"
   },
   "dependencies": {
-    "@chakra-ui/core": "^0.8.0",
-    "@emotion/core": "^10.0.28",
-    "@emotion/styled": "^10.0.27",
-    "emotion-theming": "^10.0.27"
+    "@chakra-ui/core": "next",
+    "@chakra-ui/theme": "next",
+    "@chakra-ui/icons": "next"
   },
   "devDependencies": {
     "@babel/core": "^7.10.5",

@@ -1,8 +1,8 @@
-import { Link, LinkProps as DSLinkProps } from '@metafam/ds';
+import { Link } from '@metafam/ds';
 import NextLink, { LinkProps } from 'next/link';
 import React from 'react';
 
-type Props = Omit<DSLinkProps, keyof LinkProps> & LinkProps;
+type Props = Omit<React.ComponentProps<typeof Link>, keyof LinkProps> & LinkProps;
 
 export const MetaLink: React.FC<Props> = ({
   children,
@@ -26,6 +26,8 @@ export const MetaLink: React.FC<Props> = ({
   >
     {/*  NextLink passes the href */}
     {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-    <Link {...props}>{children}</Link>
+    <Link color="cyan.400" {...props}>
+      {children}
+    </Link>
   </NextLink>
 );
