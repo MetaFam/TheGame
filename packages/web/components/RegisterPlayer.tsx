@@ -5,6 +5,7 @@ import {
   Icon3box,
   MetaHeading,
 } from '@metafam/ds';
+import NextLink from 'next/link';
 import React from 'react';
 
 import { FlexContainer } from './Container';
@@ -30,7 +31,9 @@ export const RegisterPlayer: React.FC = () => {
 type ButtonProps = React.ComponentProps<typeof Button>;
 
 const RegisterButton: React.FC<ButtonProps> = ({ children, ...props }) => (
-  <Button variant="outline" size="lg" p={8} alignItems="center" {...props}>
-    {children}
-  </Button>
+  <NextLink href="/profile/success">
+    <Button variant="outline" size="lg" p={8} alignItems="center" {...props}>
+      {children}
+    </Button>
+  </NextLink>
 );
