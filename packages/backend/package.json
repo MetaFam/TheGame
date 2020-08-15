@@ -11,7 +11,8 @@
     "dev-ts": "ts-node-dev --exit-child --respawn --transpile-only -- src/index.ts",
     "typecheck": "yarn build",
     "precommit": "yarn lint-staged",
-    "generate": "graphql-codegen --config=codegen.yml"
+    "generate": "graphql-codegen --config=codegen.yml",
+    "lintfix": "eslint --fix"
   },
   "author": "",
   "license": "ISC",
@@ -23,6 +24,7 @@
     "express": "^4.17.1",
     "express-graphql": "^0.11.0",
     "graphql": "^15.3.0",
+    "graphql-tag": "^2.10.4",
     "graphql-tools": "^6.0.15",
     "node-fetch": "^2.6.0",
     "graphql-request": "^3.0.0-next.4"

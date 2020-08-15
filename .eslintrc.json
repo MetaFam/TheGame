@@ -59,7 +59,7 @@
         "import/prefer-default-export": "error",
         "@typescript-eslint/explicit-module-boundary-types": [
           // So we can infer prop types
-          "error",
+          "warn",
           { "allowedNames": ["getStaticProps"] }
         ]
       }
