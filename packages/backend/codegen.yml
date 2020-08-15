@@ -11,3 +11,16 @@ generates:
       noSchemaStitching: true
       avoidOptionals: true
       maybeValue: 'T extends PromiseLike<infer U> ? Promise<U | null> : T | null | undefined'
+  ./src/lib/autogen/sdk.ts:
+    schema: '../codegen/schema.graphql'
+    documents:
+      - ./src/handlers/**/(!(*.d)).ts
+      - ./src/handlers/**/*.graphql
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-graphql-request
+      - add:
+          content: '/* eslint-disable */'
+    config:
+      immutableTypes: true

@@ -5,6 +5,12 @@
       "rules": {
         "@typescript-eslint/naming-convention": "off"
       }
+    },
+    {
+      "files": ["./src/handlers/**/*.ts"],
+      "rules": {
+        "@typescript-eslint/explicit-module-boundary-types": "off"
+      }
     }
   ]
 }

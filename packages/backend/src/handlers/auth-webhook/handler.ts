@@ -1,7 +1,7 @@
 import { did } from '@metafam/utils';
 import { Request, Response } from 'express';
 
-import { getPlayer } from './users';
+import { getOrCreatePlayer } from './users';
 
 const unauthorizedVariables = {
   'X-Hasura-Role': 'public',
@@ -30,7 +30,7 @@ export const authHandler = async (
       return;
     }
 
-    const player = await getPlayer(claim.iss);
+    const player = await getOrCreatePlayer(claim.iss);
 
     const hasuraVariables = {
       'X-Hasura-Role': 'player',
