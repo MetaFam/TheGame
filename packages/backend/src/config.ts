@@ -5,30 +5,27 @@ interface IConfig {
   ipfsEndpoint: string;
 }
 
-function parseEnv<T>(v: any, type: string, defaultValue: T): T {
+function parseEnv<T extends string | number>(
+  v: string | undefined,
+  defaultValue: T,
+): T {
   if (!v) return defaultValue;
 
-  if (type === 'number') {
-    return (Number(v) as any) as T;
+  if (typeof defaultValue === 'number') {
+    return Number(v) as T;
   }
   return v as T;
 }
 
 export const CONFIG: IConfig = {
-  port: parseEnv<number>(process.env.PORT, 'number', 4000),
-  graphqlURL: parseEnv<string>(
+  port: parseEnv(process.env.PORT, 4000),
+  graphqlURL: parseEnv(
     process.env.GRAPHQL_URL,
-    'string',
     'http://localhost:8080/v1/graphql',
   ),
-  adminKey: parseEnv<string>(
+  adminKey: parseEnv(
     process.env.HASURA_GRAPHQL_ADMIN_SECRET,
-    'string',
     'metagame_secret',
   ),
-  ipfsEndpoint: parseEnv<string>(
-    process.env.IPFS_ENDPOINT,
-    'string',
-    'https://ipfs.infura.io',
-  ),
+  ipfsEndpoint: parseEnv(process.env.IPFS_ENDPOINT, 'https://ipfs.infura.io'),
 };
