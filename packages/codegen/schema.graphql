@@ -1135,9 +1135,10 @@ type Player {
   """Remote relationship field"""
   box_profile: BoxProfile
   enneagram: enneagram_type
-  ethereum_address: String!
+  ethereum_address: String
   id: uuid!
   role: String
+  scIdentityId: String
   timezone: Int
   totalXp: numeric
   username: String!
@@ -1220,6 +1221,7 @@ input Player_bool_exp {
   ethereum_address: String_comparison_exp
   id: uuid_comparison_exp
   role: String_comparison_exp
+  scIdentityId: String_comparison_exp
   timezone: Int_comparison_exp
   totalXp: numeric_comparison_exp
   username: String_comparison_exp
@@ -1234,6 +1236,9 @@ enum Player_constraint {
 
   """unique or primary key constraint"""
   Player_pkey
+
+  """unique or primary key constraint"""
+  Player_scIdentityId_key
 
   """unique or primary key constraint"""
   Player_username_unique_key
@@ -1257,6 +1262,7 @@ input Player_insert_input {
   ethereum_address: String
   id: uuid
   role: String
+  scIdentityId: String
   timezone: Int
   totalXp: numeric
   username: String
@@ -1267,6 +1273,7 @@ type Player_max_fields {
   ethereum_address: String
   id: uuid
   role: String
+  scIdentityId: String
   timezone: Int
   totalXp: numeric
   username: String
@@ -1279,6 +1286,7 @@ input Player_max_order_by {
   ethereum_address: order_by
   id: order_by
   role: order_by
+  scIdentityId: order_by
   timezone: order_by
   totalXp: order_by
   username: order_by
@@ -1289,6 +1297,7 @@ type Player_min_fields {
   ethereum_address: String
   id: uuid
   role: String
+  scIdentityId: String
   timezone: Int
   totalXp: numeric
   username: String
@@ -1301,6 +1310,7 @@ input Player_min_order_by {
   ethereum_address: order_by
   id: order_by
   role: order_by
+  scIdentityId: order_by
   timezone: order_by
   totalXp: order_by
   username: order_by
@@ -1344,6 +1354,7 @@ input Player_order_by {
   ethereum_address: order_by
   id: order_by
   role: order_by
+  scIdentityId: order_by
   timezone: order_by
   totalXp: order_by
   username: order_by
@@ -1373,6 +1384,9 @@ enum Player_select_column {
   role
 
   """column name"""
+  scIdentityId
+
+  """column name"""
   timezone
 
   """column name"""
@@ -1390,6 +1404,7 @@ input Player_set_input {
   ethereum_address: String
   id: uuid
   role: String
+  scIdentityId: String
   timezone: Int
   totalXp: numeric
   username: String
@@ -1648,6 +1663,9 @@ enum Player_update_column {
 
   """column name"""
   role
+
+  """column name"""
+  scIdentityId
 
   """column name"""
   timezone
