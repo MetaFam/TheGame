@@ -1,1 +1,6 @@
-[]
+- name: migrateSourceCredLedger
+  webhook: '{{ACTION_BASE_ENDPOINT}}/migrateSourceCredAccounts'
+  schedule: 0 1 * * *
+  include_in_metadata: true
+  payload: {}
+  comment: Reads account data from XP Github and upserts users into the Database
