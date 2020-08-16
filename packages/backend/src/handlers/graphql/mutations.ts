@@ -28,3 +28,14 @@ export const UpsertAccount = gql`
     }
   }
 `;
+
+export const UpsertPlayer = gql`
+  mutation UpsertPlayer(
+    $objects: [Player_insert_input!]!
+    $onConflict: Player_on_conflict
+  ) {
+    insert_Player(on_conflict: $onConflict, objects: $objects) {
+      affected_rows
+    }
+  }
+`;

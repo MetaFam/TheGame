@@ -14,8 +14,7 @@ generates:
   ./src/lib/autogen/sdk.ts:
     schema: '../codegen/schema.graphql'
     documents:
-      - ./src/handlers/**/(!(*.d)).ts
-      - ./src/handlers/**/*.graphql
+      - ./src/handlers/graphql/**/(!(*.d)).ts
     plugins:
       - typescript
       - typescript-operations
@@ -24,3 +23,5 @@ generates:
           content: '/* eslint-disable */'
     config:
       immutableTypes: true
+      scalars:
+        account_type: "'ETHEREUM' | 'DISCORD' | 'GITHUB' | 'TWITTER' | 'DISCOURSE'"
