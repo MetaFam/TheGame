@@ -67,10 +67,10 @@ unique or primary key constraints on table "Account"
 """
 enum Account_constraint {
   """unique or primary key constraint"""
-  Account_identifier_type_player_key
+  Account_identifier_type_key
 
   """unique or primary key constraint"""
-  Account_identifier_unique_key
+  Account_identifier_type_player_key
 }
 
 """
@@ -733,6 +733,19 @@ type mutation_root {
   ): Player_mutation_response
 
   """
+  delete data from the table: "Player_Rank"
+  """
+  delete_Player_Rank(
+    """filter the rows which have to be deleted"""
+    where: Player_Rank_bool_exp!
+  ): Player_Rank_mutation_response
+
+  """
+  delete single row from the table: "Player_Rank"
+  """
+  delete_Player_Rank_by_pk(rank: String!): Player_Rank
+
+  """
   delete data from the table: "Player_Skill"
   """
   delete_Player_Skill(
@@ -839,6 +852,28 @@ type mutation_root {
     """on conflict condition"""
     on_conflict: Player_on_conflict
   ): Player_mutation_response
+
+  """
+  insert data into the table: "Player_Rank"
+  """
+  insert_Player_Rank(
+    """the rows to be inserted"""
+    objects: [Player_Rank_insert_input!]!
+
+    """on conflict condition"""
+    on_conflict: Player_Rank_on_conflict
+  ): Player_Rank_mutation_response
+
+  """
+  insert a single row into the table: "Player_Rank"
+  """
+  insert_Player_Rank_one(
+    """the row to be inserted"""
+    object: Player_Rank_insert_input!
+
+    """on conflict condition"""
+    on_conflict: Player_Rank_on_conflict
+  ): Player_Rank
 
   """
   insert data into the table: "Player_Skill"
@@ -964,6 +999,26 @@ type mutation_root {
     """filter the rows which have to be updated"""
     where: Player_bool_exp!
   ): Player_mutation_response
+
+  """
+  update data of the table: "Player_Rank"
+  """
+  update_Player_Rank(
+    """sets the columns of the filtered rows to the given values"""
+    _set: Player_Rank_set_input
+
+    """filter the rows which have to be updated"""
+    where: Player_Rank_bool_exp!
+  ): Player_Rank_mutation_response
+
+  """
+  update single row of the table: "Player_Rank"
+  """
+  update_Player_Rank_by_pk(
+    """sets the columns of the filtered rows to the given values"""
+    _set: Player_Rank_set_input
+    pk_columns: Player_Rank_pk_columns_input!
+  ): Player_Rank
 
   """
   update data of the table: "Player_Skill"
@@ -1137,6 +1192,7 @@ type Player {
   enneagram: enneagram_type
   ethereum_address: String
   id: uuid!
+  rank: Player_Rank_enum
   role: String
   scIdentityId: String
   timezone: Int
@@ -1220,6 +1276,7 @@ input Player_bool_exp {
   enneagram: enneagram_type_comparison_exp
   ethereum_address: String_comparison_exp
   id: uuid_comparison_exp
+  rank: Player_Rank_enum_comparison_exp
   role: String_comparison_exp
   scIdentityId: String_comparison_exp
   timezone: Int_comparison_exp
@@ -1261,6 +1318,7 @@ input Player_insert_input {
   enneagram: enneagram_type
   ethereum_address: String
   id: uuid
+  rank: Player_Rank_enum
   role: String
   scIdentityId: String
   timezone: Int
@@ -1353,6 +1411,7 @@ input Player_order_by {
   enneagram: order_by
   ethereum_address: order_by
   id: order_by
+  rank: order_by
   role: order_by
   scIdentityId: order_by
   timezone: order_by
@@ -1368,6 +1427,180 @@ input Player_pk_columns_input {
 }
 
 """
+columns and relationships of "Player_Rank"
+"""
+type Player_Rank {
+  rank: String!
+}
+
+"""
+aggregated selection of "Player_Rank"
+"""
+type Player_Rank_aggregate {
+  aggregate: Player_Rank_aggregate_fields
+  nodes: [Player_Rank!]!
+}
+
+"""
+aggregate fields of "Player_Rank"
+"""
+type Player_Rank_aggregate_fields {
+  count(columns: [Player_Rank_select_column!], distinct: Boolean): Int
+  max: Player_Rank_max_fields
+  min: Player_Rank_min_fields
+}
+
+"""
+order by aggregate values of table "Player_Rank"
+"""
+input Player_Rank_aggregate_order_by {
+  count: order_by
+  max: Player_Rank_max_order_by
+  min: Player_Rank_min_order_by
+}
+
+"""
+input type for inserting array relation for remote table "Player_Rank"
+"""
+input Player_Rank_arr_rel_insert_input {
+  data: [Player_Rank_insert_input!]!
+  on_conflict: Player_Rank_on_conflict
+}
+
+"""
+Boolean expression to filter rows from the table "Player_Rank". All fields are combined with a logical 'AND'.
+"""
+input Player_Rank_bool_exp {
+  _and: [Player_Rank_bool_exp]
+  _not: Player_Rank_bool_exp
+  _or: [Player_Rank_bool_exp]
+  rank: String_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "Player_Rank"
+"""
+enum Player_Rank_constraint {
+  """unique or primary key constraint"""
+  Player_Rank_pkey
+}
+
+enum Player_Rank_enum {
+  BRONZE
+  DIAMOND
+  GOLD
+  PLATINUM
+  SILVER
+}
+
+"""
+expression to compare columns of type Player_Rank_enum. All fields are combined with logical 'AND'.
+"""
+input Player_Rank_enum_comparison_exp {
+  _eq: Player_Rank_enum
+  _in: [Player_Rank_enum!]
+  _is_null: Boolean
+  _neq: Player_Rank_enum
+  _nin: [Player_Rank_enum!]
+}
+
+"""
+input type for inserting data into table "Player_Rank"
+"""
+input Player_Rank_insert_input {
+  rank: String
+}
+
+"""aggregate max on columns"""
+type Player_Rank_max_fields {
+  rank: String
+}
+
+"""
+order by max() on columns of table "Player_Rank"
+"""
+input Player_Rank_max_order_by {
+  rank: order_by
+}
+
+"""aggregate min on columns"""
+type Player_Rank_min_fields {
+  rank: String
+}
+
+"""
+order by min() on columns of table "Player_Rank"
+"""
+input Player_Rank_min_order_by {
+  rank: order_by
+}
+
+"""
+response of any mutation on the table "Player_Rank"
+"""
+type Player_Rank_mutation_response {
+  """number of affected rows by the mutation"""
+  affected_rows: Int!
+
+  """data of the affected rows by the mutation"""
+  returning: [Player_Rank!]!
+}
+
+"""
+input type for inserting object relation for remote table "Player_Rank"
+"""
+input Player_Rank_obj_rel_insert_input {
+  data: Player_Rank_insert_input!
+  on_conflict: Player_Rank_on_conflict
+}
+
+"""
+on conflict condition type for table "Player_Rank"
+"""
+input Player_Rank_on_conflict {
+  constraint: Player_Rank_constraint!
+  update_columns: [Player_Rank_update_column!]!
+  where: Player_Rank_bool_exp
+}
+
+"""
+ordering options when selecting data from "Player_Rank"
+"""
+input Player_Rank_order_by {
+  rank: order_by
+}
+
+"""
+primary key columns input for table: "Player_Rank"
+"""
+input Player_Rank_pk_columns_input {
+  rank: String!
+}
+
+"""
+select columns of table "Player_Rank"
+"""
+enum Player_Rank_select_column {
+  """column name"""
+  rank
+}
+
+"""
+input type for updating data in table "Player_Rank"
+"""
+input Player_Rank_set_input {
+  rank: String
+}
+
+"""
+update columns of table "Player_Rank"
+"""
+enum Player_Rank_update_column {
+  """column name"""
+  rank
+}
+
+"""
 select columns of table "Player"
 """
 enum Player_select_column {
@@ -1379,6 +1612,9 @@ enum Player_select_column {
 
   """column name"""
   id
+
+  """column name"""
+  rank
 
   """column name"""
   role
@@ -1403,6 +1639,7 @@ input Player_set_input {
   enneagram: enneagram_type
   ethereum_address: String
   id: uuid
+  rank: Player_Rank_enum
   role: String
   scIdentityId: String
   timezone: Int
@@ -1662,6 +1899,9 @@ enum Player_update_column {
   id
 
   """column name"""
+  rank
+
+  """column name"""
   role
 
   """column name"""
@@ -1870,6 +2110,49 @@ type query_root {
     """filter the rows returned"""
     where: Player_bool_exp
   ): [Player!]!
+
+  """
+  fetch data from the table: "Player_Rank"
+  """
+  Player_Rank(
+    """distinct select on columns"""
+    distinct_on: [Player_Rank_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [Player_Rank_order_by!]
+
+    """filter the rows returned"""
+    where: Player_Rank_bool_exp
+  ): [Player_Rank!]!
+
+  """
+  fetch aggregated fields from the table: "Player_Rank"
+  """
+  Player_Rank_aggregate(
+    """distinct select on columns"""
+    distinct_on: [Player_Rank_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [Player_Rank_order_by!]
+
+    """filter the rows returned"""
+    where: Player_Rank_bool_exp
+  ): Player_Rank_aggregate!
+
+  """fetch data from the table: "Player_Rank" using primary key columns"""
+  Player_Rank_by_pk(rank: String!): Player_Rank
 
   """
   fetch data from the table: "Player_Skill"
@@ -2358,6 +2641,49 @@ type subscription_root {
     """filter the rows returned"""
     where: Player_bool_exp
   ): [Player!]!
+
+  """
+  fetch data from the table: "Player_Rank"
+  """
+  Player_Rank(
+    """distinct select on columns"""
+    distinct_on: [Player_Rank_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [Player_Rank_order_by!]
+
+    """filter the rows returned"""
+    where: Player_Rank_bool_exp
+  ): [Player_Rank!]!
+
+  """
+  fetch aggregated fields from the table: "Player_Rank"
+  """
+  Player_Rank_aggregate(
+    """distinct select on columns"""
+    distinct_on: [Player_Rank_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [Player_Rank_order_by!]
+
+    """filter the rows returned"""
+    where: Player_Rank_bool_exp
+  ): Player_Rank_aggregate!
+
+  """fetch data from the table: "Player_Rank" using primary key columns"""
+  Player_Rank_by_pk(rank: String!): Player_Rank
 
   """
   fetch data from the table: "Player_Skill"

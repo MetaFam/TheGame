@@ -5,6 +5,7 @@ import {
   Account_Constraint,
   Account_Update_Column,
   Player_Constraint,
+  Player_Rank_Enum,
   Player_Update_Column,
   Scalars,
 } from '../../../lib/autogen/sdk';
@@ -25,6 +26,16 @@ const parseAlias = (alias: string) => {
   };
 };
 
+const RANKS = [
+  Player_Rank_Enum.Diamond,
+  Player_Rank_Enum.Platinum,
+  Player_Rank_Enum.Gold,
+  Player_Rank_Enum.Silver,
+  Player_Rank_Enum.Bronze,
+];
+
+const NUM_PLAYERS_PER_RANK = 10;
+
 export const migrateSourceCredAccounts = async (
   _: Request,
   res: Response,
@@ -44,7 +55,8 @@ export const migrateSourceCredAccounts = async (
 
   const accountList = accountsData.accounts
     .filter((a) => a.account.identity.subtype === 'USER')
-    .map((a) => {
+    .sort((a, b) => b.totalCred - a.totalCred)
+    .map((a, index) => {
       const discordAlias = a.account.identity.aliases.find(
         (alias) => alias.description.indexOf(`discord/`) >= 0,
       );
@@ -57,6 +69,7 @@ export const migrateSourceCredAccounts = async (
         scIdentityId: a.account.identity.id,
         username: a.account.identity.name,
         totalXp: a.totalCred,
+        rank: RANKS[Math.floor(index / NUM_PLAYERS_PER_RANK)],
         Accounts: {
           data: a.account.identity.aliases.map((alias) => {
             return parseAlias(alias.description);
@@ -74,6 +87,7 @@ export const migrateSourceCredAccounts = async (
         Player_Update_Column.EthereumAddress,
         Player_Update_Column.Username,
         Player_Update_Column.TotalXp,
+        Player_Update_Column.Rank,
       ],
     },
   });
