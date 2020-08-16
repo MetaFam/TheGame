@@ -134,6 +134,10 @@
         check: null
 - table:
     schema: public
+    name: Player_Rank
+  is_enum: true
+- table:
+    schema: public
     name: Player_Skill
   object_relationships:
     - name: Player
