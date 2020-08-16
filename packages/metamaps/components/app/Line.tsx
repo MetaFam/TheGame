@@ -2,8 +2,8 @@ import { FC } from 'react';
 import { useDrag } from 'react-dnd';
 import { connect } from 'react-redux';
 
-import { LineContainer } from '../styles/Mapping';
-import { LineColor } from '../styles/Styles';
+import { LineContainer } from '../../styles/Mapping';
+import { LineColor } from '../../styles/Styles';
 
 export interface LineProps {
     dispatch: any;

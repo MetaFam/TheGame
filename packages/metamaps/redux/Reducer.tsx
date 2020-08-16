@@ -1,8 +1,9 @@
+import update from 'immutability-helper';
 import { Context, createWrapper, HYDRATE,MakeStore } from 'next-redux-wrapper';
 import { AnyAction, applyMiddleware, compose,createStore } from 'redux';
 import thunk from 'redux-thunk';
 
-import { initialState,State } from './Reducer.state';
+import { initialState, State } from './Reducer.state';
 
 export function reducer(state: State = initialState, action: AnyAction): State {
     if (action.type !== 'MOUSE_POSITION' && action.type !== 'UPDATE_VECTOR') {
@@ -12,11 +13,28 @@ export function reducer(state: State = initialState, action: AnyAction): State {
     switch (action.type) {
         case HYDRATE:
             return { ...state, ...action.payload };
+        case 'NO_WEB3':
+            return {
+                ...state,
+                hasWeb3: false,
+            };
         case 'LOADING':
             return {
                 ...state,
                 loading: action.value,
             };
+        case 'UPDATE_NAVIGATION_INPUT':
+            return {
+                ...state,
+                navigationInput: action.value,
+            };
+        case 'LOADED_NAVIGATION':
+            return update(
+                state,
+                {
+                    navigationItems: { $set: action.data },
+                },
+            );
         case 'LOADED_3BOX_URL':
             return {
                 ...state,

@@ -3,7 +3,7 @@ import App, { AppContext, AppInitialProps } from "next/app";
 import { connect } from 'react-redux';
 
 import { wrapper } from "../redux/Reducer";
-import { Load3BoxUrl } from '../redux/ThreeBox';
+import { LoadNavigation } from '../components/navigation/dispatch/Navigation';
 
 declare const window: any;
 
@@ -14,9 +14,13 @@ export interface AppProps extends AppInitialProps {
 
 class WrappedApp extends App<AppProps> {
   public async componentDidMount() {
-    const accounts = await window.ethereum.enable();
-    this.props.dispatch({ type: 'UPDATE_ETH_ACCOUNTS', accounts });
-    this.props.dispatch(await Load3BoxUrl(accounts[0], this.props.activeSpace));
+    if (window.ethereum) {
+      const accounts = await window.ethereum.enable();
+      this.props.dispatch({ type: 'UPDATE_ETH_ACCOUNTS', accounts });
+      this.props.dispatch(await LoadNavigation(accounts[0]));
+    } else {
+      this.props.dispatch({ type: 'NO_WEB3' });
+    }
   }
 
   public static getInitialProps = async ({ Component, ctx }: AppContext) => {

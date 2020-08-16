@@ -24,6 +24,7 @@
     "immutability-helper": "^3.1.1",
     "isomorphic-unfetch": "^3.0.0",
     "next": "latest",
+    "next-images": "^1.4.1",
     "next-redux-wrapper": "^6.0.2",
     "react": "^16.13.1",
     "react-addons-update": "^15.6.2",
@@ -35,5 +36,8 @@
     "redux-thunk": "^2.3.0",
     "styled-components": "^5.1.1",
     "urql": "^1.9.7"
+  },
+  "devDependencies": {
+    "typescript": "^4.0.2"
   }
 }

@@ -2,7 +2,7 @@ import { CircularProgress } from "@chakra-ui/core";
 import { FC } from 'react';
 import { connect } from 'react-redux';
 
-import { LoadingContainer } from '../styles/Loading';
+import { LoadingContainer } from '../../styles/Loading';
 
 export interface LoadingInterface {
     loading: boolean;

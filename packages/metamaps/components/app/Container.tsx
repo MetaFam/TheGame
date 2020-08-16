@@ -2,7 +2,7 @@ import { FC } from 'react';
 import { useDrop, XYCoord } from 'react-dnd';
 import { connect } from 'react-redux';
 
-import { MappingContainer } from '../styles/Mapping';
+import { MappingContainer } from '../../styles/Mapping';
 import { Circle } from './Circle';
 import { Image } from './Image';
 import { Line } from './Line';

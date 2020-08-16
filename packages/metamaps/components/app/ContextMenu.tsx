@@ -2,8 +2,8 @@ import { Button, ButtonGroup } from '@chakra-ui/core';
 import { FC } from 'react';
 import { connect } from 'react-redux';
 
-import { MenuContainer } from '../styles/Menu';
-import { ButtonColor,WhiteColor } from '../styles/Styles';
+import { ContextMenuContainer } from '../../styles/Menu';
+import { ButtonColor,WhiteColor } from '../../styles/Styles';
 
 export interface MenuProps {
     dispatch: any;
@@ -16,10 +16,10 @@ export interface MenuProps {
     popupText: string;
 };
 
-export const MenuComponent: FC<MenuProps> = ({ dispatch, menu, menuType, selectedItem, menuX, menuY, urlText, popupText }) => {
+export const ContextMenuComponent: FC<MenuProps> = ({ dispatch, menu, menuType, selectedItem, menuX, menuY, urlText, popupText }) => {
     if (menuType === 'normal') {
         return(
-            <MenuContainer style={{ left: menuX, top: menuY, opacity: menu ? 1 : 0, pointerEvents: menu ? 'inherit': 'none' }}>
+            <ContextMenuContainer style={{ left: menuX, top: menuY, opacity: menu ? 1 : 0, pointerEvents: menu ? 'inherit': 'none' }}>
                 <ButtonGroup spacing={4}>
                     <Button
                         size="sm"
@@ -76,11 +76,11 @@ export const MenuComponent: FC<MenuProps> = ({ dispatch, menu, menuType, selecte
                         }}
                     />
                 </ButtonGroup>
-            </MenuContainer>
+            </ContextMenuContainer>
         )
     } if (menuType === 'SQUARE' || menuType === 'CIRCLE' || menuType === 'IMAGE') {
         return(
-            <MenuContainer style={{ left: menuX, top: menuY, opacity: menu ? 1 : 0, pointerEvents: menu ? 'inherit': 'none' }}>
+            <ContextMenuContainer style={{ left: menuX, top: menuY, opacity: menu ? 1 : 0, pointerEvents: menu ? 'inherit': 'none' }}>
                 <ButtonGroup spacing={4}>
                     <Button
                         size="sm"
@@ -122,11 +122,11 @@ export const MenuComponent: FC<MenuProps> = ({ dispatch, menu, menuType, selecte
                         }}
                         >Delete</Button>
                 </ButtonGroup>
-            </MenuContainer>
+            </ContextMenuContainer>
         )
     } if (menuType === 'LINE') {
         return(
-            <MenuContainer style={{ left: menuX, top: menuY, opacity: menu ? 1 : 0, pointerEvents: menu ? 'inherit': 'none' }}>
+            <ContextMenuContainer style={{ left: menuX, top: menuY, opacity: menu ? 1 : 0, pointerEvents: menu ? 'inherit': 'none' }}>
                 <ButtonGroup spacing={4}>
                     <Button
                         size="sm"
@@ -138,11 +138,11 @@ export const MenuComponent: FC<MenuProps> = ({ dispatch, menu, menuType, selecte
                         }}
                         >Delete</Button>
                 </ButtonGroup>
-            </MenuContainer>
+            </ContextMenuContainer>
         )
     } if (menuType === 'url') {
         return(
-            <MenuContainer style={{ left: menuX, top: menuY, opacity: menu ? 1 : 0, pointerEvents: menu ? 'inherit': 'none' }} data-type="no-left-click">
+            <ContextMenuContainer style={{ left: menuX, top: menuY, opacity: menu ? 1 : 0, pointerEvents: menu ? 'inherit': 'none' }} data-type="no-left-click">
                 <input
                     data-type="no-left-click"
                     type="text"
@@ -161,11 +161,11 @@ export const MenuComponent: FC<MenuProps> = ({ dispatch, menu, menuType, selecte
                         }}
                         >Update URL</Button>
                 </ButtonGroup>
-            </MenuContainer>
+            </ContextMenuContainer>
         )
     } if (menuType === 'popup') {
         return(
-            <MenuContainer
+            <ContextMenuContainer
                 className="textarea"
                 style={{ left: menuX, top: menuY, opacity: menu ? 1 : 0, pointerEvents: menu ? 'inherit': 'none' }}
                 data-type="no-left-click">
@@ -186,13 +186,13 @@ export const MenuComponent: FC<MenuProps> = ({ dispatch, menu, menuType, selecte
                         }}
                         >Update Popup</Button>
                 </ButtonGroup>
-            </MenuContainer>
+            </ContextMenuContainer>
         )
     } 
     return(<div/>)
 }
 
-export const Menu = connect(
+export const ContextMenu = connect(
 (state: any) => ({
     menu: state.menu,
     menuType: state.menuType,
@@ -202,4 +202,4 @@ export const Menu = connect(
     urlText: state.urlText,
     popupText: state.popupText,
 })
-)(MenuComponent);
+)(ContextMenuComponent);

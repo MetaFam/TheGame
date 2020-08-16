@@ -1,6 +1,9 @@
 export interface State {
+    hasWeb3: boolean;
     loading: boolean;
     ethAccounts: Array<string>;
+    navigationInput: string;
+    navigationItems: Array<any>;
     activeSpace: string;
     menu: boolean;
     menuType: string;
@@ -25,8 +28,11 @@ export interface State {
 };
 
 export const initialState = {
+    hasWeb3: true,
     loading: true,
     ethAccounts: [],
+    navigationInput: '',
+    navigationItems: [],
     activeSpace: 'metamap',
     menu: false,
     menuType: 'normal',

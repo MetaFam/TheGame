@@ -2,9 +2,9 @@ import { FC } from 'react';
 import { useDrag } from 'react-dnd';
 import { connect } from 'react-redux';
 
-import { CircleContainer } from '../styles/Mapping';
+import { ImageContainer } from '../../styles/Mapping';
 
-export interface CircleProps {
+export interface ImageProps {
     dispatch: any;
     id: number;
     type: string;
@@ -23,18 +23,20 @@ export interface CircleProps {
     popup: string;
 }
 
-export const CircleComponent: FC<CircleProps> = ({
+export const ImageComponent: FC<ImageProps> = ({
     dispatch,
-    selectedItem,
-    resizingItem,
-    mouseX,
-    mouseY,
+
     id,
     type,
     left,
     top,
     width,
     height,
+
+    selectedItem,
+    resizingItem,
+    mouseX,
+    mouseY,
 
     url,
     popup,
@@ -64,47 +66,45 @@ export const CircleComponent: FC<CircleProps> = ({
 
         dispatch({ type: 'UPDATE_VECTOR', rleft, rtop, rwidth, rheight });
 
-        return (
-            <CircleContainer
+        return(
+            <ImageContainer
                 ref={drag}
                 style={{ left: rleft, top: rtop, width: rwidth, height: rheight }}
                 data-id={id}
                 data-type={type}
                 onClick={(e: any) => dispatch({ type: 'RESIZE_ITEM_UPDATE' })}
             >
-                <div className="circle" />
-            </CircleContainer>
+                <img id={`image-${id}`} alt={id.toString()}/>
+            </ImageContainer>
         )
     } if (url) {
-        return(
+        return (
             <a href={url}>
-                <CircleContainer
+                <ImageContainer
                     ref={drag}
                     style={{ left, top, width, height }}
                     data-id={id}
                     data-type={type}
                 >
-                    <div className="circle" />
-                </CircleContainer>
+                    <img id={`image-${id}`} alt={id.toString()}/>
+                </ImageContainer>
             </a>
         )
     } 
         return (
-            <CircleContainer
+            <ImageContainer
                 ref={drag}
                 style={{ left, top, width, height }}
                 data-id={id}
                 data-type={type}
-                data-popup={popup}
-                onClick={(e: any) => dispatch({ type: 'OPEN_POPUP', popup })}
             >
-                <div className="circle" />
-            </CircleContainer>
+                <img id={`image-${id}`} alt={id.toString()}/>
+            </ImageContainer>
         )
     
 }
 
-export const Circle = connect(
+export const Image = connect(
     (state: any) => ({
         selectedItem: state.selectedItem,
         resizingItem: state.resizingItem,
@@ -112,4 +112,4 @@ export const Circle = connect(
         mouseX: state.mouseX,
         mouseY: state.mouseY,
     })
-)(CircleComponent);
+)(ImageComponent);

@@ -1,8 +1,43 @@
 import styled from 'styled-components';
 
-import { ButtonColor,PopupColor } from './Styles';
+import { ButtonColor, PopupColor, BackgroundColor, WhiteColor } from './Styles';
 
 export const MenuContainer = styled.div`
+    div.title {
+        position: fixed;
+        left: 15px;
+        top: 15px;
+        padding: 0 15px;
+        display: flex;
+        align-items: center;
+        background: ${PopupColor};
+        border-radius: 8px;
+    }
+
+    div.title-image {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        width: 50px;
+        height: 50px;
+        margin: 10px 5px;
+        background: ${BackgroundColor};
+        border-radius: 50%;
+
+        img {
+            width: 40px;
+        }
+    }
+
+    h3 {
+        font-size: 24px;
+        color: ${WhiteColor};
+        padding: 0 15px 5px 15px;
+    }
+`;
+
+export const ContextMenuContainer = styled.div`
     position: fixed;
     left: 0;
     top: 0;

@@ -2,8 +2,8 @@ import { Button,ButtonGroup } from '@chakra-ui/core';
 import { FC } from 'react';
 import { connect } from 'react-redux';
 
-import { PopupContainer } from '../styles/App';
-import { ButtonColor,WhiteColor } from '../styles/Styles';
+import { PopupContainer } from '../../styles/App';
+import { ButtonColor,WhiteColor } from '../../styles/Styles';
 
 export interface PopupProps {
     dispatch: any;

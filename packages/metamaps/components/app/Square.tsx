@@ -2,7 +2,7 @@ import { FC } from 'react';
 import { useDrag } from 'react-dnd';
 import { connect } from 'react-redux';
 
-import { SquareContainer } from '../styles/Mapping';
+import { SquareContainer } from '../../styles/Mapping';
 
 export interface SquareProps {
     dispatch: any;
