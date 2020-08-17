@@ -13,6 +13,7 @@ COPY yarn.lock .
 COPY tsconfig.base.json .
 COPY packages/backend/*.json ./packages/backend/
 COPY packages/utils/*.json ./packages/utils/
+COPY packages/codegen/*.json ./packages/codegen/
 
 RUN yarn install --pure-lockfile
 
@@ -23,6 +24,7 @@ FROM base as build
 COPY packages/backend ./packages/backend/
 COPY packages/utils ./packages/utils/
 COPY packages/@types ./packages/@types/
+COPY packages/codegen ./packages/codegen/
 
 # Build
 RUN yarn backend:build
