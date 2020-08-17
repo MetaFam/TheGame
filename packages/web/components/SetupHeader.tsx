@@ -67,7 +67,7 @@ export const StepProgress: React.FC<StepProps> = ({
       {title}
     </Text>
     <Flex
-      bgColor="blue02"
+      bgColor="blue20"
       w="100%"
       h="0.5rem"
       borderRadius="0.25rem"
