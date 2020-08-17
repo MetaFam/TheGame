@@ -1,6 +1,6 @@
 export const typeDefs = `
 type Query {
-  getBoxProfile(address: String!): BoxProfile
+  getBoxProfile(address: String): BoxProfile
 }
 
 type BoxProfile {

@@ -7,6 +7,8 @@ export const getBoxProfile: QueryResolvers['getBoxProfile'] = async (
   _,
   { address },
 ) => {
+  if (!address) return null;
+
   const boxProfile = await Box.getProfile(address);
 
   if (Object.keys(boxProfile).length === 0) {
