@@ -1,5 +1,7 @@
 import { createClient } from 'urql';
 
+import { CONFIG } from '../config';
+
 export const client = createClient({
-  url: 'https://graphql-pokemon.now.sh/',
+  url: CONFIG.graphqlURL,
 });

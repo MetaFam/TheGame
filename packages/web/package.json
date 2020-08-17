@@ -7,10 +7,13 @@
     "build": "next build && next export",
     "start": "next start",
     "typecheck": "tsc",
-    "precommit": "yarn lint-staged"
+    "precommit": "yarn lint-staged",
+    "generate": "graphql-codegen --config=codegen.yml",
+    "prepare": "yarn generate"
   },
   "dependencies": {
     "@metafam/ds": "0.1.0",
+    "fake-tag": "2.0.0",
     "graphql": "^15.0.0",
     "isomorphic-unfetch": "^3.0.0",
     "next": "latest",

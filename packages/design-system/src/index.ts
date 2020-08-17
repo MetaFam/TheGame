@@ -21,6 +21,7 @@ export {
   Spinner,
   Stack,
   Text,
+  Container,
   useTheme,
   useToast,
 } from '@chakra-ui/core';
