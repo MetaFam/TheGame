@@ -37,7 +37,9 @@ const PlayerPage: React.FC<Props> = ({ player }) => {
 
 export default PlayerPage;
 
-export const getStaticPaths: GetStaticPaths = async () => {
+type QueryParams = { username: string };
+
+export const getStaticPaths: GetStaticPaths<QueryParams> = async () => {
   const players = await getPlayers();
 
   return {
@@ -49,7 +51,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 export const getStaticProps = async (
-  context: GetStaticPropsContext<{ username: string }>,
+  context: GetStaticPropsContext<QueryParams>,
 ) => {
   const username = context.params?.username;
   const player = await getPlayer(username);
