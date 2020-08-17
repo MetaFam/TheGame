@@ -20,9 +20,7 @@ export const getPlayers = async (limit = 50) => {
 
   if (!data) {
     if (error) {
-      throw new Error(
-        `${error.message}${JSON.stringify(error.graphQLErrors, null, 2)}`,
-      );
+      throw error;
     }
 
     return [];
