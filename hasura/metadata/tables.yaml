@@ -115,6 +115,7 @@
           - enneagram
           - ethereum_address
           - id
+          - rank
           - role
           - timezone
           - totalXp
