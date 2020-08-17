@@ -10,7 +10,6 @@
     "build": "tsc -b",
     "dev": "yarn build --watch",
     "typecheck": "yarn build",
-    "prepare": "yarn build",
     "precommit": "yarn lint-staged"
   },
   "dependencies": {

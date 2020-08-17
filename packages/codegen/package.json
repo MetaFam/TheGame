@@ -8,8 +8,7 @@
   "scripts": {
     "get-schema": "env-cmd -f ../../.env -x get-graphql-schema -h x-hasura-admin-secret=\\$HASURA_GRAPHQL_ADMIN_SECRET http://localhost:8080/v1/graphql > schema.graphql",
     "update-schema": "yarn get-schema && yarn generate",
-    "generate": "graphql-codegen --config=graphql-codegen-gql.yaml && graphql-codegen --config=graphql-codegen-typescript.yaml",
-    "prepare": "yarn generate"
+    "generate": "graphql-codegen --config=graphql-codegen-gql.yaml && graphql-codegen --config=graphql-codegen-typescript.yaml"
   },
   "dependencies": {
     "graphql-tag": "^2.10.4"
