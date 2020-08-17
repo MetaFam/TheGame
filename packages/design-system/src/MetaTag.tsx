@@ -5,6 +5,7 @@ export const MetaTag: React.FC<TagProps> = ({ children, ...props }) => (
   <Tag
     fontFamily="body"
     fontSize="sm"
+    fontWeight="bold"
     backgroundColor="purpleTag"
     color="white"
     {...props}

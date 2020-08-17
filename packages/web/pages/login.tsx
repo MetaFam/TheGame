@@ -11,7 +11,10 @@ import MetaGameImage from '../public/images/metagame.png';
 const Login: React.FC = () => {
   const [step, setStep] = useState(0);
   return (
-    <PageContainer backgroundImage={`url(${BackgroundImage})`}>
+    <PageContainer
+      backgroundImage={`url(${BackgroundImage})`}
+      backgroundSize="cover"
+    >
       <SimpleGrid
         columns={3}
         alignItems="center"

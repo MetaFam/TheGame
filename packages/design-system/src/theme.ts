@@ -9,6 +9,12 @@ interface MetaColors {
   purpleTag: string;
   blueLight: string;
   cyanText: string;
+  dark60: string;
+  diamond: string;
+  platinum: string;
+  gold: string;
+  silver: string;
+  bronze: string;
 }
 
 interface MetaTheme {
@@ -53,8 +59,14 @@ export const theme: Theme = {
       800: '#150747',
       900: '#07021d',
     },
+    diamond: '#40e8ec',
+    platinum: '#81b6e3',
+    gold: '#d0a757',
+    silver: '#b0b0b0',
+    bronze: '#a97142',
     offwhite: '#F6F8F9',
     blue02: 'rgba(79, 105, 205, 0.2)',
+    dark60: 'rgba(0,0,0, 0.6)',
     dark: '#1B0D2A',
     purpleBoxDark: '#261943',
     purpleBoxLight: '#392373',
