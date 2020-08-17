@@ -11,7 +11,6 @@ export const PageContainer: React.FC<Props> = ({ children, ...props }) => (
     p={12}
     direction="column"
     align="center"
-    backgroundSize="cover"
     {...props}
   >
     {children}

@@ -43,7 +43,7 @@ const Home: React.FC<Props> = ({ players }) => (
                   backgroundColor={p.rank?.toLowerCase()}
                   mr="3"
                   size="md"
-                  color="dark60"
+                  color="blackAlpha.600"
                 >
                   {p.rank}
                 </MetaTag>

@@ -2,14 +2,13 @@ import chakraTheme, { Theme as ChakraTheme } from '@chakra-ui/theme';
 
 interface MetaColors {
   offwhite: string;
-  blue02: string;
+  blue20: string;
   dark: string;
   purpleBoxDark: string;
   purpleBoxLight: string;
   purpleTag: string;
   blueLight: string;
   cyanText: string;
-  dark60: string;
   diamond: string;
   platinum: string;
   gold: string;
@@ -65,8 +64,7 @@ export const theme: Theme = {
     silver: '#b0b0b0',
     bronze: '#a97142',
     offwhite: '#F6F8F9',
-    blue02: 'rgba(79, 105, 205, 0.2)',
-    dark60: 'rgba(0,0,0, 0.6)',
+    blue20: 'rgba(79, 105, 205, 0.2)',
     dark: '#1B0D2A',
     purpleBoxDark: '#261943',
     purpleBoxLight: '#392373',
