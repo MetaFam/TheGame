@@ -36,21 +36,7 @@ services:
           type: web
           property: host
 
-  # Frontend (old)
-  - type: web
-    name: app-react
-    env: static
-    buildCommand: yarn app:build
-    staticPublishPath: ./packages/app-react/build
-    pullRequestPreviewsEnabled: true
-    routes:
-      - type: rewrite
-        source: /*
-        destination: /index
-    envVars:
-      - fromGroup: frontend
-
-  # NextJS Frontend (new)
+  # NextJS Frontend
   - type: web
     name: web
     env: static
@@ -71,7 +57,7 @@ envVarGroups:
         generateValue: true
   - name: frontend
     envVars:
-      - key: REACT_APP_INFURA_ID
+      - key: NEXT_PUBLIC_INFURA_ID
         sync: false
-      - key: REACT_APP_GRAPHQL_URL
+      - key: NEXT_PUBLIC_GRAPHQL_URL
         sync: false
