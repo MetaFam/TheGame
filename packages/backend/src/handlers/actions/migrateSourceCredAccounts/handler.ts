@@ -8,7 +8,7 @@ import {
   Player_Rank_Enum,
   Player_Update_Column,
   Scalars,
-} from '../../../lib/autogen/sdk';
+} from '../../../lib/autogen/hasura-sdk';
 import { client } from '../../../lib/hasuraClient';
 import { AddressBookEntry, SCAccountsData } from './types';
 

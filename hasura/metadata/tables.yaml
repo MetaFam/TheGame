@@ -97,6 +97,15 @@
           - ethereum_address
         remote_schema: backend
       name: box_profile
+    - definition:
+        remote_field:
+          getDaoHausMemberships:
+            arguments:
+              memberAddress: $ethereum_address
+        hasura_fields:
+          - ethereum_address
+        remote_schema: backend
+      name: daohausMemberships
   select_permissions:
     - role: player
       permission:

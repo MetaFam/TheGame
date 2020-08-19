@@ -1,16 +1,40 @@
-export const typeDefs = `
-type Query {
-  getBoxProfile(address: String): BoxProfile
-}
+import { gql } from 'graphql-request/dist';
 
-type BoxProfile {
-  ethereumAddress : String
-  name : String
-  description : String
-  location : String
-  job : String
-  emoji : String
-  imageUrl : String
-}
+export const typeDefs = gql`
+  type Query {
+    getBoxProfile(address: String): BoxProfile
+    getDaoHausMemberships(memberAddress: String): [Member!]!
+  }
 
+  type BoxProfile {
+    ethereumAddress: String
+    name: String
+    description: String
+    location: String
+    job: String
+    emoji: String
+    imageUrl: String
+  }
+
+  type Moloch {
+    id: ID!
+    summoner: String!
+    title: String
+    version: String
+    totalShares: Int!
+    totalLoot: Int!
+  }
+
+  type Member {
+    id: ID!
+    createdAt: String!
+    moloch: Moloch!
+    molochAddress: String!
+    memberAddress: String!
+    delegateKey: String!
+    shares: Int!
+    loot: Int
+    exists: Boolean!
+    kicked: Boolean
+  }
 `;
