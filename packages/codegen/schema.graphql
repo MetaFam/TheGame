@@ -1960,7 +1960,7 @@ input Player_variance_order_by {
 }
 
 type Query {
-  getBoxProfile(address: String!): BoxProfile
+  getBoxProfile(address: String): BoxProfile
 }
 
 """query root"""
@@ -2262,7 +2262,7 @@ type query_root {
 
   """fetch data from the table: "Skill" using primary key columns"""
   Skill_by_pk(id: uuid!): Skill
-  getBoxProfile(address: String!): BoxProfile
+  getBoxProfile(address: String): BoxProfile
 }
 
 """
