@@ -16,6 +16,7 @@
     "web:build": "lerna run build --scope @metafam/web --include-dependencies --stream",
     "backend:dev": "lerna run dev --parallel --scope @metafam/backend --include-dependencies",
     "backend:build": "lerna run build --scope @metafam/backend --include-dependencies --stream",
+    "bot:dev": "lerna run dev --scope AracredBot --include-dependencies",
     "hasura": "hasura --project ./hasura",
     "hasura:console": "yarn hasura console -- --no-browser",
     "hasura:migrate:init": "yarn hasura migrate create \"init\" -- --from-server",
