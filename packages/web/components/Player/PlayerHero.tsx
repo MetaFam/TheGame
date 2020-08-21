@@ -1,5 +1,4 @@
-import { Avatar, Box, Flex, Text } from '@metafam/ds';
-import { MaxWidthContainer } from 'components/Container';
+import { Avatar, Box, Container, Flex, Text } from '@metafam/ds';
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
 import BackgroundImage from 'public/images/login-background.jpg';
 import React from 'react';
@@ -9,19 +8,18 @@ type Props = { player: PlayerFragmentFragment };
 
 export const PlayerHero: React.FC<Props> = ({ player }) => {
   return (
-    <Box bgImage={`url(${BackgroundImage})`} h="14.5rem" mb="1.5rem">
-      <MaxWidthContainer>
-        <Flex pos="relative" top="4.5rem" align="center">
+    <Box bgImage={`url(${BackgroundImage})`} h="3xs" mb="6">
+      <Container maxW="xl">
+        <Flex pos="relative" top="10" align="center">
           <Avatar
-            size="3xl"
-            w="12.5rem"
-            h="12.5rem"
+            w="56"
+            h="56"
             src={getPlayerImage(player)}
             name={getPlayerName(player)}
           />
 
-          <Box pl="2.5rem" mt="-2rem">
-            <Text fontSize="xl" fontFamily="heading" mb="0.25rem">
+          <Box pl="8">
+            <Text fontSize="xl" fontFamily="heading" mb="1">
               {getPlayerName(player)}
             </Text>
             <Text fontSize="md" textTransform="uppercase">
@@ -29,7 +27,7 @@ export const PlayerHero: React.FC<Props> = ({ player }) => {
             </Text>
           </Box>
         </Flex>
-      </MaxWidthContainer>
+      </Container>
     </Box>
   );
 };

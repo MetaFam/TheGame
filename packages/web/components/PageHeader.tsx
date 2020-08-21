@@ -5,11 +5,11 @@ import React from 'react';
 import MetaGameImage from '../public/images/metagame.png';
 
 export const PageHeader: React.FC = () => (
-  <Flex align="center" pt="1rem" pb="2rem" px="2rem">
-    <MetaLink as="/" href="/" display="block" mr="2rem">
+  <Flex align="center" pt="4" pb="8" px="8">
+    <MetaLink as="/" href="/" display="block" mr="8">
       <Image src={MetaGameImage} alt="MetaGame" />
     </MetaLink>
-    <ButtonGroup spacing="3rem">
+    <ButtonGroup spacing="12">
       <Button variant="link" color="offwhite">
         Quests
       </Button>
