@@ -1,11 +1,13 @@
 export {
   Avatar,
+  Badge,
   Box,
   Button,
   ButtonGroup,
   CSSReset,
   ChakraProvider,
   Center,
+  Container,
   Divider,
   Flex,
   Grid,
@@ -25,7 +27,6 @@ export {
   Wrap,
   HStack,
   VStack,
-  Container,
   useTheme,
   useToast,
 } from '@chakra-ui/core';
