@@ -19,20 +19,24 @@ export const SetupHeader: React.FC<HeaderProps> = ({ step, progress }) => (
     <StepProgress
       title="1. Professional Profile"
       isActive={step === 0}
-      progress={progress}
+      isDone={step > 0}
+      progress={step > 0 ? 1 : progress}
     />
     <StepProgress
       title="2. About You"
       isActive={step === 1}
-      progress={progress}
+      isDone={step > 1}
+      progress={step > 1 ? 1 : progress}
     />
     <StepProgress
       title="3. Choose Your Avatar"
+      isDone={step > 2}
       isActive={step === 2}
-      progress={progress}
+      progress={step > 2 ? 1 : progress}
     />
     <StepProgress
       title="4. Start Playing"
+      isDone={false}
       isActive={step === 3}
       progress={progress}
     />
@@ -44,12 +48,14 @@ export const SetupHeader: React.FC<HeaderProps> = ({ step, progress }) => (
 
 interface StepProps {
   title: string;
+  isDone: boolean;
   isActive: boolean;
   progress: number;
 }
 
 export const StepProgress: React.FC<StepProps> = ({
   title,
+  isDone,
   isActive,
   progress,
 }) => (
@@ -73,7 +79,9 @@ export const StepProgress: React.FC<StepProps> = ({
       borderRadius="0.25rem"
       overflow="hidden"
     >
-      {isActive && <Box bgColor="purple.400" w={`${progress * 100}%`} />}
+      {(isActive || isDone) && (
+        <Box bgColor="purple.400" w={`${progress * 100}%`} />
+      )}
     </Flex>
     {isActive && (
       <Image
