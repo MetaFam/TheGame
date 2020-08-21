@@ -1,5 +1,4 @@
 import { Container, MetaBox, SimpleGrid, Text } from '@metafam/ds';
-import { PageHeader } from 'components/PageHeader';
 import { PlayerFeatures } from 'components/Player/PlayerFeatures';
 import { PlayerHero } from 'components/Player/PlayerHero';
 import { getPlayer } from 'graphql/getPlayer';
@@ -21,7 +20,6 @@ const PlayerPage: React.FC<Props> = ({ player }) => {
 
   return (
     <>
-      <PageHeader />
       <PlayerHero player={player} />
       <PlayerFeatures player={player} />
       <Container maxW="xl">
