@@ -1,4 +1,5 @@
 import { ChakraProvider, CSSReset, MetaTheme } from '@metafam/ds';
+import { PageHeader } from 'components/PageHeader';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 
@@ -9,6 +10,7 @@ const app: React.FC<AppProps> = ({ pageProps, Component }) => {
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
+      <PageHeader isHidden={pageProps.hidePageHeader} />
       <Component {...pageProps} />
     </ChakraProvider>
   );
