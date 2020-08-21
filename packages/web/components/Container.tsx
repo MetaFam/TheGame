@@ -28,7 +28,7 @@ export const MaxWidthContainer: React.FC<BoxProps> = ({
   children,
   ...props
 }) => (
-  <Box w="100%" maxW="1358px" mx="auto" px="2rem" {...props}>
+  <Box w="100%" maxW="85rem" mx="auto" px="2rem" {...props}>
     {children}
   </Box>
 );

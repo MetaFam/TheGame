@@ -9,7 +9,7 @@ type Props = { player: PlayerFragmentFragment };
 
 export const PlayerHero: React.FC<Props> = ({ player }) => {
   return (
-    <Box bgImage={`url(${BackgroundImage})`} h="230px" mb="1.5rem">
+    <Box bgImage={`url(${BackgroundImage})`} h="14.5rem" mb="1.5rem">
       <MaxWidthContainer>
         <Flex pos="relative" top="4.5rem" align="center">
           <Avatar
@@ -24,7 +24,7 @@ export const PlayerHero: React.FC<Props> = ({ player }) => {
             <Text fontSize="xl" fontFamily="heading" mb="0.25rem">
               {getPlayerName(player)}
             </Text>
-            <Text fontFamily="body" fontSize="md" textTransform="uppercase">
+            <Text fontSize="md" textTransform="uppercase">
               Personality type
             </Text>
           </Box>
