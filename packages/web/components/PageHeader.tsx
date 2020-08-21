@@ -7,7 +7,7 @@ import MetaGameImage from '../public/images/metagame.png';
 export const PageHeader: React.FC = () => (
   <Flex align="center" pt="1rem" pb="2rem" px="2rem">
     <MetaLink as="/" href="/" display="block" mr="2rem">
-      <Image src={MetaGameImage} />
+      <Image src={MetaGameImage} alt="MetaGame" />
     </MetaLink>
     <ButtonGroup spacing="3rem">
       <Button variant="link" color="offwhite">
