@@ -49,7 +49,7 @@ export const migrateSourceCredAccounts = async (
   ).json();
 
   const accountOnConflict = {
-    constraint: Account_Constraint.AccountIdentifierTypePlayerKey,
+    constraint: Account_Constraint.AccountIdentifierTypeKey,
     update_columns: [Account_Update_Column.Identifier],
   };
 
@@ -91,6 +91,5 @@ export const migrateSourceCredAccounts = async (
       ],
     },
   });
-
   res.json(result);
 };

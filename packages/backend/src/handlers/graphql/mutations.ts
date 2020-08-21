@@ -20,7 +20,7 @@ export const UpsertAccount = gql`
     insert_Account(
       objects: $objects
       on_conflict: {
-        constraint: Account_identifier_type_player_key
+        constraint: Account_identifier_type_key
         update_columns: [identifier]
       }
     ) {

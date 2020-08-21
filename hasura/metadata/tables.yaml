@@ -110,13 +110,15 @@
     - role: player
       permission:
         columns:
-          - enneagram
-          - ethereum_address
           - id
+          - username
+          - ethereum_address
+          - totalXp
           - role
           - timezone
-          - totalXp
-          - username
+          - enneagram
+          - scIdentityId
+          - rank
         filter: {}
     - role: public
       permission:
@@ -134,14 +136,28 @@
     - role: player
       permission:
         columns:
-          - username
           - enneagram
           - role
           - timezone
+          - username
         filter:
           id:
             _eq: X-Hasura-User-Id
-        check: null
+        check: {}
+  event_triggers:
+    - name: fetchBoxVerifiedAccounts
+      definition:
+        enable_manual: true
+        insert:
+          columns: '*'
+        update:
+          columns:
+            - ethereum_address
+      retry_conf:
+        num_retries: 0
+        interval_sec: 10
+        timeout_sec: 60
+      webhook_from_env: TRIGGERS_ENDPOINT
 - table:
     schema: public
     name: Player_Rank
