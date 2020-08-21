@@ -68,9 +68,6 @@ unique or primary key constraints on table "Account"
 enum Account_constraint {
   """unique or primary key constraint"""
   Account_identifier_type_key
-
-  """unique or primary key constraint"""
-  Account_identifier_type_player_key
 }
 
 """
@@ -688,6 +685,28 @@ input json_comparison_exp {
   _nin: [json!]
 }
 
+type Member {
+  createdAt: String!
+  delegateKey: String!
+  exists: Boolean!
+  id: ID!
+  kicked: Boolean
+  loot: Int
+  memberAddress: String!
+  moloch: Moloch!
+  molochAddress: String!
+  shares: Int!
+}
+
+type Moloch {
+  id: ID!
+  summoner: String!
+  title: String
+  totalLoot: Int!
+  totalShares: Int!
+  version: String
+}
+
 """mutation root"""
 type mutation_root {
   """
@@ -1189,6 +1208,10 @@ type Player {
 
   """Remote relationship field"""
   box_profile: BoxProfile
+  created_at: timestamptz
+
+  """Remote relationship field"""
+  daohausMemberships: [Member!]!
   enneagram: enneagram_type
   ethereum_address: String
   id: uuid!
@@ -1197,6 +1220,7 @@ type Player {
   scIdentityId: String
   timezone: Int
   totalXp: numeric
+  updated_at: timestamptz
   username: String!
 }
 
@@ -1273,6 +1297,7 @@ input Player_bool_exp {
   _and: [Player_bool_exp]
   _not: Player_bool_exp
   _or: [Player_bool_exp]
+  created_at: timestamptz_comparison_exp
   enneagram: enneagram_type_comparison_exp
   ethereum_address: String_comparison_exp
   id: uuid_comparison_exp
@@ -1281,6 +1306,7 @@ input Player_bool_exp {
   scIdentityId: String_comparison_exp
   timezone: Int_comparison_exp
   totalXp: numeric_comparison_exp
+  updated_at: timestamptz_comparison_exp
   username: String_comparison_exp
 }
 
@@ -1315,6 +1341,7 @@ input type for inserting data into table "Player"
 input Player_insert_input {
   Accounts: Account_arr_rel_insert_input
   Player_Skills: Player_Skill_arr_rel_insert_input
+  created_at: timestamptz
   enneagram: enneagram_type
   ethereum_address: String
   id: uuid
@@ -1323,17 +1350,20 @@ input Player_insert_input {
   scIdentityId: String
   timezone: Int
   totalXp: numeric
+  updated_at: timestamptz
   username: String
 }
 
 """aggregate max on columns"""
 type Player_max_fields {
+  created_at: timestamptz
   ethereum_address: String
   id: uuid
   role: String
   scIdentityId: String
   timezone: Int
   totalXp: numeric
+  updated_at: timestamptz
   username: String
 }
 
@@ -1341,23 +1371,27 @@ type Player_max_fields {
 order by max() on columns of table "Player"
 """
 input Player_max_order_by {
+  created_at: order_by
   ethereum_address: order_by
   id: order_by
   role: order_by
   scIdentityId: order_by
   timezone: order_by
   totalXp: order_by
+  updated_at: order_by
   username: order_by
 }
 
 """aggregate min on columns"""
 type Player_min_fields {
+  created_at: timestamptz
   ethereum_address: String
   id: uuid
   role: String
   scIdentityId: String
   timezone: Int
   totalXp: numeric
+  updated_at: timestamptz
   username: String
 }
 
@@ -1365,12 +1399,14 @@ type Player_min_fields {
 order by min() on columns of table "Player"
 """
 input Player_min_order_by {
+  created_at: order_by
   ethereum_address: order_by
   id: order_by
   role: order_by
   scIdentityId: order_by
   timezone: order_by
   totalXp: order_by
+  updated_at: order_by
   username: order_by
 }
 
@@ -1408,6 +1444,7 @@ ordering options when selecting data from "Player"
 input Player_order_by {
   Accounts_aggregate: Account_aggregate_order_by
   Player_Skills_aggregate: Player_Skill_aggregate_order_by
+  created_at: order_by
   enneagram: order_by
   ethereum_address: order_by
   id: order_by
@@ -1416,6 +1453,7 @@ input Player_order_by {
   scIdentityId: order_by
   timezone: order_by
   totalXp: order_by
+  updated_at: order_by
   username: order_by
 }
 
@@ -1605,6 +1643,9 @@ select columns of table "Player"
 """
 enum Player_select_column {
   """column name"""
+  created_at
+
+  """column name"""
   enneagram
 
   """column name"""
@@ -1629,6 +1670,9 @@ enum Player_select_column {
   totalXp
 
   """column name"""
+  updated_at
+
+  """column name"""
   username
 }
 
@@ -1636,6 +1680,7 @@ enum Player_select_column {
 input type for updating data in table "Player"
 """
 input Player_set_input {
+  created_at: timestamptz
   enneagram: enneagram_type
   ethereum_address: String
   id: uuid
@@ -1644,6 +1689,7 @@ input Player_set_input {
   scIdentityId: String
   timezone: Int
   totalXp: numeric
+  updated_at: timestamptz
   username: String
 }
 
@@ -1890,6 +1936,9 @@ update columns of table "Player"
 """
 enum Player_update_column {
   """column name"""
+  created_at
+
+  """column name"""
   enneagram
 
   """column name"""
@@ -1912,6 +1961,9 @@ enum Player_update_column {
 
   """column name"""
   totalXp
+
+  """column name"""
+  updated_at
 
   """column name"""
   username
@@ -1961,6 +2013,7 @@ input Player_variance_order_by {
 
 type Query {
   getBoxProfile(address: String): BoxProfile
+  getDaoHausMemberships(memberAddress: String): [Member!]!
 }
 
 """query root"""
@@ -2263,6 +2316,7 @@ type query_root {
   """fetch data from the table: "Skill" using primary key columns"""
   Skill_by_pk(id: uuid!): Skill
   getBoxProfile(address: String): BoxProfile
+  getDaoHausMemberships(memberAddress: String): [Member!]!
 }
 
 """
@@ -2796,6 +2850,21 @@ type subscription_root {
 }
 
 scalar timestamptz
+
+"""
+expression to compare columns of type timestamptz. All fields are combined with logical 'AND'.
+"""
+input timestamptz_comparison_exp {
+  _eq: timestamptz
+  _gt: timestamptz
+  _gte: timestamptz
+  _in: [timestamptz!]
+  _is_null: Boolean
+  _lt: timestamptz
+  _lte: timestamptz
+  _neq: timestamptz
+  _nin: [timestamptz!]
+}
 
 type UpdateBoxProfileResponse {
   success: Boolean!
