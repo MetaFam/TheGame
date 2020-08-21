@@ -32,6 +32,13 @@ export const theme: Theme = {
       color: 'white',
     },
   },
+  sizes: {
+    ...chakraTheme.sizes,
+    container: {
+      ...chakraTheme.sizes.container,
+      xl: '85rem',
+    },
+  },
   colors: {
     ...chakraTheme.colors,
     cyan: {

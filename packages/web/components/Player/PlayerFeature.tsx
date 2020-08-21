@@ -8,10 +8,9 @@ export const PlayerFeature: React.FC<Props> = ({ title, value, children }) => (
     <Text
       fontFamily="body"
       fontSize="sm"
-      fontWeight="bold"
       color="blueLight"
       textTransform="uppercase"
-      mb="0.5rem"
+      mb="2"
     >
       {title}
     </Text>

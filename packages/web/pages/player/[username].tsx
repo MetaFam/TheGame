@@ -1,5 +1,4 @@
-import { MetaBox, SimpleGrid, Text } from '@metafam/ds';
-import { MaxWidthContainer } from 'components/Container';
+import { Container, MetaBox, SimpleGrid, Text } from '@metafam/ds';
 import { PageHeader } from 'components/PageHeader';
 import { PlayerFeatures } from 'components/Player/PlayerFeatures';
 import { PlayerHero } from 'components/Player/PlayerHero';
@@ -25,8 +24,8 @@ const PlayerPage: React.FC<Props> = ({ player }) => {
       <PageHeader />
       <PlayerHero player={player} />
       <PlayerFeatures player={player} />
-      <MaxWidthContainer>
-        <SimpleGrid columns={[1, 1, 2, 3]} spacing="2rem" pt="3rem">
+      <Container maxW="xl">
+        <SimpleGrid columns={[1, 1, 2, 3]} spacing="8" pt="12">
           <MetaBox title="About me">
             <Text fontFamily="body" fontSize="2xl" fontWeight="bold" mb={4}>
               Box 1
@@ -43,7 +42,7 @@ const PlayerPage: React.FC<Props> = ({ player }) => {
             </Text>
           </MetaBox>
         </SimpleGrid>
-      </MaxWidthContainer>
+      </Container>
     </>
   );
 };
