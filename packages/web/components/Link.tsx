@@ -2,7 +2,8 @@ import { Link } from '@metafam/ds';
 import NextLink, { LinkProps } from 'next/link';
 import React from 'react';
 
-type Props = Omit<React.ComponentProps<typeof Link>, keyof LinkProps> & LinkProps;
+type Props = Omit<React.ComponentProps<typeof Link>, keyof LinkProps> &
+  LinkProps;
 
 export const MetaLink: React.FC<Props> = ({
   children,
