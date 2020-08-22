@@ -34,6 +34,7 @@ module.exports = {
     ],
     
     "🌳 Other": [
+      "resources/glossary",
       "resources/graphics",
       "resources/art",
       "resources/memes",
