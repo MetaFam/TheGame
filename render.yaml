@@ -18,7 +18,7 @@ services:
           name: backend
           type: pserv
           property: hostport
-      - key: PORT
+      - key: HASURA_GRAPHQL_SERVER_PORT
         value: 10000
 
   # backend
