@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 
 import { PageContainer } from '../../components/Container';
-import { SetupAvatar } from '../../components/SetupAvatar';
 import { SetupDone } from '../../components/SetupDone';
 import { SetupHeader } from '../../components/SetupHeader';
 import { SetupPersonality } from '../../components/SetupPersonality';
@@ -14,18 +13,15 @@ const ProfileSetup: React.FC = () => {
 
   return (
     <PageContainer backgroundImage={`url(${BackgroundImage})`}>
-      {step % 4 !== 3 && <SetupHeader step={step} progress={progress} />}
+      {step % 3 !== 2 && <SetupHeader step={step} progress={progress} />}
 
       {step === 0 && (
-        <SetupProfession setStep={setStep} setProgress={setProgress} />
-      )}
-      {step === 1 && (
         <SetupPersonality setStep={setStep} setProgress={setProgress} />
       )}
-      {step === 2 && (
-        <SetupAvatar setStep={setStep} setProgress={setProgress} />
+      {step === 1 && (
+        <SetupProfession setStep={setStep} setProgress={setProgress} />
       )}
-      {step === 3 && <SetupDone />}
+      {step === 2 && <SetupDone />}
     </PageContainer>
   );
 };

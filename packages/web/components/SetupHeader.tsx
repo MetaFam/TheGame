@@ -1,4 +1,4 @@
-import { Box, Flex, Grid, Image, Text } from '@metafam/ds';
+import { Box, Flex, Grid, Image, ResponsiveText } from '@metafam/ds';
 import React from 'react';
 
 import AvatarImage from '../public/images/avatar.png';
@@ -12,32 +12,31 @@ interface HeaderProps {
 }
 
 export const SetupHeader: React.FC<HeaderProps> = ({ step, progress }) => (
-  <Grid templateColumns="0.5fr 1fr 1fr 1fr 1fr 0.5fr" gap="1rem" w="100%">
+  <Grid templateColumns="0.5fr 1fr 1fr 1fr 0.5fr" gap="1rem" w="100%">
     <FlexContainer justify="flex-end">
       <Image src={BackImage} h="1rem" />
     </FlexContainer>
     <StepProgress
-      title="1. Professional Profile"
+      title={['About You', '1. About You']}
       isActive={step === 0}
       isDone={step > 0}
       progress={step > 0 ? 1 : progress}
     />
     <StepProgress
-      title="2. About You"
+      title={[
+        'Portfolio',
+        '2. Portfolio',
+        '2. Portfolio',
+        '2. Professional Profile',
+      ]}
       isActive={step === 1}
       isDone={step > 1}
       progress={step > 1 ? 1 : progress}
     />
     <StepProgress
-      title="3. Choose Your Avatar"
-      isDone={step > 2}
-      isActive={step === 2}
-      progress={step > 2 ? 1 : progress}
-    />
-    <StepProgress
-      title="4. Start Playing"
+      title={['Play', '3. Play', '3. Start Playing']}
       isDone={false}
-      isActive={step === 3}
+      isActive={step === 2}
       progress={progress}
     />
     <FlexContainer justify="flex-end">
@@ -47,7 +46,7 @@ export const SetupHeader: React.FC<HeaderProps> = ({ step, progress }) => (
 );
 
 interface StepProps {
-  title: string;
+  title: any[] | Record<string, any>;
   isDone: boolean;
   isActive: boolean;
   progress: number;
@@ -60,7 +59,7 @@ export const StepProgress: React.FC<StepProps> = ({
   progress,
 }) => (
   <FlexContainer pos="relative">
-    <Text
+    <ResponsiveText
       w="100%"
       textTransform="uppercase"
       fontSize="xs"
@@ -69,9 +68,8 @@ export const StepProgress: React.FC<StepProps> = ({
       color="offwhite"
       opacity={isActive ? 1 : 0.4}
       mb={4}
-    >
-      {title}
-    </Text>
+      content={title}
+    />
     <Flex
       bgColor="blue20"
       w="100%"
