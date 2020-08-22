@@ -11,3 +11,5 @@ __MetaGame is:__
 
 1. a _real-life_ MMO-RPG that anyone can play
 2. a reproducible framework for _any_ community to empower collaboration and incentivize participation.
+
+![](https://i.imgur.com/HdSqrBX.png)

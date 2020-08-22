@@ -19,4 +19,4 @@ As for other reasons one might want to acquire Seeds for:
     
 
   
-Seeds are not yet up for sale. [Subscribe to the newsletter](https://metagame.substack.com/) if you want to be kept in the loop.
+You can pick up som Seeds [here](https://app.uniswap.org/#/swap?inputCurrency=0x30cf203b48edaa42c3b4918e955fed26cd012a3f&outputCurrency=0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2)

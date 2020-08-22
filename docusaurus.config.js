@@ -16,49 +16,21 @@ module.exports = {
       },
       links: [
         {
-          to: "docs/handbook/xp",
+          to: "docs/introduction",
           label: "🐣 Start Here",
           position: "left",
         },
         {
-          to: "docs/Players/enter-the-house-of-metafam",
+          to: "docs/enter-metagame/signpost",
           label: "🗺 Enter MetaGame",
           position: "left",
         },
          {
-           to: "docs/handbook/navigation-board",
+           to: "docs/enter-metagame/navigation-board",
            label: "👣 Join a Raid",
            position: "left",
          },
-        // {
-        //   to: "docs/introduction",
-        //   label: "🤨 WTF is MetaGame?",
-        //   position: "left",
-        // },// {
-        //   to: "docs/handbook/how-metagame-works",
-        //   label: "🧐 How does it work?",
-        //   position: "left",
-        // },
-        // {
-        //   to: "docs/roadmap/players-of-metagame",
-        //   label: "😈 Players",
-        //   position: "left",
-        // },
-        // {
-        //   to: "docs/Guilding/guilds-of-metagame",
-        //   label: "⚔️ Guilds",
-        //   position: "left",
-        // },
-        // {
-        //   to: "docs/resources/graphics",
-        //   label: "🌳 Other Stuff",
-        //   position: "left",
-        // },
-        // {
-        //   href: "https://metagame.wtf",
-        //   label: "Home",
-        //   position: "right",
-        // },
+
       ],
     },
     footer: {

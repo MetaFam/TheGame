@@ -12,21 +12,21 @@ const features = [
      imageUrl: "assets/players.png",
      description: "",
      linkText: "Through here",
-     linkTo: "docs/handbook/for-players",
+     linkTo: "docs/start-here/for-players",
    },
   {
     title: "For Guilds",
     imageUrl: "assets/guilds.png",
     description: "",
     linkText: "Through here",
-    linkTo: "docs/handbook/for-guilds",
+    linkTo: "docs/start-here/for-guilds",
   },
   {
     title: "For Patrons",
     imageUrl: "assets/patrons.png",
     description: "",
     linkText: "Through here",
-    linkTo: "docs/handbook/for-investors",
+    linkTo: "docs/start-here/for-patrons",
   },
 ];
 
@@ -70,7 +70,7 @@ function Home() {
           <div className={styles.buttons}>
             <Link
               className="button button--primary button--lg"
-              to={useBaseUrl("docs/Players/start-here")}
+              to={useBaseUrl("docs/introduction")}
             >
               EXPLORE
             </Link>
