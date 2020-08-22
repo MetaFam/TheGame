@@ -8,7 +8,7 @@ export const PageContainer: React.FC<Props> = ({ children, ...props }) => (
     bgSize="cover"
     w="100%"
     h="100vh"
-    p={12}
+    p={[4, 8, 12]}
     direction="column"
     align="center"
     {...props}
