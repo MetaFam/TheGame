@@ -11,6 +11,14 @@ import {
 } from '../../contexts/SetupContext';
 import BackgroundImage from '../../public/images/profile-background.jpg';
 
+export const getStaticProps = async () => {
+  return {
+    props: {
+      hidePageHeader: true,
+    },
+  };
+};
+
 const ProfileSetup: React.FC = () => {
   const { step, numTotalSteps } = useContext(SetupContext);
   return (

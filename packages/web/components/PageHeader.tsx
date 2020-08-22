@@ -1,5 +1,6 @@
 import { Box, Button, Flex, Image, MetaButton, Stack } from '@metafam/ds';
 import { MetaLink } from 'components/Link';
+import NextLink from 'next/link';
 import React from 'react';
 
 import MetaGameImage from '../public/images/metagame.png';
@@ -12,17 +13,9 @@ const MenuItem: React.FC = ({ children }) => (
   </Box>
 );
 
-type Props = {
-  isHidden: boolean;
-};
-
-export const PageHeader: React.FC<Props> = ({ isHidden }) => {
+export const PageHeader: React.FC = () => {
   const [show, setShow] = React.useState(false);
   const handleToggle = () => setShow(!show);
-
-  if (isHidden) {
-    return null;
-  }
 
   return (
     <Flex
@@ -34,7 +27,7 @@ export const PageHeader: React.FC<Props> = ({ isHidden }) => {
       py="6"
       px="8"
     >
-      <MetaLink as="/" href="/" display="block" mr="10">
+      <MetaLink href="/" display="block" mr="10">
         <Image src={MetaGameImage} alt="MetaGame" mt={-2} />
       </MetaLink>
 
@@ -73,7 +66,9 @@ export const PageHeader: React.FC<Props> = ({ isHidden }) => {
       </Box>
 
       <Box display={{ base: show ? 'block' : 'none', md: 'block' }}>
-        <MetaButton>Sign in</MetaButton>
+        <NextLink href="/login" display="block">
+          <MetaButton>Sign in</MetaButton>
+        </NextLink>
       </Box>
     </Flex>
   );
