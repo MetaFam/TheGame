@@ -1,5 +1,5 @@
 ---
-title: 🫂 Building Successful Teams
+title: 🙌 Building Successful Teams
 ---
 
 # On Building Successful Teams
@@ -13,7 +13,7 @@ When thinking about high performance _teams_, we tend to pin the outcome on thin
 -   Establishing a purpose
 -   Sharing vulnerability
 -   Building safety
-    
+
 
 > Not exactly what you’d expect, aye? Let’s dig deeper.
 
@@ -108,15 +108,15 @@ Most needed when a team or a person is facing a barrier. As the name suggests, i
 By now you should have at least a basic idea of what these teams look like. Here’s some of the things you should be able to see in good teams:
 
 -   **Framing**: Successful teams connect even the most dreadful of tasks to the bigger picture, constantly creating narrative links of why what they’re currently doing is important.
-    
+
 -   **Roles**: Each person knows their role and why it's important. Firstly, you don’t want to end up with the story of Everybody, Somebody, Anybody & Nobody. Secondly, every person needs to know why their role is important, because they just do.
-    
+
 -   **Rehearsals**: Successful teams break down and verbally run through tasks ahead. Making sure everyone knows their role, the sequence of action, what success looks like & how it connects to the bigger picture of what they’re up to.
-    
+
 -   **Encouragement to speak up**: In successful teams, people are always trained & encouraged to speak up if they think there’s a problem or have something to add.
-    
+
 -   High level of mixing, few interruptions, lots of questions, attentive courtesies like thank yous, and laughter - one of the most fundamental signs of safety and connection.
-    
+
 
 ### Warning
 
@@ -130,4 +130,3 @@ Hope you feel inspired to go back to your people and start implementing some of 
 
 -   If you want to dig deeper, [buy this book](https://www.goodreads.com/book/show/33517721-the-culture-code) or [check out this thread](https://forum.metagame.wtf/t/connection-community-building-resources-practices/256).
 -   If you can’t afford the book or need help in other ways, [get in touch with me](https://twitter.com/petheth) :)
- 

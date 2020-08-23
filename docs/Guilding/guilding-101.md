@@ -44,7 +44,7 @@ Your community is your marketing department, your builders, your consultants, yo
 -   Share each one in your chat, on Twitter, other telegram chats; both 1on1 and group chats. Think harder about where else you could share it; subreddits, facebook groups, other forums & community gathering places.
 -   Being in the MetaCartel is what made most difference to me in the beginning. So, join other communities, but don’t just barge in and spam your articles. You don’t want to be seen as a spammer, you just want to be seen. **So be useful**!
 -   Keep asking for feedback. Don’t just say “some feedback pls”, you need the people to tell you specifically **what sucks & what isn’t understood**.
-    
+
 
 [![](https://cdn.substack.com/image/fetch/w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F43047537-bb14-4447-bf24-aa1380f98fac_1085x1097.png)](https://cdn.substack.com/image/fetch/c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F43047537-bb14-4447-bf24-aa1380f98fac_1085x1097.png)
 
@@ -71,9 +71,9 @@ The outermost ring is simply all the twitter followers or newsletter subscribers
 Point is, by now, your idea is alive. It might have been only a figment of your imagination just a bit ago, but now that it exists in the heads of other people you may consider it alive. You are expected to keep delivering & make it more tangible.
 
 -   It’s time to start thinking about migrating to a multi-channel chat app, eg. Discord or Matrix, or at least start using Telefuel.
-    
+
 -   Also start thinking about launching a DAO & actually distributing the tokens to formalize the thing. Implementing SourceCred?
-    
+
 
 There will probably need to be a whole blog post about choosing the right DAO framework; let us know if you want it or just need some help choosing.
 
@@ -92,8 +92,7 @@ In short:
 -   Whatever you’re doing to push your project forward, do it publicly - even if it feels embarrassing and you’re failing.
 -   Start fostering a community & regularly expressing your gratitude for their presence. You probably can’t make it without them.
 -   Don’t. Lose. Momentum.
--   Have this video that Peter of MetaCartel shared with me when I was just getting started with MetaGame:
-    <iframe width="560" height="315" src="https://www.youtube.com/embed/fW8amMCVAJQ" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+-   Have this video that Peter of MetaCartel shared with me when I was just getting started with MetaGame: <iframe width="560" height="315" src="https://www.youtube.com/embed/fW8amMCVAJQ" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 Need more help?
 -   Message me @peth on Twitter, Telegram or Discord with any questions.

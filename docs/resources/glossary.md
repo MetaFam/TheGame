@@ -17,7 +17,9 @@ Request missing terms [here](https://forum.metagame.wtf/t/wiki-glossary/346).
 <!---------------- ⭐️  A  ⭐️ ---------------->
 
 ## (MetaFam) Alignment
+A conference without all the boring bits but *all* of the fun and interesting bits like workshops, hacks and after-parties - a coming-together of MetaFam IRL.
 
+See [MetaFam Alignment 2021](https://wiki.metagame.wtf/docs/resources/alignment2021)
 <!-- TODO -->
 
 ## Aragon
@@ -48,18 +50,21 @@ The [commons](https://wikipedia.org/wiki/Commons) are the shared resources acces
 
 ## DAOHaus
 
-<!-- TODO -->
+DAOHaus is the beginning of a DAO social network. In DAOHaus, you can discover and pledge to existing [Moloch DAOs](https://www.molochdao.com/), as well as summon your own. After summoning a Moloch, others can Pledge to join your DAO.
 
-## DAOStack
+See [DAOHaus website](https://daohaus.club/)
 
-<!-- TODO -->
+## DAOstack
+
+DAOstack is an open source project advancing the technology and adoption of decentralized governance. See [DAOstack website](https://daostack.io/) and [An explanation of DAOStack](https://medium.com/daostack/an-explanation-of-daostack-in-fairly-simple-terms-1956e26b374)
 
 ## DApp
 
-Decentralized applications (dapps) are web applications powered by smart contracts. Instead of using centralized servers or databases, dapps rely on the blockchain as their backends for program logic and storage.
+[Decentralized applications](https://en.wikipedia.org/wiki/Decentralized_application) (dapps) are web applications powered by smart contracts. Instead of using centralized servers or databases, dapps rely on the blockchain as their backends for program logic and storage.
 
 ## Decentralized Factory
 
+See [A Decentralized Factory](https://wiki.metagame.wtf/docs/wtf-is-metagame/narrative-1-a-decentralized-factory)
 <!-- TODO -->
 
 ## DeFi
@@ -115,8 +120,9 @@ A Git repository hosting service. It provides a web-based interface to host and 
 See [GitHub website](https://github.com/)
 
 ## Guild
+A guild is any group of people with a common interest or a goal; be it building a certain product, offering a certain service or both. A good example of a Guild would be [RaidGuild](https://raidguild.org/).
 
-<!-- TODO -->
+See [Guilding 101](http://localhost:3000/docs/Guilding/guilding-101)
 
 <!---------------- ⭐️  H  ⭐️ ---------------->
 
@@ -142,6 +148,7 @@ See [Wikipedia](https://wikipedia.org/wiki/Ikigai)
 
 ## MetaCartel
 
+See [MetaCartel website](https://www.metacartel.org/)
 <!-- TODO [MetaCartel](https://www.metacartel.org/) -->
 
 ## MetaFam
@@ -158,14 +165,20 @@ An Ethereum wallet available as both a [web browser extension and mobile applica
 
 <!-- TODO [Youtube/MetaMedia](https://www.youtube.com/channel/UC6gdZ6Q7Fwfvn-Uu4QKDyhg) -->
 
-## Moloch DAO
+## MolochDAO
+
+MolochDAO is a decentralized autonomous organization (DAO) that was created to fund Ethereum 2.0 grants.
+
+See [Moloch DAO website](https://www.molochdao.com/)
 
 <!-- TODO -->
 
 <!---------------- ⭐️  N  ⭐️ ---------------->
 
 ## `npm`
+`npm` (Node Package Manager) is a package manager for Node.js projects that are modular in nature and can be used within other projects. There is an online repository of opensource projects / packages which can be accesed via a command-line tool for installing and managing these packages within your own projects.
 
+See [What is NPM?](https://nodejs.org/en/knowledge/getting-started/npm/what-is-npm/)
 <!-- TODO -->
 
 <!---------------- ⭐️  O  ⭐️ ---------------->
@@ -173,7 +186,9 @@ An Ethereum wallet available as both a [web browser extension and mobile applica
 <!---------------- ⭐️  P  ⭐️ ---------------->
 
 ## Pokemol
+Pokemol is a mobile-first front-end for interacting with DAOs that were created on [DAOHaus](https://daohaus.club/).
 
+See [Pokemol website](https://pokemol.com/)
 <!-- TODO -->
 
 <!---------------- ⭐️  Q  ⭐️ ---------------->
@@ -194,6 +209,7 @@ An Ethereum wallet available as both a [web browser extension and mobile applica
 
 ## Raid Guild
 
+See [RaidGuild website](https://raidguild.org/)
 <!-- TODO -->
 
 ## (MetaGame) Roles
@@ -235,6 +251,7 @@ See [Roles in MetaGame](/docs/handbook/roles-in-metagame)
 ## Web3
 
 The problem with the Web2 era was that the internet got monopolized by huge centralized services farming humans for data & attention.
+
 The promise of [Web3](http://blockchainhub.net/web3-decentralized-web/) is the internet of decentralized peer-to-peer protocols, platforms & applications; tokenized & in the hands of their users.
 
 <!---------------- ⭐️  X  ⭐️ ---------------->
