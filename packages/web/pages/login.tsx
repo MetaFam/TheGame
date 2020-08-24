@@ -8,6 +8,14 @@ import { WelcomePlayer } from '../components/WelcomePlayer';
 import BackgroundImage from '../public/images/login-background.jpg';
 import MetaGameImage from '../public/images/metagame.png';
 
+export const getStaticProps = async () => {
+  return {
+    props: {
+      hidePageHeader: true,
+    },
+  };
+};
+
 const Login: React.FC = () => {
   const [step, setStep] = useState(0);
   return (
