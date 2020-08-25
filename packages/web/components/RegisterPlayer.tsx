@@ -1,12 +1,7 @@
-import {
-  Button,
-  ButtonGroup,
-  EmailIcon,
-  Icon3box,
-  MetaHeading,
-} from '@metafam/ds';
+import { Button, ButtonGroup, MetaHeading } from '@metafam/ds';
+import { Web3Context } from 'contexts/Web3Context';
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useContext } from 'react';
 
 import { FlexContainer } from './Container';
 
@@ -15,14 +10,7 @@ export const RegisterPlayer: React.FC = () => {
     <FlexContainer flex={1}>
       <MetaHeading m={5}>Register your Player account</MetaHeading>
       <ButtonGroup spacing={5} mt={20}>
-        <RegisterButton textTransform="uppercase">
-          <Icon3box mr={2} /> box
-        </RegisterButton>
-        <RegisterButton>GitHub</RegisterButton>
-        <RegisterButton>
-          <EmailIcon mr={2} />
-          Email
-        </RegisterButton>
+        <RegisterButton>Connect Wallet</RegisterButton>
       </ButtonGroup>
     </FlexContainer>
   );
@@ -31,8 +19,10 @@ export const RegisterPlayer: React.FC = () => {
 type ButtonProps = React.ComponentProps<typeof Button>;
 
 const RegisterButton: React.FC<ButtonProps> = ({ children, ...props }) => {
+  const { connectWeb3 } = useContext(Web3Context);
   const router = useRouter();
-  const login = () => {
+  const login = async () => {
+    await connectWeb3();
     router.push('/profile/success');
   };
   return (
