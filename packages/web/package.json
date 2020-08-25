@@ -13,6 +13,8 @@
   },
   "dependencies": {
     "@metafam/ds": "0.1.0",
+    "@walletconnect/web3-provider": "^1.2.1",
+    "ethers": "^5.0.8",
     "fake-tag": "2.0.0",
     "graphql": "^15.0.0",
     "isomorphic-unfetch": "^3.0.0",
@@ -21,6 +23,8 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-icons": "^3.11.0",
-    "urql": "^1.9.7"
+    "urql": "^1.9.7",
+    "web3": "^1.2.11",
+    "web3modal": "^1.9.0"
   }
 }
