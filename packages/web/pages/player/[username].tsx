@@ -6,7 +6,7 @@ import {
   Text,
   Wrap,
 } from '@metafam/ds';
-import PlayerAboutMe from 'components/Player/PlayerAboutMe';
+import { PlayerAboutMe } from 'components/Player/PlayerAboutMe';
 import { PlayerFeatures } from 'components/Player/PlayerFeatures';
 import { PlayerHero } from 'components/Player/PlayerHero';
 import { getPlayer } from 'graphql/getPlayer';
