@@ -80,10 +80,13 @@ yarn hasura:console
 Hasura CLI example
 
 ```shell script
-yarn hasura -- migrate squash 1586952135212
+yarn hasura migrate status
+yarn hasura migrate squash --name "<feature-name>" --from 1598417879553
+yarn hasura migrate apply --version "<squash-migration-version>" --skip-execution
 ```
 
 [Hasura CLI documentation](https://hasura.io/docs/1.0/graphql/manual/hasura-cli/index.html)
+[Hasura Migrations Guide](https://hasura.io/docs/1.0/graphql/manual/migrations/basics.html#migrations-basics)
 
 Generate GraphQL Types
 
