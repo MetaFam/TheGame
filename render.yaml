@@ -61,3 +61,5 @@ envVarGroups:
         sync: false
       - key: NEXT_PUBLIC_GRAPHQL_URL
         sync: false
+      - key: NEXT_TELEMETRY_DISABLED
+        value: 1
