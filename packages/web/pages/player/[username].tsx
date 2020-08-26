@@ -1,4 +1,11 @@
-import { Container, MetaBox, SimpleGrid, Text } from '@metafam/ds';
+import {
+  Container,
+  MetaBox,
+  MetaTag,
+  SimpleGrid,
+  Text,
+  Wrap,
+} from '@metafam/ds';
 import { PlayerFeatures } from 'components/Player/PlayerFeatures';
 import { PlayerHero } from 'components/Player/PlayerHero';
 import { getPlayer } from 'graphql/getPlayer';
@@ -18,26 +25,32 @@ const PlayerPage: React.FC<Props> = ({ player }) => {
     return <Error statusCode={404} />;
   }
 
+  const aboutMeText = player.box_profile?.description;
+
   return (
     <>
       <PlayerHero player={player} />
       <PlayerFeatures player={player} />
       <Container maxW="xl">
         <SimpleGrid columns={[1, 1, 2, 3]} spacing="8" pt="12">
-          <MetaBox title="About me">
-            <Text fontFamily="body" fontSize="2xl" fontWeight="bold" mb={4}>
-              Box 1
-            </Text>
-          </MetaBox>
+          {aboutMeText ? (
+            <MetaBox title="About me">
+              <Text fontFamily="body">{player.box_profile?.description}</Text>
+            </MetaBox>
+          ) : null}
           <MetaBox title="Skills">
-            <Text fontFamily="body" fontSize="2xl" fontWeight="bold" mb={4}>
-              Box 2
+            <Text fontFamily="body" color="whiteAlpha.500">
+              Unavailable
             </Text>
           </MetaBox>
           <MetaBox title="Memberships">
-            <Text fontFamily="body" fontSize="2xl" fontWeight="bold" mb={4}>
-              Box 3
-            </Text>
+            <Wrap>
+              {player.daohausMemberships.map((member) => (
+                <MetaTag key={member.id} size="md" fontWeight="normal">
+                  {member.moloch.title}
+                </MetaTag>
+              ))}
+            </Wrap>
           </MetaBox>
         </SimpleGrid>
       </Container>
