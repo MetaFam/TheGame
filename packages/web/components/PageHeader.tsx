@@ -22,7 +22,7 @@ const MenuItem: React.FC<React.ComponentProps<typeof MetaLink>> = ({
         p="1"
         fontFamily="mono"
         color="whiteAlpha.700"
-        _hover={{ color: 'white', textDecoration: 'none' }}
+        _hover={{ color: 'pink.500', textDecoration: 'none' }}
       >
         {children}
       </Button>
