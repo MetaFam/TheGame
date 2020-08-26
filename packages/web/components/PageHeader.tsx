@@ -4,13 +4,31 @@ import React from 'react';
 
 import MetaGameImage from '../public/images/metagame.png';
 
-const MenuItem: React.FC = ({ children }) => (
-  <Box>
-    <Button variant="link" color="offwhite" p="2">
-      {children}
-    </Button>
-  </Box>
-);
+const MenuItem: React.FC<React.ComponentProps<typeof MetaLink>> = ({
+  children,
+  href,
+  isExternal,
+}) => {
+  return (
+    <MetaLink
+      href={href}
+      isExternal={isExternal}
+      textDecoration="none"
+      _hover={{ textDecoration: 'none' }}
+    >
+      <Button
+        textDecoration="none"
+        variant="link"
+        p="1"
+        fontFamily="mono"
+        color="whiteAlpha.700"
+        _hover={{ color: 'white', textDecoration: 'none' }}
+      >
+        {children}
+      </Button>
+    </MetaLink>
+  );
+};
 
 export const PageHeader: React.FC = () => {
   const [show, setShow] = React.useState(false);
@@ -51,22 +69,37 @@ export const PageHeader: React.FC = () => {
         width={{ base: 'full', md: 'auto' }}
         alignItems="center"
         flexGrow={1}
-        my={{ base: 4, md: 0 }}
+        my={{ base: 8, md: 0 }}
       >
         <Stack
           direction={{ base: 'column', md: 'row' }}
           spacing={{ base: 4, md: 6, lg: 10 }}
         >
-          <MenuItem>Quests</MenuItem>
-          <MenuItem>Raids</MenuItem>
-          <MenuItem>Players</MenuItem>
-          <MenuItem>Forum</MenuItem>
+          <MenuItem href="/">Players</MenuItem>
+          <MenuItem href="https://discord.gg/VYZPBnx" isExternal>
+            Discord
+          </MenuItem>
+          <MenuItem href="https://wiki.metagame.wtf/" isExternal>
+            Wiki
+          </MenuItem>
+          <MenuItem href="https://forum.metagame.wtf" isExternal>
+            Forums
+          </MenuItem>
+          <MenuItem href="https://metagame.substack.com" isExternal>
+            Blog
+          </MenuItem>
         </Stack>
       </Box>
 
-      <Box display={{ base: show ? 'block' : 'none', md: 'block' }}>
+      <Box
+        display={{ base: show ? 'flex' : 'none', md: 'block' }}
+        justifyContent="center"
+        width={{ base: 'full', md: 'auto' }}
+      >
         <MetaLink href="/login">
-          <MetaButton>Sign in</MetaButton>
+          <MetaButton size="md" px={8}>
+            Login
+          </MetaButton>
         </MetaLink>
       </Box>
     </Flex>
