@@ -26,7 +26,6 @@ export const MetaLink: React.FC<Props> = ({
     shallow={shallow}
   >
     {/*  NextLink passes the href */}
-    {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
     <Link color="cyan.400" {...props}>
       {children}
     </Link>

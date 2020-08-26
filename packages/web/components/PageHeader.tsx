@@ -1,6 +1,5 @@
 import { Box, Button, Flex, Image, MetaButton, Stack } from '@metafam/ds';
 import { MetaLink } from 'components/Link';
-import NextLink from 'next/link';
 import React from 'react';
 
 import MetaGameImage from '../public/images/metagame.png';
@@ -66,9 +65,9 @@ export const PageHeader: React.FC = () => {
       </Box>
 
       <Box display={{ base: show ? 'block' : 'none', md: 'block' }}>
-        <NextLink href="/login" display="block">
+        <MetaLink href="/login">
           <MetaButton>Sign in</MetaButton>
-        </NextLink>
+        </MetaLink>
       </Box>
     </Flex>
   );

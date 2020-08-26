@@ -1,6 +1,5 @@
 import {
   Avatar,
-  Button,
   Heading,
   HStack,
   MetaTag,
@@ -14,8 +13,8 @@ import { MetaLink } from 'components/Link';
 import { getPlayers } from 'graphql/getPlayers';
 import { InferGetStaticPropsType } from 'next';
 import React from 'react';
-import { FaGithub, FaTwitter } from 'react-icons/fa';
 
+import { PlayerContacts } from '../components/Player/PlayerContacts';
 import BackgroundImage from '../public/images/login-background.jpg';
 import { getPlayerImage, getPlayerName } from '../utils/playerHelpers';
 
@@ -89,33 +88,7 @@ const Home: React.FC<Props> = ({ players }) => (
                 CONTACT
               </Text>
               <HStack mt="2">
-                {p.Accounts.map((acc) => {
-                  if (acc.type === 'TWITTER') {
-                    return (
-                      <Button
-                        key={acc.identifier}
-                        size="xs"
-                        colorScheme="twitter"
-                        leftIcon={<FaTwitter />}
-                      >
-                        {acc.identifier}
-                      </Button>
-                    );
-                  }
-                  if (acc.type === 'GITHUB') {
-                    return (
-                      <Button
-                        key={acc.identifier}
-                        size="xs"
-                        colorScheme="blackAlpha"
-                        leftIcon={<FaGithub />}
-                      >
-                        {acc.identifier}
-                      </Button>
-                    );
-                  }
-                  return null;
-                })}
+                <PlayerContacts player={p} />
               </HStack>
             </VStack>
           ) : null}

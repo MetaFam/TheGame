@@ -8,7 +8,7 @@ export type MetaBoxProps = {
 
 export const MetaBox: React.FC<MetaBoxProps> = ({ children, title }) => (
   <Box>
-    <Box bg="purpleBoxLight" p={4}>
+    <Box bg="purpleBoxLight" borderTopRadius="lg" p={4}>
       <Text
         fontFamily="mono"
         fontSize="sm"
@@ -19,7 +19,7 @@ export const MetaBox: React.FC<MetaBoxProps> = ({ children, title }) => (
         {title}
       </Text>
     </Box>
-    <Box bg="purpleBoxDark" p={6}>
+    <Box bg="purpleBoxDark" borderBottomRadius="lg" p={6}>
       {children}
     </Box>
   </Box>
