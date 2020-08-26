@@ -58,6 +58,6 @@ People, driven by a meme, empowered by the tools, and motivated by the inter-rel
 
 ## Feeling driven & motivated?
 
-Well, why not start right now? You may go and read the **[How to Play](https://forum.metagame.wtf/t/how-to-play-metagame/157)** post, or just go straight to contributing; simply by writing “hey, I want to help” on the [#meta-square1](https://discord.gg/Hf54gd8).
+Well, why not start right now? You may go and read the **[How to Play](../enter-metagame/how-to-become-a-player.md)** article, or just go straight to contributing; simply by writing “hey, I want to help” on the [#meta-square1](https://discord.gg/Hf54gd8).
 
 Does this explain it well enough? **[Let us know](https://discord.gg/Hf54gd8)** what’s missing, please.
