@@ -14,20 +14,31 @@ export const MetaLink: React.FC<Props> = ({
   replace,
   scroll,
   shallow,
+  isExternal,
   ...props
-}) => (
-  <NextLink
-    href={href}
-    as={as}
-    passHref={passHref || true}
-    prefetch={prefetch}
-    replace={replace}
-    scroll={scroll}
-    shallow={shallow}
-  >
-    {/*  NextLink passes the href */}
-    <Link color="cyan.400" {...props}>
-      {children}
-    </Link>
-  </NextLink>
-);
+}) => {
+  if (isExternal && typeof href === 'string') {
+    return (
+      <Link color="cyan.400" isExternal href={href} {...props}>
+        {children}
+      </Link>
+    );
+  }
+
+  return (
+    <NextLink
+      href={href}
+      as={as}
+      passHref={passHref || true}
+      prefetch={prefetch}
+      replace={replace}
+      scroll={scroll}
+      shallow={shallow}
+    >
+      {/*  NextLink passes the href */}
+      <Link color="cyan.400" {...props}>
+        {children}
+      </Link>
+    </NextLink>
+  );
+};

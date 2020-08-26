@@ -13,12 +13,13 @@ export const PlayerContacts: React.FC<Props> = ({ player }) => {
     <>
       {player.Accounts.map((acc) => {
         if (acc.type === 'TWITTER') {
+          const link = `https://twitter.com/${acc.identifier}`;
           return (
             <Button
               as="a"
-              href={`https://twitter.com/${acc.identifier}`}
+              href={link}
               target="_blank"
-              key={acc.identifier}
+              key={link}
               size="xs"
               colorScheme="twitter"
               leftIcon={<FaTwitter />}
@@ -28,12 +29,13 @@ export const PlayerContacts: React.FC<Props> = ({ player }) => {
           );
         }
         if (acc.type === 'GITHUB') {
+          const link = `https://github.com/${acc.identifier}`;
           return (
             <Button
               as="a"
-              href={`https://github.com/${acc.identifier}`}
+              href={link}
               target="_blank"
-              key={acc.identifier}
+              key={link}
               size="xs"
               colorScheme="blackAlpha"
               backgroundColor="black"
