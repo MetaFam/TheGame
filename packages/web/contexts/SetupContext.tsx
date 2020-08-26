@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 type SetupContextType = {
-  useProgress: (numProgressSteps: number) => any[];
+  useProgress: (numProgressSteps: number) => [number, () => void];
   step: number;
   progress: number;
   setStep: React.Dispatch<React.SetStateAction<number>>;
@@ -10,7 +10,7 @@ type SetupContextType = {
 };
 
 export const SetupContext = React.createContext<SetupContextType>({
-  useProgress: (numProgressSteps: number) => [numProgressSteps],
+  useProgress: (numProgressSteps: number) => [numProgressSteps, () => {}],
   step: 0,
   progress: 0,
   setStep: () => undefined,
@@ -23,7 +23,7 @@ export const SetupContextProvider: React.FC = ({ children }) => {
   const [progress, setProgress] = useState<number>(0.5);
   const numTotalSteps = 3;
 
-  const useProgress = (numProgressSteps: number) => {
+  const useProgress: SetupContextType['useProgress'] = (numProgressSteps) => {
     const [currentProgress, setCurrentProgress] = useState<number>(0);
 
     useEffect(() => {
