@@ -4,16 +4,11 @@ import { SetupHeader } from 'components/Setup/SetupHeader';
 import { SetupPersonality } from 'components/Setup/SetupPersonality';
 import { SetupProfession } from 'components/Setup/SetupProfession';
 import { SetupContext, SetupContextProvider } from 'contexts/SetupContext';
+import { getSkills } from 'graphql/getSkills';
+import { parseSkills } from 'utils/skillHelpers';
+import { InferGetStaticPropsType } from 'next';
 import BackgroundImage from 'public/images/profile-background.jpg';
 import React, { useContext } from 'react';
-
-export const getStaticProps = async () => {
-  return {
-    props: {
-      hidePageHeader: true,
-    },
-  };
-};
 
 const ProfileSetup: React.FC = () => {
   const { step, numTotalSteps } = useContext(SetupContext);
@@ -27,8 +22,22 @@ const ProfileSetup: React.FC = () => {
   );
 };
 
-const ProfileSetupWithContext: React.FC = () => (
-  <SetupContextProvider>
+export const getStaticProps = async () => {
+  const skills = await getSkills();
+  const skillsMap = parseSkills(skills);
+
+  return {
+    props: {
+      skillsMap,
+      hidePageHeader: true,
+    },
+  };
+};
+
+export type Props = InferGetStaticPropsType<typeof getStaticProps>;
+
+const ProfileSetupWithContext: React.FC<Props> = ({ skillsMap }) => (
+  <SetupContextProvider skillsMap={skillsMap}>
     <ProfileSetup />
   </SetupContextProvider>
 );
