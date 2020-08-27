@@ -1,6 +1,5 @@
 import {
   Container,
-  H1,
   MetaBox,
   MetaTag,
   P,
@@ -19,7 +18,7 @@ import {
 } from 'next';
 import Error from 'next/error';
 import React from 'react';
-import { getPlayerDescription, getPlayerName } from 'utils/playerHelpers';
+import { getPlayerDescription } from 'utils/playerHelpers';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
@@ -35,7 +34,6 @@ const PlayerPage: React.FC<Props> = ({ player }) => {
       <Container maxW="xl">
         <SimpleGrid columns={[1, 1, 2, 3]} spacing="8" pt="12">
           <MetaBox title="About me">
-            <H1>{getPlayerName(player)}</H1>
             <P>{getPlayerDescription(player)}</P>
           </MetaBox>
           <MetaBox title="Skills">
