@@ -1,12 +1,13 @@
 import {
   Container,
+  H1,
   MetaBox,
   MetaTag,
+  P,
   SimpleGrid,
   Text,
   Wrap,
 } from '@metafam/ds';
-import { PlayerAboutMe } from 'components/Player/PlayerAboutMe';
 import { PlayerFeatures } from 'components/Player/PlayerFeatures';
 import { PlayerHero } from 'components/Player/PlayerHero';
 import { getPlayer } from 'graphql/getPlayer';
@@ -18,6 +19,7 @@ import {
 } from 'next';
 import Error from 'next/error';
 import React from 'react';
+import { getPlayerDescription, getPlayerName } from 'utils/playerHelpers';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
@@ -32,7 +34,10 @@ const PlayerPage: React.FC<Props> = ({ player }) => {
       <PlayerFeatures player={player} />
       <Container maxW="xl">
         <SimpleGrid columns={[1, 1, 2, 3]} spacing="8" pt="12">
-          <PlayerAboutMe player={player} />
+          <MetaBox title="About me">
+            <H1>{getPlayerName(player)}</H1>
+            <P>{getPlayerDescription(player)}</P>
+          </MetaBox>
           <MetaBox title="Skills">
             <Text fontFamily="body" color="whiteAlpha.500">
               Unavailable
