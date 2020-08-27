@@ -1,0 +1,23 @@
+{
+  "name": "@metafam/bot",
+  "version": "0.0.1",
+  "main": "src/index.js",
+  "private" : "true",
+  "scripts": {
+    "precommit": "yarn lint-staged",
+    "test": "jest",
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "@sentry/node": "^5.15.4",
+    "crypto-js": "^4.0.0",
+    "discord.js": "^12.1.1",
+    "dotenv": "^8.2.0",
+    "node-fetch": "^2.6.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.3"
+  }
+}
