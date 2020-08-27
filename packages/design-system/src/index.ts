@@ -38,4 +38,5 @@ export { MetaHeading } from './MetaHeading';
 export { MetaButton } from './MetaButton';
 export { MetaBox } from './MetaBox';
 export { MetaTag } from './MetaTag';
+export { H1, P } from './typography';
 export { ResponsiveText } from './ResponsiveText';

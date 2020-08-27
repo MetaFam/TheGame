@@ -6,3 +6,6 @@ export const getPlayerImage = (player: PlayerFragmentFragment): string =>
 
 export const getPlayerName = (player: PlayerFragmentFragment): string =>
   player.box_profile?.name || player.username;
+
+export const getPlayerDescription = (player: PlayerFragmentFragment): string =>
+  player.box_profile?.description || '';
