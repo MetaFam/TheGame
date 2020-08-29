@@ -2,7 +2,7 @@
   "name": "@metafam/bot",
   "version": "0.0.1",
   "main": "src/index.js",
-  "private" : "true",
+  "private": "true",
   "scripts": {
     "precommit": "yarn lint-staged",
     "test": "jest",

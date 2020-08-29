@@ -24,7 +24,7 @@
     "generate": "lerna run generate --parallel --",
     "test:full": "yarn lint && yarn typecheck && yarn test",
     "clean": "lerna clean",
-    "format": "prettier --ignore-path .gitignore --write \"{*,**/*}.{ts,tsx,js,jsx,json,yml,yaml,md}\"",
+    "format": "prettier --ignore-path .gitignore --write \"{*,**/*}.{ts,tsx,js,jsx,json,yml,yaml,md}\" ",
     "lint": "eslint --ignore-path .gitignore \"./packages/**/*.{ts,tsx,js,jsx}\"",
     "typecheck": "lerna run typecheck",
     "prepare": "lerna run prepare",

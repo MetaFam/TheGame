@@ -11,8 +11,8 @@ Available AracredBot commands:
 
 > !ac signup github/foo discourse/foo
 
-`
+`;
 
 module.exports = function help(message) {
-  message.reply(helpContent)
-}
+  message.reply(helpContent);
+};

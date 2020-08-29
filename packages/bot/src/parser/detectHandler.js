@@ -1,26 +1,26 @@
-const { RequestHandlerError } = require('../error-utils')
-const handlers = require('../handlers/index')
+import { RequestHandlerError } from '../error-utils';
+import handlers from '../handlers/index';
 
-const noop = () => undefined
+const noop = () => undefined;
 
 module.exports = function detectHandler(message) {
-  const [requestedNamespace, requestedHandler] = message.split(' ')
+  const [requestedNamespace, requestedHandler] = message.split(' ');
   // If it's not a flag, we can safely ignore this command.
   if (!requestedNamespace.includes('!')) {
-    return noop()
+    return noop();
   }
-  const receivedHandler = handlers.get(requestedHandler)
+  const receivedHandler = handlers.get(requestedHandler);
   if (requestedNamespace !== '!ac') {
     throw new RequestHandlerError(
       `Could not find command with flag ${requestedNamespace}`,
-    )
+    );
   }
 
   if (typeof receivedHandler !== 'function') {
     throw new RequestHandlerError(
       `Could not find command with flag ${requestedHandler}`,
-    )
+    );
   }
 
-  return receivedHandler
-}
+  return receivedHandler;
+};

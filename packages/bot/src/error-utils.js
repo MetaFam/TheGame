@@ -1,26 +1,19 @@
-class EnvironmentError extends Error {
+/* eslint max-classes-per-file: 0 */ 
+export class EnvironmentError extends Error {
   constructor(message) {
-    super(`${Date.now()}: ${message}`)
-    this.name = 'EnvironmentError'
+    super(`${Date.now()}: ${message}`);
+    this.name = 'EnvironmentError';
   }
 }
-
-class RequestHandlerError extends Error {
+export class RequestHandlerError extends Error {
   constructor(message) {
-    super(`${Date.now()}: ${message}`)
-    this.name = 'RequestHandlerError'
+    super(`${Date.now()}: ${message}`);
+    this.name = 'RequestHandlerError';
   }
 }
-
-class WhitelistedChannelError extends Error {
+export class WhitelistedChannelError extends Error {
   constructor(message) {
-    super(`${Date.now()}: ${message}`)
-    this.name = 'WhitelistedChannelError'
+    super(`${Date.now()}: ${message}`);
+    this.name = 'WhitelistedChannelError';
   }
-}
-
-module.exports = {
-  EnvironmentError,
-  RequestHandlerError,
-  WhitelistedChannelError,
 }
