@@ -45,7 +45,7 @@
     "@graphql-codegen/typescript": "^1.17.7",
     "@graphql-codegen/typescript-graphql-request": "^2.0.0",
     "@graphql-codegen/typescript-operations": "^1.17.7",
-    "@graphql-codegen/typescript-react-apollo": "^1.17.7",
+    "@graphql-codegen/typescript-react-apollo": "^2.0.6",
     "@graphql-codegen/typescript-resolvers": "^1.17.7",
     "@graphql-codegen/typescript-urql": "^2.0.1",
     "@types/node": "^13.11.1",
