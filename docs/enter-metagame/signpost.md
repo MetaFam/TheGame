@@ -16,7 +16,7 @@ Chat and have fun with fellow players, talk about raids, web3, memes, art, music
 ### [Forum](https://forum.metagame.wtf/) — Thoughtful MetaGame
 Propose, discuss, and argue about ideas, raids, governance, etc. in more organized way.
 
-### [Navigation Board](https://wiki.metagame.wtf/docs/EnterMetaGame/navigation-board) - Find the raids that interest you & join the battle.
+### [Navigation Board](https://wiki.metagame.wtf/docs/enter-metagame/navigation-board) - Find the raids that interest you & join the battle.
 
 ### [Calendar]() — Town Gatherings
 Connect with fellow MetaGamers on a regular basis.
