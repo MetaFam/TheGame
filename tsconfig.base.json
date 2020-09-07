@@ -2,6 +2,7 @@
   "compilerOptions": {
     "module": "esnext",
     "target": "es6",
+    "lib": ["esnext"],
     "moduleResolution": "node",
     "jsx": "react",
     "outDir": "./dist",
@@ -10,6 +11,7 @@
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
+    "incremental": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
