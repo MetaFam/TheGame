@@ -4,8 +4,7 @@
     "module": "commonjs",
     "rootDir": "src",
     "outDir": "dist",
-    "tsBuildInfoFile": "dist/.tsbuildinfo",
-    "incremental": true
+    "tsBuildInfoFile": "dist/.tsbuildinfo"
   },
   "references": [
     {

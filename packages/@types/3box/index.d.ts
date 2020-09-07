@@ -43,7 +43,25 @@ declare module '3box' {
       username: string;
     };
   }
+
   export async function getVerifiedAccounts(
     boxProfile: BoxProfile,
   ): Promise<VerifiedAccounts>;
+
+  interface BoxSpace {
+    public: {
+      get<T = string>(key: string): Promise<T>;
+      set<T = string>(key: string, data: string): Promise<T>;
+    };
+  }
+
+  interface Box {
+    syncDone: Promise<boolean>;
+    openSpace: (url: string) => Promise<BoxSpace>;
+    twitter?: {
+      proof: string;
+      username: string;
+    };
+  }
+  export async function openBox(ethAddress: string, web3: any): Promise<Box>;
 }
