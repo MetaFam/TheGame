@@ -791,6 +791,19 @@ type mutation_root {
   ): Skill_mutation_response
 
   """
+  delete data from the table: "SkillCategory"
+  """
+  delete_SkillCategory(
+    """filter the rows which have to be deleted"""
+    where: SkillCategory_bool_exp!
+  ): SkillCategory_mutation_response
+
+  """
+  delete single row from the table: "SkillCategory"
+  """
+  delete_SkillCategory_by_pk(name: String!): SkillCategory
+
+  """
   delete single row from the table: "Skill"
   """
   delete_Skill_by_pk(id: uuid!): Skill
@@ -939,6 +952,28 @@ type mutation_root {
   ): Skill_mutation_response
 
   """
+  insert data into the table: "SkillCategory"
+  """
+  insert_SkillCategory(
+    """the rows to be inserted"""
+    objects: [SkillCategory_insert_input!]!
+
+    """on conflict condition"""
+    on_conflict: SkillCategory_on_conflict
+  ): SkillCategory_mutation_response
+
+  """
+  insert a single row into the table: "SkillCategory"
+  """
+  insert_SkillCategory_one(
+    """the row to be inserted"""
+    object: SkillCategory_insert_input!
+
+    """on conflict condition"""
+    on_conflict: SkillCategory_on_conflict
+  ): SkillCategory
+
+  """
   insert a single row into the table: "Skill"
   """
   insert_Skill_one(
@@ -1081,6 +1116,26 @@ type mutation_root {
     """filter the rows which have to be updated"""
     where: Skill_bool_exp!
   ): Skill_mutation_response
+
+  """
+  update data of the table: "SkillCategory"
+  """
+  update_SkillCategory(
+    """sets the columns of the filtered rows to the given values"""
+    _set: SkillCategory_set_input
+
+    """filter the rows which have to be updated"""
+    where: SkillCategory_bool_exp!
+  ): SkillCategory_mutation_response
+
+  """
+  update single row of the table: "SkillCategory"
+  """
+  update_SkillCategory_by_pk(
+    """sets the columns of the filtered rows to the given values"""
+    _set: SkillCategory_set_input
+    pk_columns: SkillCategory_pk_columns_input!
+  ): SkillCategory
 
   """
   update single row of the table: "Skill"
@@ -1315,7 +1370,7 @@ unique or primary key constraints on table "Player"
 """
 enum Player_constraint {
   """unique or primary key constraint"""
-  Player_ethereum_address_unique_key
+  Player_ethereum_address_key
 
   """unique or primary key constraint"""
   Player_pkey
@@ -2294,6 +2349,49 @@ type query_root {
   ): [Skill!]!
 
   """
+  fetch data from the table: "SkillCategory"
+  """
+  SkillCategory(
+    """distinct select on columns"""
+    distinct_on: [SkillCategory_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [SkillCategory_order_by!]
+
+    """filter the rows returned"""
+    where: SkillCategory_bool_exp
+  ): [SkillCategory!]!
+
+  """
+  fetch aggregated fields from the table: "SkillCategory"
+  """
+  SkillCategory_aggregate(
+    """distinct select on columns"""
+    distinct_on: [SkillCategory_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [SkillCategory_order_by!]
+
+    """filter the rows returned"""
+    where: SkillCategory_bool_exp
+  ): SkillCategory_aggregate!
+
+  """fetch data from the table: "SkillCategory" using primary key columns"""
+  SkillCategory_by_pk(name: String!): SkillCategory
+
+  """
   fetch aggregated fields from the table: "Skill"
   """
   Skill_aggregate(
@@ -2358,6 +2456,7 @@ type Skill {
     """filter the rows returned"""
     where: Player_Skill_bool_exp
   ): Player_Skill_aggregate!
+  category: SkillCategory_enum!
   id: uuid!
   name: String!
 }
@@ -2404,6 +2503,7 @@ input Skill_bool_exp {
   _and: [Skill_bool_exp]
   _not: Skill_bool_exp
   _or: [Skill_bool_exp]
+  category: SkillCategory_enum_comparison_exp
   id: uuid_comparison_exp
   name: String_comparison_exp
 }
@@ -2421,6 +2521,7 @@ input type for inserting data into table "Skill"
 """
 input Skill_insert_input {
   Player_Skills: Player_Skill_arr_rel_insert_input
+  category: SkillCategory_enum
   id: uuid
   name: String
 }
@@ -2486,6 +2587,7 @@ ordering options when selecting data from "Skill"
 """
 input Skill_order_by {
   Player_Skills_aggregate: Player_Skill_aggregate_order_by
+  category: order_by
   id: order_by
   name: order_by
 }
@@ -2502,6 +2604,9 @@ select columns of table "Skill"
 """
 enum Skill_select_column {
   """column name"""
+  category
+
+  """column name"""
   id
 
   """column name"""
@@ -2512,6 +2617,7 @@ enum Skill_select_column {
 input type for updating data in table "Skill"
 """
 input Skill_set_input {
+  category: SkillCategory_enum
   id: uuid
   name: String
 }
@@ -2521,8 +2627,187 @@ update columns of table "Skill"
 """
 enum Skill_update_column {
   """column name"""
+  category
+
+  """column name"""
   id
 
+  """column name"""
+  name
+}
+
+"""
+columns and relationships of "SkillCategory"
+"""
+type SkillCategory {
+  name: String!
+}
+
+"""
+aggregated selection of "SkillCategory"
+"""
+type SkillCategory_aggregate {
+  aggregate: SkillCategory_aggregate_fields
+  nodes: [SkillCategory!]!
+}
+
+"""
+aggregate fields of "SkillCategory"
+"""
+type SkillCategory_aggregate_fields {
+  count(columns: [SkillCategory_select_column!], distinct: Boolean): Int
+  max: SkillCategory_max_fields
+  min: SkillCategory_min_fields
+}
+
+"""
+order by aggregate values of table "SkillCategory"
+"""
+input SkillCategory_aggregate_order_by {
+  count: order_by
+  max: SkillCategory_max_order_by
+  min: SkillCategory_min_order_by
+}
+
+"""
+input type for inserting array relation for remote table "SkillCategory"
+"""
+input SkillCategory_arr_rel_insert_input {
+  data: [SkillCategory_insert_input!]!
+  on_conflict: SkillCategory_on_conflict
+}
+
+"""
+Boolean expression to filter rows from the table "SkillCategory". All fields are combined with a logical 'AND'.
+"""
+input SkillCategory_bool_exp {
+  _and: [SkillCategory_bool_exp]
+  _not: SkillCategory_bool_exp
+  _or: [SkillCategory_bool_exp]
+  name: String_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "SkillCategory"
+"""
+enum SkillCategory_constraint {
+  """unique or primary key constraint"""
+  SkillCategory_pkey
+}
+
+enum SkillCategory_enum {
+  BUSINESS
+  COMMUNITY
+  CREATIVE
+  ENGINEERING
+  PRODUCT
+  SCIENCE
+  TECHNOLOGIES
+}
+
+"""
+expression to compare columns of type SkillCategory_enum. All fields are combined with logical 'AND'.
+"""
+input SkillCategory_enum_comparison_exp {
+  _eq: SkillCategory_enum
+  _in: [SkillCategory_enum!]
+  _is_null: Boolean
+  _neq: SkillCategory_enum
+  _nin: [SkillCategory_enum!]
+}
+
+"""
+input type for inserting data into table "SkillCategory"
+"""
+input SkillCategory_insert_input {
+  name: String
+}
+
+"""aggregate max on columns"""
+type SkillCategory_max_fields {
+  name: String
+}
+
+"""
+order by max() on columns of table "SkillCategory"
+"""
+input SkillCategory_max_order_by {
+  name: order_by
+}
+
+"""aggregate min on columns"""
+type SkillCategory_min_fields {
+  name: String
+}
+
+"""
+order by min() on columns of table "SkillCategory"
+"""
+input SkillCategory_min_order_by {
+  name: order_by
+}
+
+"""
+response of any mutation on the table "SkillCategory"
+"""
+type SkillCategory_mutation_response {
+  """number of affected rows by the mutation"""
+  affected_rows: Int!
+
+  """data of the affected rows by the mutation"""
+  returning: [SkillCategory!]!
+}
+
+"""
+input type for inserting object relation for remote table "SkillCategory"
+"""
+input SkillCategory_obj_rel_insert_input {
+  data: SkillCategory_insert_input!
+  on_conflict: SkillCategory_on_conflict
+}
+
+"""
+on conflict condition type for table "SkillCategory"
+"""
+input SkillCategory_on_conflict {
+  constraint: SkillCategory_constraint!
+  update_columns: [SkillCategory_update_column!]!
+  where: SkillCategory_bool_exp
+}
+
+"""
+ordering options when selecting data from "SkillCategory"
+"""
+input SkillCategory_order_by {
+  name: order_by
+}
+
+"""
+primary key columns input for table: "SkillCategory"
+"""
+input SkillCategory_pk_columns_input {
+  name: String!
+}
+
+"""
+select columns of table "SkillCategory"
+"""
+enum SkillCategory_select_column {
+  """column name"""
+  name
+}
+
+"""
+input type for updating data in table "SkillCategory"
+"""
+input SkillCategory_set_input {
+  name: String
+}
+
+"""
+update columns of table "SkillCategory"
+"""
+enum SkillCategory_update_column {
   """column name"""
   name
 }
@@ -2824,6 +3109,49 @@ type subscription_root {
     """filter the rows returned"""
     where: Skill_bool_exp
   ): [Skill!]!
+
+  """
+  fetch data from the table: "SkillCategory"
+  """
+  SkillCategory(
+    """distinct select on columns"""
+    distinct_on: [SkillCategory_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [SkillCategory_order_by!]
+
+    """filter the rows returned"""
+    where: SkillCategory_bool_exp
+  ): [SkillCategory!]!
+
+  """
+  fetch aggregated fields from the table: "SkillCategory"
+  """
+  SkillCategory_aggregate(
+    """distinct select on columns"""
+    distinct_on: [SkillCategory_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [SkillCategory_order_by!]
+
+    """filter the rows returned"""
+    where: SkillCategory_bool_exp
+  ): SkillCategory_aggregate!
+
+  """fetch data from the table: "SkillCategory" using primary key columns"""
+  SkillCategory_by_pk(name: String!): SkillCategory
 
   """
   fetch aggregated fields from the table: "Skill"
