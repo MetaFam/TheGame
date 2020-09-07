@@ -1,6 +1,7 @@
 import Box from '3box';
 
 import { client } from '../../../lib/hasuraClient';
+import { UpdateBoxProfileResponse } from '../types';
 
 export async function updateVerifiedAccounts(
   playerId: string,
