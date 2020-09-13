@@ -38,7 +38,7 @@ function marshallUser({ username, platforms }) {
   };
 }
 
-module.exports = {
+export {
   decodeData,
   encodeData,
   marshallAddressEntry,

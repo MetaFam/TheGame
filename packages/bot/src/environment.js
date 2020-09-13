@@ -27,7 +27,7 @@ const ENV_VARS = {
   WHITELISTED_CHANNELS: [process.env.WHITELISTED_CHANNELS, '*', false],
 };
 
-export function environment(name) {
+function environment(name) {
   const envVar = ENV_VARS[name];
   if (!envVar) {
     return null;
@@ -44,3 +44,5 @@ export function environment(name) {
 }
 
 export function fullEnvironment() {}
+
+export {environment}

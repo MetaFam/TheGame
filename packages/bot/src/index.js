@@ -1,12 +1,9 @@
-import Sentry from '@sentry/node';
-import Discord from 'discord.js';
+import * as Sentry from '@sentry/node';
+import * as Discord from 'discord.js';
 import dotenv from 'dotenv';
 
 import { environment } from './environment';
-import {
-  RequestHandlerError,
-  WhitelistedChannelError,
-} from './error-utils';
+import { RequestHandlerError, WhitelistedChannelError } from './error-utils';
 import detectHandler from './parser/detectHandler';
 import parseWhitelistedChannels from './parser/whitelistedChannels';
 import { error, log } from './utils';

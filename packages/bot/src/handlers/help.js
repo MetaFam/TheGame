@@ -13,6 +13,6 @@ Available AracredBot commands:
 
 `;
 
-module.exports = function help(message) {
+export function help(message) {
   message.reply(helpContent);
 };

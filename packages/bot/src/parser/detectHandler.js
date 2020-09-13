@@ -3,7 +3,7 @@ import handlers from '../handlers/index';
 
 const noop = () => undefined;
 
-module.exports = function detectHandler(message) {
+export function detectHandler(message) {
   const [requestedNamespace, requestedHandler] = message.split(' ');
   // If it's not a flag, we can safely ignore this command.
   if (!requestedNamespace.includes('!')) {

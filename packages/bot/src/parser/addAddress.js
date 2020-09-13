@@ -1,6 +1,6 @@
 import { validateAddress } from '../web3-utils';
 
-module.exports = function parseAddAddress(message) {
+export function parseAddAddress(message) {
   if (typeof message !== 'string') {
     throw new Error(
       `Parsing command failed, reason: wrong type passed in. Expected string, got ${typeof message}`,

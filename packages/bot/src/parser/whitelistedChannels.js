@@ -1,6 +1,6 @@
-import  { environment } from '../environment';
+import { environment } from '../environment';
 
-module.exports = function parseWhitelistedChannels() {
+export function parseWhitelistedChannels() {
   const channels = environment('WHITELISTED_CHANNELS');
   if (!channels) {
     return ['*'];

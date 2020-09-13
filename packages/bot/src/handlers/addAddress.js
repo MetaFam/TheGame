@@ -12,7 +12,7 @@ import { error, log } from '../utils';
 
 const GITHUB_API_URL = 'https://api.github.com';
 
-module.exports = function addAddress(message) {
+export function addAddress(message) {
   try {
     const address = parseAddAddress(message.content);
     const name = message.author.username;

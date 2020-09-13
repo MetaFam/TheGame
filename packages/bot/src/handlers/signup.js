@@ -12,7 +12,7 @@ import { error, log } from '../utils';
 
 const GITHUB_API_URL = 'https://api.github.com';
 
-module.exports = function signup(message) {
+exports = function signup(message) {
   try {
     const {
       author: { id: userId, username },

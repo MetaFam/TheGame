@@ -3,11 +3,12 @@
   "version": "0.0.1",
   "main": "src/index.js",
   "private": "true",
+  "type": "module",
   "scripts": {
     "precommit": "yarn lint-staged",
     "test": "jest",
     "start": "node src/index.js",
-    "dev": "nodemon src/index.js"
+    "dev": "nodemon --experimental-modules src/index.js"
   },
   "license": "ISC",
   "dependencies": {

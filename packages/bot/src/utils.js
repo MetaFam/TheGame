@@ -16,4 +16,4 @@ function warnOnce(domain, ...args) {
   }
 }
 
-module.exports = { error, log, warnOnce };
+export { error, log, warnOnce };

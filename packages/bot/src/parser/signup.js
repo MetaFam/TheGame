@@ -1,4 +1,4 @@
-module.exports = function parseSignup(message) {
+export function parseSignup(message) {
   const {
     content,
     author: { id: discordId },
