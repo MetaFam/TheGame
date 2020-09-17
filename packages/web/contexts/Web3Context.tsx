@@ -1,22 +1,24 @@
 import WalletConnectProvider from '@walletconnect/web3-provider';
 import { ethers } from 'ethers';
-import { AsyncSendable } from 'ethers/providers';
 import React, { createContext, useCallback, useEffect, useState } from 'react';
-import Web3 from 'web3';
 import Web3Modal from 'web3modal';
 
 import { CONFIG } from '../config';
 
 type Web3ContextType = {
-  ethersProvider: ethers.providers.Web3Provider | null;
+  provider?: ethers.providers.Web3Provider;
   connectWeb3: () => Promise<void>;
   disconnect: () => void;
+  isConnected: boolean;
+  address?: string;
 };
 
 export const Web3Context = createContext<Web3ContextType>({
-  ethersProvider: null,
+  provider: undefined,
   connectWeb3: async () => {},
   disconnect: () => undefined,
+  isConnected: false,
+  address: undefined,
 });
 
 const providerOptions = {
@@ -30,6 +32,10 @@ const providerOptions = {
 
 export const Web3ContextProvider: React.FC = ({ children }) => {
   const [web3Modal, setWeb3Modal] = useState<Web3Modal>();
+  const [provider, setProvider] = useState<ethers.providers.Web3Provider>();
+  const [isConnected, setIsConnected] = useState(false);
+  const [address, setAddress] = useState<string>();
+
   useEffect(() => {
     setWeb3Modal(
       new Web3Modal({
@@ -40,36 +46,26 @@ export const Web3ContextProvider: React.FC = ({ children }) => {
     );
   }, []);
 
-  const [
-    ethersProvider,
-    setEthersProvider,
-  ] = useState<ethers.providers.Web3Provider | null>(null);
-
   const connectWeb3 = useCallback(async () => {
     if (web3Modal) {
       const modalProvider = await web3Modal.connect();
+      const ethersProvider = new ethers.providers.Web3Provider(modalProvider);
 
-      const web3Provider = new Web3(modalProvider);
-      const provider = new ethers.providers.Web3Provider(
-        web3Provider.currentProvider as AsyncSendable,
-      );
-
-      setEthersProvider(provider);
+      setAddress(await ethersProvider.getSigner().getAddress());
+      setProvider(ethersProvider);
+      setIsConnected(true);
     }
   }, [web3Modal]);
 
   const disconnect = useCallback(async () => {
     web3Modal?.clearCachedProvider();
+    setIsConnected(false);
   }, [web3Modal]);
 
-  useEffect(() => {
-    if (web3Modal?.cachedProvider) {
-      connectWeb3().catch(console.error);
-    }
-  }, [web3Modal, connectWeb3]);
-
   return (
-    <Web3Context.Provider value={{ ethersProvider, connectWeb3, disconnect }}>
+    <Web3Context.Provider
+      value={{ provider, connectWeb3, disconnect, isConnected, address }}
+    >
       {children}
     </Web3Context.Provider>
   );
