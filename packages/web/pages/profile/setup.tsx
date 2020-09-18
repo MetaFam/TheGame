@@ -1,15 +1,11 @@
+import { PageContainer } from 'components/Container';
+import { SetupDone } from 'components/Setup/SetupDone';
+import { SetupHeader } from 'components/Setup/SetupHeader';
+import { SetupPersonality } from 'components/Setup/SetupPersonality';
+import { SetupProfession } from 'components/Setup/SetupProfession';
+import { SetupContext, SetupContextProvider } from 'contexts/SetupContext';
+import BackgroundImage from 'public/images/profile-background.jpg';
 import React, { useContext } from 'react';
-
-import { PageContainer } from '../../components/Container';
-import { SetupDone } from '../../components/SetupDone';
-import { SetupHeader } from '../../components/SetupHeader';
-import { SetupPersonality } from '../../components/SetupPersonality';
-import { SetupProfession } from '../../components/SetupProfession';
-import {
-  SetupContext,
-  SetupContextProvider,
-} from '../../contexts/SetupContext';
-import BackgroundImage from '../../public/images/profile-background.jpg';
 
 export const getStaticProps = async () => {
   return {

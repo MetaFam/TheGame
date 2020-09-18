@@ -1,11 +1,10 @@
 import { Box, Flex, Grid, Image, ResponsiveText } from '@metafam/ds';
+import { FlexContainer } from 'components/Container';
+import { SetupContext } from 'contexts/SetupContext';
+import AvatarImage from 'public/images/avatar.png';
+import BackImage from 'public/images/Back.svg';
+import SkipImage from 'public/images/Skip.svg';
 import React, { useContext } from 'react';
-
-import { SetupContext } from '../contexts/SetupContext';
-import AvatarImage from '../public/images/avatar.png';
-import BackImage from '../public/images/Back.svg';
-import SkipImage from '../public/images/Skip.svg';
-import { FlexContainer } from './Container';
 
 export const SetupHeader: React.FC = () => {
   const { step, progress, setStep, numTotalSteps } = useContext(SetupContext);

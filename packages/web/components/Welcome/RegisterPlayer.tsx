@@ -1,9 +1,8 @@
 import { Button, ButtonGroup, MetaHeading } from '@metafam/ds';
+import { FlexContainer } from 'components/Container';
 import { Web3Context } from 'contexts/Web3Context';
 import { useRouter } from 'next/router';
 import React, { useContext } from 'react';
-
-import { FlexContainer } from './Container';
 
 export const RegisterPlayer: React.FC = () => {
   return (
