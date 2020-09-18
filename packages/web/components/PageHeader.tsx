@@ -1,5 +1,6 @@
-import { Box, Button, Flex, Image, MetaButton, Stack } from '@metafam/ds';
+import { Box, Button, Flex, Image, Stack } from '@metafam/ds';
 import { MetaLink } from 'components/Link';
+import { LoginButton } from 'components/LoginButton';
 import React from 'react';
 
 import MetaGameImage from '../public/images/metagame.png';
@@ -96,11 +97,7 @@ export const PageHeader: React.FC = () => {
         justifyContent="center"
         width={{ base: 'full', md: 'auto' }}
       >
-        <MetaLink href="/login">
-          <MetaButton size="md" px={8}>
-            Login
-          </MetaButton>
-        </MetaLink>
+        <LoginButton />
       </Box>
     </Flex>
   );
