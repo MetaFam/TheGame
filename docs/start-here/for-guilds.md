@@ -2,7 +2,6 @@
 title: ⚔️ For Guilds
 ---
 
-# For Guilds
 MetaGame is not just for individual players, MetaGame is for any group of people with a purpose. Regardless of your purpose being building a specific product, or offering a service, MetaGame might have something to assist you.
 
   
