@@ -153,7 +153,7 @@ See [MetaCartel website](https://www.metacartel.org/)
 
 ## MetaFam
 
-The group of people contributing to Metagame. See [MetaFam in the MetaManifesto](/docs/manifesto/metafam-way#metafam).
+The group of people contributing to Metagame. See [MetaFam in the MetaManifesto](/docs/wtf-is-metagame/metafam-way#metafam).
 
 *Alt.*: [MetaFam](https://github.com/MetaFam) the MetaGame organization on GitHub
 
@@ -216,7 +216,7 @@ See [RaidGuild website](https://raidguild.org/)
 
 Roles are sets of behaviours that any MetaGame player can take on. Anyone is free to play multiple roles at any time. Passive roles are more like "wanted behaviours", while main roles require more direct and deliberate actions.
 
-See [Roles in MetaGame](/docs/handbook/roles-in-metagame)
+See [Roles in MetaGame](/docs/enter-metagame/roles-in-metagame)
 
 <!---------------- ⭐️  S  ⭐️ ---------------->
 

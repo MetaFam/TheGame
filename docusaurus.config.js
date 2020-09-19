@@ -8,13 +8,16 @@ module.exports = {
   organizationName: "MetaFam",
   projectName: "metagame-wiki",
   themeConfig: {
+    colorMode: {
+      defaultMode: 'dark',
+    },
     navbar: {
       title: "MetaGame Wiki",
       logo: {
         alt: "MetaGame Logo",
         src: "img/mg-icon.png",
       },
-      links: [
+      items: [
         {
           to: "docs/introduction",
           label: "🐣 Start Here",
@@ -30,7 +33,6 @@ module.exports = {
            label: "👣 Join a Raid",
            position: "left",
          },
-
       ],
     },
     footer: {
@@ -92,4 +94,5 @@ module.exports = {
       },
     ],
   ],
+  plugins: [require.resolve('docusaurus-lunr-search')],
 };

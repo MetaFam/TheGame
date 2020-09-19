@@ -8,7 +8,7 @@ So you've been tumbling down this rabbit hole & are wondering how to actually st
 Well alright! Let's get you geared up! 🤠
 
 First thing to know here is that MetaGame is a *choose-your-own-adventure* game.
-The quests below are the **easiest way for you to join, contribute & earn some [XP](xp.mdx)** - but completing them is not mandatory. You are free to go and start playing any of the open roles listed in the next article, or start contributing directly to one of [ongoing raids](navigation-board.md) displayed on the battlefield.
+The quests below are the **easiest way for you to join, contribute & earn some [XP](/docs/how-does-it-work/xp)** - but completing them is not mandatory. You are free to go and start playing any of the open roles listed in the next article, or start contributing directly to one of [ongoing raids](navigation-board.md) displayed on the battlefield.
 
 ## 🎩 Down the Rabbit Hole You Go 🐇
 ![](https://www.thesixthaxis.com/wp-content/uploads/2020/03/DowntheRabbitHole-Hero500.jpg)
