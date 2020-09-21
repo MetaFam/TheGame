@@ -1,14 +1,10 @@
 import { Image, MetaButton, MetaHeading, Text } from '@metafam/ds';
+import { FlexContainer } from 'components/Container';
+import { MetaLink } from 'components/Link';
+import PlayersImage from 'public/images/players.png';
 import React from 'react';
 
-import PlayersImage from '../public/images/players.png';
-import { FlexContainer } from './Container';
-
-type Props = {
-  next: () => void;
-};
-
-export const WelcomePlayer: React.FC<Props> = ({ next }) => {
+export const WelcomePlayer: React.FC = () => {
   return (
     <FlexContainer flex={1} maxWidth="45rem">
       <Image src={PlayersImage} />
@@ -19,14 +15,9 @@ export const WelcomePlayer: React.FC<Props> = ({ next }) => {
         self-interest is better aligned with the common good & the ones creating
         value are more directly rewarded.
       </Text>
-      <MetaButton
-        onClick={() => {
-          next();
-        }}
-        mt={10}
-      >
-        Register
-      </MetaButton>
+      <MetaLink href="/register" _hover={{ textDecoration: 'none' }}>
+        <MetaButton mt={10}>Register</MetaButton>
+      </MetaLink>
     </FlexContainer>
   );
 };

@@ -1,10 +1,9 @@
 import { Image, MetaButton, MetaHeading, Text } from '@metafam/ds';
+import { FlexContainer } from 'components/Container';
+import { MetaLink } from 'components/Link';
 import { useRouter } from 'next/router';
+import AvatarImage from 'public/images/avatar.png';
 import React from 'react';
-
-import AvatarImage from '../public/images/avatar.png';
-import { FlexContainer } from './Container';
-import { MetaLink } from './Link';
 
 export const SuccessPlayer: React.FC = () => {
   const router = useRouter();
