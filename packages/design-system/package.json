@@ -35,7 +35,7 @@
     "@storybook/addon-info": "^5.3.19",
     "@storybook/addon-links": "^5.3.19",
     "@storybook/addons": "^5.3.19",
-    "@storybook/react": "^5.3.19",
+    "@storybook/react": "^6.0.21",
     "babel-loader": "^8.1.0",
     "react-docgen-typescript-loader": "^3.7.2",
     "react-dom": "^16.13.1",
