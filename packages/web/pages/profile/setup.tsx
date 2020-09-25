@@ -24,11 +24,11 @@ const ProfileSetup: React.FC = () => {
 
 export const getStaticProps = async () => {
   const skills = await getSkills();
-  const skillsMap = parseSkills(skills);
+  const skillsList = parseSkills(skills);
 
   return {
     props: {
-      skillsMap,
+      skillsList,
       hidePageHeader: true,
     },
   };
@@ -36,8 +36,8 @@ export const getStaticProps = async () => {
 
 export type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
-const ProfileSetupWithContext: React.FC<Props> = ({ skillsMap }) => (
-  <SetupContextProvider skillsMap={skillsMap}>
+const ProfileSetupWithContext: React.FC<Props> = ({ skillsList }) => (
+  <SetupContextProvider skillsList={skillsList}>
     <ProfileSetup />
   </SetupContextProvider>
 );
