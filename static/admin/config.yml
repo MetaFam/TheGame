@@ -3,7 +3,6 @@ backend:
   repo: MetaFam/metagame-wiki
   branch: master
   squash_merges: true
-  open_authoring: true
 publish_mode: editorial_workflow
 media_folder: "static/img"
 public_folder: "img"
