@@ -1,25 +1,26 @@
 import React from 'react';
-import Select, { Styles, Props as SelectProps } from 'react-select';
+import Select, { Props as SelectProps, Styles } from 'react-select';
+
 import { theme } from './theme';
 
 const selectStyles: Styles = {
-  menu: styles => ({
+  menu: (styles) => ({
     ...styles,
     background: theme.colors.purple[400],
   }),
-  noOptionsMessage: styles => ({
+  noOptionsMessage: (styles) => ({
     ...styles,
     color: theme.colors.white,
   }),
-  input: styles => ({
+  input: (styles) => ({
     ...styles,
     color: theme.colors.white,
   }),
-  groupHeading: styles => ({
+  groupHeading: (styles) => ({
     ...styles,
     color: theme.colors.white,
   }),
-  option: styles => ({
+  option: (styles) => ({
     ...styles,
     background: theme.colors.dark,
     ':hover': {
@@ -27,46 +28,46 @@ const selectStyles: Styles = {
       color: theme.colors.white,
     },
   }),
-  control: styles => ({
+  control: (styles) => ({
     ...styles,
     background: theme.colors.dark,
     border: theme.colors.dark,
   }),
-  multiValue: styles => ({
+  multiValue: (styles) => ({
     ...styles,
     background: theme.colors.purpleTag,
     color: theme.colors.white,
   }),
-  multiValueLabel: styles => ({
+  multiValueLabel: (styles) => ({
     ...styles,
     background: theme.colors.purpleTag,
     color: theme.colors.white,
   }),
-  multiValueRemove: styles => ({
+  multiValueRemove: (styles) => ({
     ...styles,
     color: theme.colors.white,
     cursor: 'pointer',
     ':hover': {
-      color: theme.colors.offwhite,
+      color: theme.colors.blueLight,
     },
   }),
-  clearIndicator: styles => ({
+  clearIndicator: (styles) => ({
     ...styles,
     color: theme.colors.white,
     cursor: 'pointer',
     ':hover': {
-      color: theme.colors.offwhite,
+      color: theme.colors.blueLight,
     },
   }),
-  dropdownIndicator: styles => ({
+  dropdownIndicator: (styles) => ({
     ...styles,
     color: theme.colors.white,
     cursor: 'pointer',
     ':hover': {
-      color: theme.colors.offwhite,
+      color: theme.colors.blueLight,
     },
   }),
 };
-export const SelectSearch: React.FC<SelectProps> = props => (
+export const SelectSearch: React.FC<SelectProps> = (props) => (
   <Select styles={selectStyles} {...props} />
 );

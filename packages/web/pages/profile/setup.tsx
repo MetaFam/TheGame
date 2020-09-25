@@ -5,10 +5,10 @@ import { SetupPersonality } from 'components/Setup/SetupPersonality';
 import { SetupProfession } from 'components/Setup/SetupProfession';
 import { SetupContext, SetupContextProvider } from 'contexts/SetupContext';
 import { getSkills } from 'graphql/getSkills';
-import { parseSkills } from 'utils/skillHelpers';
 import { InferGetStaticPropsType } from 'next';
 import BackgroundImage from 'public/images/profile-background.jpg';
 import React, { useContext } from 'react';
+import { parseSkills } from 'utils/skillHelpers';
 
 const ProfileSetup: React.FC = () => {
   const { step, numTotalSteps } = useContext(SetupContext);

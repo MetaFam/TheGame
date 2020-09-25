@@ -16,18 +16,18 @@ export type CategoryOption = {
 
 export const parseSkills = (skills: Array<Skill>): Array<CategoryOption> => {
   const skillsMap: SkillMap = {};
-  for (const skill of skills) {
+  skills.map((skill) => {
     if (!(skill.category in skillsMap)) {
       skillsMap[skill.category] = {
         label: skill.category,
         options: [],
       };
     }
-    skillsMap[skill.category].options?.push({
+    return skillsMap[skill.category].options?.push({
       value: skill.id,
       label: skill.name,
       ...skill,
     });
-  }
+  });
   return Object.values(skillsMap);
 };

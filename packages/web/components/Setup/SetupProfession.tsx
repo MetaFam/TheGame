@@ -1,8 +1,9 @@
 import { MetaButton, MetaHeading } from '@metafam/ds';
 import { FlexContainer } from 'components/Container';
-import { SetupSkills } from './SetupSkills';
 import { SetupContext } from 'contexts/SetupContext';
 import React, { useContext } from 'react';
+
+import { SetupSkills } from './SetupSkills';
 
 export const SetupProfession: React.FC = () => {
   const { useProgress } = useContext(SetupContext);

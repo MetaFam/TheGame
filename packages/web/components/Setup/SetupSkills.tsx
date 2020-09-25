@@ -1,10 +1,8 @@
 import { MetaHeading, SelectSearch } from '@metafam/ds';
-import React, { useContext } from 'react';
-
-import { SetupContext } from 'contexts/SetupContext';
 import { FlexContainer } from 'components/Container';
+import { SetupContext } from 'contexts/SetupContext';
+import React, { useContext } from 'react';
 import { SkillOption } from 'utils/skillHelpers';
-
 
 export const SetupSkills: React.FC = () => {
   const { skillsList, skills, setSkills } = useContext(SetupContext);

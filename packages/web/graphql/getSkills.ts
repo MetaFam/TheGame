@@ -1,4 +1,5 @@
 import gql from 'fake-tag';
+
 import { GetSkillsQuery } from './autogen/types';
 import { client } from './client';
 

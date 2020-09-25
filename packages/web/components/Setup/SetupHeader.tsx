@@ -14,7 +14,7 @@ export const SetupHeader: React.FC = () => {
         justify="flex-end"
         onClick={() => {
           if (step > 0) {
-            setStep(_step => (_step - 1) % numTotalSteps);
+            setStep((_step) => (_step - 1) % numTotalSteps);
           }
         }}
         cursor="pointer"
@@ -48,7 +48,7 @@ export const SetupHeader: React.FC = () => {
         justify="flex-end"
         onClick={() => {
           if ((step + 1) % numTotalSteps !== 0) {
-            setStep(_step => (_step + 1) % numTotalSteps);
+            setStep((_step) => (_step + 1) % numTotalSteps);
           }
         }}
         cursor="pointer"

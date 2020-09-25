@@ -37,7 +37,7 @@ export const SetupContextProvider: React.FC<Props> = ({
   const [progress, setProgress] = useState<number>(0.5);
   const numTotalSteps = 3;
 
-  const useProgress: SetupContextType['useProgress'] = numProgressSteps => {
+  const useProgress: SetupContextType['useProgress'] = (numProgressSteps) => {
     const [currentProgress, setCurrentProgress] = useState<number>(0);
 
     useEffect(() => {
@@ -47,10 +47,10 @@ export const SetupContextProvider: React.FC<Props> = ({
 
     const onNextPress = () => {
       if ((currentProgress + 1) % numProgressSteps === 0) {
-        setStep(_step => (_step + 1) % numTotalSteps);
+        setStep((_step) => (_step + 1) % numTotalSteps);
       } else {
         setCurrentProgress(
-          _currentProgress => (_currentProgress + 1) % numProgressSteps,
+          (_currentProgress) => (_currentProgress + 1) % numProgressSteps,
         );
       }
     };
