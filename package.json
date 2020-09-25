@@ -7,9 +7,9 @@
   },
   "private": true,
   "scripts": {
-    "docker:start": "sudo docker-compose up --build -d",
-    "docker:stop": "sudo docker-compose down",
-    "docker:clean": "sudo docker-compose down -v",
+    "docker:start": "docker-compose up --build -d",
+    "docker:stop": "docker-compose down",
+    "docker:clean": "docker-compose down -v",
     "app:start": "CI=true lerna run start --parallel --scope @metafam/app-react --scope @metafam/utils",
     "app:build": "lerna run build --scope @metafam/app-react --include-dependencies --stream",
     "web:dev": "lerna run dev --parallel --scope @metafam/web --scope @metafam/ds",
