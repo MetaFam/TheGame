@@ -1,0 +1,103 @@
+backend:
+  name: github
+  repo: MetaFam/metagame-wiki
+  branch: master
+  squash_merges: true
+  open_authoring: true
+publish_mode: editorial_workflow
+media_folder: "static/img"
+public_folder: "img"
+site_url: https://wiki.metagame.wtf
+logo_url: https://wiki.metagame.wtf/img/mg-icon.png
+collections:
+  - name: "enter-metagame"
+    label: "Enter Metagame"
+    folder: "docs/enter-metagame"
+    create: true
+    slug: "{{slug}}"
+    preview_path: "docs/enter-metagame/{{slug}}"
+    editor:
+      preview: false
+    fields:
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Description", name: "description", widget: "string", required: false, hint: "The description of the post which will be used by search engines and link previews. If not present, will default to the first line of the post contents."}
+      - {label: "Cover Image",name: "image", widget: "image", required: false,  hint: "Cover or thumbnail image that will be used when displaying the link to the post."}
+      - {label: "Body", name: "body", widget: "markdown"}
+  - name: "Guilding"
+    label: "Guilding"
+    folder: "docs/Guilding"
+    create: true
+    slug: "{{slug}}"
+    preview_path: "docs/Guilding/{{slug}}"
+    editor:
+      preview: false
+    fields:
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Description", name: "description", widget: "string", required: false, hint: "The description of the post which will be used by search engines and link previews. If not present, will default to the first line of the post contents."}
+      - {label: "Cover Image",name: "image", widget: "image", required: false,  hint: "Cover or thumbnail image that will be used when displaying the link to the post."}
+      - {label: "Body", name: "body", widget: "markdown"}
+  - name: "how-does-it-work"
+    label: "How Does It Work"
+    folder: "docs/how-does-it-work"
+    create: true
+    slug: "{{slug}}"
+    preview_path: "docs/how-does-it-work/{{slug}}"
+    editor:
+      preview: false
+    fields:
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Description", name: "description", widget: "string", required: false, hint: "The description of the post which will be used by search engines and link previews. If not present, will default to the first line of the post contents."}
+      - {label: "Cover Image",name: "image", widget: "image", required: false,  hint: "Cover or thumbnail image that will be used when displaying the link to the post."}
+      - {label: "Body", name: "body", widget: "markdown"}
+  - name: "Players"
+    label: "Players"
+    folder: "docs/Players"
+    create: true
+    slug: "{{slug}}"
+    preview_path: "docs/Players/{{slug}}"
+    editor:
+      preview: false
+    fields:
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Description", name: "description", widget: "string", required: false, hint: "The description of the post which will be used by search engines and link previews. If not present, will default to the first line of the post contents."}
+      - {label: "Cover Image",name: "image", widget: "image", required: false,  hint: "Cover or thumbnail image that will be used when displaying the link to the post."}
+      - {label: "Body", name: "body", widget: "markdown"}
+  - name: "resources"
+    label: "Resources"
+    folder: "docs/resources"
+    create: true
+    slug: "{{slug}}"
+    preview_path: "docs/resources/{{slug}}"
+    editor:
+      preview: false
+    fields:
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Description", name: "description", widget: "string", required: false, hint: "The description of the post which will be used by search engines and link previews. If not present, will default to the first line of the post contents."}
+      - {label: "Cover Image",name: "image", widget: "image", required: false,  hint: "Cover or thumbnail image that will be used when displaying the link to the post."}
+      - {label: "Body", name: "body", widget: "markdown"}
+  - name: "start-here"
+    label: "Start Here"
+    folder: "docs/start-here"
+    create: true
+    slug: "{{slug}}"
+    preview_path: "docs/start-here/{{slug}}"
+    editor:
+      preview: false
+    fields:
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Description", name: "description", widget: "string", required: false, hint: "The description of the post which will be used by search engines and link previews. If not present, will default to the first line of the post contents."}
+      - {label: "Cover Image",name: "image", widget: "image", required: false,  hint: "Cover or thumbnail image that will be used when displaying the link to the post."}
+      - {label: "Body", name: "body", widget: "markdown"}
+  - name: "wtf-is-metagame"
+    label: "WTF is MetaGame"
+    folder: "docs/wtf-is-metagame"
+    create: true
+    slug: "{{slug}}"
+    preview_path: "docs/wtf-is-metagame/{{slug}}"
+    editor:
+      preview: false
+    fields:
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Description", name: "description", widget: "string", required: false, hint: "The description of the post which will be used by search engines and link previews. If not present, will default to the first line of the post contents."}
+      - {label: "Cover Image",name: "image", widget: "image", required: false,  hint: "Cover or thumbnail image that will be used when displaying the link to the post."}
+      - {label: "Body", name: "body", widget: "markdown"}

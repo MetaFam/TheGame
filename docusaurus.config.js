@@ -86,7 +86,8 @@ module.exports = {
       {
         docs: {
           sidebarPath: require.resolve("./sidebars.js"),
-          editUrl: "https://github.com/MetaFam/metagame-wiki/edit/master/",
+          editUrl:
+            'https://wiki.metagame.wtf/admin/#/?',
         },
         theme: {
           customCss: require.resolve("./src/css/custom.css"),
