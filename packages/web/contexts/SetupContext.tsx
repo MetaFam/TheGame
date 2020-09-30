@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { CategoryOption, SkillOption } from 'utils/skillHelpers';
 
 type SetupContextType = {
   useProgress: (numProgressSteps: number) => [number, () => void];
@@ -7,6 +8,9 @@ type SetupContextType = {
   setStep: React.Dispatch<React.SetStateAction<number>>;
   setProgress: React.Dispatch<React.SetStateAction<number>>;
   numTotalSteps: number;
+  skills: Array<SkillOption>;
+  setSkills: React.Dispatch<React.SetStateAction<Array<SkillOption>>>;
+  skillsList: Array<CategoryOption>;
 };
 
 export const SetupContext = React.createContext<SetupContextType>({
@@ -16,9 +20,19 @@ export const SetupContext = React.createContext<SetupContextType>({
   setStep: () => undefined,
   setProgress: () => undefined,
   numTotalSteps: 0,
+  skills: [],
+  setSkills: () => undefined,
+  skillsList: [],
 });
 
-export const SetupContextProvider: React.FC = ({ children }) => {
+type Props = {
+  skillsList: Array<CategoryOption>;
+};
+
+export const SetupContextProvider: React.FC<Props> = ({
+  children,
+  skillsList,
+}) => {
   const [step, setStep] = useState<number>(0);
   const [progress, setProgress] = useState<number>(0.5);
   const numTotalSteps = 3;
@@ -44,6 +58,8 @@ export const SetupContextProvider: React.FC = ({ children }) => {
     return [currentProgress, onNextPress];
   };
 
+  const [skills, setSkills] = useState<Array<SkillOption>>([]);
+
   return (
     <SetupContext.Provider
       value={{
@@ -53,6 +69,9 @@ export const SetupContextProvider: React.FC = ({ children }) => {
         setStep,
         setProgress,
         numTotalSteps,
+        skills,
+        setSkills,
+        skillsList,
       }}
     >
       {children}
