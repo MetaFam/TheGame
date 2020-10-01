@@ -4,14 +4,14 @@ import { SetupContext } from 'contexts/SetupContext';
 import React, { useContext } from 'react';
 
 export const SetupAvailability: React.FC = () => {
-  const { onNextPress } = useContext(SetupContext);
+  const { onNextPress, nextButtonLabel } = useContext(SetupContext);
   return (
     <FlexContainer>
       <MetaHeading mb={10} textAlign="center">
         Availability
       </MetaHeading>
-      <MetaButton onClick={onNextPress} mt={10} w="auto">
-        Next Step
+      <MetaButton onClick={onNextPress} mt={10}>
+        {nextButtonLabel}
       </MetaButton>
     </FlexContainer>
   );

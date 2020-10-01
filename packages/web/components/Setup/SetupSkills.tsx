@@ -5,9 +5,13 @@ import React, { useContext } from 'react';
 import { SkillOption } from 'utils/skillHelpers';
 
 export const SetupSkills: React.FC = () => {
-  const { skillsList, skills, setSkills, onNextPress } = useContext(
-    SetupContext,
-  );
+  const {
+    skillsList,
+    skills,
+    setSkills,
+    onNextPress,
+    nextButtonLabel,
+  } = useContext(SetupContext);
 
   return (
     <FlexContainer>
@@ -24,7 +28,7 @@ export const SetupSkills: React.FC = () => {
         />
       </FlexContainer>
       <MetaButton onClick={onNextPress} mt={10}>
-        Next Step
+        {nextButtonLabel}
       </MetaButton>
     </FlexContainer>
   );

@@ -4,14 +4,14 @@ import { SetupContext } from 'contexts/SetupContext';
 import React, { useContext } from 'react';
 
 export const SetupPlayerType: React.FC = () => {
-  const { onNextPress } = useContext(SetupContext);
+  const { onNextPress, nextButtonLabel } = useContext(SetupContext);
   return (
     <FlexContainer>
       <MetaHeading mb={10} textAlign="center">
         Player Type
       </MetaHeading>
       <MetaButton onClick={onNextPress} mt={10}>
-        Next Step
+        {nextButtonLabel}
       </MetaButton>
     </FlexContainer>
   );

@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { options } from 'utils/setupOptions';
 import { CategoryOption, SkillOption } from 'utils/skillHelpers';
 
@@ -7,6 +7,7 @@ type SetupContextType = {
   screen: number;
   onNextPress: () => void;
   onBackPress: () => void;
+  nextButtonLabel: string;
   numTotalSteps: number;
   skills: Array<SkillOption>;
   setSkills: React.Dispatch<React.SetStateAction<Array<SkillOption>>>;
@@ -18,6 +19,7 @@ export const SetupContext = React.createContext<SetupContextType>({
   screen: 0,
   onNextPress: () => undefined,
   onBackPress: () => undefined,
+  nextButtonLabel: 'Next Step',
   numTotalSteps: 0,
   skills: [],
   setSkills: () => undefined,
@@ -35,6 +37,21 @@ export const SetupContextProvider: React.FC<Props> = ({
   const [step, setStep] = useState<number>(0);
   const [screen, setScreen] = useState<number>(0);
   const numTotalSteps = options.length;
+  const [nextButtonLabel, setNextButtonLabel] = useState('Next Step');
+
+  useEffect(() => {
+    const numScreens = options[step].screens.length;
+    if (step >= numTotalSteps - 1) {
+      setNextButtonLabel(options[(step + 1) % numTotalSteps].label);
+    }
+    if (screen + 1 >= numScreens) {
+      setNextButtonLabel(`Next: ${options[(step + 1) % numTotalSteps].label}`);
+    } else {
+      setNextButtonLabel(
+        `Next: ${options[step].screens[(screen + 1) % numScreens].label}`,
+      );
+    }
+  }, [step, screen, setNextButtonLabel, numTotalSteps]);
 
   const onNextPress = useCallback(() => {
     const numScreens = options[step].screens.length;
@@ -68,6 +85,7 @@ export const SetupContextProvider: React.FC<Props> = ({
         numTotalSteps,
         onNextPress,
         onBackPress,
+        nextButtonLabel,
         // data
         skills,
         setSkills,

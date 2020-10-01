@@ -6,7 +6,7 @@ export const MetaButton: React.FC<ButtonProps> = ({ children, ...props }) => (
     colorScheme="purple"
     textTransform="uppercase"
     px={12}
-    letterSpacing="0.1rem"
+    letterSpacing="0.1em"
     size="lg"
     fontSize="sm"
     {...props}

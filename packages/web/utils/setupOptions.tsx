@@ -8,43 +8,43 @@ import React from 'react';
 
 export const options = [
   {
-    id: 'personality',
+    label: 'Personality',
     title: { base: 'About You', sm: '1. About You' },
     screens: [
       {
-        id: 'personalityType',
+        label: 'Personality Type',
         component: <SetupPersonalityType />,
       },
       {
-        id: 'playerType',
+        label: 'Player Type',
         component: <SetupPlayerType />,
       },
     ],
   },
   {
-    id: 'profession',
+    label: 'Portfolio',
     title: {
       base: 'Portfolio',
       sm: '2. Portfolio',
-      lg: '2. Professional Portfolio',
+      lg: '2. Professional Profile',
     },
     screens: [
       {
-        id: 'skills',
+        label: 'Skills',
         component: <SetupSkills />,
       },
       {
-        id: 'availability',
+        label: 'Availability',
         component: <SetupAvailability />,
       },
       {
-        id: 'memberships',
+        label: 'Memberships',
         component: <SetupMemberships />,
       },
     ],
   },
   {
-    id: 'done',
+    label: 'Start Playing',
     title: {
       base: 'Play',
       sm: '3. Play',
@@ -52,7 +52,7 @@ export const options = [
     },
     screens: [
       {
-        id: 'done',
+        label: 'Done',
         component: <SetupDone />,
       },
     ],
