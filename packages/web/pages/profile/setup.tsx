@@ -1,23 +1,21 @@
-import { PageContainer } from 'components/Container';
-import { SetupDone } from 'components/Setup/SetupDone';
+import { FlexContainer, PageContainer } from 'components/Container';
 import { SetupHeader } from 'components/Setup/SetupHeader';
-import { SetupPersonality } from 'components/Setup/SetupPersonality';
-import { SetupProfession } from 'components/Setup/SetupProfession';
 import { SetupContext, SetupContextProvider } from 'contexts/SetupContext';
 import { getSkills } from 'graphql/getSkills';
 import { InferGetStaticPropsType } from 'next';
 import BackgroundImage from 'public/images/profile-background.jpg';
 import React, { useContext } from 'react';
+import { options } from 'utils/setupOptions';
 import { parseSkills } from 'utils/skillHelpers';
 
 const ProfileSetup: React.FC = () => {
-  const { step, numTotalSteps } = useContext(SetupContext);
+  const { step, screen, numTotalSteps } = useContext(SetupContext);
   return (
     <PageContainer backgroundImage={`url(${BackgroundImage})`}>
       {(step + 1) % numTotalSteps !== 0 && <SetupHeader />}
-      {step === 0 && <SetupPersonality />}
-      {step === 1 && <SetupProfession />}
-      {step === 2 && <SetupDone />}
+      <FlexContainer flex={1}>
+        {options[step].screens[screen].component}
+      </FlexContainer>
     </PageContainer>
   );
 };

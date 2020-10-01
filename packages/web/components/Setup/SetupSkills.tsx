@@ -1,22 +1,31 @@
-import { MetaHeading, SelectSearch } from '@metafam/ds';
+import { MetaButton, MetaHeading, SelectSearch } from '@metafam/ds';
 import { FlexContainer } from 'components/Container';
 import { SetupContext } from 'contexts/SetupContext';
 import React, { useContext } from 'react';
 import { SkillOption } from 'utils/skillHelpers';
 
 export const SetupSkills: React.FC = () => {
-  const { skillsList, skills, setSkills } = useContext(SetupContext);
+  const { skillsList, skills, setSkills, onNextPress } = useContext(
+    SetupContext,
+  );
 
   return (
-    <FlexContainer mb={10} align="stretch">
-      <MetaHeading mb={10}>What are your superpowers?</MetaHeading>
-      <SelectSearch
-        isMulti
-        value={skills}
-        onChange={(value) => setSkills(value as Array<SkillOption>)}
-        options={skillsList}
-        placeholder="ADD YOUR SKILLS"
-      />
+    <FlexContainer>
+      <MetaHeading mb={10} textAlign="center">
+        What are your superpowers?
+      </MetaHeading>
+      <FlexContainer w="100%" align="stretch">
+        <SelectSearch
+          isMulti
+          value={skills}
+          onChange={(value) => setSkills(value as Array<SkillOption>)}
+          options={skillsList}
+          placeholder="ADD YOUR SKILLS"
+        />
+      </FlexContainer>
+      <MetaButton onClick={onNextPress} mt={10}>
+        Next Step
+      </MetaButton>
     </FlexContainer>
   );
 };
