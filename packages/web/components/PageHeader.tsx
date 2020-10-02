@@ -1,7 +1,7 @@
 import { Box, Button, Flex, Image, Stack } from '@metafam/ds';
+import MetaGameImage from 'assets/metagame.png';
 import { MetaLink } from 'components/Link';
 import { LoginButton } from 'components/LoginButton';
-import MetaGameImage from 'assets/metagame.png';
 import React from 'react';
 
 const MenuItem: React.FC<React.ComponentProps<typeof MetaLink>> = ({
@@ -45,7 +45,7 @@ export const PageHeader: React.FC = () => {
       px="8"
     >
       <MetaLink href="/" display="block" mr="10">
-        <Image src={MetaGameImage} alt="MetaGame" mt={-2} />
+        <Image src={MetaGameImage} alt="MetaGame" mt={-2} w="9rem" />
       </MetaLink>
 
       <Button

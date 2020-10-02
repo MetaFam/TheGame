@@ -1,9 +1,9 @@
 import { Box, Flex, Grid, Image, ResponsiveText } from '@metafam/ds';
-import { FlexContainer } from 'components/Container';
-import { SetupContext } from 'contexts/SetupContext';
 import AvatarImage from 'assets/avatar.png';
 import BackImage from 'assets/Back.svg';
 import SkipImage from 'assets/Skip.svg';
+import { FlexContainer } from 'components/Container';
+import { SetupContext } from 'contexts/SetupContext';
 import React, { useContext } from 'react';
 import { options } from 'utils/setupOptions';
 

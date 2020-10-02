@@ -1,20 +1,18 @@
+import AchieverImage from 'assets/achiever.png';
+import ChallengerImage from 'assets/challenger.png';
+import EnthusiastImage from 'assets/enthusiast.png';
+import HelperImage from 'assets/helper.png';
+import IndividualistImage from 'assets/individualist.png';
+import InvestigatorImage from 'assets/investigator.png';
+import LoyalistImage from 'assets/loyalist.png';
+import PeacemakerImage from 'assets/peacemaker.png';
+import ReformerImage from 'assets/reformer.png';
 import { SetupAvailability } from 'components/Setup/SetupAvailability';
 import { SetupDone } from 'components/Setup/SetupDone';
 import { SetupMemberships } from 'components/Setup/SetupMemberships';
 import { SetupPersonalityType } from 'components/Setup/SetupPersonalityType';
 import { SetupPlayerType } from 'components/Setup/SetupPlayerType';
 import { SetupSkills } from 'components/Setup/SetupSkills';
-
-import ReformerImage from 'assets/reformer.png';
-import HelperImage from 'assets/helper.png';
-import AchieverImage from 'assets/achiever.png';
-import IndividualistImage from 'assets/individualist.png';
-import InvestigatorImage from 'assets/investigator.png';
-import LoyalistImage from 'assets/loyalist.png';
-import EnthusiastImage from 'assets/enthusiast.png';
-import ChallengerImage from 'assets/challenger.png';
-import PeacemakerImage from 'assets/peacemaker.png';
-
 import React from 'react';
 
 export const options = [
@@ -70,7 +68,14 @@ export const options = [
   },
 ];
 
-export const personalities = [
+export type PersonalityType = {
+  id: string;
+  name: string;
+  description: string;
+  image: string;
+};
+
+export const personalities: Array<PersonalityType> = [
   {
     id: '1',
     name: 'The Reformer',
