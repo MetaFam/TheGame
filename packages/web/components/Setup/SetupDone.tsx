@@ -8,7 +8,9 @@ export const SetupDone: React.FC = () => {
   return (
     <FlexContainer flex={1}>
       <MetaHeading mb={10}>Game on!</MetaHeading>
-      <MetaButton onClick={() => router.push('/')}>Play</MetaButton>
+      <MetaButton onClick={() => router.push('/')} px={20} py={8} fontSize="xl">
+        Play
+      </MetaButton>
     </FlexContainer>
   );
 };

@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
+import { options } from 'utils/setupOptions';
 import { CategoryOption, SkillOption } from 'utils/skillHelpers';
 
 type SetupContextType = {
-  useProgress: (numProgressSteps: number) => [number, () => void];
   step: number;
-  progress: number;
-  setStep: React.Dispatch<React.SetStateAction<number>>;
-  setProgress: React.Dispatch<React.SetStateAction<number>>;
+  screen: number;
+  onNextPress: () => void;
+  onBackPress: () => void;
+  nextButtonLabel: string;
   numTotalSteps: number;
   skills: Array<SkillOption>;
   setSkills: React.Dispatch<React.SetStateAction<Array<SkillOption>>>;
@@ -14,11 +15,11 @@ type SetupContextType = {
 };
 
 export const SetupContext = React.createContext<SetupContextType>({
-  useProgress: (numProgressSteps: number) => [numProgressSteps, () => {}],
   step: 0,
-  progress: 0,
-  setStep: () => undefined,
-  setProgress: () => undefined,
+  screen: 0,
+  onNextPress: () => undefined,
+  onBackPress: () => undefined,
+  nextButtonLabel: 'Next Step',
   numTotalSteps: 0,
   skills: [],
   setSkills: () => undefined,
@@ -34,41 +35,58 @@ export const SetupContextProvider: React.FC<Props> = ({
   skillsList,
 }) => {
   const [step, setStep] = useState<number>(0);
-  const [progress, setProgress] = useState<number>(0.5);
-  const numTotalSteps = 3;
+  const [screen, setScreen] = useState<number>(0);
+  const numTotalSteps = options.length;
+  const [nextButtonLabel, setNextButtonLabel] = useState('Next Step');
 
-  const useProgress: SetupContextType['useProgress'] = (numProgressSteps) => {
-    const [currentProgress, setCurrentProgress] = useState<number>(0);
+  useEffect(() => {
+    const numScreens = options[step].screens.length;
+    if (step >= numTotalSteps - 1) {
+      setNextButtonLabel(options[(step + 1) % numTotalSteps].label);
+    }
+    if (screen + 1 >= numScreens) {
+      setNextButtonLabel(`Next: ${options[(step + 1) % numTotalSteps].label}`);
+    } else {
+      setNextButtonLabel(
+        `Next: ${options[step].screens[(screen + 1) % numScreens].label}`,
+      );
+    }
+  }, [step, screen, setNextButtonLabel, numTotalSteps]);
 
-    useEffect(() => {
-      const progressValue = (currentProgress + 1) / numProgressSteps;
-      setProgress(progressValue);
-    }, [currentProgress, numProgressSteps]);
+  const onNextPress = useCallback(() => {
+    const numScreens = options[step].screens.length;
+    if (step >= numTotalSteps - 1 && screen >= numScreens - 1) return;
+    if (screen + 1 >= numScreens) {
+      setStep((step + 1) % numTotalSteps);
+      setScreen(0);
+    } else {
+      setScreen((screen + 1) % numScreens);
+    }
+  }, [step, screen, setStep, setScreen, numTotalSteps]);
 
-    const onNextPress = () => {
-      if ((currentProgress + 1) % numProgressSteps === 0) {
-        setStep((_step) => (_step + 1) % numTotalSteps);
-      } else {
-        setCurrentProgress(
-          (_currentProgress) => (_currentProgress + 1) % numProgressSteps,
-        );
-      }
-    };
-
-    return [currentProgress, onNextPress];
-  };
+  const onBackPress = useCallback(() => {
+    if (step <= 0 && screen <= 0) return;
+    const numScreens = options[step].screens.length;
+    if (screen <= 0) {
+      setStep((step - 1) % numTotalSteps);
+      setScreen(options[(step - 1) % numTotalSteps].screens.length - 1);
+    } else {
+      setScreen((screen - 1) % numScreens);
+    }
+  }, [step, screen, setStep, setScreen, numTotalSteps]);
 
   const [skills, setSkills] = useState<Array<SkillOption>>([]);
 
   return (
     <SetupContext.Provider
       value={{
-        useProgress,
         step,
-        progress,
-        setStep,
-        setProgress,
+        screen,
         numTotalSteps,
+        onNextPress,
+        onBackPress,
+        nextButtonLabel,
+        // data
         skills,
         setSkills,
         skillsList,
