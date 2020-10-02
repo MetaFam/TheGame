@@ -29,6 +29,7 @@ module.exports = {
       "enter-metagame/leaderboard",
     ],
     "⚔️ Guilding": [
+      "Guilding/what-why-how-of-your-dao",
       "Guilding/guilding-101",
       "Guilding/building-successful-teams",
     ],
