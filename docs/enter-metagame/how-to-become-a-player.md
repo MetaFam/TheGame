@@ -15,7 +15,7 @@ The quests below are the **easiest way for you to join, contribute & earn some [
 This quest is the easiest way of joining MetaGame.
 It gives you basic understanding of MetaGame, it gives MetaGame the basic understanding of you, it connects you to the *Realizing MetaGame* update stream & officially makes you a player of MetaGame.
 ### ❓ To accomplish:
-- Read [WTF is MetaGame](https://wiki.metagame.wtf/docs/handbook/wtf-is-metagame),
+- Read [WTF is MetaGame](https://wiki.metagame.wtf/docs/wtf-is-metagame/wtf-is-metagame),
 - subscribe to the "[Realizing The MetaGame](https://metagame.substack.com/)" newsletter.
 - & [Introduce yourself](https://forum.metagame.wtf/t/who-are-you-really/142) on the forums.
 ### ✅ To complete:
