@@ -75,7 +75,7 @@ export type PersonalityType = {
   image: string;
 };
 
-export const personalities: Array<PersonalityType> = [
+export const personalityTypes: Array<PersonalityType> = [
   {
     id: '1',
     name: 'The Reformer',
@@ -129,5 +129,32 @@ export const personalities: Array<PersonalityType> = [
     name: 'The Peacemaker',
     description: 'Receptive, Reassuring, Agreeable, and Complacent',
     image: PeacemakerImage,
+  },
+];
+
+export type PlayerType = {
+  id: string;
+  name: string;
+  description: string;
+};
+
+export const playerTypes = [
+  {
+    id: '1',
+    name: 'Pioneer',
+    description:
+      'Aliqua id fugiat nostrud irure ex duis ea quis id quis ad et. Sunt qui esse pariatur duis deserunt mollit dolore cillum minim tempor enim. Elit aute irure tempor cupidatat incididunt sint deserunt ut voluptate aute id deserunt nisi.',
+  },
+  {
+    id: '2',
+    name: 'Settler',
+    description:
+      'Aliqua id fugiat nostrud irure ex duis ea quis id quis ad et. Sunt qui esse pariatur duis deserunt mollit dolore cillum minim tempor enim. Elit aute irure tempor cupidatat incididunt sint deserunt ut voluptate aute id deserunt nisi.',
+  },
+  {
+    id: '3',
+    name: 'Town Planner',
+    description:
+      'Aliqua id fugiat nostrud irure ex duis ea quis id quis ad et. Sunt qui esse pariatur duis deserunt mollit dolore cillum minim tempor enim. Elit aute irure tempor cupidatat incididunt sint deserunt ut voluptate aute id deserunt nisi.',
   },
 ];

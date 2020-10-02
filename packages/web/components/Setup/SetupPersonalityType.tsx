@@ -10,14 +10,14 @@ import { FlexContainer } from 'components/Container';
 import { MetaLink } from 'components/Link';
 import { SetupContext } from 'contexts/SetupContext';
 import React, { useContext } from 'react';
-import { personalities } from 'utils/setupOptions';
+import { PersonalityType, personalityTypes } from 'utils/setupOptions';
 
 export const SetupPersonalityType: React.FC = () => {
   const {
     onNextPress,
     nextButtonLabel,
-    personality,
-    setPersonality,
+    personalityType,
+    setPersonalityType,
   } = useContext(SetupContext);
   return (
     <FlexContainer>
@@ -31,21 +31,26 @@ export const SetupPersonalityType: React.FC = () => {
         </MetaLink>
       </Text>
       <SimpleGrid columns={[1, null, 2, 3]} spacing="8">
-        {personalities.map((p) => (
+        {personalityTypes.map((p: PersonalityType) => (
           <HStack
             key={p.id}
             p={6}
             spacing={4}
             bgColor={
-              personality && personality.id === p.id
+              personalityType && personalityType.id === p.id
                 ? 'purpleBoxDark'
                 : 'purpleBoxLight'
             }
             borderRadius="0.5rem"
             _hover={{ bgColor: 'purpleBoxDark' }}
-            transition="0.25s"
+            transition="background 0.25s"
             cursor="pointer"
-            onClick={() => setPersonality(p)}
+            onClick={() => setPersonalityType(p)}
+            border={
+              personalityType && personalityType.id === p.id
+                ? '2px solid #5a32e6'
+                : 'none'
+            }
           >
             <Image
               w="4rem"
