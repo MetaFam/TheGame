@@ -1,7 +1,7 @@
 import { Image, MetaButton, MetaHeading, Text } from '@metafam/ds';
 import { FlexContainer } from 'components/Container';
 import { MetaLink } from 'components/Link';
-import PlayersImage from 'public/images/players.png';
+import PlayersImage from 'assets/players.png';
 import React from 'react';
 
 export const WelcomePlayer: React.FC = () => {

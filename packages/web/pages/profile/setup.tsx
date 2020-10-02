@@ -3,7 +3,7 @@ import { SetupHeader } from 'components/Setup/SetupHeader';
 import { SetupContext, SetupContextProvider } from 'contexts/SetupContext';
 import { getSkills } from 'graphql/getSkills';
 import { InferGetStaticPropsType } from 'next';
-import BackgroundImage from 'public/images/profile-background.jpg';
+import BackgroundImage from 'assets/profile-background.jpg';
 import React, { useContext } from 'react';
 import { options } from 'utils/setupOptions';
 import { parseSkills } from 'utils/skillHelpers';

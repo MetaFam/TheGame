@@ -1,7 +1,7 @@
 import { Box, Button, Flex, Image, Stack } from '@metafam/ds';
 import { MetaLink } from 'components/Link';
 import { LoginButton } from 'components/LoginButton';
-import MetaGameImage from 'public/images/metagame.png';
+import MetaGameImage from 'assets/metagame.png';
 import React from 'react';
 
 const MenuItem: React.FC<React.ComponentProps<typeof MetaLink>> = ({

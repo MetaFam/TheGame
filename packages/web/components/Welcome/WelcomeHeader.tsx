@@ -1,6 +1,6 @@
 import { Flex, Image, SimpleGrid, Text } from '@metafam/ds';
 import { MetaLink } from 'components/Link';
-import MetaGameImage from 'public/images/metagame.png';
+import MetaGameImage from 'assets/metagame.png';
 import React from 'react';
 
 export const WelcomeHeader: React.FC = () => {

@@ -2,7 +2,7 @@ import { Image, MetaButton, MetaHeading, Text } from '@metafam/ds';
 import { FlexContainer } from 'components/Container';
 import { MetaLink } from 'components/Link';
 import { useRouter } from 'next/router';
-import AvatarImage from 'public/images/avatar.png';
+import AvatarImage from 'assets/avatar.png';
 import React from 'react';
 
 export const SuccessPlayer: React.FC = () => {
