@@ -7,44 +7,44 @@
 
 /* You can override the default Infima variables here. */
 :root {
-  --ifm-color-primary: #ff0077;
-  --ifm-color-primary-dark: #cc0077;
-  --ifm-color-primary-darker: #990077;
-  --ifm-color-primary-darkest: #660077;
-  --ifm-color-primary-light: #ff1a85;
-  --ifm-color-primary-lighter: #ff268b;
-  --ifm-color-primary-lightest: #ff4da0;
+    --ifm-color-primary: #ff0077;
+    --ifm-color-primary-dark: #cc0077;
+    --ifm-color-primary-darker: #990077;
+    --ifm-color-primary-darkest: #660077;
+    --ifm-color-primary-light: #ff1a85;
+    --ifm-color-primary-lighter: #ff268b;
+    --ifm-color-primary-lightest: #ff4da0;
 
-  --ifm-code-font-size: 95%;
-  --ifm-font-size-base: 17px;
+    --ifm-code-font-size: 95%;
+    --ifm-font-size-base: 17px;
 }
 
 .docusaurus-highlight-code-line {
-  background-color: rgb(72, 77, 91);
-  display: block;
-  margin: 0 calc(-1 * var(--ifm-pre-padding));
-  padding: 0 var(--ifm-pre-padding);
+    background-color: #1b0d2a;
+    display: block;
+    margin: 0 calc(-1 * var(--ifm-pre-padding));
+    padding: 0 var(--ifm-pre-padding);
 }
 
 .button {
-  font-family: var(--ifm-font-family-monospace);
+    font-family: var(--ifm-font-family-monospace);
 }
 
 .navbar .navbar__items.navbar__items--right {
-  flex-grow: 0;
+    flex-grow: 0;
 }
 
 .iframe-container {
-  overflow: hidden;
-  padding-top: 56.25%;
-  position: relative;
+    overflow: hidden;
+    padding-top: 56.25%;
+    position: relative;
 }
 
 .iframe-container iframe {
-  border: 0;
-  height: 100%;
-  left: 0;
-  position: absolute;
-  top: 0;
-  width: 100%;
+    border: 0;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
 }
