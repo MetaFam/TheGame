@@ -1,8 +1,6 @@
 ---
 title: 👣 The Way of Web3 Founders
 ---
- 
-# The Way of Web3 Founders
 
 ## **“Safe career”**
 

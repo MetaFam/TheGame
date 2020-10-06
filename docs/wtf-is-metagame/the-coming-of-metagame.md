@@ -1,8 +1,7 @@
 ---
 title: 😶 The Coming of MetaGame
 ---
- 
-# The Coming of MetaGame
+
 [![](https://cdn.substack.com/image/fetch/w_1456,c_limit,f_auto,q_auto:good/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2Fbd6756ff-8bb3-482a-8043-0a6be1d14532_1920x1080.png)](https://cdn.substack.com/image/fetch/c_limit,f_auto,q_auto:good/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2Fbd6756ff-8bb3-482a-8043-0a6be1d14532_1920x1080.png)
 
 ## Out of nowhere?

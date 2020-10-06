@@ -1,7 +1,6 @@
 ---
 title: 🤑 A Web of Opportunity
 ---
-# A Web of Opportunity
 
 ## Intro
 

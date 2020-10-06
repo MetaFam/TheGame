@@ -1,7 +1,6 @@
 ---
 title: 👽 How to Play MetaGame
 ---
-# How to Become a Player of MetaGame
 
 So you've been tumbling down this rabbit hole & are wondering how to actually start playing MetaGame? 🤔
 

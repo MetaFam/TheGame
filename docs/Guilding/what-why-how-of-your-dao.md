@@ -1,4 +1,6 @@
-﻿# The What, Why & How of Your DAO
+﻿---
+title: 🤔 The What, Why & How of Your DAO
+---
 
 > _"To ask the right question is already half the solution of a problem."_ - Carl Jung
 

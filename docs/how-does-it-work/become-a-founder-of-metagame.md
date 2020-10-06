@@ -2,8 +2,6 @@
 title: 👑 Become a Founder of MetaGame
 ---
 
-# How to Become a Founder of MetaGame
-
 >MetaGame is an idea we can build a new world on top of the old one.  
 It is currently being built by a bunch of Ethereum & Open Source fanatics who believe this “blockchain thing” gave us an opportunity to challenge the status-quo and re-imagine the way we run societies.
 

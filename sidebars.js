@@ -28,6 +28,12 @@ module.exports = {
             "enter-metagame/navigation-board",
             "enter-metagame/leaderboard",
         ],
+        "🏡 The Great Houses": [
+            "great-houses/house-of-daos",
+            "great-houses/house-of-defiance",
+            "great-houses/house-of-dapps",
+            "great-houses/house-of-tokens",
+        ],
         "⚔️ Guilding": [
             "Guilding/what-why-how-of-your-dao",
             "Guilding/guilding-101",
