@@ -143,18 +143,18 @@ export const playerTypes = [
     id: '1',
     name: 'Pioneer',
     description:
-      'Aliqua id fugiat nostrud irure ex duis ea quis id quis ad et. Sunt qui esse pariatur duis deserunt mollit dolore cillum minim tempor enim. Elit aute irure tempor cupidatat incididunt sint deserunt ut voluptate aute id deserunt nisi.',
+      'Pioneers are the ones out on the frontier, venturing into the unknown with no fear of failure. Working with incomplete tools & buggy software, they start weird new projects & experiments. They thrive in chaos.',
   },
   {
     id: '2',
     name: 'Settler',
     description:
-      'Aliqua id fugiat nostrud irure ex duis ea quis id quis ad et. Sunt qui esse pariatur duis deserunt mollit dolore cillum minim tempor enim. Elit aute irure tempor cupidatat incididunt sint deserunt ut voluptate aute id deserunt nisi.',
+      'Settlers live between chaos & order. They take the things that the pioneers build, build upon them & find them a market fit. They take care of things and help them grow until they are proven to work & taken over by Town Planners.',
   },
   {
     id: '3',
     name: 'Town Planner',
     description:
-      'Aliqua id fugiat nostrud irure ex duis ea quis id quis ad et. Sunt qui esse pariatur duis deserunt mollit dolore cillum minim tempor enim. Elit aute irure tempor cupidatat incididunt sint deserunt ut voluptate aute id deserunt nisi.',
+      'Polar opposite to the Pioneers, Town Planners are the last to arrive at the party. They are the ones concerned with the structure & making things efficient. They want documentation & they thrive in order.',
   },
 ];
