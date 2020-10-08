@@ -5,7 +5,8 @@
  */
 
 .heroBanner {
-  padding: 6rem 0;
+  background: var(--ifm-color-primary-dark);
+  padding: 0 0 6rem;
   text-align: center;
   position: relative;
   overflow: hidden;
