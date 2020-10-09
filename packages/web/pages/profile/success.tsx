@@ -1,6 +1,6 @@
+import BackgroundImage from 'assets/profile-background.jpg';
 import { PageContainer } from 'components/Container';
 import { SuccessPlayer } from 'components/SuccessPlayer';
-import BackgroundImage from 'public/images/profile-background.jpg';
 import React from 'react';
 
 export const getStaticProps = async () => {

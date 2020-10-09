@@ -1,7 +1,7 @@
+import BackgroundImage from 'assets/login-background.jpg';
 import { PageContainer } from 'components/Container';
 import { WelcomeHeader } from 'components/Welcome/WelcomeHeader';
 import { WelcomePlayer } from 'components/Welcome/WelcomePlayer';
-import BackgroundImage from 'public/images/login-background.jpg';
 import React from 'react';
 
 export const getStaticProps = async () => {

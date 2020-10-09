@@ -1,8 +1,7 @@
 import { Button } from '@metafam/ds';
+import { PlayerFragmentFragment } from 'graphql/autogen/types';
 import React from 'react';
 import { FaGithub, FaTwitter } from 'react-icons/fa';
-
-import { PlayerFragmentFragment } from '../../graphql/autogen/types';
 
 type Props = {
   player: PlayerFragmentFragment;

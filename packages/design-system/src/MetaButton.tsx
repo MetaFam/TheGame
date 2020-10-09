@@ -3,7 +3,8 @@ import React from 'react';
 
 export const MetaButton: React.FC<ButtonProps> = ({ children, ...props }) => (
   <Button
-    colorScheme="purple"
+    bgColor="purple.400"
+    _hover={{ bgColor: 'purple.500' }}
     textTransform="uppercase"
     px={12}
     letterSpacing="0.1em"

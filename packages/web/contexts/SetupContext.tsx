@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { options } from 'utils/setupOptions';
+import { options, PersonalityType, PlayerType } from 'utils/setupOptions';
 import { CategoryOption, SkillOption } from 'utils/skillHelpers';
 
 type SetupContextType = {
@@ -12,6 +12,12 @@ type SetupContextType = {
   skills: Array<SkillOption>;
   setSkills: React.Dispatch<React.SetStateAction<Array<SkillOption>>>;
   skillsList: Array<CategoryOption>;
+  personalityType: PersonalityType | undefined;
+  setPersonalityType: React.Dispatch<
+    React.SetStateAction<PersonalityType | undefined>
+  >;
+  playerType: PlayerType | undefined;
+  setPlayerType: React.Dispatch<React.SetStateAction<PlayerType | undefined>>;
 };
 
 export const SetupContext = React.createContext<SetupContextType>({
@@ -24,6 +30,10 @@ export const SetupContext = React.createContext<SetupContextType>({
   skills: [],
   setSkills: () => undefined,
   skillsList: [],
+  personalityType: undefined,
+  setPersonalityType: () => undefined,
+  playerType: undefined,
+  setPlayerType: () => undefined,
 });
 
 type Props = {
@@ -76,6 +86,8 @@ export const SetupContextProvider: React.FC<Props> = ({
   }, [step, screen, setStep, setScreen, numTotalSteps]);
 
   const [skills, setSkills] = useState<Array<SkillOption>>([]);
+  const [personalityType, setPersonalityType] = useState<PersonalityType>();
+  const [playerType, setPlayerType] = useState<PlayerType>();
 
   return (
     <SetupContext.Provider
@@ -86,10 +98,16 @@ export const SetupContextProvider: React.FC<Props> = ({
         onNextPress,
         onBackPress,
         nextButtonLabel,
-        // data
+        // skills
         skills,
         setSkills,
         skillsList,
+        // personality
+        personalityType,
+        setPersonalityType,
+        // player
+        playerType,
+        setPlayerType,
       }}
     >
       {children}

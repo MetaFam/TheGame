@@ -1,10 +1,9 @@
 import { Avatar, Box, Container, Flex, HStack, Text } from '@metafam/ds';
+import BackgroundImage from 'assets/login-background.jpg';
+import { PlayerContacts } from 'components/Player/PlayerContacts';
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
-import BackgroundImage from 'public/images/login-background.jpg';
 import React from 'react';
 import { getPlayerImage, getPlayerName } from 'utils/playerHelpers';
-
-import { PlayerContacts } from './PlayerContacts';
 
 type Props = { player: PlayerFragmentFragment };
 

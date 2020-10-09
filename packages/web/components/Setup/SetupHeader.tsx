@@ -1,9 +1,9 @@
 import { Box, Flex, Grid, Image, ResponsiveText } from '@metafam/ds';
+import AvatarImage from 'assets/avatar.png';
+import BackImage from 'assets/Back.svg';
+import SkipImage from 'assets/Skip.svg';
 import { FlexContainer } from 'components/Container';
 import { SetupContext } from 'contexts/SetupContext';
-import AvatarImage from 'public/images/avatar.png';
-import BackImage from 'public/images/Back.svg';
-import SkipImage from 'public/images/Skip.svg';
 import React, { useContext } from 'react';
 import { options } from 'utils/setupOptions';
 
@@ -12,10 +12,11 @@ export const SetupHeader: React.FC = () => {
   return (
     <Grid templateColumns="0.5fr 1fr 1fr 1fr 0.5fr" gap="1rem" w="100%">
       <FlexContainer justify="flex-end" onClick={onBackPress} cursor="pointer">
-        <Image src={BackImage} h="1rem" />
+        <Image src={BackImage} h="1rem" alt="Back" />
       </FlexContainer>
       {options.map((option, id) => (
         <StepProgress
+          key={option.label}
           title={option.title}
           step={id}
           isActive={step === id}
@@ -24,7 +25,7 @@ export const SetupHeader: React.FC = () => {
         />
       ))}
       <FlexContainer justify="flex-end" onClick={onNextPress} cursor="pointer">
-        <Image src={SkipImage} h="1rem" />
+        <Image src={SkipImage} h="1rem" alt="Forward" />
       </FlexContainer>
     </Grid>
   );
@@ -81,6 +82,7 @@ export const StepProgress: React.FC<StepProps> = ({
           src={AvatarImage}
           left={`${progress}%`}
           transform="translateX(-50%)"
+          alt="Avatar"
         />
       )}
     </FlexContainer>

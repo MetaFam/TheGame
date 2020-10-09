@@ -1,8 +1,8 @@
+import BackgroundImage from 'assets/login-background.jpg';
 import { PageContainer } from 'components/Container';
 import { PlayerList } from 'components/PlayerList';
 import { getPlayers } from 'graphql/getPlayers';
 import { InferGetStaticPropsType } from 'next';
-import BackgroundImage from 'public/images/login-background.jpg';
 import React from 'react';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
