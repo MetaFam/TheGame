@@ -1,48 +1,75 @@
+import { PersonalityType, PlayerType, Skill } from 'graphql/types';
 import React, { useCallback, useEffect, useState } from 'react';
-import { options, PersonalityType, PlayerType } from 'utils/setupOptions';
-import { CategoryOption, SkillOption } from 'utils/skillHelpers';
+import { CategoryOption } from 'utils/skillHelpers';
+
+type SetupOption = {
+  label: string;
+  title: {
+    [any: string]: string | undefined;
+  };
+  screens: Array<{
+    label: string;
+    component: React.ReactNode;
+  }>;
+};
 
 type SetupContextType = {
+  options: Array<SetupOption>;
   step: number;
   screen: number;
   onNextPress: () => void;
   onBackPress: () => void;
   nextButtonLabel: string;
   numTotalSteps: number;
-  skills: Array<SkillOption>;
-  setSkills: React.Dispatch<React.SetStateAction<Array<SkillOption>>>;
   skillsList: Array<CategoryOption>;
+  personalityTypes: Array<PersonalityType>;
+  playerTypes: Array<PlayerType>;
+  skills: Array<Skill>;
+  setSkills: React.Dispatch<React.SetStateAction<Array<Skill>>>;
   personalityType: PersonalityType | undefined;
   setPersonalityType: React.Dispatch<
     React.SetStateAction<PersonalityType | undefined>
   >;
   playerType: PlayerType | undefined;
   setPlayerType: React.Dispatch<React.SetStateAction<PlayerType | undefined>>;
+  availability: string | undefined;
+  setAvailability: React.Dispatch<React.SetStateAction<string | undefined>>;
 };
 
 export const SetupContext = React.createContext<SetupContextType>({
+  options: [],
   step: 0,
   screen: 0,
   onNextPress: () => undefined,
   onBackPress: () => undefined,
   nextButtonLabel: 'Next Step',
   numTotalSteps: 0,
+  skillsList: [],
+  personalityTypes: [],
+  playerTypes: [],
   skills: [],
   setSkills: () => undefined,
-  skillsList: [],
   personalityType: undefined,
   setPersonalityType: () => undefined,
   playerType: undefined,
   setPlayerType: () => undefined,
+  availability: undefined,
+  setAvailability: () => undefined,
 });
 
 type Props = {
+  options: Array<SetupOption>;
   skillsList: Array<CategoryOption>;
+  personalityTypes: Array<PersonalityType>;
+  playerTypes: Array<PlayerType>;
 };
 
 export const SetupContextProvider: React.FC<Props> = ({
   children,
+  options,
   skillsList,
+  personalityTypes,
+  playerTypes,
 }) => {
   const [step, setStep] = useState<number>(0);
   const [screen, setScreen] = useState<number>(0);
@@ -61,7 +88,7 @@ export const SetupContextProvider: React.FC<Props> = ({
         `Next: ${options[step].screens[(screen + 1) % numScreens].label}`,
       );
     }
-  }, [step, screen, setNextButtonLabel, numTotalSteps]);
+  }, [options, step, screen, setNextButtonLabel, numTotalSteps]);
 
   const onNextPress = useCallback(() => {
     const numScreens = options[step].screens.length;
@@ -72,7 +99,7 @@ export const SetupContextProvider: React.FC<Props> = ({
     } else {
       setScreen((screen + 1) % numScreens);
     }
-  }, [step, screen, setStep, setScreen, numTotalSteps]);
+  }, [options, step, screen, setStep, setScreen, numTotalSteps]);
 
   const onBackPress = useCallback(() => {
     if (step <= 0 && screen <= 0) return;
@@ -83,31 +110,39 @@ export const SetupContextProvider: React.FC<Props> = ({
     } else {
       setScreen((screen - 1) % numScreens);
     }
-  }, [step, screen, setStep, setScreen, numTotalSteps]);
+  }, [options, step, screen, setStep, setScreen, numTotalSteps]);
 
-  const [skills, setSkills] = useState<Array<SkillOption>>([]);
+  const [skills, setSkills] = useState<Array<Skill>>([]);
   const [personalityType, setPersonalityType] = useState<PersonalityType>();
   const [playerType, setPlayerType] = useState<PlayerType>();
+  const [availability, setAvailability] = useState<string>();
 
   return (
     <SetupContext.Provider
       value={{
+        options,
         step,
         screen,
         numTotalSteps,
         onNextPress,
         onBackPress,
         nextButtonLabel,
+        // data
+        skillsList,
+        personalityTypes,
+        playerTypes,
         // skills
         skills,
         setSkills,
-        skillsList,
-        // personality
+        // personalityType
         personalityType,
         setPersonalityType,
-        // player
+        // playerType
         playerType,
         setPlayerType,
+        // availability
+        availability,
+        setAvailability,
       }}
     >
       {children}

@@ -1,7 +1,7 @@
 import gql from 'fake-tag';
-
-import { GetSkillsQuery } from './autogen/types';
-import { client } from './client';
+import { GetSkillsQuery } from 'graphql/autogen/types';
+import { client } from 'graphql/client';
+import { Skill } from 'graphql/types';
 
 const skillsQuery = gql`
   query GetSkills {
@@ -14,12 +14,6 @@ const skillsQuery = gql`
     }
   }
 `;
-
-export interface Skill {
-  id: string;
-  name: string;
-  category: string;
-}
 
 export const getSkills = async (): Promise<Skill[]> => {
   const { data, error } = await client

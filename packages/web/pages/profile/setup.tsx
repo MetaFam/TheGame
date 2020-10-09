@@ -1,43 +1,37 @@
-import BackgroundImage from 'assets/profile-background.jpg';
-import { FlexContainer, PageContainer } from 'components/Container';
-import { SetupHeader } from 'components/Setup/SetupHeader';
-import { SetupContext, SetupContextProvider } from 'contexts/SetupContext';
+import { SetupProfile } from 'components/Setup/SetupProfile';
+import { SetupContextProvider } from 'contexts/SetupContext';
+import { getPersonalityTypes } from 'graphql/getPersonalityTypes';
+import { getPlayerTypes } from 'graphql/getPlayerTypes';
 import { getSkills } from 'graphql/getSkills';
 import { InferGetStaticPropsType } from 'next';
-import React, { useContext } from 'react';
-import { options } from 'utils/setupOptions';
+import React from 'react';
+import { options as setupOptions } from 'utils/setupOptions';
 import { parseSkills } from 'utils/skillHelpers';
 
-const ProfileSetup: React.FC = () => {
-  const { step, screen, numTotalSteps } = useContext(SetupContext);
-  return (
-    <PageContainer backgroundImage={`url(${BackgroundImage})`}>
-      {(step + 1) % numTotalSteps !== 0 && <SetupHeader />}
-      <FlexContainer flex={1} pt={24}>
-        {options[step].screens[screen].component}
-      </FlexContainer>
-    </PageContainer>
-  );
-};
-
 export const getStaticProps = async () => {
-  const skills = await getSkills();
+  const [skills, personalityTypes, playerTypes] = await Promise.all([
+    getSkills(),
+    getPersonalityTypes(),
+    getPlayerTypes(),
+  ]);
   const skillsList = parseSkills(skills);
 
   return {
     props: {
       skillsList,
+      personalityTypes,
+      playerTypes,
       hidePageHeader: true,
     },
   };
 };
 
-export type Props = InferGetStaticPropsType<typeof getStaticProps>;
+type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
-const ProfileSetupWithContext: React.FC<Props> = ({ skillsList }) => (
-  <SetupContextProvider skillsList={skillsList}>
-    <ProfileSetup />
+const ProfileSetup: React.FC<Props> = (props) => (
+  <SetupContextProvider options={setupOptions} {...props}>
+    <SetupProfile />
   </SetupContextProvider>
 );
 
-export default ProfileSetupWithContext;
+export default ProfileSetup;
