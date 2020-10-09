@@ -1,6 +1,6 @@
-import { PersonalityType, PlayerType, Skill } from 'graphql/types';
+import { Membership, PersonalityType, PlayerType } from 'graphql/types';
 import React, { useCallback, useEffect, useState } from 'react';
-import { CategoryOption } from 'utils/skillHelpers';
+import { CategoryOption, SkillOption } from 'utils/skillHelpers';
 
 type SetupOption = {
   label: string;
@@ -24,16 +24,20 @@ type SetupContextType = {
   skillsList: Array<CategoryOption>;
   personalityTypes: Array<PersonalityType>;
   playerTypes: Array<PlayerType>;
-  skills: Array<Skill>;
-  setSkills: React.Dispatch<React.SetStateAction<Array<Skill>>>;
+  skills: Array<SkillOption>;
+  setSkills: React.Dispatch<React.SetStateAction<Array<SkillOption>>>;
   personalityType: PersonalityType | undefined;
   setPersonalityType: React.Dispatch<
     React.SetStateAction<PersonalityType | undefined>
   >;
   playerType: PlayerType | undefined;
   setPlayerType: React.Dispatch<React.SetStateAction<PlayerType | undefined>>;
-  availability: string | undefined;
-  setAvailability: React.Dispatch<React.SetStateAction<string | undefined>>;
+  availability: string;
+  setAvailability: React.Dispatch<React.SetStateAction<string>>;
+  memberships: Array<Membership> | null | undefined;
+  setMemberships: React.Dispatch<
+    React.SetStateAction<Array<Membership> | null | undefined>
+  >;
 };
 
 export const SetupContext = React.createContext<SetupContextType>({
@@ -53,8 +57,10 @@ export const SetupContext = React.createContext<SetupContextType>({
   setPersonalityType: () => undefined,
   playerType: undefined,
   setPlayerType: () => undefined,
-  availability: undefined,
+  availability: '',
   setAvailability: () => undefined,
+  memberships: undefined,
+  setMemberships: () => undefined,
 });
 
 type Props = {
@@ -112,10 +118,13 @@ export const SetupContextProvider: React.FC<Props> = ({
     }
   }, [options, step, screen, setStep, setScreen, numTotalSteps]);
 
-  const [skills, setSkills] = useState<Array<Skill>>([]);
+  const [skills, setSkills] = useState<Array<SkillOption>>([]);
   const [personalityType, setPersonalityType] = useState<PersonalityType>();
   const [playerType, setPlayerType] = useState<PlayerType>();
-  const [availability, setAvailability] = useState<string>();
+  const [availability, setAvailability] = useState<string>('');
+  const [memberships, setMemberships] = useState<
+    Array<Membership> | null | undefined
+  >();
 
   return (
     <SetupContext.Provider
@@ -143,6 +152,9 @@ export const SetupContextProvider: React.FC<Props> = ({
         // availability
         availability,
         setAvailability,
+        // memberships
+        memberships,
+        setMemberships,
       }}
     >
       {children}

@@ -1,4 +1,4 @@
-import { Skill } from 'graphql/getSkills';
+import { Skill } from 'graphql/types';
 
 export type SkillMap = {
   [category: string]: CategoryOption;

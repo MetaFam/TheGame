@@ -1,3 +1,5 @@
+import { Member, Moloch } from 'graphql/autogen/types';
+
 export type Skill = {
   id: string;
   name: string;
@@ -15,4 +17,8 @@ export type PlayerType = {
   id: string;
   name: string;
   description: string;
+};
+
+export type Membership = Pick<Member, 'id'> & {
+  moloch: Pick<Moloch, 'id' | 'title' | 'version'>;
 };
