@@ -6,18 +6,27 @@
 
 .heroBanner {
   background: var(--ifm-color-primary-dark);
-  padding: 0 0 6rem;
+  padding: 2rem;
   text-align: center;
   position: relative;
   overflow: hidden;
 }
 
-@media screen and (max-width: 966px) {
+@media screen and (min-width: 967px) {
   .heroBanner {
-    padding: 2rem;
+    padding: 2rem 0 0;
   }
 }
-
+@media screen and (min-width: 1440px) {
+  .heroBanner {
+    padding: 0 0 4rem;
+  }
+}
+@media screen and (min-width: 1920px) {
+  .heroBanner {
+    padding: 0 0 6rem;
+  }
+}
 .buttons {
   display: flex;
   align-items: center;
@@ -32,10 +41,20 @@
 }
 
 .featureImage {
-  height: 200px;
-  width: 200px;
+  height: 150px;
+  width: 150px;
 }
-
+@media screen and (min-width: 1440) {
+  .featureImage {
+    height: 200px;
+    width: 200px;
+  }
+}
 .wikiLogo {
-  margin-bottom: 3rem;
+  margin-bottom: 1rem;
+}
+@media screen and (min-width: 1440) {
+  .heroBanner {
+    margin-bottom: 3rem;
+  }
 }
