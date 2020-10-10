@@ -5,10 +5,11 @@ import SkipImage from 'assets/Skip.svg';
 import { FlexContainer } from 'components/Container';
 import { SetupContext } from 'contexts/SetupContext';
 import React, { useContext } from 'react';
-import { options } from 'utils/setupOptions';
 
 export const SetupHeader: React.FC = () => {
-  const { step, screen, onNextPress, onBackPress } = useContext(SetupContext);
+  const { step, screen, onNextPress, onBackPress, options } = useContext(
+    SetupContext,
+  );
   return (
     <Grid templateColumns="0.5fr 1fr 1fr 1fr 0.5fr" gap="1rem" w="100%">
       <FlexContainer justify="flex-end" onClick={onBackPress} cursor="pointer">
@@ -46,6 +47,7 @@ export const StepProgress: React.FC<StepProps> = ({
   step,
   screen,
 }) => {
+  const { options } = useContext(SetupContext);
   const progress = isDone
     ? 100
     : Math.floor(((screen + 1) * 100.0) / options[step].screens.length);

@@ -1,13 +1,14 @@
 import { MetaButton, MetaHeading, SimpleGrid, Text } from '@metafam/ds';
 import { FlexContainer } from 'components/Container';
 import { SetupContext } from 'contexts/SetupContext';
+import { PlayerType } from 'graphql/types';
 import React, { useContext } from 'react';
-import { PlayerType, playerTypes } from 'utils/setupOptions';
 
 export const SetupPlayerType: React.FC = () => {
   const {
     onNextPress,
     nextButtonLabel,
+    playerTypes,
     playerType,
     setPlayerType,
   } = useContext(SetupContext);
@@ -16,7 +17,7 @@ export const SetupPlayerType: React.FC = () => {
       <MetaHeading mb={5} textAlign="center">
         Player Type
       </MetaHeading>
-      <Text color="white" mb={10}>
+      <Text mb={10}>
         Please read the features of each player type below. And select the one
         that suits you best.
       </Text>

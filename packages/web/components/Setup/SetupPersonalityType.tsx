@@ -9,13 +9,14 @@ import {
 import { FlexContainer } from 'components/Container';
 import { MetaLink } from 'components/Link';
 import { SetupContext } from 'contexts/SetupContext';
+import { PersonalityType } from 'graphql/types';
 import React, { useContext } from 'react';
-import { PersonalityType, personalityTypes } from 'utils/setupOptions';
 
 export const SetupPersonalityType: React.FC = () => {
   const {
     onNextPress,
     nextButtonLabel,
+    personalityTypes,
     personalityType,
     setPersonalityType,
   } = useContext(SetupContext);
@@ -24,7 +25,7 @@ export const SetupPersonalityType: React.FC = () => {
       <MetaHeading mb={5} textAlign="center">
         Personality Type
       </MetaHeading>
-      <Text color="white" mb={10}>
+      <Text mb={10}>
         {`Please select your personality type below. Not sure what type you are? `}
         <MetaLink href="https://enneagramtest.net/" isExternal>
           Take a quick test.
