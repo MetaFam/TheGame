@@ -7,7 +7,7 @@ export const PlayerFragment = gql`
     totalXp
     rank
     ethereum_address
-    Accounts(where: { type: { _in: ["TWITTER", "GITHUB"] } }) {
+    Accounts(where: { type: { _in: [TWITTER, GITHUB] } }) {
       identifier
       type
     }

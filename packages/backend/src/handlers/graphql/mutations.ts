@@ -63,10 +63,7 @@ export const UpdatePlayer = gql`
           { scIdentityId: { _eq: $identityId } }
           {
             Accounts: {
-              _and: {
-                type: { _eq: "DISCORD" }
-                identifier: { _eq: $discordId }
-              }
+              _and: { type: { _eq: DISCORD }, identifier: { _eq: $discordId } }
             }
           }
         ]
