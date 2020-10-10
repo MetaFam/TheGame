@@ -5,6 +5,7 @@ declare module '3box' {
     name?: string;
     proof_twitter?: string;
     proof_github?: string;
+    coverPhoto?: Image[];
     image?: Image[];
     emoji?: string;
     job?: string;
