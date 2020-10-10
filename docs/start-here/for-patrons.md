@@ -1,5 +1,5 @@
 ---
-title: 🐳 For Patrons
+title: 🧙 For Patrons
 ---
 
 The main reason you should be supporting us is because you’re too busy to lend us a hand and MetaGame just sounds too good not to support in any way currently possible.
