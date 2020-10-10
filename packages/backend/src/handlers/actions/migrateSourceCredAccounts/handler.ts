@@ -162,7 +162,7 @@ export const migrateSourceCredAccounts = async (
     const resultInsert = await client.UpsertPlayer({
       objects: usersToInsert,
       onConflict: {
-        constraint: Player_Constraint.PlayerEthereumAddressKey,
+        constraint: Player_Constraint.PlayerEthereumAddressUniqueKey,
         update_columns: [
           Player_Update_Column.ScIdentityId,
           Player_Update_Column.Username,

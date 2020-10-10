@@ -365,6 +365,7 @@ type BoxProfile {
   job: String
   location: String
   name: String
+  website: String
 }
 
 """
@@ -1830,7 +1831,7 @@ unique or primary key constraints on table "Player"
 """
 enum Player_constraint {
   """unique or primary key constraint"""
-  Player_ethereum_address_key
+  Player_ethereum_address_unique_key
 
   """unique or primary key constraint"""
   Player_pkey
