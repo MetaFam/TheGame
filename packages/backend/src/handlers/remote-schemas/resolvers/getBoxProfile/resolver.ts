@@ -1,4 +1,4 @@
-import Box, { BoxProfile } from '3box';
+import Box, { Image } from '3box';
 
 import { CONFIG } from '../../../../config';
 import { QueryResolvers } from '../../autogen/types';
@@ -22,19 +22,16 @@ export const getBoxProfile: QueryResolvers['getBoxProfile'] = async (
     location: boxProfile.location,
     job: boxProfile.job,
     emoji: boxProfile.emoji,
-    imageUrl: getProfilePicture(boxProfile),
+    imageUrl: getImage(boxProfile?.image),
+    coverImageUrl: getImage(boxProfile?.coverPhoto),
+    website: boxProfile.website,
   };
 };
 
-function getProfilePicture(boxProfile: BoxProfile) {
-  const imageHash =
-    boxProfile &&
-    boxProfile.image &&
-    boxProfile.image[0] &&
-    boxProfile.image[0].contentUrl &&
-    boxProfile.image[0].contentUrl['/'];
+function getImage(image: Image[] | null | undefined) {
+  const imageHash = image?.[0]?.contentUrl?.['/'];
   if (imageHash) {
     return `${CONFIG.ipfsEndpoint}/ipfs/${imageHash}`;
   }
-  return 'https://i.imgur.com/RXJO8FD.png';
+  return '';
 }

@@ -43,7 +43,7 @@ export async function updateVerifiedAccounts(
       objects: [
         {
           player_id: playerId,
-          type: AccountType_Enum.Github,
+          type: AccountType_Enum.Twitter,
           identifier: verifiedAccounts.twitter.username,
         },
       ],
