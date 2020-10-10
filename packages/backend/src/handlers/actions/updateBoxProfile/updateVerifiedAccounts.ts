@@ -1,5 +1,6 @@
 import Box from '3box';
 
+import { AccountType_Enum } from '../../../lib/autogen/hasura-sdk';
 import { client } from '../../../lib/hasuraClient';
 import { UpdateBoxProfileResponse } from '../types';
 
@@ -23,7 +24,7 @@ export async function updateVerifiedAccounts(
       objects: [
         {
           player_id: playerId,
-          type: 'GITHUB',
+          type: AccountType_Enum.Github,
           identifier: verifiedAccounts.github.username,
         },
       ],
@@ -42,7 +43,7 @@ export async function updateVerifiedAccounts(
       objects: [
         {
           player_id: playerId,
-          type: 'TWITTER',
+          type: AccountType_Enum.Github,
           identifier: verifiedAccounts.twitter.username,
         },
       ],
