@@ -12,7 +12,7 @@ type Account {
   Player: Player!
   identifier: String!
   player_id: uuid!
-  type: account_type!
+  type: AccountType_enum!
 }
 
 """
@@ -59,7 +59,7 @@ input Account_bool_exp {
   _or: [Account_bool_exp]
   identifier: String_comparison_exp
   player_id: uuid_comparison_exp
-  type: account_type_comparison_exp
+  type: AccountType_enum_comparison_exp
 }
 
 """
@@ -77,7 +77,7 @@ input Account_insert_input {
   Player: Player_obj_rel_insert_input
   identifier: String
   player_id: uuid
-  type: account_type
+  type: AccountType_enum
 }
 
 """aggregate max on columns"""
@@ -166,24 +166,7 @@ input type for updating data in table "Account"
 input Account_set_input {
   identifier: String
   player_id: uuid
-  type: account_type
-}
-
-scalar account_type
-
-"""
-expression to compare columns of type account_type. All fields are combined with logical 'AND'.
-"""
-input account_type_comparison_exp {
-  _eq: account_type
-  _gt: account_type
-  _gte: account_type
-  _in: [account_type!]
-  _is_null: Boolean
-  _lt: account_type
-  _lte: account_type
-  _neq: account_type
-  _nin: [account_type!]
+  type: AccountType_enum
 }
 
 """
@@ -200,6 +183,180 @@ enum Account_update_column {
   type
 }
 
+"""
+columns and relationships of "AccountType"
+"""
+type AccountType {
+  type: String!
+}
+
+"""
+aggregated selection of "AccountType"
+"""
+type AccountType_aggregate {
+  aggregate: AccountType_aggregate_fields
+  nodes: [AccountType!]!
+}
+
+"""
+aggregate fields of "AccountType"
+"""
+type AccountType_aggregate_fields {
+  count(columns: [AccountType_select_column!], distinct: Boolean): Int
+  max: AccountType_max_fields
+  min: AccountType_min_fields
+}
+
+"""
+order by aggregate values of table "AccountType"
+"""
+input AccountType_aggregate_order_by {
+  count: order_by
+  max: AccountType_max_order_by
+  min: AccountType_min_order_by
+}
+
+"""
+input type for inserting array relation for remote table "AccountType"
+"""
+input AccountType_arr_rel_insert_input {
+  data: [AccountType_insert_input!]!
+  on_conflict: AccountType_on_conflict
+}
+
+"""
+Boolean expression to filter rows from the table "AccountType". All fields are combined with a logical 'AND'.
+"""
+input AccountType_bool_exp {
+  _and: [AccountType_bool_exp]
+  _not: AccountType_bool_exp
+  _or: [AccountType_bool_exp]
+  type: String_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "AccountType"
+"""
+enum AccountType_constraint {
+  """unique or primary key constraint"""
+  AccountType_pkey
+}
+
+enum AccountType_enum {
+  DISCORD
+  DISCOURSE
+  ETHEREUM
+  GITHUB
+  TWITTER
+}
+
+"""
+expression to compare columns of type AccountType_enum. All fields are combined with logical 'AND'.
+"""
+input AccountType_enum_comparison_exp {
+  _eq: AccountType_enum
+  _in: [AccountType_enum!]
+  _is_null: Boolean
+  _neq: AccountType_enum
+  _nin: [AccountType_enum!]
+}
+
+"""
+input type for inserting data into table "AccountType"
+"""
+input AccountType_insert_input {
+  type: String
+}
+
+"""aggregate max on columns"""
+type AccountType_max_fields {
+  type: String
+}
+
+"""
+order by max() on columns of table "AccountType"
+"""
+input AccountType_max_order_by {
+  type: order_by
+}
+
+"""aggregate min on columns"""
+type AccountType_min_fields {
+  type: String
+}
+
+"""
+order by min() on columns of table "AccountType"
+"""
+input AccountType_min_order_by {
+  type: order_by
+}
+
+"""
+response of any mutation on the table "AccountType"
+"""
+type AccountType_mutation_response {
+  """number of affected rows by the mutation"""
+  affected_rows: Int!
+
+  """data of the affected rows by the mutation"""
+  returning: [AccountType!]!
+}
+
+"""
+input type for inserting object relation for remote table "AccountType"
+"""
+input AccountType_obj_rel_insert_input {
+  data: AccountType_insert_input!
+  on_conflict: AccountType_on_conflict
+}
+
+"""
+on conflict condition type for table "AccountType"
+"""
+input AccountType_on_conflict {
+  constraint: AccountType_constraint!
+  update_columns: [AccountType_update_column!]!
+  where: AccountType_bool_exp
+}
+
+"""
+ordering options when selecting data from "AccountType"
+"""
+input AccountType_order_by {
+  type: order_by
+}
+
+"""
+primary key columns input for table: "AccountType"
+"""
+input AccountType_pk_columns_input {
+  type: String!
+}
+
+"""
+select columns of table "AccountType"
+"""
+enum AccountType_select_column {
+  """column name"""
+  type
+}
+
+"""
+input type for updating data in table "AccountType"
+"""
+input AccountType_set_input {
+  type: String
+}
+
+"""
+update columns of table "AccountType"
+"""
+enum AccountType_update_column {
+  """column name"""
+  type
+}
+
 type BoxProfile {
   description: String
   emoji: String
@@ -210,21 +367,214 @@ type BoxProfile {
   name: String
 }
 
-scalar enneagram_type
+"""
+columns and relationships of "EnneagramType"
+"""
+type EnneagramType {
+  description: String!
+  name: String!
+}
 
 """
-expression to compare columns of type enneagram_type. All fields are combined with logical 'AND'.
+aggregated selection of "EnneagramType"
 """
-input enneagram_type_comparison_exp {
-  _eq: enneagram_type
-  _gt: enneagram_type
-  _gte: enneagram_type
-  _in: [enneagram_type!]
+type EnneagramType_aggregate {
+  aggregate: EnneagramType_aggregate_fields
+  nodes: [EnneagramType!]!
+}
+
+"""
+aggregate fields of "EnneagramType"
+"""
+type EnneagramType_aggregate_fields {
+  count(columns: [EnneagramType_select_column!], distinct: Boolean): Int
+  max: EnneagramType_max_fields
+  min: EnneagramType_min_fields
+}
+
+"""
+order by aggregate values of table "EnneagramType"
+"""
+input EnneagramType_aggregate_order_by {
+  count: order_by
+  max: EnneagramType_max_order_by
+  min: EnneagramType_min_order_by
+}
+
+"""
+input type for inserting array relation for remote table "EnneagramType"
+"""
+input EnneagramType_arr_rel_insert_input {
+  data: [EnneagramType_insert_input!]!
+  on_conflict: EnneagramType_on_conflict
+}
+
+"""
+Boolean expression to filter rows from the table "EnneagramType". All fields are combined with a logical 'AND'.
+"""
+input EnneagramType_bool_exp {
+  _and: [EnneagramType_bool_exp]
+  _not: EnneagramType_bool_exp
+  _or: [EnneagramType_bool_exp]
+  description: String_comparison_exp
+  name: String_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "EnneagramType"
+"""
+enum EnneagramType_constraint {
+  """unique or primary key constraint"""
+  EnneagramType_pkey
+}
+
+enum EnneagramType_enum {
+  """Adaptive, Excelling, Driven, and Image-Conscious"""
+  ACHIEVER
+
+  """Self-Confident, Decisive, Willful, and Confrontational"""
+  CHALLENGER
+
+  """Spontaneous, Versatile, Distractible, and Scattered"""
+  ENTHUSIAST
+
+  """Demonstrative, Generous, People-Pleasing, and Possessive"""
+  HELPER
+
+  """Expressive, Dramatic, Self-Absorbed, and Temperamental"""
+  INDIVIDUALIST
+
+  """Perceptive, Innovative, Secretive, and Isolated"""
+  INVESTIGATOR
+
+  """Engaging, Responsible, Anxious, and Suspicious"""
+  LOYALIST
+
+  """Receptive, Reassuring, Agreeable, and Complacent"""
+  PEACEMAKER
+
+  """Principled, Purposeful, Self-Controlled, and Perfectionistic"""
+  REFORMER
+}
+
+"""
+expression to compare columns of type EnneagramType_enum. All fields are combined with logical 'AND'.
+"""
+input EnneagramType_enum_comparison_exp {
+  _eq: EnneagramType_enum
+  _in: [EnneagramType_enum!]
   _is_null: Boolean
-  _lt: enneagram_type
-  _lte: enneagram_type
-  _neq: enneagram_type
-  _nin: [enneagram_type!]
+  _neq: EnneagramType_enum
+  _nin: [EnneagramType_enum!]
+}
+
+"""
+input type for inserting data into table "EnneagramType"
+"""
+input EnneagramType_insert_input {
+  description: String
+  name: String
+}
+
+"""aggregate max on columns"""
+type EnneagramType_max_fields {
+  description: String
+  name: String
+}
+
+"""
+order by max() on columns of table "EnneagramType"
+"""
+input EnneagramType_max_order_by {
+  description: order_by
+  name: order_by
+}
+
+"""aggregate min on columns"""
+type EnneagramType_min_fields {
+  description: String
+  name: String
+}
+
+"""
+order by min() on columns of table "EnneagramType"
+"""
+input EnneagramType_min_order_by {
+  description: order_by
+  name: order_by
+}
+
+"""
+response of any mutation on the table "EnneagramType"
+"""
+type EnneagramType_mutation_response {
+  """number of affected rows by the mutation"""
+  affected_rows: Int!
+
+  """data of the affected rows by the mutation"""
+  returning: [EnneagramType!]!
+}
+
+"""
+input type for inserting object relation for remote table "EnneagramType"
+"""
+input EnneagramType_obj_rel_insert_input {
+  data: EnneagramType_insert_input!
+  on_conflict: EnneagramType_on_conflict
+}
+
+"""
+on conflict condition type for table "EnneagramType"
+"""
+input EnneagramType_on_conflict {
+  constraint: EnneagramType_constraint!
+  update_columns: [EnneagramType_update_column!]!
+  where: EnneagramType_bool_exp
+}
+
+"""
+ordering options when selecting data from "EnneagramType"
+"""
+input EnneagramType_order_by {
+  description: order_by
+  name: order_by
+}
+
+"""
+primary key columns input for table: "EnneagramType"
+"""
+input EnneagramType_pk_columns_input {
+  name: String!
+}
+
+"""
+select columns of table "EnneagramType"
+"""
+enum EnneagramType_select_column {
+  """column name"""
+  description
+
+  """column name"""
+  name
+}
+
+"""
+input type for updating data in table "EnneagramType"
+"""
+input EnneagramType_set_input {
+  description: String
+  name: String
+}
+
+"""
+update columns of table "EnneagramType"
+"""
+enum EnneagramType_update_column {
+  """column name"""
+  description
+
+  """column name"""
+  name
 }
 
 """
@@ -718,6 +1068,32 @@ type mutation_root {
   ): Account_mutation_response
 
   """
+  delete data from the table: "AccountType"
+  """
+  delete_AccountType(
+    """filter the rows which have to be deleted"""
+    where: AccountType_bool_exp!
+  ): AccountType_mutation_response
+
+  """
+  delete single row from the table: "AccountType"
+  """
+  delete_AccountType_by_pk(type: String!): AccountType
+
+  """
+  delete data from the table: "EnneagramType"
+  """
+  delete_EnneagramType(
+    """filter the rows which have to be deleted"""
+    where: EnneagramType_bool_exp!
+  ): EnneagramType_mutation_response
+
+  """
+  delete single row from the table: "EnneagramType"
+  """
+  delete_EnneagramType_by_pk(name: String!): EnneagramType
+
+  """
   delete data from the table: "Guild"
   """
   delete_Guild(
@@ -820,6 +1196,28 @@ type mutation_root {
   ): Account_mutation_response
 
   """
+  insert data into the table: "AccountType"
+  """
+  insert_AccountType(
+    """the rows to be inserted"""
+    objects: [AccountType_insert_input!]!
+
+    """on conflict condition"""
+    on_conflict: AccountType_on_conflict
+  ): AccountType_mutation_response
+
+  """
+  insert a single row into the table: "AccountType"
+  """
+  insert_AccountType_one(
+    """the row to be inserted"""
+    object: AccountType_insert_input!
+
+    """on conflict condition"""
+    on_conflict: AccountType_on_conflict
+  ): AccountType
+
+  """
   insert a single row into the table: "Account"
   """
   insert_Account_one(
@@ -829,6 +1227,28 @@ type mutation_root {
     """on conflict condition"""
     on_conflict: Account_on_conflict
   ): Account
+
+  """
+  insert data into the table: "EnneagramType"
+  """
+  insert_EnneagramType(
+    """the rows to be inserted"""
+    objects: [EnneagramType_insert_input!]!
+
+    """on conflict condition"""
+    on_conflict: EnneagramType_on_conflict
+  ): EnneagramType_mutation_response
+
+  """
+  insert a single row into the table: "EnneagramType"
+  """
+  insert_EnneagramType_one(
+    """the row to be inserted"""
+    object: EnneagramType_insert_input!
+
+    """on conflict condition"""
+    on_conflict: EnneagramType_on_conflict
+  ): EnneagramType
 
   """
   insert data into the table: "Guild"
@@ -999,6 +1419,46 @@ type mutation_root {
     """filter the rows which have to be updated"""
     where: Account_bool_exp!
   ): Account_mutation_response
+
+  """
+  update data of the table: "AccountType"
+  """
+  update_AccountType(
+    """sets the columns of the filtered rows to the given values"""
+    _set: AccountType_set_input
+
+    """filter the rows which have to be updated"""
+    where: AccountType_bool_exp!
+  ): AccountType_mutation_response
+
+  """
+  update single row of the table: "AccountType"
+  """
+  update_AccountType_by_pk(
+    """sets the columns of the filtered rows to the given values"""
+    _set: AccountType_set_input
+    pk_columns: AccountType_pk_columns_input!
+  ): AccountType
+
+  """
+  update data of the table: "EnneagramType"
+  """
+  update_EnneagramType(
+    """sets the columns of the filtered rows to the given values"""
+    _set: EnneagramType_set_input
+
+    """filter the rows which have to be updated"""
+    where: EnneagramType_bool_exp!
+  ): EnneagramType_mutation_response
+
+  """
+  update single row of the table: "EnneagramType"
+  """
+  update_EnneagramType_by_pk(
+    """sets the columns of the filtered rows to the given values"""
+    _set: EnneagramType_set_input
+    pk_columns: EnneagramType_pk_columns_input!
+  ): EnneagramType
 
   """
   update data of the table: "Guild"
@@ -1267,7 +1727,7 @@ type Player {
 
   """Remote relationship field"""
   daohausMemberships: [Member!]!
-  enneagram: enneagram_type
+  enneagram: EnneagramType_enum
   ethereum_address: String
   id: uuid!
   rank: Player_Rank_enum
@@ -1353,7 +1813,7 @@ input Player_bool_exp {
   _not: Player_bool_exp
   _or: [Player_bool_exp]
   created_at: timestamptz_comparison_exp
-  enneagram: enneagram_type_comparison_exp
+  enneagram: EnneagramType_enum_comparison_exp
   ethereum_address: String_comparison_exp
   id: uuid_comparison_exp
   rank: Player_Rank_enum_comparison_exp
@@ -1397,7 +1857,7 @@ input Player_insert_input {
   Accounts: Account_arr_rel_insert_input
   Player_Skills: Player_Skill_arr_rel_insert_input
   created_at: timestamptz
-  enneagram: enneagram_type
+  enneagram: EnneagramType_enum
   ethereum_address: String
   id: uuid
   rank: Player_Rank_enum
@@ -1736,7 +2196,7 @@ input type for updating data in table "Player"
 """
 input Player_set_input {
   created_at: timestamptz
-  enneagram: enneagram_type
+  enneagram: EnneagramType_enum
   ethereum_address: String
   id: uuid
   rank: Player_Rank_enum
@@ -2094,6 +2554,49 @@ type query_root {
   ): [Account!]!
 
   """
+  fetch data from the table: "AccountType"
+  """
+  AccountType(
+    """distinct select on columns"""
+    distinct_on: [AccountType_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [AccountType_order_by!]
+
+    """filter the rows returned"""
+    where: AccountType_bool_exp
+  ): [AccountType!]!
+
+  """
+  fetch aggregated fields from the table: "AccountType"
+  """
+  AccountType_aggregate(
+    """distinct select on columns"""
+    distinct_on: [AccountType_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [AccountType_order_by!]
+
+    """filter the rows returned"""
+    where: AccountType_bool_exp
+  ): AccountType_aggregate!
+
+  """fetch data from the table: "AccountType" using primary key columns"""
+  AccountType_by_pk(type: String!): AccountType
+
+  """
   fetch aggregated fields from the table: "Account"
   """
   Account_aggregate(
@@ -2112,6 +2615,49 @@ type query_root {
     """filter the rows returned"""
     where: Account_bool_exp
   ): Account_aggregate!
+
+  """
+  fetch data from the table: "EnneagramType"
+  """
+  EnneagramType(
+    """distinct select on columns"""
+    distinct_on: [EnneagramType_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [EnneagramType_order_by!]
+
+    """filter the rows returned"""
+    where: EnneagramType_bool_exp
+  ): [EnneagramType!]!
+
+  """
+  fetch aggregated fields from the table: "EnneagramType"
+  """
+  EnneagramType_aggregate(
+    """distinct select on columns"""
+    distinct_on: [EnneagramType_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [EnneagramType_order_by!]
+
+    """filter the rows returned"""
+    where: EnneagramType_bool_exp
+  ): EnneagramType_aggregate!
+
+  """fetch data from the table: "EnneagramType" using primary key columns"""
+  EnneagramType_by_pk(name: String!): EnneagramType
 
   """
   fetch data from the table: "Guild"
@@ -2856,6 +3402,49 @@ type subscription_root {
   ): [Account!]!
 
   """
+  fetch data from the table: "AccountType"
+  """
+  AccountType(
+    """distinct select on columns"""
+    distinct_on: [AccountType_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [AccountType_order_by!]
+
+    """filter the rows returned"""
+    where: AccountType_bool_exp
+  ): [AccountType!]!
+
+  """
+  fetch aggregated fields from the table: "AccountType"
+  """
+  AccountType_aggregate(
+    """distinct select on columns"""
+    distinct_on: [AccountType_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [AccountType_order_by!]
+
+    """filter the rows returned"""
+    where: AccountType_bool_exp
+  ): AccountType_aggregate!
+
+  """fetch data from the table: "AccountType" using primary key columns"""
+  AccountType_by_pk(type: String!): AccountType
+
+  """
   fetch aggregated fields from the table: "Account"
   """
   Account_aggregate(
@@ -2874,6 +3463,49 @@ type subscription_root {
     """filter the rows returned"""
     where: Account_bool_exp
   ): Account_aggregate!
+
+  """
+  fetch data from the table: "EnneagramType"
+  """
+  EnneagramType(
+    """distinct select on columns"""
+    distinct_on: [EnneagramType_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [EnneagramType_order_by!]
+
+    """filter the rows returned"""
+    where: EnneagramType_bool_exp
+  ): [EnneagramType!]!
+
+  """
+  fetch aggregated fields from the table: "EnneagramType"
+  """
+  EnneagramType_aggregate(
+    """distinct select on columns"""
+    distinct_on: [EnneagramType_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [EnneagramType_order_by!]
+
+    """filter the rows returned"""
+    where: EnneagramType_bool_exp
+  ): EnneagramType_aggregate!
+
+  """fetch data from the table: "EnneagramType" using primary key columns"""
+  EnneagramType_by_pk(name: String!): EnneagramType
 
   """
   fetch data from the table: "Guild"

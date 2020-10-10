@@ -35,6 +35,14 @@ yarn docker:start
 - Runs docker containers for backend, Hasura Engine, and PostGres database
 - will auto-restart on any changes to `packages/backend` and `packages/utils`
 
+If you are running for the first time on an empty database, once the services
+are running you can run the following command to populate the database with
+the initial dataset:
+
+```shell script
+curl -X POST http://localhost:4000/actions/migrateSourceCredAccounts
+```
+
 **Stop backend services**
 
 ```shell script

@@ -1,5 +1,6 @@
 import Box from '3box';
 
+import { AccountType_Enum } from '../../../lib/autogen/hasura-sdk';
 import { client } from '../../../lib/hasuraClient';
 import { UpdateBoxProfileResponse } from '../types';
 
@@ -23,15 +24,18 @@ export async function updateVerifiedAccounts(
       objects: [
         {
           player_id: playerId,
-          type: 'GITHUB',
+          type: AccountType_Enum.Github,
           identifier: verifiedAccounts.github.username,
         },
       ],
     });
-    if (result.insert_Account?.affected_rows === 0) {
-      throw new Error('Error while upserting github profile');
+    if (result.insert_Account?.affected_rows) {
+      updatedProfiles.push('github');
+    } else {
+      console.warn(
+        `Unable to insert Github user ${verifiedAccounts.github.username} for playerId ${playerId}`,
+      );
     }
-    updatedProfiles.push('github');
   }
 
   if (verifiedAccounts.twitter) {
@@ -39,15 +43,18 @@ export async function updateVerifiedAccounts(
       objects: [
         {
           player_id: playerId,
-          type: 'TWITTER',
+          type: AccountType_Enum.Github,
           identifier: verifiedAccounts.twitter.username,
         },
       ],
     });
-    if (result.insert_Account?.affected_rows === 0) {
-      throw new Error('Error while upserting github profile');
+    if (result.insert_Account?.affected_rows) {
+      updatedProfiles.push('twitter');
+    } else {
+      console.warn(
+        `Unable to insert Twitter user ${verifiedAccounts.twitter.username} for playerId ${playerId}`,
+      );
     }
-    updatedProfiles.push('twitter');
   }
 
   return {

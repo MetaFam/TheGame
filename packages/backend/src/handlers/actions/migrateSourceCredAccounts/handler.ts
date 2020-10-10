@@ -6,10 +6,10 @@ import api from 'sourcecred';
 
 import {
   Account_Constraint,
+  AccountType_Enum,
   Player_Constraint,
   Player_Rank_Enum,
   Player_Update_Column,
-  Scalars,
 } from '../../../lib/autogen/hasura-sdk';
 import { client } from '../../../lib/hasuraClient';
 import { AddressBookEntry, SCAccountsData, SCAlias } from './types';
@@ -19,18 +19,18 @@ const ACCOUNTS_FILE =
 const ADDRESS_BOOK_FILE =
   'https://raw.githubusercontent.com/MetaFam/TheSource/master/addressbook.json';
 
-const VALID_ACCOUNT_TYPES: Array<Scalars['account_type']> = [
-  'ETHEREUM',
-  'DISCORD',
-  'DISCOURSE',
-  'GITHUB',
-  'TWITTER',
+const VALID_ACCOUNT_TYPES: Array<AccountType_Enum> = [
+  AccountType_Enum.Ethereum,
+  AccountType_Enum.Discord,
+  AccountType_Enum.Discourse,
+  AccountType_Enum.Github,
+  AccountType_Enum.Twitter,
 ];
 
 const parseAlias = (alias: SCAlias) => {
   try {
     const addressParts = api.core.graph.NodeAddress.toParts(alias.address);
-    const type = addressParts[1]?.toUpperCase() as Scalars['account_type'];
+    const type = addressParts[1]?.toUpperCase() as AccountType_Enum;
 
     if (VALID_ACCOUNT_TYPES.indexOf(type) < 0) {
       return null;
