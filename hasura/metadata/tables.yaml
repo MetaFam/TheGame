@@ -26,6 +26,10 @@
   is_enum: true
 - table:
     schema: public
+    name: EnneagramType
+  is_enum: true
+- table:
+    schema: public
     name: Guild
   object_relationships:
   - name: GuildType
