@@ -28,10 +28,13 @@ export async function updateVerifiedAccounts(
         },
       ],
     });
-    if (result.insert_Account?.affected_rows === 0) {
-      throw new Error('Error while upserting github profile');
+    if (result.insert_Account?.affected_rows) {
+      updatedProfiles.push('github');
+    } else {
+      console.warn(
+        `Unable to insert Github user ${verifiedAccounts.github.username} for playerId ${playerId}`,
+      );
     }
-    updatedProfiles.push('github');
   }
 
   if (verifiedAccounts.twitter) {
@@ -44,10 +47,13 @@ export async function updateVerifiedAccounts(
         },
       ],
     });
-    if (result.insert_Account?.affected_rows === 0) {
-      throw new Error('Error while upserting github profile');
+    if (result.insert_Account?.affected_rows) {
+      updatedProfiles.push('twitter');
+    } else {
+      console.warn(
+        `Unable to insert Twitter user ${verifiedAccounts.twitter.username} for playerId ${playerId}`,
+      );
     }
-    updatedProfiles.push('twitter');
   }
 
   return {
