@@ -81,5 +81,6 @@ export const getStaticProps = async (
     props: {
       player,
     },
+    revalidate: 10,
   };
 };

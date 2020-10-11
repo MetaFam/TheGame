@@ -1036,6 +1036,157 @@ input json_comparison_exp {
   _nin: [json!]
 }
 
+"""
+columns and relationships of "me"
+"""
+type me {
+  ethereum_address: String
+  id: uuid
+
+  """An object relationship"""
+  player: Player
+  username: String
+}
+
+"""
+aggregated selection of "me"
+"""
+type me_aggregate {
+  aggregate: me_aggregate_fields
+  nodes: [me!]!
+}
+
+"""
+aggregate fields of "me"
+"""
+type me_aggregate_fields {
+  count(columns: [me_select_column!], distinct: Boolean): Int
+  max: me_max_fields
+  min: me_min_fields
+}
+
+"""
+order by aggregate values of table "me"
+"""
+input me_aggregate_order_by {
+  count: order_by
+  max: me_max_order_by
+  min: me_min_order_by
+}
+
+"""
+input type for inserting array relation for remote table "me"
+"""
+input me_arr_rel_insert_input {
+  data: [me_insert_input!]!
+}
+
+"""
+Boolean expression to filter rows from the table "me". All fields are combined with a logical 'AND'.
+"""
+input me_bool_exp {
+  _and: [me_bool_exp]
+  _not: me_bool_exp
+  _or: [me_bool_exp]
+  ethereum_address: String_comparison_exp
+  id: uuid_comparison_exp
+  player: Player_bool_exp
+  username: String_comparison_exp
+}
+
+"""
+input type for inserting data into table "me"
+"""
+input me_insert_input {
+  ethereum_address: String
+  id: uuid
+  player: Player_obj_rel_insert_input
+  username: String
+}
+
+"""aggregate max on columns"""
+type me_max_fields {
+  ethereum_address: String
+  id: uuid
+  username: String
+}
+
+"""
+order by max() on columns of table "me"
+"""
+input me_max_order_by {
+  ethereum_address: order_by
+  id: order_by
+  username: order_by
+}
+
+"""aggregate min on columns"""
+type me_min_fields {
+  ethereum_address: String
+  id: uuid
+  username: String
+}
+
+"""
+order by min() on columns of table "me"
+"""
+input me_min_order_by {
+  ethereum_address: order_by
+  id: order_by
+  username: order_by
+}
+
+"""
+response of any mutation on the table "me"
+"""
+type me_mutation_response {
+  """number of affected rows by the mutation"""
+  affected_rows: Int!
+
+  """data of the affected rows by the mutation"""
+  returning: [me!]!
+}
+
+"""
+input type for inserting object relation for remote table "me"
+"""
+input me_obj_rel_insert_input {
+  data: me_insert_input!
+}
+
+"""
+ordering options when selecting data from "me"
+"""
+input me_order_by {
+  ethereum_address: order_by
+  id: order_by
+  player: Player_order_by
+  username: order_by
+}
+
+"""
+select columns of table "me"
+"""
+enum me_select_column {
+  """column name"""
+  ethereum_address
+
+  """column name"""
+  id
+
+  """column name"""
+  username
+}
+
+"""
+input type for updating data in table "me"
+"""
+input me_set_input {
+  ethereum_address: String
+  id: uuid
+  username: String
+}
+
 type Member {
   createdAt: String!
   delegateKey: String!
@@ -1184,6 +1335,14 @@ type mutation_root {
   delete single row from the table: "Skill"
   """
   delete_Skill_by_pk(id: uuid!): Skill
+
+  """
+  delete data from the table: "me"
+  """
+  delete_me(
+    """filter the rows which have to be deleted"""
+    where: me_bool_exp!
+  ): me_mutation_response
 
   """
   insert data into the table: "Account"
@@ -1406,6 +1565,22 @@ type mutation_root {
   ): Skill
 
   """
+  insert data into the table: "me"
+  """
+  insert_me(
+    """the rows to be inserted"""
+    objects: [me_insert_input!]!
+  ): me_mutation_response
+
+  """
+  insert a single row into the table: "me"
+  """
+  insert_me_one(
+    """the row to be inserted"""
+    object: me_insert_input!
+  ): me
+
+  """
   perform the action: "updateBoxProfile"
   """
   updateBoxProfile: UpdateBoxProfileResponse
@@ -1606,6 +1781,17 @@ type mutation_root {
     _set: Skill_set_input
     pk_columns: Skill_pk_columns_input!
   ): Skill
+
+  """
+  update data of the table: "me"
+  """
+  update_me(
+    """sets the columns of the filtered rows to the given values"""
+    _set: me_set_input
+
+    """filter the rows which have to be updated"""
+    where: me_bool_exp!
+  ): me_mutation_response
 }
 
 scalar numeric
@@ -2962,6 +3148,46 @@ type query_root {
   Skill_by_pk(id: uuid!): Skill
   getBoxProfile(address: String): BoxProfile
   getDaoHausMemberships(memberAddress: String): [Member!]!
+
+  """
+  fetch data from the table: "me"
+  """
+  me(
+    """distinct select on columns"""
+    distinct_on: [me_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [me_order_by!]
+
+    """filter the rows returned"""
+    where: me_bool_exp
+  ): [me!]!
+
+  """
+  fetch aggregated fields from the table: "me"
+  """
+  me_aggregate(
+    """distinct select on columns"""
+    distinct_on: [me_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [me_order_by!]
+
+    """filter the rows returned"""
+    where: me_bool_exp
+  ): me_aggregate!
 }
 
 """
@@ -3808,6 +4034,46 @@ type subscription_root {
 
   """fetch data from the table: "Skill" using primary key columns"""
   Skill_by_pk(id: uuid!): Skill
+
+  """
+  fetch data from the table: "me"
+  """
+  me(
+    """distinct select on columns"""
+    distinct_on: [me_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [me_order_by!]
+
+    """filter the rows returned"""
+    where: me_bool_exp
+  ): [me!]!
+
+  """
+  fetch aggregated fields from the table: "me"
+  """
+  me_aggregate(
+    """distinct select on columns"""
+    distinct_on: [me_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [me_order_by!]
+
+    """filter the rows returned"""
+    where: me_bool_exp
+  ): me_aggregate!
 }
 
 scalar timestamptz
