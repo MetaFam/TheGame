@@ -30,6 +30,8 @@ services:
     dockerContext: .
     envVars:
       - fromGroup: hasura-secrets
+      - key: IMGIX_TOKEN
+        sync: false
       - key: GRAPHQL_HOST
         fromService:
           name: hasura
