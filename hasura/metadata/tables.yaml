@@ -251,3 +251,25 @@
     schema: public
     name: SkillCategory
   is_enum: true
+- table:
+    schema: public
+    name: me
+  object_relationships:
+  - name: player
+    using:
+      manual_configuration:
+        remote_table:
+          schema: public
+          name: Player
+        column_mapping:
+          id: id
+  select_permissions:
+  - role: player
+    permission:
+      columns:
+      - id
+      - username
+      - ethereum_address
+      filter:
+        id:
+          _eq: X-Hasura-User-Id
