@@ -1,6 +1,10 @@
 import Box, { Image } from '3box';
 
 import { CONFIG } from '../../../../config';
+import {
+  optimizeImage,
+  OptimizeImageParams,
+} from '../../../../lib/imageHelpers';
 import { QueryResolvers } from '../../autogen/types';
 
 export const getBoxProfile: QueryResolvers['getBoxProfile'] = async (
@@ -22,16 +26,24 @@ export const getBoxProfile: QueryResolvers['getBoxProfile'] = async (
     location: boxProfile.location,
     job: boxProfile.job,
     emoji: boxProfile.emoji,
-    imageUrl: getImage(boxProfile?.image),
-    coverImageUrl: getImage(boxProfile?.coverPhoto),
+    imageUrl: getImage(boxProfile?.image, {
+      ar: '1:1',
+      height: 200,
+    }),
+    coverImageUrl: getImage(boxProfile?.coverPhoto, {
+      height: 300,
+    }),
     website: boxProfile.website,
   };
 };
 
-function getImage(image: Image[] | null | undefined) {
+function getImage(
+  image: Image[] | null | undefined,
+  opts: OptimizeImageParams,
+) {
   const imageHash = image?.[0]?.contentUrl?.['/'];
   if (imageHash) {
-    return `${CONFIG.ipfsEndpoint}/ipfs/${imageHash}`;
+    return optimizeImage(`${CONFIG.ipfsEndpoint}/ipfs/${imageHash}`, opts);
   }
   return '';
 }

@@ -53,6 +53,7 @@ services:
       PORT: 4000
       GRAPHQL_URL: http://hasura:8080/v1/graphql
       HASURA_GRAPHQL_ADMIN_SECRET: ${HASURA_GRAPHQL_ADMIN_SECRET}
+      IMGIX_TOKEN: ${IMGIX_TOKEN}
 
 volumes:
   database:
