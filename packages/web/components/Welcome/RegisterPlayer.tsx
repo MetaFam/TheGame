@@ -1,8 +1,9 @@
 import { Button, ButtonGroup, MetaHeading } from '@metafam/ds';
 import { FlexContainer } from 'components/Container';
-import { Web3Context } from 'contexts/Web3Context';
 import { useRouter } from 'next/router';
-import React, { useContext } from 'react';
+import React from 'react';
+
+import { useWeb3 } from '../../lib/hooks';
 
 export const RegisterPlayer: React.FC = () => {
   return (
@@ -18,7 +19,7 @@ export const RegisterPlayer: React.FC = () => {
 type ButtonProps = React.ComponentProps<typeof Button>;
 
 const RegisterButton: React.FC<ButtonProps> = ({ children, ...props }) => {
-  const { connectWeb3 } = useContext(Web3Context);
+  const { connectWeb3 } = useWeb3();
   const router = useRouter();
   const login = async () => {
     await connectWeb3();

@@ -4,4 +4,5 @@ import { CONFIG } from '../config';
 
 export const client = createClient({
   url: CONFIG.graphqlURL,
+  suspense: false,
 });

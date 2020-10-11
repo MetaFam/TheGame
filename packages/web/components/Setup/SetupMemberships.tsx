@@ -1,12 +1,13 @@
 import { MetaButton, MetaHeading, MetaTag, Text, Wrap } from '@metafam/ds';
 import { FlexContainer } from 'components/Container';
 import { SetupContext } from 'contexts/SetupContext';
-import { Web3Context } from 'contexts/Web3Context';
 import { getMemberships } from 'graphql/getMemberships';
 import React, { useContext, useEffect } from 'react';
 
+import { useWeb3 } from '../../lib/hooks';
+
 export const SetupMemberships: React.FC = () => {
-  const { address, isConnected } = useContext(Web3Context);
+  const { address, isConnected } = useWeb3();
   const {
     onNextPress,
     nextButtonLabel,
