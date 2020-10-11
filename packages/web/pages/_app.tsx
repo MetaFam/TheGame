@@ -2,11 +2,10 @@ import { ChakraProvider, CSSReset, MetaTheme } from '@metafam/ds';
 import { PageHeader } from 'components/PageHeader';
 import { CONFIG } from 'config';
 import { Web3ContextProvider } from 'contexts/Web3Context';
+import { getTokenFromStore } from 'lib/auth';
 import { withUrqlClient } from 'next-urql';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
-
-import { getTokenFromStore } from '../lib/auth';
 
 const app: React.FC<AppProps> = ({ pageProps, Component }) => {
   return (

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { useRouter } from 'next/router';
 import { useContext, useEffect } from 'react';
 
