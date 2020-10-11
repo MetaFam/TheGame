@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "concurrently \"next\" \"yarn generate --watch\"",
-    "build": "next build && next export",
+    "build": "next build",
     "start": "next start",
     "typecheck": "tsc",
     "precommit": "yarn lint-staged",
