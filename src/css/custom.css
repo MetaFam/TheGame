@@ -6,7 +6,7 @@
  */
 
 /* You can override the default Infima variables here. */
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans&family=Press+Start+2P&display=swap|');
 
 :root {
   --ifm-color-primary: #ff0077;
@@ -19,6 +19,7 @@
   --mf-button-primary: #b72886;
   --mf-button-nav: #5a32e6;
   --mf-color-secondary: #261942;
+  --mf-color-secondary-rgb: 38, 25, 66;
   --mf-color-text-body: #a5b9f6;
   --mf-color-link-hover: #392373;
   --mf-font-body: 'IBM Plex Sans';
@@ -26,17 +27,38 @@
   --ifm-font-size-base: 17px;
 }
 
+body {
+  font-size: 14px;
+}
+@media (min-width: 995px) {
+  body {
+    font-size: 15px;
+  }
+}
+@media (min-width: 1920px) {
+  body {
+    font-size: 17px;
+  }
+}
 body,
 .main-wrapper {
-  font-size: 0.8rem;
   background-color: var(--ifm-color-primary-dark);
   color: var(--mf-color-text-body);
   font-family: var(--mf-font-body), sans-serif;
 }
-@media (min-width: 1920px) {
-  body,
-  .main-wrapper {
-    font-size: 1.1rem;
+
+.main-wrapper {
+  background-image: url('/img/mymeta-bg.jpg');
+  background-size: cover;
+  background-attachment: fixed;
+  width: 100%;
+  min-height: 100vh;
+  padding: 0;
+}
+
+@media (min-width: 995px) {
+  .main-wrapper > [class^='docPage'] {
+    backdrop-filter: blur(15px);
   }
 }
 .inner-wrapper.home {
@@ -57,64 +79,76 @@ body,
   flex: 0 0 100%;
   width: 100%;
 }
-.main-wrapper [class^='docPage_node'] {
-  min-height: 100vh;
-}
+
 .main-wrapper [role='complementary'] {
-  border-right: 0;
-  overflow: hidden;
   position: relative;
+  width: 300px;
 }
-@media (min-width: 1024px) {
+@media (min-width: 995px) {
+  .main-wrapper [class^='docPage_node'] {
+    min-height: 100vh;
+  }
   .main-wrapper [role='complementary'] {
     border-right: 0;
-    width: 42%;
-    max-width: 42%;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    align-items: start;
+    justify-content: center;
+    width: 28%;
+    max-width: 25%;
     min-height: 100vh;
   }
 }
 @media (min-width: 1280px) {
   .main-wrapper [role='complementary'] {
     border-right: 0;
-    width: 35%;
-    max-width: 35%;
+    width: 25%;
+    max-width: 25%;
     min-height: 100vh;
   }
 }
 @media (min-width: 1366px) {
   .main-wrapper [role='complementary'] {
     border-right: 0;
-    width: 40%;
-    max-width: 40%;
+    width: 30%;
+    max-width: 30%;
+    min-height: 100vh;
+  }
+}
+@media (min-width: 1440px) {
+  .main-wrapper [role='complementary'] {
+    border-right: 0;
+    width: 28%;
+    max-width: 28%;
     min-height: 100vh;
   }
 }
 @media (min-width: 1600px) {
   .main-wrapper [role='complementary'] {
-    width: 30%;
-    max-width: 30%;
+    width: 28%;
+    max-width: 28%;
   }
 }
 @media (min-width: 2560px) {
   .main-wrapper [role='complementary'] {
-    width: 10%;
-    max-width: 8%;
+    width: 30%;
+    max-width: 30%;
   }
 }
-.main-wrapper [role='complementary'] [class^='sidebar'] {
-  border-radius: 0 6px 6px 0;
-  background-color: var(--mf-color-secondary);
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
-}
-@media (min-width: 1024px) {
+
+@media (min-width: 995px) {
   .main-wrapper [role='complementary'] [class^='sidebar'] {
-    top: 5%;
-    left: 2.5%;
+    border-radius: 6px;
+    backdrop-filter: blur(7px);
+    background-color: rgba(var(--mf-color-secondary-rgb), 0.5);
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
+    transition: height 0.3s ease-in-out;
+    margin-top: 10rem;
     width: 100%;
-    max-width: 325px;
-    max-height: 90%;
-    padding: 25px 0;
-    position: fixed;
+    max-width: 250px;
+    height: auto;
+    padding: 5px;
   }
   [class^='sidebar'] a {
     font-size: 0.8rem;
@@ -123,33 +157,34 @@ body,
 
 @media (min-width: 1280px) {
   .main-wrapper [role='complementary'] [class^='sidebar'] {
-    left: 5%;
-    max-width: 350px;
+    margin-left: 5%;
+    max-width: 300px;
   }
 }
-@media (min-width: 1366px) {
+@media screen and (min-width: 1366px) {
   .main-wrapper [role='complementary'] [class^='sidebar'] {
+    max-width: 330px;
+  }
+  [class^='sidebar'] a {
+    font-size: 0.8rem;
   }
 }
 @media (min-width: 1440px) {
   .main-wrapper [role='complementary'] [class^='sidebar'] {
-    max-width: 385px;
+    /* max-width: 300px; */
   }
 }
 @media (min-width: 1600px) {
   .main-wrapper [role='complementary'] [class^='sidebar'] {
-    left: 5%;
+    /* left: 5%; */
     max-width: 350px;
   }
 }
-@media (min-width: 1900px) {
+@media (min-width: 1920px) {
   .main-wrapper [role='complementary'] [class^='sidebar'] {
     border-radius: 6px;
-    left: 8.5%;
+    /* left: 8.5%; */
     max-width: 400px;
-    max-height: 80%;
-    padding: 25px 0;
-    position: fixed;
   }
   [class^='sidebar'] a {
     font-size: 1rem;
@@ -157,7 +192,7 @@ body,
 }
 @media (min-width: 2560px) {
   .main-wrapper [role='complementary'] [class^='sidebar'] {
-    left: 7.5%;
+    /* left: 7.5%; */
     max-width: 550px;
     max-height: 80%;
     padding: 25px 0;
@@ -167,12 +202,28 @@ body,
     font-size: 1.2rem;
   }
 }
+.main-wrapper [class^='docMainContainer'] .container {
+  margin-left: 0;
+}
 [class^='sidebar'] .menu--show {
   background-color: var(--mf-color-secondary);
 }
 .navbar {
   display: none;
 }
+.main-wrapper [class^='docItemCol'] {
+}
+@media (min-width: 1366px) {
+  .main-wrapper .col[class^='col docItemCol'] {
+    max-width: 64.5% !important;
+  }
+}
+@media (min-width: 1920px) {
+  .main-wrapper .col[class^='col docItemCol'] {
+    max-width: 75% !important;
+  }
+}
+
 .main-wrapper [class^='docTitle'] {
   font-size: 1.5rem;
 }
@@ -193,7 +244,7 @@ body,
     font-size: 0.8rem;
   }
 }
-@media (min-width: 1900px) {
+@media (min-width: 1920px) {
   .main-wrapper [class^='docTitle'] {
     font-size: 2.5rem;
   }
@@ -208,6 +259,27 @@ body,
 a,
 .table-of-contents__link {
   transition: color 0.2s ease-in-out;
+}
+.table-of-contents__link {
+  font-size: 0.8rem;
+}
+@media (min-width: 995px) {
+  .table-of-contents__link {
+    font-size: 0.6rem;
+  }
+}
+@media (min-width: 1366px) {
+  .table-of-contents__link {
+    font-size: 0.8rem;
+  }
+}
+@media (min-width: 1920px) {
+  .table-of-contents__link {
+    font-size: 1rem;
+  }
+}
+.menu__link {
+  transition: background 0.2s ease-in;
 }
 a:hover,
 .table-of-contents__link:hover {
@@ -260,5 +332,8 @@ a:hover,
   left: 0;
   position: absolute;
   top: 0;
+  width: 100%;
+}
+.markdown iframe {
   width: 100%;
 }

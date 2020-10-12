@@ -5,26 +5,46 @@
  */
 
 .heroBanner {
-  background: var(--ifm-color-primary-dark);
-  padding: 2rem;
+  background: transparent;
+  padding: 5rem 0 2rem;
   text-align: center;
   position: relative;
   overflow: hidden;
+}
+.heroSubtitle {
+  font-size: 1.2rem;
 }
 
 @media screen and (min-width: 967px) {
   .heroBanner {
     padding: 2rem 0 0;
   }
+  .heroSubtitle {
+    font-size: 1.2rem;
+  }
+}
+@media screen and (min-width: 1366px) {
+  .heroBanner {
+    padding: 3rem 0 2rem;
+  }
+  .heroSubtitle {
+    font-size: 1.5rem;
+  }
 }
 @media screen and (min-width: 1440px) {
   .heroBanner {
-    padding: 0 0 4rem;
+    padding: 2rem 0;
+  }
+  .heroSubtitle {
+    font-size: 1.5rem;
   }
 }
 @media screen and (min-width: 1920px) {
   .heroBanner {
     padding: 0 0 6rem;
+  }
+  .heroSubtitle {
+    font-size: 1.7rem;
   }
 }
 .buttons {
@@ -36,18 +56,147 @@
 .features {
   display: flex;
   align-items: center;
+  text-align: center;
   padding: 2rem 0;
   width: 100%;
 }
 
-.featureImage {
-  height: 150px;
-  width: 150px;
+.imageWrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  overflow: hidden;
+  margin-bottom: 0;
 }
-@media screen and (min-width: 1440) {
+@media screen and (min-width: 995px) {
+  .imageWrapper {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    overflow: hidden;
+    margin-bottom: 0;
+  }
+}
+.imageWrapper a {
+  position: relative;
+  background: rgba(255, 255, 255, 0);
+  border-radius: 100% 100% 0 0;
+  border: 0;
+  height: auto;
+  width: auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 75px;
+}
+@media (min-width: 1280px) {
+  .imageWrapper {
+    margin-bottom: 0;
+  }
+}
+@media (min-width: 1440px) {
+  .imageWrapper a {
+    height: 320px;
+    width: 300px;
+  }
+}
+
+.imageWrapper div {
+  position: absolute;
+  background: rgba(255, 255, 255, 0);
+  border: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  font-family: 'Press Start 2P', cursive;
+  height: 250px;
+  width: 250px;
+  z-index: 3;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  transform: translate3d(0, 0, 0);
+  transition: transform 0s 0.3s ease-in-out, opacity 0.2s 0.1s ease-in-out;
+}
+@media (min-width: 1440px) {
+  .imageWrapper div {
+    height: 320px;
+    width: 300px;
+  }
+}
+
+@keyframes flashIcon {
+  0% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.1;
+    /* transform: scale(3); */
+  }
+  80% {
+    /* transform: scale(12); */
+  }
+  100% {
+    opacity: 0;
+    transform: scale(10);
+  }
+}
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+.imageWrapper div h3 {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(7px);
+  border-radius: 5px;
+  position: relative;
+  color: #a5b9f6;
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 100;
+  padding: 8px 10px;
+  margin-bottom: 0;
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.8);
+  /* transform: translate3d(0, 275px, 0); */
+  transition: background 0.2s ease-in;
+}
+@media (min-width: 1440px) {
+  .imageWrapper div h3 {
+    font-size: 1rem;
+  }
+}
+
+.imageWrapper a:hover h3 {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.featureImage {
+  position: relative;
+  background: rgba(255, 255, 255, 0.13);
+  border-radius: 50%;
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.4);
+  height: 200px;
+  width: 200px;
+  transform: translate3d(0, 0, 1);
+  transition: background 0.3s ease-in;
+  z-index: 2;
+}
+.imageWrapper a:hover .featureImage {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+@media screen and (min-width: 1440px) {
   .featureImage {
-    height: 200px;
-    width: 200px;
+    height: 250px;
+    width: 250px;
   }
 }
 .wikiLogo {

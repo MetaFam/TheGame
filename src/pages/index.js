@@ -35,20 +35,21 @@ function Feature({ imageUrl, title, description, linkText, linkTo }) {
   return (
     <div className={classnames('col col--4', styles.feature)}>
       {imgUrl && (
-        <div className='text--center'>
-          <img className={styles.featureImage} src={imgUrl} alt={title} />
+        <div className={classnames('text--center', styles.imageWrapper)}>
+          <Link
+            className='button button--primary button--outline'
+            to={useBaseUrl(linkTo)}
+          >
+            <img className={styles.featureImage} src={imgUrl} alt={title} />
+            <div>
+              <h3>
+                <span>{title}</span>
+              </h3>
+            </div>
+          </Link>
         </div>
       )}
-      <div className='text--center'>
-        <h3>{title}</h3>
-        <p>{description}</p>
-        <Link
-          className='button button--primary button--outline'
-          to={useBaseUrl(linkTo)}
-        >
-          {linkText}
-        </Link>
-      </div>
+      <div className='text--center'>{description && <p>{description}</p>}</div>
     </div>
   );
 }
@@ -74,7 +75,7 @@ function Home() {
                 width='555'
                 src={useBaseUrl('img/wiki-logo.png')}
               />
-              <p className='hero__subtitle'>{siteConfig.tagline}</p>
+              <p className={styles.heroSubtitle}>{siteConfig.tagline}</p>
               <div className={styles.buttons}>
                 <Link
                   className='button button--primary button--lg'
