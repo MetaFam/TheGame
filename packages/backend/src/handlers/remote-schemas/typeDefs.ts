@@ -14,6 +14,7 @@ export const typeDefs = gql`
     job: String
     emoji: String
     imageUrl: String
+    coverImageUrl: String
     website: String
   }
 

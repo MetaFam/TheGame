@@ -11,6 +11,7 @@ export const PlayerHero: React.FC<Props> = ({ player }) => {
   return (
     <Box
       bgImage={`url(${BackgroundImage})`}
+      backgroundSize="cover"
       h={{ base: '48', md: '3xs' }}
       mb="6"
     >

@@ -15,6 +15,7 @@ export const PlayerFragment = gql`
       description
       emoji
       ethereumAddress
+      coverImageUrl
       imageUrl
       job
       location

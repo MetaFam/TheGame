@@ -358,6 +358,7 @@ enum AccountType_update_column {
 }
 
 type BoxProfile {
+  coverImageUrl: String
   description: String
   emoji: String
   ethereumAddress: String

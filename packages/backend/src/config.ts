@@ -4,6 +4,7 @@ interface IConfig {
   daoHausGraphqlURL: string;
   adminKey: string;
   ipfsEndpoint: string;
+  imgixToken: string;
 }
 
 function parseEnv<T extends string | number>(
@@ -33,4 +34,5 @@ export const CONFIG: IConfig = {
     'metagame_secret',
   ),
   ipfsEndpoint: parseEnv(process.env.IPFS_ENDPOINT, 'https://ipfs.infura.io'),
+  imgixToken: parseEnv(process.env.IMGIX_TOKEN, ''),
 };
