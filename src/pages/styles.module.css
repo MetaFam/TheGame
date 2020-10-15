@@ -89,6 +89,9 @@
   justify-content: center;
   padding-bottom: 75px;
 }
+.imageWrapper a:active {
+  background: transparent;
+}
 @media (min-width: 1280px) {
   .imageWrapper {
     margin-bottom: 0;
@@ -108,14 +111,13 @@
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  font-family: 'Press Start 2P', cursive;
   height: 250px;
   width: 250px;
   z-index: 3;
   top: 0;
   left: 0;
   overflow: hidden;
-  transform: translate3d(0, 0, 0);
+  text-transform: uppercase;
   transition: transform 0s 0.3s ease-in-out, opacity 0.2s 0.1s ease-in-out;
 }
 @media (min-width: 1440px) {
@@ -154,15 +156,17 @@
   }
 }
 .imageWrapper div h3 {
-  background: rgba(255, 255, 255, 0.1);
+  background: #5a32e6;
   backdrop-filter: blur(7px);
-  border-radius: 5px;
+  border-radius: 4px;
+  font-family: var(--mf-font-body);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08rem;
   position: relative;
   color: #a5b9f6;
   display: block;
-  font-size: 0.8rem;
-  font-weight: 100;
-  padding: 8px 10px;
+  padding: 10px 15px;
   margin-bottom: 0;
   text-shadow: 0 0 5px rgba(0, 0, 0, 0.8);
   /* transform: translate3d(0, 275px, 0); */
@@ -175,7 +179,7 @@
 }
 
 .imageWrapper a:hover h3 {
-  background: rgba(255, 255, 255, 0.15);
+  background: #5a32e660;
 }
 
 .featureImage {
