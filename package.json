@@ -7,6 +7,7 @@
   },
   "private": true,
   "scripts": {
+    "update-schema": "yarn codegen update-schema",
     "docker:start": "docker-compose up --build -d",
     "docker:stop": "docker-compose down",
     "docker:clean": "docker-compose down -v",

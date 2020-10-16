@@ -9,58 +9,69 @@ import PeacemakerImage from 'assets/peacemaker.png';
 import ReformerImage from 'assets/reformer.png';
 import { PersonalityType } from 'graphql/types';
 
+import { EnneagramType_Enum } from './autogen/types';
+
 const personalityTypes: Array<PersonalityType> = [
   {
     id: '1',
-    name: 'The Reformer',
+    name: EnneagramType_Enum.Reformer,
+    label: 'The Reformer',
     description: 'Principled, Purposeful, Self-Controlled, and Perfectionistic',
     image: ReformerImage,
   },
   {
     id: '2',
-    name: 'The Helper',
+    name: EnneagramType_Enum.Helper,
+    label: 'The Helper',
     description: 'Demonstrative, Generous, People-Pleasing, and Possessive',
     image: HelperImage,
   },
   {
     id: '3',
-    name: 'The Achiever',
+    name: EnneagramType_Enum.Achiever,
+    label: 'The Achiever',
     description: 'Adaptive, Excelling, Driven, and Image-Conscious',
     image: AchieverImage,
   },
   {
     id: '4',
-    name: 'The Individualist',
+    name: EnneagramType_Enum.Individualist,
+    label: 'The Individualist',
     description: 'Expressive, Dramatic, Self-Absorbed, and Temperamental',
     image: IndividualistImage,
   },
   {
     id: '5',
-    name: 'The Investigator',
+    name: EnneagramType_Enum.Investigator,
+    label: 'The Investigator',
     description: 'Perceptive, Innovative, Secretive, and Isolated',
     image: InvestigatorImage,
   },
   {
     id: '6',
-    name: 'The Loyalist',
+    name: EnneagramType_Enum.Loyalist,
+    label: 'The Loyalist',
     description: 'Engaging, Responsible, Anxious, and Suspicious',
     image: LoyalistImage,
   },
   {
     id: '7',
-    name: 'The Enthusiast',
+    name: EnneagramType_Enum.Enthusiast,
+    label: 'The Enthusiast',
     description: 'Spontaneous, Versatile, Distractible, and Scattered',
     image: EnthusiastImage,
   },
   {
     id: '8',
-    name: 'The Challenger',
+    name: EnneagramType_Enum.Challenger,
+    label: 'The Challenger',
     description: 'Self-Confident, Decisive, Willful, and Confrontational',
     image: ChallengerImage,
   },
   {
     id: '9',
-    name: 'The Peacemaker',
+    name: EnneagramType_Enum.Peacemaker,
+    label: 'The Peacemaker',
     description: 'Receptive, Reassuring, Agreeable, and Complacent',
     image: PeacemakerImage,
   },

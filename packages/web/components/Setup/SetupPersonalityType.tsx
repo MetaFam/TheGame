@@ -47,10 +47,11 @@ export const SetupPersonalityType: React.FC = () => {
             transition="background 0.25s"
             cursor="pointer"
             onClick={() => setPersonalityType(p)}
-            border={
+            border="2px"
+            borderColor={
               personalityType && personalityType.id === p.id
-                ? '2px solid #5a32e6'
-                : 'none'
+                ? 'purple.400'
+                : 'transparent'
             }
           >
             <Image
@@ -69,7 +70,7 @@ export const SetupPersonalityType: React.FC = () => {
         ))}
       </SimpleGrid>
 
-      <MetaButton onClick={onNextPress} mt={10}>
+      <MetaButton onClick={onNextPress} mt={10} isDisabled={!personalityType}>
         {nextButtonLabel}
       </MetaButton>
     </FlexContainer>

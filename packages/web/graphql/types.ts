@@ -1,4 +1,4 @@
-import { Member, Moloch } from 'graphql/autogen/types';
+import { EnneagramType_Enum, Member, Moloch } from 'graphql/autogen/types';
 
 export type Skill = {
   id: string;
@@ -8,15 +8,10 @@ export type Skill = {
 
 export type PersonalityType = {
   id: string;
-  name: string;
+  name: EnneagramType_Enum;
+  label: string;
   description: string;
   image: string;
-};
-
-export type PlayerType = {
-  id: string;
-  name: string;
-  description: string;
 };
 
 export type Membership = Pick<Member, 'id'> & {

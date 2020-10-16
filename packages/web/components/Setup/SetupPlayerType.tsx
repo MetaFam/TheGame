@@ -1,8 +1,16 @@
-import { MetaButton, MetaHeading, SimpleGrid, Text } from '@metafam/ds';
+import {
+  MetaButton,
+  MetaHeading,
+  SimpleGrid,
+  Text,
+  useToast,
+} from '@metafam/ds';
 import { FlexContainer } from 'components/Container';
 import { useSetupFlow } from 'contexts/SetupContext';
-import { PlayerType } from 'graphql/types';
 import React from 'react';
+
+import { useUpdateAboutYouMutation } from '../../graphql/autogen/types';
+import { useUser } from '../../lib/hooks';
 
 export const SetupPlayerType: React.FC = () => {
   const {
@@ -11,7 +19,38 @@ export const SetupPlayerType: React.FC = () => {
     playerTypes,
     playerType,
     setPlayerType,
+    personalityType,
   } = useSetupFlow();
+  const { user } = useUser({ redirectTo: '/' });
+  const toast = useToast();
+
+  const [updateAboutYouRes, updateAboutYou] = useUpdateAboutYouMutation();
+
+  const handleNextPress = async () => {
+    if (!user) return;
+
+    const { error } = await updateAboutYou({
+      playerId: user.id,
+      input: {
+        enneagram: personalityType?.name,
+        playerTypeId: playerType?.id,
+      },
+    });
+
+    if (error) {
+      console.warn(error);
+      toast({
+        title: 'Error',
+        description: 'Unable to update Player Account. The octo is sad 😢',
+        status: 'error',
+        isClosable: true,
+      });
+      return;
+    }
+
+    onNextPress();
+  };
+
   return (
     <FlexContainer>
       <MetaHeading mb={5} textAlign="center">
@@ -21,11 +60,11 @@ export const SetupPlayerType: React.FC = () => {
         Please read the features of each player type below. And select the one
         that suits you best.
       </Text>
-      <SimpleGrid columns={[1, null, 2, 3]} spacing="8">
-        {playerTypes.map((p: PlayerType) => (
+      <SimpleGrid columns={[1, null, 3, 3]} spacing={4}>
+        {playerTypes.map((p) => (
           <FlexContainer
             key={p.id}
-            p={6}
+            p={[4, null, 6]}
             bgColor={
               playerType && playerType.id === p.id
                 ? 'purpleBoxDark'
@@ -37,21 +76,28 @@ export const SetupPlayerType: React.FC = () => {
             cursor="pointer"
             onClick={() => setPlayerType(p)}
             align="stretch"
-            border={
+            border="2px"
+            borderColor={
               playerType && playerType.id === p.id
-                ? '2px solid #5a32e6'
-                : 'none'
+                ? 'purple.400'
+                : 'transparent'
             }
           >
             <Text color="white" fontWeight="bold" mb={4}>
-              {p.name}
+              {p.title}
             </Text>
             <Text color="blueLight">{p.description}</Text>
           </FlexContainer>
         ))}
       </SimpleGrid>
 
-      <MetaButton onClick={onNextPress} mt={10}>
+      <MetaButton
+        onClick={handleNextPress}
+        mt={10}
+        isDisabled={!playerType}
+        isLoading={updateAboutYouRes.fetching}
+        loadingText="Saving"
+      >
         {nextButtonLabel}
       </MetaButton>
     </FlexContainer>

@@ -1,4 +1,5 @@
-import { Membership, PersonalityType, PlayerType } from 'graphql/types';
+import { PlayerType } from 'graphql/autogen/types';
+import { Membership, PersonalityType } from 'graphql/types';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { CategoryOption, SkillOption } from 'utils/skillHelpers';
 
