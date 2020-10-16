@@ -1,8 +1,8 @@
 import { MetaButton, MetaHeading, MetaTag, Text, Wrap } from '@metafam/ds';
 import { FlexContainer } from 'components/Container';
-import { SetupContext } from 'contexts/SetupContext';
+import { useSetupFlow } from 'contexts/SetupContext';
 import { getMemberships } from 'graphql/getMemberships';
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 
 import { useWeb3 } from '../../lib/hooks';
 
@@ -13,7 +13,7 @@ export const SetupMemberships: React.FC = () => {
     nextButtonLabel,
     memberships,
     setMemberships,
-  } = useContext(SetupContext);
+  } = useSetupFlow();
   useEffect(() => {
     getMemberships(address).then((data) => {
       setMemberships(data);

@@ -28,6 +28,19 @@
     schema: public
     name: EnneagramType
   is_enum: true
+  select_permissions:
+  - role: player
+    permission:
+      columns:
+      - description
+      - name
+      filter: {}
+  - role: public
+    permission:
+      columns:
+      - description
+      - name
+      filter: {}
 - table:
     schema: public
     name: Guild
@@ -80,6 +93,13 @@
 - table:
     schema: public
     name: Player
+  object_relationships:
+  - name: EnneagramType
+    using:
+      foreign_key_constraint_on: enneagram
+  - name: playerType
+    using:
+      foreign_key_constraint_on: playerTypeId
   array_relationships:
   - name: Accounts
     using:
@@ -118,19 +138,22 @@
   - role: player
     permission:
       columns:
-      - id
-      - username
-      - ethereum_address
-      - totalXp
-      - role
-      - timezone
+      - availability_hours
       - enneagram
-      - scIdentityId
+      - ethereum_address
+      - id
+      - playerTypeId
       - rank
+      - role
+      - scIdentityId
+      - timezone
+      - totalXp
+      - username
       filter: {}
   - role: public
     permission:
       columns:
+      - availability_hours
       - enneagram
       - ethereum_address
       - id

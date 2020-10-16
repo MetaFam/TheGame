@@ -1,5 +1,6 @@
-import { Membership, PersonalityType, PlayerType } from 'graphql/types';
-import React, { useCallback, useEffect, useState } from 'react';
+import { PlayerType } from 'graphql/autogen/types';
+import { Membership, PersonalityType } from 'graphql/types';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { CategoryOption, SkillOption } from 'utils/skillHelpers';
 
 type SetupOption = {
@@ -161,3 +162,5 @@ export const SetupContextProvider: React.FC<Props> = ({
     </SetupContext.Provider>
   );
 };
+
+export const useSetupFlow = (): SetupContextType => useContext(SetupContext);

@@ -8,9 +8,9 @@ import {
 } from '@metafam/ds';
 import { FlexContainer } from 'components/Container';
 import { MetaLink } from 'components/Link';
-import { SetupContext } from 'contexts/SetupContext';
+import { useSetupFlow } from 'contexts/SetupContext';
 import { PersonalityType } from 'graphql/types';
-import React, { useContext } from 'react';
+import React from 'react';
 
 export const SetupPersonalityType: React.FC = () => {
   const {
@@ -19,7 +19,7 @@ export const SetupPersonalityType: React.FC = () => {
     personalityTypes,
     personalityType,
     setPersonalityType,
-  } = useContext(SetupContext);
+  } = useSetupFlow();
   return (
     <FlexContainer>
       <MetaHeading mb={5} textAlign="center">
@@ -47,10 +47,11 @@ export const SetupPersonalityType: React.FC = () => {
             transition="background 0.25s"
             cursor="pointer"
             onClick={() => setPersonalityType(p)}
-            border={
+            border="2px"
+            borderColor={
               personalityType && personalityType.id === p.id
-                ? '2px solid #5a32e6'
-                : 'none'
+                ? 'purple.400'
+                : 'transparent'
             }
           >
             <Image
@@ -69,7 +70,7 @@ export const SetupPersonalityType: React.FC = () => {
         ))}
       </SimpleGrid>
 
-      <MetaButton onClick={onNextPress} mt={10}>
+      <MetaButton onClick={onNextPress} mt={10} isDisabled={!personalityType}>
         {nextButtonLabel}
       </MetaButton>
     </FlexContainer>

@@ -1281,6 +1281,19 @@ type mutation_root {
   ): Player_mutation_response
 
   """
+  delete data from the table: "PlayerType"
+  """
+  delete_PlayerType(
+    """filter the rows which have to be deleted"""
+    where: PlayerType_bool_exp!
+  ): PlayerType_mutation_response
+
+  """
+  delete single row from the table: "PlayerType"
+  """
+  delete_PlayerType_by_pk(id: Int!): PlayerType
+
+  """
   delete data from the table: "Player_Rank"
   """
   delete_Player_Rank(
@@ -1465,6 +1478,28 @@ type mutation_root {
     """on conflict condition"""
     on_conflict: Player_on_conflict
   ): Player_mutation_response
+
+  """
+  insert data into the table: "PlayerType"
+  """
+  insert_PlayerType(
+    """the rows to be inserted"""
+    objects: [PlayerType_insert_input!]!
+
+    """on conflict condition"""
+    on_conflict: PlayerType_on_conflict
+  ): PlayerType_mutation_response
+
+  """
+  insert a single row into the table: "PlayerType"
+  """
+  insert_PlayerType_one(
+    """the row to be inserted"""
+    object: PlayerType_insert_input!
+
+    """on conflict condition"""
+    on_conflict: PlayerType_on_conflict
+  ): PlayerType
 
   """
   insert data into the table: "Player_Rank"
@@ -1692,6 +1727,32 @@ type mutation_root {
   ): Player_mutation_response
 
   """
+  update data of the table: "PlayerType"
+  """
+  update_PlayerType(
+    """increments the integer columns with given value of the filtered values"""
+    _inc: PlayerType_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: PlayerType_set_input
+
+    """filter the rows which have to be updated"""
+    where: PlayerType_bool_exp!
+  ): PlayerType_mutation_response
+
+  """
+  update single row of the table: "PlayerType"
+  """
+  update_PlayerType_by_pk(
+    """increments the integer columns with given value of the filtered values"""
+    _inc: PlayerType_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: PlayerType_set_input
+    pk_columns: PlayerType_pk_columns_input!
+  ): PlayerType
+
+  """
   update data of the table: "Player_Rank"
   """
   update_Player_Rank(
@@ -1873,6 +1934,9 @@ type Player {
     where: Account_bool_exp
   ): Account_aggregate!
 
+  """An object relationship"""
+  EnneagramType: EnneagramType
+
   """An array relationship"""
   Player_Skills(
     """distinct select on columns"""
@@ -1908,6 +1972,7 @@ type Player {
     """filter the rows returned"""
     where: Player_Skill_bool_exp
   ): Player_Skill_aggregate!
+  availability_hours: Int
 
   """Remote relationship field"""
   box_profile: BoxProfile
@@ -1918,6 +1983,10 @@ type Player {
   enneagram: EnneagramType_enum
   ethereum_address: String
   id: uuid!
+
+  """An object relationship"""
+  playerType: PlayerType
+  playerTypeId: Int
   rank: Player_Rank_enum
   role: String
   scIdentityId: String
@@ -1979,6 +2048,8 @@ input Player_arr_rel_insert_input {
 
 """aggregate avg on columns"""
 type Player_avg_fields {
+  availability_hours: Float
+  playerTypeId: Float
   timezone: Float
   totalXp: Float
 }
@@ -1987,6 +2058,8 @@ type Player_avg_fields {
 order by avg() on columns of table "Player"
 """
 input Player_avg_order_by {
+  availability_hours: order_by
+  playerTypeId: order_by
   timezone: order_by
   totalXp: order_by
 }
@@ -1996,14 +2069,18 @@ Boolean expression to filter rows from the table "Player". All fields are combin
 """
 input Player_bool_exp {
   Accounts: Account_bool_exp
+  EnneagramType: EnneagramType_bool_exp
   Player_Skills: Player_Skill_bool_exp
   _and: [Player_bool_exp]
   _not: Player_bool_exp
   _or: [Player_bool_exp]
+  availability_hours: Int_comparison_exp
   created_at: timestamptz_comparison_exp
   enneagram: EnneagramType_enum_comparison_exp
   ethereum_address: String_comparison_exp
   id: uuid_comparison_exp
+  playerType: PlayerType_bool_exp
+  playerTypeId: Int_comparison_exp
   rank: Player_Rank_enum_comparison_exp
   role: String_comparison_exp
   scIdentityId: String_comparison_exp
@@ -2034,6 +2111,8 @@ enum Player_constraint {
 input type for incrementing integer column in table "Player"
 """
 input Player_inc_input {
+  availability_hours: Int
+  playerTypeId: Int
   timezone: Int
   totalXp: numeric
 }
@@ -2043,11 +2122,15 @@ input type for inserting data into table "Player"
 """
 input Player_insert_input {
   Accounts: Account_arr_rel_insert_input
+  EnneagramType: EnneagramType_obj_rel_insert_input
   Player_Skills: Player_Skill_arr_rel_insert_input
+  availability_hours: Int
   created_at: timestamptz
   enneagram: EnneagramType_enum
   ethereum_address: String
   id: uuid
+  playerType: PlayerType_obj_rel_insert_input
+  playerTypeId: Int
   rank: Player_Rank_enum
   role: String
   scIdentityId: String
@@ -2059,9 +2142,11 @@ input Player_insert_input {
 
 """aggregate max on columns"""
 type Player_max_fields {
+  availability_hours: Int
   created_at: timestamptz
   ethereum_address: String
   id: uuid
+  playerTypeId: Int
   role: String
   scIdentityId: String
   timezone: Int
@@ -2074,9 +2159,11 @@ type Player_max_fields {
 order by max() on columns of table "Player"
 """
 input Player_max_order_by {
+  availability_hours: order_by
   created_at: order_by
   ethereum_address: order_by
   id: order_by
+  playerTypeId: order_by
   role: order_by
   scIdentityId: order_by
   timezone: order_by
@@ -2087,9 +2174,11 @@ input Player_max_order_by {
 
 """aggregate min on columns"""
 type Player_min_fields {
+  availability_hours: Int
   created_at: timestamptz
   ethereum_address: String
   id: uuid
+  playerTypeId: Int
   role: String
   scIdentityId: String
   timezone: Int
@@ -2102,9 +2191,11 @@ type Player_min_fields {
 order by min() on columns of table "Player"
 """
 input Player_min_order_by {
+  availability_hours: order_by
   created_at: order_by
   ethereum_address: order_by
   id: order_by
+  playerTypeId: order_by
   role: order_by
   scIdentityId: order_by
   timezone: order_by
@@ -2146,11 +2237,15 @@ ordering options when selecting data from "Player"
 """
 input Player_order_by {
   Accounts_aggregate: Account_aggregate_order_by
+  EnneagramType: EnneagramType_order_by
   Player_Skills_aggregate: Player_Skill_aggregate_order_by
+  availability_hours: order_by
   created_at: order_by
   enneagram: order_by
   ethereum_address: order_by
   id: order_by
+  playerType: PlayerType_order_by
+  playerTypeId: order_by
   rank: order_by
   role: order_by
   scIdentityId: order_by
@@ -2346,6 +2441,9 @@ select columns of table "Player"
 """
 enum Player_select_column {
   """column name"""
+  availability_hours
+
+  """column name"""
   created_at
 
   """column name"""
@@ -2356,6 +2454,9 @@ enum Player_select_column {
 
   """column name"""
   id
+
+  """column name"""
+  playerTypeId
 
   """column name"""
   rank
@@ -2383,10 +2484,12 @@ enum Player_select_column {
 input type for updating data in table "Player"
 """
 input Player_set_input {
+  availability_hours: Int
   created_at: timestamptz
   enneagram: EnneagramType_enum
   ethereum_address: String
   id: uuid
+  playerTypeId: Int
   rank: Player_Rank_enum
   role: String
   scIdentityId: String
@@ -2580,6 +2683,8 @@ enum Player_Skill_update_column {
 
 """aggregate stddev on columns"""
 type Player_stddev_fields {
+  availability_hours: Float
+  playerTypeId: Float
   timezone: Float
   totalXp: Float
 }
@@ -2588,12 +2693,16 @@ type Player_stddev_fields {
 order by stddev() on columns of table "Player"
 """
 input Player_stddev_order_by {
+  availability_hours: order_by
+  playerTypeId: order_by
   timezone: order_by
   totalXp: order_by
 }
 
 """aggregate stddev_pop on columns"""
 type Player_stddev_pop_fields {
+  availability_hours: Float
+  playerTypeId: Float
   timezone: Float
   totalXp: Float
 }
@@ -2602,12 +2711,16 @@ type Player_stddev_pop_fields {
 order by stddev_pop() on columns of table "Player"
 """
 input Player_stddev_pop_order_by {
+  availability_hours: order_by
+  playerTypeId: order_by
   timezone: order_by
   totalXp: order_by
 }
 
 """aggregate stddev_samp on columns"""
 type Player_stddev_samp_fields {
+  availability_hours: Float
+  playerTypeId: Float
   timezone: Float
   totalXp: Float
 }
@@ -2616,12 +2729,16 @@ type Player_stddev_samp_fields {
 order by stddev_samp() on columns of table "Player"
 """
 input Player_stddev_samp_order_by {
+  availability_hours: order_by
+  playerTypeId: order_by
   timezone: order_by
   totalXp: order_by
 }
 
 """aggregate sum on columns"""
 type Player_sum_fields {
+  availability_hours: Int
+  playerTypeId: Int
   timezone: Int
   totalXp: numeric
 }
@@ -2630,6 +2747,8 @@ type Player_sum_fields {
 order by sum() on columns of table "Player"
 """
 input Player_sum_order_by {
+  availability_hours: order_by
+  playerTypeId: order_by
   timezone: order_by
   totalXp: order_by
 }
@@ -2638,6 +2757,9 @@ input Player_sum_order_by {
 update columns of table "Player"
 """
 enum Player_update_column {
+  """column name"""
+  availability_hours
+
   """column name"""
   created_at
 
@@ -2649,6 +2771,9 @@ enum Player_update_column {
 
   """column name"""
   id
+
+  """column name"""
+  playerTypeId
 
   """column name"""
   rank
@@ -2674,6 +2799,8 @@ enum Player_update_column {
 
 """aggregate var_pop on columns"""
 type Player_var_pop_fields {
+  availability_hours: Float
+  playerTypeId: Float
   timezone: Float
   totalXp: Float
 }
@@ -2682,12 +2809,16 @@ type Player_var_pop_fields {
 order by var_pop() on columns of table "Player"
 """
 input Player_var_pop_order_by {
+  availability_hours: order_by
+  playerTypeId: order_by
   timezone: order_by
   totalXp: order_by
 }
 
 """aggregate var_samp on columns"""
 type Player_var_samp_fields {
+  availability_hours: Float
+  playerTypeId: Float
   timezone: Float
   totalXp: Float
 }
@@ -2696,12 +2827,16 @@ type Player_var_samp_fields {
 order by var_samp() on columns of table "Player"
 """
 input Player_var_samp_order_by {
+  availability_hours: order_by
+  playerTypeId: order_by
   timezone: order_by
   totalXp: order_by
 }
 
 """aggregate variance on columns"""
 type Player_variance_fields {
+  availability_hours: Float
+  playerTypeId: Float
   timezone: Float
   totalXp: Float
 }
@@ -2710,8 +2845,332 @@ type Player_variance_fields {
 order by variance() on columns of table "Player"
 """
 input Player_variance_order_by {
+  availability_hours: order_by
+  playerTypeId: order_by
   timezone: order_by
   totalXp: order_by
+}
+
+"""
+columns and relationships of "PlayerType"
+"""
+type PlayerType {
+  description: String!
+  id: Int!
+  imageUrl: String
+  title: String!
+}
+
+"""
+aggregated selection of "PlayerType"
+"""
+type PlayerType_aggregate {
+  aggregate: PlayerType_aggregate_fields
+  nodes: [PlayerType!]!
+}
+
+"""
+aggregate fields of "PlayerType"
+"""
+type PlayerType_aggregate_fields {
+  avg: PlayerType_avg_fields
+  count(columns: [PlayerType_select_column!], distinct: Boolean): Int
+  max: PlayerType_max_fields
+  min: PlayerType_min_fields
+  stddev: PlayerType_stddev_fields
+  stddev_pop: PlayerType_stddev_pop_fields
+  stddev_samp: PlayerType_stddev_samp_fields
+  sum: PlayerType_sum_fields
+  var_pop: PlayerType_var_pop_fields
+  var_samp: PlayerType_var_samp_fields
+  variance: PlayerType_variance_fields
+}
+
+"""
+order by aggregate values of table "PlayerType"
+"""
+input PlayerType_aggregate_order_by {
+  avg: PlayerType_avg_order_by
+  count: order_by
+  max: PlayerType_max_order_by
+  min: PlayerType_min_order_by
+  stddev: PlayerType_stddev_order_by
+  stddev_pop: PlayerType_stddev_pop_order_by
+  stddev_samp: PlayerType_stddev_samp_order_by
+  sum: PlayerType_sum_order_by
+  var_pop: PlayerType_var_pop_order_by
+  var_samp: PlayerType_var_samp_order_by
+  variance: PlayerType_variance_order_by
+}
+
+"""
+input type for inserting array relation for remote table "PlayerType"
+"""
+input PlayerType_arr_rel_insert_input {
+  data: [PlayerType_insert_input!]!
+  on_conflict: PlayerType_on_conflict
+}
+
+"""aggregate avg on columns"""
+type PlayerType_avg_fields {
+  id: Float
+}
+
+"""
+order by avg() on columns of table "PlayerType"
+"""
+input PlayerType_avg_order_by {
+  id: order_by
+}
+
+"""
+Boolean expression to filter rows from the table "PlayerType". All fields are combined with a logical 'AND'.
+"""
+input PlayerType_bool_exp {
+  _and: [PlayerType_bool_exp]
+  _not: PlayerType_bool_exp
+  _or: [PlayerType_bool_exp]
+  description: String_comparison_exp
+  id: Int_comparison_exp
+  imageUrl: String_comparison_exp
+  title: String_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "PlayerType"
+"""
+enum PlayerType_constraint {
+  """unique or primary key constraint"""
+  PlayerType_pkey
+
+  """unique or primary key constraint"""
+  PlayerType_title_key
+}
+
+"""
+input type for incrementing integer column in table "PlayerType"
+"""
+input PlayerType_inc_input {
+  id: Int
+}
+
+"""
+input type for inserting data into table "PlayerType"
+"""
+input PlayerType_insert_input {
+  description: String
+  id: Int
+  imageUrl: String
+  title: String
+}
+
+"""aggregate max on columns"""
+type PlayerType_max_fields {
+  description: String
+  id: Int
+  imageUrl: String
+  title: String
+}
+
+"""
+order by max() on columns of table "PlayerType"
+"""
+input PlayerType_max_order_by {
+  description: order_by
+  id: order_by
+  imageUrl: order_by
+  title: order_by
+}
+
+"""aggregate min on columns"""
+type PlayerType_min_fields {
+  description: String
+  id: Int
+  imageUrl: String
+  title: String
+}
+
+"""
+order by min() on columns of table "PlayerType"
+"""
+input PlayerType_min_order_by {
+  description: order_by
+  id: order_by
+  imageUrl: order_by
+  title: order_by
+}
+
+"""
+response of any mutation on the table "PlayerType"
+"""
+type PlayerType_mutation_response {
+  """number of affected rows by the mutation"""
+  affected_rows: Int!
+
+  """data of the affected rows by the mutation"""
+  returning: [PlayerType!]!
+}
+
+"""
+input type for inserting object relation for remote table "PlayerType"
+"""
+input PlayerType_obj_rel_insert_input {
+  data: PlayerType_insert_input!
+  on_conflict: PlayerType_on_conflict
+}
+
+"""
+on conflict condition type for table "PlayerType"
+"""
+input PlayerType_on_conflict {
+  constraint: PlayerType_constraint!
+  update_columns: [PlayerType_update_column!]!
+  where: PlayerType_bool_exp
+}
+
+"""
+ordering options when selecting data from "PlayerType"
+"""
+input PlayerType_order_by {
+  description: order_by
+  id: order_by
+  imageUrl: order_by
+  title: order_by
+}
+
+"""
+primary key columns input for table: "PlayerType"
+"""
+input PlayerType_pk_columns_input {
+  id: Int!
+}
+
+"""
+select columns of table "PlayerType"
+"""
+enum PlayerType_select_column {
+  """column name"""
+  description
+
+  """column name"""
+  id
+
+  """column name"""
+  imageUrl
+
+  """column name"""
+  title
+}
+
+"""
+input type for updating data in table "PlayerType"
+"""
+input PlayerType_set_input {
+  description: String
+  id: Int
+  imageUrl: String
+  title: String
+}
+
+"""aggregate stddev on columns"""
+type PlayerType_stddev_fields {
+  id: Float
+}
+
+"""
+order by stddev() on columns of table "PlayerType"
+"""
+input PlayerType_stddev_order_by {
+  id: order_by
+}
+
+"""aggregate stddev_pop on columns"""
+type PlayerType_stddev_pop_fields {
+  id: Float
+}
+
+"""
+order by stddev_pop() on columns of table "PlayerType"
+"""
+input PlayerType_stddev_pop_order_by {
+  id: order_by
+}
+
+"""aggregate stddev_samp on columns"""
+type PlayerType_stddev_samp_fields {
+  id: Float
+}
+
+"""
+order by stddev_samp() on columns of table "PlayerType"
+"""
+input PlayerType_stddev_samp_order_by {
+  id: order_by
+}
+
+"""aggregate sum on columns"""
+type PlayerType_sum_fields {
+  id: Int
+}
+
+"""
+order by sum() on columns of table "PlayerType"
+"""
+input PlayerType_sum_order_by {
+  id: order_by
+}
+
+"""
+update columns of table "PlayerType"
+"""
+enum PlayerType_update_column {
+  """column name"""
+  description
+
+  """column name"""
+  id
+
+  """column name"""
+  imageUrl
+
+  """column name"""
+  title
+}
+
+"""aggregate var_pop on columns"""
+type PlayerType_var_pop_fields {
+  id: Float
+}
+
+"""
+order by var_pop() on columns of table "PlayerType"
+"""
+input PlayerType_var_pop_order_by {
+  id: order_by
+}
+
+"""aggregate var_samp on columns"""
+type PlayerType_var_samp_fields {
+  id: Float
+}
+
+"""
+order by var_samp() on columns of table "PlayerType"
+"""
+input PlayerType_var_samp_order_by {
+  id: order_by
+}
+
+"""aggregate variance on columns"""
+type PlayerType_variance_fields {
+  id: Float
+}
+
+"""
+order by variance() on columns of table "PlayerType"
+"""
+input PlayerType_variance_order_by {
+  id: order_by
 }
 
 type Query {
@@ -2952,6 +3411,49 @@ type query_root {
     """filter the rows returned"""
     where: Player_bool_exp
   ): [Player!]!
+
+  """
+  fetch data from the table: "PlayerType"
+  """
+  PlayerType(
+    """distinct select on columns"""
+    distinct_on: [PlayerType_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [PlayerType_order_by!]
+
+    """filter the rows returned"""
+    where: PlayerType_bool_exp
+  ): [PlayerType!]!
+
+  """
+  fetch aggregated fields from the table: "PlayerType"
+  """
+  PlayerType_aggregate(
+    """distinct select on columns"""
+    distinct_on: [PlayerType_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [PlayerType_order_by!]
+
+    """filter the rows returned"""
+    where: PlayerType_bool_exp
+  ): PlayerType_aggregate!
+
+  """fetch data from the table: "PlayerType" using primary key columns"""
+  PlayerType_by_pk(id: Int!): PlayerType
 
   """
   fetch data from the table: "Player_Rank"
@@ -3470,12 +3972,11 @@ enum SkillCategory_constraint {
 }
 
 enum SkillCategory_enum {
-  BUSINESS
   COMMUNITY
-  CREATIVE
+  DESIGN
+  DEV
   ENGINEERING
-  PRODUCT
-  SCIENCE
+  STRATEGY
   TECHNOLOGIES
 }
 
@@ -3840,6 +4341,49 @@ type subscription_root {
     """filter the rows returned"""
     where: Player_bool_exp
   ): [Player!]!
+
+  """
+  fetch data from the table: "PlayerType"
+  """
+  PlayerType(
+    """distinct select on columns"""
+    distinct_on: [PlayerType_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [PlayerType_order_by!]
+
+    """filter the rows returned"""
+    where: PlayerType_bool_exp
+  ): [PlayerType!]!
+
+  """
+  fetch aggregated fields from the table: "PlayerType"
+  """
+  PlayerType_aggregate(
+    """distinct select on columns"""
+    distinct_on: [PlayerType_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [PlayerType_order_by!]
+
+    """filter the rows returned"""
+    where: PlayerType_bool_exp
+  ): PlayerType_aggregate!
+
+  """fetch data from the table: "PlayerType" using primary key columns"""
+  PlayerType_by_pk(id: Int!): PlayerType
 
   """
   fetch data from the table: "Player_Rank"
