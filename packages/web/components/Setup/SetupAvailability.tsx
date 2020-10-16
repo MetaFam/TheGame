@@ -8,8 +8,8 @@ import {
   Text,
 } from '@metafam/ds';
 import { FlexContainer } from 'components/Container';
-import { SetupContext } from 'contexts/SetupContext';
-import React, { useContext, useEffect, useState } from 'react';
+import { useSetupFlow } from 'contexts/SetupContext';
+import React, { useEffect, useState } from 'react';
 
 export const SetupAvailability: React.FC = () => {
   const {
@@ -17,7 +17,7 @@ export const SetupAvailability: React.FC = () => {
     nextButtonLabel,
     availability,
     setAvailability,
-  } = useContext(SetupContext);
+  } = useSetupFlow();
   const [invalid, setInvalid] = useState(false);
   useEffect(() => {
     const value = Number(availability);

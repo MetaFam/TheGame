@@ -1,7 +1,7 @@
 import { MetaButton, MetaHeading, SelectSearch } from '@metafam/ds';
 import { FlexContainer } from 'components/Container';
-import { SetupContext } from 'contexts/SetupContext';
-import React, { useContext } from 'react';
+import { useSetupFlow } from 'contexts/SetupContext';
+import React from 'react';
 import { SkillOption } from 'utils/skillHelpers';
 
 export const SetupSkills: React.FC = () => {
@@ -11,7 +11,7 @@ export const SetupSkills: React.FC = () => {
     setSkills,
     onNextPress,
     nextButtonLabel,
-  } = useContext(SetupContext);
+  } = useSetupFlow();
 
   return (
     <FlexContainer>
