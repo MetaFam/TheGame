@@ -8,6 +8,10 @@ const selectStyles: Styles = {
     ...styles,
     background: theme.colors.purple[400],
   }),
+  menuList: (styles) => ({
+    ...styles,
+    paddingTop: 0,
+  }),
   noOptionsMessage: (styles) => ({
     ...styles,
     color: theme.colors.white,
@@ -16,9 +20,20 @@ const selectStyles: Styles = {
     ...styles,
     color: theme.colors.white,
   }),
+  group: (styles) => ({
+    ...styles,
+    paddingTop: 0,
+    paddingBottom: 0,
+  }),
   groupHeading: (styles) => ({
     ...styles,
     color: theme.colors.white,
+    background: theme.colors.purple[400],
+    paddingTop: theme.space['3'],
+    paddingBottom: theme.space['3'],
+    position: 'sticky',
+    top: 0,
+    borderRadius: theme.radii.md,
   }),
   option: (styles) => ({
     ...styles,

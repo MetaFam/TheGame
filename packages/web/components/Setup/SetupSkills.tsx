@@ -15,7 +15,7 @@ export const SetupSkills: React.FC = () => {
 
   return (
     <FlexContainer>
-      <MetaHeading mb={10} textAlign="center">
+      <MetaHeading mb={10} mt={-64} textAlign="center">
         What are your superpowers?
       </MetaHeading>
       <FlexContainer w="100%" align="stretch">
@@ -24,6 +24,8 @@ export const SetupSkills: React.FC = () => {
           value={skills}
           onChange={(value) => setSkills(value as Array<SkillOption>)}
           options={skillsList}
+          autoFocus
+          closeMenuOnSelect={false}
           placeholder="ADD YOUR SKILLS"
         />
       </FlexContainer>
