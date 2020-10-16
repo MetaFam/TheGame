@@ -22,7 +22,7 @@ export const getStaticProps = async () => {
       personalityTypes,
       playerTypes,
       hidePageHeader: true,
-    }
+    },
   };
 };
 
