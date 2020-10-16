@@ -13,7 +13,7 @@
   "dependencies": {
     "3box": "^1.20.3",
     "@apollo/client": "^3.0.0-beta.43",
-    "@apollo/react-hooks": "^3.1.5",
+    "@apollo/react-hooks": "^4.0.0",
     "@material-ui/core": "^4.9.10",
     "@metafam/utils": "1.0.0",
     "@testing-library/jest-dom": "^5.11.3",
