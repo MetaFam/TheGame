@@ -30,7 +30,7 @@
     "imgix-core-js": "^2.3.1",
     "node-fetch": "^2.6.0",
     "graphql-request": "^3.0.0-next.4",
-    "sourcecred": "0.7.0-beta-14"
+    "sourcecred": "0.7.1"
   },
   "devDependencies": {
     "@types/express": "^4.17.6",
