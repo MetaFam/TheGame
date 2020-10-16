@@ -6,10 +6,14 @@ import {
   MetaButton,
   MetaHeading,
   Text,
+  useToast,
 } from '@metafam/ds';
 import { FlexContainer } from 'components/Container';
 import { useSetupFlow } from 'contexts/SetupContext';
 import React, { useEffect, useState } from 'react';
+
+import { useUpdatePlayerSkillsMutation } from '../../graphql/autogen/types';
+import { useUser } from '../../lib/hooks';
 
 export const SetupAvailability: React.FC = () => {
   const {
@@ -17,12 +21,40 @@ export const SetupAvailability: React.FC = () => {
     nextButtonLabel,
     availability,
     setAvailability,
+    skills,
   } = useSetupFlow();
   const [invalid, setInvalid] = useState(false);
+  const { user } = useUser({ redirectTo: '/' });
+  const toast = useToast();
+
   useEffect(() => {
     const value = Number(availability);
     setInvalid(value < 0 || value > 168);
   }, [availability]);
+
+  const [updateSkillsRes, updateSkills] = useUpdatePlayerSkillsMutation();
+
+  const handleNextPress = async () => {
+    if (!user) return;
+
+    const { error } = await updateSkills({
+      availability_hours: Number(availability),
+      skills: skills.map((s) => ({ skill_id: s.id })),
+    });
+
+    if (error) {
+      console.warn(error);
+      toast({
+        title: 'Error',
+        description: 'Unable to update Player Skills. The octo is sad 😢',
+        status: 'error',
+        isClosable: true,
+      });
+      return;
+    }
+
+    onNextPress();
+  };
 
   return (
     <FlexContainer>
@@ -51,7 +83,13 @@ export const SetupAvailability: React.FC = () => {
         <InputRightAddon background="purpleBoxDark">hr/week</InputRightAddon>
       </InputGroup>
 
-      <MetaButton onClick={onNextPress} mt={10}>
+      <MetaButton
+        onClick={handleNextPress}
+        mt={10}
+        isDisabled={!availability}
+        isLoading={updateSkillsRes.fetching}
+        loadingText="Saving"
+      >
         {nextButtonLabel}
       </MetaButton>
     </FlexContainer>

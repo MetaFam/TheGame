@@ -27,6 +27,11 @@ export const PlayerHero: React.FC<Props> = ({ player }) => {
             <Text fontSize="xl" fontFamily="heading" mb="1">
               {getPlayerName(player)}
             </Text>
+            {player.playerType?.title ? (
+              <Text color="offwhite">
+                {player.playerType?.title.toUpperCase()}
+              </Text>
+            ) : null}
             <HStack mt="2">
               <PlayerContacts player={player} />
             </HStack>

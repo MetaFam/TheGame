@@ -35,11 +35,15 @@ export const PlayerFeatures: React.FC<Props> = ({ player }) => {
           />
         )}
         <Divider orientation="vertical" color="whiteAlpha.400" />
-        <PlayerFeature title="Role" value="N/A" color="whiteAlpha.500" />
-        <Divider orientation="vertical" color="whiteAlpha.400" />
+        {/* <PlayerFeature title="Role" value="N/A" color="whiteAlpha.500" /> */}
+        {/* <Divider orientation="vertical" color="whiteAlpha.400" /> */}
         <PlayerFeature
           title="Availability"
-          value="N/A"
+          value={
+            player.availability_hours != null
+              ? `${player.availability_hours} hr / week`
+              : 'N/A'
+          }
           color="whiteAlpha.500"
         />
       </Wrap>

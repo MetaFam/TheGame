@@ -7,6 +7,24 @@ export const PlayerFragment = gql`
     totalXp
     rank
     ethereum_address
+    availability_hours
+    EnneagramType {
+      description
+      name
+    }
+    playerType {
+      description
+      id
+      imageUrl
+      title
+    }
+    Player_Skills {
+      Skill {
+        category
+        id
+        name
+      }
+    }
     Accounts(where: { type: { _in: [TWITTER, GITHUB] } }) {
       identifier
       type
