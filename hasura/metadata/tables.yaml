@@ -167,6 +167,7 @@
   - role: player
     permission:
       columns:
+      - availability_hours
       - enneagram
       - playerTypeId
       - role
@@ -176,6 +177,8 @@
         id:
           _eq: X-Hasura-User-Id
       check: {}
+      set:
+        id: x-hasura-User-Id
   event_triggers:
   - name: fetchBoxVerifiedAccounts
     definition:
@@ -218,9 +221,6 @@
     schema: public
     name: Player_Skill
   object_relationships:
-  - name: Player
-    using:
-      foreign_key_constraint_on: player_id
   - name: Skill
     using:
       foreign_key_constraint_on: skill_id

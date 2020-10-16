@@ -2504,9 +2504,6 @@ columns and relationships of "Player_Skill"
 """
 type Player_Skill {
   """An object relationship"""
-  Player: Player!
-
-  """An object relationship"""
   Skill: Skill!
   player_id: uuid!
   skill_id: uuid!
@@ -2550,7 +2547,6 @@ input Player_Skill_arr_rel_insert_input {
 Boolean expression to filter rows from the table "Player_Skill". All fields are combined with a logical 'AND'.
 """
 input Player_Skill_bool_exp {
-  Player: Player_bool_exp
   Skill: Skill_bool_exp
   _and: [Player_Skill_bool_exp]
   _not: Player_Skill_bool_exp
@@ -2571,7 +2567,6 @@ enum Player_Skill_constraint {
 input type for inserting data into table "Player_Skill"
 """
 input Player_Skill_insert_input {
-  Player: Player_obj_rel_insert_input
   Skill: Skill_obj_rel_insert_input
   player_id: uuid
   skill_id: uuid
@@ -2637,7 +2632,6 @@ input Player_Skill_on_conflict {
 ordering options when selecting data from "Player_Skill"
 """
 input Player_Skill_order_by {
-  Player: Player_order_by
   Skill: Skill_order_by
   player_id: order_by
   skill_id: order_by

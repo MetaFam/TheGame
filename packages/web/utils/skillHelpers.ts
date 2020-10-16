@@ -1,10 +1,10 @@
-import { Skill } from 'graphql/types';
+import { PlayerSkillFragment } from '../graphql/autogen/types';
 
 export type SkillMap = {
   [category: string]: CategoryOption;
 };
 
-export type SkillOption = Skill & {
+export type SkillOption = PlayerSkillFragment & {
   value: string;
   label: string;
 };
@@ -14,7 +14,9 @@ export type CategoryOption = {
   options: Array<SkillOption>;
 };
 
-export const parseSkills = (skills: Array<Skill>): Array<CategoryOption> => {
+export const parseSkills = (
+  skills: Array<PlayerSkillFragment>,
+): Array<CategoryOption> => {
   const skillsMap: SkillMap = {};
   skills.map((skill) => {
     if (!(skill.category in skillsMap)) {

@@ -1,21 +1,24 @@
 import gql from 'fake-tag';
-import { GetSkillsQuery } from 'graphql/autogen/types';
+import { GetSkillsQuery, PlayerSkillFragment } from 'graphql/autogen/types';
 import { client } from 'graphql/client';
-import { Skill } from 'graphql/types';
 
 const skillsQuery = gql`
   query GetSkills {
     Skill(
       order_by: { Player_Skills_aggregate: { count: desc }, category: asc }
     ) {
-      id
-      name
-      category
+      ...PlayerSkill
     }
+  }
+
+  fragment PlayerSkill on Skill {
+    id
+    name
+    category
   }
 `;
 
-export const getSkills = async (): Promise<Skill[]> => {
+export const getSkills = async (): Promise<PlayerSkillFragment[]> => {
   const { data, error } = await client
     .query<GetSkillsQuery>(skillsQuery)
     .toPromise();
