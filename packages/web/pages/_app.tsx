@@ -7,7 +7,6 @@ import { withUrqlClient } from 'next-urql';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 
-
 const app: React.FC<AppProps> = ({ pageProps, Component }) => {
   return (
     <ChakraProvider theme={MetaTheme}>

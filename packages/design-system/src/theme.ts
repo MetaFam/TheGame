@@ -28,8 +28,10 @@ export const theme: Theme = {
     ...chakraTheme.styles,
     global: {
       ...chakraTheme.styles.global,
-      background: '#1b0d2a',
-      color: 'white',
+      '#__next': {
+        background: 'dark',
+        color: 'white',
+      },
     },
   },
   radii: {
