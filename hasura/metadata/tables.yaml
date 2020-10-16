@@ -145,6 +145,7 @@
     permission:
       columns:
       - enneagram
+      - playerTypeId
       - role
       - timezone
       - username
@@ -166,6 +167,26 @@
       interval_sec: 10
       timeout_sec: 60
     webhook_from_env: TRIGGERS_ENDPOINT
+- table:
+    schema: public
+    name: PlayerType
+  select_permissions:
+  - role: player
+    permission:
+      columns:
+      - description
+      - id
+      - imageUrl
+      - title
+      filter: {}
+  - role: public
+    permission:
+      columns:
+      - id
+      - description
+      - imageUrl
+      - title
+      filter: {}
 - table:
     schema: public
     name: Player_Rank
