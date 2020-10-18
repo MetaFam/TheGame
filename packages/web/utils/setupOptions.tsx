@@ -19,6 +19,10 @@ export const options = [
         label: 'Player Type',
         component: <SetupPlayerType />,
       },
+      {
+        label: '3Box Profile',
+        component: <div>3Box Profile</div>,
+      },
     ],
   },
   {
