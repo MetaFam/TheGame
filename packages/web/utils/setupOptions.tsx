@@ -1,3 +1,4 @@
+import { Setup3Box } from 'components/Setup/Setup3Box';
 import { SetupAvailability } from 'components/Setup/SetupAvailability';
 import { SetupDone } from 'components/Setup/SetupDone';
 import { SetupMemberships } from 'components/Setup/SetupMemberships';
@@ -21,7 +22,7 @@ export const options = [
       },
       {
         label: '3Box Profile',
-        component: <div>3Box Profile</div>,
+        component: <Setup3Box />,
       },
     ],
   },
