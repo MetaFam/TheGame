@@ -23,7 +23,7 @@ module.exports = {
     ],
     '🗺 Enter MetaGame': [
       'enter-metagame/signpost',
-      'enter-metagame/how-to-become-a-player',
+  //    'enter-metagame/how-to-become-a-player',
       'enter-metagame/roles-in-metagame',
       'enter-metagame/navigation-board',
       'enter-metagame/leaderboard',
