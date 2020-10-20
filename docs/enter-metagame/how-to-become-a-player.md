@@ -9,6 +9,8 @@ Well alright! Let's get you geared up! 🤠
 First thing to know here is that MetaGame is a *choose-your-own-adventure* game.
 The quests below are the **easiest way for you to join, contribute & earn some [XP](/docs/how-does-it-work/xp)** - but completing them is not mandatory. You are free to go and start playing any of the open roles listed in the next article, or start contributing directly to one of [ongoing raids](navigation-board.md) displayed on the battlefield.
 
+<div class="typeform-widget" data-url="https://form.typeform.com/to/rXo4QhUU" data-transparency="100" data-hide-headers=true data-hide-footer=true style="width: 100%; height: 500px;"></div> <script> (function() { var qs,js,q,s,d=document, gi=d.getElementById, ce=d.createElement, gt=d.getElementsByTagName, id="typef_orm", b="https://embed.typeform.com/"; if(!gi.call(d,id)) { js=ce.call(d,"script"); js.id=id; js.src=b+"embed.js"; q=gt.call(d,"script")[0]; q.parentNode.insertBefore(js,q) } })() </script> <div style="font-family: Sans-Serif;font-size: 12px;color: #999;opacity: 0.5; padding-top: 5px;"> powered by <a href="https://admin.typeform.com/signup?utm_campaign=rXo4QhUU&utm_source=typeform.com-01D8JV4RFNXKWZS09JM1RS3PNX-essentials&utm_medium=typeform&utm_content=typeform-embedded-poweredbytypeform&utm_term=EN" style="color: #999" target="_blank">Typeform</a> </div>
+
 ## 🎩 Down the Rabbit Hole You Go 🐇
 ![](https://www.thesixthaxis.com/wp-content/uploads/2020/03/DowntheRabbitHole-Hero500.jpg)
 This quest is the easiest way of joining MetaGame.
