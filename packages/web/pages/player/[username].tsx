@@ -58,29 +58,33 @@ const PlayerPage: React.FC<Props> = ({ player }) => {
               </HStack>
             ) : null}
           </MetaBox>
-          <MetaBox title="Skills">
-            <Wrap>
-              {player.Player_Skills.map(({ Skill }) => (
-                <MetaTag
-                  key={Skill.id}
-                  size="md"
-                  fontWeight="normal"
-                  backgroundColor={SkillColors[Skill.category]}
-                >
-                  {Skill.name}
-                </MetaTag>
-              ))}
-            </Wrap>
-          </MetaBox>
-          <MetaBox title="Memberships">
-            <Wrap>
-              {player.daohausMemberships.map((member) => (
-                <MetaTag key={member.id} size="md" fontWeight="normal">
-                  {member.moloch.title}
-                </MetaTag>
-              ))}
-            </Wrap>
-          </MetaBox>
+          {player.Player_Skills.length ? (
+            <MetaBox title="Skills">
+              <Wrap>
+                {player.Player_Skills.map(({ Skill }) => (
+                  <MetaTag
+                    key={Skill.id}
+                    size="md"
+                    fontWeight="normal"
+                    backgroundColor={SkillColors[Skill.category]}
+                  >
+                    {Skill.name}
+                  </MetaTag>
+                ))}
+              </Wrap>
+            </MetaBox>
+          ) : null}
+          {player.daohausMemberships.length ? (
+            <MetaBox title="Memberships">
+              <Wrap>
+                {player.daohausMemberships.map((member) => (
+                  <MetaTag key={member.id} size="md" fontWeight="normal">
+                    {member.moloch.title}
+                  </MetaTag>
+                ))}
+              </Wrap>
+            </MetaBox>
+          ) : null}
         </SimpleGrid>
       </Container>
     </>
