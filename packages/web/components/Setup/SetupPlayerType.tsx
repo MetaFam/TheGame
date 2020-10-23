@@ -7,10 +7,9 @@ import {
 } from '@metafam/ds';
 import { FlexContainer } from 'components/Container';
 import { useSetupFlow } from 'contexts/SetupContext';
+import { useUpdateAboutYouMutation } from 'graphql/autogen/types';
+import { useUser } from 'lib/hooks';
 import React from 'react';
-
-import { useUpdateAboutYouMutation } from '../../graphql/autogen/types';
-import { useUser } from '../../lib/hooks';
 
 export const SetupPlayerType: React.FC = () => {
   const {
@@ -29,23 +28,28 @@ export const SetupPlayerType: React.FC = () => {
   const handleNextPress = async () => {
     if (!user) return;
 
-    const { error } = await updateAboutYou({
-      playerId: user.id,
-      input: {
-        enneagram: personalityType?.name,
-        playerTypeId: playerType?.id,
-      },
-    });
-
-    if (error) {
-      console.warn(error);
-      toast({
-        title: 'Error',
-        description: 'Unable to update Player Account. The octo is sad 😢',
-        status: 'error',
-        isClosable: true,
+    if (
+      user.player?.EnneagramType?.name !== personalityType?.name ||
+      user.player?.playerType?.id !== playerType?.id
+    ) {
+      const { error } = await updateAboutYou({
+        playerId: user.id,
+        input: {
+          enneagram: personalityType?.name,
+          playerTypeId: playerType?.id,
+        },
       });
-      return;
+
+      if (error) {
+        console.warn(error);
+        toast({
+          title: 'Error',
+          description: 'Unable to update Player Account. The octo is sad 😢',
+          status: 'error',
+          isClosable: true,
+        });
+        return;
+      }
     }
 
     onNextPress();

@@ -10,10 +10,9 @@ import {
 } from '@metafam/ds';
 import { FlexContainer } from 'components/Container';
 import { useSetupFlow } from 'contexts/SetupContext';
+import { useUpdatePlayerSkillsMutation } from 'graphql/autogen/types';
+import { useUser } from 'lib/hooks';
 import React, { useEffect, useState } from 'react';
-
-import { useUpdatePlayerSkillsMutation } from '../../graphql/autogen/types';
-import { useUser } from '../../lib/hooks';
 
 export const SetupAvailability: React.FC = () => {
   const {

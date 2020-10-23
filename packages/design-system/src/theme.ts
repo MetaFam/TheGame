@@ -31,6 +31,7 @@ export const theme: Theme = {
       '#__next': {
         background: 'dark',
         color: 'white',
+        minHeight: '100vh',
       },
     },
   },

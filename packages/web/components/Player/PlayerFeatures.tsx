@@ -44,7 +44,7 @@ export const PlayerFeatures: React.FC<Props> = ({ player }) => {
               ? `${player.availability_hours} hr / week`
               : 'N/A'
           }
-          color="whiteAlpha.500"
+          color={player.availability_hours ? undefined : 'whiteAlpha.500'}
         />
       </Wrap>
     </Container>

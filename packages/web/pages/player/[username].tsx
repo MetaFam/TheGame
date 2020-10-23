@@ -1,16 +1,20 @@
 import {
   Container,
+  HStack,
+  Image,
   MetaBox,
   MetaTag,
-  MetaTheme,
   P,
   SimpleGrid,
+  Text,
   Wrap,
 } from '@metafam/ds';
+import { FlexContainer } from 'components/Container';
 import { PlayerFeatures } from 'components/Player/PlayerFeatures';
 import { PlayerHero } from 'components/Player/PlayerHero';
 import { getPlayer } from 'graphql/getPlayer';
 import { getPlayers } from 'graphql/getPlayers';
+import { PersonalityTypes, SkillColors } from 'graphql/types';
 import {
   GetStaticPaths,
   GetStaticPropsContext,
@@ -20,18 +24,7 @@ import Error from 'next/error';
 import React from 'react';
 import { getPlayerDescription } from 'utils/playerHelpers';
 
-import { SkillCategory_Enum } from '../../graphql/autogen/types';
-
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
-
-const SkillColors: Record<SkillCategory_Enum, string> = {
-  [SkillCategory_Enum.Community]: MetaTheme.colors.green['700'],
-  [SkillCategory_Enum.Design]: MetaTheme.colors.pink['700'],
-  [SkillCategory_Enum.Dev]: MetaTheme.colors.cyan['700'],
-  [SkillCategory_Enum.Engineering]: MetaTheme.colors.blue['700'],
-  [SkillCategory_Enum.Technologies]: MetaTheme.colors.gray['600'],
-  [SkillCategory_Enum.Strategy]: MetaTheme.colors.yellow['700'],
-};
 
 const PlayerPage: React.FC<Props> = ({ player }) => {
   if (!player) {
@@ -46,6 +39,24 @@ const PlayerPage: React.FC<Props> = ({ player }) => {
         <SimpleGrid columns={[1, 1, 2, 3]} spacing="8" pt="12">
           <MetaBox title="About me">
             <P>{getPlayerDescription(player)}</P>
+            {player.EnneagramType ? (
+              <HStack p={6} spacing={4}>
+                <Image
+                  w="4rem"
+                  src={PersonalityTypes[player.EnneagramType.name].image}
+                  alt={player.EnneagramType.name}
+                  style={{ mixBlendMode: 'color-dodge' }}
+                />
+                <FlexContainer align="stretch">
+                  <Text color="white" fontWeight="bold">
+                    {player.EnneagramType.name}
+                  </Text>
+                  <Text color="blueLight">
+                    {player.EnneagramType.description}
+                  </Text>
+                </FlexContainer>
+              </HStack>
+            ) : null}
           </MetaBox>
           <MetaBox title="Skills">
             <Wrap>

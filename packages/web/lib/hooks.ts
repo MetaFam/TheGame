@@ -1,8 +1,7 @@
+import { Web3Context } from 'contexts/Web3Context';
+import { useGetMeQuery } from 'graphql/autogen/types';
 import { useRouter } from 'next/router';
 import { useContext, useEffect } from 'react';
-
-import { Web3Context } from '../contexts/Web3Context';
-import { useGetMeQuery } from '../graphql/autogen/types';
 
 export const useWeb3 = () => useContext(Web3Context);
 

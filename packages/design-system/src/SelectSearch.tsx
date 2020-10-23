@@ -3,10 +3,10 @@ import Select, { Props as SelectProps, Styles } from 'react-select';
 
 import { theme } from './theme';
 
-const selectStyles: Styles = {
+export const selectStyles: Styles = {
   menu: (styles) => ({
     ...styles,
-    background: theme.colors.purple[400],
+    background: theme.colors.dark,
   }),
   menuList: (styles) => ({
     ...styles,
