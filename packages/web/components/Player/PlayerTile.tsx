@@ -10,7 +10,7 @@ import {
 import { MetaLink } from 'components/Link';
 import { PlayerContacts } from 'components/Player/PlayerContacts';
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
-import { skillColors } from 'graphql/types';
+import { SkillColors } from 'graphql/types';
 import React from 'react';
 import { getPlayerImage, getPlayerName } from 'utils/playerHelpers';
 
@@ -72,7 +72,7 @@ export const PlayerTile: React.FC<Props> = ({ player }) => (
               key={Skill.id}
               size="md"
               fontWeight="normal"
-              backgroundColor={skillColors[Skill.category]}
+              backgroundColor={SkillColors[Skill.category]}
             >
               {Skill.name}
             </MetaTag>

@@ -14,7 +14,7 @@ import { PlayerFeatures } from 'components/Player/PlayerFeatures';
 import { PlayerHero } from 'components/Player/PlayerHero';
 import { getPlayer } from 'graphql/getPlayer';
 import { getPlayers } from 'graphql/getPlayers';
-import { personalityTypes, skillColors } from 'graphql/types';
+import { PersonalityTypes, SkillColors } from 'graphql/types';
 import {
   GetStaticPaths,
   GetStaticPropsContext,
@@ -43,7 +43,7 @@ const PlayerPage: React.FC<Props> = ({ player }) => {
               <HStack p={6} spacing={4}>
                 <Image
                   w="4rem"
-                  src={personalityTypes[player.EnneagramType.name].image}
+                  src={PersonalityTypes[player.EnneagramType.name].image}
                   alt={player.EnneagramType.name}
                   style={{ mixBlendMode: 'color-dodge' }}
                 />
@@ -65,7 +65,7 @@ const PlayerPage: React.FC<Props> = ({ player }) => {
                   key={Skill.id}
                   size="md"
                   fontWeight="normal"
-                  backgroundColor={skillColors[Skill.category]}
+                  backgroundColor={SkillColors[Skill.category]}
                 >
                   {Skill.name}
                 </MetaTag>

@@ -33,7 +33,7 @@ export type Membership = Pick<Member, 'id'> & {
   moloch: Pick<Moloch, 'id' | 'title' | 'version'>;
 };
 
-export const personalityTypes: {
+export const PersonalityTypes: {
   [any: string]: PersonalityType;
 } = {
   [EnneagramType_Enum.Reformer]: {
@@ -101,7 +101,7 @@ export const personalityTypes: {
   },
 };
 
-export const skillColors: Record<SkillCategory_Enum, string> = {
+export const SkillColors: Record<SkillCategory_Enum, string> = {
   [SkillCategory_Enum.Community]: MetaTheme.colors.green['700'],
   [SkillCategory_Enum.Design]: MetaTheme.colors.pink['700'],
   [SkillCategory_Enum.Dev]: MetaTheme.colors.cyan['700'],

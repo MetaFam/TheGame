@@ -8,7 +8,7 @@ import {
 import { FlexContainer } from 'components/Container';
 import { useSetupFlow } from 'contexts/SetupContext';
 import { SkillCategory_Enum } from 'graphql/autogen/types';
-import { skillColors } from 'graphql/types';
+import { SkillColors } from 'graphql/types';
 import React from 'react';
 import { SkillOption } from 'utils/skillHelpers';
 
@@ -25,12 +25,12 @@ export const SetupSkills: React.FC = () => {
     ...selectStyles,
     multiValue: (s, { data }) => ({
       ...s,
-      background: skillColors[data.category as SkillCategory_Enum],
+      background: SkillColors[data.category as SkillCategory_Enum],
       color: MetaTheme.colors.white,
     }),
     multiValueLabel: (s, { data }) => ({
       ...s,
-      background: skillColors[data.category as SkillCategory_Enum],
+      background: SkillColors[data.category as SkillCategory_Enum],
       color: MetaTheme.colors.white,
     }),
     groupHeading: (s, { children }) => {
@@ -38,7 +38,7 @@ export const SetupSkills: React.FC = () => {
         ...s,
         ...(selectStyles.groupHeading &&
           selectStyles.groupHeading(s, { children })),
-        background: skillColors[children as SkillCategory_Enum],
+        background: SkillColors[children as SkillCategory_Enum],
       };
     },
   };

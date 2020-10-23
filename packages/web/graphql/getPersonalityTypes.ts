@@ -1,3 +1,3 @@
-import { personalityTypes } from 'graphql/types';
+import { PersonalityTypes } from 'graphql/types';
 
-export const getPersonalityTypes = () => Object.values(personalityTypes);
+export const getPersonalityTypes = () => Object.values(PersonalityTypes);

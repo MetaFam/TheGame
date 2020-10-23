@@ -2,7 +2,7 @@ import BackgroundImage from 'assets/profile-background.jpg';
 import { FlexContainer, PageContainer } from 'components/Container';
 import { SetupHeader } from 'components/Setup/SetupHeader';
 import { useSetupFlow } from 'contexts/SetupContext';
-import { personalityTypes } from 'graphql/types';
+import { PersonalityTypes } from 'graphql/types';
 import { useUser } from 'lib/hooks';
 import React, { useEffect } from 'react';
 
@@ -24,7 +24,7 @@ export const SetupProfile: React.FC = () => {
         setAvailability(user.player.availability_hours.toString());
       }
       if (user.player.EnneagramType) {
-        setPersonalityType(personalityTypes[user.player.EnneagramType.name]);
+        setPersonalityType(PersonalityTypes[user.player.EnneagramType.name]);
       }
       if (user.player.playerType) {
         setPlayerType(user.player.playerType);
