@@ -34,7 +34,7 @@ export const PlayerTile: React.FC<Props> = ({ player }) => (
   >
     <MetaLink
       as={`/player/${player.username}`}
-      href="player/[username]"
+      href="/player/[username]"
       key={player.id}
     >
       <VStack>
