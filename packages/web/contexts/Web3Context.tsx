@@ -56,15 +56,18 @@ export const Web3ContextProvider: React.FC = ({ children }) => {
       const modalProvider = await web3Modal.connect();
       const ethersProvider = new providers.Web3Provider(modalProvider);
 
-      let token = getTokenFromStore();
+      const ethAddress = await ethersProvider.getSigner().getAddress();
+      setAddress(ethAddress);
 
-      if (!token) {
+      let token = getTokenFromStore();
+      if (
+        !token ||
+        did.getSignerAddress(token)?.toLowerCase() !== ethAddress.toLowerCase()
+      ) {
         token = await did.createToken(ethersProvider);
       }
 
       setTokenInStore(token);
-
-      setAddress(await ethersProvider.getSigner().getAddress());
       setProvider(ethersProvider);
       setAuthToken(token);
       setIsConnected(true);
