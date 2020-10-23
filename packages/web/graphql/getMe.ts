@@ -1,5 +1,4 @@
 import gql from 'fake-tag';
-
 import { PlayerFragment } from 'graphql/fragments';
 
 export const GetMeQuery = gql`

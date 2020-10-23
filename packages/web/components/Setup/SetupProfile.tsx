@@ -2,9 +2,9 @@ import BackgroundImage from 'assets/profile-background.jpg';
 import { FlexContainer, PageContainer } from 'components/Container';
 import { SetupHeader } from 'components/Setup/SetupHeader';
 import { useSetupFlow } from 'contexts/SetupContext';
-import React, { useEffect } from 'react';
-import { useUser } from 'lib/hooks';
 import { personalityTypes } from 'graphql/types';
+import { useUser } from 'lib/hooks';
+import React, { useEffect } from 'react';
 
 export const SetupProfile: React.FC = () => {
   const {
@@ -39,7 +39,8 @@ export const SetupProfile: React.FC = () => {
         );
       }
     }
-  }, [user]);
+  }, [user, setAvailability, setPersonalityType, setPlayerType, setSkills]);
+
   return (
     <PageContainer backgroundImage={`url(${BackgroundImage})`}>
       {(step + 1) % numTotalSteps !== 0 && <SetupHeader />}

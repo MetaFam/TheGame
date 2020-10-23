@@ -1,10 +1,4 @@
 import { MetaTheme } from '@metafam/ds';
-import {
-  EnneagramType_Enum,
-  SkillCategory_Enum,
-  Member,
-  Moloch,
-} from 'graphql/autogen/types';
 import AchieverImage from 'assets/achiever.png';
 import ChallengerImage from 'assets/challenger.png';
 import EnthusiastImage from 'assets/enthusiast.png';
@@ -14,6 +8,12 @@ import InvestigatorImage from 'assets/investigator.png';
 import LoyalistImage from 'assets/loyalist.png';
 import PeacemakerImage from 'assets/peacemaker.png';
 import ReformerImage from 'assets/reformer.png';
+import {
+  EnneagramType_Enum,
+  Member,
+  Moloch,
+  SkillCategory_Enum,
+} from 'graphql/autogen/types';
 
 export type Skill = {
   id: string;

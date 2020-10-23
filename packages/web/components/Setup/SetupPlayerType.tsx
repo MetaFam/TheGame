@@ -7,10 +7,9 @@ import {
 } from '@metafam/ds';
 import { FlexContainer } from 'components/Container';
 import { useSetupFlow } from 'contexts/SetupContext';
-import React from 'react';
-
 import { useUpdateAboutYouMutation } from 'graphql/autogen/types';
 import { useUser } from 'lib/hooks';
+import React from 'react';
 
 export const SetupPlayerType: React.FC = () => {
   const {

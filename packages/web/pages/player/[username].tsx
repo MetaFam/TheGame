@@ -1,19 +1,20 @@
 import {
   Container,
+  HStack,
+  Image,
   MetaBox,
   MetaTag,
   P,
   SimpleGrid,
-  Wrap,
-  HStack,
-  Image,
   Text,
+  Wrap,
 } from '@metafam/ds';
 import { FlexContainer } from 'components/Container';
 import { PlayerFeatures } from 'components/Player/PlayerFeatures';
 import { PlayerHero } from 'components/Player/PlayerHero';
 import { getPlayer } from 'graphql/getPlayer';
 import { getPlayers } from 'graphql/getPlayers';
+import { personalityTypes, skillColors } from 'graphql/types';
 import {
   GetStaticPaths,
   GetStaticPropsContext,
@@ -22,10 +23,8 @@ import {
 import Error from 'next/error';
 import React from 'react';
 import { getPlayerDescription } from 'utils/playerHelpers';
-import { skillColors, personalityTypes } from 'graphql/types';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
-
 
 const PlayerPage: React.FC<Props> = ({ player }) => {
   if (!player) {
