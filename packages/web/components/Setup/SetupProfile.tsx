@@ -3,7 +3,7 @@ import { FlexContainer, PageContainer } from 'components/Container';
 import { SetupHeader } from 'components/Setup/SetupHeader';
 import { useSetupFlow } from 'contexts/SetupContext';
 import { PersonalityTypes } from 'graphql/types';
-import { useUser } from 'lib/hooks';
+import { useUser, useWeb3 } from 'lib/hooks';
 import React, { useEffect } from 'react';
 
 export const SetupProfile: React.FC = () => {
@@ -12,24 +12,42 @@ export const SetupProfile: React.FC = () => {
     screen,
     numTotalSteps,
     options,
+    username,
+    setUsername,
+    personalityType,
     setPersonalityType,
+    playerType,
     setPlayerType,
+    availability,
     setAvailability,
+    skills,
     setSkills,
   } = useSetupFlow();
   const { user } = useUser({ redirectTo: '/' });
+  const { address } = useWeb3();
   useEffect(() => {
     if (user?.player) {
-      if (user.player.availability_hours) {
+      if (
+        user.player.username &&
+        user.player.username.toLowerCase() !== address?.toLowerCase() &&
+        !username
+      ) {
+        setUsername(user.player.username);
+      }
+      if (user.player.availability_hours && !availability) {
         setAvailability(user.player.availability_hours.toString());
       }
-      if (user.player.EnneagramType) {
+      if (user.player.EnneagramType && !personalityType) {
         setPersonalityType(PersonalityTypes[user.player.EnneagramType.name]);
       }
-      if (user.player.playerType) {
+      if (user.player.playerType && !playerType) {
         setPlayerType(user.player.playerType);
       }
-      if (user.player.Player_Skills && user.player.Player_Skills.length > 0) {
+      if (
+        user.player.Player_Skills &&
+        user.player.Player_Skills.length > 0 &&
+        skills.length === 0
+      ) {
         setSkills(
           user.player.Player_Skills.map((s) => ({
             value: s.Skill.id,
@@ -39,7 +57,20 @@ export const SetupProfile: React.FC = () => {
         );
       }
     }
-  }, [user, setAvailability, setPersonalityType, setPlayerType, setSkills]);
+  }, [
+    user,
+    address,
+    username,
+    setUsername,
+    personalityType,
+    setPersonalityType,
+    playerType,
+    setPlayerType,
+    availability,
+    setAvailability,
+    skills,
+    setSkills,
+  ]);
 
   return (
     <PageContainer backgroundImage={`url(${BackgroundImage})`}>

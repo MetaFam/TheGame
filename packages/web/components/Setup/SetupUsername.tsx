@@ -33,9 +33,12 @@ export const SetupUsername: React.FC = () => {
 
     if (error) {
       console.warn(error);
+      const errorDescription = error.message.includes('Uniqueness violation')
+        ? 'Username already taken 😢'
+        : 'The octo is sad 😢';
       toast({
         title: 'Error',
-        description: 'Unable to update Player Username. The octo is sad 😢',
+        description: `Unable to update Player Username. ${errorDescription}`,
         status: 'error',
         isClosable: true,
       });
