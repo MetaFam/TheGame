@@ -1,70 +1,58 @@
-import React, { useEffect } from 'react';
-
-export const widgetStyle = {
-  width: '100%',
-  height: '500px',
-};
-
-export const typeformStyle = {
-  fontFamily: 'Sans-Serif',
-  fontSize: '12px',
-  color: '#999',
-  opacity: '0.5',
-  paddingTop: '5px',
-};
-
-// Typeforms widget JS
-export function TypeformForm() {
-  let tf;
-  useEffect(() => {
-    tf = () => {
-      var qs,
-        js,
-        q,
-        s,
-        d = document,
-        gi = d.getElementById,
-        ce = d.createElement,
-        gt = d.getElementsByTagName,
-        id = 'typef_orm',
-        b = 'https://embed.typeform.com/';
-      if (!gi.call(d, id)) {
-        js = ce.call(d, 'script');
-        js.id = id;
-        js.src = b + 'embed.js';
-        q = gt.call(d, 'script')[0];
-        q.parentNode.insertBefore(js, q);
-      }
-    };
-    return tf;
-  }, []);
-  return true;
-}
+import React, { useEffect, useState, useRef } from 'react';
+import Head from '@docusaurus/Head';
 
 export function TypeformWidget(props) {
+  const [widgetLoaded, setWidgetLoaded] = useState(false);
+  const widgetStyle = {
+    width: '100%',
+    height: '500px',
+    transition: 'opacity 0.3s ease-in',
+    opacity: widgetLoaded ? '1' : '0',
+  };
+
+  const typeformStyle = {
+    fontFamily: 'Sans-Serif',
+    fontSize: '12px',
+    color: '#999',
+    opacity: '0.5',
+    paddingTop: '5px',
+  };
   const { campaign } = props;
+
+  useEffect(() => {
+    // Typeforms widget JS
+    const el = document.getElementById('mg-embedded-typeform');
+    console.log(el);
+    const doWidget = setTimeout(() => {
+      window.typeformEmbed.makeWidget(
+        el,
+        'https://form.typeform.com/to/' + campaign,
+        {
+          hideFooter: true,
+          hideHeaders: true,
+          opacity: 100,
+        },
+      );
+      setWidgetLoaded(true);
+    }, 300);
+
+    doWidget;
+
+    return () => {
+      clearTimeout(doWidget);
+    };
+  }, []);
+
   return (
     <>
-      <div
-        className='typeform-widget'
-        data-url={`https://form.typeform.com/to/${campaign}`}
-        data-transparency='100'
-        data-hide-headers={true}
-        data-hide-footer={true}
-        style={widgetStyle}
-      ></div>
-      <TypeformForm />
-      <div style={typeformStyle}>
-        {' '}
-        powered by{' '}
-        <a
-          href={`https://admin.typeform.com/signup?utm_campaign=${campaign}&utm_source=typeform.com-01D8JV4RFNXKWZS09JM1RS3PNX-essentials&utm_medium=typeform&utm_content=typeform-embedded-poweredbytypeform&utm_term=EN`}
-          style={{ color: '#999' }}
-          target='_blank'
-        >
-          Typeform
-        </a>{' '}
-      </div>
+      <Head>
+        <script
+          src='https://embed.typeform.com/embed.js'
+          async
+          id='typef_orm'
+        ></script>
+      </Head>
+      <div id='mg-embedded-typeform' style={widgetStyle}></div>
     </>
   );
 }
