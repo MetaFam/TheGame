@@ -5,8 +5,6 @@ export function TypeformWidget(props) {
   const [widgetLoaded, setWidgetLoaded] = useState(false);
   const widgetStyle = {
     data-transparency="100"
-    data-hide-headers=true 
-    data-hide-footer=true 
     width: '100%',
     height: '500px',
     transition: 'opacity 0.3s ease-in',
