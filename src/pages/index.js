@@ -4,7 +4,7 @@ import Layout from '@theme/Layout';
 import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
-import styles from './styles.module.css';
+import styles from './styles.module.scss';
 
 const features = [
   {
@@ -36,17 +36,15 @@ function Feature({ imageUrl, title, description, linkText, linkTo }) {
     <div className={classnames('col col--4', styles.feature)}>
       {imgUrl && (
         <div className={classnames('text--center', styles.imageWrapper)}>
+          <img className={styles.featureImage} src={imgUrl} alt={title} />
+          {/* <div> */}
           <Link
             className='button button--primary button--outline'
             to={useBaseUrl(linkTo)}
           >
-            <img className={styles.featureImage} src={imgUrl} alt={title} />
-            <div>
-              <h3>
-                <span>{title}</span>
-              </h3>
-            </div>
+            <span>{title}</span>
           </Link>
+          {/* </div> */}
         </div>
       )}
       <div className='text--center'>{description && <p>{description}</p>}</div>

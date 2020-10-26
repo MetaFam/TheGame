@@ -30,7 +30,7 @@ export function TypeformWidget(props) {
         {
           hideFooter: true,
           hideHeaders: true,
-          opacity: 100,
+          opacity: 0,
         },
       );
       setWidgetLoaded(true);

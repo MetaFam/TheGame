@@ -1,0 +1,178 @@
+/* stylelint-disable docusaurus/copyright-header */
+/**
+ * CSS files with the .module.css suffix will be treated as CSS modules
+ * and scoped locally.
+ */
+
+.heroBanner {
+  background: transparent;
+  padding: 5rem 0 2rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+
+  .wikiLogo {
+    width: 100%;
+    margin-bottom: 0;
+    @media screen and (min-width: 768px) {
+      width: 70%;
+    }
+    @media screen and (min-width: 1366px) {
+      width: 50%;
+    }
+    @media screen and (min-width: 1920px) {
+      width: 80%;
+    }
+  }
+
+  .heroSubtitle {
+    font-size: 1.2rem;
+  }
+
+  @media screen and (min-width: 967px) {
+    padding: 0;
+    .heroSubtitle {
+      font-size: 1.2rem;
+    }
+  }
+  @media screen and (min-width: 1366px) {
+    // padding: 3rem 0 0;
+    .heroSubtitle {
+      font-size: 1.5rem;
+    }
+  }
+  @media screen and (min-width: 1440px) {
+    // padding: 2rem 0;
+    .heroSubtitle {
+      font-size: 1.5rem;
+      margin-bottom: 2rem;
+    }
+  }
+  @media screen and (min-width: 1920px) {
+    margin: 0;
+    .heroSubtitle {
+      font-size: 1.7rem;
+    }
+  }
+}
+
+.buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.features {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  padding: 2rem 0 0;
+  width: 100%;
+}
+
+.imageWrapper {
+  position: relative;
+  display: inline-flex;
+  flex-flow: column wrap;
+  align-items: center;
+  overflow: hidden;
+  margin-bottom: 30px;
+
+  @media screen and (min-width: 995px) {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    overflow: hidden;
+    margin-bottom: 0;
+    // padding-bottom: 30px;
+  }
+
+  img {
+    margin-bottom: 30px;
+  }
+
+  a {
+    background: #5a32e6;
+    border-radius: 4px;
+    font-family: var(--mf-font-body);
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: 0.1em;
+    line-height: 24px;
+    position: relative;
+    color: #fff;
+    display: block;
+    padding: 12px 0;
+    width: 164px;
+    margin-bottom: 0;
+    @media screen and (min-width: 965px) {
+      position: relative;
+      border: 0;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.6);
+      overflow: hidden;
+      transition: box-shadow 0.2s ease, background-color 0.3s 0.1s ease-in-out,
+        color 0.3 ease;
+      z-index: 2;
+      &:after {
+        content: '';
+        position: absolute;
+        display: block;
+        top: 0;
+        left: -100%;
+        width: 50%;
+        height: 100%;
+        background: linear-gradient(
+          45deg,
+          transparent,
+          rgba(255, 255, 255, 0),
+          rgba(255, 255, 255, 0.1),
+          rgba(255, 255, 255, 0),
+          transparent
+        );
+        transition: all 0.4s 0.1s ease-in-out;
+        z-index: 3;
+      }
+      &:before {
+        content: '';
+        position: absolute;
+        /* display: none; */
+        top: 0;
+        left: -150%;
+        width: 150%;
+        height: 300%;
+        /* transform: rotate(-45deg); */
+        background: linear-gradient(
+          45deg,
+          transparent,
+          rgba(255, 255, 255, 0),
+          rgba(255, 255, 255, 0.1),
+          rgba(255, 255, 255, 0),
+          transparent
+        );
+        transition: position 0.4s 0.2s ease-in-out;
+        z-index: 3;
+      }
+    }
+
+    &:hover {
+      background-color: #5a32e699;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0);
+      color: #fff;
+
+      &:after,
+      &:before {
+        left: 100%;
+      }
+    }
+  }
+}
+
+.featureImage {
+  position: relative;
+  border-radius: 50%;
+  height: 200px;
+  width: 200px;
+  @media screen and (min-width: 1440px) {
+    height: 225px;
+    width: 225px;
+  }
+}
