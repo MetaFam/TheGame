@@ -2,8 +2,8 @@
 title: 🔭 In Search of Commons That Scale
 ---
  
-[![](https://cdn.substack.com/image/fetch/w_1456,c_limit,f_auto,q_auto:good/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F4375aa20-0390-4450-a02f-4ee3ce49e5e4_1812x700.png)](https://cdn.substack.com/image/fetch/c_limit,f_auto,q_auto:good/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F4375aa20-0390-4450-a02f-4ee3ce49e5e4_1812x700.png)
-The Common Citadel
+![](https://cdn.substack.com/image/fetch/w_1456,c_limit,f_auto,q_auto:good/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F4375aa20-0390-4450-a02f-4ee3ce49e5e4_1812x700.png)
+*The Common Citadel*
 
 > I will attempt here, to disentangle the way I saw Ethereum back when I first stumbled upon it, and how that train of thought drove me to commit.
 
@@ -26,13 +26,13 @@ As Vinay Gupta beautifully puts it:
 
 At the time, uneducated and barely out of puberty — I thought the answer was to burn it all down and start from scratch.
 
-[![](https://cdn.substack.com/image/fetch/w_1456,c_limit,f_auto,q_auto:good/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2Fb9ffb8d3-9af3-4dfa-8747-9eb279c9d5d7_500x572.jpeg)](https://cdn.substack.com/image/fetch/c_limit,f_auto,q_auto:good/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2Fb9ffb8d3-9af3-4dfa-8747-9eb279c9d5d7_500x572.jpeg)
+![](https://cdn.substack.com/image/fetch/w_1456,c_limit,f_auto,q_auto:good/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2Fb9ffb8d3-9af3-4dfa-8747-9eb279c9d5d7_500x572.jpeg)
 
 ## Quest
 
 It became my obsession to figure out why **exactly** the world is the way it is.
 
-My journey went from unfounded conspiracy theories to established truths, from _Marx_'s critique, to _James C. Scott_ examination of failed systems; from *Hayek's* critique of socialist thinking to more critiques of *austrian economics* thinking. Point is, I was spending ridiculous amounts of time (and I still am) at examining both propositions & critiques of mainstream as well as alternative economic thinking:
+My journey went from unfounded conspiracy theories to established truths, from _Marx_'s critique of capitalism, to _James C. Scott_ examination of failed systems; from *Hayek's* critique of socialist thinking back to critiques of *austrian economics* thinking. Point is, I was spending ridiculous amounts of time at examining both propositions & critiques of mainstream as well as alternative economic thinking:
 
 -   What makes systems work,
 -   What makes them fail,
@@ -41,7 +41,7 @@ My journey went from unfounded conspiracy theories to established truths, from _
 
 And although I was leaning closer to the “_free markets_” side of the argument, I was still certain that the conclusion “just pursue self interest” and “markets should be free” — is just not the way to go about…
 
-[![](https://cdn.substack.com/image/fetch/w_1456,c_limit,f_auto,q_auto:good/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F9f57b836-96f7-4efc-93b9-333b7d4300ec_554x671.png)](https://cdn.substack.com/image/fetch/c_limit,f_auto,q_auto:good/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F9f57b836-96f7-4efc-93b9-333b7d4300ec_554x671.png)
+![](https://cdn.substack.com/image/fetch/w_1456,c_limit,f_auto,q_auto:good/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F9f57b836-96f7-4efc-93b9-333b7d4300ec_554x671.png)
 
 One thing that really stuck out for me was this concept of a “Resource-Based Economy”;
 
@@ -55,7 +55,7 @@ Later popularized by the _Zeitgeist_ documentaries, _Venus Project_ aimed at pre
 
 In theory, it all sounded very nice — except the “_how to actually get there_” part was non-existent. Not to mention the illustrations of his Utopia made me anxious; would anyone actually want to live in a city that looks like this?
 
-[![](https://cdn.substack.com/image/fetch/w_1456,c_limit,f_auto,q_auto:good/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F2f1044a9-7975-4628-b91c-e35ad644af36_672x378.jpeg)](https://cdn.substack.com/image/fetch/c_limit,f_auto,q_auto:good/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F2f1044a9-7975-4628-b91c-e35ad644af36_672x378.jpeg)
+![](https://cdn.substack.com/image/fetch/w_1456,c_limit,f_auto,q_auto:good/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F2f1044a9-7975-4628-b91c-e35ad644af36_672x378.jpeg)
 
 Maybe, but somehow doubt it…
 
@@ -70,7 +70,7 @@ Then I found Ethereum, and it blew my mind.
 
 > _“Holy shit, this is the software infrastructure for scaling those above the Dunbar’s number!”_
 
-[![](https://cdn.substack.com/image/fetch/w_1456,c_limit,f_auto,q_auto:good,fl_lossy/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2Faf3f527c-0a0c-4d28-aca2-04ebf456e56d_498x280.gif)](https://cdn.substack.com/image/fetch/c_limit,f_auto,q_auto:good/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2Faf3f527c-0a0c-4d28-aca2-04ebf456e56d_498x280.gif)
+![](https://cdn.substack.com/image/fetch/w_1456,c_limit,f_auto,q_auto:good,fl_lossy/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2Faf3f527c-0a0c-4d28-aca2-04ebf456e56d_498x280.gif)
 
 My mind was immediately 100% occupied by it.  
 The possibilities of this single, decentralized, programmable ledger seemed endless.
@@ -85,7 +85,7 @@ Here's this [in-depth piece by Jeff](https://medium.com/commonsstack/automating-
 
 Of course reality is still far from the ideal we imagined it to be in 2015, but we're slowly getting there.
 ## The Fuel
-[![](https://cdn.substack.com/image/fetch/w_1456,c_limit,f_auto,q_auto:good/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2Ffc1c68f6-976e-4d79-9793-a894178d7f3b_800x565.jpeg)](https://cdn.substack.com/image/fetch/c_limit,f_auto,q_auto:good/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2Ffc1c68f6-976e-4d79-9793-a894178d7f3b_800x565.jpeg)
+![](https://cdn.substack.com/image/fetch/w_1456,c_limit,f_auto,q_auto:good/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2Ffc1c68f6-976e-4d79-9793-a894178d7f3b_800x565.jpeg)
 
 Tokenized organizations being crowdfunded; in theory results in a perfect alignment of incentives between investors and end-users — merging them into one.
 
@@ -107,5 +107,5 @@ What most of us actually hang around the block(chain) for, I believe, is an oppo
 -   And for that, we need a better sandbox.
 
 ## Spaceship Earth — A Pale Blue Dot
-[![](https://cdn.substack.com/image/fetch/w_1456,c_limit,f_auto,q_auto:good/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2Fee4a3cfc-7be3-4ca3-a19b-6ef68e824aec_672x372.jpeg)](https://cdn.substack.com/image/fetch/c_limit,f_auto,q_auto:good/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2Fee4a3cfc-7be3-4ca3-a19b-6ef68e824aec_672x372.jpeg)
+![](https://cdn.substack.com/image/fetch/w_1456,c_limit,f_auto,q_auto:good/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2Fee4a3cfc-7be3-4ca3-a19b-6ef68e824aec_672x372.jpeg)
 
