@@ -2,9 +2,9 @@ module.exports = {
   someSidebar: {
     '🐣 Start Here': [
       'introduction',
-     // 'start-here/for-players',
-    //  'start-here/for-guilds',
-     // 'start-here/for-patrons',
+      'start-here/for-players',
+      'start-here/for-guilds',
+      'start-here/for-patrons',
     ],
     '🤨 WTF is MetaGame?': [
       'wtf-is-metagame/in-search-of-commons-that-scale',
