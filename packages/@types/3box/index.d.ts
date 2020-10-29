@@ -57,6 +57,7 @@ declare module '3box' {
   }
 
   interface Box {
+    public: any;
     syncDone: Promise<boolean>;
     openSpace: (url: string) => Promise<BoxSpace>;
     twitter?: {
