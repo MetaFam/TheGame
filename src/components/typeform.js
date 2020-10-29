@@ -22,7 +22,6 @@ export function TypeformWidget(props) {
   useEffect(() => {
     // Typeforms widget JS
     const el = document.getElementById('mg-embedded-typeform');
-    console.log(el);
     const doWidget = setTimeout(() => {
       window.typeformEmbed.makeWidget(
         el,
