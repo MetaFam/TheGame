@@ -4,7 +4,13 @@
  * and scoped locally.
  */
 
+.innerWrapper {
+  @media screen and (max-width: 500px) {
+    padding: 0 25px;
+  }
+}
 .heroBanner {
+  background: transparent;
   @media screen and (max-width: 500px) {
     padding: 0;
   }
@@ -14,21 +20,25 @@
   position: relative;
   overflow: hidden;
 
+  & > div {
+    padding: 0;
+  }
   .wikiLogo {
     width: 100%;
     margin-bottom: 0;
-    @media screen and (min-width: 768px) {
-      width: 70%;
-    }
-    @media screen and (min-width: 1366px) {
-      width: 50%;
-    }
-    @media screen and (min-width: 1920px) {
-      width: 80%;
-    }
+    // @media screen and (min-width: 768px) {
+    //   width: 90%;
+    // }
+    // @media screen and (min-width: 1366px) {
+    //   width: 100%;
+    // }
+    // @media screen and (min-width: 1920px) {
+    //   width: 100%;
+    // }
   }
 
   .heroSubtitle {
+    font-family: var(--mf-font-mono);
     font-size: 1.2rem;
   }
 
@@ -56,6 +66,23 @@
     .heroSubtitle {
       font-size: 1.7rem;
     }
+  }
+}
+
+.mainContent {
+  font-size: 17px;
+  text-align: left;
+
+  h2,
+  h3 {
+    font-family: var(--mf-font-mono);
+    text-align: left;
+    justify-self: stretch;
+    width: 100%;
+    margin: 30px 0;
+  }
+  h3 {
+    margin: 0;
   }
 }
 
@@ -154,6 +181,10 @@
   text-align: center;
   padding: 2rem 0 0;
   width: 100%;
+
+  > div {
+    padding: 0;
+  }
 }
 .panel {
   @media screen and (max-width: 500px) {
@@ -161,6 +192,7 @@
     flex-flow: row wrap !important;
     max-width: 90% !important;
     padding: 20px !important;
+    margin: 0 auto !important;
 
     h3 {
       margin-top: 10px;
@@ -228,9 +260,18 @@
 
   ul {
     padding-left: 0;
+    list-style: none;
     list-style-position: inside;
     li {
       padding-left: 0;
+      display: inline-flex;
+      align-items: flex-start;
+
+      &::before {
+        content: '•';
+        display: block;
+        padding-right: 10px;
+      }
     }
   }
   p + p {
