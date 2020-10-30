@@ -10,7 +10,7 @@ So, what happened there?
 
 Turned out owning the means of production isn’t enough; you have to own the _memes_ of production — and that seems to stem from being the first to execute.
 
-[![](https://cdn.substack.com/image/fetch/w_1456,c_limit,f_auto,q_auto:good/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2Fcfd761ec-3a78-4c64-98c7-2b2f73c6990c_873x536.jpeg)](https://cdn.substack.com/image/fetch/c_limit,f_auto,q_auto:good/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2Fcfd761ec-3a78-4c64-98c7-2b2f73c6990c_873x536.jpeg)
+![](https://cdn.substack.com/image/fetch/w_1456,c_limit,f_auto,q_auto:good/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2Fcfd761ec-3a78-4c64-98c7-2b2f73c6990c_873x536.jpeg)]
 
 **Problem #1** — The ownership seems to disproportionately stay in a small number of hands, with none of it flowing down to the ones to whom the execution is outsourced to.
 
@@ -25,7 +25,7 @@ Instead of everyone putting in effort winning, it’s the most vicious that win.
 
 ## Cutting to the chase
 
-[![](https://cdn.substack.com/image/fetch/w_1456,c_limit,f_auto,q_auto:good/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F28ca9e21-cc7b-46a1-8c5b-65177c3a3dfb_873x404.png)](https://cdn.substack.com/image/fetch/c_limit,f_auto,q_auto:good/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F28ca9e21-cc7b-46a1-8c5b-65177c3a3dfb_873x404.png)
+![](https://cdn.substack.com/image/fetch/w_1456,c_limit,f_auto,q_auto:good/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F28ca9e21-cc7b-46a1-8c5b-65177c3a3dfb_873x404.png)]
 
 _Instead of calling it a DAO — since nobody knows what it means anymore, here’s a narrative:_
 
@@ -44,7 +44,7 @@ She owns 100% of it — but it’s 100% of nothing. If she’s not fair, oth
 
 ## What you end up with…
 
-[![](https://cdn.substack.com/image/fetch/w_1456,c_limit,f_auto,q_auto:good/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2Fcbd36e53-0c0d-4d3e-aefd-176ea358df2b_873x582.jpeg)](https://cdn.substack.com/image/fetch/c_limit,f_auto,q_auto:good/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2Fcbd36e53-0c0d-4d3e-aefd-176ea358df2b_873x582.jpeg)
+![](https://cdn.substack.com/image/fetch/w_1456,c_limit,f_auto,q_auto:good/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2Fcbd36e53-0c0d-4d3e-aefd-176ea358df2b_873x582.jpeg)]
 
 Instead of startups keeping everything to themselves as “competitive advantage”; people would be collaborating and competing under one name, trying to expand the collective pie to take a bigger slice.
 
@@ -57,7 +57,7 @@ _Me_: Sure, but what kind of a monopoly?
 
 ## How?
 
-[![](https://cdn.substack.com/image/fetch/w_1456,c_limit,f_auto,q_auto:good/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F17a1a888-12cc-452c-a38e-fa58270d8bc9_751x420.png)](https://cdn.substack.com/image/fetch/c_limit,f_auto,q_auto:good/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F17a1a888-12cc-452c-a38e-fa58270d8bc9_751x420.png)
+![](https://i.imgur.com/iZfeioh.png)]
 
 And how might we achieve this vision of _a decentralized factory_?
 
