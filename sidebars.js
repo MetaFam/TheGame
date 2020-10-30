@@ -1,11 +1,11 @@
 module.exports = {
   someSidebar: {
-    '🐣 Start Here': [
-      'introduction',
-      'start-here/for-players',
-      'start-here/for-guilds',
-      'start-here/for-patrons',
-    ],
+//    '🐣 Start Here': [
+//      'introduction',
+//      'start-here/for-players',
+//      'start-here/for-guilds',
+//      'start-here/for-patrons',
+//    ],
     '🤨 WTF is MetaGame?': [
       'wtf-is-metagame/in-search-of-commons-that-scale',
       'wtf-is-metagame/the-coming-of-metagame',
