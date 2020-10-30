@@ -262,6 +262,10 @@
     padding-left: 0;
     list-style: none;
     list-style-position: inside;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
     li {
       padding-left: 0;
       display: inline-flex;

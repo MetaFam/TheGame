@@ -81,7 +81,7 @@ const aspectBox = {
   position: 'relative',
   height: '205px',
   width: '203px',
-  overflow: 'hidden',
+  // overflow: 'hidden',
   textAlign: 'center',
 };
 const imgStyle = {
@@ -90,8 +90,8 @@ const imgStyle = {
 };
 const lamerImgStyle = {
   ...imgStyle,
-  width: '185px',
-  height: '182px',
+  // width: '185px',
+  // height: '182px',
 };
 
 const sectionHeading = {
