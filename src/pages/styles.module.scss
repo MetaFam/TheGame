@@ -92,9 +92,7 @@
   justify-content: space-between;
   width: 50%;
   margin-top: 50px;
-  .join {
-    background: #ff1f82;
-  }
+
   .button {
     background: #5a32e6;
     border-radius: 4px;
@@ -112,6 +110,9 @@
 
     &.btnJoin {
       background: #ff1f82;
+      &:hover {
+        background-color: #ff539f;
+      }
     }
 
     @media screen and (min-width: 965px) {
@@ -164,7 +165,7 @@
     }
 
     &:hover {
-      background-color: #5a32e699;
+      background-color: #8061ec;
       box-shadow: 0 0 5px rgba(0, 0, 0, 0);
       color: #fff;
 

@@ -115,7 +115,7 @@ body,
       backdrop-filter: blur(7px);
       background-color: rgba(255, 255, 255, 0.08);
       box-shadow: 0 0 2rem rgba(0, 0, 0, 0);
-      transition: box-shadow 0.3s ease-in-out;
+      transition: background-color 0.3s 0.1s ease-in, box-shadow 0.3s ease-in-out;
       margin-top: 10rem;
       width: 100%;
       max-width: 300px;
@@ -123,6 +123,10 @@ body,
       padding: 5px;
       overflow: hidden;
       z-index: 2;
+
+      &.highlight {
+        background-color: rgba(255, 255, 255, 0.15);
+      }
     }
     @media (min-width: 1280px) {
       position: relative;
@@ -132,7 +136,8 @@ body,
       overflow: hidden;
       z-index: 2;
 
-      &:hover {
+      &:hover,
+      &.highlight {
         box-shadow: 0 0 2rem rgba(0, 0, 0, 0.1);
 
         &:before,
@@ -188,6 +193,7 @@ body,
         &:hover {
         }
       }
+
       .menu--show {
         background-color: var(--mf-color-secondary);
       }
