@@ -65,7 +65,7 @@ const directions = [
     emoji: '🌱',
     label: 'Seed Market',
     url:
-      'https://app.uniswap.org/#/swap?inputCurrency=0x30cf203b48edaa42c3b4918e955fed26cd012a3f&outputCurrency=ETH',
+      'https://balancer.exchange/#/swap/ether/0x30cf203b48edaa42c3b4918e955fed26cd012a3f',
     description: 'Buy Seeds here',
   },
 ];
