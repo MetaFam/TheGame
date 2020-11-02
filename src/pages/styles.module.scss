@@ -90,9 +90,12 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 50%;
+  width: 100%;
   margin-top: 50px;
+  @media screen and (min-width: 768px) {
+    width: 50%;
 
+  }
   .button {
     background: #5a32e6;
     border-radius: 4px;
@@ -105,7 +108,7 @@
     color: #fff;
     display: block;
     padding: 12px 0;
-    width: 164px;
+    width: 154px;
     margin-bottom: 0;
 
     &.btnJoin {
@@ -120,6 +123,7 @@
       border: 0;
       box-shadow: 0 0 5px rgba(0, 0, 0, 0.6);
       overflow: hidden;
+      width: 164px;
       transition: box-shadow 0.2s ease, background-color 0.3s 0.1s ease-in-out,
         color 0.3 ease;
       z-index: 2;
@@ -191,9 +195,9 @@
   @media screen and (max-width: 500px) {
     font-size: 12px;
     flex-flow: row wrap !important;
-    max-width: 90% !important;
+    max-width: 100% !important;
     padding: 20px !important;
-    margin: 0 auto !important;
+    margin: 0 0 25px !important;
 
     h3 {
       margin-top: 10px;
