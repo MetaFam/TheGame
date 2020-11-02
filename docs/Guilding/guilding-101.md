@@ -96,4 +96,3 @@ In short:
 Need more help?
 -   Message me @peth on Twitter, Telegram or Discord with any questions.
 -   Join us on [Discord](https://discord.gg/Hf54gd8) & ask for help.
--   Join the Summoners Monthly (message me for invite).
