@@ -7,6 +7,13 @@ import { remoteSchemaRoutes } from './remote-schemas/routes';
 
 export const router = express.Router();
 
+router.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.header('Access-Control-Allow-Methods', "PUT, GET, POST, DELETE, OPTIONS");
+  return next();
+})
+
 router.get('/', (_, res) => {
   res.send('ok');
 });

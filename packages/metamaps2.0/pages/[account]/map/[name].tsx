@@ -22,13 +22,16 @@ export const MapComponent: FC<MapProps> = ({ dispatch, accounts }) => {
     const { account, name } = router.query;
 
     return(
-        <AppContainer>
-          <Metamask/>
-          <MapMenu name={name} account={account}/>
-          <MapContextMenu/>
-          <MapAuxMenu/>
-          <MapContainer/>
-        </AppContainer>
+      <AppContainer className="map">
+        <video autoPlay muted loop className="video">
+          <source src="/default.mp4"/>
+        </video>
+        <Metamask/>
+        <MapMenu name={name} account={account}/>
+        <MapContextMenu/>
+        <MapAuxMenu/>
+        <MapContainer/>
+      </AppContainer>
     )
 }
 
