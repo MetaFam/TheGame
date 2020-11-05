@@ -1,5 +1,5 @@
 ---
-title: ⚔️ Guilds of MetaGame
+title: ⚔️ Guildhouse
 ---
 
 Since we don't have the guild pages for MyMeta set up yet, we'll just do it this way. Here's the list of all the guilds that share 1 or more members with MetaGame and are in one way or another affiliated.
