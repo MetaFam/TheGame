@@ -315,7 +315,7 @@ function Home() {
                     'button button--primary button--lg button--explore',
                     styles.button,
                   )}
-                  to={useBaseUrl('docs/enter-metagame/signpost')}
+                  to={useBaseUrl('docs/home')}
                 >
                   EXPLORE
                 </Link>

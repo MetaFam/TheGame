@@ -121,7 +121,7 @@
     @media screen and (min-width: 965px) {
       position: relative;
       border: 0;
-      box-shadow: 0 0 5px rgba(0, 0, 0, 0.6);
+      box-shadow: 0 0 2rem rgba(0, 0, 0, 0);
       overflow: hidden;
       width: 164px;
       transition: box-shadow 0.2s ease, background-color 0.3s 0.1s ease-in-out,
@@ -170,7 +170,7 @@
 
     &:hover {
       background-color: #8061ec;
-      box-shadow: 0 0 5px rgba(0, 0, 0, 0);
+      box-shadow: 0 0 2rem rgba(0, 0, 0, 0.1);
       color: #fff;
 
       &:after,

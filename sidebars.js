@@ -1,28 +1,22 @@
 module.exports = {
   someSidebar: {
-//    '🐣 Start Here': [
-//      'introduction',
-//      'start-here/for-players',
-//      'start-here/for-guilds',
-//      'start-here/for-patrons',
-//    ],
-    '🤨 WTF is MetaGame?': [
+    '🏡 Home': ['home'],
+    '🤨 Pillar Memes': [
       'wtf-is-metagame/in-search-of-commons-that-scale',
       'wtf-is-metagame/the-coming-of-metagame',
-      'wtf-is-metagame/wtf-is-metagame',
       'wtf-is-metagame/way-of-web3-founders',
       'wtf-is-metagame/narrative-1-a-decentralized-factory',
       'wtf-is-metagame/narrative-2-a-web-of-opportunity',
       'wtf-is-metagame/metafam-way',
     ],
-    '🧐 How Does It Work': [
+    '🧐 Understanding MetaGame': [
+      'wtf-is-metagame/wtf-is-metagame',
+      'how-does-it-work/phases-of-metagame',
       'how-does-it-work/how-metagame-works',
       'how-does-it-work/xp',
-      'how-does-it-work/phases-of-metagame',
       'how-does-it-work/become-a-founder-of-metagame',
     ],
     '🗺 Enter MetaGame': [
-      'enter-metagame/signpost',
       'enter-metagame/join-metagame',
       'enter-metagame/how-to-become-a-player',
       'enter-metagame/roles-in-metagame',

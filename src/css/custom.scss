@@ -359,9 +359,9 @@ body,
   background: rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(7px);
   border: 0;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 0 2rem rgba(0, 0, 0, 0);
   overflow: hidden;
-  transition: box-shadow 0.2s ease, background-color 0.2s 0.3s ease-in-out,
+  transition: box-shadow 0.3s 0.1s ease-in-out, background-color 0.2s 0.3s ease-in-out,
     color 0.5s 0.2s ease;
   z-index: 2;
 }
@@ -422,6 +422,7 @@ body,
 .pagination-nav__link:hover,
 .markdown details summary:hover {
   background: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 0 2rem rgba(0, 0, 0, 0.1);
   color: #ff3392;
   cursor: pointer;
 }
