@@ -40,9 +40,10 @@ const PlayerPage: React.FC<Props> = ({ player }) => {
           <MetaBox title="About me">
             <P>{getPlayerDescription(player)}</P>
             {player.EnneagramType ? (
-              <HStack p={6} spacing={4}>
+              <HStack py={6} spacing={4}>
                 <Image
-                  w="4rem"
+                  w="100%"
+                  maxW="4rem"
                   src={PersonalityTypes[player.EnneagramType.name].image}
                   alt={player.EnneagramType.name}
                   style={{ mixBlendMode: 'color-dodge' }}

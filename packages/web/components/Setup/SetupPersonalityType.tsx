@@ -55,7 +55,8 @@ export const SetupPersonalityType: React.FC = () => {
             }
           >
             <Image
-              w="4rem"
+              w="100%"
+              maxW="4rem"
               src={p.image}
               alt={p.name}
               style={{ mixBlendMode: 'color-dodge' }}
