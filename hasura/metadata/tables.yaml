@@ -92,11 +92,37 @@
       filter: {}
 - table:
     schema: public
+    name: PersonalityType
+  select_permissions:
+  - role: player
+    permission:
+      columns:
+      - name
+      - code
+      - description
+      filter: {}
+  - role: public
+    permission:
+      columns:
+      - code
+      - description
+      - name
+      filter: {}
+- table:
+    schema: public
     name: Player
   object_relationships:
   - name: EnneagramType
     using:
       foreign_key_constraint_on: enneagram
+  - name: personalityType
+    using:
+      manual_configuration:
+        remote_table:
+          schema: public
+          name: PersonalityType
+        column_mapping:
+          personality: code
   - name: playerType
     using:
       foreign_key_constraint_on: playerTypeId
