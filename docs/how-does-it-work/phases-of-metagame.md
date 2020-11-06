@@ -105,7 +105,7 @@ Not going to write much about this either. As the phase info suggests, its when 
 
 If the world hasn't gone to shit: these hackathons, conferences & other types of gatherings should be more regular and happening in-person as well.
 
-There should be the starting of the Outpost Network, a network of hackerhouses & other kinds of spaces that players may live & work at.
+There should be the starting of the Outpost Network, a network of hackerhouses, ecovillages & other kinds of spaces that players may live & work at.
 
 There should also be hundreds of other, smaller initiatives, experiments & projects.
 
