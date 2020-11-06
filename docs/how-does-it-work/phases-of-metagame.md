@@ -105,7 +105,7 @@ Not going to write much about this either. As the phase info suggests, its when 
 
 If the world hasn't gone to shit: these hackathons, conferences & other types of gatherings should be more regular and happening in-person as well.
 
-There should be the starting of the Outpost Network, a network of hackerhouses, ecovillages & other kinds of spaces that players may live & work at.
+There should be the starting of the Outpost Network; a network of hackerhouses, ecovillages & other kinds of spaces that players may live & work at.
 
 There should also be hundreds of other, smaller initiatives, experiments & projects.
 
@@ -117,7 +117,7 @@ There should also be hundreds of other, smaller initiatives, experiments & proje
 
 > _It’s been years since we spotted her drifting towards us. Her technologies helped us overcome coordination failures & her presence here turned out greatly beneficial for our ecosystems. She’s all huge & covered in greenery now; looking more like a breathing landmass than an octopus._
 
-MetaGame now really _is_ a _massive_ online coordination game. By now, we have onboarder players & guilds offering anything one might need to live a rich & meaningful life through MetaGame. Now, there’s anything from co-working & co-living arrangements to ecovillages, being offered & even built through MetaGame.
+MetaGame now really _is_ a _massive_ online coordination game. By now, we have onboarded players & guilds offering anything one might need to live a rich & meaningful life in MetaGame. There’s also anything from co-working & co-living spaces to ecovillages, being offered & even built through MetaGame.
 
 As the name suggests, MetaGame is no longer focused on rapid growth but sustainable growth in the state of equilibrium. It is able to thrive & grow without any additional injections of speculative capital.
 
