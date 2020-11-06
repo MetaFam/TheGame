@@ -1,4 +1,4 @@
-import BackgroundImage from 'assets/login-background.jpg';
+import BackgroundImage from 'assets/tile-background.jpg';
 
 import { PlayerFragmentFragment } from '../graphql/autogen/types';
 

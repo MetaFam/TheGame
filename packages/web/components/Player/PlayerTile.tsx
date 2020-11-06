@@ -14,7 +14,11 @@ import { PlayerContacts } from 'components/Player/PlayerContacts';
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
 import { SkillColors } from 'graphql/types';
 import React from 'react';
-import { getPlayerImage, getPlayerName } from 'utils/playerHelpers';
+import {
+  getPlayerCoverImage,
+  getPlayerImage,
+  getPlayerName,
+} from 'utils/playerHelpers';
 
 type Props = {
   player: PlayerFragmentFragment;
@@ -39,7 +43,9 @@ export const PlayerTile: React.FC<Props> = ({ player }) => (
     justify="space-between"
   >
     <Box
-      backgroundColor="black"
+      bgImage={`url(${getPlayerCoverImage(player)})`}
+      bgSize="cover"
+      bgPosition="center"
       position="absolute"
       top="0"
       left="0"
