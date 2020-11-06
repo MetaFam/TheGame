@@ -24,6 +24,7 @@ export {
   Select,
   SimpleGrid,
   Skeleton,
+  Spacer,
   Spinner,
   Stack,
   Text,

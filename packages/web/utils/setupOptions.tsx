@@ -4,6 +4,7 @@ import { SetupMemberships } from 'components/Setup/SetupMemberships';
 import { SetupPersonalityType } from 'components/Setup/SetupPersonalityType';
 import { SetupPlayerType } from 'components/Setup/SetupPlayerType';
 import { SetupSkills } from 'components/Setup/SetupSkills';
+import { SetupUsername } from 'components/Setup/SetupUsername';
 import React from 'react';
 
 export const options = [
@@ -11,6 +12,10 @@ export const options = [
     label: 'About You',
     title: { base: 'About You', sm: '1. About You' },
     screens: [
+      {
+        label: 'Username',
+        component: <SetupUsername />,
+      },
       {
         label: 'Personality Type',
         component: <SetupPersonalityType />,

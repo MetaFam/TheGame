@@ -17,17 +17,23 @@ export const PlayerFeatures: React.FC<Props> = ({ player }) => {
           title="XP"
           value={Math.floor(player.totalXp).toString()}
         />
-        <Divider orientation="vertical" color="whiteAlpha.400" />
-        <PlayerFeature title="Rank">
-          <MetaTag
-            backgroundColor={player.rank?.toLowerCase()}
-            size="md"
-            color="blackAlpha.600"
-          >
-            {player.rank}
-          </MetaTag>
-        </PlayerFeature>
-        <Divider orientation="vertical" color="whiteAlpha.400" />
+        {player.rank && (
+          <Divider orientation="vertical" color="whiteAlpha.400" />
+        )}
+        {player.rank && (
+          <PlayerFeature title="Rank">
+            <MetaTag
+              backgroundColor={player.rank?.toLowerCase()}
+              size="md"
+              color="blackAlpha.600"
+            >
+              {player.rank}
+            </MetaTag>
+          </PlayerFeature>
+        )}
+        {player.box_profile?.location && (
+          <Divider orientation="vertical" color="whiteAlpha.400" />
+        )}
         {player.box_profile?.location && (
           <PlayerFeature
             title="Location"

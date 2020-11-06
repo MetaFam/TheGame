@@ -25,6 +25,8 @@ type SetupContextType = {
   skillsList: Array<CategoryOption>;
   personalityTypes: Array<PersonalityType>;
   playerTypes: Array<PlayerType>;
+  username: string;
+  setUsername: React.Dispatch<React.SetStateAction<string>>;
   skills: Array<SkillOption>;
   setSkills: React.Dispatch<React.SetStateAction<Array<SkillOption>>>;
   personalityType: PersonalityType | undefined;
@@ -52,6 +54,8 @@ export const SetupContext = React.createContext<SetupContextType>({
   skillsList: [],
   personalityTypes: [],
   playerTypes: [],
+  username: '',
+  setUsername: () => undefined,
   skills: [],
   setSkills: () => undefined,
   personalityType: undefined,
@@ -119,6 +123,7 @@ export const SetupContextProvider: React.FC<Props> = ({
     }
   }, [options, step, screen, setStep, setScreen, numTotalSteps]);
 
+  const [username, setUsername] = useState<string>('');
   const [skills, setSkills] = useState<Array<SkillOption>>([]);
   const [personalityType, setPersonalityType] = useState<PersonalityType>();
   const [playerType, setPlayerType] = useState<PlayerType>();
@@ -141,6 +146,9 @@ export const SetupContextProvider: React.FC<Props> = ({
         skillsList,
         personalityTypes,
         playerTypes,
+        // username
+        username,
+        setUsername,
         // skills
         skills,
         setSkills,

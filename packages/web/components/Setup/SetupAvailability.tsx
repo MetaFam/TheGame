@@ -85,7 +85,7 @@ export const SetupAvailability: React.FC = () => {
       <MetaButton
         onClick={handleNextPress}
         mt={10}
-        isDisabled={!availability}
+        isDisabled={invalid}
         isLoading={updateSkillsRes.fetching}
         loadingText="Saving"
       >

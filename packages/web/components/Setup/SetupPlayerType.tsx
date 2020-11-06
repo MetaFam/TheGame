@@ -80,6 +80,7 @@ export const SetupPlayerType: React.FC = () => {
             cursor="pointer"
             onClick={() => setPlayerType(p)}
             align="stretch"
+            justify="flex-start"
             border="2px"
             borderColor={
               playerType && playerType.id === p.id

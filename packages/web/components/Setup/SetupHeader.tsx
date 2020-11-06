@@ -1,6 +1,6 @@
 import { Box, Flex, Grid, Image, ResponsiveText } from '@metafam/ds';
-import AvatarImage from 'assets/avatar.png';
 import BackImage from 'assets/Back.svg';
+import LogoImage from 'assets/logo.png';
 import SkipImage from 'assets/Skip.svg';
 import { FlexContainer } from 'components/Container';
 import { useSetupFlow } from 'contexts/SetupContext';
@@ -80,7 +80,7 @@ export const StepProgress: React.FC<StepProps> = ({
           pos="absolute"
           w="1.5rem"
           top="100%"
-          src={AvatarImage}
+          src={LogoImage}
           left={`${progress}%`}
           transform="translateX(-50%)"
           alt="Avatar"
