@@ -212,10 +212,9 @@ function Home() {
                 </p>
                 <p>
                   The quest stretches from fixing the onboarding to the Ethereum
-                  space
+                  space &amp; composing 
                   <br />
-                  by symmetrifying information &amp; composing the basic
-                  socio-economic infrastructure, to grappling with actual
+                  the basic socio-economic infrastructure, to grappling with actual
                   problems.
                 </p>
                 <ul>
@@ -232,18 +231,13 @@ function Home() {
                   />
                 </p>
                 <p>
-                  The main goal of Seed phase is to build a hub for anyone
-                  interested in decentralized
+                  The main goal of Seed phase is to build a resource hub & a community for anyone
+                  interested in decentralized organizations &amp; applications.
                   <br />
-                  organizations &amp; applications.
-                  <br />
-                  Guides &amp; portals to anything one might need to build them
-                  &amp; a community of people to support them.
                 </p>
                 <p>
-                  We’re building a <em>Decentralized Factory</em> for baking the
-                  building blocks we are going to use to compose the bigger
-                  picture.
+                  We’re building a <a href="https://wiki.metagame.wtf/docs/wtf-is-metagame/narrative-1-a-decentralized-factory">decentralized factory</a>&nbsp;for baking the
+                  bricks we're going to use to build the future we want to live in.
                 </p>
                 <h2 id='the-bigger-picture'>The Bigger Picture</h2>
                 <p>
@@ -257,7 +251,7 @@ function Home() {
                   society; a global society focused around solving problem - not
                   squeezing the world for profit.
                 </p>
-                <p>We are building the future we want to live in:</p>
+                <p>Building the future we want to live in:</p>
                 <ul>
                   <li>
                     A more collaborative, transparent &amp; decentralized
@@ -268,7 +262,7 @@ function Home() {
                     destruction.
                   </li>
                 </ul>
-                <p>Read more about the Phases of MetaGame?</p>
+                <p> Read more about the Phases of MetaGame <a href="https://wiki.metagame.wtf/docs/how-does-it-work/phases-of-metagame">here</a></p>
               </div>
             </div>
 
