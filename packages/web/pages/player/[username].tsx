@@ -30,7 +30,7 @@ const PlayerPage: React.FC<Props> = ({ player }) => {
     PLAYER_MEMBERSHIPS: 'Memberships',
     PLAYER_ACHIEVEMENTS: 'Achievements',
   };
-  const [boxAvailableList, setBoxAvailableList] = React.useState([]);
+  const [boxAvailableList, setBoxAvailableList] = React.useState<string[]>([]);
   const [fakeData, setFakeData] = React.useState([
     [
       BOX_TYPE.PLAYER_SKILLS,
