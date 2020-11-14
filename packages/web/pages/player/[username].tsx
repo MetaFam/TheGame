@@ -78,12 +78,7 @@ const PlayerPage: React.FC<Props> = ({ player }) => {
           />
         );
       case BOX_TYPE.PLAYER_GALLERY:
-        return (
-          <PlayerGallery
-            player={player}
-            setRemoveBox={() => removeBox(column, name)}
-          />
-        );
+        return <PlayerGallery setRemoveBox={() => removeBox(column, name)} />;
       case BOX_TYPE.PLAYER_MEMBERSHIPS:
         return (
           <PlayerMemberships
