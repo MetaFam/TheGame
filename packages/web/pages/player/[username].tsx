@@ -94,10 +94,7 @@ const PlayerPage: React.FC<Props> = ({ player }) => {
       default:
       case BOX_TYPE.PLAYER_ACHIEVEMENTS:
         return (
-          <PlayerAchievements
-            player={player}
-            setRemoveBox={() => removeBox(column, name)}
-          />
+          <PlayerAchievements setRemoveBox={() => removeBox(column, name)} />
         );
     }
   };
