@@ -29,7 +29,7 @@
     orbit-db-storage-adapter "^0.5.3"
     postmsg-rpc "^2.4.0"
 
-"3box@^1.20.3":
+"3box@^1.20.3", "3box@^1.22.2":
   version "1.22.2"
   resolved "https://registry.yarnpkg.com/3box/-/3box-1.22.2.tgz#9b091129e3abb4528760ddf1bf58a26cf5c892fc"
   integrity sha512-xgq7AF5UYHYdJCEUwZ+dISf7acSu2NPzNQle+0X+mQ6hxrzFeVnBEVOsaaHf1nQy84Sc++0+GdKlj2M8L5kNAw==
