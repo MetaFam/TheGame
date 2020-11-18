@@ -32,12 +32,8 @@ const PlayerPage: React.FC<Props> = ({ player }) => {
   };
   const [boxAvailableList, setBoxAvailableList] = React.useState<string[]>([]);
   const [fakeData, setFakeData] = React.useState([
-    [
-      BOX_TYPE.PLAYER_SKILLS,
-      BOX_TYPE.PLAYER_CONTACT_BUTTONS,
-      BOX_TYPE.PLAYER_GALLERY,
-    ],
-    [BOX_TYPE.PLAYER_MEMBERSHIPS, BOX_TYPE.PLAYER_ACHIEVEMENTS],
+    [BOX_TYPE.PLAYER_SKILLS, BOX_TYPE.PLAYER_CONTACT_BUTTONS],
+    [BOX_TYPE.PLAYER_MEMBERSHIPS],
     [],
   ]);
 
