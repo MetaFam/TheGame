@@ -12,8 +12,10 @@
     "@docusaurus/preset-classic": "^2.0.0-alpha.64",
     "classnames": "^2.2.6",
     "docusaurus-lunr-search": "^2.1.7",
+    "docusaurus2-dotenv": "^1.4.0",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
+    "react-ga": "^3.2.1",
     "react-tooltip": "^4.2.10"
   },
   "browserslist": {

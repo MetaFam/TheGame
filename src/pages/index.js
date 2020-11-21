@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import ReactGA from 'react-ga';
 import classnames from 'classnames';
 import Layout from '@theme/Layout';
 import Link from '@docusaurus/Link';
@@ -127,7 +128,7 @@ function Panel({
         'col',
         styles.feature,
         styles.panel,
-        lastPlayerPanel && styles.lastItem,
+        lastPlayerPanel && styles.lastItem
       )}
       style={lastPlayerPanel ? lastPanelStyle : panelStyle}
     >
@@ -159,9 +160,15 @@ function Home() {
   const context = useDocusaurusContext();
   const { siteConfig = {} } = context;
   let wikipath = 'home';
+
   useEffect(() => {
     wikipath = window.location.pathname === '/' ? 'home' : 'docs';
   });
+
+  useEffect(() => {
+    ReactGA.initialize(process.env.GA_TAG);
+    ReactGA.pageview(window.location.pathname);
+  }, []);
 
   return (
     <Layout title={siteConfig.title} description={siteConfig.tagline}>
@@ -212,10 +219,10 @@ function Home() {
                 </p>
                 <p>
                   The quest stretches from fixing the onboarding to the Ethereum
-                  space &amp; composing 
+                  space &amp; composing
                   <br />
-                  the basic socio-economic infrastructure, to grappling with actual
-                  problems.
+                  the basic socio-economic infrastructure, to grappling with
+                  actual problems.
                 </p>
                 <ul>
                   <li>
@@ -231,13 +238,18 @@ function Home() {
                   />
                 </p>
                 <p>
-                  The main goal of Seed phase is to build a resource hub & a community for anyone
-                  interested in decentralized organizations &amp; applications.
+                  The main goal of Seed phase is to build a resource hub & a
+                  community for anyone interested in decentralized organizations
+                  &amp; applications.
                   <br />
                 </p>
                 <p>
-                  We’re building a <a href="https://wiki.metagame.wtf/docs/wtf-is-metagame/narrative-1-a-decentralized-factory">decentralized factory</a>&nbsp;for baking the
-                  bricks we're going to use to build the future we want to live in.
+                  We’re building a{' '}
+                  <a href='https://wiki.metagame.wtf/docs/wtf-is-metagame/narrative-1-a-decentralized-factory'>
+                    decentralized factory
+                  </a>
+                  &nbsp;for baking the bricks we're going to use to build the
+                  future we want to live in.
                 </p>
                 <h2 id='the-bigger-picture'>The Bigger Picture</h2>
                 <p>
@@ -262,7 +274,13 @@ function Home() {
                     destruction.
                   </li>
                 </ul>
-                <p> Read more about the Phases of MetaGame <a href="https://wiki.metagame.wtf/docs/how-does-it-work/phases-of-metagame">here</a></p>
+                <p>
+                  {' '}
+                  Read more about the Phases of MetaGame{' '}
+                  <a href='https://wiki.metagame.wtf/docs/how-does-it-work/phases-of-metagame'>
+                    here
+                  </a>
+                </p>
               </div>
             </div>
 
@@ -302,12 +320,17 @@ function Home() {
                 </div>
               </section>
             )}
-            <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+              }}
+            >
               <div className={styles.buttons}>
                 <Link
                   className={classnames(
                     'button button--primary button--lg button--explore',
-                    styles.button,
+                    styles.button
                   )}
                   to={useBaseUrl('docs/home')}
                 >
@@ -317,7 +340,7 @@ function Home() {
                   className={classnames(
                     'button button--primary button--lg button--join',
                     styles.button,
-                    styles.btnJoin,
+                    styles.btnJoin
                   )}
                   to={useBaseUrl('docs/enter-metagame/join-metagame')}
                 >
