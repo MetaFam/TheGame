@@ -36,6 +36,10 @@ body {
   @media (min-width: 995px) {
     font-size: 17px;
   }
+
+  div {
+    // outline: 1px solid red;
+  }
 }
 
 body,
@@ -53,8 +57,8 @@ body,
     margin-top: -40px;
     padding-top: 40px;
     @media screen and (min-width: 768px) {
-      margin-top: -70px;
-      padding-top: 70px;
+      margin-top: -60px;
+      padding-top: 60px;
     }
   }
 }
@@ -276,6 +280,7 @@ body,
         margin-left: auto;
         margin-right: 0;
         max-width: unset;
+        padding-left: 7px;
       }
       .row {
         display: flex;
@@ -355,7 +360,7 @@ body,
   background-color: var(--mf-color-secondary);
 }
 .navbar {
-  background: rgba(var(--mf-color-secondary-rgb), 0.8);
+  background: #2a0c42;
   backdrop-filter: blur(5px);
   border: 0;
   box-shadow: -2px 0 10px rgba(0, 0, 0, 0.5);
@@ -365,8 +370,8 @@ body,
   text-align: center;
 
   @media screen and (min-width: 768px) {
-    height: 70px;
-    max-height: 70px;
+    height: 60px;
+    max-height: 60px;
   }
   &__title {
     position: absolute;
@@ -388,7 +393,7 @@ body,
     transition: filter 0.2s ease-in;
 
     &:hover {
-      filter: drop-shadow(0 0 15px rgba(255,255,255,0.3));
+      filter: drop-shadow(0 0 15px #a5b9f680);
     }
 
     @media screen and (min-width: 768px) {
