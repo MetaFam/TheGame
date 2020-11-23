@@ -5,7 +5,7 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import styles from './signpost.module.scss';
 
-const directions = [
+export const directions = [
   {
     emoji: '👈',
     label: 'Library',

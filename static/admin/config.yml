@@ -22,6 +22,19 @@ collections:
       - {label: "Description", name: "description", widget: "string", required: false, hint: "The description of the post which will be used by search engines and link previews. If not present, will default to the first line of the post contents."}
       - {label: "Cover Image",name: "image", widget: "image", required: false,  hint: "Cover or thumbnail image that will be used when displaying the link to the post."}
       - {label: "Body", name: "body", widget: "markdown"}
+  - name: "great-houses"
+    label: "Great Houses"
+    folder: "docs/great-houses"
+    create: true
+    slug: "{{slug}}"
+    preview_path: "docs/great-houses/{{slug}}"
+    editor:
+      preview: false
+    fields:
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Description", name: "description", widget: "string", required: false, hint: "The description of the post which will be used by search engines and link previews. If not present, will default to the first line of the post contents."}
+      - {label: "Cover Image",name: "image", widget: "image", required: false,  hint: "Cover or thumbnail image that will be used when displaying the link to the post."}
+      - {label: "Body", name: "body", widget: "markdown"}
   - name: "Guilding"
     label: "Guilding"
     folder: "docs/Guilding"
@@ -41,19 +54,6 @@ collections:
     create: true
     slug: "{{slug}}"
     preview_path: "docs/how-does-it-work/{{slug}}"
-    editor:
-      preview: false
-    fields:
-      - {label: "Title", name: "title", widget: "string"}
-      - {label: "Description", name: "description", widget: "string", required: false, hint: "The description of the post which will be used by search engines and link previews. If not present, will default to the first line of the post contents."}
-      - {label: "Cover Image",name: "image", widget: "image", required: false,  hint: "Cover or thumbnail image that will be used when displaying the link to the post."}
-      - {label: "Body", name: "body", widget: "markdown"}
-  - name: "Players"
-    label: "Players"
-    folder: "docs/Players"
-    create: true
-    slug: "{{slug}}"
-    preview_path: "docs/Players/{{slug}}"
     editor:
       preview: false
     fields:
