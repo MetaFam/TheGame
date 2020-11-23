@@ -11,69 +11,53 @@ module.exports = {
       defaultMode: 'dark',
       disableSwitch: true,
     },
-    // navbar: {
-    //   title: "MetaGame Wiki",
-    //   logo: {
-    //     alt: "MetaGame Logo",
-    //     src: "img/mg-icon.png",
-    //   },
-    //   items: [
-    //     {
-    //       to: "docs/introduction",
-    //       label: "🐣 Start Here",
-    //       position: "left",
-    //     },
-    //     {
-    //       to: "docs/enter-metagame/signpost",
-    //       label: "🗺 Enter MetaGame",
-    //       position: "left",
-    //     },
-    //      {
-    //        to: "docs/enter-metagame/navigation-board",
-    //        label: "👣 Join a Raid",
-    //        position: "left",
-    //      },
-    //   ],
-    // },
+    // headerLinks: [{ page: 'help', label: 'Help' }],
+    navbar: {
+      title: 'MetaGame Wiki',
+      logo: {
+        alt: 'MetaGame Logo',
+        src: 'img/mg-crystal.png',
+      },
+    },
     // footer: {
-    //   style: "dark",
+    //   style: 'dark',
     //   links: [
     //     {
-    //       title: "The Game",
+    //       title: 'The Game',
     //       items: [
     //         {
-    //           label: "🌌 Interspace",
-    //           href: "https://interspace.metagame.wtf",
+    //           label: '🌌 Interspace',
+    //           href: 'https://interspace.metagame.wtf',
     //         },
     //         {
-    //           label: "🧬 The Source",
-    //           href: "https://metafam.github.io/TheSource/timeline/@metagame/",
+    //           label: '🧬 The Source',
+    //           href: 'https://metafam.github.io/TheSource/timeline/@metagame/',
     //         },
     //       ],
     //     },
     //     {
-    //       title: "Community",
+    //       title: 'Community',
     //       items: [
     //         {
-    //           label: "💬 Discord",
-    //           href: "https://discord.gg/VYZPBnx",
+    //           label: '💬 Discord',
+    //           href: 'https://discord.gg/VYZPBnx',
     //         },
     //         {
-    //           label: "🧵 Forums",
-    //           href: "https://forum.metagame.wtf",
+    //           label: '🧵 Forums',
+    //           href: 'https://forum.metagame.wtf',
     //         },
     //       ],
     //     },
     //     {
-    //       title: "Social",
+    //       title: 'Social',
     //       items: [
     //         {
-    //           label: "🐦 Twitter",
-    //           href: "https://twitter.com/MetaFam",
+    //           label: '🐦 Twitter',
+    //           href: 'https://twitter.com/MetaFam',
     //         },
     //         {
-    //           label: "🗞 Newsletter",
-    //           href: "https://metagame.substack.com",
+    //           label: '🗞 Newsletter',
+    //           href: 'https://metagame.substack.com',
     //         },
     //       ],
     //     },

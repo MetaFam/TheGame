@@ -5,7 +5,9 @@
  */
 
 .theRoom {
-  height: calc(100vh - 60px);
+  height: calc(100vh - 75px);
+  max-height: calc(100vh - 75px);
+  overflow: hidden;
   width: 100%;
   border-width: 0;
 }
