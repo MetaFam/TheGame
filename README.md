@@ -2,6 +2,12 @@
 
 Monorepo for the MetaGame applications, backend and databases.
 
+## Guides
+
+If you're new to the MetaGame codebase, check out the following guides to learn how to contribute.
+
+- [Backend Guide](guides/BACKEND.md)
+
 ## Development
 
 ### Install Packages
@@ -55,12 +61,6 @@ If you want to locally start the backend server (not in Docker) for debugging pu
 
 ```shell script
 yarn backend:dev
-```
-
-Set this variable in the .env file:
-
-```
-BACKEND_HOST=host.docker.internal:4000
 ```
 
 ### Run web app (old)
