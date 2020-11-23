@@ -166,7 +166,7 @@ function Home() {
   });
 
   useEffect(() => {
-    ReactGA.initialize(process.env.GA_TAG);
+    ReactGA.initialize(siteConfig.customFields.GA_TAG);
     ReactGA.pageview(window.location.pathname);
   }, []);
 
@@ -298,13 +298,12 @@ function Home() {
                     >
                       <h2 style={sectionHeading}>So, who is it for?</h2>
                       {features &&
-                        features.map((props, i, idx) => (
-                          <>
+                        features.map((props, i) => (
+                          <span key={i}>
                             {features.length === i + 1 && (
                               <h2 style={sectionHeading}>Who is it NOT for?</h2>
                             )}
                             <Panel
-                              key={idx}
                               lastPlayerPanel={
                                 i === features.length - 2 ? 'last-item' : ''
                               }
@@ -313,7 +312,7 @@ function Home() {
                               }
                               {...props}
                             />
-                          </>
+                          </span>
                         ))}
                     </div>
                   </div>

@@ -91,16 +91,14 @@ const directions = [
 export function SignpostItem(props, key) {
   const [menuActive, setMenuActive] = useState(false);
   const { emoji, label, url, description } = props;
-  console.log(url);
+  
   const toggleMenu = () => {
     setMenuActive(!menuActive);
   };
   useEffect(() => {
     const sidebar = document.querySelector('[class^="sidebar"]');
 
-    console.log('sb', sidebar);
     const menu = document.querySelector('[class^="sidebar"] .menu');
-    console.log('mn', menu);
     const display = window.innerWidth;
 
     menuActive
