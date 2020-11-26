@@ -2,126 +2,69 @@
 title: 📖 MetaManifesto
 ---
 
-_Note: What you are about to read is not a final version of the manifesto. MetaGame does not and never will have a final version of the manifesto._
-
-> Metagame, or game about the game, is any approach to a game that transcends or operates outside of the prescribed rules of the game, uses external factors to affect the game, or goes beyond the supposed limits or environment set by the game. - From Wiki
 
 ## Interlude
 
-You’ll probably agree there are a lot of things wrong with the old world, otherwise you wouldn’t be here; sticking your head down a rabbit hole inside a rabbit hole.
+Problem: Industrialized economies brought us a lot of efficiency but sacrificed everything else for it.
 
-The current game society is playing leads to overexploitation; both of the Earth and the living beings that inhabit it.
-In a mindless game of chasing profit, we have forgotten what the economic system was supposed to deliver humanity. Prosperity.
+Taking money as the ultimate abstraction of value, we started using it as a metric of success & progress. At the corporate level; in making the next quarter ever more profitable, and on the nation state level - where it's all about growing the GDP.
 
-However, instead of prosperity, the game is optimized for maximum economic value extraction at the cost of living beings and natural resources; running on the take, make, use and lose model which is not sustainable and externalizing costs to the environment wherever possible.
+Thus, the current games society is playing lead to over-exploitation. 
+In a mindless game of chasing profits, we forgot what the economic system was supposed to deliver us. Prosperity.
+Instead of prosperity, the game is optimized for maximum value extraction at the expense of all living beings and natural resources.
 
 We need to start a new game before it’s too late.
 
-## Brave New World
+## A Decentralized Society
 
-To many of us, the creation of Ethereum meant a new kind of world is now possible. We do not yet have a clear picture to what degree can these technologies can make the world better, but they do offer a handful of interesting properties which we believe will allow us to better align incentives in our societies and help us create a better world.
+Explained in more detail through posts like [WTF is MetaGame](https://wiki.metagame.wtf/docs/wtf-is-metagame/wtf-is-metagame), [A Decentralized Factory](https://wiki.metagame.wtf/docs/wtf-is-metagame/narrative-1-a-decentralized-factory), [A Web of Opportunity](https://wiki.metagame.wtf/docs/wtf-is-metagame/narrative-2-a-web-of-opportunity) & [The Way of Web3 Founders](https://wiki.metagame.wtf/docs/wtf-is-metagame/way-of-web3-founders) - our goal is to build an environment where value-aligned individuals & groups may come together, do awesome things & make a living.
 
-We have good reasons to believe [Ethereum is a game-changing technology](https://medium.com/@virgilgr/ethereum-is-game-changing-technology-literally-d67e01a01cf8).
+The first version of MetaGame is being built mainly for the pioneers of the future we want to build. From educational resources & teammates, to mentors, investors & users; we hope to bring together anything you’ll need to build decentralized applications & organizations.
 
-## Web of Opportunity
-
-Our first aim is to decentralize the access to opportunities. The internet and Web2 platforms enabled remote work, but the access to opportunities has still not been properly decentralized away places like the Silicon Valley.
-This decentralization is finally [happening with Web3, and we aim to accelerate it](https://metagame.substack.com/p/decentralizing-access-to-opportunity).
-
-The first version of MetaGame is being built mainly with the innovators and pioneers in mind. That means you should be able to access anything you need on your disruptive project building path. From educational resources & mentors, to teammates, investors & users. Thus establishing a sort of [Decentralized Factory](https://metagame.substack.com/p/narrative-1-a-decentralized-factory), or a [Web of Opportunity](https://metagame.substack.com/p/narrative-2-the-web-of-opportunity).
-
-But MetaGame isn’t just for those looking to start projects, it is also for those fascinated by these promising technologies, simply trying to understand and find their place in the Web3 world and the ones in-between; the early adopting freelancers looking for fun projects to work on while building their own thing - [on their way of the Web3 founding freelancers.](https://metagame.substack.com/p/the-way-of-web3-founding-freelancers)
-
-Nurturing the pioneers & their projects, we will aggregate an ecosystem of projects making up the decentralized technological fabric of a new society.
-
-## Web of Life
-
-MetaGame aims to be much more than a “a decentralized factory” or a “web of opportunity”. MetaGame aims to be a Web of Life. One optimized around metrics such as human morale, people fed & ecosystem health. A resource based economy, focused on efficient resource allocation to the things people want provided for.
-
-Far from being a virtual world, MetaGame will be deeply connected with the physical, through its network of small pockets of alternative economies found in self-sustainable villages and somewhat-self-sustainable neighborhoods.
-
-We will start by building a collective brain of self-sustainable living, and self-sustainable-living communities then do everything we can to strengthen these independent ecosystems. Unlike neoliberal trickledown economics, we expect production of digital gifts (standards, protocols, reference implementations] that become public goods available for the whole world
-
-## Feedback Loops & Gamification
-
-Humans need feedback to orient, re-calibrate & stay motivated. We need to focus on creating a supportive environment where we help each other grow. On the flipside, this sometimes means telling your friends what they don’t want to hear, for their own sake.
-
-We have some people building things nobody needs, while the ones that know the things needed don’t have the time to build them.
-
-We’ll build many positive feedback loops for people who contribute to the commons to feel recognized and celebrated. But, it is not just us that need feedback. Reinforcing & balancing feedback loops are how complex systems self-regulate.
-
-This is where gamification comes in handy. The gaming industry refined some of the best techniques of introducing people to, and having them understand complex systems. Games are some of the best systems we have at [making seemingly boring mechanical actions feel epic](https://metagame.substack.com/p/metagame-octalysis-framework-3). This is what we want to do to things that are productive.
-
-Make life more like a game, help the people understand complex systems, advance & stay motivated.
-
-## Fostering Autonomy, Self-Mastery & The Culture of Challenge
-
-We’ll build this environment conducive of growth and then it’s up to you to become a hero we need. Forge your own path & build something that the world needs.
-
-![How To Find Your Ikigai And Transform Your Outlook On Life And ...](https://thumbor.forbes.com/thumbor/960x0/https%3A%2F%2Fblogs-images.forbes.com%2Fchrismyers%2Ffiles%2F2018%2F02%2Fikigai-1.jpg)
-People in the old world are taught to sit tight quietly, and wait to be told what to do.
-What we want you to do here is quite the opposite.
-
-People in the old world like to complain. We like building solutions.
-
-Do not wait for someone to tell you what to do. Find a problem you want to solve or a thing you want to do & do it.
-We exist to support you.
-
-But don’t expect us to support you in your saying-you’ll-do-things-but-then-not-doing-them. We are here to become the best versions of ourselves, and to build the things we said we’ll build. This means we challenge each other and keep each other accountable.
-
-## Disconnect
-
-You might agree that the worst thing about remote work is feeling isolated. This is exaggerated if you are a free-lancer living in a small town. No co-working spaces or people you can talk to about these things without them looking at you strange.
-
-This disconnect is not just about proximity to people. The problem goes much deeper into the root of the current society, one that lost its touch with its meaning. Humanity, lacking a clear purpose & leadership, seems to be stumbling in the dark. Nihilism creeps in and you’re screwed.
-
-Point is, there’s a lot of lonely people out there living below their potential. This is in part because it's hard to get motivated and do something productive when you are not inspired or simply don’t feel good. .
-
-We'll do everything we can to engage these dis-empowered people and offer them community & connection.
+Over the long run, the goal is to build an ecosystem of people & projects focused on fixing the world. A society tracking metrics such as morale, people fed & ecosystem health; focused on efficiently allocating resources to the things that matter, not just the things that make a buck.
 
 ## MetaWorldview
 
-The nation states are irrelevant, we are Citizens of the Earth.
-The Earth is our spaceship, keeping us alive in this vast universe.
-We, as humanity, need to start acting like it’s crew, not competitors in a game of who’s-best-at-exploiting-it.
-In a different lingo, Gaia is a fragile oasis & our only home. It is to be dutifully gardened.
+The Earth is our spaceship, keeping us alive. We, as humanity, need to start acting like it’s crew and not competitors in a game of who’s-best-at-exploiting-it.
+
+In a different lingo, Gaia is a fragile oasis & our only home. It is to be dutifully gardened & taken care of. 
+
+Bitcoin halving is cool, but [wildlife halving](https://www.theguardian.com/environment/2014/sep/29/earth-lost-50-wildlife-in-40-years-wwf) isn’t.
 
 You get the point.
 
-We say we want to change the world for the better, but we don’t delude ourselves into thinking we are doing that simply by building tech startups. We start by changing ourselves, our consumption habits & carbon footprints. We will proceed by making donating & helping good causes a habit. And the ones who aren’t humane or mature enough to do it themselves, will be incentivized to do so through social means.
+The nation states are irrelevant - we are Citizens of The Earth. Rather than resorting to nationalist ideologies & caving in, it's time we recognize we are all one family. A human family.
 
-Bitcoin halving might be nice, but [wildlife halving](https://www.theguardian.com/environment/2014/sep/29/earth-lost-50-wildlife-in-40-years-wwf) isn’t.
+## Be Autonomous
 
-The only way we can surmount these challenges that humanity faces is if we get our act together & work together. Although some parts of MetaGame will be fueled by competition, we value collaboration over competition.
+As you might have noticed already, we are very much about taking things into our own hands rather than waiting for commands of the utterly incompetent nation states and the global organizations such as the UN, to solve our problems.
 
-## MetaFam
+People in the old world are taught to sit quietly and wait to be told what to do.
+This is not how we do things.
 
-We are a community of people building the MetaGame. A global family held together by ideals rather than blood ties. We are the weird ones. The outliers & heretics, naive enough to believe we can build a better world. We are the pioneers, not afraid of ground shifting beneath our feet & the high possibility of failure that comes with stepping into the unknown.
+Do not wait for someone to tell you what to do. Find a problem you care about & solve it. We exist to support you - not command you.
 
-Our political philosophy cannot be categorized as either left nor right; it cuts down right through the middle. Trying to label us with the political terms of the old world won’t get you farther than “anarcho-collectivists”.
-This simply means we encourage the autonomy that comes with being an individual, but believe the whole is bigger than the sum of its parts and choose to align on common goals & work together.
-
-We listen intently on problems of each other & the needs of the ecosystem around us.
-We help each other find purpose, the burden that’s meaningful & push it forward.
-We won’t always get along, but that is what happens when people care deeply about things. What matters is finding the alignment in common goals.
-
-What matters is being here for each other when the shit hits the fan.
+People in the old world like to complain. We like building solutions.
 
 ## Why now?
 
-In terms of empowering individuals to create, own & exchange, web3 is as big as the printing press & radio - if not bigger. Web3 is a web in which we’re not mere consumers harvested for attention. We are stakeholders & producers of the system built around cognition, cooperation & coopetition.
+In terms of empowering people to coordinate around creating value together and at scale without having to trust each other; the technologies are barely here now.
 
-The technology we never had before is here now, and it came at the right time.
+The printing press, the radio & the internet were the information revolutions; democratizing access, production & distribution of information. Web3 is about democratizing organizations & state-making.
 
-We are running out of time to steer this spaceship Earth away from major catastrophes caused by our [failure to create better coordination mechanisms than the markets](https://slatestarcodex.com/2014/07/30/meditations-on-moloch/) - that destroy everything on their path to squeeze out more profit.
-We are amidst a catastrophe & it will get worse before it gets better.
+The next era of the internet is the web in which we’re not mere consumers harvested for attention. We’ll be stakeholders & producers of these systems.
+
+But this is only about the internet insofar as that’s what we’ll be using to coordinate societies.
+
+We are running out of time to steer humanity away from catastrophes caused by our failure to create better coordination mechanisms than just the markets. Part of the reason we [can’t have nice things](https://slatestarcodex.com/2014/07/30/meditations-on-moloch/).
 
 Simply, it is time.
 
-## Closing: Investing in Your Future
+## Join The Fight
 
-We are building a new world.
+We are building the future we want to live in. For that, we are looking for people with a burning desire to change the course of history.
 
-We are looking for people with a burning desire to become the best versions of themselves and do what is within their power to positively affect their environment.
+If you recognize yourself as such, join [through here](https://wiki.metagame.wtf/docs/enter-metagame/join-metagame).
 
-///Comment or discuss possible changes to the manifesto [here](https://forum.metagame.wtf/t/the-metamanifesto-way-of-metafam/178/14).
+> ///Comment or discuss possible changes to the manifesto [here](https://forum.metagame.wtf/t/the-metamanifesto-way-of-metafam/178/14).
+
