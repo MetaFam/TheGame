@@ -14,6 +14,7 @@ module.exports = {
       'how-does-it-work/phases-of-metagame',
       'how-does-it-work/how-metagame-works',
       'how-does-it-work/xp',
+      'how-does-it-work/obtaining-seeds',
       'how-does-it-work/become-a-founder-of-metagame',
     ],
     '🗺 Enter MetaGame': [
