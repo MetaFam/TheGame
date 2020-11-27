@@ -55,13 +55,13 @@ Sorry, we don't tolerate freeloaders.
 
 -   You love what we’re about but you _really_ don’t have time to keep up?
     
--   You can freeze your player status by holding _enough_ Seeds.  
+-   You can change your role to that of a Patron by holding _enough_ Seeds.  
     **👉[Check your Seed balance here](https://metafam.github.io/XP/#/accounts)👈 &/OR 👉[Buy some Seeds here](https://balancer.exchange/#/swap/ether/0x30cf203b48edaa42c3b4918e955fed26cd012a3f)👈**
     
--   _How many Seeds is enough Seeds? Let’s start with 50 Seeds, but expect this number to grow as time goes on because the number of “Frozen Players” is also limited to 150._
+-   _How many Seeds is enough Seeds? Let’s start with 50 Seeds, but expect this number to grow as time goes on because the number of Patrons is also limited to 150._
     
 
-Together, the _150 Active Players_ & the _150 Frozen Players_ make up _300_.
+Together, the _150 Players_ & the _150 Patrons_ make up _300_.
 
 ### 😱  _**The 300 of MetaGame**_ **🤯**
 
