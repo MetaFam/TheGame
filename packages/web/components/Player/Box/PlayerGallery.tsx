@@ -1,5 +1,4 @@
 import { Box, Flex, HStack, Text } from '@metafam/ds';
-import { PlayerFragmentFragment } from 'graphql/autogen/types';
 import React from 'react';
 
 import nft1Image from '../../../assets/fake/nft1.png';
@@ -7,8 +6,8 @@ import nft2Image from '../../../assets/fake/nft2.png';
 import { PlayerBox } from './PlayerBoxe';
 
 // TODO Fake data
-type Props = { player: PlayerFragmentFragment; setRemoveBox: () => void };
-export const PlayerGallery: React.FC<Props> = ({ player, setRemoveBox }) => {
+type Props = { setRemoveBox: () => void };
+export const PlayerGallery: React.FC<Props> = ({ setRemoveBox }) => {
   const [show, setShow] = React.useState(false);
   const fakeEthPrice = 500;
   const fakeData = [
@@ -47,7 +46,7 @@ export const PlayerGallery: React.FC<Props> = ({ player, setRemoveBox }) => {
           </Box>
         </HStack>
       ))}
-      {(player.daohausMemberships || []).length > 3 && (
+      {(fakeData || []).length > 3 && (
         <Text
           as="span"
           fontFamily="body"
