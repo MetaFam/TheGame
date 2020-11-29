@@ -92,6 +92,9 @@
       filter: {}
 - table:
     schema: public
+    name: Map
+- table:
+    schema: public
     name: Player
   object_relationships:
   - name: EnneagramType
