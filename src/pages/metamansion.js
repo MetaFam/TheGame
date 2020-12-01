@@ -29,7 +29,7 @@ function TheRoom() {
       <iframe
         className={styles.theRoom}
         allow='microphone'
-        src='https://map.highfidelity.com/NXZL6Cx9LhsUbDBq/?map=https://media.discordapp.net/attachments/681228493748699183/783438500208443432/oXjMqWPQ.png
+        src='https://map.highfidelity.com/yC943b9F2bPxjq0U/?map=https%3A%2F%2Fi.ibb.co%2F1TQPMjg%2FoXjMqWPQ.png' // Vitalik Mansion
       />
     </Layout>
   );
