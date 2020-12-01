@@ -1,16 +1,12 @@
 import { HStack, Text } from '@metafam/ds';
-import { PlayerFragmentFragment } from 'graphql/autogen/types';
 import React from 'react';
 import { FaMedal } from 'react-icons/fa';
 
 import { PlayerBox } from './PlayerBoxe';
 
 // TODO Fake data
-type Props = { player: PlayerFragmentFragment; setRemoveBox: () => void };
-export const PlayerAchievements: React.FC<Props> = ({
-  player,
-  setRemoveBox,
-}) => {
+type Props = { setRemoveBox: () => void };
+export const PlayerAchievements: React.FC<Props> = ({ setRemoveBox }) => {
   const [show, setShow] = React.useState(false);
   const fakeData = [
     'Founding Father of MetaGame',
@@ -26,7 +22,7 @@ export const PlayerAchievements: React.FC<Props> = ({
           <Text fontSize="md">{title}</Text>
         </HStack>
       ))}
-      {(player.daohausMemberships || []).length > 3 && (
+      {(fakeData || []).length > 3 && (
         <Text
           as="span"
           fontFamily="body"
