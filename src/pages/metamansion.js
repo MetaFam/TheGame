@@ -29,7 +29,7 @@ function TheRoom() {
       <iframe
         className={styles.theRoom}
         allow='microphone'
-        src='https://i.imgur.com/rMRs57l.png'
+        src='https://i.ibb.co/1TQPMjg/oXjMqWPQ.png'
       />
     </Layout>
   );
