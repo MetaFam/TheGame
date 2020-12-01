@@ -25,7 +25,7 @@ function TheRoom() {
   }, []);
 
   return (
-    <Layout title='The Room' description='A 3D Audio Virtual Meeting Space'>
+    <Layout title='MetaMansion' description='A 3D Audio Virtual Meeting Space for MetaFam'>
       <iframe
         className={styles.theRoom}
         allow='microphone'
