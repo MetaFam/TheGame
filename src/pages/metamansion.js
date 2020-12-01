@@ -29,7 +29,7 @@ function TheRoom() {
       <iframe
         className={styles.theRoom}
         allow='microphone'
-        src='https://map.highfidelity.com/NXZL6Cx9LhsUbDBq/?map=https://i.ibb.co/1TQPMjg/oXjMqWPQ.png'
+        src='https://map.highfidelity.com/NXZL6Cx9LhsUbDBq/?map=https://media.discordapp.net/attachments/681228493748699183/783438500208443432/oXjMqWPQ.png
       />
     </Layout>
   );
