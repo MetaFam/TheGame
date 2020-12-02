@@ -37,6 +37,8 @@ type SetupContextType = {
   setPlayerType: React.Dispatch<React.SetStateAction<PlayerType | undefined>>;
   availability: string;
   setAvailability: React.Dispatch<React.SetStateAction<string>>;
+  timeZone: string;
+  setTimeZone: React.Dispatch<React.SetStateAction<string>>;
   memberships: Array<Membership> | null | undefined;
   setMemberships: React.Dispatch<
     React.SetStateAction<Array<Membership> | null | undefined>
@@ -64,6 +66,8 @@ export const SetupContext = React.createContext<SetupContextType>({
   setPlayerType: () => undefined,
   availability: '',
   setAvailability: () => undefined,
+  timeZone: '',
+  setTimeZone: () => undefined,
   memberships: undefined,
   setMemberships: () => undefined,
 });
@@ -128,6 +132,7 @@ export const SetupContextProvider: React.FC<Props> = ({
   const [personalityType, setPersonalityType] = useState<PersonalityType>();
   const [playerType, setPlayerType] = useState<PlayerType>();
   const [availability, setAvailability] = useState<string>('');
+  const [timeZone, setTimeZone] = useState<string>('');
   const [memberships, setMemberships] = useState<
     Array<Membership> | null | undefined
   >();
@@ -161,6 +166,8 @@ export const SetupContextProvider: React.FC<Props> = ({
         // availability
         availability,
         setAvailability,
+        timeZone,
+        setTimeZone,
         // memberships
         memberships,
         setMemberships,
