@@ -1,5 +1,6 @@
-import Document, { DocumentContext, DocumentInitialProps } from 'next/document'
-import { ServerStyleSheet } from 'styled-components'
+import React from 'react';
+import Document, { DocumentContext, DocumentInitialProps } from 'next/document';
+import { ServerStyleSheet } from 'styled-components';
 
 export default class WebAppDocument extends Document {
   static async getInitialProps(ctx: DocumentContext): Promise<DocumentInitialProps> {

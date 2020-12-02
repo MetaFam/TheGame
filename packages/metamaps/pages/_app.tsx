@@ -1,22 +1,29 @@
-import { CSSReset, ThemeProvider } from '@chakra-ui/core';
-import App, { AppContext, AppInitialProps } from "next/app";
+import React from 'react';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
+import App, { AppContext, AppInitialProps } from "next/app";
+import { ChakraProvider, theme } from '@chakra-ui/react';
 
 import { wrapper } from "../redux/Reducer";
-import { Load3BoxUrl } from '../redux/ThreeBox';
 
 declare const window: any;
 
 export interface AppProps extends AppInitialProps {
-  dispatch: any;
-  activeSpace: string;
-};
+  dispatch: Dispatch;
+}
 
 class WrappedApp extends App<AppProps> {
   public async componentDidMount() {
-    const accounts = await window.ethereum.enable();
-    this.props.dispatch({ type: 'UPDATE_ETH_ACCOUNTS', accounts });
-    this.props.dispatch(await Load3BoxUrl(accounts[0], this.props.activeSpace));
+    if (window.ethereum) {
+      try {
+        const accounts = await window.ethereum.enable();
+        this.props.dispatch({ type: 'METAMASK', value: true });
+        this.props.dispatch({ type: 'ACCOUNTS', value: accounts });
+      } catch (error) {
+        console.error(error);
+      }
+      
+    }
   }
 
   public static getInitialProps = async ({ Component, ctx }: AppContext) => {
@@ -33,19 +40,13 @@ class WrappedApp extends App<AppProps> {
   public render() {
     const { Component, pageProps } = this.props;
     return (
-      <ThemeProvider>
-        <CSSReset/>
+      <ChakraProvider resetCSS={true} theme={theme}>
         <Component {...pageProps} />
-      </ThemeProvider>
+      </ChakraProvider>
     )
   }
 }
 
-const WrappedAppRedux = connect(
-  (state: any) => ({
-    menu: state.menu,
-    activeSpace: state.activeSpace,
-  })
-)(WrappedApp);
+const WrappedAppRedux = connect()(WrappedApp);
 
 export default wrapper.withRedux(WrappedAppRedux);

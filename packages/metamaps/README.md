@@ -15,8 +15,4 @@ Runs TypeScript to check if there are any type errors
 
 ### `yarn build`
 
-Builds the app and exports the static site for production to the `out` folder.
-
-### `yarn start`
-
-Runs the NextJS server for production use (We generate a static site right now, not running a server)
+Builds the app and exports the static site for production to the `build` folder.
