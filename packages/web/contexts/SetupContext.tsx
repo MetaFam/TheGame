@@ -1,5 +1,6 @@
 import { PlayerType } from 'graphql/autogen/types';
 import { Membership, PersonalityType } from 'graphql/types';
+import { useRouter } from 'next/router';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { CategoryOption, SkillOption } from 'utils/skillHelpers';
 
@@ -86,6 +87,7 @@ export const SetupContextProvider: React.FC<Props> = ({
   personalityTypes,
   playerTypes,
 }) => {
+  const router = useRouter();
   const [step, setStep] = useState<number>(0);
   const [screen, setScreen] = useState<number>(0);
   const numTotalSteps = options.length;
@@ -117,7 +119,10 @@ export const SetupContextProvider: React.FC<Props> = ({
   }, [options, step, screen, setStep, setScreen, numTotalSteps]);
 
   const onBackPress = useCallback(() => {
-    if (step <= 0 && screen <= 0) return;
+    if (step <= 0 && screen <= 0) {
+      router.push('/');
+      return;
+    }
     const numScreens = options[step].screens.length;
     if (screen <= 0) {
       setStep((step - 1) % numTotalSteps);
@@ -125,7 +130,7 @@ export const SetupContextProvider: React.FC<Props> = ({
     } else {
       setScreen((screen - 1) % numScreens);
     }
-  }, [options, step, screen, setStep, setScreen, numTotalSteps]);
+  }, [router, options, step, screen, setStep, setScreen, numTotalSteps]);
 
   const [username, setUsername] = useState<string>('');
   const [skills, setSkills] = useState<Array<SkillOption>>([]);

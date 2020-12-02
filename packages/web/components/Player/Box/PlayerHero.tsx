@@ -22,7 +22,7 @@ import { PlayerBox } from './PlayerBoxe';
 
 type Props = { player: PlayerFragmentFragment };
 export const PlayerHero: React.FC<Props> = ({ player }) => {
-  const [show, setShow] = React.useState(false);
+  const [show, setShow] = React.useState(getPlayerDescription(player).length < 115);
 
   return (
     <PlayerBox>
@@ -50,17 +50,20 @@ export const PlayerHero: React.FC<Props> = ({ player }) => {
                 {`${getPlayerDescription(player).substring(
                   0,
                   show ? getPlayerDescription(player).length : 115,
-                )}${show || '...'} `}
-                <Text
-                  as="span"
-                  fontFamily="body"
-                  fontSize="xs"
-                  color="cyanText"
-                  cursor="pointer"
-                  onClick={() => setShow(!show)}
-                >
-                  Read {show ? 'less' : 'more'}
-                </Text>
+                )}${show ? '' : '...'} `}
+                {
+                  (getPlayerDescription(player).length > 115 &&
+                    <Text
+                      as="span"
+                      fontFamily="body"
+                      fontSize="xs"
+                      color="cyanText"
+                      cursor="pointer"
+                      onClick={() => setShow(!show)}
+                    >
+                      Read {show ? 'less' : 'more'}
+                    </Text>)
+                }
               </P>
             </>
           </Box>
