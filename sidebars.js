@@ -23,6 +23,7 @@ module.exports = {
       'enter-metagame/roles-in-metagame',
       'enter-metagame/navigation-board',
       'enter-metagame/leaderboard',
+      'enter-metagame/Chainlog',
     ],
     '🏡 The Great Houses': [
       'great-houses/house-of-daos',
