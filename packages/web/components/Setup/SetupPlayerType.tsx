@@ -41,7 +41,6 @@ export const SetupPlayerType: React.FC = () => {
       });
 
       if (error) {
-        console.warn(error);
         toast({
           title: 'Error',
           description: 'Unable to update Player Account. The octo is sad 😢',

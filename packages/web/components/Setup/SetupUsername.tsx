@@ -32,7 +32,6 @@ export const SetupUsername: React.FC = () => {
     });
 
     if (error) {
-      console.warn(error);
       const errorDescription = error.message.includes('Uniqueness violation')
         ? 'Username already taken 😢'
         : 'The octo is sad 😢';

@@ -43,7 +43,6 @@ export const SetupAvailability: React.FC = () => {
     });
 
     if (error) {
-      console.warn(error);
       toast({
         title: 'Error',
         description: 'Unable to update availability. The octo is sad 😢',
