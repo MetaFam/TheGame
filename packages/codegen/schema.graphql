@@ -1038,6 +1038,206 @@ input json_comparison_exp {
 }
 
 """
+columns and relationships of "Map"
+"""
+type Map {
+  author_address: String!
+  data: String!
+  id: uuid!
+  name: String!
+}
+
+"""
+aggregated selection of "Map"
+"""
+type Map_aggregate {
+  aggregate: Map_aggregate_fields
+  nodes: [Map!]!
+}
+
+"""
+aggregate fields of "Map"
+"""
+type Map_aggregate_fields {
+  count(columns: [Map_select_column!], distinct: Boolean): Int
+  max: Map_max_fields
+  min: Map_min_fields
+}
+
+"""
+order by aggregate values of table "Map"
+"""
+input Map_aggregate_order_by {
+  count: order_by
+  max: Map_max_order_by
+  min: Map_min_order_by
+}
+
+"""
+input type for inserting array relation for remote table "Map"
+"""
+input Map_arr_rel_insert_input {
+  data: [Map_insert_input!]!
+  on_conflict: Map_on_conflict
+}
+
+"""
+Boolean expression to filter rows from the table "Map". All fields are combined with a logical 'AND'.
+"""
+input Map_bool_exp {
+  _and: [Map_bool_exp]
+  _not: Map_bool_exp
+  _or: [Map_bool_exp]
+  author_address: String_comparison_exp
+  data: String_comparison_exp
+  id: uuid_comparison_exp
+  name: String_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "Map"
+"""
+enum Map_constraint {
+  """unique or primary key constraint"""
+  Map_pkey
+}
+
+"""
+input type for inserting data into table "Map"
+"""
+input Map_insert_input {
+  author_address: String
+  data: String
+  id: uuid
+  name: String
+}
+
+"""aggregate max on columns"""
+type Map_max_fields {
+  author_address: String
+  data: String
+  id: uuid
+  name: String
+}
+
+"""
+order by max() on columns of table "Map"
+"""
+input Map_max_order_by {
+  author_address: order_by
+  data: order_by
+  id: order_by
+  name: order_by
+}
+
+"""aggregate min on columns"""
+type Map_min_fields {
+  author_address: String
+  data: String
+  id: uuid
+  name: String
+}
+
+"""
+order by min() on columns of table "Map"
+"""
+input Map_min_order_by {
+  author_address: order_by
+  data: order_by
+  id: order_by
+  name: order_by
+}
+
+"""
+response of any mutation on the table "Map"
+"""
+type Map_mutation_response {
+  """number of affected rows by the mutation"""
+  affected_rows: Int!
+
+  """data of the affected rows by the mutation"""
+  returning: [Map!]!
+}
+
+"""
+input type for inserting object relation for remote table "Map"
+"""
+input Map_obj_rel_insert_input {
+  data: Map_insert_input!
+  on_conflict: Map_on_conflict
+}
+
+"""
+on conflict condition type for table "Map"
+"""
+input Map_on_conflict {
+  constraint: Map_constraint!
+  update_columns: [Map_update_column!]!
+  where: Map_bool_exp
+}
+
+"""
+ordering options when selecting data from "Map"
+"""
+input Map_order_by {
+  author_address: order_by
+  data: order_by
+  id: order_by
+  name: order_by
+}
+
+"""
+primary key columns input for table: "Map"
+"""
+input Map_pk_columns_input {
+  id: uuid!
+}
+
+"""
+select columns of table "Map"
+"""
+enum Map_select_column {
+  """column name"""
+  author_address
+
+  """column name"""
+  data
+
+  """column name"""
+  id
+
+  """column name"""
+  name
+}
+
+"""
+input type for updating data in table "Map"
+"""
+input Map_set_input {
+  author_address: String
+  data: String
+  id: uuid
+  name: String
+}
+
+"""
+update columns of table "Map"
+"""
+enum Map_update_column {
+  """column name"""
+  author_address
+
+  """column name"""
+  data
+
+  """column name"""
+  id
+
+  """column name"""
+  name
+}
+
+"""
 columns and relationships of "me"
 """
 type me {
@@ -1273,6 +1473,19 @@ type mutation_root {
   delete_Guild_by_pk(id: uuid!): Guild
 
   """
+  delete data from the table: "Map"
+  """
+  delete_Map(
+    """filter the rows which have to be deleted"""
+    where: Map_bool_exp!
+  ): Map_mutation_response
+
+  """
+  delete single row from the table: "Map"
+  """
+  delete_Map_by_pk(id: uuid!): Map
+
+  """
   delete data from the table: "Player"
   """
   delete_Player(
@@ -1467,6 +1680,28 @@ type mutation_root {
     """on conflict condition"""
     on_conflict: Guild_on_conflict
   ): Guild
+
+  """
+  insert data into the table: "Map"
+  """
+  insert_Map(
+    """the rows to be inserted"""
+    objects: [Map_insert_input!]!
+
+    """on conflict condition"""
+    on_conflict: Map_on_conflict
+  ): Map_mutation_response
+
+  """
+  insert a single row into the table: "Map"
+  """
+  insert_Map_one(
+    """the row to be inserted"""
+    object: Map_insert_input!
+
+    """on conflict condition"""
+    on_conflict: Map_on_conflict
+  ): Map
 
   """
   insert data into the table: "Player"
@@ -1711,6 +1946,26 @@ type mutation_root {
     _set: Guild_set_input
     pk_columns: Guild_pk_columns_input!
   ): Guild
+
+  """
+  update data of the table: "Map"
+  """
+  update_Map(
+    """sets the columns of the filtered rows to the given values"""
+    _set: Map_set_input
+
+    """filter the rows which have to be updated"""
+    where: Map_bool_exp!
+  ): Map_mutation_response
+
+  """
+  update single row of the table: "Map"
+  """
+  update_Map_by_pk(
+    """sets the columns of the filtered rows to the given values"""
+    _set: Map_set_input
+    pk_columns: Map_pk_columns_input!
+  ): Map
 
   """
   update data of the table: "Player"
@@ -3387,6 +3642,49 @@ type query_root {
   Guild_by_pk(id: uuid!): Guild
 
   """
+  fetch data from the table: "Map"
+  """
+  Map(
+    """distinct select on columns"""
+    distinct_on: [Map_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [Map_order_by!]
+
+    """filter the rows returned"""
+    where: Map_bool_exp
+  ): [Map!]!
+
+  """
+  fetch aggregated fields from the table: "Map"
+  """
+  Map_aggregate(
+    """distinct select on columns"""
+    distinct_on: [Map_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [Map_order_by!]
+
+    """filter the rows returned"""
+    where: Map_bool_exp
+  ): Map_aggregate!
+
+  """fetch data from the table: "Map" using primary key columns"""
+  Map_by_pk(id: uuid!): Map
+
+  """
   fetch data from the table: "Player"
   """
   Player(
@@ -4315,6 +4613,49 @@ type subscription_root {
 
   """fetch data from the table: "Guild" using primary key columns"""
   Guild_by_pk(id: uuid!): Guild
+
+  """
+  fetch data from the table: "Map"
+  """
+  Map(
+    """distinct select on columns"""
+    distinct_on: [Map_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [Map_order_by!]
+
+    """filter the rows returned"""
+    where: Map_bool_exp
+  ): [Map!]!
+
+  """
+  fetch aggregated fields from the table: "Map"
+  """
+  Map_aggregate(
+    """distinct select on columns"""
+    distinct_on: [Map_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [Map_order_by!]
+
+    """filter the rows returned"""
+    where: Map_bool_exp
+  ): Map_aggregate!
+
+  """fetch data from the table: "Map" using primary key columns"""
+  Map_by_pk(id: uuid!): Map
 
   """
   fetch data from the table: "Player"
