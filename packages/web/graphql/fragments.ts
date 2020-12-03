@@ -8,6 +8,7 @@ export const PlayerFragment = gql`
     rank
     ethereum_address
     availability_hours
+    tz
     EnneagramType {
       description
       name

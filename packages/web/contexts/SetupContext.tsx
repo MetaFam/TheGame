@@ -171,6 +171,7 @@ export const SetupContextProvider: React.FC<Props> = ({
         // availability
         availability,
         setAvailability,
+        // time zone
         timeZone,
         setTimeZone,
         // memberships

@@ -1,8 +1,9 @@
 import { Box, Flex, HStack, MetaButton, Text } from '@metafam/ds';
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
 import React from 'react';
-import { FaClock, FaGlobe } from 'react-icons/fa';
+import { FaClock } from 'react-icons/fa';
 
+import { PlayerTimeZone } from '../PlayerTimeZone';
 import { PlayerBox } from './PlayerBoxe';
 
 // TODO Fake data, role not found and location instead of timezone
@@ -26,17 +27,7 @@ export const PlayerCollab: React.FC<Props> = ({ player }) => {
           mr={4}
           ml={4}
         />
-        <Box ml={1}>
-          <Text fontSize="xs" color="blueLight" casing="uppercase" mb={3}>
-            timezone
-          </Text>
-          <HStack alignItems="baseline">
-            <FaGlobe color="#A5B9F6" />
-            <Text fontSize="xl" mb="1">
-              {player.box_profile?.location || '-'}
-            </Text>
-          </HStack>
-        </Box>
+        <PlayerTimeZone player={player} />
         <Box
           height="3rem"
           borderRight="1px"

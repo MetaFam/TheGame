@@ -148,6 +148,7 @@
       - scIdentityId
       - timezone
       - totalXp
+      - tz
       - username
       filter: {}
   - role: public
@@ -161,6 +162,7 @@
       - role
       - timezone
       - totalXp
+      - tz
       - username
       filter: {}
   update_permissions:
@@ -172,6 +174,7 @@
       - playerTypeId
       - role
       - timezone
+      - tz
       - username
       filter:
         id:

@@ -1,13 +1,13 @@
 import {
   MetaButton,
   MetaHeading,
-  MetaTheme,
-  SelectSearch,
-  selectStyles,
+  SelectTimeZone,
+  useToast,
 } from '@metafam/ds';
 import { FlexContainer } from 'components/Container';
 import { useSetupFlow } from 'contexts/SetupContext';
-import {tz} from 'moment-timezone';
+import { useUpdateProfileMutation } from 'graphql/autogen/types';
+import { useUser } from 'lib/hooks';
 import React from 'react';
 
 export const SetupTimeZone: React.FC = () => {
@@ -17,28 +17,52 @@ export const SetupTimeZone: React.FC = () => {
     timeZone,
     setTimeZone
   } = useSetupFlow();
+  const { user } = useUser({ redirectTo: '/' });
+  const toast = useToast();
 
-  const timeZoneNames = tz.names();
+  const [updateProfileRes, updateProfile] = useUpdateProfileMutation();
 
-  const styles: typeof selectStyles = {
-    ...selectStyles
+  const handleNextPress = async () => {
+    if (!user) return;
+
+    const { error } = await updateProfile({
+      playerId: user.id,
+      input: {
+        tz: timeZone
+      }
+    });
+
+    if (error) {
+      toast({
+        title: 'Error',
+        description: 'Unable to update time zone. The octo is sad 😢',
+        status: 'error',
+        isClosable: true,
+      });
+      return;
+    }
+
+    onNextPress();
   };
 
   return (
     <FlexContainer>
       <MetaHeading mb={10} mt={-64} textAlign="center">
-        What time zone are you in?
+        Which time zone are you in?
       </MetaHeading>
-      <FlexContainer w="100%" align="stretch" maxW="50rem">
-        <SelectSearch
-          styles={styles}
+      <FlexContainer w="100%" align="stretch" maxW="30rem">
+        <SelectTimeZone
           value={timeZone}
-          onChange={(value) => setTimeZone(value)}
-          options={timeZoneNames}
-          autoFocus
+          onChange={(tz) => setTimeZone(tz.value)}
+          labelStyle="abbrev"
         />
       </FlexContainer>
-      <MetaButton onClick={onNextPress} mt={10}>
+      <MetaButton 
+        onClick={handleNextPress} 
+        mt={10}
+        isLoading={updateProfileRes.fetching}
+        loadingText="Saving"
+      >
         {nextButtonLabel}
       </MetaButton>
     </FlexContainer>
