@@ -65,6 +65,3 @@ Simply, it is time.
 We are building the future we want to live in. For that, we are looking for people with a burning desire to change the course of history.
 
 If you recognize yourself as such, join [through here](https://wiki.metagame.wtf/docs/enter-metagame/join-metagame).
-
-> ///Comment or discuss possible changes to the manifesto [here](https://forum.metagame.wtf/t/the-metamanifesto-way-of-metafam/178/14).
-
