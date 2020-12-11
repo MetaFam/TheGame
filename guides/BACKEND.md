@@ -55,6 +55,18 @@ CONTAINER ID        IMAGE               COMMAND                  CREATED        
 38e3140ab632        postgres:12         "docker-entrypoint.s…"   51 minutes ago      Up 2 minutes        0.0.0.0:5432->5432/tcp   the-game_database_1
 ```
 
+You can also read the logs of the services by running `docker-compose logs -f $SERVICE` (replace $SERVICE by `backend` or `hasura`)
+
+```bash
+$ docker-compose logs -f backend
+
+...
+backend_1   | @metafam/backend: [1] [18:59:07] Generate ./src/lib/autogen/daohaus-sdk.ts [completed]
+backend_1   | @metafam/backend: [1] [18:59:07] Generate outputs [completed]
+backend_1   | @metafam/backend: [1]   ℹ Watching for changes...
+backend_1   | @metafam/backend: [0] Listening on port 4000
+```
+
 After which you can run:
 
 ```bash
