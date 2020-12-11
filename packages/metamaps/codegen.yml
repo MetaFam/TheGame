@@ -1,0 +1,17 @@
+overwrite: true
+require:
+  - ts-node/register
+generates:
+  ./graphql/autogen/types.tsx:
+    schema: '../codegen/schema.graphql'
+    documents:
+      - ./graphql/**/(!(*.d)).ts
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-urql
+      - add:
+          content: '/* eslint-disable */'
+    config:
+      gqlImport: fake-tag
+      skipTypename: true

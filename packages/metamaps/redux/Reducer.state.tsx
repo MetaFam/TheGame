@@ -1,51 +1,44 @@
-export interface State {
-    loading: boolean;
-    ethAccounts: Array<string>;
-    activeSpace: string;
-    menu: boolean;
-    menuType: string;
-    selectedItem: number;
-    resizingItem: boolean;
-    resizeVector: {
-        left: number;
-        top: number;
-        width: number;
-        height: number;
-    };
-    createLine: boolean;
-    urlText: string;
-    popupText: string;
-    renderedPopupText: string;
-    popupActive: boolean;
-    menuX: number;
-    menuY: number;
-    mouseX: number;
-    mouseY: number;
-    items: Array<any>;
+import update from 'immutability-helper';
+import { AnyAction } from 'redux';
+
+import { InitialMapState, MapActions, MapState } from './Reducer.map.state'; // eslint-disable-line
+
+export interface State extends MapState {
+  metamask: boolean;
+  accounts: Array<string>;
+  create: {
+    input: string;
+    fetching: boolean;
+    error: any;
+  };
+}
+
+export const InitialState: State = {
+  metamask: true,
+  accounts: [],
+  create: {
+    input: '',
+    fetching: false,
+    error: null,
+  },
+  ...InitialMapState,
 };
 
-export const initialState = {
-    loading: true,
-    ethAccounts: [],
-    activeSpace: 'metamap',
-    menu: false,
-    menuType: 'normal',
-    selectedItem: -1,
-    resizingItem: false,
-    resizeVector: {
-        left: 0,
-        top: 0,
-        width: 0,
-        height: 0,
-    },
-    createLine: false,
-    urlText: '',
-    popupText: '',
-    renderedPopupText: '',
-    popupActive: false,
-    menuX: 0,
-    menuY: 0,
-    mouseX: 0,
-    mouseY: 0,
-    items: [],
-};
+export function Actions(_state: State, action: AnyAction): State {
+  const state = MapActions(_state, action);
+
+  switch (action.type) {
+    case 'METAMASK':
+      return update(state, { metamask: { $set: action.value } });
+    case 'ACCOUNTS':
+      return update(state, { accounts: { $set: action.value } });
+    case 'CREATE_INPUT':
+      return update(state, { create: { input: { $set: action.value } } });
+    case 'CREATE_FETCHING':
+      return update(state, { create: { fetching: { $set: action.value } } });
+    case 'CREATE_ERROR':
+      return update(state, { create: { error: { $set: action.value } } });
+    default:
+      return state;
+  }
+}

@@ -1,63 +1,27 @@
-import { FC } from 'react';
-import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
+import React, { FC } from 'react';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
-import { Container } from '../components/Container';
-import { Loading } from '../components/Loading';
-import { Menu } from '../components/Menu';
-import { Popup } from '../components/Popup';
-import { ThreeBox } from '../components/ThreeBox';
-import { App } from '../styles/App';
+import { IndexCreate } from '../components/index/Index.create';
+import { IndexItems } from '../components/index/Index.items';
+import { IndexTitle } from '../components/index/Index.title';
+import { Metamask } from '../components/shared/Metamask';
+import { State } from '../redux/Reducer.state';
+import { AppContainer } from '../theme/Theme.components';
 
-declare const window: any;
-
-export interface HomeProps {
-  dispatch: any;
-  menu: boolean;
-  activeSpace: string;
+export interface IndexProps {
+  dispatch: Dispatch;
 }
 
-export const Home: FC<HomeProps> = ({ dispatch, menu, activeSpace }) => {
-  return(
-    <App
-      onContextMenu={(e: any) => {
-          e.preventDefault();
-          dispatch({
-            type: 'TOGGLE_MENU',
-            value: true,
-            x: e.pageX,
-            y: e.pageY,
-            menuType: e.target.getAttribute('data-type'),
-            id: e.target.getAttribute('data-id')
-          })
-        }
-      }
-      onClick={(e: any) => {
-          const target = e.target.getAttribute('data-type');
-          if (target !== 'no-left-click') {
-            dispatch({ type: 'CLOSE_MENU' })
-          }
-        }
-      }
-      onMouseMove={(e: any) => {
-        dispatch({ type: 'MOUSE_POSITION', x: e.pageX, y: e.pageY });
-      }}
-    >
-    <Loading/>
-    <Popup/>
-    <ThreeBox/>
-    <DndProvider backend={HTML5Backend}>
-      <Container/>
-      <Menu/>
-    </DndProvider>
-  </App>
-  )
-}
+export const IndexComponent: FC<IndexProps> = ({ dispatch }) => {
+  return (
+    <AppContainer>
+      <Metamask />
+      <IndexTitle />
+      <IndexCreate />
+      <IndexItems />
+    </AppContainer>
+  );
+};
 
-export default connect(
-  (state: any) => ({
-    menu: state.menu,
-    activeSpace: state.activeSpace,
-  })
-)(Home);
+export default connect((state: State) => ({}))(IndexComponent);
