@@ -16,11 +16,11 @@ Before you can start the Docker containers, you must run the following.
 # Copy the example environment
 cp .env.sample .env
 
-# Add the BACKEND_HOST environment variable
-echo 'BACKEND_HOST=host.docker.internal:4000' >> .env
-
 # Remove potential stale containers
 yarn docker:clean
+
+# Build typescript apps
+yarn typecheck
 ```
 
 ### Starting the BackEnd
