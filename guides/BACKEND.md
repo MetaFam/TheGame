@@ -19,6 +19,9 @@ cp .env.sample .env
 # Remove potential stale containers
 yarn docker:clean
 
+# Install node dependencies
+yarn
+
 # Build typescript apps
 yarn typecheck
 ```
