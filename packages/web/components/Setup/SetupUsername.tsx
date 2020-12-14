@@ -32,6 +32,7 @@ export const SetupUsername: React.FC = () => {
     });
 
     if (error) {
+      // eslint-disable-next-line no-console
       console.warn(error);
       const errorDescription = error.message.includes('Uniqueness violation')
         ? 'Username already taken 😢'

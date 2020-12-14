@@ -4,7 +4,7 @@ import React from 'react';
 type Props = { boxList: string[]; setNewBox: (name: string) => void };
 export const PlayerAddBox: React.FC<Props> = ({ boxList, setNewBox }) => {
   const [show, setShow] = React.useState(false);
-  const addBox = (e: any) => {
+  const addBox = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setShow(false);
     setNewBox(e.target.value);
   };
@@ -38,8 +38,8 @@ export const PlayerAddBox: React.FC<Props> = ({ boxList, setNewBox }) => {
             <Select
               css={{
                 '&>option': {
-                  'background-color': '#40347C',
-                  'border-bottom': '2px solid #962d22',
+                  backgroundColor: '#40347C',
+                  borderBottom: '2px solid #962d22',
                 },
               }}
               placeholder="Select a section"
@@ -52,7 +52,9 @@ export const PlayerAddBox: React.FC<Props> = ({ boxList, setNewBox }) => {
                 </option>
               )}
               {(boxList || []).sort().map((box) => (
-                <option value={box}>{box}</option>
+                <option value={box} key={box}>
+                  {box}
+                </option>
               ))}
             </Select>
             <Button

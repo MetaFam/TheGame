@@ -85,6 +85,7 @@ export const Web3ContextProvider: React.FC = ({ children }) => {
 
   useEffect(() => {
     if (web3Modal?.cachedProvider) {
+      // eslint-disable-next-line no-console
       connectWeb3().catch(console.error);
     }
   }, [web3Modal, connectWeb3]);

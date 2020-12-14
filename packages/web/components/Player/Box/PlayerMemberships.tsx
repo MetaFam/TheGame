@@ -58,7 +58,7 @@ export const PlayerMemberships: React.FC<Props> = ({
         (player.daohausMemberships || [])
           .slice(0, show ? 999 : 3)
           .map((member) => (
-            <HStack alignItems="center" mb={6}>
+            <HStack alignItems="center" mb={6} key={member.id}>
               <Flex bg="purpleBoxLight" width={16} height={16} mr={6}>
                 <Box
                   bgImage={`url(${getImageMoloch(member.moloch.title || '')})`}
