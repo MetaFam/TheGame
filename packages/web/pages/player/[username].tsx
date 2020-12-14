@@ -34,7 +34,7 @@ const PlayerPage: React.FC<Props> = ({ player }) => {
   const [fakeData, setFakeData] = React.useState([
     [BOX_TYPE.PLAYER_SKILLS, BOX_TYPE.PLAYER_CONTACT_BUTTONS],
     [BOX_TYPE.PLAYER_MEMBERSHIPS],
-    [],
+    [BOX_TYPE.PLAYER_GALLERY],
   ]);
 
   if (!player) {
@@ -74,7 +74,12 @@ const PlayerPage: React.FC<Props> = ({ player }) => {
           />
         );
       case BOX_TYPE.PLAYER_GALLERY:
-        return <PlayerGallery setRemoveBox={() => removeBox(column, name)} />;
+        return (
+          <PlayerGallery
+            player={player}
+            setRemoveBox={() => removeBox(column, name)}
+          />
+        );
       case BOX_TYPE.PLAYER_MEMBERSHIPS:
         return (
           <PlayerMemberships

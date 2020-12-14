@@ -1,4 +1,4 @@
-import Box, { Image } from '3box';
+import Box, { CollectiblesFavorite, Image } from '3box';
 
 import { CONFIG } from '../../../../config';
 import {
@@ -34,6 +34,9 @@ export const getBoxProfile: QueryResolvers['getBoxProfile'] = async (
       height: 300,
     }),
     website: boxProfile.website,
+    collectiblesFavorites: getCollectiblesFavourites(
+      boxProfile?.collectiblesFavorites,
+    ),
   };
 };
 
@@ -46,4 +49,14 @@ function getImage(
     return optimizeImage(`${CONFIG.ipfsEndpoint}/ipfs/${imageHash}`, opts);
   }
   return '';
+}
+
+function getCollectiblesFavourites(
+  collectiblesFavorites: Array<CollectiblesFavorite> | null | undefined,
+) {
+  if (!collectiblesFavorites) return null;
+  return collectiblesFavorites.map(({ address, token_id }) => ({
+    address,
+    tokenId: token_id,
+  }));
 }

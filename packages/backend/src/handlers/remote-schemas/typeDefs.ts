@@ -16,6 +16,12 @@ export const typeDefs = gql`
     imageUrl: String
     coverImageUrl: String
     website: String
+    collectiblesFavorites: [CollectiblesFavorites!]
+  }
+
+  type CollectiblesFavorites {
+    address: String
+    tokenId: String
   }
 
   type Moloch {
