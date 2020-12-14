@@ -48,37 +48,25 @@
   - name: GuildType
     using:
       foreign_key_constraint_on: type
-  select_permissions:
-  - role: player
-    permission:
-      columns:
-      - id
-      - type
-      - identifier
-      - name
-      - logo
-      filter: {}
-  - role: public
-    permission:
-      columns:
-      - id
-      - type
-      - identifier
-      - name
-      - logo
-      filter: {}
+  array_relationships:
+  - name: guild_accounts
+    using:
+      foreign_key_constraint_on:
+        column: guild_id
+        table:
+          schema: public
+          name: guild_account
+  - name: guild_players
+    using:
+      foreign_key_constraint_on:
+        column: guild_id
+        table:
+          schema: public
+          name: guild_player
 - table:
     schema: public
     name: GuildType
   is_enum: true
-  array_relationships:
-  - name: Guilds
-    using:
-      foreign_key_constraint_on:
-        column: type
-        table:
-          schema: public
-          name: Guild
   select_permissions:
   - role: player
     permission:
@@ -108,6 +96,13 @@
         table:
           schema: public
           name: Account
+  - name: guilds
+    using:
+      foreign_key_constraint_on:
+        column: player_id
+        table:
+          schema: public
+          name: guild_player
   - name: Player_Skills
     using:
       foreign_key_constraint_on:
@@ -295,6 +290,9 @@
     schema: public
     name: SkillCategory
   is_enum: true
+- table:
+    schema: public
+    name: guild_account
 - table:
     schema: public
     name: guild_player
