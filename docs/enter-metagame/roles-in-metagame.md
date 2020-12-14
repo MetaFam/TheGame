@@ -74,14 +74,14 @@ This role exists for all kinds of artistic souls, from meme lords to UI/UX desig
 - If you're an UX/UI artist, talk to us [on Discord](https://discord.gg/zJCcu2J).
 - Report what you did in [I-did-this](https://discord.gg/JAFX3Ry).
 
-###📣 The Shiller
+### 📣 The Shiller
 Shillers are here to take what the Builders & Artists of MetaGame made, and take it a step further. A step towards adoption. 
 - Take any existing [MetaGame article](https://metagame.substack.com/) or memes
 - Distribute to other communities, eg. Reddit, Steemit or wherever else might be suitable.
 - Distribute things from the [#announcements](https://discord.gg/afybF8a) channel.
 - Report in the [I-did-this](https://discord.gg/JAFX3Ry) channel on Discord.
 
-###🗡️⚔️ The Rogue
+### 🗡️⚔️ The Rogue
 This role is here for advanced players and those who like to run wild on their own. Feel free to disregard all guides and asking for questions; just step into the unknown.
 - Check the state of current raids on the Battlefield page. 
 - Maybe close some issues on [Github](https://github.com/MetaFam).
