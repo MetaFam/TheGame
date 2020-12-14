@@ -10,11 +10,6 @@ If you're new to the MetaGame codebase, check out the following guides to learn 
 
 ## Development
 
-### Install Packages
-
-```shell script
-yarn
-```
 
 ### Bootstrap
 
@@ -22,6 +17,12 @@ Create your local .env file
 
 ```shell script
 cp .env.sample .env
+```
+
+### Install Packages
+
+```shell script
+yarn
 ```
 
 Initial TS Compilation For Monorepo Packages

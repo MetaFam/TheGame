@@ -16,11 +16,14 @@ Before you can start the Docker containers, you must run the following.
 # Copy the example environment
 cp .env.sample .env
 
-# Add the BACKEND_HOST environment variable
-echo 'BACKEND_HOST=host.docker.internal:4000' >> .env
-
 # Remove potential stale containers
 yarn docker:clean
+
+# Install node dependencies
+yarn
+
+# Build typescript apps
+yarn typecheck
 ```
 
 ### Starting the BackEnd
@@ -55,6 +58,18 @@ CONTAINER ID        IMAGE               COMMAND                  CREATED        
 38e3140ab632        postgres:12         "docker-entrypoint.s…"   51 minutes ago      Up 2 minutes        0.0.0.0:5432->5432/tcp   the-game_database_1
 ```
 
+You can also read the logs of the services by running `docker-compose logs -f $SERVICE` (replace $SERVICE by `backend` or `hasura`)
+
+```bash
+$ docker-compose logs -f backend
+
+...
+backend_1   | @metafam/backend: [1] [18:59:07] Generate ./src/lib/autogen/daohaus-sdk.ts [completed]
+backend_1   | @metafam/backend: [1] [18:59:07] Generate outputs [completed]
+backend_1   | @metafam/backend: [1]   ℹ Watching for changes...
+backend_1   | @metafam/backend: [0] Listening on port 4000
+```
+
 After which you can run:
 
 ```bash
@@ -62,6 +77,20 @@ curl -X POST http://localhost:4000/actions/migrateSourceCredAccounts
 ```
 
 Which populates it with testing data.
+
+### Run backend without docker for debugging
+
+If you want to run the NodeJS backend service out of docker to be able to debug with your IDE:
+
+**Add environment variable** to tell hasura where to find the backend (may only work on MacOS)
+```shell script
+echo 'BACKEND_HOST=host.docker.internal:4000' >> .env
+```
+
+**Start the server**
+```shell script
+yarn backend:dev
+```
 
 ### Configuring Hasura
 
