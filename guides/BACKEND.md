@@ -78,6 +78,20 @@ curl -X POST http://localhost:4000/actions/migrateSourceCredAccounts
 
 Which populates it with testing data.
 
+### Run backend without docker for debugging
+
+If you want to run the NodeJS backend service out of docker to be able to debug with your IDE:
+
+**Add environment variable** to tell hasura where to find the backend (may only work on MacOS)
+```shell script
+echo 'BACKEND_HOST=host.docker.internal:4000' >> .env
+```
+
+**Start the server**
+```shell script
+yarn backend:dev
+```
+
 ### Configuring Hasura
 
 Before you can create a new table. You'll need to initialize hasura. The same commands are found in the tooling section of the `README.md`.
