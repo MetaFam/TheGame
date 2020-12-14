@@ -2,6 +2,7 @@ import { Box, Button, Flex, Image, Stack } from '@metafam/ds';
 import MetaGameImage from 'assets/metagame.png';
 import { MetaLink } from 'components/Link';
 import { LoginButton } from 'components/LoginButton';
+import { Ticker } from 'components/Ticker';
 import React from 'react';
 
 const MenuItem: React.FC<React.ComponentProps<typeof MetaLink>> = ({
@@ -92,10 +93,12 @@ export const PageHeader: React.FC = () => {
       </Box>
 
       <Box
-        display={{ base: show ? 'flex' : 'none', md: 'block' }}
+        display={{ base: show ? 'block' : 'none', md: 'flex' }}
         justifyContent="center"
+        alignItems="center"
         width={{ base: 'full', md: 'auto' }}
       >
+        <Ticker />
         <LoginButton />
       </Box>
     </Flex>
