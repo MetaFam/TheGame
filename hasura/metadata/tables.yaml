@@ -67,6 +67,14 @@
     schema: public
     name: GuildType
   is_enum: true
+  array_relationships:
+  - name: Guilds
+    using:
+      foreign_key_constraint_on:
+        column: type
+        table:
+          schema: public
+          name: Guild
   select_permissions:
   - role: player
     permission:
@@ -293,6 +301,13 @@
 - table:
     schema: public
     name: guild_account
+  object_relationships:
+  - name: AccountType
+    using:
+      foreign_key_constraint_on: type
+  - name: Guild
+    using:
+      foreign_key_constraint_on: guild_id
 - table:
     schema: public
     name: guild_player
