@@ -54,7 +54,7 @@ function getImage(
 function getCollectiblesFavourites(
   collectiblesFavorites: Array<CollectiblesFavorite> | null | undefined,
 ) {
-  if (!collectiblesFavorites) return [];
+  if (!collectiblesFavorites) return null;
   return collectiblesFavorites.map(({ address, token_id }) => ({
     address,
     tokenId: token_id,
