@@ -1,6 +1,7 @@
 import {
   Box,
   Flex,
+  Heading,
   HStack,
   Modal,
   ModalContent,
@@ -34,32 +35,31 @@ const GalleryItem: React.FC<{ nft: Collectible; noMargin?: boolean }> = ({
     display="flex"
   >
     <HStack spacing={6}>
-      <Flex width="126px" height="126px">
+      <Flex width="7.5rem" height="7.5rem">
         <Box
           bgImage={`url(${nft.imageUrl})`}
           backgroundSize="contain"
           backgroundRepeat="no-repeat"
           backgroundPosition="center"
-          width="124px"
-          height="124px"
+          w="7.5rem"
+          h="7.5rem"
           m="auto"
         />
       </Flex>
       <Flex direction="column">
-        <Text
+        <Heading
           fontSize="xs"
-          fontFamily="heading"
           mt={3}
           mb={3}
-          casing="uppercase"
+          textTransform="uppercase"
           display="inline-block"
           style={{ wordWrap: 'break-word', wordBreak: 'break-all' }}
         >
           {nft.title}
-        </Text>
+        </Heading>
         <Text fontSize="sm">
           {nft.priceInUsd && nft.priceInEth
-            ? `${nft.priceInEth}Ξ ($${nft.priceInUsd.toFixed(2)})`
+            ? `${nft.priceInEth.toFixed(2)}Ξ ($${nft.priceInUsd.toFixed(2)})`
             : ``}
         </Text>
       </Flex>
@@ -73,9 +73,8 @@ export const PlayerGallery: React.FC<Props> = ({ player, setRemoveBox }) => {
   return (
     <PlayerBox title="Gallery" setRemoveBox={setRemoveBox}>
       {!loading &&
-        favorites &&
-        favorites.map((nft) => <GalleryItem nft={nft} key={nft.tokenId} />)}
-      {!loading && data && data.length > 3 && (
+        favorites?.map((nft) => <GalleryItem nft={nft} key={nft.tokenId} />)}
+      {!loading && data?.length > 3 && (
         <Text
           as="span"
           fontFamily="body"
@@ -94,13 +93,8 @@ export const PlayerGallery: React.FC<Props> = ({ player, setRemoveBox }) => {
         scrollBehavior="inside"
       >
         <ModalOverlay css={{ backdropFilter: 'blur(8px)' }}>
-          <ModalContent maxW="75rem" bg="none">
-            <Box
-              bg="rgba(70, 20, 100, 0.8)"
-              borderTopRadius="lg"
-              p={4}
-              w="100%"
-            >
+          <ModalContent maxW="6xl" bg="none">
+            <Box bg="purple80" borderTopRadius="lg" p={4} w="100%">
               <HStack>
                 <Text
                   fontFamily="mono"
@@ -113,7 +107,7 @@ export const PlayerGallery: React.FC<Props> = ({ player, setRemoveBox }) => {
                   Gallery
                 </Text>
                 <FaTimes
-                  color="#A5B9F6"
+                  color="blueLight"
                   opacity="0.4"
                   cursor="pointer"
                   onClick={onClose}
@@ -135,10 +129,9 @@ export const PlayerGallery: React.FC<Props> = ({ player, setRemoveBox }) => {
                 bg="whiteAlpha.200"
                 css={{ backdropFilter: 'blur(8px)' }}
               >
-                {data &&
-                  data.map((nft) => (
-                    <GalleryItem nft={nft} key={nft.tokenId} noMargin />
-                  ))}
+                {data?.map((nft) => (
+                  <GalleryItem nft={nft} key={nft.tokenId} noMargin />
+                ))}
               </SimpleGrid>
             </Box>
           </ModalContent>

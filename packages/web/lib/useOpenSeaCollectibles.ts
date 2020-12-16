@@ -22,8 +22,8 @@ export type Collectible = {
 export const useOpenSeaCollectibles = ({
   player,
 }: OpenSeaCollectiblesOpts): {
-  favorites: Array<Collectible> | null;
-  data: Array<Collectible> | null;
+  favorites: Array<Collectible>;
+  data: Array<Collectible>;
   loading: boolean;
 } => {
   const [favorites, setFavorites] = useState<Array<Collectible>>([]);
