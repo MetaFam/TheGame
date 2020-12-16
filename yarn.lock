@@ -26867,10 +26867,10 @@ spacetime-informal@^0.3.0:
   resolved "https://registry.yarnpkg.com/spacetime-informal/-/spacetime-informal-0.3.0.tgz#6d0feffe291697f686b737b678b59ee2dcef3297"
   integrity sha512-HtFTwtkzDl7gswCfeWPQAxvQ+Fmrdt7WqoDT0Lq2FX7RVZKZ/+zmgBOAVAuH8oVcf4uXza9NvdX9QppGRiG8oQ==
 
-spacetime-informal@^0.4.0:
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/spacetime-informal/-/spacetime-informal-0.4.0.tgz#cebbd9767f917d351c69bd1df4a77167d1a312ec"
-  integrity sha512-AK5mK5yknnU8rxTt/gI+xqPRSw7J+lbSJGIfj/bWU953Eu1p6qHntZ0U6qHJrpODL5/4cuDeStAfStj2j4HKjQ==
+spacetime-informal@^0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/spacetime-informal/-/spacetime-informal-0.5.0.tgz#0301d45621d7207d6573d97ba0e6700dab37c667"
+  integrity sha512-cdSsniJJfJJTBdeVvXtooxyXzrRfoBVjAl3usQl9DgGExB3XN3deA3MwjInnD/26C/lANf3dU54bT2YweAGrOw==
 
 spacetime@^6.12.1, spacetime@^6.6.2:
   version "6.12.1"
