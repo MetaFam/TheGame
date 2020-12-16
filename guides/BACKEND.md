@@ -31,7 +31,7 @@ yarn typecheck
 After the above is configured, you can start the Docker containers.
 
 ```bash
-yarn start:docker
+yarn docker:start
 ```
 
 ### Getting Started
