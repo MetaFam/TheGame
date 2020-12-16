@@ -36,7 +36,7 @@ export const PlayerTimeZone: React.FC<Props> = ({ player }) => {
         time zone
       </Text>
       <HStack alignItems="baseline">
-        <FaGlobe color="#A5B9F6" />
+        <FaGlobe color="blueLight" />
         <Text fontSize="xl" mb="1">{tzLabel}</Text>
         {offsetLabel ? <Text fontSize="xs" mr={3}>{offsetLabel}</Text> : ''}
       </HStack>

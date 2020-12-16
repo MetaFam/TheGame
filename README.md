@@ -10,7 +10,6 @@ If you're new to the MetaGame codebase, check out the following guides to learn 
 
 ## Development
 
-
 ### Bootstrap
 
 Create your local .env file

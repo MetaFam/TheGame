@@ -358,6 +358,7 @@ enum AccountType_update_column {
 }
 
 type BoxProfile {
+  collectiblesFavorites: [CollectiblesFavorites!]
   coverImageUrl: String
   description: String
   emoji: String
@@ -367,6 +368,11 @@ type BoxProfile {
   location: String
   name: String
   website: String
+}
+
+type CollectiblesFavorites {
+  address: String
+  tokenId: String
 }
 
 """

@@ -40,7 +40,7 @@ export const PlayerCollab: React.FC<Props> = ({ player }) => {
             Availability
           </Text>
           <HStack alignItems="baseline">
-            <FaClock color="#A5B9F6" />
+            <FaClock color="blueLight" />
             <Text fontSize="xl" mb="1">
               {player.availability_hours || '0'}h/week
             </Text>

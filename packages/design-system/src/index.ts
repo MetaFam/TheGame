@@ -33,6 +33,11 @@ export {
   VStack,
   useTheme,
   useToast,
+  Modal,
+  ModalContent,
+  ModalCloseButton,
+  ModalOverlay,
+  useDisclosure,
 } from '@chakra-ui/core';
 
 export { theme as MetaTheme } from './theme';
