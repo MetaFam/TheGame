@@ -4,11 +4,13 @@ import {
   MetaTheme,
   SelectSearch,
   selectStyles,
+  useToast,
 } from '@metafam/ds';
 import { FlexContainer } from 'components/Container';
 import { useSetupFlow } from 'contexts/SetupContext';
-import { SkillCategory_Enum } from 'graphql/autogen/types';
+import { SkillCategory_Enum, useUpdatePlayerSkillsMutation } from 'graphql/autogen/types';
 import { SkillColors } from 'graphql/types';
+import { useUser } from 'lib/hooks';
 import React from 'react';
 import { SkillOption } from 'utils/skillHelpers';
 
@@ -20,6 +22,31 @@ export const SetupSkills: React.FC = () => {
     onNextPress,
     nextButtonLabel,
   } = useSetupFlow();
+  const { user } = useUser({ redirectTo: '/' });
+  const toast = useToast();
+  
+  const [updateSkillsRes, updateSkills] = useUpdatePlayerSkillsMutation();
+
+  const handleNextPress = async () => {
+    if (!user) return;
+
+    const { error } = await updateSkills({
+      skills: skills.map((s) => ({ skill_id: s.id })),
+    });
+
+    if (error) {
+      toast({
+        title: 'Error',
+        description: 'Unable to update player skills. The octo is sad 😢',
+        status: 'error',
+        isClosable: true,
+      });
+      return;
+    }
+
+    onNextPress();
+  };
+
 
   const styles: typeof selectStyles = {
     ...selectStyles,
@@ -60,7 +87,12 @@ export const SetupSkills: React.FC = () => {
           placeholder="ADD YOUR SKILLS"
         />
       </FlexContainer>
-      <MetaButton onClick={onNextPress} mt={10}>
+      <MetaButton 
+        onClick={handleNextPress} 
+        mt={10}
+        isLoading={updateSkillsRes.fetching}
+        loadingText="Saving"
+      >
         {nextButtonLabel}
       </MetaButton>
     </FlexContainer>

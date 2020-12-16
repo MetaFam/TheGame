@@ -26,6 +26,8 @@
     "react-dom": "^16.13.1",
     "react-icons": "^3.11.0",
     "react-is": "16.13.1",
+    "spacetime": "^6.12.1",
+    "spacetime-informal": "^0.4.0",
     "urql": "^1.9.7",
     "web3modal": "^1.9.0"
   }

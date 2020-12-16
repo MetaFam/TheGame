@@ -10,7 +10,7 @@ import {
 } from '@metafam/ds';
 import { FlexContainer } from 'components/Container';
 import { useSetupFlow } from 'contexts/SetupContext';
-import { useUpdatePlayerSkillsMutation } from 'graphql/autogen/types';
+import { useUpdateProfileMutation } from 'graphql/autogen/types';
 import { useUser } from 'lib/hooks';
 import React, { useEffect, useState } from 'react';
 
@@ -20,7 +20,6 @@ export const SetupAvailability: React.FC = () => {
     nextButtonLabel,
     availability,
     setAvailability,
-    skills,
   } = useSetupFlow();
   const [invalid, setInvalid] = useState(false);
   const { user } = useUser({ redirectTo: '/' });
@@ -31,14 +30,16 @@ export const SetupAvailability: React.FC = () => {
     setInvalid(value < 0 || value > 168);
   }, [availability]);
 
-  const [updateSkillsRes, updateSkills] = useUpdatePlayerSkillsMutation();
+  const [updateProfileRes, updateProfile] = useUpdateProfileMutation();
 
   const handleNextPress = async () => {
     if (!user) return;
 
-    const { error } = await updateSkills({
-      availability_hours: Number(availability),
-      skills: skills.map((s) => ({ skill_id: s.id })),
+    const { error } = await updateProfile({
+      playerId: user.id,
+      input: {
+        availability_hours: Number(availability)
+      }
     });
 
     if (error) {
@@ -87,7 +88,7 @@ export const SetupAvailability: React.FC = () => {
         onClick={handleNextPress}
         mt={10}
         isDisabled={invalid}
-        isLoading={updateSkillsRes.fetching}
+        isLoading={updateProfileRes.fetching}
         loadingText="Saving"
       >
         {nextButtonLabel}

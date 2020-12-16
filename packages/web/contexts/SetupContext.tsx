@@ -166,6 +166,12 @@ export const SetupContextProvider: React.FC<Props> = ({
         // availability
         availability,
         setAvailability,
+<<<<<<< HEAD
+=======
+        // time zone
+        timeZone,
+        setTimeZone,
+>>>>>>> c986363... Added PlayerTimeZone display component, added TimeZone persistence to setup flow
         // memberships
         memberships,
         setMemberships,
