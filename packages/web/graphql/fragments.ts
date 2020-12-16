@@ -38,6 +38,10 @@ export const PlayerFragment = gql`
       job
       location
       name
+      collectiblesFavorites {
+        tokenId
+        address
+      }
     }
     daohausMemberships {
       id

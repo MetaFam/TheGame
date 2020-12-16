@@ -58,7 +58,7 @@ CONTAINER ID        IMAGE               COMMAND                  CREATED        
 38e3140ab632        postgres:12         "docker-entrypoint.s…"   51 minutes ago      Up 2 minutes        0.0.0.0:5432->5432/tcp   the-game_database_1
 ```
 
-You can also read the logs of the services by running `docker-compose logs -f $SERVICE` (replace $SERVICE by `backend` or `hasura`)
+You can also read the logs of the services by running `docker-compose logs -f $SERVICE` (replace \$SERVICE by `backend` or `hasura`)
 
 ```bash
 $ docker-compose logs -f backend
@@ -83,11 +83,13 @@ Which populates it with testing data.
 If you want to run the NodeJS backend service out of docker to be able to debug with your IDE:
 
 **Add environment variable** to tell hasura where to find the backend (may only work on MacOS)
+
 ```shell script
 echo 'BACKEND_HOST=host.docker.internal:4000' >> .env
 ```
 
 **Start the server**
+
 ```shell script
 yarn backend:dev
 ```
@@ -117,15 +119,15 @@ When creating a table, keep in mind a few things.
 
 1. You should have an `id` for all table relationships and all datatypes should use snake_case.
 
-    - **Example 1:** Table Name: "hello" && Table ID: "hello_id" (as a UUID)
+   - **Example 1:** Table Name: "hello" && Table ID: "hello_id" (as a UUID)
 
-    - **Example 2:** Table Name: "map" && Table ID: "map_id" (as a UUID)
+   - **Example 2:** Table Name: "map" && Table ID: "map_id" (as a UUID)
 
 2. You should be mapping objects as foreign keys to their respective UUID. For example if you made a new table that holds a player's messages, it would be something like:
 
-    - From: player_id
-    
-    - To: Player.id
+   - From: player_id
+
+   - To: Player.id
 
 ### Updating the GraphQL schemas
 
@@ -154,17 +156,16 @@ By default, only admins are allowed to change the permissions. In order to query
 
 ```json
 {
-    "id": {
-        "_eq":"X-Hasura-User-Id"
-    }
+  "id": {
+    "_eq": "X-Hasura-User-Id"
+  }
 }
 ```
 
 5. Furthermore, when selecting or updating data. You can add permissions for specific columns. You select which ones should be allowed via the provided checkboxes.
 
 6. Finally, make sure that the changes for permissions are updated in `hasura/metadata/tables.yaml`.
-`Pre-update check`nsert and read data immediately. There are pre-generated functions that come with Hasura. For creating new entries. The following are example queries you could send immediately to `http://localhost:8080/v1/graphql`.
-
+   `Pre-update check`nsert and read data immediately. There are pre-generated functions that come with Hasura. For creating new entries. The following are example queries you could send immediately to `http://localhost:8080/v1/graphql`.
 
 ### Mutations and Querying
 
@@ -178,9 +179,7 @@ mutation insert {
   # Built in function with Hasura GraphQL
   insert_Item_one(
     # The respective columns
-    object: {
-      data: "..."
-    }
+    object: { data: "..." }
   ) {
     # The keys to return on a successful insertion
     id
@@ -195,20 +194,19 @@ As long as it fits the constraints of the table (ie: Foreign Key uniqueness, Dat
 
 ```graphql
 mutation update {
-    # Built in Hasura function
-    update_Item(
-        where: {
-            # Can also use _gt, _gte, _lt, _lte, _neq etc.
-            # Can also specify any column
-            id: {_eq: "[UUID]"}
-        },
-        # The columns you want to update
-        _set: {
-            data: "..."
-        }) {
-        # you can either supply `returning` or `affected_rows` for the response
-        affected_rows
+  # Built in Hasura function
+  update_Item(
+    where: {
+      # Can also use _gt, _gte, _lt, _lte, _neq etc.
+      # Can also specify any column
+      id: { _eq: "[UUID]" }
     }
+    # The columns you want to update
+    _set: { data: "..." }
+  ) {
+    # you can either supply `returning` or `affected_rows` for the response
+    affected_rows
+  }
 }
 ```
 
@@ -231,15 +229,16 @@ mutation updateByKey {
 
 ```graphql
 mutation delete {
-    delete_Item(
-        where: {
-            # Can also use _gt, _gte, _lt, _lte, _neq etc.
-            # Can also specify any column
-            id: {_eq: "[UUID]"}
-        }) {
-        # you can either supply `returning` or `affected_rows` for the response
-        affected_rows
+  delete_Item(
+    where: {
+      # Can also use _gt, _gte, _lt, _lte, _neq etc.
+      # Can also specify any column
+      id: { _eq: "[UUID]" }
     }
+  ) {
+    # you can either supply `returning` or `affected_rows` for the response
+    affected_rows
+  }
 }
 ```
 
@@ -247,11 +246,11 @@ You can also delete by `id` as well too.
 
 ```graphql
 mutation deleteByKey {
-    delete_Item_by_pk(id: "[UUID]") {
-        # Any columns that exist on the `Item` table
-        id
-        ...data
-    }
+  delete_Item_by_pk(id: "[UUID]") {
+    # Any columns that exist on the `Item` table
+    id
+    ...data
+  }
 }
 ```
 
@@ -259,27 +258,27 @@ mutation deleteByKey {
 
 ```graphql
 query get {
-    Item(
-        where: {
-            # Can also use _gt, _gte, _lt, _lte, _neq etc.
-            # Can also specify any column
-            id: {_eq: "[UUID]"}
-        },
-        # Maximum number of results
-        limit: 10,
-        # Pagination
-        offset: 0,
-        # Sorting
-        order_by: {
-            # asc - ascending, desc - descending    
-            # Can also specify any column
-            id: asc
-        }
-    ) {
-        # The keys to return on a successful query
-        id
-        data
+  Item(
+    where: {
+      # Can also use _gt, _gte, _lt, _lte, _neq etc.
+      # Can also specify any column
+      id: { _eq: "[UUID]" }
     }
+    # Maximum number of results
+    limit: 10
+    # Pagination
+    offset: 0
+    # Sorting
+    order_by: {
+      # asc - ascending, desc - descending
+      # Can also specify any column
+      id: asc
+    }
+  ) {
+    # The keys to return on a successful query
+    id
+    data
+  }
 }
 ```
 
@@ -287,11 +286,11 @@ You can also query by `id` as well too.
 
 ```graphql
 query getByKey {
-    Item_by_pk(id: "[UUID]") {
-        # The keys to return on a successful query
-        id,
-        ...data
-    }
+  Item_by_pk(id: "[UUID]") {
+    # The keys to return on a successful query
+    id
+    ...data
+  }
 }
 ```
 

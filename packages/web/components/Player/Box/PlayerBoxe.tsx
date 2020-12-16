@@ -29,7 +29,7 @@ export const PlayerBox: React.FC<PlayerBoxProps> = ({
             {title}
           </Text>
           <FaTimes
-            color="#A5B9F6"
+            color="blueLight"
             opacity="0.4"
             cursor="pointer"
             onClick={setRemoveBox}
