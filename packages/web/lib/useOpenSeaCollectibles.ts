@@ -1,9 +1,15 @@
 import { CONFIG } from 'config';
+import { utils } from 'ethers';
+import { PlayerFragmentFragment } from 'graphql/autogen/types';
+import { OpenSeaAPI } from 'opensea-js';
 import {
-  CollectiblesFavorites,
-  PlayerFragmentFragment,
-} from 'graphql/autogen/types';
-import { useEffect, useState } from 'react';
+  AssetEvent,
+  OpenSeaAsset,
+  OpenSeaAssetQuery,
+} from 'opensea-js/lib/types';
+import { useEffect, useMemo, useState } from 'react';
+
+const opensea = new OpenSeaAPI({ apiKey: CONFIG.openseaApiKey });
 
 type OpenSeaCollectiblesOpts = {
   player: PlayerFragmentFragment;
@@ -14,9 +20,8 @@ export type Collectible = {
   tokenId: string;
   title: string;
   imageUrl: string;
-  permaLink: string;
-  priceInEth: number | undefined;
-  priceInUsd: number | undefined;
+  openseaLink: string;
+  priceString: string;
 };
 
 export const useOpenSeaCollectibles = ({
@@ -30,18 +35,22 @@ export const useOpenSeaCollectibles = ({
   const [data, setData] = useState<Array<Collectible>>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const owner = player.ethereum_address;
-  const favoritesQuery = player.box_profile?.collectiblesFavorites
-    ? `${
-        CONFIG.openseaURL
-      }/assets/?order_direction=desc&owner=${owner}${getFavoriteQueryParams(
-        player.box_profile.collectiblesFavorites,
-      )}`
-    : '';
+  const collectiblesFavorites = useMemo(
+    () =>
+      player && player.box_profile && player.box_profile.collectiblesFavorites
+        ? player.box_profile.collectiblesFavorites
+        : [],
+    [player],
+  );
 
   useEffect(() => {
     async function load() {
       setLoading(true);
-      if (favoritesQuery && owner) {
+      if (collectiblesFavorites.length > 0 && owner) {
+        const favoritesQuery = {
+          owner,
+          token_ids: collectiblesFavorites.map(({ tokenId }) => tokenId || ''),
+        };
         const [favoritesData, allData] = await Promise.all([
           fetchOpenSeaData(favoritesQuery),
           fetchAllOpenSeaData(owner),
@@ -56,15 +65,10 @@ export const useOpenSeaCollectibles = ({
       setLoading(false);
     }
     load();
-  }, [favoritesQuery, owner]);
+  }, [collectiblesFavorites, owner]);
 
   return { favorites, data, loading };
 };
-
-const getFavoriteQueryParams = (
-  favorites: Array<Pick<CollectiblesFavorites, 'tokenId' | 'address'>>,
-): string =>
-  favorites.reduce((query, { tokenId }) => `${query}&token_ids=${tokenId}`, '');
 
 const fetchAllOpenSeaData = async (
   owner: string,
@@ -73,7 +77,7 @@ const fetchAllOpenSeaData = async (
   let data: Array<Collectible> = [];
   let lastData: Array<Collectible> = [];
   do {
-    const query = `${CONFIG.openseaURL}/assets/?order_direction=desc&owner=${owner}&limit=50&offset=${offset}`; // opensea utmost returns 50 per api call
+    const query = { owner, offset, limit: 50 };
     // eslint-disable-next-line no-await-in-loop
     lastData = await fetchOpenSeaData(query);
     data = data.concat(lastData);
@@ -82,34 +86,54 @@ const fetchAllOpenSeaData = async (
   return data;
 };
 
-const fetchOpenSeaData = async (query: string): Promise<Array<Collectible>> => {
-  const response = await fetch(query);
-  return parseResponse(response);
+const fetchOpenSeaData = async (
+  query: OpenSeaAssetQuery,
+): Promise<Array<Collectible>> => {
+  const response = await opensea.getAssets(query);
+  return parseAssets(response.assets);
 };
 
-const parseResponse = async (
-  response: Response,
+const parseAssets = async (
+  assets: Array<OpenSeaAsset>,
 ): Promise<Array<Collectible>> => {
-  if (!response.ok) return [];
-  const data = await response.json();
-  if (!data.assets) return [];
-  return (
-    data.assets
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      .map((asset: any) => ({
-        address: asset.asset_contract.address,
-        tokenId: asset.token_id,
-        title: asset.name,
-        imageUrl: asset.image_url,
-        permaLink: asset.permalink,
-        priceInEth: asset.last_sale
-          ? Number(asset.last_sale.payment_token.eth_price)
-          : undefined,
-        priceInUsd: asset.last_sale
-          ? Number(asset.last_sale.payment_token.usd_price)
-          : undefined,
-      }))
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      .filter((collectible: any) => collectible.title && collectible.imageUrl)
-  );
+  return assets
+    .map(
+      (asset) =>
+        ({
+          address: asset.assetContract.address,
+          tokenId: asset.tokenId,
+          title: asset.name,
+          imageUrl: asset.imageUrl,
+          openseaLink: asset.openseaLink,
+          priceString: getPriceString(asset.lastSale),
+        } as Collectible),
+    )
+    .filter(
+      (collectible: Collectible) =>
+        !!collectible.title && !!collectible.imageUrl,
+    );
+};
+
+const ETH_ADDRESSES = [
+  '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2', // wETH
+  '0x0000000000000000000000000000000000000000', // ETH
+];
+
+const getPriceString = (event: AssetEvent | null): string => {
+  if (event && event.paymentToken) {
+    const {
+      address,
+      symbol: tokenSymbol,
+      decimals,
+      usdPrice,
+    } = event.paymentToken;
+
+    const symbol = ETH_ADDRESSES.indexOf(address) === -1 ? tokenSymbol : 'Ξ';
+    const price = Number(utils.formatUnits(event.totalPrice, decimals));
+    const priceInUSD = usdPrice ? price * Number(usdPrice) : 0;
+    return `${price.toFixed(2)}${symbol}${
+      priceInUSD ? ` ($${priceInUSD.toFixed(2)})` : ''
+    }`;
+  }
+  return '';
 };

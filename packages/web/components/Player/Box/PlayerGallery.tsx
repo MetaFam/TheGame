@@ -28,7 +28,7 @@ const GalleryItem: React.FC<{ nft: Collectible; noMargin?: boolean }> = ({
   noMargin = false,
 }) => (
   <Link
-    href={nft.permaLink}
+    href={nft.openseaLink}
     isExternal
     mb={noMargin ? undefined : 6}
     minW={0}
@@ -57,11 +57,7 @@ const GalleryItem: React.FC<{ nft: Collectible; noMargin?: boolean }> = ({
         >
           {nft.title}
         </Heading>
-        <Text fontSize="sm">
-          {nft.priceInUsd && nft.priceInEth
-            ? `${nft.priceInEth.toFixed(2)}Ξ ($${nft.priceInUsd.toFixed(2)})`
-            : ``}
-        </Text>
+        <Text fontSize="sm">{nft.priceString}</Text>
       </Flex>
     </HStack>
   </Link>
