@@ -4,6 +4,7 @@ import { SetupMemberships } from 'components/Setup/SetupMemberships';
 import { SetupPersonalityType } from 'components/Setup/SetupPersonalityType';
 import { SetupPlayerType } from 'components/Setup/SetupPlayerType';
 import { SetupSkills } from 'components/Setup/SetupSkills';
+import { SetupTimeZone } from 'components/Setup/SetupTimeZone';
 import { SetupUsername } from 'components/Setup/SetupUsername';
 import React from 'react';
 
@@ -41,6 +42,10 @@ export const options = [
       {
         label: 'Availability',
         component: <SetupAvailability />,
+      },
+      {
+        label: 'Time Zone',
+        component: <SetupTimeZone />
       },
       {
         label: 'Memberships',

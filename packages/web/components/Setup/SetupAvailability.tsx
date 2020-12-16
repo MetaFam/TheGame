@@ -47,7 +47,7 @@ export const SetupAvailability: React.FC = () => {
       console.warn(error);
       toast({
         title: 'Error',
-        description: 'Unable to update Player Skills. The octo is sad 😢',
+        description: 'Unable to update availability. The octo is sad 😢',
         status: 'error',
         isClosable: true,
       });

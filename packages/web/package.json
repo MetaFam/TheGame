@@ -19,6 +19,7 @@
     "fake-tag": "2.0.0",
     "graphql": "^15.0.0",
     "isomorphic-unfetch": "^3.0.0",
+    "moment-timezone": "^0.5.32",
     "next": "latest",
     "next-images": "^1.4.1",
     "next-urql": "2.0.0",
