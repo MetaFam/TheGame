@@ -1,4 +1,5 @@
 import { ChakraProvider, CSSReset, MetaTheme } from '@metafam/ds';
+import { MobileFooter } from 'components/MobileFooter';
 import { PageHeader } from 'components/PageHeader';
 import { CONFIG } from 'config';
 import { Web3ContextProvider } from 'contexts/Web3Context';
@@ -17,6 +18,7 @@ const app: React.FC<AppProps> = ({ pageProps, Component }) => {
       </Head>
       <Web3ContextProvider>
         {!pageProps.hidePageHeader && <PageHeader />}
+        {!pageProps.hidePageHeader && <MobileFooter />}
         <Component {...pageProps} />
       </Web3ContextProvider>
     </ChakraProvider>

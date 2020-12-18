@@ -24,6 +24,8 @@ class MetaDocument extends Document {
             rel="stylesheet"
           />
           <link rel="shortcut icon" href="/favicon.png" />
+          {/* @TODO: remove and apply filter with _hover={} when https://github.com/chakra-ui/chakra-ui/issues/2831 is resolved */}
+          <style>{`button.filter-effect:hover { filter: drop-shadow(0 0 15px #a5b9f680); }`}</style>
           <meta charSet="UTF-8" />
         </Head>
         <body>
