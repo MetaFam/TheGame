@@ -41,6 +41,7 @@ export const SetupPlayerType: React.FC = () => {
       });
 
       if (error) {
+        // eslint-disable-next-line no-console
         console.warn(error);
         toast({
           title: 'Error',

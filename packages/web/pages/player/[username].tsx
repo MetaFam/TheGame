@@ -34,7 +34,7 @@ const PlayerPage: React.FC<Props> = ({ player }) => {
   const [fakeData, setFakeData] = React.useState([
     [BOX_TYPE.PLAYER_SKILLS, BOX_TYPE.PLAYER_CONTACT_BUTTONS],
     [BOX_TYPE.PLAYER_MEMBERSHIPS],
-    [],
+    [BOX_TYPE.PLAYER_GALLERY],
   ]);
 
   if (!player) {
@@ -74,7 +74,12 @@ const PlayerPage: React.FC<Props> = ({ player }) => {
           />
         );
       case BOX_TYPE.PLAYER_GALLERY:
-        return <PlayerGallery setRemoveBox={() => removeBox(column, name)} />;
+        return (
+          <PlayerGallery
+            player={player}
+            setRemoveBox={() => removeBox(column, name)}
+          />
+        );
       case BOX_TYPE.PLAYER_MEMBERSHIPS:
         return (
           <PlayerMemberships
@@ -109,7 +114,9 @@ const PlayerPage: React.FC<Props> = ({ player }) => {
               <PlayerHero player={player} />
             </Box>
             {(fakeData || [[], [], []])[0].map((name) => (
-              <Box mb="6">{getBox(0, name)}</Box>
+              <Box mb="6" key={name}>
+                {getBox(0, name)}
+              </Box>
             ))}
             <Box mb="6">
               <PlayerAddBox
@@ -137,7 +144,9 @@ const PlayerPage: React.FC<Props> = ({ player }) => {
                   mr={[0, null, null, 4]}
                 >
                   {(fakeData || [[], [], []])[1].map((name) => (
-                    <Box mb="6">{getBox(1, name)}</Box>
+                    <Box mb="6" key={name}>
+                      {getBox(1, name)}
+                    </Box>
                   ))}
                   <Box mb="6">
                     <PlayerAddBox
@@ -151,7 +160,9 @@ const PlayerPage: React.FC<Props> = ({ player }) => {
                   ml={[0, null, null, 4]}
                 >
                   {(fakeData || [[], [], []])[2].map((name) => (
-                    <Box mb="6">{getBox(2, name)}</Box>
+                    <Box mb="6" key={name}>
+                      {getBox(2, name)}
+                    </Box>
                   ))}
                   <Box mb="6">
                     <PlayerAddBox
