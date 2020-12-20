@@ -33,6 +33,7 @@ export {
   VStack,
   useTheme,
   useToast,
+  useDisclosure,
 } from '@chakra-ui/core';
 
 export { theme as MetaTheme } from './theme';

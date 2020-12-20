@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Image, Stack } from '@metafam/ds';
+import { Box, Button, Flex, Image, Stack, useDisclosure } from '@metafam/ds';
 import { MetaLink } from 'components/Link';
 import { LoginButton } from 'components/LoginButton';
 import NextImage from 'next/image';
@@ -85,8 +85,7 @@ const SubMenuItem: React.FC<React.ComponentProps<typeof MetaLink>> = ({
 };
 
 export const PageHeader: React.FC = () => {
-  const [show, setShow] = React.useState(true);
-  const handleToggle = () => setShow(!show);
+  const { isOpen, onToggle, onClose } = useDisclosure();
 
   return (
     <Flex
@@ -155,9 +154,9 @@ export const PageHeader: React.FC = () => {
           width="calc(32rem / 5)"
           className="filter-effect"
           position="relative"
-          top={show ? '1rem' : '46rem'}
+          top={isOpen ? '46rem' : '1rem'}
           left="-0.25rem"
-          onClick={handleToggle}
+          onClick={onToggle}
         >
           <NextImage
             src={MetaGameLogo}
@@ -193,17 +192,23 @@ export const PageHeader: React.FC = () => {
         left="calc(50% - 16.5rem)"
         padding="1rem 0"
         transition="opacity 0.8s cubic-bezier(0.65, 0, 0.35, 1)"
-        opacity={show ? 0 : 1}
-        pointerEvents={show ? 'none' : 'inherit'}
+        opacity={isOpen ? 1 : 0}
+        pointerEvents={isOpen ? 'inherit' : 'none'}
       >
+        <Box
+          position="fixed"
+          top="0"
+          bottom="0"
+          left="0"
+          right="0"
+          onClick={() => onClose()}
+        />
         <NextImage
           src={MetaBox}
           alt="MetaBox"
-          w="33rem"
           position="absolute"
           left="calc(50% - 16.5rem)"
           top="0"
-          zIndex="1"
           layout="fill"
         />
         {DrawerSubItems.map((item) => {
