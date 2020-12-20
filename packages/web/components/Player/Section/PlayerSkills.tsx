@@ -3,12 +3,12 @@ import { PlayerFragmentFragment } from 'graphql/autogen/types';
 import { SkillColors } from 'graphql/types';
 import React from 'react';
 
-import { PlayerBox } from './PlayerBoxe';
+import { PlayerSection } from './PlayerSection';
 
-type Props = { player: PlayerFragmentFragment; setRemoveBox: () => void };
-export const PlayerSkills: React.FC<Props> = ({ player, setRemoveBox }) => {
+type Props = { player: PlayerFragmentFragment; onRemoveClick: () => void };
+export const PlayerSkills: React.FC<Props> = ({ player, onRemoveClick }) => {
   return (
-    <PlayerBox title="Skills" setRemoveBox={setRemoveBox}>
+    <PlayerSection title="Skills" onRemoveClick={onRemoveClick}>
       <Wrap>
         {!(player.Player_Skills || []).length && (
           <MetaTag
@@ -38,6 +38,6 @@ export const PlayerSkills: React.FC<Props> = ({ player, setRemoveBox }) => {
           </MetaTag>
         ))}
       </Wrap>
-    </PlayerBox>
+    </PlayerSection>
   );
 };

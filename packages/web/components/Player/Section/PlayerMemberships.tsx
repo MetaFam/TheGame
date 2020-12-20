@@ -8,12 +8,12 @@ import metacartelImage from '../../../assets/moloch/metacartel.png';
 import metaclanImage from '../../../assets/moloch/metaclan.png';
 import metagameImage from '../../../assets/moloch/metagame.png';
 import raidGuildImage from '../../../assets/moloch/raid_guild.png';
-import { PlayerBox } from './PlayerBoxe';
+import { PlayerSection } from './PlayerSection';
 
-type Props = { player: PlayerFragmentFragment; setRemoveBox: () => void };
+type Props = { player: PlayerFragmentFragment; onRemoveClick: () => void };
 export const PlayerMemberships: React.FC<Props> = ({
   player,
-  setRemoveBox,
+  onRemoveClick,
 }) => {
   const [show, setShow] = React.useState(false);
 
@@ -27,7 +27,7 @@ export const PlayerMemberships: React.FC<Props> = ({
   };
 
   return (
-    <PlayerBox title="Memberships" setRemoveBox={setRemoveBox}>
+    <PlayerSection title="Memberships" onRemoveClick={onRemoveClick}>
       <HStack alignItems="center" mb={6}>
         <Flex bg="purpleBoxLight" width={16} height={16} mr={6}>
           <Box
@@ -94,6 +94,6 @@ export const PlayerMemberships: React.FC<Props> = ({
           View {show ? 'less' : 'all'}
         </Text>
       )}
-    </PlayerBox>
+    </PlayerSection>
   );
 };

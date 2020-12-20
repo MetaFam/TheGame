@@ -3,16 +3,16 @@ import { PlayerFragmentFragment } from 'graphql/autogen/types';
 import React from 'react';
 import { FaGithub, FaTwitter } from 'react-icons/fa';
 
-import { PlayerBox } from './PlayerBoxe';
+import { PlayerSection } from './PlayerSection';
 
 // TODO Maybe add more social platform
-type Props = { player: PlayerFragmentFragment; setRemoveBox: () => void };
+type Props = { player: PlayerFragmentFragment; onRemoveClick: () => void };
 export const PlayerContactButtons: React.FC<Props> = ({
   player,
-  setRemoveBox,
+  onRemoveClick,
 }) => {
   return (
-    <PlayerBox title="Contact" setRemoveBox={setRemoveBox}>
+    <PlayerSection title="Contact" onRemoveClick={onRemoveClick}>
       <HStack>
         {player.Accounts.map((acc) => {
           if (acc.type === 'TWITTER') {
@@ -60,6 +60,6 @@ export const PlayerContactButtons: React.FC<Props> = ({
           return null;
         })}
       </HStack>
-    </PlayerBox>
+    </PlayerSection>
   );
 };

@@ -2,6 +2,7 @@ export {
   Avatar,
   Badge,
   Box,
+  FlexProps,
   Button,
   ButtonGroup,
   CSSReset,
