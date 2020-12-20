@@ -3,8 +3,7 @@ import { MetaLink } from 'components/Link';
 import { Web3Context } from 'contexts/Web3Context';
 import React, { useCallback, useContext } from 'react';
 
-const formatAddress = (address = '') =>
-  `${address.slice(0, 6)}...${address.slice(-4)}`;
+import { formatAddress } from '../utils/playerHelpers';
 
 export const LoginButton: React.FC = () => {
   const { connectWeb3, disconnect, isConnected, address } = useContext(

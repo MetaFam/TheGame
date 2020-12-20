@@ -4,6 +4,7 @@ export {
   Box,
   FlexProps,
   Button,
+  ButtonProps,
   ButtonGroup,
   CSSReset,
   ChakraProvider,

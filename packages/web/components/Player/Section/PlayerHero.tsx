@@ -1,4 +1,4 @@
-import { Avatar, Box, HStack, Image, MetaTag, Text, VStack } from '@metafam/ds';
+import { Avatar, Box, HStack, Image, Text, VStack } from '@metafam/ds';
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
 import React from 'react';
 import {
@@ -9,6 +9,7 @@ import {
 
 import { PersonalityTypes } from '../../../graphql/types';
 import { FlexContainer } from '../../Container';
+import { PlayerContacts } from '../PlayerContacts';
 import { PlayerCollab } from './PlayerCollab';
 import { PlayerSection } from './PlayerSection';
 
@@ -33,11 +34,10 @@ export const PlayerHero: React.FC<Props> = ({ player }) => {
           <Text fontSize="xl" fontFamily="heading" mb="1">
             {getPlayerName(player)}
           </Text>
-          {player.playerType?.title ? (
-            <MetaTag size="md">
-              {player.playerType?.title.toUpperCase()}
-            </MetaTag>
-          ) : null}
+
+          <HStack mt="2">
+            <PlayerContacts player={player} />
+          </HStack>
         </Box>
 
         <Box>
@@ -63,27 +63,31 @@ export const PlayerHero: React.FC<Props> = ({ player }) => {
         <Box w="100%">
           <PlayerCollab player={player} />
         </Box>
-        <Box>
-          {player.EnneagramType && (
-            <HStack spacing={4}>
-              <Image
-                w="100%"
-                maxW="4rem"
-                src={PersonalityTypes[player.EnneagramType.name].image}
-                alt={player.EnneagramType.name}
-                style={{ mixBlendMode: 'color-dodge' }}
-              />
-              <FlexContainer align="stretch">
-                <Text color="white" fontWeight="bold">
-                  {player.EnneagramType.name}
-                </Text>
-                <Text color="blueLight">
-                  {player.EnneagramType.description}
-                </Text>
-              </FlexContainer>
-            </HStack>
-          )}
-        </Box>
+        {player.EnneagramType && (
+          <HStack spacing={4}>
+            <Image
+              w="100%"
+              maxW="4rem"
+              src={PersonalityTypes[player.EnneagramType.name].image}
+              alt={player.EnneagramType.name}
+              style={{ mixBlendMode: 'color-dodge' }}
+            />
+            <FlexContainer align="stretch">
+              <Text color="white" fontWeight="bold">
+                {player.EnneagramType.name}
+              </Text>
+              <Text color="blueLight">{player.EnneagramType.description}</Text>
+            </FlexContainer>
+          </HStack>
+        )}
+        {player.playerType?.title ? (
+          <FlexContainer align="stretch">
+            <Text color="white" fontWeight="bold">
+              {player.playerType.title.toUpperCase()}
+            </Text>
+            <Text color="blueLight">{player.playerType.description}</Text>
+          </FlexContainer>
+        ) : null}
       </VStack>
     </PlayerSection>
   );
