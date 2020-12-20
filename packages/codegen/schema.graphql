@@ -1998,6 +1998,7 @@ type Player {
   scIdentityId: String
   timezone: Int
   totalXp: numeric
+  tz: String
   updated_at: timestamptz
   username: String!
 }
@@ -2092,6 +2093,7 @@ input Player_bool_exp {
   scIdentityId: String_comparison_exp
   timezone: Int_comparison_exp
   totalXp: numeric_comparison_exp
+  tz: String_comparison_exp
   updated_at: timestamptz_comparison_exp
   username: String_comparison_exp
 }
@@ -2142,6 +2144,7 @@ input Player_insert_input {
   scIdentityId: String
   timezone: Int
   totalXp: numeric
+  tz: String
   updated_at: timestamptz
   username: String
 }
@@ -2157,6 +2160,7 @@ type Player_max_fields {
   scIdentityId: String
   timezone: Int
   totalXp: numeric
+  tz: String
   updated_at: timestamptz
   username: String
 }
@@ -2174,6 +2178,7 @@ input Player_max_order_by {
   scIdentityId: order_by
   timezone: order_by
   totalXp: order_by
+  tz: order_by
   updated_at: order_by
   username: order_by
 }
@@ -2189,6 +2194,7 @@ type Player_min_fields {
   scIdentityId: String
   timezone: Int
   totalXp: numeric
+  tz: String
   updated_at: timestamptz
   username: String
 }
@@ -2206,6 +2212,7 @@ input Player_min_order_by {
   scIdentityId: order_by
   timezone: order_by
   totalXp: order_by
+  tz: order_by
   updated_at: order_by
   username: order_by
 }
@@ -2257,6 +2264,7 @@ input Player_order_by {
   scIdentityId: order_by
   timezone: order_by
   totalXp: order_by
+  tz: order_by
   updated_at: order_by
   username: order_by
 }
@@ -2480,6 +2488,9 @@ enum Player_select_column {
   totalXp
 
   """column name"""
+  tz
+
+  """column name"""
   updated_at
 
   """column name"""
@@ -2501,6 +2512,7 @@ input Player_set_input {
   scIdentityId: String
   timezone: Int
   totalXp: numeric
+  tz: String
   updated_at: timestamptz
   username: String
 }
@@ -2789,6 +2801,9 @@ enum Player_update_column {
 
   """column name"""
   totalXp
+
+  """column name"""
+  tz
 
   """column name"""
   updated_at
