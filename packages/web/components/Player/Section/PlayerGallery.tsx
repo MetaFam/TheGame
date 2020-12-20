@@ -19,9 +19,9 @@ import {
 import React from 'react';
 import { FaTimes } from 'react-icons/fa';
 
-import { PlayerBox } from './PlayerBoxe';
+import { PlayerSection } from './PlayerSection';
 
-type Props = { player: PlayerFragmentFragment; setRemoveBox: () => void };
+type Props = { player: PlayerFragmentFragment; onRemoveClick: () => void };
 
 const GalleryItem: React.FC<{ nft: Collectible; noMargin?: boolean }> = ({
   nft,
@@ -63,11 +63,11 @@ const GalleryItem: React.FC<{ nft: Collectible; noMargin?: boolean }> = ({
   </Link>
 );
 
-export const PlayerGallery: React.FC<Props> = ({ player, setRemoveBox }) => {
+export const PlayerGallery: React.FC<Props> = ({ player, onRemoveClick }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { favorites, data, loading } = useOpenSeaCollectibles({ player });
   return (
-    <PlayerBox title="Gallery" setRemoveBox={setRemoveBox}>
+    <PlayerSection title="NFT Gallery" onRemoveClick={onRemoveClick}>
       {!loading &&
         favorites?.map((nft) => <GalleryItem nft={nft} key={nft.tokenId} />)}
       {!loading && data?.length > 3 && (
@@ -100,7 +100,7 @@ export const PlayerGallery: React.FC<Props> = ({ player, setRemoveBox }) => {
                   as="div"
                   mr="auto"
                 >
-                  Gallery
+                  NFT Gallery
                 </Text>
                 <FaTimes
                   color="blueLight"
@@ -133,6 +133,6 @@ export const PlayerGallery: React.FC<Props> = ({ player, setRemoveBox }) => {
           </ModalContent>
         </ModalOverlay>
       </Modal>
-    </PlayerBox>
+    </PlayerSection>
   );
 };
