@@ -1,14 +1,15 @@
 import { Button, Flex, Image, Stack } from '@metafam/ds';
-import MetaBoxButton from 'assets/drawer/box.button.bg.png';
-import MetaForum from 'assets/drawer/forum.png';
-import MetaPlayers from 'assets/drawer/players.png';
-import MetaQuests from 'assets/drawer/quests.png';
-import MetaRaids from 'assets/drawer/raids.png';
 import MetaGameLogo from 'assets/logo.png';
 import { MetaLink } from 'components/Link';
+import NextImage from 'next/dist/client/image';
+import MetaBoxButton from 'public/assets/drawer/box.button.bg.png';
 import React from 'react';
 
-import { DrawerItems } from './DrawerItems';
+import {
+  DrawerItemsLeft,
+  DrawerItemsRight,
+  DrawerSubItems,
+} from '../utils/DrawerItems';
 
 const MenuItem: React.FC<React.ComponentProps<typeof MetaLink>> = ({
   children,
@@ -97,21 +98,12 @@ export const MobileFooter: React.FC = () => {
       zIndex="11"
       background="linear-gradient(180deg, #40347C 58.55%, #A751BD 100%)"
     >
-      <MenuItem
-        href="https://forum.metagame.wtf/c/quest/5/l/latest?board=default"
-        isExternal
-      >
-        <Image src={MetaQuests} alt="MetaQuests" />
-        Quests
-      </MenuItem>
-
-      <MenuItem
-        href="https://forum.metagame.wtf/c/quest/5/l/latest?board=default"
-        isExternal
-      >
-        <Image src={MetaRaids} alt="MetaRaids" />
-        Raids
-      </MenuItem>
+      {DrawerItemsLeft.map((item) => (
+        <MenuItem href={item.href} isExternal={item.isExternal}>
+          <NextImage src={item.src} alt={item.alt} width={35} height={35} />
+          {item.text}
+        </MenuItem>
+      ))}
 
       <Button
         display="flex"
@@ -127,7 +119,7 @@ export const MobileFooter: React.FC = () => {
         style={{ filter: show ? 'none' : 'drop-shadow(0 0 15px #a5b9f680)' }}
         onClick={handleToggle}
       >
-        <Image
+        <Image // TODO use NextImage component once images are without text
           src={MetaGameLogo}
           alt="MetaGameLogo"
           height="6rem"
@@ -136,15 +128,12 @@ export const MobileFooter: React.FC = () => {
         />
       </Button>
 
-      <MenuItem href="https://forum.metagame.wtf/" isExternal>
-        <Image src={MetaForum} alt="MetaForum" />
-        Forum
-      </MenuItem>
-
-      <MenuItem href="/">
-        <Image src={MetaPlayers} alt="MetaPlayers" />
-        Players
-      </MenuItem>
+      {DrawerItemsRight.map((item) => (
+        <MenuItem href={item.href} isExternal={item.isExternal}>
+          <NextImage src={item.src} alt={item.alt} width={35} height={35} />
+          {item.text}
+        </MenuItem>
+      ))}
 
       <Stack
         position="fixed"
@@ -162,7 +151,7 @@ export const MobileFooter: React.FC = () => {
         opacity={show ? 0 : 1}
         pointerEvents={show ? 'none' : 'inherit'}
       >
-        {DrawerItems.map((item) => {
+        {DrawerSubItems.map((item) => {
           return (
             <SubMenuItem href={item.href} key={item.alt}>
               <SubImage src={item.src} alt={item.alt} />

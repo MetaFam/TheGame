@@ -1,18 +1,20 @@
 import { Box, Button, Flex, Image, Stack } from '@metafam/ds';
-import MetaBoxButton from 'assets/drawer/box.button.bg.png';
-import MetaBox from 'assets/drawer/desktop.box.png';
-import MetaDrawer from 'assets/drawer/desktop.gradient.png';
-import MetaForum from 'assets/drawer/forum.png';
-import MetaPlayers from 'assets/drawer/players.png';
-import MetaQuests from 'assets/drawer/quests.png';
-import MetaRaids from 'assets/drawer/raids.png';
-import MetaGameLogo from 'assets/logo.png';
-import MetaGameImage from 'assets/metagame.png';
 import { MetaLink } from 'components/Link';
 import { LoginButton } from 'components/LoginButton';
+import NextImage from 'next/image';
 import React from 'react';
 
-import { DrawerItems } from './DrawerItems';
+import {
+  DrawerItemsLeft,
+  DrawerItemsRight,
+  DrawerSubItems,
+} from '../utils/DrawerItems';
+
+const MetaBoxButton = '/assets/drawer/box.button.bg.png';
+const MetaBox = '/assets/drawer/desktop.box.png';
+const MetaDrawer = '/assets/drawer/desktop.gradient.png';
+const MetaGameLogo = '/assets/logo.png';
+const MetaGameImage = '/assets/metagame.png';
 
 const MenuItem: React.FC<React.ComponentProps<typeof MetaLink>> = ({
   children,
@@ -99,7 +101,14 @@ export const PageHeader: React.FC = () => {
       display={{ base: 'none', md: 'flex' }}
     >
       <MetaLink href="/" display="block" mr="10">
-        <Image src={MetaGameImage} alt="MetaGame" mt={-2} w="9rem" />
+        <Box mt={2}>
+          <NextImage
+            src={MetaGameImage}
+            alt="MetaGame"
+            width={144}
+            height={62}
+          />
+        </Box>
       </MetaLink>
 
       <Stack
@@ -113,7 +122,7 @@ export const PageHeader: React.FC = () => {
         left="calc(50% - 24rem)"
         padding="0 0 0.5rem 0"
       >
-        <Image
+        <NextImage
           src={MetaDrawer}
           alt="MetaDrawer"
           w="48rem"
@@ -121,23 +130,15 @@ export const PageHeader: React.FC = () => {
           left="calc(50% - 24rem)"
           top="0"
           zIndex="1"
+          layout="fill"
         />
 
-        <MenuItem
-          href="https://forum.metagame.wtf/c/quest/5/l/latest?board=default"
-          isExternal
-        >
-          <Image src={MetaQuests} alt="MetaQuests" />
-          Quests
-        </MenuItem>
-
-        <MenuItem
-          href="https://forum.metagame.wtf/c/quest/5/l/latest?board=default"
-          isExternal
-        >
-          <Image src={MetaRaids} alt="MetaRaids" />
-          Raids
-        </MenuItem>
+        {DrawerItemsLeft.map((item) => (
+          <MenuItem href={item.href} isExternal={item.isExternal}>
+            <NextImage src={item.src} alt={item.alt} width={35} height={35} />
+            {item.text}
+          </MenuItem>
+        ))}
 
         <Button
           display="flex"
@@ -154,18 +155,20 @@ export const PageHeader: React.FC = () => {
           left="-0.25rem"
           onClick={handleToggle}
         >
-          <Image src={MetaGameLogo} alt="MetaGameLogo" height="6rem" />
+          <NextImage
+            src={MetaGameLogo}
+            alt="MetaGameLogo"
+            width={80}
+            height={96}
+          />
         </Button>
 
-        <MenuItem href="https://forum.metagame.wtf/" isExternal>
-          <Image src={MetaForum} alt="MetaForum" />
-          Forum
-        </MenuItem>
-
-        <MenuItem href="/">
-          <Image src={MetaPlayers} alt="MetaPlayers" />
-          Players
-        </MenuItem>
+        {DrawerItemsRight.map((item) => (
+          <MenuItem href={item.href} isExternal={item.isExternal}>
+            <NextImage src={item.src} alt={item.alt} width={35} height={35} />
+            {item.text}
+          </MenuItem>
+        ))}
       </Stack>
 
       <Box justifyContent="center" width={{ base: 'full', md: 'auto' }}>
@@ -185,7 +188,7 @@ export const PageHeader: React.FC = () => {
         opacity={show ? 0 : 1}
         pointerEvents={show ? 'none' : 'inherit'}
       >
-        <Image
+        <NextImage
           src={MetaBox}
           alt="MetaBox"
           w="33rem"
@@ -193,8 +196,9 @@ export const PageHeader: React.FC = () => {
           left="calc(50% - 16.5rem)"
           top="0"
           zIndex="1"
+          layout="fill"
         />
-        {DrawerItems.map((item) => {
+        {DrawerSubItems.map((item) => {
           return (
             <SubMenuItem
               href={item.href}
