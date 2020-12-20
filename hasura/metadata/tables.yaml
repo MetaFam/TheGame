@@ -63,6 +63,35 @@
         table:
           schema: public
           name: guild_player
+  select_permissions:
+  - role: player
+    permission:
+      columns:
+      - id
+      - type
+      - name
+      - logo
+      - description
+      - join_button_url
+      - moloch_address
+      - discord_invite_url
+      - website_url
+      - guildname
+      filter: {}
+  - role: public
+    permission:
+      columns:
+      - id
+      - type
+      - name
+      - logo
+      - description
+      - join_button_url
+      - moloch_address
+      - discord_invite_url
+      - website_url
+      - guildname
+      filter: {}
 - table:
     schema: public
     name: GuildType
