@@ -9,7 +9,7 @@ import {
   DrawerItemsLeft,
   DrawerItemsRight,
   DrawerSubItems,
-} from '../utils/DrawerItems';
+} from '../utils/drawerItems';
 
 const MenuItem: React.FC<React.ComponentProps<typeof MetaLink>> = ({
   children,

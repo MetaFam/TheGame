@@ -1,7 +1,8 @@
 const MetaCalendarImageUrl = '/assets/drawer/calendar.png';
 const MetaDiscordImageUrl = '/assets/drawer/discord.png';
 const MetaGithubImageUrl = '/assets/drawer/github.png';
-const MetaGuildsImageUrl = '/assets/drawer/guilds.png';
+// const MetaGuildsImageUrl = '/assets/drawer/guilds.png';
+const MetaSeedPoolImageUrl = '/assets/drawer/seed_pool.png';
 const MetaLeaderboardImageUrl = '/assets/drawer/leaderboard.png';
 const MetaLibraryImageUrl = '/assets/drawer/library.png';
 const MetaViewImageUrl = '/assets/drawer/metaview.png';
@@ -59,29 +60,31 @@ export const DrawerItemsRight: DrawerItemType[] = [
 
 export const DrawerSubItems: DrawerItemType[] = [
   {
-    href: '/',
-    isExternal: false,
+    href: 'https://metagame.substack.com/',
+    isExternal: true,
     src: MetaNewsletterImageUrl,
     alt: 'MetaNewsletter',
   },
   {
-    href: '/',
-    isExternal: false,
+    href: 'https://anchor.fm/MetaGame/',
+    isExternal: true,
     src: MetaViewImageUrl,
     alt: 'MetaView',
   },
   {
-    href: '/',
-    isExternal: false,
+    href: 'https://wiki.metagame.wtf/docs/home',
+    isExternal: true,
     src: MetaLibraryImageUrl,
     alt: 'MetaLibrary',
   },
+  /*
   {
     href: '/',
     isExternal: false,
     src: MetaGuildsImageUrl,
     alt: 'MetaGuilds',
   },
+  */
   {
     href: 'https://twitter.com/Metafam',
     isExternal: true,
@@ -101,16 +104,11 @@ export const DrawerSubItems: DrawerItemType[] = [
     alt: 'MetaGithub',
   },
   {
-    href: '/',
-    isExternal: false,
+    href:
+      'https://calendar.google.com/calendar/u/1?cid=bmloNTlrdGdhZm1tNjRlZDRxazZ1ZTh2djRAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ',
+    isExternal: true,
     src: MetaCalendarImageUrl,
     alt: 'MetaCalendar',
-  },
-  {
-    href: '/',
-    isExternal: false,
-    src: MetaLeaderboardImageUrl,
-    alt: 'MetaLeaderboard',
   },
   {
     href:
@@ -118,5 +116,18 @@ export const DrawerSubItems: DrawerItemType[] = [
     isExternal: true,
     src: MetaSeedmarketImageUrl,
     alt: 'MetaSeedmarket',
+  },
+  {
+    href:
+      'https://pools.balancer.exchange/#/pool/0xea05a15dbce2eb543ffda16950e95b2bd2e40d0e/',
+    isExternal: true,
+    src: MetaSeedPoolImageUrl,
+    alt: 'MetaSeedPool',
+  },
+  {
+    href: 'https://wiki.metagame.wtf/docs/enter-metagame/leaderboard',
+    isExternal: true,
+    src: MetaLeaderboardImageUrl,
+    alt: 'MetaLeaderboard',
   },
 ];

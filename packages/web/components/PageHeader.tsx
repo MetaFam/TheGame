@@ -8,7 +8,7 @@ import {
   DrawerItemsLeft,
   DrawerItemsRight,
   DrawerSubItems,
-} from '../utils/DrawerItems';
+} from '../utils/drawerItems';
 
 const MetaBoxButton = '/assets/drawer/box.button.bg.png';
 const MetaBox = '/assets/drawer/desktop.box.png';
