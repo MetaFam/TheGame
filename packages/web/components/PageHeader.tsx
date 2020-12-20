@@ -121,16 +121,14 @@ export const PageHeader: React.FC = () => {
         left="calc(50% - 24rem)"
         padding="0 0 0.5rem 0"
       >
-        <NextImage
-          src={MetaDrawer}
-          alt="MetaDrawer"
-          w="48rem"
-          position="absolute"
-          left="calc(50% - 24rem)"
-          top="0"
-          zIndex="1"
-          layout="fill"
-        />
+        <Box position="absolute" left="calc(50% - 24rem)" top="0" zIndex="1">
+          <NextImage
+            src={MetaDrawer}
+            alt="MetaDrawer"
+            width={768}
+            height={94}
+          />
+        </Box>
 
         {DrawerItemsLeft.map((item) => (
           <MenuItem
@@ -203,14 +201,9 @@ export const PageHeader: React.FC = () => {
           right="0"
           onClick={() => onClose()}
         />
-        <NextImage
-          src={MetaBox}
-          alt="MetaBox"
-          position="absolute"
-          left="calc(50% - 16.5rem)"
-          top="0"
-          layout="fill"
-        />
+        <Box position="absolute" left="calc(50% - 16.5rem)" top="0">
+          <NextImage src={MetaBox} alt="MetaBox" width={528} height={695} />
+        </Box>
         {DrawerSubItems.map((item) => {
           return (
             <SubMenuItem
