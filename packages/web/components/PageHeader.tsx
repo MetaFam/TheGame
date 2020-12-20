@@ -134,7 +134,11 @@ export const PageHeader: React.FC = () => {
         />
 
         {DrawerItemsLeft.map((item) => (
-          <MenuItem href={item.href} isExternal={item.isExternal}>
+          <MenuItem
+            key={item.alt}
+            href={item.href}
+            isExternal={item.isExternal}
+          >
             <NextImage src={item.src} alt={item.alt} width={35} height={35} />
             {item.text}
           </MenuItem>
@@ -164,7 +168,11 @@ export const PageHeader: React.FC = () => {
         </Button>
 
         {DrawerItemsRight.map((item) => (
-          <MenuItem href={item.href} isExternal={item.isExternal}>
+          <MenuItem
+            key={item.alt}
+            href={item.href}
+            isExternal={item.isExternal}
+          >
             <NextImage src={item.src} alt={item.alt} width={35} height={35} />
             {item.text}
           </MenuItem>

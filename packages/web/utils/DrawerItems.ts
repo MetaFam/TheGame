@@ -24,14 +24,15 @@ export interface DrawerItemType {
 
 export const DrawerItemsLeft: DrawerItemType[] = [
   {
-    href: 'https://forum.metagame.wtf/c/quest/5/l/latest?board=default',
+    href: 'https://discord.gg/WYUkVpe',
     isExternal: true,
     src: MetaQuestsImageUrl,
     alt: 'MetaQuests',
     text: 'Quests',
   },
   {
-    href: 'https://forum.metagame.wtf/c/quest/5/l/latest?board=default',
+    href:
+      'https://miro.com/app/live-embed/o9J_knhEt7w=/?moveToViewport=-8516,-5516,21788,13742',
     isExternal: true,
     src: MetaRaidsImageUrl,
     alt: 'MetaRaids',
