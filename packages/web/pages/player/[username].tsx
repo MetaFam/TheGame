@@ -14,7 +14,6 @@ import React from 'react';
 import { PageContainer } from '../../components/Container';
 import { PlayerAchievements } from '../../components/Player/Section/PlayerAchievements';
 import { PlayerAddSection } from '../../components/Player/Section/PlayerAddSection';
-import { PlayerContactButtons } from '../../components/Player/Section/PlayerContactButtons';
 import { PlayerGallery } from '../../components/Player/Section/PlayerGallery';
 import { PlayerMemberships } from '../../components/Player/Section/PlayerMemberships';
 import { PlayerSkills } from '../../components/Player/Section/PlayerSkills';
@@ -27,7 +26,6 @@ const PlayerPage: React.FC<Props> = ({ player }) => {
   // TODO Fake data should be saved in back-end
   const BOX_TYPE = {
     PLAYER_SKILLS: 'Skills',
-    PLAYER_CONTACT_BUTTONS: 'Contact',
     PLAYER_GALLERY: 'Gallery',
     PLAYER_MEMBERSHIPS: 'Memberships',
     PLAYER_ACHIEVEMENTS: 'Achievements',
@@ -36,7 +34,7 @@ const PlayerPage: React.FC<Props> = ({ player }) => {
   const [canEdit] = React.useState(false);
 
   const [fakeData, setFakeData] = React.useState([
-    [BOX_TYPE.PLAYER_CONTACT_BUTTONS],
+    [],
     [BOX_TYPE.PLAYER_MEMBERSHIPS, BOX_TYPE.PLAYER_SKILLS],
     [BOX_TYPE.PLAYER_GALLERY],
   ]);
@@ -70,13 +68,6 @@ const PlayerPage: React.FC<Props> = ({ player }) => {
       case BOX_TYPE.PLAYER_SKILLS:
         return (
           <PlayerSkills
-            player={player}
-            onRemoveClick={() => removeBox(column, name)}
-          />
-        );
-      case BOX_TYPE.PLAYER_CONTACT_BUTTONS:
-        return (
-          <PlayerContactButtons
             player={player}
             onRemoveClick={() => removeBox(column, name)}
           />

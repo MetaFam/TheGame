@@ -14,3 +14,6 @@ export const getPlayerName = (player: PlayerFragmentFragment): string =>
 
 export const getPlayerDescription = (player: PlayerFragmentFragment): string =>
   player.box_profile?.description || '';
+
+export const formatAddress = (address = '') =>
+  `${address.slice(0, 6)}...${address.slice(-4)}`;

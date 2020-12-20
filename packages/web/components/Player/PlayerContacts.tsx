@@ -1,7 +1,9 @@
-import { Button } from '@metafam/ds';
+import { Button, Wrap } from '@metafam/ds';
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
 import React from 'react';
-import { FaGithub, FaTwitter } from 'react-icons/fa';
+import { FaEthereum, FaGithub, FaTwitter } from 'react-icons/fa';
+
+import { formatAddress } from '../../utils/playerHelpers';
 
 type Props = {
   player: PlayerFragmentFragment;
@@ -9,7 +11,7 @@ type Props = {
 
 export const PlayerContacts: React.FC<Props> = ({ player }) => {
   return (
-    <>
+    <Wrap>
       {player.Accounts.map((acc) => {
         if (acc.type === 'TWITTER') {
           const link = `https://twitter.com/${acc.identifier}`;
@@ -46,6 +48,18 @@ export const PlayerContacts: React.FC<Props> = ({ player }) => {
         }
         return null;
       })}
-    </>
+      {player.ethereum_address ? (
+        <Button
+          as="a"
+          href={`https://etherscan.com/address/${player.ethereum_address}`}
+          target="_blank"
+          size="xs"
+          colorScheme="blackAlpha"
+          leftIcon={<FaEthereum />}
+        >
+          {formatAddress(player.ethereum_address)}
+        </Button>
+      ) : null}
+    </Wrap>
   );
 };
