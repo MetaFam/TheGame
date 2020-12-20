@@ -9,20 +9,20 @@ import {
 
 import { PersonalityTypes } from '../../../graphql/types';
 import { FlexContainer } from '../../Container';
+import { ProfileSection } from '../../ProfileSection';
 import { PlayerContacts } from '../PlayerContacts';
 import { PlayerCollab } from './PlayerCollab';
-import { PlayerSection } from './PlayerSection';
 
 const BIO_LENGTH = 240;
 
 type Props = { player: PlayerFragmentFragment };
 export const PlayerHero: React.FC<Props> = ({ player }) => {
   const [show, setShow] = React.useState(
-    getPlayerDescription(player).length < 115,
+    getPlayerDescription(player).length < BIO_LENGTH,
   );
 
   return (
-    <PlayerSection>
+    <ProfileSection>
       <VStack spacing={8}>
         <Avatar
           w={{ base: '32', md: '56' }}
@@ -34,12 +34,7 @@ export const PlayerHero: React.FC<Props> = ({ player }) => {
           <Text fontSize="xl" fontFamily="heading" mb="1">
             {getPlayerName(player)}
           </Text>
-
-          <HStack mt="2">
-            <PlayerContacts player={player} />
-          </HStack>
         </Box>
-
         <Box>
           <Text>
             {`${getPlayerDescription(player).substring(
@@ -60,6 +55,10 @@ export const PlayerHero: React.FC<Props> = ({ player }) => {
             )}
           </Text>
         </Box>
+
+        <HStack mt="2">
+          <PlayerContacts player={player} />
+        </HStack>
         <Box w="100%">
           <PlayerCollab player={player} />
         </Box>
@@ -89,6 +88,6 @@ export const PlayerHero: React.FC<Props> = ({ player }) => {
           </FlexContainer>
         ) : null}
       </VStack>
-    </PlayerSection>
+    </ProfileSection>
   );
 };

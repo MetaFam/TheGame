@@ -9,7 +9,7 @@ export const PlayerCollab: React.FC<Props> = ({ player }) => {
     <HStack
       spacing={6}
       divider={
-        <Divider height="3rem" color="purpleTag" orientation="vertical" />
+        <Divider height="3rem" color="whiteAlpha.400" orientation="vertical" />
       }
     >
       <Box>

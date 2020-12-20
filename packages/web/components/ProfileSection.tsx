@@ -2,7 +2,7 @@ import { Box, HStack, Text } from '@metafam/ds';
 import React from 'react';
 import { FaTimes } from 'react-icons/fa';
 
-export type PlayerSectionProps = {
+export type ProfileSectionProps = {
   title?: string;
   children?: React.ReactNode;
   onRemoveClick?: () => void;
@@ -10,7 +10,7 @@ export type PlayerSectionProps = {
 };
 
 // TODO If MetaBox is only used for Player profile maybe merge both component
-export const PlayerSection: React.FC<PlayerSectionProps> = ({
+export const ProfileSection: React.FC<ProfileSectionProps> = ({
   children,
   title,
   onRemoveClick,
