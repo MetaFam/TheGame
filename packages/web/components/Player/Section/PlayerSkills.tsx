@@ -3,7 +3,7 @@ import { PlayerFragmentFragment } from 'graphql/autogen/types';
 import { SkillColors } from 'graphql/types';
 import React from 'react';
 
-import { PlayerSection } from './PlayerSection';
+import { ProfileSection } from '../../ProfileSection';
 
 type Props = { player: PlayerFragmentFragment; onRemoveClick: () => void };
 export const PlayerSkills: React.FC<Props> = ({ player, onRemoveClick }) => {
@@ -11,7 +11,7 @@ export const PlayerSkills: React.FC<Props> = ({ player, onRemoveClick }) => {
     return null;
   }
   return (
-    <PlayerSection title="Skills" onRemoveClick={onRemoveClick}>
+    <ProfileSection title="Skills" onRemoveClick={onRemoveClick}>
       <Wrap>
         {(player.Player_Skills || []).map(({ Skill }) => (
           <MetaTag
@@ -28,6 +28,6 @@ export const PlayerSkills: React.FC<Props> = ({ player, onRemoveClick }) => {
           </MetaTag>
         ))}
       </Wrap>
-    </PlayerSection>
+    </ProfileSection>
   );
 };

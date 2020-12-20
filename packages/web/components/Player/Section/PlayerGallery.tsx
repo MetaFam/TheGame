@@ -19,7 +19,7 @@ import {
 import React from 'react';
 import { FaTimes } from 'react-icons/fa';
 
-import { PlayerSection } from './PlayerSection';
+import { ProfileSection } from '../../ProfileSection';
 
 type Props = { player: PlayerFragmentFragment; onRemoveClick: () => void };
 
@@ -67,7 +67,7 @@ export const PlayerGallery: React.FC<Props> = ({ player, onRemoveClick }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { favorites, data, loading } = useOpenSeaCollectibles({ player });
   return (
-    <PlayerSection title="NFT Gallery" onRemoveClick={onRemoveClick}>
+    <ProfileSection title="NFT Gallery" onRemoveClick={onRemoveClick}>
       {!loading &&
         favorites?.map((nft) => <GalleryItem nft={nft} key={nft.tokenId} />)}
       {!loading && data?.length > 3 && (
@@ -133,6 +133,6 @@ export const PlayerGallery: React.FC<Props> = ({ player, onRemoveClick }) => {
           </ModalContent>
         </ModalOverlay>
       </Modal>
-    </PlayerSection>
+    </ProfileSection>
   );
 };

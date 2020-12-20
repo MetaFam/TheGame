@@ -76,7 +76,7 @@ export const PageHeader: React.FC = () => {
           direction={{ base: 'column', md: 'row' }}
           spacing={{ base: 4, md: 6, lg: 10 }}
         >
-          <MenuItem href="/">Players</MenuItem>
+          <MenuItem href="/guilds">Guilds</MenuItem>
           <MenuItem href="https://discord.gg/VYZPBnx" isExternal>
             Discord
           </MenuItem>

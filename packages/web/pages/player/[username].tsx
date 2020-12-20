@@ -95,7 +95,6 @@ const PlayerPage: React.FC<Props> = ({ player }) => {
   };
 
   return (
-    // TODO Should be a custom background and maybe on app level(with the header)
     <PageContainer>
       <Flex
         align="center"

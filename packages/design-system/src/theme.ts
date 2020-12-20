@@ -13,6 +13,8 @@ interface MetaColors {
   platinum: string;
   gold: string;
   silver: string;
+  discord: string;
+  discordDark: string;
   bronze: string;
   purple80: string;
 }
@@ -91,6 +93,8 @@ export const theme: Theme = {
     purpleTag: '#40347C',
     blueLight: '#A5B9F6',
     cyanText: '#79F8FB',
+    discord: '#7289da',
+    discordDark: '#5d6eb3',
   },
   fonts: {
     body: '"IBM Plex Sans", sans-serif',

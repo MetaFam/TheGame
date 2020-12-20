@@ -2,7 +2,7 @@ import { HStack, Text } from '@metafam/ds';
 import React from 'react';
 import { FaMedal } from 'react-icons/fa';
 
-import { PlayerSection } from './PlayerSection';
+import { ProfileSection } from '../../ProfileSection';
 
 // TODO Fake data
 type Props = { onRemoveClick: () => void };
@@ -15,7 +15,7 @@ export const PlayerAchievements: React.FC<Props> = ({ onRemoveClick }) => {
   ];
 
   return (
-    <PlayerSection title="Achievements" onRemoveClick={onRemoveClick}>
+    <ProfileSection title="Achievements" onRemoveClick={onRemoveClick}>
       {(fakeData || []).slice(0, show ? 999 : 3).map((title) => (
         <HStack alignItems="baseline" mb={3}>
           <FaMedal color="#FBB112" />
@@ -34,6 +34,6 @@ export const PlayerAchievements: React.FC<Props> = ({ onRemoveClick }) => {
           View {show ? 'less' : 'all'}
         </Text>
       )}
-    </PlayerSection>
+    </ProfileSection>
   );
 };
