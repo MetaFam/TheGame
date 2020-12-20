@@ -1,4 +1,4 @@
-import { Box, Flex } from '@metafam/ds';
+import { Box, Flex, LoadingState } from '@metafam/ds';
 import { PlayerHero } from 'components/Player/Section/PlayerHero';
 import { getPlayer } from 'graphql/getPlayer';
 import { getPlayers } from 'graphql/getPlayers';
@@ -8,6 +8,7 @@ import {
   InferGetStaticPropsType,
 } from 'next';
 import Error from 'next/error';
+import { useRouter } from 'next/router';
 import React from 'react';
 
 import { PageContainer } from '../../components/Container';
@@ -21,6 +22,8 @@ import { PlayerSkills } from '../../components/Player/Section/PlayerSkills';
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
 const PlayerPage: React.FC<Props> = ({ player }) => {
+  const router = useRouter();
+
   // TODO Fake data should be saved in back-end
   const BOX_TYPE = {
     PLAYER_SKILLS: 'Skills',
@@ -37,6 +40,10 @@ const PlayerPage: React.FC<Props> = ({ player }) => {
     [BOX_TYPE.PLAYER_MEMBERSHIPS, BOX_TYPE.PLAYER_SKILLS],
     [BOX_TYPE.PLAYER_GALLERY],
   ]);
+
+  if (router.isFallback) {
+    return <LoadingState />;
+  }
 
   if (!player) {
     return <Error statusCode={404} />;
@@ -190,6 +197,6 @@ export const getStaticProps = async (
     props: {
       player,
     },
-    revalidate: 10,
+    revalidate: 1,
   };
 };
