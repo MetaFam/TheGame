@@ -16,7 +16,7 @@ export const PlayerSection: React.FC<PlayerSectionProps> = ({
   onRemoveClick,
   canEdit,
 }) => (
-  <Box>
+  <Box minW="xs">
     {title ? (
       <Box bg="purple80" borderTopRadius="lg" p={4}>
         <HStack>
