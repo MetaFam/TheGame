@@ -1,34 +1,15 @@
 import { Box, HStack, Text } from '@metafam/ds';
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { FaGlobe } from 'react-icons/fa';
-import spacetime from 'spacetime';
-import { display } from 'spacetime-informal';
+import { getPlayerTimeZoneDisplay } from 'utils/dateHelpers';
 
 type Props = {
   player: PlayerFragmentFragment;
 };
 
 export const PlayerTimeZone: React.FC<Props> = ({ player }) => {
-  let tzLabel = '-';
-  let offsetLabel = null;
-  if (player.tz) {
-    const a = spacetime.now().goto(player.tz)
-    const tzDisplay = display(player.tz)
-    if (tzDisplay && tzDisplay.daylight && tzDisplay.standard) {
-      tzLabel = a.isDST()
-        ? tzDisplay.daylight.abbrev
-        : tzDisplay.standard.abbrev;
-      const {offset} = a.timezone().current;
-      if (offset > 0) {
-        offsetLabel = `(GMT +${offset})`;
-      } else if (offset < 0) {
-        offsetLabel = `(GMT ${offset})`;
-      }
-    } else {
-      tzLabel = player.tz;
-    }
-  }
+  const tzDisplay = useMemo(() => getPlayerTimeZoneDisplay(player), [player]);
   
   return (
     <Box ml={1}>
@@ -37,8 +18,8 @@ export const PlayerTimeZone: React.FC<Props> = ({ player }) => {
       </Text>
       <HStack alignItems="baseline">
         <FaGlobe color="blueLight" />
-        <Text fontSize="xl" mb="1">{tzLabel}</Text>
-        {offsetLabel ? <Text fontSize="xs" mr={3}>{offsetLabel}</Text> : ''}
+        <Text fontSize="xl" mb="1">{tzDisplay?.timeZone || '-'}</Text>
+        {tzDisplay?.offset ? <Text fontSize="xs" mr={3}>{tzDisplay?.offset}</Text> : ''}
       </HStack>
     </Box>
   );
