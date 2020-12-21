@@ -19,7 +19,7 @@
     "fake-tag": "2.0.0",
     "graphql": "^15.0.0",
     "isomorphic-unfetch": "^3.0.0",
-    "next": "latest",
+    "next": "^10.0.3",
     "next-images": "^1.4.1",
     "next-urql": "2.0.0",
     "react": "^16.13.1",
