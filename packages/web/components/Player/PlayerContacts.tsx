@@ -20,6 +20,7 @@ export const PlayerContacts: React.FC<Props> = ({ player }) => {
               as="a"
               href={link}
               target="_blank"
+              rel="noreferrer noopener"
               key={link}
               size="xs"
               colorScheme="twitter"
@@ -36,6 +37,7 @@ export const PlayerContacts: React.FC<Props> = ({ player }) => {
               as="a"
               href={link}
               target="_blank"
+              rel="noreferrer noopener"
               key={link}
               size="xs"
               colorScheme="blackAlpha"
@@ -53,6 +55,7 @@ export const PlayerContacts: React.FC<Props> = ({ player }) => {
           as="a"
           href={`https://etherscan.com/address/${player.ethereum_address}`}
           target="_blank"
+          rel="noreferrer noopener"
           size="xs"
           colorScheme="blackAlpha"
           leftIcon={<FaEthereum />}
