@@ -1,6 +1,7 @@
 import { Box, Button, Flex, Image, Stack, useDisclosure } from '@metafam/ds';
 import { MetaLink } from 'components/Link';
 import { LoginButton } from 'components/LoginButton';
+import { Ticker } from 'components/Ticker';
 import { motion } from 'framer-motion';
 import NextImage from 'next/image';
 import React from 'react';
@@ -190,6 +191,7 @@ export const PageHeader: React.FC = () => {
       </Stack>
 
       <Box justifyContent="center" width={{ base: 'full', md: 'auto' }}>
+        <Ticker />
         <LoginButton />
       </Box>
 

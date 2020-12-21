@@ -3,26 +3,16 @@ import { PlayerFragmentFragment } from 'graphql/autogen/types';
 import { SkillColors } from 'graphql/types';
 import React from 'react';
 
-import { PlayerBox } from './PlayerBoxe';
+import { ProfileSection } from '../../ProfileSection';
 
-type Props = { player: PlayerFragmentFragment; setRemoveBox: () => void };
-export const PlayerSkills: React.FC<Props> = ({ player, setRemoveBox }) => {
+type Props = { player: PlayerFragmentFragment; onRemoveClick: () => void };
+export const PlayerSkills: React.FC<Props> = ({ player, onRemoveClick }) => {
+  if (!player.Player_Skills?.length) {
+    return null;
+  }
   return (
-    <PlayerBox title="Skills" setRemoveBox={setRemoveBox}>
+    <ProfileSection title="Skills" onRemoveClick={onRemoveClick}>
       <Wrap>
-        {!(player.Player_Skills || []).length && (
-          <MetaTag
-            size="md"
-            fontWeight="normal"
-            backgroundColor="rgba(70, 20, 100, 0.8)"
-            pt={2}
-            pb={2}
-            pl={4}
-            pr={4}
-          >
-            Gamer
-          </MetaTag>
-        )}
         {(player.Player_Skills || []).map(({ Skill }) => (
           <MetaTag
             key={Skill.id}
@@ -38,6 +28,6 @@ export const PlayerSkills: React.FC<Props> = ({ player, setRemoveBox }) => {
           </MetaTag>
         ))}
       </Wrap>
-    </PlayerBox>
+    </ProfileSection>
   );
 };

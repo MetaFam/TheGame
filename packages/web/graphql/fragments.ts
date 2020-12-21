@@ -38,6 +38,10 @@ export const PlayerFragment = gql`
       job
       location
       name
+      collectiblesFavorites {
+        tokenId
+        address
+      }
     }
     daohausMemberships {
       id
@@ -47,5 +51,20 @@ export const PlayerFragment = gql`
         version
       }
     }
+  }
+`;
+
+export const GuildFragment = gql`
+  fragment GuildFragment on Guild {
+    id
+    guildname
+    description
+    discord_invite_url
+    join_button_url
+    logo
+    moloch_address
+    name
+    type
+    website_url
   }
 `;

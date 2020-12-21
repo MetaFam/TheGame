@@ -2,7 +2,9 @@ export {
   Avatar,
   Badge,
   Box,
+  FlexProps,
   Button,
+  ButtonProps,
   ButtonGroup,
   CSSReset,
   ChakraProvider,
@@ -33,6 +35,10 @@ export {
   VStack,
   useTheme,
   useToast,
+  Modal,
+  ModalContent,
+  ModalCloseButton,
+  ModalOverlay,
   useDisclosure,
 } from '@chakra-ui/core';
 
@@ -42,6 +48,7 @@ export { EmailIcon } from '@chakra-ui/icons';
 export { MetaHeading } from './MetaHeading';
 export { MetaButton } from './MetaButton';
 export { MetaBox } from './MetaBox';
+export { LoadingState } from './LoadingState';
 export { MetaTag } from './MetaTag';
 export { H1, P } from './typography';
 export { ResponsiveText } from './ResponsiveText';
