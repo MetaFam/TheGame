@@ -190,10 +190,10 @@ export const PageHeader: React.FC = () => {
         ))}
       </Stack>
 
-      <Box justifyContent="center" width={{ base: 'full', md: 'auto' }}>
+      <Flex justifyContent="center" alignItems="center">
         <Ticker />
         <LoginButton />
-      </Box>
+      </Flex>
 
       <motion.div
         animate={isOpen ? 'show' : 'hide'}
