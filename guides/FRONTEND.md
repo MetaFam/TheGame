@@ -1,14 +1,32 @@
-## MetaGame's FrontEnd API Guide
+# MetaGame's FrontEnd API Guide
 
-### Requirements
+## Requirements
 
 In order to develop MetaGame FrontEnd components, you need.
 
 - Node.js
 
-- Docker
+- Yarn
 
-You will need to be able to start the backend with:
+You can either choose to only develop the frontend and use our deployed backend services, or run the services on your own machines. If you're about to only work on UI, it's much quicker to connect to the remote servers.
+
+### Install dependencies
+
+```bash
+yarn
+```
+
+### Connecting to remote servers
+
+To connect to production servers, you'll need to create a file `.env.local` under `packages/web` and write this inside:
+
+```
+NEXT_PUBLIC_GRAPHQL_URL=https://hasura-7s6e.onrender.com/v1/graphql
+```
+
+
+### Connecting to local server
+If you want to connect to locally running backend services, you will need to be able to start the backend with:
 
 ```bash
 yarn docker:start
@@ -16,7 +34,15 @@ yarn docker:start
 
 If you have difficulties running the backend, checkout the [Backend Guide](BACKEND.md).
 
-### Creating GraphQL queries
+## Starting web app in dev mode
+
+Once you are ready to connect to the backend, you can start the web app by using:
+
+```bash
+yarn web:dev
+```
+
+## Creating GraphQL queries
 
 In both the `web` and `metamaps` folder, all GraphQL queries are hosted in a folder called `graphql`.
 
@@ -27,7 +53,7 @@ metamaps/graphql
 
 Related queries and mutations should be in the same file.
 
-#### Creating a GraphQL query
+### Creating a GraphQL query
 
 Queries are to pull and retrieve data from the database. In the following example we will be using the `Map` table as an example.
 
@@ -78,7 +104,7 @@ Map_by_pk(id: $id)
 
 You can actually review all queries and mutations available in Hasura on `http://localhost:9695`.
 
-#### Integrating the GraphQL query
+### Integrating the GraphQL query
 
 In order to integrate the GraphQL query you need to use the `useQuery` function in the `urql` package. You will also need to import the GraphQL query created. The following showcases how to use the query with a React functional component.
 
@@ -103,7 +129,7 @@ export const Component: FC = () => {
 }
 ```
 
-##### Optional, use useEffect
+#### Optional, use useEffect
 
 You can also useEffect to rexecute queries based on changes to variables in GraphQL.
 
@@ -139,7 +165,7 @@ Keep in mind the following parts of the query state:
 
 3. data is the data returned from the query
 
-### Creating GraphQL mutations
+## Creating GraphQL mutations
 
 GraphQL mutations are used to update and insert new data into the database. The following is an example of inserting data into the `Map` table.
 
@@ -163,7 +189,7 @@ export const CreateMap = gql`
 
 For the most part, the key things to be mindful of syntax are the same as seen in the query section.
 
-#### Integrating the GraphQL mutation
+### Integrating the GraphQL mutation
 
 In order to use the mutation, you will need to use the `useMutation` function in the `urql` package. Mutations typically should only be done via user interactions. The following example showcases how a button triggers a mutation.
 
