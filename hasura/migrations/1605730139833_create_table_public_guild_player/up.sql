@@ -1,0 +1,1 @@
+CREATE TABLE "public"."guild_player"("guild_id" uuid NOT NULL, "player_id" uuid NOT NULL, PRIMARY KEY ("guild_id","player_id") , FOREIGN KEY ("guild_id") REFERENCES "public"."Guild"("id") ON UPDATE restrict ON DELETE restrict, FOREIGN KEY ("player_id") REFERENCES "public"."Player"("id") ON UPDATE restrict ON DELETE restrict, UNIQUE ("guild_id", "player_id"));

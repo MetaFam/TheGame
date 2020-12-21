@@ -1,24 +1,32 @@
-import { Button, Flex, HStack, Select } from '@metafam/ds';
+import { Button, Flex, FlexProps, HStack, Select } from '@metafam/ds';
 import React from 'react';
 
-type Props = { boxList: string[]; setNewBox: (name: string) => void };
-export const PlayerAddBox: React.FC<Props> = ({ boxList, setNewBox }) => {
+type Props = FlexProps & {
+  boxList: string[];
+  setNewBox: (name: string) => void;
+};
+
+export const PlayerAddSection: React.FC<Props> = ({
+  boxList,
+  setNewBox,
+  ...props
+}) => {
   const [show, setShow] = React.useState(false);
-  const addBox = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const addSection = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setShow(false);
     setNewBox(e.target.value);
   };
 
   return (
     <Flex
-      h="200px"
       bg="whiteAlpha.200"
       borderBottomRadius="lg"
       border="dashed 1px rgba(255, 255, 255, 0.3)"
       borderTopRadius="lg"
-      p={6}
+      py={12}
       boxShadow="md"
       css={{ backdropFilter: 'blur(8px)' }}
+      {...props}
     >
       {!show && (
         <Button
@@ -44,7 +52,7 @@ export const PlayerAddBox: React.FC<Props> = ({ boxList, setNewBox }) => {
               }}
               placeholder="Select a section"
               borderColor="offwhite"
-              onChange={addBox}
+              onChange={addSection}
             >
               {!(boxList || []).length && (
                 <option value="nothing" disabled>

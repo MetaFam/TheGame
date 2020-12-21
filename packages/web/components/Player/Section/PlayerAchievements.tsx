@@ -2,11 +2,11 @@ import { HStack, Text } from '@metafam/ds';
 import React from 'react';
 import { FaMedal } from 'react-icons/fa';
 
-import { PlayerBox } from './PlayerBoxe';
+import { ProfileSection } from '../../ProfileSection';
 
 // TODO Fake data
-type Props = { setRemoveBox: () => void };
-export const PlayerAchievements: React.FC<Props> = ({ setRemoveBox }) => {
+type Props = { onRemoveClick: () => void };
+export const PlayerAchievements: React.FC<Props> = ({ onRemoveClick }) => {
   const [show, setShow] = React.useState(false);
   const fakeData = [
     'Founding Father of MetaGame',
@@ -15,7 +15,7 @@ export const PlayerAchievements: React.FC<Props> = ({ setRemoveBox }) => {
   ];
 
   return (
-    <PlayerBox title="Achievements" setRemoveBox={setRemoveBox}>
+    <ProfileSection title="Achievements" onRemoveClick={onRemoveClick}>
       {(fakeData || []).slice(0, show ? 999 : 3).map((title) => (
         <HStack alignItems="baseline" mb={3}>
           <FaMedal color="#FBB112" />
@@ -34,6 +34,6 @@ export const PlayerAchievements: React.FC<Props> = ({ setRemoveBox }) => {
           View {show ? 'less' : 'all'}
         </Text>
       )}
-    </PlayerBox>
+    </ProfileSection>
   );
 };

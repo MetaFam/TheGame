@@ -2,21 +2,23 @@ import { Box, HStack, Text } from '@metafam/ds';
 import React from 'react';
 import { FaTimes } from 'react-icons/fa';
 
-export type PlayerBoxProps = {
+export type ProfileSectionProps = {
   title?: string;
   children?: React.ReactNode;
-  setRemoveBox?: () => void;
+  onRemoveClick?: () => void;
+  canEdit?: boolean;
 };
 
 // TODO If MetaBox is only used for Player profile maybe merge both component
-export const PlayerBox: React.FC<PlayerBoxProps> = ({
+export const ProfileSection: React.FC<ProfileSectionProps> = ({
   children,
   title,
-  setRemoveBox,
+  onRemoveClick,
+  canEdit,
 }) => (
-  <Box>
-    {!!title && (
-      <Box bg="rgba(70, 20, 100, 0.8)" borderTopRadius="lg" p={4}>
+  <Box minW="xs">
+    {title ? (
+      <Box bg="purple80" borderTopRadius="lg" p={4}>
         <HStack>
           <Text
             fontFamily="mono"
@@ -28,15 +30,17 @@ export const PlayerBox: React.FC<PlayerBoxProps> = ({
           >
             {title}
           </Text>
-          <FaTimes
-            color="blueLight"
-            opacity="0.4"
-            cursor="pointer"
-            onClick={setRemoveBox}
-          />
+          {canEdit ? (
+            <FaTimes
+              color="blueLight"
+              opacity="0.4"
+              cursor="pointer"
+              onClick={onRemoveClick}
+            />
+          ) : null}
         </HStack>
       </Box>
-    )}
+    ) : null}
     <Box
       bg="whiteAlpha.200"
       borderBottomRadius="lg"

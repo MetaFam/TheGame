@@ -8,6 +8,8 @@ If you're new to the MetaGame codebase, check out the following guides to learn 
 
 - [Backend Guide](guides/BACKEND.md)
 
+- [Frontend Guide](guides/FRONTEND.md)
+
 ## Development
 
 ### Bootstrap
@@ -63,13 +65,6 @@ If you want to locally start the backend server (not in Docker) for debugging pu
 yarn backend:dev
 ```
 
-### Run web app (old)
-
-Once the backend services are started, we can start the frontend application
-
-```shell script
-yarn app:start
-```
 
 ### Run NextJS Web App dev mode (new)
 

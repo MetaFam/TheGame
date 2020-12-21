@@ -591,11 +591,288 @@ columns and relationships of "Guild"
 type Guild {
   """An object relationship"""
   GuildType: GuildType!
+  description: String
+  discord_invite_url: String
+
+  """An array relationship"""
+  guild_accounts(
+    """distinct select on columns"""
+    distinct_on: [guild_account_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [guild_account_order_by!]
+
+    """filter the rows returned"""
+    where: guild_account_bool_exp
+  ): [guild_account!]!
+
+  """An aggregated array relationship"""
+  guild_accounts_aggregate(
+    """distinct select on columns"""
+    distinct_on: [guild_account_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [guild_account_order_by!]
+
+    """filter the rows returned"""
+    where: guild_account_bool_exp
+  ): guild_account_aggregate!
+
+  """An array relationship"""
+  guild_players(
+    """distinct select on columns"""
+    distinct_on: [guild_player_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [guild_player_order_by!]
+
+    """filter the rows returned"""
+    where: guild_player_bool_exp
+  ): [guild_player!]!
+
+  """An aggregated array relationship"""
+  guild_players_aggregate(
+    """distinct select on columns"""
+    distinct_on: [guild_player_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [guild_player_order_by!]
+
+    """filter the rows returned"""
+    where: guild_player_bool_exp
+  ): guild_player_aggregate!
+
+  """Unique friendly identifier for the Guild (used in URL)"""
+  guildname: String!
   id: uuid!
-  identifier: String!
+  join_button_url: String
   logo: String
+  moloch_address: String
   name: String!
+
+  """The area of focus for the guild (e.g. funding, project, etc)"""
   type: GuildType_enum!
+  website_url: String
+}
+
+"""
+columns and relationships of "guild_account"
+"""
+type guild_account {
+  """An object relationship"""
+  AccountType: AccountType!
+
+  """An object relationship"""
+  Guild: Guild!
+  guild_id: uuid!
+  identifier: String!
+  type: AccountType_enum!
+}
+
+"""
+aggregated selection of "guild_account"
+"""
+type guild_account_aggregate {
+  aggregate: guild_account_aggregate_fields
+  nodes: [guild_account!]!
+}
+
+"""
+aggregate fields of "guild_account"
+"""
+type guild_account_aggregate_fields {
+  count(columns: [guild_account_select_column!], distinct: Boolean): Int
+  max: guild_account_max_fields
+  min: guild_account_min_fields
+}
+
+"""
+order by aggregate values of table "guild_account"
+"""
+input guild_account_aggregate_order_by {
+  count: order_by
+  max: guild_account_max_order_by
+  min: guild_account_min_order_by
+}
+
+"""
+input type for inserting array relation for remote table "guild_account"
+"""
+input guild_account_arr_rel_insert_input {
+  data: [guild_account_insert_input!]!
+  on_conflict: guild_account_on_conflict
+}
+
+"""
+Boolean expression to filter rows from the table "guild_account". All fields are combined with a logical 'AND'.
+"""
+input guild_account_bool_exp {
+  AccountType: AccountType_bool_exp
+  Guild: Guild_bool_exp
+  _and: [guild_account_bool_exp]
+  _not: guild_account_bool_exp
+  _or: [guild_account_bool_exp]
+  guild_id: uuid_comparison_exp
+  identifier: String_comparison_exp
+  type: AccountType_enum_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "guild_account"
+"""
+enum guild_account_constraint {
+  """unique or primary key constraint"""
+  guild_account_pkey
+
+  """unique or primary key constraint"""
+  guild_account_type_identifier_key
+}
+
+"""
+input type for inserting data into table "guild_account"
+"""
+input guild_account_insert_input {
+  AccountType: AccountType_obj_rel_insert_input
+  Guild: Guild_obj_rel_insert_input
+  guild_id: uuid
+  identifier: String
+  type: AccountType_enum
+}
+
+"""aggregate max on columns"""
+type guild_account_max_fields {
+  guild_id: uuid
+  identifier: String
+}
+
+"""
+order by max() on columns of table "guild_account"
+"""
+input guild_account_max_order_by {
+  guild_id: order_by
+  identifier: order_by
+}
+
+"""aggregate min on columns"""
+type guild_account_min_fields {
+  guild_id: uuid
+  identifier: String
+}
+
+"""
+order by min() on columns of table "guild_account"
+"""
+input guild_account_min_order_by {
+  guild_id: order_by
+  identifier: order_by
+}
+
+"""
+response of any mutation on the table "guild_account"
+"""
+type guild_account_mutation_response {
+  """number of affected rows by the mutation"""
+  affected_rows: Int!
+
+  """data of the affected rows by the mutation"""
+  returning: [guild_account!]!
+}
+
+"""
+input type for inserting object relation for remote table "guild_account"
+"""
+input guild_account_obj_rel_insert_input {
+  data: guild_account_insert_input!
+  on_conflict: guild_account_on_conflict
+}
+
+"""
+on conflict condition type for table "guild_account"
+"""
+input guild_account_on_conflict {
+  constraint: guild_account_constraint!
+  update_columns: [guild_account_update_column!]!
+  where: guild_account_bool_exp
+}
+
+"""
+ordering options when selecting data from "guild_account"
+"""
+input guild_account_order_by {
+  AccountType: AccountType_order_by
+  Guild: Guild_order_by
+  guild_id: order_by
+  identifier: order_by
+  type: order_by
+}
+
+"""
+primary key columns input for table: "guild_account"
+"""
+input guild_account_pk_columns_input {
+  guild_id: uuid!
+  type: AccountType_enum!
+}
+
+"""
+select columns of table "guild_account"
+"""
+enum guild_account_select_column {
+  """column name"""
+  guild_id
+
+  """column name"""
+  identifier
+
+  """column name"""
+  type
+}
+
+"""
+input type for updating data in table "guild_account"
+"""
+input guild_account_set_input {
+  guild_id: uuid
+  identifier: String
+  type: AccountType_enum
+}
+
+"""
+update columns of table "guild_account"
+"""
+enum guild_account_update_column {
+  """column name"""
+  guild_id
+
+  """column name"""
+  identifier
+
+  """column name"""
+  type
 }
 
 """
@@ -640,17 +917,27 @@ input Guild_bool_exp {
   _and: [Guild_bool_exp]
   _not: Guild_bool_exp
   _or: [Guild_bool_exp]
+  description: String_comparison_exp
+  discord_invite_url: String_comparison_exp
+  guild_accounts: guild_account_bool_exp
+  guild_players: guild_player_bool_exp
+  guildname: String_comparison_exp
   id: uuid_comparison_exp
-  identifier: String_comparison_exp
+  join_button_url: String_comparison_exp
   logo: String_comparison_exp
+  moloch_address: String_comparison_exp
   name: String_comparison_exp
   type: GuildType_enum_comparison_exp
+  website_url: String_comparison_exp
 }
 
 """
 unique or primary key constraints on table "Guild"
 """
 enum Guild_constraint {
+  """unique or primary key constraint"""
+  Guild_guildname_key
+
   """unique or primary key constraint"""
   Guild_pkey
 }
@@ -660,47 +947,74 @@ input type for inserting data into table "Guild"
 """
 input Guild_insert_input {
   GuildType: GuildType_obj_rel_insert_input
+  description: String
+  discord_invite_url: String
+  guild_accounts: guild_account_arr_rel_insert_input
+  guild_players: guild_player_arr_rel_insert_input
+  guildname: String
   id: uuid
-  identifier: String
+  join_button_url: String
   logo: String
+  moloch_address: String
   name: String
   type: GuildType_enum
+  website_url: String
 }
 
 """aggregate max on columns"""
 type Guild_max_fields {
+  description: String
+  discord_invite_url: String
+  guildname: String
   id: uuid
-  identifier: String
+  join_button_url: String
   logo: String
+  moloch_address: String
   name: String
+  website_url: String
 }
 
 """
 order by max() on columns of table "Guild"
 """
 input Guild_max_order_by {
+  description: order_by
+  discord_invite_url: order_by
+  guildname: order_by
   id: order_by
-  identifier: order_by
+  join_button_url: order_by
   logo: order_by
+  moloch_address: order_by
   name: order_by
+  website_url: order_by
 }
 
 """aggregate min on columns"""
 type Guild_min_fields {
+  description: String
+  discord_invite_url: String
+  guildname: String
   id: uuid
-  identifier: String
+  join_button_url: String
   logo: String
+  moloch_address: String
   name: String
+  website_url: String
 }
 
 """
 order by min() on columns of table "Guild"
 """
 input Guild_min_order_by {
+  description: order_by
+  discord_invite_url: order_by
+  guildname: order_by
   id: order_by
-  identifier: order_by
+  join_button_url: order_by
   logo: order_by
+  moloch_address: order_by
   name: order_by
+  website_url: order_by
 }
 
 """
@@ -736,11 +1050,18 @@ ordering options when selecting data from "Guild"
 """
 input Guild_order_by {
   GuildType: GuildType_order_by
+  description: order_by
+  discord_invite_url: order_by
+  guild_accounts_aggregate: guild_account_aggregate_order_by
+  guild_players_aggregate: guild_player_aggregate_order_by
+  guildname: order_by
   id: order_by
-  identifier: order_by
+  join_button_url: order_by
   logo: order_by
+  moloch_address: order_by
   name: order_by
   type: order_by
+  website_url: order_by
 }
 
 """
@@ -751,34 +1072,236 @@ input Guild_pk_columns_input {
 }
 
 """
+columns and relationships of "guild_player"
+"""
+type guild_player {
+  """An object relationship"""
+  Guild: Guild!
+
+  """An object relationship"""
+  Player: Player!
+  guild_id: uuid!
+  player_id: uuid!
+}
+
+"""
+aggregated selection of "guild_player"
+"""
+type guild_player_aggregate {
+  aggregate: guild_player_aggregate_fields
+  nodes: [guild_player!]!
+}
+
+"""
+aggregate fields of "guild_player"
+"""
+type guild_player_aggregate_fields {
+  count(columns: [guild_player_select_column!], distinct: Boolean): Int
+  max: guild_player_max_fields
+  min: guild_player_min_fields
+}
+
+"""
+order by aggregate values of table "guild_player"
+"""
+input guild_player_aggregate_order_by {
+  count: order_by
+  max: guild_player_max_order_by
+  min: guild_player_min_order_by
+}
+
+"""
+input type for inserting array relation for remote table "guild_player"
+"""
+input guild_player_arr_rel_insert_input {
+  data: [guild_player_insert_input!]!
+  on_conflict: guild_player_on_conflict
+}
+
+"""
+Boolean expression to filter rows from the table "guild_player". All fields are combined with a logical 'AND'.
+"""
+input guild_player_bool_exp {
+  Guild: Guild_bool_exp
+  Player: Player_bool_exp
+  _and: [guild_player_bool_exp]
+  _not: guild_player_bool_exp
+  _or: [guild_player_bool_exp]
+  guild_id: uuid_comparison_exp
+  player_id: uuid_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "guild_player"
+"""
+enum guild_player_constraint {
+  """unique or primary key constraint"""
+  guild_player_pkey
+}
+
+"""
+input type for inserting data into table "guild_player"
+"""
+input guild_player_insert_input {
+  Guild: Guild_obj_rel_insert_input
+  Player: Player_obj_rel_insert_input
+  guild_id: uuid
+  player_id: uuid
+}
+
+"""aggregate max on columns"""
+type guild_player_max_fields {
+  guild_id: uuid
+  player_id: uuid
+}
+
+"""
+order by max() on columns of table "guild_player"
+"""
+input guild_player_max_order_by {
+  guild_id: order_by
+  player_id: order_by
+}
+
+"""aggregate min on columns"""
+type guild_player_min_fields {
+  guild_id: uuid
+  player_id: uuid
+}
+
+"""
+order by min() on columns of table "guild_player"
+"""
+input guild_player_min_order_by {
+  guild_id: order_by
+  player_id: order_by
+}
+
+"""
+response of any mutation on the table "guild_player"
+"""
+type guild_player_mutation_response {
+  """number of affected rows by the mutation"""
+  affected_rows: Int!
+
+  """data of the affected rows by the mutation"""
+  returning: [guild_player!]!
+}
+
+"""
+input type for inserting object relation for remote table "guild_player"
+"""
+input guild_player_obj_rel_insert_input {
+  data: guild_player_insert_input!
+  on_conflict: guild_player_on_conflict
+}
+
+"""
+on conflict condition type for table "guild_player"
+"""
+input guild_player_on_conflict {
+  constraint: guild_player_constraint!
+  update_columns: [guild_player_update_column!]!
+  where: guild_player_bool_exp
+}
+
+"""
+ordering options when selecting data from "guild_player"
+"""
+input guild_player_order_by {
+  Guild: Guild_order_by
+  Player: Player_order_by
+  guild_id: order_by
+  player_id: order_by
+}
+
+"""
+primary key columns input for table: "guild_player"
+"""
+input guild_player_pk_columns_input {
+  guild_id: uuid!
+  player_id: uuid!
+}
+
+"""
+select columns of table "guild_player"
+"""
+enum guild_player_select_column {
+  """column name"""
+  guild_id
+
+  """column name"""
+  player_id
+}
+
+"""
+input type for updating data in table "guild_player"
+"""
+input guild_player_set_input {
+  guild_id: uuid
+  player_id: uuid
+}
+
+"""
+update columns of table "guild_player"
+"""
+enum guild_player_update_column {
+  """column name"""
+  guild_id
+
+  """column name"""
+  player_id
+}
+
+"""
 select columns of table "Guild"
 """
 enum Guild_select_column {
   """column name"""
+  description
+
+  """column name"""
+  discord_invite_url
+
+  """column name"""
+  guildname
+
+  """column name"""
   id
 
   """column name"""
-  identifier
+  join_button_url
 
   """column name"""
   logo
+
+  """column name"""
+  moloch_address
 
   """column name"""
   name
 
   """column name"""
   type
+
+  """column name"""
+  website_url
 }
 
 """
 input type for updating data in table "Guild"
 """
 input Guild_set_input {
+  description: String
+  discord_invite_url: String
+  guildname: String
   id: uuid
-  identifier: String
+  join_button_url: String
   logo: String
+  moloch_address: String
   name: String
   type: GuildType_enum
+  website_url: String
 }
 
 """
@@ -786,19 +1309,34 @@ update columns of table "Guild"
 """
 enum Guild_update_column {
   """column name"""
+  description
+
+  """column name"""
+  discord_invite_url
+
+  """column name"""
+  guildname
+
+  """column name"""
   id
 
   """column name"""
-  identifier
+  join_button_url
 
   """column name"""
   logo
+
+  """column name"""
+  moloch_address
 
   """column name"""
   name
 
   """column name"""
   type
+
+  """column name"""
+  website_url
 }
 
 """
@@ -897,9 +1435,11 @@ enum GuildType_constraint {
 }
 
 enum GuildType_enum {
-  ARAGON
-  EVEREST
-  MOLOCH
+  FUNDING
+  PROJECT
+  RESEARCH
+  SERVICE
+  SOCIAL
 }
 
 """
@@ -1357,6 +1897,32 @@ type mutation_root {
   delete_Skill_by_pk(id: uuid!): Skill
 
   """
+  delete data from the table: "guild_account"
+  """
+  delete_guild_account(
+    """filter the rows which have to be deleted"""
+    where: guild_account_bool_exp!
+  ): guild_account_mutation_response
+
+  """
+  delete single row from the table: "guild_account"
+  """
+  delete_guild_account_by_pk(guild_id: uuid!, type: AccountType_enum!): guild_account
+
+  """
+  delete data from the table: "guild_player"
+  """
+  delete_guild_player(
+    """filter the rows which have to be deleted"""
+    where: guild_player_bool_exp!
+  ): guild_player_mutation_response
+
+  """
+  delete single row from the table: "guild_player"
+  """
+  delete_guild_player_by_pk(guild_id: uuid!, player_id: uuid!): guild_player
+
+  """
   delete data from the table: "me"
   """
   delete_me(
@@ -1607,6 +2173,50 @@ type mutation_root {
   ): Skill
 
   """
+  insert data into the table: "guild_account"
+  """
+  insert_guild_account(
+    """the rows to be inserted"""
+    objects: [guild_account_insert_input!]!
+
+    """on conflict condition"""
+    on_conflict: guild_account_on_conflict
+  ): guild_account_mutation_response
+
+  """
+  insert a single row into the table: "guild_account"
+  """
+  insert_guild_account_one(
+    """the row to be inserted"""
+    object: guild_account_insert_input!
+
+    """on conflict condition"""
+    on_conflict: guild_account_on_conflict
+  ): guild_account
+
+  """
+  insert data into the table: "guild_player"
+  """
+  insert_guild_player(
+    """the rows to be inserted"""
+    objects: [guild_player_insert_input!]!
+
+    """on conflict condition"""
+    on_conflict: guild_player_on_conflict
+  ): guild_player_mutation_response
+
+  """
+  insert a single row into the table: "guild_player"
+  """
+  insert_guild_player_one(
+    """the row to be inserted"""
+    object: guild_player_insert_input!
+
+    """on conflict condition"""
+    on_conflict: guild_player_on_conflict
+  ): guild_player
+
+  """
   insert data into the table: "me"
   """
   insert_me(
@@ -1851,6 +2461,46 @@ type mutation_root {
   ): Skill
 
   """
+  update data of the table: "guild_account"
+  """
+  update_guild_account(
+    """sets the columns of the filtered rows to the given values"""
+    _set: guild_account_set_input
+
+    """filter the rows which have to be updated"""
+    where: guild_account_bool_exp!
+  ): guild_account_mutation_response
+
+  """
+  update single row of the table: "guild_account"
+  """
+  update_guild_account_by_pk(
+    """sets the columns of the filtered rows to the given values"""
+    _set: guild_account_set_input
+    pk_columns: guild_account_pk_columns_input!
+  ): guild_account
+
+  """
+  update data of the table: "guild_player"
+  """
+  update_guild_player(
+    """sets the columns of the filtered rows to the given values"""
+    _set: guild_player_set_input
+
+    """filter the rows which have to be updated"""
+    where: guild_player_bool_exp!
+  ): guild_player_mutation_response
+
+  """
+  update single row of the table: "guild_player"
+  """
+  update_guild_player_by_pk(
+    """sets the columns of the filtered rows to the given values"""
+    _set: guild_player_set_input
+    pk_columns: guild_player_pk_columns_input!
+  ): guild_player
+
+  """
   update data of the table: "me"
   """
   update_me(
@@ -1988,6 +2638,42 @@ type Player {
   daohausMemberships: [Member!]!
   enneagram: EnneagramType_enum
   ethereum_address: String
+
+  """An array relationship"""
+  guilds(
+    """distinct select on columns"""
+    distinct_on: [guild_player_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [guild_player_order_by!]
+
+    """filter the rows returned"""
+    where: guild_player_bool_exp
+  ): [guild_player!]!
+
+  """An aggregated array relationship"""
+  guilds_aggregate(
+    """distinct select on columns"""
+    distinct_on: [guild_player_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [guild_player_order_by!]
+
+    """filter the rows returned"""
+    where: guild_player_bool_exp
+  ): guild_player_aggregate!
   id: uuid!
 
   """An object relationship"""
@@ -2085,6 +2771,7 @@ input Player_bool_exp {
   created_at: timestamptz_comparison_exp
   enneagram: EnneagramType_enum_comparison_exp
   ethereum_address: String_comparison_exp
+  guilds: guild_player_bool_exp
   id: uuid_comparison_exp
   playerType: PlayerType_bool_exp
   playerTypeId: Int_comparison_exp
@@ -2136,6 +2823,7 @@ input Player_insert_input {
   created_at: timestamptz
   enneagram: EnneagramType_enum
   ethereum_address: String
+  guilds: guild_player_arr_rel_insert_input
   id: uuid
   playerType: PlayerType_obj_rel_insert_input
   playerTypeId: Int
@@ -2256,6 +2944,7 @@ input Player_order_by {
   created_at: order_by
   enneagram: order_by
   ethereum_address: order_by
+  guilds_aggregate: guild_player_aggregate_order_by
   id: order_by
   playerType: PlayerType_order_by
   playerTypeId: order_by
@@ -3668,6 +4357,92 @@ type query_root {
   getDaoHausMemberships(memberAddress: String): [Member!]!
 
   """
+  fetch data from the table: "guild_account"
+  """
+  guild_account(
+    """distinct select on columns"""
+    distinct_on: [guild_account_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [guild_account_order_by!]
+
+    """filter the rows returned"""
+    where: guild_account_bool_exp
+  ): [guild_account!]!
+
+  """
+  fetch aggregated fields from the table: "guild_account"
+  """
+  guild_account_aggregate(
+    """distinct select on columns"""
+    distinct_on: [guild_account_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [guild_account_order_by!]
+
+    """filter the rows returned"""
+    where: guild_account_bool_exp
+  ): guild_account_aggregate!
+
+  """fetch data from the table: "guild_account" using primary key columns"""
+  guild_account_by_pk(guild_id: uuid!, type: AccountType_enum!): guild_account
+
+  """
+  fetch data from the table: "guild_player"
+  """
+  guild_player(
+    """distinct select on columns"""
+    distinct_on: [guild_player_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [guild_player_order_by!]
+
+    """filter the rows returned"""
+    where: guild_player_bool_exp
+  ): [guild_player!]!
+
+  """
+  fetch aggregated fields from the table: "guild_player"
+  """
+  guild_player_aggregate(
+    """distinct select on columns"""
+    distinct_on: [guild_player_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [guild_player_order_by!]
+
+    """filter the rows returned"""
+    where: guild_player_bool_exp
+  ): guild_player_aggregate!
+
+  """fetch data from the table: "guild_player" using primary key columns"""
+  guild_player_by_pk(guild_id: uuid!, player_id: uuid!): guild_player
+
+  """
   fetch data from the table: "me"
   """
   me(
@@ -4594,6 +5369,92 @@ type subscription_root {
 
   """fetch data from the table: "Skill" using primary key columns"""
   Skill_by_pk(id: uuid!): Skill
+
+  """
+  fetch data from the table: "guild_account"
+  """
+  guild_account(
+    """distinct select on columns"""
+    distinct_on: [guild_account_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [guild_account_order_by!]
+
+    """filter the rows returned"""
+    where: guild_account_bool_exp
+  ): [guild_account!]!
+
+  """
+  fetch aggregated fields from the table: "guild_account"
+  """
+  guild_account_aggregate(
+    """distinct select on columns"""
+    distinct_on: [guild_account_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [guild_account_order_by!]
+
+    """filter the rows returned"""
+    where: guild_account_bool_exp
+  ): guild_account_aggregate!
+
+  """fetch data from the table: "guild_account" using primary key columns"""
+  guild_account_by_pk(guild_id: uuid!, type: AccountType_enum!): guild_account
+
+  """
+  fetch data from the table: "guild_player"
+  """
+  guild_player(
+    """distinct select on columns"""
+    distinct_on: [guild_player_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [guild_player_order_by!]
+
+    """filter the rows returned"""
+    where: guild_player_bool_exp
+  ): [guild_player!]!
+
+  """
+  fetch aggregated fields from the table: "guild_player"
+  """
+  guild_player_aggregate(
+    """distinct select on columns"""
+    distinct_on: [guild_player_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [guild_player_order_by!]
+
+    """filter the rows returned"""
+    where: guild_player_bool_exp
+  ): guild_player_aggregate!
+
+  """fetch data from the table: "guild_player" using primary key columns"""
+  guild_player_by_pk(guild_id: uuid!, player_id: uuid!): guild_player
 
   """
   fetch data from the table: "me"
