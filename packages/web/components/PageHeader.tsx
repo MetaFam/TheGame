@@ -12,7 +12,7 @@ import {
 } from '../utils/drawerItems';
 
 const MetaBoxButton = '/assets/drawer/box.button.bg.png';
-const MetaBox = '/assets/drawer/desktop.box.png';
+const MetaBox = '/assets/drawer/desktop-box.png';
 const MetaDrawer = '/assets/drawer/desktop.gradient.png';
 const MetaGameLogo = '/assets/logo.png';
 const MetaGameImage = '/assets/metagame.png';

@@ -161,7 +161,7 @@ export const MobileFooter: React.FC = () => {
           top="0"
           width="100vw"
           height="calc(100vh - 5rem)"
-          background="linear-gradient(180deg, rgba(76, 63, 143, 0.80) 62.76%, rgba(184, 169, 255, 0.80) 100%);"
+          background="linear-gradient(180deg, rgba(76, 63, 143, 0.95) 62.76%, rgba(184, 169, 255, 0.95) 100%);"
           display="grid"
           gridTemplateColumns="auto auto auto"
           justify="center"
