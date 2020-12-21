@@ -197,8 +197,8 @@ export const PageHeader: React.FC = () => {
         animate={isOpen ? 'show' : 'hide'}
         transition={{ duration: 0.25 }}
         variants={{
-          show: { display: 'block', opacity: 1, pointerEvents: 'inherit' },
-          hide: { display: 'none', opacity: 0, pointerEvents: 'none' },
+          show: { display: 'block', opacity: 1 },
+          hide: { display: 'none', opacity: 0 },
         }}
         onClick={onClose}
         style={{
@@ -206,6 +206,7 @@ export const PageHeader: React.FC = () => {
           zIndex: 10,
           top: '5rem',
           left: 'calc(50% - 16.5rem)',
+          display: 'none',
         }}
       >
         <Stack width="33rem" direction="row" flexWrap="wrap" padding="1rem 0">
