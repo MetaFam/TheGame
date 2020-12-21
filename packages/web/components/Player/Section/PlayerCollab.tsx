@@ -1,7 +1,7 @@
 import { Box, Divider, HStack, Text } from '@metafam/ds';
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
 import React from 'react';
-import { FaClock, FaGlobe } from 'react-icons/fa';
+import { FaClock } from 'react-icons/fa';
 
 import { PlayerTimeZone } from '../PlayerTimeZone';
 
@@ -15,17 +15,6 @@ export const PlayerCollab: React.FC<Props> = ({ player }) => {
       }
     >
       <PlayerTimeZone player={player} />
-      {/* <Box>
-        <Text fontSize="xs" color="blueLight" casing="uppercase" mb={3}>
-          Location
-        </Text>
-        <HStack alignItems="baseline">
-          <FaGlobe color="blueLight" />
-          <Text fontSize="lg" fontFamily="mono" mb="1">
-            {player.box_profile?.location || '-'}
-          </Text>
-        </HStack>
-      </Box> */}
       <Box>
         <Text fontSize="xs" color="blueLight" casing="uppercase" mb={3}>
           Availability
