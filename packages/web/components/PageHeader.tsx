@@ -94,7 +94,6 @@ export const PageHeader: React.FC = () => {
       justify="space-between"
       wrap="wrap"
       color="offwhite"
-      py="4"
       px="8"
       position="relative"
       display={{ base: 'none', md: 'flex' }}
