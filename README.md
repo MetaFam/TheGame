@@ -8,6 +8,8 @@ If you're new to the MetaGame codebase, check out the following guides to learn 
 
 - [Backend Guide](guides/BACKEND.md)
 
+- [Frontend Guide](guides/FRONTEND.md)
+
 ## Development
 
 ### Bootstrap
