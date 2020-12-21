@@ -63,6 +63,11 @@ const SubMenuItem: React.FC<React.ComponentProps<typeof MetaLink>> = ({
       textDecoration="none"
       _hover={{ textDecoration: 'none' }}
     >
+      <style jsx>{`
+        button.hover-effect:hover {
+          filter: drop-shadow(0 0 15px #a5b9f680);
+        }
+      `}</style>
       <Button
         display="flex"
         alignItems="center"
@@ -74,7 +79,7 @@ const SubMenuItem: React.FC<React.ComponentProps<typeof MetaLink>> = ({
         p="1"
         fontFamily="mono"
         color="whiteAlpha.700"
-        className="filter-effect"
+        className="hover"
         margin="1rem"
         padding="1rem"
         backgroundImage={`url(${MetaBoxButton})`}
@@ -192,21 +197,18 @@ export const PageHeader: React.FC = () => {
         animate={isOpen ? 'show' : 'hide'}
         transition={{ duration: 0.25 }}
         variants={{
-          show: { opacity: 1, pointerEvents: 'inherit' },
-          hide: { opacity: 0, pointerEvents: 'none' },
+          show: { display: 'block', opacity: 1, pointerEvents: 'inherit' },
+          hide: { display: 'none', opacity: 0, pointerEvents: 'none' },
         }}
         onClick={onClose}
-        style={{ zIndex: 10 }}
+        style={{
+          position: 'absolute',
+          zIndex: 10,
+          top: '5rem',
+          left: 'calc(50% - 16.5rem)',
+        }}
       >
-        <Stack
-          width="33rem"
-          direction="row"
-          flexWrap="wrap"
-          position="absolute"
-          top="5rem"
-          left="calc(50% - 16.5rem)"
-          padding="1rem 0"
-        >
+        <Stack width="33rem" direction="row" flexWrap="wrap" padding="1rem 0">
           <Box
             position="fixed"
             top="0"
