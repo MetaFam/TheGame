@@ -1,7 +1,7 @@
 const MetaCalendarImageUrl = '/assets/drawer/calendar.png';
 const MetaDiscordImageUrl = '/assets/drawer/discord.png';
 const MetaGithubImageUrl = '/assets/drawer/github.png';
-// const MetaGuildsImageUrl = '/assets/drawer/guilds.png';
+const MetaGuildsImageUrl = '/assets/emojis/crossed-swords.png';
 const MetaSeedPoolImageUrl = '/assets/drawer/seed_pool.png';
 const MetaLeaderboardImageUrl = '/assets/drawer/leaderboard.png';
 const MetaLibraryImageUrl = '/assets/drawer/library.png';
@@ -25,19 +25,18 @@ export interface DrawerItemType {
 
 export const DrawerItemsLeft: DrawerItemType[] = [
   {
-    href: 'https://discord.gg/WYUkVpe',
-    isExternal: true,
-    src: MetaQuestsImageUrl,
-    alt: 'MetaQuests',
-    text: 'Quests',
+    href: '/',
+    isExternal: false,
+    src: MetaPlayersImageUrl,
+    alt: 'MetaPlayers',
+    text: 'Players',
   },
   {
-    href:
-      'https://miro.com/app/live-embed/o9J_knhEt7w=/?moveToViewport=-8516,-5516,21788,13742',
-    isExternal: true,
-    src: MetaRaidsImageUrl,
-    alt: 'MetaRaids',
-    text: 'Raids',
+    href: '/guilds',
+    isExternal: false,
+    src: MetaGuildsImageUrl,
+    alt: 'MetaGuilds',
+    text: 'Guilds',
   },
 ];
 
@@ -50,11 +49,12 @@ export const DrawerItemsRight: DrawerItemType[] = [
     text: 'Forum',
   },
   {
-    href: '/',
-    isExternal: false,
-    src: MetaPlayersImageUrl,
-    alt: 'MetaPlayers',
-    text: 'Players',
+    href:
+      'https://miro.com/app/live-embed/o9J_knhEt7w=/?moveToViewport=-8516,-5516,21788,13742',
+    isExternal: true,
+    src: MetaRaidsImageUrl,
+    alt: 'MetaRaids',
+    text: 'Raids',
   },
 ];
 
@@ -77,14 +77,6 @@ export const DrawerSubItems: DrawerItemType[] = [
     src: MetaLibraryImageUrl,
     alt: 'MetaLibrary',
   },
-  /*
-  {
-    href: '/',
-    isExternal: false,
-    src: MetaGuildsImageUrl,
-    alt: 'MetaGuilds',
-  },
-  */
   {
     href: 'https://twitter.com/Metafam',
     isExternal: true,
@@ -129,5 +121,12 @@ export const DrawerSubItems: DrawerItemType[] = [
     isExternal: true,
     src: MetaLeaderboardImageUrl,
     alt: 'MetaLeaderboard',
+  },
+  {
+    href: 'https://discord.gg/WYUkVpe',
+    isExternal: true,
+    src: MetaQuestsImageUrl,
+    alt: 'MetaQuests',
+    text: 'Quests',
   },
 ];

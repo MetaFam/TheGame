@@ -71,8 +71,9 @@ const SubMenuItem: React.FC<React.ComponentProps<typeof MetaLink>> = ({
       `}</style>
       <Button
         display="flex"
-        alignItems="center"
+        flexDirection="column"
         justifyContent="center"
+        alignItems="center"
         width="8.25rem"
         height="8.25rem"
         textDecoration="none"
@@ -231,6 +232,7 @@ export const PageHeader: React.FC = () => {
                 isExternal={item.isExternal}
               >
                 <Image src={item.src} alt={item.alt} />
+                {item.text}
               </SubMenuItem>
             );
           })}
