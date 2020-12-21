@@ -35,33 +35,6 @@ export const GuildLinks: React.FC<Props> = ({ guild }) => {
           Discord
         </Button>
       ) : null}
-      {/*
-      {guild.Accounts.map((acc) => {
-        if (acc.type === 'TWITTER') {
-          const link = `https://twitter.com/${acc.identifier}`;
-          return (
-
-          );
-        }
-        if (acc.type === 'GITHUB') {
-          const link = `https://github.com/${acc.identifier}`;
-          return (
-            <Button
-              as="a"
-              href={link}
-              target="_blank"
-              key={link}
-              size="xs"
-              colorScheme="blackAlpha"
-              backgroundColor="black"
-              leftIcon={<FaGithub />}
-            >
-              {acc.identifier}
-            </Button>
-          );
-        }
-        return null;
-      })} */}
     </Wrap>
   );
 };

@@ -1,7 +1,7 @@
 import { Button, ButtonProps } from '@chakra-ui/core';
 import React from 'react';
 
-type LinkProps = { href: string; target: '_blank' };
+type LinkProps = { href?: string; target?: '_blank' };
 
 export const MetaButton: React.FC<ButtonProps & LinkProps> = ({
   children,
