@@ -21,7 +21,7 @@ export const getStaticProps = async () => {
       skillsList,
       personalityTypes,
       playerTypes,
-      hidePageHeader: true,
+      hideAppDrawer: true,
     },
   };
 };

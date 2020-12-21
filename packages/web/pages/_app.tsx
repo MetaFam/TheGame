@@ -17,8 +17,8 @@ const app: React.FC<AppProps> = ({ pageProps, Component }) => {
         <title>MetaGame</title>
       </Head>
       <Web3ContextProvider>
-        {!pageProps.hidePageHeader && <PageHeader />}
-        {!pageProps.hidePageHeader && <MobileFooter />}
+        {!pageProps.hideAppDrawer && <PageHeader />}
+        {!pageProps.hideAppDrawer && <MobileFooter />}
         <Component {...pageProps} />
       </Web3ContextProvider>
     </ChakraProvider>

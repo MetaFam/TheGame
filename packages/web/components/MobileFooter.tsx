@@ -1,6 +1,7 @@
-import { Button, Flex, Image, Stack } from '@metafam/ds';
+import { Button, Flex, Image, Stack, useDisclosure } from '@metafam/ds';
 import MetaGameLogo from 'assets/logo.png';
 import { MetaLink } from 'components/Link';
+import { motion } from 'framer-motion';
 import NextImage from 'next/dist/client/image';
 import MetaBoxButton from 'public/assets/drawer/box.button.bg.png';
 import React from 'react';
@@ -79,8 +80,7 @@ export const SubImage: React.FC<SubImageProps> = ({ src, alt }) => {
 };
 
 export const MobileFooter: React.FC = () => {
-  const [show, setShow] = React.useState(true);
-  const handleToggle = () => setShow(!show);
+  const { isOpen, onToggle, onClose } = useDisclosure();
 
   return (
     <Flex
@@ -99,66 +99,84 @@ export const MobileFooter: React.FC = () => {
       background="linear-gradient(180deg, #40347C 58.55%, #A751BD 100%)"
     >
       {DrawerItemsLeft.map((item) => (
-        <MenuItem href={item.href} isExternal={item.isExternal}>
+        <MenuItem href={item.href} isExternal={item.isExternal} key={item.href}>
           <NextImage src={item.src} alt={item.alt} width={35} height={35} />
           {item.text}
         </MenuItem>
       ))}
 
-      <Button
-        display="flex"
-        zIndex="11"
-        textDecoration="none"
-        variant="link"
-        flexDirection="column"
-        justifyContent="center"
-        alignItems="center"
-        width="20vw"
-        height="5rem"
-        top={show ? '0rem' : '-3rem'}
-        style={{ filter: show ? 'none' : 'drop-shadow(0 0 15px #a5b9f680)' }}
-        onClick={handleToggle}
+      <motion.div
+        animate={isOpen ? 'show' : 'hide'}
+        transition={{ duration: 0.25 }}
+        variants={{
+          show: {
+            position: 'relative',
+            top: '-3rem',
+            filter: 'drop-shadow(0 0 15px #a5b9f680)',
+          },
+          hide: { position: 'relative', top: 0, filter: 'none' },
+        }}
       >
-        <Image // TODO use NextImage component once images are without text
-          src={MetaGameLogo}
-          alt="MetaGameLogo"
-          height="6rem"
-          position="relative"
-          top="0.5rem"
-        />
-      </Button>
+        <Button
+          display="flex"
+          zIndex="11"
+          textDecoration="none"
+          variant="link"
+          flexDirection="column"
+          justifyContent="center"
+          alignItems="center"
+          width="20vw"
+          height="5rem"
+          onClick={onToggle}
+        >
+          <Image // TODO use NextImage component once images are without text
+            src={MetaGameLogo}
+            alt="MetaGameLogo"
+            height="6rem"
+            position="relative"
+            top="0.5rem"
+          />
+        </Button>
+      </motion.div>
 
       {DrawerItemsRight.map((item) => (
-        <MenuItem href={item.href} isExternal={item.isExternal}>
+        <MenuItem href={item.href} isExternal={item.isExternal} key={item.href}>
           <NextImage src={item.src} alt={item.alt} width={35} height={35} />
           {item.text}
         </MenuItem>
       ))}
 
-      <Stack
-        position="fixed"
-        left="0"
-        top="0"
-        width="100vw"
-        height="calc(100vh - 5rem)"
-        background="linear-gradient(180deg, rgba(76, 63, 143, 0.5) 62.76%, rgba(184, 169, 255, 0.5) 100%);"
-        display="grid"
-        gridTemplateColumns="auto auto auto"
-        justify="center"
-        align="center"
-        padding="1rem 1rem 6rem 1rem"
-        transition="opacity 0.8s cubic-bezier(0.65, 0, 0.35, 1)"
-        opacity={show ? 0 : 1}
-        pointerEvents={show ? 'none' : 'inherit'}
+      <motion.div
+        animate={isOpen ? 'show' : 'hide'}
+        transition={{ duration: 0.25 }}
+        variants={{
+          show: { opacity: 1, pointerEvents: 'inherit' },
+          hide: { opacity: 0, pointerEvents: 'none' },
+        }}
+        onClick={onClose}
       >
-        {DrawerSubItems.map((item) => {
-          return (
-            <SubMenuItem href={item.href} key={item.alt}>
-              <SubImage src={item.src} alt={item.alt} />
-            </SubMenuItem>
-          );
-        })}
-      </Stack>
+        <Stack
+          position="fixed"
+          left="0"
+          top="0"
+          width="100vw"
+          height="calc(100vh - 5rem)"
+          background="linear-gradient(180deg, rgba(76, 63, 143, 0.80) 62.76%, rgba(184, 169, 255, 0.80) 100%);"
+          display="grid"
+          gridTemplateColumns="auto auto auto"
+          justify="center"
+          align="center"
+          padding="1rem 1rem 6rem 1rem"
+        >
+          {DrawerSubItems.map((item) => {
+            return (
+              <SubMenuItem href={item.href} key={item.alt}>
+                <SubImage src={item.src} alt={item.alt} />
+              </SubMenuItem>
+            );
+          })}
+        </Stack>
+      </motion.div>
     </Flex>
   );
 };

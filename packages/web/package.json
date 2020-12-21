@@ -17,6 +17,7 @@
     "@walletconnect/web3-provider": "^1.2.1",
     "ethers": "^5.0.8",
     "fake-tag": "2.0.0",
+    "framer-motion": "^3.1.1",
     "graphql": "^15.0.0",
     "isomorphic-unfetch": "^3.0.0",
     "next": "^10.0.3",

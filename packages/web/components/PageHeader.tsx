@@ -1,6 +1,7 @@
 import { Box, Button, Flex, Image, Stack, useDisclosure } from '@metafam/ds';
 import { MetaLink } from 'components/Link';
 import { LoginButton } from 'components/LoginButton';
+import { motion } from 'framer-motion';
 import NextImage from 'next/image';
 import React from 'react';
 
@@ -140,28 +141,36 @@ export const PageHeader: React.FC = () => {
           </MenuItem>
         ))}
 
-        <Button
-          display="flex"
-          zIndex="11"
-          textDecoration="none"
-          variant="link"
-          flexDirection="column"
-          justifyContent="center"
-          alignItems="center"
-          width="calc(32rem / 5)"
-          className="filter-effect"
-          position="relative"
-          top={isOpen ? '46rem' : '1rem'}
-          left="-0.25rem"
-          onClick={onToggle}
+        <motion.div
+          animate={isOpen ? 'show' : 'hide'}
+          transition={{ duration: 0.25 }}
+          variants={{
+            show: { position: 'relative', top: '46rem' },
+            hide: { position: 'relative', top: '1rem' },
+          }}
         >
-          <NextImage
-            src={MetaGameLogo}
-            alt="MetaGameLogo"
-            width={80}
-            height={96}
-          />
-        </Button>
+          <Button
+            display="flex"
+            zIndex="11"
+            textDecoration="none"
+            variant="link"
+            flexDirection="column"
+            justifyContent="center"
+            alignItems="center"
+            width="calc(32rem / 5)"
+            className="filter-effect"
+            position="relative"
+            left="-0.25rem"
+            onClick={onToggle}
+          >
+            <NextImage
+              src={MetaGameLogo}
+              alt="MetaGameLogo"
+              width={80}
+              height={96}
+            />
+          </Button>
+        </motion.div>
 
         {DrawerItemsRight.map((item) => (
           <MenuItem
@@ -179,42 +188,49 @@ export const PageHeader: React.FC = () => {
         <LoginButton />
       </Box>
 
-      <Stack
-        width="33rem"
-        direction="row"
-        flexWrap="wrap"
-        position="absolute"
-        zIndex="10"
-        top="5rem"
-        left="calc(50% - 16.5rem)"
-        padding="1rem 0"
-        transition="opacity 0.8s cubic-bezier(0.65, 0, 0.35, 1)"
-        opacity={isOpen ? 1 : 0}
-        pointerEvents={isOpen ? 'inherit' : 'none'}
+      <motion.div
+        animate={isOpen ? 'show' : 'hide'}
+        transition={{ duration: 0.25 }}
+        variants={{
+          show: { opacity: 1, pointerEvents: 'inherit' },
+          hide: { opacity: 0, pointerEvents: 'none' },
+        }}
+        onClick={onClose}
+        style={{ zIndex: 10 }}
       >
-        <Box
-          position="fixed"
-          top="0"
-          bottom="0"
-          left="0"
-          right="0"
-          onClick={() => onClose()}
-        />
-        <Box position="absolute" left="calc(50% - 16.5rem)" top="0">
-          <NextImage src={MetaBox} alt="MetaBox" width={528} height={695} />
-        </Box>
-        {DrawerSubItems.map((item) => {
-          return (
-            <SubMenuItem
-              href={item.href}
-              key={item.alt}
-              isExternal={item.isExternal}
-            >
-              <Image src={item.src} alt={item.alt} />
-            </SubMenuItem>
-          );
-        })}
-      </Stack>
+        <Stack
+          width="33rem"
+          direction="row"
+          flexWrap="wrap"
+          position="absolute"
+          top="5rem"
+          left="calc(50% - 16.5rem)"
+          padding="1rem 0"
+        >
+          <Box
+            position="fixed"
+            top="0"
+            bottom="0"
+            left="0"
+            right="0"
+            onClick={onClose}
+          />
+          <Box position="absolute" left="calc(50% - 16.5rem)" top="0">
+            <NextImage src={MetaBox} alt="MetaBox" width={528} height={695} />
+          </Box>
+          {DrawerSubItems.map((item) => {
+            return (
+              <SubMenuItem
+                href={item.href}
+                key={item.alt}
+                isExternal={item.isExternal}
+              >
+                <Image src={item.src} alt={item.alt} />
+              </SubMenuItem>
+            );
+          })}
+        </Stack>
+      </motion.div>
     </Flex>
   );
 };
