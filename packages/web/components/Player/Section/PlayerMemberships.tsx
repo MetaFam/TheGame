@@ -76,7 +76,9 @@ export const PlayerMemberships: React.FC<Props> = ({
                   <Text fontSize="xs" casing="capitalize" mr={3}>
                     player
                   </Text>
-                  <Text fontSize="xs">XP: 0</Text>
+                  <Text fontSize="xs">
+                    Shares: {member.shares}/{member.moloch.totalShares}
+                  </Text>
                 </HStack>
               </Box>
             </HStack>
