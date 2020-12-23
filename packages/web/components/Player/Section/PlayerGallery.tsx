@@ -110,26 +110,42 @@ export const PlayerGallery: React.FC<Props> = ({ player, onRemoveClick }) => {
                 />
               </HStack>
             </Box>
-            <Box
-              overflowY="scroll"
-              overflowX="hidden"
-              maxH="80vh"
-              borderBottomRadius="lg"
-              w="100%"
+            <Flex
+              p={2}
+              bg="whiteAlpha.200"
+              css={{
+                backdropFilter: 'blur(8px)',
+              }}
             >
-              <SimpleGrid
-                columns={{ base: 1, md: 2, lg: 3 }}
-                gap={6}
-                padding={6}
-                boxShadow="md"
-                bg="whiteAlpha.200"
-                css={{ backdropFilter: 'blur(8px)' }}
+              <Box
+                overflowY="scroll"
+                overflowX="hidden"
+                maxH="80vh"
+                borderBottomRadius="lg"
+                w="100%"
+                css={{
+                  '::-webkit-scrollbar': {
+                    width: '10px',
+                    background: 'none',
+                  },
+                  '::-webkit-scrollbar-thumb': {
+                    background: 'rgba(70,20,100,0.8)',
+                    borderRadius: '999px',
+                  },
+                }}
               >
-                {data?.map((nft) => (
-                  <GalleryItem nft={nft} key={nft.tokenId} noMargin />
-                ))}
-              </SimpleGrid>
-            </Box>
+                <SimpleGrid
+                  columns={{ base: 1, md: 2, lg: 3 }}
+                  gap={6}
+                  padding={6}
+                  boxShadow="md"
+                >
+                  {data?.map((nft) => (
+                    <GalleryItem nft={nft} key={nft.tokenId} noMargin />
+                  ))}
+                </SimpleGrid>
+              </Box>
+            </Flex>
           </ModalContent>
         </ModalOverlay>
       </Modal>
