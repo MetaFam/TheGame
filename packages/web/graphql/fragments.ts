@@ -46,10 +46,12 @@ export const PlayerFragment = gql`
     }
     daohausMemberships {
       id
+      shares
       moloch {
         id
         title
         version
+        totalShares
       }
     }
   }
