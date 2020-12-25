@@ -25115,6 +25115,15 @@ react-textarea-autosize@^8.1.1:
     use-composed-ref "^1.0.0"
     use-latest "^1.0.0"
 
+react-timezone-select@^0.9.7:
+  version "0.9.8"
+  resolved "https://registry.yarnpkg.com/react-timezone-select/-/react-timezone-select-0.9.8.tgz#a5d9ead1fa0b40dab1b3a77d9cdcc20354fe2ec4"
+  integrity sha512-CzIOs9IwAb5hmjs5jnB1uShQvw9zJGUVeH5dIpRVy1dgVnwkasvXc2fGwnggI6nYXAmN7uOCt5kFIcQOpZmUNw==
+  dependencies:
+    react-select "^3.1.0"
+    spacetime "^6.6.2"
+    spacetime-informal "^0.3.0"
+
 react-transition-group@4.4.1, react-transition-group@^4.3.0, react-transition-group@^4.4.0, react-transition-group@^4.4.1:
   version "4.4.1"
   resolved "https://registry.yarnpkg.com/react-transition-group/-/react-transition-group-4.4.1.tgz#63868f9325a38ea5ee9535d828327f85773345c9"
@@ -27103,6 +27112,21 @@ space-separated-tokens@^1.0.0, space-separated-tokens@^1.1.2:
   version "1.1.5"
   resolved "https://registry.yarnpkg.com/space-separated-tokens/-/space-separated-tokens-1.1.5.tgz#85f32c3d10d9682007e917414ddc5c26d1aa6899"
   integrity sha512-q/JSVd1Lptzhf5bkYm4ob4iWPjx0KiRe3sRFBNrVqbJkFaBm5vbbowy1mymoPNLRa52+oadOhJ+K49wsSeSjTA==
+
+spacetime-informal@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/spacetime-informal/-/spacetime-informal-0.3.0.tgz#6d0feffe291697f686b737b678b59ee2dcef3297"
+  integrity sha512-HtFTwtkzDl7gswCfeWPQAxvQ+Fmrdt7WqoDT0Lq2FX7RVZKZ/+zmgBOAVAuH8oVcf4uXza9NvdX9QppGRiG8oQ==
+
+spacetime-informal@^0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/spacetime-informal/-/spacetime-informal-0.5.0.tgz#0301d45621d7207d6573d97ba0e6700dab37c667"
+  integrity sha512-cdSsniJJfJJTBdeVvXtooxyXzrRfoBVjAl3usQl9DgGExB3XN3deA3MwjInnD/26C/lANf3dU54bT2YweAGrOw==
+
+spacetime@^6.12.1, spacetime@^6.6.2:
+  version "6.12.1"
+  resolved "https://registry.yarnpkg.com/spacetime/-/spacetime-6.12.1.tgz#a0a7b583fe2646b4288bd7456bcf027337a33ba6"
+  integrity sha512-mUA1xnVDX0RxF+HaAA0pOui3ePjTCkVx81DsMpSVwidQJjJgMxD39N5cKjCkOqDKKHjPmq73cF6X14b6+Oy9aA==
 
 sparse-array@^1.3.1:
   version "1.3.2"

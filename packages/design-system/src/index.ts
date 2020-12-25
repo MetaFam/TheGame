@@ -53,3 +53,4 @@ export { MetaTag } from './MetaTag';
 export { H1, P } from './typography';
 export { ResponsiveText } from './ResponsiveText';
 export { SelectSearch, selectStyles } from './SelectSearch';
+export { SelectTimeZone } from './SelectTimeZone';

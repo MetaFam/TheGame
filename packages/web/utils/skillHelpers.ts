@@ -33,3 +33,8 @@ export const parseSkills = (
   });
   return Object.values(skillsMap);
 };
+
+export type TimeZoneOption = {
+  value: string;
+  label: string;
+};

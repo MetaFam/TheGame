@@ -27,7 +27,8 @@
     "@chakra-ui/core": "next",
     "@chakra-ui/icons": "next",
     "@chakra-ui/theme": "next",
-    "react-select": "^3.1.0"
+    "react-select": "^3.1.0",
+    "react-timezone-select": "^0.9.7"
   },
   "devDependencies": {
     "@babel/core": "^7.10.5",
