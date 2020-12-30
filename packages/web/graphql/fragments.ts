@@ -1,7 +1,7 @@
 import gql from 'fake-tag';
 
 export const PlayerFragment = gql`
-  fragment PlayerFragment on Player {
+  fragment PlayerFragment on player {
     id
     username
     totalXp
@@ -58,7 +58,7 @@ export const PlayerFragment = gql`
 `;
 
 export const GuildFragment = gql`
-  fragment GuildFragment on Guild {
+  fragment GuildFragment on guild {
     id
     guildname
     description

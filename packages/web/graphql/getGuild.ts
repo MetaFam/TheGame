@@ -6,7 +6,7 @@ import { GuildFragment } from './fragments';
 
 const guildQuery = gql`
   query GetGuild($guildname: String!) {
-    Guild(where: { guildname: { _eq: $guildname } }) {
+    guild(where: { guildname: { _eq: $guildname } }) {
       ...GuildFragment
     }
   }
@@ -19,5 +19,5 @@ export const getGuild = async (guildname: string | undefined) => {
     .query<GetGuildQuery, GetGuildQueryVariables>(guildQuery, { guildname })
     .toPromise();
 
-  return data?.Guild[0];
+  return data?.guild[0];
 };

@@ -5,11 +5,11 @@ import fetch from 'node-fetch';
 import api from 'sourcecred';
 
 import {
-  Account_Constraint,
   AccountType_Enum,
+  Player_Account_Constraint,
   Player_Constraint,
-  Player_Rank_Enum,
   Player_Update_Column,
+  PlayerRank_Enum,
 } from '../../../lib/autogen/hasura-sdk';
 import { client } from '../../../lib/hasuraClient';
 import { AddressBookEntry, SCAccountsData, SCAlias } from './types';
@@ -49,11 +49,11 @@ const parseAlias = (alias: SCAlias) => {
 };
 
 const RANKS = [
-  Player_Rank_Enum.Diamond,
-  Player_Rank_Enum.Platinum,
-  Player_Rank_Enum.Gold,
-  Player_Rank_Enum.Silver,
-  Player_Rank_Enum.Bronze,
+  PlayerRank_Enum.Diamond,
+  PlayerRank_Enum.Platinum,
+  PlayerRank_Enum.Gold,
+  PlayerRank_Enum.Silver,
+  PlayerRank_Enum.Bronze,
 ];
 
 const NUM_PLAYERS_PER_RANK = 10;
@@ -71,7 +71,7 @@ export const migrateSourceCredAccounts = async (
   ).json();
 
   const accountOnConflict = {
-    constraint: Account_Constraint.AccountIdentifierTypeKey,
+    constraint: Player_Account_Constraint.AccountIdentifierTypeKey,
     update_columns: [],
   };
 
@@ -119,7 +119,7 @@ export const migrateSourceCredAccounts = async (
 
         try {
           const updateResult = await client.UpdatePlayer(vars);
-          const affected = updateResult.update_Player?.affected_rows;
+          const affected = updateResult.update_player?.affected_rows;
           if (affected === 0) {
             return player;
           }
@@ -127,7 +127,7 @@ export const migrateSourceCredAccounts = async (
             throw new Error('Multiple players updated incorrectly');
           }
 
-          const playerId = updateResult.update_Player?.returning[0]?.id;
+          const playerId = updateResult.update_player?.returning[0]?.id;
           if (playerId) {
             try {
               await client.UpsertAccount({

@@ -6,7 +6,7 @@ import { GuildFragment } from './fragments';
 
 const guildsQuery = gql`
   query GetGuilds($limit: Int) {
-    Guild(limit: $limit) {
+    guild(limit: $limit) {
       ...GuildFragment
     }
   }
@@ -26,5 +26,5 @@ export const getGuilds = async (limit = 50) => {
     return [];
   }
 
-  return data.Guild;
+  return data.guild;
 };
