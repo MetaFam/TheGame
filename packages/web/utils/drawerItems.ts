@@ -60,40 +60,53 @@ export const DrawerItemsRight: DrawerItemType[] = [
 
 export const DrawerSubItems: DrawerItemType[] = [
   {
+    href: 'https://discord.gg/WYUkVpe',
+    isExternal: true,
+    src: MetaQuestsImageUrl,
+    alt: 'MetaQuests',
+    text: 'Quests',
+  },
+  {
     href: 'https://metagame.substack.com/',
     isExternal: true,
     src: MetaNewsletterImageUrl,
     alt: 'MetaNewsletter',
+    text: 'Newsletter',
   },
   {
     href: 'https://anchor.fm/MetaGame/',
     isExternal: true,
     src: MetaViewImageUrl,
     alt: 'MetaView',
+    text: 'MetaView',
   },
   {
     href: 'https://wiki.metagame.wtf/docs/home',
     isExternal: true,
     src: MetaLibraryImageUrl,
     alt: 'MetaLibrary',
+    text: 'Library',
   },
   {
     href: 'https://twitter.com/Metafam',
     isExternal: true,
     src: MetaTwitterImageUrl,
     alt: 'MetaTwitter',
+    text: 'Twitter',
   },
   {
     href: 'https://discord.gg/XazuypRcv6',
     isExternal: true,
     src: MetaDiscordImageUrl,
     alt: 'MetaDiscord',
+    text: 'Discord',
   },
   {
     href: 'https://github.com/MetaFam/TheGame',
     isExternal: true,
     src: MetaGithubImageUrl,
     alt: 'MetaGithub',
+    text: 'Github',
   },
   {
     href:
@@ -101,6 +114,7 @@ export const DrawerSubItems: DrawerItemType[] = [
     isExternal: true,
     src: MetaCalendarImageUrl,
     alt: 'MetaCalendar',
+    text: 'Calendar',
   },
   {
     href:
@@ -108,6 +122,7 @@ export const DrawerSubItems: DrawerItemType[] = [
     isExternal: true,
     src: MetaSeedmarketImageUrl,
     alt: 'MetaSeedmarket',
+    text: 'Seed Market',
   },
   {
     href:
@@ -115,18 +130,13 @@ export const DrawerSubItems: DrawerItemType[] = [
     isExternal: true,
     src: MetaSeedPoolImageUrl,
     alt: 'MetaSeedPool',
+    text: 'Seed Pool',
   },
   {
     href: 'https://wiki.metagame.wtf/docs/enter-metagame/leaderboard',
     isExternal: true,
     src: MetaLeaderboardImageUrl,
     alt: 'MetaLeaderboard',
-  },
-  {
-    href: 'https://discord.gg/WYUkVpe',
-    isExternal: true,
-    src: MetaQuestsImageUrl,
-    alt: 'MetaQuests',
-    text: 'Quests',
+    text: 'Leaderboard',
   },
 ];
