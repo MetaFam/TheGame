@@ -15,7 +15,7 @@ import {
 const MetaBoxButton = '/assets/drawer/box.button.bg.png';
 const MetaBox = '/assets/drawer/desktop-box.png';
 const MetaDrawer = '/assets/drawer/desktop.gradient.png';
-const MetaGameLogo = '/assets/logo.png';
+const MetaGameLogo = '/assets/logo.alt.png';
 const MetaGameImage = '/assets/metagame.png';
 
 const MenuItem: React.FC<React.ComponentProps<typeof MetaLink>> = ({
@@ -64,11 +64,6 @@ const SubMenuItem: React.FC<React.ComponentProps<typeof MetaLink>> = ({
       textDecoration="none"
       _hover={{ textDecoration: 'none' }}
     >
-      <style jsx>{`
-        button.hover-effect:hover {
-          filter: drop-shadow(0 0 15px #a5b9f680);
-        }
-      `}</style>
       <Button
         display="flex"
         flexDirection="column"
@@ -78,12 +73,10 @@ const SubMenuItem: React.FC<React.ComponentProps<typeof MetaLink>> = ({
         height="8.25rem"
         textDecoration="none"
         variant="link"
-        p="1"
         fontFamily="mono"
         color="whiteAlpha.700"
-        className="hover"
-        margin="1rem"
-        padding="1rem"
+        margin={3}
+        className="filter-effect"
         backgroundImage={`url(${MetaBoxButton})`}
       >
         {children}
@@ -106,6 +99,12 @@ export const PageHeader: React.FC = () => {
       position="relative"
       display={{ base: 'none', md: 'flex' }}
     >
+      <style jsx>{`
+        button.filter-effect:hover {
+          filter: drop-shadow(0 0 15px #a5b9f680);
+        }
+      `}</style>
+
       <MetaLink href="/" display="block" mr="10">
         <Box mt={2}>
           <NextImage
@@ -128,11 +127,11 @@ export const PageHeader: React.FC = () => {
         left="calc(50% - 24rem)"
         padding="0 0 0.5rem 0"
       >
-        <Box position="absolute" left="calc(50% - 24rem)" top="0" zIndex="1">
+        <Box position="absolute" left="calc(50% - 23.5rem)" top="0" zIndex="1">
           <NextImage
             src={MetaDrawer}
             alt="MetaDrawer"
-            width={768}
+            width={762}
             height={94}
           />
         </Box>
@@ -167,13 +166,13 @@ export const PageHeader: React.FC = () => {
             width="calc(32rem / 5)"
             className="filter-effect"
             position="relative"
-            left="-0.25rem"
+            _focus={{ outline: 0 }}
             onClick={onToggle}
           >
             <NextImage
               src={MetaGameLogo}
               alt="MetaGameLogo"
-              width={80}
+              width={88}
               height={96}
             />
           </Button>
@@ -212,7 +211,7 @@ export const PageHeader: React.FC = () => {
           display: 'none',
         }}
       >
-        <Stack width="33rem" direction="row" flexWrap="wrap" padding="1rem 0">
+        <Stack width="33rem" direction="row" flexWrap="wrap" padding={4}>
           <Box
             position="fixed"
             top="0"
@@ -231,7 +230,7 @@ export const PageHeader: React.FC = () => {
                 key={item.alt}
                 isExternal={item.isExternal}
               >
-                <Image src={item.src} alt={item.alt} />
+                <Image src={item.src} alt={item.alt} height={16} mb={2} />
                 {item.text}
               </SubMenuItem>
             );
