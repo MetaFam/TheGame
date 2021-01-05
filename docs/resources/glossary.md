@@ -17,7 +17,7 @@ Request missing terms [here](https://forum.metagame.wtf/t/wiki-glossary/346).
 <!---------------- ⭐️  A  ⭐️ ---------------->
 
 ## (MetaFam) Alignment
-A conference without all the boring bits but *all* of the fun and interesting bits like workshops, hacks and after-parties - a coming-together of MetaFam IRL.
+A conference without all the boring bits but *all* of the fun and interesting bits like workshops, hacks, and after-parties - a coming-together of MetaFam IRL.
 
 See [MetaFam Alignment 2021](https://wiki.metagame.wtf/docs/resources/alignment2021)
 <!-- TODO -->
@@ -46,7 +46,7 @@ The [commons](https://wikipedia.org/wiki/Commons) are the shared resources acces
 
 ## DAO
 
-[Decentralized Autonomous Organizations](https://wikipedia.org/wiki/Decentralized_autonomous_organization) (DAOs) are entities whose bylaws are encoded in smart contracts, so that all participants have assurance about the rules of the game. They allow diverse groups of people across the planet to manage resources and make decisions with minimal trust in one another.
+[Decentralized Autonomous Organizations](https://wikipedia.org/wiki/Decentralized_autonomous_organization) (DAOs) are entities whose bylaws are encoded in smart contracts so that all participants have assurance about the rules of the game. They allow diverse groups of people across the planet to manage resources and make decisions with minimal trust in one another.
 
 ## DAOHaus
 
@@ -56,7 +56,7 @@ See [DAOHaus website](https://daohaus.club/)
 
 ## DAOstack
 
-DAOstack is an open source project advancing the technology and adoption of decentralized governance. See [DAOstack website](https://daostack.io/) and [An explanation of DAOStack](https://medium.com/daostack/an-explanation-of-daostack-in-fairly-simple-terms-1956e26b374)
+DAOstack is an open-source project advancing the technology and adoption of decentralized governance. See [DAOstack website](https://daostack.io/) and [An explanation of DAOStack](https://medium.com/daostack/an-explanation-of-daostack-in-fairly-simple-terms-1956e26b374)
 
 ## DApp
 
@@ -97,7 +97,7 @@ Ether (Eth) is the native cryptocurrency of the Ethereum blockchain. It is used 
 
 ## Ethereum
 
-An open source blockchain and community-built technology behind the cryptocurrency Ether (ETH) and an active ecosystem of decentralized applications.
+An open-source blockchain and community-built technology behind the cryptocurrency Ether (ETH) and an active ecosystem of decentralized applications.
 
 See [Ethereum website](https://ethereum.org/)
 
@@ -120,7 +120,7 @@ A Git repository hosting service. It provides a web-based interface to host and 
 See [GitHub website](https://github.com/)
 
 ## Guild
-A guild is any group of people with a common interest or a goal; be it building a certain product, offering a certain service or both. A good example of a Guild would be [RaidGuild](https://raidguild.org/).
+A guild is any group of people with a common interest or a goal; be it building a certain product, offering a certain service, or both. A good example of a Guild would be [RaidGuild](https://raidguild.org/).
 
 See [Guilding 101](http://localhost:3000/docs/Guilding/guilding-101)
 
@@ -176,7 +176,7 @@ See [Moloch DAO website](https://www.molochdao.com/)
 <!---------------- ⭐️  N  ⭐️ ---------------->
 
 ## `npm`
-`npm` (Node Package Manager) is a package manager for Node.js projects that are modular in nature and can be used within other projects. There is an online repository of opensource projects / packages which can be accesed via a command-line tool for installing and managing these packages within your own projects.
+`npm` (Node Package Manager) is a package manager for Node.js projects that are modular in nature and can be used within other projects. There is an online repository of opensource projects / packages which can be accessed via a command-line tool for installing and managing these packages within your own projects.
 
 See [What is NPM?](https://nodejs.org/en/knowledge/getting-started/npm/what-is-npm/)
 <!-- TODO -->

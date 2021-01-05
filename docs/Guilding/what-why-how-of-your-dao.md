@@ -23,7 +23,7 @@ If you need any help, don't be afraid to [ask us anything](https://discord.gg/6J
 
 ### What do you want to achieve?
 
-> Take time to really think it through & condense into a sentence.
+> Take time to really think it through & condense it into a sentence.
 
 ### What are the three most important [values](https://www.google.com/search?q=list+of+values&sxsrf=ALeKk00gKf4qjEK4puOgs1zch0Q-z3SeRw:1601637375655&source=lnms&tbm=isch&sa=X&ved=2ahUKEwiysNaW5JXsAhUql4sKHaZdCoYQ_AUoAXoECBkQAw&biw=2091&bih=1225) to this organization?
 
@@ -53,12 +53,12 @@ If you need any help, don't be afraid to [ask us anything](https://discord.gg/6J
 
 ### Communication platforms
 
-> How does your DAO communicate? Where do you chat daily? Where do you do meetings? What about async long form thought-sharing? Where do you store knowledge? How do you inform the less active members & the wider community? Where do you share your message & recruit new members?
+> How does your DAO communicate? Where do you chat daily? Where do you do meetings? What about async long-form thought-sharing? Where do you store knowledge? How do you inform the less active members & the wider community? Where do you share your message & recruit new members?
 
 Here's what we use for MetaGame:
 
 -   **Daily chatting:** _Discord_
--   **Long form async:** _Discourse forums_
+-   **Long-form async:** _Discourse forums_
 -   **Less-active & wider community:** _Substack newsletter_
 -   **Knowledge repository:** _Docusaurus wiki_
 -   **Outside comms:** _mainly Twitter & related community channels but also niche-related forums/reddits_
@@ -74,7 +74,7 @@ Here's what we use for MetaGame:
 ### Who is responsible for what?
 
 > Who are the people responsible and who keeps the pulse of the rituals?
-> _As you might not even have the people yet, this is something you'll need to figure out over time. Alas, make it a habit to make sure there is 1 person responsible for keeping pulse on any task or initiative lest you end up with the [story of Everybody, Somebody, Anybody & Nobody](https://i.pinimg.com/originals/8a/1d/73/8a1d73ef7261e9c6f1bcdcaab2b5153c.jpg)._
+> _As you might not even have the people yet, this is something you'll need to figure out over time. Alas, make it a habit to make sure there is 1 person responsible for keeping the pulse on any task or initiative lest you end up with the [story of Everybody, Somebody, Anybody & Nobody](https://i.pinimg.com/originals/8a/1d/73/8a1d73ef7261e9c6f1bcdcaab2b5153c.jpg)._
 
 ### Member journey
 
@@ -84,7 +84,7 @@ Here's what we use for MetaGame:
 
 #### How do new users catch up?
 
-> Getting started page, calls to action, newsletter, etc..
+> Getting started page, calls to action, newsletter, etc...
 
 #### How do you keep users engaged?
 
@@ -117,7 +117,7 @@ Here's what we use for MetaGame:
 
 ### Common issues
 
-> What are the decisions that need to be made on a daily basis and are not considered critical?
+> What are the decisions that need to be made daily and are not considered critical?
 > Do you want them made by the people on the front-line or do you want it all through voting?
 
 ### Critical proposals
@@ -126,7 +126,7 @@ Here's what we use for MetaGame:
 
 ### Legal strategy
 
-> How does the DAO negotiate it’s legitimacy with the legacy legal system? Think about legal wrappers if needed.
+> How does the DAO negotiate its legitimacy with the legacy legal system? Think about legal wrappers if needed.
 
 ### Doubts and concerns on the parameters
 
@@ -144,7 +144,7 @@ Here's what we use for MetaGame:
 
 > They might share goals, ambitions, ideology, or a problem. What is it?
 
-### How do members coordinate strategy, planning and direction?
+### How do members coordinate strategy, planning, and direction?
 
 > Where/how does the community coordinate so that the DAO can operate in a peer to peer way?
 

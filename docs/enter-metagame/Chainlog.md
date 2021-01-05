@@ -24,20 +24,20 @@ We had a live raid yesterday; introducing new members to the codebase and the ol
 So yeah, the raid has been progressing pretty good & the team has been growing. The basics are pretty much done and the design & the Discord bot we’ll use for the guild pages are both coming along nicely.
 
 - ***🧠 MetaLibrary***
-Its almost time to rebrand the wiki to the MetaLibrary - but not quite yet. To really make it into a MetaLibrary, we’ll need at least those “House of Ethereum”, “House of dApps”, “House of Tokens” & “House of Defiance” posts.
+It's almost time to rebrand the wiki to the MetaLibrary - but not quite yet. To really make it into a MetaLibrary, we’ll need at least those “House of Ethereum”, “House of dApps”, “House of Tokens” & “House of Defiance” posts.
 
 Why aren’t those new posts there already?
 Well, because I have been revamping all the existing posts, writing the missing intro/onboarding pieces, and actually, spending ever more time inside DMs & chat channels responding to people - which is kind of becoming my frustration, as already stated above. 😅
 
 - ***🌱 Seed Market 💸***
-I think its safe to say MetaGame’s liquidity problem has successfully been dealt with.
+I think it's safe to say MetaGame’s liquidity problem has successfully been dealt with.
 
 Seed price: ~$43
 Seed marketcap: ~$600k
 In the liquidity pool: ~$74k
 Treasury funds used? ~$2/30k
 
-Frankly, the Seed market has been blowing up for the past few days. Though -50% from the all time high of over $80, the Seed price seems to have somewhat stabilized at ~$40, which is still more than 4x just a week ago.
+Frankly, the Seed market has been blowing up for the past few days. Though -50% from the all-time high of over $80, the Seed price seems to have somewhat stabilized at ~$40, which is still more than 4x just a week ago.
 
 If you’ve been useful around MetaGame, you likely have a decent sum now 🙃
 
@@ -46,7 +46,7 @@ The new podcast episode is out!
 
 Autonomous Genesis - Real World DAOs & Regenerative Economies
 
-You might notice its called “Autonomous Genesis” and not “MetaView”. No, we haven’t rebranded the podcast - we launched a new podcast; two new podcasts to be more precise! 😱
+You might notice it's called “Autonomous Genesis” and not “MetaView”. No, we haven’t rebranded the podcast - we launched a new podcast; two new podcasts to be more precise! 😱
 
 You’re going to be funding 3 podcasts now? 👀
 
@@ -68,7 +68,7 @@ Maybe start warming up for these drops?
 & last but not least…
 
 - ***💨 Website Migration!***
-We spent a lot of time building the profiles & upgrading the wiki. Its about time to start the integration process of moving everything into metagame.wtf.
+We spent a lot of time building the profiles & upgrading the wiki. It's about time to start the integration process of moving everything into metagame.wtf.
 
 Here’s the latest design of the navigation bar/app drawer, closed & open 👇
 
@@ -86,13 +86,13 @@ We’ll be doing a design sprint with the folks over from Deep Work to work out 
 ## 📜Block #9
 
 
-- We got invited to join the Panvala matching league! Thanks Niran! 🥰
+- We got invited to join the Panvala matching league! Thanks, Niran! 🥰
 - We received a couple grand from Commons Stack’sPanvala matching pool prize. Griff himself joins the Patrons of MetaGame. Welcome, fam! ✌️
 - Following up on last week’s interview with Kevin, we started brainstorming on possible ways to collaborate. Something interesting might be brewing between Gitcoin & MetaGame 🙃
 - Exciting news about the podcast itself coming in the next few days as well. The upcoming episode with Magenta of Bloom Network should air tomorrow, but the episode itself is kind of a beginning 👀
 - Jason Yin translates the wiki to Mandarin and kicks-off MetaGame China then brings in a bunch of students & teachers with whom he is building a college for entrepreneurs in Beijing - hoping to integrate learnings from MetaGame 😱
 - The MyMeta funding proposal to the MetaCartel was a success! 💸 We’ll soon start using those funds to buy back Seeds from the builders and adding them to the liquidity pool! Good progress made on profiles themself.
-- Some of the notables reactivating or joining are Luke of 1Hive as a Patron, Vanmoortel as both a Patron & an Inner Circle player & Alec the latest high skill builders but also a bunch of old hodlors checking-in & adding liquidity.
+- Some of the notables reactivating or joining are Luke of 1Hive as a Patron, Vanmoortel as both a Patron & an Inner Circle player & Alec the latest high-skill builders but also a bunch of old hodlors checking-in & adding liquidity.
 - MetaGame got listed on Coingecko & Seeds had their first pump. 🤩 Currently sitting at $22, up from $18 yesterday, up from $9 on Wednesday, up from $6 since the pool launch - not bad.
 - Frens: dump the pump.
 
@@ -103,9 +103,9 @@ So far we’ve only kicked out ~20/150 people, but we’re currently 10 members 
 
 ## 📜Block #8
 - The new podcast episode is live! MetaView #9 - Owocki of Gitcoin on Public Goods Funding, Onboarding & Rewarding Systems.
-- The Wiki continues receiving a stream of updates. After a full remake of the intro, roadmap & how to play - main navigation page receives a major facelift. 👇
-- mZ writes up a bunch of proposals up on the forums. Proposal #0: Minimum Viable Proposal Procedure, Proposal #1: Cap Issuance Rate of New Seeds & Proposal #2: Treasury Seed Buy Back Policy - go share your thougths.
-- Based on popular demand on clarity about the XP & Seed system, the post has been rewritten from ~750 words down to ~450, now with much more clarity. 👇
+- The Wiki continues receiving a stream of updates. After a full remake of the intro, roadmap & how to play - the main navigation page receives a major facelift. 👇
+- mZ writes up a bunch of proposals up on the forums. Proposal #0: Minimum Viable Proposal Procedure, Proposal #1: Cap Issuance Rate of New Seeds & Proposal #2: Treasury Seed Buy Back Policy - go share your thoughts.
+- Based on popular demand for clarity about the XP & Seed system, the post has been rewritten from ~750 words down to ~450, now with much more clarity. 👇
 - The new Seed Market has been live running for ~5 days now with up to $22.4k liquidity - not bad for an ~$80k marketcap token!
 - The minting of the next batch of Seeds is underway!
 - A few more people lose their player status 😬.
@@ -115,7 +115,7 @@ Note:
 
 
 ## 📜Block #7
-- An all new onboarding system. As mentioned already, we’re no longer just letting everybody in. No more intro quests either - sign up through here instead.
+- An all-new onboarding system. As mentioned already, we’re no longer just letting everybody in. No more intro quests either - sign up through here instead.
 - More people proceed not to sell us any Seeds? Damn it y’all.
 - Continued upgrading Discord: Reordered & deleted channels. Updated descriptions & added emojis. Added a new channel: #🚨issues-n-ideas.
 - A few people came to present their projects to the community & they were pretty cool - you should have been there 😜
@@ -128,9 +128,9 @@ Note:
 - As requested through the last newsletter’s poll, the long term vision of MetaGame has been laid out in the new Phases of MetaGame. 👇
 
 ## 📜Block #6
-- The MyMeta flow is now connected to the back-end, means you can finally permanently upgrade your profile with goodies such as personality type & skills.
-- We had a call oriented around upgrading the wiki last week. It resulted in a lot of discussion and only going through ~10% of the wiki, so we decided to do it async.
-- We’re in talks with the Balancer team, setting up a smart pool to allow us to later change the pool parameters through the DAO vs the currnet set-forever pool.
+- The MyMeta flow is now connected to the back-end, which means you can finally permanently upgrade your profile with goodies such as personality type & skills.
+- We had a call oriented around upgrading the wiki last week. It resulted in a lot of discussions and only going through ~10% of the wiki, so we decided to do it async.
+- We’re in talks with the Balancer team, setting up a smart pool to allow us to later change the pool parameters through the DAO vs the current set-forever pool.
 - We got the Zerion team to list Seeds on Zerion!
 - Kay built a new embassy, this time bridging MetaGame comms to Sourcecred.
 - I did a lot of thinking & writing on the framing of MetaGame and the onboarding system. From a new intro, through this how-to-play, to the onboarding guide, etc.
@@ -143,14 +143,14 @@ Kind of a slow week tbh.
 ## 📜Block #5
 - Hammad switches us to Vercel allowing for more dynamic change-making, implements imgix to make the site load faster & deploys the whole thing to a permanent domain - MyMeta is now live! 😱
 - We had another call with 3Box, Raid Guild & 1Hive to get updated on the latest from 3Box and hopefully follow up by joining forces on building MyMeta.
-- We also got two more developers join the MyMeta team; ECWireless & Damjan.
+- We also got two more developers to join the MyMeta team; ECWireless & Damjan.
 - But we need moar. MOAR DEVELOPERS.
 - Luxumbra does a complete redesign of the wiki, with some help from Saimano in removing useless things & me in throwing a bunch of ideas up the wall. Made it look as slick as MyMeta; screenshots below.
 - Vanilla graduates our announcements channel into an actual announcements channel, allowing others to subscribe to it. Also makes the meta-announcements channel aka #📣-metaphone live, after adding DAOHaus & MetaMedia to a full list of guilds it is subscribed to - Raid Guild, 1Hive, LexDAO & MetaFactory.
 - Topping it off, he also added a bunch of new roles and the #role-select channel to help us target the right players for announcements and calls to action.
 - Go pick yourself a role! 🙃
-- I added a channel too #my-thing - for you to shill your startup, project or whatever hobby or skill you’re working on! 🤗
-- New podcast episode is live! This time we talked to Griff Green of Commons Stack on topics ranging from community-building, values in the Ethereum space and the broader crypto space drama.
+- I added a channel too, #my-thing - for you to shill your startup, project, or whatever hobby or skill you’re working on! 🤗
+- New podcast episode is live! This time we talked to Griff Green of Commons Stack on topics ranging from community-building, values in the Ethereum space, and the broader crypto space drama.
 - Then on the 27th of October, I’ll be getting interviewed myself - forThe Stoa. 😮
 
 ## 📜Block #4
@@ -159,7 +159,7 @@ This makes us both happy & sad. Happy, because it shows that most of you still h
 Onwards:
 - Dan13 added skills to MyMeta profiles & made good progress on the profile creation flow.
 - Vanilla added a meta-announcements channel and connected it to 4 other discords: Raid Guild, 1Hive, LexDAO & MetaFactory.
-- Also added the “!?token” & “!?quests” to the list of bot command bringing up useful info.
+- Also added the “!?token” & “!?quests” to the list of bot commands bringing up useful info.
 - Peth wrote a page about DAOs, explaining what they are with all the links & resources.
 - Also fixed the images on the front page of the wiki, formatting on a bunch of articles & added the DAO canvas page.
 - Saimano did some work on updating the design of the wiki, Luxumbra taking the reins & hopefully submitting a PR tonight.
@@ -196,9 +196,9 @@ Happy Birthday MetaGame! 🎂🎉🎊🎈
 - Damn, has it been that long already?
 Yessir!
 - And what have you done?
-A major part of the first year was spent defining what exactly MetaGame is, what its goals are, what it requires on the technical side of things and how it would actually work. It took a lot of talking & a lot of writing it out.
-We’re far from figuring everything out, but we’ve come far enough to have built up the knowledge base, set up the basic rewards & economic system, built the first version of MyMeta and prototyped MetaMaps & MetaVille.
-Other than figuring things out & setting the foundations, I’d say most of the time was spent finding the right people and building the community. Could have went the more traditional way of raising money & offering paychecks, but doing it this way we stayed true to our philosophy & attracted the missionaries - not mercenaries.
+A major part of the first year was spent defining what exactly MetaGame is, what its goals are, what it requires on the technical side of things, and how it would actually work. It took a lot of talking & a lot of writing it out.
+We’re far from figuring everything out, but we’ve come far enough to have built up the knowledge base, set up the basic rewards & economic system, built the first version of MyMeta, and prototyped MetaMaps & MetaVille.
+Other than figuring things out & setting the foundations, I’d say most of the time was spent finding the right people and building the community. Could have gone the more traditional way of raising money & offering paychecks, but by doing it this way we stayed true to our philosophy & attracted the missionaries - not mercenaries.
 
 Alright, let’s get into some achievements:
 - First presented on a crypto meetup (October 2019)
@@ -208,7 +208,7 @@ Alright, let’s get into some achievements:
 - First achievement NFTs minted (Mintbase, January 2020)
 - First website launched (February 2020)
 - First version of Interspace deployed (February 2020)
-- First presentation on a conference (ETHCC, March 2020)
+- First presentation at a conference (ETHCC, March 2020)
 - First to do a virtual conference in the Ethereum space (InterCon, March 2020)
 - Seed Market launched (April 2020)
 - First life affected (May 2020)
@@ -227,13 +227,13 @@ Number #3 most funded in Gitcoin's CLR round 4
 - 217 contributors to our gitcoin grant
 - 376 people receiving our newsletters
 - 751 people on our discord
-- 1062 people following us on twitter
+- 1062 people following us on Twitter
 - $20k+ raised in grants
 - $50k+ worth of Seeds minted
 - Over 9000 funs had
 
 I know you’re used to seeing bigger numbers from all of these shiny new defi platforms, but it’s a bit harder to attract the people & capital when you’re not offering the prospects of getting rich quick 😅
-Consider also that MetaGame was started by a one man team, an ex-plumber-dude with no entrepreneurial experience - and it all makes more sense, doesn’t it? This dumbass had to spend majority of his time convincing others that building MetaGame is worth their time.
+Consider also that MetaGame was started by a one-man team, an ex-plumber-dude with no entrepreneurial experience - and it all makes more sense, doesn’t it? This dumbass had to spend the majority of his time convincing others that building MetaGame is worth their time.
 To be fair, talented & competent did join MetaGame, but the problem is that all of them have been working on it as a side thing. Unable to pay their bills, MetaGame can’t compete with their main focus of attention.
 
 

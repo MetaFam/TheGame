@@ -27,19 +27,19 @@ A decentralized profile/business page displaying your skills, achievements & rep
 - [Forum post](https://forum.metagame.wtf/t/mymeta/218).
 - [Discord channel](https://discord.com/invite/pZm2xp4).
 ## 🏘️ MetaVille
-The game-game part of MetaGame. A spatial audio environment to be used for organizing social gatherings and displaying quests & knowledge (& farming?) in ever-nicer ways. 
-- [Forum post](https://forum.metagame.wtf/t/metaville/225). 
+The game-game part of MetaGame. A spatial audio environment to be used for organizing social gatherings and displaying quests & knowledge (& farming?) in ever-nicer ways.
+- [Forum post](https://forum.metagame.wtf/t/metaville/225).
 - [Discord channel](https://discord.gg/E5stWcQ).
 ## 🗺️ MetaMaps
 MetaMaps is a Web3 whiteboarding & mapping tool to be used for things like this Navigation Board & Skill Trees.
 - [Forum post](https://forum.metagame.wtf/t/metamaps-web3-whiteboarding/418).
 - [Discord channel](https://discord.gg/S9TWSJt).
 ## 🤖 Villagers
-Villagers aka NPCs aka bots. We need them to make the game better & easier to run in a bunch of ways. 
+Villagers aka NPCs aka bots. We need them to make the game better & easier to run in a bunch of ways.
 - [Forum post](https://forum.metagame.wtf/t/villagers-aka-npcs-aka-bots/413).
 - [Discord channel](https://discord.gg/4hV7F6c).
 ## 🌱 XP & Seeds DAO
-This is the basis of MetaGame' economic system. Check the [XP & Seeds](https://wiki.metagame.wtf/docs/how-does-it-work/xp/) page to learn more.
+This is the basis of MetaGame's economic system. Check the [XP & Seeds](https://wiki.metagame.wtf/docs/how-does-it-work/xp/) page to learn more.
 - [Forum post](https://forum.metagame.wtf/t/xp-seeds-dao/414).
 ## 📻 MetaRadio
 The MetaGame [podcast](https://anchor.fm/MetaGame/) with ambitions of becoming a podcasting network, with a few podcasts ready to join.
@@ -50,7 +50,7 @@ Making it as easy as possible for the people to get an overview of different lea
 - [Forum post](https://forum.metagame.wtf/t/skill-trees/154).
 - [Discord channel](https://discord.gg/TCFdHCr).
 ## 📚 MetaLibrary
-MetaLibrary is what this wiki evolves into. Rather than a "wiki for MetaGame stuff" it is supposed to contain resources, guides & links to anything one might need to orient & start building something.
+MetaLibrary is what this wiki evolves into. Rather than a "wiki for MetaGame stuff," it is supposed to contain resources, guides & links to anything one might need to orient & start building something.
 - [Forum post](https://forum.metagame.wtf/t/metalibrary/416).
 - [Discord channel](https://discord.gg/xaj3BXv).
 ## 🤔 Making Shit Understandable
@@ -64,7 +64,7 @@ This one's about designing some shirts and other things, then establishing a mer
 - [Forum post](https://forum.metagame.wtf/t/metamerch/420).
 - [Discord channel](https://discord.gg/a2BmsZr).
 ## 🏣 1st Embassy
-This raid is about spreading the tentacles & establishing hubs in other places. Cryptovoxels to begin with, real world outposts later.
+This raid is about spreading the tentacles & establishing hubs in other places. Cryptovoxels to begin with, real-world outposts later.
 - [Forum post](https://forum.metagame.wtf/t/1st-embassy/422)
 ## 📣 Social Media
 Spreading those tentacles, be it going deeper into Twitter or into other networks.

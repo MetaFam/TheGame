@@ -10,7 +10,7 @@ None of us go to conferences to listen to people on stages saying mostly shit we
 
 The most enjoyable parts of the conference are usually the awesome two-or-more-way conversations, the people, and the smaller events such as dinners and after-parties.
 
-So what if we stopped doing conferences and start doing alignment events. There would still be some talks, there would be some workshops & some hacking, it would just be way less formal, more participative and a lot more fun.
+So what if we stopped doing conferences and start doing alignment events. There would still be some talks, there would be some workshops & some hacking, it would just be way less formal, more participative, and a lot more fun.
 
 ## Accommodation:
 
@@ -18,7 +18,7 @@ So what if we stopped doing conferences and start doing alignment events. There 
 
 -   Houses up to 33 people
 -   Has 3 pools and a jacuzzi
--   A gym, a small golf and volleyball court
+-   A gym, small golf, and volleyball court
 -   Optional professional cook
 
 The compound is a part of a small village, with offers for accommodating probably 50-100 other people.
@@ -37,7 +37,7 @@ The compound is a part of a small village, with offers for accommodating probabl
 -   Hackathon
 -   Pooool parteyyyyy
 
-The Sun, Water and Earth houses are split into [Pioneers, Settlers and Town Planners](https://twitter.com/swardley/status/1087511545091899392). Over the course of a week, each house comes up with their own plan for making MetaGame better.
+The Sun, Water, and Earth houses are split into [Pioneers, Settlers, and Town Planners](https://twitter.com/swardley/status/1087511545091899392). Over the course of a week, each house comes up with its own plan for making MetaGame better.
 
 **Random Ideas:**
 

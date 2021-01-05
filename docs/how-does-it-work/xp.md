@@ -4,13 +4,13 @@ title: 🧬 XP & Seeds 🌱
 
 -   XP is earned by doing things that the community finds valuable.
 -   Seeds are tokens, minted proportionally to the shares of XP gained.
-    
+
 
 ## **📊 How does XP work?**
 
 Whether it’s completing random quests, sharing things on [Discord](https://discord.gg/ZqdPP9b), writing useful stuff on [Discourse](https://metagame.trydiscourse.com/), or laying down code on [GitHub](https://github.com/metafam/) - your XP is automagically being accrued.
 
-It’s calculated by a system called Sourcecred, which tracks whatever is happening on Discord, Discourse & Github, then spits out numbers based on PRs, references, emojis, props given and a bunch of other, _super-granularly-adjustable_ parameters.
+It’s calculated by a system called Sourcecred, which tracks whatever is happening on Discord, Discourse & Github, then spits out numbers based on PRs, references, emojis, props given, and a bunch of other, _super-granularly-adjustable_ parameters.
 
 Wait, you leave all the value allocation to an algorithm? 😱
 
@@ -18,7 +18,7 @@ Of course not! Although it _does_ do a pretty damn good job, we regularly review
 
 ## **🌱 What about those Seeds?**
 
-Seeds are the _Phase I_ token. Its sweat equity, its currency, its whatever you want it to be. Once a month, players of MetaGame receive their Seed tokens.
+Seeds are the _Phase I_ token. It's sweat equity, its currency, it's whatever you want it to be. Once a month, players of MetaGame receive their Seed tokens.
 
 Seeds may only be created through earning XP; meaning, all the Seeds that are [available for sale](https://balancer.exchange/#/swap/ether/0x30cf203b48edaa42c3b4918e955fed26cd012a3f) have been created by past work - not the promise of future work.
 
@@ -34,13 +34,13 @@ Because the Seed Market runs on Balancer, an automated market maker, it requires
 
 Right now, you just need to hodl a certain amount to stay a member of the community and qualify for the _300 of MetaGame_. Other than that, some players are accepting Seeds as payments for services & the Token Engineering community is accepting Seeds for their token engineering course.
 
-Longer term:
--   Membership dues paying, not just holding.
+Longer-term:
+-   Membership dues-paying, not just holding.
 -   Staking for guilds & new players.
 -   Speculating on the direction & priorities of MetaGame via boosting.
--   Any MetaGame’s goods & services, such as: items, premium features, early access to builds, promotion, creation of quests etc.
+-   Any MetaGame’s goods & services, such as: items, premium features, early access to builds, promotion, creation of quests, etc.
 -   Goods & services offered by players & guilds.
-    
+
 
 ## **Resources**
 
