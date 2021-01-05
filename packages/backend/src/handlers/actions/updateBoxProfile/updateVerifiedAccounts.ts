@@ -10,7 +10,7 @@ export async function updateVerifiedAccounts(
   const updatedProfiles: string[] = [];
   const data = await client.GetPlayer({ playerId });
 
-  const ethAddress = data.Player_by_pk?.ethereum_address;
+  const ethAddress = data.player_by_pk?.ethereum_address;
 
   if (!ethAddress) {
     throw new Error('unknown-player');
@@ -29,7 +29,7 @@ export async function updateVerifiedAccounts(
         },
       ],
     });
-    if (result.insert_Account?.affected_rows) {
+    if (result.insert_player_account?.affected_rows) {
       updatedProfiles.push('github');
     } else {
       console.warn(
@@ -48,7 +48,7 @@ export async function updateVerifiedAccounts(
         },
       ],
     });
-    if (result.insert_Account?.affected_rows) {
+    if (result.insert_player_account?.affected_rows) {
       updatedProfiles.push('twitter');
     } else {
       console.warn(

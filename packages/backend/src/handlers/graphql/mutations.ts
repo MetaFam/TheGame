@@ -2,7 +2,7 @@ import { gql } from 'graphql-request/dist';
 
 export const CreatePlayerFromETH = gql`
   mutation CreatePlayerFromETH($ethereum_address: String!, $username: String!) {
-    insert_Player(
+    insert_player(
       objects: { username: $username, ethereum_address: $ethereum_address }
     ) {
       affected_rows
@@ -17,13 +17,13 @@ export const CreatePlayerFromETH = gql`
 
 export const UpsertAccount = gql`
   mutation UpsertAccount(
-    $objects: [Account_insert_input!]!
-    $on_conflict: Account_on_conflict = {
+    $objects: [player_account_insert_input!]!
+    $on_conflict: player_account_on_conflict = {
       constraint: Account_identifier_type_key
       update_columns: []
     }
   ) {
-    insert_Account(objects: $objects, on_conflict: $on_conflict) {
+    insert_player_account(objects: $objects, on_conflict: $on_conflict) {
       affected_rows
     }
   }
@@ -31,10 +31,10 @@ export const UpsertAccount = gql`
 
 export const UpsertPlayer = gql`
   mutation UpsertPlayer(
-    $objects: [Player_insert_input!]!
-    $onConflict: Player_on_conflict
+    $objects: [player_insert_input!]!
+    $onConflict: player_on_conflict
   ) {
-    insert_Player(on_conflict: $onConflict, objects: $objects) {
+    insert_player(on_conflict: $onConflict, objects: $objects) {
       affected_rows
     }
   }
@@ -45,11 +45,11 @@ export const UpdatePlayer = gql`
     $ethAddress: String
     $identityId: String
     $username: String
-    $rank: Player_Rank_enum
+    $rank: PlayerRank_enum
     $totalXp: numeric
     $discordId: String
   ) {
-    update_Player(
+    update_player(
       where: {
         _or: [
           {

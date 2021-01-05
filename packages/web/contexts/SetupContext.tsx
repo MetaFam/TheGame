@@ -1,4 +1,4 @@
-import { PlayerType } from 'graphql/autogen/types';
+import { Player_Type } from 'graphql/autogen/types';
 import { Membership, PersonalityType } from 'graphql/types';
 import { useRouter } from 'next/router';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
@@ -25,7 +25,7 @@ type SetupContextType = {
   numTotalSteps: number;
   skillsList: Array<CategoryOption>;
   personalityTypes: Array<PersonalityType>;
-  playerTypes: Array<PlayerType>;
+  playerTypes: Array<Player_Type>;
   username: string;
   setUsername: React.Dispatch<React.SetStateAction<string>>;
   skills: Array<SkillOption>;
@@ -34,8 +34,8 @@ type SetupContextType = {
   setPersonalityType: React.Dispatch<
     React.SetStateAction<PersonalityType | undefined>
   >;
-  playerType: PlayerType | undefined;
-  setPlayerType: React.Dispatch<React.SetStateAction<PlayerType | undefined>>;
+  playerType: Player_Type | undefined;
+  setPlayerType: React.Dispatch<React.SetStateAction<Player_Type | undefined>>;
   availability: string;
   setAvailability: React.Dispatch<React.SetStateAction<string>>;
   timeZone: string;
@@ -77,7 +77,7 @@ type Props = {
   options: Array<SetupOption>;
   skillsList: Array<CategoryOption>;
   personalityTypes: Array<PersonalityType>;
-  playerTypes: Array<PlayerType>;
+  playerTypes: Array<Player_Type>;
 };
 
 export const SetupContextProvider: React.FC<Props> = ({
@@ -135,7 +135,7 @@ export const SetupContextProvider: React.FC<Props> = ({
   const [username, setUsername] = useState<string>('');
   const [skills, setSkills] = useState<Array<SkillOption>>([]);
   const [personalityType, setPersonalityType] = useState<PersonalityType>();
-  const [playerType, setPlayerType] = useState<PlayerType>();
+  const [playerType, setPlayerType] = useState<Player_Type>();
   const [availability, setAvailability] = useState<string>('');
   const [timeZone, setTimeZone] = useState<string>('');
   const [memberships, setMemberships] = useState<
