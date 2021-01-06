@@ -2499,13 +2499,12 @@ type player {
 
   """An object relationship"""
   playerType: player_type
-  playerTypeId: Int
+  player_type_id: Int
   rank: PlayerRank_enum
   role: String
-  scIdentityId: String
-  timezone: Int
-  totalXp: numeric
-  tz: String
+  sc_identity_id: String
+  timezone: String
+  total_xp: numeric
   updated_at: timestamptz
   username: String!
 }
@@ -2742,9 +2741,8 @@ input player_arr_rel_insert_input {
 """aggregate avg on columns"""
 type player_avg_fields {
   availability_hours: Float
-  playerTypeId: Float
-  timezone: Float
-  totalXp: Float
+  player_type_id: Float
+  total_xp: Float
 }
 
 """
@@ -2752,9 +2750,8 @@ order by avg() on columns of table "player"
 """
 input player_avg_order_by {
   availability_hours: order_by
-  playerTypeId: order_by
-  timezone: order_by
-  totalXp: order_by
+  player_type_id: order_by
+  total_xp: order_by
 }
 
 """
@@ -2774,13 +2771,12 @@ input player_bool_exp {
   guilds: guild_player_bool_exp
   id: uuid_comparison_exp
   playerType: player_type_bool_exp
-  playerTypeId: Int_comparison_exp
+  player_type_id: Int_comparison_exp
   rank: PlayerRank_enum_comparison_exp
   role: String_comparison_exp
-  scIdentityId: String_comparison_exp
-  timezone: Int_comparison_exp
-  totalXp: numeric_comparison_exp
-  tz: String_comparison_exp
+  sc_identity_id: String_comparison_exp
+  timezone: String_comparison_exp
+  total_xp: numeric_comparison_exp
   updated_at: timestamptz_comparison_exp
   username: String_comparison_exp
 }
@@ -2807,9 +2803,8 @@ input type for incrementing integer column in table "player"
 """
 input player_inc_input {
   availability_hours: Int
-  playerTypeId: Int
-  timezone: Int
-  totalXp: numeric
+  player_type_id: Int
+  total_xp: numeric
 }
 
 """
@@ -2826,13 +2821,12 @@ input player_insert_input {
   guilds: guild_player_arr_rel_insert_input
   id: uuid
   playerType: player_type_obj_rel_insert_input
-  playerTypeId: Int
+  player_type_id: Int
   rank: PlayerRank_enum
   role: String
-  scIdentityId: String
-  timezone: Int
-  totalXp: numeric
-  tz: String
+  sc_identity_id: String
+  timezone: String
+  total_xp: numeric
   updated_at: timestamptz
   username: String
 }
@@ -2843,12 +2837,11 @@ type player_max_fields {
   created_at: timestamptz
   ethereum_address: String
   id: uuid
-  playerTypeId: Int
+  player_type_id: Int
   role: String
-  scIdentityId: String
-  timezone: Int
-  totalXp: numeric
-  tz: String
+  sc_identity_id: String
+  timezone: String
+  total_xp: numeric
   updated_at: timestamptz
   username: String
 }
@@ -2861,12 +2854,11 @@ input player_max_order_by {
   created_at: order_by
   ethereum_address: order_by
   id: order_by
-  playerTypeId: order_by
+  player_type_id: order_by
   role: order_by
-  scIdentityId: order_by
+  sc_identity_id: order_by
   timezone: order_by
-  totalXp: order_by
-  tz: order_by
+  total_xp: order_by
   updated_at: order_by
   username: order_by
 }
@@ -2877,12 +2869,11 @@ type player_min_fields {
   created_at: timestamptz
   ethereum_address: String
   id: uuid
-  playerTypeId: Int
+  player_type_id: Int
   role: String
-  scIdentityId: String
-  timezone: Int
-  totalXp: numeric
-  tz: String
+  sc_identity_id: String
+  timezone: String
+  total_xp: numeric
   updated_at: timestamptz
   username: String
 }
@@ -2895,12 +2886,11 @@ input player_min_order_by {
   created_at: order_by
   ethereum_address: order_by
   id: order_by
-  playerTypeId: order_by
+  player_type_id: order_by
   role: order_by
-  scIdentityId: order_by
+  sc_identity_id: order_by
   timezone: order_by
-  totalXp: order_by
-  tz: order_by
+  total_xp: order_by
   updated_at: order_by
   username: order_by
 }
@@ -2947,13 +2937,12 @@ input player_order_by {
   guilds_aggregate: guild_player_aggregate_order_by
   id: order_by
   playerType: player_type_order_by
-  playerTypeId: order_by
+  player_type_id: order_by
   rank: order_by
   role: order_by
-  scIdentityId: order_by
+  sc_identity_id: order_by
   timezone: order_by
-  totalXp: order_by
-  tz: order_by
+  total_xp: order_by
   updated_at: order_by
   username: order_by
 }
@@ -2985,7 +2974,7 @@ enum player_select_column {
   id
 
   """column name"""
-  playerTypeId
+  player_type_id
 
   """column name"""
   rank
@@ -2994,16 +2983,13 @@ enum player_select_column {
   role
 
   """column name"""
-  scIdentityId
+  sc_identity_id
 
   """column name"""
   timezone
 
   """column name"""
-  totalXp
-
-  """column name"""
-  tz
+  total_xp
 
   """column name"""
   updated_at
@@ -3021,13 +3007,12 @@ input player_set_input {
   enneagram: EnneagramType_enum
   ethereum_address: String
   id: uuid
-  playerTypeId: Int
+  player_type_id: Int
   rank: PlayerRank_enum
   role: String
-  scIdentityId: String
-  timezone: Int
-  totalXp: numeric
-  tz: String
+  sc_identity_id: String
+  timezone: String
+  total_xp: numeric
   updated_at: timestamptz
   username: String
 }
@@ -3211,9 +3196,8 @@ enum player_skill_update_column {
 """aggregate stddev on columns"""
 type player_stddev_fields {
   availability_hours: Float
-  playerTypeId: Float
-  timezone: Float
-  totalXp: Float
+  player_type_id: Float
+  total_xp: Float
 }
 
 """
@@ -3221,17 +3205,15 @@ order by stddev() on columns of table "player"
 """
 input player_stddev_order_by {
   availability_hours: order_by
-  playerTypeId: order_by
-  timezone: order_by
-  totalXp: order_by
+  player_type_id: order_by
+  total_xp: order_by
 }
 
 """aggregate stddev_pop on columns"""
 type player_stddev_pop_fields {
   availability_hours: Float
-  playerTypeId: Float
-  timezone: Float
-  totalXp: Float
+  player_type_id: Float
+  total_xp: Float
 }
 
 """
@@ -3239,17 +3221,15 @@ order by stddev_pop() on columns of table "player"
 """
 input player_stddev_pop_order_by {
   availability_hours: order_by
-  playerTypeId: order_by
-  timezone: order_by
-  totalXp: order_by
+  player_type_id: order_by
+  total_xp: order_by
 }
 
 """aggregate stddev_samp on columns"""
 type player_stddev_samp_fields {
   availability_hours: Float
-  playerTypeId: Float
-  timezone: Float
-  totalXp: Float
+  player_type_id: Float
+  total_xp: Float
 }
 
 """
@@ -3257,17 +3237,15 @@ order by stddev_samp() on columns of table "player"
 """
 input player_stddev_samp_order_by {
   availability_hours: order_by
-  playerTypeId: order_by
-  timezone: order_by
-  totalXp: order_by
+  player_type_id: order_by
+  total_xp: order_by
 }
 
 """aggregate sum on columns"""
 type player_sum_fields {
   availability_hours: Int
-  playerTypeId: Int
-  timezone: Int
-  totalXp: numeric
+  player_type_id: Int
+  total_xp: numeric
 }
 
 """
@@ -3275,9 +3253,8 @@ order by sum() on columns of table "player"
 """
 input player_sum_order_by {
   availability_hours: order_by
-  playerTypeId: order_by
-  timezone: order_by
-  totalXp: order_by
+  player_type_id: order_by
+  total_xp: order_by
 }
 
 """
@@ -3622,7 +3599,7 @@ enum player_update_column {
   id
 
   """column name"""
-  playerTypeId
+  player_type_id
 
   """column name"""
   rank
@@ -3631,16 +3608,13 @@ enum player_update_column {
   role
 
   """column name"""
-  scIdentityId
+  sc_identity_id
 
   """column name"""
   timezone
 
   """column name"""
-  totalXp
-
-  """column name"""
-  tz
+  total_xp
 
   """column name"""
   updated_at
@@ -3652,9 +3626,8 @@ enum player_update_column {
 """aggregate var_pop on columns"""
 type player_var_pop_fields {
   availability_hours: Float
-  playerTypeId: Float
-  timezone: Float
-  totalXp: Float
+  player_type_id: Float
+  total_xp: Float
 }
 
 """
@@ -3662,17 +3635,15 @@ order by var_pop() on columns of table "player"
 """
 input player_var_pop_order_by {
   availability_hours: order_by
-  playerTypeId: order_by
-  timezone: order_by
-  totalXp: order_by
+  player_type_id: order_by
+  total_xp: order_by
 }
 
 """aggregate var_samp on columns"""
 type player_var_samp_fields {
   availability_hours: Float
-  playerTypeId: Float
-  timezone: Float
-  totalXp: Float
+  player_type_id: Float
+  total_xp: Float
 }
 
 """
@@ -3680,17 +3651,15 @@ order by var_samp() on columns of table "player"
 """
 input player_var_samp_order_by {
   availability_hours: order_by
-  playerTypeId: order_by
-  timezone: order_by
-  totalXp: order_by
+  player_type_id: order_by
+  total_xp: order_by
 }
 
 """aggregate variance on columns"""
 type player_variance_fields {
   availability_hours: Float
-  playerTypeId: Float
-  timezone: Float
-  totalXp: Float
+  player_type_id: Float
+  total_xp: Float
 }
 
 """
@@ -3698,9 +3667,8 @@ order by variance() on columns of table "player"
 """
 input player_variance_order_by {
   availability_hours: order_by
-  playerTypeId: order_by
-  timezone: order_by
-  totalXp: order_by
+  player_type_id: order_by
+  total_xp: order_by
 }
 
 """

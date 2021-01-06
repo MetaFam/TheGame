@@ -161,7 +161,7 @@
       foreign_key_constraint_on: enneagram
   - name: playerType
     using:
-      foreign_key_constraint_on: playerTypeId
+      foreign_key_constraint_on: player_type_id
   array_relationships:
   - name: Accounts
     using:
@@ -211,13 +211,12 @@
       - enneagram
       - ethereum_address
       - id
-      - playerTypeId
+      - player_type_id
       - rank
       - role
-      - scIdentityId
+      - sc_identity_id
+      - total_xp
       - timezone
-      - totalXp
-      - tz
       - username
       filter: {}
   - role: public
@@ -229,9 +228,8 @@
       - id
       - rank
       - role
+      - total_xp
       - timezone
-      - totalXp
-      - tz
       - username
       filter: {}
   update_permissions:
@@ -240,10 +238,9 @@
       columns:
       - availability_hours
       - enneagram
-      - playerTypeId
+      - player_type_id
       - role
       - timezone
-      - tz
       - username
       filter:
         id:

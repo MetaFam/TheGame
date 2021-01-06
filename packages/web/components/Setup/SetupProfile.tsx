@@ -58,8 +58,8 @@ export const SetupProfile: React.FC = () => {
           })),
         );
       }
-      if (player.tz && !timeZone) {
-        setTimeZone(player.tz);
+      if (player.timezone && !timeZone) {
+        setTimeZone(player.timezone);
       }
     }
   }, [

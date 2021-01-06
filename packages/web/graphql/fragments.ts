@@ -4,11 +4,11 @@ export const PlayerFragment = gql`
   fragment PlayerFragment on player {
     id
     username
-    totalXp
+    total_xp
     rank
     ethereum_address
     availability_hours
-    tz
+    timezone
     EnneagramType {
       description
       name

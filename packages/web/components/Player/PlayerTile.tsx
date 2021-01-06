@@ -82,7 +82,7 @@ export const PlayerTile: React.FC<Props> = ({ player }) => (
             {player.rank}
           </MetaTag>
         )}
-        <MetaTag size="md">XP: {Math.floor(player.totalXp)}</MetaTag>
+        <MetaTag size="md">XP: {Math.floor(player.total_xp)}</MetaTag>
       </Wrap>
       {player.box_profile?.description ? (
         <VStack spacing={2} align="stretch">

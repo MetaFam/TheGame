@@ -5,7 +5,8 @@ export const UpdateProfileMutation = gql`
     update_player_by_pk(pk_columns: { id: $playerId }, _set: $input) {
       id
       availability_hours
-      tz
+      timezone
     }
   }
 `;
+ 
