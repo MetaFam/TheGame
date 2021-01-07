@@ -19,6 +19,7 @@ import {
 import React from 'react';
 import { FaTimes } from 'react-icons/fa';
 
+import { isBackdropFilterSupported } from '../../../utils/compatibilityHelpers';
 import { ProfileSection } from '../../ProfileSection';
 
 type Props = { player: PlayerFragmentFragment; onRemoveClick: () => void };
@@ -66,6 +67,15 @@ const GalleryItem: React.FC<{ nft: Collectible; noMargin?: boolean }> = ({
 export const PlayerGallery: React.FC<Props> = ({ player, onRemoveClick }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { favorites, data, loading } = useOpenSeaCollectibles({ player });
+
+  const modalContentStyles = isBackdropFilterSupported() ? 
+    {
+      backgroundColor: 'rgba(255,255,255,0.08)',
+      backdropFilter: 'blur(8px)'
+    } : {
+      backgroundColor: 'rgba(7, 2, 29, 0.91)'
+    };
+
   return (
     <ProfileSection title="NFT Gallery" onRemoveClick={onRemoveClick}>
       {!loading &&
@@ -88,7 +98,7 @@ export const PlayerGallery: React.FC<Props> = ({ player, onRemoveClick }) => {
         isCentered
         scrollBehavior="inside"
       >
-        <ModalOverlay css={{ backdropFilter: 'blur(8px)' }}>
+        <ModalOverlay>
           <ModalContent maxW="6xl" bg="none">
             <Box bg="purple80" borderTopRadius="lg" p={4} w="100%">
               <HStack>
@@ -110,13 +120,7 @@ export const PlayerGallery: React.FC<Props> = ({ player, onRemoveClick }) => {
                 />
               </HStack>
             </Box>
-            <Flex
-              p={2}
-              bg="whiteAlpha.200"
-              css={{
-                backdropFilter: 'blur(8px)',
-              }}
-            >
+            <Flex p={2} css={modalContentStyles}>
               <Box
                 overflowY="scroll"
                 overflowX="hidden"
@@ -124,8 +128,9 @@ export const PlayerGallery: React.FC<Props> = ({ player, onRemoveClick }) => {
                 borderBottomRadius="lg"
                 w="100%"
                 css={{
+                  'scrollbar-color': 'rgba(70,20,100,0.8) rgba(255,255,255,0)',
                   '::-webkit-scrollbar': {
-                    width: '10px',
+                    width: '8px',
                     background: 'none',
                   },
                   '::-webkit-scrollbar-thumb': {
