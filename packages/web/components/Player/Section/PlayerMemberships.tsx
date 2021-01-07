@@ -49,7 +49,7 @@ export const PlayerMemberships: React.FC<Props> = ({
               }
               {(player.rank || '').toLowerCase()}
             </Text>
-            <Text fontSize="xs">XP: {Math.round(player.totalXp || 0)}</Text>
+            <Text fontSize="xs">XP: {Math.round(player.total_xp || 0)}</Text>
           </HStack>
         </Box>
       </HStack>

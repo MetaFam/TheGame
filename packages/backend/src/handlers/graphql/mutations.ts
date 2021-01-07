@@ -54,13 +54,13 @@ export const UpdatePlayer = gql`
         _or: [
           {
             ethereum_address: { _eq: $ethAddress }
-            scIdentityId: { _eq: $identityId }
+            sc_identity_id: { _eq: $identityId }
           }
           {
             ethereum_address: { _eq: $ethAddress }
             username: { _eq: $username }
           }
-          { scIdentityId: { _eq: $identityId } }
+          { sc_identity_id: { _eq: $identityId } }
           {
             Accounts: {
               _and: { type: { _eq: DISCORD }, identifier: { _eq: $discordId } }
@@ -70,17 +70,17 @@ export const UpdatePlayer = gql`
       }
       _set: {
         ethereum_address: $ethAddress
-        scIdentityId: $identityId
+        sc_identity_id: $identityId
         username: $username
         rank: $rank
-        totalXp: $totalXp
+        total_xp: $totalXp
       }
     ) {
       affected_rows
       returning {
         id
         ethereum_address
-        scIdentityId
+        sc_identity_id
         username
       }
     }
