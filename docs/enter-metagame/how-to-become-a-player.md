@@ -20,7 +20,7 @@ Ain't no freeloading in MetaGame. Luckily, there are countless ways of contribut
 -   Least you can do is report on your progress, whether it's something you're learning or the project you're working on. Just _[#](https://discord.gg/dU2pnEp)_[🌞](https://discord.gg/dU2pnEp)_[-check-in](https://discord.gg/dU2pnEp)._
 
 
-To get inspired on how you could contribute: read through [the roles](https://wiki.metagame.wtf/docs/enter-metagame/roles-in-metagame) or check out the _[ongoing raids](https://wiki.metagame.wtf/docs/enter-metagame/navigation-board)_. Find the role that fits you best, a raid you are most drawn to, or just do whatever you think is valuable & report in _[#](https://discord.gg/JAFX3Ry)_[😊](https://discord.gg/JAFX3Ry)_[-I-did-this](https://discord.gg/JAFX3Ry)_.
+To get inspired on how you could contribute: read through [the roles](https://wiki.metagame.wtf/docs/enter-metagame/roles-in-metagame) or check out the _[ongoing raids](https://wiki.metagame.wtf/docs/enter-metagame/navigation-board)_. Find the role that fits you best, a raid you are most drawn to, or just do whatever you think is valuable & report in _[#](https://discord.gg/JAFX3Ry)_[😇](https://discord.gg/JAFX3Ry)_[-did-a-thing](https://discord.gg/JAFX3Ry)_.
 
 ![](https://cdn.substack.com/image/fetch/w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2Ff0ecec7c-b2b4-42c1-b6f2-561cc5751ab7_487x486.png)
 
