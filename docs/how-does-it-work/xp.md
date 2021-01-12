@@ -8,7 +8,7 @@ title: 🧬 XP & Seeds 🌱
 
 ## **📊 How does XP work?**
 
-Whether it’s completing random quests, sharing things on [Discord](https://discord.gg/ZqdPP9b), writing useful stuff on [Discourse](https://metagame.trydiscourse.com/), or laying down code on [GitHub](https://github.com/metafam/) - your XP is automagically being accrued.
+Whether it’s completing random quests, sharing things on [Discord](https://discord.gg/ZqdPP9b), writing useful stuff on [Discourse](https://forum.metagame.wtf/), or laying down code on [GitHub](https://github.com/metafam/) - your XP is automagically being accrued.
 
 It’s calculated by a system called Sourcecred, which tracks whatever is happening on Discord, Discourse & Github, then spits out numbers based on PRs, references, emojis, props given, and a bunch of other, _super-granularly-adjustable_ parameters.
 
