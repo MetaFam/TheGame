@@ -10,6 +10,8 @@ If you're new to the MetaGame codebase, check out the following guides to learn 
 
 - [Frontend Guide](guides/FRONTEND.md)
 
+- [C4 Guide](guides/C4.md)
+
 ## Development
 
 ### Bootstrap
