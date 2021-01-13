@@ -128,7 +128,7 @@ export const PlayerGallery: React.FC<Props> = ({ player, onRemoveClick }) => {
                 borderBottomRadius="lg"
                 w="100%"
                 css={{
-                  'scrollbar-color': 'rgba(70,20,100,0.8) rgba(255,255,255,0)',
+                  'scrollbarColor': 'rgba(70,20,100,0.8) rgba(255,255,255,0)',
                   '::-webkit-scrollbar': {
                     width: '8px',
                     background: 'none',
@@ -146,7 +146,7 @@ export const PlayerGallery: React.FC<Props> = ({ player, onRemoveClick }) => {
                   boxShadow="md"
                 >
                   {data?.map((nft) => (
-                    <GalleryItem nft={nft} key={nft.tokenId} noMargin />
+                    <GalleryItem nft={nft} key={`${nft.tokenId}-${nft.address}`} noMargin />
                   ))}
                 </SimpleGrid>
               </Box>
