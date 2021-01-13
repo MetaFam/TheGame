@@ -8,6 +8,7 @@ import {
   AccountType_Enum,
   Player_Account_Constraint,
   Player_Constraint,
+  Player_Insert_Input,
   Player_Update_Column,
   PlayerRank_Enum,
 } from '../../../lib/autogen/hasura-sdk';
@@ -155,9 +156,15 @@ export const migrateSourceCredAccounts = async (
       },
       { concurrency: 10 },
     );
-    const usersToInsert = result
+    const usersToInsert: Player_Insert_Input[] = result
       .filter(isNotNullOrUndefined)
-      .map(({ discordId, ...user }) => user);
+      .map(player => ({
+        username: player.username,
+        ethereum_address: player.ethereum_address,
+        sc_identity_id: player.scIdentityId,
+        rank: player.rank,
+        total_xp: player.totalXp
+      }));
 
     const resultInsert = await client.UpsertPlayer({
       objects: usersToInsert,
