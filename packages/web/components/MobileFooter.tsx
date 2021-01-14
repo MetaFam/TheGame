@@ -17,7 +17,12 @@ const MenuItem: React.FC<React.ComponentProps<typeof MetaLink>> = ({
   isExternal,
 }) => {
   return (
-    <MetaLink zIndex="2" href={href} isExternal={isExternal}>
+    <MetaLink 
+      zIndex="2" 
+      href={href} 
+      isExternal={isExternal}
+      _focus={{ outline: 0 }}
+    >
       <Button
         display="flex"
         flexDirection="column"
