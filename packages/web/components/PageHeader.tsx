@@ -12,7 +12,6 @@ import {
   DrawerSubItems,
 } from '../utils/drawerItems';
 
-const MetaBoxButton = '/assets/drawer/box.button.bg.png';
 const MetaBox = '/assets/drawer/desktop-box.png';
 const MetaDrawer = '/assets/drawer/desktop.gradient.png';
 const MetaGameLogo = '/assets/logo.alt.png';
@@ -71,13 +70,20 @@ const SubMenuItem: React.FC<React.ComponentProps<typeof MetaLink>> = ({
         alignItems="center"
         width="8.25rem"
         height="8.25rem"
+        backgroundColor="rgba(255,255,255,0.08)"
+        borderRadius="5px"
         textDecoration="none"
         variant="link"
-        fontFamily="mono"
+        fontFamily="body"
+        fontWeight="normal"
         color="whiteAlpha.700"
         margin={3}
         className="filter-effect"
-        backgroundImage={`url(${MetaBoxButton})`}
+        // backgroundImage={`url(${MetaBoxButton})`}
+        _hover={{ 
+          textDecoration: 'none',
+          backgroundColor: 'rgba(255,255,255,0.1)'
+        }}
       >
         {children}
       </Button>
