@@ -37,6 +37,6 @@
     "@types/bluebird": "3.5.32",
     "@types/node-fetch": "^2.5.6",
     "concurrently": "^5.2.0",
-    "ts-node-dev": "1.0.0-pre.62"
+    "ts-node-dev": "1.1.1"
   }
 }
