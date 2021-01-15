@@ -3,7 +3,6 @@ import MetaGameLogo from 'assets/logo.png';
 import { MetaLink } from 'components/Link';
 import { motion } from 'framer-motion';
 import NextImage from 'next/dist/client/image';
-import MetaBoxButton from 'public/assets/drawer/box.button.bg.png';
 import React from 'react';
 
 import {
@@ -18,7 +17,12 @@ const MenuItem: React.FC<React.ComponentProps<typeof MetaLink>> = ({
   isExternal,
 }) => {
   return (
-    <MetaLink zIndex="2" href={href} isExternal={isExternal}>
+    <MetaLink 
+      zIndex="2" 
+      href={href} 
+      isExternal={isExternal}
+      _focus={{ outline: 0 }}
+    >
       <Button
         display="flex"
         flexDirection="column"
@@ -54,15 +58,19 @@ const SubMenuItem: React.FC<React.ComponentProps<typeof MetaLink>> = ({
     >
       <Button
         display="flex"
+        flexDirection="column"
         alignItems="center"
         justifyContent="center"
         width="6rem"
         height="6rem"
         textDecoration="none"
+        fontWeight="normal"
+        backgroundColor="rgba(255,255,255,0.08)"
+        borderRadius="5px"
         variant="link"
+        color="whiteAlpha.700"
         margin="0.5rem"
         padding="0.5rem"
-        backgroundImage={`url(${MetaBoxButton})`}
       >
         {children}
       </Button>
@@ -76,7 +84,7 @@ export interface SubImageProps {
 }
 
 export const SubImage: React.FC<SubImageProps> = ({ src, alt }) => {
-  return <Image src={src} alt={alt} height="85%" />;
+  return <Image src={src} alt={alt} height="12" mb={2} />;
 };
 
 export const MobileFooter: React.FC = () => {
@@ -172,6 +180,7 @@ export const MobileFooter: React.FC = () => {
             return (
               <SubMenuItem href={item.href} key={item.alt}>
                 <SubImage src={item.src} alt={item.alt} />
+                {item.text}
               </SubMenuItem>
             );
           })}

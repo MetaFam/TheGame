@@ -1,19 +1,6 @@
-const MetaCalendarImageUrl = '/assets/drawer/calendar.png';
-const MetaDiscordImageUrl = '/assets/drawer/discord.png';
-const MetaGithubImageUrl = '/assets/drawer/github.png';
-const MetaGuildsImageUrl = '/assets/emojis/crossed-swords.png';
-const MetaSeedPoolImageUrl = '/assets/drawer/seed_pool.png';
-const MetaLeaderboardImageUrl = '/assets/drawer/leaderboard.png';
-const MetaLibraryImageUrl = '/assets/drawer/library.png';
-const MetaViewImageUrl = '/assets/drawer/metaview.png';
-const MetaNewsletterImageUrl = '/assets/drawer/newsletter.png';
-const MetaSeedmarketImageUrl = '/assets/drawer/seedmarket.png';
-const MetaTwitterImageUrl = '/assets/drawer/twitter.png';
-
-const MetaQuestsImageUrl = '/assets/drawer/quests.png';
-const MetaRaidsImageUrl = '/assets/drawer/raids.png';
-const MetaPlayersImageUrl = '/assets/drawer/players.png';
-const MetaForumImageUrl = '/assets/drawer/forum.png';
+const emojiUrl = (fileName: string): string => {
+  return `/assets/emojis/${fileName}`;
+}
 
 export interface DrawerItemType {
   href: string;
@@ -27,14 +14,14 @@ export const DrawerItemsLeft: DrawerItemType[] = [
   {
     href: '/',
     isExternal: false,
-    src: MetaPlayersImageUrl,
+    src: emojiUrl('alien.png'),
     alt: 'MetaPlayers',
     text: 'Players',
   },
   {
     href: '/guilds',
     isExternal: false,
-    src: MetaGuildsImageUrl,
+    src: emojiUrl('crossed-swords.png'),
     alt: 'MetaGuilds',
     text: 'Guilds',
   },
@@ -44,7 +31,7 @@ export const DrawerItemsRight: DrawerItemType[] = [
   {
     href: 'https://forum.metagame.wtf/',
     isExternal: true,
-    src: MetaForumImageUrl,
+    src: emojiUrl('classical-building.png'),
     alt: 'MetaForm',
     text: 'Forum',
   },
@@ -52,7 +39,7 @@ export const DrawerItemsRight: DrawerItemType[] = [
     href:
       'https://miro.com/app/live-embed/o9J_knhEt7w=/?moveToViewport=-8516,-5516,21788,13742',
     isExternal: true,
-    src: MetaRaidsImageUrl,
+    src: emojiUrl('world-map.png'),
     alt: 'MetaRaids',
     text: 'Raids',
   },
@@ -62,49 +49,49 @@ export const DrawerSubItems: DrawerItemType[] = [
   {
     href: 'https://discord.gg/WYUkVpe',
     isExternal: true,
-    src: MetaQuestsImageUrl,
+    src: emojiUrl('question-mark.png'),
     alt: 'MetaQuests',
     text: 'Quests',
   },
   {
     href: 'https://metagame.substack.com/',
     isExternal: true,
-    src: MetaNewsletterImageUrl,
+    src: emojiUrl('rolled-up-newspaper.png'),
     alt: 'MetaNewsletter',
     text: 'Newsletter',
   },
   {
     href: 'https://anchor.fm/MetaGame/',
     isExternal: true,
-    src: MetaViewImageUrl,
+    src: emojiUrl('studio-microphone.png'),
     alt: 'MetaView',
     text: 'MetaView',
   },
   {
     href: 'https://wiki.metagame.wtf/docs/home',
     isExternal: true,
-    src: MetaLibraryImageUrl,
+    src: emojiUrl('books.png'),
     alt: 'MetaLibrary',
     text: 'Library',
   },
   {
     href: 'https://twitter.com/Metafam',
     isExternal: true,
-    src: MetaTwitterImageUrl,
+    src: emojiUrl('baby-chick.png'),
     alt: 'MetaTwitter',
     text: 'Twitter',
   },
   {
     href: 'https://discord.gg/XazuypRcv6',
     isExternal: true,
-    src: MetaDiscordImageUrl,
+    src: emojiUrl('speech-balloon.png'),
     alt: 'MetaDiscord',
     text: 'Discord',
   },
   {
     href: 'https://github.com/MetaFam/TheGame',
     isExternal: true,
-    src: MetaGithubImageUrl,
+    src: emojiUrl('hammer-and-wrench.png'),
     alt: 'MetaGithub',
     text: 'Github',
   },
@@ -112,7 +99,7 @@ export const DrawerSubItems: DrawerItemType[] = [
     href:
       'https://calendar.google.com/calendar/u/1?cid=bmloNTlrdGdhZm1tNjRlZDRxazZ1ZTh2djRAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ',
     isExternal: true,
-    src: MetaCalendarImageUrl,
+    src: emojiUrl('calendar.png'),
     alt: 'MetaCalendar',
     text: 'Calendar',
   },
@@ -120,7 +107,7 @@ export const DrawerSubItems: DrawerItemType[] = [
     href:
       'https://balancer.exchange/#/swap/ether/0x30cf203b48edaa42c3b4918e955fed26cd012a3f',
     isExternal: true,
-    src: MetaSeedmarketImageUrl,
+    src: emojiUrl('seedling.png'),
     alt: 'MetaSeedmarket',
     text: 'Seed Market',
   },
@@ -128,14 +115,14 @@ export const DrawerSubItems: DrawerItemType[] = [
     href:
       'https://pools.balancer.exchange/#/pool/0xea05a15dbce2eb543ffda16950e95b2bd2e40d0e/',
     isExternal: true,
-    src: MetaSeedPoolImageUrl,
+    src: emojiUrl('four-leaf-clover.png'),
     alt: 'MetaSeedPool',
     text: 'Seed Pool',
   },
   {
     href: 'https://wiki.metagame.wtf/docs/enter-metagame/leaderboard',
     isExternal: true,
-    src: MetaLeaderboardImageUrl,
+    src: emojiUrl('chart-increasing.png'),
     alt: 'MetaLeaderboard',
     text: 'Leaderboard',
   },
