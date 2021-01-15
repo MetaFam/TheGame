@@ -35,7 +35,7 @@ export const PlayerTile: React.FC<Props> = ({ player }) => (
     style={{ backdropFilter: 'blur(7px)' }}
     rounded="lg"
     p="6"
-    maxW="30rem"
+    maxW="25rem" // (2 / 3.5) = ~0.571 aspect ratio desired
     w="100%"
     align="stretch"
     position="relative"
