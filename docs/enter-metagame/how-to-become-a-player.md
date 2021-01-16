@@ -84,8 +84,8 @@ If you see something you don't like, something broken or out of place, speak up,
 ### 🤗 Recognize
 
 If you see someone doing or sharing something good on Discord, make sure to give it a reaction emoji.
-If you _really_ like what they've shared, react with the 🐙 emoji (which has 10x weight over all other emojis), or react with multiple other emojis.
-If you really really like what they’ve done, use the _[#](https://discord.gg/vjAXAwR)_[🙌](https://discord.gg/vjAXAwR)_[-props](https://discord.gg/vjAXAwR)_ channel.
+If you _really_ like what they've shared, react with the 🐙 (octo)emoji (which has 3x weight over other emojis), or react with multiple other emojis.
+If you really really like what they’ve done, use the _[#](https://discord.gg/vjAXAwR)_[🙌](https://discord.gg/vjAXAwR)_[-give-props](https://discord.gg/vjAXAwR)_ channel.
 
 ![Create meme "The Great Gatsby (a glass for those) (meme The Great Gatsby,  a toast to those, great gatsby )" - Pictures - Meme-arsenal.com](https://cdn.substack.com/image/fetch/w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2Fb0aa9836-155e-48ce-a38b-58e41b9ffc45_620x413.jpeg)
 
