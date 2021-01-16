@@ -28,6 +28,26 @@ const VALID_ACCOUNT_TYPES: Array<AccountType_Enum> = [
   AccountType_Enum.Twitter,
 ];
 
+const parseMergedIdentityId = (alias: SCAlias) => {
+  try {
+    const addressParts = api.core.graph.NodeAddress.toParts(alias.address);
+
+    if (
+      addressParts[1].toUpperCase() === 'CORE' &&
+      addressParts[2].toUpperCase() === 'IDENTITY'
+    ) {
+      return addressParts[addressParts.length - 1];
+    }
+    return null;
+  } catch (e) {
+    console.log('Unable to parse merged identity: ', {
+      error: e.message,
+      alias,
+    });
+    return null;
+  }
+};
+
 const parseAlias = (alias: SCAlias) => {
   try {
     const addressParts = api.core.graph.NodeAddress.toParts(alias.address);
@@ -86,6 +106,10 @@ export const migrateSourceCredAccounts = async (
         })
         .filter(isNotNullOrUndefined);
 
+      const mergedIdentityIds = a.account.identity.aliases
+        .map((alias) => parseMergedIdentityId(alias))
+        .filter(isNotNullOrUndefined);
+
       const discordId = linkedAccounts.find(({ type }) => type === 'DISCORD')
         ?.identifier;
 
@@ -98,6 +122,7 @@ export const migrateSourceCredAccounts = async (
         totalXp: a.totalCred,
         rank: RANKS[Math.floor(index / NUM_PLAYERS_PER_RANK)],
         discordId,
+        mergedIdentityIds,
         Accounts: {
           data: linkedAccounts,
           on_conflict: accountOnConflict,
@@ -117,6 +142,11 @@ export const migrateSourceCredAccounts = async (
           totalXp: player.totalXp,
           discordId: player.discordId || '',
         };
+        if (player.mergedIdentityIds.length) {
+          await client.DeleteDuplicatePlayers({
+            scIds: player.mergedIdentityIds,
+          });
+        }
 
         try {
           const updateResult = await client.UpdatePlayer(vars);
@@ -158,12 +188,12 @@ export const migrateSourceCredAccounts = async (
     );
     const usersToInsert: Player_Insert_Input[] = result
       .filter(isNotNullOrUndefined)
-      .map(player => ({
+      .map((player) => ({
         username: player.username,
         ethereum_address: player.ethereum_address,
         sc_identity_id: player.scIdentityId,
         rank: player.rank,
-        total_xp: player.totalXp
+        total_xp: player.totalXp,
       }));
 
     const resultInsert = await client.UpsertPlayer({
