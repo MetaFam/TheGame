@@ -28,6 +28,7 @@ module.exports = {
     '🏡 The Great Houses': [
       'great-houses/house-of-ethereum',
       'great-houses/house-of-daos',
+      'great-houses/house-of-NFTs',
       'enter-metagame/guilds-of-metagame',
       //   'great-houses/house-of-defiance',
       //   'great-houses/house-of-dapps',

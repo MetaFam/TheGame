@@ -1,20 +1,21 @@
 ---
-title: House of NFTs
+title: 🎨 House of NFTs
 ---
 
-import { mmDonts, ethSafetyLinks, List } from "../../src/components/list.js";
 
 <details>
 <summary>🤔 Wait, WTF are NFTs?</summary>
 <br />
- 
-NFT stands for [Non-Fungible Token](https://opensea.io/blog/guides/non-fungible-tokens/).  Which simply (assuming you have read [House of Ethereum](https://wiki.metagame.wtf/docs/great-houses/house-of-ethereum)) means that, unlike Fungible (ERC-20) tokens, each one is unique and not equivalent and interchangable.  These are encoded in the standards [ERC-721](http://erc721.org/) and [ERC-1155](https://blog.enjin.io/erc-1155-token-standard-ethereum/) and some others, like composables: [ERC-998](https://github.com/ethereum/eips/issues/998).
 
-This blockchain innovation started first with [CryptoPunks](https://www.larvalabs.com/cryptopunks) before their was a standard in place. CryptoKitties was the first project, launched in 2017, to embed the Non-Fungible standard and take the idea mainstream.
+
+NFT stands for [Non-Fungible Token](https://opensea.io/blog/guides/non-fungible-tokens/).  Which simply (assuming you have read [House of Ethereum](https://wiki.metagame.wtf/docs/great-houses/house-of-ethereum) ) means that, unlike Fungible (ERC-20) tokens, each one is unique and not equivalent and interchangable.  These are encoded in the standards [ERC-721](http://erc721.org/) and [ERC-1155](https://blog.enjin.io/erc-1155-token-standard-ethereum/) and some others, like composables: [ERC-998](https://github.com/ethereum/eips/issues/998).
+
+
+This blockchain innovation started first with [CryptoPunks](https://www.larvalabs.com/cryptopunks) before there was a standard in place. CryptoKitties was the first project, launched in 2017, to embed the Non-Fungible standard and take the idea mainstream.
 
 Several characteristics of NFTs make them game changers: 
 - They allow for true ownership of digital-only goods in a transparent and indisputable way, thanks to the data being recorded on a public blockchain.
-- Their liquidity and tradeability have spawned a whole industry of gmaes, marketplaces, auction houses, and virtual worlds.
+- Their liquidity and tradeability have spawned a whole industry of games, marketplaces, auction houses, and virtual worlds.
 - They create provable scarcity of digital items.
 - They can be programmed.
 
