@@ -27162,9 +27162,9 @@ spacetime-informal@^0.5.0:
   integrity sha512-cdSsniJJfJJTBdeVvXtooxyXzrRfoBVjAl3usQl9DgGExB3XN3deA3MwjInnD/26C/lANf3dU54bT2YweAGrOw==
 
 spacetime@^6.12.1, spacetime@^6.6.2:
-  version "6.12.1"
-  resolved "https://registry.yarnpkg.com/spacetime/-/spacetime-6.12.1.tgz#a0a7b583fe2646b4288bd7456bcf027337a33ba6"
-  integrity sha512-mUA1xnVDX0RxF+HaAA0pOui3ePjTCkVx81DsMpSVwidQJjJgMxD39N5cKjCkOqDKKHjPmq73cF6X14b6+Oy9aA==
+  version "6.12.2"
+  resolved "https://registry.yarnpkg.com/spacetime/-/spacetime-6.12.2.tgz#b553a7cad31f74ed9f991f374c0f9ce495024e14"
+  integrity sha512-w0St4Q9X8KtuZ/JY8+FM8a4hMrAoNNUWQCt9UQQAUzwk8eDW5wrGh4SaNvEg+9cjLF++vixm6SgJyC6F7ALF/A==
 
 sparse-array@^1.3.1:
   version "1.3.2"
