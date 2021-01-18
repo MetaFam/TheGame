@@ -15,7 +15,6 @@ import {
 const MetaBox = '/assets/drawer/desktop-box.png';
 const MetaDrawer = '/assets/drawer/desktop.gradient.png';
 const MetaGameLogo = '/assets/logo.alt.png';
-const MetaGameImage = '/assets/metagame.png';
 
 const MenuItem: React.FC<React.ComponentProps<typeof MetaLink>> = ({
   children,
@@ -80,9 +79,9 @@ const SubMenuItem: React.FC<React.ComponentProps<typeof MetaLink>> = ({
         margin={3}
         className="filter-effect"
         // backgroundImage={`url(${MetaBoxButton})`}
-        _hover={{ 
+        _hover={{
           textDecoration: 'none',
-          backgroundColor: 'rgba(255,255,255,0.1)'
+          backgroundColor: 'rgba(255,255,255,0.1)',
         }}
       >
         {children}
@@ -111,16 +110,9 @@ export const PageHeader: React.FC = () => {
         }
       `}</style>
 
-      <MetaLink href="/" display="block" mr="10">
-        <Box mt={2}>
-          <NextImage
-            src={MetaGameImage}
-            alt="MetaGame"
-            width={144}
-            height={62}
-          />
-        </Box>
-      </MetaLink>
+      <Box>
+        <Ticker />
+      </Box>
 
       <Stack
         width="48rem"
@@ -197,7 +189,6 @@ export const PageHeader: React.FC = () => {
       </Stack>
 
       <Flex justifyContent="center" alignItems="center">
-        <Ticker />
         <LoginButton />
       </Flex>
 
