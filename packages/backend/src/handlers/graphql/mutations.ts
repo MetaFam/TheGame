@@ -39,6 +39,18 @@ export const UpsertPlayer = gql`
     }
   }
 `;
+export const DeleteDuplicatePlayers = gql`
+  mutation DeleteDuplicatePlayers($scIds: [String!] = "") {
+    delete_player_account(
+      where: { Player: { sc_identity_id: { _in: $scIds } } }
+    ) {
+      affected_rows
+    }
+    delete_player(where: { sc_identity_id: { _in: $scIds } }) {
+      affected_rows
+    }
+  }
+`;
 
 export const UpdatePlayer = gql`
   mutation UpdatePlayer(
@@ -71,7 +83,6 @@ export const UpdatePlayer = gql`
       _set: {
         ethereum_address: $ethAddress
         sc_identity_id: $identityId
-        username: $username
         rank: $rank
         total_xp: $totalXp
       }
