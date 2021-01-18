@@ -1,4 +1,11 @@
-import { MetaButton, MetaHeading, MetaTag, Text, Wrap } from '@metafam/ds';
+import {
+  MetaButton,
+  MetaHeading,
+  MetaTag,
+  Text,
+  Wrap,
+  WrapItem,
+} from '@metafam/ds';
 import { FlexContainer } from 'components/Container';
 import { useSetupFlow } from 'contexts/SetupContext';
 import { getMemberships } from 'graphql/getMemberships';
@@ -44,9 +51,11 @@ export const SetupMemberships: React.FC = () => {
             </Text>
             <Wrap justify="center" mb={10} spacing={4} maxW="50rem">
               {memberships.map((member) => (
-                <MetaTag key={member.id} size="lg" fontWeight="normal">
-                  {member.moloch.title}
-                </MetaTag>
+                <WrapItem key={member.id}>
+                  <MetaTag size="lg" fontWeight="normal">
+                    {member.moloch.title}
+                  </MetaTag>
+                </WrapItem>
               ))}
             </Wrap>
           </>

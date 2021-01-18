@@ -52,7 +52,7 @@ export const SetupUsername: React.FC = () => {
   return (
     <FlexContainer>
       <MetaHeading mb={10} textAlign="center">
-        What do we call you?
+        What username would you like?
       </MetaHeading>
       <Input
         background="dark"
