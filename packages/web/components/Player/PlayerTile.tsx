@@ -8,6 +8,7 @@ import {
   Text,
   VStack,
   Wrap,
+  WrapItem,
 } from '@metafam/ds';
 import { MetaLink } from 'components/Link';
 import { PlayerContacts } from 'components/Player/PlayerContacts';
@@ -71,18 +72,26 @@ export const PlayerTile: React.FC<Props> = ({ player }) => (
       </MetaLink>
       <Wrap w="100%" justify="center">
         {player.playerType?.title ? (
-          <MetaTag size="md">{player.playerType?.title.toUpperCase()}</MetaTag>
+          <WrapItem>
+            <MetaTag size="md">
+              {player.playerType?.title.toUpperCase()}
+            </MetaTag>
+          </WrapItem>
         ) : null}
         {player.rank && (
-          <MetaTag
-            backgroundColor={player.rank?.toLowerCase()}
-            size="md"
-            color="blackAlpha.600"
-          >
-            {player.rank}
-          </MetaTag>
+          <WrapItem>
+            <MetaTag
+              backgroundColor={player.rank?.toLowerCase()}
+              size="md"
+              color="blackAlpha.600"
+            >
+              {player.rank}
+            </MetaTag>
+          </WrapItem>
         )}
-        <MetaTag size="md">XP: {Math.floor(player.total_xp)}</MetaTag>
+        <WrapItem>
+          <MetaTag size="md">XP: {Math.floor(player.total_xp)}</MetaTag>
+        </WrapItem>
       </Wrap>
       {player.box_profile?.description ? (
         <VStack spacing={2} align="stretch">
@@ -101,19 +110,22 @@ export const PlayerTile: React.FC<Props> = ({ player }) => (
           </Text>
           <Wrap>
             {player.Player_Skills.slice(0, SHOW_SKILLS).map(({ Skill }) => (
-              <MetaTag
-                key={Skill.id}
-                size="md"
-                fontWeight="normal"
-                backgroundColor={SkillColors[Skill.category]}
-              >
-                {Skill.name}
-              </MetaTag>
+              <WrapItem key={Skill.id}>
+                <MetaTag
+                  size="md"
+                  fontWeight="normal"
+                  backgroundColor={SkillColors[Skill.category]}
+                >
+                  {Skill.name}
+                </MetaTag>
+              </WrapItem>
             ))}
             {player.Player_Skills.length > SHOW_SKILLS && (
-              <MetaTag size="md" fontWeight="normal">
-                {`+${player.Player_Skills.length - SHOW_SKILLS}`}
-              </MetaTag>
+              <WrapItem>
+                <MetaTag size="md" fontWeight="normal">
+                  {`+${player.Player_Skills.length - SHOW_SKILLS}`}
+                </MetaTag>
+              </WrapItem>
             )}
           </Wrap>
         </VStack>
@@ -128,14 +140,18 @@ export const PlayerTile: React.FC<Props> = ({ player }) => (
             {player.daohausMemberships
               .slice(0, SHOW_MEMBERSHIPS)
               .map((member) => (
-                <MetaTag key={member.id} size="md" fontWeight="normal">
-                  {member.moloch.title}
-                </MetaTag>
+                <WrapItem key={member.id}>
+                  <MetaTag size="md" fontWeight="normal">
+                    {member.moloch.title}
+                  </MetaTag>
+                </WrapItem>
               ))}
             {player.daohausMemberships.length > SHOW_MEMBERSHIPS && (
-              <MetaTag size="md" fontWeight="normal">
-                {`+${player.daohausMemberships.length - SHOW_MEMBERSHIPS}`}
-              </MetaTag>
+              <WrapItem>
+                <MetaTag size="md" fontWeight="normal">
+                  {`+${player.daohausMemberships.length - SHOW_MEMBERSHIPS}`}
+                </MetaTag>
+              </WrapItem>
             )}
           </Wrap>
         </VStack>

@@ -31,6 +31,7 @@ export {
   Stack,
   Text,
   Wrap,
+  WrapItem,
   HStack,
   VStack,
   useTheme,

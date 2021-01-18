@@ -1,5 +1,6 @@
 import {
   Avatar,
+  Box,
   Flex,
   Heading,
   HStack,
@@ -7,7 +8,6 @@ import {
   MetaTag,
   Text,
   VStack,
-  Wrap,
 } from '@metafam/ds';
 import { GuildLinks } from 'components/Guild/GuildLinks';
 import { GuildFragmentFragment } from 'graphql/autogen/types';
@@ -42,9 +42,11 @@ export const GuildTile: React.FC<Props> = ({ guild }) => (
           {guild.name}
         </Heading>
       </VStack>
-      <Wrap w="100%" justify="center">
-        {guild.type ? <MetaTag size="md">{guild.type} GUILD</MetaTag> : null}
-      </Wrap>
+      {guild.type ? (
+        <Box align="center">
+          <MetaTag size="md">{guild.type} GUILD</MetaTag>
+        </Box>
+      ) : null}
       {guild.description ? (
         <VStack spacing={2} align="stretch">
           <Text fontFamily="mono" fontSize="sm" color="blueLight">
