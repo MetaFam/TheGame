@@ -1,5 +1,4 @@
-import { Flex, Heading, Image } from '@metafam/ds';
-import MetaGameLogo from 'assets/logo.png';
+import { Heading, VStack } from '@metafam/ds';
 import fetch from 'node-fetch';
 import React, { useEffect, useState } from 'react';
 
@@ -15,21 +14,11 @@ export const Ticker: React.FC = () => {
   }, [price, setPrice]);
 
   return (
-    <Flex
-      alignItems="center"
-      margin="15px"
-      display={price > 0 ? 'flex' : 'none'}
-    >
-      <Image
-        src={MetaGameLogo}
-        alt="MetaGameLogo"
-        objectFit="contain"
-        boxSize="2rem"
-        margin="0 15px 0 0"
-      />
-      <Heading size="xs" color="white" margin="0 15px 0 0">
-        SEED ${price.toFixed(2)}
+    <VStack my="4">
+      <Heading size="xs" fontFamily="mono" color="purple.200">
+        $SEED PRICE
       </Heading>
-    </Flex>
+      <Heading size="xs">${price ? price.toFixed(2) : '$--.--'}</Heading>
+    </VStack>
   );
 };
