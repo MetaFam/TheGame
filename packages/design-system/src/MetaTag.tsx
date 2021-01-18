@@ -1,4 +1,4 @@
-import { Tag, TagProps } from '@chakra-ui/core';
+import { Tag, TagProps } from '@chakra-ui/react';
 import React from 'react';
 
 export const MetaTag: React.FC<TagProps> = ({ children, ...props }) => (
