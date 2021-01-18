@@ -26,7 +26,7 @@
     "express-graphql": "^0.11.0",
     "graphql": "^15.3.0",
     "graphql-tag": "^2.10.4",
-    "graphql-tools": "^6.0.15",
+    "graphql-tools": "^7.0.2",
     "imgix-core-js": "^2.3.1",
     "node-fetch": "^2.6.0",
     "graphql-request": "^3.0.0-next.4",
