@@ -1,4 +1,4 @@
-import { Button, ButtonProps } from '@chakra-ui/core';
+import { Button, ButtonProps } from '@chakra-ui/react';
 import React from 'react';
 
 type LinkProps = { href?: string; target?: '_blank' };

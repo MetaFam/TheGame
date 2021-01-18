@@ -48,8 +48,7 @@ Jest tests are set up to run with `npm test` or `yarn test`. This runs the test 
   foo.test.tsx
 /src
   index.tsx       # Entry Point
-  theme.ts        # Default Theme
-  GlobalStyle.ts  # CSS Reset and Emotion Global Styles
+  theme/index.ts        # Default Theme
 /stories          # Storybook files
   Foo.stories.tsx
 package.json

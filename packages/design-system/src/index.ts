@@ -40,7 +40,7 @@ export {
   ModalCloseButton,
   ModalOverlay,
   useDisclosure,
-} from '@chakra-ui/core';
+} from '@chakra-ui/react';
 
 export { theme as MetaTheme } from './theme';
 export { Icon3box } from './icons';

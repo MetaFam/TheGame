@@ -1,4 +1,4 @@
-import { Text, TextProps, useBreakpointValue } from '@chakra-ui/core';
+import { Text, TextProps, useBreakpointValue } from '@chakra-ui/react';
 import React from 'react';
 
 interface Content {
