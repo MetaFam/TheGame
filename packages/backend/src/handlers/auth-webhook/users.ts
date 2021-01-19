@@ -5,10 +5,10 @@ async function createPlayer(ethAddress: string) {
     ethereum_address: ethAddress,
     username: ethAddress,
   });
-  if (resProfile.insert_Player?.affected_rows !== 1) {
+  if (resProfile.insert_player?.affected_rows !== 1) {
     throw new Error('Error while creating player');
   }
-  return resProfile.insert_Player.returning[0];
+  return resProfile.insert_player.returning[0];
 }
 
 export async function getOrCreatePlayer(ethAddress: string) {
@@ -16,7 +16,7 @@ export async function getOrCreatePlayer(ethAddress: string) {
     ethereum_address: ethAddress,
   });
 
-  let player = res.Player[0];
+  let player = res.player[0];
 
   if (!player) {
     player = await createPlayer(ethAddress);

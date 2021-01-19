@@ -1,13 +1,14 @@
 import gql from 'fake-tag';
 
 export const PlayerFragment = gql`
-  fragment PlayerFragment on Player {
+  fragment PlayerFragment on player {
     id
     username
-    totalXp
+    total_xp
     rank
     ethereum_address
     availability_hours
+    timezone
     EnneagramType {
       description
       name
@@ -38,14 +39,35 @@ export const PlayerFragment = gql`
       job
       location
       name
+      collectiblesFavorites {
+        tokenId
+        address
+      }
     }
     daohausMemberships {
       id
+      shares
       moloch {
         id
         title
         version
+        totalShares
       }
     }
+  }
+`;
+
+export const GuildFragment = gql`
+  fragment GuildFragment on guild {
+    id
+    guildname
+    description
+    discord_invite_url
+    join_button_url
+    logo
+    moloch_address
+    name
+    type
+    website_url
   }
 `;

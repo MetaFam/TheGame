@@ -13,7 +13,10 @@ interface MetaColors {
   platinum: string;
   gold: string;
   silver: string;
+  discord: string;
+  discordDark: string;
   bronze: string;
+  purple80: string;
 }
 
 interface MetaTheme {
@@ -83,12 +86,15 @@ export const theme: Theme = {
     bronze: '#a97142',
     offwhite: '#F6F8F9',
     blue20: 'rgba(79, 105, 205, 0.2)',
+    purple80: 'rgba(70, 20, 100, 0.8)',
     dark: '#1B0D2A',
     purpleBoxDark: '#261943',
     purpleBoxLight: '#392373',
     purpleTag: '#40347C',
     blueLight: '#A5B9F6',
     cyanText: '#79F8FB',
+    discord: '#7289da',
+    discordDark: '#5d6eb3',
   },
   fonts: {
     body: '"IBM Plex Sans", sans-serif',

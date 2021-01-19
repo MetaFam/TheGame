@@ -1,4 +1,5 @@
 import { Flex } from '@metafam/ds';
+import BackgroundImage from 'assets/main-background.jpg';
 import React from 'react';
 
 type Props = React.ComponentProps<typeof Flex>;
@@ -12,6 +13,7 @@ export const PageContainer: React.FC<Props> = ({ children, ...props }) => (
     p={[4, 8, 12]}
     direction="column"
     align="center"
+    backgroundImage={`url(${BackgroundImage})`}
     {...props}
   >
     {children}

@@ -6,7 +6,7 @@ import { PlayerFragment } from './fragments';
 
 const playersQuery = gql`
   query GetPlayers($limit: Int) {
-    Player(order_by: { totalXp: desc }, limit: $limit) {
+    player(order_by: { total_xp: desc }, limit: $limit) {
       ...PlayerFragment
     }
   }
@@ -26,5 +26,5 @@ export const getPlayers = async (limit = 50) => {
     return [];
   }
 
-  return data.Player;
+  return data.player;
 };
