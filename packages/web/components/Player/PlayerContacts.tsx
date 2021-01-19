@@ -12,7 +12,7 @@ type Props = {
 export const PlayerContacts: React.FC<Props> = ({ player }) => {
   return (
     <Wrap>
-      {player.Accounts.map((acc) => {
+      {player.player_accounts.map((acc) => {
         if (acc.type === 'TWITTER') {
           const link = `https://twitter.com/${acc.identifier}`;
           return (

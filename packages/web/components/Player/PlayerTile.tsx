@@ -94,25 +94,25 @@ export const PlayerTile: React.FC<Props> = ({ player }) => (
       ) : null}
     </VStack>
     <VStack w="100%" spacing="6" align="stretch">
-      {player.Player_Skills.length ? (
+      {player.player_skills.length ? (
         <VStack spacing={2} align="stretch">
           <Text fontFamily="mono" fontSize="sm" color="blueLight">
             SKILLS
           </Text>
           <Wrap>
-            {player.Player_Skills.slice(0, SHOW_SKILLS).map(({ Skill }) => (
+            {player.player_skills.slice(0, SHOW_SKILLS).map(({ skill }) => (
               <MetaTag
-                key={Skill.id}
+                key={skill.id}
                 size="md"
                 fontWeight="normal"
-                backgroundColor={SkillColors[Skill.category]}
+                backgroundColor={SkillColors[skill.category]}
               >
-                {Skill.name}
+                {skill.name}
               </MetaTag>
             ))}
-            {player.Player_Skills.length > SHOW_SKILLS && (
+            {player.player_skills.length > SHOW_SKILLS && (
               <MetaTag size="md" fontWeight="normal">
-                {`+${player.Player_Skills.length - SHOW_SKILLS}`}
+                {`+${player.player_skills.length - SHOW_SKILLS}`}
               </MetaTag>
             )}
           </Wrap>
@@ -141,7 +141,7 @@ export const PlayerTile: React.FC<Props> = ({ player }) => (
         </VStack>
       ) : null}
 
-      {player.Accounts.length ? (
+      {player.player_accounts.length ? (
         <VStack spacing={2} align="stretch">
           <Text fontFamily="mono" fontSize="sm" color="blueLight">
             CONTACT
