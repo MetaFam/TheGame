@@ -68,6 +68,61 @@
 - table:
     schema: public
     name: Map
+  insert_permissions:
+  - role: player
+    permission:
+      check: {}
+      columns:
+      - author_address
+      - data
+      - name
+      - id
+      backend_only: false
+  - role: public
+    permission:
+      check: {}
+      columns:
+      - author_address
+      - data
+      - name
+      - id
+      backend_only: false
+  select_permissions:
+  - role: player
+    permission:
+      columns:
+      - id
+      - author_address
+      - name
+      - data
+      filter: {}
+  - role: public
+    permission:
+      columns:
+      - id
+      - author_address
+      - name
+      - data
+      filter: {}
+  update_permissions:
+  - role: player
+    permission:
+      columns:
+      - author_address
+      - data
+      - name
+      - id
+      filter: {}
+      check: null
+  - role: public
+    permission:
+      columns:
+      - author_address
+      - data
+      - name
+      - id
+      filter: {}
+      check: null
 - table:
     schema: public
     name: PlayerRank
