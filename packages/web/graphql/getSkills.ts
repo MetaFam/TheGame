@@ -5,7 +5,7 @@ import { client } from 'graphql/client';
 const skillsQuery = gql`
   query GetSkills {
     skill(
-      order_by: { Player_Skills_aggregate: { count: desc }, category: asc }
+      order_by: { player_skills_aggregate: { count: desc }, category: asc }
     ) {
       ...PlayerSkill
     }

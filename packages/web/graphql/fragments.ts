@@ -13,20 +13,20 @@ export const PlayerFragment = gql`
       description
       name
     }
-    playerType {
+    player_type {
       description
       id
       imageUrl
       title
     }
-    Player_Skills {
-      Skill {
+    player_skills {
+      skill {
         category
         id
         name
       }
     }
-    Accounts(where: { type: { _in: [TWITTER, GITHUB] } }) {
+    player_accounts(where: { type: { _in: [TWITTER, GITHUB] } }) {
       identifier
       type
     }
