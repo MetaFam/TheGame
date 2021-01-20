@@ -6,14 +6,15 @@ import { motion } from 'framer-motion';
 import NextImage from 'next/image';
 import React from 'react';
 
+import { isBackdropFilterSupported } from '../utils/compatibilityHelpers';
 import {
   DrawerItemsLeft,
   DrawerItemsRight,
   DrawerSubItems,
 } from '../utils/drawerItems';
 
-const MetaBox = '/assets/drawer/desktop-box.png';
 const MetaDrawer = '/assets/drawer/desktop.gradient.png';
+const MetaGradientBottom = '/assets/drawer/desktop.gradient.bottom.png';
 const MetaGameLogo = '/assets/logo.alt.png';
 
 const MenuItem: React.FC<React.ComponentProps<typeof MetaLink>> = ({
@@ -41,7 +42,6 @@ const MenuItem: React.FC<React.ComponentProps<typeof MetaLink>> = ({
         p="1"
         fontFamily="mono"
         color="whiteAlpha.700"
-        className="filter-effect"
       >
         {children}
       </Button>
@@ -63,6 +63,8 @@ const SubMenuItem: React.FC<React.ComponentProps<typeof MetaLink>> = ({
       _hover={{ textDecoration: 'none' }}
     >
       <Button
+        position="relative"
+        overflow="hidden"
         display="flex"
         flexDirection="column"
         justifyContent="center"
@@ -77,11 +79,42 @@ const SubMenuItem: React.FC<React.ComponentProps<typeof MetaLink>> = ({
         fontWeight="normal"
         color="whiteAlpha.700"
         margin={3}
-        className="filter-effect"
-        // backgroundImage={`url(${MetaBoxButton})`}
+        boxShadow="0 0 2rem rgba(0, 0, 0, 0)"
+        _before={{
+          content: "''",
+          position: 'absolute',
+          display: 'none',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          transform: 'translate3d(-120%, 0, 0)',
+          filter: 'blur(15px)',
+          background:
+            'linear-gradient(45deg, transparent, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0), transparent)',
+          transition: 'all 0.4s 0.3s ease-in-out',
+          zIndex: 1,
+        }}
+        _after={{
+          content: "''",
+          position: 'absolute',
+          display: 'block',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          filter: 'blur(10px)',
+          transform: 'translate3d(-120%, 0, 0)',
+          background:
+            'linear-gradient(45deg, transparent, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0), transparent)',
+          transition: 'all 0.3s 0.1s ease-in-out',
+          zIndex: 1,
+        }}
         _hover={{
           textDecoration: 'none',
-          backgroundColor: 'rgba(255,255,255,0.1)',
+          boxShadow: '0 0 2rem rgba(0,0,0,.1)',
+          _before: { transform: 'translate3d(120%, 0, 0)' },
+          _after: { transform: 'translate3d(120%, 0, 0)' },
         }}
       >
         {children}
@@ -104,12 +137,6 @@ export const PageHeader: React.FC = () => {
       position="relative"
       display={{ base: 'none', md: 'flex' }}
     >
-      <style jsx>{`
-        button.filter-effect:hover {
-          filter: drop-shadow(0 0 15px #a5b9f680);
-        }
-      `}</style>
-
       <Box>
         <Ticker />
       </Box>
@@ -162,7 +189,6 @@ export const PageHeader: React.FC = () => {
             justifyContent="center"
             alignItems="center"
             width="calc(32rem / 5)"
-            className="filter-effect"
             position="relative"
             _focus={{ outline: 0 }}
             onClick={onToggle}
@@ -217,9 +243,30 @@ export const PageHeader: React.FC = () => {
             right="0"
             onClick={onClose}
           />
-          <Box position="absolute" left="calc(50% - 16.5rem)" top="0">
-            <NextImage src={MetaBox} alt="MetaBox" width={528} height={695} />
-          </Box>
+
+          <Box
+            position="absolute"
+            left="calc(50% - 16.5rem)"
+            top="0"
+            width={522}
+            height={680}
+            background={
+              isBackdropFilterSupported()
+                ? `linear-gradient(180deg, rgba(76, 63, 143, 0.75) 62.76%, rgba(184, 169, 255, 0.75) 100%)`
+                : `linear-gradient(180deg, rgba(76, 63, 143, 1.00) 62.76%, rgba(184, 169, 255, 1.00) 100%)`
+            }
+            style={{ backdropFilter: 'blur(10px)' }}
+          />
+          <Image
+            position="absolute"
+            left="calc(50% - 16.5rem)"
+            top={678}
+            src={MetaGradientBottom}
+            alt="MetaGradientBottom"
+            width={522}
+            height={15}
+          />
+
           {DrawerSubItems.map((item) => {
             return (
               <SubMenuItem
