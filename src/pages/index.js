@@ -260,7 +260,7 @@ function Home() {
                 </p>
                 <p>
                   The long term goal of MetaGame is to build an alternative
-                  society; a global society focused around solving problem - not
+                  society; a global society focused around solving problems - not
                   squeezing the world for profit.
                 </p>
                 <p>Building the future we want to live in:</p>
