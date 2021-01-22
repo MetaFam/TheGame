@@ -70,6 +70,10 @@ export const UpdatePlayer = gql`
           }
           {
             ethereum_address: { _eq: $ethAddress }
+            sc_identity_id: { _is_null: true }
+          }
+          {
+            ethereum_address: { _eq: $ethAddress }
             username: { _eq: $username }
           }
           { sc_identity_id: { _eq: $identityId } }
