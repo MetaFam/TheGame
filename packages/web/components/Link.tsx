@@ -10,9 +10,8 @@ export const MetaLink: React.FC<Props> = ({
   href,
   as,
   passHref,
-  prefetch,
   replace,
-  scroll,
+  scroll = true,
   shallow,
   isExternal,
   ...props
@@ -30,7 +29,6 @@ export const MetaLink: React.FC<Props> = ({
       href={href}
       as={as}
       passHref={passHref || true}
-      prefetch={prefetch}
       replace={replace}
       scroll={scroll}
       shallow={shallow}

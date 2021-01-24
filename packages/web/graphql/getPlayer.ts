@@ -6,7 +6,7 @@ import { PlayerFragment } from './fragments';
 
 const playerQuery = gql`
   query GetPlayer($username: String!) {
-    Player(where: { username: { _eq: $username } }) {
+    player(where: { username: { _eq: $username } }) {
       ...PlayerFragment
     }
   }
@@ -19,5 +19,5 @@ export const getPlayer = async (username: string | undefined) => {
     .query<GetPlayerQuery, GetPlayerQueryVariables>(playerQuery, { username })
     .toPromise();
 
-  return data?.Player[0];
+  return data?.player[0];
 };

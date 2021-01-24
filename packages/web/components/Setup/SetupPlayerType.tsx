@@ -36,11 +36,12 @@ export const SetupPlayerType: React.FC = () => {
         playerId: user.id,
         input: {
           enneagram: personalityType?.name,
-          playerTypeId: playerType?.id,
+          player_type_id: playerType?.id,
         },
       });
 
       if (error) {
+        // eslint-disable-next-line no-console
         console.warn(error);
         toast({
           title: 'Error',

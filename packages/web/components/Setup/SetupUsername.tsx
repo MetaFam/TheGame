@@ -32,6 +32,7 @@ export const SetupUsername: React.FC = () => {
     });
 
     if (error) {
+      // eslint-disable-next-line no-console
       console.warn(error);
       const errorDescription = error.message.includes('Uniqueness violation')
         ? 'Username already taken 😢'
@@ -51,7 +52,7 @@ export const SetupUsername: React.FC = () => {
   return (
     <FlexContainer>
       <MetaHeading mb={10} textAlign="center">
-        What do we call you?
+        What username would you like?
       </MetaHeading>
       <Input
         background="dark"

@@ -1,27 +1,5 @@
 - table:
     schema: public
-    name: Account
-  object_relationships:
-  - name: Player
-    using:
-      foreign_key_constraint_on: player_id
-  select_permissions:
-  - role: player
-    permission:
-      columns:
-      - player_id
-      - identifier
-      - type
-      filter: {}
-  - role: public
-    permission:
-      columns:
-      - player_id
-      - identifier
-      - type
-      filter: {}
-- table:
-    schema: public
     name: AccountType
   is_enum: true
 - table:
@@ -43,32 +21,6 @@
       filter: {}
 - table:
     schema: public
-    name: Guild
-  object_relationships:
-  - name: GuildType
-    using:
-      foreign_key_constraint_on: type
-  select_permissions:
-  - role: player
-    permission:
-      columns:
-      - id
-      - type
-      - identifier
-      - name
-      - logo
-      filter: {}
-  - role: public
-    permission:
-      columns:
-      - id
-      - type
-      - identifier
-      - name
-      - logo
-      filter: {}
-- table:
-    schema: public
     name: GuildType
   is_enum: true
   array_relationships:
@@ -78,7 +30,7 @@
         column: type
         table:
           schema: public
-          name: Guild
+          name: guild
   select_permissions:
   - role: player
     permission:
@@ -97,11 +49,12 @@
   - role: player
     permission:
       check: {}
+      set:
+        author_address: x-hasura-
       columns:
       - author_address
       - data
       - name
-      - id
       backend_only: false
   - role: public
     permission:
@@ -110,7 +63,6 @@
       - author_address
       - data
       - name
-      - id
       backend_only: false
   select_permissions:
   - role: player
@@ -118,46 +70,145 @@
       columns:
       - author_address
       - data
-      - name
       - id
+      - name
       filter: {}
   - role: public
     permission:
       columns:
       - author_address
       - data
-      - name
       - id
+      - name
       filter: {}
   update_permissions:
   - role: player
     permission:
       columns:
-      - author_address
       - data
       - name
-      - id
-      filter: {}
-      check: null
-  - role: public
-    permission:
-      columns:
-      - author_address
-      - data
-      - name
-      - id
       filter: {}
       check: null
 - table:
     schema: public
-    name: Player
+    name: PlayerRank
+  is_enum: true
+- table:
+    schema: public
+    name: SkillCategory
+  is_enum: true
+- table:
+    schema: public
+    name: guild
+  object_relationships:
+  - name: GuildType
+    using:
+      foreign_key_constraint_on: type
+  array_relationships:
+  - name: guild_accounts
+    using:
+      foreign_key_constraint_on:
+        column: guild_id
+        table:
+          schema: public
+          name: guild_account
+  - name: guild_players
+    using:
+      foreign_key_constraint_on:
+        column: guild_id
+        table:
+          schema: public
+          name: guild_player
+  select_permissions:
+  - role: player
+    permission:
+      columns:
+      - id
+      - type
+      - name
+      - logo
+      - description
+      - join_button_url
+      - moloch_address
+      - discord_invite_url
+      - website_url
+      - guildname
+      filter: {}
+  - role: public
+    permission:
+      columns:
+      - id
+      - type
+      - name
+      - logo
+      - description
+      - join_button_url
+      - moloch_address
+      - discord_invite_url
+      - website_url
+      - guildname
+      filter: {}
+- table:
+    schema: public
+    name: guild_account
+  object_relationships:
+  - name: AccountType
+    using:
+      foreign_key_constraint_on: type
+  - name: Guild
+    using:
+      foreign_key_constraint_on: guild_id
+- table:
+    schema: public
+    name: guild_player
+  object_relationships:
+  - name: Guild
+    using:
+      foreign_key_constraint_on: guild_id
+  - name: Player
+    using:
+      foreign_key_constraint_on: player_id
+  select_permissions:
+  - role: player
+    permission:
+      columns: []
+      filter: {}
+  - role: public
+    permission:
+      columns: []
+      filter: {}
+- table:
+    schema: public
+    name: me
+  object_relationships:
+  - name: player
+    using:
+      manual_configuration:
+        remote_table:
+          schema: public
+          name: player
+        column_mapping:
+          id: id
+  select_permissions:
+  - role: player
+    permission:
+      columns:
+      - id
+      - username
+      - ethereum_address
+      filter:
+        id:
+          _eq: X-Hasura-User-Id
+- table:
+    schema: public
+    name: player
   object_relationships:
   - name: EnneagramType
     using:
       foreign_key_constraint_on: enneagram
   - name: playerType
     using:
-      foreign_key_constraint_on: playerTypeId
+      foreign_key_constraint_on: player_type_id
   array_relationships:
   - name: Accounts
     using:
@@ -165,14 +216,21 @@
         column: player_id
         table:
           schema: public
-          name: Account
+          name: player_account
+  - name: guilds
+    using:
+      foreign_key_constraint_on:
+        column: player_id
+        table:
+          schema: public
+          name: guild_player
   - name: Player_Skills
     using:
       foreign_key_constraint_on:
         column: player_id
         table:
           schema: public
-          name: Player_Skill
+          name: player_skill
   remote_relationships:
   - definition:
       remote_field:
@@ -200,12 +258,12 @@
       - enneagram
       - ethereum_address
       - id
-      - playerTypeId
+      - player_type_id
       - rank
       - role
-      - scIdentityId
+      - sc_identity_id
+      - total_xp
       - timezone
-      - totalXp
       - username
       filter: {}
   - role: public
@@ -217,8 +275,8 @@
       - id
       - rank
       - role
+      - total_xp
       - timezone
-      - totalXp
       - username
       filter: {}
   update_permissions:
@@ -227,7 +285,7 @@
       columns:
       - availability_hours
       - enneagram
-      - playerTypeId
+      - player_type_id
       - role
       - timezone
       - username
@@ -253,31 +311,29 @@
     webhook_from_env: TRIGGERS_ENDPOINT
 - table:
     schema: public
-    name: PlayerType
+    name: player_account
+  object_relationships:
+  - name: Player
+    using:
+      foreign_key_constraint_on: player_id
   select_permissions:
   - role: player
     permission:
       columns:
-      - description
-      - id
-      - imageUrl
-      - title
+      - player_id
+      - identifier
+      - type
       filter: {}
   - role: public
     permission:
       columns:
-      - id
-      - description
-      - imageUrl
-      - title
+      - player_id
+      - identifier
+      - type
       filter: {}
 - table:
     schema: public
-    name: Player_Rank
-  is_enum: true
-- table:
-    schema: public
-    name: Player_Skill
+    name: player_skill
   object_relationships:
   - name: Skill
     using:
@@ -316,7 +372,27 @@
           _eq: X-Hasura-User-Id
 - table:
     schema: public
-    name: Skill
+    name: player_type
+  select_permissions:
+  - role: player
+    permission:
+      columns:
+      - description
+      - id
+      - imageUrl
+      - title
+      filter: {}
+  - role: public
+    permission:
+      columns:
+      - id
+      - description
+      - imageUrl
+      - title
+      filter: {}
+- table:
+    schema: public
+    name: skill
   array_relationships:
   - name: Player_Skills
     using:
@@ -324,7 +400,7 @@
         column: skill_id
         table:
           schema: public
-          name: Player_Skill
+          name: player_skill
   insert_permissions:
   - role: player
     permission:
@@ -349,29 +425,3 @@
       - id
       filter: {}
       allow_aggregations: true
-- table:
-    schema: public
-    name: SkillCategory
-  is_enum: true
-- table:
-    schema: public
-    name: me
-  object_relationships:
-  - name: player
-    using:
-      manual_configuration:
-        remote_table:
-          schema: public
-          name: Player
-        column_mapping:
-          id: id
-  select_permissions:
-  - role: player
-    permission:
-      columns:
-      - id
-      - username
-      - ethereum_address
-      filter:
-        id:
-          _eq: X-Hasura-User-Id

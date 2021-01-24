@@ -1,4 +1,3 @@
-import BackgroundImage from 'assets/profile-background.jpg';
 import { FlexContainer, PageContainer } from 'components/Container';
 import { SetupHeader } from 'components/Setup/SetupHeader';
 import { useSetupFlow } from 'contexts/SetupContext';
@@ -20,6 +19,8 @@ export const SetupProfile: React.FC = () => {
     setPlayerType,
     availability,
     setAvailability,
+    timeZone,
+    setTimeZone,
     skills,
     setSkills,
   } = useSetupFlow();
@@ -27,34 +28,38 @@ export const SetupProfile: React.FC = () => {
   const { address } = useWeb3();
   useEffect(() => {
     if (user?.player) {
+      const {player} = user;
       if (
-        user.player.username &&
-        user.player.username.toLowerCase() !== address?.toLowerCase() &&
+        player.username &&
+        player.username.toLowerCase() !== address?.toLowerCase() &&
         !username
       ) {
-        setUsername(user.player.username);
+        setUsername(player.username);
       }
-      if (user.player.availability_hours && !availability) {
-        setAvailability(user.player.availability_hours.toString());
+      if (player.availability_hours && !availability) {
+        setAvailability(player.availability_hours.toString());
       }
-      if (user.player.EnneagramType && !personalityType) {
-        setPersonalityType(PersonalityTypes[user.player.EnneagramType.name]);
+      if (player.EnneagramType && !personalityType) {
+        setPersonalityType(PersonalityTypes[player.EnneagramType.name]);
       }
-      if (user.player.playerType && !playerType) {
-        setPlayerType(user.player.playerType);
+      if (player.playerType && !playerType) {
+        setPlayerType(player.playerType);
       }
       if (
-        user.player.Player_Skills &&
-        user.player.Player_Skills.length > 0 &&
+        player.Player_Skills &&
+        player.Player_Skills.length > 0 &&
         skills.length === 0
       ) {
         setSkills(
-          user.player.Player_Skills.map((s) => ({
+          player.Player_Skills.map((s) => ({
             value: s.Skill.id,
             label: s.Skill.name,
             ...s.Skill,
           })),
         );
+      }
+      if (player.timezone && !timeZone) {
+        setTimeZone(player.timezone);
       }
     }
   }, [
@@ -68,12 +73,14 @@ export const SetupProfile: React.FC = () => {
     setPlayerType,
     availability,
     setAvailability,
+    timeZone,
+    setTimeZone,
     skills,
     setSkills,
   ]);
 
   return (
-    <PageContainer backgroundImage={`url(${BackgroundImage})`}>
+    <PageContainer>
       {(step + 1) % numTotalSteps !== 0 && <SetupHeader />}
       <FlexContainer flex={1} pt={24}>
         {options[step].screens[screen].component}
