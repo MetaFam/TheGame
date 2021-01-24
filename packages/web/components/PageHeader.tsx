@@ -102,7 +102,7 @@ export const PageHeader: React.FC = () => {
       color="offwhite"
       px="8"
       position="relative"
-      display={{ base: 'none', md: 'flex' }}
+      display={{ base: 'none', lg: 'flex' }}
     >
       <style jsx>{`
         button.filter-effect:hover {

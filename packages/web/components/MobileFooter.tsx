@@ -53,7 +53,8 @@ const SubMenuItem: React.FC<React.ComponentProps<typeof MetaLink>> = ({
       href={href}
       isExternal={isExternal}
       margin="0 !important"
-      width="7rem"
+      width="7remimport { useBreakpointValue } from '@chakra-ui/react';
+"
       height="7rem"
     >
       <Button
@@ -98,7 +99,7 @@ export const MobileFooter: React.FC = () => {
       wrap="wrap"
       color="offwhite"
       position="fixed"
-      display={{ base: 'flex', md: 'none' }}
+      display={{ base: 'flex', lg: 'none' }}
       left="0"
       bottom="0"
       width="100%"
@@ -166,9 +167,9 @@ export const MobileFooter: React.FC = () => {
         <Stack
           position="fixed"
           left="0"
-          top="0"
+          bottom="5rem"
           width="100vw"
-          height="calc(100vh - 5rem)"
+          height="min(100vh, 36rem)"
           background="linear-gradient(180deg, rgba(76, 63, 143, 0.95) 62.76%, rgba(184, 169, 255, 0.95) 100%);"
           display="grid"
           gridTemplateColumns="auto auto auto"
