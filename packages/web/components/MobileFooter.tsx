@@ -158,8 +158,8 @@ export const MobileFooter: React.FC = () => {
         animate={isOpen ? 'show' : 'hide'}
         transition={{ duration: 0.25 }}
         variants={{
-          show: { opacity: 1, pointerEvents: 'inherit' },
-          hide: { opacity: 0, pointerEvents: 'none' },
+          show: { display: 'block', opacity: 1, pointerEvents: 'inherit' },
+          hide: { display: 'none', opacity: 0, pointerEvents: 'none' },
         }}
         onClick={onClose}
       >
