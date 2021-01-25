@@ -34,13 +34,11 @@ export const MapComponent: FC<MapProps> = ({ dispatch, data, background }) => {
     <MapContainer
       onClick={(e: any) => {
         dispatch({ type: 'ACTIVATE_CONTEXT', active: false });
-        if (e.target.className) {
-          if (
-            e.target.classList.contains('item') &&
-            e.target.classList.contains('preserve-context')
-          ) {
-            dispatch({ type: 'EDIT' });
-          }
+        if (
+          e.target.classList.contains('item') &&
+          e.target.classList.contains('preserve-context')
+        ) {
+          dispatch({ type: 'EDIT' });
         }
       }}
     >

@@ -146,7 +146,6 @@ export const MapContextComponent: FC<MapContextProps> = ({
 
       {(type === 'object' || type === 'text') && (
         <>
-          {console.info('TYP', type)}
           {type === 'text' && (
             <button
               type="button"

@@ -32,12 +32,11 @@ export const MapEditComponent: FC<MapEditProps> = ({
   content,
   url,
 }) => {
-  console.info('MEC', edit, active)
   return (
     <MapEditContainer
       style={{
-        opacity: (!active && edit) ? 1 : 0,
-        pointerEvents: (!active && edit) ? 'inherit' : 'none',
+        opacity: edit ? 1 : 0,
+        pointerEvents: edit ? 'inherit' : 'none',
         left: x,
         top: y,
       }}
@@ -93,7 +92,12 @@ export const MapEditComponent: FC<MapEditProps> = ({
                 display="flex"
                 justifyContent="flex-end"
               >
-                <Button colorScheme="purple">Cancel</Button>
+                <Button
+                  colorScheme="purple"
+                  onClick={(e) => dispatch({ type: 'EDIT', value: false })}
+                >
+                  Cancel
+                </Button>
                 <Button
                   colorScheme="purple"
                   onClick={(e) => dispatch({ type: 'UPDATE_SIZE', width, height })}
@@ -124,7 +128,12 @@ export const MapEditComponent: FC<MapEditProps> = ({
                 display="flex"
                 justifyContent="flex-end"
               >
-                <Button colorScheme="purple">Cancel</Button>
+                <Button
+                  colorScheme="purple"
+                  onClick={(e) => dispatch({ type: 'EDIT', value: false })}
+                >
+                  Cancel
+                </Button>
                 <Button
                   colorScheme="purple"
                   onClick={(e) => dispatch({ type: 'CHANGE_TEXT', content })}
