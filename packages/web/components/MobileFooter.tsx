@@ -28,11 +28,10 @@ const MenuItem: React.FC<React.ComponentProps<typeof MetaLink>> = ({
         flexDirection="column"
         justifyContent="center"
         alignItems="center"
-        width="20vw"
-        height="5rem"
+        width="19vw"
+        height="100%"
         textDecoration="none"
         variant="link"
-        p="1"
         fontFamily="mono"
         color="whiteAlpha.700"
       >
@@ -53,24 +52,22 @@ const SubMenuItem: React.FC<React.ComponentProps<typeof MetaLink>> = ({
       href={href}
       isExternal={isExternal}
       margin="0 !important"
-      width="7rem"
-      height="7rem"
+      width="33vw"
+      height="33vw"
     >
       <Button
         display="flex"
         flexDirection="column"
         alignItems="center"
         justifyContent="center"
-        width="6rem"
-        height="6rem"
+        width="95%"
+        height="95%"
         textDecoration="none"
         fontWeight="normal"
         backgroundColor="rgba(255,255,255,0.08)"
         borderRadius="5px"
         variant="link"
         color="whiteAlpha.700"
-        margin="0.5rem"
-        padding="0.5rem"
       >
         {children}
       </Button>
@@ -84,7 +81,7 @@ export interface SubImageProps {
 }
 
 export const SubImage: React.FC<SubImageProps> = ({ src, alt }) => {
-  return <Image src={src} alt={alt} height="12" mb={2} />;
+  return <Image src={src} alt={alt} height="18vw" mb={2} />;
 };
 
 export const MobileFooter: React.FC = () => {
@@ -102,7 +99,7 @@ export const MobileFooter: React.FC = () => {
       left="0"
       bottom="0"
       width="100%"
-      height="5rem"
+      height="25vw"
       zIndex="11"
       background="linear-gradient(180deg, #40347C 58.55%, #A751BD 100%)"
     >
@@ -134,13 +131,13 @@ export const MobileFooter: React.FC = () => {
           justifyContent="center"
           alignItems="center"
           width="20vw"
-          height="5rem"
+          height="25vw"
           onClick={onToggle}
         >
           <Image // TODO use NextImage component once images are without text
             src={MetaGameLogo}
             alt="MetaGameLogo"
-            height="6rem"
+            height="30vw"
             position="relative"
             top="0.5rem"
           />
@@ -162,13 +159,14 @@ export const MobileFooter: React.FC = () => {
           hide: { opacity: 0, pointerEvents: 'none' },
         }}
         onClick={onClose}
+        style={{ opacity: 0 }}
       >
         <Stack
           position="fixed"
-          left="0"
-          top="0"
+          left={0}
+          bottom="25vw"
           width="100vw"
-          height="calc(100vh - 5rem)"
+          height="min(100vh - 25vw, 5 * 31vw)"
           background="linear-gradient(180deg, rgba(76, 63, 143, 0.95) 62.76%, rgba(184, 169, 255, 0.95) 100%);"
           display="grid"
           gridTemplateColumns="auto auto auto"
