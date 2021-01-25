@@ -38,7 +38,6 @@ export const MapPopoverComponent: FC<MapPopoverProps> = ({
   useEffect(() => {
     dispatch({ type: 'UPDATE_NAME_FETCHING', value: state.fetching });
     dispatch({ type: 'UPDATE_NAME_ERROR', value: state.error });
-    console.log(state);
   }, [dispatch, state]);
 
   async function updateMapName() {

@@ -167,6 +167,7 @@ export function MapActions(state: State, action: AnyAction): State {
         map: {
           context: {
             active: { $set: action.active },
+            edit: { $set: action.active ? state.map.context.edit : undefined },
             x: { $set: action.x ?? state.map.context.x },
             y: { $set: action.y ?? state.map.context.y },
           },
@@ -182,6 +183,7 @@ export function MapActions(state: State, action: AnyAction): State {
         },
       });
     case 'EDIT':
+      console.log('KEY', action.key)
       return update(state, {
         map: {
           context: {
@@ -376,7 +378,7 @@ export function MapActions(state: State, action: AnyAction): State {
                 style: {
                   width: 100,
                   height: 100,
-                  background: `conic-gradient(at 50% 50%,transparent 135deg,#FFF 0,#FFF 225deg, transparent 0)`,
+                  background: `conic-gradient(at 50% 0%,transparent 155deg,#FFF 0,#FFF 205deg, transparent 0)`,
                 },
                 position: { x: state.map.context.x, y: state.map.context.y },
                 data: { label: '' },
@@ -534,7 +536,7 @@ export function MapActions(state: State, action: AnyAction): State {
         map: {
           data: {
             $set: state.map.data.map((item) => {
-              if (item.id.toString() === state.map.activeIndex.toString()) {
+              if (item.id.toString() === state.map.activeIndex?.toString()) {
                 if (item.className.indexOf('map-context-text') !== -1) {
                   return {
                     ...item,
@@ -571,7 +573,7 @@ export function MapActions(state: State, action: AnyAction): State {
         map: {
           data: {
             $set: state.map.data.map((item) => {
-              if (item.id.toString() === state.map.activeIndex.toString()) {
+              if (item.id.toString() === state.map.activeIndex?.toString()) {
                 return {
                   ...item,
                   style: {

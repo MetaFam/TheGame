@@ -36,9 +36,11 @@ class WrappedApp extends App<AppProps> {
   public static getInitialProps = async ({ Component, ctx }: AppContext) => {
     return {
       pageProps: {
-        ...(Component.getInitialProps
+        ...(
+          Component.getInitialProps
           ? await Component.getInitialProps(ctx)
-          : {}),
+          : {}
+        ),
         appProp: ctx.pathname,
       },
     };

@@ -24,6 +24,7 @@ export const MapEditComponent: FC<MapEditProps> = ({
   dispatch,
   type,
   edit,
+  active,
   x,
   y,
   width,
@@ -31,142 +32,141 @@ export const MapEditComponent: FC<MapEditProps> = ({
   content,
   url,
 }) => {
+  console.info('MEC', edit, active)
   return (
     <MapEditContainer
       style={{
-        opacity: edit ? 1 : 0,
-        pointerEvents: edit ? 'inherit' : 'none',
+        opacity: (!active && edit) ? 1 : 0,
+        pointerEvents: (!active && edit) ? 'inherit' : 'none',
         left: x,
         top: y,
       }}
     >
-      {edit === 'color' ? (
-        <CirclePicker
-          onChangeComplete={(color) =>
-            dispatch({ type: 'UPDATE_COLOR', color: color.hex })
-          }
-        />
-      ) : (
-        ''
-      )}
-      {edit === 'resize' ? (
-        <div className="resize preserve-context">
-          <div className="input preserve-context">
-            <p>Width (px)</p>
-            <Input
-              placeholder="Width (px)"
-              size="md"
-              className="preserve-context"
-              value={width}
-              onChange={(e) =>
-                dispatch({
-                  type: 'UPDATE_RESIZE',
-                  key: 'width',
-                  value: e.target.value,
-                })
+      {(() => {
+        switch (edit) {
+        case 'color':
+          return (
+            <CirclePicker
+              onChangeComplete={(color) =>
+                dispatch({ type: 'UPDATE_COLOR', color: color.hex })
               }
             />
-          </div>
-          <div className="input preserve-context">
-            <p>Height (px)</p>
-            <Input
-              placeholder="Height (px)"
-              size="md"
-              className="preserve-context"
-              value={height}
-              onChange={(e) =>
-                dispatch({
-                  type: 'UPDATE_RESIZE',
-                  key: 'height',
-                  value: e.target.value,
-                })
-              }
-            />
-          </div>
-          <ButtonGroup
-            variant="outline"
-            size="sm"
-            display="flex"
-            justifyContent="flex-end"
-          >
-            <Button colorScheme="purple">Cancel</Button>
-            <Button
-              colorScheme="purple"
-              onClick={(e) => dispatch({ type: 'UPDATE_SIZE', width, height })}
-            >
-              Update
-            </Button>
-          </ButtonGroup>
-        </div>
-      ) : (
-        ''
-      )}
-
-      {edit === 'text' ? (
-        <div className="text preserve-context">
-          <div className="input preserve-context">
-            <p>Content</p>
-            <Input
-              placeholder="Text goes here"
-              size="md"
-              className="preserve-context"
-              value={content}
-              onChange={(e) =>
-                dispatch({ type: 'UPDATE_TEXT', value: e.target.value })
-              }
-            />
-          </div>
-          <ButtonGroup
-            variant="outline"
-            size="sm"
-            display="flex"
-            justifyContent="flex-end"
-          >
-            <Button colorScheme="purple">Cancel</Button>
-            <Button
-              colorScheme="purple"
-              onClick={(e) => dispatch({ type: 'CHANGE_TEXT', content })}
-            >
-              Update
-            </Button>
-          </ButtonGroup>
-        </div>
-      ) : (
-        ''
-      )}
-
-      {edit === 'url' ? (
-        <div className="text preserve-context">
-          <div className="input preserve-context">
-            <p>URL</p>
-            <Input
-              placeholder="URL goes here"
-              size="md"
-              className="preserve-context"
-              value={url}
-              onChange={(e) =>
-                dispatch({ type: 'UPDATE_URL', value: e.target.value })
-              }
-            />
-          </div>
-          <ButtonGroup
-            variant="outline"
-            size="sm"
-            display="flex"
-            justifyContent="flex-end"
-          >
-            <Button colorScheme="purple">Cancel</Button>
-            <Button
-              colorScheme="purple"
-              onClick={(e) => dispatch({ type: 'CHANGE_URL', url })}
-            >
-              Update
-            </Button>
-          </ButtonGroup>
-        </div>
-      ) : (
-        ''
-      )}
+          )
+        case 'resize':
+          return (
+            <div className="resize preserve-context">
+              <div className="input preserve-context">
+                <p>Width (px)</p>
+                <Input
+                  placeholder="Width (px)"
+                  size="md"
+                  className="preserve-context"
+                  value={width}
+                  onChange={(e) =>
+                    dispatch({
+                      type: 'UPDATE_RESIZE',
+                      key: 'width',
+                      value: e.target.value,
+                    })
+                  }
+                />
+              </div>
+              <div className="input preserve-context">
+                <p>Height (px)</p>
+                <Input
+                  placeholder="Height (px)"
+                  size="md"
+                  className="preserve-context"
+                  value={height}
+                  onChange={(e) =>
+                    dispatch({
+                      type: 'UPDATE_RESIZE',
+                      key: 'height',
+                      value: e.target.value,
+                    })
+                  }
+                />
+              </div>
+              <ButtonGroup
+                variant="outline"
+                size="sm"
+                display="flex"
+                justifyContent="flex-end"
+              >
+                <Button colorScheme="purple">Cancel</Button>
+                <Button
+                  colorScheme="purple"
+                  onClick={(e) => dispatch({ type: 'UPDATE_SIZE', width, height })}
+                >
+                  Update
+                </Button>
+              </ButtonGroup>
+            </div>
+          )
+        case 'text':
+          return (
+            <div className="text preserve-context">
+              <div className="input preserve-context">
+                <p>Content</p>
+                <Input
+                  placeholder="Text goes here"
+                  size="md"
+                  className="preserve-context"
+                  value={content}
+                  onChange={(e) =>
+                    dispatch({ type: 'UPDATE_TEXT', value: e.target.value })
+                  }
+                />
+              </div>
+              <ButtonGroup
+                variant="outline"
+                size="sm"
+                display="flex"
+                justifyContent="flex-end"
+              >
+                <Button colorScheme="purple">Cancel</Button>
+                <Button
+                  colorScheme="purple"
+                  onClick={(e) => dispatch({ type: 'CHANGE_TEXT', content })}
+                >
+                  Update
+                </Button>
+              </ButtonGroup>
+            </div>
+          )
+        case 'url':
+          return (
+            <div className="text preserve-context">
+              <div className="input preserve-context">
+                <p>URL</p>
+                <Input
+                  placeholder="URL goes here"
+                  size="md"
+                  className="preserve-context"
+                  value={url}
+                  onChange={(e) =>
+                    dispatch({ type: 'UPDATE_URL', value: e.target.value })
+                  }
+                />
+              </div>
+              <ButtonGroup
+                variant="outline"
+                size="sm"
+                display="flex"
+                justifyContent="flex-end"
+              >
+                <Button colorScheme="purple">Cancel</Button>
+                <Button
+                  colorScheme="purple"
+                  onClick={(e) => dispatch({ type: 'CHANGE_URL', url })}
+                >
+                  Update
+                </Button>
+              </ButtonGroup>
+            </div>
+          )
+        }
+      })()}
     </MapEditContainer>
   );
 };
@@ -175,6 +175,7 @@ export const MapEdit = connect((state: State) => ({
   active: state.map.context.active,
   type: state.map.context.type,
   edit: state.map.context.edit,
+  active: state.map.context.active,
   x: state.map.context.x,
   y: state.map.context.y,
   width: state.map.context.resize.width,
