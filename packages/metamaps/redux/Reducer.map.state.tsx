@@ -288,11 +288,9 @@ export function MapActions(state: State, action: AnyAction): State {
           popover: {
             assignment: { $set: action.value },
             assignmentProfiles: {
-              $set:
-                state.map.data.filter(
-                  (item) =>
-                    item.id.toString() === state.map.activeIndex.toString(),
-                )[0].data.users ?? [],
+              $set: state.map.data.find((item) => (
+                item.id === state.map.activeIndex
+              ))?.data.users ?? [],
             },
           },
         },
