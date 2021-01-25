@@ -164,7 +164,12 @@ export const MapEditComponent: FC<MapEditProps> = ({
                 display="flex"
                 justifyContent="flex-end"
               >
-                <Button colorScheme="purple">Cancel</Button>
+                <Button
+                  colorScheme="purple"
+                  onClick={(e) => dispatch({ type: 'EDIT', value: false })}
+                >
+                  Cancel
+                </Button>
                 <Button
                   colorScheme="purple"
                   onClick={(e) => dispatch({ type: 'CHANGE_URL', url })}

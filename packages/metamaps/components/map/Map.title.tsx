@@ -41,12 +41,11 @@ export const MapTitleComponent: FC<MapTitleProps> = ({
   useEffect(() => {
     dispatch({ type: 'UPDATE_DATA_FETCHING', value: state.fetching });
     dispatch({ type: 'UPDATE_DATA_ERROR', value: state.error });
-    console.log(state);
   }, [dispatch, state]);
 
   async function updateMapData() {
     const elements = data.map((item) => {
-      if (item.data.type === 'image' || item.data.type === 'video') {
+      if (item.data?.type === 'image' || item.data?.type === 'video') {
         return {
           ...item,
           data: {

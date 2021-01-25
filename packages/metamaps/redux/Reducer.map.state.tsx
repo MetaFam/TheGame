@@ -446,6 +446,7 @@ export function MapActions(state: State, action: AnyAction): State {
                       src={action.value}
                       alt="metamap-content"
                       className="map-context-image"
+                      style={{pointerEvents: 'none'}}
                     />
                   ),
                   type: 'image',
@@ -578,8 +579,8 @@ export function MapActions(state: State, action: AnyAction): State {
                   ...item,
                   style: {
                     ...item.style,
-                    width: `${action.width}px` ?? item.style.width,
-                    height: `${action.height}px` ?? item.style.height,
+                    width: action.width ? `${action.width}px` : item.style.width,
+                    height: action.height ? `${action.height}px` : item.style.height,
                   },
                 };
               }
@@ -611,6 +612,7 @@ export function MapActions(state: State, action: AnyAction): State {
     case 'CHANGE_URL':
       return update(state, {
         map: {
+          context: { edit: { $set: false } },
           data: {
             $set: state.map.data.map((item) => {
               if (item.id.toString() === state.map.activeIndex.toString()) {

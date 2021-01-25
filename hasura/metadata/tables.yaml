@@ -89,6 +89,13 @@
       - name
       filter: {}
       check: null
+  - role: public
+    permission:
+      columns:
+      - data
+      - name
+      filter: {}
+      check: null
 - table:
     schema: public
     name: PlayerRank

@@ -64,11 +64,11 @@ export const MapPopoverContainer = styled.div`
       padding: 15px;
     }
 
-    div.profiles {
+    .profiles {
       padding: 15px 0;
     }
 
-    div.profile {
+    .profile {
       display: flex;
       align-items: center;
       justify-content: space-between;
