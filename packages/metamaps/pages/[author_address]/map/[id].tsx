@@ -39,7 +39,7 @@ export const MapPageComponent: FC<MapPageProps> = ({ dispatch }) => {
       };
 
   items.elements = items.elements.map((item) => {
-    if (item.data.type === 'image') {
+    if (item.data?.type === 'image') {
       return {
         ...item,
         data: {
@@ -54,7 +54,7 @@ export const MapPageComponent: FC<MapPageProps> = ({ dispatch }) => {
         },
       };
     }
-    if (item.data.type === 'video') {
+    if (item.data?.type === 'video') {
       return {
         ...item,
         data: {

@@ -29,7 +29,6 @@ export const IndexCreateComponent: FC<IndexCreateProps> = ({
   useEffect(() => {
     dispatch({ type: 'CREATE_FETCHING', value: state.fetching });
     dispatch({ type: 'CREATE_ERROR', value: state.error });
-    console.log(state);
   }, [dispatch, state]);
 
   async function insertMap(author, name) {

@@ -38,7 +38,6 @@ export const MapPopoverComponent: FC<MapPopoverProps> = ({
   useEffect(() => {
     dispatch({ type: 'UPDATE_NAME_FETCHING', value: state.fetching });
     dispatch({ type: 'UPDATE_NAME_ERROR', value: state.error });
-    console.log(state);
   }, [dispatch, state]);
 
   async function updateMapName() {
@@ -149,32 +148,31 @@ export const MapPopoverComponent: FC<MapPopoverProps> = ({
         <div className={`popover ${assignment ? 'active' : ''}`}>
           <h2>Assign Users</h2>
           <div className="profiles">
-            {assignmentProfiles.map((profile) => {
-              return (
-                <div className="profile" key={profile.proof_did}>
-                  <p>
-                    {profile.emoji} {profile.name}
-                  </p>
-                  <AiFillDelete
-                    onClick={(e) =>
-                      dispatch({
-                        type: 'REMOVE_ASSIGNMENT',
-                        key: profile.proof_did,
-                      })
-                    }
-                  />
-                </div>
-              );
-            })}
+            {assignmentProfiles.map((profile) => (
+              <div className="profile" key={profile.proof_did}>
+                <p>{profile.emoji} {profile.name}</p>
+                <Button
+                  colorScheme="purple"
+                  onClick={(e) => (
+                    dispatch({
+                      type: 'REMOVE_ASSIGNMENT',
+                      key: profile.proof_did,
+                    })
+                  )}
+                >
+                  <AiFillDelete/>
+                </Button>
+              </div>
+            ))}
           </div>
 
           <div className="input">
-            <p className="label">Add address</p>
+            <p className="label">Add Address:</p>
             <Input
               size="md"
               variant="flushed"
               colorScheme="purple"
-              placeholder="ETH address (0x...)"
+              placeholder="ETH Address (0x...)"
               textAlign="left"
               width="100%"
               margin="0 0 15px 0"

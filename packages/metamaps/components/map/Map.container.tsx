@@ -34,22 +34,18 @@ export const MapComponent: FC<MapProps> = ({ dispatch, data, background }) => {
     <MapContainer
       onClick={(e: any) => {
         dispatch({ type: 'ACTIVATE_CONTEXT', active: false });
-        if (e.target.className) {
-          if (
-            e.target.className.indexOf('item') === -1 &&
-            e.target.className.indexOf('preserve-context') === -1
-          ) {
-            dispatch({ type: 'EDIT' });
-          }
+        if (
+          e.target.classList.contains('item') &&
+          e.target.classList.contains('preserve-context')
+        ) {
+          dispatch({ type: 'EDIT' });
         }
       }}
     >
-      {background.type === 'video' ? (
+      {background.type === 'video' && (
         <video autoPlay muted loop className="bg-video">
           <source src={background.url} />
         </video>
-      ) : (
-        ''
       )}
 
       <MapTitle />
@@ -70,17 +66,15 @@ export const MapComponent: FC<MapProps> = ({ dispatch, data, background }) => {
           }}
           onContextMenu={(e: any) => {
             e.preventDefault();
-            if (e.target.className.indexOf('map-context') !== -1) {
+            if (/\bmap-context/.test(e.target.className)) {
               const activeIndex = e.target.getAttribute('data-id');
               const width = e.target.style.width.replace('px', '');
               const height = e.target.style.height.replace('px', '');
               const text = e.target.textContent;
 
-              console.log(e.target);
-
               dispatch({ type: 'EDIT', width, height, text });
 
-              if (e.target.className.indexOf('map-context-text') !== -1) {
+              if (e.target.classList.contains('map-context-text')) {
                 dispatch({
                   type: 'CONTEXT_TYPE',
                   menu: 'text',

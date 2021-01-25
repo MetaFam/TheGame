@@ -47,7 +47,7 @@ export const MapContextContainer = styled.div`
 
     div.sub-context {
       position: absolute;
-      left: 100%;
+      left: calc(100% - 0.75rem);
       width: 100%;
       top: -2px;
 

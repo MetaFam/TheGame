@@ -12,6 +12,7 @@ import { BiPalette, BiShapeTriangle } from 'react-icons/bi';
 import { FaHashtag, FaRegAddressCard, FaRegCircle } from 'react-icons/fa';
 import { FiTriangle } from 'react-icons/fi';
 import { IoMdResize, IoMdSquareOutline } from 'react-icons/io';
+import { Button, ButtonGroup, Input } from '@chakra-ui/react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
@@ -44,7 +45,7 @@ export const MapContextComponent: FC<MapContextProps> = ({
         top: y,
       }}
     >
-      {type === 'normal' ? (
+      {type === 'normal' && (
         <>
           <button
             type="button"
@@ -54,7 +55,7 @@ export const MapContextComponent: FC<MapContextProps> = ({
             Text
             <AiOutlineFontSize />
           </button>
-          <button type="button" className="item">
+          <ButtonGroup type="button" className="item">
             Shapes
             <BiShapeTriangle />
             <div className="sub-context">
@@ -83,7 +84,7 @@ export const MapContextComponent: FC<MapContextProps> = ({
                 <FiTriangle />
               </button>
             </div>
-          </button>
+          </ButtonGroup>
 
           <input
             style={{ display: 'none' }}
@@ -141,13 +142,11 @@ export const MapContextComponent: FC<MapContextProps> = ({
             <AiOutlineVideoCameraAdd />
           </button>
         </>
-      ) : (
-        ''
       )}
 
-      {type === 'object' || type === 'text' ? (
+      {(type === 'object' || type === 'text') && (
         <>
-          {type === 'text' ? (
+          {type === 'text' && (
             <button
               type="button"
               className="item"
@@ -156,11 +155,9 @@ export const MapContextComponent: FC<MapContextProps> = ({
               Edit Text
               <AiOutlineFontSize />
             </button>
-          ) : (
-            ''
           )}
 
-          <button type="button" className="item">
+          <ButtonGroup type="button" className="item">
             Assign
             <FaRegAddressCard />
             <div className="sub-context">
@@ -174,7 +171,7 @@ export const MapContextComponent: FC<MapContextProps> = ({
                   }
                 }}
               >
-                To self
+                To Self
                 <AiOutlineUserAdd />
               </button>
               <button
@@ -188,7 +185,7 @@ export const MapContextComponent: FC<MapContextProps> = ({
                 <FaHashtag />
               </button>
             </div>
-          </button>
+          </ButtonGroup>
           <button
             type="button"
             className="item"
@@ -222,17 +219,17 @@ export const MapContextComponent: FC<MapContextProps> = ({
             <AiFillDelete />
           </button>
         </>
-      ) : (
-        ''
       )}
     </MapContextContainer>
   );
 };
 
-export const MapContext = connect((state: State) => ({
-  accounts: state.accounts,
-  active: state.map.context.active,
-  type: state.map.context.type,
-  x: state.map.context.x,
-  y: state.map.context.y,
-}))(MapContextComponent);
+export const MapContext = connect(
+  (state: State) => ({
+    accounts: state.accounts,
+    active: state.map.context.active,
+    type: state.map.context.type,
+    x: state.map.context.x,
+    y: state.map.context.y,
+  })
+)(MapContextComponent);

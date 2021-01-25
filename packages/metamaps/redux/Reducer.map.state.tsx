@@ -288,11 +288,9 @@ export function MapActions(state: State, action: AnyAction): State {
           popover: {
             assignment: { $set: action.value },
             assignmentProfiles: {
-              $set:
-                state.map.data.filter(
-                  (item) =>
-                    item.id.toString() === state.map.activeIndex.toString(),
-                )[0].data.users ?? [],
+              $set: state.map.data.find((item) => (
+                item.id === state.map.activeIndex
+              ))?.data.users ?? [],
             },
           },
         },
@@ -376,7 +374,7 @@ export function MapActions(state: State, action: AnyAction): State {
                 style: {
                   width: 100,
                   height: 100,
-                  background: `conic-gradient(at 50% 50%,transparent 135deg,#FFF 0,#FFF 225deg, transparent 0)`,
+                  background: `conic-gradient(at 50% 0%,transparent 155deg,#FFF 0,#FFF 205deg, transparent 0)`,
                 },
                 position: { x: state.map.context.x, y: state.map.context.y },
                 data: { label: '' },
@@ -446,6 +444,7 @@ export function MapActions(state: State, action: AnyAction): State {
                       src={action.value}
                       alt="metamap-content"
                       className="map-context-image"
+                      style={{pointerEvents: 'none'}}
                     />
                   ),
                   type: 'image',
@@ -532,9 +531,10 @@ export function MapActions(state: State, action: AnyAction): State {
     case 'UPDATE_COLOR':
       return update(state, {
         map: {
+          context: { edit: { $set: false } },
           data: {
             $set: state.map.data.map((item) => {
-              if (item.id.toString() === state.map.activeIndex.toString()) {
+              if (item.id.toString() === state.map.activeIndex?.toString()) {
                 if (item.className.indexOf('map-context-text') !== -1) {
                   return {
                     ...item,
@@ -569,15 +569,16 @@ export function MapActions(state: State, action: AnyAction): State {
     case 'UPDATE_SIZE':
       return update(state, {
         map: {
+          context: { edit: { $set: false } },
           data: {
             $set: state.map.data.map((item) => {
-              if (item.id.toString() === state.map.activeIndex.toString()) {
+              if (item.id.toString() === state.map.activeIndex?.toString()) {
                 return {
                   ...item,
                   style: {
                     ...item.style,
-                    width: `${action.width}px` ?? item.style.width,
-                    height: `${action.height}px` ?? item.style.height,
+                    width: action.width ? `${action.width}px` : item.style.width,
+                    height: action.height ? `${action.height}px` : item.style.height,
                   },
                 };
               }
@@ -589,6 +590,7 @@ export function MapActions(state: State, action: AnyAction): State {
     case 'CHANGE_TEXT':
       return update(state, {
         map: {
+          context: { edit: { $set: false } },
           data: {
             $set: state.map.data.map((item) => {
               if (item.id.toString() === state.map.activeIndex.toString()) {
@@ -608,6 +610,7 @@ export function MapActions(state: State, action: AnyAction): State {
     case 'CHANGE_URL':
       return update(state, {
         map: {
+          context: { edit: { $set: false } },
           data: {
             $set: state.map.data.map((item) => {
               if (item.id.toString() === state.map.activeIndex.toString()) {

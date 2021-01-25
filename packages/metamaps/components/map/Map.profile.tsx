@@ -27,16 +27,16 @@ export const MapProfileComponent: FC<MapProfileProps> = ({ profiles }) => {
         opacity: profiles.data.length > 0 ? 1 : 0,
       }}
     >
-      <p>Assigned to</p>
-      {profiles.data.map((profile) => {
-        return (
-          <div className="profile">
-            <p>
+      <p>Assigned To:</p>
+      <ul>
+        {profiles.data.map((profile) => {
+          return (
+            <li className="profile">
               {profile.emoji} {profile.name}
-            </p>
-          </div>
-        );
-      })}
+            </li>
+          );
+        })}
+      </ul>
     </MapProfileContainer>
   );
 };
