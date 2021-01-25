@@ -9,7 +9,6 @@ import { MapEditContainer } from './styles/Map.edit.styles';
 
 export interface MapEditProps {
   dispatch: Dispatch;
-  active: boolean;
   type: string;
   edit: string;
   x: number;
@@ -24,7 +23,6 @@ export const MapEditComponent: FC<MapEditProps> = ({
   dispatch,
   type,
   edit,
-  active,
   x,
   y,
   width,
@@ -189,7 +187,6 @@ export const MapEdit = connect((state: State) => ({
   active: state.map.context.active,
   type: state.map.context.type,
   edit: state.map.context.edit,
-  active: state.map.context.active,
   x: state.map.context.x,
   y: state.map.context.y,
   width: state.map.context.resize.width,

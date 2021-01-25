@@ -531,7 +531,7 @@ export function MapActions(state: State, action: AnyAction): State {
     case 'UPDATE_COLOR':
       return update(state, {
         map: {
-          context: { edit: { $set: false } },
+          context: { edit: { $set: '' } },
           data: {
             $set: state.map.data.map((item) => {
               if (item.id.toString() === state.map.activeIndex?.toString()) {
@@ -569,7 +569,7 @@ export function MapActions(state: State, action: AnyAction): State {
     case 'UPDATE_SIZE':
       return update(state, {
         map: {
-          context: { edit: { $set: false } },
+          context: { edit: { $set: '' } },
           data: {
             $set: state.map.data.map((item) => {
               if (item.id.toString() === state.map.activeIndex?.toString()) {
@@ -590,7 +590,7 @@ export function MapActions(state: State, action: AnyAction): State {
     case 'CHANGE_TEXT':
       return update(state, {
         map: {
-          context: { edit: { $set: false } },
+          context: { edit: { $set: '' } },
           data: {
             $set: state.map.data.map((item) => {
               if (item.id.toString() === state.map.activeIndex.toString()) {
@@ -610,7 +610,7 @@ export function MapActions(state: State, action: AnyAction): State {
     case 'CHANGE_URL':
       return update(state, {
         map: {
-          context: { edit: { $set: false } },
+          context: { edit: { $set: '' } },
           data: {
             $set: state.map.data.map((item) => {
               if (item.id.toString() === state.map.activeIndex.toString()) {
