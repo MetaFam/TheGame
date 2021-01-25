@@ -1,4 +1,3 @@
-import BackgroundImage from 'assets/profile-background.jpg';
 import { PageContainer } from 'components/Container';
 import { SuccessPlayer } from 'components/SuccessPlayer';
 import React from 'react';
@@ -6,14 +5,14 @@ import React from 'react';
 export const getStaticProps = async () => {
   return {
     props: {
-      hidePageHeader: true,
+      hideAppDrawer: true,
     },
   };
 };
 
 const Profile: React.FC = () => {
   return (
-    <PageContainer backgroundImage={`url(${BackgroundImage})`}>
+    <PageContainer>
       <SuccessPlayer />
     </PageContainer>
   );

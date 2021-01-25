@@ -1,4 +1,3 @@
-import BackgroundImage from 'assets/login-background.jpg';
 import { PageContainer } from 'components/Container';
 import { PlayerList } from 'components/PlayerList';
 import { getPlayers } from 'graphql/getPlayers';
@@ -13,12 +12,12 @@ export const getStaticProps = async () => {
     props: {
       players,
     },
-    revalidate: 10,
+    revalidate: 1,
   };
 };
 
 const Home: React.FC<Props> = ({ players }) => (
-  <PageContainer backgroundImage={`url(${BackgroundImage})`}>
+  <PageContainer>
     <PlayerList players={players} />
   </PageContainer>
 );

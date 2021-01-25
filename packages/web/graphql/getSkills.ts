@@ -4,14 +4,14 @@ import { client } from 'graphql/client';
 
 const skillsQuery = gql`
   query GetSkills {
-    Skill(
+    skill(
       order_by: { Player_Skills_aggregate: { count: desc }, category: asc }
     ) {
       ...PlayerSkill
     }
   }
 
-  fragment PlayerSkill on Skill {
+  fragment PlayerSkill on skill {
     id
     name
     category
@@ -31,5 +31,5 @@ export const getSkills = async (): Promise<PlayerSkillFragment[]> => {
     return [];
   }
 
-  return data.Skill;
+  return data.skill;
 };

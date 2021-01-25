@@ -1,0 +1,1 @@
+CREATE TABLE "public"."guild_account"("guild_id" uuid NOT NULL, "type" text NOT NULL, "identifier" text NOT NULL, PRIMARY KEY ("guild_id","type") , FOREIGN KEY ("guild_id") REFERENCES "public"."Guild"("id") ON UPDATE restrict ON DELETE cascade, FOREIGN KEY ("type") REFERENCES "public"."AccountType"("type") ON UPDATE restrict ON DELETE restrict, UNIQUE ("type", "identifier"));

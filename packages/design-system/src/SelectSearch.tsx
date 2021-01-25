@@ -83,6 +83,7 @@ export const selectStyles: Styles = {
     },
   }),
 };
+
 export const SelectSearch: React.FC<SelectProps> = (props) => (
   <Select styles={selectStyles} {...props} />
 );

@@ -38,16 +38,6 @@ services:
           type: web
           property: host
 
-  # NextJS Frontend
-  - type: web
-    name: web
-    env: static
-    buildCommand: yarn web:build
-    staticPublishPath: ./packages/web/out
-    pullRequestPreviewsEnabled: true
-    envVars:
-      - fromGroup: frontend
-
 databases:
   - name: metagame-db
     plan: starter
