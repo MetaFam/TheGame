@@ -12,7 +12,7 @@ export const UpdateMapName = gql`
 `;
 
 export const UpdateMapData = gql`
-  mutation updateMapName($id: uuid!, $data: String!) {
+  mutation updateMapData($id: uuid!, $data: String!) {
     update_Map_by_pk(
       pk_columns: { id: $id },
       _set: { data: $data }
