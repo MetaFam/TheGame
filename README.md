@@ -2,6 +2,8 @@
 
 Monorepo for the MetaGame applications, backend and databases.
 
+Project Board to find tasks / issues to work on: https://github.com/MetaFam/TheGame/projects/1
+
 ## Guides
 
 If you're new to the MetaGame codebase, check out the following guides to learn how to contribute.
