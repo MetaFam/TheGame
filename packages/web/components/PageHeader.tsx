@@ -30,6 +30,7 @@ const MenuItem: React.FC<React.ComponentProps<typeof MetaLink>> = ({
       isExternal={isExternal}
       textDecoration="none"
       _hover={{ textDecoration: 'none' }}
+      _focus={{ boxShadow: 'none' }}
     >
       <Button
         display="flex"
@@ -40,6 +41,7 @@ const MenuItem: React.FC<React.ComponentProps<typeof MetaLink>> = ({
         top="0.25rem"
         textDecoration="none"
         _hover={{ textDecoration: 'none' }}
+        _focus={{ boxShadow: 'none' }}
         variant="link"
         p="1"
         fontFamily="mono"
@@ -229,8 +231,8 @@ export const PageHeader: React.FC = () => {
         animate={isOpen ? 'show' : 'hide'}
         transition={{ duration: 0.25 }}
         variants={{
-          show: { opacity: 1 },
-          hide: { opacity: 0 },
+          show: { opacity: 1, pointerEvents: 'auto' },
+          hide: { opacity: 0, pointerEvents: 'none' },
         }}
         onClick={onClose}
         style={{

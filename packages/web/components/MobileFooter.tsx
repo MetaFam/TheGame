@@ -23,6 +23,7 @@ const MenuItem: React.FC<React.ComponentProps<typeof MetaLink>> = ({
       _focus={{ outline: 0 }}
       flexGrow={1}
       alignItems="center"
+      _hover={{ textDecoration: 'none' }}
     >
       <Button
         display="flex"
@@ -32,6 +33,8 @@ const MenuItem: React.FC<React.ComponentProps<typeof MetaLink>> = ({
         fontFamily="mono"
         color="whiteAlpha.700"
         width="100%"
+        _focus={{ boxShadow: 'none' }}
+        _hover={{ textDecoration: 'none' }}
       >
         {children}
       </Button>
@@ -126,6 +129,7 @@ export const MobileFooter: React.FC = () => {
             justifyContent="center"
             alignItems="center"
             onClick={onToggle}
+            _focus={{ boxShadow: 'none' }}
           >
             <Image // TODO use NextImage component once images are without text
               src={MetaGameLogo}
