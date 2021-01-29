@@ -1,6 +1,6 @@
 {
   "name": "MetaGame GraphQL Schema",
-  "schemaPath": "./packages/codegen/schema.graphql",
+  "schemaPath": "./schema.graphql",
   "extensions": {
     "endpoints": {
       "Hasura Dev": {
