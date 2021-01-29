@@ -98,13 +98,14 @@ yarn hasura migrate apply --version "<squash-migration-version>" --skip-executio
 Generate GraphQL Types
 
 ```shell script
-yarn codegen generate
+yarn generate
 ```
 
 Reload Schema + Generate GraphQL Types (backend needs to be running)
 
 ```shell script
-yarn codegen update-schema
+yarn update-schema
+yarn generate
 ```
 
 ### Restart with fresh database
