@@ -14,7 +14,7 @@ generates:
       avoidOptionals: true
       maybeValue: 'T extends PromiseLike<infer U> ? Promise<U | null> : T | null | undefined'
   ./src/lib/autogen/hasura-sdk.ts:
-    schema: '../codegen/schema.graphql'
+    schema: '../../schema.graphql'
     documents:
       - ./src/handlers/graphql/**/(!(*.d)).ts
     plugins:
