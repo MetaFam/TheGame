@@ -18,22 +18,20 @@ const MenuItem: React.FC<React.ComponentProps<typeof MetaLink>> = ({
 }) => {
   return (
     <MetaLink 
-      zIndex="2" 
       href={href} 
       isExternal={isExternal}
       _focus={{ outline: 0 }}
+      flexGrow={1}
+      alignItems="center"
     >
       <Button
         display="flex"
         flexDirection="column"
-        justifyContent="center"
-        alignItems="center"
-        width="19vw"
-        height="100%"
         textDecoration="none"
         variant="link"
         fontFamily="mono"
         color="whiteAlpha.700"
+        width="100%"
       >
         {children}
       </Button>
@@ -52,22 +50,20 @@ const SubMenuItem: React.FC<React.ComponentProps<typeof MetaLink>> = ({
       href={href}
       isExternal={isExternal}
       margin="0 !important"
-      width="33vw"
-      height="33vw"
+      display="flex"
+      height="100%"
     >
       <Button
         display="flex"
         flexDirection="column"
-        alignItems="center"
-        justifyContent="center"
-        width="95%"
-        height="95%"
         textDecoration="none"
         fontWeight="normal"
         backgroundColor="rgba(255,255,255,0.08)"
-        borderRadius="5px"
+        borderRadius="0.25rem"
         variant="link"
         color="whiteAlpha.700"
+        flexGrow={1}
+        padding="0.5rem"
       >
         {children}
       </Button>
@@ -81,7 +77,7 @@ export interface SubImageProps {
 }
 
 export const SubImage: React.FC<SubImageProps> = ({ src, alt }) => {
-  return <Image src={src} alt={alt} height="18vw" mb={2} />;
+  return <Image src={src} alt={alt} mb={2} maxHeight="calc(100% - 1.5rem)"/>;
 };
 
 export const MobileFooter: React.FC = () => {
@@ -90,66 +86,64 @@ export const MobileFooter: React.FC = () => {
   return (
     <Flex
       as="nav"
-      align="center"
-      justify="center"
-      wrap="wrap"
-      color="offwhite"
-      position="fixed"
-      display={{ base: 'flex', md: 'none' }}
-      left="0"
-      bottom="0"
-      width="100%"
-      height="25vw"
-      zIndex="11"
-      background="linear-gradient(180deg, #40347C 58.55%, #A751BD 100%)"
+      display={{ base: 'flex', lg: 'none' }}
     >
-      {DrawerItemsLeft.map((item) => (
-        <MenuItem href={item.href} isExternal={item.isExternal} key={item.href}>
-          <NextImage src={item.src} alt={item.alt} width={35} height={35} />
-          {item.text}
-        </MenuItem>
-      ))}
-
-      <motion.div
-        animate={isOpen ? 'show' : 'hide'}
-        transition={{ duration: 0.25 }}
-        variants={{
-          show: {
-            position: 'relative',
-            top: '-3rem',
-            filter: 'drop-shadow(0 0 15px #a5b9f680)',
-          },
-          hide: { position: 'relative', top: 0, filter: 'none' },
-        }}
+      <Flex
+        align="center"
+        position="fixed"
+        zIndex="11"
+        left="calc(50vw - (min(100vw, 30rem) / 2))"
+        bottom="0"
+        width="min(100vw, 30rem)"
+        height="5rem"
+        background="linear-gradient(180deg, #40347C 58.55%, #A751BD 100%)"
+        borderRadius="1rem 1rem 0 0"
       >
-        <Button
-          display="flex"
-          zIndex="11"
-          textDecoration="none"
-          variant="link"
-          flexDirection="column"
-          justifyContent="center"
-          alignItems="center"
-          width="20vw"
-          height="25vw"
-          onClick={onToggle}
-        >
-          <Image // TODO use NextImage component once images are without text
-            src={MetaGameLogo}
-            alt="MetaGameLogo"
-            height="30vw"
-            position="relative"
-            top="0.5rem"
-          />
-        </Button>
-      </motion.div>
+        {DrawerItemsLeft.map((item) => (
+          <MenuItem href={item.href} isExternal={item.isExternal} key={item.href}>
+            <NextImage src={item.src} alt={item.alt} width={35} height={35} />
+            {item.text}
+          </MenuItem>
+        ))}
 
-      {DrawerItemsRight.map((item) => (
-        <MenuItem href={item.href} isExternal={item.isExternal} key={item.href}>
-          <NextImage src={item.src} alt={item.alt} width={35} height={35} />
-          {item.text}
-        </MenuItem>
-      ))}
+        <motion.div
+          animate={isOpen ? 'show' : 'hide'}
+          transition={{ duration: 0.25 }}
+          variants={{
+            show: {
+              position: 'relative',
+              top: '-2.5rem',
+              filter: 'drop-shadow(0 0 15px #a5b9f680)',
+            },
+            hide: { position: 'relative', top: '-0.5rem', filter: 'none' },
+          }}
+        >
+          <Button
+            display="flex"
+            textDecoration="none"
+            variant="link"
+            flexDirection="column"
+            justifyContent="center"
+            alignItems="center"
+            onClick={onToggle}
+          >
+            <Image // TODO use NextImage component once images are without text
+              src={MetaGameLogo}
+              alt="MetaGameLogo"
+              position="relative"
+              top="0.5rem"
+              maxHeight="6rem"
+            />
+          </Button>
+        </motion.div>
+
+        {DrawerItemsRight.map((item) => (
+          <MenuItem href={item.href} isExternal={item.isExternal} key={item.href}>
+            <NextImage src={item.src} alt={item.alt} width={35} height={35} />
+            {item.text}
+          </MenuItem>
+        ))}
+      </Flex>
 
       <motion.div
         animate={isOpen ? 'show' : 'hide'}
@@ -163,25 +157,26 @@ export const MobileFooter: React.FC = () => {
       >
         <Stack
           position="fixed"
-          left={0}
-          bottom="25vw"
-          width="100vw"
-          height="min(100vh - 25vw, 5 * 31vw)"
+          zIndex="10"
+          left="calc((100vw - min(100vw, 3 * 10rem)) / 2)"
+          bottom="4rem"
+          width="min(100vw, 3 * 10rem)"
+          maxHeight="calc(100vh - 4rem)"
           background="linear-gradient(180deg, rgba(76, 63, 143, 0.95) 62.76%, rgba(184, 169, 255, 0.95) 100%);"
           display="grid"
-          gridTemplateColumns="auto auto auto"
+          gridTemplateColumns="repeat(3, auto)"
+          gridTemplateRows="repeat(4, calc(25vh - 3rem))"
+          gridGap="1rem"
           justify="center"
           align="center"
-          padding="1rem 1rem 6rem 1rem"
+          padding="1rem 1rem 3rem 1rem"
         >
-          {DrawerSubItems.map((item) => {
-            return (
-              <SubMenuItem href={item.href} key={item.alt}>
-                <SubImage src={item.src} alt={item.alt} />
-                {item.text}
-              </SubMenuItem>
-            );
-          })}
+          {DrawerSubItems.map((item) => (
+            <SubMenuItem href={item.href} key={item.alt}>
+              <SubImage src={item.src} alt={item.alt} />
+              {item.text}
+            </SubMenuItem>
+          ))}
         </Stack>
       </motion.div>
     </Flex>
