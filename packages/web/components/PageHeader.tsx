@@ -3,7 +3,6 @@ import { MetaLink } from 'components/Link';
 import { LoginButton } from 'components/LoginButton';
 import { Ticker } from 'components/Ticker';
 import { motion } from 'framer-motion';
-import NextImage from 'next/image';
 import React from 'react';
 
 import { isBackdropFilterSupported } from '../utils/compatibilityHelpers';
@@ -16,6 +15,8 @@ import {
 const MetaDrawer = '/assets/drawer/desktop.gradient.png';
 const MetaGradientBottom = '/assets/drawer/desktop.gradient.bottom.png';
 const MetaGameLogo = '/assets/logo.alt.png';
+const drawer = { width: '39rem', height: '5.5rem' }
+const content = { width: '33rem', height: '46rem' }
 
 const MenuItem: React.FC<React.ComponentProps<typeof MetaLink>> = ({
   children,
@@ -29,15 +30,18 @@ const MenuItem: React.FC<React.ComponentProps<typeof MetaLink>> = ({
       isExternal={isExternal}
       textDecoration="none"
       _hover={{ textDecoration: 'none' }}
+      _focus={{ boxShadow: 'none' }}
     >
       <Button
         display="flex"
         flexDirection="column"
         justifyContent="center"
         alignItems="center"
-        width="calc(32rem / 5)"
+        width={`calc(${drawer.width} / 5 - 1rem)`}
+        top="0.25rem"
         textDecoration="none"
         _hover={{ textDecoration: 'none' }}
+        _focus={{ boxShadow: 'none' }}
         variant="link"
         p="1"
         fontFamily="mono"
@@ -133,31 +137,31 @@ export const PageHeader: React.FC = () => {
       justify="space-between"
       wrap="wrap"
       color="offwhite"
-      px="8"
+      px={8}
       position="relative"
-      display={{ base: 'none', md: 'flex' }}
+      display={{ base: 'none', lg: 'flex' }}
     >
       <Box>
         <Ticker />
       </Box>
 
       <Stack
-        width="48rem"
+        width={drawer.width}
         height="100%"
         direction="row"
         justify="center"
         align="center"
         position="absolute"
         top="0"
-        left="calc(50% - 24rem)"
-        padding="0 0 0.5rem 0"
+        left={`calc(50% - (${drawer.width} / 2))`}
       >
-        <Box position="absolute" left="calc(50% - 23.5rem)" top="0" zIndex="1">
-          <NextImage
+        {/* margin-inline-start = 0.5rem is set and I don't know how to remove it */}
+        <Box position="absolute" left={`calc(50% - (${drawer.width} / 2) + 0.5rem)`} top="0" zIndex="1">
+          <Image
             src={MetaDrawer}
             alt="MetaDrawer"
-            width={762}
-            height={94}
+            width={drawer.width}
+            height={drawer.height}
           />
         </Box>
 
@@ -167,7 +171,10 @@ export const PageHeader: React.FC = () => {
             href={item.href}
             isExternal={item.isExternal}
           >
-            <NextImage src={item.src} alt={item.alt} width={35} height={35} />
+            <Image
+              src={item.src} alt={item.alt}
+              width="2rem" height="2rem"
+            />
             {item.text}
           </MenuItem>
         ))}
@@ -176,7 +183,7 @@ export const PageHeader: React.FC = () => {
           animate={isOpen ? 'show' : 'hide'}
           transition={{ duration: 0.25 }}
           variants={{
-            show: { position: 'relative', top: '46rem' },
+            show: { position: 'relative', top: content.height },
             hide: { position: 'relative', top: '1rem' },
           }}
         >
@@ -188,16 +195,15 @@ export const PageHeader: React.FC = () => {
             flexDirection="column"
             justifyContent="center"
             alignItems="center"
-            width="calc(32rem / 5)"
+            width={`calc(${drawer.width} / 5 - 2rem)`}
             position="relative"
             _focus={{ outline: 0 }}
             onClick={onToggle}
           >
-            <NextImage
-              src={MetaGameLogo}
-              alt="MetaGameLogo"
-              width={88}
-              height={96}
+            <Image
+              src={MetaGameLogo} alt="MetaGameLogo"
+              width={drawer.height}
+              height={`calc(${drawer.height} * 1.1)`}
             />
           </Button>
         </motion.div>
@@ -208,7 +214,10 @@ export const PageHeader: React.FC = () => {
             href={item.href}
             isExternal={item.isExternal}
           >
-            <NextImage src={item.src} alt={item.alt} width={35} height={35} />
+            <Image
+              src={item.src} alt={item.alt}
+              width="2rem" height="2rem"
+            />
             {item.text}
           </MenuItem>
         ))}
@@ -222,19 +231,19 @@ export const PageHeader: React.FC = () => {
         animate={isOpen ? 'show' : 'hide'}
         transition={{ duration: 0.25 }}
         variants={{
-          show: { display: 'block', opacity: 1 },
-          hide: { display: 'none', opacity: 0 },
+          show: { opacity: 1, pointerEvents: 'auto' },
+          hide: { opacity: 0, pointerEvents: 'none' },
         }}
         onClick={onClose}
         style={{
           position: 'absolute',
           zIndex: 10,
-          top: '5rem',
-          left: 'calc(50% - 16.5rem)',
-          display: 'none',
+          top: `calc(${drawer.height} - 0.85rem)`,
+          left: `calc(50% - ${content.width} / 2)`,
+          opacity: 0,
         }}
       >
-        <Stack width="33rem" direction="row" flexWrap="wrap" padding={4}>
+        <Stack width={content.width} direction="row" flexWrap="wrap" padding={4}>
           <Box
             position="fixed"
             top="0"
@@ -246,25 +255,25 @@ export const PageHeader: React.FC = () => {
 
           <Box
             position="absolute"
-            left="calc(50% - 16.5rem)"
+            left={`calc(50% - ${content.width} / 2)`}
             top="0"
-            width={522}
-            height={680}
+            width={`calc(${content.width} - 0.5rem)`}
+            height={`calc(${content.height} - 3.5rem)`}
             background={
               isBackdropFilterSupported()
-                ? `linear-gradient(180deg, rgba(76, 63, 143, 0.75) 62.76%, rgba(184, 169, 255, 0.75) 100%)`
-                : `linear-gradient(180deg, rgba(76, 63, 143, 1.00) 62.76%, rgba(184, 169, 255, 1.00) 100%)`
+              ? `linear-gradient(180deg, rgba(76, 63, 143, 0.75) 62.76%, rgba(184, 169, 255, 0.75) 100%)`
+              : `linear-gradient(180deg, rgba(76, 63, 143, 1.00) 62.76%, rgba(184, 169, 255, 1.00) 100%)`
             }
             style={{ backdropFilter: 'blur(10px)' }}
           />
           <Image
             position="absolute"
-            left="calc(50% - 16.5rem)"
-            top={678}
+            left={`calc(50% - ${content.width} / 2)`}
+            top={`calc(${content.height} - 3.5rem)`}
             src={MetaGradientBottom}
             alt="MetaGradientBottom"
-            width={522}
-            height={15}
+            width={`calc(${content.width} - 0.5rem)`}
+            height="1rem"
           />
 
           {DrawerSubItems.map((item) => {
@@ -274,7 +283,10 @@ export const PageHeader: React.FC = () => {
                 key={item.alt}
                 isExternal={item.isExternal}
               >
-                <Image src={item.src} alt={item.alt} height={16} mb={2} />
+                <Image
+                  src={item.src} alt={item.alt}
+                  height="5rem" mb={2}
+                />
                 {item.text}
               </SubMenuItem>
             );

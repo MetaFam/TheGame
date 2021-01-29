@@ -185,7 +185,7 @@ export const getStaticProps = async (
 
   return {
     props: {
-      player,
+      player: player || null,
     },
     revalidate: 1,
   };
