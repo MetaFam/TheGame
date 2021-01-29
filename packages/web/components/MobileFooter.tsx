@@ -53,8 +53,7 @@ const SubMenuItem: React.FC<React.ComponentProps<typeof MetaLink>> = ({
       href={href}
       isExternal={isExternal}
       margin="0 !important"
-      width="7remimport { useBreakpointValue } from '@chakra-ui/react';
-"
+      width="7rem"
       height="7rem"
     >
       <Button
