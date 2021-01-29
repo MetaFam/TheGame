@@ -12,7 +12,7 @@
     "graphql-tag": "^2.10.4"
   },
   "devDependencies": {
-    "env-cmd": "^10.1.0",
-    "get-graphql-schema": "^2.1.2"
+    "env-cmd": "10.1.0",
+    "get-graphql-schema": "2.1.2"
   }
 }
