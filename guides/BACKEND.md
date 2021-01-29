@@ -134,10 +134,10 @@ When creating a table, keep in mind a few things.
 Assuming the Docker Containers are running. After creating the table. You will need to run:
 
 ```bash
-yarn codegen update-schema
+yarn update-schema
 
 # and then
-yarn codegen generate
+yarn generate
 ```
 
 This will update the `.graphql` schemas for Hasura and make it easier to create graphql queries for the frontend.
