@@ -31,6 +31,7 @@ const MenuItem: React.FC<React.ComponentProps<typeof MetaLink>> = ({
       textDecoration="none"
       _hover={{ textDecoration: 'none' }}
       _focus={{ boxShadow: 'none' }}
+      zIndex={15}
     >
       <Button
         display="flex"
@@ -79,39 +80,13 @@ const SubMenuItem: React.FC<React.ComponentProps<typeof MetaLink>> = ({
         borderRadius="5px"
         textDecoration="none"
         variant="link"
-        fontFamily="body"
         fontWeight="normal"
         color="whiteAlpha.700"
         margin={3}
-        boxShadow="0 0 2rem rgba(0, 0, 0, 0)"
-        _before={{
-          content: "''",
-          position: 'absolute',
-          display: 'none',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          transform: 'translate3d(-120%, 0, 0)',
-          filter: 'blur(15px)',
-          background: (
-            `linear-gradient(
-              45deg, transparent,
-              rgba(255, 255, 255, 0),
-              rgba(255, 255, 255, 0.06),
-              rgba(255, 255, 255, 0),
-              transparent
-            )`
-          ),
-          transition: 'all 0.4s 0.3s ease-in-out',
-          zIndex: 1,
-        }}
         _after={{
           content: "''",
           position: 'absolute',
           display: 'block',
-          top: 0,
-          left: 0,
           width: '100%',
           height: '100%',
           filter: 'blur(10px)',
