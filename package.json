@@ -28,6 +28,7 @@
     "prepare": "lerna run prepare",
     "precommit": "lerna run --concurrency 1 --stream precommit",
     "prepush": "yarn typecheck",
+    "discord-bot": "yarn --cwd packages/discord-bot/",
     "backend": "yarn --cwd packages/backend/",
     "utils": "yarn --cwd packages/utils/",
     "web": "yarn --cwd packages/web/",

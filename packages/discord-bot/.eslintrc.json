@@ -1,0 +1,11 @@
+{
+  "overrides": [
+    {
+      "files": ["./src/**/*.ts"],
+      "rules": {
+        "@typescript-eslint/explicit-module-boundary-types": "off",
+        "class-methods-use-this": "off"
+      }
+    }
+  ]
+}
