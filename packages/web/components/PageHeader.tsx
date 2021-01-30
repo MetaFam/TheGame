@@ -257,20 +257,15 @@ export const PageHeader: React.FC = () => {
             top="0"
             width={`calc(${content.width} - 0.5rem)`}
             height={`calc(${content.height} - 3.5rem)`}
-            background={
-              isBackdropFilterSupported()
-              ? (
+            background={(() => {
+              const opacity = isBackdropFilterSupported() ? 0.75 : 1
+              return (
                 `linear-gradient(
-                  180deg, rgba(76, 63, 143, 0.75) 62.76%,
-                  rgba(184, 169, 255, 0.75) 100%
-                )`
-              ) : (
-                `linear-gradient(
-                  180deg, rgba(76, 63, 143, 1.00) 62.76%,
-                  rgba(184, 169, 255, 1.00) 100%
+                  180deg, rgba(76, 63, 143, ${opacity}) 62.76%,
+                  rgba(184, 169, 255, ${opacity}) 100%
                 )`
               )
-            }
+            })()}
             style={{ backdropFilter: 'blur(10px)' }}
           />
           <Image
