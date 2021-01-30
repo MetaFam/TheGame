@@ -94,8 +94,15 @@ const SubMenuItem: React.FC<React.ComponentProps<typeof MetaLink>> = ({
           height: '100%',
           transform: 'translate3d(-120%, 0, 0)',
           filter: 'blur(15px)',
-          background:
-            'linear-gradient(45deg, transparent, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0), transparent)',
+          background: (
+            `linear-gradient(
+              45deg, transparent,
+              rgba(255, 255, 255, 0),
+              rgba(255, 255, 255, 0.06),
+              rgba(255, 255, 255, 0),
+              transparent
+            )`
+          ),
           transition: 'all 0.4s 0.3s ease-in-out',
           zIndex: 1,
         }}
@@ -109,8 +116,15 @@ const SubMenuItem: React.FC<React.ComponentProps<typeof MetaLink>> = ({
           height: '100%',
           filter: 'blur(10px)',
           transform: 'translate3d(-120%, 0, 0)',
-          background:
-            'linear-gradient(45deg, transparent, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0), transparent)',
+          background: (
+            `linear-gradient(
+              45deg, transparent,
+              rgba(255, 255, 255, 0),
+              rgba(255, 255, 255, 0.06),
+              rgba(255, 255, 255, 0),
+              transparent
+            )`
+          ),
           transition: 'all 0.3s 0.1s ease-in-out',
           zIndex: 1,
         }}
@@ -156,7 +170,12 @@ export const PageHeader: React.FC = () => {
         left={`calc(50% - (${drawer.width} / 2))`}
       >
         {/* margin-inline-start = 0.5rem is set and I don't know how to remove it */}
-        <Box position="absolute" left={`calc(50% - (${drawer.width} / 2) + 0.5rem)`} top="0" zIndex="1">
+        <Box
+          position="absolute"
+          left={`calc(50% - (${drawer.width} / 2) + 0.5rem)`}
+          top="0"
+          zIndex="1"
+        >
           <Image
             src={MetaDrawer}
             alt="MetaDrawer"
@@ -243,7 +262,12 @@ export const PageHeader: React.FC = () => {
           opacity: 0,
         }}
       >
-        <Stack width={content.width} direction="row" flexWrap="wrap" padding={4}>
+        <Stack
+          width={content.width}
+          direction="row"
+          flexWrap="wrap"
+          padding={4}
+        >
           <Box
             position="fixed"
             top="0"
@@ -261,8 +285,17 @@ export const PageHeader: React.FC = () => {
             height={`calc(${content.height} - 3.5rem)`}
             background={
               isBackdropFilterSupported()
-              ? `linear-gradient(180deg, rgba(76, 63, 143, 0.75) 62.76%, rgba(184, 169, 255, 0.75) 100%)`
-              : `linear-gradient(180deg, rgba(76, 63, 143, 1.00) 62.76%, rgba(184, 169, 255, 1.00) 100%)`
+              ? (
+                `linear-gradient(
+                  180deg, rgba(76, 63, 143, 0.75) 62.76%,
+                  rgba(184, 169, 255, 0.75) 100%
+                )`
+              ) : (
+                `linear-gradient(
+                  180deg, rgba(76, 63, 143, 1.00) 62.76%,
+                  rgba(184, 169, 255, 1.00) 100%
+                )`
+              )
             }
             style={{ backdropFilter: 'blur(10px)' }}
           />
