@@ -25,7 +25,6 @@ const MenuItem: React.FC<React.ComponentProps<typeof MetaLink>> = ({
 }) => {
   return (
     <MetaLink
-      zIndex="2"
       href={href}
       isExternal={isExternal}
       textDecoration="none"
