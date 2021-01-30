@@ -1,3 +1,4 @@
+import { CloseIcon,SettingsIcon } from '@chakra-ui/icons'
 import {
   Avatar,
   Box,
@@ -10,7 +11,6 @@ import {
 import { MetaLink } from 'components/Link';
 import { Web3Context } from 'contexts/Web3Context';
 import React, { useCallback, useContext } from 'react';
-import { SettingsIcon, CloseIcon } from '@chakra-ui/icons'
 
 import { useUser } from '../lib/hooks';
 import { getPlayerImage, getPlayerName } from '../utils/playerHelpers';
