@@ -3,8 +3,8 @@ import { MetaLink } from 'components/Link';
 import { LoginButton } from 'components/LoginButton';
 import { Ticker } from 'components/Ticker';
 import { motion } from 'framer-motion';
-import React from 'react';
 import NextImage from 'next/image';
+import React from 'react';
 
 import { isBackdropFilterSupported } from '../utils/compatibilityHelpers';
 import {
@@ -118,7 +118,7 @@ const SubMenuItem: React.FC<React.ComponentProps<typeof MetaLink>> = ({
 
 const BoxedNextImage: React.FC<
   React.ComponentProps<typeof Box> |
-  { src: String | Number, alt: String | Number }
+  { src: string | number, alt: string | number }
 > = (props) => {
   const { src, alt } = props
   return (
