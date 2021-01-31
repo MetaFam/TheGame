@@ -4,6 +4,7 @@ import { LoginButton } from 'components/LoginButton';
 import { Ticker } from 'components/Ticker';
 import { motion } from 'framer-motion';
 import React from 'react';
+import NextImage from 'next/image';
 
 import { isBackdropFilterSupported } from '../utils/compatibilityHelpers';
 import {
@@ -115,6 +116,27 @@ const SubMenuItem: React.FC<React.ComponentProps<typeof MetaLink>> = ({
   );
 };
 
+const BoxedNextImage: React.FC<
+  React.ComponentProps<typeof Box> |
+  { src: String | Number, alt: String | Number }
+> = (props) => {
+  const { src, alt } = props
+  return (
+    <Box
+      {...{ ...props, src: undefined, alt: undefined }}
+      style={{
+        objectFit: 'contain',
+        position: 'relative',
+      }}
+    >
+      <NextImage
+        {...{ src, alt }}
+        layout="fill"
+      />
+    </Box>
+  )
+}
+
 export const PageHeader: React.FC = () => {
   const { isOpen, onToggle, onClose } = useDisclosure();
 
@@ -164,9 +186,9 @@ export const PageHeader: React.FC = () => {
             href={item.href}
             isExternal={item.isExternal}
           >
-            <Image
-              src={item.src} alt={item.alt}
+            <BoxedNextImage
               width="2rem" height="2rem"
+              src={item.src} alt={item.alt}
             />
             {item.text}
           </MenuItem>
@@ -193,7 +215,7 @@ export const PageHeader: React.FC = () => {
             _focus={{ outline: 0 }}
             onClick={onToggle}
           >
-            <Image
+            <BoxedNextImage
               src={MetaGameLogo} alt="MetaGameLogo"
               width={drawer.height}
               height={`calc(${drawer.height} * 1.1)`}
@@ -207,7 +229,7 @@ export const PageHeader: React.FC = () => {
             href={item.href}
             isExternal={item.isExternal}
           >
-            <Image
+            <BoxedNextImage
               src={item.src} alt={item.alt}
               width="2rem" height="2rem"
             />
@@ -268,14 +290,15 @@ export const PageHeader: React.FC = () => {
             })()}
             style={{ backdropFilter: 'blur(10px)' }}
           />
+          {/* ToDo: switch to BoxedNextImage */}
           <Image
             position="absolute"
-            left={`calc(50% - ${content.width} / 2)`}
-            top={`calc(${content.height} - 3.5rem)`}
+            left="-0"
+            top={`calc(${content.height} - 3.6rem)`}
             src={MetaGradientBottom}
             alt="MetaGradientBottom"
-            width={`calc(${content.width} - 0.5rem)`}
             height="1rem"
+            width={`calc(${content.width} - 0.5rem)`}
           />
 
           {DrawerSubItems.map((item) => {
@@ -285,9 +308,9 @@ export const PageHeader: React.FC = () => {
                 key={item.alt}
                 isExternal={item.isExternal}
               >
-                <Image
+                <BoxedNextImage
                   src={item.src} alt={item.alt}
-                  height="5rem" mb={2}
+                  height="5rem" width="5rem" mb={2}
                 />
                 {item.text}
               </SubMenuItem>
