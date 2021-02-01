@@ -33,7 +33,7 @@
     "react-timezone-select": "0.9.8"
   },
   "devDependencies": {
-    "@babel/core": "7.12.1",
+    "@babel/core": "7.12.10",
     "@storybook/addon-actions": "5.3.21",
     "@storybook/addon-docs": "5.3.21",
     "@storybook/addon-info": "5.3.21",
