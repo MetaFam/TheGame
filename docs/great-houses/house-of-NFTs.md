@@ -13,7 +13,7 @@ NFT stands for [Non-Fungible Token](https://opensea.io/blog/guides/non-fungible-
 
 This blockchain innovation started first with [CryptoPunks](https://www.larvalabs.com/cryptopunks) before there was a standard in place. CryptoKitties was the first project, launched in 2017, to embed the Non-Fungible standard and take the idea mainstream.
 
-Several characteristics of NFTs make them game changers: 
+Several characteristics of NFTs make them game changers:
 - They allow for true ownership of digital-only goods in a transparent and indisputable way, thanks to the data being recorded on a public blockchain.
 - Their liquidity and tradeability have spawned a whole industry of games, marketplaces, auction houses, and virtual worlds.
 - They create provable scarcity of digital items.
@@ -48,11 +48,11 @@ When it comes to NFTs, you are only limited by your imagination!
 
 - **[Ephemira](https://www.ephimera.com/)**  (EPH) Curated platform for photography. One-of-one single editions. Welcoming galleries into the cryptoart space.
 
-- **[KnownOrigin](https://knownorigin.io/)**  (KODA) Curated platform. Allows for  editions  of an artwork (a fixed number of tokens of one artwork), plus one-of-one tokens. Also enables 'split fees' which allow artists to enter an additional ETH address (for a collaborator, for example, or - as was initially intended - to be able to automatically funnel a percentage of sales to, say a charity). 
+- **[KnownOrigin](https://knownorigin.io/)**  (KODA) Curated platform. Allows for  editions  of an artwork (a fixed number of tokens of one artwork), plus one-of-one tokens. Also enables 'split fees' which allow artists to enter an additional ETH address (for a collaborator, for example, or - as was initially intended - to be able to automatically funnel a percentage of sales to, say a charity).
 
 - **[MakersPlace](https://makersplace.com/)**  (MKT2) Curated platform. Editions  and one-of-ones, 'hides' the web3 aspect from artists and users to make it more attractive to traditional artists.
- 
-- **[Mintable](https://mintable.app/)** Provides a smart contract factory for artists to be able to create their own marketplace plus onsite tools like auctions and flexible licensing for digital assets. Has created an NFT DAO with $MINTS. 
+
+- **[Mintable](https://mintable.app/)** Provides a smart contract factory for artists to be able to create their own marketplace plus onsite tools like auctions and flexible licensing for digital assets. Has created an NFT DAO with $MINTS.
 
 - **[Mintbase](https://mintbase.io/)** Provides a smart contract factory for artists to be able to create their own contracts, storefronts hosted on the Mintbase website. Be your own marketplace! Provides API access so storefronts can be integrated on artists' own websites. Porting to NEAR.
 
@@ -62,7 +62,7 @@ When it comes to NFTs, you are only limited by your imagination!
 
 - **[Pixura](https://pixura.io/)** Provides a smart contract factory for artists to be able to create their own marketplace via the GUI, also offers developer tools to programmatically issue & manage tokens, run queries against your smart contracts with GraphQL, and search through token metadata with Elasticsearch.
 
-- **[Rarible](https://app.rarible.com/)**  (RARI) Not to be confused with the ERC-20 $RARI token.  Marketplace for art + many other things.  Also provides the ability to create your own contracts. 
+- **[Rarible](https://app.rarible.com/)**  (RARI) Not to be confused with the ERC-20 $RARI token.  Marketplace for art + many other things.  Also provides the ability to create your own contracts.
 
 - **[Snark.art](https://snark.art/)** (AoQ + others) Curated platform specialising in bridging the gap between traditional and digital arts. Fine art and experimental focus.
 
@@ -76,18 +76,19 @@ When it comes to NFTs, you are only limited by your imagination!
 
 
 ## Virtual Worlds
- 
+
 - **[Cryptovoxels](https://www.cryptovoxels.com/)** A user owned virtual world made from voxels.
 - **[Decentraland](https://decentraland.org/)** Create, explore and trade in the first-ever virtual world owned by its users.
-- **[The Sandbox](https://www.sandbox.game/en/)** Play, Create, Own, and Govern a virtual world made by players. 
+- **[The Sandbox](https://www.sandbox.game/en/)** Play, Create, Own, and Govern a virtual world made by players.
 - **[Somnium Space](https://somniumspace.com/)** Open, Social & Persistent VR world.
 
 
 ## Trading Cards
 
 - **[Meme Ltd.](https://dontbuymeme.com/)** Meme is an experimental protocol mashing up some of the most exciting innovations in DeFi.
-- **[Marble Cards](https://marble.cards/)** A way to create and trade unique digital cards based on URLs. 
-- **[Gods Unchained](https://godsunchained.com/)** The ultimate digital trading card game that gives players true ownership of their collection. 
+- **[Marble Cards](https://marble.cards/)** A way to create and trade unique digital cards based on URLs.
+- **[Gods Unchained](https://godsunchained.com/)** The ultimate digital trading card game that gives players true ownership of their collection.
+- **[Skyweaver](https://www.skyweaver.net/)** A trading card game from another dimension. Currently in private beta.
 
 
 ## Collectibles
@@ -95,8 +96,8 @@ When it comes to NFTs, you are only limited by your imagination!
 - **[Aavegotchi](https://www.aavegotchi.com/)** DeFi-Staked Crypto Collectibles
 - **[Avastars](https://avastars.io/)** Quadrillions of avatars generated on the fly from many layers of custom artwork, each mintable as a non-fungible token (NFT) on Ethereum.
 - **[Axie Infinity](https://axieinfinity.com/)** Play to Earn Blockchain Game.
-- **[Crypto Kitties](https://www.cryptokitties.co/)** Collect and trade CryptoKitties in one of the world's first blockchain games. Breed your rarest cats to create the purrfect furry friend. 
-- **[Crypto Punks](https://www.larvalabs.com/cryptopunks)** 10,000 unique collectible characters with proof of ownership stored on the Ethereum blockchain. The project that inspired the modern CryptoArt movement. 
+- **[Crypto Kitties](https://www.cryptokitties.co/)** Collect and trade CryptoKitties in one of the world's first blockchain games. Breed your rarest cats to create the purrfect furry friend.
+- **[Crypto Punks](https://www.larvalabs.com/cryptopunks)** 10,000 unique collectible characters with proof of ownership stored on the Ethereum blockchain. The project that inspired the modern CryptoArt movement.
 
 
 ## Sports
