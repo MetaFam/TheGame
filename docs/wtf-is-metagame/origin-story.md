@@ -2,8 +2,6 @@
 title: 📖 The MetaGenesis Odyssey
 ---
 
-## MetaGenesis Odyssey  
-
 ![](/img/origin.1.png)
 
 ## The Genesis of Nova
