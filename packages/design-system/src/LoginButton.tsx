@@ -18,7 +18,7 @@ type UserInfo = {
   player?: any;
 };
 
-type LoginButtonPros = {
+type LoginButtonProps = {
   connectWeb3: () => Promise<void>;
   disconnect: () => void;
   isConnected: boolean;
@@ -26,13 +26,13 @@ type LoginButtonPros = {
   fetching: boolean;
 };
 
-export const LoginButton: React.FC<LoginButtonPros> = ({
+export const LoginButton: React.FC<LoginButtonProps> = ({
   connectWeb3,
   disconnect,
   isConnected,
   user,
   fetching,
-}: LoginButtonPros) => {
+}: LoginButtonProps) => {
   const handleLoginClick = useCallback(async () => {
     await connectWeb3();
   }, [connectWeb3]);
