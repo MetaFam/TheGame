@@ -35,6 +35,7 @@ module.exports = {
       //   'great-houses/house-of-tokens',
     ],
     '⚔️ Guilding': [
+      'Guilding/metasys',
       'Guilding/what-why-how-of-your-dao',
       'Guilding/guilding-101',
       'Guilding/building-successful-teams',
