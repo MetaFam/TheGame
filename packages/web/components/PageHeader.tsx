@@ -1,9 +1,10 @@
-import { Box, Button, Flex, Image, Stack, useDisclosure } from '@metafam/ds';
+import {
+  Box, Button, Flex, Image, Stack, useDisclosure, BoxedNextImage
+} from '@metafam/ds';
 import { MetaLink } from 'components/Link';
 import { LoginButton } from 'components/LoginButton';
 import { Ticker } from 'components/Ticker';
 import { motion } from 'framer-motion';
-import NextImage from 'next/image';
 import React from 'react';
 
 import { isBackdropFilterSupported } from '../utils/compatibilityHelpers';
@@ -115,27 +116,6 @@ const SubMenuItem: React.FC<React.ComponentProps<typeof MetaLink>> = ({
     </MetaLink>
   );
 };
-
-const BoxedNextImage: React.FC<
-  React.ComponentProps<typeof Box> |
-  { src: string | number, alt: string | number }
-> = (props) => {
-  const { src, alt } = props
-  return (
-    <Box
-      {...{ ...props, src: undefined, alt: undefined }}
-      style={{
-        objectFit: 'contain',
-        position: 'relative',
-      }}
-    >
-      <NextImage
-        {...{ src, alt }}
-        layout="fill"
-      />
-    </Box>
-  )
-}
 
 export const PageHeader: React.FC = () => {
   const { isOpen, onToggle, onClose } = useDisclosure();
@@ -280,7 +260,8 @@ export const PageHeader: React.FC = () => {
             width={`calc(${content.width} - 0.5rem)`}
             height={`calc(${content.height} - 3.5rem)`}
             background={(() => {
-              const opacity = isBackdropFilterSupported() ? 0.75 : 1
+              // without the backdrop-filter blur this is too transparent
+              const opacity = isBackdropFilterSupported() ? 0.75 : 0.98
               return (
                 `linear-gradient(
                   180deg, rgba(76, 63, 143, ${opacity}) 62.76%,
