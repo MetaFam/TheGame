@@ -11,7 +11,7 @@ import { MetaLink } from 'components/Link';
 import { Ticker } from 'components/Ticker';
 import { motion } from 'framer-motion';
 import NextImage from 'next/image';
-import React, { useContext } from 'react';
+import React from 'react';
 
 import { useUser, useWeb3 } from '../lib/hooks';
 import {
