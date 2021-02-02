@@ -1,16 +1,26 @@
-import { Box, Button, Flex, Image, Stack, useDisclosure } from '@metafam/ds';
+import {
+  Box,
+  Button,
+  Flex,
+  Image,
+  LoginButton,
+  Stack,
+  useDisclosure,
+} from '@metafam/ds';
 import { MetaLink } from 'components/Link';
-import { LoginButton } from 'components/LoginButton';
 import { Ticker } from 'components/Ticker';
+import { Web3Context } from 'contexts/Web3Context';
 import { motion } from 'framer-motion';
 import NextImage from 'next/image';
-import React from 'react';
+import React, { useContext } from 'react';
 
+import { useUser } from '../lib/hooks';
 import {
   DrawerItemsLeft,
   DrawerItemsRight,
   DrawerSubItems,
 } from '../utils/drawerItems';
+import { getPlayerImage, getPlayerName } from '../utils/playerHelpers';
 
 const MetaBox = '/assets/drawer/desktop-box.png';
 const MetaDrawer = '/assets/drawer/desktop.gradient.png';
@@ -92,6 +102,15 @@ const SubMenuItem: React.FC<React.ComponentProps<typeof MetaLink>> = ({
 
 export const PageHeader: React.FC = () => {
   const { isOpen, onToggle, onClose } = useDisclosure();
+
+  const { connectWeb3, disconnect, isConnected } = useContext(Web3Context);
+  const { user, fetching } = useUser();
+  const userInfo = {
+    playerImage: user?.player ? getPlayerImage(user.player) : undefined,
+    playerName: user?.player ? getPlayerName(user.player) : undefined,
+    username: user?.username || undefined,
+    player: user?.player || undefined,
+  };
 
   return (
     <Flex
@@ -189,7 +208,13 @@ export const PageHeader: React.FC = () => {
       </Stack>
 
       <Flex justifyContent="center" alignItems="center">
-        <LoginButton />
+        <LoginButton
+          connectWeb3={connectWeb3}
+          disconnect={disconnect}
+          isConnected={isConnected}
+          user={userInfo}
+          fetching={fetching}
+        />
       </Flex>
 
       <motion.div
