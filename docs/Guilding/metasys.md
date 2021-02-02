@@ -2,10 +2,10 @@
 title: 🕋 MetaSys
 ---
 
-# 🤔 Why MetaSys?
+## 🤔 Why MetaSys?
 If you're going to build a better future, you should probably build it in a decentralized way or else it likely won't end up much better.
 
-# 😬 DAOs - not quite there yet
+## 😬 DAOs - not quite there yet
 
 We weren’t happy with the way DAOs currently work.
 
@@ -31,7 +31,7 @@ So, we flipped it:
 
 **After a while, we found a system to make the process smoother; create value & automatically get rewarded, no claiming needed.**
 
-# 😱 Enter Sourcecred
+## 😱 Enter Sourcecred
 
 ![](https://cdn.substack.com/image/fetch/w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F34825e16-5251-4d68-924e-7cf4109ed8f1_432x433.png)
 
@@ -50,7 +50,7 @@ We do still vote from time to time, but mainly when it's a matter of taste: like
 
 ![](https://cdn.substack.com/image/fetch/w_1456,c_limit,f_auto,q_auto:good,fl_lossy/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F7e44c674-f6c1-4dec-a397-71bcee12f0c5_486x273.gif)
 
-# 🐙 MetaSys Core
+## 🐙 MetaSys Core
 
 Combining these building blocks you get a minimum viable stack for building decentralized organizations. Also, the most capital efficient way of building crypto projects so far.
 
@@ -67,9 +67,9 @@ Combining these building blocks you get a minimum viable stack for building dece
 
 We predict an exponentially growing number of dApp & DAO builders to be using a variation of this system in 2021, partially because we'll be promoting the fuck out of it and helping people get it up & running 🙃
 
-#### Anyhow!
+##### Anyhow!
 
-## 🧩 How it all fits together:
+### 🧩 How it all fits together:
 
 1.  You have people converging around an idea, exchanging thoughts & creating value through platforms such as Discord, Discourse & Github.
 2.  You have Sourcecred, tracking value creation through these three platforms & rewarding value creators with XP.
@@ -95,7 +95,7 @@ We’ve blazed the trail and others will follow.
 
 **Benefits**: You don’t need co-founders from day1. Once you find them, you don’t need to trust them & you barely need to know them. Also no need to worry about the equity split up-front as it gets dynamically allocated based on effort. No need think up & evaluate all the tasks, no need to negotiate salaries or even go through the hiring processes.
 
-# 🤔 What are we doing with it?
+## 🤔 What are we doing with it?
 ![](https://cdn.substack.com/image/fetch/w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F24c2be6c-5abe-4309-a966-16010f305b03_463x600.png)
 Running the system successfully for months now; what for?
 
@@ -112,7 +112,7 @@ To begin with:
 -   We're using it to build the MetaOS.
 
 
-# 🤔 What can I do with it?
+## 🤔 What can I do with it?
 ![](https://imgur.com/4oFZ9t6.png)
 No, but seriously, it can be used for building & running pretty much anything. Though with great power comes great responsibility & all of that.
 
