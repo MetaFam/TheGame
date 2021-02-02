@@ -114,6 +114,6 @@ To begin with:
 
 ## 🤔 What can I do with it?
 ![](https://imgur.com/4oFZ9t6.png)
-No, but seriously, it can be used for building & running pretty much anything. Though with great power comes great responsibility & all of that.
+No, but seriously, it can be used for building & running pretty much anything. With great power comes great responsibility & all of that.
 
 Though the UX is terrible, you should be able to build & run any kind of decentralized organization and do it in an extremely capital efficient way 🤷‍♂️
