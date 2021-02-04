@@ -1,6 +1,6 @@
 import {
-  Box, Button, Flex, Image, Stack, useDisclosure, BoxedNextImage
-} from '@metafam/ds';
+  Box, BoxedNextImage,
+Button, Flex, Image, Stack, useDisclosure} from '@metafam/ds';
 import { MetaLink } from 'components/Link';
 import { LoginButton } from 'components/LoginButton';
 import { Ticker } from 'components/Ticker';

@@ -1,8 +1,9 @@
-import { Button, Flex, Image, Stack, useDisclosure } from '@metafam/ds';
+import {
+  BoxedNextImage, Button, Flex, Stack, useDisclosure
+} from '@metafam/ds';
 import MetaGameLogo from 'assets/logo.png';
 import { MetaLink } from 'components/Link';
 import { motion } from 'framer-motion';
-import NextImage from 'next/dist/client/image';
 import React from 'react';
 
 import {
@@ -80,7 +81,13 @@ export interface SubImageProps {
 }
 
 export const SubImage: React.FC<SubImageProps> = ({ src, alt }) => {
-  return <Image src={src} alt={alt} mb={2} maxHeight="calc(100% - 1.5rem)"/>;
+  return (
+    <BoxedNextImage
+      src={src} alt={alt}
+      mb={2} width="100%" height="calc(100% - 1.5rem)"
+      objectFit="cover"
+    />
+  )
 };
 
 export const MobileFooter: React.FC = () => {
@@ -104,7 +111,10 @@ export const MobileFooter: React.FC = () => {
       >
         {DrawerItemsLeft.map((item) => (
           <MenuItem href={item.href} isExternal={item.isExternal} key={item.href}>
-            <NextImage src={item.src} alt={item.alt} width={35} height={35} />
+            <BoxedNextImage
+              src={item.src} alt={item.alt}
+              width="35px" height="35px"
+            />
             {item.text}
           </MenuItem>
         ))}
@@ -131,19 +141,23 @@ export const MobileFooter: React.FC = () => {
             onClick={onToggle}
             _focus={{ boxShadow: 'none' }}
           >
-            <Image // TODO use NextImage component once images are without text
+            <BoxedNextImage
               src={MetaGameLogo}
               alt="MetaGameLogo"
               position="relative"
               top="0.5rem"
-              maxHeight="6rem"
+              width="2.5rem"
+              height="3.5rem"
             />
           </Button>
         </motion.div>
 
         {DrawerItemsRight.map((item) => (
           <MenuItem href={item.href} isExternal={item.isExternal} key={item.href}>
-            <NextImage src={item.src} alt={item.alt} width={35} height={35} />
+            <BoxedNextImage
+              src={item.src} alt={item.alt}
+              width="35px" height="35px"
+            />
             {item.text}
           </MenuItem>
         ))}

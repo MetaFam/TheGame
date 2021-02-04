@@ -18,6 +18,7 @@ export const BoxedNextImage: React.FC<
       <NextImage
         {...{ src, alt }}
         layout="fill"
+        objectFit='contain'
       />
     </Box>
   )
