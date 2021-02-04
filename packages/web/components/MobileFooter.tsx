@@ -5,6 +5,8 @@ import { motion } from 'framer-motion';
 import NextImage from 'next/dist/client/image';
 import React from 'react';
 
+import { useMounted } from '../lib/hooks';
+import { isBackdropFilterSupported } from '../utils/compatibilityHelpers';
 import {
   DrawerItemsLeft,
   DrawerItemsRight,
@@ -17,8 +19,8 @@ const MenuItem: React.FC<React.ComponentProps<typeof MetaLink>> = ({
   isExternal,
 }) => {
   return (
-    <MetaLink 
-      href={href} 
+    <MetaLink
+      href={href}
       isExternal={isExternal}
       _focus={{ outline: 0 }}
       flexGrow={1}
@@ -80,17 +82,16 @@ export interface SubImageProps {
 }
 
 export const SubImage: React.FC<SubImageProps> = ({ src, alt }) => {
-  return <Image src={src} alt={alt} mb={2} maxHeight="calc(100% - 1.5rem)"/>;
+  return <Image src={src} alt={alt} mb={2} maxHeight="calc(100% - 1.5rem)" />;
 };
 
 export const MobileFooter: React.FC = () => {
   const { isOpen, onToggle, onClose } = useDisclosure();
+  const hasMounted = useMounted();
+  const drawerOpacity = hasMounted && isBackdropFilterSupported() ? 0.75 : 0.98;
 
   return (
-    <Flex
-      as="nav"
-      display={{ base: 'flex', lg: 'none' }}
-    >
+    <Flex as="nav" display={{ base: 'flex', lg: 'none' }}>
       <Flex
         align="center"
         position="fixed"
@@ -103,7 +104,11 @@ export const MobileFooter: React.FC = () => {
         borderRadius="1rem 1rem 0 0"
       >
         {DrawerItemsLeft.map((item) => (
-          <MenuItem href={item.href} isExternal={item.isExternal} key={item.href}>
+          <MenuItem
+            href={item.href}
+            isExternal={item.isExternal}
+            key={item.href}
+          >
             <NextImage src={item.src} alt={item.alt} width={35} height={35} />
             {item.text}
           </MenuItem>
@@ -142,7 +147,11 @@ export const MobileFooter: React.FC = () => {
         </motion.div>
 
         {DrawerItemsRight.map((item) => (
-          <MenuItem href={item.href} isExternal={item.isExternal} key={item.href}>
+          <MenuItem
+            href={item.href}
+            isExternal={item.isExternal}
+            key={item.href}
+          >
             <NextImage src={item.src} alt={item.alt} width={35} height={35} />
             {item.text}
           </MenuItem>
@@ -166,7 +175,7 @@ export const MobileFooter: React.FC = () => {
           bottom="4rem"
           width="min(100vw, 3 * 10rem)"
           maxHeight="calc(100vh - 4rem)"
-          background="linear-gradient(180deg, rgba(76, 63, 143, 0.95) 62.76%, rgba(184, 169, 255, 0.95) 100%);"
+          background={`linear-gradient(180deg, rgba(76, 63, 143, ${drawerOpacity}) 62.76%, rgba(184, 169, 255, ${drawerOpacity}) 100%);`}
           display="grid"
           gridTemplateColumns="repeat(3, auto)"
           gridTemplateRows="repeat(4, calc(25vh - 3rem))"
@@ -174,6 +183,7 @@ export const MobileFooter: React.FC = () => {
           justify="center"
           align="center"
           padding="1rem 1rem 3rem 1rem"
+          style={{ backdropFilter: 'blur(10px)' }}
         >
           {DrawerSubItems.map((item) => (
             <SubMenuItem href={item.href} key={item.alt}>

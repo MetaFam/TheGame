@@ -1,5 +1,11 @@
 import {
-  Box, Button, Flex, Image, Stack, useDisclosure, BoxedNextImage
+  Box,
+  BoxedNextImage,
+  Button,
+  Flex,
+  Image,
+  Stack,
+  useDisclosure,
 } from '@metafam/ds';
 import { MetaLink } from 'components/Link';
 import { LoginButton } from 'components/LoginButton';
@@ -7,6 +13,7 @@ import { Ticker } from 'components/Ticker';
 import { motion } from 'framer-motion';
 import React from 'react';
 
+import { useMounted } from '../lib/hooks';
 import { isBackdropFilterSupported } from '../utils/compatibilityHelpers';
 import {
   DrawerItemsLeft,
@@ -17,8 +24,8 @@ import {
 const MetaDrawer = '/assets/drawer/desktop.gradient.png';
 const MetaGradientBottom = '/assets/drawer/desktop.gradient.bottom.png';
 const MetaGameLogo = '/assets/logo.alt.png';
-const drawer = { width: '39rem', height: '5.5rem' }
-const content = { width: '33rem', height: '46rem' }
+const drawer = { width: '39rem', height: '5.5rem' };
+const content = { width: '33rem', height: '46rem' };
 
 const MenuItem: React.FC<React.ComponentProps<typeof MetaLink>> = ({
   children,
@@ -92,15 +99,13 @@ const SubMenuItem: React.FC<React.ComponentProps<typeof MetaLink>> = ({
           height: '100%',
           filter: 'blur(10px)',
           transform: 'translate3d(-120%, 0, 0)',
-          background: (
-            `linear-gradient(
+          background: `linear-gradient(
               45deg, transparent,
               rgba(255, 255, 255, 0),
               rgba(255, 255, 255, 0.06),
               rgba(255, 255, 255, 0),
               transparent
-            )`
-          ),
+            )`,
           transition: 'all 0.3s 0.1s ease-in-out',
           zIndex: 1,
         }}
@@ -119,6 +124,9 @@ const SubMenuItem: React.FC<React.ComponentProps<typeof MetaLink>> = ({
 
 export const PageHeader: React.FC = () => {
   const { isOpen, onToggle, onClose } = useDisclosure();
+  const hasMounted = useMounted();
+
+  const drawerOpacity = hasMounted && isBackdropFilterSupported() ? 0.75 : 0.98;
 
   return (
     <Flex
@@ -167,8 +175,10 @@ export const PageHeader: React.FC = () => {
             isExternal={item.isExternal}
           >
             <BoxedNextImage
-              width="2rem" height="2rem"
-              src={item.src} alt={item.alt}
+              width="2rem"
+              height="2rem"
+              src={item.src}
+              alt={item.alt}
             />
             {item.text}
           </MenuItem>
@@ -196,7 +206,8 @@ export const PageHeader: React.FC = () => {
             onClick={onToggle}
           >
             <BoxedNextImage
-              src={MetaGameLogo} alt="MetaGameLogo"
+              src={MetaGameLogo}
+              alt="MetaGameLogo"
               width={drawer.height}
               height={`calc(${drawer.height} * 1.1)`}
             />
@@ -210,8 +221,10 @@ export const PageHeader: React.FC = () => {
             isExternal={item.isExternal}
           >
             <BoxedNextImage
-              src={item.src} alt={item.alt}
-              width="2rem" height="2rem"
+              src={item.src}
+              alt={item.alt}
+              width="2rem"
+              height="2rem"
             />
             {item.text}
           </MenuItem>
@@ -259,16 +272,10 @@ export const PageHeader: React.FC = () => {
             top="0"
             width={`calc(${content.width} - 0.5rem)`}
             height={`calc(${content.height} - 3.5rem)`}
-            background={(() => {
-              // without the backdrop-filter blur this is too transparent
-              const opacity = isBackdropFilterSupported() ? 0.75 : 0.98
-              return (
-                `linear-gradient(
-                  180deg, rgba(76, 63, 143, ${opacity}) 62.76%,
-                  rgba(184, 169, 255, ${opacity}) 100%
-                )`
-              )
-            })()}
+            background={`linear-gradient(
+                  180deg, rgba(76, 63, 143, ${drawerOpacity}) 62.76%,
+                  rgba(184, 169, 255, ${drawerOpacity}) 100%
+                )`}
             style={{ backdropFilter: 'blur(10px)' }}
           />
           {/* ToDo: switch to BoxedNextImage */}
@@ -290,8 +297,11 @@ export const PageHeader: React.FC = () => {
                 isExternal={item.isExternal}
               >
                 <BoxedNextImage
-                  src={item.src} alt={item.alt}
-                  height="5rem" width="5rem" mb={2}
+                  src={item.src}
+                  alt={item.alt}
+                  height="5rem"
+                  width="5rem"
+                  mb={2}
                 />
                 {item.text}
               </SubMenuItem>

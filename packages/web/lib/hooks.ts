@@ -1,7 +1,7 @@
 import { Web3Context } from 'contexts/Web3Context';
 import { useGetMeQuery } from 'graphql/autogen/types';
 import { useRouter } from 'next/router';
-import { useContext, useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 
 export const useWeb3 = () => useContext(Web3Context);
 
@@ -34,4 +34,13 @@ export const useUser = ({ redirectTo, redirectIfFound }: UseUserOpts = {}) => {
   }, [router, user, redirectIfFound, redirectTo]);
 
   return { user: error ? null : user, fetching };
+};
+
+export const useMounted = () => {
+  // https://www.joshwcomeau.com/react/the-perils-of-rehydration/
+  const [hasMounted, setHasMounted] = React.useState(false);
+  React.useEffect(() => {
+    setHasMounted(true);
+  }, []);
+  return hasMounted;
 };
