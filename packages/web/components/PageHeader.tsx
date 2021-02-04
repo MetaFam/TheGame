@@ -210,9 +210,11 @@ export const PageHeader: React.FC = () => {
         <LoginButton
           connectWeb3={connectWeb3}
           disconnect={disconnect}
+          hreffor={(uInfo) => `/player/${uInfo.username}`}
           isConnected={isConnected}
           user={userInfo}
           fetching={fetching}
+          enableSetup
         />
       </Flex>
 
