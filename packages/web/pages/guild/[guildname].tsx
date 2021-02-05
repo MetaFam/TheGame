@@ -81,7 +81,7 @@ export const getStaticProps = async (
 
   return {
     props: {
-      guild: guild || null,
+      guild: guild === undefined ? null : guild,
     },
     revalidate: 1,
   };
