@@ -25,7 +25,7 @@ export const GuildTile: React.FC<Props> = ({ guild }) => (
     style={{ backdropFilter: 'blur(7px)' }}
     rounded="lg"
     p="6"
-    maxW="30rem"
+    maxW="25rem"
     w="100%"
     align="stretch"
     position="relative"

@@ -8,7 +8,11 @@ type Props = {
 };
 
 export const GuildList: React.FC<Props> = ({ guilds }) => (
-  <SimpleGrid columns={[1, null, 2, 3]} spacing="8">
+  <SimpleGrid
+    columns={[1, null, 2, 3]}
+    spacing="8"
+    autoRows="minmax(35rem, auto)"
+  >
     {guilds.map((p) => (
       <GuildTile key={p.id} guild={p} />
     ))}

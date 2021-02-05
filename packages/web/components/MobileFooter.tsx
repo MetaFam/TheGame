@@ -1,11 +1,18 @@
 import {
-  BoxedNextImage, Button, Flex, Stack, useDisclosure
+  Box,
+  BoxedNextImage,
+  Button,
+  Flex,
+  Stack,
+  useDisclosure,
 } from '@metafam/ds';
 import MetaGameLogo from 'assets/logo.png';
 import { MetaLink } from 'components/Link';
 import { motion } from 'framer-motion';
 import React from 'react';
 
+import { useMounted } from '../lib/hooks';
+import { isBackdropFilterSupported } from '../utils/compatibilityHelpers';
 import {
   DrawerItemsLeft,
   DrawerItemsRight,
@@ -18,8 +25,8 @@ const MenuItem: React.FC<React.ComponentProps<typeof MetaLink>> = ({
   isExternal,
 }) => {
   return (
-    <MetaLink 
-      href={href} 
+    <MetaLink
+      href={href}
       isExternal={isExternal}
       _focus={{ outline: 0 }}
       flexGrow={1}
@@ -83,21 +90,22 @@ export interface SubImageProps {
 export const SubImage: React.FC<SubImageProps> = ({ src, alt }) => {
   return (
     <BoxedNextImage
-      src={src} alt={alt}
-      mb={2} width="100%" height="calc(100% - 1.5rem)"
-      objectFit="cover"
+      src={src}
+      alt={alt}
+      mb={2}
+      width="100%"
+      height="calc(100% - 1.5rem)"
     />
   )
 };
 
 export const MobileFooter: React.FC = () => {
   const { isOpen, onToggle, onClose } = useDisclosure();
+  const hasMounted = useMounted();
+  const drawerOpacity = hasMounted && isBackdropFilterSupported() ? 0.75 : 0.98;
 
   return (
-    <Flex
-      as="nav"
-      display={{ base: 'flex', lg: 'none' }}
-    >
+    <Flex as="nav" display={{ base: 'flex', lg: 'none' }}>
       <Flex
         align="center"
         position="fixed"
@@ -110,12 +118,18 @@ export const MobileFooter: React.FC = () => {
         borderRadius="1rem 1rem 0 0"
       >
         {DrawerItemsLeft.map((item) => (
-          <MenuItem href={item.href} isExternal={item.isExternal} key={item.href}>
+          <MenuItem
+            href={item.href}
+            isExternal={item.isExternal}
+            key={item.href}
+          >
             <BoxedNextImage
-              src={item.src} alt={item.alt}
-              width="35px" height="35px"
+              src={item.src}
+              alt={item.alt}
+              width="35px"
+              height="35px"
             />
-            {item.text}
+            <Box fontSize="min(5vw, 100%)">{item.text}</Box>
           </MenuItem>
         ))}
 
@@ -145,20 +159,26 @@ export const MobileFooter: React.FC = () => {
               src={MetaGameLogo}
               alt="MetaGameLogo"
               position="relative"
-              top="0.5rem"
-              width="2.5rem"
-              height="3.5rem"
+              top="1rem"
+              width="max(3.5rem, 8vh)"
+              height="max(4.5rem, 10vh)"
             />
           </Button>
         </motion.div>
 
         {DrawerItemsRight.map((item) => (
-          <MenuItem href={item.href} isExternal={item.isExternal} key={item.href}>
+          <MenuItem
+            href={item.href}
+            isExternal={item.isExternal}
+            key={item.href}
+          >
             <BoxedNextImage
-              src={item.src} alt={item.alt}
-              width="35px" height="35px"
+              src={item.src}
+              alt={item.alt}
+              width="35px"
+              height="35px"
             />
-            {item.text}
+            <Box fontSize="min(5vw, 100%)">{item.text}</Box>
           </MenuItem>
         ))}
       </Flex>
@@ -180,14 +200,21 @@ export const MobileFooter: React.FC = () => {
           bottom="4rem"
           width="min(100vw, 3 * 10rem)"
           maxHeight="calc(100vh - 4rem)"
-          background="linear-gradient(180deg, rgba(76, 63, 143, 0.95) 62.76%, rgba(184, 169, 255, 0.95) 100%);"
+          background={`linear-gradient(
+            180deg, rgba(76, 63, 143, ${drawerOpacity}) 62.76%,
+            rgba(184, 169, 255, ${drawerOpacity}) 100%
+          )`}
           display="grid"
-          gridTemplateColumns="repeat(3, auto)"
+          gridTemplateColumns="repeat(3, 1fr)"
           gridTemplateRows="repeat(4, calc(25vh - 3rem))"
           gridGap="1rem"
           justify="center"
           align="center"
           padding="1rem 1rem 3rem 1rem"
+          style={{
+            backdropFilter: 'blur(10px)',
+            WebkitBackdropFilter: 'blur(10px)',
+          }}
         >
           {DrawerSubItems.map((item) => (
             <SubMenuItem href={item.href} key={item.alt}>
