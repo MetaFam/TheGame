@@ -1,5 +1,5 @@
 import { Command, CommandMessage, Discord } from '@typeit/discord';
-import { sourcecred as sc } from 'sourcecred';
+import { sourcecred as sc } from 'sourcecred-publish-test';
 
 import { CONFIG } from './config';
 
