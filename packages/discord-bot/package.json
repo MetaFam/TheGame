@@ -6,12 +6,11 @@
   "main": "dist/index.js",
   "scripts": {
     "start": "node ./dist/index.js",
-    "build": "yarn generate && tsc -b",
+    "build": "tsc -b",
     "dev": "concurrently \"yarn dev-ts\" \"yarn generate --watch\"",
     "dev-ts": "ts-node-dev --exit-child --respawn -- src/index.ts",
     "typecheck": "yarn build",
     "precommit": "yarn lint-staged",
-    "generate": "graphql-codegen --config=codegen.yml",
     "lintfix": "eslint --fix"
   },
   "author": "",
