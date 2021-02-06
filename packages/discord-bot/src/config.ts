@@ -5,6 +5,7 @@ interface IConfig {
   graphqlURL: string;
   adminKey: string;
   frontendUrl: string;
+  githubApiToken: string;
   discordBotToken: string;
   discordBotClientId: string;
   discordBotClientSecret: string;
@@ -32,6 +33,7 @@ export const CONFIG: IConfig = {
     'metagame_secret',
   ),
   frontendUrl: parseEnv(process.env.FRONTEND_URL, 'http://localhost:3000'),
+  githubApiToken: parseEnv(process.env.GITHUB_API_TOKEN, ''),
   discordBotToken: parseEnv(process.env.DISCORD_BOT_TOKEN, ''),
   discordBotClientId: parseEnv(process.env.DISCORD_BOT_CLIENT_ID, ''),
   discordBotClientSecret: parseEnv(process.env.DISCORD_BOT_CLIENT_SECRET, ''),
