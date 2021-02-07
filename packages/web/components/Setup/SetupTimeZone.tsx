@@ -10,12 +10,15 @@ import { useUpdateProfileMutation } from 'graphql/autogen/types';
 import { useUser } from 'lib/hooks';
 import React from 'react';
 
-export const SetupTimeZone: React.FC = () => {
+export type SetupTimezoneProps = {
+  timeZone: string;
+  setTimeZone: React.Dispatch<React.SetStateAction<string>>;
+}
+
+export const SetupTimeZone: React.FC<SetupTimezoneProps> = ({timeZone, setTimeZone}) => {
   const {
     onNextPress,
-    nextButtonLabel,
-    timeZone,
-    setTimeZone
+    nextButtonLabel
   } = useSetupFlow();
   const { user } = useUser({ redirectTo: '/' });
   const toast = useToast();

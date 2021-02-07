@@ -15,13 +15,20 @@ import { PersonalityType } from 'graphql/types';
 import { useUser } from 'lib/hooks';
 import React from 'react';
 
-export const SetupPersonalityType: React.FC = () => {
+export type SetupPersonalityTypeProps = {
+  personalityTypeChoices: Array<PersonalityType>;
+  personalityType: PersonalityType | undefined;
+  setPersonalityType: React.Dispatch<
+    React.SetStateAction<PersonalityType | undefined>
+  >;
+}
+
+export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
+  personalityTypeChoices, personalityType, setPersonalityType
+}) => {
   const {
     onNextPress,
     nextButtonLabel,
-    personalityTypes,
-    personalityType,
-    setPersonalityType,
   } = useSetupFlow();
   const { user } = useUser({ redirectTo: '/' });
   const toast = useToast();
@@ -65,7 +72,7 @@ export const SetupPersonalityType: React.FC = () => {
         </MetaLink>
       </Text>
       <SimpleGrid columns={[1, null, 2, 3]} spacing="8">
-        {personalityTypes.map((p: PersonalityType) => (
+        {personalityTypeChoices.map((p: PersonalityType) => (
           <HStack
             key={p.id}
             p={6}

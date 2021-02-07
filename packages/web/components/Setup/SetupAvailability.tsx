@@ -14,13 +14,19 @@ import { useUpdateProfileMutation } from 'graphql/autogen/types';
 import { useUser } from 'lib/hooks';
 import React, { useEffect, useState } from 'react';
 
-export const SetupAvailability: React.FC = () => {
+export type SetupAvailabilityProps = {
+  availability: string;
+  setAvailability: React.Dispatch<React.SetStateAction<string>>;
+}
+
+export const SetupAvailability: React.FC<SetupAvailabilityProps> = ({
+  availability, setAvailability
+}) => {
   const {
     onNextPress,
-    nextButtonLabel,
-    availability,
-    setAvailability,
+    nextButtonLabel
   } = useSetupFlow();
+
   const [invalid, setInvalid] = useState(false);
   const { user } = useUser({ redirectTo: '/' });
   const toast = useToast();

@@ -1,11 +1,4 @@
-import { SetupAvailability } from 'components/Setup/SetupAvailability';
 import { SetupDone } from 'components/Setup/SetupDone';
-import { SetupMemberships } from 'components/Setup/SetupMemberships';
-import { SetupPersonalityType } from 'components/Setup/SetupPersonalityType';
-import { SetupPlayerType } from 'components/Setup/SetupPlayerType';
-import { SetupSkills } from 'components/Setup/SetupSkills';
-import { SetupTimeZone } from 'components/Setup/SetupTimeZone';
-import { SetupUsername } from 'components/Setup/SetupUsername';
 import React from 'react';
 
 export const options = [
@@ -15,41 +8,41 @@ export const options = [
     screens: [
       {
         label: 'Username',
-        component: <SetupUsername />,
+        slug: 'username'
       },
       {
         label: 'Personality Type',
-        component: <SetupPersonalityType />,
+        slug: 'personalityType'
       },
       {
         label: 'Player Type',
-        component: <SetupPlayerType />,
+        slug: 'playerType',
       },
     ],
   },
   {
-    label: 'Portfolio',
+    label: 'Profile',
     title: {
-      base: 'Portfolio',
-      sm: '2. Portfolio',
+      base: 'Profile',
+      sm: '2. Profile',
       lg: '2. Professional Profile',
     },
     screens: [
       {
         label: 'Skills',
-        component: <SetupSkills />,
+        slug: 'skills'
       },
       {
         label: 'Availability',
-        component: <SetupAvailability />,
+        slug: 'availability',
       },
       {
         label: 'Time Zone',
-        component: <SetupTimeZone />
+        slug: 'timeZone'
       },
       {
         label: 'Memberships',
-        component: <SetupMemberships />,
+        slug: 'memberships',
       },
     ],
   },

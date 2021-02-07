@@ -12,13 +12,20 @@ import { SkillCategory_Enum, useUpdatePlayerSkillsMutation } from 'graphql/autog
 import { SkillColors } from 'graphql/types';
 import { useUser } from 'lib/hooks';
 import React from 'react';
-import { SkillOption } from 'utils/skillHelpers';
+import { CategoryOption, SkillOption } from 'utils/skillHelpers';
 
-export const SetupSkills: React.FC = () => {
+export type SetupSkillsProps = {
+  skillChoices: Array<CategoryOption>;
+  skills: Array<SkillOption>;
+  setSkills: React.Dispatch<
+    React.SetStateAction<Array<SkillOption>>
+  >;
+}
+
+export const SetupSkills: React.FC<SetupSkillsProps> = ({
+  skillChoices, skills, setSkills,
+}) => {
   const {
-    skillsList,
-    skills,
-    setSkills,
     onNextPress,
     nextButtonLabel,
   } = useSetupFlow();
@@ -46,7 +53,6 @@ export const SetupSkills: React.FC = () => {
 
     onNextPress();
   };
-
 
   const styles: typeof selectStyles = {
     ...selectStyles,
@@ -81,7 +87,7 @@ export const SetupSkills: React.FC = () => {
           styles={styles}
           value={skills}
           onChange={(value) => setSkills(value as Array<SkillOption>)}
-          options={skillsList}
+          options={skillChoices}
           autoFocus
           closeMenuOnSelect={false}
           placeholder="ADD YOUR SKILLS"
