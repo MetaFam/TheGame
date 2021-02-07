@@ -1,8 +1,5 @@
-import { Player_Type } from 'graphql/autogen/types';
-import { Membership, PersonalityType } from 'graphql/types';
 import { useRouter } from 'next/router';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
-import { CategoryOption, SkillOption } from 'utils/skillHelpers';
 
 type SetupOption = {
   label: string;
@@ -11,7 +8,8 @@ type SetupOption = {
   };
   screens: Array<{
     label: string;
-    component: React.ReactNode;
+    component?: React.ReactNode;
+    slug?: string;
   }>;
 };
 
@@ -23,27 +21,6 @@ type SetupContextType = {
   onBackPress: () => void;
   nextButtonLabel: string;
   numTotalSteps: number;
-  skillsList: Array<CategoryOption>;
-  personalityTypes: Array<PersonalityType>;
-  playerTypes: Array<Player_Type>;
-  username: string;
-  setUsername: React.Dispatch<React.SetStateAction<string>>;
-  skills: Array<SkillOption>;
-  setSkills: React.Dispatch<React.SetStateAction<Array<SkillOption>>>;
-  personalityType: PersonalityType | undefined;
-  setPersonalityType: React.Dispatch<
-    React.SetStateAction<PersonalityType | undefined>
-  >;
-  playerType: Player_Type | undefined;
-  setPlayerType: React.Dispatch<React.SetStateAction<Player_Type | undefined>>;
-  availability: string;
-  setAvailability: React.Dispatch<React.SetStateAction<string>>;
-  timeZone: string;
-  setTimeZone: React.Dispatch<React.SetStateAction<string>>;
-  memberships: Array<Membership> | null | undefined;
-  setMemberships: React.Dispatch<
-    React.SetStateAction<Array<Membership> | null | undefined>
-  >;
 };
 
 export const SetupContext = React.createContext<SetupContextType>({
@@ -54,38 +31,15 @@ export const SetupContext = React.createContext<SetupContextType>({
   onBackPress: () => undefined,
   nextButtonLabel: 'Next Step',
   numTotalSteps: 0,
-  skillsList: [],
-  personalityTypes: [],
-  playerTypes: [],
-  username: '',
-  setUsername: () => undefined,
-  skills: [],
-  setSkills: () => undefined,
-  personalityType: undefined,
-  setPersonalityType: () => undefined,
-  playerType: undefined,
-  setPlayerType: () => undefined,
-  availability: '',
-  setAvailability: () => undefined,
-  timeZone: '',
-  setTimeZone: () => undefined,
-  memberships: undefined,
-  setMemberships: () => undefined,
 });
 
 type Props = {
   options: Array<SetupOption>;
-  skillsList: Array<CategoryOption>;
-  personalityTypes: Array<PersonalityType>;
-  playerTypes: Array<Player_Type>;
 };
 
 export const SetupContextProvider: React.FC<Props> = ({
   children,
-  options,
-  skillsList,
-  personalityTypes,
-  playerTypes,
+  options
 }) => {
   const router = useRouter();
   const [step, setStep] = useState<number>(0);
@@ -116,7 +70,8 @@ export const SetupContextProvider: React.FC<Props> = ({
     } else {
       setScreen((screen + 1) % numScreens);
     }
-  }, [options, step, screen, setStep, setScreen, numTotalSteps]);
+    router.push(`/profile/setup/${options[step].screens[(screen + 1) % numScreens].slug}`);
+  }, [router, options, step, screen, setStep, setScreen, numTotalSteps]);
 
   const onBackPress = useCallback(() => {
     if (step <= 0 && screen <= 0) {
@@ -132,16 +87,6 @@ export const SetupContextProvider: React.FC<Props> = ({
     }
   }, [router, options, step, screen, setStep, setScreen, numTotalSteps]);
 
-  const [username, setUsername] = useState<string>('');
-  const [skills, setSkills] = useState<Array<SkillOption>>([]);
-  const [personalityType, setPersonalityType] = useState<PersonalityType>();
-  const [playerType, setPlayerType] = useState<Player_Type>();
-  const [availability, setAvailability] = useState<string>('');
-  const [timeZone, setTimeZone] = useState<string>('');
-  const [memberships, setMemberships] = useState<
-    Array<Membership> | null | undefined
-  >();
-
   return (
     <SetupContext.Provider
       value={{
@@ -152,31 +97,6 @@ export const SetupContextProvider: React.FC<Props> = ({
         onNextPress,
         onBackPress,
         nextButtonLabel,
-        // data
-        skillsList,
-        personalityTypes,
-        playerTypes,
-        // username
-        username,
-        setUsername,
-        // skills
-        skills,
-        setSkills,
-        // personalityType
-        personalityType,
-        setPersonalityType,
-        // playerType
-        playerType,
-        setPlayerType,
-        // availability
-        availability,
-        setAvailability,
-        // time zone
-        timeZone,
-        setTimeZone,
-        // memberships
-        memberships,
-        setMemberships,
       }}
     >
       {children}

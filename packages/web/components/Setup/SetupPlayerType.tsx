@@ -7,17 +7,22 @@ import {
 } from '@metafam/ds';
 import { FlexContainer } from 'components/Container';
 import { useSetupFlow } from 'contexts/SetupContext';
-import { useUpdateAboutYouMutation } from 'graphql/autogen/types';
+import { Player_Type, useUpdateAboutYouMutation } from 'graphql/autogen/types';
 import { useUser } from 'lib/hooks';
 import React from 'react';
 
-export const SetupPlayerType: React.FC = () => {
+export type SetupPlayerTypeProps = {
+  playerTypeChoices: Array<Player_Type>;
+  playerType: Player_Type | undefined;
+  setPlayerType: React.Dispatch<React.SetStateAction<Player_Type | undefined>>;
+}
+
+export const SetupPlayerType: React.FC<SetupPlayerTypeProps> = ({
+  playerTypeChoices, playerType, setPlayerType
+}) => {
   const {
     onNextPress,
-    nextButtonLabel,
-    playerTypes,
-    playerType,
-    setPlayerType
+    nextButtonLabel
   } = useSetupFlow();
   const { user } = useUser({ redirectTo: '/' });
   const toast = useToast();
@@ -59,7 +64,7 @@ export const SetupPlayerType: React.FC = () => {
         that suits you best.
       </Text>
       <SimpleGrid columns={[1, null, 3, 3]} spacing={4}>
-        {playerTypes.map((p) => (
+        {playerTypeChoices.map((p) => (
           <FlexContainer
             key={p.id}
             p={[4, null, 6]}

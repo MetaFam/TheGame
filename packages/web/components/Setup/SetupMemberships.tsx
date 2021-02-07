@@ -8,24 +8,25 @@ import {
 } from '@metafam/ds';
 import { FlexContainer } from 'components/Container';
 import { useSetupFlow } from 'contexts/SetupContext';
-import { getMemberships } from 'graphql/getMemberships';
-import React, { useEffect } from 'react';
+import { Membership } from 'graphql/types';
+import React from 'react';
 
 import { useWeb3 } from '../../lib/hooks';
 
-export const SetupMemberships: React.FC = () => {
-  const { address, isConnected } = useWeb3();
+export type SetupMembershipsProps = {
+  memberships: Array<Membership> | null | undefined;
+  setMemberships: React.Dispatch<
+    React.SetStateAction<Array<Membership> | null | undefined>
+  >;
+}
+
+export const SetupMemberships: React.FC<SetupMembershipsProps> = ({memberships}) => {
+  const { isConnected } = useWeb3();
   const {
     onNextPress,
-    nextButtonLabel,
-    memberships,
-    setMemberships,
+    nextButtonLabel
   } = useSetupFlow();
-  useEffect(() => {
-    getMemberships(address).then((data) => {
-      setMemberships(data);
-    });
-  }, [address, setMemberships]);
+
   return (
     <FlexContainer>
       <MetaHeading mb={5} textAlign="center">

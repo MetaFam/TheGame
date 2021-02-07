@@ -7,12 +7,15 @@ import React, { useEffect, useState } from 'react';
 
 const USERNAME_REGEX = /^[a-zA-Z0-9](_(?!(\.|_))|\.(?!(_|\.))|[a-zA-Z0-9]){2,18}[a-zA-Z0-9]$/;
 
-export const SetupUsername: React.FC = () => {
+export type SetupUsernameProps = {
+  username: string;
+  setUsername: React.Dispatch<React.SetStateAction<string>>;
+}
+
+export const SetupUsername: React.FC<SetupUsernameProps> = ({username, setUsername}) => {
   const {
     onNextPress,
-    nextButtonLabel,
-    username,
-    setUsername,
+    nextButtonLabel
   } = useSetupFlow();
   const [invalid, setInvalid] = useState(false);
   const { user } = useUser({ redirectTo: '/' });
