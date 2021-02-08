@@ -1,99 +1,73 @@
 import { useRouter } from 'next/router';
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { SetupOptions } from 'utils/setupOptions';
 
-type SetupOption = {
-  label: string;
-  title: {
-    [any: string]: string | undefined;
-  };
-  screens: Array<{
-    label: string;
-    component?: React.ReactNode;
-    slug?: string;
-  }>;
-};
+const urlPrefix = `/profile/setup/`;
 
 type SetupContextType = {
-  options: Array<SetupOption>;
-  step: number;
-  screen: number;
+  options: SetupOptions;
+  stepIndex: number;
   onNextPress: () => void;
   onBackPress: () => void;
   nextButtonLabel: string;
-  numTotalSteps: number;
 };
 
 export const SetupContext = React.createContext<SetupContextType>({
-  options: [],
-  step: 0,
-  screen: 0,
+  options: new SetupOptions(),
+  stepIndex: 0,
   onNextPress: () => undefined,
   onBackPress: () => undefined,
   nextButtonLabel: 'Next Step',
-  numTotalSteps: 0,
 });
 
-type Props = {
-  options: Array<SetupOption>;
-};
+export const SetupContextProvider: React.FC = ({children}) => {
+  const options = useMemo(() => {
+    return new SetupOptions();
+  }, []);
 
-export const SetupContextProvider: React.FC<Props> = ({
-  children,
-  options
-}) => {
   const router = useRouter();
-  const [step, setStep] = useState<number>(0);
-  const [screen, setScreen] = useState<number>(0);
-  const numTotalSteps = options.length;
+
+  const pageMatches = router.pathname.match(`${urlPrefix}(.+)`);
+  const slug = pageMatches != null && pageMatches.length > 1 ? pageMatches[1] : null;
+  const stepIndex = options.stepIndexMatchingSlug(slug);
+  const currentStep = options.steps[stepIndex];
+
   const [nextButtonLabel, setNextButtonLabel] = useState('Next Step');
 
   useEffect(() => {
-    const numScreens = options[step].screens.length;
-    if (step >= numTotalSteps - 1) {
-      setNextButtonLabel(options[(step + 1) % numTotalSteps].label);
-    }
-    if (screen + 1 >= numScreens) {
-      setNextButtonLabel(`Next: ${options[(step + 1) % numTotalSteps].label}`);
+    if (options.isLastStep(stepIndex)) {
+      setNextButtonLabel(currentStep.label);
     } else {
-      setNextButtonLabel(
-        `Next: ${options[step].screens[(screen + 1) % numScreens].label}`,
-      );
+      const nextStep = options.steps[stepIndex + 1];
+      let nextStepLabel = nextStep.label;
+      if (options.isFinalStepOfSection(stepIndex)) {
+        nextStepLabel = options.sections[nextStep.sectionIndex].label;
+      } 
+      setNextButtonLabel(`Next: ${nextStepLabel}`);
     }
-  }, [options, step, screen, setNextButtonLabel, numTotalSteps]);
+  }, [options, stepIndex, setNextButtonLabel, currentStep]);
 
   const onNextPress = useCallback(() => {
-    const numScreens = options[step].screens.length;
-    if (step >= numTotalSteps - 1 && screen >= numScreens - 1) return;
-    if (screen + 1 >= numScreens) {
-      setStep((step + 1) % numTotalSteps);
-      setScreen(0);
-    } else {
-      setScreen((screen + 1) % numScreens);
+    if (!options.isLastStep(stepIndex)) {
+      const nextStep = options.steps[stepIndex + 1];
+      router.push(`${urlPrefix}${nextStep.slug}`);
     }
-    router.push(`/profile/setup/${options[step].screens[(screen + 1) % numScreens].slug}`);
-  }, [router, options, step, screen, setStep, setScreen, numTotalSteps]);
+  }, [router, options, stepIndex]);
 
   const onBackPress = useCallback(() => {
-    if (step <= 0 && screen <= 0) {
+    if (stepIndex <= 0) {
       router.push('/');
-      return;
-    }
-    const numScreens = options[step].screens.length;
-    if (screen <= 0) {
-      setStep((step - 1) % numTotalSteps);
-      setScreen(options[(step - 1) % numTotalSteps].screens.length - 1);
     } else {
-      setScreen((screen - 1) % numScreens);
+      const previousStep = options.steps[stepIndex - 1];
+      router.push(`${urlPrefix}${previousStep.slug}`);
     }
-  }, [router, options, step, screen, setStep, setScreen, numTotalSteps]);
+  }, [router, options, stepIndex]);
 
   return (
     <SetupContext.Provider
       value={{
         options,
-        step,
-        screen,
-        numTotalSteps,
+        stepIndex,
         onNextPress,
         onBackPress,
         nextButtonLabel,

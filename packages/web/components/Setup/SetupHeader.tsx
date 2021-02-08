@@ -7,20 +7,21 @@ import { useSetupFlow } from 'contexts/SetupContext';
 import React from 'react';
 
 export const SetupHeader: React.FC = () => {
-  const { step, screen, onNextPress, onBackPress, options } = useSetupFlow();
+  const { stepIndex, onNextPress, onBackPress, options } = useSetupFlow();
+
+  const {sectionIndex} = options.steps[stepIndex];
+
   return (
     <Grid templateColumns="0.5fr 1fr 1fr 1fr 0.5fr" gap="1rem" w="100%">
       <FlexContainer justify="flex-end" onClick={onBackPress} cursor="pointer">
         <Image src={BackImage} h="1rem" alt="Back" />
       </FlexContainer>
-      {options.map((option, id) => (
-        <StepProgress
+      {options.sections.map((option, id) => (
+        <SectionProgress
           key={option.label}
           title={option.title}
-          step={id}
-          isActive={step === id}
-          isDone={step > id}
-          screen={screen}
+          isActive={sectionIndex === id}
+          isDone={sectionIndex > id}
         />
       ))}
       <FlexContainer justify="flex-end" onClick={onNextPress} cursor="pointer">
@@ -34,22 +35,16 @@ interface StepProps {
   title: { [any: string]: string | undefined };
   isDone: boolean;
   isActive: boolean;
-  step: number;
-  screen: number;
 }
 
-export const StepProgress: React.FC<StepProps> = ({
+export const SectionProgress: React.FC<StepProps> = ({
   title,
   isDone,
   isActive,
-  step,
-  screen,
 }) => {
-  const { options } = useSetupFlow();
+  const { options, stepIndex } = useSetupFlow();
 
-  const progress = isDone
-    ? 100
-    : Math.floor(((screen + 1) * 100.0) / options[step].screens.length);
+  const progress = isDone ? 100 : options.progressWithinSection(stepIndex);
   return (
     <FlexContainer pos="relative">
       <ResponsiveText

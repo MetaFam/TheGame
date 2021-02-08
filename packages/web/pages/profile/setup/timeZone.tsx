@@ -2,10 +2,20 @@ import { SetupProfile } from 'components/Setup/SetupProfile';
 import { SetupTimeZone } from 'components/Setup/SetupTimeZone';
 import { SetupContextProvider } from 'contexts/SetupContext';
 import { useUser } from 'lib/hooks';
+import { InferGetStaticPropsType } from 'next';
 import React, { useState } from 'react';
-import { options as setupOptions } from 'utils/setupOptions';
 
-const TimeZoneSetup: React.FC = () => {
+export const getStaticProps = async () => {
+  return {
+    props: {
+      hideAppDrawer: true
+    }
+  };
+};
+
+export type DefaultSetupProps = InferGetStaticPropsType<typeof getStaticProps>;
+
+const TimeZoneSetup: React.FC<DefaultSetupProps> = () => {
 
   const [timeZone, setTimeZone] = useState<string>('');
   const { user } = useUser({ redirectTo: '/' });
@@ -18,7 +28,7 @@ const TimeZoneSetup: React.FC = () => {
   }
 
   return (
-    <SetupContextProvider options={setupOptions}>
+    <SetupContextProvider>
       <SetupProfile>
         <SetupTimeZone timeZone={timeZone} setTimeZone={setTimeZone} />
       </SetupProfile>

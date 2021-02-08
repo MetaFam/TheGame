@@ -4,10 +4,20 @@ import { SetupContextProvider } from 'contexts/SetupContext';
 import { getMemberships } from 'graphql/getMemberships';
 import { Membership } from 'graphql/types';
 import { useWeb3 } from 'lib/hooks';
+import { InferGetStaticPropsType } from 'next';
 import React, { useState } from 'react';
-import { options as setupOptions } from 'utils/setupOptions';
 
-const MembershipsSetup: React.FC = () => {
+export const getStaticProps = async () => {
+  return {
+    props: {
+      hideAppDrawer: true
+    }
+  };
+};
+
+export type DefaultSetupProps = InferGetStaticPropsType<typeof getStaticProps>;
+
+const MembershipsSetup: React.FC<DefaultSetupProps> = () => {
 
   const [memberships, setMemberships] = useState<
     Array<Membership> | null | undefined
@@ -19,7 +29,7 @@ const MembershipsSetup: React.FC = () => {
   });
 
   return (
-    <SetupContextProvider options={setupOptions}>
+    <SetupContextProvider>
       <SetupProfile>
         <SetupMemberships memberships={memberships} setMemberships={setMemberships} />
       </SetupProfile>
