@@ -6,14 +6,14 @@ import { PersonalityType, PersonalityTypes } from 'graphql/types';
 import { useUser } from 'lib/hooks';
 import { InferGetStaticPropsType } from 'next';
 import React, { useState } from 'react';
-import { options as setupOptions } from 'utils/setupOptions';
 
 export const getStaticProps = async () => {
   const personalityTypeChoices = await getPersonalityTypes();
 
   return {
     props: {
-      personalityTypeChoices
+      personalityTypeChoices,
+      hideAppDrawer: true
     }
   };
 };
@@ -34,7 +34,7 @@ const PersonalityTypeSetup: React.FC<Props> = (props) => {
   }
 
   return (
-    <SetupContextProvider options={setupOptions}>
+    <SetupContextProvider>
       <SetupProfile>
         <SetupPersonalityType 
           personalityTypeChoices={personalityTypeChoices} 

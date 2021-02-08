@@ -5,7 +5,6 @@ import { getSkills } from 'graphql/getSkills';
 import { useUser } from 'lib/hooks';
 import { InferGetStaticPropsType } from 'next';
 import React, { useState } from 'react';
-import { options as setupOptions } from 'utils/setupOptions';
 import { parseSkills, SkillOption } from 'utils/skillHelpers';
 
 export const getStaticProps = async () => {
@@ -14,7 +13,8 @@ export const getStaticProps = async () => {
 
   return {
     props: {
-      skillChoices
+      skillChoices,
+      hideAppDrawer: true
     },
   };
 };
@@ -44,7 +44,7 @@ const SkillsSetup: React.FC<Props> = (props) => {
   }
 
   return (
-    <SetupContextProvider options={setupOptions}>
+    <SetupContextProvider>
       <SetupProfile>
         <SetupSkills
           skillChoices={skillChoices} 

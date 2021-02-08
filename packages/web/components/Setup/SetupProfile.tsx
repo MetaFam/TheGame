@@ -4,14 +4,11 @@ import { useSetupFlow } from 'contexts/SetupContext';
 import React from 'react';
 
 export const SetupProfile: React.FC = ({children}) => {
-  const {
-    step,
-    numTotalSteps
-  } = useSetupFlow();
+  const {options, stepIndex} = useSetupFlow();
 
   return (
     <PageContainer>
-      {(step + 1) % numTotalSteps !== 0 && <SetupHeader />}
+      {options.numSteps - 1 > stepIndex && <SetupHeader />}
       <FlexContainer flex={1} pt={24}>
         {children}
       </FlexContainer>

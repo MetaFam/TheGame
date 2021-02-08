@@ -6,15 +6,14 @@ import { getPlayerTypes } from 'graphql/getPlayerTypes';
 import { useUser } from 'lib/hooks';
 import { InferGetStaticPropsType } from 'next';
 import React, { useState } from 'react';
-import { options as setupOptions } from 'utils/setupOptions';
 
 export const getStaticProps = async () => {
   const playerTypeChoices = await getPlayerTypes();
 
   return {
     props: {
-      hideAppDrawer: true,
-      playerTypeChoices
+      playerTypeChoices,
+      hideAppDrawer: true
     }
   };
 };
@@ -34,7 +33,7 @@ const PlayerTypeSetup: React.FC<Props> = (props) => {
   }
 
   return (
-    <SetupContextProvider options={setupOptions}>
+    <SetupContextProvider>
       <SetupProfile>
         <SetupPlayerType 
           playerTypeChoices={playerTypeChoices} 
