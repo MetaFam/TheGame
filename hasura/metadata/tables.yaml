@@ -431,6 +431,63 @@
         table:
           schema: public
           name: quest_skill
+  insert_permissions:
+  - role: player
+    permission:
+      check: {}
+      set:
+        created_by_player_id: x-hasura-User-Id
+      columns:
+      - cooldown
+      - description
+      - external_link
+      - guild_id
+      - repetition
+      - title
+      backend_only: true
+  select_permissions:
+  - role: player
+    permission:
+      columns:
+      - created_at
+      - cooldown
+      - description
+      - external_link
+      - repetition
+      - status
+      - title
+      - created_by_player_id
+      - guild_id
+      - id
+      filter: {}
+  - role: public
+    permission:
+      columns:
+      - id
+      - created_at
+      - guild_id
+      - created_by_player_id
+      - title
+      - description
+      - external_link
+      - cooldown
+      - status
+      - repetition
+      filter: {}
+  update_permissions:
+  - role: player
+    permission:
+      columns:
+      - cooldown
+      - description
+      - external_link
+      - repetition
+      - status
+      - title
+      filter:
+        created_by_player_id:
+          _eq: X-Hasura-User-Id
+      check: null
 - table:
     schema: public
     name: quest_completion
@@ -444,6 +501,48 @@
   - name: QuestCompletionStatus
     using:
       foreign_key_constraint_on: status
+  insert_permissions:
+  - role: player
+    permission:
+      check: {}
+      set:
+        completed_by_player_id: x-hasura-User-Id
+      columns:
+      - quest_id
+      - submission_link
+      - submission_text
+      backend_only: true
+  select_permissions:
+  - role: player
+    permission:
+      columns:
+      - submitted_at
+      - status
+      - submission_link
+      - submission_text
+      - completed_by_player_id
+      - quest_id
+      filter: {}
+  - role: public
+    permission:
+      columns:
+      - quest_id
+      - completed_by_player_id
+      - submitted_at
+      - submission_text
+      - submission_link
+      - status
+      filter: {}
+  update_permissions:
+  - role: player
+    permission:
+      columns:
+      - status
+      filter:
+        quest:
+          created_by_player_id:
+            _eq: X-Hasura-User-Id
+      check: null
 - table:
     schema: public
     name: quest_skill
@@ -454,6 +553,37 @@
   - name: skill
     using:
       foreign_key_constraint_on: skill_id
+  insert_permissions:
+  - role: player
+    permission:
+      check:
+        quest:
+          created_by_player_id:
+            _eq: X-Hasura-User-Id
+      columns:
+      - quest_id
+      - skill_id
+      backend_only: false
+  select_permissions:
+  - role: player
+    permission:
+      columns:
+      - quest_id
+      - skill_id
+      filter: {}
+  - role: public
+    permission:
+      columns:
+      - quest_id
+      - skill_id
+      filter: {}
+  delete_permissions:
+  - role: player
+    permission:
+      filter:
+        quest:
+          created_by_player_id:
+            _eq: X-Hasura-User-Id
 - table:
     schema: public
     name: skill
