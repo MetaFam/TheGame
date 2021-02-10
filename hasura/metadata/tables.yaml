@@ -48,6 +48,18 @@
   is_enum: true
 - table:
     schema: public
+    name: QuestCompletionStatus
+  is_enum: true
+- table:
+    schema: public
+    name: QuestRepetition
+  is_enum: true
+- table:
+    schema: public
+    name: QuestStatus
+  is_enum: true
+- table:
+    schema: public
     name: SkillCategory
   is_enum: true
 - table:
@@ -343,6 +355,15 @@
       - imageUrl
       - title
       filter: {}
+- table:
+    schema: public
+    name: quest
+- table:
+    schema: public
+    name: quest_completion
+- table:
+    schema: public
+    name: quest_skill
 - table:
     schema: public
     name: skill
