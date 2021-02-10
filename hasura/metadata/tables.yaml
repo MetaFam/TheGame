@@ -50,14 +50,38 @@
     schema: public
     name: QuestCompletionStatus
   is_enum: true
+  array_relationships:
+  - name: quest_completions
+    using:
+      foreign_key_constraint_on:
+        column: status
+        table:
+          schema: public
+          name: quest_completion
 - table:
     schema: public
     name: QuestRepetition
   is_enum: true
+  array_relationships:
+  - name: quests
+    using:
+      foreign_key_constraint_on:
+        column: repetition
+        table:
+          schema: public
+          name: quest
 - table:
     schema: public
     name: QuestStatus
   is_enum: true
+  array_relationships:
+  - name: quests
+    using:
+      foreign_key_constraint_on:
+        column: status
+        table:
+          schema: public
+          name: quest
 - table:
     schema: public
     name: SkillCategory
@@ -84,6 +108,13 @@
         table:
           schema: public
           name: guild_player
+  - name: quests
+    using:
+      foreign_key_constraint_on:
+        column: guild_id
+        table:
+          schema: public
+          name: quest
   select_permissions:
   - role: player
     permission:
@@ -196,6 +227,20 @@
         table:
           schema: public
           name: player_skill
+  - name: quest_completions
+    using:
+      foreign_key_constraint_on:
+        column: completed_by_player_id
+        table:
+          schema: public
+          name: quest_completion
+  - name: quests
+    using:
+      foreign_key_constraint_on:
+        column: created_by_player_id
+        table:
+          schema: public
+          name: quest
   remote_relationships:
   - definition:
       remote_field:
@@ -358,12 +403,57 @@
 - table:
     schema: public
     name: quest
+  object_relationships:
+  - name: guild
+    using:
+      foreign_key_constraint_on: guild_id
+  - name: player
+    using:
+      foreign_key_constraint_on: created_by_player_id
+  - name: QuestRepetition
+    using:
+      foreign_key_constraint_on: repetition
+  - name: QuestStatus
+    using:
+      foreign_key_constraint_on: status
+  array_relationships:
+  - name: quest_completions
+    using:
+      foreign_key_constraint_on:
+        column: quest_id
+        table:
+          schema: public
+          name: quest_completion
+  - name: quest_skills
+    using:
+      foreign_key_constraint_on:
+        column: quest_id
+        table:
+          schema: public
+          name: quest_skill
 - table:
     schema: public
     name: quest_completion
+  object_relationships:
+  - name: player
+    using:
+      foreign_key_constraint_on: completed_by_player_id
+  - name: quest
+    using:
+      foreign_key_constraint_on: quest_id
+  - name: QuestCompletionStatus
+    using:
+      foreign_key_constraint_on: status
 - table:
     schema: public
     name: quest_skill
+  object_relationships:
+  - name: quest
+    using:
+      foreign_key_constraint_on: quest_id
+  - name: skill
+    using:
+      foreign_key_constraint_on: skill_id
 - table:
     schema: public
     name: skill
@@ -375,6 +465,13 @@
         table:
           schema: public
           name: player_skill
+  - name: quest_skills
+    using:
+      foreign_key_constraint_on:
+        column: skill_id
+        table:
+          schema: public
+          name: quest_skill
   insert_permissions:
   - role: player
     permission:
