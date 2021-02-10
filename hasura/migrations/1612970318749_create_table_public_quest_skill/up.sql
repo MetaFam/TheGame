@@ -1,1 +1,0 @@
-CREATE TABLE "public"."quest_skill"("quest_id" uuid NOT NULL, "skill_id" uuid NOT NULL, PRIMARY KEY ("quest_id","skill_id") , FOREIGN KEY ("quest_id") REFERENCES "public"."quest"("id") ON UPDATE restrict ON DELETE restrict, FOREIGN KEY ("skill_id") REFERENCES "public"."skill"("id") ON UPDATE restrict ON DELETE restrict);
