@@ -1,4 +1,9 @@
 actions:
+- name: createQuest
+  definition:
+    kind: synchronous
+    handler: '{{ACTION_BASE_ENDPOINT}}/createQuest'
+    forward_client_headers: true
 - name: updateBoxProfile
   definition:
     kind: synchronous
@@ -8,7 +13,9 @@ actions:
   - role: player
 custom_types:
   enums: []
-  input_objects: []
+  input_objects:
+  - name: QuestCreateInput
   objects:
   - name: UpdateBoxProfileResponse
+  - name: QuestCreateOutput
   scalars: []

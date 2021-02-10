@@ -101,3 +101,14 @@ export const UpdatePlayer = gql`
     }
   }
 `;
+
+export const CreateQuest = gql`
+  mutation CreateQuest($objects: [quest_insert_input!]!) {
+    insert_quest(objects: $objects) {
+      affected_rows
+      returning {
+        id
+      }
+    }
+  }
+`;

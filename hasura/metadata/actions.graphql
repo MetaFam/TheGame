@@ -1,12 +1,32 @@
 type Mutation {
+  createQuest (
+    quest: QuestCreateInput!
+  ): QuestCreateOutput
+}
+
+
+type Mutation {
   updateBoxProfile : UpdateBoxProfileResponse
 }
 
 
 
 
+input QuestCreateInput {
+  guild_id : uuid!
+  title : String!
+  description : String
+  external_link : String
+  repetition : String
+  cooldown : Int
+}
+
 type UpdateBoxProfileResponse {
   success : Boolean!
   updatedProfiles : [String!]!
+}
+
+type QuestCreateOutput {
+  quest_id : uuid!
 }
 
