@@ -1,9 +1,8 @@
 import { ChakraProvider, CSSReset, MetaTheme } from '@metafam/ds';
+import { getTokenFromStore, Web3ContextProvider } from '@metafam/utils';
 import { MobileFooter } from 'components/MobileFooter';
 import { PageHeader } from 'components/PageHeader';
 import { CONFIG } from 'config';
-import { Web3ContextProvider } from 'contexts/Web3Context';
-import { getTokenFromStore } from 'lib/auth';
 import { withUrqlClient } from 'next-urql';
 import { AppProps } from 'next/app';
 import Head from 'next/head';

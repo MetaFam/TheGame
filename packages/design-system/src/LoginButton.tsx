@@ -7,7 +7,8 @@ import {
   Spinner,
   Text,
 } from '@chakra-ui/react';
-import React, { useCallback } from 'react';
+import { Web3Context } from '@metafam/utils';
+import React, { useCallback, useContext } from 'react';
 
 import { MetaButton } from './MetaButton';
 
@@ -19,24 +20,19 @@ type UserInfo = {
 };
 
 type LoginButtonProps = {
-  connectWeb3: () => Promise<void>;
-  disconnect: () => void;
   hreffor: (user: any) => string;
-  isConnected: boolean;
   user: UserInfo;
   fetching: boolean;
   enableSetup?: boolean;
 };
 
 export const LoginButton: React.FC<LoginButtonProps> = ({
-  connectWeb3,
-  disconnect,
   hreffor,
-  isConnected,
   user,
   fetching,
   enableSetup = false,
 }: LoginButtonProps) => {
+  const { connectWeb3, disconnect, isConnected } = useContext(Web3Context);
   const handleLoginClick = useCallback(async () => {
     await connectWeb3();
   }, [connectWeb3]);

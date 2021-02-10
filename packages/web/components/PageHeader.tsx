@@ -13,7 +13,7 @@ import { motion } from 'framer-motion';
 import NextImage from 'next/image';
 import React from 'react';
 
-import { useUser, useWeb3 } from '../lib/hooks';
+import { useUser } from '../lib/hooks';
 import {
   DrawerItemsLeft,
   DrawerItemsRight,
@@ -102,7 +102,6 @@ const SubMenuItem: React.FC<React.ComponentProps<typeof MetaLink>> = ({
 export const PageHeader: React.FC = () => {
   const { isOpen, onToggle, onClose } = useDisclosure();
 
-  const { connectWeb3, disconnect, isConnected } = useWeb3();
   const { user, fetching } = useUser();
   const userInfo = {
     playerImage: user?.player ? getPlayerImage(user.player) : undefined,
@@ -208,10 +207,7 @@ export const PageHeader: React.FC = () => {
 
       <Flex justifyContent="center" alignItems="center">
         <LoginButton
-          connectWeb3={connectWeb3}
-          disconnect={disconnect}
           hreffor={(uInfo) => `/player/${uInfo.username}`}
-          isConnected={isConnected}
           user={userInfo}
           fetching={fetching}
           enableSetup

@@ -24,6 +24,7 @@
     "react": ">=16"
   },
   "dependencies": {
+    "@metafam/utils": "1.0.0",
     "@chakra-ui/icons": "1.0.3",
     "@chakra-ui/theme-tools": "1.0.3",
     "@chakra-ui/react": "1.1.5",
