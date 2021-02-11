@@ -3,9 +3,11 @@ import { ParamsDictionary } from 'express-serve-static-core';
 
 import { fetchBoxVerifiedAccounts } from './fetchBoxVerifiedAccounts';
 import { TriggerPayload } from './types';
+import { updateDiscordRole } from './updateDiscordRole';
 
 const TRIGGERS = {
   fetchBoxVerifiedAccounts,
+  updateDiscordRole
 };
 
 export const triggerHandler = async (
