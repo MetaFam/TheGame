@@ -26,7 +26,7 @@ INSERT INTO "public"."QuestCompletionStatus" ("status") VALUES
 
 CREATE TABLE "public"."quest" (
   "id" uuid NOT NULL DEFAULT gen_random_uuid(),
-  "created_at" date NOT NULL DEFAULT now(),
+  "created_at" timestamptz NOT NULL DEFAULT now(),
   "guild_id" uuid NOT NULL,
   "created_by_player_id" uuid NOT NULL,
   "title" text NOT NULL,
@@ -53,7 +53,7 @@ CREATE TABLE "public"."quest_skill"(
 CREATE TABLE "public"."quest_completion"(
   "quest_id" uuid NOT NULL,
   "completed_by_player_id" uuid NOT NULL,
-  "submitted_at" date NOT NULL DEFAULT now(),
+  "submitted_at" timestamptz NOT NULL DEFAULT now(),
   "submission_text" text,
   "submission_link" text,
   "status" text NOT NULL DEFAULT 'PENDING',
