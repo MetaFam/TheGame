@@ -1,7 +1,7 @@
 type Mutation {
   createQuest (
-    quest: QuestCreateInput!
-  ): QuestCreateOutput
+    quest: CreateQuestInput!
+  ): CreateQuestOutput
 }
 
 
@@ -12,7 +12,7 @@ type Mutation {
 
 
 
-input QuestCreateInput {
+input CreateQuestInput {
   guild_id : uuid!
   title : String!
   description : String
@@ -26,7 +26,9 @@ type UpdateBoxProfileResponse {
   updatedProfiles : [String!]!
 }
 
-type QuestCreateOutput {
-  quest_id : uuid!
+type CreateQuestOutput {
+  success : Boolean!
+  quest_id : uuid
+  error : String
 }
 
