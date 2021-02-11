@@ -2,6 +2,7 @@
 import { Client } from '@typeit/discord';
 
 import { CONFIG } from './config';
+import * as types from './types';
 
 async function start() {
   const client = new Client({
@@ -17,3 +18,6 @@ async function start() {
 }
 
 start();
+
+
+export { types };
