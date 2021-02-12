@@ -15,7 +15,6 @@
   },
   "author": "",
   "license": "ISC",
-  "types": "src/types.d.ts",
   "dependencies": {
     "@typeit/discord": "4.0.9",
     "discord.js": "12.5.1",
