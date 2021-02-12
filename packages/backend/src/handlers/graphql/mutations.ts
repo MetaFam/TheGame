@@ -135,3 +135,14 @@ export const UpdateQuestStatus = gql`
     }
   }
 `;
+
+export const UpdateQuestCompletionStatus = gql`
+  mutation UpdateQuestCompletionStatus($quest_completion_id: uuid!, $status: QuestCompletionStatus_enum!) {
+    update_quest_completion_by_pk(
+      pk_columns: {id: $quest_completion_id},
+       _set: { status: $status }
+    ) {
+      id
+    }
+  }
+`;

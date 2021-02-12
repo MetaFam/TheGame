@@ -19,12 +19,13 @@ export async function createCompletion(
     throw new Error('Quest must be open');
   }
 
+  // Personal, check if not already done by player
   if (quest.repetition === QuestRepetition_Enum.Personal) {
-    const { quest_completion_by_pk: existingQuestCompletion } = await client.GetQuestCompletionById({
+    const { quest_completion: existingQuestCompletions } = await client.GetQuestCompletions({
       player_id: playerId,
       quest_id: questCompletion.quest_id,
     });
-    if(existingQuestCompletion) {
+    if(existingQuestCompletions.length > 0) {
       throw new Error('Player already completed this personal quest');
     }
   }
@@ -33,6 +34,7 @@ export async function createCompletion(
     throw new Error('Must provide at least a submission link or text');
   }
 
+  // Recurring, check if not already done by player within cooldown
   if (quest.repetition === QuestRepetition_Enum.Recurring && quest.cooldown) {
     const { quest_completion: existingQuestCompletions } = await client.GetLastQuestCompletionForPlayer({
       player_id: playerId,
@@ -49,7 +51,6 @@ export async function createCompletion(
     }
   }
 
-
   const questCompletionInput: Quest_Completion_Insert_Input = {
     ...questCompletion,
     completed_by_player_id: playerId,
@@ -58,17 +59,6 @@ export async function createCompletion(
   const questCompletionCreated = createQuestCompletionResult.insert_quest_completion?.returning[0];
   if(!questCompletionCreated) {
     throw new Error('Error while creating quest completion');
-  }
-
-  if (quest.repetition === QuestRepetition_Enum.Unique) {
-    const UpdateQuestStatusResult = await client.UpdateQuestStatus({
-      quest_id: questCompletion.quest_id,
-      status: QuestStatus_Enum.Closed,
-    });
-    const questStatusUpdated = UpdateQuestStatusResult.update_quest_by_pk;
-    if(!questStatusUpdated) {
-      throw new Error('Error while setting unique quest status to closed after being completed');
-    }
   }
 
   return {

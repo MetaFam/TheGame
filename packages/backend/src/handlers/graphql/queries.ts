@@ -24,16 +24,34 @@ export const GetQuestById = gql`
       cooldown
       status
       repetition
+      created_by_player_id
     }
   }
 
 `;
 
-export const GetQuestCompletionById = gql`
-  query GetQuestCompletionById($quest_id: uuid!, $player_id: uuid!) {
-    quest_completion_by_pk(quest_id: $quest_id, completed_by_player_id: $player_id) {
+export const GetQuestCompletions = gql`
+  query GetQuestCompletions($quest_id: uuid!, $player_id: uuid!) {
+    quest_completion(
+      where: {
+        quest_id: {_eq: $quest_id},
+        completed_by_player_id: {_eq: $player_id}
+      }
+    ) {
+      id
       quest_id
       completed_by_player_id
+    }
+  }
+`;
+
+export const GetQuestCompletionById = gql`
+  query GetQuestCompletionById($quest_completion_id: uuid!) {
+    quest_completion_by_pk(id: $quest_completion_id) {
+      id
+      quest_id
+      completed_by_player_id
+      status
     }
   }
 `;
@@ -48,6 +66,7 @@ export const GetLastQuestCompletionForPlayer = gql`
         completed_by_player_id: {_eq: $player_id}
       }
     ) {
+      id
       quest_id
       completed_by_player_id
       submitted_at

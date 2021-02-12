@@ -20,13 +20,22 @@ actions:
     forward_client_headers: true
   permissions:
   - role: player
+- name: updateQuestCompletion
+  definition:
+    kind: synchronous
+    handler: '{{ACTION_BASE_ENDPOINT}}/quests/updateCompletion'
+    forward_client_headers: true
+  permissions:
+  - role: player
 custom_types:
   enums: []
   input_objects:
   - name: CreateQuestInput
   - name: CreateQuestCompletionInput
+  - name: UpdateQuestCompletionInput
   objects:
   - name: UpdateBoxProfileResponse
   - name: CreateQuestOutput
   - name: CreateQuestCompletionOutput
+  - name: UpdateQuestCompletionOutput
   scalars: []

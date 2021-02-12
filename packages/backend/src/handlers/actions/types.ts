@@ -62,13 +62,20 @@ export type QuestCreateInput = {
   cooldown?: Maybe<Scalars['Int']>;
 };
 
-export type QuestCreateOutput = {
-  __typename?: 'QuestCreateOutput';
-  quest_id: Scalars['uuid'];
-};
-
 export type UpdateBoxProfileResponse = {
   __typename?: 'UpdateBoxProfileResponse';
   success: Scalars['Boolean'];
   updatedProfiles: Array<Scalars['String']>;
+};
+
+export type UpdateQuestCompletionInput = {
+  quest_id: Scalars['String'];
+  quest_completion_id: Scalars['String'];
+  status: Scalars['String'];
+};
+
+export type UpdateQuestCompletionOutput = {
+  __typename?: 'UpdateQuestCompletionOutput';
+  success: Scalars['Boolean'];
+  error?: Maybe<Scalars['String']>;
 };

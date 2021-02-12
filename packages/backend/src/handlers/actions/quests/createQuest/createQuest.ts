@@ -12,6 +12,7 @@ export async function createQuest(
   quest: CreateQuestInput,
 ): Promise<CreateQuestOutput> {
 
+  // CreateQuestInput.repetition is a string because hasura custom actions cannot use types from the database
   if (quest.repetition && !((Object.values(QuestRepetition_Enum) as string[]).includes(quest.repetition))) {
     throw new Error('Invalid repetition option');
   }

@@ -196,6 +196,34 @@ type CollectiblesFavorites {
   tokenId: String
 }
 
+input CreateQuestCompletionInput {
+  quest_id: String!
+  submission_link: String!
+  submission_text: String!
+}
+
+type CreateQuestCompletionOutput {
+  completed_by_player_id: uuid
+  error: String
+  quest_id: uuid
+  success: Boolean!
+}
+
+input CreateQuestInput {
+  cooldown: Int
+  description: String
+  external_link: String
+  guild_id: uuid!
+  repetition: String
+  title: String!
+}
+
+type CreateQuestOutput {
+  error: String
+  quest_id: uuid
+  success: Boolean!
+}
+
 """
 columns and relationships of "EnneagramType"
 """
@@ -1619,6 +1647,16 @@ type Moloch {
 """mutation root"""
 type mutation_root {
   """
+  perform the action: "createQuest"
+  """
+  createQuest(quest: CreateQuestInput!): CreateQuestOutput
+
+  """
+  perform the action: "createQuestCompletion"
+  """
+  createQuestCompletion(questCompletion: CreateQuestCompletionInput!): CreateQuestCompletionOutput
+
+  """
   delete data from the table: "AccountType"
   """
   delete_AccountType(
@@ -2306,6 +2344,11 @@ type mutation_root {
   perform the action: "updateBoxProfile"
   """
   updateBoxProfile: UpdateBoxProfileResponse
+
+  """
+  perform the action: "updateQuestCompletion"
+  """
+  updateQuestCompletion(questCompletion: UpdateQuestCompletionInput!): UpdateQuestCompletionOutput
 
   """
   update data of the table: "AccountType"
@@ -8072,6 +8115,17 @@ input timestamptz_comparison_exp {
 type UpdateBoxProfileResponse {
   success: Boolean!
   updatedProfiles: [String!]!
+}
+
+input UpdateQuestCompletionInput {
+  quest_completion_id: String!
+  quest_id: String!
+  status: String!
+}
+
+type UpdateQuestCompletionOutput {
+  error: String
+  success: Boolean!
 }
 
 scalar uuid
