@@ -5,6 +5,7 @@ interface IConfig {
   adminKey: string;
   ipfsEndpoint: string;
   imgixToken: string;
+  infuraId: string;
 }
 
 function parseEnv<T extends string | number>(
@@ -35,4 +36,8 @@ export const CONFIG: IConfig = {
   ),
   ipfsEndpoint: parseEnv(process.env.IPFS_ENDPOINT, 'https://ipfs.infura.io'),
   imgixToken: parseEnv(process.env.IMGIX_TOKEN, ''),
+  infuraId: parseEnv(
+    process.env.NEXT_PUBLIC_INFURA_ID,
+    '781d8466252d47508e177b8637b1c2fd',
+  ),
 };
