@@ -1840,7 +1840,7 @@ type mutation_root {
   """
   delete single row from the table: "quest_completion"
   """
-  delete_quest_completion_by_pk(completed_by_player_id: uuid!, quest_id: uuid!): quest_completion
+  delete_quest_completion_by_pk(id: uuid!): quest_completion
 
   """
   delete data from the table: "quest_skill"
@@ -5077,7 +5077,7 @@ type query_root {
   """
   fetch data from the table: "quest_completion" using primary key columns
   """
-  quest_completion_by_pk(completed_by_player_id: uuid!, quest_id: uuid!): quest_completion
+  quest_completion_by_pk(id: uuid!): quest_completion
 
   """
   fetch data from the table: "quest_skill"
@@ -5359,6 +5359,7 @@ type quest_completion {
   """An object relationship"""
   QuestCompletionStatus: QuestCompletionStatus!
   completed_by_player_id: uuid!
+  id: uuid!
 
   """An object relationship"""
   player: player!
@@ -5415,6 +5416,7 @@ input quest_completion_bool_exp {
   _not: quest_completion_bool_exp
   _or: [quest_completion_bool_exp]
   completed_by_player_id: uuid_comparison_exp
+  id: uuid_comparison_exp
   player: player_bool_exp
   quest: quest_bool_exp
   quest_id: uuid_comparison_exp
@@ -5438,6 +5440,7 @@ input type for inserting data into table "quest_completion"
 input quest_completion_insert_input {
   QuestCompletionStatus: QuestCompletionStatus_obj_rel_insert_input
   completed_by_player_id: uuid
+  id: uuid
   player: player_obj_rel_insert_input
   quest: quest_obj_rel_insert_input
   quest_id: uuid
@@ -5450,6 +5453,7 @@ input quest_completion_insert_input {
 """aggregate max on columns"""
 type quest_completion_max_fields {
   completed_by_player_id: uuid
+  id: uuid
   quest_id: uuid
   submission_link: String
   submission_text: String
@@ -5461,6 +5465,7 @@ order by max() on columns of table "quest_completion"
 """
 input quest_completion_max_order_by {
   completed_by_player_id: order_by
+  id: order_by
   quest_id: order_by
   submission_link: order_by
   submission_text: order_by
@@ -5470,6 +5475,7 @@ input quest_completion_max_order_by {
 """aggregate min on columns"""
 type quest_completion_min_fields {
   completed_by_player_id: uuid
+  id: uuid
   quest_id: uuid
   submission_link: String
   submission_text: String
@@ -5481,6 +5487,7 @@ order by min() on columns of table "quest_completion"
 """
 input quest_completion_min_order_by {
   completed_by_player_id: order_by
+  id: order_by
   quest_id: order_by
   submission_link: order_by
   submission_text: order_by
@@ -5521,6 +5528,7 @@ ordering options when selecting data from "quest_completion"
 input quest_completion_order_by {
   QuestCompletionStatus: QuestCompletionStatus_order_by
   completed_by_player_id: order_by
+  id: order_by
   player: player_order_by
   quest: quest_order_by
   quest_id: order_by
@@ -5534,8 +5542,7 @@ input quest_completion_order_by {
 primary key columns input for table: "quest_completion"
 """
 input quest_completion_pk_columns_input {
-  completed_by_player_id: uuid!
-  quest_id: uuid!
+  id: uuid!
 }
 
 """
@@ -5544,6 +5551,9 @@ select columns of table "quest_completion"
 enum quest_completion_select_column {
   """column name"""
   completed_by_player_id
+
+  """column name"""
+  id
 
   """column name"""
   quest_id
@@ -5566,6 +5576,7 @@ input type for updating data in table "quest_completion"
 """
 input quest_completion_set_input {
   completed_by_player_id: uuid
+  id: uuid
   quest_id: uuid
   status: QuestCompletionStatus_enum
   submission_link: String
@@ -5579,6 +5590,9 @@ update columns of table "quest_completion"
 enum quest_completion_update_column {
   """column name"""
   completed_by_player_id
+
+  """column name"""
+  id
 
   """column name"""
   quest_id
@@ -7949,7 +7963,7 @@ type subscription_root {
   """
   fetch data from the table: "quest_completion" using primary key columns
   """
-  quest_completion_by_pk(completed_by_player_id: uuid!, quest_id: uuid!): quest_completion
+  quest_completion_by_pk(id: uuid!): quest_completion
 
   """
   fetch data from the table: "quest_skill"
