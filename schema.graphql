@@ -196,23 +196,6 @@ type CollectiblesFavorites {
   tokenId: String
 }
 
-scalar date
-
-"""
-expression to compare columns of type date. All fields are combined with logical 'AND'.
-"""
-input date_comparison_exp {
-  _eq: date
-  _gt: date
-  _gte: date
-  _in: [date!]
-  _is_null: Boolean
-  _lt: date
-  _lte: date
-  _neq: date
-  _nin: [date!]
-}
-
 """
 columns and relationships of "EnneagramType"
 """
@@ -1635,11 +1618,6 @@ type Moloch {
 
 """mutation root"""
 type mutation_root {
-  """
-  perform the action: "createQuest"
-  """
-  createQuest(quest: QuestCreateInput!): QuestCreateOutput
-
   """
   delete data from the table: "AccountType"
   """
@@ -5198,7 +5176,7 @@ type quest {
   """An object relationship"""
   QuestStatus: QuestStatus!
   cooldown: Int
-  created_at: date!
+  created_at: timestamptz!
   created_by_player_id: uuid!
   description: String
   external_link: String
@@ -5359,7 +5337,7 @@ input quest_bool_exp {
   _not: quest_bool_exp
   _or: [quest_bool_exp]
   cooldown: Int_comparison_exp
-  created_at: date_comparison_exp
+  created_at: timestamptz_comparison_exp
   created_by_player_id: uuid_comparison_exp
   description: String_comparison_exp
   external_link: String_comparison_exp
@@ -5391,7 +5369,7 @@ type quest_completion {
   status: QuestCompletionStatus_enum!
   submission_link: String
   submission_text: String
-  submitted_at: date!
+  submitted_at: timestamptz!
 }
 
 """
@@ -5443,7 +5421,7 @@ input quest_completion_bool_exp {
   status: QuestCompletionStatus_enum_comparison_exp
   submission_link: String_comparison_exp
   submission_text: String_comparison_exp
-  submitted_at: date_comparison_exp
+  submitted_at: timestamptz_comparison_exp
 }
 
 """
@@ -5466,7 +5444,7 @@ input quest_completion_insert_input {
   status: QuestCompletionStatus_enum
   submission_link: String
   submission_text: String
-  submitted_at: date
+  submitted_at: timestamptz
 }
 
 """aggregate max on columns"""
@@ -5475,7 +5453,7 @@ type quest_completion_max_fields {
   quest_id: uuid
   submission_link: String
   submission_text: String
-  submitted_at: date
+  submitted_at: timestamptz
 }
 
 """
@@ -5495,7 +5473,7 @@ type quest_completion_min_fields {
   quest_id: uuid
   submission_link: String
   submission_text: String
-  submitted_at: date
+  submitted_at: timestamptz
 }
 
 """
@@ -5592,7 +5570,7 @@ input quest_completion_set_input {
   status: QuestCompletionStatus_enum
   submission_link: String
   submission_text: String
-  submitted_at: date
+  submitted_at: timestamptz
 }
 
 """
@@ -5640,7 +5618,7 @@ input quest_insert_input {
   QuestRepetition: QuestRepetition_obj_rel_insert_input
   QuestStatus: QuestStatus_obj_rel_insert_input
   cooldown: Int
-  created_at: date
+  created_at: timestamptz
   created_by_player_id: uuid
   description: String
   external_link: String
@@ -5658,7 +5636,7 @@ input quest_insert_input {
 """aggregate max on columns"""
 type quest_max_fields {
   cooldown: Int
-  created_at: date
+  created_at: timestamptz
   created_by_player_id: uuid
   description: String
   external_link: String
@@ -5684,7 +5662,7 @@ input quest_max_order_by {
 """aggregate min on columns"""
 type quest_min_fields {
   cooldown: Int
-  created_at: date
+  created_at: timestamptz
   created_by_player_id: uuid
   description: String
   external_link: String
@@ -5804,7 +5782,7 @@ input type for updating data in table "quest"
 """
 input quest_set_input {
   cooldown: Int
-  created_at: date
+  created_at: timestamptz
   created_by_player_id: uuid
   description: String
   external_link: String
@@ -6326,19 +6304,6 @@ enum QuestCompletionStatus_update_column {
   status
 }
 
-input QuestCreateInput {
-  cooldown: Int
-  description: String
-  external_link: String
-  guild_id: uuid!
-  repetition: String
-  title: String!
-}
-
-type QuestCreateOutput {
-  quest_id: uuid!
-}
-
 """
 columns and relationships of "QuestRepetition"
 """
@@ -6435,9 +6400,9 @@ enum QuestRepetition_constraint {
 }
 
 enum QuestRepetition_enum {
-  ONCE
-  ONCE_PER_PLAYER
+  PERSONAL
   RECURRING
+  UNIQUE
 }
 
 """
