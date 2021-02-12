@@ -12,8 +12,8 @@ INSERT INTO "public"."QuestStatus" ("status") VALUES
 
 CREATE TABLE "public"."QuestRepetition"("repetition" text NOT NULL, PRIMARY KEY ("repetition") );
 INSERT INTO "public"."QuestRepetition" ("repetition") VALUES
-    ('ONCE'),
-    ('ONCE_PER_PLAYER'),
+    ('UNIQUE'),
+    ('PERSONAL'),
     ('RECURRING');
 
 CREATE TABLE "public"."QuestCompletionStatus"("status" text NOT NULL, PRIMARY KEY ("status") );
