@@ -46,11 +46,19 @@ export type CreateQuestCompletionOutput = {
 export type Mutation = {
   __typename?: 'Mutation';
   createQuest?: Maybe<CreateQuestOutput>;
+  createQuestCompletion?: Maybe<CreateQuestCompletionOutput>;
   updateBoxProfile?: Maybe<UpdateBoxProfileResponse>;
+  updateQuestCompletion?: Maybe<UpdateQuestCompletionOutput>;
 };
 
 export type MutationCreateQuestArgs = {
   quest: CreateQuestInput;
+};
+
+export type UpdateBoxProfileResponse = {
+  __typename?: 'UpdateBoxProfileResponse';
+  success: Scalars['Boolean'];
+  updatedProfiles: Array<Scalars['String']>;
 };
 
 export type QuestCreateInput = {
@@ -60,12 +68,6 @@ export type QuestCreateInput = {
   external_link?: Maybe<Scalars['String']>;
   repetition?: Maybe<Scalars['String']>;
   cooldown?: Maybe<Scalars['Int']>;
-};
-
-export type UpdateBoxProfileResponse = {
-  __typename?: 'UpdateBoxProfileResponse';
-  success: Scalars['Boolean'];
-  updatedProfiles: Array<Scalars['String']>;
 };
 
 export type UpdateQuestCompletionInput = {
