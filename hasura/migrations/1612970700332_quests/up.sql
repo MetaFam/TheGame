@@ -34,7 +34,7 @@ CREATE TABLE "public"."quest" (
   "external_link" text,
   "cooldown" integer,
   "status" text NOT NULL DEFAULT 'OPEN',
-  "repetition" text NOT NULL DEFAULT 'ONCE',
+  "repetition" text NOT NULL DEFAULT 'UNIQUE',
   PRIMARY KEY ("id") ,
   FOREIGN KEY ("created_by_player_id") REFERENCES "public"."player"("id") ON UPDATE restrict ON DELETE restrict,
   FOREIGN KEY ("guild_id") REFERENCES "public"."guild"("id") ON UPDATE restrict ON DELETE restrict,
