@@ -3,10 +3,10 @@ import { numbers } from '@metafam/utils';
 import {
   Quest_Insert_Input,
   QuestRepetition_Enum,
-} from '../../../lib/autogen/hasura-sdk';
-import { getERC20Contract } from '../../../lib/ethereum';
-import { client } from '../../../lib/hasuraClient';
-import { CreateQuestInput, CreateQuestOutput } from '../types';
+} from '../../../../lib/autogen/hasura-sdk';
+import { getERC20Contract } from '../../../../lib/ethereum';
+import { client } from '../../../../lib/hasuraClient';
+import { CreateQuestInput, CreateQuestOutput } from '../../types';
 
 const { BN, amountToDecimal } = numbers;
 

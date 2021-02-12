@@ -1,9 +1,9 @@
 import express from 'express';
 
 import { asyncHandlerWrapper } from '../../lib/apiHelpers';
-import { createQuestHandler } from './createQuest/handler';
 import { migrateSourceCredAccounts } from './migrateSourceCredAccounts/handler';
 import { updateBoxProfileHandler } from './updateBoxProfile/handler';
+import { questsRoutes } from './quests/routes';
 
 export const actionRoutes = express.Router();
 
@@ -12,9 +12,9 @@ actionRoutes.post(
   asyncHandlerWrapper(updateBoxProfileHandler),
 );
 
-actionRoutes.post('/createQuest', asyncHandlerWrapper(createQuestHandler));
-
 actionRoutes.post(
   '/migrateSourceCredAccounts',
   asyncHandlerWrapper(migrateSourceCredAccounts),
 );
+
+actionRoutes.use('/quests', questsRoutes);

@@ -2,7 +2,7 @@ actions:
 - name: createQuest
   definition:
     kind: synchronous
-    handler: '{{ACTION_BASE_ENDPOINT}}/createQuest'
+    handler: '{{ACTION_BASE_ENDPOINT}}/quests/create'
     forward_client_headers: true
   permissions:
   - role: player

@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 
-import { CreateQuestOutput } from '../types';
+import { CreateQuestOutput } from '../../types';
 import { createQuest } from './createQuest';
 
 export const createQuestHandler = async (
