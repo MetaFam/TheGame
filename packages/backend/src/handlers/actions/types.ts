@@ -29,6 +29,20 @@ export type CreateQuestOutput = {
   error?: Maybe<Scalars['String']>;
 };
 
+export type CreateQuestCompletionInput = {
+  quest_id: Scalars['String'];
+  submission_link: Scalars['String'];
+  submission_text: Scalars['String'];
+};
+
+export type CreateQuestCompletionOutput = {
+  __typename?: 'CreateQuestCompletionOutput';
+  success: Scalars['Boolean'];
+  error?: Maybe<Scalars['String']>;
+  quest_id?: Maybe<Scalars['uuid']>;
+  completed_by_player_id?: Maybe<Scalars['uuid']>;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   createQuest?: Maybe<CreateQuestOutput>;

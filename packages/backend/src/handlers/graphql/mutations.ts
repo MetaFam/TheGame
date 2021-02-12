@@ -112,3 +112,26 @@ export const CreateQuest = gql`
     }
   }
 `;
+
+export const CreateQuestCompletion = gql`
+  mutation CreateQuestCompletion($objects: [quest_completion_insert_input!]!) {
+    insert_quest_completion(objects: $objects) {
+      affected_rows
+      returning {
+        quest_id
+        completed_by_player_id
+      }
+    }
+  }
+`;
+
+export const UpdateQuestStatus = gql`
+  mutation UpdateQuestStatus($quest_id: uuid!, $status: QuestStatus_enum!) {
+    update_quest_by_pk(
+      pk_columns: {id: $quest_id},
+       _set: { status: $status }
+    ) {
+      id
+    }
+  }
+`;

@@ -6,6 +6,13 @@ type Mutation {
 
 
 type Mutation {
+  createQuestCompletion (
+    questCompletion: CreateQuestCompletionInput!
+  ): CreateQuestCompletionOutput
+}
+
+
+type Mutation {
   updateBoxProfile : UpdateBoxProfileResponse
 }
 
@@ -21,6 +28,12 @@ input CreateQuestInput {
   cooldown : Int
 }
 
+input CreateQuestCompletionInput {
+  quest_id : String!
+  submission_link : String!
+  submission_text : String!
+}
+
 type UpdateBoxProfileResponse {
   success : Boolean!
   updatedProfiles : [String!]!
@@ -30,5 +43,12 @@ type CreateQuestOutput {
   success : Boolean!
   quest_id : uuid
   error : String
+}
+
+type CreateQuestCompletionOutput {
+  success : Boolean!
+  error : String
+  quest_id : uuid
+  completed_by_player_id : uuid
 }
 

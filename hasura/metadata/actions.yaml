@@ -2,7 +2,14 @@ actions:
 - name: createQuest
   definition:
     kind: synchronous
-    handler: '{{ACTION_BASE_ENDPOINT}}/quests/create'
+    handler: '{{ACTION_BASE_ENDPOINT}}/quests/createQuest'
+    forward_client_headers: true
+  permissions:
+  - role: player
+- name: createQuestCompletion
+  definition:
+    kind: synchronous
+    handler: '{{ACTION_BASE_ENDPOINT}}/quests/createCompletion'
     forward_client_headers: true
   permissions:
   - role: player
@@ -17,7 +24,9 @@ custom_types:
   enums: []
   input_objects:
   - name: CreateQuestInput
+  - name: CreateQuestCompletionInput
   objects:
   - name: UpdateBoxProfileResponse
   - name: CreateQuestOutput
+  - name: CreateQuestCompletionOutput
   scalars: []
