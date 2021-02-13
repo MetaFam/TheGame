@@ -73,8 +73,7 @@ type CreateQuestOutput {
 type CreateQuestCompletionOutput {
   success : Boolean!
   error : String
-  quest_id : uuid
-  completed_by_player_id : uuid
+  quest_completion_id : uuid
 }
 
 type UpdateQuestCompletionOutput {

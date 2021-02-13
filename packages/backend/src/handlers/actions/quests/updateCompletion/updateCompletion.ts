@@ -15,27 +15,27 @@ export async function updateCompletion(
   if (!quest) {
     throw new Error('Quest not found');
   }
+  const { quest_completion_by_pk: questCompletion } = await client.GetQuestCompletionById({ quest_completion_id: updateData.quest_completion_id });
+  if (!questCompletion) {
+    throw new Error('Quest completion not found');
+  }
+
   if (quest.status !== QuestStatus_Enum.Open) {
     throw new Error('Quest must be open');
   }
   if (quest.created_by_player_id !== playerId) {
     throw new Error('Only quest creator can update a completion');
   }
-
-  const { quest_completion_by_pk: questCompletion } = await client.GetQuestCompletionById({ quest_completion_id: updateData.quest_completion_id });
-  if (!questCompletion) {
-    throw new Error('Quest completion not found');
-  }
   if (questCompletion.status !== QuestCompletionStatus_Enum.Pending) {
-    throw new Error('Quest have been already marked as done');
+    throw new Error('Quest completion already marked as done');
   }
 
   const updateQuestCompletionResult = await client.UpdateQuestCompletionStatus({
     quest_completion_id: quest.id,
-    status: updateData.status as QuestCompletionStatus_Enum,
+    status: updateData.status,
   });
-  const questCompletionCreated = updateQuestCompletionResult.update_quest_completion_by_pk;
-  if(!questCompletionCreated) {
+  const questCompletionUpdated = updateQuestCompletionResult.update_quest_completion_by_pk;
+  if(!questCompletionUpdated) {
     throw new Error('Error while updating quest completion');
   }
 
@@ -48,6 +48,7 @@ export async function updateCompletion(
     if(!questStatusUpdated) {
       throw new Error('Error while setting unique quest status to closed after being completed');
     }
+    // TODO set all other completions as rejected
   }
 
   return {

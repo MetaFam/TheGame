@@ -32,7 +32,7 @@ export async function createQuest(
 
   const questInput: Quest_Insert_Input = {
     ...quest,
-    repetition: quest.repetition as QuestRepetition_Enum | null,
+    repetition: quest.repetition,
     created_by_player_id: playerId,
   };
 
@@ -43,3 +43,4 @@ export async function createQuest(
     quest_id: data.insert_quest?.returning[0].id,
   };
 }
+

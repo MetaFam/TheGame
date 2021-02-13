@@ -118,6 +118,7 @@ export const CreateQuestCompletion = gql`
     insert_quest_completion(objects: $objects) {
       affected_rows
       returning {
+        id
         quest_id
         completed_by_player_id
       }

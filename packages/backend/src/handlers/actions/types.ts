@@ -23,8 +23,7 @@ export type CreateQuestCompletionOutput = {
   __typename?: 'CreateQuestCompletionOutput';
   success: Scalars['Boolean'];
   error?: Maybe<Scalars['String']>;
-  quest_id?: Maybe<Scalars['uuid']>;
-  completed_by_player_id?: Maybe<Scalars['uuid']>;
+  quest_completion_id?: Maybe<Scalars['uuid']>;
 };
 
 export type CreateQuestInput = {

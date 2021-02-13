@@ -203,9 +203,8 @@ input CreateQuestCompletionInput {
 }
 
 type CreateQuestCompletionOutput {
-  completed_by_player_id: uuid
   error: String
-  quest_id: uuid
+  quest_completion_id: uuid
   success: Boolean!
 }
 
@@ -214,7 +213,7 @@ input CreateQuestInput {
   description: String
   external_link: String
   guild_id: uuid!
-  repetition: String
+  repetition: QuestRepetition_Enum
   title: String!
 }
 
@@ -2348,7 +2347,7 @@ type mutation_root {
   """
   perform the action: "updateQuestCompletion"
   """
-  updateQuestCompletion(questCompletion: UpdateQuestCompletionInput!): UpdateQuestCompletionOutput
+  updateQuestCompletion(updateData: UpdateQuestCompletionInput!): UpdateQuestCompletionOutput
 
   """
   update data of the table: "AccountType"
@@ -6252,6 +6251,12 @@ enum QuestCompletionStatus_enum {
   REJECTED
 }
 
+enum QuestCompletionStatus_Enum {
+  ACCEPTED
+  PENDING
+  REJECTED
+}
+
 """
 expression to compare columns of type QuestCompletionStatus_enum. All fields are combined with logical 'AND'.
 """
@@ -6457,6 +6462,12 @@ enum QuestRepetition_constraint {
 }
 
 enum QuestRepetition_enum {
+  PERSONAL
+  RECURRING
+  UNIQUE
+}
+
+enum QuestRepetition_Enum {
   PERSONAL
   RECURRING
   UNIQUE
@@ -8120,7 +8131,7 @@ type UpdateBoxProfileResponse {
 input UpdateQuestCompletionInput {
   quest_completion_id: String!
   quest_id: String!
-  status: String!
+  status: QuestCompletionStatus_Enum!
 }
 
 type UpdateQuestCompletionOutput {

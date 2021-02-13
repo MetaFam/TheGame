@@ -4,12 +4,16 @@ import {
   QuestStatus_Enum,
 } from '../../../../lib/autogen/hasura-sdk';
 import { client } from '../../../../lib/hasuraClient';
-import { CreateQuestCompletionInput, CreateQuestCompletionOutput } from '../../types';
+import { CreateQuestCompletionInput, CreateQuestCompletionOutput, } from '../../../../lib/autogen/hasura-sdk';
 
 export async function createCompletion(
   playerId: string,
   questCompletion: CreateQuestCompletionInput,
 ): Promise<CreateQuestCompletionOutput> {
+  if (!questCompletion.submission_link && !questCompletion.submission_text) {
+    throw new Error('Must provide at least a submission link or text');
+  }
+
   const { quest_by_pk: quest } = await client.GetQuestById({ quest_id: questCompletion.quest_id });
   if (!quest) {
     throw new Error('Quest not found');
@@ -30,10 +34,6 @@ export async function createCompletion(
     }
   }
 
-  if (!questCompletion.submission_link && !questCompletion.submission_text) {
-    throw new Error('Must provide at least a submission link or text');
-  }
-
   // Recurring, check if not already done by player within cooldown
   if (quest.repetition === QuestRepetition_Enum.Recurring && quest.cooldown) {
     const { quest_completion: existingQuestCompletions } = await client.GetLastQuestCompletionForPlayer({
@@ -45,7 +45,7 @@ export async function createCompletion(
       const submittedAt = new Date(existingQuestCompletion.submitted_at);
       const now = new Date();
       const diff = +now - +submittedAt;
-      if(diff/1000 < quest.cooldown) {
+      if(diff < (quest.cooldown*1000)) {
         throw new Error('Player have to wait before being able to do this quest again');
       }
     }
@@ -63,8 +63,7 @@ export async function createCompletion(
 
   return {
     success: true,
-    quest_id: quest.id,
-    completed_by_player_id: playerId,
+    quest_completion_id: questCompletionCreated.id,
   };
 }
 
