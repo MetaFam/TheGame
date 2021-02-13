@@ -1,11 +1,11 @@
-import { did } from '@metafam/utils';
 import WalletConnectProvider from '@walletconnect/web3-provider';
 import { providers } from 'ethers';
-import { clearToken, getTokenFromStore, setTokenInStore } from 'lib/auth';
 import React, { createContext, useCallback, useEffect, useState } from 'react';
 import Web3Modal from 'web3modal';
 
 import { CONFIG } from '../config';
+import * as did from '../did';
+import { clearToken, getTokenFromStore, setTokenInStore } from '../lib/auth';
 
 type Web3ContextType = {
   provider?: providers.Web3Provider;

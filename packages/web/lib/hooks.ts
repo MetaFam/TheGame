@@ -1,4 +1,4 @@
-import { Web3Context } from 'contexts/Web3Context';
+import { Web3Context } from '@metafam/utils';
 import { useGetMeQuery } from 'graphql/autogen/types';
 import { useRouter } from 'next/router';
 import { useContext, useEffect } from 'react';
