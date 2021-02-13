@@ -7,7 +7,7 @@ type Mutation {
 
 type Mutation {
   createQuestCompletion (
-    updateData: CreateQuestCompletionInput!
+    questCompletion: CreateQuestCompletionInput!
   ): CreateQuestCompletionOutput
 }
 
@@ -19,19 +19,31 @@ type Mutation {
 
 type Mutation {
   updateQuestCompletion (
-    questCompletion: UpdateQuestCompletionInput!
+    updateData: UpdateQuestCompletionInput!
   ): UpdateQuestCompletionOutput
 }
 
 
 
 
+enum QuestRepetition_Enum {
+  UNIQUE
+  PERSONAL
+  RECURRING
+}
+
+enum QuestCompletionStatus_Enum {
+  PENDING
+  ACCEPTED
+  REJECTED
+}
+
 input CreateQuestInput {
   guild_id : uuid!
   title : String!
   description : String
   external_link : String
-  repetition : String
+  repetition : QuestRepetition_Enum
   cooldown : Int
 }
 
@@ -44,7 +56,7 @@ input CreateQuestCompletionInput {
 input UpdateQuestCompletionInput {
   quest_id : String!
   quest_completion_id : String!
-  status : String!
+  status : QuestCompletionStatus_Enum!
 }
 
 type UpdateBoxProfileResponse {

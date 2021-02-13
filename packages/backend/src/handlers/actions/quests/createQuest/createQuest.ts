@@ -1,4 +1,3 @@
-
 import {
   Quest_Insert_Input,
   QuestRepetition_Enum,
@@ -13,9 +12,6 @@ export async function createQuest(
 ): Promise<CreateQuestOutput> {
 
   // CreateQuestInput.repetition is a string because hasura custom actions cannot use types from the database
-  if (quest.repetition && !((Object.values(QuestRepetition_Enum) as string[]).includes(quest.repetition))) {
-    throw new Error('Invalid repetition option');
-  }
   if (quest.repetition === QuestRepetition_Enum.Recurring && !quest.cooldown) {
     throw new Error('Recurring quests need to have a cooldown');
   }
@@ -36,7 +32,7 @@ export async function createQuest(
 
   const questInput: Quest_Insert_Input = {
     ...quest,
-    repetition: (quest.repetition as QuestRepetition_Enum) ?? null,
+    repetition: quest.repetition as QuestRepetition_Enum | null,
     created_by_player_id: playerId,
   };
 

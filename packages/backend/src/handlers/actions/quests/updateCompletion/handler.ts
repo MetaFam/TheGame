@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 
-import { UpdateQuestCompletionOutput } from '../../types';
+import { MutationUpdateQuestCompletionArgs, UpdateQuestCompletionOutput } from '../../types';
 import { updateCompletion } from './updateCompletion';
 
 export const updateCompletionHandler = async (
@@ -8,7 +8,7 @@ export const updateCompletionHandler = async (
   res: Response,
 ): Promise<void> => {
   const {
-    input: { updateData },
+    input,
     session_variables: sessionVariables,
   } = req.body;
 
@@ -20,7 +20,8 @@ export const updateCompletionHandler = async (
       throw new Error('Expected player role');
     }
 
-    const result = await updateCompletion(playerId, updateData);
+    const updateCompletionArgs: MutationUpdateQuestCompletionArgs = input;
+    const result = await updateCompletion(playerId, updateCompletionArgs.updateData);
     res.json(result);
   } catch (error) {
     const errorResponse: UpdateQuestCompletionOutput = {

@@ -11,10 +11,6 @@ export async function updateCompletion(
   updateData: UpdateQuestCompletionInput,
 ): Promise<UpdateQuestCompletionOutput> {
 
-  if (!((Object.values(QuestCompletionStatus_Enum) as string[]).includes(updateData.status))) {
-    throw new Error('Invalid status option');
-  }
-
   const { quest_by_pk: quest } = await client.GetQuestById({ quest_id: updateData.quest_id });
   if (!quest) {
     throw new Error('Quest not found');

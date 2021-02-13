@@ -28,7 +28,29 @@ actions:
   permissions:
   - role: player
 custom_types:
-  enums: []
+  enums:
+  - name: QuestRepetition_Enum
+    values:
+    - description: null
+      is_deprecated: null
+      value: UNIQUE
+    - description: null
+      is_deprecated: null
+      value: PERSONAL
+    - description: null
+      is_deprecated: null
+      value: RECURRING
+  - name: QuestCompletionStatus_Enum
+    values:
+    - description: null
+      is_deprecated: null
+      value: PENDING
+    - description: null
+      is_deprecated: null
+      value: ACCEPTED
+    - description: null
+      is_deprecated: null
+      value: REJECTED
   input_objects:
   - name: CreateQuestInput
   - name: CreateQuestCompletionInput

@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 
-import { CreateQuestOutput } from '../../types';
+import { CreateQuestOutput, MutationCreateQuestArgs } from '../../types';
 import { createQuest } from './createQuest';
 
 export const createQuestHandler = async (
@@ -8,7 +8,7 @@ export const createQuestHandler = async (
   res: Response,
 ): Promise<void> => {
   const {
-    input: { quest },
+    input,
     session_variables: sessionVariables,
   } = req.body;
 
@@ -19,7 +19,9 @@ export const createQuestHandler = async (
     if (role !== 'player') {
       throw new Error('Expected player role');
     }
-    const result = await createQuest(playerId, quest);
+
+    const createQuestArgs: MutationCreateQuestArgs = input;
+    const result = await createQuest(playerId, createQuestArgs.quest);
     res.json(result);
   } catch (error) {
     const errorResponse: CreateQuestOutput = {
