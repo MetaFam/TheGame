@@ -44,9 +44,6 @@ custom_types:
     values:
     - description: null
       is_deprecated: null
-      value: PENDING
-    - description: null
-      is_deprecated: null
       value: ACCEPTED
     - description: null
       is_deprecated: null

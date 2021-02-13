@@ -33,7 +33,6 @@ enum QuestRepetition_ActionEnum {
 }
 
 enum QuestCompletionStatus_ActionEnum {
-  PENDING
   ACCEPTED
   REJECTED
 }
@@ -54,7 +53,6 @@ input CreateQuestCompletionInput {
 }
 
 input UpdateQuestCompletionInput {
-  quest_id : String!
   quest_completion_id : String!
   status : QuestCompletionStatus_ActionEnum!
 }

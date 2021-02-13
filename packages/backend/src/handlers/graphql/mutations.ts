@@ -147,3 +147,19 @@ export const UpdateQuestCompletionStatus = gql`
     }
   }
 `;
+
+export const RejectOtherQuestCompletions = gql`
+  mutation RejectOtherQuestCompletions($accepted_quest_completion_id: uuid!, $quest_id: uuid!) {
+    update_quest_completion(
+      where: {
+        _and: [
+          { id: { _neq: $accepted_quest_completion_id } },
+          { quest_id: { _eq: $quest_id } }
+        ]
+      },
+       _set: { status: REJECTED }
+    ) {
+      affected_rows
+    }
+  }
+`;

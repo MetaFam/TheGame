@@ -1,4 +1,5 @@
 import {
+  QuestCompletionStatus_ActionEnum,
   QuestCompletionStatus_Enum,
   QuestRepetition_Enum,
   QuestStatus_Enum,
@@ -12,13 +13,13 @@ export async function updateCompletion(
   updateData: UpdateQuestCompletionInput,
 ): Promise<UpdateQuestCompletionOutput> {
 
-  const { quest_by_pk: quest } = await client.GetQuestById({ quest_id: updateData.quest_id });
-  if (!quest) {
-    throw new Error('Quest not found');
-  }
   const { quest_completion_by_pk: questCompletion } = await client.GetQuestCompletionById({ quest_completion_id: updateData.quest_completion_id });
   if (!questCompletion) {
     throw new Error('Quest completion not found');
+  }
+  const { quest_by_pk: quest } = await client.GetQuestById({ quest_id: questCompletion.quest_id });
+  if (!quest) {
+    throw new Error('Quest not found');
   }
 
   if (quest.status !== QuestStatus_Enum.Open) {
@@ -32,11 +33,10 @@ export async function updateCompletion(
   }
 
   // Workaround as Hasura can't share enums between root schema and custom actions
-  const newQuestCompletionStatus = updateData.status as unknown as QuestCompletionStatus_Enum;
-
-
+  const newQuestCompletionStatus = updateData.status === QuestCompletionStatus_ActionEnum.Accepted ? QuestCompletionStatus_Enum.Accepted : QuestCompletionStatus_Enum.Rejected;
+  
   const updateQuestCompletionResult = await client.UpdateQuestCompletionStatus({
-    quest_completion_id: quest.id,
+    quest_completion_id: questCompletion.id,
     status: newQuestCompletionStatus,
   });
   const questCompletionUpdated = updateQuestCompletionResult.update_quest_completion_by_pk;
@@ -44,7 +44,7 @@ export async function updateCompletion(
     throw new Error('Error while updating quest completion');
   }
 
-  if (quest.repetition === QuestRepetition_Enum.Unique) {
+  if (newQuestCompletionStatus === QuestCompletionStatus_Enum.Accepted && quest.repetition === QuestRepetition_Enum.Unique) {
     const updateQuestStatusResult = await client.UpdateQuestStatus({
       quest_id: quest.id,
       status: QuestStatus_Enum.Closed,
@@ -53,8 +53,12 @@ export async function updateCompletion(
     if(!questStatusUpdated) {
       throw new Error('Error while setting unique quest status to closed after being completed');
     }
-    // TODO set all other completions as rejected
+    await client.RejectOtherQuestCompletions({
+      accepted_quest_completion_id: questCompletion.id,
+      quest_id: quest.id,
+    });
   }
+
 
   return {
     success: true,

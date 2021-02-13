@@ -6194,7 +6194,6 @@ type QuestCompletionStatus {
 
 enum QuestCompletionStatus_ActionEnum {
   ACCEPTED
-  PENDING
   REJECTED
 }
 
@@ -8130,7 +8129,6 @@ type UpdateBoxProfileResponse {
 
 input UpdateQuestCompletionInput {
   quest_completion_id: String!
-  quest_id: String!
   status: QuestCompletionStatus_ActionEnum!
 }
 
