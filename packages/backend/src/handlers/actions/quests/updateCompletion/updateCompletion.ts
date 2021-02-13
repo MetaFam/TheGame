@@ -2,9 +2,10 @@ import {
   QuestCompletionStatus_Enum,
   QuestRepetition_Enum,
   QuestStatus_Enum,
+  UpdateQuestCompletionInput,
+  UpdateQuestCompletionOutput,
 } from '../../../../lib/autogen/hasura-sdk';
 import { client } from '../../../../lib/hasuraClient';
-import { UpdateQuestCompletionInput, UpdateQuestCompletionOutput } from '../../types';
 
 export async function updateCompletion(
   playerId: string,
@@ -30,9 +31,13 @@ export async function updateCompletion(
     throw new Error('Quest completion already marked as done');
   }
 
+  // Workaround as Hasura can't share enums between root schema and custom actions
+  const newQuestCompletionStatus = updateData.status as unknown as QuestCompletionStatus_Enum;
+
+
   const updateQuestCompletionResult = await client.UpdateQuestCompletionStatus({
     quest_completion_id: quest.id,
-    status: updateData.status,
+    status: newQuestCompletionStatus,
   });
   const questCompletionUpdated = updateQuestCompletionResult.update_quest_completion_by_pk;
   if(!questCompletionUpdated) {

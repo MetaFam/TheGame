@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 
-import { CreateQuestOutput, MutationCreateQuestArgs } from '../../types';
+import { CreateQuestOutput, Mutation_RootCreateQuestArgs } from '../../../../lib/autogen/hasura-sdk';
 import { createQuest } from './createQuest';
 
 export const createQuestHandler = async (
@@ -20,7 +20,7 @@ export const createQuestHandler = async (
       throw new Error('Expected player role');
     }
 
-    const createQuestArgs: MutationCreateQuestArgs = input;
+    const createQuestArgs: Mutation_RootCreateQuestArgs = input;
     const result = await createQuest(playerId, createQuestArgs.quest);
     res.json(result);
   } catch (error) {

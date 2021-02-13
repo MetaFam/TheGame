@@ -1,10 +1,8 @@
-import {
+import { CreateQuestCompletionInput, CreateQuestCompletionOutput,
   Quest_Completion_Insert_Input,
   QuestRepetition_Enum,
-  QuestStatus_Enum,
-} from '../../../../lib/autogen/hasura-sdk';
+  QuestStatus_Enum, } from '../../../../lib/autogen/hasura-sdk';
 import { client } from '../../../../lib/hasuraClient';
-import { CreateQuestCompletionInput, CreateQuestCompletionOutput, } from '../../../../lib/autogen/hasura-sdk';
 
 export async function createCompletion(
   playerId: string,
@@ -23,14 +21,14 @@ export async function createCompletion(
     throw new Error('Quest must be open');
   }
 
-  // Personal, check if not already done by player
-  if (quest.repetition === QuestRepetition_Enum.Personal) {
+  // Personal or unique, check if not already done by player
+  if (quest.repetition === QuestRepetition_Enum.Unique || quest.repetition === QuestRepetition_Enum.Personal) {
     const { quest_completion: existingQuestCompletions } = await client.GetQuestCompletions({
       player_id: playerId,
       quest_id: questCompletion.quest_id,
     });
     if(existingQuestCompletions.length > 0) {
-      throw new Error('Player already completed this personal quest');
+      throw new Error('Player already completed this personal/unique quest');
     }
   }
 

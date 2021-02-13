@@ -26,13 +26,13 @@ type Mutation {
 
 
 
-enum QuestRepetition_Enum {
+enum QuestRepetition_ActionEnum {
   UNIQUE
   PERSONAL
   RECURRING
 }
 
-enum QuestCompletionStatus_Enum {
+enum QuestCompletionStatus_ActionEnum {
   PENDING
   ACCEPTED
   REJECTED
@@ -43,7 +43,7 @@ input CreateQuestInput {
   title : String!
   description : String
   external_link : String
-  repetition : QuestRepetition_Enum
+  repetition : QuestRepetition_ActionEnum
   cooldown : Int
 }
 
@@ -56,7 +56,7 @@ input CreateQuestCompletionInput {
 input UpdateQuestCompletionInput {
   quest_id : String!
   quest_completion_id : String!
-  status : QuestCompletionStatus_Enum!
+  status : QuestCompletionStatus_ActionEnum!
 }
 
 type UpdateBoxProfileResponse {

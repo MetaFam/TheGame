@@ -29,7 +29,7 @@ actions:
   - role: player
 custom_types:
   enums:
-  - name: QuestRepetition_Enum
+  - name: QuestRepetition_ActionEnum
     values:
     - description: null
       is_deprecated: null
@@ -40,7 +40,7 @@ custom_types:
     - description: null
       is_deprecated: null
       value: RECURRING
-  - name: QuestCompletionStatus_Enum
+  - name: QuestCompletionStatus_ActionEnum
     values:
     - description: null
       is_deprecated: null

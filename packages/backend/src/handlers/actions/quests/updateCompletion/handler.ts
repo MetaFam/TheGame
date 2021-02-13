@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 
-import { MutationUpdateQuestCompletionArgs, UpdateQuestCompletionOutput } from '../../types';
+import { Mutation_RootUpdateQuestCompletionArgs,UpdateQuestCompletionOutput } from '../../../../lib/autogen/hasura-sdk';
 import { updateCompletion } from './updateCompletion';
 
 export const updateCompletionHandler = async (
@@ -20,7 +20,7 @@ export const updateCompletionHandler = async (
       throw new Error('Expected player role');
     }
 
-    const updateCompletionArgs: MutationUpdateQuestCompletionArgs = input;
+    const updateCompletionArgs: Mutation_RootUpdateQuestCompletionArgs = input;
     const result = await updateCompletion(playerId, updateCompletionArgs.updateData);
     res.json(result);
   } catch (error) {

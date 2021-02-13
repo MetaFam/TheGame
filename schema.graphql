@@ -213,7 +213,7 @@ input CreateQuestInput {
   description: String
   external_link: String
   guild_id: uuid!
-  repetition: QuestRepetition_Enum
+  repetition: QuestRepetition_ActionEnum
   title: String!
 }
 
@@ -6192,6 +6192,12 @@ type QuestCompletionStatus {
   status: String!
 }
 
+enum QuestCompletionStatus_ActionEnum {
+  ACCEPTED
+  PENDING
+  REJECTED
+}
+
 """
 aggregated selection of "QuestCompletionStatus"
 """
@@ -6246,12 +6252,6 @@ enum QuestCompletionStatus_constraint {
 }
 
 enum QuestCompletionStatus_enum {
-  ACCEPTED
-  PENDING
-  REJECTED
-}
-
-enum QuestCompletionStatus_Enum {
   ACCEPTED
   PENDING
   REJECTED
@@ -6408,6 +6408,12 @@ type QuestRepetition {
   repetition: String!
 }
 
+enum QuestRepetition_ActionEnum {
+  PERSONAL
+  RECURRING
+  UNIQUE
+}
+
 """
 aggregated selection of "QuestRepetition"
 """
@@ -6462,12 +6468,6 @@ enum QuestRepetition_constraint {
 }
 
 enum QuestRepetition_enum {
-  PERSONAL
-  RECURRING
-  UNIQUE
-}
-
-enum QuestRepetition_Enum {
   PERSONAL
   RECURRING
   UNIQUE
@@ -8131,7 +8131,7 @@ type UpdateBoxProfileResponse {
 input UpdateQuestCompletionInput {
   quest_completion_id: String!
   quest_id: String!
-  status: QuestCompletionStatus_Enum!
+  status: QuestCompletionStatus_ActionEnum!
 }
 
 type UpdateQuestCompletionOutput {
