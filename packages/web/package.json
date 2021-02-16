@@ -12,6 +12,7 @@
     "prepare": "yarn generate"
   },
   "dependencies": {
+    "@chakra-ui/icons": "1.0.3",
     "@metafam/ds": "0.1.0",
     "@metafam/utils": "1.0.0",
     "@walletconnect/web3-provider": "1.3.1",

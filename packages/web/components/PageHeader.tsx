@@ -1,20 +1,31 @@
-import { Box, Button, Flex, Image, Stack, useDisclosure } from '@metafam/ds';
+import {
+  Box,
+  BoxedNextImage,
+  Button,
+  Flex,
+  Image,
+  Stack,
+  useDisclosure,
+} from '@metafam/ds';
 import { MetaLink } from 'components/Link';
 import { LoginButton } from 'components/LoginButton';
 import { Ticker } from 'components/Ticker';
 import { motion } from 'framer-motion';
-import NextImage from 'next/image';
 import React from 'react';
 
+import { useMounted } from '../lib/hooks';
+import { isBackdropFilterSupported } from '../utils/compatibilityHelpers';
 import {
   DrawerItemsLeft,
   DrawerItemsRight,
   DrawerSubItems,
 } from '../utils/drawerItems';
 
-const MetaBox = '/assets/drawer/desktop-box.png';
 const MetaDrawer = '/assets/drawer/desktop.gradient.png';
+const MetaGradientBottom = '/assets/drawer/desktop.gradient.bottom.png';
 const MetaGameLogo = '/assets/logo.alt.png';
+const drawer = { width: '39rem', height: '5.5rem' };
+const content = { width: '33rem', height: '46rem' };
 
 const MenuItem: React.FC<React.ComponentProps<typeof MetaLink>> = ({
   children,
@@ -23,25 +34,27 @@ const MenuItem: React.FC<React.ComponentProps<typeof MetaLink>> = ({
 }) => {
   return (
     <MetaLink
-      zIndex="2"
       href={href}
       isExternal={isExternal}
       textDecoration="none"
       _hover={{ textDecoration: 'none' }}
+      _focus={{ boxShadow: 'none' }}
+      zIndex={15}
     >
       <Button
         display="flex"
         flexDirection="column"
         justifyContent="center"
         alignItems="center"
-        width="calc(32rem / 5)"
+        width={`calc(${drawer.width} / 5 - 1rem)`}
+        top="0.25rem"
         textDecoration="none"
         _hover={{ textDecoration: 'none' }}
+        _focus={{ boxShadow: 'none' }}
         variant="link"
         p="1"
         fontFamily="mono"
         color="whiteAlpha.700"
-        className="filter-effect"
       >
         {children}
       </Button>
@@ -63,6 +76,8 @@ const SubMenuItem: React.FC<React.ComponentProps<typeof MetaLink>> = ({
       _hover={{ textDecoration: 'none' }}
     >
       <Button
+        position="relative"
+        overflow="hidden"
         display="flex"
         flexDirection="column"
         justifyContent="center"
@@ -73,15 +88,32 @@ const SubMenuItem: React.FC<React.ComponentProps<typeof MetaLink>> = ({
         borderRadius="5px"
         textDecoration="none"
         variant="link"
-        fontFamily="body"
         fontWeight="normal"
         color="whiteAlpha.700"
         margin={3}
-        className="filter-effect"
-        // backgroundImage={`url(${MetaBoxButton})`}
+        _after={{
+          content: "''",
+          position: 'absolute',
+          display: 'block',
+          width: '100%',
+          height: '100%',
+          filter: 'blur(10px)',
+          transform: 'translate3d(-120%, 0, 0)',
+          background: `linear-gradient(
+              45deg, transparent,
+              rgba(255, 255, 255, 0),
+              rgba(255, 255, 255, 0.06),
+              rgba(255, 255, 255, 0),
+              transparent
+            )`,
+          transition: 'all 0.3s 0.1s ease-in-out',
+          zIndex: 1,
+        }}
         _hover={{
           textDecoration: 'none',
-          backgroundColor: 'rgba(255,255,255,0.1)',
+          boxShadow: '0 0 2rem rgba(0,0,0,.1)',
+          _before: { transform: 'translate3d(120%, 0, 0)' },
+          _after: { transform: 'translate3d(120%, 0, 0)' },
         }}
       >
         {children}
@@ -92,6 +124,9 @@ const SubMenuItem: React.FC<React.ComponentProps<typeof MetaLink>> = ({
 
 export const PageHeader: React.FC = () => {
   const { isOpen, onToggle, onClose } = useDisclosure();
+  const hasMounted = useMounted();
+
+  const drawerOpacity = hasMounted && isBackdropFilterSupported() ? 0.75 : 0.98;
 
   return (
     <Flex
@@ -100,37 +135,36 @@ export const PageHeader: React.FC = () => {
       justify="space-between"
       wrap="wrap"
       color="offwhite"
-      px="8"
+      px={8}
       position="relative"
-      display={{ base: 'none', md: 'flex' }}
+      display={{ base: 'none', lg: 'flex' }}
     >
-      <style jsx>{`
-        button.filter-effect:hover {
-          filter: drop-shadow(0 0 15px #a5b9f680);
-        }
-      `}</style>
-
       <Box>
         <Ticker />
       </Box>
 
       <Stack
-        width="48rem"
+        width={drawer.width}
         height="100%"
         direction="row"
         justify="center"
         align="center"
         position="absolute"
         top="0"
-        left="calc(50% - 24rem)"
-        padding="0 0 0.5rem 0"
+        left={`calc(50% - (${drawer.width} / 2))`}
       >
-        <Box position="absolute" left="calc(50% - 23.5rem)" top="0" zIndex="1">
-          <NextImage
+        {/* margin-inline-start = 0.5rem is set and I don't know how to remove it */}
+        <Box
+          position="absolute"
+          left={`calc(50% - (${drawer.width} / 2) + 0.5rem)`}
+          top="0"
+          zIndex="1"
+        >
+          <Image
             src={MetaDrawer}
             alt="MetaDrawer"
-            width={762}
-            height={94}
+            width={drawer.width}
+            height={drawer.height}
           />
         </Box>
 
@@ -140,7 +174,12 @@ export const PageHeader: React.FC = () => {
             href={item.href}
             isExternal={item.isExternal}
           >
-            <NextImage src={item.src} alt={item.alt} width={35} height={35} />
+            <BoxedNextImage
+              width="2rem"
+              height="2rem"
+              src={item.src}
+              alt={item.alt}
+            />
             {item.text}
           </MenuItem>
         ))}
@@ -149,7 +188,7 @@ export const PageHeader: React.FC = () => {
           animate={isOpen ? 'show' : 'hide'}
           transition={{ duration: 0.25 }}
           variants={{
-            show: { position: 'relative', top: '46rem' },
+            show: { position: 'relative', top: content.height },
             hide: { position: 'relative', top: '1rem' },
           }}
         >
@@ -161,17 +200,16 @@ export const PageHeader: React.FC = () => {
             flexDirection="column"
             justifyContent="center"
             alignItems="center"
-            width="calc(32rem / 5)"
-            className="filter-effect"
+            width={`calc(${drawer.width} / 5 - 2rem)`}
             position="relative"
             _focus={{ outline: 0 }}
             onClick={onToggle}
           >
-            <NextImage
+            <BoxedNextImage
               src={MetaGameLogo}
               alt="MetaGameLogo"
-              width={88}
-              height={96}
+              width={drawer.height}
+              height={`calc(${drawer.height} * 1.1)`}
             />
           </Button>
         </motion.div>
@@ -182,7 +220,12 @@ export const PageHeader: React.FC = () => {
             href={item.href}
             isExternal={item.isExternal}
           >
-            <NextImage src={item.src} alt={item.alt} width={35} height={35} />
+            <BoxedNextImage
+              src={item.src}
+              alt={item.alt}
+              width="2rem"
+              height="2rem"
+            />
             {item.text}
           </MenuItem>
         ))}
@@ -196,19 +239,24 @@ export const PageHeader: React.FC = () => {
         animate={isOpen ? 'show' : 'hide'}
         transition={{ duration: 0.25 }}
         variants={{
-          show: { display: 'block', opacity: 1 },
-          hide: { display: 'none', opacity: 0 },
+          show: { opacity: 1, pointerEvents: 'auto' },
+          hide: { opacity: 0, pointerEvents: 'none' },
         }}
         onClick={onClose}
         style={{
           position: 'absolute',
           zIndex: 10,
-          top: '5rem',
-          left: 'calc(50% - 16.5rem)',
-          display: 'none',
+          top: `calc(${drawer.height} - 0.85rem)`,
+          left: `calc(50% - ${content.width} / 2)`,
+          opacity: 0,
         }}
       >
-        <Stack width="33rem" direction="row" flexWrap="wrap" padding={4}>
+        <Stack
+          width={content.width}
+          direction="row"
+          flexWrap="wrap"
+          padding={4}
+        >
           <Box
             position="fixed"
             top="0"
@@ -217,9 +265,33 @@ export const PageHeader: React.FC = () => {
             right="0"
             onClick={onClose}
           />
-          <Box position="absolute" left="calc(50% - 16.5rem)" top="0">
-            <NextImage src={MetaBox} alt="MetaBox" width={528} height={695} />
-          </Box>
+
+          <Box
+            position="absolute"
+            left={`calc(50% - ${content.width} / 2)`}
+            top="0"
+            width={`calc(${content.width} - 0.5rem)`}
+            height={`calc(${content.height} - 3.5rem)`}
+            background={`linear-gradient(
+              180deg, rgba(76, 63, 143, ${drawerOpacity}) 62.76%,
+              rgba(184, 169, 255, ${drawerOpacity}) 100%
+            )`}
+            style={{
+              backdropFilter: 'blur(10px)',
+              WebkitBackdropFilter: 'blur(10px)',
+            }}
+          />
+          {/* ToDo: switch to BoxedNextImage */}
+          <Image
+            position="absolute"
+            left="-0"
+            top={`calc(${content.height} - 3.6rem)`}
+            src={MetaGradientBottom}
+            alt="MetaGradientBottom"
+            height="1rem"
+            width={`calc(${content.width} - 0.5rem)`}
+          />
+
           {DrawerSubItems.map((item) => {
             return (
               <SubMenuItem
@@ -227,7 +299,13 @@ export const PageHeader: React.FC = () => {
                 key={item.alt}
                 isExternal={item.isExternal}
               >
-                <Image src={item.src} alt={item.alt} height={16} mb={2} />
+                <BoxedNextImage
+                  src={item.src}
+                  alt={item.alt}
+                  height="5rem"
+                  width="5rem"
+                  mb={2}
+                />
                 {item.text}
               </SubMenuItem>
             );

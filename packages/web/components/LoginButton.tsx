@@ -1,3 +1,4 @@
+import { CloseIcon,SettingsIcon } from '@chakra-ui/icons'
 import {
   Avatar,
   Box,
@@ -45,16 +46,25 @@ export const LoginButton: React.FC = () => {
             {user.player ? getPlayerName(user.player) : 'Unknown'}
           </MetaLink>
           <HStack spacing={2}>
-            <MetaLink href="/profile/setup">Setup profile</MetaLink>
+            <MetaLink
+              href="/profile/setup"
+            >
+              <Button
+                variant="link"
+                fontWeight="normal"
+                title="Configure Profile"
+              >
+                <SettingsIcon w={7} h={7} color="cyan.400"/>
+              </Button>
+            </MetaLink>
             <Text color="cyan.400">|</Text>
             <Button
               onClick={disconnect}
-              fontFamily="body"
-              color="cyan.400"
               variant="link"
               fontWeight="normal"
+              title="Disconnect"
             >
-              Disconnect
+              <CloseIcon w={6} h={6} color="cyan.400"/>
             </Button>
           </HStack>
         </Box>

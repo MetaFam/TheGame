@@ -5,9 +5,13 @@ node_modules/
 
 # No npm allowed
 package-lock.json
+.yarn/
+.yarnrc
 
 # IDE
 .idea
+.vscode/
+
 
 # next.js
 .next/
