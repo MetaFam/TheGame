@@ -1,6 +1,8 @@
-import fetch from 'node-fetch';
+import Discord from 'discord.js';
 
+import { CONFIG } from '../../config';
 import { AccountType_Enum, Player } from '../../lib/autogen/hasura-sdk';
+import { client } from '../../lib/hasuraClient';
 import { TriggerPayload } from './types';
 
 export interface UpdateRole {
@@ -27,10 +29,16 @@ export const updateDiscordRole = async (
     previousRole: oldPlayer?.rank?.toString(),
     newRole: newRank
   }
-  // look up guild by guildname = 'metagame' (for now), 
-  // then look up guild_account for DISCORD type
-  // will need to create new graphql queries for these (can they be joined into one?)
 
+  // look up guild by guildname = 'metagame' (for now), 
+  const metafam = await client.GetGuild({guildname: 'metafam'});
+
+  const discordClient = new Discord.Client();
+  discordClient.login(CONFIG.discordBotToken);
+
+  // todo add jsonb field to guild. { ranks: [] }
+  // populate also.
+  
 
   // call discord API. for each query we'll need serverId, playerId, and roleId
   // since we don't have roleIds, we'll need to look up the roles in the server 
@@ -39,5 +47,4 @@ export const updateDiscordRole = async (
 
   // if there's an oldRank, delete it.
   // if there's a new rank, add it 
-  fetch()
 };
