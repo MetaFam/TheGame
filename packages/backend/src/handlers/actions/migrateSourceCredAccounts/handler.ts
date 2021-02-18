@@ -10,9 +10,9 @@ import {
   Player_Constraint,
   Player_Insert_Input,
   Player_Update_Column,
-  PlayerRank_Enum,
 } from '../../../lib/autogen/hasura-sdk';
 import { client } from '../../../lib/hasuraClient';
+import { computeRank } from '../../../lib/rankHelpers';
 import { AddressBookEntry, SCAccountsData, SCAlias } from './types';
 
 const ACCOUNTS_FILE =
@@ -69,16 +69,6 @@ const parseAlias = (alias: SCAlias) => {
   }
 };
 
-const RANKS = [
-  PlayerRank_Enum.Diamond,
-  PlayerRank_Enum.Platinum,
-  PlayerRank_Enum.Gold,
-  PlayerRank_Enum.Silver,
-  PlayerRank_Enum.Bronze,
-];
-
-const NUM_PLAYERS_PER_RANK = 10;
-
 export const migrateSourceCredAccounts = async (
   _: Request,
   res: Response,
@@ -115,12 +105,14 @@ export const migrateSourceCredAccounts = async (
 
       const addressEntry =
         discordId && addressBook.find((adr) => adr.discordId === discordId);
+
+      const rank = computeRank(index);
       return {
         ethereum_address: addressEntry && addressEntry.address,
         scIdentityId: a.account.identity.id,
         username: a.account.identity.name.toLowerCase(),
         totalXp: a.totalCred,
-        rank: RANKS[Math.floor(index / NUM_PLAYERS_PER_RANK)],
+        rank,
         discordId,
         mergedIdentityIds,
         Accounts: {
