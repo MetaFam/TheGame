@@ -73,3 +73,24 @@ export const GetLastQuestCompletionForPlayer = gql`
     }
   }
 `;
+
+export const GetGuild = gql`
+  query GetGuild($guildname: String!) {
+    guild(where: { guildname: { _eq: $guildname } }) {
+      id
+      guildname
+      description
+      discord_invite_url
+      join_button_url
+      logo
+      moloch_address
+      name
+      type
+      website_url
+      guild_accounts {
+        type
+        identifier
+      }
+    }
+  }
+`;
