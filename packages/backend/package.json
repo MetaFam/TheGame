@@ -12,7 +12,8 @@
     "typecheck": "yarn build",
     "precommit": "yarn lint-staged",
     "generate": "graphql-codegen --config=codegen.yml",
-    "lintfix": "eslint --fix"
+    "lintfix": "eslint --fix",
+    "test": "tsdx test --passWithNoTests"
   },
   "author": "",
   "license": "ISC",

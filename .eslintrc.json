@@ -35,6 +35,9 @@
     "import/order": "off",
     "simple-import-sort/sort": "error",
 
+    // unary operators are ok
+    "no-plusplus": "off",
+
     // Using a type system makes it safe enough to spread props
     "react/jsx-props-no-spreading": "off",
 
