@@ -14,6 +14,9 @@ describe('computeRank', () => {
   it('index 7 should be platinum', () => {
     expect(computeRank(7)).toBe(PlayerRank_Enum.Platinum)
   });
+  it('index 20 should be gold', () => {
+    expect(computeRank(20)).toBe(PlayerRank_Enum.Gold)
+  });
   it('index 21 should be silver', () => {
     expect(computeRank(21)).toBe(PlayerRank_Enum.Silver)
   });
