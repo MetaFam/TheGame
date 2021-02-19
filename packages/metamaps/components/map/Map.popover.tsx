@@ -41,7 +41,7 @@ export const MapPopoverComponent: FC<MapPopoverProps> = ({
   }, [dispatch, state]);
 
   async function updateMapName() {
-    await executeMutation({ id, name });
+    await executeMutation({ id, name: nameInput });
   }
 
   return (

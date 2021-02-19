@@ -78,6 +78,8 @@ export const MapPageComponent: FC<MapPageProps> = ({ dispatch }) => {
     data: items,
   });
 
+  dispatch({ type: 'POPOVER_NAME_INPUT', value: data?.Map_by_pk.name });
+
   return (
     <AppContainer>
       <Map />
