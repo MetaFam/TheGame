@@ -7,7 +7,7 @@ import { updateDiscordRole } from './updateDiscordRole';
 
 const TRIGGERS = {
   fetchBoxVerifiedAccounts,
-  updateDiscordRole
+  'player_rank_updated': updateDiscordRole
 };
 
 export const triggerHandler = async (
@@ -19,7 +19,7 @@ export const triggerHandler = async (
   if (role !== 'admin') {
     throw new Error('Unauthorized');
   }
-
+  
   const trigger = TRIGGERS[req.body.trigger.name as keyof typeof TRIGGERS];
 
   if (trigger) {
