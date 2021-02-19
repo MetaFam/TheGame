@@ -495,6 +495,42 @@ type guild {
   moloch_address: String
   name: String!
 
+  """An array relationship"""
+  quests(
+    """distinct select on columns"""
+    distinct_on: [quest_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [quest_order_by!]
+
+    """filter the rows returned"""
+    where: quest_bool_exp
+  ): [quest!]!
+
+  """An aggregated array relationship"""
+  quests_aggregate(
+    """distinct select on columns"""
+    distinct_on: [quest_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [quest_order_by!]
+
+    """filter the rows returned"""
+    where: quest_bool_exp
+  ): quest_aggregate!
+
   """The area of focus for the guild (e.g. funding, project, etc)"""
   type: GuildType_enum!
   website_url: String
@@ -748,6 +784,7 @@ input guild_bool_exp {
   logo: String_comparison_exp
   moloch_address: String_comparison_exp
   name: String_comparison_exp
+  quests: quest_bool_exp
   type: GuildType_enum_comparison_exp
   website_url: String_comparison_exp
 }
@@ -778,6 +815,7 @@ input guild_insert_input {
   logo: String
   moloch_address: String
   name: String
+  quests: quest_arr_rel_insert_input
   type: GuildType_enum
   website_url: String
 }
@@ -881,6 +919,7 @@ input guild_order_by {
   logo: order_by
   moloch_address: order_by
   name: order_by
+  quests_aggregate: quest_aggregate_order_by
   type: order_by
   website_url: order_by
 }
@@ -1632,6 +1671,45 @@ type mutation_root {
   delete_PlayerRank_by_pk(rank: String!): PlayerRank
 
   """
+  delete data from the table: "QuestCompletionStatus"
+  """
+  delete_QuestCompletionStatus(
+    """filter the rows which have to be deleted"""
+    where: QuestCompletionStatus_bool_exp!
+  ): QuestCompletionStatus_mutation_response
+
+  """
+  delete single row from the table: "QuestCompletionStatus"
+  """
+  delete_QuestCompletionStatus_by_pk(status: String!): QuestCompletionStatus
+
+  """
+  delete data from the table: "QuestRepetition"
+  """
+  delete_QuestRepetition(
+    """filter the rows which have to be deleted"""
+    where: QuestRepetition_bool_exp!
+  ): QuestRepetition_mutation_response
+
+  """
+  delete single row from the table: "QuestRepetition"
+  """
+  delete_QuestRepetition_by_pk(repetition: String!): QuestRepetition
+
+  """
+  delete data from the table: "QuestStatus"
+  """
+  delete_QuestStatus(
+    """filter the rows which have to be deleted"""
+    where: QuestStatus_bool_exp!
+  ): QuestStatus_mutation_response
+
+  """
+  delete single row from the table: "QuestStatus"
+  """
+  delete_QuestStatus_by_pk(status: String!): QuestStatus
+
+  """
   delete data from the table: "SkillCategory"
   """
   delete_SkillCategory(
@@ -1739,6 +1817,45 @@ type mutation_root {
   delete_player_type_by_pk(id: Int!): player_type
 
   """
+  delete data from the table: "quest"
+  """
+  delete_quest(
+    """filter the rows which have to be deleted"""
+    where: quest_bool_exp!
+  ): quest_mutation_response
+
+  """
+  delete single row from the table: "quest"
+  """
+  delete_quest_by_pk(id: uuid!): quest
+
+  """
+  delete data from the table: "quest_completion"
+  """
+  delete_quest_completion(
+    """filter the rows which have to be deleted"""
+    where: quest_completion_bool_exp!
+  ): quest_completion_mutation_response
+
+  """
+  delete single row from the table: "quest_completion"
+  """
+  delete_quest_completion_by_pk(id: uuid!): quest_completion
+
+  """
+  delete data from the table: "quest_skill"
+  """
+  delete_quest_skill(
+    """filter the rows which have to be deleted"""
+    where: quest_skill_bool_exp!
+  ): quest_skill_mutation_response
+
+  """
+  delete single row from the table: "quest_skill"
+  """
+  delete_quest_skill_by_pk(quest_id: uuid!, skill_id: uuid!): quest_skill
+
+  """
   delete data from the table: "skill"
   """
   delete_skill(
@@ -1838,6 +1955,72 @@ type mutation_root {
     """on conflict condition"""
     on_conflict: PlayerRank_on_conflict
   ): PlayerRank
+
+  """
+  insert data into the table: "QuestCompletionStatus"
+  """
+  insert_QuestCompletionStatus(
+    """the rows to be inserted"""
+    objects: [QuestCompletionStatus_insert_input!]!
+
+    """on conflict condition"""
+    on_conflict: QuestCompletionStatus_on_conflict
+  ): QuestCompletionStatus_mutation_response
+
+  """
+  insert a single row into the table: "QuestCompletionStatus"
+  """
+  insert_QuestCompletionStatus_one(
+    """the row to be inserted"""
+    object: QuestCompletionStatus_insert_input!
+
+    """on conflict condition"""
+    on_conflict: QuestCompletionStatus_on_conflict
+  ): QuestCompletionStatus
+
+  """
+  insert data into the table: "QuestRepetition"
+  """
+  insert_QuestRepetition(
+    """the rows to be inserted"""
+    objects: [QuestRepetition_insert_input!]!
+
+    """on conflict condition"""
+    on_conflict: QuestRepetition_on_conflict
+  ): QuestRepetition_mutation_response
+
+  """
+  insert a single row into the table: "QuestRepetition"
+  """
+  insert_QuestRepetition_one(
+    """the row to be inserted"""
+    object: QuestRepetition_insert_input!
+
+    """on conflict condition"""
+    on_conflict: QuestRepetition_on_conflict
+  ): QuestRepetition
+
+  """
+  insert data into the table: "QuestStatus"
+  """
+  insert_QuestStatus(
+    """the rows to be inserted"""
+    objects: [QuestStatus_insert_input!]!
+
+    """on conflict condition"""
+    on_conflict: QuestStatus_on_conflict
+  ): QuestStatus_mutation_response
+
+  """
+  insert a single row into the table: "QuestStatus"
+  """
+  insert_QuestStatus_one(
+    """the row to be inserted"""
+    object: QuestStatus_insert_input!
+
+    """on conflict condition"""
+    on_conflict: QuestStatus_on_conflict
+  ): QuestStatus
 
   """
   insert data into the table: "SkillCategory"
@@ -2032,6 +2215,72 @@ type mutation_root {
   ): player_type
 
   """
+  insert data into the table: "quest"
+  """
+  insert_quest(
+    """the rows to be inserted"""
+    objects: [quest_insert_input!]!
+
+    """on conflict condition"""
+    on_conflict: quest_on_conflict
+  ): quest_mutation_response
+
+  """
+  insert data into the table: "quest_completion"
+  """
+  insert_quest_completion(
+    """the rows to be inserted"""
+    objects: [quest_completion_insert_input!]!
+
+    """on conflict condition"""
+    on_conflict: quest_completion_on_conflict
+  ): quest_completion_mutation_response
+
+  """
+  insert a single row into the table: "quest_completion"
+  """
+  insert_quest_completion_one(
+    """the row to be inserted"""
+    object: quest_completion_insert_input!
+
+    """on conflict condition"""
+    on_conflict: quest_completion_on_conflict
+  ): quest_completion
+
+  """
+  insert a single row into the table: "quest"
+  """
+  insert_quest_one(
+    """the row to be inserted"""
+    object: quest_insert_input!
+
+    """on conflict condition"""
+    on_conflict: quest_on_conflict
+  ): quest
+
+  """
+  insert data into the table: "quest_skill"
+  """
+  insert_quest_skill(
+    """the rows to be inserted"""
+    objects: [quest_skill_insert_input!]!
+
+    """on conflict condition"""
+    on_conflict: quest_skill_on_conflict
+  ): quest_skill_mutation_response
+
+  """
+  insert a single row into the table: "quest_skill"
+  """
+  insert_quest_skill_one(
+    """the row to be inserted"""
+    object: quest_skill_insert_input!
+
+    """on conflict condition"""
+    on_conflict: quest_skill_on_conflict
+  ): quest_skill
+
+  """
   insert data into the table: "skill"
   """
   insert_skill(
@@ -2137,6 +2386,66 @@ type mutation_root {
     _set: PlayerRank_set_input
     pk_columns: PlayerRank_pk_columns_input!
   ): PlayerRank
+
+  """
+  update data of the table: "QuestCompletionStatus"
+  """
+  update_QuestCompletionStatus(
+    """sets the columns of the filtered rows to the given values"""
+    _set: QuestCompletionStatus_set_input
+
+    """filter the rows which have to be updated"""
+    where: QuestCompletionStatus_bool_exp!
+  ): QuestCompletionStatus_mutation_response
+
+  """
+  update single row of the table: "QuestCompletionStatus"
+  """
+  update_QuestCompletionStatus_by_pk(
+    """sets the columns of the filtered rows to the given values"""
+    _set: QuestCompletionStatus_set_input
+    pk_columns: QuestCompletionStatus_pk_columns_input!
+  ): QuestCompletionStatus
+
+  """
+  update data of the table: "QuestRepetition"
+  """
+  update_QuestRepetition(
+    """sets the columns of the filtered rows to the given values"""
+    _set: QuestRepetition_set_input
+
+    """filter the rows which have to be updated"""
+    where: QuestRepetition_bool_exp!
+  ): QuestRepetition_mutation_response
+
+  """
+  update single row of the table: "QuestRepetition"
+  """
+  update_QuestRepetition_by_pk(
+    """sets the columns of the filtered rows to the given values"""
+    _set: QuestRepetition_set_input
+    pk_columns: QuestRepetition_pk_columns_input!
+  ): QuestRepetition
+
+  """
+  update data of the table: "QuestStatus"
+  """
+  update_QuestStatus(
+    """sets the columns of the filtered rows to the given values"""
+    _set: QuestStatus_set_input
+
+    """filter the rows which have to be updated"""
+    where: QuestStatus_bool_exp!
+  ): QuestStatus_mutation_response
+
+  """
+  update single row of the table: "QuestStatus"
+  """
+  update_QuestStatus_by_pk(
+    """sets the columns of the filtered rows to the given values"""
+    _set: QuestStatus_set_input
+    pk_columns: QuestStatus_pk_columns_input!
+  ): QuestStatus
 
   """
   update data of the table: "SkillCategory"
@@ -2311,6 +2620,72 @@ type mutation_root {
     _set: player_type_set_input
     pk_columns: player_type_pk_columns_input!
   ): player_type
+
+  """
+  update data of the table: "quest"
+  """
+  update_quest(
+    """increments the integer columns with given value of the filtered values"""
+    _inc: quest_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: quest_set_input
+
+    """filter the rows which have to be updated"""
+    where: quest_bool_exp!
+  ): quest_mutation_response
+
+  """
+  update single row of the table: "quest"
+  """
+  update_quest_by_pk(
+    """increments the integer columns with given value of the filtered values"""
+    _inc: quest_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: quest_set_input
+    pk_columns: quest_pk_columns_input!
+  ): quest
+
+  """
+  update data of the table: "quest_completion"
+  """
+  update_quest_completion(
+    """sets the columns of the filtered rows to the given values"""
+    _set: quest_completion_set_input
+
+    """filter the rows which have to be updated"""
+    where: quest_completion_bool_exp!
+  ): quest_completion_mutation_response
+
+  """
+  update single row of the table: "quest_completion"
+  """
+  update_quest_completion_by_pk(
+    """sets the columns of the filtered rows to the given values"""
+    _set: quest_completion_set_input
+    pk_columns: quest_completion_pk_columns_input!
+  ): quest_completion
+
+  """
+  update data of the table: "quest_skill"
+  """
+  update_quest_skill(
+    """sets the columns of the filtered rows to the given values"""
+    _set: quest_skill_set_input
+
+    """filter the rows which have to be updated"""
+    where: quest_skill_bool_exp!
+  ): quest_skill_mutation_response
+
+  """
+  update single row of the table: "quest_skill"
+  """
+  update_quest_skill_by_pk(
+    """sets the columns of the filtered rows to the given values"""
+    _set: quest_skill_set_input
+    pk_columns: quest_skill_pk_columns_input!
+  ): quest_skill
 
   """
   update data of the table: "skill"
@@ -2500,6 +2875,78 @@ type player {
   """An object relationship"""
   playerType: player_type
   player_type_id: Int
+
+  """An array relationship"""
+  quest_completions(
+    """distinct select on columns"""
+    distinct_on: [quest_completion_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [quest_completion_order_by!]
+
+    """filter the rows returned"""
+    where: quest_completion_bool_exp
+  ): [quest_completion!]!
+
+  """An aggregated array relationship"""
+  quest_completions_aggregate(
+    """distinct select on columns"""
+    distinct_on: [quest_completion_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [quest_completion_order_by!]
+
+    """filter the rows returned"""
+    where: quest_completion_bool_exp
+  ): quest_completion_aggregate!
+
+  """An array relationship"""
+  quests(
+    """distinct select on columns"""
+    distinct_on: [quest_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [quest_order_by!]
+
+    """filter the rows returned"""
+    where: quest_bool_exp
+  ): [quest!]!
+
+  """An aggregated array relationship"""
+  quests_aggregate(
+    """distinct select on columns"""
+    distinct_on: [quest_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [quest_order_by!]
+
+    """filter the rows returned"""
+    where: quest_bool_exp
+  ): quest_aggregate!
   rank: PlayerRank_enum
   role: String
   sc_identity_id: String
@@ -2772,6 +3219,8 @@ input player_bool_exp {
   id: uuid_comparison_exp
   playerType: player_type_bool_exp
   player_type_id: Int_comparison_exp
+  quest_completions: quest_completion_bool_exp
+  quests: quest_bool_exp
   rank: PlayerRank_enum_comparison_exp
   role: String_comparison_exp
   sc_identity_id: String_comparison_exp
@@ -2822,6 +3271,8 @@ input player_insert_input {
   id: uuid
   playerType: player_type_obj_rel_insert_input
   player_type_id: Int
+  quest_completions: quest_completion_arr_rel_insert_input
+  quests: quest_arr_rel_insert_input
   rank: PlayerRank_enum
   role: String
   sc_identity_id: String
@@ -2938,6 +3389,8 @@ input player_order_by {
   id: order_by
   playerType: player_type_order_by
   player_type_id: order_by
+  quest_completions_aggregate: quest_completion_aggregate_order_by
+  quests_aggregate: quest_aggregate_order_by
   rank: order_by
   role: order_by
   sc_identity_id: order_by
@@ -4025,6 +4478,137 @@ type query_root {
   PlayerRank_by_pk(rank: String!): PlayerRank
 
   """
+  fetch data from the table: "QuestCompletionStatus"
+  """
+  QuestCompletionStatus(
+    """distinct select on columns"""
+    distinct_on: [QuestCompletionStatus_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [QuestCompletionStatus_order_by!]
+
+    """filter the rows returned"""
+    where: QuestCompletionStatus_bool_exp
+  ): [QuestCompletionStatus!]!
+
+  """
+  fetch aggregated fields from the table: "QuestCompletionStatus"
+  """
+  QuestCompletionStatus_aggregate(
+    """distinct select on columns"""
+    distinct_on: [QuestCompletionStatus_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [QuestCompletionStatus_order_by!]
+
+    """filter the rows returned"""
+    where: QuestCompletionStatus_bool_exp
+  ): QuestCompletionStatus_aggregate!
+
+  """
+  fetch data from the table: "QuestCompletionStatus" using primary key columns
+  """
+  QuestCompletionStatus_by_pk(status: String!): QuestCompletionStatus
+
+  """
+  fetch data from the table: "QuestRepetition"
+  """
+  QuestRepetition(
+    """distinct select on columns"""
+    distinct_on: [QuestRepetition_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [QuestRepetition_order_by!]
+
+    """filter the rows returned"""
+    where: QuestRepetition_bool_exp
+  ): [QuestRepetition!]!
+
+  """
+  fetch aggregated fields from the table: "QuestRepetition"
+  """
+  QuestRepetition_aggregate(
+    """distinct select on columns"""
+    distinct_on: [QuestRepetition_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [QuestRepetition_order_by!]
+
+    """filter the rows returned"""
+    where: QuestRepetition_bool_exp
+  ): QuestRepetition_aggregate!
+
+  """fetch data from the table: "QuestRepetition" using primary key columns"""
+  QuestRepetition_by_pk(repetition: String!): QuestRepetition
+
+  """
+  fetch data from the table: "QuestStatus"
+  """
+  QuestStatus(
+    """distinct select on columns"""
+    distinct_on: [QuestStatus_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [QuestStatus_order_by!]
+
+    """filter the rows returned"""
+    where: QuestStatus_bool_exp
+  ): [QuestStatus!]!
+
+  """
+  fetch aggregated fields from the table: "QuestStatus"
+  """
+  QuestStatus_aggregate(
+    """distinct select on columns"""
+    distinct_on: [QuestStatus_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [QuestStatus_order_by!]
+
+    """filter the rows returned"""
+    where: QuestStatus_bool_exp
+  ): QuestStatus_aggregate!
+
+  """fetch data from the table: "QuestStatus" using primary key columns"""
+  QuestStatus_by_pk(status: String!): QuestStatus
+
+  """
   fetch data from the table: "SkillCategory"
   """
   SkillCategory(
@@ -4408,6 +4992,137 @@ type query_root {
   player_type_by_pk(id: Int!): player_type
 
   """
+  fetch data from the table: "quest"
+  """
+  quest(
+    """distinct select on columns"""
+    distinct_on: [quest_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [quest_order_by!]
+
+    """filter the rows returned"""
+    where: quest_bool_exp
+  ): [quest!]!
+
+  """
+  fetch aggregated fields from the table: "quest"
+  """
+  quest_aggregate(
+    """distinct select on columns"""
+    distinct_on: [quest_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [quest_order_by!]
+
+    """filter the rows returned"""
+    where: quest_bool_exp
+  ): quest_aggregate!
+
+  """fetch data from the table: "quest" using primary key columns"""
+  quest_by_pk(id: uuid!): quest
+
+  """
+  fetch data from the table: "quest_completion"
+  """
+  quest_completion(
+    """distinct select on columns"""
+    distinct_on: [quest_completion_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [quest_completion_order_by!]
+
+    """filter the rows returned"""
+    where: quest_completion_bool_exp
+  ): [quest_completion!]!
+
+  """
+  fetch aggregated fields from the table: "quest_completion"
+  """
+  quest_completion_aggregate(
+    """distinct select on columns"""
+    distinct_on: [quest_completion_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [quest_completion_order_by!]
+
+    """filter the rows returned"""
+    where: quest_completion_bool_exp
+  ): quest_completion_aggregate!
+
+  """
+  fetch data from the table: "quest_completion" using primary key columns
+  """
+  quest_completion_by_pk(id: uuid!): quest_completion
+
+  """
+  fetch data from the table: "quest_skill"
+  """
+  quest_skill(
+    """distinct select on columns"""
+    distinct_on: [quest_skill_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [quest_skill_order_by!]
+
+    """filter the rows returned"""
+    where: quest_skill_bool_exp
+  ): [quest_skill!]!
+
+  """
+  fetch aggregated fields from the table: "quest_skill"
+  """
+  quest_skill_aggregate(
+    """distinct select on columns"""
+    distinct_on: [quest_skill_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [quest_skill_order_by!]
+
+    """filter the rows returned"""
+    where: quest_skill_bool_exp
+  ): quest_skill_aggregate!
+
+  """fetch data from the table: "quest_skill" using primary key columns"""
+  quest_skill_by_pk(quest_id: uuid!, skill_id: uuid!): quest_skill
+
+  """
   fetch data from the table: "skill"
   """
   skill(
@@ -4452,6 +5167,1577 @@ type query_root {
 }
 
 """
+columns and relationships of "quest"
+"""
+type quest {
+  """An object relationship"""
+  QuestRepetition: QuestRepetition!
+
+  """An object relationship"""
+  QuestStatus: QuestStatus!
+  cooldown: Int
+  created_at: timestamptz!
+  created_by_player_id: uuid!
+  description: String
+  external_link: String
+
+  """An object relationship"""
+  guild: guild!
+  guild_id: uuid!
+  id: uuid!
+
+  """An object relationship"""
+  player: player!
+
+  """An array relationship"""
+  quest_completions(
+    """distinct select on columns"""
+    distinct_on: [quest_completion_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [quest_completion_order_by!]
+
+    """filter the rows returned"""
+    where: quest_completion_bool_exp
+  ): [quest_completion!]!
+
+  """An aggregated array relationship"""
+  quest_completions_aggregate(
+    """distinct select on columns"""
+    distinct_on: [quest_completion_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [quest_completion_order_by!]
+
+    """filter the rows returned"""
+    where: quest_completion_bool_exp
+  ): quest_completion_aggregate!
+
+  """An array relationship"""
+  quest_skills(
+    """distinct select on columns"""
+    distinct_on: [quest_skill_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [quest_skill_order_by!]
+
+    """filter the rows returned"""
+    where: quest_skill_bool_exp
+  ): [quest_skill!]!
+
+  """An aggregated array relationship"""
+  quest_skills_aggregate(
+    """distinct select on columns"""
+    distinct_on: [quest_skill_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [quest_skill_order_by!]
+
+    """filter the rows returned"""
+    where: quest_skill_bool_exp
+  ): quest_skill_aggregate!
+  repetition: QuestRepetition_enum!
+  status: QuestStatus_enum!
+  title: String!
+}
+
+"""
+aggregated selection of "quest"
+"""
+type quest_aggregate {
+  aggregate: quest_aggregate_fields
+  nodes: [quest!]!
+}
+
+"""
+aggregate fields of "quest"
+"""
+type quest_aggregate_fields {
+  avg: quest_avg_fields
+  count(columns: [quest_select_column!], distinct: Boolean): Int
+  max: quest_max_fields
+  min: quest_min_fields
+  stddev: quest_stddev_fields
+  stddev_pop: quest_stddev_pop_fields
+  stddev_samp: quest_stddev_samp_fields
+  sum: quest_sum_fields
+  var_pop: quest_var_pop_fields
+  var_samp: quest_var_samp_fields
+  variance: quest_variance_fields
+}
+
+"""
+order by aggregate values of table "quest"
+"""
+input quest_aggregate_order_by {
+  avg: quest_avg_order_by
+  count: order_by
+  max: quest_max_order_by
+  min: quest_min_order_by
+  stddev: quest_stddev_order_by
+  stddev_pop: quest_stddev_pop_order_by
+  stddev_samp: quest_stddev_samp_order_by
+  sum: quest_sum_order_by
+  var_pop: quest_var_pop_order_by
+  var_samp: quest_var_samp_order_by
+  variance: quest_variance_order_by
+}
+
+"""
+input type for inserting array relation for remote table "quest"
+"""
+input quest_arr_rel_insert_input {
+  data: [quest_insert_input!]!
+  on_conflict: quest_on_conflict
+}
+
+"""aggregate avg on columns"""
+type quest_avg_fields {
+  cooldown: Float
+}
+
+"""
+order by avg() on columns of table "quest"
+"""
+input quest_avg_order_by {
+  cooldown: order_by
+}
+
+"""
+Boolean expression to filter rows from the table "quest". All fields are combined with a logical 'AND'.
+"""
+input quest_bool_exp {
+  QuestRepetition: QuestRepetition_bool_exp
+  QuestStatus: QuestStatus_bool_exp
+  _and: [quest_bool_exp]
+  _not: quest_bool_exp
+  _or: [quest_bool_exp]
+  cooldown: Int_comparison_exp
+  created_at: timestamptz_comparison_exp
+  created_by_player_id: uuid_comparison_exp
+  description: String_comparison_exp
+  external_link: String_comparison_exp
+  guild: guild_bool_exp
+  guild_id: uuid_comparison_exp
+  id: uuid_comparison_exp
+  player: player_bool_exp
+  quest_completions: quest_completion_bool_exp
+  quest_skills: quest_skill_bool_exp
+  repetition: QuestRepetition_enum_comparison_exp
+  status: QuestStatus_enum_comparison_exp
+  title: String_comparison_exp
+}
+
+"""
+columns and relationships of "quest_completion"
+"""
+type quest_completion {
+  """An object relationship"""
+  QuestCompletionStatus: QuestCompletionStatus!
+  completed_by_player_id: uuid!
+  id: uuid!
+
+  """An object relationship"""
+  player: player!
+
+  """An object relationship"""
+  quest: quest!
+  quest_id: uuid!
+  status: QuestCompletionStatus_enum!
+  submission_link: String
+  submission_text: String
+  submitted_at: timestamptz!
+}
+
+"""
+aggregated selection of "quest_completion"
+"""
+type quest_completion_aggregate {
+  aggregate: quest_completion_aggregate_fields
+  nodes: [quest_completion!]!
+}
+
+"""
+aggregate fields of "quest_completion"
+"""
+type quest_completion_aggregate_fields {
+  count(columns: [quest_completion_select_column!], distinct: Boolean): Int
+  max: quest_completion_max_fields
+  min: quest_completion_min_fields
+}
+
+"""
+order by aggregate values of table "quest_completion"
+"""
+input quest_completion_aggregate_order_by {
+  count: order_by
+  max: quest_completion_max_order_by
+  min: quest_completion_min_order_by
+}
+
+"""
+input type for inserting array relation for remote table "quest_completion"
+"""
+input quest_completion_arr_rel_insert_input {
+  data: [quest_completion_insert_input!]!
+  on_conflict: quest_completion_on_conflict
+}
+
+"""
+Boolean expression to filter rows from the table "quest_completion". All fields are combined with a logical 'AND'.
+"""
+input quest_completion_bool_exp {
+  QuestCompletionStatus: QuestCompletionStatus_bool_exp
+  _and: [quest_completion_bool_exp]
+  _not: quest_completion_bool_exp
+  _or: [quest_completion_bool_exp]
+  completed_by_player_id: uuid_comparison_exp
+  id: uuid_comparison_exp
+  player: player_bool_exp
+  quest: quest_bool_exp
+  quest_id: uuid_comparison_exp
+  status: QuestCompletionStatus_enum_comparison_exp
+  submission_link: String_comparison_exp
+  submission_text: String_comparison_exp
+  submitted_at: timestamptz_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "quest_completion"
+"""
+enum quest_completion_constraint {
+  """unique or primary key constraint"""
+  quest_completion_pkey
+}
+
+"""
+input type for inserting data into table "quest_completion"
+"""
+input quest_completion_insert_input {
+  QuestCompletionStatus: QuestCompletionStatus_obj_rel_insert_input
+  completed_by_player_id: uuid
+  id: uuid
+  player: player_obj_rel_insert_input
+  quest: quest_obj_rel_insert_input
+  quest_id: uuid
+  status: QuestCompletionStatus_enum
+  submission_link: String
+  submission_text: String
+  submitted_at: timestamptz
+}
+
+"""aggregate max on columns"""
+type quest_completion_max_fields {
+  completed_by_player_id: uuid
+  id: uuid
+  quest_id: uuid
+  submission_link: String
+  submission_text: String
+  submitted_at: timestamptz
+}
+
+"""
+order by max() on columns of table "quest_completion"
+"""
+input quest_completion_max_order_by {
+  completed_by_player_id: order_by
+  id: order_by
+  quest_id: order_by
+  submission_link: order_by
+  submission_text: order_by
+  submitted_at: order_by
+}
+
+"""aggregate min on columns"""
+type quest_completion_min_fields {
+  completed_by_player_id: uuid
+  id: uuid
+  quest_id: uuid
+  submission_link: String
+  submission_text: String
+  submitted_at: timestamptz
+}
+
+"""
+order by min() on columns of table "quest_completion"
+"""
+input quest_completion_min_order_by {
+  completed_by_player_id: order_by
+  id: order_by
+  quest_id: order_by
+  submission_link: order_by
+  submission_text: order_by
+  submitted_at: order_by
+}
+
+"""
+response of any mutation on the table "quest_completion"
+"""
+type quest_completion_mutation_response {
+  """number of affected rows by the mutation"""
+  affected_rows: Int!
+
+  """data of the affected rows by the mutation"""
+  returning: [quest_completion!]!
+}
+
+"""
+input type for inserting object relation for remote table "quest_completion"
+"""
+input quest_completion_obj_rel_insert_input {
+  data: quest_completion_insert_input!
+  on_conflict: quest_completion_on_conflict
+}
+
+"""
+on conflict condition type for table "quest_completion"
+"""
+input quest_completion_on_conflict {
+  constraint: quest_completion_constraint!
+  update_columns: [quest_completion_update_column!]!
+  where: quest_completion_bool_exp
+}
+
+"""
+ordering options when selecting data from "quest_completion"
+"""
+input quest_completion_order_by {
+  QuestCompletionStatus: QuestCompletionStatus_order_by
+  completed_by_player_id: order_by
+  id: order_by
+  player: player_order_by
+  quest: quest_order_by
+  quest_id: order_by
+  status: order_by
+  submission_link: order_by
+  submission_text: order_by
+  submitted_at: order_by
+}
+
+"""
+primary key columns input for table: "quest_completion"
+"""
+input quest_completion_pk_columns_input {
+  id: uuid!
+}
+
+"""
+select columns of table "quest_completion"
+"""
+enum quest_completion_select_column {
+  """column name"""
+  completed_by_player_id
+
+  """column name"""
+  id
+
+  """column name"""
+  quest_id
+
+  """column name"""
+  status
+
+  """column name"""
+  submission_link
+
+  """column name"""
+  submission_text
+
+  """column name"""
+  submitted_at
+}
+
+"""
+input type for updating data in table "quest_completion"
+"""
+input quest_completion_set_input {
+  completed_by_player_id: uuid
+  id: uuid
+  quest_id: uuid
+  status: QuestCompletionStatus_enum
+  submission_link: String
+  submission_text: String
+  submitted_at: timestamptz
+}
+
+"""
+update columns of table "quest_completion"
+"""
+enum quest_completion_update_column {
+  """column name"""
+  completed_by_player_id
+
+  """column name"""
+  id
+
+  """column name"""
+  quest_id
+
+  """column name"""
+  status
+
+  """column name"""
+  submission_link
+
+  """column name"""
+  submission_text
+
+  """column name"""
+  submitted_at
+}
+
+"""
+unique or primary key constraints on table "quest"
+"""
+enum quest_constraint {
+  """unique or primary key constraint"""
+  quest_pkey
+}
+
+"""
+input type for incrementing integer column in table "quest"
+"""
+input quest_inc_input {
+  cooldown: Int
+}
+
+"""
+input type for inserting data into table "quest"
+"""
+input quest_insert_input {
+  QuestRepetition: QuestRepetition_obj_rel_insert_input
+  QuestStatus: QuestStatus_obj_rel_insert_input
+  cooldown: Int
+  created_at: timestamptz
+  created_by_player_id: uuid
+  description: String
+  external_link: String
+  guild: guild_obj_rel_insert_input
+  guild_id: uuid
+  id: uuid
+  player: player_obj_rel_insert_input
+  quest_completions: quest_completion_arr_rel_insert_input
+  quest_skills: quest_skill_arr_rel_insert_input
+  repetition: QuestRepetition_enum
+  status: QuestStatus_enum
+  title: String
+}
+
+"""aggregate max on columns"""
+type quest_max_fields {
+  cooldown: Int
+  created_at: timestamptz
+  created_by_player_id: uuid
+  description: String
+  external_link: String
+  guild_id: uuid
+  id: uuid
+  title: String
+}
+
+"""
+order by max() on columns of table "quest"
+"""
+input quest_max_order_by {
+  cooldown: order_by
+  created_at: order_by
+  created_by_player_id: order_by
+  description: order_by
+  external_link: order_by
+  guild_id: order_by
+  id: order_by
+  title: order_by
+}
+
+"""aggregate min on columns"""
+type quest_min_fields {
+  cooldown: Int
+  created_at: timestamptz
+  created_by_player_id: uuid
+  description: String
+  external_link: String
+  guild_id: uuid
+  id: uuid
+  title: String
+}
+
+"""
+order by min() on columns of table "quest"
+"""
+input quest_min_order_by {
+  cooldown: order_by
+  created_at: order_by
+  created_by_player_id: order_by
+  description: order_by
+  external_link: order_by
+  guild_id: order_by
+  id: order_by
+  title: order_by
+}
+
+"""
+response of any mutation on the table "quest"
+"""
+type quest_mutation_response {
+  """number of affected rows by the mutation"""
+  affected_rows: Int!
+
+  """data of the affected rows by the mutation"""
+  returning: [quest!]!
+}
+
+"""
+input type for inserting object relation for remote table "quest"
+"""
+input quest_obj_rel_insert_input {
+  data: quest_insert_input!
+  on_conflict: quest_on_conflict
+}
+
+"""
+on conflict condition type for table "quest"
+"""
+input quest_on_conflict {
+  constraint: quest_constraint!
+  update_columns: [quest_update_column!]!
+  where: quest_bool_exp
+}
+
+"""
+ordering options when selecting data from "quest"
+"""
+input quest_order_by {
+  QuestRepetition: QuestRepetition_order_by
+  QuestStatus: QuestStatus_order_by
+  cooldown: order_by
+  created_at: order_by
+  created_by_player_id: order_by
+  description: order_by
+  external_link: order_by
+  guild: guild_order_by
+  guild_id: order_by
+  id: order_by
+  player: player_order_by
+  quest_completions_aggregate: quest_completion_aggregate_order_by
+  quest_skills_aggregate: quest_skill_aggregate_order_by
+  repetition: order_by
+  status: order_by
+  title: order_by
+}
+
+"""
+primary key columns input for table: "quest"
+"""
+input quest_pk_columns_input {
+  id: uuid!
+}
+
+"""
+select columns of table "quest"
+"""
+enum quest_select_column {
+  """column name"""
+  cooldown
+
+  """column name"""
+  created_at
+
+  """column name"""
+  created_by_player_id
+
+  """column name"""
+  description
+
+  """column name"""
+  external_link
+
+  """column name"""
+  guild_id
+
+  """column name"""
+  id
+
+  """column name"""
+  repetition
+
+  """column name"""
+  status
+
+  """column name"""
+  title
+}
+
+"""
+input type for updating data in table "quest"
+"""
+input quest_set_input {
+  cooldown: Int
+  created_at: timestamptz
+  created_by_player_id: uuid
+  description: String
+  external_link: String
+  guild_id: uuid
+  id: uuid
+  repetition: QuestRepetition_enum
+  status: QuestStatus_enum
+  title: String
+}
+
+"""
+columns and relationships of "quest_skill"
+"""
+type quest_skill {
+  """An object relationship"""
+  quest: quest!
+  quest_id: uuid!
+
+  """An object relationship"""
+  skill: skill!
+  skill_id: uuid!
+}
+
+"""
+aggregated selection of "quest_skill"
+"""
+type quest_skill_aggregate {
+  aggregate: quest_skill_aggregate_fields
+  nodes: [quest_skill!]!
+}
+
+"""
+aggregate fields of "quest_skill"
+"""
+type quest_skill_aggregate_fields {
+  count(columns: [quest_skill_select_column!], distinct: Boolean): Int
+  max: quest_skill_max_fields
+  min: quest_skill_min_fields
+}
+
+"""
+order by aggregate values of table "quest_skill"
+"""
+input quest_skill_aggregate_order_by {
+  count: order_by
+  max: quest_skill_max_order_by
+  min: quest_skill_min_order_by
+}
+
+"""
+input type for inserting array relation for remote table "quest_skill"
+"""
+input quest_skill_arr_rel_insert_input {
+  data: [quest_skill_insert_input!]!
+  on_conflict: quest_skill_on_conflict
+}
+
+"""
+Boolean expression to filter rows from the table "quest_skill". All fields are combined with a logical 'AND'.
+"""
+input quest_skill_bool_exp {
+  _and: [quest_skill_bool_exp]
+  _not: quest_skill_bool_exp
+  _or: [quest_skill_bool_exp]
+  quest: quest_bool_exp
+  quest_id: uuid_comparison_exp
+  skill: skill_bool_exp
+  skill_id: uuid_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "quest_skill"
+"""
+enum quest_skill_constraint {
+  """unique or primary key constraint"""
+  quest_skill_pkey
+}
+
+"""
+input type for inserting data into table "quest_skill"
+"""
+input quest_skill_insert_input {
+  quest: quest_obj_rel_insert_input
+  quest_id: uuid
+  skill: skill_obj_rel_insert_input
+  skill_id: uuid
+}
+
+"""aggregate max on columns"""
+type quest_skill_max_fields {
+  quest_id: uuid
+  skill_id: uuid
+}
+
+"""
+order by max() on columns of table "quest_skill"
+"""
+input quest_skill_max_order_by {
+  quest_id: order_by
+  skill_id: order_by
+}
+
+"""aggregate min on columns"""
+type quest_skill_min_fields {
+  quest_id: uuid
+  skill_id: uuid
+}
+
+"""
+order by min() on columns of table "quest_skill"
+"""
+input quest_skill_min_order_by {
+  quest_id: order_by
+  skill_id: order_by
+}
+
+"""
+response of any mutation on the table "quest_skill"
+"""
+type quest_skill_mutation_response {
+  """number of affected rows by the mutation"""
+  affected_rows: Int!
+
+  """data of the affected rows by the mutation"""
+  returning: [quest_skill!]!
+}
+
+"""
+input type for inserting object relation for remote table "quest_skill"
+"""
+input quest_skill_obj_rel_insert_input {
+  data: quest_skill_insert_input!
+  on_conflict: quest_skill_on_conflict
+}
+
+"""
+on conflict condition type for table "quest_skill"
+"""
+input quest_skill_on_conflict {
+  constraint: quest_skill_constraint!
+  update_columns: [quest_skill_update_column!]!
+  where: quest_skill_bool_exp
+}
+
+"""
+ordering options when selecting data from "quest_skill"
+"""
+input quest_skill_order_by {
+  quest: quest_order_by
+  quest_id: order_by
+  skill: skill_order_by
+  skill_id: order_by
+}
+
+"""
+primary key columns input for table: "quest_skill"
+"""
+input quest_skill_pk_columns_input {
+  quest_id: uuid!
+  skill_id: uuid!
+}
+
+"""
+select columns of table "quest_skill"
+"""
+enum quest_skill_select_column {
+  """column name"""
+  quest_id
+
+  """column name"""
+  skill_id
+}
+
+"""
+input type for updating data in table "quest_skill"
+"""
+input quest_skill_set_input {
+  quest_id: uuid
+  skill_id: uuid
+}
+
+"""
+update columns of table "quest_skill"
+"""
+enum quest_skill_update_column {
+  """column name"""
+  quest_id
+
+  """column name"""
+  skill_id
+}
+
+"""aggregate stddev on columns"""
+type quest_stddev_fields {
+  cooldown: Float
+}
+
+"""
+order by stddev() on columns of table "quest"
+"""
+input quest_stddev_order_by {
+  cooldown: order_by
+}
+
+"""aggregate stddev_pop on columns"""
+type quest_stddev_pop_fields {
+  cooldown: Float
+}
+
+"""
+order by stddev_pop() on columns of table "quest"
+"""
+input quest_stddev_pop_order_by {
+  cooldown: order_by
+}
+
+"""aggregate stddev_samp on columns"""
+type quest_stddev_samp_fields {
+  cooldown: Float
+}
+
+"""
+order by stddev_samp() on columns of table "quest"
+"""
+input quest_stddev_samp_order_by {
+  cooldown: order_by
+}
+
+"""aggregate sum on columns"""
+type quest_sum_fields {
+  cooldown: Int
+}
+
+"""
+order by sum() on columns of table "quest"
+"""
+input quest_sum_order_by {
+  cooldown: order_by
+}
+
+"""
+update columns of table "quest"
+"""
+enum quest_update_column {
+  """column name"""
+  cooldown
+
+  """column name"""
+  created_at
+
+  """column name"""
+  created_by_player_id
+
+  """column name"""
+  description
+
+  """column name"""
+  external_link
+
+  """column name"""
+  guild_id
+
+  """column name"""
+  id
+
+  """column name"""
+  repetition
+
+  """column name"""
+  status
+
+  """column name"""
+  title
+}
+
+"""aggregate var_pop on columns"""
+type quest_var_pop_fields {
+  cooldown: Float
+}
+
+"""
+order by var_pop() on columns of table "quest"
+"""
+input quest_var_pop_order_by {
+  cooldown: order_by
+}
+
+"""aggregate var_samp on columns"""
+type quest_var_samp_fields {
+  cooldown: Float
+}
+
+"""
+order by var_samp() on columns of table "quest"
+"""
+input quest_var_samp_order_by {
+  cooldown: order_by
+}
+
+"""aggregate variance on columns"""
+type quest_variance_fields {
+  cooldown: Float
+}
+
+"""
+order by variance() on columns of table "quest"
+"""
+input quest_variance_order_by {
+  cooldown: order_by
+}
+
+"""
+columns and relationships of "QuestCompletionStatus"
+"""
+type QuestCompletionStatus {
+  """An array relationship"""
+  quest_completions(
+    """distinct select on columns"""
+    distinct_on: [quest_completion_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [quest_completion_order_by!]
+
+    """filter the rows returned"""
+    where: quest_completion_bool_exp
+  ): [quest_completion!]!
+
+  """An aggregated array relationship"""
+  quest_completions_aggregate(
+    """distinct select on columns"""
+    distinct_on: [quest_completion_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [quest_completion_order_by!]
+
+    """filter the rows returned"""
+    where: quest_completion_bool_exp
+  ): quest_completion_aggregate!
+  status: String!
+}
+
+"""
+aggregated selection of "QuestCompletionStatus"
+"""
+type QuestCompletionStatus_aggregate {
+  aggregate: QuestCompletionStatus_aggregate_fields
+  nodes: [QuestCompletionStatus!]!
+}
+
+"""
+aggregate fields of "QuestCompletionStatus"
+"""
+type QuestCompletionStatus_aggregate_fields {
+  count(columns: [QuestCompletionStatus_select_column!], distinct: Boolean): Int
+  max: QuestCompletionStatus_max_fields
+  min: QuestCompletionStatus_min_fields
+}
+
+"""
+order by aggregate values of table "QuestCompletionStatus"
+"""
+input QuestCompletionStatus_aggregate_order_by {
+  count: order_by
+  max: QuestCompletionStatus_max_order_by
+  min: QuestCompletionStatus_min_order_by
+}
+
+"""
+input type for inserting array relation for remote table "QuestCompletionStatus"
+"""
+input QuestCompletionStatus_arr_rel_insert_input {
+  data: [QuestCompletionStatus_insert_input!]!
+  on_conflict: QuestCompletionStatus_on_conflict
+}
+
+"""
+Boolean expression to filter rows from the table "QuestCompletionStatus". All fields are combined with a logical 'AND'.
+"""
+input QuestCompletionStatus_bool_exp {
+  _and: [QuestCompletionStatus_bool_exp]
+  _not: QuestCompletionStatus_bool_exp
+  _or: [QuestCompletionStatus_bool_exp]
+  quest_completions: quest_completion_bool_exp
+  status: String_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "QuestCompletionStatus"
+"""
+enum QuestCompletionStatus_constraint {
+  """unique or primary key constraint"""
+  QuestCompletionStatus_pkey
+}
+
+enum QuestCompletionStatus_enum {
+  ACCEPTED
+  PENDING
+  REJECTED
+}
+
+"""
+expression to compare columns of type QuestCompletionStatus_enum. All fields are combined with logical 'AND'.
+"""
+input QuestCompletionStatus_enum_comparison_exp {
+  _eq: QuestCompletionStatus_enum
+  _in: [QuestCompletionStatus_enum!]
+  _is_null: Boolean
+  _neq: QuestCompletionStatus_enum
+  _nin: [QuestCompletionStatus_enum!]
+}
+
+"""
+input type for inserting data into table "QuestCompletionStatus"
+"""
+input QuestCompletionStatus_insert_input {
+  quest_completions: quest_completion_arr_rel_insert_input
+  status: String
+}
+
+"""aggregate max on columns"""
+type QuestCompletionStatus_max_fields {
+  status: String
+}
+
+"""
+order by max() on columns of table "QuestCompletionStatus"
+"""
+input QuestCompletionStatus_max_order_by {
+  status: order_by
+}
+
+"""aggregate min on columns"""
+type QuestCompletionStatus_min_fields {
+  status: String
+}
+
+"""
+order by min() on columns of table "QuestCompletionStatus"
+"""
+input QuestCompletionStatus_min_order_by {
+  status: order_by
+}
+
+"""
+response of any mutation on the table "QuestCompletionStatus"
+"""
+type QuestCompletionStatus_mutation_response {
+  """number of affected rows by the mutation"""
+  affected_rows: Int!
+
+  """data of the affected rows by the mutation"""
+  returning: [QuestCompletionStatus!]!
+}
+
+"""
+input type for inserting object relation for remote table "QuestCompletionStatus"
+"""
+input QuestCompletionStatus_obj_rel_insert_input {
+  data: QuestCompletionStatus_insert_input!
+  on_conflict: QuestCompletionStatus_on_conflict
+}
+
+"""
+on conflict condition type for table "QuestCompletionStatus"
+"""
+input QuestCompletionStatus_on_conflict {
+  constraint: QuestCompletionStatus_constraint!
+  update_columns: [QuestCompletionStatus_update_column!]!
+  where: QuestCompletionStatus_bool_exp
+}
+
+"""
+ordering options when selecting data from "QuestCompletionStatus"
+"""
+input QuestCompletionStatus_order_by {
+  quest_completions_aggregate: quest_completion_aggregate_order_by
+  status: order_by
+}
+
+"""
+primary key columns input for table: "QuestCompletionStatus"
+"""
+input QuestCompletionStatus_pk_columns_input {
+  status: String!
+}
+
+"""
+select columns of table "QuestCompletionStatus"
+"""
+enum QuestCompletionStatus_select_column {
+  """column name"""
+  status
+}
+
+"""
+input type for updating data in table "QuestCompletionStatus"
+"""
+input QuestCompletionStatus_set_input {
+  status: String
+}
+
+"""
+update columns of table "QuestCompletionStatus"
+"""
+enum QuestCompletionStatus_update_column {
+  """column name"""
+  status
+}
+
+"""
+columns and relationships of "QuestRepetition"
+"""
+type QuestRepetition {
+  """An array relationship"""
+  quests(
+    """distinct select on columns"""
+    distinct_on: [quest_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [quest_order_by!]
+
+    """filter the rows returned"""
+    where: quest_bool_exp
+  ): [quest!]!
+
+  """An aggregated array relationship"""
+  quests_aggregate(
+    """distinct select on columns"""
+    distinct_on: [quest_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [quest_order_by!]
+
+    """filter the rows returned"""
+    where: quest_bool_exp
+  ): quest_aggregate!
+  repetition: String!
+}
+
+"""
+aggregated selection of "QuestRepetition"
+"""
+type QuestRepetition_aggregate {
+  aggregate: QuestRepetition_aggregate_fields
+  nodes: [QuestRepetition!]!
+}
+
+"""
+aggregate fields of "QuestRepetition"
+"""
+type QuestRepetition_aggregate_fields {
+  count(columns: [QuestRepetition_select_column!], distinct: Boolean): Int
+  max: QuestRepetition_max_fields
+  min: QuestRepetition_min_fields
+}
+
+"""
+order by aggregate values of table "QuestRepetition"
+"""
+input QuestRepetition_aggregate_order_by {
+  count: order_by
+  max: QuestRepetition_max_order_by
+  min: QuestRepetition_min_order_by
+}
+
+"""
+input type for inserting array relation for remote table "QuestRepetition"
+"""
+input QuestRepetition_arr_rel_insert_input {
+  data: [QuestRepetition_insert_input!]!
+  on_conflict: QuestRepetition_on_conflict
+}
+
+"""
+Boolean expression to filter rows from the table "QuestRepetition". All fields are combined with a logical 'AND'.
+"""
+input QuestRepetition_bool_exp {
+  _and: [QuestRepetition_bool_exp]
+  _not: QuestRepetition_bool_exp
+  _or: [QuestRepetition_bool_exp]
+  quests: quest_bool_exp
+  repetition: String_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "QuestRepetition"
+"""
+enum QuestRepetition_constraint {
+  """unique or primary key constraint"""
+  QuestRepetition_pkey
+}
+
+enum QuestRepetition_enum {
+  PERSONAL
+  RECURRING
+  UNIQUE
+}
+
+"""
+expression to compare columns of type QuestRepetition_enum. All fields are combined with logical 'AND'.
+"""
+input QuestRepetition_enum_comparison_exp {
+  _eq: QuestRepetition_enum
+  _in: [QuestRepetition_enum!]
+  _is_null: Boolean
+  _neq: QuestRepetition_enum
+  _nin: [QuestRepetition_enum!]
+}
+
+"""
+input type for inserting data into table "QuestRepetition"
+"""
+input QuestRepetition_insert_input {
+  quests: quest_arr_rel_insert_input
+  repetition: String
+}
+
+"""aggregate max on columns"""
+type QuestRepetition_max_fields {
+  repetition: String
+}
+
+"""
+order by max() on columns of table "QuestRepetition"
+"""
+input QuestRepetition_max_order_by {
+  repetition: order_by
+}
+
+"""aggregate min on columns"""
+type QuestRepetition_min_fields {
+  repetition: String
+}
+
+"""
+order by min() on columns of table "QuestRepetition"
+"""
+input QuestRepetition_min_order_by {
+  repetition: order_by
+}
+
+"""
+response of any mutation on the table "QuestRepetition"
+"""
+type QuestRepetition_mutation_response {
+  """number of affected rows by the mutation"""
+  affected_rows: Int!
+
+  """data of the affected rows by the mutation"""
+  returning: [QuestRepetition!]!
+}
+
+"""
+input type for inserting object relation for remote table "QuestRepetition"
+"""
+input QuestRepetition_obj_rel_insert_input {
+  data: QuestRepetition_insert_input!
+  on_conflict: QuestRepetition_on_conflict
+}
+
+"""
+on conflict condition type for table "QuestRepetition"
+"""
+input QuestRepetition_on_conflict {
+  constraint: QuestRepetition_constraint!
+  update_columns: [QuestRepetition_update_column!]!
+  where: QuestRepetition_bool_exp
+}
+
+"""
+ordering options when selecting data from "QuestRepetition"
+"""
+input QuestRepetition_order_by {
+  quests_aggregate: quest_aggregate_order_by
+  repetition: order_by
+}
+
+"""
+primary key columns input for table: "QuestRepetition"
+"""
+input QuestRepetition_pk_columns_input {
+  repetition: String!
+}
+
+"""
+select columns of table "QuestRepetition"
+"""
+enum QuestRepetition_select_column {
+  """column name"""
+  repetition
+}
+
+"""
+input type for updating data in table "QuestRepetition"
+"""
+input QuestRepetition_set_input {
+  repetition: String
+}
+
+"""
+update columns of table "QuestRepetition"
+"""
+enum QuestRepetition_update_column {
+  """column name"""
+  repetition
+}
+
+"""
+columns and relationships of "QuestStatus"
+"""
+type QuestStatus {
+  """An array relationship"""
+  quests(
+    """distinct select on columns"""
+    distinct_on: [quest_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [quest_order_by!]
+
+    """filter the rows returned"""
+    where: quest_bool_exp
+  ): [quest!]!
+
+  """An aggregated array relationship"""
+  quests_aggregate(
+    """distinct select on columns"""
+    distinct_on: [quest_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [quest_order_by!]
+
+    """filter the rows returned"""
+    where: quest_bool_exp
+  ): quest_aggregate!
+  status: String!
+}
+
+"""
+aggregated selection of "QuestStatus"
+"""
+type QuestStatus_aggregate {
+  aggregate: QuestStatus_aggregate_fields
+  nodes: [QuestStatus!]!
+}
+
+"""
+aggregate fields of "QuestStatus"
+"""
+type QuestStatus_aggregate_fields {
+  count(columns: [QuestStatus_select_column!], distinct: Boolean): Int
+  max: QuestStatus_max_fields
+  min: QuestStatus_min_fields
+}
+
+"""
+order by aggregate values of table "QuestStatus"
+"""
+input QuestStatus_aggregate_order_by {
+  count: order_by
+  max: QuestStatus_max_order_by
+  min: QuestStatus_min_order_by
+}
+
+"""
+input type for inserting array relation for remote table "QuestStatus"
+"""
+input QuestStatus_arr_rel_insert_input {
+  data: [QuestStatus_insert_input!]!
+  on_conflict: QuestStatus_on_conflict
+}
+
+"""
+Boolean expression to filter rows from the table "QuestStatus". All fields are combined with a logical 'AND'.
+"""
+input QuestStatus_bool_exp {
+  _and: [QuestStatus_bool_exp]
+  _not: QuestStatus_bool_exp
+  _or: [QuestStatus_bool_exp]
+  quests: quest_bool_exp
+  status: String_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "QuestStatus"
+"""
+enum QuestStatus_constraint {
+  """unique or primary key constraint"""
+  QuestStatus_pkey
+}
+
+enum QuestStatus_enum {
+  CLOSED
+  OPEN
+}
+
+"""
+expression to compare columns of type QuestStatus_enum. All fields are combined with logical 'AND'.
+"""
+input QuestStatus_enum_comparison_exp {
+  _eq: QuestStatus_enum
+  _in: [QuestStatus_enum!]
+  _is_null: Boolean
+  _neq: QuestStatus_enum
+  _nin: [QuestStatus_enum!]
+}
+
+"""
+input type for inserting data into table "QuestStatus"
+"""
+input QuestStatus_insert_input {
+  quests: quest_arr_rel_insert_input
+  status: String
+}
+
+"""aggregate max on columns"""
+type QuestStatus_max_fields {
+  status: String
+}
+
+"""
+order by max() on columns of table "QuestStatus"
+"""
+input QuestStatus_max_order_by {
+  status: order_by
+}
+
+"""aggregate min on columns"""
+type QuestStatus_min_fields {
+  status: String
+}
+
+"""
+order by min() on columns of table "QuestStatus"
+"""
+input QuestStatus_min_order_by {
+  status: order_by
+}
+
+"""
+response of any mutation on the table "QuestStatus"
+"""
+type QuestStatus_mutation_response {
+  """number of affected rows by the mutation"""
+  affected_rows: Int!
+
+  """data of the affected rows by the mutation"""
+  returning: [QuestStatus!]!
+}
+
+"""
+input type for inserting object relation for remote table "QuestStatus"
+"""
+input QuestStatus_obj_rel_insert_input {
+  data: QuestStatus_insert_input!
+  on_conflict: QuestStatus_on_conflict
+}
+
+"""
+on conflict condition type for table "QuestStatus"
+"""
+input QuestStatus_on_conflict {
+  constraint: QuestStatus_constraint!
+  update_columns: [QuestStatus_update_column!]!
+  where: QuestStatus_bool_exp
+}
+
+"""
+ordering options when selecting data from "QuestStatus"
+"""
+input QuestStatus_order_by {
+  quests_aggregate: quest_aggregate_order_by
+  status: order_by
+}
+
+"""
+primary key columns input for table: "QuestStatus"
+"""
+input QuestStatus_pk_columns_input {
+  status: String!
+}
+
+"""
+select columns of table "QuestStatus"
+"""
+enum QuestStatus_select_column {
+  """column name"""
+  status
+}
+
+"""
+input type for updating data in table "QuestStatus"
+"""
+input QuestStatus_set_input {
+  status: String
+}
+
+"""
+update columns of table "QuestStatus"
+"""
+enum QuestStatus_update_column {
+  """column name"""
+  status
+}
+
+"""
 columns and relationships of "skill"
 """
 type skill {
@@ -4493,6 +6779,42 @@ type skill {
   category: SkillCategory_enum!
   id: uuid!
   name: String!
+
+  """An array relationship"""
+  quest_skills(
+    """distinct select on columns"""
+    distinct_on: [quest_skill_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [quest_skill_order_by!]
+
+    """filter the rows returned"""
+    where: quest_skill_bool_exp
+  ): [quest_skill!]!
+
+  """An aggregated array relationship"""
+  quest_skills_aggregate(
+    """distinct select on columns"""
+    distinct_on: [quest_skill_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [quest_skill_order_by!]
+
+    """filter the rows returned"""
+    where: quest_skill_bool_exp
+  ): quest_skill_aggregate!
 }
 
 """
@@ -4540,6 +6862,7 @@ input skill_bool_exp {
   category: SkillCategory_enum_comparison_exp
   id: uuid_comparison_exp
   name: String_comparison_exp
+  quest_skills: quest_skill_bool_exp
 }
 
 """
@@ -4558,6 +6881,7 @@ input skill_insert_input {
   category: SkillCategory_enum
   id: uuid
   name: String
+  quest_skills: quest_skill_arr_rel_insert_input
 }
 
 """aggregate max on columns"""
@@ -4624,6 +6948,7 @@ input skill_order_by {
   category: order_by
   id: order_by
   name: order_by
+  quest_skills_aggregate: quest_skill_aggregate_order_by
 }
 
 """
@@ -5041,6 +7366,137 @@ type subscription_root {
   PlayerRank_by_pk(rank: String!): PlayerRank
 
   """
+  fetch data from the table: "QuestCompletionStatus"
+  """
+  QuestCompletionStatus(
+    """distinct select on columns"""
+    distinct_on: [QuestCompletionStatus_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [QuestCompletionStatus_order_by!]
+
+    """filter the rows returned"""
+    where: QuestCompletionStatus_bool_exp
+  ): [QuestCompletionStatus!]!
+
+  """
+  fetch aggregated fields from the table: "QuestCompletionStatus"
+  """
+  QuestCompletionStatus_aggregate(
+    """distinct select on columns"""
+    distinct_on: [QuestCompletionStatus_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [QuestCompletionStatus_order_by!]
+
+    """filter the rows returned"""
+    where: QuestCompletionStatus_bool_exp
+  ): QuestCompletionStatus_aggregate!
+
+  """
+  fetch data from the table: "QuestCompletionStatus" using primary key columns
+  """
+  QuestCompletionStatus_by_pk(status: String!): QuestCompletionStatus
+
+  """
+  fetch data from the table: "QuestRepetition"
+  """
+  QuestRepetition(
+    """distinct select on columns"""
+    distinct_on: [QuestRepetition_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [QuestRepetition_order_by!]
+
+    """filter the rows returned"""
+    where: QuestRepetition_bool_exp
+  ): [QuestRepetition!]!
+
+  """
+  fetch aggregated fields from the table: "QuestRepetition"
+  """
+  QuestRepetition_aggregate(
+    """distinct select on columns"""
+    distinct_on: [QuestRepetition_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [QuestRepetition_order_by!]
+
+    """filter the rows returned"""
+    where: QuestRepetition_bool_exp
+  ): QuestRepetition_aggregate!
+
+  """fetch data from the table: "QuestRepetition" using primary key columns"""
+  QuestRepetition_by_pk(repetition: String!): QuestRepetition
+
+  """
+  fetch data from the table: "QuestStatus"
+  """
+  QuestStatus(
+    """distinct select on columns"""
+    distinct_on: [QuestStatus_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [QuestStatus_order_by!]
+
+    """filter the rows returned"""
+    where: QuestStatus_bool_exp
+  ): [QuestStatus!]!
+
+  """
+  fetch aggregated fields from the table: "QuestStatus"
+  """
+  QuestStatus_aggregate(
+    """distinct select on columns"""
+    distinct_on: [QuestStatus_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [QuestStatus_order_by!]
+
+    """filter the rows returned"""
+    where: QuestStatus_bool_exp
+  ): QuestStatus_aggregate!
+
+  """fetch data from the table: "QuestStatus" using primary key columns"""
+  QuestStatus_by_pk(status: String!): QuestStatus
+
+  """
   fetch data from the table: "SkillCategory"
   """
   SkillCategory(
@@ -5420,6 +7876,137 @@ type subscription_root {
 
   """fetch data from the table: "player_type" using primary key columns"""
   player_type_by_pk(id: Int!): player_type
+
+  """
+  fetch data from the table: "quest"
+  """
+  quest(
+    """distinct select on columns"""
+    distinct_on: [quest_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [quest_order_by!]
+
+    """filter the rows returned"""
+    where: quest_bool_exp
+  ): [quest!]!
+
+  """
+  fetch aggregated fields from the table: "quest"
+  """
+  quest_aggregate(
+    """distinct select on columns"""
+    distinct_on: [quest_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [quest_order_by!]
+
+    """filter the rows returned"""
+    where: quest_bool_exp
+  ): quest_aggregate!
+
+  """fetch data from the table: "quest" using primary key columns"""
+  quest_by_pk(id: uuid!): quest
+
+  """
+  fetch data from the table: "quest_completion"
+  """
+  quest_completion(
+    """distinct select on columns"""
+    distinct_on: [quest_completion_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [quest_completion_order_by!]
+
+    """filter the rows returned"""
+    where: quest_completion_bool_exp
+  ): [quest_completion!]!
+
+  """
+  fetch aggregated fields from the table: "quest_completion"
+  """
+  quest_completion_aggregate(
+    """distinct select on columns"""
+    distinct_on: [quest_completion_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [quest_completion_order_by!]
+
+    """filter the rows returned"""
+    where: quest_completion_bool_exp
+  ): quest_completion_aggregate!
+
+  """
+  fetch data from the table: "quest_completion" using primary key columns
+  """
+  quest_completion_by_pk(id: uuid!): quest_completion
+
+  """
+  fetch data from the table: "quest_skill"
+  """
+  quest_skill(
+    """distinct select on columns"""
+    distinct_on: [quest_skill_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [quest_skill_order_by!]
+
+    """filter the rows returned"""
+    where: quest_skill_bool_exp
+  ): [quest_skill!]!
+
+  """
+  fetch aggregated fields from the table: "quest_skill"
+  """
+  quest_skill_aggregate(
+    """distinct select on columns"""
+    distinct_on: [quest_skill_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [quest_skill_order_by!]
+
+    """filter the rows returned"""
+    where: quest_skill_bool_exp
+  ): quest_skill_aggregate!
+
+  """fetch data from the table: "quest_skill" using primary key columns"""
+  quest_skill_by_pk(quest_id: uuid!, skill_id: uuid!): quest_skill
 
   """
   fetch data from the table: "skill"

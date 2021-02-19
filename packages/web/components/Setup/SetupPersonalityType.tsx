@@ -5,11 +5,14 @@ import {
   MetaHeading,
   SimpleGrid,
   Text,
+  useToast,
 } from '@metafam/ds';
 import { FlexContainer } from 'components/Container';
 import { MetaLink } from 'components/Link';
 import { useSetupFlow } from 'contexts/SetupContext';
+import { useUpdateAboutYouMutation } from 'graphql/autogen/types';
 import { PersonalityType } from 'graphql/types';
+import { useUser } from 'lib/hooks';
 import React from 'react';
 
 export const SetupPersonalityType: React.FC = () => {
@@ -20,6 +23,36 @@ export const SetupPersonalityType: React.FC = () => {
     personalityType,
     setPersonalityType,
   } = useSetupFlow();
+  const { user } = useUser({ redirectTo: '/' });
+  const toast = useToast();
+
+  const [updateAboutYouRes, updateAboutYou] = useUpdateAboutYouMutation();
+
+  const handleNextPress = async () => {
+    if (!user) return;
+
+    if (user.player?.EnneagramType?.name !== personalityType?.name) {
+      const { error } = await updateAboutYou({
+        playerId: user.id,
+        input: {
+          enneagram: personalityType?.name
+        }
+      });
+
+      if (error) {
+        toast({
+          title: 'Error',
+          description: 'Unable to update personality type. The octo is sad 😢',
+          status: 'error',
+          isClosable: true,
+        });
+        return;
+      }
+    }
+
+    onNextPress();
+  };
+
   return (
     <FlexContainer>
       <MetaHeading mb={5} textAlign="center">
@@ -71,7 +104,13 @@ export const SetupPersonalityType: React.FC = () => {
         ))}
       </SimpleGrid>
 
-      <MetaButton onClick={onNextPress} mt={10} isDisabled={!personalityType}>
+      <MetaButton 
+        onClick={handleNextPress} 
+        mt={10} 
+        isDisabled={!personalityType}
+        isLoading={updateAboutYouRes.fetching}
+        loadingText="Saving"
+      >
         {nextButtonLabel}
       </MetaButton>
     </FlexContainer>

@@ -17,8 +17,7 @@ export const SetupPlayerType: React.FC = () => {
     nextButtonLabel,
     playerTypes,
     playerType,
-    setPlayerType,
-    personalityType,
+    setPlayerType
   } = useSetupFlow();
   const { user } = useUser({ redirectTo: '/' });
   const toast = useToast();
@@ -28,24 +27,18 @@ export const SetupPlayerType: React.FC = () => {
   const handleNextPress = async () => {
     if (!user) return;
 
-    if (
-      user.player?.EnneagramType?.name !== personalityType?.name ||
-      user.player?.playerType?.id !== playerType?.id
-    ) {
+    if (user.player?.playerType?.id !== playerType?.id) {
       const { error } = await updateAboutYou({
         playerId: user.id,
         input: {
-          enneagram: personalityType?.name,
           player_type_id: playerType?.id,
         },
       });
 
       if (error) {
-        // eslint-disable-next-line no-console
-        console.warn(error);
         toast({
           title: 'Error',
-          description: 'Unable to update Player Account. The octo is sad 😢',
+          description: 'Unable to update player type. The octo is sad 😢',
           status: 'error',
           isClosable: true,
         });
