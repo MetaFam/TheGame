@@ -27,7 +27,7 @@
     "graphql-request": "3.2.0",
     "graphql-tag": "2.11.0",
     "node-fetch": "2.6.1",
-    "sourcecred": "0.7.6"
+    "sourcecred": "0.7.7"
   },
   "devDependencies": {
     "@types/node-fetch": "2.5.7",
