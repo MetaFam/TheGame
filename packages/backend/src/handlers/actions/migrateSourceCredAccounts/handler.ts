@@ -2,7 +2,7 @@ import { isNotNullOrUndefined } from '@metafam/utils';
 import bluebird from 'bluebird';
 import { Request, Response } from 'express';
 import fetch from 'node-fetch';
-import { sourcecred as sc } from 'sourcecred-publish-test';
+import { sourcecred as sc } from 'sourcecred';
 
 import { CONFIG } from '../../../config';
 import {
