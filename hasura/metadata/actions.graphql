@@ -48,8 +48,8 @@ input CreateQuestInput {
 
 input CreateQuestCompletionInput {
   quest_id : String!
-  submission_link : String!
-  submission_text : String!
+  submission_link : String
+  submission_text : String
 }
 
 input UpdateQuestCompletionInput {
