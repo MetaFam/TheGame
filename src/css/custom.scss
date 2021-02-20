@@ -29,10 +29,12 @@
   --mf-font-mono: 'IBM Plex Mono';
   --ifm-code-font-size: 95%;
   --ifm-font-size-base: 17px;
+  --ifm-navbar-search-input-icon: url('data:image/svg+xml;utf8,<svg fill="currentColor" alt="Search" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" height="16px" width="16px"><path d="M6.02945,10.20327a4.17382,4.17382,0,1,1,4.17382-4.17382A4.15609,4.15609,0,0,1,6.02945,10.20327Zm9.69195,4.2199L10.8989,9.59979A5.88021,5.88021,0,0,0,12.058,6.02856,6.00467,6.00467,0,1,0,9.59979,10.8989l4.82338,4.82338a.89729.89729,0,0,0,1.29912,0,.89749.89749,0,0,0-.00087-1.29909Z" /></svg>')
 }
 
 body {
   font-size: 14px;
+  overflow-x: hidden;
   @media (min-width: 995px) {
     font-size: 17px;
   }
@@ -368,7 +370,6 @@ body,
   max-height: 40px;
   padding: 0;
   text-align: center;
-
   @media screen and (min-width: 768px) {
     height: 60px;
     max-height: 60px;
@@ -400,12 +401,134 @@ body,
       width: 80px;
     }
   }
-  &__items {
-    &--right {
+  &__search {
+    &-input {
+      position: relative;
+      background-color: rgba(255, 255, 255, 0.08);
+      background-image: none;
+      color:  #fff;
+      font-size: 0.7rem;
+      line-height: 1.7rem;
+      padding: 0;
+      padding-left: 2rem;
+      border-radius: 6px;
+      box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.2);
+      width: 300px;
+      max-width: 20px;
+      transition: all 0.2s ease-in-out, max-width 0.3s 0.2s ease-in-out;
+      z-index: 200;
+
+      &:focus {
+        background-color: rgba(255, 255, 255, 0.25);
+        box-shadow: 0 0 1rem rgba(0, 0, 0, 0.3);
+        color:  #fa85bc;
+        max-width: 130px;
+        padding-right: 10px;
+        &::placeholder {
+          color: #fa85bc;
+        }
+      }
+      &:hover {
+        max-width: 130px;
+      }
+      &::placeholder {
+        color: #fa85bc;
+        transition: color 0.2s 0.3s ease;
+      }
+
+      @media (min-width: 760px) {
+        font-size: 0.9rem;
+        line-height: 1.6rem;
+        padding: 5px 0 5px 40px;
+        // padding-left: 2.2rem;
+        max-width: 105px;
+        &:focus {
+          max-width: 300px;
+        }
+      }
+    }
+    &::before {
+      content: "🔍";
+      display: block;
+      position: absolute;
+      font-size: 1rem;
+      top: 0;
+      left: 23px;
+      z-index: 0;
+
+      @media (min-width: 760px) {
+        left: 28px;
+        top: 1px;
+        font-size: 1.2rem;
+      }
+    }
+    .search-icon {
       display: none;
     }
   }
+  &__items {
+    &--right {
+      position: absolute;
+      display: block;
+      right: 15px;
+      top: 15%;
+      @media (min-width: 760px) {
+        top: 20%;
+      }
+    }
+  }
 }
+
+/* Main dropdown wrapper */
+.algolia-autocomplete {
+  background-color: rgba(255, 255, 255, 0.02);
+  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.3);
+  border-radius: 6px;
+  // &:focus {
+  //   max-width: 160px;
+  // }
+  .search-bar {
+    width: 300px;
+    max-width: 20px;
+    &:hover, &:focus {
+      max-width: 130px;
+    }
+    @media (min-width: 760px) {
+      max-width: 105px;
+      &:hover, &:focus {
+        max-width: 300px;
+      }
+    }
+  }
+  .ds-dropdown-menu {
+    background-color: rgba(255, 255, 255, 0.02);
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.3);
+    // backdrop-filter: blur(7px);
+    border-radius: 6px;
+    width: 500px;
+  }
+  .algolia-docsearch-suggestion {
+    &--category-header {
+      color: darkgray;
+      border: 1px solid gray;
+    }
+    &--subcategory-column {
+      color: gray;
+    }
+    &--title {
+      font-weight: bold;
+      color: #fff;
+    }
+    &--text {
+      font-size: 0.8rem;
+      color: gray;
+    }
+    &--highlight {
+      color: #fa85bc;
+    }
+  }
+}
+
 
 .pagination-nav__link,
 .markdown details summary {

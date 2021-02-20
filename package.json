@@ -5,7 +5,9 @@
     "start": "docusaurus start",
     "build": "docusaurus build",
     "swizzle": "docusaurus swizzle",
-    "deploy": "docusaurus deploy"
+    "deploy": "docusaurus deploy",
+    "serve": "serve build/",
+    "build:serve": "docusaurus build && serve build/"
   },
   "dependencies": {
     "@docusaurus/core": "^2.0.0-alpha.64",
@@ -34,6 +36,7 @@
   },
   "devDependencies": {
     "docusaurus-plugin-sass": "^0.1.11",
+    "serve": "^11.3.2",
     "typescript": "^4.1.3"
   }
 }
