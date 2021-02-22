@@ -4,6 +4,7 @@ import {
   Heading,
   HStack,
   Modal,
+  ModalCloseButton,
   ModalContent,
   ModalOverlay,
   SimpleGrid,
@@ -11,16 +12,14 @@ import {
   useDisclosure,
 } from '@metafam/ds';
 import { MetaLink as Link } from 'components/Link';
+import { ProfileSection } from 'components/ProfileSection';
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
 import {
   Collectible,
   useOpenSeaCollectibles,
 } from 'lib/useOpenSeaCollectibles';
 import React from 'react';
-import { FaTimes } from 'react-icons/fa';
-
-import { isBackdropFilterSupported } from '../../../utils/compatibilityHelpers';
-import { ProfileSection } from '../../ProfileSection';
+import { isBackdropFilterSupported } from 'utils/compatibilityHelpers';
 
 type Props = { player: PlayerFragmentFragment; onRemoveClick: () => void };
 
@@ -68,13 +67,14 @@ export const PlayerGallery: React.FC<Props> = ({ player, onRemoveClick }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { favorites, data, loading } = useOpenSeaCollectibles({ player });
 
-  const modalContentStyles = isBackdropFilterSupported() ? 
-    {
-      backgroundColor: 'rgba(255,255,255,0.08)',
-      backdropFilter: 'blur(8px)'
-    } : {
-      backgroundColor: 'rgba(7, 2, 29, 0.91)'
-    };
+  const modalContentStyles = isBackdropFilterSupported()
+    ? {
+        backgroundColor: 'rgba(255,255,255,0.08)',
+        backdropFilter: 'blur(8px)',
+      }
+    : {
+        backgroundColor: 'rgba(7, 2, 29, 0.91)',
+      };
 
   return (
     <ProfileSection title="NFT Gallery" onRemoveClick={onRemoveClick}>
@@ -112,12 +112,7 @@ export const PlayerGallery: React.FC<Props> = ({ player, onRemoveClick }) => {
                 >
                   NFT Gallery
                 </Text>
-                <FaTimes
-                  color="blueLight"
-                  opacity="0.4"
-                  cursor="pointer"
-                  onClick={onClose}
-                />
+                <ModalCloseButton />
               </HStack>
             </Box>
             <Flex p={2} css={modalContentStyles}>
@@ -128,7 +123,7 @@ export const PlayerGallery: React.FC<Props> = ({ player, onRemoveClick }) => {
                 borderBottomRadius="lg"
                 w="100%"
                 css={{
-                  'scrollbarColor': 'rgba(70,20,100,0.8) rgba(255,255,255,0)',
+                  scrollbarColor: 'rgba(70,20,100,0.8) rgba(255,255,255,0)',
                   '::-webkit-scrollbar': {
                     width: '8px',
                     background: 'none',
@@ -146,7 +141,11 @@ export const PlayerGallery: React.FC<Props> = ({ player, onRemoveClick }) => {
                   boxShadow="md"
                 >
                   {data?.map((nft) => (
-                    <GalleryItem nft={nft} key={`${nft.tokenId}-${nft.address}`} noMargin />
+                    <GalleryItem
+                      nft={nft}
+                      key={`${nft.tokenId}-${nft.address}`}
+                      noMargin
+                    />
                   ))}
                 </SimpleGrid>
               </Box>

@@ -17,10 +17,12 @@ export type MetaColors = ChakraTheme['colors'] & {
   discordDark: string;
   bronze: string;
   purple80: string;
+  brightId: string;
 };
 
 export const colors: MetaColors = {
   ...baseTheme.colors,
+  brightId: '#fb8c62',
   diamond: '#40e8ec',
   platinum: '#81b6e3',
   gold: '#d0a757',
