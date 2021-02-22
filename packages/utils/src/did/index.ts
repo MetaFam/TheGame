@@ -2,6 +2,8 @@ import { providers, utils } from 'ethers';
 import { Base64 } from 'js-base64';
 import { v4 as uuidv4 } from 'uuid';
 
+import { signerHelper } from '../ethereumHelper';
+
 const tokenDuration = 1000 * 60 * 60 * 24 * 7; // 7 days
 
 type Claim = {
@@ -29,7 +31,7 @@ export async function createToken(
   };
 
   const serializedClaim = JSON.stringify(claim);
-  const proof = await signer.signMessage(serializedClaim);
+  const proof = await signerHelper(provider, serializedClaim);
 
   return Base64.encode(JSON.stringify([proof, serializedClaim]));
 }

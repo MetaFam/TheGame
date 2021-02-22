@@ -1,4 +1,4 @@
-import { CloseIcon,SettingsIcon } from '@chakra-ui/icons'
+import { CloseIcon, SettingsIcon } from '@chakra-ui/icons';
 import {
   Avatar,
   Box,
@@ -9,14 +9,13 @@ import {
   Text,
 } from '@metafam/ds';
 import { MetaLink } from 'components/Link';
-import { Web3Context } from 'contexts/Web3Context';
-import React, { useCallback, useContext } from 'react';
+import React, { useCallback } from 'react';
 
 import { useUser, useWeb3 } from '../lib/hooks';
 import { getPlayerImage, getPlayerName } from '../utils/playerHelpers';
 
 export const LoginButton: React.FC = () => {
-  const { connectWeb3, disconnect, isConnected } = useContext(Web3Context);
+  const { connectWeb3, disconnect, isConnected, isConnecting } = useWeb3();
 
   const { address } = useWeb3();
   const { user, fetching } = useUser();
@@ -25,10 +24,11 @@ export const LoginButton: React.FC = () => {
     await connectWeb3();
   }, [connectWeb3]);
 
+  if (fetching || isConnecting) {
+    return <Spinner color="purple.500" size="sm" />;
+  }
+
   if (isConnected) {
-    if (fetching) {
-      return <Spinner color="purple.500" size="sm" />;
-    }
     if (!user?.player) return null;
 
     const hasEditedProfile = user.username && user.username !== address;
@@ -56,7 +56,7 @@ export const LoginButton: React.FC = () => {
                 fontWeight="normal"
                 title={hasEditedProfile ? 'Edit profile' : 'Setup profile'}
               >
-                <SettingsIcon w={7} h={7} color="cyan.400"/>
+                <SettingsIcon w={7} h={7} color="cyan.400" />
               </Button>
             </MetaLink>
             <Text color="cyan.400">|</Text>
@@ -66,7 +66,7 @@ export const LoginButton: React.FC = () => {
               fontWeight="normal"
               title="Disconnect"
             >
-              <CloseIcon w={6} h={6} color="cyan.400"/>
+              <CloseIcon w={6} h={6} color="cyan.400" />
             </Button>
           </HStack>
         </Box>

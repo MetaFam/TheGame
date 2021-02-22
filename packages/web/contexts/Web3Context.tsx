@@ -16,6 +16,7 @@ export type Web3ContextType = {
   provider: providers.Web3Provider | null;
   connectWeb3: () => Promise<void>;
   disconnect: () => void;
+  isConnecting: boolean;
   isConnected: boolean;
   address: string | null;
   authToken: string | null;
@@ -25,6 +26,7 @@ export const Web3Context = createContext<Web3ContextType>({
   provider: null,
   connectWeb3: async () => {},
   disconnect: () => undefined,
+  isConnecting: false,
   isConnected: false,
   address: null,
   authToken: null,
@@ -73,6 +75,7 @@ async function authenticateWallet(
 export const Web3ContextProvider: React.FC = ({ children }) => {
   const [provider, setProvider] = useState<providers.Web3Provider | null>(null);
   const [isConnected, setIsConnected] = useState<boolean>(false);
+  const [isConnecting, setIsConnecting] = useState<boolean>(false);
   const [address, setAddress] = useState<string | null>(null);
   const [authToken, setAuthToken] = useState<string | null>(null);
 
@@ -85,19 +88,21 @@ export const Web3ContextProvider: React.FC = ({ children }) => {
     setAuthToken(null);
     setAddress(null);
     setProvider(null);
+    setIsConnecting(false);
     setIsConnected(false);
   }, []);
 
   const connectWeb3 = useCallback(async () => {
     if (web3Modal === false) return;
-
-    const modalProvider = await web3Modal.connect();
-    const ethersProvider = new providers.Web3Provider(modalProvider);
-
-    const ethAddress = await ethersProvider.getSigner().getAddress();
-    setAddress(ethAddress);
+    setIsConnecting(true);
 
     try {
+      const modalProvider = await web3Modal.connect();
+      const ethersProvider = new providers.Web3Provider(modalProvider);
+
+      const ethAddress = await ethersProvider.getSigner().getAddress();
+      setAddress(ethAddress);
+
       let token: string | null = getExistingAuth(ethAddress);
       if (!token) {
         token = await authenticateWallet(ethersProvider);
@@ -105,8 +110,10 @@ export const Web3ContextProvider: React.FC = ({ children }) => {
 
       setProvider(ethersProvider);
       setAuthToken(token);
+      setIsConnecting(false);
       setIsConnected(true);
     } catch (_) {
+      setIsConnecting(false);
       disconnect();
     }
   }, [disconnect]);
@@ -125,6 +132,7 @@ export const Web3ContextProvider: React.FC = ({ children }) => {
         connectWeb3,
         disconnect,
         isConnected,
+        isConnecting,
         address,
         authToken,
       }}
