@@ -10,6 +10,9 @@ const unauthorizedVariables = {
 function getHeaderToken(req: Request): string | null {
   const authHeader = req.headers.authorization;
   if (!authHeader) return null;
+  if (authHeader.substring(0, 7) !== 'Bearer ')
+    throw new Error('invalid token type');
+
   const token = authHeader.replace('Bearer ', '');
   if (token.length === 0) return null;
   return token;
@@ -19,7 +22,13 @@ export const authHandler = async (
   req: Request,
   res: Response,
 ): Promise<void> => {
-  const token = getHeaderToken(req);
+  let token;
+  try {
+    token = getHeaderToken(req);
+  } catch (_) {
+    res.status(401).send();
+    return;
+  }
 
   if (!token) {
     res.json(unauthorizedVariables);

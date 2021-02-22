@@ -1,4 +1,18 @@
 actions:
+- name: createQuest
+  definition:
+    kind: synchronous
+    handler: '{{ACTION_BASE_ENDPOINT}}/quests/createQuest'
+    forward_client_headers: true
+  permissions:
+  - role: player
+- name: createQuestCompletion
+  definition:
+    kind: synchronous
+    handler: '{{ACTION_BASE_ENDPOINT}}/quests/createCompletion'
+    forward_client_headers: true
+  permissions:
+  - role: player
 - name: updateBoxProfile
   definition:
     kind: synchronous
@@ -6,9 +20,41 @@ actions:
     forward_client_headers: true
   permissions:
   - role: player
+- name: updateQuestCompletion
+  definition:
+    kind: synchronous
+    handler: '{{ACTION_BASE_ENDPOINT}}/quests/updateCompletion'
+    forward_client_headers: true
+  permissions:
+  - role: player
 custom_types:
-  enums: []
-  input_objects: []
+  enums:
+  - name: QuestRepetition_ActionEnum
+    values:
+    - description: null
+      is_deprecated: null
+      value: UNIQUE
+    - description: null
+      is_deprecated: null
+      value: PERSONAL
+    - description: null
+      is_deprecated: null
+      value: RECURRING
+  - name: QuestCompletionStatus_ActionEnum
+    values:
+    - description: null
+      is_deprecated: null
+      value: ACCEPTED
+    - description: null
+      is_deprecated: null
+      value: REJECTED
+  input_objects:
+  - name: CreateQuestInput
+  - name: CreateQuestCompletionInput
+  - name: UpdateQuestCompletionInput
   objects:
   - name: UpdateBoxProfileResponse
+  - name: CreateQuestOutput
+  - name: CreateQuestCompletionOutput
+  - name: UpdateQuestCompletionOutput
   scalars: []

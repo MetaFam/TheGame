@@ -196,6 +196,33 @@ type CollectiblesFavorites {
   tokenId: String
 }
 
+input CreateQuestCompletionInput {
+  quest_id: String!
+  submission_link: String
+  submission_text: String
+}
+
+type CreateQuestCompletionOutput {
+  error: String
+  quest_completion_id: uuid
+  success: Boolean!
+}
+
+input CreateQuestInput {
+  cooldown: Int
+  description: String
+  external_link: String
+  guild_id: uuid!
+  repetition: QuestRepetition_ActionEnum
+  title: String!
+}
+
+type CreateQuestOutput {
+  error: String
+  quest_id: uuid
+  success: Boolean!
+}
+
 """
 columns and relationships of "EnneagramType"
 """
@@ -1619,6 +1646,16 @@ type Moloch {
 """mutation root"""
 type mutation_root {
   """
+  perform the action: "createQuest"
+  """
+  createQuest(quest: CreateQuestInput!): CreateQuestOutput
+
+  """
+  perform the action: "createQuestCompletion"
+  """
+  createQuestCompletion(questCompletion: CreateQuestCompletionInput!): CreateQuestCompletionOutput
+
+  """
   delete data from the table: "AccountType"
   """
   delete_AccountType(
@@ -2306,6 +2343,11 @@ type mutation_root {
   perform the action: "updateBoxProfile"
   """
   updateBoxProfile: UpdateBoxProfileResponse
+
+  """
+  perform the action: "updateQuestCompletion"
+  """
+  updateQuestCompletion(updateData: UpdateQuestCompletionInput!): UpdateQuestCompletionOutput
 
   """
   update data of the table: "AccountType"
@@ -6150,6 +6192,11 @@ type QuestCompletionStatus {
   status: String!
 }
 
+enum QuestCompletionStatus_ActionEnum {
+  ACCEPTED
+  REJECTED
+}
+
 """
 aggregated selection of "QuestCompletionStatus"
 """
@@ -6358,6 +6405,12 @@ type QuestRepetition {
     where: quest_bool_exp
   ): quest_aggregate!
   repetition: String!
+}
+
+enum QuestRepetition_ActionEnum {
+  PERSONAL
+  RECURRING
+  UNIQUE
 }
 
 """
@@ -8072,6 +8125,16 @@ input timestamptz_comparison_exp {
 type UpdateBoxProfileResponse {
   success: Boolean!
   updatedProfiles: [String!]!
+}
+
+input UpdateQuestCompletionInput {
+  quest_completion_id: String!
+  status: QuestCompletionStatus_ActionEnum!
+}
+
+type UpdateQuestCompletionOutput {
+  error: String
+  success: Boolean!
 }
 
 scalar uuid

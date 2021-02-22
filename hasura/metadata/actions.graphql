@@ -1,12 +1,81 @@
 type Mutation {
+  createQuest (
+    quest: CreateQuestInput!
+  ): CreateQuestOutput
+}
+
+
+type Mutation {
+  createQuestCompletion (
+    questCompletion: CreateQuestCompletionInput!
+  ): CreateQuestCompletionOutput
+}
+
+
+type Mutation {
   updateBoxProfile : UpdateBoxProfileResponse
+}
+
+
+type Mutation {
+  updateQuestCompletion (
+    updateData: UpdateQuestCompletionInput!
+  ): UpdateQuestCompletionOutput
 }
 
 
 
 
+enum QuestRepetition_ActionEnum {
+  UNIQUE
+  PERSONAL
+  RECURRING
+}
+
+enum QuestCompletionStatus_ActionEnum {
+  ACCEPTED
+  REJECTED
+}
+
+input CreateQuestInput {
+  guild_id : uuid!
+  title : String!
+  description : String
+  external_link : String
+  repetition : QuestRepetition_ActionEnum
+  cooldown : Int
+}
+
+input CreateQuestCompletionInput {
+  quest_id : String!
+  submission_link : String
+  submission_text : String
+}
+
+input UpdateQuestCompletionInput {
+  quest_completion_id : String!
+  status : QuestCompletionStatus_ActionEnum!
+}
+
 type UpdateBoxProfileResponse {
   success : Boolean!
   updatedProfiles : [String!]!
+}
+
+type CreateQuestOutput {
+  success : Boolean!
+  quest_id : uuid
+  error : String
+}
+
+type CreateQuestCompletionOutput {
+  success : Boolean!
+  error : String
+  quest_completion_id : uuid
+}
+
+type UpdateQuestCompletionOutput {
+  success : Boolean!
+  error : String
 }
 
