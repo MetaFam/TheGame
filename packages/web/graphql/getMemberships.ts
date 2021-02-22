@@ -19,7 +19,7 @@ const membershipsQuery = gql`
   }
 `;
 
-export const getMemberships = async (address: string | undefined) => {
+export const getMemberships = async (address: string | null) => {
   if (!address) return null;
   const { data } = await client
     .query<GetMembershipsQuery, GetMembershipsQueryVariables>(
