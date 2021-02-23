@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
-import Discord, { Role } from 'discord.js';
+import { createDiscordClient } from '@metafam/discord-bot';
+import { Role } from 'discord.js';
 
-import { CONFIG } from '../../config';
 import { AccountType_Enum, Player, PlayerRank_Enum } from '../../lib/autogen/hasura-sdk';
 import { client } from '../../lib/hasuraClient';
 import { TriggerPayload } from './types';
@@ -30,17 +30,16 @@ export const updateDiscordRole = async (
    
     // look up guild by guildname = 'metagame' (for now), 
     const getGuildResponse = await client.GetGuild({guildname: 'metafam'});
-    const discordAccount = getGuildResponse.guild[0]?.guild_accounts?.find(a => a.type === AccountType_Enum.Discord);
-    if (discordAccount == null) return;
+    const discordGuildAccount = getGuildResponse.guild[0]?.guild_accounts?.find(a => a.type === AccountType_Enum.Discord);
+    if (discordGuildAccount == null) return;
 
-    // call discord API. We'll need serverId, playerId, and roleIds
-    const discordClient = new Discord.Client();
-    discordClient.login(CONFIG.discordBotToken);
+    // instantiate discord client. We'll need serverId, playerId, and roleIds
+    const discordClient = await createDiscordClient();
 
     // todo add jsonb field to guild and populate ranks, e.g. { ranks: [] }
-    const guild = await discordClient.guilds.fetch(discordAccount.identifier);
+    const guild = await discordClient.guilds.fetch(discordGuildAccount.identifier);
     if (guild == null) {
-      console.warn(`No discord server found matching ${discordAccount.identifier}!`);
+      console.warn(`No discord server found matching ${discordGuildAccount.identifier}!`);
       return;
     }
 

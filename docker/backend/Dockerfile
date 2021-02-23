@@ -14,6 +14,7 @@ COPY schema.graphql .
 COPY tsconfig.base.json .
 COPY packages/backend/*.json ./packages/backend/
 COPY packages/utils/*.json ./packages/utils/
+COPY packages/discord-bot/*.json ./packages/discord-bot/
 
 RUN yarn install --pure-lockfile
 
@@ -23,6 +24,7 @@ FROM base as build
 # Copy source files
 COPY packages/backend ./packages/backend/
 COPY packages/utils ./packages/utils/
+COPY packages/discord-bot ./packages/discord-bot/
 COPY packages/@types ./packages/@types/
 
 # Build
