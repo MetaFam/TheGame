@@ -45,6 +45,7 @@ services:
       - ./packages/@types:/usr/src/app/packages/@types
       - ./packages/backend:/usr/src/app/packages/backend
       - ./packages/utils:/usr/src/app/packages/utils
+      - ./packages/discord-bot:/usr/src/app/packages/discord-bot
       - ./package.json:/usr/src/app/package.json
       - ./tsconfig.base.json:/usr/src/app/tsconfig.base.json
       - ./yarn.lock:/usr/src/app/yarn.lock
