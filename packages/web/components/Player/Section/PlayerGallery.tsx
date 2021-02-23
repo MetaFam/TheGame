@@ -17,7 +17,7 @@ import { PlayerFragmentFragment } from 'graphql/autogen/types';
 import {
   Collectible,
   useOpenSeaCollectibles,
-} from 'lib/useOpenSeaCollectibles';
+} from 'lib/hooks/useOpenSeaCollectibles';
 import React from 'react';
 import { isBackdropFilterSupported } from 'utils/compatibilityHelpers';
 

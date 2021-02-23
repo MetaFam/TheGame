@@ -22,7 +22,7 @@ export type MetaColors = ChakraTheme['colors'] & {
 
 export const colors: MetaColors = {
   ...baseTheme.colors,
-  brightId: '#fb8c62',
+  brightId: '#fb8a61',
   diamond: '#40e8ec',
   platinum: '#81b6e3',
   gold: '#d0a757',

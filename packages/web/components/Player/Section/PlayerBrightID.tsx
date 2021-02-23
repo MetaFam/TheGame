@@ -3,7 +3,6 @@ import {
   Button,
   Flex,
   HStack,
-  Image,
   Link,
   Modal,
   ModalCloseButton,
@@ -14,10 +13,10 @@ import {
   useDisclosure,
   VStack,
 } from '@metafam/ds';
-import BrightIDLogo from 'assets/brightid-logo.png';
+import { ReactComponent as BrightIDLogo } from 'assets/brightid-logo.svg';
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
 import { useUser, useWeb3 } from 'lib/hooks';
-import { useBrightID } from 'lib/useBrightID';
+import { useBrightID } from 'lib/hooks/useBrightID';
 import React, { useEffect, useState } from 'react';
 import { QRCode } from 'react-qr-svg';
 import { isBackdropFilterSupported } from 'utils/compatibilityHelpers';
@@ -51,7 +50,9 @@ export const PlayerBrightID: React.FC<Props> = ({ player }) => {
         <Spinner size="sm" color="brightId" />
       ) : (
         <>
-          <Image src={BrightIDLogo} alt="BrightID Logo" w="1rem" mr="0.5rem" />
+          <Box w="1rem" h="1rem" mr="0.5rem">
+            <BrightIDLogo w="1rem" />
+          </Box>
           {verified && (
             <Text
               as="span"
