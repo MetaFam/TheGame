@@ -14,6 +14,7 @@ module.exports = {
       defaultMode: "dark",
       disableSwitch: true,
     },
+    image: "img/wiki-cover.png",
     // headerLinks: [{ page: 'help', label: 'Help' }],
     navbar: {
       title: "MetaGame Wiki",
