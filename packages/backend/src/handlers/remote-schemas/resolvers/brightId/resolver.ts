@@ -7,15 +7,12 @@ export const getBrightIdStatus: QueryResolvers['getBrightIdStatus'] = async (
   _,
   { contextId },
 ) => {
-  console.log({ contextId });
   if (!contextId) return null;
 
   try {
     const response = await fetch(`${ENDPOINT}/${contextId}`);
     if (!response.ok) return null;
-    console.log({ response });
     const responseData = await response.json();
-    console.log({ responseData });
     return responseData.data;
   } catch (err) {
     return null;
