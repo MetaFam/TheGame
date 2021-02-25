@@ -31,12 +31,11 @@ export const SetupUsername: React.FC<SetupUsernameProps> = ({username, setUserna
     if (!user) return;
 
     const { error } = await updateUsername({
+      playerId: user.id,
       username,
     });
 
     if (error) {
-      // eslint-disable-next-line no-console
-      console.warn(error);
       const errorDescription = error.message.includes('Uniqueness violation')
         ? 'Username already taken 😢'
         : 'The octo is sad 😢';
