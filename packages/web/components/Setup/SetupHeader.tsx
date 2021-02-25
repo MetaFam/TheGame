@@ -9,7 +9,7 @@ import React from 'react';
 export const SetupHeader: React.FC = () => {
   const { stepIndex, onNextPress, onBackPress, options } = useSetupFlow();
 
-  const {sectionIndex} = options.steps[stepIndex];
+  const { sectionIndex } = options.steps[stepIndex];
 
   return (
     <Grid templateColumns="0.5fr 1fr 1fr 1fr 0.5fr" gap="1rem" w="100%">
