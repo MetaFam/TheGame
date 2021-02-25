@@ -5,7 +5,7 @@ import { useUpdatePlayerUsernameMutation } from 'graphql/autogen/types';
 import { useUser } from 'lib/hooks';
 import React, { useEffect, useState } from 'react';
 
-const USERNAME_REGEX = /^[a-zA-Z0-9](_(?!(\.|_))|\.(?!(_|\.))|[a-zA-Z0-9]){2,18}[a-zA-Z0-9]$/;
+const USERNAME_REGEX = /^[a-z0-9](_(?!(\.|_))|\.(?!(_|\.))|[a-z0-9]){2,18}[a-z0-9]$/;
 
 export type SetupUsernameProps = {
   username: string;
