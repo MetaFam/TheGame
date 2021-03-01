@@ -6,6 +6,23 @@
     schema: public
     name: BaseColor
   is_enum: true
+  select_permissions:
+  - role: player
+    permission:
+      columns:
+      - description
+      - name
+      filter: {}
+  - role: public
+    permission:
+      columns:
+      - description
+      - name
+      filter: {}
+- table:
+    schema: public
+    name: BasicColors
+  is_enum: true
 - table:
     schema: public
     name: ColorAspect
@@ -17,6 +34,19 @@
         table:
           schema: public
           name: player
+  select_permissions:
+  - role: player
+    permission:
+      columns:
+      - mask
+      - aspect
+      filter: {}
+  - role: public
+    permission:
+      columns:
+      - mask
+      - aspect
+      filter: {}
 - table:
     schema: public
     name: EnneagramType

@@ -51,6 +51,13 @@ INSERT INTO "ColorAspect" (mask, aspect) VALUES
   (/*11111*/ 'x1F'::bit(8)::int, 'Balance')
 ;
 
+ALTER TABLE public."ColorAspect"
+  ADD CONSTRAINT player_aspect_fkey
+  FOREIGN KEY (aspect)
+  REFERENCES public."BaseColor"(name)
+  ON UPDATE restrict ON DELETE restrict
+;
+
 ALTER TABLE public.player
   ADD COLUMN color_mask integer
 ;

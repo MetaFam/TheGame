@@ -16,7 +16,8 @@ import { useUser } from 'lib/hooks';
 import React from 'react';
 
 export type SetupPersonalityTypeProps = {
-  personalityTypeChoices: Array<PersonalityType>;
+  personalityParts: Array<PersonalityType>; // white, red, etc.
+  personalityTypes: Array<PersonalityType>; // Jund Shard, Izzet Syndicate, etc.
   personalityType: PersonalityType | undefined;
   setPersonalityType: React.Dispatch<
     React.SetStateAction<PersonalityType | undefined>
@@ -24,7 +25,7 @@ export type SetupPersonalityTypeProps = {
 }
 
 export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
-  personalityTypeChoices, personalityType, setPersonalityType
+  personalityParts, personalityTypes, personalityType, setPersonalityType,
 }) => {
   const {
     onNextPress,
@@ -40,11 +41,13 @@ export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
   const handleNextPress = async () => {
     if (!user) return;
 
-    if (user.player?.ColorType?.name !== personalityType?.name) {
+    console.info({ player: user.player })
+
+    if (user.player?.color_mask !== personalityType?.color_mask) {
       const { error } = await updateAboutYou({
         playerId: user.id,
         input: {
-          color: personalityType?.name
+          color_mask: personalityType?.color_mask
         }
       });
 

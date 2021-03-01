@@ -42,7 +42,7 @@ export const PersonalityParts: {
     id: '1',
     name: BaseColor_Enum.White,
     label: 'Justice',
-    description: 'Principled, Purposeful, Self-Controlled, and Perfectionistic',
+    description: BaseColor_Enum[BaseColor_Enum.White],
     image: ReformerImage,
   },
   // [EnneagramType_Enum.Helper]: {

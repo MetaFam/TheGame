@@ -4,21 +4,21 @@ import {
 import { SetupProfile } from 'components/Setup/SetupProfile';
 import { SetupContextProvider } from 'contexts/SetupContext';
 import {
-  getPersonalityComponents,
-} from 'graphql/getPersonalityComponents';
+  getPersonalityParts,
+} from 'graphql/getPersonalityParts';
 import {
-  PersonalityComponent, PersonalityComponents
+  PersonalityPart, PersonalityParts
 } from 'graphql/types';
 import { useUser } from 'lib/hooks';
 import { InferGetStaticPropsType } from 'next';
 import React, { useState } from 'react';
 
 export const getStaticProps = async () => {
-  const personalityComponents = await getPersonalityComponents();
+  const personalityParts = await getPersonalityParts();
 
   return {
     props: {
-      personalityComponents,
+      personalityParts,
       hideAppDrawer: true
     }
   };
@@ -28,15 +28,15 @@ type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
 const PersonalityTypeSetup: React.FC<Props> = (props) => {
 
-  const { personalityComponents } = props;
-  const [personalityMask, setPersonalityMask] = (
-    useState<PersonalityType>()
+  const { personalityParts } = props;
+  const [personalityType, setPersonalityType] = (
+    useState<PersonalityPart>()
   );
   const { user } = useUser({ redirectTo: '/' });
   
   if (user?.player) {
     const { player } = user;
-    if (!personalityMask && player.color_mask) {
+    if (!personalityType && player.color_mask) {
       setPersonalityType(
         PersonalityTypes[player.color_mask]
       );
@@ -46,10 +46,11 @@ const PersonalityTypeSetup: React.FC<Props> = (props) => {
   return (
     <SetupContextProvider>
       <SetupProfile>
-        <SetupPersonalityType 
-          personalityTypeChoices={personalityTypeChoices} 
-          personalityType={personalityType} 
-          setPersonalityType={setPersonalityType} />
+        <SetupPersonalityType {...{
+          personalityParts,
+          personalityType,
+          setPersonalityType,
+        }}/>
       </SetupProfile>
     </SetupContextProvider>
   );
