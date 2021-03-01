@@ -191,6 +191,13 @@ type BoxProfile {
   website: String
 }
 
+type BrightIdStatus {
+  app: String!
+  context: String!
+  contextIds: [String!]!
+  unique: Boolean!
+}
+
 type CollectiblesFavorites {
   address: String
   tokenId: String
@@ -2870,6 +2877,9 @@ type player {
 
   """Remote relationship field"""
   box_profile: BoxProfile
+
+  """Remote relationship field"""
+  brightid_status: BrightIdStatus
   created_at: timestamptz
 
   """Remote relationship field"""
@@ -4342,6 +4352,7 @@ enum PlayerRank_update_column {
 
 type Query {
   getBoxProfile(address: String): BoxProfile
+  getBrightIdStatus(contextId: uuid): BrightIdStatus
   getDaoHausMemberships(memberAddress: String): [Member!]!
 }
 
@@ -4693,6 +4704,7 @@ type query_root {
   """fetch data from the table: "SkillCategory" using primary key columns"""
   SkillCategory_by_pk(name: String!): SkillCategory
   getBoxProfile(address: String): BoxProfile
+  getBrightIdStatus(contextId: uuid): BrightIdStatus
   getDaoHausMemberships(memberAddress: String): [Member!]!
 
   """
