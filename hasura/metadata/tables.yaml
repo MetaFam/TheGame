@@ -4,6 +4,21 @@
   is_enum: true
 - table:
     schema: public
+    name: BaseColor
+  is_enum: true
+- table:
+    schema: public
+    name: ColorAspect
+  array_relationships:
+  - name: players
+    using:
+      foreign_key_constraint_on:
+        column: color_mask
+        table:
+          schema: public
+          name: player
+- table:
+    schema: public
     name: EnneagramType
   is_enum: true
   select_permissions:
@@ -199,9 +214,15 @@
     schema: public
     name: player
   object_relationships:
+  - name: ColorAspect
+    using:
+      foreign_key_constraint_on: color_mask
   - name: EnneagramType
     using:
       foreign_key_constraint_on: enneagram
+  - name: PlayerRank
+    using:
+      foreign_key_constraint_on: rank
   - name: playerType
     using:
       foreign_key_constraint_on: player_type_id
