@@ -56,7 +56,7 @@ export const LoginButton: React.FC = () => {
                 fontWeight="normal"
                 title={hasEditedProfile ? 'Edit profile' : 'Setup profile'}
               >
-                <SettingsIcon w={7} h={7} color="cyan.400"/>
+                <SettingsIcon h='1.25rem' w='1.25rem' color="cyan.400"/>
               </Button>
             </MetaLink>
             <Text color="cyan.400">|</Text>
@@ -66,7 +66,7 @@ export const LoginButton: React.FC = () => {
               fontWeight="normal"
               title="Disconnect"
             >
-              <CloseIcon w={6} h={6} color="cyan.400"/>
+              <CloseIcon h='1rem' color="cyan.400"/>
             </Button>
           </HStack>
         </Box>

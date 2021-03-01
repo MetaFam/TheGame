@@ -33,23 +33,25 @@ export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
   const { user } = useUser({ redirectTo: '/' });
   const toast = useToast();
 
-  const [updateAboutYouRes, updateAboutYou] = useUpdateAboutYouMutation();
+  const [updateAboutYouRes, updateAboutYou] = (
+    useUpdateAboutYouMutation()
+  );
 
   const handleNextPress = async () => {
     if (!user) return;
 
-    if (user.player?.EnneagramType?.name !== personalityType?.name) {
+    if (user.player?.ColorType?.name !== personalityType?.name) {
       const { error } = await updateAboutYou({
         playerId: user.id,
         input: {
-          enneagram: personalityType?.name
+          color: personalityType?.name
         }
       });
 
       if (error) {
         toast({
           title: 'Error',
-          description: 'Unable to update personality type. The octo is sad 😢',
+          description: 'Unable to update personality type. The octo is sad. 😢',
           status: 'error',
           isClosable: true,
         });
@@ -66,8 +68,9 @@ export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
         Personality Type
       </MetaHeading>
       <Text mb={10}>
-        {`Please select your personality type below. Not sure what type you are? `}
-        <MetaLink href="https://enneagramtest.net/" isExternal>
+        {'Please select your personality type below. Not sure what type you are?'}
+        <Text as='span'> </Text>
+        <MetaLink href="//metafam.github.io/5-color-radar/#/test/" isExternal>
           Take a quick test.
         </MetaLink>
       </Text>

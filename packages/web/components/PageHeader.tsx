@@ -281,7 +281,7 @@ export const PageHeader: React.FC = () => {
               WebkitBackdropFilter: 'blur(10px)',
             }}
           />
-          {/* ToDo: switch to BoxedNextImage */}
+
           <Image
             position="absolute"
             left="-0"

@@ -1,5 +1,9 @@
 
-CREATE TABLE "public"."EnneagramType"("name" text NOT NULL, "description" text NOT NULL, PRIMARY KEY ("name") );
+CREATE TABLE "public"."ColorType"(
+  "name" text NOT NULL,
+  "description" text NOT NULL,
+  PRIMARY KEY ("name")
+);
 
 INSERT INTO "EnneagramType" (name, description) VALUES
   ('REFORMER', 'Principled, Purposeful, Self-Controlled, and Perfectionistic'),

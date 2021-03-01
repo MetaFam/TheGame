@@ -1,4 +1,5 @@
 import { MetaTheme } from '@metafam/ds';
+/*
 import AchieverImage from 'assets/achiever.png';
 import ChallengerImage from 'assets/challenger.png';
 import EnthusiastImage from 'assets/enthusiast.png';
@@ -8,8 +9,9 @@ import InvestigatorImage from 'assets/investigator.png';
 import LoyalistImage from 'assets/loyalist.png';
 import PeacemakerImage from 'assets/peacemaker.png';
 import ReformerImage from 'assets/reformer.png';
+*/
 import {
-  EnneagramType_Enum,
+  ColorType_Enum,
   Member,
   Moloch,
   SkillCategory_Enum,
@@ -23,7 +25,7 @@ export type Skill = {
 
 export type PersonalityType = {
   id: string;
-  name: EnneagramType_Enum;
+  name: ColorType_Enum;
   label: string;
   description: string;
   image: string;
@@ -36,69 +38,69 @@ export type Membership = Pick<Member, 'id'> & {
 export const PersonalityTypes: {
   [any: string]: PersonalityType;
 } = {
-  [EnneagramType_Enum.Reformer]: {
+  [ColorType_Enum.White]: {
     id: '1',
-    name: EnneagramType_Enum.Reformer,
+    name: ColorType_Enum.White,
     label: 'The Reformer',
     description: 'Principled, Purposeful, Self-Controlled, and Perfectionistic',
     image: ReformerImage,
   },
-  [EnneagramType_Enum.Helper]: {
-    id: '2',
-    name: EnneagramType_Enum.Helper,
-    label: 'The Helper',
-    description: 'Demonstrative, Generous, People-Pleasing, and Possessive',
-    image: HelperImage,
-  },
-  [EnneagramType_Enum.Achiever]: {
-    id: '3',
-    name: EnneagramType_Enum.Achiever,
-    label: 'The Achiever',
-    description: 'Adaptive, Excelling, Driven, and Image-Conscious',
-    image: AchieverImage,
-  },
-  [EnneagramType_Enum.Individualist]: {
-    id: '4',
-    name: EnneagramType_Enum.Individualist,
-    label: 'The Individualist',
-    description: 'Expressive, Dramatic, Self-Absorbed, and Temperamental',
-    image: IndividualistImage,
-  },
-  [EnneagramType_Enum.Investigator]: {
-    id: '5',
-    name: EnneagramType_Enum.Investigator,
-    label: 'The Investigator',
-    description: 'Perceptive, Innovative, Secretive, and Isolated',
-    image: InvestigatorImage,
-  },
-  [EnneagramType_Enum.Loyalist]: {
-    id: '6',
-    name: EnneagramType_Enum.Loyalist,
-    label: 'The Loyalist',
-    description: 'Engaging, Responsible, Anxious, and Suspicious',
-    image: LoyalistImage,
-  },
-  [EnneagramType_Enum.Enthusiast]: {
-    id: '7',
-    name: EnneagramType_Enum.Enthusiast,
-    label: 'The Enthusiast',
-    description: 'Spontaneous, Versatile, Distractible, and Scattered',
-    image: EnthusiastImage,
-  },
-  [EnneagramType_Enum.Challenger]: {
-    id: '8',
-    name: EnneagramType_Enum.Challenger,
-    label: 'The Challenger',
-    description: 'Self-Confident, Decisive, Willful, and Confrontational',
-    image: ChallengerImage,
-  },
-  [EnneagramType_Enum.Peacemaker]: {
-    id: '9',
-    name: EnneagramType_Enum.Peacemaker,
-    label: 'The Peacemaker',
-    description: 'Receptive, Reassuring, Agreeable, and Complacent',
-    image: PeacemakerImage,
-  },
+  // [EnneagramType_Enum.Helper]: {
+  //   id: '2',
+  //   name: EnneagramType_Enum.Helper,
+  //   label: 'The Helper',
+  //   description: 'Demonstrative, Generous, People-Pleasing, and Possessive',
+  //   image: HelperImage,
+  // },
+  // [EnneagramType_Enum.Achiever]: {
+  //   id: '3',
+  //   name: EnneagramType_Enum.Achiever,
+  //   label: 'The Achiever',
+  //   description: 'Adaptive, Excelling, Driven, and Image-Conscious',
+  //   image: AchieverImage,
+  // },
+  // [EnneagramType_Enum.Individualist]: {
+  //   id: '4',
+  //   name: EnneagramType_Enum.Individualist,
+  //   label: 'The Individualist',
+  //   description: 'Expressive, Dramatic, Self-Absorbed, and Temperamental',
+  //   image: IndividualistImage,
+  // },
+  // [EnneagramType_Enum.Investigator]: {
+  //   id: '5',
+  //   name: EnneagramType_Enum.Investigator,
+  //   label: 'The Investigator',
+  //   description: 'Perceptive, Innovative, Secretive, and Isolated',
+  //   image: InvestigatorImage,
+  // },
+  // [EnneagramType_Enum.Loyalist]: {
+  //   id: '6',
+  //   name: EnneagramType_Enum.Loyalist,
+  //   label: 'The Loyalist',
+  //   description: 'Engaging, Responsible, Anxious, and Suspicious',
+  //   image: LoyalistImage,
+  // },
+  // [EnneagramType_Enum.Enthusiast]: {
+  //   id: '7',
+  //   name: EnneagramType_Enum.Enthusiast,
+  //   label: 'The Enthusiast',
+  //   description: 'Spontaneous, Versatile, Distractible, and Scattered',
+  //   image: EnthusiastImage,
+  // },
+  // [EnneagramType_Enum.Challenger]: {
+  //   id: '8',
+  //   name: EnneagramType_Enum.Challenger,
+  //   label: 'The Challenger',
+  //   description: 'Self-Confident, Decisive, Willful, and Confrontational',
+  //   image: ChallengerImage,
+  // },
+  // [EnneagramType_Enum.Peacemaker]: {
+  //   id: '9',
+  //   name: EnneagramType_Enum.Peacemaker,
+  //   label: 'The Peacemaker',
+  //   description: 'Receptive, Reassuring, Agreeable, and Complacent',
+  //   image: PeacemakerImage,
+  // },
 };
 
 export const SkillColors: Record<SkillCategory_Enum, string> = {
