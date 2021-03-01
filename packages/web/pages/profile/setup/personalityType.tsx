@@ -4,42 +4,37 @@ import {
 import { SetupProfile } from 'components/Setup/SetupProfile';
 import { SetupContextProvider } from 'contexts/SetupContext';
 import {
-  getPersonalityParts,
+  getPersonalityParts, getPersonalityTypes,
 } from 'graphql/getPersonalityParts';
-import {
-  PersonalityPart, PersonalityParts
-} from 'graphql/types';
+// import {
+//   PersonalityPartInfo, PersonalityParts
+// } from 'graphql/types';
 import { useUser } from 'lib/hooks';
 import { InferGetStaticPropsType } from 'next';
 import React, { useState } from 'react';
 
-export const getStaticProps = async () => {
-  const personalityParts = await getPersonalityParts();
-
-  return {
-    props: {
-      personalityParts,
-      hideAppDrawer: true
-    }
-  };
-};
+export const getStaticProps = async () => ({
+  props: {
+    personalityParts: await getPersonalityParts(),
+    personalityTypes: await getPersonalityTypes(),
+    hideAppDrawer: true,
+  },
+});
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
 const PersonalityTypeSetup: React.FC<Props> = (props) => {
 
-  const { personalityParts } = props;
-  const [personalityType, setPersonalityType] = (
-    useState<PersonalityPart>()
+  const { personalityParts, personalityTypes } = props;
+  const [colorMask, setColorMask] = (
+    useState<number | undefined>()
   );
   const { user } = useUser({ redirectTo: '/' });
   
   if (user?.player) {
-    const { player } = user;
-    if (!personalityType && player.color_mask) {
-      setPersonalityType(
-        PersonalityTypes[player.color_mask]
-      );
+    // const { player } = user;
+    if (!colorMask /*&& player.ColorAspect*/) {
+      //setColorMask(player.ColorAspect);
     }
   }
 
@@ -48,8 +43,9 @@ const PersonalityTypeSetup: React.FC<Props> = (props) => {
       <SetupProfile>
         <SetupPersonalityType {...{
           personalityParts,
-          personalityType,
-          setPersonalityType,
+          personalityTypes,
+          colorMask,
+          setColorMask,
         }}/>
       </SetupProfile>
     </SetupContextProvider>

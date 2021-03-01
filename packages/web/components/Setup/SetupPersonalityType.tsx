@@ -11,21 +11,21 @@ import { FlexContainer } from 'components/Container';
 import { MetaLink } from 'components/Link';
 import { useSetupFlow } from 'contexts/SetupContext';
 import { useUpdateAboutYouMutation } from 'graphql/autogen/types';
-import { PersonalityType } from 'graphql/types';
+import { PersonalityPartInfo } from 'graphql/types';
 import { useUser } from 'lib/hooks';
 import React from 'react';
 
 export type SetupPersonalityTypeProps = {
-  personalityParts: Array<PersonalityType>; // white, red, etc.
-  personalityTypes: Array<PersonalityType>; // Jund Shard, Izzet Syndicate, etc.
-  personalityType: PersonalityType | undefined;
-  setPersonalityType: React.Dispatch<
-    React.SetStateAction<PersonalityType | undefined>
+  personalityParts: Array<PersonalityPartInfo>; // white, red, etc.
+  personalityTypes: Array<PersonalityPartInfo>; // Jund Shard, Izzet Syndicate, etc.
+  colorMask: number | undefined;
+  setColorMask: React.Dispatch<
+    React.SetStateAction<number | undefined>
   >;
-}
+};
 
 export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
-  personalityParts, personalityTypes, personalityType, setPersonalityType,
+  personalityParts, personalityTypes, colorMask, setColorMask,
 }) => {
   const {
     onNextPress,
@@ -41,13 +41,13 @@ export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
   const handleNextPress = async () => {
     if (!user) return;
 
-    console.info({ player: user.player })
+    console.info({ player: user.player, personalityTypes })
 
-    if (user.player?.color_mask !== personalityType?.color_mask) {
+    // if (user.player?.Color !== personalityType?.color_mask) {
       const { error } = await updateAboutYou({
         playerId: user.id,
         input: {
-          color_mask: personalityType?.color_mask
+          color_mask: colorMask
         }
       });
 
@@ -58,9 +58,8 @@ export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
           status: 'error',
           isClosable: true,
         });
-        return;
       }
-    }
+    // }
 
     onNextPress();
   };
@@ -78,26 +77,28 @@ export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
         </MetaLink>
       </Text>
       <SimpleGrid columns={[1, null, 2, 3]} spacing="8">
-        {personalityTypeChoices.map((p: PersonalityType) => (
+        {personalityParts.map((p: PersonalityPartInfo) => (
           <HStack
             key={p.id}
             p={6}
             spacing={4}
             bgColor={
-              personalityType && personalityType.id === p.id
+              ((colorMask && (colorMask & p.mask) > 0) // ToDo: implement
                 ? 'purpleBoxDark'
                 : 'purpleBoxLight'
+              )
             }
             borderRadius="0.5rem"
             _hover={{ bgColor: 'purpleBoxDark' }}
             transition="background 0.25s"
             cursor="pointer"
-            onClick={() => setPersonalityType(p)}
+            onClick={() => setColorMask(m => ((m ?? 0) & p.mask))}
             border="2px"
             borderColor={
-              personalityType && personalityType.id === p.id
+              (colorMask && (colorMask & p.mask) > 0
                 ? 'purple.400'
                 : 'transparent'
+              )
             }
           >
             <Image
@@ -120,9 +121,9 @@ export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
       <MetaButton 
         onClick={handleNextPress} 
         mt={10} 
-        isDisabled={!personalityType}
+        isDisabled={colorMask === undefined}
         isLoading={updateAboutYouRes.fetching}
-        loadingText="Saving"
+        loadingText='Saving'
       >
         {nextButtonLabel}
       </MetaButton>
