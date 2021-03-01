@@ -1,21 +1,63 @@
 import { MetaTheme } from '@metafam/ds';
-/*
-import AchieverImage from 'assets/achiever.png';
-import ChallengerImage from 'assets/challenger.png';
-import EnthusiastImage from 'assets/enthusiast.png';
-import HelperImage from 'assets/helper.png';
-import IndividualistImage from 'assets/individualist.png';
-import InvestigatorImage from 'assets/investigator.png';
-import LoyalistImage from 'assets/loyalist.png';
-import PeacemakerImage from 'assets/peacemaker.png';
-import ReformerImage from 'assets/reformer.png';
-*/
+
 import {
-  BaseColor_Enum,
+  //BaseColor_Enum,
   Member,
   Moloch,
   SkillCategory_Enum,
 } from 'graphql/autogen/types';
+
+enum BaseColor_Enum {
+  White = 'White',
+  Red = 'Red',
+  Blue = 'Blue',
+  Black = 'Black',
+  Green = 'Green'
+}
+
+export const ColorByMask = {
+  0b00000: 'Colorless',
+  0b10000: 'White',
+  0b01000: 'Blue',
+  0b00100: 'Black',
+  0b00010: 'Red',
+  0b00001: 'Green',
+  0b11000: 'The Azorius Senate',    // WU
+  0b01100: 'The House Dimir',       // UB
+  0b00101: 'The Golgari Swarm',     // BG
+  0b00011: 'The Gruul Clans',       // RG
+  0b10001: 'The Selesnya Conclave', // WG
+  0b01001: 'The Simic Combine',     // UG
+  0b10100: 'The Orzhov Syndicate',  // WB
+  0b01010: 'The Izzet League',      // UR
+  0b00110: 'The Cult of Rakdos',    // BR
+  0b10010: 'The Boros Legion',      // WR
+  0b11001: 'The Bant Shard',        // WUG
+  0b11100: 'The Esper Shard',       // WUB
+  0b01110: 'The Grixis Shard',      // UBR
+  0b00111: 'The Jund Shard',        // BRG
+  0b10011: 'The Naya Shard',        // WRG
+  0b11010: 'The Jeskai Way',        // WUR
+  0b01101: 'The Sultai Brood',      // UBG
+  0b10110: 'The Mardu Horde',       // WBR
+  0b01011: 'The Temur Frontier',    // URG
+  0b10101: 'The Abzan Houses',      // WBG
+  0b11110: 'Artifice',   // WUBR
+  0b11101: 'Growth',     // WUBG
+  0b11011: 'Altruism',   // WURG
+  0b10111: 'Aggression', // WBRG
+  0b01111: 'Chaos',      // UBRG
+  0b11111: 'Balance',    // WUBRG
+}
+
+const PersonalityIcons = (
+  Object.fromEntries(
+    Object.values(ColorByMask).map(
+      (name) => [name, import(`assets/colors/${name}.svg`)]
+    )
+  )
+)
+console.info(PersonalityIcons)
 
 export type Skill = {
   id: string;
@@ -23,7 +65,7 @@ export type Skill = {
   category: string;
 };
 
-export type PersonalityPart = {
+export type PersonalityInfo = {
   id: string;
   name: BaseColor_Enum;
   label: string;
@@ -35,15 +77,15 @@ export type Membership = Pick<Member, 'id'> & {
   moloch: Pick<Moloch, 'id' | 'title' | 'version'>;
 };
 
-export const PersonalityParts: {
-  [any: string]: PersonalityPart;
+export const PersonalityTypes: {
+  [any: string]: PersonalityInfo;
 } = {
   [BaseColor_Enum.White]: {
     id: '1',
     name: BaseColor_Enum.White,
     label: 'Justice',
     description: BaseColor_Enum[BaseColor_Enum.White],
-    image: ReformerImage,
+    image: PersonalityIcons['White'],
   },
   // [EnneagramType_Enum.Helper]: {
   //   id: '2',
