@@ -11,7 +11,7 @@ import PeacemakerImage from 'assets/peacemaker.png';
 import ReformerImage from 'assets/reformer.png';
 */
 import {
-  ColorType_Enum,
+  BaseColor_Enum,
   Member,
   Moloch,
   SkillCategory_Enum,
@@ -23,9 +23,9 @@ export type Skill = {
   category: string;
 };
 
-export type PersonalityType = {
+export type PersonalityPart = {
   id: string;
-  name: ColorType_Enum;
+  name: BaseColor_Enum;
   label: string;
   description: string;
   image: string;
@@ -35,13 +35,13 @@ export type Membership = Pick<Member, 'id'> & {
   moloch: Pick<Moloch, 'id' | 'title' | 'version'>;
 };
 
-export const PersonalityTypes: {
-  [any: string]: PersonalityType;
+export const PersonalityParts: {
+  [any: string]: PersonalityPart;
 } = {
-  [ColorType_Enum.White]: {
+  [BaseColor_Enum.White]: {
     id: '1',
-    name: ColorType_Enum.White,
-    label: 'The Reformer',
+    name: BaseColor_Enum.White,
+    label: 'Justice',
     description: 'Principled, Purposeful, Self-Controlled, and Perfectionistic',
     image: ReformerImage,
   },
