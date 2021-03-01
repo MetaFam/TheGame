@@ -30182,10 +30182,10 @@ web3@0.20.7, web3@^0.20.0, web3@^0.20.4:
     xhr2-cookies "^1.1.0"
     xmlhttprequest "*"
 
-web3modal@1.9.2:
-  version "1.9.2"
-  resolved "https://registry.yarnpkg.com/web3modal/-/web3modal-1.9.2.tgz#cada568ef17a06ae4eaa31fc6ec0bc31c25cc769"
-  integrity sha512-wxUpMPwFwjjTnhSSXbWY49Nrn9VAz9RRZpVmfFI2tMny26rsjqdBfYKiRNuMF2Y0Ui9gG4KiUtVkS7DJ2qfo2Q==
+web3modal@1.9.3:
+  version "1.9.3"
+  resolved "https://registry.yarnpkg.com/web3modal/-/web3modal-1.9.3.tgz#d965e565875ad70684fb7e735a69c719eb5e8d07"
+  integrity sha512-Z8mVHeTFa9eBNKvRipJfZDoJgeHBbh/WDLjzZZLgFmoBJgT81mc5blnh4mUjtButLCJAouV8iN4+2c5ebYvJFA==
   dependencies:
     detect-browser "^5.1.0"
     prop-types "^15.7.2"
