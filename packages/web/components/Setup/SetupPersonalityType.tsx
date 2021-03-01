@@ -70,7 +70,7 @@ export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
         Personality Type
       </MetaHeading>
       <Text mb={10}>
-        {'Please select your personality type below. Not sure what type you are?'}
+        Please select your personality type below. Not sure what type you are?
         <Text as='span'> </Text>
         <MetaLink href="//metafam.github.io/5-color-radar/#/test/" isExternal>
           Take a quick test.

@@ -1,37 +1,42 @@
 import { MetaTheme } from '@metafam/ds';
-
-import Colorless from 'assets/colors/Colorless.svg';
-import White from 'assets/colors/White.svg';
-import Blue from 'assets/colors/Colorless.svg';
+import Aggression from 'assets/colors/Aggression.svg';
+import Altruism from 'assets/colors/Altruism.svg';
+import Artifice from 'assets/colors/Artifice.svg';
+import Balance from 'assets/colors/Balance.svg';
 import Black from 'assets/colors/Black.svg';
-import Red from 'assets/colors/Red.svg';
+import Blue from 'assets/colors/Blue.svg';
+import Chaos from 'assets/colors/Chaos.svg';
+import Colorless from 'assets/colors/Colorless.svg';
 import Green from 'assets/colors/Green.svg';
+import Growth from 'assets/colors/Growth.svg';
+import Red from 'assets/colors/Red.svg';
+import Abzan from 'assets/colors/The Abzan Houses.svg';
 import Azorius from 'assets/colors/The Azorius Senate.svg';
-import Dimir from 'assets/colors/The House Dimir.svg';
+import Bant from 'assets/colors/The Bant Shard.svg';
+import Boros from 'assets/colors/The Boros Legion.svg';
+import Rakdos from 'assets/colors/The Cult of Rakdos.svg';
+import Esper from 'assets/colors/The Esper Shard.svg';
 import Golgari from 'assets/colors/The Golgari Swarm.svg';
+import Grixis from 'assets/colors/The Grixis Shard.svg';
 import Gruul from 'assets/colors/The Gruul Clans.svg';
+import Dimir from 'assets/colors/The House Dimir.svg';
+import Izzet from 'assets/colors/The Izzet League.svg';
+import Jeskai from 'assets/colors/The Jeskai Way.svg';
+import Jund from 'assets/colors/The Jund Shard.svg';
+import Mardu from 'assets/colors/The Mardu Horde.svg';
+import Naya from 'assets/colors/The Naya Shard.svg';
+import Orzhov from 'assets/colors/The Orzhov Syndicate.svg';
 import Selesnya from 'assets/colors/The Selesnya Conclave.svg';
 import Simic from 'assets/colors/The Simic Combine.svg';
-import Orzhov from 'assets/colors/The Orzhov Syndicate.svg';
-import Izzet from 'assets/colors/The Izzet League.svg';
-import Rakdos from 'assets/colors/The Cult of Rakdos.svg';
-import Boros from 'assets/colors/The Boros Legion.svg';
-import Bant from 'assets/colors/The Bant Shard.svg';
-import Esper from 'assets/colors/The Esper Shard.svg';
-import Grixis from 'assets/colors/The Grixis Shard.svg';
-import Jund from 'assets/colors/The Jund Shard.svg';
-import Naya from 'assets/colors/The Naya Shard.svg';
-import Jeskai from 'assets/colors/The Jeskai Way.svg';
 import Sultai from 'assets/colors/The Sultai Brood.svg';
-import Mardu from 'assets/colors/The Mardu Horde.svg';
 import Temur from 'assets/colors/The Temur Frontier.svg';
-import Abzan from 'assets/colors/The Abzan Houses.svg';
-import Artifice from 'assets/colors/Artifice.svg';
-import Growth from 'assets/colors/Growth.svg';
-import Altruism from 'assets/colors/Altruism.svg';
-import Aggression from 'assets/colors/Aggression.svg';
-import Chaos from 'assets/colors/Chaos.svg';
-import Balance from 'assets/colors/Balance.svg';
+import White from 'assets/colors/White.svg';
+import {
+  // BaseColor_Enum,
+  Member,
+  Moloch,
+  SkillCategory_Enum,
+} from 'graphql/autogen/types';
 
 export const ColorByMask = {
   0b00000: 'Colorless',
@@ -101,13 +106,6 @@ const PersonalityIcons = {
   'The Abzan Houses': Abzan,
   Artifice, Growth, Altruism, Aggression, Chaos, Balance,
 };
-
-import {
-  //BaseColor_Enum,
-  Member,
-  Moloch,
-  SkillCategory_Enum,
-} from 'graphql/autogen/types';
 
 enum BaseColor_Enum {
   White = 'White',

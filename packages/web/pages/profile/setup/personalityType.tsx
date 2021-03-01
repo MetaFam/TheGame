@@ -33,8 +33,8 @@ const PersonalityTypeSetup: React.FC<Props> = (props) => {
   
   if (user?.player) {
     // const { player } = user;
-    if (!colorMask /*&& player.ColorAspect*/) {
-      //setColorMask(player.ColorAspect);
+    if (!colorMask /* && player.ColorAspect */) {
+      // setColorMask(player.ColorAspect);
     }
   }
 
