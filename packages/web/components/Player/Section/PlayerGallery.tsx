@@ -14,10 +14,7 @@ import {
 import { MetaLink as Link } from 'components/Link';
 import { ProfileSection } from 'components/ProfileSection';
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
-import {
-  Collectible,
-  useOpenSeaCollectibles,
-} from 'lib/hooks/useOpenSeaCollectibles';
+import { Collectible, useOpenSeaCollectibles } from 'lib/hooks/opensea';
 import React from 'react';
 import { isBackdropFilterSupported } from 'utils/compatibilityHelpers';
 

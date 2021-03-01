@@ -54,6 +54,10 @@ export const PlayerFragment = gql`
         totalShares
       }
     }
+    brightid_status {
+      unique
+      contextIds
+    }
   }
 `;
 

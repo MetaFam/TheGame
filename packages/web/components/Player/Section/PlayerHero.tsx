@@ -11,7 +11,7 @@ import { PersonalityTypes } from '../../../graphql/types';
 import { FlexContainer } from '../../Container';
 import { ProfileSection } from '../../ProfileSection';
 import { PlayerContacts } from '../PlayerContacts';
-import { PlayerBrightID } from './PlayerBrightID';
+import { PlayerBrightId } from './PlayerBrightId';
 import { PlayerCollab } from './PlayerCollab';
 
 const BIO_LENGTH = 240;
@@ -35,7 +35,7 @@ export const PlayerHero: React.FC<Props> = ({ player }) => {
           <Text fontSize="xl" fontFamily="heading" mb="1">
             {getPlayerName(player)}
           </Text>
-          <PlayerBrightID player={player} />
+          <PlayerBrightId player={player} />
         </Box>
         <Box>
           <Text>

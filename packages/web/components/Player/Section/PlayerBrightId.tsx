@@ -1,5 +1,6 @@
 import {
   Box,
+  BrightIdIcon,
   Button,
   Flex,
   HStack,
@@ -13,20 +14,20 @@ import {
   useDisclosure,
   VStack,
 } from '@metafam/ds';
-import { ReactComponent as BrightIDLogo } from 'assets/brightid-logo.svg';
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
 import { useUser, useWeb3 } from 'lib/hooks';
-import { useBrightID } from 'lib/hooks/useBrightID';
+import { useBrightIdStatus, useBrightIdUpdated } from 'lib/hooks/brightId';
 import React, { useEffect, useState } from 'react';
 import { QRCode } from 'react-qr-svg';
 import { isBackdropFilterSupported } from 'utils/compatibilityHelpers';
 
 type Props = { player: PlayerFragmentFragment };
 
-export const PlayerBrightID: React.FC<Props> = ({ player }) => {
+export const PlayerBrightId: React.FC<Props> = ({ player }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { verified, loading, deeplink } = useBrightID({ player });
   const { user, fetching } = useUser();
+  const { verified, deeplink, universalLink } = useBrightIdStatus({ player });
+
   const { isConnected } = useWeb3();
 
   const [isLoggedInUser, setIsLoggedInUser] = useState(false);
@@ -34,6 +35,8 @@ export const PlayerBrightID: React.FC<Props> = ({ player }) => {
   useEffect(() => {
     setIsLoggedInUser(isConnected && !fetching && user?.id === player.id);
   }, [user, fetching, isConnected, player.id]);
+
+  useBrightIdUpdated({ player, poll: !verified && isOpen && isLoggedInUser });
 
   const modalContentStyles = isBackdropFilterSupported()
     ? {
@@ -46,13 +49,11 @@ export const PlayerBrightID: React.FC<Props> = ({ player }) => {
 
   return (
     <Flex align="center" justify="center">
-      {loading || fetching ? (
+      {fetching ? (
         <Spinner size="sm" color="brightId" />
       ) : (
         <>
-          <Box w="1rem" h="1rem" mr="0.5rem">
-            <BrightIDLogo w="1rem" />
-          </Box>
+          <BrightIdIcon w="1rem" h="1rem" mr="0.5rem" color="brightId" />
           {verified && (
             <Text
               as="span"
@@ -117,7 +118,7 @@ export const PlayerBrightID: React.FC<Props> = ({ player }) => {
             <VStack p={4} css={modalContentStyles} w="100%" color="blueLight">
               <VStack p={4} w="100%" maxW="20rem">
                 <QRCode value={deeplink} />
-                <Link href={deeplink} isExternal color="cyanText" mt={2}>
+                <Link href={universalLink} isExternal color="cyanText" mt={2}>
                   Open link in App
                 </Link>
               </VStack>
