@@ -15,9 +15,11 @@ export const GetPlayerTypes = gql`
 `;
 
 export const getPlayerTypes = async () => {
-  const { data, error } = await client
+  const { data, error } = await (
+    client
     .query<GetPlayerTypesQuery>(GetPlayerTypes)
-    .toPromise();
+    .toPromise()
+  );
 
   if (!data) {
     if (error) {

@@ -489,6 +489,9 @@ unique or primary key constraints on table "ColorAspect"
 """
 enum ColorAspect_constraint {
   """unique or primary key constraint"""
+  ColorAspect_aspect_key
+
+  """unique or primary key constraint"""
   ColorAspect_pkey
 }
 

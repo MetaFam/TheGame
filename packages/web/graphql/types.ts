@@ -115,8 +115,6 @@ enum BaseColor_Enum {
   Green = 'Green'
 };
 
-console.info(PersonalityIcons)
-
 export type Skill = {
   id: string;
   name: string;
@@ -136,17 +134,38 @@ export type Membership = Pick<Member, 'id'> & {
   moloch: Pick<Moloch, 'id' | 'title' | 'version'>;
 };
 
-export const PersonalityTypes: {
+export const PersonalityTypes = {
   [any: string]: PersonalityPartInfo;
-} = {
-  [BaseColor_Enum.White]: {
-    id: '1',
-    name: BaseColor_Enum.White,
-    label: 'Justice',
-    description: '¿Huh?', // ToDo: load from db
-    image: PersonalityIcons[BaseColor_Enum.White],
-    mask: 1,
-  },
+} = (
+  Object.fromEntries(
+    Object.entries(ColorByMask).map(
+      ([mask, name]) => (
+        [
+          name,
+          {
+            id: mask.toString(),
+            name,
+            description: '¿Huh?', // ToDo: load from db
+            image: PersonalityIcons[name],
+            mask,
+          }
+        ]
+      )
+    )
+  )
+)
+
+// export const PersonalityTypes: {
+//   [any: string]: PersonalityPartInfo;
+// } = {
+//   [BaseColor_Enum.White]: {
+//     id: '1',
+//     name: BaseColor_Enum.White,
+//     label: 'Justice',
+//     description: '¿Huh?', // ToDo: load from db
+//     image: PersonalityIcons[BaseColor_Enum.White],
+//     mask: 1,
+//   },
   // [EnneagramType_Enum.Helper]: {
   //   id: '2',
   //   name: EnneagramType_Enum.Helper,
@@ -203,12 +222,16 @@ export const PersonalityTypes: {
   //   description: 'Receptive, Reassuring, Agreeable, and Complacent',
   //   image: PeacemakerImage,
   // },
-};
+// };
 
 export const PersonalityParts: {
   [any: string]: PersonalityPartInfo;
 } = {
   [BaseColor_Enum.White]: PersonalityTypes[BaseColor_Enum.White],
+  [BaseColor_Enum.Blue]: PersonalityTypes[BaseColor_Enum.Blue],
+  [BaseColor_Enum.Black]: PersonalityTypes[BaseColor_Enum.Black],
+  [BaseColor_Enum.Red]: PersonalityTypes[BaseColor_Enum.Red],
+  [BaseColor_Enum.Green]: PersonalityTypes[BaseColor_Enum.Green],
 };
 
 export const SkillColors: Record<SkillCategory_Enum, string> = {

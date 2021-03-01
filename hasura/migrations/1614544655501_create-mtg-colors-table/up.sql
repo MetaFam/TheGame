@@ -13,7 +13,7 @@ INSERT INTO "BaseColor" (name, description) VALUES
 
 CREATE TABLE public."ColorAspect" (
   mask integer PRIMARY KEY,
-  aspect text NOT NULL
+  aspect text UNIQUE NOT NULL
 );
 
 INSERT INTO "ColorAspect" (mask, aspect) VALUES
@@ -51,10 +51,10 @@ INSERT INTO "ColorAspect" (mask, aspect) VALUES
   (/*11111*/ 'x1F'::bit(8)::int, 'Balance')
 ;
 
-ALTER TABLE public."ColorAspect"
+ALTER TABLE public."BaseColor"
   ADD CONSTRAINT player_aspect_fkey
-  FOREIGN KEY (aspect)
-  REFERENCES public."BaseColor"(name)
+  FOREIGN KEY (name)
+  REFERENCES public."ColorAspect"(aspect)
   ON UPDATE restrict ON DELETE restrict
 ;
 
