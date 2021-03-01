@@ -1,7 +1,9 @@
 import { CONFIG } from '../../../../config';
 import { QueryResolvers } from '../../autogen/types';
 
-const ENDPOINT = `${CONFIG.brightIdNodeUrl}/node/v5/verifications/${CONFIG.brightIdContext}`;
+const CONTEXT = 'MetaGame';
+
+const ENDPOINT = `${CONFIG.brightIdNodeUrl}/node/v5/verifications/${CONTEXT}`;
 
 export const getBrightIdStatus: QueryResolvers['getBrightIdStatus'] = async (
   _,
