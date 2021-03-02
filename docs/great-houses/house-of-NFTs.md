@@ -50,11 +50,14 @@ Digital drawing platform where artists respond to other artists and create visua
 ## [Ephemira](https://www.ephimera.com/)  (EPH)
 Curated platform for photography. One-of-one single editions. Welcoming galleries into the cryptoart space.
 
-- **[KnownOrigin](https://knownorigin.io/)**  (KODA) Curated platform. Allows for  editions  of an artwork (a fixed number of tokens of one artwork), plus one-of-one tokens. Also enables 'split fees' which allow artists to enter an additional ETH address (for a collaborator, for example, or - as was initially intended - to be able to automatically funnel a percentage of sales to, say a charity).
+## [KnownOrigin](https://knownorigin.io/)  (KODA)
+Curated platform. Allows for  editions  of an artwork (a fixed number of tokens of one artwork), plus one-of-one tokens. Also enables 'split fees' which allow artists to enter an additional ETH address (for a collaborator, for example, or - as was initially intended - to be able to automatically funnel a percentage of sales to, say a charity).
 
-- **[MakersPlace](https://makersplace.com/)**  (MKT2) Curated platform. Editions  and one-of-ones, 'hides' the web3 aspect from artists and users to make it more attractive to traditional artists.
+## [MakersPlace](https://makersplace.com/)  (MKT2)
+Curated platform. Editions  and one-of-ones, 'hides' the web3 aspect from artists and users to make it more attractive to traditional artists.
 
-- **[Mintable](https://mintable.app/)** Provides a smart contract factory for artists to be able to create their own marketplace plus onsite tools like auctions and flexible licensing for digital assets. Has created an NFT DAO with $MINTS.
+## [Mintable](https://mintable.app/)
+Provides a smart contract factory for artists to be able to create their own marketplace plus onsite tools like auctions and flexible licensing for digital assets. Has created an NFT DAO with $MINTS.
 
 ## [Mintbase](https://mintbase.io/)
 Provides a smart contract factory for artists to be able to create their own contracts, storefronts hosted on the Mintbase website. Be your own marketplace! Provides API access so storefronts can be integrated on artists' own websites. Porting to NEAR.
@@ -68,14 +71,14 @@ Both the marketplace for all other marketplaces plus the ability to create your 
 ## [Pixura](https://pixura.io/)
 Provides a smart contract factory for artists to be able to create their own marketplace via the GUI, also offers developer tools to programmatically issue & manage tokens, run queries against your smart contracts with GraphQL, and search through token metadata with Elasticsearch.
 
-- **[Rarible](https://app.rarible.com/)**  (RARI) Not to be confused with the ERC-20 $RARI token.  Marketplace for art + many other things.  Also provides the ability to create your own contracts.
+## [Rarible](https://app.rarible.com/)  (RARI)
+Not to be confused with the ERC-20 $RARI token.  Marketplace for art + many other things.  Also provides the ability to create your own contracts.
 
 ## [Snark.art](https://snark.art/) (AoQ + others)
 Curated platform specialising in bridging the gap between traditional and digital arts. Fine art and experimental focus.
 
 ## [SuperRare](https://superrare.co/) (SUPR)
 Curated platform. One-of-one single edition  tokens only, trend setting auction tools.
-
 
 # Domain Names
 
@@ -85,12 +88,6 @@ Decentralized naming for wallets, websites, & more. ENS is the most widely integ
 ## [Unstoppable Domains](https://unstoppabledomains.com/)
 Make your crypto currency payments simple and build censorship resistant websites.
 
-## Virtual Worlds
-
-- **[Cryptovoxels](https://www.cryptovoxels.com/)** A user owned virtual world made from voxels.
-- **[Decentraland](https://decentraland.org/)** Create, explore and trade in the first-ever virtual world owned by its users.
-- **[The Sandbox](https://www.sandbox.game/en/)** Play, Create, Own, and Govern a virtual world made by players.
-- **[Somnium Space](https://somniumspace.com/)** Open, Social & Persistent VR world.
 
 # Virtual Worlds
 
@@ -100,7 +97,7 @@ A user owned virtual world made from voxels.
 ## [Decentraland](https://decentraland.org/)
 Create, explore and trade in the first-ever virtual world owned by its users.
 
-## [The Sandbox]{https://www.sandbox.game/en/}
+## [The Sandbox](https://www.sandbox.game/en/)
 Play, Create, Own, and Govern a virtual world made by players.
 
 ## [Somnium Space](https://somniumspace.com/)
@@ -146,11 +143,8 @@ Collect and trade CryptoKitties in one of the world's first blockchain games. Br
 ## [F1 Delta Time](https://www.f1deltatime.com/)
 A blockchain game on Ethereum. The game centres around the collection and trading of unique Cars, Drivers and Components.
 
-- **[Aavegotchi](https://www.aavegotchi.com/)** DeFi-Staked Crypto Collectibles
-- **[Avastars](https://avastars.io/)** Quadrillions of avatars generated on the fly from many layers of custom artwork, each mintable as a non-fungible token (NFT) on Ethereum.
-- **[Axie Infinity](https://axieinfinity.com/)** Play to Earn Blockchain Game.
-- **[Crypto Kitties](https://www.cryptokitties.co/)** Collect and trade CryptoKitties in one of the world's first blockchain games. Breed your rarest cats to create the purrfect furry friend.
-- **[Crypto Punks](https://www.larvalabs.com/cryptopunks)** 10,000 unique collectible characters with proof of ownership stored on the Ethereum blockchain. The project that inspired the modern CryptoArt movement.
+## [MLB Champions](https://www.mlbcryptobaseball.com/)
+Offers authentic digital figures of your favorite MLB players! Build a collection to challenge fans in simulated baseball games.
 
 ## [Battle Racers](https://battleracers.io/)
 The blockchain arcade racing game on Decentraland
