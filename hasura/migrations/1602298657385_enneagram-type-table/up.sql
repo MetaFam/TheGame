@@ -1,5 +1,5 @@
 
-CREATE TABLE "public"."ColorType"(
+CREATE TABLE "public"."EnneagramType"(
   "name" text NOT NULL,
   "description" text NOT NULL,
   PRIMARY KEY ("name")
@@ -19,7 +19,8 @@ INSERT INTO "EnneagramType" (name, description) VALUES
 ALTER TABLE "public"."Player" ALTER COLUMN "enneagram" TYPE text;
 
 alter table "public"."Player"
-           add constraint "Player_enneagram_fkey"
-           foreign key ("enneagram")
-           references "public"."EnneagramType"
-           ("name") on update restrict on delete restrict;
+  add constraint "Player_enneagram_fkey"
+  foreign key ("enneagram")
+  references "public"."EnneagramType"("name")
+  on update restrict on delete restrict
+;

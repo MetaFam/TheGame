@@ -3451,9 +3451,6 @@ type player {
   """An object relationship"""
   EnneagramType: EnneagramType
 
-  """An object relationship"""
-  PlayerRank: PlayerRank
-
   """An array relationship"""
   Player_Skills(
     """distinct select on columns"""
@@ -3876,7 +3873,6 @@ input player_bool_exp {
   Accounts: player_account_bool_exp
   ColorAspect: ColorAspect_bool_exp
   EnneagramType: EnneagramType_bool_exp
-  PlayerRank: PlayerRank_bool_exp
   Player_Skills: player_skill_bool_exp
   _and: [player_bool_exp]
   _not: player_bool_exp
@@ -3935,7 +3931,6 @@ input player_insert_input {
   Accounts: player_account_arr_rel_insert_input
   ColorAspect: ColorAspect_obj_rel_insert_input
   EnneagramType: EnneagramType_obj_rel_insert_input
-  PlayerRank: PlayerRank_obj_rel_insert_input
   Player_Skills: player_skill_arr_rel_insert_input
   availability_hours: Int
   color_mask: Int
@@ -4060,7 +4055,6 @@ input player_order_by {
   Accounts_aggregate: player_account_aggregate_order_by
   ColorAspect: ColorAspect_order_by
   EnneagramType: EnneagramType_order_by
-  PlayerRank: PlayerRank_order_by
   Player_Skills_aggregate: player_skill_aggregate_order_by
   availability_hours: order_by
   color_mask: order_by

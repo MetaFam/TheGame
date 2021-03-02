@@ -6,6 +6,19 @@
     schema: public
     name: BaseColor
   is_enum: true
+  select_permissions:
+  - role: player
+    permission:
+      columns:
+      - name
+      - description
+      filter: {}
+  - role: public
+    permission:
+      columns:
+      - description
+      - name
+      filter: {}
 - table:
     schema: public
     name: ColorAspect
@@ -17,6 +30,19 @@
         table:
           schema: public
           name: player
+  select_permissions:
+  - role: player
+    permission:
+      columns:
+      - mask
+      - aspect
+      filter: {}
+  - role: public
+    permission:
+      columns:
+      - mask
+      - aspect
+      filter: {}
 - table:
     schema: public
     name: EnneagramType
@@ -220,9 +246,6 @@
   - name: EnneagramType
     using:
       foreign_key_constraint_on: enneagram
-  - name: PlayerRank
-    using:
-      foreign_key_constraint_on: rank
   - name: playerType
     using:
       foreign_key_constraint_on: player_type_id

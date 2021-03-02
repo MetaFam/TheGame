@@ -1,4 +1,3 @@
-
 ALTER TABLE public.player
   DROP CONSTRAINT player_color_mask_fkey
 ;

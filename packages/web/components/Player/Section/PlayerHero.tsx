@@ -1,32 +1,44 @@
 import { Avatar, Box, HStack, Image, Text, VStack } from '@metafam/ds';
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
-import React from 'react';
+import { PersonalityPartInfo } from 'graphql/types';
+import React, { useEffect } from 'react';
 import {
   getPlayerDescription,
   getPlayerImage,
   getPlayerName,
 } from 'utils/playerHelpers';
 
-import { PersonalityTypes } from '../../../graphql/types';
+import { getPersonalityInfo } from '../../../graphql/getPersonalityInfo';
 import { FlexContainer } from '../../Container';
 import { ProfileSection } from '../../ProfileSection';
 import { PlayerContacts } from '../PlayerContacts';
 import { PlayerCollab } from './PlayerCollab';
 
-const BIO_LENGTH = 240;
+const MAX_BIO_LENGTH = 240;
 
 type Props = { player: PlayerFragmentFragment };
 export const PlayerHero: React.FC<Props> = ({ player }) => {
-  const [show, setShow] = React.useState(
-    getPlayerDescription(player).length < BIO_LENGTH,
-  );
+  const description = getPlayerDescription(player);
+  const [show, setShow] = React.useState(description.length <= MAX_BIO_LENGTH);
+  const [types, setTypes] = React.useState<{
+    [any: string]: PersonalityPartInfo;
+  }>();
+  const type = types?.[player.ColorAspect?.mask];
+
+  const loadTypes = async () => {
+    const { types: ts } = await getPersonalityInfo();
+    setTypes(ts);
+  };
+  useEffect(() => {
+    loadTypes();
+  }, []);
 
   return (
     <ProfileSection>
       <VStack spacing={8}>
         <Avatar
-          w={{ base: '32', md: '56' }}
-          h={{ base: '32', md: '56' }}
+          w={{ base: 32, md: 56 }}
+          h={{ base: 32, md: 56 }}
           src={getPlayerImage(player)}
           name={getPlayerName(player)}
         />
@@ -37,56 +49,55 @@ export const PlayerHero: React.FC<Props> = ({ player }) => {
         </Box>
         <Box>
           <Text>
-            {`${getPlayerDescription(player).substring(
-              0,
-              show ? getPlayerDescription(player).length : BIO_LENGTH,
-            )}${show ? '' : '...'} `}
-            {getPlayerDescription(player).length > BIO_LENGTH && (
+            {show
+              ? description
+              : `${description.substring(0, MAX_BIO_LENGTH)}…`}
+            {description.length > MAX_BIO_LENGTH && (
               <Text
                 as="span"
                 fontFamily="body"
                 fontSize="xs"
                 color="cyanText"
                 cursor="pointer"
-                onClick={() => setShow(!show)}
+                onClick={() => setShow((s) => !s)}
               >
-                Read {show ? 'less' : 'more'}
+                Read {show ? 'Less' : 'More'}
               </Text>
             )}
           </Text>
         </Box>
 
-        <HStack mt="2">
+        <HStack mt={2}>
           <PlayerContacts player={player} />
         </HStack>
         <Box w="100%">
           <PlayerCollab player={player} />
         </Box>
-        {player.EnneagramType && (
+        {type && (
           <HStack spacing={4}>
             <Image
               w="100%"
               maxW="4rem"
-              src={PersonalityTypes[player.EnneagramType.name].image}
-              alt={player.EnneagramType.name}
+              src={type.image}
+              alt={type.name}
               style={{ mixBlendMode: 'color-dodge' }}
             />
             <FlexContainer align="stretch">
               <Text color="white" fontWeight="bold">
-                {player.EnneagramType.name}
+                {type.name}
               </Text>
-              <Text color="blueLight">{player.EnneagramType.description}</Text>
+              <Text color="blueLight">{type.description}</Text>
             </FlexContainer>
           </HStack>
         )}
-        {player.playerType?.title ? (
+        {player.playerType?.title && (
           <FlexContainer align="stretch">
-            <Text color="white" fontWeight="bold">
-              {player.playerType.title.toUpperCase()}
+            <Text color="white" fontWeight="bold" textTransform="uppercase">
+              {player.playerType.title}
             </Text>
             <Text color="blueLight">{player.playerType.description}</Text>
           </FlexContainer>
-        ) : null}
+        )}
       </VStack>
     </ProfileSection>
   );
