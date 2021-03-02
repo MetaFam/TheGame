@@ -128,6 +128,8 @@ export const PageHeader: React.FC = () => {
 
   const drawerOpacity = hasMounted && isBackdropFilterSupported() ? 0.75 : 0.98;
 
+  console.info('REndering Header');
+
   return (
     <Flex
       as="nav"

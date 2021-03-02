@@ -4,47 +4,6 @@
   is_enum: true
 - table:
     schema: public
-    name: BaseColor
-  is_enum: true
-  select_permissions:
-  - role: player
-    permission:
-      columns:
-      - name
-      - description
-      filter: {}
-  - role: public
-    permission:
-      columns:
-      - description
-      - name
-      filter: {}
-- table:
-    schema: public
-    name: ColorAspect
-  array_relationships:
-  - name: players
-    using:
-      foreign_key_constraint_on:
-        column: color_mask
-        table:
-          schema: public
-          name: player
-  select_permissions:
-  - role: player
-    permission:
-      columns:
-      - mask
-      - aspect
-      filter: {}
-  - role: public
-    permission:
-      columns:
-      - mask
-      - aspect
-      filter: {}
-- table:
-    schema: public
     name: EnneagramType
   is_enum: true
   select_permissions:
@@ -240,9 +199,6 @@
     schema: public
     name: player
   object_relationships:
-  - name: ColorAspect
-    using:
-      foreign_key_constraint_on: color_mask
   - name: EnneagramType
     using:
       foreign_key_constraint_on: enneagram
@@ -304,6 +260,15 @@
       - ethereum_address
       remote_schema: backend
     name: daohausMemberships
+  - definition:
+      remote_field:
+        getBrightIdStatus:
+          arguments:
+            contextId: $id
+      hasura_fields:
+      - id
+      remote_schema: backend
+    name: brightid_status
   select_permissions:
   - role: player
     permission:

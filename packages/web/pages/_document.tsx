@@ -18,6 +18,7 @@ class MetaDocument extends Document {
   }
 
   render(): JSX.Element {
+    console.info('Rendering In MetaDocument');
     return (
       <Html>
         <Head>

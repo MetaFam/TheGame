@@ -371,7 +371,7 @@ columns and relationships of "ColorAspect"
 """
 type ColorAspect {
   aspect: String!
-  mask: Int!
+  mask: String!
 
   """An array relationship"""
   players(
@@ -422,34 +422,18 @@ type ColorAspect_aggregate {
 aggregate fields of "ColorAspect"
 """
 type ColorAspect_aggregate_fields {
-  avg: ColorAspect_avg_fields
   count(columns: [ColorAspect_select_column!], distinct: Boolean): Int
   max: ColorAspect_max_fields
   min: ColorAspect_min_fields
-  stddev: ColorAspect_stddev_fields
-  stddev_pop: ColorAspect_stddev_pop_fields
-  stddev_samp: ColorAspect_stddev_samp_fields
-  sum: ColorAspect_sum_fields
-  var_pop: ColorAspect_var_pop_fields
-  var_samp: ColorAspect_var_samp_fields
-  variance: ColorAspect_variance_fields
 }
 
 """
 order by aggregate values of table "ColorAspect"
 """
 input ColorAspect_aggregate_order_by {
-  avg: ColorAspect_avg_order_by
   count: order_by
   max: ColorAspect_max_order_by
   min: ColorAspect_min_order_by
-  stddev: ColorAspect_stddev_order_by
-  stddev_pop: ColorAspect_stddev_pop_order_by
-  stddev_samp: ColorAspect_stddev_samp_order_by
-  sum: ColorAspect_sum_order_by
-  var_pop: ColorAspect_var_pop_order_by
-  var_samp: ColorAspect_var_samp_order_by
-  variance: ColorAspect_variance_order_by
 }
 
 """
@@ -460,18 +444,6 @@ input ColorAspect_arr_rel_insert_input {
   on_conflict: ColorAspect_on_conflict
 }
 
-"""aggregate avg on columns"""
-type ColorAspect_avg_fields {
-  mask: Float
-}
-
-"""
-order by avg() on columns of table "ColorAspect"
-"""
-input ColorAspect_avg_order_by {
-  mask: order_by
-}
-
 """
 Boolean expression to filter rows from the table "ColorAspect". All fields are combined with a logical 'AND'.
 """
@@ -480,7 +452,7 @@ input ColorAspect_bool_exp {
   _not: ColorAspect_bool_exp
   _or: [ColorAspect_bool_exp]
   aspect: String_comparison_exp
-  mask: Int_comparison_exp
+  mask: String_comparison_exp
   players: player_bool_exp
 }
 
@@ -495,11 +467,113 @@ enum ColorAspect_constraint {
   ColorAspect_pkey
 }
 
+enum ColorAspect_enum {
+  """Colorless"""
+  c00000
+
+  """Green"""
+  c00001
+
+  """Red"""
+  c00010
+
+  """The Gruul Clans"""
+  c00011
+
+  """Black"""
+  c00100
+
+  """The Golgari Swarm"""
+  c00101
+
+  """The Cult of Rakdos"""
+  c00110
+
+  """The Jund Shard"""
+  c00111
+
+  """Blue"""
+  c01000
+
+  """The Simic Combine"""
+  c01001
+
+  """The Izzet League"""
+  c01010
+
+  """The Temur Frontier"""
+  c01011
+
+  """The House Dimir"""
+  c01100
+
+  """The Sultai Brood"""
+  c01101
+
+  """The Grixis Shard"""
+  c01110
+
+  """Chaos"""
+  c01111
+
+  """White"""
+  c10000
+
+  """The Selesnya Conclave"""
+  c10001
+
+  """The Boros Legion"""
+  c10010
+
+  """The Naya Shard"""
+  c10011
+
+  """The Orzhov Syndicate"""
+  c10100
+
+  """The Abzan Houses"""
+  c10101
+
+  """The Mardu Horde"""
+  c10110
+
+  """Aggression"""
+  c10111
+
+  """The Azorius Senate"""
+  c11000
+
+  """The Bant Shard"""
+  c11001
+
+  """The Jeskai Way"""
+  c11010
+
+  """Altruism"""
+  c11011
+
+  """The Esper Shard"""
+  c11100
+
+  """Growth"""
+  c11101
+
+  """Artifice"""
+  c11110
+
+  """Balance"""
+  c11111
+}
+
 """
-input type for incrementing integer column in table "ColorAspect"
+expression to compare columns of type ColorAspect_enum. All fields are combined with logical 'AND'.
 """
-input ColorAspect_inc_input {
-  mask: Int
+input ColorAspect_enum_comparison_exp {
+  _eq: ColorAspect_enum
+  _in: [ColorAspect_enum!]
+  _is_null: Boolean
+  _neq: ColorAspect_enum
+  _nin: [ColorAspect_enum!]
 }
 
 """
@@ -507,14 +581,14 @@ input type for inserting data into table "ColorAspect"
 """
 input ColorAspect_insert_input {
   aspect: String
-  mask: Int
+  mask: String
   players: player_arr_rel_insert_input
 }
 
 """aggregate max on columns"""
 type ColorAspect_max_fields {
   aspect: String
-  mask: Int
+  mask: String
 }
 
 """
@@ -528,7 +602,7 @@ input ColorAspect_max_order_by {
 """aggregate min on columns"""
 type ColorAspect_min_fields {
   aspect: String
-  mask: Int
+  mask: String
 }
 
 """
@@ -580,7 +654,7 @@ input ColorAspect_order_by {
 primary key columns input for table: "ColorAspect"
 """
 input ColorAspect_pk_columns_input {
-  mask: Int!
+  mask: String!
 }
 
 """
@@ -599,55 +673,7 @@ input type for updating data in table "ColorAspect"
 """
 input ColorAspect_set_input {
   aspect: String
-  mask: Int
-}
-
-"""aggregate stddev on columns"""
-type ColorAspect_stddev_fields {
-  mask: Float
-}
-
-"""
-order by stddev() on columns of table "ColorAspect"
-"""
-input ColorAspect_stddev_order_by {
-  mask: order_by
-}
-
-"""aggregate stddev_pop on columns"""
-type ColorAspect_stddev_pop_fields {
-  mask: Float
-}
-
-"""
-order by stddev_pop() on columns of table "ColorAspect"
-"""
-input ColorAspect_stddev_pop_order_by {
-  mask: order_by
-}
-
-"""aggregate stddev_samp on columns"""
-type ColorAspect_stddev_samp_fields {
-  mask: Float
-}
-
-"""
-order by stddev_samp() on columns of table "ColorAspect"
-"""
-input ColorAspect_stddev_samp_order_by {
-  mask: order_by
-}
-
-"""aggregate sum on columns"""
-type ColorAspect_sum_fields {
-  mask: Int
-}
-
-"""
-order by sum() on columns of table "ColorAspect"
-"""
-input ColorAspect_sum_order_by {
-  mask: order_by
+  mask: String
 }
 
 """
@@ -659,42 +685,6 @@ enum ColorAspect_update_column {
 
   """column name"""
   mask
-}
-
-"""aggregate var_pop on columns"""
-type ColorAspect_var_pop_fields {
-  mask: Float
-}
-
-"""
-order by var_pop() on columns of table "ColorAspect"
-"""
-input ColorAspect_var_pop_order_by {
-  mask: order_by
-}
-
-"""aggregate var_samp on columns"""
-type ColorAspect_var_samp_fields {
-  mask: Float
-}
-
-"""
-order by var_samp() on columns of table "ColorAspect"
-"""
-input ColorAspect_var_samp_order_by {
-  mask: order_by
-}
-
-"""aggregate variance on columns"""
-type ColorAspect_variance_fields {
-  mask: Float
-}
-
-"""
-order by variance() on columns of table "ColorAspect"
-"""
-input ColorAspect_variance_order_by {
-  mask: order_by
 }
 
 input CreateQuestCompletionInput {
@@ -2193,7 +2183,7 @@ type mutation_root {
   """
   delete single row from the table: "ColorAspect"
   """
-  delete_ColorAspect_by_pk(mask: Int!): ColorAspect
+  delete_ColorAspect_by_pk(mask: String!): ColorAspect
 
   """
   delete data from the table: "EnneagramType"
@@ -2964,9 +2954,6 @@ type mutation_root {
   update data of the table: "ColorAspect"
   """
   update_ColorAspect(
-    """increments the integer columns with given value of the filtered values"""
-    _inc: ColorAspect_inc_input
-
     """sets the columns of the filtered rows to the given values"""
     _set: ColorAspect_set_input
 
@@ -2978,9 +2965,6 @@ type mutation_root {
   update single row of the table: "ColorAspect"
   """
   update_ColorAspect_by_pk(
-    """increments the integer columns with given value of the filtered values"""
-    _inc: ColorAspect_inc_input
-
     """sets the columns of the filtered rows to the given values"""
     _set: ColorAspect_set_input
     pk_columns: ColorAspect_pk_columns_input!
@@ -3490,7 +3474,7 @@ type player {
 
   """Remote relationship field"""
   box_profile: BoxProfile
-  color_mask: Int
+  color_mask: ColorAspect_enum
   created_at: timestamptz
 
   """Remote relationship field"""
@@ -3851,7 +3835,6 @@ input player_arr_rel_insert_input {
 """aggregate avg on columns"""
 type player_avg_fields {
   availability_hours: Float
-  color_mask: Float
   player_type_id: Float
   total_xp: Float
 }
@@ -3861,7 +3844,6 @@ order by avg() on columns of table "player"
 """
 input player_avg_order_by {
   availability_hours: order_by
-  color_mask: order_by
   player_type_id: order_by
   total_xp: order_by
 }
@@ -3878,7 +3860,7 @@ input player_bool_exp {
   _not: player_bool_exp
   _or: [player_bool_exp]
   availability_hours: Int_comparison_exp
-  color_mask: Int_comparison_exp
+  color_mask: ColorAspect_enum_comparison_exp
   created_at: timestamptz_comparison_exp
   enneagram: EnneagramType_enum_comparison_exp
   ethereum_address: String_comparison_exp
@@ -3919,7 +3901,6 @@ input type for incrementing integer column in table "player"
 """
 input player_inc_input {
   availability_hours: Int
-  color_mask: Int
   player_type_id: Int
   total_xp: numeric
 }
@@ -3933,7 +3914,7 @@ input player_insert_input {
   EnneagramType: EnneagramType_obj_rel_insert_input
   Player_Skills: player_skill_arr_rel_insert_input
   availability_hours: Int
-  color_mask: Int
+  color_mask: ColorAspect_enum
   created_at: timestamptz
   enneagram: EnneagramType_enum
   ethereum_address: String
@@ -3955,7 +3936,6 @@ input player_insert_input {
 """aggregate max on columns"""
 type player_max_fields {
   availability_hours: Int
-  color_mask: Int
   created_at: timestamptz
   ethereum_address: String
   id: uuid
@@ -3973,7 +3953,6 @@ order by max() on columns of table "player"
 """
 input player_max_order_by {
   availability_hours: order_by
-  color_mask: order_by
   created_at: order_by
   ethereum_address: order_by
   id: order_by
@@ -3989,7 +3968,6 @@ input player_max_order_by {
 """aggregate min on columns"""
 type player_min_fields {
   availability_hours: Int
-  color_mask: Int
   created_at: timestamptz
   ethereum_address: String
   id: uuid
@@ -4007,7 +3985,6 @@ order by min() on columns of table "player"
 """
 input player_min_order_by {
   availability_hours: order_by
-  color_mask: order_by
   created_at: order_by
   ethereum_address: order_by
   id: order_by
@@ -4135,7 +4112,7 @@ input type for updating data in table "player"
 """
 input player_set_input {
   availability_hours: Int
-  color_mask: Int
+  color_mask: ColorAspect_enum
   created_at: timestamptz
   enneagram: EnneagramType_enum
   ethereum_address: String
@@ -4329,7 +4306,6 @@ enum player_skill_update_column {
 """aggregate stddev on columns"""
 type player_stddev_fields {
   availability_hours: Float
-  color_mask: Float
   player_type_id: Float
   total_xp: Float
 }
@@ -4339,7 +4315,6 @@ order by stddev() on columns of table "player"
 """
 input player_stddev_order_by {
   availability_hours: order_by
-  color_mask: order_by
   player_type_id: order_by
   total_xp: order_by
 }
@@ -4347,7 +4322,6 @@ input player_stddev_order_by {
 """aggregate stddev_pop on columns"""
 type player_stddev_pop_fields {
   availability_hours: Float
-  color_mask: Float
   player_type_id: Float
   total_xp: Float
 }
@@ -4357,7 +4331,6 @@ order by stddev_pop() on columns of table "player"
 """
 input player_stddev_pop_order_by {
   availability_hours: order_by
-  color_mask: order_by
   player_type_id: order_by
   total_xp: order_by
 }
@@ -4365,7 +4338,6 @@ input player_stddev_pop_order_by {
 """aggregate stddev_samp on columns"""
 type player_stddev_samp_fields {
   availability_hours: Float
-  color_mask: Float
   player_type_id: Float
   total_xp: Float
 }
@@ -4375,7 +4347,6 @@ order by stddev_samp() on columns of table "player"
 """
 input player_stddev_samp_order_by {
   availability_hours: order_by
-  color_mask: order_by
   player_type_id: order_by
   total_xp: order_by
 }
@@ -4383,7 +4354,6 @@ input player_stddev_samp_order_by {
 """aggregate sum on columns"""
 type player_sum_fields {
   availability_hours: Int
-  color_mask: Int
   player_type_id: Int
   total_xp: numeric
 }
@@ -4393,7 +4363,6 @@ order by sum() on columns of table "player"
 """
 input player_sum_order_by {
   availability_hours: order_by
-  color_mask: order_by
   player_type_id: order_by
   total_xp: order_by
 }
@@ -4770,7 +4739,6 @@ enum player_update_column {
 """aggregate var_pop on columns"""
 type player_var_pop_fields {
   availability_hours: Float
-  color_mask: Float
   player_type_id: Float
   total_xp: Float
 }
@@ -4780,7 +4748,6 @@ order by var_pop() on columns of table "player"
 """
 input player_var_pop_order_by {
   availability_hours: order_by
-  color_mask: order_by
   player_type_id: order_by
   total_xp: order_by
 }
@@ -4788,7 +4755,6 @@ input player_var_pop_order_by {
 """aggregate var_samp on columns"""
 type player_var_samp_fields {
   availability_hours: Float
-  color_mask: Float
   player_type_id: Float
   total_xp: Float
 }
@@ -4798,7 +4764,6 @@ order by var_samp() on columns of table "player"
 """
 input player_var_samp_order_by {
   availability_hours: order_by
-  color_mask: order_by
   player_type_id: order_by
   total_xp: order_by
 }
@@ -4806,7 +4771,6 @@ input player_var_samp_order_by {
 """aggregate variance on columns"""
 type player_variance_fields {
   availability_hours: Float
-  color_mask: Float
   player_type_id: Float
   total_xp: Float
 }
@@ -4816,7 +4780,6 @@ order by variance() on columns of table "player"
 """
 input player_variance_order_by {
   availability_hours: order_by
-  color_mask: order_by
   player_type_id: order_by
   total_xp: order_by
 }
@@ -5129,7 +5092,7 @@ type query_root {
   ): ColorAspect_aggregate!
 
   """fetch data from the table: "ColorAspect" using primary key columns"""
-  ColorAspect_by_pk(mask: Int!): ColorAspect
+  ColorAspect_by_pk(mask: String!): ColorAspect
 
   """
   fetch data from the table: "EnneagramType"
@@ -8114,7 +8077,7 @@ type subscription_root {
   ): ColorAspect_aggregate!
 
   """fetch data from the table: "ColorAspect" using primary key columns"""
-  ColorAspect_by_pk(mask: Int!): ColorAspect
+  ColorAspect_by_pk(mask: String!): ColorAspect
 
   """
   fetch data from the table: "EnneagramType"

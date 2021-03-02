@@ -1,22 +1,10 @@
-CREATE TABLE public."BaseColor" (
-  name text PRIMARY KEY,
-  description text NOT NULL
-);
-
-INSERT INTO "BaseColor" (name, description) VALUES
-  ('White', 'Peace through order.'),
-  ('Blue', 'Perfection through knowledge.'),
-  ('Black', 'Satisfaction through ruthlessness.'),
-  ('Red', 'Freedom through action.'),
-  ('Green', 'Harmony through acceptance.')
-;
-
 CREATE TABLE public."ColorAspect" (
   mask integer PRIMARY KEY,
-  aspect text UNIQUE NOT NULL
+  name text UNIQUE NOT NULL,
+  description text NULL
 );
 
-INSERT INTO "ColorAspect" (mask, aspect) VALUES
+INSERT INTO "ColorAspect" (mask, name) VALUES
   (/*00000*/ 0, 'Colorless'),
   (/*00001*/ 'x01'::bit(8)::int, 'Green'),
   (/*00010*/ 'x02'::bit(8)::int, 'Red'),
@@ -51,11 +39,25 @@ INSERT INTO "ColorAspect" (mask, aspect) VALUES
   (/*11111*/ 'x1F'::bit(8)::int, 'Balance')
 ;
 
-ALTER TABLE public."BaseColor"
-  ADD CONSTRAINT player_aspect_fkey
-  FOREIGN KEY (name)
-  REFERENCES public."ColorAspect"(aspect)
-  ON UPDATE restrict ON DELETE restrict
+UPDATE "ColorAspect"
+  SET description = 'Harmony through acceptance…'
+  WHERE name = 'Green'
+;
+UPDATE "ColorAspect"
+  SET description = 'Peace through order…'
+  WHERE name = 'White'
+;
+UPDATE "ColorAspect"
+  SET description = 'Perfection through knowledge…'
+  WHERE name = 'Blue'
+;
+UPDATE "ColorAspect"
+  SET description = 'Satisfaction through ruthlessness…'
+  WHERE name = 'Black'
+;
+UPDATE "ColorAspect"
+  SET description = 'Freedom through action…'
+  WHERE name = 'Red'
 ;
 
 ALTER TABLE public.player

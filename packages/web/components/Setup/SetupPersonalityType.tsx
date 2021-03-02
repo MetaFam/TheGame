@@ -20,7 +20,7 @@ export type SetupPersonalityTypeProps = {
   personalityParts: Array<PersonalityPartInfo>;
   // final combinations: Jund Shard, Izzet Syndicate, etc.
   // keyed on a bitmask of the form 0bWUBRG
-  personalityTypes: { [any: number]: PersonalityPartInfo };
+  personalityTypes: { [x: number]: PersonalityPartInfo };
   colorMask: number | undefined;
   setColorMask: React.Dispatch<React.SetStateAction<number | undefined>>;
 };

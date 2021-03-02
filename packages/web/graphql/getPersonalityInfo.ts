@@ -36,10 +36,24 @@ import { GetColorInfoQuery } from './autogen/types';
 import { client } from './client';
 import { PersonalityPartInfo } from './types';
 
+// Object.fromEntries is widely supported, but the
+// typescript definition is in es2019
+declare global {
+  interface ObjectConstructor {
+    fromEntries<T = any>(
+      entries: Iterable<readonly [PropertyKey, T]>,
+    ): { [k in PropertyKey]: T };
+  }
+}
+
+// ¿Can something like this work or do imports have to be named?
 // const PersonalityIcons = (
 //   Object.fromEntries(
-//     Object.values(ColorByMask).map(
-//       (name) => [name, import(`assets/colors/${name}.svg`)]
+//     Object.values(ColorAspect_Enum).map(
+//       (name) => [
+//         name,
+//         (await import(`assets/colors/${name}.svg`)).default
+//       ]
 //     )
 //   )
 // )
@@ -95,23 +109,13 @@ export const GetColorInfo = gql`
   }
 `;
 
-// Object.fromEntries is widely supported, but the
-// typescript definition is in es2019
-declare global {
-  interface ObjectConstructor {
-    fromEntries<T = unknown>(
-      entries: Iterable<readonly [PropertyKey, T]>,
-    ): { [k in PropertyKey]: T };
-  }
-}
-
 // export const PersonalityTypes: {
-//   [any: string]: PersonalityPartInfo;
+//   [x: number]: PersonalityPartInfo;
 // } = (
-//   Object.fromEntries<object>(
+//   Object.fromEntries<{ [x: number]: PersonalityPartInfo }>(
 //     Object
-//     .entries<[number, string][]>(ColorByMask)
-//     .map<[number, string]>(
+//     .entries<Array<[string, string]>>(ColorAspect_Enum)
+//     .map<[string, string]>(
 //       ([mask, name]) => (
 //         [
 //           name,
@@ -120,7 +124,7 @@ declare global {
 //             label: 'T',
 //             description: '¿Huh?', // ToDo: load from db
 //             image: PersonalityIcons[name],
-//             mask,
+//             mask: parseInt(mask.substring(1), 2),
 //           }
 //         ]
 //       )
