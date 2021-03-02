@@ -6,12 +6,9 @@ title: 📚 Browse playbooks
 <details>
 <summary>🤔 Wait, WTF are playbooks!?</summary>
 <br />
+Playbooks are short lessons written by those who have already found their way through the muck, here to help you find your way.
 
-Playbooks are like lessons or tutorials that help you find your way!
-
-MetaGame playbooks are quite special though as some have been written by OGs of the Metaverse! 😱
-
-If you'd like to write a playbook for MetaGame, hop into [our Discord](https://discord.gg/ZqdPP9b) and say Hi!
+Want to write a playbook yourself? Hop into [our Discord](https://discord.gg/ZqdPP9b) and say Hi first!
 
 </details>
 
