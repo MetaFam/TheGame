@@ -11,7 +11,9 @@ class MetaDocument extends Document {
   static async getInitialProps(
     ctx: DocumentContext,
   ): Promise<DocumentInitialProps> {
+    console.info('Getting props', Document);
     const initialProps = await Document.getInitialProps(ctx);
+    console.info('Got props', initialProps);
     return { ...initialProps };
   }
 
@@ -20,7 +22,7 @@ class MetaDocument extends Document {
       <Html>
         <Head>
           <link
-            href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&amp;family=IBM+Plex+Sans:wght@400;700&amp;family=Press+Start+2P&amp;display=swap"
+            href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&family=IBM+Plex+Sans:wght@400;700&family=Press+Start+2P&display=swap"
             rel="stylesheet"
           />
           <link rel="shortcut icon" href="/favicon.png" />

@@ -23,7 +23,7 @@ export const PlayerHero: React.FC<Props> = ({ player }) => {
   const [types, setTypes] = React.useState<{
     [any: string]: PersonalityPartInfo;
   }>();
-  const type = types?.[player.ColorAspect?.mask];
+  const type = types?.[player.color_mask];
 
   const loadTypes = async () => {
     const { types: ts } = await getPersonalityInfo();

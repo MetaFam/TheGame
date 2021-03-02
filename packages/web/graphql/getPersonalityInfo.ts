@@ -32,6 +32,7 @@ import TemurImg from 'assets/colors/The Temur Frontier.svg';
 import WhiteImg from 'assets/colors/White.svg';
 import gql from 'fake-tag';
 
+import { GetColorInfoQuery } from './autogen/types';
 import { client } from './client';
 import { PersonalityPartInfo } from './types';
 
@@ -98,7 +99,7 @@ export const GetColorInfo = gql`
 // typescript definition is in es2019
 declare global {
   interface ObjectConstructor {
-    fromEntries<T = any>(
+    fromEntries<T = unknown>(
       entries: Iterable<readonly [PropertyKey, T]>,
     ): { [k in PropertyKey]: T };
   }
@@ -167,7 +168,9 @@ export const getPersonalityInfo = async (): Promise<{
   parts: Array<PersonalityPartInfo>;
   types: { [any: string]: PersonalityPartInfo };
 }> => {
-  const { data, error } = await client.query<any>(GetColorInfo).toPromise();
+  const { data, error } = await client
+    .query<GetColorInfoQuery>(GetColorInfo)
+    .toPromise();
   if (error) throw error;
 
   console.info(data);
