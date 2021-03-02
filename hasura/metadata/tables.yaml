@@ -260,6 +260,15 @@
       - ethereum_address
       remote_schema: backend
     name: daohausMemberships
+  - definition:
+      remote_field:
+        getBrightIdStatus:
+          arguments:
+            contextId: $id
+      hasura_fields:
+      - id
+      remote_schema: backend
+    name: brightid_status
   select_permissions:
   - role: player
     permission:

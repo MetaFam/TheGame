@@ -1,9 +1,19 @@
 import { gql } from 'graphql-request/dist';
 
 export const typeDefs = gql`
+  scalar uuid
+
   type Query {
     getBoxProfile(address: String): BoxProfile
     getDaoHausMemberships(memberAddress: String): [Member!]!
+    getBrightIdStatus(contextId: uuid): BrightIdStatus
+  }
+
+  type BrightIdStatus {
+    unique: Boolean!
+    app: String!
+    context: String!
+    contextIds: [String!]!
   }
 
   type BoxProfile {
