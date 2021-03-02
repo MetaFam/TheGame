@@ -7,6 +7,7 @@ interface IConfig {
   imgixToken: string;
   infuraId: string;
   pSEEDAddress: string;
+  brightIdNodeUrl: string;
 }
 
 function parseEnv<T extends string | number>(
@@ -44,5 +45,9 @@ export const CONFIG: IConfig = {
   infuraId: parseEnv(
     process.env.NEXT_PUBLIC_INFURA_ID,
     '781d8466252d47508e177b8637b1c2fd',
+  ),
+  brightIdNodeUrl: parseEnv(
+    process.env.BRIGHTID_NODE_URL,
+    'https://app.brightid.org',
   ),
 };

@@ -4,6 +4,9 @@
   is_enum: true
 - table:
     schema: public
+    name: ColorAspect
+- table:
+    schema: public
     name: EnneagramType
   is_enum: true
   select_permissions:
