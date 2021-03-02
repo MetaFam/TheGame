@@ -10,8 +10,10 @@ import PeacemakerImage from 'assets/peacemaker.png';
 import ReformerImage from 'assets/reformer.png';
 import {
   EnneagramType_Enum,
+  Me,
   Member,
   Moloch,
+  PlayerFragmentFragment,
   SkillCategory_Enum,
 } from 'graphql/autogen/types';
 
@@ -32,6 +34,13 @@ export type PersonalityType = {
 export type Membership = Pick<Member, 'id'> & {
   moloch: Pick<Moloch, 'id' | 'title' | 'version'>;
 };
+
+export type MeType =
+  | (Pick<Me, 'id' | 'ethereum_address' | 'username'> & {
+      player?: PlayerFragmentFragment | null | undefined;
+    })
+  | null
+  | undefined;
 
 export const PersonalityTypes: {
   [any: string]: PersonalityType;

@@ -7,7 +7,7 @@ import Web3Modal from 'web3modal';
 
 import { CONFIG } from '../config';
 
-type Web3ContextType = {
+export type Web3ContextType = {
   provider?: providers.Web3Provider;
   connectWeb3: () => Promise<void>;
   disconnect: () => void;

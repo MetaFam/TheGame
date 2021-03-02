@@ -44,7 +44,7 @@ export {
 } from '@chakra-ui/react';
 
 export { theme as MetaTheme } from './theme';
-export { Icon3box } from './icons';
+export { Icon3box, BrightIdIcon } from './icons';
 export { EmailIcon } from '@chakra-ui/icons';
 export { MetaHeading } from './MetaHeading';
 export { MetaButton } from './MetaButton';
