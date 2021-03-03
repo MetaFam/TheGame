@@ -269,6 +269,15 @@
       - id
       remote_schema: backend
     name: brightid_status
+  - definition:
+      remote_field:
+        getTokenBalance:
+          arguments:
+            address: $ethereum_address
+      hasura_fields:
+      - ethereum_address
+      remote_schema: backend
+    name: token_balance
   select_permissions:
   - role: player
     permission:
