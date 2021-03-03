@@ -23,11 +23,14 @@ export const PlayerHero: React.FC<Props> = ({ player }) => {
   const [types, setTypes] = React.useState<{
     [any: string]: PersonalityPartInfo;
   }>();
-  const type = player?.ColorAspect?.mask && types?.[player?.ColorAspect?.mask];
+  const type = (
+    player?.ColorAspect?.mask
+    && types?.[player?.ColorAspect?.mask]
+  );
 
   const loadTypes = async () => {
-    const { types: ts } = await getPersonalityInfo();
-    setTypes(ts);
+    const { types: list } = await getPersonalityInfo();
+    setTypes(list);
   };
   useEffect(() => {
     loadTypes();
@@ -43,7 +46,7 @@ export const PlayerHero: React.FC<Props> = ({ player }) => {
           name={getPlayerName(player)}
         />
         <Box textAlign="center">
-          <Text fontSize="xl" fontFamily="heading" mb="1">
+          <Text fontSize="xl" fontFamily="heading" mb={1}>
             {getPlayerName(player)}
           </Text>
         </Box>
@@ -59,7 +62,7 @@ export const PlayerHero: React.FC<Props> = ({ player }) => {
                 fontSize="xs"
                 color="cyanText"
                 cursor="pointer"
-                onClick={() => setShow((s) => !s)}
+                onClick={() => setShow(s => !s)}
               >
                 Read {show ? 'Less' : 'More'}
               </Text>

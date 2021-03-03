@@ -40,7 +40,7 @@ import { PersonalityPartInfo } from './types';
 // typescript definition is in es2019
 declare global {
   interface ObjectConstructor {
-    fromEntries<T = any>(
+    fromEntries<T = unknown>(
       entries: Iterable<readonly [PropertyKey, T]>,
     ): { [k in PropertyKey]: T };
   }
@@ -99,12 +99,9 @@ const PersonalityIcons: {
 export const GetColorInfo = gql`
   query GetColorInfo {
     ColorAspect {
-      aspect
       mask
-    }
-    BaseColor {
-      description
       name
+      description
     }
   }
 `;
@@ -172,9 +169,11 @@ export const getPersonalityInfo = async (): Promise<{
   parts: Array<PersonalityPartInfo>;
   types: { [any: string]: PersonalityPartInfo };
 }> => {
-  const { data, error } = await client
+  const { data, error } = await (
+    client
     .query<GetColorInfoQuery>(GetColorInfo)
-    .toPromise();
+    .toPromise()
+  );
   if (error) throw error;
 
   console.info(data);

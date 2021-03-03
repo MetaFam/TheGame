@@ -9,10 +9,7 @@ export const PlayerFragment = gql`
     ethereum_address
     availability_hours
     timezone
-    ColorAspect {
-      mask
-      aspect
-    }
+    color_mask
     playerType {
       description
       id

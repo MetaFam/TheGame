@@ -126,9 +126,9 @@ export const PageHeader: React.FC = () => {
   const { isOpen, onToggle, onClose } = useDisclosure();
   const hasMounted = useMounted();
 
-  const drawerOpacity = hasMounted && isBackdropFilterSupported() ? 0.75 : 0.98;
-
-  console.info('REndering Header');
+  const drawerOpacity = (
+    hasMounted && isBackdropFilterSupported() ? 0.75 : 0.98
+  );
 
   return (
     <Flex
