@@ -7,6 +7,7 @@ export const typeDefs = gql`
     getBoxProfile(address: String): BoxProfile
     getDaoHausMemberships(memberAddress: String): [Member!]!
     getBrightIdStatus(contextId: uuid): BrightIdStatus
+    getTokenBalance(address: String): UserToken
   }
 
   type BrightIdStatus {
@@ -54,5 +55,11 @@ export const typeDefs = gql`
     loot: Int
     exists: Boolean!
     kicked: Boolean
+  }
+
+  type UserToken {
+    id: ID!
+    seedBalance: String!
+    pSeedBalance: String!
   }
 `;
