@@ -137,15 +137,15 @@ export const PageHeader: React.FC = () => {
       justify="space-between"
       wrap="wrap"
       color="offwhite"
-      px={8}
+      px={{ base: 4, lg: 8 }}
       position="relative"
-      display={{ base: 'none', lg: 'flex' }}
     >
       <Box>
         <Ticker />
       </Box>
 
       <Stack
+        display={{ base: 'none', lg: 'flex' }}
         width={drawer.width}
         height="100%"
         direction="row"
@@ -254,6 +254,7 @@ export const PageHeader: React.FC = () => {
         }}
       >
         <Stack
+          display={{ base: 'none', lg: 'flex' }}
           width={content.width}
           direction="row"
           flexWrap="wrap"

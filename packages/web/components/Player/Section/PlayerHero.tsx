@@ -12,6 +12,7 @@ import { getPersonalityInfo } from '../../../graphql/getPersonalityInfo';
 import { FlexContainer } from '../../Container';
 import { ProfileSection } from '../../ProfileSection';
 import { PlayerContacts } from '../PlayerContacts';
+import { PlayerBrightId } from './PlayerBrightId';
 import { PlayerCollab } from './PlayerCollab';
 
 const MAX_BIO_LENGTH = 240;
@@ -49,6 +50,7 @@ export const PlayerHero: React.FC<Props> = ({ player }) => {
           <Text fontSize="xl" fontFamily="heading" mb={1}>
             {getPlayerName(player)}
           </Text>
+          <PlayerBrightId player={player} />
         </Box>
         <Box>
           <Text>
