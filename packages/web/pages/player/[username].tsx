@@ -180,27 +180,12 @@ export const getStaticPaths: GetStaticPaths<QueryParams> = async () => {
 export const getStaticProps = async (
   context: GetStaticPropsContext<QueryParams>,
 ) => {
-  const username = context.params?.username;
-  if (username == null) {
-    return {
-      redirect: {
-        desination: '/',
-        permanent: false
-      }
-    }
-  }
-
-  let player = await getPlayer(username);
-  if (player == null) {
-    player = await getPlayer(username.toLowerCase());
-    if (player != null) {
-      return {
-        redirect: {
-          destination: `/player/${username.toLowerCase()}`,
-          permanent: false
-        }
-      }
-    }
+  const username = context.params?.username?.toLowerCase();
+  // usernames in the DB are lowercase. This essentially 
+  // makes this page's router variable case-insensitive.
+  let player = null;
+  if (username != null) {
+    player = await getPlayer(username?.toLowerCase());
   }
   
   return {
