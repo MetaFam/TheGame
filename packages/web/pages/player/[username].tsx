@@ -180,17 +180,14 @@ export const getStaticPaths: GetStaticPaths<QueryParams> = async () => {
 export const getStaticProps = async (
   context: GetStaticPropsContext<QueryParams>,
 ) => {
-  const username = context.params?.username?.toLowerCase();
   // usernames in the DB are lowercase. This essentially 
   // makes this page's router variable case-insensitive.
-  let player = null;
-  if (username != null) {
-    player = await getPlayer(username?.toLowerCase());
-  }
-  
+  const username = context.params?.username?.toLowerCase();
+  const player = await getPlayer(username);
+
   return {
     props: {
-      player: player || null, // must be serializable
+      player: player === undefined ? null : player, // must be serializable
     },
     revalidate: 1,
   };
