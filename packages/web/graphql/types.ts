@@ -7,7 +7,7 @@ export type Skill = {
   category: string;
 };
 
-export type PersonalityPartInfo = {
+export type PersonalityOption = {
   name: string;
   label: string;
   description: string;

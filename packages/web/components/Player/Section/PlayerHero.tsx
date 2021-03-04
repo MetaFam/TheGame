@@ -1,6 +1,6 @@
 import { Avatar, Box, HStack, Image, Text, VStack } from '@metafam/ds';
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
-import { PersonalityPartInfo } from 'graphql/types';
+import { PersonalityOption } from 'graphql/types';
 import React, { useEffect } from 'react';
 import {
   getPlayerDescription,
@@ -21,7 +21,7 @@ export const PlayerHero: React.FC<Props> = ({ player }) => {
   const description = getPlayerDescription(player);
   const [show, setShow] = React.useState(description.length <= MAX_BIO_LENGTH);
   const [types, setTypes] = React.useState<{
-    [any: string]: PersonalityPartInfo;
+    [any: string]: PersonalityOption;
   }>();
   const type = (
     player?.ColorAspect?.mask

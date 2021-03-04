@@ -43,7 +43,7 @@ export const SetupPlayerType: React.FC<SetupPlayerTypeProps> = ({
       if (error) {
         toast({
           title: 'Error',
-          description: 'Unable to update player type. The octo is sad 😢',
+          description: 'Unable to update player type. The octo is sad. 😢',
           status: 'error',
           isClosable: true,
         });

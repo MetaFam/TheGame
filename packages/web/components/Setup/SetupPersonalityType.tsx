@@ -11,16 +11,16 @@ import { FlexContainer } from 'components/Container';
 import { MetaLink } from 'components/Link';
 import { useSetupFlow } from 'contexts/SetupContext';
 import { useUpdateAboutYouMutation } from 'graphql/autogen/types';
-import { PersonalityPartInfo } from 'graphql/types';
+import { PersonalityOption } from 'graphql/types';
 import { useUser } from 'lib/hooks';
 import React from 'react';
 
 export type SetupPersonalityTypeProps = {
   // component parts: white, red, etc.
-  personalityParts: Array<PersonalityPartInfo>;
+  personalityParts: Array<PersonalityOption>;
   // final combinations: Jund Shard, Izzet Syndicate, etc.
   // keyed on a bitmask of the form 0bWUBRG
-  personalityTypes: { [x: number]: PersonalityPartInfo };
+  personalityTypes: { [x: number]: PersonalityOption };
   colorMask: number | undefined;
   setColorMask: React.Dispatch<React.SetStateAction<number | undefined>>;
 };
@@ -77,7 +77,7 @@ export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
         </MetaLink>
       </Text>
       <SimpleGrid columns={[1, null, 2, 3]} spacing={8}>
-        {personalityParts.map((p: PersonalityPartInfo) => (
+        {personalityParts.map((p: PersonalityOption) => (
           <HStack
             key={p.mask}
             p={6}
@@ -85,8 +85,8 @@ export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
             bgColor={
               // eslint-disable-next-line no-bitwise
               colorMask && (colorMask & p.mask) > 0 // ToDo: implement
-                ? 'purpleBoxDark'
-                : 'purpleBoxLight'
+              ? 'purpleBoxDark'
+              : 'purpleBoxLight'
             }
             borderRadius="0.5rem"
             _hover={{ bgColor: 'purpleBoxDark' }}
@@ -98,8 +98,8 @@ export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
             borderColor={
               // eslint-disable-next-line no-bitwise
               colorMask && (colorMask & p.mask) > 0
-                ? 'purple.400'
-                : 'transparent'
+              ? 'purple.400'
+              : 'transparent'
             }
           >
             <Image

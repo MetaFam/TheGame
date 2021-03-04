@@ -34,7 +34,7 @@ import gql from 'fake-tag';
 
 import { GetColorInfoQuery } from './autogen/types';
 import { client } from './client';
-import { PersonalityPartInfo } from './types';
+import { PersonalityOption } from './types';
 
 // Object.fromEntries is widely supported, but the
 // typescript definition is in es2019
@@ -107,9 +107,9 @@ export const GetColorInfo = gql`
 `;
 
 // export const PersonalityTypes: {
-//   [x: number]: PersonalityPartInfo;
+//   [x: number]: PersonalityOption;
 // } = (
-//   Object.fromEntries<{ [x: number]: PersonalityPartInfo }>(
+//   Object.fromEntries<{ [x: number]: PersonalityOption }>(
 //     Object
 //     .entries<Array<[string, string]>>(ColorAspect_Enum)
 //     .map<[string, string]>(
@@ -138,7 +138,7 @@ export const MetaGameAliases = {
 };
 
 export const PersonalityTypes: {
-  [any: string]: PersonalityPartInfo;
+  [any: string]: PersonalityOption;
 } = {
   0b10000: {
     name: 'White',
@@ -157,7 +157,7 @@ enum BaseColorEnum {
   Green,
 }
 
-export const PersonalityParts: Array<PersonalityPartInfo> = [
+export const PersonalityParts: Array<PersonalityOption> = [
   PersonalityTypes[BaseColorEnum.White],
   PersonalityTypes[BaseColorEnum.Blue],
   PersonalityTypes[BaseColorEnum.Black],
@@ -166,8 +166,8 @@ export const PersonalityParts: Array<PersonalityPartInfo> = [
 ];
 
 export const getPersonalityInfo = async (): Promise<{
-  parts: Array<PersonalityPartInfo>;
-  types: { [any: string]: PersonalityPartInfo };
+  parts: Array<PersonalityOption>;
+  types: { [any: string]: PersonalityOption };
 }> => {
   const { data, error } = await (
     client
@@ -176,7 +176,7 @@ export const getPersonalityInfo = async (): Promise<{
   );
   if (error) throw error;
 
-  console.info(data);
+  console.info('PERS', data);
 
   return {
     parts: [],

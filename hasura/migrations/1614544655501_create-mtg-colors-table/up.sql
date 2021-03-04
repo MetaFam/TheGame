@@ -60,6 +60,10 @@ UPDATE "ColorAspect"
   WHERE name = 'Red'
 ;
 
+-- 
+-- Add color_mask integer to player and set as a foreign key
+-- 
+
 ALTER TABLE public.player
   ADD COLUMN color_mask integer
 ;
