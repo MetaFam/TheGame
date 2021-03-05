@@ -12,6 +12,7 @@ import { FlexContainer } from 'components/Container';
 import { MetaLink } from 'components/Link';
 import { useSetupFlow } from 'contexts/SetupContext';
 import { useUpdateAboutYouMutation } from 'graphql/autogen/types';
+import { MetaGameAlternates } from 'graphql/getPersonalityInfo'
 import { PersonalityOption } from 'graphql/types';
 import { useUser } from 'lib/hooks';
 import React from 'react';
@@ -85,7 +86,9 @@ export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
                 src={EmptyImg}
                 h={6}
                 style={{
-                  WebkitMaskImage: `url(${part.image})`,
+                  WebkitMaskImage: (
+                    `url(${MetaGameAlternates[part.name].image})`
+                  ),
                   WebkitMaskSize: 'contain',
                   WebkitMaskPosition: 'center',
                   WebkitMaskRepeat: 'no-repeat',
@@ -134,7 +137,8 @@ export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
           Person&#xAD;ality Type
         </MetaHeading>
         <Text mb={10}>
-          Please select your personality components below. Not sure what type you are?
+          Please select your personality components below.
+          Not sure what type you are?
           <Text as="span"> </Text>
           <MetaLink href="//metafam.github.io/5-color-radar/#/test/" isExternal>
             Take a quick test.
@@ -142,51 +146,57 @@ export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
         </Text>
       </Flex>
       <FlexContainer alignContent='center' grow={1} spacing={8} direction='row' wrap='wrap' maxW='70rem'>
-        {personalityParts.map((p: PersonalityOption) => (
-          <Flex
-            key={p.mask}
-            p={6}
-            m={2}
-            spacing={4}
-            borderRadius="0.5rem"
-            cursor="pointer"
-            onClick={() => toggleMaskElement(p.mask)}
-            align='center'
-            transition="background 0.25s"
-            bgColor={
-              // eslint-disable-next-line no-bitwise
-              (((colorMask ?? 0) & p.mask) > 0)
-              ? 'purpleBoxDark'
-              : 'purpleBoxLight'
-            }
-            _hover={{ bgColor: 'purpleBoxDark', bgBlendMode: 'lighten' }}
-            border="2px"
-            borderColor={
-              // eslint-disable-next-line no-bitwise
-              (((colorMask ?? 0) & p.mask) > 0)
-              ? 'purple.400'
-              : 'transparent'
-            }
-          >
-            <Image
-              w="100%"
-              maxW="4rem"
-              h={16}
-              src={p.image}
-              alt={p.name}
-              filter='drop-shadow(0px 0px 6px black)'
-            />
-            <FlexContainer align="stretch" ml={2}>
-              <Text
-                color="white" fontWeight="bold"
-                style={{ textTransform: 'uppercase' }}
+        {Object.entries(MetaGameAlternates).map(
+          ([orig, { image, label }]) => {
+            const option = personalityParts.find(p => p.name === orig)
+
+            return (
+              <Flex
+                key={option?.mask}
+                p={6}
+                m={2}
+                spacing={4}
+                borderRadius='0.5rem'
+                cursor='pointer'
+                onClick={() => toggleMaskElement(option?.mask)}
+                align='center'
+                transition="background 0.25s"
+                bgColor={
+                  // eslint-disable-next-line no-bitwise
+                  (((colorMask ?? 0) & (option?.mask ?? 0)) > 0)
+                  ? 'purpleBoxDark'
+                  : 'purpleBoxLight'
+                }
+                _hover={{ bgColor: 'purpleBoxDark', bgBlendMode: 'lighten' }}
+                border='2px'
+                borderColor={
+                  // eslint-disable-next-line no-bitwise
+                  (((colorMask ?? 0) & (option?.mask ?? 0)) > 0)
+                  ? 'purple.400'
+                  : 'transparent'
+                }
               >
-                {p.label}
-              </Text>
-              <Text color="blueLight">{p.description}</Text>
-            </FlexContainer>
-          </Flex>
-        ))}
+                <Image
+                  w="100%"
+                  maxW="4rem"
+                  h={16}
+                  src={image}
+                  alt={label}
+                  filter='drop-shadow(0px 0px 6px black)'
+                />
+                <FlexContainer align="stretch" ml={2}>
+                  <Text
+                    color="white" fontWeight="bold"
+                    style={{ textTransform: 'uppercase' }}
+                  >
+                    {label}
+                  </Text>
+                  <Text color="blueLight">{option?.description}</Text>
+                </FlexContainer>
+              </Flex>
+            )
+          }
+        )}
       </FlexContainer>
 
       <ColorBar mask={colorMask}/>

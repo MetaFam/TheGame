@@ -8,7 +8,6 @@ import React from 'react';
 
 export const SetupHeader: React.FC = () => {
   const { stepIndex, onNextPress, onBackPress, options } = useSetupFlow();
-
   const { sectionIndex } = options.steps[stepIndex];
 
   return (

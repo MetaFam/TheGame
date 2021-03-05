@@ -23,9 +23,19 @@ export const svgArc = (
     cx = 0, cy = 0, r,
     start, end = start + 90
   }: {
-    cx: number, cy: number, r: number,
-    start: number, end: number
+    cx?: number, cy?: number, r: number,
+    start: number, end?: number
   }): string => {
+    if ((end - start) % 360 === 0) {
+      return (
+        [
+          'm-50,0',
+          'a 50,50 0 1,1 100,0',
+          'a 50,50 0 1,1 -100,0',
+        ].join(' ')
+      )
+    }
+
     const to = polarToCartesian(cx, cy, r, end);
     const from = polarToCartesian(cx, cy, r, start);
     const largeArcFlag = end - start <= 180 ? 0 : 1;
@@ -34,7 +44,7 @@ export const svgArc = (
         'M0,0',
         'L', from.x, from.y,
         'A', r, r, 0, largeArcFlag, 1, to.x, to.y,
-        'z'
+        'z',
       ].join(' ')
     );
   }

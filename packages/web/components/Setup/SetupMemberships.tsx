@@ -30,12 +30,12 @@ export const SetupMemberships: React.FC<SetupMembershipsProps> = ({memberships})
   return (
     <FlexContainer>
       <MetaHeading mb={5} textAlign="center">
-        Memberships
+        Member&#xAD;ships
       </MetaHeading>
       {!memberships &&
         (isConnected ? (
           <Text mb={10} maxW="50rem">
-            Loading ...
+            Loading…
           </Text>
         ) : (
           <Text mb={10} maxW="50rem">

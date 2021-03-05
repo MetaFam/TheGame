@@ -1,5 +1,5 @@
 import {
-  Avatar, Box, HStack, Text, VStack
+  Avatar, Box, HStack, Link, Text, VStack
 } from '@metafam/ds';
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
 import { PersonalityOption } from 'graphql/types';
@@ -86,7 +86,12 @@ export const PlayerHero: React.FC<Props> = ({ player }) => {
             <ColorImage {...{ type, types }} maxH='8rem'/>
             <FlexContainer align="stretch">
               <Text color="white" fontWeight="bold">
-                {type.name}
+                <Link
+                  isExternal
+                  href={`//metafam.github.io/5-color-radar/#/combos/${type.mask.toString(2)}`}
+                >
+                  {type.name}
+                </Link>
               </Text>
               <Text color="blueLight">{type.description}</Text>
             </FlexContainer>

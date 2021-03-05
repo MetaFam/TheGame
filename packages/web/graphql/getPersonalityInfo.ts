@@ -145,12 +145,6 @@ export const getPersonalityInfo = async (): Promise<{
       image: PersonalityIcons[aspect.name],
       mask: aspect.mask,
     };
-    // Pure properties are renamed
-    const alt = MetaGameAlternates[aspect.name];
-    if (alt) {
-      option.label = alt.label;
-      option.image = alt.image;
-    }
     types[aspect.mask] = option;
 
     // pure colors are powers of 2

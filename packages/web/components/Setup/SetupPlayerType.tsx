@@ -26,7 +26,6 @@ export const SetupPlayerType: React.FC<SetupPlayerTypeProps> = ({
   } = useSetupFlow();
   const { user } = useUser({ redirectTo: '/' });
   const toast = useToast();
-
   const [updateAboutYouRes, updateAboutYou] = useUpdateAboutYouMutation();
 
   const handleNextPress = async () => {
@@ -55,13 +54,13 @@ export const SetupPlayerType: React.FC<SetupPlayerTypeProps> = ({
   };
 
   return (
-    <FlexContainer minH='75vh'>
+    <FlexContainer>
       <MetaHeading mb={5} textAlign="center">
         Player Type
       </MetaHeading>
       <Text mb={10}>
-        Please read the features of each player type below. And select the one
-        that suits you best.
+        Please read the features of each player type below.
+        Then, select the one that suits you best.
       </Text>
       <SimpleGrid columns={[1, null, 3, 3]} spacing={4} grow={1}>
         {playerTypeChoices.map((p) => (
@@ -70,8 +69,8 @@ export const SetupPlayerType: React.FC<SetupPlayerTypeProps> = ({
             p={[4, null, 6]}
             bgColor={
               playerType && playerType.id === p.id
-                ? 'purpleBoxDark'
-                : 'purpleBoxLight'
+              ? 'purpleBoxDark'
+              : 'purpleBoxLight'
             }
             borderRadius="0.5rem"
             _hover={{ bgColor: 'purpleBoxDark' }}
@@ -83,8 +82,8 @@ export const SetupPlayerType: React.FC<SetupPlayerTypeProps> = ({
             border="2px"
             borderColor={
               playerType && playerType.id === p.id
-                ? 'purple.400'
-                : 'transparent'
+              ? 'purple.400'
+              : 'transparent'
             }
           >
             <Text color="white" fontWeight="bold" mb={4}>

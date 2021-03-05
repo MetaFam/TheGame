@@ -1,9 +1,13 @@
+import { SVG } from '@metafam/ds'
+import { PersonalityOption } from 'graphql/types';
 import React from 'react'
 import { svgArc } from 'utils/svgHelpers'
-import { SVG } from '@metafam/ds'
 
 export const ColorImage = (
-  ({ type, types, ...props }): JSX.Element | null => {
+  (
+    { type, types, ...props }:
+    { type: PersonalityOption, types: { [x: number]: PersonalityOption } }
+  ): JSX.Element | null => {
     if (!type || !types) {
       return null;
     }
