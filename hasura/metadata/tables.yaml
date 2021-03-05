@@ -287,6 +287,49 @@
       - ethereum_address
       remote_schema: backend
     name: token_balance
+  select_permissions:
+  - role: player
+    permission:
+      columns:
+      - availability_hours
+      - color_mask
+      - ethereum_address
+      - id
+      - player_type_id
+      - rank
+      - role
+      - sc_identity_id
+      - timezone
+      - total_xp
+      - username
+      filter: {}
+  - role: public
+    permission:
+      columns:
+      - availability_hours
+      - color_mask
+      - ethereum_address
+      - id
+      - rank
+      - role
+      - timezone
+      - total_xp
+      - username
+      filter: {}
+  update_permissions:
+  - role: player
+    permission:
+      columns:
+      - availability_hours
+      - color_mask
+      - player_type_id
+      - role
+      - timezone
+      - username
+      filter:
+        id:
+          _eq: X-Hasura-User-Id
+      check: null
   event_triggers:
   - name: fetchBoxVerifiedAccounts
     definition:
