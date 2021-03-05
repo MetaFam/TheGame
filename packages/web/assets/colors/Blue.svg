@@ -1,1 +1,14 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1206.881 1206.881"><defs><filter style="color-interpolation-filters:sRGB" id="a"><feFlood flood-opacity=".804" flood-color="#2A1D04" result="flood"/><feComposite in="flood" in2="SourceGraphic" operator="in" result="composite1"/><feGaussianBlur in="composite1" stdDeviation="2" result="blur"/><feOffset dy="2.3" result="offset"/><feComposite in="SourceGraphic" in2="offset" result="composite2"/></filter></defs><circle style="fill:#67c1f5;fill-opacity:1;fill-rule:evenodd;stroke:#0d0d13;stroke-width:28.6745;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" cx="603.44" cy="603.44" r="589.103"/><path style="fill:#000;stroke-width:13.6545;filter:url(#a)" d="M488.436 1132.035c-175.903-67.13-275.813-252.472-241.647-448.277 26.348-151.015 159.83-374.513 331.818-555.596 104.07-109.573 102.46-109.885 95.718 18.55-7.104 135.344 17.66 205.13 123.543 348.147 132.888 179.494 162.39 269.365 127.65 388.864-55.77 191.843-268.45 312.669-437.082 248.312zM848.56 825.893c21.92-40.959 16.781-106.033-12.979-164.37-28.964-56.774-54.94-81.692-54.615-52.392.112 9.83-13.197 59.032-29.568 109.335-24.581 75.53-26.702 95.151-12.18 112.65 25.139 30.29 92.046 27.095 109.342-5.223z"/></svg>
+<?xml version="1.0"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1206.881 1206.881">
+  <defs>
+    <filter style="color-interpolation-filters:sRGB" id="a">
+      <feFlood flood-opacity=".804" flood-color="#2A1D04" result="flood"/>
+      <feComposite in="flood" in2="SourceGraphic" operator="in" result="composite1"/>
+      <feGaussianBlur in="composite1" stdDeviation="2" result="blur"/>
+      <feOffset dy="2.3" result="offset"/>
+      <feComposite in="SourceGraphic" in2="offset" result="composite2"/>
+    </filter>
+  </defs>
+  <circle style="fill:#67c1f5;fill-opacity:1;fill-rule:evenodd;stroke:#0d0d13;stroke-width:28.6745;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" cx="603.44" cy="603.44" r="589.103"/>
+  <path style="fill:#000;stroke-width:13.6545;filter:url(#a)" d="M488.436 1132.035c-175.903-67.13-275.813-252.472-241.647-448.277 26.348-151.015 159.83-374.513 331.818-555.596 104.07-109.573 102.46-109.885 95.718 18.55-7.104 135.344 17.66 205.13 123.543 348.147 132.888 179.494 162.39 269.365 127.65 388.864-55.77 191.843-268.45 312.669-437.082 248.312zM848.56 825.893c21.92-40.959 16.781-106.033-12.979-164.37-28.964-56.774-54.94-81.692-54.615-52.392.112 9.83-13.197 59.032-29.568 109.335-24.581 75.53-26.702 95.151-12.18 112.65 25.139 30.29 92.046 27.095 109.342-5.223z"/>
+</svg>

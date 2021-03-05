@@ -1,1 +1,14 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><linearGradient id="a" x2="1" gradientTransform="rotate(-90 72.617 23.888) scale(112.09574)" gradientUnits="userSpaceOnUse"><stop stop-color="#020121" offset="0"/><stop stop-color="#2f3e57" offset=".694"/><stop stop-color="#2f3e57" offset="1"/></linearGradient></defs><g transform="matrix(.63557 0 0 .63557 19.87 15.547)"><circle style="fill:#08fa9e;fill-opacity:1;fill-rule:evenodd;stroke:#2d3904;stroke-width:4.3;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:.64219773" cx="47.861" cy="54.607" r="76.036"/><path d="M45.561-14.188-.164 37.18c-2.453 2.743-.507 7.293 3.173 7.293h29.29L-7.942 88.9c-2.842 3.179-.586 7.614 3.677 7.614h106.004c4.261 0 6.52-4.435 3.677-7.614L65.17 44.473h29.294c3.677 0 5.625-4.58 3.172-7.322L51.911-14.132a4.32 4.32 0 0 0-3.227-1.448c-1.147 0-2.288.46-3.123 1.392" fill="url(#a)" style="fill:url(#a);stroke-width:2.26274;filter:url(#filter1453)"/></g></svg>
+<?xml version="1.0"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <linearGradient id="a" x2="1" gradientTransform="rotate(-90 72.617 23.888) scale(112.09574)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#020121" offset="0"/>
+      <stop stop-color="#2f3e57" offset=".694"/>
+      <stop stop-color="#2f3e57" offset="1"/>
+    </linearGradient>
+  </defs>
+  <g transform="matrix(.63557 0 0 .63557 19.87 15.547)">
+    <circle style="fill:#08fa9e;fill-opacity:1;fill-rule:evenodd;stroke:#2d3904;stroke-width:4.3;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:.64219773" cx="47.861" cy="54.607" r="76.036"/>
+    <path d="M45.561-14.188-.164 37.18c-2.453 2.743-.507 7.293 3.173 7.293h29.29L-7.942 88.9c-2.842 3.179-.586 7.614 3.677 7.614h106.004c4.261 0 6.52-4.435 3.677-7.614L65.17 44.473h29.294c3.677 0 5.625-4.58 3.172-7.322L51.911-14.132a4.32 4.32 0 0 0-3.227-1.448c-1.147 0-2.288.46-3.123 1.392" fill="url(#a)" style="fill:url(#a);stroke-width:2.26274;filter:url(#filter1453)"/>
+  </g>
+</svg>

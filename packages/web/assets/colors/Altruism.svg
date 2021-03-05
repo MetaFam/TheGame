@@ -1,1 +1,14 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><linearGradient id="a" x2="1" gradientTransform="rotate(90 28.698 18.34) scale(128.92531)" gradientUnits="userSpaceOnUse"><stop stop-color="#9cce62" offset="0"/><stop stop-color="#009b5b" offset=".989"/><stop stop-color="#009b5b" offset="1"/></linearGradient></defs><g transform="matrix(.63557 0 0 .63557 19.87 15.547)"><circle style="fill:#fafa08;fill-opacity:1;fill-rule:evenodd;stroke:#03021c;stroke-width:4.3;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:.79374498" cx="47.861" cy="54.607" r="76.036"/><path d="M-17.412 54.092c0 35.543 28.92 64.463 64.462 64.463 35.546 0 64.465-28.92 64.465-64.463 0-35.546-28.92-64.46-64.465-64.46-35.543 0-64.462 28.914-64.462 64.46m9.111 0C-8.3 23.57 16.53-1.262 47.05-1.262c30.522 0 55.354 24.832 55.354 55.354s-24.832 55.354-55.354 55.354S-8.3 84.614-8.3 54.092m21.888 0c0 18.482 14.98 33.465 33.465 33.465 18.482 0 33.463-14.983 33.463-33.465 0-18.48-14.981-33.465-33.463-33.465-18.485 0-33.465 14.985-33.465 33.465" fill="url(#a)" style="fill:url(#a);stroke-width:2.51561;filter:url(#filter1299)"/></g></svg>
+<?xml version="1.0"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <linearGradient id="a" x2="1" gradientTransform="rotate(90 28.698 18.34) scale(128.92531)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#9cce62" offset="0"/>
+      <stop stop-color="#009b5b" offset=".989"/>
+      <stop stop-color="#009b5b" offset="1"/>
+    </linearGradient>
+  </defs>
+  <g transform="matrix(.63557 0 0 .63557 19.87 15.547)">
+    <circle style="fill:#fafa08;fill-opacity:1;fill-rule:evenodd;stroke:#03021c;stroke-width:4.3;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:.79374498" cx="47.861" cy="54.607" r="76.036"/>
+    <path d="M-17.412 54.092c0 35.543 28.92 64.463 64.462 64.463 35.546 0 64.465-28.92 64.465-64.463 0-35.546-28.92-64.46-64.465-64.46-35.543 0-64.462 28.914-64.462 64.46m9.111 0C-8.3 23.57 16.53-1.262 47.05-1.262c30.522 0 55.354 24.832 55.354 55.354s-24.832 55.354-55.354 55.354S-8.3 84.614-8.3 54.092m21.888 0c0 18.482 14.98 33.465 33.465 33.465 18.482 0 33.463-14.983 33.463-33.465 0-18.48-14.981-33.465-33.463-33.465-18.485 0-33.465 14.985-33.465 33.465" fill="url(#a)" style="fill:url(#a);stroke-width:2.51561;filter:url(#filter1299)"/>
+  </g>
+</svg>

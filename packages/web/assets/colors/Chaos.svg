@@ -1,1 +1,14 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><linearGradient id="a" x2="1" gradientTransform="rotate(90 25.774 24.137) scale(102.34101)" gradientUnits="userSpaceOnUse"><stop stop-color="#f15236" offset="0"/><stop stop-color="#94136e" offset=".914"/><stop stop-color="#94136e" offset="1"/></linearGradient></defs><g transform="matrix(.63557 0 0 .63557 19.87 15.547)"><circle style="fill:#ff8b00;fill-opacity:1;fill-rule:evenodd;stroke:#1c1102;stroke-width:4.3;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:.793745" cx="47.861" cy="54.607" r="76.036"/><path d="M34.97-1.472c5.814 6.205 7.06 19.957 3.444 25.577-3.617 5.62-8.481 4.889-10.861.314-2.31-4.433 1.37-12.07 1.37-12.07C6.515 32.528 7.257 58.051 7.257 58.051c0 23.56 19.1 42.662 42.662 42.662 23.564 0 42.665-19.102 42.665-42.662 0-19.605-12.485-34.427-12.485-34.427 3.192 6.919-2.115 14.488-9.57 1.78-3.191-5.434-4.912-11.542-11.37-18.065-7.51-7.586-15.513-8.969-20.943-8.969-1.224 0-2.319.07-3.246.157" fill="url(#a)" style="fill:url(#a);stroke-width:2.06088;filter:url(#filter1015)" transform="matrix(1.23718 0 0 1.23718 -12.2 -10.956)"/></g></svg>
+<?xml version="1.0"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <linearGradient id="a" x2="1" gradientTransform="rotate(90 25.774 24.137) scale(102.34101)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#f15236" offset="0"/>
+      <stop stop-color="#94136e" offset=".914"/>
+      <stop stop-color="#94136e" offset="1"/>
+    </linearGradient>
+  </defs>
+  <g transform="matrix(.63557 0 0 .63557 19.87 15.547)">
+    <circle style="fill:#ff8b00;fill-opacity:1;fill-rule:evenodd;stroke:#1c1102;stroke-width:4.3;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:.793745" cx="47.861" cy="54.607" r="76.036"/>
+    <path d="M34.97-1.472c5.814 6.205 7.06 19.957 3.444 25.577-3.617 5.62-8.481 4.889-10.861.314-2.31-4.433 1.37-12.07 1.37-12.07C6.515 32.528 7.257 58.051 7.257 58.051c0 23.56 19.1 42.662 42.662 42.662 23.564 0 42.665-19.102 42.665-42.662 0-19.605-12.485-34.427-12.485-34.427 3.192 6.919-2.115 14.488-9.57 1.78-3.191-5.434-4.912-11.542-11.37-18.065-7.51-7.586-15.513-8.969-20.943-8.969-1.224 0-2.319.07-3.246.157" fill="url(#a)" style="fill:url(#a);stroke-width:2.06088;filter:url(#filter1015)" transform="matrix(1.23718 0 0 1.23718 -12.2 -10.956)"/>
+  </g>
+</svg>
