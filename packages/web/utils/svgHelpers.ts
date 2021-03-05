@@ -14,7 +14,7 @@ const polarToCartesian = (
 );
 
 /* Generate a SVG path arc element for a circle
- * centered at <cx, cy>.
+ * centered at <cx, cy> with radius, r.
  *
  * From: https://stackoverflow.com/a/18473154/264008
  */
@@ -26,12 +26,15 @@ export const svgArc = (
     cx?: number, cy?: number, r: number,
     start: number, end?: number
   }): string => {
+    // it isn't possible to draw a 360° arc, so do those
+    // as two subarcs
     if ((end - start) % 360 === 0) {
       return (
         [
-          'm-50,0',
-          'a 50,50 0 1,1 100,0',
-          'a 50,50 0 1,1 -100,0',
+          `m${cx},${cy}`,
+          `m-${r},0`,
+          `a${r},${r} 0 1,1 ${2 * r},0`,
+          `a${r},${r} 0 1,1 -${2 * r},0`,
         ].join(' ')
       )
     }

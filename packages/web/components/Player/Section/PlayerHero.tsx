@@ -99,10 +99,15 @@ export const PlayerHero: React.FC<Props> = ({ player }) => {
         )}
         {player.playerType?.title && (
           <FlexContainer align="stretch">
-            <Text color="white" fontWeight="bold" textTransform="uppercase">
+            <Text
+              color="white" fontWeight="bold"
+              style={{ textTransform: 'uppercase' }}
+            >
               {player.playerType.title}
             </Text>
-            <Text color="blueLight">{player.playerType.description}</Text>
+            <Text color="blueLight">
+              {player.playerType.description}
+            </Text>
           </FlexContainer>
         )}
       </VStack>

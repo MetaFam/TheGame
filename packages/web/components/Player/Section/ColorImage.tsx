@@ -1,4 +1,4 @@
-import { ChakraProps,SVG } from '@metafam/ds'
+import { ChakraProps, SVG } from '@metafam/ds'
 import { PersonalityOption } from 'graphql/types';
 import React from 'react'
 import { svgArc } from 'utils/svgHelpers'
@@ -19,17 +19,15 @@ export const ColorImage = (
     if (!type || !types) {
       return null;
     }
-    // https://stackoverflow.com/a/55766546/264008
     const partMasks = (
       type.mask.toString(2).split('').reverse()
       .map((x: string, index: number) => (
         // eslint-disable-next-line no-bitwise
         x === '1' ? 1 << index : 0
       ))
-      .reverse().filter((x: number) => x > 0)
+      .filter((x: number) => x > 0)
     )
-    const numSections = partMasks.length
-    const angle = 360 / numSections
+    const angle = 360 / partMasks.length
 
     return (
       <SVG

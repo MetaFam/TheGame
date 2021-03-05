@@ -41,7 +41,7 @@ import { ColorAspect } from './autogen/types';
 import { client } from './client';
 import { PersonalityOption } from './types';
 
-const aspectsQuery = gql`
+const AspectsQuery = gql`
   query GetAspects {
     ColorAspect {
       mask
@@ -108,7 +108,7 @@ export const getPersonalityInfo = async (): Promise<{
 }> => {
   const { data, error } = await (
     client
-    .query(aspectsQuery)
+    .query(AspectsQuery)
     .toPromise()
   );
 

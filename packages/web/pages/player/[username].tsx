@@ -22,7 +22,7 @@ import React from 'react';
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
 const PlayerPage: React.FC<Props> = (
-  ({ player }: { player: PlayerFragmentFragment }) => {
+  ({ player }: { player: PlayerFragmentFragment | null }) => {
     const router = useRouter();
 
     // TODO Fake data should be saved in back-end

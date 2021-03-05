@@ -1,13 +1,14 @@
 /* eslint no-bitwise: "off" */
 import {
+  Box,
   Flex,
   Image,
   MetaButton,
   MetaHeading,
+  SVG,
   Text,
   useToast,
 } from '@metafam/ds';
-import EmptyImg from 'assets/empty.svg'
 import { FlexContainer } from 'components/Container';
 import { MetaLink } from 'components/Link';
 import { useSetupFlow } from 'contexts/SetupContext';
@@ -24,10 +25,14 @@ export type SetupPersonalityTypeProps = {
   // keyed on a bitmask of the format 0bWUBRG
   personalityTypes: { [x: number]: PersonalityOption };
   colorMask: number | undefined;
-  setColorMask: React.Dispatch<React.SetStateAction<number | undefined>>;
+  setColorMask: React.Dispatch<
+    React.SetStateAction<number | undefined>
+  >;
 };
 
-export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
+export const SetupPersonalityType: (
+  React.FC<SetupPersonalityTypeProps>
+) = ({
   personalityParts,
   personalityTypes,
   colorMask,
@@ -36,8 +41,9 @@ export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
   const { onNextPress, nextButtonLabel } = useSetupFlow();
   const { user } = useUser({ redirectTo: '/' });
   const toast = useToast();
-
-  const [updateAboutYouRes, updateAboutYou] = useUpdateAboutYouMutation();
+  const [updateAboutYouRes, updateAboutYou] = (
+    useUpdateAboutYouMutation()
+  );
 
   const handleNextPress = async () => {
     if (!user) return;
@@ -65,6 +71,22 @@ export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
     onNextPress();
   };
 
+  // This is just verbose, so I am pulling it out to
+  // save space in the main template
+  const maskImageStyle = (
+    ({ url }: { url: string }): Record<string, string> => ({
+      maskImage: `url(${url})`,
+      maskSize: 'contain',
+      maskPosition: 'center',
+      maskRepeat: 'no-repeat',
+      WebkitMaskImage: `url(${url})`,
+      WebkitMaskSize: 'contain',
+      WebkitMaskPosition: 'center',
+      WebkitMaskRepeat: 'no-repeat',
+    })
+  );
+
+
   // mask should always only have at most a single bit set
   const toggleMaskElement = (mask = 0): void => {
     setColorMask((current = 0) => {
@@ -75,24 +97,27 @@ export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
     })
   };
 
-  const ColorBar = ({ mask }: { mask: number | undefined }) => (
+  /* The color bar is below the attribute selection screen,
+   * and shows an equally proportioned set of colors with
+   * monochrome icons above them.
+   */
+  const ColorBar = ({ mask = 0 }: { mask: number | undefined }) => (
     <Flex direction='column' mt={10} maxW='100%'>
       <Flex maxW='100%' w='30rem' minH='1.5rem' mb='1rem'>
         {personalityParts.map((part) => (
-          (((mask ?? 0) & part.mask) > 0) // if the bit is set
+          ((mask & part.mask) > 0) // if the bit is set
           ? (
-            <Flex grow={1} justify='center' opacity={0.75} key={part.mask}>
-              <Image
-                src={EmptyImg}
-                h={6}
-                style={{
-                  WebkitMaskImage: (
-                    `url(${MetaGameAlternates[part.name].image})`
-                  ),
-                  WebkitMaskSize: 'contain',
-                  WebkitMaskPosition: 'center',
-                  WebkitMaskRepeat: 'no-repeat',
-                }}
+            <Flex
+              key={part.mask}
+              grow={1} justify='center'
+              opacity={0.75}
+            >
+              <Box
+                bgColor='white'
+                h={6} w={6}
+                style={maskImageStyle({
+                  url: MetaGameAlternates[part.name].image
+                })}
               />
             </Flex>
           ) : ( null )
@@ -103,39 +128,48 @@ export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
         border='2px' borderRadius={3}
       >
         {personalityParts.map((part) => (
-          (((mask ?? 0) & part.mask) > 0)
+          ((mask & part.mask) > 0)
           ? (
             <Flex
               key={part.mask}
               grow={1}
               h='1.5rem'
             >
-              <svg
+              <SVG
                 viewBox='0 0 100 100'
                 preserveAspectRatio='none'
-                width='100%'
+                w='100%'
               >
                 <defs>
                   <linearGradient
                     id="shading"
                     gradientTransform="rotate(90)"
                   >
-                    <stop offset="5%" stopColor="black" stopOpacity={0.5} />
-                    <stop offset="95%" stopColor="white" stopOpacity={0.25} />
+                    <stop
+                      offset="5%"
+                      stopColor="black" stopOpacity={0.5}
+                    />
+                    <stop
+                      offset="95%"
+                      stopColor="white" stopOpacity={0.25}
+                    />
                   </linearGradient>
                 </defs>
                 <rect
                   width='100%' height='100%'
                   fill={part.name.toLowerCase()}
                 />
-                <rect width='100%' height='100%' fill='url(#shading)'/>
-              </svg>
+                <rect
+                  width='100%' height='100%'
+                  fill='url(#shading)'
+                />
+              </SVG>
             </Flex>
           ) : ( null )
         ))}
       </Flex>
       <FlexContainer mt={1}>
-        <q>{personalityTypes[mask ?? 0].name}</q>
+        <q>{personalityTypes[mask].name}</q>
       </FlexContainer>
     </Flex>
   )
@@ -181,7 +215,7 @@ export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
                 }
                 _hover={{
                   bgColor: 'purpleBoxDark',
-                  bgBlendMode: 'lighten',
+                  filter: 'brighten(0.9)',
                 }}
                 border='2px'
                 borderColor={
