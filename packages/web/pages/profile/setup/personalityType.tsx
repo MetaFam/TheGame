@@ -4,7 +4,7 @@ import { SetupContextProvider } from 'contexts/SetupContext';
 import { getPersonalityInfo } from 'graphql/getPersonalityInfo';
 import { useUser } from 'lib/hooks';
 import { InferGetStaticPropsType } from 'next';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 export const getStaticProps = async () => {
   const { types, parts } = await getPersonalityInfo();
@@ -24,14 +24,16 @@ const PersonalityTypeSetup: React.FC<Props> = (props) => {
   const [colorMask, setColorMask] = useState<number | undefined>();
   const { user } = useUser({ redirectTo: '/' });
 
-  console.info({ user });
-
-  if (user?.player) {
-    // const { player } = user;
-    if (!colorMask /* && player.ColorAspect */) {
-      // setColorMask(player.ColorAspect);
+  const load = () => {
+    const { player } = user ?? {};
+    console.info({ player })
+    if (player) {
+      if (!colorMask && player.ColorAspect !== null) {
+        setColorMask(player.ColorAspect);
+      }
     }
   }
+  useEffect(load, [])
 
   return (
     <SetupContextProvider>

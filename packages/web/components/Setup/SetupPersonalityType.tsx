@@ -1,4 +1,5 @@
 import {
+  Flex,
   HStack,
   Image,
   MetaButton,
@@ -19,11 +20,15 @@ export type SetupPersonalityTypeProps = {
   // component parts: white, red, etc.
   personalityParts: Array<PersonalityOption>;
   // final combinations: Jund Shard, Izzet Syndicate, etc.
-  // keyed on a bitmask of the form 0bWUBRG
+  // keyed on a bitmask of the format 0bWUBRG
   personalityTypes: { [x: number]: PersonalityOption };
   colorMask: number | undefined;
   setColorMask: React.Dispatch<React.SetStateAction<number | undefined>>;
 };
+
+type BitToggleType = {
+  mask: number;
+}
 
 export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
   personalityParts,
@@ -43,26 +48,38 @@ export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
     // eslint-disable-next-line no-console
     console.info({ player: user.player, personalityTypes });
 
-    // if (user.player?.Color !== personalityType?.color_mask) {
-    const { error } = await updateAboutYou({
-      playerId: user.id,
-      input: {
-        color_mask: colorMask,
-      },
-    });
-
-    if (error) {
-      toast({
-        title: 'Error',
-        description: 'Unable to update personality type. The octo is sad. 😢',
-        status: 'error',
-        isClosable: true,
+    if (user.player?.ColorAspect.mask !== colorMask) {
+      const { error } = await updateAboutYou({
+        playerId: user.id,
+        input: {
+          color_mask: colorMask,
+        },
       });
+
+      if (error) {
+        toast({
+          title: 'Error',
+          description: 'Unable to update personality type. The octo is sad. 😢',
+          status: 'error',
+          isClosable: true,
+        });
+      }
     }
-    // }
 
     onNextPress();
   };
+
+  // id should always only have a single bit set
+  const toggleMaskElement: BitToggleType = (mask = 0) => {
+    setColorMask((current = 0) => {
+      // eslint-disable-next-line no-bitwise
+      if ((mask & current) > 0) { // if the bit in mask is set, unset it
+        return current | ~mask
+      } else {                    // otherwise set it
+        return mask | mask
+      }
+    })
+  } 
 
   return (
     <FlexContainer>
@@ -76,28 +93,28 @@ export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
           Take a quick test.
         </MetaLink>
       </Text>
-      <SimpleGrid columns={[1, null, 2, 3]} spacing={8}>
+      <FlexContainer spacing={8} direction='row' wrap='wrap'>
         {personalityParts.map((p: PersonalityOption) => (
-          <HStack
+          <Flex
             key={p.mask}
             p={6}
+            m={1}
             spacing={4}
+            borderRadius="0.5rem"
+            cursor="pointer"
+            onClick={() => toggleMaskElement(p.mask)}
+            transition="background 0.25s"
             bgColor={
               // eslint-disable-next-line no-bitwise
-              colorMask && (colorMask & p.mask) > 0 // ToDo: implement
+              Number.isInteger(colorMask) && (colorMask ?? 0 & p.mask) > 0 // ToDo: implement
               ? 'purpleBoxDark'
               : 'purpleBoxLight'
             }
-            borderRadius="0.5rem"
             _hover={{ bgColor: 'purpleBoxDark' }}
-            transition="background 0.25s"
-            cursor="pointer"
-            // eslint-disable-next-line no-bitwise
-            onClick={() => setColorMask((m) => (m ?? 0) & p.mask)}
             border="2px"
             borderColor={
               // eslint-disable-next-line no-bitwise
-              colorMask && (colorMask & p.mask) > 0
+              Number.isInteger(colorMask) && (colorMask ?? 0 & p.mask) > 0
               ? 'purple.400'
               : 'transparent'
             }
@@ -107,17 +124,18 @@ export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
               maxW="4rem"
               src={p.image}
               alt={p.name}
-              style={{ mixBlendMode: 'color-dodge' }}
+              filter='drop-shadow(0px 0px 6px black)'
+              //style={{ mixBlendMode: 'color-dodge' }}
             />
-            <FlexContainer align="stretch">
+            <FlexContainer align="stretch" ml={2}>
               <Text color="white" fontWeight="bold">
-                {p.name}
+                {p.label}
               </Text>
               <Text color="blueLight">{p.description}</Text>
             </FlexContainer>
-          </HStack>
+          </Flex>
         ))}
-      </SimpleGrid>
+      </FlexContainer>
 
       <MetaButton
         onClick={handleNextPress}
