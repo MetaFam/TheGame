@@ -30,12 +30,11 @@ const PersonalityTypeSetup: React.FC<Props> = (props) => {
     const { player } = user ?? {};
     if (player) {
       if (colorMask === undefined && player.ColorAspect !== null) {
-        console.info('SETTING MASK', player.ColorAspect?.mask)
         setColorMask(player.ColorAspect?.mask);
       }
     }
   }
-  useEffect(load, [user])
+  useEffect(load, [user, colorMask]);
 
   return (
     <SetupContextProvider>

@@ -1,3 +1,8 @@
+import AmbitionAltImg from 'assets/alternates/Ambition.svg';
+import BalanceAltImg from 'assets/alternates/Balance.svg';
+import ChaosAltImg from 'assets/alternates/Chaos.svg';
+import JusticeAltImg from 'assets/alternates/Justice.svg';
+import WisdomAltImg from 'assets/alternates/Wisdom.svg';
 import AggressionImg from 'assets/colors/Aggression.svg';
 import AltruismImg from 'assets/colors/Altruism.svg';
 import ArtificeImg from 'assets/colors/Artifice.svg';
@@ -30,14 +35,9 @@ import SimicImg from 'assets/colors/The Simic Combine.svg';
 import SultaiImg from 'assets/colors/The Sultai Brood.svg';
 import TemurImg from 'assets/colors/The Temur Frontier.svg';
 import WhiteImg from 'assets/colors/White.svg';
-import JusticeAltImg from 'assets/alternates/Justice.svg';
-import WisdomAltImg from 'assets/alternates/Wisdom.svg';
-import AmbitionAltImg from 'assets/alternates/Ambition.svg';
-import ChaosAltImg from 'assets/alternates/Chaos.svg';
-import BalanceAltImg from 'assets/alternates/Balance.svg';
-
 import gql from 'fake-tag';
 
+import { ColorAspect } from './autogen/types';
 import { client } from './client';
 import { PersonalityOption } from './types';
 
@@ -126,18 +126,18 @@ export const getPersonalityInfo = async (): Promise<{
   parts: Array<PersonalityOption>;
   types: { [any: string]: PersonalityOption };
 }> => {
-    const { data, error } = await (
+  const { data, error } = await (
     client
     .query(aspectsQuery)
     .toPromise()
   );
 
   if (error) throw error;
-  if (!data) throw new Error("data isn't set")
+  if (!data) throw new Error("data isn't set");
 
-  const parts: Array<PersonalityOption> = []
-  const types: { [x: number]: PersonalityOption } = {}
-  for(let aspect of data.ColorAspect) {
+  const parts: Array<PersonalityOption> = [];
+  const types: { [x: number]: PersonalityOption } = {};
+  data.ColorAspect.forEach((aspect: ColorAspect) => {
     const option = {
       name: aspect.name,
       label: aspect.name,
@@ -145,7 +145,8 @@ export const getPersonalityInfo = async (): Promise<{
       image: PersonalityIcons[aspect.name],
       mask: aspect.mask,
     };
-    const alt = MetaGameAlternates[aspect.name]; // Pure properties are renamed
+    // Pure properties are renamed
+    const alt = MetaGameAlternates[aspect.name];
     if (alt) {
       option.label = alt.label;
       option.image = alt.image;
@@ -153,10 +154,11 @@ export const getPersonalityInfo = async (): Promise<{
     types[aspect.mask] = option;
 
     // pure colors are powers of 2
+    // eslint-disable-next-line no-bitwise
     if (aspect.mask > 0 && (aspect.mask & (aspect.mask - 1)) === 0) {
       parts.push(option);
     }
-  }
+  });
 
   return { parts, types };
 };

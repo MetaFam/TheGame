@@ -8,7 +8,6 @@ type Props = {
 };
 
 export const PlayerList: React.FC<Props> = ({ players }) => {
-  console.info('Listing');
   return (
     <SimpleGrid
       columns={[1, null, 2, 3]}

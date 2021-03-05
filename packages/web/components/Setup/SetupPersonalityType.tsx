@@ -1,21 +1,20 @@
-import React from 'react';
+/* eslint no-bitwise: "off" */
 import {
   Flex,
-  HStack,
   Image,
   MetaButton,
   MetaHeading,
-  SimpleGrid,
   Text,
   useToast,
 } from '@metafam/ds';
+import EmptyImg from 'assets/empty.svg'
 import { FlexContainer } from 'components/Container';
 import { MetaLink } from 'components/Link';
 import { useSetupFlow } from 'contexts/SetupContext';
 import { useUpdateAboutYouMutation } from 'graphql/autogen/types';
 import { PersonalityOption } from 'graphql/types';
 import { useUser } from 'lib/hooks';
-import EmptyImg from 'assets/empty.svg'
+import React from 'react';
 
 export type SetupPersonalityTypeProps = {
   // component parts: white, red, etc.
@@ -51,7 +50,7 @@ export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
       });
 
       if (error) {
-        console.error(error);
+        console.warn(error); // eslint-disable-line no-console
 
         toast({
           title: 'Error',
@@ -66,61 +65,61 @@ export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
   };
 
   // mask should always only have at most a single bit set
-  const toggleMaskElement = (mask: number = 0): void => {
+  const toggleMaskElement = (mask = 0): void => {
     setColorMask((current = 0) => {
-      // eslint-disable-next-line no-bitwise
-      if ((mask & current) > 0) {
-        return current & ~mask  // if the bit in mask is set, unset it
+      if ((mask & current) > 0) { // if the bit in mask is set
+        return current & ~mask;   // unset it
       }
-      return current | mask     // otherwise set it
+      return current | mask;      // otherwise set it
     })
-  } 
+  };
 
   const ColorBar = ({ mask }: { mask: number | undefined }) => (
     <Flex direction='column' mt={10} maxW='100%'>
       <Flex maxW='100%' w='30rem' minH='1.5rem' mb='1rem'>
-        {personalityParts.map((part) => {
-          if (((mask ?? 0) & part.mask) > 0) {
-            return (
-              <Flex grow={1} justify='center' opacity={0.75} key={part.mask}>
-                <Image
-                  src={EmptyImg}
-                  h={6}
-                  style={{
-                    WebkitMaskImage: `url(${part.image})`,
-                    WebkitMaskSize: 'contain',
-                    WebkitMaskPosition: 'center',
-                    WebkitMaskRepeat: 'no-repeat',
-                  }}
-                />
-              </Flex>
-            );
-          }
-        })}
+        {personalityParts.map((part) => (
+          (((mask ?? 0) & part.mask) > 0) // if the bit is set
+          ? (
+            <Flex grow={1} justify='center' opacity={0.75} key={part.mask}>
+              <Image
+                src={EmptyImg}
+                h={6}
+                style={{
+                  WebkitMaskImage: `url(${part.image})`,
+                  WebkitMaskSize: 'contain',
+                  WebkitMaskPosition: 'center',
+                  WebkitMaskRepeat: 'no-repeat',
+                }}
+              />
+            </Flex>
+          ) : ( null )
+        ))}
       </Flex>
-      <Flex maxW='100%' w='30rem' border='2px' minH='calc(1.5rem + 4px)' borderRadius={3}>
-        {personalityParts.map((part) => {
-          if (((mask ?? 0) & part.mask) > 0) {
-            return (
-              <Flex
-                key={part.mask}
-                grow={1}
-                h='1.5rem'
-              >
-                <svg viewBox='0 0 100 100' preserveAspectRatio='none' width='100%'>
-                  <defs>
-                    <linearGradient id="shading" gradientTransform="rotate(90)">
-                      <stop offset="5%" stopColor="black" stopOpacity={0.5} />
-                      <stop offset="95%" stopColor="white" stopOpacity={0.25} />
-                    </linearGradient>
-                  </defs>
-                  <rect width='100%' height='100%' fill={part.name.toLowerCase()}/>
-                  <rect width='100%' height='100%' fill='url(#shading)'/>
-                </svg>
-              </Flex>
-            );
-          }
-        })}
+      <Flex
+        minH='calc(1.5rem + 4px)' maxW='100%' w='30rem'
+        border='2px' borderRadius={3}
+      >
+        {personalityParts.map((part) => (
+          (((mask ?? 0) & part.mask) > 0)
+          ? (
+            <Flex
+              key={part.mask}
+              grow={1}
+              h='1.5rem'
+            >
+              <svg viewBox='0 0 100 100' preserveAspectRatio='none' width='100%'>
+                <defs>
+                  <linearGradient id="shading" gradientTransform="rotate(90)">
+                    <stop offset="5%" stopColor="black" stopOpacity={0.5} />
+                    <stop offset="95%" stopColor="white" stopOpacity={0.25} />
+                  </linearGradient>
+                </defs>
+                <rect width='100%' height='100%' fill={part.name.toLowerCase()}/>
+                <rect width='100%' height='100%' fill='url(#shading)'/>
+              </svg>
+            </Flex>
+          ) : ( null )
+        ))}
       </Flex>
       <FlexContainer mt={1}>
         <q>{personalityTypes[mask ?? 0].name}</q>
@@ -129,7 +128,7 @@ export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
   )
 
   return (
-    <FlexContainer minH='50vh' maxW='100%'>
+    <FlexContainer maxW='100%'>
       <Flex direction='column'>
         <MetaHeading mb={5} textAlign="center">
           Person&#xAD;ality Type
@@ -152,6 +151,7 @@ export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
             borderRadius="0.5rem"
             cursor="pointer"
             onClick={() => toggleMaskElement(p.mask)}
+            align='center'
             transition="background 0.25s"
             bgColor={
               // eslint-disable-next-line no-bitwise
@@ -175,7 +175,6 @@ export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
               src={p.image}
               alt={p.name}
               filter='drop-shadow(0px 0px 6px black)'
-              //style={{ mixBlendMode: 'color-dodge' }}
             />
             <FlexContainer align="stretch" ml={2}>
               <Text

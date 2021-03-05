@@ -55,7 +55,7 @@ export const SetupPlayerType: React.FC<SetupPlayerTypeProps> = ({
   };
 
   return (
-    <FlexContainer>
+    <FlexContainer minH='75vh'>
       <MetaHeading mb={5} textAlign="center">
         Player Type
       </MetaHeading>
@@ -63,7 +63,7 @@ export const SetupPlayerType: React.FC<SetupPlayerTypeProps> = ({
         Please read the features of each player type below. And select the one
         that suits you best.
       </Text>
-      <SimpleGrid columns={[1, null, 3, 3]} spacing={4}>
+      <SimpleGrid columns={[1, null, 3, 3]} spacing={4} grow={1}>
         {playerTypeChoices.map((p) => (
           <FlexContainer
             key={p.id}

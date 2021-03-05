@@ -49,11 +49,10 @@ export const SetupAvailability: React.FC<SetupAvailabilityProps> = ({
     });
 
     if (error) {
-      // eslint-disable-next-line no-console
-      console.warn(error);
+      console.warn(error); // eslint-disable-line no-console
       toast({
         title: 'Error',
-        description: 'Unable to update availability. The octo is sad 😢',
+        description: 'Unable to update availability. The octo is sad. 😢',
         status: 'error',
         isClosable: true,
       });
@@ -66,7 +65,7 @@ export const SetupAvailability: React.FC<SetupAvailabilityProps> = ({
   return (
     <FlexContainer>
       <MetaHeading mb={5} textAlign="center">
-        Availability
+        Avail&#xAD;ability
       </MetaHeading>
       <Text mb={10}>
         What is your weekly availability for any kind of freelance work?

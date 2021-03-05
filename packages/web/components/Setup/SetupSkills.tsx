@@ -44,7 +44,7 @@ export const SetupSkills: React.FC<SetupSkillsProps> = ({
     if (error) {
       toast({
         title: 'Error',
-        description: 'Unable to update player skills. The octo is sad 😢',
+        description: 'Unable to update player skills. The octo is sad. 😢',
         status: 'error',
         isClosable: true,
       });
@@ -78,8 +78,8 @@ export const SetupSkills: React.FC<SetupSkillsProps> = ({
 
   return (
     <FlexContainer>
-      <MetaHeading mb={10} mt={-64} textAlign="center">
-        What are your superpowers?
+      <MetaHeading mb={10} textAlign="center">
+        What are your super&#xAD;powers?
       </MetaHeading>
       <FlexContainer w="100%" align="stretch" maxW="50rem">
         <SelectSearch
@@ -91,6 +91,7 @@ export const SetupSkills: React.FC<SetupSkillsProps> = ({
           autoFocus
           closeMenuOnSelect={false}
           placeholder="ADD YOUR SKILLS"
+          maxMenuHeight={600}
         />
       </FlexContainer>
       <MetaButton 
