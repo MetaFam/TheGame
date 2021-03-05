@@ -1,3 +1,5 @@
+import { chakra } from '@chakra-ui/react';
+
 export {
   Avatar,
   Badge,
@@ -42,6 +44,8 @@ export {
   ModalOverlay,
   useDisclosure,
 } from '@chakra-ui/react';
+
+export const SVG = chakra('svg');
 
 export { theme as MetaTheme } from './theme';
 export { Icon3box, BrightIdIcon } from './icons';

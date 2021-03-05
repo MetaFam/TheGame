@@ -1,4 +1,6 @@
-import { Avatar, Box, HStack, Image, Text, VStack } from '@metafam/ds';
+import {
+  Avatar, Box, HStack, Text, VStack
+} from '@metafam/ds';
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
 import { PersonalityOption } from 'graphql/types';
 import React, { useEffect } from 'react';
@@ -12,6 +14,7 @@ import { getPersonalityInfo } from '../../../graphql/getPersonalityInfo';
 import { FlexContainer } from '../../Container';
 import { ProfileSection } from '../../ProfileSection';
 import { PlayerContacts } from '../PlayerContacts';
+import { ColorImage } from './ColorImage';
 import { PlayerBrightId } from './PlayerBrightId';
 import { PlayerCollab } from './PlayerCollab';
 
@@ -24,10 +27,8 @@ export const PlayerHero: React.FC<Props> = ({ player }) => {
   const [types, setTypes] = React.useState<{
     [any: string]: PersonalityOption;
   }>();
-  const type = (
-    player?.ColorAspect?.mask
-    && types?.[player?.ColorAspect?.mask]
-  );
+  const mask = player?.ColorAspect?.mask;
+  const type = mask && types?.[mask];
 
   const loadTypes = async () => {
     const { types: list } = await getPersonalityInfo();
@@ -56,7 +57,8 @@ export const PlayerHero: React.FC<Props> = ({ player }) => {
           <Text>
             {show
               ? description
-              : `${description.substring(0, MAX_BIO_LENGTH)}…`}
+              : `${description.substring(0, MAX_BIO_LENGTH - 9)}…`
+            }
             {description.length > MAX_BIO_LENGTH && (
               <Text
                 as="span"
@@ -65,8 +67,9 @@ export const PlayerHero: React.FC<Props> = ({ player }) => {
                 color="cyanText"
                 cursor="pointer"
                 onClick={() => setShow(s => !s)}
+                pl={1}
               >
-                Read {show ? 'Less' : 'More'}
+                Read {show ? 'less' : 'more'}
               </Text>
             )}
           </Text>
@@ -79,14 +82,8 @@ export const PlayerHero: React.FC<Props> = ({ player }) => {
           <PlayerCollab player={player} />
         </Box>
         {type && (
-          <HStack spacing={4}>
-            <Image
-              w="100%"
-              maxW="4rem"
-              src={type.image}
-              alt={type.name}
-              style={{ mixBlendMode: 'color-dodge' }}
-            />
+          <HStack spacing={4} w='100%'>
+            <ColorImage {...{ type, types }} maxH='8rem'/>
             <FlexContainer align="stretch">
               <Text color="white" fontWeight="bold">
                 {type.name}
