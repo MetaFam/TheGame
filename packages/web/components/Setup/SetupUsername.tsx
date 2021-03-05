@@ -3,7 +3,9 @@ import { FlexContainer } from 'components/Container';
 import { useSetupFlow } from 'contexts/SetupContext';
 import { useUpdatePlayerUsernameMutation } from 'graphql/autogen/types';
 import { useUser } from 'lib/hooks';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+
+const USERNAME_REGEX = /^[a-zA-Z0-9](_(?!(\.|_))|\.(?!(_|\.))|[a-zA-Z0-9]){2,18}[a-zA-Z0-9]$/;
 
 export type SetupUsernameProps = {
   username: string;
@@ -15,8 +17,13 @@ export const SetupUsername: React.FC<SetupUsernameProps> = ({username, setUserna
     onNextPress,
     nextButtonLabel
   } = useSetupFlow();
+  const [invalid, setInvalid] = useState(false);
   const { user } = useUser({ redirectTo: '/' });
   const toast = useToast();
+
+  useEffect(() => {
+    setInvalid(!USERNAME_REGEX.test(username));
+  }, [username]);
 
   const [updateUsernameRes, updateUsername] = useUpdatePlayerUsernameMutation();
 
@@ -29,15 +36,15 @@ export const SetupUsername: React.FC<SetupUsernameProps> = ({username, setUserna
     });
 
     if (error) {
-      let errorDetail = 'The octo is sad. 😢';
-      if (error.message.includes('Uniqueness violation')) {
-        errorDetail = 'This username is already taken.';
-      } else if (error.message.includes('username_is_valid')) {
-        errorDetail = 'A username can only contain letters, numbers, and dashes.';
+      let errorDescription = 'The octo is sad. 😢';
+      if (/uniqueness violation/i.test(error.message)) {
+        errorDescription = 'Username already taken.';
+      } else {
+        console.warn(error); // eslint-disable-line no-console
       }
       toast({
         title: 'Error',
-        description: `Unable to update player's username. ${errorDetail}`,
+        description: `Unable to update player's username. ${errorDescription}`,
         status: 'error',
         isClosable: true,
       });
@@ -59,11 +66,13 @@ export const SetupUsername: React.FC<SetupUsernameProps> = ({username, setUserna
         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
           setUsername(e.target.value)
         }
+        isInvalid={invalid}
       />
 
       <MetaButton
         onClick={handleNextPress}
         mt={10}
+        isDisabled={invalid}
         isLoading={updateUsernameRes.fetching}
         loadingText="Saving"
       >

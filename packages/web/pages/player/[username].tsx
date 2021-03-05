@@ -17,7 +17,7 @@ import {
 import Error from 'next/error';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
+import React from 'react';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
@@ -27,18 +27,20 @@ const PlayerPage: React.FC<Props> = (
 
     // TODO Fake data should be saved in back-end
     const BOX_TYPE = {
-      PLAYER_SKILLS: 'Skills',
-      PLAYER_GALLERY: 'Gallery',
-      PLAYER_MEMBERSHIPS: 'Memberships',
-      PLAYER_ACHIEVEMENTS: 'Achievements',
+      SKILLS: 'Skills',
+      GALLERY: 'Gallery',
+      MEMBERSHIPS: 'Memberships',
+      ACHIEVEMENTS: 'Achievements',
     };
-    const [boxAvailableList, setBoxAvailableList] = useState<string[]>([]);
-    const [canEdit] = useState(false);
+    const [boxAvailableList, setBoxAvailableList] = (
+      React.useState<string[]>([])
+    );
+    const [canEdit] = React.useState(false);
 
-    const [fakeData, setFakeData] = useState([
+    const [fakeData, setFakeData] = React.useState([
       [],
-      [BOX_TYPE.PLAYER_MEMBERSHIPS, BOX_TYPE.PLAYER_SKILLS],
-      [BOX_TYPE.PLAYER_GALLERY],
+      [BOX_TYPE.MEMBERSHIPS, BOX_TYPE.SKILLS],
+      [BOX_TYPE.GALLERY],
     ]);
 
     if (router.isFallback) {
@@ -50,7 +52,9 @@ const PlayerPage: React.FC<Props> = (
     }
 
     const addBox = (column: number, name: string) => {
-      setBoxAvailableList(boxAvailableList.filter((box) => box !== name));
+      setBoxAvailableList(
+        boxAvailableList.filter(box => box !== name)
+      );
       const updatedFakeData = [...fakeData];
       updatedFakeData[column].push(name);
       setFakeData(updatedFakeData);
@@ -67,21 +71,21 @@ const PlayerPage: React.FC<Props> = (
 
     const getBox = (column: number, name: string): React.ReactNode => {
       switch (name) {
-        case BOX_TYPE.PLAYER_SKILLS:
+        case BOX_TYPE.SKILLS:
           return (
             <PlayerSkills
               player={player}
               onRemoveClick={() => removeBox(column, name)}
             />
           );
-        case BOX_TYPE.PLAYER_GALLERY:
+        case BOX_TYPE.GALLERY:
           return (
             <PlayerGallery
               player={player}
               onRemoveClick={() => removeBox(column, name)}
             />
           );
-        case BOX_TYPE.PLAYER_MEMBERSHIPS:
+        case BOX_TYPE.MEMBERSHIPS:
           return (
             <PlayerMemberships
               player={player}
@@ -89,7 +93,7 @@ const PlayerPage: React.FC<Props> = (
             />
           );
         default:
-        case BOX_TYPE.PLAYER_ACHIEVEMENTS:
+        case BOX_TYPE.ACHIEVEMENTS:
           return (
             <PlayerAchievements onRemoveClick={() => removeBox(column, name)} />
           );
@@ -105,57 +109,69 @@ const PlayerPage: React.FC<Props> = (
           alignItems="flex-start"
           maxWidth="7xl"
         >
-          <Box width={{ base: '100%', lg: '33%' }} mr={{ base: 0, lg: 4 }}>
-            <Box mb="6">
+          <Box
+            width={{ base: '100%', lg: '33%' }}
+            mr={{ base: 0, lg: 4 }}
+          >
+            <Box mb={6}>
               <PlayerHero player={player} />
             </Box>
             {(fakeData || [[], [], []])[0].map((name) => (
-              <Box mb="6" key={name}>
+              <Box mb={6} key={name}>
                 {getBox(0, name)}
               </Box>
             ))}
-            {canEdit ? (
+            {canEdit && (
               <PlayerAddSection
                 boxList={boxAvailableList}
-                setNewBox={(name) => addBox(0, name)}
+                setNewBox={name => addBox(0, name)}
                 mb={6}
               />
-            ) : null}
+            )}
           </Box>
-          <Box width={{ base: '100%', lg: '66%' }} ml={{ base: 0, lg: 4 }}>
+          <Box
+            width={{ base: '100%', lg: '66%' }}
+            ml={{ base: 0, lg: 4 }}
+          >
             <Box width="100%">
               <Flex
                 align="center"
                 direction={{ base: 'column', lg: 'row' }}
                 alignItems="flex-start"
               >
-                <Box width={{ base: '100%', lg: '50%' }} mr={{ base: 0, lg: 4 }}>
+                <Box
+                  width={{ base: '100%', lg: '50%' }}
+                  mr={{ base: 0, lg: 4 }}
+                >
                   {(fakeData || [[], [], []])[1].map((name) => (
-                    <Box mb="6" key={name}>
+                    <Box mb={6} key={name}>
                       {getBox(1, name)}
                     </Box>
                   ))}
-                  {canEdit ? (
+                  {canEdit && (
                     <PlayerAddSection
                       boxList={boxAvailableList}
-                      setNewBox={(name) => addBox(1, name)}
+                      setNewBox={name => addBox(1, name)}
                       mb={6}
                     />
-                  ) : null}
+                  )}
                 </Box>
-                <Box width={{ base: '100%', lg: '50%' }} ml={{ base: 0, lg: 4 }}>
+                <Box
+                  width={{ base: '100%', lg: '50%' }}
+                  ml={{ base: 0, lg: 4 }}
+                >
                   {(fakeData || [[], [], []])[2].map((name) => (
-                    <Box mb="6" key={name}>
+                    <Box mb={6} key={name}>
                       {getBox(2, name)}
                     </Box>
                   ))}
-                  {canEdit ? (
+                  {canEdit && (
                     <PlayerAddSection
                       boxList={boxAvailableList}
-                      setNewBox={(name) => addBox(2, name)}
+                      setNewBox={name => addBox(2, name)}
                       mb={6}
                     />
-                  ) : null}
+                  )}
                 </Box>
               </Flex>
             </Box>
@@ -165,50 +181,34 @@ const PlayerPage: React.FC<Props> = (
     );
   }
 );
+
 export default PlayerPage;
 
 type QueryParams = { username: string };
 
-export const getStaticPaths: GetStaticPaths<QueryParams> = async () => {
-  const players = await getPlayers();
+export const getStaticPaths: GetStaticPaths<QueryParams> = (
+  async () => {
+    const players = await getPlayers();
 
-  return {
-    paths: players.map(({ username }) => ({
-      params: { username },
-    })),
-    fallback: true,
-  };
-};
+    return {
+      paths: players.map(({ username }) => ({
+        params: { username },
+      })),
+      fallback: true,
+    };
+  }
+);
 
 export const getStaticProps = async (
   context: GetStaticPropsContext<QueryParams>,
 ) => {
   const username = context.params?.username;
-  if (username == null) {
-    return {
-      redirect: {
-        desination: '/',
-        permanent: false
-      }
-    }
-  }
+  const player = await getPlayer(username);
 
-  let player = await getPlayer(username);
-  if (player == null) {
-    player = await getPlayer(username.toLowerCase());
-    if (player != null) {
-      return {
-        redirect: {
-          destination: `/player/${username.toLowerCase()}`,
-          permanent: false
-        }
-      }
-    }
-  }
-  
   return {
     props: {
-      player: player || null, // must be serializable
+      // must be JSON serializable
+      player: player === undefined ? null : player,
     },
     revalidate: 1,
   };
