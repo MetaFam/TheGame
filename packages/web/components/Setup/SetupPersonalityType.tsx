@@ -52,13 +52,13 @@ export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
 
       if (error) {
         console.warn(error); // eslint-disable-line no-console
-
         toast({
           title: 'Error',
           description: 'Unable to update personality type. The octo is sad. 😢',
           status: 'error',
           isClosable: true,
         });
+        return;
       }
     }
 
@@ -110,14 +110,24 @@ export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
               grow={1}
               h='1.5rem'
             >
-              <svg viewBox='0 0 100 100' preserveAspectRatio='none' width='100%'>
+              <svg
+                viewBox='0 0 100 100'
+                preserveAspectRatio='none'
+                width='100%'
+              >
                 <defs>
-                  <linearGradient id="shading" gradientTransform="rotate(90)">
+                  <linearGradient
+                    id="shading"
+                    gradientTransform="rotate(90)"
+                  >
                     <stop offset="5%" stopColor="black" stopOpacity={0.5} />
                     <stop offset="95%" stopColor="white" stopOpacity={0.25} />
                   </linearGradient>
                 </defs>
-                <rect width='100%' height='100%' fill={part.name.toLowerCase()}/>
+                <rect
+                  width='100%' height='100%'
+                  fill={part.name.toLowerCase()}
+                />
                 <rect width='100%' height='100%' fill='url(#shading)'/>
               </svg>
             </Flex>
@@ -145,7 +155,10 @@ export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
           </MetaLink>
         </Text>
       </Flex>
-      <FlexContainer alignContent='center' grow={1} spacing={8} direction='row' wrap='wrap' maxW='70rem'>
+      <FlexContainer
+        grow={1} spacing={8} maxW='70rem'
+        direction='row' wrap='wrap'
+      >
         {Object.entries(MetaGameAlternates).map(
           ([orig, { image, label }]) => {
             const option = personalityParts.find(p => p.name === orig)
@@ -162,15 +175,16 @@ export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
                 align='center'
                 transition="background 0.25s"
                 bgColor={
-                  // eslint-disable-next-line no-bitwise
                   (((colorMask ?? 0) & (option?.mask ?? 0)) > 0)
                   ? 'purpleBoxDark'
                   : 'purpleBoxLight'
                 }
-                _hover={{ bgColor: 'purpleBoxDark', bgBlendMode: 'lighten' }}
+                _hover={{
+                  bgColor: 'purpleBoxDark',
+                  bgBlendMode: 'lighten',
+                }}
                 border='2px'
                 borderColor={
-                  // eslint-disable-next-line no-bitwise
                   (((colorMask ?? 0) & (option?.mask ?? 0)) > 0)
                   ? 'purple.400'
                   : 'transparent'

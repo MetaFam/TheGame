@@ -36,9 +36,10 @@ export const SetupTimeZone: React.FC<SetupTimezoneProps> = ({timeZone, setTimeZo
     });
 
     if (error) {
+      console.warn(error); // eslint-disable-line no-console
       toast({
         title: 'Error',
-        description: 'Unable to update time zone. The octo is sad 😢',
+        description: 'Unable to update time zone. The octo is sad. 😢',
         status: 'error',
         isClosable: true,
       });

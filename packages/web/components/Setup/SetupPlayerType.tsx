@@ -40,6 +40,7 @@ export const SetupPlayerType: React.FC<SetupPlayerTypeProps> = ({
       });
 
       if (error) {
+        console.warn(error); // eslint-disable-line no-console
         toast({
           title: 'Error',
           description: 'Unable to update player type. The octo is sad. 😢',

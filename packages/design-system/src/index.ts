@@ -9,6 +9,7 @@ export {
   ButtonProps,
   ButtonGroup,
   CSSReset,
+  ChakraProps,
   ChakraProvider,
   Center,
   Container,

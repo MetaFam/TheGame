@@ -1,12 +1,20 @@
-import { SVG } from '@metafam/ds'
+import { ChakraProps,SVG } from '@metafam/ds'
 import { PersonalityOption } from 'graphql/types';
 import React from 'react'
 import { svgArc } from 'utils/svgHelpers'
 
+/* Generates a SVG consisting of two circles for displaying
+ * a Magic color disposition. The outer circle is a pie
+ * chart of the colors present. The inner circle is the
+ * symbol for the disposition from the Magic canon.
+ */
 export const ColorImage = (
   (
     { type, types, ...props }:
-    { type: PersonalityOption, types: { [x: number]: PersonalityOption } }
+    ChakraProps & {
+      type: PersonalityOption,
+      types: { [x: number]: PersonalityOption },
+    }
   ): JSX.Element | null => {
     if (!type || !types) {
       return null;

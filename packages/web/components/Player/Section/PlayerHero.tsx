@@ -81,7 +81,7 @@ export const PlayerHero: React.FC<Props> = ({ player }) => {
         <Box w="100%">
           <PlayerCollab player={player} />
         </Box>
-        {type && (
+        {type && types && (
           <HStack spacing={4} w='100%'>
             <ColorImage {...{ type, types }} maxH='8rem'/>
             <FlexContainer align="stretch">

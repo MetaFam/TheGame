@@ -41,28 +41,6 @@ import { ColorAspect } from './autogen/types';
 import { client } from './client';
 import { PersonalityOption } from './types';
 
-// Object.fromEntries is widely supported, but the
-// typescript definition is in es2019
-declare global {
-  interface ObjectConstructor {
-    fromEntries<T = unknown>(
-      entries: Iterable<readonly [PropertyKey, T]>,
-    ): { [k in PropertyKey]: T };
-  }
-}
-
-// ¿Can something like this work or do imports have to be named?
-// const PersonalityIcons = (
-//   Object.fromEntries(
-//     Object.values(ColorAspect_Enum).map(
-//       (name) => [
-//         name,
-//         (await import(`assets/colors/${name}.svg`)).default
-//       ]
-//     )
-//   )
-// )
-
 const aspectsQuery = gql`
   query GetAspects {
     ColorAspect {
@@ -72,7 +50,6 @@ const aspectsQuery = gql`
     }
   }
 `;
-
 
 // ToDo: figure out why some are expanded to data urls & others remain paths
 const PersonalityIcons: {
@@ -112,6 +89,9 @@ const PersonalityIcons: {
   Balance: BalanceImg,
 };
 
+/* MetaGame has it's own naming convention and images
+ * for the pure colors.
+ */ 
 export const MetaGameAlternates: {
   [x: string]: { label: string, image: string }
 } = {

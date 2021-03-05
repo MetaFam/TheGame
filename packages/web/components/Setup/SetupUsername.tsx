@@ -29,15 +29,15 @@ export const SetupUsername: React.FC<SetupUsernameProps> = ({username, setUserna
     });
 
     if (error) {
-      let errorDetail = 'The octo is sad 😢';
+      let errorDetail = 'The octo is sad. 😢';
       if (error.message.includes('Uniqueness violation')) {
-        errorDetail = 'This username is already taken 😢';
+        errorDetail = 'This username is already taken.';
       } else if (error.message.includes('username_is_valid')) {
         errorDetail = 'A username can only contain letters, numbers, and dashes.';
       }
       toast({
         title: 'Error',
-        description: `Unable to update Player Username. ${errorDetail}`,
+        description: `Unable to update player's username. ${errorDetail}`,
         status: 'error',
         isClosable: true,
       });
