@@ -9,6 +9,11 @@ export const PlayerFragment = gql`
     ethereum_address
     availability_hours
     timezone
+    ColorAspect {
+      name
+      mask
+      description
+    }
     playerType {
       description
       id
@@ -49,10 +54,6 @@ export const PlayerFragment = gql`
         version
         totalShares
       }
-    }
-    brightid_status {
-      unique
-      contextIds
     }
   }
 `;

@@ -21,19 +21,21 @@ type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
 const PersonalityTypeSetup: React.FC<Props> = (props) => {
   const { personalityParts, personalityTypes } = props;
-  const [colorMask, setColorMask] = useState<number | undefined>();
   const { user } = useUser({ redirectTo: '/' });
+  const [colorMask, setColorMask] = (
+    useState<number | undefined>(user?.player?.ColorAspect?.mask)
+  );
 
   const load = () => {
     const { player } = user ?? {};
-    console.info({ player })
     if (player) {
-      if (!colorMask && player.ColorAspect !== null) {
-        setColorMask(player.ColorAspect);
+      if (colorMask === undefined && player.ColorAspect !== null) {
+        console.info('SETTING MASK', player.ColorAspect?.mask)
+        setColorMask(player.ColorAspect?.mask);
       }
     }
   }
-  useEffect(load, [])
+  useEffect(load, [user])
 
   return (
     <SetupContextProvider>

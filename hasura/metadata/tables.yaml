@@ -343,6 +343,7 @@
     permission:
       columns:
       - availability_hours
+      - color_mask
       - enneagram
       - player_type_id
       - role

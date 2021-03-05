@@ -38,7 +38,6 @@ import BalanceAltImg from 'assets/alternates/Balance.svg';
 
 import gql from 'fake-tag';
 
-import { GetColorInfoQuery } from './autogen/types';
 import { client } from './client';
 import { PersonalityOption } from './types';
 
@@ -63,6 +62,17 @@ declare global {
 //     )
 //   )
 // )
+
+const aspectsQuery = gql`
+  query GetAspects {
+    ColorAspect {
+      mask
+      name
+      description
+    }
+  }
+`;
+
 
 // ToDo: figure out why some are expanded to data urls & others remain paths
 const PersonalityIcons: {
@@ -102,30 +112,7 @@ const PersonalityIcons: {
   Balance: BalanceImg,
 };
 
-// export const PersonalityTypes: {
-//   [x: number]: PersonalityOption;
-// } = (
-//   Object.fromEntries<{ [x: number]: PersonalityOption }>(
-//     Object
-//     .entries<Array<[string, string]>>(ColorAspect_Enum)
-//     .map<[string, string]>(
-//       ([mask, name]) => (
-//         [
-//           name,
-//           {
-//             name,
-//             label: 'T',
-//             description: '¿Huh?', // ToDo: load from db
-//             image: PersonalityIcons[name],
-//             mask: parseInt(mask.substring(1), 2),
-//           }
-//         ]
-//       )
-//     )
-//   )
-// )
-
-export const MetaGameAliases: {
+export const MetaGameAlternates: {
   [x: string]: { label: string, image: string }
 } = {
   White: { label: 'Justice', image: JusticeAltImg },
@@ -135,202 +122,21 @@ export const MetaGameAliases: {
   Green: { label: 'Balance', image: BalanceAltImg },
 };
 
-export const GetColorInfo = gql`
-  query GetColorInfo {
-    ColorAspect {
-      mask
-      name
-      description
-    }
-  }
-`;
-
 export const getPersonalityInfo = async (): Promise<{
   parts: Array<PersonalityOption>;
   types: { [any: string]: PersonalityOption };
 }> => {
-  const { data, error } = await (
+    const { data, error } = await (
     client
-    .query<GetColorInfoQuery>(GetColorInfo)
+    .query(aspectsQuery)
     .toPromise()
   );
-
-  // ToDo: Load from Hasura
-  // const { data, error = undefined } = {
-  //   "data": {
-  //     "ColorAspect": [
-  //       {
-  //         "description": null,
-  //         "mask": 0,
-  //         "name": "Colorless"
-  //       },
-  //       {
-  //         "description": null,
-  //         "mask": 3,
-  //         "name": "The Gruul Clans"
-  //       },
-  //       {
-  //         "description": null,
-  //         "mask": 5,
-  //         "name": "The Golgari Swarm"
-  //       },
-  //       {
-  //         "description": null,
-  //         "mask": 6,
-  //         "name": "The Cult of Rakdos"
-  //       },
-  //       {
-  //         "description": null,
-  //         "mask": 7,
-  //         "name": "The Jund Shard"
-  //       },
-  //       {
-  //         "description": null,
-  //         "mask": 9,
-  //         "name": "The Simic Combine"
-  //       },
-  //       {
-  //         "description": null,
-  //         "mask": 10,
-  //         "name": "The Izzet League"
-  //       },
-  //       {
-  //         "description": null,
-  //         "mask": 11,
-  //         "name": "The Temur Frontier"
-  //       },
-  //       {
-  //         "description": null,
-  //         "mask": 12,
-  //         "name": "The House Dimir"
-  //       },
-  //       {
-  //         "description": null,
-  //         "mask": 13,
-  //         "name": "The Sultai Brood"
-  //       },
-  //       {
-  //         "description": null,
-  //         "mask": 14,
-  //         "name": "The Grixis Shard"
-  //       },
-  //       {
-  //         "description": null,
-  //         "mask": 15,
-  //         "name": "Chaos"
-  //       },
-  //       {
-  //         "description": null,
-  //         "mask": 17,
-  //         "name": "The Selesnya Conclave"
-  //       },
-  //       {
-  //         "description": null,
-  //         "mask": 18,
-  //         "name": "The Boros Legion"
-  //       },
-  //       {
-  //         "description": null,
-  //         "mask": 19,
-  //         "name": "The Naya Shard"
-  //       },
-  //       {
-  //         "description": null,
-  //         "mask": 20,
-  //         "name": "The Orzhov Syndicate"
-  //       },
-  //       {
-  //         "description": null,
-  //         "mask": 21,
-  //         "name": "The Abzan Houses"
-  //       },
-  //       {
-  //         "description": null,
-  //         "mask": 22,
-  //         "name": "The Mardu Horde"
-  //       },
-  //       {
-  //         "description": null,
-  //         "mask": 23,
-  //         "name": "Aggression"
-  //       },
-  //       {
-  //         "description": null,
-  //         "mask": 24,
-  //         "name": "The Azorius Senate"
-  //       },
-  //       {
-  //         "description": null,
-  //         "mask": 25,
-  //         "name": "The Bant Shard"
-  //       },
-  //       {
-  //         "description": null,
-  //         "mask": 26,
-  //         "name": "The Jeskai Way"
-  //       },
-  //       {
-  //         "description": null,
-  //         "mask": 27,
-  //         "name": "Altruism"
-  //       },
-  //       {
-  //         "description": null,
-  //         "mask": 28,
-  //         "name": "The Esper Shard"
-  //       },
-  //       {
-  //         "description": null,
-  //         "mask": 29,
-  //         "name": "Growth"
-  //       },
-  //       {
-  //         "description": null,
-  //         "mask": 30,
-  //         "name": "Artifice"
-  //       },
-  //       {
-  //         "description": null,
-  //         "mask": 31,
-  //         "name": "Balance"
-  //       },
-  //       {
-  //         "description": "Harmony through acceptance…",
-  //         "mask": 1,
-  //         "name": "Green"
-  //       },
-  //       {
-  //         "description": "Peace through order…",
-  //         "mask": 16,
-  //         "name": "White"
-  //       },
-  //       {
-  //         "description": "Perfection through knowledge…",
-  //         "mask": 8,
-  //         "name": "Blue"
-  //       },
-  //       {
-  //         "description": "Satisfaction through ruthlessness…",
-  //         "mask": 4,
-  //         "name": "Black"
-  //       },
-  //       {
-  //         "description": "Freedom through action…",
-  //         "mask": 2,
-  //         "name": "Red"
-  //       }
-  //     ]
-  //   }
-  // }
 
   if (error) throw error;
   if (!data) throw new Error("data isn't set")
 
-  console.info('PERS', data);
-
   const parts: Array<PersonalityOption> = []
   const types: { [x: number]: PersonalityOption } = {}
-
   for(let aspect of data.ColorAspect) {
     const option = {
       name: aspect.name,
@@ -338,16 +144,17 @@ export const getPersonalityInfo = async (): Promise<{
       description: aspect.description ?? null,
       image: PersonalityIcons[aspect.name],
       mask: aspect.mask,
-    }
-    const alt = MetaGameAliases[aspect.name] // Pure properties are renamed
+    };
+    const alt = MetaGameAlternates[aspect.name]; // Pure properties are renamed
     if (alt) {
       option.label = alt.label;
       option.image = alt.image;
     }
-    types[aspect.mask] = option
+    types[aspect.mask] = option;
 
-    if (aspect.mask > 0 && (aspect.mask & (aspect.mask - 1)) === 0) { // power of 2
-      parts.push(option)
+    // pure colors are powers of 2
+    if (aspect.mask > 0 && (aspect.mask & (aspect.mask - 1)) === 0) {
+      parts.push(option);
     }
   }
 
