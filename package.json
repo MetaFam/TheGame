@@ -9,6 +9,8 @@
   "scripts": {
     "update-schema": "env-cmd -x get-graphql-schema -h x-hasura-admin-secret=\\$HASURA_GRAPHQL_ADMIN_SECRET http://localhost:8080/v1/graphql > schema.graphql",
     "docker:start": "docker-compose up --build -d",
+    "docker:dev": "docker-compose up --build",
+    "docker:run": "docker-compose up",
     "docker:stop": "docker-compose down",
     "docker:clean": "docker-compose down -v",
     "web:dev": "lerna run dev --parallel --scope @metafam/web --include-dependencies",

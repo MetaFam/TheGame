@@ -27,5 +27,5 @@ export function errorMiddleware(
   __: NextFunction,
 ) {
   console.error(error);
-  res.status(500).send('Unexpected error');
+  res.status(500).send('Unexpected Error');
 }

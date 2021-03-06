@@ -41,7 +41,9 @@ export const CONFIG: IConfig = {
     process.env.HASURA_GRAPHQL_ADMIN_SECRET,
     'metagame_secret',
   ),
-  ipfsEndpoint: parseEnv(process.env.IPFS_ENDPOINT, 'https://ipfs.infura.io'),
+  ipfsEndpoint: parseEnv(
+    process.env.IPFS_ENDPOINT, 'https://ipfs.infura.io'
+  ),
   imgixToken: parseEnv(process.env.IMGIX_TOKEN, ''),
   pSEEDAddress: parseEnv(
     process.env.PSEED_ADDRESS,

@@ -9,7 +9,7 @@ interface GetClientParams {
   backendOnly?: boolean;
 }
 
-export const getClient = (params: GetClientParams = {}) =>
+export const getClient = (params: GetClientParams = {}) => (
   getSdk(
     new GraphQLClient(CONFIG.graphqlURL, {
       headers: {
@@ -21,6 +21,7 @@ export const getClient = (params: GetClientParams = {}) =>
           params.backendOnly === true ? 'true' : 'false',
       },
     }),
-  );
+  )
+);
 
 export const client = getClient();

@@ -13,9 +13,9 @@ export const PLAYERS_PER_RANK = [7, 7, 7, 14, 21];
 // A summation of PLAYERS_PER_RANK.
 // This is the first index for which players will NOT be ranked, e.g.
 // the 56th player will be Bronze, and the 57th player will not be ranked.
-export const RANKED_CAP: number = PLAYERS_PER_RANK.reduce((sum, rankCount) => {
-  return sum + rankCount;
-}, 0);
+export const RANKED_CAP: number = PLAYERS_PER_RANK.reduce(
+  (sum, rankCount) => (sum + rankCount), 0
+);
 
 // Computes the rank for the given index. This would be the index corresponding
 // to all players ordered by total_xp DESC.
