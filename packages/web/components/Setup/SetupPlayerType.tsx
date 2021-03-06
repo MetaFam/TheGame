@@ -78,7 +78,8 @@ export const SetupPlayerType: React.FC<SetupPlayerTypeProps> = ({
             onFocus={() => setFocused(p.id)}
             onBlur={() => setFocused(null)}
             onKeyPress={(e) => {
-              if (p.id === focused && ['Enter', ' '].includes(e.key)) {
+              if (e.key === 'Enter') handleNextPress()
+              if (p.id === focused &&  e.key === ' ') {
                 setPlayerType(p)
               }
             }}

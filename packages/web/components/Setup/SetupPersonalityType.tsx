@@ -121,7 +121,8 @@ export const SetupPersonalityType: (
                 onFocus={() => setFocused(mask)}
                 onBlur={() => setFocused(null)}
                 onKeyPress={(e) => {
-                  if (mask === focused && ['Enter', ' '].includes(e.key)) {
+                  if (e.key === 'Enter') handleNextPress()
+                  if (mask === focused &&  e.key === ' ') {
                     toggleMaskElement(mask)
                   }
                 }}

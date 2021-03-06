@@ -79,6 +79,7 @@ export const SetupAvailability: React.FC<SetupAvailabilityProps> = ({
           placeholder='40'
           type='number'
           value={availability ?? ''}
+          onKeyDown={(e) => (e.key === 'Enter' && handleNextPress())}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
             setAvailability(e.target.value)
           }}
