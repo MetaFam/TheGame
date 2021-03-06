@@ -25,7 +25,9 @@ export const SetupUsername: React.FC<SetupUsernameProps> = ({username, setUserna
     setInvalid(!USERNAME_REGEX.test(username));
   }, [username]);
 
-  const [updateUsernameRes, updateUsername] = useUpdatePlayerUsernameMutation();
+  const [updateUsernameRes, updateUsername] = (
+    useUpdatePlayerUsernameMutation()
+  );
 
   const handleNextPress = async () => {
     if (!user) return;
@@ -63,9 +65,10 @@ export const SetupUsername: React.FC<SetupUsernameProps> = ({username, setUserna
         background="dark"
         placeholder="USERNAME"
         value={username}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+        onKeyDown={e => e.key === 'Enter' && handleNextPress()}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
           setUsername(e.target.value)
-        }
+        }}
         isInvalid={invalid}
       />
 

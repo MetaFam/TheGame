@@ -1,11 +1,10 @@
 /* eslint no-bitwise: "off" */
+
 import {
-  Box,
   Flex,
   Image,
   MetaButton,
   MetaHeading,
-  SVG,
   Text,
   useToast,
 } from '@metafam/ds';
@@ -16,7 +15,9 @@ import { useUpdateAboutYouMutation } from 'graphql/autogen/types';
 import { MetaGameAlternates } from 'graphql/getPersonalityInfo'
 import { PersonalityOption } from 'graphql/types';
 import { useUser } from 'lib/hooks';
-import React from 'react';
+import React, { SetStateAction,useState } from 'react';
+
+import { ColorBar } from './ColorBar';
 
 export type SetupPersonalityTypeProps = {
   // component parts: white, red, etc.
@@ -43,6 +44,10 @@ export const SetupPersonalityType: (
   const toast = useToast();
   const [updateAboutYouRes, updateAboutYou] = (
     useUpdateAboutYouMutation()
+  );
+  // the mask of the currently focused item, if any
+  const [focused, setFocused] = (
+    useState<SetStateAction<number | null>>(null)
   );
 
   const handleNextPress = async () => {
@@ -71,22 +76,6 @@ export const SetupPersonalityType: (
     onNextPress();
   };
 
-  // This is just verbose, so I am pulling it out to
-  // save space in the main template
-  const maskImageStyle = (
-    ({ url }: { url: string }): Record<string, string> => ({
-      maskImage: `url(${url})`,
-      maskSize: 'contain',
-      maskPosition: 'center',
-      maskRepeat: 'no-repeat',
-      WebkitMaskImage: `url(${url})`,
-      WebkitMaskSize: 'contain',
-      WebkitMaskPosition: 'center',
-      WebkitMaskRepeat: 'no-repeat',
-    })
-  );
-
-
   // mask should always only have at most a single bit set
   const toggleMaskElement = (mask = 0): void => {
     setColorMask((current = 0) => {
@@ -96,83 +85,6 @@ export const SetupPersonalityType: (
       return current | mask;      // otherwise set it
     })
   };
-
-  /* The color bar is below the attribute selection screen,
-   * and shows an equally proportioned set of colors with
-   * monochrome icons above them.
-   */
-  const ColorBar = ({ mask = 0 }: { mask: number | undefined }) => (
-    <Flex direction='column' mt={10} maxW='100%'>
-      <Flex maxW='100%' w='30rem' minH='1.5rem' mb='1rem'>
-        {personalityParts.map((part) => (
-          ((mask & part.mask) > 0) // if the bit is set
-          ? (
-            <Flex
-              key={part.mask}
-              grow={1} justify='center'
-              opacity={0.75}
-            >
-              <Box
-                bgColor='white'
-                h={6} w={6}
-                style={maskImageStyle({
-                  url: MetaGameAlternates[part.name].image
-                })}
-              />
-            </Flex>
-          ) : ( null )
-        ))}
-      </Flex>
-      <Flex
-        minH='calc(1.5rem + 4px)' maxW='100%' w='30rem'
-        border='2px' borderRadius={3}
-      >
-        {personalityParts.map((part) => (
-          ((mask & part.mask) > 0)
-          ? (
-            <Flex
-              key={part.mask}
-              grow={1}
-              h='1.5rem'
-            >
-              <SVG
-                viewBox='0 0 100 100'
-                preserveAspectRatio='none'
-                w='100%'
-              >
-                <defs>
-                  <linearGradient
-                    id="shading"
-                    gradientTransform="rotate(90)"
-                  >
-                    <stop
-                      offset="5%"
-                      stopColor="black" stopOpacity={0.5}
-                    />
-                    <stop
-                      offset="95%"
-                      stopColor="white" stopOpacity={0.25}
-                    />
-                  </linearGradient>
-                </defs>
-                <rect
-                  width='100%' height='100%'
-                  fill={part.name.toLowerCase()}
-                />
-                <rect
-                  width='100%' height='100%'
-                  fill='url(#shading)'
-                />
-              </SVG>
-            </Flex>
-          ) : ( null )
-        ))}
-      </Flex>
-      <FlexContainer mt={1}>
-        <q>{personalityTypes[mask].name}</q>
-      </FlexContainer>
-    </Flex>
-  )
 
   return (
     <FlexContainer maxW='100%'>
@@ -196,58 +108,65 @@ export const SetupPersonalityType: (
         {Object.entries(MetaGameAlternates).map(
           ([orig, { image, label }]) => {
             const option = personalityParts.find(p => p.name === orig)
+            const { mask = 0 } = option ?? {}
 
             return (
-              <Flex
-                key={option?.mask}
-                p={6}
-                m={2}
-                spacing={4}
+              <FlexContainer
+                key={mask}
+                p={6} m={2} spacing={4}
                 borderRadius='0.5rem'
                 cursor='pointer'
-                onClick={() => toggleMaskElement(option?.mask)}
-                align='center'
-                transition="background 0.25s"
+                tabIndex={0}
+                onClick={() => toggleMaskElement(mask)}
+                onFocus={() => setFocused(mask)}
+                onBlur={() => setFocused(null)}
+                onKeyPress={(e) => {
+                  if (mask === focused && ['Enter', ' '].includes(e.key)) {
+                    toggleMaskElement(mask)
+                  }
+                }}
+                transition='background 0.25s'
                 bgColor={
-                  (((colorMask ?? 0) & (option?.mask ?? 0)) > 0)
+                  (((colorMask ?? 0) & mask) > 0)
                   ? 'purpleBoxDark'
                   : 'purpleBoxLight'
                 }
                 _hover={{
                   bgColor: 'purpleBoxDark',
-                  filter: 'brighten(0.9)',
+                  filter: 'hue-rotate(15deg)',
                 }}
-                border='2px'
+                borderWidth={2}
                 borderColor={
-                  (((colorMask ?? 0) & (option?.mask ?? 0)) > 0)
+                  (((colorMask ?? 0) & mask) > 0)
                   ? 'purple.400'
                   : 'transparent'
                 }
               >
                 <Image
-                  w="100%"
-                  maxW="4rem"
-                  h={16}
-                  src={image}
-                  alt={label}
+                  w='100%' maxW={16} h={16}
+                  src={image} alt={label}
                   filter='drop-shadow(0px 0px 6px black)'
                 />
                 <FlexContainer align="stretch" ml={2}>
                   <Text
-                    color="white" fontWeight="bold"
+                    color='white' fontWeight='bold'
                     style={{ textTransform: 'uppercase' }}
                   >
                     {label}
                   </Text>
                   <Text color="blueLight">{option?.description}</Text>
                 </FlexContainer>
-              </Flex>
+              </FlexContainer>
             )
           }
         )}
       </FlexContainer>
 
-      <ColorBar mask={colorMask}/>
+      <ColorBar
+        mask={colorMask}
+        types={personalityTypes}
+        parts={personalityParts}
+      />
 
       <MetaButton
         onClick={handleNextPress}

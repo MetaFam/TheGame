@@ -22,7 +22,6 @@ export const SetupTimeZone: React.FC<SetupTimezoneProps> = ({timeZone, setTimeZo
   } = useSetupFlow();
   const { user } = useUser({ redirectTo: '/' });
   const toast = useToast();
-
   const [updateProfileRes, updateProfile] = useUpdateProfileMutation();
 
   const handleNextPress = async () => {
@@ -57,8 +56,8 @@ export const SetupTimeZone: React.FC<SetupTimezoneProps> = ({timeZone, setTimeZo
       <FlexContainer w="100%" align="stretch" maxW="30rem">
         <SelectTimeZone
           value={timeZone}
-          onChange={(tz) => setTimeZone(tz.value)}
-          labelStyle="abbrev"
+          onChange={tz => setTimeZone(tz.value)}
+          labelStyle='abbrev'
         />
       </FlexContainer>
       <MetaButton 

@@ -15,24 +15,22 @@ import { useUser } from 'lib/hooks';
 import React, { useEffect, useState } from 'react';
 
 export type SetupAvailabilityProps = {
-  availability: string;
-  setAvailability: React.Dispatch<React.SetStateAction<string>>;
+  availability: string | undefined;
+  setAvailability: (
+    React.Dispatch<React.SetStateAction<string | undefined>>
+  );
 }
 
 export const SetupAvailability: React.FC<SetupAvailabilityProps> = ({
   availability, setAvailability
 }) => {
-  const {
-    onNextPress,
-    nextButtonLabel
-  } = useSetupFlow();
-
+  const { onNextPress, nextButtonLabel } = useSetupFlow();
   const [invalid, setInvalid] = useState(false);
   const { user } = useUser({ redirectTo: '/' });
   const toast = useToast();
 
   useEffect(() => {
-    const value = Number(availability);
+    const value = Number(availability || 0);
     setInvalid(value < 0 || value > 168);
   }, [availability]);
 
@@ -44,8 +42,8 @@ export const SetupAvailability: React.FC<SetupAvailabilityProps> = ({
     const { error } = await updateProfile({
       playerId: user.id,
       input: {
-        availability_hours: Number(availability)
-      }
+        availability_hours: Number(availability),
+      },
     });
 
     if (error) {
@@ -64,26 +62,26 @@ export const SetupAvailability: React.FC<SetupAvailabilityProps> = ({
 
   return (
     <FlexContainer>
-      <MetaHeading mb={5} textAlign="center">
+      <MetaHeading mb={5} textAlign='center'>
         Avail&#xAD;ability
       </MetaHeading>
       <Text mb={10}>
         What is your weekly availability for any kind of freelance work?
       </Text>
-      <InputGroup borderColor="transparent" mb={10}>
+      <InputGroup borderColor='transparent' mb={10}>
         <InputLeftElement>
           <span role="img" aria-label="clock">
             🕛
           </span>
         </InputLeftElement>
         <Input
-          background="dark"
-          placeholder="40"
-          type="number"
-          value={availability}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+          background='dark'
+          placeholder='40'
+          type='number'
+          value={availability ?? ''}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
             setAvailability(e.target.value)
-          }
+          }}
           isInvalid={invalid}
         />
         <InputRightAddon background="purpleBoxDark">hr/week</InputRightAddon>

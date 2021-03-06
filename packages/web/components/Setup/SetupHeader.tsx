@@ -1,4 +1,6 @@
-import { Box, Flex, Grid, Image, ResponsiveText } from '@metafam/ds';
+import {
+  Box, Flex, Grid, Image, ResponsiveText
+} from '@metafam/ds';
 import BackImage from 'assets/Back.svg';
 import LogoImage from 'assets/logo.png';
 import SkipImage from 'assets/Skip.svg';
@@ -12,7 +14,9 @@ export const SetupHeader: React.FC = () => {
 
   return (
     <Grid templateColumns="0.5fr 1fr 1fr 1fr 0.5fr" gap="1rem" w="100%">
-      <FlexContainer justify="flex-end" onClick={onBackPress} cursor="pointer">
+      <FlexContainer
+        justify="flex-end" onClick={onBackPress} cursor="pointer"
+      >
         <Image src={BackImage} h="1rem" alt="Back" />
       </FlexContainer>
       {options.sections.map((option, id) => (
@@ -23,7 +27,9 @@ export const SetupHeader: React.FC = () => {
           isDone={sectionIndex > id}
         />
       ))}
-      <FlexContainer justify="flex-end" onClick={onNextPress} cursor="pointer">
+      <FlexContainer
+        justify="flex-end" onClick={onNextPress} cursor="pointer"
+      >
         <Image src={SkipImage} h="1rem" alt="Forward" />
       </FlexContainer>
     </Grid>
@@ -42,8 +48,10 @@ export const SectionProgress: React.FC<StepProps> = ({
   isActive,
 }) => {
   const { options, stepIndex } = useSetupFlow();
+  const progress = (
+    isDone ? 100 : options.progressWithinSection(stepIndex)
+  );
 
-  const progress = isDone ? 100 : options.progressWithinSection(stepIndex);
   return (
     <FlexContainer pos="relative">
       <ResponsiveText

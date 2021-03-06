@@ -16,7 +16,7 @@ export class SetupOptions {
   sections: SetupSection[] = [
     {
       label: 'About You',
-      title: { base: 'About You', sm: '1. About You' }
+      title: { base: 'About', sm: '1. About You' }
     }, {
       label: 'Profile',
       title: {
@@ -84,21 +84,30 @@ export class SetupOptions {
 
   isFinalStepOfSection(stepIndex: number): boolean {
     if (this.isLastStep(stepIndex)) return true;
-    return this.steps[stepIndex].sectionIndex !== this.steps[stepIndex + 1].sectionIndex;
+    return (
+      this.steps[stepIndex].sectionIndex
+      !== this.steps[stepIndex + 1].sectionIndex
+    );
   }
 
   progressWithinSection(stepIndex: number): number {
     const stepSectionIndex = this.steps[stepIndex].sectionIndex;
     let stepsCompletedInSection = 0;
-    const stepsInSection = this.steps.reduce((count:number, step:SetupStep, index:number) => {
-      if (stepIndex === index) {
-        stepsCompletedInSection = count;
-      }
-      if (step.sectionIndex === stepSectionIndex) {
-        return count + 1;
-      }
-      return count;
-    }, 0);
-    return Math.floor((stepsCompletedInSection + 1) * 100.0) / stepsInSection;
+    const stepsInSection = this.steps.reduce(
+      (count:number, step:SetupStep, index:number) => {
+        if (stepIndex === index) {
+          stepsCompletedInSection = count;
+        }
+        if (step.sectionIndex === stepSectionIndex) {
+          return count + 1;
+        }
+        return count;
+      },
+      0
+    );
+    return (
+      Math.floor((stepsCompletedInSection + 1) * 100.0)
+      / stepsInSection
+    );
   }
 }

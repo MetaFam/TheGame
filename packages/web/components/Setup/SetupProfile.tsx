@@ -9,7 +9,10 @@ export const SetupProfile: React.FC = ({ children }) => {
   return (
     <PageContainer>
       {options.numSteps - 1 > stepIndex && <SetupHeader />}
-      <FlexContainer flex={1} pt={12} maxW='100%' justifyContent='flex-start'>
+      <FlexContainer
+        flex={1} pt={12} maxW='100%'
+        justifyContent='flex-start'
+      >
         {children}
       </FlexContainer>
     </PageContainer>

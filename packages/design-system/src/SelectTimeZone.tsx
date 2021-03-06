@@ -13,9 +13,14 @@ export const selectStyles: Styles = {
     ...styles,
     color: theme.colors.white,
   }),
-  option: (styles) => ({
+  option: (styles, { isDisabled, isFocused, isSelected }) => ({
     ...styles,
-    background: theme.colors.dark,
+    backgroundColor: ((() => {
+      if (isDisabled) return undefined;
+      if (isFocused) return theme.colors.purple[600];
+      if (isSelected) return theme.colors.purpleTag;
+      return theme.colors.dark
+    })()),
     ':hover': {
       backgroundColor: theme.colors.purpleTag,
       color: theme.colors.white,

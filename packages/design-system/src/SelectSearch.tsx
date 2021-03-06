@@ -35,9 +35,15 @@ export const selectStyles: Styles = {
     top: 0,
     borderRadius: theme.radii.md,
   }),
-  option: (styles) => ({
+  option: (styles, { isDisabled, isFocused, isSelected }) => ({
     ...styles,
-    background: theme.colors.dark,
+    backgroundColor: ((() => {
+      if (isDisabled) return undefined;
+      if (isFocused || isSelected) {
+        return theme.colors.purpleTag;
+      }
+      return theme.colors.dark
+    })()),
     ':hover': {
       backgroundColor: theme.colors.purpleTag,
       color: theme.colors.white,
@@ -84,6 +90,8 @@ export const selectStyles: Styles = {
   }),
 };
 
-export const SelectSearch: React.FC<SelectProps> = (props) => (
-  <Select styles={selectStyles} {...props} />
+export const SelectSearch: React.FC<SelectProps> = (
+  (props) => (
+    <Select styles={selectStyles} {...props} />
+  )
 );

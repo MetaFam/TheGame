@@ -17,7 +17,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
   canEdit,
 }) => (
   <Box minW="xs">
-    {title ? (
+    {title && (
       <Box bg="purple80" borderTopRadius="lg" p={4}>
         <HStack>
           <Text
@@ -30,17 +30,17 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
           >
             {title}
           </Text>
-          {canEdit ? (
+          {canEdit && (
             <FaTimes
               color="blueLight"
               opacity="0.4"
               cursor="pointer"
               onClick={onRemoveClick}
             />
-          ) : null}
+          )}
         </HStack>
       </Box>
-    ) : null}
+    )}
     <Box
       bg="whiteAlpha.200"
       borderBottomRadius="lg"

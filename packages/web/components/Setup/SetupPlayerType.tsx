@@ -9,7 +9,7 @@ import { FlexContainer } from 'components/Container';
 import { useSetupFlow } from 'contexts/SetupContext';
 import { Player_Type, useUpdateAboutYouMutation } from 'graphql/autogen/types';
 import { useUser } from 'lib/hooks';
-import React from 'react';
+import React, { SetStateAction, useState } from 'react';
 
 export type SetupPlayerTypeProps = {
   playerTypeChoices: Array<Player_Type>;
@@ -20,13 +20,15 @@ export type SetupPlayerTypeProps = {
 export const SetupPlayerType: React.FC<SetupPlayerTypeProps> = ({
   playerTypeChoices, playerType, setPlayerType
 }) => {
-  const {
-    onNextPress,
-    nextButtonLabel
-  } = useSetupFlow();
+  const { onNextPress, nextButtonLabel } = useSetupFlow();
   const { user } = useUser({ redirectTo: '/' });
   const toast = useToast();
-  const [updateAboutYouRes, updateAboutYou] = useUpdateAboutYouMutation();
+  const [updateAboutYouRes, updateAboutYou] = (
+    useUpdateAboutYouMutation()
+  );
+  const [focused, setFocused] = (
+    useState<SetStateAction<number | null>>(null)
+  );
 
   const handleNextPress = async () => {
     if (!user) return;
@@ -68,26 +70,37 @@ export const SetupPlayerType: React.FC<SetupPlayerTypeProps> = ({
           <FlexContainer
             key={p.id}
             p={[4, null, 6]}
+            tabIndex={0}
+            align='stretch'
+            justify='flex-start'
+            cursor='pointer'
+            onClick={() => setPlayerType(p)}
+            onFocus={() => setFocused(p.id)}
+            onBlur={() => setFocused(null)}
+            onKeyPress={(e) => {
+              if (p.id === focused && ['Enter', ' '].includes(e.key)) {
+                setPlayerType(p)
+              }
+            }}
             bgColor={
-              playerType && playerType.id === p.id
+              playerType?.id === p.id
               ? 'purpleBoxDark'
               : 'purpleBoxLight'
             }
-            borderRadius="0.5rem"
-            _hover={{ bgColor: 'purpleBoxDark' }}
+            _hover={{
+              bgColor: 'purpleBoxDark',
+              filter: 'hue-rotate(15deg)',
+            }}
             transition="background 0.25s"
-            cursor="pointer"
-            onClick={() => setPlayerType(p)}
-            align="stretch"
-            justify="flex-start"
-            border="2px"
+            borderWidth={2}
+            borderRadius="0.5rem"
             borderColor={
-              playerType && playerType.id === p.id
+              playerType?.id === p.id
               ? 'purple.400'
               : 'transparent'
             }
           >
-            <Text color="white" fontWeight="bold" mb={4}>
+            <Text color='white' fontWeight='bold' mb={4}>
               {p.title}
             </Text>
             <Text color="blueLight">{p.description}</Text>
