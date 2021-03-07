@@ -1,15 +1,18 @@
-import { Button, Wrap, WrapItem } from '@metafam/ds';
+import { BrightIdIcon, Button, Tooltip, Wrap, WrapItem } from '@metafam/ds';
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
+import { useBrightIdStatus } from 'lib/hooks/brightId';
+import { useCopyToClipboard } from 'lib/hooks/useCopyToClipboard';
 import React from 'react';
 import { FaEthereum, FaGithub, FaTwitter } from 'react-icons/fa';
-
-import { formatAddress } from '../../utils/playerHelpers';
+import { formatAddress } from 'utils/playerHelpers';
 
 type Props = {
   player: PlayerFragmentFragment;
 };
 
 export const PlayerContacts: React.FC<Props> = ({ player }) => {
+  const { verified } = useBrightIdStatus({ player });
+  const [copied, handleCopy] = useCopyToClipboard();
   return (
     <Wrap>
       {player.Accounts.map((acc) => {
@@ -54,17 +57,37 @@ export const PlayerContacts: React.FC<Props> = ({ player }) => {
       })}
       {player.ethereum_address ? (
         <WrapItem>
-          <Button
-            as="a"
-            href={`https://etherscan.com/address/${player.ethereum_address}`}
-            target="_blank"
-            rel="noreferrer noopener"
-            size="xs"
-            colorScheme="blackAlpha"
-            leftIcon={<FaEthereum />}
+          <Tooltip
+            label={copied ? 'Copied!' : 'Copy to clipboard'}
+            closeOnClick={false}
+            hasArrow
           >
-            {formatAddress(player.ethereum_address)}
-          </Button>
+            <Button
+              onClick={() =>
+                player.ethereum_address
+                  ? handleCopy(player.ethereum_address.toLowerCase())
+                  : undefined
+              }
+              size="xs"
+              colorScheme="blackAlpha"
+              leftIcon={<FaEthereum />}
+            >
+              {formatAddress(player.ethereum_address)}
+            </Button>
+          </Tooltip>
+        </WrapItem>
+      ) : null}
+      {verified ? (
+        <WrapItem>
+          <Tooltip label="Verified on BrightID" closeOnClick={false} hasArrow>
+            <Button
+              size="xs"
+              colorScheme="brightIdOrange"
+              leftIcon={<BrightIdIcon />}
+            >
+              Verified
+            </Button>
+          </Tooltip>
         </WrapItem>
       ) : null}
     </Wrap>
