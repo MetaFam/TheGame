@@ -10,6 +10,7 @@ export const useCopyToClipboard = (
 
   useEffect(() => {
     if (!copied) return () => undefined;
+
     const id = setTimeout(() => {
       setCopied(false);
     }, delay);
