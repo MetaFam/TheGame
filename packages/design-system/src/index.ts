@@ -30,6 +30,7 @@ export {
   Spinner,
   Stack,
   Text,
+  Tooltip,
   Wrap,
   WrapItem,
   HStack,
