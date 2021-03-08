@@ -113,6 +113,7 @@ export const SetupPersonalityType: (
             return (
               <FlexContainer
                 key={mask}
+                direction='row'
                 p={6} m={2} spacing={4}
                 borderRadius='0.5rem'
                 cursor='pointer'
@@ -135,6 +136,10 @@ export const SetupPersonalityType: (
                 _hover={{
                   bgColor: 'purpleBoxDark',
                   filter: 'hue-rotate(15deg)',
+                }}
+                _focus={{
+                  borderColor: '#FFFFFF22',
+                  outline: 'none',
                 }}
                 borderWidth={2}
                 borderColor={
