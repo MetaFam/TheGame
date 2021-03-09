@@ -14,8 +14,9 @@ import {
 } from '@metafam/ds';
 import { MetaLink } from 'components/Link';
 import { PlayerContacts } from 'components/Player/PlayerContacts';
+import { PlayerTileMemberships } from 'components/Player/PlayerTileMemberships';
+import { PlayerTileSkills } from 'components/Player/PlayerTileSkills';
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
-import { SkillColors } from 'graphql/types';
 import React from 'react';
 import {
   getPlayerCoverImage,
@@ -26,9 +27,6 @@ import {
 type Props = {
   player: PlayerFragmentFragment;
 };
-
-const SHOW_MEMBERSHIPS = 4;
-const SHOW_SKILLS = 4;
 
 export const PlayerTile: React.FC<Props> = ({ player }) => {
   return (
@@ -98,26 +96,7 @@ export const PlayerTile: React.FC<Props> = ({ player }) => {
             <Text fontFamily="mono" fontSize="sm" color="blueLight">
               SKILLS
             </Text>
-            <Wrap>
-              {player.Player_Skills.slice(0, SHOW_SKILLS).map(({ Skill }) => (
-                <WrapItem key={Skill.id}>
-                  <MetaTag
-                    size="md"
-                    fontWeight="normal"
-                    backgroundColor={SkillColors[Skill.category]}
-                  >
-                    {Skill.name}
-                  </MetaTag>
-                </WrapItem>
-              ))}
-              {player.Player_Skills.length > SHOW_SKILLS && (
-                <WrapItem>
-                  <MetaTag size="md" fontWeight="normal">
-                    {`+${player.Player_Skills.length - SHOW_SKILLS}`}
-                  </MetaTag>
-                </WrapItem>
-              )}
-            </Wrap>
+            <PlayerTileSkills player={player} />
           </VStack>
         ) : null}
 
@@ -126,24 +105,7 @@ export const PlayerTile: React.FC<Props> = ({ player }) => {
             <Text fontFamily="mono" fontSize="sm" color="blueLight">
               MEMBER OF
             </Text>
-            <Wrap>
-              {player.daohausMemberships
-                .slice(0, SHOW_MEMBERSHIPS)
-                .map((member) => (
-                  <WrapItem key={member.id}>
-                    <MetaTag size="md" fontWeight="normal">
-                      {member.moloch.title}
-                    </MetaTag>
-                  </WrapItem>
-                ))}
-              {player.daohausMemberships.length > SHOW_MEMBERSHIPS && (
-                <WrapItem>
-                  <MetaTag size="md" fontWeight="normal">
-                    {`+${player.daohausMemberships.length - SHOW_MEMBERSHIPS}`}
-                  </MetaTag>
-                </WrapItem>
-              )}
-            </Wrap>
+            <PlayerTileMemberships player={player} />
           </VStack>
         ) : null}
 

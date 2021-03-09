@@ -14,6 +14,7 @@ import {
 } from '@metafam/ds';
 import { MetaLink } from 'components/Link';
 import { PlayerContacts } from 'components/Player/PlayerContacts';
+import { PlayerTileMemberships } from 'components/Player/PlayerTileMemberships';
 import { utils } from 'ethers';
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
 import React from 'react';
@@ -26,8 +27,6 @@ import {
 type Props = {
   player: PlayerFragmentFragment;
 };
-
-const SHOW_MEMBERSHIPS = 4;
 
 export const PatronTile: React.FC<Props> = ({ player }) => {
   return (
@@ -99,24 +98,7 @@ export const PatronTile: React.FC<Props> = ({ player }) => {
             <Text fontFamily="mono" fontSize="sm" color="blueLight">
               MEMBER OF
             </Text>
-            <Wrap>
-              {player.daohausMemberships
-                .slice(0, SHOW_MEMBERSHIPS)
-                .map((member) => (
-                  <WrapItem key={member.id}>
-                    <MetaTag size="md" fontWeight="normal">
-                      {member.moloch.title}
-                    </MetaTag>
-                  </WrapItem>
-                ))}
-              {player.daohausMemberships.length > SHOW_MEMBERSHIPS && (
-                <WrapItem>
-                  <MetaTag size="md" fontWeight="normal">
-                    {`+${player.daohausMemberships.length - SHOW_MEMBERSHIPS}`}
-                  </MetaTag>
-                </WrapItem>
-              )}
-            </Wrap>
+            <PlayerTileMemberships player={player} />
           </VStack>
         ) : null}
         {player.Accounts.length ? (
