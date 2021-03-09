@@ -32,6 +32,8 @@ services:
       - fromGroup: hasura-secrets
       - key: IMGIX_TOKEN
         sync: false
+      - key: DISCORD_BOT_TOKEN
+        value: FAKE
       - key: GRAPHQL_HOST
         fromService:
           name: hasura
