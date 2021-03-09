@@ -565,6 +565,7 @@ type guild {
     """filter the rows returned"""
     where: quest_bool_exp
   ): quest_aggregate!
+  status: GuildStatus_enum!
 
   """The area of focus for the guild (e.g. funding, project, etc)"""
   type: GuildType_enum!
@@ -821,6 +822,7 @@ input guild_bool_exp {
   moloch_address: String_comparison_exp
   name: String_comparison_exp
   quests: quest_bool_exp
+  status: GuildStatus_enum_comparison_exp
   type: GuildType_enum_comparison_exp
   website_url: String_comparison_exp
 }
@@ -856,6 +858,7 @@ input guild_insert_input {
   moloch_address: String
   name: String
   quests: quest_arr_rel_insert_input
+  status: GuildStatus_enum
   type: GuildType_enum
   website_url: String
 }
@@ -965,6 +968,7 @@ input guild_order_by {
   moloch_address: order_by
   name: order_by
   quests_aggregate: quest_aggregate_order_by
+  status: order_by
   type: order_by
   website_url: order_by
 }
@@ -1190,6 +1194,9 @@ enum guild_select_column {
   name
 
   """column name"""
+  status
+
+  """column name"""
   type
 
   """column name"""
@@ -1209,6 +1216,7 @@ input guild_set_input {
   logo: String
   moloch_address: String
   name: String
+  status: GuildStatus_enum
   type: GuildType_enum
   website_url: String
 }
@@ -1245,10 +1253,185 @@ enum guild_update_column {
   name
 
   """column name"""
+  status
+
+  """column name"""
   type
 
   """column name"""
   website_url
+}
+
+"""
+columns and relationships of "GuildStatus"
+"""
+type GuildStatus {
+  status: String!
+}
+
+"""
+aggregated selection of "GuildStatus"
+"""
+type GuildStatus_aggregate {
+  aggregate: GuildStatus_aggregate_fields
+  nodes: [GuildStatus!]!
+}
+
+"""
+aggregate fields of "GuildStatus"
+"""
+type GuildStatus_aggregate_fields {
+  count(columns: [GuildStatus_select_column!], distinct: Boolean): Int
+  max: GuildStatus_max_fields
+  min: GuildStatus_min_fields
+}
+
+"""
+order by aggregate values of table "GuildStatus"
+"""
+input GuildStatus_aggregate_order_by {
+  count: order_by
+  max: GuildStatus_max_order_by
+  min: GuildStatus_min_order_by
+}
+
+"""
+input type for inserting array relation for remote table "GuildStatus"
+"""
+input GuildStatus_arr_rel_insert_input {
+  data: [GuildStatus_insert_input!]!
+  on_conflict: GuildStatus_on_conflict
+}
+
+"""
+Boolean expression to filter rows from the table "GuildStatus". All fields are combined with a logical 'AND'.
+"""
+input GuildStatus_bool_exp {
+  _and: [GuildStatus_bool_exp]
+  _not: GuildStatus_bool_exp
+  _or: [GuildStatus_bool_exp]
+  status: String_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "GuildStatus"
+"""
+enum GuildStatus_constraint {
+  """unique or primary key constraint"""
+  GuildStatus_pkey
+}
+
+enum GuildStatus_enum {
+  ACTIVE
+  INACTIVE
+  PENDING
+}
+
+"""
+expression to compare columns of type GuildStatus_enum. All fields are combined with logical 'AND'.
+"""
+input GuildStatus_enum_comparison_exp {
+  _eq: GuildStatus_enum
+  _in: [GuildStatus_enum!]
+  _is_null: Boolean
+  _neq: GuildStatus_enum
+  _nin: [GuildStatus_enum!]
+}
+
+"""
+input type for inserting data into table "GuildStatus"
+"""
+input GuildStatus_insert_input {
+  status: String
+}
+
+"""aggregate max on columns"""
+type GuildStatus_max_fields {
+  status: String
+}
+
+"""
+order by max() on columns of table "GuildStatus"
+"""
+input GuildStatus_max_order_by {
+  status: order_by
+}
+
+"""aggregate min on columns"""
+type GuildStatus_min_fields {
+  status: String
+}
+
+"""
+order by min() on columns of table "GuildStatus"
+"""
+input GuildStatus_min_order_by {
+  status: order_by
+}
+
+"""
+response of any mutation on the table "GuildStatus"
+"""
+type GuildStatus_mutation_response {
+  """number of affected rows by the mutation"""
+  affected_rows: Int!
+
+  """data of the affected rows by the mutation"""
+  returning: [GuildStatus!]!
+}
+
+"""
+input type for inserting object relation for remote table "GuildStatus"
+"""
+input GuildStatus_obj_rel_insert_input {
+  data: GuildStatus_insert_input!
+  on_conflict: GuildStatus_on_conflict
+}
+
+"""
+on conflict condition type for table "GuildStatus"
+"""
+input GuildStatus_on_conflict {
+  constraint: GuildStatus_constraint!
+  update_columns: [GuildStatus_update_column!]!
+  where: GuildStatus_bool_exp
+}
+
+"""
+ordering options when selecting data from "GuildStatus"
+"""
+input GuildStatus_order_by {
+  status: order_by
+}
+
+"""
+primary key columns input for table: "GuildStatus"
+"""
+input GuildStatus_pk_columns_input {
+  status: String!
+}
+
+"""
+select columns of table "GuildStatus"
+"""
+enum GuildStatus_select_column {
+  """column name"""
+  status
+}
+
+"""
+input type for updating data in table "GuildStatus"
+"""
+input GuildStatus_set_input {
+  status: String
+}
+
+"""
+update columns of table "GuildStatus"
+"""
+enum GuildStatus_update_column {
+  """column name"""
+  status
 }
 
 """
@@ -1707,6 +1890,19 @@ type mutation_root {
   delete_EnneagramType_by_pk(name: String!): EnneagramType
 
   """
+  delete data from the table: "GuildStatus"
+  """
+  delete_GuildStatus(
+    """filter the rows which have to be deleted"""
+    where: GuildStatus_bool_exp!
+  ): GuildStatus_mutation_response
+
+  """
+  delete single row from the table: "GuildStatus"
+  """
+  delete_GuildStatus_by_pk(status: String!): GuildStatus
+
+  """
   delete data from the table: "GuildType"
   """
   delete_GuildType(
@@ -1973,6 +2169,28 @@ type mutation_root {
     """on conflict condition"""
     on_conflict: EnneagramType_on_conflict
   ): EnneagramType
+
+  """
+  insert data into the table: "GuildStatus"
+  """
+  insert_GuildStatus(
+    """the rows to be inserted"""
+    objects: [GuildStatus_insert_input!]!
+
+    """on conflict condition"""
+    on_conflict: GuildStatus_on_conflict
+  ): GuildStatus_mutation_response
+
+  """
+  insert a single row into the table: "GuildStatus"
+  """
+  insert_GuildStatus_one(
+    """the row to be inserted"""
+    object: GuildStatus_insert_input!
+
+    """on conflict condition"""
+    on_conflict: GuildStatus_on_conflict
+  ): GuildStatus
 
   """
   insert data into the table: "GuildType"
@@ -2413,6 +2631,26 @@ type mutation_root {
     _set: EnneagramType_set_input
     pk_columns: EnneagramType_pk_columns_input!
   ): EnneagramType
+
+  """
+  update data of the table: "GuildStatus"
+  """
+  update_GuildStatus(
+    """sets the columns of the filtered rows to the given values"""
+    _set: GuildStatus_set_input
+
+    """filter the rows which have to be updated"""
+    where: GuildStatus_bool_exp!
+  ): GuildStatus_mutation_response
+
+  """
+  update single row of the table: "GuildStatus"
+  """
+  update_GuildStatus_by_pk(
+    """sets the columns of the filtered rows to the given values"""
+    _set: GuildStatus_set_input
+    pk_columns: GuildStatus_pk_columns_input!
+  ): GuildStatus
 
   """
   update data of the table: "GuildType"
@@ -4484,6 +4722,49 @@ type query_root {
 
   """fetch data from the table: "EnneagramType" using primary key columns"""
   EnneagramType_by_pk(name: String!): EnneagramType
+
+  """
+  fetch data from the table: "GuildStatus"
+  """
+  GuildStatus(
+    """distinct select on columns"""
+    distinct_on: [GuildStatus_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [GuildStatus_order_by!]
+
+    """filter the rows returned"""
+    where: GuildStatus_bool_exp
+  ): [GuildStatus!]!
+
+  """
+  fetch aggregated fields from the table: "GuildStatus"
+  """
+  GuildStatus_aggregate(
+    """distinct select on columns"""
+    distinct_on: [GuildStatus_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [GuildStatus_order_by!]
+
+    """filter the rows returned"""
+    where: GuildStatus_bool_exp
+  ): GuildStatus_aggregate!
+
+  """fetch data from the table: "GuildStatus" using primary key columns"""
+  GuildStatus_by_pk(status: String!): GuildStatus
 
   """
   fetch data from the table: "GuildType"
@@ -7386,6 +7667,49 @@ type subscription_root {
 
   """fetch data from the table: "EnneagramType" using primary key columns"""
   EnneagramType_by_pk(name: String!): EnneagramType
+
+  """
+  fetch data from the table: "GuildStatus"
+  """
+  GuildStatus(
+    """distinct select on columns"""
+    distinct_on: [GuildStatus_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [GuildStatus_order_by!]
+
+    """filter the rows returned"""
+    where: GuildStatus_bool_exp
+  ): [GuildStatus!]!
+
+  """
+  fetch aggregated fields from the table: "GuildStatus"
+  """
+  GuildStatus_aggregate(
+    """distinct select on columns"""
+    distinct_on: [GuildStatus_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [GuildStatus_order_by!]
+
+    """filter the rows returned"""
+    where: GuildStatus_bool_exp
+  ): GuildStatus_aggregate!
+
+  """fetch data from the table: "GuildStatus" using primary key columns"""
+  GuildStatus_by_pk(status: String!): GuildStatus
 
   """
   fetch data from the table: "GuildType"

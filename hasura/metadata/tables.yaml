@@ -21,6 +21,10 @@
       filter: {}
 - table:
     schema: public
+    name: GuildStatus
+  is_enum: true
+- table:
+    schema: public
     name: GuildType
   is_enum: true
   array_relationships:
