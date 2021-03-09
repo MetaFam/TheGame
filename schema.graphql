@@ -450,6 +450,7 @@ type guild {
   """An object relationship"""
   GuildType: GuildType!
   description: String
+  discord_id: String
   discord_invite_url: String
 
   """An array relationship"""
@@ -812,6 +813,7 @@ input guild_bool_exp {
   _not: guild_bool_exp
   _or: [guild_bool_exp]
   description: String_comparison_exp
+  discord_id: String_comparison_exp
   discord_invite_url: String_comparison_exp
   guild_accounts: guild_account_bool_exp
   guild_players: guild_player_bool_exp
@@ -835,6 +837,9 @@ enum guild_constraint {
 
   """unique or primary key constraint"""
   Guild_pkey
+
+  """unique or primary key constraint"""
+  guild_discord_id_key
 }
 
 """
@@ -843,6 +848,7 @@ input type for inserting data into table "guild"
 input guild_insert_input {
   GuildType: GuildType_obj_rel_insert_input
   description: String
+  discord_id: String
   discord_invite_url: String
   guild_accounts: guild_account_arr_rel_insert_input
   guild_players: guild_player_arr_rel_insert_input
@@ -860,6 +866,7 @@ input guild_insert_input {
 """aggregate max on columns"""
 type guild_max_fields {
   description: String
+  discord_id: String
   discord_invite_url: String
   guildname: String
   id: uuid
@@ -875,6 +882,7 @@ order by max() on columns of table "guild"
 """
 input guild_max_order_by {
   description: order_by
+  discord_id: order_by
   discord_invite_url: order_by
   guildname: order_by
   id: order_by
@@ -888,6 +896,7 @@ input guild_max_order_by {
 """aggregate min on columns"""
 type guild_min_fields {
   description: String
+  discord_id: String
   discord_invite_url: String
   guildname: String
   id: uuid
@@ -903,6 +912,7 @@ order by min() on columns of table "guild"
 """
 input guild_min_order_by {
   description: order_by
+  discord_id: order_by
   discord_invite_url: order_by
   guildname: order_by
   id: order_by
@@ -947,6 +957,7 @@ ordering options when selecting data from "guild"
 input guild_order_by {
   GuildType: GuildType_order_by
   description: order_by
+  discord_id: order_by
   discord_invite_url: order_by
   guild_accounts_aggregate: guild_account_aggregate_order_by
   guild_players_aggregate: guild_player_aggregate_order_by
@@ -1158,6 +1169,9 @@ enum guild_select_column {
   description
 
   """column name"""
+  discord_id
+
+  """column name"""
   discord_invite_url
 
   """column name"""
@@ -1190,6 +1204,7 @@ input type for updating data in table "guild"
 """
 input guild_set_input {
   description: String
+  discord_id: String
   discord_invite_url: String
   guildname: String
   id: uuid
@@ -1207,6 +1222,9 @@ update columns of table "guild"
 enum guild_update_column {
   """column name"""
   description
+
+  """column name"""
+  discord_id
 
   """column name"""
   discord_invite_url
@@ -2887,6 +2905,7 @@ type player {
 
   """Remote relationship field"""
   daohausMemberships: [Member!]!
+  discord_id: String
   enneagram: EnneagramType_enum
   ethereum_address: String
 
@@ -3271,6 +3290,7 @@ input player_bool_exp {
   _or: [player_bool_exp]
   availability_hours: Int_comparison_exp
   created_at: timestamptz_comparison_exp
+  discord_id: String_comparison_exp
   enneagram: EnneagramType_enum_comparison_exp
   ethereum_address: String_comparison_exp
   guilds: guild_player_bool_exp
@@ -3303,6 +3323,9 @@ enum player_constraint {
 
   """unique or primary key constraint"""
   Player_username_unique_key
+
+  """unique or primary key constraint"""
+  player_discord_id_key
 }
 
 """
@@ -3323,6 +3346,7 @@ input player_insert_input {
   Player_Skills: player_skill_arr_rel_insert_input
   availability_hours: Int
   created_at: timestamptz
+  discord_id: String
   enneagram: EnneagramType_enum
   ethereum_address: String
   guilds: guild_player_arr_rel_insert_input
@@ -3344,6 +3368,7 @@ input player_insert_input {
 type player_max_fields {
   availability_hours: Int
   created_at: timestamptz
+  discord_id: String
   ethereum_address: String
   id: uuid
   player_type_id: Int
@@ -3361,6 +3386,7 @@ order by max() on columns of table "player"
 input player_max_order_by {
   availability_hours: order_by
   created_at: order_by
+  discord_id: order_by
   ethereum_address: order_by
   id: order_by
   player_type_id: order_by
@@ -3376,6 +3402,7 @@ input player_max_order_by {
 type player_min_fields {
   availability_hours: Int
   created_at: timestamptz
+  discord_id: String
   ethereum_address: String
   id: uuid
   player_type_id: Int
@@ -3393,6 +3420,7 @@ order by min() on columns of table "player"
 input player_min_order_by {
   availability_hours: order_by
   created_at: order_by
+  discord_id: order_by
   ethereum_address: order_by
   id: order_by
   player_type_id: order_by
@@ -3441,6 +3469,7 @@ input player_order_by {
   Player_Skills_aggregate: player_skill_aggregate_order_by
   availability_hours: order_by
   created_at: order_by
+  discord_id: order_by
   enneagram: order_by
   ethereum_address: order_by
   guilds_aggregate: guild_player_aggregate_order_by
@@ -3474,6 +3503,9 @@ enum player_select_column {
 
   """column name"""
   created_at
+
+  """column name"""
+  discord_id
 
   """column name"""
   enneagram
@@ -3515,6 +3547,7 @@ input type for updating data in table "player"
 input player_set_input {
   availability_hours: Int
   created_at: timestamptz
+  discord_id: String
   enneagram: EnneagramType_enum
   ethereum_address: String
   id: uuid
@@ -4099,6 +4132,9 @@ enum player_update_column {
 
   """column name"""
   created_at
+
+  """column name"""
+  discord_id
 
   """column name"""
   enneagram
