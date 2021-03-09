@@ -9,7 +9,7 @@ import {
 } from 'next';
 import Error from 'next/error';
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useState } from 'react';
 
 import { PageContainer } from '../../components/Container';
 import { PlayerAchievements } from '../../components/Player/Section/PlayerAchievements';
@@ -30,10 +30,10 @@ const PlayerPage: React.FC<Props> = ({ player }) => {
     PLAYER_MEMBERSHIPS: 'Memberships',
     PLAYER_ACHIEVEMENTS: 'Achievements',
   };
-  const [boxAvailableList, setBoxAvailableList] = React.useState<string[]>([]);
-  const [canEdit] = React.useState(false);
+  const [boxAvailableList, setBoxAvailableList] = useState<string[]>([]);
+  const [canEdit] = useState(false);
 
-  const [fakeData, setFakeData] = React.useState([
+  const [fakeData, setFakeData] = useState([
     [],
     [BOX_TYPE.PLAYER_MEMBERSHIPS, BOX_TYPE.PLAYER_SKILLS],
     [BOX_TYPE.PLAYER_GALLERY],
@@ -180,7 +180,9 @@ export const getStaticPaths: GetStaticPaths<QueryParams> = async () => {
 export const getStaticProps = async (
   context: GetStaticPropsContext<QueryParams>,
 ) => {
-  const username = context.params?.username;
+  // usernames in the DB are lowercase. This essentially 
+  // makes this page's router variable case-insensitive.
+  const username = context.params?.username?.toLowerCase();
   const player = await getPlayer(username);
 
   return {
