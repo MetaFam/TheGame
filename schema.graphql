@@ -3944,6 +3944,7 @@ enum player_select_column {
 
   """column name"""
   created_at
+  discord_id
 
   """column name"""
   discord_id
@@ -4581,6 +4582,7 @@ enum player_update_column {
 
   """column name"""
   created_at
+  discord_id
 
   """column name"""
   discord_id
