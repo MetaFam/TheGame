@@ -14,8 +14,8 @@ import {
 } from '@metafam/ds';
 import { MetaLink } from 'components/Link';
 import { PlayerContacts } from 'components/Player/PlayerContacts';
+import { utils } from 'ethers';
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
-import { SkillColors } from 'graphql/types';
 import React from 'react';
 import {
   getPlayerCoverImage,
@@ -28,9 +28,8 @@ type Props = {
 };
 
 const SHOW_MEMBERSHIPS = 4;
-const SHOW_SKILLS = 4;
 
-export const PlayerTile: React.FC<Props> = ({ player }) => {
+export const PatronTile: React.FC<Props> = ({ player }) => {
   return (
     <MetaTile key={player.id}>
       <Box
@@ -68,17 +67,19 @@ export const PlayerTile: React.FC<Props> = ({ player }) => {
               </MetaTag>
             </WrapItem>
           ) : null}
-          {player.rank && (
+          {player.token_balance?.pSeedBalance ? (
             <WrapItem>
               <MetaTag
-                backgroundColor={player.rank?.toLowerCase()}
+                backgroundColor="cyan.400"
                 size="md"
                 color="blackAlpha.600"
               >
-                {player.rank}
+                {`pSEED: ${Math.floor(
+                  Number(utils.formatEther(player.token_balance?.pSeedBalance)),
+                )}`}
               </MetaTag>
             </WrapItem>
-          )}
+          ) : null}
           <WrapItem>
             <MetaTag size="md">XP: {Math.floor(player.total_xp)}</MetaTag>
           </WrapItem>
@@ -93,34 +94,6 @@ export const PlayerTile: React.FC<Props> = ({ player }) => {
         ) : null}
       </MetaTileHeader>
       <MetaTileBody>
-        {player.Player_Skills.length ? (
-          <VStack spacing={2} align="stretch">
-            <Text fontFamily="mono" fontSize="sm" color="blueLight">
-              SKILLS
-            </Text>
-            <Wrap>
-              {player.Player_Skills.slice(0, SHOW_SKILLS).map(({ Skill }) => (
-                <WrapItem key={Skill.id}>
-                  <MetaTag
-                    size="md"
-                    fontWeight="normal"
-                    backgroundColor={SkillColors[Skill.category]}
-                  >
-                    {Skill.name}
-                  </MetaTag>
-                </WrapItem>
-              ))}
-              {player.Player_Skills.length > SHOW_SKILLS && (
-                <WrapItem>
-                  <MetaTag size="md" fontWeight="normal">
-                    {`+${player.Player_Skills.length - SHOW_SKILLS}`}
-                  </MetaTag>
-                </WrapItem>
-              )}
-            </Wrap>
-          </VStack>
-        ) : null}
-
         {player.daohausMemberships.length ? (
           <VStack spacing={2} align="stretch">
             <Text fontFamily="mono" fontSize="sm" color="blueLight">
@@ -146,7 +119,6 @@ export const PlayerTile: React.FC<Props> = ({ player }) => {
             </Wrap>
           </VStack>
         ) : null}
-
         {player.Accounts.length ? (
           <VStack spacing={2} align="stretch">
             <Text fontFamily="mono" fontSize="sm" color="blueLight">

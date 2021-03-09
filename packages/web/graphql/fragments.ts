@@ -58,6 +58,10 @@ export const PlayerFragment = gql`
       unique
       contextIds
     }
+    token_balance {
+      seedBalance
+      pSeedBalance
+    }
   }
 `;
 
