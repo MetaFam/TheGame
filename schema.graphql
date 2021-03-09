@@ -2091,6 +2091,19 @@ type mutation_root {
   delete_ColorAspect_by_pk(mask: Int!): ColorAspect
 
   """
+  delete data from the table: "GuildStatus"
+  """
+  delete_GuildStatus(
+    """filter the rows which have to be deleted"""
+    where: GuildStatus_bool_exp!
+  ): GuildStatus_mutation_response
+
+  """
+  delete single row from the table: "GuildStatus"
+  """
+  delete_GuildStatus_by_pk(status: String!): GuildStatus
+
+  """
   delete data from the table: "GuildType"
   """
   delete_GuildType(
@@ -2357,6 +2370,28 @@ type mutation_root {
     """on conflict condition"""
     on_conflict: ColorAspect_on_conflict
   ): ColorAspect
+
+  """
+  insert data into the table: "GuildStatus"
+  """
+  insert_GuildStatus(
+    """the rows to be inserted"""
+    objects: [GuildStatus_insert_input!]!
+
+    """on conflict condition"""
+    on_conflict: GuildStatus_on_conflict
+  ): GuildStatus_mutation_response
+
+  """
+  insert a single row into the table: "GuildStatus"
+  """
+  insert_GuildStatus_one(
+    """the row to be inserted"""
+    object: GuildStatus_insert_input!
+
+    """on conflict condition"""
+    on_conflict: GuildStatus_on_conflict
+  ): GuildStatus
 
   """
   insert data into the table: "GuildType"
@@ -2803,6 +2838,26 @@ type mutation_root {
     _set: ColorAspect_set_input
     pk_columns: ColorAspect_pk_columns_input!
   ): ColorAspect
+
+  """
+  update data of the table: "GuildStatus"
+  """
+  update_GuildStatus(
+    """sets the columns of the filtered rows to the given values"""
+    _set: GuildStatus_set_input
+
+    """filter the rows which have to be updated"""
+    where: GuildStatus_bool_exp!
+  ): GuildStatus_mutation_response
+
+  """
+  update single row of the table: "GuildStatus"
+  """
+  update_GuildStatus_by_pk(
+    """sets the columns of the filtered rows to the given values"""
+    _set: GuildStatus_set_input
+    pk_columns: GuildStatus_pk_columns_input!
+  ): GuildStatus
 
   """
   update data of the table: "GuildType"
@@ -4941,6 +4996,49 @@ type query_root {
 
   """fetch data from the table: "ColorAspect" using primary key columns"""
   ColorAspect_by_pk(mask: Int!): ColorAspect
+
+  """
+  fetch data from the table: "GuildStatus"
+  """
+  GuildStatus(
+    """distinct select on columns"""
+    distinct_on: [GuildStatus_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [GuildStatus_order_by!]
+
+    """filter the rows returned"""
+    where: GuildStatus_bool_exp
+  ): [GuildStatus!]!
+
+  """
+  fetch aggregated fields from the table: "GuildStatus"
+  """
+  GuildStatus_aggregate(
+    """distinct select on columns"""
+    distinct_on: [GuildStatus_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [GuildStatus_order_by!]
+
+    """filter the rows returned"""
+    where: GuildStatus_bool_exp
+  ): GuildStatus_aggregate!
+
+  """fetch data from the table: "GuildStatus" using primary key columns"""
+  GuildStatus_by_pk(status: String!): GuildStatus
 
   """
   fetch data from the table: "GuildType"
@@ -7843,6 +7941,49 @@ type subscription_root {
 
   """fetch data from the table: "ColorAspect" using primary key columns"""
   ColorAspect_by_pk(mask: Int!): ColorAspect
+
+  """
+  fetch data from the table: "GuildStatus"
+  """
+  GuildStatus(
+    """distinct select on columns"""
+    distinct_on: [GuildStatus_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [GuildStatus_order_by!]
+
+    """filter the rows returned"""
+    where: GuildStatus_bool_exp
+  ): [GuildStatus!]!
+
+  """
+  fetch aggregated fields from the table: "GuildStatus"
+  """
+  GuildStatus_aggregate(
+    """distinct select on columns"""
+    distinct_on: [GuildStatus_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [GuildStatus_order_by!]
+
+    """filter the rows returned"""
+    where: GuildStatus_bool_exp
+  ): GuildStatus_aggregate!
+
+  """fetch data from the table: "GuildStatus" using primary key columns"""
+  GuildStatus_by_pk(status: String!): GuildStatus
 
   """
   fetch data from the table: "GuildType"
