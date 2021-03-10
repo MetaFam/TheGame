@@ -10,8 +10,5 @@ export const getTokenBalance: QueryResolvers['getTokenBalance'] = async (
     address: address.toLowerCase(),
   });
 
-  if (res && res.userTokens && res.userTokens.length > 0) {
-    return res.userTokens[0];
-  }
-  return null;
+  return res.userToken;
 };
