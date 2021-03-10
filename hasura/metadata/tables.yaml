@@ -329,7 +329,9 @@
       filter:
         id:
           _eq: X-Hasura-User-Id
-      check: null
+      check: {}
+      set:
+        id: x-hasura-User-Id
   event_triggers:
   - name: fetchBoxVerifiedAccounts
     definition:
