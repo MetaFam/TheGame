@@ -3003,6 +3003,9 @@ type player {
   role: String
   sc_identity_id: String
   timezone: String
+
+  """Remote relationship field"""
+  token_balance: UserToken
   total_xp: numeric
   updated_at: timestamptz
   username: String!
@@ -4354,6 +4357,7 @@ type Query {
   getBoxProfile(address: String): BoxProfile
   getBrightIdStatus(contextId: uuid): BrightIdStatus
   getDaoHausMemberships(memberAddress: String): [Member!]!
+  getTokenBalance(address: String): UserToken
 }
 
 """query root"""
@@ -4706,6 +4710,7 @@ type query_root {
   getBoxProfile(address: String): BoxProfile
   getBrightIdStatus(contextId: uuid): BrightIdStatus
   getDaoHausMemberships(memberAddress: String): [Member!]!
+  getTokenBalance(address: String): UserToken
 
   """
   fetch data from the table: "guild"
@@ -8147,6 +8152,12 @@ input UpdateQuestCompletionInput {
 type UpdateQuestCompletionOutput {
   error: String
   success: Boolean!
+}
+
+type UserToken {
+  id: ID!
+  pSeedBalance: String!
+  seedBalance: String!
 }
 
 scalar uuid
