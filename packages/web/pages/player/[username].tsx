@@ -35,7 +35,7 @@ const PlayerPage: React.FC<Props> = (
     const [boxAvailableList, setBoxAvailableList] = (
       React.useState<string[]>([])
     );
-    const [canEdit] = React.useState(false);
+    const [canEdit] = useState(false);
     const [fakeData, setFakeData] = React.useState([
       [],
       [BOX_TYPE.MEMBERSHIPS, BOX_TYPE.SKILLS],
