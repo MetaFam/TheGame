@@ -123,30 +123,34 @@
   - role: player
     permission:
       columns:
-      - id
-      - type
-      - name
-      - logo
       - description
-      - join_button_url
-      - moloch_address
+      - discord_id
       - discord_invite_url
-      - website_url
       - guildname
+      - id
+      - join_button_url
+      - logo
+      - moloch_address
+      - name
+      - status
+      - type
+      - website_url
       filter: {}
   - role: public
     permission:
       columns:
-      - id
-      - type
-      - name
-      - logo
       - description
-      - join_button_url
-      - moloch_address
+      - discord_id
       - discord_invite_url
-      - website_url
       - guildname
+      - id
+      - join_button_url
+      - logo
+      - moloch_address
+      - name
+      - status
+      - type
+      - website_url
       filter: {}
 - table:
     schema: public
