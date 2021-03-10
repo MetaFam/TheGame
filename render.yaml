@@ -33,7 +33,7 @@ services:
       - key: IMGIX_TOKEN
         sync: false
       - key: DISCORD_BOT_TOKEN
-        value: FAKE
+        sync: false
       - key: GRAPHQL_HOST
         fromService:
           name: hasura
