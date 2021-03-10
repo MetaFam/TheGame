@@ -1,7 +1,6 @@
 import {
   Avatar,
   Box,
-  BrightIdIcon,
   Flex,
   Heading,
   HStack,
@@ -15,7 +14,6 @@ import { MetaLink } from 'components/Link';
 import { PlayerContacts } from 'components/Player/PlayerContacts';
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
 import { SkillColors } from 'graphql/types';
-import { useBrightIdStatus } from 'lib/hooks/brightId';
 import React from 'react';
 import {
   getPlayerCoverImage,
@@ -31,7 +29,6 @@ const SHOW_MEMBERSHIPS = 4;
 const SHOW_SKILLS = 4;
 
 export const PlayerTile: React.FC<Props> = ({ player }) => {
-  const { verified } = useBrightIdStatus({ player });
   return (
     <Flex
       direction="column"
@@ -69,14 +66,9 @@ export const PlayerTile: React.FC<Props> = ({ player }) => {
               src={getPlayerImage(player)}
               name={getPlayerName(player)}
             />
-            <Flex>
               <Heading size="xs" color="white">
                 {getPlayerName(player)}
               </Heading>
-              {verified && (
-                <BrightIdIcon w="1rem" h="1rem" ml="1rem" color="brightId" />
-              )}
-            </Flex>
           </VStack>
         </MetaLink>
         <Wrap w="100%" justify="center">

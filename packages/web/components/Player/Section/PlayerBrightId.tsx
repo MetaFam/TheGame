@@ -9,7 +9,6 @@ import {
   ModalCloseButton,
   ModalContent,
   ModalOverlay,
-  Spinner,
   Text,
   useDisclosure,
   VStack,
@@ -33,7 +32,9 @@ export const PlayerBrightId: React.FC<Props> = ({ player }) => {
   const [isLoggedInUser, setIsLoggedInUser] = useState(false);
 
   useEffect(() => {
-    setIsLoggedInUser(isConnected && !fetching && user?.id === player.id);
+    if (isConnected && !fetching && user?.id === player.id) {
+      setIsLoggedInUser(true);
+    }
   }, [user, fetching, isConnected, player.id]);
 
   useBrightIdUpdated({ player, poll: !verified && isOpen && isLoggedInUser });
@@ -47,51 +48,18 @@ export const PlayerBrightId: React.FC<Props> = ({ player }) => {
         backgroundColor: 'rgba(7, 2, 29, 0.91)',
       };
 
+  if (verified || !isLoggedInUser) return null;
+
   return (
     <Flex align="center" justify="center">
-      {fetching ? (
-        <Spinner size="sm" color="brightId" />
-      ) : (
-        <>
-          <BrightIdIcon w="1rem" h="1rem" mr="0.5rem" color="brightId" />
-          {verified && (
-            <Text
-              as="span"
-              fontFamily="body"
-              fontSize="xs"
-              color="brightId"
-              fontWeight="600"
-              py={1}
-            >
-              Verified
-            </Text>
-          )}
-          {!verified &&
-            (isLoggedInUser ? (
-              <Button
-                variant="ghost"
-                fontFamily="body"
-                fontSize="xs"
-                size="xs"
-                color="brightId"
-                onClick={onOpen}
-              >
-                Verify
-              </Button>
-            ) : (
-              <Text
-                as="span"
-                fontFamily="body"
-                fontSize="xs"
-                color="brightId"
-                fontWeight="600"
-                py={1}
-              >
-                Unverified
-              </Text>
-            ))}
-        </>
-      )}
+      <Button
+        size="xs"
+        colorScheme="brightIdOrange"
+        leftIcon={<BrightIdIcon />}
+        onClick={onOpen}
+      >
+        Verify on BrightID
+      </Button>
       <Modal
         isOpen={isOpen}
         onClose={onClose}

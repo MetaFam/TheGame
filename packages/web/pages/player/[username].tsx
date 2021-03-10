@@ -17,7 +17,7 @@ import {
 import Error from 'next/error';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useState } from 'react';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
@@ -36,7 +36,6 @@ const PlayerPage: React.FC<Props> = (
       React.useState<string[]>([])
     );
     const [canEdit] = React.useState(false);
-
     const [fakeData, setFakeData] = React.useState([
       [],
       [BOX_TYPE.MEMBERSHIPS, BOX_TYPE.SKILLS],
@@ -203,8 +202,28 @@ export const getStaticProps = async (
   context: GetStaticPropsContext<QueryParams>,
 ) => {
   const username = context.params?.username;
-  const player = await getPlayer(username);
+  if (username == null) {
+    return {
+      redirect: {
+        desination: '/',
+        permanent: false
+      }
+    }
+  }
 
+  let player = await getPlayer(username);
+  if (player == null) {
+    player = await getPlayer(username.toLowerCase());
+    if (player != null) {
+      return {
+        redirect: {
+          destination: `/player/${username.toLowerCase()}`,
+          permanent: false
+        }
+      }
+    }
+  }
+  
   return {
     props: {
       // must be JSON serializable

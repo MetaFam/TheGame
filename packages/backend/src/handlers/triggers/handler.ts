@@ -3,9 +3,11 @@ import { ParamsDictionary } from 'express-serve-static-core';
 
 import { fetchBoxVerifiedAccounts } from './fetchBoxVerifiedAccounts';
 import { TriggerPayload } from './types';
+import { updateDiscordRole } from './updateDiscordRole';
 
 const TRIGGERS = {
   fetchBoxVerifiedAccounts,
+  'player_rank_updated': updateDiscordRole
 };
 
 export const triggerHandler = async (
@@ -17,7 +19,7 @@ export const triggerHandler = async (
   if (role !== 'admin') {
     throw new Error('Unauthorized');
   }
-
+  
   const trigger = TRIGGERS[req.body.trigger.name as keyof typeof TRIGGERS];
 
   if (trigger) {
