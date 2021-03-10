@@ -34,6 +34,12 @@ export const ColorImage = (
         viewBox='-50 -50 100 100'
         {...props}
       >
+        <defs>
+          <radialGradient id='overlay'>
+            <stop offset='70%' stopColor='black' stopOpacity='0.75' />
+            <stop offset='100%' stopColor='white' stopOpacity='0.1' />
+          </radialGradient>
+        </defs>
         {partMasks.map((mask: number, i: number) => (
           <path
             key={mask}
@@ -44,6 +50,7 @@ export const ColorImage = (
             stroke='black'
           />
         ))}
+        <circle r='50' fill='url(#overlay)'/>
         <image
           xlinkHref={type.image}
           x={-40} y={-40} width='80%' height='80%'
