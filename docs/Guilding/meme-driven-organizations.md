@@ -1,4 +1,3 @@
-
 ---
 title: 👻 Meme Driven Organizations
 --- 
