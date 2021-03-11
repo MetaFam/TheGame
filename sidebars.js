@@ -36,6 +36,7 @@ module.exports = {
       //   'great-houses/house-of-tokens',
     ],
     "⚔️ Guilding": [
+      "Guilding/meme-driven-organizations",
       "Guilding/metasys",
       "Guilding/what-why-how-of-your-dao",
       "Guilding/guilding-101",
