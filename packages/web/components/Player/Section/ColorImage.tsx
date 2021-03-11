@@ -51,10 +51,10 @@ export const ColorImage = (
           />
         ))}
         <circle r='50' fill='url(#overlay)'/>
-        <image
+        {/* <image
           xlinkHref={type.image}
           x={-40} y={-40} width='80%' height='80%'
-        />
+        /> */}
       </SVG>
     )
   } 

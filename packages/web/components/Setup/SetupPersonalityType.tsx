@@ -12,7 +12,7 @@ import { FlexContainer } from 'components/Container';
 import { MetaLink } from 'components/Link';
 import { useSetupFlow } from 'contexts/SetupContext';
 import { useUpdateAboutYouMutation } from 'graphql/autogen/types';
-import { MetaGameAlternates } from 'graphql/getPersonalityInfo'
+import { MetaGameAliases } from 'graphql/getPersonalityInfo'
 import { PersonalityOption } from 'graphql/types';
 import { useUser } from 'lib/hooks';
 import React, { SetStateAction,useState } from 'react';
@@ -65,7 +65,9 @@ export const SetupPersonalityType: (
         console.warn(error); // eslint-disable-line no-console
         toast({
           title: 'Error',
-          description: 'Unable to update personality type. The octo is sad. 😢',
+          description: (
+            'Unable to update personality type. The octo is sad. 😢'
+          ),
           status: 'error',
           isClosable: true,
         });
@@ -96,7 +98,10 @@ export const SetupPersonalityType: (
           Please select your personality components below.
           Not sure what type you are?
           <Text as="span"> </Text>
-          <MetaLink href="//metafam.github.io/5-color-radar/#/test/" isExternal>
+          <MetaLink
+            href="//metafam.github.io/5-color-radar/#/test/"
+            isExternal
+          >
             Take a quick test.
           </MetaLink>
         </Text>
@@ -105,10 +110,11 @@ export const SetupPersonalityType: (
         grow={1} spacing={8} maxW='70rem'
         direction='row' wrap='wrap'
       >
-        {Object.entries(MetaGameAlternates).map(
+        {Object.entries(MetaGameAliases).map(
           ([orig, { image, label }]) => {
             const option = personalityParts.find(p => p.name === orig)
-            const { mask = 0 } = option ?? {}
+            const { mask = 0 } = (option ?? {})
+            const selected = (((colorMask ?? 0) & mask) > 0)
 
             return (
               <FlexContainer
@@ -123,29 +129,24 @@ export const SetupPersonalityType: (
                 onBlur={() => setFocused(null)}
                 onKeyPress={(e) => {
                   if (e.key === 'Enter') handleNextPress()
-                  if (mask === focused &&  e.key === ' ') {
+                  if (mask === focused && e.key === ' ') {
                     toggleMaskElement(mask)
                   }
                 }}
-                transition='background 0.25s'
+                transition='background 0.25s, filter 0.5s'
                 bgColor={
-                  (((colorMask ?? 0) & mask) > 0)
-                  ? 'purpleBoxDark'
-                  : 'purpleBoxLight'
+                  selected ? 'purpleBoxDark' : 'purpleBoxLight'
                 }
                 _hover={{
-                  bgColor: 'purpleBoxDark',
-                  filter: 'hue-rotate(15deg)',
+                  filter: 'hue-rotate(25deg)',
                 }}
                 _focus={{
-                  borderColor: '#FFFFFF22',
+                  borderColor: '#FFFFFF55',
                   outline: 'none',
                 }}
                 borderWidth={2}
                 borderColor={
-                  (((colorMask ?? 0) & mask) > 0)
-                  ? 'purple.400'
-                  : 'transparent'
+                  selected ? 'purple.400' : 'transparent'
                 }
               >
                 <Image
@@ -160,7 +161,7 @@ export const SetupPersonalityType: (
                   >
                     {label}
                   </Text>
-                  <Text color="blueLight">{option?.description}</Text>
+                  <Text color='blueLight'>{option?.description}</Text>
                 </FlexContainer>
               </FlexContainer>
             )

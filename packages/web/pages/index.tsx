@@ -8,6 +8,7 @@ type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
 export const getStaticProps = async () => {
   const players = await getPlayers();
+
   return {
     props: {
       players,
@@ -18,7 +19,7 @@ export const getStaticProps = async () => {
 
 const Home: React.FC<Props> = ({ players }) => (
   <PageContainer>
-    <PlayerList players={players} />
+    <PlayerList {...{ players }} />
   </PageContainer>
 );
 

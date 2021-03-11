@@ -2,7 +2,7 @@
 
 import { Box, Flex, SVG } from "@metafam/ds";
 import { FlexContainer } from "components/Container";
-import { MetaGameAlternates } from "graphql/getPersonalityInfo";
+import { MetaGameAliases } from "graphql/getPersonalityInfo";
 import { PersonalityOption } from "graphql/types";
 import React from "react";
 
@@ -48,8 +48,9 @@ export const ColorBar = (
               <Box
                 bgColor='white'
                 h={6} w={6}
+                title={MetaGameAliases[part.name].label}
                 style={maskImageStyle({
-                  url: MetaGameAlternates[part.name].image
+                  url: MetaGameAliases[part.name].image
                 })}
               />
             </Flex>

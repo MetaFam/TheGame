@@ -17,7 +17,6 @@ export type PersonalityOption = {
   name: string;
   label: string;
   description: string | null;
-  image: string;
   mask: number;
 };
 

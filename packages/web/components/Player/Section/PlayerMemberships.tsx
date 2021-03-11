@@ -1,13 +1,13 @@
 import { Box, Flex, HStack, Text } from '@metafam/ds';
+import ethereumImage from 'assets/moloch/ethereum.png';
+import hausdaoImage from 'assets/moloch/hausdao.png';
+import metacartelImage from 'assets/moloch/metacartel.png';
+import metaclanImage from 'assets/moloch/metaclan.png';
+import metagameImage from 'assets/moloch/metagame.png';
+import raidGuildImage from 'assets/moloch/raid_guild.png';
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
 import React from 'react';
 
-import ethereumImage from '../../../assets/moloch/ethereum.png';
-import hausdaoImage from '../../../assets/moloch/hausdao.png';
-import metacartelImage from '../../../assets/moloch/metacartel.png';
-import metaclanImage from '../../../assets/moloch/metaclan.png';
-import metagameImage from '../../../assets/moloch/metagame.png';
-import raidGuildImage from '../../../assets/moloch/raid_guild.png';
 import { ProfileSection } from '../../ProfileSection';
 
 type Props = { player: PlayerFragmentFragment; onRemoveClick: () => void };
@@ -19,10 +19,10 @@ export const PlayerMemberships: React.FC<Props> = ({
 
   // TODO Probably a better way to do that or should be completed, API/IPFS ?
   const getImageMoloch = (title: string) => {
-    if (title.toLowerCase().includes('hausdao')) return hausdaoImage;
-    if (title.toLowerCase().includes('metacartel')) return metacartelImage;
-    if (title.toLowerCase().includes('metaclan')) return metaclanImage;
-    if (title.toLowerCase().includes('raid guild')) return raidGuildImage;
+    if (/hausdao/i.test(title)) return hausdaoImage;
+    if (/metacartel/i.test(title)) return metacartelImage;
+    if (/metaclan/i.test(title)) return metaclanImage;
+    if (/raid guild/i.test(title)) return raidGuildImage;
     return ethereumImage;
   };
 
@@ -61,7 +61,9 @@ export const PlayerMemberships: React.FC<Props> = ({
             <HStack alignItems="center" mb={6} key={member.id}>
               <Flex bg="purpleBoxLight" width={16} height={16} mr={6}>
                 <Box
-                  bgImage={`url(${getImageMoloch(member.moloch.title || '')})`}
+                  bgImage={
+                    `url(${getImageMoloch(member.moloch.title ?? '')})`
+                  }
                   backgroundSize="cover"
                   width={12}
                   height={12}
