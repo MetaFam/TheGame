@@ -6,7 +6,7 @@ import { GuildFragment } from './fragments';
 
 const guildsQuery = gql`
   query GetGuilds($limit: Int) {
-    guild(where: {limit: $limit) {
+    guild(where: {status: { _eq: ACTIVE }}, limit: $limit) {
       ...GuildFragment
     }
   }
