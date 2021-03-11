@@ -47,6 +47,10 @@ export {
   useDisclosure,
 } from '@chakra-ui/react';
 
+export {
+  TextProps
+} from '@chakra-ui/layout/dist/types/text';
+
 export const SVG = chakra('svg');
 
 export { theme as MetaTheme } from './theme';

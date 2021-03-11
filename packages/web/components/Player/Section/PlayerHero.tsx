@@ -1,7 +1,8 @@
 import {
-  Avatar, Box, HStack, Link, Text, VStack
+  Avatar, Box, Flex, HStack, Link, Text, VStack
 } from '@metafam/ds';
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
+import { getPersonalityInfo } from 'graphql/getPersonalityInfo';
 import { PersonalityOption } from 'graphql/types';
 import React, { useEffect } from 'react';
 import {
@@ -10,11 +11,10 @@ import {
   getPlayerName,
 } from 'utils/playerHelpers';
 
-import { getPersonalityInfo } from '../../../graphql/getPersonalityInfo';
 import { FlexContainer } from '../../Container';
 import { ProfileSection } from '../../ProfileSection';
+import { ColorBar } from '../ColorBar';
 import { PlayerContacts } from '../PlayerContacts';
-import { ColorImage } from './ColorImage';
 import { PlayerBrightId } from './PlayerBrightId';
 import { PlayerCollab } from './PlayerCollab';
 
@@ -82,20 +82,21 @@ export const PlayerHero: React.FC<Props> = ({ player }) => {
           <PlayerCollab player={player} />
         </Box>
         {type && types && (
-          <HStack spacing={4} w='100%'>
-            <ColorImage {...{ type, types }} maxH='8rem'/>
-            <FlexContainer align="stretch">
-              <Text color="white" fontWeight="bold">
-                <Link
-                  isExternal
-                  href={`//metafam.github.io/5-color-radar/#/combos/${type.mask.toString(2)}`}
-                >
-                  {type.name}
-                </Link>
-              </Text>
-              <Text color="blueLight">{type.description}</Text>
-            </FlexContainer>
-          </HStack>
+          <Flex direction="column" spacing={2} w="100%">
+            <Text fontSize="xs" color="blueLight" casing="uppercase" mb={3}>
+              Color Disposition
+            </Text>
+            <Link
+              isExternal
+              href={`//metafam.github.io/5-color-radar/#/combos/${type.mask.toString(2)}`}
+              maxW='100%'
+            >
+              <Flex justify="center">
+                <ColorBar mask={type.mask} maxH='4rem'/>
+              </Flex>
+            </Link>
+            <Text color="blueLight">{type.description}</Text>
+          </Flex>
         )}
         {player.playerType?.title && (
           <FlexContainer align="stretch">

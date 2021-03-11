@@ -17,7 +17,7 @@ import { PersonalityOption } from 'graphql/types';
 import { useUser } from 'lib/hooks';
 import React, { SetStateAction,useState } from 'react';
 
-import { ColorBar } from './ColorBar';
+import { ColorBar } from '../Player/ColorBar';
 
 export type SetupPersonalityTypeProps = {
   // component parts: white, red, etc.
@@ -35,7 +35,6 @@ export const SetupPersonalityType: (
   React.FC<SetupPersonalityTypeProps>
 ) = ({
   personalityParts,
-  personalityTypes,
   colorMask,
   setColorMask,
 }) => {
@@ -150,18 +149,18 @@ export const SetupPersonalityType: (
                 }
               >
                 <Image
-                  w='100%' maxW={16} h={16}
+                  w="100%" maxW={16} h={16}
                   src={image} alt={label}
-                  filter='drop-shadow(0px 0px 6px black)'
+                  filter="drop-shadow(0px 0px 6px black)"
                 />
                 <FlexContainer align="stretch" ml={2}>
                   <Text
-                    color='white' fontWeight='bold'
+                    color="white" fontWeight="bold"
                     style={{ textTransform: 'uppercase' }}
                   >
                     {label}
                   </Text>
-                  <Text color='blueLight'>{option?.description}</Text>
+                  <Text color="blueLight">{option?.description}</Text>
                 </FlexContainer>
               </FlexContainer>
             )
@@ -169,11 +168,7 @@ export const SetupPersonalityType: (
         )}
       </FlexContainer>
 
-      <ColorBar
-        mask={colorMask}
-        types={personalityTypes}
-        parts={personalityParts}
-      />
+      <ColorBar mask={colorMask}/>
 
       <MetaButton
         onClick={handleNextPress}

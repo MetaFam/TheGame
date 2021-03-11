@@ -1,36 +1,71 @@
 import {
-  Box, Flex, Grid, Image, ResponsiveText
+  Box, Flex, Grid, Image, ResponsiveText, Text, TextProps
 } from '@metafam/ds';
-import BackImage from 'assets/Back.svg';
 import LogoImage from 'assets/logo.png';
-import SkipImage from 'assets/Skip.svg';
 import { FlexContainer } from 'components/Container';
 import { useSetupFlow } from 'contexts/SetupContext';
 import React from 'react';
 
 export const SetupHeader: React.FC = () => {
-  const { stepIndex, onNextPress, onBackPress, options } = useSetupFlow();
+  const {
+    stepIndex, options,
+    onNextPress, onBackPress,
+    onStartPress, onEndPress,
+  } = useSetupFlow();
   const { sectionIndex } = options.steps[stepIndex];
 
+  const Nav = (
+    { children, ...props }: TextProps
+  ) => (
+    <Text
+      fontFamily="'Press Start 2P'" fontSize={30}
+      cursor="pointer"
+      {...props}
+    >
+      {children}
+    </Text>
+  )
+
   return (
-    <Grid templateColumns="0.5fr 1fr 1fr 1fr 0.5fr" gap="1rem" w="100%">
+    <Grid
+      templateColumns={[
+        '[left] 1fr [center] 1fr [right] 1fr',
+        '[left] 0.25fr [center] 1fr [right] 0.25fr',
+      ]}
+      gap="0.75rem" w="100%"
+    >
       <FlexContainer
-        justify="flex-end" onClick={onBackPress} cursor="pointer"
+        gridColumnStart="left"
+        gridRow={1}
+        direction="row"
+        justify="space-around"
       >
-        <Image src={BackImage} h="1rem" alt="Back" />
+        <Nav onClick={onStartPress}>«</Nav>
+        <Nav onClick={onBackPress}>&lt;</Nav>
       </FlexContainer>
-      {options.sections.map((option, id) => (
-        <SectionProgress
-          key={option.label}
-          title={option.title}
-          isActive={sectionIndex === id}
-          isDone={sectionIndex > id}
-        />
-      ))}
       <FlexContainer
-        justify="flex-end" onClick={onNextPress} cursor="pointer"
+        gridColumn={['left / span 3', 'center']}
+        gridRow={[2, 1]}
+        direction="row"
+        w='100%'
       >
-        <Image src={SkipImage} h="1rem" alt="Forward" />
+        {options.sections.map((option, id) => (
+          <SectionProgress
+            key={option.label}
+            title={option.title}
+            isActive={sectionIndex === id}
+            isDone={sectionIndex > id}
+          />
+        ))}
+      </FlexContainer>
+      <FlexContainer
+        gridColumnStart="right"
+        gridRow={1}
+        justify="space-around"
+        direction="row"
+      >
+        <Nav onClick={onNextPress}>&gt;</Nav>
+        <Nav onClick={onEndPress}>»</Nav>
       </FlexContainer>
     </Grid>
   );
@@ -53,7 +88,7 @@ export const SectionProgress: React.FC<StepProps> = ({
   );
 
   return (
-    <FlexContainer pos="relative">
+    <FlexContainer pos="relative" grow={1} mr={3}>
       <ResponsiveText
         w="100%"
         textTransform="uppercase"

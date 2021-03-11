@@ -11,6 +11,8 @@ type SetupContextType = {
   stepIndex: number;
   onNextPress: () => void;
   onBackPress: () => void;
+  onStartPress: () => void;
+  onEndPress: () => void;
   nextButtonLabel: string;
 };
 
@@ -20,15 +22,15 @@ export const SetupContext = (
     stepIndex: 0,
     onNextPress: () => {},
     onBackPress: () => {},
+    onStartPress: () => {},
+    onEndPress: () => {},
     nextButtonLabel: 'Next Step',
   })
 );
 
 export const SetupContextProvider: React.FC = (
   ({ children }) => {
-    const options = useMemo(() => {
-      return new SetupOptions();
-    }, []);
+    const options = useMemo(() => new SetupOptions(), []);
 
     const router = useRouter();
 
@@ -71,6 +73,15 @@ export const SetupContextProvider: React.FC = (
       }
     }, [router, options, stepIndex]);
 
+    const onStartPress = () => {
+      router.push('/');
+    }
+
+    const onEndPress = () => {
+      const lastStep = options.steps.slice(-1)[0];
+      router.push(`${urlPrefix}${lastStep.slug}`);
+    }
+
     return (
       <SetupContext.Provider
         value={{
@@ -78,6 +89,8 @@ export const SetupContextProvider: React.FC = (
           stepIndex,
           onNextPress,
           onBackPress,
+          onStartPress,
+          onEndPress,
           nextButtonLabel,
         }}
       >
