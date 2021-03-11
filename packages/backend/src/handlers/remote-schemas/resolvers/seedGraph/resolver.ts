@@ -1,12 +1,12 @@
 import { seedGraphClient } from '../../../../lib/seedGraphClient';
 import { QueryResolvers } from '../../autogen/types';
 
-export const getTokenBalance: QueryResolvers['getTokenBalance'] = async (
+export const getTokenBalances: QueryResolvers['getTokenBalances'] = async (
   _,
   { address },
 ) => {
   if (!address) return null;
-  const res = await seedGraphClient.GetTokenBalance({
+  const res = await seedGraphClient.GetTokenBalances({
     address: address.toLowerCase(),
   });
 
