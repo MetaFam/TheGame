@@ -3,7 +3,7 @@ import { Client } from '@typeit/discord';
 
 import { CONFIG } from './config';
 
-async function start() {
+async function createDiscordClient(): Promise<Client> {
   const client = new Client({
     classes: [
       `${__dirname}/*Discord.ts`, // glob string to load the classes
@@ -14,6 +14,10 @@ async function start() {
   });
 
   await client.login(CONFIG.discordBotToken);
+
+  return client;
 }
 
-start();
+createDiscordClient();
+
+export { createDiscordClient };

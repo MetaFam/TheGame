@@ -1,4 +1,9 @@
-import { Theme as ChakraTheme, theme as baseTheme } from '@chakra-ui/react';
+import {
+  Theme as ChakraTheme,
+  theme as baseTheme,
+} from '@chakra-ui/react';
+
+type ColorHues = typeof baseTheme.colors.red;
 
 export type MetaColors = ChakraTheme['colors'] & {
   offwhite: string;
@@ -17,12 +22,11 @@ export type MetaColors = ChakraTheme['colors'] & {
   discordDark: string;
   bronze: string;
   purple80: string;
-  brightId: string;
+  brightIdOrange: ColorHues;
 };
 
 export const colors: MetaColors = {
   ...baseTheme.colors,
-  brightId: '#fb8a61',
   diamond: '#40e8ec',
   platinum: '#81b6e3',
   gold: '#d0a757',
@@ -62,5 +66,17 @@ export const colors: MetaColors = {
     700: '#230d74',
     800: '#150747',
     900: '#07021d',
+  },
+  brightIdOrange: {
+    50: '#ffffff',
+    100: '#ffffff',
+    200: '#ffebdf',
+    300: '#ffc7b1',
+    400: '#fda382',
+    500: '#fb8a61',
+    600: '#f85a20',
+    700: '#ae3204',
+    800: '#4d1300',
+    900: '#1f0400',
   },
 };

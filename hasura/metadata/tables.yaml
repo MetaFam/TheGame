@@ -346,6 +346,17 @@
       interval_sec: 10
       timeout_sec: 60
     webhook_from_env: TRIGGERS_ENDPOINT
+  - name: player_rank_updated
+    definition:
+      enable_manual: false
+      update:
+        columns:
+        - rank
+    retry_conf:
+      num_retries: 0
+      interval_sec: 10
+      timeout_sec: 60
+    webhook_from_env: TRIGGERS_ENDPOINT
 - table:
     schema: public
     name: player_account

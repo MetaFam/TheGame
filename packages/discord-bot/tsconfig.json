@@ -3,6 +3,7 @@
   "compilerOptions": {
     "lib": ["es2017", "esnext.asynciterable"],
     "target": "es2017",
+    "composite": true,
     "module": "commonjs",
     "rootDir": "src",
     "outDir": "dist",

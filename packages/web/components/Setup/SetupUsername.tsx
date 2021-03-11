@@ -3,9 +3,7 @@ import { FlexContainer } from 'components/Container';
 import { useSetupFlow } from 'contexts/SetupContext';
 import { useUpdatePlayerUsernameMutation } from 'graphql/autogen/types';
 import { useUser } from 'lib/hooks';
-import React, { useEffect, useState } from 'react';
-
-const USERNAME_REGEX = /^[a-zA-Z0-9](_(?!(\.|_))|\.(?!(_|\.))|[a-zA-Z0-9]){2,18}[a-zA-Z0-9]$/;
+import React from 'react';
 
 export type SetupUsernameProps = {
   username: string | undefined;
@@ -15,14 +13,8 @@ export type SetupUsernameProps = {
 export const SetupUsername: React.FC<SetupUsernameProps> = (
   ({ username = '', setUsername }) => {
     const { onNextPress, nextButtonLabel } = useSetupFlow();
-    const [invalid, setInvalid] = useState(false);
     const { user } = useUser({ redirectTo: '/' });
     const toast = useToast();
-
-    useEffect(() => {
-      setInvalid(!USERNAME_REGEX.test(username));
-    }, [username]);
-
     const [updateUsernameRes, updateUsername] = (
       useUpdatePlayerUsernameMutation()
     );
@@ -36,17 +28,17 @@ export const SetupUsername: React.FC<SetupUsernameProps> = (
       });
 
       if (error) {
-        let errorDescription = 'The octo is sad. 😢';
+        let errorDetail = 'The octo is sad 😢';
         if (/uniqueness violation/i.test(error.message)) {
-          errorDescription = 'Username already taken.';
+          errorDetail = 'This username is already taken. 😢';
+        } else if (error.message.includes('username_is_valid')) {
+          errorDetail = 'A username can only contain letters, numbers, and dashes.';
         } else {
           console.warn(error); // eslint-disable-line no-console
         }
         toast({
           title: 'Error',
-          description: (
-            `Unable to update player's username. ${errorDescription}`
-          ),
+          description: `Unable to update player's username. ${errorDetail}`,
           status: 'error',
           isClosable: true,
         });
@@ -55,11 +47,11 @@ export const SetupUsername: React.FC<SetupUsernameProps> = (
 
       onNextPress();
     };
-
+    
     return (
       <FlexContainer>
         <MetaHeading mb={10} textAlign="center">
-          What username would you like?
+          What user&#xAD;name would you like?
         </MetaHeading>
         <Input
           background="dark"
@@ -69,13 +61,11 @@ export const SetupUsername: React.FC<SetupUsernameProps> = (
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
             setUsername(e.target.value)
           }}
-          isInvalid={invalid}
         />
 
         <MetaButton
           onClick={handleNextPress}
           mt={10}
-          isDisabled={invalid}
           isLoading={updateUsernameRes.fetching}
           loadingText="Saving"
         >
