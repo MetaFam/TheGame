@@ -7,7 +7,7 @@ export const typeDefs = gql`
     getBoxProfile(address: String): BoxProfile
     getDaoHausMemberships(memberAddress: String): [Member!]!
     getBrightIdStatus(contextId: uuid): BrightIdStatus
-    getTokenBalance(address: String): UserToken
+    getTokenBalances(address: String): UserToken
   }
 
   type BrightIdStatus {
