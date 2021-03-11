@@ -40,8 +40,8 @@ export const typeDefs = gql`
     summoner: String!
     title: String
     version: String
-    totalShares: Int!
-    totalLoot: Int!
+    totalShares: String!
+    totalLoot: String!
   }
 
   type Member {
@@ -51,8 +51,8 @@ export const typeDefs = gql`
     molochAddress: String!
     memberAddress: String!
     delegateKey: String!
-    shares: Int!
-    loot: Int
+    shares: String!
+    loot: String
     exists: Boolean!
     kicked: Boolean
   }
