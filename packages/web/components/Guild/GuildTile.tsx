@@ -20,7 +20,7 @@ type Props = {
 };
 
 export const GuildTile: React.FC<Props> = ({ guild }) => (
-  <MetaTile key={guild.id}>
+  <MetaTile>
     <MetaTileHeader>
       <VStack>
         {guild.logo ? (

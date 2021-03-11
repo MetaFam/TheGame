@@ -30,7 +30,7 @@ type Props = {
 
 export const PatronTile: React.FC<Props> = ({ player }) => {
   return (
-    <MetaTile key={player.id}>
+    <MetaTile>
       <Box
         bgImage={`url(${getPlayerCoverImage(player)})`}
         bgSize="cover"
