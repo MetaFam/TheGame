@@ -1770,19 +1770,19 @@ type Member {
   exists: Boolean!
   id: ID!
   kicked: Boolean
-  loot: Int
+  loot: String
   memberAddress: String!
   moloch: Moloch!
   molochAddress: String!
-  shares: Int!
+  shares: String!
 }
 
 type Moloch {
   id: ID!
   summoner: String!
   title: String
-  totalLoot: Int!
-  totalShares: Int!
+  totalLoot: String!
+  totalShares: String!
   version: String
 }
 
