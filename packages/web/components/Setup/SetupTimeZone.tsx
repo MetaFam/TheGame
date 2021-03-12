@@ -20,7 +20,6 @@ export const SetupTimeZone: React.FC<SetupTimezoneProps> = ({timeZone, setTimeZo
   const { user } = useUser({ redirectTo: '/' });
   const toast = useToast();
   const [updateProfileRes, updateProfile] = useUpdateProfileMutation();
-  //const [open, setOpen] = useState(false);
 
   const handleNextPress = async () => {
     if (!user) return;
@@ -56,14 +55,12 @@ export const SetupTimeZone: React.FC<SetupTimezoneProps> = ({timeZone, setTimeZo
           value={timeZone}
           onChange={tz => setTimeZone(tz.value)}
           labelStyle='abbrev'
-          // autoFocus // ToDo: this works, but the typescript isn't happy
-          // onMenuOpen={() => setOpen(true)}
-          // onMenuClose={() => setOpen(false)}
-          // onKeyDown={(evt: React.KeyboardEvent) => {
-          //   if (!open && evt.key === 'Enter') {
-          //     handleNextPress()
-          //   }
-          // }}
+          autoFocus
+          onKeyDown={(evt: React.KeyboardEvent) => {
+            if (evt.key === 'Enter') {
+              handleNextPress()
+            }
+          }}
         />
       </FlexContainer>
       <MetaButton 

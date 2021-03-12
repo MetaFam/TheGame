@@ -45,10 +45,13 @@ export const selectStyles: Styles = {
   }),
 };
 
+export type SelectInteractiveProps = {
+  autoFocus?: boolean | undefined;
+  onKeyDown?: (x: React.KeyboardEvent) => void;
+}
+
 export const SelectTimeZone: (
-  React.FC<TimezoneSelectProps>
-  // This is my unsuccessful attempt to pass these
-  & { autoFocus?: boolean, onMenuOpen?: () => void }
+  React.FC<TimezoneSelectProps & SelectInteractiveProps>
 ) = (
   (props) => (
     <TimezoneSelect styles={selectStyles} {...props} />
