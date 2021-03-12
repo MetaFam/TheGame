@@ -1,4 +1,5 @@
 import { PageContainer } from 'components/Container';
+import { GuildJoin } from 'components/Guild/GuildJoin';
 import { InferGetStaticPropsType } from 'next';
 import React from 'react';
 
@@ -14,7 +15,7 @@ export const getStaticProps = async () => {
 
 const SetupGuild: React.FC<Props> = () => (
   <PageContainer>
-    
+    <GuildJoin />
   </PageContainer>
 );
 

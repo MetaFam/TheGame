@@ -49,6 +49,8 @@ export {
   InputRightAddon,
   Link,
   List,
+  ListIcon,
+  ListItem,
   Modal,
   ModalCloseButton,
   ModalContent,
