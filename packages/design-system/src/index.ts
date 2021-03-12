@@ -1,5 +1,3 @@
-import { chakra } from '@chakra-ui/react';
-
 export {
   Avatar,
   Badge,
@@ -51,8 +49,7 @@ export {
   TextProps
 } from '@chakra-ui/layout/dist/types/text';
 
-export const SVG = chakra('svg');
-
+export { SVG } from './SVG';
 export { theme as MetaTheme } from './theme';
 export { Icon3box, BrightIdIcon } from './icons';
 export { EmailIcon } from '@chakra-ui/icons';
