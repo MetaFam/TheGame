@@ -15,14 +15,12 @@ import { useUpdateAboutYouMutation } from 'graphql/autogen/types';
 import { MetaGameAliases } from 'graphql/getPersonalityInfo'
 import { PersonalityOption } from 'graphql/types';
 import { useUser } from 'lib/hooks';
-import React, { SetStateAction,useState } from 'react';
+import React, { SetStateAction,useEffect,useState } from 'react';
+import { useRef } from 'react';
 
 import { ColorBar } from '../Player/ColorBar';
 
 export type SetupPersonalityTypeProps = {
-  // component parts: white, red, etc.
-  personalityParts: Array<PersonalityOption>;
-  // final combinations: Jund Shard, Izzet Syndicate, etc.
   // keyed on a bitmask of the format 0bWUBRG
   personalityTypes: { [x: number]: PersonalityOption };
   colorMask: number | undefined;
@@ -34,7 +32,7 @@ export type SetupPersonalityTypeProps = {
 export const SetupPersonalityType: (
   React.FC<SetupPersonalityTypeProps>
 ) = ({
-  personalityParts,
+  personalityTypes,
   colorMask,
   setColorMask,
 }) => {
@@ -109,21 +107,25 @@ export const SetupPersonalityType: (
         grow={1} spacing={8} maxW='70rem'
         direction='row' wrap='wrap'
       >
-        {Object.entries(MetaGameAliases).map(
-          ([orig, { image, label }]) => {
-            const option = personalityParts.find(p => p.name === orig)
+        {Object.entries(MetaGameAliases)
+        .reverse().map(
+          ([orig, { image, label }], idx) => {
+            const option = personalityTypes[parseInt(orig)]
             const { mask = 0 } = (option ?? {})
             const selected = (((colorMask ?? 0) & mask) > 0)
 
             return (
               <FlexContainer
                 key={mask}
-                direction='row'
+                direction="row"
                 p={6} m={2} spacing={4}
-                borderRadius='0.5rem'
-                cursor='pointer'
+                borderRadius="0.5rem"
+                cursor="pointer"
                 tabIndex={0}
                 onClick={() => toggleMaskElement(mask)}
+                autoFocus={idx === 0}
+                // ToDo: Switch to a Button so this will work
+                ref={input => idx === 0 && input?.focus()}
                 onFocus={() => setFocused(mask)}
                 onBlur={() => setFocused(null)}
                 onKeyPress={(e) => {

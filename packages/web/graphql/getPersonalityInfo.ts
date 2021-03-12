@@ -21,15 +21,25 @@ const AspectsQuery = gql`
 
 /* MetaGame has it's own naming convention and images
  * for the pure colors.
- */ 
+ */
 export const MetaGameAliases: {
-  [x: string]: { label: string, image: string }
+  [x: number]: { label: string, image: string }
 } = {
-  White: { label: 'Justice', image: JusticeAltImg },
-  Blue: { label: 'Wisdom', image: WisdomAltImg },
-  Black: { label: 'Ambition', image: AmbitionAltImg },
-  Red: { label: 'Chaos', image: ChaosAltImg },
-  Green: { label: 'Balance', image: BalanceAltImg },
+  0b10000: { label: 'Justice', image: JusticeAltImg },
+  0b01000: { label: 'Wisdom', image: WisdomAltImg },
+  0b00100: { label: 'Ambition', image: AmbitionAltImg },
+  0b00010: { label: 'Chaos', image: ChaosAltImg },
+  0b00001: { label: 'Balance', image: BalanceAltImg },
+};
+
+export const colors: {
+  [x: number]: string
+} = {
+  0b10000: '#c4aab4',
+  0b01000: '#0273b2',
+  0b00100: '#141a36',
+  0b00010: '#b72d5b',
+  0b00001: '#36ae60',
 };
 
 export const getPersonalityInfo = async (): Promise<{

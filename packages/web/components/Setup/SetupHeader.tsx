@@ -20,6 +20,7 @@ export const SetupHeader: React.FC = () => {
     <Text
       fontFamily="'Press Start 2P'" fontSize={30}
       cursor="pointer"
+      _hover={{ color: 'cyan' }}
       {...props}
     >
       {children}
@@ -47,7 +48,6 @@ export const SetupHeader: React.FC = () => {
         gridColumn={['left / span 3', 'center']}
         gridRow={[2, 1]}
         direction="row"
-        w='100%'
       >
         {options.sections.map((option, id) => (
           <SectionProgress

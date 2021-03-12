@@ -45,6 +45,10 @@ export const selectStyles: Styles = {
   }),
 };
 
-export const SelectTimeZone: React.FC<TimezoneSelectProps> = (props) => (
-  <TimezoneSelect styles={selectStyles} {...props} />
+export const SelectTimeZone: (
+  React.FC<TimezoneSelectProps> & { autoFocus?: boolean }
+) = (
+  (props) => (
+    <TimezoneSelect styles={selectStyles} {...props} />
+  )
 );

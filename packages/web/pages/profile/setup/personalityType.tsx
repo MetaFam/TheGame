@@ -20,7 +20,7 @@ export const getStaticProps = async () => {
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
 const PersonalityTypeSetup: React.FC<Props> = (props) => {
-  const { personalityParts, personalityTypes } = props;
+  const { personalityTypes } = props;
   const { user } = useUser({ redirectTo: '/' });
   const [colorMask, setColorMask] = (
     useState<number | undefined>(user?.player?.ColorAspect?.mask)
@@ -41,7 +41,6 @@ const PersonalityTypeSetup: React.FC<Props> = (props) => {
       <SetupProfile>
         <SetupPersonalityType
           {...{
-            personalityParts,
             personalityTypes,
             colorMask,
             setColorMask,

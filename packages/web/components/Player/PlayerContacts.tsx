@@ -65,8 +65,8 @@ export const PlayerContacts: React.FC<Props> = ({ player }) => {
             <Button
               onClick={() =>
                 player.ethereum_address
-                  ? handleCopy(player.ethereum_address.toLowerCase())
-                  : undefined
+                ? handleCopy(player.ethereum_address.toLowerCase())
+                : undefined
               }
               size="xs"
               colorScheme="blackAlpha"

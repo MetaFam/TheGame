@@ -11,7 +11,7 @@ import { useSetupFlow } from 'contexts/SetupContext';
 import { SkillCategory_Enum, useUpdatePlayerSkillsMutation } from 'graphql/autogen/types';
 import { SkillColors } from 'graphql/types';
 import { useUser } from 'lib/hooks';
-import React from 'react';
+import React, { useState } from 'react';
 import { CategoryOption, SkillOption } from 'utils/skillHelpers';
 
 export type SetupSkillsProps = {
@@ -31,8 +31,10 @@ export const SetupSkills: React.FC<SetupSkillsProps> = ({
   } = useSetupFlow();
   const { user } = useUser({ redirectTo: '/' });
   const toast = useToast();
-  
-  const [updateSkillsRes, updateSkills] = useUpdatePlayerSkillsMutation();
+  const [updateSkillsRes, updateSkills] = (
+    useUpdatePlayerSkillsMutation()
+  );
+  const [open, setOpen] = useState(false);
 
   const handleNextPress = async () => {
     if (!user) return;
@@ -93,6 +95,11 @@ export const SetupSkills: React.FC<SetupSkillsProps> = ({
           closeMenuOnSelect={false}
           placeholder="ADD YOUR SKILLS"
           maxMenuHeight={600}
+          onMenuOpen={() => setOpen(true)}
+          onMenuClose={() => setOpen(false)}
+          onKeyDown={(evt) => {
+            !open && evt.key === 'Enter' && handleNextPress()
+          }}
         />
       </FlexContainer>
       <MetaButton 

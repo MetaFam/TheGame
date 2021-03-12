@@ -5,6 +5,7 @@ import { FlexContainer } from "components/Container";
 import {
   getPersonalityInfo,
   MetaGameAliases,
+  colors,
 } from "graphql/getPersonalityInfo";
 import { PersonalityOption } from "graphql/types";
 import React, { useEffect, useState } from "react";
@@ -26,7 +27,8 @@ const maskImageStyle = (
 
 /* The color bar is below the attribute selection screen,
   * and shows an equally proportioned set of colors with
-  * monochrome icons above them.
+  * monochrome icons above them and a term for the
+  * combination below.
   */
 export const ColorBar = (
   (
@@ -54,7 +56,7 @@ export const ColorBar = (
         <Flex maxW='100%' w='30rem' minH='1.5rem' mb='1rem'>
           {parts.map((part) => {
             const set = ((mask & part.mask) !== 0)
-            const alias = MetaGameAliases[part.name]
+            const alias = MetaGameAliases[part.mask]
 
             return (
               !set // if the bit isn't set
@@ -111,7 +113,7 @@ export const ColorBar = (
                   </defs>
                   <rect
                     width='100%' height='100%'
-                    fill={part.name.toLowerCase()}
+                    fill={colors[part.mask]}
                   />
                   <rect
                     width='100%' height='100%'

@@ -8,7 +8,7 @@ import { FlexContainer } from 'components/Container';
 import { useSetupFlow } from 'contexts/SetupContext';
 import { useUpdateProfileMutation } from 'graphql/autogen/types';
 import { useUser } from 'lib/hooks';
-import React from 'react';
+import React, { useState } from 'react';
 
 export type SetupTimezoneProps = {
   timeZone: string;
@@ -16,13 +16,11 @@ export type SetupTimezoneProps = {
 }
 
 export const SetupTimeZone: React.FC<SetupTimezoneProps> = ({timeZone, setTimeZone}) => {
-  const {
-    onNextPress,
-    nextButtonLabel
-  } = useSetupFlow();
+  const { onNextPress, nextButtonLabel } = useSetupFlow();
   const { user } = useUser({ redirectTo: '/' });
   const toast = useToast();
   const [updateProfileRes, updateProfile] = useUpdateProfileMutation();
+  const [open, setOpen] = useState(false);
 
   const handleNextPress = async () => {
     if (!user) return;
@@ -58,6 +56,12 @@ export const SetupTimeZone: React.FC<SetupTimezoneProps> = ({timeZone, setTimeZo
           value={timeZone}
           onChange={tz => setTimeZone(tz.value)}
           labelStyle='abbrev'
+          autoFocus
+          onMenuOpen={() => setOpen(true)}
+          onMenuClose={() => setOpen(false)}
+          onKeyDown={(evt: React.KeyboardEvent) => {
+            !open && evt.key === 'Enter' && handleNextPress()
+          }}
         />
       </FlexContainer>
       <MetaButton 

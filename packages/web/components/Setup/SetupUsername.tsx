@@ -57,6 +57,8 @@ export const SetupUsername: React.FC<SetupUsernameProps> = (
           background="dark"
           placeholder="USERNAME"
           value={username}
+          autoFocus={true} // doesn't work
+          ref={input => input?.focus()}
           onKeyDown={e => e.key === 'Enter' && handleNextPress()}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
             setUsername(e.target.value)

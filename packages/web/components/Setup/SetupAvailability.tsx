@@ -83,6 +83,7 @@ export const SetupAvailability: React.FC<SetupAvailabilityProps> = ({
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
             setAvailability(e.target.value)
           }}
+          ref={input => input?.focus()}
           isInvalid={invalid}
         />
         <InputRightAddon background="purpleBoxDark">hr/week</InputRightAddon>
