@@ -18,4 +18,8 @@ export const CONFIG = {
     process.env.NEXT_BRIGHTID_APP_URL || 'https://app.brightid.org',
   brightIdNodeUrl:
     process.env.NEXT_BRIGHTID_NODE_URL || 'http:%2f%2fnode.brightid.org',
+  discordBotClientId: 
+    process.env.NEXT_DISCORD_BOT_CLIENT_ID || '808843072980647986',
+  backendUrl:
+    process.env.NEXT_BACKEND_URL || 'http://localhost:4000'
 };
