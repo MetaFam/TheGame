@@ -3,9 +3,9 @@
 import { Box, ChakraProps, Flex, SVG } from "@metafam/ds";
 import { FlexContainer } from "components/Container";
 import {
+  colors,
   getPersonalityInfo,
   MetaGameAliases,
-  colors,
 } from "graphql/getPersonalityInfo";
 import { PersonalityOption } from "graphql/types";
 import React, { useEffect, useState } from "react";

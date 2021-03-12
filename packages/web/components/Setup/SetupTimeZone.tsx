@@ -60,7 +60,9 @@ export const SetupTimeZone: React.FC<SetupTimezoneProps> = ({timeZone, setTimeZo
           onMenuOpen={() => setOpen(true)}
           onMenuClose={() => setOpen(false)}
           onKeyDown={(evt: React.KeyboardEvent) => {
-            !open && evt.key === 'Enter' && handleNextPress()
+            if (!open && evt.key === 'Enter') {
+              handleNextPress()
+            }
           }}
         />
       </FlexContainer>

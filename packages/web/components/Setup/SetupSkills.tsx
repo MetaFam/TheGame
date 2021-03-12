@@ -98,7 +98,9 @@ export const SetupSkills: React.FC<SetupSkillsProps> = ({
           onMenuOpen={() => setOpen(true)}
           onMenuClose={() => setOpen(false)}
           onKeyDown={(evt) => {
-            !open && evt.key === 'Enter' && handleNextPress()
+            if (!open && evt.key === 'Enter') {
+              handleNextPress()
+            }
           }}
         />
       </FlexContainer>

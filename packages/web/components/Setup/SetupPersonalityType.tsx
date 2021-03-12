@@ -15,8 +15,7 @@ import { useUpdateAboutYouMutation } from 'graphql/autogen/types';
 import { MetaGameAliases } from 'graphql/getPersonalityInfo'
 import { PersonalityOption } from 'graphql/types';
 import { useUser } from 'lib/hooks';
-import React, { SetStateAction,useEffect,useState } from 'react';
-import { useRef } from 'react';
+import React, { SetStateAction, useState } from 'react';
 
 import { ColorBar } from '../Player/ColorBar';
 
@@ -110,7 +109,7 @@ export const SetupPersonalityType: (
         {Object.entries(MetaGameAliases)
         .reverse().map(
           ([orig, { image, label }], idx) => {
-            const option = personalityTypes[parseInt(orig)]
+            const option = personalityTypes[parseInt(orig, 10)]
             const { mask = 0 } = (option ?? {})
             const selected = (((colorMask ?? 0) & mask) > 0)
 
