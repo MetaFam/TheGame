@@ -46,7 +46,9 @@ export const selectStyles: Styles = {
 };
 
 export const SelectTimeZone: (
-  React.FC<TimezoneSelectProps> & { autoFocus?: boolean }
+  React.FC<TimezoneSelectProps>
+  // This is my unsuccessful attempt to pass these
+  & { autoFocus?: boolean, onMenuOpen?: () => void }
 ) = (
   (props) => (
     <TimezoneSelect styles={selectStyles} {...props} />
