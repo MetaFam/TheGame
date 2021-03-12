@@ -11,8 +11,7 @@ async function createPlayer(ethAddress: string) {
   return resProfile.insert_player.returning[0];
 }
 
-export async function getOrCreatePlayer(ethereumAddress: string) {
-  const ethAddress = ethereumAddress.toLowerCase();
+export async function getOrCreatePlayer(ethAddress: string) {
   const res = await client.GetPlayerFromETH({
     ethereum_address: ethAddress,
   });
