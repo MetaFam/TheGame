@@ -3147,7 +3147,7 @@ type player {
   timezone: String
 
   """Remote relationship field"""
-  token_balance: UserToken
+  token_balances: UserToken
   total_xp: numeric
   updated_at: timestamptz
   username: String!
@@ -4520,7 +4520,7 @@ type Query {
   getBoxProfile(address: String): BoxProfile
   getBrightIdStatus(contextId: uuid): BrightIdStatus
   getDaoHausMemberships(memberAddress: String): [Member!]!
-  getTokenBalance(address: String): UserToken
+  getTokenBalances(address: String): UserToken
 }
 
 """query root"""
@@ -4873,7 +4873,7 @@ type query_root {
   getBoxProfile(address: String): BoxProfile
   getBrightIdStatus(contextId: uuid): BrightIdStatus
   getDaoHausMemberships(memberAddress: String): [Member!]!
-  getTokenBalance(address: String): UserToken
+  getTokenBalances(address: String): UserToken
 
   """
   fetch data from the table: "guild"

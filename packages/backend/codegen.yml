@@ -42,7 +42,7 @@ generates:
   ./src/lib/autogen/seedgraph-sdk.ts:
     schema: 'https://api.thegraph.com/subgraphs/name/dan13ram/seed-graph'
     documents:
-      - ./src/handlers/remote-schemas/resolvers/getTokenBalance/**/(!(*.d)).ts
+      - ./src/handlers/remote-schemas/resolvers/seedGraph/**/(!(*.d)).ts
     plugins:
       - typescript
       - typescript-operations
