@@ -448,7 +448,10 @@ type guild {
   GuildType: GuildType!
   description: String
   discord_id: String
-  discord_invite_url: String
+  discord_metadata(
+    """JSON select path"""
+    path: String
+  ): jsonb
 
   """An array relationship"""
   guild_accounts(
@@ -794,6 +797,11 @@ input guild_aggregate_order_by {
   min: guild_min_order_by
 }
 
+"""append existing jsonb value of filtered columns with new jsonb value"""
+input guild_append_input {
+  discord_metadata: jsonb
+}
+
 """
 input type for inserting array relation for remote table "guild"
 """
@@ -812,7 +820,7 @@ input guild_bool_exp {
   _or: [guild_bool_exp]
   description: String_comparison_exp
   discord_id: String_comparison_exp
-  discord_invite_url: String_comparison_exp
+  discord_metadata: jsonb_comparison_exp
   guild_accounts: guild_account_bool_exp
   guild_players: guild_player_bool_exp
   guildname: String_comparison_exp
@@ -842,13 +850,35 @@ enum guild_constraint {
 }
 
 """
+delete the field or element with specified path (for JSON arrays, negative integers count from the end)
+"""
+input guild_delete_at_path_input {
+  discord_metadata: [String]
+}
+
+"""
+delete the array element with specified index (negative integers count from the
+end). throws an error if top level container is not an array
+"""
+input guild_delete_elem_input {
+  discord_metadata: Int
+}
+
+"""
+delete key/value pair or string element. key/value pairs are matched based on their key value
+"""
+input guild_delete_key_input {
+  discord_metadata: String
+}
+
+"""
 input type for inserting data into table "guild"
 """
 input guild_insert_input {
   GuildType: GuildType_obj_rel_insert_input
   description: String
   discord_id: String
-  discord_invite_url: String
+  discord_metadata: jsonb
   guild_accounts: guild_account_arr_rel_insert_input
   guild_players: guild_player_arr_rel_insert_input
   guildname: String
@@ -867,11 +897,6 @@ input guild_insert_input {
 type guild_max_fields {
   description: String
   discord_id: String
-  discord_invite_url: String
-  guildname: String
-  id: uuid
-  join_button_url: String
-  logo: String
   moloch_address: String
   name: String
   website_url: String
@@ -883,7 +908,6 @@ order by max() on columns of table "guild"
 input guild_max_order_by {
   description: order_by
   discord_id: order_by
-  discord_invite_url: order_by
   guildname: order_by
   id: order_by
   join_button_url: order_by
@@ -897,7 +921,6 @@ input guild_max_order_by {
 type guild_min_fields {
   description: String
   discord_id: String
-  discord_invite_url: String
   guildname: String
   id: uuid
   join_button_url: String
@@ -913,7 +936,6 @@ order by min() on columns of table "guild"
 input guild_min_order_by {
   description: order_by
   discord_id: order_by
-  discord_invite_url: order_by
   guildname: order_by
   id: order_by
   join_button_url: order_by
@@ -958,7 +980,7 @@ input guild_order_by {
   GuildType: GuildType_order_by
   description: order_by
   discord_id: order_by
-  discord_invite_url: order_by
+  discord_metadata: order_by
   guild_accounts_aggregate: guild_account_aggregate_order_by
   guild_players_aggregate: guild_player_aggregate_order_by
   guildname: order_by
@@ -1162,6 +1184,11 @@ enum guild_player_update_column {
   player_id
 }
 
+"""prepend existing jsonb value of filtered columns with new jsonb value"""
+input guild_prepend_input {
+  discord_metadata: jsonb
+}
+
 """
 select columns of table "guild"
 """
@@ -1173,7 +1200,7 @@ enum guild_select_column {
   discord_id
 
   """column name"""
-  discord_invite_url
+  discord_metadata
 
   """column name"""
   guildname
@@ -1209,7 +1236,7 @@ input type for updating data in table "guild"
 input guild_set_input {
   description: String
   discord_id: String
-  discord_invite_url: String
+  discord_metadata: jsonb
   guildname: String
   id: uuid
   join_button_url: String
@@ -1232,7 +1259,7 @@ enum guild_update_column {
   discord_id
 
   """column name"""
-  discord_invite_url
+  discord_metadata
 
   """column name"""
   guildname
@@ -1676,6 +1703,37 @@ input json_comparison_exp {
   _lte: json
   _neq: json
   _nin: [json!]
+}
+
+scalar jsonb
+
+"""
+expression to compare columns of type jsonb. All fields are combined with logical 'AND'.
+"""
+input jsonb_comparison_exp {
+  """is the column contained in the given json value"""
+  _contained_in: jsonb
+
+  """does the column contain the given json value at the top level"""
+  _contains: jsonb
+  _eq: jsonb
+  _gt: jsonb
+  _gte: jsonb
+
+  """does the string exist as a top-level key in the column"""
+  _has_key: String
+
+  """do all of these strings exist as top-level keys in the column"""
+  _has_keys_all: [String!]
+
+  """do any of these strings exist as top-level keys in the column"""
+  _has_keys_any: [String!]
+  _in: [jsonb!]
+  _is_null: Boolean
+  _lt: jsonb
+  _lte: jsonb
+  _neq: jsonb
+  _nin: [jsonb!]
 }
 
 """
@@ -2776,6 +2834,28 @@ type mutation_root {
   update data of the table: "guild"
   """
   update_guild(
+    """append existing jsonb value of filtered columns with new jsonb value"""
+    _append: guild_append_input
+
+    """
+    delete the field or element with specified path (for JSON arrays, negative integers count from the end)
+    """
+    _delete_at_path: guild_delete_at_path_input
+
+    """
+    delete the array element with specified index (negative integers count from
+    the end). throws an error if top level container is not an array
+    """
+    _delete_elem: guild_delete_elem_input
+
+    """
+    delete key/value pair or string element. key/value pairs are matched based on their key value
+    """
+    _delete_key: guild_delete_key_input
+
+    """prepend existing jsonb value of filtered columns with new jsonb value"""
+    _prepend: guild_prepend_input
+
     """sets the columns of the filtered rows to the given values"""
     _set: guild_set_input
 
@@ -2807,6 +2887,28 @@ type mutation_root {
   update single row of the table: "guild"
   """
   update_guild_by_pk(
+    """append existing jsonb value of filtered columns with new jsonb value"""
+    _append: guild_append_input
+
+    """
+    delete the field or element with specified path (for JSON arrays, negative integers count from the end)
+    """
+    _delete_at_path: guild_delete_at_path_input
+
+    """
+    delete the array element with specified index (negative integers count from
+    the end). throws an error if top level container is not an array
+    """
+    _delete_elem: guild_delete_elem_input
+
+    """
+    delete key/value pair or string element. key/value pairs are matched based on their key value
+    """
+    _delete_key: guild_delete_key_input
+
+    """prepend existing jsonb value of filtered columns with new jsonb value"""
+    _prepend: guild_prepend_input
+
     """sets the columns of the filtered rows to the given values"""
     _set: guild_set_input
     pk_columns: guild_pk_columns_input!
