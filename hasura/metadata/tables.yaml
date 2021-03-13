@@ -125,7 +125,7 @@
       columns:
       - description
       - discord_id
-      - discord_invite_url
+      - discord_metadata
       - guildname
       - id
       - join_button_url
@@ -141,7 +141,7 @@
       columns:
       - description
       - discord_id
-      - discord_invite_url
+      - discord_metadata
       - guildname
       - id
       - join_button_url
