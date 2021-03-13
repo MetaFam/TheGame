@@ -16,7 +16,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
   onRemoveClick,
   canEdit,
 }) => (
-  <Box minW="xs">
+  <Box minW="15rem">
     {title && (
       <Box bg="purple80" borderTopRadius="lg" p={4}>
         <HStack>

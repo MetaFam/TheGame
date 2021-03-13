@@ -105,16 +105,15 @@ const PlayerPage: React.FC<Props> = (
       <PageContainer>
         <Head><title>MetaGame: @{player.username}</title></Head>
         <Flex
-          align="center"
+          align="flex-start"
           direction={{ base: 'column', lg: 'row' }}
-          alignItems="flex-start"
-          maxWidth="7xl"
+          maxWidth="100%"
         >
           <Box
-            width={{ base: '100%', lg: '33%' }}
+            w={{ base: '100%', lg: '33%' }}
             mr={{ base: 0, lg: 4 }}
           >
-            <Box mb={6}>
+            <Box mb={6} id='hero'>
               <PlayerHero player={player} />
             </Box>
             {(fakeData || [[], [], []])[0].map((name) => (
@@ -131,7 +130,7 @@ const PlayerPage: React.FC<Props> = (
             )}
           </Box>
           <Box
-            width={{ base: '100%', lg: '66%' }}
+            w={{ base: '100%', lg: '66%' }}
             ml={{ base: 0, lg: 4 }}
           >
             <Box width="100%">

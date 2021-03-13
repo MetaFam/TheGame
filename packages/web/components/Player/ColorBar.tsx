@@ -32,7 +32,7 @@ const maskImageStyle = (
   */
 export const ColorBar = (
   (
-    { mask = 0 }:
+    { mask = 0, ...props }:
     ChakraProps & { mask: number | undefined }
   ): JSX.Element => {
     const [parts, setParts] = (
@@ -52,8 +52,13 @@ export const ColorBar = (
     useEffect(() => { load() }, []);
 
     return (
-      <Flex direction='column' maxW='100%'>
-        <Flex maxW='100%' w='30rem' minH='1.5rem' mb='1rem'>
+      <Flex
+        direction='column'
+        maxW='100%'
+        className="color-bar"
+        {...props}
+      >
+        <Flex maxW='100%' minH='1.5rem' mb='1rem'>
           {parts.map((part) => {
             const set = ((mask & part.mask) !== 0)
             const alias = MetaGameAliases[part.mask]
@@ -79,7 +84,7 @@ export const ColorBar = (
           })}
         </Flex>
         <Flex
-          minH='calc(1.5rem + 4px)' maxW='100%' w='30rem'
+          minH='calc(1.5rem + 4px)' maxW='100%'
           border='2px' borderRadius={3}
         >
           {parts.map((part) => (

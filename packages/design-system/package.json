@@ -25,7 +25,6 @@
   },
   "dependencies": {
     "@chakra-ui/icons": "1.0.3",
-    "@chakra-ui/layout": "^1.3.2",
     "@chakra-ui/react": "^1.3.3",
     "@chakra-ui/theme-tools": "1.0.3",
     "@emotion/react": "11.1.4",

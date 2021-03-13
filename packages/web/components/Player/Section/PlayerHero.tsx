@@ -82,14 +82,18 @@ export const PlayerHero: React.FC<Props> = ({ player }) => {
           <PlayerCollab player={player} />
         </Box>
         {type && types && (
-          <Flex direction="column" spacing={2} w="100%">
-            <Text fontSize="xs" color="blueLight" casing="uppercase" mb={3}>
+          <Flex direction="column" id="color" mb={8} w="100%">
+            <Text
+              fontSize="xs" color="blueLight"
+              casing="uppercase"
+              mb={3}
+              textAlign="left"
+            >
               Color Disposition
             </Text>
             <Link
               isExternal
-              href={`//metafam.github.io/5-color-radar/#/combos/${type.mask.toString(2)}`}
-              maxW='100%'
+              href={`//dysbulic.github.io/5-color-radar/#/combos/${type.mask.toString(2)}`}
             >
               <Flex justify="center">
                 <ColorBar mask={type.mask} maxH='4rem'/>

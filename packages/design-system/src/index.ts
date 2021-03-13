@@ -31,6 +31,7 @@ export {
   Spinner,
   Stack,
   Text,
+  TextProps,
   Tooltip,
   Wrap,
   WrapItem,
@@ -45,9 +46,9 @@ export {
   useDisclosure,
 } from '@chakra-ui/react';
 
-export {
-  TextProps
-} from '@chakra-ui/layout/dist/types/text';
+// export {
+//   TextProps
+// } from '@chakra-ui/layout/dist/types/text';
 
 export { SVG } from './SVG';
 export { theme as MetaTheme } from './theme';

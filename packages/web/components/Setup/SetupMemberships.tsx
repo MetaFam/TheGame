@@ -64,7 +64,11 @@ export const SetupMemberships: React.FC<SetupMembershipsProps> = (
             )
           )
         }
-        <MetaButton onClick={onNextPress} mt={10}>
+        <MetaButton
+          mt={10}
+          onClick={onNextPress}
+          ref={input => input?.focus()}
+        >
           {nextButtonLabel}
         </MetaButton>
       </FlexContainer>

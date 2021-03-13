@@ -1,4 +1,5 @@
 import {
+  Button,
   MetaButton,
   MetaHeading,
   SimpleGrid,
@@ -9,7 +10,7 @@ import { FlexContainer } from 'components/Container';
 import { useSetupFlow } from 'contexts/SetupContext';
 import { Player_Type, useUpdateAboutYouMutation } from 'graphql/autogen/types';
 import { useUser } from 'lib/hooks';
-import React, { SetStateAction, useState } from 'react';
+import React from 'react';
 
 export type SetupPlayerTypeProps = {
   playerTypeChoices: Array<Player_Type>;
@@ -25,9 +26,6 @@ export const SetupPlayerType: React.FC<SetupPlayerTypeProps> = ({
   const toast = useToast();
   const [updateAboutYouRes, updateAboutYou] = (
     useUpdateAboutYouMutation()
-  );
-  const [focused, setFocused] = (
-    useState<SetStateAction<number | null>>(null)
   );
 
   const handleNextPress = async () => {
@@ -66,27 +64,32 @@ export const SetupPlayerType: React.FC<SetupPlayerTypeProps> = ({
         Then, select the one that suits you best.
       </Text>
       <SimpleGrid columns={[1, null, 3, 3]} spacing={4} grow={1}>
-        {playerTypeChoices.map((p) => (
-          <FlexContainer
+        {playerTypeChoices.map((p, idx) => (
+          <Button
             key={p.id}
             p={[4, null, 6]}
-            tabIndex={0}
-            align='stretch'
-            justify='flex-start'
-            cursor='pointer'
+            display="flex"
+            align="stretch"
+            flexDirection="column"
+            justify="flex-start"
+            cursor="pointer"
+            height="auto"
+            whiteSpace="inherit"
             onClick={() => setPlayerType(p)}
-            onFocus={() => setFocused(p.id)}
-            onBlur={() => setFocused(null)}
             onKeyPress={(e) => {
-              if (e.key === 'Enter') handleNextPress()
-              if (p.id === focused &&  e.key === ' ') {
-                setPlayerType(p)
+              if (e.key === 'Enter') {
+                handleNextPress()
+                e.preventDefault()
+              }
+            }}
+            ref={(input) => {
+              if (idx === 0 && !input?.getAttribute('focused-once')) {
+                input?.focus()
+                input?.setAttribute('focused-once', 'true')
               }
             }}
             bgColor={
-              playerType?.id === p.id
-              ? 'purpleBoxDark'
-              : 'purpleBoxLight'
+              playerType?.id === p.id ? 'purpleBoxDark' : 'purpleBoxLight'
             }
             _hover={{
               bgColor: 'purpleBoxDark',
@@ -96,16 +99,16 @@ export const SetupPlayerType: React.FC<SetupPlayerTypeProps> = ({
             borderWidth={2}
             borderRadius="0.5rem"
             borderColor={
-              playerType?.id === p.id
-              ? 'purple.400'
-              : 'transparent'
+              playerType?.id === p.id ? 'purple.400' : 'transparent'
             }
           >
-            <Text color='white' fontWeight='bold' mb={4}>
+            <Text color="white" w="100%" mb={4} textAlign="left">
               {p.title}
             </Text>
-            <Text color="blueLight">{p.description}</Text>
-          </FlexContainer>
+            <Text color="blueLight" fontWeight="normal" textAlign="left">
+              {p.description}
+            </Text>
+          </Button>
         ))}
       </SimpleGrid>
 

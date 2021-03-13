@@ -1,6 +1,7 @@
 /* eslint no-bitwise: "off" */
 
 import {
+  Button,
   Flex,
   Image,
   MetaButton,
@@ -15,7 +16,7 @@ import { useUpdateAboutYouMutation } from 'graphql/autogen/types';
 import { MetaGameAliases } from 'graphql/getPersonalityInfo'
 import { PersonalityOption } from 'graphql/types';
 import { useUser } from 'lib/hooks';
-import React, { SetStateAction, useState } from 'react';
+import React, { useCallback } from 'react';
 
 import { ColorBar } from '../Player/ColorBar';
 
@@ -41,12 +42,8 @@ export const SetupPersonalityType: (
   const [updateAboutYouRes, updateAboutYou] = (
     useUpdateAboutYouMutation()
   );
-  // the mask of the currently focused item, if any
-  const [focused, setFocused] = (
-    useState<SetStateAction<number | null>>(null)
-  );
 
-  const handleNextPress = async () => {
+  const handleNextPress = useCallback(async () => {
     if (!user) return;
 
     if (user.player?.ColorAspect?.mask !== colorMask) {
@@ -72,7 +69,7 @@ export const SetupPersonalityType: (
     }
 
     onNextPress();
-  };
+  }, [colorMask, onNextPress, toast, updateAboutYou, user]);
 
   // mask should always only have at most a single bit set
   const toggleMaskElement = (mask = 0): void => {
@@ -93,18 +90,27 @@ export const SetupPersonalityType: (
         <Text mb={10}>
           Please select your personality components below.
           Not sure what type you are?
-          <Text as="span"> </Text>
+          <Text as="span"> Take a </Text>
           <MetaLink
-            href="//metafam.github.io/5-color-radar/#/test/"
+            href="//dysbulic.github.io/5-color-radar/#/explore/"
             isExternal
           >
-            Take a quick test.
+            quick exam
           </MetaLink>
+          <Text as="span"> or </Text>
+          <MetaLink
+            href="//dysbulic.github.io/5-color-radar/#/test/"
+            isExternal
+          >
+            longer quiz
+          </MetaLink>
+          .
         </Text>
       </Flex>
       <FlexContainer
         grow={1} spacing={8} maxW='70rem'
         direction='row' wrap='wrap'
+        id="colors"
       >
         {Object.entries(MetaGameAliases)
         .reverse().map(
@@ -114,23 +120,25 @@ export const SetupPersonalityType: (
             const selected = (((colorMask ?? 0) & mask) > 0)
 
             return (
-              <FlexContainer
+              <Button
                 key={mask}
+                display="flex"
                 direction="row"
-                p={6} m={2} spacing={4}
-                borderRadius="0.5rem"
+                p={6} m={2} h="auto" spacing={4}
+                borderRadius={8}
                 cursor="pointer"
-                tabIndex={0}
                 onClick={() => toggleMaskElement(mask)}
-                autoFocus={idx === 0}
-                // ToDo: Switch to a Button so this will work
-                ref={input => idx === 0 && input?.focus()}
-                onFocus={() => setFocused(mask)}
-                onBlur={() => setFocused(null)}
+                autoFocus={idx === 0} // Doesn't work
+                ref={input => {
+                  if (idx === 0 && !input?.getAttribute('focused-once')) {
+                    input?.focus()
+                    input?.setAttribute('focused-once', 'true')
+                  }
+                }}
                 onKeyPress={(e) => {
-                  if (e.key === 'Enter') handleNextPress()
-                  if (mask === focused && e.key === ' ') {
-                    toggleMaskElement(mask)
+                  if (e.key === 'Enter') {
+                    handleNextPress()
+                    e.preventDefault()
                   }
                 }}
                 transition='background 0.25s, filter 0.5s'
@@ -156,20 +164,26 @@ export const SetupPersonalityType: (
                 />
                 <FlexContainer align="stretch" ml={2}>
                   <Text
-                    color="white" fontWeight="bold"
-                    style={{ textTransform: 'uppercase' }}
+                    color="white"
+                    casing="uppercase" textAlign="left"
                   >
                     {label}
                   </Text>
-                  <Text color="blueLight">{option?.description}</Text>
+                  <Text
+                    color="blueLight" fontWeight="normal"
+                    whiteSpace="initial"
+                  >
+                    {option?.description}
+                  </Text>
                 </FlexContainer>
-              </FlexContainer>
+              </Button>
             )
           }
-        )}
+        )
+      }
       </FlexContainer>
 
-      <ColorBar mask={colorMask}/>
+      <ColorBar mask={colorMask} w="min(100vw, 30rem)"/>
 
       <MetaButton
         onClick={handleNextPress}
