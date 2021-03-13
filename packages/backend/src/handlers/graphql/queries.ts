@@ -83,13 +83,13 @@ export const GuildFragment = gql`
     id
     guildname
     description
-    discord_invite_url
     join_button_url
     logo
     moloch_address
     name
     type
     website_url
+    discord_metadata
     guild_accounts {
       type
       identifier
