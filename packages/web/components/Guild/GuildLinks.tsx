@@ -24,11 +24,11 @@ export const GuildLinks: React.FC<Props> = ({ guild }) => {
           </Button>
         </WrapItem>
       ) : null}
-      {guild.discord_invite_url ? (
+      {guild.discord_metadata?.inviteUrl ? (
         <WrapItem>
           <Button
             as="a"
-            href={guild.discord_invite_url}
+            href={guild.discord_metadata.inviteUrl}
             target="_blank"
             size="xs"
             bgColor="discord"
