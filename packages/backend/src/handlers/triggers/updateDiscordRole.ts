@@ -1,10 +1,11 @@
 /* eslint-disable no-console */
 import { createDiscordClient } from '@metafam/discord-bot';
-import { Role } from 'discord.js';
 
 import { AccountType_Enum, Player, PlayerRank_Enum } from '../../lib/autogen/hasura-sdk';
 import { client } from '../../lib/hasuraClient';
 import { TriggerPayload } from './types';
+
+type RankRoleIds = {[rank in PlayerRank_Enum]: string};
 
 export interface UpdateRole {
   playerId: string;
@@ -36,27 +37,13 @@ export const updateDiscordRole = async (
     // instantiate discord client. We'll need serverId, playerId, and roleIds
     const discordClient = await createDiscordClient();
 
-    // todo add jsonb field to guild and populate ranks, e.g. { ranks: [] }
     const guild = await discordClient.guilds.fetch(discordGuildAccount.identifier);
     if (guild == null) {
       console.warn(`No discord server found matching ${discordGuildAccount.identifier}!`);
       return;
     }
 
-    // since we don't have roleIds, we'll need to look up the roles in the server 
-    // and just match by strings for the time being.
-    // https://discord.com/developers/docs/resources/guild#get-guild-roles
-    const rankDiscordRoles = new Map<PlayerRank_Enum, Role>();
-
-    const discordRoleManager = await guild.roles.fetch();
-    discordRoleManager.cache.forEach(discordRole => {
-      const rankMatch = Object.values(PlayerRank_Enum).find(rank => {
-        return rank.toUpperCase() === discordRole.name.toUpperCase();
-      }); 
-      if (rankMatch != null) {
-        rankDiscordRoles.set(rankMatch, discordRole);
-      }
-    })
+    const rankDiscordRoleIds = getGuildResponse.guild[0]?.discord_metadata?.rankRoleIds as RankRoleIds;
 
     const discordPlayer = await guild.members.fetch(discordPlayerAccount.identifier);
     if (discordPlayer == null) {
@@ -64,21 +51,37 @@ export const updateDiscordRole = async (
       return;
     }
 
-    // if there's an oldRank, delete it.
-    const previousRank = oldPlayer?.rank;
-    if (previousRank != null) {
-      const discordRoleForRank = rankDiscordRoles.get(previousRank);
-      if (discordRoleForRank == null) {
-        console.warn(`discord role associated with ${previousRank} was not found!`);
-      } else {
-        // this is just a no-op if the player doesn't actually have the role
-        await discordPlayer.roles.remove(discordRoleForRank);
-        console.log(`Removed role ${previousRank} for player ${newPlayer?.username} in discord`);
+    // We know the old value; try to remove that role
+    let removedRole : PlayerRank_Enum | null = null;
+    if (oldPlayer?.rank != null) {
+      // this is just a no-op if the player doesn't actually have the role
+      const success = await discordPlayer.roles.cache.delete(rankDiscordRoleIds[oldPlayer.rank]);
+      if (success) {
+        removedRole = oldPlayer.rank;
       }
     }
+    // if not successful, attempt to remove all rank roles
+    if (removedRole == null) {
+      // eslint-disable-next-line no-restricted-syntax
+      for (const rank in rankDiscordRoleIds) {
+        if (Object.prototype.hasOwnProperty.call(rankDiscordRoleIds, rank)) {
+          // eslint-disable-next-line no-await-in-loop
+          const success = await discordPlayer.roles.cache.delete(rankDiscordRoleIds[rank as PlayerRank_Enum]);
+          if (success) {
+            removedRole = rank as PlayerRank_Enum;
+            break;
+          }
+        }
   
+      }
+    }
+
+    if (removedRole) {
+      console.log(`Removed role ${removedRole} for player ${newPlayer?.username} in discord`);
+    }
+    
     // Add the new rank.
-    const discordRoleForRank = rankDiscordRoles.get(newRank);
+    const discordRoleForRank = rankDiscordRoleIds[newRank];
     if (discordRoleForRank == null) {
       console.warn(`discord role associated with ${newRank} was not found!`);
     } else {
