@@ -5,6 +5,7 @@ import {
   getPlayerDescription,
   getPlayerImage,
   getPlayerName,
+  hasPlayerImage,
 } from 'utils/playerHelpers';
 
 import { PersonalityTypes } from '../../../graphql/types';
@@ -21,16 +22,26 @@ export const PlayerHero: React.FC<Props> = ({ player }) => {
   const [show, setShow] = React.useState(
     getPlayerDescription(player).length < BIO_LENGTH,
   );
-
+  const avatar = hasPlayerImage(player) ? (
+    <Avatar
+      w={{ base: '32', md: '56' }}
+      h={{ base: '32', md: '56' }}
+      src={getPlayerImage(player)}
+      name={getPlayerName(player)}
+      bg=""
+    />
+  ) : (
+    <Avatar
+      w={{ base: '32', md: '56' }}
+      h={{ base: '32', md: '56' }}
+      src={getPlayerImage(player)}
+      name={getPlayerName(player)}
+    />
+  );
   return (
     <ProfileSection>
       <VStack spacing={8}>
-        <Avatar
-          w={{ base: '32', md: '56' }}
-          h={{ base: '32', md: '56' }}
-          src={getPlayerImage(player)}
-          name={getPlayerName(player)}
-        />
+        {avatar}
         <Box textAlign="center">
           <Text fontSize="xl" fontFamily="heading" mb="1">
             {getPlayerName(player)}

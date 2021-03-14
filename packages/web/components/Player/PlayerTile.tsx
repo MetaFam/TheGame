@@ -19,6 +19,7 @@ import {
   getPlayerCoverImage,
   getPlayerImage,
   getPlayerName,
+  hasPlayerImage,
 } from 'utils/playerHelpers';
 
 type Props = {
@@ -29,6 +30,20 @@ const SHOW_MEMBERSHIPS = 4;
 const SHOW_SKILLS = 4;
 
 export const PlayerTile: React.FC<Props> = ({ player }) => {
+  const avatar = hasPlayerImage(player) ? (
+    <Avatar
+      size="xl"
+      bg=""
+      src={getPlayerImage(player)}
+      name={getPlayerName(player)}
+    />
+  ) : (
+    <Avatar
+      size="xl"
+      src={getPlayerImage(player)}
+      name={getPlayerName(player)}
+    />
+  );
   return (
     <Flex
       direction="column"
@@ -61,14 +76,10 @@ export const PlayerTile: React.FC<Props> = ({ player }) => {
           key={player.id}
         >
           <VStack>
-            <Avatar
-              size="xl"
-              src={getPlayerImage(player)}
-              name={getPlayerName(player)}
-            />
-              <Heading size="xs" color="white">
-                {getPlayerName(player)}
-              </Heading>
+            {avatar}
+            <Heading size="xs" color="white">
+              {getPlayerName(player)}
+            </Heading>
           </VStack>
         </MetaLink>
         <Wrap w="100%" justify="center">
