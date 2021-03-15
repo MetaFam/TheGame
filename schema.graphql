@@ -4,6 +4,42 @@ schema {
   subscription: subscription_root
 }
 
+type _Block_ {
+  """The hash of the block"""
+  hash: Bytes
+
+  """The block number"""
+  number: Int!
+}
+
+"""The type for the top-level _meta field"""
+type _Meta_ {
+  """
+  Information about a specific subgraph block. The hash of the block
+  will be null if the _meta field has a block constraint that asks for
+  a block number. It will be filled if the _meta field has no block constraint
+  and therefore asks for the latest  block
+  
+  """
+  block: _Block_!
+
+  """The deployment ID"""
+  deployment: String!
+
+  """If `true`, the subgraph encountered indexing errors at some past block"""
+  hasIndexingErrors: Boolean!
+}
+
+enum _SubgraphErrorPolicy_ {
+  """Data will be returned even if the subgraph has indexing errors"""
+  allow
+
+  """
+  If the subgraph has indexing errors, data will be omitted. The default.
+  """
+  deny
+}
+
 """
 columns and relationships of "AccountType"
 """
@@ -178,6 +214,15 @@ enum AccountType_update_column {
   type
 }
 
+scalar BigDecimal
+
+scalar BigInt
+
+input Block_height {
+  hash: Bytes
+  number: Int
+}
+
 type BoxProfile {
   collectiblesFavorites: [CollectiblesFavorites!]
   coverImageUrl: String
@@ -197,6 +242,8 @@ type BrightIdStatus {
   contextIds: [String!]!
   unique: Boolean!
 }
+
+scalar Bytes
 
 type CollectiblesFavorites {
   address: String
@@ -2795,6 +2842,11 @@ enum order_by {
   desc_nulls_last
 }
 
+enum OrderDirection {
+  asc
+  desc
+}
+
 """
 columns and relationships of "player"
 """
@@ -4708,6 +4760,9 @@ type query_root {
 
   """fetch data from the table: "SkillCategory" using primary key columns"""
   SkillCategory_by_pk(name: String!): SkillCategory
+
+  """Access to subgraph metadata"""
+  _meta(block: Block_height): _Meta_
   getBoxProfile(address: String): BoxProfile
   getBrightIdStatus(contextId: uuid): BrightIdStatus
   getDaoHausMemberships(memberAddress: String): [Member!]!
@@ -5225,6 +5280,50 @@ type query_root {
 
   """fetch data from the table: "skill" using primary key columns"""
   skill_by_pk(id: uuid!): skill
+  transfer(
+    """
+    The block at which the query should be executed. Can either be an `{ number:
+    Int }` containing the block number or a `{ hash: Bytes }` value containing a
+    block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+  ): Transfer
+  transfers(
+    """
+    The block at which the query should be executed. Can either be an `{ number:
+    Int }` containing the block number or a `{ hash: Bytes }` value containing a
+    block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: Transfer_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+    where: Transfer_filter
+  ): [Transfer!]!
+  userToken(
+    """
+    The block at which the query should be executed. Can either be an `{ number:
+    Int }` containing the block number or a `{ hash: Bytes }` value containing a
+    block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+  ): UserToken
+  userTokens(
+    """
+    The block at which the query should be executed. Can either be an `{ number:
+    Int }` containing the block number or a `{ hash: Bytes }` value containing a
+    block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: UserToken_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+    where: UserToken_filter
+  ): [UserToken!]!
 }
 
 """
@@ -7263,6 +7362,55 @@ input String_comparison_exp {
   _similar: String
 }
 
+type Subscription {
+  """Access to subgraph metadata"""
+  _meta(block: Block_height): _Meta_
+  transfer(
+    """
+    The block at which the query should be executed. Can either be an `{ number:
+    Int }` containing the block number or a `{ hash: Bytes }` value containing a
+    block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+  ): Transfer
+  transfers(
+    """
+    The block at which the query should be executed. Can either be an `{ number:
+    Int }` containing the block number or a `{ hash: Bytes }` value containing a
+    block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: Transfer_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+    where: Transfer_filter
+  ): [Transfer!]!
+  userToken(
+    """
+    The block at which the query should be executed. Can either be an `{ number:
+    Int }` containing the block number or a `{ hash: Bytes }` value containing a
+    block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+  ): UserToken
+  userTokens(
+    """
+    The block at which the query should be executed. Can either be an `{ number:
+    Int }` containing the block number or a `{ hash: Bytes }` value containing a
+    block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: UserToken_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+    where: UserToken_filter
+  ): [UserToken!]!
+}
+
 """subscription root"""
 type subscription_root {
   """
@@ -7610,6 +7758,9 @@ type subscription_root {
 
   """fetch data from the table: "SkillCategory" using primary key columns"""
   SkillCategory_by_pk(name: String!): SkillCategory
+
+  """Access to subgraph metadata"""
+  _meta(block: Block_height): _Meta_
 
   """
   fetch data from the table: "guild"
@@ -8122,6 +8273,50 @@ type subscription_root {
 
   """fetch data from the table: "skill" using primary key columns"""
   skill_by_pk(id: uuid!): skill
+  transfer(
+    """
+    The block at which the query should be executed. Can either be an `{ number:
+    Int }` containing the block number or a `{ hash: Bytes }` value containing a
+    block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+  ): Transfer
+  transfers(
+    """
+    The block at which the query should be executed. Can either be an `{ number:
+    Int }` containing the block number or a `{ hash: Bytes }` value containing a
+    block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: Transfer_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+    where: Transfer_filter
+  ): [Transfer!]!
+  userToken(
+    """
+    The block at which the query should be executed. Can either be an `{ number:
+    Int }` containing the block number or a `{ hash: Bytes }` value containing a
+    block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+  ): UserToken
+  userTokens(
+    """
+    The block at which the query should be executed. Can either be an `{ number:
+    Int }` containing the block number or a `{ hash: Bytes }` value containing a
+    block hash. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: UserToken_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+    where: UserToken_filter
+  ): [UserToken!]!
 }
 
 scalar timestamptz
