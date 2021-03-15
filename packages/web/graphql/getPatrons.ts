@@ -1,33 +1,48 @@
-import { BigNumber } from 'ethers';
 import gql from 'fake-tag';
 
 import {
   GetPatronsQuery,
   GetPatronsQueryVariables,
+  GetpSeedHoldersQuery,
+  GetpSeedHoldersQueryVariables,
   PlayerFragmentFragment,
+  UserTokenFragmentFragment,
 } from './autogen/types';
 import { client } from './client';
-import { PlayerFragment } from './fragments';
+import { PlayerFragment, UserTokenFragment } from './fragments';
+import { Patron } from './types';
 
 const patronsQuery = gql`
-  query GetPatrons($offset: Int) {
-    player(
-      where: { ethereum_address: { _neq: "" }, total_xp: { _gt: 0 } }
-      limit: 50
-      offset: $offset
-    ) {
+  query GetPatrons($addresses: [String!], $limit: Int) {
+    player(where: { ethereum_address: { _in: $addresses } }, limit: $limit) {
       ...PlayerFragment
     }
   }
   ${PlayerFragment}
 `;
 
-export const getPatronsWithOffset = async (
-  offset = 0,
+const pSeedHoldersQuery = gql`
+  query GetpSeedHolders($limit: Int) {
+    userTokens(
+      orderBy: pSeedBalance
+      orderDirection: desc
+      where: { pSeedBalance_gt: "0" }
+      first: $limit
+    ) {
+      ...UserTokenFragment
+    }
+  }
+  ${UserTokenFragment}
+`;
+
+const getPlayersFromAddresses = async (
+  addresses: Array<string>,
+  limit: number,
 ): Promise<Array<PlayerFragmentFragment>> => {
   const { data, error } = await client
     .query<GetPatronsQuery, GetPatronsQueryVariables>(patronsQuery, {
-      offset,
+      addresses,
+      limit,
     })
     .toPromise();
 
@@ -42,37 +57,47 @@ export const getPatronsWithOffset = async (
   return data.player;
 };
 
-const pSeedDescSort = (
-  playerA: PlayerFragmentFragment,
-  playerB: PlayerFragmentFragment,
-) => {
-  const balanceA = BigNumber.from(playerA.token_balance?.pSeedBalance || 0);
-  const balanceB = BigNumber.from(playerB.token_balance?.pSeedBalance || 0);
+const getpSeedHolders = async (
+  limit: number,
+): Promise<Array<UserTokenFragmentFragment>> => {
+  const { data, error } = await client
+    .query<GetpSeedHoldersQuery, GetpSeedHoldersQueryVariables>(
+      pSeedHoldersQuery,
+      {
+        limit,
+      },
+    )
+    .toPromise();
 
-  if (balanceA.lt(balanceB)) {
-    return 1;
-  } if (balanceA.gt(balanceB)) {
-    return -1;
-  } 
-    return 0;
-  
-};
+  if (!data) {
+    if (error) {
+      throw error;
+    }
 
-export const getPatrons = async () => {
-  let patrons: Array<PlayerFragmentFragment> = [];
-  let page = 0;
-
-  // eslint-disable-next-line no-constant-condition
-  while (true) {
-  // eslint-disable-next-line no-await-in-loop
-    const offsettedPatrons = await getPatronsWithOffset(page * 50);
-    patrons = offsettedPatrons.concat(patrons);
-    if (offsettedPatrons.length < 50) break;
-    page += 1;
+    return [];
   }
 
-  return patrons
-    .filter((p) => BigNumber.from(p.token_balance?.pSeedBalance || 0).gt(0))
-    .sort(pSeedDescSort)
-    .slice(0, 50);
+  return data.userTokens;
+};
+
+export const getPatrons = async (limit = 50): Promise<Array<Patron>> => {
+  const userTokens: Array<UserTokenFragmentFragment> = await getpSeedHolders(
+    limit,
+  );
+
+  const players: Array<PlayerFragmentFragment> = await getPlayersFromAddresses(
+    userTokens.map((u) => u.address),
+    limit,
+  );
+
+  const patrons: Array<Patron> = userTokens.reduce<Array<Patron>>((res, u) => {
+    const player = players.find((p) => p.ethereum_address === u.address);
+    if (player) {
+      const patron = { ...player, pSeedBalance: u.pSeedBalance } as Patron;
+      res.push(patron);
+    }
+    return res;
+  }, []);
+
+  return patrons;
 };

@@ -17,6 +17,7 @@ import { PlayerContacts } from 'components/Player/PlayerContacts';
 import { PlayerTileMemberships } from 'components/Player/PlayerTileMemberships';
 import { utils } from 'ethers';
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
+import { Patron } from 'graphql/types';
 import React from 'react';
 import {
   getPlayerCoverImage,
@@ -25,10 +26,11 @@ import {
 } from 'utils/playerHelpers';
 
 type Props = {
-  player: PlayerFragmentFragment;
+  patron: Patron;
 };
 
-export const PatronTile: React.FC<Props> = ({ player }) => {
+export const PatronTile: React.FC<Props> = ({ patron }) => {
+  const player = patron as PlayerFragmentFragment;
   return (
     <MetaTile>
       <Box
@@ -66,7 +68,7 @@ export const PatronTile: React.FC<Props> = ({ player }) => {
               </MetaTag>
             </WrapItem>
           ) : null}
-          {player.token_balance?.pSeedBalance ? (
+          {patron.pSeedBalance ? (
             <WrapItem>
               <MetaTag
                 backgroundColor="cyan.400"
@@ -74,7 +76,7 @@ export const PatronTile: React.FC<Props> = ({ player }) => {
                 color="blackAlpha.600"
               >
                 {`pSEED: ${Math.floor(
-                  Number(utils.formatEther(player.token_balance?.pSeedBalance)),
+                  Number(utils.formatEther(patron.pSeedBalance)),
                 )}`}
               </MetaTag>
             </WrapItem>

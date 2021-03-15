@@ -58,10 +58,6 @@ export const PlayerFragment = gql`
       unique
       contextIds
     }
-    token_balance {
-      seedBalance
-      pSeedBalance
-    }
   }
 `;
 
@@ -77,5 +73,12 @@ export const GuildFragment = gql`
     name
     type
     website_url
+  }
+`;
+
+export const UserTokenFragment = gql`
+  fragment UserTokenFragment on UserToken {
+    address
+    pSeedBalance
   }
 `;
