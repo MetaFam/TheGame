@@ -7,7 +7,7 @@ import {
   getTokenFromStore,
   setTokenInStore,
 } from 'lib/auth';
-import React, { createContext, useCallback, useEffect, useState } from 'react';
+import React, { createContext, useCallback, useEffect, useState, useRef } from 'react';
 import Web3Modal from 'web3modal';
 
 import { CONFIG } from '../config';
@@ -49,7 +49,7 @@ const web3Modal =
     providerOptions,
   });
 
-function getExistingAuth(ethAddress: string) {
+function getExistingAuth(ethAddress: string): string | null {
   const token = getTokenFromStore();
   if (!token) return null;
 
@@ -72,12 +72,18 @@ async function authenticateWallet(
   return token;
 }
 
-export const Web3ContextProvider: React.FC = ({ children }) => {
+interface Web3ContextProviderOptions {
+  children: React.ReactElement,
+  resetUrqlClient?: () => void,
+}
+
+export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({ children, resetUrqlClient }) => {
   const [provider, setProvider] = useState<providers.Web3Provider | null>(null);
   const [isConnected, setIsConnected] = useState<boolean>(false);
   const [isConnecting, setIsConnecting] = useState<boolean>(false);
   const [address, setAddress] = useState<string | null>(null);
   const [authToken, setAuthToken] = useState<string | null>(null);
+  const calledOnce = useRef<boolean>(false);
 
   const disconnect = useCallback(() => {
     if (web3Modal === false) return;
@@ -90,7 +96,8 @@ export const Web3ContextProvider: React.FC = ({ children }) => {
     setProvider(null);
     setIsConnecting(false);
     setIsConnected(false);
-  }, []);
+    if(resetUrqlClient) resetUrqlClient();
+  }, [resetUrqlClient]);
 
   const connectWeb3 = useCallback(async () => {
     if (web3Modal === false) return;
@@ -101,24 +108,28 @@ export const Web3ContextProvider: React.FC = ({ children }) => {
       const ethersProvider = new providers.Web3Provider(modalProvider);
 
       const ethAddress = await ethersProvider.getSigner().getAddress();
-      setAddress(ethAddress);
 
       let token: string | null = getExistingAuth(ethAddress);
       if (!token) {
         token = await authenticateWallet(ethersProvider);
       }
 
+      setAddress(ethAddress);
       setProvider(ethersProvider);
       setAuthToken(token);
       setIsConnecting(false);
       setIsConnected(true);
+      if(resetUrqlClient) resetUrqlClient();
     } catch (_) {
       setIsConnecting(false);
       disconnect();
     }
-  }, [disconnect]);
+  }, [resetUrqlClient, disconnect]);
 
   useEffect(() => {
+    if(calledOnce.current) return;
+    calledOnce.current = true;
+
     if (web3Modal === false) return;
     if (web3Modal.cachedProvider) {
       connectWeb3().catch(() => undefined);
