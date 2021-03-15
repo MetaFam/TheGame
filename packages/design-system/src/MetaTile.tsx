@@ -1,4 +1,4 @@
-import { Flex, FlexProps, StackProps,VStack } from '@chakra-ui/react';
+import { Flex, FlexProps, StackProps, VStack } from '@chakra-ui/react';
 import React from 'react';
 
 export const MetaTileHeader: React.FC<StackProps> = ({

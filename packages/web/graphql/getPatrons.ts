@@ -6,10 +6,10 @@ import {
   GetpSeedHoldersQuery,
   GetpSeedHoldersQueryVariables,
   PlayerFragmentFragment,
-  UserTokenFragmentFragment,
+  TokenBalancesFragmentFragment,
 } from './autogen/types';
 import { client } from './client';
-import { PlayerFragment, UserTokenFragment } from './fragments';
+import { PlayerFragment, TokenBalancesFragment } from './fragments';
 import { Patron } from './types';
 
 const patronsQuery = gql`
@@ -23,16 +23,11 @@ const patronsQuery = gql`
 
 const pSeedHoldersQuery = gql`
   query GetpSeedHolders($limit: Int) {
-    userTokens(
-      orderBy: pSeedBalance
-      orderDirection: desc
-      where: { pSeedBalance_gt: "0" }
-      first: $limit
-    ) {
-      ...UserTokenFragment
+    pSeedHolders: getTopPSeedHolders(limit: $limit) {
+      ...TokenBalancesFragment
     }
   }
-  ${UserTokenFragment}
+  ${TokenBalancesFragment}
 `;
 
 const getPlayersFromAddresses = async (
@@ -59,7 +54,7 @@ const getPlayersFromAddresses = async (
 
 const getpSeedHolders = async (
   limit: number,
-): Promise<Array<UserTokenFragmentFragment>> => {
+): Promise<Array<TokenBalancesFragmentFragment>> => {
   const { data, error } = await client
     .query<GetpSeedHoldersQuery, GetpSeedHoldersQueryVariables>(
       pSeedHoldersQuery,
@@ -69,7 +64,7 @@ const getpSeedHolders = async (
     )
     .toPromise();
 
-  if (!data) {
+  if (!data || !data.pSeedHolders) {
     if (error) {
       throw error;
     }
@@ -77,27 +72,30 @@ const getpSeedHolders = async (
     return [];
   }
 
-  return data.userTokens;
+  return data.pSeedHolders;
 };
 
 export const getPatrons = async (limit = 50): Promise<Array<Patron>> => {
-  const userTokens: Array<UserTokenFragmentFragment> = await getpSeedHolders(
+  const tokenBalances: Array<TokenBalancesFragmentFragment> = await getpSeedHolders(
     limit,
   );
 
   const players: Array<PlayerFragmentFragment> = await getPlayersFromAddresses(
-    userTokens.map((u) => u.address),
+    tokenBalances.map((u) => u.address),
     limit,
   );
 
-  const patrons: Array<Patron> = userTokens.reduce<Array<Patron>>((res, u) => {
-    const player = players.find((p) => p.ethereum_address === u.address);
-    if (player) {
-      const patron = { ...player, pSeedBalance: u.pSeedBalance } as Patron;
-      res.push(patron);
-    }
-    return res;
-  }, []);
+  const patrons: Array<Patron> = tokenBalances.reduce<Array<Patron>>(
+    (res, u) => {
+      const player = players.find((p) => p.ethereum_address === u.address);
+      if (player) {
+        const patron = { ...player, pSeedBalance: u.pSeedBalance } as Patron;
+        res.push(patron);
+      }
+      return res;
+    },
+    [],
+  );
 
   return patrons;
 };

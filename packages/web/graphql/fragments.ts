@@ -76,9 +76,9 @@ export const GuildFragment = gql`
   }
 `;
 
-export const UserTokenFragment = gql`
-  fragment UserTokenFragment on UserToken {
-    address
+export const TokenBalancesFragment = gql`
+  fragment TokenBalancesFragment on TokenBalances {
+    address: id
     pSeedBalance
   }
 `;
