@@ -3005,7 +3005,7 @@ type player {
   timezone: String
 
   """Remote relationship field"""
-  token_balances: UserToken
+  token_balances: TokenBalances
   total_xp: numeric
   updated_at: timestamptz
   username: String!
@@ -4357,7 +4357,8 @@ type Query {
   getBoxProfile(address: String): BoxProfile
   getBrightIdStatus(contextId: uuid): BrightIdStatus
   getDaoHausMemberships(memberAddress: String): [Member!]!
-  getTokenBalances(address: String): UserToken
+  getTokenBalances(address: String): TokenBalances
+  getTopPSeedHolders(limit: Int): [TokenBalances!]
 }
 
 """query root"""
@@ -4710,7 +4711,8 @@ type query_root {
   getBoxProfile(address: String): BoxProfile
   getBrightIdStatus(contextId: uuid): BrightIdStatus
   getDaoHausMemberships(memberAddress: String): [Member!]!
-  getTokenBalances(address: String): UserToken
+  getTokenBalances(address: String): TokenBalances
+  getTopPSeedHolders(limit: Int): [TokenBalances!]
 
   """
   fetch data from the table: "guild"
@@ -8139,6 +8141,12 @@ input timestamptz_comparison_exp {
   _nin: [timestamptz!]
 }
 
+type TokenBalances {
+  id: ID!
+  pSeedBalance: String!
+  seedBalance: String!
+}
+
 type UpdateBoxProfileResponse {
   success: Boolean!
   updatedProfiles: [String!]!
@@ -8152,12 +8160,6 @@ input UpdateQuestCompletionInput {
 type UpdateQuestCompletionOutput {
   error: String
   success: Boolean!
-}
-
-type UserToken {
-  id: ID!
-  pSeedBalance: String!
-  seedBalance: String!
 }
 
 scalar uuid

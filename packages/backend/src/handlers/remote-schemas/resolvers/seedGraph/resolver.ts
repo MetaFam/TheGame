@@ -1,5 +1,5 @@
 import { seedGraphClient } from '../../../../lib/seedGraphClient';
-import { QueryResolvers } from '../../autogen/types';
+import { QueryResolvers, TokenBalances } from '../../autogen/types';
 
 export const getTokenBalances: QueryResolvers['getTokenBalances'] = async (
   _,
@@ -10,5 +10,16 @@ export const getTokenBalances: QueryResolvers['getTokenBalances'] = async (
     address: address.toLowerCase(),
   });
 
-  return res.userToken;
+  return res.userToken as TokenBalances;
+};
+
+export const getTopPSeedHolders: QueryResolvers['getTopPSeedHolders'] = async (
+  _,
+  { limit },
+) => {
+  const res = await seedGraphClient.GetTopPSeedHolders({
+    limit: limit || 50,
+  });
+
+  return res.userTokens as Array<TokenBalances>;
 };
