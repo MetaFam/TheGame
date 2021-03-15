@@ -2,3 +2,7 @@
   definition:
     url_from_env: REMOTE_SCHEMA_ENDPOINT
     timeout_seconds: 60
+- name: seed-graph
+  definition:
+    url: https://api.thegraph.com/subgraphs/name/dan13ram/seed-graph
+    timeout_seconds: 60
