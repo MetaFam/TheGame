@@ -8,6 +8,7 @@ export const typeDefs = gql`
     getDaoHausMemberships(memberAddress: String): [Member!]!
     getBrightIdStatus(contextId: uuid): BrightIdStatus
     getTokenBalances(address: String): TokenBalances
+    getTopPSeedHolders(limit: Int): [TokenBalances!]
   }
 
   type BrightIdStatus {

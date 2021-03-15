@@ -4,42 +4,6 @@ schema {
   subscription: subscription_root
 }
 
-type _Block_ {
-  """The hash of the block"""
-  hash: Bytes
-
-  """The block number"""
-  number: Int!
-}
-
-"""The type for the top-level _meta field"""
-type _Meta_ {
-  """
-  Information about a specific subgraph block. The hash of the block
-  will be null if the _meta field has a block constraint that asks for
-  a block number. It will be filled if the _meta field has no block constraint
-  and therefore asks for the latest  block
-  
-  """
-  block: _Block_!
-
-  """The deployment ID"""
-  deployment: String!
-
-  """If `true`, the subgraph encountered indexing errors at some past block"""
-  hasIndexingErrors: Boolean!
-}
-
-enum _SubgraphErrorPolicy_ {
-  """Data will be returned even if the subgraph has indexing errors"""
-  allow
-
-  """
-  If the subgraph has indexing errors, data will be omitted. The default.
-  """
-  deny
-}
-
 """
 columns and relationships of "AccountType"
 """
@@ -214,15 +178,6 @@ enum AccountType_update_column {
   type
 }
 
-scalar BigDecimal
-
-scalar BigInt
-
-input Block_height {
-  hash: Bytes
-  number: Int
-}
-
 type BoxProfile {
   collectiblesFavorites: [CollectiblesFavorites!]
   coverImageUrl: String
@@ -242,8 +197,6 @@ type BrightIdStatus {
   contextIds: [String!]!
   unique: Boolean!
 }
-
-scalar Bytes
 
 type CollectiblesFavorites {
   address: String
@@ -2842,11 +2795,6 @@ enum order_by {
   desc_nulls_last
 }
 
-enum OrderDirection {
-  asc
-  desc
-}
-
 """
 columns and relationships of "player"
 """
@@ -4406,52 +4354,11 @@ enum PlayerRank_update_column {
 }
 
 type Query {
-  """Access to subgraph metadata"""
-  _meta(block: Block_height): _Meta_
-  transfer(
-    """
-    The block at which the query should be executed. Can either be an `{ number:
-    Int }` containing the block number or a `{ hash: Bytes }` value containing a
-    block hash. Defaults to the latest block when omitted.
-    """
-    block: Block_height
-    id: ID!
-  ): Transfer
-  transfers(
-    """
-    The block at which the query should be executed. Can either be an `{ number:
-    Int }` containing the block number or a `{ hash: Bytes }` value containing a
-    block hash. Defaults to the latest block when omitted.
-    """
-    block: Block_height
-    first: Int = 100
-    orderBy: Transfer_orderBy
-    orderDirection: OrderDirection
-    skip: Int = 0
-    where: Transfer_filter
-  ): [Transfer!]!
-  userToken(
-    """
-    The block at which the query should be executed. Can either be an `{ number:
-    Int }` containing the block number or a `{ hash: Bytes }` value containing a
-    block hash. Defaults to the latest block when omitted.
-    """
-    block: Block_height
-    id: ID!
-  ): UserToken
-  userTokens(
-    """
-    The block at which the query should be executed. Can either be an `{ number:
-    Int }` containing the block number or a `{ hash: Bytes }` value containing a
-    block hash. Defaults to the latest block when omitted.
-    """
-    block: Block_height
-    first: Int = 100
-    orderBy: UserToken_orderBy
-    orderDirection: OrderDirection
-    skip: Int = 0
-    where: UserToken_filter
-  ): [UserToken!]!
+  getBoxProfile(address: String): BoxProfile
+  getBrightIdStatus(contextId: uuid): BrightIdStatus
+  getDaoHausMemberships(memberAddress: String): [Member!]!
+  getTokenBalances(address: String): TokenBalances
+  getTopPSeedHolders(limit: Int): [TokenBalances!]
 }
 
 """query root"""
@@ -4801,13 +4708,11 @@ type query_root {
 
   """fetch data from the table: "SkillCategory" using primary key columns"""
   SkillCategory_by_pk(name: String!): SkillCategory
-
-  """Access to subgraph metadata"""
-  _meta(block: Block_height): _Meta_
   getBoxProfile(address: String): BoxProfile
   getBrightIdStatus(contextId: uuid): BrightIdStatus
   getDaoHausMemberships(memberAddress: String): [Member!]!
   getTokenBalances(address: String): TokenBalances
+  getTopPSeedHolders(limit: Int): [TokenBalances!]
 
   """
   fetch data from the table: "guild"
@@ -5320,50 +5225,6 @@ type query_root {
 
   """fetch data from the table: "skill" using primary key columns"""
   skill_by_pk(id: uuid!): skill
-  transfer(
-    """
-    The block at which the query should be executed. Can either be an `{ number:
-    Int }` containing the block number or a `{ hash: Bytes }` value containing a
-    block hash. Defaults to the latest block when omitted.
-    """
-    block: Block_height
-    id: ID!
-  ): Transfer
-  transfers(
-    """
-    The block at which the query should be executed. Can either be an `{ number:
-    Int }` containing the block number or a `{ hash: Bytes }` value containing a
-    block hash. Defaults to the latest block when omitted.
-    """
-    block: Block_height
-    first: Int = 100
-    orderBy: Transfer_orderBy
-    orderDirection: OrderDirection
-    skip: Int = 0
-    where: Transfer_filter
-  ): [Transfer!]!
-  userToken(
-    """
-    The block at which the query should be executed. Can either be an `{ number:
-    Int }` containing the block number or a `{ hash: Bytes }` value containing a
-    block hash. Defaults to the latest block when omitted.
-    """
-    block: Block_height
-    id: ID!
-  ): UserToken
-  userTokens(
-    """
-    The block at which the query should be executed. Can either be an `{ number:
-    Int }` containing the block number or a `{ hash: Bytes }` value containing a
-    block hash. Defaults to the latest block when omitted.
-    """
-    block: Block_height
-    first: Int = 100
-    orderBy: UserToken_orderBy
-    orderDirection: OrderDirection
-    skip: Int = 0
-    where: UserToken_filter
-  ): [UserToken!]!
 }
 
 """
@@ -7402,55 +7263,6 @@ input String_comparison_exp {
   _similar: String
 }
 
-type Subscription {
-  """Access to subgraph metadata"""
-  _meta(block: Block_height): _Meta_
-  transfer(
-    """
-    The block at which the query should be executed. Can either be an `{ number:
-    Int }` containing the block number or a `{ hash: Bytes }` value containing a
-    block hash. Defaults to the latest block when omitted.
-    """
-    block: Block_height
-    id: ID!
-  ): Transfer
-  transfers(
-    """
-    The block at which the query should be executed. Can either be an `{ number:
-    Int }` containing the block number or a `{ hash: Bytes }` value containing a
-    block hash. Defaults to the latest block when omitted.
-    """
-    block: Block_height
-    first: Int = 100
-    orderBy: Transfer_orderBy
-    orderDirection: OrderDirection
-    skip: Int = 0
-    where: Transfer_filter
-  ): [Transfer!]!
-  userToken(
-    """
-    The block at which the query should be executed. Can either be an `{ number:
-    Int }` containing the block number or a `{ hash: Bytes }` value containing a
-    block hash. Defaults to the latest block when omitted.
-    """
-    block: Block_height
-    id: ID!
-  ): UserToken
-  userTokens(
-    """
-    The block at which the query should be executed. Can either be an `{ number:
-    Int }` containing the block number or a `{ hash: Bytes }` value containing a
-    block hash. Defaults to the latest block when omitted.
-    """
-    block: Block_height
-    first: Int = 100
-    orderBy: UserToken_orderBy
-    orderDirection: OrderDirection
-    skip: Int = 0
-    where: UserToken_filter
-  ): [UserToken!]!
-}
-
 """subscription root"""
 type subscription_root {
   """
@@ -7798,9 +7610,6 @@ type subscription_root {
 
   """fetch data from the table: "SkillCategory" using primary key columns"""
   SkillCategory_by_pk(name: String!): SkillCategory
-
-  """Access to subgraph metadata"""
-  _meta(block: Block_height): _Meta_
 
   """
   fetch data from the table: "guild"
@@ -8313,50 +8122,6 @@ type subscription_root {
 
   """fetch data from the table: "skill" using primary key columns"""
   skill_by_pk(id: uuid!): skill
-  transfer(
-    """
-    The block at which the query should be executed. Can either be an `{ number:
-    Int }` containing the block number or a `{ hash: Bytes }` value containing a
-    block hash. Defaults to the latest block when omitted.
-    """
-    block: Block_height
-    id: ID!
-  ): Transfer
-  transfers(
-    """
-    The block at which the query should be executed. Can either be an `{ number:
-    Int }` containing the block number or a `{ hash: Bytes }` value containing a
-    block hash. Defaults to the latest block when omitted.
-    """
-    block: Block_height
-    first: Int = 100
-    orderBy: Transfer_orderBy
-    orderDirection: OrderDirection
-    skip: Int = 0
-    where: Transfer_filter
-  ): [Transfer!]!
-  userToken(
-    """
-    The block at which the query should be executed. Can either be an `{ number:
-    Int }` containing the block number or a `{ hash: Bytes }` value containing a
-    block hash. Defaults to the latest block when omitted.
-    """
-    block: Block_height
-    id: ID!
-  ): UserToken
-  userTokens(
-    """
-    The block at which the query should be executed. Can either be an `{ number:
-    Int }` containing the block number or a `{ hash: Bytes }` value containing a
-    block hash. Defaults to the latest block when omitted.
-    """
-    block: Block_height
-    first: Int = 100
-    orderBy: UserToken_orderBy
-    orderDirection: OrderDirection
-    skip: Int = 0
-    where: UserToken_filter
-  ): [UserToken!]!
 }
 
 scalar timestamptz
@@ -8382,77 +8147,6 @@ type TokenBalances {
   seedBalance: String!
 }
 
-type Transfer {
-  amount: BigInt!
-  from: Bytes!
-  id: ID!
-  timestamp: BigInt!
-  to: Bytes!
-  token: Bytes!
-  txHash: Bytes!
-}
-
-input Transfer_filter {
-  amount: BigInt
-  amount_gt: BigInt
-  amount_gte: BigInt
-  amount_in: [BigInt!]
-  amount_lt: BigInt
-  amount_lte: BigInt
-  amount_not: BigInt
-  amount_not_in: [BigInt!]
-  from: Bytes
-  from_contains: Bytes
-  from_in: [Bytes!]
-  from_not: Bytes
-  from_not_contains: Bytes
-  from_not_in: [Bytes!]
-  id: ID
-  id_gt: ID
-  id_gte: ID
-  id_in: [ID!]
-  id_lt: ID
-  id_lte: ID
-  id_not: ID
-  id_not_in: [ID!]
-  timestamp: BigInt
-  timestamp_gt: BigInt
-  timestamp_gte: BigInt
-  timestamp_in: [BigInt!]
-  timestamp_lt: BigInt
-  timestamp_lte: BigInt
-  timestamp_not: BigInt
-  timestamp_not_in: [BigInt!]
-  to: Bytes
-  to_contains: Bytes
-  to_in: [Bytes!]
-  to_not: Bytes
-  to_not_contains: Bytes
-  to_not_in: [Bytes!]
-  token: Bytes
-  token_contains: Bytes
-  token_in: [Bytes!]
-  token_not: Bytes
-  token_not_contains: Bytes
-  token_not_in: [Bytes!]
-  txHash: Bytes
-  txHash_contains: Bytes
-  txHash_in: [Bytes!]
-  txHash_not: Bytes
-  txHash_not_contains: Bytes
-  txHash_not_in: [Bytes!]
-}
-
-enum Transfer_orderBy {
-  amount
-  from
-  id
-  timestamp
-  to
-  token
-  txHash
-}
-
 type UpdateBoxProfileResponse {
   success: Boolean!
   updatedProfiles: [String!]!
@@ -8466,73 +8160,6 @@ input UpdateQuestCompletionInput {
 type UpdateQuestCompletionOutput {
   error: String
   success: Boolean!
-}
-
-type UserToken {
-  address: String!
-  id: ID!
-  pSeedBalance: BigInt!
-  pSeedTransfers(first: Int = 100, orderBy: Transfer_orderBy, orderDirection: OrderDirection, skip: Int = 0, where: Transfer_filter): [Transfer!]!
-  seedBalance: BigInt!
-  seedTransfers(first: Int = 100, orderBy: Transfer_orderBy, orderDirection: OrderDirection, skip: Int = 0, where: Transfer_filter): [Transfer!]!
-}
-
-input UserToken_filter {
-  address: String
-  address_contains: String
-  address_ends_with: String
-  address_gt: String
-  address_gte: String
-  address_in: [String!]
-  address_lt: String
-  address_lte: String
-  address_not: String
-  address_not_contains: String
-  address_not_ends_with: String
-  address_not_in: [String!]
-  address_not_starts_with: String
-  address_starts_with: String
-  id: ID
-  id_gt: ID
-  id_gte: ID
-  id_in: [ID!]
-  id_lt: ID
-  id_lte: ID
-  id_not: ID
-  id_not_in: [ID!]
-  pSeedBalance: BigInt
-  pSeedBalance_gt: BigInt
-  pSeedBalance_gte: BigInt
-  pSeedBalance_in: [BigInt!]
-  pSeedBalance_lt: BigInt
-  pSeedBalance_lte: BigInt
-  pSeedBalance_not: BigInt
-  pSeedBalance_not_in: [BigInt!]
-  pSeedTransfers: [String!]
-  pSeedTransfers_contains: [String!]
-  pSeedTransfers_not: [String!]
-  pSeedTransfers_not_contains: [String!]
-  seedBalance: BigInt
-  seedBalance_gt: BigInt
-  seedBalance_gte: BigInt
-  seedBalance_in: [BigInt!]
-  seedBalance_lt: BigInt
-  seedBalance_lte: BigInt
-  seedBalance_not: BigInt
-  seedBalance_not_in: [BigInt!]
-  seedTransfers: [String!]
-  seedTransfers_contains: [String!]
-  seedTransfers_not: [String!]
-  seedTransfers_not_contains: [String!]
-}
-
-enum UserToken_orderBy {
-  address
-  id
-  pSeedBalance
-  pSeedTransfers
-  seedBalance
-  seedTransfers
 }
 
 scalar uuid
