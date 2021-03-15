@@ -7,7 +7,7 @@ import {
   getTokenFromStore,
   setTokenInStore,
 } from 'lib/auth';
-import React, { createContext, useCallback, useEffect, useState, useRef } from 'react';
+import React, { createContext, useCallback, useEffect, useRef,useState } from 'react';
 import Web3Modal from 'web3modal';
 
 import { CONFIG } from '../config';
