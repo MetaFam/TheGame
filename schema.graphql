@@ -900,6 +900,10 @@ input guild_insert_input {
 type guild_max_fields {
   description: String
   discord_id: String
+  guildname: String
+  id: uuid
+  join_button_url: String
+  logo: String
   moloch_address: String
   name: String
   website_url: String
