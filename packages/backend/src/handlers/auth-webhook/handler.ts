@@ -1,6 +1,7 @@
 import { did } from '@metafam/utils';
 import { Request, Response } from 'express';
 
+import { defaultProvider } from '../../lib/ethereum';
 import { getOrCreatePlayer } from './users';
 
 const unauthorizedVariables = {
@@ -33,7 +34,7 @@ export const authHandler = async (
   if (!token) {
     res.json(unauthorizedVariables);
   } else {
-    const claim = did.verifyToken(token);
+    const claim = await did.verifyToken(token, defaultProvider);
     if (!claim) {
       res.status(401).send();
       return;
