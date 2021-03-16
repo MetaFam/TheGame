@@ -11,7 +11,7 @@ export const PatronList: React.FC<Props> = ({ patrons }) => (
   <SimpleGrid
     columns={[1, null, 2, 3]}
     spacing="8"
-    autoRows="minmax(35rem, auto)"
+    autoRows="minmax(30rem, auto)"
   >
     {patrons.map((p) => (
       <PatronTile key={p.id} patron={p} />
