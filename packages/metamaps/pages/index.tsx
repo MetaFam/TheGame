@@ -29,7 +29,7 @@ export const Home: FC<HomeProps> = ({ dispatch, menu, activeSpace }) => {
             x: e.pageX,
             y: e.pageY,
             menuType: e.target.getAttribute('data-type'),
-            id: e.target.getAttribute('data-id')
+            id: e.target.getAttribute('data-id'),
           })
         }
       }
@@ -59,5 +59,5 @@ export default connect(
   (state: any) => ({
     menu: state.menu,
     activeSpace: state.activeSpace,
-  })
+  }),
 )(Home);

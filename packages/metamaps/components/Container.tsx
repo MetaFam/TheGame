@@ -22,7 +22,7 @@ export const ContainerComponent: FC<ContainerProps> = ({ dispatch, items }) => {
       const top = Math.round(item.top + delta.y);
 
       dispatch({ type: 'UPDATE_POSITION', object: item.type, index: item.id, left, top })
-    }
+    },
   });
 
   return(
@@ -98,5 +98,5 @@ export const ContainerComponent: FC<ContainerProps> = ({ dispatch, items }) => {
 export const Container = connect(
   (state: any) => ({
     items: state.items,
-  })
+  }),
 )(ContainerComponent);

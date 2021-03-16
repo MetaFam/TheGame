@@ -42,7 +42,7 @@ export const ImageComponent: FC<ImageProps> = ({
     popup,
 }) => {
     const [, drag] = useDrag({
-        item: { id, type, left, top }
+        item: { id, type, left, top },
     })
 
     if (selectedItem === id && resizingItem) {
@@ -111,5 +111,5 @@ export const Image = connect(
 
         mouseX: state.mouseX,
         mouseY: state.mouseY,
-    })
+    }),
 )(ImageComponent);

@@ -15,12 +15,12 @@ export interface UpdateRole {
 export const updateDiscordRole = async (
   payload: TriggerPayload<Player>,
 ) => {
-  const {old: oldPlayer, new: newPlayer} = payload.event.data;
+  const { old: oldPlayer, new: newPlayer } = payload.event.data;
 
   try {
     if (newPlayer == null) return;
    
-    const getPlayerResponse = await client.GetPlayer({playerId: newPlayer.id});
+    const getPlayerResponse = await client.GetPlayer({ playerId: newPlayer.id });
     const discordPlayerAccount = getPlayerResponse.player_by_pk?.Accounts?.find(a => a.type === AccountType_Enum.Discord);
     if (discordPlayerAccount?.identifier == null) return;
 
@@ -29,7 +29,7 @@ export const updateDiscordRole = async (
     if (newRank == null) return;
    
     // look up guild by guildname = 'metagame' (for now), 
-    const getGuildResponse = await client.GetGuild({guildname: 'metafam'});
+    const getGuildResponse = await client.GetGuild({ guildname: 'metafam' });
     const discordGuildAccount = getGuildResponse.guild[0]?.guild_accounts?.find(a => a.type === AccountType_Enum.Discord);
     if (discordGuildAccount == null) return;
 

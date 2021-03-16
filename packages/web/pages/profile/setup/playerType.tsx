@@ -13,20 +13,20 @@ export const getStaticProps = async () => {
   return {
     props: {
       playerTypeChoices,
-      hideAppDrawer: true
-    }
+      hideAppDrawer: true,
+    },
   };
 };
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
 const PlayerTypeSetup: React.FC<Props> = (props) => {
-  const {playerTypeChoices} = props;
+  const { playerTypeChoices } = props;
   const [playerType, setPlayerType] = useState<Player_Type>();
   const { user } = useUser({ redirectTo: '/' });
   
   if (user?.player) {
-    const {player} = user;
+    const { player } = user;
     if (player.playerType && !playerType) {
       setPlayerType(player.playerType);
     }
