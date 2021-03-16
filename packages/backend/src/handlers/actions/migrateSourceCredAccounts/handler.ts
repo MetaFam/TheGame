@@ -117,7 +117,7 @@ export const migrateSourceCredAccounts = async (
         mergedIdentityIds,
         Accounts: {
           // Omit the discord account, as that is updated directly on the player table
-          data: linkedAccounts.filter(({type}) => type !== AccountType_Enum.Discord),
+          data: linkedAccounts.filter(({ type }) => type !== AccountType_Enum.Discord),
           on_conflict: accountOnConflict,
         },
       };
