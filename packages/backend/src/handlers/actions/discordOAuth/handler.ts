@@ -8,6 +8,6 @@ export const handleOAuthCallback = async (
   console.log(_);
 
   res.json({
-    status: 'Success!'
+    status: 'Success!',
   });
 };
