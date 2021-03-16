@@ -1,4 +1,4 @@
-export * as did from './did';
 export * from './arrayHelpers';
-export * from './promiseHelpers';
+export * as did from './did';
 export * as numbers from './numbers';
+export * from './promiseHelpers';

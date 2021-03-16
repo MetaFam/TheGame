@@ -4,8 +4,8 @@ import { PageHeader } from 'components/PageHeader';
 import { CONFIG } from 'config';
 import { Web3ContextProvider } from 'contexts/Web3Context';
 import { getTokenFromStore } from 'lib/auth';
-import { withUrqlClient, WithUrqlProps } from 'next-urql';
 import Head from 'next/head';
+import { withUrqlClient, WithUrqlProps } from 'next-urql';
 import React from 'react';
 
 const app: React.FC<WithUrqlProps> = ({ pageProps, resetUrqlClient, Component }) => {
