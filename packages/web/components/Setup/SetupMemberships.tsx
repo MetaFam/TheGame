@@ -20,11 +20,11 @@ export type SetupMembershipsProps = {
   >;
 }
 
-export const SetupMemberships: React.FC<SetupMembershipsProps> = ({memberships}) => {
+export const SetupMemberships: React.FC<SetupMembershipsProps> = ({ memberships }) => {
   const { isConnected } = useWeb3();
   const {
     onNextPress,
-    nextButtonLabel
+    nextButtonLabel,
   } = useSetupFlow();
 
   return (

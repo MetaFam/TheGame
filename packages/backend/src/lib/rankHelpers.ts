@@ -5,7 +5,7 @@ export const RANKS = [
   PlayerRank_Enum.Platinum,
   PlayerRank_Enum.Gold,
   PlayerRank_Enum.Silver,
-  PlayerRank_Enum.Bronze
+  PlayerRank_Enum.Bronze,
 ]
 
 export const PLAYERS_PER_RANK = [7, 7, 7, 14, 21];

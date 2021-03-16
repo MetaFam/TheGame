@@ -114,5 +114,5 @@ export const Line = connect(
         menuY: state.menuY,
         mouseX: state.mouseX,
         mouseY: state.mouseY,
-    })
+    }),
 )(LineComponent);

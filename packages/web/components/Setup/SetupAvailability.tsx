@@ -20,11 +20,11 @@ export type SetupAvailabilityProps = {
 }
 
 export const SetupAvailability: React.FC<SetupAvailabilityProps> = ({
-  availability, setAvailability
+  availability, setAvailability,
 }) => {
   const {
     onNextPress,
-    nextButtonLabel
+    nextButtonLabel,
   } = useSetupFlow();
 
   const [invalid, setInvalid] = useState(false);
@@ -44,8 +44,8 @@ export const SetupAvailability: React.FC<SetupAvailabilityProps> = ({
     const { error } = await updateProfile({
       playerId: user.id,
       input: {
-        availability_hours: Number(availability)
-      }
+        availability_hours: Number(availability),
+      },
     });
 
     if (error) {

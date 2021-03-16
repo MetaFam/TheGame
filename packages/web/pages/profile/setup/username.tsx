@@ -8,8 +8,8 @@ import React, { useState } from 'react';
 export const getStaticProps = async () => {
   return {
     props: {
-      hideAppDrawer: true
-    }
+      hideAppDrawer: true,
+    },
   };
 };
 
@@ -21,7 +21,7 @@ const UsernameSetup: React.FC<DefaultSetupProps> = () => {
   const { user } = useUser({ redirectTo: '/' });
 
   if (user?.player) {
-    const {player} = user;
+    const { player } = user;
     if (
       player.username &&
       player.username.toLowerCase() !== address?.toLowerCase() &&

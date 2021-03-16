@@ -7,8 +7,8 @@ import React from 'react';
 export const getStaticProps = async () => {
   return {
     props: {
-      hideAppDrawer: true
-    }
+      hideAppDrawer: true,
+    },
   };
 };
 

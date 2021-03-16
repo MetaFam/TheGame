@@ -24,7 +24,7 @@ export type SetupPersonalityTypeProps = {
 }
 
 export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
-  personalityTypeChoices, personalityType, setPersonalityType
+  personalityTypeChoices, personalityType, setPersonalityType,
 }) => {
   const {
     onNextPress,
@@ -42,8 +42,8 @@ export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
       const { error } = await updateAboutYou({
         playerId: user.id,
         input: {
-          enneagram: personalityType?.name
-        }
+          enneagram: personalityType?.name,
+        },
       });
 
       if (error) {

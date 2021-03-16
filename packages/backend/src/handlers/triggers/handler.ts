@@ -7,7 +7,7 @@ import { updateDiscordRole } from './updateDiscordRole';
 
 const TRIGGERS = {
   fetchBoxVerifiedAccounts,
-  'player_rank_updated': updateDiscordRole
+  'player_rank_updated': updateDiscordRole,
 };
 
 export const triggerHandler = async (
