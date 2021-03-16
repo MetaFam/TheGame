@@ -22,7 +22,7 @@ export type SetupAvailabilityProps = {
 }
 
 export const SetupAvailability: React.FC<SetupAvailabilityProps> = ({
-  availability, setAvailability
+  availability, setAvailability,
 }) => {
   const { onNextPress, nextButtonLabel } = useSetupFlow();
   const [invalid, setInvalid] = useState(false);

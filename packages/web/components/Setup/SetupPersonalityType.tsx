@@ -32,9 +32,7 @@ export type SetupPersonalityTypeProps = {
 export const SetupPersonalityType: (
   React.FC<SetupPersonalityTypeProps>
 ) = ({
-  personalityTypes,
-  colorMask,
-  setColorMask,
+  personalityTypes, colorMask, setColorMask,
 }) => {
   const { onNextPress, nextButtonLabel } = useSetupFlow();
   const { user } = useUser({ redirectTo: '/' });

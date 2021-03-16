@@ -23,7 +23,7 @@ export class SetupOptions {
         base: 'Profile',
         sm: '2. Profile',
         lg: '2. Professional Profile',
-      }
+      },
     }, {
       label: 'Start Playing',
       title: {
@@ -31,43 +31,43 @@ export class SetupOptions {
         sm: '3. Play',
         md: '3. Start Playing',
       },
-    }
+    },
   ];
 
   steps: SetupStep[] = [
     {
       label: 'Username',
       slug: 'username',
-      sectionIndex: 0
+      sectionIndex: 0,
     }, {
       label: 'Personality Type',
       slug: 'personalityType',
-      sectionIndex: 0
+      sectionIndex: 0,
     }, {
       label: 'Player Type',
       slug: 'playerType',
-      sectionIndex: 0
+      sectionIndex: 0,
     }, {
       label: 'Skills',
       slug: 'skills',
-      sectionIndex: 1
+      sectionIndex: 1,
     }, {
       label: 'Availability',
       slug: 'availability',
-      sectionIndex: 1
+      sectionIndex: 1,
     }, {
       label: 'Time Zone',
       slug: 'timeZone',
-      sectionIndex: 1
+      sectionIndex: 1,
     }, {
       label: 'Memberships',
       slug: 'memberships',
-      sectionIndex: 1
+      sectionIndex: 1,
     }, {
       label: 'Start Playing',
       slug: 'complete',
-      sectionIndex: 2
-    }
+      sectionIndex: 2,
+    },
   ]
 
   stepIndexMatchingSlug(slug: string | null): number {

@@ -19,7 +19,7 @@ export type SetupPlayerTypeProps = {
 }
 
 export const SetupPlayerType: React.FC<SetupPlayerTypeProps> = ({
-  playerTypeChoices, playerType, setPlayerType
+  playerTypeChoices, playerType, setPlayerType,
 }) => {
   const { onNextPress, nextButtonLabel } = useSetupFlow();
   const { user } = useUser({ redirectTo: '/' });

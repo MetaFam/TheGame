@@ -7,6 +7,10 @@ import {
   SkillCategory_Enum,
 } from 'graphql/autogen/types';
 
+export type Patron = PlayerFragmentFragment & {
+  pSeedBalance: string;
+};
+
 export type Skill = {
   id: string;
   name: string;

@@ -27,8 +27,8 @@ export const SetupTimeZone: React.FC<SetupTimezoneProps> = ({timeZone, setTimeZo
     const { error } = await updateProfile({
       playerId: user.id,
       input: {
-        timezone: timeZone
-      }
+        timezone: timeZone,
+      },
     });
 
     if (error) {

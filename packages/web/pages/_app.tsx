@@ -4,11 +4,11 @@ import { PageHeader } from 'components/PageHeader';
 import { CONFIG } from 'config';
 import { Web3ContextProvider } from 'contexts/Web3Context';
 import { getTokenFromStore } from 'lib/auth';
-import { withUrqlClient } from 'next-urql';
-import { AppProps } from 'next/app';
 import Head from 'next/head';
+import { withUrqlClient, WithUrqlProps } from 'next-urql';
+import React from 'react';
 
-const app: React.FC<AppProps> = ({ pageProps, Component }) => {
+const app: React.FC<WithUrqlProps> = ({ pageProps, resetUrqlClient, Component }) => {
   return (
     <ChakraProvider theme={MetaTheme}>
       <CSSReset />
@@ -16,10 +16,12 @@ const app: React.FC<AppProps> = ({ pageProps, Component }) => {
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>MetaGame</title>
       </Head>
-      <Web3ContextProvider>
-        {!pageProps.hideAppDrawer && <PageHeader />}
-        {!pageProps.hideAppDrawer && <MobileFooter />}
-        <Component {...pageProps} />
+      <Web3ContextProvider resetUrqlClient={resetUrqlClient}>
+        <>
+          {!pageProps.hideAppDrawer && <PageHeader />}
+          {!pageProps.hideAppDrawer && <MobileFooter />}
+          <Component {...pageProps} />
+        </>
       </Web3ContextProvider>
     </ChakraProvider>
   );

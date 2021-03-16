@@ -1,11 +1,13 @@
 import {
   Avatar,
   Box,
-  Flex,
   Heading,
   HStack,
   MetaButton,
   MetaTag,
+  MetaTile,
+  MetaTileBody,
+  MetaTileHeader,
   Text,
   VStack,
 } from '@metafam/ds';
@@ -18,21 +20,8 @@ type Props = {
 };
 
 export const GuildTile: React.FC<Props> = ({ guild }) => (
-  <Flex
-    direction="column"
-    key={guild.id}
-    bg="whiteAlpha.200"
-    style={{ backdropFilter: 'blur(7px)' }}
-    rounded="lg"
-    p="6"
-    maxW="25rem"
-    w="100%"
-    align="stretch"
-    position="relative"
-    overflow="hidden"
-    justify="space-between"
-  >
-    <VStack w="100%" spacing="6" align="stretch" mb={6} position="relative">
+  <MetaTile>
+    <MetaTileHeader>
       <VStack>
         {guild.logo ? (
           <Avatar size="xl" src={guild.logo} name={guild.name} />
@@ -55,8 +44,8 @@ export const GuildTile: React.FC<Props> = ({ guild }) => (
           <Text fontSize="sm">{guild.description}</Text>
         </VStack>
       ) : null}
-    </VStack>
-    <VStack w="100%" spacing="6" align="stretch">
+    </MetaTileHeader>
+    <MetaTileBody>
       <VStack spacing={2} align="stretch">
         <Text fontFamily="mono" fontSize="sm" color="blueLight">
           LINKS
@@ -75,6 +64,6 @@ export const GuildTile: React.FC<Props> = ({ guild }) => (
           Join
         </MetaButton>
       ) : null}
-    </VStack>
-  </Flex>
+    </MetaTileBody>
+  </MetaTile>
 );
