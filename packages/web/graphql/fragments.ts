@@ -75,3 +75,10 @@ export const GuildFragment = gql`
     website_url
   }
 `;
+
+export const TokenBalancesFragment = gql`
+  fragment TokenBalancesFragment on TokenBalances {
+    address: id
+    pSeedBalance
+  }
+`;
