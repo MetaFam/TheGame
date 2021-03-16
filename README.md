@@ -70,7 +70,7 @@ yarn backend:dev
 ```
 
 
-### Run NextJS Web App dev Mode
+### Run NextJS Web App dev mode (new)
 
 ```shell script
 yarn web:dev
@@ -78,20 +78,13 @@ yarn web:dev
 
 ### Tooling
 
-#### Start Hasura Console
+Start Hasura console
 
-```bash
+```shell script
 yarn hasura:console
 ```
 
-#### Rerun Last Migration
-
-```bash
-yarn hasura migrate apply --down 1
-yarn hasura migrate apply
-```
-
-#### Hasura CLI Example
+Hasura CLI example
 
 ```shell script
 yarn hasura migrate status
@@ -99,30 +92,30 @@ yarn hasura migrate squash --name "<feature-name>" --from 1598417879553
 yarn hasura migrate apply --version "<squash-migration-version>" --skip-execution
 ```
 
-* [Hasura CLI documentation](https://hasura.io/docs/1.0/graphql/manual/hasura-cli/index.html)
-* [Hasura Migrations Guide](https://hasura.io/docs/1.0/graphql/manual/migrations/basics.html#migrations-basics)
+[Hasura CLI documentation](https://hasura.io/docs/1.0/graphql/manual/hasura-cli/index.html)
+[Hasura Migrations Guide](https://hasura.io/docs/1.0/graphql/manual/migrations/basics.html#migrations-basics)
 
-#### Generate GraphQL Types
+Generate GraphQL Types
 
 ```shell script
 yarn generate
 ```
 
-#### Reload Schema + Generate GraphQL Types *(backend needs to be running)*
+Reload Schema + Generate GraphQL Types (backend needs to be running)
 
 ```shell script
 yarn update-schema
 yarn generate
 ```
 
-### Restart with Fresh Database
+### Restart with fresh database
 
 ```shell script
 yarn docker:clean
 yarn docker:start
 ```
 
-### Run Typechecks
+### Run typechecks
 
 ```shell script
 yarn typecheck

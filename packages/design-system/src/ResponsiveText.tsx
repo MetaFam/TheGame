@@ -7,9 +7,7 @@ interface Content {
 
 export type Props = Content & TextProps;
 
-export const ResponsiveText: React.FC<Props> = (
-  ({ content, ...props }) => {
-    const value = useBreakpointValue(content);
-    return <Text {...props}>{value}</Text>;
-  }
-);
+export const ResponsiveText: React.FC<Props> = ({ content, ...props }) => {
+  const value = useBreakpointValue(content);
+  return <Text {...props}>{value}</Text>;
+};

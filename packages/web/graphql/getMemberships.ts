@@ -21,14 +21,12 @@ const membershipsQuery = gql`
 
 export const getMemberships = async (address: string | undefined) => {
   if (!address) return null;
-  const { data } = await (
-    client
+  const { data } = await client
     .query<GetMembershipsQuery, GetMembershipsQueryVariables>(
       membershipsQuery,
       { address },
     )
-    .toPromise()
-  );
+    .toPromise();
 
   return data?.getDaoHausMemberships;
 };

@@ -19,10 +19,8 @@ export const triggerHandler = async (
   if (role !== 'admin') {
     throw new Error('Unauthorized');
   }
-
-  const trigger = (
-    TRIGGERS[req.body.trigger.name as keyof typeof TRIGGERS]
-  );
+  
+  const trigger = TRIGGERS[req.body.trigger.name as keyof typeof TRIGGERS];
 
   if (trigger) {
     await trigger(req.body);
