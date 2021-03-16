@@ -44,21 +44,23 @@ export async function verifySignature(
   provider: providers.BaseProvider,
 ): Promise<boolean> {
   const walletType = await getWalletType(address, provider);
+
   if (walletType === WalletType.EOA) {
     const recoveredAddress = utils.verifyMessage(message, signature);
     return address === recoveredAddress;
   }
-  if (walletType === WalletType.SMART) {
-    const arrayishMessage = utils.toUtf8Bytes(message);
-    const hexMessage = utils.hexlify(arrayishMessage);
-    const hexArray = utils.arrayify(hexMessage);
-    const hashMessage = utils.hashMessage(hexArray);
 
-    const contract = new Contract(address, smartWalletABI, provider);
+  // Smart wallet
+  const arrayishMessage = utils.toUtf8Bytes(message);
+  const hexMessage = utils.hexlify(arrayishMessage);
+  const hexArray = utils.arrayify(hexMessage);
+  const hashMessage = utils.hashMessage(hexArray);
 
+  const contract = new Contract(address, smartWalletABI, provider);
+  try {
     const returnValue = await contract.isValidSignature(hashMessage, signature);
-
     return returnValue;
+  } catch(error) {
+    throw new Error('unsupported smart wallet');
   }
-  throw new Error('unsupported wallet type');
 }
