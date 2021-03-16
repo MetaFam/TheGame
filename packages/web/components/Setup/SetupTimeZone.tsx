@@ -15,10 +15,10 @@ export type SetupTimezoneProps = {
   setTimeZone: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export const SetupTimeZone: React.FC<SetupTimezoneProps> = ({timeZone, setTimeZone}) => {
+export const SetupTimeZone: React.FC<SetupTimezoneProps> = ({ timeZone, setTimeZone }) => {
   const {
     onNextPress,
-    nextButtonLabel
+    nextButtonLabel,
   } = useSetupFlow();
   const { user } = useUser({ redirectTo: '/' });
   const toast = useToast();
@@ -31,8 +31,8 @@ export const SetupTimeZone: React.FC<SetupTimezoneProps> = ({timeZone, setTimeZo
     const { error } = await updateProfile({
       playerId: user.id,
       input: {
-        timezone: timeZone
-      }
+        timezone: timeZone,
+      },
     });
 
     if (error) {

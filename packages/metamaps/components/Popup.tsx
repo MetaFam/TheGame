@@ -39,5 +39,5 @@ export const Popup = connect(
     (state: any) => ({
         renderedPopupText: state.renderedPopupText,
         popupActive: state.popupActive,
-    })
+    }),
 )(PopupComponent);

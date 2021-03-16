@@ -20,7 +20,7 @@ export const SetupContext = React.createContext<SetupContextType>({
   nextButtonLabel: 'Next Step',
 });
 
-export const SetupContextProvider: React.FC = ({children}) => {
+export const SetupContextProvider: React.FC = ({ children }) => {
   const options = useMemo(() => {
     return new SetupOptions();
   }, []);

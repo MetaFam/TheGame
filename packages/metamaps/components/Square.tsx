@@ -42,7 +42,7 @@ export const SquareComponent: FC<SquareProps> = ({
     popup,
 }) => {
     const [, drag] = useDrag({
-        item: { id, type, left, top }
+        item: { id, type, left, top },
     })
 
     if (selectedItem === id && resizingItem) {
@@ -107,5 +107,5 @@ export const Square = connect(
 
         mouseX: state.mouseX,
         mouseY: state.mouseY,
-    })
+    }),
 )(SquareComponent);

@@ -10,10 +10,10 @@ export type SetupUsernameProps = {
   setUsername: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export const SetupUsername: React.FC<SetupUsernameProps> = ({username, setUsername}) => {
+export const SetupUsername: React.FC<SetupUsernameProps> = ({ username, setUsername }) => {
   const {
     onNextPress,
-    nextButtonLabel
+    nextButtonLabel,
   } = useSetupFlow();
   const { user } = useUser({ redirectTo: '/' });
   const toast = useToast();

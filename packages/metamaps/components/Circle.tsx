@@ -40,7 +40,7 @@ export const CircleComponent: FC<CircleProps> = ({
     popup,
 }) => {
     const [, drag] = useDrag({
-        item: { id, type, left, top }
+        item: { id, type, left, top },
     })
 
     if (selectedItem === id && resizingItem) {
@@ -111,5 +111,5 @@ export const Circle = connect(
 
         mouseX: state.mouseX,
         mouseY: state.mouseY,
-    })
+    }),
 )(CircleComponent);
