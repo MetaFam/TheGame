@@ -15,8 +15,9 @@ import {
 import { MetaLink } from 'components/Link';
 import { PlayerContacts } from 'components/Player/PlayerContacts';
 import { PlayerTileMemberships } from 'components/Player/PlayerTileMemberships';
-import { PlayerTileSkills } from 'components/Player/PlayerTileSkills';
+import { utils } from 'ethers';
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
+import { Patron } from 'graphql/types';
 import React from 'react';
 import {
   getPlayerCoverImage,
@@ -25,10 +26,11 @@ import {
 } from 'utils/playerHelpers';
 
 type Props = {
-  player: PlayerFragmentFragment;
+  patron: Patron;
 };
 
-export const PlayerTile: React.FC<Props> = ({ player }) => {
+export const PatronTile: React.FC<Props> = ({ patron }) => {
+  const player = patron as PlayerFragmentFragment;
   return (
     <MetaTile>
       <Box
@@ -66,17 +68,19 @@ export const PlayerTile: React.FC<Props> = ({ player }) => {
               </MetaTag>
             </WrapItem>
           ) : null}
-          {player.rank && (
+          {patron.pSeedBalance ? (
             <WrapItem>
               <MetaTag
-                backgroundColor={player.rank?.toLowerCase()}
+                backgroundColor="cyan.400"
                 size="md"
                 color="blackAlpha.600"
               >
-                {player.rank}
+                {`pSEED: ${Math.floor(
+                  Number(utils.formatEther(patron.pSeedBalance)),
+                )}`}
               </MetaTag>
             </WrapItem>
-          )}
+          ) : null}
           <WrapItem>
             <MetaTag size="md">XP: {Math.floor(player.total_xp)}</MetaTag>
           </WrapItem>
@@ -91,15 +95,6 @@ export const PlayerTile: React.FC<Props> = ({ player }) => {
         ) : null}
       </MetaTileHeader>
       <MetaTileBody>
-        {player.Player_Skills.length ? (
-          <VStack spacing={2} align="stretch">
-            <Text fontFamily="mono" fontSize="sm" color="blueLight">
-              SKILLS
-            </Text>
-            <PlayerTileSkills player={player} />
-          </VStack>
-        ) : null}
-
         {player.daohausMemberships.length ? (
           <VStack spacing={2} align="stretch">
             <Text fontFamily="mono" fontSize="sm" color="blueLight">
@@ -108,7 +103,6 @@ export const PlayerTile: React.FC<Props> = ({ player }) => {
             <PlayerTileMemberships player={player} />
           </VStack>
         ) : null}
-
         {player.Accounts.length ? (
           <VStack spacing={2} align="stretch">
             <Text fontFamily="mono" fontSize="sm" color="blueLight">

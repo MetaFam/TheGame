@@ -57,3 +57,4 @@ export { ResponsiveText } from './ResponsiveText';
 export { SelectSearch, selectStyles } from './SelectSearch';
 export { SelectTimeZone } from './SelectTimeZone';
 export { BoxedNextImage } from './BoxedNextImage';
+export { MetaTile, MetaTileHeader, MetaTileBody } from './MetaTile';
