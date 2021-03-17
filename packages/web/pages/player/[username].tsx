@@ -52,7 +52,7 @@ const PlayerPage: React.FC<Props> = (
 
     const addBox = (column: number, name: string) => {
       setBoxAvailableList(
-        boxAvailableList.filter(box => box !== name)
+        boxAvailableList.filter(box => box !== name),
       );
       const updatedFakeData = [...fakeData];
       updatedFakeData[column].push(name);

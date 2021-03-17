@@ -10,7 +10,7 @@ type Props = {
 
 export const PlayerTimeZone: React.FC<Props> = ({ player }) => {
   const tzDisplay = useMemo(
-    () => getPlayerTimeZoneDisplay(player), [player]
+    () => getPlayerTimeZoneDisplay(player), [player],
   );
   
   return (

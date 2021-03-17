@@ -8,7 +8,7 @@ export const getPlayerImage = (player: PlayerFragmentFragment): string =>
   `https://avatars.dicebear.com/api/jdenticon/${player.username}.svg`;
 
 export const getPlayerCoverImage = (player: PlayerFragmentFragment): string =>
-  player.box_profile?.coverImageUrl || BackgroundImage;
+  player.box_profile?.coverImageUrl ?? BackgroundImage;
 
 export const getPlayerName = (player: PlayerFragmentFragment): string =>
   player.box_profile?.name || formatUsernameIfAddress(player.username);

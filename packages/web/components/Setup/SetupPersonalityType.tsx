@@ -88,19 +88,19 @@ export const SetupPersonalityType: (
         <Text mb={10}>
           Please select your personality components below.
           Not sure what type you are?
-          <Text as="span"> Take a </Text>
+          <Text as="span"> Take </Text>
           <MetaLink
             href="//dysbulic.github.io/5-color-radar/#/explore/"
             isExternal
           >
-            quick exam
+           a quick exam
           </MetaLink>
           <Text as="span"> or </Text>
           <MetaLink
             href="//dysbulic.github.io/5-color-radar/#/test/"
             isExternal
           >
-            longer quiz
+            a longer quiz
           </MetaLink>
           .
         </Text>
@@ -176,7 +176,7 @@ export const SetupPersonalityType: (
                 </FlexContainer>
               </Button>
             )
-          }
+          },
         )
       }
       </FlexContainer>

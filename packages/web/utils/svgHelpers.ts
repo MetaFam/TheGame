@@ -1,14 +1,14 @@
 const polarToCartesian = (
   (
     cx = 0, cy = 0,
-    radius: number, angleInDegrees: number
+    radius: number, angleInDegrees: number,
   ) => {
     const angleInRadians = (
       (angleInDegrees - 90) * Math.PI / 180.0
     );
     return {
       x: cx + (radius * Math.cos(angleInRadians)),
-      y: cy + (radius * Math.sin(angleInRadians))
+      y: cy + (radius * Math.sin(angleInRadians)),
     };
   }
 );
@@ -21,7 +21,7 @@ const polarToCartesian = (
 export const svgArc = (
   ({
     cx = 0, cy = 0, r,
-    start, end = start + 90
+    start, end = start + 90,
   }: {
     cx?: number, cy?: number, r: number,
     start: number, end?: number

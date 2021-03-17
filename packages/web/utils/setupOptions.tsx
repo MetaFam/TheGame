@@ -16,7 +16,7 @@ export class SetupOptions {
   sections: SetupSection[] = [
     {
       label: 'About You',
-      title: { base: 'About', sm: '1. About You' }
+      title: { base: 'About', sm: '1. About You' },
     }, {
       label: 'Profile',
       title: {
@@ -103,7 +103,7 @@ export class SetupOptions {
         }
         return count;
       },
-      0
+      0,
     );
     return (
       Math.floor((stepsCompletedInSection + 1) * 100.0)

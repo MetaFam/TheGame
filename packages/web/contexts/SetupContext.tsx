@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import React, {
-  useCallback, useContext, useEffect, useMemo, useState
+  useCallback, useContext, useEffect, useMemo, useState,
 } from 'react';
 import { SetupOptions } from 'utils/setupOptions';
 

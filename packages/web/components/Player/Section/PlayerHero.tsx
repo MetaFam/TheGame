@@ -1,5 +1,5 @@
 import {
-  Avatar, Box, Flex, HStack, Link, Text, VStack
+  Avatar, Box, Flex, HStack, Link, Text, VStack,
 } from '@metafam/ds';
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
 import { getPersonalityInfo } from 'graphql/getPersonalityInfo';

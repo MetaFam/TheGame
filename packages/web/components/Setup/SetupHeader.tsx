@@ -1,5 +1,5 @@
 import {
-  Box, Flex, Grid, Image, ResponsiveText, Text, TextProps
+  Box, Flex, Grid, Image, ResponsiveText, Text, TextProps,
 } from '@metafam/ds';
 import LogoImage from 'assets/logo.png';
 import { FlexContainer } from 'components/Container';
@@ -15,7 +15,7 @@ export const SetupHeader: React.FC = () => {
   const { sectionIndex } = options.steps[stepIndex];
 
   const Nav = (
-    { children, ...props }: TextProps
+    { children, ...props }: TextProps,
   ) => (
     <Text
       fontFamily="'Press Start 2P'" fontSize={30}

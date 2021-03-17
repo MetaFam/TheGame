@@ -10,7 +10,7 @@ export const MetaButton: React.FC<ButtonProps & LinkProps & RefProps> = (
       children,
       ...props
     },
-    ref = null
+    ref = null,
   ) => (
     <Button
       colorScheme="purple"

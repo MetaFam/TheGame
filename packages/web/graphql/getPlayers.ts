@@ -1,7 +1,7 @@
 import gql from 'fake-tag';
 
 import {
-  GetPlayersQuery, GetPlayersQueryVariables
+  GetPlayersQuery, GetPlayersQueryVariables,
 } from './autogen/types';
 import { client } from './client';
 import { PlayerFragment } from './fragments';
@@ -19,7 +19,7 @@ export const getPlayers = async (limit = 50) => {
   const { data, error } = await (
     client
     .query<GetPlayersQuery, GetPlayersQueryVariables>(
-      playersQuery, { limit }
+      playersQuery, { limit },
     )
     .toPromise()
   );

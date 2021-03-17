@@ -33,7 +33,7 @@ const maskImageStyle = (
 export const ColorBar = (
   (
     { mask = 0, ...props }:
-    ChakraProps & { mask: number | undefined }
+    ChakraProps & { mask: number | undefined },
   ): JSX.Element => {
     const [parts, setParts] = (
       useState<Array<PersonalityOption>>([])

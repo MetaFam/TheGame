@@ -15,7 +15,7 @@ export type SetupTimezoneProps = {
   setTimeZone: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export const SetupTimeZone: React.FC<SetupTimezoneProps> = ({timeZone, setTimeZone}) => {
+export const SetupTimeZone: React.FC<SetupTimezoneProps> = ({ timeZone, setTimeZone }) => {
   const { onNextPress, nextButtonLabel } = useSetupFlow();
   const { user } = useUser({ redirectTo: '/' });
   const toast = useToast();
