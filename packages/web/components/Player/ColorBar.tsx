@@ -5,7 +5,7 @@ import { FlexContainer } from "components/Container";
 import {
   colors,
   getPersonalityInfo,
-  MetaGameAliases,
+  images,
 } from "graphql/getPersonalityInfo";
 import { PersonalityOption } from "graphql/types";
 import React, { useEffect, useState } from "react";
@@ -61,7 +61,6 @@ export const ColorBar = (
         <Flex maxW='100%' minH='1.5rem' mb='1rem'>
           {parts.map((part) => {
             const set = ((mask & part.mask) !== 0)
-            const alias = MetaGameAliases[part.mask]
 
             return (
               !set // if the bit isn't set
@@ -75,8 +74,8 @@ export const ColorBar = (
                   <Box
                     bgColor='white'
                     h={6} w={6}
-                    title={alias.label}
-                    style={maskImageStyle({ url: alias.image })}
+                    title={part.label}
+                    style={maskImageStyle({ url: images[part.mask] })}
                   />
                 </Flex>
               )

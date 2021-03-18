@@ -20,13 +20,13 @@ const AspectsQuery = gql`
 `;
 
 export const images: {
-  [x: number]: { image: string }
+  [x: number]: string
 } = {
-  0b10000: { image: JusticeAltImg },
-  0b01000: { image: WisdomAltImg },
-  0b00100: { image: AmbitionAltImg },
-  0b00010: { image: ChaosAltImg },
-  0b00001: { image: BalanceAltImg },
+  0b10000: JusticeAltImg,
+  0b01000: WisdomAltImg,
+  0b00100: AmbitionAltImg,
+  0b00010: ChaosAltImg,
+  0b00001: BalanceAltImg,
 };
 
 export const colors: {

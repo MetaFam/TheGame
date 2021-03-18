@@ -112,7 +112,7 @@ export const SetupPersonalityType: (
       >
         {Object.entries(BaseImages)
         .reverse().map(
-          ([orig, { image }], idx) => {
+          ([orig, image], idx) => {
             const option = personalityTypes[parseInt(orig, 10)]
             const { mask = 0 } = (option ?? {})
             const selected = (((colorMask ?? 0) & mask) > 0)
