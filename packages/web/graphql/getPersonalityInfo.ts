@@ -19,17 +19,14 @@ const AspectsQuery = gql`
   }
 `;
 
-/* MetaGame has it's own naming convention and images
- * for the pure colors.
- */
-export const MetaGameAliases: {
-  [x: number]: { label: string, image: string }
+export const images: {
+  [x: number]: { image: string }
 } = {
-  0b10000: { label: 'Justice', image: JusticeAltImg },
-  0b01000: { label: 'Wisdom', image: WisdomAltImg },
-  0b00100: { label: 'Ambition', image: AmbitionAltImg },
-  0b00010: { label: 'Chaos', image: ChaosAltImg },
-  0b00001: { label: 'Balance', image: BalanceAltImg },
+  0b10000: { image: JusticeAltImg },
+  0b01000: { image: WisdomAltImg },
+  0b00100: { image: AmbitionAltImg },
+  0b00010: { image: ChaosAltImg },
+  0b00001: { image: BalanceAltImg },
 };
 
 export const colors: {

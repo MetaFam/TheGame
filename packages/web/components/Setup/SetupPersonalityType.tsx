@@ -13,7 +13,7 @@ import { FlexContainer } from 'components/Container';
 import { MetaLink } from 'components/Link';
 import { useSetupFlow } from 'contexts/SetupContext';
 import { useUpdateAboutYouMutation } from 'graphql/autogen/types';
-import { MetaGameAliases } from 'graphql/getPersonalityInfo'
+import { images as BaseImages } from 'graphql/getPersonalityInfo'
 import { PersonalityOption } from 'graphql/types';
 import { useUser } from 'lib/hooks';
 import React, { useCallback } from 'react';
@@ -110,9 +110,9 @@ export const SetupPersonalityType: (
         direction='row' wrap='wrap'
         id="colors"
       >
-        {Object.entries(MetaGameAliases)
+        {Object.entries(BaseImages)
         .reverse().map(
-          ([orig, { image, label }], idx) => {
+          ([orig, { image }], idx) => {
             const option = personalityTypes[parseInt(orig, 10)]
             const { mask = 0 } = (option ?? {})
             const selected = (((colorMask ?? 0) & mask) > 0)
@@ -157,7 +157,7 @@ export const SetupPersonalityType: (
               >
                 <Image
                   w="100%" maxW={16} h={16}
-                  src={image} alt={label}
+                  src={image} alt={option.label}
                   filter="drop-shadow(0px 0px 6px black)"
                 />
                 <FlexContainer align="stretch" ml={2}>
@@ -165,7 +165,7 @@ export const SetupPersonalityType: (
                     color="white"
                     casing="uppercase" textAlign="left"
                   >
-                    {label}
+                    {option.label}
                   </Text>
                   <Text
                     color="blueLight" fontWeight="normal"
