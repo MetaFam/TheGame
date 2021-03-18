@@ -19,8 +19,10 @@
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
     "react-ga": "^3.2.1",
+    "react-rnd": "^10.2.4",
     "react-tooltip": "^4.2.10",
-    "simple-oauth2": "^2.5.2"
+    "simple-oauth2": "^2.5.2",
+    "styled-components": "^5.2.1"
   },
   "browserslist": {
     "production": [
