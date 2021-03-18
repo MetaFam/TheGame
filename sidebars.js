@@ -29,6 +29,7 @@ module.exports = {
       "enter-metagame/Chainlog",
     ],
     "🏡 The Great Houses": [
+      "great-houses/how-to-house",
       "great-houses/house-of-ethereum",
       "great-houses/house-of-daos",
       "great-houses/house-of-NFTs",
