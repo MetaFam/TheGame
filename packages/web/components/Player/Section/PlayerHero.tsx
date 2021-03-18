@@ -82,7 +82,7 @@ export const PlayerHero: React.FC<Props> = ({ player }) => {
           <PlayerCollab player={player} />
         </Box>
         {type && types && (
-          <Flex direction="column" id="color" mb={8} w="100%">
+          <Flex direction="column" id="color" mb={0} w="100%">
             <Text
               fontSize="xs" color="blueLight"
               casing="uppercase"
@@ -94,12 +94,15 @@ export const PlayerHero: React.FC<Props> = ({ player }) => {
             <Link
               isExternal
               href={`//dysbulic.github.io/5-color-radar/#/combos/${type.mask.toString(2)}`}
+              maxH='6rem'
             >
               <Flex justify="center">
-                <ColorBar mask={type.mask} maxH='4rem'/>
+                <ColorBar mask={type.mask}/>
               </Flex>
             </Link>
-            <Text color="blueLight">{type.description}</Text>
+            <Text color="blueLight" mt={4} style={{ textIndent: 16 }}>
+              {type.description}
+            </Text>
           </Flex>
         )}
         {player.playerType?.title && (
@@ -110,7 +113,7 @@ export const PlayerHero: React.FC<Props> = ({ player }) => {
             >
               {player.playerType.title}
             </Text>
-            <Text color="blueLight">
+            <Text color="blueLight" style={{ textIndent: 16 }}>
               {player.playerType.description}
             </Text>
           </FlexContainer>
