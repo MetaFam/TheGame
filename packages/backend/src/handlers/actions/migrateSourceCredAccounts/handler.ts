@@ -133,7 +133,7 @@ export const migrateSourceCredAccounts = async (
           identityId: player.scIdentityId,
           rank: player.rank,
           totalXp: player.totalXp,
-          discordId: player.discordId || '',
+          discordId: player.discordId,
         };
         if (player.mergedIdentityIds.length) {
           await client.DeleteDuplicatePlayers({

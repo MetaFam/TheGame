@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import { createDiscordClient } from '@metafam/discord-bot';
 
-import { AccountType_Enum, Player, PlayerRank_Enum } from '../../lib/autogen/hasura-sdk';
+import { Player, PlayerRank_Enum } from '../../lib/autogen/hasura-sdk';
 import { client } from '../../lib/hasuraClient';
 import { TriggerPayload } from './types';
 
@@ -18,12 +18,14 @@ export const updateDiscordRole = async (
 ) => {
   const { old: oldPlayer, new: newPlayer } = payload.event.data;
 
+  console.log(`updateDiscordRole action triggered for player (username=${newPlayer?.username})`);
+
   try {
     if (newPlayer == null) return;
    
     const getPlayerResponse = await client.GetPlayer({ playerId: newPlayer.id });
-    const discordPlayerAccount = getPlayerResponse.player_by_pk?.Accounts?.find(a => a.type === AccountType_Enum.Discord);
-    if (discordPlayerAccount?.identifier == null) return;
+    const playerDiscordId = getPlayerResponse.player_by_pk?.discord_id;
+    if (playerDiscordId == null) return;
 
     const newRank = newPlayer?.rank;
 
@@ -31,23 +33,23 @@ export const updateDiscordRole = async (
    
     // look up guild by guildname = 'metagame' (for now), 
     const getGuildResponse = await client.GetGuild({ guildname: 'metafam' });
-    const discordGuildAccount = getGuildResponse.guild[0]?.guild_accounts?.find(a => a.type === AccountType_Enum.Discord);
-    if (discordGuildAccount == null) return;
+    const guildDiscordId = getGuildResponse.guild[0]?.discord_id;
+    if (guildDiscordId == null) return;
 
     // instantiate discord client. We'll need serverId, playerId, and roleIds
     const discordClient = await createDiscordClient();
 
-    const guild = await discordClient.guilds.fetch(discordGuildAccount.identifier);
+    const guild = await discordClient.guilds.fetch(guildDiscordId);
     if (guild == null) {
-      console.warn(`No discord server found matching ${discordGuildAccount.identifier}!`);
+      console.warn(`No discord server found matching ${guildDiscordId}!`);
       return;
     }
 
     const rankDiscordRoleIds = getGuildResponse.guild[0]?.discord_metadata?.rankRoleIds as RankRoleIds;
 
-    const discordPlayer = await guild.members.fetch(discordPlayerAccount.identifier);
+    const discordPlayer = await guild.members.fetch(playerDiscordId);
     if (discordPlayer == null) {
-      console.warn(`No discord player with ID ${discordPlayerAccount.identifier} found in server ${guild.name}!`);
+      console.warn(`No discord player with ID ${playerDiscordId} found in server ${guild.name}!`);
       return;
     }
 
@@ -55,7 +57,7 @@ export const updateDiscordRole = async (
     let removedRole : PlayerRank_Enum | null = null;
     if (oldPlayer?.rank != null) {
       // this is just a no-op if the player doesn't actually have the role
-      const success = await discordPlayer.roles.cache.delete(rankDiscordRoleIds[oldPlayer.rank]);
+      const success = await discordPlayer.roles.remove(rankDiscordRoleIds[oldPlayer.rank]);
       if (success) {
         removedRole = oldPlayer.rank;
       }
@@ -66,7 +68,7 @@ export const updateDiscordRole = async (
       for (const rank in rankDiscordRoleIds) {
         if (Object.prototype.hasOwnProperty.call(rankDiscordRoleIds, rank)) {
           // eslint-disable-next-line no-await-in-loop
-          const success = await discordPlayer.roles.cache.delete(rankDiscordRoleIds[rank as PlayerRank_Enum]);
+          const success = await discordPlayer.roles.remove(rankDiscordRoleIds[rank as PlayerRank_Enum]);
           if (success) {
             removedRole = rank as PlayerRank_Enum;
             break;
@@ -77,16 +79,16 @@ export const updateDiscordRole = async (
     }
 
     if (removedRole) {
-      console.log(`Removed role ${removedRole} for player ${newPlayer?.username} in discord`);
+      console.log(`  ${newPlayer?.username}: removed role ${removedRole}`);
     }
     
     // Add the new rank.
     const discordRoleForRank = rankDiscordRoleIds[newRank];
     if (discordRoleForRank == null) {
-      console.warn(`discord role associated with ${newRank} was not found!`);
+      console.warn(`Discord role associated with ${newRank} was not found!`);
     } else {
       await discordPlayer.roles.add(discordRoleForRank);
-      console.log(`Added role ${newRank} for player ${newPlayer?.username} in discord`);
+      console.log(`$  {newPlayer?.username}: added role ${newRank}`);
     }
 
   } catch (e) {
