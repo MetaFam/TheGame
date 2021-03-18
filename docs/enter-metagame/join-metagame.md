@@ -1,5 +1,5 @@
 ---
-title: 👽 Join MetaGame
+title: 👽 Join As a Player
 ---
 
 You didn't think we just let anyone in, did you?
