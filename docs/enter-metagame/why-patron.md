@@ -1,5 +1,5 @@
 ---
-title: 💰 For Patrons
+title: 💰 Why & How for Patron
 ---
 
 > **Patron**
