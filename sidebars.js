@@ -20,6 +20,7 @@ module.exports = {
     ],
     "🗺 Enter MetaGame": [
       "enter-metagame/join-metagame",
+      "enter-metagame/why-patron",
       "enter-metagame/how-to-become-a-player",
       "enter-metagame/roles-in-metagame",
       "enter-metagame/navigation-board",
