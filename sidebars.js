@@ -28,12 +28,12 @@ module.exports = {
       "enter-metagame/leaderboard",
       "enter-metagame/Chainlog",
     ],
-    "🏡 The Great Houses": [
-      "great-houses/how-to-house",
-      "great-houses/house-of-ethereum",
-      "great-houses/house-of-daos",
-      "great-houses/house-of-NFTs",
-      "enter-metagame/guilds-of-metagame",
+    '🏡 The Great Houses': [
+      'great-houses/how-to-house',
+      'great-houses/house-of-ethereum',
+      'great-houses/house-of-daos',
+      'great-houses/house-of-NFTs',
+      'enter-metagame/guilds-of-metagame',
       //   'great-houses/house-of-defiance',
       //   'great-houses/house-of-dapps',
       //   'great-houses/house-of-tokens',
