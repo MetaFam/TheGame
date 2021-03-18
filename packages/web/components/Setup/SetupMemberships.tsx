@@ -9,7 +9,7 @@ import {
 import { FlexContainer } from 'components/Container';
 import { useSetupFlow } from 'contexts/SetupContext';
 import { Membership } from 'graphql/types';
-import React from 'react';
+import React, { useState } from 'react';
 
 import { useWeb3 } from '../../lib/hooks';
 
@@ -18,14 +18,14 @@ export type SetupMembershipsProps = {
   setMemberships: React.Dispatch<
     React.SetStateAction<Array<Membership> | null | undefined>
   >;
-}
+};
 
-export const SetupMemberships: React.FC<SetupMembershipsProps> = ({ memberships }) => {
+export const SetupMemberships: React.FC<SetupMembershipsProps> = ({
+  memberships,
+}) => {
   const { isConnected } = useWeb3();
-  const {
-    onNextPress,
-    nextButtonLabel,
-  } = useSetupFlow();
+  const { onNextPress, nextButtonLabel } = useSetupFlow();
+  const [loading, setLoading] = useState(false);
 
   return (
     <FlexContainer>
@@ -65,7 +65,14 @@ export const SetupMemberships: React.FC<SetupMembershipsProps> = ({ memberships 
             We did not find any guilds associated with your account.
           </Text>
         ))}
-      <MetaButton onClick={onNextPress} mt={10}>
+      <MetaButton
+        onClick={() => {
+          setLoading(true);
+          onNextPress();
+        }}
+        mt={10}
+        isLoading={loading}
+      >
         {nextButtonLabel}
       </MetaButton>
     </FlexContainer>

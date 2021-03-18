@@ -17,15 +17,13 @@ import React, { useEffect, useState } from 'react';
 export type SetupAvailabilityProps = {
   availability: string;
   setAvailability: React.Dispatch<React.SetStateAction<string>>;
-}
+};
 
 export const SetupAvailability: React.FC<SetupAvailabilityProps> = ({
-  availability, setAvailability,
+  availability,
+  setAvailability,
 }) => {
-  const {
-    onNextPress,
-    nextButtonLabel,
-  } = useSetupFlow();
+  const { onNextPress, nextButtonLabel } = useSetupFlow();
 
   const [invalid, setInvalid] = useState(false);
   const { user } = useUser({ redirectTo: '/' });
@@ -37,10 +35,12 @@ export const SetupAvailability: React.FC<SetupAvailabilityProps> = ({
   }, [availability]);
 
   const [updateProfileRes, updateProfile] = useUpdateProfileMutation();
+  const [loading, setLoading] = useState(false);
 
   const handleNextPress = async () => {
     if (!user) return;
 
+    setLoading(true);
     const { error } = await updateProfile({
       playerId: user.id,
       input: {
@@ -49,14 +49,13 @@ export const SetupAvailability: React.FC<SetupAvailabilityProps> = ({
     });
 
     if (error) {
-      // eslint-disable-next-line no-console
-      console.warn(error);
       toast({
         title: 'Error',
         description: 'Unable to update availability. The octo is sad 😢',
         status: 'error',
         isClosable: true,
       });
+      setLoading(false);
       return;
     }
 
@@ -94,7 +93,7 @@ export const SetupAvailability: React.FC<SetupAvailabilityProps> = ({
         onClick={handleNextPress}
         mt={10}
         isDisabled={invalid}
-        isLoading={updateProfileRes.fetching}
+        isLoading={updateProfileRes.fetching || loading}
         loadingText="Saving"
       >
         {nextButtonLabel}
