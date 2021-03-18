@@ -1,5 +1,6 @@
-## Creating a new House page
-
+---
+title: 🏚️ Build a New House
+---
 
 ### General Goal: 
 
