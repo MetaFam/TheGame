@@ -78,7 +78,7 @@ DeFi-Staked Crypto Collectibles
 - **[Meme Ltd.](https://dontbuymeme.com/)** Meme is an experimental protocol mashing up some of the most exciting innovations in DeFi.
 
 ## Games
-- **[Axie Infinity](https://axieinfinity.com/)
+- **[Axie Infinity](https://axieinfinity.com/)** A Play to Earn revolution - Axie is a new type of game, partially owned and operated by its players.
 - **[Gods Unchained](https://godsunchained.com/)** The ultimate digital trading card game that gives players true ownership of their collection.
 - **[Skyweaver](https://www.skyweaver.net/)** A trading card game from another dimension. Currently in private beta.
 - **[Battle Racers](https://battleracers.io/)** The blockchain arcade racing game on Decentraland
