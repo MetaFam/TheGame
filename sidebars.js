@@ -19,11 +19,11 @@ module.exports = {
       "how-does-it-work/become-a-founder-of-metagame",
     ],
     "🗺 Enter MetaGame": [
-      "enter-metagame/join-metagame",
       "enter-metagame/why-patron",
       "enter-metagame/how-to-become-a-player",
       "enter-metagame/roles-in-metagame",
       "enter-metagame/navigation-board",
+      "enter-metagame/join-metagame",
       "enter-metagame/leaderboard",
       "enter-metagame/Chainlog",
     ],
