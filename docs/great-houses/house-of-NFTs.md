@@ -42,7 +42,6 @@ When it comes to NFTs, you are only limited by your imagination!
 - **[KnownOrigin](https://knownorigin.io/)**  (KODA) Curated platform. Allows for  editions  of an artwork (a fixed number of tokens of one artwork), plus one-of-one tokens. Also enables 'split fees' which allow artists to enter an additional ETH address (for a collaborator, for example, or - as was initially intended - to be able to automatically funnel a percentage of sales to, say a charity). 
 - **[MakersPlace](https://makersplace.com/)**  (MKT2) Curated platform. Editions  and one-of-ones, 'hides' the web3 aspect from artists and users to make it more attractive to traditional artists.
 - **[Mintable](https://mintable.app/)** Provides a smart contract factory for artists to be able to create their own marketplace plus onsite tools like auctions and flexible licensing for digital assets. Has created an NFT DAO with $MINTS. 
-- **[Mintbase](https://mintbase.io/)** Provides a smart contract factory for artists to be able to create their own contracts, storefronts hosted on the Mintbase website. Be your own marketplace! Provides API access so storefronts can be integrated on artists' own websites. Porting to NEAR.
 - **[Nifty Gateway](https://niftygateway.com/)** Curated platform. Introduced the concept of **drops** turning auctions into events.  Transactions happen off-chain, so can only be bought/sold on the site.  Each artwork gets its own token contract.
 - **[OpenSea](https://opensea.io/)** Both the marketplace for all other marketplaces plus the ability to create your own smart contract and storefront. Interesting feature is that all metadata (including the image) can be changed at any time by the contract owner.
 - **[Pixura](https://pixura.io/)** Provides a smart contract factory for artists to be able to create their own marketplace via the GUI, also offers developer tools to programmatically issue & manage tokens, run queries against your smart contracts with GraphQL, and search through token metadata with Elasticsearch.
@@ -63,18 +62,17 @@ When it comes to NFTs, you are only limited by your imagination!
 - **[Somnium Space](https://somniumspace.com/)** Open, Social & Persistent VR world.
 
 ## Collectibles
-- **[Crypto Kitties](https://www.cryptokitties.co/)
+- **[Crypto Kitties](https://www.cryptokitties.co/)**
 Collect and trade CryptoKitties in one of the world's first blockchain games. Breed your rarest cats to create the purrfect furry friend.
-- **[Crypto Punks](https://www.larvalabs.com/cryptopunks)
+- **[Crypto Punks](https://www.larvalabs.com/cryptopunks)**
 10,000 unique collectible characters with proof of ownership stored on the Ethereum blockchain. The project that inspired the modern CryptoArt movement.
-- **[Avastars](https://avastars.io/)
+- **[Avastars](https://avastars.io/)**
 Quadrillions of avatars generated on the fly from many layers of custom artwork, each mintable as a non-fungible token (NFT) on Ethereum.
 - **[F1 Delta Time](https://www.f1deltatime.com/)** A blockchain game on Ethereum. The game centres around the collection and trading of unique Cars, Drivers and Components.
 - **[MLB Champions](https://www.mlbcryptobaseball.com/)** Offers authentic digital figures of your favorite MLB players! Build a collection to challenge fans in simulated baseball games.
 
 ## NFTs x DeFi
-- **[Aavegotchi](https://www.aavegotchi.com/)
-DeFi-Staked Crypto Collectibles
+- **[Aavegotchi](https://www.aavegotchi.com/)** DeFi-Staked Crypto Collectibles
 - **[Meme Ltd.](https://dontbuymeme.com/)** Meme is an experimental protocol mashing up some of the most exciting innovations in DeFi.
 
 ## Games
