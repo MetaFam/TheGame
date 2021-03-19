@@ -4,6 +4,32 @@
   is_enum: true
 - table:
     schema: public
+    name: ColorAspect
+  array_relationships:
+  - name: players
+    using:
+      foreign_key_constraint_on:
+        column: color_mask
+        table:
+          schema: public
+          name: player
+  select_permissions:
+  - role: player
+    permission:
+      columns:
+      - mask
+      - name
+      - description
+      filter: {}
+  - role: public
+    permission:
+      columns:
+      - mask
+      - description
+      - name
+      filter: {}
+- table:
+    schema: public
     name: EnneagramType
   is_enum: true
   select_permissions:
@@ -207,6 +233,9 @@
     schema: public
     name: player
   object_relationships:
+  - name: ColorAspect
+    using:
+      foreign_key_constraint_on: color_mask
   - name: EnneagramType
     using:
       foreign_key_constraint_on: enneagram
@@ -291,6 +320,7 @@
     permission:
       columns:
       - availability_hours
+      - color_mask
       - enneagram
       - ethereum_address
       - id
@@ -298,21 +328,22 @@
       - rank
       - role
       - sc_identity_id
-      - total_xp
       - timezone
+      - total_xp
       - username
       filter: {}
   - role: public
     permission:
       columns:
       - availability_hours
+      - color_mask
       - enneagram
       - ethereum_address
       - id
       - rank
       - role
-      - total_xp
       - timezone
+      - total_xp
       - username
       filter: {}
   update_permissions:
@@ -320,6 +351,7 @@
     permission:
       columns:
       - availability_hours
+      - color_mask
       - enneagram
       - player_type_id
       - role
