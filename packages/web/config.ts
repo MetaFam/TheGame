@@ -4,7 +4,10 @@ export const CONFIG = {
       return process.env.NEXT_PUBLIC_GRAPHQL_URL;
     }
     if (process.env.GRAPHQL_HOSTPORT) {
-      return `https://${process.env.GRAPHQL_HOSTPORT}.onrender.com/v1/graphql`;
+      const [host, ...port] = (
+        process.env.GRAPHQL_HOSTPORT.split(':')
+      );
+      return `https://${host}.onrender.com:${port}/v1/graphql`;
     }
     return 'http://localhost:8080/v1/graphql';
   })()),
