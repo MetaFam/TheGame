@@ -40,6 +40,21 @@ services:
           type: web
           property: host
 
+  - type: web
+    name: frontend
+    env: node
+    plan: starter
+    buildCommand: yarn
+    startCommand: yarn web:dev
+    envVars:
+      - key: GRAPHQL_HOST
+        fromService:
+          name: hasura
+          type: web
+          property: host
+      - key: NEXT_PUBLIC_GRAPHQL_URL
+        value: https://$GRAPHQL_HOST/v1/graphql
+
 databases:
   - name: metagame-db
     plan: starter
