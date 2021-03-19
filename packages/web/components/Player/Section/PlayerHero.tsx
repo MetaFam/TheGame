@@ -1,13 +1,9 @@
-import { Avatar, Box, HStack, Image, Text, VStack } from '@metafam/ds';
+import { Box, HStack, Image, Text, VStack } from '@metafam/ds';
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
 import React from 'react';
-import {
-  getPlayerDescription,
-  getPlayerImage,
-  getPlayerName,
-  hasPlayerImage,
-} from 'utils/playerHelpers';
+import { getPlayerDescription, getPlayerName } from 'utils/playerHelpers';
 
+import { PlayerAvatar } from '../../../../design-system/src/PlayerAvatar';
 import { PersonalityTypes } from '../../../graphql/types';
 import { FlexContainer } from '../../Container';
 import { ProfileSection } from '../../ProfileSection';
@@ -22,26 +18,11 @@ export const PlayerHero: React.FC<Props> = ({ player }) => {
   const [show, setShow] = React.useState(
     getPlayerDescription(player).length < BIO_LENGTH,
   );
-  const avatar = hasPlayerImage(player) ? (
-    <Avatar
-      w={{ base: '32', md: '56' }}
-      h={{ base: '32', md: '56' }}
-      src={getPlayerImage(player)}
-      name={getPlayerName(player)}
-      bg=""
-    />
-  ) : (
-    <Avatar
-      w={{ base: '32', md: '56' }}
-      h={{ base: '32', md: '56' }}
-      src={getPlayerImage(player)}
-      name={getPlayerName(player)}
-    />
-  );
   return (
     <ProfileSection>
       <VStack spacing={8}>
-        {avatar}
+        <PlayerAvatar />
+        {/* <PlayerAvatar player={player} page="detail" /> */}
         <Box textAlign="center">
           <Text fontSize="xl" fontFamily="heading" mb="1">
             {getPlayerName(player)}

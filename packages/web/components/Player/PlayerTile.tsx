@@ -1,5 +1,6 @@
 import {
   Avatar,
+  AvatarProps,
   Box,
   Flex,
   Heading,
@@ -30,20 +31,6 @@ const SHOW_MEMBERSHIPS = 4;
 const SHOW_SKILLS = 4;
 
 export const PlayerTile: React.FC<Props> = ({ player }) => {
-  const avatar = hasPlayerImage(player) ? (
-    <Avatar
-      size="xl"
-      bg=""
-      src={getPlayerImage(player)}
-      name={getPlayerName(player)}
-    />
-  ) : (
-    <Avatar
-      size="xl"
-      src={getPlayerImage(player)}
-      name={getPlayerName(player)}
-    />
-  );
   return (
     <Flex
       direction="column"
@@ -76,7 +63,11 @@ export const PlayerTile: React.FC<Props> = ({ player }) => {
           key={player.id}
         >
           <VStack>
-            {avatar}
+            <Avatar
+              size="xl"
+              src={getPlayerImage(player)}
+              name={getPlayerName(player)}
+            />
             <Heading size="xs" color="white">
               {getPlayerName(player)}
             </Heading>
