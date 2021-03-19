@@ -1,6 +1,5 @@
 import {
   Avatar,
-  AvatarProps,
   Box,
   Flex,
   Heading,
@@ -20,7 +19,6 @@ import {
   getPlayerCoverImage,
   getPlayerImage,
   getPlayerName,
-  hasPlayerImage,
 } from 'utils/playerHelpers';
 
 type Props = {
