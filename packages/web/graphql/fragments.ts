@@ -9,9 +9,10 @@ export const PlayerFragment = gql`
     ethereum_address
     availability_hours
     timezone
-    EnneagramType {
-      description
+    ColorAspect {
       name
+      description
+      mask
     }
     playerType {
       description
