@@ -54,11 +54,11 @@ services:
     envVars:
       - key: NODE_VERSION
         value: 12.18.3
-      - key: GRAPHQL_HOSTPORT
+      - key: GRAPHQL_HOST
         fromService:
           name: hasura
           type: web
-          property: hostport
+          property: host
 
 databases:
   - name: metagame-db
