@@ -50,7 +50,7 @@ services:
     env: node
     plan: starter
     buildCommand: yarn && yarn web:build
-    startCommand: yarn --cwd packages/web/ start
+    startCommand: yarn --cwd packages/web/ dev
     envVars:
       - key: NODE_VERSION
         value: 12.18.3
