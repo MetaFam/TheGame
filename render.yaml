@@ -39,11 +39,11 @@ services:
         sync: false
       - key: DISCORD_BOT_TOKEN
         sync: false
-      - key: GRAPHQL_HOST
+      - key: GRAPHQL_HOSTPORT
         fromService:
           name: hasura
           type: web
-          property: host
+          property: hostport
 
   - type: web
     name: frontend
