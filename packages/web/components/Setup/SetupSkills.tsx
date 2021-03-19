@@ -42,6 +42,7 @@ export const SetupSkills: React.FC<SetupSkillsProps> = ({
     });
 
     if (error) {
+      console.warn(error);
       toast({
         title: 'Error',
         description: 'Unable to update player skills. The octo is sad 😢',
