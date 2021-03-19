@@ -46,19 +46,19 @@ services:
           property: host
 
   - type: web
-    name: mymeta
+    name: frontend
     env: node
     plan: starter
-    buildCommand: yarn && yarn web:build
-    startCommand: yarn --cwd packages/web/ start
+    buildCommand: yarn
+    startCommand: yarn web:dev
     envVars:
-      - key: NODE_VERSION
-        value: 12.18.3
-      - key: NEXT_PUBLIC_GRAPHQL_HOST
+      - key: GRAPHQL_HOST
         fromService:
           name: hasura
           type: web
           property: host
+      - key: NEXT_PUBLIC_GRAPHQL_URL
+        value: https://$GRAPHQL_HOST/v1/graphql
 
 databases:
   - name: metagame-db
