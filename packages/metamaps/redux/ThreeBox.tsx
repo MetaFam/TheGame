@@ -1,9 +1,9 @@
 import Box from '3box';
 
-declare const window: any;
+declare const window: Record<string, unknown>;
 
 export async function Load3BoxUrl(account: string, url: string) {
-    return async function(dispatch: any) {
+    return async (dispatch: (unknown) => void): Promise<void> => {
         try {
             dispatch({ type: 'LOADING', value: true });
 
@@ -15,15 +15,15 @@ export async function Load3BoxUrl(account: string, url: string) {
             dispatch({ type: 'LOADED_3BOX_URL', data: data ? JSON.parse(data) : [] });
             dispatch({ type: 'LOADING', value: false });
         } catch (error) {
-            console.error(error);
+            console.error(error); // eslint-disable-line no-console
             dispatch({ type: 'LOADED_3BOX_URL', data: [] });
             dispatch({ type: 'LOADING', value: false });
         }
     }
 }
 
-export async function Save3BoxUrl(account: string, url: string, data: any) {
-    return async function(dispatch: any) {
+export async function Save3BoxUrl(account: string, url: string, data: unknown) {
+    return async (dispatch: (unknown) => void): Promise<void> => {
         try {
             const box = await Box.openBox(account, window.ethereum);
             await box.syncDone;
@@ -32,7 +32,7 @@ export async function Save3BoxUrl(account: string, url: string, data: any) {
 
             dispatch({ type: 'SAVED_3BOX_URL' });
         } catch (error) {
-            console.error(error);
+            console.error(error); // eslint-disable-line no-console
             dispatch({ type: 'SAVED_3BOX_URL_ERROR' });
         }
     }
