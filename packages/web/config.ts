@@ -1,15 +1,12 @@
 export const CONFIG = {
   graphqlURL: ((() => {
-    const {
-      NEXT_PUBLIC_GRAPHQL_URL: url,
-      NEXT_PUBLIC_GRAPHQL_HOST: host,
-    } = process.env;
-
-    if (url) return url;
-    if (host) {
-      return `https://${host}.onrender.com/v1/graphql`;
+    if (process.env.NEXT_PUBLIC_GRAPHQL_URL) {
+      return process.env.NEXT_PUBLIC_GRAPHQL_URL
     }
-    return 'http://localhost:8080/v1/graphql';
+    if (process.env.GRAPHQL_HOST) {
+      return `https://${process.env.GRAPHQL_HOST}.onrender.com/v1/graphql`
+    }
+    return 'http://localhost:8080/v1/graphql'
   })()),
   infuraId:
     process.env.NEXT_PUBLIC_INFURA_ID || '781d8466252d47508e177b8637b1c2fd',
