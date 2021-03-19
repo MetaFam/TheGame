@@ -64,5 +64,5 @@ declare module '3box' {
       username: string;
     };
   }
-  export async function openBox(ethAddress: string, web3: any): Promise<Box>;
+  export async function openBox(ethAddress: string, web3: unknown): Promise<Box>;
 }
