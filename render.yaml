@@ -1,3 +1,4 @@
+previewsExpireAfterDays: 3 # automatically remove preview instances
 services:
   # A Docker web service
   - type: web
@@ -20,6 +21,10 @@ services:
           property: hostport
       - key: HASURA_GRAPHQL_SERVER_PORT
         value: 10000
+      - key: HASURA_GRAPHQL_ENABLE_CONSOLE
+        value: true
+      - key: PORT
+        value: 10000
 
   # backend
   - type: pserv
@@ -34,6 +39,21 @@ services:
         sync: false
       - key: DISCORD_BOT_TOKEN
         sync: false
+      - key: GRAPHQL_HOST
+        fromService:
+          name: hasura
+          type: web
+          property: host
+
+  - type: web
+    name: mymeta
+    env: node
+    plan: starter
+    buildCommand: yarn && yarn web:build
+    startCommand: yarn --cwd packages/web/ start
+    envVars:
+      - key: NODE_VERSION
+        value: 12.18.3
       - key: GRAPHQL_HOST
         fromService:
           name: hasura
