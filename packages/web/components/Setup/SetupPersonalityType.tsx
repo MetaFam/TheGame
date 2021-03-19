@@ -184,7 +184,7 @@ export const SetupPersonalityType: (
       }
       </FlexContainer>
 
-      <ColorBar mask={colorMask} w="min(100vw, 30rem)"/>
+      <ColorBar mask={colorMask} mt={8} w="min(100vw, 30rem)"/>
 
       <MetaButton
         onClick={handleNextPress}
