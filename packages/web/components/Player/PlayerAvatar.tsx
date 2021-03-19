@@ -8,22 +8,16 @@ import {
   hasPlayerImage,
 } from '../../utils/playerHelpers';
 
-type Props = { player: PlayerFragmentFragment; page: string };
-export const PlayerAvatar: React.FC<Props> = ({ player, page }) => {
-  let avatarProps: AvatarProps = {};
-  if (page === 'list')
-    avatarProps = {
-      size: 'xl',
-      src: getPlayerImage(player),
-      name: getPlayerName(player),
-    };
-  if (page === 'detail')
-    avatarProps = {
-      w: { base: '32', md: '56' },
-      h: { base: '32', md: '56' },
-      src: getPlayerImage(player),
-      name: getPlayerName(player),
-    };
-  if (hasPlayerImage(player)) avatarProps.bg = 'transparent';
-  return <Avatar {...avatarProps} />;
+type PlayerAvatarProps = AvatarProps & { player: PlayerFragmentFragment };
+export const PlayerAvatar: React.FC<PlayerAvatarProps> = ({
+  player,
+  ...props
+}) => {
+  const attrs = {
+    src: getPlayerImage(player),
+    name: getPlayerName(player),
+    ...props,
+  };
+  if (hasPlayerImage(player)) attrs.bg ??= 'transparent';
+  return <Avatar {...attrs} />;
 };

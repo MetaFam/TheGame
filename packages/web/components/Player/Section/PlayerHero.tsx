@@ -1,7 +1,11 @@
 import { Box, HStack, Image, Text, VStack } from '@metafam/ds';
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
 import React from 'react';
-import { getPlayerDescription, getPlayerName } from 'utils/playerHelpers';
+import {
+  getPlayerDescription,
+  getPlayerImage,
+  getPlayerName,
+} from 'utils/playerHelpers';
 
 import { PersonalityTypes } from '../../../graphql/types';
 import { FlexContainer } from '../../Container';
@@ -21,7 +25,13 @@ export const PlayerHero: React.FC<Props> = ({ player }) => {
   return (
     <ProfileSection>
       <VStack spacing={8}>
-        <PlayerAvatar player={player} page="detail" />
+        <PlayerAvatar
+          player={player}
+          w={{ base: '32', md: '56' }}
+          h={{ base: '32', md: '56' }}
+          src={getPlayerImage(player)}
+          name={getPlayerName(player)}
+        />
         <Box textAlign="center">
           <Text fontSize="xl" fontFamily="heading" mb="1">
             {getPlayerName(player)}
