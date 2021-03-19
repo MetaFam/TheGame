@@ -1,3 +1,4 @@
+previewsExpireAfterDays: 3 # automatically remove preview instances
 services:
   # A Docker web service
   - type: web
@@ -44,8 +45,8 @@ services:
     name: frontend
     env: node
     plan: starter
-    buildCommand: yarn
-    startCommand: yarn web:dev
+    buildCommand: yarn && yarn web:build
+    startCommand: yarn --cwd packages/web/ start
     envVars:
       - key: NODE_VERSION
         value: 12.18.3
