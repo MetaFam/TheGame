@@ -151,7 +151,7 @@ export function Signpost() {
             <img
               alt="MetaFest Logo"
               width="100%"
-              src="/static/img/MetaFest.png"
+              src="/img/MetaFest.png"
             />
           </div>
         </a>
