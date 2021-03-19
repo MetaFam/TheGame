@@ -2,7 +2,7 @@ export const CONFIG = {
   graphqlURL: ((() => {
     const {
       NEXT_PUBLIC_GRAPHQL_URL: url,
-      REACT_APP_GRAPHQL_HOST: host,
+      NEXT_PUBLIC_GRAPHQL_HOST: host,
     } = process.env;
 
     if (url) return url;
