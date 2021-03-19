@@ -1,13 +1,11 @@
 export const CONFIG = {
   graphqlURL: ((() => {
-    if (process.env.NEXT_PUBLIC_GRAPHQL_URL) {
-      return process.env.NEXT_PUBLIC_GRAPHQL_URL;
-    }
-    if (process.env.GRAPHQL_HOSTPORT) {
-      const [host, ...port] = (
-        process.env.GRAPHQL_HOSTPORT.split(':')
-      );
-      return `https://${host}.onrender.com:${port}/v1/graphql`;
+    const { NEXT_PUBLIC_GRAPHQL_URL: url, GRAPHQL_HOST: host } = (
+      process.env
+    )
+    if (url) return url;
+    if (host) {
+      return `https://${host}.onrender.com/v1/graphql`;
     }
     return 'http://localhost:8080/v1/graphql';
   })()),
