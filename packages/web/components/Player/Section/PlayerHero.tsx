@@ -3,10 +3,10 @@ import { PlayerFragmentFragment } from 'graphql/autogen/types';
 import React from 'react';
 import { getPlayerDescription, getPlayerName } from 'utils/playerHelpers';
 
-import { PlayerAvatar } from '../../../../design-system/src/PlayerAvatar';
 import { PersonalityTypes } from '../../../graphql/types';
 import { FlexContainer } from '../../Container';
 import { ProfileSection } from '../../ProfileSection';
+import { PlayerAvatar } from '../PlayerAvatar';
 import { PlayerContacts } from '../PlayerContacts';
 import { PlayerBrightId } from './PlayerBrightId';
 import { PlayerCollab } from './PlayerCollab';
@@ -21,8 +21,7 @@ export const PlayerHero: React.FC<Props> = ({ player }) => {
   return (
     <ProfileSection>
       <VStack spacing={8}>
-        <PlayerAvatar />
-        {/* <PlayerAvatar player={player} page="detail" /> */}
+        <PlayerAvatar player={player} page="detail" />
         <Box textAlign="center">
           <Text fontSize="xl" fontFamily="heading" mb="1">
             {getPlayerName(player)}

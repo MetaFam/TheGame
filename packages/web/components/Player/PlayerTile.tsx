@@ -1,5 +1,4 @@
 import {
-  Avatar,
   Box,
   Flex,
   Heading,
@@ -15,11 +14,9 @@ import { PlayerContacts } from 'components/Player/PlayerContacts';
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
 import { SkillColors } from 'graphql/types';
 import React from 'react';
-import {
-  getPlayerCoverImage,
-  getPlayerImage,
-  getPlayerName,
-} from 'utils/playerHelpers';
+import { getPlayerCoverImage, getPlayerName } from 'utils/playerHelpers';
+
+import { PlayerAvatar } from './PlayerAvatar';
 
 type Props = {
   player: PlayerFragmentFragment;
@@ -61,11 +58,7 @@ export const PlayerTile: React.FC<Props> = ({ player }) => {
           key={player.id}
         >
           <VStack>
-            <Avatar
-              size="xl"
-              src={getPlayerImage(player)}
-              name={getPlayerName(player)}
-            />
+            <PlayerAvatar player={player} page="list" />
             <Heading size="xs" color="white">
               {getPlayerName(player)}
             </Heading>

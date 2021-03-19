@@ -44,7 +44,6 @@ export {
   ModalOverlay,
   useDisclosure,
 } from '@chakra-ui/react';
-export { PlayerAvatar } from './PlayerAvatar';
 export { theme as MetaTheme } from './theme';
 export { Icon3box, BrightIdIcon } from './icons';
 export { EmailIcon } from '@chakra-ui/icons';
