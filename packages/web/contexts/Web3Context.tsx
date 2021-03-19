@@ -130,7 +130,7 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
       setIsConnected(true);
       if (resetUrqlClient) resetUrqlClient();
     } catch (error) {
-      console.log(error);
+      console.log(error);  // eslint-disable-line no-console
       setIsConnecting(false);
       disconnect();
     }

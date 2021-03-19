@@ -42,7 +42,7 @@ export const SetupSkills: React.FC<SetupSkillsProps> = ({
     });
 
     if (error) {
-      console.warn(error);
+      console.warn(error); // eslint-disable-line no-console
       toast({
         title: 'Error',
         description: 'Unable to update player skills. The octo is sad 😢',
