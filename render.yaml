@@ -39,14 +39,14 @@ services:
         sync: false
       - key: DISCORD_BOT_TOKEN
         sync: false
-      - key: GRAPHQL_HOSTPORT
+      - key: GRAPHQL_HOST
         fromService:
           name: hasura
           type: web
-          property: hostport
+          property: host
 
   - type: web
-    name: frontend
+    name: mymeta
     env: node
     plan: starter
     buildCommand: yarn && yarn web:build
@@ -54,11 +54,11 @@ services:
     envVars:
       - key: NODE_VERSION
         value: 12.18.3
-      - key: GRAPHQL_HOST
+      - key: GRAPHQL_HOSTPORT
         fromService:
           name: hasura
           type: web
-          property: host
+          property: hostport
 
 databases:
   - name: metagame-db
