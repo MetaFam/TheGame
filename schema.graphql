@@ -577,216 +577,6 @@ type CreateQuestOutput {
 }
 
 """
-columns and relationships of "EnneagramType"
-"""
-type EnneagramType {
-  description: String!
-  name: String!
-}
-
-"""
-aggregated selection of "EnneagramType"
-"""
-type EnneagramType_aggregate {
-  aggregate: EnneagramType_aggregate_fields
-  nodes: [EnneagramType!]!
-}
-
-"""
-aggregate fields of "EnneagramType"
-"""
-type EnneagramType_aggregate_fields {
-  count(columns: [EnneagramType_select_column!], distinct: Boolean): Int
-  max: EnneagramType_max_fields
-  min: EnneagramType_min_fields
-}
-
-"""
-order by aggregate values of table "EnneagramType"
-"""
-input EnneagramType_aggregate_order_by {
-  count: order_by
-  max: EnneagramType_max_order_by
-  min: EnneagramType_min_order_by
-}
-
-"""
-input type for inserting array relation for remote table "EnneagramType"
-"""
-input EnneagramType_arr_rel_insert_input {
-  data: [EnneagramType_insert_input!]!
-  on_conflict: EnneagramType_on_conflict
-}
-
-"""
-Boolean expression to filter rows from the table "EnneagramType". All fields are combined with a logical 'AND'.
-"""
-input EnneagramType_bool_exp {
-  _and: [EnneagramType_bool_exp]
-  _not: EnneagramType_bool_exp
-  _or: [EnneagramType_bool_exp]
-  description: String_comparison_exp
-  name: String_comparison_exp
-}
-
-"""
-unique or primary key constraints on table "EnneagramType"
-"""
-enum EnneagramType_constraint {
-  """unique or primary key constraint"""
-  EnneagramType_pkey
-}
-
-enum EnneagramType_enum {
-  """Adaptive, Excelling, Driven, and Image-Conscious"""
-  ACHIEVER
-
-  """Self-Confident, Decisive, Willful, and Confrontational"""
-  CHALLENGER
-
-  """Spontaneous, Versatile, Distractible, and Scattered"""
-  ENTHUSIAST
-
-  """Demonstrative, Generous, People-Pleasing, and Possessive"""
-  HELPER
-
-  """Expressive, Dramatic, Self-Absorbed, and Temperamental"""
-  INDIVIDUALIST
-
-  """Perceptive, Innovative, Secretive, and Isolated"""
-  INVESTIGATOR
-
-  """Engaging, Responsible, Anxious, and Suspicious"""
-  LOYALIST
-
-  """Receptive, Reassuring, Agreeable, and Complacent"""
-  PEACEMAKER
-
-  """Principled, Purposeful, Self-Controlled, and Perfectionistic"""
-  REFORMER
-}
-
-"""
-expression to compare columns of type EnneagramType_enum. All fields are combined with logical 'AND'.
-"""
-input EnneagramType_enum_comparison_exp {
-  _eq: EnneagramType_enum
-  _in: [EnneagramType_enum!]
-  _is_null: Boolean
-  _neq: EnneagramType_enum
-  _nin: [EnneagramType_enum!]
-}
-
-"""
-input type for inserting data into table "EnneagramType"
-"""
-input EnneagramType_insert_input {
-  description: String
-  name: String
-}
-
-"""aggregate max on columns"""
-type EnneagramType_max_fields {
-  description: String
-  name: String
-}
-
-"""
-order by max() on columns of table "EnneagramType"
-"""
-input EnneagramType_max_order_by {
-  description: order_by
-  name: order_by
-}
-
-"""aggregate min on columns"""
-type EnneagramType_min_fields {
-  description: String
-  name: String
-}
-
-"""
-order by min() on columns of table "EnneagramType"
-"""
-input EnneagramType_min_order_by {
-  description: order_by
-  name: order_by
-}
-
-"""
-response of any mutation on the table "EnneagramType"
-"""
-type EnneagramType_mutation_response {
-  """number of affected rows by the mutation"""
-  affected_rows: Int!
-
-  """data of the affected rows by the mutation"""
-  returning: [EnneagramType!]!
-}
-
-"""
-input type for inserting object relation for remote table "EnneagramType"
-"""
-input EnneagramType_obj_rel_insert_input {
-  data: EnneagramType_insert_input!
-  on_conflict: EnneagramType_on_conflict
-}
-
-"""
-on conflict condition type for table "EnneagramType"
-"""
-input EnneagramType_on_conflict {
-  constraint: EnneagramType_constraint!
-  update_columns: [EnneagramType_update_column!]!
-  where: EnneagramType_bool_exp
-}
-
-"""
-ordering options when selecting data from "EnneagramType"
-"""
-input EnneagramType_order_by {
-  description: order_by
-  name: order_by
-}
-
-"""
-primary key columns input for table: "EnneagramType"
-"""
-input EnneagramType_pk_columns_input {
-  name: String!
-}
-
-"""
-select columns of table "EnneagramType"
-"""
-enum EnneagramType_select_column {
-  """column name"""
-  description
-
-  """column name"""
-  name
-}
-
-"""
-input type for updating data in table "EnneagramType"
-"""
-input EnneagramType_set_input {
-  description: String
-  name: String
-}
-
-"""
-update columns of table "EnneagramType"
-"""
-enum EnneagramType_update_column {
-  """column name"""
-  description
-
-  """column name"""
-  name
-}
-
-"""
 columns and relationships of "guild"
 """
 type guild {
@@ -2035,19 +1825,6 @@ type mutation_root {
   delete_ColorAspect_by_pk(mask: Int!): ColorAspect
 
   """
-  delete data from the table: "EnneagramType"
-  """
-  delete_EnneagramType(
-    """filter the rows which have to be deleted"""
-    where: EnneagramType_bool_exp!
-  ): EnneagramType_mutation_response
-
-  """
-  delete single row from the table: "EnneagramType"
-  """
-  delete_EnneagramType_by_pk(name: String!): EnneagramType
-
-  """
   delete data from the table: "GuildType"
   """
   delete_GuildType(
@@ -2314,28 +2091,6 @@ type mutation_root {
     """on conflict condition"""
     on_conflict: ColorAspect_on_conflict
   ): ColorAspect
-
-  """
-  insert data into the table: "EnneagramType"
-  """
-  insert_EnneagramType(
-    """the rows to be inserted"""
-    objects: [EnneagramType_insert_input!]!
-
-    """on conflict condition"""
-    on_conflict: EnneagramType_on_conflict
-  ): EnneagramType_mutation_response
-
-  """
-  insert a single row into the table: "EnneagramType"
-  """
-  insert_EnneagramType_one(
-    """the row to be inserted"""
-    object: EnneagramType_insert_input!
-
-    """on conflict condition"""
-    on_conflict: EnneagramType_on_conflict
-  ): EnneagramType
 
   """
   insert data into the table: "GuildType"
@@ -2784,26 +2539,6 @@ type mutation_root {
   ): ColorAspect
 
   """
-  update data of the table: "EnneagramType"
-  """
-  update_EnneagramType(
-    """sets the columns of the filtered rows to the given values"""
-    _set: EnneagramType_set_input
-
-    """filter the rows which have to be updated"""
-    where: EnneagramType_bool_exp!
-  ): EnneagramType_mutation_response
-
-  """
-  update single row of the table: "EnneagramType"
-  """
-  update_EnneagramType_by_pk(
-    """sets the columns of the filtered rows to the given values"""
-    _set: EnneagramType_set_input
-    pk_columns: EnneagramType_pk_columns_input!
-  ): EnneagramType
-
-  """
   update data of the table: "GuildType"
   """
   update_GuildType(
@@ -3245,9 +2980,6 @@ type player {
   """An object relationship"""
   ColorAspect: ColorAspect
 
-  """An object relationship"""
-  EnneagramType: EnneagramType
-
   """An array relationship"""
   Player_Skills(
     """distinct select on columns"""
@@ -3295,7 +3027,6 @@ type player {
 
   """Remote relationship field"""
   daohausMemberships: [Member!]!
-  enneagram: EnneagramType_enum
   ethereum_address: String
 
   """An array relationship"""
@@ -3675,7 +3406,6 @@ Boolean expression to filter rows from the table "player". All fields are combin
 input player_bool_exp {
   Accounts: player_account_bool_exp
   ColorAspect: ColorAspect_bool_exp
-  EnneagramType: EnneagramType_bool_exp
   Player_Skills: player_skill_bool_exp
   _and: [player_bool_exp]
   _not: player_bool_exp
@@ -3683,7 +3413,6 @@ input player_bool_exp {
   availability_hours: Int_comparison_exp
   color_mask: Int_comparison_exp
   created_at: timestamptz_comparison_exp
-  enneagram: EnneagramType_enum_comparison_exp
   ethereum_address: String_comparison_exp
   guilds: guild_player_bool_exp
   id: uuid_comparison_exp
@@ -3733,12 +3462,10 @@ input type for inserting data into table "player"
 input player_insert_input {
   Accounts: player_account_arr_rel_insert_input
   ColorAspect: ColorAspect_obj_rel_insert_input
-  EnneagramType: EnneagramType_obj_rel_insert_input
   Player_Skills: player_skill_arr_rel_insert_input
   availability_hours: Int
   color_mask: Int
   created_at: timestamptz
-  enneagram: EnneagramType_enum
   ethereum_address: String
   guilds: guild_player_arr_rel_insert_input
   id: uuid
@@ -3857,12 +3584,10 @@ ordering options when selecting data from "player"
 input player_order_by {
   Accounts_aggregate: player_account_aggregate_order_by
   ColorAspect: ColorAspect_order_by
-  EnneagramType: EnneagramType_order_by
   Player_Skills_aggregate: player_skill_aggregate_order_by
   availability_hours: order_by
   color_mask: order_by
   created_at: order_by
-  enneagram: order_by
   ethereum_address: order_by
   guilds_aggregate: guild_player_aggregate_order_by
   id: order_by
@@ -3898,9 +3623,6 @@ enum player_select_column {
 
   """column name"""
   created_at
-
-  """column name"""
-  enneagram
 
   """column name"""
   ethereum_address
@@ -3940,7 +3662,6 @@ input player_set_input {
   availability_hours: Int
   color_mask: Int
   created_at: timestamptz
-  enneagram: EnneagramType_enum
   ethereum_address: String
   id: uuid
   player_type_id: Int
@@ -4537,9 +4258,6 @@ enum player_update_column {
   created_at
 
   """column name"""
-  enneagram
-
-  """column name"""
   ethereum_address
 
   """column name"""
@@ -4893,49 +4611,6 @@ type query_root {
 
   """fetch data from the table: "ColorAspect" using primary key columns"""
   ColorAspect_by_pk(mask: Int!): ColorAspect
-
-  """
-  fetch data from the table: "EnneagramType"
-  """
-  EnneagramType(
-    """distinct select on columns"""
-    distinct_on: [EnneagramType_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [EnneagramType_order_by!]
-
-    """filter the rows returned"""
-    where: EnneagramType_bool_exp
-  ): [EnneagramType!]!
-
-  """
-  fetch aggregated fields from the table: "EnneagramType"
-  """
-  EnneagramType_aggregate(
-    """distinct select on columns"""
-    distinct_on: [EnneagramType_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [EnneagramType_order_by!]
-
-    """filter the rows returned"""
-    where: EnneagramType_bool_exp
-  ): EnneagramType_aggregate!
-
-  """fetch data from the table: "EnneagramType" using primary key columns"""
-  EnneagramType_by_pk(name: String!): EnneagramType
 
   """
   fetch data from the table: "GuildType"
@@ -7838,49 +7513,6 @@ type subscription_root {
 
   """fetch data from the table: "ColorAspect" using primary key columns"""
   ColorAspect_by_pk(mask: Int!): ColorAspect
-
-  """
-  fetch data from the table: "EnneagramType"
-  """
-  EnneagramType(
-    """distinct select on columns"""
-    distinct_on: [EnneagramType_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [EnneagramType_order_by!]
-
-    """filter the rows returned"""
-    where: EnneagramType_bool_exp
-  ): [EnneagramType!]!
-
-  """
-  fetch aggregated fields from the table: "EnneagramType"
-  """
-  EnneagramType_aggregate(
-    """distinct select on columns"""
-    distinct_on: [EnneagramType_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [EnneagramType_order_by!]
-
-    """filter the rows returned"""
-    where: EnneagramType_bool_exp
-  ): EnneagramType_aggregate!
-
-  """fetch data from the table: "EnneagramType" using primary key columns"""
-  EnneagramType_by_pk(name: String!): EnneagramType
 
   """
   fetch data from the table: "GuildType"
