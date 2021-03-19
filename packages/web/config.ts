@@ -3,8 +3,8 @@ export const CONFIG = {
     if (process.env.NEXT_PUBLIC_GRAPHQL_URL) {
       return process.env.NEXT_PUBLIC_GRAPHQL_URL;
     }
-    if (process.env.GRAPHQL_HOST) {
-      return `https://${process.env.GRAPHQL_HOST}.onrender.com/v1/graphql`;
+    if (process.env.GRAPHQL_HOSTPORT) {
+      return `https://${process.env.GRAPHQL_HOSTPORT}.onrender.com/v1/graphql`;
     }
     return 'http://localhost:8080/v1/graphql';
   })()),
