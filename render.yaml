@@ -47,6 +47,8 @@ services:
     buildCommand: yarn
     startCommand: yarn web:dev
     envVars:
+      - key: NODE_VERSION
+        value: 12.18.3
       - key: GRAPHQL_HOST
         fromService:
           name: hasura
