@@ -53,6 +53,7 @@ export async function verifyToken(
     }
     return claim;
   } catch (e) {
+     // eslint-disable-next-line no-console
     console.error('Token verification failed', e);
     return null;
   }
