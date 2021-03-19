@@ -54,7 +54,7 @@ services:
     envVars:
       - key: NODE_VERSION
         value: 12.18.3
-      - key: NODE_PUBLIC_GRAPHQL_HOST
+      - key: REACT_APP_GRAPHQL_HOST
         fromService:
           name: hasura
           type: web
