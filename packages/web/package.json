@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "concurrently \"next\" \"yarn generate --watch\"",
+    "serve": "concurrently \"next start\" \"watch --wait=300 'yarn build'\"",
     "build": "next build",
     "start": "next start",
     "typecheck": "tsc",
