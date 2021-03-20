@@ -25,8 +25,8 @@ class WrappedApp extends App<AppProps> {
         ...(Component.getInitialProps
           ? await Component.getInitialProps(ctx)
           : {}),
-        appProp: ctx.pathname
-      }
+        appProp: ctx.pathname,
+      },
     };
   };
 
@@ -45,7 +45,7 @@ const WrappedAppRedux = connect(
   (state: any) => ({
     menu: state.menu,
     activeSpace: state.activeSpace,
-  })
+  }),
 )(WrappedApp);
 
 export default wrapper.withRedux(WrappedAppRedux);

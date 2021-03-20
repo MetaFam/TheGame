@@ -3,7 +3,6 @@ import { PlayerFragmentFragment } from 'graphql/autogen/types';
 import React from 'react';
 import {
   getPlayerDescription,
-  getPlayerImage,
   getPlayerName,
 } from 'utils/playerHelpers';
 
