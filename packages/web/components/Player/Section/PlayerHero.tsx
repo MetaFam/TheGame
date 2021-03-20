@@ -29,8 +29,6 @@ export const PlayerHero: React.FC<Props> = ({ player }) => {
           player={player}
           w={{ base: '32', md: '56' }}
           h={{ base: '32', md: '56' }}
-          src={getPlayerImage(player)}
-          name={getPlayerName(player)}
         />
         <Box textAlign="center">
           <Text fontSize="xl" fontFamily="heading" mb="1">

@@ -62,12 +62,7 @@ export const PlayerTile: React.FC<Props> = ({ player }) => {
           key={player.id}
         >
           <VStack>
-            <PlayerAvatar
-              player={player}
-              size="xl"
-              src={getPlayerImage(player)}
-              name={getPlayerName(player)}
-            />
+            <PlayerAvatar player={player} size="xl" />
             <Heading size="xs" color="white">
               {getPlayerName(player)}
             </Heading>
