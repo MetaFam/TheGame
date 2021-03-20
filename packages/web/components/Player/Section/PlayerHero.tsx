@@ -1,16 +1,10 @@
-import {
-  Avatar, Box, Flex, HStack, Link, Text, VStack,
-} from '@metafam/ds';
+import { Box, Flex, HStack, Link, Text, VStack } from '@metafam/ds';
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
 import { getPersonalityInfo } from 'graphql/getPersonalityInfo';
 import { PersonalityOption } from 'graphql/types';
 import React, { useEffect } from 'react';
-import {
-  getPlayerDescription,
-  getPlayerImage,
-  getPlayerName,
-} from 'utils/playerHelpers';
-
+import { getPlayerDescription, getPlayerName } from 'utils/playerHelpers';
+import { PlayerAvatar } from '../PlayerAvatar';
 import { FlexContainer } from '../../Container';
 import { ProfileSection } from '../../ProfileSection';
 import { ColorBar } from '../ColorBar';
@@ -23,9 +17,7 @@ const MAX_BIO_LENGTH = 240;
 type Props = { player: PlayerFragmentFragment };
 export const PlayerHero: React.FC<Props> = ({ player }) => {
   const description = getPlayerDescription(player);
-  const [show, setShow] = React.useState(
-    description.length <= MAX_BIO_LENGTH,
-  );
+  const [show, setShow] = React.useState(description.length <= MAX_BIO_LENGTH);
   const [types, setTypes] = React.useState<{
     [any: string]: PersonalityOption;
   }>();
@@ -36,16 +28,17 @@ export const PlayerHero: React.FC<Props> = ({ player }) => {
     const { types: list } = await getPersonalityInfo();
     setTypes(list);
   };
-  useEffect(() => { loadTypes(); }, []);
+  useEffect(() => {
+    loadTypes();
+  }, []);
 
   return (
     <ProfileSection>
       <VStack spacing={8}>
-        <Avatar
-          w={{ base: 32, md: 56 }}
-          h={{ base: 32, md: 56 }}
-          src={getPlayerImage(player)}
-          name={getPlayerName(player)}
+        <PlayerAvatar
+          player={player}
+          w={{ base: '32', md: '56' }}
+          h={{ base: '32', md: '56' }}
         />
         <Box textAlign="center">
           <Text fontSize="xl" fontFamily="heading" mb={1}>
@@ -57,8 +50,7 @@ export const PlayerHero: React.FC<Props> = ({ player }) => {
           <Text>
             {show
               ? description
-              : `${description.substring(0, MAX_BIO_LENGTH - 9)}…`
-            }
+              : `${description.substring(0, MAX_BIO_LENGTH - 9)}…`}
             {description.length > MAX_BIO_LENGTH && (
               <Text
                 as="span"
@@ -66,7 +58,7 @@ export const PlayerHero: React.FC<Props> = ({ player }) => {
                 fontSize="xs"
                 color="cyanText"
                 cursor="pointer"
-                onClick={() => setShow(s => !s)}
+                onClick={() => setShow((s) => !s)}
                 pl={1}
               >
                 Read {show ? 'less' : 'more'}
@@ -84,7 +76,8 @@ export const PlayerHero: React.FC<Props> = ({ player }) => {
         {type && types && (
           <Flex direction="column" id="color" mb={0} w="100%">
             <Text
-              fontSize="xs" color="blueLight"
+              fontSize="xs"
+              color="blueLight"
               casing="uppercase"
               mb={3}
               textAlign="left"
@@ -93,11 +86,13 @@ export const PlayerHero: React.FC<Props> = ({ player }) => {
             </Text>
             <Link
               isExternal
-              href={`//dysbulic.github.io/5-color-radar/#/combos/${type.mask.toString(2)}`}
-              maxH='6rem'
+              href={`//dysbulic.github.io/5-color-radar/#/combos/${type.mask.toString(
+                2,
+              )}`}
+              maxH="6rem"
             >
               <Flex justify="center">
-                <ColorBar mask={type.mask}/>
+                <ColorBar mask={type.mask} />
               </Flex>
             </Link>
             <Text color="blueLight" mt={4} style={{ textIndent: 16 }}>
@@ -107,10 +102,7 @@ export const PlayerHero: React.FC<Props> = ({ player }) => {
         )}
         {player.playerType?.title && (
           <FlexContainer align="stretch">
-            <Text
-              color="white" fontWeight="bold"
-              casing="uppercase"
-            >
+            <Text color="white" fontWeight="bold" casing="uppercase">
               {player.playerType.title}
             </Text>
             <Text color="blueLight" style={{ textIndent: 16 }}>
@@ -121,4 +113,4 @@ export const PlayerHero: React.FC<Props> = ({ player }) => {
       </VStack>
     </ProfileSection>
   );
-}
+};

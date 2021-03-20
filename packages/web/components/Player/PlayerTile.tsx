@@ -1,5 +1,4 @@
 import {
-  Avatar,
   Box,
   Heading,
   HStack,
@@ -18,11 +17,8 @@ import { PlayerTileMemberships } from 'components/Player/PlayerTileMemberships';
 import { SkillsTags } from 'components/Skills';
 import { PlayerFragmentFragment, Skill } from 'graphql/autogen/types';
 import React from 'react';
-import {
-  getPlayerCoverImage,
-  getPlayerImage,
-  getPlayerName,
-} from 'utils/playerHelpers';
+import { getPlayerCoverImage, getPlayerName } from 'utils/playerHelpers';
+import { PlayerAvatar } from './PlayerAvatar';
 
 type Props = {
   player: PlayerFragmentFragment;
@@ -48,11 +44,7 @@ export const PlayerTile: React.FC<Props> = ({ player }) => {
           key={player.id}
         >
           <VStack>
-            <Avatar
-              size="xl"
-              src={getPlayerImage(player)}
-              name={getPlayerName(player)}
-            />
+            <PlayerAvatar player={player} size="xl" />
             <Heading size="xs" color="white">
               {getPlayerName(player)}
             </Heading>
@@ -83,9 +75,7 @@ export const PlayerTile: React.FC<Props> = ({ player }) => {
         </Wrap>
         {player.box_profile?.description ? (
           <VStack spacing={2} align="stretch">
-            <Text textStyle="caption">
-              ABOUT
-            </Text>
+            <Text textStyle="caption">ABOUT</Text>
             <Text fontSize="sm">{player.box_profile.description}</Text>
           </VStack>
         ) : null}
@@ -93,27 +83,23 @@ export const PlayerTile: React.FC<Props> = ({ player }) => {
       <MetaTileBody>
         {player.Player_Skills.length ? (
           <VStack spacing={2} align="stretch">
-            <Text textStyle="caption">
-              SKILLS
-            </Text>
-            <SkillsTags skills={player.Player_Skills.map(s => s.Skill) as Skill[]} />
+            <Text textStyle="caption">SKILLS</Text>
+            <SkillsTags
+              skills={player.Player_Skills.map((s) => s.Skill) as Skill[]}
+            />
           </VStack>
         ) : null}
 
         {player.daohausMemberships.length ? (
           <VStack spacing={2} align="stretch">
-            <Text textStyle="caption">
-              MEMBER OF
-            </Text>
+            <Text textStyle="caption">MEMBER OF</Text>
             <PlayerTileMemberships player={player} />
           </VStack>
         ) : null}
 
         {player.Accounts.length ? (
           <VStack spacing={2} align="stretch">
-            <Text textStyle="caption">
-              CONTACT
-            </Text>
+            <Text textStyle="caption">CONTACT</Text>
             <HStack mt="2">
               <PlayerContacts player={player} />
             </HStack>
