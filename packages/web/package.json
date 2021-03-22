@@ -19,7 +19,7 @@
     "copy-to-clipboard": "^3.3.1",
     "ethers": "5.0.32",
     "fake-tag": "2.0.0",
-    "framer-motion": "3.1.1",
+    "framer-motion": "4.0.0",
     "graphql": "15.4.0",
     "isomorphic-unfetch": "3.1.0",
     "next": "10.0.3",
