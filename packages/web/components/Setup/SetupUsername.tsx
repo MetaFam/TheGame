@@ -3,26 +3,28 @@ import { FlexContainer } from 'components/Container';
 import { useSetupFlow } from 'contexts/SetupContext';
 import { useUpdatePlayerUsernameMutation } from 'graphql/autogen/types';
 import { useUser } from 'lib/hooks';
-import React from 'react';
+import React, { useState } from 'react';
 
 export type SetupUsernameProps = {
   username: string;
   setUsername: React.Dispatch<React.SetStateAction<string>>;
-}
+};
 
-export const SetupUsername: React.FC<SetupUsernameProps> = ({ username, setUsername }) => {
-  const {
-    onNextPress,
-    nextButtonLabel,
-  } = useSetupFlow();
+export const SetupUsername: React.FC<SetupUsernameProps> = ({
+  username,
+  setUsername,
+}) => {
+  const { onNextPress, nextButtonLabel } = useSetupFlow();
   const { user } = useUser({ redirectTo: '/' });
   const toast = useToast();
 
   const [updateUsernameRes, updateUsername] = useUpdatePlayerUsernameMutation();
+  const [loading, setLoading] = useState(false);
 
   const handleNextPress = async () => {
     if (!user) return;
 
+    setLoading(true);
     const { error } = await updateUsername({
       playerId: user.id,
       username,
@@ -33,7 +35,8 @@ export const SetupUsername: React.FC<SetupUsernameProps> = ({ username, setUsern
       if (error.message.includes('Uniqueness violation')) {
         errorDetail = 'This username is already taken 😢';
       } else if (error.message.includes('username_is_valid')) {
-        errorDetail = 'A username can only contain letters, numbers, and dashes.';
+        errorDetail =
+          'A username can only contain letters, numbers, and dashes.';
       }
       toast({
         title: 'Error',
@@ -41,6 +44,7 @@ export const SetupUsername: React.FC<SetupUsernameProps> = ({ username, setUsern
         status: 'error',
         isClosable: true,
       });
+      setLoading(false);
       return;
     }
 
@@ -64,7 +68,7 @@ export const SetupUsername: React.FC<SetupUsernameProps> = ({ username, setUsern
       <MetaButton
         onClick={handleNextPress}
         mt={10}
-        isLoading={updateUsernameRes.fetching}
+        isLoading={updateUsernameRes.fetching || loading}
         loadingText="Saving"
       >
         {nextButtonLabel}

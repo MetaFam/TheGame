@@ -13,7 +13,7 @@ import { useSetupFlow } from 'contexts/SetupContext';
 import { useUpdateAboutYouMutation } from 'graphql/autogen/types';
 import { PersonalityType } from 'graphql/types';
 import { useUser } from 'lib/hooks';
-import React from 'react';
+import React, { useState } from 'react';
 
 export type SetupPersonalityTypeProps = {
   personalityTypeChoices: Array<PersonalityType>;
@@ -21,23 +21,24 @@ export type SetupPersonalityTypeProps = {
   setPersonalityType: React.Dispatch<
     React.SetStateAction<PersonalityType | undefined>
   >;
-}
+};
 
 export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
-  personalityTypeChoices, personalityType, setPersonalityType,
+  personalityTypeChoices,
+  personalityType,
+  setPersonalityType,
 }) => {
-  const {
-    onNextPress,
-    nextButtonLabel,
-  } = useSetupFlow();
+  const { onNextPress, nextButtonLabel } = useSetupFlow();
   const { user } = useUser({ redirectTo: '/' });
   const toast = useToast();
 
   const [updateAboutYouRes, updateAboutYou] = useUpdateAboutYouMutation();
+  const [loading, setLoading] = useState(false);
 
   const handleNextPress = async () => {
     if (!user) return;
 
+    setLoading(true);
     if (user.player?.EnneagramType?.name !== personalityType?.name) {
       const { error } = await updateAboutYou({
         playerId: user.id,
@@ -53,6 +54,7 @@ export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
           status: 'error',
           isClosable: true,
         });
+        setLoading(false);
         return;
       }
     }
@@ -111,11 +113,11 @@ export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
         ))}
       </SimpleGrid>
 
-      <MetaButton 
-        onClick={handleNextPress} 
-        mt={10} 
+      <MetaButton
+        onClick={handleNextPress}
+        mt={10}
         isDisabled={!personalityType}
-        isLoading={updateAboutYouRes.fetching}
+        isLoading={updateAboutYouRes.fetching || loading}
         loadingText="Saving"
       >
         {nextButtonLabel}
