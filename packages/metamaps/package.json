@@ -31,6 +31,6 @@
     "redux": "4.0.5",
     "redux-thunk": "2.3.0",
     "styled-components": "5.2.1",
-    "urql": "1.11.6"
+    "urql": "2.0.1"
   }
 }
