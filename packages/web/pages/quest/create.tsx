@@ -7,7 +7,8 @@ import {
   Text,
   VStack,
 } from '@metafam/ds';
-import { Quest_Insert_Input, QuestRepetition_Enum } from 'graphql/autogen/types';
+import { useRouter } from 'next/router'
+import { QuestRepetition_Enum, CreateQuestInput, useCreateQuestMutation } from 'graphql/autogen/types';
 import { InferGetStaticPropsType } from 'next';
 import React from 'react';
 import { useForm } from 'react-hook-form';
@@ -33,8 +34,23 @@ const validations = {
 }
 
 const CreateQuestPage: React.FC<Props> = ({ guilds }) => {
-  const { register, errors, handleSubmit } = useForm<Quest_Insert_Input>();
-  const onSubmit = handleSubmit((data) => console.log(data));
+  const router = useRouter()
+  const { register, errors, handleSubmit } = useForm<CreateQuestInput>();
+  const [createQuestState, createQuest] = useCreateQuestMutation();
+
+  const onSubmit = handleSubmit((data) => {
+    createQuest({
+      input: data,
+    }).then(response => {
+      const createQuestResponse = response.data?.createQuest
+      if(createQuestResponse && !createQuestResponse.error) {
+        router.push(`/quest/${createQuestResponse.quest_id}`);
+      }
+    });
+  });
+
+  const createQuestSuccess = !!createQuestState.data?.createQuest?.quest_id;
+  const createQuestError = createQuestState.data?.createQuest?.error;
 
   return (
     <Box>
@@ -90,11 +106,19 @@ const CreateQuestPage: React.FC<Props> = ({ guilds }) => {
 
         <MetaButton
           mt={10}
+          isLoading={createQuestState.fetching}
           loadingText="Creating quest..."
           onClick={onSubmit}
+          isDisabled={createQuestSuccess}
         >
           Create Quest
         </MetaButton>
+
+        {createQuestError &&
+        <Box>
+          Error while creating quest
+          {createQuestError}
+        </Box>}
       </VStack>
     </Box>
   );
