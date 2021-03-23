@@ -1,4 +1,4 @@
-import { VStack } from '@metafam/ds';
+import { Heading, VStack } from '@metafam/ds';
 import { QuestTile } from 'components/Quest/QuestTile';
 import { QuestFragmentFragment } from 'graphql/autogen/types';
 import React from 'react';
@@ -9,6 +9,9 @@ type Props = {
 
 export const QuestList: React.FC<Props> = ({ quests }) => (
   <VStack spacing="8">
+    <Heading>
+      Quest list
+    </Heading>
     {quests.map((q) => (
       <QuestTile key={q.id} quest={q} />
     ))}

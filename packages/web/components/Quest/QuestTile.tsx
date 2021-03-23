@@ -17,7 +17,11 @@ type Props = {
 export const QuestTile: React.FC<Props> = ({ quest }) => (
   <MetaTile w="100%">
     <MetaTileHeader>
-      <MetaLink as={`/quest/${quest.id}`} href="/quest/[id]" key={quest.id}>
+      <MetaLink
+        as={`/quest/${quest.id}`}
+        href="/quest/[id]"
+        key={quest.id}
+      >
         <Heading size="sm" color="white">
           {quest.title}
         </Heading>

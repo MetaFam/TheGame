@@ -1,6 +1,7 @@
 import { Wrap, WrapItem } from '@metafam/ds';
 import { PageContainer } from 'components/Container';
-import { QuestList } from 'components/QuestList';
+import { QuestFilter } from 'components/Quest/QuestFilter';
+import { QuestList } from 'components/Quest/QuestList';
 import { getQuests } from 'graphql/getQuests';
 import { InferGetStaticPropsType } from 'next';
 import React from 'react';
@@ -21,7 +22,7 @@ const QuestsPage: React.FC<Props> = ({ quests }) => (
   <PageContainer>
     <Wrap>
       <WrapItem>
-        <p>Filters</p>
+        <QuestFilter />
       </WrapItem>
       <WrapItem>
         <QuestList quests={quests} />

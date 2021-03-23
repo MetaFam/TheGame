@@ -11,11 +11,11 @@ import Error from 'next/error';
 import { useRouter } from 'next/router';
 import React from 'react';
 
-import { PageContainer } from '../../components/Container';
+import { PageContainer } from '../../../components/Container';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
-const QuestPage: React.FC<Props> = ({ quest }) => {
+const EditQuestPage: React.FC<Props> = ({ quest }) => {
   const router = useRouter();
 
   if (router.isFallback) {
@@ -36,27 +36,23 @@ const QuestPage: React.FC<Props> = ({ quest }) => {
         maxWidth="7xl"
       >
         <Flex flex={1} d="column">
-          <MetaLink href="/quests">Back to quests</MetaLink>
-          <Heading>Quest details</Heading>
-          <Box mb="6">{quest.title}</Box>
-          <Box mb="6">{quest.description}</Box>
-
           <MetaLink
-            as={`/quest/${quest.id}/edit`}
-            href="/quest/[id]/edit"
+            as={`/quest/${quest.id}`}
+            href="/quest/[id]"
             key={quest.id}
           >
-            <MetaButton>
-              Edit Quest
-            </MetaButton>
+            Back to Quest
           </MetaLink>
+          <Heading>Edit Quest</Heading>
+          <Box mb="6">{quest.title}</Box>
+          <Box mb="6">{quest.description}</Box>
         </Flex>
       </Stack>
     </PageContainer>
   );
 };
 
-export default QuestPage;
+export default EditQuestPage;
 
 type QueryParams = { id: string };
 
