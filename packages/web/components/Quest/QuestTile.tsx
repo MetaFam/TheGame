@@ -20,7 +20,6 @@ export const QuestTile: React.FC<Props> = ({ quest }) => (
       <MetaLink
         as={`/quest/${quest.id}`}
         href="/quest/[id]"
-        key={quest.id}
       >
         <Heading size="sm" color="white">
           {quest.title}

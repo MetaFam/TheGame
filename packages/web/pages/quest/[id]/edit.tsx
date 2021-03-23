@@ -39,7 +39,6 @@ const EditQuestPage: React.FC<Props> = ({ quest }) => {
           <MetaLink
             as={`/quest/${quest.id}`}
             href="/quest/[id]"
-            key={quest.id}
           >
             Back to Quest
           </MetaLink>

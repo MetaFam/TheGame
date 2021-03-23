@@ -15,8 +15,9 @@ import {
 } from 'next';
 import Error from 'next/error';
 import { useRouter } from 'next/router';
-import React, { useState, useRef } from 'react';
-import { QuestCompletionStatus_Enum, QuestCompletionStatus_ActionEnum, useUpdateQuestCompletionMutation } from 'graphql/autogen/types';
+import React, { useState, useMemo, useRef } from 'react';
+import { Quest, QuestStatus_Enum, QuestRepetition_Enum, QuestCompletionStatus_Enum, QuestCompletionStatus_ActionEnum, useUpdateQuestCompletionMutation } from 'graphql/autogen/types';
+import { MeType } from 'graphql/types';
 
 import { PageContainer } from '../../components/Container';
 import { useUser } from '../../lib/hooks';
@@ -28,12 +29,33 @@ interface AlertSubmission {
   quest_completion_id: string;
 }
 
+function checkSubmittable(quest: Quest, user: MeType): boolean {
+  if(!user || !quest) return false;
+
+  if (quest.status !== QuestStatus_Enum.Open) {
+    return false;
+  }
+  // Personal or unique, check if not already done by player
+  if (
+    quest.repetition === QuestRepetition_Enum.Unique ||
+    quest.repetition === QuestRepetition_Enum.Personal
+  ) {
+    return !quest.quest_completions.some(qc => qc.player.id === user.id);
+  }
+  if (quest.repetition === QuestRepetition_Enum.Recurring && quest.cooldown) {
+    // TODO
+  }
+
+  return true;
+}
+
 const QuestPage: React.FC<Props> = ({ quest }) => {
   const cancelRef = useRef<HTMLButtonElement>(null)
   const { user } = useUser();
   const router = useRouter();
   const [alertSubmission, setAlertSubmission] = useState<AlertSubmission | null>(null);
   const [updateQuestCompletionStatus, updateQuestCompletion] = useUpdateQuestCompletionMutation();
+  const canSubmit = useMemo<boolean>(() => checkSubmittable(quest, user), [quest, user]);
 
   function onCloseAlert() {
     setAlertSubmission(null)
@@ -69,6 +91,7 @@ const QuestPage: React.FC<Props> = ({ quest }) => {
           <MetaLink href="/quests">Back to quest explorer</MetaLink>
           <Heading>Quest details</Heading>
           <Box mb="6">{quest.title}</Box>
+          <Box mb="6">{quest.repetition}</Box>
           <Box mb="6">{quest.description}</Box>
 
           <HStack>
@@ -76,7 +99,6 @@ const QuestPage: React.FC<Props> = ({ quest }) => {
             <MetaLink
               as={`/quest/${quest.id}/edit`}
               href="/quest/[id]/edit"
-              key={quest.id}
             >
               <MetaButton>
                 Edit Quest
@@ -92,6 +114,18 @@ const QuestPage: React.FC<Props> = ({ quest }) => {
                 variant="outline"
               >
                 Open link
+              </MetaButton>
+            </MetaLink>
+            }
+            {canSubmit &&
+            <MetaLink
+              as={`/quest/${quest.id}/submit`}
+              href="/quest/[id]/submit"
+            >
+              <MetaButton
+                variant="outline"
+              >
+                Submit
               </MetaButton>
             </MetaLink>
             }

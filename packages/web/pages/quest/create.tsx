@@ -33,6 +33,7 @@ const validations = {
   },
 }
 
+// TODO redirect if user not logged in
 const CreateQuestPage: React.FC<Props> = ({ guilds }) => {
   const router = useRouter()
   const { register, errors, handleSubmit } = useForm<CreateQuestInput>();
@@ -116,8 +117,8 @@ const CreateQuestPage: React.FC<Props> = ({ guilds }) => {
 
         {createQuestError &&
         <Box>
-          Error while creating quest
-          {createQuestError}
+          <Text>Error while creating quest</Text>
+          <Text>{createQuestError}</Text>
         </Box>}
       </VStack>
     </Box>

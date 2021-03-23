@@ -9,6 +9,7 @@ const questQuery = gql`
     quest_by_pk(id: $id) {
       ...QuestFragment
       player {
+        id
         ethereum_address
       }
     }
@@ -21,11 +22,13 @@ const questWithCompletionsQuery = gql`
     quest_by_pk(id: $id) {
       ...QuestFragment
       player {
+        id
         ethereum_address
       }
       quest_completions {
         ...QuestCompletionFragment
         player {
+          id
           ethereum_address
         }
       }
