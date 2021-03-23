@@ -13,6 +13,12 @@ export { theme as MetaTheme } from './theme';
 export { H1, P } from './typography';
 export { EmailIcon } from '@chakra-ui/icons';
 export {
+  AlertDialog,
+  AlertDialogOverlay,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogBody,
+  AlertDialogFooter,
   Avatar,
   Badge,
   Box,

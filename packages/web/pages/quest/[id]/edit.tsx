@@ -1,4 +1,4 @@
-import { Box, Flex, LoadingState, Heading, Stack, MetaButton } from '@metafam/ds';
+import { Box, Flex, LoadingState, Heading, Stack } from '@metafam/ds';
 import { MetaLink } from 'components/Link';
 import { getQuest } from 'graphql/getQuest';
 import { getQuests } from 'graphql/getQuests';

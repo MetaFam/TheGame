@@ -89,6 +89,16 @@ export const QuestFragment = gql`
     repetition
   }
 `;
+export const QuestCompletionFragment = gql`
+  fragment QuestCompletionFragment on quest_completion {
+    id
+    completed_by_player_id
+    status
+    submission_link
+    submission_text
+    submitted_at
+  }
+`;
 
 export const TokenBalancesFragment = gql`
   fragment TokenBalancesFragment on TokenBalances {
