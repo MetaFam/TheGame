@@ -520,12 +520,13 @@
   - role: player
     permission:
       columns:
-      - submitted_at
+      - completed_by_player_id
+      - id
+      - quest_id
       - status
       - submission_link
       - submission_text
-      - completed_by_player_id
-      - quest_id
+      - submitted_at
       filter: {}
   - role: public
     permission:
