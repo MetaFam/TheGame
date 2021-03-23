@@ -76,6 +76,20 @@ export const GuildFragment = gql`
   }
 `;
 
+export const QuestFragment = gql`
+  fragment QuestFragment on quest {
+    id
+    created_at
+    cooldown
+    description
+    external_link
+    guild_id
+    status
+    title
+    repetition
+  }
+`;
+
 export const TokenBalancesFragment = gql`
   fragment TokenBalancesFragment on TokenBalances {
     address: id
