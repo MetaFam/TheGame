@@ -1,9 +1,10 @@
-import { Box, Text, HStack, VStack, Flex, LoadingState, Heading, Stack, MetaButton,
+import { Text, HStack, VStack, Flex, LoadingState, Heading, Stack, MetaButton,
   AlertDialog,
   AlertDialogOverlay,
   AlertDialogContent,
   AlertDialogHeader,
   AlertDialogFooter,
+  AlertDialogBody,
 } from '@metafam/ds';
 import { MetaLink } from 'components/Link';
 import { getQuestWithCompletions } from 'graphql/getQuest';
@@ -53,19 +54,26 @@ const QuestPage: React.FC<Props> = ({ quest }) => {
   const cancelRef = useRef<HTMLButtonElement>(null)
   const { user } = useUser();
   const router = useRouter();
+  const [updateError, setUpdateError] = useState<string | null>(null);
   const [alertSubmission, setAlertSubmission] = useState<AlertSubmission | null>(null);
   const [updateQuestCompletionStatus, updateQuestCompletion] = useUpdateQuestCompletionMutation();
   const canSubmit = useMemo<boolean>(() => checkSubmittable(quest, user), [quest, user]);
 
   function onCloseAlert() {
     setAlertSubmission(null)
+    setUpdateError(null)
   }
   function onConfirmAlert(_alertSubmission: AlertSubmission) {
     updateQuestCompletion({
       quest_completion_id: _alertSubmission.quest_completion_id,
       status: _alertSubmission.status,
-    }).then(() => {
-      setAlertSubmission(null)
+    }).then(response => {
+      if(!response.data?.updateQuestCompletion?.error) {
+        setUpdateError(null)
+        setAlertSubmission(null)
+      } else {
+        setUpdateError(response.data?.updateQuestCompletion?.error)
+      }
     })
   }
 
@@ -90,9 +98,10 @@ const QuestPage: React.FC<Props> = ({ quest }) => {
         <Flex flex={1} d="column">
           <MetaLink href="/quests">Back to quest explorer</MetaLink>
           <Heading>Quest details</Heading>
-          <Box mb="6">{quest.title}</Box>
-          <Box mb="6">{quest.repetition}</Box>
-          <Box mb="6">{quest.description}</Box>
+          <Text>{quest.title}</Text>
+          <Text>{quest.status}</Text>
+          <Text>{quest.repetition}</Text>
+          <Text>{quest.description}</Text>
 
           <HStack>
             {isMyQuest &&
@@ -201,6 +210,11 @@ const QuestPage: React.FC<Props> = ({ quest }) => {
               }
             </AlertDialogHeader>
 
+            {updateError &&
+            <AlertDialogBody>
+              <Text color="red">{updateError}</Text>
+            </AlertDialogBody>
+            }
             <AlertDialogFooter>
               <MetaButton
                 ref={cancelRef}
@@ -247,6 +261,12 @@ export const getStaticProps = async (
 ) => {
   const id = context.params?.id;
   const quest = await getQuestWithCompletions(id);
+
+  // if (!quest) {
+  //   return {
+  //     notFound: true,
+  //   }
+  // }
 
   return {
     props: {

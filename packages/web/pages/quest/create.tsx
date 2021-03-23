@@ -5,15 +5,15 @@ import {
   MetaHeading,
   Select,
   Text,
+  HStack,
   VStack,
 } from '@metafam/ds';
 import { useRouter } from 'next/router'
-import { QuestRepetition_Enum, CreateQuestInput, useCreateQuestMutation } from 'graphql/autogen/types';
+import { QuestRepetition_Enum, QuestRepetition_ActionEnum, CreateQuestInput, useCreateQuestMutation } from 'graphql/autogen/types';
 import { InferGetStaticPropsType } from 'next';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 
-import { MetaLink } from '../../components/Link';
 import { getGuilds } from '../../graphql/getGuilds';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
@@ -31,13 +31,20 @@ const validations = {
   guild_id: {
     required: true,
   },
+  external_link: {
+    // TODO is URI
+  },
+  cooldown: {
+    // TODO is int > 0
+  },
 }
 
 // TODO redirect if user not logged in
 const CreateQuestPage: React.FC<Props> = ({ guilds }) => {
   const router = useRouter()
-  const { register, errors, handleSubmit } = useForm<CreateQuestInput>();
+  const { register, errors, watch, handleSubmit } = useForm<CreateQuestInput>();
   const [createQuestState, createQuest] = useCreateQuestMutation();
+  const createQuestInput = watch();
 
   const onSubmit = handleSubmit((data) => {
     createQuest({
@@ -55,7 +62,6 @@ const CreateQuestPage: React.FC<Props> = ({ guilds }) => {
 
   return (
     <Box>
-      <MetaLink href="/quests">Back to quests</MetaLink>
       <MetaHeading>
         Create quest
       </MetaHeading>
@@ -81,6 +87,15 @@ const CreateQuestPage: React.FC<Props> = ({ guilds }) => {
           isInvalid={!!errors.description}
         />
 
+        <Text>Link</Text>
+        <Input
+          background="dark"
+          placeholder="External link"
+          name="external_link"
+          ref={register(validations.external_link)}
+          isInvalid={!!errors.external_link}
+        />
+
         <Text>Repetition</Text>
         <Select
           isRequired
@@ -93,6 +108,21 @@ const CreateQuestPage: React.FC<Props> = ({ guilds }) => {
           ))}
         </Select>
 
+        {createQuestInput.repetition === QuestRepetition_ActionEnum.Recurring &&
+        <>
+          <Text>Cooldown (seconds)</Text>
+          <Input
+            background="dark"
+            placeholder="3600"
+            name="cooldown"
+            type="number"
+            ref={register(validations.cooldown)}
+            isInvalid={!!errors.cooldown}
+          />
+        </>
+        }
+
+
         <Text>Guild</Text>
         <Select
           isRequired
@@ -101,19 +131,29 @@ const CreateQuestPage: React.FC<Props> = ({ guilds }) => {
           isInvalid={!!errors.guild_id}
         >
           {guilds.map(guild => (
-            <option key={guild.id} value={guild.id}>{guild.guildname}</option>
+            <option key={guild.id} value={guild.id}>{guild.name}</option>
           ))}
         </Select>
 
-        <MetaButton
-          mt={10}
-          isLoading={createQuestState.fetching}
-          loadingText="Creating quest..."
-          onClick={onSubmit}
-          isDisabled={createQuestSuccess}
-        >
-          Create Quest
-        </MetaButton>
+        <HStack>
+          <MetaButton
+            as="a"
+            href="/quests"
+            variant="outline"
+          >
+            Cancel
+          </MetaButton>
+          <MetaButton
+            mt={10}
+            isLoading={createQuestState.fetching}
+            loadingText="Creating quest..."
+            onClick={onSubmit}
+            isDisabled={createQuestSuccess}
+          >
+            Create Quest
+          </MetaButton>
+        </HStack>
+
 
         {createQuestError &&
         <Box>
