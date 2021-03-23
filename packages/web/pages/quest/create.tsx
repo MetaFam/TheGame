@@ -1,45 +1,40 @@
 import {
   Box,
   Input,
-MetaButton,
+  MetaButton,
   MetaHeading,
-  Select,   Text,
+  Select,
+  Text,
   VStack,
 } from '@metafam/ds';
 import { Quest_Insert_Input, QuestRepetition_Enum } from 'graphql/autogen/types';
 import { InferGetStaticPropsType } from 'next';
-import React, { useReducer } from 'react';
+import React from 'react';
+import { useForm } from 'react-hook-form';
 
 import { MetaLink } from '../../components/Link';
 import { getGuilds } from '../../graphql/getGuilds';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
-const initialFormState: Quest_Insert_Input = {
-  title: '',
-  description: '',
-  repetition: QuestRepetition_Enum.Personal,
-  guild_id: '',
-}
-
-interface FormAction {
-  key: string;
-  value: any;
-}
-
-type FormReducer = (state: Quest_Insert_Input, action: FormAction) => Quest_Insert_Input
-const formReducer: FormReducer = (state: Quest_Insert_Input, action: FormAction) => {
-  const newState = { ...state };
-  newState[action.key] = action.value;
-  return newState;
-}
-
-function init(): Quest_Insert_Input {
-  return initialFormState;
+const validations = {
+  title: {
+    required: true,
+  },
+  description: {
+    required: true,
+  },
+  repetition: {
+    required: true,
+  },
+  guild_id: {
+    required: true,
+  },
 }
 
 const CreateQuestPage: React.FC<Props> = ({ guilds }) => {
-  const [state, dispatch] = useReducer<FormReducer, Quest_Insert_Input>(formReducer, initialFormState, init);
+  const { register, errors, handleSubmit } = useForm<Quest_Insert_Input>();
+  const onSubmit = handleSubmit((data) => console.log(data));
 
   return (
     <Box>
@@ -54,22 +49,27 @@ const CreateQuestPage: React.FC<Props> = ({ guilds }) => {
           background="dark"
           placeholder="Buidl stuff"
           isRequired
-          value={state.title || ''}
-          onChange={e => dispatch({ key: 'title', value: e.target.value })}
+          name="title"
+          ref={register(validations.title)}
+          isInvalid={!!errors.title}
         />
+
         <Text>Description</Text>
         <Input
           background="dark"
           placeholder="Shill our guild"
           isRequired
-          value={state.description || ''}
-          onChange={e => dispatch({ key: 'description', value: e.target.value })}
+          name="description"
+          ref={register(validations.description)}
+          isInvalid={!!errors.description}
         />
+
         <Text>Repetition</Text>
         <Select
           isRequired
-          value={state.repetition || ''}
-          onChange={e => dispatch({ key: 'repetition', value: e.target.value })}
+          name="repetition"
+          ref={register(validations.repetition)}
+          isInvalid={!!errors.repetition}
         >
           {Object.entries(QuestRepetition_Enum).map(([key, value]) => (
             <option key={value} value={value}>{key}</option>
@@ -79,18 +79,19 @@ const CreateQuestPage: React.FC<Props> = ({ guilds }) => {
         <Text>Guild</Text>
         <Select
           isRequired
-          value={state.guild_id}
-          onChange={e => dispatch({ key: 'guild_id', value: e.target.value })}
+          name="guild_id"
+          ref={register(validations.guild_id)}
+          isInvalid={!!errors.guild_id}
         >
           {guilds.map(guild => (
             <option key={guild.id} value={guild.id}>{guild.guildname}</option>
           ))}
         </Select>
 
-
         <MetaButton
           mt={10}
           loadingText="Creating quest..."
+          onClick={onSubmit}
         >
           Create Quest
         </MetaButton>
