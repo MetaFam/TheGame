@@ -27,6 +27,12 @@ gql`
         id
         ethereum_address
       }
+      quest_skills {
+        skill {
+          name
+          category
+        }
+      }
       quest_completions {
         ...QuestCompletionFragment
         player {

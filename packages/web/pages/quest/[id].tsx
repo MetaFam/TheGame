@@ -1,16 +1,18 @@
-import {   AlertDialog,
+import {
+  AlertDialog,
   AlertDialogBody,
   AlertDialogContent,
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogOverlay,
-Flex, Heading, HStack, LoadingState, MetaButton,
-Text, VStack } from '@metafam/ds';
+  Flex, Heading, HStack, LoadingState, MetaButton, MetaTag,
+  Text, VStack,
+} from '@metafam/ds';
 import { MetaLink } from 'components/Link';
 import { GetQuestWithCompletionsQuery, QuestCompletionStatus_ActionEnum, QuestCompletionStatus_Enum, QuestRepetition_Enum, QuestStatus_Enum, useGetQuestWithCompletionsQuery, useUpdateQuestCompletionMutation } from 'graphql/autogen/types';
 import { getQuestWithCompletions } from 'graphql/getQuest';
 import { getQuestIds } from 'graphql/getQuests';
-import { MeType } from 'graphql/types';
+import { MeType, SkillColors } from 'graphql/types';
 import {
   GetStaticPaths,
   GetStaticPropsContext,
@@ -109,6 +111,17 @@ const QuestPage: React.FC<Props> = ({ quest_id }) => {
           <Text>{quest.repetition}</Text>
           <Text>{quest.description}</Text>
 
+          <HStack>
+            {quest.quest_skills.map(qs => (
+              <MetaTag
+                size="md"
+                fontWeight="normal"
+                backgroundColor={SkillColors[qs.skill.category]}
+              >
+                {qs.skill.name}
+              </MetaTag>
+            ))}
+          </HStack>
           <HStack>
             {isMyQuest &&
             <MetaLink
