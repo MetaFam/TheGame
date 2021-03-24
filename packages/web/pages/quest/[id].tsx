@@ -15,7 +15,6 @@ import {
   GetStaticPaths,
   GetStaticPropsContext,
 } from 'next';
-import Error from 'next/error';
 import { useRouter } from 'next/router';
 import React, { useMemo, useRef,useState } from 'react';
 
@@ -62,7 +61,7 @@ const QuestPage: React.FC<Props> = ({ quest_id }) => {
   const [alertSubmission, setAlertSubmission] = useState<AlertSubmission | null>(null);
   const [updateQuestCompletionStatus, updateQuestCompletion] = useUpdateQuestCompletionMutation();
 
-  const [res] = useGetQuestWithCompletionsQuery({
+  const [res, reexecuteQuery] = useGetQuestWithCompletionsQuery({
     variables: {
       id: quest_id,
     },
@@ -70,11 +69,8 @@ const QuestPage: React.FC<Props> = ({ quest_id }) => {
   const quest = res.data?.quest_by_pk;
   const canSubmit = useMemo<boolean>(() => checkSubmittable(res.data, user), [res.data, user]);
 
-  if (router.isFallback) {
+  if (router.isFallback || !quest) {
     return <LoadingState />;
-  }
-  if (!quest) {
-    return <Error statusCode={404} />;
   }
   const isMyQuest = user?.id === quest.player.id;
 
@@ -90,6 +86,7 @@ const QuestPage: React.FC<Props> = ({ quest_id }) => {
       if(!response.data?.updateQuestCompletion?.error) {
         setUpdateError(null)
         setAlertSubmission(null)
+        reexecuteQuery({ requestPolicy: 'network-only' });
       } else {
         setUpdateError(response.data?.updateQuestCompletion?.error)
       }
@@ -269,9 +266,13 @@ export const getStaticProps = async (
   const [ssrClient, ssrCache] = getSsrClient();
 
   const id = context.params?.id;
+  if (!id) {
+    return {
+      notFound: true,
+    }
+  }
   const quest = await getQuestWithCompletions(id, ssrClient);
-
-  if (!id || !quest) {
+  if (!quest) {
     return {
       notFound: true,
     }

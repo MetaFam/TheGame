@@ -5,6 +5,9 @@ export const CreateQuestMutation = gql`
     createQuest(quest: $input) {
       error
       quest_id
+      quest { 
+        id  # We add this for urql to update the cache
+      }
     }
   }
 `;

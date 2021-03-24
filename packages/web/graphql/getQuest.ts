@@ -1,7 +1,7 @@
 import gql from 'fake-tag';
 import { Client } from 'urql';
 
-import { GetQuestQuery, GetQuestQueryVariables, GetQuestWithCompletionsQuery, GetQuestWithCompletionsQueryVariables } from './autogen/types';
+import { GetQuestQuery, GetQuestQueryVariables, GetQuestWithCompletionsQuery, GetQuestWithCompletionsQueryVariables, GetQuestWithCompletionsDocument } from './autogen/types';
 import { client as defaultClient } from './client';
 import { QuestCompletionFragment,QuestFragment } from './fragments';
 
@@ -18,7 +18,8 @@ const questQuery = gql`
   ${QuestFragment}
 `;
 
-const questWithCompletionsQuery = gql`
+// eslint-disable-next-line @typescript-eslint/no-unused-expressions
+gql`
   query GetQuestWithCompletions($id: uuid!) {
     quest_by_pk(id: $id) {
       ...QuestFragment
@@ -48,10 +49,13 @@ export const getQuest = async (id: string | undefined, client: Client = defaultC
   return data?.quest_by_pk;
 };
 
-export const getQuestWithCompletions = async (id: string | undefined, client: Client = defaultClient) => {
+export const getQuestWithCompletions = async (id: string, client: Client = defaultClient) => {
   if (!id) return null;
   const { data } = await client
-    .query<GetQuestWithCompletionsQuery, GetQuestWithCompletionsQueryVariables>(questWithCompletionsQuery, { id })
+    .query<GetQuestWithCompletionsQuery, GetQuestWithCompletionsQueryVariables>(
+      GetQuestWithCompletionsDocument,
+      { id },
+    )
     .toPromise();
 
   return data?.quest_by_pk;

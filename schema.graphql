@@ -211,6 +211,7 @@ input CreateQuestCompletionInput {
 
 type CreateQuestCompletionOutput {
   error: String
+  quest_completion: quest_completion
   quest_completion_id: uuid
   success: Boolean!
 }
@@ -226,6 +227,7 @@ input CreateQuestInput {
 
 type CreateQuestOutput {
   error: String
+  quest: quest
   quest_id: uuid
   success: Boolean!
 }

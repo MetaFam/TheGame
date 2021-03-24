@@ -55,6 +55,22 @@ custom_types:
   objects:
   - name: UpdateBoxProfileResponse
   - name: CreateQuestOutput
+    relationships:
+    - remote_table:
+        schema: public
+        name: quest
+      name: quest
+      type: object
+      field_mapping:
+        quest_id: id
   - name: CreateQuestCompletionOutput
+    relationships:
+    - remote_table:
+        schema: public
+        name: quest_completion
+      name: quest_completion
+      type: object
+      field_mapping:
+        quest_completion_id: id
   - name: UpdateQuestCompletionOutput
   scalars: []

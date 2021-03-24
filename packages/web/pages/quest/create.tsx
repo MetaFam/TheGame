@@ -51,7 +51,7 @@ const CreateQuestPage: React.FC<Props> = ({ guilds }) => {
       input: data,
     }).then(response => {
       const createQuestResponse = response.data?.createQuest
-      if(createQuestResponse && !createQuestResponse.error) {
+      if(createQuestResponse && createQuestResponse.quest_id && !createQuestResponse.error) {
         router.push(`/quest/${createQuestResponse.quest_id}`);
       }
     });

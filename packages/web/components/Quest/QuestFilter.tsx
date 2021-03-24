@@ -11,6 +11,7 @@ import { useGetpSeedBalanceQuery, Order_By, GetQuestsQueryVariables, QuestStatus
 import { useUser } from '../../lib/hooks';
 import { QuestAggregates } from '../../lib/hooks/quests';
 import { numbers } from '@metafam/utils';
+import { useRouter } from 'next/router';
 const { BN, amountToDecimal } = numbers;
 
 type Props = {
@@ -38,6 +39,7 @@ export function isAllowedToCreateQuest(
 }
 
 export const QuestFilter: React.FC<Props> = ({ aggregates, queryVariables, setQueryVariable }) => {
+  const router = useRouter();
   const { user } = useUser();
   const [res] = useGetpSeedBalanceQuery({
     variables: {
@@ -57,10 +59,9 @@ export const QuestFilter: React.FC<Props> = ({ aggregates, queryVariables, setQu
         Filters
       </Heading>
       <MetaButton
-        as="a"
-        href="/quest/create"
         fontFamily="mono"
         disabled={!canCreateQuest}
+        onClick={() => router.push('/quest/create')}
       >
         New Quest
       </MetaButton>
@@ -94,7 +95,7 @@ export const QuestFilter: React.FC<Props> = ({ aggregates, queryVariables, setQu
           <option value="">All guilds</option>
           {aggregates.guilds && aggregates.guilds.map(
             (g: { id: string, name: string }) => (
-              <option value={g.id}>{g.name}</option>
+              <option key={g.id} value={g.id}>{g.name}</option>
             ))
           }
         </Select>
