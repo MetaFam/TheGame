@@ -1,7 +1,6 @@
 import { Box, Flex, LoadingState, Heading, Stack } from '@metafam/ds';
 import { MetaLink } from 'components/Link';
 import { getQuest } from 'graphql/getQuest';
-import { getQuests } from 'graphql/getQuests';
 import {
   GetStaticPaths,
   GetStaticPropsContext,
@@ -57,12 +56,8 @@ export default EditQuestPage;
 type QueryParams = { id: string };
 
 export const getStaticPaths: GetStaticPaths<QueryParams> = async () => {
-  const quests = await getQuests();
-
   return {
-    paths: quests.map(({ id }) => ({
-      params: { id },
-    })),
+    paths: [],
     fallback: true,
   };
 };

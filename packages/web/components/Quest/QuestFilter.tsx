@@ -3,14 +3,13 @@ import {
   Box, MetaButton,
   Select,
   VStack,
-  Text,
 } from '@metafam/ds';
 import React from 'react';
 import { GetQuestsQueryVariables, QuestStatus_Enum } from 'graphql/autogen/types';
 
 type Props = {
   queryVariables: GetQuestsQueryVariables
-  setQueryVariable: (_string, __any) => void;
+  setQueryVariable: (_: string, __: any) => void;
 };
 
 export const QuestFilter: React.FC<Props> = ({ queryVariables, setQueryVariable }) => {

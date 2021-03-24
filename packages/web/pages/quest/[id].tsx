@@ -9,7 +9,7 @@ Text, VStack } from '@metafam/ds';
 import { MetaLink } from 'components/Link';
 import { GetQuestWithCompletionsQuery, QuestCompletionStatus_ActionEnum, QuestCompletionStatus_Enum, QuestRepetition_Enum, QuestStatus_Enum, useGetQuestWithCompletionsQuery, useUpdateQuestCompletionMutation } from 'graphql/autogen/types';
 import { getQuestWithCompletions } from 'graphql/getQuest';
-import { getQuests } from 'graphql/getQuests';
+import { getQuestIds } from 'graphql/getQuests';
 import { MeType } from 'graphql/types';
 import {
   GetStaticPaths,
@@ -253,10 +253,10 @@ const QuestPage: React.FC<Props> = ({ quest_id }) => {
 type QueryParams = { id: string };
 
 export const getStaticPaths: GetStaticPaths<QueryParams> = async () => {
-  const quests = await getQuests();
+  const questIds = await getQuestIds(50);
 
   return {
-    paths: quests.map(({ id }) => ({
+    paths: questIds.map(id => ({
       params: { id },
     })),
     fallback: true,
