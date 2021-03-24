@@ -1,7 +1,6 @@
-import React from 'react';
-import { initUrqlClient, withUrqlClient } from 'next-urql';
-
-import { Client, cacheExchange, createClient, dedupExchange, fetchExchange, ssrExchange } from 'urql';
+import { initUrqlClient, NextComponentType, withUrqlClient,WithUrqlProps } from 'next-urql';
+import React, { createElement } from 'react';
+import { cacheExchange, Client, createClient, dedupExchange, fetchExchange, ssrExchange } from 'urql';
 
 import { CONFIG } from '../config';
 import { getTokenFromStore } from '../lib/auth';
@@ -23,19 +22,35 @@ export const getSsrClient = (): [Client, ReturnType<typeof ssrExchange>] => {
   return [ssrClient, ssrCache];
 }
 
-export const wrapUrqlClient = (appOrPage: React.FC<any>) => withUrqlClient(
-  (_ssrExchange, ctx) => ({
-    url: CONFIG.graphqlURL,
-    fetchOptions: () => ({
-      headers: {
-        Authorization: ctx
-          ? `Bearer ${ctx?.req?.headers?.authorization ?? ''}`
-          : `Bearer ${getTokenFromStore() ?? ''}`,
-      },
+// We do this to enable ssr cache on pages that are not directly wrapped in 'withUrqlClient' (but on _app)
+// https://github.com/FormidableLabs/urql/issues/1481
+const customWithUrqlClient = (WithUrql: NextComponentType):React.FC<WithUrqlProps> => ({ pageProps, urqlState, ...props }) => {
+  return createElement(
+    WithUrql,
+    {
+      urqlState: pageProps.urqlState || urqlState,
+      pageProps,
+      ...props,
+    },
+  );
+}
+
+export const wrapUrqlClient = (AppOrPage: React.FC<any>) => customWithUrqlClient(
+  withUrqlClient(
+    (_ssrExchange, ctx) => ({
+      url: CONFIG.graphqlURL,
+      fetchOptions: () => ({
+        headers: {
+          Authorization: ctx
+            ? `Bearer ${ctx?.req?.headers?.authorization ?? ''}`
+            : `Bearer ${getTokenFromStore() ?? ''}`,
+        },
+      }),
     }),
-  }),
-  {
-    neverSuspend: true,
-    ssr: false,
-  },
-)(appOrPage);
+    {
+      neverSuspend: true,
+      ssr: false,
+    },
+  )
+  (AppOrPage),
+);

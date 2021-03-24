@@ -5,6 +5,7 @@ import { Web3ContextProvider } from 'contexts/Web3Context';
 import Head from 'next/head';
 import { WithUrqlProps } from 'next-urql';
 import React from 'react';
+import { wrapUrqlClient } from '../graphql/client';
 
 const App: React.FC<WithUrqlProps> = ({ pageProps, resetUrqlClient, Component }) => {
   return (
@@ -25,4 +26,4 @@ const App: React.FC<WithUrqlProps> = ({ pageProps, resetUrqlClient, Component })
   );
 };
 
-export default App;
+export default wrapUrqlClient(App);

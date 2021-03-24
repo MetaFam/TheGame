@@ -20,7 +20,7 @@ import { useRouter } from 'next/router';
 import React, { useMemo, useRef,useState } from 'react';
 
 import { PageContainer } from '../../components/Container';
-import { getSsrClient, wrapUrqlClient } from '../../graphql/client';
+import { getSsrClient } from '../../graphql/client';
 import { useUser } from '../../lib/hooks';
 
 type Props = {
@@ -288,4 +288,4 @@ export const getStaticProps = async (
 };
 
 
-export default wrapUrqlClient(QuestPage);
+export default QuestPage;
