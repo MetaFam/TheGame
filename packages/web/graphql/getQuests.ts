@@ -1,7 +1,7 @@
 import gql from 'fake-tag';
 import { Client } from 'urql';
 
-import { GetQuestIdsQuery, GetQuestIdsDocument, GetQuestIdsQueryVariables, GetQuestsDocument, GetQuestsQuery, QuestStatus_Enum, GetQuestsQueryVariables } from './autogen/types';
+import { Order_By, GetQuestIdsQuery, GetQuestIdsDocument, GetQuestIdsQueryVariables, GetQuestsDocument, GetQuestsQuery, QuestStatus_Enum, GetQuestsQueryVariables } from './autogen/types';
 import { client as defaultClient } from './client';
 import { QuestFragment } from './fragments';
 
@@ -16,23 +16,39 @@ gql`
 
 // eslint-disable-next-line @typescript-eslint/no-unused-expressions
 gql`
-  query GetQuests($limit: Int, $status: QuestStatus_enum) {
+  query GetQuests($limit: Int, $status: QuestStatus_enum, $guild_id: uuid, $order: order_by, $created_by_player_id: uuid) {
     quest(
       limit: $limit,
+      order_by: { created_at: $order },
       where: {
         status: {_eq : $status},
+        guild_id: {_eq : $guild_id }
+        created_by_player_id: {_eq : $created_by_player_id }
       }
     ) {
       ...QuestFragment
     }
+    quest_aggregate(
+      distinct_on: guild_id,
+    ) {
+      nodes {
+        guild_id
+        guild {
+          name
+        }
+      }
+    }
   }
-
+  
   ${QuestFragment}
 `;
 
 export const defaultQueryVariables: GetQuestsQueryVariables = {
   limit: 10,
   status: QuestStatus_Enum.Open,
+  guild_id: undefined,
+  order: Order_By.Desc,
+  created_by_player_id: undefined,
 }
 
 export const getQuestIds = async (limit = 50, client: Client = defaultClient) => {

@@ -475,6 +475,7 @@
       - guild_id
       - id
       filter: {}
+      allow_aggregations: true
   - role: public
     permission:
       columns:
@@ -489,6 +490,7 @@
       - status
       - repetition
       filter: {}
+      allow_aggregations: true
   update_permissions:
   - role: player
     permission:

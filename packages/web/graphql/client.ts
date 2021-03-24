@@ -39,13 +39,14 @@ export const wrapUrqlClient = (AppOrPage: React.FC<any>) => customWithUrqlClient
   withUrqlClient(
     (_ssrExchange, ctx) => ({
       url: CONFIG.graphqlURL,
-      fetchOptions: () => ({
-        headers: {
-          Authorization: ctx
-            ? `Bearer ${ctx?.req?.headers?.authorization ?? ''}`
-            : `Bearer ${getTokenFromStore() ?? ''}`,
-        },
-      }),
+      fetchOptions: () => {
+        const token = ctx ? ctx?.req?.headers?.authorization : getTokenFromStore();
+        return {
+          headers: {
+            Authorization: token ? `Bearer ${token}` : '',
+          },
+        };
+      },
     }),
     {
       neverSuspend: true,

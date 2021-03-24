@@ -7,6 +7,8 @@ interface QuestFilter {
   fetching: boolean;
   queryVariables: GetQuestsQueryVariables;
   setQueryVariable: (_: string, __: any) => void;
+  aggregates: Record<string, any>;
+  error?: Error;
 }
 
 export const useQuestFilter = (): QuestFilter => {
@@ -14,15 +16,23 @@ export const useQuestFilter = (): QuestFilter => {
   const [res] = useGetQuestsQuery({
     variables: queryVariables,
   });
-  const { fetching, data } = res;
+  const { fetching, data, error } = res;
 
   const quests = data?.quest || null;
+  const guilds = data?.quest_aggregate.nodes.map(q => ({
+    id: q.guild_id,
+    name: q.guild.name,
+  }));
+
+  const aggregates = {
+    guilds,
+  };
 
   function setQueryVariable(key: string, value: any) {
     setQueryVariables({
       ...queryVariables,
-      [key]: value,
+      [key]: value !== '' ? value : null,
     })
   }
-  return { quests, fetching, queryVariables, setQueryVariable };
+  return { quests, aggregates, fetching, error, queryVariables, setQueryVariable };
 }

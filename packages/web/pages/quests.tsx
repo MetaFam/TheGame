@@ -1,4 +1,4 @@
-import { LoadingState, Wrap, WrapItem } from '@metafam/ds';
+import { Text, LoadingState, Wrap, WrapItem } from '@metafam/ds';
 import { PageContainer } from 'components/Container';
 import { QuestFilter } from 'components/Quest/QuestFilter';
 import { QuestList } from 'components/Quest/QuestList';
@@ -27,19 +27,23 @@ export const getStaticProps = async () => {
 
 const QuestsPage: React.FC<Props> = () => {
 
-  const { quests, fetching, queryVariables, setQueryVariable } = useQuestFilter();
+  const { quests, aggregates, fetching, error, queryVariables, setQueryVariable } = useQuestFilter();
 
   return (
     <PageContainer>
       <Wrap>
         <WrapItem>
-          <QuestFilter queryVariables={queryVariables} setQueryVariable={setQueryVariable} />
+          <QuestFilter aggregates={aggregates} queryVariables={queryVariables} setQueryVariable={setQueryVariable} />
         </WrapItem>
         <WrapItem>
           {(quests && !fetching) ?
             <QuestList quests={quests} />
             :
+            (error ?
+            <Text>Error: {error.message}</Text>
+            :
             <LoadingState />
+            )
           }
         </WrapItem>
       </Wrap>

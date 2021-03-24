@@ -1,4 +1,4 @@
-import { Heading, VStack } from '@metafam/ds';
+import { Text, Heading, VStack } from '@metafam/ds';
 import { QuestTile } from 'components/Quest/QuestTile';
 import { QuestFragmentFragment } from 'graphql/autogen/types';
 import React from 'react';
@@ -12,8 +12,13 @@ export const QuestList: React.FC<Props> = ({ quests }) => (
     <Heading>
       Quest list
     </Heading>
-    {quests.map((q) => (
-      <QuestTile key={q.id} quest={q} />
-    ))}
+    <Text>{quests.length} quests</Text>
+    {quests.length > 0 ?
+      quests.map((q) => (
+        <QuestTile key={q.id} quest={q} />
+      ))
+      :
+      <Text>No quests found</Text>
+    }
   </VStack>
 );
