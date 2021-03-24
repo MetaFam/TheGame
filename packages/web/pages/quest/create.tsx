@@ -11,10 +11,14 @@ import {
 import { useRouter } from 'next/router'
 import { QuestRepetition_Enum, QuestRepetition_ActionEnum, CreateQuestInput, useCreateQuestMutation } from 'graphql/autogen/types';
 import { InferGetStaticPropsType } from 'next';
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { getGuilds } from '../../graphql/getGuilds';
+import { getSkills } from '../../graphql/getSkills';
+import { parseSkills, SkillOption } from '../../utils/skillHelpers';
+import { SkillsSelect } from '../../components/SkillsSelect';
+import { FlexContainer } from '../../components/Container';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
@@ -40,11 +44,12 @@ const validations = {
 }
 
 // TODO redirect if user not logged in
-const CreateQuestPage: React.FC<Props> = ({ guilds }) => {
+const CreateQuestPage: React.FC<Props> = ({ guilds, skillChoices }) => {
   const router = useRouter()
   const { register, errors, watch, handleSubmit } = useForm<CreateQuestInput>();
   const [createQuestState, createQuest] = useCreateQuestMutation();
   const createQuestInput = watch();
+  const [skills, setSkills] = useState<Array<SkillOption>>([]);
 
   const onSubmit = handleSubmit((data) => {
     createQuest({
@@ -135,6 +140,15 @@ const CreateQuestPage: React.FC<Props> = ({ guilds }) => {
           ))}
         </Select>
 
+        <FlexContainer w="100%" align="stretch" maxW="50rem">
+          <SkillsSelect
+            skillChoices={skillChoices}
+            skills={skills}
+            setSkills={setSkills}
+            placeHolder="Select required skills"
+          />
+        </FlexContainer>
+
         <HStack>
           <MetaButton
             as="a"
@@ -154,7 +168,6 @@ const CreateQuestPage: React.FC<Props> = ({ guilds }) => {
           </MetaButton>
         </HStack>
 
-
         {createQuestError &&
         <Box>
           <Text>Error while creating quest</Text>
@@ -167,9 +180,13 @@ const CreateQuestPage: React.FC<Props> = ({ guilds }) => {
 
 export const getStaticProps = async () => {
   const guilds = await getGuilds();
+  const skills = await getSkills();
+  const skillChoices = parseSkills(skills);
+
   return {
     props: {
       guilds,
+      skillChoices,
     },
     revalidate: 1,
   };
