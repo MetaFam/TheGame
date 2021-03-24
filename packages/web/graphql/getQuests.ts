@@ -43,6 +43,22 @@ gql`
   ${QuestFragment}
 `;
 
+// eslint-disable-next-line @typescript-eslint/no-unused-expressions
+gql`
+  query GetQuestGuilds {
+    quest_aggregate(
+      distinct_on: guild_id,
+    ) {
+      nodes {
+        guild_id
+        guild {
+          name
+        }
+      }
+    }
+  }
+`;
+
 export const defaultQueryVariables: GetQuestsQueryVariables = {
   limit: 10,
   status: QuestStatus_Enum.Open,

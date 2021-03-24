@@ -9,9 +9,10 @@ import {
 import React from 'react';
 import { Order_By, GetQuestsQueryVariables, QuestStatus_Enum } from 'graphql/autogen/types';
 import { useUser } from '../../lib/hooks';
+import { QuestAggregates } from '../../lib/hooks/quests';
 
 type Props = {
-  aggregates: Record<string, any>;
+  aggregates: QuestAggregates;
   queryVariables: GetQuestsQueryVariables
   setQueryVariable: (_: string, __: any) => void;
 };

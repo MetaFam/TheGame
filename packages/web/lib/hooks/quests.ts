@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { QuestFragmentFragment, GetQuestsQueryVariables, useGetQuestsQuery } from 'graphql/autogen/types';
+import { QuestFragmentFragment, GetQuestsQueryVariables, useGetQuestsQuery, useGetQuestGuildsQuery } from 'graphql/autogen/types';
 import { defaultQueryVariables } from '../../graphql/getQuests';
 
 interface QuestFilter {
@@ -7,22 +7,27 @@ interface QuestFilter {
   fetching: boolean;
   queryVariables: GetQuestsQueryVariables;
   setQueryVariable: (_: string, __: any) => void;
-  aggregates: Record<string, any>;
+  aggregates: QuestAggregates
   error?: Error;
+}
+
+export interface QuestAggregates {
+  guilds: { id: string, name: string }[]
 }
 
 export const useQuestFilter = (): QuestFilter => {
   const [queryVariables, setQueryVariables] = useState<GetQuestsQueryVariables>(defaultQueryVariables);
-  const [res] = useGetQuestsQuery({
+  const [resQuests] = useGetQuestsQuery({
     variables: queryVariables,
   });
-  const { fetching, data, error } = res;
+  const [resGuilds] = useGetQuestGuildsQuery();
+  const { fetching, data, error } = resQuests;
 
   const quests = data?.quest || null;
-  const guilds = data?.quest_aggregate.nodes.map(q => ({
+  const guilds = resGuilds?.data?.quest_aggregate.nodes.map(q => ({
     id: q.guild_id,
     name: q.guild.name,
-  }));
+  })) || [];
 
   const aggregates = {
     guilds,
