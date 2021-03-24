@@ -17,8 +17,8 @@ export const getSsrClient = (): [Client, ReturnType<typeof ssrExchange>] => {
     url: CONFIG.graphqlURL,
     exchanges: [dedupExchange, cacheExchange, ssrCache, fetchExchange],
   }, false);
-
   if(!ssrClient) throw new Error('wtf');
+
   return [ssrClient, ssrCache];
 }
 

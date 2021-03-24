@@ -73,7 +73,6 @@ const QuestPage: React.FC<Props> = ({ quest_id }) => {
   if (router.isFallback) {
     return <LoadingState />;
   }
-
   if (!quest) {
     return <Error statusCode={404} />;
   }
