@@ -27,16 +27,16 @@ export const getStaticProps = async () => {
 
 const QuestsPage: React.FC<Props> = () => {
 
-  const { quests, queryVariables } = useQuestFilter();
+  const { quests, fetching, queryVariables, setQueryVariable } = useQuestFilter();
 
   return (
     <PageContainer>
       <Wrap>
         <WrapItem>
-          <QuestFilter queryVariables={queryVariables} />
+          <QuestFilter queryVariables={queryVariables} setQueryVariable={setQueryVariable} />
         </WrapItem>
         <WrapItem>
-          {quests ?
+          {(quests && !fetching) ?
             <QuestList quests={quests} />
             :
             <LoadingState />

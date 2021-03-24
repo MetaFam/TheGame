@@ -54,6 +54,7 @@ export {
   Spacer,
   Spinner,
   Stack,
+  Switch,
   Text,
   Tooltip,
   useDisclosure,
