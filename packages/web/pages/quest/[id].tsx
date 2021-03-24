@@ -1,36 +1,40 @@
-import { Text, HStack, VStack, Flex, LoadingState, Heading, Stack, MetaButton,
-  AlertDialog,
-  AlertDialogOverlay,
-  AlertDialogContent,
-  AlertDialogHeader,
-  AlertDialogFooter,
+import {   AlertDialog,
   AlertDialogBody,
-} from '@metafam/ds';
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogOverlay,
+Flex, Heading, HStack, LoadingState, MetaButton,
+Text, VStack } from '@metafam/ds';
 import { MetaLink } from 'components/Link';
+import { GetQuestWithCompletionsQuery, QuestCompletionStatus_ActionEnum, QuestCompletionStatus_Enum, QuestRepetition_Enum, QuestStatus_Enum, useGetQuestWithCompletionsQuery, useUpdateQuestCompletionMutation } from 'graphql/autogen/types';
 import { getQuestWithCompletions } from 'graphql/getQuest';
 import { getQuests } from 'graphql/getQuests';
+import { MeType } from 'graphql/types';
 import {
   GetStaticPaths,
   GetStaticPropsContext,
-  InferGetStaticPropsType,
 } from 'next';
 import Error from 'next/error';
 import { useRouter } from 'next/router';
-import React, { useState, useMemo, useRef } from 'react';
-import { Quest, QuestStatus_Enum, QuestRepetition_Enum, QuestCompletionStatus_Enum, QuestCompletionStatus_ActionEnum, useUpdateQuestCompletionMutation } from 'graphql/autogen/types';
-import { MeType } from 'graphql/types';
+import React, { useMemo, useRef,useState } from 'react';
 
 import { PageContainer } from '../../components/Container';
+import { getSsrClient, wrapUrqlClient } from '../../graphql/client';
 import { useUser } from '../../lib/hooks';
 
-type Props = InferGetStaticPropsType<typeof getStaticProps>;
+type Props = {
+  quest_id: string;
+}
 
 interface AlertSubmission {
   status: QuestCompletionStatus_ActionEnum;
   quest_completion_id: string;
 }
 
-function checkSubmittable(quest: Quest, user: MeType): boolean {
+function checkSubmittable(data: GetQuestWithCompletionsQuery | null | undefined, user: MeType | null | undefined): boolean {
+  const quest = data?.quest_by_pk;
+
   if(!user || !quest) return false;
 
   if (quest.status !== QuestStatus_Enum.Open) {
@@ -50,14 +54,30 @@ function checkSubmittable(quest: Quest, user: MeType): boolean {
   return true;
 }
 
-const QuestPage: React.FC<Props> = ({ quest }) => {
+const QuestPage: React.FC<Props> = ({ quest_id }) => {
   const cancelRef = useRef<HTMLButtonElement>(null)
   const { user } = useUser();
   const router = useRouter();
   const [updateError, setUpdateError] = useState<string | null>(null);
   const [alertSubmission, setAlertSubmission] = useState<AlertSubmission | null>(null);
   const [updateQuestCompletionStatus, updateQuestCompletion] = useUpdateQuestCompletionMutation();
-  const canSubmit = useMemo<boolean>(() => checkSubmittable(quest, user), [quest, user]);
+
+  const [res] = useGetQuestWithCompletionsQuery({
+    variables: {
+      id: quest_id,
+    },
+  });
+  const quest = res.data?.quest_by_pk;
+  const canSubmit = useMemo<boolean>(() => checkSubmittable(res.data, user), [res.data, user]);
+
+  if (router.isFallback) {
+    return <LoadingState />;
+  }
+
+  if (!quest) {
+    return <Error statusCode={404} />;
+  }
+  const isMyQuest = user?.id === quest.player.id;
 
   function onCloseAlert() {
     setAlertSubmission(null)
@@ -77,21 +97,11 @@ const QuestPage: React.FC<Props> = ({ quest }) => {
     })
   }
 
-  if (router.isFallback) {
-    return <LoadingState />;
-  }
-
-  if (!quest) {
-    return <Error statusCode={404} />;
-  }
-  const isMyQuest = user?.ethereum_address === quest.player.ethereum_address;
-
   return (
     <PageContainer>
-      <Stack
+      <VStack
         spacing={6}
         align="center"
-        direction={{ base: 'column', lg: 'row' }}
         alignItems="flex-start"
         maxWidth="7xl"
       >
@@ -192,7 +202,7 @@ const QuestPage: React.FC<Props> = ({ quest }) => {
             </VStack>
           ))}
         </VStack>
-      </Stack>
+      </VStack>
 
       <AlertDialog
         isOpen={!!alertSubmission}
@@ -241,8 +251,6 @@ const QuestPage: React.FC<Props> = ({ quest }) => {
   );
 };
 
-export default QuestPage;
-
 type QueryParams = { id: string };
 
 export const getStaticPaths: GetStaticPaths<QueryParams> = async () => {
@@ -259,19 +267,25 @@ export const getStaticPaths: GetStaticPaths<QueryParams> = async () => {
 export const getStaticProps = async (
   context: GetStaticPropsContext<QueryParams>,
 ) => {
-  const id = context.params?.id;
-  const quest = await getQuestWithCompletions(id);
+  const [ssrClient, ssrCache] = getSsrClient();
 
-  // if (!quest) {
-  //   return {
-  //     notFound: true,
-  //   }
-  // }
+  const id = context.params?.id;
+  const quest = await getQuestWithCompletions(id, ssrClient);
+
+  if (!id || !quest) {
+    return {
+      notFound: true,
+    }
+  }
 
   return {
     props: {
-      quest: quest === undefined ? null : quest,
+      quest_id: id,
+      urqlState: ssrCache.extractData(),
     },
     revalidate: 1,
   };
 };
+
+
+export default wrapUrqlClient(QuestPage);

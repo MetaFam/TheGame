@@ -1,8 +1,9 @@
 import gql from 'fake-tag';
+import { Client } from 'urql';
 
-import { GetQuestQuery, GetQuestWithCompletionsQuery, GetQuestQueryVariables, GetQuestWithCompletionsQueryVariables } from './autogen/types';
-import { client } from './client';
-import { QuestFragment, QuestCompletionFragment } from './fragments';
+import { GetQuestQuery, GetQuestQueryVariables, GetQuestWithCompletionsQuery, GetQuestWithCompletionsQueryVariables } from './autogen/types';
+import { client as defaultClient } from './client';
+import { QuestCompletionFragment,QuestFragment } from './fragments';
 
 const questQuery = gql`
   query GetQuest($id: uuid!) {
@@ -38,7 +39,7 @@ const questWithCompletionsQuery = gql`
   ${QuestCompletionFragment}
 `;
 
-export const getQuest = async (id: string | undefined) => {
+export const getQuest = async (id: string | undefined, client: Client = defaultClient) => {
   if (!id) return null;
   const { data } = await client
     .query<GetQuestQuery, GetQuestQueryVariables>(questQuery, { id })
@@ -47,7 +48,7 @@ export const getQuest = async (id: string | undefined) => {
   return data?.quest_by_pk;
 };
 
-export const getQuestWithCompletions = async (id: string | undefined) => {
+export const getQuestWithCompletions = async (id: string | undefined, client: Client = defaultClient) => {
   if (!id) return null;
   const { data } = await client
     .query<GetQuestWithCompletionsQuery, GetQuestWithCompletionsQueryVariables>(questWithCompletionsQuery, { id })

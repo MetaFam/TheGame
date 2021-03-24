@@ -14,6 +14,7 @@ import { useForm } from 'react-hook-form';
 import { CreateQuestCompletionInput, useCreateQuestCompletionMutation } from 'graphql/autogen/types';
 
 import { PageContainer } from '../../../components/Container';
+import { getSsrClient } from '../../../graphql/client';
 
 const validations = {
   submission_text: {
@@ -137,8 +138,9 @@ export const getStaticPaths: GetStaticPaths<QueryParams> = async () => {
 export const getStaticProps = async (
   context: GetStaticPropsContext<QueryParams>,
 ) => {
+  const [ssrClient] = getSsrClient();
   const id = context.params?.id;
-  const quest = await getQuest(id);
+  const quest = await getQuest(id, ssrClient);
 
   return {
     props: {
