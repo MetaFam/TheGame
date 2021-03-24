@@ -222,6 +222,7 @@ input CreateQuestInput {
   external_link: String
   guild_id: uuid!
   repetition: QuestRepetition_ActionEnum
+  skills_id: [uuid]!
   title: String!
 }
 

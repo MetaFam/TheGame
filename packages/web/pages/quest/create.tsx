@@ -127,7 +127,6 @@ const CreateQuestPage: React.FC<Props> = ({ guilds, skillChoices }) => {
         </>
         }
 
-
         <Text>Guild</Text>
         <Select
           isRequired
