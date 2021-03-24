@@ -11,8 +11,8 @@ import {
 import { useRouter } from 'next/router'
 import { QuestRepetition_Enum, QuestRepetition_ActionEnum, CreateQuestInput, useCreateQuestMutation } from 'graphql/autogen/types';
 import { InferGetStaticPropsType } from 'next';
-import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import React from 'react';
+import { useForm, Controller } from 'react-hook-form';
 
 import { getGuilds } from '../../graphql/getGuilds';
 import { getSkills } from '../../graphql/getSkills';
@@ -43,17 +43,25 @@ const validations = {
   },
 }
 
+interface CreateQuestFormInputs {
+  skills: SkillOption[];
+}
+
 // TODO redirect if user not logged in
 const CreateQuestPage: React.FC<Props> = ({ guilds, skillChoices }) => {
   const router = useRouter()
-  const { register, errors, watch, handleSubmit } = useForm<CreateQuestInput>();
+  const { register, control, errors, watch, handleSubmit } = useForm<CreateQuestInput & CreateQuestFormInputs>();
   const [createQuestState, createQuest] = useCreateQuestMutation();
   const createQuestInput = watch();
-  const [skills, setSkills] = useState<Array<SkillOption>>([]);
 
   const onSubmit = handleSubmit((data) => {
+    const { skills, ...createQuestInputs } = data;
+    const input = {
+      ...createQuestInputs,
+      skills_id: skills.map(s => s.id),
+    };
     createQuest({
-      input: data,
+      input,
     }).then(response => {
       const createQuestResponse = response.data?.createQuest
       if(createQuestResponse && createQuestResponse.quest_id && !createQuestResponse.error) {
@@ -63,7 +71,7 @@ const CreateQuestPage: React.FC<Props> = ({ guilds, skillChoices }) => {
   });
 
   const createQuestSuccess = !!createQuestState.data?.createQuest?.quest_id;
-  const createQuestError = createQuestState.data?.createQuest?.error;
+  const createQuestError = createQuestState.error?.message || createQuestState.data?.createQuest?.error;
 
   return (
     <Box>
@@ -140,11 +148,18 @@ const CreateQuestPage: React.FC<Props> = ({ guilds, skillChoices }) => {
         </Select>
 
         <FlexContainer w="100%" align="stretch" maxW="50rem">
-          <SkillsSelect
-            skillChoices={skillChoices}
-            skills={skills}
-            setSkills={setSkills}
-            placeHolder="Select required skills"
+          <Controller
+            name="skills"
+            control={control}
+            defaultValue={[]}
+            render={({ onChange, value }) =>
+              <SkillsSelect
+                skillChoices={skillChoices}
+                skills={value}
+                setSkills={onChange}
+                placeHolder="Select required skills"
+              />
+            }
           />
         </FlexContainer>
 
