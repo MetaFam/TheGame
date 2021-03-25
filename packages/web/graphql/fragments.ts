@@ -87,8 +87,53 @@ export const QuestFragment = gql`
     status
     title
     repetition
+    
+    player {
+      id
+      ethereum_address
+    }
+    quest_skills {
+      skill {
+        id
+        name
+        category
+      }
+    }
   }
 `;
+
+export const QuestWithCompletionFragment = gql`
+  fragment QuestWithCompletionFragment on quest {
+    id
+    created_at
+    cooldown
+    description
+    external_link
+    guild_id
+    status
+    title
+    repetition
+
+    player {
+      id
+      ethereum_address
+    }
+    quest_skills {
+      skill {
+        name
+        category
+      }
+    }
+    quest_completions {
+      ...QuestCompletionFragment
+      player {
+        id
+        ethereum_address
+      }
+    }
+  }
+`;
+
 export const QuestCompletionFragment = gql`
   fragment QuestCompletionFragment on quest_completion {
     id

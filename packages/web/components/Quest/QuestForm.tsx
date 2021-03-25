@@ -8,7 +8,7 @@ import {
   VStack,
 } from '@metafam/ds';
 import { QuestStatus_Enum, QuestFragmentFragment, GuildFragmentFragment, QuestRepetition_Enum } from 'graphql/autogen/types';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 
 import { CategoryOption, SkillOption } from '../../utils/skillHelpers';
@@ -74,8 +74,21 @@ export const QuestForm: React.FC<Props> = ({
                                              loadingLabel,
                                              editQuest,
                                            }) => {
+  const defaultValues = useMemo<QuestFragmentFragment | undefined>(() =>
+      editQuest ?
+        {
+          ...editQuest,
+          skills: editQuest.quest_skills.map(s => s.skill).map(s => ({
+            value: s.id,
+            label: s.name,
+            ...s,
+          })),
+        }
+        : undefined,
+    [editQuest],
+  );
   const { register, control, errors, watch, handleSubmit } = useForm<CreateQuestFormInputs>({
-    defaultValues: editQuest,
+    defaultValues,
   });
   const createQuestInput = watch();
 
@@ -128,6 +141,7 @@ export const QuestForm: React.FC<Props> = ({
         <>
           <Text>Cooldown (seconds)</Text>
           <Input
+            isRequired
             background="dark"
             placeholder="3600"
             name="cooldown"

@@ -1,18 +1,15 @@
 import gql from 'fake-tag';
 import { Client } from 'urql';
 
-import { GetQuestQuery, GetQuestQueryVariables, GetQuestWithCompletionsQuery, GetQuestWithCompletionsQueryVariables, GetQuestWithCompletionsDocument } from './autogen/types';
+import { GetQuestDocument, GetQuestQuery, GetQuestQueryVariables, GetQuestWithCompletionsQuery, GetQuestWithCompletionsQueryVariables, GetQuestWithCompletionsDocument } from './autogen/types';
 import { client as defaultClient } from './client';
-import { QuestCompletionFragment,QuestFragment } from './fragments';
+import { QuestWithCompletionFragment, QuestFragment } from './fragments';
 
-const questQuery = gql`
+// eslint-disable-next-line @typescript-eslint/no-unused-expressions
+gql`
   query GetQuest($id: uuid!) {
     quest_by_pk(id: $id) {
       ...QuestFragment
-      player {
-        id
-        ethereum_address
-      }
     }
   }
   ${QuestFragment}
@@ -22,34 +19,19 @@ const questQuery = gql`
 gql`
   query GetQuestWithCompletions($id: uuid!) {
     quest_by_pk(id: $id) {
-      ...QuestFragment
-      player {
-        id
-        ethereum_address
-      }
-      quest_skills {
-        skill {
-          name
-          category
-        }
-      }
-      quest_completions {
-        ...QuestCompletionFragment
-        player {
-          id
-          ethereum_address
-        }
-      }
+      ...QuestWithCompletionFragment
     }
   }
-  ${QuestFragment}
-  ${QuestCompletionFragment}
+  ${QuestWithCompletionFragment}
 `;
 
 export const getQuest = async (id: string | undefined, client: Client = defaultClient) => {
   if (!id) return null;
   const { data } = await client
-    .query<GetQuestQuery, GetQuestQueryVariables>(questQuery, { id })
+    .query<GetQuestQuery, GetQuestQueryVariables>(
+      GetQuestDocument,
+      { id },
+    )
     .toPromise();
 
   return data?.quest_by_pk;

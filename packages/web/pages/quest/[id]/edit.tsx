@@ -38,9 +38,14 @@ const EditQuestPage: React.FC<Props> = ({
       cooldown: data.repetition === QuestRepetition_Enum.Recurring ? data.cooldown : null,
       status: data.status,
     };
+    const skillsObjects = data.skills.map(s => ({
+      quest_id: quest.id,
+      skill_id: s.id,
+    }));
     updateQuest({
       id: quest.id,
       input: updateQuestInput,
+      skills: skillsObjects,
     }).then((res) => {
       if(res.data?.update_quest_by_pk && !res.error) {
         router.push(`/quest/${quest.id}`);
