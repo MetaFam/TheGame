@@ -36,15 +36,9 @@ const QuestsPage: React.FC<Props> = () => {
           <QuestFilter aggregates={aggregates} queryVariables={queryVariables} setQueryVariable={setQueryVariable} />
         </WrapItem>
         <WrapItem>
-          {(quests && !fetching) ?
-            <QuestList quests={quests} />
-            :
-            (error ?
-            <Text>Error: {error.message}</Text>
-            :
-            <LoadingState />
-            )
-          }
+          {fetching && <LoadingState />}
+          {error && <Text>Error: {error.message}</Text>}
+          {quests && !fetching && <QuestList quests={quests} />}
         </WrapItem>
       </Wrap>
     </PageContainer>

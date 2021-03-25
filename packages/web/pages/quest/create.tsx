@@ -1,60 +1,28 @@
 import {
   Box,
-  Input,
   MetaButton,
   MetaHeading,
-  Select,
   Text,
   HStack,
-  VStack,
 } from '@metafam/ds';
 import { useRouter } from 'next/router'
-import { QuestRepetition_Enum, QuestRepetition_ActionEnum, CreateQuestInput, useCreateQuestMutation } from 'graphql/autogen/types';
+import { useCreateQuestMutation } from 'graphql/autogen/types';
 import { InferGetStaticPropsType } from 'next';
 import React from 'react';
-import { useForm, Controller } from 'react-hook-form';
 
 import { getGuilds } from '../../graphql/getGuilds';
 import { getSkills } from '../../graphql/getSkills';
-import { parseSkills, SkillOption } from '../../utils/skillHelpers';
-import { SkillsSelect } from '../../components/SkillsSelect';
-import { FlexContainer } from '../../components/Container';
+import { parseSkills } from '../../utils/skillHelpers';
+import { QuestCreateForm, CreateQuestFormInputs } from '../../components/Quest/QuestCreateForm';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
-
-const validations = {
-  title: {
-    required: true,
-  },
-  description: {
-    required: true,
-  },
-  repetition: {
-    required: true,
-  },
-  guild_id: {
-    required: true,
-  },
-  external_link: {
-    // TODO is URI
-  },
-  cooldown: {
-    // TODO is int > 0
-  },
-}
-
-interface CreateQuestFormInputs {
-  skills: SkillOption[];
-}
 
 // TODO redirect if user not logged in
 const CreateQuestPage: React.FC<Props> = ({ guilds, skillChoices }) => {
   const router = useRouter()
-  const { register, control, errors, watch, handleSubmit } = useForm<CreateQuestInput & CreateQuestFormInputs>();
   const [createQuestState, createQuest] = useCreateQuestMutation();
-  const createQuestInput = watch();
 
-  const onSubmit = handleSubmit((data) => {
+  const onSubmit = (data: CreateQuestFormInputs) => {
     const { skills, ...createQuestInputs } = data;
     const input = {
       ...createQuestInputs,
@@ -68,7 +36,7 @@ const CreateQuestPage: React.FC<Props> = ({ guilds, skillChoices }) => {
         router.push(`/quest/${createQuestResponse.quest_id}`);
       }
     });
-  });
+  };
 
   const createQuestSuccess = !!createQuestState.data?.createQuest?.quest_id;
   const createQuestError = createQuestState.error?.message || createQuestState.data?.createQuest?.error;
@@ -78,116 +46,23 @@ const CreateQuestPage: React.FC<Props> = ({ guilds, skillChoices }) => {
       <MetaHeading>
         Create quest
       </MetaHeading>
-      <VStack>
 
-        <Text>Title</Text>
-        <Input
-          background="dark"
-          placeholder="Buidl stuff"
-          isRequired
-          name="title"
-          ref={register(validations.title)}
-          isInvalid={!!errors.title}
-        />
+      <QuestCreateForm
+        guilds={guilds}
+        skillChoices={skillChoices}
+        onSubmit={onSubmit}
+        success={createQuestSuccess}
+        fetching={createQuestState.fetching}
+        error={createQuestError}
+        submitLabel="Create Quest"
+        loadingLabel="Creating quest..."
+      />
 
-        <Text>Description</Text>
-        <Input
-          background="dark"
-          placeholder="Shill our guild"
-          isRequired
-          name="description"
-          ref={register(validations.description)}
-          isInvalid={!!errors.description}
-        />
-
-        <Text>Link</Text>
-        <Input
-          background="dark"
-          placeholder="External link"
-          name="external_link"
-          ref={register(validations.external_link)}
-          isInvalid={!!errors.external_link}
-        />
-
-        <Text>Repetition</Text>
-        <Select
-          isRequired
-          name="repetition"
-          ref={register(validations.repetition)}
-          isInvalid={!!errors.repetition}
-        >
-          {Object.entries(QuestRepetition_Enum).map(([key, value]) => (
-            <option key={value} value={value}>{key}</option>
-          ))}
-        </Select>
-
-        {createQuestInput.repetition === QuestRepetition_ActionEnum.Recurring &&
-        <>
-          <Text>Cooldown (seconds)</Text>
-          <Input
-            background="dark"
-            placeholder="3600"
-            name="cooldown"
-            type="number"
-            ref={register(validations.cooldown)}
-            isInvalid={!!errors.cooldown}
-          />
-        </>
-        }
-
-        <Text>Guild</Text>
-        <Select
-          isRequired
-          name="guild_id"
-          ref={register(validations.guild_id)}
-          isInvalid={!!errors.guild_id}
-        >
-          {guilds.map(guild => (
-            <option key={guild.id} value={guild.id}>{guild.name}</option>
-          ))}
-        </Select>
-
-        <FlexContainer w="100%" align="stretch" maxW="50rem">
-          <Controller
-            name="skills"
-            control={control}
-            defaultValue={[]}
-            render={({ onChange, value }) =>
-              <SkillsSelect
-                skillChoices={skillChoices}
-                skills={value}
-                setSkills={onChange}
-                placeHolder="Select required skills"
-              />
-            }
-          />
-        </FlexContainer>
-
-        <HStack>
-          <MetaButton
-            as="a"
-            href="/quests"
-            variant="outline"
-          >
-            Cancel
-          </MetaButton>
-          <MetaButton
-            mt={10}
-            isLoading={createQuestState.fetching}
-            loadingText="Creating quest..."
-            onClick={onSubmit}
-            isDisabled={createQuestSuccess}
-          >
-            Create Quest
-          </MetaButton>
-        </HStack>
-
-        {createQuestError &&
-        <Box>
-          <Text>Error while creating quest</Text>
-          <Text>{createQuestError}</Text>
-        </Box>}
-      </VStack>
+      {createQuestError &&
+      <Box>
+        <Text>Error while creating quest</Text>
+        <Text>{createQuestError}</Text>
+      </Box>}
     </Box>
   );
 }
