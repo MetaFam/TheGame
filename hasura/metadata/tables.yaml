@@ -498,13 +498,22 @@
       - cooldown
       - description
       - external_link
+      - guild_id
       - repetition
       - status
       - title
       filter:
         created_by_player_id:
           _eq: X-Hasura-User-Id
-      check: null
+      check:
+        _or:
+        - repetition:
+            _ne: RECURRING
+        - _and:
+          - repetition:
+              _eq: RECURRING
+          - cooldown:
+              _is_null: false
 - table:
     schema: public
     name: quest_completion

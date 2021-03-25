@@ -41,15 +41,15 @@ export function isAllowedToCreateQuest(
 export const QuestFilter: React.FC<Props> = ({ aggregates, queryVariables, setQueryVariable }) => {
   const router = useRouter();
   const { user } = useUser();
-  const [res] = useGetpSeedBalanceQuery({
+  const [respSeedBalance] = useGetpSeedBalanceQuery({
     variables: {
       address: user?.ethereum_address || '',
     },
     pause: !user?.ethereum_address,
   });
   const canCreateQuest = useMemo(
-    () => isAllowedToCreateQuest(res.data?.getTokenBalances?.pSeedBalance),
-    [res],
+    () => isAllowedToCreateQuest(respSeedBalance.data?.getTokenBalances?.pSeedBalance),
+    [respSeedBalance],
   );
   const myId = user?.id;
 
@@ -61,6 +61,7 @@ export const QuestFilter: React.FC<Props> = ({ aggregates, queryVariables, setQu
       <MetaButton
         fontFamily="mono"
         disabled={!canCreateQuest}
+        isLoading={respSeedBalance.fetching}
         onClick={() => router.push('/quest/create')}
       >
         New Quest

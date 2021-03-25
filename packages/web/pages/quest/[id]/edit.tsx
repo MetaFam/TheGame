@@ -1,29 +1,58 @@
-import { Box, Flex, LoadingState, Heading, Stack } from '@metafam/ds';
+import { Flex, LoadingState, Heading, Stack } from '@metafam/ds';
 import { MetaLink } from 'components/Link';
 import { getQuest } from 'graphql/getQuest';
 import {
   GetStaticPaths,
   GetStaticPropsContext,
-  InferGetStaticPropsType,
 } from 'next';
-import Error from 'next/error';
 import { useRouter } from 'next/router';
 import React from 'react';
 
 import { PageContainer } from '../../../components/Container';
 import { getSsrClient } from '../../../graphql/client';
+import { getGuilds } from '../../../graphql/getGuilds';
+import { getSkills } from '../../../graphql/getSkills';
+import { QuestFragmentFragment, GuildFragmentFragment, useUpdateQuestMutation, QuestRepetition_Enum } from '../../../graphql/autogen/types';
+import { CategoryOption, parseSkills } from '../../../utils/skillHelpers';
+import { CreateQuestFormInputs, QuestForm } from '../../../components/Quest/QuestForm';
 
-type Props = InferGetStaticPropsType<typeof getStaticProps>;
+type Props = {
+  quest: QuestFragmentFragment;
+  guilds: GuildFragmentFragment[];
+  skillChoices: Array<CategoryOption>;
+}
+const EditQuestPage: React.FC<Props> = ({
+                                          quest,
+                                          skillChoices,
+                                          guilds,
+                                        }) => {
+  const router = useRouter()
+  const [updateQuestResult, updateQuest] = useUpdateQuestMutation();
 
-const EditQuestPage: React.FC<Props> = ({ quest }) => {
-  const router = useRouter();
+  const onSubmit = (data: CreateQuestFormInputs) => {
+    const updateQuestInput = {
+      title: data.title,
+      description: data.description,
+      external_link: data.external_link,
+      repetition: data.repetition,
+      cooldown: data.repetition === QuestRepetition_Enum.Recurring ? data.cooldown : null,
+      status: data.status,
+    };
+    updateQuest({
+      id: quest.id,
+      input: updateQuestInput,
+    }).then((res) => {
+      if(res.data?.update_quest_by_pk && !res.error) {
+        router.push(`/quest/${quest.id}`);
+      }
+    });
+  };
+
+  const createQuestSuccess = !!updateQuestResult.data;
+  const createQuestError = updateQuestResult.error?.message;
 
   if (router.isFallback) {
     return <LoadingState />;
-  }
-
-  if (!quest) {
-    return <Error statusCode={404} />;
   }
 
   return (
@@ -43,8 +72,19 @@ const EditQuestPage: React.FC<Props> = ({ quest }) => {
             Back to Quest
           </MetaLink>
           <Heading>Edit Quest</Heading>
-          <Box mb="6">{quest.title}</Box>
-          <Box mb="6">{quest.description}</Box>
+
+          <QuestForm
+            guilds={guilds}
+            skillChoices={skillChoices}
+            onSubmit={onSubmit}
+            success={createQuestSuccess}
+            fetching={updateQuestResult.fetching}
+            error={createQuestError}
+            submitLabel="Edit Quest"
+            loadingLabel="Editing quest..."
+            editQuest={quest}
+          />
+
         </Flex>
       </Stack>
     </PageContainer>
@@ -67,11 +107,23 @@ export const getStaticProps = async (
 ) => {
   const [ssrClient] = getSsrClient();
   const id = context.params?.id;
+
   const quest = await getQuest(id, ssrClient);
+  if (!quest) {
+    return {
+      notFound: true,
+    }
+  }
+
+  const guilds = await getGuilds();
+  const skills = await getSkills();
+  const skillChoices = parseSkills(skills);
 
   return {
     props: {
-      quest: quest === undefined ? null : quest,
+      quest,
+      guilds,
+      skillChoices,
     },
     revalidate: 1,
   };

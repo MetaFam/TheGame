@@ -279,11 +279,6 @@ export const getStaticProps = async (
   const [ssrClient, ssrCache] = getSsrClient();
 
   const id = context.params?.id;
-  if (!id) {
-    return {
-      notFound: true,
-    }
-  }
   const quest = await getQuestWithCompletions(id, ssrClient);
   if (!quest) {
     return {

@@ -55,7 +55,7 @@ export const getQuest = async (id: string | undefined, client: Client = defaultC
   return data?.quest_by_pk;
 };
 
-export const getQuestWithCompletions = async (id: string, client: Client = defaultClient) => {
+export const getQuestWithCompletions = async (id: string | undefined, client: Client = defaultClient) => {
   if (!id) return null;
   const { data } = await client
     .query<GetQuestWithCompletionsQuery, GetQuestWithCompletionsQueryVariables>(

@@ -1,19 +1,16 @@
 import {
   Box,
-  MetaButton,
   MetaHeading,
-  Text,
-  HStack,
 } from '@metafam/ds';
 import { useRouter } from 'next/router'
-import { useCreateQuestMutation } from 'graphql/autogen/types';
+import { useCreateQuestMutation, QuestRepetition_Enum, QuestRepetition_ActionEnum } from 'graphql/autogen/types';
 import { InferGetStaticPropsType } from 'next';
 import React from 'react';
 
 import { getGuilds } from '../../graphql/getGuilds';
 import { getSkills } from '../../graphql/getSkills';
 import { parseSkills } from '../../utils/skillHelpers';
-import { QuestCreateForm, CreateQuestFormInputs } from '../../components/Quest/QuestCreateForm';
+import { QuestForm, CreateQuestFormInputs } from '../../components/Quest/QuestForm';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
@@ -23,9 +20,11 @@ const CreateQuestPage: React.FC<Props> = ({ guilds, skillChoices }) => {
   const [createQuestState, createQuest] = useCreateQuestMutation();
 
   const onSubmit = (data: CreateQuestFormInputs) => {
-    const { skills, ...createQuestInputs } = data;
+    const { skills, repetition, cooldown, ...createQuestInputs } = data;
     const input = {
       ...createQuestInputs,
+      repetition: (data.repetition as unknown) as QuestRepetition_ActionEnum,
+      cooldown: repetition !== QuestRepetition_Enum.Recurring ? cooldown : null,
       skills_id: skills.map(s => s.id),
     };
     createQuest({
@@ -47,7 +46,7 @@ const CreateQuestPage: React.FC<Props> = ({ guilds, skillChoices }) => {
         Create quest
       </MetaHeading>
 
-      <QuestCreateForm
+      <QuestForm
         guilds={guilds}
         skillChoices={skillChoices}
         onSubmit={onSubmit}
@@ -57,12 +56,6 @@ const CreateQuestPage: React.FC<Props> = ({ guilds, skillChoices }) => {
         submitLabel="Create Quest"
         loadingLabel="Creating quest..."
       />
-
-      {createQuestError &&
-      <Box>
-        <Text>Error while creating quest</Text>
-        <Text>{createQuestError}</Text>
-      </Box>}
     </Box>
   );
 }

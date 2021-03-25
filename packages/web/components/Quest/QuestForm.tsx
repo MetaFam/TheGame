@@ -7,7 +7,7 @@ import {
   HStack,
   VStack,
 } from '@metafam/ds';
-import { GuildFragmentFragment, QuestRepetition_Enum, QuestRepetition_ActionEnum, CreateQuestInput, useCreateQuestMutation } from 'graphql/autogen/types';
+import { QuestStatus_Enum, QuestFragmentFragment, GuildFragmentFragment, QuestRepetition_Enum } from 'graphql/autogen/types';
 import React from 'react';
 import { useForm, Controller } from 'react-hook-form';
 
@@ -34,16 +34,25 @@ const validations = {
   cooldown: {
     // TODO is int > 0
   },
+  status: {
+    // TODO is int > 0
+  },
 }
 
-interface CreateQuestFormCustomInputs {
+export interface CreateQuestFormInputs {
+  title: string;
+  description: string | undefined | null;
+  repetition: QuestRepetition_Enum;
+  status: QuestStatus_Enum;
+  guild_id: string;
+  external_link: string | undefined | null;
+  cooldown: number | undefined | null;
   skills: SkillOption[];
 }
 
-export type CreateQuestFormInputs = CreateQuestInput & CreateQuestFormCustomInputs;
-
 type Props = {
   guilds: GuildFragmentFragment[];
+  editQuest?: QuestFragmentFragment;
   skillChoices: Array<CategoryOption>;
   onSubmit: (data: CreateQuestFormInputs) => void;
   success?: boolean;
@@ -54,17 +63,20 @@ type Props = {
 }
 
 // TODO redirect if user not logged in
-export const QuestCreateForm: React.FC<Props> = ({
-                                                   guilds,
-                                                   skillChoices,
-                                                   onSubmit,
-                                                   success,
-                                                   fetching,
-                                                   error,
-                                                   submitLabel,
-                                                   loadingLabel,
-                                                 }) => {
-  const { register, control, errors, watch, handleSubmit } = useForm<CreateQuestFormInputs>();
+export const QuestForm: React.FC<Props> = ({
+                                             guilds,
+                                             skillChoices,
+                                             onSubmit,
+                                             success,
+                                             fetching,
+                                             error,
+                                             submitLabel,
+                                             loadingLabel,
+                                             editQuest,
+                                           }) => {
+  const { register, control, errors, watch, handleSubmit } = useForm<CreateQuestFormInputs>({
+    defaultValues: editQuest,
+  });
   const createQuestInput = watch();
 
   return (
@@ -112,7 +124,7 @@ export const QuestCreateForm: React.FC<Props> = ({
           ))}
         </Select>
 
-        {createQuestInput.repetition === QuestRepetition_ActionEnum.Recurring &&
+        {createQuestInput.repetition === QuestRepetition_Enum.Recurring &&
         <>
           <Text>Cooldown (seconds)</Text>
           <Input
@@ -137,6 +149,22 @@ export const QuestCreateForm: React.FC<Props> = ({
             <option key={guild.id} value={guild.id}>{guild.name}</option>
           ))}
         </Select>
+
+        {editQuest &&
+        <>
+          <Text>Status</Text>
+          <Select
+            isRequired
+            name="status"
+            ref={register(validations.status)}
+            isInvalid={!!errors.status}
+          >
+            {Object.entries(QuestStatus_Enum).map(([key, value]) => (
+              <option key={value} value={value}>{key}</option>
+            ))}
+          </Select>
+        </>
+        }
 
         <FlexContainer w="100%" align="stretch" maxW="50rem">
           <Controller
