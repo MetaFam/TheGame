@@ -96,7 +96,6 @@ export default SubmitQuestCompletionPage;
 
 type QueryParams = { id: string };
 
-// TODO remove ?
 export const getStaticPaths: GetStaticPaths<QueryParams> = async () => {
   return {
     paths: [],
