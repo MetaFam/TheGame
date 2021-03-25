@@ -15,7 +15,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { CategoryOption, SkillOption } from '../../utils/skillHelpers';
 import { SkillsSelect } from '../SkillsSelect';
 import { FlexContainer } from '../Container';
-import { UriRegexp } from '../../lib/utils';
+import { UriRegexp } from '../../utils/questHelpers';
 import { ConfirmModal } from '../ConfirmModal';
 
 const validations = {
@@ -214,6 +214,7 @@ export const QuestForm: React.FC<Props> = ({
           <MetaButton
             variant="outline"
             onClick={() => setExitAlert(true)}
+            isDisabled={fetching || success}
           >
             Cancel
           </MetaButton>

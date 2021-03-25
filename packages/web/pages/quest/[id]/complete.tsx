@@ -1,4 +1,4 @@
-import { Box, Flex, LoadingState, Heading, Stack, Text, Input, MetaButton, VStack, useToast } from '@metafam/ds';
+import { Flex, LoadingState, Heading, Stack, useToast } from '@metafam/ds';
 import { MetaLink } from 'components/Link';
 import { getQuest } from 'graphql/getQuest';
 import {
@@ -9,21 +9,11 @@ import {
 import Error from 'next/error';
 import { useRouter } from 'next/router';
 import React from 'react';
-import { useForm } from 'react-hook-form';
-import { CreateQuestCompletionInput, useCreateQuestCompletionMutation } from 'graphql/autogen/types';
+import { useCreateQuestCompletionMutation, CreateQuestCompletionInput } from 'graphql/autogen/types';
 
 import { PageContainer } from '../../../components/Container';
+import { CompletionForm } from '../../../components/Quest/CompletionForm';
 import { getSsrClient } from '../../../graphql/client';
-import { UriRegexp } from '../../../lib/utils';
-
-const validations = {
-  submission_text: {
-    required: true,
-  },
-  submission_link: {
-    pattern: UriRegexp,
-  },
-}
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
@@ -31,7 +21,6 @@ type Props = InferGetStaticPropsType<typeof getStaticProps>;
 const SubmitQuestCompletionPage: React.FC<Props> = ({ quest }) => {
   const toast = useToast();
   const router = useRouter();
-  const { register, errors, handleSubmit } = useForm<CreateQuestCompletionInput>();
   const [createQuestCompletionState, createQuestCompletion] = useCreateQuestCompletionMutation();
 
   if (router.isFallback) {
@@ -42,7 +31,7 @@ const SubmitQuestCompletionPage: React.FC<Props> = ({ quest }) => {
     return <Error statusCode={404} />;
   }
 
-  const onSubmit = handleSubmit((data) => {
+  const onSubmit = (data: CreateQuestCompletionInput) => {
     createQuestCompletion({
       input: {
         ...data,
@@ -69,7 +58,7 @@ const SubmitQuestCompletionPage: React.FC<Props> = ({ quest }) => {
         });
       }
     });
-  });
+  };
 
   return (
     <PageContainer>
@@ -88,38 +77,14 @@ const SubmitQuestCompletionPage: React.FC<Props> = ({ quest }) => {
             Back to Quest
           </MetaLink>
           <Heading>Submit quest completion</Heading>
-          <VStack>
 
-            <Text>Description</Text>
-            <Input
-              background="dark"
-              placeholder="What did you do ?"
-              isRequired
-              name="submission_text"
-              ref={register(validations.submission_text)}
-              isInvalid={!!errors.submission_text}
-            />
 
-            <Text>Link</Text>
-            <Input
-              background="dark"
-              placeholder="External link"
-              name="submission_link"
-              ref={register(validations.submission_link)}
-              isInvalid={!!errors.submission_link}
-            />
-
-            <MetaButton
-              mt={10}
-              isLoading={createQuestCompletionState.fetching}
-              loadingText="Submitting..."
-              onClick={onSubmit}
-              isDisabled={!!createQuestCompletionState.data?.createQuestCompletion?.quest_completion_id}
-            >
-              Submit
-            </MetaButton>
-
-          </VStack>
+          <CompletionForm
+            onSubmit={onSubmit}
+            quest={quest}
+            success={!!createQuestCompletionState.data?.createQuestCompletion?.quest_completion_id}
+            fetching={createQuestCompletionState.fetching}
+          />
 
         </Flex>
       </Stack>

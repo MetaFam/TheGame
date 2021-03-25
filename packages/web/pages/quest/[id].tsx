@@ -149,8 +149,8 @@ const QuestPage: React.FC<Props> = ({ quest_id }) => {
             }
             {canSubmit &&
             <MetaLink
-              as={`/quest/${quest.id}/submit`}
-              href="/quest/[id]/submit"
+              as={`/quest/${quest.id}/complete`}
+              href="/quest/[id]/complete"
             >
               <MetaButton
                 variant="outline"
