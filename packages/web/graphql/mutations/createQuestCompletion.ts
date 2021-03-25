@@ -8,6 +8,9 @@ export const CreateQuestCompletionMutation = gql`
       quest_completion_id
       quest_completion {
         id  # We add this for urql to update the cache
+        quest {
+          id
+        }
       }
     }
   }
