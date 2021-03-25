@@ -14,13 +14,14 @@ import { CreateQuestCompletionInput, useCreateQuestCompletionMutation } from 'gr
 
 import { PageContainer } from '../../../components/Container';
 import { getSsrClient } from '../../../graphql/client';
+import { UriRegexp } from '../../../lib/utils';
 
 const validations = {
   submission_text: {
     required: true,
   },
   submission_link: {
-    // TODO is URI
+    pattern: UriRegexp,
   },
 }
 

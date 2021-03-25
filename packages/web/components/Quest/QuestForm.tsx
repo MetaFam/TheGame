@@ -14,8 +14,8 @@ import { useForm, Controller } from 'react-hook-form';
 import { CategoryOption, SkillOption } from '../../utils/skillHelpers';
 import { SkillsSelect } from '../SkillsSelect';
 import { FlexContainer } from '../Container';
+import { UriRegexp } from '../../lib/utils';
 
-const UriRegexp = /\w+:(\/?\/?)[^\s]+/
 const validations = {
   title: {
     required: true,
@@ -37,10 +37,6 @@ const validations = {
   cooldown: {
     valueAsNumber: true,
     min: 0,
-    // TODO is int > 0
-  },
-  status: {
-    // TODO is int > 0
   },
 }
 
@@ -49,7 +45,7 @@ export interface CreateQuestFormInputs {
   description: string | undefined | null;
   repetition: QuestRepetition_Enum;
   status: QuestStatus_Enum;
-  guild_id: string;
+  guild_id: string | null;
   external_link: string | undefined | null;
   cooldown: number | undefined | null;
   skills: SkillOption[];
@@ -66,6 +62,22 @@ type Props = {
   loadingLabel: string;
 }
 
+const getDefaultFormValues = (editQuest: QuestFragmentFragment | undefined, guilds: GuildFragmentFragment[]):CreateQuestFormInputs => ({
+  title: editQuest?.title || '',
+  repetition: editQuest?.repetition || QuestRepetition_Enum.Unique,
+  description: editQuest?.description || '',
+  external_link: editQuest?.external_link || '',
+  guild_id: editQuest?.guild_id || guilds[0].id,
+  status: editQuest?.status || QuestStatus_Enum.Open,
+  cooldown: editQuest?.cooldown || null,
+  skills: editQuest ?
+    editQuest.quest_skills.map(s => s.skill).map(s => ({
+      value: s.id,
+      label: s.name,
+      ...s,
+    })) : [],
+})
+
 // TODO redirect if user not logged in
 export const QuestForm: React.FC<Props> = ({
                                              guilds,
@@ -77,18 +89,9 @@ export const QuestForm: React.FC<Props> = ({
                                              loadingLabel,
                                              editQuest,
                                            }) => {
-  const defaultValues = useMemo<QuestFragmentFragment | undefined>(() =>
-      editQuest ?
-        {
-          ...editQuest,
-          skills: editQuest.quest_skills.map(s => s.skill).map(s => ({
-            value: s.id,
-            label: s.name,
-            ...s,
-          })),
-        }
-        : undefined,
-    [editQuest],
+  const defaultValues = useMemo<CreateQuestFormInputs>(() =>
+      getDefaultFormValues(editQuest, guilds),
+    [editQuest, guilds],
   );
   const { register, control, errors, watch, handleSubmit } = useForm<CreateQuestFormInputs>({
     defaultValues,
