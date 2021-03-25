@@ -62,7 +62,6 @@ type Props = {
   onSubmit: (data: CreateQuestFormInputs) => void;
   success?: boolean;
   fetching?: boolean;
-  error: string | undefined | null;
   submitLabel: string;
   loadingLabel: string;
 }
@@ -74,7 +73,6 @@ export const QuestForm: React.FC<Props> = ({
                                              onSubmit,
                                              success,
                                              fetching,
-                                             error,
                                              submitLabel,
                                              loadingLabel,
                                              editQuest,
@@ -208,7 +206,7 @@ export const QuestForm: React.FC<Props> = ({
         <HStack>
           <MetaButton
             as="a"
-            href="/quests"
+            href={editQuest ? `/quest/${editQuest.id}` : '/quests'}
             variant="outline"
           >
             Cancel
@@ -223,12 +221,6 @@ export const QuestForm: React.FC<Props> = ({
             {submitLabel}
           </MetaButton>
         </HStack>
-
-        {error &&
-        <Box>
-          <Text>Error: {error}</Text>
-        </Box>
-        }
       </VStack>
     </Box>
   );

@@ -1,6 +1,6 @@
 import {
   Box,
-  MetaHeading,
+  MetaHeading, useToast,
 } from '@metafam/ds';
 import { useRouter } from 'next/router'
 import { useCreateQuestMutation, QuestRepetition_Enum, QuestRepetition_ActionEnum } from 'graphql/autogen/types';
@@ -17,6 +17,7 @@ type Props = InferGetStaticPropsType<typeof getStaticProps>;
 // TODO redirect if user not logged in
 const CreateQuestPage: React.FC<Props> = ({ guilds, skillChoices }) => {
   const router = useRouter()
+  const toast = useToast();
   const [createQuestState, createQuest] = useCreateQuestMutation();
 
   const onSubmit = (data: CreateQuestFormInputs) => {
@@ -24,7 +25,7 @@ const CreateQuestPage: React.FC<Props> = ({ guilds, skillChoices }) => {
     const input = {
       ...createQuestInputs,
       repetition: (data.repetition as unknown) as QuestRepetition_ActionEnum,
-      cooldown: repetition !== QuestRepetition_Enum.Recurring ? cooldown : null,
+      cooldown: repetition === QuestRepetition_Enum.Recurring ? cooldown : null,
       skills_id: skills.map(s => s.id),
     };
     createQuest({
@@ -33,12 +34,24 @@ const CreateQuestPage: React.FC<Props> = ({ guilds, skillChoices }) => {
       const createQuestResponse = response.data?.createQuest
       if(createQuestResponse && createQuestResponse.quest_id && !createQuestResponse.error) {
         router.push(`/quest/${createQuestResponse.quest_id}`);
+        toast({
+          title: 'Quest created',
+          description: `Your quest is now live!`,
+          status: 'success',
+          isClosable: true,
+          duration: 4000,
+        });
+      } else {
+        toast({
+          title: 'Error while creating quest',
+          description: response.error?.message || createQuestResponse?.error || 'unknown error',
+          status: 'error',
+          isClosable: true,
+          duration: 10000,
+        });
       }
     });
   };
-
-  const createQuestSuccess = !!createQuestState.data?.createQuest?.quest_id;
-  const createQuestError = createQuestState.error?.message || createQuestState.data?.createQuest?.error;
 
   return (
     <Box>
@@ -50,9 +63,8 @@ const CreateQuestPage: React.FC<Props> = ({ guilds, skillChoices }) => {
         guilds={guilds}
         skillChoices={skillChoices}
         onSubmit={onSubmit}
-        success={createQuestSuccess}
+        success={!!createQuestState.data}
         fetching={createQuestState.fetching}
-        error={createQuestError}
         submitLabel="Create Quest"
         loadingLabel="Creating quest..."
       />

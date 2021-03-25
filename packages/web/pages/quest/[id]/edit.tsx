@@ -1,5 +1,4 @@
-import { Flex, LoadingState, Heading, Stack } from '@metafam/ds';
-import { MetaLink } from 'components/Link';
+import { Flex, LoadingState, Heading, Stack, useToast } from '@metafam/ds';
 import { getQuest } from 'graphql/getQuest';
 import {
   GetStaticPaths,
@@ -27,6 +26,7 @@ const EditQuestPage: React.FC<Props> = ({
                                           guilds,
                                         }) => {
   const router = useRouter()
+  const toast = useToast();
   const [updateQuestResult, updateQuest] = useUpdateQuestMutation();
 
   const onSubmit = (data: CreateQuestFormInputs) => {
@@ -49,12 +49,24 @@ const EditQuestPage: React.FC<Props> = ({
     }).then((res) => {
       if(res.data?.update_quest_by_pk && !res.error) {
         router.push(`/quest/${quest.id}`);
+        toast({
+          title: 'Quest edited',
+          description: `The quest details have been updated`,
+          status: 'success',
+          isClosable: true,
+          duration: 4000,
+        });
+      } else {
+        toast({
+          title: 'Error while updating quest',
+          description: res.error?.message || 'unknown error',
+          status: 'error',
+          isClosable: true,
+          duration: 10000,
+        });
       }
     });
   };
-
-  const createQuestSuccess = !!updateQuestResult.data;
-  const createQuestError = updateQuestResult.error?.message;
 
   if (router.isFallback) {
     return <LoadingState />;
@@ -70,26 +82,18 @@ const EditQuestPage: React.FC<Props> = ({
         maxWidth="7xl"
       >
         <Flex flex={1} d="column">
-          <MetaLink
-            as={`/quest/${quest.id}`}
-            href="/quest/[id]"
-          >
-            Back to Quest
-          </MetaLink>
           <Heading>Edit Quest</Heading>
 
           <QuestForm
             guilds={guilds}
             skillChoices={skillChoices}
             onSubmit={onSubmit}
-            success={createQuestSuccess}
+            success={!!updateQuestResult.data}
             fetching={updateQuestResult.fetching}
-            error={createQuestError}
             submitLabel="Edit Quest"
             loadingLabel="Editing quest..."
             editQuest={quest}
           />
-
         </Flex>
       </Stack>
     </PageContainer>
