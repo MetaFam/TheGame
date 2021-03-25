@@ -12,6 +12,16 @@ import { client } from './client';
 import { PlayerFragment, TokenBalancesFragment } from './fragments';
 import { Patron } from './types';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-expressions
+gql`
+  query GetpSeedBalance($address: String!) {
+    getTokenBalances(address: $address) {
+      ...TokenBalancesFragment
+    }
+  }
+  ${TokenBalancesFragment}
+`;
+
 const patronsQuery = gql`
   query GetPatrons($addresses: [String!], $limit: Int) {
     player(where: { ethereum_address: { _in: $addresses } }, limit: $limit) {

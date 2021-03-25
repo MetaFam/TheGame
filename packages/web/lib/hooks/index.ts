@@ -37,7 +37,7 @@ export const useUser = ({ redirectTo, redirectIfFound }: UseUserOpts = {}): {
     }
   }, [router, user, redirectIfFound, redirectTo]);
 
-  return { user: error ? null : user, fetching };
+  return { user: (error || !authToken ) ? null : user, fetching };
 };
 
 export const useMounted = (): boolean => {
