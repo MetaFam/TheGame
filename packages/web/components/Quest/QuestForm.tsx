@@ -15,12 +15,15 @@ import { CategoryOption, SkillOption } from '../../utils/skillHelpers';
 import { SkillsSelect } from '../SkillsSelect';
 import { FlexContainer } from '../Container';
 
+const UriRegexp = /\w+:(\/?\/?)[^\s]+/
 const validations = {
   title: {
     required: true,
+    minLength: 4,
   },
   description: {
     required: true,
+    minLength: 4,
   },
   repetition: {
     required: true,
@@ -29,9 +32,11 @@ const validations = {
     required: true,
   },
   external_link: {
-    // TODO is URI
+    pattern: UriRegexp,
   },
   cooldown: {
+    valueAsNumber: true,
+    min: 0,
     // TODO is int > 0
   },
   status: {
@@ -105,6 +110,7 @@ export const QuestForm: React.FC<Props> = ({
           ref={register(validations.title)}
           isInvalid={!!errors.title}
         />
+        {!!errors.title && <Text>Invalid</Text>}
 
         <Text>Description</Text>
         <Input
@@ -115,6 +121,7 @@ export const QuestForm: React.FC<Props> = ({
           ref={register(validations.description)}
           isInvalid={!!errors.description}
         />
+        {!!errors.description && <Text>Invalid</Text>}
 
         <Text>Link</Text>
         <Input
@@ -124,6 +131,7 @@ export const QuestForm: React.FC<Props> = ({
           ref={register(validations.external_link)}
           isInvalid={!!errors.external_link}
         />
+        {!!errors.external_link && <Text>Invalid</Text>}
 
         <Text>Repetition</Text>
         <Select
@@ -149,6 +157,7 @@ export const QuestForm: React.FC<Props> = ({
             ref={register(validations.cooldown)}
             isInvalid={!!errors.cooldown}
           />
+          {!!errors.cooldown && <Text>Invalid</Text>}
         </>
         }
 
