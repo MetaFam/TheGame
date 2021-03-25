@@ -475,7 +475,6 @@
       - guild_id
       - id
       filter: {}
-      allow_aggregations: true
   - role: public
     permission:
       columns:
@@ -490,7 +489,6 @@
       - status
       - repetition
       filter: {}
-      allow_aggregations: true
   update_permissions:
   - role: player
     permission:
@@ -498,22 +496,13 @@
       - cooldown
       - description
       - external_link
-      - guild_id
       - repetition
       - status
       - title
       filter:
         created_by_player_id:
           _eq: X-Hasura-User-Id
-      check:
-        _or:
-        - repetition:
-            _ne: RECURRING
-        - _and:
-          - repetition:
-              _eq: RECURRING
-          - cooldown:
-              _is_null: false
+      check: null
 - table:
     schema: public
     name: quest_completion
@@ -531,13 +520,12 @@
   - role: player
     permission:
       columns:
-      - completed_by_player_id
-      - id
-      - quest_id
+      - submitted_at
       - status
       - submission_link
       - submission_text
-      - submitted_at
+      - completed_by_player_id
+      - quest_id
       filter: {}
   - role: public
     permission:

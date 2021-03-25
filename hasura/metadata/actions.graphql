@@ -44,7 +44,6 @@ input CreateQuestInput {
   external_link : String
   repetition : QuestRepetition_ActionEnum
   cooldown : Int
-  skills_id : [uuid]!
 }
 
 input CreateQuestCompletionInput {
@@ -78,6 +77,5 @@ type CreateQuestCompletionOutput {
 type UpdateQuestCompletionOutput {
   success : Boolean!
   error : String
-  quest_completion_id : uuid
 }
 

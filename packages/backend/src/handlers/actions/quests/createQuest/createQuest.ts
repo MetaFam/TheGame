@@ -35,15 +35,10 @@ export async function createQuest(
     throw new Error('Player not allowed to create quests');
   }
 
-  const { skills_id: skillsId, ...questValues } = quest;
-
   const questInput: Quest_Insert_Input = {
-    ...questValues,
+    ...quest,
     repetition: questRepetition,
     created_by_player_id: playerId,
-    quest_skills: {
-      data: skillsId.map(s => ({ skill_id: s })),
-    },
   };
 
   const data = await client.CreateQuest({ objects: questInput });

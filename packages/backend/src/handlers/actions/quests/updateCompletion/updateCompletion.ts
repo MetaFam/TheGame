@@ -59,9 +59,9 @@ export async function updateCompletion(
     });
   }
 
+
   return {
     success: true,
-    quest_completion_id: questCompletion.id,
   };
 }
 

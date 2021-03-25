@@ -48,7 +48,6 @@ services:
       - ./packages/discord-bot:/usr/src/app/packages/discord-bot
       - ./package.json:/usr/src/app/package.json
       - ./tsconfig.base.json:/usr/src/app/tsconfig.base.json
-      - ./schema.graphql:/usr/src/app/schema.graphql
       - ./yarn.lock:/usr/src/app/yarn.lock
     environment:
       PORT: 4000
