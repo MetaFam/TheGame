@@ -8,6 +8,10 @@ export const UpdateQuestCompletionMutation = gql`
     }) {
       error
       success
+      quest_completion_id
+      quest_completion {
+        id # We add this for urql to update the cache
+      }
     }
   }
 `;

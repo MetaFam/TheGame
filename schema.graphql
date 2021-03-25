@@ -8162,6 +8162,8 @@ input UpdateQuestCompletionInput {
 
 type UpdateQuestCompletionOutput {
   error: String
+  quest_completion: quest_completion
+  quest_completion_id: uuid
   success: Boolean!
 }
 

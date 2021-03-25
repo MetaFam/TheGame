@@ -70,7 +70,7 @@ export const QuestCompletions: React.FC<Props> = ({ quest }) => {
       if(!response.data?.updateQuestCompletion?.error) {
         setUpdateError(null)
         setAlertSubmission(null)
-        // reexecuteQuery({ requestPolicy: 'network-only' });
+        // TODO toast
       } else {
         setUpdateError(response.data?.updateQuestCompletion?.error)
       }

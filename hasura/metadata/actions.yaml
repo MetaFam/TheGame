@@ -73,4 +73,12 @@ custom_types:
       field_mapping:
         quest_completion_id: id
   - name: UpdateQuestCompletionOutput
+    relationships:
+    - remote_table:
+        schema: public
+        name: quest_completion
+      name: quest_completion
+      type: object
+      field_mapping:
+        quest_completion_id: id
   scalars: []
