@@ -8,13 +8,15 @@ import {
   VStack,
 } from '@metafam/ds';
 import { QuestStatus_Enum, QuestFragmentFragment, GuildFragmentFragment, QuestRepetition_Enum } from 'graphql/autogen/types';
-import React, { useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
+import { useRouter } from 'next/router';
 import { useForm, Controller } from 'react-hook-form';
 
 import { CategoryOption, SkillOption } from '../../utils/skillHelpers';
 import { SkillsSelect } from '../SkillsSelect';
 import { FlexContainer } from '../Container';
 import { UriRegexp } from '../../lib/utils';
+import { ConfirmModal } from '../ConfirmModal';
 
 const validations = {
   title: {
@@ -96,6 +98,8 @@ export const QuestForm: React.FC<Props> = ({
   const { register, control, errors, watch, handleSubmit } = useForm<CreateQuestFormInputs>({
     defaultValues,
   });
+  const router = useRouter();
+  const [exitAlert, setExitAlert] = useState<boolean>(false);
   const createQuestInput = watch();
 
   return (
@@ -180,7 +184,7 @@ export const QuestForm: React.FC<Props> = ({
           <Select
             isRequired
             name="status"
-            ref={register(validations.status)}
+            ref={register}
             isInvalid={!!errors.status}
           >
             {Object.entries(QuestStatus_Enum).map(([key, value]) => (
@@ -208,9 +212,8 @@ export const QuestForm: React.FC<Props> = ({
 
         <HStack>
           <MetaButton
-            as="a"
-            href={editQuest ? `/quest/${editQuest.id}` : '/quests'}
             variant="outline"
+            onClick={() => setExitAlert(true)}
           >
             Cancel
           </MetaButton>
@@ -225,6 +228,13 @@ export const QuestForm: React.FC<Props> = ({
           </MetaButton>
         </HStack>
       </VStack>
+
+      <ConfirmModal
+        isOpen={exitAlert}
+        onNope={() => setExitAlert(false)}
+        onYep={() => router.push(editQuest ? `/quest/${editQuest.id}` : '/quests')}
+        header="Are you sure you want to leave ?"
+      />
     </Box>
   );
 }

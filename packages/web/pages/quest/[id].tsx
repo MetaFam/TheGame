@@ -18,9 +18,10 @@ import {
   GetStaticPropsContext,
 } from 'next';
 import { useRouter } from 'next/router';
-import React, { useMemo, useRef,useState } from 'react';
+import React, { useMemo, useState } from 'react';
 
 import { PageContainer } from '../../components/Container';
+import { ConfirmModal } from '../../components/ConfirmModal';
 import { getSsrClient } from '../../graphql/client';
 import { useUser } from '../../lib/hooks';
 
@@ -56,7 +57,6 @@ function checkSubmittable(data: GetQuestWithCompletionsQuery | null | undefined,
 }
 
 const QuestPage: React.FC<Props> = ({ quest_id }) => {
-  const cancelRef = useRef<HTMLButtonElement>(null)
   const { user } = useUser();
   const router = useRouter();
   const [updateError, setUpdateError] = useState<string | null>(null);
@@ -80,10 +80,12 @@ const QuestPage: React.FC<Props> = ({ quest_id }) => {
     setAlertSubmission(null)
     setUpdateError(null)
   }
-  function onConfirmAlert(_alertSubmission: AlertSubmission) {
+  function onConfirmAlert() {
+    if(!alertSubmission) return;
+
     updateQuestCompletion({
-      quest_completion_id: _alertSubmission.quest_completion_id,
-      status: _alertSubmission.status,
+      quest_completion_id: alertSubmission.quest_completion_id,
+      status: alertSubmission.status,
     }).then(response => {
       if(!response.data?.updateQuestCompletion?.error) {
         setUpdateError(null)
@@ -213,49 +215,26 @@ const QuestPage: React.FC<Props> = ({ quest_id }) => {
         </VStack>
       </VStack>
 
-      <AlertDialog
+      <ConfirmModal
         isOpen={!!alertSubmission}
-        leastDestructiveRef={cancelRef}
-        onClose={onCloseAlert}
-      >
-        <AlertDialogOverlay>
-          <AlertDialogContent>
-            <AlertDialogHeader fontSize="lg" fontWeight="bold">
-              {alertSubmission?.status === QuestCompletionStatus_ActionEnum.Accepted &&
-              'Are you sure you want to accept this submission ?'
-              }
-              {alertSubmission?.status === QuestCompletionStatus_ActionEnum.Rejected &&
-              'Are you sure you want to reject this submission ?'
-              }
-            </AlertDialogHeader>
-
-            {updateError &&
-            <AlertDialogBody>
-              <Text color="red">{updateError}</Text>
-            </AlertDialogBody>
+        onNope={onCloseAlert}
+        onYep={onConfirmAlert}
+        loading={updateQuestCompletionStatus.fetching}
+        loadingText="Updating..."
+        header={
+          <>
+            {alertSubmission?.status === QuestCompletionStatus_ActionEnum.Accepted &&
+            'Are you sure you want to accept this submission ?'
             }
-            <AlertDialogFooter>
-              <MetaButton
-                ref={cancelRef}
-                onClick={onCloseAlert}
-                isDisabled={updateQuestCompletionStatus.fetching}
-              >
-                Nope
-              </MetaButton>
-              <MetaButton
-                colorScheme="red"
-                onClick={() => onConfirmAlert(alertSubmission!)}
-                isLoading={updateQuestCompletionStatus.fetching}
-                loadingText="Updating..."
-                ml={3}
-              >
-                Yep
-              </MetaButton>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialogOverlay>
-      </AlertDialog>
-
+            {alertSubmission?.status === QuestCompletionStatus_ActionEnum.Rejected &&
+            'Are you sure you want to reject this submission ?'
+            }
+          </>
+        }
+        body={updateError && (
+          <Text color="red">{updateError}</Text>
+        )}
+      />
     </PageContainer>
   );
 };
