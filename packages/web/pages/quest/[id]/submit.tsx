@@ -1,4 +1,4 @@
-import { Box, Flex, LoadingState, Heading, Stack, Text, Input, MetaButton, VStack } from '@metafam/ds';
+import { Box, Flex, LoadingState, Heading, Stack, Text, Input, MetaButton, VStack, useToast } from '@metafam/ds';
 import { MetaLink } from 'components/Link';
 import { getQuest } from 'graphql/getQuest';
 import {
@@ -29,6 +29,7 @@ type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
 // TODO redirect if user not logged in
 const SubmitQuestCompletionPage: React.FC<Props> = ({ quest }) => {
+  const toast = useToast();
   const router = useRouter();
   const { register, errors, handleSubmit } = useForm<CreateQuestCompletionInput>();
   const [createQuestCompletionState, createQuestCompletion] = useCreateQuestCompletionMutation();
@@ -51,12 +52,24 @@ const SubmitQuestCompletionPage: React.FC<Props> = ({ quest }) => {
       const createQuestCompletionResponse = response.data?.createQuestCompletion
       if(createQuestCompletionResponse && !createQuestCompletionResponse.error) {
         router.push(`/quest/${quest.id}`);
+        toast({
+          title: 'Submitted quest completion',
+          description: `You now have to wait that it gets accepted ;)`,
+          status: 'success',
+          isClosable: true,
+          duration: 4000,
+        });
+      } else {
+        toast({
+          title: 'Error while submitting completion,',
+          description: response.error?.message || createQuestCompletionResponse?.error || 'unknown error',
+          status: 'error',
+          isClosable: true,
+          duration: 10000,
+        });
       }
     });
   });
-
-  const createQuestCompletionSuccess = !!createQuestCompletionState.data?.createQuestCompletion?.quest_completion_id;
-  const createQuestCompletionError = createQuestCompletionState.error?.message || createQuestCompletionState.data?.createQuestCompletion?.error;
 
   return (
     <PageContainer>
@@ -101,16 +114,11 @@ const SubmitQuestCompletionPage: React.FC<Props> = ({ quest }) => {
               isLoading={createQuestCompletionState.fetching}
               loadingText="Submitting..."
               onClick={onSubmit}
-              isDisabled={createQuestCompletionSuccess}
+              isDisabled={!!createQuestCompletionState.data?.createQuestCompletion?.quest_completion_id}
             >
               Submit
             </MetaButton>
 
-            {createQuestCompletionError &&
-            <Box>
-              <Text>Error while submitting completion</Text>
-              <Text>{createQuestCompletionError}</Text>
-            </Box>}
           </VStack>
 
         </Flex>
