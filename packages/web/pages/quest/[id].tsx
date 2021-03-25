@@ -14,8 +14,8 @@ import { useRouter } from 'next/router';
 import React from 'react';
 
 import { PageContainer } from '../../components/Container';
-import { QuestDetails } from '../../components/Quest/QuestDetails';
 import { QuestCompletions } from '../../components/Quest/QuestCompletions';
+import { QuestDetails } from '../../components/Quest/QuestDetails';
 import { getSsrClient } from '../../graphql/client';
 
 type Props = {

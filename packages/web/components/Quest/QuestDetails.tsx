@@ -6,6 +6,7 @@ import { MetaLink } from 'components/Link';
 import { QuestWithCompletionFragmentFragment } from 'graphql/autogen/types';
 import { SkillColors } from 'graphql/types';
 import React from 'react';
+
 import { useUser } from '../../lib/hooks';
 
 type Props = {

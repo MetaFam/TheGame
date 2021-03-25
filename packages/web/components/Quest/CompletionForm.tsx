@@ -1,17 +1,17 @@
 import {
-  Text,
+  HStack,
   Input,
   MetaButton,
+  Text,
   VStack,
-  HStack,
 } from '@metafam/ds';
+import { CreateQuestCompletionInput,QuestFragmentFragment } from 'graphql/autogen/types';
+import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { QuestFragmentFragment, CreateQuestCompletionInput } from 'graphql/autogen/types';
 
 import { UriRegexp } from '../../utils/questHelpers';
 import { ConfirmModal } from '../ConfirmModal';
-import { useRouter } from 'next/router';
 
 const validations = {
   submission_text: {

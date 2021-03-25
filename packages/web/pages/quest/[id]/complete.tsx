@@ -1,5 +1,6 @@
-import { Flex, LoadingState, Heading, Stack, useToast } from '@metafam/ds';
+import { Flex, Heading, LoadingState, Stack, useToast } from '@metafam/ds';
 import { MetaLink } from 'components/Link';
+import { CreateQuestCompletionInput,useCreateQuestCompletionMutation } from 'graphql/autogen/types';
 import { getQuest } from 'graphql/getQuest';
 import {
   GetStaticPaths,
@@ -9,7 +10,6 @@ import {
 import Error from 'next/error';
 import { useRouter } from 'next/router';
 import React from 'react';
-import { useCreateQuestCompletionMutation, CreateQuestCompletionInput } from 'graphql/autogen/types';
 
 import { PageContainer } from '../../../components/Container';
 import { CompletionForm } from '../../../components/Quest/CompletionForm';

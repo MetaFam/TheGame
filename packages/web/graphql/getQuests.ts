@@ -1,7 +1,7 @@
 import gql from 'fake-tag';
 import { Client } from 'urql';
 
-import { Order_By, GetQuestIdsQuery, GetQuestIdsDocument, GetQuestIdsQueryVariables, GetQuestsDocument, GetQuestsQuery, QuestStatus_Enum, GetQuestsQueryVariables } from './autogen/types';
+import { GetQuestIdsDocument, GetQuestIdsQuery, GetQuestIdsQueryVariables, GetQuestsDocument, GetQuestsQuery, GetQuestsQueryVariables,Order_By, QuestStatus_Enum } from './autogen/types';
 import { client as defaultClient } from './client';
 import { QuestFragment } from './fragments';
 

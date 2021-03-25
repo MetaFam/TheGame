@@ -1,17 +1,19 @@
 import {
-  Heading,
-  Box, MetaButton,
+  Box,   Heading,
+MetaButton,
   Select,
-  VStack,
   Switch,
   Text,
+  VStack,
 } from '@metafam/ds';
+import { numbers } from '@metafam/utils';
+import { GetQuestsQueryVariables, Order_By, QuestStatus_Enum,useGetpSeedBalanceQuery } from 'graphql/autogen/types';
+import { useRouter } from 'next/router';
 import React, { useMemo } from 'react';
-import { useGetpSeedBalanceQuery, Order_By, GetQuestsQueryVariables, QuestStatus_Enum } from 'graphql/autogen/types';
+
 import { useUser } from '../../lib/hooks';
 import { QuestAggregates } from '../../lib/hooks/quests';
-import { numbers } from '@metafam/utils';
-import { useRouter } from 'next/router';
+
 const { BN, amountToDecimal } = numbers;
 
 type Props = {

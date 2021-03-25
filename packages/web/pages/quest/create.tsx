@@ -2,15 +2,15 @@ import {
   Box,
   MetaHeading, useToast,
 } from '@metafam/ds';
-import { useRouter } from 'next/router'
-import { useCreateQuestMutation, QuestRepetition_Enum, QuestRepetition_ActionEnum } from 'graphql/autogen/types';
+import { QuestRepetition_ActionEnum,QuestRepetition_Enum, useCreateQuestMutation } from 'graphql/autogen/types';
 import { InferGetStaticPropsType } from 'next';
+import { useRouter } from 'next/router'
 import React from 'react';
 
+import { CreateQuestFormInputs,QuestForm } from '../../components/Quest/QuestForm';
 import { getGuilds } from '../../graphql/getGuilds';
 import { getSkills } from '../../graphql/getSkills';
 import { parseSkills } from '../../utils/skillHelpers';
-import { QuestForm, CreateQuestFormInputs } from '../../components/Quest/QuestForm';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 

@@ -1,4 +1,4 @@
-import { Text, Heading, VStack } from '@metafam/ds';
+import { Heading, Text, VStack } from '@metafam/ds';
 import { QuestTile } from 'components/Quest/QuestTile';
 import { QuestFragmentFragment } from 'graphql/autogen/types';
 import React from 'react';

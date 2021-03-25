@@ -1,5 +1,6 @@
+import { GetQuestsQueryVariables, QuestFragmentFragment, useGetQuestGuildsQuery,useGetQuestsQuery } from 'graphql/autogen/types';
 import { useState } from 'react'
-import { QuestFragmentFragment, GetQuestsQueryVariables, useGetQuestsQuery, useGetQuestGuildsQuery } from 'graphql/autogen/types';
+
 import { defaultQueryVariables } from '../../graphql/getQuests';
 
 interface QuestFilter {

@@ -1,22 +1,22 @@
 import {
   Box,
+  HStack,
   Input,
   MetaButton,
   Select,
   Text,
-  HStack,
   VStack,
 } from '@metafam/ds';
-import { QuestStatus_Enum, QuestFragmentFragment, GuildFragmentFragment, QuestRepetition_Enum } from 'graphql/autogen/types';
-import React, { useState, useMemo } from 'react';
+import { GuildFragmentFragment, QuestFragmentFragment, QuestRepetition_Enum,QuestStatus_Enum } from 'graphql/autogen/types';
 import { useRouter } from 'next/router';
-import { useForm, Controller } from 'react-hook-form';
+import React, { useMemo,useState } from 'react';
+import { Controller,useForm } from 'react-hook-form';
 
-import { CategoryOption, SkillOption } from '../../utils/skillHelpers';
-import { SkillsSelect } from '../SkillsSelect';
-import { FlexContainer } from '../Container';
 import { UriRegexp } from '../../utils/questHelpers';
+import { CategoryOption, SkillOption } from '../../utils/skillHelpers';
 import { ConfirmModal } from '../ConfirmModal';
+import { FlexContainer } from '../Container';
+import { SkillsSelect } from '../SkillsSelect';
 
 const validations = {
   title: {

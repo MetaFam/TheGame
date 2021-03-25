@@ -1,10 +1,11 @@
-import { Text, LoadingState, Wrap, WrapItem } from '@metafam/ds';
+import { LoadingState, Text, Wrap, WrapItem } from '@metafam/ds';
 import { PageContainer } from 'components/Container';
 import { QuestFilter } from 'components/Quest/QuestFilter';
 import { QuestList } from 'components/Quest/QuestList';
 import { getQuests } from 'graphql/getQuests';
 import { InferGetStaticPropsType } from 'next';
 import React from 'react';
+
 import { getSsrClient } from '../graphql/client';
 import { useQuestFilter } from '../lib/hooks/quests';
 

@@ -1,9 +1,9 @@
 import gql from 'fake-tag';
 import { Client } from 'urql';
 
-import { GetQuestDocument, GetQuestQuery, GetQuestQueryVariables, GetQuestWithCompletionsQuery, GetQuestWithCompletionsQueryVariables, GetQuestWithCompletionsDocument } from './autogen/types';
+import { GetQuestDocument, GetQuestQuery, GetQuestQueryVariables, GetQuestWithCompletionsDocument,GetQuestWithCompletionsQuery, GetQuestWithCompletionsQueryVariables } from './autogen/types';
 import { client as defaultClient } from './client';
-import { QuestWithCompletionFragment, QuestFragment } from './fragments';
+import { QuestFragment,QuestWithCompletionFragment } from './fragments';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-expressions
 gql`
