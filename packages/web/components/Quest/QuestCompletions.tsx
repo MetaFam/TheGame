@@ -1,15 +1,14 @@
 import {
-  Heading, HStack, LoadingState, MetaButton,
-  Text, VStack,
+  Heading, HStack, MetaButton,
+  Text, useToast, VStack,
 } from '@metafam/ds';
 import { MetaLink } from 'components/Link';
-import { QuestWithCompletionFragmentFragment, QuestCompletionStatus_ActionEnum, QuestCompletionStatus_Enum, QuestRepetition_Enum, QuestStatus_Enum, useUpdateQuestCompletionMutation } from 'graphql/autogen/types';
+import { QuestCompletionStatus_ActionEnum, QuestCompletionStatus_Enum, QuestRepetition_Enum, QuestStatus_Enum, QuestWithCompletionFragmentFragment, useUpdateQuestCompletionMutation } from 'graphql/autogen/types';
 import { MeType } from 'graphql/types';
-import { useRouter } from 'next/router';
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 
-import { ConfirmModal } from '../ConfirmModal';
 import { useUser } from '../../lib/hooks';
+import { ConfirmModal } from '../ConfirmModal';
 
 interface AlertSubmission {
   status: QuestCompletionStatus_ActionEnum;
@@ -44,38 +43,39 @@ type Props = {
 
 export const QuestCompletions: React.FC<Props> = ({ quest }) => {
   const { user } = useUser();
-  const router = useRouter();
-  const [updateError, setUpdateError] = useState<string | null>(null);
+  const toast = useToast();
   const [alertSubmission, setAlertSubmission] = useState<AlertSubmission | null>(null);
   const [updateQuestCompletionStatus, updateQuestCompletion] = useUpdateQuestCompletionMutation();
-
   const canSubmit = useMemo<boolean>(() => checkSubmittable(quest, user), [quest, user]);
-
-  if (router.isFallback || !quest) {
-    return <LoadingState />;
-  }
   const isMyQuest = user?.id === quest.player.id;
 
-  function onCloseAlert() {
-    setAlertSubmission(null)
-    setUpdateError(null)
-  }
-  function onConfirmAlert() {
+  const onConfirmAlert = useCallback(() => {
     if(!alertSubmission) return;
 
     updateQuestCompletion({
       quest_completion_id: alertSubmission.quest_completion_id,
       status: alertSubmission.status,
     }).then(response => {
-      if(!response.data?.updateQuestCompletion?.error) {
-        setUpdateError(null)
+      if(response.data?.updateQuestCompletion?.success) {
+        toast({
+          title: 'Quest completion updated',
+          description: `The completion is now ${alertSubmission.status}`,
+          status: 'success',
+          isClosable: true,
+          duration: 4000,
+        });
         setAlertSubmission(null)
-        // TODO toast
       } else {
-        setUpdateError(response.data?.updateQuestCompletion?.error)
+        toast({
+          title: 'Error while updating completion',
+          description: response.error?.message || response.data?.updateQuestCompletion?.error || 'unknown error',
+          status: 'error',
+          isClosable: true,
+          duration: 10000,
+        });
       }
     })
-  }
+  }, [alertSubmission, updateQuestCompletion, toast]);
 
   return (
     <>
@@ -156,7 +156,7 @@ export const QuestCompletions: React.FC<Props> = ({ quest }) => {
 
       <ConfirmModal
         isOpen={!!alertSubmission}
-        onNope={onCloseAlert}
+        onNope={() => setAlertSubmission(null)}
         onYep={onConfirmAlert}
         loading={updateQuestCompletionStatus.fetching}
         loadingText="Updating..."
@@ -170,9 +170,6 @@ export const QuestCompletions: React.FC<Props> = ({ quest }) => {
             }
           </>
         }
-        body={updateError && (
-          <Text color="red">{updateError}</Text>
-        )}
       />
     </>
   );

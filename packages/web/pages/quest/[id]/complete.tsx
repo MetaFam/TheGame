@@ -39,7 +39,7 @@ const SubmitQuestCompletionPage: React.FC<Props> = ({ quest }) => {
       },
     }).then(response => {
       const createQuestCompletionResponse = response.data?.createQuestCompletion
-      if(createQuestCompletionResponse && !createQuestCompletionResponse.error) {
+      if(createQuestCompletionResponse?.success) {
         router.push(`/quest/${quest.id}`);
         toast({
           title: 'Submitted quest completion',

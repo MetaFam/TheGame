@@ -32,7 +32,7 @@ const CreateQuestPage: React.FC<Props> = ({ guilds, skillChoices }) => {
       input,
     }).then(response => {
       const createQuestResponse = response.data?.createQuest
-      if(createQuestResponse && createQuestResponse.quest_id && !createQuestResponse.error) {
+      if(createQuestResponse?.success) {
         router.push(`/quest/${createQuestResponse.quest_id}`);
         toast({
           title: 'Quest created',
