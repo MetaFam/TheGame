@@ -1,6 +1,6 @@
 const emojiUrl = (fileName: string): string => {
   return `/assets/emojis/${fileName}`;
-}
+};
 
 export interface DrawerItemType {
   href: string;
@@ -29,11 +29,11 @@ export const DrawerItemsLeft: DrawerItemType[] = [
 
 export const DrawerItemsRight: DrawerItemType[] = [
   {
-    href: 'https://forum.metagame.wtf/',
-    isExternal: true,
-    src: emojiUrl('classical-building.png'),
-    alt: 'MetaForm',
-    text: 'Forum',
+    href: '/quests',
+    isExternal: false,
+    src: emojiUrl('question-mark.png'),
+    alt: 'MetaQuests',
+    text: 'Quests',
   },
   {
     href:
@@ -47,11 +47,11 @@ export const DrawerItemsRight: DrawerItemType[] = [
 
 export const DrawerSubItems: DrawerItemType[] = [
   {
-    href: 'https://discord.gg/WYUkVpe',
+    href: 'https://forum.metagame.wtf/',
     isExternal: true,
-    src: emojiUrl('question-mark.png'),
-    alt: 'MetaQuests',
-    text: 'Quests',
+    src: emojiUrl('classical-building.png'),
+    alt: 'MetaForm',
+    text: 'Forum',
   },
   {
     href: 'https://metagame.substack.com/',
