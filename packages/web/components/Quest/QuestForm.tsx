@@ -5,6 +5,7 @@ import {
   MetaButton,
   Select,
   Text,
+  Textarea,
   VStack,
 } from '@metafam/ds';
 import {
@@ -130,9 +131,9 @@ export const QuestForm: React.FC<Props> = ({
         {!!errors.title && <Text>Invalid</Text>}
 
         <Text>Description</Text>
-        <Input
+        <Textarea
           background="dark"
-          placeholder="Shill our guild"
+          placeholder="Please describe in details what needs to be done"
           isRequired
           name="description"
           ref={register(validations.description)}
