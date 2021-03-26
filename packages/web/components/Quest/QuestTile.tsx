@@ -12,14 +12,14 @@ import {
 } from '@metafam/ds';
 import BackgroundImage from 'assets/main-background.jpg';
 import { MetaLink } from 'components/Link';
-import { QuestFragmentFragment,QuestWithCompletionFragmentFragment } from 'graphql/autogen/types';
+import { Skill, QuestFragmentFragment } from 'graphql/autogen/types';
 import moment from 'moment';
 import React from 'react';
 
 import { RepetitionTag,SkillsTags, StatusTag } from './QuestTags';
 
 type Props = {
-  quest: QuestFragmentFragment | QuestWithCompletionFragmentFragment;
+  quest: QuestFragmentFragment;
 };
 
 export const QuestTile: React.FC<Props> = ({ quest }) => (
@@ -56,8 +56,8 @@ export const QuestTile: React.FC<Props> = ({ quest }) => (
           </Heading>
         </MetaLink>
         <HStack mt={2}>
-          <RepetitionTag quest={quest}/>
-          <StatusTag quest={quest}/>
+          <RepetitionTag repetition={quest.repetition}/>
+          <StatusTag status={quest.status}/>
           <Text><i>{moment(quest.created_at).fromNow()}</i></Text>
         </HStack>
       </VStack>
@@ -70,7 +70,7 @@ export const QuestTile: React.FC<Props> = ({ quest }) => (
         </Text>
 
         <Text textStyle="caption">SKILLS</Text>
-        <SkillsTags quest={quest} maxSkills={4} />
+        <SkillsTags skills={quest.quest_skills.map(s => s.skill) as Skill[]} maxSkills={4} />
       </VStack>
     </MetaTileBody>
   </MetaTile>

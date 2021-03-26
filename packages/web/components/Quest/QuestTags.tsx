@@ -1,25 +1,24 @@
 import { MetaTag, Wrap, WrapItem } from '@metafam/ds';
-import { QuestCompletionFragmentFragment, QuestCompletionStatus_Enum, QuestFragmentFragment, QuestRepetition_Enum, QuestStatus_Enum } from "graphql/autogen/types";
+import { Skill, QuestCompletionStatus_Enum, QuestRepetition_Enum, QuestStatus_Enum } from "graphql/autogen/types";
 import React from 'react';
 
 import { SkillColors } from '../../graphql/types';
-
-interface QuestProps {
-  quest: QuestFragmentFragment,
-}
 
 export const RepetitionColors: Record<QuestRepetition_Enum, string> = {
   [QuestRepetition_Enum.Recurring]: 'cyan.700',
   [QuestRepetition_Enum.Personal]: 'blue.700',
   [QuestRepetition_Enum.Unique]: 'yellow.700',
 };
-export const RepetitionTag: React.FC<QuestProps> = ({ quest }) => (
+interface RepetitionProps {
+  repetition: QuestRepetition_Enum,
+}
+export const RepetitionTag: React.FC<RepetitionProps> = ({ repetition }) => (
   <MetaTag
     size="md"
     fontWeight="normal"
-    backgroundColor={RepetitionColors[quest.repetition]}
+    backgroundColor={RepetitionColors[repetition]}
   >
-    {quest.repetition}
+    {repetition}
   </MetaTag>
 )
 
@@ -28,13 +27,16 @@ export const StatusColors: Record<QuestStatus_Enum, string> = {
   [QuestStatus_Enum.Open]: 'green.700',
   [QuestStatus_Enum.Closed]: 'pink.700',
 };
-export const StatusTag: React.FC<QuestProps> = ({ quest }) => (
+interface StatusProps {
+  status: QuestStatus_Enum,
+}
+export const StatusTag: React.FC<StatusProps> = ({ status }) => (
   <MetaTag
     fontWeight="normal"
     size="md"
-    backgroundColor={StatusColors[quest.status]}
+    backgroundColor={StatusColors[status]}
   >
-    {quest.status}
+    {status}
   </MetaTag>
 )
 
@@ -44,42 +46,43 @@ export const CompletionStatusColors: Record<QuestCompletionStatus_Enum, string> 
   [QuestCompletionStatus_Enum.Pending]: 'yellow.700',
 };
 interface QuestCompletionProps {
-  questCompletion: QuestCompletionFragmentFragment,
+  status: QuestCompletionStatus_Enum,
 }
-export const CompletionStatusTag: React.FC<QuestCompletionProps> = ({ questCompletion }) => (
+export const CompletionStatusTag: React.FC<QuestCompletionProps> = ({ status }) => (
   <MetaTag
     fontWeight="normal"
     size="md"
-    backgroundColor={CompletionStatusColors[questCompletion.status]}
+    backgroundColor={CompletionStatusColors[status]}
   >
-    {questCompletion.status}
+    {status}
   </MetaTag>
 )
 
 
 interface SkillsProps {
+  skills: Skill[],
   maxSkills?: number,
 }
-export const SkillsTags: React.FC<SkillsProps & QuestProps> = ({ maxSkills = 4, quest }) => (
+export const SkillsTags: React.FC<SkillsProps> = ({ maxSkills = 4, skills }) => (
   <Wrap>
-    {quest.quest_skills.slice(0, maxSkills).map(qs => (
-      <WrapItem key={qs.skill.id}>
+    {skills.slice(0, maxSkills).map(skill => (
+      <WrapItem key={skill.id}>
         <MetaTag
           size="md"
           fontWeight="normal"
-          backgroundColor={SkillColors[qs.skill.category]}
+          backgroundColor={SkillColors[skill.category]}
         >
-          {qs.skill.name}
+          {skill.name}
         </MetaTag>
       </WrapItem>
     ))}
-    {quest.quest_skills.length > maxSkills &&
+    {skills.length > maxSkills &&
     <WrapItem>
       <MetaTag
         size="md"
         fontWeight="normal"
       >
-        {`+${quest.quest_skills.length - maxSkills}`}
+        {`+${skills.length - maxSkills}`}
       </MetaTag>
     </WrapItem>
     }
