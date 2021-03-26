@@ -1,5 +1,3 @@
-/* eslint no-bitwise: "off" */
-
 import {
   Button,
   Flex,
