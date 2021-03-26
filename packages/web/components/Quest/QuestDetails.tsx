@@ -13,8 +13,9 @@ import {
 } from '@metafam/ds';
 import { MetaLink } from 'components/Link';
 import {
-  QuestWithCompletionFragmentFragment,
   Quest,
+  QuestStatus_Enum,
+  QuestWithCompletionFragmentFragment,
   Skill,
 } from 'graphql/autogen/types';
 import moment from 'moment';
@@ -67,7 +68,7 @@ export const QuestDetails: React.FC<Props> = ({ quest }) => {
             </Text>
           </HStack>
           <HStack w="100%" mt={2}>
-            {isMyQuest && (
+            {isMyQuest && quest.status === QuestStatus_Enum.Open && (
               <MetaLink as={`/quest/${quest.id}/edit`} href="/quest/[id]/edit">
                 <MetaButton size="md">Edit Quest</MetaButton>
               </MetaLink>
