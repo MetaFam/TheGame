@@ -16,7 +16,8 @@ import { QuestFragmentFragment, Skill } from 'graphql/autogen/types';
 import moment from 'moment';
 import React from 'react';
 
-import { RepetitionTag, SkillsTags, StatusTag } from './QuestTags';
+import { SkillsTags } from '../Skills';
+import { RepetitionTag, StatusTag } from './QuestTags';
 
 type Props = {
   quest: QuestFragmentFragment;

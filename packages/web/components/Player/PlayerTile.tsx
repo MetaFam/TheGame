@@ -15,8 +15,8 @@ import {
 import { MetaLink } from 'components/Link';
 import { PlayerContacts } from 'components/Player/PlayerContacts';
 import { PlayerTileMemberships } from 'components/Player/PlayerTileMemberships';
-import { PlayerTileSkills } from 'components/Player/PlayerTileSkills';
-import { PlayerFragmentFragment } from 'graphql/autogen/types';
+import { SkillsTags } from 'components/Skills';
+import { PlayerFragmentFragment, Skill } from 'graphql/autogen/types';
 import React from 'react';
 import {
   getPlayerCoverImage,
@@ -96,7 +96,7 @@ export const PlayerTile: React.FC<Props> = ({ player }) => {
             <Text textStyle="caption">
               SKILLS
             </Text>
-            <PlayerTileSkills player={player} />
+            <SkillsTags skills={player.Player_Skills.map(s => s.Skill) as Skill[]} />
           </VStack>
         ) : null}
 
