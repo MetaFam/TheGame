@@ -1,13 +1,14 @@
-import { MetaTag, Wrap, WrapItem } from '@metafam/ds';
+import { MetaTag, Tooltip, Wrap, WrapItem } from '@metafam/ds';
 import {
-  Skill,
   QuestCompletionStatus_Enum,
   QuestRepetition_Enum,
   QuestStatus_Enum,
+  Skill,
 } from 'graphql/autogen/types';
 import React from 'react';
 
 import { SkillColors } from '../../graphql/types';
+import { QuestRepetitionHint } from '../../utils/questHelpers';
 
 export const RepetitionColors: Record<QuestRepetition_Enum, string> = {
   [QuestRepetition_Enum.Recurring]: 'cyan.700',
@@ -18,13 +19,15 @@ interface RepetitionProps {
   repetition: QuestRepetition_Enum;
 }
 export const RepetitionTag: React.FC<RepetitionProps> = ({ repetition }) => (
-  <MetaTag
-    size="md"
-    fontWeight="normal"
-    backgroundColor={RepetitionColors[repetition]}
-  >
-    {repetition}
-  </MetaTag>
+  <Tooltip label={QuestRepetitionHint[repetition]}>
+    <MetaTag
+      size="md"
+      fontWeight="normal"
+      backgroundColor={RepetitionColors[repetition]}
+    >
+      {repetition}
+    </MetaTag>
+  </Tooltip>
 );
 
 export const StatusColors: Record<QuestStatus_Enum, string> = {

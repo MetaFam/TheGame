@@ -21,7 +21,9 @@ export function transformCooldown(
   return cooldown * 60 * 60;
 }
 
-export function isAllowedToCreateQuest(balance?: string): boolean {
+export function isAllowedToCreateQuest(
+  balance: string | undefined | null,
+): boolean {
   if (!balance) return false;
 
   const pSEEDDecimals = 18;
@@ -56,3 +58,10 @@ export function canCompleteQuest(
 
   return true;
 }
+
+export const QuestRepetitionHint: Record<QuestRepetition_Enum, string> = {
+  [QuestRepetition_Enum.Recurring]: 'Unique quests can be done only once',
+  [QuestRepetition_Enum.Personal]:
+    'Personal quests can be done once per player',
+  [QuestRepetition_Enum.Unique]: 'Unique quests can be done only once',
+};
