@@ -163,10 +163,18 @@ export const QuestForm: React.FC<Props> = ({
             </option>
           ))}
         </Select>
+        <Text>
+          {createQuestInput.repetition === QuestRepetition_Enum.Unique &&
+            'Unique quests can be done only once'}
+          {createQuestInput.repetition === QuestRepetition_Enum.Personal &&
+            'Personal quests can be done once per player'}
+          {createQuestInput.repetition === QuestRepetition_Enum.Recurring &&
+            'Recurring quests can be done multiple times per player, but after a cooldown.'}
+        </Text>
 
         {createQuestInput.repetition === QuestRepetition_Enum.Recurring && (
           <>
-            <Text>Cooldown (seconds)</Text>
+            <Text>Cooldown (hours)</Text>
             <Input
               isRequired
               background="dark"

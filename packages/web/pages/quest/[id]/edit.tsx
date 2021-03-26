@@ -1,4 +1,4 @@
-import { Flex, Heading, LoadingState, Stack, useToast } from '@metafam/ds';
+import { Flex, Heading, LoadingState, useToast } from '@metafam/ds';
 import { getQuest } from 'graphql/getQuest';
 import { GetStaticPaths, GetStaticPropsContext } from 'next';
 import { useRouter } from 'next/router';
@@ -12,12 +12,12 @@ import {
 import {
   GuildFragmentFragment,
   QuestFragmentFragment,
-  QuestRepetition_Enum,
   useUpdateQuestMutation,
 } from '../../../graphql/autogen/types';
 import { getSsrClient } from '../../../graphql/client';
 import { getGuilds } from '../../../graphql/getGuilds';
 import { getSkills } from '../../../graphql/getSkills';
+import { transformCooldown } from '../../../utils/questHelpers';
 import { CategoryOption, parseSkills } from '../../../utils/skillHelpers';
 
 type Props = {
@@ -36,10 +36,7 @@ const EditQuestPage: React.FC<Props> = ({ quest, skillChoices, guilds }) => {
       description: data.description,
       external_link: data.external_link,
       repetition: data.repetition,
-      cooldown:
-        data.repetition === QuestRepetition_Enum.Recurring
-          ? data.cooldown
-          : null,
+      cooldown: transformCooldown(data.cooldown, data.repetition),
       status: data.status,
     };
     const skillsObjects = data.skills.map((s) => ({

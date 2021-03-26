@@ -1,7 +1,6 @@
 import { MetaHeading, useToast } from '@metafam/ds';
 import {
   QuestRepetition_ActionEnum,
-  QuestRepetition_Enum,
   useCreateQuestMutation,
 } from 'graphql/autogen/types';
 import { InferGetStaticPropsType } from 'next';
@@ -15,6 +14,7 @@ import {
 } from '../../components/Quest/QuestForm';
 import { getGuilds } from '../../graphql/getGuilds';
 import { getSkills } from '../../graphql/getSkills';
+import { transformCooldown } from '../../utils/questHelpers';
 import { parseSkills } from '../../utils/skillHelpers';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
@@ -30,7 +30,7 @@ const CreateQuestPage: React.FC<Props> = ({ guilds, skillChoices }) => {
     const input = {
       ...createQuestInputs,
       repetition: (data.repetition as unknown) as QuestRepetition_ActionEnum,
-      cooldown: repetition === QuestRepetition_Enum.Recurring ? cooldown : null,
+      cooldown: transformCooldown(cooldown, repetition),
       skills_id: skills.map((s) => s.id),
     };
     createQuest({
