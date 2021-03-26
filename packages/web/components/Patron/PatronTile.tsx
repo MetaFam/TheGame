@@ -87,7 +87,7 @@ export const PatronTile: React.FC<Props> = ({ patron }) => {
         </Wrap>
         {player.box_profile?.description ? (
           <VStack spacing={2} align="stretch">
-            <Text fontFamily="mono" fontSize="sm" color="blueLight">
+            <Text textStyle="caption">
               ABOUT
             </Text>
             <Text fontSize="sm">{player.box_profile.description}</Text>
@@ -97,7 +97,7 @@ export const PatronTile: React.FC<Props> = ({ patron }) => {
       <MetaTileBody>
         {player.daohausMemberships.length ? (
           <VStack spacing={2} align="stretch">
-            <Text fontFamily="mono" fontSize="sm" color="blueLight">
+            <Text textStyle="caption">
               MEMBER OF
             </Text>
             <PlayerTileMemberships player={player} />
@@ -105,7 +105,7 @@ export const PatronTile: React.FC<Props> = ({ patron }) => {
         ) : null}
         {player.Accounts.length ? (
           <VStack spacing={2} align="stretch">
-            <Text fontFamily="mono" fontSize="sm" color="blueLight">
+            <Text textStyle="caption">
               CONTACT
             </Text>
             <HStack mt="2">

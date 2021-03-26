@@ -1,13 +1,13 @@
 import {
-  Heading, HStack, MetaButton, MetaTag,
+  Heading, HStack, MetaButton,
   Text, VStack,
 } from '@metafam/ds';
 import { MetaLink } from 'components/Link';
 import { QuestWithCompletionFragmentFragment } from 'graphql/autogen/types';
-import { SkillColors } from 'graphql/types';
 import React from 'react';
 
 import { useUser } from '../../lib/hooks';
+import { SkillsTags } from './QuestTags';
 
 type Props = {
   quest: QuestWithCompletionFragmentFragment;
@@ -25,17 +25,8 @@ export const QuestDetails: React.FC<Props> = ({ quest }) => {
       <Text>{quest.repetition}</Text>
       <Text>{quest.description}</Text>
 
-      <HStack>
-        {quest.quest_skills.map(qs => (
-          <MetaTag
-            size="md"
-            fontWeight="normal"
-            backgroundColor={SkillColors[qs.skill.category]}
-          >
-            {qs.skill.name}
-          </MetaTag>
-        ))}
-      </HStack>
+      <SkillsTags quest={quest} />
+
       <HStack>
         {isMyQuest &&
         <MetaLink

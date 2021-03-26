@@ -1,6 +1,7 @@
 import { extendTheme, Theme as ChakraTheme } from '@chakra-ui/react';
 
 import { colors, MetaColors } from './colors';
+import { textStyles } from './texts';
 
 type Theme = ChakraTheme & {
   colors: MetaColors;
@@ -22,6 +23,7 @@ export const theme: Theme = extendTheme({
     },
   },
   colors,
+  textStyles,
   fonts: {
     body: '"IBM Plex Sans", sans-serif',
     mono: '"IBM Plex Mono", monospace',

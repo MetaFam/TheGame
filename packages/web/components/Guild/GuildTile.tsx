@@ -38,7 +38,7 @@ export const GuildTile: React.FC<Props> = ({ guild }) => (
       ) : null}
       {guild.description ? (
         <VStack spacing={2} align="stretch">
-          <Text fontFamily="mono" fontSize="sm" color="blueLight">
+          <Text textStyle="caption">
             ABOUT
           </Text>
           <Text fontSize="sm">{guild.description}</Text>
@@ -47,7 +47,7 @@ export const GuildTile: React.FC<Props> = ({ guild }) => (
     </MetaTileHeader>
     <MetaTileBody>
       <VStack spacing={2} align="stretch">
-        <Text fontFamily="mono" fontSize="sm" color="blueLight">
+        <Text textStyle="caption">
           LINKS
         </Text>
         <HStack mt="2">
