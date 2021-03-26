@@ -30,7 +30,11 @@ const SubmitQuestCompletionPage: React.FC<Props> = ({ quest }) => {
   ] = useCreateQuestCompletionMutation();
 
   if (router.isFallback) {
-    return <LoadingState />;
+    return (
+      <PageContainer>
+        <LoadingState />
+      </PageContainer>
+    );
   }
 
   if (!quest) {

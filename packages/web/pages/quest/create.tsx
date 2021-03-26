@@ -1,4 +1,4 @@
-import { MetaHeading, useToast } from '@metafam/ds';
+import { Flex, MetaHeading, useToast } from '@metafam/ds';
 import {
   QuestRepetition_ActionEnum,
   useCreateQuestMutation,
@@ -63,7 +63,7 @@ const CreateQuestPage: React.FC<Props> = ({ guilds, skillChoices }) => {
 
   return (
     <PageContainer>
-      <MetaHeading>Create quest</MetaHeading>
+      <MetaHeading mb={4}>Create quest</MetaHeading>
 
       <QuestForm
         guilds={guilds}
