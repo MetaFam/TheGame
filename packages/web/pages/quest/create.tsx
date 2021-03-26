@@ -16,11 +16,12 @@ import { getGuilds } from '../../graphql/getGuilds';
 import { getSkills } from '../../graphql/getSkills';
 import { transformCooldown } from '../../utils/questHelpers';
 import { parseSkills } from '../../utils/skillHelpers';
+import { useUser } from '../../lib/hooks';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
-// TODO redirect if user not logged in
 const CreateQuestPage: React.FC<Props> = ({ guilds, skillChoices }) => {
+  useUser({ redirectTo: '/quests'})
   const router = useRouter();
   const toast = useToast();
   const [createQuestState, createQuest] = useCreateQuestMutation();
