@@ -1,6 +1,7 @@
 import { numbers } from '@metafam/utils';
+
+import { QuestRepetition_Enum, QuestStatus_Enum, QuestWithCompletionFragmentFragment } from '../graphql/autogen/types';
 import { MeType } from '../graphql/types';
-import { QuestStatus_Enum, QuestRepetition_Enum, QuestWithCompletionFragmentFragment } from '../graphql/autogen/types';
 
 const { BN, amountToDecimal } = numbers;
 

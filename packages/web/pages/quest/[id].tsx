@@ -1,11 +1,11 @@
 import {
-  LoadingState,
-  Heading,
   Box,
-  Wrap,
   Flex,
-  WrapItem, MetaButton, HStack,
-} from '@metafam/ds';
+  Heading,
+HStack,
+  LoadingState,
+MetaButton,   Wrap,
+  WrapItem } from '@metafam/ds';
 import { MetaLink } from 'components/Link';
 import {  useGetQuestWithCompletionsQuery } from 'graphql/autogen/types';
 import { getQuestWithCompletions } from 'graphql/getQuest';
@@ -16,15 +16,15 @@ import {
 } from 'next';
 import { useRouter } from 'next/router';
 import React, { useMemo } from 'react';
+import { FaArrowLeft } from 'react-icons/fa';
 
 import { PageContainer } from '../../components/Container';
+import { PlayerTile } from '../../components/Player/PlayerTile';
 import { QuestCompletions } from '../../components/Quest/QuestCompletions';
 import { QuestDetails } from '../../components/Quest/QuestDetails';
-import { PlayerTile } from '../../components/Player/PlayerTile';
 import { getSsrClient } from '../../graphql/client';
-import { canCompleteQuest } from '../../utils/questHelpers';
 import { useUser } from '../../lib/hooks';
-import { FaArrowLeft } from 'react-icons/fa';
+import { canCompleteQuest } from '../../utils/questHelpers';
 
 type Props = {
   quest_id: string;

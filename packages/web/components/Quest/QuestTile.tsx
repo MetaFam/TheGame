@@ -12,11 +12,11 @@ import {
 } from '@metafam/ds';
 import BackgroundImage from 'assets/main-background.jpg';
 import { MetaLink } from 'components/Link';
-import { QuestWithCompletionFragmentFragment, QuestFragmentFragment } from 'graphql/autogen/types';
+import { QuestFragmentFragment,QuestWithCompletionFragmentFragment } from 'graphql/autogen/types';
+import moment from 'moment';
 import React from 'react';
 
 import { RepetitionTag,SkillsTags, StatusTag } from './QuestTags';
-import moment from 'moment';
 
 type Props = {
   quest: QuestFragmentFragment | QuestWithCompletionFragmentFragment;
