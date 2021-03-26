@@ -45,7 +45,11 @@ const QuestPage: React.FC<Props> = ({ quest_id }) => {
   ]);
 
   if (router.isFallback || !quest) {
-    return <LoadingState />;
+    return (
+      <PageContainer>
+        <LoadingState />
+      </PageContainer>
+    );
   }
 
   return (

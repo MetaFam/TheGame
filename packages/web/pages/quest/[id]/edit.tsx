@@ -1,4 +1,10 @@
-import { Flex, Heading, LoadingState, useToast } from '@metafam/ds';
+import {
+  Flex,
+  Heading,
+  LoadingState,
+  MetaHeading,
+  useToast,
+} from '@metafam/ds';
 import { getQuest } from 'graphql/getQuest';
 import { GetStaticPaths, GetStaticPropsContext } from 'next';
 import { useRouter } from 'next/router';
@@ -70,25 +76,27 @@ const EditQuestPage: React.FC<Props> = ({ quest, skillChoices, guilds }) => {
   };
 
   if (router.isFallback) {
-    return <LoadingState />;
+    return (
+      <PageContainer>
+        <LoadingState />
+      </PageContainer>
+    );
   }
 
   return (
     <PageContainer>
-      <Flex flex={1} d="column">
-        <Heading>Edit Quest</Heading>
+      <Heading mb={4}>Edit Quest</Heading>
 
-        <QuestForm
-          guilds={guilds}
-          skillChoices={skillChoices}
-          onSubmit={onSubmit}
-          success={!!updateQuestResult.data}
-          fetching={updateQuestResult.fetching}
-          submitLabel="Edit Quest"
-          loadingLabel="Editing quest..."
-          editQuest={quest}
-        />
-      </Flex>
+      <QuestForm
+        guilds={guilds}
+        skillChoices={skillChoices}
+        onSubmit={onSubmit}
+        success={!!updateQuestResult.data}
+        fetching={updateQuestResult.fetching}
+        submitLabel="Edit Quest"
+        loadingLabel="Editing quest..."
+        editQuest={quest}
+      />
     </PageContainer>
   );
 };
