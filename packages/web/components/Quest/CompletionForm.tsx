@@ -1,11 +1,8 @@
+import { HStack, Input, MetaButton, Text, VStack } from '@metafam/ds';
 import {
-  HStack,
-  Input,
-  MetaButton,
-  Text,
-  VStack,
-} from '@metafam/ds';
-import { CreateQuestCompletionInput,QuestFragmentFragment } from 'graphql/autogen/types';
+  CreateQuestCompletionInput,
+  QuestFragmentFragment,
+} from 'graphql/autogen/types';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -20,28 +17,29 @@ const validations = {
   submission_link: {
     pattern: UriRegexp,
   },
-}
+};
 
 type Props = {
-  quest: QuestFragmentFragment,
+  quest: QuestFragmentFragment;
   onSubmit: (data: CreateQuestCompletionInput) => void;
   success?: boolean;
   fetching?: boolean;
-}
+};
 
 export const CompletionForm: React.FC<Props> = ({
-                                                  quest,
-                                                  onSubmit,
-                                                  success,
-                                                  fetching,
-                                                }) => {
-  const { register, errors, handleSubmit } = useForm<CreateQuestCompletionInput>();
+  quest,
+  onSubmit,
+  success,
+  fetching,
+}) => {
+  const { register, errors, handleSubmit } = useForm<
+    CreateQuestCompletionInput
+  >();
   const [exitAlert, setExitAlert] = useState<boolean>(false);
   const router = useRouter();
 
   return (
     <VStack>
-
       <Text>Description</Text>
       <Input
         background="dark"

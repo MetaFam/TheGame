@@ -88,7 +88,7 @@ export const QuestFragment = gql`
     status
     title
     repetition
-    
+
     guild {
       name
       logo
@@ -130,7 +130,7 @@ export const QuestWithCompletionFragment = gql`
         category
       }
     }
-    quest_completions(order_by: [{submitted_at:desc}]) {
+    quest_completions(order_by: [{ submitted_at: desc }]) {
       ...QuestCompletionFragment
       player {
         id

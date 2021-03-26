@@ -12,7 +12,7 @@ type Props = {
  */
 export const QuestList: React.FC<Props> = ({ quests }) => (
   <Box>
-    {quests.length > 0 ?
+    {quests.length > 0 ? (
       <SimpleGrid
         columns={[1, null, 2, 3]}
         spacing="8"
@@ -22,8 +22,8 @@ export const QuestList: React.FC<Props> = ({ quests }) => (
           <QuestTile key={q.id} quest={q} />
         ))}
       </SimpleGrid>
-      :
+    ) : (
       <Text>No quests found</Text>
-    }
+    )}
   </Box>
 );

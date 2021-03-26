@@ -8,7 +8,11 @@ import React from 'react';
 
 import { wrapUrqlClient } from '../graphql/client';
 
-const App: React.FC<WithUrqlProps> = ({ pageProps, resetUrqlClient, Component }) => {
+const App: React.FC<WithUrqlProps> = ({
+  pageProps,
+  resetUrqlClient,
+  Component,
+}) => {
   return (
     <ChakraProvider theme={MetaTheme}>
       <CSSReset />

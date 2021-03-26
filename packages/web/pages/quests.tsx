@@ -1,4 +1,11 @@
-import { Box, Heading, HStack, LoadingState, MetaButton,Text } from '@metafam/ds';
+import {
+  Box,
+  Heading,
+  HStack,
+  LoadingState,
+  MetaButton,
+  Text,
+} from '@metafam/ds';
 import { PageContainer } from 'components/Container';
 import { QuestFilter } from 'components/Quest/QuestFilter';
 import { QuestList } from 'components/Quest/QuestList';
@@ -18,10 +25,7 @@ type Props = InferGetStaticPropsType<typeof getStaticProps>;
 export const getStaticProps = async () => {
   const [ssrClient, ssrCache] = getSsrClient();
   // This populate the cache server-side
-  await getQuests(
-    undefined,
-    ssrClient,
-  );
+  await getQuests(undefined, ssrClient);
 
   return {
     props: {
@@ -34,7 +38,14 @@ export const getStaticProps = async () => {
 const QuestsPage: React.FC<Props> = () => {
   const router = useRouter();
   const { user } = useUser();
-  const { quests, aggregates, fetching, error, queryVariables, setQueryVariable } = useQuestFilter();
+  const {
+    quests,
+    aggregates,
+    fetching,
+    error,
+    queryVariables,
+    setQueryVariable,
+  } = useQuestFilter();
   const [respSeedBalance] = useGetpSeedBalanceQuery({
     variables: {
       address: user?.ethereum_address || '',
@@ -42,16 +53,17 @@ const QuestsPage: React.FC<Props> = () => {
     pause: !user?.ethereum_address,
   });
   const canCreateQuest = useMemo(
-    () => isAllowedToCreateQuest(respSeedBalance.data?.getTokenBalances?.pSeedBalance),
+    () =>
+      isAllowedToCreateQuest(
+        respSeedBalance.data?.getTokenBalances?.pSeedBalance,
+      ),
     [respSeedBalance],
   );
 
   return (
     <PageContainer>
       <HStack justify="space-between" w="100%">
-        <Heading>
-          Quest explorer
-        </Heading>
+        <Heading>Quest explorer</Heading>
         <MetaButton
           fontFamily="mono"
           disabled={!canCreateQuest}
@@ -76,6 +88,6 @@ const QuestsPage: React.FC<Props> = () => {
       </Box>
     </PageContainer>
   );
-}
+};
 
 export default QuestsPage;

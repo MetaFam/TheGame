@@ -1,15 +1,20 @@
 import { Flex, Heading, LoadingState, Stack, useToast } from '@metafam/ds';
 import { getQuest } from 'graphql/getQuest';
-import {
-  GetStaticPaths,
-  GetStaticPropsContext,
-} from 'next';
+import { GetStaticPaths, GetStaticPropsContext } from 'next';
 import { useRouter } from 'next/router';
 import React from 'react';
 
 import { PageContainer } from '../../../components/Container';
-import { CreateQuestFormInputs, QuestForm } from '../../../components/Quest/QuestForm';
-import { GuildFragmentFragment, QuestFragmentFragment, QuestRepetition_Enum,useUpdateQuestMutation } from '../../../graphql/autogen/types';
+import {
+  CreateQuestFormInputs,
+  QuestForm,
+} from '../../../components/Quest/QuestForm';
+import {
+  GuildFragmentFragment,
+  QuestFragmentFragment,
+  QuestRepetition_Enum,
+  useUpdateQuestMutation,
+} from '../../../graphql/autogen/types';
 import { getSsrClient } from '../../../graphql/client';
 import { getGuilds } from '../../../graphql/getGuilds';
 import { getSkills } from '../../../graphql/getSkills';
@@ -19,13 +24,9 @@ type Props = {
   quest: QuestFragmentFragment;
   guilds: GuildFragmentFragment[];
   skillChoices: Array<CategoryOption>;
-}
-const EditQuestPage: React.FC<Props> = ({
-                                          quest,
-                                          skillChoices,
-                                          guilds,
-                                        }) => {
-  const router = useRouter()
+};
+const EditQuestPage: React.FC<Props> = ({ quest, skillChoices, guilds }) => {
+  const router = useRouter();
   const toast = useToast();
   const [updateQuestResult, updateQuest] = useUpdateQuestMutation();
 
@@ -35,10 +36,13 @@ const EditQuestPage: React.FC<Props> = ({
       description: data.description,
       external_link: data.external_link,
       repetition: data.repetition,
-      cooldown: data.repetition === QuestRepetition_Enum.Recurring ? data.cooldown : null,
+      cooldown:
+        data.repetition === QuestRepetition_Enum.Recurring
+          ? data.cooldown
+          : null,
       status: data.status,
     };
-    const skillsObjects = data.skills.map(s => ({
+    const skillsObjects = data.skills.map((s) => ({
       quest_id: quest.id,
       skill_id: s.id,
     }));
@@ -47,7 +51,7 @@ const EditQuestPage: React.FC<Props> = ({
       input: updateQuestInput,
       skills: skillsObjects,
     }).then((res) => {
-      if(res.data?.update_quest_by_pk && !res.error) {
+      if (res.data?.update_quest_by_pk && !res.error) {
         router.push(`/quest/${quest.id}`);
         toast({
           title: 'Quest edited',
@@ -121,7 +125,7 @@ export const getStaticProps = async (
   if (!quest) {
     return {
       notFound: true,
-    }
+    };
   }
 
   const guilds = await getGuilds();

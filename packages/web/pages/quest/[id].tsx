@@ -2,18 +2,17 @@ import {
   Box,
   Flex,
   Heading,
-HStack,
+  HStack,
   LoadingState,
-MetaButton,   Wrap,
-  WrapItem } from '@metafam/ds';
+  MetaButton,
+  Wrap,
+  WrapItem,
+} from '@metafam/ds';
 import { MetaLink } from 'components/Link';
-import {  useGetQuestWithCompletionsQuery } from 'graphql/autogen/types';
+import { useGetQuestWithCompletionsQuery } from 'graphql/autogen/types';
 import { getQuestWithCompletions } from 'graphql/getQuest';
 import { getQuestIds } from 'graphql/getQuests';
-import {
-  GetStaticPaths,
-  GetStaticPropsContext,
-} from 'next';
+import { GetStaticPaths, GetStaticPropsContext } from 'next';
 import { useRouter } from 'next/router';
 import React, { useMemo } from 'react';
 import { FaArrowLeft } from 'react-icons/fa';
@@ -28,7 +27,7 @@ import { canCompleteQuest } from '../../utils/questHelpers';
 
 type Props = {
   quest_id: string;
-}
+};
 
 const QuestPage: React.FC<Props> = ({ quest_id }) => {
   const router = useRouter();
@@ -40,7 +39,10 @@ const QuestPage: React.FC<Props> = ({ quest_id }) => {
     },
   });
   const quest = res.data?.quest_by_pk;
-  const canSubmit = useMemo<boolean>(() => canCompleteQuest(quest, user), [quest, user]);
+  const canSubmit = useMemo<boolean>(() => canCompleteQuest(quest, user), [
+    quest,
+    user,
+  ]);
 
   if (router.isFallback || !quest) {
     return <LoadingState />;
@@ -54,35 +56,39 @@ const QuestPage: React.FC<Props> = ({ quest_id }) => {
             as="a"
             variant="link"
             href="/quests"
-            leftIcon={<FaArrowLeft/>}
+            leftIcon={<FaArrowLeft />}
           >
             Back to quest explorer
           </MetaButton>
         </Box>
 
-        <Wrap
-          w="100%"
-          justify="center"
-          spacing={8}
-        >
-          <WrapItem
-            w={{ base: "100%", lg: "50%" }}
-          >
-            <Flex w="100%" align={{ base: "center", lg: "start" }} direction="column">
-              <Heading mb={4} ml={2}>Quest details</Heading>
-              <QuestDetails
-                quest={quest}
-              />
+        <Wrap w="100%" justify="center" spacing={8}>
+          <WrapItem w={{ base: '100%', lg: '50%' }}>
+            <Flex
+              w="100%"
+              align={{ base: 'center', lg: 'start' }}
+              direction="column"
+            >
+              <Heading mb={4} ml={2}>
+                Quest details
+              </Heading>
+              <QuestDetails quest={quest} />
             </Flex>
           </WrapItem>
           <WrapItem
-            w={{ base: "100%", lg: "35%" }}
+            w={{ base: '100%', lg: '35%' }}
             d="flex"
             flexDirection="column"
           >
-            <Flex w="100%" align={{ base: "center", lg: "start" }} direction="column">
-              <Heading mb={4} ml={2}>Created by</Heading>
-              <PlayerTile player={quest.player}/>
+            <Flex
+              w="100%"
+              align={{ base: 'center', lg: 'start' }}
+              direction="column"
+            >
+              <Heading mb={4} ml={2}>
+                Created by
+              </Heading>
+              <PlayerTile player={quest.player} />
             </Flex>
           </WrapItem>
         </Wrap>
@@ -90,23 +96,18 @@ const QuestPage: React.FC<Props> = ({ quest_id }) => {
           <HStack mb={4} justify="space-between">
             <Heading>Proposals</Heading>
 
-            {canSubmit &&
-            <MetaLink
-              as={`/quest/${quest.id}/complete`}
-              href="/quest/[id]/complete"
-            >
-              <MetaButton
-                variant="outline"
-                colorScheme="cyan"
+            {canSubmit && (
+              <MetaLink
+                as={`/quest/${quest.id}/complete`}
+                href="/quest/[id]/complete"
               >
-                Submit proposal
-              </MetaButton>
-            </MetaLink>
-            }
+                <MetaButton variant="outline" colorScheme="cyan">
+                  Submit proposal
+                </MetaButton>
+              </MetaLink>
+            )}
           </HStack>
-          <QuestCompletions
-            quest={quest}
-          />
+          <QuestCompletions quest={quest} />
         </Flex>
       </Box>
     </PageContainer>
@@ -119,7 +120,7 @@ export const getStaticPaths: GetStaticPaths<QueryParams> = async () => {
   const questIds = await getQuestIds(50);
 
   return {
-    paths: questIds.map(id => ({
+    paths: questIds.map((id) => ({
       params: { id },
     })),
     fallback: true,
@@ -136,7 +137,7 @@ export const getStaticProps = async (
   if (!quest) {
     return {
       notFound: true,
-    }
+    };
   }
 
   return {
@@ -147,6 +148,5 @@ export const getStaticProps = async (
     revalidate: 1,
   };
 };
-
 
 export default QuestPage;
