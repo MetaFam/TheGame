@@ -1,13 +1,17 @@
+import { Box, MetaHeading, useToast } from '@metafam/ds';
 import {
-  Box,
-  MetaHeading, useToast,
-} from '@metafam/ds';
-import { QuestRepetition_ActionEnum,QuestRepetition_Enum, useCreateQuestMutation } from 'graphql/autogen/types';
+  QuestRepetition_ActionEnum,
+  QuestRepetition_Enum,
+  useCreateQuestMutation,
+} from 'graphql/autogen/types';
 import { InferGetStaticPropsType } from 'next';
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/router';
 import React from 'react';
 
-import { CreateQuestFormInputs,QuestForm } from '../../components/Quest/QuestForm';
+import {
+  CreateQuestFormInputs,
+  QuestForm,
+} from '../../components/Quest/QuestForm';
 import { getGuilds } from '../../graphql/getGuilds';
 import { getSkills } from '../../graphql/getSkills';
 import { parseSkills } from '../../utils/skillHelpers';
@@ -16,7 +20,7 @@ type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
 // TODO redirect if user not logged in
 const CreateQuestPage: React.FC<Props> = ({ guilds, skillChoices }) => {
-  const router = useRouter()
+  const router = useRouter();
   const toast = useToast();
   const [createQuestState, createQuest] = useCreateQuestMutation();
 
@@ -26,13 +30,13 @@ const CreateQuestPage: React.FC<Props> = ({ guilds, skillChoices }) => {
       ...createQuestInputs,
       repetition: (data.repetition as unknown) as QuestRepetition_ActionEnum,
       cooldown: repetition === QuestRepetition_Enum.Recurring ? cooldown : null,
-      skills_id: skills.map(s => s.id),
+      skills_id: skills.map((s) => s.id),
     };
     createQuest({
       input,
-    }).then(response => {
-      const createQuestResponse = response.data?.createQuest
-      if(createQuestResponse?.success) {
+    }).then((response) => {
+      const createQuestResponse = response.data?.createQuest;
+      if (createQuestResponse?.success) {
         router.push(`/quest/${createQuestResponse.quest_id}`);
         toast({
           title: 'Quest created',
@@ -44,7 +48,10 @@ const CreateQuestPage: React.FC<Props> = ({ guilds, skillChoices }) => {
       } else {
         toast({
           title: 'Error while creating quest',
-          description: response.error?.message || createQuestResponse?.error || 'unknown error',
+          description:
+            response.error?.message ||
+            createQuestResponse?.error ||
+            'unknown error',
           status: 'error',
           isClosable: true,
           duration: 10000,
@@ -55,9 +62,7 @@ const CreateQuestPage: React.FC<Props> = ({ guilds, skillChoices }) => {
 
   return (
     <Box>
-      <MetaHeading>
-        Create quest
-      </MetaHeading>
+      <MetaHeading>Create quest</MetaHeading>
 
       <QuestForm
         guilds={guilds}
@@ -70,7 +75,7 @@ const CreateQuestPage: React.FC<Props> = ({ guilds, skillChoices }) => {
       />
     </Box>
   );
-}
+};
 
 export const getStaticProps = async () => {
   const guilds = await getGuilds();
@@ -86,4 +91,4 @@ export const getStaticProps = async () => {
   };
 };
 
-export default CreateQuestPage
+export default CreateQuestPage;

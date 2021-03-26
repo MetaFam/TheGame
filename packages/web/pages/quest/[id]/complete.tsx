@@ -1,6 +1,9 @@
 import { Flex, Heading, LoadingState, Stack, useToast } from '@metafam/ds';
 import { MetaLink } from 'components/Link';
-import { CreateQuestCompletionInput,useCreateQuestCompletionMutation } from 'graphql/autogen/types';
+import {
+  CreateQuestCompletionInput,
+  useCreateQuestCompletionMutation,
+} from 'graphql/autogen/types';
 import { getQuest } from 'graphql/getQuest';
 import {
   GetStaticPaths,
@@ -21,7 +24,10 @@ type Props = InferGetStaticPropsType<typeof getStaticProps>;
 const SubmitQuestCompletionPage: React.FC<Props> = ({ quest }) => {
   const toast = useToast();
   const router = useRouter();
-  const [createQuestCompletionState, createQuestCompletion] = useCreateQuestCompletionMutation();
+  const [
+    createQuestCompletionState,
+    createQuestCompletion,
+  ] = useCreateQuestCompletionMutation();
 
   if (router.isFallback) {
     return <LoadingState />;
@@ -37,9 +43,10 @@ const SubmitQuestCompletionPage: React.FC<Props> = ({ quest }) => {
         ...data,
         quest_id: quest.id,
       },
-    }).then(response => {
-      const createQuestCompletionResponse = response.data?.createQuestCompletion
-      if(createQuestCompletionResponse?.success) {
+    }).then((response) => {
+      const createQuestCompletionResponse =
+        response.data?.createQuestCompletion;
+      if (createQuestCompletionResponse?.success) {
         router.push(`/quest/${quest.id}`);
         toast({
           title: 'Submitted quest completion',
@@ -51,7 +58,10 @@ const SubmitQuestCompletionPage: React.FC<Props> = ({ quest }) => {
       } else {
         toast({
           title: 'Error while submitting completion,',
-          description: response.error?.message || createQuestCompletionResponse?.error || 'unknown error',
+          description:
+            response.error?.message ||
+            createQuestCompletionResponse?.error ||
+            'unknown error',
           status: 'error',
           isClosable: true,
           duration: 10000,
@@ -70,22 +80,20 @@ const SubmitQuestCompletionPage: React.FC<Props> = ({ quest }) => {
         maxWidth="7xl"
       >
         <Flex flex={1} d="column">
-          <MetaLink
-            as={`/quest/${quest.id}`}
-            href="/quest/[id]"
-          >
+          <MetaLink as={`/quest/${quest.id}`} href="/quest/[id]">
             Back to Quest
           </MetaLink>
           <Heading>Submit quest completion</Heading>
 
-
           <CompletionForm
             onSubmit={onSubmit}
             quest={quest}
-            success={!!createQuestCompletionState.data?.createQuestCompletion?.quest_completion_id}
+            success={
+              !!createQuestCompletionState.data?.createQuestCompletion
+                ?.quest_completion_id
+            }
             fetching={createQuestCompletionState.fetching}
           />
-
         </Flex>
       </Stack>
     </PageContainer>

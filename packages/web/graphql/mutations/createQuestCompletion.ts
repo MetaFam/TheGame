@@ -7,7 +7,7 @@ export const CreateQuestCompletionMutation = gql`
       error
       quest_completion_id
       quest_completion {
-        id  # We add this for urql to update the cache
+        id # We add this for urql to update the cache
         quest {
           id
         }
