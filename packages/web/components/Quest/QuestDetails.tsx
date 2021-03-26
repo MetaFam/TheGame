@@ -11,6 +11,7 @@ import React from 'react';
 import { useUser } from '../../lib/hooks';
 import { RepetitionTag, SkillsTags, StatusTag } from './QuestTags';
 import BackgroundImage from '../../assets/main-background.jpg';
+import moment from 'moment';
 
 type Props = {
   quest: QuestWithCompletionFragmentFragment;
@@ -53,11 +54,12 @@ export const QuestDetails: React.FC<Props> = ({ quest }) => {
               {quest.title}
             </Heading>
           </MetaLink>
-          <HStack>
+          <HStack mt={2}>
             <RepetitionTag quest={quest}/>
             <StatusTag quest={quest}/>
+            <Text><i>{moment(quest.created_at).fromNow()}</i></Text>
           </HStack>
-          <HStack w="100%">
+          <HStack w="100%" mt={2}>
             {isMyQuest &&
             <MetaLink
               as={`/quest/${quest.id}/edit`}
@@ -85,7 +87,7 @@ export const QuestDetails: React.FC<Props> = ({ quest }) => {
           </HStack>
         </VStack>
       </MetaTileHeader>
-      <MetaTileBody flex={1}>
+      <MetaTileBody>
         <VStack spacing={2} align="stretch">
           <Text textStyle="caption">DESCRIPTION</Text>
           <Text>

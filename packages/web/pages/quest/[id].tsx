@@ -24,6 +24,7 @@ import { PlayerTile } from '../../components/Player/PlayerTile';
 import { getSsrClient } from '../../graphql/client';
 import { canCompleteQuest } from '../../utils/questHelpers';
 import { useUser } from '../../lib/hooks';
+import { FaArrowLeft } from 'react-icons/fa';
 
 type Props = {
   quest_id: string;
@@ -49,7 +50,14 @@ const QuestPage: React.FC<Props> = ({ quest_id }) => {
     <PageContainer>
       <Box w="100%">
         <Box mb={4} px={2}>
-          <MetaLink href="/quests">Back to quest explorer</MetaLink>
+          <MetaButton
+            as="a"
+            variant="link"
+            href="/quests"
+            leftIcon={<FaArrowLeft/>}
+          >
+            Back to quest explorer
+          </MetaButton>
         </Box>
 
         <Wrap
