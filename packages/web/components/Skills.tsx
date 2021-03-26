@@ -1,11 +1,10 @@
 import {
-  MetaTheme,
+  MetaTag,   MetaTheme,
   SelectSearch,
   selectStyles,
+Tooltip, Wrap, WrapItem,
 } from '@metafam/ds';
-import {
-  SkillCategory_Enum,
-} from 'graphql/autogen/types';
+import { Skill, SkillCategory_Enum } from 'graphql/autogen/types';
 import { SkillColors } from 'graphql/types';
 import React from 'react';
 import { CategoryOption, SkillOption } from 'utils/skillHelpers';
@@ -63,3 +62,35 @@ export const SkillsSelect: React.FC<SetupSkillsProps> = ({
     />
   );
 };
+
+interface SkillsProps {
+  skills: Skill[];
+  maxSkills?: number;
+}
+export const SkillsTags: React.FC<SkillsProps> = ({
+                                                    maxSkills = 4,
+                                                    skills,
+                                                  }) => (
+  <Wrap>
+    {skills.slice(0, maxSkills).map((skill) => (
+      <WrapItem key={skill.id}>
+        <Tooltip label={skill.category}>
+          <MetaTag
+            size="md"
+            fontWeight="normal"
+            backgroundColor={SkillColors[skill.category]}
+          >
+            {skill.name}
+          </MetaTag>
+        </Tooltip>
+      </WrapItem>
+    ))}
+    {skills.length > maxSkills && (
+      <WrapItem>
+        <MetaTag size="md" fontWeight="normal">
+          {`+${skills.length - maxSkills}`}
+        </MetaTag>
+      </WrapItem>
+    )}
+  </Wrap>
+);

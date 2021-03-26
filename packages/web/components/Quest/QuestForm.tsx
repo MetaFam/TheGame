@@ -22,7 +22,7 @@ import { QuestRepetitionHint, UriRegexp } from '../../utils/questHelpers';
 import { CategoryOption, SkillOption } from '../../utils/skillHelpers';
 import { ConfirmModal } from '../ConfirmModal';
 import { FlexContainer } from '../Container';
-import { SkillsSelect } from '../SkillsSelect';
+import { SkillsSelect } from '../Skills';
 
 const validations = {
   title: {

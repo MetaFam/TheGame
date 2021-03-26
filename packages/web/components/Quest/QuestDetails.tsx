@@ -23,7 +23,8 @@ import React from 'react';
 
 import BackgroundImage from '../../assets/main-background.jpg';
 import { useUser } from '../../lib/hooks';
-import { RepetitionTag, SkillsTags, StatusTag } from './QuestTags';
+import { SkillsTags } from '../Skills';
+import { RepetitionTag, StatusTag } from './QuestTags';
 
 type Props = {
   quest: QuestWithCompletionFragmentFragment;
