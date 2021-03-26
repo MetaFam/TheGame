@@ -25,7 +25,7 @@ export function isAllowedToCreateQuest(
 }
 
 // TODO factorize this with backend
-export function canCompleteQuest(quest?: QuestWithCompletionFragmentFragment, user: MeType | null | undefined): boolean {
+export function canCompleteQuest(quest: QuestWithCompletionFragmentFragment | null | undefined, user: MeType | null | undefined): boolean {
   if(!user || !quest) return false;
 
   if (quest.status !== QuestStatus_Enum.Open) {

@@ -5,7 +5,7 @@ import {
   Text, VStack,
 } from '@metafam/ds';
 import { MetaLink } from 'components/Link';
-import { QuestWithCompletionFragmentFragment } from 'graphql/autogen/types';
+import { QuestWithCompletionFragmentFragment, Quest, Skill } from 'graphql/autogen/types';
 import moment from 'moment';
 import React from 'react';
 
@@ -19,7 +19,7 @@ type Props = {
 
 export const QuestDetails: React.FC<Props> = ({ quest }) => {
   const { user } = useUser();
-  const isMyQuest = user?.id === quest.player.id;
+  const isMyQuest = user?.id === (quest as Quest).player.id;
 
   return (
     <MetaTile maxW={undefined}>
@@ -55,8 +55,8 @@ export const QuestDetails: React.FC<Props> = ({ quest }) => {
             </Heading>
           </MetaLink>
           <HStack mt={2}>
-            <RepetitionTag quest={quest}/>
-            <StatusTag quest={quest}/>
+            <RepetitionTag repetition={quest.repetition}/>
+            <StatusTag status={quest.status}/>
             <Text><i>{moment(quest.created_at).fromNow()}</i></Text>
           </HStack>
           <HStack w="100%" mt={2}>
@@ -95,7 +95,7 @@ export const QuestDetails: React.FC<Props> = ({ quest }) => {
           </Text>
 
           <Text textStyle="caption">SKILLS</Text>
-          <SkillsTags quest={quest} maxSkills={20} />
+          <SkillsTags skills={quest.quest_skills.map(s => s.skill) as Skill[]} maxSkills={4} />
         </VStack>
       </MetaTileBody>
     </MetaTile>

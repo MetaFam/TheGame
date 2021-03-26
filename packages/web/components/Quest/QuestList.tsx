@@ -1,4 +1,4 @@
-import { Box, Heading, SimpleGrid, Text, VStack } from '@metafam/ds';
+import { Box, SimpleGrid, Text } from '@metafam/ds';
 import { QuestTile } from 'components/Quest/QuestTile';
 import { QuestFragmentFragment } from 'graphql/autogen/types';
 import React from 'react';

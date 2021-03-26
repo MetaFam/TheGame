@@ -1,10 +1,10 @@
 import {
-  Avatar,   Box, Button,
+  Avatar,   Box,
 HStack, MetaButton,
   Text, useToast, VStack,
 } from '@metafam/ds';
 import { MetaLink } from 'components/Link';
-import { QuestCompletionStatus_ActionEnum, QuestCompletionStatus_Enum, QuestRepetition_Enum, QuestStatus_Enum, QuestWithCompletionFragmentFragment, useUpdateQuestCompletionMutation } from 'graphql/autogen/types';
+import { Quest, QuestCompletionStatus_ActionEnum, QuestCompletionStatus_Enum, QuestWithCompletionFragmentFragment, useUpdateQuestCompletionMutation } from 'graphql/autogen/types';
 import moment from 'moment';
 import React, { useCallback, useState } from 'react';
 import { FaExternalLinkAlt } from 'react-icons/fa';
@@ -28,7 +28,7 @@ export const QuestCompletions: React.FC<Props> = ({ quest }) => {
   const toast = useToast();
   const [alertSubmission, setAlertSubmission] = useState<AlertSubmission | null>(null);
   const [updateQuestCompletionStatus, updateQuestCompletion] = useUpdateQuestCompletionMutation();
-  const isMyQuest = user?.id === quest.player.id;
+  const isMyQuest = user?.id === (quest as Quest).player.id;
 
   const onConfirmAlert = useCallback(() => {
     if(!alertSubmission) return;
@@ -73,7 +73,7 @@ export const QuestCompletions: React.FC<Props> = ({ quest }) => {
               <Avatar
                 name={questCompletion.player.username}
               />
-              <CompletionStatusTag questCompletion={questCompletion} />
+              <CompletionStatusTag status={questCompletion.status} />
               <Text><i>by{' '}
                 <MetaLink
                   as={`/player/${questCompletion.player.username}`}
