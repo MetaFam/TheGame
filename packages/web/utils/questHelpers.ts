@@ -11,6 +11,16 @@ const { BN, amountToDecimal } = numbers;
 
 export const UriRegexp = /\w+:(\/?\/?)[^\s]+/;
 
+// Hours to seconds
+export function transformCooldown(
+  cooldown: number | undefined | null,
+  repetition: QuestRepetition_Enum | undefined | null,
+) {
+  if (!cooldown || !repetition || repetition === QuestRepetition_Enum.Recurring)
+    return null;
+  return cooldown * 60 * 60;
+}
+
 export function isAllowedToCreateQuest(balance?: string): boolean {
   if (!balance) return false;
 
