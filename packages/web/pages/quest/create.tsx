@@ -69,7 +69,7 @@ const CreateQuestPage: React.FC<Props> = ({ guilds, skillChoices }) => {
         guilds={guilds}
         skillChoices={skillChoices}
         onSubmit={onSubmit}
-        success={!!createQuestState.data}
+        success={!!createQuestState.data?.createQuest?.success}
         fetching={createQuestState.fetching}
         submitLabel="Create Quest"
         loadingLabel="Creating quest..."
