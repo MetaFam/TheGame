@@ -16,7 +16,7 @@ export function transformCooldown(
   cooldown: number | undefined | null,
   repetition: QuestRepetition_Enum | undefined | null,
 ) {
-  if (!cooldown || !repetition || repetition === QuestRepetition_Enum.Recurring)
+  if (!cooldown || !repetition || repetition !== QuestRepetition_Enum.Recurring)
     return null;
   return cooldown * 60 * 60;
 }
