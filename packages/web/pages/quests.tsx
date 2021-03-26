@@ -5,6 +5,7 @@ import {
   LoadingState,
   MetaButton,
   Text,
+  Tooltip,
 } from '@metafam/ds';
 import { PageContainer } from 'components/Container';
 import { QuestFilter } from 'components/Quest/QuestFilter';
@@ -52,26 +53,32 @@ const QuestsPage: React.FC<Props> = () => {
     },
     pause: !user?.ethereum_address,
   });
-  const canCreateQuest = useMemo(
-    () =>
-      isAllowedToCreateQuest(
-        respSeedBalance.data?.getTokenBalances?.pSeedBalance,
-      ),
-    [respSeedBalance],
-  );
+  const pSeedBalance =
+    user?.ethereum_address &&
+    respSeedBalance.data?.getTokenBalances?.pSeedBalance;
+  const canCreateQuest = useMemo(() => isAllowedToCreateQuest(pSeedBalance), [
+    pSeedBalance,
+  ]);
 
   return (
     <PageContainer>
       <HStack justify="space-between" w="100%">
         <Heading>Quest explorer</Heading>
-        <MetaButton
-          fontFamily="mono"
-          disabled={!canCreateQuest}
-          isLoading={respSeedBalance.fetching}
-          onClick={() => router.push('/quest/create')}
+        <Tooltip
+          label={
+            !canCreateQuest &&
+            'You need to hold at least 100 pSEED to create a quest'
+          }
         >
-          New Quest
-        </MetaButton>
+          <MetaButton
+            fontFamily="mono"
+            // disabled={!canCreateQuest} // if disabled, tooltip doesn't show...
+            isLoading={respSeedBalance.fetching}
+            onClick={() => canCreateQuest && router.push('/quest/create')}
+          >
+            New Quest
+          </MetaButton>
+        </Tooltip>
       </HStack>
       <Box mt={8} w="100%">
         <QuestFilter

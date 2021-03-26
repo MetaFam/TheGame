@@ -18,7 +18,7 @@ import { useRouter } from 'next/router';
 import React, { useMemo, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
-import { UriRegexp } from '../../utils/questHelpers';
+import { QuestRepetitionHint, UriRegexp } from '../../utils/questHelpers';
 import { CategoryOption, SkillOption } from '../../utils/skillHelpers';
 import { ConfirmModal } from '../ConfirmModal';
 import { FlexContainer } from '../Container';
@@ -167,14 +167,7 @@ export const QuestForm: React.FC<Props> = ({
             </option>
           ))}
         </Select>
-        <Text>
-          {createQuestInput.repetition === QuestRepetition_Enum.Unique &&
-            'Unique quests can be done only once'}
-          {createQuestInput.repetition === QuestRepetition_Enum.Personal &&
-            'Personal quests can be done once per player'}
-          {createQuestInput.repetition === QuestRepetition_Enum.Recurring &&
-            'Recurring quests can be done multiple times per player, but after a cooldown.'}
-        </Text>
+        <Text>{QuestRepetitionHint[createQuestInput.repetition]}</Text>
 
         {createQuestInput.repetition === QuestRepetition_Enum.Recurring && (
           <>

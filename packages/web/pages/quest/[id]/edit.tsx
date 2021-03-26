@@ -1,8 +1,4 @@
-import {
-  Heading,
-  LoadingState,
-  useToast,
-} from '@metafam/ds';
+import { Heading, LoadingState, useToast } from '@metafam/ds';
 import { getQuest } from 'graphql/getQuest';
 import { GetStaticPaths, GetStaticPropsContext } from 'next';
 import { useRouter } from 'next/router';
@@ -21,9 +17,9 @@ import {
 import { getSsrClient } from '../../../graphql/client';
 import { getGuilds } from '../../../graphql/getGuilds';
 import { getSkills } from '../../../graphql/getSkills';
+import { useUser } from '../../../lib/hooks';
 import { transformCooldown } from '../../../utils/questHelpers';
 import { CategoryOption, parseSkills } from '../../../utils/skillHelpers';
-import { useUser } from '../../../lib/hooks';
 
 type Props = {
   quest: QuestFragmentFragment;
@@ -32,7 +28,7 @@ type Props = {
 };
 
 const EditQuestPage: React.FC<Props> = ({ quest, skillChoices, guilds }) => {
-  useUser({ redirectTo: '/quests' })
+  useUser({ redirectTo: '/quests' });
   const router = useRouter();
   const toast = useToast();
   const [updateQuestResult, updateQuest] = useUpdateQuestMutation();

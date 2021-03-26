@@ -1,4 +1,4 @@
-import { Flex, MetaHeading, useToast } from '@metafam/ds';
+import { MetaHeading, useToast } from '@metafam/ds';
 import {
   QuestRepetition_ActionEnum,
   useCreateQuestMutation,
@@ -14,14 +14,14 @@ import {
 } from '../../components/Quest/QuestForm';
 import { getGuilds } from '../../graphql/getGuilds';
 import { getSkills } from '../../graphql/getSkills';
+import { useUser } from '../../lib/hooks';
 import { transformCooldown } from '../../utils/questHelpers';
 import { parseSkills } from '../../utils/skillHelpers';
-import { useUser } from '../../lib/hooks';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
 const CreateQuestPage: React.FC<Props> = ({ guilds, skillChoices }) => {
-  useUser({ redirectTo: '/quests'})
+  useUser({ redirectTo: '/quests' });
   const router = useRouter();
   const toast = useToast();
   const [createQuestState, createQuest] = useCreateQuestMutation();
