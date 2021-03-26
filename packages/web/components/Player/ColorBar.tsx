@@ -1,5 +1,3 @@
-/* eslint no-bitwise: "off" */
-
 import { Box, ChakraProps, Flex, SVG } from '@metafam/ds';
 import { FlexContainer } from 'components/Container';
 import {
