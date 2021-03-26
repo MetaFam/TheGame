@@ -56,6 +56,7 @@ export {
   Stack,
   Switch,
   Text,
+  Textarea,
   Tooltip,
   useDisclosure,
   useTheme,
