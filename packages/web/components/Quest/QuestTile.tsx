@@ -12,13 +12,13 @@ import {
 } from '@metafam/ds';
 import BackgroundImage from 'assets/main-background.jpg';
 import { MetaLink } from 'components/Link';
-import { QuestFragmentFragment } from 'graphql/autogen/types';
+import { QuestWithCompletionFragmentFragment, QuestFragmentFragment } from 'graphql/autogen/types';
 import React from 'react';
 
 import { RepetitionTag,SkillsTags, StatusTag } from './QuestTags';
 
 type Props = {
-  quest: QuestFragmentFragment;
+  quest: QuestFragmentFragment | QuestWithCompletionFragmentFragment;
 };
 
 export const QuestTile: React.FC<Props> = ({ quest }) => (
@@ -68,7 +68,7 @@ export const QuestTile: React.FC<Props> = ({ quest }) => (
         </Text>
 
         <Text textStyle="caption">SKILLS</Text>
-        <SkillsTags quest={quest} />
+        <SkillsTags quest={quest} maxSkills={4} />
       </VStack>
     </MetaTileBody>
   </MetaTile>

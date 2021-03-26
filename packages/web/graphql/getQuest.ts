@@ -3,7 +3,7 @@ import { Client } from 'urql';
 
 import { GetQuestDocument, GetQuestQuery, GetQuestQueryVariables, GetQuestWithCompletionsDocument,GetQuestWithCompletionsQuery, GetQuestWithCompletionsQueryVariables } from './autogen/types';
 import { client as defaultClient } from './client';
-import { QuestFragment,QuestWithCompletionFragment } from './fragments';
+import { PlayerFragment, QuestFragment,QuestWithCompletionFragment } from './fragments';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-expressions
 gql`
@@ -20,9 +20,13 @@ gql`
   query GetQuestWithCompletions($id: uuid!) {
     quest_by_pk(id: $id) {
       ...QuestWithCompletionFragment
+      player {
+        ...PlayerFragment
+      }
     }
   }
   ${QuestWithCompletionFragment}
+  ${PlayerFragment}
 `;
 
 export const getQuest = async (id: string | undefined, client: Client = defaultClient) => {

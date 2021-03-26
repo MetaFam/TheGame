@@ -119,21 +119,23 @@ export const QuestWithCompletionFragment = gql`
     title
     repetition
 
-    player {
-      id
-      ethereum_address
+    guild {
+      name
+      logo
     }
     quest_skills {
       skill {
+        id
         name
         category
       }
     }
-    quest_completions {
+    quest_completions(order_by: [{submitted_at:desc}]) {
       ...QuestCompletionFragment
       player {
         id
         ethereum_address
+        username
       }
     }
   }

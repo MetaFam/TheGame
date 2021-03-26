@@ -1,4 +1,6 @@
 import { numbers } from '@metafam/utils';
+import { MeType } from '../graphql/types';
+import { QuestStatus_Enum, QuestRepetition_Enum, QuestWithCompletionFragmentFragment } from '../graphql/autogen/types';
 
 const { BN, amountToDecimal } = numbers;
 
@@ -19,4 +21,25 @@ export function isAllowedToCreateQuest(
   const allowed = new BN(pSEEDBalanceInDecimal).gt(minimumPooledSeedBalance);
 
   return allowed;
+}
+
+// TODO factorize this with backend
+export function canCompleteQuest(quest?: QuestWithCompletionFragmentFragment, user: MeType | null | undefined): boolean {
+  if(!user || !quest) return false;
+
+  if (quest.status !== QuestStatus_Enum.Open) {
+    return false;
+  }
+  // Personal or unique, check if not already done by player
+  if (
+    quest.repetition === QuestRepetition_Enum.Unique ||
+    quest.repetition === QuestRepetition_Enum.Personal
+  ) {
+    return !quest.quest_completions.some(qc => qc.player.id === user.id);
+  }
+  if (quest.repetition === QuestRepetition_Enum.Recurring && quest.cooldown) {
+    // TODO
+  }
+
+  return true;
 }

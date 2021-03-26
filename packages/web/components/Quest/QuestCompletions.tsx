@@ -1,39 +1,20 @@
 import {
-  Heading, HStack, MetaButton,
+  Box, HStack, MetaButton,
   Text, useToast, VStack,
+  Avatar, Button,
 } from '@metafam/ds';
 import { MetaLink } from 'components/Link';
 import { QuestCompletionStatus_ActionEnum, QuestCompletionStatus_Enum, QuestRepetition_Enum, QuestStatus_Enum, QuestWithCompletionFragmentFragment, useUpdateQuestCompletionMutation } from 'graphql/autogen/types';
-import { MeType } from 'graphql/types';
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useState } from 'react';
+import { FaExternalLinkAlt } from 'react-icons/fa';
 
 import { useUser } from '../../lib/hooks';
 import { ConfirmModal } from '../ConfirmModal';
+import { CompletionStatusTag } from './QuestTags';
 
 interface AlertSubmission {
   status: QuestCompletionStatus_ActionEnum;
   quest_completion_id: string;
-}
-
-// TODO factorize this with backend
-function checkSubmittable(quest: QuestWithCompletionFragmentFragment, user: MeType | null | undefined): boolean {
-  if(!user) return false;
-
-  if (quest.status !== QuestStatus_Enum.Open) {
-    return false;
-  }
-  // Personal or unique, check if not already done by player
-  if (
-    quest.repetition === QuestRepetition_Enum.Unique ||
-    quest.repetition === QuestRepetition_Enum.Personal
-  ) {
-    return !quest.quest_completions.some(qc => qc.player.id === user.id);
-  }
-  if (quest.repetition === QuestRepetition_Enum.Recurring && quest.cooldown) {
-    // TODO
-  }
-
-  return true;
 }
 
 
@@ -46,7 +27,6 @@ export const QuestCompletions: React.FC<Props> = ({ quest }) => {
   const toast = useToast();
   const [alertSubmission, setAlertSubmission] = useState<AlertSubmission | null>(null);
   const [updateQuestCompletionStatus, updateQuestCompletion] = useUpdateQuestCompletionMutation();
-  const canSubmit = useMemo<boolean>(() => checkSubmittable(quest, user), [quest, user]);
   const isMyQuest = user?.id === quest.player.id;
 
   const onConfirmAlert = useCallback(() => {
@@ -78,80 +58,91 @@ export const QuestCompletions: React.FC<Props> = ({ quest }) => {
   }, [alertSubmission, updateQuestCompletion, toast]);
 
   return (
-    <>
-      <VStack
-        spacing={6}
-        align="center"
-        alignItems="flex-start"
-        maxWidth="7xl"
-      >
-        <Heading>Completions</Heading>
-
-        {canSubmit &&
-        <MetaLink
-          as={`/quest/${quest.id}/complete`}
-          href="/quest/[id]/complete"
-        >
-          <MetaButton
-            variant="outline"
+    <Box>
+      <VStack spacing={4}>
+        {quest.quest_completions.map(questCompletion => (
+          <Box
+            key={questCompletion.id}
+            w="100%"
           >
-            Submit
-          </MetaButton>
-        </MetaLink>
-        }
-
-        <VStack>
-          {quest.quest_completions.map(quest_completion => (
-            <VStack key={quest_completion.id}>
-              <Text>{quest_completion.player.ethereum_address}</Text>
-              <Text>{quest_completion.submitted_at}</Text>
-              <Text>{quest_completion.submission_text}</Text>
-              <Text>{quest_completion.status}</Text>
-              <HStack>
-                {isMyQuest && quest_completion.status === QuestCompletionStatus_Enum.Pending &&
-                <>
-                  <MetaButton
-                    variant="solid"
-                    onClick={() =>
-                      setAlertSubmission({
-                        status: QuestCompletionStatus_ActionEnum.Accepted,
-                        quest_completion_id: quest_completion.id,
-                      })
-                    }
-                  >
-                    Accept submission
-                  </MetaButton>
-                  <MetaButton
-                    variant="outline"
-                    onClick={() =>
-                      setAlertSubmission({
-                        status: QuestCompletionStatus_ActionEnum.Rejected,
-                        quest_completion_id: quest_completion.id,
-                      })
-                    }
-                  >
-                    Reject submission
-                  </MetaButton>
-                </>
-                }
-                {quest_completion.submission_link &&
+            <HStack
+              px={4}
+              py={4}
+            >
+              <Avatar
+                name={questCompletion.player.username}
+              />
+              <CompletionStatusTag questCompletion={questCompletion} />
+              <Text><i>by{' '}
                 <MetaLink
-                  href={quest_completion.submission_link}
-                  isExternal
+                  as={`/player/${questCompletion.player.username}`}
+                  href="/player/[username]"
                 >
-                  <MetaButton
-                    variant="outline"
-                  >
-                    Open link
-                  </MetaButton>
+                  {questCompletion.player.username}
                 </MetaLink>
+              </i></Text>
+              {/*<Text>12 minutes ago</Text>*/}
+            </HStack>
+
+            <Box
+              bg="whiteAlpha.200"
+              px={8}
+              py={4}
+              rounded="lg"
+            >
+              <Text textStyle="caption" mb={2}>Message</Text>
+              <Text>{questCompletion.submission_text}</Text>
+
+              {questCompletion.submission_link &&
+              <MetaLink
+                href={questCompletion.submission_link}
+                isExternal
+              >
+                <MetaButton
+                  variant="link"
+                  colorScheme="cyan"
+                  leftIcon={<FaExternalLinkAlt />}
+                  size="md"
+                  mt={4}
+                >
+                  Open link
+                </MetaButton>
+              </MetaLink>
+              }
+            </Box>
+
+            {isMyQuest && questCompletion.status === QuestCompletionStatus_Enum.Pending &&
+            <HStack mt={4}>
+              <MetaButton
+                variant="solid"
+                size="md"
+                onClick={() =>
+                  setAlertSubmission({
+                    status: QuestCompletionStatus_ActionEnum.Accepted,
+                    quest_completion_id: questCompletion.id,
+                  })
                 }
-              </HStack>
-            </VStack>
-          ))}
+              >
+                Accept submission
+              </MetaButton>
 
-        </VStack>
-
+              <MetaButton
+                variant="outline"
+                colorScheme="pink"
+                size="md"
+                onClick={() =>
+                  setAlertSubmission({
+                    status: QuestCompletionStatus_ActionEnum.Rejected,
+                    quest_completion_id: questCompletion.id,
+                  })
+                }
+              >
+                Reject submission
+              </MetaButton>
+            </HStack>
+            }
+          </Box>
+        ))}
       </VStack>
 
       <ConfirmModal
@@ -171,7 +162,7 @@ export const QuestCompletions: React.FC<Props> = ({ quest }) => {
           </>
         }
       />
-    </>
+    </Box>
   );
 };
 
