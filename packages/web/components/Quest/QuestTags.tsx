@@ -1,5 +1,5 @@
 import { MetaTag, Wrap, WrapItem } from '@metafam/ds';
-import { QuestFragmentFragment, QuestCompletionFragmentFragment, QuestCompletionStatus_Enum, QuestRepetition_Enum, QuestStatus_Enum } from "graphql/autogen/types";
+import { QuestCompletionFragmentFragment, QuestCompletionStatus_Enum, QuestFragmentFragment, QuestRepetition_Enum, QuestStatus_Enum } from "graphql/autogen/types";
 import React from 'react';
 
 import { SkillColors } from '../../graphql/types';

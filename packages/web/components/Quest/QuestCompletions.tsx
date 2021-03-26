@@ -1,14 +1,14 @@
 import {
-  Box, HStack, MetaButton,
+  Avatar,   Box, Button,
+HStack, MetaButton,
   Text, useToast, VStack,
-  Avatar, Button,
 } from '@metafam/ds';
 import { MetaLink } from 'components/Link';
 import { QuestCompletionStatus_ActionEnum, QuestCompletionStatus_Enum, QuestRepetition_Enum, QuestStatus_Enum, QuestWithCompletionFragmentFragment, useUpdateQuestCompletionMutation } from 'graphql/autogen/types';
+import moment from 'moment';
 import React, { useCallback, useState } from 'react';
 import { FaExternalLinkAlt } from 'react-icons/fa';
 
-import moment from 'moment';
 import { useUser } from '../../lib/hooks';
 import { ConfirmModal } from '../ConfirmModal';
 import { CompletionStatusTag } from './QuestTags';
