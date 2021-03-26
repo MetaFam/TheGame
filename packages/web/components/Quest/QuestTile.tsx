@@ -12,7 +12,7 @@ import {
 } from '@metafam/ds';
 import BackgroundImage from 'assets/main-background.jpg';
 import { MetaLink } from 'components/Link';
-import { Skill, QuestFragmentFragment } from 'graphql/autogen/types';
+import { QuestFragmentFragment, Skill } from 'graphql/autogen/types';
 import moment from 'moment';
 import React from 'react';
 
@@ -45,7 +45,7 @@ export const QuestTile: React.FC<Props> = ({ quest }) => (
     <MetaTileHeader>
       <VStack>
         <MetaLink as={`/quest/${quest.id}`} href="/quest/[id]">
-          <Heading size="sm" color="white">
+          <Heading size="sm" color="white" align="center">
             {quest.title}
           </Heading>
         </MetaLink>
@@ -61,7 +61,7 @@ export const QuestTile: React.FC<Props> = ({ quest }) => (
     <MetaTileBody flex={1}>
       <VStack spacing={2} align="stretch">
         <Text textStyle="caption">DESCRIPTION</Text>
-        <Text>{quest.description}</Text>
+        <Text noOfLines={4}>{quest.description}</Text>
 
         <Text textStyle="caption">SKILLS</Text>
         <SkillsTags
