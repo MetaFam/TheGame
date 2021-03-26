@@ -1,8 +1,6 @@
 import {
-  Flex,
   Heading,
   LoadingState,
-  MetaHeading,
   useToast,
 } from '@metafam/ds';
 import { getQuest } from 'graphql/getQuest';
@@ -25,13 +23,16 @@ import { getGuilds } from '../../../graphql/getGuilds';
 import { getSkills } from '../../../graphql/getSkills';
 import { transformCooldown } from '../../../utils/questHelpers';
 import { CategoryOption, parseSkills } from '../../../utils/skillHelpers';
+import { useUser } from '../../../lib/hooks';
 
 type Props = {
   quest: QuestFragmentFragment;
   guilds: GuildFragmentFragment[];
   skillChoices: Array<CategoryOption>;
 };
+
 const EditQuestPage: React.FC<Props> = ({ quest, skillChoices, guilds }) => {
+  useUser({ redirectTo: '/quests' })
   const router = useRouter();
   const toast = useToast();
   const [updateQuestResult, updateQuest] = useUpdateQuestMutation();
