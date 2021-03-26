@@ -78,28 +78,20 @@ const EditQuestPage: React.FC<Props> = ({ quest, skillChoices, guilds }) => {
 
   return (
     <PageContainer>
-      <Stack
-        spacing={6}
-        align="center"
-        direction={{ base: 'column', lg: 'row' }}
-        alignItems="flex-start"
-        maxWidth="7xl"
-      >
-        <Flex flex={1} d="column">
-          <Heading>Edit Quest</Heading>
+      <Flex flex={1} d="column">
+        <Heading>Edit Quest</Heading>
 
-          <QuestForm
-            guilds={guilds}
-            skillChoices={skillChoices}
-            onSubmit={onSubmit}
-            success={!!updateQuestResult.data}
-            fetching={updateQuestResult.fetching}
-            submitLabel="Edit Quest"
-            loadingLabel="Editing quest..."
-            editQuest={quest}
-          />
-        </Flex>
-      </Stack>
+        <QuestForm
+          guilds={guilds}
+          skillChoices={skillChoices}
+          onSubmit={onSubmit}
+          success={!!updateQuestResult.data}
+          fetching={updateQuestResult.fetching}
+          submitLabel="Edit Quest"
+          loadingLabel="Editing quest..."
+          editQuest={quest}
+        />
+      </Flex>
     </PageContainer>
   );
 };

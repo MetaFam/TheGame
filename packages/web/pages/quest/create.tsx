@@ -1,4 +1,4 @@
-import { Box, MetaHeading, useToast } from '@metafam/ds';
+import { MetaHeading, useToast } from '@metafam/ds';
 import {
   QuestRepetition_ActionEnum,
   QuestRepetition_Enum,
@@ -8,6 +8,7 @@ import { InferGetStaticPropsType } from 'next';
 import { useRouter } from 'next/router';
 import React from 'react';
 
+import { PageContainer } from '../../components/Container';
 import {
   CreateQuestFormInputs,
   QuestForm,
@@ -61,7 +62,7 @@ const CreateQuestPage: React.FC<Props> = ({ guilds, skillChoices }) => {
   };
 
   return (
-    <Box>
+    <PageContainer>
       <MetaHeading>Create quest</MetaHeading>
 
       <QuestForm
@@ -73,7 +74,7 @@ const CreateQuestPage: React.FC<Props> = ({ guilds, skillChoices }) => {
         submitLabel="Create Quest"
         loadingLabel="Creating quest..."
       />
-    </Box>
+    </PageContainer>
   );
 };
 
