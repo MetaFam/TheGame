@@ -49,7 +49,7 @@ export const AllTypes = () => (
       </Text>
     </Box>
 
-    <Text fontFamily="mono" fontSize="sm" color="blueLight">
+    <Text textStyle="caption">
       About me
     </Text>
 

@@ -88,6 +88,10 @@ export const QuestFragment = gql`
     title
     repetition
     
+    guild {
+      name
+      logo
+    }
     player {
       id
       ethereum_address

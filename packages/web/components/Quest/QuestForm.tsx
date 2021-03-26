@@ -213,6 +213,7 @@ export const QuestForm: React.FC<Props> = ({
         <HStack>
           <MetaButton
             variant="outline"
+            colorScheme="pink"
             onClick={() => setExitAlert(true)}
             isDisabled={fetching || success}
           >

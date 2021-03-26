@@ -83,7 +83,7 @@ export const PlayerTile: React.FC<Props> = ({ player }) => {
         </Wrap>
         {player.box_profile?.description ? (
           <VStack spacing={2} align="stretch">
-            <Text fontFamily="mono" fontSize="sm" color="blueLight">
+            <Text textStyle="caption">
               ABOUT
             </Text>
             <Text fontSize="sm">{player.box_profile.description}</Text>
@@ -93,7 +93,7 @@ export const PlayerTile: React.FC<Props> = ({ player }) => {
       <MetaTileBody>
         {player.Player_Skills.length ? (
           <VStack spacing={2} align="stretch">
-            <Text fontFamily="mono" fontSize="sm" color="blueLight">
+            <Text textStyle="caption">
               SKILLS
             </Text>
             <PlayerTileSkills player={player} />
@@ -102,7 +102,7 @@ export const PlayerTile: React.FC<Props> = ({ player }) => {
 
         {player.daohausMemberships.length ? (
           <VStack spacing={2} align="stretch">
-            <Text fontFamily="mono" fontSize="sm" color="blueLight">
+            <Text textStyle="caption">
               MEMBER OF
             </Text>
             <PlayerTileMemberships player={player} />
@@ -111,7 +111,7 @@ export const PlayerTile: React.FC<Props> = ({ player }) => {
 
         {player.Accounts.length ? (
           <VStack spacing={2} align="stretch">
-            <Text fontFamily="mono" fontSize="sm" color="blueLight">
+            <Text textStyle="caption">
               CONTACT
             </Text>
             <HStack mt="2">
