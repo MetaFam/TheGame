@@ -16,6 +16,7 @@ import { QuestWithCompletionFragmentFragment, QuestFragmentFragment } from 'grap
 import React from 'react';
 
 import { RepetitionTag,SkillsTags, StatusTag } from './QuestTags';
+import moment from 'moment';
 
 type Props = {
   quest: QuestFragmentFragment | QuestWithCompletionFragmentFragment;
@@ -54,9 +55,10 @@ export const QuestTile: React.FC<Props> = ({ quest }) => (
             {quest.title}
           </Heading>
         </MetaLink>
-        <HStack>
+        <HStack mt={2}>
           <RepetitionTag quest={quest}/>
           <StatusTag quest={quest}/>
+          <Text><i>{moment(quest.created_at).fromNow()}</i></Text>
         </HStack>
       </VStack>
     </MetaTileHeader>

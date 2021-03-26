@@ -8,6 +8,7 @@ import { QuestCompletionStatus_ActionEnum, QuestCompletionStatus_Enum, QuestRepe
 import React, { useCallback, useState } from 'react';
 import { FaExternalLinkAlt } from 'react-icons/fa';
 
+import moment from 'moment';
 import { useUser } from '../../lib/hooks';
 import { ConfirmModal } from '../ConfirmModal';
 import { CompletionStatusTag } from './QuestTags';
@@ -81,7 +82,7 @@ export const QuestCompletions: React.FC<Props> = ({ quest }) => {
                   {questCompletion.player.username}
                 </MetaLink>
               </i></Text>
-              {/*<Text>12 minutes ago</Text>*/}
+              <Text>{moment(questCompletion.submitted_at).fromNow()}</Text>
             </HStack>
 
             <Box
