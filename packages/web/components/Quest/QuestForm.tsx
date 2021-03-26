@@ -28,6 +28,7 @@ const validations = {
   title: {
     required: true,
     minLength: 4,
+    maxLength: 50,
   },
   description: {
     required: true,
@@ -127,6 +128,8 @@ export const QuestForm: React.FC<Props> = ({
           name="title"
           ref={register(validations.title)}
           isInvalid={!!errors.title}
+          minLength={validations.title.minLength}
+          maxLength={validations.title.maxLength}
         />
         {!!errors.title && <Text>Invalid</Text>}
 
