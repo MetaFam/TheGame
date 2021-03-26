@@ -511,8 +511,11 @@
       - status
       - title
       filter:
-        created_by_player_id:
-          _eq: X-Hasura-User-Id
+        _and:
+        - created_by_player_id:
+            _eq: X-Hasura-User-Id
+        - status:
+            _eq: OPEN
       check:
         _or:
         - repetition:
