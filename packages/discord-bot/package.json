@@ -20,11 +20,11 @@
     "@typeit/discord": "4.0.9",
     "discord.js": "12.5.1",
     "dotenv": "8.2.0",
-    "ethers": "4.0.48",
+    "ethers": "5.0.32",
     "graphql": "15.4.0",
+    "graphql-request": "3.2.0",
     "graphql-tag": "2.11.0",
     "node-fetch": "2.6.1",
-    "graphql-request": "3.2.0",
     "sourcecred": "0.7.6"
   },
   "devDependencies": {
