@@ -15,7 +15,7 @@ import {
 import { getGuilds } from '../../graphql/getGuilds';
 import { getSkills } from '../../graphql/getSkills';
 import { useUser } from '../../lib/hooks';
-import { transformCooldown } from '../../utils/questHelpers';
+import { transformCooldownForBackend } from '../../utils/questHelpers';
 import { parseSkills } from '../../utils/skillHelpers';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
@@ -31,7 +31,7 @@ const CreateQuestPage: React.FC<Props> = ({ guilds, skillChoices }) => {
     const input = {
       ...createQuestInputs,
       repetition: (data.repetition as unknown) as QuestRepetition_ActionEnum,
-      cooldown: transformCooldown(cooldown, repetition),
+      cooldown: transformCooldownForBackend(cooldown, repetition),
       skills_id: skills.map((s) => s.id),
     };
     createQuest({

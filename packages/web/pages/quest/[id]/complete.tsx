@@ -17,11 +17,12 @@ import React from 'react';
 import { PageContainer } from '../../../components/Container';
 import { CompletionForm } from '../../../components/Quest/CompletionForm';
 import { getSsrClient } from '../../../graphql/client';
+import { useUser } from '../../../lib/hooks';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
-// TODO redirect if user not logged in
 const SubmitQuestCompletionPage: React.FC<Props> = ({ quest }) => {
+  useUser({ redirectTo: '/quests' });
   const toast = useToast();
   const router = useRouter();
   const [

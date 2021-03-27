@@ -14,6 +14,7 @@ import {
 import { MetaLink } from 'components/Link';
 import {
   Quest,
+  QuestRepetition_Enum,
   QuestStatus_Enum,
   QuestWithCompletionFragmentFragment,
   Skill,
@@ -62,7 +63,10 @@ export const QuestDetails: React.FC<Props> = ({ quest }) => {
             </Heading>
           </MetaLink>
           <HStack mt={2}>
-            <RepetitionTag repetition={quest.repetition} />
+            <RepetitionTag
+              repetition={quest.repetition}
+              cooldown={quest.cooldown}
+            />
             <StatusTag status={quest.status} />
             <Text>
               <i>{moment(quest.created_at).fromNow()}</i>
@@ -88,6 +92,16 @@ export const QuestDetails: React.FC<Props> = ({ quest }) => {
         <VStack spacing={2} align="stretch">
           <Text textStyle="caption">DESCRIPTION</Text>
           <Text>{quest.description}</Text>
+
+          {quest.repetition === QuestRepetition_Enum.Recurring && (
+            <>
+              <Text textStyle="caption">Cooldown</Text>
+              <Text>
+                Doable every{' '}
+                {moment.duration(quest.cooldown, 'second').humanize()}
+              </Text>
+            </>
+          )}
 
           <Text textStyle="caption">SKILLS</Text>
           <SkillsTags

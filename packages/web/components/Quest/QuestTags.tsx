@@ -4,6 +4,7 @@ import {
   QuestRepetition_Enum,
   QuestStatus_Enum,
 } from 'graphql/autogen/types';
+import moment from 'moment';
 import React from 'react';
 
 import { QuestRepetitionHint } from '../../utils/questHelpers';
@@ -15,9 +16,20 @@ export const RepetitionColors: Record<QuestRepetition_Enum, string> = {
 };
 interface RepetitionProps {
   repetition: QuestRepetition_Enum;
+  cooldown: number | undefined | null;
 }
-export const RepetitionTag: React.FC<RepetitionProps> = ({ repetition }) => (
-  <Tooltip label={QuestRepetitionHint[repetition]}>
+function getRepetitionText(props: RepetitionProps) {
+  if (props.cooldown && props.repetition === QuestRepetition_Enum.Recurring) {
+    const cd = moment.duration(7200, 'second').humanize();
+    return `${QuestRepetitionHint[QuestRepetition_Enum.Recurring]} (${cd})`;
+  }
+  return QuestRepetitionHint[props.repetition];
+}
+export const RepetitionTag: React.FC<RepetitionProps> = ({
+  repetition,
+  cooldown,
+}) => (
+  <Tooltip label={getRepetitionText({ repetition, cooldown })}>
     <MetaTag
       size="md"
       fontWeight="normal"

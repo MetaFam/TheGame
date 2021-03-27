@@ -18,7 +18,7 @@ import { getSsrClient } from '../../../graphql/client';
 import { getGuilds } from '../../../graphql/getGuilds';
 import { getSkills } from '../../../graphql/getSkills';
 import { useUser } from '../../../lib/hooks';
-import { transformCooldown } from '../../../utils/questHelpers';
+import { transformCooldownForBackend } from '../../../utils/questHelpers';
 import { CategoryOption, parseSkills } from '../../../utils/skillHelpers';
 
 type Props = {
@@ -39,7 +39,7 @@ const EditQuestPage: React.FC<Props> = ({ quest, skillChoices, guilds }) => {
       description: data.description,
       external_link: data.external_link,
       repetition: data.repetition,
-      cooldown: transformCooldown(data.cooldown, data.repetition),
+      cooldown: transformCooldownForBackend(data.cooldown, data.repetition),
       status: data.status,
     };
     const skillsObjects = data.skills.map((s) => ({
