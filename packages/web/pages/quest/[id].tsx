@@ -54,7 +54,7 @@ const QuestPage: React.FC<Props> = ({ quest_id }) => {
 
   return (
     <PageContainer>
-      <Box w="100%">
+      <Box w="100%" maxW="80rem">
         <Box mb={4} px={2}>
           <MetaButton
             as="a"
@@ -67,7 +67,11 @@ const QuestPage: React.FC<Props> = ({ quest_id }) => {
         </Box>
 
         <Wrap w="100%" justify="center" spacing={8}>
-          <WrapItem w={{ base: '100%', lg: '50%' }}>
+          <WrapItem
+            flexGrow={3}
+            flexShrink={1}
+            flexBasis={0}
+          >
             <Flex
               w="100%"
               align={{ base: 'center', lg: 'start' }}
@@ -80,9 +84,9 @@ const QuestPage: React.FC<Props> = ({ quest_id }) => {
             </Flex>
           </WrapItem>
           <WrapItem
-            w={{ base: '100%', lg: '35%' }}
-            d="flex"
-            flexDirection="column"
+            flexGrow={1}
+            flexShrink={1}
+            flexBasis={{ base: '100%', lg: 0 }}
           >
             <Flex
               w="100%"
