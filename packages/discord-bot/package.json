@@ -17,6 +17,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@metafam/utils": "^1.0.0",
     "@typeit/discord": "4.0.9",
     "discord.js": "12.5.1",
     "dotenv": "8.2.0",

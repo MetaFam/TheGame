@@ -21,5 +21,5 @@ export const CONFIG = {
   discordBotClientId: 
     process.env.NEXT_DISCORD_BOT_CLIENT_ID || '808843072980647986',
   backendUrl:
-    process.env.NEXT_BACKEND_URL || 'http://localhost:4000'
+    process.env.NEXT_BACKEND_URL || 'http://localhost:4000',
 };
