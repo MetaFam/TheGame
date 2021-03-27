@@ -71,6 +71,8 @@ type Props = {
   loadingLabel: string;
 };
 
+const MetaFamGuildId = 'f94b7cd4-cf29-4251-baa5-eaacab98a719';
+
 const getDefaultFormValues = (
   editQuest: QuestFragmentFragment | undefined,
   guilds: GuildFragmentFragment[],
@@ -79,7 +81,10 @@ const getDefaultFormValues = (
   repetition: editQuest?.repetition || QuestRepetition_Enum.Unique,
   description: editQuest?.description || '',
   external_link: editQuest?.external_link || '',
-  guild_id: editQuest?.guild_id || guilds[0].id,
+  guild_id:
+    editQuest?.guild_id ||
+    guilds.find((g) => g.id === MetaFamGuildId)?.id ||
+    guilds[0].id,
   status: editQuest?.status || QuestStatus_Enum.Open,
   cooldown: editQuest?.cooldown || null,
   skills: editQuest
