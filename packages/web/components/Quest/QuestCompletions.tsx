@@ -9,6 +9,7 @@ import {
 } from '@metafam/ds';
 import { MetaLink } from 'components/Link';
 import {
+  Player,
   Quest,
   QuestCompletionStatus_ActionEnum,
   QuestCompletionStatus_Enum,
@@ -20,6 +21,7 @@ import React, { useCallback, useState } from 'react';
 import { FaExternalLinkAlt } from 'react-icons/fa';
 
 import { useUser } from '../../lib/hooks';
+import { getPlayerName } from '../../utils/playerHelpers';
 import { ConfirmModal } from '../ConfirmModal';
 import { CompletionStatusTag } from './QuestTags';
 
@@ -82,7 +84,7 @@ export const QuestCompletions: React.FC<Props> = ({ quest }) => {
         {quest.quest_completions.map((questCompletion) => (
           <Box key={questCompletion.id} w="100%">
             <HStack px={4} py={4}>
-              <Avatar name={questCompletion.player.username} />
+              <Avatar name={getPlayerName(questCompletion.player as Player)} />
               <CompletionStatusTag status={questCompletion.status} />
               <Text>
                 <i>
@@ -91,7 +93,7 @@ export const QuestCompletions: React.FC<Props> = ({ quest }) => {
                     as={`/player/${questCompletion.player.username}`}
                     href="/player/[username]"
                   >
-                    {questCompletion.player.username}
+                    {getPlayerName(questCompletion.player as Player)}
                   </MetaLink>
                 </i>
               </Text>
