@@ -160,3 +160,14 @@ export const RejectOtherQuestCompletions = gql`
     }
   }
 `;
+
+export const UpsertGuild = gql`
+  mutation UpsertGuild(
+    $objects: [guild_insert_input!]!
+    $onConflict: guild_on_conflict
+  ) {
+    insert_guild(on_conflict: $onConflict, objects: $objects) {
+      affected_rows
+    }
+  }
+`;

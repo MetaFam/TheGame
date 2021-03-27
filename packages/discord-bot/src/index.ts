@@ -19,3 +19,4 @@ async function createDiscordClient(): Promise<Client> {
 }
 
 export { createDiscordClient };
+export * from './auth';

@@ -1,6 +1,7 @@
 interface IConfig {
   port: number;
   graphqlURL: string;
+  frontendUrl: string;
   daoHausGraphqlURL: string;
   seedGraphqlURL: string;
   adminKey: string;
@@ -31,6 +32,7 @@ export const CONFIG: IConfig = {
     process.env.GRAPHQL_URL,
     'http://localhost:8080/v1/graphql',
   ),
+  frontendUrl: parseEnv(process.env.FRONTEND_URL, 'http://localhost:3000'),
   seedGraphqlURL: parseEnv(
     process.env.SEED_GRAPHQL_URL,
     'https://api.thegraph.com/subgraphs/name/dan13ram/seed-graph',
