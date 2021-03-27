@@ -1,24 +1,18 @@
+import { LoadingState } from '@metafam/ds';
 import { PageContainer } from 'components/Container';
-import { PlayerList } from 'components/PlayerList';
-import { getPlayers } from 'graphql/getPlayers';
-import { InferGetStaticPropsType } from 'next';
 import React from 'react';
 
-type Props = InferGetStaticPropsType<typeof getStaticProps>;
-
-export const getStaticProps = async () => {
-  const players = await getPlayers();
+export const getStaticProps = () => {
   return {
-    props: {
-      players,
+    redirect: {
+      destination: '/players',
     },
-    revalidate: 1,
-  };
+  }
 };
 
-const Home: React.FC<Props> = ({ players }) => (
+const Home: React.FC = () => (
   <PageContainer>
-    <PlayerList players={players} />
+    <LoadingState />
   </PageContainer>
 );
 
