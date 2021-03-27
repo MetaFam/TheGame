@@ -98,7 +98,6 @@ const getDefaultFormValues = (
     : [],
 });
 
-// TODO redirect if user not logged in
 export const QuestForm: React.FC<Props> = ({
   guilds,
   skillChoices,
