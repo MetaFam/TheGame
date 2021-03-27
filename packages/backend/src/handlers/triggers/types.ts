@@ -1,4 +1,4 @@
-export interface TriggerPayload<T = unknown> {
+export interface TriggerPayload<T> {
   event: {
     session_variables: { [x: string]: string };
     op: 'INSERT' | 'UPDATE' | 'DELETE' | 'MANUAL';
