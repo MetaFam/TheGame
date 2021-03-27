@@ -9,7 +9,10 @@ import {
   WrapItem,
 } from '@metafam/ds';
 import { MetaLink } from 'components/Link';
-import { useGetQuestWithCompletionsQuery } from 'graphql/autogen/types';
+import {
+  QuestRepetition_Enum,
+  useGetQuestWithCompletionsQuery,
+} from 'graphql/autogen/types';
 import { getQuestWithCompletions } from 'graphql/getQuest';
 import { getQuestIds } from 'graphql/getQuests';
 import { GetStaticPaths, GetStaticPropsContext } from 'next';
@@ -67,11 +70,7 @@ const QuestPage: React.FC<Props> = ({ quest_id }) => {
         </Box>
 
         <Wrap w="100%" justify="center" spacing={8}>
-          <WrapItem
-            flexGrow={3}
-            flexShrink={1}
-            flexBasis={0}
-          >
+          <WrapItem flexGrow={3} flexShrink={1} flexBasis={0}>
             <Flex
               w="100%"
               align={{ base: 'center', lg: 'start' }}
@@ -113,6 +112,11 @@ const QuestPage: React.FC<Props> = ({ quest_id }) => {
                   Submit proposal
                 </MetaButton>
               </MetaLink>
+            )}
+            {!canSubmit && quest.repetition === QuestRepetition_Enum.Recurring && (
+              <MetaButton variant="outline" colorScheme="cyan" isDisabled>
+                (Cooldown)
+              </MetaButton>
             )}
           </HStack>
           <QuestCompletions quest={quest} />

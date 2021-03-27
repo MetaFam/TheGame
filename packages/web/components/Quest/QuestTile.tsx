@@ -51,7 +51,10 @@ export const QuestTile: React.FC<Props> = ({ quest }) => (
           </Heading>
         </MetaLink>
         <HStack mt={2}>
-          <RepetitionTag repetition={quest.repetition} />
+          <RepetitionTag
+            repetition={quest.repetition}
+            cooldown={quest.cooldown}
+          />
           <StatusTag status={quest.status} />
           <Text>
             <i>{moment(quest.created_at).fromNow()}</i>

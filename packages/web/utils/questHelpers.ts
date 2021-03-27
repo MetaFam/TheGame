@@ -12,7 +12,7 @@ const { BN, amountToDecimal } = numbers;
 export const UriRegexp = /\w+:(\/?\/?)[^\s]+/;
 
 // Hours to seconds
-export function transformCooldown(
+export function transformCooldownForBackend(
   cooldown: number | undefined | null,
   repetition: QuestRepetition_Enum | undefined | null,
 ) {
@@ -53,14 +53,25 @@ export function canCompleteQuest(
     return !quest.quest_completions.some((qc) => qc.player.id === user.id);
   }
   if (quest.repetition === QuestRepetition_Enum.Recurring && quest.cooldown) {
-    // TODO
+    const myLastCompletion = quest.quest_completions.find(
+      (qc) => qc.player.id === user.id,
+    );
+    if (myLastCompletion) {
+      const submittedAt = new Date(myLastCompletion.submitted_at);
+      const now = new Date();
+      const diff = +now - +submittedAt;
+      if (diff < quest.cooldown * 1000) {
+        return false;
+      }
+    }
   }
 
   return true;
 }
 
 export const QuestRepetitionHint: Record<QuestRepetition_Enum, string> = {
-  [QuestRepetition_Enum.Recurring]: 'Unique quests can be done only once',
+  [QuestRepetition_Enum.Recurring]:
+    'Recurring quests can be done multiple time per player after a cooldown.',
   [QuestRepetition_Enum.Personal]:
     'Personal quests can be done once per player',
   [QuestRepetition_Enum.Unique]: 'Unique quests can be done only once',
