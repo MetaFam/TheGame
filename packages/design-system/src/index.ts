@@ -35,6 +35,7 @@ export {
   Flex,
   FlexProps,
   Grid,
+  GridItem,
   Heading,
   HStack,
   Icon,

@@ -62,36 +62,38 @@ const QuestsPage: React.FC<Props> = () => {
 
   return (
     <PageContainer>
-      <HStack justify="space-between" w="100%">
-        <Heading>Quest explorer</Heading>
-        <Tooltip
-          label={
-            !canCreateQuest &&
-            'You need to hold at least 100 pSEED to create a quest'
-          }
-        >
-          <MetaButton
-            fontFamily="mono"
-            // disabled={!canCreateQuest} // if disabled, tooltip doesn't show...
-            isLoading={respSeedBalance.fetching}
-            onClick={() => canCreateQuest && router.push('/quest/create')}
+      <Box w="100%" maxW="80rem">
+        <HStack justify="space-between" w="100%">
+          <Heading>Quest explorer</Heading>
+          <Tooltip
+            label={
+              !canCreateQuest &&
+              'You need to hold at least 100 pSEED to create a quest'
+            }
           >
-            New Quest
-          </MetaButton>
-        </Tooltip>
-      </HStack>
-      <Box mt={8} w="100%">
-        <QuestFilter
-          aggregates={aggregates}
-          queryVariables={queryVariables}
-          setQueryVariable={setQueryVariable}
-          quests={quests || []}
-        />
-      </Box>
-      <Box mt={8} w="100%">
-        {fetching && <LoadingState />}
-        {error && <Text>Error: {error.message}</Text>}
-        {quests && !fetching && <QuestList quests={quests} />}
+            <MetaButton
+              fontFamily="mono"
+              // disabled={!canCreateQuest} // if disabled, tooltip doesn't show...
+              isLoading={respSeedBalance.fetching}
+              onClick={() => canCreateQuest && router.push('/quest/create')}
+            >
+              New Quest
+            </MetaButton>
+          </Tooltip>
+        </HStack>
+        <Box mt={8} w="100%">
+          <QuestFilter
+            aggregates={aggregates}
+            queryVariables={queryVariables}
+            setQueryVariable={setQueryVariable}
+            quests={quests || []}
+          />
+        </Box>
+        <Box mt={8} w="100%">
+          {fetching && <LoadingState />}
+          {error && <Text>Error: {error.message}</Text>}
+          {quests && !fetching && <QuestList quests={quests} />}
+        </Box>
       </Box>
     </PageContainer>
   );
