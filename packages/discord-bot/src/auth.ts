@@ -1,4 +1,4 @@
-import { CONSTANTS } from '@metafam/utils';
+import { Constants } from '@metafam/utils';
 import fetch from 'node-fetch';
 import { URLSearchParams } from 'url';
 
@@ -9,8 +9,8 @@ export const tokenRequestData = {
   client_id: CONFIG.discordBotClientId,
   client_secret: CONFIG.discordBotClientSecret,
   grant_type: 'authorization_code',
-  redirect_uri: `${CONFIG.backendUrl}/${CONSTANTS.DISCORD_OAUTH_CALLBACK_PATH}`,
-  scope: CONSTANTS.DISCORD_OAUTH_SCOPES,
+  redirect_uri: `${CONFIG.backendUrl}/${Constants.DISCORD_OAUTH_CALLBACK_PATH}`,
+  scope: Constants.DISCORD_OAUTH_SCOPES,
 }
 
 export const exchangeCodeForAccessToken = async (code: string): Promise<DiscordAccessTokenResponse> => {
@@ -29,9 +29,10 @@ export const exchangeCodeForAccessToken = async (code: string): Promise<DiscordA
   const response: DiscordAccessTokenResponse = {
     statusCode: discordResponse.status,
   };
+
   if (discordResponse.ok) {
     const parsedBody = await discordResponse.json();
-    Object.assign(response, parsedBody);
+    response.oauthResponse = parsedBody;
   } else {
     response.error = discordResponse.statusText;
   }
