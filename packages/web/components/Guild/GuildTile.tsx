@@ -10,6 +10,7 @@ import {
   VStack,
 } from '@metafam/ds';
 import { GuildLinks } from 'components/Guild/GuildLinks';
+import { MetaLink } from 'components/Link';
 import { GuildFragmentFragment } from 'graphql/autogen/types';
 import React from 'react';
 
@@ -33,15 +34,21 @@ export const GuildTile: React.FC<Props> = ({ guild }) => (
     justify="space-between"
   >
     <VStack w="100%" spacing="6" align="stretch" mb={6} position="relative">
-      <VStack>
-        {guild.logo ? (
-          <Avatar size="xl" src={guild.logo} name={guild.name} />
-        ) : null}
+      <MetaLink
+        as={`/guilds/${guild.guildname}`}
+        href="/guilds/[guildname]"
+        key={guild.guildname}
+      >
+        <VStack>
+          {guild.logo ? (
+            <Avatar size="xl" src={guild.logo} name={guild.name} />
+          ) : null}
 
-        <Heading size="sm" color="white">
-          {guild.name}
-        </Heading>
-      </VStack>
+          <Heading size="sm" color="white">
+            {guild.name}
+          </Heading>
+        </VStack>
+      </MetaLink>
       {guild.type ? (
         <Box align="center">
           <MetaTag size="md">{guild.type} GUILD</MetaTag>

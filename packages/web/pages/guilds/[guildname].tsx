@@ -29,31 +29,36 @@ const GuildPage: React.FC<Props> = ({ guild }) => {
 
   return (
     <PageContainer>
-      <Stack
-        spacing={6}
+      <Flex
         align="center"
         direction={{ base: 'column', lg: 'row' }}
         alignItems="flex-start"
         maxWidth="7xl"
       >
-        <Flex flex={1} d="column">
+        <Box width={{ base: '100%', lg: '33%' }} mr={{ base: 0, lg: 4 }}>
           <Box mb="6">
             <GuildHero guild={guild} />
           </Box>
-          <Box mb="6">
-            <ProfileSection />
-          </Box>
-        </Flex>
-        <Flex flex={2}>
+        </Box>
+        <Box width={{ base: '100%', lg: '66%' }}>
           <Flex
             align="center"
             direction={{ base: 'column', lg: 'row' }}
             alignItems="flex-start"
           >
-            <ProfileSection />
+            <Box width={{ base: '100%', lg: '50%' }} mr={{ base: 0, lg: 4 }}>
+              <Box mb="6">
+                <ProfileSection title="Posts" />
+              </Box>
+            </Box>
+            <Box width={{ base: '100%', lg: '50%' }}>
+              <Box mb="6">
+                <ProfileSection title="Skills" />
+              </Box>
+            </Box>
           </Flex>
-        </Flex>
-      </Stack>
+        </Box>
+      </Flex>
     </PageContainer>
   );
 };
