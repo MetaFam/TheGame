@@ -1,16 +1,12 @@
-import { GuildFragmentFragment } from 'graphql/autogen/types';
+// import { GuildFragmentFragment } from 'graphql/autogen/types';
 import React from 'react';
 
 import { ProfileSection } from '../ProfileSection';
 
 type Props = {
-  guild: GuildFragmentFragment;
+  // guild: GuildFragmentFragment;
 };
 
-export const GuildPlayers: React.FC<Props> = ({ guild }) => {
-  return (
-    <ProfileSection>
-      {guild.guild_players.map((p) => p.username)}
-    </ProfileSection>
-  );
+export const GuildPlayers: React.FC<Props> = () => {
+  return <ProfileSection />;
 };
