@@ -166,6 +166,7 @@ export const CreateGuild = gql`
     insert_guild(objects: $objects) {
       affected_rows
       returning {
+        guildname
         id
       }
     }
