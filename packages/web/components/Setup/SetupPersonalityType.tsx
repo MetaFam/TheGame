@@ -15,7 +15,7 @@ import { useUpdateAboutYouMutation } from 'graphql/autogen/types';
 import { images as BaseImages } from 'graphql/getPersonalityInfo';
 import { PersonalityOption } from 'graphql/types';
 import { useUser } from 'lib/hooks';
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 
 export type SetupPersonalityTypeProps = {
   // keyed on a bitmask of the format 0bWUBRG
@@ -37,10 +37,12 @@ export const SetupPersonalityType: (
   const [updateAboutYouRes, updateAboutYou] = (
     useUpdateAboutYouMutation()
   );
+  const [loading, setLoading] = useState(false);
 
   const handleNextPress = useCallback(async () => {
     if (!user) return;
 
+    setLoading(true);
     if (user.player?.ColorAspect?.mask !== colorMask) {
       const { error } = await updateAboutYou({
         playerId: user.id,
@@ -188,7 +190,7 @@ export const SetupPersonalityType: (
         onClick={handleNextPress}
         mt={10}
         isDisabled={colorMask === undefined}
-        isLoading={updateAboutYouRes.fetching}
+        isLoading={updateAboutYouRes.fetching || loading}
         loadingText="Saving"
       >
         {nextButtonLabel}
