@@ -184,7 +184,7 @@ export const getStaticProps = async (
   if (username == null) {
     return {
       redirect: {
-        desination: '/',
+        destination: '/',
         permanent: false,
       },
     }

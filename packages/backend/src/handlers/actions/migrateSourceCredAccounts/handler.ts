@@ -40,6 +40,7 @@ const parseMergedIdentityId = (alias: SCAlias) => {
     }
     return null;
   } catch (e) {
+    // eslint-disable-next-line no-console
     console.log('Unable to parse merged identity: ', {
       error: e.message,
       alias,
@@ -64,6 +65,7 @@ const parseAlias = (alias: SCAlias) => {
       identifier,
     };
   } catch (e) {
+    // eslint-disable-next-line no-console
     console.log('Unable to parse alias: ', { error: e.message, alias });
     return null;
   }
@@ -116,7 +118,8 @@ export const migrateSourceCredAccounts = async (
         discordId,
         mergedIdentityIds,
         Accounts: {
-          data: linkedAccounts,
+          // Omit the discord account, as that is updated directly on the player table
+          data: linkedAccounts.filter(({ type }) => type !== AccountType_Enum.Discord),
           on_conflict: accountOnConflict,
         },
       };
@@ -132,7 +135,7 @@ export const migrateSourceCredAccounts = async (
           identityId: player.scIdentityId,
           rank: player.rank,
           totalXp: player.totalXp,
-          discordId: player.discordId || '',
+          discordId: player.discordId,
         };
         if (player.mergedIdentityIds.length) {
           await client.DeleteDuplicatePlayers({
@@ -162,6 +165,7 @@ export const migrateSourceCredAccounts = async (
                 on_conflict: accountOnConflict,
               });
             } catch (accErr) {
+              // eslint-disable-next-line no-console
               console.log(
                 'Error updating accounts for Player',
                 playerId,
@@ -171,6 +175,7 @@ export const migrateSourceCredAccounts = async (
             }
           }
         } catch (e) {
+          // eslint-disable-next-line no-console
           console.warn('ERR! failed to update player', e);
           return player;
         }
@@ -206,6 +211,7 @@ export const migrateSourceCredAccounts = async (
       numInserted: usersToInsert.length,
     });
   } catch (e) {
+    // eslint-disable-next-line no-console
     console.warn('Error migrating players/accounts', e.message);
     res.sendStatus(500);
   }

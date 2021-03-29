@@ -5,6 +5,7 @@ export const GetPlayer = gql`
     player_by_pk(id: $playerId) {
       id
       ethereum_address
+      discord_id
       Accounts {
         identifier
         type
@@ -83,17 +84,14 @@ export const GuildFragment = gql`
     id
     guildname
     description
-    discord_invite_url
     join_button_url
     logo
     moloch_address
     name
     type
     website_url
-    guild_accounts {
-      type
-      identifier
-    }
+    discord_id
+    discord_metadata
   }
 `;
 

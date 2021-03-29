@@ -1,0 +1,1 @@
+DELETE from guild_account ga WHERE ga.guild_id = 'f94b7cd4-cf29-4251-baa5-eaacab98a719' AND ga.type = 'DISCORD';

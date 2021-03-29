@@ -9,9 +9,10 @@ export const PlayerFragment = gql`
     ethereum_address
     availability_hours
     timezone
-    EnneagramType {
-      description
+    ColorAspect {
       name
+      description
+      mask
     }
     playerType {
       description
@@ -66,7 +67,7 @@ export const GuildFragment = gql`
     id
     guildname
     description
-    discord_invite_url
+    discord_metadata
     join_button_url
     logo
     moloch_address

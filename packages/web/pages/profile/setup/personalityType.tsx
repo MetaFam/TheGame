@@ -1,18 +1,20 @@
 import { SetupPersonalityType } from 'components/Setup/SetupPersonalityType';
 import { SetupProfile } from 'components/Setup/SetupProfile';
 import { SetupContextProvider } from 'contexts/SetupContext';
-import { getPersonalityTypes } from 'graphql/getPersonalityTypes';
-import { PersonalityType, PersonalityTypes } from 'graphql/types';
+import { getPersonalityInfo } from 'graphql/getPersonalityInfo';
 import { useUser } from 'lib/hooks';
 import { InferGetStaticPropsType } from 'next';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 export const getStaticProps = async () => {
-  const personalityTypeChoices = await getPersonalityTypes();
+  const { types: personalityTypes, parts: personalityParts } = (
+    await getPersonalityInfo()
+  );
 
   return {
     props: {
-      personalityTypeChoices,
+      personalityParts,
+      personalityTypes,
       hideAppDrawer: true,
     },
   };
@@ -22,24 +24,32 @@ type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
 const PersonalityTypeSetup: React.FC<Props> = (props) => {
 
-  const { personalityTypeChoices } = props;
-  const [personalityType, setPersonalityType] = useState<PersonalityType>();
+  const { personalityTypes } = props;
   const { user } = useUser({ redirectTo: '/' });
+  const [colorMask, setColorMask] = (
+    useState<number | undefined>(user?.player?.ColorAspect?.mask)
+  );
   
-  if (user?.player) {
-    const { player } = user;
-    if (player.EnneagramType && !personalityType) {
-      setPersonalityType(PersonalityTypes[player.EnneagramType.name]);
+  const load = () => {
+    const { player } = user ?? {};
+    if (player) {
+      if (colorMask === undefined && player.ColorAspect !== null) {
+        setColorMask(player.ColorAspect?.mask);
+      }
     }
   }
+  useEffect(load, [user, colorMask]);
 
   return (
     <SetupContextProvider>
       <SetupProfile>
-        <SetupPersonalityType 
-          personalityTypeChoices={personalityTypeChoices} 
-          personalityType={personalityType} 
-          setPersonalityType={setPersonalityType} />
+        <SetupPersonalityType
+          {...{
+            personalityTypes,
+            colorMask,
+            setColorMask,
+          }}
+        />
       </SetupProfile>
     </SetupContextProvider>
   );

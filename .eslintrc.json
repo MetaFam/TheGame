@@ -51,7 +51,8 @@
         "ts-expect-error": "allow-with-description",
         "minimumDescriptionLength": 5
       }
-    ]
+    ],
+    "no-bitwise": "off"
   },
   "overrides": [
     {

@@ -1,121 +1,196 @@
 import {
-  HStack,
+  Button,
+  Flex,
   Image,
   MetaButton,
   MetaHeading,
-  SimpleGrid,
   Text,
   useToast,
 } from '@metafam/ds';
 import { FlexContainer } from 'components/Container';
 import { MetaLink } from 'components/Link';
+import { ColorBar } from 'components/Player/ColorBar';
 import { useSetupFlow } from 'contexts/SetupContext';
 import { useUpdateAboutYouMutation } from 'graphql/autogen/types';
-import { PersonalityType } from 'graphql/types';
+import { images as BaseImages } from 'graphql/getPersonalityInfo';
+import { PersonalityOption } from 'graphql/types';
 import { useUser } from 'lib/hooks';
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 
 export type SetupPersonalityTypeProps = {
-  personalityTypeChoices: Array<PersonalityType>;
-  personalityType: PersonalityType | undefined;
-  setPersonalityType: React.Dispatch<
-    React.SetStateAction<PersonalityType | undefined>
+  // keyed on a bitmask of the format 0bWUBRG
+  personalityTypes: { [x: number]: PersonalityOption };
+  colorMask: number | undefined;
+  setColorMask: React.Dispatch<
+    React.SetStateAction<number | undefined>
   >;
-}
+};
 
-export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
-  personalityTypeChoices, personalityType, setPersonalityType,
+export const SetupPersonalityType: (
+  React.FC<SetupPersonalityTypeProps>
+) = ({
+  personalityTypes, colorMask, setColorMask,
 }) => {
-  const {
-    onNextPress,
-    nextButtonLabel,
-  } = useSetupFlow();
+  const { onNextPress, nextButtonLabel } = useSetupFlow();
   const { user } = useUser({ redirectTo: '/' });
   const toast = useToast();
+  const [updateAboutYouRes, updateAboutYou] = (
+    useUpdateAboutYouMutation()
+  );
+  const [loading, setLoading] = useState(false);
 
-  const [updateAboutYouRes, updateAboutYou] = useUpdateAboutYouMutation();
-
-  const handleNextPress = async () => {
+  const handleNextPress = useCallback(async () => {
     if (!user) return;
 
-    if (user.player?.EnneagramType?.name !== personalityType?.name) {
+    setLoading(true);
+    if (user.player?.ColorAspect?.mask !== colorMask) {
       const { error } = await updateAboutYou({
         playerId: user.id,
         input: {
-          enneagram: personalityType?.name,
+          color_mask: colorMask,
         },
       });
 
       if (error) {
+        console.warn(error); // eslint-disable-line no-console
         toast({
           title: 'Error',
-          description: 'Unable to update personality type. The octo is sad 😢',
+          description: (
+            'Unable to update personality type. The octo is sad. 😢'
+          ),
           status: 'error',
           isClosable: true,
         });
+        setLoading(false);
         return;
       }
     }
 
     onNextPress();
+  }, [colorMask, onNextPress, toast, updateAboutYou, user]);
+
+  // mask should always only have at most a single bit set
+  const toggleMaskElement = (mask = 0): void => {
+    setColorMask((current = 0) => {
+      if ((mask & current) > 0) { // if the bit in mask is set
+        return current & ~mask;   // unset it
+      }
+      return current | mask;      // otherwise set it
+    })
   };
 
   return (
-    <FlexContainer>
-      <MetaHeading mb={5} textAlign="center">
-        Personality Type
-      </MetaHeading>
-      <Text mb={10}>
-        {`Please select your personality type below. Not sure what type you are? `}
-        <MetaLink href="https://enneagramtest.net/" isExternal>
-          Take a quick test.
-        </MetaLink>
-      </Text>
-      <SimpleGrid columns={[1, null, 2, 3]} spacing="8">
-        {personalityTypeChoices.map((p: PersonalityType) => (
-          <HStack
-            key={p.id}
-            p={6}
-            spacing={4}
-            bgColor={
-              personalityType && personalityType.id === p.id
-                ? 'purpleBoxDark'
-                : 'purpleBoxLight'
-            }
-            borderRadius="0.5rem"
-            _hover={{ bgColor: 'purpleBoxDark' }}
-            transition="background 0.25s"
-            cursor="pointer"
-            onClick={() => setPersonalityType(p)}
-            border="2px"
-            borderColor={
-              personalityType && personalityType.id === p.id
-                ? 'purple.400'
-                : 'transparent'
-            }
+    <FlexContainer maxW='100%'>
+      <Flex direction='column'>
+        <MetaHeading mb={5} textAlign="center">
+          Person&#xAD;ality Type
+        </MetaHeading>
+        <Text mb={10}>
+          Please select your personality components below.
+          Not sure what type you are?
+          <Text as="span"> Take </Text>
+          <MetaLink
+            href="//dysbulic.github.io/5-color-radar/#/explore/"
+            isExternal
           >
-            <Image
-              w="100%"
-              maxW="4rem"
-              src={p.image}
-              alt={p.name}
-              style={{ mixBlendMode: 'color-dodge' }}
-            />
-            <FlexContainer align="stretch">
-              <Text color="white" fontWeight="bold">
-                {p.name}
-              </Text>
-              <Text color="blueLight">{p.description}</Text>
-            </FlexContainer>
-          </HStack>
-        ))}
-      </SimpleGrid>
+           a quick exam
+          </MetaLink>
+          <Text as="span"> or </Text>
+          <MetaLink
+            href="//dysbulic.github.io/5-color-radar/#/test/"
+            isExternal
+          >
+            a longer quiz
+          </MetaLink>
+          .
+        </Text>
+      </Flex>
+      <FlexContainer
+        grow={1} spacing={8} maxW='70rem'
+        direction='row' wrap='wrap'
+        id="colors"
+      >
+        {Object.entries(BaseImages)
+        .reverse().map(
+          ([orig, image], idx) => {
+            const option = personalityTypes[parseInt(orig, 10)]
+            const { mask = 0 } = (option ?? {})
+            const selected = (((colorMask ?? 0) & mask) > 0)
 
-      <MetaButton 
-        onClick={handleNextPress} 
-        mt={10} 
-        isDisabled={!personalityType}
-        isLoading={updateAboutYouRes.fetching}
+            return (
+              <Button
+                key={mask}
+                display="flex"
+                direction="row"
+                p={6} m={2} h="auto" spacing={4}
+                borderRadius={8}
+                cursor="pointer"
+                onClick={() => toggleMaskElement(mask)}
+                autoFocus={idx === 0} // Doesn't work
+                ref={input => {
+                  if (idx === 0 && !input?.getAttribute('focused-once')) {
+                    input?.focus()
+                    input?.setAttribute('focused-once', 'true')
+                  }
+                }}
+                onKeyPress={(e) => {
+                  if (e.key === 'Enter') {
+                    handleNextPress()
+                    e.preventDefault()
+                  }
+                }}
+                transition="background 0.25s, filter 0.5s"
+                bgColor={
+                  selected ? 'purpleBoxDark' : 'purpleBoxLight'
+                }
+                _hover={{
+                  filter: 'hue-rotate(25deg)',
+                }}
+                _focus={{
+                  borderColor: '#FFFFFF55',
+                  outline: 'none',
+                }}
+                _active={{ bg: (
+                  selected ? 'purpleBoxDark' : 'purpleBoxLight'
+                ) }}
+                borderWidth={2}
+                borderColor={
+                  selected ? 'purple.400' : 'transparent'
+                }
+              >
+                <Image
+                  w="100%" maxW={16} h={16}
+                  src={image} alt={option.name}
+                  filter="drop-shadow(0px 0px 3px black)"
+                />
+                <FlexContainer align="stretch" ml={2}>
+                  <Text
+                    color="white"
+                    casing="uppercase" textAlign="left"
+                  >
+                    {option.name}
+                  </Text>
+                  <Text
+                    color="blueLight" fontWeight="normal"
+                    whiteSpace="initial" textAlign="left"
+                  >
+                    {option.description}
+                  </Text>
+                </FlexContainer>
+              </Button>
+            )
+          },
+        )
+      }
+      </FlexContainer>
+
+      <ColorBar mask={colorMask} mt={8} w="min(100vw, 30rem)"/>
+
+      <MetaButton
+        onClick={handleNextPress}
+        mt={10}
+        isDisabled={colorMask === undefined}
+        isLoading={updateAboutYouRes.fetching || loading}
         loadingText="Saving"
       >
         {nextButtonLabel}

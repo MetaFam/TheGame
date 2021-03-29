@@ -1,26 +1,38 @@
-import { Box, HStack, Image, Text, VStack } from '@metafam/ds';
+import { Box, Flex, HStack, Link, Text, VStack } from '@metafam/ds';
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
-import React from 'react';
-import {
-  getPlayerDescription,
-  getPlayerName,
-} from 'utils/playerHelpers';
+import { getPersonalityInfo } from 'graphql/getPersonalityInfo';
+import { PersonalityOption } from 'graphql/types';
+import React, { useEffect } from 'react';
+import { getPlayerDescription, getPlayerName } from 'utils/playerHelpers';
 
-import { PersonalityTypes } from '../../../graphql/types';
 import { FlexContainer } from '../../Container';
 import { ProfileSection } from '../../ProfileSection';
 import { PlayerAvatar } from '../PlayerAvatar';
+import { ColorBar } from '../ColorBar';
 import { PlayerContacts } from '../PlayerContacts';
 import { PlayerBrightId } from './PlayerBrightId';
 import { PlayerCollab } from './PlayerCollab';
 
-const BIO_LENGTH = 240;
+const MAX_BIO_LENGTH = 240;
 
 type Props = { player: PlayerFragmentFragment };
 export const PlayerHero: React.FC<Props> = ({ player }) => {
-  const [show, setShow] = React.useState(
-    getPlayerDescription(player).length < BIO_LENGTH,
-  );
+  const description = getPlayerDescription(player);
+  const [show, setShow] = React.useState(description.length <= MAX_BIO_LENGTH);
+  const [types, setTypes] = React.useState<{
+    [any: string]: PersonalityOption;
+  }>();
+  const mask = player?.ColorAspect?.mask;
+  const type = mask && types?.[mask];
+
+  const loadTypes = async () => {
+    const { types: list } = await getPersonalityInfo();
+    setTypes(list);
+  };
+  useEffect(() => {
+    loadTypes();
+  }, []);
+
   return (
     <ProfileSection>
       <VStack spacing={8}>
@@ -30,25 +42,25 @@ export const PlayerHero: React.FC<Props> = ({ player }) => {
           h={{ base: '32', md: '56' }}
         />
         <Box textAlign="center">
-          <Text fontSize="xl" fontFamily="heading" mb="1">
+          <Text fontSize="xl" fontFamily="heading" mb={1}>
             {getPlayerName(player)}
           </Text>
           <PlayerBrightId player={player} />
         </Box>
         <Box>
           <Text>
-            {`${getPlayerDescription(player).substring(
-              0,
-              show ? getPlayerDescription(player).length : BIO_LENGTH,
-            )}${show ? '' : '...'} `}
-            {getPlayerDescription(player).length > BIO_LENGTH && (
+            {show
+              ? description
+              : `${description.substring(0, MAX_BIO_LENGTH - 9)}…`}
+            {description.length > MAX_BIO_LENGTH && (
               <Text
                 as="span"
                 fontFamily="body"
                 fontSize="xs"
                 color="cyanText"
                 cursor="pointer"
-                onClick={() => setShow(!show)}
+                onClick={() => setShow((s) => !s)}
+                pl={1}
               >
                 Read {show ? 'less' : 'more'}
               </Text>
@@ -56,37 +68,49 @@ export const PlayerHero: React.FC<Props> = ({ player }) => {
           </Text>
         </Box>
 
-        <HStack mt="2">
+        <HStack mt={2}>
           <PlayerContacts player={player} />
         </HStack>
         <Box w="100%">
           <PlayerCollab player={player} />
         </Box>
-        {player.EnneagramType && (
-          <HStack spacing={4}>
-            <Image
-              w="100%"
-              maxW="4rem"
-              src={PersonalityTypes[player.EnneagramType.name].image}
-              alt={player.EnneagramType.name}
-              style={{ mixBlendMode: 'color-dodge' }}
-            />
-            <FlexContainer align="stretch">
-              <Text color="white" fontWeight="bold">
-                {player.EnneagramType.name}
-              </Text>
-              <Text color="blueLight">{player.EnneagramType.description}</Text>
-            </FlexContainer>
-          </HStack>
-        )}
-        {player.playerType?.title ? (
-          <FlexContainer align="stretch">
-            <Text color="white" fontWeight="bold">
-              {player.playerType.title.toUpperCase()}
+        {type && types && (
+          <Flex direction="column" id="color" mb={0} w="100%">
+            <Text
+              fontSize="xs"
+              color="blueLight"
+              casing="uppercase"
+              mb={3}
+              textAlign="left"
+            >
+              Color Disposition
             </Text>
-            <Text color="blueLight">{player.playerType.description}</Text>
+            <Link
+              isExternal
+              href={`//dysbulic.github.io/5-color-radar/#/combos/${type.mask.toString(
+                2,
+              )}`}
+              maxH="6rem"
+            >
+              <Flex justify="center">
+                <ColorBar mask={type.mask} />
+              </Flex>
+            </Link>
+            <Text color="blueLight" mt={4} style={{ textIndent: 16 }}>
+              {type.description}
+            </Text>
+          </Flex>
+        )}
+        {player.playerType?.title && (
+          <FlexContainer align="stretch">
+            <Text color="white" fontWeight="bold" casing="uppercase">
+              {player.playerType.title}
+            </Text>
+            <Text color="blueLight" style={{ textIndent: 16 }}>
+              {player.playerType.description}
+            </Text>
           </FlexContainer>
-        ) : null}
+        )}
       </VStack>
     </ProfileSection>
   );
