@@ -1,10 +1,12 @@
 import {
   Avatar,
   Box,
-  Flex,
   Heading,
   HStack,
   MetaTag,
+  MetaTile,
+  MetaTileBody,
+  MetaTileHeader,
   Text,
   VStack,
   Wrap,
@@ -12,8 +14,9 @@ import {
 } from '@metafam/ds';
 import { MetaLink } from 'components/Link';
 import { PlayerContacts } from 'components/Player/PlayerContacts';
+import { PlayerTileMemberships } from 'components/Player/PlayerTileMemberships';
+import { PlayerTileSkills } from 'components/Player/PlayerTileSkills';
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
-import { SkillColors } from 'graphql/types';
 import React from 'react';
 import {
   getPlayerCoverImage,
@@ -25,25 +28,9 @@ type Props = {
   player: PlayerFragmentFragment;
 };
 
-const SHOW_MEMBERSHIPS = 4;
-const SHOW_SKILLS = 4;
-
 export const PlayerTile: React.FC<Props> = ({ player }) => {
   return (
-    <Flex
-      direction="column"
-      key={player.id}
-      bg="whiteAlpha.200"
-      style={{ backdropFilter: 'blur(7px)' }}
-      rounded="lg"
-      p="6"
-      maxW="25rem" // (2 / 3.5) = ~0.571 aspect ratio desired
-      w="100%"
-      align="stretch"
-      position="relative"
-      overflow="hidden"
-      justify="space-between"
-    >
+    <MetaTile>
       <Box
         bgImage={`url(${getPlayerCoverImage(player)})`}
         bgSize="cover"
@@ -54,7 +41,7 @@ export const PlayerTile: React.FC<Props> = ({ player }) => {
         w="100%"
         h="4.5rem"
       />
-      <VStack w="100%" spacing="6" align="stretch" mb={6} position="relative">
+      <MetaTileHeader>
         <MetaLink
           as={`/player/${player.username}`}
           href="/player/[username]"
@@ -66,9 +53,9 @@ export const PlayerTile: React.FC<Props> = ({ player }) => {
               src={getPlayerImage(player)}
               name={getPlayerName(player)}
             />
-              <Heading size="xs" color="white">
-                {getPlayerName(player)}
-              </Heading>
+            <Heading size="xs" color="white">
+              {getPlayerName(player)}
+            </Heading>
           </VStack>
         </MetaLink>
         <Wrap w="100%" justify="center">
@@ -102,33 +89,14 @@ export const PlayerTile: React.FC<Props> = ({ player }) => {
             <Text fontSize="sm">{player.box_profile.description}</Text>
           </VStack>
         ) : null}
-      </VStack>
-      <VStack w="100%" spacing="6" align="stretch">
+      </MetaTileHeader>
+      <MetaTileBody>
         {player.Player_Skills.length ? (
           <VStack spacing={2} align="stretch">
             <Text fontFamily="mono" fontSize="sm" color="blueLight">
               SKILLS
             </Text>
-            <Wrap>
-              {player.Player_Skills.slice(0, SHOW_SKILLS).map(({ Skill }) => (
-                <WrapItem key={Skill.id}>
-                  <MetaTag
-                    size="md"
-                    fontWeight="normal"
-                    backgroundColor={SkillColors[Skill.category]}
-                  >
-                    {Skill.name}
-                  </MetaTag>
-                </WrapItem>
-              ))}
-              {player.Player_Skills.length > SHOW_SKILLS && (
-                <WrapItem>
-                  <MetaTag size="md" fontWeight="normal">
-                    {`+${player.Player_Skills.length - SHOW_SKILLS}`}
-                  </MetaTag>
-                </WrapItem>
-              )}
-            </Wrap>
+            <PlayerTileSkills player={player} />
           </VStack>
         ) : null}
 
@@ -137,24 +105,7 @@ export const PlayerTile: React.FC<Props> = ({ player }) => {
             <Text fontFamily="mono" fontSize="sm" color="blueLight">
               MEMBER OF
             </Text>
-            <Wrap>
-              {player.daohausMemberships
-                .slice(0, SHOW_MEMBERSHIPS)
-                .map((member) => (
-                  <WrapItem key={member.id}>
-                    <MetaTag size="md" fontWeight="normal">
-                      {member.moloch.title}
-                    </MetaTag>
-                  </WrapItem>
-                ))}
-              {player.daohausMemberships.length > SHOW_MEMBERSHIPS && (
-                <WrapItem>
-                  <MetaTag size="md" fontWeight="normal">
-                    {`+${player.daohausMemberships.length - SHOW_MEMBERSHIPS}`}
-                  </MetaTag>
-                </WrapItem>
-              )}
-            </Wrap>
+            <PlayerTileMemberships player={player} />
           </VStack>
         ) : null}
 
@@ -168,7 +119,7 @@ export const PlayerTile: React.FC<Props> = ({ player }) => {
             </HStack>
           </VStack>
         ) : null}
-      </VStack>
-    </Flex>
+      </MetaTileBody>
+    </MetaTile>
   );
 };

@@ -14,7 +14,7 @@ export const getStaticProps = async () => {
   return {
     props: {
       skillChoices,
-      hideAppDrawer: true
+      hideAppDrawer: true,
     },
   };
 };
@@ -22,12 +22,12 @@ export const getStaticProps = async () => {
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
 const SkillsSetup: React.FC<Props> = (props) => {
-  const {skillChoices} = props;
+  const { skillChoices } = props;
   const [skills, setSkills] = useState<Array<SkillOption>>([]);
   const { user } = useUser({ redirectTo: '/' });
   
   if (user?.player) {
-    const {player} = user;
+    const { player } = user;
     if (
       player.Player_Skills &&
       player.Player_Skills.length > 0 &&

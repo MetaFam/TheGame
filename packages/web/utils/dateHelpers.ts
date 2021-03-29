@@ -17,7 +17,7 @@ export const getPlayerTimeZoneDisplay = (player: PlayerFragmentFragment): TimeZo
       tzLabel = timeZone.isDST()
         ? tzDisplay.daylight.abbrev
         : tzDisplay.standard.abbrev;
-      const {offset} = timeZone.timezone().current;
+      const { offset } = timeZone.timezone().current;
       if (offset > 0) {
         offsetLabel = `(GMT +${offset})`;
       } else if (offset < 0) {
@@ -30,7 +30,7 @@ export const getPlayerTimeZoneDisplay = (player: PlayerFragmentFragment): TimeZo
 
   return {
     timeZone: tzLabel,
-    offset: offsetLabel
+    offset: offsetLabel,
   }
 }
   

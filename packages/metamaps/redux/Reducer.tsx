@@ -188,7 +188,7 @@ export function reducer(state: State = initialState, action: AnyAction): State {
                         };
                     }
                     return item;
-                })
+                }),
             };
         case 'UPDATE_POSITION':
             return {
@@ -202,7 +202,7 @@ export function reducer(state: State = initialState, action: AnyAction): State {
                         };
                     }
                     return item;
-                })
+                }),
             };
         case 'UPDATE_VECTOR':
             return {
@@ -233,7 +233,7 @@ export function reducer(state: State = initialState, action: AnyAction): State {
                             };
                         }
                         return item;
-                    })
+                    }),
                 }
             }
             return { ...state };
@@ -251,4 +251,4 @@ export type RootState = ReturnType<typeof reducer>;
 
 export const makeStore: MakeStore<State> = (context: Context) => createStore(reducer, initialState, compose(applyMiddleware(thunk)));
 
-export const wrapper = createWrapper<State>(makeStore, {debug: true});
+export const wrapper = createWrapper<State>(makeStore, { debug: true });

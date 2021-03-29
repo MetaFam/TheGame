@@ -184,9 +184,9 @@ export const getStaticProps = async (
   if (username == null) {
     return {
       redirect: {
-        desination: '/',
-        permanent: false
-      }
+        destination: '/',
+        permanent: false,
+      },
     }
   }
 
@@ -197,8 +197,8 @@ export const getStaticProps = async (
       return {
         redirect: {
           destination: `/player/${username.toLowerCase()}`,
-          permanent: false
-        }
+          permanent: false,
+        },
       }
     }
   }

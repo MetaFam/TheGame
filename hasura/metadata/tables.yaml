@@ -4,21 +4,34 @@
   is_enum: true
 - table:
     schema: public
-    name: EnneagramType
-  is_enum: true
+    name: ColorAspect
+  array_relationships:
+  - name: players
+    using:
+      foreign_key_constraint_on:
+        column: color_mask
+        table:
+          schema: public
+          name: player
   select_permissions:
   - role: player
     permission:
       columns:
-      - description
+      - mask
       - name
+      - description
       filter: {}
   - role: public
     permission:
       columns:
+      - mask
       - description
       - name
       filter: {}
+- table:
+    schema: public
+    name: GuildStatus
+  is_enum: true
 - table:
     schema: public
     name: GuildType
@@ -119,30 +132,34 @@
   - role: player
     permission:
       columns:
-      - id
-      - type
-      - name
-      - logo
       - description
-      - join_button_url
-      - moloch_address
-      - discord_invite_url
-      - website_url
+      - discord_id
+      - discord_metadata
       - guildname
+      - id
+      - join_button_url
+      - logo
+      - moloch_address
+      - name
+      - status
+      - type
+      - website_url
       filter: {}
   - role: public
     permission:
       columns:
-      - id
-      - type
-      - name
-      - logo
       - description
-      - join_button_url
-      - moloch_address
-      - discord_invite_url
-      - website_url
+      - discord_id
+      - discord_metadata
       - guildname
+      - id
+      - join_button_url
+      - logo
+      - moloch_address
+      - name
+      - status
+      - type
+      - website_url
       filter: {}
 - table:
     schema: public
@@ -199,9 +216,9 @@
     schema: public
     name: player
   object_relationships:
-  - name: EnneagramType
+  - name: ColorAspect
     using:
-      foreign_key_constraint_on: enneagram
+      foreign_key_constraint_on: color_mask
   - name: playerType
     using:
       foreign_key_constraint_on: player_type_id
@@ -283,28 +300,28 @@
     permission:
       columns:
       - availability_hours
-      - enneagram
+      - color_mask
       - ethereum_address
       - id
       - player_type_id
       - rank
       - role
       - sc_identity_id
-      - total_xp
       - timezone
+      - total_xp
       - username
       filter: {}
   - role: public
     permission:
       columns:
       - availability_hours
-      - enneagram
+      - color_mask
       - ethereum_address
       - id
       - rank
       - role
-      - total_xp
       - timezone
+      - total_xp
       - username
       filter: {}
   update_permissions:
@@ -312,7 +329,7 @@
     permission:
       columns:
       - availability_hours
-      - enneagram
+      - color_mask
       - player_type_id
       - role
       - timezone
@@ -475,6 +492,7 @@
       - guild_id
       - id
       filter: {}
+      allow_aggregations: true
   - role: public
     permission:
       columns:
@@ -489,6 +507,7 @@
       - status
       - repetition
       filter: {}
+      allow_aggregations: true
   update_permissions:
   - role: player
     permission:
@@ -496,13 +515,22 @@
       - cooldown
       - description
       - external_link
+      - guild_id
       - repetition
       - status
       - title
       filter:
         created_by_player_id:
           _eq: X-Hasura-User-Id
-      check: null
+      check:
+        _or:
+        - repetition:
+            _ne: RECURRING
+        - _and:
+          - repetition:
+              _eq: RECURRING
+          - cooldown:
+              _is_null: false
 - table:
     schema: public
     name: quest_completion
@@ -520,12 +548,13 @@
   - role: player
     permission:
       columns:
-      - submitted_at
+      - completed_by_player_id
+      - id
+      - quest_id
       - status
       - submission_link
       - submission_text
-      - completed_by_player_id
-      - quest_id
+      - submitted_at
       filter: {}
   - role: public
     permission:

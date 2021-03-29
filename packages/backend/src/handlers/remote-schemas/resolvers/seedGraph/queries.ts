@@ -9,3 +9,18 @@ export const GetTokenBalances = gql`
     }
   }
 `;
+
+export const GetTopPSeedHoldersQuery = gql`
+  query GetTopPSeedHolders($limit: Int) {
+    userTokens(
+      orderBy: pSeedBalance
+      orderDirection: desc
+      where: { pSeedBalance_gt: "0" }
+      first: $limit
+    ) {
+      id
+      seedBalance
+      pSeedBalance
+    }
+  }
+`;

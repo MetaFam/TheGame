@@ -33,7 +33,8 @@
     // Auto-sort imports
     "sort-imports": "off",
     "import/order": "off",
-    "simple-import-sort/sort": "error",
+    "simple-import-sort/imports": "error",
+    "simple-import-sort/exports": "error",
 
     // unary operators are ok
     "no-plusplus": "off",
@@ -50,7 +51,8 @@
         "ts-expect-error": "allow-with-description",
         "minimumDescriptionLength": 5
       }
-    ]
+    ],
+    "no-bitwise": "off"
   },
   "overrides": [
     {

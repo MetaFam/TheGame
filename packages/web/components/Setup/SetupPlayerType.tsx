@@ -9,29 +9,30 @@ import { FlexContainer } from 'components/Container';
 import { useSetupFlow } from 'contexts/SetupContext';
 import { Player_Type, useUpdateAboutYouMutation } from 'graphql/autogen/types';
 import { useUser } from 'lib/hooks';
-import React from 'react';
+import React, { useState } from 'react';
 
 export type SetupPlayerTypeProps = {
   playerTypeChoices: Array<Player_Type>;
   playerType: Player_Type | undefined;
   setPlayerType: React.Dispatch<React.SetStateAction<Player_Type | undefined>>;
-}
+};
 
 export const SetupPlayerType: React.FC<SetupPlayerTypeProps> = ({
-  playerTypeChoices, playerType, setPlayerType
+  playerTypeChoices,
+  playerType,
+  setPlayerType,
 }) => {
-  const {
-    onNextPress,
-    nextButtonLabel
-  } = useSetupFlow();
+  const { onNextPress, nextButtonLabel } = useSetupFlow();
   const { user } = useUser({ redirectTo: '/' });
   const toast = useToast();
 
   const [updateAboutYouRes, updateAboutYou] = useUpdateAboutYouMutation();
+  const [loading, setLoading] = useState(false);
 
   const handleNextPress = async () => {
     if (!user) return;
 
+    setLoading(true);
     if (user.player?.playerType?.id !== playerType?.id) {
       const { error } = await updateAboutYou({
         playerId: user.id,
@@ -47,6 +48,7 @@ export const SetupPlayerType: React.FC<SetupPlayerTypeProps> = ({
           status: 'error',
           isClosable: true,
         });
+        setLoading(false);
         return;
       }
     }
@@ -99,7 +101,7 @@ export const SetupPlayerType: React.FC<SetupPlayerTypeProps> = ({
         onClick={handleNextPress}
         mt={10}
         isDisabled={!playerType}
-        isLoading={updateAboutYouRes.fetching}
+        isLoading={updateAboutYouRes.fetching || loading}
         loadingText="Saving"
       >
         {nextButtonLabel}

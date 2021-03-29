@@ -77,11 +77,7 @@ export const UpdatePlayer = gql`
             username: { _eq: $username }
           }
           { sc_identity_id: { _eq: $identityId } }
-          {
-            Accounts: {
-              _and: { type: { _eq: DISCORD }, identifier: { _eq: $discordId } }
-            }
-          }
+          { discord_id: { _eq: $discordId } }
         ]
       }
       _set: {
@@ -89,6 +85,7 @@ export const UpdatePlayer = gql`
         sc_identity_id: $identityId
         rank: $rank
         total_xp: $totalXp
+        discord_id: $discordId
       }
     ) {
       affected_rows

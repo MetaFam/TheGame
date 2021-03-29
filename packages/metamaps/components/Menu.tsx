@@ -19,7 +19,7 @@ export interface MenuProps {
 export const MenuComponent: FC<MenuProps> = ({ dispatch, menu, menuType, selectedItem, menuX, menuY, urlText, popupText }) => {
     if (menuType === 'normal') {
         return(
-            <MenuContainer style={{ left: menuX, top: menuY, opacity: menu ? 1 : 0, pointerEvents: menu ? 'inherit': 'none' }}>
+            <MenuContainer style={{ left: menuX, top: menuY, opacity: menu ? 1 : 0, pointerEvents: menu ? 'inherit' : 'none' }}>
                 <ButtonGroup spacing={4}>
                     <Button
                         size="sm"
@@ -80,7 +80,7 @@ export const MenuComponent: FC<MenuProps> = ({ dispatch, menu, menuType, selecte
         )
     } if (menuType === 'SQUARE' || menuType === 'CIRCLE' || menuType === 'IMAGE') {
         return(
-            <MenuContainer style={{ left: menuX, top: menuY, opacity: menu ? 1 : 0, pointerEvents: menu ? 'inherit': 'none' }}>
+            <MenuContainer style={{ left: menuX, top: menuY, opacity: menu ? 1 : 0, pointerEvents: menu ? 'inherit' : 'none' }}>
                 <ButtonGroup spacing={4}>
                     <Button
                         size="sm"
@@ -126,7 +126,7 @@ export const MenuComponent: FC<MenuProps> = ({ dispatch, menu, menuType, selecte
         )
     } if (menuType === 'LINE') {
         return(
-            <MenuContainer style={{ left: menuX, top: menuY, opacity: menu ? 1 : 0, pointerEvents: menu ? 'inherit': 'none' }}>
+            <MenuContainer style={{ left: menuX, top: menuY, opacity: menu ? 1 : 0, pointerEvents: menu ? 'inherit' : 'none' }}>
                 <ButtonGroup spacing={4}>
                     <Button
                         size="sm"
@@ -142,7 +142,7 @@ export const MenuComponent: FC<MenuProps> = ({ dispatch, menu, menuType, selecte
         )
     } if (menuType === 'url') {
         return(
-            <MenuContainer style={{ left: menuX, top: menuY, opacity: menu ? 1 : 0, pointerEvents: menu ? 'inherit': 'none' }} data-type="no-left-click">
+            <MenuContainer style={{ left: menuX, top: menuY, opacity: menu ? 1 : 0, pointerEvents: menu ? 'inherit' : 'none' }} data-type="no-left-click">
                 <input
                     data-type="no-left-click"
                     type="text"
@@ -167,7 +167,7 @@ export const MenuComponent: FC<MenuProps> = ({ dispatch, menu, menuType, selecte
         return(
             <MenuContainer
                 className="textarea"
-                style={{ left: menuX, top: menuY, opacity: menu ? 1 : 0, pointerEvents: menu ? 'inherit': 'none' }}
+                style={{ left: menuX, top: menuY, opacity: menu ? 1 : 0, pointerEvents: menu ? 'inherit' : 'none' }}
                 data-type="no-left-click">
                 <textarea
                     data-type="no-left-click"
@@ -201,5 +201,5 @@ export const Menu = connect(
     menuY: state.menuY,
     urlText: state.urlText,
     popupText: state.popupText,
-})
+}),
 )(MenuComponent);

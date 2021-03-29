@@ -1,38 +1,35 @@
-import {
-  MetaButton,
-  MetaHeading,
-  SelectTimeZone,
-  useToast,
-} from '@metafam/ds';
+import { MetaButton, MetaHeading, SelectTimeZone, useToast } from '@metafam/ds';
 import { FlexContainer } from 'components/Container';
 import { useSetupFlow } from 'contexts/SetupContext';
 import { useUpdateProfileMutation } from 'graphql/autogen/types';
 import { useUser } from 'lib/hooks';
-import React from 'react';
+import React, { useState } from 'react';
 
 export type SetupTimezoneProps = {
   timeZone: string;
   setTimeZone: React.Dispatch<React.SetStateAction<string>>;
-}
+};
 
-export const SetupTimeZone: React.FC<SetupTimezoneProps> = ({timeZone, setTimeZone}) => {
-  const {
-    onNextPress,
-    nextButtonLabel
-  } = useSetupFlow();
+export const SetupTimeZone: React.FC<SetupTimezoneProps> = ({
+  timeZone,
+  setTimeZone,
+}) => {
+  const { onNextPress, nextButtonLabel } = useSetupFlow();
   const { user } = useUser({ redirectTo: '/' });
   const toast = useToast();
 
   const [updateProfileRes, updateProfile] = useUpdateProfileMutation();
+  const [loading, setLoading] = useState(false);
 
   const handleNextPress = async () => {
     if (!user) return;
 
+    setLoading(true);
     const { error } = await updateProfile({
       playerId: user.id,
       input: {
-        timezone: timeZone
-      }
+        timezone: timeZone,
+      },
     });
 
     if (error) {
@@ -42,6 +39,7 @@ export const SetupTimeZone: React.FC<SetupTimezoneProps> = ({timeZone, setTimeZo
         status: 'error',
         isClosable: true,
       });
+      setLoading(false);
       return;
     }
 
@@ -60,10 +58,10 @@ export const SetupTimeZone: React.FC<SetupTimezoneProps> = ({timeZone, setTimeZo
           labelStyle="abbrev"
         />
       </FlexContainer>
-      <MetaButton 
-        onClick={handleNextPress} 
+      <MetaButton
+        onClick={handleNextPress}
         mt={10}
-        isLoading={updateProfileRes.fetching}
+        isLoading={updateProfileRes.fetching || loading}
         loadingText="Saving"
       >
         {nextButtonLabel}

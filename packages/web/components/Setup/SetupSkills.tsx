@@ -8,46 +8,50 @@ import {
 } from '@metafam/ds';
 import { FlexContainer } from 'components/Container';
 import { useSetupFlow } from 'contexts/SetupContext';
-import { SkillCategory_Enum, useUpdatePlayerSkillsMutation } from 'graphql/autogen/types';
+import {
+  SkillCategory_Enum,
+  useUpdatePlayerSkillsMutation,
+} from 'graphql/autogen/types';
 import { SkillColors } from 'graphql/types';
 import { useUser } from 'lib/hooks';
-import React from 'react';
+import React, { useState } from 'react';
 import { CategoryOption, SkillOption } from 'utils/skillHelpers';
 
 export type SetupSkillsProps = {
   skillChoices: Array<CategoryOption>;
   skills: Array<SkillOption>;
-  setSkills: React.Dispatch<
-    React.SetStateAction<Array<SkillOption>>
-  >;
-}
+  setSkills: React.Dispatch<React.SetStateAction<Array<SkillOption>>>;
+};
 
 export const SetupSkills: React.FC<SetupSkillsProps> = ({
-  skillChoices, skills, setSkills,
+  skillChoices,
+  skills,
+  setSkills,
 }) => {
-  const {
-    onNextPress,
-    nextButtonLabel,
-  } = useSetupFlow();
+  const { onNextPress, nextButtonLabel } = useSetupFlow();
   const { user } = useUser({ redirectTo: '/' });
   const toast = useToast();
-  
+
   const [updateSkillsRes, updateSkills] = useUpdatePlayerSkillsMutation();
+  const [loading, setLoading] = useState(false);
 
   const handleNextPress = async () => {
     if (!user) return;
 
+    setLoading(true);
     const { error } = await updateSkills({
       skills: skills.map((s) => ({ skill_id: s.id })),
     });
 
     if (error) {
+      console.warn(error); // eslint-disable-line no-console
       toast({
         title: 'Error',
         description: 'Unable to update player skills. The octo is sad 😢',
         status: 'error',
         isClosable: true,
       });
+      setLoading(false);
       return;
     }
 
@@ -93,10 +97,10 @@ export const SetupSkills: React.FC<SetupSkillsProps> = ({
           placeholder="ADD YOUR SKILLS"
         />
       </FlexContainer>
-      <MetaButton 
-        onClick={handleNextPress} 
+      <MetaButton
+        onClick={handleNextPress}
         mt={10}
-        isLoading={updateSkillsRes.fetching}
+        isLoading={updateSkillsRes.fetching || loading}
         loadingText="Saving"
       >
         {nextButtonLabel}

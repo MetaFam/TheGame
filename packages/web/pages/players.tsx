@@ -16,10 +16,10 @@ export const getStaticProps = async () => {
   };
 };
 
-const Home: React.FC<Props> = ({ players }) => (
+const Players: React.FC<Props> = ({ players }) => (
   <PageContainer>
     <PlayerList players={players} />
   </PageContainer>
 );
 
-export default Home;
+export default Players;

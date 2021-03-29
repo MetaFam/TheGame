@@ -52,5 +52,5 @@ export const ThreeBox = connect(
         ethAccounts: state.ethAccounts,
         activeSpace: state.activeSpace,
         items: state.items,
-    })
+    }),
 )(ThreeBoxComponent);

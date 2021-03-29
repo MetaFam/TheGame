@@ -17,7 +17,10 @@ export async function isAllowedToCreateQuest(
   const pSEEDBalance = await pSEEDContract.balanceOf(playerAddress);
   const pSEEDDecimals = await pSEEDContract.decimals();
   const minimumPooledSeedBalance = new BN(100);
-  const pSEEDBalanceInDecimal = amountToDecimal(pSEEDBalance, pSEEDDecimals);
+  const pSEEDBalanceInDecimal = amountToDecimal(
+    pSEEDBalance.toString(),
+    pSEEDDecimals,
+  );
 
   const allowed = new BN(pSEEDBalanceInDecimal).gt(minimumPooledSeedBalance);
 
