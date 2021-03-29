@@ -9,7 +9,7 @@ export { MetaTile, MetaTileBody, MetaTileHeader } from './MetaTile';
 export { ResponsiveText } from './ResponsiveText';
 export { SelectSearch, selectStyles } from './SelectSearch';
 export { SelectTimeZone } from './SelectTimeZone';
-export { SVG } from './SVG'
+export { SVG } from './SVG';
 export { theme as MetaTheme } from './theme';
 export { H1, P } from './typography';
 export { EmailIcon } from '@chakra-ui/icons';
