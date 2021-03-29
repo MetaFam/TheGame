@@ -28,7 +28,7 @@
     "@chakra-ui/react": "1.1.5",
     "@chakra-ui/theme-tools": "1.0.3",
     "@emotion/react": "11.1.4",
-    "@emotion/styled": "11.0.0",
+    "@emotion/styled": "11.1.5",
     "next": "10.0.6",
     "react-select": "4.1.0",
     "react-timezone-select": "0.9.8"

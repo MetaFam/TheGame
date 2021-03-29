@@ -13,7 +13,7 @@
     "3box": "1.22.2",
     "@chakra-ui/core": "0.8.0",
     "@emotion/core": "10.0.35",
-    "@emotion/styled": "10.0.27",
+    "@emotion/styled": "11.1.5",
     "@types/styled-components": "5.1.7",
     "babel-plugin-styled-components": "1.12.0",
     "emotion-theming": "10.0.27",
