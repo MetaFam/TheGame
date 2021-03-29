@@ -1,4 +1,4 @@
-import { Box, Flex, LoadingState, Stack } from '@metafam/ds';
+import { Box, Flex, LoadingState } from '@metafam/ds';
 import { getGuild } from 'graphql/getGuild';
 import { getGuilds } from 'graphql/getGuilds';
 import {
