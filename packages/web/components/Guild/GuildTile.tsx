@@ -32,7 +32,6 @@ export const GuildTile: React.FC<Props> = ({ guild }) => (
           {guild.logo ? (
             <Avatar size="xl" src={guild.logo} name={guild.name} />
           ) : null}
-
           <Heading size="sm" color="white">
             {guild.name}
           </Heading>
