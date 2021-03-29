@@ -88,7 +88,7 @@ const SubmitQuestCompletionPage: React.FC<Props> = ({ quest }) => {
           <MetaLink as={`/quest/${quest.id}`} href="/quest/[id]">
             Back to Quest
           </MetaLink>
-          <Heading>Submit proposal</Heading>
+          <Heading>Claim quest</Heading>
 
           <CompletionForm
             onSubmit={onSubmit}

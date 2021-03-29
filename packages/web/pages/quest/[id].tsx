@@ -109,7 +109,7 @@ const QuestPage: React.FC<Props> = ({ quest_id }) => {
                 href="/quest/[id]/complete"
               >
                 <MetaButton variant="outline" colorScheme="cyan">
-                  Submit proposal
+                  Claim quest
                 </MetaButton>
               </MetaLink>
             )}
