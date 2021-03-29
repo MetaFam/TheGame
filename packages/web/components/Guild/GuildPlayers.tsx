@@ -8,9 +8,5 @@ type Props = {
 };
 
 export const GuildPlayers: React.FC<Props> = ({ guild }) => {
-  return (
-    <ProfileSection>
-      {guild.guild_players.map((p) => p.username)}
-    </ProfileSection>
-  );
+  return <ProfileSection />;
 };
