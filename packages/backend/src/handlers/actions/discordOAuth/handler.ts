@@ -2,6 +2,7 @@
 import { exchangeCodeForAccessToken, GuildDiscordMetadata, OAuth2CodeExchangeResponse } from '@metafam/discord-bot';
 import { Constants } from '@metafam/utils';
 import { Request, Response } from 'express';
+import { v4 as uuidv4 } from 'uuid';
 
 import { CONFIG } from '../../../config';
 import { GuildStatus_Enum, GuildType_Enum } from '../../../lib/autogen/hasura-sdk';
@@ -30,7 +31,6 @@ export const handleOAuthCallback = async (
   }
 
   // look up guild by guild Id
-  // TODO move discord-specific logic info discord-bot package
   const getGuildResponse = await client.GetDiscordGuild({ discordId: discordGuild.id });
 
   if (getGuildResponse.guild.length > 0) {
@@ -63,14 +63,19 @@ export const handleOAuthCallback = async (
   const newGuildPayload = {
     type: GuildType_Enum.Project,
     name: discordGuild.name,
-    guildname: discordGuild.name.toLowerCase().replace(/[^a-z0-9]/g, ''),
+    // guildname: discordGuild.name.toLowerCase().replace(/[^a-z0-9]/g, ''),
+    guildname: uuidv4(),
     discord_id: discordGuild.id, 
     status: GuildStatus_Enum.Pending,
     discord_metadata: discordMetadata,
   };
 
-  const newGuild = await client.CreateGuild({ objects: newGuildPayload });
-  return redirectToSetupPage(res, newGuild.insert_guild?.returning[0].id);
+  const createGuildResponse = await client.CreateGuild({ objects: newGuildPayload });
+  if (createGuildResponse.insert_guild != null && createGuildResponse.insert_guild.returning.length > 0 ) {
+    const newGuild = createGuildResponse.insert_guild?.returning[0];
+    return redirectToSetupPage(res, newGuild.guildname);
+  }
+  return redirectOnError(res);
 };
 
 const parseDiscordMetadata = (oauthResponse: OAuth2CodeExchangeResponse): GuildDiscordMetadata => {
