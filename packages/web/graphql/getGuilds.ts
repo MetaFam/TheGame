@@ -5,17 +5,21 @@ import { client } from './client';
 import { GuildFragment } from './fragments';
 
 const guildsQuery = gql`
-  query GetGuilds($status: GuildStatus_enum, $limit: Int) {
-    guild(where: {status: { _eq: $status }}, limit: $limit) {
+  query GetGuilds($statuses: [GuildStatus_enum!], $limit: Int) {
+    guild(where: {status: { _in: $statuses }}, limit: $limit) {
       ...GuildFragment
     }
   }
   ${GuildFragment}
 `;
 
-export const getGuilds = async (status: GuildStatus_Enum, limit = 50) => {
+export const getGuilds = async (status: GuildStatus_Enum | GuildStatus_Enum[], limit = 50) => {
+  let statuses = status;
+  if (!Array.isArray(status)) {
+    statuses = [status];
+  }
   const { data, error } = await client
-    .query<GetGuildsQuery, GetGuildsQueryVariables>(guildsQuery, { status, limit })
+    .query<GetGuildsQuery, GetGuildsQueryVariables>(guildsQuery, { statuses, limit })
     .toPromise();
 
   if (!data) {

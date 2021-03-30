@@ -8,7 +8,7 @@ import React from 'react';
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
 export const getStaticProps = async () => {
-  const guilds = await getGuilds(GuildStatus_Enum.Active);
+  const guilds = await getGuilds([GuildStatus_Enum.Legacy, GuildStatus_Enum.Active]);
   return {
     props: {
       guilds,

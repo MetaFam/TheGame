@@ -64,7 +64,7 @@ export default GuildPage;
 type QueryParams = { guildname: string };
 
 export const getStaticPaths: GetStaticPaths<QueryParams> = async () => {
-  const guilds = await getGuilds(GuildStatus_Enum.Active);
+  const guilds = await getGuilds([GuildStatus_Enum.Legacy, GuildStatus_Enum.Active]);
 
   return {
     paths: guilds.map(({ guildname }) => ({

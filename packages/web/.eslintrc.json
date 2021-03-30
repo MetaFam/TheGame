@@ -5,6 +5,12 @@
       "rules": {
         "@typescript-eslint/explicit-module-boundary-types": "off"
       }
+    }, 
+    {
+      "files": ["**/*.{ts,tsx}"],
+      "rules": {
+        "import/no-extraneous-dependencies": ["error", {"devDependencies": true}]
+      }
     }
   ]
 }

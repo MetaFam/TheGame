@@ -3,10 +3,10 @@ import { GuildJoinSetup } from 'components/Guild/GuildJoinSetup';
 import { GuildStatus_Enum } from 'graphql/autogen/types';
 import { getGuild } from 'graphql/getGuild';
 import { getGuilds } from 'graphql/getGuilds';
-import { GetStaticPropsContext, InferGetStaticPropsType } from 'next';
+import { GetServerSidePropsContext, InferGetServerSidePropsType } from 'next';
 import React from 'react';
 
-type Props = InferGetStaticPropsType<typeof getStaticProps>;
+type Props = InferGetServerSidePropsType<typeof getServerSideProps>;
 
 const SetupGuild: React.FC<Props> = ({ legacyGuilds, guild }) => (
   <PageContainer>
@@ -18,9 +18,8 @@ export default SetupGuild;
 
 type QueryParams = { guildname: string };
 
-
-export const getStaticProps = async (
-  context: GetStaticPropsContext<QueryParams>,
+export const getServerSideProps = async (
+  context: GetServerSidePropsContext<QueryParams>,
 ) => {
   const guildName = context.params?.guildname;
   const guild = await getGuild(guildName);
@@ -34,14 +33,12 @@ export const getStaticProps = async (
     }
   }
 
-  const legacyGuilds = await getGuilds(GuildStatus_Enum.Active);
+  const legacyGuilds = await getGuilds(GuildStatus_Enum.Legacy);
   
   return {
-    hideAppDrawer: false,
     props: {
       guild,
       legacyGuilds,
     },
-    revalidate: 1,
   };
 };
