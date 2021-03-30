@@ -8,8 +8,8 @@ type Props = InferGetStaticPropsType<typeof getStaticProps>;
 export const getStaticProps = async () => {
   return {
     props: {
-      hideAppDrawer: false
-    }
+      hideAppDrawer: false,
+    },
   };
 };
 
