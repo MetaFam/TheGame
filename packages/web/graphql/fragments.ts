@@ -66,13 +66,13 @@ export const GuildFragment = gql`
     id
     guildname
     description
-    discord_metadata
     join_button_url
     logo
     moloch_address
     name
     type
     website_url
+    discord_invite_url
   }
 `;
 
