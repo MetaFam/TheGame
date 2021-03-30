@@ -1,20 +1,20 @@
 import { Flex, HStack, Image, List, ListIcon, ListItem, MetaButton, MetaHeading, Text, VStack } from '@metafam/ds';
-import { CONSTANTS } from '@metafam/utils';
+import { Constants } from '@metafam/utils';
 import { FlexContainer } from 'components/Container';
 import { MetaLink } from 'components/Link';
 import { CONFIG } from 'config';
 import React from 'react';
 import { FaCheckCircle } from 'react-icons/fa';
 
-const discordOAuthCallbackUrl = `${CONFIG.backendUrl}/${CONSTANTS.DISCORD_OAUTH_CALLBACK_PATH}`;
+const discordOAuthCallbackUrl = `${CONFIG.backendUrl}/${Constants.DISCORD_OAUTH_CALLBACK_PATH}`;
 
 const discordAuthParams = new URLSearchParams({
   response_type: 'code',
   client_id: CONFIG.discordBotClientId,
   state: 'guid-to-go-in-localstorage',
-  permissions: CONSTANTS.DISCORD_BOT_PERMISSIONS,
+  permissions: Constants.DISCORD_BOT_PERMISSIONS,
   redirect_uri: encodeURI(discordOAuthCallbackUrl),
-  scope: CONSTANTS.DISCORD_OAUTH_SCOPES,
+  scope: Constants.DISCORD_OAUTH_SCOPES,
 })
 const discordAuthUrl = `https://discord.com/api/oauth2/authorize?${discordAuthParams.toString()}`;
 
