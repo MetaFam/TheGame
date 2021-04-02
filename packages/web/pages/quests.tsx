@@ -15,9 +15,8 @@ import { InferGetStaticPropsType } from 'next';
 import { useRouter } from 'next/router';
 import React, { useMemo } from 'react';
 
-import { useGetpSeedBalanceQuery } from '../graphql/autogen/types';
 import { getSsrClient } from '../graphql/client';
-import { useUser } from '../lib/hooks';
+import { usePSeedBalance } from '../lib/hooks/balances';
 import { useQuestFilter } from '../lib/hooks/quests';
 import { isAllowedToCreateQuest } from '../utils/questHelpers';
 
@@ -38,7 +37,6 @@ export const getStaticProps = async () => {
 
 const QuestsPage: React.FC<Props> = () => {
   const router = useRouter();
-  const { user } = useUser();
   const {
     quests,
     aggregates,
@@ -47,15 +45,7 @@ const QuestsPage: React.FC<Props> = () => {
     queryVariables,
     setQueryVariable,
   } = useQuestFilter();
-  const [respSeedBalance] = useGetpSeedBalanceQuery({
-    variables: {
-      address: user?.ethereum_address || '',
-    },
-    pause: !user?.ethereum_address,
-  });
-  const pSeedBalance =
-    user?.ethereum_address &&
-    respSeedBalance.data?.getTokenBalances?.pSeedBalance;
+  const { pSeedBalance, fetching: fetchingBalance } = usePSeedBalance();
   const canCreateQuest = useMemo(() => isAllowedToCreateQuest(pSeedBalance), [
     pSeedBalance,
   ]);
@@ -74,7 +64,7 @@ const QuestsPage: React.FC<Props> = () => {
             <MetaButton
               fontFamily="mono"
               // disabled={!canCreateQuest} // if disabled, tooltip doesn't show...
-              isLoading={respSeedBalance.fetching}
+              isLoading={fetchingBalance}
               onClick={() => canCreateQuest && router.push('/quest/create')}
             >
               New Quest
