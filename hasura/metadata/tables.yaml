@@ -135,6 +135,7 @@
       - description
       - discord_id
       - discord_invite_url
+      - github_url
       - guildname
       - id
       - join_button_url
@@ -142,6 +143,7 @@
       - moloch_address
       - name
       - status
+      - twitter_url
       - type
       - website_url
       filter: {}
@@ -151,6 +153,7 @@
       - description
       - discord_id
       - discord_invite_url
+      - github_url
       - guildname
       - id
       - join_button_url
@@ -158,6 +161,7 @@
       - moloch_address
       - name
       - status
+      - twitter_url
       - type
       - website_url
       filter: {}

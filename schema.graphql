@@ -599,6 +599,7 @@ type guild {
     """JSON select path"""
     path: String
   ): jsonb
+  github_url: String
 
   """An array relationship"""
   guild_accounts(
@@ -716,6 +717,7 @@ type guild {
     where: quest_bool_exp
   ): quest_aggregate!
   status: GuildStatus_enum!
+  twitter_url: String
 
   """The area of focus for the guild (e.g. funding, project, etc)"""
   type: GuildType_enum!
@@ -969,6 +971,7 @@ input guild_bool_exp {
   discord_id: String_comparison_exp
   discord_invite_url: String_comparison_exp
   discord_metadata: jsonb_comparison_exp
+  github_url: String_comparison_exp
   guild_accounts: guild_account_bool_exp
   guild_players: guild_player_bool_exp
   guildname: String_comparison_exp
@@ -979,6 +982,7 @@ input guild_bool_exp {
   name: String_comparison_exp
   quests: quest_bool_exp
   status: GuildStatus_enum_comparison_exp
+  twitter_url: String_comparison_exp
   type: GuildType_enum_comparison_exp
   website_url: String_comparison_exp
 }
@@ -1028,6 +1032,7 @@ input guild_insert_input {
   discord_id: String
   discord_invite_url: String
   discord_metadata: jsonb
+  github_url: String
   guild_accounts: guild_account_arr_rel_insert_input
   guild_players: guild_player_arr_rel_insert_input
   guildname: String
@@ -1038,6 +1043,7 @@ input guild_insert_input {
   name: String
   quests: quest_arr_rel_insert_input
   status: GuildStatus_enum
+  twitter_url: String
   type: GuildType_enum
   website_url: String
 }
@@ -1047,12 +1053,14 @@ type guild_max_fields {
   description: String
   discord_id: String
   discord_invite_url: String
+  github_url: String
   guildname: String
   id: uuid
   join_button_url: String
   logo: String
   moloch_address: String
   name: String
+  twitter_url: String
   website_url: String
 }
 
@@ -1063,12 +1071,14 @@ input guild_max_order_by {
   description: order_by
   discord_id: order_by
   discord_invite_url: order_by
+  github_url: order_by
   guildname: order_by
   id: order_by
   join_button_url: order_by
   logo: order_by
   moloch_address: order_by
   name: order_by
+  twitter_url: order_by
   website_url: order_by
 }
 
@@ -1077,12 +1087,14 @@ type guild_min_fields {
   description: String
   discord_id: String
   discord_invite_url: String
+  github_url: String
   guildname: String
   id: uuid
   join_button_url: String
   logo: String
   moloch_address: String
   name: String
+  twitter_url: String
   website_url: String
 }
 
@@ -1093,12 +1105,14 @@ input guild_min_order_by {
   description: order_by
   discord_id: order_by
   discord_invite_url: order_by
+  github_url: order_by
   guildname: order_by
   id: order_by
   join_button_url: order_by
   logo: order_by
   moloch_address: order_by
   name: order_by
+  twitter_url: order_by
   website_url: order_by
 }
 
@@ -1139,6 +1153,7 @@ input guild_order_by {
   discord_id: order_by
   discord_invite_url: order_by
   discord_metadata: order_by
+  github_url: order_by
   guild_accounts_aggregate: guild_account_aggregate_order_by
   guild_players_aggregate: guild_player_aggregate_order_by
   guildname: order_by
@@ -1149,6 +1164,7 @@ input guild_order_by {
   name: order_by
   quests_aggregate: quest_aggregate_order_by
   status: order_by
+  twitter_url: order_by
   type: order_by
   website_url: order_by
 }
@@ -1364,6 +1380,9 @@ enum guild_select_column {
   discord_metadata
 
   """column name"""
+  github_url
+
+  """column name"""
   guildname
 
   """column name"""
@@ -1385,6 +1404,9 @@ enum guild_select_column {
   status
 
   """column name"""
+  twitter_url
+
+  """column name"""
   type
 
   """column name"""
@@ -1399,6 +1421,7 @@ input guild_set_input {
   discord_id: String
   discord_invite_url: String
   discord_metadata: jsonb
+  github_url: String
   guildname: String
   id: uuid
   join_button_url: String
@@ -1406,6 +1429,7 @@ input guild_set_input {
   moloch_address: String
   name: String
   status: GuildStatus_enum
+  twitter_url: String
   type: GuildType_enum
   website_url: String
 }
@@ -1427,6 +1451,9 @@ enum guild_update_column {
   discord_metadata
 
   """column name"""
+  github_url
+
+  """column name"""
   guildname
 
   """column name"""
@@ -1446,6 +1473,9 @@ enum guild_update_column {
 
   """column name"""
   status
+
+  """column name"""
+  twitter_url
 
   """column name"""
   type
@@ -1516,7 +1546,6 @@ enum GuildStatus_constraint {
 enum GuildStatus_enum {
   ACTIVE
   INACTIVE
-  LEGACY
   PENDING
 }
 

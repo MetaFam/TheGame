@@ -2,7 +2,6 @@ import {
   Avatar,
   Box,
   Heading,
-  HStack,
   MetaButton,
   MetaTag,
   MetaTile,
@@ -11,7 +10,7 @@ import {
   Text,
   VStack,
 } from '@metafam/ds';
-import { GuildLinks } from 'components/Guild/GuildLinks';
+import { MetaLink } from 'components/Link';
 import { GuildFragmentFragment } from 'graphql/autogen/types';
 import React from 'react';
 
@@ -22,18 +21,27 @@ type Props = {
 export const GuildTile: React.FC<Props> = ({ guild }) => (
   <MetaTile>
     <MetaTileHeader>
-      <VStack>
-        {guild.logo ? (
-          <Avatar size="xl" src={guild.logo} name={guild.name} />
-        ) : null}
+      <MetaLink
+        as={`/guilds/${guild.guildname}`}
+        href="/guilds/[guildname]"
+        key={guild.id}
+      >
+        <VStack>
+          {guild.logo ? (
+            <Avatar size="xl" src={guild.logo} name={guild.name} />
+          ) : null}
 
-        <Heading size="sm" color="white">
-          {guild.name}
-        </Heading>
-      </VStack>
+          <Heading size="sm" color="white">
+            {guild.name}
+          </Heading>
+        </VStack>
+      </MetaLink>
       {guild.type ? (
         <Box align="center">
-          <MetaTag size="md">{guild.type} GUILD</MetaTag>
+          <MetaTag size="md">
+            {guild.type} 
+            GUILD
+          </MetaTag>
         </Box>
       ) : null}
       {guild.description ? (
@@ -44,12 +52,6 @@ export const GuildTile: React.FC<Props> = ({ guild }) => (
       ) : null}
     </MetaTileHeader>
     <MetaTileBody>
-      <VStack spacing={2} align="stretch">
-        <Text textStyle="caption">LINKS</Text>
-        <HStack mt="2">
-          <GuildLinks guild={guild} />
-        </HStack>
-      </VStack>
       {guild.join_button_url ? (
         <MetaButton
           as="a"
