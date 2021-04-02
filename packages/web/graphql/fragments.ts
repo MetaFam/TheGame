@@ -74,6 +74,8 @@ export const GuildFragment = gql`
     name
     type
     website_url
+    github_url
+    twitter_url
   }
 `;
 

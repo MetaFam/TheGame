@@ -33,6 +33,7 @@ export {
   Container,
   CSSReset,
   Divider,
+  Fade,
   Flex,
   FlexProps,
   Grid,
