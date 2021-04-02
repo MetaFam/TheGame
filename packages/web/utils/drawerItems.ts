@@ -12,7 +12,7 @@ export interface DrawerItemType {
 
 export const DrawerItemsLeft: DrawerItemType[] = [
   {
-    href: '/',
+    href: '/players',
     isExternal: false,
     src: emojiUrl('alien.png'),
     alt: 'MetaPlayers',
