@@ -63,7 +63,6 @@ export interface CreateQuestFormInputs {
   skills: SkillOption[];
 }
 
-
 const MetaFamGuildId = 'f94b7cd4-cf29-4251-baa5-eaacab98a719';
 
 const getDefaultFormValues = (
@@ -82,12 +81,12 @@ const getDefaultFormValues = (
   cooldown: editQuest?.cooldown || null,
   skills: editQuest
     ? editQuest.quest_skills
-      .map((s) => s.skill)
-      .map((s) => ({
-        value: s.id,
-        label: s.name,
-        ...s,
-      }))
+        .map((s) => s.skill)
+        .map((s) => ({
+          value: s.id,
+          label: s.name,
+          ...s,
+        }))
     : [],
 });
 
@@ -98,29 +97,13 @@ type FieldProps = {
 };
 
 const Field: React.FC<FieldProps> = ({ children, error, label }) => (
-  <Flex
-    mb={2}
-    w="100%"
-    align="center"
-    direction="column"
-  >
-    <Flex
-      justify="space-between"
-      w="100%"
-      mb={2}
-    >
-      <Text
-        textStyle="caption"
-        textAlign="left"
-        ml={4}
-      >{label}</Text>
+  <Flex mb={2} w="100%" align="center" direction="column">
+    <Flex justify="space-between" w="100%" mb={2}>
+      <Text textStyle="caption" textAlign="left" ml={4}>
+        {label}
+      </Text>
 
-      <Text
-        textStyle="caption"
-        textAlign="left"
-        color="red.400"
-        mr={4}
-      >
+      <Text textStyle="caption" textAlign="left" color="red.400" mr={4}>
         {error?.type === 'required' && 'Required'}
         {error?.type === 'pattern' && 'Invalid URL'}
         {error?.type === 'minLength' && 'Too short'}
@@ -131,7 +114,7 @@ const Field: React.FC<FieldProps> = ({ children, error, label }) => (
 
     {children}
   </Flex>
-)
+);
 
 type Props = {
   guilds: GuildFragmentFragment[];
@@ -145,20 +128,22 @@ type Props = {
 };
 
 export const QuestForm: React.FC<Props> = ({
-                                             guilds,
-                                             skillChoices,
-                                             onSubmit,
-                                             success,
-                                             fetching,
-                                             submitLabel,
-                                             loadingLabel,
-                                             editQuest,
-                                           }) => {
+  guilds,
+  skillChoices,
+  onSubmit,
+  success,
+  fetching,
+  submitLabel,
+  loadingLabel,
+  editQuest,
+}) => {
   const defaultValues = useMemo<CreateQuestFormInputs>(
     () => getDefaultFormValues(editQuest, guilds),
     [editQuest, guilds],
   );
-  const { register, control, errors, watch, handleSubmit } = useForm<CreateQuestFormInputs>({
+  const { register, control, errors, watch, handleSubmit } = useForm<
+    CreateQuestFormInputs
+  >({
     defaultValues,
   });
   const router = useRouter();
@@ -166,14 +151,10 @@ export const QuestForm: React.FC<Props> = ({
   const createQuestInput = watch();
   console.log(errors);
 
-
   return (
     <Box w="100%" maxW="30rem">
       <VStack>
-        <Field
-          label="Title"
-          error={errors.title}
-        >
+        <Field label="Title" error={errors.title}>
           <Input
             background="dark"
             placeholder="Buidl stuff"
@@ -186,10 +167,7 @@ export const QuestForm: React.FC<Props> = ({
           />
         </Field>
 
-        <Field
-          label="Description"
-          error={errors.description}
-        >
+        <Field label="Description" error={errors.description}>
           <Textarea
             background="dark"
             placeholder="Please describe in details what needs to be done"
@@ -200,10 +178,7 @@ export const QuestForm: React.FC<Props> = ({
           />
         </Field>
 
-        <Field
-          label="Link"
-          error={errors.external_link}
-        >
+        <Field label="Link" error={errors.external_link}>
           <Input
             background="dark"
             placeholder="External link"
@@ -213,9 +188,7 @@ export const QuestForm: React.FC<Props> = ({
           />
         </Field>
 
-        <Field
-          label="Repetition"
-        >
+        <Field label="Repetition">
           <Select
             isRequired
             name="repetition"
@@ -236,13 +209,12 @@ export const QuestForm: React.FC<Props> = ({
             p={2}
             mt={2}
             backgroundColor={RepetitionColors[createQuestInput.repetition]}
-          >{QuestRepetitionHint[createQuestInput.repetition]}</MetaTag>
+          >
+            {QuestRepetitionHint[createQuestInput.repetition]}
+          </MetaTag>
         </Field>
         {createQuestInput.repetition === QuestRepetition_Enum.Recurring && (
-          <Field
-            label="Cooldown (hours)"
-            error={errors.cooldown}
-          >
+          <Field label="Cooldown (hours)" error={errors.cooldown}>
             <Input
               isRequired
               background="dark"
@@ -255,9 +227,7 @@ export const QuestForm: React.FC<Props> = ({
           </Field>
         )}
 
-        <Field
-          label="Guild"
-        >
+        <Field label="Guild">
           <Select
             isRequired
             name="guild_id"

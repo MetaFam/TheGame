@@ -81,11 +81,9 @@ export const QuestCompletions: React.FC<Props> = ({ quest }) => {
   return (
     <Box>
       <VStack spacing={4}>
-        {quest.quest_completions.length === 0 &&
-        <Text>
-          There are no proposal for this quest yet.
-        </Text>
-        }
+        {quest.quest_completions.length === 0 && (
+          <Text>There are no proposal for this quest yet.</Text>
+        )}
         {quest.quest_completions.map((questCompletion) => (
           <Box key={questCompletion.id} w="100%">
             <HStack px={4} py={4}>
