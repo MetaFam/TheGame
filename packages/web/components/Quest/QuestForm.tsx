@@ -1,9 +1,11 @@
 import {
   Box,
   ConfirmModal,
+  Flex,
   HStack,
   Input,
   MetaButton,
+  MetaTag,
   Select,
   Text,
   Textarea,
@@ -17,12 +19,13 @@ import {
 } from 'graphql/autogen/types';
 import { useRouter } from 'next/router';
 import React, { useMemo, useState } from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import { Controller, FieldError, useForm } from 'react-hook-form';
 
 import { QuestRepetitionHint, UriRegexp } from '../../utils/questHelpers';
 import { CategoryOption, SkillOption } from '../../utils/skillHelpers';
 import { FlexContainer } from '../Container';
 import { SkillsSelect } from '../Skills';
+import { RepetitionColors } from './QuestTags';
 
 const validations = {
   title: {
@@ -45,7 +48,7 @@ const validations = {
   },
   cooldown: {
     valueAsNumber: true,
-    min: 0,
+    min: 1,
   },
 };
 
@@ -60,16 +63,6 @@ export interface CreateQuestFormInputs {
   skills: SkillOption[];
 }
 
-type Props = {
-  guilds: GuildFragmentFragment[];
-  editQuest?: QuestFragmentFragment;
-  skillChoices: Array<CategoryOption>;
-  onSubmit: (data: CreateQuestFormInputs) => void;
-  success?: boolean;
-  fetching?: boolean;
-  submitLabel: string;
-  loadingLabel: string;
-};
 
 const MetaFamGuildId = 'f94b7cd4-cf29-4251-baa5-eaacab98a719';
 
@@ -89,93 +82,167 @@ const getDefaultFormValues = (
   cooldown: editQuest?.cooldown || null,
   skills: editQuest
     ? editQuest.quest_skills
-        .map((s) => s.skill)
-        .map((s) => ({
-          value: s.id,
-          label: s.name,
-          ...s,
-        }))
+      .map((s) => s.skill)
+      .map((s) => ({
+        value: s.id,
+        label: s.name,
+        ...s,
+      }))
     : [],
 });
 
+type FieldProps = {
+  children: React.ReactNode;
+  label: string;
+  error?: FieldError;
+};
+
+const Field: React.FC<FieldProps> = ({ children, error, label }) => (
+  <Flex
+    mb={2}
+    w="100%"
+    align="center"
+    direction="column"
+  >
+    <Flex
+      justify="space-between"
+      w="100%"
+      mb={2}
+    >
+      <Text
+        textStyle="caption"
+        textAlign="left"
+        ml={4}
+      >{label}</Text>
+
+      <Text
+        textStyle="caption"
+        textAlign="left"
+        color="red.400"
+        mr={4}
+      >
+        {error?.type === 'required' && 'Required'}
+        {error?.type === 'pattern' && 'Invalid URL'}
+        {error?.type === 'minLength' && 'Too short'}
+        {error?.type === 'maxLength' && 'Too long'}
+        {error?.type === 'min' && 'Too small'}
+      </Text>
+    </Flex>
+
+    {children}
+  </Flex>
+)
+
+type Props = {
+  guilds: GuildFragmentFragment[];
+  editQuest?: QuestFragmentFragment;
+  skillChoices: Array<CategoryOption>;
+  onSubmit: (data: CreateQuestFormInputs) => void;
+  success?: boolean;
+  fetching?: boolean;
+  submitLabel: string;
+  loadingLabel: string;
+};
+
 export const QuestForm: React.FC<Props> = ({
-  guilds,
-  skillChoices,
-  onSubmit,
-  success,
-  fetching,
-  submitLabel,
-  loadingLabel,
-  editQuest,
-}) => {
+                                             guilds,
+                                             skillChoices,
+                                             onSubmit,
+                                             success,
+                                             fetching,
+                                             submitLabel,
+                                             loadingLabel,
+                                             editQuest,
+                                           }) => {
   const defaultValues = useMemo<CreateQuestFormInputs>(
     () => getDefaultFormValues(editQuest, guilds),
     [editQuest, guilds],
   );
-  const { register, control, errors, watch, handleSubmit } = useForm<
-    CreateQuestFormInputs
-  >({
+  const { register, control, errors, watch, handleSubmit } = useForm<CreateQuestFormInputs>({
     defaultValues,
   });
   const router = useRouter();
   const [exitAlert, setExitAlert] = useState<boolean>(false);
   const createQuestInput = watch();
+  console.log(errors);
+
 
   return (
-    <Box>
+    <Box w="100%" maxW="30rem">
       <VStack>
-        <Text>Title</Text>
-        <Input
-          background="dark"
-          placeholder="Buidl stuff"
-          isRequired
-          name="title"
-          ref={register(validations.title)}
-          isInvalid={!!errors.title}
-          minLength={validations.title.minLength}
-          maxLength={validations.title.maxLength}
-        />
-        {!!errors.title && <Text>Invalid</Text>}
-
-        <Text>Description</Text>
-        <Textarea
-          background="dark"
-          placeholder="Please describe in details what needs to be done"
-          isRequired
-          name="description"
-          ref={register(validations.description)}
-          isInvalid={!!errors.description}
-        />
-        {!!errors.description && <Text>Invalid</Text>}
-
-        <Text>Link</Text>
-        <Input
-          background="dark"
-          placeholder="External link"
-          name="external_link"
-          ref={register(validations.external_link)}
-          isInvalid={!!errors.external_link}
-        />
-        {!!errors.external_link && <Text>Invalid</Text>}
-
-        <Text>Repetition</Text>
-        <Select
-          isRequired
-          name="repetition"
-          ref={register(validations.repetition)}
-          isInvalid={!!errors.repetition}
+        <Field
+          label="Title"
+          error={errors.title}
         >
-          {Object.entries(QuestRepetition_Enum).map(([key, value]) => (
-            <option key={value} value={value}>
-              {key}
-            </option>
-          ))}
-        </Select>
-        <Text>{QuestRepetitionHint[createQuestInput.repetition]}</Text>
+          <Input
+            background="dark"
+            placeholder="Buidl stuff"
+            isRequired
+            name="title"
+            ref={register(validations.title)}
+            isInvalid={!!errors.title}
+            minLength={validations.title.minLength}
+            maxLength={validations.title.maxLength}
+          />
+        </Field>
 
+        <Field
+          label="Description"
+          error={errors.description}
+        >
+          <Textarea
+            background="dark"
+            placeholder="Please describe in details what needs to be done"
+            isRequired
+            name="description"
+            ref={register(validations.description)}
+            isInvalid={!!errors.description}
+          />
+        </Field>
+
+        <Field
+          label="Link"
+          error={errors.external_link}
+        >
+          <Input
+            background="dark"
+            placeholder="External link"
+            name="external_link"
+            ref={register(validations.external_link)}
+            isInvalid={!!errors.external_link}
+          />
+        </Field>
+
+        <Field
+          label="Repetition"
+        >
+          <Select
+            isRequired
+            name="repetition"
+            ref={register(validations.repetition)}
+            isInvalid={!!errors.repetition}
+            bg="dark"
+            color="white"
+          >
+            {Object.entries(QuestRepetition_Enum).map(([key, value]) => (
+              <option key={value} value={value}>
+                {key}
+              </option>
+            ))}
+          </Select>
+          <MetaTag
+            size="md"
+            fontWeight="normal"
+            p={2}
+            mt={2}
+            backgroundColor={RepetitionColors[createQuestInput.repetition]}
+          >{QuestRepetitionHint[createQuestInput.repetition]}</MetaTag>
+        </Field>
         {createQuestInput.repetition === QuestRepetition_Enum.Recurring && (
-          <>
-            <Text>Cooldown (hours)</Text>
+          <Field
+            label="Cooldown (hours)"
+            error={errors.cooldown}
+          >
             <Input
               isRequired
               background="dark"
@@ -185,30 +252,35 @@ export const QuestForm: React.FC<Props> = ({
               ref={register(validations.cooldown)}
               isInvalid={!!errors.cooldown}
             />
-            {!!errors.cooldown && <Text>Invalid</Text>}
-          </>
+          </Field>
         )}
 
-        <Text>Guild</Text>
-        <Select
-          isRequired
-          name="guild_id"
-          ref={register(validations.guild_id)}
-          isInvalid={!!errors.guild_id}
+        <Field
+          label="Guild"
         >
-          {guilds.map((guild) => (
-            <option key={guild.id} value={guild.id}>
-              {guild.name}
-            </option>
-          ))}
-        </Select>
+          <Select
+            isRequired
+            name="guild_id"
+            ref={register(validations.guild_id)}
+            isInvalid={!!errors.guild_id}
+            bg="dark"
+            color="white"
+          >
+            {guilds.map((guild) => (
+              <option key={guild.id} value={guild.id}>
+                {guild.name}
+              </option>
+            ))}
+          </Select>
+        </Field>
 
         {editQuest && (
-          <>
-            <Text>Status</Text>
+          <Field label="Status">
             <Select
               isRequired
               name="status"
+              bg="dark"
+              color="white"
               ref={register}
               isInvalid={!!errors.status}
             >
@@ -218,26 +290,28 @@ export const QuestForm: React.FC<Props> = ({
                 </option>
               ))}
             </Select>
-          </>
+          </Field>
         )}
 
-        <FlexContainer w="100%" align="stretch" maxW="50rem">
-          <Controller
-            name="skills"
-            control={control}
-            defaultValue={[]}
-            render={({ onChange, value }) => (
-              <SkillsSelect
-                skillChoices={skillChoices}
-                skills={value}
-                setSkills={onChange}
-                placeHolder="Select required skills"
-              />
-            )}
-          />
-        </FlexContainer>
+        <Field label="Skills">
+          <FlexContainer w="100%" align="stretch" maxW="50rem">
+            <Controller
+              name="skills"
+              control={control}
+              defaultValue={[]}
+              render={({ onChange, value }) => (
+                <SkillsSelect
+                  skillChoices={skillChoices}
+                  skills={value}
+                  setSkills={onChange}
+                  placeHolder="Select required skills"
+                />
+              )}
+            />
+          </FlexContainer>
+        </Field>
 
-        <HStack>
+        <HStack justify="space-between" mt={4} w="100%">
           <MetaButton
             variant="outline"
             colorScheme="pink"
