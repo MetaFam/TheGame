@@ -107,13 +107,12 @@ export const QuestFilter: React.FC<Props> = ({
                     isChecked={
                       myId && queryVariables.created_by_player_id === myId
                     }
-                    isReadOnly
-                    onClick={() => {
+                    onClick={(e) => {
                       setQueryVariable(
                         'created_by_player_id',
                         queryVariables.created_by_player_id ? '' : myId,
                       );
-                      return false; // prevent cascade
+                      e.preventDefault();
                     }}
                   />
                 </MetaButton>
