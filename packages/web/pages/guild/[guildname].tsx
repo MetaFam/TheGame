@@ -62,15 +62,14 @@ const GuildPage: React.FC<Props> = ({ guild, quests }) => {
                     <p>No known players yet.</p>
                   </ProfileSection>
                 </Box>
+                <Box mb="6">
+                  <ProfileSection title="Stats" />
+                </Box>
               </Box>
               <Box width={{ base: '100%', lg: '50%' }} ml={{ base: 0, lg: 4 }}>
                 <Box mb="6">
                   <ProfileSection title="Announcements">
-                    {guild.twitter_url ? (
-                      <p>All announcements</p>
-                    ) : (
-                      <p>No announcements yet.</p>
-                    )}
+                    <p>No announcements.</p>
                   </ProfileSection>
                 </Box>
                 <Box mb="6">

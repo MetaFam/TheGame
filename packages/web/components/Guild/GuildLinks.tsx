@@ -43,9 +43,9 @@ export const GuildLinks: React.FC<Props> = ({ guild }) => {
             </a>
           </WrapItem>
         ) : null}
-        {guild.github_url ? (
+        {guild.website_url ? (
           <WrapItem>
-            <a href={guild.github_url} target="_blank" rel="noreferrer">
+            <a href={guild.website_url} target="_blank" rel="noreferrer">
               <IconButton
                 variant="outline"
                 aria-label="Github"
@@ -56,9 +56,9 @@ export const GuildLinks: React.FC<Props> = ({ guild }) => {
             </a>
           </WrapItem>
         ) : null}
-        {guild.twitter_url ? (
+        {guild.website_url ? (
           <WrapItem>
-            <a href={guild.twitter_url} target="_blank" rel="noreferrer">
+            <a href={guild.website_url} target="_blank" rel="noreferrer">
               <IconButton
                 variant="outline"
                 aria-label="Twitter"
