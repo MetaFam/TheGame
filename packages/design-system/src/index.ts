@@ -1,4 +1,5 @@
 export { BoxedNextImage } from './BoxedNextImage';
+export { ConfirmModal } from './ConfirmModal';
 export { BrightIdIcon, Icon3box } from './icons';
 export { LoadingState } from './LoadingState';
 export { MetaBox } from './MetaBox';

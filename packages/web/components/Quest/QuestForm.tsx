@@ -1,5 +1,6 @@
 import {
   Box,
+  ConfirmModal,
   HStack,
   Input,
   MetaButton,
@@ -20,7 +21,6 @@ import { Controller, useForm } from 'react-hook-form';
 
 import { QuestRepetitionHint, UriRegexp } from '../../utils/questHelpers';
 import { CategoryOption, SkillOption } from '../../utils/skillHelpers';
-import { ConfirmModal } from '../ConfirmModal';
 import { FlexContainer } from '../Container';
 import { SkillsSelect } from '../Skills';
 

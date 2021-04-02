@@ -1,4 +1,4 @@
-import { HStack, Input, MetaButton, Text, VStack } from '@metafam/ds';
+import { ConfirmModal, HStack, Input, MetaButton, Text, VStack } from '@metafam/ds';
 import {
   CreateQuestCompletionInput,
   QuestFragmentFragment,
@@ -8,7 +8,6 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { UriRegexp } from '../../utils/questHelpers';
-import { ConfirmModal } from '../ConfirmModal';
 
 const validations = {
   submission_text: {

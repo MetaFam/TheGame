@@ -1,6 +1,7 @@
 import {
   Avatar,
   Box,
+  ConfirmModal,
   HStack,
   MetaButton,
   Text,
@@ -22,7 +23,6 @@ import { FaExternalLinkAlt } from 'react-icons/fa';
 
 import { useUser } from '../../lib/hooks';
 import { getPlayerName } from '../../utils/playerHelpers';
-import { ConfirmModal } from '../ConfirmModal';
 import { CompletionStatusTag } from './QuestTags';
 
 interface AlertSubmission {
