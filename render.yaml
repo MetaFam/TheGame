@@ -39,11 +39,18 @@ services:
         sync: false
       - key: DISCORD_BOT_TOKEN
         sync: false
+      - key: DISCORD_BOT_CLIENT_ID
+        sync: false
+      - key: DISCORD_BOT_CLIENT_SECRET
+        sync: false
+      - key: FRONTEND_URL
+        value: https://my.metagame.wtf
       - key: GRAPHQL_HOST
         fromService:
           name: hasura
           type: web
           property: host
+      - key: 
 
   - type: web
     name: mymeta
