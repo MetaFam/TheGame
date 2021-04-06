@@ -4,7 +4,7 @@ require('dotenv').config({ path: `${__dirname}/../.env` });
 interface IConfig {
   graphqlURL: string;
   adminKey: string;
-  backendUrl: string;
+  frontendUrl: string;
   discordBotToken: string;
   discordBotClientId: string;
   discordBotClientSecret: string;
@@ -31,7 +31,7 @@ export const CONFIG: IConfig = {
     process.env.HASURA_GRAPHQL_ADMIN_SECRET,
     'metagame_secret',
   ),
-  backendUrl: parseEnv(process.env.BACKEND_URL, 'http://localhost:4000'),
+  frontendUrl: parseEnv(process.env.FRONTEND_URL, 'http://localhost:3000'),
   discordBotToken: parseEnv(process.env.DISCORD_BOT_TOKEN, ''),
   discordBotClientId: parseEnv(process.env.DISCORD_BOT_CLIENT_ID, ''),
   discordBotClientSecret: parseEnv(process.env.DISCORD_BOT_CLIENT_SECRET, ''),

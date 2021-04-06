@@ -9,7 +9,7 @@ export const tokenRequestData = {
   client_id: CONFIG.discordBotClientId,
   client_secret: CONFIG.discordBotClientSecret,
   grant_type: 'authorization_code',
-  redirect_uri: `${CONFIG.backendUrl}/${Constants.DISCORD_OAUTH_CALLBACK_PATH}`,
+  redirect_uri: `${CONFIG.frontendUrl}/${Constants.DISCORD_OAUTH_CALLBACK_PATH}`,
   scope: Constants.DISCORD_OAUTH_SCOPES,
 }
 
@@ -18,7 +18,7 @@ export const exchangeCodeForAccessToken = async (code: string): Promise<DiscordA
     ...tokenRequestData,
     code,
   }
-
+  
   const discordResponse = await fetch('https://discord.com/api/oauth2/token', {
     method: 'POST',
     body: new URLSearchParams(data),

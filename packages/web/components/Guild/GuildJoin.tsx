@@ -6,19 +6,20 @@ import { CONFIG } from 'config';
 import React from 'react';
 import { FaCheckCircle } from 'react-icons/fa';
 
-const discordOAuthCallbackUrl = `${CONFIG.backendUrl}/${Constants.DISCORD_OAUTH_CALLBACK_PATH}`;
+export const GuildJoin: React.FC = () => {  
+  const discordOAuthCallbackUrl = `${CONFIG.publicUrl}/${Constants.DISCORD_OAUTH_CALLBACK_PATH}`;
+  
+  const discordAuthParams = new URLSearchParams({
+    response_type: 'code',
+    client_id: CONFIG.discordBotClientId,
+    state: 'guid-to-go-in-localstorage',
+    permissions: Constants.DISCORD_BOT_PERMISSIONS,
+    redirect_uri: encodeURI(discordOAuthCallbackUrl),
+    scope: Constants.DISCORD_OAUTH_SCOPES,
+  });
+  
+  const discordAuthUrl = `https://discord.com/api/oauth2/authorize?${discordAuthParams.toString()}`;
 
-const discordAuthParams = new URLSearchParams({
-  response_type: 'code',
-  client_id: CONFIG.discordBotClientId,
-  state: 'guid-to-go-in-localstorage',
-  permissions: Constants.DISCORD_BOT_PERMISSIONS,
-  redirect_uri: encodeURI(discordOAuthCallbackUrl),
-  scope: Constants.DISCORD_OAUTH_SCOPES,
-})
-const discordAuthUrl = `https://discord.com/api/oauth2/authorize?${discordAuthParams.toString()}`;
-
-export const GuildJoin: React.FC = () => {
   return (
     <FlexContainer flex="1" justify="start" mt={5}>
       <MetaHeading textAlign="center" mb={10}>
