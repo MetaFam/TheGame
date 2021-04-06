@@ -307,8 +307,8 @@
       - rank
       - role
       - sc_identity_id
-      - timezone
       - total_xp
+      - timezone
       - username
       filter: {}
   - role: public
@@ -320,8 +320,8 @@
       - id
       - rank
       - role
-      - timezone
       - total_xp
+      - timezone
       - username
       filter: {}
   update_permissions:

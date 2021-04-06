@@ -1,19 +1,8 @@
 import { PageContainer } from 'components/Container';
 import { GuildJoin } from 'components/Guild/GuildJoin';
-import { InferGetStaticPropsType } from 'next';
 import React from 'react';
 
-type Props = InferGetStaticPropsType<typeof getStaticProps>;
-
-export const getStaticProps = async () => {
-  return {
-    props: {
-      hideAppDrawer: false,
-    },
-  };
-};
-
-const SetupGuild: React.FC<Props> = () => (
+const SetupGuild: React.FC = () => (
   <PageContainer>
     <GuildJoin />
   </PageContainer>
