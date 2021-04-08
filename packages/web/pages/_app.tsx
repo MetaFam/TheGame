@@ -1,14 +1,18 @@
 import { ChakraProvider, CSSReset, MetaTheme } from '@metafam/ds';
 import { MobileFooter } from 'components/MobileFooter';
 import { PageHeader } from 'components/PageHeader';
-import { CONFIG } from 'config';
 import { Web3ContextProvider } from 'contexts/Web3Context';
-import { getTokenFromStore } from 'lib/auth';
 import Head from 'next/head';
-import { withUrqlClient, WithUrqlProps } from 'next-urql';
+import { WithUrqlProps } from 'next-urql';
 import React from 'react';
 
-const app: React.FC<WithUrqlProps> = ({ pageProps, resetUrqlClient, Component }) => {
+import { wrapUrqlClient } from '../graphql/client';
+
+const App: React.FC<WithUrqlProps> = ({
+  pageProps,
+  resetUrqlClient,
+  Component,
+}) => {
   return (
     <ChakraProvider theme={MetaTheme}>
       <CSSReset />
@@ -27,18 +31,4 @@ const app: React.FC<WithUrqlProps> = ({ pageProps, resetUrqlClient, Component })
   );
 };
 
-export default withUrqlClient(
-  (_ssrExchange, ctx) => ({
-    url: CONFIG.graphqlURL,
-    fetchOptions: () => ({
-      headers: {
-        Authorization: ctx
-          ? `Bearer ${ctx?.req?.headers?.authorization ?? ''}`
-          : `Bearer ${getTokenFromStore() ?? ''}`,
-      },
-    }),
-  }),
-  {
-    neverSuspend: true,
-  },
-)(app);
+export default wrapUrqlClient(App);

@@ -40,7 +40,11 @@ const PlayerPage: React.FC<Props> = ({ player }) => {
   ]);
 
   if (router.isFallback) {
-    return <LoadingState />;
+    return (
+      <PageContainer>
+        <LoadingState />
+      </PageContainer>
+    );
   }
 
   if (!player) {
@@ -187,7 +191,7 @@ export const getStaticProps = async (
         destination: '/',
         permanent: false,
       },
-    }
+    };
   }
 
   let player = await getPlayer(username);
@@ -199,10 +203,10 @@ export const getStaticProps = async (
           destination: `/player/${username.toLowerCase()}`,
           permanent: false,
         },
-      }
+      };
     }
   }
-  
+
   return {
     props: {
       player: player || null, // must be serializable

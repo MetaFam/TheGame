@@ -20,7 +20,11 @@ const GuildPage: React.FC<Props> = ({ guild }) => {
   const router = useRouter();
 
   if (router.isFallback) {
-    return <LoadingState />;
+    return (
+      <PageContainer>
+        <LoadingState />
+      </PageContainer>
+    );
   }
 
   if (!guild) {

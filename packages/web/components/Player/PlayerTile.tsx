@@ -15,8 +15,8 @@ import {
 import { MetaLink } from 'components/Link';
 import { PlayerContacts } from 'components/Player/PlayerContacts';
 import { PlayerTileMemberships } from 'components/Player/PlayerTileMemberships';
-import { PlayerTileSkills } from 'components/Player/PlayerTileSkills';
-import { PlayerFragmentFragment } from 'graphql/autogen/types';
+import { SkillsTags } from 'components/Skills';
+import { PlayerFragmentFragment, Skill } from 'graphql/autogen/types';
 import React from 'react';
 import {
   getPlayerCoverImage,
@@ -83,7 +83,7 @@ export const PlayerTile: React.FC<Props> = ({ player }) => {
         </Wrap>
         {player.box_profile?.description ? (
           <VStack spacing={2} align="stretch">
-            <Text fontFamily="mono" fontSize="sm" color="blueLight">
+            <Text textStyle="caption">
               ABOUT
             </Text>
             <Text fontSize="sm">{player.box_profile.description}</Text>
@@ -93,16 +93,16 @@ export const PlayerTile: React.FC<Props> = ({ player }) => {
       <MetaTileBody>
         {player.Player_Skills.length ? (
           <VStack spacing={2} align="stretch">
-            <Text fontFamily="mono" fontSize="sm" color="blueLight">
+            <Text textStyle="caption">
               SKILLS
             </Text>
-            <PlayerTileSkills player={player} />
+            <SkillsTags skills={player.Player_Skills.map(s => s.Skill) as Skill[]} />
           </VStack>
         ) : null}
 
         {player.daohausMemberships.length ? (
           <VStack spacing={2} align="stretch">
-            <Text fontFamily="mono" fontSize="sm" color="blueLight">
+            <Text textStyle="caption">
               MEMBER OF
             </Text>
             <PlayerTileMemberships player={player} />
@@ -111,7 +111,7 @@ export const PlayerTile: React.FC<Props> = ({ player }) => {
 
         {player.Accounts.length ? (
           <VStack spacing={2} align="stretch">
-            <Text fontFamily="mono" fontSize="sm" color="blueLight">
+            <Text textStyle="caption">
               CONTACT
             </Text>
             <HStack mt="2">

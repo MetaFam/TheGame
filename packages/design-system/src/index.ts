@@ -1,4 +1,5 @@
 export { BoxedNextImage } from './BoxedNextImage';
+export { ConfirmModal } from './ConfirmModal';
 export { BrightIdIcon, Icon3box } from './icons';
 export { LoadingState } from './LoadingState';
 export { MetaBox } from './MetaBox';
@@ -14,6 +15,12 @@ export { theme as MetaTheme } from './theme';
 export { H1, P } from './typography';
 export { EmailIcon } from '@chakra-ui/icons';
 export {
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogOverlay,
   Avatar,
   Badge,
   Box,
@@ -29,6 +36,7 @@ export {
   Flex,
   FlexProps,
   Grid,
+  GridItem,
   Heading,
   HStack,
   Icon,
@@ -50,7 +58,9 @@ export {
   Spacer,
   Spinner,
   Stack,
+  Switch,
   Text,
+  Textarea,
   Tooltip,
   useDisclosure,
   useTheme,

@@ -21,11 +21,11 @@ export const useUser = ({ redirectTo, redirectIfFound }: UseUserOpts = {}): {
   const [{ data, error, fetching }] = useGetMeQuery({
     pause: !authToken,
   });
-
-  const user = data?.me[0];
+  const me = data?.me[0];
+  const user = (error || !authToken || !me) ?  null : me;
 
   useEffect(() => {
-    if (!redirectTo || !user) return;
+    if (!redirectTo) return;
 
     if (
       // If redirectTo is set, redirect if the user was not found.
@@ -37,7 +37,7 @@ export const useUser = ({ redirectTo, redirectIfFound }: UseUserOpts = {}): {
     }
   }, [router, user, redirectIfFound, redirectTo]);
 
-  return { user: error ? null : user, fetching };
+  return { user, fetching };
 };
 
 export const useMounted = (): boolean => {
