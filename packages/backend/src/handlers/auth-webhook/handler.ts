@@ -11,7 +11,7 @@ const unauthorizedVariables = {
 function getHeaderToken(req: Request): string | null {
   const authHeader = req.headers.authorization;
   if (!authHeader) return null;
-  if (authHeader.substring(0, 7) !== 'Bearer')
+  if (authHeader.substring(0, 6) !== 'Bearer')
     throw new Error('invalid token type');
 
   const token = authHeader.replace('Bearer', '').trim();
