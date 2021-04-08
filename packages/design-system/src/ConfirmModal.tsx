@@ -6,8 +6,9 @@ import {
   AlertDialogHeader,
   AlertDialogOverlay,
 } from '@chakra-ui/react';
-import { MetaButton } from './MetaButton';
 import React, { useRef } from 'react';
+
+import { MetaButton } from './MetaButton';
 
 type Props = {
   isOpen: boolean,
