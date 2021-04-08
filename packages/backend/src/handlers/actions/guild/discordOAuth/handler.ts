@@ -1,9 +1,10 @@
 /* eslint-disable no-console */
 import { exchangeCodeForAccessToken, GuildDiscordMetadata, OAuth2CodeExchangeResponse, PartialGuild } from '@metafam/discord-bot';
+import { DiscordUtil } from '@metafam/utils';
 import { Request, Response } from 'express';
 import { v4 as uuidv4 } from 'uuid';
 
-import { DiscordGuildAuthResponse, GuildStatus_Enum, GuildType_Enum } from '../../../../lib/autogen/hasura-sdk';
+import { DiscordGuildAuthResponse, Guild_Insert_Input,GuildStatus_Enum, GuildType_Enum } from '../../../../lib/autogen/hasura-sdk';
 import { client } from '../../../../lib/hasuraClient';
 
 export const handleOAuthCallback = async (
@@ -97,7 +98,7 @@ const parseDiscordMetadata = (oauthResponse: OAuth2CodeExchangeResponse): GuildD
 }
 
 const createNewGuild = async (discordGuild: PartialGuild, discordMetadata: GuildDiscordMetadata): Promise<DiscordGuildAuthResponse> => {
-  const newGuildPayload = {
+  let newGuildPayload: Guild_Insert_Input = {
     type: GuildType_Enum.Project,
     name: discordGuild.name,
     guildname: discordGuild.name.toLowerCase().replace(/[^a-z0-9]/g, ''),
@@ -105,6 +106,13 @@ const createNewGuild = async (discordGuild: PartialGuild, discordMetadata: Guild
     status: GuildStatus_Enum.Pending,
     discord_metadata: discordMetadata,
   };
+
+  if (discordMetadata.logoHash != null) {
+    newGuildPayload = {
+      ...newGuildPayload,
+      logo: DiscordUtil.guildIconUrl(discordGuild.id, discordMetadata.logoHash),
+    };
+  }
   
   const createGuildResponse = await client.CreateGuild({ objects: newGuildPayload });
   if (createGuildResponse.insert_guild != null && createGuildResponse.insert_guild.returning.length > 0 ) {
