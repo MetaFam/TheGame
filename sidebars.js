@@ -18,6 +18,7 @@ module.exports = {
       "how-does-it-work/xp",
       "how-does-it-work/obtaining-seeds",
       "how-does-it-work/become-a-founder-of-metagame",
+      "how-does-it-work/a-cautionary-tale",
     ],
     "🗺 Enter MetaGame": [
       "enter-metagame/why-patron",
