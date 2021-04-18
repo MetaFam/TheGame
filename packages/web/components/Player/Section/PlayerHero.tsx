@@ -4,10 +4,11 @@ import { getPersonalityInfo } from 'graphql/getPersonalityInfo';
 import { PersonalityOption } from 'graphql/types';
 import React, { useEffect } from 'react';
 import { getPlayerDescription, getPlayerName } from 'utils/playerHelpers';
-import { PlayerAvatar } from '../PlayerAvatar';
+
 import { FlexContainer } from '../../Container';
 import { ProfileSection } from '../../ProfileSection';
 import { ColorBar } from '../ColorBar';
+import { PlayerAvatar } from '../PlayerAvatar';
 import { PlayerContacts } from '../PlayerContacts';
 import { PlayerBrightId } from './PlayerBrightId';
 import { PlayerCollab } from './PlayerCollab';
