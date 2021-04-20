@@ -18,6 +18,4 @@ async function createDiscordClient(): Promise<Client> {
   return client;
 }
 
-createDiscordClient();
-
 export { createDiscordClient };
