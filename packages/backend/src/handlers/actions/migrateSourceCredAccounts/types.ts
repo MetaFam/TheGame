@@ -1,3 +1,24 @@
+export interface LedgerManager {
+  reloadLedger: () => Promise<ReloadResult>;
+  ledger: Ledger;
+}
+
+export interface Ledger {
+  accounts: () => SCAccountInfo[];
+}
+
+export interface ReloadResult {
+  error: string | null;
+}
+
+export interface SCReadInstance {
+  readCredGraph: () => Promise<CredGraph>;
+}
+
+export type CredGraph = {
+  
+}
+
 export interface SCAccountsData {
   accounts: SCAccount[];
   intervalEndpoints: number[];
