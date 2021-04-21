@@ -25,7 +25,7 @@ services:
   database:
     image: postgres:12
     volumes:
-      - database:/var/lib/postgresql/data
+      - mg-database:/var/lib/postgresql/data
     ports:
       - 5432:5432
     environment:
@@ -61,4 +61,4 @@ services:
       DISCORD_BOT_CLIENT_SECRET: ${DISCORD_BOT_CLIENT_SECRET}
 
 volumes:
-  database:
+  mg-database:
