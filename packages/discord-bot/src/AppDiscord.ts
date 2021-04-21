@@ -2,6 +2,7 @@ import { Command, CommandMessage, Discord } from '@typeit/discord';
 import { sourcecred as sc } from 'sourcecred';
 
 import { CONFIG } from './config';
+import { getDiscordId } from './utils';
 
 export const storage = new sc.ledger.storage.GithubStorage({
   apiToken: CONFIG.githubApiToken,
@@ -19,9 +20,8 @@ const addressUtils = sc.plugins.ethereum.utils.address;
 
 @Discord('!')
 export abstract class AppDiscord {
-  @Command('setAddress :ethAddress')
-  // @ts-expect-error should be allowedyarn
-  private async setAddress(message: CommandMessage) {
+  // @Command('setAddress :ethAddress')
+  async setAddress(message: CommandMessage) {
     const res = await ledgerLoadedPromise;
 
     if (res.error) {
@@ -81,5 +81,20 @@ export abstract class AppDiscord {
     } catch (e) {
       await message.reply(`Unable to link address: ${e.message}`);
     }
+  }
+
+  // todo rename to xp once previous bot is disabled
+  @Command('getxp :discordUser')
+  async getXp(message: CommandMessage) {
+    try {
+      // need to test, are args already whitespace-stripped?
+      // no argument should be supported as well
+      const targetUserDiscordId = getDiscordId(message.args.discordUser);
+      // eslint-disable-next-line no-console
+      console.log(targetUserDiscordId);
+    } catch (e) {
+      await message.reply(`Could not recognize user ${message.args.discordUser}. Try \`!ac help\` if you need help.`);
+    }
+
   }
 }
