@@ -36,7 +36,7 @@ export const SetupUsername: React.FC<SetupUsernameProps> = ({
         errorDetail = 'This username is already taken 😢';
       } else if (error.message.includes('username_is_valid')) {
         errorDetail =
-          'A username can only contain letters, numbers, and dashes.';
+          'A username can only contain lowercase letters, numbers, and dashes.';
       }
       toast({
         title: 'Error',
