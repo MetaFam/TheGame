@@ -6,8 +6,10 @@ import { useUser } from 'lib/hooks';
 import React, { useState } from 'react';
 
 export type SetupUsernameProps = {
-  username: string;
-  setUsername: React.Dispatch<React.SetStateAction<string>>;
+  username: string | undefined;
+  setUsername: (
+    React.Dispatch<React.SetStateAction<string | undefined>>
+  );
 };
 
 export const SetupUsername: React.FC<SetupUsernameProps> = ({
@@ -18,7 +20,9 @@ export const SetupUsername: React.FC<SetupUsernameProps> = ({
   const { user } = useUser({ redirectTo: '/' });
   const toast = useToast();
 
-  const [updateUsernameRes, updateUsername] = useUpdatePlayerUsernameMutation();
+  const [updateUsernameRes, updateUsername] = (
+    useUpdatePlayerUsernameMutation()
+  );
   const [loading, setLoading] = useState(false);
 
   const handleNextPress = async () => {
@@ -27,7 +31,7 @@ export const SetupUsername: React.FC<SetupUsernameProps> = ({
     setLoading(true);
     const { error } = await updateUsername({
       playerId: user.id,
-      username,
+      username: username ?? '',
     });
 
     if (error) {
@@ -63,6 +67,7 @@ export const SetupUsername: React.FC<SetupUsernameProps> = ({
         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
           setUsername(e.target.value)
         }
+        w="auto"
       />
 
       <MetaButton

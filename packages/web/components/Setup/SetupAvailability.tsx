@@ -65,7 +65,7 @@ export const SetupAvailability: React.FC<SetupAvailabilityProps> = ({
   return (
     <FlexContainer>
       <MetaHeading mb={5} textAlign="center">
-        Availability
+        Avail&#xAD;ability
       </MetaHeading>
       <Text mb={10}>
         What is your weekly availability for any kind of freelance work?
