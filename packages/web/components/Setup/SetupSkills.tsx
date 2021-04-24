@@ -83,7 +83,7 @@ export const SetupSkills: React.FC<SetupSkillsProps> = ({
   return (
     <FlexContainer>
       <MetaHeading mb={10} mt={-64} textAlign="center">
-        What are your superpowers?
+        What are your super&#xAD;powers?
       </MetaHeading>
       <FlexContainer w="100%" align="stretch" maxW="50rem">
         <SelectSearch
