@@ -1516,7 +1516,6 @@ enum GuildStatus_constraint {
 enum GuildStatus_enum {
   ACTIVE
   INACTIVE
-  LEGACY
   PENDING
 }
 
