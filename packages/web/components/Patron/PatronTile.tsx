@@ -15,8 +15,9 @@ import {
 import { MetaLink } from 'components/Link';
 import { PlayerContacts } from 'components/Player/PlayerContacts';
 import { PlayerTileMemberships } from 'components/Player/PlayerTileMemberships';
+import { SkillsTags } from 'components/Skills';
 import { utils } from 'ethers';
-import { PlayerFragmentFragment } from 'graphql/autogen/types';
+import { PlayerFragmentFragment, Skill } from 'graphql/autogen/types';
 import { Patron } from 'graphql/types';
 import React from 'react';
 import {
@@ -61,23 +62,25 @@ export const PatronTile: React.FC<Props> = ({ patron }) => {
           </VStack>
         </MetaLink>
         <Wrap w="100%" justify="center">
-          {player.playerType?.title ? (
-            <WrapItem>
-              <MetaTag size="md">
-                {player.playerType?.title.toUpperCase()}
-              </MetaTag>
-            </WrapItem>
-          ) : null}
           {patron.pSeedBalance ? (
             <WrapItem>
               <MetaTag
-                backgroundColor="cyan.400"
                 size="md"
-                color="blackAlpha.600"
               >
                 {`pSEED: ${Math.floor(
                   Number(utils.formatEther(patron.pSeedBalance)),
                 )}`}
+              </MetaTag>
+            </WrapItem>
+          ) : null}
+          {player.rank ? (
+            <WrapItem>
+              <MetaTag
+                backgroundColor={player.rank?.toLowerCase()}
+                size="md"
+                color="blackAlpha.600"
+              >
+                {player.rank}
               </MetaTag>
             </WrapItem>
           ) : null}
@@ -95,6 +98,15 @@ export const PatronTile: React.FC<Props> = ({ patron }) => {
         ) : null}
       </MetaTileHeader>
       <MetaTileBody>
+        {player.Player_Skills.length ? (
+          <VStack spacing={2} align="stretch">
+            <Text textStyle="caption">
+              SKILLS
+            </Text>
+            <SkillsTags skills={player.Player_Skills.map(s => s.Skill) as Skill[]} />
+          </VStack>
+        ) : null}
+
         {player.daohausMemberships.length ? (
           <VStack spacing={2} align="stretch">
             <Text textStyle="caption">

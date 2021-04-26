@@ -126,4 +126,11 @@ export const DrawerSubItems: DrawerItemType[] = [
     alt: 'MetaLeaderboard',
     text: 'Leaderboard',
   },
+  {
+    href: '/patrons',
+    isExternal: true,
+    src: emojiUrl('money-dollar-sign.png'),
+    alt: 'MetaPatrons',
+    text: 'Patrons',
+  },
 ];
