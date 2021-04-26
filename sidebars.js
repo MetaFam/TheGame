@@ -27,7 +27,7 @@ module.exports = {
       "enter-metagame/navigation-board",
       "enter-metagame/join-metagame",
       "enter-metagame/leaderboard",
-      "enter-metagame/Chainlog",
+      //"enter-metagame/Chainlog",
     ],
     '🏡 The Great Houses': [
       'great-houses/how-to-house',
