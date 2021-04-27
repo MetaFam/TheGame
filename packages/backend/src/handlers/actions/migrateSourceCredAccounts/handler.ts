@@ -1,8 +1,8 @@
-import { isNotNullOrUndefined } from '@metafam/utils';
+import { Constants, isNotNullOrUndefined } from '@metafam/utils';
 import bluebird from 'bluebird';
 import { Request, Response } from 'express';
 import fetch from 'node-fetch';
-import { sourcecred as sc } from 'sourcecred';
+import { AddressBookEntry, SCAccountsData, SCAlias, sourcecred as sc } from 'sourcecred';
 
 import {
   AccountType_Enum,
@@ -13,14 +13,7 @@ import {
 } from '../../../lib/autogen/hasura-sdk';
 import { client } from '../../../lib/hasuraClient';
 import { computeRank } from '../../../lib/rankHelpers';
-import {
-  AddressBookEntry,
-  SCAccountsData,
-  SCAlias,
-} from './types';
 
-// const ACCOUNTS_FILE = 'http://host.docker.internal:6006/output/accounts.json';
-const ACCOUNTS_FILE = 'https://raw.githubusercontent.com/MetaFam/XP/gh-pages/output/accounts.json';
 const ADDRESS_BOOK_FILE =
   'https://raw.githubusercontent.com/MetaFam/TheSource/master/addressbook.json';
 
@@ -79,7 +72,7 @@ export const migrateSourceCredAccounts = async (
   res: Response,
 ): Promise<void> => {
   const accountsData: SCAccountsData = await (
-    await fetch(ACCOUNTS_FILE)
+    await fetch(Constants.SC_ACCOUNTS_FILE)
   ).json();
 
   const addressBook: AddressBookEntry[] = await (

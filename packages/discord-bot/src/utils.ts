@@ -1,5 +1,7 @@
+import { CommandMessage } from "@typeit/discord";
+import { Message, Snowflake } from "discord.js";
 
-export const getDiscordId = (targetParameter: string) => {
+export const getDiscordId = (targetParameter: string): Snowflake => {
   // Parse the targetParameter
   // desktop/web user if starts with <@! and ends with >
   // mobile user if starts with <@ and ends with >
@@ -12,4 +14,15 @@ export const getDiscordId = (targetParameter: string) => {
   } 
   
   throw new Error('Unexpected argument for targetParameter');
+}
+
+export const replyWithUnexpectedError = (message: CommandMessage): Promise<Message> => {
+  let reply = "The octo is sad 😢, as there was an unexpected error.";
+
+  const feedbackChannel = message.guild?.channels?.cache.get('794214722639101992');
+  if (feedbackChannel) {
+    reply += ` Let us know what happened in ${feedbackChannel.toString()}`
+  }
+
+  return message.reply(reply);
 }

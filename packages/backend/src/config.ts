@@ -27,10 +27,18 @@ function parseEnv<T extends string | number>(
 
 export const CONFIG: IConfig = {
   port: parseEnv(process.env.PORT, 4000),
-  graphqlURL: parseEnv(
-    process.env.GRAPHQL_URL,
-    'http://localhost:8080/v1/graphql',
-  ),
+  graphqlURL: (() => {
+    const {
+      GRAPHQL_URL: url,
+      GRAPHQL_HOST: host,
+    } = process.env;
+
+    if (url) return url;
+    if (host) {
+      return `https://${host}.onrender.com/v1/graphql`;
+    }
+    return 'http://localhost:8080/v1/graphql';
+  })(),
   seedGraphqlURL: parseEnv(
     process.env.SEED_GRAPHQL_URL,
     'https://api.thegraph.com/subgraphs/name/dan13ram/seed-graph',
