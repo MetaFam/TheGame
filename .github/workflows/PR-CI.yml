@@ -89,8 +89,14 @@ jobs:
           HASURA_GRAPHQL_ADMIN_SECRET: so-secretish
           HASURA_PORT: 8080
 
+      - name: Debug docker containers
+        run: docker ps -a
+
       - name: Build Web
         run: yarn web:build
         env:
           CI: true
           NEXT_PUBLIC_GRAPHQL_URL: http://localhost:8080/v1/graphql
+
+      - name: Cleanup
+        run: docker-compose down
