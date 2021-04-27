@@ -35,9 +35,8 @@ services:
     dockerContext: .
     envVars:
       - fromGroup: hasura-secrets
+      - fromGroup: sourcecred
       - key: IMGIX_TOKEN
-        sync: false
-      - key: DISCORD_BOT_TOKEN
         sync: false
       - key: DISCORD_BOT_CLIENT_ID
         sync: false
@@ -50,7 +49,6 @@ services:
           name: hasura
           type: web
           property: host
-      - key:
 
   # discord-bot
   - type: web
@@ -60,9 +58,21 @@ services:
     dockerfilePath: ./docker/discord-bot/Dockerfile
     dockerContext: .
     envVars:
+      - fromGroup: hasura-secrets
       - fromGroup: sourcecred
       - key: PORT
-        value: 10000
+        value: 5000
+      - key: DISCORD_BOT_CLIENT_ID
+        sync: false
+      - key: DISCORD_BOT_CLIENT_SECRET
+        sync: false
+      - key: FRONTEND_URL
+        value: https://my.metagame.wtf
+      - key: GRAPHQL_HOST
+        fromService:
+          name: hasura
+          type: web
+          property: host
 
   # frontend
   - type: web
