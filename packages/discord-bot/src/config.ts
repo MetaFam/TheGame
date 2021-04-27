@@ -2,6 +2,7 @@
 require('dotenv').config({ path: `${__dirname}/../.env` });
 
 interface IConfig {
+  port: number;
   graphqlURL: string;
   adminKey: string;
   frontendUrl: string;
@@ -24,14 +25,9 @@ function parseEnv<T extends string | number>(
 }
 
 export const CONFIG: IConfig = {
-  graphqlURL: parseEnv(
-    process.env.GRAPHQL_URL,
-    'http://localhost:8080/v1/graphql',
-  ),
-  adminKey: parseEnv(
-    process.env.HASURA_GRAPHQL_ADMIN_SECRET,
-    'metagame_secret',
-  ),
+  port: parseEnv(process.env.PORT, 5000),
+  graphqlURL: parseEnv(process.env.GRAPHQL_URL, 'http://localhost:8080/v1/graphql'),
+  adminKey: parseEnv(process.env.HASURA_GRAPHQL_ADMIN_SECRET, 'metagame_secret'),
   frontendUrl: parseEnv(process.env.FRONTEND_URL, 'http://localhost:3000'),
   githubApiToken: parseEnv(process.env.GITHUB_API_TOKEN, ''),
   discordBotToken: parseEnv(process.env.DISCORD_BOT_TOKEN, ''),
