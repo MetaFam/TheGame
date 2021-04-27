@@ -31,8 +31,15 @@
     "sourcecred": "0.8.5"
   },
   "devDependencies": {
+<<<<<<< 1cf63eba00e595bb937de6ddc5df2196eecacb07
     "@types/node-fetch": "2.5.10",
     "concurrently": "6.0.2",
     "ts-node-dev": "1.1.6"
+=======
+    "@types/express": "^4.17.11",
+    "@types/node-fetch": "2.5.7",
+    "concurrently": "5.3.0",
+    "ts-node-dev": "1.1.1"
+>>>>>>> Fixed docker build
   }
 }

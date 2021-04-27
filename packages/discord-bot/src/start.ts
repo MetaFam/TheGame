@@ -1,15 +1,16 @@
 import express from 'express';
 
 import { createDiscordClient } from ".";
+import { CONFIG } from './config';
 
 const app = express();
 
-const router = express.Router();
-
-router.get('/healthz', (_, res) => {
+app.get('/healthz', (_, res) => {
   res.send('ok');
 });
 
-app.use(router);
+app.listen(CONFIG.port, () => {
+  console.log(`Discord bot started on port ${CONFIG.port}`);
+});
 
 createDiscordClient();
