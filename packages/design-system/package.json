@@ -29,7 +29,7 @@
     "@chakra-ui/theme-tools": "1.1.6",
     "@emotion/react": "11.1.5",
     "@emotion/styled": "11.3.0",
-    "framer-motion": "4.1.10",
+    "framer-motion": "4.1.11",
     "next": "10.1.3",
     "react-select": "4.3.0",
     "react-timezone-select": "0.9.8",

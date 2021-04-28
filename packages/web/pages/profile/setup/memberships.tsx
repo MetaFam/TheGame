@@ -7,22 +7,19 @@ import { useWeb3 } from 'lib/hooks';
 import { InferGetStaticPropsType } from 'next';
 import React, { useState } from 'react';
 
-export const getStaticProps = async () => {
-  return {
-    props: {
-      hideAppDrawer: true,
-    },
-  };
-};
+export const getStaticProps = async () => ({
+  props: {
+    hideAppDrawer: true,
+  },
+});
 
 export type DefaultSetupProps = InferGetStaticPropsType<typeof getStaticProps>;
 
 const MembershipsSetup: React.FC<DefaultSetupProps> = () => {
-
   const [memberships, setMemberships] = useState<
     Array<Membership> | null | undefined
   >();
-  
+
   const { address } = useWeb3();
   getMemberships(address).then((data) => {
     setMemberships(data);
@@ -31,7 +28,10 @@ const MembershipsSetup: React.FC<DefaultSetupProps> = () => {
   return (
     <SetupContextProvider>
       <SetupProfile>
-        <SetupMemberships memberships={memberships} setMemberships={setMemberships} />
+        <SetupMemberships
+          memberships={memberships}
+          setMemberships={setMemberships}
+        />
       </SetupProfile>
     </SetupContextProvider>
   );

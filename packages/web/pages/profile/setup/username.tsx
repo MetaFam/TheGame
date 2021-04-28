@@ -5,20 +5,16 @@ import { useUser, useWeb3 } from 'lib/hooks';
 import { InferGetStaticPropsType } from 'next';
 import React, { useState } from 'react';
 
-export const getStaticProps = async () => {
-  return {
-    props: {
-      hideAppDrawer: true,
-    },
-  };
-};
+export const getStaticProps = async () => ({
+  props: {
+    hideAppDrawer: true,
+  },
+});
 
 export type DefaultSetupProps = InferGetStaticPropsType<typeof getStaticProps>;
 
 const UsernameSetup: React.FC<DefaultSetupProps> = () => {
-  const [username, setUsername] = (
-    useState<string | undefined>(undefined)
-  );
+  const [username, setUsername] = useState<string | undefined>(undefined);
   const { address } = useWeb3();
   const { user } = useUser({ redirectTo: '/' });
 

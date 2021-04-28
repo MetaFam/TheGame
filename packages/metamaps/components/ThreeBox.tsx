@@ -18,42 +18,40 @@ export const ThreeBoxComponent: FC<ThreeBoxProps> = ({
   ethAccounts,
   activeSpace,
   items,
-}) => {
-  return (
-    <ThreeBoxContainer>
-      <input
-        type="text"
-        placeholder="3box Space URL"
-        value={activeSpace}
-        onChange={(e) =>
-          dispatch({ type: 'UPDATE_3BOX_URL', value: e.target.value })
+}) => (
+  <ThreeBoxContainer>
+    <input
+      type="text"
+      placeholder="3box Space URL"
+      value={activeSpace}
+      onChange={(e) =>
+        dispatch({ type: 'UPDATE_3BOX_URL', value: e.target.value })
+      }
+    />
+    <ButtonGroup>
+      <Button
+        size="sm"
+        backgroundColor={ButtonColor}
+        color={WhiteColor}
+        onClick={async (e) =>
+          dispatch(await Save3BoxUrl(ethAccounts[0], activeSpace, items))
         }
-      />
-      <ButtonGroup>
-        <Button
-          size="sm"
-          backgroundColor={ButtonColor}
-          color={WhiteColor}
-          onClick={async (e) =>
-            dispatch(await Save3BoxUrl(ethAccounts[0], activeSpace, items))
-          }
-        >
-          Save
-        </Button>
-        <Button
-          size="sm"
-          backgroundColor={ButtonColor}
-          color={WhiteColor}
-          onClick={async (e) =>
-            dispatch(await Load3BoxUrl(ethAccounts[0], activeSpace))
-          }
-        >
-          Load
-        </Button>
-      </ButtonGroup>
-    </ThreeBoxContainer>
-  );
-};
+      >
+        Save
+      </Button>
+      <Button
+        size="sm"
+        backgroundColor={ButtonColor}
+        color={WhiteColor}
+        onClick={async (e) =>
+          dispatch(await Load3BoxUrl(ethAccounts[0], activeSpace))
+        }
+      >
+        Load
+      </Button>
+    </ButtonGroup>
+  </ThreeBoxContainer>
+);
 
 export const ThreeBox = connect((state: any) => ({
   ethAccounts: state.ethAccounts,

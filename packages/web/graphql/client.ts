@@ -41,13 +41,12 @@ export const getSsrClient = (): [Client, ReturnType<typeof ssrExchange>] => {
 // https://github.com/FormidableLabs/urql/issues/1481
 const customWithUrqlClient = (
   WithUrql: NextComponentType,
-): React.FC<WithUrqlProps> => ({ pageProps, urqlState, ...props }) => {
-  return createElement(WithUrql, {
+): React.FC<WithUrqlProps> => ({ pageProps, urqlState, ...props }) =>
+  createElement(WithUrql, {
     urqlState: pageProps.urqlState || urqlState,
     pageProps,
     ...props,
   });
-};
 
 export const wrapUrqlClient = (AppOrPage: React.FC<any>) =>
   customWithUrqlClient(

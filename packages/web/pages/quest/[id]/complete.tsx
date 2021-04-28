@@ -109,12 +109,10 @@ export default SubmitQuestCompletionPage;
 
 type QueryParams = { id: string };
 
-export const getStaticPaths: GetStaticPaths<QueryParams> = async () => {
-  return {
-    paths: [],
-    fallback: true,
-  };
-};
+export const getStaticPaths: GetStaticPaths<QueryParams> = async () => ({
+  paths: [],
+  fallback: true,
+});
 
 export const getStaticProps = async (
   context: GetStaticPropsContext<QueryParams>,

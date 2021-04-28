@@ -19,16 +19,14 @@ class WrappedApp extends App<AppProps> {
     this.props.dispatch(await Load3BoxUrl(accounts[0], this.props.activeSpace));
   }
 
-  public static getInitialProps = async ({ Component, ctx }: AppContext) => {
-    return {
-      pageProps: {
-        ...(Component.getInitialProps
-          ? await Component.getInitialProps(ctx)
-          : {}),
-        appProp: ctx.pathname,
-      },
-    };
-  };
+  public static getInitialProps = async ({ Component, ctx }: AppContext) => ({
+    pageProps: {
+      ...(Component.getInitialProps
+        ? await Component.getInitialProps(ctx)
+        : {}),
+      appProp: ctx.pathname,
+    },
+  });
 
   public render() {
     const { Component, pageProps } = this.props;

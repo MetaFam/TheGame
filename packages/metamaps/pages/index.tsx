@@ -18,46 +18,40 @@ export interface HomeProps {
   activeSpace: string;
 }
 
-export const Home: FC<HomeProps> = ({ dispatch, menu, activeSpace }) => {
-  return(
-    <App
-      onContextMenu={(e: any) => {
-          e.preventDefault();
-          dispatch({
-            type: 'TOGGLE_MENU',
-            value: true,
-            x: e.pageX,
-            y: e.pageY,
-            menuType: e.target.getAttribute('data-type'),
-            id: e.target.getAttribute('data-id'),
-          })
-        }
+export const Home: FC<HomeProps> = ({ dispatch, menu, activeSpace }) => (
+  <App
+    onContextMenu={(e: any) => {
+      e.preventDefault();
+      dispatch({
+        type: 'TOGGLE_MENU',
+        value: true,
+        x: e.pageX,
+        y: e.pageY,
+        menuType: e.target.getAttribute('data-type'),
+        id: e.target.getAttribute('data-id'),
+      });
+    }}
+    onClick={(e: any) => {
+      const target = e.target.getAttribute('data-type');
+      if (target !== 'no-left-click') {
+        dispatch({ type: 'CLOSE_MENU' });
       }
-      onClick={(e: any) => {
-          const target = e.target.getAttribute('data-type');
-          if (target !== 'no-left-click') {
-            dispatch({ type: 'CLOSE_MENU' })
-          }
-        }
-      }
-      onMouseMove={(e: any) => {
-        dispatch({ type: 'MOUSE_POSITION', x: e.pageX, y: e.pageY });
-      }}
-    >
-    <Loading/>
-    <Popup/>
-    <ThreeBox/>
+    }}
+    onMouseMove={(e: any) => {
+      dispatch({ type: 'MOUSE_POSITION', x: e.pageX, y: e.pageY });
+    }}
+  >
+    <Loading />
+    <Popup />
+    <ThreeBox />
     <DndProvider backend={HTML5Backend}>
-      <Container/>
-      <Menu/>
+      <Container />
+      <Menu />
     </DndProvider>
   </App>
-  )
-}
+);
 
-export default connect(
-  (state: any) => ({
-    menu: state.menu,
-    activeSpace: state.activeSpace,
-  }),
-)(Home);
+export default connect((state: any) => ({
+  menu: state.menu,
+  activeSpace: state.activeSpace,
+}))(Home);

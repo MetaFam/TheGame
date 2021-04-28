@@ -12,23 +12,21 @@ const App: React.FC<WithUrqlProps> = ({
   pageProps,
   resetUrqlClient,
   Component,
-}) => {
-  return (
-    <ChakraProvider theme={MetaTheme}>
-      <CSSReset />
-      <Head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>MetaGame</title>
-      </Head>
-      <Web3ContextProvider resetUrqlClient={resetUrqlClient}>
-        <>
-          {!pageProps.hideAppDrawer && <PageHeader />}
-          {!pageProps.hideAppDrawer && <MobileFooter />}
-          <Component {...pageProps} />
-        </>
-      </Web3ContextProvider>
-    </ChakraProvider>
-  );
-};
+}) => (
+  <ChakraProvider theme={MetaTheme}>
+    <CSSReset />
+    <Head>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>MetaGame</title>
+    </Head>
+    <Web3ContextProvider resetUrqlClient={resetUrqlClient}>
+      <>
+        {!pageProps.hideAppDrawer && <PageHeader />}
+        {!pageProps.hideAppDrawer && <MobileFooter />}
+        <Component {...pageProps} />
+      </>
+    </Web3ContextProvider>
+  </ChakraProvider>
+);
 
 export default wrapUrqlClient(App);

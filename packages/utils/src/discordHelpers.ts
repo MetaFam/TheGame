@@ -1,4 +1,3 @@
-
 export const enum SupportedImageFormat {
   PNG = 'png',
   JPEG = 'jpg',
@@ -6,6 +5,8 @@ export const enum SupportedImageFormat {
 }
 
 // see https://discord.com/developers/docs/reference#image-formatting
-export const guildIconUrl = (guildId: string, iconHash: string, type: SupportedImageFormat = SupportedImageFormat.PNG): string => {
-  return `https://cdn.discordapp.com/icons/${guildId}/${iconHash}.${type}`;
-};
+export const guildIconUrl = (
+  guildId: string,
+  iconHash: string,
+  type: SupportedImageFormat = SupportedImageFormat.PNG,
+): string => `https://cdn.discordapp.com/icons/${guildId}/${iconHash}.${type}`;

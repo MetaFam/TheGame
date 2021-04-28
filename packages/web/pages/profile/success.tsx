@@ -2,20 +2,16 @@ import { PageContainer } from 'components/Container';
 import { SuccessPlayer } from 'components/SuccessPlayer';
 import React from 'react';
 
-export const getStaticProps = async () => {
-  return {
-    props: {
-      hideAppDrawer: true,
-    },
-  };
-};
+export const getStaticProps = async () => ({
+  props: {
+    hideAppDrawer: true,
+  },
+});
 
-const Profile: React.FC = () => {
-  return (
-    <PageContainer>
-      <SuccessPlayer />
-    </PageContainer>
-  );
-};
+const Profile: React.FC = () => (
+  <PageContainer>
+    <SuccessPlayer />
+  </PageContainer>
+);
 
 export default Profile;
