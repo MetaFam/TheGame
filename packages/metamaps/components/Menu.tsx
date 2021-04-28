@@ -1,3 +1,4 @@
+import { PlusSquareIcon } from '@chakra-ui/icons';
 import { Button, ButtonGroup } from '@chakra-ui/react';
 import { FC } from 'react';
 import { connect } from 'react-redux';
@@ -39,7 +40,7 @@ export const MenuComponent: FC<MenuProps> = ({
         <ButtonGroup spacing={4}>
           <Button
             size="sm"
-            leftIcon="plus-square"
+            leftIcon={<PlusSquareIcon />}
             backgroundColor={ButtonColor}
             color={WhiteColor}
             onClick={(e: any) => {
@@ -50,7 +51,7 @@ export const MenuComponent: FC<MenuProps> = ({
           </Button>
           <Button
             size="sm"
-            leftIcon="plus-square"
+            leftIcon={<PlusSquareIcon />}
             backgroundColor={ButtonColor}
             color={WhiteColor}
             onClick={(e: any) => {
@@ -61,7 +62,7 @@ export const MenuComponent: FC<MenuProps> = ({
           </Button>
           <Button
             size="sm"
-            leftIcon="plus-square"
+            leftIcon={<PlusSquareIcon />}
             backgroundColor={ButtonColor}
             color={WhiteColor}
             onClick={(e: any) => {
@@ -72,7 +73,7 @@ export const MenuComponent: FC<MenuProps> = ({
           </Button>
           <Button
             size="sm"
-            leftIcon="plus-square"
+            leftIcon={<PlusSquareIcon />}
             backgroundColor={ButtonColor}
             color={WhiteColor}
             onClick={(e: any) => {
@@ -118,7 +119,7 @@ export const MenuComponent: FC<MenuProps> = ({
         <ButtonGroup spacing={4}>
           <Button
             size="sm"
-            leftIcon="plus-square"
+            leftIcon={<PlusSquareIcon />}
             backgroundColor={ButtonColor}
             color={WhiteColor}
             onClick={(e: any) => {
@@ -130,7 +131,7 @@ export const MenuComponent: FC<MenuProps> = ({
           <Button
             data-type="no-left-click"
             size="sm"
-            leftIcon="plus-square"
+            leftIcon={<PlusSquareIcon />}
             backgroundColor={ButtonColor}
             color={WhiteColor}
             onClick={(e: any) => {
@@ -143,7 +144,7 @@ export const MenuComponent: FC<MenuProps> = ({
           <Button
             data-type="no-left-click"
             size="sm"
-            leftIcon="plus-square"
+            leftIcon={<PlusSquareIcon />}
             backgroundColor={ButtonColor}
             color={WhiteColor}
             onClick={(e: any) => {
@@ -154,7 +155,7 @@ export const MenuComponent: FC<MenuProps> = ({
           </Button>
           <Button
             size="sm"
-            leftIcon="plus-square"
+            leftIcon={<PlusSquareIcon />}
             backgroundColor={ButtonColor}
             color={WhiteColor}
             onClick={(e: any) => {
@@ -180,7 +181,7 @@ export const MenuComponent: FC<MenuProps> = ({
         <ButtonGroup spacing={4}>
           <Button
             size="sm"
-            leftIcon="plus-square"
+            leftIcon={<PlusSquareIcon />}
             backgroundColor={ButtonColor}
             color={WhiteColor}
             onClick={(e: any) => {
@@ -216,7 +217,7 @@ export const MenuComponent: FC<MenuProps> = ({
         <ButtonGroup spacing={4}>
           <Button
             size="sm"
-            leftIcon="plus-square"
+            leftIcon={<PlusSquareIcon />}
             backgroundColor={ButtonColor}
             color={WhiteColor}
             onClick={(e: any) => {
@@ -252,7 +253,7 @@ export const MenuComponent: FC<MenuProps> = ({
         <ButtonGroup spacing={4}>
           <Button
             size="sm"
-            leftIcon="plus-square"
+            leftIcon={<PlusSquareIcon />}
             backgroundColor={ButtonColor}
             color={WhiteColor}
             onClick={(e: any) => {
