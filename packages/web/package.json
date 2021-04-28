@@ -20,7 +20,7 @@
     "ethers": "5.1.4",
     "fake-tag": "2.0.0",
     "framer-motion": "4.1.11",
-    "graphql": "15.4.0",
+    "graphql": "15.5.0",
     "isomorphic-unfetch": "3.1.0",
     "moment": "^2.29.1",
     "next": "10.1.3",
