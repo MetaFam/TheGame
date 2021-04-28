@@ -15,9 +15,7 @@ export interface SCReadInstance {
   readCredGraph: () => Promise<CredGraph>;
 }
 
-export type CredGraph = {
-  
-}
+export type CredGraph = {};
 
 export interface SCAccountsData {
   accounts: SCAccount[];

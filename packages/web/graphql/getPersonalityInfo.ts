@@ -21,7 +21,7 @@ const AspectsQuery = gql`
 `;
 
 export const images: {
-  [x: number]: string
+  [x: number]: string;
 } = {
   0b10000: JusticeAltImg,
   0b01000: WisdomAltImg,
@@ -31,7 +31,7 @@ export const images: {
 };
 
 export const colors: {
-  [x: number]: string
+  [x: number]: string;
 } = {
   0b10000: '#c4aab4',
   0b01000: '#0273b2',
@@ -44,11 +44,7 @@ export const getPersonalityInfo = async (): Promise<{
   parts: Array<PersonalityOption>;
   types: { [any: string]: PersonalityOption };
 }> => {
-  const { data, error } = await (
-    client
-    .query(AspectsQuery)
-    .toPromise()
-  );
+  const { data, error } = await client.query(AspectsQuery).toPromise();
 
   if (error) throw error;
   if (!data) throw new Error("data isn't set");

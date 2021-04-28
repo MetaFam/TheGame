@@ -1,7 +1,4 @@
-import {
-  Theme as ChakraTheme,
-  theme as baseTheme,
-} from '@chakra-ui/react';
+import { Theme as ChakraTheme, theme as baseTheme } from '@chakra-ui/react';
 
 type ColorHues = typeof baseTheme.colors.red;
 

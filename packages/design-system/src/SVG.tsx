@@ -1,3 +1,3 @@
 import { chakra } from '@chakra-ui/react';
 
-export const SVG = chakra('svg'); 
+export const SVG = chakra('svg');

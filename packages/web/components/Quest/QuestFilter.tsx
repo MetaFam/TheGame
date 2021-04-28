@@ -16,7 +16,7 @@ import {
 import React from 'react';
 
 import { useUser } from '../../lib/hooks';
-import { QueryVariableSetter,QuestAggregates } from '../../lib/hooks/quests';
+import { QueryVariableSetter, QuestAggregates } from '../../lib/hooks/quests';
 
 type Props = {
   quests: QuestFragmentFragment[];

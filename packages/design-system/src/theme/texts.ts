@@ -5,4 +5,4 @@ export const textStyles = {
     color: 'blueLight',
     textTransform: 'uppercase',
   },
-}
+};

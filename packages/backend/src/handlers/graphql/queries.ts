@@ -32,15 +32,14 @@ export const GetQuestById = gql`
       created_by_player_id
     }
   }
-
 `;
 
 export const GetQuestCompletions = gql`
   query GetQuestCompletions($quest_id: uuid!, $player_id: uuid!) {
     quest_completion(
       where: {
-        quest_id: {_eq: $quest_id},
-        completed_by_player_id: {_eq: $player_id}
+        quest_id: { _eq: $quest_id }
+        completed_by_player_id: { _eq: $player_id }
       }
     ) {
       id
@@ -62,13 +61,13 @@ export const GetQuestCompletionById = gql`
 `;
 
 export const GetLastQuestCompletionForPlayer = gql`
-   query GetLastQuestCompletionForPlayer($quest_id: uuid!, $player_id: uuid!) {
-     quest_completion(
-      limit: 1, 
-      order_by: {submitted_at: desc}, 
+  query GetLastQuestCompletionForPlayer($quest_id: uuid!, $player_id: uuid!) {
+    quest_completion(
+      limit: 1
+      order_by: { submitted_at: desc }
       where: {
-        quest_id: {_eq: $quest_id}, 
-        completed_by_player_id: {_eq: $player_id}
+        quest_id: { _eq: $quest_id }
+        completed_by_player_id: { _eq: $player_id }
       }
     ) {
       id
@@ -94,7 +93,6 @@ export const GuildFragment = gql`
     discord_metadata
   }
 `;
-
 
 export const GetGuild = gql`
   query GetGuild($guildname: String!) {

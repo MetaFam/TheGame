@@ -1,4 +1,4 @@
-import { Snowflake } from "discord.js";
+import { Snowflake } from 'discord.js';
 
 export interface DiscordAccessTokenResponse {
   statusCode: number;
@@ -32,7 +32,7 @@ export interface PartialRole {
 
 export interface GuildDiscordMetadata {
   inviteUrl?: string;
-  rankRoleIds?: { [roleName: string]: Snowflake }; 
+  rankRoleIds?: { [roleName: string]: Snowflake };
   refreshToken?: string;
   allRoleIds?: Snowflake[];
   logoHash?: string;

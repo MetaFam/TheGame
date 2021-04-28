@@ -22,7 +22,7 @@ export const useUser = ({ redirectTo, redirectIfFound }: UseUserOpts = {}): {
     pause: !authToken,
   });
   const me = data?.me[0];
-  const user = (error || !authToken || !me) ?  null : me;
+  const user = error || !authToken || !me ? null : me;
 
   useEffect(() => {
     if (!redirectTo) return;

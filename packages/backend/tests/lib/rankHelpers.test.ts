@@ -9,21 +9,21 @@ describe('RANKED_CAP', () => {
 
 describe('computeRank', () => {
   it('index 6 should be diamond', () => {
-    expect(computeRank(6)).toBe(PlayerRank_Enum.Diamond)
+    expect(computeRank(6)).toBe(PlayerRank_Enum.Diamond);
   });
   it('index 7 should be platinum', () => {
-    expect(computeRank(7)).toBe(PlayerRank_Enum.Platinum)
+    expect(computeRank(7)).toBe(PlayerRank_Enum.Platinum);
   });
   it('index 20 should be gold', () => {
-    expect(computeRank(20)).toBe(PlayerRank_Enum.Gold)
+    expect(computeRank(20)).toBe(PlayerRank_Enum.Gold);
   });
   it('index 21 should be silver', () => {
-    expect(computeRank(21)).toBe(PlayerRank_Enum.Silver)
+    expect(computeRank(21)).toBe(PlayerRank_Enum.Silver);
   });
   it('index 55 should be bronze', () => {
-    expect(computeRank(55)).toBe(PlayerRank_Enum.Bronze)
+    expect(computeRank(55)).toBe(PlayerRank_Enum.Bronze);
   });
   it('index 56 should not be ranked', () => {
     expect(computeRank(56)).toBeNull();
   });
-})
+});

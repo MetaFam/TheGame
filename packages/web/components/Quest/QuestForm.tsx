@@ -141,9 +141,13 @@ export const QuestForm: React.FC<Props> = ({
     () => getDefaultFormValues(editQuest, guilds),
     [editQuest, guilds],
   );
-  const { register, control, errors, watch, handleSubmit } = useForm<
-    CreateQuestFormInputs
-  >({
+  const {
+    register,
+    control,
+    errors,
+    watch,
+    handleSubmit,
+  } = useForm<CreateQuestFormInputs>({
     defaultValues,
   });
   const router = useRouter();

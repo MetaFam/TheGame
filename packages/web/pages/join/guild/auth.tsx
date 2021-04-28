@@ -7,7 +7,7 @@ const GuildSetupAuthCallback: React.FC = () => {
   const router = useRouter();
 
   const [authGuildRes, authGuild] = useAuthenticateDiscordGuildMutation();
-  
+
   const [error, setError] = useState<string>('');
 
   useEffect(() => {
@@ -18,7 +18,9 @@ const GuildSetupAuthCallback: React.FC = () => {
     }
 
     const submitAuthCode = async () => {
-      const { data, error: mutationError } = await authGuild({ code: code as string });
+      const { data, error: mutationError } = await authGuild({
+        code: code as string,
+      });
       const response = data?.authenticateDiscordGuild;
       if (mutationError || response?.success === false) {
         setError(mutationError?.message || 'An unexpected error occurred.');
@@ -38,7 +40,8 @@ const GuildSetupAuthCallback: React.FC = () => {
   return (
     <PageContainer>
       {error && `Could not load your guild information from Discord. ${error}`}
-      {(authGuildRes.fetching) && 'Loading your guild information from Discord...' }
+      {authGuildRes.fetching &&
+        'Loading your guild information from Discord...'}
     </PageContainer>
   );
 };

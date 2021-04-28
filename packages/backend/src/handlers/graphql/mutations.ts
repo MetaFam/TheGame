@@ -126,8 +126,8 @@ export const CreateQuestCompletion = gql`
 export const UpdateQuestStatus = gql`
   mutation UpdateQuestStatus($quest_id: uuid!, $status: QuestStatus_enum!) {
     update_quest_by_pk(
-      pk_columns: {id: $quest_id},
-       _set: { status: $status }
+      pk_columns: { id: $quest_id }
+      _set: { status: $status }
     ) {
       id
     }
@@ -135,10 +135,13 @@ export const UpdateQuestStatus = gql`
 `;
 
 export const UpdateQuestCompletionStatus = gql`
-  mutation UpdateQuestCompletionStatus($quest_completion_id: uuid!, $status: QuestCompletionStatus_enum!) {
+  mutation UpdateQuestCompletionStatus(
+    $quest_completion_id: uuid!
+    $status: QuestCompletionStatus_enum!
+  ) {
     update_quest_completion_by_pk(
-      pk_columns: {id: $quest_completion_id},
-       _set: { status: $status }
+      pk_columns: { id: $quest_completion_id }
+      _set: { status: $status }
     ) {
       id
     }
@@ -146,15 +149,18 @@ export const UpdateQuestCompletionStatus = gql`
 `;
 
 export const RejectOtherQuestCompletions = gql`
-  mutation RejectOtherQuestCompletions($accepted_quest_completion_id: uuid!, $quest_id: uuid!) {
+  mutation RejectOtherQuestCompletions(
+    $accepted_quest_completion_id: uuid!
+    $quest_id: uuid!
+  ) {
     update_quest_completion(
       where: {
         _and: [
-          { id: { _neq: $accepted_quest_completion_id } },
+          { id: { _neq: $accepted_quest_completion_id } }
           { quest_id: { _eq: $quest_id } }
         ]
-      },
-       _set: { status: REJECTED }
+      }
+      _set: { status: REJECTED }
     ) {
       affected_rows
     }
@@ -174,13 +180,15 @@ export const CreateGuild = gql`
 `;
 
 export const UpdateGuildDiscordMetadata = gql`
-  mutation UpdateGuildDiscordMetadata($guildId: uuid!, $discordMetadata: jsonb) {
+  mutation UpdateGuildDiscordMetadata(
+    $guildId: uuid!
+    $discordMetadata: jsonb
+  ) {
     update_guild_by_pk(
-      pk_columns: {id: $guildId},
-       _set: { discord_metadata: $discordMetadata }
+      pk_columns: { id: $guildId }
+      _set: { discord_metadata: $discordMetadata }
     ) {
       id
     }
   }
 `;
-

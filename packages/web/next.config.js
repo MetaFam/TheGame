@@ -9,6 +9,6 @@ module.exports = withImages({
         destination: '/players',
         permanent: false,
       },
-    ]
+    ];
   },
 });

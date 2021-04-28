@@ -8,5 +8,11 @@ import { updateCompletionHandler } from './updateCompletion/handler';
 export const questsRoutes = express.Router();
 
 questsRoutes.post('/createQuest', asyncHandlerWrapper(createQuestHandler));
-questsRoutes.post('/createCompletion', asyncHandlerWrapper(createCompletionHandler));
-questsRoutes.post('/updateCompletion', asyncHandlerWrapper(updateCompletionHandler));
+questsRoutes.post(
+  '/createCompletion',
+  asyncHandlerWrapper(createCompletionHandler),
+);
+questsRoutes.post(
+  '/updateCompletion',
+  asyncHandlerWrapper(updateCompletionHandler),
+);

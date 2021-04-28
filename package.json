@@ -26,7 +26,7 @@
     "lint": "eslint --ignore-path .gitignore \"./packages/**/*.{ts,tsx,js,jsx}\"",
     "typecheck": "lerna run typecheck",
     "prepare": "lerna run prepare && husky install",
-    "precommit": "lerna run --concurrency 1 --stream precommit",
+    "precommit": "lerna run --concurrency 1 --stream precommit && yarn format",
     "prepush": "yarn typecheck",
     "discord-bot": "yarn --cwd packages/discord-bot/",
     "backend": "yarn --cwd packages/backend/",

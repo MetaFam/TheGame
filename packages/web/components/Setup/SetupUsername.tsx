@@ -7,9 +7,7 @@ import React, { useState } from 'react';
 
 export type SetupUsernameProps = {
   username: string | undefined;
-  setUsername: (
-    React.Dispatch<React.SetStateAction<string | undefined>>
-  );
+  setUsername: React.Dispatch<React.SetStateAction<string | undefined>>;
 };
 
 export const SetupUsername: React.FC<SetupUsernameProps> = ({
@@ -20,9 +18,7 @@ export const SetupUsername: React.FC<SetupUsernameProps> = ({
   const { user } = useUser({ redirectTo: '/' });
   const toast = useToast();
 
-  const [updateUsernameRes, updateUsername] = (
-    useUpdatePlayerUsernameMutation()
-  );
+  const [updateUsernameRes, updateUsername] = useUpdatePlayerUsernameMutation();
   const [loading, setLoading] = useState(false);
 
   const handleNextPress = async () => {

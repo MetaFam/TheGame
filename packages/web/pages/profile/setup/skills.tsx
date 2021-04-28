@@ -25,7 +25,7 @@ const SkillsSetup: React.FC<Props> = (props) => {
   const { skillChoices } = props;
   const [skills, setSkills] = useState<Array<SkillOption>>([]);
   const { user } = useUser({ redirectTo: '/' });
-  
+
   if (user?.player) {
     const { player } = user;
     if (
@@ -47,9 +47,10 @@ const SkillsSetup: React.FC<Props> = (props) => {
     <SetupContextProvider>
       <SetupProfile>
         <SetupSkills
-          skillChoices={skillChoices} 
+          skillChoices={skillChoices}
           skills={skills}
-          setSkills={setSkills} />
+          setSkills={setSkills}
+        />
       </SetupProfile>
     </SetupContextProvider>
   );
