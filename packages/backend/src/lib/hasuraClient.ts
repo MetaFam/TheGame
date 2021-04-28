@@ -1,7 +1,7 @@
 import { GraphQLClient } from 'graphql-request';
 
 import { CONFIG } from '../config';
-import { getSdk } from './autogen/hasura-sdk';
+import { getSdk, Sdk } from './autogen/hasura-sdk';
 
 interface GetClientParams {
   role?: string;
@@ -9,7 +9,7 @@ interface GetClientParams {
   backendOnly?: boolean;
 }
 
-export const getClient = (params: GetClientParams = {}) =>
+export const getClient = (params: GetClientParams = {}): Sdk =>
   getSdk(
     new GraphQLClient(CONFIG.graphqlURL, {
       headers: {

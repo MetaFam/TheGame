@@ -48,7 +48,7 @@ const customWithUrqlClient = (
     ...props,
   });
 
-export const wrapUrqlClient = (AppOrPage: React.FC<any>) =>
+export const wrapUrqlClient = (AppOrPage: React.FC<WithUrqlProps>) =>
   customWithUrqlClient(
     withUrqlClient(
       (_ssrExchange, ctx) => ({

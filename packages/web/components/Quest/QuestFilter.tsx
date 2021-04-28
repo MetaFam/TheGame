@@ -16,13 +16,13 @@ import {
 import React from 'react';
 
 import { useUser } from '../../lib/hooks';
-import { QuestAggregates } from '../../lib/hooks/quests';
+import { QueryVariableSetter,QuestAggregates } from '../../lib/hooks/quests';
 
 type Props = {
   quests: QuestFragmentFragment[];
   aggregates: QuestAggregates;
   queryVariables: GetQuestsQueryVariables;
-  setQueryVariable: (_: string, __: any) => void;
+  setQueryVariable: QueryVariableSetter;
 };
 
 /* TODO

@@ -149,7 +149,6 @@ export const QuestForm: React.FC<Props> = ({
   const router = useRouter();
   const [exitAlert, setExitAlert] = useState<boolean>(false);
   const createQuestInput = watch();
-  console.log(errors);
 
   return (
     <Box w="100%" maxW="30rem">
