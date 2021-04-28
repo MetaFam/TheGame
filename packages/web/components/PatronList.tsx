@@ -13,8 +13,8 @@ export const PatronList: React.FC<Props> = ({ patrons }) => (
     spacing="8"
     autoRows="minmax(35rem, auto)"
   >
-    {patrons.map((p) => (
-      <PatronTile key={p.id} patron={p} />
+    {patrons.map((p, i) => (
+      <PatronTile key={p.id} patron={p} index={i} />
     ))}
   </SimpleGrid>
 );

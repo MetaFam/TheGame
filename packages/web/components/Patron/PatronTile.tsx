@@ -25,13 +25,16 @@ import {
   getPlayerImage,
   getPlayerName,
 } from 'utils/playerHelpers';
+import { computeRank } from 'utils/rankHelpers';
 
 type Props = {
   patron: Patron;
+  index: number;
 };
 
-export const PatronTile: React.FC<Props> = ({ patron }) => {
+export const PatronTile: React.FC<Props> = ({ index, patron }) => {
   const player = patron as PlayerFragmentFragment;
+  const patronRank = computeRank(index);
   return (
     <MetaTile>
       <Box
@@ -64,23 +67,21 @@ export const PatronTile: React.FC<Props> = ({ patron }) => {
         <Wrap w="100%" justify="center">
           {patron.pSeedBalance ? (
             <WrapItem>
-              <MetaTag
-                size="md"
-              >
+              <MetaTag size="md">
                 {`pSEED: ${Math.floor(
                   Number(utils.formatEther(patron.pSeedBalance)),
                 )}`}
               </MetaTag>
             </WrapItem>
           ) : null}
-          {player.rank ? (
+          {patronRank ? (
             <WrapItem>
               <MetaTag
-                backgroundColor={player.rank?.toLowerCase()}
+                backgroundColor={patronRank?.toLowerCase()}
                 size="md"
                 color="blackAlpha.600"
               >
-                {player.rank}
+                {patronRank}
               </MetaTag>
             </WrapItem>
           ) : null}
@@ -90,9 +91,7 @@ export const PatronTile: React.FC<Props> = ({ patron }) => {
         </Wrap>
         {player.box_profile?.description ? (
           <VStack spacing={2} align="stretch">
-            <Text textStyle="caption">
-              ABOUT
-            </Text>
+            <Text textStyle="caption">ABOUT</Text>
             <Text fontSize="sm">{player.box_profile.description}</Text>
           </VStack>
         ) : null}
@@ -100,26 +99,22 @@ export const PatronTile: React.FC<Props> = ({ patron }) => {
       <MetaTileBody>
         {player.Player_Skills.length ? (
           <VStack spacing={2} align="stretch">
-            <Text textStyle="caption">
-              SKILLS
-            </Text>
-            <SkillsTags skills={player.Player_Skills.map(s => s.Skill) as Skill[]} />
+            <Text textStyle="caption">SKILLS</Text>
+            <SkillsTags
+              skills={player.Player_Skills.map((s) => s.Skill) as Skill[]}
+            />
           </VStack>
         ) : null}
 
         {player.daohausMemberships.length ? (
           <VStack spacing={2} align="stretch">
-            <Text textStyle="caption">
-              MEMBER OF
-            </Text>
+            <Text textStyle="caption">MEMBER OF</Text>
             <PlayerTileMemberships player={player} />
           </VStack>
         ) : null}
         {player.Accounts.length ? (
           <VStack spacing={2} align="stretch">
-            <Text textStyle="caption">
-              CONTACT
-            </Text>
+            <Text textStyle="caption">CONTACT</Text>
             <HStack mt="2">
               <PlayerContacts player={player} />
             </HStack>
