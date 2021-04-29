@@ -1,10 +1,11 @@
-import { CloseIcon, SettingsIcon } from '@chakra-ui/icons';
 import {
   Avatar,
   Box,
   Button,
+  CloseIcon,
   HStack,
   MetaButton,
+  SettingsIcon,
   Spinner,
   Text,
 } from '@metafam/ds';

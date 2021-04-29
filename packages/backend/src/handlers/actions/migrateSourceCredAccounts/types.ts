@@ -15,6 +15,7 @@ export interface SCReadInstance {
   readCredGraph: () => Promise<CredGraph>;
 }
 
+// eslint-disable-next-line @typescript-eslint/ban-types
 export type CredGraph = {};
 
 export interface SCAccountsData {
