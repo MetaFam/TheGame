@@ -8,7 +8,7 @@ import React, {
 } from 'react';
 import { SetupOptions } from 'utils/setupOptions';
 
-const urlPrefix = `/profile/setup/`;
+const urlPrefix = '/profile/setup/';
 
 type SetupContextType = {
   options: SetupOptions;

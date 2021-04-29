@@ -7,7 +7,7 @@ export const Ticker: React.FC = () => {
 
   useEffect(() => {
     fetch(
-      `https://api.coingecko.com/api/v3/simple/price?ids=metagame&vs_currencies=usd`,
+      'https://api.coingecko.com/api/v3/simple/price?ids=metagame&vs_currencies=usd',
     )
       .then((response) => response.json())
       .then((data) => setPrice(data.metagame.usd));

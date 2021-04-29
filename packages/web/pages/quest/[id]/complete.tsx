@@ -55,7 +55,7 @@ const SubmitQuestCompletionPage: React.FC<Props> = ({ quest }) => {
         router.push(`/quest/${quest.id}`);
         toast({
           title: 'Submitted quest completion',
-          description: `Now, wait until it gets accepted 😉`,
+          description: 'Now, wait until it gets accepted 😉',
           status: 'success',
           isClosable: true,
           duration: 4000,

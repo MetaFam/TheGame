@@ -21,7 +21,7 @@ export const PlayerCollab: React.FC<Props> = ({ player }) => (
       <HStack alignItems="baseline">
         <FaClock color="blueLight" />
         <Text fontSize="lg" fontFamily="mono" mb="1">
-          {player.availability_hours || '0'}h/week
+          {`${player.availability_hours || '0'} h/week`}
         </Text>
       </HStack>
     </Box>

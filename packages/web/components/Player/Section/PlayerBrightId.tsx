@@ -91,7 +91,7 @@ export const PlayerBrightId: React.FC<Props> = ({ player }) => {
                 </Link>
               </VStack>
               <Text>
-                {`Don't have BrightID yet? `}
+                {"Don't have BrightID yet? "}
                 <Link
                   href="https://www.brightid.org/#getStarted"
                   isExternal

@@ -77,7 +77,7 @@ export const PlayerTile: React.FC<Props> = ({ player }) => (
           </WrapItem>
         )}
         <WrapItem>
-          <MetaTag size="md">XP: {Math.floor(player.total_xp)}</MetaTag>
+          <MetaTag size="md">{`XP: ${Math.floor(player.total_xp)}`}</MetaTag>
         </WrapItem>
       </Wrap>
       {player.box_profile?.description ? (

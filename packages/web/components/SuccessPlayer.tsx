@@ -15,7 +15,7 @@ export const SuccessPlayer: React.FC = () => {
         Set up your profile
       </MetaButton>
       <Text fontFamily="mono" color="offwhite">
-        {`I'll do this later. `}
+        {"I'll do this later. "}
         <MetaLink href="">Go to my profile</MetaLink>
       </Text>
     </FlexContainer>
