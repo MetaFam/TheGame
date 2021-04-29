@@ -71,3 +71,4 @@ export {
   Wrap,
   WrapItem,
 } from '@chakra-ui/react';
+export { motion } from 'framer-motion';

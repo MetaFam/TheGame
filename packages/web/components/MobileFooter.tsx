@@ -3,12 +3,12 @@ import {
   BoxedNextImage,
   Button,
   Flex,
+  motion,
   Stack,
   useDisclosure,
 } from '@metafam/ds';
 import MetaGameLogo from 'assets/logo.png';
 import { MetaLink } from 'components/Link';
-import { motion } from 'framer-motion';
 import React from 'react';
 
 import { useMounted } from '../lib/hooks';

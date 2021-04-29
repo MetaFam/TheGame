@@ -4,13 +4,13 @@ import {
   Button,
   Flex,
   Image,
+  motion,
   Stack,
   useDisclosure,
 } from '@metafam/ds';
 import { MetaLink } from 'components/Link';
 import { LoginButton } from 'components/LoginButton';
 import { Ticker } from 'components/Ticker';
-import { motion } from 'framer-motion';
 import React from 'react';
 
 import { useMounted } from '../lib/hooks';
