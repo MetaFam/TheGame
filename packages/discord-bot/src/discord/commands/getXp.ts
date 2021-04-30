@@ -3,8 +3,8 @@ import { Command, CommandMessage } from "@typeit/discord";
 import { MessageEmbed, Snowflake } from "discord.js";
 import { SCAccount, SCAccountsData, SCAlias, SCReadInstance, sourcecred as sc } from "sourcecred";
 
-import { loadSourceCredLedger, manager } from "../sourcecred";
-import { getDiscordId, replyWithUnexpectedError } from "../utils";
+import { loadSourceCredLedger, manager } from "../../sourcecred";
+import { getDiscordId, replyWithUnexpectedError } from "../../utils";
 
 export abstract class GetXpCommand {
   // todo rename to xp once previous bot is disabled
