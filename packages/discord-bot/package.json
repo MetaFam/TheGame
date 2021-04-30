@@ -24,9 +24,9 @@
     "ethers": "5.1.4",
     "graphql": "15.5.0",
     "graphql-request": "3.4.0",
-    "graphql-tag": "2.11.0",
+    "graphql-tag": "2.12.4",
     "node-fetch": "2.6.1",
-    "sourcecred": "0.8.4"
+    "sourcecred": "0.8.5"
   },
   "devDependencies": {
     "@types/node-fetch": "2.5.10",
