@@ -1,7 +1,7 @@
 import { CommandMessage } from "@typeit/discord";
 import { sourcecred as sc } from "sourcecred";
 
-import { loadSourceCredLedger, manager } from "../sourcecred";
+import { loadSourceCredLedger, manager } from "../../sourcecred";
 
 const addressUtils = sc.plugins.ethereum.utils.address;
 
