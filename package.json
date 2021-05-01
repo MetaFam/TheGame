@@ -80,9 +80,5 @@
   },
   "resolutions": {
     "bcrypto": "5.2.0"
-  },
-  "dependencies": {},
-  "lint-staged": {
-    "*.{ts,tsx,js,jsx,json,md,sol}": "prettier --write"
   }
 }
