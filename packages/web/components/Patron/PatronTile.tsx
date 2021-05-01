@@ -17,7 +17,11 @@ import { PlayerContacts } from 'components/Player/PlayerContacts';
 import { PlayerTileMemberships } from 'components/Player/PlayerTileMemberships';
 import { SkillsTags } from 'components/Skills';
 import { utils } from 'ethers';
-import { PlayerFragmentFragment, Skill } from 'graphql/autogen/types';
+import {
+  PlayerFragmentFragment,
+  PlayerRank_Enum,
+  Skill,
+} from 'graphql/autogen/types';
 import { Patron } from 'graphql/types';
 import React from 'react';
 import {
@@ -27,6 +31,16 @@ import {
 } from 'utils/playerHelpers';
 import { computeRank } from 'utils/rankHelpers';
 
+const PATRON_RANKS = [
+  PlayerRank_Enum.Diamond,
+  PlayerRank_Enum.Platinum,
+  PlayerRank_Enum.Gold,
+  PlayerRank_Enum.Silver,
+  PlayerRank_Enum.Bronze,
+];
+
+const PATRONS_PER_RANK = [7, 7, 7, 14, 21];
+
 type Props = {
   patron: Patron;
   index: number;
@@ -34,7 +48,7 @@ type Props = {
 
 export const PatronTile: React.FC<Props> = ({ index, patron }) => {
   const player = patron as PlayerFragmentFragment;
-  const patronRank = computeRank(index);
+  const patronRank = computeRank(index, PATRONS_PER_RANK, PATRON_RANKS);
   return (
     <MetaTile>
       <Box
