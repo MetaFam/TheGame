@@ -42,7 +42,7 @@ export async function createQuest(
     repetition: questRepetition,
     created_by_player_id: playerId,
     quest_skills: {
-      data: skillsId.map(s => ({ skill_id: s })),
+      data: skillsId.map((s) => ({ skill_id: s })),
     },
   };
 

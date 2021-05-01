@@ -15,7 +15,7 @@ export const UriRegexp = /\w+:(\/?\/?)[^\s]+/;
 export function transformCooldownForBackend(
   cooldown: number | undefined | null,
   repetition: QuestRepetition_Enum | undefined | null,
-) {
+): number | null {
   if (!cooldown || !repetition || repetition !== QuestRepetition_Enum.Recurring)
     return null;
   return cooldown * 60 * 60;

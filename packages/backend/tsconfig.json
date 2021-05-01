@@ -9,7 +9,7 @@
   "references": [
     {
       "path": "../utils"
-    }, 
+    },
     {
       "path": "../discord-bot"
     }

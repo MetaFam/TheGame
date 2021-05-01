@@ -1,8 +1,14 @@
 import { useRouter } from 'next/router';
-import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import { SetupOptions } from 'utils/setupOptions';
 
-const urlPrefix = `/profile/setup/`;
+const urlPrefix = '/profile/setup/';
 
 type SetupContextType = {
   options: SetupOptions;
@@ -21,14 +27,13 @@ export const SetupContext = React.createContext<SetupContextType>({
 });
 
 export const SetupContextProvider: React.FC = ({ children }) => {
-  const options = useMemo(() => {
-    return new SetupOptions();
-  }, []);
+  const options = useMemo(() => new SetupOptions(), []);
 
   const router = useRouter();
 
   const pageMatches = router.pathname.match(`${urlPrefix}(.+)`);
-  const slug = pageMatches != null && pageMatches.length > 1 ? pageMatches[1] : null;
+  const slug =
+    pageMatches != null && pageMatches.length > 1 ? pageMatches[1] : null;
   const stepIndex = options.stepIndexMatchingSlug(slug);
   const currentStep = options.steps[stepIndex];
 
@@ -42,7 +47,7 @@ export const SetupContextProvider: React.FC = ({ children }) => {
       let nextStepLabel = nextStep.label;
       if (options.isFinalStepOfSection(stepIndex)) {
         nextStepLabel = options.sections[nextStep.sectionIndex].label;
-      } 
+      }
       setNextButtonLabel(`Next: ${nextStepLabel}`);
     }
   }, [options, stepIndex, setNextButtonLabel, currentStep]);

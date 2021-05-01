@@ -24,8 +24,8 @@ To connect to production servers, you'll need to create a file `.env.local` unde
 NEXT_PUBLIC_GRAPHQL_URL=https://api.metagame.wtf/v1/graphql
 ```
 
-
 ### Connecting to local server
+
 If you want to connect to locally running backend services, you will need to be able to start the backend with:
 
 ```bash
@@ -174,13 +174,7 @@ import gql from 'fake-tag';
 
 export const CreateMap = gql`
   mutation createMap($author: String!, $name: String!) {
-    insert_Map_one(
-      object: {
-        author_address: $author,
-        name: $name,
-        data: ""
-      }
-    ) {
+    insert_Map_one(object: { author_address: $author, name: $name, data: "" }) {
       id
     }
   }
@@ -207,15 +201,15 @@ export const Component: FC = () => {
       await executeMutation({ author, name });
     } catch (err) {
       console.error(err);
-    }    
+    }
   }
 
-  return(
+  return (
     <button type="button" onClick={() => insertMap('Hello World', 'Test 1234')}>
       Generate
     </button>
-  )
-}
+  );
+};
 ```
 
 Keep in mind the following parts of the mutation state:

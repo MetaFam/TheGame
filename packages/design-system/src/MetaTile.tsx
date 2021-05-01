@@ -23,23 +23,21 @@ export const MetaTileBody: React.FC<StackProps> = ({ children, ...props }) => (
   </VStack>
 );
 
-export const MetaTile: React.FC<FlexProps> = ({ children, ...props }) => {
-  return (
-    <Flex
-      direction="column"
-      bg="whiteAlpha.200"
-      style={{ backdropFilter: 'blur(7px)' }}
-      rounded="lg"
-      p="6"
-      maxW="25rem" // (2 / 3.5) = ~0.571 aspect ratio desired
-      w="100%"
-      align="stretch"
-      position="relative"
-      overflow="hidden"
-      justify="space-between"
-      {...props}
-    >
-      {children}
-    </Flex>
-  );
-};
+export const MetaTile: React.FC<FlexProps> = ({ children, ...props }) => (
+  <Flex
+    direction="column"
+    bg="whiteAlpha.200"
+    style={{ backdropFilter: 'blur(7px)' }}
+    rounded="lg"
+    p="6"
+    maxW="25rem" // (2 / 3.5) = ~0.571 aspect ratio desired
+    w="100%"
+    align="stretch"
+    position="relative"
+    overflow="hidden"
+    justify="space-between"
+    {...props}
+  >
+    {children}
+  </Flex>
+);

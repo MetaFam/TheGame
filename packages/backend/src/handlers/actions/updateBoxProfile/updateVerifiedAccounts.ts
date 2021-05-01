@@ -1,6 +1,9 @@
 import Box from '3box';
 
-import { AccountType_Enum, UpdateBoxProfileResponse } from '../../../lib/autogen/hasura-sdk';
+import {
+  AccountType_Enum,
+  UpdateBoxProfileResponse,
+} from '../../../lib/autogen/hasura-sdk';
 import { client } from '../../../lib/hasuraClient';
 
 export async function updateVerifiedAccounts(

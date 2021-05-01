@@ -70,14 +70,12 @@ export const SetupSkills: React.FC<SetupSkillsProps> = ({
       background: SkillColors[data.category as SkillCategory_Enum],
       color: MetaTheme.colors.white,
     }),
-    groupHeading: (s, { children }) => {
-      return {
-        ...s,
-        ...(selectStyles.groupHeading &&
-          selectStyles.groupHeading(s, { children })),
-        background: SkillColors[children as SkillCategory_Enum],
-      };
-    },
+    groupHeading: (s, { children }) => ({
+      ...s,
+      ...(selectStyles.groupHeading &&
+        selectStyles.groupHeading(s, { children })),
+      background: SkillColors[children as SkillCategory_Enum],
+    }),
   };
 
   return (

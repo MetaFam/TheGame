@@ -4,15 +4,18 @@ import {
   useGetQuestGuildsQuery,
   useGetQuestsQuery,
 } from 'graphql/autogen/types';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import { defaultQueryVariables } from '../../graphql/getQuests';
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type QueryVariableSetter = (key: string, value: any) => void;
 
 interface QuestFilter {
   quests: QuestFragmentFragment[] | null;
   fetching: boolean;
   queryVariables: GetQuestsQueryVariables;
-  setQueryVariable: (_: string, __: any) => void;
+  setQueryVariable: QueryVariableSetter;
   aggregates: QuestAggregates;
   error?: Error;
 }
@@ -42,12 +45,17 @@ export const useQuestFilter = (): QuestFilter => {
     guilds,
   };
 
-  function setQueryVariable(key: string, value: any) {
-    setQueryVariables({
-      ...queryVariables,
-      [key]: value !== '' ? value : null,
-    });
-  }
+  const setQueryVariable: QueryVariableSetter = useCallback(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (key: string, value: any) => {
+      setQueryVariables((oldQueryVariables) => ({
+        ...oldQueryVariables,
+        [key]: value !== '' ? value : null,
+      }));
+    },
+    [],
+  );
+
   return {
     quests,
     aggregates,

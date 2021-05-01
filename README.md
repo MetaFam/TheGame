@@ -69,7 +69,6 @@ If you want to locally start the backend server (not in Docker) for debugging pu
 yarn backend:dev
 ```
 
-
 ### Run NextJS Web App dev mode (new)
 
 ```shell script

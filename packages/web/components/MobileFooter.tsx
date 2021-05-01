@@ -3,12 +3,12 @@ import {
   BoxedNextImage,
   Button,
   Flex,
+  motion,
   Stack,
   useDisclosure,
 } from '@metafam/ds';
 import MetaGameLogo from 'assets/logo.png';
 import { MetaLink } from 'components/Link';
-import { motion } from 'framer-motion';
 import React from 'react';
 
 import { useMounted } from '../lib/hooks';
@@ -23,81 +23,75 @@ const MenuItem: React.FC<React.ComponentProps<typeof MetaLink>> = ({
   children,
   href,
   isExternal,
-}) => {
-  return (
-    <MetaLink
-      href={href}
-      isExternal={isExternal}
-      _focus={{ outline: 0 }}
-      flexGrow={1}
-      alignItems="center"
+}) => (
+  <MetaLink
+    href={href}
+    isExternal={isExternal}
+    _focus={{ outline: 0 }}
+    flexGrow={1}
+    alignItems="center"
+    _hover={{ textDecoration: 'none' }}
+  >
+    <Button
+      display="flex"
+      flexDirection="column"
+      textDecoration="none"
+      variant="link"
+      fontFamily="mono"
+      color="whiteAlpha.700"
+      width="100%"
+      _focus={{ boxShadow: 'none' }}
       _hover={{ textDecoration: 'none' }}
     >
-      <Button
-        display="flex"
-        flexDirection="column"
-        textDecoration="none"
-        variant="link"
-        fontFamily="mono"
-        color="whiteAlpha.700"
-        width="100%"
-        _focus={{ boxShadow: 'none' }}
-        _hover={{ textDecoration: 'none' }}
-      >
-        {children}
-      </Button>
-    </MetaLink>
-  );
-};
+      {children}
+    </Button>
+  </MetaLink>
+);
 
 const SubMenuItem: React.FC<React.ComponentProps<typeof MetaLink>> = ({
   children,
   href,
   isExternal,
-}) => {
-  return (
-    <MetaLink
-      zIndex="2"
-      href={href}
-      isExternal={isExternal}
-      margin="0 !important"
+}) => (
+  <MetaLink
+    zIndex="2"
+    href={href}
+    isExternal={isExternal}
+    margin="0 !important"
+    display="flex"
+    height="100%"
+  >
+    <Button
       display="flex"
-      height="100%"
+      flexDirection="column"
+      textDecoration="none"
+      fontWeight="normal"
+      backgroundColor="rgba(255,255,255,0.08)"
+      borderRadius="0.25rem"
+      variant="link"
+      color="whiteAlpha.700"
+      flexGrow={1}
+      padding="0.5rem"
     >
-      <Button
-        display="flex"
-        flexDirection="column"
-        textDecoration="none"
-        fontWeight="normal"
-        backgroundColor="rgba(255,255,255,0.08)"
-        borderRadius="0.25rem"
-        variant="link"
-        color="whiteAlpha.700"
-        flexGrow={1}
-        padding="0.5rem"
-      >
-        {children}
-      </Button>
-    </MetaLink>
-  );
-};
+      {children}
+    </Button>
+  </MetaLink>
+);
 
 export interface SubImageProps {
   src: string;
   alt: string;
 }
 
-export const SubImage: React.FC<SubImageProps> = ({ src, alt }) => {
-  return (
-    <BoxedNextImage
-      src={src}
-      alt={alt}
-      mb={2}
-      width="100%"
-      height="calc(100% - 1.5rem)"
-    />
-  )
-};
+export const SubImage: React.FC<SubImageProps> = ({ src, alt }) => (
+  <BoxedNextImage
+    src={src}
+    alt={alt}
+    mb={2}
+    width="100%"
+    height="calc(100% - 1.5rem)"
+  />
+);
 
 export const MobileFooter: React.FC = () => {
   const { isOpen, onToggle, onClose } = useDisclosure();

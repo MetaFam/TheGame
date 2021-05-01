@@ -42,7 +42,7 @@ const CreateQuestPage: React.FC<Props> = ({ guilds, skillChoices }) => {
         router.push(`/quest/${createQuestResponse.quest_id}`);
         toast({
           title: 'Quest created',
-          description: `Your quest is now live!`,
+          description: 'Your quest is now live!',
           status: 'success',
           isClosable: true,
           duration: 4000,

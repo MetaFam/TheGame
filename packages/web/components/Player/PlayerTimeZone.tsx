@@ -10,7 +10,7 @@ type Props = {
 
 export const PlayerTimeZone: React.FC<Props> = ({ player }) => {
   const tzDisplay = useMemo(() => getPlayerTimeZoneDisplay(player), [player]);
-  
+
   return (
     <Box ml={1}>
       <Text fontSize="xs" color="blueLight" casing="uppercase" mb={3}>
@@ -18,8 +18,16 @@ export const PlayerTimeZone: React.FC<Props> = ({ player }) => {
       </Text>
       <HStack alignItems="baseline">
         <FaGlobe color="blueLight" />
-        <Text fontSize="xl" mb="1">{tzDisplay?.timeZone || '-'}</Text>
-        {tzDisplay?.offset ? <Text fontSize="xs" mr={3}>{tzDisplay?.offset}</Text> : ''}
+        <Text fontSize="xl" mb="1">
+          {tzDisplay?.timeZone || '-'}
+        </Text>
+        {tzDisplay?.offset ? (
+          <Text fontSize="xs" mr={3}>
+            {tzDisplay?.offset}
+          </Text>
+        ) : (
+          ''
+        )}
       </HStack>
     </Box>
   );

@@ -11,14 +11,16 @@ export const tokenRequestData = {
   grant_type: 'authorization_code',
   redirect_uri: `${CONFIG.frontendUrl}/${Constants.DISCORD_OAUTH_CALLBACK_PATH}`,
   scope: Constants.DISCORD_OAUTH_SCOPES,
-}
+};
 
-export const exchangeCodeForAccessToken = async (code: string): Promise<DiscordAccessTokenResponse> => {
+export const exchangeCodeForAccessToken = async (
+  code: string,
+): Promise<DiscordAccessTokenResponse> => {
   const data = {
     ...tokenRequestData,
     code,
-  }
-  
+  };
+
   const discordResponse = await fetch('https://discord.com/api/oauth2/token', {
     method: 'POST',
     body: new URLSearchParams(data),
@@ -38,4 +40,4 @@ export const exchangeCodeForAccessToken = async (code: string): Promise<DiscordA
   }
 
   return response;
-}
+};

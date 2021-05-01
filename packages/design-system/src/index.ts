@@ -13,7 +13,7 @@ export { SelectTimeZone } from './SelectTimeZone';
 export { SVG } from './SVG';
 export { theme as MetaTheme } from './theme';
 export { H1, P } from './typography';
-export { EmailIcon } from '@chakra-ui/icons';
+export { CloseIcon, EmailIcon, SettingsIcon } from '@chakra-ui/icons';
 export {
   AlertDialog,
   AlertDialogBody,
@@ -71,3 +71,4 @@ export {
   Wrap,
   WrapItem,
 } from '@chakra-ui/react';
+export { motion } from 'framer-motion';

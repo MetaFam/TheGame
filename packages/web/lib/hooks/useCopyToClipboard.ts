@@ -1,5 +1,5 @@
 import copyToClipboard from 'copy-to-clipboard';
-import { useCallback,useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 const DEFAULT_DELAY = 3000;
 

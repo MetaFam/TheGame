@@ -55,7 +55,7 @@ const SubmitQuestCompletionPage: React.FC<Props> = ({ quest }) => {
         router.push(`/quest/${quest.id}`);
         toast({
           title: 'Submitted quest completion',
-          description: `Now, wait until it gets accepted 😉`,
+          description: 'Now, wait until it gets accepted 😉',
           status: 'success',
           isClosable: true,
           duration: 4000,
@@ -109,12 +109,10 @@ export default SubmitQuestCompletionPage;
 
 type QueryParams = { id: string };
 
-export const getStaticPaths: GetStaticPaths<QueryParams> = async () => {
-  return {
-    paths: [],
-    fallback: true,
-  };
-};
+export const getStaticPaths: GetStaticPaths<QueryParams> = async () => ({
+  paths: [],
+  fallback: true,
+});
 
 export const getStaticProps = async (
   context: GetStaticPropsContext<QueryParams>,

@@ -55,7 +55,7 @@ const EditQuestPage: React.FC<Props> = ({ quest, skillChoices, guilds }) => {
         router.push(`/quest/${quest.id}`);
         toast({
           title: 'Quest edited',
-          description: `The quest details have been updated`,
+          description: 'The quest details have been updated',
           status: 'success',
           isClosable: true,
           duration: 4000,
@@ -102,12 +102,10 @@ export default EditQuestPage;
 
 type QueryParams = { id: string };
 
-export const getStaticPaths: GetStaticPaths<QueryParams> = async () => {
-  return {
-    paths: [],
-    fallback: true,
-  };
-};
+export const getStaticPaths: GetStaticPaths<QueryParams> = async () => ({
+  paths: [],
+  fallback: true,
+});
 
 export const getStaticProps = async (
   context: GetStaticPropsContext<QueryParams>,

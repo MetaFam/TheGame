@@ -1,4 +1,4 @@
-import { PlayerFragmentFragment } from "graphql/autogen/types";
+import { PlayerFragmentFragment } from 'graphql/autogen/types';
 import spacetime from 'spacetime';
 import { display } from 'spacetime-informal';
 
@@ -7,12 +7,14 @@ export interface TimeZoneDisplay {
   offset?: string;
 }
 
-export const getPlayerTimeZoneDisplay = (player: PlayerFragmentFragment): TimeZoneDisplay => {
+export const getPlayerTimeZoneDisplay = (
+  player: PlayerFragmentFragment,
+): TimeZoneDisplay => {
   let tzLabel;
   let offsetLabel;
   if (player?.timezone) {
-    const timeZone = spacetime.now().goto(player.timezone)
-    const tzDisplay = display(player.timezone)
+    const timeZone = spacetime.now().goto(player.timezone);
+    const tzDisplay = display(player.timezone);
     if (tzDisplay && tzDisplay.daylight && tzDisplay.standard) {
       tzLabel = timeZone.isDST()
         ? tzDisplay.daylight.abbrev
@@ -31,6 +33,5 @@ export const getPlayerTimeZoneDisplay = (player: PlayerFragmentFragment): TimeZo
   return {
     timeZone: tzLabel,
     offset: offsetLabel,
-  }
-}
-  
+  };
+};

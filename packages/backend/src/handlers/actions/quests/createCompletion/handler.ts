@@ -1,16 +1,16 @@
 import { Request, Response } from 'express';
 
-import { CreateQuestCompletionOutput, Mutation_RootCreateQuestCompletionArgs } from '../../../../lib/autogen/hasura-sdk';
+import {
+  CreateQuestCompletionOutput,
+  Mutation_RootCreateQuestCompletionArgs,
+} from '../../../../lib/autogen/hasura-sdk';
 import { createCompletion } from './createCompletion';
 
 export const createCompletionHandler = async (
   req: Request,
   res: Response,
 ): Promise<void> => {
-  const {
-    input,
-    session_variables: sessionVariables,
-  } = req.body;
+  const { input, session_variables: sessionVariables } = req.body;
 
   const role = sessionVariables['x-hasura-role'];
   const playerId = sessionVariables['x-hasura-user-id'];

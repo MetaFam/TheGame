@@ -81,7 +81,7 @@ const QuestsPage: React.FC<Props> = () => {
         </Box>
         <Box mt={8} w="100%">
           {fetching && <LoadingState />}
-          {error && <Text>Error: {error.message}</Text>}
+          {error && <Text>{`Error: ${error.message}`}</Text>}
           {quests && !fetching && <QuestList quests={quests} />}
         </Box>
       </Box>

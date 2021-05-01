@@ -5,18 +5,15 @@ import { useUser } from 'lib/hooks';
 import { InferGetStaticPropsType } from 'next';
 import React, { useState } from 'react';
 
-export const getStaticProps = async () => {
-  return {
-    props: {
-      hideAppDrawer: true,
-    },
-  };
-};
+export const getStaticProps = async () => ({
+  props: {
+    hideAppDrawer: true,
+  },
+});
 
 export type DefaultSetupProps = InferGetStaticPropsType<typeof getStaticProps>;
 
 const AvailabilitySetup: React.FC<DefaultSetupProps> = () => {
-
   const [availability, setAvailability] = useState<string>('');
   const { user } = useUser({ redirectTo: '/' });
 
@@ -30,7 +27,10 @@ const AvailabilitySetup: React.FC<DefaultSetupProps> = () => {
   return (
     <SetupContextProvider>
       <SetupProfile>
-        <SetupAvailability availability={availability} setAvailability={setAvailability} />
+        <SetupAvailability
+          availability={availability}
+          setAvailability={setAvailability}
+        />
       </SetupProfile>
     </SetupContextProvider>
   );

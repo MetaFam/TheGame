@@ -14,10 +14,17 @@ import {
 } from '../../../lib/autogen/hasura-sdk';
 import { client } from '../../../lib/hasuraClient';
 import { computeRank } from '../../../lib/rankHelpers';
-import { AddressBookEntry, CredGraph, LedgerManager, ReloadResult, SCAccountsData, SCAlias, SCReadInstance } from './types';
+import {
+  AddressBookEntry,
+  CredGraph,
+  LedgerManager,
+  ReloadResult,
+  SCAccountsData,
+  SCAlias,
+  SCReadInstance,
+} from './types';
 
-const SC_OUTPUT_BASE =
-  'https://raw.githubusercontent.com/MetaFam/XP/gh-pages/';
+const SC_OUTPUT_BASE = 'https://raw.githubusercontent.com/MetaFam/XP/gh-pages/';
 const ADDRESS_BOOK_FILE =
   'https://raw.githubusercontent.com/MetaFam/TheSource/master/addressbook.json';
 
@@ -94,10 +101,15 @@ export const migrateSourceCredAccounts = async (
     throw new Error(`Error loading ledger: ${ledgerRes.error}`);
   }
 
-  const instance: SCReadInstance = sc.instance.readInstance.getNetworkReadInstance(SC_OUTPUT_BASE);
+  const instance: SCReadInstance = sc.instance.readInstance.getNetworkReadInstance(
+    SC_OUTPUT_BASE,
+  );
   const credGraph: CredGraph = await instance.readCredGraph();
 
-  const accountsData: SCAccountsData = sc.ledger.utils.distributions.computeCredAccounts(manager.ledger, credGraph);
+  const accountsData: SCAccountsData = sc.ledger.utils.distributions.computeCredAccounts(
+    manager.ledger,
+    credGraph,
+  );
 
   const addressBook: AddressBookEntry[] = await (
     await fetch(ADDRESS_BOOK_FILE)
@@ -113,9 +125,7 @@ export const migrateSourceCredAccounts = async (
     .sort((a, b) => b.totalCred - a.totalCred)
     .map((a, index) => {
       const linkedAccounts = a.account.identity.aliases
-        .map((alias) => {
-          return parseAlias(alias);
-        })
+        .map((alias) => parseAlias(alias))
         .filter(isNotNullOrUndefined);
 
       const mergedIdentityIds = a.account.identity.aliases
@@ -139,7 +149,9 @@ export const migrateSourceCredAccounts = async (
         mergedIdentityIds,
         Accounts: {
           // Omit the discord account, as that is updated directly on the player table
-          data: linkedAccounts.filter(({ type }) => type !== AccountType_Enum.Discord),
+          data: linkedAccounts.filter(
+            ({ type }) => type !== AccountType_Enum.Discord,
+          ),
           on_conflict: accountOnConflict,
         },
       };

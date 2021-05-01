@@ -7,9 +7,10 @@ import { InferGetStaticPropsType } from 'next';
 import React, { useEffect, useState } from 'react';
 
 export const getStaticProps = async () => {
-  const { types: personalityTypes, parts: personalityParts } = (
-    await getPersonalityInfo()
-  );
+  const {
+    types: personalityTypes,
+    parts: personalityParts,
+  } = await getPersonalityInfo();
 
   return {
     props: {
@@ -23,13 +24,12 @@ export const getStaticProps = async () => {
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
 const PersonalityTypeSetup: React.FC<Props> = (props) => {
-
   const { personalityTypes } = props;
   const { user } = useUser({ redirectTo: '/' });
-  const [colorMask, setColorMask] = (
-    useState<number | undefined>(user?.player?.ColorAspect?.mask)
+  const [colorMask, setColorMask] = useState<number | undefined>(
+    user?.player?.ColorAspect?.mask,
   );
-  
+
   const load = () => {
     const { player } = user ?? {};
     if (player) {
@@ -37,7 +37,7 @@ const PersonalityTypeSetup: React.FC<Props> = (props) => {
         setColorMask(player.ColorAspect?.mask);
       }
     }
-  }
+  };
   useEffect(load, [user, colorMask]);
 
   return (

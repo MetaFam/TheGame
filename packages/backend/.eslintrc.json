@@ -11,6 +11,12 @@
       "rules": {
         "@typescript-eslint/explicit-module-boundary-types": "off"
       }
+    },
+    {
+      "files": ["./src/**/*.ts"],
+      "rules": {
+        "no-console": "off"
+      }
     }
   ]
 }

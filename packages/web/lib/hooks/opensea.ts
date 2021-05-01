@@ -95,8 +95,8 @@ const fetchOpenSeaData = async (
 
 const parseAssets = async (
   assets: Array<OpenSeaAsset>,
-): Promise<Array<Collectible>> => {
-  return assets
+): Promise<Array<Collectible>> =>
+  assets
     .map(
       (asset) =>
         ({
@@ -112,7 +112,6 @@ const parseAssets = async (
       (collectible: Collectible) =>
         !!collectible.title && !!collectible.imageUrl,
     );
-};
 
 const ETH_ADDRESSES = [
   '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2', // wETH

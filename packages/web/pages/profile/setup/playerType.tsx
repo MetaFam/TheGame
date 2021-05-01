@@ -24,7 +24,7 @@ const PlayerTypeSetup: React.FC<Props> = (props) => {
   const { playerTypeChoices } = props;
   const [playerType, setPlayerType] = useState<Player_Type>();
   const { user } = useUser({ redirectTo: '/' });
-  
+
   if (user?.player) {
     const { player } = user;
     if (player.playerType && !playerType) {
@@ -35,10 +35,11 @@ const PlayerTypeSetup: React.FC<Props> = (props) => {
   return (
     <SetupContextProvider>
       <SetupProfile>
-        <SetupPlayerType 
-          playerTypeChoices={playerTypeChoices} 
-          playerType={playerType} 
-          setPlayerType={setPlayerType} />
+        <SetupPlayerType
+          playerTypeChoices={playerTypeChoices}
+          playerType={playerType}
+          setPlayerType={setPlayerType}
+        />
       </SetupProfile>
     </SetupContextProvider>
   );

@@ -4,9 +4,7 @@ import { Kind } from 'graphql/language';
 const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const nilUUID = '00000000-0000-0000-0000-000000000000';
 
-const isUUID = (value: string) => {
-  return uuidRegex.test(value) || nilUUID === value;
-};
+const isUUID = (value: string) => uuidRegex.test(value) || nilUUID === value;
 
 export const uuid = new GraphQLScalarType({
   name: 'uuid',

@@ -1,6 +1,4 @@
-const emojiUrl = (fileName: string): string => {
-  return `/assets/emojis/${fileName}`;
-};
+const emojiUrl = (fileName: string): string => `/assets/emojis/${fileName}`;
 
 export interface DrawerItemType {
   href: string;

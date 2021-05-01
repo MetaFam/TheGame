@@ -1,7 +1,7 @@
 declare module 'spacetime-informal' {
-  export function find(tz:string): string;
+  export function find(tz: string): string;
 
-  export function display(geo:string): DisplayFormat;
+  export function display(geo: string): DisplayFormat;
 
   export function version(): string;
 

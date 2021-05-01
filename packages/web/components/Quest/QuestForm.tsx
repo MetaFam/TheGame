@@ -141,15 +141,18 @@ export const QuestForm: React.FC<Props> = ({
     () => getDefaultFormValues(editQuest, guilds),
     [editQuest, guilds],
   );
-  const { register, control, errors, watch, handleSubmit } = useForm<
-    CreateQuestFormInputs
-  >({
+  const {
+    register,
+    control,
+    errors,
+    watch,
+    handleSubmit,
+  } = useForm<CreateQuestFormInputs>({
     defaultValues,
   });
   const router = useRouter();
   const [exitAlert, setExitAlert] = useState<boolean>(false);
   const createQuestInput = watch();
-  console.log(errors);
 
   return (
     <Box w="100%" maxW="30rem">

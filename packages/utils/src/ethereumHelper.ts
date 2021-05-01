@@ -60,7 +60,7 @@ export async function verifySignature(
   try {
     const returnValue = await contract.isValidSignature(hashMessage, signature);
     return returnValue;
-  } catch(error) {
+  } catch (error) {
     throw new Error('unsupported smart wallet');
   }
 }

@@ -38,18 +38,14 @@ export const GuildTile: React.FC<Props> = ({ guild }) => (
       ) : null}
       {guild.description ? (
         <VStack spacing={2} align="stretch">
-          <Text textStyle="caption">
-            ABOUT
-          </Text>
+          <Text textStyle="caption">ABOUT</Text>
           <Text fontSize="sm">{guild.description}</Text>
         </VStack>
       ) : null}
     </MetaTileHeader>
     <MetaTileBody>
       <VStack spacing={2} align="stretch">
-        <Text textStyle="caption">
-          LINKS
-        </Text>
+        <Text textStyle="caption">LINKS</Text>
         <HStack mt="2">
           <GuildLinks guild={guild} />
         </HStack>

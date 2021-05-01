@@ -50,7 +50,7 @@ services:
           name: hasura
           type: web
           property: host
-      - key: 
+      - key:
 
   - type: web
     name: mymeta

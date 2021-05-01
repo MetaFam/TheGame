@@ -16,12 +16,10 @@ export const getStaticProps = async () => {
   };
 };
 
-const PatronsPage: React.FC<Props> = ({ patrons }) => {
-  return (
-    <PageContainer>
-      <PatronList patrons={patrons} />
-    </PageContainer>
-  );
-};
+const PatronsPage: React.FC<Props> = ({ patrons }) => (
+  <PageContainer>
+    <PatronList patrons={patrons} />
+  </PageContainer>
+);
 
 export default PatronsPage;

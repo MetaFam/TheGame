@@ -1,6 +1,27 @@
-import { NextFunction, Request, Response } from 'express';
+import {
+  ErrorRequestHandler,
+  NextFunction,
+  Request,
+  RequestHandler,
+  Response,
+} from 'express';
 
-export function asyncHandlerWrapper(middleware: any) {
+type AsyncRequestHandler = (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => Promise<void>;
+
+type AsyncErrorRequestHandler = (
+  error: Error,
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => Promise<void>;
+
+export const asyncHandlerWrapper = (
+  middleware: AsyncRequestHandler | AsyncErrorRequestHandler,
+): RequestHandler | ErrorRequestHandler => {
   if (middleware.length === 4) {
     return function wrappedHandler(
       error: Error,
@@ -8,7 +29,9 @@ export function asyncHandlerWrapper(middleware: any) {
       res: Response,
       next: NextFunction,
     ) {
-      middleware(error, req, res, next).catch(next);
+      (middleware as AsyncErrorRequestHandler)(error, req, res, next).catch(
+        next,
+      );
     };
   }
   return function wrappedHandler(
@@ -16,16 +39,15 @@ export function asyncHandlerWrapper(middleware: any) {
     res: Response,
     next: NextFunction,
   ) {
-    middleware(req, res, next).catch(next);
+    (middleware as AsyncRequestHandler)(req, res, next).catch(next);
   };
-}
+};
 
-export function errorMiddleware(
+export const errorMiddleware: ErrorRequestHandler = (
   error: Error,
-  _: Request,
+  _req: Request,
   res: Response,
-  __: NextFunction,
-) {
+) => {
   console.error(error);
   res.status(500).send('Unexpected error');
-}
+};

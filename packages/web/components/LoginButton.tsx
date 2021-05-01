@@ -1,10 +1,11 @@
-import { CloseIcon, SettingsIcon } from '@chakra-ui/icons';
 import {
   Avatar,
   Box,
   Button,
+  CloseIcon,
   HStack,
   MetaButton,
+  SettingsIcon,
   Spinner,
   Text,
 } from '@metafam/ds';
@@ -15,9 +16,14 @@ import { useUser, useWeb3 } from '../lib/hooks';
 import { getPlayerImage, getPlayerName } from '../utils/playerHelpers';
 
 export const LoginButton: React.FC = () => {
-  const { connectWeb3, disconnect, isConnected, isConnecting } = useWeb3();
+  const {
+    address,
+    connectWeb3,
+    disconnect,
+    isConnected,
+    isConnecting,
+  } = useWeb3();
 
-  const { address } = useWeb3();
   const { user, fetching } = useUser();
 
   const handleLoginClick = useCallback(async () => {

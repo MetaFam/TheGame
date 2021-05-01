@@ -4,13 +4,13 @@ import {
   Button,
   Flex,
   Image,
+  motion,
   Stack,
   useDisclosure,
 } from '@metafam/ds';
 import { MetaLink } from 'components/Link';
 import { LoginButton } from 'components/LoginButton';
 import { Ticker } from 'components/Ticker';
-import { motion } from 'framer-motion';
 import React from 'react';
 
 import { useMounted } from '../lib/hooks';
@@ -31,96 +31,92 @@ const MenuItem: React.FC<React.ComponentProps<typeof MetaLink>> = ({
   children,
   href,
   isExternal,
-}) => {
-  return (
-    <MetaLink
-      href={href}
-      isExternal={isExternal}
+}) => (
+  <MetaLink
+    href={href}
+    isExternal={isExternal}
+    textDecoration="none"
+    _hover={{ textDecoration: 'none' }}
+    _focus={{ boxShadow: 'none' }}
+    zIndex={15}
+  >
+    <Button
+      display="flex"
+      flexDirection="column"
+      justifyContent="center"
+      alignItems="center"
+      width={`calc(${drawer.width} / 5 - 1rem)`}
+      top="0.25rem"
       textDecoration="none"
       _hover={{ textDecoration: 'none' }}
       _focus={{ boxShadow: 'none' }}
-      zIndex={15}
+      variant="link"
+      p="1"
+      fontFamily="mono"
+      color="whiteAlpha.700"
     >
-      <Button
-        display="flex"
-        flexDirection="column"
-        justifyContent="center"
-        alignItems="center"
-        width={`calc(${drawer.width} / 5 - 1rem)`}
-        top="0.25rem"
-        textDecoration="none"
-        _hover={{ textDecoration: 'none' }}
-        _focus={{ boxShadow: 'none' }}
-        variant="link"
-        p="1"
-        fontFamily="mono"
-        color="whiteAlpha.700"
-      >
-        {children}
-      </Button>
-    </MetaLink>
-  );
-};
+      {children}
+    </Button>
+  </MetaLink>
+);
 
 const SubMenuItem: React.FC<React.ComponentProps<typeof MetaLink>> = ({
   children,
   href,
   isExternal,
-}) => {
-  return (
-    <MetaLink
-      zIndex="2"
-      href={href}
-      isExternal={isExternal}
+}) => (
+  <MetaLink
+    zIndex="2"
+    href={href}
+    isExternal={isExternal}
+    textDecoration="none"
+    _hover={{ textDecoration: 'none' }}
+  >
+    <Button
+      position="relative"
+      overflow="hidden"
+      display="flex"
+      flexDirection="column"
+      justifyContent="center"
+      alignItems="center"
+      width="8.25rem"
+      height="8.25rem"
+      backgroundColor="rgba(255,255,255,0.08)"
+      borderRadius="5px"
       textDecoration="none"
-      _hover={{ textDecoration: 'none' }}
-    >
-      <Button
-        position="relative"
-        overflow="hidden"
-        display="flex"
-        flexDirection="column"
-        justifyContent="center"
-        alignItems="center"
-        width="8.25rem"
-        height="8.25rem"
-        backgroundColor="rgba(255,255,255,0.08)"
-        borderRadius="5px"
-        textDecoration="none"
-        variant="link"
-        fontWeight="normal"
-        color="whiteAlpha.700"
-        margin={3}
-        _after={{
-          content: "''",
-          position: 'absolute',
-          display: 'block',
-          width: '100%',
-          height: '100%',
-          filter: 'blur(10px)',
-          transform: 'translate3d(-120%, 0, 0)',
-          background: `linear-gradient(
+      variant="link"
+      fontWeight="normal"
+      color="whiteAlpha.700"
+      margin={3}
+      _after={{
+        content: "''",
+        position: 'absolute',
+        display: 'block',
+        width: '100%',
+        height: '100%',
+        filter: 'blur(10px)',
+        transform: 'translate3d(-120%, 0, 0)',
+        background: `linear-gradient(
               45deg, transparent,
               rgba(255, 255, 255, 0),
               rgba(255, 255, 255, 0.06),
               rgba(255, 255, 255, 0),
               transparent
             )`,
-          transition: 'all 0.3s 0.1s ease-in-out',
-          zIndex: 1,
-        }}
-        _hover={{
-          textDecoration: 'none',
-          boxShadow: '0 0 2rem rgba(0,0,0,.1)',
-          _before: { transform: 'translate3d(120%, 0, 0)' },
-          _after: { transform: 'translate3d(120%, 0, 0)' },
-        }}
-      >
-        {children}
-      </Button>
-    </MetaLink>
-  );
-};
+        transition: 'all 0.3s 0.1s ease-in-out',
+        zIndex: 1,
+      }}
+      _hover={{
+        textDecoration: 'none',
+        boxShadow: '0 0 2rem rgba(0,0,0,.1)',
+        _before: { transform: 'translate3d(120%, 0, 0)' },
+        _after: { transform: 'translate3d(120%, 0, 0)' },
+      }}
+    >
+      {children}
+    </Button>
+  </MetaLink>
+);
 
 export const PageHeader: React.FC = () => {
   const { isOpen, onToggle, onClose } = useDisclosure();
@@ -293,24 +289,22 @@ export const PageHeader: React.FC = () => {
             width={`calc(${content.width} - 0.5rem)`}
           />
 
-          {DrawerSubItems.map((item) => {
-            return (
-              <SubMenuItem
-                href={item.href}
-                key={item.alt}
-                isExternal={item.isExternal}
-              >
-                <BoxedNextImage
-                  src={item.src}
-                  alt={item.alt}
-                  height="5rem"
-                  width="5rem"
-                  mb={2}
-                />
-                {item.text}
-              </SubMenuItem>
-            );
-          })}
+          {DrawerSubItems.map((item) => (
+            <SubMenuItem
+              href={item.href}
+              key={item.alt}
+              isExternal={item.isExternal}
+            >
+              <BoxedNextImage
+                src={item.src}
+                alt={item.alt}
+                height="5rem"
+                width="5rem"
+                mb={2}
+              />
+              {item.text}
+            </SubMenuItem>
+          ))}
         </Stack>
       </motion.div>
     </Flex>

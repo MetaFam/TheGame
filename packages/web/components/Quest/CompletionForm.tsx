@@ -38,9 +38,11 @@ export const CompletionForm: React.FC<Props> = ({
   success,
   fetching,
 }) => {
-  const { register, errors, handleSubmit } = useForm<
-    CreateQuestCompletionInput
-  >();
+  const {
+    register,
+    errors,
+    handleSubmit,
+  } = useForm<CreateQuestCompletionInput>();
   const [exitAlert, setExitAlert] = useState<boolean>(false);
   const router = useRouter();
 
