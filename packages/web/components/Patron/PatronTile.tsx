@@ -12,6 +12,7 @@ import {
   Wrap,
   WrapItem,
 } from '@metafam/ds';
+import { computeRank } from '@metafam/utils';
 import { MetaLink } from 'components/Link';
 import { PlayerContacts } from 'components/Player/PlayerContacts';
 import { PlayerTileMemberships } from 'components/Player/PlayerTileMemberships';
@@ -29,7 +30,6 @@ import {
   getPlayerImage,
   getPlayerName,
 } from 'utils/playerHelpers';
-import { computeRank } from 'utils/rankHelpers';
 
 const PATRON_RANKS = [
   PlayerRank_Enum.Diamond,
