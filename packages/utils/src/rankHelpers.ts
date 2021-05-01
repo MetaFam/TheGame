@@ -1,12 +1,12 @@
 // A summation of usersPerRank
 // This is the first index for which users will NOT be ranked
-const computeRankCap = (usersPerRank: Array<number>) =>
+export const computeRankCap = (usersPerRank: Array<number>) =>
   usersPerRank.reduce((sum, rankCount) => {
     return sum + rankCount;
   }, 0);
 
 // Computes the rank for the given index. This would be the index corresponding
-// to all players ordered by total_xp DESC.
+// to all users ordered by total_xp DESC.
 export function computeRank(
   rankIndex: number,
   usersPerRank: Array<number>,
