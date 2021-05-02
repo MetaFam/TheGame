@@ -11,6 +11,7 @@ import {
   VStack,
 } from '@metafam/ds';
 import BackgroundImage from 'assets/main-background.jpg';
+import { FormattedText } from 'components/FormattedText';
 import { MetaLink } from 'components/Link';
 import { QuestFragmentFragment, Skill } from 'graphql/autogen/types';
 import moment from 'moment';
@@ -65,7 +66,7 @@ export const QuestTile: React.FC<Props> = ({ quest }) => (
     <MetaTileBody flex={1}>
       <VStack spacing={2} align="stretch">
         <Text textStyle="caption">DESCRIPTION</Text>
-        <Text noOfLines={4}>{quest.description}</Text>
+        <FormattedText>{quest.description}</FormattedText>
 
         <Text textStyle="caption">SKILLS</Text>
         <SkillsTags

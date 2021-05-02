@@ -33,6 +33,7 @@
     "react-icons": "3.11.0",
     "react-is": "16.13.1",
     "react-hook-form": "6.15.5",
+    "react-markdown": "^5.0.3",
     "react-qr-svg": "^2.3.0",
     "spacetime": "6.12.2",
     "spacetime-informal": "0.5.0",

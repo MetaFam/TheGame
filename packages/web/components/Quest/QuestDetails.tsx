@@ -11,6 +11,7 @@ import {
   Text,
   VStack,
 } from '@metafam/ds';
+import { FormattedText } from 'components/FormattedText';
 import { MetaLink } from 'components/Link';
 import {
   Quest,
@@ -57,12 +58,10 @@ export const QuestDetails: React.FC<Props> = ({ quest }) => {
 
       <MetaTileHeader>
         <VStack>
-          <MetaLink as={`/quest/${quest.id}`} href="/quest/[id]">
-            <Heading size="sm" color="white" align="center">
-              {quest.title}
-            </Heading>
-          </MetaLink>
-          <HStack mt={2}>
+          <Heading size="sm" color="white" align="center" mb={2}>
+            {quest.title}
+          </Heading>
+          <HStack mb={2} align="center">
             <RepetitionTag
               repetition={quest.repetition}
               cooldown={quest.cooldown}
@@ -72,15 +71,17 @@ export const QuestDetails: React.FC<Props> = ({ quest }) => {
               <i>{moment(quest.created_at).fromNow()}</i>
             </Text>
           </HStack>
-          <HStack w="100%" mt={2}>
+          <HStack w="100%" mb={3} justifyContent="center" spacing={3}>
             {isMyQuest && quest.status === QuestStatus_Enum.Open && (
               <MetaLink as={`/quest/${quest.id}/edit`} href="/quest/[id]/edit">
-                <MetaButton size="md">Edit Quest</MetaButton>
+                <MetaButton colorScheme="purple" size="sm">
+                  Edit Quest
+                </MetaButton>
               </MetaLink>
             )}
             {quest.external_link && (
               <MetaLink href={quest.external_link} isExternal>
-                <MetaButton variant="outline" colorScheme="cyan" size="md">
+                <MetaButton variant="outline" colorScheme="cyan" size="sm">
                   Open link
                 </MetaButton>
               </MetaLink>
@@ -91,12 +92,12 @@ export const QuestDetails: React.FC<Props> = ({ quest }) => {
       <MetaTileBody>
         <VStack spacing={2} align="stretch">
           <Text textStyle="caption">DESCRIPTION</Text>
-          <Text>{quest.description}</Text>
+          <FormattedText>{quest.description}</FormattedText>
 
           {quest.repetition === QuestRepetition_Enum.Recurring && (
             <>
               <Text textStyle="caption">Cooldown</Text>
-              <Text>
+              <Text fontSize="14px">
                 Doable every{' '}
                 {moment.duration(quest.cooldown, 'second').humanize()}
               </Text>

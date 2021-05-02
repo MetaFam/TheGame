@@ -76,7 +76,7 @@ const QuestPage: React.FC<Props> = ({ quest_id }) => {
               align={{ base: 'center', lg: 'start' }}
               direction="column"
             >
-              <Heading mb={4} ml={2}>
+              <Heading size="md" mb={4} ml={2}>
                 Quest details
               </Heading>
               <QuestDetails quest={quest} />
@@ -92,7 +92,7 @@ const QuestPage: React.FC<Props> = ({ quest_id }) => {
               align={{ base: 'center', lg: 'start' }}
               direction="column"
             >
-              <Heading mb={4} ml={2}>
+              <Heading size="md" mb={4} ml={2}>
                 Created by
               </Heading>
               <PlayerTile player={quest.player} />
@@ -101,7 +101,7 @@ const QuestPage: React.FC<Props> = ({ quest_id }) => {
         </Wrap>
         <Flex w="100%" direction="column" mt={8}>
           <HStack mb={4} justify="space-between">
-            <Heading>Proposals</Heading>
+            <Heading size="md">Proposals</Heading>
 
             {canSubmit && (
               <MetaLink
