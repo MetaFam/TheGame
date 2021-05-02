@@ -1,6 +1,6 @@
 // A summation of usersPerRank
 // This is the first index for which users will NOT be ranked
-export const computeRankCap = (usersPerRank: Array<number>) =>
+export const computeRankCap = (usersPerRank: Array<number>): number =>
   usersPerRank.reduce((sum, rankCount) => sum + rankCount, 0);
 
 // Computes the rank for the given index. This would be the index corresponding
