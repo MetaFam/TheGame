@@ -2018,7 +2018,7 @@
     source-map "^0.5.7"
     stylis "^4.0.3"
 
-"@emotion/cache@^10.0.27", "@emotion/cache@^10.0.9":
+"@emotion/cache@^10.0.27":
   version "10.0.29"
   resolved "https://registry.yarnpkg.com/@emotion/cache/-/cache-10.0.29.tgz#87e7e64f412c060102d589fe7c6dc042e6f9d1e0"
   integrity sha512-fU2VtSVlHiF27empSbxi1O2JFdNWZO+2NFHfwO0pxgTep6Xa3uGb+3pVKfLww2l/IBGLNEZl5Xf/++A4wAYDYQ==
@@ -2039,7 +2039,7 @@
     "@emotion/weak-memoize" "^0.2.5"
     stylis "^4.0.3"
 
-"@emotion/core@^10.0.9", "@emotion/core@^10.1.1":
+"@emotion/core@^10.1.1":
   version "10.1.1"
   resolved "https://registry.yarnpkg.com/@emotion/core/-/core-10.1.1.tgz#c956c1365f2f2481960064bcb8c4732e5fb612c3"
   integrity sha512-ZMLG6qpXR8x031NXD8HJqugy/AZSkAuMxxqB46pmAR7ze47MhNJ56cdoX243QPZdGctrdfo+s08yZTiwaUcRKA==
@@ -2051,7 +2051,7 @@
     "@emotion/sheet" "0.9.4"
     "@emotion/utils" "0.11.3"
 
-"@emotion/css@^10.0.27", "@emotion/css@^10.0.9":
+"@emotion/css@^10.0.27":
   version "10.0.27"
   resolved "https://registry.yarnpkg.com/@emotion/css/-/css-10.0.27.tgz#3a7458198fbbebb53b01b2b87f64e5e21241e14c"
   integrity sha512-6wZjsvYeBhyZQYNrGoR5yPMYbMBNEnanDrqmsqS1mzDm1cOTu12shvl2j4QHNS36UaTE0USIJawCH9C8oW34Zw==
@@ -23593,7 +23593,7 @@ react-router@5.2.0, react-router@^5.1.0, react-router@^5.2.0:
     tiny-invariant "^1.0.2"
     tiny-warning "^1.0.0"
 
-react-select@4.3.0:
+react-select@4.3.0, react-select@^4.2.1:
   version "4.3.0"
   resolved "https://registry.yarnpkg.com/react-select/-/react-select-4.3.0.tgz#6bde634ae7a378b49f3833c85c126f533483fa2e"
   integrity sha512-SBPD1a3TJqE9zoI/jfOLCAoLr/neluaeokjOixr3zZ1vHezkom8K0A9J4QG9IWDqIDE9K/Mv+0y1GjidC2PDtQ==
@@ -23601,20 +23601,6 @@ react-select@4.3.0:
     "@babel/runtime" "^7.12.0"
     "@emotion/cache" "^11.0.0"
     "@emotion/react" "^11.1.1"
-    memoize-one "^5.0.0"
-    prop-types "^15.6.0"
-    react-input-autosize "^3.0.0"
-    react-transition-group "^4.3.0"
-
-react-select@^3.1.0:
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/react-select/-/react-select-3.2.0.tgz#de9284700196f5f9b5277c5d850a9ce85f5c72fe"
-  integrity sha512-B/q3TnCZXEKItO0fFN/I0tWOX3WJvi/X2wtdffmwSQVRwg5BpValScTO1vdic9AxlUgmeSzib2hAZAwIUQUZGQ==
-  dependencies:
-    "@babel/runtime" "^7.4.4"
-    "@emotion/cache" "^10.0.9"
-    "@emotion/core" "^10.0.9"
-    "@emotion/css" "^10.0.9"
     memoize-one "^5.0.0"
     prop-types "^15.6.0"
     react-input-autosize "^3.0.0"
@@ -23664,14 +23650,14 @@ react-textarea-autosize@^8.3.0:
     use-composed-ref "^1.0.0"
     use-latest "^1.0.0"
 
-react-timezone-select@0.9.8:
-  version "0.9.8"
-  resolved "https://registry.yarnpkg.com/react-timezone-select/-/react-timezone-select-0.9.8.tgz#a5d9ead1fa0b40dab1b3a77d9cdcc20354fe2ec4"
-  integrity sha512-CzIOs9IwAb5hmjs5jnB1uShQvw9zJGUVeH5dIpRVy1dgVnwkasvXc2fGwnggI6nYXAmN7uOCt5kFIcQOpZmUNw==
+react-timezone-select@1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/react-timezone-select/-/react-timezone-select-1.0.2.tgz#37e6d99bc15372bd3f9ebc7541bda6f3a10c852b"
+  integrity sha512-MDv4rmDkop3nZcIH27tLwIuIVovJE6ushmr9r0kR1SSzVErdydV01vI1ch8u4JAAFpnR5lYDt5PBqQW/lUS+Jg==
   dependencies:
-    react-select "^3.1.0"
-    spacetime "^6.6.2"
-    spacetime-informal "^0.3.0"
+    react-select "^4.2.1"
+    spacetime "^6.14.0"
+    spacetime-informal "^0.6.1"
 
 react-transition-group@^4.3.0, react-transition-group@^4.4.0, react-transition-group@^4.4.1:
   version "4.4.1"
@@ -25389,19 +25375,14 @@ space-separated-tokens@^1.0.0:
   resolved "https://registry.yarnpkg.com/space-separated-tokens/-/space-separated-tokens-1.1.5.tgz#85f32c3d10d9682007e917414ddc5c26d1aa6899"
   integrity sha512-q/JSVd1Lptzhf5bkYm4ob4iWPjx0KiRe3sRFBNrVqbJkFaBm5vbbowy1mymoPNLRa52+oadOhJ+K49wsSeSjTA==
 
-spacetime-informal@0.6.1:
+spacetime-informal@0.6.1, spacetime-informal@^0.6.1:
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/spacetime-informal/-/spacetime-informal-0.6.1.tgz#621b4156a98f20f5c3f0151475d2ea886e1c19c1"
   integrity sha512-fOA+RMi2mpCbkLkjBIzWQttmkYE/v9VfdbbrvE2Pus/WoiQNmHO20YGNEqJOuFADsrrZOd/hJVuBwAkV3s6BHg==
   dependencies:
     efrt-unpack "2.2.0"
 
-spacetime-informal@^0.3.0:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/spacetime-informal/-/spacetime-informal-0.3.0.tgz#6d0feffe291697f686b737b678b59ee2dcef3297"
-  integrity sha512-HtFTwtkzDl7gswCfeWPQAxvQ+Fmrdt7WqoDT0Lq2FX7RVZKZ/+zmgBOAVAuH8oVcf4uXza9NvdX9QppGRiG8oQ==
-
-spacetime@6.16.0, spacetime@^6.6.2:
+spacetime@6.16.0, spacetime@^6.14.0:
   version "6.16.0"
   resolved "https://registry.yarnpkg.com/spacetime/-/spacetime-6.16.0.tgz#f213963392eafc380716c3857b23251de87db97f"
   integrity sha512-mkuniNOp6ssfPyJidj81tb54zKxK4vEKPTmcUsC/NEGIF8S07ppoSotdg6numT1/26rthQYmdxMY/M5a9WeJVQ==
