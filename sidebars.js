@@ -1,7 +1,6 @@
 module.exports = {
   someSidebar: {
     "🌀 MetaOS": ["home"],
-    "🥳 MetaFest 2021": ["metafest"],
     "🤨 Pillar Memes": [
       "wtf-is-metagame/origin-story",
       "wtf-is-metagame/in-search-of-commons-that-scale",
