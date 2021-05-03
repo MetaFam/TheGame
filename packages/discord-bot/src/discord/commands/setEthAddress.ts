@@ -1,5 +1,5 @@
 import { CommandMessage } from "@typeit/discord";
-import { sourcecred as sc } from "sourcecred";
+import { ReloadResult, sourcecred as sc } from "sourcecred";
 
 import { loadSourceCredLedger, manager } from "../../sourcecred";
 
@@ -48,7 +48,7 @@ export abstract class SetEthAddress {
     try {
       manager.ledger.addAlias(baseIdentityId, ethAlias);
       manager.ledger.activate(baseIdentityId);
-      const persistRes = await manager.persist();
+      const persistRes: ReloadResult = await manager.persist();
 
       if (persistRes.error) {
         await message.reply(
