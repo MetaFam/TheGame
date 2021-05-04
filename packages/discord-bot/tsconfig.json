@@ -5,7 +5,12 @@
     "module": "commonjs",
     "rootDir": "src",
     "outDir": "dist",
-    "tsBuildInfoFile": "dist/.tsbuildinfo"
+    "tsBuildInfoFile": "dist/.tsbuildinfo",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "node"
   },
   "references": [
     {
