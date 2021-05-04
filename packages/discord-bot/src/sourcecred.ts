@@ -16,14 +16,16 @@ let loading = false;
 let ledgerLoadedPromise: Promise<ReloadResult>;
 
 export const loadSourceCredLedger = (): Promise<ReloadResult> => {
-  if (!loading) {
-    loading = true;
-    ledgerLoadedPromise = manager.reloadLedger();
-    ledgerLoadedPromise.then(() => {
-      loading = false;
-    });
+  if (ledgerLoadedPromise == null) {
+    if (!loading) {
+      loading = true;
+      console.log('reloading ledger...')
+      ledgerLoadedPromise = manager.reloadLedger();
+      ledgerLoadedPromise.then(() => {
+        loading = false;
+      });
+    }
   }
+
   return ledgerLoadedPromise;
 }
-
-console.log('created ledger manager');

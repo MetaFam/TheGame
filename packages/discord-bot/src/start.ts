@@ -3,6 +3,8 @@ import express from 'express';
 import { createDiscordClient } from ".";
 import { CONFIG } from './config';
 
+createDiscordClient();
+
 const app = express();
 
 app.get('/healthz', (_, res) => {
@@ -12,5 +14,3 @@ app.get('/healthz', (_, res) => {
 app.listen(CONFIG.port, () => {
   console.log(`Discord bot started on port ${CONFIG.port}`);
 });
-
-createDiscordClient();
