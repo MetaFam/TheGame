@@ -4,7 +4,6 @@ import { Request, Response } from 'express';
 import fetch from 'node-fetch';
 import { sourcecred as sc } from 'sourcecred';
 
-import { CONFIG } from '../../../config';
 import {
   AccountType_Enum,
   Player_Account_Constraint,
@@ -16,15 +15,12 @@ import { client } from '../../../lib/hasuraClient';
 import { computeRank } from '../../../lib/rankHelpers';
 import {
   AddressBookEntry,
-  CredGraph,
-  LedgerManager,
-  ReloadResult,
   SCAccountsData,
   SCAlias,
-  SCReadInstance,
 } from './types';
 
-const SC_OUTPUT_BASE = 'https://raw.githubusercontent.com/MetaFam/XP/gh-pages/';
+// const ACCOUNTS_FILE = 'http://host.docker.internal:6006/output/accounts.json';
+const ACCOUNTS_FILE = 'https://raw.githubusercontent.com/MetaFam/XP/gh-pages/output/accounts.json';
 const ADDRESS_BOOK_FILE =
   'https://raw.githubusercontent.com/MetaFam/TheSource/master/addressbook.json';
 
@@ -79,37 +75,13 @@ const parseAlias = (alias: SCAlias) => {
   }
 };
 
-const storage = new sc.ledger.storage.GithubStorage({
-  apiToken: CONFIG.githubApiToken,
-  repo: 'MetaFam/XP',
-  branch: 'master',
-});
-
-const manager: LedgerManager = new sc.ledger.manager.LedgerManager({
-  storage,
-});
-
-const ledgerLoadedPromise = manager.reloadLedger();
-
 export const migrateSourceCredAccounts = async (
   _: Request,
   res: Response,
 ): Promise<void> => {
-  const ledgerRes: ReloadResult = await ledgerLoadedPromise;
-
-  if (ledgerRes.error) {
-    throw new Error(`Error loading ledger: ${ledgerRes.error}`);
-  }
-
-  const instance: SCReadInstance = sc.instance.readInstance.getNetworkReadInstance(
-    SC_OUTPUT_BASE,
-  );
-  const credGraph: CredGraph = await instance.readCredGraph();
-
-  const accountsData: SCAccountsData = sc.ledger.utils.distributions.computeCredAccounts(
-    manager.ledger,
-    credGraph,
-  );
+  const accountsData: SCAccountsData = await (
+    await fetch(ACCOUNTS_FILE)
+  ).json();
 
   const addressBook: AddressBookEntry[] = await (
     await fetch(ADDRESS_BOOK_FILE)
