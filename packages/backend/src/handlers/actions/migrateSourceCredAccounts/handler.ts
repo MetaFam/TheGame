@@ -14,9 +14,6 @@ import {
 import { client } from '../../../lib/hasuraClient';
 import { computeRank } from '../../../lib/rankHelpers';
 
-const ADDRESS_BOOK_FILE =
-  'https://raw.githubusercontent.com/MetaFam/TheSource/master/addressbook.json';
-
 const VALID_ACCOUNT_TYPES: Array<AccountType_Enum> = [
   AccountType_Enum.Ethereum,
   AccountType_Enum.Discord,
@@ -76,7 +73,7 @@ export const migrateSourceCredAccounts = async (
   ).json();
 
   const addressBook: AddressBookEntry[] = await (
-    await fetch(ADDRESS_BOOK_FILE)
+    await fetch(Constants.SC_ADDRESS_BOOK_FILE)
   ).json();
 
   const accountOnConflict = {
