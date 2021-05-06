@@ -1,22 +1,15 @@
 import { Constants } from "@metafam/utils";
 import { Command, CommandMessage } from "@typeit/discord";
 import { MessageEmbed, Snowflake } from "discord.js";
-import { SCAccount, SCAccountsData, SCAlias, SCReadInstance, sourcecred as sc } from "sourcecred";
+import fetch from "node-fetch";
+import { SCAccount, SCAccountsData, SCAlias, sourcecred as sc } from "sourcecred";
 
-import { loadSourceCredLedger, manager } from "../../sourcecred";
 import { getDiscordId, replyWithUnexpectedError } from "../../utils";
 
-export abstract class GetXpCommand {
+export class GetXpCommand {
   // todo rename to xp once previous bot is disabled
   @Command('getxp :discordUser')
   async getXp(message: CommandMessage) {
-    const res = await loadSourceCredLedger();
-
-    if (res.error) {
-      await message.reply(`Error Loading Ledger: ${res.error}`);
-      return;
-    }
-  
     let targetUserDiscordId = '';
     try {
       if (message.args.discordUser) {
@@ -37,11 +30,9 @@ export abstract class GetXpCommand {
     const discordUser = message.guild?.members.cache.get(targetUserDiscordId);
 
     try {
-      const instance: SCReadInstance = sc.instance.readInstance.getNetworkReadInstance(Constants.SC_OUTPUT_BASE);
-
-      const credGraph = await instance.readCredGraph();
-
-      const accountsData: SCAccountsData = sc.ledger.utils.distributions.computeCredAccounts(manager.ledger, credGraph);
+      const accountsData: SCAccountsData = await (
+        await fetch(Constants.SC_ACCOUNTS_FILE)
+      ).json();
 
       const scAccount = accountsData.accounts.find(account => filterAccount(account, targetUserDiscordId));
       if (scAccount != null) {
