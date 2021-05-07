@@ -81,7 +81,7 @@ jobs:
 
       # Spin up the backend / hasura / DB for the web build to point to
       - name: Run docker-compose
-        run: docker-compose up -d
+        run: docker-compose up --build -d
         env:
           DATABASE_USER: metagame
           DATABASE_PASSWORD: postgres

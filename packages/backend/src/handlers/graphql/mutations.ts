@@ -160,3 +160,27 @@ export const RejectOtherQuestCompletions = gql`
     }
   }
 `;
+
+export const CreateGuild = gql`
+  mutation CreateGuild($objects: [guild_insert_input!]!) {
+    insert_guild(objects: $objects) {
+      affected_rows
+      returning {
+        guildname
+        id
+      }
+    }
+  }
+`;
+
+export const UpdateGuildDiscordMetadata = gql`
+  mutation UpdateGuildDiscordMetadata($guildId: uuid!, $discordMetadata: jsonb) {
+    update_guild_by_pk(
+      pk_columns: {id: $guildId},
+       _set: { discord_metadata: $discordMetadata }
+    ) {
+      id
+    }
+  }
+`;
+

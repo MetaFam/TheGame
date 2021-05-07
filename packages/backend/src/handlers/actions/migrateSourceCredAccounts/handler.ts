@@ -2,8 +2,9 @@ import { isNotNullOrUndefined } from '@metafam/utils';
 import bluebird from 'bluebird';
 import { Request, Response } from 'express';
 import fetch from 'node-fetch';
-import api from 'sourcecred';
+import { sourcecred as sc } from 'sourcecred';
 
+import { CONFIG } from '../../../config';
 import {
   AccountType_Enum,
   Player_Account_Constraint,
@@ -13,10 +14,10 @@ import {
 } from '../../../lib/autogen/hasura-sdk';
 import { client } from '../../../lib/hasuraClient';
 import { computeRank } from '../../../lib/rankHelpers';
-import { AddressBookEntry, SCAccountsData, SCAlias } from './types';
+import { AddressBookEntry, CredGraph, LedgerManager, ReloadResult, SCAccountsData, SCAlias, SCReadInstance } from './types';
 
-const ACCOUNTS_FILE =
-  'https://raw.githubusercontent.com/MetaFam/XP/gh-pages/output/accounts.json';
+const SC_OUTPUT_BASE =
+  'https://raw.githubusercontent.com/MetaFam/XP/gh-pages/';
 const ADDRESS_BOOK_FILE =
   'https://raw.githubusercontent.com/MetaFam/TheSource/master/addressbook.json';
 
@@ -30,7 +31,7 @@ const VALID_ACCOUNT_TYPES: Array<AccountType_Enum> = [
 
 const parseMergedIdentityId = (alias: SCAlias) => {
   try {
-    const addressParts = api.core.graph.NodeAddress.toParts(alias.address);
+    const addressParts = sc.core.graph.NodeAddress.toParts(alias.address);
 
     if (
       addressParts[1].toUpperCase() === 'CORE' &&
@@ -51,7 +52,7 @@ const parseMergedIdentityId = (alias: SCAlias) => {
 
 const parseAlias = (alias: SCAlias) => {
   try {
-    const addressParts = api.core.graph.NodeAddress.toParts(alias.address);
+    const addressParts = sc.core.graph.NodeAddress.toParts(alias.address);
     const type = addressParts[1]?.toUpperCase() as AccountType_Enum;
 
     if (VALID_ACCOUNT_TYPES.indexOf(type) < 0) {
@@ -71,13 +72,32 @@ const parseAlias = (alias: SCAlias) => {
   }
 };
 
+const storage = new sc.ledger.storage.GithubStorage({
+  apiToken: CONFIG.githubApiToken,
+  repo: 'MetaFam/XP',
+  branch: 'master',
+});
+
+const manager: LedgerManager = new sc.ledger.manager.LedgerManager({
+  storage,
+});
+
+const ledgerLoadedPromise = manager.reloadLedger();
+
 export const migrateSourceCredAccounts = async (
   _: Request,
   res: Response,
 ): Promise<void> => {
-  const accountsData: SCAccountsData = await (
-    await fetch(ACCOUNTS_FILE)
-  ).json();
+  const ledgerRes: ReloadResult = await ledgerLoadedPromise;
+
+  if (ledgerRes.error) {
+    throw new Error(`Error loading ledger: ${ledgerRes.error}`);
+  }
+
+  const instance: SCReadInstance = sc.instance.readInstance.getNetworkReadInstance(SC_OUTPUT_BASE);
+  const credGraph: CredGraph = await instance.readCredGraph();
+
+  const accountsData: SCAccountsData = sc.ledger.utils.distributions.computeCredAccounts(manager.ledger, credGraph);
 
   const addressBook: AddressBookEntry[] = await (
     await fetch(ADDRESS_BOOK_FILE)

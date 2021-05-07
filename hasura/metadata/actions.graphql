@@ -1,4 +1,11 @@
 type Mutation {
+  authenticateDiscordGuild (
+    code: String!
+  ): DiscordGuildAuthResponse
+}
+
+
+type Mutation {
   createQuest (
     quest: CreateQuestInput!
   ): CreateQuestOutput
@@ -79,5 +86,12 @@ type UpdateQuestCompletionOutput {
   success : Boolean!
   error : String
   quest_completion_id : uuid
+}
+
+type DiscordGuildAuthResponse {
+  success : Boolean!
+  guildname : String
+  exists : Boolean
+  error : String
 }
 

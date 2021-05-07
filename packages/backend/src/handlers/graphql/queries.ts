@@ -104,3 +104,12 @@ export const GetGuild = gql`
   }
   ${GuildFragment}
 `;
+
+export const GetDiscordGuild = gql`
+  query GetDiscordGuild($discordId: String!) {
+    guild(where: { discord_id: { _eq: $discordId } }) {
+      ...GuildFragment
+    }
+  }
+  ${GuildFragment}
+`;
