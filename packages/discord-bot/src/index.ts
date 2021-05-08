@@ -7,6 +7,7 @@ async function createDiscordClient(): Promise<Client> {
   const client = new Client({
     classes: [
       // We are using tsc, so we want to load the compiled files
+      `${__dirname}/discord/**/*.ts`, // glob string to load the classes
       `${__dirname}/discord/**/*.js`, // glob string to load the classes
     ],
     silent: false,
@@ -14,7 +15,6 @@ async function createDiscordClient(): Promise<Client> {
   });
 
   await client.login(CONFIG.discordBotToken);
-
   return client;
 }
 

@@ -1,12 +1,12 @@
-import { CommandMessage } from "@typeit/discord";
-import { ReloadResult, sourcecred as sc } from "sourcecred";
+import { Command, CommandMessage } from '@typeit/discord';
+import { sourcecred as sc } from 'sourcecred';
 
-import { loadSourceCredLedger, manager } from "../../sourcecred";
+import { loadSourceCredLedger, manager } from '../../sourcecred';
 
 const addressUtils = sc.plugins.ethereum.utils.address;
 
 export abstract class SetEthAddress {
-  // @Command('setAddress :ethAddress')
+  @Command('!setAddress :ethAddress')
   async setAddress(message: CommandMessage) {
     const res = await loadSourceCredLedger();
 
@@ -23,7 +23,7 @@ export abstract class SetEthAddress {
       baseIdentityProposal,
     );
 
-    let ethAddress;
+    let ethAddress: string;
     try {
       ethAddress = addressUtils.parseAddress(message.args.ethAddress);
     } catch (e) {
@@ -45,10 +45,24 @@ export abstract class SetEthAddress {
       return;
     }
 
+    const account = manager.ledger.account(baseIdentityId);
+
+    const existing = account.identity.aliases.find((alias) => {
+      const parts = sc.core.graph.NodeAddress.toParts(alias.address);
+      return parts.indexOf('ethereum') > 0;
+    });
+
+    if (existing) {
+      await message.reply(
+        `You already have linked the following ETH Address: \`${existing.description}\`.`,
+      );
+      return;
+    }
+
     try {
       manager.ledger.addAlias(baseIdentityId, ethAlias);
       manager.ledger.activate(baseIdentityId);
-      const persistRes: ReloadResult = await manager.persist();
+      const persistRes = await manager.persist();
 
       if (persistRes.error) {
         await message.reply(

@@ -27,10 +27,7 @@ function parseEnv<T extends string | number>(
 export const CONFIG: IConfig = {
   port: parseEnv(process.env.PORT, 5000),
   graphqlURL: (() => {
-    const {
-      GRAPHQL_URL: url,
-      GRAPHQL_HOST: host,
-    } = process.env;
+    const { GRAPHQL_URL: url, GRAPHQL_HOST: host } = process.env;
 
     if (url) return url;
     if (host) {
@@ -38,7 +35,10 @@ export const CONFIG: IConfig = {
     }
     return 'http://localhost:8080/v1/graphql';
   })(),
-  adminKey: parseEnv(process.env.HASURA_GRAPHQL_ADMIN_SECRET, 'metagame_secret'),
+  adminKey: parseEnv(
+    process.env.HASURA_GRAPHQL_ADMIN_SECRET,
+    'metagame_secret',
+  ),
   frontendUrl: parseEnv(process.env.FRONTEND_URL, 'http://localhost:3000'),
   githubApiToken: parseEnv(process.env.GITHUB_API_TOKEN, ''),
   discordBotToken: parseEnv(process.env.DISCORD_BOT_TOKEN, ''),
