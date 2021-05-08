@@ -1,0 +1,110 @@
+previewsExpireAfterDays: 3 # automatically remove preview instances
+services:
+  # Hasura
+  - type: web
+    name: hasura
+    env: docker
+    healthCheckPath: /healthz
+    numInstances: 1
+    dockerfilePath: ./hasura/Dockerfile
+    dockerContext: ./hasura
+    envVars:
+      - fromGroup: hasura-secrets
+      - key: HASURA_GRAPHQL_DATABASE_URL
+        fromDatabase:
+          name: metagame-db
+          property: connectionString
+      - key: BACKEND_HOST
+        fromService:
+          name: backend
+          type: pserv
+          property: hostport
+      - key: HASURA_GRAPHQL_SERVER_PORT
+        value: 10000
+      - key: HASURA_GRAPHQL_ENABLE_CONSOLE
+        value: true
+      - key: PORT
+        value: 10000
+
+  # backend
+  - type: pserv
+    name: backend
+    env: docker
+    numInstances: 1
+    dockerfilePath: ./docker/backend/Dockerfile
+    dockerContext: .
+    envVars:
+      - fromGroup: hasura-secrets
+      - fromGroup: sourcecred
+      - key: IMGIX_TOKEN
+        sync: false
+      - key: DISCORD_BOT_CLIENT_ID
+        sync: false
+      - key: DISCORD_BOT_CLIENT_SECRET
+        sync: false
+      - key: FRONTEND_URL
+        value: https://my.metagame.wtf
+      - key: GRAPHQL_HOST
+        fromService:
+          name: hasura
+          type: web
+          property: host
+
+  # discord-bot
+  - type: web
+    name: staging-discord-bot
+    env: docker
+    numInstances: 1
+    dockerfilePath: ./docker/discord-bot/Dockerfile
+    dockerContext: .
+    envVars:
+      - fromGroup: hasura-secrets
+      - fromGroup: sourcecred
+      - key: PORT
+        value: 5000
+      - key: DISCORD_BOT_CLIENT_ID
+        sync: false
+      - key: DISCORD_BOT_CLIENT_SECRET
+        sync: false
+      - key: FRONTEND_URL
+        value: https://my.metagame.wtf
+      - key: GRAPHQL_HOST
+        fromService:
+          name: hasura
+          type: web
+          property: host
+
+  # frontend
+  - type: web
+    name: mymeta
+    env: node
+    plan: starter
+    buildCommand: yarn && yarn web:build
+    startCommand: yarn --cwd packages/web/ start
+    envVars:
+      - key: NODE_VERSION
+        value: 12.18.3
+      - key: NEXT_PUBLIC_GRAPHQL_HOST
+        fromService:
+          name: hasura
+          type: web
+          property: host
+
+
+databases:
+  - name: metagame-db
+    plan: starter
+
+envVarGroups:
+  - name: hasura-secrets
+    envVars:
+      - key: HASURA_GRAPHQL_ADMIN_SECRET
+        generateValue: true
+  - name: frontend
+    envVars:
+      - key: NEXT_PUBLIC_INFURA_ID
+        sync: false
+      - key: NEXT_PUBLIC_GRAPHQL_URL
+        sync: false
+      - key: NEXT_TELEMETRY_DISABLED
+        value: 1

@@ -1,2 +1,15 @@
+version: 2
 endpoint: http://localhost:8080
 admin_secret: metagame_secret
+api_paths:
+  query: v1/query
+  graphql: v1/graphql
+  config: v1alpha1/config
+  pg_dump: v1alpha1/pg_dump
+  version: v1/version
+metadata_directory: metadata
+migrations_directory: migrations
+seeds_directory: seeds
+actions:
+  kind: synchronous
+  handler_webhook_baseurl: '{{ACTION_BASE_ENDPOINT}}'

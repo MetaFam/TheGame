@@ -1,0 +1,53 @@
+overwrite: true
+require:
+  - ts-node/register
+generates:
+  ./src/handlers/remote-schemas/autogen/types.ts:
+    schema: './src/handlers/remote-schemas/typeDefs.ts'
+    plugins:
+      - typescript
+      - typescript-resolvers
+      - add:
+          content: '/* eslint-disable */'
+    config:
+      noSchemaStitching: true
+      avoidOptionals: true
+      maybeValue: 'T extends PromiseLike<infer U> ? Promise<U | null> : T | null | undefined'
+  ./src/lib/autogen/hasura-sdk.ts:
+    schema: '../../schema.graphql'
+    documents:
+      - ./src/handlers/graphql/**/(!(*.d)).ts
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-graphql-request
+      - add:
+          content: '/* eslint-disable */'
+    config:
+      immutableTypes: true
+      scalars:
+        account_type: "'ETHEREUM' | 'DISCORD' | 'GITHUB' | 'TWITTER' | 'DISCOURSE'"
+  ./src/lib/autogen/daohaus-sdk.ts:
+    schema: 'https://api.thegraph.com/subgraphs/name/odyssy-automaton/daohaus'
+    documents:
+      - ./src/handlers/remote-schemas/resolvers/daohaus/**/(!(*.d)).ts
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-graphql-request
+      - add:
+          content: '/* eslint-disable */'
+    config:
+      avoidOptionals: true
+  ./src/lib/autogen/seedgraph-sdk.ts:
+    schema: 'https://api.thegraph.com/subgraphs/name/dan13ram/seed-graph'
+    documents:
+      - ./src/handlers/remote-schemas/resolvers/seedGraph/**/(!(*.d)).ts
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-graphql-request
+      - add:
+          content: '/* eslint-disable */'
+    config:
+      avoidOptionals: true

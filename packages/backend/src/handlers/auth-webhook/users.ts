@@ -1,92 +1,25 @@
-import fetch from 'node-fetch';
+import { client } from '../../lib/hasuraClient';
 
-import config from '../../config';
-
-const getPlayerQuery = `
-query GetPlayerFromETH ($eth_address: String) {
-  Profile(
-    where: { 
-      identifier: { _eq: $eth_address },
-      type: { _eq: "ETHEREUM" }
-    }
-  ) {
-    Player {
-      id
-    }  
+async function createPlayer(ethAddress: string) {
+  const resProfile = await client.CreatePlayerFromETH({
+    ethereum_address: ethAddress,
+    username: ethAddress,
+  });
+  if (resProfile.insert_player?.affected_rows !== 1) {
+    throw new Error('Error while creating player');
   }
+  return resProfile.insert_player.returning[0];
 }
-`;
 
-const createPlayerMutation = `
-mutation CreatePlayer {
-  insert_Player(objects: {}) {
-    returning {
-      id
-    }
-  }
-}
-`;
-
-const createProfileMutation = `
-mutation CreateProfileFromETH ($player_id: uuid, $eth_address: String) {
-  insert_Profile(
-    objects: {
-      player_id: $player_id, 
-      type: "ETHEREUM", 
-      identifier: $eth_address
-    }) {
-    returning {
-      identifier
-    }
-  }
-}
-`;
-
-async function hasuraQuery(query: string, qv: any = {}) {
-  const result = await fetch(config.graphqlURL, {
-    method: 'POST',
-    body: JSON.stringify({ query: query, variables: qv }),
-    headers: {
-      'Content-Type': 'application/json',
-      'x-hasura-access-key': config.adminKey,
-    },
+export async function getOrCreatePlayer(ethereumAddress: string) {
+  const ethAddress = ethereumAddress.toLowerCase();
+  const res = await client.GetPlayerFromETH({
+    ethereum_address: ethAddress,
   });
 
-  const { errors, data } = await result.json();
+  let player = res.player[0];
 
-  if(errors) {
-    throw new Error(JSON.stringify(errors));
-  }
-  return data;
-}
-
-interface IPlayer {
-  id: string
-}
-
-export async function createPlayer(ethAddress: string): Promise<IPlayer> {
-  const resPlayer = await hasuraQuery(createPlayerMutation );
-  const player = resPlayer.insert_Player.returning[0];
-
-  await hasuraQuery(createProfileMutation, {
-    player_id: player.id,
-    eth_address: ethAddress,
-  });
-
-  // TODO do it in only one query
-
-  return player;
-}
-
-export async function getPlayer(ethAddress: string): Promise<IPlayer> {
-  const res = await hasuraQuery(getPlayerQuery, {
-    eth_address: ethAddress,
-  });
-
-  let player = res.Profile[0]?.Player;
-
-  if(!player) {
-    // TODO if two requests sent at the same time, collision
+  if (!player) {
     player = await createPlayer(ethAddress);
   }
 

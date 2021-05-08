@@ -1,11 +1,18 @@
 {
+  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "target": "ES5",
     "module": "commonjs",
-    "declaration": true,
-    "sourceMap": true,
-    "outDir": "./dist",
-    "strict": true,
-    "esModuleInterop": true
-  }
+    "rootDir": "src",
+    "outDir": "dist",
+    "tsBuildInfoFile": "dist/.tsbuildinfo"
+  },
+  "references": [
+    {
+      "path": "../utils"
+    },
+    {
+      "path": "../discord-bot"
+    }
+  ],
+  "include": ["./src"]
 }

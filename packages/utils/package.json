@@ -1,0 +1,24 @@
+{
+  "name": "@metafam/utils",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "start": "yarn dev",
+    "build": "tsc -b",
+    "dev": "yarn build --watch",
+    "typecheck": "yarn build",
+    "precommit": "yarn lint-staged"
+  },
+  "dependencies": {
+    "bignumber.js": "9.0.1",
+    "ethers": "5.1.4",
+    "js-base64": "3.6.0",
+    "uuid": "8.3.2"
+  },
+  "devDependencies": {
+    "@types/uuid": "8.3.0"
+  }
+}

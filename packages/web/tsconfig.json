@@ -1,0 +1,24 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "esnext",
+    "allowJs": true,
+    "isolatedModules": true,
+    "tsBuildInfoFile": "out/.tsbuildinfo",
+    "jsx": "preserve",
+    "lib": ["dom", "es2017"],
+    "baseUrl": ".",
+    "noEmit": true
+  },
+  "references": [
+    {
+      "path": "../utils/tsconfig.json"
+    },
+    {
+      "path": "../design-system/tsconfig.build.json"
+    }
+  ],
+  "include": ["**/*.ts", "**/*.tsx", "next-env.d.ts"],
+  "exclude": ["out", ".next", "node_modules"]
+}

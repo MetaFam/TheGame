@@ -3,33 +3,62 @@ version: '3.6'
 
 services:
   hasura:
-    build: ./hasura
+    build:
+      context: ./hasura
+      args:
+        BACKEND_HOST: ${BACKEND_HOST:-backend:4000}
+        AUTH_HOOK_PATH: auth-webhook
+        ACTION_BASE_PATH: actions
+        REMOTE_SCHEMA_PATH: remote-schemas/graphql
+        TRIGGERS_PATH: triggers
     depends_on:
       - database
     ports:
       - ${HASURA_PORT}:8080
     environment:
-      PORT: 8080
-      DATABASE_URL: postgres://${DATABASE_USER}:${DATABASE_PASSWORD}@database:5432/${DATABASE_NAME}
+      WAIT_HOSTS: database:5432, ${BACKEND_HOST:-backend:4000}
+      HASURA_GRAPHQL_SERVER_PORT: ${HASURA_PORT:-8080}
+      HASURA_GRAPHQL_DATABASE_URL: postgres://${DATABASE_USER}:${DATABASE_PASSWORD}@database:5432/${DATABASE_NAME}
       HASURA_GRAPHQL_ADMIN_SECRET: ${HASURA_GRAPHQL_ADMIN_SECRET}
-      HASURA_GRAPHQL_AUTH_HOOK: http://backend:4000/auth-webhook
+      HASURA_GRAPHQL_DEV_MODE: ${HASURA_GRAPHQL_DEV_MODE:-false}
 
   database:
     image: postgres:12
     volumes:
       - database:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
     environment:
       POSTGRES_USER: ${DATABASE_USER}
       POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
       POSTGRES_DB: ${DATABASE_NAME}
 
   backend:
-    build: ./packages/backend
+    build:
+      context: .
+      dockerfile: ./docker/backend/Dockerfile
+      target: base
+    command: yarn backend:dev
+    ports:
+      - 4000:4000
+    volumes:
+      - ./packages/@types:/usr/src/app/packages/@types
+      - ./packages/backend:/usr/src/app/packages/backend
+      - ./packages/utils:/usr/src/app/packages/utils
+      - ./packages/discord-bot:/usr/src/app/packages/discord-bot
+      - ./package.json:/usr/src/app/package.json
+      - ./tsconfig.base.json:/usr/src/app/tsconfig.base.json
+      - ./schema.graphql:/usr/src/app/schema.graphql
+      - ./yarn.lock:/usr/src/app/yarn.lock
     environment:
       PORT: 4000
       GRAPHQL_URL: http://hasura:8080/v1/graphql
       HASURA_GRAPHQL_ADMIN_SECRET: ${HASURA_GRAPHQL_ADMIN_SECRET}
+      IMGIX_TOKEN: ${IMGIX_TOKEN}
+      GITHUB_API_TOKEN: ${GITHUB_API_TOKEN}
+      DISCORD_BOT_TOKEN: ${DISCORD_BOT_TOKEN}
+      DISCORD_BOT_CLIENT_ID: ${DISCORD_BOT_CLIENT_ID}
+      DISCORD_BOT_CLIENT_SECRET: ${DISCORD_BOT_CLIENT_SECRET}
 
 volumes:
   database:
-...

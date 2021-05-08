@@ -1,0 +1,10 @@
+{
+  "overrides": [
+    {
+      "files": ["./graphql/*.ts", "./lib/hooks.ts"],
+      "rules": {
+        "@typescript-eslint/explicit-module-boundary-types": "off"
+      }
+    }
+  ]
+}

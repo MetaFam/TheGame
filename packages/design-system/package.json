@@ -1,0 +1,52 @@
+{
+  "name": "@metafam/ds",
+  "version": "0.1.0",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "module": "dist/ds.esm.js",
+  "license": "MIT",
+  "scripts": {
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook",
+    "typecheck": "tsc -b tsconfig.build.json tsconfig.json",
+    "dev": "yarn start",
+    "start": "tsdx watch --tsconfig tsconfig.build.json --verbose --noClean",
+    "build": "tsdx build --tsconfig tsconfig.build.json",
+    "test": "tsdx test --passWithNoTests",
+    "prepublish": "yarn build",
+    "precommit": "yarn lint-staged"
+  },
+  "peerDependencies": {
+    "react": ">=16"
+  },
+  "dependencies": {
+    "@chakra-ui/icons": "1.0.12",
+    "@chakra-ui/react": "1.6.0",
+    "@chakra-ui/theme-tools": "1.1.6",
+    "@emotion/react": "11.1.5",
+    "@emotion/styled": "11.3.0",
+    "framer-motion": "4.1.11",
+    "next": "10.2.0",
+    "react-select": "4.3.0",
+    "react-timezone-select": "0.9.8",
+    "storybook-addon-performance": "0.15.2"
+  },
+  "devDependencies": {
+    "@babel/core": "7.14.0",
+    "@storybook/addon-actions": "6.2.9",
+    "@storybook/addon-docs": "6.2.9",
+    "@storybook/addon-links": "6.2.9",
+    "@storybook/addons": "6.2.9",
+    "@storybook/react": "6.2.9",
+    "babel-loader": "8.2.2",
+    "react-docgen-typescript-loader": "3.7.2",
+    "react-dom": "16.14.0",
+    "react-google-font-loader": "1.1.0",
+    "ts-loader": "8.1.0",
+    "tslib": "2.2.0"
+  }
+}
