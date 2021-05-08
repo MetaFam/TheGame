@@ -4,7 +4,8 @@ import * as Path from 'path';
 @Discord('', {
   import: [
     // We are using tsc, so we want to load the compiled files
-    Path.join(__dirname,  "commands", "*.js"),
+    Path.join(__dirname, 'commands', '*.ts'),
+    Path.join(__dirname, 'commands', '*.js'),
   ],
 })
 export abstract class AppDiscord {
