@@ -69,13 +69,8 @@ export function canCompleteQuest(
   return true;
 }
 
-export function truncateString(
-  str?: string | undefined | null,
-  n?: number | undefined | null,
-) {
-  if (str.length > n) {
-    return `${str?.substring(0, n)}...`;
-  }
+export function truncateString(str: string, n: number) {
+  if (str.length > n) return `${str.substring(0, n)}...`;
   return str;
 }
 
