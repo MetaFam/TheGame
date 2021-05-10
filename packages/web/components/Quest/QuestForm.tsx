@@ -1,3 +1,5 @@
+import 'react-quill/dist/quill.snow.css';
+
 import {
   Box,
   ConfirmModal,
@@ -8,7 +10,6 @@ import {
   MetaTag,
   Select,
   Text,
-  Textarea,
   VStack,
 } from '@metafam/ds';
 import {
@@ -17,6 +18,7 @@ import {
   QuestRepetition_Enum,
   QuestStatus_Enum,
 } from 'graphql/autogen/types';
+import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import React, { useMemo, useState } from 'react';
 import { Controller, FieldError, useForm } from 'react-hook-form';
@@ -26,6 +28,8 @@ import { CategoryOption, SkillOption } from '../../utils/skillHelpers';
 import { FlexContainer } from '../Container';
 import { SkillsSelect } from '../Skills';
 import { RepetitionColors } from './QuestTags';
+
+const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
 const validations = {
   title: {
@@ -141,14 +145,20 @@ export const QuestForm: React.FC<Props> = ({
     () => getDefaultFormValues(editQuest, guilds),
     [editQuest, guilds],
   );
-  const { register, control, errors, watch, handleSubmit } = useForm<
-    CreateQuestFormInputs
-  >({
+  const {
+    register,
+    control,
+    errors,
+    watch,
+    handleSubmit,
+  } = useForm<CreateQuestFormInputs>({
     defaultValues,
   });
   const router = useRouter();
   const [exitAlert, setExitAlert] = useState<boolean>(false);
   const createQuestInput = watch();
+  const [editorHtml, setEditorHtml] = useState<string>('');
+  // const [docReady, setDocReady] = useState<boolean>(false);
   console.log(errors);
 
   return (
@@ -168,14 +178,29 @@ export const QuestForm: React.FC<Props> = ({
         </Field>
 
         <Field label="Description" error={errors.description}>
-          <Textarea
+          {/* {(docReady && ( */}
+          <ReactQuill
+            onChange={(e) => setEditorHtml(e)}
+            value={validations.description}
+            theme="snow"
+          />
+          <Input
+            type="hidden"
+            name="description"
+            value={editorHtml || ''}
+            ref={register(validations.description)}
+            isInvalid={!!errors.description}
+          />
+          {/* <Textarea
             background="dark"
             placeholder="Please describe in details what needs to be done"
             isRequired
             name="description"
             ref={register(validations.description)}
             isInvalid={!!errors.description}
-          />
+            visibility="hidden"
+            height={0}
+          >{editorHtml}</Textarea> */}
         </Field>
 
         <Field label="Link" error={errors.external_link}>

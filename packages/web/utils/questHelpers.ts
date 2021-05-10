@@ -69,9 +69,19 @@ export function canCompleteQuest(
   return true;
 }
 
+export function truncateString(
+  str?: string | undefined | null,
+  n?: number | undefined | null,
+) {
+  if (str.length > n) {
+    return `${str?.substring(0, n)}...`;
+  }
+  return str;
+}
+
 export const QuestRepetitionHint: Record<QuestRepetition_Enum, string> = {
   [QuestRepetition_Enum.Recurring]:
-    'Recurring quests can be done multiple time per player after a cooldown.',
+    'Recurring quests can be done multiple times per player after a cooldown.',
   [QuestRepetition_Enum.Personal]:
     'Personal quests can be done once per player',
   [QuestRepetition_Enum.Unique]: 'Unique quests can be done only once',

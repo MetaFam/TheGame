@@ -96,7 +96,9 @@ export const QuestDetails: React.FC<Props> = ({ quest }) => {
 
           {quest.repetition === QuestRepetition_Enum.Recurring && (
             <>
-              <Text textStyle="caption">Cooldown</Text>
+              <Text textStyle="caption" mt={5}>
+                Cooldown
+              </Text>
               <Text fontSize="14px">
                 Doable every{' '}
                 {moment.duration(quest.cooldown, 'second').humanize()}
@@ -104,7 +106,9 @@ export const QuestDetails: React.FC<Props> = ({ quest }) => {
             </>
           )}
 
-          <Text textStyle="caption">SKILLS</Text>
+          <Text textStyle="caption" sx={{ mt: 5 }}>
+            SKILLS
+          </Text>
           <SkillsTags
             skills={quest.quest_skills.map((s) => s.skill) as Skill[]}
             maxSkills={4}

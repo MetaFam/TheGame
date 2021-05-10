@@ -10,7 +10,7 @@ export const FormattedText: React.FC<FormattedTextProps> = ({ children }) => (
   <Box
     sx={{
       fontSize: { base: '14px' },
-      'h2, h3, h4': { fontWeight: 900, mt: 3 },
+      'h2, h3, h4': { fontWeight: 900, mt: 3, '&:first-child': { mt: 0 } },
       a: {
         color: '#ff1f82',
         opacity: 0.7,
