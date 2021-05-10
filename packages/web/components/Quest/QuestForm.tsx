@@ -181,7 +181,7 @@ export const QuestForm: React.FC<Props> = ({
           {/* {(docReady && ( */}
           <ReactQuill
             onChange={(e) => setEditorHtml(e)}
-            value={validations.description}
+            value={editorHtml}
             theme="snow"
           />
           <Input
