@@ -8,15 +8,14 @@ import React from 'react';
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
 const LIMIT = 50;
-const OFFSET = 50;
 const TOTAL_PLAYERS = 150;
 
 export const getStaticProps = async () => {
   const promises: Promise<PlayerFragmentFragment[]>[] = new Array(
-    TOTAL_PLAYERS / OFFSET,
+    TOTAL_PLAYERS / LIMIT,
   )
     .fill(false)
-    .map((_, i) => getPlayers(LIMIT, i * OFFSET));
+    .map((_, i) => getPlayers(LIMIT, i * LIMIT));
   const playersArr = await Promise.all(promises);
   const players = playersArr.reduce(
     (_total, _players) => [..._total, ..._players],
