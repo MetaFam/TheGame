@@ -1588,13 +1588,6 @@
     compute-scroll-into-view "1.0.14"
     copy-to-clipboard "3.3.1"
 
-"@chakra-ui/icon@1.1.8":
-  version "1.1.8"
-  resolved "https://registry.yarnpkg.com/@chakra-ui/icon/-/icon-1.1.8.tgz#fbee1c8e0ae848daeb05275049f0764d854dca59"
-  integrity sha512-kbIPtRd9pD/iTXyzRn2s10w4uX54nNTnoNy/wP0k1145lOHPtlumRMJNSV6cxy+pnwS/YN6xNACfKy6yRQyIVA==
-  dependencies:
-    "@chakra-ui/utils" "1.7.0"
-
 "@chakra-ui/icon@1.1.9":
   version "1.1.9"
   resolved "https://registry.yarnpkg.com/@chakra-ui/icon/-/icon-1.1.9.tgz#fbd6e82abf58b890f5bcc728bb75dda25d7b6c63"
@@ -1602,12 +1595,12 @@
   dependencies:
     "@chakra-ui/utils" "1.8.0"
 
-"@chakra-ui/icons@1.0.12":
-  version "1.0.12"
-  resolved "https://registry.yarnpkg.com/@chakra-ui/icons/-/icons-1.0.12.tgz#c9c25a21399638956696e026eeff1390654ee4d6"
-  integrity sha512-ubMXJkohCVLjCe+5JTy4jYuSqBGXRCAqOSRV6IE/phEd8+qfWLFOVa9Q6X0FvdM7HGco8mCFwtlZPwJvHNtyLg==
+"@chakra-ui/icons@1.0.13":
+  version "1.0.13"
+  resolved "https://registry.yarnpkg.com/@chakra-ui/icons/-/icons-1.0.13.tgz#d8eb04479b048d8023ae90d76205cd4a0bf7dd79"
+  integrity sha512-twDpFz2uPVboMTEI4QA2y3EJND3G4+/9AVs730fgnnfhTw4EOJt0Lhfm4Spq1qi1LgHF16x4/Lao1E2imB5lWw==
   dependencies:
-    "@chakra-ui/icon" "1.1.8"
+    "@chakra-ui/icon" "1.1.9"
     "@types/react" "^17.0.0"
 
 "@chakra-ui/image@1.0.15":
@@ -1918,15 +1911,6 @@
     "@chakra-ui/form-control" "1.3.5"
     "@chakra-ui/utils" "1.8.0"
 
-"@chakra-ui/theme-tools@1.1.6":
-  version "1.1.6"
-  resolved "https://registry.yarnpkg.com/@chakra-ui/theme-tools/-/theme-tools-1.1.6.tgz#b97a37135f17454ff4b326b9790e57d409fddd81"
-  integrity sha512-VnAO9AAJGr967mHtAnJCq9mKzfka8I9Ya/6hYU/t1EaaMLy1IseIGkRX3hGYwpl3RZBXGamMxc4C5fJ0TKI4Lg==
-  dependencies:
-    "@chakra-ui/utils" "1.7.0"
-    "@types/tinycolor2" "1.4.2"
-    tinycolor2 "1.4.2"
-
 "@chakra-ui/theme-tools@1.1.7":
   version "1.1.7"
   resolved "https://registry.yarnpkg.com/@chakra-ui/theme-tools/-/theme-tools-1.1.7.tgz#ffd3dc2d22a935e1a1df47b155c4cef60ff3f603"
@@ -1975,16 +1959,6 @@
   integrity sha512-IahxR4lNhFxS51r55nwdMJtxlYqEqNz9fcCOHWG4X9mhtp89SP7q57paJfpPLMND+Y2QNM6nWhGICN+w5g6zkg==
   dependencies:
     "@chakra-ui/utils" "1.8.0"
-
-"@chakra-ui/utils@1.7.0":
-  version "1.7.0"
-  resolved "https://registry.yarnpkg.com/@chakra-ui/utils/-/utils-1.7.0.tgz#21c4807f56487284b93773da22665b63730a784c"
-  integrity sha512-fMZOnWBh/TzAYufkpeVw3yMNxKmYHEkB93luDpIJgxGt4mrbl+A66pd5GvJSGK1N34WYbjWRiJrrSvRI548eZA==
-  dependencies:
-    "@types/lodash.mergewith" "4.6.6"
-    css-box-model "1.2.1"
-    framesync "5.3.0"
-    lodash.mergewith "4.6.2"
 
 "@chakra-ui/utils@1.8.0", "@chakra-ui/utils@^1.7.0":
   version "1.8.0"
@@ -2053,7 +2027,7 @@
     "@emotion/utils" "0.11.3"
     "@emotion/weak-memoize" "0.2.5"
 
-"@emotion/cache@^11.0.0", "@emotion/cache@^11.4.0":
+"@emotion/cache@^11.4.0":
   version "11.4.0"
   resolved "https://registry.yarnpkg.com/@emotion/cache/-/cache-11.4.0.tgz#293fc9d9a7a38b9aad8e9337e5014366c3b09ac0"
   integrity sha512-Zx70bjE7LErRO9OaZrhf22Qye1y4F7iDl+ITjet0J+i+B88PrAOBkKvaAWhxsZf72tDLajwCgfCjJ2dvH77C3g==
@@ -23478,10 +23452,10 @@ react-helmet-async@^1.0.7:
     react-fast-compare "^3.2.0"
     shallowequal "^1.1.0"
 
-react-hook-form@6.15.5:
-  version "6.15.5"
-  resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-6.15.5.tgz#c2578f9ce6a6df7b33015587d40cd880dc13e2db"
-  integrity sha512-so2jEPYKdVk1olMo+HQ9D9n1hVzaPPFO4wsjgSeZ964R7q7CHsYRbVF0PGBi83FcycA5482WHflasdwLIUVENg==
+react-hook-form@7.5.2:
+  version "7.5.2"
+  resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-7.5.2.tgz#4f8da6d22ae67aa18ce170a0980bd7e1e7bd6917"
+  integrity sha512-fRA6TieC+wsumcdAM7OTeWSa+s+qG2ZlWfTXB2gpOwVeWpJxDwUpZZRfZdU9Bj6TEn1v/ZPJg/1xbmUGVI+MWA==
 
 react-icons@4.2.0, react-icons@^4.1.0:
   version "4.2.0"
@@ -23623,13 +23597,13 @@ react-router@5.2.0, react-router@^5.1.0, react-router@^5.2.0:
     tiny-invariant "^1.0.2"
     tiny-warning "^1.0.0"
 
-react-select@4.3.0:
-  version "4.3.0"
-  resolved "https://registry.yarnpkg.com/react-select/-/react-select-4.3.0.tgz#6bde634ae7a378b49f3833c85c126f533483fa2e"
-  integrity sha512-SBPD1a3TJqE9zoI/jfOLCAoLr/neluaeokjOixr3zZ1vHezkom8K0A9J4QG9IWDqIDE9K/Mv+0y1GjidC2PDtQ==
+react-select@4.3.1:
+  version "4.3.1"
+  resolved "https://registry.yarnpkg.com/react-select/-/react-select-4.3.1.tgz#389fc07c9bc7cf7d3c377b7a05ea18cd7399cb81"
+  integrity sha512-HBBd0dYwkF5aZk1zP81Wx5UsLIIT2lSvAY2JiJo199LjoLHoivjn9//KsmvQMEFGNhe58xyuOITjfxKCcGc62Q==
   dependencies:
     "@babel/runtime" "^7.12.0"
-    "@emotion/cache" "^11.0.0"
+    "@emotion/cache" "^11.4.0"
     "@emotion/react" "^11.1.1"
     memoize-one "^5.0.0"
     prop-types "^15.6.0"
