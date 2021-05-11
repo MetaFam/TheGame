@@ -74,23 +74,6 @@ services:
           type: web
           property: host
 
-  # frontend
-  - type: web
-    name: mymeta
-    env: node
-    plan: starter
-    buildCommand: yarn && yarn web:build
-    startCommand: yarn --cwd packages/web/ start
-    envVars:
-      - key: NODE_VERSION
-        value: 12.18.3
-      - key: NEXT_PUBLIC_GRAPHQL_HOST
-        fromService:
-          name: hasura
-          type: web
-          property: host
-
-
 databases:
   - name: metagame-db
     plan: starter
