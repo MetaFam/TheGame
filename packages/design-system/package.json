@@ -27,7 +27,7 @@
     "@chakra-ui/icons": "1.0.12",
     "@chakra-ui/react": "1.6.0",
     "@chakra-ui/theme-tools": "1.1.6",
-    "@emotion/react": "11.1.5",
+    "@emotion/react": "11.4.0",
     "@emotion/styled": "11.3.0",
     "framer-motion": "4.1.11",
     "next": "10.2.0",
