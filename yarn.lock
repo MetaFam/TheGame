@@ -1918,15 +1918,6 @@
     "@chakra-ui/form-control" "1.3.5"
     "@chakra-ui/utils" "1.8.0"
 
-"@chakra-ui/theme-tools@1.1.6":
-  version "1.1.6"
-  resolved "https://registry.yarnpkg.com/@chakra-ui/theme-tools/-/theme-tools-1.1.6.tgz#b97a37135f17454ff4b326b9790e57d409fddd81"
-  integrity sha512-VnAO9AAJGr967mHtAnJCq9mKzfka8I9Ya/6hYU/t1EaaMLy1IseIGkRX3hGYwpl3RZBXGamMxc4C5fJ0TKI4Lg==
-  dependencies:
-    "@chakra-ui/utils" "1.7.0"
-    "@types/tinycolor2" "1.4.2"
-    tinycolor2 "1.4.2"
-
 "@chakra-ui/theme-tools@1.1.7":
   version "1.1.7"
   resolved "https://registry.yarnpkg.com/@chakra-ui/theme-tools/-/theme-tools-1.1.7.tgz#ffd3dc2d22a935e1a1df47b155c4cef60ff3f603"
