@@ -31,7 +31,7 @@
     "@emotion/styled": "11.3.0",
     "framer-motion": "4.1.11",
     "next": "10.2.0",
-    "react-select": "4.3.0",
+    "react-select": "4.3.1",
     "react-timezone-select": "0.9.8",
     "storybook-addon-performance": "0.15.2"
   },
