@@ -22,8 +22,8 @@ export const GuildTile: React.FC<Props> = ({ guild }) => (
   <MetaTile>
     <MetaTileHeader>
       <MetaLink
-        as={`/guilds/${guild.guildname}`}
-        href="/guilds/[guildname]"
+        as={`/guild/${guild.guildname}`}
+        href="/guild/[guildname]"
         key={guild.id}
       >
         <VStack>
@@ -39,7 +39,7 @@ export const GuildTile: React.FC<Props> = ({ guild }) => (
       {guild.type ? (
         <Box align="center">
           <MetaTag size="md">
-            {guild.type} 
+            {guild.type}
             GUILD
           </MetaTag>
         </Box>
