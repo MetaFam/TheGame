@@ -38,3 +38,16 @@ export const getPlayers = async (
 
   return data.player;
 };
+
+const LIMIT = 50;
+const TOTAL_PLAYERS = 150;
+
+export const getTopPlayers = async (): Promise<PlayerFragmentFragment[]> => {
+  const promises: Promise<PlayerFragmentFragment[]>[] = new Array(
+    TOTAL_PLAYERS / LIMIT,
+  )
+    .fill(false)
+    .map((_, i) => getPlayers(LIMIT, i * LIMIT));
+  const playersArr = await Promise.all(promises);
+  return playersArr.reduce((_total, _players) => [..._total, ..._players], []);
+};
