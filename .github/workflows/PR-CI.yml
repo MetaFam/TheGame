@@ -93,7 +93,7 @@ jobs:
         run: docker ps -a
 
       - name: Build Web
-        run: yarn wait-on http://localhost:4000/healthz && yarn web:build
+        run: yarn wait-on http-get://localhost:8080/healthz && yarn web:build
         env:
           CI: true
           NEXT_PUBLIC_GRAPHQL_URL: http://localhost:8080/v1/graphql
