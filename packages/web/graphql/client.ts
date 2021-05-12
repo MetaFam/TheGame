@@ -1,3 +1,4 @@
+import { retryExchange } from '@urql/exchange-retry';
 import {
   initUrqlClient,
   NextComponentType,
@@ -8,6 +9,7 @@ import React, { createElement } from 'react';
 import {
   cacheExchange,
   Client,
+  CombinedError,
   createClient,
   dedupExchange,
   fetchExchange,
@@ -17,9 +19,22 @@ import {
 import { CONFIG } from '../config';
 import { getTokenFromStore } from '../lib/auth';
 
+const errorHasResponseTimeout = (err: CombinedError): boolean =>
+  err.graphQLErrors.length > 0 &&
+  !!err.graphQLErrors.find((_err) => _err.message === 'ResponseTimeout');
+
 export const client = createClient({
   url: CONFIG.graphqlURL,
   suspense: false,
+  exchanges: [
+    dedupExchange,
+    cacheExchange,
+    retryExchange({
+      retryIf: (error) =>
+        !!(errorHasResponseTimeout(error) || error.networkError),
+    }),
+    fetchExchange,
+  ],
 });
 
 export const getSsrClient = (): [Client, ReturnType<typeof ssrExchange>] => {

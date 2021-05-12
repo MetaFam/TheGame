@@ -14,6 +14,7 @@
   "dependencies": {
     "@metafam/ds": "0.1.0",
     "@metafam/utils": "1.0.0",
+    "@urql/exchange-retry": "^0.2.1",
     "@walletconnect/web3-provider": "1.4.1",
     "copy-to-clipboard": "^3.3.1",
     "ethers": "5.1.4",
@@ -33,7 +34,7 @@
     "react-qr-svg": "^2.3.0",
     "spacetime": "6.16.0",
     "spacetime-informal": "0.6.1",
-    "urql": "2.0.2",
+    "urql": "2.0.3",
     "web3modal": "1.9.3"
   }
 }

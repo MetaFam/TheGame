@@ -15,7 +15,11 @@ import {
 } from 'graphql/autogen/types';
 import { getQuestWithCompletions } from 'graphql/getQuest';
 import { getQuestIds } from 'graphql/getQuests';
-import { GetStaticPaths, GetStaticPropsContext } from 'next';
+import {
+  GetStaticPaths,
+  GetStaticPropsContext,
+  InferGetStaticPropsType,
+} from 'next';
 import { useRouter } from 'next/router';
 import React, { useMemo } from 'react';
 import { FaArrowLeft } from 'react-icons/fa';
@@ -28,9 +32,7 @@ import { getSsrClient } from '../../graphql/client';
 import { useUser } from '../../lib/hooks';
 import { canCompleteQuest } from '../../utils/questHelpers';
 
-type Props = {
-  quest_id: string;
-};
+type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
 const QuestPage: React.FC<Props> = ({ quest_id }) => {
   const router = useRouter();

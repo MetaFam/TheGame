@@ -1,6 +1,10 @@
 import gql from 'fake-tag';
 
-import { GetPlayerQuery, GetPlayerQueryVariables } from './autogen/types';
+import {
+  GetPlayerQuery,
+  GetPlayerQueryVariables,
+  PlayerFragmentFragment,
+} from './autogen/types';
 import { client } from './client';
 import { PlayerFragment } from './fragments';
 
@@ -13,11 +17,21 @@ const playerQuery = gql`
   ${PlayerFragment}
 `;
 
-export const getPlayer = async (username: string | undefined) => {
+export const getPlayer = async (
+  username: string | undefined,
+): Promise<PlayerFragmentFragment | null> => {
   if (!username) return null;
-  const { data } = await client
+  const { data, error } = await client
     .query<GetPlayerQuery, GetPlayerQueryVariables>(playerQuery, { username })
     .toPromise();
 
-  return data?.player[0];
+  if (!data) {
+    if (error) {
+      throw error;
+    }
+
+    return null;
+  }
+
+  return data?.player?.length > 0 ? data.player[0] : null;
 };
