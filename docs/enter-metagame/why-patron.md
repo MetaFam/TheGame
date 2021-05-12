@@ -1,5 +1,5 @@
 ---
-title: 💰 Why & How for Patrons
+title: 💰 Why Become a Patron
 ---
 
 > **Patron**
@@ -77,10 +77,3 @@ Then again, it might go to 0 🤷‍♂️
 While there are no explicit farming rewards, everyone will need to plant their Seeds before MetaGame enters Phase II.
 
 -   Phase II token - _Trees_ - will be given to those who plant their Seeds, not those who hodl them, just waiting for price to increase to flip them.
-
-# How to Become a Patron
-Oh, you want to become a patron? Like, now?
-Perfect! 🙃
-- Pick up a minimum of 5 Seeds [here](https://balancer.exchange/#/swap/ether/0x30cf203b48edaa42c3b4918e955fed26cd012a3f)
-- Plant them in [here](https://pools.balancer.exchange/#/pool/0xea05a15dbce2eb543ffda16950e95b2bd2e40d0e/)
-- Enter [here](https://discord.gg/Hf54gd8) & type in "!join"
