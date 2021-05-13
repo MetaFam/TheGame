@@ -92,8 +92,11 @@ jobs:
       - name: Debug docker containers
         run: docker ps -a
 
+      - name: Wait for Hasura
+        run: yarn wait-on --timeout 60000 http-get://localhost:8080/healthz || (docker-compose ps hasura && docker-compose logs --tail 20 hasura)
+
       - name: Build Web
-        run: yarn wait-on http-get://localhost:8080/healthz && yarn web:build
+        run: yarn web:build
         env:
           CI: true
           NEXT_PUBLIC_GRAPHQL_URL: http://localhost:8080/v1/graphql
