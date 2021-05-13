@@ -10,7 +10,6 @@ interface IConfig {
   pSEEDAddress: string;
   brightIdAppUrl: string;
   discordBotToken: string;
-  githubApiToken: string;
 }
 
 function parseEnv<T extends string | number>(
@@ -63,5 +62,4 @@ export const CONFIG: IConfig = {
     'https://app.brightid.org',
   ),
   discordBotToken: parseEnv(process.env.DISCORD_BOT_TOKEN, ''),
-  githubApiToken: parseEnv(process.env.GITHUB_API_TOKEN, ''),
 };

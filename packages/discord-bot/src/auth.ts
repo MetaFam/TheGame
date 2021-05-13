@@ -6,7 +6,7 @@ import { CONFIG } from './config';
 import { DiscordAccessTokenResponse } from './types';
 
 export const tokenRequestData = {
-  client_id: CONFIG.discordBotClientId,
+  client_id: Constants.DISCORD_BOT_CLIENT_ID,
   client_secret: CONFIG.discordBotClientSecret,
   grant_type: 'authorization_code',
   redirect_uri: `${CONFIG.frontendUrl}/${Constants.DISCORD_OAUTH_CALLBACK_PATH}`,
