@@ -1,6 +1,11 @@
 import gql from 'fake-tag';
 
-import { GetGuildsQuery, GetGuildsQueryVariables } from './autogen/types';
+import {
+  GetGuildnamesQuery,
+  GetGuildnamesQueryVariables,
+  GetGuildsQuery,
+  GetGuildsQueryVariables,
+} from './autogen/types';
 import { client } from './client';
 import { GuildFragment } from './fragments';
 
@@ -27,4 +32,30 @@ export const getGuilds = async (limit = 50) => {
   }
 
   return data.guild;
+};
+
+const guildnamesQuery = gql`
+  query GetGuildnames($limit: Int) {
+    guild(where: { status: { _eq: ACTIVE } }, limit: $limit) {
+      guildname
+    }
+  }
+`;
+
+export const getGuildnames = async (limit = 50) => {
+  const { data, error } = await client
+    .query<GetGuildnamesQuery, GetGuildnamesQueryVariables>(guildnamesQuery, {
+      limit,
+    })
+    .toPromise();
+
+  if (!data) {
+    if (error) {
+      throw error;
+    }
+
+    return [];
+  }
+
+  return data.guild.map((g) => g.guildname);
 };

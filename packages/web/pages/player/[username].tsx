@@ -1,7 +1,7 @@
 import { Box, Flex, LoadingState } from '@metafam/ds';
 import { PlayerHero } from 'components/Player/Section/PlayerHero';
 import { getPlayer } from 'graphql/getPlayer';
-import { getTopPlayers } from 'graphql/getPlayers';
+import { getTopPlayerUsernames } from 'graphql/getPlayers';
 import {
   GetStaticPaths,
   GetStaticPropsContext,
@@ -171,10 +171,10 @@ export default PlayerPage;
 type QueryParams = { username: string };
 
 export const getStaticPaths: GetStaticPaths<QueryParams> = async () => {
-  const players = await getTopPlayers();
+  const playerUsernames = await getTopPlayerUsernames();
 
   return {
-    paths: players.map(({ username }) => ({
+    paths: playerUsernames.map((username) => ({
       params: { username },
     })),
     fallback: true,
