@@ -1,7 +1,7 @@
 import { Box, Flex, LoadingState } from '@metafam/ds';
 import { QuestFragmentFragment, QuestStatus_Enum } from 'graphql/autogen/types';
 import { getGuild } from 'graphql/getGuild';
-import { getGuilds } from 'graphql/getGuilds';
+import { getGuildnames } from 'graphql/getGuilds';
 import { getQuests } from 'graphql/getQuests';
 import {
   GetStaticPaths,
@@ -98,10 +98,10 @@ export default GuildPage;
 type QueryParams = { guildname: string };
 
 export const getStaticPaths: GetStaticPaths<QueryParams> = async () => {
-  const guilds = await getGuilds();
+  const guildnames = await getGuildnames();
 
   return {
-    paths: guilds.map(({ guildname }) => ({
+    paths: guildnames.map((guildname) => ({
       params: { guildname },
     })),
     fallback: true,
