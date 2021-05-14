@@ -77,3 +77,7 @@ Then again, it might go to 0 🤷‍♂️
 While there are no explicit farming rewards, everyone will need to plant their Seeds before MetaGame enters Phase II.
 
 -   Phase II token - _Trees_ - will be given to those who plant their Seeds, not those who hodl them, just waiting for price to increase to flip them.
+
+## Interested in joining?
+
+Proceed down [the rabbit hole](https://wiki.metagame.wtf/docs/enter-metagame/join-metagame#join-as-a-patron).
