@@ -1,5 +1,5 @@
 import { PageContainer } from 'components/Container';
-import { PatronList } from 'components/PatronList';
+import { PatronList } from 'components/Patron/PatronList';
 import { getPatrons } from 'graphql/getPatrons';
 import { InferGetStaticPropsType } from 'next';
 import React from 'react';

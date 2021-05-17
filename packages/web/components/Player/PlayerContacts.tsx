@@ -1,5 +1,8 @@
 import { BrightIdIcon, Button, Tooltip, Wrap, WrapItem } from '@metafam/ds';
-import { PlayerFragmentFragment } from 'graphql/autogen/types';
+import {
+  PlayerFragmentFragment,
+  PlayerTileFragmentFragment,
+} from 'graphql/autogen/types';
 import { useBrightIdStatus } from 'lib/hooks/brightId';
 import { useCopyToClipboard } from 'lib/hooks/useCopyToClipboard';
 import React from 'react';
@@ -7,7 +10,7 @@ import { FaEthereum, FaGithub, FaTwitter } from 'react-icons/fa';
 import { formatAddress } from 'utils/playerHelpers';
 
 type Props = {
-  player: PlayerFragmentFragment;
+  player: PlayerFragmentFragment | PlayerTileFragmentFragment;
 };
 
 export const PlayerContacts: React.FC<Props> = ({ player }) => {

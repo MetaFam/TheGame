@@ -10,15 +10,14 @@ import {
 import { PageContainer } from 'components/Container';
 import { QuestFilter } from 'components/Quest/QuestFilter';
 import { QuestList } from 'components/Quest/QuestList';
+import { getSsrClient } from 'graphql/client';
 import { getQuests } from 'graphql/getQuests';
+import { usePSeedBalance } from 'lib/hooks/balances';
+import { useQuestFilter } from 'lib/hooks/quests';
 import { InferGetStaticPropsType } from 'next';
 import { useRouter } from 'next/router';
 import React, { useMemo } from 'react';
-
-import { getSsrClient } from '../graphql/client';
-import { usePSeedBalance } from '../lib/hooks/balances';
-import { useQuestFilter } from '../lib/hooks/quests';
-import { isAllowedToCreateQuest } from '../utils/questHelpers';
+import { isAllowedToCreateQuest } from 'utils/questHelpers';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 

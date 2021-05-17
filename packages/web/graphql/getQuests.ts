@@ -43,14 +43,6 @@ gql`
     ) {
       ...QuestFragment
     }
-    quest_aggregate(distinct_on: guild_id) {
-      nodes {
-        guild_id
-        guild {
-          name
-        }
-      }
-    }
   }
 
   ${QuestFragment}
