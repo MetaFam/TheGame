@@ -32,31 +32,34 @@ export const PlayerFilter: React.FC<Props> = ({
   setQueryVariable,
 }) => {
   const [search, setSearch] = useState<string>('');
+  const onSearch = (e: React.ChangeEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setQueryVariable('search', `%${search}%`);
+  };
   return (
     <>
-      <Stack
-        spacing="4"
-        w="100%"
-        maxW="2xl"
-        direction={{ base: 'column', md: 'row' }}
-        align="center"
-      >
-        <Input
-          background="dark"
+      <form onSubmit={onSearch}>
+        <Stack
+          spacing="4"
           w="100%"
-          type="text"
-          minW={{ base: 'sm', sm: 'md', md: 'lg', lg: 'xl' }}
-          placeholder="SEARCH PLAYERS BY USERNAME OR ETHEREUM ADDRESS"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
-        <MetaButton
-          onClick={() => setQueryVariable('search', `%${search}%`)}
-          size="md"
+          maxW="2xl"
+          direction={{ base: 'column', md: 'row' }}
+          align="center"
         >
-          SEARCH
-        </MetaButton>
-      </Stack>
+          <Input
+            background="dark"
+            w="100%"
+            type="text"
+            minW={{ base: 'sm', sm: 'md', md: 'lg', lg: 'xl' }}
+            placeholder="SEARCH PLAYERS BY USERNAME OR ETHEREUM ADDRESS"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          <MetaButton type="submit" size="md" isLoading={fetching}>
+            SEARCH
+          </MetaButton>
+        </Stack>
+      </form>
       <Wrap
         justify="space-between"
         w="100%"
