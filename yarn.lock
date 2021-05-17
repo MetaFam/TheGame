@@ -6625,7 +6625,7 @@
     "@typescript-eslint/types" "4.23.0"
     eslint-visitor-keys "^2.0.0"
 
-"@urql/core@^2.0.0", "@urql/core@>=1.15.0":
+"@urql/core@>=1.15.0", "@urql/core@^2.0.0":
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/@urql/core/-/core-2.0.0.tgz#b4936dd51fe84cb570506d9ee2579149689f7535"
   integrity sha512-Qj24CG8ullqZZsYmjrSH0JhH+nY7kj8GbVbA9si3KUjlYs75A/MBQU3i97j6oWyGldDBapyis2CfaQeXKbv8rA==
@@ -25400,10 +25400,10 @@ spacetime-informal@^0.3.0:
   resolved "https://registry.yarnpkg.com/spacetime-informal/-/spacetime-informal-0.3.0.tgz#6d0feffe291697f686b737b678b59ee2dcef3297"
   integrity sha512-HtFTwtkzDl7gswCfeWPQAxvQ+Fmrdt7WqoDT0Lq2FX7RVZKZ/+zmgBOAVAuH8oVcf4uXza9NvdX9QppGRiG8oQ==
 
-spacetime@6.16.0, spacetime@^6.6.2:
-  version "6.16.0"
-  resolved "https://registry.yarnpkg.com/spacetime/-/spacetime-6.16.0.tgz#f213963392eafc380716c3857b23251de87db97f"
-  integrity sha512-mkuniNOp6ssfPyJidj81tb54zKxK4vEKPTmcUsC/NEGIF8S07ppoSotdg6numT1/26rthQYmdxMY/M5a9WeJVQ==
+spacetime@6.16.1, spacetime@^6.6.2:
+  version "6.16.1"
+  resolved "https://registry.yarnpkg.com/spacetime/-/spacetime-6.16.1.tgz#e032dc77bea494367a7a321a03458ebbf8f625b0"
+  integrity sha512-+aK5oTrCCfXZsg73NEoy3V2cLa0xY3obddFNbWSJ8UcbuPb7f8zWOV4vH3hEAncznUJQqA7tGHAuVR4TysfgIA==
 
 sparse-array@^1.3.1:
   version "1.3.2"
