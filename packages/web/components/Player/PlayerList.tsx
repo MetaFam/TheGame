@@ -1,10 +1,10 @@
 import { SimpleGrid, Text } from '@metafam/ds';
 import { PlayerTile } from 'components/Player/PlayerTile';
-import { PlayerTileFragmentFragment } from 'graphql/autogen/types';
+import { PlayerFragmentFragment } from 'graphql/autogen/types';
 import React from 'react';
 
 type Props = {
-  players: PlayerTileFragmentFragment[];
+  players: PlayerFragmentFragment[];
 };
 
 export const PlayerList: React.FC<Props> = ({ players }) =>

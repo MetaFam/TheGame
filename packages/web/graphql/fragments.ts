@@ -1,50 +1,5 @@
 import gql from 'fake-tag';
 
-export const PlayerTileFragment = gql`
-  fragment PlayerTileFragment on player {
-    id
-    username
-    total_xp
-    rank
-    ethereum_address
-    ColorAspect {
-      name
-      description
-      mask
-    }
-    playerType {
-      title
-    }
-    Player_Skills {
-      Skill {
-        id
-        category
-        name
-      }
-    }
-    Accounts(where: { type: { _in: [TWITTER, GITHUB] } }) {
-      identifier
-      type
-    }
-    box_profile {
-      name
-      description
-      coverImageUrl
-      imageUrl
-    }
-    daohausMemberships {
-      id
-      moloch {
-        title
-      }
-    }
-    brightid_status {
-      unique
-      contextIds
-    }
-  }
-`;
-
 export const PlayerFragment = gql`
   fragment PlayerFragment on player {
     id

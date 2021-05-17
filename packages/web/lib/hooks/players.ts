@@ -1,6 +1,6 @@
 import {
   GetPlayersQueryVariables,
-  PlayerTileFragmentFragment,
+  PlayerFragmentFragment,
   useGetPlayerFiltersQuery,
 } from 'graphql/autogen/types';
 import {
@@ -19,7 +19,7 @@ export interface PlayerAggregates {
 }
 
 interface PlayerFilter {
-  players: PlayerTileFragmentFragment[];
+  players: PlayerFragmentFragment[];
   fetching: boolean;
   aggregates: PlayerAggregates;
   queryVariables: GetPlayersQueryVariables;

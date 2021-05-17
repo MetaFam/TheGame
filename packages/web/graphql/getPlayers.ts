@@ -6,10 +6,10 @@ import {
   GetPlayersQueryVariables,
   GetPlayerUsernamesQuery,
   GetPlayerUsernamesQueryVariables,
-  PlayerTileFragmentFragment,
+  PlayerFragmentFragment,
 } from './autogen/types';
 import { client as defaultClient } from './client';
-import { PlayerTileFragment } from './fragments';
+import { PlayerFragment } from './fragments';
 
 const playersQuery = gql`
   query GetPlayers(
@@ -27,10 +27,10 @@ const playersQuery = gql`
         playerType: { id: { _eq: $playerType } }
       }
     ) {
-      ...PlayerTileFragment
+      ...PlayerFragment
     }
   }
-  ${PlayerTileFragment}
+  ${PlayerFragment}
 `;
 
 export const defaultQueryVariables: GetPlayersQueryVariables = {
@@ -42,7 +42,7 @@ export const defaultQueryVariables: GetPlayersQueryVariables = {
 
 export type PlayersResponse = {
   error: Error | undefined;
-  players: PlayerTileFragmentFragment[];
+  players: PlayerFragmentFragment[];
 };
 
 export const getPlayers = async (

@@ -16,7 +16,7 @@ import { MetaLink } from 'components/Link';
 import { PlayerContacts } from 'components/Player/PlayerContacts';
 import { PlayerTileMemberships } from 'components/Player/PlayerTileMemberships';
 import { SkillsTags } from 'components/Skills';
-import { PlayerTileFragmentFragment, Skill } from 'graphql/autogen/types';
+import { PlayerFragmentFragment, Skill } from 'graphql/autogen/types';
 import React from 'react';
 import {
   getPlayerCoverImage,
@@ -25,7 +25,7 @@ import {
 } from 'utils/playerHelpers';
 
 type Props = {
-  player: PlayerTileFragmentFragment;
+  player: PlayerFragmentFragment;
 };
 
 export const PlayerTile: React.FC<Props> = ({ player }) => (

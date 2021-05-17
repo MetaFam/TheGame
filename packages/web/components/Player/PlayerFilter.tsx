@@ -1,14 +1,14 @@
 import { Select, Text, VStack, Wrap, WrapItem } from '@metafam/ds';
 import {
   GetPlayersQueryVariables,
-  PlayerTileFragmentFragment,
+  PlayerFragmentFragment,
 } from 'graphql/autogen/types';
 import { PlayerAggregates, QueryVariableSetter } from 'lib/hooks/players';
 import React from 'react';
 
 type Props = {
   fetching: boolean;
-  players: PlayerTileFragmentFragment[];
+  players: PlayerFragmentFragment[];
   aggregates: PlayerAggregates;
   queryVariables: GetPlayersQueryVariables;
   setQueryVariable: QueryVariableSetter;
@@ -70,13 +70,11 @@ export const PlayerFilter: React.FC<Props> = ({
             >
               <option value="">All Types</option>
               {aggregates.playerTypes &&
-                aggregates.playerTypes.map(
-                  (c: { id: number; title: string }) => (
-                    <option key={c.id} value={c.id}>
-                      {c.title}
-                    </option>
-                  ),
-                )}
+                aggregates.playerTypes.map(({ id, title }) => (
+                  <option key={id} value={id}>
+                    {title}
+                  </option>
+                ))}
             </Select>
           </VStack>
         </WrapItem>
@@ -98,9 +96,9 @@ export const PlayerFilter: React.FC<Props> = ({
             >
               <option value="">All Skills</option>
               {aggregates.skillCategories &&
-                aggregates.skillCategories.map((c: { name: string }) => (
-                  <option key={c.name} value={c.name}>
-                    {c.name}
+                aggregates.skillCategories.map(({ name }) => (
+                  <option key={name} value={name}>
+                    {name}
                   </option>
                 ))}
             </Select>
