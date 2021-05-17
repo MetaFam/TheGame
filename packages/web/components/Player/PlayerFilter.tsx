@@ -4,7 +4,8 @@ import {
   Select,
   Stack,
   Text,
-  TIMEZONE_OPTIONS,
+  TimezoneOptions,
+  TimezoneType,
   VStack,
   Wrap,
   WrapItem,
@@ -187,11 +188,12 @@ export const PlayerFilter: React.FC<Props> = ({
                   value={(queryVariables.timezone as string) || ''}
                   onChange={(e) => setQueryVariable('timezone', e.target.value)}
                   textTransform="uppercase"
+                  maxW="48"
                 >
                   <option value="">All timezones</option>
-                  {TIMEZONE_OPTIONS.map((z) => (
-                    <option key={z} value={z}>
-                      {z}
+                  {TimezoneOptions.map((z: TimezoneType) => (
+                    <option key={z.id} value={z.id}>
+                      {z.label}
                     </option>
                   ))}
                 </Select>

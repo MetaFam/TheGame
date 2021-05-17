@@ -34,6 +34,8 @@
     "@types/react-select": "3.0.22",
     "framer-motion": "4.1.17",
     "next": "10.2.0",
+    "spacetime": "6.16.1",
+    "spacetime-informal": "0.6.1",
     "react-select": "4.3.1",
     "react-timezone-select": "1.0.3",
     "storybook-addon-performance": "0.15.2"
