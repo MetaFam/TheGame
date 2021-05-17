@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import React from 'react';
 import { Styles } from 'react-select';
 import TimezoneSelect, { TimezoneSelectProps } from 'react-timezone-select';

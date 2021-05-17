@@ -3,10 +3,7 @@
   "version": "0.1.0",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
-  "files": [
-    "dist",
-    "src"
-  ],
+  "files": ["dist", "src"],
   "module": "dist/ds.esm.js",
   "license": "MIT",
   "scripts": {
@@ -34,22 +31,19 @@
     "@types/react-select": "3.0.22",
     "framer-motion": "4.1.17",
     "next": "10.2.0",
-    "spacetime": "6.16.1",
-    "spacetime-informal": "0.6.1",
     "react-select": "4.3.1",
     "react-timezone-select": "1.0.3",
+    "spacetime": "6.16.1",
+    "spacetime-informal": "0.6.1",
     "storybook-addon-performance": "0.15.2"
   },
   "devDependencies": {
     "@babel/core": "7.14.2",
-    "@babel/preset-env": "^7.14.2",
-    "@babel/preset-react": "^7.13.13",
     "@storybook/addon-actions": "6.2.9",
     "@storybook/addon-docs": "6.2.9",
     "@storybook/addon-links": "6.2.9",
     "@storybook/addons": "6.2.9",
     "@storybook/react": "6.2.9",
-    "babel-jest": "^26.6.3",
     "babel-loader": "8.2.2",
     "react-docgen-typescript-loader": "3.7.2",
     "react-dom": "16.14.0",
