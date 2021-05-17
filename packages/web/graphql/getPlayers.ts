@@ -17,6 +17,7 @@ const playersQuery = gql`
     $limit: Int
     $skillCategory: SkillCategory_enum
     $playerType: Int
+    $search: String
   ) {
     player(
       order_by: { total_xp: desc }
@@ -25,6 +26,10 @@ const playersQuery = gql`
       where: {
         Player_Skills: { Skill: { category: { _eq: $skillCategory } } }
         playerType: { id: { _eq: $playerType } }
+        _or: [
+          { username: { _ilike: $search } }
+          { ethereum_address: { _ilike: $search } }
+        ]
       }
     ) {
       ...PlayerFragment
@@ -38,6 +43,7 @@ export const defaultQueryVariables: GetPlayersQueryVariables = {
   limit: 50,
   skillCategory: undefined,
   playerType: undefined,
+  search: '%%',
 };
 
 export type PlayersResponse = {
