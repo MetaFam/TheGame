@@ -2,7 +2,12 @@ import { Constants, isNotNullOrUndefined } from '@metafam/utils';
 import bluebird from 'bluebird';
 import { Request, Response } from 'express';
 import fetch from 'node-fetch';
-import { AddressBookEntry, SCAccountsData, SCAlias, sourcecred as sc } from 'sourcecred';
+import {
+  AddressBookEntry,
+  SCAccountsData,
+  SCAlias,
+  sourcecred as sc,
+} from 'sourcecred';
 
 import {
   AccountType_Enum,
