@@ -35,7 +35,9 @@ export const PlayerFilter: React.FC<Props> = ({
   const [search, setSearch] = useState<string>('');
   const onSearch = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setQueryVariable('search', `%${search}%`);
+    if (search.length >= 2) {
+      setQueryVariable('search', `%${search}%`);
+    }
   };
   return (
     <>
