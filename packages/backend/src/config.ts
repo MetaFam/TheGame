@@ -28,10 +28,7 @@ function parseEnv<T extends string | number>(
 export const CONFIG: IConfig = {
   port: parseEnv(process.env.PORT, 4000),
   graphqlURL: (() => {
-    const {
-      GRAPHQL_URL: url,
-      GRAPHQL_HOST: host,
-    } = process.env;
+    const { GRAPHQL_URL: url, GRAPHQL_HOST: host } = process.env;
 
     if (url) return url;
     if (host) {

@@ -27,11 +27,7 @@ export const GuildLinks: React.FC<Props> = ({ guild }) => (
       ) : null}
       {guild.discord_invite_url ? (
         <WrapItem>
-          <a
-            href={guild.discord_invite_url}
-            target="_blank"
-            rel="noreferrer"
-          >
+          <a href={guild.discord_invite_url} target="_blank" rel="noreferrer">
             <IconButton
               variant="outline"
               aria-label="Discord Server"

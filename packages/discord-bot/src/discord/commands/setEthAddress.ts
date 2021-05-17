@@ -69,6 +69,7 @@ export abstract class SetEthAddress {
           `Error Updating Ledger: ${
             persistRes.error
           }.\n\n ${persistRes.localChanges
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             .map((c: any) => JSON.stringify(c.action))
             .join('\n')}`,
         );
