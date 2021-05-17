@@ -60,11 +60,12 @@ export const PlayerFilter: React.FC<Props> = ({
         justify="space-between"
         w="100%"
         bg="purpleTag30"
-        p="4"
+        p="6"
         borderRadius="6px"
+        maxW="79rem"
       >
         <WrapItem>
-          <Wrap>
+          <Wrap spacing="4">
             <WrapItem>
               <VStack spacing="2" w="100%">
                 <Text
@@ -145,7 +146,9 @@ export const PlayerFilter: React.FC<Props> = ({
         </WrapItem>
         {players && !fetching && (
           <WrapItem>
-            <Text align="center">{players.length} players</Text>
+            <Text align="center" fontWeight="bold">
+              {players.length} players
+            </Text>
           </WrapItem>
         )}
       </Wrap>

@@ -123,7 +123,9 @@ export const QuestFilter: React.FC<Props> = ({
       </WrapItem>
       {quests && (
         <WrapItem>
-          <Text align="center">{quests.length} quests</Text>
+          <Text align="center" fontWeight="bold">
+            {quests.length} quests
+          </Text>
         </WrapItem>
       )}
     </Wrap>
