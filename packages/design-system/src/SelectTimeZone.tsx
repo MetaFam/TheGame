@@ -1,10 +1,13 @@
 import React from 'react';
 import { Styles } from 'react-select';
 import TimezoneSelect, { TimezoneSelectProps } from 'react-timezone-select';
+import { i18nTimezones } from 'react-timezone-select/dist/index.js';
 
 import { theme } from './theme';
 
-export const selectStyles: Styles = {
+export const TIMEZONE_OPTIONS: string[] = Object.keys(i18nTimezones);
+
+const selectStyles: Styles = {
   menu: (styles) => ({
     ...styles,
     background: theme.colors.dark,

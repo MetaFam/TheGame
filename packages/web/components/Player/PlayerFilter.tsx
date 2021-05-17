@@ -7,6 +7,7 @@ import {
   VStack,
   Wrap,
   WrapItem,
+  TIMEZONE_OPTIONS,
 } from '@metafam/ds';
 import {
   GetPlayersQueryVariables,
@@ -166,6 +167,30 @@ export const PlayerFilter: React.FC<Props> = ({
                   <option value={20}>{'> 20 h/week'}</option>
                   <option value={30}>{'> 30 h/week'}</option>
                   <option value={40}>{'> 40 h/week'}</option>
+                </Select>
+              </VStack>
+            </WrapItem>
+            <WrapItem>
+              <VStack spacing="2" w="100%">
+                <Text
+                  textTransform="uppercase"
+                  color="blueLight"
+                  w="100%"
+                  fontSize="xs"
+                >
+                  Timezone
+                </Text>
+                <Select
+                  value={(queryVariables.timezone as string) || ''}
+                  onChange={(e) => setQueryVariable('timezone', e.target.value)}
+                  textTransform="uppercase"
+                >
+                  <option value="">All timezones</option>
+                  {TIMEZONE_OPTIONS.map((z) => (
+                    <option key={z} value={z}>
+                      {z}
+                    </option>
+                  ))}
                 </Select>
               </VStack>
             </WrapItem>

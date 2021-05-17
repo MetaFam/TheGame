@@ -9,7 +9,7 @@ export { MetaTag } from './MetaTag';
 export { MetaTile, MetaTileBody, MetaTileHeader } from './MetaTile';
 export { ResponsiveText } from './ResponsiveText';
 export { SelectSearch, selectStyles } from './SelectSearch';
-export { SelectTimeZone } from './SelectTimeZone';
+export { SelectTimeZone, TIMEZONE_OPTIONS } from './SelectTimeZone';
 export { SVG } from './SVG';
 export { theme as MetaTheme } from './theme';
 export { H1, P } from './typography';
