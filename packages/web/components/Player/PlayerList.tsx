@@ -15,7 +15,7 @@ export const PlayerList: React.FC<Props> = ({ players }) =>
       autoRows="minmax(35rem, auto)"
     >
       {players.map((p) => (
-        <PlayerTile key={p.id} player={p} />
+        <PlayerTile key={p.username} player={p} />
       ))}
     </SimpleGrid>
   ) : (

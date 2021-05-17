@@ -13,12 +13,14 @@ import { PlayerTileFragment } from './fragments';
 
 const playersQuery = gql`
   query GetPlayers(
+    $offset: Int
     $limit: Int
     $skillCategory: SkillCategory_enum
     $playerType: Int
   ) {
     player(
       order_by: { total_xp: desc }
+      offset: $offset
       limit: $limit
       where: {
         Player_Skills: { Skill: { category: { _eq: $skillCategory } } }
@@ -32,15 +34,21 @@ const playersQuery = gql`
 `;
 
 export const defaultQueryVariables: GetPlayersQueryVariables = {
+  offset: 0,
   limit: 50,
   skillCategory: undefined,
   playerType: undefined,
 };
 
+export type PlayersResponse = {
+  error: Error | undefined;
+  players: PlayerTileFragmentFragment[];
+};
+
 export const getPlayers = async (
   queryVariables = defaultQueryVariables,
   client: Client = defaultClient,
-): Promise<PlayerTileFragmentFragment[]> => {
+): Promise<PlayersResponse> => {
   const { data, error } = await client
     .query<GetPlayersQuery, GetPlayersQueryVariables>(
       playersQuery,
@@ -48,15 +56,7 @@ export const getPlayers = async (
     )
     .toPromise();
 
-  if (!data) {
-    if (error) {
-      throw error;
-    }
-
-    return [];
-  }
-
-  return data.player;
+  return { players: data?.player || [], error };
 };
 
 const playerUsernamesQuery = gql`
@@ -104,3 +104,31 @@ gql`
     }
   }
 `;
+
+export const getPlayersInParallel = async (
+  variables: GetPlayersQueryVariables,
+): Promise<PlayersResponse> => {
+  const limit = 50;
+  const total = variables?.limit as number;
+  if (total <= limit) {
+    return getPlayers(variables);
+  }
+  const len = Math.ceil(total / limit);
+  const variablesArr: GetPlayersQueryVariables[] = new Array<boolean>(len)
+    .fill(false)
+    .map((_, i) => ({
+      ...variables,
+      offset: i * limit,
+      limit: i < len - 1 ? limit : total - limit * (len - 1),
+    }));
+
+  const promises = variablesArr.map((vars) => getPlayers(vars));
+  const playersRespArr = await Promise.all(promises);
+  return playersRespArr.reduce(
+    (totalRes, response) => ({
+      error: totalRes.error || response.error,
+      players: [...totalRes.players, ...response.players],
+    }),
+    { error: undefined, players: [] },
+  );
+};

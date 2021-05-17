@@ -63,13 +63,14 @@ const Players: React.FC<Props> = () => {
           <MetaButton size="md">SEARCH</MetaButton>
         </Stack>
         <PlayerFilter
+          fetching={fetching}
           aggregates={aggregates}
           queryVariables={queryVariables}
           setQueryVariable={setQueryVariable}
           players={players || []}
         />
-        {fetching && <LoadingState />}
         {error && <Text>{`Error: ${error.message}`}</Text>}
+        {fetching && <LoadingState />}
         {players && !fetching && <PlayerList players={players} />}
       </VStack>
     </PageContainer>

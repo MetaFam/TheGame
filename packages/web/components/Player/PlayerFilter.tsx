@@ -7,6 +7,7 @@ import { PlayerAggregates, QueryVariableSetter } from 'lib/hooks/players';
 import React from 'react';
 
 type Props = {
+  fetching: boolean;
   players: PlayerTileFragmentFragment[];
   aggregates: PlayerAggregates;
   queryVariables: GetPlayersQueryVariables;
@@ -14,6 +15,7 @@ type Props = {
 };
 
 export const PlayerFilter: React.FC<Props> = ({
+  fetching,
   players,
   aggregates,
   queryVariables,
@@ -44,11 +46,11 @@ export const PlayerFilter: React.FC<Props> = ({
                 setQueryVariable('limit', Number(e.target.value))
               }
               minW="3rem"
-              defaultValue="50"
             >
               <option value={10}>10</option>
               <option value={20}>20</option>
               <option value={50}>50</option>
+              <option value={150}>150</option>
             </Select>
           </VStack>
         </WrapItem>
@@ -106,7 +108,7 @@ export const PlayerFilter: React.FC<Props> = ({
         </WrapItem>
       </Wrap>
     </WrapItem>
-    {players && (
+    {players && !fetching && (
       <WrapItem>
         <Text align="center">{players.length} players</Text>
       </WrapItem>

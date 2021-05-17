@@ -2,10 +2,13 @@ import {
   GetPlayersQueryVariables,
   PlayerTileFragmentFragment,
   useGetPlayerFiltersQuery,
-  useGetPlayersQuery,
 } from 'graphql/autogen/types';
-import { defaultQueryVariables } from 'graphql/getPlayers';
-import { useCallback, useState } from 'react';
+import {
+  defaultQueryVariables,
+  getPlayersInParallel,
+  PlayersResponse,
+} from 'graphql/getPlayers';
+import { useCallback, useEffect, useState } from 'react';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type QueryVariableSetter = (key: string, value: any) => void;
@@ -25,10 +28,7 @@ interface PlayerFilter {
 }
 
 const usePlayerAggregates = () => {
-  const [{ data, error }] = useGetPlayerFiltersQuery();
-  if (error) {
-    console.log(error);
-  }
+  const [{ data }] = useGetPlayerFiltersQuery();
   return {
     skillCategories: data?.skill_aggregate.nodes || [],
     playerTypes: data?.player_type || [],
@@ -36,10 +36,21 @@ const usePlayerAggregates = () => {
 };
 
 const useFilteredPlayers = (variables: GetPlayersQueryVariables) => {
-  const [{ fetching, data, error }] = useGetPlayersQuery({
-    variables,
+  const [fetching, setFetching] = useState(true);
+  const [{ players, error }, setResponse] = useState<PlayersResponse>({
+    error: undefined,
+    players: [],
   });
-  const players = data?.player || [];
+
+  useEffect(() => {
+    const load = async () => {
+      setFetching(true);
+      const response = await getPlayersInParallel(variables);
+      setResponse(response);
+      setFetching(false);
+    };
+    load();
+  }, [variables]);
   return { fetching, players, error };
 };
 
