@@ -105,6 +105,7 @@ export const PlayerFilter: React.FC<Props> = ({
                   onChange={(e) =>
                     setQueryVariable('playerType', e.target.value)
                   }
+                  textTransform="uppercase"
                 >
                   <option value="">All Types</option>
                   {aggregates.playerTypes &&
@@ -124,13 +125,14 @@ export const PlayerFilter: React.FC<Props> = ({
                   w="100%"
                   fontSize="xs"
                 >
-                  Player Skills
+                  Skills
                 </Text>
                 <Select
                   value={(queryVariables.skillCategory as string) || ''}
                   onChange={(e) =>
                     setQueryVariable('skillCategory', e.target.value)
                   }
+                  textTransform="uppercase"
                 >
                   <option value="">All Skills</option>
                   {aggregates.skillCategories &&
@@ -139,6 +141,31 @@ export const PlayerFilter: React.FC<Props> = ({
                         {name}
                       </option>
                     ))}
+                </Select>
+              </VStack>
+            </WrapItem>
+            <WrapItem>
+              <VStack spacing="2" w="100%">
+                <Text
+                  textTransform="uppercase"
+                  color="blueLight"
+                  w="100%"
+                  fontSize="xs"
+                >
+                  Availability
+                </Text>
+                <Select
+                  value={queryVariables.availability as number}
+                  onChange={(e) =>
+                    setQueryVariable('availability', e.target.value)
+                  }
+                  textTransform="uppercase"
+                >
+                  <option value={0}>Any h/week</option>
+                  <option value={10}>{'> 10 h/week'}</option>
+                  <option value={20}>{'> 20 h/week'}</option>
+                  <option value={30}>{'> 30 h/week'}</option>
+                  <option value={40}>{'> 40 h/week'}</option>
                 </Select>
               </VStack>
             </WrapItem>

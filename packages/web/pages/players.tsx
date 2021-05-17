@@ -43,7 +43,7 @@ const Players: React.FC<Props> = () => {
         />
         {error && <Text>{`Error: ${error.message}`}</Text>}
         {fetching && <LoadingState />}
-        {players && !fetching && <PlayerList players={players} />}
+        {players && !fetching && !error && <PlayerList players={players} />}
       </VStack>
     </PageContainer>
   );

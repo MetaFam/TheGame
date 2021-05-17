@@ -18,6 +18,7 @@ const playersQuery = gql`
     $skillCategory: SkillCategory_enum
     $playerType: Int
     $search: String
+    $availability: Int
   ) {
     player(
       order_by: { total_xp: desc }
@@ -30,6 +31,7 @@ const playersQuery = gql`
           { username: { _ilike: $search } }
           { ethereum_address: { _ilike: $search } }
         ]
+        availability_hours: { _gte: $availability }
       }
     ) {
       ...PlayerFragment
@@ -44,6 +46,7 @@ export const defaultQueryVariables: GetPlayersQueryVariables = {
   skillCategory: undefined,
   playerType: undefined,
   search: '%%',
+  availability: 0,
 };
 
 export type PlayersResponse = {
