@@ -4,10 +4,10 @@ import {
   Select,
   Stack,
   Text,
+  TIMEZONE_OPTIONS,
   VStack,
   Wrap,
   WrapItem,
-  TIMEZONE_OPTIONS,
 } from '@metafam/ds';
 import {
   GetPlayersQueryVariables,
