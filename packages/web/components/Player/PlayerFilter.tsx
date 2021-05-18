@@ -37,6 +37,8 @@ export const PlayerFilter: React.FC<Props> = ({
     e.preventDefault();
     if (search.length >= 2) {
       setQueryVariable('search', `%${search}%`);
+    } else {
+      setQueryVariable('search', `%%`);
     }
   };
   return (
