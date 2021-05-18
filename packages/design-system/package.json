@@ -3,7 +3,10 @@
   "version": "0.1.0",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
-  "files": ["dist", "src"],
+  "files": [
+    "dist",
+    "src"
+  ],
   "module": "dist/ds.esm.js",
   "license": "MIT",
   "scripts": {

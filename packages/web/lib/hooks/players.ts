@@ -2,6 +2,7 @@ import {
   GetPlayersQueryVariables,
   PlayerFragmentFragment,
   useGetPlayerFiltersQuery,
+  useGetPlayersQuery,
 } from 'graphql/autogen/types';
 import {
   defaultQueryVariables,
@@ -35,7 +36,22 @@ const usePlayerAggregates = () => {
   };
 };
 
-const useFilteredPlayers = (variables: GetPlayersQueryVariables) => {
+const usePlayersSingle = (
+  run: boolean,
+  variables: GetPlayersQueryVariables,
+) => {
+  const [{ fetching, data, error }] = useGetPlayersQuery({
+    variables,
+    pause: !run,
+  });
+  const players = data?.player || [];
+  return { fetching, players, error };
+};
+
+const usePlayersParallel = (
+  run: boolean,
+  variables: GetPlayersQueryVariables,
+) => {
   const [fetching, setFetching] = useState(true);
   const [{ players, error }, setResponse] = useState<PlayersResponse>({
     error: undefined,
@@ -44,14 +60,24 @@ const useFilteredPlayers = (variables: GetPlayersQueryVariables) => {
 
   useEffect(() => {
     const load = async () => {
-      setFetching(true);
-      const response = await getPlayersInParallel(variables);
-      setResponse(response);
-      setFetching(false);
+      if (run) {
+        setFetching(true);
+        const response = await getPlayersInParallel(variables);
+        setResponse(response);
+        setFetching(false);
+      }
     };
     load();
-  }, [variables]);
+  }, [run, variables]);
+
   return { fetching, players, error };
+};
+
+const useFilteredPlayers = (variables: GetPlayersQueryVariables) => {
+  const runParallel = (variables.limit as number) > 50; // if limit is 150 then hasura is unable to handle in one query
+  const playersParallel = usePlayersParallel(runParallel, variables);
+  const playersSingle = usePlayersSingle(!runParallel, variables);
+  return runParallel ? playersParallel : playersSingle;
 };
 
 export const usePlayerFilter = (): PlayerFilter => {

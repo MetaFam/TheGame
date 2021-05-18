@@ -2,6 +2,7 @@ import gql from 'fake-tag';
 import { Client } from 'urql';
 
 import {
+  GetPlayersDocument,
   GetPlayersQuery,
   GetPlayersQueryVariables,
   GetPlayerUsernamesQuery,
@@ -11,7 +12,8 @@ import {
 import { client as defaultClient } from './client';
 import { PlayerFragment } from './fragments';
 
-const playersQuery = gql`
+// eslint-disable-next-line @typescript-eslint/no-unused-expressions
+gql`
   query GetPlayers(
     $offset: Int
     $limit: Int
@@ -63,7 +65,7 @@ export const getPlayers = async (
 ): Promise<PlayersResponse> => {
   const { data, error } = await client
     .query<GetPlayersQuery, GetPlayersQueryVariables>(
-      playersQuery,
+      GetPlayersDocument,
       queryVariables,
     )
     .toPromise();
