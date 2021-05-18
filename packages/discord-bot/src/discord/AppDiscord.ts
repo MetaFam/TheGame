@@ -1,12 +1,12 @@
 import { Discord } from '@typeit/discord';
 import * as Path from 'path';
 
-
 // Within a docker container: We are using tsc, so we want to load the compiled files.
 // For local dev, we are transpiling: Load the .ts files.
-const glob = process.env.RUNTIME_ENV === 'docker' ?
-  Path.join(__dirname, 'commands', '*.js') :
-  Path.join(__dirname, 'commands', '*.ts')
+const glob =
+  process.env.RUNTIME_ENV === 'docker'
+    ? Path.join(__dirname, 'commands', '*.js')
+    : Path.join(__dirname, 'commands', '!(*.d).ts');
 
 @Discord('', {
   import: [glob],

@@ -5,9 +5,10 @@ import { CONFIG } from './config';
 
 // Within a docker container: We are using tsc, so we want to load the compiled files.
 // For local dev, we are transpiling: Load the .ts files.
-const glob = process.env.RUNTIME_ENV === 'docker' ?
-  `${__dirname}/discord/**/*.js` :
-  `${__dirname}/discord/**/*.ts` 
+const glob =
+  process.env.RUNTIME_ENV === 'docker'
+    ? `${__dirname}/discord/**/*.js`
+    : `${__dirname}/discord/**/!(*.d).ts`;
 
 async function createDiscordClient(): Promise<Client> {
   const client = new Client({
