@@ -1,10 +1,11 @@
 export { BoxedNextImage } from './BoxedNextImage';
 export { ConfirmModal } from './ConfirmModal';
-export { BrightIdIcon, Icon3box } from './icons';
+export * from './icons';
 export { LoadingState } from './LoadingState';
 export { MetaBox } from './MetaBox';
 export { MetaButton } from './MetaButton';
 export { MetaHeading } from './MetaHeading';
+export { MetaSelect } from './MetaSelect';
 export { MetaTag } from './MetaTag';
 export { MetaTile, MetaTileBody, MetaTileHeader } from './MetaTile';
 export { ResponsiveText } from './ResponsiveText';

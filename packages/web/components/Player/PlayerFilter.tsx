@@ -1,7 +1,7 @@
 import {
   Input,
   MetaButton,
-  Select,
+  MetaSelect,
   Stack,
   Text,
   TimezoneOptions,
@@ -55,10 +55,16 @@ export const PlayerFilter: React.FC<Props> = ({
             type="text"
             minW={{ base: 'sm', sm: 'md', md: 'lg', lg: 'xl' }}
             placeholder="SEARCH PLAYERS BY USERNAME OR ETHEREUM ADDRESS"
+            _placeholder={{ color: 'whiteAlpha.500' }}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
+            size="lg"
+            borderRadius="0"
+            borderColor="purple.400"
+            fontSize="md"
+            borderWidth="2px"
           />
-          <MetaButton type="submit" size="md" isLoading={fetching}>
+          <MetaButton type="submit" size="lg" isLoading={fetching} px="16">
             SEARCH
           </MetaButton>
         </Stack>
@@ -66,7 +72,8 @@ export const PlayerFilter: React.FC<Props> = ({
       <Wrap
         justify="space-between"
         w="100%"
-        bg="purpleTag30"
+        bg="whiteAlpha.200"
+        style={{ backdropFilter: 'blur(7px)' }}
         p="6"
         borderRadius="6px"
         maxW="79rem"
@@ -83,7 +90,7 @@ export const PlayerFilter: React.FC<Props> = ({
                 >
                   Show
                 </Text>
-                <Select
+                <MetaSelect
                   value={queryVariables.limit as number}
                   onChange={(e) =>
                     setQueryVariable('limit', Number(e.target.value))
@@ -94,7 +101,7 @@ export const PlayerFilter: React.FC<Props> = ({
                   <option value={20}>20</option>
                   <option value={50}>50</option>
                   <option value={150}>150</option>
-                </Select>
+                </MetaSelect>
               </VStack>
             </WrapItem>
             <WrapItem>
@@ -107,12 +114,11 @@ export const PlayerFilter: React.FC<Props> = ({
                 >
                   Player Type
                 </Text>
-                <Select
+                <MetaSelect
                   value={(queryVariables.playerType as number) || ''}
                   onChange={(e) =>
                     setQueryVariable('playerType', e.target.value)
                   }
-                  textTransform="uppercase"
                 >
                   <option value="">All Types</option>
                   {aggregates.playerTypes &&
@@ -121,7 +127,7 @@ export const PlayerFilter: React.FC<Props> = ({
                         {title}
                       </option>
                     ))}
-                </Select>
+                </MetaSelect>
               </VStack>
             </WrapItem>
             <WrapItem>
@@ -134,12 +140,11 @@ export const PlayerFilter: React.FC<Props> = ({
                 >
                   Skills
                 </Text>
-                <Select
+                <MetaSelect
                   value={(queryVariables.skillCategory as string) || ''}
                   onChange={(e) =>
                     setQueryVariable('skillCategory', e.target.value)
                   }
-                  textTransform="uppercase"
                 >
                   <option value="">All Skills</option>
                   {aggregates.skillCategories &&
@@ -148,7 +153,7 @@ export const PlayerFilter: React.FC<Props> = ({
                         {name}
                       </option>
                     ))}
-                </Select>
+                </MetaSelect>
               </VStack>
             </WrapItem>
             <WrapItem>
@@ -161,19 +166,20 @@ export const PlayerFilter: React.FC<Props> = ({
                 >
                   Availability
                 </Text>
-                <Select
+                <MetaSelect
                   value={queryVariables.availability as number}
                   onChange={(e) =>
                     setQueryVariable('availability', e.target.value)
                   }
-                  textTransform="uppercase"
                 >
                   <option value={0}>Any h/week</option>
+                  <option value={1}>{'> 1 h/week'}</option>
+                  <option value={5}>{'> 5 h/week'}</option>
                   <option value={10}>{'> 10 h/week'}</option>
                   <option value={20}>{'> 20 h/week'}</option>
                   <option value={30}>{'> 30 h/week'}</option>
                   <option value={40}>{'> 40 h/week'}</option>
-                </Select>
+                </MetaSelect>
               </VStack>
             </WrapItem>
             <WrapItem>
@@ -186,11 +192,9 @@ export const PlayerFilter: React.FC<Props> = ({
                 >
                   Timezone
                 </Text>
-                <Select
+                <MetaSelect
                   value={(queryVariables.timezone as string) || ''}
                   onChange={(e) => setQueryVariable('timezone', e.target.value)}
-                  textTransform="uppercase"
-                  maxW="48"
                 >
                   <option value="">All timezones</option>
                   {TimezoneOptions.map((z: TimezoneType) => (
@@ -198,7 +202,7 @@ export const PlayerFilter: React.FC<Props> = ({
                       {z.label}
                     </option>
                   ))}
-                </Select>
+                </MetaSelect>
               </VStack>
             </WrapItem>
           </Wrap>

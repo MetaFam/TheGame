@@ -1,7 +1,7 @@
 import {
   Flex,
   MetaButton,
-  Select,
+  MetaSelect,
   Switch,
   Text,
   Wrap,
@@ -43,7 +43,7 @@ export const QuestFilter: React.FC<Props> = ({
       <WrapItem>
         <Wrap>
           <WrapItem>
-            <Select
+            <MetaSelect
               value={queryVariables.limit as number}
               onChange={(e) =>
                 setQueryVariable('limit', Number(e.target.value))
@@ -52,28 +52,28 @@ export const QuestFilter: React.FC<Props> = ({
               <option value={10}>10</option>
               <option value={20}>20</option>
               <option value={50}>50</option>
-            </Select>
+            </MetaSelect>
           </WrapItem>
           <WrapItem>
-            <Select
+            <MetaSelect
               value={queryVariables.order as string}
               onChange={(e) => setQueryVariable('order', e.target.value)}
             >
               <option value={Order_By.Desc}>Newest</option>
               <option value={Order_By.Asc}>Oldest</option>
-            </Select>
+            </MetaSelect>
           </WrapItem>
           <WrapItem>
-            <Select
+            <MetaSelect
               value={queryVariables.status as string}
               onChange={(e) => setQueryVariable('status', e.target.value)}
             >
               <option value={QuestStatus_Enum.Open}>Open</option>
               <option value={QuestStatus_Enum.Closed}>Closed</option>
-            </Select>
+            </MetaSelect>
           </WrapItem>
           <WrapItem>
-            <Select
+            <MetaSelect
               value={(queryVariables.guild_id as string) || ''}
               onChange={(e) => setQueryVariable('guild_id', e.target.value)}
             >
@@ -84,7 +84,7 @@ export const QuestFilter: React.FC<Props> = ({
                     {g.name}
                   </option>
                 ))}
-            </Select>
+            </MetaSelect>
           </WrapItem>
 
           {myId && (
@@ -94,6 +94,8 @@ export const QuestFilter: React.FC<Props> = ({
                   size="md"
                   colorScheme="cyan"
                   variant="outline"
+                  borderWidth="2px"
+                  borderRadius="4px"
                   px={4}
                   onClick={() =>
                     setQueryVariable(
@@ -107,13 +109,6 @@ export const QuestFilter: React.FC<Props> = ({
                     isChecked={
                       myId && queryVariables.created_by_player_id === myId
                     }
-                    onClick={(e) => {
-                      setQueryVariable(
-                        'created_by_player_id',
-                        queryVariables.created_by_player_id ? '' : myId,
-                      );
-                      e.preventDefault();
-                    }}
                   />
                 </MetaButton>
               </Flex>
