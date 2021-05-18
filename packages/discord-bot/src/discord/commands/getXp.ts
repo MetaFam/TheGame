@@ -12,7 +12,6 @@ import {
 import { getDiscordId, replyWithUnexpectedError } from '../../utils';
 
 export class GetXpCommand {
-  // todo rename to xp once previous bot is disabled
   @Command('!xp :discordUser')
   async getXp(message: CommandMessage) {
     let targetUserDiscordId = '';
