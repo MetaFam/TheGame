@@ -3,13 +3,15 @@ import { Client } from '@typeit/discord';
 
 import { CONFIG } from './config';
 
+// Within a docker container: We are using tsc, so we want to load the compiled files.
+// For local dev, we are transpiling: Load the .ts files.
+const glob = process.env.RUNTIME_ENV === 'docker' ?
+  `${__dirname}/discord/**/*.js` :
+  `${__dirname}/discord/**/*.ts` 
+
 async function createDiscordClient(): Promise<Client> {
   const client = new Client({
-    classes: [
-      // We are using tsc, so we want to load the compiled files
-      `${__dirname}/discord/**/*.ts`, // glob string to load the classes
-      `${__dirname}/discord/**/*.js`, // glob string to load the classes
-    ],
+    classes: [glob],
     silent: false,
     variablesChar: ':',
   });

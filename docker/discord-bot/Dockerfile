@@ -28,4 +28,6 @@ COPY packages/@types ./packages/@types/
 # Build
 RUN yarn discord-bot build
 
+ENV RUNTIME_ENV=docker
+
 CMD [ "yarn", "discord-bot", "start" ]

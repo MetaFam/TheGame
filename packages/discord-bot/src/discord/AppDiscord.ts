@@ -1,12 +1,15 @@
 import { Discord } from '@typeit/discord';
 import * as Path from 'path';
 
+
+// Within a docker container: We are using tsc, so we want to load the compiled files.
+// For local dev, we are transpiling: Load the .ts files.
+const glob = process.env.RUNTIME_ENV === 'docker' ?
+  Path.join(__dirname, 'commands', '*.js') :
+  Path.join(__dirname, 'commands', '*.ts')
+
 @Discord('', {
-  import: [
-    // We are using tsc, so we want to load the compiled files
-    Path.join(__dirname, 'commands', '*.ts'),
-    Path.join(__dirname, 'commands', '*.js'),
-  ],
+  import: [glob],
 })
 export abstract class AppDiscord {
   // This is triggered when a particular command doesn't exist
