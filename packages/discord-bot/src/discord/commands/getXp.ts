@@ -49,6 +49,7 @@ export class GetXpCommand {
         const userTotalCred = scAccount.totalCred;
         const numWeeks = scAccount.cred.length;
         const userWeeklyCred = scAccount.cred;
+
         const variation =
           (100 *
             (userWeeklyCred[numWeeks - 1] - userWeeklyCred[numWeeks - 2])) /
@@ -87,7 +88,7 @@ export class GetXpCommand {
               },
               {
                 name: 'Weekly Change',
-                value: `${variation.toPrecision(2)}%`,
+                value: `${Math.round(variation)}%`,
                 inline: true,
               },
             )
