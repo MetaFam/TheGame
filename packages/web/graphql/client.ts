@@ -23,18 +23,14 @@ const errorHasResponseTimeout = (err: CombinedError): boolean =>
   err.graphQLErrors.length > 0 &&
   !!err.graphQLErrors.find((_err) => _err.message === 'ResponseTimeout');
 
+const retryExchangeFunc = retryExchange({
+  retryIf: (error) => !!(errorHasResponseTimeout(error) || error.networkError),
+});
+
 export const client = createClient({
   url: CONFIG.graphqlURL,
   suspense: false,
-  exchanges: [
-    dedupExchange,
-    cacheExchange,
-    retryExchange({
-      retryIf: (error) =>
-        !!(errorHasResponseTimeout(error) || error.networkError),
-    }),
-    fetchExchange,
-  ],
+  exchanges: [dedupExchange, cacheExchange, retryExchangeFunc, fetchExchange],
 });
 
 export const getSsrClient = (): [Client, ReturnType<typeof ssrExchange>] => {
@@ -43,7 +39,13 @@ export const getSsrClient = (): [Client, ReturnType<typeof ssrExchange>] => {
   const ssrClient = initUrqlClient(
     {
       url: CONFIG.graphqlURL,
-      exchanges: [dedupExchange, cacheExchange, ssrCache, fetchExchange],
+      exchanges: [
+        dedupExchange,
+        cacheExchange,
+        ssrCache,
+        retryExchangeFunc,
+        fetchExchange,
+      ],
     },
     false,
   );

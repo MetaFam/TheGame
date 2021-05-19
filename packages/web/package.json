@@ -25,6 +25,7 @@
     "moment": "2.29.1",
     "next": "10.2.0",
     "next-images": "1.7.0",
+    "next-transpile-modules": "7.0.0",
     "next-urql": "3.1.0",
     "node-fetch": "2.6.1",
     "opensea-js": "1.1.11",
@@ -33,9 +34,9 @@
     "react-hook-form": "6.15.5",
     "react-icons": "4.2.0",
     "react-qr-svg": "2.3.0",
-    "spacetime": "6.16.0",
-    "spacetime-informal": "0.6.1",
     "urql": "2.0.2",
-    "web3modal": "1.9.3"
+    "web3modal": "1.9.3",
+    "spacetime": "6.16.1",
+    "spacetime-informal": "0.6.1"
   }
 }

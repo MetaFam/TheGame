@@ -1,15 +1,20 @@
 export { BoxedNextImage } from './BoxedNextImage';
 export { ConfirmModal } from './ConfirmModal';
-export { BrightIdIcon, Icon3box } from './icons';
+export * from './icons';
 export { LoadingState } from './LoadingState';
 export { MetaBox } from './MetaBox';
 export { MetaButton } from './MetaButton';
 export { MetaHeading } from './MetaHeading';
+export { MetaSelect } from './MetaSelect';
 export { MetaTag } from './MetaTag';
 export { MetaTile, MetaTileBody, MetaTileHeader } from './MetaTile';
 export { ResponsiveText } from './ResponsiveText';
 export { SelectSearch, selectStyles } from './SelectSearch';
-export { SelectTimeZone } from './SelectTimeZone';
+export {
+  SelectTimeZone,
+  TimezoneOptions,
+  TimezoneType,
+} from './SelectTimeZone';
 export { SVG } from './SVG';
 export { theme as MetaTheme } from './theme';
 export { H1, P } from './typography';

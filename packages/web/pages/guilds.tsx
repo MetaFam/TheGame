@@ -1,5 +1,5 @@
 import { PageContainer } from 'components/Container';
-import { GuildList } from 'components/GuildList';
+import { GuildList } from 'components/Guild/GuildList';
 import { getGuilds } from 'graphql/getGuilds';
 import { InferGetStaticPropsType } from 'next';
 import React from 'react';

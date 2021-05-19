@@ -14,6 +14,10 @@ export const theme: Theme = extendTheme({
         background: 'dark',
         color: 'white',
         minHeight: '100vh',
+        option: {
+          background: 'dark',
+          color: 'white',
+        },
       },
     },
   },
