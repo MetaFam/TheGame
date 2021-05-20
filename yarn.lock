@@ -13885,6 +13885,15 @@ fs-extra@^0.30.0:
     path-is-absolute "^1.0.0"
     rimraf "^2.2.8"
 
+fs-extra@^10.0.0:
+  version "10.0.0"
+  resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-10.0.0.tgz#9ff61b655dde53fb34a82df84bb214ce802e17c1"
+  integrity sha512-C5owb14u9eJwizKGdchcDUQeFtlSHHthBk8pbX9Vc1PFZrLombudjDnNns88aYslCyF6IY5SUw3Roz6xShcEIQ==
+  dependencies:
+    graceful-fs "^4.2.0"
+    jsonfile "^6.0.1"
+    universalify "^2.0.0"
+
 fs-extra@^9.0.0, fs-extra@^9.0.1, fs-extra@^9.1.0:
   version "9.1.0"
   resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-9.1.0.tgz#5954460c764a8da2094ba3554bf839e6b9a7c86d"
@@ -23157,10 +23166,10 @@ quick-lru@^4.0.1:
   resolved "https://registry.yarnpkg.com/quick-lru/-/quick-lru-4.0.1.tgz#5b8878f113a58217848c6482026c73e1ba57727f"
   integrity sha512-ARhCpm70fzdcvNQfPoy49IaanKkTlRWF2JMzqhcJbhSFRZv7nPTvZJdcY7301IPmvW+/p0RgIWnQDLJxifsQ7g==
 
-ra-core@^3.14.5:
-  version "3.14.5"
-  resolved "https://registry.yarnpkg.com/ra-core/-/ra-core-3.14.5.tgz#aec6102e3e5849552da315675001b94a962341e0"
-  integrity sha512-5pEmobyXwlsL0xhamrZvLGekMR13W3LdPq6HFYWGuwgviiPAU3jGcsVQOEFaerIBP6Xlm5qZnoZt4TcBh82z9A==
+ra-core@^3.13.4, ra-core@^3.14.5:
+  version "3.15.1"
+  resolved "https://registry.yarnpkg.com/ra-core/-/ra-core-3.15.1.tgz#bc23cc364976701363a17fa213f8d8cf79f84dfd"
+  integrity sha512-VYhZ12y8GrzZDJw07B21WEPAxwrB872Ap0RtEyslL8N+GBzANVE2QYBVOtvqTACBzUN5kQiT7jSmADgnZDbsOg==
   dependencies:
     classnames "~2.2.5"
     date-fns "^1.29.0"
@@ -23193,10 +23202,10 @@ ra-language-english@^3.14.5:
   dependencies:
     ra-core "^3.14.5"
 
-ra-ui-materialui@^3.14.5:
-  version "3.14.5"
-  resolved "https://registry.yarnpkg.com/ra-ui-materialui/-/ra-ui-materialui-3.14.5.tgz#f4439973a53b82bed5899f8468b2bf11f662de0e"
-  integrity sha512-EGkL093h7WJ+FJG+ZCozWYfjcyuM/a4qN0HoHdo9W4ivM3w5bcIQ6BmSByol0kLuooVyUpyGdDRQCqS5eExJlA==
+ra-ui-materialui@^3.13.4, ra-ui-materialui@^3.14.5:
+  version "3.15.1"
+  resolved "https://registry.yarnpkg.com/ra-ui-materialui/-/ra-ui-materialui-3.15.1.tgz#ac9334fb73ee47a07c15ffec11b731a2542ba8b5"
+  integrity sha512-BWEdq8HjbRjYZMDq6RFPULGkkcSw+7owaWKVDGnFimpGo67Lpna9HO6Db+o7NCGeWlGmYnSgo1qun4Wm6gzDxw==
   dependencies:
     autosuggest-highlight "^3.1.1"
     classnames "~2.2.5"
@@ -25346,11 +25355,13 @@ source-map@^0.6.0, source-map@^0.6.1, source-map@~0.6.0, source-map@~0.6.1:
   resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.6.1.tgz#74722af32e9614e9c287a8d0bbde48b5e2f1a263"
   integrity sha512-UjgapumWlbMhkBgzT7Ykc5YXUT46F0iKu8SGXq0bcwP5dz/h0Plj6enJqjz1Zbq2l5WaqYnrVbwWOWMyF3F47g==
 
-sourcecred@0.8.5:
-  version "0.8.5"
-  resolved "https://registry.yarnpkg.com/sourcecred/-/sourcecred-0.8.5.tgz#979dd66e286e0daac82858f8069b59deebedae1a"
-  integrity sha512-HsfDTFgyYvTkQUEfhmmhMNDrvLohKF4elLwPUFDIHF/VwbTODdl/cdEnGvTH/6YzSbXpBOsgsAV0oOq5DzgIxg==
+sourcecred@0.8.7:
+  version "0.8.7"
+  resolved "https://registry.yarnpkg.com/sourcecred/-/sourcecred-0.8.7.tgz#1002f6bcb0bf5671897908e84e4bf8ac8784397d"
+  integrity sha512-8VugdBIDaysgEj0iYaz/zu1oVFGGpEhvjdXHn5b2fqVS5cW2fnoRC6y8fBYmpUJYBpvZlUH+5V5j/L7JCBkjgg==
   dependencies:
+    "@material-ui/core" "^4.11.2"
+    "@material-ui/icons" "^4.11.2"
     "@material-ui/lab" "^4.0.0-alpha.56"
     aphrodite "^2.4.0"
     babel-plugin-transform-flow-strip-types "^6.22.0"
@@ -25360,6 +25371,7 @@ sourcecred@0.8.5:
     big-integer "^1.6.48"
     bottleneck "^2.19.5"
     chalk "^4.0.0"
+    classnames "~2.2.5"
     commonmark "0.29.1"
     cross-fetch "^3.0.6"
     d3-array "^2.4.0"
@@ -25370,8 +25382,9 @@ sourcecred@0.8.5:
     d3-time "^2.0.0"
     d3-time-format "^3.0.0"
     deep-freeze "^0.0.1"
+    entities "^2.0.0"
     express "^4.17.1"
-    fs-extra "^9.0.0"
+    fs-extra "^10.0.0"
     globby "^11.0.0"
     history "^5.0.0"
     htmlparser2 "^6.0.0"
@@ -25387,7 +25400,9 @@ sourcecred@0.8.5:
     object-assign "^4.1.1"
     pako "^2.0.3"
     promise "^8.1.0"
+    ra-core "^3.13.4"
     ra-data-fakerest "^3.6.2"
+    ra-ui-materialui "^3.13.4"
     react "^16.13.0"
     react-admin "^3.6.2"
     react-dom "^16.13.0"
