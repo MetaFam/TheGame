@@ -1,11 +1,13 @@
 import { ConfirmModal, Flex, HStack, MetaButton, MetaHeading } from '@metafam/ds';
 import { FlexContainer, PageContainer } from 'components/Container';
 import { EditGuildFormInputs, GuildForm } from 'components/Guild/GuildForm';
+import { GuildStatus_Enum } from 'graphql/autogen/types';
 import { getGuild } from 'graphql/getGuild';
-import { GetServerSidePropsContext, InferGetServerSidePropsType } from 'next';
+import { getGuildnames } from 'graphql/getGuilds';
+import { GetStaticPaths, GetStaticPropsContext, InferGetStaticPropsType } from 'next';
 import React, { useState } from 'react';
 
-type Props = InferGetServerSidePropsType<typeof getServerSideProps>;
+type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
 const SetupGuild: React.FC<Props> = ({ guild }) => {
   const onSubmit = (data: EditGuildFormInputs) => {
@@ -74,16 +76,29 @@ export default SetupGuild;
 
 type QueryParams = { guildname: string };
 
-export const getServerSideProps = async (
-  context: GetServerSidePropsContext<QueryParams>,
+export const getStaticPaths: GetStaticPaths<QueryParams> = async () => {
+  const guildnames = await getGuildnames(GuildStatus_Enum.Pending);
+
+  return {
+    paths: guildnames.map((guildname) => ({
+      params: { guildname },
+    })),
+    fallback: true,
+  };
+};
+
+export const getStaticProps = async (
+  context: GetStaticPropsContext<QueryParams>,
 ) => {
   const guildName = context.params?.guildname;
   const guild = await getGuild(guildName);
 
+  console.log('guildname', guildName);
+
   if (guild == null) {
     return {
       redirect: {
-        destination: '/',
+        destination: '/join',
         permanent: false,
       },
     }
