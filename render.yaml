@@ -1,11 +1,7 @@
 ###
- # Don't use sync: false with env variables within services directly,
- # as preview environments won't have access to them:
- # https://render.com/docs/preview-environments
+# Two pairs of each service are defined here, for production and staging.
 ###
 
-previewsEnabled: true
-previewsExpireAfterDays: 3 # automatically remove preview instances
 services:
   # Hasura
   - type: web
@@ -33,11 +29,37 @@ services:
       - key: PORT
         value: 10000
 
+  # Hasura (staging)
+  - type: web
+    name: staging-hasura
+    env: docker
+    branch: develop
+    healthCheckPath: /healthz
+    numInstances: 1
+    dockerfilePath: ./hasura/Dockerfile
+    dockerContext: ./hasura
+    envVars:
+      - fromGroup: hasura-staging-secrets
+      - key: HASURA_GRAPHQL_DATABASE_URL
+        fromDatabase:
+          name: staging-metagame-db
+          property: connectionString
+      - key: BACKEND_HOST
+        fromService:
+          name: backend
+          type: pserv
+          property: hostport
+      - key: HASURA_GRAPHQL_SERVER_PORT
+        value: 10000
+      - key: HASURA_GRAPHQL_ENABLE_CONSOLE
+        value: true
+      - key: PORT
+        value: 10000
+
   # backend prod
   - type: pserv
     name: backend
     env: docker
-    branch: master
     numInstances: 1
     dockerfilePath: ./docker/backend/Dockerfile
     dockerContext: .
@@ -48,6 +70,24 @@ services:
       - key: GRAPHQL_HOST
         fromService:
           name: hasura
+          type: web
+          property: host
+
+  # backend staging
+  - type: pserv
+    name: staging-backend
+    env: docker
+    branch: develop
+    numInstances: 1
+    dockerfilePath: ./docker/backend/Dockerfile
+    dockerContext: .
+    envVars:
+      - fromGroup: hasura-staging-secrets
+      - fromGroup: discord-secrets
+      - fromGroup: backend-secrets
+      - key: GRAPHQL_HOST
+        fromService:
+          name: staging-hasura
           type: web
           property: host
 
@@ -73,8 +113,12 @@ services:
           type: web
           property: host
 
+  # Note, no staging discord-bot
+
 databases:
   - name: metagame-db
+    plan: starter
+  - name: staging-metagame-db
     plan: starter
 
 envVarGroups:
@@ -82,14 +126,10 @@ envVarGroups:
     envVars:
       - key: HASURA_GRAPHQL_ADMIN_SECRET
         generateValue: true
-  - name: frontend
+  - name: hasura-staging-secrets
     envVars:
-      - key: NEXT_PUBLIC_INFURA_ID
-        sync: false
-      - key: NEXT_PUBLIC_GRAPHQL_URL
-        sync: false
-      - key: NEXT_TELEMETRY_DISABLED
-        value: 1
+      - key: HASURA_GRAPHQL_ADMIN_SECRET
+        generateValue: true
   - name: github-secrets
     envVars:
       - key: GITHUB_API_TOKEN
@@ -104,4 +144,3 @@ envVarGroups:
     envVars:
       - key: IMGIX_TOKEN
         sync: false
-
