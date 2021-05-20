@@ -20666,10 +20666,10 @@ next-tick@~1.0.0:
   resolved "https://registry.yarnpkg.com/next-tick/-/next-tick-1.0.0.tgz#ca86d1fe8828169b0120208e3dc8424b9db8342c"
   integrity sha1-yobR/ogoFpsBICCOPchCS524NCw=
 
-next-transpile-modules@7.0.0:
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/next-transpile-modules/-/next-transpile-modules-7.0.0.tgz#5a48988cede89bc5920defb15378093d0d8562eb"
-  integrity sha512-HgVczU5ajXKvE7HO3ZLmBmxXj79aq8jSZNYpCttim+MZ+b0GIsdk7AV2w7Ax/tIM1/dJA+vV/6loXCRYlbsGGA==
+next-transpile-modules@7.1.2:
+  version "7.1.2"
+  resolved "https://registry.yarnpkg.com/next-transpile-modules/-/next-transpile-modules-7.1.2.tgz#a58add6f9a6910e0c4ef8c1ecafd4a5f33959186"
+  integrity sha512-uKizsjRNB++vIcIyJ6zlf+SagsYsnrXecRtKl8mdlCbEl1Q1KlaV0Arb/dopWWWR29dnOlvCKiaCxODW79k1xg==
   dependencies:
     enhanced-resolve "^5.7.0"
     escalade "^3.1.1"
