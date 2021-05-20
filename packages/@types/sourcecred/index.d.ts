@@ -15,6 +15,7 @@ declare module 'sourcecred' {
         };
       };
       core: {
+        CredGrainView: typeof CredGrainView;
         address: {
           makeAddressModule: any;
         };
@@ -153,6 +154,10 @@ declare module 'sourcecred' {
           };
           contractions: any;
           graphNode: any;
+          identityIdParser: {
+            parse: any;
+            parseOrThrow: any;
+          };
           identityParser: {
             parse: any;
             parseOrThrow: any;
@@ -756,6 +761,23 @@ declare module 'sourcecred' {
 
   export = sourcecred;
 
+  export class CredGrainView {
+    constructor(graph: CredGraph, ledger: Ledger);
+    participants: () => ParticipantCredGrain[];
+
+    totalCredPerInterval: () => number[];
+
+    totalGrainPerInterval: () => string[];
+  }
+
+  export interface ParticipantCredGrain {
+    identity: SCIdentity;
+    cred: number;
+    credPerInterval: number[];
+    grainEarned: string;
+    grainEarnedPerInterval: string[];
+  }
+
   export interface LedgerManager {
     reloadLedger: () => Promise<ReloadResult>;
     ledger: Ledger;
@@ -805,7 +827,7 @@ declare module 'sourcecred' {
     aliases: SCAlias[];
     id: string;
     name: string;
-    subtype: string;
+    subtype: 'USER' | 'PROJECT' | 'ORGANIZATION' | 'BOT';
   }
 
   export interface SCAlias {

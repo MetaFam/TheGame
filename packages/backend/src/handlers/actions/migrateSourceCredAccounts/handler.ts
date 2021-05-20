@@ -1,13 +1,7 @@
-import { Constants, isNotNullOrUndefined } from '@metafam/utils';
+import { isNotNullOrUndefined } from '@metafam/utils';
 import bluebird from 'bluebird';
 import { Request, Response } from 'express';
-import fetch from 'node-fetch';
-import {
-  AddressBookEntry,
-  SCAccountsData,
-  SCAlias,
-  sourcecred as sc,
-} from 'sourcecred';
+import { SCAlias, sourcecred as sc } from 'sourcecred';
 
 import {
   AccountType_Enum,
@@ -18,6 +12,7 @@ import {
 } from '../../../lib/autogen/hasura-sdk';
 import { client } from '../../../lib/hasuraClient';
 import { computeRank } from '../../../lib/rankHelpers';
+import { ledgerManager, loadCredGraph } from '../../../lib/sourcecredLedger';
 
 const VALID_ACCOUNT_TYPES: Array<AccountType_Enum> = [
   AccountType_Enum.Ethereum,
@@ -26,26 +21,6 @@ const VALID_ACCOUNT_TYPES: Array<AccountType_Enum> = [
   AccountType_Enum.Github,
   AccountType_Enum.Twitter,
 ];
-
-const parseMergedIdentityId = (alias: SCAlias) => {
-  try {
-    const addressParts = sc.core.graph.NodeAddress.toParts(alias.address);
-
-    if (
-      addressParts[1].toUpperCase() === 'CORE' &&
-      addressParts[2].toUpperCase() === 'IDENTITY'
-    ) {
-      return addressParts[addressParts.length - 1];
-    }
-    return null;
-  } catch (e) {
-    console.log('Unable to parse merged identity: ', {
-      error: e.message,
-      alias,
-    });
-    return null;
-  }
-};
 
 const parseAlias = (alias: SCAlias) => {
   try {
@@ -73,46 +48,57 @@ export const migrateSourceCredAccounts = async (
   _: Request,
   res: Response,
 ): Promise<void> => {
-  const accountsData: SCAccountsData = await (
-    await fetch(Constants.SC_ACCOUNTS_FILE)
-  ).json();
+  const ledgerRes = await ledgerManager.reloadLedger();
+  if (ledgerRes.error) {
+    throw new Error(`Unable to load ledger: ${ledgerRes.error}`);
+  }
 
-  const addressBook: AddressBookEntry[] = await (
-    await fetch(Constants.SC_ADDRESS_BOOK_FILE)
-  ).json();
+  const credGraph = await loadCredGraph();
+  if (!credGraph) {
+    throw new Error(`Unable to load cred graph.`);
+  }
+
+  const credGrainView = new sc.core.CredGrainView(
+    credGraph,
+    ledgerManager.ledger,
+  );
+
+  const accounts = credGrainView.participants();
 
   const accountOnConflict = {
     constraint: Player_Account_Constraint.AccountIdentifierTypeKey,
     update_columns: [],
   };
 
-  const accountList = accountsData.accounts
-    .filter((a) => a.account.identity.subtype === 'USER')
-    .sort((a, b) => b.totalCred - a.totalCred)
+  const accountList = accounts
+    .filter((a) => a.identity.subtype === 'USER')
+    .sort((a, b) => b.cred - a.cred)
     .map((a, index) => {
-      const linkedAccounts = a.account.identity.aliases
+      const linkedAccounts = a.identity.aliases
         .map((alias) => parseAlias(alias))
-        .filter(isNotNullOrUndefined);
-
-      const mergedIdentityIds = a.account.identity.aliases
-        .map((alias) => parseMergedIdentityId(alias))
         .filter(isNotNullOrUndefined);
 
       const discordId = linkedAccounts.find(({ type }) => type === 'DISCORD')
         ?.identifier;
 
-      const addressEntry =
-        discordId && addressBook.find((adr) => adr.discordId === discordId);
+      const ethAddress = a.identity.aliases.find((alias) => {
+        const parts = sc.core.graph.NodeAddress.toParts(alias.address);
+        return parts.indexOf('ethereum') > 0;
+      })?.description;
+
+      if (!ethAddress) return null;
+
+      const username = a.identity.name.toLowerCase();
+      console.log({ ethAddress, username });
 
       const rank = computeRank(index);
       return {
-        ethereum_address: addressEntry && addressEntry.address.toLowerCase(),
-        scIdentityId: a.account.identity.id,
-        username: a.account.identity.name.toLowerCase(),
-        totalXp: a.totalCred,
+        ethereum_address: ethAddress.toLowerCase(),
+        scIdentityId: a.identity.id,
+        username,
+        totalXp: a.cred,
         rank,
         discordId,
-        mergedIdentityIds,
         Accounts: {
           // Omit the discord account, as that is updated directly on the player table
           data: linkedAccounts.filter(
@@ -121,7 +107,8 @@ export const migrateSourceCredAccounts = async (
           on_conflict: accountOnConflict,
         },
       };
-    });
+    })
+    .filter(isNotNullOrUndefined);
 
   try {
     const result = await bluebird.map(
@@ -135,11 +122,6 @@ export const migrateSourceCredAccounts = async (
           totalXp: player.totalXp,
           discordId: player.discordId,
         };
-        if (player.mergedIdentityIds.length) {
-          await client.DeleteDuplicatePlayers({
-            scIds: player.mergedIdentityIds,
-          });
-        }
 
         try {
           const updateResult = await client.UpdatePlayer(vars);
