@@ -3,7 +3,42 @@
 ###
 
 services:
-  # Hasura
+  # Backend prod
+  - type: pserv
+    name: backend
+    env: docker
+    numInstances: 1
+    dockerfilePath: ./docker/backend/Dockerfile
+    dockerContext: .
+    envVars:
+      - fromGroup: hasura-secrets
+      - fromGroup: discord-secrets
+      - fromGroup: backend-secrets
+      - key: GRAPHQL_HOST
+        fromService:
+          name: hasura
+          type: web
+          property: host
+
+  # Backend staging
+  - type: pserv
+    name: staging-backend
+    env: docker
+    branch: develop
+    numInstances: 1
+    dockerfilePath: ./docker/backend/Dockerfile
+    dockerContext: .
+    envVars:
+      - fromGroup: hasura-staging-secrets
+      - fromGroup: discord-secrets
+      - fromGroup: backend-secrets
+      - key: GRAPHQL_HOST
+        fromService:
+          name: staging-hasura
+          type: web
+          property: host
+
+  # Hasura prod
   - type: web
     name: hasura
     env: docker
@@ -29,7 +64,7 @@ services:
       - key: PORT
         value: 10000
 
-  # Hasura (staging)
+  # Hasura staging
   - type: web
     name: staging-hasura
     env: docker
@@ -55,41 +90,6 @@ services:
         value: true
       - key: PORT
         value: 10000
-
-  # backend prod
-  - type: pserv
-    name: backend
-    env: docker
-    numInstances: 1
-    dockerfilePath: ./docker/backend/Dockerfile
-    dockerContext: .
-    envVars:
-      - fromGroup: hasura-secrets
-      - fromGroup: discord-secrets
-      - fromGroup: backend-secrets
-      - key: GRAPHQL_HOST
-        fromService:
-          name: hasura
-          type: web
-          property: host
-
-  # backend staging
-  - type: pserv
-    name: staging-backend
-    env: docker
-    branch: develop
-    numInstances: 1
-    dockerfilePath: ./docker/backend/Dockerfile
-    dockerContext: .
-    envVars:
-      - fromGroup: hasura-staging-secrets
-      - fromGroup: discord-secrets
-      - fromGroup: backend-secrets
-      - key: GRAPHQL_HOST
-        fromService:
-          name: staging-hasura
-          type: web
-          property: host
 
   # discord-bot
   - type: web
