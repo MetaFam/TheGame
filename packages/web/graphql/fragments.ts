@@ -48,11 +48,13 @@ export const PlayerFragment = gql`
     daohausMemberships {
       id
       shares
+      molochAddress
       moloch {
         id
         title
         version
         totalShares
+        chain
       }
     }
     brightid_status {
