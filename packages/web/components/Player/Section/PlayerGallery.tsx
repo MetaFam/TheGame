@@ -109,7 +109,7 @@ export const PlayerGallery: React.FC<Props> = ({ player, onRemoveClick }) => {
                 >
                   NFT Gallery
                 </Text>
-                <ModalCloseButton />
+                <ModalCloseButton color="blueLight" />
               </HStack>
             </Box>
             <Flex p={2} css={modalContentStyles}>
