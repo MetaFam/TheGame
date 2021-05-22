@@ -2096,6 +2096,7 @@ type Member {
 }
 
 type Moloch {
+  chain: String!
   id: ID!
   summoner: String!
   title: String
