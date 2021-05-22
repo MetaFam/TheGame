@@ -10,7 +10,6 @@ const addChain = (memberAddress: string) => async (chain: string) => {
   return members.map((member: Member) => {
     const updatedMember: Member = { ...member };
     updatedMember.moloch.chain = chain;
-
     return updatedMember;
   });
 };
