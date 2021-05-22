@@ -3,6 +3,7 @@ interface IConfig {
   graphqlURL: string;
   daoHausGraphqlURL: string;
   seedGraphqlURL: string;
+  githubApiToken: string;
   adminKey: string;
   ipfsEndpoint: string;
   imgixToken: string;
@@ -47,6 +48,7 @@ export const CONFIG: IConfig = {
     process.env.HASURA_GRAPHQL_ADMIN_SECRET,
     'metagame_secret',
   ),
+  githubApiToken: parseEnv(process.env.GITHUB_API_TOKEN, ''),
   ipfsEndpoint: parseEnv(process.env.IPFS_ENDPOINT, 'https://ipfs.infura.io'),
   imgixToken: parseEnv(process.env.IMGIX_TOKEN, ''),
   pSEEDAddress: parseEnv(
