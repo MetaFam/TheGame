@@ -2,6 +2,8 @@ interface IConfig {
   port: number;
   graphqlURL: string;
   daoHausGraphqlURL: string;
+  daoHausPolygonGraphqlURL: string;
+  daoHausXdaiGraphqlURL: string;
   seedGraphqlURL: string;
   githubApiToken: string;
   adminKey: string;
@@ -43,6 +45,14 @@ export const CONFIG: IConfig = {
   daoHausGraphqlURL: parseEnv(
     process.env.DAOHAUS_GRAPHQL_URL,
     'https://api.thegraph.com/subgraphs/name/odyssy-automaton/daohaus',
+  ),
+  daoHausPolygonGraphqlURL: parseEnv(
+    process.env.DAOUHAUS_POLYGON_GRAPHQL_URL,
+    'https://api.thegraph.com/subgraphs/name/odyssy-automaton/daohaus-matic',
+  ),
+  daoHausXdaiGraphqlURL: parseEnv(
+    process.env.DAOUHAUS_XDAI_GRAPHQL_URL,
+    'https://api.thegraph.com/subgraphs/name/odyssy-automaton/daohaus-xdai',
   ),
   adminKey: parseEnv(
     process.env.HASURA_GRAPHQL_ADMIN_SECRET,
