@@ -24,7 +24,7 @@
     "@metafam/utils": "^1.0.0",
     "@typeit/discord": "4.0.9",
     "discord.js": "12.5.3",
-    "dotenv": "9.0.2",
+    "dotenv": "10.0.0",
     "ethers": "5.1.4",
     "express": "4.17.1",
     "graphql": "15.5.0",
