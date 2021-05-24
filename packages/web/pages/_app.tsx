@@ -18,6 +18,14 @@ const App: React.FC<WithUrqlProps> = ({
     <Head>
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <title>MetaGame</title>
+      <script async src="https://www.googletagmanager.com/gtag/js?id=%NEXT_PUBLIC_GA4_ID%"></script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments)}
+        gtag('js', new Date());
+
+        gtag('config', '%NEXT_PUBLIC_GA4_ID%');
+      </script>
     </Head>
     <Web3ContextProvider resetUrqlClient={resetUrqlClient}>
       <>
