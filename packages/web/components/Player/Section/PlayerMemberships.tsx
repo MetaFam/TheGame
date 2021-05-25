@@ -1,6 +1,7 @@
 import { Box, Flex, HStack, Text } from '@metafam/ds';
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
 import React from 'react';
+import { formatAddress } from 'utils/playerHelpers';
 
 import ethereumImage from '../../../assets/moloch/ethereum.png';
 import hausdaoImage from '../../../assets/moloch/hausdao.png';
@@ -8,6 +9,8 @@ import metacartelImage from '../../../assets/moloch/metacartel.png';
 import metaclanImage from '../../../assets/moloch/metaclan.png';
 import metagameImage from '../../../assets/moloch/metagame.png';
 import raidGuildImage from '../../../assets/moloch/raid_guild.png';
+import polygonImage from '../../../assets/network/polygon.png';
+import xDaiImage from '../../../assets/network/xDai.png';
 import { ProfileSection } from '../../ProfileSection';
 
 type Props = { player: PlayerFragmentFragment; onRemoveClick: () => void };
@@ -23,6 +26,8 @@ export const PlayerMemberships: React.FC<Props> = ({
     if (title.toLowerCase().includes('metacartel')) return metacartelImage;
     if (title.toLowerCase().includes('metaclan')) return metaclanImage;
     if (title.toLowerCase().includes('raid guild')) return raidGuildImage;
+    if (title.toLowerCase().includes('xdai')) return xDaiImage;
+    if (title.toLowerCase().includes('polygon')) return polygonImage;
     return ethereumImage;
   };
 
@@ -63,6 +68,7 @@ export const PlayerMemberships: React.FC<Props> = ({
             <HStack alignItems="center" mb={6} key={member.id}>
               <Flex bg="purpleBoxLight" width={16} height={16} mr={6}>
                 <Box
+                  // TODO do title || network || ''
                   bgImage={`url(${getImageMoloch(member.moloch.title || '')})`}
                   backgroundSize="cover"
                   width={12}
@@ -72,7 +78,9 @@ export const PlayerMemberships: React.FC<Props> = ({
               </Flex>
               <Box>
                 <Text fontSize="md" mb="1">
-                  {member.moloch.title}
+                  {member.moloch.title ||
+                    formatAddress(member.molochAddress) ||
+                    'Unknown DAO'}
                 </Text>
                 <HStack alignItems="center">
                   <Text fontSize="xs" casing="capitalize" mr={3}>

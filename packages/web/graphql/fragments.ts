@@ -53,7 +53,9 @@ export const PlayerFragment = gql`
         title
         version
         totalShares
+        chain
       }
+      molochAddress
     }
     brightid_status {
       unique

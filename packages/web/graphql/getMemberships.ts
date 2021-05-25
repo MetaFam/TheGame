@@ -14,6 +14,7 @@ const membershipsQuery = gql`
         id
         title
         version
+        chain
       }
     }
   }
