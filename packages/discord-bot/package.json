@@ -22,7 +22,7 @@
     "@types/express": "4.17.11",
     "@types/node-fetch": "2.5.10",
     "@metafam/utils": "^1.0.0",
-    "@typeit/discord": "4.0.9",
+    "@typeit/discord": "4.0.10",
     "discord.js": "12.5.3",
     "dotenv": "9.0.2",
     "ethers": "5.2.0",
