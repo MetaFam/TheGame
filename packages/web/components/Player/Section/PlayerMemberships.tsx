@@ -69,7 +69,9 @@ export const PlayerMemberships: React.FC<Props> = ({
               <Flex bg="purpleBoxLight" width={16} height={16} mr={6}>
                 <Box
                   // TODO do title || network || ''
-                  bgImage={`url(${getImageMoloch(member.moloch.title || '')})`}
+                  bgImage={`url(${getImageMoloch(
+                    member.moloch.title || member.moloch.chain || '',
+                  )})`}
                   backgroundSize="cover"
                   width={12}
                   height={12}

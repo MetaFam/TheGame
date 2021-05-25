@@ -43,7 +43,6 @@ export const typeDefs = gql`
     version: String
     totalShares: String!
     totalLoot: String!
-    address: String!
     chain: String!
   }
 
