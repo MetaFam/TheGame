@@ -5908,10 +5908,10 @@
   resolved "https://registry.yarnpkg.com/@tootallnate/once/-/once-1.1.2.tgz#ccb91445360179a04e7fe6aff78c00ffc1eeaf82"
   integrity sha512-RbzJvlNzmRq5c3O09UipeuXno4tA1FE6ikOjxZK0tuxVv3412l64l5t1W5pj4+rJq9vpkm/kwiR07aZXnsKPxw==
 
-"@typeit/discord@4.0.9":
-  version "4.0.9"
-  resolved "https://registry.yarnpkg.com/@typeit/discord/-/discord-4.0.9.tgz#179836595fe86f122138d5c3b415983f267f9f32"
-  integrity sha512-Y4zOONoFOdOD5P+5drbswYa7QzSaLBHVsdEwFPAQJYhU2+SxFq4rTlcp/C3I8nlS4Mqc5MaNghRpSf0YuPoLDg==
+"@typeit/discord@4.0.10":
+  version "4.0.10"
+  resolved "https://registry.yarnpkg.com/@typeit/discord/-/discord-4.0.10.tgz#ce71746466b51091695d01f55c92ef5427365539"
+  integrity sha512-aUkNbGlbFboR0VydHb07FCPS/o7mb2ipHtBKtpWUH4Xyl5LMWNtY2kL8cdNnoSftqDgSjtcG6yvCqD0XlHTlkg==
   dependencies:
     discord.js "^12.2.0"
     glob "^7.1.6"
