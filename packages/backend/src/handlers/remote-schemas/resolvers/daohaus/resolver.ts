@@ -1,5 +1,12 @@
-import * as daoHausClients from '../../../../lib/daoHausClient';
+import * as dhClients from '../../../../lib/daoHausClient';
 import { Member, QueryResolvers } from '../../autogen/types';
+
+const withChain = (chain: string, members: Member[]) =>
+  members.map((member: Member) => {
+    const updatedMember: Member = { ...member };
+    updatedMember.moloch.chain = chain;
+    return updatedMember;
+  });
 
 export const getDaoHausMemberships: QueryResolvers['getDaoHausMemberships'] = async (
   _,
@@ -8,15 +15,30 @@ export const getDaoHausMemberships: QueryResolvers['getDaoHausMemberships'] = as
   if (!memberAddress) return [];
 
   const res = await Promise.all([
-    daoHausClients.mainnet.GetDaoHausMemberships({ memberAddress }),
-    daoHausClients.polygon.GetDaoHausMemberships({ memberAddress }),
-    daoHausClients.xdai.GetDaoHausMemberships({ memberAddress }),
+    withChain(
+      'ethereum',
+      <Member[]>(
+        (await dhClients.mainnet.GetDaoHausMemberships({ memberAddress }))
+          .members
+      ),
+    ),
+    withChain(
+      'polygon',
+      <Member[]>(
+        (await dhClients.polygon.GetDaoHausMemberships({ memberAddress }))
+          .members
+      ),
+    ),
+    withChain(
+      'xdai',
+      <Member[]>(
+        (await dhClients.xdai.GetDaoHausMemberships({ memberAddress })).members
+      ),
+    ),
   ]);
 
-  // TODO should map network name onto this somehow
-
   const members: Member[] = res.reduce(
-    (allMembers, network) => [...allMembers, ...network.members],
+    (allMembers, networkMembers) => [...allMembers, ...networkMembers],
     <Member[]>[],
   );
 
