@@ -1,12 +1,16 @@
-import * as dhClients from '../../../../lib/daoHausClient';
+import { clients } from '../../../../lib/daoHausClient';
 import { Member, QueryResolvers } from '../../autogen/types';
 
-const withChain = (chain: string, members: Member[]) =>
-  members.map((member: Member) => {
-    const updatedMember: Member = { ...member };
-    updatedMember.moloch.chain = chain;
-    return updatedMember;
-  });
+const addChain = (memberAddress: string) => (chain: string) =>
+  clients[chain]
+    .GetDaoHausMemberships({ memberAddress })
+    .then((members: Member[]) => {
+      members.map((member: Member) => {
+        const updatedMember: Member = { ...member };
+        updatedMember.moloch.chain = chain;
+        return updatedMember;
+      });
+    });
 
 export const getDaoHausMemberships: QueryResolvers['getDaoHausMemberships'] = async (
   _,
@@ -14,27 +18,12 @@ export const getDaoHausMemberships: QueryResolvers['getDaoHausMemberships'] = as
 ) => {
   if (!memberAddress) return [];
 
+  const membershipsOn = addChain(memberAddress);
+
   const res = await Promise.all([
-    withChain(
-      'ethereum',
-      <Member[]>(
-        (await dhClients.mainnet.GetDaoHausMemberships({ memberAddress }))
-          .members
-      ),
-    ),
-    withChain(
-      'polygon',
-      <Member[]>(
-        (await dhClients.polygon.GetDaoHausMemberships({ memberAddress }))
-          .members
-      ),
-    ),
-    withChain(
-      'xdai',
-      <Member[]>(
-        (await dhClients.xdai.GetDaoHausMemberships({ memberAddress })).members
-      ),
-    ),
+    membershipsOn('ethereum'),
+    membershipsOn('polygon'),
+    membershipsOn('xdai'),
   ]);
 
   const members: Member[] = res.reduce(
