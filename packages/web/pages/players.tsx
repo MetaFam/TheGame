@@ -68,11 +68,15 @@ const Players: React.FC<Props> = () => {
   return (
     <PageContainer>
       <HeadComponent url="https://my.metagame.wtf/players" />
+<<<<<<< HEAD
       <VStack
         w="100%"
         spacing={{ base: '4', md: '8' }}
         pb={{ base: '16', lg: '0' }}
       >
+=======
+      <VStack w="100%" spacing="8">
+>>>>>>> d6b7215 (chore: rebase and squash)
         <PlayerFilter
           fetching={fetching}
           fetchingMore={fetchingMore}
