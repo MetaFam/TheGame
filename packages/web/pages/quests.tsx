@@ -10,6 +10,7 @@ import {
 import { PageContainer } from 'components/Container';
 import { QuestFilter } from 'components/Quest/QuestFilter';
 import { QuestList } from 'components/Quest/QuestList';
+import { HeadComponent } from 'components/Seo';
 import { getSsrClient } from 'graphql/client';
 import { getQuests } from 'graphql/getQuests';
 import { usePSeedBalance } from 'lib/hooks/balances';
@@ -51,6 +52,11 @@ const QuestsPage: React.FC<Props> = () => {
 
   return (
     <PageContainer>
+      <HeadComponent
+        title="Metagame's Quests"
+        description="Metagame is a Massive Online Coordination Game! Metagame has some epic quests going on!"
+        url="https://my.metagame.wtf/quests"
+      />
       <Box w="100%" maxW="80rem">
         <HStack justify="space-between" w="100%">
           <Heading>Quest explorer</Heading>

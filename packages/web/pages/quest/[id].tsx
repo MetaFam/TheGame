@@ -28,6 +28,7 @@ import { PageContainer } from '../../components/Container';
 import { PlayerTile } from '../../components/Player/PlayerTile';
 import { QuestCompletions } from '../../components/Quest/QuestCompletions';
 import { QuestDetails } from '../../components/Quest/QuestDetails';
+import { HeadComponent } from '../../components/Seo';
 import { getSsrClient } from '../../graphql/client';
 import { useUser } from '../../lib/hooks';
 import { canCompleteQuest } from '../../utils/questHelpers';
@@ -59,6 +60,11 @@ const QuestPage: React.FC<Props> = ({ quest_id }) => {
 
   return (
     <PageContainer>
+      <HeadComponent
+        title="Metagame Quests"
+        description={quest.title}
+        url={`https://my.metagame.wtf/quest/${quest_id}`}
+      />
       <Box w="100%" maxW="80rem">
         <Box mb={4} px={2}>
           <MetaButton
