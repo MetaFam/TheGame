@@ -1,21 +1,91 @@
 import {
+  Button,
+  CloseIcon,
+  FilterTag,
+  Flex,
+  IconButton,
   Input,
+  InputGroup,
+  InputRightElement,
   MetaButton,
-  MetaSelect,
+  MetaFilterSelectSearch,
+  MetaTheme,
+  selectStyles,
   Stack,
+  styled,
   Text,
   TimezoneOptions,
-  TimezoneType,
-  VStack,
+  useBreakpointValue,
   Wrap,
   WrapItem,
 } from '@metafam/ds';
 import {
   GetPlayersQueryVariables,
   PlayerFragmentFragment,
+  SkillCategory_Enum,
 } from 'graphql/autogen/types';
-import { PlayerAggregates, QueryVariableSetter } from 'lib/hooks/players';
-import React, { useState } from 'react';
+import { SkillColors } from 'graphql/types';
+import {
+  PlayerAggregates,
+  QueryVariableSetter,
+  useFiltersUsed,
+} from 'lib/hooks/players';
+import React, { useEffect, useRef, useState } from 'react';
+import { SkillOption } from 'utils/skillHelpers';
+
+const Form = styled.form({
+  width: '100%',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+});
+
+type ValueType = { value: string; label: string };
+
+const styles: typeof selectStyles = {
+  ...selectStyles,
+  multiValue: (s, { data }) => ({
+    ...s,
+    background: SkillColors[data.category as SkillCategory_Enum],
+    color: MetaTheme.colors.white,
+  }),
+  multiValueLabel: (s, { data }) => ({
+    ...s,
+    background: SkillColors[data.category as SkillCategory_Enum],
+    color: MetaTheme.colors.white,
+  }),
+  groupHeading: (s, { children }) => ({
+    ...s,
+    ...(selectStyles.groupHeading &&
+      selectStyles.groupHeading(s, { children })),
+    background: SkillColors[children as SkillCategory_Enum],
+    borderTop: `1px solid ${MetaTheme.colors.borderPurple}`,
+    margin: 0,
+  }),
+  option: (s, { isSelected }) => ({
+    ...s,
+    backgroundColor: 'transparent',
+    fontWeight: isSelected ? 'bold' : 'normal',
+    ':hover': {
+      backgroundColor: 'transparent',
+      color: MetaTheme.colors.white,
+    },
+    ':focus': {
+      boxShadow: '0 0 0 3px rgba(66, 153, 225, 0.6)',
+    },
+  }),
+  menu: () => ({}),
+  control: (s) => ({
+    ...s,
+    background: MetaTheme.colors.dark,
+    border: 'none',
+    ':hover': {},
+  }),
+  noOptionsMessage: (s) => ({
+    ...s,
+    borderTop: `1px solid ${MetaTheme.colors.borderPurple}`,
+  }),
+};
 
 type Props = {
   fetching: boolean;
@@ -23,6 +93,7 @@ type Props = {
   aggregates: PlayerAggregates;
   queryVariables: GetPlayersQueryVariables;
   setQueryVariable: QueryVariableSetter;
+  resetFilter: () => void;
 };
 
 export const PlayerFilter: React.FC<Props> = ({
@@ -31,8 +102,15 @@ export const PlayerFilter: React.FC<Props> = ({
   aggregates,
   queryVariables,
   setQueryVariable,
+  resetFilter,
 }) => {
   const [search, setSearch] = useState<string>('');
+
+  const [skills, setSkills] = useState<SkillOption[]>([]);
+  const [playerTypes, setPlayerTypes] = useState<ValueType[]>([]);
+  const [timezones, setTimezones] = useState<ValueType[]>([]);
+  const [availability, setAvailability] = useState<ValueType | null>(null);
+
   const onSearch = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (search.length >= 2) {
@@ -41,9 +119,60 @@ export const PlayerFilter: React.FC<Props> = ({
       setQueryVariable('search', `%%`);
     }
   };
+
+  const { filtersUsed } = useFiltersUsed(queryVariables);
+
+  const [isElementSticky, setIsSticky] = useState<boolean>(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const cachedRef = ref.current as Element;
+    const observer = new IntersectionObserver(
+      ([e]) => setIsSticky(e.intersectionRatio < 1),
+      { threshold: [1] },
+    );
+
+    observer.observe(cachedRef);
+
+    return () => observer.unobserve(cachedRef);
+  }, []);
+
+  const isSmallScreen = useBreakpointValue({ base: true, md: false });
+  const isSticky = !isSmallScreen && isElementSticky;
+
+  useEffect(() => {
+    setQueryVariable(
+      'playerTypeIds',
+      playerTypes.length > 0
+        ? playerTypes.map((pT) => Number.parseInt(pT.value, 10))
+        : null,
+    );
+  }, [setQueryVariable, playerTypes]);
+
+  useEffect(() => {
+    setQueryVariable(
+      'skillIds',
+      skills.length > 0 ? skills.map((s) => s.id) : null,
+    );
+  }, [setQueryVariable, skills]);
+
+  useEffect(() => {
+    setQueryVariable(
+      'timezones',
+      timezones.length > 0 ? timezones.map((t) => t.value) : null,
+    );
+  }, [setQueryVariable, timezones]);
+
+  useEffect(() => {
+    setQueryVariable(
+      'availability',
+      availability ? parseInt(availability.value, 10) : 0,
+    );
+  }, [setQueryVariable, availability]);
+
   return (
     <>
-      <form onSubmit={onSearch}>
+      <Form onSubmit={onSearch}>
         <Stack
           spacing="4"
           w="100%"
@@ -51,172 +180,195 @@ export const PlayerFilter: React.FC<Props> = ({
           direction={{ base: 'column', md: 'row' }}
           align="center"
         >
-          <Input
-            background="dark"
-            w="100%"
-            type="text"
-            minW={{ base: 'sm', sm: 'md', md: 'lg', lg: 'xl' }}
-            placeholder="SEARCH PLAYERS BY USERNAME OR ETHEREUM ADDRESS"
-            _placeholder={{ color: 'whiteAlpha.500' }}
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            size="lg"
-            borderRadius="0"
-            borderColor="purple.400"
-            fontSize="md"
-            borderWidth="2px"
-          />
-          <MetaButton type="submit" size="lg" isLoading={fetching} px="16">
+          <InputGroup size="lg">
+            <Input
+              background="dark"
+              w="100%"
+              type="text"
+              minW={{ base: '18rem', sm: 'md', md: 'lg', lg: 'xl' }}
+              placeholder="SEARCH PLAYERS BY USERNAME OR ETHEREUM ADDRESS"
+              _placeholder={{ color: 'whiteAlpha.500' }}
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              size="lg"
+              borderRadius="0"
+              borderColor="borderPurple"
+              fontSize="md"
+              borderWidth="2px"
+            />
+            {search.length > 0 && (
+              <InputRightElement>
+                <IconButton
+                  variant="link"
+                  colorScheme="cyan"
+                  icon={<CloseIcon />}
+                  onClick={() => {
+                    setSearch('');
+                    setQueryVariable('search', `%%`);
+                  }}
+                  aria-label="Clear Search"
+                />
+              </InputRightElement>
+            )}
+          </InputGroup>
+          <MetaButton type="submit" size="lg" isDisabled={fetching} px="16">
             SEARCH
           </MetaButton>
         </Stack>
-      </form>
+      </Form>
       <Wrap
-        justify="space-between"
-        w="100%"
-        bg="whiteAlpha.200"
+        spacing="4"
+        justify={{ base: 'flex-start', md: 'center' }}
+        w={isSticky ? 'calc(100% + 6rem)' : '100%'}
+        maxW={isSticky ? 'auto' : '79rem'}
+        transition="all 0.25s"
+        bg={isElementSticky ? 'purpleTag70' : 'whiteAlpha.200'}
+        py="6"
+        px={isSticky ? '4.5rem' : '1.5rem'}
         style={{ backdropFilter: 'blur(7px)' }}
-        p="6"
-        borderRadius="6px"
-        maxW="79rem"
+        borderRadius={isSticky ? '0px' : '6px'}
+        ref={ref}
+        position={isSmallScreen ? 'relative' : 'sticky'}
+        top="-1px"
+        borderTop="1px solid transparent"
+        zIndex="1"
+        align="center"
       >
         <WrapItem>
-          <Wrap spacing="4">
-            <WrapItem>
-              <VStack spacing="2" w="100%">
-                <Text
-                  textTransform="uppercase"
-                  color="blueLight"
-                  w="100%"
-                  fontSize="xs"
-                >
-                  Show
-                </Text>
-                <MetaSelect
-                  value={queryVariables.limit as number}
-                  onChange={(e) =>
-                    setQueryVariable('limit', Number(e.target.value))
-                  }
-                  minW="3rem"
-                >
-                  <option value={10}>10</option>
-                  <option value={20}>20</option>
-                  <option value={50}>50</option>
-                  <option value={150}>150</option>
-                </MetaSelect>
-              </VStack>
-            </WrapItem>
-            <WrapItem>
-              <VStack spacing="2" w="100%">
-                <Text
-                  textTransform="uppercase"
-                  color="blueLight"
-                  w="100%"
-                  fontSize="xs"
-                >
-                  Player Type
-                </Text>
-                <MetaSelect
-                  value={(queryVariables.playerType as number) || ''}
-                  onChange={(e) =>
-                    setQueryVariable('playerType', e.target.value)
-                  }
-                >
-                  <option value="">All Types</option>
-                  {aggregates.playerTypes &&
-                    aggregates.playerTypes.map(({ id, title }) => (
-                      <option key={id} value={id}>
-                        {title}
-                      </option>
-                    ))}
-                </MetaSelect>
-              </VStack>
-            </WrapItem>
-            <WrapItem>
-              <VStack spacing="2" w="100%">
-                <Text
-                  textTransform="uppercase"
-                  color="blueLight"
-                  w="100%"
-                  fontSize="xs"
-                >
-                  Skills
-                </Text>
-                <MetaSelect
-                  value={(queryVariables.skillCategory as string) || ''}
-                  onChange={(e) =>
-                    setQueryVariable('skillCategory', e.target.value)
-                  }
-                >
-                  <option value="">All Skills</option>
-                  {aggregates.skillCategories &&
-                    aggregates.skillCategories.map(({ name }) => (
-                      <option key={name} value={name}>
-                        {name}
-                      </option>
-                    ))}
-                </MetaSelect>
-              </VStack>
-            </WrapItem>
-            <WrapItem>
-              <VStack spacing="2" w="100%">
-                <Text
-                  textTransform="uppercase"
-                  color="blueLight"
-                  w="100%"
-                  fontSize="xs"
-                >
-                  Availability
-                </Text>
-                <MetaSelect
-                  value={queryVariables.availability as number}
-                  onChange={(e) =>
-                    setQueryVariable('availability', e.target.value)
-                  }
-                >
-                  <option value={0}>Any h/week</option>
-                  <option value={1}>{'> 1 h/week'}</option>
-                  <option value={5}>{'> 5 h/week'}</option>
-                  <option value={10}>{'> 10 h/week'}</option>
-                  <option value={20}>{'> 20 h/week'}</option>
-                  <option value={30}>{'> 30 h/week'}</option>
-                  <option value={40}>{'> 40 h/week'}</option>
-                </MetaSelect>
-              </VStack>
-            </WrapItem>
-            <WrapItem>
-              <VStack spacing="2" w="100%">
-                <Text
-                  textTransform="uppercase"
-                  color="blueLight"
-                  w="100%"
-                  fontSize="xs"
-                >
-                  Timezone
-                </Text>
-                <MetaSelect
-                  value={(queryVariables.timezone as string) || ''}
-                  onChange={(e) => setQueryVariable('timezone', e.target.value)}
-                >
-                  <option value="">All timezones</option>
-                  {TimezoneOptions.map((z: TimezoneType) => (
-                    <option key={z.id} value={z.id}>
-                      {z.label}
-                    </option>
-                  ))}
-                </MetaSelect>
-              </VStack>
-            </WrapItem>
-          </Wrap>
+          <MetaFilterSelectSearch
+            title="Type Of Player"
+            styles={styles}
+            value={playerTypes}
+            onChange={(value) => {
+              setPlayerTypes(value as ValueType[]);
+            }}
+            options={aggregates.playerTypes.map(({ id, title }) => ({
+              value: id.toString(),
+              label: title,
+            }))}
+          />
         </WrapItem>
-        {players && !fetching && (
-          <WrapItem>
-            <Text align="center" fontWeight="bold">
-              {players.length} players
-            </Text>
-          </WrapItem>
-        )}
+        <WrapItem>
+          <MetaFilterSelectSearch
+            title="Skills"
+            styles={styles}
+            value={skills}
+            onChange={(value) => {
+              setSkills(value as SkillOption[]);
+            }}
+            options={aggregates.skillChoices}
+            showSearch
+          />
+        </WrapItem>
+        <WrapItem>
+          <MetaFilterSelectSearch
+            title="Availability"
+            styles={styles}
+            value={availability}
+            onChange={(value) => {
+              const values = value as ValueType[];
+              setAvailability(values[values.length - 1]);
+            }}
+            options={[1, 5, 10, 20, 30, 40].map((value) => ({
+              value: value.toString(),
+              label: `> ${value.toString()} h/week`,
+            }))}
+          />
+        </WrapItem>
+        <WrapItem>
+          <MetaFilterSelectSearch
+            title="Time Zone"
+            styles={styles}
+            value={timezones}
+            onChange={(value) => {
+              setTimezones(value as ValueType[]);
+            }}
+            options={TimezoneOptions.map(({ id, label }) => ({
+              value: id.toString(),
+              label,
+            }))}
+            showSearch
+          />
+        </WrapItem>
       </Wrap>
+      {filtersUsed && (
+        <Flex w="100%" maxW="79rem" justify="space-between">
+          <Wrap flex="1">
+            <WrapItem>
+              <Flex w="100%" h="100%" justify="center" align="center">
+                <Text> {`Selected Filters: `}</Text>
+              </Flex>
+            </WrapItem>
+            {playerTypes.map(({ value, label }, index) => (
+              <WrapItem key={value}>
+                <FilterTag
+                  label={label}
+                  onRemove={() => {
+                    const newPlayerTypes = playerTypes.slice();
+                    newPlayerTypes.splice(index, 1);
+                    setPlayerTypes(newPlayerTypes);
+                  }}
+                />
+              </WrapItem>
+            ))}
+            {skills.map(({ value, label }, index) => (
+              <WrapItem key={value}>
+                <FilterTag
+                  label={label}
+                  onRemove={() => {
+                    const newSkills = skills.slice();
+                    newSkills.splice(index, 1);
+                    setSkills(newSkills);
+                  }}
+                />
+              </WrapItem>
+            ))}
+            {timezones.map(({ value, label }, index) => (
+              <WrapItem key={value}>
+                <FilterTag
+                  label={label}
+                  onRemove={() => {
+                    const newTimezones = timezones.slice();
+                    newTimezones.splice(index, 1);
+                    setTimezones(newTimezones);
+                  }}
+                />
+              </WrapItem>
+            ))}
+            {availability && (
+              <WrapItem>
+                <FilterTag
+                  label={`Available >${availability.value} h/week`}
+                  onRemove={() => {
+                    setAvailability(null);
+                  }}
+                />
+              </WrapItem>
+            )}
+          </Wrap>
+          <Button
+            variant="link"
+            color="cyan.400"
+            onClick={() => {
+              resetFilter();
+              setSkills([]);
+              setPlayerTypes([]);
+              setTimezones([]);
+              setAvailability(null);
+            }}
+            minH="2.5rem"
+          >
+            RESET ALL FILTERS
+          </Button>
+        </Flex>
+      )}
+      <Flex justify="space-between" w="100%" maxW="80rem" px="4">
+        <Text fontWeight="bold" fontSize="xl" w="100%" maxW="79rem">
+          {players && !fetching
+            ? `${players.length} player${players.length > 1 ? 's' : ''}`
+            : ''}
+        </Text>
+      </Flex>
     </>
   );
 };

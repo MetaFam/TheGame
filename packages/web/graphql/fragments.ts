@@ -160,3 +160,11 @@ export const TokenBalancesFragment = gql`
     pSeedBalance
   }
 `;
+
+export const PlayerSkillFragment = gql`
+  fragment PlayerSkillFragment on skill {
+    id
+    name
+    category
+  }
+`;

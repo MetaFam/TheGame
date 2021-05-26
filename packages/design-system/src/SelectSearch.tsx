@@ -1,16 +1,24 @@
 import React from 'react';
-import Select, { Props as SelectProps, Styles } from 'react-select';
+import Select, { components, Props as SelectProps, Styles } from 'react-select';
 
 import { theme } from './theme';
 
+export const SelectComponents = components;
+
 export const selectStyles: Styles = {
+  menuPortal: (styles) => ({
+    ...styles,
+    borderRadius: theme.radii.md,
+  }),
   menu: (styles) => ({
     ...styles,
     background: theme.colors.dark,
+    minWidth: '15rem',
+    border: `2px solid ${theme.colors.borderPurple}`,
   }),
   menuList: (styles) => ({
     ...styles,
-    paddingTop: 0,
+    padding: 0,
   }),
   noOptionsMessage: (styles) => ({
     ...styles,
@@ -33,20 +41,23 @@ export const selectStyles: Styles = {
     paddingBottom: theme.space['3'],
     position: 'sticky',
     top: 0,
-    borderRadius: theme.radii.md,
   }),
   option: (styles) => ({
     ...styles,
-    background: theme.colors.dark,
+    backgroundColor: 'transparent',
     ':hover': {
-      backgroundColor: theme.colors.purpleTag,
+      backgroundColor: theme.colors.whiteAlpha[100],
       color: theme.colors.white,
     },
   }),
   control: (styles) => ({
     ...styles,
+    minWidth: '6rem',
     background: theme.colors.dark,
-    border: theme.colors.dark,
+    border: `2px solid ${theme.colors.borderPurple}`,
+    ':hover': {
+      borderColor: theme.colors.white,
+    },
   }),
   multiValue: (styles) => ({
     ...styles,
