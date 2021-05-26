@@ -4,7 +4,7 @@ import { PlayerFilter } from 'components/Player/PlayerFilter';
 import { PlayerList } from 'components/Player/PlayerList';
 import { HeadComponent } from 'components/Seo';
 import { getSsrClient } from 'graphql/client';
-import { getPlayers } from 'graphql/getPlayers';
+import { getPlayerFilters, getPlayers } from 'graphql/getPlayers';
 import { usePlayerFilter } from 'lib/hooks/players';
 import { InferGetStaticPropsType } from 'next';
 import React from 'react';
@@ -13,8 +13,11 @@ type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
 export const getStaticProps = async () => {
   const [ssrClient, ssrCache] = getSsrClient();
+
   // This populate the cache server-side
   await getPlayers(undefined, ssrClient);
+  await getPlayerFilters(ssrClient);
+
   return {
     props: {
       urqlState: ssrCache.extractData(),
@@ -31,6 +34,7 @@ const Players: React.FC<Props> = () => {
     error,
     queryVariables,
     setQueryVariable,
+    resetFilter,
   } = usePlayerFilter();
   return (
     <PageContainer>
@@ -42,6 +46,7 @@ const Players: React.FC<Props> = () => {
           queryVariables={queryVariables}
           setQueryVariable={setQueryVariable}
           players={players || []}
+          resetFilter={resetFilter}
         />
         {error && <Text>{`Error: ${error.message}`}</Text>}
         {fetching && <LoadingState />}
