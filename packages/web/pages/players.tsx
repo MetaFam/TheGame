@@ -2,6 +2,7 @@ import { LoadingState, Text, VStack } from '@metafam/ds';
 import { PageContainer } from 'components/Container';
 import { PlayerFilter } from 'components/Player/PlayerFilter';
 import { PlayerList } from 'components/Player/PlayerList';
+import { HeadComponent } from 'components/Seo';
 import { getSsrClient } from 'graphql/client';
 import { getPlayers } from 'graphql/getPlayers';
 import { usePlayerFilter } from 'lib/hooks/players';
@@ -33,6 +34,7 @@ const Players: React.FC<Props> = () => {
   } = usePlayerFilter();
   return (
     <PageContainer>
+      <HeadComponent url="https://my.metagame.wtf/players" />
       <VStack w="100%" spacing="8">
         <PlayerFilter
           fetching={fetching}

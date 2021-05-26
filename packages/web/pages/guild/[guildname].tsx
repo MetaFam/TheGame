@@ -16,6 +16,7 @@ import { PageContainer } from '../../components/Container';
 import { GuildHero } from '../../components/Guild/GuildHero';
 import { GuildLinks } from '../../components/Guild/GuildLinks';
 import { ProfileSection } from '../../components/ProfileSection';
+import { HeadComponent } from '../../components/Seo';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
@@ -32,6 +33,12 @@ const GuildPage: React.FC<Props> = ({ guild, quests }) => {
 
   return (
     <PageContainer>
+      <HeadComponent
+        title={guild.name}
+        description={`${guild.description}`}
+        url={`https://my.metagame.wtf/guild/${guild.guildname}`}
+        img={`${guild.logo}`}
+      />
       <Flex
         align="center"
         direction={{ base: 'column', lg: 'row' }}
