@@ -81,7 +81,7 @@ services:
           property: connectionString
       - key: BACKEND_HOST
         fromService:
-          name: backend
+          name: staging-backend
           type: pserv
           property: hostport
       - key: HASURA_GRAPHQL_SERVER_PORT
