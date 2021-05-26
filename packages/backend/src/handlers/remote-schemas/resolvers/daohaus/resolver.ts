@@ -1,16 +1,18 @@
-import { clients } from '../../../../lib/daoHausClient';
+import { clientFactory } from '../../../../lib/daoHausClient';
 import { Member, QueryResolvers } from '../../autogen/types';
 
-const addChain = (memberAddress: string) => (chain: string) =>
-  clients[chain]
-    .GetDaoHausMemberships({ memberAddress })
-    .then((members: Member[]) => {
-      members.map((member: Member) => {
-        const updatedMember: Member = { ...member };
-        updatedMember.moloch.chain = chain;
-        return updatedMember;
-      });
-    });
+const addChain = (memberAddress: string) => async (chain: string) => {
+  const client = clientFactory(chain);
+  const members = <Member[]>(
+    (await client.GetDaoHausMemberships({ memberAddress })).members
+  );
+
+  return members.map((member: Member) => {
+    const updatedMember: Member = { ...member };
+    updatedMember.moloch.chain = chain;
+    return updatedMember;
+  });
+};
 
 export const getDaoHausMemberships: QueryResolvers['getDaoHausMemberships'] = async (
   _,

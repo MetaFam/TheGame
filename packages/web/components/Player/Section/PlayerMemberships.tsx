@@ -3,14 +3,14 @@ import { PlayerFragmentFragment } from 'graphql/autogen/types';
 import React from 'react';
 import { formatAddress } from 'utils/playerHelpers';
 
+import polygonImage from '../../../assets/chains/polygon.png';
+import xDaiImage from '../../../assets/chains/xDai.png';
 import ethereumImage from '../../../assets/moloch/ethereum.png';
 import hausdaoImage from '../../../assets/moloch/hausdao.png';
 import metacartelImage from '../../../assets/moloch/metacartel.png';
 import metaclanImage from '../../../assets/moloch/metaclan.png';
 import metagameImage from '../../../assets/moloch/metagame.png';
 import raidGuildImage from '../../../assets/moloch/raid_guild.png';
-import polygonImage from '../../../assets/network/polygon.png';
-import xDaiImage from '../../../assets/network/xDai.png';
 import { ProfileSection } from '../../ProfileSection';
 
 type Props = { player: PlayerFragmentFragment; onRemoveClick: () => void };
