@@ -17,6 +17,11 @@ import { PlayerAddSection } from '../../components/Player/Section/PlayerAddSecti
 import { PlayerGallery } from '../../components/Player/Section/PlayerGallery';
 import { PlayerMemberships } from '../../components/Player/Section/PlayerMemberships';
 import { PlayerSkills } from '../../components/Player/Section/PlayerSkills';
+import { HeadComponent } from '../../components/Seo';
+import {
+  getPlayerDescription,
+  getPlayerImage,
+} from '../../utils/playerHelpers';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
@@ -100,6 +105,12 @@ const PlayerPage: React.FC<Props> = ({ player }) => {
 
   return (
     <PageContainer>
+      <HeadComponent
+        title={`Metagame profile for ${player.username}`}
+        description={getPlayerDescription(player).replace('\n', ' ')}
+        url={`https://my.metagame.wtf/player/${player.username}`}
+        img={getPlayerImage(player)}
+      />
       <Flex
         align="center"
         direction={{ base: 'column', lg: 'row' }}
