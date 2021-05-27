@@ -80,20 +80,10 @@ export const migrateSourceCredAccounts = async (
 
       if (!ethAddress) return null;
 
-<<<<<<< HEAD
-=======
-      const username = a.account.identity.name.toLowerCase();
-      console.log({ ethAddress, username });
-
->>>>>>> 6e83ac4 (Optimize memory usage for migrateSourceCredAccounts handler)
       const rank = computeRank(index);
       return {
         ethereum_address: ethAddress.toLowerCase(),
         scIdentityId: a.account.identity.id,
-<<<<<<< HEAD
-=======
-        username,
->>>>>>> 6e83ac4 (Optimize memory usage for migrateSourceCredAccounts handler)
         totalXp: a.totalCred,
         rank,
         discordId,
