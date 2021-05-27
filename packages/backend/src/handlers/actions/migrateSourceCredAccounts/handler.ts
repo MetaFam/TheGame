@@ -1,4 +1,4 @@
-import { isNotNullOrUndefined } from '@metafam/utils';
+import { Constants, isNotNullOrUndefined } from '@metafam/utils';
 import bluebird from 'bluebird';
 import { Request, Response } from 'express';
 import fetch from 'node-fetch';
@@ -62,11 +62,11 @@ export const migrateSourceCredAccounts = async (
     update_columns: [],
   };
 
-  const accountList = accounts
-    .filter((a) => a.identity.subtype === 'USER')
-    .sort((a, b) => b.cred - a.cred)
+  const accountList = accountsData.accounts
+    .filter((a) => a.account.identity.subtype === 'USER')
+    .sort((a, b) => b.totalCred - a.totalCred)
     .map((a, index) => {
-      const linkedAccounts = a.identity.aliases
+      const linkedAccounts = a.account.identity.aliases
         .map((alias) => parseAlias(alias))
         .filter(isNotNullOrUndefined);
 
@@ -80,10 +80,20 @@ export const migrateSourceCredAccounts = async (
 
       if (!ethAddress) return null;
 
+<<<<<<< HEAD
+=======
+      const username = a.account.identity.name.toLowerCase();
+      console.log({ ethAddress, username });
+
+>>>>>>> 6e83ac4 (Optimize memory usage for migrateSourceCredAccounts handler)
       const rank = computeRank(index);
       return {
         ethereum_address: ethAddress.toLowerCase(),
         scIdentityId: a.account.identity.id,
+<<<<<<< HEAD
+=======
+        username,
+>>>>>>> 6e83ac4 (Optimize memory usage for migrateSourceCredAccounts handler)
         totalXp: a.totalCred,
         rank,
         discordId,
