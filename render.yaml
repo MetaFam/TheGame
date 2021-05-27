@@ -13,6 +13,7 @@ services:
     envVars:
       - fromGroup: hasura-secrets
       - fromGroup: discord-secrets
+      - fromGroup: github-secrets
       - fromGroup: backend-secrets
       - key: GRAPHQL_HOST
         fromService:
@@ -102,8 +103,7 @@ services:
     dockerContext: .
     envVars:
       - fromGroup: hasura-secrets
-      - fromGroup: github-secrets
-      - fromGroup: discord-secrets
+      - fromGroup: sourcecred
       - key: PORT
         value: 5000
       - key: FRONTEND_URL
@@ -133,6 +133,12 @@ envVarGroups:
         generateValue: true
   - name: github-secrets
     envVars:
+      - key: GITHUB_API_TOKEN
+        sync: false
+  - name: sourcecred
+    envVars:
+      - key: DISCORD_BOT_TOKEN
+        sync: false
       - key: GITHUB_API_TOKEN
         sync: false
   - name: discord-secrets
