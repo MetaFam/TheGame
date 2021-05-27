@@ -81,14 +81,10 @@ export const migrateSourceCredAccounts = async (
 
       if (!ethAddress) return null;
 
-      const username = a.account.identity.name.toLowerCase();
-      console.log({ ethAddress, username });
-
       const rank = computeRank(index);
       return {
         ethereum_address: ethAddress.toLowerCase(),
         scIdentityId: a.account.identity.id,
-        username,
         totalXp: a.totalCred,
         rank,
         discordId,
@@ -108,7 +104,6 @@ export const migrateSourceCredAccounts = async (
       accountList,
       async (player) => {
         const vars = {
-          username: player.username,
           ethAddress: player.ethereum_address,
           identityId: player.scIdentityId,
           rank: player.rank,
@@ -157,7 +152,7 @@ export const migrateSourceCredAccounts = async (
     const usersToInsert: Player_Insert_Input[] = result
       .filter(isNotNullOrUndefined)
       .map((player) => ({
-        username: player.username,
+        username: player.ethereum_address,
         ethereum_address: player.ethereum_address,
         sc_identity_id: player.scIdentityId,
         rank: player.rank,
