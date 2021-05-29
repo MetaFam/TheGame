@@ -58,8 +58,8 @@ export const directions = [
     emoji: "📅",
     label: "Calendar",
     url:
-      "https://calendar.google.com/calendar/u/1?cid=bmloNTlrdGdhZm1tNjRlZDRxazZ1ZTh2djRAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ",
-    description: "Townhall Gatherings & Meetups.",
+      "docs/resources/calendar",
+    description: "Meetings, gatherings and events",
   },
   {
     emoji: "🧙",

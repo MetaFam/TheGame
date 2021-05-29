@@ -58,6 +58,7 @@ module.exports = {
       // 'resources/alignment2021',
     ],
     "🌳 Other": [
+      "resources/calendar",
       "resources/glossary",
       "resources/graphics",
       "resources/art",
