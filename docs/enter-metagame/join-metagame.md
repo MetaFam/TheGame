@@ -18,7 +18,7 @@ Eager to support the cause & impatient to join?
 You can skip the queue by joining as a Patron instead!
 - Pick up a minimum of 5 Seeds [here](https://balancer.exchange/#/swap/ether/0x30cf203b48edaa42c3b4918e955fed26cd012a3f)
 - Plant them in [here](https://pools.balancer.exchange/#/pool/0xea05a15dbce2eb543ffda16950e95b2bd2e40d0e/)
-- Enter [here](https://discord.gg/Hf54gd8) & type in "!join"
+- Enter [here](https://discord.gg/d3rurFAK6M) & type in "!join"
 
 Want a more in-depth guide to doing this? Check the [Patrons Path](https://www.notion.so/Patron-Path-1db90c8bb4c84398a6fe1f672ea5e855).
 
