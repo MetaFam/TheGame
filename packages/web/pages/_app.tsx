@@ -1,6 +1,8 @@
+/* eslint-disable react/no-danger */
 import { ChakraProvider, CSSReset, MetaTheme } from '@metafam/ds';
 import { MobileFooter } from 'components/MobileFooter';
 import { PageHeader } from 'components/PageHeader';
+import { CONFIG } from 'config';
 import { Web3ContextProvider } from 'contexts/Web3Context';
 import Head from 'next/head';
 import { WithUrqlProps } from 'next-urql';
@@ -18,14 +20,25 @@ const App: React.FC<WithUrqlProps> = ({
     <Head>
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <title>MetaGame</title>
-      <script async src="https://www.googletagmanager.com/gtag/js?id=%NEXT_PUBLIC_GA4_ID%"></script>
-      <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments)}
-        gtag('js', new Date());
+      {CONFIG.gaId != null && (
+        <>
+          <script
+            async
+            src={`https://www.googletagmanager.com/gtag/js?id=${CONFIG.gaId}`}
+          />
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments)}
+            gtag('js', new Date());
 
-        gtag('config', '%NEXT_PUBLIC_GA4_ID%');
-      </script>
+            gtag('config', '${CONFIG.gaId}');
+            `,
+            }}
+          />
+        </>
+      )}
     </Head>
     <Web3ContextProvider resetUrqlClient={resetUrqlClient}>
       <>
