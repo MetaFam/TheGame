@@ -23154,24 +23154,10 @@ quick-lru@^4.0.1:
   resolved "https://registry.yarnpkg.com/quick-lru/-/quick-lru-4.0.1.tgz#5b8878f113a58217848c6482026c73e1ba57727f"
   integrity sha512-ARhCpm70fzdcvNQfPoy49IaanKkTlRWF2JMzqhcJbhSFRZv7nPTvZJdcY7301IPmvW+/p0RgIWnQDLJxifsQ7g==
 
-ra-core@^3.13.4:
+ra-core@^3.13.4, ra-core@^3.14.5:
   version "3.15.1"
   resolved "https://registry.yarnpkg.com/ra-core/-/ra-core-3.15.1.tgz#bc23cc364976701363a17fa213f8d8cf79f84dfd"
   integrity sha512-VYhZ12y8GrzZDJw07B21WEPAxwrB872Ap0RtEyslL8N+GBzANVE2QYBVOtvqTACBzUN5kQiT7jSmADgnZDbsOg==
-  dependencies:
-    classnames "~2.2.5"
-    date-fns "^1.29.0"
-    eventemitter3 "^3.0.0"
-    inflection "~1.12.0"
-    lodash "~4.17.5"
-    prop-types "^15.6.1"
-    query-string "^5.1.1"
-    reselect "~3.0.0"
-
-ra-core@^3.14.5:
-  version "3.14.5"
-  resolved "https://registry.yarnpkg.com/ra-core/-/ra-core-3.14.5.tgz#aec6102e3e5849552da315675001b94a962341e0"
-  integrity sha512-5pEmobyXwlsL0xhamrZvLGekMR13W3LdPq6HFYWGuwgviiPAU3jGcsVQOEFaerIBP6Xlm5qZnoZt4TcBh82z9A==
   dependencies:
     classnames "~2.2.5"
     date-fns "^1.29.0"
@@ -23204,28 +23190,10 @@ ra-language-english@^3.14.5:
   dependencies:
     ra-core "^3.14.5"
 
-ra-ui-materialui@^3.13.4:
+ra-ui-materialui@^3.13.4, ra-ui-materialui@^3.14.5:
   version "3.15.1"
   resolved "https://registry.yarnpkg.com/ra-ui-materialui/-/ra-ui-materialui-3.15.1.tgz#ac9334fb73ee47a07c15ffec11b731a2542ba8b5"
   integrity sha512-BWEdq8HjbRjYZMDq6RFPULGkkcSw+7owaWKVDGnFimpGo67Lpna9HO6Db+o7NCGeWlGmYnSgo1qun4Wm6gzDxw==
-  dependencies:
-    autosuggest-highlight "^3.1.1"
-    classnames "~2.2.5"
-    connected-react-router "^6.5.2"
-    css-mediaquery "^0.1.2"
-    downshift "3.2.7"
-    inflection "~1.12.0"
-    jsonexport "^2.4.1"
-    lodash "~4.17.5"
-    prop-types "^15.7.0"
-    query-string "^5.1.1"
-    react-dropzone "^10.1.7"
-    react-transition-group "^4.4.1"
-
-ra-ui-materialui@^3.14.5:
-  version "3.14.5"
-  resolved "https://registry.yarnpkg.com/ra-ui-materialui/-/ra-ui-materialui-3.14.5.tgz#f4439973a53b82bed5899f8468b2bf11f662de0e"
-  integrity sha512-EGkL093h7WJ+FJG+ZCozWYfjcyuM/a4qN0HoHdo9W4ivM3w5bcIQ6BmSByol0kLuooVyUpyGdDRQCqS5eExJlA==
   dependencies:
     autosuggest-highlight "^3.1.1"
     classnames "~2.2.5"
@@ -25375,10 +25343,10 @@ source-map@^0.6.0, source-map@^0.6.1, source-map@~0.6.0, source-map@~0.6.1:
   resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.6.1.tgz#74722af32e9614e9c287a8d0bbde48b5e2f1a263"
   integrity sha512-UjgapumWlbMhkBgzT7Ykc5YXUT46F0iKu8SGXq0bcwP5dz/h0Plj6enJqjz1Zbq2l5WaqYnrVbwWOWMyF3F47g==
 
-sourcecred@0.8.7:
-  version "0.8.7"
-  resolved "https://registry.yarnpkg.com/sourcecred/-/sourcecred-0.8.7.tgz#1002f6bcb0bf5671897908e84e4bf8ac8784397d"
-  integrity sha512-8VugdBIDaysgEj0iYaz/zu1oVFGGpEhvjdXHn5b2fqVS5cW2fnoRC6y8fBYmpUJYBpvZlUH+5V5j/L7JCBkjgg==
+sourcecred@0.9.0:
+  version "0.9.0"
+  resolved "https://registry.yarnpkg.com/sourcecred/-/sourcecred-0.9.0.tgz#535df433a877b560d0919b62c81c3c79d6c837c6"
+  integrity sha512-3rLQr1EVZNv9x4FD80tycV3MBhZnxoavhX8n8MZGbvqjxRJ/pV5jd78sfcDZ5M7UROznkXh5nAzVfz7zGcvQRQ==
   dependencies:
     "@material-ui/core" "^4.11.2"
     "@material-ui/icons" "^4.11.2"
