@@ -1,7 +1,7 @@
 module.exports = {
   title: "MetaGame Wiki",
   tagline: "Build the future you want to live in.",
-  url: "https://wiki.metagame.wtf/",
+  url: "https://wiki.metagame.wtf",
   baseUrl: "/",
   favicon: "img/mg-icon.png",
   organizationName: "MetaFam",
