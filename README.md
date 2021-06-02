@@ -55,6 +55,14 @@ the initial dataset:
 curl -X POST http://localhost:4000/actions/migrateSourceCredAccounts
 ```
 
+**Rebuild backend services**
+
+If your docker containers fail to start due to changes in config, you may need to rebuild the containers. This can take several minutes.
+
+```shell script
+yarn docker:build
+```
+
 **Stop backend services**
 
 ```shell script
