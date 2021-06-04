@@ -21,7 +21,6 @@ import {
 } from '@metafam/ds';
 import {
   GetPlayersQueryVariables,
-  PlayerFragmentFragment,
   SkillCategory_Enum,
 } from 'graphql/autogen/types';
 import { SkillColors } from 'graphql/types';
@@ -88,21 +87,23 @@ const styles: typeof selectStyles = {
 };
 
 type Props = {
-  fetching: boolean;
-  players: PlayerFragmentFragment[];
+  fetchingPlayers: boolean;
+  fetchingCount: boolean;
   aggregates: PlayerAggregates;
   queryVariables: GetPlayersQueryVariables;
   setQueryVariable: QueryVariableSetter;
   resetFilter: () => void;
+  totalCount: number;
 };
 
 export const PlayerFilter: React.FC<Props> = ({
-  fetching,
-  players,
+  fetchingPlayers,
+  fetchingCount,
   aggregates,
   queryVariables,
   setQueryVariable,
   resetFilter,
+  totalCount,
 }) => {
   const [search, setSearch] = useState<string>('');
 
@@ -211,7 +212,12 @@ export const PlayerFilter: React.FC<Props> = ({
               </InputRightElement>
             )}
           </InputGroup>
-          <MetaButton type="submit" size="lg" isDisabled={fetching} px="16">
+          <MetaButton
+            type="submit"
+            size="lg"
+            isDisabled={fetchingPlayers || fetchingCount}
+            px="16"
+          >
             SEARCH
           </MetaButton>
         </Stack>
@@ -362,13 +368,13 @@ export const PlayerFilter: React.FC<Props> = ({
           </Button>
         </Flex>
       )}
-      <Flex justify="space-between" w="100%" maxW="80rem" px="4">
-        <Text fontWeight="bold" fontSize="xl" w="100%" maxW="79rem">
-          {players && !fetching
-            ? `${players.length} player${players.length > 1 ? 's' : ''}`
-            : ''}
-        </Text>
-      </Flex>
+      {!fetchingCount && (
+        <Flex justify="space-between" w="100%" maxW="80rem" px="4">
+          <Text fontWeight="bold" fontSize="xl" w="100%" maxW="79rem">
+            {`${totalCount} player${totalCount === 1 ? '' : 's'}`}
+          </Text>
+        </Flex>
+      )}
     </>
   );
 };
