@@ -5,6 +5,9 @@ import {
   GetPlayerFiltersDocument,
   GetPlayerFiltersQuery,
   GetPlayerFiltersQueryVariables,
+  GetPlayersCountDocument,
+  GetPlayersCountQuery,
+  GetPlayersCountQueryVariables,
   GetPlayersDocument,
   GetPlayersQuery,
   GetPlayersQueryVariables,
@@ -47,7 +50,37 @@ gql`
   ${PlayerFragment}
 `;
 
-export const PLAYER_LIMIT = 56;
+export const PLAYER_LIMIT = 9;
+
+// eslint-disable-next-line @typescript-eslint/no-unused-expressions
+gql`
+  query GetPlayersCount(
+    $offset: Int
+    $limit: Int
+    $skillIds: [uuid!]
+    $playerTypeIds: [Int!]
+    $availability: Int
+    $timezones: [String!]
+    $search: String
+  ) {
+    player_aggregate(
+      where: {
+        availability_hours: { _gte: $availability }
+        timezone: { _in: $timezones }
+        playerType: { id: { _in: $playerTypeIds } }
+        Player_Skills: { Skill: { id: { _in: $skillIds } } }
+        _or: [
+          { username: { _ilike: $search } }
+          { ethereum_address: { _ilike: $search } }
+        ]
+      }
+    ) {
+      aggregate {
+        count
+      }
+    }
+  }
+`;
 
 export const defaultQueryVariables: GetPlayersQueryVariables = {
   offset: 0,
@@ -76,6 +109,25 @@ export const getPlayers = async (
     .toPromise();
 
   return { players: data?.player || [], error };
+};
+
+export type PlayersCountResponse = {
+  error: Error | undefined;
+  count: number;
+};
+
+export const getPlayersCount = async (
+  queryVariables = defaultQueryVariables,
+  client: Client = defaultClient,
+): Promise<PlayersCountResponse> => {
+  const { data, error } = await client
+    .query<GetPlayersCountQuery, GetPlayersCountQueryVariables>(
+      GetPlayersCountDocument,
+      queryVariables,
+    )
+    .toPromise();
+
+  return { count: data?.player_aggregate.aggregate?.count || 0, error };
 };
 
 const playerUsernamesQuery = gql`
@@ -137,7 +189,11 @@ export const getPlayerFilters = async (client: Client = defaultClient) => {
     )
     .toPromise();
 
-  if (error) throw error;
+  if (error) {
+      // eslint-disable-next-line no-console
+      console.error(error);
+      throw error;
+  }
 
   return data;
 };
