@@ -2,10 +2,11 @@ import {
   GetPlayersQueryVariables,
   PlayerFragmentFragment,
   useGetPlayerFiltersQuery,
+  useGetPlayersCountQuery,
   useGetPlayersQuery,
 } from 'graphql/autogen/types';
-import { defaultQueryVariables } from 'graphql/getPlayers';
-import { useCallback, useMemo, useState } from 'react';
+import { defaultQueryVariables, PLAYER_LIMIT } from 'graphql/getPlayers';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { CategoryOption, parseSkills } from 'utils/skillHelpers';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -19,12 +20,17 @@ export interface PlayerAggregates {
 
 interface PlayerFilter {
   players: PlayerFragmentFragment[];
-  fetching: boolean;
+  totalCount: number;
+  fetchingPlayers: boolean;
+  fetchingCount: boolean;
+  fetchingMore: boolean;
   aggregates: PlayerAggregates;
   queryVariables: GetPlayersQueryVariables;
   setQueryVariable: QueryVariableSetter;
   error?: Error;
   resetFilter: () => void;
+  nextPage: () => void;
+  moreAvailable: boolean;
 }
 
 const usePlayerAggregates = () => {
@@ -35,6 +41,14 @@ const usePlayerAggregates = () => {
     playerTypes: data?.player_type || [],
     skillChoices,
   };
+};
+
+const useTotalPlayersCount = (variables: GetPlayersQueryVariables) => {
+  const [{ fetching, data, error }] = useGetPlayersCountQuery({
+    variables: { ...variables, offset: 0, limit: PLAYER_LIMIT },
+  });
+  const totalCount = data?.player_aggregate.aggregate?.count || 0;
+  return { fetching, totalCount, error };
 };
 
 const useFilteredPlayers = (variables: GetPlayersQueryVariables) => {
@@ -56,8 +70,13 @@ export const usePlayerFilter = (): PlayerFilter => {
   const setQueryVariable: QueryVariableSetter = useCallback(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (key: string, value: any) => {
+      if (key === 'limit') {
+        throw new Error('Cannot update limit');
+      }
       setQueryVariables((oldQueryVariables) => ({
         ...oldQueryVariables,
+        limit: PLAYER_LIMIT,
+        offset: 0,
         [key]: value !== '' ? value : null,
       }));
     },
@@ -65,20 +84,31 @@ export const usePlayerFilter = (): PlayerFilter => {
   );
 
   const resetFilter = () => setQueryVariables(defaultQueryVariables);
+
   const {
-    fetching: fetchingPlayers,
     players,
-    error: errorPlayers,
-  } = useFilteredPlayers(queryVariables);
+    fetchingPlayers,
+    fetchingCount,
+    fetchingMore,
+    error,
+    nextPage,
+    totalCount,
+    moreAvailable,
+  } = usePaginatedPlayers(queryVariables, setQueryVariable);
 
   return {
     players,
+    fetchingPlayers,
+    fetchingCount,
+    fetchingMore,
+    error,
     aggregates,
-    fetching: fetchingPlayers,
-    error: errorPlayers,
     queryVariables,
     setQueryVariable,
     resetFilter,
+    totalCount,
+    nextPage,
+    moreAvailable,
   };
 };
 
@@ -122,5 +152,77 @@ export const useFiltersUsed = (
   );
   return {
     filtersUsed,
+  };
+};
+
+const usePaginatedPlayers = (
+  queryVariables: GetPlayersQueryVariables,
+  setQueryVariable: QueryVariableSetter,
+) => {
+  const {
+    fetching: fetchingPlayers,
+    players: fetchedPlayers,
+    error: errorPlayers,
+  } = useFilteredPlayers(queryVariables);
+
+  const {
+    fetching: fetchingCount,
+    totalCount,
+    error: errorCount,
+  } = useTotalPlayersCount(queryVariables);
+
+  const fetching = fetchingPlayers || fetchingCount;
+  const error = errorPlayers || errorCount;
+
+  const itemsPerPage = PLAYER_LIMIT;
+  const maxPage = Math.ceil(totalCount / itemsPerPage);
+  const currentOffset = useMemo(() => (queryVariables.offset as number) || 0, [
+    queryVariables.offset,
+  ]);
+  const currentPage = useMemo(
+    () => Math.ceil(currentOffset / itemsPerPage) + 1,
+    [currentOffset, itemsPerPage],
+  );
+
+  const shouldAppend = useRef(false);
+
+  const nextPage = useCallback(() => {
+    if (currentPage < maxPage && !fetching && !shouldAppend.current) {
+      shouldAppend.current = true;
+      setQueryVariable('offset', currentOffset + itemsPerPage);
+    }
+  }, [
+    shouldAppend,
+    fetching,
+    setQueryVariable,
+    currentOffset,
+    itemsPerPage,
+    currentPage,
+    maxPage,
+  ]);
+
+  const [players, setPlayers] = useState<PlayerFragmentFragment[]>(
+    fetchedPlayers,
+  );
+
+  useEffect(() => {
+    if (fetching || error) return;
+    if (shouldAppend.current) {
+      setPlayers((_players) => [..._players, ...fetchedPlayers]);
+      shouldAppend.current = false;
+    } else {
+      setPlayers(fetchedPlayers);
+    }
+  }, [shouldAppend, fetchedPlayers, fetching, error]);
+
+  return {
+    nextPage,
+    players,
+    totalCount,
+    fetchingCount,
+    fetchingPlayers,
+    error,
+    fetchingMore: shouldAppend.current,
+    moreAvailable: currentPage < maxPage,
   };
 };
