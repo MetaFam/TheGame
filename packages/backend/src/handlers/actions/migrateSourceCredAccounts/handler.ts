@@ -1,4 +1,4 @@
-import { Constants, isNotNullOrUndefined } from '@metafam/utils';
+import { isNotNullOrUndefined } from '@metafam/utils';
 import bluebird from 'bluebird';
 import { Request, Response } from 'express';
 import fetch from 'node-fetch';
@@ -57,17 +57,16 @@ export const migrateSourceCredAccounts = async (
   const accountsData: SCAccountsData = await (
     await fetch(Constants.SC_ACCOUNTS_FILE)
   ).json();
-
   const accountOnConflict = {
     constraint: Player_Account_Constraint.AccountIdentifierTypeKey,
     update_columns: [],
   };
 
-  const accountList = accountsData.accounts
-    .filter((a) => a.account.identity.subtype === 'USER')
-    .sort((a, b) => b.totalCred - a.totalCred)
+  const accountList = accounts
+    .filter((a) => a.identity.subtype === 'USER')
+    .sort((a, b) => b.cred - a.cred)
     .map((a, index) => {
-      const linkedAccounts = a.account.identity.aliases
+      const linkedAccounts = a.identity.aliases
         .map((alias) => parseAlias(alias))
         .filter(isNotNullOrUndefined);
 
