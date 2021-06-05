@@ -1,10 +1,20 @@
-import { ConfirmModal, Flex, HStack, MetaButton, MetaHeading } from '@metafam/ds';
+import {
+  ConfirmModal,
+  Flex,
+  HStack,
+  MetaButton,
+  MetaHeading,
+} from '@metafam/ds';
 import { FlexContainer, PageContainer } from 'components/Container';
 import { EditGuildFormInputs, GuildForm } from 'components/Guild/GuildForm';
 import { GuildStatus_Enum } from 'graphql/autogen/types';
 import { getGuild } from 'graphql/getGuild';
 import { getGuildnames } from 'graphql/getGuilds';
-import { GetStaticPaths, GetStaticPropsContext, InferGetStaticPropsType } from 'next';
+import {
+  GetStaticPaths,
+  GetStaticPropsContext,
+  InferGetStaticPropsType,
+} from 'next';
 import React, { useState } from 'react';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
@@ -18,6 +28,10 @@ const SetupGuild: React.FC<Props> = ({ guild }) => {
 
   const success = false;
   const fetching = false;
+
+  if (guild == null) {
+    return <></>;
+  }
 
   return (
     <PageContainer>
@@ -36,10 +50,7 @@ const SetupGuild: React.FC<Props> = ({ guild }) => {
           align="stretch"
           justify="space-between"
         >
-          <GuildForm
-            workingGuild={guild}
-            onSubmit={onSubmit}
-          >
+          <GuildForm workingGuild={guild} onSubmit={onSubmit}>
             <HStack justify="space-between" mt={4} w="100%">
               <MetaButton
                 variant="outline"
@@ -91,9 +102,10 @@ export const getStaticProps = async (
   context: GetStaticPropsContext<QueryParams>,
 ) => {
   const guildName = context.params?.guildname;
-  const guild = await getGuild(guildName);
-
-  console.log('guildname', guildName);
+  let guild;
+  if (guildName != null) {
+    guild = await getGuild(guildName);
+  }
 
   if (guild == null) {
     return {
@@ -101,9 +113,9 @@ export const getStaticProps = async (
         destination: '/join',
         permanent: false,
       },
-    }
+    };
   }
-  
+
   return {
     props: {
       guild,

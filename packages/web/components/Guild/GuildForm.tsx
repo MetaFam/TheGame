@@ -1,4 +1,4 @@
-import { Box, FormHelperText, Input, VStack } from '@metafam/ds';
+import { Box, Input, VStack } from '@metafam/ds';
 import { Field } from 'components/Forms/Field';
 import { GuildFragmentFragment, GuildType_Enum } from 'graphql/autogen/types';
 import React, { useMemo } from 'react';
@@ -54,10 +54,7 @@ type Props = {
   onSubmit: (data: EditGuildFormInputs) => void;
 };
 
-export const GuildForm: React.FC<Props> = ({ 
-  workingGuild,
-  onSubmit,
-}) => {
+export const GuildForm: React.FC<Props> = ({ workingGuild, onSubmit }) => {
   const defaultValues = useMemo<EditGuildFormInputs>(
     () => getDefaultFormValues(workingGuild),
     [workingGuild],
@@ -72,8 +69,8 @@ export const GuildForm: React.FC<Props> = ({
       <VStack>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Field label="Guildname" error={errors.guildname}>
-            <Input 
-              type="text" 
+            <Input
+              type="text"
               isRequired
               name="guildname"
               ref={register(validations.guildname)}
@@ -81,7 +78,7 @@ export const GuildForm: React.FC<Props> = ({
               minLength={validations.guildname.minLength}
               maxLength={validations.guildname.maxLength}
             />
-            <FormHelperText>A unique name for your guild, like a username.</FormHelperText>
+            <span>A unique name for your guild, like a username.</span>
           </Field>
         </form>
       </VStack>
