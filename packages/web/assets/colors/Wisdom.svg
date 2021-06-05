@@ -1,25 +1,12 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg version="1.1" viewBox="0 0 136.2 130.09" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
-  <defs>
-    <linearGradient id="linearGradient1439" x2="1" gradientTransform="matrix(0 -49.577 -49.577 0 1118.7 569.96)" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#09b9f2" offset="0"/>
-      <stop stop-color="#09b9f2" offset=".080645"/>
-      <stop stop-color="#09b9f2" offset=".2827"/>
-      <stop stop-color="#04468b" offset="1"/>
-    </linearGradient>
-  </defs>
-  <metadata>
-    <rdf:RDF>
-      <cc:Work rdf:about="">
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-        <dc:title/>
-      </cc:Work>
-    </rdf:RDF>
-  </metadata>
-  <g transform="translate(-19.169 -4.0977)">
-    <g transform="matrix(2.624 0 0 -2.624 -2848.2 1499.6)">
-      <path d="m1116.8 568.76-6.352-12.871c-0.314-0.636-0.92-1.076-1.621-1.177l-14.205-2.065c-1.765-0.256-2.47-2.426-1.192-3.672l10.278-10.019c0.507-0.494 0.739-1.207 0.619-1.905l-2.426-14.146c-0.302-1.759 1.544-3.101 3.124-2.27l12.704 6.679c0.626 0.33 1.376 0.33 2.003 0l12.705-6.679c1.579-0.831 3.425 0.511 3.124 2.27l-2.427 14.146c-0.119 0.698 0.112 1.411 0.619 1.905l10.279 10.019c1.277 1.246 0.572 3.416-1.194 3.672l-14.204 2.065c-0.701 0.101-1.307 0.541-1.621 1.177l-6.352 12.871c-0.395 0.8-1.163 1.2-1.931 1.2-0.767 0-1.535-0.4-1.93-1.2" fill="url(#linearGradient1439)"/>
-    </g>
-  </g>
+<svg width="105" height="132" viewBox="0 0 105 132" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M51.6833 131.928C31.7253 131.928 9.99338 116.103 3.23738 96.651C-1.91862 81.802 -0.0036974 66.4 8.6313 53.282C13.8603 45.34 50.2344 0.901023 52.1334 0.957023L52.3963 0.962028L52.7574 0.957023C54.6594 0.924023 88.3474 40.748 96.3474 52.521V52.522C109.347 73.152 106.077 102.006 87.2744 118.211C77.7234 126.445 67.8423 131.928 51.6833 131.928Z" fill="url(#paint0_linear)"/>
+<defs>
+<linearGradient id="paint0_linear" x1="52.2926" y1="0.957923" x2="52.2926" y2="131.928" gradientUnits="userSpaceOnUse">
+<stop offset="0.0806" stop-color="#09B9F2"/>
+<stop offset="0.228" stop-color="#09AEE8"/>
+<stop offset="0.4874" stop-color="#0791CE"/>
+<stop offset="0.8258" stop-color="#0561A3"/>
+<stop offset="1" stop-color="#04468B"/>
+</linearGradient>
+</defs>
 </svg>
