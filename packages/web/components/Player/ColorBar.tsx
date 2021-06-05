@@ -1,4 +1,4 @@
-import { Box, ChakraProps, Flex, SVG } from '@metafam/ds';
+import { Box, ChakraProps, Flex } from '@metafam/ds';
 import { FlexContainer } from 'components/Container';
 import { colors, getPersonalityInfo, images } from 'graphql/getPersonalityInfo';
 import { PersonalityOption } from 'graphql/types';
