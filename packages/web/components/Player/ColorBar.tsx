@@ -86,7 +86,13 @@ export const ColorBar = ({
           ),
         )}
       </Flex>
-      <FlexContainer mb={2}>
+      <FlexContainer
+        mb={2}
+        fontFamily="mono"
+        sx={{
+          q: { '&::before': { content: "''" }, '&::after': { content: "''" } },
+        }}
+      >
         <q>{types?.[mask]?.name}</q>
       </FlexContainer>
     </Flex>
