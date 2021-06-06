@@ -1,7 +1,8 @@
-import { isNotNullOrUndefined } from '@metafam/utils';
+import { Constants, isNotNullOrUndefined } from '@metafam/utils';
 import bluebird from 'bluebird';
 import { Request, Response } from 'express';
-import { SCAlias, sourcecred as sc } from 'sourcecred';
+import fetch from 'node-fetch';
+import { SCAccountsData, SCAlias, sourcecred as sc } from 'sourcecred';
 
 import {
   AccountType_Enum,
@@ -12,7 +13,7 @@ import {
 } from '../../../lib/autogen/hasura-sdk';
 import { client } from '../../../lib/hasuraClient';
 import { computeRank } from '../../../lib/rankHelpers';
-import { ledgerManager, loadCredGraph } from '../../../lib/sourcecredLedger';
+import { ledgerManager } from '../../../lib/sourcecredLedger';
 
 const VALID_ACCOUNT_TYPES: Array<AccountType_Enum> = [
   AccountType_Enum.Ethereum,
@@ -53,50 +54,37 @@ export const migrateSourceCredAccounts = async (
     throw new Error(`Unable to load ledger: ${ledgerRes.error}`);
   }
 
-  const credGraph = await loadCredGraph();
-  if (!credGraph) {
-    throw new Error(`Unable to load cred graph.`);
-  }
-
-  const credGrainView = new sc.core.CredGrainView(
-    credGraph,
-    ledgerManager.ledger,
-  );
-
-  const accounts = credGrainView.participants();
-
+  const accountsData: SCAccountsData = await (
+    await fetch(Constants.SC_ACCOUNTS_FILE)
+  ).json();
   const accountOnConflict = {
     constraint: Player_Account_Constraint.AccountIdentifierTypeKey,
     update_columns: [],
   };
 
-  const accountList = accounts
-    .filter((a) => a.identity.subtype === 'USER')
-    .sort((a, b) => b.cred - a.cred)
+  const accountList = accountsData.accounts
+    .filter((a) => a.account.identity.subtype === 'USER')
+    .sort((a, b) => b.totalCred - a.totalCred)
     .map((a, index) => {
-      const linkedAccounts = a.identity.aliases
+      const linkedAccounts = a.account.identity.aliases
         .map((alias) => parseAlias(alias))
         .filter(isNotNullOrUndefined);
 
       const discordId = linkedAccounts.find(({ type }) => type === 'DISCORD')
         ?.identifier;
 
-      const ethAddress = a.identity.aliases.find((alias) => {
+      const ethAddress = a.account.identity.aliases.find((alias) => {
         const parts = sc.core.graph.NodeAddress.toParts(alias.address);
         return parts.indexOf('ethereum') > 0;
       })?.description;
 
       if (!ethAddress) return null;
 
-      const username = a.identity.name.toLowerCase();
-      console.log({ ethAddress, username });
-
       const rank = computeRank(index);
       return {
         ethereum_address: ethAddress.toLowerCase(),
-        scIdentityId: a.identity.id,
-        username,
-        totalXp: a.cred,
+        scIdentityId: a.account.identity.id,
+        totalXp: a.totalCred,
         rank,
         discordId,
         Accounts: {
@@ -115,7 +103,6 @@ export const migrateSourceCredAccounts = async (
       accountList,
       async (player) => {
         const vars = {
-          username: player.username,
           ethAddress: player.ethereum_address,
           identityId: player.scIdentityId,
           rank: player.rank,
@@ -164,7 +151,7 @@ export const migrateSourceCredAccounts = async (
     const usersToInsert: Player_Insert_Input[] = result
       .filter(isNotNullOrUndefined)
       .map((player) => ({
-        username: player.username,
+        username: player.ethereum_address,
         ethereum_address: player.ethereum_address,
         sc_identity_id: player.scIdentityId,
         rank: player.rank,
