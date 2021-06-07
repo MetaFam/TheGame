@@ -38,7 +38,7 @@ export const images: {
 export const colors: {
   [x: number]: ColorStops;
 } = {
-  0b10000: { start: '#DCA8A9', end: '#A4AEC4' },
+  0b10000: { start: '#DCA8A9', end: '#ffffff' },
   0b01000: { start: '#04468B', end: '#09B9F2' },
   0b00100: { start: '#020121', end: '#2F3E57' },
   0b00010: { start: '#94136E', end: '#F15236' },
