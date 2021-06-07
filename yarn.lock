@@ -13279,10 +13279,10 @@ fake-merkle-patricia-tree@^1.0.1:
   dependencies:
     checkpoint-store "^1.1.0"
 
-fake-tag@2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/fake-tag/-/fake-tag-2.0.0.tgz#08ea5df950ef8635833186247f569e8406ffb4da"
-  integrity sha512-QDz+8qiNQ9AfBZ31EXlID5JIbUkU3e1nXDWk4tidFzd2gy8XJaEUW1HCuDY6DUy6t2Y0nvhD6PsUc+2WYy5w0w==
+fake-tag@3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/fake-tag/-/fake-tag-3.0.0.tgz#4c7a86b341f15fc3bcf1cacf48eb017215582f31"
+  integrity sha512-jyiJnve2Vigd/HZytxgTeovSA0uOmJbm5BolFmVmM8aQYq3XEvXe8v9JrBp7zv4UOcTUHFqto231ajLQffXYVA==
 
 fakerest@^3.0.0:
   version "3.3.0"
