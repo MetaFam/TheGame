@@ -52,29 +52,59 @@ export const LoginButton: React.FC = () => {
             href={`/player/${user.username}`}
             fontFamily="body"
             color="whiteAlpha.700"
+            pl={1}
           >
             {user.player ? getPlayerName(user.player) : 'Unknown'}
           </MetaLink>
-          <HStack spacing={2}>
-            <MetaLink href="/profile/setup/username">
-              <Button
-                variant="link"
-                fontWeight="normal"
-                title={hasEditedProfile ? 'Edit profile' : 'Setup profile'}
-              >
-                <SettingsIcon w={7} h={7} color="cyan.400" />
-              </Button>
+          <Box
+            d="flex"
+            w="100%"
+            alignItems="center"
+            justifyContent="space-between"
+            sx={{ '& > *': { d: 'inline-flex', px: 1 } }}
+          >
+            <MetaLink
+              href="/profile/setup/username"
+              title={hasEditedProfile ? 'Edit profile' : 'Setup profile'}
+            >
+              <Text display={{ base: 'none', xl: 'inline' }} color="cyan.400">
+                Edit profile
+              </Text>
+              <SettingsIcon
+                w={{ base: '20px', xl: 7 }}
+                h={{ base: '20px', xl: 7 }}
+                color="cyan.400"
+                display={{ base: 'initial', xl: 'none' }}
+              />
             </MetaLink>
             <Text color="cyan.400">|</Text>
-            <Button
-              onClick={disconnect}
-              variant="link"
-              fontWeight="normal"
-              title="Disconnect"
-            >
-              <CloseIcon w={6} h={6} color="cyan.400" />
-            </Button>
-          </HStack>
+            <Text>
+              <Button
+                onClick={disconnect}
+                variant="link"
+                fontWeight="normal"
+                title="Disconnect"
+                justifyContent="flex-start"
+                ml={0}
+                pl={0}
+                sx={{
+                  '&:hover': {
+                    color: 'cyan.400',
+                  },
+                }}
+              >
+                <Text display={{ base: 'none', xl: 'inline' }} color="cyan.400">
+                  Disconnect
+                </Text>
+                <CloseIcon
+                  w={{ base: '18px', xl: 6 }}
+                  h={{ base: '18px', xl: 6 }}
+                  color="cyan.400"
+                  display={{ base: 'initial', xl: 'none' }}
+                />
+              </Button>
+            </Text>
+          </Box>
         </Box>
       </HStack>
     );
