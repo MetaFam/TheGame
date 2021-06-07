@@ -66,7 +66,7 @@ export const ColorBar = ({
         })}
       </Flex>
       <Flex
-        minH="calc(1.5rem)"
+        minH="1.5rem"
         flex="0 0 100%"
         minW="100%"
         border="0"
@@ -86,14 +86,8 @@ export const ColorBar = ({
           ),
         )}
       </Flex>
-      <FlexContainer
-        mb={2}
-        fontFamily="mono"
-        sx={{
-          q: { '&::before': { content: "''" }, '&::after': { content: "''" } },
-        }}
-      >
-        <q>{types?.[mask]?.name}</q>
+      <FlexContainer mb={2} fontFamily="mono">
+        <Box as="span">{types?.[mask]?.name}</Box>
       </FlexContainer>
     </Flex>
   );
