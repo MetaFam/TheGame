@@ -1,15 +1,14 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg version="1.1" viewBox="0 0 141.91 137.27" xmlns="http://www.w3.org/2000/svg">
+<svg width="132" height="133" viewBox="0 0 132 133" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path
+    d="M93.3509 6.637C79.0269 23.014 76.3639 38.142 85.3699 50.951C96.3789 66.61 109.92 69.709 131.058 61.409C134.84 80.8 123.568 110.245 97.2949 124.373C71.2669 138.369 36.8129 134.208 15.0639 108.075C-3.64608 85.593 -5.36607 51.237 13.9789 25.856C32.0089 2.19901 65.7779 -6.227 93.3509 6.637Z"
+    fill="url(#paint0_linear)" />
   <defs>
-    <linearGradient id="linearGradient1365" x2="1" gradientTransform="matrix(0 49.54 49.54 0 119.75 520.38)" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#020121" offset="0"/>
-      <stop stop-color="#2f3e57" offset=".69367"/>
-      <stop stop-color="#2f3e57" offset="1"/>
+    <linearGradient id="paint0_linear" x1="66.0005" y1="132.258" x2="66.0005" y2="0.628509"
+      gradientUnits="userSpaceOnUse">
+      <stop stop-color="#020121" />
+      <stop offset="0.4155" stop-color="#1A223E" />
+      <stop offset="0.7668" stop-color="#293750" />
+      <stop offset="1" stop-color="#2F3E57" />
     </linearGradient>
   </defs>
-  <g transform="translate(-20.653 -9.4842)">
-    <g transform="matrix(2.7709 0 0 -2.7709 -240.2 1588.7)">
-      <path d="m118.35 569.3-20.208-22.702c-1.084-1.212-0.224-3.223 1.402-3.223h12.945l-17.785-19.634c-1.256-1.405-0.259-3.365 1.625-3.365h46.848c1.883 0 2.881 1.96 1.625 3.365l-17.786 19.634h12.946c1.625 0 2.486 2.024 1.402 3.236l-20.208 22.664c-0.38 0.425-0.904 0.64-1.426 0.64-0.507 0-1.011-0.203-1.38-0.615" fill="url(#linearGradient1365)"/>
-    </g>
-  </g>
 </svg>

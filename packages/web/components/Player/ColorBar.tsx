@@ -1,4 +1,4 @@
-import { Box, ChakraProps, Flex, SVG } from '@metafam/ds';
+import { Box, ChakraProps, Flex } from '@metafam/ds';
 import { FlexContainer } from 'components/Container';
 import { colors, getPersonalityInfo, images } from 'graphql/getPersonalityInfo';
 import { PersonalityOption } from 'graphql/types';
@@ -39,15 +39,23 @@ export const ColorBar = ({
   }, []);
 
   return (
-    <Flex direction="column" maxW="100%" className="color-bar" {...props}>
-      <Flex maxW="100%" minH="1.5rem" mb="1rem">
+    <Flex
+      direction="column-reverse"
+      w="100%"
+      maxW="100%"
+      className="color-bar"
+      {...props}
+    >
+      <Flex maxW="100%" minH="1.5rem" mt={3}>
         {parts.map((part) => {
           const set = (mask & part.mask) !== 0;
 
           return !set ? null : ( // if the bit isn't set // return null for map to work
-            <Flex key={part.mask} grow={1} justify="center" opacity={0.75}>
+            <Flex key={part.mask} grow={1} justify="center" opacity={1}>
               <Box
-                bgColor="white"
+                bg={`linear-gradient(to top, ${colors[part.mask].start}, ${
+                  colors[part.mask].end
+                })`}
                 h={6}
                 w={6}
                 title={part.name}
@@ -57,26 +65,29 @@ export const ColorBar = ({
           );
         })}
       </Flex>
-      <Flex minH="calc(1.5rem + 4px)" maxW="100%" border="2px" borderRadius={3}>
+      <Flex
+        minH="1.5rem"
+        flex="0 0 100%"
+        minW="100%"
+        border="0"
+        borderRadius="15px"
+        overflow="hidden"
+      >
         {parts.map((part) =>
           (mask & part.mask) === 0 ? null : (
-            <Flex key={part.mask} grow={1} h="1.5rem">
-              <SVG viewBox="0 0 100 100" preserveAspectRatio="none" w="100%">
-                <defs>
-                  <linearGradient id="shading" gradientTransform="rotate(90)">
-                    <stop offset="5%" stopColor="black" stopOpacity={0.5} />
-                    <stop offset="95%" stopColor="white" stopOpacity={0.25} />
-                  </linearGradient>
-                </defs>
-                <rect width="100%" height="100%" fill={colors[part.mask]} />
-                <rect width="100%" height="100%" fill="url(#shading)" />
-              </SVG>
-            </Flex>
+            <Flex
+              key={part.mask}
+              grow={1}
+              h="1.5rem"
+              bg={`linear-gradient(to right, ${colors[part.mask].start}, ${
+                colors[part.mask].end
+              })`}
+            />
           ),
         )}
       </Flex>
-      <FlexContainer mt={1}>
-        <q>{types?.[mask]?.name}</q>
+      <FlexContainer mb={2} fontFamily="mono">
+        <Box as="span">{types?.[mask]?.name}</Box>
       </FlexContainer>
     </Flex>
   );
