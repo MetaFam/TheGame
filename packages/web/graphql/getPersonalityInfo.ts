@@ -20,6 +20,11 @@ const AspectsQuery = gql`
   }
 `;
 
+export type ColorStops = {
+  start: string;
+  end: string;
+};
+
 export const images: {
   [x: number]: string;
 } = {
@@ -31,13 +36,13 @@ export const images: {
 };
 
 export const colors: {
-  [x: number]: string;
+  [x: number]: ColorStops;
 } = {
-  0b10000: '#c4aab4',
-  0b01000: '#0273b2',
-  0b00100: '#141a36',
-  0b00010: '#b72d5b',
-  0b00001: '#36ae60',
+  0b10000: { start: '#DCA8A9', end: '#ffffff' },
+  0b01000: { start: '#04468B', end: '#09B9F2' },
+  0b00100: { start: '#020121', end: '#2F3E57' },
+  0b00010: { start: '#94136E', end: '#F15236' },
+  0b00001: { start: '#0E9651', end: '#9FD638' },
 };
 
 export const getPersonalityInfo = async (): Promise<{
