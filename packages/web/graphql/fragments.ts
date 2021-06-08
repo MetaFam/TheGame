@@ -48,6 +48,7 @@ export const PlayerFragment = gql`
     daohausMemberships {
       id
       shares
+      molochAddress
       moloch {
         id
         title
@@ -55,7 +56,6 @@ export const PlayerFragment = gql`
         totalShares
         chain
       }
-      molochAddress
     }
     brightid_status {
       unique
