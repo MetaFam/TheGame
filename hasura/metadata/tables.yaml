@@ -310,9 +310,8 @@
       - player_type_id
       - rank
       - role
-      - sc_identity_id
-      - total_xp
       - timezone
+      - total_xp
       - username
       filter: {}
       allow_aggregations: true

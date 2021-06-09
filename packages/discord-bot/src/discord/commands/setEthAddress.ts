@@ -5,9 +5,14 @@ import { loadSourceCredLedger, manager } from '../../sourcecred';
 
 const addressUtils = sc.plugins.ethereum.utils.address;
 
+type SetEthAddressArgs = {
+  ethAddress: string;
+  force: string;
+};
+
 export abstract class SetEthAddress {
-  @Command('!setAddress :ethAddress')
-  async setAddress(message: CommandMessage) {
+  @Command('!setAddress :ethAddress :force')
+  async setAddress(message: CommandMessage<SetEthAddressArgs>) {
     const res = await loadSourceCredLedger();
 
     if (res.error) {
@@ -47,14 +52,21 @@ export abstract class SetEthAddress {
 
     const account = manager.ledger.account(baseIdentityId);
 
-    const existing = account.identity.aliases.find((alias) => {
+    const existingEthAliases = account.identity.aliases.filter((alias) => {
       const parts = sc.core.graph.NodeAddress.toParts(alias.address);
       return parts.indexOf('ethereum') > 0;
     });
 
-    if (existing) {
+    const latestEthAlias = existingEthAliases[existingEthAliases.length - 1];
+
+    const shouldForceUpdate = message.args.force === 'force';
+
+    if (latestEthAlias && !shouldForceUpdate) {
       await message.reply(
-        `You already have linked the following ETH Address: \`${existing.description}\`.`,
+        `You already have linked the following ETH Address: \`${latestEthAlias.description}\`. Are you sure you want to update it? Warning: This cannot be undone and you will have to recreate your MyMeta profile!
+
+To force update your address, type \`!setAddress ${ethAddress} force\`.
+        `,
       );
       return;
     }
