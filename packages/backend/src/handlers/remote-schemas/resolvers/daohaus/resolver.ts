@@ -17,7 +17,10 @@ const addChain = (memberAddress: string) => async (chain: string) => {
   return members.map((member: Member) => {
     const updatedMember: Member = { ...member };
     updatedMember.moloch.chain = chain;
+<<<<<<< HEAD
     updatedMember.moloch.title = titles[member.moloch.id];
+=======
+>>>>>>> 62d37b0 (fix: set a default DAO title)
 
     if (!member.moloch.title)
       updatedMember.moloch.title = `Unknown ${chain} DAO`;
