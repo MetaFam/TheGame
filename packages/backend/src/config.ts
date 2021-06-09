@@ -10,7 +10,7 @@ interface IConfig {
   infuraId: string;
   pSEEDAddress: string;
   brightIdAppUrl: string;
-  discordBotToken: string;
+  sourceCredLedgerBranch: string;
 }
 
 function parseEnv<T extends string | number>(
@@ -63,5 +63,8 @@ export const CONFIG: IConfig = {
     process.env.NEXT_BRIGHTID_APP_URL,
     'https://app.brightid.org',
   ),
-  discordBotToken: parseEnv(process.env.DISCORD_BOT_TOKEN, ''),
+  sourceCredLedgerBranch: parseEnv(
+    process.env.SOURCECRED_LEDGER_BRANCH,
+    'staging', // Just so we dont mess up the master ledger in case people are testing locally
+  ),
 };
