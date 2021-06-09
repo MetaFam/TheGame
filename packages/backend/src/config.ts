@@ -80,8 +80,11 @@ export const CONFIG: IConfig = {
     process.env.SOURCECRED_LEDGER_BRANCH,
     'staging', // Just so we dont mess up the master ledger in case people are testing locally
   ),
+<<<<<<< HEAD
   ceramicDaemonURL: parseEnv(
     process.env.CERAMIC_DAEMON_URL,
     'https://d12-a-ceramic.3boxlabs.com', // 'http://localhost:7007',
   ),
+=======
+>>>>>>> bf06cd4 (Use environment variable for SourceCred ledger branch)
 };
