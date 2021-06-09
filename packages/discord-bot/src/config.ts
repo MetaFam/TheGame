@@ -9,6 +9,7 @@ interface IConfig {
   githubApiToken: string;
   discordBotToken: string;
   discordBotClientSecret: string;
+  sourceCredLedgerBranch: string;
 }
 
 function parseEnv<T extends string | number>(
@@ -42,4 +43,8 @@ export const CONFIG: IConfig = {
   githubApiToken: parseEnv(process.env.GITHUB_API_TOKEN, ''),
   discordBotToken: parseEnv(process.env.DISCORD_BOT_TOKEN, ''),
   discordBotClientSecret: parseEnv(process.env.DISCORD_BOT_CLIENT_SECRET, ''),
+  sourceCredLedgerBranch: parseEnv(
+    process.env.SOURCECRED_LEDGER_BRANCH,
+    'staging', // Just so we dont mess up the master ledger in case people are testing locally
+  ),
 };
