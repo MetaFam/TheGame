@@ -5,3 +5,4 @@ export * as DiscordUtil from './discordHelpers';
 export * as numbers from './numbers';
 export * from './promiseHelpers';
 export * from './rankHelpers';
+export * from './sourceCredHelpers';
