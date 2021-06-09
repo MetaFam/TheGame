@@ -10,6 +10,10 @@ const addChain = (memberAddress: string) => async (chain: string) => {
   return members.map((member: Member) => {
     const updatedMember: Member = { ...member };
     updatedMember.moloch.chain = chain;
+
+    if (!member.moloch.title)
+      updatedMember.moloch.title = `Unknown ${chain} DAO`;
+
     return updatedMember;
   });
 };
@@ -22,14 +26,14 @@ export const getDaoHausMemberships: QueryResolvers['getDaoHausMemberships'] = as
 
   const membershipsOn = addChain(memberAddress);
 
-  const res = await Promise.all([
+  const memberships = await Promise.all([
     membershipsOn('ethereum'),
     membershipsOn('polygon'),
     membershipsOn('xdai'),
   ]);
 
-  const members: Member[] = res.reduce(
-    (allMembers, networkMembers) => [...allMembers, ...networkMembers],
+  const members: Member[] = memberships.reduce(
+    (allMembers, chainMembers) => [...allMembers, ...chainMembers],
     <Member[]>[],
   );
 
