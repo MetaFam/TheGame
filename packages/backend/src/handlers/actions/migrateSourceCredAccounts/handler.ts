@@ -1,4 +1,8 @@
-import { Constants, isNotNullOrUndefined } from '@metafam/utils';
+import {
+  Constants,
+  getLatestEthAddress,
+  isNotNullOrUndefined,
+} from '@metafam/utils';
 import bluebird from 'bluebird';
 import { Request, Response } from 'express';
 import fetch from 'node-fetch';
@@ -7,9 +11,6 @@ import { SCAccountsData, SCAlias, sourcecred as sc } from 'sourcecred';
 import {
   AccountType_Enum,
   Player_Account_Constraint,
-  Player_Constraint,
-  Player_Insert_Input,
-  Player_Update_Column,
 } from '../../../lib/autogen/hasura-sdk';
 import { client } from '../../../lib/hasuraClient';
 import { computeRank } from '../../../lib/rankHelpers';
@@ -73,10 +74,7 @@ export const migrateSourceCredAccounts = async (
       const discordId = linkedAccounts.find(({ type }) => type === 'DISCORD')
         ?.identifier;
 
-      const ethAddress = a.account.identity.aliases.find((alias) => {
-        const parts = sc.core.graph.NodeAddress.toParts(alias.address);
-        return parts.indexOf('ethereum') > 0;
-      })?.description;
+      const ethAddress = getLatestEthAddress(a.account.identity);
 
       if (!ethAddress) return null;
 
@@ -148,32 +146,11 @@ export const migrateSourceCredAccounts = async (
       },
       { concurrency: 10 },
     );
-    const usersToInsert: Player_Insert_Input[] = result
-      .filter(isNotNullOrUndefined)
-      .map((player) => ({
-        username: player.ethereum_address,
-        ethereum_address: player.ethereum_address,
-        sc_identity_id: player.scIdentityId,
-        rank: player.rank,
-        total_xp: player.totalXp,
-      }));
+    const usersSkipped = result.filter(isNotNullOrUndefined);
 
-    const resultInsert = await client.UpsertPlayer({
-      objects: usersToInsert,
-      onConflict: {
-        constraint: Player_Constraint.PlayerEthereumAddressUniqueKey,
-        update_columns: [
-          Player_Update_Column.ScIdentityId,
-          Player_Update_Column.Username,
-          Player_Update_Column.TotalXp,
-          Player_Update_Column.Rank,
-        ],
-      },
-    });
     res.json({
-      resultInsert,
-      numUpdated: accountList.length - usersToInsert.length,
-      numInserted: usersToInsert.length,
+      numSkipped: usersSkipped.length,
+      numUpdated: accountList.length - usersSkipped.length,
     });
   } catch (e) {
     console.warn('Error migrating players/accounts', e.message);

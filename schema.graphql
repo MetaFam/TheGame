@@ -3567,7 +3567,6 @@ type player {
   ): quest_aggregate!
   rank: PlayerRank_enum
   role: String
-  sc_identity_id: String
   timezone: String
 
   """Remote relationship field"""
@@ -3847,7 +3846,6 @@ input player_bool_exp {
   quests: quest_bool_exp
   rank: PlayerRank_enum_comparison_exp
   role: String_comparison_exp
-  sc_identity_id: String_comparison_exp
   timezone: String_comparison_exp
   total_xp: numeric_comparison_exp
   updated_at: timestamptz_comparison_exp
@@ -3863,9 +3861,6 @@ enum player_constraint {
 
   """unique or primary key constraint"""
   Player_pkey
-
-  """unique or primary key constraint"""
-  Player_scIdentityId_key
 
   """unique or primary key constraint"""
   Player_username_unique_key
@@ -3904,7 +3899,6 @@ input player_insert_input {
   quests: quest_arr_rel_insert_input
   rank: PlayerRank_enum
   role: String
-  sc_identity_id: String
   timezone: String
   total_xp: numeric
   updated_at: timestamptz
@@ -3921,7 +3915,6 @@ type player_max_fields {
   id: uuid
   player_type_id: Int
   role: String
-  sc_identity_id: String
   timezone: String
   total_xp: numeric
   updated_at: timestamptz
@@ -3940,7 +3933,6 @@ input player_max_order_by {
   id: order_by
   player_type_id: order_by
   role: order_by
-  sc_identity_id: order_by
   timezone: order_by
   total_xp: order_by
   updated_at: order_by
@@ -3957,7 +3949,6 @@ type player_min_fields {
   id: uuid
   player_type_id: Int
   role: String
-  sc_identity_id: String
   timezone: String
   total_xp: numeric
   updated_at: timestamptz
@@ -3976,7 +3967,6 @@ input player_min_order_by {
   id: order_by
   player_type_id: order_by
   role: order_by
-  sc_identity_id: order_by
   timezone: order_by
   total_xp: order_by
   updated_at: order_by
@@ -4031,7 +4021,6 @@ input player_order_by {
   quests_aggregate: quest_aggregate_order_by
   rank: order_by
   role: order_by
-  sc_identity_id: order_by
   timezone: order_by
   total_xp: order_by
   updated_at: order_by
@@ -4077,9 +4066,6 @@ enum player_select_column {
   role
 
   """column name"""
-  sc_identity_id
-
-  """column name"""
   timezone
 
   """column name"""
@@ -4105,7 +4091,6 @@ input player_set_input {
   player_type_id: Int
   rank: PlayerRank_enum
   role: String
-  sc_identity_id: String
   timezone: String
   total_xp: numeric
   updated_at: timestamptz
@@ -4712,9 +4697,6 @@ enum player_update_column {
 
   """column name"""
   role
-
-  """column name"""
-  sc_identity_id
 
   """column name"""
   timezone

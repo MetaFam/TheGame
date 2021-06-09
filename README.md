@@ -83,6 +83,12 @@ yarn backend:dev
 yarn web:dev
 ```
 
+### Run Discord Bot
+
+```shell script
+yarn discord-bot dev
+```
+
 ### Tooling
 
 Start Hasura console
