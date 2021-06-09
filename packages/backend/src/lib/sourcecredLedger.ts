@@ -6,7 +6,7 @@ import { CONFIG } from '../config';
 const storage = new sourcecred.ledger.storage.GithubStorage({
   apiToken: CONFIG.githubApiToken,
   repo: 'MetaFam/XP',
-  branch: 'master',
+  branch: CONFIG.sourceCredLedgerBranch,
 });
 
 export const ledgerManager: LedgerManager = new sourcecred.ledger.manager.LedgerManager(
