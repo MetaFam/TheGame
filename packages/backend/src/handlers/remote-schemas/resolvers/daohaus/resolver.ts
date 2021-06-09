@@ -19,6 +19,10 @@ const addChain = (memberAddress: string) => async (chain: string) => {
     updatedMember.moloch.chain = chain;
     updatedMember.moloch.title = titles[member.moloch.id];
 
+    if (!updatedMember.moloch.title) {
+      updatedMember.moloch.title = `Unknown ${chain} DAO`;
+    }
+
     return updatedMember;
   });
 };
