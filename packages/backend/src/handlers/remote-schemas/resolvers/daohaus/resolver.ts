@@ -26,16 +26,20 @@ export const getDaoHausMemberships: QueryResolvers['getDaoHausMemberships'] = as
 
   const membershipsOn = addChain(memberAddress);
 
-  const memberships = await Promise.all([
+  const memberships = await Promise.allSettled([
     membershipsOn('ethereum'),
     membershipsOn('polygon'),
     membershipsOn('xdai'),
   ]);
 
-  const members: Member[] = memberships.reduce(
-    (allMembers, chainMembers) => [...allMembers, ...chainMembers],
-    <Member[]>[],
-  );
+  const members: Member[] = memberships.reduce((allMembers, chainMembers) => {
+    if (chainMembers.status === 'rejected') {
+      console.error('Pulling memberships failed:', chainMembers.reason);
+      return allMembers;
+    }
+
+    return [...allMembers, ...chainMembers.value];
+  }, <Member[]>[]);
 
   return members;
 };
