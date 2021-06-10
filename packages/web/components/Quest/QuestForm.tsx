@@ -6,7 +6,7 @@ import {
   MetaButton,
   MetaTag,
   Select,
-  Textarea,
+  Text,
   VStack,
 } from '@metafam/ds';
 import { Field } from 'components/Forms/Field';
@@ -21,10 +21,12 @@ import { useRouter } from 'next/router';
 import React, { useMemo, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
+// import draftToHtml from 'draftjs-to-html';
 import { QuestRepetitionHint, UriRegexp } from '../../utils/questHelpers';
 import { CategoryOption, SkillOption } from '../../utils/skillHelpers';
 import { FlexContainer } from '../Container';
 import { SkillsSelect } from '../Skills';
+import { WYSIWYGEditor } from '../WYSIWYGEditor';
 import { RepetitionColors } from './QuestTags';
 
 const validations = {
@@ -145,14 +147,16 @@ export const QuestForm: React.FC<Props> = ({
           />
         </Field>
 
-        <Field label="Description" error={errors.description}>
-          <Textarea
-            background="dark"
-            placeholder="Please describe in details what needs to be done"
-            isRequired
+        <Field label="Description">
+          <Controller
             name="description"
-            ref={register(validations.description)}
-            isInvalid={!!errors.description}
+            control={control}
+            render={({ onChange, value }) => (
+              <WYSIWYGEditor
+                editorState={value}
+                onEditorStateChange={onChange}
+              />
+            )}
           />
         </Field>
 
