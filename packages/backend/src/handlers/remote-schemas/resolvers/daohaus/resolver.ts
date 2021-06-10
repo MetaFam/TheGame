@@ -1,8 +1,8 @@
-import { clientFactory } from '../../../../lib/daoHausClient';
+import { getClient } from '../../../../lib/daoHausClient';
 import { Member, QueryResolvers } from '../../autogen/types';
 
 const addChain = (memberAddress: string) => async (chain: string) => {
-  const client = clientFactory(chain);
+  const client = getClient(chain);
   const members = <Member[]>(
     (await client.GetDaoHausMemberships({ memberAddress })).members
   );
