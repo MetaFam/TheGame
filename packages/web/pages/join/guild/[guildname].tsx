@@ -8,7 +8,7 @@ import {
 import { FlexContainer, PageContainer } from 'components/Container';
 import { EditGuildFormInputs, GuildForm } from 'components/Guild/GuildForm';
 import { GuildStatus_Enum } from 'graphql/autogen/types';
-import { getGuild } from 'graphql/getGuild';
+import { getGuild, getGuildMetadata } from 'graphql/getGuild';
 import { getGuildnames } from 'graphql/getGuilds';
 import {
   GetStaticPaths,
@@ -19,7 +19,7 @@ import React, { useState } from 'react';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
-const SetupGuild: React.FC<Props> = ({ guild }) => {
+const SetupGuild: React.FC<Props> = ({ guild, discordRoles }) => {
   const onSubmit = (data: EditGuildFormInputs) => {
     console.log(data);
   };
@@ -50,7 +50,11 @@ const SetupGuild: React.FC<Props> = ({ guild }) => {
           align="stretch"
           justify="space-between"
         >
-          <GuildForm workingGuild={guild} onSubmit={onSubmit}>
+          <GuildForm
+            workingGuild={guild}
+            allDiscordRoles={discordRoles}
+            onSubmit={onSubmit}
+          >
             <HStack justify="space-between" mt={4} w="100%">
               <MetaButton
                 variant="outline"
@@ -102,10 +106,7 @@ export const getStaticProps = async (
   context: GetStaticPropsContext<QueryParams>,
 ) => {
   const guildName = context.params?.guildname;
-  let guild;
-  if (guildName != null) {
-    guild = await getGuild(guildName);
-  }
+  const guild = await getGuild(guildName);
 
   if (guild == null) {
     return {
@@ -116,9 +117,12 @@ export const getStaticProps = async (
     };
   }
 
+  const discordRoles = await getGuildMetadata(guild.id);
+
   return {
     props: {
       guild,
+      discordRoles,
     },
   };
 };

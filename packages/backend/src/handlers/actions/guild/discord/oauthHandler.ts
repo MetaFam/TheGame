@@ -38,7 +38,7 @@ export const handleOAuthCallback = async (
     }
 
     // look up guild by guild Id
-    const getGuildResponse = await client.GetDiscordGuild({
+    const getGuildResponse = await client.GetGuild({
       discordId: discordGuild.id,
     });
 
@@ -47,9 +47,8 @@ export const handleOAuthCallback = async (
 
       // if a guild with the same server ID already exists, see if a discord refresh token is set.
       if (existingGuild.discord_metadata?.refreshToken != null) {
-        // if so, it's already set up: redirect to the appropriate page on the frontend
+        // if so, it's already set up
         // might want to save the new refresh token if it's different...?
-        // (unfortunately this page doesn't yet exist..)
         const successResponse: DiscordGuildAuthResponse = {
           success: true,
           guildname: existingGuild.guildname,

@@ -1,6 +1,11 @@
 import gql from 'fake-tag';
 
-import { GetGuildQuery, GetGuildQueryVariables } from './autogen/types';
+import {
+  GetGuildMetadataQuery,
+  GetGuildMetadataQueryVariables,
+  GetGuildQuery,
+  GetGuildQueryVariables,
+} from './autogen/types';
 import { client } from './client';
 import { GuildFragment } from './fragments';
 
@@ -20,4 +25,29 @@ export const getGuild = async (guildname: string | undefined) => {
     .toPromise();
 
   return data?.guild[0];
+};
+
+const guildMetadataQuery = gql`
+  query GetGuildMetadata($id: uuid!) {
+    guild_metadata(where: { guild_id: { _eq: $id } }) {
+      discordRoles {
+        id
+        name
+        position
+      }
+    }
+  }
+  ${GuildFragment}
+`;
+
+export const getGuildMetadata = async (id: string) => {
+  if (!id) return null;
+  const { data } = await client
+    .query<GetGuildMetadataQuery, GetGuildMetadataQueryVariables>(
+      guildMetadataQuery,
+      { id },
+    )
+    .toPromise();
+
+  return data?.guild_metadata[0];
 };

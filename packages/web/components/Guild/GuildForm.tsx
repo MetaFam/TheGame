@@ -1,6 +1,10 @@
 import { Box, Input, MultiSelect, Select, Textarea, VStack } from '@metafam/ds';
 import { Field } from 'components/Forms/Field';
-import { GuildFragmentFragment, GuildType_Enum } from 'graphql/autogen/types';
+import {
+  DiscordRole,
+  GuildFragmentFragment,
+  GuildType_Enum,
+} from 'graphql/autogen/types';
 import React, { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 
@@ -59,10 +63,15 @@ const getDefaultFormValues = (
 
 type Props = {
   workingGuild: GuildFragmentFragment;
+  allDiscordRoles: DiscordRole[];
   onSubmit: (data: EditGuildFormInputs) => void;
 };
 
-export const GuildForm: React.FC<Props> = ({ workingGuild, onSubmit }) => {
+export const GuildForm: React.FC<Props> = ({
+  workingGuild,
+  allDiscordRoles,
+  onSubmit,
+}) => {
   const defaultValues = useMemo<EditGuildFormInputs>(
     () => getDefaultFormValues(workingGuild),
     [workingGuild],
@@ -158,7 +167,8 @@ export const GuildForm: React.FC<Props> = ({ workingGuild, onSubmit }) => {
               ))}
             </Select>
           </Field>
-          <Field label="Administrator Roles">
+          {allDiscordRoles.map((r) => r.name)}
+          {/* <Field label="Administrator Roles">
             <MultiSelect
               isRequired
               name="discord_admin_roles"
@@ -167,7 +177,7 @@ export const GuildForm: React.FC<Props> = ({ workingGuild, onSubmit }) => {
               bg="dark"
               color="white"
             />
-          </Field>
+          </Field> */}
         </form>
       </VStack>
     </Box>
