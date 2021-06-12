@@ -1,6 +1,7 @@
 import { gql } from 'graphql-request/dist';
 
-export const GetPlayer = gql`
+// eslint-disable-next-line @typescript-eslint/no-unused-expressions
+gql`
   query GetPlayer($playerId: uuid!) {
     player_by_pk(id: $playerId) {
       id
@@ -12,17 +13,13 @@ export const GetPlayer = gql`
       }
     }
   }
-`;
 
-export const GetPlayerFromEth = gql`
   query GetPlayerFromETH($ethereum_address: String) {
     player(where: { ethereum_address: { _eq: $ethereum_address } }) {
       id
     }
   }
-`;
 
-export const GetQuestById = gql`
   query GetQuestById($quest_id: uuid!) {
     quest_by_pk(id: $quest_id) {
       id
@@ -32,9 +29,7 @@ export const GetQuestById = gql`
       created_by_player_id
     }
   }
-`;
 
-export const GetQuestCompletions = gql`
   query GetQuestCompletions($quest_id: uuid!, $player_id: uuid!) {
     quest_completion(
       where: {
@@ -47,9 +42,7 @@ export const GetQuestCompletions = gql`
       completed_by_player_id
     }
   }
-`;
 
-export const GetQuestCompletionById = gql`
   query GetQuestCompletionById($quest_completion_id: uuid!) {
     quest_completion_by_pk(id: $quest_completion_id) {
       id
@@ -58,9 +51,7 @@ export const GetQuestCompletionById = gql`
       status
     }
   }
-`;
 
-export const GetLastQuestCompletionForPlayer = gql`
   query GetLastQuestCompletionForPlayer($quest_id: uuid!, $player_id: uuid!) {
     quest_completion(
       limit: 1
@@ -90,22 +81,21 @@ export const GuildFragment = gql`
     type
     website_url
     discord_id
-    discord_metadata
   }
 `;
 
-export const GetGuild = gql`
-  query GetGuild($guildname: String!) {
-    guild(where: { guildname: { _eq: $guildname } }) {
-      ...GuildFragment
-    }
-  }
-  ${GuildFragment}
-`;
-
-export const GetDiscordGuild = gql`
-  query GetDiscordGuild($discordId: String!) {
-    guild(where: { discord_id: { _eq: $discordId } }) {
+// eslint-disable-next-line @typescript-eslint/no-unused-expressions
+gql`
+  query GetGuild($guildname: String, $id: uuid, $discordId: String) {
+    guild(
+      where: {
+        _or: [
+          { id: { _eq: $id } }
+          { guildname: { _eq: $guildname } }
+          { discord_id: { _eq: $discordId } }
+        ]
+      }
+    ) {
       ...GuildFragment
     }
   }

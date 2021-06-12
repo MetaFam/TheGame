@@ -177,11 +177,11 @@ export const UpdateGuildDiscordMetadata = gql`
     $guildId: uuid!
     $discordMetadata: jsonb
   ) {
-    update_guild_by_pk(
-      pk_columns: { id: $guildId }
+    update_guild_metadata_by_pk(
+      pk_columns: { guild_id: $guildId }
       _set: { discord_metadata: $discordMetadata }
     ) {
-      id
+      guild_id
     }
   }
 `;

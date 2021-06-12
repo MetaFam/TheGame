@@ -183,6 +183,26 @@
       foreign_key_constraint_on: guild_id
 - table:
     schema: public
+    name: guild_metadata
+  remote_relationships:
+  - definition:
+      remote_field:
+        getGuildDiscordRoles:
+          arguments:
+            guildDiscordId: $discord_id
+      hasura_fields:
+      - discord_id
+      remote_schema: backend
+    name: discordRoles
+  select_permissions:
+  - role: player
+    permission:
+      columns: []
+      filter:
+        creator_id:
+          _eq: X-Hasura-User-Id
+- table:
+    schema: public
     name: guild_player
   object_relationships:
   - name: Guild
