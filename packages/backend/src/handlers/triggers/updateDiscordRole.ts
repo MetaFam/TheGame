@@ -14,6 +14,8 @@ export interface UpdateRole {
 }
 
 export const updateDiscordRole = async (payload: TriggerPayload<Player>) => {
+  if (process.env.NODE_ENV !== 'production') return;
+
   const { old: oldPlayer, new: newPlayer } = payload.event.data;
 
   console.log(
@@ -41,7 +43,7 @@ export const updateDiscordRole = async (payload: TriggerPayload<Player>) => {
     // instantiate discord client. We'll need serverId, playerId, and roleIds
     const discordClient = await createDiscordClient();
 
-    const guild = await discordClient.guilds.fetch(guildDiscordId);
+    const guild = await discordClient.guilds.fetch(guildDiscordId, true, true);
     if (guild == null) {
       console.warn(`No discord server found matching ${guildDiscordId}!`);
       return;
@@ -61,12 +63,15 @@ export const updateDiscordRole = async (payload: TriggerPayload<Player>) => {
     // We know the old value; try to remove that role
     let removedRole: PlayerRank_Enum | null = null;
     if (oldPlayer?.rank != null) {
-      // this is just a no-op if the player doesn't actually have the role
-      const success = await discordPlayer.roles.remove(
-        rankDiscordRoleIds[oldPlayer.rank],
-      );
-      if (success) {
-        removedRole = oldPlayer.rank;
+      const rankId = rankDiscordRoleIds[oldPlayer.rank];
+      try {
+        // this actually throws a typeerror if the player doesn't actually have the role
+        const success = await discordPlayer.roles.remove(rankId);
+        if (success) {
+          removedRole = oldPlayer.rank;
+        }
+      } catch (e) {
+        console.error(e);
       }
     }
     // if not successful, attempt to remove all rank roles
@@ -75,9 +80,9 @@ export const updateDiscordRole = async (payload: TriggerPayload<Player>) => {
       for (const rank in rankDiscordRoleIds) {
         if (Object.prototype.hasOwnProperty.call(rankDiscordRoleIds, rank)) {
           // eslint-disable-next-line no-await-in-loop
-          const success = await discordPlayer.roles.remove(
+          const success = await discordPlayer.roles.remove([
             rankDiscordRoleIds[rank as PlayerRank_Enum],
-          );
+          ]);
           if (success) {
             removedRole = rank as PlayerRank_Enum;
             break;
@@ -87,7 +92,7 @@ export const updateDiscordRole = async (payload: TriggerPayload<Player>) => {
     }
 
     if (removedRole) {
-      console.log(`  ${newPlayer?.username}: removed role ${removedRole}`);
+      console.log(`${newPlayer?.username}: removed role ${removedRole}`);
     }
 
     // Add the new rank.
@@ -95,8 +100,8 @@ export const updateDiscordRole = async (payload: TriggerPayload<Player>) => {
     if (discordRoleForRank == null) {
       console.warn(`Discord role associated with ${newRank} was not found!`);
     } else {
-      await discordPlayer.roles.add(discordRoleForRank);
-      console.log(`$  {newPlayer?.username}: added role ${newRank}`);
+      await discordPlayer.roles.add([discordRoleForRank]);
+      console.log(`${newPlayer?.username}: added role ${newRank}`);
     }
   } catch (e) {
     console.error(e);
