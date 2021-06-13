@@ -3,7 +3,7 @@ import NextLink, { LinkProps } from 'next/link';
 import React from 'react';
 
 type Props = Omit<React.ComponentProps<typeof Link>, keyof LinkProps> &
-  LinkProps;
+  LinkProps & { isOverlay?: boolean };
 
 export const MetaLink: React.FC<Props> = ({
   children,
@@ -14,6 +14,7 @@ export const MetaLink: React.FC<Props> = ({
   scroll = true,
   shallow,
   isExternal,
+  isOverlay = false,
   ...props
 }) => {
   if (isExternal && typeof href === 'string') {
@@ -34,9 +35,21 @@ export const MetaLink: React.FC<Props> = ({
       shallow={shallow}
     >
       {/*  NextLink passes the href */}
-      <Link color="cyan.400" {...props}>
-        {children}
-      </Link>
+      {isOverlay ? (
+        <Link
+          position="absolute"
+          top="0"
+          bottom="0"
+          left="0"
+          right="0"
+          background="transparent"
+          {...props}
+        />
+      ) : (
+        <Link color="cyan.400" {...props}>
+          {children}
+        </Link>
+      )}
     </NextLink>
   );
 };
