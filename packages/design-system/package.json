@@ -52,6 +52,6 @@
     "react-dom": "16.14.0",
     "react-google-font-loader": "1.1.0",
     "ts-loader": "8.1.0",
-    "tslib": "2.2.0"
+    "tslib": "2.3.0"
   }
 }
