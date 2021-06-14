@@ -13,7 +13,7 @@ import {
   useDisclosure,
 } from '@metafam/ds';
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
-import React from 'react';
+import React, { useState } from 'react';
 import { isBackdropFilterSupported } from 'utils/compatibilityHelpers';
 
 import polygonImage from '../../../assets/chains/polygon.png';
@@ -37,33 +37,35 @@ const getImageMoloch = (title: string) => {
   return ethereumImage;
 };
 
-const LinkDao: React.FC<{ chain: string; address: string }> = ({
+type LinkDaoProps = {
+  chain: string;
+  address: string;
+  setIsLink: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+const LinkDao: React.FC<LinkDaoProps> = ({
   chain,
   address,
+  setIsLink,
   children,
 }) => {
-  const DaoHeading = () => (
-    <Heading
-      fontWeight="bold"
-      textTransform="uppercase"
-      color="cyanText"
-      fontSize="xs"
-      mb="1"
-    >
-      {children || `Unknown ${chain} DAO`}
-    </Heading>
-  );
-
   let explorerUrl;
   if (chain.toLowerCase() === 'xdai')
     explorerUrl = `https://blockscout.com/xdai/mainnet/address/${address}`;
   else if (chain.toLowerCase() === 'ethereum')
     explorerUrl = `https://etherscan.io/address/${address}`;
-  else return <DaoHeading />;
+  else return <>{children}</>;
+
+  setIsLink(true);
 
   return (
-    <Link href={explorerUrl} isExternal>
-      <DaoHeading />
+    <Link
+      role="group"
+      _hover={{ textDecoration: 'none' }}
+      href={explorerUrl}
+      isExternal
+    >
+      {children}
     </Link>
   );
 };
@@ -95,29 +97,40 @@ const DaoListing: React.FC<DaoListingProps> = ({
     message = `Shares: ${memberShares}/${daoShares}`;
   }
 
+  const [isLink, setIsLink] = useState(false);
+
   return (
-    <HStack alignItems="center" mb={6}>
-      <Flex bg="purpleBoxLight" width={16} height={16} mr={6}>
-        <Box
-          bgImage={`url(${getImageMoloch(title || chain || '')})`}
-          backgroundSize="cover"
-          width={12}
-          height={12}
-          m="auto"
-        />
-      </Flex>
-      <Box>
-        <LinkDao chain={chain || ''} address={address || ''}>
-          {title}
-        </LinkDao>
-        <HStack alignItems="center">
-          <Text fontSize="xs" casing="capitalize" mr={3}>
-            {memberRank || 'player'}
-          </Text>
-          <Text fontSize="xs">{message}</Text>
-        </HStack>
-      </Box>
-    </HStack>
+    <LinkDao chain={chain || ''} address={address || ''} setIsLink={setIsLink}>
+      <HStack alignItems="center" mb={6}>
+        <Flex bg="purpleBoxLight" width={16} height={16} mr={6}>
+          <Box
+            bgImage={`url(${getImageMoloch(title || chain || '')})`}
+            backgroundSize="cover"
+            width={12}
+            height={12}
+            m="auto"
+          />
+        </Flex>
+        <Box>
+          <Heading
+            _groupHover={{ textDecoration: 'underline' }}
+            fontWeight="bold"
+            textTransform="uppercase"
+            fontSize="xs"
+            color={isLink ? 'cyanText' : 'white'}
+            mb="1"
+          >
+            {title || `Unknown ${chain} DAO`}
+          </Heading>
+          <HStack alignItems="center">
+            <Text fontSize="xs" casing="capitalize" mr={3}>
+              {memberRank || 'player'}
+            </Text>
+            <Text fontSize="xs">{message}</Text>
+          </HStack>
+        </Box>
+      </HStack>
+    </LinkDao>
   );
 };
 
