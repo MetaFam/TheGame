@@ -25,7 +25,7 @@
     "moment": "2.29.1",
     "next": "10.2.3",
     "next-images": "1.7.0",
-    "next-transpile-modules": "7.2.0",
+    "next-transpile-modules": "8.0.0",
     "next-urql": "3.1.0",
     "node-fetch": "2.6.1",
     "opensea-js": "1.1.11",
