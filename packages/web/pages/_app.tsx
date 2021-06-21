@@ -1,6 +1,7 @@
 import { ChakraProvider, CSSReset, MetaTheme } from '@metafam/ds';
-import { MobileFooter } from 'components/MobileFooter';
-import { PageHeader } from 'components/PageHeader';
+// import { MobileFooter } from 'components/MobileFooter';
+// import { PageHeader } from 'components/PageHeader';
+import { MegaMenu } from 'components/MegaMenu';
 import { Web3ContextProvider } from 'contexts/Web3Context';
 import Head from 'next/head';
 import { WithUrqlProps } from 'next-urql';
@@ -21,8 +22,9 @@ const App: React.FC<WithUrqlProps> = ({
     </Head>
     <Web3ContextProvider resetUrqlClient={resetUrqlClient}>
       <>
-        {!pageProps.hideAppDrawer && <PageHeader />}
-        {!pageProps.hideAppDrawer && <MobileFooter />}
+        <MegaMenu />
+        {/* {!pageProps.hideAppDrawer && <PageHeader />} */}
+        {/* {!pageProps.hideAppDrawer && <MobileFooter />} */}
         <Component {...pageProps} />
       </>
     </Web3ContextProvider>

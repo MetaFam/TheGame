@@ -18,7 +18,13 @@ export {
 export { SVG } from './SVG';
 export { theme as MetaTheme } from './theme';
 export { H1, P } from './typography';
-export { CloseIcon, EmailIcon, SettingsIcon } from '@chakra-ui/icons';
+export {
+  ChevronDownIcon,
+  ChevronUpIcon,
+  CloseIcon,
+  EmailIcon,
+  SettingsIcon,
+} from '@chakra-ui/icons';
 export {
   AlertDialog,
   AlertDialogBody,
@@ -56,6 +62,10 @@ export {
   List,
   ListIcon,
   ListItem,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
   Modal,
   ModalCloseButton,
   ModalContent,
