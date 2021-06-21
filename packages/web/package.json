@@ -20,7 +20,7 @@
     "copy-to-clipboard": "3.3.1",
     "ethers": "5.3.0",
     "fake-tag": "3.0.0",
-    "graphql": "15.5.0",
+    "graphql": "15.5.1",
     "isomorphic-unfetch": "3.1.0",
     "moment": "2.29.1",
     "next": "10.2.3",
