@@ -38,7 +38,7 @@
     "react-timezone-select": "1.0.3",
     "spacetime": "6.16.1",
     "spacetime-informal": "0.6.1",
-    "storybook-addon-performance": "0.15.2"
+    "storybook-addon-performance": "0.16.0"
   },
   "devDependencies": {
     "@babel/core": "7.14.2",
