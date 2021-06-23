@@ -329,7 +329,6 @@
       - total_xp
       - username
       filter: {}
-      allow_aggregations: true
   - role: public
     permission:
       columns:
@@ -344,7 +343,6 @@
       - total_xp
       - username
       filter: {}
-      allow_aggregations: true
   update_permissions:
   - role: player
     permission:
