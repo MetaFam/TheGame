@@ -37,11 +37,13 @@ export const GuildTile: React.FC<Props> = ({ guild }) => (
         </VStack>
       </MetaLink>
       {guild.type ? (
-        <Box align="center">
-          <MetaTag size="md">
-            {guild.type}
-            GUILD
-          </MetaTag>
+        <Box align="center" mt={0}>
+          <MetaTag size="md">{guild.type} GUILD</MetaTag>
+        </Box>
+      ) : null}
+      {guild.position ? (
+        <Box align="center" mt={0}>
+          <MetaTag size="md">{guild.position} GUILD</MetaTag>
         </Box>
       ) : null}
       {guild.description ? (
