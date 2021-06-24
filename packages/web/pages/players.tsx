@@ -14,8 +14,12 @@ type Props = InferGetStaticPropsType<typeof getStaticProps>;
 export const getStaticProps = async () => {
   const [ssrClient, ssrCache] = getSsrClient();
 
-  // This populate the cache server-side
-  await getPlayers(undefined, ssrClient);
+  // This populates the cache server-side
+  const { error } = await getPlayers(undefined, ssrClient);
+  if (error != null) {
+    // eslint-disable-next-line no-console
+    console.error('error', error);
+  }
   await getPlayerFilters(ssrClient);
 
   return {
