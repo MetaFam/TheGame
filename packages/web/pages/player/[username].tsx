@@ -12,6 +12,7 @@ import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 
 import { PageContainer } from '../../components/Container';
+import { EmbeddedUrl, tempUrl } from '../../components/EmbeddedUrl';
 import { PlayerAchievements } from '../../components/Player/Section/PlayerAchievements';
 import { PlayerAddSection } from '../../components/Player/Section/PlayerAddSection';
 import { PlayerGallery } from '../../components/Player/Section/PlayerGallery';
@@ -168,6 +169,9 @@ const PlayerPage: React.FC<Props> = ({ player }) => {
                     mb={6}
                   />
                 ) : null}
+                <Box mb={6} key="embed-url1">
+                  <EmbeddedUrl address={tempUrl} />
+                </Box>
               </Box>
             </Flex>
           </Box>
