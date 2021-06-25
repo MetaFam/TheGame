@@ -161,13 +161,19 @@ export const RejectOtherQuestCompletions = gql`
 `;
 
 export const CreateGuild = gql`
-  mutation CreateGuild($objects: [guild_insert_input!]!) {
-    insert_guild(objects: $objects) {
-      affected_rows
-      returning {
-        guildname
-        id
-      }
+  mutation CreateGuild($object: guild_insert_input!) {
+    insert_guild_one(object: $object) {
+      guildname
+      id
+    }
+  }
+
+  mutation CreateGuildMetadata($object: guild_metadata_insert_input!) {
+    insert_guild_metadata_one(object: $object) {
+      creator_id
+      discord_id
+      guild_id
+      discord_metadata
     }
   }
 `;

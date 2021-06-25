@@ -7,24 +7,36 @@ import {
 } from '@metafam/ds';
 import { FlexContainer, PageContainer } from 'components/Container';
 import { EditGuildFormInputs, GuildForm } from 'components/Guild/GuildForm';
-import { GuildStatus_Enum } from 'graphql/autogen/types';
-import { getGuild, getGuildMetadata } from 'graphql/getGuild';
-import { getGuildnames } from 'graphql/getGuilds';
-import {
-  GetStaticPaths,
-  GetStaticPropsContext,
-  InferGetStaticPropsType,
-} from 'next';
-import React, { useState } from 'react';
+import { GuildFragmentFragment } from 'graphql/autogen/types';
+import { getGuild } from 'graphql/getGuild';
+import { useGetGuildMetadata } from 'lib/hooks/guilds';
+import { useRouter } from 'next/router';
+import React, { useEffect, useState } from 'react';
 
-type Props = InferGetStaticPropsType<typeof getStaticProps>;
+const SetupGuild: React.FC = () => {
+  const router = useRouter();
 
-const SetupGuild: React.FC<Props> = ({ guild, discordRoles }) => {
+  const [guild, setGuild] = useState<GuildFragmentFragment | undefined>();
+  const [exitAlert, setExitAlert] = useState<boolean>(false);
+
+  const guildName = router.query.guildname as string;
+
+  useEffect(() => {
+    const fetchGuild = async () => {
+      const guildResponse = await getGuild(guildName);
+      if (guildResponse != null) {
+        setGuild(guildResponse);
+      }
+    };
+    fetchGuild();
+  }, [guildName]);
+
+  const { discordRoles } = useGetGuildMetadata(guild?.id);
+
   const onSubmit = (data: EditGuildFormInputs) => {
+    // eslint-disable-next-line no-console
     console.log(data);
   };
-
-  const [exitAlert, setExitAlert] = useState<boolean>(false);
 
   const success = false;
   const fetching = false;
@@ -88,41 +100,3 @@ const SetupGuild: React.FC<Props> = ({ guild, discordRoles }) => {
 };
 
 export default SetupGuild;
-
-type QueryParams = { guildname: string };
-
-export const getStaticPaths: GetStaticPaths<QueryParams> = async () => {
-  const guildnames = await getGuildnames(GuildStatus_Enum.Pending);
-
-  return {
-    paths: guildnames.map((guildname) => ({
-      params: { guildname },
-    })),
-    fallback: true,
-  };
-};
-
-export const getStaticProps = async (
-  context: GetStaticPropsContext<QueryParams>,
-) => {
-  const guildName = context.params?.guildname;
-  const guild = await getGuild(guildName);
-
-  if (guild == null) {
-    return {
-      redirect: {
-        destination: '/join',
-        permanent: false,
-      },
-    };
-  }
-
-  const discordRoles = await getGuildMetadata(guild.id);
-
-  return {
-    props: {
-      guild,
-      discordRoles,
-    },
-  };
-};

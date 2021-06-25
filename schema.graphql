@@ -1279,7 +1279,13 @@ type guild_metadata {
     """
     path: String
   ): jsonb
+
+  """An object relationship"""
+  guild: guild!
   guild_id: uuid!
+
+  """An object relationship"""
+  player: player!
 }
 
 """
@@ -1333,7 +1339,9 @@ input guild_metadata_bool_exp {
   creator_id: uuid_comparison_exp
   discord_id: String_comparison_exp
   discord_metadata: jsonb_comparison_exp
+  guild: guild_bool_exp
   guild_id: uuid_comparison_exp
+  player: player_bool_exp
 }
 
 """
@@ -1375,7 +1383,9 @@ input guild_metadata_insert_input {
   creator_id: uuid
   discord_id: String
   discord_metadata: jsonb
+  guild: guild_obj_rel_insert_input
   guild_id: uuid
+  player: player_obj_rel_insert_input
 }
 
 """
@@ -1453,7 +1463,9 @@ input guild_metadata_order_by {
   creator_id: order_by
   discord_id: order_by
   discord_metadata: order_by
+  guild: guild_order_by
   guild_id: order_by
+  player: player_order_by
 }
 
 """

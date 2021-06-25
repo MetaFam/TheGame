@@ -81,6 +81,15 @@ export const GuildForm: React.FC<Props> = ({
     defaultValues,
   });
 
+  const roleOptions = useMemo(
+    () =>
+      allDiscordRoles.map((role) => ({
+        label: role.name,
+        value: role.id,
+      })),
+    [allDiscordRoles],
+  );
+
   return (
     <Box w="100%" maxW="30rem">
       <VStack>
@@ -96,7 +105,7 @@ export const GuildForm: React.FC<Props> = ({
               maxLength={validations.guildname.maxLength}
               background="dark"
             />
-            <span>A unique name for your guild, like a username.</span>
+            <span>A unique identifier for your guild, like a username.</span>
           </Field>
           <Field label="Name" error={errors.name}>
             <Input
@@ -132,11 +141,13 @@ export const GuildForm: React.FC<Props> = ({
             <span>Your guild&apos;s main website.</span>
           </Field>
           <Field label="Discord Invite URL" error={errors.discord_invite_url}>
-            <Input type="text" name="discord_invite_url" background="dark" />
-            <span>
-              Your public invite URL for your Discord server, e.g.
-              https://discord.gg/fHvx7gu
-            </span>
+            <Input
+              type="text"
+              name="discord_invite_url"
+              background="dark"
+              placeholder="https://discord.gg/fHvx7gu"
+            />
+            <span>Your public invite URL for your Discord server.</span>
           </Field>
           <Field label="Join URL" error={errors.join_url}>
             <Input type="text" name="join_url" background="dark" />
@@ -167,17 +178,32 @@ export const GuildForm: React.FC<Props> = ({
               ))}
             </Select>
           </Field>
-          {allDiscordRoles.map((r) => r.name)}
-          {/* <Field label="Administrator Roles">
+          <Field label="Administrator Roles">
             <MultiSelect
               isRequired
               name="discord_admin_roles"
-              ref={register(validations.discord_admin_roles)}
               isInvalid={!!errors.discord_admin_roles}
-              bg="dark"
-              color="white"
+              isMulti
+              options={roleOptions}
             />
-          </Field> */}
+            <span>
+              Members of your server with these roles will have administration
+              privileges.
+            </span>
+          </Field>
+          <Field label="Membership Roles">
+            <MultiSelect
+              isRequired
+              name="discord_membership_roles"
+              isInvalid={!!errors.discord_membership_roles}
+              isMulti
+              options={roleOptions}
+            />
+            <span>
+              Members of your server with these roles will be considered members
+              of this guild.
+            </span>
+          </Field>
         </form>
       </VStack>
     </Box>

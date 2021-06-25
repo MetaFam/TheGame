@@ -4,6 +4,10 @@ import Select, { Props as SelectProps, Styles } from 'react-select';
 import { theme } from './theme';
 
 export const selectStyles: Styles = {
+  container: (styles) => ({
+    ...styles,
+    width: '100%',
+  }),
   menu: (styles) => ({
     ...styles,
     background: theme.colors.dark,

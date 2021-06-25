@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 import {
   exchangeCodeForAccessToken,
+  getCurrentAuthorization,
   GuildDiscordMetadata,
   OAuth2CodeExchangeResponse,
   PartialGuild,
@@ -12,6 +13,7 @@ import { v4 as uuidv4 } from 'uuid';
 import {
   DiscordGuildAuthResponse,
   Guild_Insert_Input,
+  Guild_Metadata_Insert_Input,
   GuildStatus_Enum,
   GuildType_Enum,
 } from '../../../../lib/autogen/hasura-sdk';
@@ -33,38 +35,43 @@ export const handleOAuthCallback = async (
 
     const { guild: discordGuild } = response.oauthResponse;
     if (discordGuild == null) {
-      console.error('Guild not available on oauth response. Exiting..');
+      console.error('Guild not available on oauth response. Exiting...');
       throw new Error();
     }
 
     // look up guild by guild Id
-    const getGuildResponse = await client.GetGuild({
+    const getGuildMetadataResponse = await client.GetGuildMetadata({
       discordId: discordGuild.id,
     });
 
-    if (getGuildResponse.guild.length > 0) {
-      const existingGuild = getGuildResponse.guild[0];
+    if (getGuildMetadataResponse.guild_metadata.length > 0) {
+      const existingGuild = getGuildMetadataResponse.guild_metadata[0];
 
       // if a guild with the same server ID already exists, see if a discord refresh token is set.
       if (existingGuild.discord_metadata?.refreshToken != null) {
         // if so, it's already set up
         // might want to save the new refresh token if it's different...?
+
+        const getGuildResponse = await client.GetGuild({
+          id: existingGuild.guild_id,
+        });
+
         const successResponse: DiscordGuildAuthResponse = {
           success: true,
-          guildname: existingGuild.guildname,
+          guildname: getGuildResponse.guild[0].guildname,
           exists: true,
         };
         res.json(successResponse);
       } else {
         // otherwise, update the existing guild with the provided info from discord
         await client.UpdateGuildDiscordMetadata({
-          guildId: existingGuild.id,
+          guildId: existingGuild.guild_id,
           discordMetadata: parseDiscordMetadata(response.oauthResponse),
         });
 
         const successResponse: DiscordGuildAuthResponse = {
           success: true,
-          guildname: existingGuild.id,
+          guildname: existingGuild.guild_id,
         };
         res.json(successResponse);
       }
@@ -72,14 +79,20 @@ export const handleOAuthCallback = async (
       // Guild doesn't already exist: persist guild info fetched in this request
       const discordMetadata = parseDiscordMetadata(response.oauthResponse);
 
-      // include roles from response. fetch any additional data that might be useful
-      discordMetadata.allRoleIds = discordGuild.roles.map((role) => role.id);
+      const currentDiscordUser = await getCurrentAuthorization(
+        response.oauthResponse.access_token,
+      );
+
+      const getPlayerResponse = await client.GetPlayerByDiscordId({
+        discordId: currentDiscordUser.user.id,
+      });
 
       let createGuildResponse: DiscordGuildAuthResponse = { success: false };
       try {
         createGuildResponse = await createNewGuild(
           discordGuild,
           discordMetadata,
+          getPlayerResponse.player[0].id,
         );
       } catch (creationError) {
         // if there was a guildname clash, try again with a uuid
@@ -88,6 +101,7 @@ export const handleOAuthCallback = async (
           createGuildResponse = await createNewGuild(
             discordGuild,
             discordMetadata,
+            getPlayerResponse.player[0].id,
           );
           res.json(createGuildResponse);
         }
@@ -119,6 +133,7 @@ const parseDiscordMetadata = (
 const createNewGuild = async (
   discordGuild: PartialGuild,
   discordMetadata: GuildDiscordMetadata,
+  creatorId: string,
 ): Promise<DiscordGuildAuthResponse> => {
   let newGuildPayload: Guild_Insert_Input = {
     type: GuildType_Enum.Project,
@@ -126,7 +141,6 @@ const createNewGuild = async (
     guildname: discordGuild.name.toLowerCase().replace(/[^a-z0-9]/g, ''),
     discord_id: discordGuild.id,
     status: GuildStatus_Enum.Pending,
-    discord_metadata: discordMetadata,
   };
 
   if (discordMetadata.logoHash != null) {
@@ -137,18 +151,27 @@ const createNewGuild = async (
   }
 
   const createGuildResponse = await client.CreateGuild({
-    objects: newGuildPayload,
+    object: newGuildPayload,
   });
-  if (
-    createGuildResponse.insert_guild != null &&
-    createGuildResponse.insert_guild.returning.length > 0
-  ) {
-    const newGuild = createGuildResponse.insert_guild?.returning[0];
-    const successResponse: DiscordGuildAuthResponse = {
-      success: true,
-      guildname: newGuild.guildname,
+  if (createGuildResponse.insert_guild_one != null) {
+    const newGuild = createGuildResponse.insert_guild_one;
+
+    const newGuildMetadataPayload: Guild_Metadata_Insert_Input = {
+      creator_id: creatorId,
+      discord_id: discordGuild.id,
+      guild_id: newGuild.id,
+      discord_metadata: discordMetadata,
     };
-    return successResponse;
+    const createGuildMetadataResponse = await client.CreateGuildMetadata({
+      object: newGuildMetadataPayload,
+    });
+    if (createGuildMetadataResponse.insert_guild_metadata_one != null) {
+      const successResponse: DiscordGuildAuthResponse = {
+        success: true,
+        guildname: newGuild.guildname,
+      };
+      return successResponse;
+    }
   }
   throw new Error();
 };

@@ -30,6 +30,7 @@ export const getGuild = async (guildname: string | undefined) => {
 const guildMetadataQuery = gql`
   query GetGuildMetadata($id: uuid!) {
     guild_metadata(where: { guild_id: { _eq: $id } }) {
+      guild_id
       discordRoles {
         id
         name
@@ -37,7 +38,6 @@ const guildMetadataQuery = gql`
       }
     }
   }
-  ${GuildFragment}
 `;
 
 export const getGuildMetadata = async (id: string) => {
@@ -48,6 +48,6 @@ export const getGuildMetadata = async (id: string) => {
       { id },
     )
     .toPromise();
-
+  console.log(data);
   return data?.guild_metadata[0];
 };
