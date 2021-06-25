@@ -21,3 +21,6 @@ export const formatAddress = (address = ''): string =>
 
 export const formatUsernameIfAddress = (username = ''): string =>
   ethers.utils.isAddress(username) ? formatAddress(username) : username;
+
+  export const hasPlayerImage = (player: PlayerFragmentFragment): boolean =>
+  !!player.box_profile?.imageUrl;

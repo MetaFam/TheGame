@@ -31,6 +31,7 @@ export {
   AlertDialogHeader,
   AlertDialogOverlay,
   Avatar,
+  AvatarProps,
   Badge,
   Box,
   Button,
