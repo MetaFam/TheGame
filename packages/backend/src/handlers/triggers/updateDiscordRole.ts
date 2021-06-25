@@ -36,10 +36,8 @@ export const updateDiscordRole = async (payload: TriggerPayload<Player>) => {
 
     if (newRank == null) return;
 
-    // look up guild by guildname = 'metagame' (for now),
-    const getGuildResponse = await client.GetGuild({ guildname: 'metafam' });
-    const guildDiscordId = getGuildResponse.guild[0]?.discord_id;
-    if (guildDiscordId == null) return;
+    // hardcoded for now
+    const guildDiscordId = '629411177947987986';
 
     // instantiate discord client. We'll need serverId, playerId, and roleIds
     const discordClient = await createDiscordClient();
@@ -50,8 +48,11 @@ export const updateDiscordRole = async (payload: TriggerPayload<Player>) => {
       return;
     }
 
-    const rankDiscordRoleIds = getGuildResponse.guild[0]?.discord_metadata
-      ?.rankRoleIds as RankRoleIds;
+    const getGuildResponse = await client.GetGuildMetadata({
+      discordId: guildDiscordId,
+    });
+    const rankDiscordRoleIds = getGuildResponse.guild_metadata[0]
+      ?.discord_metadata?.rankRoleIds as RankRoleIds;
 
     const discordPlayer = await guild.members.fetch(playerDiscordId);
     if (discordPlayer == null) {

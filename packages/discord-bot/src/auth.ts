@@ -3,7 +3,10 @@ import fetch from 'node-fetch';
 import { URLSearchParams } from 'url';
 
 import { CONFIG } from './config';
-import { DiscordAccessTokenResponse } from './types';
+import {
+  DiscordAccessTokenResponse,
+  PartialAuthorizationResponse,
+} from './types';
 
 export const tokenRequestData = {
   client_id: Constants.DISCORD_BOT_CLIENT_ID,
@@ -40,4 +43,18 @@ export const exchangeCodeForAccessToken = async (
   }
 
   return response;
+};
+
+export const getCurrentAuthorization = async (
+  accessToken: string,
+): Promise<PartialAuthorizationResponse> => {
+  const discordResponse = await fetch('https://discord.com/api/oauth2/@me', {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+
+  const parsedBody = await discordResponse.json();
+  return parsedBody as PartialAuthorizationResponse;
 };

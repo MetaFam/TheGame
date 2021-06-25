@@ -184,6 +184,13 @@
 - table:
     schema: public
     name: guild_metadata
+  object_relationships:
+  - name: guild
+    using:
+      foreign_key_constraint_on: guild_id
+  - name: player
+    using:
+      foreign_key_constraint_on: creator_id
   remote_relationships:
   - definition:
       remote_field:
@@ -197,7 +204,11 @@
   select_permissions:
   - role: player
     permission:
-      columns: []
+      columns:
+      - guild_id
+      - discord_metadata
+      - creator_id
+      - discord_id
       filter:
         creator_id:
           _eq: X-Hasura-User-Id

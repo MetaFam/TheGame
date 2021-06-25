@@ -16,6 +16,15 @@ export interface OAuth2CodeExchangeResponse {
   guild: PartialGuild;
 }
 
+export interface PartialAuthorizationResponse {
+  user: DiscordAuthorizedUser;
+}
+
+export interface DiscordAuthorizedUser {
+  id: Snowflake;
+  username: string;
+}
+
 export interface PartialGuild {
   id: Snowflake;
   name: string;

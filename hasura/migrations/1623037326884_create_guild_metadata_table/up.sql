@@ -16,7 +16,7 @@ INSERT INTO guild_metadata ("guild_id", "discord_id", "creator_id") VALUES (
   (SELECT id FROM "guild" WHERE guildname = 'metafam'), 
   (SELECT discord_id FROM "guild" WHERE guildname = 'metafam'), 
   (SELECT id FROM "player" WHERE username = 'peth')
-)
+);
 
 UPDATE guild_metadata SET discord_metadata = 
 (SELECT discord_metadata FROM guild WHERE guildname = 'metafam');
