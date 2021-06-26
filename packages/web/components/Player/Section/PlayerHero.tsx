@@ -1,4 +1,5 @@
 import { Box, Flex, HStack, Link, Text, VStack } from '@metafam/ds';
+import { PlayerAvatar } from 'components/Player/PlayerAvatar';
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
 import { getPersonalityInfo } from 'graphql/getPersonalityInfo';
 import { PersonalityOption } from 'graphql/types';
@@ -15,7 +16,6 @@ import { ColorBar } from '../ColorBar';
 import { PlayerContacts } from '../PlayerContacts';
 import { PlayerBrightId } from './PlayerBrightId';
 import { PlayerCollab } from './PlayerCollab';
-import { PlayerAvatar } from 'components/Player/PlayerAvatar';
 
 const MAX_BIO_LENGTH = 240;
 
