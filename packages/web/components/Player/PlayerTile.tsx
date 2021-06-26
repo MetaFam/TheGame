@@ -12,6 +12,7 @@ import {
   WrapItem,
 } from '@metafam/ds';
 import { MetaLink } from 'components/Link';
+import { PlayerAvatar } from 'components/Player/PlayerAvatar';
 import { PlayerContacts } from 'components/Player/PlayerContacts';
 import { PlayerTileMemberships } from 'components/Player/PlayerTileMemberships';
 import { SkillsTags } from 'components/Skills';
@@ -21,7 +22,6 @@ import {
   getPlayerCoverImage,
   getPlayerName,
 } from 'utils/playerHelpers';
-import { PlayerAvatar } from 'components/Player/PlayerAvatar';
 
 type Props = {
   player: PlayerFragmentFragment;
