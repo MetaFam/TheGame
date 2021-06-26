@@ -1,4 +1,4 @@
-import { Avatar, Box, Flex, HStack, Link, Text, VStack } from '@metafam/ds';
+import { Box, Flex, HStack, Link, Text, VStack } from '@metafam/ds';
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
 import { getPersonalityInfo } from 'graphql/getPersonalityInfo';
 import { PersonalityOption } from 'graphql/types';
@@ -15,6 +15,7 @@ import { ColorBar } from '../ColorBar';
 import { PlayerContacts } from '../PlayerContacts';
 import { PlayerBrightId } from './PlayerBrightId';
 import { PlayerCollab } from './PlayerCollab';
+import { PlayerAvatar } from 'components/Player/PlayerAvatar';
 
 const MAX_BIO_LENGTH = 240;
 
@@ -39,9 +40,8 @@ export const PlayerHero: React.FC<Props> = ({ player }) => {
   return (
     <ProfileSection>
       <VStack spacing={8}>
-        <Avatar
-          w={{ base: 32, md: 56 }}
-          h={{ base: 32, md: 56 }}
+        <PlayerAvatar
+          player={player}
           src={getPlayerImage(player)}
           name={getPlayerName(player)}
         />
