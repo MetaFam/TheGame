@@ -6,7 +6,7 @@ import {
 	getPlayerImage,
 	getPlayerName,
 	hasPlayerImage,
-} from '../../utils/playerHelpers';
+} from 'utils/playerHelpers';
 
 type PlayerAvatarProps = AvatarProps & { player: PlayerFragmentFragment };
 export const PlayerAvatar: React.FC<PlayerAvatarProps> = ({
