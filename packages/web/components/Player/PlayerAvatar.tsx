@@ -1,7 +1,7 @@
 import { Avatar, AvatarProps } from '@metafam/ds';
 import React from 'react';
 
-import { PlayerFragmentFragment } from '../../graphql/autogen/types';
+import { PlayerFragmentFragment } from 'graphql/autogen/types';
 import {
 	getPlayerImage,
 	getPlayerName,
