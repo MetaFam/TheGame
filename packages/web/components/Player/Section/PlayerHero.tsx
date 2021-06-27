@@ -6,7 +6,6 @@ import { PersonalityOption } from 'graphql/types';
 import React, { useEffect } from 'react';
 import {
   getPlayerDescription,
-  getPlayerImage,
   getPlayerName,
 } from 'utils/playerHelpers';
 
@@ -41,9 +40,9 @@ export const PlayerHero: React.FC<Props> = ({ player }) => {
     <ProfileSection>
       <VStack spacing={8}>
         <PlayerAvatar
-          player={player}
-          src={getPlayerImage(player)}
-          name={getPlayerName(player)}
+          w={{ base: 32, md: 56 }}
+          h={{ base: 32, md: 56 }}
+          {...{ player }}
         />
         <Box textAlign="center">
           <Text fontSize="xl" fontFamily="heading" mb={1}>
