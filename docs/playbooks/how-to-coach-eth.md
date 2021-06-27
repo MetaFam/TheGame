@@ -2,7 +2,7 @@
 title: 📚 How to Coach Eth
 ---
 
-by @chair
+by [@chair](https://twitter.com/vrycmfy)
 
 <details>
 <summary>🤔 Wait, WhoTF is @chair!?</summary>
