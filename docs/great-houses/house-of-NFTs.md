@@ -68,7 +68,6 @@ Collect and trade CryptoKitties in one of the world's first blockchain games. Br
 10,000 unique collectible characters with proof of ownership stored on the Ethereum blockchain. The project that inspired the modern CryptoArt movement.
 - **[Avastars](https://avastars.io/)**
 Quadrillions of avatars generated on the fly from many layers of custom artwork, each mintable as a non-fungible token (NFT) on Ethereum.
-- **[F1 Delta Time](https://www.f1deltatime.com/)** A blockchain game on Ethereum. The game centres around the collection and trading of unique Cars, Drivers and Components.
 - **[MLB Champions](https://www.mlbcryptobaseball.com/)** Offers authentic digital figures of your favorite MLB players! Build a collection to challenge fans in simulated baseball games.
 
 ## NFTs x DeFi
@@ -80,6 +79,8 @@ Quadrillions of avatars generated on the fly from many layers of custom artwork,
 - **[Gods Unchained](https://godsunchained.com/)** The ultimate digital trading card game that gives players true ownership of their collection.
 - **[Skyweaver](https://www.skyweaver.net/)** A trading card game from another dimension. Currently in private beta.
 - **[Battle Racers](https://battleracers.io/)** The blockchain arcade racing game on Decentraland
+- **[F1 Delta Time](https://www.f1deltatime.com/)** A blockchain game on Ethereum. The game centres around the collection and trading of unique Cars, Drivers and Components.
+- **[Zed Run](https://zed.run/)** Blockchain based horse racing. NFT Horses can be purchased, traded, and raced; just like real race horses. 
 
 
 ## Utility
