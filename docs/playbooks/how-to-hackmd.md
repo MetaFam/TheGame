@@ -31,9 +31,11 @@ If you follow a simple sytem you can easily have everything in one place and ref
 
 1. Create a new note by hitting the plus sign up top ![](https://i.imgur.com/HWaFSV8.png)
 
-2. On the blank new page first create the `tags` by using six hashtags and then the word tags, and then a colon, and then a space, then between ticks place the tags. Separate the tags with a space. You know what, just look up. ![](https://i.imgur.com/SRjaWAS.png)
+2. On the blank new page first create the `tags` by using six hashtags and then the word tags, and then a colon, and then a space, then between ticks place the tags. Separate the tags with a space.
 
-3. Create an h1 tag for the title, this will also serve as the title displayed in the main menu.
+    ![](https://i.imgur.com/SRjaWAS.png)
+
+3. Create an h1 tag for the title, this will also serve as the title displayed in the main menu. The h1 through h6 tags are represented by hashtags `#` in markdown syntax. This is a [useful markdown cheatsheet](https://www.markdownguide.org/cheat-sheet).
 
 4. Click the share button at the top right to set the view settings and publish. These should be your settings while editing:
 
