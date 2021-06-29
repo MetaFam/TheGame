@@ -9,6 +9,7 @@ module.exports = {
       "wtf-is-metagame/narrative-1-a-decentralized-factory",
       "wtf-is-metagame/narrative-2-a-web-of-opportunity",
       "wtf-is-metagame/metafam-way",
+      "wtf-is-metagame/300-of-metagame",
     ],
     "🧐 Understanding MetaGame": [
       "wtf-is-metagame/wtf-is-metagame",
