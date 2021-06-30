@@ -114,7 +114,7 @@ export const usePlayerFilter = (): PlayerFilter => {
 
 export const useFiltersUsed = (
   queryVariables: GetPlayersQueryVariables,
-): { filtersUsed: boolean } => {
+): { filtersUsed: boolean; onlySearchFilterUsed: boolean } => {
   const playerTypesFilterUsed = useMemo(
     () => (queryVariables.playerTypeIds as number[])?.length > 0,
     [queryVariables.playerTypeIds],
@@ -150,8 +150,27 @@ export const useFiltersUsed = (
       timezonesFilterUsed,
     ],
   );
+
+  const onlySearchFilterUsed = useMemo(
+    () =>
+      searchFilterUsed &&
+      !(
+        playerTypesFilterUsed ||
+        availabilityFilterUsed ||
+        skillIdsFilterUsed ||
+        timezonesFilterUsed
+      ),
+    [
+      playerTypesFilterUsed,
+      searchFilterUsed,
+      availabilityFilterUsed,
+      skillIdsFilterUsed,
+      timezonesFilterUsed,
+    ],
+  );
   return {
     filtersUsed,
+    onlySearchFilterUsed,
   };
 };
 
