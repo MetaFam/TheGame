@@ -2,8 +2,9 @@ import { LoadingState, Text, VStack } from '@metafam/ds';
 import { PageContainer } from 'components/Container';
 import { PlayerFilter } from 'components/Player/PlayerFilter';
 import { PlayerList } from 'components/Player/PlayerList';
+import { HeadComponent } from 'components/Seo';
 import { getSsrClient } from 'graphql/client';
-import { getPlayers } from 'graphql/getPlayers';
+import { getPlayerFilters, getPlayers } from 'graphql/getPlayers';
 import { usePlayerFilter } from 'lib/hooks/players';
 import { InferGetStaticPropsType } from 'next';
 import React from 'react';
@@ -12,8 +13,15 @@ type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
 export const getStaticProps = async () => {
   const [ssrClient, ssrCache] = getSsrClient();
-  // This populate the cache server-side
-  await getPlayers(undefined, ssrClient);
+
+  // This populates the cache server-side
+  const { error } = await getPlayers(undefined, ssrClient);
+  if (error != null) {
+    // eslint-disable-next-line no-console
+    console.error('error', error);
+  }
+  await getPlayerFilters(ssrClient);
+
   return {
     props: {
       urqlState: ssrCache.extractData(),
@@ -30,9 +38,11 @@ const Players: React.FC<Props> = () => {
     error,
     queryVariables,
     setQueryVariable,
+    resetFilter,
   } = usePlayerFilter();
   return (
     <PageContainer>
+      <HeadComponent url="https://my.metagame.wtf/players" />
       <VStack w="100%" spacing="8">
         <PlayerFilter
           fetching={fetching}
@@ -40,6 +50,7 @@ const Players: React.FC<Props> = () => {
           queryVariables={queryVariables}
           setQueryVariable={setQueryVariable}
           players={players || []}
+          resetFilter={resetFilter}
         />
         {error && <Text>{`Error: ${error.message}`}</Text>}
         {fetching && <LoadingState />}

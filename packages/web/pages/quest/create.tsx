@@ -12,6 +12,7 @@ import {
   CreateQuestFormInputs,
   QuestForm,
 } from '../../components/Quest/QuestForm';
+import { HeadComponent } from '../../components/Seo';
 import { getGuilds } from '../../graphql/getGuilds';
 import { getSkills } from '../../graphql/getSkills';
 import { useUser } from '../../lib/hooks';
@@ -64,6 +65,10 @@ const CreateQuestPage: React.FC<Props> = ({ guilds, skillChoices }) => {
 
   return (
     <PageContainer>
+      <HeadComponent
+        description="Create a Quest for Metagame."
+        url="https://my.metagame.wtf/quest/create"
+      />
       <MetaHeading mb={4}>Create quest</MetaHeading>
 
       <QuestForm

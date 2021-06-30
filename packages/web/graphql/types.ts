@@ -24,7 +24,7 @@ export type PersonalityOption = {
 };
 
 export type Membership = Pick<Member, 'id'> & {
-  moloch: Pick<Moloch, 'id' | 'title' | 'version'>;
+  moloch: Pick<Moloch, 'id' | 'title' | 'version' | 'chain'>;
 };
 
 export type MeType =

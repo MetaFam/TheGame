@@ -1,5 +1,4 @@
 import {
-  Avatar,
   Box,
   Heading,
   HStack,
@@ -13,6 +12,7 @@ import {
   WrapItem,
 } from '@metafam/ds';
 import { MetaLink } from 'components/Link';
+import { PlayerAvatar } from 'components/Player/PlayerAvatar';
 import { PlayerContacts } from 'components/Player/PlayerContacts';
 import { PlayerTileMemberships } from 'components/Player/PlayerTileMemberships';
 import { SkillsTags } from 'components/Skills';
@@ -20,7 +20,6 @@ import { PlayerFragmentFragment, Skill } from 'graphql/autogen/types';
 import React from 'react';
 import {
   getPlayerCoverImage,
-  getPlayerImage,
   getPlayerName,
 } from 'utils/playerHelpers';
 
@@ -47,11 +46,7 @@ export const PlayerTile: React.FC<Props> = ({ player }) => (
         key={player.id}
       >
         <VStack>
-          <Avatar
-            size="xl"
-            src={getPlayerImage(player)}
-            name={getPlayerName(player)}
-          />
+          <PlayerAvatar player={player} size="xl" />
           <Heading size="xs" color="white">
             {getPlayerName(player)}
           </Heading>

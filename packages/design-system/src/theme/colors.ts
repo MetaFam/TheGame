@@ -10,6 +10,7 @@ export type MetaColors = ChakraTheme['colors'] & {
   purpleBoxLight: string;
   purpleTag: string;
   purpleTag30: string;
+  purpleTag70: string;
   blueLight: string;
   cyanText: string;
   diamond: string;
@@ -21,6 +22,7 @@ export type MetaColors = ChakraTheme['colors'] & {
   bronze: string;
   purple80: string;
   brightIdOrange: ColorHues;
+  borderPurple: string;
 };
 
 export const colors: MetaColors = {
@@ -38,10 +40,12 @@ export const colors: MetaColors = {
   purpleBoxLight: '#392373',
   purpleTag: '#40347C',
   purpleTag30: 'rgba(64, 52, 124, 0.3)',
+  purpleTag70: 'rgba(64, 52, 124, 0.7)',
   blueLight: '#A5B9F6',
   cyanText: '#79F8FB',
   discord: '#7289da',
   discordDark: '#5d6eb3',
+  borderPurple: '#5946BC',
   cyan: {
     50: '#dbffff',
     100: '#b1fcfe',

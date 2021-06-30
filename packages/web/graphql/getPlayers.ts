@@ -2,6 +2,9 @@ import gql from 'fake-tag';
 import { Client } from 'urql';
 
 import {
+  GetPlayerFiltersDocument,
+  GetPlayerFiltersQuery,
+  GetPlayerFiltersQueryVariables,
   GetPlayersDocument,
   GetPlayersQuery,
   GetPlayersQueryVariables,
@@ -10,17 +13,17 @@ import {
   PlayerFragmentFragment,
 } from './autogen/types';
 import { client as defaultClient } from './client';
-import { PlayerFragment } from './fragments';
+import { PlayerFragment, PlayerSkillFragment } from './fragments';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-expressions
 gql`
   query GetPlayers(
     $offset: Int
     $limit: Int
-    $skillCategory: SkillCategory_enum
-    $playerType: Int
+    $skillIds: [uuid!]
+    $playerTypeIds: [Int!]
     $availability: Int
-    $timezone: String
+    $timezones: [String!]
     $search: String
   ) {
     player(
@@ -28,10 +31,10 @@ gql`
       offset: $offset
       limit: $limit
       where: {
-        Player_Skills: { Skill: { category: { _eq: $skillCategory } } }
-        playerType: { id: { _eq: $playerType } }
         availability_hours: { _gte: $availability }
-        timezone: { _eq: $timezone }
+        timezone: { _in: $timezones }
+        playerType: { id: { _in: $playerTypeIds } }
+        Player_Skills: { Skill: { id: { _in: $skillIds } } }
         _or: [
           { username: { _ilike: $search } }
           { ethereum_address: { _ilike: $search } }
@@ -44,13 +47,15 @@ gql`
   ${PlayerFragment}
 `;
 
+export const PLAYER_LIMIT = 56;
+
 export const defaultQueryVariables: GetPlayersQueryVariables = {
   offset: 0,
-  limit: 50,
-  skillCategory: undefined,
-  playerType: undefined,
+  limit: PLAYER_LIMIT,
   availability: 0,
-  timezone: undefined,
+  skillIds: null,
+  playerTypeIds: null,
+  timezones: null,
   search: '%%',
 };
 
@@ -112,37 +117,27 @@ gql`
         name: category
       }
     }
+    skill(
+      order_by: { Player_Skills_aggregate: { count: desc }, category: asc }
+    ) {
+      ...PlayerSkillFragment
+    }
     player_type(distinct_on: id) {
       id
       title
     }
   }
+  ${PlayerSkillFragment}
 `;
 
-export const getPlayersInParallel = async (
-  variables: GetPlayersQueryVariables,
-): Promise<PlayersResponse> => {
-  const limit = 50;
-  const total = variables?.limit as number;
-  if (total <= limit) {
-    return getPlayers(variables);
-  }
-  const len = Math.ceil(total / limit);
-  const variablesArr: GetPlayersQueryVariables[] = new Array<boolean>(len)
-    .fill(false)
-    .map((_, i) => ({
-      ...variables,
-      offset: i * limit,
-      limit: i < len - 1 ? limit : total - limit * (len - 1),
-    }));
+export const getPlayerFilters = async (client: Client = defaultClient) => {
+  const { data, error } = await client
+    .query<GetPlayerFiltersQuery, GetPlayerFiltersQueryVariables>(
+      GetPlayerFiltersDocument,
+    )
+    .toPromise();
 
-  const promises = variablesArr.map((vars) => getPlayers(vars));
-  const playersRespArr = await Promise.all(promises);
-  return playersRespArr.reduce(
-    (totalRes, response) => ({
-      error: totalRes.error || response.error,
-      players: [...totalRes.players, ...response.players],
-    }),
-    { error: undefined, players: [] },
-  );
+  if (error) throw error;
+
+  return data;
 };

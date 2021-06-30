@@ -23,6 +23,26 @@ export type SetupSkillsProps = {
   setSkills: React.Dispatch<React.SetStateAction<Array<SkillOption>>>;
 };
 
+const styles: typeof selectStyles = {
+  ...selectStyles,
+  multiValue: (s, { data }) => ({
+    ...s,
+    background: SkillColors[data.category as SkillCategory_Enum],
+    color: MetaTheme.colors.white,
+  }),
+  multiValueLabel: (s, { data }) => ({
+    ...s,
+    background: SkillColors[data.category as SkillCategory_Enum],
+    color: MetaTheme.colors.white,
+  }),
+  groupHeading: (s, { children }) => ({
+    ...s,
+    ...(selectStyles.groupHeading &&
+      selectStyles.groupHeading(s, { children })),
+    background: SkillColors[children as SkillCategory_Enum],
+  }),
+};
+
 export const SetupSkills: React.FC<SetupSkillsProps> = ({
   skillChoices,
   skills,
@@ -56,26 +76,6 @@ export const SetupSkills: React.FC<SetupSkillsProps> = ({
     }
 
     onNextPress();
-  };
-
-  const styles: typeof selectStyles = {
-    ...selectStyles,
-    multiValue: (s, { data }) => ({
-      ...s,
-      background: SkillColors[data.category as SkillCategory_Enum],
-      color: MetaTheme.colors.white,
-    }),
-    multiValueLabel: (s, { data }) => ({
-      ...s,
-      background: SkillColors[data.category as SkillCategory_Enum],
-      color: MetaTheme.colors.white,
-    }),
-    groupHeading: (s, { children }) => ({
-      ...s,
-      ...(selectStyles.groupHeading &&
-        selectStyles.groupHeading(s, { children })),
-      background: SkillColors[children as SkillCategory_Enum],
-    }),
   };
 
   return (

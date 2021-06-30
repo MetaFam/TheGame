@@ -43,6 +43,7 @@ export const typeDefs = gql`
     version: String
     totalShares: String!
     totalLoot: String!
+    chain: String!
   }
 
   type Member {

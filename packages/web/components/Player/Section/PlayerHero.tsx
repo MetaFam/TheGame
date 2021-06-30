@@ -1,11 +1,11 @@
-import { Avatar, Box, Flex, HStack, Link, Text, VStack } from '@metafam/ds';
+import { Box, Flex, HStack, Link, Text, VStack } from '@metafam/ds';
+import { PlayerAvatar } from 'components/Player/PlayerAvatar';
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
 import { getPersonalityInfo } from 'graphql/getPersonalityInfo';
 import { PersonalityOption } from 'graphql/types';
 import React, { useEffect } from 'react';
 import {
   getPlayerDescription,
-  getPlayerImage,
   getPlayerName,
 } from 'utils/playerHelpers';
 
@@ -39,11 +39,10 @@ export const PlayerHero: React.FC<Props> = ({ player }) => {
   return (
     <ProfileSection>
       <VStack spacing={8}>
-        <Avatar
+        <PlayerAvatar
           w={{ base: 32, md: 56 }}
           h={{ base: 32, md: 56 }}
-          src={getPlayerImage(player)}
-          name={getPlayerName(player)}
+          {...{ player }}
         />
         <Box textAlign="center">
           <Text fontSize="xl" fontFamily="heading" mb={1}>

@@ -4,12 +4,16 @@ export * from './icons';
 export { LoadingState } from './LoadingState';
 export { MetaBox } from './MetaBox';
 export { MetaButton } from './MetaButton';
+export {
+  FilterTag,
+  MetaFilterSelectSearch,
+  MetaSelect,
+} from './MetaFilterSelect';
 export { MetaHeading } from './MetaHeading';
-export { MetaSelect } from './MetaSelect';
 export { MetaTag } from './MetaTag';
 export { MetaTile, MetaTileBody, MetaTileHeader } from './MetaTile';
 export { ResponsiveText } from './ResponsiveText';
-export { SelectSearch, selectStyles } from './SelectSearch';
+export { SelectComponents, SelectSearch, selectStyles } from './SelectSearch';
 export {
   SelectTimeZone,
   TimezoneOptions,
@@ -27,6 +31,7 @@ export {
   AlertDialogHeader,
   AlertDialogOverlay,
   Avatar,
+  AvatarProps,
   Badge,
   Box,
   Button,
@@ -52,6 +57,7 @@ export {
   InputGroup,
   InputLeftElement,
   InputRightAddon,
+  InputRightElement,
   Link,
   List,
   ListIcon,
@@ -70,6 +76,7 @@ export {
   Text,
   Textarea,
   Tooltip,
+  useBreakpointValue,
   useDisclosure,
   useTheme,
   useToast,
@@ -77,4 +84,5 @@ export {
   Wrap,
   WrapItem,
 } from '@chakra-ui/react';
+export { default as styled } from '@emotion/styled';
 export { motion } from 'framer-motion';

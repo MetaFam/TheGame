@@ -48,11 +48,13 @@ export const PlayerFragment = gql`
     daohausMemberships {
       id
       shares
+      molochAddress
       moloch {
         id
         title
         version
         totalShares
+        chain
       }
     }
     brightid_status {
@@ -158,5 +160,13 @@ export const TokenBalancesFragment = gql`
   fragment TokenBalancesFragment on TokenBalances {
     address: id
     pSeedBalance
+  }
+`;
+
+export const PlayerSkillFragment = gql`
+  fragment PlayerSkillFragment on skill {
+    id
+    name
+    category
   }
 `;

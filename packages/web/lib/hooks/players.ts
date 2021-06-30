@@ -4,12 +4,9 @@ import {
   useGetPlayerFiltersQuery,
   useGetPlayersQuery,
 } from 'graphql/autogen/types';
-import {
-  defaultQueryVariables,
-  getPlayersInParallel,
-  PlayersResponse,
-} from 'graphql/getPlayers';
-import { useCallback, useEffect, useState } from 'react';
+import { defaultQueryVariables } from 'graphql/getPlayers';
+import { useCallback, useMemo, useState } from 'react';
+import { CategoryOption, parseSkills } from 'utils/skillHelpers';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type QueryVariableSetter = (key: string, value: any) => void;
@@ -17,6 +14,7 @@ export type QueryVariableSetter = (key: string, value: any) => void;
 export interface PlayerAggregates {
   skillCategories: { name: string }[];
   playerTypes: { id: number; title: string }[];
+  skillChoices: CategoryOption[];
 }
 
 interface PlayerFilter {
@@ -26,58 +24,25 @@ interface PlayerFilter {
   queryVariables: GetPlayersQueryVariables;
   setQueryVariable: QueryVariableSetter;
   error?: Error;
+  resetFilter: () => void;
 }
 
 const usePlayerAggregates = () => {
   const [{ data }] = useGetPlayerFiltersQuery();
+  const skillChoices = useMemo(() => parseSkills(data?.skill || []), [data]);
   return {
     skillCategories: data?.skill_aggregate.nodes || [],
     playerTypes: data?.player_type || [],
+    skillChoices,
   };
 };
 
-const usePlayersSingle = (
-  run: boolean,
-  variables: GetPlayersQueryVariables,
-) => {
+const useFilteredPlayers = (variables: GetPlayersQueryVariables) => {
   const [{ fetching, data, error }] = useGetPlayersQuery({
     variables,
-    pause: !run,
   });
   const players = data?.player || [];
   return { fetching, players, error };
-};
-
-const usePlayersParallel = (
-  run: boolean,
-  variables: GetPlayersQueryVariables,
-) => {
-  const [fetching, setFetching] = useState(true);
-  const [{ players, error }, setResponse] = useState<PlayersResponse>({
-    error: undefined,
-    players: [],
-  });
-
-  useEffect(() => {
-    const load = async () => {
-      if (run) {
-        setFetching(true);
-        const response = await getPlayersInParallel(variables);
-        setResponse(response);
-        setFetching(false);
-      }
-    };
-    load();
-  }, [run, variables]);
-
-  return { fetching, players, error };
-};
-
-const useFilteredPlayers = (variables: GetPlayersQueryVariables) => {
-  const runParallel = (variables.limit as number) > 50; // if limit is 150 then hasura is unable to handle in one query
-  const playersParallel = usePlayersParallel(runParallel, variables);
-  const playersSingle = usePlayersSingle(!runParallel, variables);
-  return runParallel ? playersParallel : playersSingle;
 };
 
 export const usePlayerFilter = (): PlayerFilter => {
@@ -99,14 +64,63 @@ export const usePlayerFilter = (): PlayerFilter => {
     [],
   );
 
-  const { fetching, players, error } = useFilteredPlayers(queryVariables);
+  const resetFilter = () => setQueryVariables(defaultQueryVariables);
+  const {
+    fetching: fetchingPlayers,
+    players,
+    error: errorPlayers,
+  } = useFilteredPlayers(queryVariables);
 
   return {
     players,
     aggregates,
-    fetching,
-    error,
+    fetching: fetchingPlayers,
+    error: errorPlayers,
     queryVariables,
     setQueryVariable,
+    resetFilter,
+  };
+};
+
+export const useFiltersUsed = (
+  queryVariables: GetPlayersQueryVariables,
+): { filtersUsed: boolean } => {
+  const playerTypesFilterUsed = useMemo(
+    () => (queryVariables.playerTypeIds as number[])?.length > 0,
+    [queryVariables.playerTypeIds],
+  );
+  const searchFilterUsed = useMemo(() => queryVariables.search !== '%%', [
+    queryVariables.search,
+  ]);
+  const availabilityFilterUsed = useMemo(
+    () => (queryVariables.availability as number) > 0,
+    [queryVariables.availability],
+  );
+  const skillIdsFilterUsed = useMemo(
+    () => (queryVariables.skillIds as string[])?.length > 0,
+    [queryVariables.skillIds],
+  );
+  const timezonesFilterUsed = useMemo(
+    () => (queryVariables.timezones as string[])?.length > 0,
+    [queryVariables.timezones],
+  );
+
+  const filtersUsed = useMemo(
+    () =>
+      playerTypesFilterUsed ||
+      searchFilterUsed ||
+      availabilityFilterUsed ||
+      skillIdsFilterUsed ||
+      timezonesFilterUsed,
+    [
+      playerTypesFilterUsed,
+      searchFilterUsed,
+      availabilityFilterUsed,
+      skillIdsFilterUsed,
+      timezonesFilterUsed,
+    ],
+  );
+  return {
+    filtersUsed,
   };
 };
