@@ -110,8 +110,8 @@ Our posts:
 - **[Building Successful Teams](https://wiki.metagame.wtf/docs/Guilding/building-successful-teams)** - Essentials of team-building.
 
 External resources:
-- **[Decentralized Autonomous Organizations](https://ethereum.org/en/dao/) - Definitions & additional resources on DAOs by the Ethereum Foundation.
-- **[Decentralized Autonomous Organizations](https://square1-hello.gitbook.io/square-1/token-economics/decentralized-organizations) - More definitions & mechanisms of DAOs on Square I.
+- **[Decentralized Autonomous Organizations](https://ethereum.org/en/dao/)** - Definitions & additional resources on DAOs by the Ethereum Foundation.
+- **[Decentralized Autonomous Organizations](https://square1-hello.gitbook.io/square-1/token-economics/decentralized-organizations)** - More definitions & mechanisms of DAOs on Square I.
 - **[Connection/Community Building Resources](https://forum.metagame.wtf/t/connection-community-building-resources-practices/256)** - Just a bunch of links on our forums.
 - **[Convergent Facilitation](http://nvctraining.com/media/_2018/MK/convergent-facilitation/index.html)** - "Convergent Facilitation is a highly efficient decision-making process."
 - **[DisCO](https://disco.coop/governance-model/)** - Distributed Cooperative Organizations' Governance Model
