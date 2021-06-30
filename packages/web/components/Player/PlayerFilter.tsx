@@ -121,7 +121,7 @@ export const PlayerFilter: React.FC<Props> = ({
     }
   };
 
-  const { filtersUsed } = useFiltersUsed(queryVariables);
+  const { filtersUsed, onlySearchFilterUsed } = useFiltersUsed(queryVariables);
 
   const [isElementSticky, setIsSticky] = useState<boolean>(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -300,56 +300,60 @@ export const PlayerFilter: React.FC<Props> = ({
       {filtersUsed && (
         <Flex w="100%" maxW="79rem" justify="space-between">
           <Wrap flex="1">
-            <WrapItem>
-              <Flex w="100%" h="100%" justify="center" align="center">
-                <Text> {`Selected Filters: `}</Text>
-              </Flex>
-            </WrapItem>
-            {playerTypes.map(({ value, label }, index) => (
-              <WrapItem key={value}>
-                <FilterTag
-                  label={label}
-                  onRemove={() => {
-                    const newPlayerTypes = playerTypes.slice();
-                    newPlayerTypes.splice(index, 1);
-                    setPlayerTypes(newPlayerTypes);
-                  }}
-                />
-              </WrapItem>
-            ))}
-            {skills.map(({ value, label }, index) => (
-              <WrapItem key={value}>
-                <FilterTag
-                  label={label}
-                  onRemove={() => {
-                    const newSkills = skills.slice();
-                    newSkills.splice(index, 1);
-                    setSkills(newSkills);
-                  }}
-                />
-              </WrapItem>
-            ))}
-            {timezones.map(({ value, label }, index) => (
-              <WrapItem key={value}>
-                <FilterTag
-                  label={label}
-                  onRemove={() => {
-                    const newTimezones = timezones.slice();
-                    newTimezones.splice(index, 1);
-                    setTimezones(newTimezones);
-                  }}
-                />
-              </WrapItem>
-            ))}
-            {availability && (
-              <WrapItem>
-                <FilterTag
-                  label={`Available >${availability.value} h/week`}
-                  onRemove={() => {
-                    setAvailability(null);
-                  }}
-                />
-              </WrapItem>
+            {!onlySearchFilterUsed && (
+              <>
+                <WrapItem>
+                  <Flex w="100%" h="100%" justify="center" align="center">
+                    <Text> {`Selected Filters: `}</Text>
+                  </Flex>
+                </WrapItem>
+                {playerTypes.map(({ value, label }, index) => (
+                  <WrapItem key={value}>
+                    <FilterTag
+                      label={label}
+                      onRemove={() => {
+                        const newPlayerTypes = playerTypes.slice();
+                        newPlayerTypes.splice(index, 1);
+                        setPlayerTypes(newPlayerTypes);
+                      }}
+                    />
+                  </WrapItem>
+                ))}
+                {skills.map(({ value, label }, index) => (
+                  <WrapItem key={value}>
+                    <FilterTag
+                      label={label}
+                      onRemove={() => {
+                        const newSkills = skills.slice();
+                        newSkills.splice(index, 1);
+                        setSkills(newSkills);
+                      }}
+                    />
+                  </WrapItem>
+                ))}
+                {timezones.map(({ value, label }, index) => (
+                  <WrapItem key={value}>
+                    <FilterTag
+                      label={label}
+                      onRemove={() => {
+                        const newTimezones = timezones.slice();
+                        newTimezones.splice(index, 1);
+                        setTimezones(newTimezones);
+                      }}
+                    />
+                  </WrapItem>
+                ))}
+                {availability && (
+                  <WrapItem>
+                    <FilterTag
+                      label={`Available >${availability.value} h/week`}
+                      onRemove={() => {
+                        setAvailability(null);
+                      }}
+                    />
+                  </WrapItem>
+                )}
+              </>
             )}
           </Wrap>
           <Button
