@@ -20,7 +20,7 @@ export const getStaticProps = async () => {
 
   // This populates the cache server-side
   const { error: errorPlayers } = await getPlayers(undefined, ssrClient);
-  if (!!errorPlayers) {
+  if (errorPlayers) {
     // eslint-disable-next-line no-console
     console.error('getPlayers error', errorPlayers);
   }
@@ -28,7 +28,7 @@ export const getStaticProps = async () => {
     undefined,
     ssrClient,
   );
-  if (!!errorPlayersCount) {
+  if (errorPlayersCount) {
     // eslint-disable-next-line no-console
     console.error('getPlayersCount error', errorPlayersCount);
   }
@@ -102,7 +102,11 @@ const Players: React.FC<Props> = () => {
           {fetchingPlayers || fetchingMore || moreAvailable ? (
             <LoadingState color="white" />
           ) : (
-            <Text color="white"> No more players available </Text>
+            <Text color="white">
+              {totalCount > 0
+                ? 'No more players available'
+                : 'There were no matches'}
+            </Text>
           )}
         </VStack>
       </VStack>
