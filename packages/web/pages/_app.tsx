@@ -49,8 +49,7 @@ const App: React.FC<WithUrqlProps> = ({
               y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
             })(window, document, "clarity", "script", '${CONFIG.clarityId}');
           `
-         }}>
-        </script>
+         }} />
       )}
     </Head>
     <Web3ContextProvider resetUrqlClient={resetUrqlClient}>
