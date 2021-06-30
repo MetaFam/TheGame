@@ -51,12 +51,22 @@ function getImage(
   return '';
 }
 
+type CollectibleAddress = {
+  [network: string]: string;
+};
+
 function getCollectiblesFavourites(
   collectiblesFavorites: Array<CollectiblesFavorite> | null | undefined,
 ) {
   if (!collectiblesFavorites) return [];
-  return collectiblesFavorites.map(({ address, token_id }) => ({
-    address,
-    tokenId: token_id,
-  }));
+  console.log(collectiblesFavorites);
+  return collectiblesFavorites
+    .map(({ address, token_id }) => ({
+      address:
+        typeof address === 'string'
+          ? address
+          : (address as CollectibleAddress).mainnet || null,
+      tokenId: token_id,
+    }))
+    .filter((c) => !!c.address);
 }
