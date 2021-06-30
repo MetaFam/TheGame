@@ -39,7 +39,7 @@ const App: React.FC<WithUrqlProps> = ({
           />
         </>
       )}
-      {CONFIG.clarityID != null && (
+      {!!CONFIG.clarityID && (
         <script type="text/javascript"
          dangerouslySetInnerHTML={{
           __html: `
