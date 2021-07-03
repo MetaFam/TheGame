@@ -34,7 +34,7 @@ module.exports = {
       'great-houses/house-of-ethereum',
       'great-houses/house-of-daos',
       'great-houses/house-of-NFTs',
-      'enter-metagame/guilds-of-metagame',
+      // 'enter-metagame/guilds-of-metagame',
       //   'great-houses/house-of-defiance',
       //   'great-houses/house-of-dapps',
       //   'great-houses/house-of-tokens',
