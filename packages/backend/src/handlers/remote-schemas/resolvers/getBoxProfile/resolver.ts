@@ -59,7 +59,6 @@ function getCollectiblesFavourites(
   collectiblesFavorites: Array<CollectiblesFavorite> | null | undefined,
 ) {
   if (!collectiblesFavorites) return [];
-  console.log(collectiblesFavorites);
   return collectiblesFavorites
     .map(({ address, token_id }) => ({
       address:
