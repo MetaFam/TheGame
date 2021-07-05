@@ -45,7 +45,7 @@
     "@graphql-codegen/typescript": "1.22.0",
     "@graphql-codegen/typescript-graphql-request": "3.2.0",
     "@graphql-codegen/typescript-operations": "1.17.16",
-    "@graphql-codegen/typescript-react-apollo": "2.2.4",
+    "@graphql-codegen/typescript-react-apollo": "2.3.0",
     "@graphql-codegen/typescript-resolvers": "1.19.1",
     "@graphql-codegen/typescript-urql": "2.0.6",
     "@types/node": "15.6.1",
