@@ -14,19 +14,19 @@ Grab [scaffold-eth](https://github.com/austintgriffith/scaffold-eth) and follow 
 
 ## Step 3
 
-Once you get the hang of it, start testing your knowledge with [the first challenge]([https://github.com/austintgriffith/scaffold-eth/tree/challenge-1-decentralized-stakin](https://github.com/austintgriffith/scaffold-eth/tree/challenge-1-decentralized-staking))!
+Once you get the hang of it, start testing your knowledge with [the first challenge](https://github.com/austintgriffith/scaffold-eth/tree/challenge-1-decentralized-staking)!
 
 ## Step 4
 
-The [next challenge](<https://github.com/austintgriffith/scaffold-eth/tree/challenge-2-token-vendor>) teaches you about tokens and contract to contract interaction
+The [next challenge](https://github.com/austintgriffith/scaffold-eth/tree/challenge-2-token-vendor) teaches you about tokens and contract to contract interaction
 
 Bonus points if you make the vendor contract buy the tokens back!
 
 ## Step 5
 
-Finally, the repo is your oyster, use [buidlguidl.com](http://buidlguidl.com) or the [active branches](<https://github.com/austintgriffith/scaffold-eth/branches/active>) to find something interesting,
+Finally, the repo is your oyster, use [buidlguidl.com](http://buidlguidl.com) or the [active branches](https://github.com/austintgriffith/scaffold-eth/branches/active) to find something interesting,
 
-A good example is the [Simple-NFT-Example](<https://github.com/austintgriffith/scaffold-eth/tree/simple-nft-example>) which was extended into the [Buyer-Mints-NFT](https://github.com/austintgriffith/scaffold-eth/tree/buyer-mints-nft) branch.
+A good example is the [Simple-NFT-Example](https://github.com/austintgriffith/scaffold-eth/tree/simple-nft-example) which was extended into the [Buyer-Mints-NFT](https://github.com/austintgriffith/scaffold-eth/tree/buyer-mints-nft) branch.
 
 ## Step 6
 
