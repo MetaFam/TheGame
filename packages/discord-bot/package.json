@@ -35,6 +35,6 @@
   },
   "devDependencies": {
     "concurrently": "6.1.0",
-    "ts-node-dev": "1.1.6"
+    "ts-node-dev": "1.1.8"
   }
 }
