@@ -27,6 +27,7 @@ import { Patron } from 'graphql/types';
 import React from 'react';
 import {
   getPlayerCoverImage,
+  getPlayerDescription,
   getPlayerImage,
   getPlayerName,
 } from 'utils/playerHelpers';
@@ -103,12 +104,12 @@ export const PatronTile: React.FC<Props> = ({ index, patron }) => {
             <MetaTag size="md">{`XP: ${Math.floor(player.total_xp)}`}</MetaTag>
           </WrapItem>
         </Wrap>
-        {player.box_profile?.description ? (
+        {getPlayerDescription(player) && (
           <VStack spacing={2} align="stretch">
             <Text textStyle="caption">ABOUT</Text>
-            <Text fontSize="sm">{player.box_profile.description}</Text>
+            <Text fontSize="sm">{getPlayerDescription(player)}</Text>
           </VStack>
-        ) : null}
+        )}
       </MetaTileHeader>
       <MetaTileBody>
         {player.Player_Skills.length ? (

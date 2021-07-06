@@ -31,19 +31,15 @@ export const PlayerFragment = gql`
       identifier
       type
     }
-    box_profile {
+    profile_cache {
       description
       emoji
       ethereumAddress
-      coverImageUrl
+      backgroundImageUrl
       imageUrl
       job
       location
       name
-      collectiblesFavorites {
-        tokenId
-        address
-      }
     }
     daohausMemberships {
       id

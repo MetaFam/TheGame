@@ -40,21 +40,24 @@ const Players: React.FC<Props> = () => {
     setQueryVariable,
     resetFilter,
   } = usePlayerFilter();
+
   return (
     <PageContainer>
       <HeadComponent url="https://my.metagame.wtf/players" />
       <VStack w="100%" spacing="8">
         <PlayerFilter
-          fetching={fetching}
-          aggregates={aggregates}
-          queryVariables={queryVariables}
-          setQueryVariable={setQueryVariable}
-          players={players || []}
-          resetFilter={resetFilter}
+          {...{
+            fetching,
+            aggregates,
+            queryVariables,
+            setQueryVariable,
+            resetFilter,
+          }}
+          players={players ?? []}
         />
-        {error && <Text>{`Error: ${error.message}`}</Text>}
+        {error && <Text>Error: {error.message}</Text>}
         {fetching && <LoadingState />}
-        {players && !fetching && !error && <PlayerList players={players} />}
+        {players && !fetching && !error && <PlayerList {...{ players }} />}
       </VStack>
     </PageContainer>
   );
