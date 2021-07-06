@@ -29,8 +29,6 @@ export const UpsertAccount = gql`
   }
 `;
 
-<<<<<<< HEAD
-=======
 export const UpsertPlayer = gql`
   mutation UpsertPlayer(
     $objects: [player_insert_input!]!
@@ -69,7 +67,6 @@ export const DeleteDuplicatePlayers = gql`
   }
 `;
 
->>>>>>> queries and mutations to support profile caching 🗽
 export const UpdatePlayer = gql`
   mutation UpdatePlayer(
     $ethAddress: String
