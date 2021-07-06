@@ -5035,11 +5035,9 @@ type profile_cache {
   backgroundImageUrl: String
   description: String
   emoji: String
-  ethereumAddress: String
   gender: String
   id: uuid!
   imageUrl: String
-  job: String
   location: String
   name: String
 
@@ -5093,11 +5091,9 @@ input profile_cache_bool_exp {
   backgroundImageUrl: String_comparison_exp
   description: String_comparison_exp
   emoji: String_comparison_exp
-  ethereumAddress: String_comparison_exp
   gender: String_comparison_exp
   id: uuid_comparison_exp
   imageUrl: String_comparison_exp
-  job: String_comparison_exp
   location: String_comparison_exp
   name: String_comparison_exp
   player: player_bool_exp
@@ -5123,11 +5119,9 @@ input profile_cache_insert_input {
   backgroundImageUrl: String
   description: String
   emoji: String
-  ethereumAddress: String
   gender: String
   id: uuid
   imageUrl: String
-  job: String
   location: String
   name: String
   player: player_obj_rel_insert_input
@@ -5140,11 +5134,9 @@ type profile_cache_max_fields {
   backgroundImageUrl: String
   description: String
   emoji: String
-  ethereumAddress: String
   gender: String
   id: uuid
   imageUrl: String
-  job: String
   location: String
   name: String
   player_id: uuid
@@ -5158,11 +5150,9 @@ input profile_cache_max_order_by {
   backgroundImageUrl: order_by
   description: order_by
   emoji: order_by
-  ethereumAddress: order_by
   gender: order_by
   id: order_by
   imageUrl: order_by
-  job: order_by
   location: order_by
   name: order_by
   player_id: order_by
@@ -5174,11 +5164,9 @@ type profile_cache_min_fields {
   backgroundImageUrl: String
   description: String
   emoji: String
-  ethereumAddress: String
   gender: String
   id: uuid
   imageUrl: String
-  job: String
   location: String
   name: String
   player_id: uuid
@@ -5192,11 +5180,9 @@ input profile_cache_min_order_by {
   backgroundImageUrl: order_by
   description: order_by
   emoji: order_by
-  ethereumAddress: order_by
   gender: order_by
   id: order_by
   imageUrl: order_by
-  job: order_by
   location: order_by
   name: order_by
   player_id: order_by
@@ -5238,11 +5224,9 @@ input profile_cache_order_by {
   backgroundImageUrl: order_by
   description: order_by
   emoji: order_by
-  ethereumAddress: order_by
   gender: order_by
   id: order_by
   imageUrl: order_by
-  job: order_by
   location: order_by
   name: order_by
   player: player_order_by
@@ -5271,9 +5255,6 @@ enum profile_cache_select_column {
   emoji
 
   """column name"""
-  ethereumAddress
-
-  """column name"""
   gender
 
   """column name"""
@@ -5281,9 +5262,6 @@ enum profile_cache_select_column {
 
   """column name"""
   imageUrl
-
-  """column name"""
-  job
 
   """column name"""
   location
@@ -5305,11 +5283,9 @@ input profile_cache_set_input {
   backgroundImageUrl: String
   description: String
   emoji: String
-  ethereumAddress: String
   gender: String
   id: uuid
   imageUrl: String
-  job: String
   location: String
   name: String
   player_id: uuid
@@ -5330,9 +5306,6 @@ enum profile_cache_update_column {
   emoji
 
   """column name"""
-  ethereumAddress
-
-  """column name"""
   gender
 
   """column name"""
@@ -5340,9 +5313,6 @@ enum profile_cache_update_column {
 
   """column name"""
   imageUrl
-
-  """column name"""
-  job
 
   """column name"""
   location
