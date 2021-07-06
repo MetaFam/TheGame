@@ -1,5 +1,5 @@
 import { Player } from '../../lib/autogen/hasura-sdk';
-import { updateVerifiedAccounts } from '../actions/updateBoxProfile/updateVerifiedAccounts';
+import { updateVerifiedAccounts } from '../actions/3Box/cache3BoxProfile/updateVerifiedAccounts';
 import { TriggerPayload } from './types';
 
 export const fetchBoxVerifiedAccounts = async (

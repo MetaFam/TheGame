@@ -29,6 +29,47 @@ export const UpsertAccount = gql`
   }
 `;
 
+<<<<<<< HEAD
+=======
+export const UpsertPlayer = gql`
+  mutation UpsertPlayer(
+    $objects: [player_insert_input!]!
+    $onConflict: player_on_conflict
+  ) {
+    insert_player(on_conflict: $onConflict, objects: $objects) {
+      affected_rows
+    }
+  }
+`;
+
+export const UpsertProfileCache = gql`
+  mutation UpsertProfileCache(
+    $objects: [profile_cache_insert_input!]!
+    $onConflict: profile_cache_on_conflict = {
+      constraint: profile_cache_player_id_key
+      update_columns: []
+    }
+  ) {
+    insert_profile_cache(on_conflict: $onConflict, objects: $objects) {
+      affected_rows
+    }
+  }
+`;
+
+export const DeleteDuplicatePlayers = gql`
+  mutation DeleteDuplicatePlayers($scIds: [String!] = "") {
+    delete_player_account(
+      where: { Player: { sc_identity_id: { _in: $scIds } } }
+    ) {
+      affected_rows
+    }
+    delete_player(where: { sc_identity_id: { _in: $scIds } }) {
+      affected_rows
+    }
+  }
+`;
+
+>>>>>>> queries and mutations to support profile caching 🗽
 export const UpdatePlayer = gql`
   mutation UpdatePlayer(
     $ethAddress: String
