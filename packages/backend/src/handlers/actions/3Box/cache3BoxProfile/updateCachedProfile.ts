@@ -17,11 +17,7 @@ import {
 
 function getImage(image: string | null | undefined, opts: OptimizeImageParams) {
   const [, imageHash] = image?.match(/^ipfs:\/\/(.+)$/) ?? [];
-  // let imageHash;
-  // if (match) {
-  //   const [, hash] = match;
-  //   imageHash = hash;
-  // }
+
   if (imageHash) {
     return optimizeImage(`${CONFIG.ipfsEndpoint}/ipfs/${imageHash}`, opts);
   }
