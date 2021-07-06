@@ -20,6 +20,11 @@ type Mutation {
 
 
 type Mutation {
+  updateAllBoxProfiles : CacheProcessOutput
+}
+
+
+type Mutation {
   updateBoxProfile : UpdateBoxProfileResponse
 }
 
@@ -92,6 +97,11 @@ type DiscordGuildAuthResponse {
   success : Boolean!
   guildname : String
   exists : Boolean
+  error : String
+}
+
+type CacheProcessOutput {
+  success : Boolean!
   error : String
 }
 
