@@ -32,7 +32,7 @@ const UsernameSetup: React.FC<DefaultSetupProps> = () => {
   return (
     <SetupContextProvider>
       <SetupProfile>
-        <SetupUsername username={username} setUsername={setUsername} />
+        <SetupUsername {...{ username, setUsername }} />
       </SetupProfile>
     </SetupContextProvider>
   );
