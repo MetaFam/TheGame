@@ -180,11 +180,11 @@ enum AccountType_update_column {
 
 type BoxProfile {
   collectiblesFavorites: [CollectiblesFavorites!]
-  coverImageUrl: String
+  coverImageURL: String
   description: String
   emoji: String
   ethereumAddress: String
-  imageUrl: String
+  imageURL: String
   job: String
   location: String
   name: String
@@ -589,6 +589,10 @@ type DiscordGuildAuthResponse {
   exists: Boolean
   guildname: String
   success: Boolean!
+}
+
+type ExpiredPlayerProfiles {
+  ids: [String]!
 }
 
 """
@@ -2323,7 +2327,7 @@ type mutation_root {
   """
   delete single row from the table: "player_skill"
   """
-  delete_player_skill_by_pk(player_id: uuid!, skill_id: uuid!): player_skill
+  delete_player_skill_by_pk(id: uuid!): player_skill
 
   """
   delete data from the table: "player_type"
@@ -2882,14 +2886,14 @@ type mutation_root {
   ): skill
 
   """
-  perform the action: "updateAllBoxProfiles"
+  perform the action: "updateExpiredIDXProfiles"
   """
-  updateAllBoxProfiles: uuid!
+  updateExpiredIDXProfiles: ExpiredPlayerProfiles
 
   """
-  perform the action: "updateBoxProfile"
+  perform the action: "updateIDXProfile"
   """
-  updateBoxProfile: UpdateBoxProfileResponse
+  updateIDXProfile(playerId: uuid): CacheProcessOutput
 
   """
   perform the action: "updateQuestCompletion"
@@ -3238,6 +3242,9 @@ type mutation_root {
   update data of the table: "player_skill"
   """
   update_player_skill(
+    """increments the integer columns with given value of the filtered values"""
+    _inc: player_skill_inc_input
+
     """sets the columns of the filtered rows to the given values"""
     _set: player_skill_set_input
 
@@ -3249,6 +3256,9 @@ type mutation_root {
   update single row of the table: "player_skill"
   """
   update_player_skill_by_pk(
+    """increments the integer columns with given value of the filtered values"""
+    _inc: player_skill_inc_input
+
     """sets the columns of the filtered rows to the given values"""
     _set: player_skill_set_input
     pk_columns: player_skill_pk_columns_input!
@@ -4189,7 +4199,9 @@ columns and relationships of "player_skill"
 type player_skill {
   """An object relationship"""
   Skill: skill!
+  id: uuid!
   player_id: uuid!
+  rank: Int
   skill_id: uuid!
 }
 
@@ -4205,18 +4217,34 @@ type player_skill_aggregate {
 aggregate fields of "player_skill"
 """
 type player_skill_aggregate_fields {
+  avg: player_skill_avg_fields
   count(columns: [player_skill_select_column!], distinct: Boolean): Int
   max: player_skill_max_fields
   min: player_skill_min_fields
+  stddev: player_skill_stddev_fields
+  stddev_pop: player_skill_stddev_pop_fields
+  stddev_samp: player_skill_stddev_samp_fields
+  sum: player_skill_sum_fields
+  var_pop: player_skill_var_pop_fields
+  var_samp: player_skill_var_samp_fields
+  variance: player_skill_variance_fields
 }
 
 """
 order by aggregate values of table "player_skill"
 """
 input player_skill_aggregate_order_by {
+  avg: player_skill_avg_order_by
   count: order_by
   max: player_skill_max_order_by
   min: player_skill_min_order_by
+  stddev: player_skill_stddev_order_by
+  stddev_pop: player_skill_stddev_pop_order_by
+  stddev_samp: player_skill_stddev_samp_order_by
+  sum: player_skill_sum_order_by
+  var_pop: player_skill_var_pop_order_by
+  var_samp: player_skill_var_samp_order_by
+  variance: player_skill_variance_order_by
 }
 
 """
@@ -4227,6 +4255,18 @@ input player_skill_arr_rel_insert_input {
   on_conflict: player_skill_on_conflict
 }
 
+"""aggregate avg on columns"""
+type player_skill_avg_fields {
+  rank: Float
+}
+
+"""
+order by avg() on columns of table "player_skill"
+"""
+input player_skill_avg_order_by {
+  rank: order_by
+}
+
 """
 Boolean expression to filter rows from the table "player_skill". All fields are combined with a logical 'AND'.
 """
@@ -4235,7 +4275,9 @@ input player_skill_bool_exp {
   _and: [player_skill_bool_exp]
   _not: player_skill_bool_exp
   _or: [player_skill_bool_exp]
+  id: uuid_comparison_exp
   player_id: uuid_comparison_exp
+  rank: Int_comparison_exp
   skill_id: uuid_comparison_exp
 }
 
@@ -4244,7 +4286,14 @@ unique or primary key constraints on table "player_skill"
 """
 enum player_skill_constraint {
   """unique or primary key constraint"""
-  Player_Skill_unique_key
+  player_skill_pkey
+}
+
+"""
+input type for incrementing integer column in table "player_skill"
+"""
+input player_skill_inc_input {
+  rank: Int
 }
 
 """
@@ -4252,13 +4301,17 @@ input type for inserting data into table "player_skill"
 """
 input player_skill_insert_input {
   Skill: skill_obj_rel_insert_input
+  id: uuid
   player_id: uuid
+  rank: Int
   skill_id: uuid
 }
 
 """aggregate max on columns"""
 type player_skill_max_fields {
+  id: uuid
   player_id: uuid
+  rank: Int
   skill_id: uuid
 }
 
@@ -4266,13 +4319,17 @@ type player_skill_max_fields {
 order by max() on columns of table "player_skill"
 """
 input player_skill_max_order_by {
+  id: order_by
   player_id: order_by
+  rank: order_by
   skill_id: order_by
 }
 
 """aggregate min on columns"""
 type player_skill_min_fields {
+  id: uuid
   player_id: uuid
+  rank: Int
   skill_id: uuid
 }
 
@@ -4280,7 +4337,9 @@ type player_skill_min_fields {
 order by min() on columns of table "player_skill"
 """
 input player_skill_min_order_by {
+  id: order_by
   player_id: order_by
+  rank: order_by
   skill_id: order_by
 }
 
@@ -4317,7 +4376,9 @@ ordering options when selecting data from "player_skill"
 """
 input player_skill_order_by {
   Skill: skill_order_by
+  id: order_by
   player_id: order_by
+  rank: order_by
   skill_id: order_by
 }
 
@@ -4325,8 +4386,7 @@ input player_skill_order_by {
 primary key columns input for table: "player_skill"
 """
 input player_skill_pk_columns_input {
-  player_id: uuid!
-  skill_id: uuid!
+  id: uuid!
 }
 
 """
@@ -4334,7 +4394,13 @@ select columns of table "player_skill"
 """
 enum player_skill_select_column {
   """column name"""
+  id
+
+  """column name"""
   player_id
+
+  """column name"""
+  rank
 
   """column name"""
   skill_id
@@ -4344,8 +4410,58 @@ enum player_skill_select_column {
 input type for updating data in table "player_skill"
 """
 input player_skill_set_input {
+  id: uuid
   player_id: uuid
+  rank: Int
   skill_id: uuid
+}
+
+"""aggregate stddev on columns"""
+type player_skill_stddev_fields {
+  rank: Float
+}
+
+"""
+order by stddev() on columns of table "player_skill"
+"""
+input player_skill_stddev_order_by {
+  rank: order_by
+}
+
+"""aggregate stddev_pop on columns"""
+type player_skill_stddev_pop_fields {
+  rank: Float
+}
+
+"""
+order by stddev_pop() on columns of table "player_skill"
+"""
+input player_skill_stddev_pop_order_by {
+  rank: order_by
+}
+
+"""aggregate stddev_samp on columns"""
+type player_skill_stddev_samp_fields {
+  rank: Float
+}
+
+"""
+order by stddev_samp() on columns of table "player_skill"
+"""
+input player_skill_stddev_samp_order_by {
+  rank: order_by
+}
+
+"""aggregate sum on columns"""
+type player_skill_sum_fields {
+  rank: Int
+}
+
+"""
+order by sum() on columns of table "player_skill"
+"""
+input player_skill_sum_order_by {
+  rank: order_by
 }
 
 """
@@ -4353,10 +4469,52 @@ update columns of table "player_skill"
 """
 enum player_skill_update_column {
   """column name"""
+  id
+
+  """column name"""
   player_id
 
   """column name"""
+  rank
+
+  """column name"""
   skill_id
+}
+
+"""aggregate var_pop on columns"""
+type player_skill_var_pop_fields {
+  rank: Float
+}
+
+"""
+order by var_pop() on columns of table "player_skill"
+"""
+input player_skill_var_pop_order_by {
+  rank: order_by
+}
+
+"""aggregate var_samp on columns"""
+type player_skill_var_samp_fields {
+  rank: Float
+}
+
+"""
+order by var_samp() on columns of table "player_skill"
+"""
+input player_skill_var_samp_order_by {
+  rank: order_by
+}
+
+"""aggregate variance on columns"""
+type player_skill_variance_fields {
+  rank: Float
+}
+
+"""
+order by variance() on columns of table "player_skill"
+"""
+input player_skill_variance_order_by {
+  rank: order_by
 }
 
 """aggregate stddev on columns"""
@@ -5046,20 +5204,20 @@ enum PlayerRank_update_column {
 columns and relationships of "profile_cache"
 """
 type profile_cache {
-  backgroundImageUrl: String
+  backgroundImageURL: String
+  country: String
   description: String
   emoji: String
-  ethereumAddress: String
   gender: String
   id: uuid!
-  imageUrl: String
-  job: String
+  imageURL: String
+  last_checked_at: timestamptz
   location: String
   name: String
 
   """An object relationship"""
   player: player!
-  player_id: uuid!
+  playerId: uuid!
   website: String
 }
 
@@ -5104,18 +5262,18 @@ input profile_cache_bool_exp {
   _and: [profile_cache_bool_exp]
   _not: profile_cache_bool_exp
   _or: [profile_cache_bool_exp]
-  backgroundImageUrl: String_comparison_exp
+  backgroundImageURL: String_comparison_exp
+  country: String_comparison_exp
   description: String_comparison_exp
   emoji: String_comparison_exp
-  ethereumAddress: String_comparison_exp
   gender: String_comparison_exp
   id: uuid_comparison_exp
-  imageUrl: String_comparison_exp
-  job: String_comparison_exp
+  imageURL: String_comparison_exp
+  last_checked_at: timestamptz_comparison_exp
   location: String_comparison_exp
   name: String_comparison_exp
   player: player_bool_exp
-  player_id: uuid_comparison_exp
+  playerId: uuid_comparison_exp
   website: String_comparison_exp
 }
 
@@ -5134,34 +5292,34 @@ enum profile_cache_constraint {
 input type for inserting data into table "profile_cache"
 """
 input profile_cache_insert_input {
-  backgroundImageUrl: String
+  backgroundImageURL: String
+  country: String
   description: String
   emoji: String
-  ethereumAddress: String
   gender: String
   id: uuid
-  imageUrl: String
-  job: String
+  imageURL: String
+  last_checked_at: timestamptz
   location: String
   name: String
   player: player_obj_rel_insert_input
-  player_id: uuid
+  playerId: uuid
   website: String
 }
 
 """aggregate max on columns"""
 type profile_cache_max_fields {
-  backgroundImageUrl: String
+  backgroundImageURL: String
+  country: String
   description: String
   emoji: String
-  ethereumAddress: String
   gender: String
   id: uuid
-  imageUrl: String
-  job: String
+  imageURL: String
+  last_checked_at: timestamptz
   location: String
   name: String
-  player_id: uuid
+  playerId: uuid
   website: String
 }
 
@@ -5169,33 +5327,33 @@ type profile_cache_max_fields {
 order by max() on columns of table "profile_cache"
 """
 input profile_cache_max_order_by {
-  backgroundImageUrl: order_by
+  backgroundImageURL: order_by
+  country: order_by
   description: order_by
   emoji: order_by
-  ethereumAddress: order_by
   gender: order_by
   id: order_by
-  imageUrl: order_by
-  job: order_by
+  imageURL: order_by
+  last_checked_at: order_by
   location: order_by
   name: order_by
-  player_id: order_by
+  playerId: order_by
   website: order_by
 }
 
 """aggregate min on columns"""
 type profile_cache_min_fields {
-  backgroundImageUrl: String
+  backgroundImageURL: String
+  country: String
   description: String
   emoji: String
-  ethereumAddress: String
   gender: String
   id: uuid
-  imageUrl: String
-  job: String
+  imageURL: String
+  last_checked_at: timestamptz
   location: String
   name: String
-  player_id: uuid
+  playerId: uuid
   website: String
 }
 
@@ -5203,17 +5361,17 @@ type profile_cache_min_fields {
 order by min() on columns of table "profile_cache"
 """
 input profile_cache_min_order_by {
-  backgroundImageUrl: order_by
+  backgroundImageURL: order_by
+  country: order_by
   description: order_by
   emoji: order_by
-  ethereumAddress: order_by
   gender: order_by
   id: order_by
-  imageUrl: order_by
-  job: order_by
+  imageURL: order_by
+  last_checked_at: order_by
   location: order_by
   name: order_by
-  player_id: order_by
+  playerId: order_by
   website: order_by
 }
 
@@ -5249,18 +5407,18 @@ input profile_cache_on_conflict {
 ordering options when selecting data from "profile_cache"
 """
 input profile_cache_order_by {
-  backgroundImageUrl: order_by
+  backgroundImageURL: order_by
+  country: order_by
   description: order_by
   emoji: order_by
-  ethereumAddress: order_by
   gender: order_by
   id: order_by
-  imageUrl: order_by
-  job: order_by
+  imageURL: order_by
+  last_checked_at: order_by
   location: order_by
   name: order_by
   player: player_order_by
-  player_id: order_by
+  playerId: order_by
   website: order_by
 }
 
@@ -5276,7 +5434,10 @@ select columns of table "profile_cache"
 """
 enum profile_cache_select_column {
   """column name"""
-  backgroundImageUrl
+  backgroundImageURL
+
+  """column name"""
+  country
 
   """column name"""
   description
@@ -5285,19 +5446,16 @@ enum profile_cache_select_column {
   emoji
 
   """column name"""
-  ethereumAddress
-
-  """column name"""
   gender
 
   """column name"""
   id
 
   """column name"""
-  imageUrl
+  imageURL
 
   """column name"""
-  job
+  last_checked_at
 
   """column name"""
   location
@@ -5306,7 +5464,7 @@ enum profile_cache_select_column {
   name
 
   """column name"""
-  player_id
+  playerId
 
   """column name"""
   website
@@ -5316,17 +5474,17 @@ enum profile_cache_select_column {
 input type for updating data in table "profile_cache"
 """
 input profile_cache_set_input {
-  backgroundImageUrl: String
+  backgroundImageURL: String
+  country: String
   description: String
   emoji: String
-  ethereumAddress: String
   gender: String
   id: uuid
-  imageUrl: String
-  job: String
+  imageURL: String
+  last_checked_at: timestamptz
   location: String
   name: String
-  player_id: uuid
+  playerId: uuid
   website: String
 }
 
@@ -5335,7 +5493,10 @@ update columns of table "profile_cache"
 """
 enum profile_cache_update_column {
   """column name"""
-  backgroundImageUrl
+  backgroundImageURL
+
+  """column name"""
+  country
 
   """column name"""
   description
@@ -5344,19 +5505,16 @@ enum profile_cache_update_column {
   emoji
 
   """column name"""
-  ethereumAddress
-
-  """column name"""
   gender
 
   """column name"""
   id
 
   """column name"""
-  imageUrl
+  imageURL
 
   """column name"""
-  job
+  last_checked_at
 
   """column name"""
   location
@@ -5365,7 +5523,7 @@ enum profile_cache_update_column {
   name
 
   """column name"""
-  player_id
+  playerId
 
   """column name"""
   website
@@ -6068,7 +6226,7 @@ type query_root {
   ): player_skill_aggregate!
 
   """fetch data from the table: "player_skill" using primary key columns"""
-  player_skill_by_pk(player_id: uuid!, skill_id: uuid!): player_skill
+  player_skill_by_pk(id: uuid!): player_skill
 
   """
   fetch data from the table: "player_type"
@@ -6329,16 +6487,6 @@ type query_root {
 
   """fetch data from the table: "skill" using primary key columns"""
   skill_by_pk(id: uuid!): skill
-
-  """
-  retrieve the result of action: "updateAllBoxProfiles"
-  """
-  updateAllBoxProfiles(
-    """
-    id of the action: "updateAllBoxProfiles"
-    """
-    id: uuid!
-  ): updateAllBoxProfiles
 }
 
 """
@@ -9061,7 +9209,7 @@ type subscription_root {
   ): player_skill_aggregate!
 
   """fetch data from the table: "player_skill" using primary key columns"""
-  player_skill_by_pk(player_id: uuid!, skill_id: uuid!): player_skill
+  player_skill_by_pk(id: uuid!): player_skill
 
   """
   fetch data from the table: "player_type"
@@ -9322,16 +9470,6 @@ type subscription_root {
 
   """fetch data from the table: "skill" using primary key columns"""
   skill_by_pk(id: uuid!): skill
-
-  """
-  retrieve the result of action: "updateAllBoxProfiles"
-  """
-  updateAllBoxProfiles(
-    """
-    id of the action: "updateAllBoxProfiles"
-    """
-    id: uuid!
-  ): updateAllBoxProfiles
 }
 
 scalar timestamptz
@@ -9357,24 +9495,12 @@ type TokenBalances {
   seedBalance: String!
 }
 
-"""
-fields of action: "updateAllBoxProfiles"
-"""
-type updateAllBoxProfiles {
-  """the time at which this action was created"""
-  created_at: timestamptz
-
-  """errors related to the invocation"""
-  errors: json
-
-  """the unique id of an action"""
-  id: uuid
-
-  """the output fields of this action"""
-  output: CacheProcessOutput
+type UpdateBoxProfileResponse {
+  success: Boolean!
+  updatedProfiles: [String!]!
 }
 
-type UpdateBoxProfileResponse {
+type UpdateIDXProfileResponse {
   success: Boolean!
   updatedProfiles: [String!]!
 }
