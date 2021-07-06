@@ -22,9 +22,9 @@ import {
 import Image from 'next/image';
 import React from 'react';
 
-const SectionLinks = ({ sections }) => (
+const SectionLinks = ({ sections }: { sections: any }) => (
   <Flex className="section-links" display={['none', 'none', 'none', 'flex']}>
-    {sections.map((section) => (
+    {sections.map((section: any) => (
       <>
         {section.menuItems ? (
           <Menu>
@@ -56,7 +56,7 @@ const SectionLinks = ({ sections }) => (
                     width="72vw"
                     p={7}
                   >
-                    {section.menuItems.map((item) => (
+                    {section.menuItems.map((item: any) => (
                       <MenuItem
                         color="#000"
                         display="flex"
@@ -87,7 +87,7 @@ const SectionLinks = ({ sections }) => (
                     width="36vw"
                     p={7}
                   >
-                    {section.menuItems.map((item) => (
+                    {section.menuItems.map((item: any) => (
                       <MenuItem
                         color="#000"
                         display="flex"
