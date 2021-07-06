@@ -69,6 +69,46 @@ describe('getDaoHausMemberships', () => {
     expect(xdaiGraph.isDone()).toBeTruthy();
     expect(polygonGraph.isDone()).toBeTruthy();
   });
+
+  it('should gracefully handle failure', async () => {
+    const membershipResolver = mockResolver(getDaoHausMemberships);
+
+    const members = [{ moloch: {} }]
+
+    const ethGraph = nock('https://api.thegraph.com:443')
+      .post('/subgraphs/name/odyssy-automaton/daohaus')
+      .reply(200, { data: { members } })
+
+    const xdaiGraph = nock('https://api.thegraph.com:443')
+      .post('/subgraphs/name/odyssy-automaton/daohaus-xdai')
+      .reply(400, { error: {} })
+
+    const polygonGraph = nock('https://api.thegraph.com:443')
+      .post('/subgraphs/name/odyssy-automaton/daohaus-matic')
+      .reply(200, { data: { members } })
+
+    // nock.recorder.rec();
+    const result = await membershipResolver(
+      {},
+      { memberAddress: VALID_ADDRESS }
+    );
+
+    const moloch = (chain: string) => expect.objectContaining({ chain })
+
+    expect(result).toContainEqual({
+      moloch: moloch('ethereum')
+    })
+
+    expect(result).not.toContainEqual({
+      moloch: moloch('xdai')
+    })
+
+    expect(result).toContainEqual({
+      moloch: moloch('polygon')
+    })
+
+    expect(ethGraph.isDone()).toBeTruthy();
+    expect(xdaiGraph.isDone()).toBeTruthy();
+    expect(polygonGraph.isDone()).toBeTruthy();
+  });
 });
-
-
