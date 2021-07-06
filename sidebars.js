@@ -51,6 +51,7 @@ module.exports = {
       "playbooks/how-to-make-it-without-technical-skills",
       "playbooks/how-to-coach-eth",
       "playbooks/how-to-hackmd",
+      "playbooks/entering-daos-as-a-writer",
           //   "playbooks/how-to-not-get-hacked",
       // {
       //   type: "subcategory",
