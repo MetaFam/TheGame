@@ -23,6 +23,7 @@ export {
   ChevronUpIcon,
   CloseIcon,
   EmailIcon,
+  HamburgerIcon,
   SettingsIcon,
 } from '@chakra-ui/icons';
 export {
