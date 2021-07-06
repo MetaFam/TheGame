@@ -34,6 +34,7 @@ module.exports = {
       'great-houses/house-of-ethereum',
       'great-houses/house-of-daos',
       'great-houses/house-of-NFTs',
+      'great-houses/house-of-dapps',
       // 'enter-metagame/guilds-of-metagame',
       //   'great-houses/house-of-defiance',
       //   'great-houses/house-of-dapps',
@@ -52,6 +53,8 @@ module.exports = {
       "playbooks/how-to-coach-eth",
       "playbooks/how-to-hackmd",
       "playbooks/entering-daos-as-a-writer",
+      "playbooks/become-a-buidler-on-ethereum-by-austin-griffith",
+      "playbooks/how-to-play-twitter-by-visa",
           //   "playbooks/how-to-not-get-hacked",
       // {
       //   type: "subcategory",
