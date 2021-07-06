@@ -321,6 +321,7 @@
       - season_xp
       - timezone
       - total_xp
+      - timezone
       - username
       filter: {}
       allow_aggregations: true
@@ -488,31 +489,42 @@
       - backgroundImageUrl
       - description
       - emoji
-      - ethereumAddress
       - gender
       - imageUrl
-      - job
       - location
       - name
+      - player_id
       - website
-      filter:
-        player_id:
-          _eq: X-Hasura-User-Id
+      filter: {}
   - role: public
     permission:
       columns:
       - backgroundImageUrl
       - description
       - emoji
-      - ethereumAddress
       - gender
       - imageUrl
-      - job
       - location
       - name
       - player_id
       - website
       filter: {}
+  update_permissions:
+  - role: player
+    permission:
+      columns:
+      - backgroundImageUrl
+      - description
+      - emoji
+      - gender
+      - imageUrl
+      - location
+      - name
+      - website
+      filter:
+        player_id:
+          _eq: X-Hasura-User-Id
+      check: null
 - table:
     schema: public
     name: quest
