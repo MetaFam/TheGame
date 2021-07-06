@@ -226,6 +226,14 @@
   - name: playerType
     using:
       foreign_key_constraint_on: player_type_id
+  - name: profile_cache
+    using:
+      manual_configuration:
+        remote_table:
+          schema: public
+          name: profile_cache
+        column_mapping:
+          id: player_id
   array_relationships:
   - name: Accounts
     using:
@@ -348,6 +356,19 @@
       set:
         id: x-hasura-User-Id
   event_triggers:
+  - name: cache3BoxProfile
+    definition:
+      enable_manual: true
+      insert:
+        columns: '*'
+      update:
+        columns:
+        - ethereum_address
+    retry_conf:
+      num_retries: 0
+      interval_sec: 10
+      timeout_sec: 60
+    webhook: '{{TRIGGERS_ENDPOINT}}'
   - name: fetchBoxVerifiedAccounts
     definition:
       enable_manual: true
@@ -452,6 +473,45 @@
       - description
       - imageUrl
       - title
+      filter: {}
+- table:
+    schema: public
+    name: profile_cache
+  object_relationships:
+  - name: player
+    using:
+      foreign_key_constraint_on: player_id
+  select_permissions:
+  - role: player
+    permission:
+      columns:
+      - backgroundImageUrl
+      - description
+      - emoji
+      - ethereumAddress
+      - gender
+      - imageUrl
+      - job
+      - location
+      - name
+      - website
+      filter:
+        player_id:
+          _eq: X-Hasura-User-Id
+  - role: public
+    permission:
+      columns:
+      - backgroundImageUrl
+      - description
+      - emoji
+      - ethereumAddress
+      - gender
+      - imageUrl
+      - job
+      - location
+      - name
+      - player_id
+      - website
       filter: {}
 - table:
     schema: public

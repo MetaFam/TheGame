@@ -2334,6 +2334,19 @@ type mutation_root {
   delete_player_type_by_pk(id: Int!): player_type
 
   """
+  delete data from the table: "profile_cache"
+  """
+  delete_profile_cache(
+    """filter the rows which have to be deleted"""
+    where: profile_cache_bool_exp!
+  ): profile_cache_mutation_response
+
+  """
+  delete single row from the table: "profile_cache"
+  """
+  delete_profile_cache_by_pk(id: uuid!): profile_cache
+
+  """
   delete data from the table: "quest"
   """
   delete_quest(
@@ -2752,6 +2765,28 @@ type mutation_root {
     """on conflict condition"""
     on_conflict: player_type_on_conflict
   ): player_type
+
+  """
+  insert data into the table: "profile_cache"
+  """
+  insert_profile_cache(
+    """the rows to be inserted"""
+    objects: [profile_cache_insert_input!]!
+
+    """on conflict condition"""
+    on_conflict: profile_cache_on_conflict
+  ): profile_cache_mutation_response
+
+  """
+  insert a single row into the table: "profile_cache"
+  """
+  insert_profile_cache_one(
+    """the row to be inserted"""
+    object: profile_cache_insert_input!
+
+    """on conflict condition"""
+    on_conflict: profile_cache_on_conflict
+  ): profile_cache
 
   """
   insert data into the table: "quest"
@@ -3236,6 +3271,26 @@ type mutation_root {
   ): player_type
 
   """
+  update data of the table: "profile_cache"
+  """
+  update_profile_cache(
+    """sets the columns of the filtered rows to the given values"""
+    _set: profile_cache_set_input
+
+    """filter the rows which have to be updated"""
+    where: profile_cache_bool_exp!
+  ): profile_cache_mutation_response
+
+  """
+  update single row of the table: "profile_cache"
+  """
+  update_profile_cache_by_pk(
+    """sets the columns of the filtered rows to the given values"""
+    _set: profile_cache_set_input
+    pk_columns: profile_cache_pk_columns_input!
+  ): profile_cache
+
+  """
   update data of the table: "quest"
   """
   update_quest(
@@ -3493,6 +3548,9 @@ type player {
   """An object relationship"""
   playerType: player_type
   player_type_id: Int
+
+  """An object relationship"""
+  profile_cache: profile_cache
 
   """An array relationship"""
   quest_completions(
@@ -3845,6 +3903,7 @@ input player_bool_exp {
   id: uuid_comparison_exp
   playerType: player_type_bool_exp
   player_type_id: Int_comparison_exp
+  profile_cache: profile_cache_bool_exp
   quest_completions: quest_completion_bool_exp
   quests: quest_bool_exp
   rank: PlayerRank_enum_comparison_exp
@@ -3900,6 +3959,7 @@ input player_insert_input {
   id: uuid
   playerType: player_type_obj_rel_insert_input
   player_type_id: Int
+  profile_cache: profile_cache_obj_rel_insert_input
   quest_completions: quest_completion_arr_rel_insert_input
   quests: quest_arr_rel_insert_input
   rank: PlayerRank_enum
@@ -4027,6 +4087,7 @@ input player_order_by {
   id: order_by
   playerType: player_type_order_by
   player_type_id: order_by
+  profile_cache: profile_cache_order_by
   quest_completions_aggregate: quest_completion_aggregate_order_by
   quests_aggregate: quest_aggregate_order_by
   rank: order_by
@@ -4971,6 +5032,335 @@ enum PlayerRank_update_column {
   rank
 }
 
+"""
+columns and relationships of "profile_cache"
+"""
+type profile_cache {
+  backgroundImageUrl: String
+  description: String
+  emoji: String
+  ethereumAddress: String
+  gender: String
+  id: uuid!
+  imageUrl: String
+  job: String
+  location: String
+  name: String
+
+  """An object relationship"""
+  player: player!
+  player_id: uuid!
+  website: String
+}
+
+"""
+aggregated selection of "profile_cache"
+"""
+type profile_cache_aggregate {
+  aggregate: profile_cache_aggregate_fields
+  nodes: [profile_cache!]!
+}
+
+"""
+aggregate fields of "profile_cache"
+"""
+type profile_cache_aggregate_fields {
+  count(columns: [profile_cache_select_column!], distinct: Boolean): Int
+  max: profile_cache_max_fields
+  min: profile_cache_min_fields
+}
+
+"""
+order by aggregate values of table "profile_cache"
+"""
+input profile_cache_aggregate_order_by {
+  count: order_by
+  max: profile_cache_max_order_by
+  min: profile_cache_min_order_by
+}
+
+"""
+input type for inserting array relation for remote table "profile_cache"
+"""
+input profile_cache_arr_rel_insert_input {
+  data: [profile_cache_insert_input!]!
+  on_conflict: profile_cache_on_conflict
+}
+
+"""
+Boolean expression to filter rows from the table "profile_cache". All fields are combined with a logical 'AND'.
+"""
+input profile_cache_bool_exp {
+  _and: [profile_cache_bool_exp]
+  _not: profile_cache_bool_exp
+  _or: [profile_cache_bool_exp]
+  backgroundImageUrl: String_comparison_exp
+  description: String_comparison_exp
+  emoji: String_comparison_exp
+  ethereumAddress: String_comparison_exp
+  gender: String_comparison_exp
+  id: uuid_comparison_exp
+  imageUrl: String_comparison_exp
+  job: String_comparison_exp
+  location: String_comparison_exp
+  name: String_comparison_exp
+  player: player_bool_exp
+  player_id: uuid_comparison_exp
+  website: String_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "profile_cache"
+"""
+enum profile_cache_constraint {
+  """unique or primary key constraint"""
+  profile_cache_pkey
+
+  """unique or primary key constraint"""
+  profile_cache_player_id_key
+}
+
+"""
+input type for inserting data into table "profile_cache"
+"""
+input profile_cache_insert_input {
+  backgroundImageUrl: String
+  description: String
+  emoji: String
+  ethereumAddress: String
+  gender: String
+  id: uuid
+  imageUrl: String
+  job: String
+  location: String
+  name: String
+  player: player_obj_rel_insert_input
+  player_id: uuid
+  website: String
+}
+
+"""aggregate max on columns"""
+type profile_cache_max_fields {
+  backgroundImageUrl: String
+  description: String
+  emoji: String
+  ethereumAddress: String
+  gender: String
+  id: uuid
+  imageUrl: String
+  job: String
+  location: String
+  name: String
+  player_id: uuid
+  website: String
+}
+
+"""
+order by max() on columns of table "profile_cache"
+"""
+input profile_cache_max_order_by {
+  backgroundImageUrl: order_by
+  description: order_by
+  emoji: order_by
+  ethereumAddress: order_by
+  gender: order_by
+  id: order_by
+  imageUrl: order_by
+  job: order_by
+  location: order_by
+  name: order_by
+  player_id: order_by
+  website: order_by
+}
+
+"""aggregate min on columns"""
+type profile_cache_min_fields {
+  backgroundImageUrl: String
+  description: String
+  emoji: String
+  ethereumAddress: String
+  gender: String
+  id: uuid
+  imageUrl: String
+  job: String
+  location: String
+  name: String
+  player_id: uuid
+  website: String
+}
+
+"""
+order by min() on columns of table "profile_cache"
+"""
+input profile_cache_min_order_by {
+  backgroundImageUrl: order_by
+  description: order_by
+  emoji: order_by
+  ethereumAddress: order_by
+  gender: order_by
+  id: order_by
+  imageUrl: order_by
+  job: order_by
+  location: order_by
+  name: order_by
+  player_id: order_by
+  website: order_by
+}
+
+"""
+response of any mutation on the table "profile_cache"
+"""
+type profile_cache_mutation_response {
+  """number of affected rows by the mutation"""
+  affected_rows: Int!
+
+  """data of the affected rows by the mutation"""
+  returning: [profile_cache!]!
+}
+
+"""
+input type for inserting object relation for remote table "profile_cache"
+"""
+input profile_cache_obj_rel_insert_input {
+  data: profile_cache_insert_input!
+  on_conflict: profile_cache_on_conflict
+}
+
+"""
+on conflict condition type for table "profile_cache"
+"""
+input profile_cache_on_conflict {
+  constraint: profile_cache_constraint!
+  update_columns: [profile_cache_update_column!]!
+  where: profile_cache_bool_exp
+}
+
+"""
+ordering options when selecting data from "profile_cache"
+"""
+input profile_cache_order_by {
+  backgroundImageUrl: order_by
+  description: order_by
+  emoji: order_by
+  ethereumAddress: order_by
+  gender: order_by
+  id: order_by
+  imageUrl: order_by
+  job: order_by
+  location: order_by
+  name: order_by
+  player: player_order_by
+  player_id: order_by
+  website: order_by
+}
+
+"""
+primary key columns input for table: "profile_cache"
+"""
+input profile_cache_pk_columns_input {
+  id: uuid!
+}
+
+"""
+select columns of table "profile_cache"
+"""
+enum profile_cache_select_column {
+  """column name"""
+  backgroundImageUrl
+
+  """column name"""
+  description
+
+  """column name"""
+  emoji
+
+  """column name"""
+  ethereumAddress
+
+  """column name"""
+  gender
+
+  """column name"""
+  id
+
+  """column name"""
+  imageUrl
+
+  """column name"""
+  job
+
+  """column name"""
+  location
+
+  """column name"""
+  name
+
+  """column name"""
+  player_id
+
+  """column name"""
+  website
+}
+
+"""
+input type for updating data in table "profile_cache"
+"""
+input profile_cache_set_input {
+  backgroundImageUrl: String
+  description: String
+  emoji: String
+  ethereumAddress: String
+  gender: String
+  id: uuid
+  imageUrl: String
+  job: String
+  location: String
+  name: String
+  player_id: uuid
+  website: String
+}
+
+"""
+update columns of table "profile_cache"
+"""
+enum profile_cache_update_column {
+  """column name"""
+  backgroundImageUrl
+
+  """column name"""
+  description
+
+  """column name"""
+  emoji
+
+  """column name"""
+  ethereumAddress
+
+  """column name"""
+  gender
+
+  """column name"""
+  id
+
+  """column name"""
+  imageUrl
+
+  """column name"""
+  job
+
+  """column name"""
+  location
+
+  """column name"""
+  name
+
+  """column name"""
+  player_id
+
+  """column name"""
+  website
+}
+
 type Query {
   getBoxProfile(address: String): BoxProfile
   getBrightIdStatus(contextId: uuid): BrightIdStatus
@@ -5712,6 +6102,49 @@ type query_root {
 
   """fetch data from the table: "player_type" using primary key columns"""
   player_type_by_pk(id: Int!): player_type
+
+  """
+  fetch data from the table: "profile_cache"
+  """
+  profile_cache(
+    """distinct select on columns"""
+    distinct_on: [profile_cache_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [profile_cache_order_by!]
+
+    """filter the rows returned"""
+    where: profile_cache_bool_exp
+  ): [profile_cache!]!
+
+  """
+  fetch aggregated fields from the table: "profile_cache"
+  """
+  profile_cache_aggregate(
+    """distinct select on columns"""
+    distinct_on: [profile_cache_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [profile_cache_order_by!]
+
+    """filter the rows returned"""
+    where: profile_cache_bool_exp
+  ): profile_cache_aggregate!
+
+  """fetch data from the table: "profile_cache" using primary key columns"""
+  profile_cache_by_pk(id: uuid!): profile_cache
 
   """
   fetch data from the table: "quest"
@@ -8652,6 +9085,49 @@ type subscription_root {
 
   """fetch data from the table: "player_type" using primary key columns"""
   player_type_by_pk(id: Int!): player_type
+
+  """
+  fetch data from the table: "profile_cache"
+  """
+  profile_cache(
+    """distinct select on columns"""
+    distinct_on: [profile_cache_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [profile_cache_order_by!]
+
+    """filter the rows returned"""
+    where: profile_cache_bool_exp
+  ): [profile_cache!]!
+
+  """
+  fetch aggregated fields from the table: "profile_cache"
+  """
+  profile_cache_aggregate(
+    """distinct select on columns"""
+    distinct_on: [profile_cache_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [profile_cache_order_by!]
+
+    """filter the rows returned"""
+    where: profile_cache_bool_exp
+  ): profile_cache_aggregate!
+
+  """fetch data from the table: "profile_cache" using primary key columns"""
+  profile_cache_by_pk(id: uuid!): profile_cache
 
   """
   fetch data from the table: "quest"
