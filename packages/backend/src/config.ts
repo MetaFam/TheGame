@@ -1,5 +1,6 @@
 interface IConfig {
   port: number;
+  nodeEnv: string;
   graphqlURL: string;
   daoHausGraphqlURL: string;
   daoHausPolygonGraphqlURL: string;
@@ -29,6 +30,7 @@ function parseEnv<T extends string | number>(
 
 export const CONFIG: IConfig = {
   port: parseEnv(process.env.PORT, 4000),
+  nodeEnv: parseEnv(process.env.NODE_ENV, 'local'),
   graphqlURL: (() => {
     const { GRAPHQL_URL: url, GRAPHQL_HOST: host } = process.env;
 
