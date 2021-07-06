@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
 
-import { updateVerifiedAccounts } from './updateVerifiedAccounts';
+import { updateCachedProfile } from './updateCachedProfile';
 
-export const updateBoxProfileHandler = async (
+export const cache3BoxProfileHandler = async (
   req: Request,
   res: Response,
 ): Promise<void> => {
@@ -14,7 +14,7 @@ export const updateBoxProfileHandler = async (
     throw new Error('expected role player');
   }
 
-  const result = await updateVerifiedAccounts(playerId);
+  const result = await updateCachedProfile(playerId);
 
   res.json(result);
 };
