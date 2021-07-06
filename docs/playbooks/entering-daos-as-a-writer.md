@@ -124,7 +124,7 @@ Remember you can achieve a lot with writing and if it is possible for a team to 
 Best of Luck and happy tapping...
 
 <details>
-<summary>For a longer version of this Playbbok click here 👀...</summary>
+<summary>For a longer version of this Playbook click here 👀...</summary>
 <br />
 
 
