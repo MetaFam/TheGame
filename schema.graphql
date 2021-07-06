@@ -198,6 +198,11 @@ type BrightIdStatus {
   unique: Boolean!
 }
 
+type CacheProcessOutput {
+  error: String
+  success: Boolean!
+}
+
 type CollectiblesFavorites {
   address: String
   tokenId: String
@@ -2875,6 +2880,11 @@ type mutation_root {
     """on conflict condition"""
     on_conflict: skill_on_conflict
   ): skill
+
+  """
+  perform the action: "updateAllBoxProfiles"
+  """
+  updateAllBoxProfiles: uuid!
 
   """
   perform the action: "updateBoxProfile"
@@ -6319,6 +6329,16 @@ type query_root {
 
   """fetch data from the table: "skill" using primary key columns"""
   skill_by_pk(id: uuid!): skill
+
+  """
+  retrieve the result of action: "updateAllBoxProfiles"
+  """
+  updateAllBoxProfiles(
+    """
+    id of the action: "updateAllBoxProfiles"
+    """
+    id: uuid!
+  ): updateAllBoxProfiles
 }
 
 """
@@ -9302,6 +9322,16 @@ type subscription_root {
 
   """fetch data from the table: "skill" using primary key columns"""
   skill_by_pk(id: uuid!): skill
+
+  """
+  retrieve the result of action: "updateAllBoxProfiles"
+  """
+  updateAllBoxProfiles(
+    """
+    id of the action: "updateAllBoxProfiles"
+    """
+    id: uuid!
+  ): updateAllBoxProfiles
 }
 
 scalar timestamptz
@@ -9325,6 +9355,23 @@ type TokenBalances {
   id: ID!
   pSeedBalance: String!
   seedBalance: String!
+}
+
+"""
+fields of action: "updateAllBoxProfiles"
+"""
+type updateAllBoxProfiles {
+  """the time at which this action was created"""
+  created_at: timestamptz
+
+  """errors related to the invocation"""
+  errors: json
+
+  """the unique id of an action"""
+  id: uuid
+
+  """the output fields of this action"""
+  output: CacheProcessOutput
 }
 
 type UpdateBoxProfileResponse {
