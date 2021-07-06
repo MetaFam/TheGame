@@ -14,6 +14,7 @@ interface IConfig {
   pSEEDAddress: string;
   brightIdAppUrl: string;
   sourceCredLedgerBranch: string;
+  ceramicDaemonURL: string;
 }
 
 function parseEnv<T extends string | number>(
@@ -78,5 +79,9 @@ export const CONFIG: IConfig = {
   sourceCredLedgerBranch: parseEnv(
     process.env.SOURCECRED_LEDGER_BRANCH,
     'staging', // Just so we dont mess up the master ledger in case people are testing locally
+  ),
+  ceramicDaemonURL: parseEnv(
+    process.env.CERAMIC_DAEMON_URL,
+    'https://d12-a-ceramic.3boxlabs.com', // 'http://localhost:7007',
   ),
 };

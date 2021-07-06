@@ -2,12 +2,14 @@ import { Request, Response } from 'express';
 import { ParamsDictionary } from 'express-serve-static-core';
 
 import { Player } from '../../lib/autogen/hasura-sdk';
+import { cache3BoxProfile } from './cache3BoxProfile';
 import { fetchBoxVerifiedAccounts } from './fetchBoxVerifiedAccounts';
 import { TriggerPayload } from './types';
 import { updateDiscordRole } from './updateDiscordRole';
 
 const TRIGGERS = {
   fetchBoxVerifiedAccounts,
+  cache3BoxProfile,
   player_rank_updated: updateDiscordRole,
 };
 

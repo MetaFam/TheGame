@@ -48,6 +48,6 @@ export const errorMiddleware: ErrorRequestHandler = (
   _req: Request,
   res: Response,
 ) => {
-  console.error(error);
+  console.error('Middleware Error', error);
   res.status(500).send('Unexpected error');
 };
