@@ -1,3 +1,7 @@
+---
+title: 📚 Entering DAOs as a Writer
+---
+
 Written by Gnomeski
 <details>
 <summary>A little about Gnomeski </summary>
@@ -10,11 +14,8 @@ I aim to bring awareness from Psychodynamic Group work, Ritual self-dev work, Pe
 I love to promote responsible Anarchic co-operation, humour, honesty, diversity, majik and integrity.
 
 </details>
-<p></p>
+<p></p> 
 
-# 📝 Entering DAOs as a Writer
-
-  
 
 The majority of communication in DAO spaces is written, so following this path should prove to be an active one. There are a number of differing styles and roles that can be pursued within these spaces that employ text. Due to the varied nature and styles of different DAOs it is impossible to describe a ‘one size fits all’ approach to writing. Instead here is a kind of mix and match set of ingredients which can hopefully be used for a variety of different recipes. 
 

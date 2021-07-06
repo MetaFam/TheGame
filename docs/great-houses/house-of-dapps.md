@@ -1,4 +1,7 @@
-# House of dApps
+---
+title: 📱 House of dApps
+---
+
 
 - [StateofDapps](https://www.stateofthedapps.com/)
 - [Eat the blocks](https://eattheblocks.com/)- Julien does a nice job keeping up with the blockchain space. He provides a lot of free how-to-dev content on his [YouTube channel](https://www.youtube.com/c/EatTheBlocks/featured). He's also worth [following on Twitter](https://twitter.com/jklepatch?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor).
