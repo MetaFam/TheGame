@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 import { createDiscordClient } from '@metafam/discord-bot';
 
+import { CONFIG } from '../../config';
 import { Player, PlayerRank_Enum } from '../../lib/autogen/hasura-sdk';
 import { client } from '../../lib/hasuraClient';
 import { TriggerPayload } from './types';
@@ -14,7 +15,7 @@ export interface UpdateRole {
 }
 
 export const updateDiscordRole = async (payload: TriggerPayload<Player>) => {
-  if (process.env.NODE_ENV !== 'production') return;
+  if (CONFIG.nodeEnv !== 'production') return;
 
   const { old: oldPlayer, new: newPlayer } = payload.event.data;
 
