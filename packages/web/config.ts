@@ -20,5 +20,5 @@ export const CONFIG = {
     process.env.NEXT_BRIGHTID_NODE_URL || 'http:%2f%2fnode.brightid.org',
   publicUrl: process.env.NEXT_PUBLIC_VERCEL_URL || 'http://localhost:3000',
   gaId: process.env.NEXT_PUBLIC_GA4_ID || undefined,
-  clarityId: process.env.NEXT_CLARITY_ID || undefined
+  clarityId: process.env.NEXT_CLARITY_ID || undefined,
 };
