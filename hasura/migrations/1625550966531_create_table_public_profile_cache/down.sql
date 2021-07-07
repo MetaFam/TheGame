@@ -1,1 +1,1 @@
-DROP TABLE "public"."profile_cache";
+DROP TABLE public.profile_cache;
