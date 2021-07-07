@@ -4,10 +4,7 @@ import { PlayerFragmentFragment } from 'graphql/autogen/types';
 import { getPersonalityInfo } from 'graphql/getPersonalityInfo';
 import { PersonalityOption } from 'graphql/types';
 import React, { useEffect } from 'react';
-import {
-  getPlayerDescription,
-  getPlayerName,
-} from 'utils/playerHelpers';
+import { getPlayerDescription, getPlayerName } from 'utils/playerHelpers';
 
 import { FlexContainer } from '../../Container';
 import { ProfileSection } from '../../ProfileSection';

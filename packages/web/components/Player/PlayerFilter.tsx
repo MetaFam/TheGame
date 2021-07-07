@@ -87,8 +87,7 @@ const styles: typeof selectStyles = {
 };
 
 type Props = {
-  fetchingPlayers: boolean;
-  fetchingCount: boolean;
+  fetching: boolean;
   aggregates: PlayerAggregates;
   queryVariables: GetPlayersQueryVariables;
   setQueryVariable: QueryVariableSetter;
@@ -97,8 +96,7 @@ type Props = {
 };
 
 export const PlayerFilter: React.FC<Props> = ({
-  fetchingPlayers,
-  fetchingCount,
+  fetching,
   aggregates,
   queryVariables,
   setQueryVariable,
@@ -117,11 +115,13 @@ export const PlayerFilter: React.FC<Props> = ({
     if (search.length >= 2) {
       setQueryVariable('search', `%${search}%`);
     } else {
+      setSearch('');
       setQueryVariable('search', `%%`);
     }
   };
 
-  const { filtersUsed, onlySearchFilterUsed } = useFiltersUsed(queryVariables);
+  const filtersUsed = useFiltersUsed(queryVariables);
+  const isSearchUsed = search.length >= 2 && queryVariables.search !== '%%';
 
   const [isElementSticky, setIsSticky] = useState<boolean>(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -212,12 +212,7 @@ export const PlayerFilter: React.FC<Props> = ({
               </InputRightElement>
             )}
           </InputGroup>
-          <MetaButton
-            type="submit"
-            size="lg"
-            isDisabled={fetchingPlayers || fetchingCount}
-            px="16"
-          >
+          <MetaButton type="submit" size="lg" isDisabled={fetching} px="16">
             SEARCH
           </MetaButton>
         </Stack>
@@ -300,60 +295,67 @@ export const PlayerFilter: React.FC<Props> = ({
       {filtersUsed && (
         <Flex w="100%" maxW="79rem" justify="space-between">
           <Wrap flex="1">
-            {!onlySearchFilterUsed && (
-              <>
-                <WrapItem>
-                  <Flex w="100%" h="100%" justify="center" align="center">
-                    <Text> {`Selected Filters: `}</Text>
-                  </Flex>
-                </WrapItem>
-                {playerTypes.map(({ value, label }, index) => (
-                  <WrapItem key={value}>
-                    <FilterTag
-                      label={label}
-                      onRemove={() => {
-                        const newPlayerTypes = playerTypes.slice();
-                        newPlayerTypes.splice(index, 1);
-                        setPlayerTypes(newPlayerTypes);
-                      }}
-                    />
-                  </WrapItem>
-                ))}
-                {skills.map(({ value, label }, index) => (
-                  <WrapItem key={value}>
-                    <FilterTag
-                      label={label}
-                      onRemove={() => {
-                        const newSkills = skills.slice();
-                        newSkills.splice(index, 1);
-                        setSkills(newSkills);
-                      }}
-                    />
-                  </WrapItem>
-                ))}
-                {timezones.map(({ value, label }, index) => (
-                  <WrapItem key={value}>
-                    <FilterTag
-                      label={label}
-                      onRemove={() => {
-                        const newTimezones = timezones.slice();
-                        newTimezones.splice(index, 1);
-                        setTimezones(newTimezones);
-                      }}
-                    />
-                  </WrapItem>
-                ))}
-                {availability && (
-                  <WrapItem>
-                    <FilterTag
-                      label={`Available >${availability.value} h/week`}
-                      onRemove={() => {
-                        setAvailability(null);
-                      }}
-                    />
-                  </WrapItem>
-                )}
-              </>
+            <WrapItem>
+              <Flex w="100%" h="100%" justify="center" align="center">
+                <Text> {`Selected Filters: `}</Text>
+              </Flex>
+            </WrapItem>
+            {isSearchUsed && (
+              <WrapItem>
+                <FilterTag
+                  label={search}
+                  onRemove={() => {
+                    setSearch('');
+                    setQueryVariable('search', `%%`);
+                  }}
+                />
+              </WrapItem>
+            )}
+            {playerTypes.map(({ value, label }, index) => (
+              <WrapItem key={value}>
+                <FilterTag
+                  label={label}
+                  onRemove={() => {
+                    const newPlayerTypes = playerTypes.slice();
+                    newPlayerTypes.splice(index, 1);
+                    setPlayerTypes(newPlayerTypes);
+                  }}
+                />
+              </WrapItem>
+            ))}
+            {skills.map(({ value, label }, index) => (
+              <WrapItem key={value}>
+                <FilterTag
+                  label={label}
+                  onRemove={() => {
+                    const newSkills = skills.slice();
+                    newSkills.splice(index, 1);
+                    setSkills(newSkills);
+                  }}
+                />
+              </WrapItem>
+            ))}
+            {timezones.map(({ value, label }, index) => (
+              <WrapItem key={value}>
+                <FilterTag
+                  label={label}
+                  onRemove={() => {
+                    const newTimezones = timezones.slice();
+                    newTimezones.splice(index, 1);
+                    setTimezones(newTimezones);
+                  }}
+                />
+              </WrapItem>
+            ))}
+            {availability && (
+              <WrapItem>
+                <FilterTag
+                  label={`Available >${availability.value} h/week`}
+                  onRemove={() => {
+                    setAvailability(null);
+                  }}
+                />
+              </WrapItem>
             )}
           </Wrap>
           <Button
@@ -372,7 +374,7 @@ export const PlayerFilter: React.FC<Props> = ({
           </Button>
         </Flex>
       )}
-      {!fetchingCount && (
+      {!fetching && (
         <Flex justify="space-between" w="100%" maxW="80rem" px="4">
           <Text fontWeight="bold" fontSize="xl" w="100%" maxW="79rem">
             {`${totalCount} player${totalCount === 1 ? '' : 's'}`}
