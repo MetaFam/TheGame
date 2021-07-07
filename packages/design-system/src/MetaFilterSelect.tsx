@@ -8,6 +8,7 @@ import {
   Select,
   SelectProps,
   Text,
+  useBreakpointValue,
 } from '@chakra-ui/react';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
@@ -35,30 +36,33 @@ type FilterTagProps = {
   onRemove: () => void;
 };
 
-export const FilterTag: React.FC<FilterTagProps> = ({ label, onRemove }) => (
-  <MetaTag
-    backgroundColor="black"
-    size="lg"
-    fontSize="normal"
-    borderRadius="1rem"
-    py="1"
-    px="4"
-    fontWeight="normal"
-  >
-    {label}
-    <IconButton
-      ml="3"
-      minW="4"
-      variant="unstyled"
-      size="xs"
-      color="silver"
-      icon={<CloseIcon />}
-      _hover={{ color: 'white' }}
-      aria-label={`Remove filter ${label}`}
-      onClick={onRemove}
-    />
-  </MetaTag>
-);
+export const FilterTag: React.FC<FilterTagProps> = ({ label, onRemove }) => {
+  const tagSize = useBreakpointValue({ base: 'md', md: 'lg' });
+  return (
+    <MetaTag
+      backgroundColor="black"
+      size={tagSize}
+      fontSize={{ base: 'sm', md: 'md' }}
+      borderRadius="1rem"
+      py="1"
+      px="4"
+      fontWeight="normal"
+    >
+      {label}
+      <IconButton
+        ml="3"
+        minW="4"
+        variant="unstyled"
+        size="xs"
+        color="silver"
+        icon={<CloseIcon />}
+        _hover={{ color: 'white' }}
+        aria-label={`Remove filter ${label}`}
+        onClick={onRemove}
+      />
+    </MetaTag>
+  );
+};
 
 const SelectedTag: React.FC<FlexProps> = (props) => (
   <Flex
