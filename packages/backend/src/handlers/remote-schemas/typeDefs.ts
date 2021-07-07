@@ -25,8 +25,8 @@ export const typeDefs = gql`
     location: String
     job: String
     emoji: String
-    imageUrl: String
-    coverImageUrl: String
+    imageURL: String
+    coverImageURL: String
     website: String
     collectiblesFavorites: [CollectiblesFavorites!]
   }

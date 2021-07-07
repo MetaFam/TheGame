@@ -76,15 +76,15 @@ export async function updateCachedProfile(
       }
     }
     const values = {
-      player_id: playerId,
+      playerId,
       name,
       description,
       emoji,
-      imageUrl: getImage(idxProfile.image?.original?.src, {
+      imageURL: getImage(idxProfile.image?.original?.src, {
         ar: '1:1',
         height: 200,
       }),
-      backgroundImageUrl: getImage(idxProfile.background?.original?.src, {
+      backgroundImageURL: getImage(idxProfile.background?.original?.src, {
         height: 300,
       }),
       gender,

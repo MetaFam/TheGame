@@ -6,10 +6,11 @@ export async function cache3BoxProfiles(): Promise<CacheProcessOutput> {
   const data = await client.GetPlayerIds();
   const ids = data.player.map(({ id }) => id);
 
-  await Promise.all(ids.map((id) => updateCachedProfile(id)));
+  try {
+    await Promise.all(ids.map((id) => updateCachedProfile(id)));
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
 
-  return {
-    success: true,
-    error: null,
-  };
+  return { success: true, error: null };
 }

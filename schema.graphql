@@ -180,11 +180,11 @@ enum AccountType_update_column {
 
 type BoxProfile {
   collectiblesFavorites: [CollectiblesFavorites!]
-  coverImageUrl: String
+  coverImageURL: String
   description: String
   emoji: String
   ethereumAddress: String
-  imageUrl: String
+  imageURL: String
   job: String
   location: String
   name: String
@@ -5014,18 +5014,18 @@ enum PlayerRank_update_column {
 columns and relationships of "profile_cache"
 """
 type profile_cache {
-  backgroundImageUrl: String
+  backgroundImageURL: String
   description: String
   emoji: String
   gender: String
   id: uuid!
-  imageUrl: String
+  imageURL: String
   location: String
   name: String
 
   """An object relationship"""
   player: player!
-  player_id: uuid!
+  playerId: uuid!
   website: String
 }
 
@@ -5070,16 +5070,16 @@ input profile_cache_bool_exp {
   _and: [profile_cache_bool_exp]
   _not: profile_cache_bool_exp
   _or: [profile_cache_bool_exp]
-  backgroundImageUrl: String_comparison_exp
+  backgroundImageURL: String_comparison_exp
   description: String_comparison_exp
   emoji: String_comparison_exp
   gender: String_comparison_exp
   id: uuid_comparison_exp
-  imageUrl: String_comparison_exp
+  imageURL: String_comparison_exp
   location: String_comparison_exp
   name: String_comparison_exp
   player: player_bool_exp
-  player_id: uuid_comparison_exp
+  playerId: uuid_comparison_exp
   website: String_comparison_exp
 }
 
@@ -5087,9 +5087,6 @@ input profile_cache_bool_exp {
 unique or primary key constraints on table "profile_cache"
 """
 enum profile_cache_constraint {
-  """unique or primary key constraint"""
-  profile_cache_id_key
-
   """unique or primary key constraint"""
   profile_cache_pkey
 
@@ -5101,30 +5098,30 @@ enum profile_cache_constraint {
 input type for inserting data into table "profile_cache"
 """
 input profile_cache_insert_input {
-  backgroundImageUrl: String
+  backgroundImageURL: String
   description: String
   emoji: String
   gender: String
   id: uuid
-  imageUrl: String
+  imageURL: String
   location: String
   name: String
   player: player_obj_rel_insert_input
-  player_id: uuid
+  playerId: uuid
   website: String
 }
 
 """aggregate max on columns"""
 type profile_cache_max_fields {
-  backgroundImageUrl: String
+  backgroundImageURL: String
   description: String
   emoji: String
   gender: String
   id: uuid
-  imageUrl: String
+  imageURL: String
   location: String
   name: String
-  player_id: uuid
+  playerId: uuid
   website: String
 }
 
@@ -5132,29 +5129,29 @@ type profile_cache_max_fields {
 order by max() on columns of table "profile_cache"
 """
 input profile_cache_max_order_by {
-  backgroundImageUrl: order_by
+  backgroundImageURL: order_by
   description: order_by
   emoji: order_by
   gender: order_by
   id: order_by
-  imageUrl: order_by
+  imageURL: order_by
   location: order_by
   name: order_by
-  player_id: order_by
+  playerId: order_by
   website: order_by
 }
 
 """aggregate min on columns"""
 type profile_cache_min_fields {
-  backgroundImageUrl: String
+  backgroundImageURL: String
   description: String
   emoji: String
   gender: String
   id: uuid
-  imageUrl: String
+  imageURL: String
   location: String
   name: String
-  player_id: uuid
+  playerId: uuid
   website: String
 }
 
@@ -5162,15 +5159,15 @@ type profile_cache_min_fields {
 order by min() on columns of table "profile_cache"
 """
 input profile_cache_min_order_by {
-  backgroundImageUrl: order_by
+  backgroundImageURL: order_by
   description: order_by
   emoji: order_by
   gender: order_by
   id: order_by
-  imageUrl: order_by
+  imageURL: order_by
   location: order_by
   name: order_by
-  player_id: order_by
+  playerId: order_by
   website: order_by
 }
 
@@ -5206,16 +5203,16 @@ input profile_cache_on_conflict {
 ordering options when selecting data from "profile_cache"
 """
 input profile_cache_order_by {
-  backgroundImageUrl: order_by
+  backgroundImageURL: order_by
   description: order_by
   emoji: order_by
   gender: order_by
   id: order_by
-  imageUrl: order_by
+  imageURL: order_by
   location: order_by
   name: order_by
   player: player_order_by
-  player_id: order_by
+  playerId: order_by
   website: order_by
 }
 
@@ -5231,7 +5228,7 @@ select columns of table "profile_cache"
 """
 enum profile_cache_select_column {
   """column name"""
-  backgroundImageUrl
+  backgroundImageURL
 
   """column name"""
   description
@@ -5246,7 +5243,7 @@ enum profile_cache_select_column {
   id
 
   """column name"""
-  imageUrl
+  imageURL
 
   """column name"""
   location
@@ -5255,7 +5252,7 @@ enum profile_cache_select_column {
   name
 
   """column name"""
-  player_id
+  playerId
 
   """column name"""
   website
@@ -5265,15 +5262,15 @@ enum profile_cache_select_column {
 input type for updating data in table "profile_cache"
 """
 input profile_cache_set_input {
-  backgroundImageUrl: String
+  backgroundImageURL: String
   description: String
   emoji: String
   gender: String
   id: uuid
-  imageUrl: String
+  imageURL: String
   location: String
   name: String
-  player_id: uuid
+  playerId: uuid
   website: String
 }
 
@@ -5282,7 +5279,7 @@ update columns of table "profile_cache"
 """
 enum profile_cache_update_column {
   """column name"""
-  backgroundImageUrl
+  backgroundImageURL
 
   """column name"""
   description
@@ -5297,7 +5294,7 @@ enum profile_cache_update_column {
   id
 
   """column name"""
-  imageUrl
+  imageURL
 
   """column name"""
   location
@@ -5306,7 +5303,7 @@ enum profile_cache_update_column {
   name
 
   """column name"""
-  player_id
+  playerId
 
   """column name"""
   website

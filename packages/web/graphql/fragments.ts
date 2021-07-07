@@ -34,8 +34,8 @@ export const PlayerFragment = gql`
     profile_cache {
       description
       emoji
-      backgroundImageUrl
-      imageUrl
+      backgroundImageURL
+      imageURL
       location
       name
     }
