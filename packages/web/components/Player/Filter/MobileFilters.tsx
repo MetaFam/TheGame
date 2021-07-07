@@ -384,6 +384,7 @@ const FilterContent: React.FC<FilterContentProps> = ({
                 pl="1rem"
                 cursor="pointer"
                 _hover={{ bg: 'whiteAlpha.100' }}
+                key={optionValue}
                 onClick={() => {
                   if (isMulti) {
                     if (isSelected) {
@@ -476,7 +477,7 @@ const FilterContent: React.FC<FilterContentProps> = ({
           {isCategoryFilter
             ? (options as CategoryValueType[]).map(
                 ({ label, options: categoryOptions }) => (
-                  <>
+                  <Flex direction="column" key={label}>
                     <Flex
                       w="100%"
                       p="1rem"
@@ -491,7 +492,7 @@ const FilterContent: React.FC<FilterContentProps> = ({
                       </Text>
                     </Flex>
                     {renderOptions(categoryOptions)}
-                  </>
+                  </Flex>
                 ),
               )
             : renderOptions(options as ValueType[])}
