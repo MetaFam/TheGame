@@ -17,7 +17,8 @@ CREATE TABLE IF NOT EXISTS public.profile_cache (
 );
 
 ALTER TABLE public.profile_cache
-  DROP CONSTRAINT profile_cache_player_id_fkey
+  DROP CONSTRAINT IF EXISTS
+  profile_cache_player_id_fkey
 ;
 ALTER TABLE public.profile_cache
   ADD CONSTRAINT profile_cache_player_id_fkey
