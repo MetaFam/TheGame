@@ -15,7 +15,7 @@
   "dependencies": {
     "@types/uuid": "8.3.0",
     "bignumber.js": "9.0.1",
-    "ethers": "5.3.0",
+    "ethers": "5.4.1",
     "js-base64": "3.6.1",
     "uuid": "8.3.2",
     "sourcecred": "0.9.0"
