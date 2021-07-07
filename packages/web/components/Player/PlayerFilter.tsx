@@ -116,12 +116,14 @@ export const PlayerFilter: React.FC<Props> = ({
       setQueryVariable('search', `%${search}%`);
     } else {
       setSearch('');
-      setQueryVariable('search', `%%`);
+      setQueryVariable('search', '%%');
     }
   };
 
   const filtersUsed = useFiltersUsed(queryVariables);
-  const isSearchUsed = search.length >= 2 && queryVariables.search !== '%%';
+  const isSearchUsed = queryVariables.search !== '%%';
+  const searchText =
+    queryVariables.search?.substr(1, queryVariables.search.length - 2) || '';
 
   const [isElementSticky, setIsSticky] = useState<boolean>(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -205,7 +207,7 @@ export const PlayerFilter: React.FC<Props> = ({
                   icon={<CloseIcon />}
                   onClick={() => {
                     setSearch('');
-                    setQueryVariable('search', `%%`);
+                    setQueryVariable('search', '%%');
                   }}
                   aria-label="Clear Search"
                 />
@@ -303,10 +305,10 @@ export const PlayerFilter: React.FC<Props> = ({
             {isSearchUsed && (
               <WrapItem>
                 <FilterTag
-                  label={search}
+                  label={searchText}
                   onRemove={() => {
                     setSearch('');
-                    setQueryVariable('search', `%%`);
+                    setQueryVariable('search', '%%');
                   }}
                 />
               </WrapItem>
