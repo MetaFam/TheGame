@@ -1,7 +1,7 @@
 
 CREATE EXTENSION IF NOT EXISTS pgcrypto;
 
-CREATE TABLE public.profile_cache (
+CREATE TABLE IF NOT EXISTS public.profile_cache (
   name TEXT,
   description TEXT,
   location TEXT,
@@ -16,6 +16,9 @@ CREATE TABLE public.profile_cache (
   UNIQUE (id)
 );
 
+ALTER TABLE public.profile_cache
+  DROP CONSTRAINT profile_cache_player_id_fkey
+;
 ALTER TABLE public.profile_cache
   ADD CONSTRAINT profile_cache_player_id_fkey
   FOREIGN KEY (player_id)
