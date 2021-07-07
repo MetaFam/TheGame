@@ -2,7 +2,6 @@ import {
   GetPlayersQueryVariables,
   PlayerFragmentFragment,
   useGetPlayerFiltersQuery,
-  useGetPlayersCountQuery,
   useGetPlayersQuery,
 } from 'graphql/autogen/types';
 import { defaultQueryVariables, PLAYER_LIMIT } from 'graphql/getPlayers';
@@ -21,8 +20,7 @@ export interface PlayerAggregates {
 interface PlayerFilter {
   players: PlayerFragmentFragment[];
   totalCount: number;
-  fetchingPlayers: boolean;
-  fetchingCount: boolean;
+  fetching: boolean;
   fetchingMore: boolean;
   aggregates: PlayerAggregates;
   queryVariables: GetPlayersQueryVariables;
@@ -43,20 +41,13 @@ const usePlayerAggregates = () => {
   };
 };
 
-const useTotalPlayersCount = (variables: GetPlayersQueryVariables) => {
-  const [{ fetching, data, error }] = useGetPlayersCountQuery({
-    variables: { ...variables, offset: 0, limit: PLAYER_LIMIT },
-  });
-  const totalCount = data?.player_aggregate.aggregate?.count || 0;
-  return { fetching, totalCount, error };
-};
-
 const useFilteredPlayers = (variables: GetPlayersQueryVariables) => {
   const [{ fetching, data, error }] = useGetPlayersQuery({
     variables,
   });
   const players = data?.player || [];
-  return { fetching, players, error };
+  const totalCount = data?.player_aggregate.aggregate?.count || 0;
+  return { fetching, players, totalCount, error };
 };
 
 export const usePlayerFilter = (): PlayerFilter => {
@@ -87,8 +78,7 @@ export const usePlayerFilter = (): PlayerFilter => {
 
   const {
     players,
-    fetchingPlayers,
-    fetchingCount,
+    fetching,
     fetchingMore,
     error,
     nextPage,
@@ -98,8 +88,7 @@ export const usePlayerFilter = (): PlayerFilter => {
 
   return {
     players,
-    fetchingPlayers,
-    fetchingCount,
+    fetching,
     fetchingMore,
     error,
     aggregates,
@@ -114,7 +103,7 @@ export const usePlayerFilter = (): PlayerFilter => {
 
 export const useFiltersUsed = (
   queryVariables: GetPlayersQueryVariables,
-): { filtersUsed: boolean; onlySearchFilterUsed: boolean } => {
+): boolean => {
   const playerTypesFilterUsed = useMemo(
     () => (queryVariables.playerTypeIds as number[])?.length > 0,
     [queryVariables.playerTypeIds],
@@ -151,27 +140,7 @@ export const useFiltersUsed = (
     ],
   );
 
-  const onlySearchFilterUsed = useMemo(
-    () =>
-      searchFilterUsed &&
-      !(
-        playerTypesFilterUsed ||
-        availabilityFilterUsed ||
-        skillIdsFilterUsed ||
-        timezonesFilterUsed
-      ),
-    [
-      playerTypesFilterUsed,
-      searchFilterUsed,
-      availabilityFilterUsed,
-      skillIdsFilterUsed,
-      timezonesFilterUsed,
-    ],
-  );
-  return {
-    filtersUsed,
-    onlySearchFilterUsed,
-  };
+  return filtersUsed;
 };
 
 const usePaginatedPlayers = (
@@ -179,19 +148,11 @@ const usePaginatedPlayers = (
   setQueryVariable: QueryVariableSetter,
 ) => {
   const {
-    fetching: fetchingPlayers,
+    fetching,
     players: fetchedPlayers,
-    error: errorPlayers,
-  } = useFilteredPlayers(queryVariables);
-
-  const {
-    fetching: fetchingCount,
     totalCount,
-    error: errorCount,
-  } = useTotalPlayersCount(queryVariables);
-
-  const fetching = fetchingPlayers || fetchingCount;
-  const error = errorPlayers || errorCount;
+    error,
+  } = useFilteredPlayers(queryVariables);
 
   const itemsPerPage = PLAYER_LIMIT;
   const maxPage = Math.ceil(totalCount / itemsPerPage);
@@ -225,7 +186,11 @@ const usePaginatedPlayers = (
   );
 
   useEffect(() => {
-    if (fetching || error) return;
+    if (fetching) return;
+    if (error) {
+      setPlayers([]);
+      return;
+    }
     if (shouldAppend.current) {
       setPlayers((_players) => [..._players, ...fetchedPlayers]);
       shouldAppend.current = false;
@@ -238,8 +203,7 @@ const usePaginatedPlayers = (
     nextPage,
     players,
     totalCount,
-    fetchingCount,
-    fetchingPlayers,
+    fetching,
     error,
     fetchingMore: shouldAppend.current,
     moreAvailable: currentPage < maxPage,

@@ -4,11 +4,7 @@ import { PlayerFilter } from 'components/Player/PlayerFilter';
 import { PlayerList } from 'components/Player/PlayerList';
 import { HeadComponent } from 'components/Seo';
 import { getSsrClient } from 'graphql/client';
-import {
-  getPlayerFilters,
-  getPlayers,
-  getPlayersCount,
-} from 'graphql/getPlayers';
+import { getPlayerFilters, getPlayersWithCount } from 'graphql/getPlayers';
 import { usePlayerFilter } from 'lib/hooks/players';
 import { InferGetStaticPropsType } from 'next';
 import React, { useCallback, useEffect, useRef } from 'react';
@@ -19,18 +15,10 @@ export const getStaticProps = async () => {
   const [ssrClient, ssrCache] = getSsrClient();
 
   // This populates the cache server-side
-  const { error: errorPlayers } = await getPlayers(undefined, ssrClient);
-  if (errorPlayers) {
+  const { error } = await getPlayersWithCount(undefined, ssrClient);
+  if (error) {
     // eslint-disable-next-line no-console
-    console.error('getPlayers error', errorPlayers);
-  }
-  const { error: errorPlayersCount } = await getPlayersCount(
-    undefined,
-    ssrClient,
-  );
-  if (errorPlayersCount) {
-    // eslint-disable-next-line no-console
-    console.error('getPlayersCount error', errorPlayersCount);
+    console.error('getPlayers error', error);
   }
   await getPlayerFilters(ssrClient);
 
@@ -46,8 +34,7 @@ const Players: React.FC<Props> = () => {
   const {
     players,
     aggregates,
-    fetchingPlayers,
-    fetchingCount,
+    fetching,
     fetchingMore,
     error,
     queryVariables,
@@ -86,8 +73,7 @@ const Players: React.FC<Props> = () => {
       <HeadComponent url="https://my.metagame.wtf/players" />
       <VStack w="100%" spacing="8" pb={{ base: '16', lg: '0' }}>
         <PlayerFilter
-          fetchingPlayers={fetchingPlayers}
-          fetchingCount={fetchingCount}
+          fetching={fetching}
           aggregates={aggregates}
           queryVariables={queryVariables}
           setQueryVariable={setQueryVariable}
@@ -95,11 +81,11 @@ const Players: React.FC<Props> = () => {
           totalCount={totalCount}
         />
         {error && <Text>{`Error: ${error.message}`}</Text>}
-        {!error && players.length && (fetchingMore || !fetchingPlayers) && (
+        {!error && players.length && (fetchingMore || !fetching) && (
           <PlayerList players={players} />
         )}
         <VStack ref={loaderRef} w="100%">
-          {fetchingPlayers || fetchingMore || moreAvailable ? (
+          {fetching || fetchingMore || moreAvailable ? (
             <LoadingState color="white" />
           ) : (
             <Text color="white">
