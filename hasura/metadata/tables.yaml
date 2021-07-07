@@ -318,8 +318,11 @@
       - player_type_id
       - rank
       - role
+<<<<<<< HEAD
       - season_xp
       - timezone
+=======
+>>>>>>> redoing all the permissions to try & make Hasura function 🥊
       - total_xp
       - timezone
       - username
@@ -478,6 +481,11 @@
 - table:
     schema: public
     name: profile_cache
+  configuration:
+    custom_root_fields: {}
+    custom_column_names:
+      background_image_url: backgroundImageUrl
+      image_url: imageUrl
   object_relationships:
   - name: player
     using:
@@ -486,38 +494,40 @@
   - role: player
     permission:
       columns:
-      - backgroundImageUrl
-      - description
-      - emoji
-      - gender
-      - imageUrl
-      - location
       - name
-      - player_id
+      - description
+      - location
+      - emoji
+      - image_url
+      - background_image_url
       - website
+      - gender
+      - id
+      - player_id
       filter: {}
   - role: public
     permission:
       columns:
-      - backgroundImageUrl
+      - background_image_url
       - description
       - emoji
       - gender
-      - imageUrl
+      - image_url
       - location
       - name
-      - player_id
       - website
+      - id
+      - player_id
       filter: {}
   update_permissions:
   - role: player
     permission:
       columns:
-      - backgroundImageUrl
+      - background_image_url
       - description
       - emoji
       - gender
-      - imageUrl
+      - image_url
       - location
       - name
       - website
