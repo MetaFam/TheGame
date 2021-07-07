@@ -186,9 +186,10 @@ const usePaginatedPlayers = (
   );
 
   useEffect(() => {
-    if (fetching) return;
-    if (error) {
-      setPlayers([]);
+    if (error || fetching) {
+      if (error || !shouldAppend.current) {
+        setPlayers([]);
+      }
       return;
     }
     if (shouldAppend.current) {
@@ -197,7 +198,7 @@ const usePaginatedPlayers = (
     } else {
       setPlayers(fetchedPlayers);
     }
-  }, [shouldAppend, fetchedPlayers, fetching, error]);
+  }, [fetchedPlayers, fetching, error]);
 
   return {
     nextPage,
