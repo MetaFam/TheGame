@@ -18,10 +18,7 @@ import { PlayerTileMemberships } from 'components/Player/PlayerTileMemberships';
 import { SkillsTags } from 'components/Skills';
 import { PlayerFragmentFragment, Skill } from 'graphql/autogen/types';
 import React from 'react';
-import {
-  getPlayerCoverImage,
-  getPlayerName,
-} from 'utils/playerHelpers';
+import { getPlayerCoverImage, getPlayerName } from 'utils/playerHelpers';
 
 type Props = {
   player: PlayerFragmentFragment;
