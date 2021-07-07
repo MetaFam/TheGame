@@ -18,18 +18,18 @@ import React from 'react';
 import { FaCheckCircle } from 'react-icons/fa';
 
 export const GuildJoin: React.FC = () => {
-  const discordOAuthCallbackUrl = `${CONFIG.publicUrl}/${Constants.DISCORD_OAUTH_CALLBACK_PATH}`;
+  const discordOAuthCallbackURL = `${CONFIG.publicURL}/${Constants.DISCORD_OAUTH_CALLBACK_PATH}`;
 
   const discordAuthParams = new URLSearchParams({
     response_type: 'code',
     client_id: Constants.DISCORD_BOT_CLIENT_ID,
     state: 'guid-to-go-in-localstorage',
     permissions: Constants.DISCORD_BOT_PERMISSIONS,
-    redirect_uri: encodeURI(discordOAuthCallbackUrl),
+    redirect_uri: encodeURI(discordOAuthCallbackURL),
     scope: Constants.DISCORD_OAUTH_SCOPES,
   });
 
-  const discordAuthUrl = `https://discord.com/api/oauth2/authorize?${discordAuthParams.toString()}`;
+  const discordAuthURL = `https://discord.com/api/oauth2/authorize?${discordAuthParams.toString()}`;
 
   return (
     <FlexContainer flex="1" justify="start" mt={5}>
@@ -77,7 +77,7 @@ export const GuildJoin: React.FC = () => {
               asking for your permission to collect certain relevant information
               about your guild.
             </Text>
-            <MetaButton size="lg" maxW="15rem" as="a" href={discordAuthUrl}>
+            <MetaButton size="lg" maxW="15rem" as="a" href={discordAuthURL}>
               Apply to Join
             </MetaButton>
           </VStack>

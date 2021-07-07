@@ -3,9 +3,9 @@ import { PlayerFragmentFragment } from 'graphql/autogen/types';
 import { useEffect, useMemo } from 'react';
 
 const BRIGHTID_CONTEXT = 'MetaGame';
-const DEEPLINK_ENDPOINT = `brightid://link-verification/${CONFIG.brightIdNodeUrl}/${BRIGHTID_CONTEXT}`;
-const UNIVERSAL_LINK_ENDPOINT = `${CONFIG.brightIdAppUrl}/link-verification/${CONFIG.brightIdNodeUrl}/${CONFIG.brightIdNodeUrl}/${BRIGHTID_CONTEXT}`;
-const VERIFICATION_ENDPOINT = `${CONFIG.brightIdAppUrl}/node/v5/verifications/${BRIGHTID_CONTEXT}`;
+const DEEPLINK_ENDPOINT = `brightid://link-verification/${CONFIG.brightIdNodeURL}/${BRIGHTID_CONTEXT}`;
+const UNIVERSAL_LINK_ENDPOINT = `${CONFIG.brightIdAppURL}/link-verification/${CONFIG.brightIdNodeURL}/${CONFIG.brightIdNodeURL}/${BRIGHTID_CONTEXT}`;
+const VERIFICATION_ENDPOINT = `${CONFIG.brightIdAppURL}/node/v5/verifications/${BRIGHTID_CONTEXT}`;
 const POLL_INTERVAL = 5000;
 
 type BrightIdVerificationStatus =

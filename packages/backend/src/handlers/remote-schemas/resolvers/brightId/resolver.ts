@@ -3,7 +3,7 @@ import { QueryResolvers } from '../../autogen/types';
 
 const CONTEXT = 'MetaGame';
 
-const ENDPOINT = `${CONFIG.brightIdAppUrl}/node/v5/verifications/${CONTEXT}`;
+const ENDPOINT = `${CONFIG.brightIdAppURL}/node/v5/verifications/${CONTEXT}`;
 
 export const getBrightIdStatus: QueryResolvers['getBrightIdStatus'] = async (
   _,
