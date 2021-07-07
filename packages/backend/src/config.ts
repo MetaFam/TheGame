@@ -12,8 +12,9 @@ interface IConfig {
   imgixToken: string;
   infuraId: string;
   pSEEDAddress: string;
-  brightIdAppUrl: string;
+  brightIdAppURL: string;
   sourceCredLedgerBranch: string;
+  ceramicDaemonURL: string;
 }
 
 function parseEnv<T extends string | number>(
@@ -71,12 +72,16 @@ export const CONFIG: IConfig = {
     process.env.NEXT_PUBLIC_INFURA_ID,
     '781d8466252d47508e177b8637b1c2fd',
   ),
-  brightIdAppUrl: parseEnv(
+  brightIdAppURL: parseEnv(
     process.env.NEXT_BRIGHTID_APP_URL,
     'https://app.brightid.org',
   ),
   sourceCredLedgerBranch: parseEnv(
     process.env.SOURCECRED_LEDGER_BRANCH,
     'staging', // Just so we dont mess up the master ledger in case people are testing locally
+  ),
+  ceramicDaemonURL: parseEnv(
+    process.env.CERAMIC_DAEMON_URL,
+    'https://d12-a-ceramic.3boxlabs.com', // 'http://localhost:7007',
   ),
 };

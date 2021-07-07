@@ -21,10 +21,14 @@ actions:
     forward_client_headers: true
   permissions:
   - role: player
+- name: updateAllBoxProfiles
+  definition:
+    kind: asynchronous
+    handler: '{{ACTION_BASE_ENDPOINT}}/cache/updateAll'
 - name: updateBoxProfile
   definition:
     kind: synchronous
-    handler: '{{ACTION_BASE_ENDPOINT}}/updateBoxProfile'
+    handler: '{{ACTION_BASE_ENDPOINT}}/cache/update'
     forward_client_headers: true
   permissions:
   - role: player
@@ -90,4 +94,5 @@ custom_types:
       field_mapping:
         quest_completion_id: id
   - name: DiscordGuildAuthResponse
+  - name: CacheProcessOutput
   scalars: []

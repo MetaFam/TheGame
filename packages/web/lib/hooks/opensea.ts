@@ -36,11 +36,9 @@ export const useOpenSeaCollectibles = ({
   const [loading, setLoading] = useState<boolean>(false);
   const owner = player.ethereum_address;
   const collectiblesFavorites = useMemo(
-    () =>
-      player && player.box_profile && player.box_profile.collectiblesFavorites
-        ? player.box_profile.collectiblesFavorites
-        : [],
-    [player],
+    // IDX's basic profile doesn't include a list of favorite NFTs
+    () => [], // player?.box_profile?.collectiblesFavorites ?? [],
+    [], // [player],
   );
 
   useEffect(() => {
@@ -49,7 +47,7 @@ export const useOpenSeaCollectibles = ({
       if (collectiblesFavorites.length > 0 && owner) {
         const favoritesQuery = {
           owner,
-          token_ids: collectiblesFavorites.map(({ tokenId }) => tokenId || ''),
+          token_ids: collectiblesFavorites.map(({ tokenId }) => tokenId ?? ''),
         };
         const [favoritesData, allData] = await Promise.all([
           fetchOpenSeaData(favoritesQuery),

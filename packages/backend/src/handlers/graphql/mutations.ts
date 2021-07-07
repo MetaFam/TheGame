@@ -29,6 +29,20 @@ export const UpsertAccount = gql`
   }
 `;
 
+export const UpsertProfileCache = gql`
+  mutation UpsertProfileCache(
+    $objects: [profile_cache_insert_input!]!
+    $onConflict: profile_cache_on_conflict = {
+      constraint: profile_cache_player_id_key
+      update_columns: []
+    }
+  ) {
+    insert_profile_cache(on_conflict: $onConflict, objects: $objects) {
+      affected_rows
+    }
+  }
+`;
+
 export const UpdatePlayer = gql`
   mutation UpdatePlayer(
     $ethAddress: String
