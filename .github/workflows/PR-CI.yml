@@ -95,7 +95,7 @@ jobs:
         run: docker ps -a
 
       - name: Wait for Hasura
-        run: yarn wait-on --timeout 60000 http-get://localhost:8080/healthz || (docker-compose ps hasura && docker-compose logs --tail 20 hasura)
+        run: yarn wait-on --timeout 150000 http-get://localhost:8080/healthz || (docker-compose ps hasura && docker-compose logs --tail 20 hasura)
 
       - name: Build Web
         run: yarn web:build

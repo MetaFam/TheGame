@@ -5,10 +5,11 @@ CREATE TABLE public.profile_cache (
   description TEXT,
   location TEXT,
   emoji TEXT,
-  "imageUrl" TEXT,
-  "backgroundImageUrl" TEXT,
+  image_url TEXT,
+  background_image_url TEXT,
   website TEXT,
   gender TEXT,
+  player_id uuid NOT NULL UNIQUE,
   id uuid NOT NULL DEFAULT gen_random_uuid(),
   PRIMARY KEY (id),
   UNIQUE (id)
