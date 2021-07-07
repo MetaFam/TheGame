@@ -471,8 +471,9 @@
   configuration:
     custom_root_fields: {}
     custom_column_names:
-      background_image_url: backgroundImageUrl
-      image_url: imageUrl
+      background_image_url: backgroundImageURL
+      image_url: imageURL
+      player_id: playerId
   object_relationships:
   - name: player
     using:

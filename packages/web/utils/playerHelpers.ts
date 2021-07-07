@@ -6,7 +6,6 @@ import { PlayerFragmentFragment } from '../graphql/autogen/types';
 export const getPlayerImage = (player: PlayerFragmentFragment): string =>
   player.profile_cache?.imageURL ||
   `https://avatars.dicebear.com/api/jdenticon/${player.username}.svg`;
-
 export const getPlayerCoverImage = (player: PlayerFragmentFragment): string =>
   player.profile_cache?.backgroundImageURL || BackgroundImage;
 

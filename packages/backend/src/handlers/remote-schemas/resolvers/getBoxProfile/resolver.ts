@@ -26,11 +26,11 @@ export const getBoxProfile: QueryResolvers['getBoxProfile'] = async (
     location: boxProfile.location,
     job: boxProfile.job,
     emoji: boxProfile.emoji,
-    imageUrl: getImage(boxProfile?.image, {
+    imageURL: getImage(boxProfile?.image, {
       ar: '1:1',
       height: 200,
     }),
-    coverImageUrl: getImage(boxProfile?.coverPhoto, {
+    coverImageURL: getImage(boxProfile?.coverPhoto, {
       height: 300,
     }),
     website: boxProfile.website,
