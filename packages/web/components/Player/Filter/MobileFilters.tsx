@@ -182,7 +182,7 @@ export const MobileFilters: React.FC<Props> = ({
                   </Button>
                 )}
                 <MetaButton onClick={onClose} w="15rem">
-                  SHOW RESILTS
+                  SHOW RESULTS
                 </MetaButton>
               </Flex>
             </DrawerFooter>
@@ -456,7 +456,7 @@ const FilterContent: React.FC<FilterContentProps> = ({
             onChange={(e) => {
               const inputValue = e.target.value;
               setSearch(inputValue);
-              onSearch(inputValue.toLowerCase());
+              onSearch(inputValue.toLowerCase().trim());
             }}
             value={search}
           />
