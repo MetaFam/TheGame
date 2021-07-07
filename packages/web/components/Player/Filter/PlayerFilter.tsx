@@ -24,7 +24,7 @@ import {
   QueryVariableSetter,
   useFiltersUsed,
 } from 'lib/hooks/players';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { SkillOption } from 'utils/skillHelpers';
 
 const Form = styled.form({
@@ -73,6 +73,13 @@ export const PlayerFilter: React.FC<Props> = ({
   };
 
   const filtersUsed = useFiltersUsed(queryVariables);
+  const resetAllFilters = useCallback(() => {
+    resetFilter();
+    setSkills([]);
+    setPlayerTypes([]);
+    setTimezones([]);
+    setAvailability(null);
+  }, [resetFilter]);
   const isSearchUsed = queryVariables.search !== '%%';
   const searchText = queryVariables.search?.slice(1, -1) || '';
 
@@ -187,6 +194,8 @@ export const PlayerFilter: React.FC<Props> = ({
         setAvailability={setAvailability}
         isOpen={isSmallScreen ? isOpen : false}
         onClose={onClose}
+        filtersUsed={filtersUsed}
+        resetAllFilters={resetAllFilters}
       />
       {filtersUsed && (
         <Flex w="100%" maxW="79rem" justify="space-between">
@@ -259,13 +268,7 @@ export const PlayerFilter: React.FC<Props> = ({
           <Button
             variant="link"
             color="cyan.400"
-            onClick={() => {
-              resetFilter();
-              setSkills([]);
-              setPlayerTypes([]);
-              setTimezones([]);
-              setAvailability(null);
-            }}
+            onClick={resetAllFilters}
             minH="2.5rem"
             display={isSmallScreen ? 'none' : 'flex'}
             p="2"

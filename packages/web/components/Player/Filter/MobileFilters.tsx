@@ -1,23 +1,39 @@
 import {
   ArrowBackIcon,
   ArrowForwardIcon,
+  Button,
   CheckIcon,
   CloseIcon,
   Drawer,
   DrawerBody,
   DrawerContent,
+  DrawerFooter,
   DrawerHeader,
   Flex,
   FlexProps,
   IconButton,
+  Input,
+  MetaButton,
   Text,
   TimezoneOptions,
 } from '@metafam/ds';
+import { SkillCategory_Enum } from 'graphql/autogen/types';
+import { SkillColors } from 'graphql/types';
 import { PlayerAggregates } from 'lib/hooks/players';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { SkillOption } from 'utils/skillHelpers';
 
 type ValueType = { value: string; label: string };
+type CategoryValueType = {
+  label: string;
+  options: ValueType[];
+};
 
 type Props = {
   aggregates: PlayerAggregates;
@@ -31,6 +47,8 @@ type Props = {
   setAvailability: React.Dispatch<React.SetStateAction<ValueType | null>>;
   isOpen: boolean;
   onClose: () => void;
+  filtersUsed: boolean;
+  resetAllFilters: () => void;
 };
 
 enum Selected {
@@ -53,6 +71,8 @@ export const MobileFilters: React.FC<Props> = ({
   setAvailability,
   isOpen,
   onClose: closeDrawer,
+  filtersUsed,
+  resetAllFilters,
   ...props
 }) => {
   const [title, setTitle] = useState('Filter');
@@ -122,74 +142,107 @@ export const MobileFilters: React.FC<Props> = ({
             aria-label="Clear Search"
           />
         </DrawerHeader>
-        <DrawerBody p="0">
-          {selected === Selected.NONE && (
-            <>
+        {selected === Selected.NONE && (
+          <>
+            <DrawerBody p="0">
               <FilterItem
                 title="Type Of Player"
                 onClick={() => setSelected(Selected.PLAYER_TYPE)}
+                value={playerTypes}
               />
               <FilterItem
                 title="Skills"
                 onClick={() => setSelected(Selected.SKILLS)}
-                // value={skills}
-                // onChange={(value) => {
-                //   setSkills(value as SkillOption[]);
-                // }}
-                // options={aggregates.skillChoices}
-                // showSearch
+                value={skills as ValueType[]}
               />
               <FilterItem
                 title="Availability"
                 onClick={() => setSelected(Selected.AVAILABILITY)}
+                value={availability ? [availability] : []}
               />
               <FilterItem
                 title="Time Zone"
                 onClick={() => setSelected(Selected.TIME_ZONE)}
+                value={timezones}
               />
-            </>
-          )}
-          {selected === Selected.PLAYER_TYPE && (
-            <FilterContent
-              value={playerTypes}
-              onChange={(value) => {
-                setPlayerTypes(value as ValueType[]);
-              }}
-              options={aggregates.playerTypes.map(
-                ({ id, title: playerType }) => ({
-                  value: id.toString(),
-                  label: playerType,
-                }),
-              )}
-            />
-          )}
-          {selected === Selected.AVAILABILITY && (
-            <FilterContent
-              value={availability ? [availability] : []}
-              onChange={(value) => {
-                const values = value as ValueType[];
-                setAvailability(values[values.length - 1]);
-              }}
-              options={[1, 5, 10, 20, 30, 40].map((value) => ({
-                value: value.toString(),
-                label: `> ${value.toString()} h/week`,
-              }))}
-            />
-          )}
-          {selected === Selected.TIME_ZONE && (
-            <FilterContent
-              value={timezones}
-              onChange={(value) => {
-                setTimezones(value as ValueType[]);
-              }}
-              options={TimezoneOptions.map(({ id, label }) => ({
+            </DrawerBody>
+            <DrawerFooter p="1.5rem">
+              <Flex direction="column" justify="center" w="100%" align="center">
+                {filtersUsed && (
+                  <Button
+                    variant="link"
+                    color="cyan.400"
+                    onClick={resetAllFilters}
+                    size="sm"
+                    minH="2.5rem"
+                    p="2"
+                    mb="1rem"
+                  >
+                    RESET ALL FILTERS
+                  </Button>
+                )}
+                <MetaButton onClick={onClose} w="15rem">
+                  SHOW RESILTS
+                </MetaButton>
+              </Flex>
+            </DrawerFooter>
+          </>
+        )}
+        {selected === Selected.PLAYER_TYPE && (
+          <FilterContent
+            value={playerTypes}
+            onChange={(value) => {
+              setPlayerTypes(value as ValueType[]);
+            }}
+            options={aggregates.playerTypes.map(
+              ({ id, title: playerType }) => ({
                 value: id.toString(),
-                label,
-              }))}
-              // showSearch
-            />
-          )}
-        </DrawerBody>
+                label: playerType,
+              }),
+            )}
+            onBack={onBack}
+          />
+        )}
+        {selected === Selected.SKILLS && (
+          <FilterContent
+            value={skills as ValueType[]}
+            onChange={(value) => {
+              setSkills(value as SkillOption[]);
+            }}
+            options={aggregates.skillChoices as CategoryValueType[]}
+            onBack={onBack}
+            showSearch
+          />
+        )}
+        {selected === Selected.AVAILABILITY && (
+          <FilterContent
+            value={availability ? [availability] : []}
+            onChange={(value) => {
+              const values = value as ValueType[];
+              setAvailability(values[values.length - 1]);
+            }}
+            options={[1, 5, 10, 20, 30, 40].map((value) => ({
+              value: value.toString(),
+              label: `> ${value.toString()} h/week`,
+            }))}
+            onBack={onBack}
+            isMulti={false}
+          />
+        )}
+        {selected === Selected.TIME_ZONE && (
+          <FilterContent
+            value={timezones}
+            onChange={(value) => {
+              setTimezones(value as ValueType[]);
+            }}
+            options={TimezoneOptions.map(({ id, label }) => ({
+              value: id.toString(),
+              label,
+            }))}
+            onBack={onBack}
+            showSearch
+          />
+        )}
       </DrawerContent>
     </Drawer>
   );
@@ -197,88 +250,273 @@ export const MobileFilters: React.FC<Props> = ({
 
 type FilterItemProps = {
   title: string;
-  onClick: () => void;
+  value: ValueType[];
 } & FlexProps;
 
-const FilterItem: React.FC<FilterItemProps> = ({ title, ...props }) => (
-  <Flex
-    justify="space-between"
-    align="center"
-    p="1rem"
-    pr="0.75rem"
-    borderBottom="1px solid"
-    borderBottomColor="borderPurple"
-    cursor="pointer"
-    _hover={{ bg: 'whiteAlpha.100' }}
-    {...props}
-  >
-    <Text fontWeight="bold" fontSize="md">
-      {title}
-    </Text>
-    <ArrowForwardIcon boxSize="2rem" color="white" />
-  </Flex>
-);
+const FilterItem: React.FC<FilterItemProps> = ({ title, value, ...props }) => {
+  const lastIndex = value.length - 1;
+  return (
+    <Flex
+      justify="space-between"
+      align="center"
+      p="1rem"
+      pr="0.75rem"
+      borderBottom="1px solid"
+      borderBottomColor="borderPurple"
+      cursor="pointer"
+      _hover={{ bg: 'whiteAlpha.100' }}
+      w="100%"
+      {...props}
+    >
+      <Flex
+        direction="column"
+        align="flex-start"
+        w="100%"
+        overflow="hidden"
+        mr="1rem"
+      >
+        <Text fontWeight="bold" fontSize="md">
+          {title}
+        </Text>
+        {value.length > 0 && (
+          <Text
+            fontWeight="300"
+            fontSize="sm"
+            textOverflow="ellipsis"
+            overflow="hidden"
+            whiteSpace="nowrap"
+            w="100%"
+          >
+            {value.reduce(
+              (t, v, i) =>
+                i === lastIndex ? t.concat(v.label) : t.concat(v.label, ', '),
+              '',
+            )}
+          </Text>
+        )}
+      </Flex>
+      <ArrowForwardIcon boxSize="2rem" color="white" />
+    </Flex>
+  );
+};
 
 type FilterContentProps = {
   value: ValueType[];
   onChange: (value: ValueType[]) => void;
-  options: ValueType[];
+  options: ValueType[] | CategoryValueType[];
+  onBack: () => void;
+  isMulti?: boolean;
+  showSearch?: boolean;
 };
 
+const scrollbarVisible = (element: HTMLDivElement): boolean =>
+  element.scrollHeight > element.clientHeight;
+
+const searchFilter: (searchText: string) => (v: ValueType) => boolean = (
+  searchText,
+) => ({ label, value }) =>
+  label.toLowerCase().includes(searchText) ||
+  value.toLowerCase().includes(searchText);
 const FilterContent: React.FC<FilterContentProps> = ({
-  value,
+  value: selectedValue,
   onChange,
-  options,
+  options: allOptions,
+  onBack,
+  isMulti = true,
+  showSearch = false,
 }) => {
-  const lastIndex = options.length - 1;
+  const isCategoryFilter = useMemo(
+    () =>
+      allOptions.length > 0 && !!(allOptions as CategoryValueType[])[0].options,
+    [allOptions],
+  );
+  const [value, setValue] = useState(selectedValue);
+  const onClear = useCallback(() => {
+    setValue([]);
+  }, []);
+  const onSave = useCallback(() => {
+    onChange(value);
+    onBack();
+  }, [value, onChange, onBack]);
+  const [options, setOptions] = useState(allOptions);
+
+  const [search, setSearch] = useState('');
+  const onSearch = useCallback(
+    (searchText: string) => {
+      if (isCategoryFilter) {
+        const newOptions: CategoryValueType[] = (allOptions as CategoryValueType[]).reduce(
+          (t: CategoryValueType[], v: CategoryValueType) => {
+            const { label, options: categoryOptions } = v;
+            const filteredOptions = categoryOptions.filter(
+              searchFilter(searchText),
+            );
+            const newValue: CategoryValueType = {
+              label,
+              options: filteredOptions,
+            };
+            return newOptions.length > 0 ? [...t, newValue] : t;
+          },
+          [],
+        );
+        setOptions(newOptions);
+      } else {
+        const newOptions = (allOptions as ValueType[]).filter(
+          searchFilter(searchText),
+        );
+        setOptions(newOptions);
+      }
+    },
+    [allOptions, isCategoryFilter],
+  );
+  const renderOptions = useCallback(
+    (optionsToRender: ValueType[]) => {
+      const lastIndex = optionsToRender.length - 1;
+      return (
+        <>
+          {optionsToRender.map((option: ValueType, index: number) => {
+            const { value: optionValue, label } = option;
+            const isSelected = value.reduce(
+              (t, v) => t || v.value === optionValue,
+              false,
+            );
+            return (
+              <Flex
+                pl="1rem"
+                cursor="pointer"
+                _hover={{ bg: 'whiteAlpha.100' }}
+                onClick={() => {
+                  if (isMulti) {
+                    if (isSelected) {
+                      const newValue = value.slice();
+                      newValue.splice(value.indexOf(option), 1);
+                      setValue(newValue);
+                    } else {
+                      const newValue = value.slice();
+                      newValue.push(option);
+                      setValue(newValue);
+                    }
+                  } else {
+                    setValue(isSelected ? [] : [option]);
+                  }
+                }}
+              >
+                <Flex
+                  w="100%"
+                  p="1rem"
+                  pl="0"
+                  justify="space-between"
+                  align="center"
+                  borderBottom={lastIndex === index ? '0' : '1px solid'}
+                  borderBottomColor="borderPurple"
+                >
+                  <Text fontWeight="bold" fontSize="md">
+                    {label}
+                  </Text>
+                  {isSelected && (
+                    <CheckIcon color="white" boxSize="1.25rem" mr="0.1rem" />
+                  )}
+                </Flex>
+              </Flex>
+            );
+          })}
+        </>
+      );
+    },
+    [isMulti, value],
+  );
+
+  const [hasScrollbar, setHasScrollbar] = useState(false);
+  const bodyRef = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    if (bodyRef.current) {
+      setHasScrollbar(scrollbarVisible(bodyRef.current));
+    }
+  }, []);
+
   return (
-    <Flex
-      direction="column"
-      borderBottom="1px solid"
-      borderBottomColor="borderPurple"
-    >
-      {options.map((option, index) => {
-        const { value: optionValue, label } = option;
-        const isSelected = value.reduce(
-          (t, v) => t || v.value === optionValue,
-          false,
-        );
-        return (
-          <Flex
-            pl="1rem"
-            cursor="pointer"
-            _hover={{ bg: 'whiteAlpha.100' }}
-            onClick={() => {
-              if (isSelected) {
-                const newValue = value.slice();
-                newValue.splice(value.indexOf(option), 1);
-                onChange(newValue);
-              } else {
-                const newValue = value.slice();
-                newValue.push(option);
-                onChange(newValue);
-              }
+    <>
+      {showSearch && (
+        <Flex
+          w="100%"
+          borderBottomWidth="1px"
+          borderBottomColor="borderPurple"
+          borderBottomStyle="solid"
+        >
+          <Input
+            autoFocus
+            width="calc(100% - 2rem)"
+            placeholder="Search..."
+            _placeholder={{ color: 'whiteAlpha.500' }}
+            borderRadius="0"
+            borderWidth="2px"
+            mx="4"
+            my="2"
+            borderColor="borderPurple"
+            onChange={(e) => {
+              const inputValue = e.target.value;
+              setSearch(inputValue);
+              onSearch(inputValue.toLowerCase());
             }}
-          >
-            <Flex
-              w="100%"
-              p="1rem"
-              pl="0"
-              justify="space-between"
-              align="center"
-              borderBottom={lastIndex === index ? '0' : '1px solid'}
-              borderBottomColor="borderPurple"
+            value={search}
+          />
+        </Flex>
+      )}
+      <DrawerBody
+        p="0"
+        ref={bodyRef}
+        borderBottom={hasScrollbar ? '1px solid' : '0'}
+        borderBottomColor="borderPurple"
+      >
+        <Flex
+          direction="column"
+          borderBottom={hasScrollbar ? '0' : '1px solid'}
+          borderBottomColor="borderPurple"
+          position="relative"
+        >
+          {isCategoryFilter
+            ? (options as CategoryValueType[]).map(
+                ({ label, options: categoryOptions }) => (
+                  <>
+                    <Flex
+                      w="100%"
+                      p="1rem"
+                      justify="space-between"
+                      align="center"
+                      bg={SkillColors[label as SkillCategory_Enum]}
+                      position="sticky"
+                      top="0"
+                    >
+                      <Text fontWeight="bold" fontSize="md">
+                        {label}
+                      </Text>
+                    </Flex>
+                    {renderOptions(categoryOptions)}
+                  </>
+                ),
+              )
+            : renderOptions(options as ValueType[])}
+        </Flex>
+      </DrawerBody>
+      <DrawerFooter p="1.5rem">
+        <Flex direction="column" justify="center" w="100%" align="center">
+          {value.length > 0 && (
+            <Button
+              variant="link"
+              color="cyan.400"
+              onClick={onClear}
+              size="sm"
+              minH="2.5rem"
+              p="2"
+              mb="1rem"
             >
-              <Text fontWeight="bold" fontSize="md">
-                {label}
-              </Text>
-              {isSelected && (
-                <CheckIcon color="white" boxSize="1.25rem" mr="0.1rem" />
-              )}
-            </Flex>
-          </Flex>
-        );
-      })}
-    </Flex>
+              CANCEL SELECTION
+            </Button>
+          )}
+          <MetaButton onClick={onSave} w="15rem">
+            SAVE
+          </MetaButton>
+        </Flex>
+      </DrawerFooter>
+    </>
   );
 };
