@@ -1,6 +1,6 @@
 import { LoadingState, Text, VStack } from '@metafam/ds';
 import { PageContainer } from 'components/Container';
-import { PlayerFilter } from 'components/Player/PlayerFilter';
+import { PlayerFilter } from 'components/Player/Filter/PlayerFilter';
 import { PlayerList } from 'components/Player/PlayerList';
 import { HeadComponent } from 'components/Seo';
 import { getSsrClient } from 'graphql/client';
@@ -63,7 +63,11 @@ const Players: React.FC<Props> = () => {
   return (
     <PageContainer>
       <HeadComponent url="https://my.metagame.wtf/players" />
-      <VStack w="100%" spacing="8" pb={{ base: '16', lg: '0' }}>
+      <VStack
+        w="100%"
+        spacing={{ base: '4', md: '8' }}
+        pb={{ base: '16', lg: '0' }}
+      >
         <PlayerFilter
           fetching={fetching}
           fetchingMore={fetchingMore}

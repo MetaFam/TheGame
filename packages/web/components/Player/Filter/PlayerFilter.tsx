@@ -8,29 +8,23 @@ import {
   InputGroup,
   InputRightElement,
   MetaButton,
-  MetaFilterSelectSearch,
-  MetaTheme,
-  selectStyles,
   Stack,
   styled,
   Text,
-  TimezoneOptions,
   useBreakpointValue,
+  useDisclosure,
   Wrap,
   WrapItem,
 } from '@metafam/ds';
-import {
-  GetPlayersQueryVariables,
-  SkillCategory_Enum,
-} from 'graphql/autogen/types';
-import { SkillColors } from 'graphql/types';
+import { DesktopFilters } from 'components/Player/Filter/DesktopFilters';
+import { MobileFilters } from 'components/Player/Filter/MobileFilters';
+import { GetPlayersQueryVariables } from 'graphql/autogen/types';
 import {
   PlayerAggregates,
   QueryVariableSetter,
   useFiltersUsed,
 } from 'lib/hooks/players';
-import { useIsSticky } from 'lib/hooks/useIsSticky';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SkillOption } from 'utils/skillHelpers';
 
 const Form = styled.form({
@@ -41,51 +35,6 @@ const Form = styled.form({
 });
 
 type ValueType = { value: string; label: string };
-
-const styles: typeof selectStyles = {
-  ...selectStyles,
-  multiValue: (s, { data }) => ({
-    ...s,
-    background: SkillColors[data.category as SkillCategory_Enum],
-    color: MetaTheme.colors.white,
-  }),
-  multiValueLabel: (s, { data }) => ({
-    ...s,
-    background: SkillColors[data.category as SkillCategory_Enum],
-    color: MetaTheme.colors.white,
-  }),
-  groupHeading: (s, { children }) => ({
-    ...s,
-    ...(selectStyles.groupHeading &&
-      selectStyles.groupHeading(s, { children })),
-    background: SkillColors[children as SkillCategory_Enum],
-    borderTop: `1px solid ${MetaTheme.colors.borderPurple}`,
-    margin: 0,
-  }),
-  option: (s, { isSelected }) => ({
-    ...s,
-    backgroundColor: 'transparent',
-    fontWeight: isSelected ? 'bold' : 'normal',
-    ':hover': {
-      backgroundColor: 'transparent',
-      color: MetaTheme.colors.white,
-    },
-    ':focus': {
-      boxShadow: '0 0 0 3px rgba(66, 153, 225, 0.6)',
-    },
-  }),
-  menu: () => ({}),
-  control: (s) => ({
-    ...s,
-    background: MetaTheme.colors.dark,
-    border: 'none',
-    ':hover': {},
-  }),
-  noOptionsMessage: (s) => ({
-    ...s,
-    borderTop: `1px solid ${MetaTheme.colors.borderPurple}`,
-  }),
-};
 
 type Props = {
   fetching: boolean;
@@ -127,11 +76,7 @@ export const PlayerFilter: React.FC<Props> = ({
   const isSearchUsed = queryVariables.search !== '%%';
   const searchText = queryVariables.search?.slice(1, -1) || '';
 
-  const filterRef = useRef<HTMLDivElement>(null);
-  const isElementSticky = useIsSticky(filterRef);
-
   const isSmallScreen = useBreakpointValue({ base: true, md: false });
-  const isSticky = !isSmallScreen && isElementSticky;
 
   useEffect(() => {
     setQueryVariable(
@@ -163,6 +108,8 @@ export const PlayerFilter: React.FC<Props> = ({
     );
   }, [setQueryVariable, availability]);
 
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   return (
     <>
       <Form onSubmit={onSearch}>
@@ -192,8 +139,9 @@ export const PlayerFilter: React.FC<Props> = ({
             {search.length > 0 && (
               <InputRightElement>
                 <IconButton
+                  p="2"
                   variant="link"
-                  colorScheme="cyan"
+                  colorScheme="white"
                   icon={<CloseIcon />}
                   onClick={() => {
                     setSearch('');
@@ -204,94 +152,52 @@ export const PlayerFilter: React.FC<Props> = ({
               </InputRightElement>
             )}
           </InputGroup>
-          <MetaButton type="submit" size="lg" isDisabled={fetching} px="16">
+          <MetaButton
+            type="submit"
+            size="lg"
+            isDisabled={fetching}
+            px="16"
+            display={isSmallScreen ? 'none' : 'flex'}
+          >
             SEARCH
           </MetaButton>
         </Stack>
       </Form>
-      <Wrap
-        spacing="4"
-        justify={{ base: 'flex-start', md: 'center' }}
-        w={isSticky ? 'calc(100% + 6rem)' : '100%'}
-        maxW={isSticky ? 'auto' : '79rem'}
-        transition="all 0.25s"
-        bg={isSticky ? 'purpleTag70' : 'whiteAlpha.200'}
-        py="6"
-        px={isSticky ? '4.5rem' : '1.5rem'}
-        style={{ backdropFilter: 'blur(7px)' }}
-        borderRadius={isSticky ? '0px' : '6px'}
-        ref={filterRef}
-        position={isSmallScreen ? 'relative' : 'sticky'}
-        top="-1px"
-        borderTop="1px solid transparent"
-        zIndex="1"
-        align="center"
-      >
-        <WrapItem>
-          <MetaFilterSelectSearch
-            title="Type Of Player"
-            styles={styles}
-            value={playerTypes}
-            onChange={(value) => {
-              setPlayerTypes(value as ValueType[]);
-            }}
-            options={aggregates.playerTypes.map(({ id, title }) => ({
-              value: id.toString(),
-              label: title,
-            }))}
-          />
-        </WrapItem>
-        <WrapItem>
-          <MetaFilterSelectSearch
-            title="Skills"
-            styles={styles}
-            value={skills}
-            onChange={(value) => {
-              setSkills(value as SkillOption[]);
-            }}
-            options={aggregates.skillChoices}
-            showSearch
-          />
-        </WrapItem>
-        <WrapItem>
-          <MetaFilterSelectSearch
-            title="Availability"
-            styles={styles}
-            value={availability}
-            onChange={(value) => {
-              const values = value as ValueType[];
-              setAvailability(values[values.length - 1]);
-            }}
-            options={[1, 5, 10, 20, 30, 40].map((value) => ({
-              value: value.toString(),
-              label: `> ${value.toString()} h/week`,
-            }))}
-          />
-        </WrapItem>
-        <WrapItem>
-          <MetaFilterSelectSearch
-            title="Time Zone"
-            styles={styles}
-            value={timezones}
-            onChange={(value) => {
-              setTimezones(value as ValueType[]);
-            }}
-            options={TimezoneOptions.map(({ id, label }) => ({
-              value: id.toString(),
-              label,
-            }))}
-            showSearch
-          />
-        </WrapItem>
-      </Wrap>
+      <DesktopFilters
+        display={isSmallScreen ? 'none' : 'flex'}
+        aggregates={aggregates}
+        skills={skills}
+        setSkills={setSkills}
+        playerTypes={playerTypes}
+        setPlayerTypes={setPlayerTypes}
+        timezones={timezones}
+        setTimezones={setTimezones}
+        availability={availability}
+        setAvailability={setAvailability}
+      />
+      <MobileFilters
+        aggregates={aggregates}
+        skills={skills}
+        setSkills={setSkills}
+        playerTypes={playerTypes}
+        setPlayerTypes={setPlayerTypes}
+        timezones={timezones}
+        setTimezones={setTimezones}
+        availability={availability}
+        setAvailability={setAvailability}
+        isOpen={isSmallScreen ? isOpen : false}
+        onClose={onClose}
+      />
       {filtersUsed && (
         <Flex w="100%" maxW="79rem" justify="space-between">
           <Wrap flex="1">
-            <WrapItem>
-              <Flex w="100%" h="100%" justify="center" align="center">
-                <Text> {`Selected Filters: `}</Text>
-              </Flex>
-            </WrapItem>
+            {!isSmallScreen && (
+              <WrapItem>
+                <Flex w="100%" h="100%" justify="center" align="center">
+                  <Text> {`Selected Filters: `}</Text>
+                </Flex>
+              </WrapItem>
+            )}
             {isSearchUsed && (
               <WrapItem>
                 <FilterTag
@@ -361,16 +267,35 @@ export const PlayerFilter: React.FC<Props> = ({
               setAvailability(null);
             }}
             minH="2.5rem"
+            display={isSmallScreen ? 'none' : 'flex'}
+            p="2"
           >
             RESET ALL FILTERS
           </Button>
         </Flex>
       )}
       {(fetchingMore || !fetching) && (
-        <Flex justify="space-between" w="100%" maxW="80rem" px="4">
+        <Flex
+          justify="space-between"
+          w="100%"
+          maxW="80rem"
+          px="4"
+          align="center"
+        >
           <Text fontWeight="bold" fontSize="xl" w="100%" maxW="79rem">
-            {`${totalCount} player${totalCount === 1 ? '' : 's'}`}
+            {totalCount} player{totalCount === 1 ? '' : 's'}
           </Text>
+          <Button
+            variant="link"
+            color="cyan.400"
+            onClick={onOpen}
+            size="sm"
+            minH="2.5rem"
+            display={isSmallScreen ? 'flex' : 'none'}
+            p="2"
+          >
+            FILTER
+          </Button>
         </Flex>
       )}
     </>

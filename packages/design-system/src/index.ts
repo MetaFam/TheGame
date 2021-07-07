@@ -22,7 +22,14 @@ export {
 export { SVG } from './SVG';
 export { theme as MetaTheme } from './theme';
 export { H1, P } from './typography';
-export { CloseIcon, EmailIcon, SettingsIcon } from '@chakra-ui/icons';
+export {
+  ArrowBackIcon,
+  ArrowForwardIcon,
+  CheckIcon,
+  CloseIcon,
+  EmailIcon,
+  SettingsIcon,
+} from '@chakra-ui/icons';
 export {
   AlertDialog,
   AlertDialogBody,
@@ -43,6 +50,12 @@ export {
   Container,
   CSSReset,
   Divider,
+  Drawer,
+  DrawerBody,
+  DrawerContent,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerProps,
   Fade,
   Flex,
   FlexProps,
@@ -83,6 +96,7 @@ export {
   VStack,
   Wrap,
   WrapItem,
+  WrapProps,
 } from '@chakra-ui/react';
 export { default as styled } from '@emotion/styled';
 export { motion } from 'framer-motion';
