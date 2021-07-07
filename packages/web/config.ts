@@ -14,11 +14,11 @@ export const CONFIG = {
   infuraId:
     process.env.NEXT_PUBLIC_INFURA_ID || '781d8466252d47508e177b8637b1c2fd',
   openseaApiKey: process.env.NEXT_OPENSEA_API_KEY || undefined,
-  brightIdAppUrl:
+  brightIdAppURL:
     process.env.NEXT_BRIGHTID_APP_URL || 'https://app.brightid.org',
-  brightIdNodeUrl:
+  brightIdNodeURL:
     process.env.NEXT_BRIGHTID_NODE_URL || 'http:%2f%2fnode.brightid.org',
-  publicUrl: process.env.NEXT_PUBLIC_VERCEL_URL || 'http://localhost:3000',
+  publicURL: process.env.NEXT_PUBLIC_VERCEL_URL || 'http://localhost:3000',
   gaId: process.env.NEXT_PUBLIC_GA4_ID || undefined,
   clarityId: process.env.NEXT_CLARITY_ID || undefined,
 };
