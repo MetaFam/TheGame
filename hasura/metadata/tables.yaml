@@ -373,19 +373,6 @@
       interval_sec: 10
       timeout_sec: 60
     webhook: '{{TRIGGERS_ENDPOINT}}'
-  - name: fetchBoxVerifiedAccounts
-    definition:
-      enable_manual: true
-      insert:
-        columns: '*'
-      update:
-        columns:
-        - ethereum_address
-    retry_conf:
-      num_retries: 0
-      interval_sec: 10
-      timeout_sec: 60
-    webhook_from_env: TRIGGERS_ENDPOINT
   - name: player_rank_updated
     definition:
       enable_manual: false
