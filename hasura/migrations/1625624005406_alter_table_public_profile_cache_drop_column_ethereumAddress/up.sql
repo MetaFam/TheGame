@@ -1,3 +1,4 @@
 ALTER TABLE public.profile_cache
-  DROP COLUMN "ethereumAddress" CASCADE
+  DROP COLUMN IF EXISTS "ethereumAddress"
+  CASCADE
 ;
