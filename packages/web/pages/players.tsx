@@ -74,6 +74,7 @@ const Players: React.FC<Props> = () => {
       <VStack w="100%" spacing="8" pb={{ base: '16', lg: '0' }}>
         <PlayerFilter
           fetching={fetching}
+          fetchingMore={fetchingMore}
           aggregates={aggregates}
           queryVariables={queryVariables}
           setQueryVariable={setQueryVariable}

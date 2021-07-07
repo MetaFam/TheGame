@@ -88,6 +88,7 @@ const styles: typeof selectStyles = {
 
 type Props = {
   fetching: boolean;
+  fetchingMore: boolean;
   aggregates: PlayerAggregates;
   queryVariables: GetPlayersQueryVariables;
   setQueryVariable: QueryVariableSetter;
@@ -97,6 +98,7 @@ type Props = {
 
 export const PlayerFilter: React.FC<Props> = ({
   fetching,
+  fetchingMore,
   aggregates,
   queryVariables,
   setQueryVariable,
@@ -376,7 +378,7 @@ export const PlayerFilter: React.FC<Props> = ({
           </Button>
         </Flex>
       )}
-      {!fetching && (
+      {(fetchingMore ? totalCount > 0 : !fetching) && (
         <Flex justify="space-between" w="100%" maxW="80rem" px="4">
           <Text fontWeight="bold" fontSize="xl" w="100%" maxW="79rem">
             {`${totalCount} player${totalCount === 1 ? '' : 's'}`}
