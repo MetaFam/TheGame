@@ -55,6 +55,17 @@ export const UpdatePlayer = gql`
   }
 `;
 
+export const InsertPlayers = gql`
+  mutation InsertPlayers($objects: [player_insert_input!]!) {
+    insert_player(objects: $objects) {
+      affected_rows
+      returning {
+        id
+      }
+    }
+  }
+`;
+
 export const CreateQuest = gql`
   mutation CreateQuest($objects: [quest_insert_input!]!) {
     insert_quest(objects: $objects) {
