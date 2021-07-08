@@ -213,9 +213,16 @@ const SelectMenu: React.FC<
   React.ComponentProps<typeof SelectComponents.Menu>
 > = (props) => {
   const {
-    selectProps: { onInputChange, title, value, placement, showSearch },
+    selectProps: {
+      onInputChange,
+      title,
+      value,
+      placement,
+      showSearch,
+      inputValue,
+    },
   } = props;
-  const [input, setInput] = useState('');
+  const [input, setInput] = useState(inputValue || '');
   let tagLabel = '';
   if (Array.isArray(value) && value.length > 0) {
     tagLabel = value.length.toString();
@@ -292,10 +299,10 @@ const SelectMenu: React.FC<
               my="2"
               borderColor="borderPurple"
               onChange={(e) => {
-                const inputValue = e.target.value;
-                setInput(inputValue);
+                const val = e.target.value;
+                setInput(val);
                 if (onInputChange) {
-                  onInputChange(inputValue, { action: 'input-change' });
+                  onInputChange(val, { action: 'input-change' });
                 }
               }}
               value={input}
