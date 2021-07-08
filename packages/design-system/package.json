@@ -32,6 +32,7 @@
     "@types/react": "17.0.6",
     "@types/react-dom": "17.0.5",
     "@types/react-select": "3.0.22",
+    "city-timezones": "^1.2.0",
     "framer-motion": "4.1.17",
     "next": "10.2.3",
     "react-select": "4.3.1",
