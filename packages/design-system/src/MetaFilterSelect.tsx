@@ -15,6 +15,11 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { DropDownIcon } from './icons/DropDownIcon';
 import { MetaTag } from './MetaTag';
 import { SelectComponents, SelectSearch } from './SelectSearch';
+import {
+  filterTimezones,
+  getTimezonesFor,
+  TimezoneType,
+} from './SelectTimeZone';
 
 export const MetaSelect: React.FC<SelectProps> = (props) => (
   <Select
@@ -336,28 +341,59 @@ const SelectContainer: React.FC<
 };
 
 export const MetaFilterSelectSearch: React.FC<
-  React.ComponentProps<typeof SelectSearch> & { showSearch?: boolean }
-> = ({ showSearch = false, ...props }) => (
-  <SelectSearch
-    isMulti
-    closeMenuOnSelect={false}
-    placeholder=" "
-    components={{
-      MultiValueContainer: () => null,
-      SingleValue: () => null,
-      IndicatorSeparator: () => null,
-      DropdownIndicator: () => null,
-      IndicatorsContainer: () => null,
-      Input: () => null,
-      ValueContainer: SelectValueContainer,
-      Option: SelectOption,
-      Menu: SelectMenu,
-      Control: SelectControl,
-      SelectContainer,
-    }}
-    isClearable={false}
-    hideSelectedOptions={false}
-    showSearch={showSearch}
-    {...props}
-  />
-);
+  React.ComponentProps<typeof SelectSearch> & {
+    showSearch?: boolean;
+    isTimezone?: boolean;
+  }
+> = ({
+  options: defaultOptions,
+  showSearch = false,
+  isTimezone = false,
+  ...props
+}) => {
+  const [options, setOptions] = useState(defaultOptions);
+
+  const onTimezoneInputChange = useCallback(
+    (value: string) => {
+      if (!value) {
+        setOptions(defaultOptions);
+      } else {
+        const searchText = value.toLowerCase().trim();
+        const filteredTimezones = getTimezonesFor(searchText);
+        setOptions(
+          (defaultOptions as TimezoneType[])?.filter(
+            filterTimezones(searchText, filteredTimezones),
+          ),
+        );
+      }
+    },
+    [defaultOptions],
+  );
+  return (
+    <SelectSearch
+      isMulti
+      closeMenuOnSelect={false}
+      placeholder=" "
+      components={{
+        MultiValueContainer: () => null,
+        SingleValue: () => null,
+        IndicatorSeparator: () => null,
+        DropdownIndicator: () => null,
+        IndicatorsContainer: () => null,
+        Input: () => null,
+        ValueContainer: SelectValueContainer,
+        Option: SelectOption,
+        Menu: SelectMenu,
+        Control: SelectControl,
+        SelectContainer,
+      }}
+      isClearable={false}
+      hideSelectedOptions={false}
+      showSearch={showSearch}
+      options={options}
+      filterOption={isTimezone ? null : undefined}
+      onInputChange={isTimezone ? onTimezoneInputChange : undefined}
+      {...props}
+    />
+  );
+};

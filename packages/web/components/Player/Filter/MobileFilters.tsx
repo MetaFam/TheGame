@@ -9,13 +9,16 @@ import {
   DrawerContent,
   DrawerFooter,
   DrawerHeader,
+  filterTimezones,
   Flex,
   FlexProps,
+  getTimezonesFor,
   IconButton,
   Input,
   MetaButton,
   Text,
   TimezoneOptions,
+  TimezoneType,
 } from '@metafam/ds';
 import { SkillCategory_Enum } from 'graphql/autogen/types';
 import { SkillColors } from 'graphql/types';
@@ -194,12 +197,7 @@ export const MobileFilters: React.FC<Props> = ({
             onChange={(value) => {
               setPlayerTypes(value as ValueType[]);
             }}
-            options={aggregates.playerTypes.map(
-              ({ id, title: playerType }) => ({
-                value: id.toString(),
-                label: playerType,
-              }),
-            )}
+            options={aggregates.playerTypes}
             onBack={onBack}
           />
         )}
@@ -235,12 +233,10 @@ export const MobileFilters: React.FC<Props> = ({
             onChange={(value) => {
               setTimezones(value as ValueType[]);
             }}
-            options={TimezoneOptions.map(({ id, label }) => ({
-              value: id.toString(),
-              label,
-            }))}
+            options={TimezoneOptions}
             onBack={onBack}
             showSearch
+            isTimezone
           />
         )}
       </DrawerContent>
@@ -307,6 +303,7 @@ type FilterContentProps = {
   onBack: () => void;
   isMulti?: boolean;
   showSearch?: boolean;
+  isTimezone?: boolean;
 };
 
 const scrollbarVisible = (element: HTMLDivElement): boolean =>
@@ -314,9 +311,10 @@ const scrollbarVisible = (element: HTMLDivElement): boolean =>
 
 const searchFilter: (searchText: string) => (v: ValueType) => boolean = (
   searchText,
-) => ({ label, value }) =>
+) => ({ value, label }) =>
   label.toLowerCase().includes(searchText) ||
   value.toLowerCase().includes(searchText);
+
 const FilterContent: React.FC<FilterContentProps> = ({
   value: selectedValue,
   onChange,
@@ -324,6 +322,7 @@ const FilterContent: React.FC<FilterContentProps> = ({
   onBack,
   isMulti = true,
   showSearch = false,
+  isTimezone = false,
 }) => {
   const isCategoryFilter = useMemo(
     () =>
@@ -341,15 +340,25 @@ const FilterContent: React.FC<FilterContentProps> = ({
   const [options, setOptions] = useState(allOptions);
 
   const [search, setSearch] = useState('');
+
   const onSearch = useCallback(
     (searchText: string) => {
+      if (!searchText) {
+        setOptions(allOptions);
+      }
+      let filteredTimezones: string[] = [];
+      if (isTimezone) {
+        filteredTimezones = getTimezonesFor(searchText);
+      }
       if (isCategoryFilter) {
         const newOptions: CategoryValueType[] = (allOptions as CategoryValueType[]).reduce(
           (t: CategoryValueType[], v: CategoryValueType) => {
             const { label, options: categoryOptions } = v;
-            const filteredOptions = categoryOptions.filter(
-              searchFilter(searchText),
-            );
+            const filteredOptions = isTimezone
+              ? (categoryOptions as TimezoneType[]).filter(
+                  filterTimezones(searchText, filteredTimezones),
+                )
+              : categoryOptions.filter(searchFilter(searchText));
             const newValue: CategoryValueType = {
               label,
               options: filteredOptions,
@@ -360,14 +369,17 @@ const FilterContent: React.FC<FilterContentProps> = ({
         );
         setOptions(newOptions);
       } else {
-        const newOptions = (allOptions as ValueType[]).filter(
-          searchFilter(searchText),
-        );
-        setOptions(newOptions);
+        const filteredOptions = isTimezone
+          ? (allOptions as TimezoneType[]).filter(
+              filterTimezones(searchText, filteredTimezones),
+            )
+          : (allOptions as ValueType[]).filter(searchFilter(searchText));
+        setOptions(filteredOptions);
       }
     },
-    [allOptions, isCategoryFilter],
+    [allOptions, isCategoryFilter, isTimezone],
   );
+
   const renderOptions = useCallback(
     (optionsToRender: ValueType[]) => {
       const lastIndex = optionsToRender.length - 1;

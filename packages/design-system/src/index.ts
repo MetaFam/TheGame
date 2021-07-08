@@ -15,6 +15,8 @@ export { MetaTile, MetaTileBody, MetaTileHeader } from './MetaTile';
 export { ResponsiveText } from './ResponsiveText';
 export { SelectComponents, SelectSearch, selectStyles } from './SelectSearch';
 export {
+  filterTimezones,
+  getTimezonesFor,
   SelectTimeZone,
   TimezoneOptions,
   TimezoneType,
