@@ -114,10 +114,7 @@ export const DesktopFilters: React.FC<Props> = ({
           onChange={(value) => {
             setPlayerTypes(value as ValueType[]);
           }}
-          options={aggregates.playerTypes.map(({ id, title }) => ({
-            value: id.toString(),
-            label: title,
-          }))}
+          options={aggregates.playerTypes}
         />
       </WrapItem>
       <WrapItem>
@@ -155,11 +152,9 @@ export const DesktopFilters: React.FC<Props> = ({
           onChange={(value) => {
             setTimezones(value as ValueType[]);
           }}
-          options={TimezoneOptions.map(({ id, label }) => ({
-            value: id.toString(),
-            label,
-          }))}
+          options={TimezoneOptions}
           showSearch
+          isTimezone
         />
       </WrapItem>
     </Wrap>

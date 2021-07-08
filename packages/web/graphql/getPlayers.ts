@@ -144,8 +144,8 @@ gql`
       ...PlayerSkillFragment
     }
     player_type(distinct_on: id) {
-      id
-      title
+      value: id
+      label: title
     }
   }
   ${PlayerSkillFragment}

@@ -13,7 +13,7 @@ export type QueryVariableSetter = (key: string, value: any) => void;
 
 export interface PlayerAggregates {
   skillCategories: { name: string }[];
-  playerTypes: { id: number; title: string }[];
+  playerTypes: { value: string; label: string }[];
   skillChoices: CategoryOption[];
 }
 
@@ -36,7 +36,10 @@ const usePlayerAggregates = () => {
   const skillChoices = useMemo(() => parseSkills(data?.skill || []), [data]);
   return {
     skillCategories: data?.skill_aggregate.nodes || [],
-    playerTypes: data?.player_type || [],
+    playerTypes: (data?.player_type || []).map(({ value, label }) => ({
+      value: value.toString(),
+      label,
+    })),
     skillChoices,
   };
 };

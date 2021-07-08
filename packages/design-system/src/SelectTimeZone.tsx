@@ -1,5 +1,6 @@
 /* istanbul ignore file */
-import React from 'react';
+import cityTimezones from 'city-timezones';
+import React, { useCallback, useState } from 'react';
 import { Styles } from 'react-select';
 import TimezoneSelect, { TimezoneSelectProps } from 'react-timezone-select';
 import { i18nTimezones } from 'react-timezone-select/dist/index.js';
@@ -9,8 +10,12 @@ import informal from 'spacetime-informal';
 import { theme } from './theme';
 
 export type TimezoneType = {
-  id: string;
+  value: string;
+  title: string;
   label: string;
+  offset: number;
+  abbrev: string;
+  altName: string;
 };
 
 export const TimezoneOptions: TimezoneType[] = Object.entries(
@@ -21,11 +26,13 @@ export const TimezoneOptions: TimezoneType[] = Object.entries(
   const tzStrings = informal.display(zone[0]);
 
   let abbrev = zone[0];
+  let altName = zone[0];
 
   if (tzStrings && tzStrings.daylight && tzStrings.standard) {
     abbrev = now.isDST()
       ? tzStrings.daylight.abbrev
       : tzStrings.standard.abbrev;
+    altName = now.isDST() ? tzStrings.daylight.name : tzStrings.standard.name;
   }
 
   const min = tz.current.offset * 60;
@@ -35,8 +42,12 @@ export const TimezoneOptions: TimezoneType[] = Object.entries(
   const label = `${prefix} ${abbrev.length < 5 ? `(${abbrev})` : ''}`;
 
   return {
-    id: zone[0],
+    value: zone[0],
+    title: zone[1],
     label,
+    offset: tz.current.offset,
+    abbrev,
+    altName,
   };
 });
 
@@ -76,6 +87,47 @@ const selectStyles: Styles = {
   }),
 };
 
-export const SelectTimeZone: React.FC<TimezoneSelectProps> = (props) => (
-  <TimezoneSelect styles={selectStyles} {...props} />
-);
+export const filterTimezones = (
+  searchText: string,
+  filteredTimezones: string[],
+) => ({ value, title, label, abbrev, altName }: TimezoneType): boolean =>
+  value.toLowerCase().includes(searchText) ||
+  title.toLowerCase().includes(searchText) ||
+  label.toLowerCase().includes(searchText) ||
+  abbrev.toLowerCase().includes(searchText) ||
+  altName.toLowerCase().includes(searchText) ||
+  filteredTimezones.includes(value);
+
+export const getTimezonesFor = (searchText: string): string[] =>
+  cityTimezones
+    .findFromCityStateProvince(searchText)
+    .map(({ timezone }) => timezone);
+
+export const SelectTimeZone: React.FC<TimezoneSelectProps> = ({ ...props }) => {
+  const [options, setOptions] = useState(TimezoneOptions);
+
+  const onInputChange = useCallback((value: string) => {
+    if (!value) {
+      setOptions(TimezoneOptions);
+    } else {
+      const searchText = value.toLowerCase().trim();
+      const filteredTimezones = getTimezonesFor(searchText);
+      setOptions(
+        TimezoneOptions.filter(filterTimezones(searchText, filteredTimezones)),
+      );
+    }
+  }, []);
+
+  return (
+    <TimezoneSelect
+      styles={selectStyles}
+      filterOption={null}
+      onInputChange={onInputChange}
+      timezones={options.reduce(
+        (t, { value, title }) => ({ ...t, [value]: title }),
+        {},
+      )}
+      {...props}
+    />
+  );
+};
