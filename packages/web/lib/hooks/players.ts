@@ -193,7 +193,7 @@ const usePaginatedPlayers = (
       return;
     }
     if (shouldAppend.current) {
-      setPlayers((_players) => [..._players, ...fetchedPlayers]);
+      setPlayers((p) => [...p, ...fetchedPlayers]);
       shouldAppend.current = false;
     } else {
       setPlayers(fetchedPlayers);
