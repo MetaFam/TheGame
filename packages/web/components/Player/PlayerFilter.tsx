@@ -29,6 +29,7 @@ import {
   QueryVariableSetter,
   useFiltersUsed,
 } from 'lib/hooks/players';
+import { useIsSticky } from 'lib/hooks/useIsSticky';
 import React, { useEffect, useRef, useState } from 'react';
 import { SkillOption } from 'utils/skillHelpers';
 
@@ -124,23 +125,10 @@ export const PlayerFilter: React.FC<Props> = ({
 
   const filtersUsed = useFiltersUsed(queryVariables);
   const isSearchUsed = queryVariables.search !== '%%';
-  const searchText =
-    queryVariables.search?.substr(1, queryVariables.search.length - 2) || '';
+  const searchText = queryVariables.search?.slice(1, -1) || '';
 
-  const [isElementSticky, setIsSticky] = useState<boolean>(false);
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const cachedRef = ref.current as Element;
-    const observer = new IntersectionObserver(
-      ([e]) => setIsSticky(e.intersectionRatio < 1),
-      { threshold: [1] },
-    );
-
-    observer.observe(cachedRef);
-
-    return () => observer.unobserve(cachedRef);
-  }, []);
+  const filterRef = useRef<HTMLDivElement>(null);
+  const isElementSticky = useIsSticky(filterRef);
 
   const isSmallScreen = useBreakpointValue({ base: true, md: false });
   const isSticky = !isSmallScreen && isElementSticky;
@@ -227,12 +215,12 @@ export const PlayerFilter: React.FC<Props> = ({
         w={isSticky ? 'calc(100% + 6rem)' : '100%'}
         maxW={isSticky ? 'auto' : '79rem'}
         transition="all 0.25s"
-        bg={isElementSticky ? 'purpleTag70' : 'whiteAlpha.200'}
+        bg={isSticky ? 'purpleTag70' : 'whiteAlpha.200'}
         py="6"
         px={isSticky ? '4.5rem' : '1.5rem'}
         style={{ backdropFilter: 'blur(7px)' }}
         borderRadius={isSticky ? '0px' : '6px'}
-        ref={ref}
+        ref={filterRef}
         position={isSmallScreen ? 'relative' : 'sticky'}
         top="-1px"
         borderTop="1px solid transparent"
@@ -378,7 +366,7 @@ export const PlayerFilter: React.FC<Props> = ({
           </Button>
         </Flex>
       )}
-      {(fetchingMore ? totalCount > 0 : !fetching) && (
+      {(fetchingMore || !fetching) && (
         <Flex justify="space-between" w="100%" maxW="80rem" px="4">
           <Text fontWeight="bold" fontSize="xl" w="100%" maxW="79rem">
             {`${totalCount} player${totalCount === 1 ? '' : 's'}`}

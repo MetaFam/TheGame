@@ -6,6 +6,7 @@ import { HeadComponent } from 'components/Seo';
 import { getSsrClient } from 'graphql/client';
 import { getPlayerFilters, getPlayersWithCount } from 'graphql/getPlayers';
 import { usePlayerFilter } from 'lib/hooks/players';
+import { useOnScreen } from 'lib/hooks/useOnScreen';
 import { InferGetStaticPropsType } from 'next';
 import React, { useCallback, useEffect, useRef } from 'react';
 
@@ -47,25 +48,16 @@ const Players: React.FC<Props> = () => {
 
   const loaderRef = useRef<HTMLDivElement>(null);
 
-  const loadMore = useCallback(
-    (entries) => {
-      if (entries[0].isIntersecting) {
-        nextPage();
-      }
-    },
-    [nextPage],
-  );
+  const onScreen = useOnScreen(loaderRef);
+
+  const loadMore = useCallback(() => {
+    if (onScreen && !fetching) {
+      nextPage();
+    }
+  }, [nextPage, fetching, onScreen]);
 
   useEffect(() => {
-    const cachedRef = loaderRef.current as Element;
-
-    const observer = new IntersectionObserver(loadMore, {
-      threshold: 0.25,
-      rootMargin: '100%',
-    });
-    observer.observe(cachedRef);
-
-    return () => observer.unobserve(cachedRef);
+    loadMore();
   }, [loadMore]);
 
   return (
