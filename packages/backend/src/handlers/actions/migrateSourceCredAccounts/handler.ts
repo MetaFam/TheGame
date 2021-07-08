@@ -47,13 +47,16 @@ const parseAlias = (alias: SCAlias) => {
 };
 
 export const migrateSourceCredAccounts = async (
-  _: Request,
+  req: Request,
   res: Response,
 ): Promise<void> => {
   const ledgerRes = await ledgerManager.reloadLedger();
   if (ledgerRes.error) {
     throw new Error(`Unable to load ledger: ${ledgerRes.error}`);
   }
+
+  const force = req.query.force != null;
+  console.log(`Updating players from sourcecred. Force-insert? ${force}`);
 
   const accountsData: SCAccountsData = await (
     await fetch(Constants.SC_ACCOUNTS_FILE)
@@ -102,7 +105,6 @@ export const migrateSourceCredAccounts = async (
       async (player) => {
         const vars = {
           ethAddress: player.ethereum_address,
-          identityId: player.scIdentityId,
           rank: player.rank,
           totalXp: player.totalXp,
           discordId: player.discordId,
@@ -110,15 +112,35 @@ export const migrateSourceCredAccounts = async (
 
         try {
           const updateResult = await client.UpdatePlayer(vars);
-          const affected = updateResult.update_player?.affected_rows;
+
+          let playerId: string;
+          let affected = updateResult.update_player?.affected_rows;
+
           if (affected === 0) {
-            return player;
+            if (!force) {
+              return player;
+            }
+
+            // 'force' indicates we should insert new players if they don't already exist.
+            const upsertResult = await client.InsertPlayers({
+              objects: [
+                {
+                  username: player.ethereum_address,
+                  ethereum_address: player.ethereum_address,
+                  rank: player.rank,
+                  total_xp: player.totalXp,
+                },
+              ],
+            });
+            affected = upsertResult.insert_player?.affected_rows;
+            playerId = upsertResult.insert_player?.returning[0]?.id;
+          } else {
+            playerId = updateResult.update_player?.returning[0]?.id;
           }
           if (affected && affected > 1) {
             throw new Error('Multiple players updated incorrectly');
           }
 
-          const playerId = updateResult.update_player?.returning[0]?.id;
           if (playerId) {
             try {
               await client.UpsertAccount({
@@ -150,7 +172,8 @@ export const migrateSourceCredAccounts = async (
 
     res.json({
       numSkipped: usersSkipped.length,
-      numUpdated: accountList.length - usersSkipped.length,
+      [force ? 'numInserted' : 'numUpdated']:
+        accountList.length - usersSkipped.length,
     });
   } catch (e) {
     console.warn('Error migrating players/accounts', e.message);
