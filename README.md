@@ -52,7 +52,7 @@ are running you can run the following command to populate the database with
 the initial dataset:
 
 ```shell script
-curl -X POST http://localhost:4000/actions/migrateSourceCredAccounts
+curl -X POST http://localhost:4000/actions/migrateSourceCredAccounts?force=true
 ```
 
 **Rebuild backend services**
