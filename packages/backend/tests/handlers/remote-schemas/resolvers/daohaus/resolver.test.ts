@@ -33,15 +33,11 @@ describe('getDaoHausMemberships', () => {
 
     const members = [{ moloch: {} }];
 
-    const ethGraph = nock('https://api.thegraph.com:443')
+    const graphs = nock('https://api.thegraph.com:443')
       .post('/subgraphs/name/odyssy-automaton/daohaus')
-      .reply(200, { data: { members } });
-
-    const xdaiGraph = nock('https://api.thegraph.com:443')
+      .reply(200, { data: { members } })
       .post('/subgraphs/name/odyssy-automaton/daohaus-xdai')
-      .reply(200, { data: { members } });
-
-    const polygonGraph = nock('https://api.thegraph.com:443')
+      .reply(200, { data: { members } })
       .post('/subgraphs/name/odyssy-automaton/daohaus-matic')
       .reply(200, { data: { members } });
 
@@ -55,18 +51,14 @@ describe('getDaoHausMemberships', () => {
     expect(result).toContainEqual({
       moloch: moloch('ethereum'),
     });
-
     expect(result).toContainEqual({
       moloch: moloch('xdai'),
     });
-
     expect(result).toContainEqual({
       moloch: moloch('polygon'),
     });
 
-    expect(ethGraph.isDone()).toBeTruthy();
-    expect(xdaiGraph.isDone()).toBeTruthy();
-    expect(polygonGraph.isDone()).toBeTruthy();
+    expect(graphs.isDone()).toBeTruthy();
   });
 
   it('should gracefully handle failure', async () => {
@@ -74,15 +66,11 @@ describe('getDaoHausMemberships', () => {
 
     const members = [{ moloch: {} }];
 
-    const ethGraph = nock('https://api.thegraph.com:443')
+    const graphs = nock('https://api.thegraph.com:443')
       .post('/subgraphs/name/odyssy-automaton/daohaus')
-      .reply(200, { data: { members } });
-
-    const xdaiGraph = nock('https://api.thegraph.com:443')
+      .reply(200, { data: { members } })
       .post('/subgraphs/name/odyssy-automaton/daohaus-xdai')
-      .reply(400, { error: {} });
-
-    const polygonGraph = nock('https://api.thegraph.com:443')
+      .reply(400, { errors: [{ message: 'Subgraph unavailable' }] })
       .post('/subgraphs/name/odyssy-automaton/daohaus-matic')
       .reply(200, { data: { members } });
 
@@ -105,8 +93,27 @@ describe('getDaoHausMemberships', () => {
       moloch: moloch('polygon'),
     });
 
-    expect(ethGraph.isDone()).toBeTruthy();
-    expect(xdaiGraph.isDone()).toBeTruthy();
-    expect(polygonGraph.isDone()).toBeTruthy();
+    expect(graphs.isDone()).toBeTruthy();
+  });
+
+  it('should return an empty array when all dao subgraphs fail', async () => {
+    const membershipResolver = mockResolver(getDaoHausMemberships);
+
+    const graphs = nock('https://api.thegraph.com:443')
+      .post('/subgraphs/name/odyssy-automaton/daohaus')
+      .reply(400, { errors: [{ message: 'Subgraph unavailable' }] })
+      .post('/subgraphs/name/odyssy-automaton/daohaus-xdai')
+      .reply(400, { errors: [{ message: 'Subgraph unavailable' }] })
+      .post('/subgraphs/name/odyssy-automaton/daohaus-matic')
+      .reply(400, { errors: [{ message: 'Subgraph unavailable' }] });
+
+    const result = await membershipResolver(
+      {},
+      { memberAddress: VALID_ADDRESS },
+    );
+
+    expect(result).toStrictEqual([]);
+
+    expect(graphs.isDone()).toBeTruthy();
   });
 });
