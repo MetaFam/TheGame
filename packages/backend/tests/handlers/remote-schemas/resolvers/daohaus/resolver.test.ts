@@ -20,6 +20,8 @@ function mockResolver<TResult, TParent, TContext, TArgs>(
 // NOTE for integration tests, this address always needs to be part of at least one dao
 const VALID_ADDRESS = '0xb53b0255895c4f9e3a185e484e5b674bccfbc076';
 
+const matchingMoloch = (chain: string) => expect.objectContaining({ chain });
+
 describe('getDaoHausMemberships', () => {
   it('should return an empty array when no wallet address passed', async () => {
     const membershipResolver = mockResolver(getDaoHausMemberships);
@@ -46,16 +48,14 @@ describe('getDaoHausMemberships', () => {
       { memberAddress: VALID_ADDRESS },
     );
 
-    const moloch = (chain: string) => expect.objectContaining({ chain });
-
     expect(result).toContainEqual({
-      moloch: moloch('ethereum'),
+      moloch: matchingMoloch('ethereum'),
     });
     expect(result).toContainEqual({
-      moloch: moloch('xdai'),
+      moloch: matchingMoloch('xdai'),
     });
     expect(result).toContainEqual({
-      moloch: moloch('polygon'),
+      moloch: matchingMoloch('polygon'),
     });
 
     expect(graphs.isDone()).toBeTruthy();
@@ -69,28 +69,25 @@ describe('getDaoHausMemberships', () => {
     const graphs = nock('https://api.thegraph.com:443')
       .post('/subgraphs/name/odyssy-automaton/daohaus')
       .reply(200, { data: { members } })
-      .post('/subgraphs/name/odyssy-automaton/daohaus-xdai')
-      .reply(400, { errors: [{ message: 'Subgraph unavailable' }] })
       .post('/subgraphs/name/odyssy-automaton/daohaus-matic')
-      .reply(200, { data: { members } });
+      .reply(200, { data: { members } })
+      .post('/subgraphs/name/odyssy-automaton/daohaus-xdai')
+      .reply(400, { errors: [{ message: 'Subgraph unavailable' }] });
 
     const result = await membershipResolver(
       {},
       { memberAddress: VALID_ADDRESS },
     );
 
-    const moloch = (chain: string) => expect.objectContaining({ chain });
-
     expect(result).toContainEqual({
-      moloch: moloch('ethereum'),
+      moloch: matchingMoloch('ethereum'),
+    });
+    expect(result).toContainEqual({
+      moloch: matchingMoloch('polygon'),
     });
 
     expect(result).not.toContainEqual({
-      moloch: moloch('xdai'),
-    });
-
-    expect(result).toContainEqual({
-      moloch: moloch('polygon'),
+      moloch: matchingMoloch('xdai'),
     });
 
     expect(graphs.isDone()).toBeTruthy();
