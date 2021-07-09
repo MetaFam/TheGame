@@ -38,7 +38,7 @@ export const getDaoHausMemberships: QueryResolvers['getDaoHausMemberships'] = as
 
   const members: Member[] = memberships.reduce((allMembers, chainMembers) => {
     if (chainMembers.status === 'rejected') {
-      console.error('Pulling memberships failed:', chainMembers.reason);
+      console.warn('Pulling memberships failed:', chainMembers.reason);
       return allMembers;
     }
 
