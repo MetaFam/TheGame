@@ -9,6 +9,7 @@ export const typeDefs = gql`
     getBrightIdStatus(contextId: uuid): BrightIdStatus
     getTokenBalances(address: String): TokenBalances
     getTopPSeedHolders(limit: Int): [TokenBalances!]
+    getGuildDiscordRoles(guildDiscordId: String): [DiscordRole!]!
   }
 
   type BrightIdStatus {
@@ -63,5 +64,11 @@ export const typeDefs = gql`
     id: ID!
     seedBalance: String!
     pSeedBalance: String!
+  }
+
+  type DiscordRole {
+    id: String!
+    position: Int!
+    name: String!
   }
 `;

@@ -5,6 +5,7 @@ import {
   GetGuildnamesQueryVariables,
   GetGuildsQuery,
   GetGuildsQueryVariables,
+  GuildStatus_Enum,
 } from './autogen/types';
 import { client } from './client';
 import { GuildFragment } from './fragments';
@@ -35,16 +36,17 @@ export const getGuilds = async (limit = 50) => {
 };
 
 const guildnamesQuery = gql`
-  query GetGuildnames($limit: Int) {
-    guild(where: { status: { _eq: ACTIVE } }, limit: $limit) {
+  query GetGuildnames($status: GuildStatus_enum, $limit: Int) {
+    guild(where: { status: { _eq: $status } }, limit: $limit) {
       guildname
     }
   }
 `;
 
-export const getGuildnames = async (limit = 50) => {
+export const getGuildnames = async (status = GuildStatus_Enum.Active, limit = 50) => {
   const { data, error } = await client
     .query<GetGuildnamesQuery, GetGuildnamesQueryVariables>(guildnamesQuery, {
+      status,
       limit,
     })
     .toPromise();

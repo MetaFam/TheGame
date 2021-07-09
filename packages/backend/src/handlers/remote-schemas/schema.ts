@@ -2,6 +2,7 @@ import { makeExecutableSchema } from 'graphql-tools';
 
 import { getBrightIdStatus } from './resolvers/brightId/resolver';
 import { getDaoHausMemberships } from './resolvers/daohaus/resolver';
+import { getGuildDiscordRoles } from './resolvers/discord/resolver';
 import { getBoxProfile } from './resolvers/getBoxProfile/resolver';
 import {
   getTokenBalances,
@@ -17,6 +18,7 @@ const resolvers = {
     getBrightIdStatus,
     getTokenBalances,
     getTopPSeedHolders,
+    getGuildDiscordRoles,
   },
   uuid,
 };

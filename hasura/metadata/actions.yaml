@@ -2,7 +2,7 @@ actions:
 - name: authenticateDiscordGuild
   definition:
     kind: synchronous
-    handler: '{{ACTION_BASE_ENDPOINT}}/guild/discordAuth'
+    handler: '{{ACTION_BASE_ENDPOINT}}/guild/discord/auth'
     forward_client_headers: true
   permissions:
   - role: player

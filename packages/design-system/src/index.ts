@@ -12,6 +12,7 @@ export {
 export { MetaHeading } from './MetaHeading';
 export { MetaTag } from './MetaTag';
 export { MetaTile, MetaTileBody, MetaTileHeader } from './MetaTile';
+export { MultiSelect } from './MultiSelect';
 export { ResponsiveText } from './ResponsiveText';
 export { SelectComponents, SelectSearch, selectStyles } from './SelectSearch';
 export {
@@ -59,6 +60,7 @@ export {
   Fade,
   Flex,
   FlexProps,
+  FormHelperText,
   Grid,
   GridItem,
   Heading,

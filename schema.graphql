@@ -586,6 +586,12 @@ type DiscordGuildAuthResponse {
   success: Boolean!
 }
 
+type DiscordRole {
+  id: String!
+  name: String!
+  position: Int!
+}
+
 """
 columns and relationships of "guild"
 """
@@ -595,10 +601,6 @@ type guild {
   description: String
   discord_id: String
   discord_invite_url: String
-  discord_metadata(
-    """JSON select path"""
-    path: String
-  ): jsonb
   github_url: String
 
   """An array relationship"""
@@ -946,11 +948,6 @@ input guild_aggregate_order_by {
   min: guild_min_order_by
 }
 
-"""append existing jsonb value of filtered columns with new jsonb value"""
-input guild_append_input {
-  discord_metadata: jsonb
-}
-
 """
 input type for inserting array relation for remote table "guild"
 """
@@ -970,7 +967,6 @@ input guild_bool_exp {
   description: String_comparison_exp
   discord_id: String_comparison_exp
   discord_invite_url: String_comparison_exp
-  discord_metadata: jsonb_comparison_exp
   github_url: String_comparison_exp
   guild_accounts: guild_account_bool_exp
   guild_players: guild_player_bool_exp
@@ -1002,28 +998,6 @@ enum guild_constraint {
 }
 
 """
-delete the field or element with specified path (for JSON arrays, negative integers count from the end)
-"""
-input guild_delete_at_path_input {
-  discord_metadata: [String]
-}
-
-"""
-delete the array element with specified index (negative integers count from the
-end). throws an error if top level container is not an array
-"""
-input guild_delete_elem_input {
-  discord_metadata: Int
-}
-
-"""
-delete key/value pair or string element. key/value pairs are matched based on their key value
-"""
-input guild_delete_key_input {
-  discord_metadata: String
-}
-
-"""
 input type for inserting data into table "guild"
 """
 input guild_insert_input {
@@ -1031,7 +1005,6 @@ input guild_insert_input {
   description: String
   discord_id: String
   discord_invite_url: String
-  discord_metadata: jsonb
   github_url: String
   guild_accounts: guild_account_arr_rel_insert_input
   guild_players: guild_player_arr_rel_insert_input
@@ -1080,6 +1053,256 @@ input guild_max_order_by {
   name: order_by
   twitter_url: order_by
   website_url: order_by
+}
+
+"""
+Used to hold private information for guilds
+
+
+columns and relationships of "guild_metadata"
+
+"""
+type guild_metadata {
+  creator_id: uuid!
+
+  """Remote relationship field"""
+  discordRoles: [DiscordRole!]!
+  discord_id: String!
+  discord_metadata(
+    """JSON select path"""
+    path: String
+  ): jsonb
+
+  """An object relationship"""
+  guild: guild!
+  guild_id: uuid!
+
+  """An object relationship"""
+  player: player!
+}
+
+"""
+aggregated selection of "guild_metadata"
+"""
+type guild_metadata_aggregate {
+  aggregate: guild_metadata_aggregate_fields
+  nodes: [guild_metadata!]!
+}
+
+"""
+aggregate fields of "guild_metadata"
+"""
+type guild_metadata_aggregate_fields {
+  count(columns: [guild_metadata_select_column!], distinct: Boolean): Int
+  max: guild_metadata_max_fields
+  min: guild_metadata_min_fields
+}
+
+"""
+order by aggregate values of table "guild_metadata"
+"""
+input guild_metadata_aggregate_order_by {
+  count: order_by
+  max: guild_metadata_max_order_by
+  min: guild_metadata_min_order_by
+}
+
+"""append existing jsonb value of filtered columns with new jsonb value"""
+input guild_metadata_append_input {
+  discord_metadata: jsonb
+}
+
+"""
+input type for inserting array relation for remote table "guild_metadata"
+"""
+input guild_metadata_arr_rel_insert_input {
+  data: [guild_metadata_insert_input!]!
+  on_conflict: guild_metadata_on_conflict
+}
+
+"""
+Boolean expression to filter rows from the table "guild_metadata". All fields are combined with a logical 'AND'.
+"""
+input guild_metadata_bool_exp {
+  _and: [guild_metadata_bool_exp]
+  _not: guild_metadata_bool_exp
+  _or: [guild_metadata_bool_exp]
+  creator_id: uuid_comparison_exp
+  discord_id: String_comparison_exp
+  discord_metadata: jsonb_comparison_exp
+  guild: guild_bool_exp
+  guild_id: uuid_comparison_exp
+  player: player_bool_exp
+}
+
+"""
+unique or primary key constraints on table "guild_metadata"
+"""
+enum guild_metadata_constraint {
+  """unique or primary key constraint"""
+  guild_metadata_pkey
+}
+
+"""
+delete the field or element with specified path (for JSON arrays, negative integers count from the end)
+"""
+input guild_metadata_delete_at_path_input {
+  discord_metadata: [String]
+}
+
+"""
+delete the array element with specified index (negative integers count from the
+end). throws an error if top level container is not an array
+"""
+input guild_metadata_delete_elem_input {
+  discord_metadata: Int
+}
+
+"""
+delete key/value pair or string element. key/value pairs are matched based on their key value
+"""
+input guild_metadata_delete_key_input {
+  discord_metadata: String
+}
+
+"""
+input type for inserting data into table "guild_metadata"
+"""
+input guild_metadata_insert_input {
+  creator_id: uuid
+  discord_id: String
+  discord_metadata: jsonb
+  guild: guild_obj_rel_insert_input
+  guild_id: uuid
+  player: player_obj_rel_insert_input
+}
+
+"""aggregate max on columns"""
+type guild_metadata_max_fields {
+  creator_id: uuid
+  discord_id: String
+  guild_id: uuid
+}
+
+"""
+order by max() on columns of table "guild_metadata"
+"""
+input guild_metadata_max_order_by {
+  creator_id: order_by
+  discord_id: order_by
+  guild_id: order_by
+}
+
+"""aggregate min on columns"""
+type guild_metadata_min_fields {
+  creator_id: uuid
+  discord_id: String
+  guild_id: uuid
+}
+
+"""
+order by min() on columns of table "guild_metadata"
+"""
+input guild_metadata_min_order_by {
+  creator_id: order_by
+  discord_id: order_by
+  guild_id: order_by
+}
+
+"""
+response of any mutation on the table "guild_metadata"
+"""
+type guild_metadata_mutation_response {
+  """number of affected rows by the mutation"""
+  affected_rows: Int!
+
+  """data of the affected rows by the mutation"""
+  returning: [guild_metadata!]!
+}
+
+"""
+input type for inserting object relation for remote table "guild_metadata"
+"""
+input guild_metadata_obj_rel_insert_input {
+  data: guild_metadata_insert_input!
+  on_conflict: guild_metadata_on_conflict
+}
+
+"""
+on conflict condition type for table "guild_metadata"
+"""
+input guild_metadata_on_conflict {
+  constraint: guild_metadata_constraint!
+  update_columns: [guild_metadata_update_column!]!
+  where: guild_metadata_bool_exp
+}
+
+"""
+ordering options when selecting data from "guild_metadata"
+"""
+input guild_metadata_order_by {
+  creator_id: order_by
+  discord_id: order_by
+  discord_metadata: order_by
+  guild: guild_order_by
+  guild_id: order_by
+  player: player_order_by
+}
+
+"""
+primary key columns input for table: "guild_metadata"
+"""
+input guild_metadata_pk_columns_input {
+  guild_id: uuid!
+}
+
+"""prepend existing jsonb value of filtered columns with new jsonb value"""
+input guild_metadata_prepend_input {
+  discord_metadata: jsonb
+}
+
+"""
+select columns of table "guild_metadata"
+"""
+enum guild_metadata_select_column {
+  """column name"""
+  creator_id
+
+  """column name"""
+  discord_id
+
+  """column name"""
+  discord_metadata
+
+  """column name"""
+  guild_id
+}
+
+"""
+input type for updating data in table "guild_metadata"
+"""
+input guild_metadata_set_input {
+  creator_id: uuid
+  discord_id: String
+  discord_metadata: jsonb
+  guild_id: uuid
+}
+
+"""
+update columns of table "guild_metadata"
+"""
+enum guild_metadata_update_column {
+  """column name"""
+  creator_id
+
+  """column name"""
+  discord_id
+
+  """column name"""
+  discord_metadata
+
+  """column name"""
+  guild_id
 }
 
 """aggregate min on columns"""
@@ -1152,7 +1375,6 @@ input guild_order_by {
   description: order_by
   discord_id: order_by
   discord_invite_url: order_by
-  discord_metadata: order_by
   github_url: order_by
   guild_accounts_aggregate: guild_account_aggregate_order_by
   guild_players_aggregate: guild_player_aggregate_order_by
@@ -1358,11 +1580,6 @@ enum guild_player_update_column {
   player_id
 }
 
-"""prepend existing jsonb value of filtered columns with new jsonb value"""
-input guild_prepend_input {
-  discord_metadata: jsonb
-}
-
 """
 select columns of table "guild"
 """
@@ -1375,9 +1592,6 @@ enum guild_select_column {
 
   """column name"""
   discord_invite_url
-
-  """column name"""
-  discord_metadata
 
   """column name"""
   github_url
@@ -1420,7 +1634,6 @@ input guild_set_input {
   description: String
   discord_id: String
   discord_invite_url: String
-  discord_metadata: jsonb
   github_url: String
   guildname: String
   id: uuid
@@ -1446,9 +1659,6 @@ enum guild_update_column {
 
   """column name"""
   discord_invite_url
-
-  """column name"""
-  discord_metadata
 
   """column name"""
   github_url
@@ -2266,6 +2476,19 @@ type mutation_root {
   delete_guild_by_pk(id: uuid!): guild
 
   """
+  delete data from the table: "guild_metadata"
+  """
+  delete_guild_metadata(
+    """filter the rows which have to be deleted"""
+    where: guild_metadata_bool_exp!
+  ): guild_metadata_mutation_response
+
+  """
+  delete single row from the table: "guild_metadata"
+  """
+  delete_guild_metadata_by_pk(guild_id: uuid!): guild_metadata
+
+  """
   delete data from the table: "guild_player"
   """
   delete_guild_player(
@@ -2615,6 +2838,28 @@ type mutation_root {
     """on conflict condition"""
     on_conflict: guild_account_on_conflict
   ): guild_account
+
+  """
+  insert data into the table: "guild_metadata"
+  """
+  insert_guild_metadata(
+    """the rows to be inserted"""
+    objects: [guild_metadata_insert_input!]!
+
+    """on conflict condition"""
+    on_conflict: guild_metadata_on_conflict
+  ): guild_metadata_mutation_response
+
+  """
+  insert a single row into the table: "guild_metadata"
+  """
+  insert_guild_metadata_one(
+    """the row to be inserted"""
+    object: guild_metadata_insert_input!
+
+    """on conflict condition"""
+    on_conflict: guild_metadata_on_conflict
+  ): guild_metadata
 
   """
   insert a single row into the table: "guild"
@@ -3041,28 +3286,6 @@ type mutation_root {
   update data of the table: "guild"
   """
   update_guild(
-    """append existing jsonb value of filtered columns with new jsonb value"""
-    _append: guild_append_input
-
-    """
-    delete the field or element with specified path (for JSON arrays, negative integers count from the end)
-    """
-    _delete_at_path: guild_delete_at_path_input
-
-    """
-    delete the array element with specified index (negative integers count from
-    the end). throws an error if top level container is not an array
-    """
-    _delete_elem: guild_delete_elem_input
-
-    """
-    delete key/value pair or string element. key/value pairs are matched based on their key value
-    """
-    _delete_key: guild_delete_key_input
-
-    """prepend existing jsonb value of filtered columns with new jsonb value"""
-    _prepend: guild_prepend_input
-
     """sets the columns of the filtered rows to the given values"""
     _set: guild_set_input
 
@@ -3094,32 +3317,74 @@ type mutation_root {
   update single row of the table: "guild"
   """
   update_guild_by_pk(
+    """sets the columns of the filtered rows to the given values"""
+    _set: guild_set_input
+    pk_columns: guild_pk_columns_input!
+  ): guild
+
+  """
+  update data of the table: "guild_metadata"
+  """
+  update_guild_metadata(
     """append existing jsonb value of filtered columns with new jsonb value"""
-    _append: guild_append_input
+    _append: guild_metadata_append_input
 
     """
     delete the field or element with specified path (for JSON arrays, negative integers count from the end)
     """
-    _delete_at_path: guild_delete_at_path_input
+    _delete_at_path: guild_metadata_delete_at_path_input
 
     """
     delete the array element with specified index (negative integers count from
     the end). throws an error if top level container is not an array
     """
-    _delete_elem: guild_delete_elem_input
+    _delete_elem: guild_metadata_delete_elem_input
 
     """
     delete key/value pair or string element. key/value pairs are matched based on their key value
     """
-    _delete_key: guild_delete_key_input
+    _delete_key: guild_metadata_delete_key_input
 
     """prepend existing jsonb value of filtered columns with new jsonb value"""
-    _prepend: guild_prepend_input
+    _prepend: guild_metadata_prepend_input
 
     """sets the columns of the filtered rows to the given values"""
-    _set: guild_set_input
-    pk_columns: guild_pk_columns_input!
-  ): guild
+    _set: guild_metadata_set_input
+
+    """filter the rows which have to be updated"""
+    where: guild_metadata_bool_exp!
+  ): guild_metadata_mutation_response
+
+  """
+  update single row of the table: "guild_metadata"
+  """
+  update_guild_metadata_by_pk(
+    """append existing jsonb value of filtered columns with new jsonb value"""
+    _append: guild_metadata_append_input
+
+    """
+    delete the field or element with specified path (for JSON arrays, negative integers count from the end)
+    """
+    _delete_at_path: guild_metadata_delete_at_path_input
+
+    """
+    delete the array element with specified index (negative integers count from
+    the end). throws an error if top level container is not an array
+    """
+    _delete_elem: guild_metadata_delete_elem_input
+
+    """
+    delete key/value pair or string element. key/value pairs are matched based on their key value
+    """
+    _delete_key: guild_metadata_delete_key_input
+
+    """prepend existing jsonb value of filtered columns with new jsonb value"""
+    _prepend: guild_metadata_prepend_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: guild_metadata_set_input
+    pk_columns: guild_metadata_pk_columns_input!
+  ): guild_metadata
 
   """
   update data of the table: "guild_player"
@@ -3451,7 +3716,7 @@ type player {
   """Remote relationship field"""
   daohausMemberships: [Member!]!
   discord_id: String
-  ethereum_address: String
+  ethereum_address: String!
 
   """An array relationship"""
   guilds(
@@ -4943,6 +5208,7 @@ type Query {
   getBoxProfile(address: String): BoxProfile
   getBrightIdStatus(contextId: uuid): BrightIdStatus
   getDaoHausMemberships(memberAddress: String): [Member!]!
+  getGuildDiscordRoles(guildDiscordId: String): [DiscordRole!]!
   getTokenBalances(address: String): TokenBalances
   getTopPSeedHolders(limit: Int): [TokenBalances!]
 }
@@ -5340,6 +5606,7 @@ type query_root {
   getBoxProfile(address: String): BoxProfile
   getBrightIdStatus(contextId: uuid): BrightIdStatus
   getDaoHausMemberships(memberAddress: String): [Member!]!
+  getGuildDiscordRoles(guildDiscordId: String): [DiscordRole!]!
   getTokenBalances(address: String): TokenBalances
   getTopPSeedHolders(limit: Int): [TokenBalances!]
 
@@ -5428,6 +5695,49 @@ type query_root {
 
   """fetch data from the table: "guild" using primary key columns"""
   guild_by_pk(id: uuid!): guild
+
+  """
+  fetch data from the table: "guild_metadata"
+  """
+  guild_metadata(
+    """distinct select on columns"""
+    distinct_on: [guild_metadata_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [guild_metadata_order_by!]
+
+    """filter the rows returned"""
+    where: guild_metadata_bool_exp
+  ): [guild_metadata!]!
+
+  """
+  fetch aggregated fields from the table: "guild_metadata"
+  """
+  guild_metadata_aggregate(
+    """distinct select on columns"""
+    distinct_on: [guild_metadata_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [guild_metadata_order_by!]
+
+    """filter the rows returned"""
+    where: guild_metadata_bool_exp
+  ): guild_metadata_aggregate!
+
+  """fetch data from the table: "guild_metadata" using primary key columns"""
+  guild_metadata_by_pk(guild_id: uuid!): guild_metadata
 
   """
   fetch data from the table: "guild_player"
@@ -8368,6 +8678,49 @@ type subscription_root {
 
   """fetch data from the table: "guild" using primary key columns"""
   guild_by_pk(id: uuid!): guild
+
+  """
+  fetch data from the table: "guild_metadata"
+  """
+  guild_metadata(
+    """distinct select on columns"""
+    distinct_on: [guild_metadata_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [guild_metadata_order_by!]
+
+    """filter the rows returned"""
+    where: guild_metadata_bool_exp
+  ): [guild_metadata!]!
+
+  """
+  fetch aggregated fields from the table: "guild_metadata"
+  """
+  guild_metadata_aggregate(
+    """distinct select on columns"""
+    distinct_on: [guild_metadata_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [guild_metadata_order_by!]
+
+    """filter the rows returned"""
+    where: guild_metadata_bool_exp
+  ): guild_metadata_aggregate!
+
+  """fetch data from the table: "guild_metadata" using primary key columns"""
+  guild_metadata_by_pk(guild_id: uuid!): guild_metadata
 
   """
   fetch data from the table: "guild_player"
