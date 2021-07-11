@@ -75,6 +75,7 @@ export const GuildFragment = gql`
     moloch_address
     name
     type
+    position
     website_url
     github_url
     twitter_url

@@ -24,6 +24,9 @@ export const GuildHero: React.FC<Props> = ({ guild }) => (
         <Text fontFamily="mono" fontSize="md" color="blueLight">
           {`${guild.type} GUILD`}
         </Text>
+        <Text fontFamily="mono" fontSize="md">
+          {`${guild.position} GUILD`}
+        </Text>
       </Box>
       <Box>
         <Text>{guild.description}</Text>
