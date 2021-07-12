@@ -20850,10 +20850,10 @@ next-transpile-modules@7.2.0:
     enhanced-resolve "^5.7.0"
     escalade "^3.1.1"
 
-next-urql@3.1.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/next-urql/-/next-urql-3.1.0.tgz#9c354cfd54cdf886988a2cb1ea0fd89f48ee7555"
-  integrity sha512-darSfxLqtC6mIsWxtTGvD9HdY1ABZwfB28AORPUhPFn1QNE8zaVQUtWydPa9ekgE7HC5ydTSkl4pDniUS2G8uw==
+next-urql@3.1.1:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/next-urql/-/next-urql-3.1.1.tgz#eed270b740d1e5dca2f55e52309f8a42591cb1cd"
+  integrity sha512-IkspufSuCOoSkkfuElgyz6HNhxY/W4SsU4LhUH1xbcOWwiPZJN4ppTL0ebbqcOURwFDEc1oOmQMbQ2gyH0czeQ==
   dependencies:
     react-ssr-prepass "^1.4.0"
 
