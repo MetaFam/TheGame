@@ -1930,6 +1930,15 @@
     "@types/tinycolor2" "1.4.2"
     tinycolor2 "1.4.2"
 
+"@chakra-ui/theme-tools@1.1.8":
+  version "1.1.8"
+  resolved "https://registry.yarnpkg.com/@chakra-ui/theme-tools/-/theme-tools-1.1.8.tgz#cc04947aaf5f553db84a32ba6c742f1fbc726f9b"
+  integrity sha512-FQqHNfuvl2O1m7o6YY3ozqxnz74TWAhVzzfKrh7/eXcyA2IkF+MuKMUnyWXjOq1bcLt9rAGq0FQALisTd4YPWQ==
+  dependencies:
+    "@chakra-ui/utils" "1.8.1"
+    "@types/tinycolor2" "1.4.2"
+    tinycolor2 "1.4.2"
+
 "@chakra-ui/theme@1.9.0":
   version "1.9.0"
   resolved "https://registry.yarnpkg.com/@chakra-ui/theme/-/theme-1.9.0.tgz#667ddaf1c042b1c2ad22fc3b70fa0697c5f54fac"
@@ -1970,10 +1979,20 @@
   dependencies:
     "@chakra-ui/utils" "1.8.0"
 
-"@chakra-ui/utils@1.8.0", "@chakra-ui/utils@^1.7.0":
+"@chakra-ui/utils@1.8.0":
   version "1.8.0"
   resolved "https://registry.yarnpkg.com/@chakra-ui/utils/-/utils-1.8.0.tgz#f7aad8175cc5a26a1d2795dc78691bbc21fd539e"
   integrity sha512-BWIhKcXnLbOIwCTKeNcOStNwk9RyYVA9xRRFPGK6Kp3EhrxP0rDwAbu4D3o3qAc+yhIDhGmPaIj1jRXHB5DTfg==
+  dependencies:
+    "@types/lodash.mergewith" "4.6.6"
+    css-box-model "1.2.1"
+    framesync "5.3.0"
+    lodash.mergewith "4.6.2"
+
+"@chakra-ui/utils@1.8.1", "@chakra-ui/utils@^1.7.0":
+  version "1.8.1"
+  resolved "https://registry.yarnpkg.com/@chakra-ui/utils/-/utils-1.8.1.tgz#9778e4e8776da0ed4dc0051755d79002d2f21ec2"
+  integrity sha512-v0xL9U2ozDbHCl2kQTdJNOjUGT7ZjyFwEYuMW02ZaLkmLPj2w3G592iOsJ9Z9sBemQgoOrZGyTWqdxm6rhxJug==
   dependencies:
     "@types/lodash.mergewith" "4.6.6"
     css-box-model "1.2.1"
