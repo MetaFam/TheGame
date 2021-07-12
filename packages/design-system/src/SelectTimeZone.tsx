@@ -28,11 +28,15 @@ export const TimezoneOptions: TimezoneType[] = Object.entries(
   let abbrev = zone[0];
   let altName = zone[0];
 
-  if (tzStrings && tzStrings.daylight && tzStrings.standard) {
-    abbrev = now.isDST()
-      ? tzStrings.daylight.abbrev
-      : tzStrings.standard.abbrev;
-    altName = now.isDST() ? tzStrings.daylight.name : tzStrings.standard.name;
+  if (tzStrings && tzStrings.standard) {
+    abbrev =
+      now.isDST() && tzStrings.daylight
+        ? tzStrings.daylight.abbrev
+        : tzStrings.standard.abbrev;
+    altName =
+      now.isDST() && tzStrings.daylight
+        ? tzStrings.daylight.name
+        : tzStrings.standard.name;
   }
 
   const min = tz.current.offset * 60;
