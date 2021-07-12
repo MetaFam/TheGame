@@ -34,8 +34,6 @@
     "react-hook-form": "6.15.5",
     "react-icons": "4.2.0",
     "react-qr-svg": "2.3.0",
-    "spacetime": "6.16.1",
-    "spacetime-informal": "0.6.1",
     "urql": "2.0.2",
     "web3modal": "1.9.3"
   }
