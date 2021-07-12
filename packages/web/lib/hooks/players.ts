@@ -44,7 +44,15 @@ const usePlayerAggregates = () => {
   };
 };
 
-const useFilteredPlayers = (variables: GetPlayersQueryVariables) => {
+const useFilteredPlayers = (queryVariables: GetPlayersQueryVariables) => {
+  const [variables, setVariables] = useState<GetPlayersQueryVariables>(
+    defaultQueryVariables,
+  );
+
+  useEffect(() => {
+    setVariables(queryVariables);
+  }, [queryVariables]);
+
   const [{ fetching, data, error }] = useGetPlayersQuery({
     variables,
   });
@@ -60,10 +68,6 @@ export const usePlayerFilter = (
     queryVariables,
     setQueryVariables,
   ] = useState<GetPlayersQueryVariables>(defaultVariables);
-
-  useEffect(() => {
-    setQueryVariables(defaultVariables);
-  }, [defaultVariables]);
 
   const aggregates = usePlayerAggregates();
 
@@ -199,9 +203,7 @@ const usePaginatedPlayers = (
       if (error || !shouldAppend.current) {
         setPlayers([]);
       }
-      return;
-    }
-    if (shouldAppend.current) {
+    } else if (shouldAppend.current) {
       setPlayers((p) => [...p, ...fetchedPlayers]);
       shouldAppend.current = false;
     } else {
