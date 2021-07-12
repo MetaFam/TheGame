@@ -56,7 +56,7 @@ export const AdjascentTimezonePlayers: React.FC<Props> = ({
   }, [loadMore]);
 
   return (
-    <>
+    <VStack w="100%" spacing={{ base: '4', md: '8' }}>
       {error ? <Text>{`Error: ${error.message}`}</Text> : null}
       {!error && players.length && (fetchingMore || !fetching) ? (
         <>
@@ -67,9 +67,9 @@ export const AdjascentTimezonePlayers: React.FC<Props> = ({
             px="4"
             align="center"
           >
-            <Text fontWeight="bold" fontSize="xl" w="100%" maxW="79rem" mb="8">
-              {totalCount} player{totalCount === 1 ? '' : 's'} in adjacent time
-              zones
+            <Text fontWeight="bold" fontSize="xl" w="100%" maxW="79rem">
+              Found {totalCount} player{totalCount === 1 ? '' : 's'} in adjacent
+              time zones
             </Text>
           </Flex>
           <PlayerList players={players} />
@@ -82,6 +82,6 @@ export const AdjascentTimezonePlayers: React.FC<Props> = ({
           <Text color="white">No more players available</Text>
         )}
       </VStack>
-    </>
+    </VStack>
   );
 };
