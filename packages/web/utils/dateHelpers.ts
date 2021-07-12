@@ -1,6 +1,5 @@
+import { TimezoneOptions } from '@metafam/ds';
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
-import spacetime from 'spacetime';
-import { display } from 'spacetime-informal';
 
 export interface TimeZoneDisplay {
   timeZone?: string;
@@ -12,21 +11,17 @@ export const getPlayerTimeZoneDisplay = (
 ): TimeZoneDisplay => {
   let tzLabel;
   let offsetLabel;
-  if (player?.timezone) {
-    const timeZone = spacetime.now().goto(player.timezone);
-    const tzDisplay = display(player.timezone);
-    if (tzDisplay && tzDisplay.daylight && tzDisplay.standard) {
-      tzLabel = timeZone.isDST()
-        ? tzDisplay.daylight.abbrev
-        : tzDisplay.standard.abbrev;
-      const { offset } = timeZone.timezone().current;
+  const timezone = TimezoneOptions.find((t) => t.value === player?.timezone);
+  if (timezone) {
+    const { abbrev, offset, value } = timezone;
+    tzLabel = value;
+    if (abbrev.length < 5) {
+      tzLabel = abbrev;
       if (offset > 0) {
         offsetLabel = `(GMT +${offset})`;
       } else if (offset < 0) {
         offsetLabel = `(GMT ${offset})`;
       }
-    } else {
-      tzLabel = player.timezone;
     }
   }
 

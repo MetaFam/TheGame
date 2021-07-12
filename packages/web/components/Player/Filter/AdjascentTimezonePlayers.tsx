@@ -3,10 +3,33 @@ import { PlayerList } from 'components/Player/PlayerList';
 import { GetPlayersQueryVariables } from 'graphql/autogen/types';
 import { usePlayerFilter } from 'lib/hooks/players';
 import { useOnScreen } from 'lib/hooks/useOnScreen';
-import React, { useCallback, useEffect, useMemo, useRef } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 type Props = {
   queryVariables: GetPlayersQueryVariables;
+};
+
+const getAdjacentTimezoneQueryVariables = (
+  defaultQueryVariables: GetPlayersQueryVariables,
+): GetPlayersQueryVariables => {
+  const timezoneValue = defaultQueryVariables.timezones
+    ? defaultQueryVariables.timezones[0]
+    : undefined;
+  const timezone = TimezoneOptions.find((t) => t.value === timezoneValue);
+  const adjascentTimezones = timezone
+    ? TimezoneOptions.filter(
+        (t) =>
+          Math.abs(t.offset - timezone.offset) <= 4 &&
+          t.value !== timezoneValue,
+      )
+        .sort((a, b) => (a.offset < b.offset ? -1 : 1))
+        .map((t) => t.value)
+    : [];
+  return {
+    ...defaultQueryVariables,
+    offset: 0,
+    timezones: adjascentTimezones,
+  };
 };
 
 export const AdjascentTimezonePlayers: React.FC<Props> = ({
@@ -14,24 +37,9 @@ export const AdjascentTimezonePlayers: React.FC<Props> = ({
 }) => {
   const moreRef = useRef<HTMLDivElement>(null);
 
-  const queryVariables = useMemo(() => {
-    const timezoneValue = defaultQueryVariables.timezones
-      ? defaultQueryVariables.timezones[0]
-      : undefined;
-    const timezone = TimezoneOptions.find((t) => t.value === timezoneValue);
-    const adjascentTimezones = timezone
-      ? TimezoneOptions.filter(
-          (t) =>
-            Math.abs(t.offset - timezone.offset) <= 4 &&
-            t.value !== timezoneValue,
-        ).sort((a, b) => (a.offset < b.offset ? -1 : 1))
-      : [];
-    return {
-      ...defaultQueryVariables,
-      offset: 0,
-      timezones: adjascentTimezones.map((t) => t.value),
-    };
-  }, [defaultQueryVariables]);
+  const [queryVariables] = useState(
+    getAdjacentTimezoneQueryVariables(defaultQueryVariables),
+  );
 
   const onScreen = useOnScreen(moreRef);
 
@@ -45,18 +53,24 @@ export const AdjascentTimezonePlayers: React.FC<Props> = ({
     moreAvailable,
   } = usePlayerFilter(queryVariables);
 
-  const loadMore = useCallback(() => {
-    if (onScreen && !fetching && !fetchingMore && moreAvailable) {
+  useEffect(() => {
+    if (onScreen) {
       nextPage();
     }
-  }, [nextPage, fetching, fetchingMore, onScreen, moreAvailable]);
+  }, [nextPage, onScreen]);
 
-  useEffect(() => {
-    loadMore();
-  }, [loadMore]);
+  const isLoading = useMemo(() => fetching || fetchingMore || moreAvailable, [
+    fetching,
+    fetchingMore,
+    moreAvailable,
+  ]);
 
   return (
-    <VStack w="100%" spacing={{ base: '4', md: '8' }}>
+    <VStack
+      w="100%"
+      spacing={{ base: '4', md: '8' }}
+      pt={{ base: '4', md: '8' }}
+    >
       {error ? <Text>{`Error: ${error.message}`}</Text> : null}
       {!error && players.length && (fetchingMore || !fetching) ? (
         <>
@@ -76,11 +90,10 @@ export const AdjascentTimezonePlayers: React.FC<Props> = ({
         </>
       ) : null}
       <VStack w="100%" ref={moreRef}>
-        {fetching || fetchingMore || moreAvailable ? (
-          <LoadingState color="white" />
-        ) : (
+        {isLoading ? <LoadingState color="white" /> : null}
+        {!isLoading && totalCount > 0 ? (
           <Text color="white">No more players available</Text>
-        )}
+        ) : null}
       </VStack>
     </VStack>
   );

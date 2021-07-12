@@ -10,7 +10,7 @@ import { getPlayerFilters, getPlayersWithCount } from 'graphql/getPlayers';
 import { usePlayerFilter } from 'lib/hooks/players';
 import { useOnScreen } from 'lib/hooks/useOnScreen';
 import { InferGetStaticPropsType } from 'next';
-import React, { useCallback, useEffect, useMemo, useRef } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
@@ -52,15 +52,17 @@ const Players: React.FC<Props> = () => {
 
   const onScreen = useOnScreen(moreRef);
 
-  const loadMore = useCallback(() => {
-    if (onScreen && !fetching && !fetchingMore && moreAvailable) {
+  useEffect(() => {
+    if (onScreen) {
       nextPage();
     }
-  }, [nextPage, fetching, fetchingMore, moreAvailable, onScreen]);
+  }, [nextPage, onScreen]);
 
-  useEffect(() => {
-    loadMore();
-  }, [loadMore]);
+  const isLoading = useMemo(() => fetching || fetchingMore || moreAvailable, [
+    fetching,
+    fetchingMore,
+    moreAvailable,
+  ]);
 
   return (
     <PageContainer>
@@ -85,7 +87,7 @@ const Players: React.FC<Props> = () => {
         ) : null}
         <MorePlayers
           ref={moreRef}
-          fetching={fetching || fetchingMore || moreAvailable}
+          fetching={isLoading}
           totalCount={totalCount}
           queryVariables={queryVariables}
         />
@@ -108,6 +110,7 @@ const MorePlayers = React.forwardRef<HTMLDivElement, MorePlayersProps>(
       () => queryVariables.timezones && queryVariables.timezones.length > 0,
       [queryVariables],
     );
+
     return (
       <VStack w="100%" ref={ref}>
         {fetching ? (
