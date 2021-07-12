@@ -110,14 +110,19 @@ const MorePlayers = React.forwardRef<HTMLDivElement, MorePlayersProps>(
     );
     return (
       <VStack w="100%" ref={ref}>
-        {fetching ? <LoadingState color="white" /> : null}
-        {!fetching && !isTimezoneSelected ? (
+        {fetching ? (
+          <LoadingState color="white" />
+        ) : (
           <Text color="white">
             {totalCount > 0
-              ? 'No more players available'
-              : 'There were no matches'}
+              ? `No more players available${
+                  isTimezoneSelected ? ' in this time zone' : ''
+                }`
+              : `There were no matches${
+                  isTimezoneSelected ? ' for this time zone' : ''
+                }`}
           </Text>
-        ) : null}
+        )}
         {!fetching && isTimezoneSelected ? (
           <AdjascentTimezonePlayers queryVariables={queryVariables} />
         ) : null}
