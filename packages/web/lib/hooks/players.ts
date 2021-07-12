@@ -53,11 +53,17 @@ const useFilteredPlayers = (variables: GetPlayersQueryVariables) => {
   return { fetching, players, totalCount, error };
 };
 
-export const usePlayerFilter = (): PlayerFilter => {
+export const usePlayerFilter = (
+  defaultVariables: GetPlayersQueryVariables = defaultQueryVariables,
+): PlayerFilter => {
   const [
     queryVariables,
     setQueryVariables,
-  ] = useState<GetPlayersQueryVariables>(defaultQueryVariables);
+  ] = useState<GetPlayersQueryVariables>(defaultVariables);
+
+  useEffect(() => {
+    setQueryVariables(defaultVariables);
+  }, [defaultVariables]);
 
   const aggregates = usePlayerAggregates();
 

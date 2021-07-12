@@ -231,10 +231,12 @@ export const MobileFilters: React.FC<Props> = ({
           <FilterContent
             value={timezones}
             onChange={(value) => {
-              setTimezones(value as ValueType[]);
+              const values = value as ValueType[];
+              setTimezones(values.slice(-1));
             }}
             options={TimezoneOptions}
             onBack={onBack}
+            isMulti={false}
             showSearch
             isTimezone
           />

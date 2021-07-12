@@ -1,14 +1,16 @@
 import { LoadingState, Text, VStack } from '@metafam/ds';
 import { PageContainer } from 'components/Container';
+import { AdjascentTimezonePlayers } from 'components/Player/Filter/AdjascentTimezonePlayers';
 import { PlayerFilter } from 'components/Player/Filter/PlayerFilter';
 import { PlayerList } from 'components/Player/PlayerList';
 import { HeadComponent } from 'components/Seo';
+import { GetPlayersQueryVariables } from 'graphql/autogen/types';
 import { getSsrClient } from 'graphql/client';
 import { getPlayerFilters, getPlayersWithCount } from 'graphql/getPlayers';
 import { usePlayerFilter } from 'lib/hooks/players';
 import { useOnScreen } from 'lib/hooks/useOnScreen';
 import { InferGetStaticPropsType } from 'next';
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
@@ -46,15 +48,15 @@ const Players: React.FC<Props> = () => {
     moreAvailable,
   } = usePlayerFilter();
 
-  const loaderRef = useRef<HTMLDivElement>(null);
+  const moreRef = useRef<HTMLDivElement>(null);
 
-  const onScreen = useOnScreen(loaderRef);
+  const onScreen = useOnScreen(moreRef);
 
   const loadMore = useCallback(() => {
-    if (onScreen && !fetching) {
+    if (onScreen && !fetching && !fetchingMore && moreAvailable) {
       nextPage();
     }
-  }, [nextPage, fetching, onScreen]);
+  }, [nextPage, fetching, fetchingMore, moreAvailable, onScreen]);
 
   useEffect(() => {
     loadMore();
@@ -77,24 +79,49 @@ const Players: React.FC<Props> = () => {
           resetFilter={resetFilter}
           totalCount={totalCount}
         />
-        {error && <Text>{`Error: ${error.message}`}</Text>}
-        {!error && players.length && (fetchingMore || !fetching) && (
+        {error ? <Text>{`Error: ${error.message}`}</Text> : null}
+        {!error && players.length && (fetchingMore || !fetching) ? (
           <PlayerList players={players} />
-        )}
-        <VStack ref={loaderRef} w="100%">
-          {fetching || fetchingMore || moreAvailable ? (
-            <LoadingState color="white" />
-          ) : (
-            <Text color="white">
-              {totalCount > 0
-                ? 'No more players available'
-                : 'There were no matches'}
-            </Text>
-          )}
-        </VStack>
+        ) : null}
+        <MorePlayers
+          ref={moreRef}
+          fetching={fetching || fetchingMore || moreAvailable}
+          totalCount={totalCount}
+          queryVariables={queryVariables}
+        />
       </VStack>
     </PageContainer>
   );
 };
 
 export default Players;
+
+type MorePlayersProps = {
+  fetching: boolean;
+  totalCount: number;
+  queryVariables: GetPlayersQueryVariables;
+};
+
+const MorePlayers = React.forwardRef<HTMLDivElement, MorePlayersProps>(
+  ({ fetching, totalCount, queryVariables }, ref) => {
+    const isTimezoneSelected = useMemo(
+      () => queryVariables.timezones && queryVariables.timezones.length > 0,
+      [queryVariables],
+    );
+    return (
+      <VStack w="100%" ref={ref}>
+        {fetching ? <LoadingState color="white" /> : null}
+        {!fetching && !isTimezoneSelected ? (
+          <Text color="white">
+            {totalCount > 0
+              ? 'No more players available'
+              : 'There were no matches'}
+          </Text>
+        ) : null}
+        {!fetching && isTimezoneSelected ? (
+          <AdjascentTimezonePlayers queryVariables={queryVariables} />
+        ) : null}
+      </VStack>
+    );
+  },
+);

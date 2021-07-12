@@ -150,7 +150,8 @@ export const DesktopFilters: React.FC<Props> = ({
           styles={styles}
           value={timezones}
           onChange={(value) => {
-            setTimezones(value as ValueType[]);
+            const values = value as ValueType[];
+            setTimezones(values.slice(-1));
           }}
           options={TimezoneOptions}
           showSearch
