@@ -9,22 +9,24 @@ type Props = {
 };
 
 export const PlayerTimeZone: React.FC<Props> = ({ player }) => {
-  const tzDisplay = useMemo(() => getPlayerTimeZoneDisplay(player), [player]);
+  const tzDisplay = useMemo(() => getPlayerTimeZoneDisplay(player.timezone), [
+    player.timezone,
+  ]);
 
   return (
-    <Box ml={1}>
+    <Box ml={1} pr={4}>
       <Text fontSize="xs" color="blueLight" casing="uppercase" mb={3}>
         time zone
       </Text>
       <HStack alignItems="baseline">
-        <FaGlobe color="blueLight" />
-        <Text fontSize="xl" mb="1">
+        <Box width="1rem">
+          <FaGlobe color="blueLight" />
+        </Box>
+        <Text fontSize={{ base: 'md', sm: 'lg' }}>
           {tzDisplay?.timeZone || '-'}
         </Text>
         {tzDisplay?.offset ? (
-          <Text fontSize="xs" mr={3}>
-            {tzDisplay?.offset}
-          </Text>
+          <Text fontSize={{ base: 'xs', sm: 'sm' }}>{tzDisplay?.offset}</Text>
         ) : (
           ''
         )}

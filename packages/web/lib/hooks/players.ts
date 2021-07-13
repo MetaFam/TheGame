@@ -44,23 +44,36 @@ const usePlayerAggregates = () => {
   };
 };
 
-const useFilteredPlayers = (variables: GetPlayersQueryVariables) => {
+const useFilteredPlayers = (queryVariables: GetPlayersQueryVariables) => {
+  const [variables, setVariables] = useState<GetPlayersQueryVariables>(
+    defaultQueryVariables,
+  );
+
+  useEffect(() => {
+    setVariables(queryVariables);
+  }, [queryVariables]);
+
   const [{ fetching, data, error }] = useGetPlayersQuery({
     variables,
   });
+
   const players = data?.player || [];
   const totalCount = data?.player_aggregate.aggregate?.count || 0;
+
   return { fetching, players, totalCount, error };
 };
 
-export const usePlayerFilter = (): PlayerFilter => {
+export const usePlayerFilter = (
+  defaultVariables: GetPlayersQueryVariables = defaultQueryVariables,
+): PlayerFilter => {
   const [
     queryVariables,
     setQueryVariables,
-  ] = useState<GetPlayersQueryVariables>(defaultQueryVariables);
+  ] = useState<GetPlayersQueryVariables>(defaultVariables);
 
   const aggregates = usePlayerAggregates();
 
+  const shouldAppend = useRef(false);
   const setQueryVariable: QueryVariableSetter = useCallback(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (key: string, value: any) => {
@@ -73,6 +86,7 @@ export const usePlayerFilter = (): PlayerFilter => {
         offset: 0,
         [key]: value !== '' ? value : null,
       }));
+      shouldAppend.current = key === 'offset';
     },
     [],
   );
@@ -80,19 +94,35 @@ export const usePlayerFilter = (): PlayerFilter => {
   const resetFilter = () => setQueryVariables(defaultQueryVariables);
 
   const {
-    players,
+    fetchedPlayers,
     fetching,
-    fetchingMore,
     error,
     nextPage,
     totalCount,
     moreAvailable,
   } = usePaginatedPlayers(queryVariables, setQueryVariable);
 
+  const [players, setPlayers] = useState<PlayerFragmentFragment[]>(
+    fetchedPlayers,
+  );
+
+  useEffect(() => {
+    if (error || fetching) {
+      if (error || !shouldAppend.current) {
+        setPlayers([]);
+      }
+    } else if (shouldAppend.current) {
+      setPlayers((p) => [...p, ...fetchedPlayers]);
+      shouldAppend.current = false;
+    } else {
+      setPlayers(fetchedPlayers);
+    }
+  }, [fetchedPlayers, fetching, error]);
+
   return {
     players,
     fetching,
-    fetchingMore,
+    fetchingMore: shouldAppend.current,
     error,
     aggregates,
     queryVariables,
@@ -167,15 +197,11 @@ const usePaginatedPlayers = (
     [currentOffset, itemsPerPage],
   );
 
-  const shouldAppend = useRef(false);
-
   const nextPage = useCallback(() => {
-    if (currentPage < maxPage && !fetching && !shouldAppend.current) {
-      shouldAppend.current = true;
+    if (currentPage < maxPage && !fetching) {
       setQueryVariable('offset', currentOffset + itemsPerPage);
     }
   }, [
-    shouldAppend,
     fetching,
     setQueryVariable,
     currentOffset,
@@ -184,32 +210,12 @@ const usePaginatedPlayers = (
     maxPage,
   ]);
 
-  const [players, setPlayers] = useState<PlayerFragmentFragment[]>(
-    fetchedPlayers,
-  );
-
-  useEffect(() => {
-    if (error || fetching) {
-      if (error || !shouldAppend.current) {
-        setPlayers([]);
-      }
-      return;
-    }
-    if (shouldAppend.current) {
-      setPlayers((p) => [...p, ...fetchedPlayers]);
-      shouldAppend.current = false;
-    } else {
-      setPlayers(fetchedPlayers);
-    }
-  }, [fetchedPlayers, fetching, error]);
-
   return {
     nextPage,
-    players,
+    fetchedPlayers,
     totalCount,
     fetching,
     error,
-    fetchingMore: shouldAppend.current,
     moreAvailable: currentPage < maxPage,
   };
 };

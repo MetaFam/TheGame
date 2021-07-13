@@ -242,6 +242,16 @@ export const PlayerFilter: React.FC<Props> = ({
                 />
               </WrapItem>
             ))}
+            {availability && (
+              <WrapItem>
+                <FilterTag
+                  label={`Available >${availability.value} h/week`}
+                  onRemove={() => {
+                    setAvailability(null);
+                  }}
+                />
+              </WrapItem>
+            )}
             {timezones.map(({ value, label }, index) => (
               <WrapItem key={value}>
                 <FilterTag
@@ -254,16 +264,6 @@ export const PlayerFilter: React.FC<Props> = ({
                 />
               </WrapItem>
             ))}
-            {availability && (
-              <WrapItem>
-                <FilterTag
-                  label={`Available >${availability.value} h/week`}
-                  onRemove={() => {
-                    setAvailability(null);
-                  }}
-                />
-              </WrapItem>
-            )}
           </Wrap>
           <Button
             variant="link"
@@ -281,8 +281,8 @@ export const PlayerFilter: React.FC<Props> = ({
         <Flex
           justify="space-between"
           w="100%"
-          maxW="80rem"
-          px="4"
+          maxW="79rem"
+          pr="4"
           align="center"
         >
           <Text fontWeight="bold" fontSize="xl" w="100%" maxW="79rem">
