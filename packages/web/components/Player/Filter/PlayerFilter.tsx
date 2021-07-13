@@ -282,7 +282,7 @@ export const PlayerFilter: React.FC<Props> = ({
           justify="space-between"
           w="100%"
           maxW="80rem"
-          px="4"
+          pr="4"
           align="center"
         >
           <Text fontWeight="bold" fontSize="xl" w="100%" maxW="79rem">
