@@ -9,7 +9,9 @@ type Props = {
 };
 
 export const PlayerTimeZone: React.FC<Props> = ({ player }) => {
-  const tzDisplay = useMemo(() => getPlayerTimeZoneDisplay(player), [player]);
+  const tzDisplay = useMemo(() => getPlayerTimeZoneDisplay(player.timezone), [
+    player.timezone,
+  ]);
 
   return (
     <Box ml={1}>
