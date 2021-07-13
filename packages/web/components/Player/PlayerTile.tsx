@@ -89,12 +89,7 @@ export const PlayerTile: React.FC<Props> = ({ player }) => (
         </VStack>
       ) : null}
 
-      {player.daohausMemberships.length ? (
-        <VStack spacing={2} align="stretch">
-          <Text textStyle="caption">MEMBER OF</Text>
-          <PlayerTileMemberships player={player} />
-        </VStack>
-      ) : null}
+      <PlayerTileMemberships player={player} />
 
       {player.Accounts.length ? (
         <VStack spacing={2} align="stretch">

@@ -13,7 +13,7 @@ import {
   useDisclosure,
 } from '@metafam/ds';
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
-import React, { useState } from 'react';
+import React, { useMemo } from 'react';
 import { isBackdropFilterSupported } from 'utils/compatibilityHelpers';
 
 import polygonImage from '../../../assets/chains/polygon.png';
@@ -37,38 +37,47 @@ const getImageMoloch = (title: string) => {
   return ethereumImage;
 };
 
-type LinkDaoProps = {
-  chain: string;
-  address: string;
-  setIsLink: React.Dispatch<React.SetStateAction<boolean>>;
+const getHexChainId = (chain: string | undefined): string => {
+  switch (chain?.toLowerCase()) {
+    case 'xdai':
+      return '0x64';
+    case 'ethereum':
+      return '0x1';
+    case 'polygon':
+      return '0x89';
+    default:
+      return '';
+  }
 };
 
-const LinkDao: React.FC<LinkDaoProps> = ({
-  chain,
-  address,
-  setIsLink,
-  children,
-}) => {
-  let explorerUrl;
-  if (chain.toLowerCase() === 'xdai')
-    explorerUrl = `https://blockscout.com/xdai/mainnet/address/${address}`;
-  else if (chain.toLowerCase() === 'ethereum')
-    explorerUrl = `https://etherscan.io/address/${address}`;
-  else return <>{children}</>;
+const getDaoLink = (
+  chain: string | undefined,
+  address: string | undefined,
+): string => {
+  const hexChainId = getHexChainId(chain);
+  if (address && hexChainId) {
+    return `https://app.daohaus.club/dao/${hexChainId}/${address.toLowerCase()}`;
+  }
+  return '';
+};
 
-  setIsLink(true);
+type LinkDaoProps = {
+  daoUrl: string;
+};
 
-  return (
+const LinkDao: React.FC<LinkDaoProps> = ({ daoUrl, children }) =>
+  daoUrl ? (
     <Link
       role="group"
       _hover={{ textDecoration: 'none' }}
-      href={explorerUrl}
+      href={daoUrl}
       isExternal
     >
       {children}
     </Link>
+  ) : (
+    <>{children}</>
   );
-};
 
 type DaoListingProps = {
   memberId: string;
@@ -90,17 +99,18 @@ const DaoListing: React.FC<DaoListingProps> = ({
   chain,
   address,
 }) => {
-  let message;
-  if (memberXp !== undefined) {
-    message = `XP: ${Math.floor(memberXp || 0)}`;
-  } else {
-    message = `Shares: ${memberShares}/${daoShares}`;
-  }
+  const message = useMemo(
+    () =>
+      memberXp
+        ? `XP: ${Math.floor(memberXp || 0)}`
+        : `Shares: ${memberShares}/${daoShares}`,
+    [memberShares, memberXp, daoShares],
+  );
 
-  const [isLink, setIsLink] = useState(false);
+  const daoUrl = useMemo(() => getDaoLink(chain, address), [chain, address]);
 
   return (
-    <LinkDao chain={chain || ''} address={address || ''} setIsLink={setIsLink}>
+    <LinkDao daoUrl={daoUrl}>
       <HStack alignItems="center" mb={6}>
         <Flex bg="purpleBoxLight" width={16} height={16} mr={6}>
           <Box
@@ -117,7 +127,7 @@ const DaoListing: React.FC<DaoListingProps> = ({
             fontWeight="bold"
             textTransform="uppercase"
             fontSize="xs"
-            color={isLink ? 'cyanText' : 'white'}
+            color={daoUrl ? 'cyanText' : 'white'}
             mb="1"
           >
             {title || `Unknown ${chain} DAO`}
