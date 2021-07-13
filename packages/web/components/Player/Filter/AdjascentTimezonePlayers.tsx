@@ -78,7 +78,7 @@ export const AdjascentTimezonePlayers: React.FC<Props> = ({
           <Flex
             justify="space-between"
             w="100%"
-            maxW="80rem"
+            maxW="79rem"
             pr="4"
             align="center"
             pb={{ base: 4, md: 0 }}

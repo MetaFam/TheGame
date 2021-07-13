@@ -5,6 +5,7 @@ import React from 'react';
 export const PlayersNotFound: React.FC = () => (
   <VStack
     w="100%"
+    maxW="79rem"
     p={{ base: 8, md: 16 }}
     spacing={{ base: 4, md: 6 }}
     color="white"

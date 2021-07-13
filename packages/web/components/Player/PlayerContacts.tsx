@@ -8,9 +8,13 @@ import { formatAddress } from 'utils/playerHelpers';
 
 type Props = {
   player: PlayerFragmentFragment;
+  disableBrightId?: boolean;
 };
 
-export const PlayerContacts: React.FC<Props> = ({ player }) => {
+export const PlayerContacts: React.FC<Props> = ({
+  player,
+  disableBrightId = false,
+}) => {
   const { verified } = useBrightIdStatus({ player });
   const [copied, handleCopy] = useCopyToClipboard();
   return (
@@ -77,7 +81,7 @@ export const PlayerContacts: React.FC<Props> = ({ player }) => {
           </Tooltip>
         </WrapItem>
       ) : null}
-      {verified ? (
+      {verified && !disableBrightId ? (
         <WrapItem>
           <Tooltip label="Verified on BrightID" closeOnClick={false} hasArrow>
             <Button
