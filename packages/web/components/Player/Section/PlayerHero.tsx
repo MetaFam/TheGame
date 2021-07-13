@@ -48,7 +48,7 @@ export const PlayerHero: React.FC<Props> = ({ player }) => {
           <PlayerBrightId player={player} />
         </Box>
         <Box>
-          <Text>
+          <Text fontSize={{ base: 'sm', sm: 'md' }}>
             {show
               ? description
               : `${description.substring(0, MAX_BIO_LENGTH - 9)}…`}
@@ -100,7 +100,7 @@ export const PlayerHero: React.FC<Props> = ({ player }) => {
           </Flex>
         )}
         {player.playerType?.title && (
-          <FlexContainer align="stretch">
+          <FlexContainer align="stretch" fontSize={{ base: 'sm', sm: 'md' }}>
             <Text color="white" fontWeight="bold" casing="uppercase">
               {player.playerType.title}
             </Text>
