@@ -30,7 +30,9 @@ type Props = {
 };
 
 export const PlayerTile: React.FC<Props> = ({ player }) => {
-  const tzDisplay = useMemo(() => getPlayerTimeZoneDisplay(player), [player]);
+  const tzDisplay = useMemo(() => getPlayerTimeZoneDisplay(player.timezone), [
+    player.timezone,
+  ]);
   return (
     <MetaTile>
       <Box
