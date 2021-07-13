@@ -22,19 +22,69 @@ import {
 import Image from 'next/image';
 import React from 'react';
 
-const SectionLinks = ({ sections }: { sections: any }) => (
-  <Flex className="section-links" display={['none', 'none', 'none', 'flex']}>
+const XPStar = '/assets/xp-star.png';
+const SeedMarket = '/assets/seed-market.png';
+
+const Logo = () => (
+  <Box
+    className="logo"
+    flex="1"
+    minW={{ base: 'auto', lg: '20%' }}
+    mt="auto"
+    mb="auto"
+  >
+    <Image src="/assets/logo.png" height={44} width={36} />
+  </Box>
+);
+
+type MenuItemProps = {
+  title: any;
+  url: any;
+};
+
+const DesktopMenuItem = ({ title, url, explainerText }: MenuItemProps) => (
+  <MenuItem color="#000" p={7} key={title}>
+    <Link
+      display="flex"
+      alignItems="top"
+      href={url}
+      _hover={{ bg: 'none', textDecoration: 'none' }}
+    >
+      <Avatar
+        name="alt text"
+        src="https://bit.ly/tioluwani-kolawole"
+        mr={5}
+        width={24}
+        height={24}
+      />
+      <Box>
+        <Text fontSize="xl" fontWeight="700">
+          {title}
+        </Text>
+        <Text font="IBM Plex Sans">{explainerText}</Text>
+      </Box>
+    </Link>
+  </MenuItem>
+);
+
+const DesktopMenus = ({ sections }: { sections: any }) => (
+  <Flex
+    className="section-links"
+    display={{ base: 'none', lg: 'flex' }}
+    minW={{ base: 'auto', lg: '20%' }}
+    alignContent="center"
+  >
     {sections.map((section: any) => (
       <>
         {section.menuItems ? (
-          <Menu>
+          <Menu key={section.label}>
             {({ isOpen }) => (
               <>
                 <MenuButton
                   as={Button}
                   variant="link"
                   color="#ffffff"
-                  fontSize="xl"
+                  fontSize={['md', 'md', 'md', 'lg']}
                   fontWeight="600"
                   textTransform="uppercase"
                   ml={23}
@@ -57,27 +107,11 @@ const SectionLinks = ({ sections }: { sections: any }) => (
                     p={7}
                   >
                     {section.menuItems.map((item: any) => (
-                      <MenuItem
-                        color="#000"
-                        display="flex"
-                        alignItems="top"
-                        p={7}
-                        key={item.title}
-                      >
-                        <Avatar
-                          name="Icon"
-                          src="https://bit.ly/dan-abramov"
-                          mr={5}
-                          width={24}
-                          height={24}
-                        />
-                        <Box>
-                          <Text fontSize="xl" fontWeight="700">
-                            {item.title}
-                          </Text>
-                          <Text font="IBM Plex Sans">{item.explainerText}</Text>
-                        </Box>
-                      </MenuItem>
+                      <DesktopMenuItem
+                        title={item.title}
+                        url={item.url}
+                        explainerText={item.explainerText}
+                      />
                     ))}
                   </MenuList>
                 ) : (
@@ -88,30 +122,11 @@ const SectionLinks = ({ sections }: { sections: any }) => (
                     p={7}
                   >
                     {section.menuItems.map((item: any) => (
-                      <MenuItem
-                        color="#000"
-                        display="flex"
-                        alignItems="top"
-                        _first={{ pt: '7', pb: '6' }}
-                        _even={{ pt: '6', pb: '6' }}
-                        _last={{ pt: '6', pb: '7' }}
-                        pl={7}
-                        key={item.title}
-                      >
-                        <Avatar
-                          name="Icon"
-                          src="https://bit.ly/dan-abramov"
-                          mr={5}
-                          width={24}
-                          height={24}
-                        />
-                        <Box>
-                          <Text fontSize="xl" fontWeight="700">
-                            {item.title}
-                          </Text>
-                          <Text font="IBM Plex Sans">{item.explainerText}</Text>
-                        </Box>
-                      </MenuItem>
+                      <DesktopMenuItem
+                        title={item.title}
+                        url={item.url}
+                        explainerText={item.explainerText}
+                      />
                     ))}
                   </MenuList>
                 )}
@@ -124,13 +139,67 @@ const SectionLinks = ({ sections }: { sections: any }) => (
             fontSize="xl"
             fontWeight="600"
             textTransform="uppercase"
-            m={4}
+            mt="auto"
+            ml={23}
+            mb="auto"
+            mr={23}
           >
             {section.label}
           </Link>
         )}
       </>
     ))}
+  </Flex>
+);
+
+const PlayerStats = () => (
+  <Flex
+    align="center"
+    display="flex"
+    justifyContent="flex-end"
+    minW={{ base: 'auto', lg: '20%' }}
+    pl={2}
+    pr={2}
+    flex="1"
+    mt="auto"
+    mr={{ base: 4, md: 0 }}
+    mb="auto"
+  >
+    <Badge
+      display={{ base: 'none', md: 'flex' }}
+      flexDirection={['column', 'column', 'column', 'row']}
+      color="#fff"
+      pt={2}
+      pr={4}
+      pb={2}
+      pl={4}
+      bg="rgba(0,0,0,0.25)"
+      border="1px solid #2B2244"
+      borderRadius={50}
+    >
+      <Image src={XPStar} alt="XP" height={16} width={16} /> 668
+    </Badge>
+    <Badge
+      display={{ base: 'none', md: 'flex' }}
+      flexDirection={['column', 'column', 'column', 'row']}
+      color="#fff"
+      m={2}
+      pt={2}
+      pr={4}
+      pb={2}
+      pl={4}
+      bg="rgba(0,0,0,0.25)"
+      border="1px solid #2B2244"
+      borderRadius={50}
+    >
+      <Image src={SeedMarket} alt="Seed" height={16} width={16} /> 262
+    </Badge>
+    <Avatar
+      name="alt text"
+      src="https://bit.ly/tioluwani-kolawole"
+      width="52px"
+      height="52px"
+    />
   </Flex>
 );
 
@@ -270,65 +339,29 @@ export const MegaMenu: React.FC = () => {
   return (
     <Stack position="sticky" top={0} zIndex={1}>
       <Flex
-        as="nav"
-        align="center"
+        justifyContent="space-between"
         fontFamily="IBM Plex Sans"
-        h="10vh"
+        minH={{ base: '12vh', md: '10vh' }}
+        borderBottom="1px"
+        bg="rgba(0,0,0,0.5)"
+        borderColor="#2B2244"
+        sx={{ backdropFilter: 'blur(10px)' }}
         pt={1.5}
         pl={4}
         pb={1.5}
         pr={4}
-        borderBottom="1px"
-        bg="rgba(0,0,0,0.5)"
-        borderColor="#2B2244"
       >
-        <Box className="logo">
-          <Image src="/assets/logo.png" height={44} width={36} />
-        </Box>
+        <Logo />
         <Spacer />
-        <SectionLinks sections={sections} />
+        <DesktopMenus sections={sections} />
         <Spacer />
-        <Flex align="center" display="flex" ml={2} mr={2}>
-          <Badge
-            display="flex"
-            flexDirection={['column', 'column', 'column', 'row']}
-            color="#fff"
-            pt={2}
-            pr={4}
-            pb={2}
-            pl={4}
-            bg="rgba(0,0,0,0.25)"
-            border="1px solid #2B2244"
-            borderRadius={50}
-          >
-            <Image src="/assets/xp-star.png" height={16} width={16} /> 668
-          </Badge>
-          <Badge
-            display="flex"
-            flexDirection={['column', 'column', 'column', 'row']}
-            color="#fff"
-            m={2}
-            pt={2}
-            pr={4}
-            pb={2}
-            pl={4}
-            bg="rgba(0,0,0,0.25)"
-            border="1px solid #2B2244"
-            borderRadius={50}
-          >
-            <Image src="/assets/seed-market.png" height={16} width={16} /> 262
-          </Badge>
-          <Avatar
-            name="Dan Abrahmov"
-            src="https://bit.ly/dan-abramov"
-            width="52px"
-            height="52px"
-            // ml={4}
-          />
-        </Flex>
-        <Box
+        <PlayerStats />
+        <Flex
           onClick={menuToggle}
-          display={{ base: 'block', lg: 'none' }}
+          flexWrap="nowrap"
+          alignItems="center"
+          h="fit-content"
+          display={{ base: 'flex', lg: 'none' }}
           pt={2}
           pl={4}
           pb={2}
@@ -336,6 +369,8 @@ export const MegaMenu: React.FC = () => {
           border="2px"
           borderColor="purple.700"
           borderRadius={4}
+          mt="auto"
+          mb="auto"
         >
           Menu
           {isOpen ? (
@@ -343,18 +378,18 @@ export const MegaMenu: React.FC = () => {
           ) : (
             <HamburgerIcon color="#ffffff" ml={2} />
           )}
-        </Box>
+        </Flex>
       </Flex>
       <Stack
         display={{ base: isOpen ? 'block' : 'none', xl: 'none' }}
         position="absolute"
-        top="9vh"
+        top={{ base: '11vh', md: '9vh' }}
         zIndex={1}
         overflowY="scroll"
         w="100vw"
-        h="90vh"
-        bg="rgba(0,0,0,0.9)"
-        backdrop-filter="blur(10px)"
+        h="89vh"
+        bg="rgba(0,0,0,0.7)"
+        sx={{ backdropFilter: 'blur(10px)' }}
         pt={4}
         pl={4}
         pb={16}
@@ -378,13 +413,16 @@ export const MegaMenu: React.FC = () => {
                   {section.menuItems.map((item) => (
                     <Link
                       display="flex"
+                      alignItems="center"
                       href={item.url}
                       p={4}
                       border="1px"
+                      _odd={{ marginRight: '-1px' }}
+                      marginBottom="-1px"
                       borderColor="purple.400"
                     >
                       <Avatar
-                        name="Dan Abrahmov"
+                        name="alt text"
                         src="https://bit.ly/tioluwani-kolawole"
                         width={8}
                         height={8}
