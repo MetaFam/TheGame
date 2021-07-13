@@ -2,6 +2,7 @@ import { LoadingState, Text, VStack } from '@metafam/ds';
 import { PageContainer } from 'components/Container';
 import { AdjascentTimezonePlayers } from 'components/Player/Filter/AdjascentTimezonePlayers';
 import { PlayerFilter } from 'components/Player/Filter/PlayerFilter';
+import { PlayersNotFound } from 'components/Player/Filter/PlayersNotFound';
 import { PlayerList } from 'components/Player/PlayerList';
 import { HeadComponent } from 'components/Seo';
 import { GetPlayersQueryVariables } from 'graphql/autogen/types';
@@ -53,10 +54,10 @@ const Players: React.FC<Props> = () => {
   const onScreen = useOnScreen(moreRef);
 
   useEffect(() => {
-    if (onScreen) {
+    if (onScreen && !fetching && !fetchingMore && moreAvailable) {
       nextPage();
     }
-  }, [nextPage, onScreen]);
+  }, [nextPage, onScreen, fetching, fetchingMore, moreAvailable]);
 
   const isLoading = useMemo(() => fetching || fetchingMore || moreAvailable, [
     fetching,
@@ -113,19 +114,11 @@ const MorePlayers = React.forwardRef<HTMLDivElement, MorePlayersProps>(
 
     return (
       <VStack w="100%" ref={ref}>
-        {fetching ? (
-          <LoadingState color="white" />
-        ) : (
-          <Text color="white">
-            {totalCount > 0
-              ? `No more players available${
-                  isTimezoneSelected ? ' in this time zone' : ''
-                }`
-              : `There were no matches${
-                  isTimezoneSelected ? ' for this time zone' : ''
-                }`}
-          </Text>
-        )}
+        {fetching ? <LoadingState color="white" /> : null}
+        {!fetching && !isTimezoneSelected && totalCount > 0 ? (
+          <Text color="white">No more players available</Text>
+        ) : null}
+        {!fetching && totalCount === 0 ? <PlayersNotFound /> : null}
         {!fetching && isTimezoneSelected ? (
           <AdjascentTimezonePlayers queryVariables={queryVariables} />
         ) : null}

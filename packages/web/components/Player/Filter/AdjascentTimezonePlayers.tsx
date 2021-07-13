@@ -21,9 +21,7 @@ const getAdjacentTimezoneQueryVariables = (
         (t) =>
           Math.abs(t.offset - timezone.offset) <= 4 &&
           t.value !== timezoneValue,
-      )
-        .sort((a, b) => (a.offset < b.offset ? -1 : 1))
-        .map((t) => t.value)
+      ).map((t) => t.value)
     : [];
   return {
     ...defaultQueryVariables,
@@ -33,14 +31,17 @@ const getAdjacentTimezoneQueryVariables = (
 };
 
 export const AdjascentTimezonePlayers: React.FC<Props> = ({
-  queryVariables: defaultQueryVariables,
+  queryVariables,
 }) => {
-  const moreRef = useRef<HTMLDivElement>(null);
-
-  const [queryVariables] = useState(
-    getAdjacentTimezoneQueryVariables(defaultQueryVariables),
+  const [variables, setVariables] = useState<GetPlayersQueryVariables>(
+    getAdjacentTimezoneQueryVariables(queryVariables),
   );
 
+  useEffect(() => {
+    setVariables(getAdjacentTimezoneQueryVariables(queryVariables));
+  }, [queryVariables]);
+
+  const moreRef = useRef(null);
   const onScreen = useOnScreen(moreRef);
 
   const {
@@ -51,13 +52,13 @@ export const AdjascentTimezonePlayers: React.FC<Props> = ({
     error,
     nextPage,
     moreAvailable,
-  } = usePlayerFilter(queryVariables);
+  } = usePlayerFilter(variables);
 
   useEffect(() => {
-    if (onScreen) {
+    if (onScreen && !fetching && !fetchingMore && moreAvailable) {
       nextPage();
     }
-  }, [nextPage, onScreen]);
+  }, [nextPage, onScreen, fetching, fetchingMore, moreAvailable]);
 
   const isLoading = useMemo(() => fetching || fetchingMore || moreAvailable, [
     fetching,
@@ -78,12 +79,13 @@ export const AdjascentTimezonePlayers: React.FC<Props> = ({
             justify="space-between"
             w="100%"
             maxW="80rem"
-            px="4"
+            pr="4"
             align="center"
+            pb={{ base: 4, md: 0 }}
           >
             <Text fontWeight="bold" fontSize="xl" w="100%" maxW="79rem">
-              Found {totalCount} player{totalCount === 1 ? '' : 's'} in adjacent
-              time zones
+              {totalCount} player{totalCount === 1 ? '' : 's'} in adjacent time
+              zones
             </Text>
           </Flex>
           <PlayerList players={players} />

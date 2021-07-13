@@ -18,42 +18,44 @@ export type TimezoneType = {
   altName: string;
 };
 
-export const TimezoneOptions: TimezoneType[] = Object.entries(
-  i18nTimezones,
-).map((zone) => {
-  const now = spacetime.now().goto(zone[0]);
-  const tz = now.timezone();
-  const tzStrings = informal.display(zone[0]);
+export const TimezoneOptions: TimezoneType[] = Object.entries(i18nTimezones)
+  .map((zone) => {
+    const now = spacetime.now().goto(zone[0]);
+    const tz = now.timezone();
+    const tzStrings = informal.display(zone[0]);
 
-  let abbrev = zone[0];
-  let altName = zone[0];
+    let abbrev = zone[0];
+    let altName = zone[0];
 
-  if (tzStrings && tzStrings.standard) {
-    abbrev =
-      now.isDST() && tzStrings.daylight
-        ? tzStrings.daylight.abbrev
-        : tzStrings.standard.abbrev;
-    altName =
-      now.isDST() && tzStrings.daylight
-        ? tzStrings.daylight.name
-        : tzStrings.standard.name;
-  }
+    if (tzStrings && tzStrings.standard) {
+      abbrev =
+        now.isDST() && tzStrings.daylight
+          ? tzStrings.daylight.abbrev
+          : tzStrings.standard.abbrev;
+      altName =
+        now.isDST() && tzStrings.daylight
+          ? tzStrings.daylight.name
+          : tzStrings.standard.name;
+    }
 
-  const min = tz.current.offset * 60;
-  const hr = `${(min / 60) ^ 0}:${min % 60 === 0 ? '00' : Math.abs(min % 60)}`;
-  const prefix = `(GMT${hr.includes('-') ? hr : `+${hr}`}) ${zone[1]}`;
+    const min = tz.current.offset * 60;
+    const hr = `${(min / 60) ^ 0}:${
+      min % 60 === 0 ? '00' : Math.abs(min % 60)
+    }`;
+    const prefix = `(GMT${hr.includes('-') ? hr : `+${hr}`}) ${zone[1]}`;
 
-  const label = `${prefix} ${abbrev.length < 5 ? `(${abbrev})` : ''}`;
+    const label = `${prefix} ${abbrev.length < 5 ? `(${abbrev})` : ''}`;
 
-  return {
-    value: zone[0],
-    title: zone[1],
-    label,
-    offset: tz.current.offset,
-    abbrev,
-    altName,
-  };
-});
+    return {
+      value: zone[0],
+      title: zone[1],
+      label,
+      offset: tz.current.offset,
+      abbrev,
+      altName,
+    };
+  })
+  .sort((a, b) => (a.offset < b.offset ? -1 : 1));
 
 const selectStyles: Styles = {
   menu: (styles) => ({
