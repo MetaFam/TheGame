@@ -281,7 +281,7 @@ export const PlayerFilter: React.FC<Props> = ({
         <Flex
           justify="space-between"
           w="100%"
-          maxW="80rem"
+          maxW="79rem"
           pr="4"
           align="center"
         >
