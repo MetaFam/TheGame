@@ -38,9 +38,9 @@ const Logo = () => (
 );
 
 type MenuItemProps = {
-  title: any;
-  url: any;
-  explainerText: any;
+  title: string;
+  url: string;
+  explainerText: string;
 };
 
 const DesktopMenuItem = ({ title, url, explainerText }: MenuItemProps) => (
