@@ -40,6 +40,7 @@ const Logo = () => (
 type MenuItemProps = {
   title: any;
   url: any;
+  explainerText: any;
 };
 
 const DesktopMenuItem = ({ title, url, explainerText }: MenuItemProps) => (
