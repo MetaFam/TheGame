@@ -93,14 +93,10 @@ export const PlayerTile: React.FC<Props> = ({ player }) => {
           <VStack spacing={2} align="stretch">
             <Text textStyle="caption">TIMEZONE</Text>
             <HStack alignItems="baseline">
-              <FaGlobe color="blueLight" />
-              <Text fontSize="xl" mb="1">
-                {tzDisplay?.timeZone || '-'}
-              </Text>
+              <FaGlobe color="blueLight" fontSize="0.875rem" />
+              <Text fontSize="lg">{tzDisplay?.timeZone || '-'}</Text>
               {tzDisplay?.offset ? (
-                <Text fontSize="xs" mr={3}>
-                  {tzDisplay?.offset}
-                </Text>
+                <Text fontSize="sm">{tzDisplay?.offset}</Text>
               ) : (
                 ''
               )}

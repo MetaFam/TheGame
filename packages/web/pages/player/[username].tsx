@@ -104,7 +104,7 @@ const PlayerPage: React.FC<Props> = ({ player }) => {
   };
 
   return (
-    <PageContainer>
+    <PageContainer p={[8, null, null, 12]}>
       <HeadComponent
         title={`Metagame profile for ${player.username}`}
         description={getPlayerDescription(player).replace('\n', ' ')}
