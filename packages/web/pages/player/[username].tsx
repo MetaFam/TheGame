@@ -113,11 +113,14 @@ const PlayerPage: React.FC<Props> = ({ player }) => {
       />
       <Flex
         align="center"
-        direction={{ base: 'column', lg: 'row' }}
+        direction={{ base: 'column', md: 'row' }}
         alignItems="flex-start"
         maxWidth="7xl"
       >
-        <Box width={{ base: '100%', lg: '33%' }} mr={{ base: 0, lg: 4 }}>
+        <Box
+          width={{ base: '100%', md: '50%', lg: '33%' }}
+          mr={{ base: 0, md: 4 }}
+        >
           <Box mb="6">
             <PlayerHero player={player} />
           </Box>
@@ -131,10 +134,14 @@ const PlayerPage: React.FC<Props> = ({ player }) => {
               boxList={boxAvailableList}
               setNewBox={(name) => addBox(0, name)}
               mb={6}
+              display={{ base: 'none', md: 'flex' }}
             />
           ) : null}
         </Box>
-        <Box width={{ base: '100%', lg: '66%' }} ml={{ base: 0, lg: 4 }}>
+        <Box
+          width={{ base: '100%', md: '50%', lg: '66%' }}
+          ml={{ base: 0, md: 4 }}
+        >
           <Box width="100%">
             <Flex
               align="center"
@@ -152,6 +159,7 @@ const PlayerPage: React.FC<Props> = ({ player }) => {
                     boxList={boxAvailableList}
                     setNewBox={(name) => addBox(1, name)}
                     mb={6}
+                    display={{ base: 'none', lg: 'flex' }}
                   />
                 ) : null}
               </Box>

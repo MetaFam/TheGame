@@ -6,6 +6,21 @@ export interface TimeZoneDisplay {
   offset?: string;
 }
 
+const getOffsetLabel = (offset: number): string => {
+  const offsets = Math.abs(offset).toFixed(1).split('.');
+  const hrs = offsets[0];
+  const mins = Number(offsets[1]) * 6;
+  const offsetString = hrs + (Number(offsets[1]) > 0 ? `:${mins}` : '');
+
+  if (offset > 0) {
+    return `(GMT +${offsetString})`;
+  }
+  if (offset < 0) {
+    return `(GMT -${offsetString})`;
+  }
+  return '(GMT)';
+};
+
 export const getPlayerTimeZoneDisplay = (
   player: PlayerFragmentFragment,
 ): TimeZoneDisplay => {
@@ -17,11 +32,7 @@ export const getPlayerTimeZoneDisplay = (
     tzLabel = value;
     if (abbrev.length < 5) {
       tzLabel = abbrev;
-      if (offset > 0) {
-        offsetLabel = `(GMT +${offset})`;
-      } else if (offset < 0) {
-        offsetLabel = `(GMT ${offset})`;
-      }
+      offsetLabel = getOffsetLabel(offset);
     }
   }
 
