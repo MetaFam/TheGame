@@ -10,7 +10,7 @@ import {
   Text,
   useBreakpointValue,
 } from '@chakra-ui/react';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 
 import { DropDownIcon } from './icons/DropDownIcon';
 import { MetaTag } from './MetaTag';
@@ -175,10 +175,25 @@ const SelectControl: React.FC<
 > = (props) => {
   const {
     hasValue,
-    selectProps: { menuIsOpen, onMenuClose, onMenuOpen },
+    selectProps: { menuIsOpen, onMenuClose, onMenuOpen, showSearch },
   } = props;
 
   const buttonRef = useRef<HTMLButtonElement>(null);
+
+  const onClick = useCallback(() => {
+    if (menuIsOpen) {
+      if (onMenuClose) {
+        onMenuClose();
+      }
+    } else {
+      if (onMenuOpen) {
+        onMenuOpen();
+      }
+      if (!showSearch && buttonRef.current) {
+        buttonRef.current.focus();
+      }
+    }
+  }, [menuIsOpen, onMenuOpen, onMenuClose, showSearch]);
 
   return (
     <Button
@@ -187,8 +202,8 @@ const SelectControl: React.FC<
       boxShadow={menuIsOpen ? '0px 10px 20px rgba(0, 0, 0, 0.4)' : 'none'}
       cursor="pointer"
       ref={buttonRef}
-      onClick={menuIsOpen ? onMenuClose : onMenuOpen}
-      onMouseDown={() => (menuIsOpen ? undefined : buttonRef.current?.focus())}
+      onClick={onClick}
+      onTouchEnd={onClick}
       align="center"
       borderTopRadius="4px"
       borderBottomRadius={menuIsOpen ? '0' : '4px'}
@@ -319,26 +334,25 @@ const SelectContainer: React.FC<
   React.ComponentProps<typeof SelectComponents.SelectContainer>
 > = (props) => {
   const {
-    selectProps: { menuIsOpen, onMenuClose },
+    selectProps: { onMenuClose },
   } = props;
-  const selectRef = useRef<HTMLDivElement>(null);
 
-  const onOutsideFocus = useCallback(() => {
-    if (onMenuClose && menuIsOpen) {
-      onMenuClose();
-    }
-  }, [menuIsOpen, onMenuClose]);
+  // const onOutsideFocus = useCallback(() => {
+  //   if (onMenuClose && menuIsOpen) {
+  //     onMenuClose();
+  //   }
+  // }, [menuIsOpen, onMenuClose]);
 
-  useEffect(() => {
-    const selectedRef = selectRef.current;
-    selectedRef?.addEventListener('focusout', onOutsideFocus);
-    return () => {
-      selectedRef?.removeEventListener('focusout', onOutsideFocus);
-    };
-  }, [selectRef, onOutsideFocus]);
+  // useEffect(() => {
+  //   const selectedRef = selectRef.current;
+  //   selectedRef?.addEventListener('focusout', onOutsideFocus);
+  //   return () => {
+  //     selectedRef?.removeEventListener('focusout', onOutsideFocus);
+  //   };
+  // }, [selectRef, onOutsideFocus]);
 
   return (
-    <Flex ref={selectRef} position="relative">
+    <Flex position="relative" onBlur={onMenuClose}>
       <SelectComponents.SelectContainer
         {...props}
         innerProps={{ onKeyDown: () => undefined }}
