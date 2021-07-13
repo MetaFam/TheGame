@@ -133,7 +133,7 @@ export const DesktopFilters: React.FC<Props> = ({
         <MetaFilterSelectSearch
           title="Availability"
           styles={styles}
-          value={availability}
+          value={availability ? [availability] : []}
           onChange={(value) => {
             const values = value as ValueType[];
             setAvailability(values[values.length - 1]);
