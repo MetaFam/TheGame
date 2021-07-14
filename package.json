@@ -19,6 +19,7 @@
     "hasura": "hasura --project ./hasura",
     "hasura:console": "yarn hasura console --no-browser",
     "hasura:migrate:init": "yarn hasura migrate create \"init\" --from-server",
+    "hasura:seed-local-db": "node hasura/seed-local-db.js",
     "test": "lerna run test --parallel --",
     "generate": "lerna run generate --parallel --",
     "test:full": "yarn lint && yarn typecheck && yarn test",

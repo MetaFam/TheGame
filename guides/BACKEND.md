@@ -76,7 +76,7 @@ backend_1   | @metafam/backend: [0] Listening on port 4000
 After which you can run:
 
 ```bash
-curl -X POST http://localhost:4000/actions/migrateSourceCredAccounts
+yarn hasura:seed-local-db
 ```
 
 Which populates it with testing data.
