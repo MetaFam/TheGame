@@ -23,11 +23,8 @@ module.exports = {
         src: "img/mg-crystal.png",
       },
     },
-
-    },
-    scripts: [
-        "./static/scripts/confetti.js"
-  ],
+  },
+  scripts: ["./static/scripts/confetti.js"],
   presets: [
     [
       "@docusaurus/preset-classic",
@@ -35,6 +32,8 @@ module.exports = {
         docs: {
           sidebarPath: require.resolve("./sidebars.js"),
           editUrl: "https://wiki.metagame.wtf/admin/#/?",
+          showLastUpdateTime: true,
+          showLastUpdateAuthor: true,
         },
         theme: {
           customCss: require.resolve("./src/css/custom.scss"),
