@@ -1,0 +1,112 @@
+.playbooks {
+    list-style: none;
+    display: flex;
+    flex-flow: row wrap;
+    align-content: start;
+    justify-content: space-between;
+    padding-left: 0;
+
+    li {
+        flex: 0 1 49%;
+        width: 49%;
+        margin-bottom: 25px;
+
+        &+li {
+            margin-top: 0;
+        }
+    }
+
+    .playbook {
+        // background-color: rgba(255,255,255,0.3);
+        // border-radius: 8px;
+        padding: 0;
+        overflow: hidden;
+
+        a {
+            color: white;
+            display: flex;
+            flex-flow: row wrap;
+            transition: all 0.3s 0.1s ease-in;
+            position: relative;
+            border-radius: 6px;
+            backdrop-filter: blur(5px);
+            background-color: rgba(255, 255, 255, 0.08);
+            overflow: hidden;
+            box-shadow: 0 0 3rem rgba(0, 0, 0, 0);
+
+            &:hover {
+                box-shadow: 0 0 3rem rgba(0, 0, 0, 0.2);
+
+                &:before,
+                &:after {
+                    transform: translate3d(120%, 0, 0);
+                }
+            }
+
+            &:before {
+                content: '';
+                position: absolute;
+                display: none;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                transform: translate3d(-120%, 0, 0);
+                filter: blur(15px);
+                background: linear-gradient(45deg,
+                        transparent,
+                        rgba(255, 255, 255, 0),
+                        rgba(255, 255, 255, 0.06),
+                        rgba(255, 255, 255, 0),
+                        transparent);
+                transition: all 0.4s 0.3s ease-in-out;
+                z-index: 1;
+            }
+
+            &:after {
+                content: '';
+                position: absolute;
+                display: block;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                transform: translate3d(-120%, 0, 0);
+                filter: blur(10px);
+                background: linear-gradient(45deg,
+                        transparent,
+                        rgba(255, 255, 255, 0),
+                        rgba(255, 255, 255, 0.04),
+                        rgba(255, 255, 255, 0),
+                        transparent);
+                transition: all 0.3s 0.1s ease-in-out;
+                z-index: 1;
+            }
+
+        }
+
+        .bookInfo {
+            padding: 10px;
+
+            h4 {
+                font-size: 12px;
+                margin-bottom: 5px;
+                text-align: center;
+
+                @media (min-width: 760px) {
+                    font-size: 16px;
+                }
+            }
+
+            p {
+                font-size: 11px;
+                margin-bottom: 5px;
+                text-align: center;
+
+                @media (min-width: 760px) {
+                    font-size: small;
+                }
+            }
+        }
+    }
+}

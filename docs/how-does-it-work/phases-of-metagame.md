@@ -16,9 +16,9 @@ The meme of this phase is _A Decentralized Factory_; a collective of decentraliz
 
 ### Goals:
 
--   Build a community of people strongly aligned with the _MetaManifesto_.
--   Set up the basic socio-economic infrastructure.
--   Assemble the initial resource base.
+- Build a community of people strongly aligned with the [_MetaManifesto_](https://wiki.metagame.wtf/docs/wtf-is-metagame/metafam-way).
+- Set up the basic socio-economic infrastructure.
+- Assemble the initial resource base.
 
 ### Builds:
 
@@ -32,10 +32,10 @@ Right now, there's mostly content about understanding MetaGame, but it will over
 <summary>MyMeta</summary>
 MyMeta is your access to MetaGame. It starts as simple profiles to make it easier for you to display who you are and find other players but evolves into a place where you can do things like display & sell your NFTs, as well as your dapp dashboard.
 
-On the other end, it evolves into an app which you've seen the first glimpses of if you've visited https://wiki.metagame.wtf/home
+On the other end, it evolves into an app which you've seen the first glimpses of if you've visited [https://wiki.metagame.wtf/docs/home](https://wiki.metagame.wtf/docs/home).
 To see the full post on MyMeta Profiles, go here.
-</details>
 
+</details>
 
 <details>
 
@@ -44,7 +44,7 @@ To see the full post on MyMeta Profiles, go here.
 
 This includes a bunch of other projects we've been working on that we also consider mission-critical but not as big of a deal as the above two.
 
-- Such as MetaMaps, our web3 whiteboarding/project management tool we'll be using to build the *Skill Trees* & and the *Navigation System* to help people move through MetaGame.
+- Such as MetaMaps, our web3 whiteboarding/project management tool we'll be using to build the _Skill Trees_ & and the _Navigation System_ to help people move through MetaGame.
 
 - Such as organizing the [first virtual conference in the Ethereum space](https://medium.com/@pethereum/sure-the-future-is-remote-and-virtual-conferences-will-be-a-thing-but-we-arent-doing-this-just-bd0eaef8132d) back in March & the [first DAO-focused hackathon](https://metagame.substack.com/p/fork-the-world-hackathon) back in August.
 
@@ -55,7 +55,6 @@ This includes a bunch of other projects we've been working on that we also consi
 - Such as... You get the idea.
 
 </details>
-
 
 ## **Phase II: Growth**
 
@@ -70,10 +69,9 @@ The meme is _A Web of Opportunity_; there is no lack of funding nor a lack of pr
 
 ### Goals:
 
--   Summon _The Great Flood_.
--   Spread tentacles into all high-leverage technologies.
--   Start solving problems outside of crypto.
-
+- Summon _The Great Flood_.
+- Spread tentacles into all high-leverage technologies.
+- Start solving problems outside of crypto.
 
 ### Builds:
 
@@ -82,9 +80,9 @@ The meme is _A Web of Opportunity_; there is no lack of funding nor a lack of pr
 
 It's when MetaGame gets the actual game-like interface. You're able to walk around in spatial audio environments, attend meetups in the tavern, hang in your guildhouse, tend to your crops & access all the learning, media & work content you need to progress.
 
-
 This is not to say we won't be working on this while still in Phase I, in fact, more than one player has tried championing this raid never to be seen again.
-You can read a longer post about it here. If this sounds like something you'd be able to tackle - we'd be happy to supply you with some Seeds!
+You can read a longer post about it [here](https://forum.metagame.wtf/t/metaville/225). If this sounds like something you'd be able to tackle - we'd be happy to supply you with some Seeds!
+
 </details>
 
 <details>
@@ -111,7 +109,6 @@ There should also be hundreds of other, smaller initiatives, experiments & proje
 
 </details>
 
-
 ## **Phase III: Equilibrium**
 
 > _It’s been years since we spotted her drifting towards us. Her technologies helped us overcome coordination failures & her presence here turned out greatly beneficial for our ecosystems. She’s all huge & covered in greenery now; looking more like a breathing landmass than an octopus._
@@ -124,9 +121,9 @@ The meme of this phase is _A Web of Life_ - to support life as a whole.
 
 ### Goals:
 
--   Support a mass of people in doing something meaningful & making a living.
--   Onboard co-working/co-living spaces as well as off-the-grid farms & eco-villages.
--   Get deep into ecological & philanthropic initiatives.
+- Support a mass of people in doing something meaningful & making a living.
+- Onboard co-working/co-living spaces as well as off-the-grid farms & eco-villages.
+- Get deep into ecological & philanthropic initiatives.
 
 ### Builds:
 
@@ -135,7 +132,8 @@ The meme of this phase is _A Web of Life_ - to support life as a whole.
 
 You can think of it as a basic operating system & a manual for building and operating communities/societies/metagames. A combination of building blocks & methods we're using to build MetaGame, generalized, explained & improved for others to use.
 
-More in the Minimum Viable Stack article soon.
+Read more in the [_MetaSys_ article](https://wiki.metagame.wtf/docs/Guilding/metasys).
+
 </details>
 <details>
 <summary>MetaGame Phase III Alpha Leak</summary>
@@ -147,4 +145,5 @@ More in the Minimum Viable Stack article soon.
 While there isn't a lack of ideas for the late stages of MetaGame, Phase III is likely 5+ years away so making any predictions more specific than "we'll be doing things that the people need" would be kind of...
 
 If there's one thing to be expected of this phase, it's that by now crypto technology has moved into the background and we're focused on building & nurturing the web of life by sustaining more and more people in doing good things & supporting good causes.
+
 </details>

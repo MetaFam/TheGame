@@ -3,6 +3,9 @@ backend:
   repo: MetaFam/metagame-wiki
   branch: master
   squash_merges: true
+  base_url: https://wiki.metagame.wtf
+  auth_endpoint: api/auth
+
 publish_mode: editorial_workflow
 media_folder: "static/img"
 public_folder: "img"

@@ -61,8 +61,23 @@ Once you've joined, you will receive a [full guide](https://docs.google.com/docu
 If you still don't have an ETH address, the [*House of Ethereum*](https://wiki.metagame.wtf/docs/great-houses/house-of-ethereum) page will go deeper into wallet selection. But although there's a bunch of choices, most of us still default to [Metamask](http://www.metamask.io/), which is pretty good.
 
 Then, look for the #set-eth-address channel on Discord. Set your address and give it some time 🙃. You can check your XP/Seed stats [here](https://metafam.github.io/XP/#/explorer).
+</details>
 
-After setting your Ether address in #set-eth-address, all there is to do is to give it time. Due to high overheads, we only mint Seeds at the beginning of each month. 😬
+<details>
+<summary>🪙 Step 4: Add custom token to your wallet</summary>
+<br />
+
+The last thing to do is adding a custom token.
+This is how it's done in [Metamask](http://www.metamask.io/).
+
+Once you're in your wallet:
+
+1. scroll to the bottom of the MetaMask screen and click "Add Token"
+2. click on the "Custom Token" tab
+3. in the contract field, paste: 0x30cF203b48edaA42c3B4918E955fED26Cd012A3F
+4. click "Save"
+
+After this, all there is to do is to give it time. Due to high overheads, we only mint Seeds at the beginning of each month. 😬
 
 While waiting for your Seeds to mint, please do keep track of how many you're set to get & for how much of your work. If you think you're not being treated fairly, please let us know!
 </details>

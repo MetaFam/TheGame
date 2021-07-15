@@ -38,12 +38,15 @@ These are the frameworks for launching DAOs on the Ethereum network:
 - **[Aragon](https://aragon.org/)** - Aragon gives internet communities unprecedented power to organize around shared values and resources.
 - **[Colony](https://colony.io/)** - Organizations, for the Internet. Colony makes it easy for people all over the world to build organizations together, online.
 - **[DAOstack](https://daostack.io/)** - An open-source project advancing the technology and adoption of decentralized governance.
+- **[MetaSys](https://wiki.metagame.wtf/docs/Guilding/metasys)** - A meta framework for DAOs; a combination of tools & a philosophy put together by MetaGame.
 
 ## 🛠️Other Infrastructure
 - **[Sourcecred](https://sourcecred.io/)** - A tool for communities to measure and reward value creation.
 - **[Collab.land](https://collab.land/)** - A bot helping manage memberships in token curated communities.
+- **[Coordinape](https://coordinape.com/)** - Scale your community with tools to reward contributors, incentivize participation and manage resources
 - **[Uniswap](https://uniswap.org/)** - An automated market-maker, for making your token tradeable.
 - **[Balancer](https://balancer.exchange/)** - An automated market-maker with more options.
+- **[Gnosis Safe](https://gnosis-safe.io/)** - A multi-signature wallet/treasury for DAOs.
 - **[Etherize](https://etherize.io/)** - Summon a legal wrapper for your DAO.
 - **[Otonomos](https://otonomos.com/)** - Otonomos helps the crypto community form offchain and onchain legal entities.
 - **[Open Esquire](https://openesq.tech/)** - Enabling The Next Generation of Legal Services.
@@ -85,7 +88,6 @@ A few more ways of getting some funds.
 Afaik the only DAO events there are in this space.
 
 - **[DAO Rush Week](https://twitter.com/daorushweek)** - Happening once a quarter, DAO Rush Week is a must-attend event for anyone interested in DAO. All the DAOs from the Ethereum space and wider are summoned to present their missions, host parties & initiate new members.
-- **[DGov Network](https://wiki.dgov.foundation/collaboration-1/dgov-industry-landscape#events)** - Distributed Governance Network event calendar.
 - **[DAO Haus Party](https://forum.daohaus.club/t/daohaus-live-streams-publications/158)** - DAOHaus Live Streams; go through the DAOHaus Discord if you want to participate.
 - **[Fork The World](https://forktheworld.wtf/)** - Our hackathon for people building DAOs, technologies & knowledge around decentralized organizing. Happening once a year.
 
@@ -95,7 +97,7 @@ These are the only forums I know in the Ethereum DAO space that aren't dead. Fee
 
 - [**DAOtalk**](https://daotalk.org) - A forum for everything-DAOs.
 - [**MetaSquare**](https://forum.metagame.wtf/) - MetaGame’s forum, all topics related to decentralized governance welcome.
-- **???** - Are there more? Then add them.
+- **???** - Are there more? Add them 🙃
 
 ## 🏃Get started DAOing
 
@@ -108,6 +110,10 @@ Our posts:
 - **[Building Successful Teams](https://wiki.metagame.wtf/docs/Guilding/building-successful-teams)** - Essentials of team-building.
 
 External resources:
+- **[Decentralized Autonomous Organizations](https://ethereum.org/en/dao/)** - Definitions & additional resources on DAOs by the Ethereum Foundation.
+- **[Decentralized Autonomous Organizations](https://square1-hello.gitbook.io/square-1/token-economics/decentralized-organizations)** - More definitions & mechanisms of DAOs on Square I.
+- **[DAO Landscape](https://coopahtroopa.mirror.xyz/_EDyn4cs9tDoOxNGZLfKL7JjLo5rGkkEfRa_a-6VEWw)** - An overview of the DAO landscape by Cooper Turley
+- **[Handbook of Handbooks for Decentralized Organising](https://hackmd.io/@yHk1snI9T9SNpiFu2o17oA/Skh_dXNbE?type=view)** - Examples of decentralised organisations that have a public, transparent, well-documented handbook that explains how they work
 - **[Connection/Community Building Resources](https://forum.metagame.wtf/t/connection-community-building-resources-practices/256)** - Just a bunch of links on our forums.
 - **[Convergent Facilitation](http://nvctraining.com/media/_2018/MK/convergent-facilitation/index.html)** - "Convergent Facilitation is a highly efficient decision-making process."
 - **[DisCO](https://disco.coop/governance-model/)** - Distributed Cooperative Organizations' Governance Model
@@ -128,7 +134,6 @@ These are some of the books that might come in handy when interested in building
 
 - If there are links & resources you would like to add to the page above, you are free to [submit them here](https://github.com/MetaFam/metagame-wiki/blob/master/docs/great-houses/house-of-daos.mdx). (and get rewarded if accepted ofc)
 - If you have any questions or need any help, you are welcome on our [Discord](https://discord.gg/6JFXC9T) :)
-- Next up: House of dApps? House of DeFiance? House of Tokens? 😱 Frontrun me?
 
 ## Subscribe?
 
