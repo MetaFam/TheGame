@@ -30,7 +30,7 @@ export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
   setColorMask,
 }) => {
   const { onNextPress, nextButtonLabel } = useSetupFlow();
-  const { user } = useUser({ redirectTo: '/' });
+  const { user } = useUser();
   const toast = useToast();
   const [updateAboutYouRes, updateAboutYou] = useUpdateAboutYouMutation();
   const [loading, setLoading] = useState(false);

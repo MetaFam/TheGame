@@ -13,6 +13,7 @@ import { ColorBar } from '../ColorBar';
 import { PlayerContacts } from '../PlayerContacts';
 import { PlayerBrightId } from './PlayerBrightId';
 import { PlayerCollab } from './PlayerCollab';
+import { PlayerPronouns } from './PlayerPronouns';
 
 const MAX_BIO_LENGTH = 240;
 
@@ -91,6 +92,9 @@ export const PlayerHero: React.FC<Props> = ({ player }) => {
 
         <HStack mt={2}>
           <PlayerContacts player={player} />
+        </HStack>
+        <HStack mt={2}>
+          <PlayerPronouns player={player} />
         </HStack>
         <Box w="100%">
           <PlayerCollab player={player} />
