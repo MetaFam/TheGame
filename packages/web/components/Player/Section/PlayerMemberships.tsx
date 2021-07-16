@@ -38,22 +38,25 @@ const getImageMoloch = (title: string) => {
 };
 
 type LinkDaoProps = {
-  explorerUrl: string;
+  chain: string;
+  address: string;
+  explorerUrl: string | null;
 };
 
 const LinkDao: React.FC<LinkDaoProps> = ({ explorerUrl, children }) => {
-  if (explorerUrl) return <>{children}</>;
+  if (explorerUrl)
+    return (
+      <Link
+        role="group"
+        _hover={{ textDecoration: 'none' }}
+        href={explorerUrl}
+        isExternal
+      >
+        {children}
+      </Link>
+    );
 
-  return (
-    <Link
-      role="group"
-      _hover={{ textDecoration: 'none' }}
-      href={explorerUrl}
-      isExternal
-    >
-      {children}
-    </Link>
-  );
+  return <>{children}</>;
 };
 
 type DaoListingProps = {
