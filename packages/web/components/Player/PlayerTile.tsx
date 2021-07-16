@@ -104,7 +104,7 @@ export const PlayerTile: React.FC<Props> = ({ player }) => {
           </HStack>
         ) : null}
         {displayDescription ? (
-          <VStack spacing={2} align="stretch">
+          <VStack spacing={2} align="stretch" pt="0.5rem">
             <Text textStyle="caption">ABOUT</Text>
             <Text fontSize="sm">{displayDescription}</Text>
           </VStack>
