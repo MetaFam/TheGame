@@ -34,6 +34,7 @@ export const UpdatePlayer = gql`
     $ethAddress: String
     $rank: PlayerRank_enum
     $totalXp: numeric
+    $seasonXp: numeric
     $discordId: String
   ) {
     update_player(
@@ -42,6 +43,7 @@ export const UpdatePlayer = gql`
         ethereum_address: $ethAddress
         rank: $rank
         total_xp: $totalXp
+        season_xp: $seasonXp
         discord_id: $discordId
       }
     ) {
