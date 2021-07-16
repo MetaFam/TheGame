@@ -1,5 +1,5 @@
-import { SetupAvailability } from 'components/Setup/SetupAvailability';
 import { SetupProfile } from 'components/Setup/SetupProfile';
+import { SetupPronouns } from 'components/Setup/SetupPronouns';
 import { SetupContextProvider } from 'contexts/SetupContext';
 import { useUser } from 'lib/hooks';
 import { InferGetStaticPropsType } from 'next';
@@ -7,34 +7,29 @@ import React, { useState } from 'react';
 
 export const getStaticProps = async () => ({
   props: {
-    hideTopMenu: true,
+    hideAppDrawer: true,
   },
 });
 
 export type DefaultSetupProps = InferGetStaticPropsType<typeof getStaticProps>;
 
-const AvailabilitySetup: React.FC<DefaultSetupProps> = () => {
+const PronounsSetup: React.FC<DefaultSetupProps> = () => {
+  const [pronouns, setPronouns] = useState<string | undefined>(undefined);
   const { user } = useUser();
-  const [availability, setAvailability] = useState<string>(
-    user?.player?.availability_hours?.toString() || '',
-  );
 
   if (user?.player) {
     const { player } = user;
-    if (player.availability_hours && !availability) {
-      setAvailability(player.availability_hours.toString());
+    if (player.pronouns && pronouns === undefined) {
+      setPronouns(player.pronouns);
     }
   }
 
   return (
     <SetupContextProvider>
       <SetupProfile>
-        <SetupAvailability
-          availability={availability}
-          setAvailability={setAvailability}
-        />
+        <SetupPronouns pronouns={pronouns} setPronouns={setPronouns} />
       </SetupProfile>
     </SetupContextProvider>
   );
 };
-export default AvailabilitySetup;
+export default PronounsSetup;

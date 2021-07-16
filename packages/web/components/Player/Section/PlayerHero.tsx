@@ -29,6 +29,7 @@ import { ProfileSection } from '../../ProfileSection';
 import { PlayerContacts } from '../PlayerContacts';
 import { PlayerBrightId } from './PlayerBrightId';
 import { PlayerHeroTile } from './PlayerHeroTile';
+import { PlayerPronouns } from './PlayerPronouns';
 
 const MAX_BIO_LENGTH = 240;
 
@@ -132,13 +133,13 @@ export const PlayerHero: React.FC<Props> = ({ player, isOwnProfile }) => {
           <PlayerContacts player={player} />
         </HStack>
 
+        <PlayerHeroTile title="Personal pronouns">
+          <PlayerPronouns player={player} />
+        </PlayerHeroTile>
         {/* <SimpleGrid columns={2} gap={6} width="full">
           <PlayerHeroTile title="Display name">
             <Text>Vid</Text>
-          </PlayerHeroTile>
-          <PlayerHeroTile title="Personal pronouns">
-            <Text>He</Text>
-          </PlayerHeroTile>
+          </PlayerHeroTile> 
         </SimpleGrid> */}
         {/* <PlayerHeroTile title="Website">
           <Text>www.mycoolportfolio.com</Text>
