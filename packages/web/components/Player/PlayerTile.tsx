@@ -23,16 +23,27 @@ import {
 import React, { useMemo } from 'react';
 import { FaGlobe } from 'react-icons/fa';
 import { getPlayerTimeZoneDisplay } from 'utils/dateHelpers';
-import { getPlayerCoverImage, getPlayerName } from 'utils/playerHelpers';
+import {
+  getPlayerCoverImage,
+  getPlayerDescription,
+  getPlayerName,
+} from 'utils/playerHelpers';
 
 type Props = {
   player: PlayerFragmentFragment;
 };
 
+const MAX_BIO_LENGTH = 240;
+
 export const PlayerTile: React.FC<Props> = ({ player }) => {
   const tzDisplay = useMemo(() => getPlayerTimeZoneDisplay(player.timezone), [
     player.timezone,
   ]);
+  const description = getPlayerDescription(player);
+  const displayDescription =
+    description && description.length > MAX_BIO_LENGTH
+      ? `${description.substring(0, MAX_BIO_LENGTH - 9)}...`
+      : description;
   return (
     <MetaTile>
       <Box
@@ -81,28 +92,25 @@ export const PlayerTile: React.FC<Props> = ({ player }) => {
             <MetaTag size="md">{`XP: ${Math.floor(player.total_xp)}`}</MetaTag>
           </WrapItem>
         </Wrap>
-        {/* player.box_profile?.description ? (
-        <VStack spacing={2} align="stretch">
-          <Text textStyle="caption">ABOUT</Text>
-          <Text fontSize="sm">{player.box_profile.description}</Text>
-        </VStack>
-      ) : null */}
-      </MetaTileHeader>
-      <MetaTileBody>
         {tzDisplay?.timeZone ? (
+          <HStack alignItems="baseline" w="auto" justify="center">
+            <FaGlobe color="blueLight" fontSize="0.875rem" />
+            <Text fontSize="lg">{tzDisplay?.timeZone || '-'}</Text>
+            {tzDisplay?.offset ? (
+              <Text fontSize="sm">{tzDisplay?.offset}</Text>
+            ) : (
+              ''
+            )}
+          </HStack>
+        ) : null}
+        {displayDescription ? (
           <VStack spacing={2} align="stretch">
-            <Text textStyle="caption">TIMEZONE</Text>
-            <HStack alignItems="baseline">
-              <FaGlobe color="blueLight" fontSize="0.875rem" />
-              <Text fontSize="lg">{tzDisplay?.timeZone || '-'}</Text>
-              {tzDisplay?.offset ? (
-                <Text fontSize="sm">{tzDisplay?.offset}</Text>
-              ) : (
-                ''
-              )}
-            </HStack>
+            <Text textStyle="caption">ABOUT</Text>
+            <Text fontSize="sm">{displayDescription}</Text>
           </VStack>
         ) : null}
+      </MetaTileHeader>
+      <MetaTileBody>
         {player.Player_Skills.length ? (
           <VStack spacing={2} align="stretch">
             <Text textStyle="caption">SKILLS</Text>
