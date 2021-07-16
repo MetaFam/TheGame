@@ -26,7 +26,7 @@ export const SetupAvailability: React.FC<SetupAvailabilityProps> = ({
   const { onNextPress, nextButtonLabel } = useSetupFlow();
 
   const [invalid, setInvalid] = useState(false);
-  const { user } = useUser({ redirectTo: '/' });
+  const { user } = useUser();
   const toast = useToast();
 
   useEffect(() => {

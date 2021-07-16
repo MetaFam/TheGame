@@ -15,7 +15,7 @@ export type DefaultSetupProps = InferGetStaticPropsType<typeof getStaticProps>;
 
 const TimeZoneSetup: React.FC<DefaultSetupProps> = () => {
   const [timeZone, setTimeZone] = useState<string>('');
-  const { user } = useUser({ redirectTo: '/' });
+  const { user } = useUser();
 
   if (user?.player) {
     const { player } = user;

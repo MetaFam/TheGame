@@ -21,6 +21,7 @@ export type Props = {
 
 export const SetupPlayerType: React.FC<Props> = ({ isEdit, onClose }) => {
   const { onNextPress, nextButtonLabel } = useSetupFlow();
+  const { user } = useUser();
   const toast = useToast();
 
   const [updateAboutYouRes, updateAboutYou] = useUpdateAboutYouMutation();
@@ -28,7 +29,6 @@ export const SetupPlayerType: React.FC<Props> = ({ isEdit, onClose }) => {
   const [playerTypeChoices, setPlayerTypeChoices] = useState<Player_Type[]>([]);
 
   const [playerType, setPlayerType] = useState<Player_Type>();
-  const { user } = useUser({ redirectTo: '/' });
   const isWizard = !isEdit;
 
   if (user?.player) {

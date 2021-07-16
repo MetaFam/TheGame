@@ -51,3 +51,13 @@ gql`
     }
   }
 `;
+
+export const UpdateProfilePronouns = gql`
+  mutation updateProfilePronouns($playerId: uuid!, $input: player_set_input!) {
+    update_player_by_pk(pk_columns: { id: $playerId }, _set: $input) {
+      id
+      availability_hours
+      timezone
+    }
+  }
+`;
