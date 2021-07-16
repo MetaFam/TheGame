@@ -21,13 +21,19 @@ module.exports = {
       "how-does-it-work/a-cautionary-tale",
     ],
     "🗺 Enter MetaGame": [
+      "enter-metagame/join-metagame",
       "enter-metagame/why-patron",
       "enter-metagame/how-to-become-a-player",
       //   "enter-metagame/roles-in-metagame",
       "enter-metagame/navigation-board",
-      "enter-metagame/join-metagame",
       "enter-metagame/leaderboard",
       //"enter-metagame/Chainlog",
+    ],
+    '🤔 What we do': [
+      "Guilding/metasys",
+      "what-we-do/mymeta",
+//      "what-we-do/events",
+//      "what-we-do/metalibrary",
     ],
     '🏡 The Great Houses': [
       'great-houses/how-to-house',

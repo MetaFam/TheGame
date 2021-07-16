@@ -1,5 +1,5 @@
 ---
-title: 🕋 MetaSys
+title: 🕋 MetaSys DAOs
 ---
 
 ## 🤔 Why MetaSys?
