@@ -3688,7 +3688,7 @@ type player {
   """Remote relationship field"""
   daohausMemberships: [Member!]!
   discord_id: String
-  ethereum_address: String
+  ethereum_address: String!
 
   """An array relationship"""
   guilds(
@@ -3804,6 +3804,7 @@ type player {
   ): quest_aggregate!
   rank: PlayerRank_enum
   role: String
+  season_xp: numeric
   timezone: String
 
   """Remote relationship field"""
@@ -4047,6 +4048,7 @@ type player_avg_fields {
   availability_hours: Float
   color_mask: Float
   player_type_id: Float
+  season_xp: Float
   total_xp: Float
 }
 
@@ -4057,6 +4059,7 @@ input player_avg_order_by {
   availability_hours: order_by
   color_mask: order_by
   player_type_id: order_by
+  season_xp: order_by
   total_xp: order_by
 }
 
@@ -4083,6 +4086,7 @@ input player_bool_exp {
   quests: quest_bool_exp
   rank: PlayerRank_enum_comparison_exp
   role: String_comparison_exp
+  season_xp: numeric_comparison_exp
   timezone: String_comparison_exp
   total_xp: numeric_comparison_exp
   updated_at: timestamptz_comparison_exp
@@ -4113,6 +4117,7 @@ input player_inc_input {
   availability_hours: Int
   color_mask: Int
   player_type_id: Int
+  season_xp: numeric
   total_xp: numeric
 }
 
@@ -4136,6 +4141,7 @@ input player_insert_input {
   quests: quest_arr_rel_insert_input
   rank: PlayerRank_enum
   role: String
+  season_xp: numeric
   timezone: String
   total_xp: numeric
   updated_at: timestamptz
@@ -4152,6 +4158,7 @@ type player_max_fields {
   id: uuid
   player_type_id: Int
   role: String
+  season_xp: numeric
   timezone: String
   total_xp: numeric
   updated_at: timestamptz
@@ -4170,6 +4177,7 @@ input player_max_order_by {
   id: order_by
   player_type_id: order_by
   role: order_by
+  season_xp: order_by
   timezone: order_by
   total_xp: order_by
   updated_at: order_by
@@ -4186,6 +4194,7 @@ type player_min_fields {
   id: uuid
   player_type_id: Int
   role: String
+  season_xp: numeric
   timezone: String
   total_xp: numeric
   updated_at: timestamptz
@@ -4204,6 +4213,7 @@ input player_min_order_by {
   id: order_by
   player_type_id: order_by
   role: order_by
+  season_xp: order_by
   timezone: order_by
   total_xp: order_by
   updated_at: order_by
@@ -4258,6 +4268,7 @@ input player_order_by {
   quests_aggregate: quest_aggregate_order_by
   rank: order_by
   role: order_by
+  season_xp: order_by
   timezone: order_by
   total_xp: order_by
   updated_at: order_by
@@ -4303,6 +4314,9 @@ enum player_select_column {
   role
 
   """column name"""
+  season_xp
+
+  """column name"""
   timezone
 
   """column name"""
@@ -4328,6 +4342,7 @@ input player_set_input {
   player_type_id: Int
   rank: PlayerRank_enum
   role: String
+  season_xp: numeric
   timezone: String
   total_xp: numeric
   updated_at: timestamptz
@@ -4515,6 +4530,7 @@ type player_stddev_fields {
   availability_hours: Float
   color_mask: Float
   player_type_id: Float
+  season_xp: Float
   total_xp: Float
 }
 
@@ -4525,6 +4541,7 @@ input player_stddev_order_by {
   availability_hours: order_by
   color_mask: order_by
   player_type_id: order_by
+  season_xp: order_by
   total_xp: order_by
 }
 
@@ -4533,6 +4550,7 @@ type player_stddev_pop_fields {
   availability_hours: Float
   color_mask: Float
   player_type_id: Float
+  season_xp: Float
   total_xp: Float
 }
 
@@ -4543,6 +4561,7 @@ input player_stddev_pop_order_by {
   availability_hours: order_by
   color_mask: order_by
   player_type_id: order_by
+  season_xp: order_by
   total_xp: order_by
 }
 
@@ -4551,6 +4570,7 @@ type player_stddev_samp_fields {
   availability_hours: Float
   color_mask: Float
   player_type_id: Float
+  season_xp: Float
   total_xp: Float
 }
 
@@ -4561,6 +4581,7 @@ input player_stddev_samp_order_by {
   availability_hours: order_by
   color_mask: order_by
   player_type_id: order_by
+  season_xp: order_by
   total_xp: order_by
 }
 
@@ -4569,6 +4590,7 @@ type player_sum_fields {
   availability_hours: Int
   color_mask: Int
   player_type_id: Int
+  season_xp: numeric
   total_xp: numeric
 }
 
@@ -4579,6 +4601,7 @@ input player_sum_order_by {
   availability_hours: order_by
   color_mask: order_by
   player_type_id: order_by
+  season_xp: order_by
   total_xp: order_by
 }
 
@@ -4936,6 +4959,9 @@ enum player_update_column {
   role
 
   """column name"""
+  season_xp
+
+  """column name"""
   timezone
 
   """column name"""
@@ -4953,6 +4979,7 @@ type player_var_pop_fields {
   availability_hours: Float
   color_mask: Float
   player_type_id: Float
+  season_xp: Float
   total_xp: Float
 }
 
@@ -4963,6 +4990,7 @@ input player_var_pop_order_by {
   availability_hours: order_by
   color_mask: order_by
   player_type_id: order_by
+  season_xp: order_by
   total_xp: order_by
 }
 
@@ -4971,6 +4999,7 @@ type player_var_samp_fields {
   availability_hours: Float
   color_mask: Float
   player_type_id: Float
+  season_xp: Float
   total_xp: Float
 }
 
@@ -4981,6 +5010,7 @@ input player_var_samp_order_by {
   availability_hours: order_by
   color_mask: order_by
   player_type_id: order_by
+  season_xp: order_by
   total_xp: order_by
 }
 
@@ -4989,6 +5019,7 @@ type player_variance_fields {
   availability_hours: Float
   color_mask: Float
   player_type_id: Float
+  season_xp: Float
   total_xp: Float
 }
 
@@ -4999,6 +5030,7 @@ input player_variance_order_by {
   availability_hours: order_by
   color_mask: order_by
   player_type_id: order_by
+  season_xp: order_by
   total_xp: order_by
 }
 

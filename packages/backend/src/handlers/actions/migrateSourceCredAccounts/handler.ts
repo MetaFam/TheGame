@@ -15,6 +15,7 @@ import {
 import { client } from '../../../lib/hasuraClient';
 import { computeRank } from '../../../lib/rankHelpers';
 import { ledgerManager } from '../../../lib/sourcecredLedger';
+import { getNumWeeksInSeason } from '../../../lib/xpHelpers';
 
 const VALID_ACCOUNT_TYPES: Array<AccountType_Enum> = [
   AccountType_Enum.Ethereum,
@@ -66,6 +67,8 @@ export const migrateSourceCredAccounts = async (
     update_columns: [],
   };
 
+  const numWeeksInSeason = getNumWeeksInSeason();
+
   const accountList = accountsData.accounts
     .filter((a) => a.account.identity.subtype === 'USER')
     .sort((a, b) => b.totalCred - a.totalCred)
@@ -82,10 +85,15 @@ export const migrateSourceCredAccounts = async (
       if (!ethAddress) return null;
 
       const rank = computeRank(index);
+      const userWeeklyCred = a.cred;
+      const seasonXp = userWeeklyCred
+        .slice(-numWeeksInSeason)
+        .reduce((t, c) => t + c, 0);
       return {
         ethereum_address: ethAddress.toLowerCase(),
         scIdentityId: a.account.identity.id,
         totalXp: a.totalCred,
+        seasonXp,
         rank,
         discordId,
         Accounts: {
@@ -107,6 +115,7 @@ export const migrateSourceCredAccounts = async (
           ethAddress: player.ethereum_address,
           rank: player.rank,
           totalXp: player.totalXp,
+          seasonXp: player.seasonXp,
           discordId: player.discordId,
         };
 
@@ -129,6 +138,7 @@ export const migrateSourceCredAccounts = async (
                   ethereum_address: player.ethereum_address,
                   rank: player.rank,
                   total_xp: player.totalXp,
+                  season_xp: player.seasonXp,
                 },
               ],
             });
