@@ -1,5 +1,5 @@
 import { SetupProfile } from 'components/Setup/SetupProfile';
-import { SetupTimeZone } from 'components/Setup/SetupTimeZone';
+import { SetupPronouns } from 'components/Setup/SetupPronouns';
 import { SetupContextProvider } from 'contexts/SetupContext';
 import { useUser } from 'lib/hooks';
 import { InferGetStaticPropsType } from 'next';
@@ -13,23 +13,23 @@ export const getStaticProps = async () => ({
 
 export type DefaultSetupProps = InferGetStaticPropsType<typeof getStaticProps>;
 
-const TimeZoneSetup: React.FC<DefaultSetupProps> = () => {
-  const [timeZone, setTimeZone] = useState<string>('');
+const PronounsSetup: React.FC<DefaultSetupProps> = () => {
+  const [pronouns, setPronouns] = useState<string | undefined>(undefined);
   const { user } = useUser();
 
   if (user?.player) {
     const { player } = user;
-    if (player.timezone && !timeZone) {
-      setTimeZone(player.timezone);
+    if (player.pronouns && pronouns === undefined) {
+      setPronouns(player.pronouns);
     }
   }
 
   return (
     <SetupContextProvider>
       <SetupProfile>
-        <SetupTimeZone timeZone={timeZone} setTimeZone={setTimeZone} />
+        <SetupPronouns pronouns={pronouns} setPronouns={setPronouns} />
       </SetupProfile>
     </SetupContextProvider>
   );
 };
-export default TimeZoneSetup;
+export default PronounsSetup;

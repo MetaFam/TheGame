@@ -308,6 +308,7 @@
       - ethereum_address
       - id
       - player_type_id
+      - pronouns
       - rank
       - role
       - timezone
@@ -322,10 +323,11 @@
       - color_mask
       - ethereum_address
       - id
+      - pronouns
       - rank
       - role
-      - total_xp
       - timezone
+      - total_xp
       - username
       filter: {}
       allow_aggregations: true
@@ -336,6 +338,7 @@
       - availability_hours
       - color_mask
       - player_type_id
+      - pronouns
       - role
       - timezone
       - username

@@ -1,46 +1,45 @@
 import { Input, MetaButton, MetaHeading, useToast } from '@metafam/ds';
 import { FlexContainer } from 'components/Container';
 import { useSetupFlow } from 'contexts/SetupContext';
-import { useUpdatePlayerUsernameMutation } from 'graphql/autogen/types';
+import { useUpdateProfilePronounsMutation } from 'graphql/autogen/types';
 import { useUser } from 'lib/hooks';
 import React, { useState } from 'react';
 
-export type SetupUsernameProps = {
-  username: string | undefined;
-  setUsername: React.Dispatch<React.SetStateAction<string | undefined>>;
+export type SetupPronounsProps = {
+  pronouns: string | undefined;
+  setPronouns: React.Dispatch<React.SetStateAction<string | undefined>>;
 };
 
-export const SetupUsername: React.FC<SetupUsernameProps> = ({
-  username,
-  setUsername,
+export const SetupPronouns: React.FC<SetupPronounsProps> = ({
+  pronouns,
+  setPronouns,
 }) => {
   const { onNextPress, nextButtonLabel } = useSetupFlow();
   const { user } = useUser();
   const toast = useToast();
 
-  const [updateUsernameRes, updateUsername] = useUpdatePlayerUsernameMutation();
+  const [
+    updatePronounsRes,
+    updatePronouns,
+  ] = useUpdateProfilePronounsMutation();
   const [loading, setLoading] = useState(false);
 
   const handleNextPress = async () => {
     if (!user) return;
 
     setLoading(true);
-    const { error } = await updateUsername({
+    const { error } = await updatePronouns({
       playerId: user.id,
-      username: username ?? '',
+      input: {
+        pronouns: pronouns ?? '',
+      },
     });
 
     if (error) {
-      let errorDetail = 'The octo is sad 😢';
-      if (error.message.includes('Uniqueness violation')) {
-        errorDetail = 'This username is already taken 😢';
-      } else if (error.message.includes('username_is_valid')) {
-        errorDetail =
-          'A username can only contain lowercase letters, numbers, and dashes.';
-      }
+      const errorDetail = 'The octo is sad 😢';
       toast({
         title: 'Error',
-        description: `Unable to update Player Username. ${errorDetail}`,
+        description: `Unable to update Player Pronouns. ${errorDetail}`,
         status: 'error',
         isClosable: true,
       });
@@ -54,14 +53,14 @@ export const SetupUsername: React.FC<SetupUsernameProps> = ({
   return (
     <FlexContainer>
       <MetaHeading mb={10} textAlign="center">
-        What username would you like?
+        What pronouns would you like?
       </MetaHeading>
       <Input
         background="dark"
-        placeholder="USERNAME"
-        value={username}
+        placeholder="PRONOUNS"
+        value={pronouns}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-          setUsername(e.target.value)
+          setPronouns(e.target.value)
         }
         w="auto"
       />
@@ -69,7 +68,7 @@ export const SetupUsername: React.FC<SetupUsernameProps> = ({
       <MetaButton
         onClick={handleNextPress}
         mt={10}
-        isLoading={updateUsernameRes.fetching || loading}
+        isLoading={updatePronounsRes.fetching || loading}
         loadingText="Saving"
       >
         {nextButtonLabel}

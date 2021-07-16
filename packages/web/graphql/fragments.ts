@@ -9,6 +9,7 @@ export const PlayerFragment = gql`
     ethereum_address
     availability_hours
     timezone
+    pronouns
     ColorAspect {
       name
       description

@@ -1,4 +1,4 @@
-import { Box, Flex, HStack, Link, Text, VStack } from '@metafam/ds';
+import { Box, Flex, HStack, Link, Text, VStack, WrapItem } from '@metafam/ds';
 import { PlayerAvatar } from 'components/Player/PlayerAvatar';
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
 import { getPersonalityInfo } from 'graphql/getPersonalityInfo';
@@ -12,6 +12,7 @@ import { ColorBar } from '../ColorBar';
 import { PlayerContacts } from '../PlayerContacts';
 import { PlayerBrightId } from './PlayerBrightId';
 import { PlayerCollab } from './PlayerCollab';
+import { PlayerPronouns } from './PlayerPronouns';
 
 const MAX_BIO_LENGTH = 240;
 
@@ -70,6 +71,9 @@ export const PlayerHero: React.FC<Props> = ({ player }) => {
 
         <HStack mt={2}>
           <PlayerContacts player={player} />
+        </HStack>
+        <HStack mt={2}>
+          <PlayerPronouns player={player} />
         </HStack>
         <Box w="100%">
           <PlayerCollab player={player} />
