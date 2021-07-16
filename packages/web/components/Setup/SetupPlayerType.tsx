@@ -23,7 +23,7 @@ export const SetupPlayerType: React.FC<SetupPlayerTypeProps> = ({
   setPlayerType,
 }) => {
   const { onNextPress, nextButtonLabel } = useSetupFlow();
-  const { user } = useUser({ redirectTo: '/' });
+  const { user } = useUser();
   const toast = useToast();
 
   const [updateAboutYouRes, updateAboutYou] = useUpdateAboutYouMutation();

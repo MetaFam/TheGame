@@ -15,7 +15,7 @@ export const SetupTimeZone: React.FC<SetupTimezoneProps> = ({
   setTimeZone,
 }) => {
   const { onNextPress, nextButtonLabel } = useSetupFlow();
-  const { user } = useUser({ redirectTo: '/' });
+  const { user } = useUser();
   const toast = useToast();
 
   const [updateProfileRes, updateProfile] = useUpdateProfileMutation();

@@ -49,7 +49,7 @@ export const SetupSkills: React.FC<SetupSkillsProps> = ({
   setSkills,
 }) => {
   const { onNextPress, nextButtonLabel } = useSetupFlow();
-  const { user } = useUser({ redirectTo: '/' });
+  const { user } = useUser();
   const toast = useToast();
 
   const [updateSkillsRes, updateSkills] = useUpdatePlayerSkillsMutation();

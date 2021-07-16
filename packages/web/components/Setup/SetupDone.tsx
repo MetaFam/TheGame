@@ -7,7 +7,7 @@ import React, { useState } from 'react';
 
 export const SetupDone: React.FC = () => {
   const router = useRouter();
-  const { user } = useUser({ redirectTo: '/' });
+  const { user } = useUser();
   const [loading, setLoading] = useState(false);
   return (
     <FlexContainer flex={1}>

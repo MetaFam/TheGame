@@ -16,7 +16,7 @@ export type DefaultSetupProps = InferGetStaticPropsType<typeof getStaticProps>;
 const UsernameSetup: React.FC<DefaultSetupProps> = () => {
   const [username, setUsername] = useState<string | undefined>(undefined);
   const { address } = useWeb3();
-  const { user } = useUser({ redirectTo: '/' });
+  const { user } = useUser();
 
   if (user?.player) {
     const { player } = user;
