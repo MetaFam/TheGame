@@ -45,5 +45,6 @@ We use a [ZenHub](https://app.zenhub.com/workspaces/metaos-6012e782d1bec10015d7f
 
 ### Some Tips
 
+- If your PR contains both frontend and backend changes, then it is recommended that you split the PR into two where the first PR would contain only the backend changes while the second PR would contain the frontend changes.
 - If you mention another github user in a PR or commit using [something like](https://sourcecred.io/docs/beta/plugins/github#edges) `paired with @dysbulic`, the XP will be split with that user. This can be useful when you want to give someone props for significantly helping.
 - MetaGame builders are distributed all over the world, which has both benefits and drawbacks. Don't be afraid to post in Discord to e.g. give us a nudge to review a PR or merge to master.
