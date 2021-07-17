@@ -38,8 +38,6 @@ const getImageMoloch = (title: string) => {
 };
 
 type LinkDaoProps = {
-  chain: string;
-  address: string;
   explorerUrl: string | null;
 };
 
@@ -95,11 +93,7 @@ const DaoListing: React.FC<DaoListingProps> = ({
   }
 
   return (
-    <LinkDao
-      chain={chain || ''}
-      address={address || ''}
-      explorerUrl={explorerUrl}
-    >
+    <LinkDao explorerUrl={explorerUrl}>
       <HStack alignItems="center" mb={6}>
         <Flex bg="purpleBoxLight" width={16} height={16} mr={6}>
           <Box
