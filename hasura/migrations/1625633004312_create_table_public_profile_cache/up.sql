@@ -5,6 +5,7 @@ CREATE TABLE IF NOT EXISTS public.profile_cache (
   name TEXT,
   description TEXT,
   location TEXT,
+  country TEXT,
   emoji TEXT,
   image_url TEXT,
   background_image_url TEXT,

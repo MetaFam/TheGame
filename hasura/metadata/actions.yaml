@@ -21,14 +21,14 @@ actions:
     forward_client_headers: true
   permissions:
   - role: player
-- name: updateAllBoxProfiles
-  definition:
-    kind: asynchronous
-    handler: '{{ACTION_BASE_ENDPOINT}}/cache/updateAll'
-- name: updateBoxProfile
+- name: updateExpiredIDXProfiles
   definition:
     kind: synchronous
-    handler: '{{ACTION_BASE_ENDPOINT}}/cache/update'
+    handler: '{{ACTION_BASE_ENDPOINT}}/idxCache/checkExpired'
+- name: updateIDXProfile
+  definition:
+    kind: synchronous
+    handler: '{{ACTION_BASE_ENDPOINT}}/idxCache/updateSingle'
     forward_client_headers: true
   permissions:
   - role: player
@@ -95,4 +95,6 @@ custom_types:
         quest_completion_id: id
   - name: DiscordGuildAuthResponse
   - name: CacheProcessOutput
+  - name: UpdateIDXProfileResponse
+  - name: ExpiredPlayerProfiles
   scalars: []
