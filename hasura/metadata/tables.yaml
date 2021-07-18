@@ -360,7 +360,7 @@
       set:
         id: x-hasura-User-Id
   event_triggers:
-  - name: cache3BoxProfile
+  - name: cacheIDXProfile
     definition:
       enable_manual: true
       insert:
