@@ -9,19 +9,11 @@ export default async (req: Request, res: Response): Promise<void> => {
   const playerId = req.body.input?.playerId;
 
   if (!['admin', 'player'].includes(role)) {
-    res.json({
-      success: false,
-      error: `Expected Role: admin or player. Got "${role}".`,
-    });
-    return;
+    throw new Error(`Expected Role: admin or player. Got "${role}".`);
   }
 
   if (!playerId) {
-    res.json({
-      success: false,
-      error: 'No playerId specified to update.',
-    });
-    return;
+    throw new Error('No playerId specified to update.');
   }
 
   if (!req.app.locals.queuedRecacheFor[playerId]) {
@@ -37,6 +29,6 @@ export default async (req: Request, res: Response): Promise<void> => {
     );
     res.json({ success: true });
   } else {
-    res.json({ success: false, error: 'Already queued to be refreshed.' });
+    throw new Error('Already queued to be refreshed.');
   }
 };

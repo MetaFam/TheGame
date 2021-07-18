@@ -47,7 +47,7 @@ export const useOpenSeaCollectibles = ({
       if (collectiblesFavorites.length > 0 && owner) {
         const favoritesQuery = {
           owner,
-          token_ids: collectiblesFavorites.map(({ tokenId }) => tokenId ?? ''),
+          token_ids: collectiblesFavorites.map(({ tokenId }) => tokenId || ''),
         };
         const [favoritesData, allData] = await Promise.all([
           fetchOpenSeaData(favoritesQuery),
