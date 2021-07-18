@@ -45,7 +45,7 @@ export const PlayerHero: React.FC<Props> = ({ player }) => {
           <Text fontSize="xl" fontFamily="heading" mb={1}>
             {getPlayerName(player)}
           </Text>
-          <PlayerBrightId player={player} />
+          <PlayerBrightId {...{ player }} />
         </Box>
         <Box>
           <Text fontSize={{ base: 'sm', sm: 'md' }}>
