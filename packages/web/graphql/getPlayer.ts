@@ -21,6 +21,7 @@ export const getPlayer = async (
   username: string | undefined,
 ): Promise<PlayerFragmentFragment | null> => {
   if (!username) return null;
+
   const { data, error } = await client
     .query<GetPlayerQuery, GetPlayerQueryVariables>(playerQuery, { username })
     .toPromise();
@@ -33,5 +34,5 @@ export const getPlayer = async (
     return null;
   }
 
-  return data?.player?.length > 0 ? data.player[0] : null;
+  return data.player?.[0] ?? null;
 };
