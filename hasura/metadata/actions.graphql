@@ -20,12 +20,14 @@ type Mutation {
 
 
 type Mutation {
-  updateAllBoxProfiles : CacheProcessOutput
+  updateExpiredIDXProfiles : ExpiredPlayerProfiles
 }
 
 
 type Mutation {
-  updateBoxProfile : UpdateBoxProfileResponse
+  updateIDXProfile (
+    playerId: uuid
+  ): CacheProcessOutput
 }
 
 
@@ -103,5 +105,14 @@ type DiscordGuildAuthResponse {
 type CacheProcessOutput {
   success : Boolean!
   error : String
+}
+
+type UpdateIDXProfileResponse {
+  success : Boolean!
+  updatedProfiles : [String!]!
+}
+
+type ExpiredPlayerProfiles {
+  ids : [String]!
 }
 
