@@ -4,16 +4,13 @@ import { getLegacy3BoxProfileAsBasicProfile, IDX } from '@ceramicstudio/idx';
 import type { BasicProfile } from '@ceramicstudio/idx-constants';
 import Box from '3box';
 
-import { CONFIG } from '../../../../config';
+import { CONFIG } from '../../../config';
 import {
   AccountType_Enum,
   UpdateBoxProfileResponse,
-} from '../../../../lib/autogen/hasura-sdk';
-import { client } from '../../../../lib/hasuraClient';
-import {
-  optimizeImage,
-  OptimizeImageParams,
-} from '../../../../lib/imageHelpers';
+} from '../../../lib/autogen/hasura-sdk';
+import { client } from '../../../lib/hasuraClient';
+import { optimizeImage, OptimizeImageParams } from '../../../lib/imageHelpers';
 
 function getImage(image: string | null | undefined, opts: OptimizeImageParams) {
   const [, imageHash] = image?.match(/^ipfs:\/\/(.+)$/) ?? [];
@@ -27,12 +24,10 @@ function getImage(image: string | null | undefined, opts: OptimizeImageParams) {
 const ceramic = new CeramicClient(CONFIG.ceramicDaemonURL);
 const idx = new IDX({ ceramic });
 
-export async function updateCachedProfile(
-  playerId: string,
-): Promise<UpdateBoxProfileResponse> {
+// eslint-disable-next-line import/no-default-export
+export default async (playerId: string): Promise<UpdateBoxProfileResponse> => {
   const updatedProfiles: string[] = [];
   const { player_by_pk: player } = await client.GetPlayer({ playerId });
-
   const ethAddress = player?.ethereum_address;
 
   if (!ethAddress) {
@@ -57,43 +52,39 @@ export async function updateCachedProfile(
 
   if (!idxProfile) {
     console.info(`No Profile For: ${ethAddress}`);
-  } else {
-    const {
-      name,
-      description,
-      emoji,
-      gender,
-      url,
-      homeLocation,
-      residenceCountry: country,
-    } = idxProfile;
-    let location = homeLocation;
-    if (country && country.length > 0) {
-      if (location && location.length > 0) {
-        location += `, ${country}`;
-      } else {
-        location = country;
-      }
-    }
-    const values = {
-      playerId,
-      name,
-      description,
-      emoji,
-      imageURL: getImage(idxProfile.image?.original?.src, {
-        ar: '1:1',
-        height: 200,
-      }),
-      backgroundImageURL: getImage(idxProfile.background?.original?.src, {
-        height: 300,
-      }),
-      gender,
-      location,
-      website: url,
-    };
-
-    await client.UpsertProfileCache({ objects: [values] });
+    idxProfile = {}; // create an empty placeholder row
   }
+
+  const {
+    name,
+    description,
+    emoji,
+    gender,
+    url,
+    homeLocation: location,
+    residenceCountry: country,
+    image,
+    background,
+  } = idxProfile;
+  const values = {
+    playerId,
+    name,
+    description,
+    emoji,
+    imageURL: getImage(image?.original?.src, {
+      ar: '1:1',
+      height: 200,
+    }),
+    backgroundImageURL: getImage(background?.original?.src, {
+      height: 300,
+    }),
+    gender,
+    location,
+    country,
+    website: url,
+  };
+
+  await client.UpsertProfileCache({ objects: [values] });
 
   // There isn't yet an interface for linking accounts on self.id
   const boxProfile = await Box.getProfile(ethAddress);
@@ -143,4 +134,4 @@ export async function updateCachedProfile(
     success: true,
     updatedProfiles,
   };
-}
+};

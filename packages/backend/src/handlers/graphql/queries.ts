@@ -119,3 +119,18 @@ export const GetDiscordGuild = gql`
   }
   ${GuildFragment}
 `;
+
+export const GetCacheEntries = gql`
+  query GetCacheEntries($updatedBefore: timestamptz!) {
+    profile_cache(
+      where: {
+        _or: [
+          { last_checked_at: { _lt: $updatedBefore } }
+          { last_checked_at: { _is_null: true } }
+        ]
+      }
+    ) {
+      playerId
+    }
+  }
+`;
