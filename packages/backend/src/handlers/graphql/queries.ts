@@ -22,14 +22,6 @@ export const GetPlayerFromEth = gql`
   }
 `;
 
-export const GetPlayerIds = gql`
-  query GetPlayerIds($limit: Int) {
-    player(limit: $limit) {
-      id
-    }
-  }
-`;
-
 export const GetQuestById = gql`
   query GetQuestById($quest_id: uuid!) {
     quest_by_pk(id: $quest_id) {
