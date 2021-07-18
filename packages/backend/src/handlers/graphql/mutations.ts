@@ -34,7 +34,17 @@ export const UpsertProfileCache = gql`
     $objects: [profile_cache_insert_input!]!
     $onConflict: profile_cache_on_conflict = {
       constraint: profile_cache_player_id_key
-      update_columns: []
+      update_columns: [
+        name
+        description
+        emoji
+        imageURL
+        backgroundImageURL
+        gender
+        location
+        country
+        website
+      ]
     }
   ) {
     insert_profile_cache(on_conflict: $onConflict, objects: $objects) {

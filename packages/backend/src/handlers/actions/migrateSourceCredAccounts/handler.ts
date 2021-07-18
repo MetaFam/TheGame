@@ -91,7 +91,6 @@ export const migrateSourceCredAccounts = async (
         .reduce((t, c) => t + c, 0);
       return {
         ethereum_address: ethAddress.toLowerCase(),
-        scIdentityId: a.account.identity.id,
         totalXp: a.totalCred,
         seasonXp,
         rank,
