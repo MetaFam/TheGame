@@ -1,5 +1,6 @@
 import { Box, Flex, LoadingState } from '@metafam/ds';
 import { PlayerHero } from 'components/Player/Section/PlayerHero';
+import { useInsertCacheInvalidationMutation } from 'graphql/autogen/types';
 import { getPlayer } from 'graphql/getPlayer';
 import { getTopPlayerUsernames } from 'graphql/getPlayers';
 import {
@@ -9,7 +10,7 @@ import {
 } from 'next';
 import Error from 'next/error';
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { PageContainer } from '../../components/Container';
 import { PlayerAchievements } from '../../components/Player/Section/PlayerAchievements';
@@ -37,12 +38,19 @@ const PlayerPage: React.FC<Props> = ({ player }) => {
   };
   const [boxAvailableList, setBoxAvailableList] = useState<string[]>([]);
   const [canEdit] = useState(false);
+  const [, invalidateCache] = useInsertCacheInvalidationMutation();
 
   const [fakeData, setFakeData] = useState([
     [],
     [BOX_TYPE.PLAYER_MEMBERSHIPS, BOX_TYPE.PLAYER_SKILLS],
     [BOX_TYPE.PLAYER_GALLERY],
   ]);
+
+  useEffect(() => {
+    if (player) {
+      invalidateCache({ playerId: player.id });
+    }
+  }, [player, invalidateCache]);
 
   if (router.isFallback) {
     return (
@@ -122,7 +130,7 @@ const PlayerPage: React.FC<Props> = ({ player }) => {
           mr={{ base: 0, md: 4 }}
         >
           <Box mb="6">
-            <PlayerHero player={player} />
+            <PlayerHero {...{ player }} />
           </Box>
           {(fakeData || [[], [], []])[0].map((name) => (
             <Box mb="6" key={name}>
