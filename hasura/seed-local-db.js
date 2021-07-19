@@ -4,11 +4,12 @@ const gql = require('fake-tag');
 
 const PRODUCTION_URL = 'https://api.metagame.wtf/v1/graphql';
 const LOCAL_URL = 'http://localhost:8080/v1/graphql';
+const HASURA_GRAPHQL_ADMIN_SECRET = process.env.HASURA_GRAPHQL_ADMIN_SECRET || 'metagame_secret';
 const NUM_PLAYERS = 300;
 
 const authHeaders = {
       ['content-type']: 'application/json',
-      ['x-hasura-admin-secret']: 'metagame_secret',
+      ['x-hasura-admin-secret']: HASURA_GRAPHQL_ADMIN_SECRET,
 }
 
 async function fetchGraphQL(url, operationsDoc, operationName, variables = {}, isUpdate = false) {
