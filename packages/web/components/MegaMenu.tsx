@@ -22,14 +22,14 @@ import {
 import Image from 'next/image';
 import React from 'react';
 
-const XPStar = '/assets/xp-star.png';
-const SeedMarket = '/assets/seed-market.png';
+import SeedMarket from '../assets/seed-icon.svg';
+import XPStar from '../assets/xp-star.svg';
 
 const Logo = () => (
   <Box
     className="logo"
     flex="1"
-    minW={{ base: 'auto', lg: '20%' }}
+    minW={{ base: 'auto', lg: '10%', xl: '20%' }}
     mt="auto"
     mb="auto"
   >
@@ -44,7 +44,7 @@ type MenuItemProps = {
 };
 
 const DesktopMenuItem = ({ title, url, explainerText }: MenuItemProps) => (
-  <MenuItem color="#000" p={7} key={title}>
+  <MenuItem color="#000" p={7} key={title} fontFamily="exo">
     <Link
       display="flex"
       alignItems="top"
@@ -71,6 +71,7 @@ const DesktopMenuItem = ({ title, url, explainerText }: MenuItemProps) => (
 const DesktopMenus = ({ sections }: { sections: any }) => (
   <Flex
     className="section-links"
+    fontFamily="exo"
     display={{ base: 'none', lg: 'flex' }}
     minW={{ base: 'auto', lg: '20%' }}
     alignContent="center"
@@ -178,7 +179,8 @@ const PlayerStats = () => (
       border="1px solid #2B2244"
       borderRadius={50}
     >
-      <Image src={XPStar} alt="XP" height={16} width={16} /> 668
+      <Image src={XPStar} alt="XP" height={14} width={14} />{' '}
+      <Text ml={[0, 0, 0, 2]}>668</Text>
     </Badge>
     <Badge
       display={{ base: 'none', md: 'flex' }}
@@ -193,7 +195,8 @@ const PlayerStats = () => (
       border="1px solid #2B2244"
       borderRadius={50}
     >
-      <Image src={SeedMarket} alt="Seed" height={16} width={16} /> 262
+      <Image src={SeedMarket} alt="Seed" height={14} width={14} />{' '}
+      <Text ml={[0, 0, 0, 2]}>262</Text>
     </Badge>
     <Avatar
       name="alt text"
@@ -338,7 +341,7 @@ export const MegaMenu: React.FC = () => {
   ];
 
   return (
-    <Stack position="sticky" top={0} zIndex={1}>
+    <Stack position="sticky" top={0} zIndex={1} fontFamily="exo">
       <Flex
         justifyContent="space-between"
         fontFamily="IBM Plex Sans"
