@@ -42,7 +42,7 @@ module.exports = {
       'great-houses/house-of-NFTs',
       'great-houses/house-of-dapps',
       // 'enter-metagame/guilds-of-metagame',
-      //   'great-houses/house-of-defiance',
+      'great-houses/house-of-defi',
       //   'great-houses/house-of-dapps',
       //   'great-houses/house-of-tokens',
     ],

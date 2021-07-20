@@ -1,5 +1,5 @@
 ---
-title: ⬨ House of Ethereum
+title: ⟠ House of Ethereum
 ---
 
 import { mmDonts, ethSafetyLinks, List } from "../../src/components/list.js";
