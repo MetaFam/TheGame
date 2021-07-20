@@ -19,6 +19,7 @@ import {
   Text,
   useDisclosure,
 } from '@metafam/ds';
+import { useUser } from 'lib/hooks/index';
 import Image from 'next/image';
 import React from 'react';
 
@@ -154,7 +155,7 @@ const DesktopMenus = ({ sections }: { sections: any }) => (
   </Flex>
 );
 
-const PlayerStats = () => (
+const PlayerStats = ({ playerXp }: { playerXp: number }) => (
   <Flex
     align="center"
     display="flex"
@@ -180,7 +181,7 @@ const PlayerStats = () => (
       borderRadius={50}
     >
       <Image src={XPStar} alt="XP" height={14} width={14} />{' '}
-      <Text ml={[0, 0, 0, 2]}>668</Text>
+      <Text ml={[0, 0, 0, 2]}>{playerXp}</Text>
     </Badge>
     <Badge
       display={{ base: 'none', md: 'flex' }}
@@ -208,6 +209,9 @@ const PlayerStats = () => (
 );
 
 export const MegaMenu: React.FC = () => {
+  const { user } = useUser();
+  const playerXp = user?.player?.total_xp || 0;
+
   const { isOpen, onOpen, onClose } = useDisclosure();
   const menuToggle = () => (isOpen ? onClose() : onOpen());
 
@@ -359,7 +363,7 @@ export const MegaMenu: React.FC = () => {
         <Spacer />
         <DesktopMenus sections={sections} />
         <Spacer />
-        <PlayerStats />
+        <PlayerStats playerXp={playerXp} />
         <Flex
           onClick={menuToggle}
           flexWrap="nowrap"
