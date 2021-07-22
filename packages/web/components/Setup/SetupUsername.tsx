@@ -59,7 +59,7 @@ export const SetupUsername: React.FC<SetupUsernameProps> = ({
       <Input
         background="dark"
         placeholder="USERNAME"
-        value={username}
+        value={username ?? ''}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
           setUsername(e.target.value)
         }

@@ -47,3 +47,11 @@ export const UpdateSkillsMutation = gql`
     }
   }
 `;
+
+export const UpdateSkillsOrderMutation = gql`
+  mutation UpdatePlayerSkillsOrder($skills: [player_skill_insert_input!]!) {
+    insert_player_skill(objects: $skills) {
+      affected_rows
+    }
+  }
+`;
