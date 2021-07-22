@@ -1,6 +1,4 @@
-export const getNumWeeksInSeason = (): number => {
-  const currentDate = new Date();
-
+export const getNumWeeksInSeason = (currentDate: Date = new Date()): number => {
   const currentYear = currentDate.getFullYear();
 
   const lastYear = currentDate.getFullYear() - 1;
