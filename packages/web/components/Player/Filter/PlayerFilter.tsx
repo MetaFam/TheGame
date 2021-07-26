@@ -245,7 +245,7 @@ export const PlayerFilter: React.FC<Props> = ({
             {availability && (
               <WrapItem>
                 <FilterTag
-                  label={`Available >${availability.value} h/week`}
+                  label={`Available ≥${availability.value} h/week`}
                   onRemove={() => {
                     setAvailability(null);
                   }}
