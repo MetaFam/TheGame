@@ -42,7 +42,7 @@ export const PlayerTile: React.FC<Props> = ({ player }) => {
   const description = getPlayerDescription(player);
   const displayDescription =
     description && description.length > MAX_BIO_LENGTH
-      ? `${description.substring(0, MAX_BIO_LENGTH - 9)}...`
+      ? `${description.substring(0, MAX_BIO_LENGTH - 9)}…`
       : description;
   return (
     <MetaTile>

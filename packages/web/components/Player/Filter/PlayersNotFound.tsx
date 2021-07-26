@@ -14,10 +14,10 @@ export const PlayersNotFound: React.FC = () => (
   >
     <Image src={PlayersNotFoundImage} />
     <Text fontWeight="bold" fontSize="xl" textAlign="center">
-      No players found
+      No Players Found
     </Text>
     <Text textAlign="center">
-      It seems we can’t find any players that match the filters you selected.
+      We can’t find any players that match the filters you selected.
     </Text>
   </VStack>
 );

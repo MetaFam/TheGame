@@ -182,13 +182,9 @@ const SelectControl: React.FC<
 
   const onClick = useCallback(() => {
     if (menuIsOpen) {
-      if (onMenuClose) {
-        onMenuClose();
-      }
+      onMenuClose?.();
     } else {
-      if (onMenuOpen) {
-        onMenuOpen();
-      }
+      onMenuOpen?.();
       if (!showSearch && buttonRef.current) {
         buttonRef.current.focus();
       }
