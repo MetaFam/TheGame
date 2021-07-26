@@ -116,7 +116,7 @@ const MorePlayers = React.forwardRef<HTMLDivElement, MorePlayersProps>(
       <VStack w="100%" ref={ref}>
         {fetching ? <LoadingState color="white" /> : null}
         {!fetching && !isTimezoneSelected && totalCount > 0 ? (
-          <Text color="white">No more players available</Text>
+          <Text color="white">No more players available.</Text>
         ) : null}
         {!fetching && totalCount === 0 ? <PlayersNotFound /> : null}
         {!fetching && isTimezoneSelected ? (

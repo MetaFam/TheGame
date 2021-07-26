@@ -12,9 +12,7 @@ type Props = {
 const getAdjacentTimezoneQueryVariables = (
   defaultQueryVariables: GetPlayersQueryVariables,
 ): GetPlayersQueryVariables => {
-  const timezoneValue = defaultQueryVariables.timezones
-    ? defaultQueryVariables.timezones[0]
-    : undefined;
+  const timezoneValue = defaultQueryVariables.timezones?.[0];
   const timezone = TimezoneOptions.find((t) => t.value === timezoneValue);
   const adjascentTimezones = timezone
     ? TimezoneOptions.filter(
@@ -72,14 +70,14 @@ export const AdjascentTimezonePlayers: React.FC<Props> = ({
       spacing={{ base: '4', md: '8' }}
       pt={{ base: '4', md: '8' }}
     >
-      {error ? <Text>{`Error: ${error.message}`}</Text> : null}
+      {error ? <Text>Error: {error.message}</Text> : null}
       {!error && players.length && (fetchingMore || !fetching) ? (
         <>
           <Flex
             justify="space-between"
             w="100%"
             maxW="79rem"
-            pr="4"
+            pr={4}
             align="center"
             pb={{ base: 4, md: 0 }}
           >
