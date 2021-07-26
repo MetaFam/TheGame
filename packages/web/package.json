@@ -18,7 +18,7 @@
     "@urql/exchange-retry": "0.2.1",
     "@walletconnect/web3-provider": "1.4.1",
     "copy-to-clipboard": "3.3.1",
-    "ethers": "5.4.1",
+    "ethers": "5.4.2",
     "fake-tag": "3.0.0",
     "graphql": "15.5.0",
     "isomorphic-unfetch": "3.1.0",
