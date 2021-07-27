@@ -151,22 +151,20 @@ const SelectValueContainer: React.FC<
   React.ComponentProps<typeof SelectComponents.ValueContainer>
 > = (props) => {
   const {
-    selectProps: { value, title, menuIsOpen },
+    selectProps: { value, title: selectTitle, menuIsOpen },
   } = props;
 
   let tagLabel = '';
   if (value.length > 0) {
     tagLabel = value.length.toString();
   }
+  let title = selectTitle;
   if (title.toLowerCase() === 'availability' && value.length > 0) {
     tagLabel = `≥${value[0].value}`;
   }
-  if (
-    title.toLowerCase() === 'sort by' &&
-    value.length > 0 &&
-    value[0].value === 'SEASON_XP'
-  ) {
+  if (title.toLowerCase() === 'sort by' && value.length > 0) {
     tagLabel = '';
+    title = `Sorted By: ${value[0].label}`;
   }
   return (
     <Flex mr="-1rem" py="1" align="center" cursor="pointer">

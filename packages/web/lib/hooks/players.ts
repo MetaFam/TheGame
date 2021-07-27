@@ -77,21 +77,21 @@ export enum SortOption {
 export const sortOptionsMap = {
   [SortOption.SEASON_XP.toString()]: {
     value: SortOption.SEASON_XP,
-    label: 'XP this season (default)',
+    label: 'Seasonal XP',
     output: {
       season_xp: 'desc',
     },
   },
   [SortOption.TOTAL_XP.toString()]: {
     value: SortOption.TOTAL_XP,
-    label: 'XP all time',
+    label: 'Total XP',
     output: {
       total_xp: 'desc',
     },
   },
   [SortOption.AVAILABILITY.toString()]: {
     value: SortOption.AVAILABILITY,
-    label: 'Most Availability',
+    label: 'Availability',
     output: {
       availability_hours: 'desc',
     },
