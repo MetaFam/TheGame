@@ -1,5 +1,6 @@
 ---
 title: 👽 MyMeta Profiles
+image: https://imgur.com/TniHogd.png
 --- 
 
 > _MetaGame is sort of like LinkedIn, except not boring and nothing like LinkedIn._

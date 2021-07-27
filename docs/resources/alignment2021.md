@@ -1,5 +1,6 @@
 ---
 title: 🌍 MetaFam Alignment 2021
+image: https://i.imgur.com/om7B1ya.png
 ---
 
 

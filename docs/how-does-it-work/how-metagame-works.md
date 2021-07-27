@@ -1,5 +1,6 @@
 ---
 title: 🎩 How Does MetaGame Work?
+image: https://imgur.com/TFEyHyQ.png
 ---
 
 ## A Decentralized Organism

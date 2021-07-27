@@ -1,5 +1,6 @@
 ---
 title: 👨‍👩‍👦‍👦 Guilding 101
+image: https://cdn.substack.com/image/fetch/w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F5ea30191-5e0d-49c3-9e0f-393ce2f2248c_794x791.png
 ---
 
 

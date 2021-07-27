@@ -1,5 +1,6 @@
 ---
 title: 😶 A Cautionary Tale
+image: https://i.ibb.co/zhjFPD0/metagame-illuminati.png
 ---
 
 Welcome to the Intro to ***'The Neuro-Chemical Dependency of a Sourcecred Junkie'.***

@@ -1,5 +1,6 @@
 ---
 title: 🤨 WTF is MetaGame?
+image: https://i.imgur.com/k8vWoa8.png
 ---
 
 ![](https://i.imgur.com/k8vWoa8.png)

@@ -1,5 +1,6 @@
 ---
 title: 📚 Entering DAOs as a Writer
+image: https://lh3.googleusercontent.com/kjM6ubVa95ga390-RxhuX-YijQr8vNnjjDhIlWu0OCBitW5eZv8RiuochUTaAv6izsr1CKFFA-noPdlFYokYKFtyzj53SGOhT1w9V7VcVABLlU6PRrCAFOxoBB_UyYHLRAkixU9h0pvK3KowCg
 ---
 
 Written by Gnomeski

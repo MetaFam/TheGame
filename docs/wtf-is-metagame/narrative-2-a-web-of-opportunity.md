@@ -1,5 +1,6 @@
 ---
 title: 🤑 A Web of Opportunity
+image: https://cdn.substack.com/image/fetch/w_1456,c_limit,f_auto,q_auto:good/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2Ffac4588b-355f-4c4a-a19a-ec4ea65ee7d1_1421x800.jpeg
 ---
 
 ## Intro

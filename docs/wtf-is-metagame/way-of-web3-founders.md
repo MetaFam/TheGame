@@ -1,5 +1,6 @@
 ---
 title: 👣 The Way of Web3 Founders
+image: https://cdn.substack.com/image/fetch/w_1456,c_limit,f_auto,q_auto:good/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F7b0a2888-53a3-4f2d-8dbf-921c83337517_1200x841.jpeg
 ---
 
 ## **“Safe career”**

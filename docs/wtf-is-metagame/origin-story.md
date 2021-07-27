@@ -1,5 +1,6 @@
 ---
 title: 📖 The MetaGenesis Odyssey
+image: img/origin.1.png
 ---
 
 ![](/img/origin.1.png)

@@ -1,5 +1,6 @@
 ---
 title: 💫 House of DAOs
+image: https://imgur.com/1Kezv9Q.png
 ---
 
 ![](https://imgur.com/1Kezv9Q.png)

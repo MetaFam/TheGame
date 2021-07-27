@@ -1,5 +1,6 @@
 ---
 title: 🤔 How To Play MetaGame
+image: https://cdn.substack.com/image/fetch/w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2Fcb7219a1-b64d-4ae3-ace1-6ddf58d4c629_541x535.png
 ---
 
 

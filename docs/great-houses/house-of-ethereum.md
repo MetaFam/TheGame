@@ -1,5 +1,6 @@
 ---
 title: ⟠ House of Ethereum
+image: https://i.imgflip.com/44f8lj.png
 ---
 
 import { mmDonts, ethSafetyLinks, List } from "../../src/components/list.js";

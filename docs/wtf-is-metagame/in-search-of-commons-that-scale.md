@@ -1,5 +1,6 @@
 ---
 title: 🔭 In Search of Commons That Scale
+image: https://cdn.substack.com/image/fetch/w_1456,c_limit,f_auto,q_auto:good/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F4375aa20-0390-4450-a02f-4ee3ce49e5e4_1812x700.png
 ---
 
 ![](https://cdn.substack.com/image/fetch/w_1456,c_limit,f_auto,q_auto:good/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F4375aa20-0390-4450-a02f-4ee3ce49e5e4_1812x700.png)
