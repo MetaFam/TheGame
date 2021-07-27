@@ -22,7 +22,7 @@ import {
 } from '@metafam/ds';
 import { SkillCategory_Enum } from 'graphql/autogen/types';
 import { SkillColors } from 'graphql/types';
-import { PlayerAggregates } from 'lib/hooks/players';
+import { PlayerAggregates, sortOptions } from 'lib/hooks/players';
 import React, {
   useCallback,
   useEffect,
@@ -48,6 +48,8 @@ type Props = {
   setTimezones: React.Dispatch<React.SetStateAction<ValueType[]>>;
   availability: ValueType | null;
   setAvailability: React.Dispatch<React.SetStateAction<ValueType | null>>;
+  sortOption: ValueType;
+  setSortOption: React.Dispatch<React.SetStateAction<ValueType>>;
   isOpen: boolean;
   onClose: () => void;
   filtersUsed: boolean;
@@ -56,6 +58,7 @@ type Props = {
 
 enum Selected {
   NONE,
+  ORDER_BY,
   PLAYER_TYPE,
   SKILLS,
   AVAILABILITY,
@@ -72,6 +75,8 @@ export const MobileFilters: React.FC<Props> = ({
   setTimezones,
   availability,
   setAvailability,
+  sortOption,
+  setSortOption,
   isOpen,
   onClose: closeDrawer,
   filtersUsed,
@@ -91,6 +96,9 @@ export const MobileFilters: React.FC<Props> = ({
 
   useEffect(() => {
     switch (selected) {
+      case Selected.ORDER_BY:
+        setTitle('Order By');
+        return;
       case Selected.PLAYER_TYPE:
         setTitle('Type of Player');
         return;
@@ -149,6 +157,11 @@ export const MobileFilters: React.FC<Props> = ({
           <>
             <DrawerBody p="0">
               <FilterItem
+                title="Order By"
+                onClick={() => setSelected(Selected.ORDER_BY)}
+                value={[sortOption]}
+              />
+              <FilterItem
                 title="Type Of Player"
                 onClick={() => setSelected(Selected.PLAYER_TYPE)}
                 value={playerTypes}
@@ -191,6 +204,18 @@ export const MobileFilters: React.FC<Props> = ({
             </DrawerFooter>
           </>
         )}
+        {selected === Selected.ORDER_BY && (
+          <FilterContent
+            value={[sortOption]}
+            onChange={(value) => {
+              const values = value as ValueType[];
+              setSortOption(values[values.length - 1]);
+            }}
+            options={sortOptions}
+            onBack={onBack}
+            isMulti={false}
+          />
+        )}
         {selected === Selected.PLAYER_TYPE && (
           <FilterContent
             value={playerTypes}
@@ -221,7 +246,7 @@ export const MobileFilters: React.FC<Props> = ({
             }}
             options={[1, 5, 10, 20, 30, 40].map((value) => ({
               value: value.toString(),
-              label: `> ${value.toString()} h/week`,
+              label: `≥ ${value.toString()} h/week`,
             }))}
             onBack={onBack}
             isMulti={false}

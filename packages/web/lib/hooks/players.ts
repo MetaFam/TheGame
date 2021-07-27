@@ -1,5 +1,6 @@
 import {
   GetPlayersQueryVariables,
+  Player_Order_By,
   PlayerFragmentFragment,
   useGetPlayerFiltersQuery,
   useGetPlayersQuery,
@@ -11,9 +12,11 @@ import { CategoryOption, parseSkills } from 'utils/skillHelpers';
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type QueryVariableSetter = (key: string, value: any) => void;
 
+type OptionType = { value: string; label: string };
+
 export interface PlayerAggregates {
   skillCategories: { name: string }[];
-  playerTypes: { value: string; label: string }[];
+  playerTypes: OptionType[];
   skillChoices: CategoryOption[];
 }
 
@@ -63,6 +66,61 @@ const useFilteredPlayers = (queryVariables: GetPlayersQueryVariables) => {
   return { fetching, players, totalCount, error };
 };
 
+export enum SortOption {
+  SEASON_XP = 'SEASON_XP',
+  TOTAL_XP = 'TOTAL_XP',
+  AVAILABILITY = 'AVAILABILITY',
+  USERNAME_A_TO_Z = 'USERNAME_A_TO_Z',
+  USERNAME_Z_TO_A = 'USERNAME_Z_TO_A',
+}
+
+export const sortOptionsMap = {
+  [SortOption.SEASON_XP.toString()]: {
+    value: SortOption.SEASON_XP,
+    label: 'XP this season (default)',
+    output: {
+      season_xp: 'desc',
+    },
+  },
+  [SortOption.TOTAL_XP.toString()]: {
+    value: SortOption.TOTAL_XP,
+    label: 'XP all time',
+    output: {
+      total_xp: 'desc',
+    },
+  },
+  [SortOption.AVAILABILITY.toString()]: {
+    value: SortOption.AVAILABILITY,
+    label: 'Most Availability',
+    output: {
+      availability_hours: 'desc',
+    },
+  },
+  [SortOption.USERNAME_A_TO_Z.toString()]: {
+    value: SortOption.USERNAME_A_TO_Z,
+    label: 'Username (A-Z)',
+    output: {
+      username: 'asc',
+    },
+  },
+  [SortOption.USERNAME_Z_TO_A.toString()]: {
+    value: SortOption.USERNAME_Z_TO_A,
+    label: 'Username (Z-A)',
+    output: {
+      username: 'desc',
+    },
+  },
+};
+
+export const sortOptions = Object.values(sortOptionsMap) as Array<OptionType>;
+
+const getOrderByValue = (option: SortOption): Player_Order_By =>
+  (sortOptionsMap[(option || SortOption.SEASON_XP).toString()] as {
+    value: SortOption;
+    label: string;
+    output: Player_Order_By;
+  }).output;
+
 export const usePlayerFilter = (
   defaultVariables: GetPlayersQueryVariables = defaultQueryVariables,
 ): PlayerFilter => {
@@ -80,12 +138,21 @@ export const usePlayerFilter = (
       if (key === 'limit') {
         throw new Error('Cannot update limit');
       }
-      setQueryVariables((oldQueryVariables) => ({
-        ...oldQueryVariables,
-        limit: PLAYER_LIMIT,
-        offset: 0,
-        [key]: value !== '' ? value : null,
-      }));
+      if (key === 'orderBy') {
+        setQueryVariables((oldQueryVariables) => ({
+          ...oldQueryVariables,
+          limit: PLAYER_LIMIT,
+          offset: 0,
+          [key]: getOrderByValue(value as SortOption),
+        }));
+      } else {
+        setQueryVariables((oldQueryVariables) => ({
+          ...oldQueryVariables,
+          limit: PLAYER_LIMIT,
+          offset: 0,
+          [key]: value !== '' ? value : null,
+        }));
+      }
       shouldAppend.current = key === 'offset';
     },
     [],
@@ -137,6 +204,10 @@ export const usePlayerFilter = (
 export const useFiltersUsed = (
   queryVariables: GetPlayersQueryVariables,
 ): boolean => {
+  const sortFilterUsed = useMemo(
+    () => !Object.keys(queryVariables.orderBy).includes('season_xp'),
+    [queryVariables.orderBy],
+  );
   const playerTypesFilterUsed = useMemo(
     () => (queryVariables.playerTypeIds as number[])?.length > 0,
     [queryVariables.playerTypeIds],
@@ -159,12 +230,14 @@ export const useFiltersUsed = (
 
   const filtersUsed = useMemo(
     () =>
+      sortFilterUsed ||
       playerTypesFilterUsed ||
       searchFilterUsed ||
       availabilityFilterUsed ||
       skillIdsFilterUsed ||
       timezonesFilterUsed,
     [
+      sortFilterUsed,
       playerTypesFilterUsed,
       searchFilterUsed,
       availabilityFilterUsed,

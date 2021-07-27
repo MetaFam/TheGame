@@ -9,7 +9,7 @@ import {
 } from '@metafam/ds';
 import { SkillCategory_Enum } from 'graphql/autogen/types';
 import { SkillColors } from 'graphql/types';
-import { PlayerAggregates } from 'lib/hooks/players';
+import { PlayerAggregates, sortOptions } from 'lib/hooks/players';
 import { useIsSticky } from 'lib/hooks/useIsSticky';
 import React, { useRef } from 'react';
 import { SkillOption } from 'utils/skillHelpers';
@@ -71,6 +71,8 @@ type Props = {
   setTimezones: React.Dispatch<React.SetStateAction<ValueType[]>>;
   availability: ValueType | null;
   setAvailability: React.Dispatch<React.SetStateAction<ValueType | null>>;
+  sortOption: ValueType;
+  setSortOption: React.Dispatch<React.SetStateAction<ValueType>>;
 } & WrapProps;
 
 export const DesktopFilters: React.FC<Props> = ({
@@ -83,6 +85,8 @@ export const DesktopFilters: React.FC<Props> = ({
   setTimezones,
   availability,
   setAvailability,
+  sortOption,
+  setSortOption,
   ...props
 }) => {
   const filterRef = useRef<HTMLDivElement>(null);
@@ -106,6 +110,18 @@ export const DesktopFilters: React.FC<Props> = ({
       borderRadius={isSticky ? '0px' : '6px'}
       {...props}
     >
+      <WrapItem>
+        <MetaFilterSelectSearch
+          title="Sort By"
+          styles={styles}
+          value={[sortOption]}
+          onChange={(value) => {
+            const values = value as ValueType[];
+            setSortOption(values[values.length - 1]);
+          }}
+          options={sortOptions}
+        />
+      </WrapItem>
       <WrapItem>
         <MetaFilterSelectSearch
           title="Type Of Player"
@@ -140,7 +156,7 @@ export const DesktopFilters: React.FC<Props> = ({
           }}
           options={[1, 5, 10, 20, 30, 40].map((value) => ({
             value: value.toString(),
-            label: `> ${value.toString()} h/week`,
+            label: `≥ ${value.toString()} h/week`,
           }))}
         />
       </WrapItem>

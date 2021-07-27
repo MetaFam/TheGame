@@ -5,6 +5,7 @@ export const PlayerFragment = gql`
     id
     username
     total_xp
+    season_xp
     rank
     ethereum_address
     availability_hours

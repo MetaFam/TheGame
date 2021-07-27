@@ -155,12 +155,18 @@ const SelectValueContainer: React.FC<
   } = props;
 
   let tagLabel = '';
-  if (Array.isArray(value) && value.length > 0) {
+  if (value.length > 0) {
     tagLabel = value.length.toString();
   }
-  if (value && !Array.isArray(value)) {
-    tagLabel =
-      title.toLowerCase() === 'availability' ? `>${value.value}` : value.value;
+  if (title.toLowerCase() === 'availability' && value.length > 0) {
+    tagLabel = `≥${value[0].value}`;
+  }
+  if (
+    title.toLowerCase() === 'sort by' &&
+    value.length > 0 &&
+    value[0].value === 'SEASON_XP'
+  ) {
+    tagLabel = '';
   }
   return (
     <Flex mr="-1rem" py="1" align="center" cursor="pointer">
@@ -174,8 +180,15 @@ const SelectControl: React.FC<
   React.ComponentProps<typeof SelectComponents.Control>
 > = (props) => {
   const {
-    hasValue,
-    selectProps: { menuIsOpen, onMenuClose, onMenuOpen, showSearch },
+    hasValue: selectHasValue,
+    selectProps: {
+      menuIsOpen,
+      onMenuClose,
+      onMenuOpen,
+      showSearch,
+      title,
+      value,
+    },
   } = props;
 
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -190,6 +203,15 @@ const SelectControl: React.FC<
       }
     }
   }, [menuIsOpen, onMenuOpen, onMenuClose, showSearch]);
+
+  let hasValue = selectHasValue;
+  if (
+    title.toLowerCase() === 'sort by' &&
+    value.length > 0 &&
+    value[0].value === 'SEASON_XP'
+  ) {
+    hasValue = false;
+  }
 
   return (
     <Button
