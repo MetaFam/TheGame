@@ -82,7 +82,5 @@
   "resolutions": {
     "bcrypto": "5.2.0"
   },
-  "dependencies": {
-    "stylis": "4.0.4"
-  }
+  "dependencies": {}
 }
