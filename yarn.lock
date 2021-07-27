@@ -26402,11 +26402,6 @@ stylis@3.5.4:
   resolved "https://registry.yarnpkg.com/stylis/-/stylis-3.5.4.tgz#f665f25f5e299cf3d64654ab949a57c768b73fbe"
   integrity sha512-8/3pSmthWM7lsPBKv7NXkzn2Uc9W7NotcwGNpJaa3k7WMM1XDCA4MgT5k/8BIexd5ydZdboXtU90XH9Ec4Bv/Q==
 
-stylis@4.0.4:
-  version "4.0.4"
-  resolved "https://registry.yarnpkg.com/stylis/-/stylis-4.0.4.tgz#5a86047c87928e9a6afc76dafcb03acba69115e0"
-  integrity sha512-V52wqQLk+xZW2v6dpiz1HEa/inSigsK/S+GjMJBrXQK/Xu2R7gHDzeJkdXIxDSiLu57ageN8HNuZCehATlQq2A==
-
 stylis@^4.0.3:
   version "4.0.10"
   resolved "https://registry.yarnpkg.com/stylis/-/stylis-4.0.10.tgz#446512d1097197ab3f02fb3c258358c3f7a14240"
