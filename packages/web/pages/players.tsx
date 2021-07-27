@@ -66,6 +66,11 @@ const Players: React.FC<Props> = () => {
     moreAvailable,
   ]);
 
+  const showSeasonalXP = useMemo(
+    () => Object.keys(queryVariables.orderBy).includes('season_xp'),
+    [queryVariables.orderBy],
+  );
+
   return (
     <PageContainer>
       <HeadComponent url="https://my.metagame.wtf/players" />
@@ -85,13 +90,14 @@ const Players: React.FC<Props> = () => {
         />
         {error ? <Text>{`Error: ${error.message}`}</Text> : null}
         {!error && players.length && (fetchingMore || !fetching) ? (
-          <PlayerList players={players} />
+          <PlayerList players={players} showSeasonalXP={showSeasonalXP} />
         ) : null}
         <MorePlayers
           ref={moreRef}
           fetching={isLoading}
           totalCount={totalCount}
           queryVariables={queryVariables}
+          showSeasonalXP={showSeasonalXP}
         />
       </VStack>
     </PageContainer>
@@ -104,10 +110,11 @@ type MorePlayersProps = {
   fetching: boolean;
   totalCount: number;
   queryVariables: GetPlayersQueryVariables;
+  showSeasonalXP?: boolean;
 };
 
 const MorePlayers = React.forwardRef<HTMLDivElement, MorePlayersProps>(
-  ({ fetching, totalCount, queryVariables }, ref) => {
+  ({ fetching, totalCount, queryVariables, showSeasonalXP = false }, ref) => {
     const isTimezoneSelected = useMemo(
       () => queryVariables.timezones && queryVariables.timezones.length > 0,
       [queryVariables],
@@ -121,7 +128,10 @@ const MorePlayers = React.forwardRef<HTMLDivElement, MorePlayersProps>(
         ) : null}
         {!fetching && totalCount === 0 ? <PlayersNotFound /> : null}
         {!fetching && isTimezoneSelected ? (
-          <AdjascentTimezonePlayers queryVariables={queryVariables} />
+          <AdjascentTimezonePlayers
+            queryVariables={queryVariables}
+            showSeasonalXP={showSeasonalXP}
+          />
         ) : null}
       </VStack>
     );
