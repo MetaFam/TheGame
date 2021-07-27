@@ -8,6 +8,7 @@ import {
   InputGroup,
   InputRightElement,
   MetaButton,
+  Skeleton,
   Stack,
   styled,
   Text,
@@ -303,7 +304,7 @@ export const PlayerFilter: React.FC<Props> = ({
           </Button>
         </Flex>
       )}
-      {(fetchingMore || !fetching) && (
+      {fetchingMore || !fetching ? (
         <Flex justify="space-between" w="100%" maxW="79rem" align="center">
           <Text fontWeight="bold" fontSize="xl">
             {totalCount} player{totalCount === 1 ? '' : 's'}
@@ -320,6 +321,10 @@ export const PlayerFilter: React.FC<Props> = ({
           >
             FILTER AND SORT
           </Button>
+        </Flex>
+      ) : (
+        <Flex justify="space-between" w="100%" maxW="79rem" align="center">
+          <Skeleton h="1.5rem" w="8rem" />
         </Flex>
       )}
     </>

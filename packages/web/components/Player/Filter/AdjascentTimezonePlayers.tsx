@@ -1,4 +1,4 @@
-import { Flex, Text, TimezoneOptions, VStack } from '@metafam/ds';
+import { Flex, Skeleton, Text, TimezoneOptions, VStack } from '@metafam/ds';
 import { PlayerList } from 'components/Player/PlayerList';
 import { GetPlayersQueryVariables } from 'graphql/autogen/types';
 import { usePlayerFilter } from 'lib/hooks/players';
@@ -75,24 +75,29 @@ export const AdjascentTimezonePlayers: React.FC<Props> = ({
       pt={{ base: '4', md: '8' }}
     >
       {error ? <Text>Error: {error.message}</Text> : null}
-      {!error && players.length && (fetchingMore || !fetching) ? (
-        <>
-          <Flex
-            justify="space-between"
-            w="100%"
-            maxW="79rem"
-            pr={4}
-            align="center"
-            pb={{ base: 4, md: 0 }}
-          >
-            <Text fontWeight="bold" fontSize="xl" w="100%" maxW="79rem">
-              {totalCount} player{totalCount === 1 ? '' : 's'} in adjacent time
-              zones
-            </Text>
+      {!error &&
+        (fetchingMore || !fetching ? (
+          <>
+            <Flex
+              justify="space-between"
+              w="100%"
+              maxW="79rem"
+              pr={4}
+              align="center"
+              pb={{ base: 4, md: 0 }}
+            >
+              <Text fontWeight="bold" fontSize="xl" w="100%" maxW="79rem">
+                {totalCount} player{totalCount === 1 ? '' : 's'} in adjacent
+                time zones
+              </Text>
+            </Flex>
+            <PlayerList players={players} showSeasonalXP={showSeasonalXP} />
+          </>
+        ) : (
+          <Flex justify="space-between" w="100%" maxW="79rem" align="center">
+            <Skeleton h="1.5rem" w="8rem" />
           </Flex>
-          <PlayerList players={players} showSeasonalXP={showSeasonalXP} />
-        </>
-      ) : null}
+        ))}
       <VStack w="100%" ref={moreRef}>
         {isLoading ? <PlayersLoading /> : null}
         {!isLoading && totalCount > 0 ? (
