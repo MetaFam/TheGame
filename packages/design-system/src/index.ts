@@ -86,6 +86,8 @@ export {
   Select,
   SimpleGrid,
   Skeleton,
+  SkeletonCircle,
+  SkeletonText,
   Spacer,
   Spinner,
   Stack,

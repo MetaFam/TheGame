@@ -1,7 +1,8 @@
-import { LoadingState, Text, VStack } from '@metafam/ds';
+import { Text, VStack } from '@metafam/ds';
 import { PageContainer } from 'components/Container';
 import { AdjascentTimezonePlayers } from 'components/Player/Filter/AdjascentTimezonePlayers';
 import { PlayerFilter } from 'components/Player/Filter/PlayerFilter';
+import { PlayersLoading } from 'components/Player/Filter/PlayersLoading';
 import { PlayersNotFound } from 'components/Player/Filter/PlayersNotFound';
 import { PlayerList } from 'components/Player/PlayerList';
 import { HeadComponent } from 'components/Seo';
@@ -114,7 +115,7 @@ const MorePlayers = React.forwardRef<HTMLDivElement, MorePlayersProps>(
 
     return (
       <VStack w="100%" ref={ref}>
-        {fetching ? <LoadingState color="white" /> : null}
+        {fetching ? <PlayersLoading /> : null}
         {!fetching && !isTimezoneSelected && totalCount > 0 ? (
           <Text color="white">No more players available.</Text>
         ) : null}
