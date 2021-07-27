@@ -3567,7 +3567,7 @@ type player {
   ): quest_aggregate!
   rank: PlayerRank_enum
   role: String
-  season_xp: numeric
+  season_xp: numeric!
   timezone: String
 
   """Remote relationship field"""

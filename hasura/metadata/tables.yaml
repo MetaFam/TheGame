@@ -310,6 +310,7 @@
       - player_type_id
       - rank
       - role
+      - season_xp
       - timezone
       - total_xp
       - username
@@ -324,8 +325,9 @@
       - id
       - rank
       - role
-      - total_xp
+      - season_xp
       - timezone
+      - total_xp
       - username
       filter: {}
       allow_aggregations: true
