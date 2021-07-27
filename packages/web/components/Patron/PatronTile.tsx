@@ -1,5 +1,4 @@
 import {
-  Avatar,
   Box,
   Heading,
   HStack,
@@ -14,6 +13,7 @@ import {
 } from '@metafam/ds';
 import { computeRank } from '@metafam/utils';
 import { MetaLink } from 'components/Link';
+import { PlayerAvatar } from 'components/Player/PlayerAvatar';
 import { PlayerContacts } from 'components/Player/PlayerContacts';
 import { PlayerTileMemberships } from 'components/Player/PlayerTileMemberships';
 import { SkillsTags } from 'components/Skills';
@@ -24,11 +24,12 @@ import {
   Skill,
 } from 'graphql/autogen/types';
 import { Patron } from 'graphql/types';
-import React from 'react';
+import React, { useMemo } from 'react';
+import { FaGlobe } from 'react-icons/fa';
+import { getPlayerTimeZoneDisplay } from 'utils/dateHelpers';
 import {
   getPlayerCoverImage,
   getPlayerDescription,
-  getPlayerImage,
   getPlayerName,
 } from 'utils/playerHelpers';
 
@@ -47,9 +48,19 @@ type Props = {
   index: number;
 };
 
+const MAX_BIO_LENGTH = 240;
+
 export const PatronTile: React.FC<Props> = ({ index, patron }) => {
   const player = patron as PlayerFragmentFragment;
   const patronRank = computeRank(index, PATRONS_PER_RANK, PATRON_RANKS);
+  const tzDisplay = useMemo(() => getPlayerTimeZoneDisplay(player.timezone), [
+    player.timezone,
+  ]);
+  const description = getPlayerDescription(player);
+  const displayDescription =
+    description && description.length > MAX_BIO_LENGTH
+      ? `${description.substring(0, MAX_BIO_LENGTH - 9)}…`
+      : description;
   return (
     <MetaTile>
       <Box
@@ -69,11 +80,7 @@ export const PatronTile: React.FC<Props> = ({ index, patron }) => {
           key={player.id}
         >
           <VStack>
-            <Avatar
-              size="xl"
-              src={getPlayerImage(player)}
-              name={getPlayerName(player)}
-            />
+            <PlayerAvatar player={player} size="xl" />
             <Heading size="xs" color="white">
               {getPlayerName(player)}
             </Heading>
@@ -104,12 +111,23 @@ export const PatronTile: React.FC<Props> = ({ index, patron }) => {
             <MetaTag size="md">{`XP: ${Math.floor(player.total_xp)}`}</MetaTag>
           </WrapItem>
         </Wrap>
-        {getPlayerDescription(player) && (
-          <VStack spacing={2} align="stretch">
+        {tzDisplay?.timeZone ? (
+          <HStack alignItems="baseline" w="auto" justify="center">
+            <FaGlobe color="blueLight" fontSize="0.875rem" />
+            <Text fontSize="lg">{tzDisplay?.timeZone || '-'}</Text>
+            {tzDisplay?.offset ? (
+              <Text fontSize="sm">{tzDisplay?.offset}</Text>
+            ) : (
+              ''
+            )}
+          </HStack>
+        ) : null}
+        {displayDescription ? (
+          <VStack spacing={2} align="stretch" pt="0.5rem">
             <Text textStyle="caption">ABOUT</Text>
-            <Text fontSize="sm">{getPlayerDescription(player)}</Text>
+            <Text fontSize="sm">{displayDescription}</Text>
           </VStack>
-        )}
+        ) : null}
       </MetaTileHeader>
       <MetaTileBody>
         {player.Player_Skills.length ? (
