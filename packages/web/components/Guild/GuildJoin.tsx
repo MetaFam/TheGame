@@ -77,7 +77,7 @@ export const GuildJoin: React.FC = () => {
               asking for your permission to collect certain relevant information
               about your guild.
             </Text>
-            <MetaButton size="lg" maxW="15rem" as="a" href={discordAuthURL}>
+            <MetaButton size="lg" maxW="15rem" as="a" href={discordAuthURL} isExternal>
               Apply to Join
             </MetaButton>
           </VStack>
