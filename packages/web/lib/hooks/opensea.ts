@@ -7,7 +7,7 @@ import {
   OpenSeaAsset,
   OpenSeaAssetQuery,
 } from 'opensea-js/lib/types';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const opensea = new OpenSeaAPI({ apiKey: CONFIG.openseaApiKey });
 
@@ -35,27 +35,11 @@ export const useOpenSeaCollectibles = ({
   const [data, setData] = useState<Array<Collectible>>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const owner = player.ethereum_address;
-  const collectiblesFavorites = useMemo(
-    // IDX's basic profile doesn't include a list of favorite NFTs
-    () => [], // player?.box_profile?.collectiblesFavorites ?? [],
-    [], // [player],
-  );
 
   useEffect(() => {
     async function load() {
       setLoading(true);
-      if (collectiblesFavorites.length > 0 && owner) {
-        const favoritesQuery = {
-          owner,
-          token_ids: collectiblesFavorites.map(({ tokenId }) => tokenId || ''),
-        };
-        const [favoritesData, allData] = await Promise.all([
-          fetchOpenSeaData(favoritesQuery),
-          fetchAllOpenSeaData(owner),
-        ]);
-        setFavorites(favoritesData);
-        setData(allData);
-      } else if (owner) {
+      if (owner) {
         const allData = await fetchAllOpenSeaData(owner);
         setData(allData);
         setFavorites(allData.slice(0, 3));
@@ -63,7 +47,7 @@ export const useOpenSeaCollectibles = ({
       setLoading(false);
     }
     load();
-  }, [collectiblesFavorites, owner]);
+  }, [owner]);
 
   return { favorites, data, loading };
 };
