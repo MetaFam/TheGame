@@ -92,7 +92,6 @@ export const PlayerHero: React.FC<Props> = ({ player }) => {
               )}`}
               maxH="6rem"
             >
-              
               <ColorBar mask={type.mask} />
               
             </Link>
