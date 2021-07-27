@@ -32,11 +32,15 @@ import {
 
 type Props = {
   player: PlayerFragmentFragment;
+  showSeasonalXP?: boolean;
 };
 
 const MAX_BIO_LENGTH = 240;
 
-export const PlayerTile: React.FC<Props> = ({ player }) => {
+export const PlayerTile: React.FC<Props> = ({
+  player,
+  showSeasonalXP = false,
+}) => {
   const tzDisplay = useMemo(() => getPlayerTimeZoneDisplay(player.timezone), [
     player.timezone,
   ]);

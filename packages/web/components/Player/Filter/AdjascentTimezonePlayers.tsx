@@ -7,10 +7,6 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 import { PlayersLoading } from './PlayersLoading';
 
-type Props = {
-  queryVariables: GetPlayersQueryVariables;
-};
-
 const getAdjacentTimezoneQueryVariables = (
   defaultQueryVariables: GetPlayersQueryVariables,
 ): GetPlayersQueryVariables => {
@@ -30,8 +26,14 @@ const getAdjacentTimezoneQueryVariables = (
   };
 };
 
+type Props = {
+  queryVariables: GetPlayersQueryVariables;
+  showSeasonalXP?: boolean;
+};
+
 export const AdjascentTimezonePlayers: React.FC<Props> = ({
   queryVariables,
+  showSeasonalXP,
 }) => {
   const [variables, setVariables] = useState<GetPlayersQueryVariables>(
     getAdjacentTimezoneQueryVariables(queryVariables),
@@ -88,7 +90,7 @@ export const AdjascentTimezonePlayers: React.FC<Props> = ({
               zones
             </Text>
           </Flex>
-          <PlayerList players={players} />
+          <PlayerList players={players} showSeasonalXP={showSeasonalXP} />
         </>
       ) : null}
       <VStack w="100%" ref={moreRef}>
