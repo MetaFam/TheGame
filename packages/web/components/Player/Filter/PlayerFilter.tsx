@@ -235,7 +235,7 @@ export const PlayerFilter: React.FC<Props> = ({
             {sortOption.value !== SortOption.SEASON_XP && (
               <WrapItem>
                 <FilterTag
-                  label={sortOption.label}
+                  label={`Sorted By: ${sortOption.label}`}
                   onRemove={() => {
                     setSortOption(
                       sortOptionsMap[SortOption.SEASON_XP.toString()],
