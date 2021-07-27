@@ -10,6 +10,7 @@ import {
   GetPlayersQueryVariables,
   GetPlayerUsernamesQuery,
   GetPlayerUsernamesQueryVariables,
+  Order_By,
   PlayerFragmentFragment,
 } from './autogen/types';
 import { client as defaultClient } from './client';
@@ -25,9 +26,10 @@ gql`
     $availability: Int
     $timezones: [String!]
     $search: String
+    $orderBy: player_order_by!
   ) {
     player(
-      order_by: { total_xp: desc }
+      order_by: [$orderBy]
       offset: $offset
       limit: $limit
       where: {
@@ -73,6 +75,9 @@ export const defaultQueryVariables: GetPlayersQueryVariables = {
   playerTypeIds: null,
   timezones: null,
   search: '%%',
+  orderBy: {
+    season_xp: 'desc' as Order_By,
+  },
 };
 
 export type PlayersResponse = {

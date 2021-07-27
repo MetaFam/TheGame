@@ -22,6 +22,8 @@ import { GetPlayersQueryVariables } from 'graphql/autogen/types';
 import {
   PlayerAggregates,
   QueryVariableSetter,
+  SortOption,
+  sortOptionsMap,
   useFiltersUsed,
 } from 'lib/hooks/players';
 import React, { useCallback, useEffect, useState } from 'react';
@@ -61,6 +63,9 @@ export const PlayerFilter: React.FC<Props> = ({
   const [playerTypes, setPlayerTypes] = useState<ValueType[]>([]);
   const [timezones, setTimezones] = useState<ValueType[]>([]);
   const [availability, setAvailability] = useState<ValueType | null>(null);
+  const [sortOption, setSortOption] = useState<ValueType>(
+    sortOptionsMap[SortOption.SEASON_XP.toString()],
+  );
 
   const onSearch = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -75,6 +80,7 @@ export const PlayerFilter: React.FC<Props> = ({
   const filtersUsed = useFiltersUsed(queryVariables);
   const resetAllFilters = useCallback(() => {
     resetFilter();
+    setSortOption(sortOptionsMap[SortOption.SEASON_XP]);
     setSkills([]);
     setPlayerTypes([]);
     setTimezones([]);
@@ -114,6 +120,10 @@ export const PlayerFilter: React.FC<Props> = ({
       availability ? parseInt(availability.value, 10) : 0,
     );
   }, [setQueryVariable, availability]);
+
+  useEffect(() => {
+    setQueryVariable('orderBy', sortOption.value);
+  }, [setQueryVariable, sortOption]);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -181,6 +191,8 @@ export const PlayerFilter: React.FC<Props> = ({
         setTimezones={setTimezones}
         availability={availability}
         setAvailability={setAvailability}
+        sortOption={sortOption}
+        setSortOption={setSortOption}
       />
       <MobileFilters
         aggregates={aggregates}
@@ -196,6 +208,8 @@ export const PlayerFilter: React.FC<Props> = ({
         onClose={onClose}
         filtersUsed={filtersUsed}
         resetAllFilters={resetAllFilters}
+        sortOption={sortOption}
+        setSortOption={setSortOption}
       />
       {filtersUsed && (
         <Flex w="100%" maxW="79rem" justify="space-between">
@@ -214,6 +228,18 @@ export const PlayerFilter: React.FC<Props> = ({
                   onRemove={() => {
                     setSearch('');
                     setQueryVariable('search', '%%');
+                  }}
+                />
+              </WrapItem>
+            )}
+            {sortOption.value !== SortOption.SEASON_XP && (
+              <WrapItem>
+                <FilterTag
+                  label={sortOption.label}
+                  onRemove={() => {
+                    setSortOption(
+                      sortOptionsMap[SortOption.SEASON_XP.toString()],
+                    );
                   }}
                 />
               </WrapItem>
@@ -278,26 +304,21 @@ export const PlayerFilter: React.FC<Props> = ({
         </Flex>
       )}
       {(fetchingMore || !fetching) && (
-        <Flex
-          justify="space-between"
-          w="100%"
-          maxW="79rem"
-          pr="4"
-          align="center"
-        >
-          <Text fontWeight="bold" fontSize="xl" w="100%" maxW="79rem">
+        <Flex justify="space-between" w="100%" maxW="79rem" align="center">
+          <Text fontWeight="bold" fontSize="xl">
             {totalCount} player{totalCount === 1 ? '' : 's'}
           </Text>
           <Button
             variant="link"
             color="cyan.400"
             onClick={onOpen}
-            size="sm"
+            fontSize="sm"
             minH="2.5rem"
+            minW="8.5rem"
             display={isSmallScreen ? 'flex' : 'none'}
             p="2"
           >
-            FILTER
+            FILTER AND SORT
           </Button>
         </Flex>
       )}
