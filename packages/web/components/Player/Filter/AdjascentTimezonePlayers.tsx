@@ -1,9 +1,11 @@
-import { Flex, LoadingState, Text, TimezoneOptions, VStack } from '@metafam/ds';
+import { Flex, Text, TimezoneOptions, VStack } from '@metafam/ds';
 import { PlayerList } from 'components/Player/PlayerList';
 import { GetPlayersQueryVariables } from 'graphql/autogen/types';
 import { usePlayerFilter } from 'lib/hooks/players';
 import { useOnScreen } from 'lib/hooks/useOnScreen';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
+
+import { PlayersLoading } from './PlayersLoading';
 
 type Props = {
   queryVariables: GetPlayersQueryVariables;
@@ -90,7 +92,7 @@ export const AdjascentTimezonePlayers: React.FC<Props> = ({
         </>
       ) : null}
       <VStack w="100%" ref={moreRef}>
-        {isLoading ? <LoadingState color="white" /> : null}
+        {isLoading ? <PlayersLoading /> : null}
         {!isLoading && totalCount > 0 ? (
           <Text color="white">No more players available</Text>
         ) : null}
