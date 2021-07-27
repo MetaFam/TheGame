@@ -318,13 +318,9 @@
       - player_type_id
       - rank
       - role
-<<<<<<< HEAD
       - season_xp
       - timezone
-=======
->>>>>>> redoing all the permissions to try & make Hasura function 🥊
       - total_xp
-      - timezone
       - username
       filter: {}
       allow_aggregations: true

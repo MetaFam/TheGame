@@ -19,4 +19,5 @@
     timeout_seconds: 600
     tolerance_seconds: 21600
     retry_interval_seconds: 10
-  comment: Checks for cache entries more than four days old and queues them to be recached.
+  comment: Checks for cache entries more than four days old and queues them to be
+    recached.
