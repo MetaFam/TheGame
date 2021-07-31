@@ -144,7 +144,7 @@ See [MetaFam in the MetaManifesto](/docs/wtf-is-metagame/metafam-way#metafam).
 
 ## Ranks
 
-Ranks are a way of distinguishing top contributors to MetaGame. They don't determine much in terms of roles but will allow for some bragging rights & perks. Top 56 Players of MetaGame are ranked in 5 leages: Diamond, Platinum, Golden, Silver & Bronze.
+Ranks are a way of distinguishing top contributors to MetaGame. They don't determine much in terms of roles but will allow for some bragging rights & perks. Top 56 Players of MetaGame are ranked in 5 leagues: Diamond, Platinum, Golden, Silver & Bronze.
 
 See [Become a Founder of MetaGame](https://wiki.metagame.wtf/docs/how-does-it-work/become-a-founder-of-metagame) & [Ranked Founder Perks](https://www.notion.so/Ranked-Founder-Perks-aaf4b12eb31c4eba94e145c1e9f9a39f)
 
