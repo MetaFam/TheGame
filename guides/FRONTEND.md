@@ -15,7 +15,9 @@ You can either choose to only develop the frontend and use our deployed backend 
 ```bash
 yarn
 ```
+Go to ```http://localhost:3000```
 
+Happy Coding! 
 ### Connecting to remote servers
 
 To connect to production servers, you'll need to create a file `.env.local` under `packages/web` and write this inside:
