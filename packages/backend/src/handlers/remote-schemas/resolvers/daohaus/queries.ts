@@ -15,13 +15,21 @@ export const GetDaoHausMemberships = gql`
       kicked
       moloch {
         id
-        title
         version
         summoner
         totalShares
         totalLoot
       }
       delegateKey
+    }
+  }
+`;
+
+export const GetDaoHausTitles = gql`
+  query GetDaoHausTitles($ids: [ID!]) {
+    daoMetas(where: { id_in: $ids }) {
+      id
+      title
     }
   }
 `;
