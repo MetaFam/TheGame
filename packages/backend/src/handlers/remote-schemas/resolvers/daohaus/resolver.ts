@@ -7,9 +7,17 @@ const addChain = (memberAddress: string) => async (chain: string) => {
     (await client.GetDaoHausMemberships({ memberAddress })).members
   );
 
+  const ids = members.map(({ moloch: { id } }) => id);
+  const { daoMetas } = await client.GetDaoHausTitles({ ids });
+
+  const titles = Object.fromEntries(
+    daoMetas.map(({ id, title }) => [id, title]),
+  );
+
   return members.map((member: Member) => {
     const updatedMember: Member = { ...member };
     updatedMember.moloch.chain = chain;
+    updatedMember.moloch.title = titles[member.moloch.id];
 
     return updatedMember;
   });
