@@ -74,6 +74,8 @@ export {
   InputRightAddon,
   InputRightElement,
   Link,
+  LinkBox,
+  LinkOverlay,
   List,
   ListIcon,
   ListItem,

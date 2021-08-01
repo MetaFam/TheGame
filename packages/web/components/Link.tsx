@@ -26,12 +26,14 @@ export const MetaLink: React.FC<Props> = ({
 
   return (
     <NextLink
-      href={href}
-      as={as}
+      {...{
+        href,
+        as,
+        replace,
+        scroll,
+        shallow,
+      }}
       passHref={passHref || true}
-      replace={replace}
-      scroll={scroll}
-      shallow={shallow}
     >
       {/*  NextLink passes the href */}
       <Link color="cyan.400" {...props}>
