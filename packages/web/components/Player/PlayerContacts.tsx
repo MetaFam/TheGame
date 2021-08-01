@@ -67,11 +67,12 @@ export const PlayerContacts: React.FC<Props> = ({
             hasArrow
           >
             <Button
-              onClick={() =>
-                player.ethereum_address
+              onClick={(evt) => {
+                evt.preventDefault();
+                return player.ethereum_address
                   ? handleCopy(player.ethereum_address.toLowerCase())
-                  : undefined
-              }
+                  : undefined;
+              }}
               size="xs"
               colorScheme="blackAlpha"
               leftIcon={<FaEthereum />}
