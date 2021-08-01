@@ -42,6 +42,10 @@ Once you are ready to connect to the backend, you can start the web app by using
 yarn web:dev
 ```
 
+Go to [http://localhost:3000](http://localhost:3000)
+
+Happy Coding!
+
 ## Creating GraphQL queries
 
 In both the `web` and `metamaps` folder, all GraphQL queries are hosted in a folder called `graphql`.
