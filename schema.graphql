@@ -4200,6 +4200,9 @@ type player_skill {
   """An object relationship"""
   Skill: skill!
   id: uuid!
+
+  """An object relationship"""
+  player: player!
   player_id: uuid!
   rank: Int
   skill_id: uuid!
@@ -4276,6 +4279,7 @@ input player_skill_bool_exp {
   _not: player_skill_bool_exp
   _or: [player_skill_bool_exp]
   id: uuid_comparison_exp
+  player: player_bool_exp
   player_id: uuid_comparison_exp
   rank: Int_comparison_exp
   skill_id: uuid_comparison_exp
@@ -4302,6 +4306,7 @@ input type for inserting data into table "player_skill"
 input player_skill_insert_input {
   Skill: skill_obj_rel_insert_input
   id: uuid
+  player: player_obj_rel_insert_input
   player_id: uuid
   rank: Int
   skill_id: uuid
@@ -4377,6 +4382,7 @@ ordering options when selecting data from "player_skill"
 input player_skill_order_by {
   Skill: skill_order_by
   id: order_by
+  player: player_order_by
   player_id: order_by
   rank: order_by
   skill_id: order_by
