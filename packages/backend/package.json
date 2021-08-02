@@ -37,7 +37,7 @@
     "express": "4.17.1",
     "express-graphql": "0.12.0",
     "graphql": "15.5.0",
-    "graphql-request": "3.4.0",
+    "graphql-request": "3.5.0",
     "graphql-tag": "2.12.5",
     "graphql-tools": "7.0.4",
     "imgix-core-js": "2.3.2",
