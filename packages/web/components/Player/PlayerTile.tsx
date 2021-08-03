@@ -13,7 +13,6 @@ import {
   Wrap,
   WrapItem,
 } from '@metafam/ds';
-import { MetaLink } from 'components/Link';
 import { PlayerAvatar } from 'components/Player/PlayerAvatar';
 import { PlayerContacts } from 'components/Player/PlayerContacts';
 import { PlayerTileMemberships } from 'components/Player/PlayerTileMemberships';
