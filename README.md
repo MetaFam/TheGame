@@ -48,11 +48,26 @@ yarn docker:start
 - will auto-restart on any changes to `packages/backend` and `packages/utils`
 
 If you are running for the first time on an empty database, once the services
-are running you can run the following command to populate the database with
-the initial dataset:
+are running you have two options to populate the database:
+
+1. Populate the database with the production dataset:
+
+```shell script
+yarn hasura:seed-local-db
+```
+
+2. Populate the database with the initial dataset:
 
 ```shell script
 curl -X POST http://localhost:4000/actions/migrateSourceCredAccounts?force=true
+```
+
+**Troubleshooting**
+
+In case non of the above commands are working try purge the docker containers and images you can do this by running (notice: this removes all the containers and images on your computer!):
+
+```shell script
+docker system prune -a
 ```
 
 **Rebuild backend services**
@@ -82,6 +97,10 @@ yarn backend:dev
 ```shell script
 yarn web:dev
 ```
+
+Go to [http://localhost:3000](http://localhost:3000)
+
+Happy Coding!
 
 ### Run Discord Bot
 
