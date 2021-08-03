@@ -48,31 +48,25 @@ export const PlayerTile: React.FC<Props> = ({ player }) => {
       : description;
   return (
     <LinkBox>
-      <LinkOverlay href={`/player/${player.username}`}>
-        <MetaTile>
-          <Box
-            bgImage={`url(${getPlayerCoverImage(player)})`}
-            bgSize="cover"
-            bgPosition="center"
-            position="absolute"
-            top="0"
-            left="0"
-            w="100%"
-            h="4.5rem"
-          />
+      <MetaTile>
+        <Box
+          bgImage={`url(${getPlayerCoverImage(player)})`}
+          bgSize="cover"
+          bgPosition="center"
+          position="absolute"
+          top={0}
+          left={0}
+          w="100%"
+          h="4.5rem"
+        />
+        <LinkOverlay href={`/player/${player.username}`}>
           <MetaTileHeader>
-            <MetaLink
-              as={`/player/${player.username}`}
-              href="/player/[username]"
-              key={player.id}
-            >
-              <VStack>
-                <PlayerAvatar player={player} size="xl" />
-                <Heading size="xs" color="white">
-                  {getPlayerName(player)}
-                </Heading>
-              </VStack>
-            </MetaLink>
+            <VStack>
+              <PlayerAvatar player={player} size="xl" />
+              <Heading size="xs" color="white">
+                {getPlayerName(player)}
+              </Heading>
+            </VStack>
             <Wrap w="100%" justify="center">
               {player.playerType?.title ? (
                 <WrapItem>
@@ -93,9 +87,7 @@ export const PlayerTile: React.FC<Props> = ({ player }) => {
                 </WrapItem>
               )}
               <WrapItem>
-                <MetaTag size="md">{`XP: ${Math.floor(
-                  player.total_xp,
-                )}`}</MetaTag>
+                <MetaTag size="md">XP: {Math.floor(player.total_xp)}</MetaTag>
               </WrapItem>
             </Wrap>
             {tzDisplay?.timeZone ? (
@@ -116,29 +108,29 @@ export const PlayerTile: React.FC<Props> = ({ player }) => {
               </VStack>
             ) : null}
           </MetaTileHeader>
-          <MetaTileBody>
-            {player.Player_Skills.length ? (
-              <VStack spacing={2} align="stretch">
-                <Text textStyle="caption">SKILLS</Text>
-                <SkillsTags
-                  skills={player.Player_Skills.map((s) => s.Skill) as Skill[]}
-                />
-              </VStack>
-            ) : null}
+        </LinkOverlay>
+        <MetaTileBody>
+          {player.Player_Skills.length ? (
+            <VStack spacing={2} align="stretch">
+              <Text textStyle="caption">SKILLS</Text>
+              <SkillsTags
+                skills={player.Player_Skills.map((s) => s.Skill) as Skill[]}
+              />
+            </VStack>
+          ) : null}
 
-            <PlayerTileMemberships player={player} />
+          <PlayerTileMemberships player={player} />
 
-            {player.Accounts.length ? (
-              <VStack spacing={2} align="stretch">
-                <Text textStyle="caption">CONTACT</Text>
-                <HStack mt="2">
-                  <PlayerContacts player={player} disableBrightId />
-                </HStack>
-              </VStack>
-            ) : null}
-          </MetaTileBody>
-        </MetaTile>
-      </LinkOverlay>
+          {player.Accounts.length ? (
+            <VStack spacing={2} align="stretch">
+              <Text textStyle="caption">CONTACT</Text>
+              <HStack mt={2}>
+                <PlayerContacts player={player} disableBrightId />
+              </HStack>
+            </VStack>
+          ) : null}
+        </MetaTileBody>
+      </MetaTile>
     </LinkBox>
   );
 };
