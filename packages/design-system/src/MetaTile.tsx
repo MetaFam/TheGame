@@ -32,6 +32,7 @@ export const MetaTile: React.FC<FlexProps> = ({ children, ...props }) => (
     p={6}
     maxW="25rem" // (2 / 3.5) = ~0.571 aspect ratio desired
     w="100%"
+    h="100%"
     align="stretch"
     position="relative"
     overflow="hidden"

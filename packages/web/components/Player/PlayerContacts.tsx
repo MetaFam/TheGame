@@ -31,6 +31,7 @@ export const PlayerContacts: React.FC<Props> = ({
                 rel="noreferrer noopener"
                 size="xs"
                 colorScheme="twitter"
+                color="white"
                 leftIcon={<FaTwitter />}
               >
                 {acc.identifier}
@@ -51,6 +52,7 @@ export const PlayerContacts: React.FC<Props> = ({
                 colorScheme="blackAlpha"
                 backgroundColor="black"
                 leftIcon={<FaGithub />}
+                color="white"
               >
                 {acc.identifier}
               </Button>
@@ -76,6 +78,7 @@ export const PlayerContacts: React.FC<Props> = ({
               size="xs"
               colorScheme="blackAlpha"
               leftIcon={<FaEthereum />}
+              color="white"
             >
               {formatAddress(player.ethereum_address)}
             </Button>
@@ -89,6 +92,7 @@ export const PlayerContacts: React.FC<Props> = ({
               size="xs"
               colorScheme="brightIdOrange"
               leftIcon={<BrightIdIcon />}
+              color="white"
             >
               Verified
             </Button>

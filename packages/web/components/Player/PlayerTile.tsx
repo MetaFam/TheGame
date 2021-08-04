@@ -21,6 +21,7 @@ import {
   PlayerFragmentFragment,
   /* Player_Update_Column, */ Skill,
 } from 'graphql/autogen/types';
+import NextLink from 'next/link';
 import React, { useMemo } from 'react';
 import { FaGlobe } from 'react-icons/fa';
 import { getPlayerTimeZoneDisplay } from 'utils/dateHelpers';
@@ -62,56 +63,73 @@ export const PlayerTile: React.FC<Props> = ({
           w="100%"
           h="4.5rem"
         />
-        <LinkOverlay href={`/player/${player.username}`}>
-          <MetaTileHeader>
-            <VStack>
-              <PlayerAvatar player={player} size="xl" />
-              <Heading size="xs" color="white">
-                {getPlayerName(player)}
-              </Heading>
-            </VStack>
-            <Wrap w="100%" justify="center">
-              {player.playerType?.title ? (
-                <WrapItem>
-                  <MetaTag size="md">
-                    {player.playerType?.title.toUpperCase()}
-                  </MetaTag>
-                </WrapItem>
-              ) : null}
-              {player.rank && (
-                <WrapItem>
-                  <MetaTag
-                    backgroundColor={player.rank?.toLowerCase()}
-                    size="md"
-                    color="blackAlpha.600"
-                  >
-                    {player.rank}
-                  </MetaTag>
-                </WrapItem>
-              )}
-              <WrapItem>
-                <MetaTag size="md">XP: {Math.floor(player.total_xp)}</MetaTag>
-              </WrapItem>
-            </Wrap>
-            {tzDisplay?.timeZone ? (
-              <HStack alignItems="baseline" w="auto" justify="center">
-                <FaGlobe color="blueLight" fontSize="0.875rem" />
-                <Text fontSize="lg">{tzDisplay?.timeZone || '-'}</Text>
-                {tzDisplay?.offset ? (
-                  <Text fontSize="sm">{tzDisplay?.offset}</Text>
-                ) : (
-                  ''
-                )}
-              </HStack>
-            ) : null}
-            {displayDescription ? (
-              <VStack spacing={2} align="stretch" pt="0.5rem">
-                <Text textStyle="caption">ABOUT</Text>
-                <Text fontSize="sm">{displayDescription}</Text>
+        <NextLink
+          as={`/player/${player.username}`}
+          href="/player/[username]"
+          passHref
+        >
+          <LinkOverlay>
+            <MetaTileHeader>
+              <VStack>
+                <PlayerAvatar player={player} size="xl" />
+                <Heading size="xs" color="white">
+                  {getPlayerName(player)}
+                </Heading>
               </VStack>
-            ) : null}
-          </MetaTileHeader>
-        </LinkOverlay>
+              <Wrap w="100%" justify="center">
+                {player.playerType?.title ? (
+                  <WrapItem>
+                    <MetaTag size="md">
+                      {player.playerType?.title.toUpperCase()}
+                    </MetaTag>
+                  </WrapItem>
+                ) : null}
+                {player.rank && (
+                  <WrapItem>
+                    <MetaTag
+                      backgroundColor={player.rank?.toLowerCase()}
+                      size="md"
+                      color="blackAlpha.600"
+                    >
+                      {player.rank}
+                    </MetaTag>
+                  </WrapItem>
+                )}
+                {player.rank && (
+                  <WrapItem>
+                    <MetaTag
+                      backgroundColor={player.rank?.toLowerCase()}
+                      size="md"
+                      color="blackAlpha.600"
+                    >
+                      {player.rank}
+                    </MetaTag>
+                  </WrapItem>
+                )}
+                <WrapItem>
+                  <MetaTag size="md">XP: {Math.floor(player.total_xp)}</MetaTag>
+                </WrapItem>
+              </Wrap>
+              {tzDisplay?.timeZone ? (
+                <HStack alignItems="baseline" w="auto" justify="center">
+                  <FaGlobe color="blueLight" fontSize="0.875rem" />
+                  <Text fontSize="lg">{tzDisplay?.timeZone || '-'}</Text>
+                  {tzDisplay?.offset ? (
+                    <Text fontSize="sm">{tzDisplay?.offset}</Text>
+                  ) : (
+                    ''
+                  )}
+                </HStack>
+              ) : null}
+              {displayDescription ? (
+                <VStack spacing={2} align="stretch" pt="0.5rem">
+                  <Text textStyle="caption">ABOUT</Text>
+                  <Text fontSize="sm">{displayDescription}</Text>
+                </VStack>
+              ) : null}
+            </MetaTileHeader>
+          </LinkOverlay>
+        </NextLink>
         <MetaTileBody>
           {player.Player_Skills.length ? (
             <VStack spacing={2} align="stretch">

@@ -96,6 +96,7 @@ export const QuestFilter: React.FC<Props> = ({
                   variant="outline"
                   borderWidth="2px"
                   borderRadius="4px"
+                  color="cyan.500"
                   px={4}
                   onClick={() =>
                     setQueryVariable(
