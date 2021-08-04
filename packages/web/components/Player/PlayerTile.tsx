@@ -95,20 +95,19 @@ export const PlayerTile: React.FC<Props> = ({
                     </MetaTag>
                   </WrapItem>
                 )}
-                {player.rank && (
+                <WrapItem>
+                  <MetaTag size="md">
+                    {showSeasonalXP ? 'TOTAL XP: ' : 'XP: '}
+                    {Math.floor(player.total_xp)}
+                  </MetaTag>
+                </WrapItem>
+                {showSeasonalXP && (
                   <WrapItem>
-                    <MetaTag
-                      backgroundColor={player.rank?.toLowerCase()}
-                      size="md"
-                      color="blackAlpha.600"
-                    >
-                      {player.rank}
+                    <MetaTag size="md">
+                      SEASONAL XP: {Math.floor(player.season_xp)}
                     </MetaTag>
                   </WrapItem>
                 )}
-                <WrapItem>
-                  <MetaTag size="md">XP: {Math.floor(player.total_xp)}</MetaTag>
-                </WrapItem>
               </Wrap>
               {tzDisplay?.timeZone ? (
                 <HStack alignItems="baseline" w="auto" justify="center">
