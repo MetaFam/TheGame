@@ -21,6 +21,11 @@ actions:
     forward_client_headers: true
   permissions:
   - role: player
+- name: saveGuildInformation
+  definition:
+    kind: synchronous
+    handler: '{{ACTION_BASE_ENDPOINT}}/guild/save'
+    forward_client_headers: true
 - name: updateExpiredIDXProfiles
   definition:
     kind: synchronous
@@ -64,6 +69,7 @@ custom_types:
   - name: CreateQuestInput
   - name: CreateQuestCompletionInput
   - name: UpdateQuestCompletionInput
+  - name: GuildInfo
   objects:
   - name: UpdateBoxProfileResponse
   - name: CreateQuestOutput
@@ -97,4 +103,5 @@ custom_types:
   - name: CacheProcessOutput
   - name: UpdateIDXProfileResponse
   - name: ExpiredPlayerProfiles
+  - name: SaveGuildResponse
   scalars: []

@@ -41,6 +41,7 @@ export interface EditGuildFormInputs {
   website_url: string | undefined | null;
   dao_address: string | undefined | null;
   type: GuildType_Enum;
+  membership_through_discord: boolean;
   discord_admin_roles: string[];
   discord_membership_roles: string[];
 }
@@ -57,6 +58,7 @@ const getDefaultFormValues = (
   website_url: guild.website_url || '',
   dao_address: guild.moloch_address || '',
   type: guild.type,
+  membership_through_discord: true,
   discord_admin_roles: [],
   discord_membership_roles: [],
 });
