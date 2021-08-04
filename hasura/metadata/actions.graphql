@@ -21,6 +21,9 @@ type Mutation {
 
 type Mutation {
   updateExpiredIDXProfiles : ExpiredPlayerProfiles
+  saveGuildInformation (
+    guildInformation: GuildInfo!
+  ): SaveGuildResponse
 }
 
 
@@ -72,6 +75,20 @@ input UpdateQuestCompletionInput {
   status : QuestCompletionStatus_ActionEnum!
 }
 
+input GuildInfo {
+  guildname : String!
+  name : String!
+  description : String
+  discordInviteUrl : String
+  joinUrl : String
+  logoUrl : String
+  websiteUrl : String
+  daoAddress : String
+  membershipThroughDiscord : Boolean
+  discordAdminRoles : [String]!
+  discordMembershipRoles : [String]!
+}
+
 type UpdateBoxProfileResponse {
   success : Boolean!
   updatedProfiles : [String!]!
@@ -114,5 +131,9 @@ type UpdateIDXProfileResponse {
 
 type ExpiredPlayerProfiles {
   ids : [String]!
+}
+
+type SaveGuildResponse {
+  success : Boolean
 }
 
