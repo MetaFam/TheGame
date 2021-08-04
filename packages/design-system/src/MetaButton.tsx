@@ -15,6 +15,7 @@ export const MetaButton: React.FC<
     size="lg"
     fontSize="sm"
     bg="purple.400"
+    color="white"
     ref={ref}
     {...props}
   >

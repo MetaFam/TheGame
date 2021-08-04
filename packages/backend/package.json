@@ -33,7 +33,7 @@
     "body-parser": "1.19.0",
     "bottleneck": "2.19.5",
     "discord.js": "12.5.3",
-    "ethers": "5.4.1",
+    "ethers": "5.4.3",
     "express": "4.17.1",
     "express-graphql": "0.12.0",
     "graphql": "15.5.0",
