@@ -24,11 +24,15 @@ export const LoginButton: React.FC = () => {
     isConnecting,
   } = useWeb3();
 
-  const { user, fetching } = useUser();
+  const { user, fetching, error } = useUser();
 
   const handleLoginClick = useCallback(async () => {
     await connectWeb3();
   }, [connectWeb3]);
+
+  console.log(isConnected)
+  console.log(user)
+  console.log({error})
 
   if (fetching || isConnecting) {
     return <Spinner color="purple.500" size="sm" />;

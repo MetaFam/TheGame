@@ -21,8 +21,6 @@ export const PlayerFragment = gql`
       title
     }
     Player_Skills {
-      id
-      rank
       Skill {
         category
         id

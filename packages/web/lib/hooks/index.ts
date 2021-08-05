@@ -14,6 +14,7 @@ type UseUserOpts = {
 export const useUser = ({ redirectTo, redirectIfFound }: UseUserOpts = {}): {
   user: MeType | null;
   fetching: boolean;
+  error: unknown;
 } => {
   const { authToken } = useWeb3();
   const router = useRouter();
@@ -37,7 +38,7 @@ export const useUser = ({ redirectTo, redirectIfFound }: UseUserOpts = {}): {
     }
   }, [router, user, redirectIfFound, redirectTo]);
 
-  return { user, fetching };
+  return { user, fetching, error };
 };
 
 export const useMounted = (): boolean => {
