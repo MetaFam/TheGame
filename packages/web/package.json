@@ -35,6 +35,6 @@
     "react-icons": "4.2.0",
     "react-qr-svg": "2.3.0",
     "urql": "2.0.2",
-    "web3modal": "1.9.3"
+    "web3modal": "1.9.4"
   }
 }
