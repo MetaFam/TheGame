@@ -107,11 +107,19 @@ gql`
   }
   ${GuildFragment}
 
-  query GetGuildMetadata($discordId: String!) {
+  query GetGuildMetadataByDiscordId($discordId: String!) {
     guild_metadata(where: { discord_id: { _eq: $discordId } }) {
       guild_id
       creator_id
       discord_id
+      discord_metadata
+    }
+  }
+
+  query GetGuildMetadataById($id: uuid!) {
+    guild_metadata(where: { guild_id: { _eq: $id } }) {
+      guild_id
+      creator_id
       discord_metadata
     }
   }

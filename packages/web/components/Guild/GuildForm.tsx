@@ -41,9 +41,8 @@ export interface EditGuildFormInputs {
   website_url: string | undefined | null;
   dao_address: string | undefined | null;
   type: GuildType_Enum;
-  membership_through_discord: boolean;
-  discord_admin_roles: string[];
-  discord_membership_roles: string[];
+  discordAdminRoles: string[];
+  discordMembershipRoles: string[];
 }
 
 const getDefaultFormValues = (
@@ -58,21 +57,22 @@ const getDefaultFormValues = (
   website_url: guild.website_url || '',
   dao_address: guild.moloch_address || '',
   type: guild.type,
-  membership_through_discord: true,
-  discord_admin_roles: [],
-  discord_membership_roles: [],
+  discordAdminRoles: [],
+  discordMembershipRoles: [],
 });
 
 type Props = {
   workingGuild: GuildFragmentFragment;
   allDiscordRoles: DiscordRole[];
   onSubmit: (data: EditGuildFormInputs) => void;
+  children: React.ReactNode;
 };
 
 export const GuildForm: React.FC<Props> = ({
   workingGuild,
   allDiscordRoles,
   onSubmit,
+  children,
 }) => {
   const defaultValues = useMemo<EditGuildFormInputs>(
     () => getDefaultFormValues(workingGuild),
@@ -184,7 +184,7 @@ export const GuildForm: React.FC<Props> = ({
             <MultiSelect
               isRequired
               name="discord_admin_roles"
-              isInvalid={!!errors.discord_admin_roles}
+              isInvalid={!!errors.discordAdminRoles}
               isMulti
               options={roleOptions}
             />
@@ -197,7 +197,7 @@ export const GuildForm: React.FC<Props> = ({
             <MultiSelect
               isRequired
               name="discord_membership_roles"
-              isInvalid={!!errors.discord_membership_roles}
+              isInvalid={!!errors.discordMembershipRoles}
               isMulti
               options={roleOptions}
             />
@@ -206,6 +206,8 @@ export const GuildForm: React.FC<Props> = ({
               of this guild.
             </span>
           </Field>
+
+          {children}
         </form>
       </VStack>
     </Box>

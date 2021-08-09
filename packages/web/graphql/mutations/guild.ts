@@ -10,4 +10,11 @@ gql`
       exists
     }
   }
+
+  mutation UpdateGuild($guildInfo: GuildInfo!) {
+    saveGuildInformation(guildInformation: $guildInfo) {
+      success
+      error
+    }
+  }
 `;

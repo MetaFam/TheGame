@@ -4,10 +4,16 @@ import {
   HStack,
   MetaButton,
   MetaHeading,
+  useToast,
 } from '@metafam/ds';
 import { FlexContainer, PageContainer } from 'components/Container';
 import { EditGuildFormInputs, GuildForm } from 'components/Guild/GuildForm';
-import { GuildFragmentFragment } from 'graphql/autogen/types';
+import {
+  GuildFragmentFragment,
+  GuildInfo,
+  GuildType_ActionEnum,
+  useUpdateGuildMutation,
+} from 'graphql/autogen/types';
 import { getGuild } from 'graphql/getGuild';
 import { useGetGuildMetadata } from 'lib/hooks/guilds';
 import { useRouter } from 'next/router';
@@ -18,6 +24,8 @@ const SetupGuild: React.FC = () => {
 
   const [guild, setGuild] = useState<GuildFragmentFragment | undefined>();
   const [exitAlert, setExitAlert] = useState<boolean>(false);
+  const [updateGuildState, updateGuild] = useUpdateGuildMutation();
+  const toast = useToast();
 
   const guildName = router.query.guildname as string;
 
@@ -33,17 +41,43 @@ const SetupGuild: React.FC = () => {
 
   const { discordRoles } = useGetGuildMetadata(guild?.id);
 
-  const onSubmit = (data: EditGuildFormInputs) => {
-    // eslint-disable-next-line no-console
-    console.log(data);
-  };
-
-  const success = false;
-  const fetching = false;
-
   if (guild == null) {
     return <></>;
   }
+
+  const onSubmit = async (data: EditGuildFormInputs) => {
+    const { type, ...otherInputs } = data;
+    const payload: GuildInfo = {
+      ...otherInputs,
+      type: (type as unknown) as GuildType_ActionEnum,
+      uuid: guild.id,
+    };
+
+    const response = await updateGuild({ guildInfo: payload });
+
+    const saveGuildResponse = response.data?.saveGuildInformation;
+    if (saveGuildResponse?.success) {
+      router.push('/');
+      toast({
+        title: 'Guild information submitted',
+        description: 'Please allow a few days to review your guild information',
+        status: 'success',
+        isClosable: true,
+        duration: 4000,
+      });
+    } else {
+      toast({
+        title: 'Error while saving guild information',
+        description:
+          response.error?.message ||
+          saveGuildResponse?.error ||
+          'unknown error',
+        status: 'error',
+        isClosable: true,
+        duration: 10000,
+      });
+    }
+  };
 
   return (
     <PageContainer>
@@ -67,23 +101,26 @@ const SetupGuild: React.FC = () => {
             allDiscordRoles={discordRoles}
             onSubmit={onSubmit}
           >
-            <HStack justify="space-between" mt={4} w="100%">
+            <HStack justify="space-between" mt={10} w="100%">
               <MetaButton
-                variant="outline"
-                colorScheme="pink"
-                onClick={() => setExitAlert(true)}
-                isDisabled={fetching || success}
-              >
-                Cancel
-              </MetaButton>
-              <MetaButton
-                mt={10}
-                isLoading={fetching}
+                isLoading={updateGuildState.fetching}
                 loadingText="Submitting information..."
                 type="submit"
-                isDisabled={success}
+                isDisabled={
+                  !!updateGuildState.data?.saveGuildInformation?.success
+                }
               >
                 Submit guild information
+              </MetaButton>
+              <MetaButton
+                variant="outline"
+                onClick={() => setExitAlert(true)}
+                isDisabled={
+                  updateGuildState.fetching ||
+                  !!updateGuildState.data?.saveGuildInformation?.success
+                }
+              >
+                Cancel
               </MetaButton>
             </HStack>
           </GuildForm>

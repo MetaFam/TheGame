@@ -40,7 +40,7 @@ export const handleOAuthCallback = async (
     }
 
     // look up guild by guild Id
-    const getGuildMetadataResponse = await client.GetGuildMetadata({
+    const getGuildMetadataResponse = await client.GetGuildMetadataByDiscordId({
       discordId: discordGuild.id,
     });
 

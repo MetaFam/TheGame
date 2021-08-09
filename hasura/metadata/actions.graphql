@@ -20,10 +20,14 @@ type Mutation {
 
 
 type Mutation {
-  updateExpiredIDXProfiles : ExpiredPlayerProfiles
   saveGuildInformation (
     guildInformation: GuildInfo!
   ): SaveGuildResponse
+}
+
+
+type Mutation {
+  updateExpiredIDXProfiles : ExpiredPlayerProfiles
 }
 
 
@@ -54,6 +58,14 @@ enum QuestCompletionStatus_ActionEnum {
   REJECTED
 }
 
+enum GuildType_ActionEnum {
+  PROJECT
+  SERVICE
+  RESEARCH
+  SOCIAL
+  FUNDING
+}
+
 input CreateQuestInput {
   guild_id : uuid!
   title : String!
@@ -76,8 +88,10 @@ input UpdateQuestCompletionInput {
 }
 
 input GuildInfo {
+  uuid : String!
   guildname : String!
   name : String!
+  type : GuildType_ActionEnum!
   description : String
   discordInviteUrl : String
   joinUrl : String
@@ -135,5 +149,6 @@ type ExpiredPlayerProfiles {
 
 type SaveGuildResponse {
   success : Boolean
+  error : String
 }
 
