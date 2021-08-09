@@ -48,7 +48,7 @@ export const updateDiscordRole = async (payload: TriggerPayload<Player>) => {
       return;
     }
 
-    const getGuildResponse = await client.GetGuildMetadata({
+    const getGuildResponse = await client.GetGuildMetadataByDiscordId({
       discordId: guildDiscordId,
     });
     const rankDiscordRoleIds = getGuildResponse.guild_metadata[0]

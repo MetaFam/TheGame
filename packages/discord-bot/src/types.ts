@@ -45,4 +45,6 @@ export interface GuildDiscordMetadata {
   refreshToken?: string;
   allRoleIds?: Snowflake[];
   logoHash?: string;
+  membershipRoleIds?: Snowflake[];
+  administratorRoleIds?: Snowflake[];
 }

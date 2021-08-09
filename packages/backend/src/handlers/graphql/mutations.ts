@@ -1,6 +1,7 @@
 import { gql } from 'graphql-request/dist';
 
-export const CreatePlayerFromETH = gql`
+// eslint-disable-next-line @typescript-eslint/no-unused-expressions
+gql`
   mutation CreatePlayerFromETH($ethereum_address: String!, $username: String!) {
     insert_player(
       objects: { username: $username, ethereum_address: $ethereum_address }
@@ -13,9 +14,7 @@ export const CreatePlayerFromETH = gql`
       }
     }
   }
-`;
 
-export const UpsertAccount = gql`
   mutation UpsertAccount(
     $objects: [player_account_insert_input!]!
     $on_conflict: player_account_on_conflict = {
@@ -27,9 +26,7 @@ export const UpsertAccount = gql`
       affected_rows
     }
   }
-`;
 
-export const UpsertProfileCache = gql`
   mutation UpsertProfileCache(
     $objects: [profile_cache_insert_input!]!
     $onConflict: profile_cache_on_conflict = {
@@ -51,9 +48,7 @@ export const UpsertProfileCache = gql`
       affected_rows
     }
   }
-`;
 
-export const UpdatePlayer = gql`
   mutation UpdatePlayer(
     $ethAddress: String
     $rank: PlayerRank_enum
@@ -79,9 +74,7 @@ export const UpdatePlayer = gql`
       }
     }
   }
-`;
 
-export const InsertPlayers = gql`
   mutation InsertPlayers($objects: [player_insert_input!]!) {
     insert_player(objects: $objects) {
       affected_rows
@@ -90,9 +83,7 @@ export const InsertPlayers = gql`
       }
     }
   }
-`;
 
-export const CreateQuest = gql`
   mutation CreateQuest($objects: [quest_insert_input!]!) {
     insert_quest(objects: $objects) {
       affected_rows
@@ -114,9 +105,7 @@ export const CreateQuestCompletion = gql`
       }
     }
   }
-`;
 
-export const UpdateQuestStatus = gql`
   mutation UpdateQuestStatus($quest_id: uuid!, $status: QuestStatus_enum!) {
     update_quest_by_pk(
       pk_columns: { id: $quest_id }
@@ -125,9 +114,7 @@ export const UpdateQuestStatus = gql`
       id
     }
   }
-`;
 
-export const UpdateQuestCompletionStatus = gql`
   mutation UpdateQuestCompletionStatus(
     $quest_completion_id: uuid!
     $status: QuestCompletionStatus_enum!
@@ -139,9 +126,7 @@ export const UpdateQuestCompletionStatus = gql`
       id
     }
   }
-`;
 
-export const RejectOtherQuestCompletions = gql`
   mutation RejectOtherQuestCompletions(
     $accepted_quest_completion_id: uuid!
     $quest_id: uuid!
@@ -158,12 +143,16 @@ export const RejectOtherQuestCompletions = gql`
       affected_rows
     }
   }
-`;
 
-export const CreateGuild = gql`
   mutation CreateGuild($object: guild_insert_input!) {
     insert_guild_one(object: $object) {
       guildname
+      id
+    }
+  }
+
+  mutation UpdateGuild($guildId: uuid!, $object: guild_set_input!) {
+    update_guild_by_pk(pk_columns: { id: $guildId }, _set: $object) {
       id
     }
   }
@@ -176,9 +165,7 @@ export const CreateGuild = gql`
       discord_metadata
     }
   }
-`;
 
-export const UpdateGuildDiscordMetadata = gql`
   mutation UpdateGuildDiscordMetadata(
     $guildId: uuid!
     $discordMetadata: jsonb

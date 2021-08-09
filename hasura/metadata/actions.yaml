@@ -65,6 +65,23 @@ custom_types:
     - description: null
       is_deprecated: null
       value: REJECTED
+  - name: GuildType_ActionEnum
+    values:
+    - description: null
+      is_deprecated: null
+      value: PROJECT
+    - description: null
+      is_deprecated: null
+      value: SERVICE
+    - description: null
+      is_deprecated: null
+      value: RESEARCH
+    - description: null
+      is_deprecated: null
+      value: SOCIAL
+    - description: null
+      is_deprecated: null
+      value: FUNDING
   input_objects:
   - name: CreateQuestInput
   - name: CreateQuestCompletionInput
