@@ -30,6 +30,10 @@
       filter: {}
 - table:
     schema: public
+    name: GuildPosition
+  is_enum: true
+- table:
+    schema: public
     name: GuildStatus
   is_enum: true
 - table:
@@ -142,6 +146,7 @@
       - logo
       - moloch_address
       - name
+      - position
       - status
       - twitter_url
       - type
@@ -160,6 +165,7 @@
       - logo
       - moloch_address
       - name
+      - position
       - status
       - twitter_url
       - type
