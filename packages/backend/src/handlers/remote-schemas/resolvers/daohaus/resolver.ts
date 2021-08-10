@@ -18,7 +18,6 @@ const addChain = (memberAddress: string) => async (chain: string) => {
     const updatedMember: Member = { ...member };
     updatedMember.moloch.chain = chain;
     updatedMember.moloch.title = titles[member.moloch.id];
-
     return updatedMember;
   });
 };
