@@ -16,7 +16,7 @@ Before you can start the Docker containers, you must run the following.
 # Copy the example environment
 cp .env.sample .env
 
-# Add a github token from https://github.com/settings/tokens to the .env
+# Add a github token from https://github.com/settings/tokens to the .env (Default read-only scope is good)
 echo "GITHUB_API_TOKEN=<github-token>" >> .env
 
 # Remove potential stale containers
