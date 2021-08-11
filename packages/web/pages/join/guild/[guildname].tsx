@@ -1,11 +1,4 @@
-import {
-  ConfirmModal,
-  Flex,
-  HStack,
-  MetaButton,
-  MetaHeading,
-  useToast,
-} from '@metafam/ds';
+import { Flex, MetaHeading, useToast } from '@metafam/ds';
 import { FlexContainer, PageContainer } from 'components/Container';
 import { EditGuildFormInputs, GuildForm } from 'components/Guild/GuildForm';
 import {
@@ -15,7 +8,6 @@ import {
   useUpdateGuildMutation,
 } from 'graphql/autogen/types';
 import { getGuild } from 'graphql/getGuild';
-import { useGetGuildMetadata } from 'lib/hooks/guilds';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 
@@ -23,7 +15,6 @@ const SetupGuild: React.FC = () => {
   const router = useRouter();
 
   const [guild, setGuild] = useState<GuildFragmentFragment | undefined>();
-  const [exitAlert, setExitAlert] = useState<boolean>(false);
   const [updateGuildState, updateGuild] = useUpdateGuildMutation();
   const toast = useToast();
 
@@ -38,8 +29,6 @@ const SetupGuild: React.FC = () => {
     };
     fetchGuild();
   }, [guildName]);
-
-  const { discordRoles } = useGetGuildMetadata(guild?.id);
 
   if (guild == null) {
     return <></>;
@@ -98,40 +87,12 @@ const SetupGuild: React.FC = () => {
         >
           <GuildForm
             workingGuild={guild}
-            allDiscordRoles={discordRoles}
             onSubmit={onSubmit}
-          >
-            <HStack justify="space-between" mt={10} w="100%">
-              <MetaButton
-                isLoading={updateGuildState.fetching}
-                loadingText="Submitting information..."
-                type="submit"
-                isDisabled={
-                  !!updateGuildState.data?.saveGuildInformation?.success
-                }
-              >
-                Submit guild information
-              </MetaButton>
-              <MetaButton
-                variant="outline"
-                onClick={() => setExitAlert(true)}
-                isDisabled={
-                  updateGuildState.fetching ||
-                  !!updateGuildState.data?.saveGuildInformation?.success
-                }
-              >
-                Cancel
-              </MetaButton>
-            </HStack>
-          </GuildForm>
+            success={!!updateGuildState.data?.saveGuildInformation?.success}
+            submitting={updateGuildState.fetching}
+          />
         </Flex>
       </FlexContainer>
-      <ConfirmModal
-        isOpen={exitAlert}
-        onNope={() => setExitAlert(false)}
-        onYep={() => setExitAlert(false)}
-        header="Are you sure you want to leave ?"
-      />
     </PageContainer>
   );
 };

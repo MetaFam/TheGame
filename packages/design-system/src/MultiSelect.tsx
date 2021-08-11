@@ -88,6 +88,7 @@ export const selectStyles: Styles = {
   }),
 };
 
-export const MultiSelect: React.FC<SelectProps> = (props) => (
-  <Select styles={selectStyles} {...props} />
-);
+export const MultiSelect: React.FC<SelectProps> = React.forwardRef<
+  Select,
+  SelectProps
+>((props, ref) => <Select styles={selectStyles} {...props} ref={ref} />);

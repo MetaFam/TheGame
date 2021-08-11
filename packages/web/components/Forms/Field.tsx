@@ -21,6 +21,7 @@ export const Field: React.FC<FieldProps> = ({ children, error, label }) => (
         {error?.type === 'minLength' && 'Too short'}
         {error?.type === 'maxLength' && 'Too long'}
         {error?.type === 'min' && 'Too small'}
+        {error?.type === 'validate' && error.message}
       </Text>
     </Flex>
 
