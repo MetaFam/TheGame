@@ -38,6 +38,8 @@ const SetupGuild: React.FC = () => {
     const { type, ...otherInputs } = data;
     const payload: GuildInfo = {
       ...otherInputs,
+      discordAdminRoles: data.discordAdminRoles.map((o) => o.value),
+      discordMembershipRoles: data.discordMembershipRoles.map((o) => o.value),
       type: (type as unknown) as GuildType_ActionEnum,
       uuid: guild.id,
     };

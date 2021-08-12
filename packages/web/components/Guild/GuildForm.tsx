@@ -9,6 +9,7 @@ import {
   Textarea,
   VStack,
 } from '@metafam/ds';
+import { SelectOption } from '@metafam/ds/src/MultiSelect';
 import { Field } from 'components/Forms/Field';
 import {
   GuildFragmentFragment,
@@ -33,11 +34,10 @@ const validations = {
     required: true,
   },
   discordAdminRoles: {
-    validate: (roles: string[]) => roles != null && roles.length > 1,
+    validate: (roles: string[]) => roles != null && roles.length > 0,
   },
   discordMembershipRoles: {
-    required: true,
-    min: 1,
+    validate: (roles: string[]) => roles != null && roles.length > 0,
   },
 };
 
@@ -51,8 +51,8 @@ export interface EditGuildFormInputs {
   websiteUrl: string | undefined | null;
   daoAddress: string | undefined | null;
   type: GuildType_Enum;
-  discordAdminRoles: string[];
-  discordMembershipRoles: string[];
+  discordAdminRoles: SelectOption[];
+  discordMembershipRoles: SelectOption[];
 }
 
 const getDefaultFormValues = (
@@ -95,9 +95,10 @@ export const GuildForm: React.FC<Props> = ({
     errors,
     handleSubmit,
     control,
-    formState,
+    // formState,
   } = useForm<EditGuildFormInputs>({
     defaultValues,
+    mode: 'onTouched',
   });
 
   const [getGuildMetadataResponse] = useGetGuildMetadataQuery({
@@ -161,7 +162,12 @@ export const GuildForm: React.FC<Props> = ({
           </span>
         </Field>
         <Field label="Website URL" error={errors.websiteUrl}>
-          <Input type="text" name="joinUrl" background="dark" ref={register} />
+          <Input
+            type="text"
+            name="websiteUrl"
+            background="dark"
+            ref={register}
+          />
           <span>Your guild&apos;s main website.</span>
         </Field>
         <Field label="Discord Invite URL" error={errors.discordInviteUrl}>
@@ -175,7 +181,7 @@ export const GuildForm: React.FC<Props> = ({
           <span>A public invite URL for your Discord server.</span>
         </Field>
         <Field label="Join URL" error={errors.joinUrl}>
-          <Input type="text" name="join_url" background="dark" ref={register} />
+          <Input type="text" name="joinUrl" background="dark" ref={register} />
           <span>The URL that the &quot;JOIN&quot; button will point to.</span>
         </Field>
         <Field label="DAO Address" error={errors.daoAddress}>
@@ -226,35 +232,42 @@ export const GuildForm: React.FC<Props> = ({
                 <Controller
                   name="discordAdminRoles"
                   control={control}
-                  defaultValue={[]}
                   rules={validations.discordAdminRoles}
-                  isRequired
                   isMulti
                   options={roleOptions}
                   as={MultiSelect}
                 />
                 <span>
-                  Members of your server with these roles will have
+                  Members of your Discord server with these roles will have
                   administration privileges.
                 </span>
               </Field>
-              <Field label="Membership Roles">
-                <MultiSelect
-                  isRequired
+              <Field
+                label="Membership Roles"
+                error={
+                  errors.discordMembershipRoles != null
+                    ? {
+                        type: 'validate',
+                        message: 'Required',
+                      }
+                    : undefined
+                }
+              >
+                <Controller
                   name="discordMembershipRoles"
-                  isInvalid={!!errors.discordMembershipRoles}
+                  control={control}
+                  rules={validations.discordMembershipRoles}
                   isMulti
                   options={roleOptions}
-                  ref={register(validations.discordMembershipRoles)}
+                  as={MultiSelect}
                 />
                 <span>
-                  Members of your server with these roles will be considered
-                  members of this guild.
+                  Members of your Discord server with these roles will be
+                  considered members of this guild.
                 </span>
               </Field>
             </>
           )}
-          {JSON.stringify(formState.errors)}
         </Box>
         <HStack justify="space-between" mt={10} w="100%">
           <MetaButton
