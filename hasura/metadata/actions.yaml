@@ -26,6 +26,8 @@ actions:
     kind: synchronous
     handler: '{{ACTION_BASE_ENDPOINT}}/guild/save'
     forward_client_headers: true
+  permissions:
+  - role: player
 - name: updateExpiredIDXProfiles
   definition:
     kind: synchronous
