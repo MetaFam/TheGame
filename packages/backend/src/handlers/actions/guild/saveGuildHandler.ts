@@ -18,9 +18,9 @@ export const saveGuildHandler = async (
   const playerId = sessionVariables['x-hasura-user-id'];
 
   try {
-    const guildInfo: GuildInfo = input;
-
-    await saveGuild(playerId, guildInfo);
+    const { guildInformation } = input;
+    console.log('save guild handler', guildInformation);
+    await saveGuild(playerId, guildInformation as GuildInfo);
 
     res.json({
       success: true,
@@ -30,6 +30,7 @@ export const saveGuildHandler = async (
       success: false,
       error: error.message,
     };
+    console.error(error);
     res.json(errorResponse);
   }
 };
