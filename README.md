@@ -2,17 +2,45 @@
 
 Monorepo for the MetaGame applications, backend and databases.
 
-Project Board to find tasks / issues to work on: https://github.com/MetaFam/TheGame/projects/1
+We're using the following stack:
+
+#### Frontend
+
+- [NextJS](https://nextjs.org/)
+- [Chakra UI](https://chakra-ui.com/)
+- [Storybook](https://storybook.js.org/)
+
+#### Backend
+
+- [Hasura](https://)
+- [GraphQL](https://graphql.org/)
+- [URQL](https://formidable.com/open-source/urql/)
+- [Ceramic IDX](https://idx.xyz/)
+- [Infura](https://infura.io/)
+- [Docker](https://www.docker.com/)
+
+#### Overall
+
+- [Jest](https://jestjs.io/)
+- [Prettier](https://prettier.io/)
+- [Lerna](https://lerna.js.org/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Javascript](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+
+## MetaGame
+
+- [Wiki](https://wiki.metagame.wtf)
+- [Notion](https://www.notion.so/Welcome-to-MetaGame-7e28e75f3c264c7b939eaaa2239b9c28)
 
 ## Guides
 
 If you're new to the MetaGame codebase, check out the following guides to learn how to contribute.
 
+- [Video Walkthrough](https://www.youtube.com/watch?v=-Qhz6H4t0Ik)
 - [Backend Guide](guides/BACKEND.md)
-
 - [Frontend Guide](guides/FRONTEND.md)
-
 - [C4 Guide](guides/C4.md)
+- [Contributing Guide](guides/CONTRIBUTING.md)
 
 ## Development
 
@@ -62,14 +90,6 @@ yarn hasura:seed-local-db
 curl -X POST http://localhost:4000/actions/migrateSourceCredAccounts?force=true
 ```
 
-**Troubleshooting**
-
-In case non of the above commands are working try purge the docker containers and images you can do this by running (notice: this removes all the containers and images on your computer!):
-
-```shell script
-docker system prune -a
-```
-
 **Rebuild backend services**
 
 If your docker containers fail to start due to changes in config, you may need to rebuild the containers. This can take several minutes.
@@ -90,6 +110,20 @@ If you want to locally start the backend server (not in Docker) for debugging pu
 
 ```shell script
 yarn backend:dev
+```
+
+**Troubleshooting**
+
+Rebuild and run the containers (in attach mode):
+
+```shell script
+docker-compose up --build
+```
+
+In case non of the above commands are working try purge the docker containers and images you can do this by running (notice: this removes all the containers and images on your computer!):
+
+```shell script
+docker system prune -a
 ```
 
 ### Run NextJS Web App dev mode (new)
