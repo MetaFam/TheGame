@@ -12,6 +12,7 @@ import {
 import { SelectOption } from '@metafam/ds/src/MultiSelect';
 import { Field } from 'components/Forms/Field';
 import {
+  DiscordRole,
   GuildFragmentFragment,
   GuildType_Enum,
   useGetGuildMetadataQuery,
@@ -34,10 +35,10 @@ const validations = {
     required: true,
   },
   discordAdminRoles: {
-    validate: (roles: string[]) => roles != null && roles.length > 0,
+    validate: (roles: SelectOption[]) => roles != null && roles.length > 0,
   },
   discordMembershipRoles: {
-    validate: (roles: string[]) => roles != null && roles.length > 0,
+    validate: (roles: SelectOption[]) => roles != null && roles.length > 0,
   },
 };
 
@@ -57,25 +58,49 @@ export interface EditGuildFormInputs {
 
 const getDefaultFormValues = (
   guild: GuildFragmentFragment,
-): EditGuildFormInputs => ({
-  guildname: guild.guildname,
-  name: guild.name,
-  description: guild.description || '',
-  discordInviteUrl: guild.discord_invite_url || '',
-  joinUrl: guild.join_button_url || '',
-  logoUrl: guild.logo || '',
-  websiteUrl: guild.website_url || '',
-  daoAddress: guild.moloch_address || '',
-  type: guild.type,
-  discordAdminRoles: [],
-  discordMembershipRoles: [],
-});
+  metadata: GuildMetadata | undefined,
+  roleOptions: SelectOption[],
+): EditGuildFormInputs => {
+  const discordAdminRoleIds = metadata?.discord_metadata.administratorRoleIds;
+  const discordAdminRoleOptions =
+    metadata == null || discordAdminRoleIds == null
+      ? []
+      : roleOptions.filter((r) => discordAdminRoleIds.includes(r.value));
+
+  const discordMembershipRoleIds = metadata?.discord_metadata.membershipRoleIds;
+  const discordMembershipRoleOptions =
+    metadata == null || discordMembershipRoleIds == null
+      ? []
+      : roleOptions.filter((r) => discordMembershipRoleIds.includes(r.value));
+
+  return {
+    guildname: guild.guildname,
+    name: guild.name,
+    description: guild.description || '',
+    discordInviteUrl: guild.discord_invite_url || '',
+    joinUrl: guild.join_button_url || '',
+    logoUrl: guild.logo || '',
+    websiteUrl: guild.website_url || '',
+    daoAddress: guild.moloch_address || '',
+    type: guild.type,
+    discordAdminRoles: discordAdminRoleOptions,
+    discordMembershipRoles: discordMembershipRoleOptions,
+  };
+};
 
 type Props = {
   workingGuild: GuildFragmentFragment;
   onSubmit: (data: EditGuildFormInputs) => void;
   success?: boolean;
   submitting?: boolean;
+};
+
+type GuildMetadata = {
+  discordRoles: DiscordRole[];
+  discord_metadata: {
+    membershipRoleIds: string[];
+    administratorRoleIds: string[];
+  };
 };
 
 export const GuildForm: React.FC<Props> = ({
@@ -85,9 +110,26 @@ export const GuildForm: React.FC<Props> = ({
   submitting,
 }) => {
   const router = useRouter();
+
+  const [getGuildMetadataResponse] = useGetGuildMetadataQuery({
+    variables: { id: workingGuild.id },
+  });
+  const fetchingRoles =
+    getGuildMetadataResponse == null || getGuildMetadataResponse.fetching;
+  const guildMetadata = getGuildMetadataResponse.data
+    ?.guild_metadata[0] as GuildMetadata;
+
+  const roleOptions = useMemo(() => {
+    const allDiscordRoles = guildMetadata?.discordRoles || [];
+    return allDiscordRoles.map((role) => ({
+      label: role.name,
+      value: role.id,
+    }));
+  }, [guildMetadata]);
+
   const defaultValues = useMemo<EditGuildFormInputs>(
-    () => getDefaultFormValues(workingGuild),
-    [workingGuild],
+    () => getDefaultFormValues(workingGuild, guildMetadata, roleOptions),
+    [workingGuild, guildMetadata, roleOptions],
   );
 
   const {
@@ -95,26 +137,10 @@ export const GuildForm: React.FC<Props> = ({
     errors,
     handleSubmit,
     control,
-    // formState,
   } = useForm<EditGuildFormInputs>({
     defaultValues,
     mode: 'onTouched',
   });
-
-  const [getGuildMetadataResponse] = useGetGuildMetadataQuery({
-    variables: { id: workingGuild.id },
-  });
-  const fetchingRoles =
-    getGuildMetadataResponse == null || getGuildMetadataResponse.fetching;
-
-  const roleOptions = useMemo(() => {
-    const allDiscordRoles =
-      getGuildMetadataResponse.data?.guild_metadata[0].discordRoles || [];
-    return allDiscordRoles.map((role) => ({
-      label: role.name,
-      value: role.id,
-    }));
-  }, [getGuildMetadataResponse]);
 
   return (
     <Box w="100%" maxW="30rem">
@@ -233,6 +259,7 @@ export const GuildForm: React.FC<Props> = ({
                   name="discordAdminRoles"
                   control={control}
                   rules={validations.discordAdminRoles}
+                  defaultValue={defaultValues.discordAdminRoles}
                   isMulti
                   options={roleOptions}
                   as={MultiSelect}
