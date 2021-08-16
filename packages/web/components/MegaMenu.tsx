@@ -168,7 +168,7 @@ const Search = () => (
 );
 
 // Display player XP and Seed -- not working yet
-const PlayerStats = ({ playerXp }: { playerXp: number }) => (
+const PlayerStats = () => (
   <Flex
     align="center"
     display={{ base: 'none', xl: 'flex' }}
@@ -184,7 +184,6 @@ const PlayerStats = ({ playerXp }: { playerXp: number }) => (
     <Badge
       display={{ base: 'none', md: 'flex' }}
       flexDirection={['column', 'column', 'column', 'row']}
-      color="#fff"
       pt={2}
       pr={4}
       pb={2}
@@ -194,7 +193,7 @@ const PlayerStats = ({ playerXp }: { playerXp: number }) => (
       borderRadius={50}
     >
       <Image src={XPStar} alt="XP" height={14} width={14} />{' '}
-      <Text ml={[0, 0, 0, 2]}>NN</Text>
+      <Text ml={[0, 0, 0, 2]}>N</Text>
     </Badge>
     <Badge
       display={{ base: 'none', md: 'flex' }}
@@ -209,7 +208,7 @@ const PlayerStats = ({ playerXp }: { playerXp: number }) => (
       borderRadius={50}
     >
       <Image src={SeedMarket} alt="Seed" height={14} width={14} />{' '}
-      <Text ml={[0, 0, 0, 2]}>NN</Text>
+      <Text ml={[0, 0, 0, 2]}>N</Text>
     </Badge>
     <Avatar
       name="alt text"
@@ -221,8 +220,8 @@ const PlayerStats = ({ playerXp }: { playerXp: number }) => (
 );
 
 export const MegaMenu: React.FC = () => {
-  const { user } = useUser();
-  const playerXp = user?.player?.total_xp || 0;
+  // const { user } = useUser();
+  // const playerXp = user?.player?.total_xp || 0;
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const menuToggle = () => (isOpen ? onClose() : onOpen());
