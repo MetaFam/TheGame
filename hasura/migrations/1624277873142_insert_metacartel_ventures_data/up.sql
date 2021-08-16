@@ -2,7 +2,7 @@ INSERT INTO "public"."guild" (
   type, name, logo, description, 
   join_button_url, moloch_address, 
   website_url, guildname, discord_id,
-  status, discord_metadata,
+  status, 
   discord_invite_url, twitter_url,
   github_url
 ) VALUES
@@ -16,7 +16,6 @@ INSERT INTO "public"."guild" (
  'metacartelventures',
  NULL,
  'ACTIVE',
- NULL,
  NULL,
  'https://twitter.com/VENTURE_DAO',
  NULL

@@ -1,6 +1,6 @@
 CREATE TABLE "public"."guild_metadata"(
   "guild_id" uuid NOT NULL, 
-  "creator_id" uuid NOT NULL,
+  "creator_id" uuid,
   "discord_id" text NOT NULL,
   "discord_metadata" jsonb, 
   PRIMARY KEY ("guild_id"), 
