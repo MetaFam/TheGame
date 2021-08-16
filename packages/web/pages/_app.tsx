@@ -1,5 +1,6 @@
 /* eslint-disable react/no-danger */
 import { ChakraProvider, CSSReset, MetaTheme } from '@metafam/ds';
+import { MegaMenu } from 'components/MegaMenu';
 import { MobileFooter } from 'components/MobileFooter';
 import { PageHeader } from 'components/PageHeader';
 import { CONFIG } from 'config';
@@ -56,8 +57,9 @@ const App: React.FC<WithUrqlProps> = ({
     </Head>
     <Web3ContextProvider resetUrqlClient={resetUrqlClient}>
       <>
-        {!pageProps.hideAppDrawer && <PageHeader />}
-        {!pageProps.hideAppDrawer && <MobileFooter />}
+        <MegaMenu />
+        {/* {!pageProps.hideAppDrawer && <PageHeader />} */}
+        {/* {!pageProps.hideAppDrawer && <MobileFooter />} */}
         <Component {...pageProps} />
       </>
     </Web3ContextProvider>
