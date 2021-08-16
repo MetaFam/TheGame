@@ -18,7 +18,6 @@ import {
   Text,
   useDisclosure,
 } from '@metafam/ds';
-import { useUser } from 'lib/hooks/index';
 import Image from 'next/image';
 import React from 'react';
 
@@ -40,6 +39,12 @@ const Logo = () => (
     <Image src="/assets/logo.png" height={44} width={36} />
   </Box>
 );
+
+type MenuItemProps = {
+  title: string;
+  url: string;
+  explainerText: string;
+};
 
 // Menu links (with icons and explanatory text) -- used in DesktopNavLinks below
 const DesktopMenuItem = ({ title, url, explainerText }: MenuItemProps) => (
@@ -227,7 +232,7 @@ export const MegaMenu: React.FC = () => {
   const menuToggle = () => (isOpen ? onClose() : onOpen());
 
   return (
-    <Stack position="sticky" top={0} zIndex={1} fontFamily="exo">
+    <Stack position="sticky" top={0} zIndex={10} fontFamily="exo">
       <Flex
         justifyContent="space-between"
         minH={{ base: '12vh', md: '10vh' }}
@@ -296,7 +301,7 @@ export const MegaMenu: React.FC = () => {
                 {section.label}
               </Text>
               <SimpleGrid columns={2}>
-                {section.menuItems.map((item) => (
+                {section.menuItems.map((item: any) => (
                   <Link
                     display="flex"
                     alignItems="center"
