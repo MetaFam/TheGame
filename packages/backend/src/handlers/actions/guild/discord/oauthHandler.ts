@@ -1,7 +1,5 @@
-/* eslint-disable no-console */
 import {
   exchangeCodeForAccessToken,
-  getCurrentAuthorization,
   GuildDiscordMetadata,
   OAuth2CodeExchangeResponse,
   PartialGuild,
@@ -23,7 +21,7 @@ export const handleOAuthCallback = async (
   req: Request,
   res: Response,
 ): Promise<void> => {
-  const { input } = req.body;
+  const { input, session_variables: sessionVariables } = req.body;
 
   try {
     // when confirmed, `code` parameter is sent.
@@ -79,20 +77,14 @@ export const handleOAuthCallback = async (
       // Guild doesn't already exist: persist guild info fetched in this request
       const discordMetadata = parseDiscordMetadata(response.oauthResponse);
 
-      const currentDiscordUser = await getCurrentAuthorization(
-        response.oauthResponse.access_token,
-      );
-
-      const getPlayerResponse = await client.GetPlayerByDiscordId({
-        discordId: currentDiscordUser.user.id,
-      });
+      const playerId = sessionVariables['x-hasura-user-id'];
 
       let createGuildResponse: DiscordGuildAuthResponse = { success: false };
       try {
         createGuildResponse = await createNewGuild(
           discordGuild,
           discordMetadata,
-          getPlayerResponse.player[0].id,
+          playerId,
         );
       } catch (creationError) {
         // if there was a guildname clash, try again with a uuid
@@ -101,9 +93,11 @@ export const handleOAuthCallback = async (
           createGuildResponse = await createNewGuild(
             discordGuild,
             discordMetadata,
-            getPlayerResponse.player[0].id,
+            playerId,
           );
           res.json(createGuildResponse);
+        } else {
+          throw new Error(creationError);
         }
       }
       res.json(createGuildResponse);
@@ -141,6 +135,7 @@ const createNewGuild = async (
     guildname: discordGuild.name.toLowerCase().replace(/[^a-z0-9]/g, ''),
     discord_id: discordGuild.id,
     status: GuildStatus_Enum.Pending,
+    position: 'EXTERNAL',
   };
 
   if (discordMetadata.logoHash != null) {
