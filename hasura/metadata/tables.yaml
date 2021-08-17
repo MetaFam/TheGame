@@ -171,6 +171,19 @@
       - type
       - website_url
       filter: {}
+  event_triggers:
+  - name: syncDiscordGuildMembers
+    definition:
+      enable_manual: false
+      update:
+        columns:
+        - discord_id
+        - status
+    retry_conf:
+      num_retries: 0
+      interval_sec: 10
+      timeout_sec: 60
+    webhook_from_env: TRIGGERS_ENDPOINT
 - table:
     schema: public
     name: guild_account

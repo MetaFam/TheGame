@@ -177,4 +177,18 @@ export const CreateQuestCompletion = gql`
       guild_id
     }
   }
+
+  mutation SyncGuildMembers(
+    $memberDiscordIdsToRemove: [String!]!
+    $membersToAdd: [guild_player_insert_input!]!
+  ) {
+    delete_guild_player(
+      where: { Player: { discord_id: { _in: $memberDiscordIdsToRemove } } }
+    ) {
+      affected_rows
+    }
+    insert_guild_player(objects: $membersToAdd) {
+      affected_rows
+    }
+  }
 `;
