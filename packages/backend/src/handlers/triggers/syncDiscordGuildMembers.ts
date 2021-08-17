@@ -4,15 +4,18 @@ import {
   GuildDiscordMetadata,
 } from '@metafam/discord-bot';
 
-import { CONFIG } from '../../config';
-import { Guild, Guild_Player_Insert_Input } from '../../lib/autogen/hasura-sdk';
+import {
+  Guild,
+  Guild_Player_Insert_Input,
+  SyncGuildMembersMutation,
+} from '../../lib/autogen/hasura-sdk';
 import { client } from '../../lib/hasuraClient';
 import { TriggerPayload } from './types';
 
 export const syncDiscordGuildMembers = async (
   payload: TriggerPayload<Guild>,
 ) => {
-  if (CONFIG.nodeEnv !== 'production') return;
+  // if (CONFIG.nodeEnv !== 'production') return;
 
   const { new: guild } = payload.event.data;
 
@@ -31,6 +34,8 @@ export const syncDiscordGuildMembers = async (
       guildMetadata.discord_metadata == null
     )
       return;
+
+    // todo only sync on ACTIVE guilds. For all others, remove all guild_players
 
     // at least one membership role must be defined
     const discordServerMembershipRoles = (guildMetadata.discord_metadata as GuildDiscordMetadata)
@@ -70,9 +75,9 @@ export const syncDiscordGuildMembers = async (
     const discordServerMemberIds: string[] = [];
     const playerDiscordIdsToAdd: string[] = [];
     discordGuildMembers.forEach((discordMember) => {
-      discordServerMemberIds.push(discordMember.id);
-      if (!guildMemberDiscordIds.includes(discordMember.id)) {
-        playerDiscordIdsToAdd.push(discordMember.id);
+      discordServerMemberIds.push(discordMember.user.id);
+      if (!guildMemberDiscordIds.includes(discordMember.user.id)) {
+        playerDiscordIdsToAdd.push(discordMember.user.id);
       }
     });
 
@@ -84,18 +89,29 @@ export const syncDiscordGuildMembers = async (
     const getPlayerIdsResponse = await client.GetPlayersByDiscordId({
       discordIds: playerDiscordIdsToAdd,
     });
+
     const playersToAdd: Guild_Player_Insert_Input[] = getPlayerIdsResponse.player.map(
-      (id) => ({
+      (player) => ({
         guild_id: guild.id,
-        player_id: id,
+        player_id: player.id,
       }),
     );
-
-    if (playersToRemove.length > 0) {
-      client.SyncGuildMembers({
+    console.log(playersToRemove, playersToAdd);
+    const syncResponse: SyncGuildMembersMutation = await client.SyncGuildMembers(
+      {
         memberDiscordIdsToRemove: playersToRemove,
         membersToAdd: playersToAdd,
-      });
+      },
+    );
+
+    const numDeleted = syncResponse.delete_guild_player?.affected_rows;
+    const numInserted = syncResponse.insert_guild_player?.affected_rows;
+
+    if (numDeleted != null && numDeleted > 0) {
+      console.log(`Removed ${numDeleted} players`);
+    }
+    if (numInserted != null && numInserted > 0) {
+      console.log(`Added ${numInserted} players`);
     }
   } catch (e) {
     console.error(e);

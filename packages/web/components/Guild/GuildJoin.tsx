@@ -23,6 +23,7 @@ export const GuildJoin: React.FC = () => {
   const discordAuthParams = new URLSearchParams({
     response_type: 'code',
     client_id: Constants.DISCORD_BOT_CLIENT_ID,
+    // todo generate, store, and confirm on auth page
     state: 'guid-to-go-in-localstorage',
     permissions: Constants.DISCORD_BOT_PERMISSIONS,
     redirect_uri: encodeURI(discordOAuthCallbackURL),

@@ -51,7 +51,6 @@ const saveGuild = async (playerId: string, guildInfo: GuildInfo) => {
       "Only the guild's discord server owner can edit this guild",
     );
   }
-  console.log(playerId, guildInfo.daoAddress);
 
   const updateGuildData: Guild_Set_Input = {
     guildname: guildInfo.guildname,
@@ -74,12 +73,11 @@ const saveGuild = async (playerId: string, guildInfo: GuildInfo) => {
     ...existingGuildMetadata.discord_metadata,
     membershipRoleIds: guildInfo.discordMembershipRoles,
     administratorRoleIds: guildInfo.discordAdminRoles,
+    membership_through_discord: true,
   };
 
   await client.UpdateGuildDiscordMetadata({
     guildId: guildInfo.uuid,
     discordMetadata: updateGuildMetadata,
   });
-
-  // add new column to guild_metadata table for player_management_discord (bool), default true
 };
