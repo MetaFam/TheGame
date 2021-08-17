@@ -20,8 +20,8 @@ gql`
     }
   }
 
-  query GetPlayerByDiscordId($discordId: String) {
-    player(where: { discord_id: { _eq: $discordId } }) {
+  query GetPlayersByDiscordId($discordIds: [String!]) {
+    player(where: { discord_id: { _in: $discordIds } }) {
       id
     }
   }
@@ -121,6 +121,18 @@ gql`
       guild_id
       creator_id
       discord_metadata
+      membership_through_discord
+    }
+  }
+
+  query GetGuildMembers($id: uuid!) {
+    guild(where: { id: { _eq: $id } }) {
+      guild_players {
+        Player {
+          id
+          discord_id
+        }
+      }
     }
   }
 `;

@@ -1,18 +1,22 @@
 import { Request, Response } from 'express';
 import { ParamsDictionary } from 'express-serve-static-core';
 
-import { Player } from '../../lib/autogen/hasura-sdk';
+import { Guild, Player } from '../../lib/autogen/hasura-sdk';
 import { cacheIDXProfile } from './cacheIDXProfile';
+import { syncDiscordGuildMembers } from './syncDiscordGuildMembers';
 import { TriggerPayload } from './types';
 import { updateDiscordRole } from './updateDiscordRole';
 
 const TRIGGERS = {
   cacheIDXProfile,
   player_rank_updated: updateDiscordRole,
+  syncDiscordGuildMembers,
 };
 
+type Payload = TriggerPayload<Player> & TriggerPayload<Guild>;
+
 export const triggerHandler = async (
-  req: Request<ParamsDictionary, never, TriggerPayload<Player>>,
+  req: Request<ParamsDictionary, never, Payload>,
   res: Response,
 ): Promise<void> => {
   const role = req.body.event?.session_variables?.['x-hasura-role'];
