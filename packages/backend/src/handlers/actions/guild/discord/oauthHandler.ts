@@ -12,6 +12,7 @@ import {
   DiscordGuildAuthResponse,
   Guild_Insert_Input,
   Guild_Metadata_Insert_Input,
+  GuildPosition_Enum,
   GuildStatus_Enum,
   GuildType_Enum,
 } from '../../../../lib/autogen/hasura-sdk';
@@ -135,7 +136,7 @@ const createNewGuild = async (
     guildname: discordGuild.name.toLowerCase().replace(/[^a-z0-9]/g, ''),
     discord_id: discordGuild.id,
     status: GuildStatus_Enum.Pending,
-    position: 'EXTERNAL',
+    position: GuildPosition_Enum.External,
   };
 
   if (discordMetadata.logoHash != null) {
