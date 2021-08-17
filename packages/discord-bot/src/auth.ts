@@ -13,7 +13,6 @@ export const tokenRequestData = {
   client_secret: CONFIG.discordBotClientSecret,
   grant_type: 'authorization_code',
   redirect_uri: `${CONFIG.frontendUrl}/${Constants.DISCORD_OAUTH_CALLBACK_PATH}`,
-  scope: Constants.DISCORD_OAUTH_SCOPES,
 };
 
 export const exchangeCodeForAccessToken = async (
@@ -24,13 +23,16 @@ export const exchangeCodeForAccessToken = async (
     code,
   };
 
-  const discordResponse = await fetch('https://discord.com/api/oauth2/token', {
-    method: 'POST',
-    body: new URLSearchParams(data),
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
+  const discordResponse = await fetch(
+    'https://discord.com/api/v8/oauth2/token',
+    {
+      method: 'POST',
+      body: new URLSearchParams(data),
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
     },
-  });
+  );
   const response: DiscordAccessTokenResponse = {
     statusCode: discordResponse.status,
   };

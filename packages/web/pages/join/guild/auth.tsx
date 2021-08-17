@@ -7,14 +7,15 @@ const GuildSetupAuthCallback: React.FC = () => {
   const router = useRouter();
 
   const [authGuildRes, authGuild] = useAuthenticateDiscordGuildMutation();
-
   const [error, setError] = useState<string>('');
+  const [fetching, setFetching] = useState<boolean>(false);
 
   useEffect(() => {
     // when auth request is denied, we get `error=access_denied` and `error_description` and `state` parameters
     const { code, error_description: discordErrorDetail } = router.query;
     if (discordErrorDetail != null) {
       setError(discordErrorDetail as string);
+      return;
     }
 
     const submitAuthCode = async () => {
@@ -32,10 +33,11 @@ const GuildSetupAuthCallback: React.FC = () => {
         }
       }
     };
-    if (!error.length && code) {
+    if (!fetching && code) {
+      setFetching(true);
       submitAuthCode();
     }
-  }, [router, authGuild, error]);
+  }, [router, authGuild, error, fetching, setFetching]);
 
   return (
     <PageContainer>
