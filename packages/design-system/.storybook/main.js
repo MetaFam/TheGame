@@ -16,9 +16,6 @@ module.exports = {
             transpileOnly: true,
           },
         },
-        {
-          loader: require.resolve('react-docgen-typescript-loader'),
-        },
       ],
     });
 
