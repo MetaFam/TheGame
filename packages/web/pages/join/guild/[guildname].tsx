@@ -48,14 +48,16 @@ const SetupGuild: React.FC = () => {
 
     const saveGuildResponse = response.data?.saveGuildInformation;
     if (saveGuildResponse?.success) {
-      router.push('/');
       toast({
         title: 'Guild information submitted',
         description: 'Please allow a few days to review your guild information',
         status: 'success',
         isClosable: true,
-        duration: 4000,
+        duration: 5000,
       });
+      setTimeout(() => {
+        router.push('/');
+      }, 5000);
     } else {
       toast({
         title: 'Error while saving guild information',

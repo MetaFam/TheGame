@@ -706,7 +706,7 @@ type guild {
   logo: String
   moloch_address: String
   name: String!
-  position: String
+  position: GuildPosition_enum
 
   """An array relationship"""
   quests(
@@ -1001,7 +1001,7 @@ input guild_bool_exp {
   logo: String_comparison_exp
   moloch_address: String_comparison_exp
   name: String_comparison_exp
-  position: String_comparison_exp
+  position: GuildPosition_enum_comparison_exp
   quests: quest_bool_exp
   status: GuildStatus_enum_comparison_exp
   twitter_url: String_comparison_exp
@@ -1040,7 +1040,7 @@ input guild_insert_input {
   logo: String
   moloch_address: String
   name: String
-  position: String
+  position: GuildPosition_enum
   quests: quest_arr_rel_insert_input
   status: GuildStatus_enum
   twitter_url: String
@@ -1060,7 +1060,6 @@ type guild_max_fields {
   logo: String
   moloch_address: String
   name: String
-  position: String
   twitter_url: String
   website_url: String
 }
@@ -1079,7 +1078,6 @@ input guild_max_order_by {
   logo: order_by
   moloch_address: order_by
   name: order_by
-  position: order_by
   twitter_url: order_by
   website_url: order_by
 }
@@ -1357,7 +1355,6 @@ type guild_min_fields {
   logo: String
   moloch_address: String
   name: String
-  position: String
   twitter_url: String
   website_url: String
 }
@@ -1376,7 +1373,6 @@ input guild_min_order_by {
   logo: order_by
   moloch_address: order_by
   name: order_by
-  position: order_by
   twitter_url: order_by
   website_url: order_by
 }
@@ -1687,7 +1683,7 @@ input guild_set_input {
   logo: String
   moloch_address: String
   name: String
-  position: String
+  position: GuildPosition_enum
   status: GuildStatus_enum
   twitter_url: String
   type: GuildType_enum
@@ -1750,14 +1746,187 @@ input GuildInfo {
   discordAdminRoles: [String]!
   discordInviteUrl: String
   discordMembershipRoles: [String]!
+  githubUrl: String
   guildname: String!
   joinUrl: String
   logoUrl: String
   membershipThroughDiscord: Boolean
   name: String!
+  twitterUrl: String
   type: GuildType_ActionEnum!
   uuid: String!
   websiteUrl: String
+}
+
+"""
+columns and relationships of "GuildPosition"
+"""
+type GuildPosition {
+  position: String!
+}
+
+"""
+aggregated selection of "GuildPosition"
+"""
+type GuildPosition_aggregate {
+  aggregate: GuildPosition_aggregate_fields
+  nodes: [GuildPosition!]!
+}
+
+"""
+aggregate fields of "GuildPosition"
+"""
+type GuildPosition_aggregate_fields {
+  count(columns: [GuildPosition_select_column!], distinct: Boolean): Int
+  max: GuildPosition_max_fields
+  min: GuildPosition_min_fields
+}
+
+"""
+order by aggregate values of table "GuildPosition"
+"""
+input GuildPosition_aggregate_order_by {
+  count: order_by
+  max: GuildPosition_max_order_by
+  min: GuildPosition_min_order_by
+}
+
+"""
+input type for inserting array relation for remote table "GuildPosition"
+"""
+input GuildPosition_arr_rel_insert_input {
+  data: [GuildPosition_insert_input!]!
+  on_conflict: GuildPosition_on_conflict
+}
+
+"""
+Boolean expression to filter rows from the table "GuildPosition". All fields are combined with a logical 'AND'.
+"""
+input GuildPosition_bool_exp {
+  _and: [GuildPosition_bool_exp]
+  _not: GuildPosition_bool_exp
+  _or: [GuildPosition_bool_exp]
+  position: String_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "GuildPosition"
+"""
+enum GuildPosition_constraint {
+  """unique or primary key constraint"""
+  GuildPosition_pkey
+}
+
+enum GuildPosition_enum {
+  EXTERNAL
+  INTERNAL
+}
+
+"""
+expression to compare columns of type GuildPosition_enum. All fields are combined with logical 'AND'.
+"""
+input GuildPosition_enum_comparison_exp {
+  _eq: GuildPosition_enum
+  _in: [GuildPosition_enum!]
+  _is_null: Boolean
+  _neq: GuildPosition_enum
+  _nin: [GuildPosition_enum!]
+}
+
+"""
+input type for inserting data into table "GuildPosition"
+"""
+input GuildPosition_insert_input {
+  position: String
+}
+
+"""aggregate max on columns"""
+type GuildPosition_max_fields {
+  position: String
+}
+
+"""
+order by max() on columns of table "GuildPosition"
+"""
+input GuildPosition_max_order_by {
+  position: order_by
+}
+
+"""aggregate min on columns"""
+type GuildPosition_min_fields {
+  position: String
+}
+
+"""
+order by min() on columns of table "GuildPosition"
+"""
+input GuildPosition_min_order_by {
+  position: order_by
+}
+
+"""
+response of any mutation on the table "GuildPosition"
+"""
+type GuildPosition_mutation_response {
+  """number of affected rows by the mutation"""
+  affected_rows: Int!
+
+  """data of the affected rows by the mutation"""
+  returning: [GuildPosition!]!
+}
+
+"""
+input type for inserting object relation for remote table "GuildPosition"
+"""
+input GuildPosition_obj_rel_insert_input {
+  data: GuildPosition_insert_input!
+  on_conflict: GuildPosition_on_conflict
+}
+
+"""
+on conflict condition type for table "GuildPosition"
+"""
+input GuildPosition_on_conflict {
+  constraint: GuildPosition_constraint!
+  update_columns: [GuildPosition_update_column!]!
+  where: GuildPosition_bool_exp
+}
+
+"""
+ordering options when selecting data from "GuildPosition"
+"""
+input GuildPosition_order_by {
+  position: order_by
+}
+
+"""
+primary key columns input for table: "GuildPosition"
+"""
+input GuildPosition_pk_columns_input {
+  position: String!
+}
+
+"""
+select columns of table "GuildPosition"
+"""
+enum GuildPosition_select_column {
+  """column name"""
+  position
+}
+
+"""
+input type for updating data in table "GuildPosition"
+"""
+input GuildPosition_set_input {
+  position: String
+}
+
+"""
+update columns of table "GuildPosition"
+"""
+enum GuildPosition_update_column {
+  """column name"""
+  position
 }
 
 """
@@ -2433,6 +2602,19 @@ type mutation_root {
   delete_ColorAspect_by_pk(mask: Int!): ColorAspect
 
   """
+  delete data from the table: "GuildPosition"
+  """
+  delete_GuildPosition(
+    """filter the rows which have to be deleted"""
+    where: GuildPosition_bool_exp!
+  ): GuildPosition_mutation_response
+
+  """
+  delete single row from the table: "GuildPosition"
+  """
+  delete_GuildPosition_by_pk(position: String!): GuildPosition
+
+  """
   delete data from the table: "GuildStatus"
   """
   delete_GuildStatus(
@@ -2738,6 +2920,28 @@ type mutation_root {
     """on conflict condition"""
     on_conflict: ColorAspect_on_conflict
   ): ColorAspect
+
+  """
+  insert data into the table: "GuildPosition"
+  """
+  insert_GuildPosition(
+    """the rows to be inserted"""
+    objects: [GuildPosition_insert_input!]!
+
+    """on conflict condition"""
+    on_conflict: GuildPosition_on_conflict
+  ): GuildPosition_mutation_response
+
+  """
+  insert a single row into the table: "GuildPosition"
+  """
+  insert_GuildPosition_one(
+    """the row to be inserted"""
+    object: GuildPosition_insert_input!
+
+    """on conflict condition"""
+    on_conflict: GuildPosition_on_conflict
+  ): GuildPosition
 
   """
   insert data into the table: "GuildStatus"
@@ -3260,6 +3464,26 @@ type mutation_root {
     _set: ColorAspect_set_input
     pk_columns: ColorAspect_pk_columns_input!
   ): ColorAspect
+
+  """
+  update data of the table: "GuildPosition"
+  """
+  update_GuildPosition(
+    """sets the columns of the filtered rows to the given values"""
+    _set: GuildPosition_set_input
+
+    """filter the rows which have to be updated"""
+    where: GuildPosition_bool_exp!
+  ): GuildPosition_mutation_response
+
+  """
+  update single row of the table: "GuildPosition"
+  """
+  update_GuildPosition_by_pk(
+    """sets the columns of the filtered rows to the given values"""
+    _set: GuildPosition_set_input
+    pk_columns: GuildPosition_pk_columns_input!
+  ): GuildPosition
 
   """
   update data of the table: "GuildStatus"
@@ -5806,6 +6030,49 @@ type query_root {
 
   """fetch data from the table: "ColorAspect" using primary key columns"""
   ColorAspect_by_pk(mask: Int!): ColorAspect
+
+  """
+  fetch data from the table: "GuildPosition"
+  """
+  GuildPosition(
+    """distinct select on columns"""
+    distinct_on: [GuildPosition_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [GuildPosition_order_by!]
+
+    """filter the rows returned"""
+    where: GuildPosition_bool_exp
+  ): [GuildPosition!]!
+
+  """
+  fetch aggregated fields from the table: "GuildPosition"
+  """
+  GuildPosition_aggregate(
+    """distinct select on columns"""
+    distinct_on: [GuildPosition_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [GuildPosition_order_by!]
+
+    """filter the rows returned"""
+    where: GuildPosition_bool_exp
+  ): GuildPosition_aggregate!
+
+  """fetch data from the table: "GuildPosition" using primary key columns"""
+  GuildPosition_by_pk(position: String!): GuildPosition
 
   """
   fetch data from the table: "GuildStatus"
@@ -8843,6 +9110,49 @@ type subscription_root {
 
   """fetch data from the table: "ColorAspect" using primary key columns"""
   ColorAspect_by_pk(mask: Int!): ColorAspect
+
+  """
+  fetch data from the table: "GuildPosition"
+  """
+  GuildPosition(
+    """distinct select on columns"""
+    distinct_on: [GuildPosition_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [GuildPosition_order_by!]
+
+    """filter the rows returned"""
+    where: GuildPosition_bool_exp
+  ): [GuildPosition!]!
+
+  """
+  fetch aggregated fields from the table: "GuildPosition"
+  """
+  GuildPosition_aggregate(
+    """distinct select on columns"""
+    distinct_on: [GuildPosition_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [GuildPosition_order_by!]
+
+    """filter the rows returned"""
+    where: GuildPosition_bool_exp
+  ): GuildPosition_aggregate!
+
+  """fetch data from the table: "GuildPosition" using primary key columns"""
+  GuildPosition_by_pk(position: String!): GuildPosition
 
   """
   fetch data from the table: "GuildStatus"

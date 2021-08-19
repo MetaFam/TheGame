@@ -1,5 +1,7 @@
 import { PageContainer } from 'components/Container';
+import { discordAuthStateGuidKey } from 'components/Guild/GuildJoin';
 import { useAuthenticateDiscordGuildMutation } from 'graphql/autogen/types';
+import { get, remove } from 'lib/store';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 
@@ -12,7 +14,10 @@ const GuildSetupAuthCallback: React.FC = () => {
 
   useEffect(() => {
     // when auth request is denied, we get `error=access_denied` and `error_description` and `state` parameters
-    const { code, error_description: discordErrorDetail } = router.query;
+    const { code, error_description: discordErrorDetail, state } = router.query;
+
+    const localState = get(discordAuthStateGuidKey);
+
     if (discordErrorDetail != null) {
       setError(discordErrorDetail as string);
       return;
@@ -26,6 +31,8 @@ const GuildSetupAuthCallback: React.FC = () => {
       if (mutationError || response?.success === false) {
         setError(mutationError?.message || 'An unexpected error occurred.');
       } else if (response?.guildname != null) {
+        // clean up guid
+        remove(discordAuthStateGuidKey);
         if (response?.exists === true) {
           router.push(`/guild/${response?.guildname}`);
         } else {
@@ -34,6 +41,10 @@ const GuildSetupAuthCallback: React.FC = () => {
       }
     };
     if (!fetching && code) {
+      if (localState == null || localState !== state) {
+        setError('State did not match');
+        return;
+      }
       setFetching(true);
       submitAuthCode();
     }

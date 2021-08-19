@@ -157,6 +157,7 @@ const createNewGuild = async (
       discord_id: discordGuild.id,
       guild_id: newGuild.id,
       discord_metadata: discordMetadata,
+      membership_through_discord: true,
     };
     const createGuildMetadataResponse = await client.CreateGuildMetadata({
       object: newGuildMetadataPayload,

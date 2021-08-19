@@ -191,4 +191,10 @@ export const CreateQuestCompletion = gql`
       affected_rows
     }
   }
+
+  mutation RemoveAllGuildMembers($guildId: uuid!) {
+    delete_guild_player(where: { guild_id: { _eq: $guildId } }) {
+      affected_rows
+    }
+  }
 `;

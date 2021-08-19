@@ -50,6 +50,8 @@ export interface EditGuildFormInputs {
   joinUrl: string | undefined | null;
   logoUrl: string | undefined | null;
   websiteUrl: string | undefined | null;
+  twitterUrl: string | undefined | null;
+  githubUrl: string | undefined | null;
   daoAddress: string | undefined | null;
   type: GuildType_Enum;
   discordAdminRoles: SelectOption[];
@@ -81,6 +83,8 @@ const getDefaultFormValues = (
     joinUrl: guild.join_button_url || '',
     logoUrl: guild.logo || '',
     websiteUrl: guild.website_url || '',
+    twitterUrl: guild.twitter_url || '',
+    githubUrl: guild.github_url || '',
     daoAddress: guild.moloch_address || '',
     type: guild.type,
     discordAdminRoles: discordAdminRoleOptions,
@@ -209,6 +213,26 @@ export const GuildForm: React.FC<Props> = ({
         <Field label="Join URL" error={errors.joinUrl}>
           <Input type="text" name="joinUrl" background="dark" ref={register} />
           <span>The URL that the &quot;JOIN&quot; button will point to.</span>
+        </Field>
+        <Field label="Twitter URL" error={errors.twitterUrl}>
+          <Input
+            type="text"
+            name="twitterUrl"
+            background="dark"
+            placeholder="https://twitter.com/..."
+            ref={register}
+          />
+          <span>Your guild&apos;s home on Twitter.</span>
+        </Field>
+        <Field label="GitHub URL" error={errors.githubUrl}>
+          <Input
+            type="text"
+            name="githubUrl"
+            background="dark"
+            placeholder="https://github.com/..."
+            ref={register}
+          />
+          <span>Your guild&apos;s home on GitHub.</span>
         </Field>
         <Field label="DAO Address" error={errors.daoAddress}>
           <Input
