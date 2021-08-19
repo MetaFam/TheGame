@@ -7,6 +7,7 @@ import {
 import {
   Guild,
   Guild_Player_Insert_Input,
+  GuildStatus_Enum,
   SyncGuildMembersMutation,
 } from '../../lib/autogen/hasura-sdk';
 import { client } from '../../lib/hasuraClient';
@@ -35,8 +36,6 @@ export const syncDiscordGuildMembers = async (
     )
       return;
 
-    // todo only sync on ACTIVE guilds. For all others, remove all guild_players
-
     // at least one membership role must be defined
     const discordServerMembershipRoles = (guildMetadata.discord_metadata as GuildDiscordMetadata)
       .membershipRoleIds;
@@ -44,6 +43,18 @@ export const syncDiscordGuildMembers = async (
       discordServerMembershipRoles == null ||
       discordServerMembershipRoles?.length === 0
     ) {
+      return;
+    }
+
+    // only sync on ACTIVE guilds. For all others, remove all guild_players
+    if (guild.status !== GuildStatus_Enum.Active) {
+      const removeResponse = await client.RemoveAllGuildMembers({
+        guildId: guild.id,
+      });
+      const numDeleted = removeResponse.delete_guild_player?.affected_rows;
+      if (numDeleted != null && numDeleted > 0) {
+        console.log(`Removed ${numDeleted} players from ${guild.status} guild`);
+      }
       return;
     }
 
@@ -96,7 +107,7 @@ export const syncDiscordGuildMembers = async (
         player_id: player.id,
       }),
     );
-    console.log(playersToRemove, playersToAdd);
+
     const syncResponse: SyncGuildMembersMutation = await client.SyncGuildMembers(
       {
         memberDiscordIdsToRemove: playersToRemove,

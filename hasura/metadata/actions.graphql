@@ -97,6 +97,8 @@ input GuildInfo {
   joinUrl : String
   logoUrl : String
   websiteUrl : String
+  twitterUrl : String
+  githubUrl : String
   daoAddress : String
   membershipThroughDiscord : Boolean
   discordAdminRoles : [String]!

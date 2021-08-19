@@ -10,21 +10,35 @@ import {
   Text,
   VStack,
 } from '@metafam/ds';
-import { Constants } from '@metafam/utils';
+import { Constants, generateUuid } from '@metafam/utils';
 import { FlexContainer } from 'components/Container';
 import { MetaLink } from 'components/Link';
 import { CONFIG } from 'config';
-import React from 'react';
+import { get, set } from 'lib/store';
+import React, { useEffect, useState } from 'react';
 import { FaCheckCircle } from 'react-icons/fa';
+
+export const discordAuthStateGuidKey = 'metagame-add-guild';
 
 export const GuildJoin: React.FC = () => {
   const discordOAuthCallbackURL = `${CONFIG.publicURL}/${Constants.DISCORD_OAUTH_CALLBACK_PATH}`;
 
+  const [stateGuid, setStateGuid] = useState<string>();
+
+  useEffect(() => {
+    let guid = get(discordAuthStateGuidKey);
+    if (guid == null) {
+      guid = generateUuid();
+      set(discordAuthStateGuidKey, guid);
+    }
+    setStateGuid(guid);
+  }, [setStateGuid]);
+
   const discordAuthParams = new URLSearchParams({
     response_type: 'code',
     client_id: Constants.DISCORD_BOT_CLIENT_ID,
-    // todo generate, store, and confirm on auth page
-    state: 'guid-to-go-in-localstorage',
+    // This will be passed-back and verified after the Discord auth redirect
+    state: stateGuid as string,
     permissions: Constants.DISCORD_BOT_PERMISSIONS,
     redirect_uri: encodeURI(discordOAuthCallbackURL),
     scope: Constants.DISCORD_OAUTH_SCOPES,
@@ -80,9 +94,11 @@ export const GuildJoin: React.FC = () => {
               asking for your permission to collect certain relevant information
               about your guild.
             </Text>
-            <MetaButton size="lg" maxW="15rem" as="a" href={discordAuthURL}>
-              Apply to Join
-            </MetaButton>
+            {stateGuid?.length && (
+              <MetaButton size="lg" maxW="15rem" as="a" href={discordAuthURL}>
+                Apply to Join
+              </MetaButton>
+            )}
           </VStack>
         </HStack>
       </Flex>

@@ -61,6 +61,8 @@ const saveGuild = async (playerId: string, guildInfo: GuildInfo) => {
     join_button_url: guildInfo.joinUrl,
     logo: guildInfo.logoUrl,
     website_url: guildInfo.websiteUrl,
+    twitter_url: guildInfo.twitterUrl,
+    github_url: guildInfo.githubUrl,
     moloch_address: guildInfo.daoAddress,
   };
 
@@ -73,7 +75,6 @@ const saveGuild = async (playerId: string, guildInfo: GuildInfo) => {
     ...existingGuildMetadata.discord_metadata,
     membershipRoleIds: guildInfo.discordMembershipRoles,
     administratorRoleIds: guildInfo.discordAdminRoles,
-    membership_through_discord: true,
   };
 
   await client.UpdateGuildDiscordMetadata({
