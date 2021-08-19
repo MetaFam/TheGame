@@ -4,9 +4,10 @@
 
 In order to develop MetaGame FrontEnd components, you need.
 
-- Node.js (v14.17.5 works currently as later versions have some issues)
+Node.js (v14 works, and later versions have some issues)
 
-- Yarn (1.15.2 as some later versions throw errors
+- Yarn (1.15.2 as some later versions throw errors)
+  to set a version for yarn eg: `yarn policies set-version 1.15.2`
 
 You can either choose to only develop the frontend and use our deployed backend services, or run the services on your own machines. If you're about to only work on UI, it's much quicker to connect to the remote servers.
 
