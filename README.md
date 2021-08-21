@@ -44,6 +44,8 @@ If you're new to the MetaGame codebase, check out the following guides to learn 
 
 ## Development
 
+Before you start contributing read the [Contributing Guide](guides/CONTRIBUTING.md)!
+
 ### Bootstrap
 
 Create your local .env file
