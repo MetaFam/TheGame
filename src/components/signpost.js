@@ -27,7 +27,7 @@ export const directions = [
   {
     emoji: "💬",
     label: "Discord",
-    url: "https://discord.gg/VYZPBnx",
+    url: "https://discord.gg/awTtjcQ9Us",
     description: "Fast-paced MetaGame.",
   },
   {
