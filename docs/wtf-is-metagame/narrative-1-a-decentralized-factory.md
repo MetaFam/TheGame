@@ -47,7 +47,7 @@ She owns 100% of it — but it’s 100% of nothing. If she’s not fair, others 
 
 ![](https://cdn.substack.com/image/fetch/w_1456,c_limit,f_auto,q_auto:good/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2Fcbd36e53-0c0d-4d3e-aefd-176ea358df2b_873x582.jpeg)
 
-Instead of startups keeping everything to themselves as a “competitive advantage”; people would be collaborating and competing under one name, trying to expand the collective pie to take a bigger slice.
+Instead of startups keeping everything to themselves as a “competitive advantage”; people would be collaborating and competing under one meme, trying to grow the collective pie to take a bigger slice.
 
 There’s competition on execution “inside” the organization, and the appearance of a monolithic coordinated machine — which it is — on the outside.
 
@@ -73,6 +73,6 @@ What we need to do now is map the ecosystem, and make it easy to find people and
 
 -   A space where decentralized organizations and free agents come together, to build things.
 -   A space that offers anything an idea needs to get realized.
--   A space where we don’t outsource, we source.
+-   A space where we don’t outsource, we simply _source_.
 
 And that’s why we’re building MetaGame.
