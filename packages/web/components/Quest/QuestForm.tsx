@@ -1,6 +1,7 @@
 import {
   Box,
   ConfirmModal,
+  Flex,
   HStack,
   Input,
   MetaButton,
@@ -9,19 +10,16 @@ import {
   Text,
   VStack,
 } from '@metafam/ds';
-import { Field } from 'components/Forms/Field';
-import { ContentState, EditorState } from 'draft-js';
+import { ContentState, convertFromHTML, EditorState } from 'draft-js';
 import {
   GuildFragmentFragment,
   QuestFragmentFragment,
   QuestRepetition_Enum,
   QuestStatus_Enum,
 } from 'graphql/autogen/types';
-import htmlToDraft from 'html-to-draftjs';
-import { useUser } from 'lib/hooks';
 import { useRouter } from 'next/router';
 import React, { useMemo, useState } from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import { Controller, FieldError, useForm } from 'react-hook-form';
 
 import { QuestRepetitionHint, UriRegexp } from '../../utils/questHelpers';
 import { CategoryOption, SkillOption } from '../../utils/skillHelpers';
@@ -74,9 +72,10 @@ const getDefaultFormValues = (
 ): CreateQuestFormInputs => {
   let description = null;
   if (editQuest && editQuest.description) {
-    const contentBlock = htmlToDraft(editQuest.description);
+    const blocksFromHTML = convertFromHTML(editQuest.description);
     const contentState = ContentState.createFromBlockArray(
-      contentBlock.contentBlocks,
+      blocksFromHTML.contentBlocks,
+      blocksFromHTML.entityMap,
     );
     description = EditorState.createWithContent(contentState);
   } else {
@@ -106,6 +105,32 @@ const getDefaultFormValues = (
   };
   return defaultValues;
 };
+
+type FieldProps = {
+  children: React.ReactNode;
+  label: string;
+  error?: FieldError;
+};
+
+const Field: React.FC<FieldProps> = ({ children, error, label }) => (
+  <Flex mb={2} w="100%" align="center" direction="column">
+    <Flex justify="space-between" w="100%" mb={2}>
+      <Text textStyle="caption" textAlign="left" ml={4}>
+        {label}
+      </Text>
+
+      <Text textStyle="caption" textAlign="left" color="red.400" mr={4}>
+        {error?.type === 'required' && 'Required'}
+        {error?.type === 'pattern' && 'Invalid URL'}
+        {error?.type === 'minLength' && 'Too short'}
+        {error?.type === 'maxLength' && 'Too long'}
+        {error?.type === 'min' && 'Too small'}
+      </Text>
+    </Flex>
+
+    {children}
+  </Flex>
+);
 
 type Props = {
   guilds: GuildFragmentFragment[];
@@ -144,7 +169,6 @@ export const QuestForm: React.FC<Props> = ({
   const router = useRouter();
   const [exitAlert, setExitAlert] = useState<boolean>(false);
   const createQuestInput = watch();
-  const { user } = useUser();
 
   return (
     <Box w="100%" maxW="30rem">
@@ -288,7 +312,6 @@ export const QuestForm: React.FC<Props> = ({
             Cancel
           </MetaButton>
           <MetaButton
-            disabled={!user}
             mt={10}
             isLoading={fetching}
             loadingText={loadingLabel}
