@@ -1,5 +1,11 @@
 ## MetaGame's BackEnd API Guide
 
+### Stack
+
+- Express
+- Hasura
+- Docker
+
 ### Requirements
 
 To run the MetaGame backend you will the following installed.
