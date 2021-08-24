@@ -55,7 +55,7 @@ const web3Modal =
     providerOptions,
   });
 
-async function getExistingAuth(
+export async function getExistingAuth(
   ethersProvider: providers.Web3Provider,
 ): Promise<string | null> {
   const token = getTokenFromStore();
@@ -70,7 +70,7 @@ async function getExistingAuth(
   }
 }
 
-async function authenticateWallet(
+export async function authenticateWallet(
   ethersProvider: providers.Web3Provider,
 ): Promise<string> {
   const token = await did.createToken(ethersProvider);
@@ -109,6 +109,7 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
   }, [resetUrqlClient]);
 
   const connectWeb3 = useCallback(async () => {
+
     if (web3Modal === false) return;
     setIsConnecting(true);
 
@@ -119,6 +120,7 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
       const ethAddress = await ethersProvider.getSigner().getAddress();
 
       let token: string | null = await getExistingAuth(ethersProvider);
+
       if (!token) {
         token = await authenticateWallet(ethersProvider);
       }
