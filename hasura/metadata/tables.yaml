@@ -144,6 +144,7 @@
       - id
       - join_button_url
       - logo
+      - membership_through_discord
       - moloch_address
       - name
       - position
@@ -163,6 +164,7 @@
       - id
       - join_button_url
       - logo
+      - membership_through_discord
       - moloch_address
       - name
       - position
@@ -238,11 +240,15 @@
   select_permissions:
   - role: player
     permission:
-      columns: []
+      columns:
+      - guild_id
+      - player_id
       filter: {}
   - role: public
     permission:
-      columns: []
+      columns:
+      - guild_id
+      - player_id
       filter: {}
 - table:
     schema: public

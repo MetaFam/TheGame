@@ -121,7 +121,6 @@ gql`
       guild_id
       creator_id
       discord_metadata
-      membership_through_discord
     }
   }
 

@@ -31,8 +31,8 @@ export const syncDiscordGuildMembers = async (
     const guildMetadata = getMetadataResponse.guild_metadata[0];
     if (
       guildMetadata == null ||
-      guildMetadata.membership_through_discord === false ||
-      guildMetadata.discord_metadata == null
+      guildMetadata.discord_metadata == null ||
+      guild.membership_through_discord === false
     )
       return;
 
