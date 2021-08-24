@@ -1705,7 +1705,18 @@
     fast-json-patch "^2.2.1"
     uint8arrays "^2.0.5"
 
-"@ceramicnetwork/stream-tile@^1.1.1", "@ceramicnetwork/stream-tile@^1.2.0":
+"@ceramicnetwork/stream-tile@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@ceramicnetwork/stream-tile/-/stream-tile-1.1.1.tgz#9db3dc7f7809a5f7505fb573acf97f724fd7c1d5"
+  integrity sha512-xaYNxi3cW1KQ5NRaCAS5r3IaJgl5FRf3Gda3gEYOIy1u7rihEI+Q7HF+5Q2ULsWtZZLMF9UF+LjxuNBOEeOnMg==
+  dependencies:
+    "@ceramicnetwork/common" "^1.2.1"
+    "@ceramicnetwork/streamid" "^1.1.1"
+    "@stablelib/random" "^1.0.0"
+    fast-json-patch "^2.2.1"
+    uint8arrays "^2.0.5"
+
+"@ceramicnetwork/stream-tile@^1.2.0":
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/@ceramicnetwork/stream-tile/-/stream-tile-1.2.0.tgz#527bff80f9a4b236d5bed828a9f354cc6dbedadf"
   integrity sha512-d5IooWfWql9duS7cZoamQ2Z0vGJ7KM+mM2Ep9AxUbpBf+oHXexQdy9JOftxWlv37hmYZbjxcmP5rrJrig7cTTQ==
@@ -1727,7 +1738,18 @@
     uint8arrays "^2.0.5"
     varint "^6.0.0"
 
-"@ceramicnetwork/streamid@^1.1.1", "@ceramicnetwork/streamid@^1.1.2":
+"@ceramicnetwork/streamid@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@ceramicnetwork/streamid/-/streamid-1.1.1.tgz#4986880f81049a85f47713cb839a4883d606fd6e"
+  integrity sha512-oa4SZtH1/TnUj/XeaL5/Mh7yYZccLpvI6ag4yldmtAoJr1x488mrvKpk/p95pvsCVu+4W355eS1eSzlJjnNRhw==
+  dependencies:
+    cids "~1.1.6"
+    multibase "~4.0.2"
+    typescript-memoize "^1.0.0-alpha.4"
+    uint8arrays "^2.0.5"
+    varint "^6.0.0"
+
+"@ceramicnetwork/streamid@^1.1.2":
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/@ceramicnetwork/streamid/-/streamid-1.1.2.tgz#d1457ce8818cf4876dd46e86738b5b4daddd2457"
   integrity sha512-b5D44gs6T3MJRYyoJe/IFgnP/k0R/2k8txHZOFisHfYSMSzjMNgryH6Q8bz368x+HdvU5vQvxmqIVz8gvM5qZg==
