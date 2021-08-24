@@ -12,7 +12,7 @@ We're using the following stack:
 
 #### Backend
 
-- [Hasura](https://)
+- [Hasura](https://hasura.io/)
 - [GraphQL](https://graphql.org/)
 - [URQL](https://formidable.com/open-source/urql/)
 - [Ceramic IDX](https://idx.xyz/)
