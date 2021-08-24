@@ -52,3 +52,6 @@ yarn-error.log*
 
 .vercel
 tmp/
+
+# Ceramic daemon
+ipfs
