@@ -60,44 +60,59 @@ const getDaoLink = (
   return '';
 };
 
-type LinkDaoProps = {
+type LinkGuildProps = {
   daoUrl: string;
+  guildname: string | undefined;
 };
 
-const LinkDao: React.FC<LinkDaoProps> = ({ daoUrl, children }) =>
-  daoUrl ? (
-    <Link
-      role="group"
-      _hover={{ textDecoration: 'none' }}
-      href={daoUrl}
-      isExternal
-    >
-      {children}
-    </Link>
-  ) : (
-    <>{children}</>
-  );
+const LinkGuild: React.FC<LinkGuildProps> = ({
+  daoUrl,
+  guildname,
+  children,
+}) => {
+  if (guildname != null) {
+    return (
+      <Link
+        role="group"
+        _hover={{ textDecoration: 'none' }}
+        href={`/guild/${guildname}`}
+      >
+        {children}
+      </Link>
+    );
+  }
+  if (daoUrl != null) {
+    return (
+      <Link
+        role="group"
+        _hover={{ textDecoration: 'none' }}
+        href={daoUrl}
+        isExternal
+      >
+        {children}
+      </Link>
+    );
+  }
+  return <>{children}</>;
+};
 
 type DaoListingProps = {
-  memberId: string;
-  memberShares?: string;
-  memberRank?: string;
-  memberXp?: number;
-  title?: string;
-  daoShares?: string;
-  chain?: string;
-  address?: string;
+  membership: GuildMembership;
 };
 
-const DaoListing: React.FC<DaoListingProps> = ({
-  title,
-  memberShares,
-  daoShares,
-  memberRank,
-  memberXp,
-  chain,
-  address,
-}) => {
+const DaoListing: React.FC<DaoListingProps> = ({ membership }) => {
+  const {
+    title,
+    memberShares,
+    daoShares,
+    memberRank,
+    memberXp,
+    chain,
+    address,
+    logoUrl,
+    guildname,
+  } = membership;
+
   const message = useMemo(
     () =>
       memberXp
@@ -108,12 +123,17 @@ const DaoListing: React.FC<DaoListingProps> = ({
 
   const daoUrl = useMemo(() => getDaoLink(chain, address), [chain, address]);
 
+  const guildLogo = useMemo(
+    () => logoUrl || getImageMoloch(title || chain || ''),
+    [logoUrl, chain, title],
+  );
+
   return (
-    <LinkDao daoUrl={daoUrl}>
+    <LinkGuild daoUrl={daoUrl} guildname={guildname}>
       <HStack alignItems="center" mb={6}>
         <Flex bg="purpleBoxLight" width={16} height={16} mr={6}>
           <Box
-            bgImage={`url(${getImageMoloch(title || chain || '')})`}
+            bgImage={`url(${guildLogo})`}
             backgroundSize="cover"
             width={12}
             height={12}
@@ -132,14 +152,16 @@ const DaoListing: React.FC<DaoListingProps> = ({
             {title || `Unknown ${chain} DAO`}
           </Heading>
           <HStack alignItems="center">
-            <Text fontSize="xs" casing="capitalize" mr={3}>
-              {memberRank || 'player'}
-            </Text>
+            {memberRank && (
+              <Text fontSize="xs" casing="capitalize" mr={3}>
+                {memberRank}
+              </Text>
+            )}
             <Text fontSize="xs">{message}</Text>
           </HStack>
         </Box>
       </HStack>
-    </LinkDao>
+    </LinkGuild>
   );
 };
 
@@ -175,17 +197,7 @@ export const PlayerMemberships: React.FC<MembershipSectionProps> = ({
   return (
     <ProfileSection title="Memberships" onRemoveClick={onRemoveClick}>
       {guildMemberships.slice(0, 4).map((membership) => (
-        <DaoListing
-          key={membership.memberId}
-          memberId={membership.memberId}
-          title={membership.title}
-          memberShares={membership.memberShares}
-          daoShares={membership.daoShares}
-          memberRank={membership.memberRank}
-          memberXp={membership.memberXp}
-          chain={membership.chain}
-          address={membership.address}
-        />
+        <DaoListing key={membership.memberId} membership={membership} />
       ))}
 
       {guildMemberships.length > 4 && (
@@ -197,7 +209,7 @@ export const PlayerMemberships: React.FC<MembershipSectionProps> = ({
           cursor="pointer"
           onClick={onOpen}
         >
-          View all
+          View all ({guildMemberships.length})
         </Text>
       )}
 
@@ -254,14 +266,7 @@ export const PlayerMemberships: React.FC<MembershipSectionProps> = ({
                   {guildMemberships.map((membership) => (
                     <DaoListing
                       key={membership.memberId}
-                      memberId={membership.memberId}
-                      title={membership.title}
-                      memberShares={membership.memberShares}
-                      daoShares={membership.daoShares}
-                      memberRank={membership.memberRank}
-                      memberXp={membership.memberXp}
-                      chain={membership.chain}
-                      address={membership.address}
+                      membership={membership}
                     />
                   ))}
                 </SimpleGrid>
