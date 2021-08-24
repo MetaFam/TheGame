@@ -704,6 +704,7 @@ type guild {
   id: uuid!
   join_button_url: String
   logo: String
+  membership_through_discord: Boolean!
   moloch_address: String
   name: String!
   position: GuildPosition_enum
@@ -999,6 +1000,7 @@ input guild_bool_exp {
   id: uuid_comparison_exp
   join_button_url: String_comparison_exp
   logo: String_comparison_exp
+  membership_through_discord: Boolean_comparison_exp
   moloch_address: String_comparison_exp
   name: String_comparison_exp
   position: GuildPosition_enum_comparison_exp
@@ -1038,6 +1040,7 @@ input guild_insert_input {
   id: uuid
   join_button_url: String
   logo: String
+  membership_through_discord: Boolean
   moloch_address: String
   name: String
   position: GuildPosition_enum
@@ -1103,7 +1106,6 @@ type guild_metadata {
   """An object relationship"""
   guild: guild!
   guild_id: uuid!
-  membership_through_discord: Boolean!
 
   """An object relationship"""
   player: player
@@ -1160,7 +1162,6 @@ input guild_metadata_bool_exp {
   discord_metadata: jsonb_comparison_exp
   guild: guild_bool_exp
   guild_id: uuid_comparison_exp
-  membership_through_discord: Boolean_comparison_exp
   player: player_bool_exp
 }
 
@@ -1203,7 +1204,6 @@ input guild_metadata_insert_input {
   discord_metadata: jsonb
   guild: guild_obj_rel_insert_input
   guild_id: uuid
-  membership_through_discord: Boolean
   player: player_obj_rel_insert_input
 }
 
@@ -1276,7 +1276,6 @@ input guild_metadata_order_by {
   discord_metadata: order_by
   guild: guild_order_by
   guild_id: order_by
-  membership_through_discord: order_by
   player: player_order_by
 }
 
@@ -1307,9 +1306,6 @@ enum guild_metadata_select_column {
 
   """column name"""
   guild_id
-
-  """column name"""
-  membership_through_discord
 }
 
 """
@@ -1320,7 +1316,6 @@ input guild_metadata_set_input {
   discord_id: String
   discord_metadata: jsonb
   guild_id: uuid
-  membership_through_discord: Boolean
 }
 
 """
@@ -1338,9 +1333,6 @@ enum guild_metadata_update_column {
 
   """column name"""
   guild_id
-
-  """column name"""
-  membership_through_discord
 }
 
 """aggregate min on columns"""
@@ -1420,6 +1412,7 @@ input guild_order_by {
   id: order_by
   join_button_url: order_by
   logo: order_by
+  membership_through_discord: order_by
   moloch_address: order_by
   name: order_by
   position: order_by
@@ -1648,6 +1641,9 @@ enum guild_select_column {
   logo
 
   """column name"""
+  membership_through_discord
+
+  """column name"""
   moloch_address
 
   """column name"""
@@ -1681,6 +1677,7 @@ input guild_set_input {
   id: uuid
   join_button_url: String
   logo: String
+  membership_through_discord: Boolean
   moloch_address: String
   name: String
   position: GuildPosition_enum
@@ -1717,6 +1714,9 @@ enum guild_update_column {
 
   """column name"""
   logo
+
+  """column name"""
+  membership_through_discord
 
   """column name"""
   moloch_address

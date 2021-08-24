@@ -1,7 +1,7 @@
 import { SetupMemberships } from 'components/Setup/SetupMemberships';
 import { SetupProfile } from 'components/Setup/SetupProfile';
 import { SetupContextProvider } from 'contexts/SetupContext';
-import { getMemberships } from 'graphql/getMemberships';
+import { getDaoMemberships } from 'graphql/getMemberships';
 import { Membership } from 'graphql/types';
 import { useWeb3 } from 'lib/hooks';
 import { InferGetStaticPropsType } from 'next';
@@ -21,7 +21,7 @@ const MembershipsSetup: React.FC<DefaultSetupProps> = () => {
   >();
 
   const { address } = useWeb3();
-  getMemberships(address).then((data) => {
+  getDaoMemberships(address).then((data) => {
     setMemberships(data);
   });
 

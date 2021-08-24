@@ -137,6 +137,7 @@ const createNewGuild = async (
     discord_id: discordGuild.id,
     status: GuildStatus_Enum.Pending,
     position: GuildPosition_Enum.External,
+    membership_through_discord: true,
   };
 
   if (discordMetadata.logoHash != null) {
@@ -157,7 +158,6 @@ const createNewGuild = async (
       discord_id: discordGuild.id,
       guild_id: newGuild.id,
       discord_metadata: discordMetadata,
-      membership_through_discord: true,
     };
     const createGuildMetadataResponse = await client.CreateGuildMetadata({
       object: newGuildMetadataPayload,

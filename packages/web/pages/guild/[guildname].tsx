@@ -81,7 +81,7 @@ const GuildPage: React.FC<Props> = ({ guild, quests }) => {
                 </Box>
                 <Box mb="6">
                   <ProfileSection title="Quests">
-                    {quests ? (
+                    {quests?.length ? (
                       <p>Available quests</p>
                     ) : (
                       <p>Currently no available quests</p>

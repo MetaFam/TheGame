@@ -13,7 +13,8 @@ import {
   useDisclosure,
 } from '@metafam/ds';
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
-import React, { useMemo } from 'react';
+import { getAllMemberships, GuildMembership } from 'graphql/getMemberships';
+import React, { useEffect, useMemo, useState } from 'react';
 import { isBackdropFilterSupported } from 'utils/compatibilityHelpers';
 
 import polygonImage from '../../../assets/chains/polygon.png';
@@ -22,7 +23,6 @@ import ethereumImage from '../../../assets/moloch/ethereum.png';
 import hausdaoImage from '../../../assets/moloch/hausdao.png';
 import metacartelImage from '../../../assets/moloch/metacartel.png';
 import metaclanImage from '../../../assets/moloch/metaclan.png';
-import metagameImage from '../../../assets/moloch/metagame.png';
 import raidGuildImage from '../../../assets/moloch/raid_guild.png';
 import { ProfileSection } from '../../ProfileSection';
 
@@ -30,7 +30,6 @@ const getImageMoloch = (title: string) => {
   if (title.toLowerCase().includes('hausdao')) return hausdaoImage;
   if (title.toLowerCase().includes('metacartel')) return metacartelImage;
   if (title.toLowerCase().includes('metaclan')) return metaclanImage;
-  if (title.toLowerCase().includes('metagame')) return metagameImage;
   if (title.toLowerCase().includes('raid guild')) return raidGuildImage;
   if (title.toLowerCase().includes('xdai')) return xDaiImage;
   if (title.toLowerCase().includes('polygon')) return polygonImage;
@@ -154,6 +153,15 @@ export const PlayerMemberships: React.FC<MembershipSectionProps> = ({
   onRemoveClick,
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [guildMemberships, setGuildMemberships] = useState<GuildMembership[]>(
+    [],
+  );
+
+  useEffect(() => {
+    getAllMemberships(player).then((memberships) =>
+      setGuildMemberships(memberships),
+    );
+  }, [player, setGuildMemberships]);
 
   const modalContentStyles = isBackdropFilterSupported()
     ? {
@@ -164,40 +172,23 @@ export const PlayerMemberships: React.FC<MembershipSectionProps> = ({
         backgroundColor: 'rgba(7, 2, 29, 0.91)',
       };
 
-  const memberships: DaoListingProps[] = [
-    {
-      memberId: 'metagame-pinned',
-      title: 'MetaGame',
-      memberRank: player.rank || '',
-      memberXp: player.total_xp,
-    },
-    ...(player.daohausMemberships || []).map((m) => ({
-      memberId: m.id,
-      title: m.moloch.title || undefined,
-      memberShares: m.shares,
-      daoShares: m.moloch.totalShares,
-      chain: m.moloch.chain,
-      address: m.molochAddress,
-    })),
-  ];
-
   return (
     <ProfileSection title="Memberships" onRemoveClick={onRemoveClick}>
-      {memberships.slice(0, 4).map((dao) => (
+      {guildMemberships.slice(0, 4).map((membership) => (
         <DaoListing
-          key={dao.memberId}
-          memberId={dao.memberId}
-          title={dao.title}
-          memberShares={dao.memberShares}
-          daoShares={dao.daoShares}
-          memberRank={dao.memberRank}
-          memberXp={dao.memberXp}
-          chain={dao.chain}
-          address={dao.address}
+          key={membership.memberId}
+          memberId={membership.memberId}
+          title={membership.title}
+          memberShares={membership.memberShares}
+          daoShares={membership.daoShares}
+          memberRank={membership.memberRank}
+          memberXp={membership.memberXp}
+          chain={membership.chain}
+          address={membership.address}
         />
       ))}
 
-      {memberships.length > 4 && (
+      {guildMemberships.length > 4 && (
         <Text
           as="span"
           fontFamily="body"
@@ -260,17 +251,17 @@ export const PlayerMemberships: React.FC<MembershipSectionProps> = ({
                   padding={6}
                   boxShadow="md"
                 >
-                  {memberships.map((dao) => (
+                  {guildMemberships.map((membership) => (
                     <DaoListing
-                      key={dao.memberId}
-                      memberId={dao.memberId}
-                      title={dao.title}
-                      memberShares={dao.memberShares}
-                      daoShares={dao.daoShares}
-                      memberRank={dao.memberRank}
-                      memberXp={dao.memberXp}
-                      chain={dao.chain}
-                      address={dao.address}
+                      key={membership.memberId}
+                      memberId={membership.memberId}
+                      title={membership.title}
+                      memberShares={membership.memberShares}
+                      daoShares={membership.daoShares}
+                      memberRank={membership.memberRank}
+                      memberXp={membership.memberXp}
+                      chain={membership.chain}
+                      address={membership.address}
                     />
                   ))}
                 </SimpleGrid>
