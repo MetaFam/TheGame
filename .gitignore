@@ -12,7 +12,6 @@ package-lock.json
 .idea
 .vscode/
 
-
 # next.js
 .next/
 
