@@ -31,6 +31,8 @@ const guildMembershipsQuery = gql`
         logo
         moloch_address
         name
+        guildname
+        membership_through_discord
       }
     }
   }
@@ -68,19 +70,32 @@ export type GuildMembership = {
   daoShares?: string;
   chain?: string;
   address?: string;
+  logoUrl?: string;
+  guildname?: string;
 };
 
 export const getAllMemberships = async (player: PlayerFragmentFragment) => {
   const guildPlayers = await getGuildMemberships(player.id);
 
+  const daohausMemberships = player.daohausMemberships?.filter(
+    (m) =>
+      !guildPlayers?.some(
+        (gp) =>
+          gp.Guild.moloch_address === m.molochAddress &&
+          gp.Guild.membership_through_discord === true,
+      ),
+  );
+
   const memberships: GuildMembership[] = [
     ...(guildPlayers || []).map((gp) => ({
       memberId: `${gp.guild_id}:${player.id}`,
       title: gp.Guild.name,
+      guildname: gp.Guild.guildname,
       memberRank: player.rank || '',
       memberXp: player.total_xp,
+      logoUrl: gp.Guild.logo || undefined,
     })),
-    ...(player.daohausMemberships || []).map((m) => ({
+    ...(daohausMemberships || []).map((m) => ({
       memberId: m.id,
       title: m.moloch.title || undefined,
       memberShares: m.shares,
