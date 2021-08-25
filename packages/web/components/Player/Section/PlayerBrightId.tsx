@@ -27,15 +27,15 @@ export const PlayerBrightId: React.FC<Props> = ({ player }) => {
   const { user, fetching } = useUser();
   const { verified, deeplink, universalLink } = useBrightIdStatus({ player });
 
-  const { isConnected } = useWeb3();
+  const { connected } = useWeb3();
 
   const [isLoggedInUser, setIsLoggedInUser] = useState(false);
 
   useEffect(() => {
-    if (isConnected && !fetching && user?.id === player.id) {
+    if (connected && !fetching && user?.id === player.id) {
       setIsLoggedInUser(true);
     }
-  }, [user, fetching, isConnected, player.id]);
+  }, [user, fetching, connected, player.id]);
 
   useBrightIdUpdated({ player, poll: !verified && isOpen && isLoggedInUser });
 
