@@ -9,7 +9,7 @@ import {
 } from '@metafam/ds';
 import { SkillCategory_Enum } from 'graphql/autogen/types';
 import { SkillColors } from 'graphql/types';
-import { PlayerAggregates, sortOptions } from 'lib/hooks/players';
+import { PlayerAggregates, SortOption, sortOptions } from 'lib/hooks/players';
 import { useIsSticky } from 'lib/hooks/useIsSticky';
 import React, { useRef } from 'react';
 import { SkillOption } from 'utils/skillHelpers';
@@ -112,7 +112,9 @@ export const DesktopFilters: React.FC<Props> = ({
     >
       <WrapItem>
         <MetaFilterSelectSearch
-          title="Sort By"
+          title={`Sorted By: ${sortOption.label}`}
+          tagLabel=""
+          hasValue={sortOption.value !== SortOption.SEASON_XP}
           styles={styles}
           value={[sortOption]}
           onChange={(value) => {
@@ -125,8 +127,10 @@ export const DesktopFilters: React.FC<Props> = ({
       <WrapItem>
         <MetaFilterSelectSearch
           title="Type Of Player"
+          tagLabel={playerTypes.length > 0 ? playerTypes.length.toString() : ''}
           styles={styles}
           value={playerTypes}
+          hasValue={playerTypes.length > 0}
           onChange={(value) => {
             setPlayerTypes(value as ValueType[]);
           }}
@@ -136,8 +140,10 @@ export const DesktopFilters: React.FC<Props> = ({
       <WrapItem>
         <MetaFilterSelectSearch
           title="Skills"
+          tagLabel={skills.length > 0 ? skills.length.toString() : ''}
           styles={styles}
           value={skills}
+          hasValue={skills.length > 0}
           onChange={(value) => {
             setSkills(value as SkillOption[]);
           }}
@@ -148,8 +154,10 @@ export const DesktopFilters: React.FC<Props> = ({
       <WrapItem>
         <MetaFilterSelectSearch
           title="Availability"
+          tagLabel={availability ? `≥${availability.value}` : ''}
           styles={styles}
           value={availability ? [availability] : []}
+          hasValue={!!availability}
           onChange={(value) => {
             const values = value as ValueType[];
             setAvailability(values[values.length - 1]);
@@ -163,8 +171,10 @@ export const DesktopFilters: React.FC<Props> = ({
       <WrapItem>
         <MetaFilterSelectSearch
           title="Time Zone"
+          tagLabel={timezones.length > 0 ? timezones.length.toString() : ''}
           styles={styles}
           value={timezones}
+          hasValue={timezones.length > 0}
           onChange={(value) => {
             const values = value as ValueType[];
             setTimezones(values.slice(-1));

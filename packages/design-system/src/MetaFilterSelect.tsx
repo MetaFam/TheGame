@@ -151,21 +151,9 @@ const SelectValueContainer: React.FC<
   React.ComponentProps<typeof SelectComponents.ValueContainer>
 > = (props) => {
   const {
-    selectProps: { value, title: selectTitle, menuIsOpen },
+    selectProps: { title, tagLabel, menuIsOpen },
   } = props;
 
-  let tagLabel = '';
-  if (value.length > 0) {
-    tagLabel = value.length.toString();
-  }
-  let title = selectTitle;
-  if (title.toLowerCase() === 'availability' && value.length > 0) {
-    tagLabel = `≥${value[0].value}`;
-  }
-  if (title.toLowerCase() === 'sort by' && value.length > 0) {
-    tagLabel = '';
-    title = `Sorted By: ${value[0].label}`;
-  }
   return (
     <Flex mr="-1rem" py="1" align="center" cursor="pointer">
       <ValueDisplay title={title} menuIsOpen={menuIsOpen} tagLabel={tagLabel} />
@@ -178,15 +166,7 @@ const SelectControl: React.FC<
   React.ComponentProps<typeof SelectComponents.Control>
 > = (props) => {
   const {
-    hasValue: selectHasValue,
-    selectProps: {
-      menuIsOpen,
-      onMenuClose,
-      onMenuOpen,
-      showSearch,
-      title,
-      value,
-    },
+    selectProps: { menuIsOpen, hasValue, onMenuClose, onMenuOpen, showSearch },
   } = props;
 
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -201,15 +181,6 @@ const SelectControl: React.FC<
       }
     }
   }, [menuIsOpen, onMenuOpen, onMenuClose, showSearch]);
-
-  let hasValue = selectHasValue;
-  if (
-    title.toLowerCase() === 'sort by' &&
-    value.length > 0 &&
-    value[0].value === 'SEASON_XP'
-  ) {
-    hasValue = false;
-  }
 
   return (
     <Button
@@ -247,21 +218,13 @@ const SelectMenu: React.FC<
     selectProps: {
       onInputChange,
       title,
-      value,
+      tagLabel,
       placement,
       showSearch,
       inputValue,
     },
   } = props;
   const [input, setInput] = useState(inputValue || '');
-  let tagLabel = '';
-  if (Array.isArray(value) && value.length > 0) {
-    tagLabel = value.length.toString();
-  }
-  if (value && !Array.isArray(value)) {
-    tagLabel =
-      title.toLowerCase() === 'availability' ? `>${value.value}` : value.value;
-  }
   const placeRight = placement === 'right';
   return (
     <Flex
@@ -353,20 +316,6 @@ const SelectContainer: React.FC<
     selectProps: { onMenuClose },
   } = props;
 
-  // const onOutsideFocus = useCallback(() => {
-  //   if (onMenuClose && menuIsOpen) {
-  //     onMenuClose();
-  //   }
-  // }, [menuIsOpen, onMenuClose]);
-
-  // useEffect(() => {
-  //   const selectedRef = selectRef.current;
-  //   selectedRef?.addEventListener('focusout', onOutsideFocus);
-  //   return () => {
-  //     selectedRef?.removeEventListener('focusout', onOutsideFocus);
-  //   };
-  // }, [selectRef, onOutsideFocus]);
-
   return (
     <Flex position="relative" onBlur={onMenuClose}>
       <SelectComponents.SelectContainer
@@ -381,11 +330,15 @@ export const MetaFilterSelectSearch: React.FC<
   React.ComponentProps<typeof SelectSearch> & {
     showSearch?: boolean;
     isTimezone?: boolean;
+    hasValue: boolean;
+    tagLabel: string;
   }
 > = ({
   options: defaultOptions,
   showSearch = false,
   isTimezone = false,
+  tagLabel = '',
+  hasValue = false,
   ...props
 }) => {
   const [options, setOptions] = useState(defaultOptions);
@@ -430,6 +383,8 @@ export const MetaFilterSelectSearch: React.FC<
       options={options}
       filterOption={isTimezone ? null : undefined}
       onInputChange={isTimezone ? onTimezoneInputChange : undefined}
+      tagLabel={tagLabel}
+      hasValue={hasValue}
       {...props}
     />
   );
