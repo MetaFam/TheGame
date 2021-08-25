@@ -20,20 +20,20 @@ import { CONFIG } from '../config';
 
 export type Web3ContextType = {
   provider: providers.Web3Provider | null;
-  connectWeb3: () => Promise<void>;
+  connect: () => Promise<void>;
   disconnect: () => void;
-  isConnecting: boolean;
-  isConnected: boolean;
+  connecting: boolean;
+  connected: boolean;
   address: string | null;
   authToken: string | null;
 };
 
 export const Web3Context = createContext<Web3ContextType>({
   provider: null,
-  connectWeb3: async () => {},
+  connect: async () => {},
   disconnect: () => undefined,
-  isConnecting: false,
-  isConnected: false,
+  connecting: false,
+  connected: false,
   address: null,
   authToken: null,
 });
@@ -88,8 +88,8 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
   resetUrqlClient,
 }) => {
   const [provider, setProvider] = useState<providers.Web3Provider | null>(null);
-  const [isConnected, setIsConnected] = useState<boolean>(false);
-  const [isConnecting, setIsConnecting] = useState<boolean>(false);
+  const [connected, setConnected] = useState<boolean>(false);
+  const [connecting, setConnecting] = useState<boolean>(false);
   const [address, setAddress] = useState<string | null>(null);
   const [authToken, setAuthToken] = useState<string | null>(null);
   const calledOnce = useRef<boolean>(false);
@@ -103,37 +103,36 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
     setAuthToken(null);
     setAddress(null);
     setProvider(null);
-    setIsConnecting(false);
-    setIsConnected(false);
+    setConnecting(false);
+    setConnected(false);
     if (resetUrqlClient) resetUrqlClient();
   }, [resetUrqlClient]);
 
-  const connectWeb3 = useCallback(async () => {
-
+  const connect = useCallback(async () => {
     if (web3Modal === false) return;
-    setIsConnecting(true);
+
+    setConnecting(true);
 
     try {
-      const web3Provider = await web3Modal.connect();
-      const ethersProvider = new providers.Web3Provider(web3Provider);
+      const modal = await web3Modal.connect();
+      const web3Provider = new providers.Web3Provider(modal);
+      const addr = await web3Provider.getSigner().getAddress();
 
-      const ethAddress = await ethersProvider.getSigner().getAddress();
-
-      let token: string | null = await getExistingAuth(ethersProvider);
+      let token: string | null = await getExistingAuth(web3Provider);
 
       if (!token) {
-        token = await authenticateWallet(ethersProvider);
+        token = await authenticateWallet(web3Provider);
       }
 
-      setAddress(ethAddress);
-      setProvider(ethersProvider);
+      setAddress(addr);
+      setProvider(web3Provider);
       setAuthToken(token);
-      setIsConnecting(false);
-      setIsConnected(true);
+      setConnecting(false);
+      setConnected(true);
       if (resetUrqlClient) resetUrqlClient();
     } catch (error) {
       console.log(error); // eslint-disable-line no-console
-      setIsConnecting(false);
+      setConnecting(false);
       disconnect();
     }
   }, [resetUrqlClient, disconnect]);
@@ -144,18 +143,18 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
 
     if (web3Modal === false) return;
     if (web3Modal.cachedProvider) {
-      connectWeb3().catch(() => undefined);
+      connect().catch(() => undefined);
     }
-  }, [connectWeb3]);
+  }, [connect]);
 
   return (
     <Web3Context.Provider
       value={{
         provider,
-        connectWeb3,
+        connect,
         disconnect,
-        isConnected,
-        isConnecting,
+        connected,
+        connecting,
         address,
         authToken,
       }}
