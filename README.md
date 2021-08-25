@@ -209,3 +209,14 @@ yarn docker:start
 ```shell script
 yarn typecheck
 ```
+
+### WIP Branch Push
+
+Upon pushing to the repository a linting check will be initialized validating your code.
+If you want to push the branch to the repository (maybe for collaboration) while the code isn't completely valid yet you have the option of skipping the linting process:
+
+```shell script
+git push -u origin <branch> [--no-verify]
+```
+
+Please use this only when absolutely necessary!
