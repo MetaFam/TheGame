@@ -7,7 +7,7 @@
     "isolatedModules": true,
     "tsBuildInfoFile": "out/.tsbuildinfo",
     "jsx": "preserve",
-    "lib": ["dom", "es2017"],
+    "lib": ["dom", "es2017", "es2019"],
     "baseUrl": ".",
     "noEmit": true
   },

@@ -4,19 +4,19 @@ import React, { useCallback } from 'react';
 import { useUser, useWeb3 } from '../lib/hooks';
 
 export const LoginButton: React.FC = () => {
-  const { connectWeb3, isConnected, isConnecting } = useWeb3();
+  const { connect, connecting, connected } = useWeb3();
 
   const { user, fetching } = useUser({ forLoginDisplay: true });
 
   const handleLoginClick = useCallback(async () => {
-    await connectWeb3();
-  }, [connectWeb3]);
+    await connect();
+  }, [connect]);
 
-  if (fetching || isConnecting) {
+  if (fetching || connecting) {
     return <Spinner color="purple.500" size="sm" />;
   }
 
-  if (isConnected && !user?.player) return null;
+  if (connected && !user?.player) return null;
 
   return (
     <MetaButton
