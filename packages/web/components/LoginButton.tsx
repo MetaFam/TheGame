@@ -18,23 +18,23 @@ import { getPlayerImage, getPlayerName } from '../utils/playerHelpers';
 export const LoginButton: React.FC = () => {
   const {
     address,
-    connectWeb3,
+    connect,
     disconnect,
-    isConnected,
-    isConnecting,
+    connected,
+    connecting,
   } = useWeb3();
 
   const { user, fetching } = useUser({ forLoginDisplay: true });
 
   const handleLoginClick = useCallback(async () => {
-    await connectWeb3();
-  }, [connectWeb3]);
+    await connect();
+  }, [connect]);
 
-  if (fetching || isConnecting) {
+  if (fetching || connecting) {
     return <Spinner color="purple.500" size="sm" />;
   }
 
-  if (isConnected) {
+  if (connected) {
     if (!user?.player) return null;
 
     const hasEditedProfile = user.username && user.username !== address;

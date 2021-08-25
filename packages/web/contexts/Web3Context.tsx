@@ -1,6 +1,8 @@
 import { did } from '@metafam/utils';
 import WalletConnectProvider from '@walletconnect/web3-provider';
+import { IDX } from '@ceramicstudio/idx'
 import { providers } from 'ethers';
+import Ceramic from '@ceramicnetwork/http-client';
 import {
   clearToken,
   clearWalletConnect,
@@ -17,9 +19,13 @@ import React, {
 import Web3Modal from 'web3modal';
 
 import { CONFIG } from '../config';
+import { useMemo } from 'react';
+import CeramicClient from '@ceramicnetwork/http-client';
 
 export type Web3ContextType = {
   provider: providers.Web3Provider | null;
+  ceramic: CeramicClient | null;
+  idx: IDX | null;
   connect: () => Promise<void>;
   disconnect: () => void;
   connecting: boolean;
@@ -30,6 +36,8 @@ export type Web3ContextType = {
 
 export const Web3Context = createContext<Web3ContextType>({
   provider: null,
+  ceramic: null,
+  idx: null,
   connect: async () => {},
   disconnect: () => undefined,
   connecting: false,
@@ -93,6 +101,8 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
   const [address, setAddress] = useState<string | null>(null);
   const [authToken, setAuthToken] = useState<string | null>(null);
   const calledOnce = useRef<boolean>(false);
+  const ceramic = useMemo(() => new Ceramic(process.env.CERAMIC_URL), []);
+  const idx = new IDX({ ceramic });
 
   const disconnect = useCallback(() => {
     if (web3Modal === false) return;
@@ -151,6 +161,8 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
     <Web3Context.Provider
       value={{
         provider,
+        ceramic,
+        idx,
         connect,
         disconnect,
         connected,
