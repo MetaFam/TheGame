@@ -1,10 +1,10 @@
-import Ceramic from '@ceramicnetwork/http-client';
-import { IDX } from '@ceramicstudio/idx';
 import { EthereumAuthProvider, ThreeIdConnect } from '@3id/connect';
 import ThreeIdResolver from '@ceramicnetwork/3id-did-resolver';
-import { DID } from 'dids';
+import Ceramic from '@ceramicnetwork/http-client';
+import { IDX } from '@ceramicstudio/idx'
 import { did } from '@metafam/utils';
 import WalletConnectProvider from '@walletconnect/web3-provider';
+import { DID } from 'dids';
 import { providers } from 'ethers';
 import {
   clearToken,
@@ -132,7 +132,7 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
     setConnecting(false);
     setConnected(false);
     if (resetUrqlClient) resetUrqlClient();
-  }, [resetUrqlClient]);
+  }, [resetUrqlClient, ceramic]);
 
   const connect = useCallback(async () => {
     if (web3Modal === false) return;
