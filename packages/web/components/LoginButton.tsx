@@ -31,20 +31,20 @@ export const LoginButton: React.FC = () => {
     await ceramic.close();
   }, [ceramic, disconnect]);
 
-  useEffect(() => {
-    if (address) {
-      (async () => {
-        const threeIdConnect = new ThreeIdConnect();
-        const authProvider = new EthereumAuthProvider(window.ethereum, address);
-        await threeIdConnect.connect(authProvider);
-        ceramic.did = new DID({
-          provider: threeIdConnect.getDidProvider(),
-          resolver: ThreeIdResolver.getResolver(ceramic),
-        });
-        await ceramic.did.authenticate();
-      })();
-    }
-  }, [address, ceramic]);
+  // useEffect(() => {
+  //   if (address) {
+  //     (async () => {
+  //       const threeIdConnect = new ThreeIdConnect();
+  //       const authProvider = new EthereumAuthProvider(window.ethereum, address);
+  //       await threeIdConnect.connect(authProvider);
+  //       ceramic.did = new DID({
+  //         provider: threeIdConnect.getDidProvider(),
+  //         resolver: ThreeIdResolver.getResolver(ceramic),
+  //       });
+  //       await ceramic.did.authenticate();
+  //     })();
+  //   }
+  // }, [address, ceramic]);
 
   if (fetching) {
     return <Spinner color="purple.500" size="sm" />;
