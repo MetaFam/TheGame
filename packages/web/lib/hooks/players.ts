@@ -138,6 +138,7 @@ export const usePlayerFilter = (
       if (key === 'limit') {
         throw new Error('Cannot update limit');
       }
+      shouldAppend.current = key === 'offset';
       if (key === 'orderBy') {
         setQueryVariables((oldQueryVariables) => ({
           ...oldQueryVariables,
@@ -153,12 +154,14 @@ export const usePlayerFilter = (
           [key]: value !== '' ? value : null,
         }));
       }
-      shouldAppend.current = key === 'offset';
     },
     [],
   );
 
-  const resetFilter = () => setQueryVariables(defaultQueryVariables);
+  const resetFilter = () => {
+    shouldAppend.current = false;
+    setQueryVariables(defaultQueryVariables);
+  };
 
   const {
     fetchedPlayers,
@@ -179,8 +182,8 @@ export const usePlayerFilter = (
         setPlayers([]);
       }
     } else if (shouldAppend.current) {
-      setPlayers((p) => [...p, ...fetchedPlayers]);
       shouldAppend.current = false;
+      setPlayers((p) => [...p, ...fetchedPlayers]);
     } else {
       setPlayers(fetchedPlayers);
     }
