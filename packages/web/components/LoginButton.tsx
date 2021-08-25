@@ -1,4 +1,6 @@
-import { useState } from 'react';
+import { EthereumAuthProvider, ThreeIdConnect } from '@3id/connect';
+import ThreeIdResolver from '@ceramicnetwork/3id-did-resolver';
+import Ceramic from '@ceramicnetwork/http-client';
 import {
   Avatar,
   Box,
@@ -10,52 +12,39 @@ import {
   Spinner,
   Text,
 } from '@metafam/ds';
-import Ceramic from '@ceramicnetwork/http-client';
 import { MetaLink } from 'components/Link';
-import React, { useCallback, useMemo } from 'react';
-import { ThreeIdConnect,  EthereumAuthProvider } from '@3id/connect';
-// import { providers } from 'ethers';
-import ThreeIdResolver from '@ceramicnetwork/3id-did-resolver'
 import { DID } from 'dids';
+import React, { useCallback, useEffect, useMemo } from 'react';
 
-// import { authenticateWallet, getExistingAuth } from '../contexts/Web3Context';
-import { useUser } from '../lib/hooks';
+import { useUser, useWeb3 } from '../lib/hooks';
 import { getPlayerImage, getPlayerName } from '../utils/playerHelpers';
 
 export const LoginButton: React.FC = () => {
-  const [connected, setConnected] = useState(false);
-  const [address, setAddress] = useState();
+  const { connect, disconnect, connected, address } = useWeb3();
   const { user, fetching } = useUser();
   const ceramic = useMemo(() => new Ceramic(process.env.CERAMIC_URL), []);
-  // TODO: Keep this logic within the Web3 Context
-  // useEffect(() => {
-  //   (async () => {
-  //     const web3Provider = new providers.Web3Provider(window.ethereum)
-  //     let token: string | null = await getExistingAuth(web3Provider)
-  //     console.log(token);
-  //     if (!token) {
-  //       token = await authenticateWallet(web3Provider);
-  //     }
-  //   })()
-  // }, [])
   const handleLoginClick = useCallback(async () => {
-    const [addr] = await window.ethereum.enable()
-    setAddress(addr)
-    const threeIdConnect = new ThreeIdConnect()
-    const authProvider = new EthereumAuthProvider(window.ethereum, addr)
-    await threeIdConnect.connect(authProvider)
-    ceramic.did = new DID({
-      provider: threeIdConnect.getDidProvider(),
-      resolver: ThreeIdResolver.getResolver(ceramic),
-    })
-    await ceramic.did.authenticate()
-    setConnected(true)
-  }, []);
-
+    connect();
+  }, [connect]);
   const handleLogoutClick = useCallback(async () => {
-    await ceramic.close()
-    setConnected(false)
-  }, [ceramic])
+    await disconnect();
+    await ceramic.close();
+  }, [ceramic, disconnect]);
+
+  useEffect(() => {
+    if (address) {
+      (async () => {
+        const threeIdConnect = new ThreeIdConnect();
+        const authProvider = new EthereumAuthProvider(window.ethereum, address);
+        await threeIdConnect.connect(authProvider);
+        ceramic.did = new DID({
+          provider: threeIdConnect.getDidProvider(),
+          resolver: ThreeIdResolver.getResolver(ceramic),
+        });
+        await ceramic.did.authenticate();
+      })();
+    }
+  }, [address, ceramic]);
 
   if (fetching) {
     return <Spinner color="purple.500" size="sm" />;
