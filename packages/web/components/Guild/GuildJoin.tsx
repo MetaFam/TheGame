@@ -29,7 +29,9 @@ export const GuildJoin: React.FC = () => {
     scope: Constants.DISCORD_OAUTH_SCOPES,
   });
 
-  const discordAuthURL = `https://discord.com/api/oauth2/authorize?${discordAuthParams.toString()}`;
+  const discordAuthURL = `${
+    CONFIG.discordApiBaseUrl
+  }/authorize?${discordAuthParams.toString()}`;
 
   return (
     <FlexContainer flex="1" justify="start" mt={5}>

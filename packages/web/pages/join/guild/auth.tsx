@@ -37,7 +37,7 @@ const GuildSetupAuthCallback: React.FC = () => {
       setFetching(true);
       submitAuthCode();
     }
-  }, [router, authGuild, error, fetching, setFetching]);
+  }, [router, authGuild, error, fetching]);
 
   return (
     <PageContainer>

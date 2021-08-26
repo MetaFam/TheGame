@@ -3,10 +3,7 @@ import fetch from 'node-fetch';
 import { URLSearchParams } from 'url';
 
 import { CONFIG } from './config';
-import {
-  DiscordAccessTokenResponse,
-  PartialAuthorizationResponse,
-} from './types';
+import { DiscordAccessTokenResponse } from './types';
 
 export const tokenRequestData = {
   client_id: Constants.DISCORD_BOT_CLIENT_ID,
@@ -24,7 +21,7 @@ export const exchangeCodeForAccessToken = async (
   };
 
   const discordResponse = await fetch(
-    'https://discord.com/api/v8/oauth2/token',
+    `${CONFIG.discordApiBaseUrl}/oauth2/token`,
     {
       method: 'POST',
       body: new URLSearchParams(data),
@@ -45,18 +42,4 @@ export const exchangeCodeForAccessToken = async (
   }
 
   return response;
-};
-
-export const getCurrentAuthorization = async (
-  accessToken: string,
-): Promise<PartialAuthorizationResponse> => {
-  const discordResponse = await fetch('https://discord.com/api/oauth2/@me', {
-    method: 'GET',
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  });
-
-  const parsedBody = await discordResponse.json();
-  return parsedBody as PartialAuthorizationResponse;
 };
