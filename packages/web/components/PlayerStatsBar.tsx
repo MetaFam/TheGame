@@ -1,30 +1,9 @@
-import {
-  Avatar,
-  Badge,
-  Box,
-  Button,
-  ChevronDownIcon,
-  ChevronUpIcon,
-  CloseIcon,
-  Flex,
-  HamburgerIcon,
-  Link,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
-  SimpleGrid,
-  Stack,
-  Text,
-  useDisclosure,
-} from '@metafam/ds';
+import { Avatar, Badge, Flex, Stack, Text } from '@metafam/ds';
 import Image from 'next/image';
 import React from 'react';
 
-import SearchIcon from '../assets/search-icon.svg';
 import SeedMarket from '../assets/seed-icon.svg';
 import XPStar from '../assets/xp-star.svg';
-import { MenuSectionLinks } from '../utils/menuLinks';
 
 // Display player XP and Seed -- not working yet
 const PlayerStats = () => (
