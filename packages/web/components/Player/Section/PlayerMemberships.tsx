@@ -4,6 +4,7 @@ import {
   Heading,
   HStack,
   Link,
+  LoadingState,
   Modal,
   ModalCloseButton,
   ModalContent,
@@ -180,12 +181,14 @@ export const PlayerMemberships: React.FC<MembershipSectionProps> = ({
   const [guildMemberships, setGuildMemberships] = useState<GuildMembership[]>(
     [],
   );
+  const [loadingMemberships, setLoadingMemberships] = useState<boolean>(true);
 
   useEffect(() => {
-    getAllMemberships(player).then((memberships) =>
-      setGuildMemberships(memberships),
-    );
-  }, [player, setGuildMemberships]);
+    getAllMemberships(player).then((memberships) => {
+      setLoadingMemberships(false);
+      setGuildMemberships(memberships);
+    });
+  }, [player]);
 
   const modalContentStyles = isBackdropFilterSupported()
     ? {
@@ -198,6 +201,8 @@ export const PlayerMemberships: React.FC<MembershipSectionProps> = ({
 
   return (
     <ProfileSection title="Memberships" onRemoveClick={onRemoveClick}>
+      {loadingMemberships && <LoadingState />}
+
       {guildMemberships.slice(0, 4).map((membership) => (
         <DaoListing key={membership.memberId} membership={membership} />
       ))}
