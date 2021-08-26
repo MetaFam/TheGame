@@ -34,6 +34,11 @@ const guildMembershipsQuery = gql`
         guildname
         membership_through_discord
       }
+      discordRoles {
+        id
+        name
+        position
+      }
     }
   }
 `;
@@ -91,8 +96,8 @@ export const getAllMemberships = async (player: PlayerFragmentFragment) => {
       memberId: `${gp.guild_id}:${player.id}`,
       title: gp.Guild.name,
       guildname: gp.Guild.guildname,
-      memberRank: player.rank || '',
-      memberXp: player.total_xp,
+      memberRank: gp.discordRoles[0].name || undefined,
+      memberXp: gp.Guild.guildname === 'metafam' ? player.total_xp : null,
       logoUrl: gp.Guild.logo || undefined,
     })),
     ...(daohausMemberships || []).map((m) => ({

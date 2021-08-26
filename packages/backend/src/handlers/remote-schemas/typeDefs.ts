@@ -10,6 +10,10 @@ export const typeDefs = gql`
     getTokenBalances(address: String): TokenBalances
     getTopPSeedHolders(limit: Int): [TokenBalances!]
     getGuildDiscordRoles(guildDiscordId: String): [DiscordRole!]!
+    getDiscordServerMemberRoles(
+      guildId: uuid!
+      playerId: uuid!
+    ): [DiscordRole!]!
   }
 
   type BrightIdStatus {

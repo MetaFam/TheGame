@@ -179,6 +179,7 @@
       enable_manual: false
       update:
         columns:
+        - membership_through_discord
         - discord_id
         - status
     retry_conf:
@@ -237,6 +238,18 @@
   - name: Player
     using:
       foreign_key_constraint_on: player_id
+  remote_relationships:
+  - definition:
+      remote_field:
+        getDiscordServerMemberRoles:
+          arguments:
+            guildId: $guild_id
+            playerId: $player_id
+      hasura_fields:
+      - guild_id
+      - player_id
+      remote_schema: backend
+    name: discordRoles
   select_permissions:
   - role: player
     permission:
