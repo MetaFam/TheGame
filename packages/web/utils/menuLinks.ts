@@ -32,7 +32,7 @@ export const MenuSectionLinks: MenuLink[] = [
         title: 'Guilds',
         explainerText:
           'Discover the guilds of MetaGame; groups of players set around more specific goals',
-        url: 'https://wiki.metagame.wtf/docs/enter-metagame/guilds-of-metagame',
+        url: '/guilds',
       },
       {
         title: 'Alliances',
@@ -109,7 +109,7 @@ export const MenuSectionLinks: MenuLink[] = [
         title: 'Quests',
         explainerText:
           'Take a look at available quest and claim ones that suit you best',
-        url: 'https://wiki.metagame.wtf/',
+        url: '/quests',
       },
     ],
   },
@@ -127,6 +127,12 @@ export const MenuSectionLinks: MenuLink[] = [
         explainerText:
           'Find cool projects & people you could support financially',
         url: 'https://wiki.metagame.wtf/',
+      },
+      {
+        title: 'Balancer Pool',
+        explainerText: 'Plant your Seeds and watch them grow',
+        url:
+          'https://pools.balancer.exchange/#/pool/0xea05a15dbce2eb543ffda16950e95b2bd2e40d0e/',
       },
     ],
   },
