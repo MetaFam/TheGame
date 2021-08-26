@@ -113,13 +113,15 @@ const DaoListing: React.FC<DaoListingProps> = ({ membership }) => {
     guildname,
   } = membership;
 
-  const message = useMemo(
-    () =>
-      memberXp
-        ? `XP: ${Math.floor(memberXp || 0)}`
-        : `Shares: ${memberShares}/${daoShares}`,
-    [memberShares, memberXp, daoShares],
-  );
+  const stake = useMemo(() => {
+    if (memberXp != null) {
+      return `XP: ${Math.floor(memberXp)}`;
+    }
+    if (daoShares != null) {
+      return `Shares: ${memberShares || 0}/${daoShares}`;
+    }
+    return '';
+  }, [memberShares, memberXp, daoShares]);
 
   const daoUrl = useMemo(() => getDaoLink(chain, address), [chain, address]);
 
@@ -157,7 +159,7 @@ const DaoListing: React.FC<DaoListingProps> = ({ membership }) => {
                 {memberRank}
               </Text>
             )}
-            <Text fontSize="xs">{message}</Text>
+            <Text fontSize="xs">{stake}</Text>
           </HStack>
         </Box>
       </HStack>

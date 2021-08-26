@@ -16,8 +16,6 @@ import { TriggerPayload } from './types';
 export const syncDiscordGuildMembers = async (
   payload: TriggerPayload<Guild>,
 ) => {
-  // if (CONFIG.nodeEnv !== 'production') return;
-
   const { new: guild } = payload.event.data;
 
   if (guild?.discord_id == null) return;

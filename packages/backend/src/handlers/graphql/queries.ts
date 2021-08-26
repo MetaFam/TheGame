@@ -120,6 +120,7 @@ gql`
     guild_metadata(where: { guild_id: { _eq: $id } }) {
       guild_id
       creator_id
+      discord_id
       discord_metadata
     }
   }
@@ -131,6 +132,21 @@ gql`
           id
           discord_id
         }
+      }
+    }
+  }
+
+  query GetGuildPlayerDiscordIds($guildId: uuid!, $playerId: uuid!) {
+    guild_player(
+      where: {
+        _and: { guild_id: { _eq: $guildId }, player_id: { _eq: $playerId } }
+      }
+    ) {
+      Player {
+        discord_id
+      }
+      Guild {
+        discord_id
       }
     }
   }

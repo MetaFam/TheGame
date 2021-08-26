@@ -1439,6 +1439,9 @@ type guild_player {
 
   """An object relationship"""
   Player: player!
+
+  """Remote relationship field"""
+  discordRoles: [DiscordRole!]!
   guild_id: uuid!
   player_id: uuid!
 }
@@ -5938,6 +5941,7 @@ type Query {
   getBoxProfile(address: String): BoxProfile
   getBrightIdStatus(contextId: uuid): BrightIdStatus
   getDaoHausMemberships(memberAddress: String): [Member!]!
+  getDiscordServerMemberRoles(guildId: uuid!, playerId: uuid!): [DiscordRole!]!
   getGuildDiscordRoles(guildDiscordId: String): [DiscordRole!]!
   getTokenBalances(address: String): TokenBalances
   getTopPSeedHolders(limit: Int): [TokenBalances!]
@@ -6379,6 +6383,7 @@ type query_root {
   getBoxProfile(address: String): BoxProfile
   getBrightIdStatus(contextId: uuid): BrightIdStatus
   getDaoHausMemberships(memberAddress: String): [Member!]!
+  getDiscordServerMemberRoles(guildId: uuid!, playerId: uuid!): [DiscordRole!]!
   getGuildDiscordRoles(guildDiscordId: String): [DiscordRole!]!
   getTokenBalances(address: String): TokenBalances
   getTopPSeedHolders(limit: Int): [TokenBalances!]
