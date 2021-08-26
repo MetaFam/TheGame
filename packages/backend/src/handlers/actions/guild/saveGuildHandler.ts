@@ -19,7 +19,6 @@ export const saveGuildHandler = async (
 
   try {
     const { guildInformation } = input;
-    console.log('save guild handler', guildInformation);
     await saveGuild(playerId, guildInformation as GuildInfo);
 
     res.json({

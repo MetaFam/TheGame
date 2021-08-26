@@ -98,7 +98,7 @@ export const handleOAuthCallback = async (
           );
           res.json(createGuildResponse);
         } else {
-          throw new Error(creationError);
+          throw creationError;
         }
       }
       res.json(createGuildResponse);
@@ -169,5 +169,5 @@ const createNewGuild = async (
       return successResponse;
     }
   }
-  throw new Error();
+  throw new Error(`Failed to create guild "${newGuildPayload.guildname}"`);
 };

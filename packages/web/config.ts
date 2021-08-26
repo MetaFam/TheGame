@@ -21,4 +21,6 @@ export const CONFIG = {
   publicURL: process.env.NEXT_PUBLIC_VERCEL_URL || 'http://localhost:3000',
   gaId: process.env.NEXT_PUBLIC_GA4_ID || undefined,
   clarityId: process.env.NEXT_CLARITY_ID || undefined,
+  discordApiBaseUrl:
+    process.env.DISCORD_API_BASE_URL || 'https://discord.com/api/v8',
 };

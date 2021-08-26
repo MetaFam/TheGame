@@ -10,6 +10,7 @@ interface IConfig {
   discordBotToken: string;
   discordBotClientSecret: string;
   sourceCredLedgerBranch: string;
+  discordApiBaseUrl: string;
 }
 
 function parseEnv<T extends string | number>(
@@ -46,5 +47,9 @@ export const CONFIG: IConfig = {
   sourceCredLedgerBranch: parseEnv(
     process.env.SOURCECRED_LEDGER_BRANCH,
     'staging', // Just so we dont mess up the master ledger in case people are testing locally
+  ),
+  discordApiBaseUrl: parseEnv(
+    process.env.DISCORD_API_BASE_URL,
+    'https://discord.com/api/v8',
   ),
 };

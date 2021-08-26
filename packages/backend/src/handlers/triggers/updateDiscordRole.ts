@@ -36,7 +36,7 @@ export const updateDiscordRole = async (payload: TriggerPayload<Player>) => {
 
     if (newRank == null) return;
 
-    // hardcoded for now
+    // hardcoded for now to metagame discord server
     const guildDiscordId = '629411177947987986';
 
     // instantiate discord client. We'll need serverId, playerId, and roleIds
