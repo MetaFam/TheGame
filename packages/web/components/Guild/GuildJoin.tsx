@@ -31,7 +31,7 @@ export const GuildJoin: React.FC = () => {
 
   const discordAuthURL = `${
     CONFIG.discordApiBaseUrl
-  }/authorize?${discordAuthParams.toString()}`;
+  }/oauth2/authorize?${discordAuthParams.toString()}`;
 
   return (
     <FlexContainer flex="1" justify="start" mt={5}>
