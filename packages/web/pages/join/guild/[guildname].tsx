@@ -7,7 +7,7 @@ import {
   GuildType_ActionEnum,
   useUpdateGuildMutation,
 } from 'graphql/autogen/types';
-import { getGuild } from 'graphql/getGuild';
+import { getGuild } from 'graphql/queries/guild';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 

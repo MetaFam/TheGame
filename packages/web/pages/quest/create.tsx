@@ -1,23 +1,19 @@
 import { MetaHeading, useToast } from '@metafam/ds';
+import { PageContainer } from 'components/Container';
+import { CreateQuestFormInputs, QuestForm } from 'components/Quest/QuestForm';
+import { HeadComponent } from 'components/Seo';
 import {
   QuestRepetition_ActionEnum,
   useCreateQuestMutation,
 } from 'graphql/autogen/types';
+import { getSkills } from 'graphql/getSkills';
+import { getGuilds } from 'graphql/queries/guild';
+import { useUser } from 'lib/hooks';
 import { InferGetStaticPropsType } from 'next';
 import { useRouter } from 'next/router';
 import React from 'react';
-
-import { PageContainer } from '../../components/Container';
-import {
-  CreateQuestFormInputs,
-  QuestForm,
-} from '../../components/Quest/QuestForm';
-import { HeadComponent } from '../../components/Seo';
-import { getGuilds } from '../../graphql/getGuilds';
-import { getSkills } from '../../graphql/getSkills';
-import { useUser } from '../../lib/hooks';
-import { transformCooldownForBackend } from '../../utils/questHelpers';
-import { parseSkills } from '../../utils/skillHelpers';
+import { transformCooldownForBackend } from 'utils/questHelpers';
+import { parseSkills } from 'utils/skillHelpers';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
