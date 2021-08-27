@@ -1,25 +1,21 @@
 import { Heading, LoadingState, useToast } from '@metafam/ds';
-import { getQuest } from 'graphql/getQuest';
-import { GetStaticPaths, GetStaticPropsContext } from 'next';
-import { useRouter } from 'next/router';
-import React from 'react';
-
-import { PageContainer } from '../../../components/Container';
-import {
-  CreateQuestFormInputs,
-  QuestForm,
-} from '../../../components/Quest/QuestForm';
+import { PageContainer } from 'components/Container';
+import { CreateQuestFormInputs, QuestForm } from 'components/Quest/QuestForm';
 import {
   GuildFragmentFragment,
   QuestFragmentFragment,
   useUpdateQuestMutation,
-} from '../../../graphql/autogen/types';
-import { getSsrClient } from '../../../graphql/client';
-import { getGuilds } from '../../../graphql/getGuilds';
-import { getSkills } from '../../../graphql/getSkills';
-import { useUser } from '../../../lib/hooks';
-import { transformCooldownForBackend } from '../../../utils/questHelpers';
-import { CategoryOption, parseSkills } from '../../../utils/skillHelpers';
+} from 'graphql/autogen/types';
+import { getSsrClient } from 'graphql/client';
+import { getQuest } from 'graphql/getQuest';
+import { getSkills } from 'graphql/getSkills';
+import { getGuilds } from 'graphql/queries/guild';
+import { useUser } from 'lib/hooks';
+import { GetStaticPaths, GetStaticPropsContext } from 'next';
+import { useRouter } from 'next/router';
+import React from 'react';
+import { transformCooldownForBackend } from 'utils/questHelpers';
+import { CategoryOption, parseSkills } from 'utils/skillHelpers';
 
 type Props = {
   quest: QuestFragmentFragment;

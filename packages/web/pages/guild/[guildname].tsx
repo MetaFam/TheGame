@@ -1,8 +1,8 @@
 import { Box, Flex, LoadingState } from '@metafam/ds';
+import { GuildPlayers } from 'components/Guild/Section/GuildPlayers';
 import { QuestFragmentFragment, QuestStatus_Enum } from 'graphql/autogen/types';
-import { getGuild } from 'graphql/getGuild';
-import { getGuildnames } from 'graphql/getGuilds';
 import { getQuests } from 'graphql/getQuests';
+import { getGuild, getGuildnames } from 'graphql/queries/guild';
 import {
   GetStaticPaths,
   GetStaticPropsContext,
@@ -65,9 +65,10 @@ const GuildPage: React.FC<Props> = ({ guild, quests }) => {
             >
               <Box width={{ base: '100%', lg: '50%' }} mr={{ base: 0, lg: 4 }}>
                 <Box mb="6">
-                  <ProfileSection title="Players">
-                    <p>No known players yet.</p>
-                  </ProfileSection>
+                  <GuildPlayers
+                    guildId={guild.id}
+                    guildname={guild.guildname}
+                  />
                 </Box>
                 <Box mb="6">
                   <ProfileSection title="Stats" />

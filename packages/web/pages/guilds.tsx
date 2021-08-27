@@ -1,7 +1,7 @@
 import { PageContainer } from 'components/Container';
 import { GuildList } from 'components/Guild/GuildList';
 import { HeadComponent } from 'components/Seo';
-import { getGuilds } from 'graphql/getGuilds';
+import { getGuilds } from 'graphql/queries/guild';
 import { InferGetStaticPropsType } from 'next';
 import React from 'react';
 

@@ -1,9 +1,12 @@
 import { MetaTheme } from '@metafam/ds';
 import {
+  Maybe,
   Me,
   Member,
   Moloch,
   PlayerFragmentFragment,
+  PlayerRank_Enum,
+  Profile_Cache,
   SkillCategory_Enum,
 } from 'graphql/autogen/types';
 
@@ -41,4 +44,12 @@ export const SkillColors: Record<SkillCategory_Enum, string> = {
   [SkillCategory_Enum.Engineering]: MetaTheme.colors.blue['700'],
   [SkillCategory_Enum.Technologies]: MetaTheme.colors.gray['600'],
   [SkillCategory_Enum.Strategy]: MetaTheme.colors.yellow['700'],
+};
+
+export type GuildPlayer = {
+  role: Maybe<PlayerRank_Enum> | undefined;
+  username: string;
+  total_xp?: number;
+  rank?: Maybe<PlayerRank_Enum> | undefined;
+  profile_cache?: Maybe<Pick<Profile_Cache, 'imageURL' | 'name'>> | undefined;
 };
