@@ -2,6 +2,7 @@
 import { ChakraProvider, CSSReset, MetaTheme } from '@metafam/ds';
 // MegaMenu added for testing
 import { MegaMenu } from 'components/MegaMenu';
+import { PlayerStatsBar } from 'components/PlayerStatsBar';
 // MobileFooter and PageHeader commented out for MegaMenu testing
 // import { MobileFooter } from 'components/MobileFooter';
 // import { PageHeader } from 'components/PageHeader';
@@ -60,6 +61,7 @@ const App: React.FC<WithUrqlProps> = ({
     <Web3ContextProvider resetUrqlClient={resetUrqlClient}>
       <>
         <MegaMenu />
+        <PlayerStatsBar />
         {/* {!pageProps.hideAppDrawer && <PageHeader />} */}
         {/* {!pageProps.hideAppDrawer && <MobileFooter />} */}
         <Component {...pageProps} />

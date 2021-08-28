@@ -31,10 +31,11 @@ const Logo = () => (
   <Box
     className="logo"
     flex="1"
-    maxW={{ base: 'auto', md: '10%' }}
+    minW="20%"
+    maxW="20%"
     mt="auto"
     mb="auto"
-    textAlign={{ base: 'center', md: 'left' }}
+    textAlign={{ base: 'center', lg: 'left' }}
   >
     <Image src="/assets/logo.png" height={44} width={36} />
   </Box>
@@ -78,7 +79,7 @@ const DesktopNavLinks = () => (
     justifyContent="center"
     alignContent="center"
     fontFamily="exo"
-    display={{ base: 'none', md: 'flex' }}
+    display={{ base: 'none', lg: 'flex' }}
     minW={{ base: 'auto', md: '40%' }}
   >
     {MenuSectionLinks.map((section: any) => (
@@ -89,6 +90,7 @@ const DesktopNavLinks = () => (
               <MenuButton
                 as={Button}
                 variant="link"
+                minW="fit-content"
                 color="#ffffff"
                 fontSize={['md', 'md', 'md', 'lg']}
                 fontWeight="600"
@@ -147,13 +149,10 @@ const DesktopNavLinks = () => (
 // Search -- not working yet
 const Search = () => (
   <Flex
-    justifyContent={{ base: 'flex-end', xl: 'center' }}
-    minW={{ base: 'auto', md: '10%' }}
+    justifyContent="flex-end"
+    minW={{ base: '20%', lg: '10%' }}
     h="fit-content"
-    pt={2}
-    pr={4}
-    pb={2}
-    pl={4}
+    p={2}
     mt="auto"
     mb="auto"
     bg={{ base: 'none', xl: 'rgba(255,255,255,0.05)' }}
@@ -176,19 +175,20 @@ const Search = () => (
 const PlayerStats = () => (
   <Flex
     align="center"
-    display={{ base: 'none', xl: 'flex' }}
+    display={{ base: 'none', lg: 'flex' }}
     justifyContent="flex-end"
-    maxW={{ base: 'auto', xl: '20%' }}
-    pl={2}
-    pr={2}
+    // w='fit-content'
+    minW={{ base: '20%', lg: 'fit-content' }}
+    maxW={{ base: '20%', lg: 'fit-content' }}
+    p={2}
     flex="1"
     mt="auto"
-    mr={{ base: 4, md: 0 }}
+    mr="0"
     mb="auto"
   >
     <Badge
-      display={{ base: 'none', md: 'flex' }}
-      flexDirection={['column', 'column', 'column', 'row']}
+      display={{ base: 'none', lg: 'flex' }}
+      flexDirection="row"
       pt={2}
       pr={4}
       pb={2}
@@ -196,13 +196,16 @@ const PlayerStats = () => (
       bg="rgba(0,0,0,0.25)"
       border="1px solid #2B2244"
       borderRadius={50}
+      minW="fit-content"
     >
       <Image src={XPStar} alt="XP" height={14} width={14} />{' '}
-      <Text ml={[0, 0, 0, 2]}>N</Text>
+      <Text color="white" ml={[0, 0, 0, 2]}>
+        N
+      </Text>
     </Badge>
     <Badge
-      display={{ base: 'none', md: 'flex' }}
-      flexDirection={['column', 'column', 'column', 'row']}
+      display={{ base: 'none', lg: 'flex' }}
+      flexDirection="row"
       m={2}
       pt={2}
       pr={4}
@@ -211,9 +214,12 @@ const PlayerStats = () => (
       bg="rgba(0,0,0,0.25)"
       border="1px solid #2B2244"
       borderRadius={50}
+      minW="fit-content"
     >
       <Image src={SeedMarket} alt="Seed" height={14} width={14} />{' '}
-      <Text ml={[0, 0, 0, 2]}>N</Text>
+      <Text color="white" ml={[0, 0, 0, 2]}>
+        N
+      </Text>
     </Badge>
     <Avatar
       name="alt text"
@@ -250,14 +256,9 @@ export const MegaMenu: React.FC = () => {
           flexWrap="nowrap"
           alignItems="center"
           h="fit-content"
-          display={{ base: 'flex', md: 'none' }}
-          pt={2}
-          pl={4}
-          pb={2}
-          pr={4}
-          // border='2px'
-          // borderColor='purple.700'
-          // borderRadius={4}
+          w="20%"
+          display={{ base: 'flex', lg: 'none' }}
+          p={2}
           mt="auto"
           mb="auto"
         >
