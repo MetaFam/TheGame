@@ -22,6 +22,8 @@ services:
           name: hasura
           type: web
           property: host
+      - key: FRONTEND_URL
+        value: https://my.metagame.wtf
 
   # Backend staging
   - type: pserv
@@ -41,6 +43,8 @@ services:
           name: staging-hasura
           type: web
           property: host
+      - key: FRONTEND_URL
+        value: https://test.metagame.wtf
 
   # Hasura prod
   - type: web
