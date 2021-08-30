@@ -23,7 +23,7 @@ We're using the following stack:
 
 - [Jest](https://jestjs.io/)
 - [Prettier](https://prettier.io/)
-- [Lerna](https://github.com/lerna/lerna/tree/main/commands/add#readme)
+- [Lerna](https://lerna.js.org)
 - [TypeScript](https://www.typescriptlang.org/)
 - [Javascript](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 
@@ -66,11 +66,7 @@ Initial TS Compilation For Monorepo Packages
 yarn typecheck
 ```
 
-Adding a package to the codebase can be done with Lerna
-
-```shell script
-yarn lerna add <package> packages/<folder> [--dev] [--exact] [--peer]
-```
+Adding a package to the codebase can be done with [Lerna](https://github.com/lerna/lerna/tree/main/commands/add#readme)
 
 ### Run services
 
