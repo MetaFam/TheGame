@@ -194,6 +194,7 @@ export const PlayerFilter: React.FC<Props> = ({
         setAvailability={setAvailability}
         sortOption={sortOption}
         setSortOption={setSortOption}
+        isLoading={fetching || fetchingMore}
       />
       <MobileFilters
         aggregates={aggregates}
@@ -211,6 +212,7 @@ export const PlayerFilter: React.FC<Props> = ({
         resetAllFilters={resetAllFilters}
         sortOption={sortOption}
         setSortOption={setSortOption}
+        isLoading={fetching || fetchingMore}
       />
       {filtersUsed && (
         <Flex w="100%" maxW="79rem" justify="space-between">

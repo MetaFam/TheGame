@@ -4,9 +4,10 @@ export const useOnScreen = (ref: RefObject<HTMLDivElement>): boolean => {
   const [isIntersecting, setIntersecting] = useState(false);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(([entry]) =>
-      setIntersecting(entry.isIntersecting),
-    );
+    const observer = new IntersectionObserver(([entry]) => {
+      console.log(entry);
+      setIntersecting(entry.isIntersecting && entry.intersectionRatio < 1);
+    });
     if (ref.current) {
       observer.observe(ref.current);
     }
@@ -14,6 +15,7 @@ export const useOnScreen = (ref: RefObject<HTMLDivElement>): boolean => {
       observer.disconnect();
     };
   }, [ref]);
+  console.log({ isIntersecting });
 
   return isIntersecting;
 };

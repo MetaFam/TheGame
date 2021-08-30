@@ -332,6 +332,7 @@ export const MetaFilterSelectSearch: React.FC<
     isTimezone?: boolean;
     hasValue: boolean;
     tagLabel: string;
+    isDisabled: boolean;
   }
 > = ({
   options: defaultOptions,
@@ -339,6 +340,7 @@ export const MetaFilterSelectSearch: React.FC<
   isTimezone = false,
   tagLabel = '',
   hasValue = false,
+  isDisabled = false,
   ...props
 }) => {
   const [options, setOptions] = useState(defaultOptions);
@@ -385,6 +387,7 @@ export const MetaFilterSelectSearch: React.FC<
       onInputChange={isTimezone ? onTimezoneInputChange : undefined}
       tagLabel={tagLabel}
       hasValue={hasValue}
+      isDisabled={isDisabled}
       {...props}
     />
   );

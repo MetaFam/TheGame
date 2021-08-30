@@ -73,6 +73,7 @@ type Props = {
   setAvailability: React.Dispatch<React.SetStateAction<ValueType | null>>;
   sortOption: ValueType;
   setSortOption: React.Dispatch<React.SetStateAction<ValueType>>;
+  isLoading: boolean;
 } & WrapProps;
 
 export const DesktopFilters: React.FC<Props> = ({
@@ -87,6 +88,7 @@ export const DesktopFilters: React.FC<Props> = ({
   setAvailability,
   sortOption,
   setSortOption,
+  isLoading,
   ...props
 }) => {
   const filterRef = useRef<HTMLDivElement>(null);
@@ -119,9 +121,14 @@ export const DesktopFilters: React.FC<Props> = ({
           value={[sortOption]}
           onChange={(value) => {
             const values = value as ValueType[];
-            setSortOption(values[values.length - 1]);
+            if (values.length === 0) {
+              setSortOption(sortOption);
+            } else {
+              setSortOption(values[values.length - 1]);
+            }
           }}
           options={sortOptions}
+          isDisabled={isLoading}
         />
       </WrapItem>
       <WrapItem>
@@ -132,9 +139,11 @@ export const DesktopFilters: React.FC<Props> = ({
           value={playerTypes}
           hasValue={playerTypes.length > 0}
           onChange={(value) => {
+            if (isLoading) return;
             setPlayerTypes(value as ValueType[]);
           }}
           options={aggregates.playerTypes}
+          isDisabled={isLoading}
         />
       </WrapItem>
       <WrapItem>
@@ -145,10 +154,12 @@ export const DesktopFilters: React.FC<Props> = ({
           value={skills}
           hasValue={skills.length > 0}
           onChange={(value) => {
+            if (isLoading) return;
             setSkills(value as SkillOption[]);
           }}
           options={aggregates.skillChoices}
           showSearch
+          isDisabled={isLoading}
         />
       </WrapItem>
       <WrapItem>
@@ -159,6 +170,7 @@ export const DesktopFilters: React.FC<Props> = ({
           value={availability ? [availability] : []}
           hasValue={!!availability}
           onChange={(value) => {
+            if (isLoading) return;
             const values = value as ValueType[];
             setAvailability(values[values.length - 1]);
           }}
@@ -166,6 +178,7 @@ export const DesktopFilters: React.FC<Props> = ({
             value: value.toString(),
             label: `≥ ${value.toString()} h/week`,
           }))}
+          isDisabled={isLoading}
         />
       </WrapItem>
       <WrapItem>
@@ -176,12 +189,14 @@ export const DesktopFilters: React.FC<Props> = ({
           value={timezones}
           hasValue={timezones.length > 0}
           onChange={(value) => {
+            if (isLoading) return;
             const values = value as ValueType[];
             setTimezones(values.slice(-1));
           }}
           options={TimezoneOptions}
           showSearch
           isTimezone
+          isDisabled={isLoading}
         />
       </WrapItem>
     </Wrap>

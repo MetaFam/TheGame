@@ -54,6 +54,7 @@ type Props = {
   onClose: () => void;
   filtersUsed: boolean;
   resetAllFilters: () => void;
+  isLoading: boolean;
 };
 
 enum Selected {
@@ -81,6 +82,7 @@ export const MobileFilters: React.FC<Props> = ({
   onClose: closeDrawer,
   filtersUsed,
   resetAllFilters,
+  isLoading,
   ...props
 }) => {
   const [title, setTitle] = useState('Filter');
@@ -214,6 +216,7 @@ export const MobileFilters: React.FC<Props> = ({
             options={sortOptions}
             onBack={onBack}
             isMulti={false}
+            isDisabled={isLoading}
           />
         )}
         {selected === Selected.PLAYER_TYPE && (
@@ -224,6 +227,7 @@ export const MobileFilters: React.FC<Props> = ({
             }}
             options={aggregates.playerTypes}
             onBack={onBack}
+            isDisabled={isLoading}
           />
         )}
         {selected === Selected.SKILLS && (
@@ -235,12 +239,14 @@ export const MobileFilters: React.FC<Props> = ({
             options={aggregates.skillChoices as CategoryValueType[]}
             onBack={onBack}
             showSearch
+            isDisabled={isLoading}
           />
         )}
         {selected === Selected.AVAILABILITY && (
           <FilterContent
             value={availability ? [availability] : []}
             onChange={(value) => {
+              if (isLoading) return;
               const values = value as ValueType[];
               setAvailability(values[values.length - 1]);
             }}
@@ -250,12 +256,14 @@ export const MobileFilters: React.FC<Props> = ({
             }))}
             onBack={onBack}
             isMulti={false}
+            isDisabled={isLoading}
           />
         )}
         {selected === Selected.TIME_ZONE && (
           <FilterContent
             value={timezones}
             onChange={(value) => {
+              if (isLoading) return;
               const values = value as ValueType[];
               setTimezones(values.slice(-1));
             }}
@@ -264,6 +272,7 @@ export const MobileFilters: React.FC<Props> = ({
             isMulti={false}
             showSearch
             isTimezone
+            isDisabled={isLoading}
           />
         )}
       </DrawerContent>
@@ -331,6 +340,7 @@ type FilterContentProps = {
   isMulti?: boolean;
   showSearch?: boolean;
   isTimezone?: boolean;
+  isDisabled: boolean;
 };
 
 const scrollbarVisible = (element: HTMLDivElement): boolean =>
@@ -350,6 +360,7 @@ const FilterContent: React.FC<FilterContentProps> = ({
   isMulti = true,
   showSearch = false,
   isTimezone = false,
+  isDisabled,
 }) => {
   const isCategoryFilter = useMemo(
     () =>
@@ -552,7 +563,7 @@ const FilterContent: React.FC<FilterContentProps> = ({
               CANCEL SELECTION
             </Button>
           )}
-          <MetaButton onClick={onSave} w="15rem">
+          <MetaButton isDisabled={isDisabled} onClick={onSave} w="15rem">
             SAVE
           </MetaButton>
         </Flex>

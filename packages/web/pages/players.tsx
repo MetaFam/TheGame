@@ -55,10 +55,13 @@ const Players: React.FC<Props> = () => {
   const onScreen = useOnScreen(moreRef);
 
   useEffect(() => {
-    if (onScreen && !fetching && !fetchingMore && moreAvailable) {
+    if (onScreen) {
+      console.log('nextPage');
       nextPage();
     }
-  }, [nextPage, onScreen, fetching, fetchingMore, moreAvailable]);
+  }, [nextPage, onScreen]);
+
+  console.log({ fetching, fetchingMore });
 
   const isLoading = useMemo(() => fetching || fetchingMore || moreAvailable, [
     fetching,
