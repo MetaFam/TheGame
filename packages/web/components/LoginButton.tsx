@@ -1,5 +1,5 @@
-import { EthereumAuthProvider, ThreeIdConnect } from '@3id/connect';
-import ThreeIdResolver from '@ceramicnetwork/3id-did-resolver';
+// import { EthereumAuthProvider, ThreeIdConnect } from '@3id/connect';
+// import ThreeIdResolver from '@ceramicnetwork/3id-did-resolver';
 import Ceramic from '@ceramicnetwork/http-client';
 import {
   Avatar,
@@ -13,8 +13,8 @@ import {
   Text,
 } from '@metafam/ds';
 import { MetaLink } from 'components/Link';
-import { DID } from 'dids';
-import React, { useCallback, useEffect, useMemo } from 'react';
+// import { DID } from 'dids';
+import React, { useCallback, useMemo } from 'react';
 
 import { useUser, useWeb3 } from '../lib/hooks';
 import { getPlayerImage, getPlayerName } from '../utils/playerHelpers';
