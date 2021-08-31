@@ -1,8 +1,8 @@
+import Ceramic from '@ceramicnetwork/http-client';
+import { IDX } from '@ceramicstudio/idx';
 import { did } from '@metafam/utils';
 import WalletConnectProvider from '@walletconnect/web3-provider';
-import { IDX } from '@ceramicstudio/idx'
 import { providers } from 'ethers';
-import Ceramic from '@ceramicnetwork/http-client';
 import {
   clearToken,
   clearWalletConnect,
@@ -13,14 +13,13 @@ import React, {
   createContext,
   useCallback,
   useEffect,
+  useMemo,
   useRef,
   useState,
 } from 'react';
 import Web3Modal from 'web3modal';
 
 import { CONFIG } from '../config';
-import { useMemo } from 'react';
-import CeramicClient from '@ceramicnetwork/http-client';
 
 export type Web3ContextType = {
   provider: providers.Web3Provider | null;
