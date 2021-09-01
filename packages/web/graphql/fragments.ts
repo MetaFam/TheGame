@@ -40,7 +40,7 @@ export const PlayerFragment = gql`
       location
       name
     }
-    daohausMemberships {
+    daohausMemberships @skip(if: $forLoginDisplay) {
       id
       shares
       molochAddress

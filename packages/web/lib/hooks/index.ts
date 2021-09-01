@@ -20,6 +20,7 @@ export const useUser = ({ redirectTo, redirectIfFound }: UseUserOpts = {}): {
 
   const [{ data, error, fetching }] = useGetMeQuery({
     pause: !authToken,
+    variables: { forLoginDisplay: true },
   });
   const me = data?.me[0];
   const user = error || !authToken || !me ? null : me;
