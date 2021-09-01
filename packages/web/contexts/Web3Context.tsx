@@ -23,7 +23,7 @@ import { CONFIG } from '../config';
 
 export type Web3ContextType = {
   provider: providers.Web3Provider | null;
-  ceramic: CeramicClient | null;
+  ceramic: Ceramic | null;
   idx: IDX | null;
   connect: () => Promise<void>;
   disconnect: () => void;

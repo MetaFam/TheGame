@@ -19,9 +19,9 @@
   "license": "ISC",
   "dependencies": {
     "3box": "1.22.2",
-    "@ceramicnetwork/http-client": "1.0.7",
+    "@ceramicnetwork/http-client": "^1.2.0",
     "@ceramicstudio/idx": "0.12.1",
-    "@ceramicstudio/idx-constants": "1.0.0",
+    "@ceramicstudio/idx-constants": "^1.0.0",
     "@metafam/discord-bot": "0.1.0",
     "@metafam/utils": "1.0.0",
     "@types/bluebird": "3.5.34",
