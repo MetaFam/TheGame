@@ -92,7 +92,7 @@ To force update your address, type \`!setAddress ${ethAddress} force\`.
         'Successfully linked ETH Address and activated account',
       );
     } catch (e) {
-      await message.reply(`Unable to link address: ${e.message}`);
+      await message.reply(`Unable to link address: ${(e as Error).message}`);
     }
   }
 }

@@ -89,7 +89,7 @@ export const handleOAuthCallback = async (
         );
       } catch (creationError) {
         // if there was a guildname clash, try again with a uuid
-        if (creationError?.message.includes('Uniqueness violation')) {
+        if ((creationError as Error).message.includes('Uniqueness violation')) {
           discordGuild.name = uuidv4();
           createGuildResponse = await createNewGuild(
             discordGuild,
@@ -107,7 +107,10 @@ export const handleOAuthCallback = async (
     console.error(error);
     const errorResponse: DiscordGuildAuthResponse = {
       success: false,
-      error: error?.message || error || 'An unexpected error occurred',
+      error:
+        (error as Error).message ||
+        (error as string) ||
+        'An unexpected error occurred',
     };
     res.json(errorResponse);
   }

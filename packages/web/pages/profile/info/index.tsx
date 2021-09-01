@@ -14,37 +14,37 @@ import { useForm } from 'react-hook-form';
 
 import { useWeb3 } from '../../../lib/hooks';
 
-const InfoPage = () => {
+const InfoPage: React.FunctionComponent = () => {
   const [did, setDid] = useState<string>();
-  const image = useRef<any>();
+  const image = useRef<HTMLImageElement>(null);
   const {
     handleSubmit,
     register,
     formState: { errors, isSubmitting },
     setValue,
   } = useForm();
-  const { ceramic, idx, address, storageClient } = useWeb3();
-  console.log(did);
+  const { ceramic, idx, address } = useWeb3();
 
-  const handleFileUpload = useCallback(
-    (event: any) => {
-      console.log(event.target.files);
-      // const blobFile = new Blob(event.target.files);
+  const onFileChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      console.info(did); // eslint-disable-line no-console
+      const input = event.target as HTMLInputElement;
+      const file = input.files?.[0];
+      if (!file) return;
+      const img = image.current as HTMLImageElement;
       const reader = new FileReader();
       reader.addEventListener('load', () => {
-        console.log(reader.result);
-        if (image && image.current) {
-          image.current.onload = async () => {
-            console.log(image.current.width, image.current);
-            const cid = await storageClient?.put(event.target.files);
-            console.log({ cid });
+        console.log(reader.result); // eslint-disable-line no-console
+        if (img !== null) {
+          img.onload = async () => {
+            console.log(img.width, img.height); // eslint-disable-line no-console
           };
-          image.current.src = reader.result;
+          img.src = reader.result as string;
         }
       });
-      reader.readAsDataURL(event.target.files[0]);
+      reader.readAsDataURL(file);
     },
-    [storageClient],
+    [did],
   );
 
   useEffect(() => {
@@ -78,11 +78,11 @@ const InfoPage = () => {
     })();
   }, [ceramic, address, idx, setValue]);
 
-  function onSubmit(values: any) {
-    console.log(values);
+  function onSubmit(values: Record<string, unknown>) {
+    console.log(values); // eslint-disable-line no-console
     return new Promise((resolve) => {
       setTimeout(() => {
-        alert(JSON.stringify(values, null, 2));
+        console.info(JSON.stringify(values, null, 2)); // eslint-disable-line no-console
         resolve(values);
       }, 3000);
     });
@@ -112,7 +112,7 @@ const InfoPage = () => {
           </FormErrorMessage>
         </FormControl>
         <FormControl isInvalid={errors.image}>
-          <FormLabel htmlFor="image">First name</FormLabel>
+          <FormLabel htmlFor="image">Profile Image</FormLabel>
           <Input
             name="image"
             placeholder="image"
@@ -131,13 +131,13 @@ const InfoPage = () => {
           </FormErrorMessage>
         </FormControl>
         <FormControl isInvalid={errors.background}>
-          <FormLabel htmlFor="background">First name</FormLabel>
+          <FormLabel htmlFor="background">Header Background</FormLabel>
           <Input
             name="background"
             type="file"
             placeholder="background"
             ref={register}
-            onChange={handleFileUpload}
+            onChange={onFileChange}
             {...register('background', {
               required: 'This is required',
               minLength: { value: 4, message: 'Minimum length should be 4' },
