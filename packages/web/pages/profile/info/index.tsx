@@ -28,31 +28,7 @@ const InfoPage: React.FunctionComponent = () => {
     formState: { errors, isSubmitting },
     setValue,
   } = useForm();
-  const { ceramic, idx, address, storageClient } = useWeb3();
-  console.log(did);
-
-  const handleFileUpload = useCallback(
-    (event: any) => {
-      console.log(event.target.files);
-      // const blobFile = new Blob(event.target.files);
-      const reader = new FileReader();
-      reader.addEventListener('load', () => {
-        console.log(reader.result);
-        if (image && image.current) {
-          image.current.onload = async () => {
-            console.log(image.current.width, image.current);
-            const cid = await storageClient?.put(event.target.files);
-            console.log({ cid });
-          };
-          image.current.src = reader.result;
-        }
-      });
-      reader.readAsDataURL(event.target.files[0]);
-    },
-    [storageClient],
-  );
-
-  console.log({did})
+  const { ceramic, idx, address } = useWeb3();
 
   const onFileChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {

@@ -6,7 +6,7 @@
     "allowJs": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "lib": ["dom", "es2017", "es2019"],
+    "lib": ["dom", "es2017"],
     "baseUrl": ".",
     "noEmit": true
   },
