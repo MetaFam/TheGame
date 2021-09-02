@@ -95,6 +95,7 @@ export const getGuilds = async (
 const guildnamesQuery = gql`
   query GetGuildnames($status: GuildStatus_enum, $limit: Int) {
     guild(where: { status: { _eq: $status } }, limit: $limit) {
+      id
       guildname
     }
   }
@@ -126,6 +127,7 @@ const getGuildPlayersQuery = gql`
   query GetGuildPlayers($guildId: uuid!) {
     guild_player(where: { guild_id: { _eq: $guildId } }) {
       Player {
+        id
         username
         total_xp
         rank
