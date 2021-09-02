@@ -20,7 +20,7 @@ export const syncDiscordGuildMembers = async (
 
   if (guild?.discord_id == null) return;
 
-  console.log(`updating guild members for ${guild?.name} from Discord...`);
+  console.log(`Updating guild members for ${guild?.name} from Discord...`);
 
   try {
     const getMetadataResponse = await client.GetGuildMetadataById({

@@ -20,7 +20,7 @@ gql`
     }
   }
 
-  query GetPlayersByDiscordId($discordIds: [String!]) {
+  query GetPlayersByDiscordId($discordIds: [String!]!) {
     player(where: { discord_id: { _in: $discordIds } }) {
       id
     }
@@ -127,6 +127,7 @@ gql`
 
   query GetGuildMembers($id: uuid!) {
     guild(where: { id: { _eq: $id } }) {
+      id
       guild_players {
         Player {
           id
@@ -143,9 +144,11 @@ gql`
       }
     ) {
       Player {
+        id
         discord_id
       }
       Guild {
+        id
         discord_id
       }
     }

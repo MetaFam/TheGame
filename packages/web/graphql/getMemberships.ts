@@ -28,6 +28,7 @@ const guildMembershipsQuery = gql`
     guild_player(where: { player_id: { _eq: $playerId } }) {
       guild_id
       Guild {
+        id
         logo
         moloch_address
         name

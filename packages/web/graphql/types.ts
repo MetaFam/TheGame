@@ -47,9 +47,9 @@ export const SkillColors: Record<SkillCategory_Enum, string> = {
 };
 
 export type GuildPlayer = {
-  role: Maybe<PlayerRank_Enum> | undefined;
+  role?: Maybe<PlayerRank_Enum>;
   username: string;
   total_xp?: number;
-  rank?: Maybe<PlayerRank_Enum> | undefined;
-  profile_cache?: Maybe<Pick<Profile_Cache, 'imageURL' | 'name'>> | undefined;
+  rank?: Maybe<PlayerRank_Enum>;
+  profile_cache?: Maybe<Pick<Profile_Cache, 'imageURL' | 'name'>>;
 };
