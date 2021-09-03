@@ -14,7 +14,7 @@ export interface UpdateRole {
   newRole: string;
 }
 
-export const updateDiscordRole = async (payload: TriggerPayload<Player>) => {
+export const playerRankUpdated = async (payload: TriggerPayload<Player>) => {
   if (CONFIG.nodeEnv !== 'production') return;
 
   const { old: oldPlayer, new: newPlayer } = payload.event.data;

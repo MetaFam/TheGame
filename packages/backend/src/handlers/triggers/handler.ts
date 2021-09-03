@@ -3,13 +3,15 @@ import { ParamsDictionary } from 'express-serve-static-core';
 
 import { Guild, Player } from '../../lib/autogen/hasura-sdk';
 import { cacheIDXProfile } from './cacheIDXProfile';
+import { playerRankUpdated } from './playerRankUpdated';
+import { playerRoleChanged } from './playerRoleChanged';
 import { syncDiscordGuildMembers } from './syncDiscordGuildMembers';
 import { TriggerPayload } from './types';
-import { updateDiscordRole } from './updateDiscordRole';
 
 const TRIGGERS = {
   cacheIDXProfile,
-  player_rank_updated: updateDiscordRole,
+  playerRankUpdated,
+  playerRoleChanged,
   syncDiscordGuildMembers,
 };
 
