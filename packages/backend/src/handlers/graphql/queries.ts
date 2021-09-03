@@ -7,7 +7,7 @@ gql`
       id
       ethereum_address
       discord_id
-      Accounts {
+      accounts {
         identifier
         type
       }

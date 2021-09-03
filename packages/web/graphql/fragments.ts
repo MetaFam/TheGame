@@ -10,25 +10,25 @@ export const PlayerFragment = gql`
     ethereum_address
     availability_hours
     timezone
-    ColorAspect {
+    color_aspect {
       name
       description
       mask
     }
-    playerType {
+    type {
       description
       id
       imageUrl
       title
     }
-    Player_Skills {
+    skills {
       Skill {
         category
         id
         name
       }
     }
-    Accounts(where: { type: { _in: [TWITTER, GITHUB] } }) {
+    accounts(where: { type: { _in: [TWITTER, GITHUB] } }) {
       identifier
       type
     }

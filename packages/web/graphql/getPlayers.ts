@@ -35,8 +35,8 @@ gql`
       where: {
         availability_hours: { _gte: $availability }
         timezone: { _in: $timezones }
-        playerType: { id: { _in: $playerTypeIds } }
-        Player_Skills: { Skill: { id: { _in: $skillIds } } }
+        type: { id: { _in: $playerTypeIds } }
+        skills: { Skill: { id: { _in: $skillIds } } }
         _or: [
           { username: { _ilike: $search } }
           { ethereum_address: { _ilike: $search } }
@@ -49,8 +49,8 @@ gql`
       where: {
         availability_hours: { _gte: $availability }
         timezone: { _in: $timezones }
-        playerType: { id: { _in: $playerTypeIds } }
-        Player_Skills: { Skill: { id: { _in: $skillIds } } }
+        type: { id: { _in: $playerTypeIds } }
+        skills: { Skill: { id: { _in: $skillIds } } }
         _or: [
           { username: { _ilike: $search } }
           { ethereum_address: { _ilike: $search } }
