@@ -74,8 +74,23 @@ yarn typecheck
 yarn docker:start
 ```
 
+**For M1 Mac Users**
+
+Official docker images of Hasura don't work on M1 yet
+
+In `hasura/Dockerfile`
+Replace 
+```
+FROM hasura/graphql-engine:v1.3.3.cli-migrations-v2
+```
+with
+```
+FROM fedormelexin/graphql-engine-arm64:v1.3.3.cli-migrations-v2
+```
+
 - Runs docker containers for backend, Hasura Engine, and PostGres database
 - will auto-restart on any changes to `packages/backend` and `packages/utils`
+
 
 If you are running for the first time on an empty database, once the services
 are running you have two options to populate the database:
