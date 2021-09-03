@@ -65,6 +65,10 @@
   is_enum: true
 - table:
     schema: public
+    name: PlayerRole
+  is_enum: true
+- table:
+    schema: public
     name: QuestCompletionStatus
   is_enum: true
   array_relationships:
@@ -111,13 +115,6 @@
     using:
       foreign_key_constraint_on: type
   array_relationships:
-  - name: guild_accounts
-    using:
-      foreign_key_constraint_on:
-        column: guild_id
-        table:
-          schema: public
-          name: guild_account
   - name: guild_players
     using:
       foreign_key_constraint_on:
@@ -187,16 +184,6 @@
       interval_sec: 10
       timeout_sec: 60
     webhook_from_env: TRIGGERS_ENDPOINT
-- table:
-    schema: public
-    name: guild_account
-  object_relationships:
-  - name: AccountType
-    using:
-      foreign_key_constraint_on: type
-  - name: Guild
-    using:
-      foreign_key_constraint_on: guild_id
 - table:
     schema: public
     name: guild_metadata
@@ -471,6 +458,9 @@
       - identifier
       - type
       filter: {}
+- table:
+    schema: public
+    name: player_role
 - table:
     schema: public
     name: player_skill
