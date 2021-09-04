@@ -23,8 +23,9 @@ actionRoutes.use('/quests', questsRoutes);
 
 actionRoutes.use('/guild', guildRoutes);
 
+const cpUpload = upload.fields([{ name: 'image', maxCount: 1 }, { name: 'background', maxCount: 1 }])
 actionRoutes.post(
   '/storage',
-  upload.single('image'),
+  cpUpload,
   web3StorageUpload,
 );

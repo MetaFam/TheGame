@@ -1,5 +1,8 @@
 import Ceramic from '@ceramicnetwork/http-client';
 import { IDX } from '@ceramicstudio/idx';
+import { EthereumAuthProvider, ThreeIdConnect } from '@3id/connect';
+import ThreeIdResolver from '@ceramicnetwork/3id-did-resolver';
+import { DID } from 'dids';
 import { did } from '@metafam/utils';
 import WalletConnectProvider from '@walletconnect/web3-provider';
 import { providers } from 'ethers';
@@ -101,6 +104,19 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
   const [authToken, setAuthToken] = useState<string | null>(null);
   const calledOnce = useRef<boolean>(false);
   const ceramic = useMemo(() => new Ceramic(process.env.CERAMIC_URL), []);
+
+  useEffect(() => {
+    if (address) {
+        const threeIdConnect = new ThreeIdConnect();
+        const authProvider = new EthereumAuthProvider(window.ethereum, address);
+        threeIdConnect.connect(authProvider).then(() => {
+          ceramic.did = new DID({
+            provider: threeIdConnect.getDidProvider(),
+            resolver: ThreeIdResolver.getResolver(ceramic),
+          });
+        });
+    }
+  }, [address, ceramic])
   const idx = new IDX({ ceramic });
 
   const disconnect = useCallback(() => {

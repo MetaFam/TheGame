@@ -1,5 +1,3 @@
-// import { EthereumAuthProvider, ThreeIdConnect } from '@3id/connect';
-// import ThreeIdResolver from '@ceramicnetwork/3id-did-resolver';
 import Ceramic from '@ceramicnetwork/http-client';
 import {
   Avatar,
@@ -13,7 +11,7 @@ import {
   Text,
 } from '@metafam/ds';
 import { MetaLink } from 'components/Link';
-// import { DID } from 'dids';
+
 import React, { useCallback, useMemo } from 'react';
 
 import { useUser, useWeb3 } from '../lib/hooks';
@@ -27,24 +25,9 @@ export const LoginButton: React.FC = () => {
     connect();
   }, [connect]);
   const handleLogoutClick = useCallback(async () => {
-    await disconnect();
+    disconnect();
     await ceramic.close();
   }, [ceramic, disconnect]);
-
-  // useEffect(() => {
-  //   if (address) {
-  //     (async () => {
-  //       const threeIdConnect = new ThreeIdConnect();
-  //       const authProvider = new EthereumAuthProvider(window.ethereum, address);
-  //       await threeIdConnect.connect(authProvider);
-  //       ceramic.did = new DID({
-  //         provider: threeIdConnect.getDidProvider(),
-  //         resolver: ThreeIdResolver.getResolver(ceramic),
-  //       });
-  //       await ceramic.did.authenticate();
-  //     })();
-  //   }
-  // }, [address, ceramic]);
 
   if (fetching) {
     return <Spinner color="purple.500" size="sm" />;
