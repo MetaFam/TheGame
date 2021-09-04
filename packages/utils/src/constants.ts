@@ -6,6 +6,7 @@ export const DISCORD_BOT_CLIENT_ID = '804609082308034560';
 export const DISCORD_BOT_PERMISSIONS = '268435456';
 export const DISCORD_OAUTH_SCOPES = 'bot identify guilds';
 export const DISCORD_OAUTH_CALLBACK_PATH = `${WEB_PATH_JOIN_GUILD}/auth`;
+export const METAFAM_DISCORD_GUILD_ID = '629411177947987986';
 
 export const SC_OUTPUT_BASE =
   'https://raw.githubusercontent.com/MetaFam/XP/gh-pages/';

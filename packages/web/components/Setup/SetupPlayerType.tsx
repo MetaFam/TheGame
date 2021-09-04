@@ -33,7 +33,7 @@ export const SetupPlayerType: React.FC<SetupPlayerTypeProps> = ({
     if (!user) return;
 
     setLoading(true);
-    if (user.player?.playerType?.id !== playerType?.id) {
+    if (user.player?.type?.id !== playerType?.id) {
       const { error } = await updateAboutYou({
         playerId: user.id,
         input: {

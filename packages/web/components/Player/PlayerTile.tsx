@@ -77,10 +77,10 @@ export const PlayerTile: React.FC<Props> = ({
                 </Heading>
               </VStack>
               <Wrap w="100%" justify="center">
-                {player.playerType?.title ? (
+                {player.type?.title ? (
                   <WrapItem>
                     <MetaTag size="md">
-                      {player.playerType?.title.toUpperCase()}
+                      {player.type?.title.toUpperCase()}
                     </MetaTag>
                   </WrapItem>
                 ) : null}
@@ -130,18 +130,18 @@ export const PlayerTile: React.FC<Props> = ({
           </LinkOverlay>
         </NextLink>
         <MetaTileBody>
-          {player.Player_Skills.length ? (
+          {player.skills.length ? (
             <VStack spacing={2} align="stretch">
               <Text textStyle="caption">SKILLS</Text>
               <SkillsTags
-                skills={player.Player_Skills.map((s) => s.Skill) as Skill[]}
+                skills={player.skills.map((s) => s.Skill) as Skill[]}
               />
             </VStack>
           ) : null}
 
           <PlayerTileMemberships player={player} />
 
-          {player.Accounts.length ? (
+          {player.accounts.length ? (
             <VStack spacing={2} align="stretch">
               <Text textStyle="caption">CONTACT</Text>
               <HStack mt={2}>

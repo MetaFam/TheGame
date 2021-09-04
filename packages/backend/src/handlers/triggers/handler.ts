@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { ParamsDictionary } from 'express-serve-static-core';
 
-import { Guild, Player } from '../../lib/autogen/hasura-sdk';
+import { Guild, Player, Player_Role } from '../../lib/autogen/hasura-sdk';
 import { cacheIDXProfile } from './cacheIDXProfile';
 import { playerRankUpdated } from './playerRankUpdated';
 import { playerRoleChanged } from './playerRoleChanged';
@@ -15,7 +15,9 @@ const TRIGGERS = {
   syncDiscordGuildMembers,
 };
 
-type Payload = TriggerPayload<Player> & TriggerPayload<Guild>;
+type Payload = TriggerPayload<Player> &
+  TriggerPayload<Guild> &
+  TriggerPayload<Player_Role>;
 
 export const triggerHandler = async (
   req: Request<ParamsDictionary, never, Payload>,

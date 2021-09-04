@@ -27,14 +27,14 @@ const PersonalityTypeSetup: React.FC<Props> = (props) => {
   const { personalityTypes } = props;
   const { user } = useUser({ redirectTo: '/' });
   const [colorMask, setColorMask] = useState<number | undefined>(
-    user?.player?.ColorAspect?.mask,
+    user?.player?.color_aspect?.mask,
   );
 
   const load = () => {
     const { player } = user ?? {};
     if (player) {
-      if (colorMask === undefined && player.ColorAspect !== null) {
-        setColorMask(player.ColorAspect?.mask);
+      if (colorMask === undefined && player.color_aspect !== null) {
+        setColorMask(player.color_aspect?.mask);
       }
     }
   };
