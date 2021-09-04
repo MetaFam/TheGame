@@ -28,13 +28,9 @@ const SkillsSetup: React.FC<Props> = (props) => {
 
   if (user?.player) {
     const { player } = user;
-    if (
-      player.Player_Skills &&
-      player.Player_Skills.length > 0 &&
-      skills.length === 0
-    ) {
+    if (player.skills && player.skills.length > 0 && skills.length === 0) {
       setSkills(
-        player.Player_Skills.map((s) => ({
+        player.skills.map((s) => ({
           value: s.Skill.id,
           label: s.Skill.name,
           ...s.Skill,

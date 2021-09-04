@@ -42,6 +42,7 @@ export interface PartialRole {
 export interface GuildDiscordMetadata {
   inviteUrl?: string;
   rankRoleIds?: { [roleName: string]: Snowflake };
+  playerRoles?: { [roleName: string]: Snowflake };
   refreshToken?: string;
   allRoleIds?: Snowflake[];
   logoHash?: string;

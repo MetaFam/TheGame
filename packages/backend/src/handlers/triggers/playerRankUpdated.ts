@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 import { createDiscordClient } from '@metafam/discord-bot';
+import { Constants } from '@metafam/utils';
 
 import { CONFIG } from '../../config';
 import { Player, PlayerRank_Enum } from '../../lib/autogen/hasura-sdk';
@@ -36,20 +37,20 @@ export const playerRankUpdated = async (payload: TriggerPayload<Player>) => {
 
     if (newRank == null) return;
 
-    // hardcoded for now to metagame discord server
-    const guildDiscordId = '629411177947987986';
-
     // instantiate discord client. We'll need serverId, playerId, and roleIds
     const discordClient = await createDiscordClient();
 
-    const guild = await discordClient.guilds.fetch(guildDiscordId, true, true);
+    const guild = await discordClient.guilds.fetch(
+      Constants.METAFAM_DISCORD_GUILD_ID,
+      true,
+      true,
+    );
     if (guild == null) {
-      console.warn(`No discord server found matching ${guildDiscordId}!`);
       return;
     }
 
     const getGuildResponse = await client.GetGuildMetadataByDiscordId({
-      discordId: guildDiscordId,
+      discordId: Constants.METAFAM_DISCORD_GUILD_ID,
     });
     const rankDiscordRoleIds = getGuildResponse.guild_metadata[0]
       ?.discord_metadata?.rankRoleIds as RankRoleIds;

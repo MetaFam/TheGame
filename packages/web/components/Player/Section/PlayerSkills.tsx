@@ -7,13 +7,13 @@ import { ProfileSection } from '../../ProfileSection';
 
 type Props = { player: PlayerFragmentFragment; onRemoveClick: () => void };
 export const PlayerSkills: React.FC<Props> = ({ player, onRemoveClick }) => {
-  if (!player.Player_Skills?.length) {
+  if (!player.skills?.length) {
     return null;
   }
   return (
     <ProfileSection title="Skills" onRemoveClick={onRemoveClick}>
       <Wrap>
-        {(player.Player_Skills || []).map(({ Skill }) => (
+        {(player.skills || []).map(({ Skill }) => (
           <WrapItem key={Skill.id}>
             <MetaTag
               size="md"

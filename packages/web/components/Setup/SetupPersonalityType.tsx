@@ -39,7 +39,7 @@ export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
     if (!user) return;
 
     setLoading(true);
-    if (user.player?.ColorAspect?.mask !== colorMask) {
+    if (user.player?.color_aspect?.mask !== colorMask) {
       const { error } = await updateAboutYou({
         playerId: user.id,
         input: {

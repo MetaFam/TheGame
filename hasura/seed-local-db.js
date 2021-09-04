@@ -34,8 +34,8 @@ const topPlayersQuery = gql`
       where: {
         availability_hours: { _gte: 0 }
         timezone: { _in: null }
-        playerType: { id: { _in: null } }
-        Player_Skills: { Skill: { id: { _in: null } } }
+        type: { id: { _in: null } }
+        skills: { Skill: { id: { _in: null } } }
       }
     ) {
       id
@@ -43,13 +43,13 @@ const topPlayersQuery = gql`
       ethereum_address
       availability_hours
       timezone
-      ColorAspect {
+      color_aspect {
         mask
       }
-      playerType {
+      type {
         id
       }
-      Player_Skills {
+      skills {
         Skill {
           id
           category
@@ -168,13 +168,13 @@ const updatePlayerMutation = gql`
       ethereum_address
       availability_hours
       timezone
-      ColorAspect {
+      color_aspect {
         mask
       }
-      playerType {
+      type {
         id
       }
-      Player_Skills {
+      skills {
         Skill {
           id
         }
@@ -240,11 +240,11 @@ async function startSeeding() {
       playerId: id,
       availability: player.availability_hours,
       timezone: player.timezone,
-      playerTypeId: player.playerType.id,
-      colorMask: player.ColorAspect?.mask || null,
+      playerTypeId: player.type.id,
+      colorMask: player.color_aspect?.mask || null,
       username: player.username,
       skills:
-        player.Player_Skills.map((skill) => ({
+        player.skills.map((skill) => ({
           skill_id: getSkillId(skills, skill),
           player_id: id,
         })),

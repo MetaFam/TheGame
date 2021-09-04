@@ -27,8 +27,8 @@ const PlayerTypeSetup: React.FC<Props> = (props) => {
 
   if (user?.player) {
     const { player } = user;
-    if (player.playerType && !playerType) {
-      setPlayerType(player.playerType);
+    if (player.type && !playerType) {
+      setPlayerType(player.type);
     }
   }
 

@@ -22,7 +22,7 @@ export const PlayerHero: React.FC<Props> = ({ player }) => {
   const [types, setTypes] = React.useState<{
     [any: string]: PersonalityOption;
   }>();
-  const mask = player?.ColorAspect?.mask;
+  const mask = player?.color_aspect?.mask;
   const type = mask && types?.[mask];
 
   const loadTypes = async () => {
@@ -99,13 +99,13 @@ export const PlayerHero: React.FC<Props> = ({ player }) => {
             </Text>
           </Flex>
         )}
-        {player.playerType?.title && (
+        {player.type?.title && (
           <FlexContainer align="stretch" fontSize={{ base: 'sm', sm: 'md' }}>
             <Text color="white" fontWeight="bold" casing="uppercase">
-              {player.playerType.title}
+              {player.type.title}
             </Text>
             <Text color="blueLight" style={{ textIndent: 16 }}>
-              {player.playerType.description}
+              {player.type.description}
             </Text>
           </FlexContainer>
         )}

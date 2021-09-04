@@ -5,6 +5,7 @@ gql`
   query GetPlayer($playerId: uuid!) {
     player_by_pk(id: $playerId) {
       id
+      username
       ethereum_address
       discord_id
       accounts {
