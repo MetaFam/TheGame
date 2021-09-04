@@ -1,4 +1,4 @@
-FROM node:12 as base
+FROM node:14 as base
 WORKDIR /usr/src/app
 
 ARG GRAPHQL_HOST
