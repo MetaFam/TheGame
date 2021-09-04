@@ -1,41 +1,21 @@
 import { Request, Response } from 'express';
-import { Web3Storage } from 'web3.storage';
+import { Web3Storage, getFilesFromPath } from 'web3.storage';
 import { CONFIG } from '../../../config'
-import Busboy from 'busboy'
-
-const multipart = (request: Request) => {
-  const storage = new Web3Storage({ token: CONFIG.web3StorageToken })
-
-  return new Promise(async (resolve, reject) => {
-    const headers = request.headers;
-    console.info('BODY', request.body)
-    const busboy = new Busboy({ headers });
-    console.info('BBOY', busboy)
-    // you may need to add cleanup logic using 'busboy.on' events
-    busboy.on('error', (err: Error) => reject(err));
-    busboy.on('image', (_fieldName: unknown, fileStream: unknown, filename: string) => {
-      console.info('¡FILE!')
-      const params = [{
-        name: filename,
-        stream: () => fileStream,
-      }];
-      storage.put(params as any)
-      .then((cid) => {
-        console.info(cid)
-        resolve(cid)
-      })
-    })
-    request.pipe(busboy)
-  });
-}
 
 // eslint-disable-next-line import/no-default-export
-export default async (req: Request, _res: Response): Promise<void> => {
-  console.info('¡WEB3 STORAGE!')
+export default async (req: Request | any, res: Response): Promise<void> => {
+  const storage = new Web3Storage({ token: CONFIG.web3StorageToken })
+  console.info('¡WEB3 STORAGE!:', CONFIG.web3StorageToken, process.env.WEB3_STORAGE_TOKEN)
 
-  const cid = await multipart(req)
+  const files = (await getFilesFromPath(req.file.path)) as any
 
-  console.info('CID', cid)
+  const onRootCidReady = (cid: string) => {
+    console.log('uploading files with cid:', cid)
+  }
+  const cid = await storage.put(files, { onRootCidReady })
+
+  console.info('FILE', Object.keys(req.file))
+  console.info('CID', `${cid}/${req.file.filename}`)
 
   // const expiration = new Date();
   // expiration.setDate(expiration.getDate() - INVALIDATE_AFTER_DAYS);
@@ -60,5 +40,5 @@ export default async (req: Request, _res: Response): Promise<void> => {
   //     }
   //   }),
   // );
-  // res.json({ ids: idsToProcess });
+  res.json({ image: `${cid}/${req.file.filename}` });
 };
