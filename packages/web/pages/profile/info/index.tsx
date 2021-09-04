@@ -30,6 +30,8 @@ const InfoPage: React.FunctionComponent = () => {
   } = useForm();
   const { ceramic, idx, address } = useWeb3();
 
+  console.log({did})
+
   const onFileChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       const input = event.target as HTMLInputElement;
@@ -280,6 +282,75 @@ const InfoPage: React.FunctionComponent = () => {
           />
           <FormErrorMessage>
             {errors.description && errors.description.message}
+          </FormErrorMessage>
+        </FormControl>
+        <FormControl isInvalid={errors.emoji}>
+          <FormLabel htmlFor="description">Emoji</FormLabel>
+          <Input
+            name="emoji"
+            placeholder="emoji"
+            ref={register}
+            {...register('emoji', {
+              maxLength: 2
+            })}
+          />
+          <FormErrorMessage>
+            {errors.emoji && errors.emoji.message}
+          </FormErrorMessage>
+        </FormControl>
+        <FormControl isInvalid={errors.birthDate}>
+          <FormLabel htmlFor="description">Birthdate</FormLabel>
+          <Input
+            name="birthDate"
+            type="date"
+            placeholder="birthDate"
+            ref={register}
+            {...register('birthDate')}
+          />
+          <FormErrorMessage>
+            {errors.birthDate && errors.birthDate.message}
+          </FormErrorMessage>
+        </FormControl>
+        <FormControl isInvalid={errors.url}>
+          <FormLabel htmlFor="description">Website</FormLabel>
+          <Input
+            name="url"
+            placeholder="url"
+            ref={register}
+            {...register('url', {
+              maxLength: 240
+            })}
+          />
+          <FormErrorMessage>
+            {errors.url && errors.url.message}
+          </FormErrorMessage>
+        </FormControl>
+        <FormControl isInvalid={errors.homeLocation}>
+          <FormLabel htmlFor="description">Location</FormLabel>
+          <Input
+            name="homeLocation"
+            placeholder="homeLocation"
+            ref={register}
+            {...register('homeLocation', {
+              maxLength: 140
+            })}
+          />
+          <FormErrorMessage>
+            {errors.homeLocation && errors.homeLocation.message}
+          </FormErrorMessage>
+        </FormControl>
+        <FormControl isInvalid={errors.residenceCountry}>
+          <FormLabel htmlFor="description">Country Code</FormLabel>
+          <Input
+            name="residenceCountry"
+            placeholder="residenceCountry"
+            ref={register}
+            {...register('residenceCountry', {
+              maxLength: 2
+            })}
+          />
+          <FormErrorMessage>
+            {errors.residenceCountry && errors.residenceCountry.message}
           </FormErrorMessage>
         </FormControl>
         <Button
