@@ -13,18 +13,69 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
+  MetaButton,
   SimpleGrid,
+  Spinner,
   Stack,
   Text,
   useDisclosure,
 } from '@metafam/ds';
+import Alliances from 'assets/menuIcon/alliances.png';
+import Asketh from 'assets/menuIcon/asketh.png';
+import Contribute from 'assets/menuIcon/contribute.png';
+import Discord from 'assets/menuIcon/discord.png';
+import Forum from 'assets/menuIcon/forum.png';
+import Grants from 'assets/menuIcon/grants.png';
+import Guilds from 'assets/menuIcon/guilds.png';
+import Invest from 'assets/menuIcon/invest.png';
+import Learn from 'assets/menuIcon/learn.png';
+import Metagamewiki from 'assets/menuIcon/metagamewiki.png';
+import Patrons from 'assets/menuIcon/patrons.png';
+import Playbooks from 'assets/menuIcon/playbooks.png';
+import Players from 'assets/menuIcon/players.png';
+import Quests from 'assets/menuIcon/quests.png';
+import Raids from 'assets/menuIcon/raids.png';
+import Roles from 'assets/menuIcon/roles.png';
+import Seedearned from 'assets/menuIcon/seedearned.png';
+import Seeds from 'assets/menuIcon/seeds.png';
+import Thegreathouses from 'assets/menuIcon/thegreathouses.png';
+import Welcometometagame from 'assets/menuIcon/welcometometagame.png';
+import Xpearned from 'assets/menuIcon/xpearned.png';
+import { PlayerFragmentFragment } from 'graphql/autogen/types';
+import { usePSeedBalance } from 'lib/hooks/balances';
 import Image from 'next/image';
-import React from 'react';
+import React, { useCallback } from 'react';
+import { getPlayerImage } from 'utils/playerHelpers';
 
 import SearchIcon from '../assets/search-icon.svg';
 import SeedMarket from '../assets/seed-icon.svg';
 import XPStar from '../assets/xp-star.svg';
+import { useUser, useWeb3 } from '../lib/hooks';
 import { MenuSectionLinks } from '../utils/menuLinks';
+
+const menuIcons: { [key: string]: string } = {
+  alliances: Alliances,
+  asketh: Asketh,
+  contribute: Contribute,
+  discord: Discord,
+  forum: Forum,
+  grants: Grants,
+  guilds: Guilds,
+  invest: Invest,
+  learn: Learn,
+  metagamewiki: Metagamewiki,
+  patrons: Patrons,
+  playbooks: Playbooks,
+  players: Players,
+  quests: Quests,
+  raids: Raids,
+  roles: Roles,
+  seedearned: Seedearned,
+  seeds: Seeds,
+  thegreathouses: Thegreathouses,
+  welcometometagame: Welcometometagame,
+  xpearned: Xpearned,
+};
 
 // Navbar logo
 const Logo = () => (
@@ -45,29 +96,46 @@ type MenuItemProps = {
   title: string;
   url: string;
   explainerText: string;
+  icon: string;
 };
-
 // Menu links (with icons and explanatory text) -- used in DesktopNavLinks below
-const DesktopMenuItem = ({ title, url, explainerText }: MenuItemProps) => (
-  <MenuItem color="#000" p={7} key={title} fontFamily="exo">
+const DesktopMenuItem = ({
+  title,
+  url,
+  explainerText,
+  icon,
+}: MenuItemProps) => (
+  <MenuItem
+    color="#ffffff"
+    key={title}
+    fontFamily="exo"
+    p="0"
+    mb="50px"
+    pr="50px"
+    _active={{ bg: 'none' }}
+    _focus={{ bg: 'none' }}
+  >
     <Link
       display="flex"
-      alignItems="top"
       href={url}
       _hover={{ bg: 'none', textDecoration: 'none' }}
+      _focus={{ outline: 'none' }}
     >
       <Avatar
-        name="alt text"
-        src="https://bit.ly/tioluwani-kolawole"
-        mr={5}
-        width={24}
-        height={24}
+        alt="alt text"
+        src={menuIcons[icon]}
+        width="64px"
+        height="64px"
+        style={{ padding: '10px', marginRight: '20px' }}
+        bg="linear-gradient(180deg, #170B23 0%, #350C58 100%)"
       />
       <Box>
-        <Text fontSize="xl" fontWeight="700">
+        <Text color="#000" fontSize="xl" fontWeight="700">
           {title}
         </Text>
-        <Text font="IBM Plex Sans">{explainerText}</Text>
+        <Text color="#000" fontSize="13px" font="IBM Plex Sans">
+          {explainerText}
+        </Text>
       </Box>
     </Link>
   </MenuItem>
@@ -111,14 +179,15 @@ const DesktopNavLinks = () => (
                 <MenuList
                   display="grid"
                   gridTemplateColumns="repeat(2, 1fr)"
-                  width="72vw"
-                  p={7}
+                  width="948px"
+                  p="56px 6px 6px 56px"
                 >
                   {section.menuItems.map((item: any) => (
                     <DesktopMenuItem
                       title={item.title}
                       url={item.url}
                       explainerText={item.explainerText}
+                      icon={item.icon}
                     />
                   ))}
                 </MenuList>
@@ -126,14 +195,15 @@ const DesktopNavLinks = () => (
                 <MenuList
                   display="grid"
                   gridTemplateColumns="repeat(1, 1fr)"
-                  width="36vw"
-                  p={7}
+                  width="474px"
+                  p="56px 6px 6px 56px"
                 >
                   {section.menuItems.map((item: any) => (
                     <DesktopMenuItem
                       title={item.title}
                       url={item.url}
                       explainerText={item.explainerText}
+                      icon={item.icon}
                     />
                   ))}
                 </MenuList>
@@ -171,8 +241,12 @@ const Search = () => (
   </Flex>
 );
 
-// Display player XP and Seed -- not working yet
-const PlayerStats = () => (
+type PlayerStatsProps = {
+  player: PlayerFragmentFragment;
+  pSeedBalance: string | null;
+};
+// Display player XP and Seed
+const PlayerStats: React.FC<PlayerStatsProps> = ({ player, pSeedBalance }) => (
   <Flex
     align="center"
     display={{ base: 'none', lg: 'flex' }}
@@ -200,7 +274,7 @@ const PlayerStats = () => (
     >
       <Image src={XPStar} alt="XP" height={14} width={14} />{' '}
       <Text color="white" ml={[0, 0, 0, 2]}>
-        N
+        {player.total_xp}
       </Text>
     </Badge>
     <Badge
@@ -218,25 +292,31 @@ const PlayerStats = () => (
     >
       <Image src={SeedMarket} alt="Seed" height={14} width={14} />{' '}
       <Text color="white" ml={[0, 0, 0, 2]}>
-        N
+        {pSeedBalance || 0}
       </Text>
     </Badge>
-    <Avatar
-      name="alt text"
-      src="https://bit.ly/tioluwani-kolawole"
-      width="52px"
-      height="52px"
-    />
+    <Link href="profile/setup/username">
+      <Avatar
+        name="alt text"
+        src={getPlayerImage(player)}
+        width="52px"
+        height="52px"
+      />
+    </Link>
   </Flex>
 );
 
 export const MegaMenu: React.FC = () => {
-  // const { user } = useUser();
-  // const playerXp = user?.player?.total_xp || 0;
+  const { isConnected, connectWeb3 } = useWeb3();
+
+  const handleLoginClick = useCallback(async () => {
+    await connectWeb3();
+  }, [connectWeb3]);
+  const { user, fetching } = useUser();
+  const { pSeedBalance } = usePSeedBalance();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const menuToggle = () => (isOpen ? onClose() : onOpen());
-
   return (
     <Stack position="sticky" top={0} zIndex={10} fontFamily="exo">
       <Flex
@@ -270,8 +350,28 @@ export const MegaMenu: React.FC = () => {
         </Flex>
         <Logo />
         <DesktopNavLinks />
-        <Search />
-        <PlayerStats />
+        {/* <Search /> */}
+        {fetching ? (
+          <Spinner mt="18px" mr="24px" ml="162px" mb="26px" />
+        ) : (
+          <>
+            {isConnected && !!user?.player ? (
+              <PlayerStats player={user.player} pSeedBalance={pSeedBalance} />
+            ) : (
+              <MetaButton
+                display={{ base: 'none', lg: 'block' }}
+                w="200px"
+                h="auto"
+                my="6px"
+                px="0"
+                ml="32px"
+                onClick={handleLoginClick}
+              >
+                Connect wallet
+              </MetaButton>
+            )}
+          </>
+        )}
       </Flex>
       <Stack
         display={{ base: isOpen ? 'block' : 'none', xl: 'none' }}
@@ -283,22 +383,13 @@ export const MegaMenu: React.FC = () => {
         h="89vh"
         bg="rgba(0,0,0,0.7)"
         sx={{ backdropFilter: 'blur(10px)' }}
-        pt={4}
-        pl={4}
-        pb={16}
-        pr={4}
+        p="0px 16px 16px"
         border="none"
       >
         {MenuSectionLinks.map((section) => (
           <>
-            <Stack mb={4}>
-              <Text
-                fontSize="xl"
-                fontWeight="600"
-                textTransform="capitalize"
-                mt={4}
-                mb={2}
-              >
+            <Stack pt="16px">
+              <Text fontSize="16px" fontWeight="600" textTransform="capitalize">
                 {section.label}
               </Text>
               <SimpleGrid columns={2}>
@@ -306,19 +397,22 @@ export const MegaMenu: React.FC = () => {
                   <Link
                     display="flex"
                     alignItems="center"
+                    fontSize="12px"
                     href={item.url}
-                    p={4}
                     border="1px"
                     _odd={{ marginRight: '-1px' }}
                     marginBottom="-1px"
                     borderColor="purple.400"
+                    p="12px 16px"
                   >
                     <Avatar
                       name="alt text"
-                      src="https://bit.ly/tioluwani-kolawole"
-                      width={8}
-                      height={8}
-                      mr={4}
+                      src={menuIcons[item.icon]}
+                      p="5px"
+                      width="24px"
+                      height="24px"
+                      mr="8px"
+                      bg="linear-gradient(180deg, #170B23 0%, #350C58 100%)"
                     />
                     {item.title}
                   </Link>

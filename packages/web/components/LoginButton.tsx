@@ -110,8 +110,14 @@ export const LoginButton: React.FC = () => {
     );
   }
   return (
-    <MetaButton size="md" px={8} onClick={handleLoginClick}>
-      Connect
+    <MetaButton
+      style={{ width: '100%', margin: '14px 16px' }}
+      maxWidth={{ sm: '480px' }}
+      size="md"
+      px={8}
+      onClick={handleLoginClick}
+    >
+      Connect wallet
     </MetaButton>
   );
 };

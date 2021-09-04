@@ -1,11 +1,7 @@
 /* eslint-disable react/no-danger */
 import { ChakraProvider, CSSReset, MetaTheme } from '@metafam/ds';
-// MegaMenu added for testing
 import { MegaMenu } from 'components/MegaMenu';
 import { PlayerStatsBar } from 'components/PlayerStatsBar';
-// MobileFooter and PageHeader commented out for MegaMenu testing
-// import { MobileFooter } from 'components/MobileFooter';
-// import { PageHeader } from 'components/PageHeader';
 import { CONFIG } from 'config';
 import { Web3ContextProvider } from 'contexts/Web3Context';
 import Head from 'next/head';
@@ -62,8 +58,6 @@ const App: React.FC<WithUrqlProps> = ({
       <>
         <MegaMenu />
         <PlayerStatsBar />
-        {/* {!pageProps.hideAppDrawer && <PageHeader />} */}
-        {/* {!pageProps.hideAppDrawer && <MobileFooter />} */}
         <Component {...pageProps} />
       </>
     </Web3ContextProvider>
