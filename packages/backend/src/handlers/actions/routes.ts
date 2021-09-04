@@ -6,6 +6,9 @@ import { cacheRoutes } from './idxCache/routes';
 import { migrateSourceCredAccounts } from './migrateSourceCredAccounts/handler';
 import { questsRoutes } from './quests/routes';
 import web3StorageUpload from './storage/handler';
+import multer from 'multer';
+
+const upload = multer({ dest: 'uploads/profile/' });
 
 export const actionRoutes = express.Router();
 
@@ -22,5 +25,6 @@ actionRoutes.use('/guild', guildRoutes);
 
 actionRoutes.post(
   '/storage',
-  asyncHandlerWrapper(web3StorageUpload),
+  upload.single('image'),
+  web3StorageUpload,
 );

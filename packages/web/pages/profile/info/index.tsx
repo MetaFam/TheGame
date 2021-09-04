@@ -97,14 +97,16 @@ const InfoPage: React.FunctionComponent = () => {
         `${CONFIG.actionsURL}/actions/storage`,
         {
           method: 'POST',
-          mode: 'no-cors',
           body: formData,
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
           credentials: 'include',
         }
       )
+
+      console.info('RES', result)
+
+      const cids = await result.json()
+
+      console.info('CIDS', cids)
     }
     // const response = await fetch(url, {
     //   method: 'POST',
