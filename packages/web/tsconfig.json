@@ -5,7 +5,6 @@
     "module": "esnext",
     "allowJs": true,
     "isolatedModules": true,
-    "tsBuildInfoFile": "out/.tsbuildinfo",
     "jsx": "preserve",
     "lib": ["dom", "es2017"],
     "baseUrl": ".",

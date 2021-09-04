@@ -5,6 +5,7 @@ import { guildRoutes } from './guild/routes';
 import { cacheRoutes } from './idxCache/routes';
 import { migrateSourceCredAccounts } from './migrateSourceCredAccounts/handler';
 import { questsRoutes } from './quests/routes';
+import web3StorageUpload from './storage/handler';
 
 export const actionRoutes = express.Router();
 
@@ -18,3 +19,8 @@ actionRoutes.post(
 actionRoutes.use('/quests', questsRoutes);
 
 actionRoutes.use('/guild', guildRoutes);
+
+actionRoutes.post(
+  '/storage',
+  asyncHandlerWrapper(web3StorageUpload),
+);

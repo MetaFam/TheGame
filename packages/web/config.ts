@@ -28,4 +28,7 @@ export const CONFIG = {
     process.env.NEXT_CERAMIC_URL ||
     'https://ceramic-clay.3boxlabs.com' || // testnet
     'https://d12-a-ceramic.3boxlabs.com',
+  actionsURL:
+    process.env.NEXT_ACTIONS_URL ||
+    'http://localhost:4000'
 };

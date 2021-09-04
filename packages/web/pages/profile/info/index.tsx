@@ -7,10 +7,12 @@ import {
   Image,
   Input,
   Stack,
+  Textarea,
 } from '@metafam/ds';
 import { PageContainer } from 'components/Container';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { CONFIG } from '../../../config'
 
 import { useWeb3 } from '../../../lib/hooks';
 
@@ -78,29 +80,52 @@ const InfoPage: React.FunctionComponent = () => {
     })();
   }, [ceramic, address, idx, setValue]);
 
-  function onSubmit(values: Record<string, unknown>) {
+  const onSubmit = async (values: Record<string, unknown>) => {
     console.log(values); // eslint-disable-line no-console
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        console.info(JSON.stringify(values, null, 2)); // eslint-disable-line no-console
-        resolve(values);
-      }, 3000);
-    });
+    const formData  = new FormData();
+    const [image] = values.image as File[]
+    const [background] = values.background as File[]
+    if(image || background) {
+      if(image) {
+        formData.append('image', image);
+      }
+      if(background) {
+        formData.append('background', background);
+      }
+      console.info('FORM', formData)
+      const result = await fetch(
+        `${CONFIG.actionsURL}/actions/storage`,
+        {
+          method: 'POST',
+          mode: 'no-cors',
+          body: formData,
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+          credentials: 'include',
+        }
+      )
+    }
+    // const response = await fetch(url, {
+    //   method: 'POST',
+    //   body: formData
+    // });
+  
+    // const result = await fetch(
+    //   ''
+    // )
   }
   return (
     <PageContainer>
-      Hello Meta Profile
       <Image ref={image} visibility="hidden" />
       <Stack as="form" onSubmit={handleSubmit(onSubmit)}>
         <FormControl isInvalid={errors.name}>
-          <FormLabel htmlFor="name">First name</FormLabel>
+          <FormLabel htmlFor="name">Name</FormLabel>
           <Input
             name="name"
             placeholder="name"
             ref={register}
             {...register('name', {
-              required: 'This is required',
-              minLength: { value: 2, message: 'Minimum length should be 2' },
               maxLength: {
                 value: 150,
                 message: 'Maximum length should be 150',
@@ -115,16 +140,10 @@ const InfoPage: React.FunctionComponent = () => {
           <FormLabel htmlFor="image">Profile Image</FormLabel>
           <Input
             name="image"
+            type="file"
             placeholder="image"
             ref={register}
-            {...register('image', {
-              required: 'This is required',
-              minLength: { value: 4, message: 'Minimum length should be 4' },
-              maxLength: {
-                value: 150,
-                message: 'Maximum length should be 150',
-              },
-            })}
+            {...register('image')}
           />
           <FormErrorMessage>
             {errors.image && errors.image.message}
@@ -137,18 +156,22 @@ const InfoPage: React.FunctionComponent = () => {
             type="file"
             placeholder="background"
             ref={register}
-            onChange={onFileChange}
-            {...register('background', {
-              required: 'This is required',
-              minLength: { value: 4, message: 'Minimum length should be 4' },
-              maxLength: {
-                value: 150,
-                message: 'Maximum length should be 150',
-              },
-            })}
+            {...register('background')}
           />
           <FormErrorMessage>
             {errors.background && errors.background.message}
+          </FormErrorMessage>
+        </FormControl>
+        <FormControl isInvalid={errors.description}>
+          <FormLabel htmlFor="description">Description</FormLabel>
+          <Textarea
+            name="description"
+            placeholder="description"
+            ref={register}
+            {...register('description')}
+          />
+          <FormErrorMessage>
+            {errors.description && errors.description.message}
           </FormErrorMessage>
         </FormControl>
         <Button
