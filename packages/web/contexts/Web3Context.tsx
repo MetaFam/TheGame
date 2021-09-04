@@ -1,8 +1,3 @@
-import Ceramic from '@ceramicnetwork/http-client';
-import { IDX } from '@ceramicstudio/idx';
-import { EthereumAuthProvider, ThreeIdConnect } from '@3id/connect';
-import ThreeIdResolver from '@ceramicnetwork/3id-did-resolver';
-import { DID } from 'dids';
 import { did } from '@metafam/utils';
 import WalletConnectProvider from '@walletconnect/web3-provider';
 import { providers } from 'ethers';
@@ -16,7 +11,6 @@ import React, {
   createContext,
   useCallback,
   useEffect,
-  useMemo,
   useRef,
   useState,
 } from 'react';
@@ -26,24 +20,20 @@ import { CONFIG } from '../config';
 
 export type Web3ContextType = {
   provider: providers.Web3Provider | null;
-  ceramic: Ceramic | null;
-  idx: IDX | null;
-  connect: () => Promise<void>;
+  connectWeb3: () => Promise<void>;
   disconnect: () => void;
-  connecting: boolean;
-  connected: boolean;
+  isConnecting: boolean;
+  isConnected: boolean;
   address: string | null;
   authToken: string | null;
 };
 
 export const Web3Context = createContext<Web3ContextType>({
   provider: null,
-  ceramic: null,
-  idx: null,
-  connect: async () => {},
+  connectWeb3: async () => {},
   disconnect: () => undefined,
-  connecting: false,
-  connected: false,
+  isConnecting: false,
+  isConnected: false,
   address: null,
   authToken: null,
 });
@@ -65,7 +55,7 @@ const web3Modal =
     providerOptions,
   });
 
-export async function getExistingAuth(
+async function getExistingAuth(
   ethersProvider: providers.Web3Provider,
 ): Promise<string | null> {
   const token = getTokenFromStore();
@@ -80,7 +70,7 @@ export async function getExistingAuth(
   }
 }
 
-export async function authenticateWallet(
+async function authenticateWallet(
   ethersProvider: providers.Web3Provider,
 ): Promise<string> {
   const token = await did.createToken(ethersProvider);
@@ -98,26 +88,11 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
   resetUrqlClient,
 }) => {
   const [provider, setProvider] = useState<providers.Web3Provider | null>(null);
-  const [connected, setConnected] = useState<boolean>(false);
-  const [connecting, setConnecting] = useState<boolean>(false);
+  const [isConnected, setIsConnected] = useState<boolean>(false);
+  const [isConnecting, setIsConnecting] = useState<boolean>(false);
   const [address, setAddress] = useState<string | null>(null);
   const [authToken, setAuthToken] = useState<string | null>(null);
   const calledOnce = useRef<boolean>(false);
-  const ceramic = useMemo(() => new Ceramic(process.env.CERAMIC_URL), []);
-
-  useEffect(() => {
-    if (address) {
-        const threeIdConnect = new ThreeIdConnect();
-        const authProvider = new EthereumAuthProvider(window.ethereum, address);
-        threeIdConnect.connect(authProvider).then(() => {
-          ceramic.did = new DID({
-            provider: threeIdConnect.getDidProvider(),
-            resolver: ThreeIdResolver.getResolver(ceramic),
-          });
-        });
-    }
-  }, [address, ceramic])
-  const idx = new IDX({ ceramic });
 
   const disconnect = useCallback(() => {
     if (web3Modal === false) return;
@@ -128,36 +103,35 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
     setAuthToken(null);
     setAddress(null);
     setProvider(null);
-    setConnecting(false);
-    setConnected(false);
+    setIsConnecting(false);
+    setIsConnected(false);
     if (resetUrqlClient) resetUrqlClient();
   }, [resetUrqlClient]);
 
-  const connect = useCallback(async () => {
+  const connectWeb3 = useCallback(async () => {
     if (web3Modal === false) return;
-
-    setConnecting(true);
+    setIsConnecting(true);
 
     try {
-      const modal = await web3Modal.connect();
-      const web3Provider = new providers.Web3Provider(modal);
-      const addr = await web3Provider.getSigner().getAddress();
+      const web3Provider = await web3Modal.connect();
+      const ethersProvider = new providers.Web3Provider(web3Provider);
 
-      let token: string | null = await getExistingAuth(web3Provider);
+      const ethAddress = await ethersProvider.getSigner().getAddress();
 
+      let token: string | null = await getExistingAuth(ethersProvider);
       if (!token) {
-        token = await authenticateWallet(web3Provider);
+        token = await authenticateWallet(ethersProvider);
       }
 
-      setAddress(addr);
-      setProvider(web3Provider);
+      setAddress(ethAddress);
+      setProvider(ethersProvider);
       setAuthToken(token);
-      setConnecting(false);
-      setConnected(true);
+      setIsConnecting(false);
+      setIsConnected(true);
       if (resetUrqlClient) resetUrqlClient();
     } catch (error) {
       console.log(error); // eslint-disable-line no-console
-      setConnecting(false);
+      setIsConnecting(false);
       disconnect();
     }
   }, [resetUrqlClient, disconnect]);
@@ -168,20 +142,18 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
 
     if (web3Modal === false) return;
     if (web3Modal.cachedProvider) {
-      connect().catch(() => undefined);
+      connectWeb3().catch(() => undefined);
     }
-  }, [connect]);
+  }, [connectWeb3]);
 
   return (
     <Web3Context.Provider
       value={{
         provider,
-        ceramic,
-        idx,
-        connect,
+        connectWeb3,
         disconnect,
-        connected,
-        connecting,
+        isConnected,
+        isConnecting,
         address,
         authToken,
       }}

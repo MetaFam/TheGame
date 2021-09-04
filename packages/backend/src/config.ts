@@ -1,7 +1,3 @@
-import dotenv from 'dotenv';
-
-dotenv.config()
-
 interface IConfig {
   port: number;
   nodeEnv: string;
@@ -19,7 +15,6 @@ interface IConfig {
   brightIdAppURL: string;
   sourceCredLedgerBranch: string;
   ceramicDaemonURL: string;
-  web3StorageToken: string;
 }
 
 function parseEnv<T extends string | number>(
@@ -88,8 +83,5 @@ export const CONFIG: IConfig = {
   ceramicDaemonURL: parseEnv(
     process.env.CERAMIC_DAEMON_URL,
     'https://d12-a-ceramic.3boxlabs.com', // 'http://localhost:7007',
-  ),
-  web3StorageToken: parseEnv(
-    process.env.WEB3_STORAGE_TOKEN, '',
   ),
 };

@@ -1,12 +1,10 @@
-// import bodyParser from 'body-parser';
+import bodyParser from 'body-parser';
 import Bottleneck from 'bottleneck';
 import express from 'express';
-import cors from 'cors';
 
 import { CONFIG } from './config';
 import { router } from './handlers/routes';
-import bodyParser from 'body-parser';
-// import { errorMiddleware } from './lib/apiHelpers';
+import { errorMiddleware } from './lib/apiHelpers';
 
 const app = express();
 
@@ -18,13 +16,9 @@ app.locals.queuedRecacheFor = {};
 
 app.use(bodyParser.json());
 
-app.use(cors({ credentials: true, origin: true }));
-
-app.disable('x-powered-by');
-
 app.use(router);
 
-// app.use(errorMiddleware);
+app.use(errorMiddleware);
 
 app.listen(CONFIG.port, () => {
   // eslint-disable-next-line no-console

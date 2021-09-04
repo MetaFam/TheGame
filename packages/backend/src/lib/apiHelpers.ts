@@ -44,10 +44,10 @@ export const asyncHandlerWrapper = (
 };
 
 export const errorMiddleware: ErrorRequestHandler = (
-  error: any,
+  error: Error,
   _req: Request,
   res: Response,
 ) => {
-  console.error('Middleware Error', Object.keys(error));
+  console.error('Middleware Error', error);
   res.status(500).send('Unexpected error');
 };

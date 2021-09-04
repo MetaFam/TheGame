@@ -23,7 +23,7 @@ export type SetupMembershipsProps = {
 export const SetupMemberships: React.FC<SetupMembershipsProps> = ({
   memberships,
 }) => {
-  const { connected } = useWeb3();
+  const { isConnected } = useWeb3();
   const { onNextPress, nextButtonLabel } = useSetupFlow();
   const [loading, setLoading] = useState(false);
 
@@ -33,13 +33,13 @@ export const SetupMemberships: React.FC<SetupMembershipsProps> = ({
         Memberships
       </MetaHeading>
       {!memberships &&
-        (connected ? (
+        (isConnected ? (
           <Text mb={10} maxW="50rem">
-            Loading…
+            Loading ...
           </Text>
         ) : (
           <Text mb={10} maxW="50rem">
-            Account Not Connected
+            Account not connected
           </Text>
         ))}
       {memberships &&

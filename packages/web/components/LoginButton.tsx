@@ -1,4 +1,3 @@
-import Ceramic from '@ceramicnetwork/http-client';
 import {
   Avatar,
   Box,
@@ -11,29 +10,31 @@ import {
   Text,
 } from '@metafam/ds';
 import { MetaLink } from 'components/Link';
-
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback } from 'react';
 
 import { useUser, useWeb3 } from '../lib/hooks';
 import { getPlayerImage, getPlayerName } from '../utils/playerHelpers';
 
 export const LoginButton: React.FC = () => {
-  const { connect, disconnect, connected, address } = useWeb3();
-  const { user, fetching } = useUser();
-  const ceramic = useMemo(() => new Ceramic(process.env.CERAMIC_URL), []);
-  const handleLoginClick = useCallback(async () => {
-    connect();
-  }, [connect]);
-  const handleLogoutClick = useCallback(async () => {
-    disconnect();
-    await ceramic.close();
-  }, [ceramic, disconnect]);
+  const {
+    address,
+    connectWeb3,
+    disconnect,
+    isConnected,
+    isConnecting,
+  } = useWeb3();
 
-  if (fetching) {
+  const { user, fetching } = useUser();
+
+  const handleLoginClick = useCallback(async () => {
+    await connectWeb3();
+  }, [connectWeb3]);
+
+  if (fetching || isConnecting) {
     return <Spinner color="purple.500" size="sm" />;
   }
 
-  if (connected) {
+  if (isConnected) {
     if (!user?.player) return null;
 
     const hasEditedProfile = user.username && user.username !== address;
@@ -79,7 +80,7 @@ export const LoginButton: React.FC = () => {
             <Text color="cyan.400">|</Text>
             <Text>
               <Button
-                onClick={handleLogoutClick}
+                onClick={disconnect}
                 variant="link"
                 fontWeight="normal"
                 title="Disconnect"

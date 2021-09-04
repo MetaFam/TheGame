@@ -19,6 +19,7 @@ export async function createToken(
 ): Promise<string> {
   const signer = provider.getSigner();
   const address = await signer.getAddress();
+
   const iat = +new Date();
 
   const claim = {
