@@ -55,3 +55,4 @@ tmp/
 
 # Ceramic daemon
 ipfs
+packages/backend/uploads/
