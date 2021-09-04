@@ -12,8 +12,8 @@ import {
 import { PageContainer } from 'components/Container';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { CONFIG } from '../../../config'
 
+import { CONFIG } from '../../../config'
 import { useWeb3 } from '../../../lib/hooks';
 
 const InfoPage: React.FunctionComponent = () => {
@@ -268,6 +268,18 @@ const InfoPage: React.FunctionComponent = () => {
           />
           <FormErrorMessage>
             {errors.residenceCountry && errors.residenceCountry.message}
+          </FormErrorMessage>
+        </FormControl>
+        <FormControl isInvalid={errors.description}>
+          <FormLabel htmlFor="description">Description</FormLabel>
+          <Textarea
+            name="description"
+            placeholder="description"
+            ref={register}
+            {...register('description')}
+          />
+          <FormErrorMessage>
+            {errors.description && errors.description.message}
           </FormErrorMessage>
         </FormControl>
         <Button
