@@ -1,11 +1,11 @@
 // import bodyParser from 'body-parser';
+import bodyParser from 'body-parser';
 import Bottleneck from 'bottleneck';
-import express from 'express';
 import cors from 'cors';
+import express from 'express';
 
 import { CONFIG } from './config';
 import { router } from './handlers/routes';
-import bodyParser from 'body-parser';
 // import { errorMiddleware } from './lib/apiHelpers';
 
 const app = express();
@@ -16,7 +16,11 @@ app.locals.limiter = new Bottleneck({
 // tracks the current contents of Bottleneck
 app.locals.queuedRecacheFor = {};
 
-app.use(bodyParser.json());
+app.use(express.json());
+
+app.use(cors({ credentials: true, origin: true }));
+
+app.disable('x-powered-by');
 
 app.use(cors({ credentials: true, origin: true }));
 

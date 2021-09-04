@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
-import { Web3Storage, getFilesFromPath } from 'web3.storage';
+import { getFilesFromPath,Web3Storage } from 'web3.storage';
+
 import { CONFIG } from '../../../config'
 
 // eslint-disable-next-line import/no-default-export
