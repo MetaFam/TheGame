@@ -3,42 +3,18 @@ import { Web3Storage, getFilesFromPath } from 'web3.storage';
 import { CONFIG } from '../../../config'
 
 // eslint-disable-next-line import/no-default-export
-export default async (req: Request | any, res: Response): Promise<void> => {
+export default async (req: Request | any, res: Response): Promise<Record<string, any>> => {
   const storage = new Web3Storage({ token: CONFIG.web3StorageToken })
-  console.info('¡WEB3 STORAGE!:', CONFIG.web3StorageToken, process.env.WEB3_STORAGE_TOKEN)
 
-  const files = (await getFilesFromPath(req.file.path)) as any
+  const filePaths = Object.values(req.files as any[]).map(([{ path }]) => path)
+  const files = await getFilesFromPath(filePaths)
 
-  const onRootCidReady = (cid: string) => {
-    console.log('uploading files with cid:', cid)
-  }
-  const cid = await storage.put(files, { onRootCidReady })
+  const cid = await storage.put(files as any)
 
-  console.info('FILE', Object.keys(req.file))
-  console.info('CID', `${cid}/${req.file.filename}`)
-
-  // const expiration = new Date();
-  // expiration.setDate(expiration.getDate() - INVALIDATE_AFTER_DAYS);
-  // const { profile_cache: players } = await client.GetCacheEntries({
-  //   updatedBefore: expiration,
-  // });
-  // const idsToProcess: string[] = [];
-  // await Promise.all(
-  //   players.map(async ({ playerId }) => {
-  //     if (!req.app.locals.queuedRecacheFor[playerId]) {
-  //       req.app.locals.queuedRecacheFor[playerId] = true;
-  //       idsToProcess.push(playerId);
-  //       req.app.locals.limiter.schedule(() =>
-  //         (async () => {
-  //           try {
-  //             await updateCachedProfile(playerId);
-  //           } finally {
-  //             req.app.locals.queuedRecacheFor[playerId] = false;
-  //           }
-  //         })(),
-  //       );
-  //     }
-  //   }),
-  // );
-  res.json({ image: `${cid}/${req.file.filename}` });
+  const uploadedFiles = Object.fromEntries(
+    Object.entries(req.files as any).map(
+      ([key, [{ filename }]]: any[]) => [key, `${cid}/${filename}`]
+    )
+  )
+  return res.json(uploadedFiles);
 };

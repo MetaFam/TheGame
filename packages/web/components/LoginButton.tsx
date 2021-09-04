@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+import Ceramic from '@ceramicnetwork/http-client';
+>>>>>>> basic profile form
 import {
   Avatar,
   Box,
@@ -10,7 +14,12 @@ import {
   Text,
 } from '@metafam/ds';
 import { MetaLink } from 'components/Link';
+<<<<<<< HEAD
 import React, { useCallback } from 'react';
+=======
+
+import React, { useCallback, useMemo } from 'react';
+>>>>>>> basic profile form
 
 import { useUser, useWeb3 } from '../lib/hooks';
 import { getPlayerImage, getPlayerName } from '../utils/playerHelpers';
@@ -29,8 +38,17 @@ export const LoginButton: React.FC = () => {
   const handleLoginClick = useCallback(async () => {
     await connect();
   }, [connect]);
+<<<<<<< HEAD
 
   if (fetching || connecting) {
+=======
+  const handleLogoutClick = useCallback(async () => {
+    disconnect();
+    await ceramic.close();
+  }, [ceramic, disconnect]);
+
+  if (fetching) {
+>>>>>>> basic profile form
     return <Spinner color="purple.500" size="sm" />;
   }
 
