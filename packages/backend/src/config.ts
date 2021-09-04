@@ -1,3 +1,7 @@
+import dotenv from 'dotenv';
+
+dotenv.config()
+
 interface IConfig {
   port: number;
   nodeEnv: string;
