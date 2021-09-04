@@ -18,7 +18,10 @@ import { useWeb3 } from '../../../lib/hooks';
 
 const InfoPage: React.FunctionComponent = () => {
   const [did, setDid] = useState<string>();
+  const [imageURL, setImageURL] = useState<string>();
+  const [backgroundURL, setBackgroundURL] = useState<string>();
   const image = useRef<HTMLImageElement>(null);
+  const background = useRef<HTMLImageElement>(null);
   const {
     handleSubmit,
     register,
@@ -27,26 +30,28 @@ const InfoPage: React.FunctionComponent = () => {
   } = useForm();
   const { ceramic, idx, address } = useWeb3();
 
+  console.log({did})
+
   const onFileChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
-      console.info(did); // eslint-disable-line no-console
       const input = event.target as HTMLInputElement;
       const file = input.files?.[0];
       if (!file) return;
       const img = image.current as HTMLImageElement;
+      const bg = background.current  as HTMLImageElement;
       const reader = new FileReader();
       reader.addEventListener('load', () => {
         console.log(reader.result); // eslint-disable-line no-console
-        if (img !== null) {
-          img.onload = async () => {
-            console.log(img.width, img.height); // eslint-disable-line no-console
-          };
+        if (input.name === "image") {
           img.src = reader.result as string;
+        }
+        if (input.name === "background") {
+          bg.src = reader.result as string;
         }
       });
       reader.readAsDataURL(file);
     },
-    [did],
+    [],
   );
 
   useEffect(() => {
@@ -68,11 +73,20 @@ const InfoPage: React.FunctionComponent = () => {
                   original: { src: url },
                 } = value as Record<string, Record<string, string>>;
                 value = url;
+                const match = url.match(/^ipfs:\/\/(.+)$/)
+                if(match){
+                  const ipfsUrl = `//ipfs.io/ipfs/${match[1]}`
+                  value = ipfsUrl
+                }
+                if(key === 'image') {
+                  setImageURL(value as string)
+                }
+                if(key === 'background') {
+                  setBackgroundURL(value as string)
+                }
+              } else {
+                setValue(key, value);
               }
-              if (key === 'birthDate') {
-                value = new Date(value as string);
-              }
-              setValue(key, value);
             },
           );
         }
@@ -83,16 +97,15 @@ const InfoPage: React.FunctionComponent = () => {
   const onSubmit = async (values: Record<string, unknown>) => {
     console.log(values); // eslint-disable-line no-console
     const formData  = new FormData();
-    const [image] = values.image as File[]
-    const [background] = values.background as File[]
+    const [imageFile] = values.image as File[]
+    const [backgroundFile] = values.background as File[]
     if(image || background) {
       if(image) {
-        formData.append('image', image);
+        formData.append('image', imageFile);
       }
       if(background) {
-        formData.append('background', background);
+        formData.append('background', backgroundFile);
       }
-      console.info('FORM', formData)
       const result = await fetch(
         `${CONFIG.actionsURL}/actions/storage`,
         {
@@ -101,25 +114,28 @@ const InfoPage: React.FunctionComponent = () => {
           credentials: 'include',
         }
       )
-
-      console.info('RES', result)
-
       const cids = await result.json()
-
-      console.info('CIDS', cids)
+      const refs = { image: image.current, background: background.current } as { image: HTMLImageElement | null, background: HTMLImageElement  | null }
+      ['image', 'background'].forEach((key) => {
+        if(cids[key]){
+          values[key] = {
+            original: {
+              src: `ipfs://${cids[key]}`,
+              mimeType: 'image/*',
+              width: refs[key as 'image' | 'background']?.width,
+              height: refs[key as 'image' | 'background']?.height
+            }
+          }
+        } else {
+          delete values[key]
+        }
+      })
+      ceramic?.did && await ceramic.did.authenticate();
+      await idx?.merge('basicProfile', values)
     }
-    // const response = await fetch(url, {
-    //   method: 'POST',
-    //   body: formData
-    // });
-  
-    // const result = await fetch(
-    //   ''
-    // )
   }
   return (
     <PageContainer>
-      <Image ref={image} visibility="hidden" />
       <Stack as="form" onSubmit={handleSubmit(onSubmit)}>
         <FormControl isInvalid={errors.name}>
           <FormLabel htmlFor="name">Name</FormLabel>
@@ -140,9 +156,12 @@ const InfoPage: React.FunctionComponent = () => {
         </FormControl>
         <FormControl isInvalid={errors.image}>
           <FormLabel htmlFor="image">Profile Image</FormLabel>
+          <Image ref={image} src={imageURL} />
           <Input
             name="image"
             type="file"
+            defaultValue=""
+            onChange={onFileChange}
             placeholder="image"
             ref={register}
             {...register('image')}
@@ -153,9 +172,12 @@ const InfoPage: React.FunctionComponent = () => {
         </FormControl>
         <FormControl isInvalid={errors.background}>
           <FormLabel htmlFor="background">Header Background</FormLabel>
+          <Image ref={background} src={backgroundURL} />
           <Input
             name="background"
             type="file"
+            defaultValue=""
+            onChange={onFileChange}
             placeholder="background"
             ref={register}
             {...register('background')}
@@ -170,10 +192,84 @@ const InfoPage: React.FunctionComponent = () => {
             name="description"
             placeholder="description"
             ref={register}
-            {...register('description')}
+            {...register('description',  {
+              maxLength: {
+                value: 420,
+                message: 'Maximum length should be 420',
+              },
+            })}
           />
           <FormErrorMessage>
             {errors.description && errors.description.message}
+          </FormErrorMessage>
+        </FormControl>
+        <FormControl isInvalid={errors.emoji}>
+          <FormLabel htmlFor="description">Emoji</FormLabel>
+          <Input
+            name="emoji"
+            placeholder="emoji"
+            ref={register}
+            {...register('emoji', {
+              maxLength: 2
+            })}
+          />
+          <FormErrorMessage>
+            {errors.emoji && errors.emoji.message}
+          </FormErrorMessage>
+        </FormControl>
+        <FormControl isInvalid={errors.birthDate}>
+          <FormLabel htmlFor="description">Birthdate</FormLabel>
+          <Input
+            name="birthDate"
+            type="date"
+            placeholder="birthDate"
+            ref={register}
+            {...register('birthDate')}
+          />
+          <FormErrorMessage>
+            {errors.birthDate && errors.birthDate.message}
+          </FormErrorMessage>
+        </FormControl>
+        <FormControl isInvalid={errors.url}>
+          <FormLabel htmlFor="description">Website</FormLabel>
+          <Input
+            name="url"
+            placeholder="url"
+            ref={register}
+            {...register('url', {
+              maxLength: 240
+            })}
+          />
+          <FormErrorMessage>
+            {errors.url && errors.url.message}
+          </FormErrorMessage>
+        </FormControl>
+        <FormControl isInvalid={errors.homeLocation}>
+          <FormLabel htmlFor="description">Location</FormLabel>
+          <Input
+            name="homeLocation"
+            placeholder="homeLocation"
+            ref={register}
+            {...register('homeLocation', {
+              maxLength: 140
+            })}
+          />
+          <FormErrorMessage>
+            {errors.homeLocation && errors.homeLocation.message}
+          </FormErrorMessage>
+        </FormControl>
+        <FormControl isInvalid={errors.residenceCountry}>
+          <FormLabel htmlFor="description">Country Code</FormLabel>
+          <Input
+            name="residenceCountry"
+            placeholder="residenceCountry"
+            ref={register}
+            {...register('residenceCountry', {
+              maxLength: 2
+            })}
+          />
+          <FormErrorMessage>
+            {errors.residenceCountry && errors.residenceCountry.message}
           </FormErrorMessage>
         </FormControl>
         <Button
