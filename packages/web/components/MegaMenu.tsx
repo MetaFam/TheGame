@@ -29,18 +29,18 @@ import Grants from 'assets/menuIcon/grants.png';
 import Guilds from 'assets/menuIcon/guilds.png';
 import Invest from 'assets/menuIcon/invest.png';
 import Learn from 'assets/menuIcon/learn.png';
-import Metagamewiki from 'assets/menuIcon/metagamewiki.png';
+import MetaGameWiki from 'assets/menuIcon/metagamewiki.png';
 import Patrons from 'assets/menuIcon/patrons.png';
 import Playbooks from 'assets/menuIcon/playbooks.png';
 import Players from 'assets/menuIcon/players.png';
 import Quests from 'assets/menuIcon/quests.png';
 import Raids from 'assets/menuIcon/raids.png';
 import Roles from 'assets/menuIcon/roles.png';
-import Seedearned from 'assets/menuIcon/seedearned.png';
+import SeedEarned from 'assets/menuIcon/seedearned.png';
 import Seeds from 'assets/menuIcon/seeds.png';
-import Thegreathouses from 'assets/menuIcon/thegreathouses.png';
-import Welcometometagame from 'assets/menuIcon/welcometometagame.png';
-import Xpearned from 'assets/menuIcon/xpearned.png';
+import TheGreatHouses from 'assets/menuIcon/thegreathouses.png';
+import WelcomeToMetagame from 'assets/menuIcon/welcometometagame.png';
+import XPEarned from 'assets/menuIcon/xpearned.png';
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
 import { usePSeedBalance } from 'lib/hooks/balances';
 import Image from 'next/image';
@@ -63,18 +63,18 @@ const menuIcons: { [key: string]: string } = {
   guilds: Guilds,
   invest: Invest,
   learn: Learn,
-  metagamewiki: Metagamewiki,
+  metagamewiki: MetaGameWiki,
   patrons: Patrons,
   playbooks: Playbooks,
   players: Players,
   quests: Quests,
   raids: Raids,
   roles: Roles,
-  seedearned: Seedearned,
+  seedearned: SeedEarned,
   seeds: Seeds,
-  thegreathouses: Thegreathouses,
-  welcometometagame: Welcometometagame,
-  xpearned: Xpearned,
+  thegreathouses: TheGreatHouses,
+  welcometometagame: WelcomeToMetagame,
+  xpearned: XPEarned,
 };
 
 // Navbar logo
@@ -84,8 +84,7 @@ const Logo = () => (
     flex="1"
     minW="20%"
     maxW="20%"
-    mt="auto"
-    mb="auto"
+    my="auto"
     textAlign={{ base: 'center', lg: 'left' }}
   >
     <Image src="/assets/logo.png" height={44} width={36} />
@@ -122,7 +121,7 @@ const DesktopMenuItem = ({
       _focus={{ outline: 'none' }}
     >
       <Avatar
-        alt="alt text"
+        alt={title}
         src={menuIcons[icon]}
         width="64px"
         height="64px"
