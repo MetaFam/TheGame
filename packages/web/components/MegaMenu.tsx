@@ -154,57 +154,55 @@ const DesktopNavLinks = () => (
     minW={{ base: 'auto', md: '40%' }}
   >
     {MenuSectionLinks.map((section: MenuLinkSet) => (
-      <>
-        <Menu key={section.label}>
-          {({ isOpen }) => (
-            <>
-              <MenuButton
-                as={Button}
-                variant="link"
-                minW="fit-content"
-                color="#ffffff"
-                fontSize={['md', 'md', 'md', 'lg']}
-                fontWeight="600"
-                textTransform="uppercase"
-                ml={23}
-                mr={23}
-                _expanded={{ color: '#FD9FE3' }}
-                _focus={{ outline: 'none', border: 'none' }}
-              >
-                {section.label}
-                {isOpen ? (
-                  <ChevronUpIcon color="#ffffff" />
-                ) : (
-                  <ChevronDownIcon color="#ffffff" />
-                )}
-              </MenuButton>
-              {section.menuItems.length > 3 ? (
-                <MenuList
-                  display="grid"
-                  gridTemplateColumns="repeat(2, 1fr)"
-                  width="948px"
-                  p="56px 6px 6px 56px"
-                >
-                  {section.menuItems.map((item: MenuLinkItem) => (
-                    <DesktopMenuItem {...item} />
-                  ))}
-                </MenuList>
+      <Menu key={section.label}>
+        {({ isOpen }) => (
+          <>
+            <MenuButton
+              as={Button}
+              variant="link"
+              minW="fit-content"
+              color="#ffffff"
+              fontSize={['md', 'md', 'md', 'lg']}
+              fontWeight="600"
+              textTransform="uppercase"
+              ml={23}
+              mr={23}
+              _expanded={{ color: '#FD9FE3' }}
+              _focus={{ outline: 'none', border: 'none' }}
+            >
+              {section.label}
+              {isOpen ? (
+                <ChevronUpIcon color="#ffffff" />
               ) : (
-                <MenuList
-                  display="grid"
-                  gridTemplateColumns="repeat(1, 1fr)"
-                  width="474px"
-                  p="56px 6px 6px 56px"
-                >
-                  {section.menuItems.map((item: MenuLinkItem) => (
-                    <DesktopMenuItem {...item} />
-                  ))}
-                </MenuList>
+                <ChevronDownIcon color="#ffffff" />
               )}
-            </>
-          )}
-        </Menu>
-      </>
+            </MenuButton>
+            {section.menuItems.length > 3 ? (
+              <MenuList
+                display="grid"
+                gridTemplateColumns="repeat(2, 1fr)"
+                width="948px"
+                p="56px 6px 6px 56px"
+              >
+                {section.menuItems.map((item: MenuLinkItem) => (
+                  <DesktopMenuItem {...item} key={item.title} />
+                ))}
+              </MenuList>
+            ) : (
+              <MenuList
+                display="grid"
+                gridTemplateColumns="repeat(1, 1fr)"
+                width="474px"
+                p="56px 6px 6px 56px"
+              >
+                {section.menuItems.map((item: MenuLinkItem) => (
+                  <DesktopMenuItem key={item.title} {...item} />
+                ))}
+              </MenuList>
+            )}
+          </>
+        )}
+      </Menu>
     ))}
   </Flex>
 );
@@ -371,40 +369,39 @@ export const MegaMenu: React.FC = () => {
         border="none"
       >
         {MenuSectionLinks.map((section) => (
-          <>
-            <Stack pt="16px">
-              <Text fontSize="16px" fontWeight="600" textTransform="capitalize">
-                {section.label}
-              </Text>
-              <SimpleGrid columns={2}>
-                {section.menuItems.map((item: MenuLinkItem) => (
-                  <Link
-                    display="flex"
-                    alignItems="center"
-                    fontSize="12px"
-                    href={item.url}
-                    border="1px"
-                    _odd={{ marginRight: '-1px' }}
-                    marginBottom="-1px"
-                    borderColor="purple.400"
-                    px={4}
-                    py={3}
-                  >
-                    <Avatar
-                      name="alt text"
-                      src={menuIcons[item.icon]}
-                      p="5px"
-                      w="24px"
-                      h="24px"
-                      mr="8px"
-                      bg="linear-gradient(180deg, #170B23 0%, #350C58 100%)"
-                    />
-                    {item.title}
-                  </Link>
-                ))}
-              </SimpleGrid>
-            </Stack>
-          </>
+          <Stack pt="16px" key={section.label}>
+            <Text fontSize="16px" fontWeight="600" textTransform="capitalize">
+              {section.label}
+            </Text>
+            <SimpleGrid columns={2}>
+              {section.menuItems.map((item: MenuLinkItem) => (
+                <Link
+                  key={item.title}
+                  display="flex"
+                  alignItems="center"
+                  fontSize="12px"
+                  href={item.url}
+                  border="1px"
+                  _odd={{ marginRight: '-1px' }}
+                  marginBottom="-1px"
+                  borderColor="purple.400"
+                  px={4}
+                  py={3}
+                >
+                  <Avatar
+                    name="alt text"
+                    src={menuIcons[item.icon]}
+                    p="5px"
+                    w="24px"
+                    h="24px"
+                    mr="8px"
+                    bg="linear-gradient(180deg, #170B23 0%, #350C58 100%)"
+                  />
+                  {item.title}
+                </Link>
+              ))}
+            </SimpleGrid>
+          </Stack>
         ))}
       </Stack>
     </Stack>
