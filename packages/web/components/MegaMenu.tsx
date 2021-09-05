@@ -45,13 +45,17 @@ import { PlayerFragmentFragment } from 'graphql/autogen/types';
 import { usePSeedBalance } from 'lib/hooks/balances';
 import Image from 'next/image';
 import React, { useCallback } from 'react';
-import { getPlayerImage } from 'utils/playerHelpers';
+import { getPlayerImage, getPlayerName } from 'utils/playerHelpers';
 
 // import SearchIcon from '../assets/search-icon.svg';
 import SeedMarket from '../assets/seed-icon.svg';
 import XPStar from '../assets/xp-star.svg';
 import { useUser, useWeb3 } from '../lib/hooks';
-import { MenuSectionLinks } from '../utils/menuLinks';
+import {
+  MenuLinkItem,
+  MenuLinkSet,
+  MenuSectionLinks,
+} from '../utils/menuLinks';
 
 const menuIcons: { [key: string]: string } = {
   alliances: Alliances,
@@ -149,7 +153,7 @@ const DesktopNavLinks = () => (
     display={{ base: 'none', lg: 'flex' }}
     minW={{ base: 'auto', md: '40%' }}
   >
-    {MenuSectionLinks.map((section: any) => (
+    {MenuSectionLinks.map((section: MenuLinkSet) => (
       <>
         <Menu key={section.label}>
           {({ isOpen }) => (
@@ -181,13 +185,8 @@ const DesktopNavLinks = () => (
                   width="948px"
                   p="56px 6px 6px 56px"
                 >
-                  {section.menuItems.map((item: any) => (
-                    <DesktopMenuItem
-                      title={item.title}
-                      url={item.url}
-                      explainerText={item.explainerText}
-                      icon={item.icon}
-                    />
+                  {section.menuItems.map((item: MenuLinkItem) => (
+                    <DesktopMenuItem {...item} />
                   ))}
                 </MenuList>
               ) : (
@@ -197,13 +196,8 @@ const DesktopNavLinks = () => (
                   width="474px"
                   p="56px 6px 6px 56px"
                 >
-                  {section.menuItems.map((item: any) => (
-                    <DesktopMenuItem
-                      title={item.title}
-                      url={item.url}
-                      explainerText={item.explainerText}
-                      icon={item.icon}
-                    />
+                  {section.menuItems.map((item: MenuLinkItem) => (
+                    <DesktopMenuItem {...item} />
                   ))}
                 </MenuList>
               )}
@@ -255,17 +249,14 @@ const PlayerStats: React.FC<PlayerStatsProps> = ({ player, pSeedBalance }) => (
     maxW={{ base: '20%', lg: 'fit-content' }}
     p={2}
     flex="1"
-    mt="auto"
+    my="auto"
     mr="0"
-    mb="auto"
   >
     <Badge
       display={{ base: 'none', lg: 'flex' }}
       flexDirection="row"
-      pt={2}
-      pr={4}
-      pb={2}
-      pl={4}
+      px={4}
+      py={2}
       bg="rgba(0,0,0,0.25)"
       border="1px solid #2B2244"
       borderRadius={50}
@@ -280,10 +271,8 @@ const PlayerStats: React.FC<PlayerStatsProps> = ({ player, pSeedBalance }) => (
       display={{ base: 'none', lg: 'flex' }}
       flexDirection="row"
       m={2}
-      pt={2}
-      pr={4}
-      pb={2}
-      pl={4}
+      px={4}
+      py={2}
       bg="rgba(0,0,0,0.25)"
       border="1px solid #2B2244"
       borderRadius={50}
@@ -296,10 +285,10 @@ const PlayerStats: React.FC<PlayerStatsProps> = ({ player, pSeedBalance }) => (
     </Badge>
     <Link href="profile/setup/username">
       <Avatar
-        name="alt text"
+        name={getPlayerName(player)}
         src={getPlayerImage(player)}
-        width="52px"
-        height="52px"
+        w="52px"
+        h="52px"
       />
     </Link>
   </Flex>
@@ -317,7 +306,7 @@ export const MegaMenu: React.FC = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const menuToggle = () => (isOpen ? onClose() : onOpen());
   return (
-    <Stack position="sticky" top={0} zIndex={10} fontFamily="exo">
+    <Stack position="relative" top={0} zIndex={10} fontFamily="exo">
       <Flex
         justifyContent="space-between"
         minH={{ base: '12vh', md: '10vh' }}
@@ -325,10 +314,8 @@ export const MegaMenu: React.FC = () => {
         bg="rgba(0,0,0,0.5)"
         borderColor="#2B2244"
         sx={{ backdropFilter: 'blur(10px)' }}
-        pt={1.5}
-        pl={4}
-        pb={1.5}
-        pr={4}
+        px={4}
+        py={1.5}
       >
         <Flex
           onClick={menuToggle}
@@ -338,8 +325,7 @@ export const MegaMenu: React.FC = () => {
           w="20%"
           display={{ base: 'flex', lg: 'none' }}
           p={2}
-          mt="auto"
-          mb="auto"
+          my="auto"
         >
           {isOpen ? (
             <CloseIcon color="#ffffff" ml={2} />
@@ -355,18 +341,17 @@ export const MegaMenu: React.FC = () => {
         ) : (
           <>
             {isConnected && !!user?.player ? (
-              <PlayerStats player={user.player} pSeedBalance={pSeedBalance} />
+              <PlayerStats player={user.player} {...{ pSeedBalance }} />
             ) : (
               <MetaButton
                 display={{ base: 'none', lg: 'block' }}
-                w="200px"
-                h="auto"
-                my="6px"
-                px="0"
+                h="48px"
+                my="auto"
+                px="24px"
                 ml="32px"
                 onClick={handleLoginClick}
               >
-                Connect wallet
+                Connect
               </MetaButton>
             )}
           </>
@@ -392,7 +377,7 @@ export const MegaMenu: React.FC = () => {
                 {section.label}
               </Text>
               <SimpleGrid columns={2}>
-                {section.menuItems.map((item: any) => (
+                {section.menuItems.map((item: MenuLinkItem) => (
                   <Link
                     display="flex"
                     alignItems="center"
@@ -402,14 +387,15 @@ export const MegaMenu: React.FC = () => {
                     _odd={{ marginRight: '-1px' }}
                     marginBottom="-1px"
                     borderColor="purple.400"
-                    p="12px 16px"
+                    px={4}
+                    py={3}
                   >
                     <Avatar
                       name="alt text"
                       src={menuIcons[item.icon]}
                       p="5px"
-                      width="24px"
-                      height="24px"
+                      w="24px"
+                      h="24px"
                       mr="8px"
                       bg="linear-gradient(180deg, #170B23 0%, #350C58 100%)"
                     />

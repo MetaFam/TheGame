@@ -1,13 +1,17 @@
 // in utils
-
-export interface MenuLink {
-  label: string;
-  icon?: any;
-  href?: string;
-  menuItems?: any;
+export interface MenuLinkItem {
+  title: string;
+  explainerText: string;
+  url: string;
+  icon: string;
 }
 
-export const MenuSectionLinks: MenuLink[] = [
+export interface MenuLinkSet {
+  label: string;
+  menuItems: MenuLinkItem[];
+}
+
+export const MenuSectionLinks: MenuLinkSet[] = [
   {
     label: 'community',
     menuItems: [
@@ -134,7 +138,7 @@ export const MenuSectionLinks: MenuLink[] = [
       {
         title: 'Seed',
         explainerText:
-          'Find out all about the Seeds; why, where & how you should buy them',
+          'Find out all about the SEEDs; why, where & how you should buy them',
         url: 'https://wiki.metagame.wtf/docs/how-does-it-work/xp',
         icon: 'seeds',
       },
@@ -147,7 +151,7 @@ export const MenuSectionLinks: MenuLink[] = [
       },
       {
         title: 'Balancer Pool',
-        explainerText: 'Plant your Seeds and watch them grow',
+        explainerText: 'Plant your SEEDs and watch them grow',
         url:
           'https://pools.balancer.exchange/#/pool/0xea05a15dbce2eb543ffda16950e95b2bd2e40d0e/',
         icon: 'invest',
