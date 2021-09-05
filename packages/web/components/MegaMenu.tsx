@@ -44,6 +44,7 @@ import XPEarned from 'assets/menuIcon/xpearned.png';
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
 import { usePSeedBalance } from 'lib/hooks/balances';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import React, { useCallback } from 'react';
 import { getPlayerImage, getPlayerName } from 'utils/playerHelpers';
 
@@ -294,6 +295,7 @@ const PlayerStats: React.FC<PlayerStatsProps> = ({ player, pSeedBalance }) => (
 
 export const MegaMenu: React.FC = () => {
   const { isConnected, connectWeb3 } = useWeb3();
+  const router = useRouter();
 
   const handleLoginClick = useCallback(async () => {
     await connectWeb3();
@@ -304,7 +306,12 @@ export const MegaMenu: React.FC = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const menuToggle = () => (isOpen ? onClose() : onOpen());
   return (
-    <Stack position="relative" top={0} zIndex={10} fontFamily="exo">
+    <Stack
+      position={router.pathname === '/players' ? 'relative' : 'sticky'}
+      top={0}
+      zIndex={10}
+      fontFamily="exo"
+    >
       <Flex
         justifyContent="space-between"
         minH={{ base: '12vh', md: '10vh' }}
