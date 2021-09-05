@@ -47,7 +47,7 @@ import Image from 'next/image';
 import React, { useCallback } from 'react';
 import { getPlayerImage } from 'utils/playerHelpers';
 
-import SearchIcon from '../assets/search-icon.svg';
+// import SearchIcon from '../assets/search-icon.svg';
 import SeedMarket from '../assets/seed-icon.svg';
 import XPStar from '../assets/xp-star.svg';
 import { useUser, useWeb3 } from '../lib/hooks';
@@ -217,29 +217,29 @@ const DesktopNavLinks = () => (
 );
 
 // Search -- not working yet
-const Search = () => (
-  <Flex
-    justifyContent="flex-end"
-    minW={{ base: '20%', lg: '10%' }}
-    h="fit-content"
-    p={2}
-    mt="auto"
-    mb="auto"
-    bg={{ base: 'none', xl: 'rgba(255,255,255,0.05)' }}
-    border={{ base: 'none', xl: '1px solid #2B2244' }}
-    borderRadius={4}
-  >
-    <Image src={SearchIcon} alt="search" height={16} width={16} />
-    <Text
-      display={{ base: 'none', xl: 'block' }}
-      color="rgba(255,255,255,0.5)"
-      alignSelf="center"
-      ml={2}
-    >
-      find anything
-    </Text>
-  </Flex>
-);
+// const Search = () => (
+//   <Flex
+//     justifyContent="flex-end"
+//     minW={{ base: '20%', lg: '10%' }}
+//     h="fit-content"
+//     p={2}
+//     mt="auto"
+//     mb="auto"
+//     bg={{ base: 'none', xl: 'rgba(255,255,255,0.05)' }}
+//     border={{ base: 'none', xl: '1px solid #2B2244' }}
+//     borderRadius={4}
+//   >
+//     <Image src={SearchIcon} alt="search" height={16} width={16} />
+//     <Text
+//       display={{ base: 'none', xl: 'block' }}
+//       color="rgba(255,255,255,0.5)"
+//       alignSelf="center"
+//       ml={2}
+//     >
+//       find anything
+//     </Text>
+//   </Flex>
+// );
 
 type PlayerStatsProps = {
   player: PlayerFragmentFragment;
