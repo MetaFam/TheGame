@@ -487,20 +487,25 @@
       set:
         player_id: x-hasura-User-Id
       columns:
+      - rank
       - skill_id
       backend_only: false
   select_permissions:
   - role: player
     permission:
       columns:
+      - id
       - player_id
+      - rank
       - skill_id
       filter: {}
       allow_aggregations: true
   - role: public
     permission:
       columns:
+      - id
       - player_id
+      - rank
       - skill_id
       filter: {}
       allow_aggregations: true

@@ -2800,7 +2800,7 @@ type mutation_root {
   """
   delete single row from the table: "player_skill"
   """
-  delete_player_skill_by_pk(player_id: uuid!, skill_id: uuid!): player_skill
+  delete_player_skill_by_pk(id: uuid!): player_skill
 
   """
   delete data from the table: "player_type"
@@ -3804,6 +3804,9 @@ type mutation_root {
   update data of the table: "player_skill"
   """
   update_player_skill(
+    """increments the integer columns with given value of the filtered values"""
+    _inc: player_skill_inc_input
+
     """sets the columns of the filtered rows to the given values"""
     _set: player_skill_set_input
 
@@ -3815,6 +3818,9 @@ type mutation_root {
   update single row of the table: "player_skill"
   """
   update_player_skill_by_pk(
+    """increments the integer columns with given value of the filtered values"""
+    _inc: player_skill_inc_input
+
     """sets the columns of the filtered rows to the given values"""
     _set: player_skill_set_input
     pk_columns: player_skill_pk_columns_input!
@@ -4755,7 +4761,9 @@ columns and relationships of "player_skill"
 type player_skill {
   """An object relationship"""
   Skill: skill!
+  id: uuid!
   player_id: uuid!
+  rank: Int
   skill_id: uuid!
 }
 
@@ -4771,18 +4779,34 @@ type player_skill_aggregate {
 aggregate fields of "player_skill"
 """
 type player_skill_aggregate_fields {
+  avg: player_skill_avg_fields
   count(columns: [player_skill_select_column!], distinct: Boolean): Int
   max: player_skill_max_fields
   min: player_skill_min_fields
+  stddev: player_skill_stddev_fields
+  stddev_pop: player_skill_stddev_pop_fields
+  stddev_samp: player_skill_stddev_samp_fields
+  sum: player_skill_sum_fields
+  var_pop: player_skill_var_pop_fields
+  var_samp: player_skill_var_samp_fields
+  variance: player_skill_variance_fields
 }
 
 """
 order by aggregate values of table "player_skill"
 """
 input player_skill_aggregate_order_by {
+  avg: player_skill_avg_order_by
   count: order_by
   max: player_skill_max_order_by
   min: player_skill_min_order_by
+  stddev: player_skill_stddev_order_by
+  stddev_pop: player_skill_stddev_pop_order_by
+  stddev_samp: player_skill_stddev_samp_order_by
+  sum: player_skill_sum_order_by
+  var_pop: player_skill_var_pop_order_by
+  var_samp: player_skill_var_samp_order_by
+  variance: player_skill_variance_order_by
 }
 
 """
@@ -4793,6 +4817,18 @@ input player_skill_arr_rel_insert_input {
   on_conflict: player_skill_on_conflict
 }
 
+"""aggregate avg on columns"""
+type player_skill_avg_fields {
+  rank: Float
+}
+
+"""
+order by avg() on columns of table "player_skill"
+"""
+input player_skill_avg_order_by {
+  rank: order_by
+}
+
 """
 Boolean expression to filter rows from the table "player_skill". All fields are combined with a logical 'AND'.
 """
@@ -4801,7 +4837,9 @@ input player_skill_bool_exp {
   _and: [player_skill_bool_exp]
   _not: player_skill_bool_exp
   _or: [player_skill_bool_exp]
+  id: uuid_comparison_exp
   player_id: uuid_comparison_exp
+  rank: Int_comparison_exp
   skill_id: uuid_comparison_exp
 }
 
@@ -4810,7 +4848,14 @@ unique or primary key constraints on table "player_skill"
 """
 enum player_skill_constraint {
   """unique or primary key constraint"""
-  Player_Skill_unique_key
+  player_skill_pkey
+}
+
+"""
+input type for incrementing integer column in table "player_skill"
+"""
+input player_skill_inc_input {
+  rank: Int
 }
 
 """
@@ -4818,13 +4863,17 @@ input type for inserting data into table "player_skill"
 """
 input player_skill_insert_input {
   Skill: skill_obj_rel_insert_input
+  id: uuid
   player_id: uuid
+  rank: Int
   skill_id: uuid
 }
 
 """aggregate max on columns"""
 type player_skill_max_fields {
+  id: uuid
   player_id: uuid
+  rank: Int
   skill_id: uuid
 }
 
@@ -4832,13 +4881,17 @@ type player_skill_max_fields {
 order by max() on columns of table "player_skill"
 """
 input player_skill_max_order_by {
+  id: order_by
   player_id: order_by
+  rank: order_by
   skill_id: order_by
 }
 
 """aggregate min on columns"""
 type player_skill_min_fields {
+  id: uuid
   player_id: uuid
+  rank: Int
   skill_id: uuid
 }
 
@@ -4846,7 +4899,9 @@ type player_skill_min_fields {
 order by min() on columns of table "player_skill"
 """
 input player_skill_min_order_by {
+  id: order_by
   player_id: order_by
+  rank: order_by
   skill_id: order_by
 }
 
@@ -4883,7 +4938,9 @@ ordering options when selecting data from "player_skill"
 """
 input player_skill_order_by {
   Skill: skill_order_by
+  id: order_by
   player_id: order_by
+  rank: order_by
   skill_id: order_by
 }
 
@@ -4891,8 +4948,7 @@ input player_skill_order_by {
 primary key columns input for table: "player_skill"
 """
 input player_skill_pk_columns_input {
-  player_id: uuid!
-  skill_id: uuid!
+  id: uuid!
 }
 
 """
@@ -4900,7 +4956,13 @@ select columns of table "player_skill"
 """
 enum player_skill_select_column {
   """column name"""
+  id
+
+  """column name"""
   player_id
+
+  """column name"""
+  rank
 
   """column name"""
   skill_id
@@ -4910,8 +4972,58 @@ enum player_skill_select_column {
 input type for updating data in table "player_skill"
 """
 input player_skill_set_input {
+  id: uuid
   player_id: uuid
+  rank: Int
   skill_id: uuid
+}
+
+"""aggregate stddev on columns"""
+type player_skill_stddev_fields {
+  rank: Float
+}
+
+"""
+order by stddev() on columns of table "player_skill"
+"""
+input player_skill_stddev_order_by {
+  rank: order_by
+}
+
+"""aggregate stddev_pop on columns"""
+type player_skill_stddev_pop_fields {
+  rank: Float
+}
+
+"""
+order by stddev_pop() on columns of table "player_skill"
+"""
+input player_skill_stddev_pop_order_by {
+  rank: order_by
+}
+
+"""aggregate stddev_samp on columns"""
+type player_skill_stddev_samp_fields {
+  rank: Float
+}
+
+"""
+order by stddev_samp() on columns of table "player_skill"
+"""
+input player_skill_stddev_samp_order_by {
+  rank: order_by
+}
+
+"""aggregate sum on columns"""
+type player_skill_sum_fields {
+  rank: Int
+}
+
+"""
+order by sum() on columns of table "player_skill"
+"""
+input player_skill_sum_order_by {
+  rank: order_by
 }
 
 """
@@ -4919,10 +5031,52 @@ update columns of table "player_skill"
 """
 enum player_skill_update_column {
   """column name"""
+  id
+
+  """column name"""
   player_id
 
   """column name"""
+  rank
+
+  """column name"""
   skill_id
+}
+
+"""aggregate var_pop on columns"""
+type player_skill_var_pop_fields {
+  rank: Float
+}
+
+"""
+order by var_pop() on columns of table "player_skill"
+"""
+input player_skill_var_pop_order_by {
+  rank: order_by
+}
+
+"""aggregate var_samp on columns"""
+type player_skill_var_samp_fields {
+  rank: Float
+}
+
+"""
+order by var_samp() on columns of table "player_skill"
+"""
+input player_skill_var_samp_order_by {
+  rank: order_by
+}
+
+"""aggregate variance on columns"""
+type player_skill_variance_fields {
+  rank: Float
+}
+
+"""
+order by variance() on columns of table "player_skill"
+"""
+input player_skill_variance_order_by {
+  rank: order_by
 }
 
 """aggregate stddev on columns"""
@@ -6724,7 +6878,7 @@ type query_root {
   ): player_skill_aggregate!
 
   """fetch data from the table: "player_skill" using primary key columns"""
-  player_skill_by_pk(player_id: uuid!, skill_id: uuid!): player_skill
+  player_skill_by_pk(id: uuid!): player_skill
 
   """
   fetch data from the table: "player_type"
@@ -9798,7 +9952,7 @@ type subscription_root {
   ): player_skill_aggregate!
 
   """fetch data from the table: "player_skill" using primary key columns"""
-  player_skill_by_pk(player_id: uuid!, skill_id: uuid!): player_skill
+  player_skill_by_pk(id: uuid!): player_skill
 
   """
   fetch data from the table: "player_type"
