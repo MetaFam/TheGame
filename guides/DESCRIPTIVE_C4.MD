@@ -314,7 +314,7 @@ In theory this gives applications time to move onto stable new contracts without
 
 > Old names SHALL NOT be reused by new features.
 
-Ah, yes, the joy when ZeroMQ v3.x renamed the top-used API functions (zmq_send\[3\] and zmq_recv\[3\]) and then recycled the old names for new methods that were utterly incompatible (and which I suspect few people actually use). You should be slapping yourself in confusion again, but really, this is what happened and I was as guilty as anyone. After all, we did change the version number! The only benefit of that experience was to get this rule.
+Ah, yes, the joy when ZeroMQ v3.x renamed the top-used API functions (`zmq_send\[3\]` and `zmq_recv\[3\]`) and then recycled the old names for new methods that were utterly incompatible (and which I suspect few people actually use). You should be slapping yourself in confusion again, but really, this is what happened and I was as guilty as anyone. After all, we did change the version number! The only benefit of that experience was to get this rule.
 
 Project Administration
 ----------------------
@@ -342,8 +342,8 @@ Now and then, your projects will attract people of the wrong character. You will
 
 License and Further Reading
 =======
-The C4, along with this breakdown of it, was created (primarily) by the late Pieter Hintjens. If the C4 interests you it's a very good idea to check out Pieter's blog and watch his videos to get a deep understanding of his research into this field. Here's a good one to start with: [How Conway's law is eating your job](https://www.youtube.com/watch?v=7HECD3eLoVo).   
+The C4, along with this breakdown of it, was created (primarily) by the late Pieter Hintjens. If the C4 interests you it's a very good idea to check out Pieter's blog and watch his videos to get a deep understanding of his research into this field. Here's a good one to start with: [How Conway's law is eating your job.](https://www.youtube.com/watch?v=7HECD3eLoVo)
 
 The text on this page is Copyright (c) 2007-2014 iMatix Corporation and Contributors, 2017-2018 Blockrazor and Contributors and is released under [CC-BY-SA-4](https://creativecommons.org/licenses/by/4.0/)
 
-This breakdown and description of the C4 is an excerpt from [chapter 6 of _ØMQ - The Guide_](http://zguide.zeromq.org/page:all#The-ZeroMQ-Process-C), which is maintained at [booksbyus/zguide on github](https://github.com/booksbyus/zguide/blob/master/chapter6.txt). 
+This breakdown and description of the C4 is an excerpt from [chapter 6 of _ØMQ - The Guide_](http://zguide.zeromq.org/page:all#The-ZeroMQ-Process-C), which is maintained at [booksbyus/zguide on github](https://github.com/booksbyus/zguide/blob/master/chapter6.txt).

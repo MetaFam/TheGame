@@ -17,22 +17,22 @@ See [this document](https://docs.google.com/document/d/1MQX_SVndyXrHazzSN6MyfwxW
 
 ## I'm in! How do I proceed?
 
-We have two development workflows, depending on if you have joined our [GitHub organization](<(https://github.com/MetaFam)>) yet:
+We have two development workflows, depending on if you have joined our [GitHub organization](https://github.com/MetaFam) yet:
 
 ### The development flow for new builders:
 
 1. Go to the [Issues board](https://github.com/MetaFam/TheGame/issues) here. At the top are a few pinned issues. These are the highest priority. Ideally, work on one of these; otherwise, scroll through to choose another of your fancy.
 1. Clone this repo from the `develop` branch and fire up your editor of choice!
    - Ask questions in the #🏗-builders-guild in our [Discord](https://discord.gg/63CPM9nQAZ) server
-   - Or, join our [weekly Builder's call](https://calendar.google.com/calendar/u/0/embed?src=nih59ktgafmm64ed4qk6ue8vv4@group.calendar.google.com&ctz=Europe/Belgrade) on Discord, weekly at 7a PT / 10a ET / 4p CET
-1. Once you're done, create a [Pull Request (PR)](https://github.com/MetaFam/TheGame/pulls) via GitHub. _Include the issue number when filling in the description._ This is critical
+   - Or, join our [weekly Builder's call](https://calendar.google.com/calendar/u/0/embed?src=nih59ktgafmm64ed4qk6ue8vv4@group.calendar.google.com&ctz=Europe/Belgrade) on Discord, weekly at 7a PT / 10a ET / 4p CET _(Come half an hour early for a new builders’ meet-and-greet.)_
+1. Once you're done, create a [Pull Request (PR)](https://github.com/MetaFam/TheGame/pulls) via GitHub. _Include the issue number when filling in the description._ This is critical.
    - We use Vercel to automatically deploy the `web` package of PR branches. This is quite useful for pointing folks to a live version of your code, but only works if there are no dependent changes in backend code.
    - If your PR is under your own repository (rather than [MetaFam](https://github.com/MetaFam)), someone will have to manually approve this deployment.
 1. Your PR should be reviewed within a couple days and either approved or rejected with requested changes.
    - No worries if your PR gets rejected! Reviewers are overwhelmingly polite and gracious, and we're appreciative of any good-faith contribution.
-1. Upon approval and merge, your code will be deployed at https://test.metagame.wtf. We do merges to master periodically, depending on the complexity of merged changes (and thus need for subsequent testing).
+1. Upon approval and merge, your code will be deployed at [test.metagame.wtf](https://test.metagame.wtf). We do merges to master periodically, depending on the complexity of merged changes (and thus need for subsequent testing).
    - After a few merged PRs, ask to join the MetaFam organization, and use the development flow
-1. All of this will earn you XP, which is updated daily on your player card at https://my.metagame.wtf.
+1. All of this will earn you XP, which is updated daily on your player card at [my.metagame.wtf](https://my.metagame.wtf).
 
 ### The development flow for existing builders / members of `MetaFam`:
 
