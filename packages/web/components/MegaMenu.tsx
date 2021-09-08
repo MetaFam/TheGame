@@ -304,7 +304,16 @@ export const MegaMenu: React.FC = () => {
   const { pSeedBalance } = usePSeedBalance();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const menuToggle = () => (isOpen ? onClose() : onOpen());
+  const menuToggle = () => {
+    if (isOpen) {
+      document.body.style.height = 'auto';
+      document.body.style.overflow = 'scroll';
+      return onClose();
+    }
+    document.body.style.height = '100%';
+    document.body.style.overflow = 'hidden';
+    return onOpen();
+  };
   return (
     <Stack
       position={router.pathname === '/players' ? 'relative' : 'sticky'}
@@ -314,7 +323,7 @@ export const MegaMenu: React.FC = () => {
     >
       <Flex
         justifyContent="space-between"
-        minH={{ base: '12vh', md: '10vh' }}
+        minH={{ base: '76px', md: '76px' }}
         borderBottom="1px"
         bg="rgba(0,0,0,0.5)"
         borderColor="#2B2244"
@@ -365,15 +374,16 @@ export const MegaMenu: React.FC = () => {
       <Stack
         display={{ base: isOpen ? 'block' : 'none', xl: 'none' }}
         position="absolute"
-        top={{ base: '11vh', md: '9vh' }}
+        top={{ base: '76px', md: '76px' }}
         zIndex={1}
         overflowY="scroll"
         w="100vw"
-        h="89vh"
-        bg="rgba(0,0,0,0.7)"
+        bg="rgba(0,0,0,0.8)"
+        h="calc(100vh - 160px)"
         sx={{ backdropFilter: 'blur(10px)' }}
         p="0px 16px 16px"
         border="none"
+        style={{ marginTop: '0px' }}
       >
         {MenuSectionLinks.map((section) => (
           <Stack pt="16px" key={section.label}>
@@ -392,6 +402,7 @@ export const MegaMenu: React.FC = () => {
                   _odd={{ marginRight: '-1px' }}
                   marginBottom="-1px"
                   borderColor="purple.400"
+                  background="rgba(0, 0, 0, 0.35)"
                   px={4}
                   py={3}
                 >
