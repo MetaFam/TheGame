@@ -29,8 +29,11 @@ export {
   ArrowBackIcon,
   ArrowForwardIcon,
   CheckIcon,
+  ChevronDownIcon,
+  ChevronUpIcon,
   CloseIcon,
   EmailIcon,
+  HamburgerIcon,
   SettingsIcon,
 } from '@chakra-ui/icons';
 export {
@@ -81,6 +84,10 @@ export {
   List,
   ListIcon,
   ListItem,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
   Modal,
   ModalCloseButton,
   ModalContent,
