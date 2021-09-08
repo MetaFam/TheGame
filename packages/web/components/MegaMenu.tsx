@@ -86,10 +86,9 @@ const menuIcons: { [key: string]: string } = {
 const Logo = () => (
   <Box
     className="logo"
-    flex="1"
-    minW="20%"
-    maxW="20%"
-    my="auto"
+    w={{ base: 'fit-content', lg: '209px' }}
+    mt="5px"
+    ml="16px"
     textAlign={{ base: 'center', lg: 'left' }}
   >
     <Image src="/assets/logo.png" height={44} width={36} />
@@ -336,7 +335,7 @@ export const MegaMenu: React.FC = () => {
           flexWrap="nowrap"
           alignItems="center"
           h="fit-content"
-          w="20%"
+          w="fit-content"
           display={{ base: 'flex', lg: 'none' }}
           p={2}
           my="auto"
@@ -347,29 +346,40 @@ export const MegaMenu: React.FC = () => {
             <HamburgerIcon color="#ffffff" ml={2} />
           )}
         </Flex>
-        <Logo />
-        <DesktopNavLinks />
-        {/* <Search /> */}
-        {fetching ? (
-          <Spinner mt="18px" mr="24px" ml="162px" mb="26px" />
-        ) : (
-          <>
-            {isConnected && !!user?.player ? (
-              <PlayerStats player={user.player} {...{ pSeedBalance }} />
-            ) : (
-              <MetaButton
-                display={{ base: 'none', lg: 'block' }}
-                h="48px"
-                my="auto"
-                px="24px"
-                ml="32px"
-                onClick={handleLoginClick}
-              >
-                Connect
-              </MetaButton>
-            )}
-          </>
-        )}
+        <Flex
+          w={{ base: 'fit-content', lg: '100%' }}
+          justifyContent="space-between"
+        >
+          <Logo />
+          <DesktopNavLinks />
+          {/* <Search /> */}
+          {fetching ? (
+            <Spinner
+              mt="18px"
+              mr="24px"
+              ml="162px"
+              mb="26px"
+              display={{ base: 'none', lg: 'block' }}
+            />
+          ) : (
+            <>
+              {isConnected && !!user?.player ? (
+                <PlayerStats player={user.player} {...{ pSeedBalance }} />
+              ) : (
+                <MetaButton
+                  display={{ base: 'none', lg: 'block' }}
+                  h="48px"
+                  my="auto"
+                  px="24px"
+                  ml="32px"
+                  onClick={handleLoginClick}
+                >
+                  Connect
+                </MetaButton>
+              )}
+            </>
+          )}
+        </Flex>
       </Flex>
       <Stack
         display={{ base: isOpen ? 'block' : 'none', xl: 'none' }}
