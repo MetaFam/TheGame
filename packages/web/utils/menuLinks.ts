@@ -19,14 +19,14 @@ export const MenuSectionLinks: MenuLinkSet[] = [
         title: 'Players',
         explainerText:
           'Find players of MetaGame; their NFTs, their skills & whatever else they put on there',
-        url: 'players',
+        url: '/players',
         icon: 'players',
       },
       {
         title: 'Patrons',
         explainerText:
           'Check the patrons of MetaGame; the ones supporting MetaGame by buying Seeds',
-        url: 'patrons',
+        url: '/patrons',
         icon: 'patrons',
       },
       {
@@ -39,7 +39,7 @@ export const MenuSectionLinks: MenuLinkSet[] = [
         title: 'Guilds',
         explainerText:
           'Discover the guilds of MetaGame; groups of players set around more specific goals',
-        url: 'guilds',
+        url: '/guilds',
         icon: 'guilds',
       },
       {
@@ -127,7 +127,7 @@ export const MenuSectionLinks: MenuLinkSet[] = [
         title: 'Quests',
         explainerText:
           'Take a look at available quest and claim ones that suit you best',
-        url: 'quests',
+        url: '/quests',
         icon: 'quests',
       },
     ],
