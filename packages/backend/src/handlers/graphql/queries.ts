@@ -93,16 +93,8 @@ export const GuildFragment = gql`
 
 // eslint-disable-next-line @typescript-eslint/no-unused-expressions
 gql`
-  query GetGuild($guildname: String, $id: uuid, $discordId: String) {
-    guild(
-      where: {
-        _or: [
-          { id: { _eq: $id } }
-          { guildname: { _eq: $guildname } }
-          { discord_id: { _eq: $discordId } }
-        ]
-      }
-    ) {
+  query GetGuild($id: uuid!) {
+    guild(where: { id: { _eq: $id } }) {
       ...GuildFragment
     }
   }
