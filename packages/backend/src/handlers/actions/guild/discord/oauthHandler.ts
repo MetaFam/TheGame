@@ -54,7 +54,6 @@ export const handleOAuthCallback = async (
         const getGuildResponse = await client.GetGuild({
           id: existingGuild.guild_id,
         });
-
         const successResponse: DiscordGuildAuthResponse = {
           success: true,
           guildname: getGuildResponse.guild[0].guildname,

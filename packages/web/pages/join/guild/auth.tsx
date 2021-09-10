@@ -33,11 +33,7 @@ const GuildSetupAuthCallback: React.FC = () => {
       } else if (response?.guildname != null) {
         // clean up guid
         remove(discordAuthStateGuidKey);
-        if (response?.exists === true) {
-          router.push(`/guild/${response?.guildname}`);
-        } else {
-          router.push(`/join/guild/${response?.guildname}`);
-        }
+        router.push(`/join/guild/${response?.guildname}`);
       }
     };
     if (!fetching && code) {
