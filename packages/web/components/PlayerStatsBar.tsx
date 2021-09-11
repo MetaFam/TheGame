@@ -1,4 +1,5 @@
 import { Avatar, Badge, Flex, Image, Stack, Text } from '@metafam/ds';
+import { MetaLink } from 'components/Link';
 import { LoginButton } from 'components/LoginButton';
 import { usePSeedBalance } from 'lib/hooks/balances';
 import React from 'react';
@@ -34,12 +35,14 @@ const PlayerStats = () => {
       {isConnected && !!user?.player ? (
         <>
           <Flex pt={2} pb={6} px={2}>
-            <Avatar
-              name={getPlayerName(user.player)}
-              src={getPlayerImage(user.player)}
-              w="52px"
-              h="52px"
-            />
+            <MetaLink href="profile/setup/username">
+              <Avatar
+                name={getPlayerName(user.player)}
+                src={getPlayerImage(user.player)}
+                w="52px"
+                h="52px"
+              />
+            </MetaLink>
             <Stack fontFamily="exo" my={2} ml={2}>
               <Text
                 fontSize={14}
