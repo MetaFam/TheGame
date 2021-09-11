@@ -21,27 +21,27 @@ import {
   Text,
   useDisclosure,
 } from '@metafam/ds';
-import Alliances from 'assets/menuIcon/alliances.png';
-import Asketh from 'assets/menuIcon/asketh.png';
-import Contribute from 'assets/menuIcon/contribute.png';
-import Discord from 'assets/menuIcon/discord.png';
-import Forum from 'assets/menuIcon/forum.png';
-import Grants from 'assets/menuIcon/grants.png';
-import Guilds from 'assets/menuIcon/guilds.png';
-import Invest from 'assets/menuIcon/invest.png';
-import Learn from 'assets/menuIcon/learn.png';
-import MetaGameWiki from 'assets/menuIcon/metagamewiki.png';
-import Patrons from 'assets/menuIcon/patrons.png';
-import Playbooks from 'assets/menuIcon/playbooks.png';
-import Players from 'assets/menuIcon/players.png';
-import Quests from 'assets/menuIcon/quests.png';
-import Raids from 'assets/menuIcon/raids.png';
-import Roles from 'assets/menuIcon/roles.png';
-import SeedEarned from 'assets/menuIcon/seedearned.png';
-import Seeds from 'assets/menuIcon/seeds.png';
-import TheGreatHouses from 'assets/menuIcon/thegreathouses.png';
-import WelcomeToMetagame from 'assets/menuIcon/welcometometagame.png';
-import XPEarned from 'assets/menuIcon/xpearned.png';
+import Alliances from 'assets/menuIcon/alliances.svg';
+import Asketh from 'assets/menuIcon/asketh.svg';
+import Contribute from 'assets/menuIcon/contribute.svg';
+import Discord from 'assets/menuIcon/discord.svg';
+import Forum from 'assets/menuIcon/forum.svg';
+import Grants from 'assets/menuIcon/grants.svg';
+import Guilds from 'assets/menuIcon/guilds.svg';
+import Invest from 'assets/menuIcon/invest.svg';
+import Learn from 'assets/menuIcon/learn.svg';
+import MetaGameWiki from 'assets/menuIcon/metagamewiki.svg';
+import Patrons from 'assets/menuIcon/patrons.svg';
+import Playbooks from 'assets/menuIcon/playbooks.svg';
+import Players from 'assets/menuIcon/players.svg';
+import Quests from 'assets/menuIcon/quests.svg';
+import Raids from 'assets/menuIcon/raids.svg';
+import Roles from 'assets/menuIcon/roles.svg';
+import SeedEarned from 'assets/menuIcon/seedearned.svg';
+import Seeds from 'assets/menuIcon/seeds.svg';
+import TheGreatHouses from 'assets/menuIcon/thegreathouses.svg';
+import WelcomeToMetagame from 'assets/menuIcon/welcometometagame.svg';
+import XPEarned from 'assets/menuIcon/xpearned.svg';
 import { MetaLink } from 'components/Link';
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
 import { usePSeedBalance } from 'lib/hooks/balances';
@@ -449,7 +449,7 @@ export const MegaMenu: React.FC = () => {
                   <Avatar
                     name="alt text"
                     src={menuIcons[item.icon]}
-                    p="5px"
+                    p="2px"
                     w="24px"
                     h="24px"
                     mr="8px"
