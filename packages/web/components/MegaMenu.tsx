@@ -41,6 +41,7 @@ import Seeds from 'assets/menuIcon/seeds.png';
 import TheGreatHouses from 'assets/menuIcon/thegreathouses.png';
 import WelcomeToMetagame from 'assets/menuIcon/welcometometagame.png';
 import XPEarned from 'assets/menuIcon/xpearned.png';
+import { MetaLink } from 'components/Link';
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
 import { usePSeedBalance } from 'lib/hooks/balances';
 import Image from 'next/image';
@@ -262,7 +263,7 @@ const PlayerStats: React.FC<PlayerStatsProps> = ({ player, pSeedBalance }) => (
     >
       <Image src={XPStar} alt="XP" height={14} width={14} />{' '}
       <Text color="white" ml={[0, 0, 0, 2]}>
-        {player.total_xp}
+        {Math.trunc(player.total_xp * 100) / 100}
       </Text>
     </Badge>
     <Badge
@@ -281,14 +282,14 @@ const PlayerStats: React.FC<PlayerStatsProps> = ({ player, pSeedBalance }) => (
         {pSeedBalance || 0}
       </Text>
     </Badge>
-    <Link href="profile/setup/username">
+    <MetaLink href="profile/setup/username">
       <Avatar
         name={getPlayerName(player)}
         src={getPlayerImage(player)}
         w="52px"
         h="52px"
       />
-    </Link>
+    </MetaLink>
   </Flex>
 );
 
