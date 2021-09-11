@@ -33,5 +33,6 @@ export const theme: Theme = extendTheme({
     mono: '"IBM Plex Mono", monospace',
     heading: '"Press Start 2P", sans-serif',
     exo: '"Exo", sans-serif',
+    exo2: '"Exo 2", sans-serif',
   },
 });

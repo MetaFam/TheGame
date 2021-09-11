@@ -135,10 +135,15 @@ const DesktopMenuItem = ({
         bg="linear-gradient(180deg, #170B23 0%, #350C58 100%)"
       />
       <Box>
-        <Text color="#000" fontSize="xl" fontWeight="700">
+        <Text fontFamily="exo2" color="#000" fontSize="xl" fontWeight="700">
           {title}
         </Text>
-        <Text color="#000" fontSize="13px" font="IBM Plex Sans">
+        <Text
+          fontFamily="body"
+          color="#000"
+          fontSize="13px"
+          font="IBM Plex Sans"
+        >
           {explainerText}
         </Text>
       </Box>
@@ -169,6 +174,7 @@ const DesktopNavLinks = () => (
               textTransform="uppercase"
               ml={23}
               mr={23}
+              fontFamily="exo2"
               _expanded={{ color: '#FD9FE3' }}
               _focus={{ outline: 'none', border: 'none' }}
             >
@@ -445,6 +451,7 @@ export const MegaMenu: React.FC = () => {
                   background="rgba(0, 0, 0, 0.35)"
                   px={4}
                   py={3}
+                  fontFamily="exo2"
                 >
                   <Avatar
                     name="alt text"
