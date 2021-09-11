@@ -8,6 +8,7 @@ import {
   CloseIcon,
   Flex,
   HamburgerIcon,
+  IconButton,
   Link,
   Menu,
   MenuButton,
@@ -236,14 +237,18 @@ const DesktopNavLinks = () => (
 type PlayerStatsProps = {
   player: PlayerFragmentFragment;
   pSeedBalance: string | null;
+  disconnect: () => void;
 };
 // Display player XP and Seed
-const PlayerStats: React.FC<PlayerStatsProps> = ({ player, pSeedBalance }) => (
+const PlayerStats: React.FC<PlayerStatsProps> = ({
+  player,
+  pSeedBalance,
+  disconnect,
+}) => (
   <Flex
     align="center"
     display={{ base: 'none', lg: 'flex' }}
     justifyContent="flex-end"
-    // w='fit-content'
     minW={{ base: '20%', lg: 'fit-content' }}
     maxW={{ base: '20%', lg: 'fit-content' }}
     p={2}
@@ -290,11 +295,32 @@ const PlayerStats: React.FC<PlayerStatsProps> = ({ player, pSeedBalance }) => (
         h="52px"
       />
     </MetaLink>
+    <Menu>
+      <MenuButton
+        bg="transparent"
+        as={IconButton}
+        aria-label="Options"
+        icon={<ChevronDownIcon h="18px" w="18px" />}
+        _focus={{ outline: 'none', bg: 'transparent' }}
+        _hover={{ bg: 'transparent' }}
+        _active={{ bg: 'transparent' }}
+      />
+      <MenuList mt="14px" color="black" fontFamily="exo">
+        <MetaLink
+          color="black"
+          href="/profile/setup/username"
+          _hover={{ textDecoration: 'none' }}
+        >
+          <MenuItem>Edit Profile</MenuItem>
+        </MetaLink>
+        <MenuItem onClick={disconnect}>Disconnect</MenuItem>
+      </MenuList>
+    </Menu>
   </Flex>
 );
 
 export const MegaMenu: React.FC = () => {
-  const { isConnected, connectWeb3 } = useWeb3();
+  const { isConnected, connectWeb3, disconnect } = useWeb3();
   const router = useRouter();
 
   const handleLoginClick = useCallback(async () => {
@@ -365,7 +391,10 @@ export const MegaMenu: React.FC = () => {
           ) : (
             <>
               {isConnected && !!user?.player ? (
-                <PlayerStats player={user.player} {...{ pSeedBalance }} />
+                <PlayerStats
+                  player={user.player}
+                  {...{ pSeedBalance, disconnect }}
+                />
               ) : (
                 <MetaButton
                   display={{ base: 'none', lg: 'block' }}

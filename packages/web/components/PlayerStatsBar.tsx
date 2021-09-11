@@ -1,4 +1,17 @@
-import { Avatar, Badge, Flex, Image, Stack, Text } from '@metafam/ds';
+import {
+  Avatar,
+  Badge,
+  ChevronUpIcon,
+  Flex,
+  IconButton,
+  Image,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  Stack,
+  Text,
+} from '@metafam/ds';
 import { MetaLink } from 'components/Link';
 import { LoginButton } from 'components/LoginButton';
 import { usePSeedBalance } from 'lib/hooks/balances';
@@ -11,7 +24,7 @@ import { useUser, useWeb3 } from '../lib/hooks';
 
 // Display player XP and Seed
 const PlayerStats = () => {
-  const { isConnected } = useWeb3();
+  const { isConnected, disconnect } = useWeb3();
   const { user } = useUser();
   const { pSeedBalance } = usePSeedBalance();
   return (
@@ -57,6 +70,27 @@ const PlayerStats = () => {
                 {user.player.rank || ''}
               </Text>
             </Stack>
+            <Menu>
+              <MenuButton
+                bg="transparent"
+                as={IconButton}
+                aria-label="Options"
+                icon={<ChevronUpIcon h="18px" w="18px" />}
+                _focus={{ outline: 'none', bg: 'transparent' }}
+                _hover={{ bg: 'transparent' }}
+                _active={{ bg: 'transparent' }}
+              />
+              <MenuList color="black" fontFamily="exo">
+                <MetaLink
+                  color="black"
+                  href="/profile/setup/username"
+                  _hover={{ textDecoration: 'none' }}
+                >
+                  <MenuItem>Edit Profile</MenuItem>
+                </MetaLink>
+                <MenuItem onClick={disconnect}>Disconnect</MenuItem>
+              </MenuList>
+            </Menu>
           </Flex>
           <Flex pb={6} mr={2}>
             <Badge
