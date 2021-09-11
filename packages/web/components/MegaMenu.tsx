@@ -282,7 +282,7 @@ const PlayerStats: React.FC<PlayerStatsProps> = ({ player, pSeedBalance }) => (
         {pSeedBalance || 0}
       </Text>
     </Badge>
-    <MetaLink href="profile/setup/username">
+    <MetaLink href="/profile/setup/username">
       <Avatar
         name={getPlayerName(player)}
         src={getPlayerImage(player)}

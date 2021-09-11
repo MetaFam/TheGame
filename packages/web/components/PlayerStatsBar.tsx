@@ -35,7 +35,7 @@ const PlayerStats = () => {
       {isConnected && !!user?.player ? (
         <>
           <Flex pt={2} pb={6} px={2}>
-            <MetaLink href="profile/setup/username">
+            <MetaLink href="/profile/setup/username">
               <Avatar
                 name={getPlayerName(user.player)}
                 src={getPlayerImage(user.player)}
