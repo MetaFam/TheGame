@@ -314,10 +314,10 @@ const PlayerStats: React.FC<PlayerStatsProps> = ({
       <MenuList mt="14px" color="black" fontFamily="exo2">
         <MetaLink
           color="black"
-          href="/profile/setup/username"
+          href={`/player/${getPlayerName(player)}`}
           _hover={{ textDecoration: 'none' }}
         >
-          <MenuItem>Edit Profile</MenuItem>
+          <MenuItem>View Profile</MenuItem>
         </MetaLink>
         <MenuItem onClick={disconnect}>Disconnect</MenuItem>
       </MenuList>

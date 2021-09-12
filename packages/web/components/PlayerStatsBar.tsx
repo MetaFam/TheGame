@@ -90,10 +90,10 @@ const PlayerStats = () => {
               <MenuList color="black" fontFamily="exo2">
                 <MetaLink
                   color="black"
-                  href="/profile/setup/username"
+                  href={`/player/${getPlayerName(user.player)}`}
                   _hover={{ textDecoration: 'none' }}
                 >
-                  <MenuItem>Edit Profile</MenuItem>
+                  <MenuItem>View Profile</MenuItem>
                 </MetaLink>
                 <MenuItem onClick={disconnect}>Disconnect</MenuItem>
               </MenuList>
