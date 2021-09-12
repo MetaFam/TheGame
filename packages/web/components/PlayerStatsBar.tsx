@@ -15,7 +15,7 @@ import {
 import { MetaLink } from 'components/Link';
 import { LoginButton } from 'components/LoginButton';
 import { usePSeedBalance } from 'lib/hooks/balances';
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { getPlayerImage, getPlayerName } from 'utils/playerHelpers';
 
 import SeedMarket from '../assets/seed-icon.svg';
@@ -26,6 +26,13 @@ import { useUser, useWeb3 } from '../lib/hooks';
 const PlayerStats = () => {
   const { isConnected, disconnect } = useWeb3();
   const { user } = useUser();
+  const [offsetY, setOffsetY] = useState(0);
+  const myRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (isConnected && !!user?.player && !!myRef?.current) {
+      setOffsetY(myRef?.current?.offsetWidth);
+    }
+  }, [isConnected, user, myRef]);
   const { pSeedBalance } = usePSeedBalance();
   return (
     <Flex
@@ -39,7 +46,7 @@ const PlayerStats = () => {
       sx={{ backdropFilter: 'blur(10px)' }}
       position="fixed"
       bottom="0"
-      zIndex="2"
+      zIndex="200"
       boxSizing="border-box"
       mt="auto"
       mr="0"
@@ -47,7 +54,7 @@ const PlayerStats = () => {
     >
       {isConnected && !!user?.player ? (
         <>
-          <Flex pt={2} pb={6} px={2}>
+          <Flex ref={myRef} pt={2} pb={6} px={2}>
             <MetaLink href="/profile/setup/username">
               <Avatar
                 name={getPlayerName(user.player)}
@@ -70,7 +77,7 @@ const PlayerStats = () => {
                 {user.player.rank || ''}
               </Text>
             </Stack>
-            <Menu placement="top" offset={[-30, 9]}>
+            <Menu strategy="fixed" offset={[-offsetY, 8]}>
               <MenuButton
                 bg="transparent"
                 as={IconButton}
@@ -92,7 +99,14 @@ const PlayerStats = () => {
               </MenuList>
             </Menu>
           </Flex>
-          <Flex pb={6} mr={2}>
+          <Flex
+            mr={2}
+            mt={2}
+            flexWrap="wrap"
+            height="100%"
+            alignSelf="baseline"
+            justifyContent="flex-end"
+          >
             <Badge
               display="flex"
               minH="fill"
@@ -104,7 +118,7 @@ const PlayerStats = () => {
               borderRadius={50}
               borderRight="1px solid #2B2244"
               borderLeft="1px solid #2B2244"
-              mr={2}
+              mb={2}
             >
               <Image src={XPStar} alt="XP" h="14px" w="14px" mr={3} />
               <Text color="#ffffff" fontFamily="exo" ml={2}>
@@ -120,6 +134,8 @@ const PlayerStats = () => {
               bg="rgba(0,0,0,0.25)"
               border="1px solid #2B2244"
               borderRadius={50}
+              ml={2}
+              mb={2}
             >
               <Image src={SeedMarket} alt="Seed" h="14px" w="14px" mr={3} />
               <Text color="#ffffff" fontFamily="exo" ml={2}>
