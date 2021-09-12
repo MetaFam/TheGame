@@ -311,7 +311,7 @@ const PlayerStats: React.FC<PlayerStatsProps> = ({
         _hover={{ bg: 'transparent' }}
         _active={{ bg: 'transparent' }}
       />
-      <MenuList mt="14px" color="black" fontFamily="exo">
+      <MenuList mt="14px" color="black" fontFamily="exo2">
         <MetaLink
           color="black"
           href="/profile/setup/username"

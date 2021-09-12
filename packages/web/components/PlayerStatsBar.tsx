@@ -70,7 +70,7 @@ const PlayerStats = () => {
                 {user.player.rank || ''}
               </Text>
             </Stack>
-            <Menu>
+            <Menu placement="top" offset={[-30, 9]}>
               <MenuButton
                 bg="transparent"
                 as={IconButton}
@@ -80,7 +80,7 @@ const PlayerStats = () => {
                 _hover={{ bg: 'transparent' }}
                 _active={{ bg: 'transparent' }}
               />
-              <MenuList color="black" fontFamily="exo">
+              <MenuList color="black" fontFamily="exo2">
                 <MetaLink
                   color="black"
                   href="/profile/setup/username"
