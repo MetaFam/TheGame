@@ -1,9 +1,7 @@
 import {
   Avatar,
   Badge,
-  ChevronUpIcon,
   Flex,
-  IconButton,
   Image,
   Menu,
   MenuButton,
@@ -15,7 +13,7 @@ import {
 import { MetaLink } from 'components/Link';
 import { LoginButton } from 'components/LoginButton';
 import { usePSeedBalance } from 'lib/hooks/balances';
-import React, { useEffect, useRef, useState } from 'react';
+import React from 'react';
 import { getPlayerImage, getPlayerName } from 'utils/playerHelpers';
 
 import SeedMarket from '../assets/seed-icon.svg';
@@ -26,13 +24,6 @@ import { useUser, useWeb3 } from '../lib/hooks';
 const PlayerStats = () => {
   const { isConnected, disconnect } = useWeb3();
   const { user } = useUser();
-  const [offsetY, setOffsetY] = useState(0);
-  const myRef = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    if (isConnected && !!user?.player && !!myRef?.current) {
-      setOffsetY(myRef?.current?.offsetWidth);
-    }
-  }, [isConnected, user, myRef]);
   const { pSeedBalance } = usePSeedBalance();
   return (
     <Flex
@@ -54,15 +45,33 @@ const PlayerStats = () => {
     >
       {isConnected && !!user?.player ? (
         <>
-          <Flex ref={myRef} pt={2} pb={6} px={2}>
-            <MetaLink href="/profile/setup/username">
-              <Avatar
-                name={getPlayerName(user.player)}
-                src={getPlayerImage(user.player)}
-                w="52px"
-                h="52px"
-              />
-            </MetaLink>
+          <Flex pt={2} pb={6} px={2}>
+            <Menu strategy="fixed" offset={[-7, 9]}>
+              <MenuButton
+                bg="transparent"
+                aria-label="Options"
+                _focus={{ outline: 'none', bg: 'transparent' }}
+                _hover={{ bg: 'transparent' }}
+                _active={{ bg: 'transparent' }}
+              >
+                <Avatar
+                  name={getPlayerName(user.player)}
+                  src={getPlayerImage(user.player)}
+                  w="52px"
+                  h="52px"
+                />
+              </MenuButton>
+              <MenuList color="black" fontFamily="exo2">
+                <MetaLink
+                  color="black"
+                  href={`/player/${getPlayerName(user.player)}`}
+                  _hover={{ textDecoration: 'none' }}
+                >
+                  <MenuItem>View Profile</MenuItem>
+                </MetaLink>
+                <MenuItem onClick={disconnect}>Disconnect</MenuItem>
+              </MenuList>
+            </Menu>
             <Stack fontFamily="exo" my={2} ml={2}>
               <Text
                 fontSize={14}
@@ -77,27 +86,6 @@ const PlayerStats = () => {
                 {user.player.rank || ''}
               </Text>
             </Stack>
-            <Menu strategy="fixed" offset={[-offsetY, 8]}>
-              <MenuButton
-                bg="transparent"
-                as={IconButton}
-                aria-label="Options"
-                icon={<ChevronUpIcon h="18px" w="18px" />}
-                _focus={{ outline: 'none', bg: 'transparent' }}
-                _hover={{ bg: 'transparent' }}
-                _active={{ bg: 'transparent' }}
-              />
-              <MenuList color="black" fontFamily="exo2">
-                <MetaLink
-                  color="black"
-                  href={`/player/${getPlayerName(user.player)}`}
-                  _hover={{ textDecoration: 'none' }}
-                >
-                  <MenuItem>View Profile</MenuItem>
-                </MetaLink>
-                <MenuItem onClick={disconnect}>Disconnect</MenuItem>
-              </MenuList>
-            </Menu>
           </Flex>
           <Flex
             mr={2}

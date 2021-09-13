@@ -8,7 +8,6 @@ import {
   CloseIcon,
   Flex,
   HamburgerIcon,
-  IconButton,
   Link,
   Menu,
   MenuButton,
@@ -293,25 +292,23 @@ const PlayerStats: React.FC<PlayerStatsProps> = ({
         {pSeedBalance || 0}
       </Text>
     </Badge>
-    <MetaLink href="/profile/setup/username">
-      <Avatar
-        name={getPlayerName(player)}
-        src={getPlayerImage(player)}
-        w="52px"
-        h="52px"
-      />
-    </MetaLink>
+
     <Menu>
       <MenuButton
         bg="transparent"
-        as={IconButton}
         aria-label="Options"
-        icon={<ChevronDownIcon h="18px" w="18px" />}
         _focus={{ outline: 'none', bg: 'transparent' }}
         _hover={{ bg: 'transparent' }}
         _active={{ bg: 'transparent' }}
-      />
-      <MenuList mt="14px" color="black" fontFamily="exo2">
+      >
+        <Avatar
+          name={getPlayerName(player)}
+          src={getPlayerImage(player)}
+          w="52px"
+          h="52px"
+        />
+      </MenuButton>
+      <MenuList mt="8px" color="black" fontFamily="exo2">
         <MetaLink
           color="black"
           href={`/player/${getPlayerName(player)}`}
@@ -408,6 +405,7 @@ export const MegaMenu: React.FC = () => {
                   my="auto"
                   px="24px"
                   ml="32px"
+                  fontFamily="exo2"
                   onClick={handleLoginClick}
                 >
                   Connect
