@@ -148,7 +148,7 @@ export const PatronTile: React.FC<Props> = ({ index, patron }) => {
 
           <PlayerTileMemberships player={player} />
 
-          {player.accounts.length ? (
+          {player.accounts?.length ? (
             <VStack spacing={2} align="stretch">
               <Text textStyle="caption">CONTACT</Text>
               <HStack mt="2">
