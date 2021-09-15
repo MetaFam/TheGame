@@ -18,7 +18,7 @@ import {
   useGetGuildMetadataQuery,
 } from 'graphql/autogen/types';
 import { useRouter } from 'next/router';
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
 const validations = {
@@ -131,20 +131,25 @@ export const GuildForm: React.FC<Props> = ({
     }));
   }, [guildMetadata]);
 
-  const defaultValues = useMemo<EditGuildFormInputs>(
-    () => getDefaultFormValues(workingGuild, guildMetadata, roleOptions),
-    [workingGuild, guildMetadata, roleOptions],
-  );
-
   const {
     register,
     errors,
     handleSubmit,
+    reset,
     control,
   } = useForm<EditGuildFormInputs>({
-    defaultValues,
     mode: 'onTouched',
   });
+
+  useEffect(() => {
+    const values = getDefaultFormValues(
+      workingGuild,
+      guildMetadata,
+      roleOptions,
+    );
+    // https://react-hook-form.com/v6/api#useForm
+    reset(values);
+  }, [workingGuild, guildMetadata, roleOptions, reset]);
 
   return (
     <Box w="100%" maxW="30rem">
@@ -283,10 +288,9 @@ export const GuildForm: React.FC<Props> = ({
                   name="discordAdminRoles"
                   control={control}
                   rules={validations.discordAdminRoles}
-                  defaultValue={defaultValues.discordAdminRoles}
-                  isMulti
-                  options={roleOptions}
-                  as={MultiSelect}
+                  render={(props) => (
+                    <MultiSelect isMulti options={roleOptions} {...props} />
+                  )}
                 />
                 <span>
                   Members of your Discord server with these roles will have
@@ -308,9 +312,9 @@ export const GuildForm: React.FC<Props> = ({
                   name="discordMembershipRoles"
                   control={control}
                   rules={validations.discordMembershipRoles}
-                  isMulti
-                  options={roleOptions}
-                  as={MultiSelect}
+                  render={(props) => (
+                    <MultiSelect isMulti options={roleOptions} {...props} />
+                  )}
                 />
                 <span>
                   Members of your Discord server with these roles will be
