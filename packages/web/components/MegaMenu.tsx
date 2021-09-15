@@ -289,7 +289,7 @@ const PlayerStats: React.FC<PlayerStatsProps> = ({ player, pSeedBalance }) => {
       >
         <Image src={SeedMarket} alt="Seed" height={14} width={14} />{' '}
         <Text color="white" ml={[0, 0, 0, 2]}>
-          {amountToDecimal(pSeedBalance || '0', 2)}
+          {parseInt(amountToDecimal(pSeedBalance || '0', 18), 10)}
         </Text>
       </Badge>
 

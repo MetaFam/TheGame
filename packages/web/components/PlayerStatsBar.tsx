@@ -10,6 +10,7 @@ import {
   Stack,
   Text,
 } from '@metafam/ds';
+import { numbers } from '@metafam/utils';
 import { MetaLink } from 'components/Link';
 import { LoginButton } from 'components/LoginButton';
 import { usePSeedBalance } from 'lib/hooks/balances';
@@ -19,6 +20,8 @@ import { getPlayerImage, getPlayerName } from 'utils/playerHelpers';
 import SeedMarket from '../assets/seed-icon.svg';
 import XPStar from '../assets/xp-star.svg';
 import { useUser, useWeb3 } from '../lib/hooks';
+
+const { amountToDecimal } = numbers;
 
 // Display player XP and Seed
 const PlayerStats = () => {
@@ -110,7 +113,7 @@ const PlayerStats = () => {
             >
               <Image src={XPStar} alt="XP" h="14px" w="14px" mr={3} />
               <Text color="#ffffff" fontFamily="exo" ml={2}>
-                {user.player.total_xp}
+                {Math.trunc(user.player.total_xp * 100) / 100}
               </Text>
             </Badge>
             <Badge
@@ -127,7 +130,7 @@ const PlayerStats = () => {
             >
               <Image src={SeedMarket} alt="Seed" h="14px" w="14px" mr={3} />
               <Text color="#ffffff" fontFamily="exo" ml={2}>
-                {pSeedBalance || 0}
+                {parseInt(amountToDecimal(pSeedBalance || '0', 18), 10)}
               </Text>
             </Badge>
           </Flex>
