@@ -20,27 +20,29 @@ import {
   Text,
   useDisclosure,
 } from '@metafam/ds';
-import Alliances from 'assets/menuIcon/alliances.png';
-import Asketh from 'assets/menuIcon/asketh.png';
-import Contribute from 'assets/menuIcon/contribute.png';
-import Discord from 'assets/menuIcon/discord.png';
-import Forum from 'assets/menuIcon/forum.png';
-import Grants from 'assets/menuIcon/grants.png';
-import Guilds from 'assets/menuIcon/guilds.png';
-import Invest from 'assets/menuIcon/invest.png';
-import Learn from 'assets/menuIcon/learn.png';
-import MetaGameWiki from 'assets/menuIcon/metagamewiki.png';
-import Patrons from 'assets/menuIcon/patrons.png';
-import Playbooks from 'assets/menuIcon/playbooks.png';
-import Players from 'assets/menuIcon/players.png';
-import Quests from 'assets/menuIcon/quests.png';
-import Raids from 'assets/menuIcon/raids.png';
-import Roles from 'assets/menuIcon/roles.png';
-import SeedEarned from 'assets/menuIcon/seedearned.png';
-import Seeds from 'assets/menuIcon/seeds.png';
-import TheGreatHouses from 'assets/menuIcon/thegreathouses.png';
-import WelcomeToMetagame from 'assets/menuIcon/welcometometagame.png';
-import XPEarned from 'assets/menuIcon/xpearned.png';
+import { numbers } from '@metafam/utils';
+import Alliances from 'assets/menuIcon/alliances.svg';
+import Asketh from 'assets/menuIcon/asketh.svg';
+import Contribute from 'assets/menuIcon/contribute.svg';
+import Discord from 'assets/menuIcon/discord.svg';
+import Forum from 'assets/menuIcon/forum.svg';
+import Grants from 'assets/menuIcon/grants.svg';
+import Guilds from 'assets/menuIcon/guilds.svg';
+import Invest from 'assets/menuIcon/invest.svg';
+import Learn from 'assets/menuIcon/learn.svg';
+import MetaGameWiki from 'assets/menuIcon/metagamewiki.svg';
+import Patrons from 'assets/menuIcon/patrons.svg';
+import Playbooks from 'assets/menuIcon/playbooks.svg';
+import Players from 'assets/menuIcon/players.svg';
+import Quests from 'assets/menuIcon/quests.svg';
+import Raids from 'assets/menuIcon/raids.svg';
+import Roles from 'assets/menuIcon/roles.svg';
+import SeedEarned from 'assets/menuIcon/seedearned.svg';
+import Seeds from 'assets/menuIcon/seeds.svg';
+import TheGreatHouses from 'assets/menuIcon/thegreathouses.svg';
+import WelcomeToMetagame from 'assets/menuIcon/welcometometagame.svg';
+import XPEarned from 'assets/menuIcon/xpearned.svg';
+import { MetaLink } from 'components/Link';
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
 import { usePSeedBalance } from 'lib/hooks/balances';
 import Image from 'next/image';
@@ -57,6 +59,8 @@ import {
   MenuLinkSet,
   MenuSectionLinks,
 } from '../utils/menuLinks';
+
+const { amountToDecimal } = numbers;
 
 const menuIcons: { [key: string]: string } = {
   alliances: Alliances,
@@ -133,10 +137,15 @@ const DesktopMenuItem = ({
         bg="linear-gradient(180deg, #170B23 0%, #350C58 100%)"
       />
       <Box>
-        <Text color="#000" fontSize="xl" fontWeight="700">
+        <Text fontFamily="exo2" color="#000" fontSize="xl" fontWeight="700">
           {title}
         </Text>
-        <Text color="#000" fontSize="13px" font="IBM Plex Sans">
+        <Text
+          fontFamily="body"
+          color="#000"
+          fontSize="13px"
+          font="IBM Plex Sans"
+        >
           {explainerText}
         </Text>
       </Box>
@@ -167,6 +176,7 @@ const DesktopNavLinks = () => (
               textTransform="uppercase"
               ml={23}
               mr={23}
+              fontFamily="exo2"
               _expanded={{ color: '#FD9FE3' }}
               _focus={{ outline: 'none', border: 'none' }}
             >
@@ -234,63 +244,84 @@ const DesktopNavLinks = () => (
 
 type PlayerStatsProps = {
   player: PlayerFragmentFragment;
-  pSeedBalance: string | null;
 };
 // Display player XP and Seed
-const PlayerStats: React.FC<PlayerStatsProps> = ({ player, pSeedBalance }) => (
-  <Flex
-    align="center"
-    display={{ base: 'none', lg: 'flex' }}
-    justifyContent="flex-end"
-    // w='fit-content'
-    minW={{ base: '20%', lg: 'fit-content' }}
-    maxW={{ base: '20%', lg: 'fit-content' }}
-    p={2}
-    flex="1"
-    my="auto"
-    mr="0"
-  >
-    <Badge
+const PlayerStats: React.FC<PlayerStatsProps> = ({ player }) => {
+  const { disconnect } = useWeb3();
+  const { pSeedBalance } = usePSeedBalance();
+  return (
+    <Flex
+      align="center"
       display={{ base: 'none', lg: 'flex' }}
-      flexDirection="row"
-      px={4}
-      py={2}
-      bg="rgba(0,0,0,0.25)"
-      border="1px solid #2B2244"
-      borderRadius={50}
-      minW="fit-content"
+      justifyContent="flex-end"
+      minW={{ base: '20%', lg: 'fit-content' }}
+      maxW={{ base: '20%', lg: 'fit-content' }}
+      p={2}
+      flex="1"
+      my="auto"
+      mr="0"
     >
-      <Image src={XPStar} alt="XP" height={14} width={14} />{' '}
-      <Text color="white" ml={[0, 0, 0, 2]}>
-        {player.total_xp}
-      </Text>
-    </Badge>
-    <Badge
-      display={{ base: 'none', lg: 'flex' }}
-      flexDirection="row"
-      m={2}
-      px={4}
-      py={2}
-      bg="rgba(0,0,0,0.25)"
-      border="1px solid #2B2244"
-      borderRadius={50}
-      minW="fit-content"
-    >
-      <Image src={SeedMarket} alt="Seed" height={14} width={14} />{' '}
-      <Text color="white" ml={[0, 0, 0, 2]}>
-        {pSeedBalance || 0}
-      </Text>
-    </Badge>
-    <Link href="profile/setup/username">
-      <Avatar
-        name={getPlayerName(player)}
-        src={getPlayerImage(player)}
-        w="52px"
-        h="52px"
-      />
-    </Link>
-  </Flex>
-);
+      <Badge
+        display={{ base: 'none', lg: 'flex' }}
+        flexDirection="row"
+        px={4}
+        py={2}
+        bg="rgba(0,0,0,0.25)"
+        border="1px solid #2B2244"
+        borderRadius={50}
+        minW="fit-content"
+      >
+        <Image src={XPStar} alt="XP" height={14} width={14} />{' '}
+        <Text color="white" ml={[0, 0, 0, 2]}>
+          {Math.trunc(player.total_xp * 100) / 100}
+        </Text>
+      </Badge>
+      <Badge
+        display={{ base: 'none', lg: 'flex' }}
+        flexDirection="row"
+        m={2}
+        px={4}
+        py={2}
+        bg="rgba(0,0,0,0.25)"
+        border="1px solid #2B2244"
+        borderRadius={50}
+        minW="fit-content"
+      >
+        <Image src={SeedMarket} alt="Seed" height={14} width={14} />{' '}
+        <Text color="white" ml={[0, 0, 0, 2]}>
+          {parseInt(amountToDecimal(pSeedBalance || '0', 18), 10)}
+        </Text>
+      </Badge>
+
+      <Menu>
+        <MenuButton
+          bg="transparent"
+          aria-label="Options"
+          _focus={{ outline: 'none', bg: 'transparent' }}
+          _hover={{ bg: 'transparent' }}
+          _active={{ bg: 'transparent' }}
+        >
+          <Avatar
+            name={getPlayerName(player)}
+            src={getPlayerImage(player)}
+            w="52px"
+            h="52px"
+          />
+        </MenuButton>
+        <MenuList mt="8px" color="black" fontFamily="exo2">
+          <MetaLink
+            color="black"
+            href={`/player/${getPlayerName(player)}`}
+            _hover={{ textDecoration: 'none' }}
+          >
+            <MenuItem>View Profile</MenuItem>
+          </MetaLink>
+          <MenuItem onClick={disconnect}>Disconnect</MenuItem>
+        </MenuList>
+      </Menu>
+    </Flex>
+  );
+};
 
 export const MegaMenu: React.FC = () => {
   const { isConnected, connectWeb3 } = useWeb3();
@@ -300,7 +331,6 @@ export const MegaMenu: React.FC = () => {
     await connectWeb3();
   }, [connectWeb3]);
   const { user, fetching } = useUser();
-  const { pSeedBalance } = usePSeedBalance();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const menuToggle = () => {
@@ -364,7 +394,7 @@ export const MegaMenu: React.FC = () => {
           ) : (
             <>
               {isConnected && !!user?.player ? (
-                <PlayerStats player={user.player} {...{ pSeedBalance }} />
+                <PlayerStats player={user.player} />
               ) : (
                 <MetaButton
                   display={{ base: 'none', lg: 'block' }}
@@ -372,6 +402,7 @@ export const MegaMenu: React.FC = () => {
                   my="auto"
                   px="24px"
                   ml="32px"
+                  fontFamily="exo2"
                   onClick={handleLoginClick}
                 >
                   Connect
@@ -415,11 +446,12 @@ export const MegaMenu: React.FC = () => {
                   background="rgba(0, 0, 0, 0.35)"
                   px={4}
                   py={3}
+                  fontFamily="exo2"
                 >
                   <Avatar
                     name="alt text"
                     src={menuIcons[item.icon]}
-                    p="5px"
+                    p="2px"
                     w="24px"
                     h="24px"
                     mr="8px"
