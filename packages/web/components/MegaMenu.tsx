@@ -244,11 +244,11 @@ const DesktopNavLinks = () => (
 
 type PlayerStatsProps = {
   player: PlayerFragmentFragment;
-  pSeedBalance: string | null;
 };
 // Display player XP and Seed
-const PlayerStats: React.FC<PlayerStatsProps> = ({ player, pSeedBalance }) => {
+const PlayerStats: React.FC<PlayerStatsProps> = ({ player }) => {
   const { disconnect } = useWeb3();
+  const { pSeedBalance } = usePSeedBalance();
   return (
     <Flex
       align="center"
@@ -324,14 +324,13 @@ const PlayerStats: React.FC<PlayerStatsProps> = ({ player, pSeedBalance }) => {
 };
 
 export const MegaMenu: React.FC = () => {
-  const { isConnected, connectWeb3, disconnect } = useWeb3();
+  const { isConnected, connectWeb3 } = useWeb3();
   const router = useRouter();
 
   const handleLoginClick = useCallback(async () => {
     await connectWeb3();
   }, [connectWeb3]);
   const { user, fetching } = useUser();
-  const { pSeedBalance } = usePSeedBalance();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const menuToggle = () => {
@@ -395,10 +394,7 @@ export const MegaMenu: React.FC = () => {
           ) : (
             <>
               {isConnected && !!user?.player ? (
-                <PlayerStats
-                  player={user.player}
-                  {...{ pSeedBalance, disconnect }}
-                />
+                <PlayerStats player={user.player} />
               ) : (
                 <MetaButton
                   display={{ base: 'none', lg: 'block' }}
