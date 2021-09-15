@@ -20,6 +20,7 @@ import {
   Text,
   useDisclosure,
 } from '@metafam/ds';
+import { numbers } from '@metafam/utils';
 import Alliances from 'assets/menuIcon/alliances.svg';
 import Asketh from 'assets/menuIcon/asketh.svg';
 import Contribute from 'assets/menuIcon/contribute.svg';
@@ -58,6 +59,8 @@ import {
   MenuLinkSet,
   MenuSectionLinks,
 } from '../utils/menuLinks';
+
+const { amountToDecimal } = numbers;
 
 const menuIcons: { [key: string]: string } = {
   alliances: Alliances,
@@ -242,85 +245,83 @@ const DesktopNavLinks = () => (
 type PlayerStatsProps = {
   player: PlayerFragmentFragment;
   pSeedBalance: string | null;
-  disconnect: () => void;
 };
 // Display player XP and Seed
-const PlayerStats: React.FC<PlayerStatsProps> = ({
-  player,
-  pSeedBalance,
-  disconnect,
-}) => (
-  <Flex
-    align="center"
-    display={{ base: 'none', lg: 'flex' }}
-    justifyContent="flex-end"
-    minW={{ base: '20%', lg: 'fit-content' }}
-    maxW={{ base: '20%', lg: 'fit-content' }}
-    p={2}
-    flex="1"
-    my="auto"
-    mr="0"
-  >
-    <Badge
+const PlayerStats: React.FC<PlayerStatsProps> = ({ player, pSeedBalance }) => {
+  const { disconnect } = useWeb3();
+  return (
+    <Flex
+      align="center"
       display={{ base: 'none', lg: 'flex' }}
-      flexDirection="row"
-      px={4}
-      py={2}
-      bg="rgba(0,0,0,0.25)"
-      border="1px solid #2B2244"
-      borderRadius={50}
-      minW="fit-content"
+      justifyContent="flex-end"
+      minW={{ base: '20%', lg: 'fit-content' }}
+      maxW={{ base: '20%', lg: 'fit-content' }}
+      p={2}
+      flex="1"
+      my="auto"
+      mr="0"
     >
-      <Image src={XPStar} alt="XP" height={14} width={14} />{' '}
-      <Text color="white" ml={[0, 0, 0, 2]}>
-        {Math.trunc(player.total_xp * 100) / 100}
-      </Text>
-    </Badge>
-    <Badge
-      display={{ base: 'none', lg: 'flex' }}
-      flexDirection="row"
-      m={2}
-      px={4}
-      py={2}
-      bg="rgba(0,0,0,0.25)"
-      border="1px solid #2B2244"
-      borderRadius={50}
-      minW="fit-content"
-    >
-      <Image src={SeedMarket} alt="Seed" height={14} width={14} />{' '}
-      <Text color="white" ml={[0, 0, 0, 2]}>
-        {pSeedBalance || 0}
-      </Text>
-    </Badge>
-
-    <Menu>
-      <MenuButton
-        bg="transparent"
-        aria-label="Options"
-        _focus={{ outline: 'none', bg: 'transparent' }}
-        _hover={{ bg: 'transparent' }}
-        _active={{ bg: 'transparent' }}
+      <Badge
+        display={{ base: 'none', lg: 'flex' }}
+        flexDirection="row"
+        px={4}
+        py={2}
+        bg="rgba(0,0,0,0.25)"
+        border="1px solid #2B2244"
+        borderRadius={50}
+        minW="fit-content"
       >
-        <Avatar
-          name={getPlayerName(player)}
-          src={getPlayerImage(player)}
-          w="52px"
-          h="52px"
-        />
-      </MenuButton>
-      <MenuList mt="8px" color="black" fontFamily="exo2">
-        <MetaLink
-          color="black"
-          href={`/player/${getPlayerName(player)}`}
-          _hover={{ textDecoration: 'none' }}
+        <Image src={XPStar} alt="XP" height={14} width={14} />{' '}
+        <Text color="white" ml={[0, 0, 0, 2]}>
+          {Math.trunc(player.total_xp * 100) / 100}
+        </Text>
+      </Badge>
+      <Badge
+        display={{ base: 'none', lg: 'flex' }}
+        flexDirection="row"
+        m={2}
+        px={4}
+        py={2}
+        bg="rgba(0,0,0,0.25)"
+        border="1px solid #2B2244"
+        borderRadius={50}
+        minW="fit-content"
+      >
+        <Image src={SeedMarket} alt="Seed" height={14} width={14} />{' '}
+        <Text color="white" ml={[0, 0, 0, 2]}>
+          {amountToDecimal(pSeedBalance || '0', 2)}
+        </Text>
+      </Badge>
+
+      <Menu>
+        <MenuButton
+          bg="transparent"
+          aria-label="Options"
+          _focus={{ outline: 'none', bg: 'transparent' }}
+          _hover={{ bg: 'transparent' }}
+          _active={{ bg: 'transparent' }}
         >
-          <MenuItem>View Profile</MenuItem>
-        </MetaLink>
-        <MenuItem onClick={disconnect}>Disconnect</MenuItem>
-      </MenuList>
-    </Menu>
-  </Flex>
-);
+          <Avatar
+            name={getPlayerName(player)}
+            src={getPlayerImage(player)}
+            w="52px"
+            h="52px"
+          />
+        </MenuButton>
+        <MenuList mt="8px" color="black" fontFamily="exo2">
+          <MetaLink
+            color="black"
+            href={`/player/${getPlayerName(player)}`}
+            _hover={{ textDecoration: 'none' }}
+          >
+            <MenuItem>View Profile</MenuItem>
+          </MetaLink>
+          <MenuItem onClick={disconnect}>Disconnect</MenuItem>
+        </MenuList>
+      </Menu>
+    </Flex>
+  );
+};
 
 export const MegaMenu: React.FC = () => {
   const { isConnected, connectWeb3, disconnect } = useWeb3();
