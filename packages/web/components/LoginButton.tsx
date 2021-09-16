@@ -24,7 +24,7 @@ export const LoginButton: React.FC = () => {
     isConnecting,
   } = useWeb3();
 
-  const { user, fetching } = useUser();
+  const { user, fetching } = useUser({ forLoginDisplay: true });
 
   const handleLoginClick = useCallback(async () => {
     await connectWeb3();

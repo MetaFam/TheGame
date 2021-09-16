@@ -9,9 +9,14 @@ export const useWeb3 = (): Web3ContextType => useContext(Web3Context);
 type UseUserOpts = {
   redirectTo?: string;
   redirectIfFound?: boolean;
+  forLoginDisplay?: boolean;
 };
 
-export const useUser = ({ redirectTo, redirectIfFound }: UseUserOpts = {}): {
+export const useUser = ({
+  redirectTo,
+  redirectIfFound,
+  forLoginDisplay = false,
+}: UseUserOpts = {}): {
   user: MeType | null;
   fetching: boolean;
 } => {
@@ -20,7 +25,7 @@ export const useUser = ({ redirectTo, redirectIfFound }: UseUserOpts = {}): {
 
   const [{ data, error, fetching }] = useGetMeQuery({
     pause: !authToken,
-    variables: { forLoginDisplay: true },
+    variables: { forLoginDisplay },
   });
   const me = data?.me[0];
   const user = error || !authToken || !me ? null : me;
