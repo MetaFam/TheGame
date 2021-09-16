@@ -2,7 +2,7 @@ actions:
 - name: authenticateDiscordGuild
   definition:
     kind: synchronous
-    handler: '{{ACTION_BASE_ENDPOINT}}/guild/discord/auth'
+    handler: '{{ACTION_BASE_ENDPOINT}}/guild/discordAuth'
     forward_client_headers: true
   permissions:
   - role: player
@@ -18,13 +18,6 @@ actions:
   definition:
     kind: synchronous
     handler: '{{ACTION_BASE_ENDPOINT}}/quests/createCompletion'
-    forward_client_headers: true
-  permissions:
-  - role: player
-- name: saveGuildInformation
-  definition:
-    kind: synchronous
-    handler: '{{ACTION_BASE_ENDPOINT}}/guild/save'
     forward_client_headers: true
   permissions:
   - role: player
@@ -67,28 +60,10 @@ custom_types:
     - description: null
       is_deprecated: null
       value: REJECTED
-  - name: GuildType_ActionEnum
-    values:
-    - description: null
-      is_deprecated: null
-      value: PROJECT
-    - description: null
-      is_deprecated: null
-      value: SERVICE
-    - description: null
-      is_deprecated: null
-      value: RESEARCH
-    - description: null
-      is_deprecated: null
-      value: SOCIAL
-    - description: null
-      is_deprecated: null
-      value: FUNDING
   input_objects:
   - name: CreateQuestInput
   - name: CreateQuestCompletionInput
   - name: UpdateQuestCompletionInput
-  - name: GuildInfo
   objects:
   - name: UpdateBoxProfileResponse
   - name: CreateQuestOutput
@@ -122,5 +97,4 @@ custom_types:
   - name: CacheProcessOutput
   - name: UpdateIDXProfileResponse
   - name: ExpiredPlayerProfiles
-  - name: SaveGuildResponse
   scalars: []

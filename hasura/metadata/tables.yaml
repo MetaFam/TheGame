@@ -65,10 +65,6 @@
   is_enum: true
 - table:
     schema: public
-    name: PlayerRole
-  is_enum: true
-- table:
-    schema: public
     name: QuestCompletionStatus
   is_enum: true
   array_relationships:
@@ -115,6 +111,13 @@
     using:
       foreign_key_constraint_on: type
   array_relationships:
+  - name: guild_accounts
+    using:
+      foreign_key_constraint_on:
+        column: guild_id
+        table:
+          schema: public
+          name: guild_account
   - name: guild_players
     using:
       foreign_key_constraint_on:
@@ -141,7 +144,6 @@
       - id
       - join_button_url
       - logo
-      - membership_through_discord
       - moloch_address
       - name
       - position
@@ -161,7 +163,6 @@
       - id
       - join_button_url
       - logo
-      - membership_through_discord
       - moloch_address
       - name
       - position
@@ -170,51 +171,16 @@
       - type
       - website_url
       filter: {}
-  event_triggers:
-  - name: syncDiscordGuildMembers
-    definition:
-      enable_manual: false
-      update:
-        columns:
-        - membership_through_discord
-        - discord_id
-        - status
-    retry_conf:
-      num_retries: 0
-      interval_sec: 10
-      timeout_sec: 60
-    webhook_from_env: TRIGGERS_ENDPOINT
 - table:
     schema: public
-    name: guild_metadata
+    name: guild_account
   object_relationships:
-  - name: guild
+  - name: AccountType
+    using:
+      foreign_key_constraint_on: type
+  - name: Guild
     using:
       foreign_key_constraint_on: guild_id
-  - name: player
-    using:
-      foreign_key_constraint_on: creator_id
-  remote_relationships:
-  - definition:
-      remote_field:
-        getGuildDiscordRoles:
-          arguments:
-            guildDiscordId: $discord_id
-      hasura_fields:
-      - discord_id
-      remote_schema: backend
-    name: discordRoles
-  select_permissions:
-  - role: player
-    permission:
-      columns:
-      - guild_id
-      - discord_metadata
-      - creator_id
-      - discord_id
-      filter:
-        creator_id:
-          _eq: X-Hasura-User-Id
 - table:
     schema: public
     name: guild_player
@@ -225,30 +191,14 @@
   - name: Player
     using:
       foreign_key_constraint_on: player_id
-  remote_relationships:
-  - definition:
-      remote_field:
-        getDiscordServerMemberRoles:
-          arguments:
-            guildId: $guild_id
-            playerId: $player_id
-      hasura_fields:
-      - guild_id
-      - player_id
-      remote_schema: backend
-    name: discordRoles
   select_permissions:
   - role: player
     permission:
-      columns:
-      - guild_id
-      - player_id
+      columns: []
       filter: {}
   - role: public
     permission:
-      columns:
-      - guild_id
-      - player_id
+      columns: []
       filter: {}
 - table:
     schema: public
@@ -276,9 +226,12 @@
     schema: public
     name: player
   object_relationships:
-  - name: color_aspect
+  - name: ColorAspect
     using:
       foreign_key_constraint_on: color_mask
+  - name: playerType
+    using:
+      foreign_key_constraint_on: player_type_id
   - name: profile_cache
     using:
       manual_configuration:
@@ -287,11 +240,8 @@
           name: profile_cache
         column_mapping:
           id: player_id
-  - name: type
-    using:
-      foreign_key_constraint_on: player_type_id
   array_relationships:
-  - name: accounts
+  - name: Accounts
     using:
       foreign_key_constraint_on:
         column: player_id
@@ -305,6 +255,13 @@
         table:
           schema: public
           name: guild_player
+  - name: Player_Skills
+    using:
+      foreign_key_constraint_on:
+        column: player_id
+        table:
+          schema: public
+          name: player_skill
   - name: quest_completions
     using:
       foreign_key_constraint_on:
@@ -319,20 +276,6 @@
         table:
           schema: public
           name: quest
-  - name: roles
-    using:
-      foreign_key_constraint_on:
-        column: player_id
-        table:
-          schema: public
-          name: player_role
-  - name: skills
-    using:
-      foreign_key_constraint_on:
-        column: player_id
-        table:
-          schema: public
-          name: player_skill
   remote_relationships:
   - definition:
       remote_field:
@@ -432,7 +375,7 @@
       interval_sec: 10
       timeout_sec: 60
     webhook: '{{TRIGGERS_ENDPOINT}}'
-  - name: playerRankUpdated
+  - name: player_rank_updated
     definition:
       enable_manual: false
       update:
@@ -467,65 +410,6 @@
       filter: {}
 - table:
     schema: public
-    name: player_role
-  insert_permissions:
-  - role: player
-    permission:
-      check:
-        player_id:
-          _eq: X-Hasura-User-Id
-      set:
-        player_id: x-hasura-User_Id
-      columns:
-      - rank
-      - role
-      - player_id
-      backend_only: false
-  select_permissions:
-  - role: player
-    permission:
-      columns:
-      - player_id
-      - role
-      - rank
-      filter: {}
-  - role: public
-    permission:
-      columns:
-      - rank
-      - role
-      - player_id
-      filter: {}
-  update_permissions:
-  - role: player
-    permission:
-      columns:
-      - rank
-      filter:
-        player_id:
-          _eq: X-Hasura-User-Id
-      check: null
-  delete_permissions:
-  - role: player
-    permission:
-      filter:
-        player_id:
-          _eq: X-Hasura-User-Id
-  event_triggers:
-  - name: playerRoleChanged
-    definition:
-      enable_manual: false
-      insert:
-        columns: '*'
-      delete:
-        columns: '*'
-    retry_conf:
-      num_retries: 0
-      interval_sec: 10
-      timeout_sec: 60
-    webhook_from_env: TRIGGERS_ENDPOINT
-- table:
-    schema: public
     name: player_skill
   object_relationships:
   - name: Skill
@@ -540,25 +424,20 @@
       set:
         player_id: x-hasura-User-Id
       columns:
-      - rank
       - skill_id
       backend_only: false
   select_permissions:
   - role: player
     permission:
       columns:
-      - id
       - player_id
-      - rank
       - skill_id
       filter: {}
       allow_aggregations: true
   - role: public
     permission:
       columns:
-      - id
       - player_id
-      - rank
       - skill_id
       filter: {}
       allow_aggregations: true

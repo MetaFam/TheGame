@@ -178,21 +178,6 @@ enum AccountType_update_column {
   type
 }
 
-"""
-expression to compare columns of type Boolean. All fields are combined with logical 'AND'.
-"""
-input Boolean_comparison_exp {
-  _eq: Boolean
-  _gt: Boolean
-  _gte: Boolean
-  _in: [Boolean!]
-  _is_null: Boolean
-  _lt: Boolean
-  _lte: Boolean
-  _neq: Boolean
-  _nin: [Boolean!]
-}
-
 type BoxProfile {
   collectiblesFavorites: [CollectiblesFavorites!]
   coverImageURL: String
@@ -625,7 +610,47 @@ type guild {
   description: String
   discord_id: String
   discord_invite_url: String
+  discord_metadata(
+    """JSON select path"""
+    path: String
+  ): jsonb
   github_url: String
+
+  """An array relationship"""
+  guild_accounts(
+    """distinct select on columns"""
+    distinct_on: [guild_account_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [guild_account_order_by!]
+
+    """filter the rows returned"""
+    where: guild_account_bool_exp
+  ): [guild_account!]!
+
+  """An aggregated array relationship"""
+  guild_accounts_aggregate(
+    """distinct select on columns"""
+    distinct_on: [guild_account_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [guild_account_order_by!]
+
+    """filter the rows returned"""
+    where: guild_account_bool_exp
+  ): guild_account_aggregate!
 
   """An array relationship"""
   guild_players(
@@ -668,7 +693,6 @@ type guild {
   id: uuid!
   join_button_url: String
   logo: String
-  membership_through_discord: Boolean!
   moloch_address: String
   name: String!
   position: GuildPosition_enum
@@ -717,6 +741,202 @@ type guild {
 }
 
 """
+columns and relationships of "guild_account"
+"""
+type guild_account {
+  """An object relationship"""
+  AccountType: AccountType!
+
+  """An object relationship"""
+  Guild: guild!
+  guild_id: uuid!
+  identifier: String!
+  type: AccountType_enum!
+}
+
+"""
+aggregated selection of "guild_account"
+"""
+type guild_account_aggregate {
+  aggregate: guild_account_aggregate_fields
+  nodes: [guild_account!]!
+}
+
+"""
+aggregate fields of "guild_account"
+"""
+type guild_account_aggregate_fields {
+  count(columns: [guild_account_select_column!], distinct: Boolean): Int
+  max: guild_account_max_fields
+  min: guild_account_min_fields
+}
+
+"""
+order by aggregate values of table "guild_account"
+"""
+input guild_account_aggregate_order_by {
+  count: order_by
+  max: guild_account_max_order_by
+  min: guild_account_min_order_by
+}
+
+"""
+input type for inserting array relation for remote table "guild_account"
+"""
+input guild_account_arr_rel_insert_input {
+  data: [guild_account_insert_input!]!
+  on_conflict: guild_account_on_conflict
+}
+
+"""
+Boolean expression to filter rows from the table "guild_account". All fields are combined with a logical 'AND'.
+"""
+input guild_account_bool_exp {
+  AccountType: AccountType_bool_exp
+  Guild: guild_bool_exp
+  _and: [guild_account_bool_exp]
+  _not: guild_account_bool_exp
+  _or: [guild_account_bool_exp]
+  guild_id: uuid_comparison_exp
+  identifier: String_comparison_exp
+  type: AccountType_enum_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "guild_account"
+"""
+enum guild_account_constraint {
+  """unique or primary key constraint"""
+  guild_account_pkey
+
+  """unique or primary key constraint"""
+  guild_account_type_identifier_key
+}
+
+"""
+input type for inserting data into table "guild_account"
+"""
+input guild_account_insert_input {
+  AccountType: AccountType_obj_rel_insert_input
+  Guild: guild_obj_rel_insert_input
+  guild_id: uuid
+  identifier: String
+  type: AccountType_enum
+}
+
+"""aggregate max on columns"""
+type guild_account_max_fields {
+  guild_id: uuid
+  identifier: String
+}
+
+"""
+order by max() on columns of table "guild_account"
+"""
+input guild_account_max_order_by {
+  guild_id: order_by
+  identifier: order_by
+}
+
+"""aggregate min on columns"""
+type guild_account_min_fields {
+  guild_id: uuid
+  identifier: String
+}
+
+"""
+order by min() on columns of table "guild_account"
+"""
+input guild_account_min_order_by {
+  guild_id: order_by
+  identifier: order_by
+}
+
+"""
+response of any mutation on the table "guild_account"
+"""
+type guild_account_mutation_response {
+  """number of affected rows by the mutation"""
+  affected_rows: Int!
+
+  """data of the affected rows by the mutation"""
+  returning: [guild_account!]!
+}
+
+"""
+input type for inserting object relation for remote table "guild_account"
+"""
+input guild_account_obj_rel_insert_input {
+  data: guild_account_insert_input!
+  on_conflict: guild_account_on_conflict
+}
+
+"""
+on conflict condition type for table "guild_account"
+"""
+input guild_account_on_conflict {
+  constraint: guild_account_constraint!
+  update_columns: [guild_account_update_column!]!
+  where: guild_account_bool_exp
+}
+
+"""
+ordering options when selecting data from "guild_account"
+"""
+input guild_account_order_by {
+  AccountType: AccountType_order_by
+  Guild: guild_order_by
+  guild_id: order_by
+  identifier: order_by
+  type: order_by
+}
+
+"""
+primary key columns input for table: "guild_account"
+"""
+input guild_account_pk_columns_input {
+  guild_id: uuid!
+  type: AccountType_enum!
+}
+
+"""
+select columns of table "guild_account"
+"""
+enum guild_account_select_column {
+  """column name"""
+  guild_id
+
+  """column name"""
+  identifier
+
+  """column name"""
+  type
+}
+
+"""
+input type for updating data in table "guild_account"
+"""
+input guild_account_set_input {
+  guild_id: uuid
+  identifier: String
+  type: AccountType_enum
+}
+
+"""
+update columns of table "guild_account"
+"""
+enum guild_account_update_column {
+  """column name"""
+  guild_id
+
+  """column name"""
+  identifier
+
+  """column name"""
+  type
+}
+
+"""
 aggregated selection of "guild"
 """
 type guild_aggregate {
@@ -742,6 +962,11 @@ input guild_aggregate_order_by {
   min: guild_min_order_by
 }
 
+"""append existing jsonb value of filtered columns with new jsonb value"""
+input guild_append_input {
+  discord_metadata: jsonb
+}
+
 """
 input type for inserting array relation for remote table "guild"
 """
@@ -761,13 +986,14 @@ input guild_bool_exp {
   description: String_comparison_exp
   discord_id: String_comparison_exp
   discord_invite_url: String_comparison_exp
+  discord_metadata: jsonb_comparison_exp
   github_url: String_comparison_exp
+  guild_accounts: guild_account_bool_exp
   guild_players: guild_player_bool_exp
   guildname: String_comparison_exp
   id: uuid_comparison_exp
   join_button_url: String_comparison_exp
   logo: String_comparison_exp
-  membership_through_discord: Boolean_comparison_exp
   moloch_address: String_comparison_exp
   name: String_comparison_exp
   position: GuildPosition_enum_comparison_exp
@@ -793,6 +1019,28 @@ enum guild_constraint {
 }
 
 """
+delete the field or element with specified path (for JSON arrays, negative integers count from the end)
+"""
+input guild_delete_at_path_input {
+  discord_metadata: [String]
+}
+
+"""
+delete the array element with specified index (negative integers count from the
+end). throws an error if top level container is not an array
+"""
+input guild_delete_elem_input {
+  discord_metadata: Int
+}
+
+"""
+delete key/value pair or string element. key/value pairs are matched based on their key value
+"""
+input guild_delete_key_input {
+  discord_metadata: String
+}
+
+"""
 input type for inserting data into table "guild"
 """
 input guild_insert_input {
@@ -800,13 +1048,14 @@ input guild_insert_input {
   description: String
   discord_id: String
   discord_invite_url: String
+  discord_metadata: jsonb
   github_url: String
+  guild_accounts: guild_account_arr_rel_insert_input
   guild_players: guild_player_arr_rel_insert_input
   guildname: String
   id: uuid
   join_button_url: String
   logo: String
-  membership_through_discord: Boolean
   moloch_address: String
   name: String
   position: GuildPosition_enum
@@ -849,256 +1098,6 @@ input guild_max_order_by {
   name: order_by
   twitter_url: order_by
   website_url: order_by
-}
-
-"""
-Used to hold private information for guilds
-
-
-columns and relationships of "guild_metadata"
-
-"""
-type guild_metadata {
-  creator_id: uuid
-
-  """Remote relationship field"""
-  discordRoles: [DiscordRole!]!
-  discord_id: String!
-  discord_metadata(
-    """JSON select path"""
-    path: String
-  ): jsonb
-
-  """An object relationship"""
-  guild: guild!
-  guild_id: uuid!
-
-  """An object relationship"""
-  player: player
-}
-
-"""
-aggregated selection of "guild_metadata"
-"""
-type guild_metadata_aggregate {
-  aggregate: guild_metadata_aggregate_fields
-  nodes: [guild_metadata!]!
-}
-
-"""
-aggregate fields of "guild_metadata"
-"""
-type guild_metadata_aggregate_fields {
-  count(columns: [guild_metadata_select_column!], distinct: Boolean): Int
-  max: guild_metadata_max_fields
-  min: guild_metadata_min_fields
-}
-
-"""
-order by aggregate values of table "guild_metadata"
-"""
-input guild_metadata_aggregate_order_by {
-  count: order_by
-  max: guild_metadata_max_order_by
-  min: guild_metadata_min_order_by
-}
-
-"""append existing jsonb value of filtered columns with new jsonb value"""
-input guild_metadata_append_input {
-  discord_metadata: jsonb
-}
-
-"""
-input type for inserting array relation for remote table "guild_metadata"
-"""
-input guild_metadata_arr_rel_insert_input {
-  data: [guild_metadata_insert_input!]!
-  on_conflict: guild_metadata_on_conflict
-}
-
-"""
-Boolean expression to filter rows from the table "guild_metadata". All fields are combined with a logical 'AND'.
-"""
-input guild_metadata_bool_exp {
-  _and: [guild_metadata_bool_exp]
-  _not: guild_metadata_bool_exp
-  _or: [guild_metadata_bool_exp]
-  creator_id: uuid_comparison_exp
-  discord_id: String_comparison_exp
-  discord_metadata: jsonb_comparison_exp
-  guild: guild_bool_exp
-  guild_id: uuid_comparison_exp
-  player: player_bool_exp
-}
-
-"""
-unique or primary key constraints on table "guild_metadata"
-"""
-enum guild_metadata_constraint {
-  """unique or primary key constraint"""
-  guild_metadata_pkey
-}
-
-"""
-delete the field or element with specified path (for JSON arrays, negative integers count from the end)
-"""
-input guild_metadata_delete_at_path_input {
-  discord_metadata: [String]
-}
-
-"""
-delete the array element with specified index (negative integers count from the
-end). throws an error if top level container is not an array
-"""
-input guild_metadata_delete_elem_input {
-  discord_metadata: Int
-}
-
-"""
-delete key/value pair or string element. key/value pairs are matched based on their key value
-"""
-input guild_metadata_delete_key_input {
-  discord_metadata: String
-}
-
-"""
-input type for inserting data into table "guild_metadata"
-"""
-input guild_metadata_insert_input {
-  creator_id: uuid
-  discord_id: String
-  discord_metadata: jsonb
-  guild: guild_obj_rel_insert_input
-  guild_id: uuid
-  player: player_obj_rel_insert_input
-}
-
-"""aggregate max on columns"""
-type guild_metadata_max_fields {
-  creator_id: uuid
-  discord_id: String
-  guild_id: uuid
-}
-
-"""
-order by max() on columns of table "guild_metadata"
-"""
-input guild_metadata_max_order_by {
-  creator_id: order_by
-  discord_id: order_by
-  guild_id: order_by
-}
-
-"""aggregate min on columns"""
-type guild_metadata_min_fields {
-  creator_id: uuid
-  discord_id: String
-  guild_id: uuid
-}
-
-"""
-order by min() on columns of table "guild_metadata"
-"""
-input guild_metadata_min_order_by {
-  creator_id: order_by
-  discord_id: order_by
-  guild_id: order_by
-}
-
-"""
-response of any mutation on the table "guild_metadata"
-"""
-type guild_metadata_mutation_response {
-  """number of affected rows by the mutation"""
-  affected_rows: Int!
-
-  """data of the affected rows by the mutation"""
-  returning: [guild_metadata!]!
-}
-
-"""
-input type for inserting object relation for remote table "guild_metadata"
-"""
-input guild_metadata_obj_rel_insert_input {
-  data: guild_metadata_insert_input!
-  on_conflict: guild_metadata_on_conflict
-}
-
-"""
-on conflict condition type for table "guild_metadata"
-"""
-input guild_metadata_on_conflict {
-  constraint: guild_metadata_constraint!
-  update_columns: [guild_metadata_update_column!]!
-  where: guild_metadata_bool_exp
-}
-
-"""
-ordering options when selecting data from "guild_metadata"
-"""
-input guild_metadata_order_by {
-  creator_id: order_by
-  discord_id: order_by
-  discord_metadata: order_by
-  guild: guild_order_by
-  guild_id: order_by
-  player: player_order_by
-}
-
-"""
-primary key columns input for table: "guild_metadata"
-"""
-input guild_metadata_pk_columns_input {
-  guild_id: uuid!
-}
-
-"""prepend existing jsonb value of filtered columns with new jsonb value"""
-input guild_metadata_prepend_input {
-  discord_metadata: jsonb
-}
-
-"""
-select columns of table "guild_metadata"
-"""
-enum guild_metadata_select_column {
-  """column name"""
-  creator_id
-
-  """column name"""
-  discord_id
-
-  """column name"""
-  discord_metadata
-
-  """column name"""
-  guild_id
-}
-
-"""
-input type for updating data in table "guild_metadata"
-"""
-input guild_metadata_set_input {
-  creator_id: uuid
-  discord_id: String
-  discord_metadata: jsonb
-  guild_id: uuid
-}
-
-"""
-update columns of table "guild_metadata"
-"""
-enum guild_metadata_update_column {
-  """column name"""
-  creator_id
-
-  """column name"""
-  discord_id
-
-  """column name"""
-  discord_metadata
-
-  """column name"""
-  guild_id
 }
 
 """aggregate min on columns"""
@@ -1171,13 +1170,14 @@ input guild_order_by {
   description: order_by
   discord_id: order_by
   discord_invite_url: order_by
+  discord_metadata: order_by
   github_url: order_by
+  guild_accounts_aggregate: guild_account_aggregate_order_by
   guild_players_aggregate: guild_player_aggregate_order_by
   guildname: order_by
   id: order_by
   join_button_url: order_by
   logo: order_by
-  membership_through_discord: order_by
   moloch_address: order_by
   name: order_by
   position: order_by
@@ -1204,9 +1204,6 @@ type guild_player {
 
   """An object relationship"""
   Player: player!
-
-  """Remote relationship field"""
-  discordRoles: [DiscordRole!]!
   guild_id: uuid!
   player_id: uuid!
 }
@@ -1380,6 +1377,11 @@ enum guild_player_update_column {
   player_id
 }
 
+"""prepend existing jsonb value of filtered columns with new jsonb value"""
+input guild_prepend_input {
+  discord_metadata: jsonb
+}
+
 """
 select columns of table "guild"
 """
@@ -1392,6 +1394,9 @@ enum guild_select_column {
 
   """column name"""
   discord_invite_url
+
+  """column name"""
+  discord_metadata
 
   """column name"""
   github_url
@@ -1407,9 +1412,6 @@ enum guild_select_column {
 
   """column name"""
   logo
-
-  """column name"""
-  membership_through_discord
 
   """column name"""
   moloch_address
@@ -1440,12 +1442,12 @@ input guild_set_input {
   description: String
   discord_id: String
   discord_invite_url: String
+  discord_metadata: jsonb
   github_url: String
   guildname: String
   id: uuid
   join_button_url: String
   logo: String
-  membership_through_discord: Boolean
   moloch_address: String
   name: String
   position: GuildPosition_enum
@@ -1469,6 +1471,9 @@ enum guild_update_column {
   discord_invite_url
 
   """column name"""
+  discord_metadata
+
+  """column name"""
   github_url
 
   """column name"""
@@ -1482,9 +1487,6 @@ enum guild_update_column {
 
   """column name"""
   logo
-
-  """column name"""
-  membership_through_discord
 
   """column name"""
   moloch_address
@@ -1506,24 +1508,6 @@ enum guild_update_column {
 
   """column name"""
   website_url
-}
-
-input GuildInfo {
-  daoAddress: String
-  description: String
-  discordAdminRoles: [String]!
-  discordInviteUrl: String
-  discordMembershipRoles: [String]!
-  githubUrl: String
-  guildname: String!
-  joinUrl: String
-  logoUrl: String
-  membershipThroughDiscord: Boolean
-  name: String!
-  twitterUrl: String
-  type: GuildType_ActionEnum!
-  uuid: String!
-  websiteUrl: String
 }
 
 """
@@ -1909,14 +1893,6 @@ type GuildType {
     where: guild_bool_exp
   ): guild_aggregate!
   name: String!
-}
-
-enum GuildType_ActionEnum {
-  FUNDING
-  PROJECT
-  RESEARCH
-  SERVICE
-  SOCIAL
 }
 
 """
@@ -2422,19 +2398,6 @@ type mutation_root {
   delete_PlayerRank_by_pk(rank: String!): PlayerRank
 
   """
-  delete data from the table: "PlayerRole"
-  """
-  delete_PlayerRole(
-    """filter the rows which have to be deleted"""
-    where: PlayerRole_bool_exp!
-  ): PlayerRole_mutation_response
-
-  """
-  delete single row from the table: "PlayerRole"
-  """
-  delete_PlayerRole_by_pk(role: String!): PlayerRole
-
-  """
   delete data from the table: "QuestCompletionStatus"
   """
   delete_QuestCompletionStatus(
@@ -2495,22 +2458,22 @@ type mutation_root {
   ): guild_mutation_response
 
   """
+  delete data from the table: "guild_account"
+  """
+  delete_guild_account(
+    """filter the rows which have to be deleted"""
+    where: guild_account_bool_exp!
+  ): guild_account_mutation_response
+
+  """
+  delete single row from the table: "guild_account"
+  """
+  delete_guild_account_by_pk(guild_id: uuid!, type: AccountType_enum!): guild_account
+
+  """
   delete single row from the table: "guild"
   """
   delete_guild_by_pk(id: uuid!): guild
-
-  """
-  delete data from the table: "guild_metadata"
-  """
-  delete_guild_metadata(
-    """filter the rows which have to be deleted"""
-    where: guild_metadata_bool_exp!
-  ): guild_metadata_mutation_response
-
-  """
-  delete single row from the table: "guild_metadata"
-  """
-  delete_guild_metadata_by_pk(guild_id: uuid!): guild_metadata
 
   """
   delete data from the table: "guild_player"
@@ -2555,19 +2518,6 @@ type mutation_root {
   delete_player_by_pk(id: uuid!): player
 
   """
-  delete data from the table: "player_role"
-  """
-  delete_player_role(
-    """filter the rows which have to be deleted"""
-    where: player_role_bool_exp!
-  ): player_role_mutation_response
-
-  """
-  delete single row from the table: "player_role"
-  """
-  delete_player_role_by_pk(player_id: uuid!, role: PlayerRole_enum!): player_role
-
-  """
   delete data from the table: "player_skill"
   """
   delete_player_skill(
@@ -2578,7 +2528,7 @@ type mutation_root {
   """
   delete single row from the table: "player_skill"
   """
-  delete_player_skill_by_pk(id: uuid!): player_skill
+  delete_player_skill_by_pk(player_id: uuid!, skill_id: uuid!): player_skill
 
   """
   delete data from the table: "player_type"
@@ -2791,28 +2741,6 @@ type mutation_root {
   ): PlayerRank
 
   """
-  insert data into the table: "PlayerRole"
-  """
-  insert_PlayerRole(
-    """the rows to be inserted"""
-    objects: [PlayerRole_insert_input!]!
-
-    """on conflict condition"""
-    on_conflict: PlayerRole_on_conflict
-  ): PlayerRole_mutation_response
-
-  """
-  insert a single row into the table: "PlayerRole"
-  """
-  insert_PlayerRole_one(
-    """the row to be inserted"""
-    object: PlayerRole_insert_input!
-
-    """on conflict condition"""
-    on_conflict: PlayerRole_on_conflict
-  ): PlayerRole
-
-  """
   insert data into the table: "QuestCompletionStatus"
   """
   insert_QuestCompletionStatus(
@@ -2912,26 +2840,26 @@ type mutation_root {
   ): guild_mutation_response
 
   """
-  insert data into the table: "guild_metadata"
+  insert data into the table: "guild_account"
   """
-  insert_guild_metadata(
+  insert_guild_account(
     """the rows to be inserted"""
-    objects: [guild_metadata_insert_input!]!
+    objects: [guild_account_insert_input!]!
 
     """on conflict condition"""
-    on_conflict: guild_metadata_on_conflict
-  ): guild_metadata_mutation_response
+    on_conflict: guild_account_on_conflict
+  ): guild_account_mutation_response
 
   """
-  insert a single row into the table: "guild_metadata"
+  insert a single row into the table: "guild_account"
   """
-  insert_guild_metadata_one(
+  insert_guild_account_one(
     """the row to be inserted"""
-    object: guild_metadata_insert_input!
+    object: guild_account_insert_input!
 
     """on conflict condition"""
-    on_conflict: guild_metadata_on_conflict
-  ): guild_metadata
+    on_conflict: guild_account_on_conflict
+  ): guild_account
 
   """
   insert a single row into the table: "guild"
@@ -3025,28 +2953,6 @@ type mutation_root {
     """on conflict condition"""
     on_conflict: player_on_conflict
   ): player
-
-  """
-  insert data into the table: "player_role"
-  """
-  insert_player_role(
-    """the rows to be inserted"""
-    objects: [player_role_insert_input!]!
-
-    """on conflict condition"""
-    on_conflict: player_role_on_conflict
-  ): player_role_mutation_response
-
-  """
-  insert a single row into the table: "player_role"
-  """
-  insert_player_role_one(
-    """the row to be inserted"""
-    object: player_role_insert_input!
-
-    """on conflict condition"""
-    on_conflict: player_role_on_conflict
-  ): player_role
 
   """
   insert data into the table: "player_skill"
@@ -3203,11 +3109,6 @@ type mutation_root {
   ): skill
 
   """
-  perform the action: "saveGuildInformation"
-  """
-  saveGuildInformation(guildInformation: GuildInfo!): SaveGuildResponse
-
-  """
   perform the action: "updateExpiredIDXProfiles"
   """
   updateExpiredIDXProfiles: ExpiredPlayerProfiles
@@ -3349,26 +3250,6 @@ type mutation_root {
   ): PlayerRank
 
   """
-  update data of the table: "PlayerRole"
-  """
-  update_PlayerRole(
-    """sets the columns of the filtered rows to the given values"""
-    _set: PlayerRole_set_input
-
-    """filter the rows which have to be updated"""
-    where: PlayerRole_bool_exp!
-  ): PlayerRole_mutation_response
-
-  """
-  update single row of the table: "PlayerRole"
-  """
-  update_PlayerRole_by_pk(
-    """sets the columns of the filtered rows to the given values"""
-    _set: PlayerRole_set_input
-    pk_columns: PlayerRole_pk_columns_input!
-  ): PlayerRole
-
-  """
   update data of the table: "QuestCompletionStatus"
   """
   update_QuestCompletionStatus(
@@ -3452,6 +3333,28 @@ type mutation_root {
   update data of the table: "guild"
   """
   update_guild(
+    """append existing jsonb value of filtered columns with new jsonb value"""
+    _append: guild_append_input
+
+    """
+    delete the field or element with specified path (for JSON arrays, negative integers count from the end)
+    """
+    _delete_at_path: guild_delete_at_path_input
+
+    """
+    delete the array element with specified index (negative integers count from
+    the end). throws an error if top level container is not an array
+    """
+    _delete_elem: guild_delete_elem_input
+
+    """
+    delete key/value pair or string element. key/value pairs are matched based on their key value
+    """
+    _delete_key: guild_delete_key_input
+
+    """prepend existing jsonb value of filtered columns with new jsonb value"""
+    _prepend: guild_prepend_input
+
     """sets the columns of the filtered rows to the given values"""
     _set: guild_set_input
 
@@ -3460,77 +3363,55 @@ type mutation_root {
   ): guild_mutation_response
 
   """
+  update data of the table: "guild_account"
+  """
+  update_guild_account(
+    """sets the columns of the filtered rows to the given values"""
+    _set: guild_account_set_input
+
+    """filter the rows which have to be updated"""
+    where: guild_account_bool_exp!
+  ): guild_account_mutation_response
+
+  """
+  update single row of the table: "guild_account"
+  """
+  update_guild_account_by_pk(
+    """sets the columns of the filtered rows to the given values"""
+    _set: guild_account_set_input
+    pk_columns: guild_account_pk_columns_input!
+  ): guild_account
+
+  """
   update single row of the table: "guild"
   """
   update_guild_by_pk(
+    """append existing jsonb value of filtered columns with new jsonb value"""
+    _append: guild_append_input
+
+    """
+    delete the field or element with specified path (for JSON arrays, negative integers count from the end)
+    """
+    _delete_at_path: guild_delete_at_path_input
+
+    """
+    delete the array element with specified index (negative integers count from
+    the end). throws an error if top level container is not an array
+    """
+    _delete_elem: guild_delete_elem_input
+
+    """
+    delete key/value pair or string element. key/value pairs are matched based on their key value
+    """
+    _delete_key: guild_delete_key_input
+
+    """prepend existing jsonb value of filtered columns with new jsonb value"""
+    _prepend: guild_prepend_input
+
     """sets the columns of the filtered rows to the given values"""
     _set: guild_set_input
     pk_columns: guild_pk_columns_input!
   ): guild
-
-  """
-  update data of the table: "guild_metadata"
-  """
-  update_guild_metadata(
-    """append existing jsonb value of filtered columns with new jsonb value"""
-    _append: guild_metadata_append_input
-
-    """
-    delete the field or element with specified path (for JSON arrays, negative integers count from the end)
-    """
-    _delete_at_path: guild_metadata_delete_at_path_input
-
-    """
-    delete the array element with specified index (negative integers count from
-    the end). throws an error if top level container is not an array
-    """
-    _delete_elem: guild_metadata_delete_elem_input
-
-    """
-    delete key/value pair or string element. key/value pairs are matched based on their key value
-    """
-    _delete_key: guild_metadata_delete_key_input
-
-    """prepend existing jsonb value of filtered columns with new jsonb value"""
-    _prepend: guild_metadata_prepend_input
-
-    """sets the columns of the filtered rows to the given values"""
-    _set: guild_metadata_set_input
-
-    """filter the rows which have to be updated"""
-    where: guild_metadata_bool_exp!
-  ): guild_metadata_mutation_response
-
-  """
-  update single row of the table: "guild_metadata"
-  """
-  update_guild_metadata_by_pk(
-    """append existing jsonb value of filtered columns with new jsonb value"""
-    _append: guild_metadata_append_input
-
-    """
-    delete the field or element with specified path (for JSON arrays, negative integers count from the end)
-    """
-    _delete_at_path: guild_metadata_delete_at_path_input
-
-    """
-    delete the array element with specified index (negative integers count from
-    the end). throws an error if top level container is not an array
-    """
-    _delete_elem: guild_metadata_delete_elem_input
-
-    """
-    delete key/value pair or string element. key/value pairs are matched based on their key value
-    """
-    _delete_key: guild_metadata_delete_key_input
-
-    """prepend existing jsonb value of filtered columns with new jsonb value"""
-    _prepend: guild_metadata_prepend_input
-
-    """sets the columns of the filtered rows to the given values"""
-    _set: guild_metadata_set_input
-    pk_columns: guild_metadata_pk_columns_input!
-  ): guild_metadata
 
   """
   update data of the table: "guild_player"
@@ -3601,38 +3482,9 @@ type mutation_root {
   ): player
 
   """
-  update data of the table: "player_role"
-  """
-  update_player_role(
-    """increments the integer columns with given value of the filtered values"""
-    _inc: player_role_inc_input
-
-    """sets the columns of the filtered rows to the given values"""
-    _set: player_role_set_input
-
-    """filter the rows which have to be updated"""
-    where: player_role_bool_exp!
-  ): player_role_mutation_response
-
-  """
-  update single row of the table: "player_role"
-  """
-  update_player_role_by_pk(
-    """increments the integer columns with given value of the filtered values"""
-    _inc: player_role_inc_input
-
-    """sets the columns of the filtered rows to the given values"""
-    _set: player_role_set_input
-    pk_columns: player_role_pk_columns_input!
-  ): player_role
-
-  """
   update data of the table: "player_skill"
   """
   update_player_skill(
-    """increments the integer columns with given value of the filtered values"""
-    _inc: player_skill_inc_input
-
     """sets the columns of the filtered rows to the given values"""
     _set: player_skill_set_input
 
@@ -3644,9 +3496,6 @@ type mutation_root {
   update single row of the table: "player_skill"
   """
   update_player_skill_by_pk(
-    """increments the integer columns with given value of the filtered values"""
-    _inc: player_skill_inc_input
-
     """sets the columns of the filtered rows to the given values"""
     _set: player_skill_set_input
     pk_columns: player_skill_pk_columns_input!
@@ -3828,7 +3677,7 @@ columns and relationships of "player"
 """
 type player {
   """An array relationship"""
-  accounts(
+  Accounts(
     """distinct select on columns"""
     distinct_on: [player_account_select_column!]
 
@@ -3846,7 +3695,7 @@ type player {
   ): [player_account!]!
 
   """An aggregated array relationship"""
-  accounts_aggregate(
+  Accounts_aggregate(
     """distinct select on columns"""
     distinct_on: [player_account_select_column!]
 
@@ -3862,6 +3711,45 @@ type player {
     """filter the rows returned"""
     where: player_account_bool_exp
   ): player_account_aggregate!
+
+  """An object relationship"""
+  ColorAspect: ColorAspect
+
+  """An array relationship"""
+  Player_Skills(
+    """distinct select on columns"""
+    distinct_on: [player_skill_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [player_skill_order_by!]
+
+    """filter the rows returned"""
+    where: player_skill_bool_exp
+  ): [player_skill!]!
+
+  """An aggregated array relationship"""
+  Player_Skills_aggregate(
+    """distinct select on columns"""
+    distinct_on: [player_skill_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [player_skill_order_by!]
+
+    """filter the rows returned"""
+    where: player_skill_bool_exp
+  ): player_skill_aggregate!
   availability_hours: Int
 
   """Remote relationship field"""
@@ -3869,9 +3757,6 @@ type player {
 
   """Remote relationship field"""
   brightid_status: BrightIdStatus
-
-  """An object relationship"""
-  color_aspect: ColorAspect
   color_mask: Int
   created_at: timestamptz
 
@@ -3916,6 +3801,9 @@ type player {
     where: guild_player_bool_exp
   ): guild_player_aggregate!
   id: uuid!
+
+  """An object relationship"""
+  playerType: player_type
   player_type_id: Int
 
   """An object relationship"""
@@ -3994,87 +3882,12 @@ type player {
   ): quest_aggregate!
   rank: PlayerRank_enum
   role: String
-
-  """An array relationship"""
-  roles(
-    """distinct select on columns"""
-    distinct_on: [player_role_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [player_role_order_by!]
-
-    """filter the rows returned"""
-    where: player_role_bool_exp
-  ): [player_role!]!
-
-  """An aggregated array relationship"""
-  roles_aggregate(
-    """distinct select on columns"""
-    distinct_on: [player_role_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [player_role_order_by!]
-
-    """filter the rows returned"""
-    where: player_role_bool_exp
-  ): player_role_aggregate!
   season_xp: numeric!
-
-  """An array relationship"""
-  skills(
-    """distinct select on columns"""
-    distinct_on: [player_skill_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [player_skill_order_by!]
-
-    """filter the rows returned"""
-    where: player_skill_bool_exp
-  ): [player_skill!]!
-
-  """An aggregated array relationship"""
-  skills_aggregate(
-    """distinct select on columns"""
-    distinct_on: [player_skill_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [player_skill_order_by!]
-
-    """filter the rows returned"""
-    where: player_skill_bool_exp
-  ): player_skill_aggregate!
   timezone: String
 
   """Remote relationship field"""
   token_balances: TokenBalances
   total_xp: numeric
-
-  """An object relationship"""
-  type: player_type
   updated_at: timestamptz
   username: String!
 }
@@ -4332,30 +4145,29 @@ input player_avg_order_by {
 Boolean expression to filter rows from the table "player". All fields are combined with a logical 'AND'.
 """
 input player_bool_exp {
+  Accounts: player_account_bool_exp
+  ColorAspect: ColorAspect_bool_exp
+  Player_Skills: player_skill_bool_exp
   _and: [player_bool_exp]
   _not: player_bool_exp
   _or: [player_bool_exp]
-  accounts: player_account_bool_exp
   availability_hours: Int_comparison_exp
-  color_aspect: ColorAspect_bool_exp
   color_mask: Int_comparison_exp
   created_at: timestamptz_comparison_exp
   discord_id: String_comparison_exp
   ethereum_address: String_comparison_exp
   guilds: guild_player_bool_exp
   id: uuid_comparison_exp
+  playerType: player_type_bool_exp
   player_type_id: Int_comparison_exp
   profile_cache: profile_cache_bool_exp
   quest_completions: quest_completion_bool_exp
   quests: quest_bool_exp
   rank: PlayerRank_enum_comparison_exp
   role: String_comparison_exp
-  roles: player_role_bool_exp
   season_xp: numeric_comparison_exp
-  skills: player_skill_bool_exp
   timezone: String_comparison_exp
   total_xp: numeric_comparison_exp
-  type: player_type_bool_exp
   updated_at: timestamptz_comparison_exp
   username: String_comparison_exp
 }
@@ -4392,27 +4204,26 @@ input player_inc_input {
 input type for inserting data into table "player"
 """
 input player_insert_input {
-  accounts: player_account_arr_rel_insert_input
+  Accounts: player_account_arr_rel_insert_input
+  ColorAspect: ColorAspect_obj_rel_insert_input
+  Player_Skills: player_skill_arr_rel_insert_input
   availability_hours: Int
-  color_aspect: ColorAspect_obj_rel_insert_input
   color_mask: Int
   created_at: timestamptz
   discord_id: String
   ethereum_address: String
   guilds: guild_player_arr_rel_insert_input
   id: uuid
+  playerType: player_type_obj_rel_insert_input
   player_type_id: Int
   profile_cache: profile_cache_obj_rel_insert_input
   quest_completions: quest_completion_arr_rel_insert_input
   quests: quest_arr_rel_insert_input
   rank: PlayerRank_enum
   role: String
-  roles: player_role_arr_rel_insert_input
   season_xp: numeric
-  skills: player_skill_arr_rel_insert_input
   timezone: String
   total_xp: numeric
-  type: player_type_obj_rel_insert_input
   updated_at: timestamptz
   username: String
 }
@@ -4521,27 +4332,26 @@ input player_on_conflict {
 ordering options when selecting data from "player"
 """
 input player_order_by {
-  accounts_aggregate: player_account_aggregate_order_by
+  Accounts_aggregate: player_account_aggregate_order_by
+  ColorAspect: ColorAspect_order_by
+  Player_Skills_aggregate: player_skill_aggregate_order_by
   availability_hours: order_by
-  color_aspect: ColorAspect_order_by
   color_mask: order_by
   created_at: order_by
   discord_id: order_by
   ethereum_address: order_by
   guilds_aggregate: guild_player_aggregate_order_by
   id: order_by
+  playerType: player_type_order_by
   player_type_id: order_by
   profile_cache: profile_cache_order_by
   quest_completions_aggregate: quest_completion_aggregate_order_by
   quests_aggregate: quest_aggregate_order_by
   rank: order_by
   role: order_by
-  roles_aggregate: player_role_aggregate_order_by
   season_xp: order_by
-  skills_aggregate: player_skill_aggregate_order_by
   timezone: order_by
   total_xp: order_by
-  type: player_type_order_by
   updated_at: order_by
   username: order_by
 }
@@ -4551,307 +4361,6 @@ primary key columns input for table: "player"
 """
 input player_pk_columns_input {
   id: uuid!
-}
-
-"""
-columns and relationships of "player_role"
-"""
-type player_role {
-  player_id: uuid!
-  rank: Int!
-  role: PlayerRole_enum!
-}
-
-"""
-aggregated selection of "player_role"
-"""
-type player_role_aggregate {
-  aggregate: player_role_aggregate_fields
-  nodes: [player_role!]!
-}
-
-"""
-aggregate fields of "player_role"
-"""
-type player_role_aggregate_fields {
-  avg: player_role_avg_fields
-  count(columns: [player_role_select_column!], distinct: Boolean): Int
-  max: player_role_max_fields
-  min: player_role_min_fields
-  stddev: player_role_stddev_fields
-  stddev_pop: player_role_stddev_pop_fields
-  stddev_samp: player_role_stddev_samp_fields
-  sum: player_role_sum_fields
-  var_pop: player_role_var_pop_fields
-  var_samp: player_role_var_samp_fields
-  variance: player_role_variance_fields
-}
-
-"""
-order by aggregate values of table "player_role"
-"""
-input player_role_aggregate_order_by {
-  avg: player_role_avg_order_by
-  count: order_by
-  max: player_role_max_order_by
-  min: player_role_min_order_by
-  stddev: player_role_stddev_order_by
-  stddev_pop: player_role_stddev_pop_order_by
-  stddev_samp: player_role_stddev_samp_order_by
-  sum: player_role_sum_order_by
-  var_pop: player_role_var_pop_order_by
-  var_samp: player_role_var_samp_order_by
-  variance: player_role_variance_order_by
-}
-
-"""
-input type for inserting array relation for remote table "player_role"
-"""
-input player_role_arr_rel_insert_input {
-  data: [player_role_insert_input!]!
-  on_conflict: player_role_on_conflict
-}
-
-"""aggregate avg on columns"""
-type player_role_avg_fields {
-  rank: Float
-}
-
-"""
-order by avg() on columns of table "player_role"
-"""
-input player_role_avg_order_by {
-  rank: order_by
-}
-
-"""
-Boolean expression to filter rows from the table "player_role". All fields are combined with a logical 'AND'.
-"""
-input player_role_bool_exp {
-  _and: [player_role_bool_exp]
-  _not: player_role_bool_exp
-  _or: [player_role_bool_exp]
-  player_id: uuid_comparison_exp
-  rank: Int_comparison_exp
-  role: PlayerRole_enum_comparison_exp
-}
-
-"""
-unique or primary key constraints on table "player_role"
-"""
-enum player_role_constraint {
-  """unique or primary key constraint"""
-  player_role_pkey
-}
-
-"""
-input type for incrementing integer column in table "player_role"
-"""
-input player_role_inc_input {
-  rank: Int
-}
-
-"""
-input type for inserting data into table "player_role"
-"""
-input player_role_insert_input {
-  player_id: uuid
-  rank: Int
-  role: PlayerRole_enum
-}
-
-"""aggregate max on columns"""
-type player_role_max_fields {
-  player_id: uuid
-  rank: Int
-}
-
-"""
-order by max() on columns of table "player_role"
-"""
-input player_role_max_order_by {
-  player_id: order_by
-  rank: order_by
-}
-
-"""aggregate min on columns"""
-type player_role_min_fields {
-  player_id: uuid
-  rank: Int
-}
-
-"""
-order by min() on columns of table "player_role"
-"""
-input player_role_min_order_by {
-  player_id: order_by
-  rank: order_by
-}
-
-"""
-response of any mutation on the table "player_role"
-"""
-type player_role_mutation_response {
-  """number of affected rows by the mutation"""
-  affected_rows: Int!
-
-  """data of the affected rows by the mutation"""
-  returning: [player_role!]!
-}
-
-"""
-input type for inserting object relation for remote table "player_role"
-"""
-input player_role_obj_rel_insert_input {
-  data: player_role_insert_input!
-  on_conflict: player_role_on_conflict
-}
-
-"""
-on conflict condition type for table "player_role"
-"""
-input player_role_on_conflict {
-  constraint: player_role_constraint!
-  update_columns: [player_role_update_column!]!
-  where: player_role_bool_exp
-}
-
-"""
-ordering options when selecting data from "player_role"
-"""
-input player_role_order_by {
-  player_id: order_by
-  rank: order_by
-  role: order_by
-}
-
-"""
-primary key columns input for table: "player_role"
-"""
-input player_role_pk_columns_input {
-  player_id: uuid!
-  role: PlayerRole_enum!
-}
-
-"""
-select columns of table "player_role"
-"""
-enum player_role_select_column {
-  """column name"""
-  player_id
-
-  """column name"""
-  rank
-
-  """column name"""
-  role
-}
-
-"""
-input type for updating data in table "player_role"
-"""
-input player_role_set_input {
-  player_id: uuid
-  rank: Int
-  role: PlayerRole_enum
-}
-
-"""aggregate stddev on columns"""
-type player_role_stddev_fields {
-  rank: Float
-}
-
-"""
-order by stddev() on columns of table "player_role"
-"""
-input player_role_stddev_order_by {
-  rank: order_by
-}
-
-"""aggregate stddev_pop on columns"""
-type player_role_stddev_pop_fields {
-  rank: Float
-}
-
-"""
-order by stddev_pop() on columns of table "player_role"
-"""
-input player_role_stddev_pop_order_by {
-  rank: order_by
-}
-
-"""aggregate stddev_samp on columns"""
-type player_role_stddev_samp_fields {
-  rank: Float
-}
-
-"""
-order by stddev_samp() on columns of table "player_role"
-"""
-input player_role_stddev_samp_order_by {
-  rank: order_by
-}
-
-"""aggregate sum on columns"""
-type player_role_sum_fields {
-  rank: Int
-}
-
-"""
-order by sum() on columns of table "player_role"
-"""
-input player_role_sum_order_by {
-  rank: order_by
-}
-
-"""
-update columns of table "player_role"
-"""
-enum player_role_update_column {
-  """column name"""
-  player_id
-
-  """column name"""
-  rank
-
-  """column name"""
-  role
-}
-
-"""aggregate var_pop on columns"""
-type player_role_var_pop_fields {
-  rank: Float
-}
-
-"""
-order by var_pop() on columns of table "player_role"
-"""
-input player_role_var_pop_order_by {
-  rank: order_by
-}
-
-"""aggregate var_samp on columns"""
-type player_role_var_samp_fields {
-  rank: Float
-}
-
-"""
-order by var_samp() on columns of table "player_role"
-"""
-input player_role_var_samp_order_by {
-  rank: order_by
-}
-
-"""aggregate variance on columns"""
-type player_role_variance_fields {
-  rank: Float
-}
-
-"""
-order by variance() on columns of table "player_role"
-"""
-input player_role_variance_order_by {
-  rank: order_by
 }
 
 """
@@ -4927,9 +4436,7 @@ columns and relationships of "player_skill"
 type player_skill {
   """An object relationship"""
   Skill: skill!
-  id: uuid!
   player_id: uuid!
-  rank: Int
   skill_id: uuid!
 }
 
@@ -4945,34 +4452,18 @@ type player_skill_aggregate {
 aggregate fields of "player_skill"
 """
 type player_skill_aggregate_fields {
-  avg: player_skill_avg_fields
   count(columns: [player_skill_select_column!], distinct: Boolean): Int
   max: player_skill_max_fields
   min: player_skill_min_fields
-  stddev: player_skill_stddev_fields
-  stddev_pop: player_skill_stddev_pop_fields
-  stddev_samp: player_skill_stddev_samp_fields
-  sum: player_skill_sum_fields
-  var_pop: player_skill_var_pop_fields
-  var_samp: player_skill_var_samp_fields
-  variance: player_skill_variance_fields
 }
 
 """
 order by aggregate values of table "player_skill"
 """
 input player_skill_aggregate_order_by {
-  avg: player_skill_avg_order_by
   count: order_by
   max: player_skill_max_order_by
   min: player_skill_min_order_by
-  stddev: player_skill_stddev_order_by
-  stddev_pop: player_skill_stddev_pop_order_by
-  stddev_samp: player_skill_stddev_samp_order_by
-  sum: player_skill_sum_order_by
-  var_pop: player_skill_var_pop_order_by
-  var_samp: player_skill_var_samp_order_by
-  variance: player_skill_variance_order_by
 }
 
 """
@@ -4983,18 +4474,6 @@ input player_skill_arr_rel_insert_input {
   on_conflict: player_skill_on_conflict
 }
 
-"""aggregate avg on columns"""
-type player_skill_avg_fields {
-  rank: Float
-}
-
-"""
-order by avg() on columns of table "player_skill"
-"""
-input player_skill_avg_order_by {
-  rank: order_by
-}
-
 """
 Boolean expression to filter rows from the table "player_skill". All fields are combined with a logical 'AND'.
 """
@@ -5003,9 +4482,7 @@ input player_skill_bool_exp {
   _and: [player_skill_bool_exp]
   _not: player_skill_bool_exp
   _or: [player_skill_bool_exp]
-  id: uuid_comparison_exp
   player_id: uuid_comparison_exp
-  rank: Int_comparison_exp
   skill_id: uuid_comparison_exp
 }
 
@@ -5014,14 +4491,7 @@ unique or primary key constraints on table "player_skill"
 """
 enum player_skill_constraint {
   """unique or primary key constraint"""
-  player_skill_pkey
-}
-
-"""
-input type for incrementing integer column in table "player_skill"
-"""
-input player_skill_inc_input {
-  rank: Int
+  Player_Skill_unique_key
 }
 
 """
@@ -5029,17 +4499,13 @@ input type for inserting data into table "player_skill"
 """
 input player_skill_insert_input {
   Skill: skill_obj_rel_insert_input
-  id: uuid
   player_id: uuid
-  rank: Int
   skill_id: uuid
 }
 
 """aggregate max on columns"""
 type player_skill_max_fields {
-  id: uuid
   player_id: uuid
-  rank: Int
   skill_id: uuid
 }
 
@@ -5047,17 +4513,13 @@ type player_skill_max_fields {
 order by max() on columns of table "player_skill"
 """
 input player_skill_max_order_by {
-  id: order_by
   player_id: order_by
-  rank: order_by
   skill_id: order_by
 }
 
 """aggregate min on columns"""
 type player_skill_min_fields {
-  id: uuid
   player_id: uuid
-  rank: Int
   skill_id: uuid
 }
 
@@ -5065,9 +4527,7 @@ type player_skill_min_fields {
 order by min() on columns of table "player_skill"
 """
 input player_skill_min_order_by {
-  id: order_by
   player_id: order_by
-  rank: order_by
   skill_id: order_by
 }
 
@@ -5104,9 +4564,7 @@ ordering options when selecting data from "player_skill"
 """
 input player_skill_order_by {
   Skill: skill_order_by
-  id: order_by
   player_id: order_by
-  rank: order_by
   skill_id: order_by
 }
 
@@ -5114,7 +4572,8 @@ input player_skill_order_by {
 primary key columns input for table: "player_skill"
 """
 input player_skill_pk_columns_input {
-  id: uuid!
+  player_id: uuid!
+  skill_id: uuid!
 }
 
 """
@@ -5122,13 +4581,7 @@ select columns of table "player_skill"
 """
 enum player_skill_select_column {
   """column name"""
-  id
-
-  """column name"""
   player_id
-
-  """column name"""
-  rank
 
   """column name"""
   skill_id
@@ -5138,58 +4591,8 @@ enum player_skill_select_column {
 input type for updating data in table "player_skill"
 """
 input player_skill_set_input {
-  id: uuid
   player_id: uuid
-  rank: Int
   skill_id: uuid
-}
-
-"""aggregate stddev on columns"""
-type player_skill_stddev_fields {
-  rank: Float
-}
-
-"""
-order by stddev() on columns of table "player_skill"
-"""
-input player_skill_stddev_order_by {
-  rank: order_by
-}
-
-"""aggregate stddev_pop on columns"""
-type player_skill_stddev_pop_fields {
-  rank: Float
-}
-
-"""
-order by stddev_pop() on columns of table "player_skill"
-"""
-input player_skill_stddev_pop_order_by {
-  rank: order_by
-}
-
-"""aggregate stddev_samp on columns"""
-type player_skill_stddev_samp_fields {
-  rank: Float
-}
-
-"""
-order by stddev_samp() on columns of table "player_skill"
-"""
-input player_skill_stddev_samp_order_by {
-  rank: order_by
-}
-
-"""aggregate sum on columns"""
-type player_skill_sum_fields {
-  rank: Int
-}
-
-"""
-order by sum() on columns of table "player_skill"
-"""
-input player_skill_sum_order_by {
-  rank: order_by
 }
 
 """
@@ -5197,52 +4600,10 @@ update columns of table "player_skill"
 """
 enum player_skill_update_column {
   """column name"""
-  id
-
-  """column name"""
   player_id
 
   """column name"""
-  rank
-
-  """column name"""
   skill_id
-}
-
-"""aggregate var_pop on columns"""
-type player_skill_var_pop_fields {
-  rank: Float
-}
-
-"""
-order by var_pop() on columns of table "player_skill"
-"""
-input player_skill_var_pop_order_by {
-  rank: order_by
-}
-
-"""aggregate var_samp on columns"""
-type player_skill_var_samp_fields {
-  rank: Float
-}
-
-"""
-order by var_samp() on columns of table "player_skill"
-"""
-input player_skill_var_samp_order_by {
-  rank: order_by
-}
-
-"""aggregate variance on columns"""
-type player_skill_variance_fields {
-  rank: Float
-}
-
-"""
-order by variance() on columns of table "player_skill"
-"""
-input player_skill_variance_order_by {
-  rank: order_by
 }
 
 """aggregate stddev on columns"""
@@ -5929,210 +5290,6 @@ enum PlayerRank_update_column {
 }
 
 """
-columns and relationships of "PlayerRole"
-"""
-type PlayerRole {
-  label: String!
-  role: String!
-}
-
-"""
-aggregated selection of "PlayerRole"
-"""
-type PlayerRole_aggregate {
-  aggregate: PlayerRole_aggregate_fields
-  nodes: [PlayerRole!]!
-}
-
-"""
-aggregate fields of "PlayerRole"
-"""
-type PlayerRole_aggregate_fields {
-  count(columns: [PlayerRole_select_column!], distinct: Boolean): Int
-  max: PlayerRole_max_fields
-  min: PlayerRole_min_fields
-}
-
-"""
-order by aggregate values of table "PlayerRole"
-"""
-input PlayerRole_aggregate_order_by {
-  count: order_by
-  max: PlayerRole_max_order_by
-  min: PlayerRole_min_order_by
-}
-
-"""
-input type for inserting array relation for remote table "PlayerRole"
-"""
-input PlayerRole_arr_rel_insert_input {
-  data: [PlayerRole_insert_input!]!
-  on_conflict: PlayerRole_on_conflict
-}
-
-"""
-Boolean expression to filter rows from the table "PlayerRole". All fields are combined with a logical 'AND'.
-"""
-input PlayerRole_bool_exp {
-  _and: [PlayerRole_bool_exp]
-  _not: PlayerRole_bool_exp
-  _or: [PlayerRole_bool_exp]
-  label: String_comparison_exp
-  role: String_comparison_exp
-}
-
-"""
-unique or primary key constraints on table "PlayerRole"
-"""
-enum PlayerRole_constraint {
-  """unique or primary key constraint"""
-  PlayerRole_pkey
-}
-
-enum PlayerRole_enum {
-  """artist"""
-  ARTIST
-
-  """Builder"""
-  BUILDER
-
-  """Designer"""
-  DESIGNER
-
-  """Innkeeper"""
-  INNKEEPER
-
-  """Patron"""
-  PATRON
-
-  """shiller"""
-  SHILLER
-
-  """writer"""
-  WRITER
-}
-
-"""
-expression to compare columns of type PlayerRole_enum. All fields are combined with logical 'AND'.
-"""
-input PlayerRole_enum_comparison_exp {
-  _eq: PlayerRole_enum
-  _in: [PlayerRole_enum!]
-  _is_null: Boolean
-  _neq: PlayerRole_enum
-  _nin: [PlayerRole_enum!]
-}
-
-"""
-input type for inserting data into table "PlayerRole"
-"""
-input PlayerRole_insert_input {
-  label: String
-  role: String
-}
-
-"""aggregate max on columns"""
-type PlayerRole_max_fields {
-  label: String
-  role: String
-}
-
-"""
-order by max() on columns of table "PlayerRole"
-"""
-input PlayerRole_max_order_by {
-  label: order_by
-  role: order_by
-}
-
-"""aggregate min on columns"""
-type PlayerRole_min_fields {
-  label: String
-  role: String
-}
-
-"""
-order by min() on columns of table "PlayerRole"
-"""
-input PlayerRole_min_order_by {
-  label: order_by
-  role: order_by
-}
-
-"""
-response of any mutation on the table "PlayerRole"
-"""
-type PlayerRole_mutation_response {
-  """number of affected rows by the mutation"""
-  affected_rows: Int!
-
-  """data of the affected rows by the mutation"""
-  returning: [PlayerRole!]!
-}
-
-"""
-input type for inserting object relation for remote table "PlayerRole"
-"""
-input PlayerRole_obj_rel_insert_input {
-  data: PlayerRole_insert_input!
-  on_conflict: PlayerRole_on_conflict
-}
-
-"""
-on conflict condition type for table "PlayerRole"
-"""
-input PlayerRole_on_conflict {
-  constraint: PlayerRole_constraint!
-  update_columns: [PlayerRole_update_column!]!
-  where: PlayerRole_bool_exp
-}
-
-"""
-ordering options when selecting data from "PlayerRole"
-"""
-input PlayerRole_order_by {
-  label: order_by
-  role: order_by
-}
-
-"""
-primary key columns input for table: "PlayerRole"
-"""
-input PlayerRole_pk_columns_input {
-  role: String!
-}
-
-"""
-select columns of table "PlayerRole"
-"""
-enum PlayerRole_select_column {
-  """column name"""
-  label
-
-  """column name"""
-  role
-}
-
-"""
-input type for updating data in table "PlayerRole"
-"""
-input PlayerRole_set_input {
-  label: String
-  role: String
-}
-
-"""
-update columns of table "PlayerRole"
-"""
-enum PlayerRole_update_column {
-  """column name"""
-  label
-
-  """column name"""
-  role
-}
-
-"""
 columns and relationships of "profile_cache"
 """
 type profile_cache {
@@ -6732,49 +5889,6 @@ type query_root {
   PlayerRank_by_pk(rank: String!): PlayerRank
 
   """
-  fetch data from the table: "PlayerRole"
-  """
-  PlayerRole(
-    """distinct select on columns"""
-    distinct_on: [PlayerRole_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [PlayerRole_order_by!]
-
-    """filter the rows returned"""
-    where: PlayerRole_bool_exp
-  ): [PlayerRole!]!
-
-  """
-  fetch aggregated fields from the table: "PlayerRole"
-  """
-  PlayerRole_aggregate(
-    """distinct select on columns"""
-    distinct_on: [PlayerRole_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [PlayerRole_order_by!]
-
-    """filter the rows returned"""
-    where: PlayerRole_bool_exp
-  ): PlayerRole_aggregate!
-
-  """fetch data from the table: "PlayerRole" using primary key columns"""
-  PlayerRole_by_pk(role: String!): PlayerRole
-
-  """
   fetch data from the table: "QuestCompletionStatus"
   """
   QuestCompletionStatus(
@@ -6976,6 +6090,49 @@ type query_root {
   ): [guild!]!
 
   """
+  fetch data from the table: "guild_account"
+  """
+  guild_account(
+    """distinct select on columns"""
+    distinct_on: [guild_account_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [guild_account_order_by!]
+
+    """filter the rows returned"""
+    where: guild_account_bool_exp
+  ): [guild_account!]!
+
+  """
+  fetch aggregated fields from the table: "guild_account"
+  """
+  guild_account_aggregate(
+    """distinct select on columns"""
+    distinct_on: [guild_account_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [guild_account_order_by!]
+
+    """filter the rows returned"""
+    where: guild_account_bool_exp
+  ): guild_account_aggregate!
+
+  """fetch data from the table: "guild_account" using primary key columns"""
+  guild_account_by_pk(guild_id: uuid!, type: AccountType_enum!): guild_account
+
+  """
   fetch aggregated fields from the table: "guild"
   """
   guild_aggregate(
@@ -6997,49 +6154,6 @@ type query_root {
 
   """fetch data from the table: "guild" using primary key columns"""
   guild_by_pk(id: uuid!): guild
-
-  """
-  fetch data from the table: "guild_metadata"
-  """
-  guild_metadata(
-    """distinct select on columns"""
-    distinct_on: [guild_metadata_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [guild_metadata_order_by!]
-
-    """filter the rows returned"""
-    where: guild_metadata_bool_exp
-  ): [guild_metadata!]!
-
-  """
-  fetch aggregated fields from the table: "guild_metadata"
-  """
-  guild_metadata_aggregate(
-    """distinct select on columns"""
-    distinct_on: [guild_metadata_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [guild_metadata_order_by!]
-
-    """filter the rows returned"""
-    where: guild_metadata_bool_exp
-  ): guild_metadata_aggregate!
-
-  """fetch data from the table: "guild_metadata" using primary key columns"""
-  guild_metadata_by_pk(guild_id: uuid!): guild_metadata
 
   """
   fetch data from the table: "guild_player"
@@ -7208,49 +6322,6 @@ type query_root {
   player_by_pk(id: uuid!): player
 
   """
-  fetch data from the table: "player_role"
-  """
-  player_role(
-    """distinct select on columns"""
-    distinct_on: [player_role_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [player_role_order_by!]
-
-    """filter the rows returned"""
-    where: player_role_bool_exp
-  ): [player_role!]!
-
-  """
-  fetch aggregated fields from the table: "player_role"
-  """
-  player_role_aggregate(
-    """distinct select on columns"""
-    distinct_on: [player_role_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [player_role_order_by!]
-
-    """filter the rows returned"""
-    where: player_role_bool_exp
-  ): player_role_aggregate!
-
-  """fetch data from the table: "player_role" using primary key columns"""
-  player_role_by_pk(player_id: uuid!, role: PlayerRole_enum!): player_role
-
-  """
   fetch data from the table: "player_skill"
   """
   player_skill(
@@ -7291,7 +6362,7 @@ type query_root {
   ): player_skill_aggregate!
 
   """fetch data from the table: "player_skill" using primary key columns"""
-  player_skill_by_pk(id: uuid!): player_skill
+  player_skill_by_pk(player_id: uuid!, skill_id: uuid!): player_skill
 
   """
   fetch data from the table: "player_type"
@@ -9136,11 +8207,6 @@ enum QuestStatus_update_column {
   status
 }
 
-type SaveGuildResponse {
-  error: String
-  success: Boolean
-}
-
 """
 columns and relationships of "skill"
 """
@@ -9856,49 +8922,6 @@ type subscription_root {
   PlayerRank_by_pk(rank: String!): PlayerRank
 
   """
-  fetch data from the table: "PlayerRole"
-  """
-  PlayerRole(
-    """distinct select on columns"""
-    distinct_on: [PlayerRole_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [PlayerRole_order_by!]
-
-    """filter the rows returned"""
-    where: PlayerRole_bool_exp
-  ): [PlayerRole!]!
-
-  """
-  fetch aggregated fields from the table: "PlayerRole"
-  """
-  PlayerRole_aggregate(
-    """distinct select on columns"""
-    distinct_on: [PlayerRole_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [PlayerRole_order_by!]
-
-    """filter the rows returned"""
-    where: PlayerRole_bool_exp
-  ): PlayerRole_aggregate!
-
-  """fetch data from the table: "PlayerRole" using primary key columns"""
-  PlayerRole_by_pk(role: String!): PlayerRole
-
-  """
   fetch data from the table: "QuestCompletionStatus"
   """
   QuestCompletionStatus(
@@ -10093,6 +9116,49 @@ type subscription_root {
   ): [guild!]!
 
   """
+  fetch data from the table: "guild_account"
+  """
+  guild_account(
+    """distinct select on columns"""
+    distinct_on: [guild_account_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [guild_account_order_by!]
+
+    """filter the rows returned"""
+    where: guild_account_bool_exp
+  ): [guild_account!]!
+
+  """
+  fetch aggregated fields from the table: "guild_account"
+  """
+  guild_account_aggregate(
+    """distinct select on columns"""
+    distinct_on: [guild_account_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [guild_account_order_by!]
+
+    """filter the rows returned"""
+    where: guild_account_bool_exp
+  ): guild_account_aggregate!
+
+  """fetch data from the table: "guild_account" using primary key columns"""
+  guild_account_by_pk(guild_id: uuid!, type: AccountType_enum!): guild_account
+
+  """
   fetch aggregated fields from the table: "guild"
   """
   guild_aggregate(
@@ -10114,49 +9180,6 @@ type subscription_root {
 
   """fetch data from the table: "guild" using primary key columns"""
   guild_by_pk(id: uuid!): guild
-
-  """
-  fetch data from the table: "guild_metadata"
-  """
-  guild_metadata(
-    """distinct select on columns"""
-    distinct_on: [guild_metadata_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [guild_metadata_order_by!]
-
-    """filter the rows returned"""
-    where: guild_metadata_bool_exp
-  ): [guild_metadata!]!
-
-  """
-  fetch aggregated fields from the table: "guild_metadata"
-  """
-  guild_metadata_aggregate(
-    """distinct select on columns"""
-    distinct_on: [guild_metadata_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [guild_metadata_order_by!]
-
-    """filter the rows returned"""
-    where: guild_metadata_bool_exp
-  ): guild_metadata_aggregate!
-
-  """fetch data from the table: "guild_metadata" using primary key columns"""
-  guild_metadata_by_pk(guild_id: uuid!): guild_metadata
 
   """
   fetch data from the table: "guild_player"
@@ -10325,49 +9348,6 @@ type subscription_root {
   player_by_pk(id: uuid!): player
 
   """
-  fetch data from the table: "player_role"
-  """
-  player_role(
-    """distinct select on columns"""
-    distinct_on: [player_role_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [player_role_order_by!]
-
-    """filter the rows returned"""
-    where: player_role_bool_exp
-  ): [player_role!]!
-
-  """
-  fetch aggregated fields from the table: "player_role"
-  """
-  player_role_aggregate(
-    """distinct select on columns"""
-    distinct_on: [player_role_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [player_role_order_by!]
-
-    """filter the rows returned"""
-    where: player_role_bool_exp
-  ): player_role_aggregate!
-
-  """fetch data from the table: "player_role" using primary key columns"""
-  player_role_by_pk(player_id: uuid!, role: PlayerRole_enum!): player_role
-
-  """
   fetch data from the table: "player_skill"
   """
   player_skill(
@@ -10408,7 +9388,7 @@ type subscription_root {
   ): player_skill_aggregate!
 
   """fetch data from the table: "player_skill" using primary key columns"""
-  player_skill_by_pk(id: uuid!): player_skill
+  player_skill_by_pk(player_id: uuid!, skill_id: uuid!): player_skill
 
   """
   fetch data from the table: "player_type"
