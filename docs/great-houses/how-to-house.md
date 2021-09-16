@@ -6,6 +6,7 @@ title: 🏚️ Build a New House
 
 Providing a high level overview of key topics and technologies, Houses are meant to introduce people to the most relevant content available for them to learn about that specific subject.
 
+Note: The goal is not to have all the links ever, but curate the most important.
 
 ### General Format:
 

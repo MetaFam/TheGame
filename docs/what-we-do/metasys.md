@@ -12,7 +12,7 @@ We weren’t happy with the way DAOs currently work.
 
 They are pretty much command & control based, with commands simply being given by token holders rather than CEOs.
 
-They are decentralized, but decentralized in what way exactly? 
+They are decentralized, but decentralized in what way exactly?
 If the weight of your vote is based only on how much money you have, then what the fuck are we doing?
 
 Now, I’m not saying there should be no politically centralized & strictly voting-based DAOs. That might make perfect sense for grant giving or investing DAO, but it's just not optimal for actually building things.
@@ -28,7 +28,7 @@ So, we flipped it:
 -   Yeah, no voting. Its all “yes” by default.
 -   If disputes arise, they are solved through discussion.
 -   If unresolved, vote as last resort - **1 person 1 vote.**
-    
+
 
 **After a while, we found a system to make the process smoother; create value & automatically get rewarded, no claiming needed.**
 
@@ -56,11 +56,11 @@ We do still vote from time to time, but mainly when it's a matter of taste: like
 Combining these building blocks you get a minimum viable stack for building decentralized organizations. Also, the most capital efficient way of building crypto projects so far.
 
 -   **Sourcecred -** for tracking value creation
-    
+
 -   **Aragon -** for minting reward tokens
-    
+
 -   **Balancer -** for mediating between active & passive supporters
-    
+
 
 *Do note that Sourcecred is the only critical piece, the token minting & distribution system can be swapped out for other DAO frameworks & the market making mechanism for other AMMs.*
 
@@ -77,14 +77,14 @@ We predict an exponentially growing number of dApp & DAO builders to be using a 
 3.  Once every X, you mint a fixed number of tokens & allocate it to the people earning XP, based on their share of XP earned.
 4.  You add these tokens inside a liquidity pool along with ETH or DAI, allowing people to buy or sell the token without affecting the price so much.
 5.  Build more awesome shit & repeat the cycle.
-    
+
 
 It sounds so simple now, but it took time to pioneer this way. We’ve spent most of the first year putting it all together, making sure that it works and that the people are happy. Then we spent a few months getting the system validated by investors by reaching the $1m marketcap in record speed after adding enough liquidity & validated by players, by them not dumping it.
 
 Hovering around $50 for almost 2 months after a 10x pump - not bad at all.
 
 -   What I think investors like: Tokens made through this system are rewards for completed work, not a promise of future work.
-    
+
 
 We’ve blazed the trail and others will follow.
 
