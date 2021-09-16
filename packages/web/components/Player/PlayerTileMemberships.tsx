@@ -9,10 +9,13 @@ type Props = {
 const SHOW_MEMBERSHIPS = 4;
 
 export const PlayerTileMemberships: React.FC<Props> = ({ player }) => {
-  const displayMemberships = useMemo(
-    () => player.daohausMemberships.filter(({ moloch: { title } }) => !!title),
-    [player.daohausMemberships],
-  );
+  const displayMemberships =
+    useMemo(
+      () => (
+        player.daohausMemberships?.filter(({ moloch: { title } }) => !!title) ?? []
+      ),
+      [player.daohausMemberships],
+    );
   return displayMemberships.length > 0 ? (
     <VStack spacing={2} align="stretch">
       <Text textStyle="caption">MEMBER OF</Text>
@@ -27,7 +30,9 @@ export const PlayerTileMemberships: React.FC<Props> = ({ player }) => {
         {displayMemberships.length > SHOW_MEMBERSHIPS && (
           <WrapItem>
             <MetaTag size="md" fontWeight="normal">
-              {`+${player.daohausMemberships.length - SHOW_MEMBERSHIPS}`}
+              {`+${
+                (player.daohausMemberships?.length ?? 0) - SHOW_MEMBERSHIPS
+              }`}
             </MetaTag>
           </WrapItem>
         )}

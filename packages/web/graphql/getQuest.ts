@@ -28,7 +28,10 @@ gql`
 
 // eslint-disable-next-line @typescript-eslint/no-unused-expressions
 gql`
-  query GetQuestWithCompletions($id: uuid!) {
+  query GetQuestWithCompletions(
+    $id: uuid!
+    $forLoginDisplay: Boolean! = false
+  ) {
     quest_by_pk(id: $id) {
       ...QuestWithCompletionFragment
       player {

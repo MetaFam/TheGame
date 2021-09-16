@@ -9,7 +9,7 @@ import { client } from './client';
 import { PlayerFragment } from './fragments';
 
 const playerQuery = gql`
-  query GetPlayer($username: String!) {
+  query GetPlayer($username: String!, $forLoginDisplay: Boolean! = false) {
     player(where: { username: { _eq: $username } }) {
       ...PlayerFragment
     }

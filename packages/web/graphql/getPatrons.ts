@@ -23,7 +23,11 @@ gql`
 `;
 
 const patronsQuery = gql`
-  query GetPatrons($addresses: [String!], $limit: Int) {
+  query GetPatrons(
+    $addresses: [String!]
+    $limit: Int
+    $forLoginDisplay: Boolean! = false
+  ) {
     player(where: { ethereum_address: { _in: $addresses } }, limit: $limit) {
       ...PlayerFragment
     }

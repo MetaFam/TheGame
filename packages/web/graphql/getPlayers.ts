@@ -27,6 +27,7 @@ gql`
     $timezones: [String!]
     $search: String
     $orderBy: player_order_by!
+    $forLoginDisplay: Boolean! = false
   ) {
     player(
       order_by: [$orderBy]
