@@ -115,13 +115,19 @@ export const GuildForm: React.FC<Props> = ({
 }) => {
   const router = useRouter();
 
-  const [getGuildMetadataResponse] = useGetGuildMetadataQuery({
-    variables: { id: workingGuild.id },
-  });
+  const [getGuildMetadataResponse, getGuildMetadata] = useGetGuildMetadataQuery(
+    {
+      variables: { id: workingGuild.id },
+    },
+  );
   const fetchingRoles =
     getGuildMetadataResponse == null || getGuildMetadataResponse.fetching;
   const guildMetadata = getGuildMetadataResponse.data
     ?.guild_metadata[0] as GuildMetadata;
+
+  const loadGuildMetadata = () => {
+    getGuildMetadata({ requestPolicy: 'network-only' });
+  };
 
   const roleOptions = useMemo(() => {
     const allDiscordRoles = guildMetadata?.discordRoles || [];
@@ -152,7 +158,7 @@ export const GuildForm: React.FC<Props> = ({
   }, [workingGuild, guildMetadata, roleOptions, reset]);
 
   return (
-    <Box w="100%" maxW="30rem">
+    <Box w="100%" maxW="40rem">
       <VStack>
         <Field label="Guildname" error={errors.guildname}>
           <Input
@@ -265,7 +271,7 @@ export const GuildForm: React.FC<Props> = ({
             ))}
           </Select>
         </Field>
-        <Box my={10}>
+        <Box py={5}>
           {fetchingRoles ? (
             <div>
               Fetching roles from Discord...
@@ -330,11 +336,20 @@ export const GuildForm: React.FC<Props> = ({
             loadingText="Submitting information..."
             onClick={handleSubmit(onSubmit)}
             isDisabled={success}
+            bg="purple.500"
           >
             Submit guild information
           </MetaButton>
           <MetaButton
-            variant="outline"
+            fontSize="xs"
+            bg="purple.300"
+            colorScheme="facebook"
+            isDisabled={fetchingRoles}
+            onClick={loadGuildMetadata}
+          >
+            Reload roles
+          </MetaButton>
+          <MetaButton
             onClick={() => router.push('/')}
             isDisabled={submitting || success}
           >

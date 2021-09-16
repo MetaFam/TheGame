@@ -38,7 +38,7 @@ const GuildSetupAuthCallback: React.FC = () => {
     };
     if (!fetching && code) {
       if (localState == null || localState !== state) {
-        setError('State did not match');
+        setError('State did not match.');
         return;
       }
       setFetching(true);
