@@ -19,7 +19,7 @@ export const PlayerContacts: React.FC<Props> = ({
   const [copied, handleCopy] = useCopyToClipboard();
   return (
     <Wrap>
-      {player.accounts.map((acc) => {
+      {player.accounts?.map((acc) => {
         if (acc.type === 'TWITTER') {
           const link = `https://twitter.com/${acc.identifier}`;
           return (

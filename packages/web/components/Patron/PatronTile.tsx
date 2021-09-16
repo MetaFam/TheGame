@@ -137,7 +137,7 @@ export const PatronTile: React.FC<Props> = ({ index, patron }) => {
           </LinkOverlay>
         </NextLink>
         <MetaTileBody>
-          {player.skills.length ? (
+          {player.skills?.length ? (
             <VStack spacing={2} align="stretch">
               <Text textStyle="caption">SKILLS</Text>
               <SkillsTags

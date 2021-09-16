@@ -2,33 +2,38 @@ import gql from 'fake-tag';
 
 export const PlayerFragment = gql`
   fragment PlayerFragment on player {
-    id
+    id @skip(if: $forLoginDisplay)
     username
-    total_xp
-    season_xp
-    rank
+    total_xp @skip(if: $forLoginDisplay)
+    season_xp @skip(if: $forLoginDisplay)
+    rank @skip(if: $forLoginDisplay)
     ethereum_address
-    availability_hours
-    timezone
-    color_aspect {
+
+    availability_hours @skip(if: $forLoginDisplay)
+    timezone @skip(if: $forLoginDisplay)
+    color_aspect @skip(if: $forLoginDisplay) {
       name
       description
       mask
     }
-    type {
+
+    type @skip(if: $forLoginDisplay) {
       description
       id
       imageUrl
       title
     }
-    skills {
+
+    skills @skip(if: $forLoginDisplay) {
       Skill {
         category
         id
         name
       }
     }
-    accounts(where: { type: { _in: [TWITTER, GITHUB] } }) {
+
+    accounts(where: { type: { _in: [TWITTER, GITHUB] } })
+      @skip(if: $forLoginDisplay) {
       identifier
       type
     }
@@ -52,7 +57,7 @@ export const PlayerFragment = gql`
         chain
       }
     }
-    brightid_status {
+    brightid_status @skip(if: $forLoginDisplay) {
       unique
       contextIds
     }
