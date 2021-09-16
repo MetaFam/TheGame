@@ -11,10 +11,11 @@ const SHOW_MEMBERSHIPS = 4;
 export const PlayerTileMemberships: React.FC<Props> = ({ player }) => {
   const displayMemberships =
     useMemo(
-      () =>
-        player.daohausMemberships?.filter(({ moloch: { title } }) => !!title),
+      () => (
+        player.daohausMemberships?.filter(({ moloch: { title } }) => !!title) ?? []
+      ),
       [player.daohausMemberships],
-    ) || [];
+    );
   return displayMemberships.length > 0 ? (
     <VStack spacing={2} align="stretch">
       <Text textStyle="caption">MEMBER OF</Text>
