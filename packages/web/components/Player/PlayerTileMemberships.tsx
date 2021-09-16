@@ -30,9 +30,7 @@ export const PlayerTileMemberships: React.FC<Props> = ({ player }) => {
           <WrapItem>
             <MetaTag size="md" fontWeight="normal">
               {`+${
-                player.daohausMemberships
-                  ? player.daohausMemberships.length - SHOW_MEMBERSHIPS
-                  : null
+                (player.daohausMemberships?.length ?? 0) - SHOW_MEMBERSHIPS
               }`}
             </MetaTag>
           </WrapItem>
