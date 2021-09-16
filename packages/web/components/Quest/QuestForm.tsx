@@ -1,16 +1,15 @@
 import {
   Box,
   ConfirmModal,
-  Flex,
   HStack,
   Input,
   MetaButton,
   MetaTag,
   Select,
-  Text,
   Textarea,
   VStack,
 } from '@metafam/ds';
+import { Field } from 'components/Forms/Field';
 import {
   GuildFragmentFragment,
   QuestFragmentFragment,
@@ -19,7 +18,7 @@ import {
 } from 'graphql/autogen/types';
 import { useRouter } from 'next/router';
 import React, { useMemo, useState } from 'react';
-import { Controller, FieldError, useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 
 import { QuestRepetitionHint, UriRegexp } from '../../utils/questHelpers';
 import { CategoryOption, SkillOption } from '../../utils/skillHelpers';
@@ -89,32 +88,6 @@ const getDefaultFormValues = (
         }))
     : [],
 });
-
-type FieldProps = {
-  children: React.ReactNode;
-  label: string;
-  error?: FieldError;
-};
-
-const Field: React.FC<FieldProps> = ({ children, error, label }) => (
-  <Flex mb={2} w="100%" align="center" direction="column">
-    <Flex justify="space-between" w="100%" mb={2}>
-      <Text textStyle="caption" textAlign="left" ml={4}>
-        {label}
-      </Text>
-
-      <Text textStyle="caption" textAlign="left" color="red.400" mr={4}>
-        {error?.type === 'required' && 'Required'}
-        {error?.type === 'pattern' && 'Invalid URL'}
-        {error?.type === 'minLength' && 'Too short'}
-        {error?.type === 'maxLength' && 'Too long'}
-        {error?.type === 'min' && 'Too small'}
-      </Text>
-    </Flex>
-
-    {children}
-  </Flex>
-);
 
 type Props = {
   guilds: GuildFragmentFragment[];
