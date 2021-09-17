@@ -1,0 +1,623 @@
+# Changelog
+
+This changelog contains changes starting from 18/09/2021
+
+## Release 18/09/21
+
+### Release Highlights
+
+- Expanded the filters for players
+- Seasonal XP displayed
+- Guild onboarding available through Discord
+- MegaMenu
+
+### Commits
+
+- Tip for splitting PRs with BE & FE changes
+- input bug in filter search
+- better search for timezone filter
+- Merged from master
+- fix typo
+- added key for map in render
+- added styles and show results buttons
+- setup basic structure for mobile filters layout
+- Added force option to migrateSourceCredAccounts action
+- fixed glitches due to IntersectionObserver
+- fixed ui bug with count display
+- fixed searchText filter used bug
+- fixed glitch in loading players
+- fetching count and players simultaneously
+- only search filter used
+- changed no more players message
+- added pagination for players page
+- Fix hasura-prod env variable
+- Add period to metacartel ventures description
+- wtf is NODE_ENV
+- Bump ethers from 5.3.0 to 5.4.1
+- Allow users to force-update their linked ETH address
+- config env var name fix
+- removed unnecessary console log
+- fixed collectible favorites schema bug
+- fix rebase error
+- insert metacartel ventures data
+- link error fix
+- added clarity snippet
+- Add period to metacartel ventures description
+- wtf is NODE_ENV
+- Bump ethers from 5.3.0 to 5.4.1
+- Allow users to force-update their linked ETH address
+- config env var name fix
+- removed unnecessary console log
+- fixed collectible favorites schema bug
+- fix rebase error
+- insert metacartel ventures data
+- link error fix
+- added clarity snippet
+- Merged from master
+- Fixed discord role update
+- Print out error if ssr build fails
+- yarn lint
+- Update packages/web/components/Player/PlayerAvatar.tsx
+- Update packages/web/components/Player/PlayerAvatar.tsx
+- return h and w
+- run yarn lint
+- Add PlayerAvatar class to PlayerHero
+- run yarn lint
+- remove note
+- Fix transparent bg profile img bug [fixes 385]
+- feat: make list items into links
+- refactor: was a temporary measure, no longer needed
+- feat: show DAOs in a modal and match NFT gallery styling
+- updated filters with new design
+- Use environment variable for SourceCred ledger branch
+- feat: least surprise in failures
+- fix: create clients once
+- fix: set a default DAO title
+- feat: add polygon and xdai chains when pulling DAO membership
+- Setup action to nightly merge master into develop
+- chore: rebase and squash
+- Feature/550 personality type styles (#628)
+- Bump fake-tag from 2.0.0 to 3.0.0 (#631)
+- Fixes #357 (#630)
+- ga analytics merge to develop (#633)
+- Bump sourcecred from 0.8.7 to 0.9.0 (#623)
+- Bump @chakra-ui/react from 1.6.2 to 1.6.3 (#621)
+- Bump ethers from 5.2.0 to 5.3.0 (#616)
+- Bump typescript from 4.2.4 to 4.3.2 (#611)
+- Bump next from 10.2.2 to 10.2.3 (#612)
+- Use staging backend host for staging Hasura instance
+- Bump @types/react from 17.0.5 to 17.0.6 (#576)
+- Bump next-transpile-modules from 7.0.0 to 7.2.0 (#584)
+- Bump @types/node from 15.3.1 to 15.6.1 (#594)
+- Bump js-base64 from 3.6.0 to 3.6.1 (#590)
+- Bump @typeit/discord from 4.0.9 to 4.0.10 (#585)
+- Bump ethers from 5.1.4 to 5.2.0 (#589)
+- Update migrateSourceCredAccounts scripts to use Eth address as source of truth
+- Bump @types/node from 15.3.0 to 15.3.1 (#577)
+- Bump @chakra-ui/react from 1.6.1 to 1.6.2 (#580)
+- Bump next from 10.2.0 to 10.2.2 (#574)
+- Use environment variable for SourceCred ledger branch
+- feat: least surprise in failures
+- fix: create clients once
+- fix: set a default DAO title
+- feat: add polygon and xdai chains when pulling DAO membership
+- Setup action to nightly merge master into develop
+- chore: rebase and squash
+- Feature/550 personality type styles (#628)
+- Bump fake-tag from 2.0.0 to 3.0.0 (#631)
+- Fixes #357 (#630)
+- ga analytics merge to develop (#633)
+- Bump sourcecred from 0.8.7 to 0.9.0 (#623)
+- Bump @chakra-ui/react from 1.6.2 to 1.6.3 (#621)
+- Bump ethers from 5.2.0 to 5.3.0 (#616)
+- Bump typescript from 4.2.4 to 4.3.2 (#611)
+- Bump next from 10.2.2 to 10.2.3 (#612)
+- Use staging backend host for staging Hasura instance
+- Bump @types/react from 17.0.5 to 17.0.6 (#576)
+- Bump next-transpile-modules from 7.0.0 to 7.2.0 (#584)
+- Bump @types/node from 15.3.1 to 15.6.1 (#594)
+- Bump js-base64 from 3.6.0 to 3.6.1 (#590)
+- Bump @typeit/discord from 4.0.9 to 4.0.10 (#585)
+- Bump ethers from 5.1.4 to 5.2.0 (#589)
+- Update migrateSourceCredAccounts scripts to use Eth address as source of truth
+- Bump @types/node from 15.3.0 to 15.3.1 (#577)
+- Bump @chakra-ui/react from 1.6.1 to 1.6.2 (#580)
+- Bump next from 10.2.0 to 10.2.2 (#574)
+- Merge develop into master (#629)
+- Release develop branch to prod (#598)
+- Move backend services to top as hasura depends on it
+- Removed preview environments, added duplicate staging services
+- Cleaned up env variables, extracted to env-groups
+- added filters for /players page (#566)
+- Made xp weekly change more readable (#569)
+- Ignore d.ts files in discord bot glob
+- Added an env var to specify which types of files are loaded
+- Bump eslint-plugin-import from 2.22.1 to 2.23.2 (#560)
+- Bump @urql/exchange-retry from 0.2.0 to 0.2.1 (#557)
+- Bump @types/react-dom from 17.0.4 to 17.0.5 (#558)
+- Bump @babel/core from 7.14.0 to 7.14.2 (#561)
+- Bump dotenv from 9.0.1 to 9.0.2 (#559)
+- Bump framer-motion from 4.1.15 to 4.1.16 (#565)
+- Bump @types/node from 15.0.2 to 15.3.0 (#562)
+- Dont run discord-bot when running backend:dev
+- Finalize setEthAddress command
+- updated github actions to debug hasura
+- simplified queries for player/guild pages
+- fixed 404 on guild detail page request (#529)
+- reverted urql to v2.0.2
+- added retries to urql
+- fixed intermittent github workflow build errors
+- [MyMeta] increased player listing to 150 (#541)
+- Bump @typescript-eslint/parser from 4.22.0 to 4.23.0 (#533)
+- Bump @graphql-codegen/typescript-graphql-request from 3.1.1 to 3.2.0 (#535)
+- Bump @types/node from 15.0.1 to 15.0.2 (#537)
+- Bump @typescript-eslint/eslint-plugin from 4.22.0 to 4.23.0 (#545)
+- Bump lint-staged from 10.5.4 to 11.0.0 (#544)
+- Remove mymeta from Render.yaml (#518)
+- Bump framer-motion from 4.1.11 to 4.1.15 (#540)
+- Bump @types/react-dom from 16.9.8 to 17.0.4 (#539)
+- Bump react-select from 4.3.0 to 4.3.1 (#536)
+- Bump @chakra-ui/theme-tools from 1.1.6 to 1.1.7 (#538)
+- Bump @chakra-ui/icons from 1.0.12 to 1.0.13 (#534)
+- Bump @emotion/react from 11.1.5 to 11.4.0 (#531)
+- Bump next-urql from 3.0.1 to 3.1.0 (#522)
+- Bump dotenv from 8.2.0 to 9.0.1 (#520)
+- Bump concurrently from 6.0.2 to 6.1.0 (#526)
+- Bump eslint from 7.25.0 to 7.26.0 (#521)
+- Bump @types/react from 17.0.4 to 17.0.5 (#527)
+- Bump @chakra-ui/react from 1.6.0 to 1.6.1 (#525)
+- Bump @types/bluebird from 3.5.33 to 3.5.34 (#528)
+- Added another SC constant
+- Removed prefix as it was colliding with existing bot
+- Changed to load XP using accounts.json as beore
+- Fixed dynamic loading of discord classes / commands
+- Fixed backend boot issue
+- Rebased
+- Fixed globs
+- Migrated existing xp command functionality
+- Fixed docker build
+- Added Dockerfile for discord-bot
+- Implement activation of identities and persisting ledger
+- use sourcecred-publish-test for latest SC features
+- Setup command to link ETH account to Ledger
+- Discord Bot MVP
+- Load accounts.json in migration handler again
+- updated .env.sample (#499)
+- Linter fixes
+- Added twitter_url and github_url to guild
+- guild pages implemented
+- guild pages implemented
+- Upgrade dependencies (#486)
+- moved rankHelpers to utils
+- made computeRank more generic
+- computing patron rank
+- Wait for backend to come up before building web
+- Test docker container in build
+- allowing username to be completely removed 🐭
+- correcting invalid username error 🗼
+- completed patrons leaderboard (#477)
+- Fixed broken link, added missing Descriptive C4 file
+- Re-added guild discord_invite_url column as it should be public
+- Fixed guild discord_invite_url reference, persist guild icon url from discord
+- Changed oauth handler to use a web URL that calls the backend to exchange the given code
+- Fixed erroneous import in GuildJoin component
+- Ensure temporary guild names are unique
+- Added persistence of pending guilds from discord
+- Started discord oauth implementation
+- Created guild/join page
+- Stubbed out guild join page
+- Added permissions for new guild columns
+- Upgraded sourcecred to 0.8.4, read cred graph using new sc API
+- Handle both 'Bearer ' and 'Bearer' auth headers properly
+- Fixed webhook auth for public requests
+- [Quests] Frontend (#437)
+- Move players page to /players (#439)
+- fixed merge cruft
+- addin' comments to silence eslint 🍤
+- Fixed lint errors
+- Added status to guild table
+- Tweaked sourcecred migrator to use new player.discord_id column
+- code review changes from @alaonde to hopefully code #422 🥅
+- fixin' lintin' 🥼
+- tryin' one more variable version 🍇
+- helps if the variable names are the same 👯
+- changin' variable name to see if it is passed 🏈
+- printin' graphql server 💈
+- addin' loggin' to skills error 🧣
+- addin' yarn serve 🥘
+- testin' is dev environment will run 🥢
+- redeployin' altered render.yaml 🥦
+- tryin' w/o port 🌅
+- tryin' to capture port 🚢
+- debuggin' hasura 🐜
+- printin' the right value 💅
+- pushin' just to see the value 🚡
+- printin' URI 🖨
+- tryin' static specification 🧁
+- no interpolation in render.yaml 🌮
+- alt specification of graphql endpoint 🦡
+- tweakin' build step 🐾
+- settin' node version 🐀
+- addin' frontend to render.yaml 🐂
+- removin' vistiges of Enneagram ✴
+- removin' Enneagram table 🏓
+- ~ minimum code to add color chooser 🔦
+- Bump urql from 1.11.6 to 2.0.1 (#434)
+- Bump @storybook/addon-actions from 6.1.20 to 6.1.21 (#430)
+- Bump eslint from 7.20.0 to 7.22.0 (#433)
+- Bump babel-plugin-styled-components from 1.11.1 to 1.12.0 (#432)
+- Bump prettier from 2.1.2 to 2.2.1 (#429)
+- Bump @graphql-codegen/typescript-resolvers from 1.17.10 to 1.19.0 (#428)
+- Bump react-redux from 7.2.1 to 7.2.2 (#427)
+- Fixed typing issue in trigger
+- addin' comments to silence eslint 🍤
+- Added migration to populate metafam discord_id, using that in updateDiscordRole action
+- Fixed lint errors
+- updated schema
+- Tweaked update discord role action to be more robust
+- Added migration for metafam rank discord role IDs
+- Added discord_metadata column to guild, moved inviteUrl there
+- Stubbed out oauth callback handler
+- Added permissions for new guild columns
+- Added status to guild table
+- Added down migration for metafam/discord account
+- Tweaked sourcecred migrator to use new player.discord_id column
+- Added migration to move discord_id fields to guild and player
+- squash backend changes (#438)
+- Deploy frontend through render.yaml (#421)
+- set next button as loading until next page loads (#418)
+- Spin up services for the web build to point to
+- Support connection from smart wallets (#416)
+- Merge dependencies (#415)
+- [MyMeta] Patrons leaderboard (#395)
+- Fix mobile connect (#360)
+- added seed-graph as a new remote schema (#410)
+- fixed constraints
+- Revert "Revert ethereum address lowercase (#407)"
+- Revert ethereum address lowercase (#407)
+- add if not null check to ethereum address (#406)
+- make ethereum_address lowercase in backend (#405)
+- [MyMeta] updated seed-balances remote schema logic (#399)
+- fixed daohaus shares bug (#400)
+- Added missing guild INSERT script, discord env placeholder
+- Added DISCORD_BOT_TOKEN
+- Revert "Revert "Redirect to the proper player page URL when appropriate""
+- Revert "Revert "Removed client-side username regex so as not to duplicate the server-side one""
+- Revert "Revert "Added player username regex check constraint""
+- Revert "Revert "Allow case-insensitive player username lookups""
+- Revert "Revert "Add username lowercase mutation""
+- Revert "Revert "Make username params lowercase to match those in the database""
+- Removed --include-dependencies on backend:dev command
+- Added createDiscordClient to discord-bot, changed backend to use it
+- Implemented fetching discord roles, adding / deleting per user
+- Added GetGuild graphql query
+- Call discord REST API directly from backend instead
+- Added trigger for player.rank update
+- moved brightId verified tag to contacts (#388)
+- Revert "Make username params lowercase to match those in the database"
+- Revert "Add username lowercase mutation"
+- Revert "Allow case-insensitive player username lookups"
+- Revert "Added player username regex check constraint"
+- Revert "Removed client-side username regex so as not to duplicate the server-side one"
+- Revert "Redirect to the proper player page URL when appropriate"
+- Redirect to the proper player page URL when appropriate
+- Removed client-side username regex so as not to duplicate the server-side one
+- Added player username regex check constraint
+- Allow case-insensitive player username lookups
+- Add username lowercase mutation
+- Make username params lowercase to match those in the database
+- Bump @storybook/addon-actions from 5.3.21 to 6.1.20 (#374)
+- Bump @types/styled-components from 5.1.4 to 5.1.7 (#372)
+- Bump react-select from 3.1.0 to 4.1.0 (#371)
+- Bump typescript from 4.1.3 to 4.2.2 (#369)
+- Bump web3modal from 1.9.2 to 1.9.3 (#367)
+- added token balance from seed-graph (#380)
+- fixed seed price & login button not showing on mobile (#379)
+- setup brightId verified labels (#361)
+- updated backend for brightId (#362)
+- Changed update player username graphql mutation
+- little cleanup
+- Modified setupOptions data structure to be more straightforward, consolidated step logic
+- Added separate pages for each step in the setup flow
+- Quest create handlers (#340)
+- Added test for gold rank
+- Added rank helpers for computing rank, hooked up to account migrator, with bonus tests
+- update schema.graphql
+- removing backend-only permissions and changing permissions for quest_completion updates
+- Fix repetition default value
+- Fixing down migration
+- Adding id field in quest_completion
+- change quest repetition to PERSONAL, RECURRING, UNIQUE
+- Use timestamptz instead of date
+- schema
+- Permissions
+- Status defaults
+- Tracks
+- Squash migrations
+- Quest models
+- Persist personality type immediately rather than when saving player type
+- Revert react-timezone-select version (#353)
+- merge dependabot (#352)
+- Bump eslint-plugin-react-hooks from 4.1.2 to 4.2.0 (#335)
+- Bump eslint from 7.14.0 to 7.20.0 (#349)
+- Bump @graphql-codegen/introspection from 1.18.0 to 1.18.1 (#321)
+- Cross Browser Gradient for App Drawer (#294)
+- Bump uuid from 8.3.1 to 8.3.2 (#334)
+- Bump eslint-plugin-react from 7.20.3 to 7.22.0 (#336)
+- Fix type errors
+- Discord Bot MVP
+- Fix build card aspect ratio as the play card. #326 (#329)
+- codegen was removed, but some references linger
+- Move schema.graphql to root of project and delete codegen package
+- Use exact versions in package.json files
+- Remove unused codegen stuff and update Hasura to latest version (#314)
+- Bump babel-loader from 8.1.0 to 8.2.2 (#302)
+- Bump spacetime from 6.12.1 to 6.12.2 (#286)
+- Bump graphql-tools from 6.2.4 to 7.0.2 (#260)
+- Bump @graphql-codegen/typescript-operations from 1.17.8 to 1.17.13 (#287)
+- Bump urql from 1.10.1 to 1.11.6 (#303)
+- Fixed flashing on load with mobile footer drawer (#299)
+- Update README.md
+- Delete MBTI placeholders directory
+- Add case in SC migration script where user doesnt already have a SC identityID (#296)
+- Remove unused pages / components and fix usage of Wrap with WrapItem (#284)
+- Update FRONTEND.md (#288)
+- Add tokenlog.json (#291)
+- Add step to remove duplicate players in migrateSourceCredAccounts handler (#280)
+- Move SEED Ticker to left side (#282)
+- Remove NextJS Build from Render config (#283)
+- Update chakra/core to chakra/react and cleanup theme setup (#281)
+- Force minimum row height, narrower column max width (#275)
+- Bump styled-components from 5.2.0 to 5.2.1 (#265)
+- Bump eslint-plugin-jest from 23.20.0 to 24.1.3 (#258)
+- Bump ts-node-dev from 1.0.0-pre.62 to 1.1.1 (#252)
+- Bump graphql from 15.3.0 to 15.4.0 (#259)
+- Fixed a couple react warnings (#273)
+- Fixed migration handler (#274)
+- Drawer Images + Other Improvements (#276)
+- Create C4 (#270)
+- Renamed player columns to be consistent snake_case (#262)
+- Added backdropFilter workaround and custom scrollbar for non-webkit browsers (#256)
+- Renamed table names to be consistent snake_case (#255)
+- Drawer Updates (#257)
+- sleek scroll bar for nft gallery (#251)
+- showing shares for daohaus (#250)
+- Feature/add timezone frontend (#231)
+- MyMeta - App Drawer (#234)
+- Frontend Guide (#218)
+- Bump @types/express from 4.17.8 to 4.17.9 (#246)
+- Bump web3modal from 1.9.1 to 1.9.2 (#247)
+- Revalidate sooner on guild pages
+- Fix type error
+- Implement list of Guilds in frontend
+- Add rel="noreferrer noopener" to external links
+- Consolidate contact UI with PlayerTile and Player page
+- Add LoadingState and fix empty state for player page
+- Refactor PlayerPage and remove mock components
+- Add permissions to select guilds
+- Add guildname field to uniquely identify guilds with friendly id
+- Squash Migrations for updating guild table
+- Added some relationships:
+- Setup Guilds table
+- Create Player Guilds Table
+- SEED ticker using CoinGecko (#223)
+- Feature/add timezone backend (#230)
+- Simple fix of a command (#232)
+- Fix yarn command in Backend Guide (#229)
+- Bump sourcecred from 0.7.0-beta-14 to 0.7.4 (#226)
+- updated frontend to display nft gallery from 3box/opensea (#222)
+- updated backend to read 3box collectiblesFavorite (#221)
+- Add build workflow to CI so errors can be shown in GitHub instead of Vercel (#217)
+- Remove deprecated app-react package (#219)
+- color coded player skills (#212)
+- Bump @storybook/react from 5.3.21 to 6.1.11 (#211)
+- Update guide to include typescript compile (#206)
+- Bump @graphql-codegen/cli from 1.17.10 to 1.19.4 (#199)
+- Bump @testing-library/user-event from 7.2.1 to 12.1.8 (#164)
+- Bump jest from 24.9.0 to 26.6.3 (#198)
+- Bump eslint from 6.8.0 to 7.14.0 (#197)
+- Bump lint-staged from 10.4.1 to 10.5.2 (#200)
+- Bump typescript from 4.1.2 to 4.1.3 (#209)
+- Bump graphql-request from 3.2.0 to 3.3.0 (#210)
+- BackEnd Guide (#195)
+- Bump typescript from 4.0.2 to 4.1.2 (#193)
+- Bump next-images from 1.6.0 to 1.6.2 (#192)
+- Hotfix/player hide true text (#178)
+- Hotfix/hide unused sections (#183)
+- Tooling improvements (#194)
+- Bump @babel/core from 7.12.1 to 7.12.3 (#165)
+- Bump @typescript-eslint/parser from 3.6.0 to 3.10.1 (#150)
+- Bump @testing-library/jest-dom from 5.11.4 to 5.11.6 (#179)
+- Bump eslint-plugin-import from 2.22.0 to 2.22.1 (#166)
+- Exit setup flow when backing out of first screen (#189)
+- Locked bcrypto version to 5.2.0 to avoid compilation errors on macos (#190)
+- Feature/moar like designed (#177)
+- the files
+- styling for player tiles (#173)
+- profile setup flow clean up (#167)
+- Improve UX for Skills Selector (#160)
+- Setup Player Skills and complete setup flow (#161)
+- fix styles + minor changes (#159)
+- Setup Mutations on web app (#158)
+- Setup PlayerTypes in backend (#157)
+- Bump ts-loader from 8.0.2 to 8.0.4 (#148)
+- Bump @emotion/core from 10.0.28 to 10.0.35 (#151)
+- Bump @typescript-eslint/eslint-plugin from 3.9.1 to 3.10.1 (#149)
+- Bump @storybook/react from 5.3.19 to 6.0.26 (#136)
+- Setup Image Optimization (#146)
+- Implement User Auth on Web (#145)
+- Update skills and simplify skill categories (#144)
+- Fix schema types in migrate script (#143)
+- Improve 3Box profile data (#142)
+- Update backend to use enum tables + fix migration trigger (#141)
+- setup availability & memberships (#138)
+- profile setup - about you flow (#130)
+- Bump eslint-plugin-react-hooks from 4.0.6 to 4.1.2 (#133)
+- Bump 3box from 1.20.3 to 1.22.2 (#131)
+- Bump graphql-tools from 6.0.15 to 6.2.3 (#122)
+- Bump js-base64 from 2.6.4 to 3.5.2 (#116)
+- Bump eslint-config-airbnb-typescript from 8.0.2 to 9.0.0 (#89)
+- Bump husky from 4.2.5 to 4.3.0 (#132)
+- refactored setup flow (#129)
+- Skills Selector (#124)
+- Bump web3 from 1.2.11 to 1.3.0 (#120)
+- Bump @testing-library/react from 9.5.0 to 11.0.2 (#111)
+- Bump @graphql-codegen/typescript-operations from 1.17.7 to 1.17.8 (#121)
+- Bump @graphql-codegen/cli from 1.17.7 to 1.17.8 (#114)
+- Bump urql from 1.10.0 to 1.10.1 (#117)
+- restructure and reorganize components (#119)
+- connect wallet instead of login button (#118)
+- Bump @graphql-codegen/typescript-react-apollo from 1.17.7 to 2.0.6 (#102)
+- Bump @types/node from 13.13.15 to 14.6.4 (#109)
+- Bump @walletconnect/web3-provider from 1.1.0 to 1.2.2 (#113)
+- Bump next from 9.5.1 to 9.5.3 (#112)
+- Bump @types/jest from 24.9.1 to 26.0.13 (#115)
+- Bump @babel/core from 7.11.1 to 7.11.4 (#106)
+- Fix handler for SourceCred migration (#108)
+- Update TS, setup SourceCred SDK, and add helpers to utils (#107)
+- mymeta aboutme (#100)
+- Remove incorrect migration
+- Disable NextJS telemetry
+- Change header link to pink on hover
+- Update Links in Navbar + UI tweaks to Player page
+- Update Profile Page to include About Me, Location, and contact info
+- Improve types in SetupContext
+- Expose DB Ports for IDEs
+- Create migration to add skills
+- Add skill categories enum
+- set up web3modal
+- Add responsive page header (#87)
+- Bump react-scripts from 3.4.1 to 3.4.3 (#91)
+- Bump @typescript-eslint/eslint-plugin from 3.9.0 to 3.9.1 (#92)
+- Bump @graphql-codegen/typescript-resolvers from 1.17.7 to 1.17.9 (#95)
+- Bump tsdx from 0.13.2 to 0.13.3 (#88)
+- SetupContext with useProgress hook
+- using ResponsiveText for SetupHeader
+- created ResponsiveText in design-system
+- fixed fontWeight as normal for MetaHeading
+- basic setup flow components done
+- remove PageHeader for now
+- use chakra sizes
+- use rems
+- add features section
+- Simple profile page
+- Hotfix Hasura Port env var
+- Add contact info and DAOHaus memberships to player list
+- Setup Trigger to fetch verified accounts from 3box when ETH address gets updated or user gets inserted
+- Add Remote Schema for DAOHaus / Moloch Dao memberships
+- Use BACKEND_HOST environment variable in WAIT_HOSTS for docker-compose.yml
+- Remove constraint on Account, allowing a Player to have multiple identifiers of the same type
+- Setup .graphqlconfig and update schema
+- Fix backend build and add graphql codegen watch to web:dev
+- Bump eslint-plugin-import from 2.21.2 to 2.22.0
+- Bump @typescript-eslint/eslint-plugin from 3.8.0 to 3.9.0
+- Bump eslint-import-resolver-typescript from 2.0.0 to 2.2.1
+- Bump @testing-library/jest-dom from 4.2.4 to 5.11.3
+- Bump concurrently from 5.2.0 to 5.3.0
+- Clean up colors in theme and fix redundant backgroundSize
+- Update error handling
+- Update Hasura CLI version
+- Setup URQL with own backend and create basic player list page
+- Add NextJS environment vars and remove app-react from Render build
+- Add rank to publicly exposed fields on Player object
+- Fix getBoxProfile resolver for players with no ETH address
+- Update backend Dockerfile to include codegen
+- define a few meta components in storybook (#55)
+- Hotfix migration
+- Implement Player Ranks
+- Setup Cron trigger to handle sourceCred Migration
+- Setup handler to migrate SC ledger accounts to Database Players
+- Simplify type defs for backend config.ts (#69)
+- Generate Typesafe SDK for Hasura in Backend (#68)
+- added layout for profile setup (#67)
+- Bump graphql-request from 3.0.0-next.4 to 3.0.0 (#66)
+- Bump eslint-plugin-jest from 23.18.0 to 23.20.0 (#65)
+- Layouts for RegisterPlayer and SuccessPlayer (#63)
+- Metamaps base prototype (#50)
+- Bump @typescript-eslint/eslint-plugin from 3.6.0 to 3.8.0 (#61)
+- Fix automerge action
+- login landing page + fixed fonts (#51)
+- Move to v2 dependabot config
+- Setup Dependabot to keep packages up to date
+- Update dependencies and fix updateBoxProfile handler.ts
+- Fix command for backend Dockerfile
+- Update Hasura to 1.3.0
+- Remove unused remote relationship
+- Move typecheck to happen before lint
+- Reformat files and update yarn.lock
+- Setup codegen for backend resolvers and improve 3Box types
+- Remove unnecesarry typedefs
+- rename codegen package, fix generated types and move graphql-codegen deps to root
+- using a remote schema instead of an action for getBoxProfile
+- add ethereumAddress to getBoxProfile
+- added getBoxProfile action
+- get3BoxProfile handler
+- Refromat files and fix config
+- lint
+- fetch box profile from hasura
+- Correct authentication webhook and frontend with ethereum_address in Player
+- lint
+- Add ethereum_address to Player model in order to get the box profile
+- using a remote schema instead of an action for getBoxProfile
+- add ethereumAddress to getBoxProfile
+- added getBoxProfile action
+- get3BoxProfile handler
+- Fix fonts in web app
+- add fonts to storybook (#45)
+- Remove restore key for CI cache
+- Fix broken tests
+- Use new TS build system for ds and utils
+- Setup TSDX for design system
+- Fix package/utils TS compiling
+- Fix test command
+- Consolidate more package.json entries into root package.json
+- Fallback to restore previous node_modules cache in github action
+- Centralize more of eslint config, gitignore, and tsconfig
+- Use InferGetStaticPropsType to simplify type annotations
+- Update models (#33)
+- Remove linting from prepush script
+- Fix web build script to include deps
+- Setup Design System with NextJS Web App
+- Setup CI to run linting / typechecking / unit testing with Github Actions
+- Setup build for nextJS app
+- Cleanup Monorepo Build and packaging
+- Remove old frontend
+- Setup NextJS App with URQL and dummy pokemon data
+- setup design system as a new package (#36)
+- Reformat code
+- Fix type errors
+- Fix all linting errors
+- Setup ESLint config and lint-staged check
+- Reuse base tsconfig in all packages
+- Reformat all existing code
+- Rollback CI=true in yarn app:start
+- Added frontend section in readme
+- Setup husky, prettier, and lint-staged
+- Centralize gitignore file
+- Cleanup / simplify package.json scripts and names
+- remove extra yarn.lock and type definitions
+- Add GPL3 license
+- Centralize typescript package to root package.json
+- Update Readme
+- Simplify Render config
+- Setup explicit ports to prevent broken deployment on Render https://github.com/hasura/graphql-engine/issues/3904
+- Fix type errors in app
+- Update build script for react-app
+- Setup deployment config for Render
+- Bump websocket-extensions from 0.1.3 to 0.1.4 in /frontend (#11)
+- Setup multistage build to allow running backend server in dev mode so we dont have to run it outside Docker
+- Update Hasura to 1.3 beta and setup actions codegen
+- Allow overriding HASURA_GRAPHQL_ENABLE_CONSOLE
+- Finish docker/lerna (#13)
+- [WIP] Fix docker with lerna (#8)
+- 3box profiles (#9)
+- Architecture update (#7)
+- added frontend code (#6)
+- Fix graphql codegen
+- Update Hasura to latest version
+- Update imports to use non-default exports
+- Add typecheck all packages script to root package.json
+- Use strict typesafety and fix type errors
+- Use Yarn Workspaces
+- Base architecture (#1)
+- Init repo
