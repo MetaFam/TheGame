@@ -1,8 +1,9 @@
-import { Box, Flex, HStack, Link, Text, VStack } from '@metafam/ds';
+import { Box, Button, Flex, HStack, Link, Text, VStack } from '@metafam/ds';
 import { PlayerAvatar } from 'components/Player/PlayerAvatar';
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
 import { getPersonalityInfo } from 'graphql/getPersonalityInfo';
 import { PersonalityOption } from 'graphql/types';
+import { useUser } from 'lib/hooks';
 import React, { useEffect } from 'react';
 import { getPlayerDescription, getPlayerName } from 'utils/playerHelpers';
 
@@ -17,6 +18,8 @@ const MAX_BIO_LENGTH = 240;
 
 type Props = { player: PlayerFragmentFragment };
 export const PlayerHero: React.FC<Props> = ({ player }) => {
+  const { user } = useUser();
+
   const description = getPlayerDescription(player);
   const [show, setShow] = React.useState(description.length <= MAX_BIO_LENGTH);
   const [types, setTypes] = React.useState<{
@@ -33,9 +36,27 @@ export const PlayerHero: React.FC<Props> = ({ player }) => {
     loadTypes();
   }, []);
 
+  const isOwnProfile = player.username === user?.username;
+
   return (
     <ProfileSection>
       <VStack spacing={8}>
+        {isOwnProfile && (
+          <Flex width="100%" justifyContent="end">
+            <Button
+              variant="outline"
+              fontFamily="body"
+              fontSize="14px"
+              borderColor="purple.600"
+              backgroundColor="blackAlpha.400"
+              href="/profile/setup/username"
+              mb="-4"
+              _hover={{ backgroundColor: 'blackAlpha.500' }}
+            >
+              Edit Profile
+            </Button>
+          </Flex>
+        )}
         <PlayerAvatar
           w={{ base: 32, md: 56 }}
           h={{ base: 32, md: 56 }}

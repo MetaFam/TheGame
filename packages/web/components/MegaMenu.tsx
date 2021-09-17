@@ -249,6 +249,7 @@ type PlayerStatsProps = {
 const PlayerStats: React.FC<PlayerStatsProps> = ({ player }) => {
   const { disconnect } = useWeb3();
   const { pSeedBalance } = usePSeedBalance();
+
   return (
     <Flex
       align="center"
@@ -311,10 +312,17 @@ const PlayerStats: React.FC<PlayerStatsProps> = ({ player }) => {
         <MenuList mt="8px" color="black" fontFamily="exo2">
           <MetaLink
             color="black"
-            href={`/player/${getPlayerName(player)}`}
+            href={`/player/${player.username}`}
             _hover={{ textDecoration: 'none' }}
           >
             <MenuItem>View Profile</MenuItem>
+          </MetaLink>
+          <MetaLink
+            color="black"
+            href="/profile/setup/username"
+            _hover={{ textDecoration: 'none' }}
+          >
+            <MenuItem>Edit Profile</MenuItem>
           </MetaLink>
           <MenuItem onClick={disconnect}>Disconnect</MenuItem>
         </MenuList>
