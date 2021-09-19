@@ -14,7 +14,7 @@ export const getStaticProps = async () => {
   return {
     props: {
       skillChoices,
-      hideAppDrawer: true,
+      hideTopMenu: true,
     },
   };
 };
