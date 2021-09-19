@@ -51,6 +51,7 @@ export const PlayerHero: React.FC<Props> = ({ player }) => {
               backgroundColor="blackAlpha.400"
               href="/profile/setup/username"
               mb="-4"
+              as="a"
               _hover={{ backgroundColor: 'blackAlpha.500' }}
             >
               Edit Profile
