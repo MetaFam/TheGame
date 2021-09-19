@@ -4,7 +4,7 @@ import React from 'react';
 
 export const getStaticProps = async () => ({
   props: {
-    hideAppDrawer: true,
+    hideTopMenu: true,
   },
 });
 

@@ -16,7 +16,7 @@ export const getStaticProps = async () => {
     props: {
       personalityParts,
       personalityTypes,
-      hideAppDrawer: true,
+      hideTopMenu: true,
     },
   };
 };
