@@ -18,19 +18,27 @@ export class SetupOptions {
       title: { base: 'About You', sm: '1. About You' },
     },
     {
-      label: 'Profile',
+      label: 'Professional Profile',
       title: {
-        base: 'Profile',
-        sm: '2. Profile',
+        base: 'Professional',
+        sm: '2. Professional',
         lg: '2. Professional Profile',
+      },
+    },
+    {
+      label: 'Player Profile',
+      title: {
+        base: 'Player',
+        sm: '3. PLayer',
+        lg: '3. Player Profile',
       },
     },
     {
       label: 'Start Playing',
       title: {
         base: 'Play',
-        sm: '3. Play',
-        md: '3. Start Playing',
+        sm: '4. Play',
+        md: '4. Start Playing',
       },
     },
   ];
@@ -47,8 +55,8 @@ export class SetupOptions {
       sectionIndex: 0,
     },
     {
-      label: 'Player Type',
-      slug: 'playerType',
+      label: 'Time Zone',
+      slug: 'timeZone',
       sectionIndex: 0,
     },
     {
@@ -62,19 +70,24 @@ export class SetupOptions {
       sectionIndex: 1,
     },
     {
-      label: 'Time Zone',
-      slug: 'timeZone',
-      sectionIndex: 1,
+      label: 'Player Type',
+      slug: 'playerType',
+      sectionIndex: 2,
+    },
+    {
+      label: 'Roles',
+      slug: 'roles',
+      sectionIndex: 2,
     },
     {
       label: 'Memberships',
       slug: 'memberships',
-      sectionIndex: 1,
+      sectionIndex: 2,
     },
     {
       label: 'Start Playing',
       slug: 'complete',
-      sectionIndex: 2,
+      sectionIndex: 3,
     },
   ];
 

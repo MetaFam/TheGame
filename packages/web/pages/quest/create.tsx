@@ -6,7 +6,7 @@ import {
   QuestRepetition_ActionEnum,
   useCreateQuestMutation,
 } from 'graphql/autogen/types';
-import { getSkills } from 'graphql/getSkills';
+import { getSkills } from 'graphql/queries/enums/getSkills';
 import { getGuilds } from 'graphql/queries/guild';
 import { useUser } from 'lib/hooks';
 import { InferGetStaticPropsType } from 'next';

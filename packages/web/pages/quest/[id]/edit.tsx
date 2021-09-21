@@ -8,7 +8,7 @@ import {
 } from 'graphql/autogen/types';
 import { getSsrClient } from 'graphql/client';
 import { getQuest } from 'graphql/getQuest';
-import { getSkills } from 'graphql/getSkills';
+import { getSkills } from 'graphql/queries/enums/getSkills';
 import { getGuilds } from 'graphql/queries/guild';
 import { useUser } from 'lib/hooks';
 import { GetStaticPaths, GetStaticPropsContext } from 'next';

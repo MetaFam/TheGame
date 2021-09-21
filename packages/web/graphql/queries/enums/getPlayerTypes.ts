@@ -1,7 +1,7 @@
 import gql from 'fake-tag';
 
-import { GetPlayerTypesQuery } from './autogen/types';
-import { client } from './client';
+import { GetPlayerTypesQuery } from '../../autogen/types';
+import { client } from '../../client';
 
 export const GetPlayerTypes = gql`
   query GetPlayerTypes {

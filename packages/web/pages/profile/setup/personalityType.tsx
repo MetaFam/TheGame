@@ -1,7 +1,7 @@
 import { SetupPersonalityType } from 'components/Setup/SetupPersonalityType';
 import { SetupProfile } from 'components/Setup/SetupProfile';
 import { SetupContextProvider } from 'contexts/SetupContext';
-import { getPersonalityInfo } from 'graphql/getPersonalityInfo';
+import { getPersonalityInfo } from 'graphql/queries/enums/getPersonalityInfo';
 import { useUser } from 'lib/hooks';
 import { InferGetStaticPropsType } from 'next';
 import React, { useEffect, useState } from 'react';

@@ -6,9 +6,9 @@ import WisdomAltImg from 'assets/colors/Wisdom.svg';
 import gql from 'fake-tag';
 import { isPow2 } from 'utils/mathHelper';
 
-import { ColorAspect } from './autogen/types';
-import { client } from './client';
-import { PersonalityOption } from './types';
+import { ColorAspect } from '../../autogen/types';
+import { client } from '../../client';
+import { PersonalityOption } from '../../types';
 
 const AspectsQuery = gql`
   query GetAspects {

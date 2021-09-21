@@ -2,7 +2,7 @@ import { SetupPlayerType } from 'components/Setup/SetupPlayerType';
 import { SetupProfile } from 'components/Setup/SetupProfile';
 import { SetupContextProvider } from 'contexts/SetupContext';
 import { Player_Type } from 'graphql/autogen/types';
-import { getPlayerTypes } from 'graphql/getPlayerTypes';
+import { getPlayerTypes } from 'graphql/queries/enums/getPlayerTypes';
 import { useUser } from 'lib/hooks';
 import { InferGetStaticPropsType } from 'next';
 import React, { useState } from 'react';

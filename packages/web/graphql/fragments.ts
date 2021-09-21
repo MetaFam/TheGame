@@ -32,6 +32,14 @@ export const PlayerFragment = gql`
       }
     }
 
+    roles @skip(if: $forLoginDisplay) {
+      role
+      rank
+      PlayerRole {
+        label
+      }
+    }
+
     accounts(where: { type: { _in: [TWITTER, GITHUB] } })
       @skip(if: $forLoginDisplay) {
       identifier

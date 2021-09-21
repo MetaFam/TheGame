@@ -1,6 +1,10 @@
 import { Box, ChakraProps, Flex } from '@metafam/ds';
 import { FlexContainer } from 'components/Container';
-import { colors, getPersonalityInfo, images } from 'graphql/getPersonalityInfo';
+import {
+  colors,
+  getPersonalityInfo,
+  images,
+} from 'graphql/queries/enums/getPersonalityInfo';
 import { PersonalityOption } from 'graphql/types';
 import React, { useEffect, useState } from 'react';
 

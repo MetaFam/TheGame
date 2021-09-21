@@ -5,7 +5,7 @@ import {
 } from 'graphql/autogen/types';
 import { client } from 'graphql/client';
 
-import { PlayerSkillFragment } from './fragments';
+import { PlayerSkillFragment } from '../../fragments';
 
 const skillsQuery = gql`
   query GetSkills {
