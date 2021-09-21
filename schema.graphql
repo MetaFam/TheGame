@@ -206,6 +206,23 @@ type BoxProfile {
   website: String
 }
 
+scalar bpchar
+
+"""
+expression to compare columns of type bpchar. All fields are combined with logical 'AND'.
+"""
+input bpchar_comparison_exp {
+  _eq: bpchar
+  _gt: bpchar
+  _gte: bpchar
+  _in: [bpchar!]
+  _is_null: Boolean
+  _lt: bpchar
+  _lte: bpchar
+  _neq: bpchar
+  _nin: [bpchar!]
+}
+
 type BrightIdStatus {
   app: String!
   context: String!
@@ -2565,7 +2582,7 @@ type mutation_root {
   """
   delete single row from the table: "player_role"
   """
-  delete_player_role_by_pk(player_id: uuid!, role: PlayerRole_enum!): player_role
+  delete_player_role_by_pk(player_id: uuid!, role: String!): player_role
 
   """
   delete data from the table: "player_skill"
@@ -4557,9 +4574,11 @@ input player_pk_columns_input {
 columns and relationships of "player_role"
 """
 type player_role {
+  """An object relationship"""
+  PlayerRole: PlayerRole!
   player_id: uuid!
   rank: Int!
-  role: PlayerRole_enum!
+  role: String!
 }
 
 """
@@ -4628,12 +4647,13 @@ input player_role_avg_order_by {
 Boolean expression to filter rows from the table "player_role". All fields are combined with a logical 'AND'.
 """
 input player_role_bool_exp {
+  PlayerRole: PlayerRole_bool_exp
   _and: [player_role_bool_exp]
   _not: player_role_bool_exp
   _or: [player_role_bool_exp]
   player_id: uuid_comparison_exp
   rank: Int_comparison_exp
-  role: PlayerRole_enum_comparison_exp
+  role: String_comparison_exp
 }
 
 """
@@ -4655,15 +4675,17 @@ input player_role_inc_input {
 input type for inserting data into table "player_role"
 """
 input player_role_insert_input {
+  PlayerRole: PlayerRole_obj_rel_insert_input
   player_id: uuid
   rank: Int
-  role: PlayerRole_enum
+  role: String
 }
 
 """aggregate max on columns"""
 type player_role_max_fields {
   player_id: uuid
   rank: Int
+  role: String
 }
 
 """
@@ -4672,12 +4694,14 @@ order by max() on columns of table "player_role"
 input player_role_max_order_by {
   player_id: order_by
   rank: order_by
+  role: order_by
 }
 
 """aggregate min on columns"""
 type player_role_min_fields {
   player_id: uuid
   rank: Int
+  role: String
 }
 
 """
@@ -4686,6 +4710,7 @@ order by min() on columns of table "player_role"
 input player_role_min_order_by {
   player_id: order_by
   rank: order_by
+  role: order_by
 }
 
 """
@@ -4720,6 +4745,7 @@ input player_role_on_conflict {
 ordering options when selecting data from "player_role"
 """
 input player_role_order_by {
+  PlayerRole: PlayerRole_order_by
   player_id: order_by
   rank: order_by
   role: order_by
@@ -4730,7 +4756,7 @@ primary key columns input for table: "player_role"
 """
 input player_role_pk_columns_input {
   player_id: uuid!
-  role: PlayerRole_enum!
+  role: String!
 }
 
 """
@@ -4753,7 +4779,7 @@ input type for updating data in table "player_role"
 input player_role_set_input {
   player_id: uuid
   rank: Int
-  role: PlayerRole_enum
+  role: String
 }
 
 """aggregate stddev on columns"""
@@ -5932,6 +5958,8 @@ enum PlayerRank_update_column {
 columns and relationships of "PlayerRole"
 """
 type PlayerRole {
+  description: String
+  emoji: bpchar
   label: String!
   role: String!
 }
@@ -5977,6 +6005,8 @@ input PlayerRole_bool_exp {
   _and: [PlayerRole_bool_exp]
   _not: PlayerRole_bool_exp
   _or: [PlayerRole_bool_exp]
+  description: String_comparison_exp
+  emoji: bpchar_comparison_exp
   label: String_comparison_exp
   role: String_comparison_exp
 }
@@ -5989,50 +6019,19 @@ enum PlayerRole_constraint {
   PlayerRole_pkey
 }
 
-enum PlayerRole_enum {
-  """artist"""
-  ARTIST
-
-  """Builder"""
-  BUILDER
-
-  """Designer"""
-  DESIGNER
-
-  """Innkeeper"""
-  INNKEEPER
-
-  """Patron"""
-  PATRON
-
-  """shiller"""
-  SHILLER
-
-  """writer"""
-  WRITER
-}
-
-"""
-expression to compare columns of type PlayerRole_enum. All fields are combined with logical 'AND'.
-"""
-input PlayerRole_enum_comparison_exp {
-  _eq: PlayerRole_enum
-  _in: [PlayerRole_enum!]
-  _is_null: Boolean
-  _neq: PlayerRole_enum
-  _nin: [PlayerRole_enum!]
-}
-
 """
 input type for inserting data into table "PlayerRole"
 """
 input PlayerRole_insert_input {
+  description: String
+  emoji: bpchar
   label: String
   role: String
 }
 
 """aggregate max on columns"""
 type PlayerRole_max_fields {
+  description: String
   label: String
   role: String
 }
@@ -6041,12 +6040,14 @@ type PlayerRole_max_fields {
 order by max() on columns of table "PlayerRole"
 """
 input PlayerRole_max_order_by {
+  description: order_by
   label: order_by
   role: order_by
 }
 
 """aggregate min on columns"""
 type PlayerRole_min_fields {
+  description: String
   label: String
   role: String
 }
@@ -6055,6 +6056,7 @@ type PlayerRole_min_fields {
 order by min() on columns of table "PlayerRole"
 """
 input PlayerRole_min_order_by {
+  description: order_by
   label: order_by
   role: order_by
 }
@@ -6091,6 +6093,8 @@ input PlayerRole_on_conflict {
 ordering options when selecting data from "PlayerRole"
 """
 input PlayerRole_order_by {
+  description: order_by
+  emoji: order_by
   label: order_by
   role: order_by
 }
@@ -6107,6 +6111,12 @@ select columns of table "PlayerRole"
 """
 enum PlayerRole_select_column {
   """column name"""
+  description
+
+  """column name"""
+  emoji
+
+  """column name"""
   label
 
   """column name"""
@@ -6117,6 +6127,8 @@ enum PlayerRole_select_column {
 input type for updating data in table "PlayerRole"
 """
 input PlayerRole_set_input {
+  description: String
+  emoji: bpchar
   label: String
   role: String
 }
@@ -6125,6 +6137,12 @@ input PlayerRole_set_input {
 update columns of table "PlayerRole"
 """
 enum PlayerRole_update_column {
+  """column name"""
+  description
+
+  """column name"""
+  emoji
+
   """column name"""
   label
 
@@ -7248,7 +7266,7 @@ type query_root {
   ): player_role_aggregate!
 
   """fetch data from the table: "player_role" using primary key columns"""
-  player_role_by_pk(player_id: uuid!, role: PlayerRole_enum!): player_role
+  player_role_by_pk(player_id: uuid!, role: String!): player_role
 
   """
   fetch data from the table: "player_skill"
@@ -10365,7 +10383,7 @@ type subscription_root {
   ): player_role_aggregate!
 
   """fetch data from the table: "player_role" using primary key columns"""
-  player_role_by_pk(player_id: uuid!, role: PlayerRole_enum!): player_role
+  player_role_by_pk(player_id: uuid!, role: String!): player_role
 
   """
   fetch data from the table: "player_skill"

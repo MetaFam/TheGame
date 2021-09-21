@@ -12,7 +12,7 @@ import { MetaLink } from 'components/Link';
 import { ColorBar } from 'components/Player/ColorBar';
 import { useSetupFlow } from 'contexts/SetupContext';
 import { useUpdateAboutYouMutation } from 'graphql/autogen/types';
-import { images as BaseImages } from 'graphql/getPersonalityInfo';
+import { images as BaseImages } from 'graphql/queries/enums/getPersonalityInfo';
 import { PersonalityOption } from 'graphql/types';
 import { useUser } from 'lib/hooks';
 import React, { useCallback, useState } from 'react';

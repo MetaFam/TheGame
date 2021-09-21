@@ -1,7 +1,7 @@
 import { Box, Button, Flex, HStack, Link, Text, VStack } from '@metafam/ds';
 import { PlayerAvatar } from 'components/Player/PlayerAvatar';
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
-import { getPersonalityInfo } from 'graphql/getPersonalityInfo';
+import { getPersonalityInfo } from 'graphql/queries/enums/getPersonalityInfo';
 import { PersonalityOption } from 'graphql/types';
 import { useUser } from 'lib/hooks';
 import React, { useEffect } from 'react';
