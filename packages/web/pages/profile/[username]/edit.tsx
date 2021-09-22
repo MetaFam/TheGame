@@ -51,12 +51,36 @@ export const getStaticProps = async (
   };
 };
 
-const EditPage: React.FC<Props> = ({ player }) => (
-  <PageContainer>
-    Edit page
-    <br /> title: {player.type.title}
-    <br /> description: {player.type.description}
-  </PageContainer>
-);
+const EditPage: React.FC<Props> = ({ player }) => {
+  console.log('player', player);
+  return (
+    <PageContainer>
+      Main info:
+      <br /> Username:
+      <br /> {player.username} <br />
+      <br /> Time zone:
+      <br /> hours: {player.timezone} <br />
+      <br /> Availability:
+      <br /> hours: {player.availability_hours} <br />
+      <br /> Residence:
+      <br />
+      <br /> Working hours:
+      <br />
+      <br />
+      <br />
+      Secondary info:
+      <br /> Personality type:
+      <br /> title: {player.type.title}
+      <br /> description: {player.type.description} <br />
+      <br /> Player type:
+      <br /> title: {player.color_aspect.name}
+      <br /> description: {player.color_aspect.description} <br />
+      <br /> Top 3 skills:
+      <br /> skill: {player.skills[0].Skill.name}
+      <br /> skill: {player.skills[1].Skill.name}
+      <br /> skill: {player.skills[2].Skill.name} <br />
+    </PageContainer>
+  );
+};
 
 export default EditPage;
