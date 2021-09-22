@@ -41,7 +41,6 @@ const InfoPage: React.FunctionComponent = () => {
       const bg = background.current  as HTMLImageElement;
       const reader = new FileReader();
       reader.addEventListener('load', () => {
-        console.log(reader.result); // eslint-disable-line no-console
         if (input.name === "image") {
           img.src = reader.result as string;
         }
@@ -65,6 +64,8 @@ const InfoPage: React.FunctionComponent = () => {
         if (caip10.did) {
           setDid(caip10.did);
           const result = await idx?.get('basicProfile', caip10.did);
+          console.info({ result })
+          return
           Object.entries(result as Record<string, unknown>).forEach(
             ([key, object]) => {
               let value = object;
@@ -115,7 +116,9 @@ const InfoPage: React.FunctionComponent = () => {
         }
       )
       const cids = await result.json()
-      const refs = { image: image.current, background: background.current } as { image: HTMLImageElement | null, background: HTMLImageElement  | null }
+      const refs = (
+        { image: image.current, background: background.current } as { image: HTMLImageElement | null, background: HTMLImageElement | null }
+      );
       ['image', 'background'].forEach((key) => {
         if(cids[key]){
           values[key] = {
@@ -129,8 +132,16 @@ const InfoPage: React.FunctionComponent = () => {
         } else {
           delete values[key]
         }
+      });
+      if(values.residenceCountry === '') {
+        delete values.residenceCountry // empty string fails validation
+      }
+      if(ceramic?.did) {
+        await ceramic.did.authenticate();
+      }
+      console.info({
+        did: ceramic?.did, values
       })
-      ceramic?.did && await ceramic.did.authenticate();
       await idx?.merge('basicProfile', values)
     }
   }
