@@ -376,7 +376,7 @@ const PlayerStats: React.FC<PlayerStatsProps> = ({ player }) => {
           </MetaLink>
           <MetaLink
             color="black"
-            href="/profile/edit"
+            href={`/profile/${player.username}/edit`}
             _hover={{ textDecoration: 'none' }}
           >
             <MenuItem>Edit Profile</MenuItem>

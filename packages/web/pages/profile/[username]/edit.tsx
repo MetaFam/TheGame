@@ -1,16 +1,26 @@
 import { PageContainer } from 'components/Container';
 import { getPlayer } from 'graphql/getPlayer';
-import { GetStaticPropsContext, InferGetStaticPropsType } from 'next';
+import {
+  GetStaticPaths,
+  GetStaticPropsContext,
+  InferGetStaticPropsType,
+} from 'next';
 import React from 'react';
 
 type QueryParams = { username: string };
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
+export const getStaticPaths: GetStaticPaths<QueryParams> = async () => ({
+  paths: [],
+  fallback: true,
+});
+
 export const getStaticProps = async (
   context: GetStaticPropsContext<QueryParams>,
 ) => {
   const username = context.params?.username;
+
   if (username == null) {
     return {
       redirect: {
@@ -35,14 +45,18 @@ export const getStaticProps = async (
 
   return {
     props: {
-      player: player || null, // must be serializable
+      player: player || null,
     },
     revalidate: 1,
   };
 };
 
-const EditProfilePage: React.FC<Props> = () => (
-  <PageContainer>Edit page</PageContainer>
+const EditPage: React.FC<Props> = ({ player }) => (
+  <PageContainer>
+    Edit page
+    <br /> title: {player.type.title}
+    <br /> description: {player.type.description}
+  </PageContainer>
 );
 
-export default EditProfilePage;
+export default EditPage;
