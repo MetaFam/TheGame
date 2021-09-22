@@ -41,8 +41,8 @@ export const getStaticProps = async (
   };
 };
 
-const PatronsPage: React.FC<Props> = () => (
+const EditProfilePage: React.FC<Props> = () => (
   <PageContainer>Edit page</PageContainer>
 );
 
-export default PatronsPage;
+export default EditProfilePage;
