@@ -7,6 +7,8 @@ import {
 } from 'next';
 import React from 'react';
 
+import PlayerSkills from './Section/Skills';
+
 type QueryParams = { username: string };
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
@@ -53,6 +55,7 @@ export const getStaticProps = async (
 
 const EditPage: React.FC<Props> = ({ player }) => {
   console.log('player', player);
+
   return (
     <PageContainer>
       Main info:
@@ -76,9 +79,8 @@ const EditPage: React.FC<Props> = ({ player }) => {
       <br /> title: {player.color_aspect.name}
       <br /> description: {player.color_aspect.description} <br />
       <br /> Top 3 skills:
-      <br /> skill: {player.skills[0].Skill.name}
-      <br /> skill: {player.skills[1].Skill.name}
-      <br /> skill: {player.skills[2].Skill.name} <br />
+      <PlayerSkills player={player} />
+      <br />
     </PageContainer>
   );
 };
