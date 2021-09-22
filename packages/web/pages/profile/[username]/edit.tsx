@@ -8,6 +8,7 @@ import {
 import React from 'react';
 
 import PlayerSkills from './Section/Skills';
+import PlayerType from './Section/Type';
 
 type QueryParams = { username: string };
 
@@ -75,10 +76,7 @@ const EditPage: React.FC<Props> = ({ player }) => {
       <br /> Personality type:
       <br /> title: {player.type.title}
       <br /> description: {player.type.description} <br />
-      <br /> Player type:
-      <br /> title: {player.color_aspect.name}
-      <br /> description: {player.color_aspect.description} <br />
-      <br /> Top 3 skills:
+      <PlayerType player={player} />
       <PlayerSkills player={player} />
       <br />
     </PageContainer>
