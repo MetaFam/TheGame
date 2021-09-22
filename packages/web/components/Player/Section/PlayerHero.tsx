@@ -49,7 +49,7 @@ export const PlayerHero: React.FC<Props> = ({ player }) => {
               fontSize="14px"
               borderColor="purple.600"
               backgroundColor="blackAlpha.400"
-              href="/profile/setup/username"
+              href="/profile/edit"
               mb="-4"
               as="a"
               _hover={{ backgroundColor: 'blackAlpha.500' }}
