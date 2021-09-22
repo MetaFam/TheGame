@@ -36,7 +36,7 @@ export const getStaticProps = async (
     if (player != null) {
       return {
         redirect: {
-          destination: `/player/${username.toLowerCase()}`,
+          destination: `/profile/${username.toLowerCase()}/edit`,
           permanent: false,
         },
       };
