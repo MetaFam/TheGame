@@ -103,7 +103,7 @@ jobs:
             --ingress all \
             --allow-unauthenticated \
             --add-cloudsql-instances metagame-thegame:us-east4:thegame \
-            --set-env-vars HASURA_GRAPHQL_DATABASE_URL=postgres://hasura-pr-${{ github.event.number }}:${HASURA_DB_PASSWORD}@/hasura-pr-${{ github.event.number }}?host=/cloudsql/${CLOUDSQL_CONNECTION_NAME},HASURA_GRAPHQL_ADMIN_SECRET=metagame_secret
+            --set-env-vars HASURA_GRAPHQL_DATABASE_URL=postgres://hasura-pr-${{ github.event.number }}:${HASURA_DB_PASSWORD}@/hasura-pr-${{ github.event.number }}?host=/cloudsql/${CLOUDSQL_CONNECTION_NAME},HASURA_GRAPHQL_ADMIN_SECRET=metagame_secret,HASURA_GRAPHQL_SERVER_PORT=8080
 
       - name: Deploy Frontend
         run: |
@@ -115,13 +115,13 @@ jobs:
             --memory 512Mi \
             --ingress all \
             --allow-unauthenticated \
-            --set-env-vars GRAPHQL_HOST=hasura-pr-${{ github.event.number }}-${CLOUDRUN_SUFFIX},GRAPHQL_DOMAIN=a.run.app
+            --set-env-vars NEXT_PUBLIC_GRAPHQL_URL=https://hasura-pr-${{ github.event.number }}-${CLOUDRUN_SUFFIX}.a.run.app/v1/graphql
 
       - name: Comment on Pull Request
         uses: thollander/actions-comment-pull-request@v1
         with:
           message: |
             Successfully deployed a Preview of this Pull Request
-            [Frontend](https://frontend-pr-${{ github.event.number }}-${CLOUDRUN_SUFFIX}.a.run.app)
-            [Hasura](https://hasura-pr-${{ github.event.number }}-${CLOUDRUN_SUFFIX}.a.run.app)
+            [Frontend](https://frontend-pr-${{ github.event.number }}-${{ env.CLOUDRUN_SUFFIX }}.a.run.app)
+            [Hasura](https://hasura-pr-${{ github.event.number }}-${{ env.CLOUDRUN_SUFFIX }}.a.run.app)
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
