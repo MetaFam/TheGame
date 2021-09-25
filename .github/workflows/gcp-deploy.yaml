@@ -62,6 +62,7 @@ jobs:
 
   deploy:
     name: Deploy Containers to Cloud Run
+    needs: build-and-push
     runs-on: ubuntu-latest
 
     steps:
