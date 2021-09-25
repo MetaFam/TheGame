@@ -42,7 +42,7 @@ jobs:
       - name: Build Hasura Container
         uses: mattes/cached-docker-build-action@v1
         with:
-          args: "./hasura --tag ${REGISTRY_REGION}-docker.pkg.dev/${PROJECT_ID}/${REGISTRY_REPO}/hasura:pr-${{ github.event.number }} --build-arg BACKEND_HOST=backend-pr-${{ github.event.number }}-${CLOUDRUN_SUFFIX}.a.run.app --build-arg BACKEND_PROTOCOL=https"
+          args: "./hasura -f ./hasura/Dockerfile --tag ${REGISTRY_REGION}-docker.pkg.dev/${PROJECT_ID}/${REGISTRY_REPO}/hasura:pr-${{ github.event.number }} --build-arg BACKEND_HOST=backend-pr-${{ github.event.number }}-${CLOUDRUN_SUFFIX}.a.run.app --build-arg BACKEND_PROTOCOL=https"
           cache_key: "${{ hashFiles('**/lockfiles') }}"
 
       - name: Build Frontend Container
