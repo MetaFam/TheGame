@@ -8,6 +8,7 @@ import {
   CloseIcon,
   Flex,
   HamburgerIcon,
+  Icon,
   Link,
   Menu,
   MenuButton,
@@ -18,7 +19,6 @@ import {
   Spinner,
   Stack,
   Text,
-  TriangleUpIcon,
   useDisclosure,
 } from '@metafam/ds';
 import { numbers } from '@metafam/utils';
@@ -188,12 +188,19 @@ const DesktopNavLinks = () => (
                 <ChevronDownIcon color="#ffffff" />
               )}
               {isOpen && (
-                <TriangleUpIcon
+                <Icon
                   position="absolute"
-                  left="calc(50% - 18px)"
-                  top="61px"
+                  left="calc(50% - 21px)"
+                  top="63px"
                   borderColor="transparent"
-                />
+                  width="24px"
+                  h="auto"
+                >
+                  <path
+                    d="M12 0L24 12C14.6274 12 9.37258 12 0 12L12 0Z"
+                    fill="white"
+                  />
+                </Icon>
               )}
             </MenuButton>
             {section.menuItems.length > 3 ? (
@@ -202,6 +209,7 @@ const DesktopNavLinks = () => (
                 gridTemplateColumns="repeat(2, 1fr)"
                 width="948px"
                 p="56px 6px 6px 56px"
+                borderColor="transparent"
               >
                 {section.menuItems.map((item: MenuLinkItem) => (
                   <DesktopMenuItem {...item} key={item.title} />
@@ -213,6 +221,7 @@ const DesktopNavLinks = () => (
                 gridTemplateColumns="repeat(1, 1fr)"
                 width="474px"
                 p="56px 6px 6px 56px"
+                borderColor="transparent"
               >
                 {section.menuItems.map((item: MenuLinkItem) => (
                   <DesktopMenuItem key={item.title} {...item} />
