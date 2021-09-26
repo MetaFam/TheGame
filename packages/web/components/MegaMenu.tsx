@@ -18,6 +18,7 @@ import {
   Spinner,
   Stack,
   Text,
+  TriangleUpIcon,
   useDisclosure,
 } from '@metafam/ds';
 import { numbers } from '@metafam/utils';
@@ -163,7 +164,7 @@ const DesktopNavLinks = () => (
     minW={{ base: 'auto', md: '40%' }}
   >
     {MenuSectionLinks.map((section: MenuLinkSet) => (
-      <Menu key={section.label}>
+      <Menu key={section.label} offset={[-56, 7]}>
         {({ isOpen }) => (
           <>
             <MenuButton
@@ -177,7 +178,7 @@ const DesktopNavLinks = () => (
               ml={23}
               mr={23}
               fontFamily="exo2"
-              _expanded={{ color: '#FD9FE3' }}
+              _expanded={{ color: '#fff' }}
               _focus={{ outline: 'none', border: 'none' }}
             >
               {section.label}
@@ -185,6 +186,14 @@ const DesktopNavLinks = () => (
                 <ChevronUpIcon color="#ffffff" />
               ) : (
                 <ChevronDownIcon color="#ffffff" />
+              )}
+              {isOpen && (
+                <TriangleUpIcon
+                  position="absolute"
+                  left="calc(50% - 18px)"
+                  top="61px"
+                  borderColor="transparent"
+                />
               )}
             </MenuButton>
             {section.menuItems.length > 3 ? (
