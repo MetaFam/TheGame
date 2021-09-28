@@ -6,11 +6,11 @@ import {
 import { Constants } from '@metafam/utils';
 
 import { CONFIG } from '../../config';
-import { Player_Role, PlayerRole_Enum } from '../../lib/autogen/hasura-sdk';
+import { Player_Role } from '../../lib/autogen/hasura-sdk';
 import { client } from '../../lib/hasuraClient';
 import { TriggerPayload } from './types';
 
-type RoleIds = { [role in PlayerRole_Enum]: string };
+type RoleIds = { [role: string]: string };
 
 export interface UpdateRole {
   playerId: string;

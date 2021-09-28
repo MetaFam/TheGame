@@ -70,10 +70,10 @@
   - role: player
     permission:
       columns:
-      - role
-      - label
       - emoji
       - description
+      - label
+      - role
       filter: {}
   - role: public
     permission:
@@ -516,6 +516,15 @@
       - role
       - player_id
       filter: {}
+  update_permissions:
+  - role: player
+    permission:
+      columns:
+      - rank
+      filter:
+        player_id:
+          _eq: X-Hasura-User-Id
+      check: null
   delete_permissions:
   - role: player
     permission:
