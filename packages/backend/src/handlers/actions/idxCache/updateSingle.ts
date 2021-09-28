@@ -1,4 +1,5 @@
-import CeramicClient from '@ceramicnetwork/http-client';
+import type { CeramicApi } from '@ceramicnetwork/common';
+import Ceramic from '@ceramicnetwork/http-client';
 import { getLegacy3BoxProfileAsBasicProfile, IDX } from '@ceramicstudio/idx';
 // https://github.com/ceramicnetwork/CIP/blob/main/CIPs/CIP-19/CIP-19.md#record-schema
 import type { BasicProfile } from '@ceramicstudio/idx-constants';
@@ -21,7 +22,7 @@ function getImage(image: string | null | undefined, opts: OptimizeImageParams) {
   return image;
 }
 
-const ceramic = new CeramicClient(CONFIG.ceramicDaemonURL);
+const ceramic = (new Ceramic(CONFIG.ceramicURL) as unknown) as CeramicApi;
 const idx = new IDX({ ceramic });
 
 // eslint-disable-next-line import/no-default-export

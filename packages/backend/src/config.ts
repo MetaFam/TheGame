@@ -1,6 +1,6 @@
 import dotenv from 'dotenv';
 
-dotenv.config()
+dotenv.config();
 
 interface IConfig {
   port: number;
@@ -18,7 +18,7 @@ interface IConfig {
   pSEEDAddress: string;
   brightIdAppURL: string;
   sourceCredLedgerBranch: string;
-  ceramicDaemonURL: string;
+  ceramicURL: string;
   web3StorageToken: string;
 }
 
@@ -85,11 +85,9 @@ export const CONFIG: IConfig = {
     process.env.SOURCECRED_LEDGER_BRANCH,
     'staging', // Just so we dont mess up the master ledger in case people are testing locally
   ),
-  ceramicDaemonURL: parseEnv(
-    process.env.CERAMIC_DAEMON_URL,
+  ceramicURL: parseEnv(
+    process.env.CERAMIC_URL,
     'https://d12-a-ceramic.3boxlabs.com', // 'http://localhost:7007',
   ),
-  web3StorageToken: parseEnv(
-    process.env.WEB3_STORAGE_TOKEN, '',
-  ),
+  web3StorageToken: parseEnv(process.env.WEB3_STORAGE_TOKEN, ''),
 };
