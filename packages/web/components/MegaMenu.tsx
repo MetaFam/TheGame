@@ -332,12 +332,12 @@ const PlayerStats: React.FC<PlayerStatsProps> = ({ player }) => {
 };
 
 export const MegaMenu: React.FC = () => {
-  const { isConnected, connectWeb3 } = useWeb3();
+  const { connected, connect } = useWeb3();
   const router = useRouter();
 
   const handleLoginClick = useCallback(async () => {
-    await connectWeb3();
-  }, [connectWeb3]);
+    await connect();
+  }, [connect]);
   const { user, fetching } = useUser();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -401,7 +401,7 @@ export const MegaMenu: React.FC = () => {
             />
           ) : (
             <>
-              {isConnected && !!user?.player ? (
+              {connected && !!user?.player ? (
                 <PlayerStats player={user.player} />
               ) : (
                 <MetaButton
