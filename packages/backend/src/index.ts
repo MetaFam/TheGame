@@ -6,7 +6,6 @@ import express from 'express';
 
 import { CONFIG } from './config';
 import { router } from './handlers/routes';
-import bodyParser from 'body-parser';
 // import { errorMiddleware } from './lib/apiHelpers';
 
 const app = express();
