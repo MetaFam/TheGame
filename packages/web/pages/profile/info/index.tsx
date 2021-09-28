@@ -12,12 +12,10 @@ import {
   Textarea,
 } from '@metafam/ds';
 import { PageContainer } from 'components/Container';
-import
-  React, { useCallback, useEffect, useRef, useState
-} from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { CONFIG } from '../../../config'
+import { CONFIG } from '../../../config';
 import { useWeb3 } from '../../../lib/hooks';
 
 const InfoPage: React.FunctionComponent = () => {
@@ -53,16 +51,16 @@ const InfoPage: React.FunctionComponent = () => {
                   original: { src: url },
                 } = value as Record<string, Record<string, string>>;
                 value = url;
-                const match = url.match(/^ipfs:\/\/(.+)$/)
-                if(match){
-                  const ipfsUrl = `//ipfs.io/ipfs/${match[1]}`
-                  value = ipfsUrl
+                const match = url.match(/^ipfs:\/\/(.+)$/);
+                if (match) {
+                  const ipfsUrl = `//ipfs.io/ipfs/${match[1]}`;
+                  value = ipfsUrl;
                 }
-                if(key === 'image') {
-                  setImageURL(value as string)
+                if (key === 'image') {
+                  setImageURL(value as string);
                 }
-                if(key === 'background') {
-                  setBackgroundURL(value as string)
+                if (key === 'background') {
+                  setBackgroundURL(value as string);
                 }
               } else {
                 setValue(key, value);
@@ -81,7 +79,7 @@ const InfoPage: React.FunctionComponent = () => {
       const file = input.files?.[0];
       if (!file) return;
       const img = image.current as HTMLImageElement;
-      const bg = background.current  as HTMLImageElement;
+      const bg = background.current as HTMLImageElement;
       const reader = new FileReader();
       reader.addEventListener('load', () => {
         if (input.name === 'image') {
@@ -98,99 +96,98 @@ const InfoPage: React.FunctionComponent = () => {
 
   const onSubmit = async (inputs: Record<string, unknown>) => {
     const values = { ...inputs };
-    const formData  = new FormData();
+    const formData = new FormData();
     const [imageFile] = values.image as File[];
     const [backgroundFile] = values.background as File[];
-    if(!imageFile && !backgroundFile) {
+    if (!imageFile && !backgroundFile) {
       delete values.image;
       delete values.background;
     } else {
       setStatus('Uploading files to web3.storage…');
 
-      if(imageFile) {
+      if (imageFile) {
         formData.append('image', imageFile);
       }
-      if(backgroundFile) {
+      if (backgroundFile) {
         formData.append('background', backgroundFile);
       }
-      const result = await fetch(
-        `${CONFIG.actionsURL}/actions/storage`,
-        {
-          method: 'POST',
-          body: formData,
-          credentials: 'include',
-        }
-      )
-      const cids = await result.json()
-      const refs = (
-        { image: image.current, background: background.current } as { image: HTMLImageElement | null, background: HTMLImageElement | null }
-      );
+      const result = await fetch(`${CONFIG.actionsURL}/actions/storage`, {
+        method: 'POST',
+        body: formData,
+        credentials: 'include',
+      });
+      const cids = await result.json();
+      const refs = { image: image.current, background: background.current } as {
+        image: HTMLImageElement | null;
+        background: HTMLImageElement | null;
+      };
       ['image', 'background'].forEach((key) => {
-        if(cids[key]) {
+        if (cids[key]) {
           values[key] = {
             original: {
               src: `ipfs://${cids[key]}`,
               mimeType: 'image/*',
               width: refs[key as 'image' | 'background']?.width,
-              height: refs[key as 'image' | 'background']?.height
-            }
-          }
+              height: refs[key as 'image' | 'background']?.height,
+            },
+          };
         } else {
-          delete values[key]
+          delete values[key];
         }
       });
     }
 
     // empty string fails validation
     ['residenceCountry', 'birthDate'].forEach((key) => {
-      if(values[key] === '') {
-        delete values[key]
+      if (values[key] === '') {
+        delete values[key];
       }
     });
 
-    if(values.residenceCountry) {
-      values.residenceCountry = (
-        (values.residenceCountry as string).toUpperCase()
-      )
+    if (values.residenceCountry) {
+      values.residenceCountry = (values.residenceCountry as string).toUpperCase();
     }
 
     setStatus('Authenticating DID…');
     await ceramic?.did?.authenticate();
 
     setStatus('Writing to IDX…');
-    await idx?.merge('basicProfile', values)
+    await idx?.merge('basicProfile', values);
 
     setStatus(null);
-  }
+  };
 
-  if(!address) {
+  if (!address) {
     return (
       <Stack align="center">
         <Heading fontSize={25} mt={10}>
           Connect your wallet to edit your profile.
         </Heading>
       </Stack>
-    )
+    );
   }
 
-  if(!initialized) {
+  if (!initialized) {
     return (
       <Stack align="center">
         <Heading fontSize={25} mt={10}>
           Loading configuration from IDX…
         </Heading>
-        <Spinner/>
+        <Spinner />
       </Stack>
-    )
+    );
   }
 
   return (
     <PageContainer>
-      <Stack as="form" onSubmit={async (evt) => {
-        setStatus('Submitting…');
-        await handleSubmit(onSubmit)(evt);
-        setStatus(null);
-      }}>
+      <Stack
+        as="form"
+        onSubmit={async (evt) => {
+          setStatus('Submitting…');
+          await handleSubmit(onSubmit)(evt);
+          setStatus(null);
+        }}
+      >
         <FormControl isInvalid={errors.name}>
           <FormLabel htmlFor="name">Display Name</FormLabel>
           <Input
@@ -211,7 +208,7 @@ const InfoPage: React.FunctionComponent = () => {
         </FormControl>
         <FormControl isInvalid={errors.image}>
           <FormLabel htmlFor="image">Profile Image</FormLabel>
-          <Image ref={image} src={imageURL} maxH="6em"/>
+          <Image ref={image} src={imageURL} maxH="6em" />
           <Input
             name="image"
             type="file"
@@ -225,7 +222,7 @@ const InfoPage: React.FunctionComponent = () => {
         </FormControl>
         <FormControl isInvalid={errors.background}>
           <FormLabel htmlFor="background">Header Background</FormLabel>
-          <Image ref={background} src={backgroundURL} maxH="6em"/>
+          <Image ref={background} src={backgroundURL} maxH="6em" />
           <Input
             name="background"
             type="file"
@@ -244,7 +241,7 @@ const InfoPage: React.FunctionComponent = () => {
             placeholder="Describe yourself."
             ref={register}
             maxLength={420}
-            {...register('description',  {
+            {...register('description', {
               maxLength: {
                 value: 420,
                 message: 'Maximum length is 420 characters.',
@@ -340,87 +337,6 @@ const InfoPage: React.FunctionComponent = () => {
             {errors.residenceCountry && errors.residenceCountry.message}
           </FormErrorMessage>
         </FormControl>
-        <FormControl isInvalid={errors.description}>
-          <FormLabel htmlFor="description">Description</FormLabel>
-          <Textarea
-            name="description"
-            placeholder="description"
-            ref={register}
-            {...register('description')}
-          />
-          <FormErrorMessage>
-            {errors.description && errors.description.message}
-          </FormErrorMessage>
-        </FormControl>
-        <FormControl isInvalid={errors.emoji}>
-          <FormLabel htmlFor="description">Emoji</FormLabel>
-          <Input
-            name="emoji"
-            placeholder="emoji"
-            ref={register}
-            {...register('emoji', {
-              maxLength: 2
-            })}
-          />
-          <FormErrorMessage>
-            {errors.emoji && errors.emoji.message}
-          </FormErrorMessage>
-        </FormControl>
-        <FormControl isInvalid={errors.birthDate}>
-          <FormLabel htmlFor="description">Birthdate</FormLabel>
-          <Input
-            name="birthDate"
-            type="date"
-            placeholder="birthDate"
-            ref={register}
-            {...register('birthDate')}
-          />
-          <FormErrorMessage>
-            {errors.birthDate && errors.birthDate.message}
-          </FormErrorMessage>
-        </FormControl>
-        <FormControl isInvalid={errors.url}>
-          <FormLabel htmlFor="description">Website</FormLabel>
-          <Input
-            name="url"
-            placeholder="url"
-            ref={register}
-            {...register('url', {
-              maxLength: 240
-            })}
-          />
-          <FormErrorMessage>
-            {errors.url && errors.url.message}
-          </FormErrorMessage>
-        </FormControl>
-        <FormControl isInvalid={errors.homeLocation}>
-          <FormLabel htmlFor="description">Location</FormLabel>
-          <Input
-            name="homeLocation"
-            placeholder="homeLocation"
-            ref={register}
-            {...register('homeLocation', {
-              maxLength: 140
-            })}
-          />
-          <FormErrorMessage>
-            {errors.homeLocation && errors.homeLocation.message}
-          </FormErrorMessage>
-        </FormControl>
-        <FormControl isInvalid={errors.residenceCountry}>
-          <FormLabel htmlFor="description">Country Code</FormLabel>
-          <Input
-            name="residenceCountry"
-            placeholder="residenceCountry"
-            ref={register}
-            {...register('residenceCountry', {
-              maxLength: 2
-            })}
-          />
-          <FormErrorMessage>
-            {errors.residenceCountry && errors.residenceCountry.message}
-          </FormErrorMessage>
-        </FormControl>
         <Button
           mt={4}
           colorScheme="teal"
@@ -428,7 +344,7 @@ const InfoPage: React.FunctionComponent = () => {
           type="submit"
         >
           {status ?? 'Submit'}
-          {status && <Spinner ml={5}/>}
+          {status && <Spinner ml={5} />}
         </Button>
       </Stack>
     </PageContainer>
