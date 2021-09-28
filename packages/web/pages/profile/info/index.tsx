@@ -4,57 +4,39 @@ import {
   FormControl,
   FormErrorMessage,
   FormLabel,
+  Heading,
   Image,
   Input,
+  Spinner,
   Stack,
   Textarea,
 } from '@metafam/ds';
 import { PageContainer } from 'components/Container';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import
+  React, { useCallback, useEffect, useRef, useState
+} from 'react';
 import { useForm } from 'react-hook-form';
 
 import { CONFIG } from '../../../config'
 import { useWeb3 } from '../../../lib/hooks';
 
 const InfoPage: React.FunctionComponent = () => {
-  const [did, setDid] = useState<string>();
   const [imageURL, setImageURL] = useState<string>();
   const [backgroundURL, setBackgroundURL] = useState<string>();
   const image = useRef<HTMLImageElement>(null);
   const background = useRef<HTMLImageElement>(null);
+  const [initialized, setInitialized] = useState<boolean>(false);
+  const [status, setStatus] = useState<string | null>(null);
   const {
     handleSubmit,
     register,
-    formState: { errors, isSubmitting },
+    formState: { errors },
     setValue,
   } = useForm();
   const { ceramic, idx, address } = useWeb3();
 
-  console.log({did})
-
-  const onFileChange = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      const input = event.target as HTMLInputElement;
-      const file = input.files?.[0];
-      if (!file) return;
-      const img = image.current as HTMLImageElement;
-      const bg = background.current  as HTMLImageElement;
-      const reader = new FileReader();
-      reader.addEventListener('load', () => {
-        if (input.name === "image") {
-          img.src = reader.result as string;
-        }
-        if (input.name === "background") {
-          bg.src = reader.result as string;
-        }
-      });
-      reader.readAsDataURL(file);
-    },
-    [],
-  );
-
   useEffect(() => {
-    // fetch from IDX
+    // fetch initial values from IDX
     (async () => {
       if (ceramic && address) {
         const caip10 = await Caip10Link.fromAccount(
@@ -62,10 +44,7 @@ const InfoPage: React.FunctionComponent = () => {
           `${address}@eip155:1`,
         );
         if (caip10.did) {
-          setDid(caip10.did);
           const result = await idx?.get('basicProfile', caip10.did);
-          console.info({ result })
-          return
           Object.entries(result as Record<string, unknown>).forEach(
             ([key, object]) => {
               let value = object;
@@ -91,20 +70,47 @@ const InfoPage: React.FunctionComponent = () => {
             },
           );
         }
+        setInitialized(true);
       }
     })();
   }, [ceramic, address, idx, setValue]);
 
-  const onSubmit = async (values: Record<string, unknown>) => {
-    console.log(values); // eslint-disable-line no-console
+  const onFileChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      const input = event.target as HTMLInputElement;
+      const file = input.files?.[0];
+      if (!file) return;
+      const img = image.current as HTMLImageElement;
+      const bg = background.current  as HTMLImageElement;
+      const reader = new FileReader();
+      reader.addEventListener('load', () => {
+        if (input.name === 'image') {
+          img.src = reader.result as string;
+        }
+        if (input.name === 'background') {
+          bg.src = reader.result as string;
+        }
+      });
+      reader.readAsDataURL(file);
+    },
+    [],
+  );
+
+  const onSubmit = async (inputs: Record<string, unknown>) => {
+    const values = { ...inputs };
     const formData  = new FormData();
-    const [imageFile] = values.image as File[]
-    const [backgroundFile] = values.background as File[]
-    if(image || background) {
-      if(image) {
+    const [imageFile] = values.image as File[];
+    const [backgroundFile] = values.background as File[];
+    if(!imageFile && !backgroundFile) {
+      delete values.image;
+      delete values.background;
+    } else {
+      setStatus('Uploading files to web3.storage…');
+
+      if(imageFile) {
         formData.append('image', imageFile);
       }
-      if(background) {
+      if(backgroundFile) {
         formData.append('background', backgroundFile);
       }
       const result = await fetch(
@@ -120,7 +126,7 @@ const InfoPage: React.FunctionComponent = () => {
         { image: image.current, background: background.current } as { image: HTMLImageElement | null, background: HTMLImageElement | null }
       );
       ['image', 'background'].forEach((key) => {
-        if(cids[key]){
+        if(cids[key]) {
           values[key] = {
             original: {
               src: `ipfs://${cids[key]}`,
@@ -133,31 +139,69 @@ const InfoPage: React.FunctionComponent = () => {
           delete values[key]
         }
       });
-      if(values.residenceCountry === '') {
-        delete values.residenceCountry // empty string fails validation
-      }
-      if(ceramic?.did) {
-        await ceramic.did.authenticate();
-      }
-      console.info({
-        did: ceramic?.did, values
-      })
-      await idx?.merge('basicProfile', values)
     }
+
+    // empty string fails validation
+    ['residenceCountry', 'birthDate'].forEach((key) => {
+      if(values[key] === '') {
+        delete values[key]
+      }
+    });
+
+    if(values.residenceCountry) {
+      values.residenceCountry = (
+        (values.residenceCountry as string).toUpperCase()
+      )
+    }
+
+    setStatus('Authenticating DID…');
+    await ceramic?.did?.authenticate();
+
+    setStatus('Writing to IDX…');
+    await idx?.merge('basicProfile', values)
+
+    setStatus(null);
   }
+
+  if(!address) {
+    return (
+      <Stack align="center">
+        <Heading fontSize={25} mt={10}>
+          Connect your wallet to edit your profile.
+        </Heading>
+      </Stack>
+    )
+  }
+
+  if(!initialized) {
+    return (
+      <Stack align="center">
+        <Heading fontSize={25} mt={10}>
+          Loading configuration from IDX…
+        </Heading>
+        <Spinner/>
+      </Stack>
+    )
+  }
+
   return (
     <PageContainer>
-      <Stack as="form" onSubmit={handleSubmit(onSubmit)}>
+      <Stack as="form" onSubmit={async (evt) => {
+        setStatus('Submitting…');
+        await handleSubmit(onSubmit)(evt);
+        setStatus(null);
+      }}>
         <FormControl isInvalid={errors.name}>
-          <FormLabel htmlFor="name">Name</FormLabel>
+          <FormLabel htmlFor="name">Display Name</FormLabel>
           <Input
             name="name"
-            placeholder="name"
+            placeholder="Free-form name up to 150 characters."
             ref={register}
+            maxLength={150}
             {...register('name', {
               maxLength: {
                 value: 150,
-                message: 'Maximum length should be 150',
+                message: 'Maximum length is 150 characters.',
               },
             })}
           />
@@ -167,13 +211,11 @@ const InfoPage: React.FunctionComponent = () => {
         </FormControl>
         <FormControl isInvalid={errors.image}>
           <FormLabel htmlFor="image">Profile Image</FormLabel>
-          <Image ref={image} src={imageURL} />
+          <Image ref={image} src={imageURL} maxH="6em"/>
           <Input
             name="image"
             type="file"
-            defaultValue=""
             onChange={onFileChange}
-            placeholder="image"
             ref={register}
             {...register('image')}
           />
@@ -183,13 +225,11 @@ const InfoPage: React.FunctionComponent = () => {
         </FormControl>
         <FormControl isInvalid={errors.background}>
           <FormLabel htmlFor="background">Header Background</FormLabel>
-          <Image ref={background} src={backgroundURL} />
+          <Image ref={background} src={backgroundURL} maxH="6em"/>
           <Input
             name="background"
             type="file"
-            defaultValue=""
             onChange={onFileChange}
-            placeholder="background"
             ref={register}
             {...register('background')}
           />
@@ -201,12 +241,13 @@ const InfoPage: React.FunctionComponent = () => {
           <FormLabel htmlFor="description">Description</FormLabel>
           <Textarea
             name="description"
-            placeholder="description"
+            placeholder="Describe yourself."
             ref={register}
+            maxLength={420}
             {...register('description',  {
               maxLength: {
                 value: 420,
-                message: 'Maximum length should be 420',
+                message: 'Maximum length is 420 characters.',
               },
             })}
           />
@@ -215,13 +256,17 @@ const InfoPage: React.FunctionComponent = () => {
           </FormErrorMessage>
         </FormControl>
         <FormControl isInvalid={errors.emoji}>
-          <FormLabel htmlFor="description">Emoji</FormLabel>
+          <FormLabel htmlFor="emoji">Emoji</FormLabel>
           <Input
             name="emoji"
-            placeholder="emoji"
+            placeholder="🦸🌃🏩🚎🤱"
             ref={register}
+            maxLength={2}
             {...register('emoji', {
-              maxLength: 2
+              maxLength: {
+                value: 2,
+                message: 'Only a single emoji, please.',
+              },
             })}
           />
           <FormErrorMessage>
@@ -229,11 +274,11 @@ const InfoPage: React.FunctionComponent = () => {
           </FormErrorMessage>
         </FormControl>
         <FormControl isInvalid={errors.birthDate}>
-          <FormLabel htmlFor="description">Birthdate</FormLabel>
+          <FormLabel htmlFor="birthDate">Birthdate</FormLabel>
           <Input
             name="birthDate"
             type="date"
-            placeholder="birthDate"
+            placeholder="Date of your birth."
             ref={register}
             {...register('birthDate')}
           />
@@ -242,13 +287,17 @@ const InfoPage: React.FunctionComponent = () => {
           </FormErrorMessage>
         </FormControl>
         <FormControl isInvalid={errors.url}>
-          <FormLabel htmlFor="description">Website</FormLabel>
+          <FormLabel htmlFor="url">Website</FormLabel>
           <Input
             name="url"
-            placeholder="url"
+            placeholder="Personal URL."
             ref={register}
+            maxLength={240}
             {...register('url', {
-              maxLength: 240
+              maxLength: {
+                value: 240,
+                message: 'Max length is 240 characters.',
+              },
             })}
           />
           <FormErrorMessage>
@@ -256,13 +305,17 @@ const InfoPage: React.FunctionComponent = () => {
           </FormErrorMessage>
         </FormControl>
         <FormControl isInvalid={errors.homeLocation}>
-          <FormLabel htmlFor="description">Location</FormLabel>
+          <FormLabel htmlFor="homeLocation">Location</FormLabel>
           <Input
             name="homeLocation"
-            placeholder="homeLocation"
+            placeholder="Free-form description of where you are."
             ref={register}
+            maxLength={140}
             {...register('homeLocation', {
-              maxLength: 140
+              maxLength: {
+                value: 140,
+                message: 'Max length is 140 characters.',
+              },
             })}
           />
           <FormErrorMessage>
@@ -270,13 +323,17 @@ const InfoPage: React.FunctionComponent = () => {
           </FormErrorMessage>
         </FormControl>
         <FormControl isInvalid={errors.residenceCountry}>
-          <FormLabel htmlFor="description">Country Code</FormLabel>
+          <FormLabel htmlFor="residenceCountry">Residence Country</FormLabel>
           <Input
             name="residenceCountry"
-            placeholder="residenceCountry"
+            placeholder="Two-letter country code."
             ref={register}
+            maxLength={2}
             {...register('residenceCountry', {
-              maxLength: 2
+              maxLength: {
+                value: 2,
+                message: 'Please use a two-character country code.',
+              },
             })}
           />
           <FormErrorMessage>
@@ -367,10 +424,11 @@ const InfoPage: React.FunctionComponent = () => {
         <Button
           mt={4}
           colorScheme="teal"
-          isLoading={isSubmitting}
+          disabled={status !== null}
           type="submit"
         >
-          Submit
+          {status ?? 'Submit'}
+          {status && <Spinner ml={5}/>}
         </Button>
       </Stack>
     </PageContainer>

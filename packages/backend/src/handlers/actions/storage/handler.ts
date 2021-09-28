@@ -1,23 +1,32 @@
 import { Request, Response } from 'express';
-import { getFilesFromPath, Web3Storage } from 'web3.storage';
+import fs from 'fs'
+import Path from 'path'
+import { Web3Storage } from 'web3.storage'
 
 import { CONFIG } from '../../../config'
 
 // eslint-disable-next-line import/no-default-export
-export default async (req: Request | any, res: Response):
-Promise<Record<string, any>> => {
+export default async (req: Request, res: Response):
+Promise<Response> => {
   const storage = new Web3Storage({ token: CONFIG.web3StorageToken })
+  const input = req.files as Record<string, Array<Express.Multer.File>>
 
-  const filePaths = Object.values(req.files as any[]).map(
-    ([{ path }]) => path
+  const files = Object.entries(input).map(
+    ([key, [{ path }]]) => ({
+      name: key,
+      stream: () => (
+        fs.createReadStream(
+          Path.isAbsolute(path) ? path : Path.join(process.cwd(), path)
+        ) as any
+      ),
+    })
   )
-  const files = await getFilesFromPath(filePaths)
 
-  const cid = await storage.put(files as any)
+  const cid = await storage.put(files)
 
   const uploadedFiles = Object.fromEntries(
-    Object.entries(req.files as any).map(
-      ([key, [{ filename }]]: any[]) => [key, `${cid}/${filename}`]
+    Object.keys(input).map(
+      (key: string) => [key, `${cid}/${key}`]
     )
   )
   return res.json(uploadedFiles);

@@ -44,7 +44,7 @@ export const asyncHandlerWrapper = (
 };
 
 export const errorMiddleware: ErrorRequestHandler = (
-  error: any,
+  error: Error,
   _req: Request,
   res: Response,
 ) => {
