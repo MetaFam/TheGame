@@ -25,14 +25,14 @@ const { amountToDecimal } = numbers;
 
 // Display player XP and Seed
 const PlayerStats = () => {
-  const { isConnected, disconnect } = useWeb3();
+  const { connected, disconnect } = useWeb3();
   const { user } = useUser();
   const { pSeedBalance } = usePSeedBalance();
   return (
     <Flex
       align="center"
       display={{ base: 'flex', lg: 'none' }}
-      justifyContent={isConnected ? 'space-between' : 'center'}
+      justifyContent={connected ? 'space-between' : 'center'}
       flex="1"
       minW="100vw"
       bg="rgba(0,0,0,0.75)"
@@ -46,7 +46,7 @@ const PlayerStats = () => {
       mr="0"
       mb="auto"
     >
-      {isConnected && !!user?.player ? (
+      {connected && !!user?.player ? (
         <>
           <Flex pt={2} pb={6} px={2}>
             <Menu strategy="fixed" offset={[-7, 9]}>
