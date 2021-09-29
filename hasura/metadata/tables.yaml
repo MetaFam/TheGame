@@ -70,15 +70,13 @@
   - role: player
     permission:
       columns:
-      - emoji
-      - description
-      - label
       - role
+      - label
+      - description
       filter: {}
   - role: public
     permission:
       columns:
-      - emoji
       - description
       - label
       - role
