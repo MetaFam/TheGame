@@ -32,7 +32,7 @@ export const PlayerFragment = gql`
       }
     }
 
-    roles @skip(if: $forLoginDisplay) {
+    roles(order_by: { rank: asc }) @skip(if: $forLoginDisplay) {
       role
       rank
       PlayerRole {

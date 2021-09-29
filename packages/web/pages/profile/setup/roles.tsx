@@ -4,7 +4,7 @@ import { SetupContextProvider } from 'contexts/SetupContext';
 import { getPlayerRoles } from 'graphql/queries/enums/getRoles';
 import { useUser } from 'lib/hooks';
 import { InferGetStaticPropsType } from 'next';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 export const getStaticProps = async () => {
   const roleChoices = await getPlayerRoles();
@@ -12,7 +12,7 @@ export const getStaticProps = async () => {
   return {
     props: {
       roleChoices,
-      hideAppDrawer: true,
+      hideTopMenu: true,
     },
   };
 };
@@ -21,15 +21,18 @@ type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
 const PlayerRolesSetup: React.FC<Props> = (props) => {
   const { roleChoices } = props;
-  const [roles, setRoles] = useState<RoleValue[]>([]);
-  const { user } = useUser({ redirectTo: '/' });
+  const [roles, setRoles] = useState<Array<RoleValue>>([]);
+  const [loadingRoles, setLoadingRoles] = useState<boolean>(true);
+  const { user } = useUser({ requestPolicy: 'network-only' });
 
-  if (user?.player) {
-    const { player } = user;
-    if (player.roles && player.roles.length > 0 && roleChoices.length > 0) {
-      setRoles(player.roles.map((r) => r.role));
+  const playerRoles = user?.player?.roles;
+
+  useEffect(() => {
+    if (playerRoles && playerRoles.length > 0) {
+      setRoles(playerRoles.map((r) => r.role));
+      setLoadingRoles(false);
     }
-  }
+  }, [playerRoles]);
 
   return (
     <SetupContextProvider>
@@ -37,6 +40,7 @@ const PlayerRolesSetup: React.FC<Props> = (props) => {
         <SetupRoles
           roleChoices={roleChoices}
           roles={roles}
+          fetchingExistingRoles={loadingRoles}
           setRoles={setRoles}
         />
       </SetupProfile>

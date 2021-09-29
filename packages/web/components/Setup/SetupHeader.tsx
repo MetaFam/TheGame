@@ -11,8 +11,14 @@ export const SetupHeader: React.FC = () => {
 
   const { sectionIndex } = options.steps[stepIndex];
 
+  const templateColumns = [
+    '0.5',
+    ...options.sections.map(() => '1'),
+    '0.5',
+  ].map((col) => `${col}fr`);
+
   return (
-    <Grid templateColumns="0.5fr 1fr 1fr 1fr 0.5fr" gap="1rem" w="100%">
+    <Grid templateColumns={templateColumns.join(' ')} gap="1rem" w="100%">
       <FlexContainer justify="flex-end" onClick={onBackPress} cursor="pointer">
         <BoxedNextImage src={BackImage} height={5} width={5} alt="Back" />
       </FlexContainer>

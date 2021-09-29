@@ -8,7 +8,6 @@ export const GetPlayerTypes = gql`
     PlayerRole {
       role
       label
-      emoji
       description
     }
   }
