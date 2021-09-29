@@ -495,11 +495,10 @@
         player_id:
           _eq: X-Hasura-User-Id
       set:
-        player_id: x-hasura-User_Id
+        player_id: x-hasura-User-Id
       columns:
       - rank
       - role
-      - player_id
       backend_only: false
   select_permissions:
   - role: player

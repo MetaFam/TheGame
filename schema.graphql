@@ -876,7 +876,7 @@ columns and relationships of "guild_metadata"
 
 """
 type guild_metadata {
-  creator_id: uuid
+  creator_id: uuid!
 
   """Remote relationship field"""
   discordRoles: [DiscordRole!]!
@@ -891,7 +891,7 @@ type guild_metadata {
   guild_id: uuid!
 
   """An object relationship"""
-  player: player
+  player: player!
 }
 
 """

@@ -29,7 +29,7 @@ export class SetupOptions {
       label: 'Player Profile',
       title: {
         base: 'Player',
-        sm: '3. PLayer',
+        sm: '3. Player',
         lg: '3. Player Profile',
       },
     },
