@@ -26,7 +26,3 @@ Want a more in-depth guide to doing this? Check the [Patrons Path](https://www.n
 
 ## Join as a Guild
 We are currently not accepting new guilds into MetaGame & the list of candidates to join next is long. Want your project to be considered a candidate for the next batch of *Guilds of MetaGame*? Join as a player or a patron now, shill your project & make some friends.
-
-## Join Discord
-Either way, you can join the limited [few channels on Discord](https://discord.gg/cDcY8FpGAB) & ask around. Maybe the *Onboarders* like you enough to make you a Player 🙃
-
