@@ -100,7 +100,7 @@ body,
     }
 }
 
-.main-wrapper [role='complementary'] {
+.main-wrapper [class^='docSidebarContainer'] {
     position: relative;
     // width: 300px;
 
@@ -381,6 +381,11 @@ body,
 
                         @media (min-width: 1280px) {
                             margin: 0;
+                        }
+
+                        [class^='docItemContainer'] {
+                            margin: 0 auto;
+                            padding: 0 0.5rem;
                         }
                     }
                 }

@@ -92,7 +92,7 @@ In short:
 -   Whatever you’re doing to push your project forward, do it publicly - even if it feels embarrassing and you’re failing.
 -   Start fostering a community & regularly expressing your gratitude for their presence. You probably can’t make it without them.
 -   Don’t. Lose. Momentum.
--   Have this video that Peter of MetaCartel shared with me when I was just getting started with MetaGame: <iframe width="560" height="315" src="https://www.youtube.com/embed/fW8amMCVAJQ" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+-   Have this video that Peter of MetaCartel shared with me when I was just getting started with MetaGame: <iframe width="560" height="315" src="https://www.youtube.com/embed/fW8amMCVAJQ" frameBorder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 Need more help?
 -   Message me @peth on Twitter, Telegram or Discord with any questions.

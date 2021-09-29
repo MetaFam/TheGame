@@ -142,7 +142,7 @@ These are some of the books that might come in handy when interested in building
   width='480'
   height='320'
   src='https://metagame.substack.com/embed'
-  frameborder='0'
+  frameBorder='0'
   scrolling='no'
   style={{ background: 'white' }}
 ></iframe>

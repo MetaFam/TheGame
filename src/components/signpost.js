@@ -7,7 +7,7 @@ import styles from './signpost.module.scss';
 
 export const directions = [
   {
-    emoji: "👈",
+    emoji: "📚",
     label: "Library",
     url: "#here",
     description: "Explore the Wiki",

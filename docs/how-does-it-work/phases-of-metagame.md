@@ -137,7 +137,7 @@ Read more in the [_MetaSys_ article](https://wiki.metagame.wtf/docs/Guilding/met
 </details>
 <details>
 <summary>MetaGame Phase III Alpha Leak</summary>
-<iframe width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 </details>
 
 <details>

@@ -1,4 +1,4 @@
-﻿---
+---
 title: 🌱 Why Gamification Works?
 ---
 

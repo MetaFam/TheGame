@@ -5,13 +5,16 @@ You didn't think we just let anyone in, did you?
 There are two ways to prove your worth & join MetaGame 🙃
 
 ## Join as a Player
-We are currently above the Dunbar's limit but you can fill out the form below & enter the judgement queue.
-If the *Onboarders of MetaGame* deem your application worthwhile, you will be contacted & given an *Engaged Octo* role as a trial to prove your worth.
-The form isn't loading? Go [through here](https://form.typeform.com/to/RZLnpeBa).
+The first step to joining as a Player is to subscribe to the newsletter.
+From there, you'll be invited to discord where you'll need to prove your worth by going through the cohort onboarding process & doing something useful.
 
-import { TypeformWidget } from '../../src/components/typeform';
-
-<TypeformWidget campaign='RZLnpeBa' />
+<iframe 
+    src="https://metagame.substack.com/embed" 
+    width="480" 
+    height="320" 
+    frameBorder="0" 
+    scrolling="no"
+></iframe>
 
 ## Join as a Patron
 Eager to support the cause & impatient to join?
