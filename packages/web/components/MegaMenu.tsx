@@ -307,6 +307,9 @@ const PlayerStats: React.FC<PlayerStatsProps> = ({ player }) => {
   const { disconnect } = useWeb3();
   const { pSeedBalance } = usePSeedBalance();
 
+  const hasEditedProfile =
+    player.username && player.username !== player.ethereum_address;
+
   return (
     <Flex
       align="center"
@@ -376,7 +379,9 @@ const PlayerStats: React.FC<PlayerStatsProps> = ({ player }) => {
           </MetaLink>
           <MetaLink
             color="black"
-            href={`/profile/${player.username}/edit`}
+            href={
+              hasEditedProfile ? '/profile/edit' : '/profile/setup/username'
+            }
             _hover={{ textDecoration: 'none' }}
           >
             <MenuItem>Edit Profile</MenuItem>
