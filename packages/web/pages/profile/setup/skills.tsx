@@ -24,7 +24,7 @@ type Props = InferGetStaticPropsType<typeof getStaticProps>;
 const SkillsSetup: React.FC<Props> = (props) => {
   const { skillChoices } = props;
   const [skills, setSkills] = useState<Array<SkillOption>>([]);
-  const { user } = useUser({ redirectTo: '/' });
+  const { user } = useUser({ redirectTo: '/', requestPolicy: 'network-only' });
 
   if (user?.player) {
     const { player } = user;
