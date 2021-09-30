@@ -1,10 +1,9 @@
-import { Box, Flex, Grid, ResponsiveText } from '@metafam/ds';
+import { Box, BoxedNextImage, Flex, Grid, ResponsiveText } from '@metafam/ds';
 import BackImage from 'assets/Back.svg';
 import LogoImage from 'assets/logo.png';
 import SkipImage from 'assets/Skip.svg';
 import { FlexContainer } from 'components/Container';
 import { useSetupFlow } from 'contexts/SetupContext';
-import Image from 'next/image';
 import React from 'react';
 
 export const SetupHeader: React.FC = () => {
@@ -15,7 +14,7 @@ export const SetupHeader: React.FC = () => {
   return (
     <Grid templateColumns="0.5fr 1fr 1fr 1fr 0.5fr" gap="1rem" w="100%">
       <FlexContainer justify="flex-end" onClick={onBackPress} cursor="pointer">
-        <Image src={BackImage} height={20} width={20} priority alt="Back" />
+        <BoxedNextImage src={BackImage} height={5} width={5} alt="Back" />
       </FlexContainer>
       {options.sections.map((option, id) => (
         <SectionProgress
@@ -26,7 +25,7 @@ export const SetupHeader: React.FC = () => {
         />
       ))}
       <FlexContainer justify="flex-end" onClick={onNextPress} cursor="pointer">
-        <Image src={SkipImage} height={20} width={20} priority alt="Forward" />
+        <BoxedNextImage src={SkipImage} height={5} width={5} alt="Forward" />
       </FlexContainer>
     </Grid>
   );
@@ -71,25 +70,16 @@ export const SectionProgress: React.FC<StepProps> = ({
         )}
       </Flex>
       {isActive && (
-        <>
-          <Box
-            mt={4}
-            pos="absolute"
-            w="1.5rem"
-            h="1.75rem"
-            top="100%"
-            left={`${progress}%`}
-            transform="translateX(-50%)"
-          >
-            <Image
-              layout="fill"
-              className="Avatar"
-              src={LogoImage}
-              priority
-              alt="Avatar"
-            />
-          </Box>
-        </>
+        <BoxedNextImage
+          pos="absolute"
+          mt={24}
+          w="1.5rem"
+          h="1.75rem"
+          src={LogoImage}
+          left={`${progress}%`}
+          transform="translateX(-50%)"
+          alt="Avatar"
+        />
       )}
     </FlexContainer>
   );
