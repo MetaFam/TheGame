@@ -30,8 +30,13 @@ jobs:
           path: '**/node_modules'
           key: nodeModules-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
 
-      - name: Install packages
+      - name: Install Packages
         run: yarn --frozen-lockfile
+        env:
+          CI: true
+
+      - name: Autogenerate Code
+        run: yarn generate
         env:
           CI: true
 
@@ -71,8 +76,13 @@ jobs:
           path: '**/node_modules'
           key: nodeModules-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
 
-      - name: Install packages
+      - name: Install Packages
         run: yarn --frozen-lockfile
+        env:
+          CI: true
+
+      - name: Autogenerate Code
+        run: yarn generate
         env:
           CI: true
 
