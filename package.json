@@ -1,6 +1,6 @@
 {
   "name": "@metafam/the-game",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "license": "GPL-3.0",
   "engines": {
     "node": ">=12"
@@ -70,7 +70,7 @@
     "husky": "6.0.0",
     "jest": "26.6.3",
     "lerna": "4.0.0",
-    "lint-staged": "11.0.0",
+    "lint-staged": "^11.1.2",
     "prettier": "2.2.1",
     "react": "16.14.0",
     "react-dom": "16.14.0",
@@ -80,7 +80,7 @@
   },
   "resolutions": {
     "bcrypto": "5.2.0",
-    "@ceramicnetwork/streamid@1.0.2": "1.2.1",
+    "@ceramicnetwork/streamid": "1.2.1",
     "@ceramicnetwork/common": "1.5.0",
     "ethereumjs-abi": "0.6.6",
     "sha3": "2.0.2",

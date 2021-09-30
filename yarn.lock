@@ -2285,7 +2285,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ceramicnetwork/streamid@npm:^1.0.2, @ceramicnetwork/streamid@npm:^1.2.1":
+"@ceramicnetwork/streamid@npm:1.2.1":
   version: 1.2.1
   resolution: "@ceramicnetwork/streamid@npm:1.2.1"
   dependencies:
@@ -6541,6 +6541,7 @@ __metadata:
     graphql-tag: 2.12.5
     graphql-tools: 7.0.4
     imgix-core-js: 2.3.2
+    lint-staged: ^11.1.2
     multer: 1.4.3
     nock: 13.1.0
     node-fetch: 2.6.1
@@ -6567,6 +6568,7 @@ __metadata:
     graphql: 15.5.0
     graphql-request: 3.4.0
     graphql-tag: 2.12.4
+    lint-staged: ^11.1.2
     node-fetch: 2.6.1
     sourcecred: 0.9.0
     ts-node-dev: 1.1.6
@@ -6592,8 +6594,9 @@ __metadata:
     "@types/react-dom": 17.0.5
     "@types/react-select": 3.0.22
     babel-loader: 8.2.2
-    city-timezones: ^1.2.0
+    city-timezones: 1.2.0
     framer-motion: 4.1.17
+    lint-staged: ^11.1.2
     next: 10.2.3
     react-docgen-typescript-loader: 3.7.2
     react-dom: 16.14.0
@@ -6605,6 +6608,7 @@ __metadata:
     storybook-addon-performance: 0.15.2
     storybook-addon-react-docgen: 1.2.42
     ts-loader: 8.1.0
+    tsdx: 0.14.1
     tslib: 2.2.0
     typescript: 4.2.2
   peerDependencies:
@@ -6646,7 +6650,7 @@ __metadata:
     husky: 6.0.0
     jest: 26.6.3
     lerna: 4.0.0
-    lint-staged: 11.0.0
+    lint-staged: ^11.1.2
     prettier: 2.2.1
     react: 16.14.0
     react-dom: 16.14.0
@@ -6664,6 +6668,7 @@ __metadata:
     bignumber.js: 9.0.1
     ethers: 5.4.3
     js-base64: 3.6.1
+    lint-staged: ^11.1.2
     sourcecred: 0.9.0
     uuid: 8.3.2
   languageName: unknown
@@ -6683,12 +6688,14 @@ __metadata:
     "@types/react": 17.0.6
     "@urql/exchange-retry": 0.2.1
     "@walletconnect/web3-provider": 1.5.2
+    concurrently: 6.2.2
     copy-to-clipboard: 3.3.1
     dids: 2.4.0
     ethers: 5.4.3
     fake-tag: 3.0.0
     graphql: 15.5.0
     isomorphic-unfetch: 3.1.0
+    lint-staged: ^11.1.2
     moment: 2.29.1
     next: 10.2.3
     next-images: 1.7.0
@@ -14400,7 +14407,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"city-timezones@npm:^1.2.0":
+"city-timezones@npm:1.2.0":
   version: 1.2.0
   resolution: "city-timezones@npm:1.2.0"
   dependencies:
@@ -14968,6 +14975,24 @@ __metadata:
   bin:
     concurrently: bin/concurrently.js
   checksum: cff06c2ad40d915682096f552e13ee7afe03bc5314f6b81a0e770628c76b8234a16c36e3e75cb908d6785392bc86c8b0a61cc01d2c144ca65917c5fee9ec8af3
+  languageName: node
+  linkType: hard
+
+"concurrently@npm:6.2.2":
+  version: 6.2.2
+  resolution: "concurrently@npm:6.2.2"
+  dependencies:
+    chalk: ^4.1.0
+    date-fns: ^2.16.1
+    lodash: ^4.17.21
+    rxjs: ^6.6.3
+    spawn-command: ^0.0.2-1
+    supports-color: ^8.1.0
+    tree-kill: ^1.2.2
+    yargs: ^16.2.0
+  bin:
+    concurrently: bin/concurrently.js
+  checksum: 42e4eb4a0f72e7d20db48c256284ed8e25b52c72d152a60cd46a2257bc8bb92365494b82f6f342080484126319f612d4c76b5448ee2d3432d0cd8fa0e17b6dfe
   languageName: node
   linkType: hard
 
@@ -26811,16 +26836,15 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"lint-staged@npm:11.0.0":
-  version: 11.0.0
-  resolution: "lint-staged@npm:11.0.0"
+"lint-staged@npm:^11.1.2":
+  version: 11.1.2
+  resolution: "lint-staged@npm:11.1.2"
   dependencies:
     chalk: ^4.1.1
     cli-truncate: ^2.1.0
     commander: ^7.2.0
     cosmiconfig: ^7.0.0
     debug: ^4.3.1
-    dedent: ^0.7.0
     enquirer: ^2.3.6
     execa: ^5.0.0
     listr2: ^3.8.2
@@ -26832,7 +26856,7 @@ fsevents@^1.2.7:
     stringify-object: ^3.3.0
   bin:
     lint-staged: bin/lint-staged.js
-  checksum: 3be24b4a88799264bbb9baeedfc5be278d25aa85dc766c5328da23d5d92300c0a163563b455d530ca2a74510a161f17623e846e1aca81e44f389108274ad2acd
+  checksum: 0050d1836dda879c58561fa4efd100f5cd14fcbf8ee3fdeab7e89ec4219c019543bb5bf2442f760557ebe4bb8b7bfc56a9c98b9384acecfe0f8553f091723e36
   languageName: node
   linkType: hard
 
