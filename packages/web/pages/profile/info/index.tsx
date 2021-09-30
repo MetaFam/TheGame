@@ -256,7 +256,7 @@ const InfoPage: React.FunctionComponent = () => {
           <FormLabel htmlFor="emoji">Emoji</FormLabel>
           <Input
             name="emoji"
-            placeholder="🦸🌃🏩🚎🤱"
+            placeholder="Your emoji."
             ref={register}
             maxLength={2}
             {...register('emoji', {

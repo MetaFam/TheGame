@@ -91,8 +91,9 @@ const parseAssets = async (
         } as Collectible),
     )
     .filter(
-      (collectible: Collectible) =>
-        !!collectible.title && !!collectible.imageUrl,
+      (collectible: Collectible) => (
+        !!collectible.title && !!collectible.imageUrl
+      ),
     );
 
 const ETH_ADDRESSES = [
@@ -109,7 +110,7 @@ const getPriceString = (event: AssetEvent | null): string => {
       usdPrice,
     } = event.paymentToken;
 
-    const symbol = ETH_ADDRESSES.indexOf(address) === -1 ? tokenSymbol : 'Ξ';
+    const symbol = ETH_ADDRESSES.includes(address) ? 'Ξ' : tokenSymbol;
     const price = Number(utils.formatUnits(event.totalPrice, decimals));
     const priceInUSD = usdPrice ? price * Number(usdPrice) : 0;
     return `${price.toFixed(2)}${symbol}${
