@@ -43,11 +43,10 @@ export const MenuSectionLinks: MenuLinkSet[] = [
         icon: 'guilds',
       },
       {
-        title: 'Alliances',
-        explainerText:
-          'Explore the alliances of MetaGame; groups of guilds spanning across the metaverse',
+        title: 'Events',
+        explainerText: "See when we're meeting; join discussions & workshops",
         url: 'https://wiki.metagame.wtf/docs/great-houses/house-of-daos',
-        icon: 'alliances',
+        icon: 'events',
       },
       {
         title: 'Forum',
@@ -103,6 +102,20 @@ export const MenuSectionLinks: MenuLinkSet[] = [
       //   url: 'https://wiki.metagame.wtf/',
       //   icon: 'asketh',
       // },
+      {
+        title: 'Meta Radio',
+        explainerText:
+          "MetaGame's podcasting network; plug knowledge straight into your ears",
+        url: 'https://anchor.fm/MetaGame/',
+        icon: 'metaradio',
+      },
+      {
+        title: 'Meta Media YouTube',
+        explainerText:
+          "MetaMedia is MetaGame's video hub, talks, workshops, memes & other shizzle",
+        url: 'https://www.youtube.com/metamedia',
+        icon: 'youtube',
+      },
     ],
   },
   {
