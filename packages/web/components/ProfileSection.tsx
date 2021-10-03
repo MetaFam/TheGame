@@ -39,6 +39,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
               background="transparent"
               color="#A426A4"
               icon={<EditIcon />}
+              _hover={{ color: 'white' }}
               isRound
             />
           ) : null}
