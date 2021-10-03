@@ -154,7 +154,7 @@ export const MenuSectionLinks: MenuLinkSet[] = [
         explainerText:
           "Don't have time to play? Support MetaGame by buying Seeds",
         url: 'https://wiki.metagame.wtf/docs/enter-metagame/why-patron',
-        icon: 'seeds',
+        icon: 'becomeapatron',
       },
       {
         title: 'Buy Seeds',
