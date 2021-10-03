@@ -16,7 +16,7 @@ env:
 
 jobs:
   undeploy:
-    name: Undeploy Containers from Cloud Run
+    name: Undeploy
     runs-on: ubuntu-latest
 
     steps:
@@ -30,17 +30,17 @@ jobs:
       - name: Undeploy Backend
         run: gcloud -q run services delete backend-pr-${{ github.event.number }} --region ${CLOUDRUN_REGION}
 
-      - name: Undeploy Hasura
-        run: gcloud -q run services delete hasura-pr-${{ github.event.number }} --region ${CLOUDRUN_REGION}
-
-      - name: Undeploy Frontend
-        run: gcloud -q run services delete frontend-pr-${{ github.event.number }} --region ${CLOUDRUN_REGION}
-
       - name: Delete Backend Image
         run: gcloud -q artifacts docker images delete ${REGISTRY_REGION}-docker.pkg.dev/${PROJECT_ID}/${REGISTRY_REPO}/backend:pr-${{ github.event.number }}
 
+      - name: Undeploy Hasura
+        run: gcloud -q run services delete hasura-pr-${{ github.event.number }} --region ${CLOUDRUN_REGION}
+
       - name: Delete Hasura Image
         run: gcloud -q artifacts docker images delete ${REGISTRY_REGION}-docker.pkg.dev/${PROJECT_ID}/${REGISTRY_REPO}/hasura:pr-${{ github.event.number }}
+
+      - name: Undeploy Frontend
+        run: gcloud -q run services delete frontend-pr-${{ github.event.number }} --region ${CLOUDRUN_REGION}
 
       - name: Delete Frontend Image
         run: gcloud -q artifacts docker images delete ${REGISTRY_REGION}-docker.pkg.dev/${PROJECT_ID}/${REGISTRY_REPO}/frontend:pr-${{ github.event.number }}
