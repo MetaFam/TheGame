@@ -3,6 +3,7 @@ import { PlayerHero } from 'components/Player/Section/PlayerHero';
 import { useInsertCacheInvalidationMutation } from 'graphql/autogen/types';
 import { getPlayer } from 'graphql/getPlayer';
 import { getTopPlayerUsernames } from 'graphql/getPlayers';
+import { useUser, useWeb3 } from 'lib/hooks';
 import {
   GetStaticPaths,
   GetStaticPropsContext,
@@ -39,12 +40,23 @@ const PlayerPage: React.FC<Props> = ({ player }) => {
   const [boxAvailableList, setBoxAvailableList] = useState<string[]>([]);
   const [canEdit] = useState(false);
   const [, invalidateCache] = useInsertCacheInvalidationMutation();
+  const { user, fetching } = useUser();
+  const { connected } = useWeb3();
 
   const [fakeData, setFakeData] = useState([
     [],
     [BOX_TYPE.PLAYER_MEMBERSHIPS, BOX_TYPE.PLAYER_SKILLS],
     [BOX_TYPE.PLAYER_GALLERY],
   ]);
+
+  useEffect(() => {
+    if (connected && !fetching && user?.id === player.id) {
+      setIsLoggedInUser(true);
+    }
+  }, [user, fetching, connected, player.id]);
+
+  const [isLoggedInUser, setIsLoggedInUser] = useState(false);
+  console.log('isLoggedInUser', isLoggedInUser);
 
   useEffect(() => {
     if (player) {
