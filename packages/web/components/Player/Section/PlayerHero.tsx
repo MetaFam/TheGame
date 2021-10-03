@@ -55,6 +55,7 @@ export const PlayerHero: React.FC<Props> = ({ player, isOwnProfile }) => {
               borderColor="#A426A4"
               background="rgba(17, 17, 17, 0.9)"
               color="#A426A4"
+              _hover={{ color: 'white', borderColor: 'white' }}
               icon={<EditIcon />}
               isRound
             />
