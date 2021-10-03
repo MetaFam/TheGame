@@ -32,6 +32,7 @@ export {
   ChevronDownIcon,
   ChevronUpIcon,
   CloseIcon,
+  EditIcon,
   EmailIcon,
   HamburgerIcon,
   SettingsIcon,
