@@ -12,6 +12,7 @@ env:
   REGISTRY_REGION: us-east4
   REGISTRY_REPO: thegame
   CLOUDRUN_REGION: us-east4
+  CLOUDSQL_CONNECTION_NAME: metagame-thegame:us-east4:thegame
   CLOUDSQL_INSTANCE_NAME: thegame
 
 jobs:
@@ -45,10 +46,19 @@ jobs:
       - name: Delete Frontend Image
         run: gcloud -q artifacts docker images delete ${REGISTRY_REGION}-docker.pkg.dev/${PROJECT_ID}/${REGISTRY_REPO}/frontend:pr-${{ github.event.number }}
 
-      - name: Delete User and Database of Hasura
+      - name: Delete Database of Hasura
+        run: |
+          wget -q https://dl.google.com/cloudsql/cloud_sql_proxy.linux.amd64 -O cloud_sql_proxy
+          chmod +x cloud_sql_proxy
+          ./cloud_sql_proxy -instances ${CLOUDSQL_CONNECTION_NAME} -dir /tmp/cloudsql &
+          PID=$!
+          sleep 10
+          PGPASSWORD=${{ secrets.GCP_POSTGRES_PASSWORD }} dropdb -h /tmp/cloudsql/${CLOUDSQL_CONNECTION_NAME} -U postgres hasura-pr-${{ github.event.number }} -f
+          kill $PID
+
+      - name: Delete Postgres User of Hasura
         run: |
           gcloud -q sql users delete hasura-pr-${{ github.event.number }} -i ${CLOUDSQL_INSTANCE_NAME}
-          gcloud -q sql databases delete hasura-pr-${{ github.event.number }} -i ${CLOUDSQL_INSTANCE_NAME}
 
       - name: Comment on Pull Request
         uses: thollander/actions-comment-pull-request@v1
