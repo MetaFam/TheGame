@@ -51,12 +51,11 @@ const PlayerPage: React.FC<Props> = ({ player }) => {
 
   useEffect(() => {
     if (connected && !fetching && user?.id === player.id) {
-      setIsLoggedInUser(true);
+      setIsOwnProfile(true);
     }
   }, [user, fetching, connected, player.id]);
 
-  const [isLoggedInUser, setIsLoggedInUser] = useState(false);
-  console.log('isLoggedInUser', isLoggedInUser);
+  const [isOwnProfile, setIsOwnProfile] = useState(false);
 
   useEffect(() => {
     if (player) {
@@ -98,6 +97,7 @@ const PlayerPage: React.FC<Props> = ({ player }) => {
         return (
           <PlayerSkills
             player={player}
+            displayEditButton={isOwnProfile}
             onRemoveClick={() => removeBox(column, name)}
           />
         );
@@ -142,7 +142,7 @@ const PlayerPage: React.FC<Props> = ({ player }) => {
           mr={{ base: 0, md: 4 }}
         >
           <Box mb="6">
-            <PlayerHero {...{ player }} />
+            <PlayerHero {...{ player }} isOwnProfile={isOwnProfile} />
           </Box>
           {(fakeData || [[], [], []])[0].map((name) => (
             <Box mb="6" key={name}>

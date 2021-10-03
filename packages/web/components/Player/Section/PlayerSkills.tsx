@@ -5,13 +5,25 @@ import React from 'react';
 
 import { ProfileSection } from '../../ProfileSection';
 
-type Props = { player: PlayerFragmentFragment; onRemoveClick: () => void };
-export const PlayerSkills: React.FC<Props> = ({ player, onRemoveClick }) => {
+type Props = {
+  player: PlayerFragmentFragment;
+  displayEditButton: boolean;
+  onRemoveClick: () => void;
+};
+export const PlayerSkills: React.FC<Props> = ({
+  player,
+  displayEditButton,
+  onRemoveClick,
+}) => {
   if (!player.skills?.length) {
     return null;
   }
   return (
-    <ProfileSection title="Skills" onRemoveClick={onRemoveClick}>
+    <ProfileSection
+      title="Skills"
+      onRemoveClick={onRemoveClick}
+      displayEditButton={displayEditButton}
+    >
       <Wrap>
         {(player.skills || []).map(({ Skill }) => (
           <WrapItem key={Skill.id}>

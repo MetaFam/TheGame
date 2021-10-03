@@ -25,10 +25,8 @@ import { PlayerCollab } from './PlayerCollab';
 
 const MAX_BIO_LENGTH = 240;
 
-type Props = { player: PlayerFragmentFragment };
-export const PlayerHero: React.FC<Props> = ({ player }) => {
-  const { user } = useUser();
-
+type Props = { player: PlayerFragmentFragment; isOwnProfile: boolean };
+export const PlayerHero: React.FC<Props> = ({ player, isOwnProfile }) => {
   const description = getPlayerDescription(player);
   const [show, setShow] = React.useState(description.length <= MAX_BIO_LENGTH);
   const [types, setTypes] = React.useState<{
@@ -44,8 +42,6 @@ export const PlayerHero: React.FC<Props> = ({ player }) => {
   useEffect(() => {
     loadTypes();
   }, []);
-
-  const isOwnProfile = player.username === user?.username;
 
   return (
     <ProfileSection>
