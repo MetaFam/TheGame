@@ -24,14 +24,17 @@ import {
 import { numbers } from '@metafam/utils';
 import Alliances from 'assets/menuIcon/alliances.svg';
 import Asketh from 'assets/menuIcon/asketh.svg';
+import BecomeAPatron from 'assets/menuIcon/becomeapatron.svg';
 import Contribute from 'assets/menuIcon/contribute.svg';
 import Discord from 'assets/menuIcon/discord.svg';
+import Events from 'assets/menuIcon/events.svg';
 import Forum from 'assets/menuIcon/forum.svg';
 import Grants from 'assets/menuIcon/grants.svg';
 import Guilds from 'assets/menuIcon/guilds.svg';
 import Invest from 'assets/menuIcon/invest.svg';
 import Learn from 'assets/menuIcon/learn.svg';
 import MetaGameWiki from 'assets/menuIcon/metagamewiki.svg';
+import MetaRadio from 'assets/menuIcon/metaradio.svg';
 import Patrons from 'assets/menuIcon/patrons.svg';
 import Playbooks from 'assets/menuIcon/playbooks.svg';
 import Players from 'assets/menuIcon/players.svg';
@@ -43,6 +46,7 @@ import Seeds from 'assets/menuIcon/seeds.svg';
 import TheGreatHouses from 'assets/menuIcon/thegreathouses.svg';
 import WelcomeToMetagame from 'assets/menuIcon/welcometometagame.svg';
 import XPEarned from 'assets/menuIcon/xpearned.svg';
+import Youtube from 'assets/menuIcon/youtube.svg';
 import { MetaLink } from 'components/Link';
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
 import { usePSeedBalance } from 'lib/hooks/balances';
@@ -85,6 +89,10 @@ const menuIcons: { [key: string]: string } = {
   thegreathouses: TheGreatHouses,
   welcometometagame: WelcomeToMetagame,
   xpearned: XPEarned,
+  youtube: Youtube,
+  metaradio: MetaRadio,
+  events: Events,
+  becomeapatron: BecomeAPatron,
 };
 
 // Navbar logo
@@ -154,60 +162,96 @@ const DesktopMenuItem = ({
   </MenuItem>
 );
 
+const useWindowSize = () => {
+  const [windowSize, setWindowSize] = React.useState({
+    width: 0,
+    height: 0,
+  });
+  React.useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const handleResize = () => {
+        setWindowSize({
+          width: window.innerWidth,
+          height: window.innerHeight,
+        });
+      };
+
+      window.addEventListener('resize', handleResize);
+
+      handleResize();
+
+      return () => window.removeEventListener('resize', handleResize);
+    }
+    return undefined;
+  }, []);
+  return windowSize;
+};
 // Nav links on desktop -- text and links from utils/menuLinks.ts
-const DesktopNavLinks = () => (
-  <Flex
-    justifyContent="center"
-    alignContent="center"
-    fontFamily="exo"
-    display={{ base: 'none', lg: 'flex' }}
-    minW={{ base: 'auto', md: '40%' }}
-  >
-    {MenuSectionLinks.map((section: MenuLinkSet) => (
-      <Menu key={section.label} offset={[-56, 7]}>
-        {({ isOpen }) => (
-          <>
-            <MenuButton
-              as={Button}
-              variant="link"
-              minW="fit-content"
-              color="#ffffff"
-              fontSize={['md', 'md', 'md', 'lg']}
-              fontWeight="600"
-              textTransform="uppercase"
-              ml={23}
-              mr={23}
-              fontFamily="exo2"
-              _expanded={{ color: '#fff' }}
-              _focus={{ outline: 'none', border: 'none' }}
-            >
-              {section.label}
-              {isOpen ? (
-                <ChevronUpIcon color="#ffffff" />
-              ) : (
-                <ChevronDownIcon color="#ffffff" />
-              )}
-              {isOpen && (
+const DesktopNavLinks = () => {
+  const size = useWindowSize();
+  return (
+    <Flex
+      justifyContent="center"
+      alignContent="center"
+      fontFamily="exo"
+      display={{ base: 'none', lg: 'flex' }}
+      minW={{ base: 'auto', md: '40%' }}
+    >
+      {MenuSectionLinks.map((section: MenuLinkSet) => (
+        <Menu
+          key={section.label}
+          offset={
+            section.label === 'invest' && size.width > 1463 && size.width < 2200
+              ? [0, 7]
+              : [-56, 7]
+          }
+        >
+          {({ isOpen }) => (
+            <>
+              <MenuButton
+                as={Button}
+                variant="link"
+                minW="fit-content"
+                color="#ffffff"
+                fontSize={['md', 'md', 'md', 'lg']}
+                fontWeight="600"
+                textTransform="uppercase"
+                ml={23}
+                mr={23}
+                fontFamily="exo2"
+                _expanded={{ color: '#fff' }}
+                _focus={{ outline: 'none', border: 'none' }}
+              >
+                {section.label}
+                {isOpen ? (
+                  <ChevronUpIcon color="#ffffff" />
+                ) : (
+                  <ChevronDownIcon color="#ffffff" />
+                )}
                 <Icon
                   position="absolute"
                   left="calc(50% - 21px)"
                   top="63px"
                   borderColor="transparent"
                   width="24px"
-                  h="auto"
+                  h={isOpen ? 'auto' : 0}
+                  opacity={isOpen ? 1 : 0}
+                  transition="opacity 0.2s"
                 >
                   <path
                     d="M12 0L24 12C14.6274 12 9.37258 12 0 12L12 0Z"
                     fill="white"
                   />
                 </Icon>
-              )}
-            </MenuButton>
-            {section.menuItems.length > 3 ? (
+              </MenuButton>
               <MenuList
                 display="grid"
-                gridTemplateColumns="repeat(2, 1fr)"
-                width="948px"
+                gridTemplateColumns={
+                  section.menuItems.length > 3
+                    ? 'repeat(2, 1fr)'
+                    : 'repeat(1, 1fr)'
+                }
+                width={section.menuItems.length > 3 ? '948px' : '474px'}
                 p="56px 6px 6px 56px"
                 borderColor="transparent"
               >
@@ -215,25 +259,13 @@ const DesktopNavLinks = () => (
                   <DesktopMenuItem {...item} key={item.title} />
                 ))}
               </MenuList>
-            ) : (
-              <MenuList
-                display="grid"
-                gridTemplateColumns="repeat(1, 1fr)"
-                width="474px"
-                p="56px 6px 6px 56px"
-                borderColor="transparent"
-              >
-                {section.menuItems.map((item: MenuLinkItem) => (
-                  <DesktopMenuItem key={item.title} {...item} />
-                ))}
-              </MenuList>
-            )}
-          </>
-        )}
-      </Menu>
-    ))}
-  </Flex>
-);
+            </>
+          )}
+        </Menu>
+      ))}
+    </Flex>
+  );
+};
 
 // Search -- not working yet
 // const Search = () => (
@@ -425,9 +457,9 @@ export const MegaMenu: React.FC = () => {
                 <MetaButton
                   display={{ base: 'none', lg: 'block' }}
                   h="48px"
-                  my="auto"
+                  my="10px"
                   px="24px"
-                  ml="32px"
+                  ml="90px"
                   fontFamily="exo2"
                   onClick={handleLoginClick}
                 >
