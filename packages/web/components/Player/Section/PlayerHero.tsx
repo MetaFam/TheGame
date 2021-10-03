@@ -1,4 +1,13 @@
-import { Box, Button, Flex, HStack, Link, Text, VStack } from '@metafam/ds';
+import {
+  Box,
+  EditIcon,
+  Flex,
+  HStack,
+  IconButton,
+  Link,
+  Text,
+  VStack,
+} from '@metafam/ds';
 import { PlayerAvatar } from 'components/Player/PlayerAvatar';
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
 import { getPersonalityInfo } from 'graphql/queries/enums/getPersonalityInfo';
@@ -43,19 +52,16 @@ export const PlayerHero: React.FC<Props> = ({ player }) => {
       <VStack spacing={8}>
         {isOwnProfile && (
           <Flex width="100%" justifyContent="end">
-            <Button
+            <IconButton
               variant="outline"
-              fontFamily="body"
-              fontSize="14px"
-              borderColor="purple.600"
-              backgroundColor="blackAlpha.400"
-              href="/profile/edit"
-              mb="-4"
-              as="a"
-              _hover={{ backgroundColor: 'blackAlpha.500' }}
-            >
-              Edit Profile
-            </Button>
+              aria-label="Edit Profile Info"
+              size="lg"
+              borderColor="#A426A4"
+              background="rgba(17, 17, 17, 0.9)"
+              color="#A426A4"
+              icon={<EditIcon />}
+              isRound
+            />
           </Flex>
         )}
         <PlayerAvatar
