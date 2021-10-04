@@ -20,7 +20,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
 }) => (
   <Box minW="72">
     {title ? (
-      <Box bg="purple80" borderTopRadius="lg" p={4}>
+      <Box bg="purpleProfileSection" borderTopRadius="lg" p={4}>
         <HStack height={5}>
           <Text
             fontFamily="mono"
@@ -30,7 +30,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
             as="div"
             mr="auto"
           >
-            {title}
+            {title.toUpperCase()}
           </Text>
           {displayEditButton ? (
             <IconButton
@@ -55,7 +55,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
       </Box>
     ) : null}
     <Box
-      bg="whiteAlpha.200"
+      bg="blueProfileSection"
       borderBottomRadius="lg"
       borderTopRadius={!title ? 'lg' : 0}
       p={6}
