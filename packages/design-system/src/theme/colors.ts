@@ -5,6 +5,7 @@ type ColorHues = typeof baseTheme.colors.red;
 export type MetaColors = ChakraTheme['colors'] & {
   offwhite: string;
   blue20: string;
+  blueProfileSection: string;
   dark: string;
   purpleBoxDark: string;
   purpleBoxLight: string;
@@ -21,6 +22,7 @@ export type MetaColors = ChakraTheme['colors'] & {
   discordDark: string;
   bronze: string;
   purple80: string;
+  purpleProfileSection: string;
   brightIdOrange: ColorHues;
   borderPurple: string;
 };
@@ -34,7 +36,9 @@ export const colors: MetaColors = {
   bronze: '#a97142',
   offwhite: '#F6F8F9',
   blue20: 'rgba(79, 105, 205, 0.2)',
+  blueProfileSection: 'rgba(42, 31, 71, 0.9)',
   purple80: 'rgba(70, 20, 100, 0.8)',
+  purpleProfileSection: 'rgba(27, 13, 42, 0.9)',
   dark: '#1B0D2A',
   purpleBoxDark: '#261943',
   purpleBoxLight: '#392373',
