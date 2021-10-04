@@ -21,7 +21,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
   <Box minW="72">
     {title ? (
       <Box bg="purple80" borderTopRadius="lg" p={4}>
-        <HStack>
+        <HStack height={5}>
           <Text
             fontFamily="mono"
             fontSize="sm"
