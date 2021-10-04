@@ -1,4 +1,5 @@
 import BackgroundImage from 'assets/tile-background.jpg';
+import BackgroundImageFull from 'assets/tile-background-full.jpg';
 import { ethers } from 'ethers';
 
 import { PlayerFragmentFragment } from '../graphql/autogen/types';
@@ -6,8 +7,13 @@ import { PlayerFragmentFragment } from '../graphql/autogen/types';
 export const getPlayerImage = (player: PlayerFragmentFragment): string =>
   player.profile_cache?.imageURL ||
   `https://avatars.dicebear.com/api/jdenticon/${player.username}.svg`;
+
 export const getPlayerCoverImage = (player: PlayerFragmentFragment): string =>
   player.profile_cache?.backgroundImageURL || BackgroundImage;
+
+export const getPlayerCoverImageFull = (
+  player: PlayerFragmentFragment,
+): string => player.profile_cache?.backgroundImageURL || BackgroundImageFull;
 
 export const getPlayerName = (player: PlayerFragmentFragment): string =>
   player.profile_cache?.name || formatUsernameIfAddress(player.username);

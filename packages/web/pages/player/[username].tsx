@@ -12,6 +12,11 @@ import {
 import Error from 'next/error';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
+import {
+  getPlayerCoverImageFull,
+  getPlayerDescription,
+  getPlayerImage,
+} from 'utils/playerHelpers';
 
 import { PageContainer } from '../../components/Container';
 import { PlayerAchievements } from '../../components/Player/Section/PlayerAchievements';
@@ -20,10 +25,6 @@ import { PlayerGallery } from '../../components/Player/Section/PlayerGallery';
 import { PlayerMemberships } from '../../components/Player/Section/PlayerMemberships';
 import { PlayerSkills } from '../../components/Player/Section/PlayerSkills';
 import { HeadComponent } from '../../components/Seo';
-import {
-  getPlayerDescription,
-  getPlayerImage,
-} from '../../utils/playerHelpers';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
@@ -124,82 +125,107 @@ const PlayerPage: React.FC<Props> = ({ player }) => {
   };
 
   return (
-    <PageContainer p={[8, null, null, 12]}>
-      <HeadComponent
-        title={`Metagame profile for ${player.username}`}
-        description={getPlayerDescription(player).replace('\n', ' ')}
-        url={`https://my.metagame.wtf/player/${player.username}`}
-        img={getPlayerImage(player)}
+    <PageContainer p={[]} h="calc(100% + 300px)">
+      <Box
+        background={`url(${getPlayerCoverImageFull(player)}) no-repeat`}
+        backgroundSize="100% 300px"
+        position="absolute"
+        w="100%"
+        h="300px"
       />
       <Flex
+        w="100%"
+        minH="100vh"
+        pl={[4, 8, 12]}
+        pr={[4, 8, 12]}
+        pb={[4, 8, 12]}
+        pt={300 - 52}
+        direction="column"
         align="center"
-        direction={{ base: 'column', md: 'row' }}
-        alignItems="flex-start"
-        maxWidth="7xl"
+        zIndex={1}
       >
-        <Box
-          width={{ base: '100%', md: '50%', lg: '33%' }}
-          mr={{ base: 0, md: 4 }}
+        <HeadComponent
+          title={`Metagame profile for ${player.username}`}
+          description={getPlayerDescription(player).replace('\n', ' ')}
+          url={`https://my.metagame.wtf/player/${player.username}`}
+          img={getPlayerImage(player)}
+        />
+        <Flex
+          align="center"
+          direction={{ base: 'column', md: 'row' }}
+          alignItems="flex-start"
+          maxWidth="7xl"
         >
-          <Box mb="6">
-            <PlayerHero {...{ player }} isOwnProfile={isOwnProfile} />
-          </Box>
-          {(fakeData || [[], [], []])[0].map((name) => (
-            <Box mb="6" key={name}>
-              {getBox(0, name)}
+          <Box
+            width={{ base: '100%', md: '50%', lg: '33%' }}
+            mr={{ base: 0, md: 4 }}
+          >
+            <Box mb="6">
+              <PlayerHero {...{ player }} isOwnProfile={isOwnProfile} />
             </Box>
-          ))}
-          {canEdit ? (
-            <PlayerAddSection
-              boxList={boxAvailableList}
-              setNewBox={(name) => addBox(0, name)}
-              mb={6}
-              display={{ base: 'none', md: 'flex' }}
-            />
-          ) : null}
-        </Box>
-        <Box
-          width={{ base: '100%', md: '50%', lg: '66%' }}
-          ml={{ base: 0, md: 4 }}
-        >
-          <Box width="100%">
-            <Flex
-              align="center"
-              direction={{ base: 'column', lg: 'row' }}
-              alignItems="flex-start"
-            >
-              <Box width={{ base: '100%', lg: '50%' }} mr={{ base: 0, lg: 4 }}>
-                {(fakeData || [[], [], []])[1].map((name) => (
-                  <Box mb="6" key={name}>
-                    {getBox(1, name)}
-                  </Box>
-                ))}
-                {canEdit ? (
-                  <PlayerAddSection
-                    boxList={boxAvailableList}
-                    setNewBox={(name) => addBox(1, name)}
-                    mb={6}
-                    display={{ base: 'none', lg: 'flex' }}
-                  />
-                ) : null}
+            {(fakeData || [[], [], []])[0].map((name) => (
+              <Box mb="6" key={name}>
+                {getBox(0, name)}
               </Box>
-              <Box width={{ base: '100%', lg: '50%' }} ml={{ base: 0, lg: 4 }}>
-                {(fakeData || [[], [], []])[2].map((name) => (
-                  <Box mb="6" key={name}>
-                    {getBox(2, name)}
-                  </Box>
-                ))}
-                {canEdit ? (
-                  <PlayerAddSection
-                    boxList={boxAvailableList}
-                    setNewBox={(name) => addBox(2, name)}
-                    mb={6}
-                  />
-                ) : null}
-              </Box>
-            </Flex>
+            ))}
+            {canEdit ? (
+              <PlayerAddSection
+                boxList={boxAvailableList}
+                setNewBox={(name) => addBox(0, name)}
+                mb={6}
+                display={{ base: 'none', md: 'flex' }}
+              />
+            ) : null}
           </Box>
-        </Box>
+          <Box
+            width={{ base: '100%', md: '50%', lg: '66%' }}
+            ml={{ base: 0, md: 4 }}
+          >
+            <Box width="100%">
+              <Flex
+                align="center"
+                direction={{ base: 'column', lg: 'row' }}
+                alignItems="flex-start"
+              >
+                <Box
+                  width={{ base: '100%', lg: '50%' }}
+                  mr={{ base: 0, lg: 4 }}
+                >
+                  {(fakeData || [[], [], []])[1].map((name) => (
+                    <Box mb="6" key={name}>
+                      {getBox(1, name)}
+                    </Box>
+                  ))}
+                  {canEdit ? (
+                    <PlayerAddSection
+                      boxList={boxAvailableList}
+                      setNewBox={(name) => addBox(1, name)}
+                      mb={6}
+                      display={{ base: 'none', lg: 'flex' }}
+                    />
+                  ) : null}
+                </Box>
+                <Box
+                  width={{ base: '100%', lg: '50%' }}
+                  ml={{ base: 0, lg: 4 }}
+                >
+                  {(fakeData || [[], [], []])[2].map((name) => (
+                    <Box mb="6" key={name}>
+                      {getBox(2, name)}
+                    </Box>
+                  ))}
+                  {canEdit ? (
+                    <PlayerAddSection
+                      boxList={boxAvailableList}
+                      setNewBox={(name) => addBox(2, name)}
+                      mb={6}
+                    />
+                  ) : null}
+                </Box>
+              </Flex>
+            </Box>
+          </Box>
+        </Flex>
       </Flex>
     </PageContainer>
   );
