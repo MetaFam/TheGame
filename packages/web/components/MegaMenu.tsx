@@ -377,15 +377,6 @@ const PlayerStats: React.FC<PlayerStatsProps> = ({ player }) => {
           >
             <MenuItem>View Profile</MenuItem>
           </MetaLink>
-          <MetaLink
-            color="black"
-            href={
-              hasEditedProfile ? '/profile/edit' : '/profile/setup/username'
-            }
-            _hover={{ textDecoration: 'none' }}
-          >
-            <MenuItem>Edit Profile</MenuItem>
-          </MetaLink>
           <MenuItem onClick={disconnect}>Disconnect</MenuItem>
         </MenuList>
       </Menu>
