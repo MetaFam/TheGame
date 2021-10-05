@@ -307,9 +307,6 @@ const PlayerStats: React.FC<PlayerStatsProps> = ({ player }) => {
   const { disconnect } = useWeb3();
   const { pSeedBalance } = usePSeedBalance();
 
-  const hasEditedProfile =
-    player.username && player.username !== player.ethereum_address;
-
   return (
     <Flex
       align="center"
