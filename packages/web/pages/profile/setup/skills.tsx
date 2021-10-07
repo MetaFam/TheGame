@@ -14,7 +14,7 @@ export const getStaticProps = async () => {
   return {
     props: {
       skillChoices,
-      hideAppDrawer: true,
+      hideTopMenu: true,
     },
   };
 };
@@ -24,7 +24,7 @@ type Props = InferGetStaticPropsType<typeof getStaticProps>;
 const SkillsSetup: React.FC<Props> = (props) => {
   const { skillChoices } = props;
   const [skills, setSkills] = useState<Array<SkillOption>>([]);
-  const { user } = useUser();
+  const { user } = useUser({ requestPolicy: 'network-only' });
 
   if (user?.player) {
     const { player } = user;

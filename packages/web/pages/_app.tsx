@@ -56,8 +56,8 @@ const App: React.FC<WithUrqlProps> = ({
     </Head>
     <Web3ContextProvider resetUrqlClient={resetUrqlClient}>
       <>
-        <MegaMenu />
-        <PlayerStatsBar />
+        {!pageProps.hideTopMenu && <MegaMenu />}
+        {!pageProps.hideTopMenu && <PlayerStatsBar />}
         <Component {...pageProps} />
       </>
     </Web3ContextProvider>

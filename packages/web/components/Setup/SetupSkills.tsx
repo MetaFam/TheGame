@@ -96,6 +96,7 @@ export const SetupSkills: React.FC<SetupSkillsProps> = ({
         />
       </FlexContainer>
       <MetaButton
+        disabled={!user}
         onClick={handleNextPress}
         mt={10}
         isLoading={updateSkillsRes.fetching || loading}
