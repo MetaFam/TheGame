@@ -14,23 +14,18 @@ export const PlayerTimeZone: React.FC<Props> = ({ player }) => {
   ]);
 
   return (
-    <Box ml={1} pr={4}>
-      <Text fontSize="xs" color="blueLight" casing="uppercase" mb={3}>
-        time zone
+    <HStack alignItems="baseline">
+      <Box width="1rem">
+        <FaGlobe color="blueLight" />
+      </Box>
+      <Text fontSize={{ base: 'md', sm: 'lg' }}>
+        {tzDisplay?.timeZone || '-'}
       </Text>
-      <HStack alignItems="baseline">
-        <Box width="1rem">
-          <FaGlobe color="blueLight" />
-        </Box>
-        <Text fontSize={{ base: 'md', sm: 'lg' }}>
-          {tzDisplay?.timeZone || '-'}
-        </Text>
-        {tzDisplay?.offset ? (
-          <Text fontSize={{ base: 'xs', sm: 'sm' }}>{tzDisplay?.offset}</Text>
-        ) : (
-          ''
-        )}
-      </HStack>
-    </Box>
+      {tzDisplay?.offset ? (
+        <Text fontSize={{ base: 'xs', sm: 'sm' }}>{tzDisplay?.offset}</Text>
+      ) : (
+        ''
+      )}
+    </HStack>
   );
 };
