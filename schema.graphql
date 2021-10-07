@@ -4783,6 +4783,7 @@ type player {
   ): guild_player_aggregate!
   id: uuid!
   player_type_id: Int
+  pronouns: String
 
   """
   An object relationship
@@ -5581,6 +5582,81 @@ type player_role {
 }
 
 """
+select columns of table "player"
+"""
+enum player_select_column {
+  """
+  column name
+  """
+  availability_hours
+
+  """
+  column name
+  """
+  color_mask
+
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  discord_id
+
+  """
+  column name
+  """
+  ethereum_address
+
+  """
+  column name
+  """
+  id
+
+  """
+  column name
+  """
+  player_type_id
+
+  """
+  column name
+  """
+  pronouns
+
+  """
+  column name
+  """
+  rank
+
+  """
+  column name
+  """
+  role
+
+  """
+  column name
+  """
+  timezone
+
+  """
+  column name
+  """
+  total_xp
+
+  """
+  column name
+  """
+  updated_at
+
+  """
+  column name
+  """
+  username
+}
+
+"""
 aggregated selection of "player_role"
 """
 type player_role_aggregate {
@@ -5911,86 +5987,6 @@ input player_role_variance_order_by {
 }
 
 """
-select columns of table "player"
-"""
-enum player_select_column {
-  """
-  column name
-  """
-  availability_hours
-
-  """
-  column name
-  """
-  color_mask
-
-  """
-  column name
-  """
-  created_at
-
-  """
-  column name
-  """
-  discord_id
-
-  """
-  column name
-  """
-  ethereum_address
-
-  """
-  column name
-  """
-  id
-
-  """
-  column name
-  """
-  player_type_id
-
-  """
-  column name
-  """
-  pronouns
-
-  """
-  column name
-  """
-  rank
-
-  """
-  column name
-  """
-  role
-
-  """
-  column name
-  """
-  season_xp
-
-  """
-  column name
-  """
-  timezone
-
-  """
-  column name
-  """
-  total_xp
-
-  """
-  column name
-  """
-  updated_at
-
-  """
-  column name
-  """
-  username
-}
-
-"""
 input type for updating data in table "player"
 """
 input player_set_input {
@@ -6001,6 +5997,7 @@ input player_set_input {
   ethereum_address: String
   id: uuid
   player_type_id: Int
+  pronouns: String
   rank: PlayerRank_enum
   role: String
   season_xp: numeric
@@ -6870,6 +6867,11 @@ enum player_update_column {
   column name
   """
   player_type_id
+
+  """
+  column name
+  """
+  pronouns
 
   """
   column name
