@@ -4,21 +4,21 @@ import React from 'react';
 import { FaClock } from 'react-icons/fa';
 
 import { PlayerTimeZone } from '../PlayerTimeZone';
+import { PlayerHeroTile } from './PlayerHeroTile';
 
 type Props = { player: PlayerFragmentFragment };
 export const PlayerCollab: React.FC<Props> = ({ player }) => (
   <SimpleGrid
     columns={2}
-    gap={0}
+    gap={6}
     divider={
       <Divider height="3rem" color="whiteAlpha.400" orientation="vertical" />
     }
   >
-    <PlayerTimeZone player={player} />
-    <Box borderLeft="1px solid" borderLeftColor="rgba(255,255,255,0.6)" pl={4}>
-      <Text fontSize="xs" color="blueLight" casing="uppercase" mb={3}>
-        Availability
-      </Text>
+    <PlayerHeroTile title="Time zone">
+      <PlayerTimeZone player={player} />
+    </PlayerHeroTile>
+    <PlayerHeroTile title="Availability">
       <HStack alignItems="baseline">
         <Box width="1rem">
           <FaClock color="blueLight" width="1rem" />
@@ -27,6 +27,6 @@ export const PlayerCollab: React.FC<Props> = ({ player }) => (
           {`${player.availability_hours || '0'} h/week`}
         </Text>
       </HStack>
-    </Box>
+    </PlayerHeroTile>
   </SimpleGrid>
 );
