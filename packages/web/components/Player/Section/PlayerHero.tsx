@@ -12,7 +12,6 @@ import { PlayerFragmentFragment } from 'graphql/autogen/types';
 import React from 'react';
 import { getPlayerDescription, getPlayerName } from 'utils/playerHelpers';
 
-import { FlexContainer } from '../../Container';
 import { ProfileSection } from '../../ProfileSection';
 import { PlayerContacts } from '../PlayerContacts';
 import { PlayerBrightId } from './PlayerBrightId';
@@ -81,16 +80,6 @@ export const PlayerHero: React.FC<Props> = ({ player, isOwnProfile }) => {
         <Box w="100%">
           <PlayerCollab player={player} />
         </Box>
-        {player.type?.title && (
-          <FlexContainer align="stretch" fontSize={{ base: 'sm', sm: 'md' }}>
-            <Text color="white" fontWeight="bold" casing="uppercase">
-              {player.type.title}
-            </Text>
-            <Text color="blueLight" style={{ textIndent: 16 }}>
-              {player.type.description}
-            </Text>
-          </FlexContainer>
-        )}
       </VStack>
     </ProfileSection>
   );
