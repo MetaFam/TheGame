@@ -59,6 +59,7 @@ export const SetupTimeZone: React.FC<SetupTimezoneProps> = ({
         />
       </FlexContainer>
       <MetaButton
+        disabled={!user}
         onClick={handleNextPress}
         mt={10}
         isLoading={updateProfileRes.fetching || loading}

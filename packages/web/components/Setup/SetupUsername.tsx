@@ -67,6 +67,7 @@ export const SetupUsername: React.FC<SetupUsernameProps> = ({
       />
 
       <MetaButton
+        disabled={!user}
         onClick={handleNextPress}
         mt={10}
         isLoading={updateUsernameRes.fetching || loading}

@@ -22,7 +22,7 @@ import { useUser } from '../../../lib/hooks';
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
 const SubmitQuestCompletionPage: React.FC<Props> = ({ quest }) => {
-  useUser({ redirectTo: '/quests' });
+  useUser({ redirectTo: '/quests', redirectIfNotFound: true });
   const toast = useToast();
   const router = useRouter();
   const [
