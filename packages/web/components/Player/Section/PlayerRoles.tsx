@@ -10,7 +10,6 @@ type Props = {
   onRemoveClick: () => void;
 };
 export const PlayerRoles: React.FC<Props> = ({
-  player,
   displayEditButton,
   onRemoveClick,
 }) => (
