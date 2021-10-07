@@ -3920,6 +3920,8 @@ type player {
 
   """An object relationship"""
   profile_cache: profile_cache
+  playerType: player_type
+  player_type_id: Int
   pronouns: String
 
   """An array relationship"""

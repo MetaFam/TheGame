@@ -8,10 +8,10 @@ export const PlayerFragment = gql`
     season_xp @skip(if: $forLoginDisplay)
     rank @skip(if: $forLoginDisplay)
     ethereum_address
-    pronouns
 
     availability_hours @skip(if: $forLoginDisplay)
     timezone @skip(if: $forLoginDisplay)
+    pronouns
     color_aspect @skip(if: $forLoginDisplay) {
       name
       description
