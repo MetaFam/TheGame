@@ -15,7 +15,7 @@ export const PlayerRoles: React.FC<Props> = ({
   onRemoveClick,
 }) => (
   <ProfileSection
-    title="Color Disposition"
+    title="Roles"
     onRemoveClick={onRemoveClick}
     displayEditButton={displayEditButton}
   >
