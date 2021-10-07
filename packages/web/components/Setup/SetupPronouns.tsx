@@ -57,7 +57,7 @@ export const SetupPronouns: React.FC<SetupPronounsProps> = ({
       <Input
         background="dark"
         placeholder="they/them"
-        value={pronouns}
+        value={pronouns ?? ''}
         onChange={({ target: { value } }) => setPronouns(value)}
         w="auto"
       />
