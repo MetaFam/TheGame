@@ -139,7 +139,7 @@ const PlayerPage: React.FC<Props> = ({ player }) => {
         pl={[4, 8, 12]}
         pr={[4, 8, 12]}
         pb={[4, 8, 12]}
-        pt={300 - 52}
+        pt={200 - 52}
         direction="column"
         align="center"
         zIndex={1}
@@ -180,6 +180,7 @@ const PlayerPage: React.FC<Props> = ({ player }) => {
           <Box
             width={{ base: '100%', md: '50%', lg: '66%' }}
             ml={{ base: 0, md: 4 }}
+            mt={[0, 0, 100]}
           >
             <Box width="100%">
               <Flex
