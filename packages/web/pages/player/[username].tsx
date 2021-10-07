@@ -21,9 +21,12 @@ import {
 import { PageContainer } from '../../components/Container';
 import { PlayerAchievements } from '../../components/Player/Section/PlayerAchievements';
 import { PlayerAddSection } from '../../components/Player/Section/PlayerAddSection';
+import { PlayerColorDisposition } from '../../components/Player/Section/PlayerColorDisposition';
 import { PlayerGallery } from '../../components/Player/Section/PlayerGallery';
 import { PlayerMemberships } from '../../components/Player/Section/PlayerMemberships';
+import { PlayerRoles } from '../../components/Player/Section/PlayerRoles';
 import { PlayerSkills } from '../../components/Player/Section/PlayerSkills';
+import { PlayerType } from '../../components/Player/Section/PlayerType';
 import { HeadComponent } from '../../components/Seo';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
@@ -37,6 +40,9 @@ const PlayerPage: React.FC<Props> = ({ player }) => {
     PLAYER_GALLERY: 'Gallery',
     PLAYER_MEMBERSHIPS: 'Memberships',
     PLAYER_ACHIEVEMENTS: 'Achievements',
+    PLAYER_TYPE: 'Player Type',
+    PLAYER_COLOR_DISPOSITION: 'Color disposition',
+    PLAYER_ROLES: 'Roles',
   };
   const [boxAvailableList, setBoxAvailableList] = useState<string[]>([]);
   const [canEdit] = useState(false);
@@ -46,8 +52,12 @@ const PlayerPage: React.FC<Props> = ({ player }) => {
 
   const [fakeData, setFakeData] = useState([
     [],
-    [BOX_TYPE.PLAYER_MEMBERSHIPS, BOX_TYPE.PLAYER_SKILLS],
-    [BOX_TYPE.PLAYER_GALLERY],
+    [
+      BOX_TYPE.PLAYER_COLOR_DISPOSITION,
+      BOX_TYPE.PLAYER_TYPE,
+      BOX_TYPE.PLAYER_MEMBERSHIPS,
+    ],
+    [BOX_TYPE.PLAYER_ROLES, BOX_TYPE.PLAYER_SKILLS, BOX_TYPE.PLAYER_GALLERY],
   ]);
 
   useEffect(() => {
@@ -113,6 +123,30 @@ const PlayerPage: React.FC<Props> = ({ player }) => {
         return (
           <PlayerMemberships
             player={player}
+            onRemoveClick={() => removeBox(column, name)}
+          />
+        );
+      case BOX_TYPE.PLAYER_COLOR_DISPOSITION:
+        return (
+          <PlayerColorDisposition
+            player={player}
+            displayEditButton={isOwnProfile}
+            onRemoveClick={() => removeBox(column, name)}
+          />
+        );
+      case BOX_TYPE.PLAYER_TYPE:
+        return (
+          <PlayerType
+            player={player}
+            displayEditButton={isOwnProfile}
+            onRemoveClick={() => removeBox(column, name)}
+          />
+        );
+      case BOX_TYPE.PLAYER_ROLES:
+        return (
+          <PlayerRoles
+            player={player}
+            displayEditButton={isOwnProfile}
             onRemoveClick={() => removeBox(column, name)}
           />
         );
