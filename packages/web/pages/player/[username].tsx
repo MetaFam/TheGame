@@ -181,6 +181,7 @@ const PlayerPage: React.FC<Props> = ({ player }) => {
             width={{ base: '100%', md: '50%', lg: '66%' }}
             ml={{ base: 0, md: 4 }}
             mt={[0, 0, 100]}
+            mb={[100, 100, 0]}
           >
             <Box width="100%">
               <Flex
