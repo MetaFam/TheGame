@@ -182,6 +182,7 @@ export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
       <ColorBar mask={colorMask} mt={8} w="min(100vw, 30rem)" />
 
       <MetaButton
+        disabled={!user}
         onClick={handleNextPress}
         mt={10}
         isDisabled={colorMask === undefined}

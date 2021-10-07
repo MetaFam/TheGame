@@ -90,6 +90,7 @@ export const SetupAvailability: React.FC<SetupAvailabilityProps> = ({
       </InputGroup>
 
       <MetaButton
+        disabled={!user}
         onClick={handleNextPress}
         mt={10}
         isDisabled={invalid}
