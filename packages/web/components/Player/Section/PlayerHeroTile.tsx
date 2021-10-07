@@ -7,8 +7,8 @@ type Props = {
 };
 
 export const PlayerHeroTile: React.FC<Props> = ({ children, title }) => (
-  <Box>
-    <Text fontSize="xs" color="blueLight" casing="uppercase" mb={3}>
+  <Box width="full">
+    <Text fontSize="xs" color="blueLight" mb={3}>
       {title}
     </Text>
     <HStack alignItems="baseline">{children}</HStack>

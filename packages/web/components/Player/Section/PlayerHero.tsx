@@ -4,29 +4,66 @@ import {
   Flex,
   HStack,
   IconButton,
+  SimpleGrid,
   Text,
   VStack,
 } from '@metafam/ds';
 import { PlayerAvatar } from 'components/Player/PlayerAvatar';
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
-import React from 'react';
+import React, { useMemo } from 'react';
+import { FaClock, FaGlobe } from 'react-icons/fa';
+import { getPlayerTimeZoneDisplay } from 'utils/dateHelpers';
 import { getPlayerDescription, getPlayerName } from 'utils/playerHelpers';
 
 import { ProfileSection } from '../../ProfileSection';
 import { PlayerContacts } from '../PlayerContacts';
 import { PlayerBrightId } from './PlayerBrightId';
-import { PlayerCollab } from './PlayerCollab';
+import { PlayerHeroTile } from './PlayerHeroTile';
 
 const MAX_BIO_LENGTH = 240;
 
 type Props = { player: PlayerFragmentFragment; isOwnProfile: boolean };
+type AvailabilityProps = { player: PlayerFragmentFragment };
+type TimeZoneDisplayProps = { timeZone?: string; offset?: string };
+
+const Availability: React.FC<AvailabilityProps> = ({
+  player: { availability_hours },
+}) => (
+  <>
+    <Box width="1rem">
+      <FaClock color="blueLight" width="1rem" />
+    </Box>
+    <Text fontSize={{ base: 'md', sm: 'lg' }} fontFamily="mono" mb="1">
+      {`${availability_hours || '0'} h/week`}
+    </Text>
+  </>
+);
+
+const TimeZoneDisplay: React.FC<TimeZoneDisplayProps> = ({
+  timeZone,
+  offset,
+}) => (
+  <>
+    <Box width="1rem">
+      <FaGlobe color="blueLight" />
+    </Box>
+    <Text fontSize={{ base: 'md', sm: 'lg' }}>{timeZone || '-'}</Text>
+    {offset ? <Text fontSize={{ base: 'xs', sm: 'sm' }}>{offset}</Text> : ''}
+  </>
+);
+
 export const PlayerHero: React.FC<Props> = ({ player, isOwnProfile }) => {
   const description = getPlayerDescription(player);
   const [show, setShow] = React.useState(description.length <= MAX_BIO_LENGTH);
 
+  const { timeZone, offset } = useMemo(
+    () => getPlayerTimeZoneDisplay(player.timezone),
+    [player.timezone],
+  );
+
   return (
     <ProfileSection>
-      <VStack spacing={8}>
+      <VStack spacing={6}>
         {isOwnProfile && (
           <Flex width="100%" justifyContent="end">
             <IconButton
@@ -74,30 +111,50 @@ export const PlayerHero: React.FC<Props> = ({ player, isOwnProfile }) => {
           </Text>
         </Box>
 
-        {/* Display name | personal pronouns
-        Desc                | desc
-
-        Bio
-
-        GitHub | twitter | address
-
-        Website
-        Desc
-
-        Country | Timezone
-        Desc | desc
-
-        Availability | Office hours
-        Desc | desc
-        Favorite emoji
-        Emoji */}
-
         <HStack mt={2}>
           <PlayerContacts player={player} />
         </HStack>
-        <Box w="100%">
-          <PlayerCollab player={player} />
-        </Box>
+
+        <SimpleGrid columns={2} gap={6} width="full">
+          <PlayerHeroTile title="Display name">
+            <Text>Vid</Text>
+          </PlayerHeroTile>
+          <PlayerHeroTile title="Personal pronouns">
+            <Text>He</Text>
+          </PlayerHeroTile>
+        </SimpleGrid>
+
+        <PlayerHeroTile title="Bio">
+          <Text>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+          </Text>
+        </PlayerHeroTile>
+        <PlayerHeroTile title="Website">
+          <Text>www.mycoolportfolio.com</Text>
+        </PlayerHeroTile>
+
+        <SimpleGrid columns={2} gap={6} width="full">
+          <PlayerHeroTile title="Country">
+            <Text>United Kingdom</Text>
+          </PlayerHeroTile>
+          <PlayerHeroTile title="Timezone">
+            <TimeZoneDisplay timeZone={timeZone} offset={offset} />
+          </PlayerHeroTile>
+        </SimpleGrid>
+
+        <SimpleGrid columns={2} gap={6} width="full">
+          <PlayerHeroTile title="Availability">
+            <Availability player={player} />
+          </PlayerHeroTile>
+          <PlayerHeroTile title="Office hours">
+            <Text>9:00 AM - 5:00 PM</Text>
+          </PlayerHeroTile>
+        </SimpleGrid>
+
+        <PlayerHeroTile title="Favorite emoji">
+          <Text>😇</Text>
+        </PlayerHeroTile>
       </VStack>
     </ProfileSection>
   );
