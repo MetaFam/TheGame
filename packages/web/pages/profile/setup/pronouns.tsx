@@ -14,12 +14,12 @@ export const getStaticProps = async () => ({
 export type DefaultSetupProps = InferGetStaticPropsType<typeof getStaticProps>;
 
 const PronounsSetup: React.FC<DefaultSetupProps> = () => {
-  const [pronouns, setPronouns] = useState<string | undefined>(undefined);
+  const [pronouns, setPronouns] = useState<string>('');
   const { user } = useUser();
 
   if (user?.player) {
     const { player } = user;
-    if (player.pronouns && pronouns === undefined) {
+    if (player.pronouns && pronouns === '') {
       setPronouns(player.pronouns);
     }
   }
