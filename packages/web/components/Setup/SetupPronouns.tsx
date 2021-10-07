@@ -6,12 +6,12 @@ import { useUser } from 'lib/hooks';
 import React, { useState } from 'react';
 
 export type SetupPronounsProps = {
-  pronouns: string;
-  setPronouns: React.Dispatch<React.SetStateAction<string>>;
+  pronouns: string | undefined;
+  setPronouns: React.Dispatch<React.SetStateAction<string | undefined>>;
 };
 
 export const SetupPronouns: React.FC<SetupPronounsProps> = ({
-  pronouns = '',
+  pronouns,
   setPronouns,
 }) => {
   const { onNextPress, nextButtonLabel } = useSetupFlow();
@@ -31,7 +31,7 @@ export const SetupPronouns: React.FC<SetupPronounsProps> = ({
     const { error } = await updatePronouns({
       playerId: user.id,
       input: {
-        pronouns,
+        pronouns: pronouns ?? '',
       },
     });
 
