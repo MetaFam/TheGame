@@ -81,9 +81,7 @@ export const SetupAvailability: React.FC<SetupAvailabilityProps> = ({
           placeholder="40"
           type="number"
           value={availability}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            setAvailability(e.target.value)
-          }
+          onChange={({ target: { value } }) => setAvailability(value)}
           isInvalid={invalid}
         />
         <InputRightAddon background="purpleBoxDark">hr/week</InputRightAddon>
