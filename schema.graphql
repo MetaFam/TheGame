@@ -3920,6 +3920,9 @@ type player {
 
   """An object relationship"""
   profile_cache: profile_cache
+  playerType: player_type
+  player_type_id: Int
+  pronouns: String
 
   """An array relationship"""
   quest_completions(
@@ -4346,6 +4349,7 @@ input player_bool_exp {
   id: uuid_comparison_exp
   player_type_id: Int_comparison_exp
   profile_cache: profile_cache_bool_exp
+  pronouns: String_comparison_exp
   quest_completions: quest_completion_bool_exp
   quests: quest_bool_exp
   rank: PlayerRank_enum_comparison_exp
@@ -4403,6 +4407,7 @@ input player_insert_input {
   id: uuid
   player_type_id: Int
   profile_cache: profile_cache_obj_rel_insert_input
+  pronouns: String
   quest_completions: quest_completion_arr_rel_insert_input
   quests: quest_arr_rel_insert_input
   rank: PlayerRank_enum
@@ -4426,6 +4431,7 @@ type player_max_fields {
   ethereum_address: String
   id: uuid
   player_type_id: Int
+  pronouns: String
   role: String
   season_xp: numeric
   timezone: String
@@ -4445,6 +4451,7 @@ input player_max_order_by {
   ethereum_address: order_by
   id: order_by
   player_type_id: order_by
+  pronouns: order_by
   role: order_by
   season_xp: order_by
   timezone: order_by
@@ -4462,6 +4469,7 @@ type player_min_fields {
   ethereum_address: String
   id: uuid
   player_type_id: Int
+  pronouns: String
   role: String
   season_xp: numeric
   timezone: String
@@ -4481,6 +4489,7 @@ input player_min_order_by {
   ethereum_address: order_by
   id: order_by
   player_type_id: order_by
+  pronouns: order_by
   role: order_by
   season_xp: order_by
   timezone: order_by
@@ -4532,6 +4541,7 @@ input player_order_by {
   id: order_by
   player_type_id: order_by
   profile_cache: profile_cache_order_by
+  pronouns: order_by
   quest_completions_aggregate: quest_completion_aggregate_order_by
   quests_aggregate: quest_aggregate_order_by
   rank: order_by
@@ -4880,6 +4890,9 @@ enum player_select_column {
   player_type_id
 
   """column name"""
+  pronouns
+
+  """column name"""
   rank
 
   """column name"""
@@ -4912,6 +4925,7 @@ input player_set_input {
   ethereum_address: String
   id: uuid
   player_type_id: Int
+  pronouns: String
   rank: PlayerRank_enum
   role: String
   season_xp: numeric
@@ -5671,6 +5685,9 @@ enum player_update_column {
 
   """column name"""
   player_type_id
+
+  """column name"""
+  pronouns
 
   """column name"""
   rank

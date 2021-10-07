@@ -42,6 +42,11 @@ export class SetupOptions {
       sectionIndex: 0,
     },
     {
+      label: 'Pronouns',
+      slug: 'pronouns',
+      sectionIndex: 0,
+    },
+    {
       label: 'Personality Type',
       slug: 'personalityType',
       sectionIndex: 0,

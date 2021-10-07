@@ -15,7 +15,7 @@ export type DefaultSetupProps = InferGetStaticPropsType<typeof getStaticProps>;
 
 const AvailabilitySetup: React.FC<DefaultSetupProps> = () => {
   const [availability, setAvailability] = useState<string>('');
-  const { user } = useUser({ redirectTo: '/' });
+  const { user } = useUser();
 
   if (user?.player) {
     const { player } = user;

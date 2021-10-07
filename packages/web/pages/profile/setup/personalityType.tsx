@@ -25,7 +25,7 @@ type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
 const PersonalityTypeSetup: React.FC<Props> = (props) => {
   const { personalityTypes } = props;
-  const { user } = useUser({ redirectTo: '/' });
+  const { user } = useUser();
   const [colorMask, setColorMask] = useState<number | undefined>(
     user?.player?.color_aspect?.mask,
   );

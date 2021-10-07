@@ -23,7 +23,7 @@ type Props = InferGetStaticPropsType<typeof getStaticProps>;
 const PlayerTypeSetup: React.FC<Props> = (props) => {
   const { playerTypeChoices } = props;
   const [playerType, setPlayerType] = useState<Player_Type>();
-  const { user } = useUser({ redirectTo: '/' });
+  const { user } = useUser();
 
   if (user?.player) {
     const { player } = user;

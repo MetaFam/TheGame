@@ -11,6 +11,7 @@ export const PlayerFragment = gql`
 
     availability_hours @skip(if: $forLoginDisplay)
     timezone @skip(if: $forLoginDisplay)
+    pronouns
     color_aspect @skip(if: $forLoginDisplay) {
       name
       description
