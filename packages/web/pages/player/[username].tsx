@@ -1,4 +1,4 @@
-import { Box, Flex, LoadingState } from '@metafam/ds';
+import { Box, EditIcon, Flex, IconButton, LoadingState } from '@metafam/ds';
 import { PlayerHero } from 'components/Player/Section/PlayerHero';
 import { useInsertCacheInvalidationMutation } from 'graphql/autogen/types';
 import { getPlayer } from 'graphql/getPlayer';
@@ -125,21 +125,40 @@ const PlayerPage: React.FC<Props> = ({ player }) => {
   };
 
   return (
-    <PageContainer p={[]} h="calc(100% + 300px)">
+    <PageContainer p={0}>
       <Box
         background={`url(${getPlayerCoverImageFull(player)}) no-repeat`}
-        backgroundSize="100% 300px"
+        bgSize="cover"
+        bgPos="center"
+        h={72}
         position="absolute"
-        w="100%"
-        h="300px"
-      />
+        w="full"
+      >
+        {isOwnProfile && (
+          <Flex width="full" justifyContent="end">
+            <IconButton
+              variant="outline"
+              aria-label="Edit Profile Info"
+              size="lg"
+              borderColor="#A426A4"
+              background="rgba(17, 17, 17, 0.9)"
+              color="#A426A4"
+              _hover={{ color: 'white', borderColor: 'white' }}
+              icon={<EditIcon />}
+              isRound
+              zIndex="docked"
+              m={6}
+            />
+          </Flex>
+        )}
+      </Box>
       <Flex
-        w="100%"
+        w="full"
         minH="100vh"
         pl={[4, 8, 12]}
         pr={[4, 8, 12]}
         pb={[4, 8, 12]}
-        pt={200 - 52}
+        pt={200 - 64}
         direction="column"
         align="center"
         zIndex={1}
