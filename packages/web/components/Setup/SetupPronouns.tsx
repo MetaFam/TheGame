@@ -7,7 +7,7 @@ import React, { useState } from 'react';
 
 export type SetupPronounsProps = {
   pronouns: string;
-  setPronouns: React.Dispatch<React.SetStateAction<string | undefined>>;
+  setPronouns: React.Dispatch<React.SetStateAction<string>>;
 };
 
 export const SetupPronouns: React.FC<SetupPronounsProps> = ({
@@ -31,7 +31,7 @@ export const SetupPronouns: React.FC<SetupPronounsProps> = ({
     const { error } = await updatePronouns({
       playerId: user.id,
       input: {
-        pronouns: pronouns ?? '',
+        pronouns,
       },
     });
 
@@ -65,7 +65,6 @@ export const SetupPronouns: React.FC<SetupPronounsProps> = ({
       />
 
       <MetaButton
-        disabled={!user}
         onClick={handleNextPress}
         mt={10}
         isLoading={updatePronounsRes.fetching || loading}
