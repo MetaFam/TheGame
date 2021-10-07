@@ -24,7 +24,7 @@ type Props = {
 };
 
 const EditQuestPage: React.FC<Props> = ({ quest, skillChoices, guilds }) => {
-  useUser({ redirectTo: '/quests' });
+  useUser({ redirectTo: '/quests', redirectIfNotFound: true });
   const router = useRouter();
   const toast = useToast();
   const [updateQuestResult, updateQuest] = useUpdateQuestMutation();

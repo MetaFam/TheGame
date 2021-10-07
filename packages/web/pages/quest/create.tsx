@@ -18,7 +18,7 @@ import { parseSkills } from 'utils/skillHelpers';
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
 const CreateQuestPage: React.FC<Props> = ({ guilds, skillChoices }) => {
-  useUser({ redirectTo: '/quests' });
+  useUser({ redirectTo: '/quests', redirectIfNotFound: true });
   const router = useRouter();
   const toast = useToast();
   const [createQuestState, createQuest] = useCreateQuestMutation();
