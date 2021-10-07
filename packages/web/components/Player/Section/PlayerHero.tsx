@@ -63,27 +63,35 @@ export const PlayerHero: React.FC<Props> = ({ player, isOwnProfile }) => {
 
   return (
     <ProfileSection>
-      <VStack spacing={6}>
-        {isOwnProfile && (
-          <Flex width="100%" justifyContent="end">
-            <IconButton
-              variant="outline"
-              aria-label="Edit Profile Info"
-              size="lg"
-              borderColor="#A426A4"
-              background="rgba(17, 17, 17, 0.9)"
-              color="#A426A4"
-              _hover={{ color: 'white', borderColor: 'white' }}
-              icon={<EditIcon />}
-              isRound
-            />
-          </Flex>
-        )}
+      {isOwnProfile && (
+        <Flex
+          width="100%"
+          justifyContent="end"
+          pos="absolute"
+          right={4}
+          top={4}
+        >
+          <IconButton
+            variant="outline"
+            aria-label="Edit Profile Info"
+            size="lg"
+            borderColor="#A426A4"
+            background="rgba(17, 17, 17, 0.9)"
+            color="#A426A4"
+            _hover={{ color: 'white', borderColor: 'white' }}
+            icon={<EditIcon />}
+            isRound
+          />
+        </Flex>
+      )}
+      <Box textAlign="center" mb={8} mt={2}>
         <PlayerAvatar
           w={{ base: 32, md: 56 }}
           h={{ base: 32, md: 56 }}
           {...{ player }}
         />
+      </Box>
+      <VStack spacing={6}>
         <Box textAlign="center">
           <Text fontSize="xl" fontFamily="heading" mb={1}>
             {getPlayerName(player)}
