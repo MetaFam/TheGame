@@ -58,7 +58,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
       bg="blueProfileSection"
       borderBottomRadius="lg"
       borderTopRadius={!title ? 'lg' : 0}
-      p={6}
+      p={8}
       boxShadow="md"
       css={{ backdropFilter: 'blur(8px)' }}
     >

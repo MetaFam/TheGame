@@ -1,7 +1,8 @@
-import { Wrap } from '@metafam/ds';
+import { Text } from '@metafam/ds';
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
 import React from 'react';
 
+import { FlexContainer } from '../../Container';
 import { ProfileSection } from '../../ProfileSection';
 
 type Props = {
@@ -15,10 +16,17 @@ export const PlayerType: React.FC<Props> = ({
   onRemoveClick,
 }) => (
   <ProfileSection
-    title="Color Disposition"
+    title="Player type"
     onRemoveClick={onRemoveClick}
     displayEditButton={displayEditButton}
   >
-    <Wrap />
+    {player.type?.title && (
+      <FlexContainer align="stretch" fontSize={{ base: 'sm', sm: 'md' }}>
+        <Text color="white" fontWeight="bold" casing="uppercase">
+          {player.type.title}
+        </Text>
+        <Text color="blueLight">{player.type.description}</Text>
+      </FlexContainer>
+    )}
   </ProfileSection>
 );
