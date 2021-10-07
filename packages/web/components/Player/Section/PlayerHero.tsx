@@ -74,6 +74,24 @@ export const PlayerHero: React.FC<Props> = ({ player, isOwnProfile }) => {
           </Text>
         </Box>
 
+        {/* Display name | personal pronouns
+        Desc                | desc
+
+        Bio
+
+        GitHub | twitter | address
+
+        Website
+        Desc
+
+        Country | Timezone
+        Desc | desc
+
+        Availability | Office hours
+        Desc | desc
+        Favorite emoji
+        Emoji */}
+
         <HStack mt={2}>
           <PlayerContacts player={player} />
         </HStack>
