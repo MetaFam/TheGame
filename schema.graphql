@@ -3919,10 +3919,8 @@ type player {
   player_type_id: Int
 
   """An object relationship"""
-  playerType: player_type
-  player_type_id: Int
-  pronouns: String
   profile_cache: profile_cache
+  pronouns: String
 
   """An array relationship"""
   quest_completions(
@@ -4407,6 +4405,7 @@ input player_insert_input {
   id: uuid
   player_type_id: Int
   profile_cache: profile_cache_obj_rel_insert_input
+  pronouns: String
   quest_completions: quest_completion_arr_rel_insert_input
   quests: quest_arr_rel_insert_input
   rank: PlayerRank_enum
@@ -4540,6 +4539,7 @@ input player_order_by {
   id: order_by
   player_type_id: order_by
   profile_cache: profile_cache_order_by
+  pronouns: order_by
   quest_completions_aggregate: quest_completion_aggregate_order_by
   quests_aggregate: quest_aggregate_order_by
   rank: order_by
@@ -6005,7 +6005,7 @@ enum PlayerRole_constraint {
 }
 
 enum PlayerRole_enum {
-  """artist"""
+  """Artist"""
   ARTIST
 
   """Builder"""
@@ -6020,10 +6020,10 @@ enum PlayerRole_enum {
   """Patron"""
   PATRON
 
-  """shiller"""
+  """Shiller"""
   SHILLER
 
-  """writer"""
+  """Writer"""
   WRITER
 }
 
