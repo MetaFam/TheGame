@@ -5,7 +5,7 @@ title: 📚 How to Join DAO Community
 by @Techniciann9ne
 
 
-- How non developers can make an impact in the dao space
+### How non-developers can make an impact in the DAO space
 
 Find out where your DAO of choice meets the most.
 For example, some DAOs are most active on Telegram, some on Discord, and others on Github.
@@ -35,9 +35,13 @@ So having that said, let’s jump to that number of steps which lies in front of
 4. Greet the community, and don’t be shy to introduce yourself. Tell the community how you found out about it, what inspired you to join. In brief, let the community know what kind of person just joined, and do not hesitate to express yourself.
 5. The new people start their journey in most DAO’s by finding the role channel and assigning themselves the roles related to skills they can carry out.
 *E.g., considering that you are a community person, seek something that you can relate to, in most cases, that can be a Community moderator (Innkeeper-TaverKeeper), Writer, Shiller.
-**As a Community mod**. - you will be responsible for taking care of the community, welcoming, and helping new people to start their journey. Take care of community well-being and love people in general.
-**As a Writer,** you can write some cool content that will add value to the community, either to keep everyone inside on the same page or to provide something that can be shared over the Social Media channels.
-**As a Shiller** - seek interesting content about the community you are in. You can basically start with sharing, retweeting, and bumping other people’s threads, as your work is to spread word and awareness about your DAO.*
+
+* **As a Community mod**. - you will be responsible for taking care of the community, welcoming, and helping new people to start their journey. Take care of community well-being and love people in general.
+
+* **As a Writer,** you can write some cool content that will add value to the community, either to keep everyone inside on the same page or to provide something that can be shared over the Social Media channels.
+
+* **As a Shiller** - seek interesting content about the community you are in. You can basically start with sharing, retweeting, and bumping other people’s threads, as your work is to spread word and awareness about your DAO.*
+
 6. Seek out the materials your DAO has made available for further knowledge expansion.
 7. Check/ask for the meeting calendar and make sure to attend meetings related to your role and community meetings that are very important and will let you connect with the community much faster.
 8. Start checking what’s happening inside the community, look at what's going well, and what might need improvement to benefit the community. Your ideas and feedback are valuable thus most welcomed. If the ideas and feedback can’t be implemented, they might trigger more experienced people in the DAO who will improve it, **so don’t hesitate to raise your voice.**
