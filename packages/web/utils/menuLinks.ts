@@ -32,7 +32,7 @@ export const MenuSectionLinks: MenuLinkSet[] = [
       {
         title: 'Discord',
         explainerText: 'Engage in conversations with the MetaGame community ',
-        url: 'https://discord.gg/VYZPBnx',
+        url: 'https://discord.gg/metagame',
         icon: 'discord',
       },
       {
@@ -43,11 +43,10 @@ export const MenuSectionLinks: MenuLinkSet[] = [
         icon: 'guilds',
       },
       {
-        title: 'Alliances',
-        explainerText:
-          'Explore the alliances of MetaGame; groups of guilds spanning across the metaverse',
+        title: 'Events',
+        explainerText: "See when we're meeting; join discussions & workshops",
         url: 'https://wiki.metagame.wtf/docs/great-houses/house-of-daos',
-        icon: 'alliances',
+        icon: 'events',
       },
       {
         title: 'Forum',
@@ -69,39 +68,53 @@ export const MenuSectionLinks: MenuLinkSet[] = [
         icon: 'metagamewiki',
       },
       {
-        title: 'Playbooks',
-        explainerText:
-          'Playbooks are short tutorials on achieving greatness, written by other players',
-        url: 'https://wiki.metagame.wtf/docs/playbooks/browse',
-        icon: 'playbooks',
-      },
-      {
-        title: 'Skill Trees',
-        explainerText:
-          'Skill Trees are meant to help people discover paths of self-development',
-        url: 'https://wiki.metagame.wtf/',
-        icon: 'learn',
-      },
-      {
-        title: 'Welcome to MetaGame',
-        explainerText:
-          'Just joined MetaGame? Check this for learning about how to get started',
-        url: 'https://wiki.metagame.wtf/',
-        icon: 'welcometometagame',
-      },
-      {
         title: 'The Great Houses',
         explainerText:
           'The Great Houses are here to give people a meta view of different areas of interest',
         url: 'https://wiki.metagame.wtf/docs/great-houses/house-of-daos',
         icon: 'thegreathouses',
       },
+      // {
+      //   title: 'Skill Trees',
+      //   explainerText:
+      //     'Skill Trees are meant to help people discover paths of self-development',
+      //   url: 'https://wiki.metagame.wtf/',
+      //   icon: 'learn',
+      // },
       {
-        title: 'Asketh',
+        title: 'Welcome to MetaGame',
+        explainerText: 'On your path to becoming a player? Go through here',
+        url:
+          'https://meta-game.notion.site/meta-game/Welcome-to-MetaGame-7e28e75f3c264c7b939eaaa2239b9c28',
+        icon: 'welcometometagame',
+      },
+      {
+        title: 'Playbooks',
         explainerText:
-          'Asketh is a place for players of MetaGame to ask whatever question they might have',
-        url: 'https://wiki.metagame.wtf/',
-        icon: 'asketh',
+          'Playbooks are short tutorials on achieving greatness, written by other players',
+        url: 'https://wiki.metagame.wtf/docs/playbooks/browse',
+        icon: 'playbooks',
+      },
+      // {
+      //   title: 'Asketh',
+      //   explainerText:
+      //     'Asketh is a place for players of MetaGame to ask whatever question they might have',
+      //   url: 'https://wiki.metagame.wtf/',
+      //   icon: 'asketh',
+      // },
+      {
+        title: 'Meta Radio',
+        explainerText:
+          "MetaGame's podcasting network; plug knowledge straight into your ears",
+        url: 'https://anchor.fm/MetaGame/',
+        icon: 'metaradio',
+      },
+      {
+        title: 'Meta Media YouTube',
+        explainerText:
+          "MetaMedia is MetaGame's video hub, talks, workshops, memes & other shizzle",
+        url: 'https://www.youtube.com/metamedia',
+        icon: 'youtube',
       },
     ],
   },
@@ -113,7 +126,7 @@ export const MenuSectionLinks: MenuLinkSet[] = [
         explainerText:
           'Find about all roles in MetaGame, see which ones are open & how to play them',
         url:
-          'https://wiki.metagame.wtf/docs/enter-metagame/roles-in-metagame#main-roles',
+          'https://meta-game.notion.site/Internal-Roles-Guilds-bec3a0437f684322b650dbb7aca616e8',
         icon: 'roles',
       },
       {
@@ -127,7 +140,8 @@ export const MenuSectionLinks: MenuLinkSet[] = [
         title: 'Quests',
         explainerText:
           'Take a look at available quest and claim ones that suit you best',
-        url: '/quests',
+        url:
+          'https://meta-game.notion.site/e0e83b7ea2a54d6294c5e167ba7b306a?v=81e5d4755ab44c3a93df3eaaee6fd369',
         icon: 'quests',
       },
     ],
@@ -136,25 +150,33 @@ export const MenuSectionLinks: MenuLinkSet[] = [
     label: 'invest',
     menuItems: [
       {
-        title: 'Seed',
+        title: 'Become a Patron',
+        explainerText:
+          "Don't have time to play? Support MetaGame by buying Seeds",
+        url: 'https://wiki.metagame.wtf/docs/enter-metagame/why-patron',
+        icon: 'becomeapatron',
+      },
+      {
+        title: 'Buy Seeds',
         explainerText:
           'Find out all about the SEEDs; why, where & how you should buy them',
-        url: 'https://wiki.metagame.wtf/docs/how-does-it-work/xp',
+        url:
+          'https://app.balancer.fi/#/swap/ether/0x30cf203b48edaa42c3b4918e955fed26cd012a3f',
         icon: 'seeds',
       },
       {
-        title: 'Grants',
-        explainerText:
-          'Find cool projects & people you could support financially',
-        url: 'https://wiki.metagame.wtf/',
-        icon: 'grants',
-      },
-      {
-        title: 'Balancer Pool',
+        title: 'Plant Seeds',
         explainerText: 'Plant your SEEDs and watch them grow',
         url:
           'https://pools.balancer.exchange/#/pool/0xea05a15dbce2eb543ffda16950e95b2bd2e40d0e/',
         icon: 'invest',
+      },
+      {
+        title: 'Support Grants',
+        explainerText:
+          'Find cool projects & people you could support financially',
+        url: 'https://giveth.io/',
+        icon: 'grants',
       },
     ],
   },

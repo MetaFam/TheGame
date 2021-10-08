@@ -17,6 +17,7 @@ import {
   QuestRepetition_Enum,
   QuestStatus_Enum,
 } from 'graphql/autogen/types';
+import { useUser } from 'lib/hooks';
 import { useRouter } from 'next/router';
 import React, { useMemo, useState } from 'react';
 import { Controller, FieldError, useForm } from 'react-hook-form';
@@ -153,6 +154,7 @@ export const QuestForm: React.FC<Props> = ({
   const router = useRouter();
   const [exitAlert, setExitAlert] = useState<boolean>(false);
   const createQuestInput = watch();
+  const { user } = useUser();
 
   return (
     <Box w="100%" maxW="30rem">
@@ -294,6 +296,7 @@ export const QuestForm: React.FC<Props> = ({
             Cancel
           </MetaButton>
           <MetaButton
+            disabled={!user}
             mt={10}
             isLoading={fetching}
             loadingText={loadingLabel}

@@ -36,10 +36,9 @@ export const SetupPronouns: React.FC<SetupPronounsProps> = ({
     });
 
     if (error) {
-      const errorDetail = 'The octo is sad 😢';
       toast({
         title: 'Error',
-        description: `Unable to update Player Pronouns. ${errorDetail}`,
+        description: `Unable to update Player Pronouns. ${error.message}`,
         status: 'error',
         isClosable: true,
       });
@@ -53,15 +52,13 @@ export const SetupPronouns: React.FC<SetupPronounsProps> = ({
   return (
     <FlexContainer>
       <MetaHeading mb={10} textAlign="center">
-        What pronouns would you like?
+        What pronouns do you prefer?
       </MetaHeading>
       <Input
         background="dark"
-        placeholder="PRONOUNS"
-        value={pronouns}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-          setPronouns(e.target.value)
-        }
+        placeholder="they/them"
+        value={pronouns ?? ''}
+        onChange={({ target: { value } }) => setPronouns(value)}
         w="auto"
       />
 

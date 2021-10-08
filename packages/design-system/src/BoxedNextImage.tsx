@@ -9,10 +9,10 @@ export const BoxedNextImage: React.FC<
   const { src, alt } = props;
   return (
     <Box
+      pos="relative"
       {...{ ...props, src: undefined, alt: undefined }}
       style={{
         objectFit: 'contain',
-        position: 'relative',
       }}
     >
       <NextImage {...{ src, alt }} layout="fill" objectFit="contain" />

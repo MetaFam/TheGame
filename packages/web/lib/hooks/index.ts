@@ -3,19 +3,22 @@ import { useGetMeQuery } from 'graphql/autogen/types';
 import { MeType } from 'graphql/types';
 import { useRouter } from 'next/router';
 import React, { useContext, useEffect } from 'react';
+import { RequestPolicy } from 'urql';
 
 export const useWeb3 = (): Web3ContextType => useContext(Web3Context);
 
 type UseUserOpts = {
   redirectTo?: string;
-  redirectIfFound?: boolean;
+  redirectIfNotFound?: boolean;
   forLoginDisplay?: boolean;
+  requestPolicy?: RequestPolicy | undefined;
 };
 
 export const useUser = ({
   redirectTo,
-  redirectIfFound,
+  redirectIfNotFound = false,
   forLoginDisplay = false,
+  requestPolicy = 'cache-first',
 }: UseUserOpts = {}): {
   user: MeType | null;
   fetching: boolean;
@@ -26,6 +29,7 @@ export const useUser = ({
   const [{ data, error, fetching }] = useGetMeQuery({
     pause: !authToken,
     variables: { forLoginDisplay },
+    requestPolicy,
   });
   const me = data?.me[0];
   const user = error || !authToken || !me ? null : me;
@@ -35,13 +39,13 @@ export const useUser = ({
 
     if (
       // If redirectTo is set, redirect if the user was not found.
-      (redirectTo && !redirectIfFound && !user) ||
-      // If redirectIfFound is also set, redirect if the user was found
-      (redirectIfFound && user)
+      (redirectTo && redirectIfNotFound && !user) ||
+      // If redirectIfNotFound is also set, redirect if the user was found
+      (redirectIfNotFound && user)
     ) {
       router.push(redirectTo);
     }
-  }, [router, user, redirectIfFound, redirectTo]);
+  }, [router, user, redirectIfNotFound, redirectTo]);
 
   return { user, fetching };
 };

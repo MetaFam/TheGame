@@ -98,6 +98,7 @@ export const SetupPlayerType: React.FC<SetupPlayerTypeProps> = ({
       </SimpleGrid>
 
       <MetaButton
+        disabled={!user}
         onClick={handleNextPress}
         mt={10}
         isDisabled={!playerType}

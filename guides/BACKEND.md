@@ -45,7 +45,7 @@ yarn docker:start
 
 ### Getting Started
 
-After running `yarn start:docker` make sure to confirm the backend is running.
+After running `yarn docker:start` make sure to confirm the backend is running.
 
 ```bash
 # Confirm the backend works

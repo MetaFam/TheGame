@@ -1,0 +1,120 @@
+name: Deploy Preview to Cloud Run
+
+on:
+  pull_request:
+    branches:
+      - develop
+    types:
+      - opened
+      - reopened
+
+env:
+  PROJECT_ID: metagame-thegame
+  REGISTRY_REGION: us-east4
+  REGISTRY_REPO: thegame
+  CLOUDRUN_REGION: us-east4
+  CLOUDRUN_SUFFIX: mjhnbmqqna-uk
+  CLOUDSQL_INSTANCE_NAME: thegame
+  CLOUDSQL_CONNECTION_NAME: metagame-thegame:us-east4:thegame
+
+jobs:
+  build-and-deploy:
+    name: Build and Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Login to Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ${{ env.REGISTRY_REGION }}-docker.pkg.dev
+          username: _json_key
+          password: ${{ secrets.GCP_SA_KEY }}
+
+      - name: Set up gcloud CLI
+        uses: google-github-actions/setup-gcloud@v0.2.1
+        with:
+          project_id: ${{ env.PROJECT_ID }}
+          service_account_key: ${{ secrets.GCP_SA_KEY }}
+          export_default_credentials: true
+
+      - name: Create User and Database for Hasura
+        run: |
+          HASURA_DB_PASSWORD=$(cat /dev/urandom | tr -cd [:alnum:] | head -c 16)
+          echo "HASURA_DB_PASSWORD=${HASURA_DB_PASSWORD}" >> $GITHUB_ENV
+          gcloud -q sql users create hasura-pr-${{ github.event.number }} -i ${CLOUDSQL_INSTANCE_NAME} --password ${HASURA_DB_PASSWORD}
+          gcloud -q sql databases create hasura-pr-${{ github.event.number }} -i ${CLOUDSQL_INSTANCE_NAME}
+
+      - name: Build Backend Container
+        uses: mattes/cached-docker-build-action@v1
+        with:
+          args: ". -f ./docker/backend/Dockerfile --tag ${REGISTRY_REGION}-docker.pkg.dev/${PROJECT_ID}/${REGISTRY_REPO}/backend:pr-${{ github.event.number }} --build-arg GRAPHQL_HOST=hasura-pr-${{ github.event.number }}-${CLOUDRUN_SUFFIX} --build-arg GRAPHQL_DOMAIN=a.run.app"
+          cache_key: "${{ hashFiles('**/lockfiles') }}"
+
+      - name: Push Backend Container
+        run: docker push ${REGISTRY_REGION}-docker.pkg.dev/${PROJECT_ID}/${REGISTRY_REPO}/backend:pr-${{ github.event.number }}
+
+      - name: Deploy Backend
+        run: |
+          gcloud -q run deploy backend-pr-${{ github.event.number }} \
+            --image ${REGISTRY_REGION}-docker.pkg.dev/${PROJECT_ID}/${REGISTRY_REPO}/backend:pr-${{ github.event.number }} \
+            --region ${CLOUDRUN_REGION} \
+            --port 4000 \
+            --cpu 1 \
+            --memory 512Mi \
+            --ingress all \
+            --allow-unauthenticated \
+            --set-env-vars HASURA_GRAPHQL_ADMIN_SECRET=metagame_secret
+
+      - name: Build Hasura Container
+        uses: mattes/cached-docker-build-action@v1
+        with:
+          args: "./hasura -f ./hasura/Dockerfile --tag ${REGISTRY_REGION}-docker.pkg.dev/${PROJECT_ID}/${REGISTRY_REPO}/hasura:pr-${{ github.event.number }} --build-arg BACKEND_HOST=backend-pr-${{ github.event.number }}-${CLOUDRUN_SUFFIX}.a.run.app --build-arg BACKEND_PROTOCOL=https"
+          cache_key: "${{ hashFiles('**/lockfiles') }}"
+
+      - name: Push Hasura Container
+        run: docker push ${REGISTRY_REGION}-docker.pkg.dev/${PROJECT_ID}/${REGISTRY_REPO}/hasura:pr-${{ github.event.number }}
+
+      - name: Deploy Hasura
+        run: |
+          gcloud -q run deploy hasura-pr-${{ github.event.number }} \
+            --image ${REGISTRY_REGION}-docker.pkg.dev/${PROJECT_ID}/${REGISTRY_REPO}/hasura:pr-${{ github.event.number }} \
+            --region ${CLOUDRUN_REGION} \
+            --port 8080 \
+            --cpu 1 \
+            --memory 512Mi \
+            --ingress all \
+            --allow-unauthenticated \
+            --add-cloudsql-instances metagame-thegame:us-east4:thegame \
+            --set-env-vars HASURA_GRAPHQL_DATABASE_URL=postgres://hasura-pr-${{ github.event.number }}:${HASURA_DB_PASSWORD}@/hasura-pr-${{ github.event.number }}?host=/cloudsql/${CLOUDSQL_CONNECTION_NAME},HASURA_GRAPHQL_ADMIN_SECRET=metagame_secret,HASURA_GRAPHQL_SERVER_PORT=8080
+
+      - name: Build Frontend Container
+        uses: mattes/cached-docker-build-action@v1
+        with:
+          args: ". -f ./docker/frontend/Dockerfile --tag ${REGISTRY_REGION}-docker.pkg.dev/${PROJECT_ID}/${REGISTRY_REPO}/frontend:pr-${{ github.event.number }} --build-arg GRAPHQL_HOST=hasura-pr-${{ github.event.number }}-${CLOUDRUN_SUFFIX} --build-arg GRAPHQL_DOMAIN=a.run.app"
+          cache_key: "${{ hashFiles('**/lockfiles') }}"
+
+      - name: Push Frontend Container
+        run: docker push ${REGISTRY_REGION}-docker.pkg.dev/${PROJECT_ID}/${REGISTRY_REPO}/frontend:pr-${{ github.event.number }}
+
+      - name: Deploy Frontend
+        run: |
+          gcloud -q run deploy frontend-pr-${{ github.event.number }} \
+            --image ${REGISTRY_REGION}-docker.pkg.dev/${PROJECT_ID}/${REGISTRY_REPO}/frontend:pr-${{ github.event.number }} \
+            --region ${CLOUDRUN_REGION} \
+            --port 3000 \
+            --cpu 1 \
+            --memory 512Mi \
+            --ingress all \
+            --allow-unauthenticated
+
+      - name: Comment on Pull Request
+        uses: thollander/actions-comment-pull-request@v1
+        with:
+          message: |
+            Successfully deployed a Preview of this Pull Request
+            [Frontend](https://frontend-pr-${{ github.event.number }}-${{ env.CLOUDRUN_SUFFIX }}.a.run.app)
+            [Hasura](https://hasura-pr-${{ github.event.number }}-${{ env.CLOUDRUN_SUFFIX }}.a.run.app)
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
