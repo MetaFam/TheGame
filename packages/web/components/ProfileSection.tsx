@@ -18,12 +18,11 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
   canEdit,
   displayEditButton,
 }) => (
-  <Box minW="72">
+  <Box minW="72" fontFamily="exo2">
     {title ? (
       <Box bg="purpleProfileSection" borderTopRadius="lg" p={4}>
         <HStack height={5}>
           <Text
-            fontFamily="mono"
             fontSize="sm"
             fontWeight="bold"
             color="blueLight"

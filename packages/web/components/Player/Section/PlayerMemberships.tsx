@@ -210,7 +210,6 @@ export const PlayerMemberships: React.FC<MembershipSectionProps> = ({
       {guildMemberships.length > 4 && (
         <Text
           as="span"
-          fontFamily="body"
           fontSize="xs"
           color="cyanText"
           cursor="pointer"
@@ -231,7 +230,6 @@ export const PlayerMemberships: React.FC<MembershipSectionProps> = ({
             <Box bg="purple80" borderTopRadius="lg" p={4} w="100%">
               <HStack>
                 <Text
-                  fontFamily="mono"
                   fontSize="sm"
                   fontWeight="bold"
                   color="blueLight"

@@ -33,7 +33,7 @@ const Availability: React.FC<AvailabilityProps> = ({
     <Box width="1rem">
       <FaClock color="blueLight" width="1rem" />
     </Box>
-    <Text fontSize={{ base: 'md', sm: 'lg' }} fontFamily="mono" mb="1">
+    <Text fontSize={{ base: 'md', sm: 'lg' }} mb="1">
       {`${availability_hours || '0'} h/week`}
     </Text>
   </>
@@ -106,7 +106,6 @@ export const PlayerHero: React.FC<Props> = ({ player, isOwnProfile }) => {
             {description.length > MAX_BIO_LENGTH && (
               <Text
                 as="span"
-                fontFamily="body"
                 fontSize="xs"
                 color="cyanText"
                 cursor="pointer"
