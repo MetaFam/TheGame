@@ -6,17 +6,17 @@ import { ProfileSection } from '../../ProfileSection';
 
 type Props = {
   player: PlayerFragmentFragment;
-  displayEditButton: boolean;
+  isOwnProfile: boolean;
   onRemoveClick: () => void;
 };
 export const PlayerRoles: React.FC<Props> = ({
-  displayEditButton,
+  isOwnProfile,
   onRemoveClick,
 }) => (
   <ProfileSection
     title="Roles"
     onRemoveClick={onRemoveClick}
-    displayEditButton={displayEditButton}
+    isOwnProfile={isOwnProfile}
   >
     <Wrap />
   </ProfileSection>

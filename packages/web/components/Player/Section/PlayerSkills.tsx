@@ -7,12 +7,12 @@ import { ProfileSection } from '../../ProfileSection';
 
 type Props = {
   player: PlayerFragmentFragment;
-  displayEditButton: boolean;
+  isOwnProfile: boolean;
   onRemoveClick: () => void;
 };
 export const PlayerSkills: React.FC<Props> = ({
   player,
-  displayEditButton,
+  isOwnProfile,
   onRemoveClick,
 }) => {
   if (!player.skills?.length) {
@@ -22,7 +22,7 @@ export const PlayerSkills: React.FC<Props> = ({
     <ProfileSection
       title="Skills"
       onRemoveClick={onRemoveClick}
-      displayEditButton={displayEditButton}
+      isOwnProfile={isOwnProfile}
     >
       <Wrap>
         {(player.skills || []).map(({ Skill }) => (

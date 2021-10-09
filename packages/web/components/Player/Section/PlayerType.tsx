@@ -1,5 +1,6 @@
 import { Text } from '@metafam/ds';
 import { Player_Type, PlayerFragmentFragment } from 'graphql/autogen/types';
+import { useUser } from 'lib/hooks';
 import React, { useState } from 'react';
 import { BOX_TYPE } from 'utils/boxTypes';
 
@@ -8,29 +9,28 @@ import { ProfileSection } from '../../ProfileSection';
 
 type Props = {
   player: PlayerFragmentFragment;
-  displayEditButton: boolean;
+  isOwnProfile: boolean;
   onRemoveClick: () => void;
 };
 
 export const PlayerType: React.FC<Props> = ({
   player,
-  displayEditButton,
+  isOwnProfile,
   onRemoveClick,
 }) => {
-  const [playerType, setPlayerType] = useState<Player_Type>();
+  const { user } = useUser();
 
-  if (player.type && !playerType) {
-    setPlayerType(player.type);
-  }
+  // there has to be a prettier way to write this
+  const type = isOwnProfile && user?.player ? user?.player.type : player.type;
 
   return (
     <ProfileSection
       title="Player type"
       onRemoveClick={onRemoveClick}
-      displayEditButton={displayEditButton}
+      isOwnProfile={isOwnProfile}
       boxType={BOX_TYPE.PLAYER_TYPE}
     >
-      {player.type?.title && (
+      {type?.title && (
         <FlexContainer align="stretch">
           <Text
             color="white"
@@ -38,10 +38,10 @@ export const PlayerType: React.FC<Props> = ({
             casing="uppercase"
             fontSize={{ base: 'md', sm: 'lg' }}
           >
-            {player.type.title}
+            {type.title}
           </Text>
           <Text fontSize={{ base: 'sm', sm: 'md' }} color="blueLight">
-            {player.type.description}
+            {type.description}
           </Text>
         </FlexContainer>
       )}
