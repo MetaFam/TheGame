@@ -152,7 +152,7 @@ const Availability: React.FC<AvailabilityProps> = ({
       <FaClock color="blueLight" />
     </Box>
     <Text fontSize={{ base: 'md', sm: 'lg' }} pr={2}>
-      {`${availability_hours || '0'} hours/week`}
+      {`${availability_hours || '0'} h/week`}
     </Text>
   </Flex>
 );
@@ -162,10 +162,10 @@ const TimeZoneDisplay: React.FC<TimeZoneDisplayProps> = ({
   offset,
 }) => (
   <Flex alignItems="center">
-    <Box pr={2}>
+    <Box pr={1}>
       <FaGlobe color="blueLight" />
     </Box>
-    <Text fontSize={{ base: 'md', sm: 'lg' }} pr={2}>
+    <Text fontSize={{ base: 'md', sm: 'lg' }} pr={1}>
       {timeZone || '-'}
     </Text>
     {offset ? <Text fontSize={{ base: 'sm', sm: 'md' }}>{offset}</Text> : ''}

@@ -21,16 +21,18 @@ export const PlayerType: React.FC<Props> = ({
     displayEditButton={displayEditButton}
   >
     {player.type?.title && (
-      <FlexContainer align="stretch" fontSize={{ base: 'sm', sm: 'md' }}>
+      <FlexContainer align="stretch">
         <Text
           color="white"
-          fontWeight="bold"
+          fontWeight="600"
           casing="uppercase"
-          fontSize={{ base: 'sm', sm: 'md' }}
+          fontSize={{ base: 'md', sm: 'lg' }}
         >
           {player.type.title}
         </Text>
-        <Text color="blueLight">{player.type.description}</Text>
+        <Text fontSize={{ base: 'sm', sm: 'md' }} color="blueLight">
+          {player.type.description}
+        </Text>
       </FlexContainer>
     )}
   </ProfileSection>
