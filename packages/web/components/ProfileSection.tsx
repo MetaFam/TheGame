@@ -20,7 +20,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
 }) => (
   <Box minW="72" fontFamily="exo2">
     {title ? (
-      <Box bg="purpleProfileSection" borderTopRadius="lg" p={4}>
+      <Box bg="purpleProfileSection" borderTopRadius="lg" pt={4} pb={4}>
         <HStack height={5}>
           <Text
             fontSize="sm"
@@ -28,6 +28,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
             color="blueLight"
             as="div"
             mr="auto"
+            pl={4}
           >
             {title.toUpperCase()}
           </Text>
