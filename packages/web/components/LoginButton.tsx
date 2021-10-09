@@ -23,7 +23,6 @@ export const LoginButton: React.FC = () => {
       w="100%"
       mx={4}
       my={3.5}
-      fontFamily="exo2"
       maxWidth={{ sm: '480px' }}
       size="md"
       px={8}

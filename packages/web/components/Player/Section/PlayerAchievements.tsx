@@ -25,7 +25,6 @@ export const PlayerAchievements: React.FC<Props> = ({ onRemoveClick }) => {
       {(fakeData || []).length > 3 && (
         <Text
           as="span"
-          fontFamily="body"
           fontSize="xs"
           color="cyanText"
           cursor="pointer"

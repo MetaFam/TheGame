@@ -61,7 +61,6 @@ export const GuildPlayers: React.FC<Props> = ({ guildId, guildname }) => {
           {guildPlayers.length > 4 && (
             <Text
               as="span"
-              fontFamily="body"
               fontSize="xs"
               color="cyanText"
               cursor="pointer"
@@ -82,7 +81,6 @@ export const GuildPlayers: React.FC<Props> = ({ guildId, guildname }) => {
                 <Box bg="purple80" borderTopRadius="lg" p={4} w="100%">
                   <HStack>
                     <Text
-                      fontFamily="mono"
                       fontSize="sm"
                       fontWeight="bold"
                       color="blueLight"
