@@ -8,17 +8,16 @@ import {
 import { FlexContainer } from 'components/Container';
 import { useSetupFlow } from 'contexts/SetupContext';
 import { Player_Type, useUpdateAboutYouMutation } from 'graphql/autogen/types';
+import { getPlayerTypes } from 'graphql/getPlayerTypes';
 import { useUser } from 'lib/hooks';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 export type SetupPlayerTypeProps = {
-  playerTypeChoices: Array<Player_Type>;
   playerType: Player_Type | undefined;
   setPlayerType: React.Dispatch<React.SetStateAction<Player_Type | undefined>>;
 };
 
 export const SetupPlayerType: React.FC<SetupPlayerTypeProps> = ({
-  playerTypeChoices,
   playerType,
   setPlayerType,
 }) => {
@@ -28,6 +27,16 @@ export const SetupPlayerType: React.FC<SetupPlayerTypeProps> = ({
 
   const [updateAboutYouRes, updateAboutYou] = useUpdateAboutYouMutation();
   const [loading, setLoading] = useState(false);
+  const [playerTypeChoices, setPlayerTypeChoices] = useState<Player_Type[]>([]);
+
+  useEffect(() => {
+    async function fetchMyAPI() {
+      const response = await getPlayerTypes();
+      setPlayerTypeChoices(response);
+    }
+
+    fetchMyAPI();
+  }, [playerTypeChoices]);
 
   const handleNextPress = async () => {
     if (!user) return;
