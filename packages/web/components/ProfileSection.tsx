@@ -20,7 +20,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
 }) => (
   <Box minW="72" fontFamily="exo2">
     {title ? (
-      <Box bg="purpleProfileSection" borderTopRadius="lg" pt={4} pb={4}>
+      <Box bg="purpleProfileSection" borderTopRadius="lg" pt={5} pb={5}>
         <HStack height={5}>
           <Text
             fontSize="sm"
@@ -41,6 +41,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
               icon={<EditIcon />}
               _hover={{ color: 'white' }}
               isRound
+              pr={5}
             />
           ) : null}
           {canEdit ? (
