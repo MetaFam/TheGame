@@ -21,6 +21,7 @@ import { FaTimes } from 'react-icons/fa';
 export type ProfileSectionProps = {
   title?: string;
   children?: React.ReactNode;
+  EditModal?: React.ReactNode;
   onRemoveClick?: () => void;
   canEdit?: boolean;
   displayEditButton?: boolean;
@@ -33,6 +34,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
   onRemoveClick,
   canEdit,
   displayEditButton,
+  EditModal,
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -85,7 +87,11 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
       </Box>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
-        <ModalContent backgroundImage={`url(${BackgroundImage})`} p={6}>
+        <ModalContent
+          maxW="80%"
+          backgroundImage={`url(${BackgroundImage})`}
+          p={6}
+        >
           <ModalHeader
             color="white"
             fontSize="4xl"
@@ -95,7 +101,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
             {title}
           </ModalHeader>
           <ModalCloseButton color="pinkShadeOne" size="xl" m={4} />
-          <ModalBody>LOL</ModalBody>
+          <ModalBody>{EditModal}</ModalBody>
 
           <ModalFooter justifyContent="center">
             <Button colorScheme="blue" mr={3}>
