@@ -24,7 +24,7 @@ export const PlayerType: React.FC<Props> = ({
       <FlexContainer align="stretch" fontSize={{ base: 'sm', sm: 'md' }}>
         <Text
           color="white"
-          // fontWeight="600" 600 === 700 :{ and 700 is too much
+          fontWeight="bold"
           casing="uppercase"
           fontSize={{ base: 'sm', sm: 'md' }}
         >
