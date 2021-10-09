@@ -181,7 +181,7 @@ const PlayerPage: React.FC<Props> = ({ player }) => {
               icon={<EditIcon />}
               isRound
               zIndex="docked"
-              m={6}
+              m={5}
             />
           </Flex>
         )}
@@ -192,7 +192,7 @@ const PlayerPage: React.FC<Props> = ({ player }) => {
         pl={[4, 8, 12]}
         pr={[4, 8, 12]}
         pb={[4, 8, 12]}
-        pt={200 - 64}
+        pt={200 - 72}
         direction="column"
         align="center"
         zIndex={1}

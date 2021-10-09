@@ -64,13 +64,7 @@ export const PlayerHero: React.FC<Props> = ({ player, isOwnProfile }) => {
   return (
     <ProfileSection>
       {isOwnProfile && (
-        <Flex
-          width="100%"
-          justifyContent="end"
-          pos="absolute"
-          right={4}
-          top={4}
-        >
+        <Box pos="absolute" right={5} top={5}>
           <IconButton
             variant="outline"
             aria-label="Edit Profile Info"
@@ -82,7 +76,7 @@ export const PlayerHero: React.FC<Props> = ({ player, isOwnProfile }) => {
             icon={<EditIcon />}
             isRound
           />
-        </Flex>
+        </Box>
       )}
       <Box textAlign="center" mb={8} mt={2}>
         <PlayerAvatar
