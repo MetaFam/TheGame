@@ -19,22 +19,22 @@ import { FaTimes } from 'react-icons/fa';
 import { BOX_TYPE } from 'utils/boxTypes';
 
 export type ProfileSectionProps = {
-  title?: string;
   children?: React.ReactNode;
   onRemoveClick?: () => void;
-  canEdit?: boolean;
   displayEditButton?: boolean;
-  boxType: string;
+  canEdit?: boolean;
+  boxType?: string;
+  title?: string;
 };
 
 // TODO If MetaBox is only used for Player profile maybe merge both component
 export const ProfileSection: React.FC<ProfileSectionProps> = ({
   children,
-  title,
   onRemoveClick,
-  canEdit,
   displayEditButton,
+  canEdit,
   boxType,
+  title,
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -85,25 +85,27 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
       >
         {children}
       </Box>
-      <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent
-          maxW="80%"
-          backgroundImage={`url(${BackgroundImage})`}
-          p={6}
-        >
-          <ModalHeader
-            color="white"
-            fontSize="4xl"
-            alignSelf="center"
-            fontWeight="normal"
+      {canEdit && boxType && (
+        <Modal isOpen={isOpen} onClose={onClose}>
+          <ModalOverlay />
+          <ModalContent
+            maxW="80%"
+            backgroundImage={`url(${BackgroundImage})`}
+            p={6}
           >
-            {title}
-          </ModalHeader>
-          <ModalCloseButton color="pinkShadeOne" size="xl" m={4} />
-          <ModalBody>{getBox(boxType, onClose)}</ModalBody>
-        </ModalContent>
-      </Modal>
+            <ModalHeader
+              color="white"
+              fontSize="4xl"
+              alignSelf="center"
+              fontWeight="normal"
+            >
+              {title}
+            </ModalHeader>
+            <ModalCloseButton color="pinkShadeOne" size="xl" m={4} />
+            <ModalBody>{getBox(boxType, onClose)}</ModalBody>
+          </ModalContent>
+        </Modal>
+      )}
     </Box>
   );
 };
