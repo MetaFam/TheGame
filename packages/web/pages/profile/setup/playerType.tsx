@@ -1,30 +1,22 @@
+import { MetaHeading, Text } from '@metafam/ds';
 import { SetupPlayerType } from 'components/Setup/SetupPlayerType';
 import { SetupProfile } from 'components/Setup/SetupProfile';
 import { SetupContextProvider } from 'contexts/SetupContext';
-import { Player_Type } from 'graphql/autogen/types';
-import { useUser } from 'lib/hooks';
-import React, { useState } from 'react';
+import React from 'react';
 
-const PlayerTypeSetup: React.FC = () => {
-  const [playerType, setPlayerType] = useState<Player_Type>();
-  const { user } = useUser({ redirectTo: '/' });
+const PlayerTypeSetup: React.FC = () => (
+  <SetupContextProvider>
+    <MetaHeading mb={5} textAlign="center">
+      Player Type
+    </MetaHeading>
+    <Text mb={10}>
+      Please read the features of each player type below. And select the one
+      that suits you best.
+    </Text>
+    <SetupProfile>
+      <SetupPlayerType />
+    </SetupProfile>
+  </SetupContextProvider>
+);
 
-  if (user?.player) {
-    const { player } = user;
-    if (player.type && !playerType) {
-      setPlayerType(player.type);
-    }
-  }
-
-  return (
-    <SetupContextProvider>
-      <SetupProfile>
-        <SetupPlayerType
-          playerType={playerType}
-          setPlayerType={setPlayerType}
-        />
-      </SetupProfile>
-    </SetupContextProvider>
-  );
-};
 export default PlayerTypeSetup;
