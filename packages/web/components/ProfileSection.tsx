@@ -21,7 +21,7 @@ import { BOX_TYPE } from 'utils/boxTypes';
 export type ProfileSectionProps = {
   children?: React.ReactNode;
   onRemoveClick?: () => void;
-  displayEditButton?: boolean;
+  isOwnProfile?: boolean;
   canEdit?: boolean;
   boxType?: string;
   title?: string;
@@ -31,7 +31,7 @@ export type ProfileSectionProps = {
 export const ProfileSection: React.FC<ProfileSectionProps> = ({
   children,
   onRemoveClick,
-  displayEditButton,
+  isOwnProfile,
   canEdit,
   boxType,
   title,
@@ -52,7 +52,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
             >
               {title.toUpperCase()}
             </Text>
-            {displayEditButton ? (
+            {isOwnProfile ? (
               <IconButton
                 aria-label="Edit Profile Info"
                 size="lg"

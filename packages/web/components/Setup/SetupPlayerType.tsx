@@ -59,7 +59,6 @@ export const SetupPlayerType: React.FC<Props> = ({ isEdit, onClose }) => {
     if (!user) return;
 
     if (user.player?.type?.id !== playerType?.id) {
-      console.log('iz nekega razloga ne shrani izbire');
       const { error } = await updateAboutYou({
         playerId: user.id,
         input: {

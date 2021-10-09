@@ -9,12 +9,12 @@ import { ColorBar } from '../ColorBar';
 
 type Props = {
   player: PlayerFragmentFragment;
-  displayEditButton: boolean;
+  isOwnProfile: boolean;
   onRemoveClick: () => void;
 };
 export const PlayerColorDisposition: React.FC<Props> = ({
   player,
-  displayEditButton,
+  isOwnProfile,
   onRemoveClick,
 }) => {
   const [types, setTypes] = React.useState<{
@@ -35,7 +35,7 @@ export const PlayerColorDisposition: React.FC<Props> = ({
     <ProfileSection
       title="Color Disposition"
       onRemoveClick={onRemoveClick}
-      displayEditButton={displayEditButton}
+      isOwnProfile={isOwnProfile}
     >
       {type && types && (
         <Link

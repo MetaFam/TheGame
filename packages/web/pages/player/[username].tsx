@@ -12,6 +12,7 @@ import {
 import Error from 'next/error';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
+import { BOX_TYPE } from 'utils/boxTypes';
 import {
   getPlayerCoverImageFull,
   getPlayerDescription,
@@ -34,16 +35,6 @@ type Props = InferGetStaticPropsType<typeof getStaticProps>;
 const PlayerPage: React.FC<Props> = ({ player }) => {
   const router = useRouter();
 
-  // TODO Fake data should be saved in back-end
-  const BOX_TYPE = {
-    PLAYER_SKILLS: 'Skills',
-    PLAYER_GALLERY: 'Gallery',
-    PLAYER_MEMBERSHIPS: 'Memberships',
-    PLAYER_ACHIEVEMENTS: 'Achievements',
-    PLAYER_TYPE: 'Player Type',
-    PLAYER_COLOR_DISPOSITION: 'Color disposition',
-    PLAYER_ROLES: 'Roles',
-  };
   const [boxAvailableList, setBoxAvailableList] = useState<string[]>([]);
   const [canEdit] = useState(false);
   const [, invalidateCache] = useInsertCacheInvalidationMutation();
@@ -108,7 +99,7 @@ const PlayerPage: React.FC<Props> = ({ player }) => {
         return (
           <PlayerSkills
             player={player}
-            displayEditButton={isOwnProfile}
+            isOwnProfile={isOwnProfile}
             onRemoveClick={() => removeBox(column, name)}
           />
         );
@@ -130,7 +121,7 @@ const PlayerPage: React.FC<Props> = ({ player }) => {
         return (
           <PlayerColorDisposition
             player={player}
-            displayEditButton={isOwnProfile}
+            isOwnProfile={isOwnProfile}
             onRemoveClick={() => removeBox(column, name)}
           />
         );
@@ -138,7 +129,7 @@ const PlayerPage: React.FC<Props> = ({ player }) => {
         return (
           <PlayerType
             player={player}
-            displayEditButton={isOwnProfile}
+            isOwnProfile={isOwnProfile}
             onRemoveClick={() => removeBox(column, name)}
           />
         );
@@ -146,7 +137,7 @@ const PlayerPage: React.FC<Props> = ({ player }) => {
         return (
           <PlayerRoles
             player={player}
-            displayEditButton={isOwnProfile}
+            isOwnProfile={isOwnProfile}
             onRemoveClick={() => removeBox(column, name)}
           />
         );
