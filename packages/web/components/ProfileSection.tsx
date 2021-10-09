@@ -34,7 +34,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
               icon={<EditIcon />}
               _hover={{ color: 'white' }}
               isRound
-              pr={5}
+              mr={5}
             />
           ) : null}
           {canEdit ? (
