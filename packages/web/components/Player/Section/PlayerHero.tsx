@@ -1,7 +1,6 @@
 import {
   Box,
   EditIcon,
-  Flex,
   HStack,
   IconButton,
   SimpleGrid,
