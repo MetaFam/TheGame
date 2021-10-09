@@ -1,6 +1,7 @@
 import {
   Box,
   EditIcon,
+  Flex,
   HStack,
   IconButton,
   SimpleGrid,
@@ -24,32 +25,6 @@ const MAX_BIO_LENGTH = 240;
 type Props = { player: PlayerFragmentFragment; isOwnProfile: boolean };
 type AvailabilityProps = { player: PlayerFragmentFragment };
 type TimeZoneDisplayProps = { timeZone?: string; offset?: string };
-
-const Availability: React.FC<AvailabilityProps> = ({
-  player: { availability_hours },
-}) => (
-  <>
-    <Box width="1rem">
-      <FaClock color="blueLight" width="1rem" />
-    </Box>
-    <Text fontSize={{ base: 'md', sm: 'lg' }} mb="1">
-      {`${availability_hours || '0'} h/week`}
-    </Text>
-  </>
-);
-
-const TimeZoneDisplay: React.FC<TimeZoneDisplayProps> = ({
-  timeZone,
-  offset,
-}) => (
-  <>
-    <Box width="1rem">
-      <FaGlobe color="blueLight" />
-    </Box>
-    <Text fontSize={{ base: 'md', sm: 'lg' }}>{timeZone || '-'}</Text>
-    {offset ? <Text fontSize={{ base: 'xs', sm: 'sm' }}>{offset}</Text> : ''}
-  </>
-);
 
 export const PlayerHero: React.FC<Props> = ({ player, isOwnProfile }) => {
   const description = getPlayerDescription(player);
@@ -125,7 +100,7 @@ export const PlayerHero: React.FC<Props> = ({ player, isOwnProfile }) => {
         </SimpleGrid>
 
         <PlayerHeroTile title="Bio">
-          <Text>
+          <Text fontSize="md">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
             eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
           </Text>
@@ -148,7 +123,16 @@ export const PlayerHero: React.FC<Props> = ({ player, isOwnProfile }) => {
             <Availability player={player} />
           </PlayerHeroTile>
           <PlayerHeroTile title="Office hours">
-            <Text>9:00 AM - 5:00 PM</Text>
+            <Flex dir="row" alignItems="center">
+              9:00{' '}
+              <Text fontSize="md" mr={1} ml={1}>
+                AM
+              </Text>{' '}
+              - 5:00{' '}
+              <Text fontSize="md" mr={1} ml={1}>
+                PM
+              </Text>
+            </Flex>
           </PlayerHeroTile>
         </SimpleGrid>
 
@@ -159,3 +143,31 @@ export const PlayerHero: React.FC<Props> = ({ player, isOwnProfile }) => {
     </ProfileSection>
   );
 };
+
+const Availability: React.FC<AvailabilityProps> = ({
+  player: { availability_hours },
+}) => (
+  <Flex alignItems="center">
+    <Box pr={2}>
+      <FaClock color="blueLight" />
+    </Box>
+    <Text fontSize={{ base: 'md', sm: 'lg' }} pr={2}>
+      {`${availability_hours || '0'} hours/week`}
+    </Text>
+  </Flex>
+);
+
+const TimeZoneDisplay: React.FC<TimeZoneDisplayProps> = ({
+  timeZone,
+  offset,
+}) => (
+  <Flex alignItems="center">
+    <Box pr={2}>
+      <FaGlobe color="blueLight" />
+    </Box>
+    <Text fontSize={{ base: 'md', sm: 'lg' }} pr={2}>
+      {timeZone || '-'}
+    </Text>
+    {offset ? <Text fontSize={{ base: 'sm', sm: 'md' }}>{offset}</Text> : ''}
+  </Flex>
+);

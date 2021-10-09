@@ -22,14 +22,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
     {title ? (
       <Box bg="purpleProfileSection" borderTopRadius="lg" pt={5} pb={5}>
         <HStack height={5}>
-          <Text
-            fontSize="sm"
-            fontWeight="bold"
-            color="blueLight"
-            as="div"
-            mr="auto"
-            pl={4}
-          >
+          <Text fontSize="md" color="blueLight" as="div" mr="auto" pl={4}>
             {title.toUpperCase()}
           </Text>
           {displayEditButton ? (
