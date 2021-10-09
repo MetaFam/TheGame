@@ -68,7 +68,7 @@ export const GuildJoin: React.FC = () => {
         <HStack h="100%" maxW="60rem" spacing="6" align="stretch">
           <Image src="/assets/guilds.png" alt="Guild" maxW="20rem" />
           <VStack spacing={8} align="stretch" pl="6">
-            <Text fontSize="xl" fontFamily="mono" color="blueLight">
+            <Text fontSize="xl" color="blueLight">
               Are you part of a group of people building tools &amp; services
               for a decentralized future?
             </Text>

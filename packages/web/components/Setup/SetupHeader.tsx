@@ -57,7 +57,6 @@ export const SectionProgress: React.FC<StepProps> = ({
         w="100%"
         textTransform="uppercase"
         fontSize="xs"
-        fontFamily="mono"
         fontWeight="bold"
         color="offwhite"
         opacity={isActive ? 1 : 0.4}

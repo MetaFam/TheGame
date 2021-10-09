@@ -14,7 +14,7 @@ export const SuccessPlayer: React.FC = () => {
       <MetaButton mt={5} mb={8} onClick={() => router.push('/profile/setup')}>
         Set up your profile
       </MetaButton>
-      <Text fontFamily="mono" color="offwhite">
+      <Text color="offwhite">
         {"I'll do this later. "}
         <MetaLink href="">Go to my profile</MetaLink>
       </Text>

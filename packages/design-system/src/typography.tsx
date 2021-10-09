@@ -6,7 +6,7 @@ export type TextProps = {
 };
 
 const H1: React.FC<TextProps> = ({ children }) => (
-  <Text fontFamily="body" fontSize="2xl" fontWeight="bold" mb={4}>
+  <Text fontSize="2xl" fontWeight="bold" mb={4}>
     {children}
   </Text>
 );

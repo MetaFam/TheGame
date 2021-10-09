@@ -131,7 +131,6 @@ const DesktopMenuItem = ({
   <MenuItem
     color="#ffffff"
     key={title}
-    fontFamily="exo"
     p="0"
     mb="50px"
     pr="50px"
@@ -153,15 +152,10 @@ const DesktopMenuItem = ({
         bg="linear-gradient(180deg, #170B23 0%, #350C58 100%)"
       />
       <Box>
-        <Text fontFamily="exo2" color="#000" fontSize="xl" fontWeight="700">
+        <Text color="#000" fontSize="xl" fontWeight="bold">
           {title}
         </Text>
-        <Text
-          fontFamily="body"
-          color="#000"
-          fontSize="13px"
-          font="IBM Plex Sans"
-        >
+        <Text color="#000" fontSize="13px">
           {explainerText}
         </Text>
       </Box>
@@ -200,7 +194,6 @@ const DesktopNavLinks = () => {
     <Flex
       justifyContent="center"
       alignContent="center"
-      fontFamily="exo"
       display={{ base: 'none', lg: 'flex' }}
       minW={{ base: 'auto', md: '40%' }}
     >
@@ -225,7 +218,6 @@ const DesktopNavLinks = () => {
                 textTransform="uppercase"
                 ml={23}
                 mr={23}
-                fontFamily="exo2"
                 _expanded={{ color: '#fff' }}
                 _focus={{ outline: 'none', border: 'none' }}
               >
@@ -366,7 +358,7 @@ const PlayerStats: React.FC<PlayerStatsProps> = ({ player }) => {
             h="52px"
           />
         </MenuButton>
-        <MenuList mt="8px" color="black" fontFamily="exo2">
+        <MenuList mt="8px" color="black">
           <MetaLink
             color="black"
             href={`/player/${player.username}`}
@@ -406,7 +398,6 @@ export const MegaMenu: React.FC = () => {
       position={router.pathname === '/players' ? 'relative' : 'sticky'}
       top={0}
       zIndex={11}
-      fontFamily="exo"
     >
       <Flex
         justifyContent="space-between"
@@ -460,7 +451,6 @@ export const MegaMenu: React.FC = () => {
                   my="10px"
                   px="24px"
                   ml="90px"
-                  fontFamily="exo2"
                   onClick={handleLoginClick}
                 >
                   Connect
@@ -504,7 +494,6 @@ export const MegaMenu: React.FC = () => {
                   background="rgba(0, 0, 0, 0.35)"
                   px={4}
                   py={3}
-                  fontFamily="exo2"
                 >
                   <Avatar
                     name="alt text"

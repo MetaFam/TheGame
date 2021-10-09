@@ -67,7 +67,6 @@ const QuestsPage: React.FC<Props> = () => {
             }
           >
             <MetaButton
-              fontFamily="mono"
               // disabled={!canCreateQuest} // if disabled, tooltip doesn't show...
               isLoading={fetchingBalance}
               onClick={() => canCreateQuest && router.push('/quest/create')}

@@ -71,7 +71,6 @@ export const PlayerBrightId: React.FC<Props> = ({ player }) => {
             <Box bg="purple80" p={4} w="100%">
               <HStack>
                 <Text
-                  fontFamily="mono"
                   fontSize="sm"
                   fontWeight="bold"
                   color="blueLight"

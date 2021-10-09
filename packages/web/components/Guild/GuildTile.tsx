@@ -58,12 +58,7 @@ export const GuildTile: React.FC<Props> = ({ guild }) => (
       </NextLink>
       <MetaTileBody>
         {guild.join_button_url ? (
-          <MetaButton
-            as="a"
-            href={guild.join_button_url}
-            target="_blank"
-            fontFamily="mono"
-          >
+          <MetaButton as="a" href={guild.join_button_url} target="_blank">
             Join
           </MetaButton>
         ) : null}

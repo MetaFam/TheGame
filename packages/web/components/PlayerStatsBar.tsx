@@ -64,7 +64,7 @@ const PlayerStats = () => {
                   h="52px"
                 />
               </MenuButton>
-              <MenuList color="black" fontFamily="exo2">
+              <MenuList color="black">
                 <MetaLink
                   color="black"
                   href={`/player/${getPlayerName(user.player)}`}
@@ -82,7 +82,7 @@ const PlayerStats = () => {
                 <MenuItem onClick={disconnect}>Disconnect</MenuItem>
               </MenuList>
             </Menu>
-            <Stack fontFamily="exo" my={2} ml={2}>
+            <Stack my={2} ml={2}>
               <Text
                 fontSize={14}
                 fontWeight="semibold"
@@ -119,7 +119,7 @@ const PlayerStats = () => {
               mb={2}
             >
               <Image src={XPStar} alt="XP" h="14px" w="14px" mr={3} />
-              <Text color="#ffffff" fontFamily="exo" ml={2}>
+              <Text color="#ffffff" ml={2}>
                 {Math.trunc(user.player.total_xp * 100) / 100}
               </Text>
             </Badge>
@@ -136,7 +136,7 @@ const PlayerStats = () => {
               mb={2}
             >
               <Image src={SeedMarket} alt="Seed" h="14px" w="14px" mr={3} />
-              <Text color="#ffffff" fontFamily="exo" ml={2}>
+              <Text color="#ffffff" ml={2}>
                 {parseInt(amountToDecimal(pSeedBalance || '0', 18), 10)}
               </Text>
             </Badge>

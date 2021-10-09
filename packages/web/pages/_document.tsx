@@ -20,7 +20,7 @@ class MetaDocument extends Document {
       <Html>
         <Head>
           <link
-            href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&family=IBM+Plex+Sans:wght@400;700&family=Press+Start+2P&family=Exo+2:ital,wght@0,400;0,500;0,700;1,400&display=swap"
+            href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Exo+2:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap"
             rel="stylesheet"
           />
           <link rel="shortcut icon" href="/favicon.png" />

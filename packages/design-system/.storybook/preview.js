@@ -8,12 +8,8 @@ const withChakra = (StoryFn) => (
     <GoogleFontLoader
       fonts={[
         {
-          font: 'IBM+Plex+Mono',
-          weights: [400, 700],
-        },
-        {
-          font: 'IBM+Plex+Sans',
-          weights: [400, 700],
+          font: 'Exo+2',
+          weights: [400, 600, 700],
         },
         {
           font: 'Press+Start+2P',
