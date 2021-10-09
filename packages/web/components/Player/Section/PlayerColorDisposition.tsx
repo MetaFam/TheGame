@@ -44,6 +44,8 @@ export const PlayerColorDisposition: React.FC<Props> = ({
             2,
           )}`}
           maxH="6rem"
+          fontSize={{ base: 'sm', sm: 'md' }}
+          // fontWeight="600" 600 === 700 :{ and 700 is bold :S
         >
           <ColorBar mask={type.mask} />
         </Link>
