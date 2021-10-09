@@ -1,7 +1,7 @@
 import { Text } from '@metafam/ds';
-import { SetupPlayerType } from 'components/Setup/SetupPlayerType';
 import { Player_Type, PlayerFragmentFragment } from 'graphql/autogen/types';
 import React, { useState } from 'react';
+import { BOX_TYPE } from 'utils/boxTypes';
 
 import { FlexContainer } from '../../Container';
 import { ProfileSection } from '../../ProfileSection';
@@ -28,12 +28,7 @@ export const PlayerType: React.FC<Props> = ({
       title="Player type"
       onRemoveClick={onRemoveClick}
       displayEditButton={displayEditButton}
-      EditModal={
-        <SetupPlayerType
-          playerType={playerType}
-          setPlayerType={setPlayerType}
-        />
-      }
+      boxType={BOX_TYPE.PLAYER_TYPE}
     >
       {player.type?.title && (
         <FlexContainer align="stretch">

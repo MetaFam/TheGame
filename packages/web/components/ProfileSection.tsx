@@ -1,6 +1,5 @@
 import {
   Box,
-  Button,
   EditIcon,
   HStack,
   IconButton,
@@ -8,23 +7,24 @@ import {
   ModalBody,
   ModalCloseButton,
   ModalContent,
-  ModalFooter,
   ModalHeader,
   ModalOverlay,
   Text,
   useDisclosure,
 } from '@metafam/ds';
 import BackgroundImage from 'assets/main-background.jpg';
+import { SetupPlayerType } from 'components/Setup/SetupPlayerType';
 import React from 'react';
 import { FaTimes } from 'react-icons/fa';
+import { BOX_TYPE } from 'utils/boxTypes';
 
 export type ProfileSectionProps = {
   title?: string;
   children?: React.ReactNode;
-  EditModal?: React.ReactNode;
   onRemoveClick?: () => void;
   canEdit?: boolean;
   displayEditButton?: boolean;
+  boxType: string;
 };
 
 // TODO If MetaBox is only used for Player profile maybe merge both component
@@ -34,7 +34,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
   onRemoveClick,
   canEdit,
   displayEditButton,
-  EditModal,
+  boxType,
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -101,23 +101,18 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
             {title}
           </ModalHeader>
           <ModalCloseButton color="pinkShadeOne" size="xl" m={4} />
-          <ModalBody>{EditModal}</ModalBody>
-
-          <ModalFooter justifyContent="center">
-            <Button colorScheme="blue" mr={3}>
-              Save Changes
-            </Button>
-            <Button
-              variant="ghost"
-              onClick={onClose}
-              color="white"
-              _hover={{ bg: 'none' }}
-            >
-              Close
-            </Button>
-          </ModalFooter>
+          <ModalBody>{getBox(boxType, onClose)}</ModalBody>
         </ModalContent>
       </Modal>
     </Box>
   );
+};
+
+const getBox = (boxType: string, onClose: () => void): React.ReactNode => {
+  switch (boxType) {
+    case BOX_TYPE.PLAYER_TYPE:
+      return <SetupPlayerType isEdit onClose={onClose} />;
+    default:
+      return <SetupPlayerType isEdit onClose={onClose} />;
+  }
 };

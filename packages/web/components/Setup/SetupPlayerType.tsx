@@ -1,6 +1,7 @@
 import {
+  Button,
   MetaButton,
-  MetaHeading,
+  ModalFooter,
   SimpleGrid,
   Text,
   useToast,
@@ -12,22 +13,28 @@ import { getPlayerTypes } from 'graphql/getPlayerTypes';
 import { useUser } from 'lib/hooks';
 import React, { useEffect, useState } from 'react';
 
-export type SetupPlayerTypeProps = {
-  playerType: Player_Type | undefined;
-  setPlayerType: React.Dispatch<React.SetStateAction<Player_Type | undefined>>;
+export type Props = {
+  isEdit?: boolean;
+  onClose?: () => void;
 };
 
-export const SetupPlayerType: React.FC<SetupPlayerTypeProps> = ({
-  playerType,
-  setPlayerType,
-}) => {
+export const SetupPlayerType: React.FC<Props> = ({ isEdit, onClose }) => {
   const { onNextPress, nextButtonLabel } = useSetupFlow();
-  const { user } = useUser({ redirectTo: '/' });
   const toast = useToast();
 
   const [updateAboutYouRes, updateAboutYou] = useUpdateAboutYouMutation();
   const [loading, setLoading] = useState(false);
   const [playerTypeChoices, setPlayerTypeChoices] = useState<Player_Type[]>([]);
+
+  const [playerType, setPlayerType] = useState<Player_Type>();
+  const { user } = useUser({ redirectTo: '/' });
+
+  if (user?.player) {
+    const { player } = user;
+    if (player.type && !playerType) {
+      setPlayerType(player.type);
+    }
+  }
 
   useEffect(() => {
     async function fetchMyAPI() {
@@ -42,7 +49,17 @@ export const SetupPlayerType: React.FC<SetupPlayerTypeProps> = ({
     if (!user) return;
 
     setLoading(true);
+
+    save();
+
+    onNextPress();
+  };
+
+  const save = async () => {
+    if (!user) return;
+
     if (user.player?.type?.id !== playerType?.id) {
+      console.log('iz nekega razloga ne shrani izbire');
       const { error } = await updateAboutYou({
         playerId: user.id,
         input: {
@@ -58,22 +75,12 @@ export const SetupPlayerType: React.FC<SetupPlayerTypeProps> = ({
           isClosable: true,
         });
         setLoading(false);
-        return;
       }
     }
-
-    onNextPress();
   };
 
   return (
     <FlexContainer>
-      <MetaHeading mb={5} textAlign="center">
-        Player Type
-      </MetaHeading>
-      <Text mb={10}>
-        Please read the features of each player type below. And select the one
-        that suits you best.
-      </Text>
       <SimpleGrid columns={[1, null, 3, 3]} spacing={4}>
         {playerTypeChoices.map((p) => (
           <FlexContainer
@@ -106,15 +113,33 @@ export const SetupPlayerType: React.FC<SetupPlayerTypeProps> = ({
         ))}
       </SimpleGrid>
 
-      <MetaButton
-        onClick={handleNextPress}
-        mt={10}
-        isDisabled={!playerType}
-        isLoading={updateAboutYouRes.fetching || loading}
-        loadingText="Saving"
-      >
-        {nextButtonLabel}
-      </MetaButton>
+      {isEdit && (
+        <ModalFooter mt={6}>
+          <Button colorScheme="blue" mr={3} onClick={save}>
+            Save Changes
+          </Button>
+          <Button
+            variant="ghost"
+            onClick={onClose}
+            color="white"
+            _hover={{ bg: 'none' }}
+          >
+            Close
+          </Button>
+        </ModalFooter>
+      )}
+
+      {!isEdit && (
+        <MetaButton
+          onClick={handleNextPress}
+          mt={10}
+          isDisabled={!playerType}
+          isLoading={updateAboutYouRes.fetching || loading}
+          loadingText="Saving"
+        >
+          {nextButtonLabel}
+        </MetaButton>
+      )}
     </FlexContainer>
   );
 };
