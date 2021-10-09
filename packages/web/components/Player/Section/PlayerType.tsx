@@ -22,7 +22,12 @@ export const PlayerType: React.FC<Props> = ({
   >
     {player.type?.title && (
       <FlexContainer align="stretch" fontSize={{ base: 'sm', sm: 'md' }}>
-        <Text color="white" fontWeight="bold" casing="uppercase">
+        <Text
+          color="white"
+          // fontWeight="600" 600 === 700 :{ and 700 is too much
+          casing="uppercase"
+          fontSize={{ base: 'sm', sm: 'md' }}
+        >
           {player.type.title}
         </Text>
         <Text color="blueLight">{player.type.description}</Text>

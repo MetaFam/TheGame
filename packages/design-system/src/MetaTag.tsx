@@ -4,7 +4,7 @@ import React from 'react';
 export const MetaTag: React.FC<TagProps> = React.forwardRef<HTMLSpanElement>(
   ({ children, ...props }, ref) => (
     <Tag
-      fontFamily="body"
+      fontFamily="exo2"
       fontSize="sm"
       fontWeight="bold"
       backgroundColor="purpleTag"
