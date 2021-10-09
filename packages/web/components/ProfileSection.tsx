@@ -85,7 +85,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
       >
         {children}
       </Box>
-      {canEdit && boxType && (
+      {boxType && (
         <Modal isOpen={isOpen} onClose={onClose}>
           <ModalOverlay />
           <ModalContent
