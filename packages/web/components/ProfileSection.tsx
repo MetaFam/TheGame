@@ -14,6 +14,7 @@ import {
   Text,
   useDisclosure,
 } from '@metafam/ds';
+import BackgroundImage from 'assets/main-background.jpg';
 import React from 'react';
 import { FaTimes } from 'react-icons/fa';
 
@@ -40,7 +41,13 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
       {title ? (
         <Box bg="purpleProfileSection" borderTopRadius="lg" pt={5} pb={5}>
           <HStack height={5} pr={4} pl={8}>
-            <Text fontSize="md" color="blueLight" as="div" mr="auto">
+            <Text
+              fontSize="md"
+              color="blueLight"
+              as="div"
+              mr="auto"
+              fontWeight={600}
+            >
               {title.toUpperCase()}
             </Text>
             {displayEditButton ? (
@@ -48,7 +55,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
                 aria-label="Edit Profile Info"
                 size="lg"
                 background="transparent"
-                color="#A426A4"
+                color="pinkShadeOne"
                 icon={<EditIcon />}
                 _hover={{ color: 'white' }}
                 onClick={onOpen}
@@ -78,16 +85,30 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
       </Box>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Modal Title</ModalHeader>
-          <ModalCloseButton />
+        <ModalContent backgroundImage={`url(${BackgroundImage})`} p={6}>
+          <ModalHeader
+            color="white"
+            fontSize="4xl"
+            alignSelf="center"
+            fontWeight="normal"
+          >
+            {title}
+          </ModalHeader>
+          <ModalCloseButton color="pinkShadeOne" size="xl" m={4} />
           <ModalBody>LOL</ModalBody>
 
-          <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={onClose}>
+          <ModalFooter justifyContent="center">
+            <Button colorScheme="blue" mr={3}>
+              Save Changes
+            </Button>
+            <Button
+              variant="ghost"
+              onClick={onClose}
+              color="white"
+              _hover={{ bg: 'none' }}
+            >
               Close
             </Button>
-            <Button variant="ghost">Secondary Action</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>

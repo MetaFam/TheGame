@@ -25,6 +25,7 @@ export type MetaColors = ChakraTheme['colors'] & {
   purpleProfileSection: string;
   brightIdOrange: ColorHues;
   borderPurple: string;
+  pinkShadeOne: string;
 };
 
 export const colors: MetaColors = {
@@ -39,6 +40,8 @@ export const colors: MetaColors = {
   blueProfileSection: 'rgba(42, 31, 71, 0.9)',
   purple80: 'rgba(70, 20, 100, 0.8)',
   purpleProfileSection: 'rgba(27, 13, 42, 0.9)',
+  borderPurple: '#5946BC',
+  pinkShadeOne: '#A426A4',
   dark: '#1B0D2A',
   purpleBoxDark: '#261943',
   purpleBoxLight: '#392373',
@@ -49,7 +52,6 @@ export const colors: MetaColors = {
   cyanText: '#79F8FB',
   discord: '#7289da',
   discordDark: '#5d6eb3',
-  borderPurple: '#5946BC',
   cyan: {
     50: '#dbffff',
     100: '#b1fcfe',

@@ -174,9 +174,9 @@ const PlayerPage: React.FC<Props> = ({ player }) => {
               variant="outline"
               aria-label="Edit Profile Info"
               size="lg"
-              borderColor="#A426A4"
+              borderColor="pinkShadeOne"
               background="rgba(17, 17, 17, 0.9)"
-              color="#A426A4"
+              color="pinkShadeOne"
               _hover={{ color: 'white', borderColor: 'white' }}
               icon={<EditIcon />}
               isRound
