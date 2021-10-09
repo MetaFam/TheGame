@@ -21,8 +21,8 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
   <Box minW="72">
     {title ? (
       <Box bg="purpleProfileSection" borderTopRadius="lg" pt={5} pb={5}>
-        <HStack height={5}>
-          <Text fontSize="md" color="blueLight" as="div" mr="auto" pl={4}>
+        <HStack height={5} pr={4} pl={8}>
+          <Text fontSize="md" color="blueLight" as="div" mr="auto">
             {title.toUpperCase()}
           </Text>
           {displayEditButton ? (
@@ -34,7 +34,6 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
               icon={<EditIcon />}
               _hover={{ color: 'white' }}
               isRound
-              mr={5}
             />
           ) : null}
           {canEdit ? (
