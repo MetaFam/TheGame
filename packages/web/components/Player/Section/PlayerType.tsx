@@ -1,8 +1,7 @@
 import { Text } from '@metafam/ds';
 import { SetupPlayerType } from 'components/Setup/SetupPlayerType';
 import { Player_Type, PlayerFragmentFragment } from 'graphql/autogen/types';
-import { getPlayerTypes } from 'graphql/getPlayerTypes';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import { FlexContainer } from '../../Container';
 import { ProfileSection } from '../../ProfileSection';
@@ -19,16 +18,6 @@ export const PlayerType: React.FC<Props> = ({
   onRemoveClick,
 }) => {
   const [playerType, setPlayerType] = useState<Player_Type>();
-  const [playerTypeChoices, setPlayerTypeChoices] = useState<Player_Type[]>([]);
-
-  useEffect(() => {
-    async function fetchMyAPI() {
-      const response = await getPlayerTypes();
-      setPlayerTypeChoices(response);
-    }
-
-    fetchMyAPI();
-  }, [playerTypeChoices]);
 
   if (player.type && !playerType) {
     setPlayerType(player.type);
@@ -41,7 +30,6 @@ export const PlayerType: React.FC<Props> = ({
       displayEditButton={displayEditButton}
       EditModal={
         <SetupPlayerType
-          playerTypeChoices={playerTypeChoices}
           playerType={playerType}
           setPlayerType={setPlayerType}
         />
