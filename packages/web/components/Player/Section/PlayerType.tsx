@@ -22,8 +22,7 @@ export const PlayerType: React.FC<Props> = ({
   const [playerType, setPlayerType] = useState<Player_Type | null>();
   const [animation, setAnimation] = useState<string>('fadeIn');
 
-  // there has to be a prettier way to write this
-  const type = isOwnProfile && user?.player ? user?.player.type : player.type;
+  const type = player?.type;
 
   useEffect(() => {
     setAnimation('fadeOut');
@@ -31,7 +30,7 @@ export const PlayerType: React.FC<Props> = ({
       setPlayerType(type);
       setAnimation('fadeIn');
     }, 400);
-  }, [type]);
+  }, [user, type]);
 
   return (
     <ProfileSection
