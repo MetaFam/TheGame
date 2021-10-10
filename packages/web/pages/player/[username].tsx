@@ -137,7 +137,6 @@ const PlayerPage: React.FC<Props> = ({ player }) => {
         return (
           <PlayerRoles
             player={player}
-            isOwnProfile={isOwnProfile}
             onRemoveClick={() => removeBox(column, name)}
           />
         );

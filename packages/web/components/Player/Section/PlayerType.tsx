@@ -1,7 +1,7 @@
 import { Text } from '@metafam/ds';
 import { Player_Type, PlayerFragmentFragment } from 'graphql/autogen/types';
 import { useUser } from 'lib/hooks';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BOX_TYPE } from 'utils/boxTypes';
 
 import { FlexContainer } from '../../Container';
