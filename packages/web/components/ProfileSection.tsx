@@ -102,7 +102,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
               {title}
             </ModalHeader>
             <ModalCloseButton color="pinkShadeOne" size="xl" m={4} />
-            <ModalBody>{getBox(boxType, onClose)}</ModalBody>
+            <ModalBody>{getEditSectionBox(boxType, onClose)}</ModalBody>
           </ModalContent>
         </Modal>
       )}
@@ -110,7 +110,10 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
   );
 };
 
-const getBox = (boxType: string, onClose: () => void): React.ReactNode => {
+const getEditSectionBox = (
+  boxType: string,
+  onClose: () => void,
+): React.ReactNode => {
   switch (boxType) {
     case BOX_TYPE.PLAYER_TYPE:
       return <SetupPlayerType isEdit onClose={onClose} />;
