@@ -1,6 +1,7 @@
 import {
   Button,
   MetaButton,
+  MetaHeading,
   ModalFooter,
   SimpleGrid,
   Text,
@@ -28,6 +29,7 @@ export const SetupPlayerType: React.FC<Props> = ({ isEdit, onClose }) => {
 
   const [playerType, setPlayerType] = useState<Player_Type>();
   const { user } = useUser({ redirectTo: '/' });
+  const isWizard = !isEdit;
 
   if (user?.player) {
     const { player } = user;
@@ -80,6 +82,15 @@ export const SetupPlayerType: React.FC<Props> = ({ isEdit, onClose }) => {
 
   return (
     <FlexContainer>
+      {isWizard && (
+        <MetaHeading mb={5} textAlign="center">
+          Player Type
+        </MetaHeading>
+      )}
+      <Text mb={10} color={isWizard ? 'current' : 'white'}>
+        Please read the features of each player type below. And select the one
+        that suits you best.
+      </Text>
       <SimpleGrid columns={[1, null, 3, 3]} spacing={4}>
         {playerTypeChoices.map((p) => (
           <FlexContainer
@@ -128,7 +139,7 @@ export const SetupPlayerType: React.FC<Props> = ({ isEdit, onClose }) => {
         </ModalFooter>
       )}
 
-      {!isEdit && (
+      {isWizard && (
         <MetaButton
           onClick={handleNextPress}
           mt={10}
