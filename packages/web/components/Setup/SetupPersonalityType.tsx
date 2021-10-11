@@ -57,10 +57,7 @@ export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
 
   useEffect(() => {
     async function fetchMyAPI() {
-      const {
-        types,
-        // parts: personalityParts,
-      } = await getPersonalityInfo();
+      const { types } = await getPersonalityInfo();
       setPersonalityTypes(types);
     }
 
