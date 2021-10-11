@@ -104,7 +104,14 @@ const Logo = () => (
     ml="16px"
     textAlign={{ base: 'center', lg: 'left' }}
   >
-    <Image src="/assets/logo.png" height={44} width={36} />
+    <MetaLink
+      href="/players"
+      _focus={{ outline: 'none', bg: 'transparent' }}
+      _hover={{ bg: 'transparent' }}
+      _active={{ bg: 'transparent' }}
+    >
+      <Image src="/assets/logo.png" height={44} width={36} />
+    </MetaLink>
   </Box>
 );
 
