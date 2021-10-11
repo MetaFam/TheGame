@@ -13,6 +13,7 @@ import {
   useDisclosure,
 } from '@metafam/ds';
 import BackgroundImage from 'assets/main-background.jpg';
+import { SetupPersonalityType } from 'components/Setup/SetupPersonalityType';
 import { SetupPlayerType } from 'components/Setup/SetupPlayerType';
 import React from 'react';
 import { FaTimes } from 'react-icons/fa';
@@ -117,6 +118,8 @@ const getEditSectionBox = (
   switch (boxType) {
     case BOX_TYPE.PLAYER_TYPE:
       return <SetupPlayerType isEdit onClose={onClose} />;
+    case BOX_TYPE.PLAYER_COLOR_DISPOSITION:
+      return <SetupPersonalityType isEdit onClose={onClose} />;
     default:
       return <SetupPlayerType isEdit onClose={onClose} />;
   }
