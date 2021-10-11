@@ -15,6 +15,7 @@ import {
 import BackgroundImage from 'assets/main-background.jpg';
 import { SetupPersonalityType } from 'components/Setup/SetupPersonalityType';
 import { SetupPlayerType } from 'components/Setup/SetupPlayerType';
+import { SetupSkills } from 'components/Setup/SetupSkills';
 import React from 'react';
 import { FaTimes } from 'react-icons/fa';
 import { BOX_TYPE } from 'utils/boxTypes';
@@ -120,6 +121,8 @@ const getEditSectionBox = (
       return <SetupPlayerType isEdit onClose={onClose} />;
     case BOX_TYPE.PLAYER_COLOR_DISPOSITION:
       return <SetupPersonalityType isEdit onClose={onClose} />;
+    case BOX_TYPE.PLAYER_SKILLS:
+      return <SetupSkills isEdit onClose={onClose} />;
     default:
       return <SetupPlayerType isEdit onClose={onClose} />;
   }

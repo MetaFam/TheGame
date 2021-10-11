@@ -1,7 +1,11 @@
 import { MetaTag, Wrap, WrapItem } from '@metafam/ds';
-import { PlayerFragmentFragment } from 'graphql/autogen/types';
+import {
+  PlayerFragmentFragment,
+  SkillCategory_Enum,
+} from 'graphql/autogen/types';
 import { SkillColors } from 'graphql/types';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { BOX_TYPE } from 'utils/boxTypes';
 
 import { ProfileSection } from '../../ProfileSection';
 
@@ -15,24 +19,49 @@ export const PlayerSkills: React.FC<Props> = ({
   isOwnProfile,
   onRemoveClick,
 }) => {
+  const [playerSkills, setPlayerSkills] = useState<
+    { id: number; name: string; category: SkillCategory_Enum }[]
+  >([]);
+  const [animation, setAnimation] = useState<string>('fadeIn');
+
+  useEffect(() => {
+    if (player && player.skills) {
+      setAnimation('fadeOut');
+      setTimeout(() => {
+        if (player.skills) {
+          setPlayerSkills(
+            player.skills.map((s) => ({
+              id: s.Skill.id,
+              name: s.Skill.name,
+              category: s.Skill.category,
+            })),
+          );
+        }
+        setAnimation('fadeIn');
+      }, 400);
+    }
+  }, [player]);
+
   if (!player.skills?.length) {
     return null;
   }
+
   return (
     <ProfileSection
       title="Skills"
       onRemoveClick={onRemoveClick}
       isOwnProfile={isOwnProfile}
+      boxType={BOX_TYPE.PLAYER_SKILLS}
     >
-      <Wrap>
-        {(player.skills || []).map(({ Skill }) => (
-          <WrapItem key={Skill.id}>
+      <Wrap transition=" opacity 0.4s" opacity={animation === 'fadeIn' ? 1 : 0}>
+        {(playerSkills || []).map(({ id, name, category }) => (
+          <WrapItem key={id}>
             <MetaTag
               size="md"
               fontWeight="normal"
-              backgroundColor={SkillColors[Skill.category]}
+              backgroundColor={SkillColors[category]}
             >
-              {Skill.name}
+              {name}
             </MetaTag>
           </WrapItem>
         ))}

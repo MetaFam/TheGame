@@ -19,7 +19,7 @@ export const PlayerColorDisposition: React.FC<Props> = ({
   isOwnProfile,
   onRemoveClick,
 }) => {
-  const [types, setTypes] = React.useState<{
+  const [types, setTypes] = useState<{
     [any: string]: PersonalityOption;
   }>();
   const [colorDisposition, setColorDisposition] = useState<
