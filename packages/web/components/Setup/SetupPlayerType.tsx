@@ -48,8 +48,6 @@ export const SetupPlayerType: React.FC<Props> = ({ isEdit, onClose }) => {
   }, [playerTypeChoices]);
 
   const handleNextPress = async () => {
-    if (!user) return;
-
     setLoading(true);
 
     save();
