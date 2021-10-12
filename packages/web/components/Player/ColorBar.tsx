@@ -91,7 +91,9 @@ export const ColorBar = ({
         )}
       </Flex>
       <FlexContainer mb={2}>
-        <Box as="span">{types?.[mask]?.name}</Box>
+        <Box as="span" color="white">
+          {types?.[mask]?.name}
+        </Box>
       </FlexContainer>
     </Flex>
   );
