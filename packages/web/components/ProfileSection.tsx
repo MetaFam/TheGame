@@ -63,6 +63,14 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
                 icon={<EditIcon />}
                 _hover={{ color: 'white' }}
                 onClick={onOpen}
+                _focus={{
+                  boxShadow: 'none',
+                  backgroundColor: 'transparent',
+                }}
+                _active={{
+                  transform: 'scale(0.8)',
+                  backgroundColor: 'transparent',
+                }}
                 isRound
               />
             ) : null}
@@ -103,7 +111,14 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
             >
               {title}
             </ModalHeader>
-            <ModalCloseButton color="pinkShadeOne" size="xl" m={4} />
+            <ModalCloseButton
+              color="pinkShadeOne"
+              size="xl"
+              p={4}
+              _focus={{
+                boxShadow: 'none',
+              }}
+            />
             <ModalBody>{getEditSectionBox(boxType, onClose)}</ModalBody>
           </ModalContent>
         </Modal>

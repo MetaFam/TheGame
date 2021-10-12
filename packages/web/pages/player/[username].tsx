@@ -174,6 +174,13 @@ const PlayerPage: React.FC<Props> = ({ player }) => {
               isRound
               zIndex="docked"
               m={5}
+              _focus={{
+                boxShadow: 'none',
+              }}
+              _active={{
+                transform: 'scale(0.8)',
+                backgroundColor: 'transparent',
+              }}
             />
           </Flex>
         )}

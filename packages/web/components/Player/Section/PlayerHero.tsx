@@ -40,6 +40,9 @@ export const PlayerHero: React.FC<Props> = ({ player, isOwnProfile }) => {
       {isOwnProfile && (
         <Box pos="absolute" right={5} top={5}>
           <IconButton
+            _focus={{
+              boxShadow: 'none',
+            }}
             variant="outline"
             aria-label="Edit Profile Info"
             size="lg"
@@ -49,6 +52,10 @@ export const PlayerHero: React.FC<Props> = ({ player, isOwnProfile }) => {
             _hover={{ color: 'white', borderColor: 'white' }}
             icon={<EditIcon />}
             isRound
+            _active={{
+              transform: 'scale(0.8)',
+              backgroundColor: 'transparent',
+            }}
           />
         </Box>
       )}
