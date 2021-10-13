@@ -1,12 +1,12 @@
 import { PageContainer } from 'components/Container';
-import { TemporaryProfileEditor } from 'components/TemporaryProfileEditor';
+import { EditProfileForm } from 'components/EditProfileForm';
 import React from 'react';
 
 import { useUser, useWeb3 } from '../../lib/hooks';
 
 const EditProfile: React.FC = () => {
   const { address } = useWeb3();
-  const { user } = useUser({ redirectTo: '/' });
+  const { user } = useUser();
 
   if (user === null || user === undefined || address === null)
     return (
@@ -17,7 +17,7 @@ const EditProfile: React.FC = () => {
 
   return (
     <PageContainer>
-      <TemporaryProfileEditor user={user} address={address} />
+      <EditProfileForm user={user} address={address} />
     </PageContainer>
   );
 };

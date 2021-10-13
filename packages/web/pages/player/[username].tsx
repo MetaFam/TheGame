@@ -53,10 +53,10 @@ const PlayerPage: React.FC<Props> = ({ player }) => {
   ]);
 
   useEffect(() => {
-    if (connected && !fetching && user?.id === player.id) {
+    if (connected && !fetching && user?.id === player?.id) {
       setIsOwnProfile(true);
     }
-  }, [user, fetching, connected, player.id]);
+  }, [user, fetching, connected, player?.id]);
 
   const [isOwnProfile, setIsOwnProfile] = useState(false);
 
