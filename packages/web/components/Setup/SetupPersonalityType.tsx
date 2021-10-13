@@ -219,9 +219,16 @@ export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
 
       <ColorBar mask={colorMask} mt={8} w="min(100vw, 30rem)" />
 
-      {isEdit && (
+      {isEdit && onClose && (
         <ModalFooter mt={6}>
-          <Button colorScheme="blue" mr={3} onClick={save}>
+          <Button
+            colorScheme="blue"
+            mr={3}
+            onClick={() => {
+              save();
+              onClose();
+            }}
+          >
             Save Changes
           </Button>
           <Button
