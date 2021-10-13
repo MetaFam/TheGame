@@ -13,8 +13,7 @@ import {
 import React, { FC } from 'react';
 
 import BackgroundImage from '../assets/login-background.jpg';
-import { SkillCategory_Enum } from '../graphql/autogen/types';
-import { MeType, SkillColors } from '../graphql/types';
+import { MeType } from '../graphql/types';
 import { TimeZoneOption } from '../utils/skillHelpers';
 
 const DropdownStyles: typeof selectStyles = {
@@ -147,7 +146,7 @@ export const CountrySelectDropdown: FC<CountrySelectDropdownProps> = ({
         value={[country]}
         options={COUNTRIES_OPTIONS}
         onChange={(value) => {
-          onChange(value);
+          if (value) onChange(value as CountryOption);
         }}
       />
     </Box>
@@ -188,7 +187,7 @@ export const TimezoneSelectDropdown: FC<TimezoneSelectDropdownProps> = ({
         value={[timezone]}
         options={TIMEZONES_OPTIONS}
         onChange={(value) => {
-          onChange(value);
+          if (value) onChange(value as TimezoneOption);
         }}
       />
     </Box>
