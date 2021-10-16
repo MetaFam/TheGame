@@ -4,7 +4,7 @@ import {
   SkillCategory_Enum,
 } from 'graphql/autogen/types';
 import { SkillColors } from 'graphql/types';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { BOX_TYPE } from 'utils/boxTypes';
 
 import { ProfileSection } from '../../ProfileSection';
@@ -24,8 +24,17 @@ export const PlayerSkills: React.FC<Props> = ({
   >([]);
   const [animation, setAnimation] = useState<string>('fadeIn');
 
+  const usePrevious = <T extends unknown>(value: T): T | undefined => {
+    const ref = useRef<T>();
+    useEffect(() => {
+      ref.current = value;
+    });
+    return ref.current;
+  };
+  const previousSkills = usePrevious(playerSkills);
+
   useEffect(() => {
-    if (player && player.skills) {
+    if (JSON.stringify(playerSkills) !== JSON.stringify(previousSkills)) {
       setAnimation('fadeOut');
       setTimeout(() => {
         if (player.skills) {
@@ -40,7 +49,7 @@ export const PlayerSkills: React.FC<Props> = ({
         setAnimation('fadeIn');
       }, 400);
     }
-  }, [player]);
+  }, [player, previousSkills, playerSkills]);
 
   if (!player.skills?.length) {
     return null;
