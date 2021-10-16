@@ -28,7 +28,7 @@ const PlayerRolesSetup: React.FC<Props> = (props) => {
   const playerRoles = user?.player?.roles;
 
   useEffect(() => {
-    if (playerRoles && playerRoles.length > 0) {
+    if (playerRoles != null) {
       setRoles(playerRoles.map((r) => r.role));
       setLoadingRoles(false);
     }
