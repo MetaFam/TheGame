@@ -16,7 +16,10 @@ import {
   Text,
   useToast,
 } from '@metafam/ds';
-import { useUpdateProfileMutation } from 'graphql/autogen/types';
+import {
+  useUpdatePlayerUsernameMutation,
+  useUpdateProfileMutation,
+} from 'graphql/autogen/types';
 import React, { FC, useEffect, useState } from 'react';
 
 import { MeType } from '../graphql/types';
@@ -79,6 +82,7 @@ export type ProfileFieldProps = {
   title: string;
   placeholder?: string;
   value?: string;
+  onChange?: (a: any) => void;
 };
 
 interface InputData {
@@ -91,10 +95,11 @@ export const ProfileField: React.FC<ProfileFieldProps> = ({
   placeholder,
   value,
   children,
+  onChange,
 }) => {
-  const [innerValue, setInnerValue] = React.useState(value);
+  const [innerValue, setInnerValue] = useState(value);
 
-  React.useEffect(() => {
+  useEffect(() => {
     setInnerValue(value);
   }, [value]);
 
@@ -110,7 +115,7 @@ export const ProfileField: React.FC<ProfileFieldProps> = ({
             placeholder={placeholder}
             color="white"
             value={innerValue}
-            onChange={(e) => setInnerValue(e.target.value || '')}
+            onChange={onChange}
             w="100%"
             my={4}
           />
@@ -189,10 +194,13 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
 }) => {
   const [timeZone, setTimeZone] = useState<string>('');
   const [availability, setAvailability] = useState<string>('');
+  const [username, setUsername] = useState<string>('');
+
   const [invalid, setInvalid] = useState(false);
   const [updateProfileRes, updateProfile] = useUpdateProfileMutation();
   const toast = useToast();
   const [loading, setLoading] = useState(false);
+  const [, updateUsername] = useUpdatePlayerUsernameMutation();
 
   if (user?.player) {
     const { player } = user;
@@ -201,6 +209,9 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
     }
     if (player.availability_hours && !availability) {
       setAvailability(player.availability_hours.toString());
+    }
+    if (player.username && !username) {
+      setUsername(player.username);
     }
   }
 
@@ -225,20 +236,45 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
       input.timezone = timeZone;
     }
 
-    const { error } = await updateProfile({
+    const profile = await updateProfile({
       playerId: user.id,
       input,
     });
 
-    if (error) {
+    if (profile.error) {
       toast({
         title: 'Error',
-        description: 'Unable to update availability. The octo is sad 😢',
+        description: 'Unable to update profile. The octo is sad 😢',
         status: 'error',
         isClosable: true,
       });
       setLoading(false);
-      return;
+    }
+
+    if (user.player?.username !== username) {
+      const usernameResponse = await updateUsername({
+        playerId: user.id,
+        username,
+      });
+
+      if (usernameResponse.error) {
+        let errorDetail = 'The octo is sad 😢';
+        if (usernameResponse.error.message.includes('Uniqueness violation')) {
+          errorDetail = 'This username is already taken 😢';
+        } else if (
+          usernameResponse.error.message.includes('username_is_valid')
+        ) {
+          errorDetail =
+            'A username can only contain lowercase letters, numbers, and dashes.';
+        }
+        toast({
+          title: 'Error',
+          description: `Unable to update Player Username. ${errorDetail}`,
+          status: 'error',
+          isClosable: true,
+        });
+        setLoading(false);
+      }
     }
 
     onClose();
@@ -250,7 +286,8 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
         <GridItem>
           <ProfileField
             title="username"
-            value={user?.username || user?.ethereum_address || ''}
+            value={username || user?.ethereum_address || ''}
+            onChange={(e) => setUsername(e.target.value || '')}
           />
         </GridItem>
 

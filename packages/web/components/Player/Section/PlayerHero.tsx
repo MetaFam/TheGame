@@ -23,7 +23,7 @@ import { useUser } from 'lib/hooks';
 import React, { useEffect, useState } from 'react';
 import { FaClock, FaGlobe } from 'react-icons/fa';
 import { getPlayerTimeZoneDisplay } from 'utils/dateHelpers';
-import { getPlayerDescription, getPlayerName } from 'utils/playerHelpers';
+import { getPlayerDescription } from 'utils/playerHelpers';
 
 import { ProfileSection } from '../../ProfileSection';
 import { PlayerContacts } from '../PlayerContacts';
@@ -44,6 +44,7 @@ export const PlayerHero: React.FC<Props> = ({ player, isOwnProfile }) => {
   const [timeZone, setTimeZone] = useState<string>('');
   const [offset, setOffset] = useState<string>('');
   const [availabilityHours, setAvailabilityHours] = useState<number>(0);
+  const [playerName, setPlayerName] = useState<string>('');
 
   const { user } = useUser();
 
@@ -57,6 +58,9 @@ export const PlayerHero: React.FC<Props> = ({ player, isOwnProfile }) => {
 
       const hours = person.availability_hours;
       if (hours) setAvailabilityHours(hours);
+
+      const { username } = person;
+      if (username) setPlayerName(username);
     }
   }, [user, player, isOwnProfile]);
 
@@ -95,7 +99,7 @@ export const PlayerHero: React.FC<Props> = ({ player, isOwnProfile }) => {
       <VStack spacing={6}>
         <Box textAlign="center">
           <Text fontSize="xl" fontFamily="heading" mb={1}>
-            {getPlayerName(player)}
+            {playerName}
           </Text>
           <PlayerBrightId {...{ player }} />
         </Box>
