@@ -20,7 +20,7 @@ import { EditProfileForm } from 'components/EditProfileForm';
 import { PlayerAvatar } from 'components/Player/PlayerAvatar';
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
 import { useUser } from 'lib/hooks';
-import React, { useMemo } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaClock, FaGlobe } from 'react-icons/fa';
 import { getPlayerTimeZoneDisplay } from 'utils/dateHelpers';
 import { getPlayerDescription, getPlayerName } from 'utils/playerHelpers';
@@ -33,19 +33,32 @@ import { PlayerHeroTile } from './PlayerHeroTile';
 const MAX_BIO_LENGTH = 240;
 
 type Props = { player: PlayerFragmentFragment; isOwnProfile: boolean };
-type AvailabilityProps = { player: PlayerFragmentFragment };
+type AvailabilityProps = { availabilityHours?: number };
 type TimeZoneDisplayProps = { timeZone?: string; offset?: string };
 
 export const PlayerHero: React.FC<Props> = ({ player, isOwnProfile }) => {
   const description = getPlayerDescription(player);
-  const [show, setShow] = React.useState(description.length <= MAX_BIO_LENGTH);
+  const [show, setShow] = useState(description.length <= MAX_BIO_LENGTH);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const { timeZone, offset } = useMemo(
-    () => getPlayerTimeZoneDisplay(player.timezone),
-    [player.timezone],
-  );
+  const [timeZone, setTimeZone] = useState<string>('');
+  const [offset, setOffset] = useState<string>('');
+  const [availabilityHours, setAvailabilityHours] = useState<number>(0);
+
   const { user } = useUser();
+
+  useEffect(() => {
+    const person = isOwnProfile ? user?.player : player;
+
+    if (person) {
+      const timeDisplay = getPlayerTimeZoneDisplay(person.timezone);
+      if (timeDisplay.timeZone) setTimeZone(timeDisplay.timeZone);
+      if (timeDisplay.offset) setOffset(timeDisplay.offset);
+
+      const hours = person.availability_hours;
+      if (hours) setAvailabilityHours(hours);
+    }
+  }, [user, player, isOwnProfile]);
 
   return (
     <ProfileSection>
@@ -87,23 +100,25 @@ export const PlayerHero: React.FC<Props> = ({ player, isOwnProfile }) => {
           <PlayerBrightId {...{ player }} />
         </Box>
         <Box>
-          <Text fontSize={{ base: 'sm', sm: 'md' }}>
-            {show
-              ? description
-              : `${description.substring(0, MAX_BIO_LENGTH - 9)}…`}
-            {description.length > MAX_BIO_LENGTH && (
-              <Text
-                as="span"
-                fontSize="xs"
-                color="cyanText"
-                cursor="pointer"
-                onClick={() => setShow((s) => !s)}
-                pl={1}
-              >
-                Read {show ? 'less' : 'more'}
-              </Text>
-            )}
-          </Text>
+          <PlayerHeroTile title="Bio">
+            <Text fontSize={{ base: 'sm', sm: 'md' }}>
+              {show
+                ? description
+                : `${description.substring(0, MAX_BIO_LENGTH - 9)}…`}
+              {description.length > MAX_BIO_LENGTH && (
+                <Text
+                  as="span"
+                  fontSize="xs"
+                  color="cyanText"
+                  cursor="pointer"
+                  onClick={() => setShow((s) => !s)}
+                  pl={1}
+                >
+                  Read {show ? 'less' : 'more'}
+                </Text>
+              )}
+            </Text>
+          </PlayerHeroTile>
         </Box>
 
         <HStack mt={2}>
@@ -118,19 +133,13 @@ export const PlayerHero: React.FC<Props> = ({ player, isOwnProfile }) => {
             <Text>He</Text>
           </PlayerHeroTile>
         </SimpleGrid> */}
-
-        {player?.profile_cache?.description && (
-          <PlayerHeroTile title="Bio">
-            <Text fontSize="md">{player?.profile_cache?.description}</Text>
-          </PlayerHeroTile>
-        )}
         {/* <PlayerHeroTile title="Website">
           <Text>www.mycoolportfolio.com</Text>
         </PlayerHeroTile> */}
 
         <SimpleGrid columns={2} gap={6} width="full">
           <PlayerHeroTile title="Availability">
-            <Availability player={player} />
+            <Availability availabilityHours={availabilityHours} />
           </PlayerHeroTile>
           <PlayerHeroTile title="Timezone">
             <TimeZoneDisplay timeZone={timeZone} offset={offset} />
@@ -196,15 +205,13 @@ export const PlayerHero: React.FC<Props> = ({ player, isOwnProfile }) => {
   );
 };
 
-const Availability: React.FC<AvailabilityProps> = ({
-  player: { availability_hours },
-}) => (
+const Availability: React.FC<AvailabilityProps> = ({ availabilityHours }) => (
   <Flex alignItems="center">
     <Box pr={2}>
       <FaClock color="blueLight" />
     </Box>
     <Text fontSize={{ base: 'md', sm: 'lg' }} pr={2}>
-      {`${availability_hours || '0'} h/week`}
+      {`${availabilityHours || '0'} h/week`}
     </Text>
   </Flex>
 );
