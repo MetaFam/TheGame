@@ -82,7 +82,7 @@ export type ProfileFieldProps = {
   title: string;
   placeholder?: string;
   value?: string;
-  onChange?: (a: any) => void;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
 interface InputData {
