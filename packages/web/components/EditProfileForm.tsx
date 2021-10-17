@@ -279,7 +279,7 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
         </Flex>
       </ProfileField> */}
       {onClose && (
-        <ModalFooter mt={6}>
+        <ModalFooter mt={6} justifyContent="center">
           <Button
             colorScheme="blue"
             mr={3}
