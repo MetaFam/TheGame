@@ -134,21 +134,34 @@
 
 .signpost {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     flex-flow: row wrap;
     list-style: none;
     padding-left: 0;
 
+    @media (min-width: 1280px) {
+        justify-content: center;
+        flex-flow: row wrap;
+
+    }
+
     .signpostItem {
         position: relative;
-        flex: 0 0 140px;
-        min-width: 140px;
-        max-width: 140px;
+        flex: 0 0 45%;
+        min-width: 45%;
+        max-width: 45%;
         text-align: center;
-        margin: 0 10px 20px;
+        margin: 0 0 20px;
         min-height: 140px;
         max-height: 140px;
         box-sizing: border-box;
+
+        @media (min-width: 1280px) {
+            flex: 0 0 140px;
+            min-width: 140px;
+            max-width: 140px;
+            margin: 0 10px 20px;
+        }
 
         &:nth-of-type(3n) {
             // padding-right: 0;
@@ -220,8 +233,13 @@
                 transition: all 0.3s 0.1s ease-in-out;
                 z-index: 1;
             }
-        }
 
+        }
+        &:first-of-type {
+            @media (max-width: 1280px) {
+                display: none;
+            }
+        }
         span {
             display: block;
 

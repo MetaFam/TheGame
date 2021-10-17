@@ -7,7 +7,7 @@ import styles from './signpost.module.scss';
 
 export const directions = [
   {
-    emoji: "📚",
+    emoji: "👈",
     label: "Library",
     url: "#here",
     description: "Explore the Wiki",
@@ -96,19 +96,22 @@ export function SignpostItem(props, key) {
     setMenuActive(!menuActive);
   };
   useEffect(() => {
-    const sidebar = document.querySelector('[class^="sidebar"]');
+    if (typeof window !== 'undefined') {
+      const display = window.innerWidth;
+        if (display >= 1280) {
+          const sidebar = document.querySelector('[class^="sidebar"]');
 
-    const menu = document.querySelector('[class^="sidebar"] .menu');
-    const display = window.innerWidth;
+          const menu = document.querySelector('[class^="sidebar"] .menu');
+          if (sidebar !== 'undefined' && sidebar !== null) {
+            menuActive
+            ? sidebar?.classList.add('highlight')
+            : sidebar?.classList.remove('highlight');
+          // menuActive
+          //   ? menu?.classList.add('menu--show')
+          //   : menu?.classList.remove('menu--show');
+        }
 
-    menuActive
-      ? sidebar.classList.add('highlight')
-      : sidebar.classList.remove('highlight');
-
-    if (display <= 800) {
-      menuActive
-        ? menu.classList.add('menu--show')
-        : menu.classList.remove('menu--show');
+      }
     }
     setTimeout(() => {
       menuActive && toggleMenu();
@@ -143,7 +146,7 @@ export function Signpost() {
       <img
         alt="MetaGame Wiki Logo"
         width="300"
-        src="https://cdn.substack.com/image/fetch/w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2Fe93a37b7-2a48-421c-80b7-3079eca8beb7_2048x881.png"
+        src="https://cdn.substack.com/image/fetch/w_300,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2Fe93a37b7-2a48-421c-80b7-3079eca8beb7_2048x881.png"
       />
       <div className={styles.metaFest}>
         <a href="/docs/metafest">

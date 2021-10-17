@@ -24,7 +24,6 @@ module.exports = {
       },
     },
   },
-  scripts: ["./static/scripts/confetti.js"],
   presets: [
     [
       "@docusaurus/preset-classic",
