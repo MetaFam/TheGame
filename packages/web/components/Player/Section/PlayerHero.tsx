@@ -100,25 +100,27 @@ export const PlayerHero: React.FC<Props> = ({ player, isOwnProfile }) => {
           <PlayerBrightId {...{ player }} />
         </Box>
         <Box>
-          <PlayerHeroTile title="Bio">
-            <Text fontSize={{ base: 'sm', sm: 'md' }}>
-              {show
-                ? description
-                : `${description.substring(0, MAX_BIO_LENGTH - 9)}…`}
-              {description.length > MAX_BIO_LENGTH && (
-                <Text
-                  as="span"
-                  fontSize="xs"
-                  color="cyanText"
-                  cursor="pointer"
-                  onClick={() => setShow((s) => !s)}
-                  pl={1}
-                >
-                  Read {show ? 'less' : 'more'}
-                </Text>
-              )}
-            </Text>
-          </PlayerHeroTile>
+          {description && (
+            <PlayerHeroTile title="Bio">
+              <Text fontSize={{ base: 'sm', sm: 'md' }}>
+                {show
+                  ? description
+                  : `${description.substring(0, MAX_BIO_LENGTH - 9)}…`}
+                {description.length > MAX_BIO_LENGTH && (
+                  <Text
+                    as="span"
+                    fontSize="xs"
+                    color="cyanText"
+                    cursor="pointer"
+                    onClick={() => setShow((s) => !s)}
+                    pl={1}
+                  >
+                    Read {show ? 'less' : 'more'}
+                  </Text>
+                )}
+              </Text>
+            </PlayerHeroTile>
+          )}
         </Box>
 
         <HStack mt={2}>
