@@ -101,7 +101,9 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
           <ModalContent
             maxW="80%"
             backgroundImage={`url(${BackgroundImage})`}
-            p={6}
+            bgSize="cover"
+            bgAttachment="fixed"
+            p={[4, 8, 12]}
           >
             <ModalHeader
               color="white"

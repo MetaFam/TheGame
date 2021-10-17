@@ -4,12 +4,22 @@ import {
   Flex,
   HStack,
   IconButton,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalHeader,
+  ModalOverlay,
   SimpleGrid,
   Text,
+  useDisclosure,
   VStack,
 } from '@metafam/ds';
+import BackgroundImage from 'assets/main-background.jpg';
+import { EditProfileForm } from 'components/EditProfileForm';
 import { PlayerAvatar } from 'components/Player/PlayerAvatar';
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
+import { useUser } from 'lib/hooks';
 import React, { useMemo } from 'react';
 import { FaClock, FaGlobe } from 'react-icons/fa';
 import { getPlayerTimeZoneDisplay } from 'utils/dateHelpers';
@@ -29,11 +39,13 @@ type TimeZoneDisplayProps = { timeZone?: string; offset?: string };
 export const PlayerHero: React.FC<Props> = ({ player, isOwnProfile }) => {
   const description = getPlayerDescription(player);
   const [show, setShow] = React.useState(description.length <= MAX_BIO_LENGTH);
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const { timeZone, offset } = useMemo(
     () => getPlayerTimeZoneDisplay(player.timezone),
     [player.timezone],
   );
+  const { user, fetching } = useUser();
 
   return (
     <ProfileSection>
@@ -50,6 +62,7 @@ export const PlayerHero: React.FC<Props> = ({ player, isOwnProfile }) => {
             background="rgba(17, 17, 17, 0.9)"
             color="pinkShadeOne"
             _hover={{ color: 'white', borderColor: 'white' }}
+            onClick={onOpen}
             icon={<EditIcon />}
             isRound
             _active={{
@@ -148,6 +161,37 @@ export const PlayerHero: React.FC<Props> = ({ player, isOwnProfile }) => {
           </PlayerHeroTile>
         )}
       </VStack>
+
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent
+          maxW="80%"
+          backgroundImage={`url(${BackgroundImage})`}
+          bgSize="cover"
+          bgAttachment="fixed"
+          p={[4, 8, 12]}
+        >
+          <ModalHeader
+            color="white"
+            fontSize="4xl"
+            alignSelf="center"
+            fontWeight="normal"
+          >
+            Edit Profile
+          </ModalHeader>
+          <ModalCloseButton
+            color="pinkShadeOne"
+            size="xl"
+            p={4}
+            _focus={{
+              boxShadow: 'none',
+            }}
+          />
+          <ModalBody>
+            <EditProfileForm user={user} onClose={onClose} />
+          </ModalBody>
+        </ModalContent>
+      </Modal>
     </ProfileSection>
   );
 };
