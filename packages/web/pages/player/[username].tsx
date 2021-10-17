@@ -160,7 +160,7 @@ const PlayerPage: React.FC<Props> = ({ player }) => {
         position="absolute"
         w="full"
       >
-        {isOwnProfile && (
+        {/* {isOwnProfile && (
           <Flex width="full" justifyContent="end">
             <IconButton
               variant="outline"
@@ -183,7 +183,7 @@ const PlayerPage: React.FC<Props> = ({ player }) => {
               }}
             />
           </Flex>
-        )}
+        )} */}
       </Box>
       <Flex
         w="full"
