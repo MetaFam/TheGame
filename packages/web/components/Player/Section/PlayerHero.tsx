@@ -97,55 +97,56 @@ export const PlayerHero: React.FC<Props> = ({ player, isOwnProfile }) => {
           <PlayerContacts player={player} />
         </HStack>
 
-        <SimpleGrid columns={2} gap={6} width="full">
+        {/* <SimpleGrid columns={2} gap={6} width="full">
           <PlayerHeroTile title="Display name">
             <Text>Vid</Text>
           </PlayerHeroTile>
           <PlayerHeroTile title="Personal pronouns">
             <Text>He</Text>
           </PlayerHeroTile>
-        </SimpleGrid>
+        </SimpleGrid> */}
 
-        <PlayerHeroTile title="Bio">
-          <Text fontSize="md">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-          </Text>
-        </PlayerHeroTile>
-        <PlayerHeroTile title="Website">
+        {player?.profile_cache?.description && (
+          <PlayerHeroTile title="Bio">
+            <Text fontSize="md">{player?.profile_cache?.description}</Text>
+          </PlayerHeroTile>
+        )}
+        {/* <PlayerHeroTile title="Website">
           <Text>www.mycoolportfolio.com</Text>
-        </PlayerHeroTile>
+        </PlayerHeroTile> */}
 
         <SimpleGrid columns={2} gap={6} width="full">
-          <PlayerHeroTile title="Country">
-            <Text>United Kingdom</Text>
+          <PlayerHeroTile title="Availability">
+            <Availability player={player} />
           </PlayerHeroTile>
           <PlayerHeroTile title="Timezone">
             <TimeZoneDisplay timeZone={timeZone} offset={offset} />
           </PlayerHeroTile>
         </SimpleGrid>
 
-        <SimpleGrid columns={2} gap={6} width="full">
-          <PlayerHeroTile title="Availability">
-            <Availability player={player} />
-          </PlayerHeroTile>
+        {/* <SimpleGrid columns={2} gap={6} width="full">
+          <PlayerHeroTile title="Country">
+              <Text>United Kingdom</Text>
+            </PlayerHeroTile>
           <PlayerHeroTile title="Office hours">
             <Flex dir="row" alignItems="center">
-              9:00{' '}
+              9:00
               <Text fontSize="md" mr={1} ml={1}>
                 AM
-              </Text>{' '}
-              - 5:00{' '}
+              </Text>
+              - 5:00
               <Text fontSize="md" mr={1} ml={1}>
                 PM
               </Text>
             </Flex>
           </PlayerHeroTile>
-        </SimpleGrid>
+        </SimpleGrid> */}
 
-        <PlayerHeroTile title="Favorite emoji">
-          <Text>😇</Text>
-        </PlayerHeroTile>
+        {player?.profile_cache?.emoji && (
+          <PlayerHeroTile title="Favorite emoji">
+            <Text>{player?.profile_cache?.emoji}</Text>
+          </PlayerHeroTile>
+        )}
       </VStack>
     </ProfileSection>
   );
