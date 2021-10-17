@@ -7,13 +7,16 @@ import {
   InputGroup,
   InputLeftElement,
   InputRightAddon,
+  MetaButton,
   MetaFilterSelectSearch,
   MetaTheme,
   ModalFooter,
   selectStyles,
   SelectTimeZone,
   Text,
+  useToast,
 } from '@metafam/ds';
+import { useUpdateProfileMutation } from 'graphql/autogen/types';
 import React, { FC, useEffect, useState } from 'react';
 
 import { MeType } from '../graphql/types';
@@ -65,7 +68,7 @@ const DropdownStyles: typeof selectStyles = {
 
 export type ProfileEditorProps = {
   user: MeType;
-  onClose?: () => void;
+  onClose: () => void;
 };
 
 export type ProfileSectionFormProps = {
@@ -77,6 +80,11 @@ export type ProfileFieldProps = {
   placeholder?: string;
   value?: string;
 };
+
+interface InputData {
+  availability_hours?: number;
+  timezone?: string;
+}
 
 export const ProfileField: React.FC<ProfileFieldProps> = ({
   title,
@@ -182,6 +190,9 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
   const [timeZone, setTimeZone] = useState<string>('');
   const [availability, setAvailability] = useState<string>('');
   const [invalid, setInvalid] = useState(false);
+  const [updateProfileRes, updateProfile] = useUpdateProfileMutation();
+  const toast = useToast();
+  const [loading, setLoading] = useState(false);
 
   if (user?.player) {
     const { player } = user;
@@ -200,6 +211,38 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
 
   // const GRID_SIZE = 2;
   // const HALF = GRID_SIZE / 2;
+
+  const save = async () => {
+    if (!user) return;
+
+    setLoading(true);
+
+    const input: InputData = {};
+    if (user.player?.availability_hours?.toString() !== availability) {
+      input.availability_hours = Number(availability);
+    }
+    if (user.player?.timezone !== timeZone) {
+      input.timezone = timeZone;
+    }
+
+    const { error } = await updateProfile({
+      playerId: user.id,
+      input,
+    });
+
+    if (error) {
+      toast({
+        title: 'Error',
+        description: 'Unable to update availability. The octo is sad 😢',
+        status: 'error',
+        isClosable: true,
+      });
+      setLoading(false);
+      return;
+    }
+
+    onClose();
+  };
 
   return (
     <Box>
@@ -280,16 +323,14 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
       </ProfileField> */}
       {onClose && (
         <ModalFooter mt={6} justifyContent="center">
-          <Button
-            colorScheme="blue"
-            mr={3}
-            onClick={() => {
-              // save();
-              onClose();
-            }}
+          <MetaButton
+            onClick={save}
+            isDisabled={invalid}
+            isLoading={updateProfileRes.fetching || loading}
+            loadingText="Saving"
           >
             Save Changes
-          </Button>
+          </MetaButton>
           <Button
             variant="ghost"
             onClick={onClose}
