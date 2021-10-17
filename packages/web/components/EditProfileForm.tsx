@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   Grid,
   GridItem,
   Input,
@@ -8,6 +9,7 @@ import {
   InputRightAddon,
   MetaFilterSelectSearch,
   MetaTheme,
+  ModalFooter,
   selectStyles,
   SelectTimeZone,
   Text,
@@ -196,8 +198,9 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
     setInvalid(value < 0 || value > 168);
   }, [availability]);
 
-  const GRID_SIZE = 2;
-  const HALF = GRID_SIZE / 2;
+  // const GRID_SIZE = 2;
+  // const HALF = GRID_SIZE / 2;
+
   return (
     <Box>
       <Grid templateColumns="repeat(3, 1fr)">
@@ -275,6 +278,28 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
           </Box>
         </Flex>
       </ProfileField> */}
+      {onClose && (
+        <ModalFooter mt={6}>
+          <Button
+            colorScheme="blue"
+            mr={3}
+            onClick={() => {
+              // save();
+              onClose();
+            }}
+          >
+            Save Changes
+          </Button>
+          <Button
+            variant="ghost"
+            onClick={onClose}
+            color="white"
+            _hover={{ bg: 'none' }}
+          >
+            Close
+          </Button>
+        </ModalFooter>
+      )}
     </Box>
   );
 };

@@ -1,4 +1,4 @@
-import { Box, EditIcon, Flex, IconButton, LoadingState } from '@metafam/ds';
+import { Box, Flex, LoadingState } from '@metafam/ds';
 import { PlayerHero } from 'components/Player/Section/PlayerHero';
 import { useInsertCacheInvalidationMutation } from 'graphql/autogen/types';
 import { getPlayer } from 'graphql/getPlayer';

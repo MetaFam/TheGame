@@ -45,7 +45,7 @@ export const PlayerHero: React.FC<Props> = ({ player, isOwnProfile }) => {
     () => getPlayerTimeZoneDisplay(player.timezone),
     [player.timezone],
   );
-  const { user, fetching } = useUser();
+  const { user } = useUser();
 
   return (
     <ProfileSection>
