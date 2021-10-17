@@ -43,10 +43,13 @@ const PlayerPage: React.FC<Props> = ({ player }) => {
 
   const [fakeData, setFakeData] = useState([
     [],
-    [BOX_TYPE.PLAYER_COLOR_DISPOSITION, BOX_TYPE.PLAYER_TYPE],
+    [
+      BOX_TYPE.PLAYER_SKILLS,
+      BOX_TYPE.PLAYER_COLOR_DISPOSITION,
+      BOX_TYPE.PLAYER_TYPE,
+    ],
     [
       // BOX_TYPE.PLAYER_ROLES,
-      BOX_TYPE.PLAYER_SKILLS,
       BOX_TYPE.PLAYER_GALLERY,
       BOX_TYPE.PLAYER_MEMBERSHIPS,
     ],
