@@ -10,8 +10,8 @@
     "build:serve": "docusaurus build && serve build/"
   },
   "dependencies": {
-    "@docusaurus/core": "^2.0.0-alpha.64",
-    "@docusaurus/preset-classic": "^2.0.0-alpha.64",
+    "@docusaurus/core": "^2.0.0-beta.7",
+    "@docusaurus/preset-classic": "^2.0.0-beta.7",
     "@vercel/node": "^1.9.0",
     "classnames": "^2.2.6",
     "docusaurus-lunr-search": "^2.1.7",
