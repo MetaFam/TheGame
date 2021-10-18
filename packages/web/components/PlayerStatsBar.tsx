@@ -72,13 +72,6 @@ const PlayerStats = () => {
                 >
                   <MenuItem>View Profile</MenuItem>
                 </MetaLink>
-                <MetaLink
-                  color="black"
-                  href="/profile/setup/username"
-                  _hover={{ textDecoration: 'none' }}
-                >
-                  <MenuItem>Edit Profile</MenuItem>
-                </MetaLink>
                 <MenuItem onClick={disconnect}>Disconnect</MenuItem>
               </MenuList>
             </Menu>
