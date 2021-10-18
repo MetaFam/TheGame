@@ -69,6 +69,7 @@ const selectStyles: Styles = {
   option: (styles) => ({
     ...styles,
     background: theme.colors.dark,
+    color: theme.colors.whiteAlpha[700],
     ':hover': {
       backgroundColor: theme.colors.purpleTag,
       color: theme.colors.white,
