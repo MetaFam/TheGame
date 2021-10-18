@@ -141,6 +141,6 @@ const getEditSectionBox = (
     case BOX_TYPE.PLAYER_SKILLS:
       return <SetupSkills isEdit onClose={onClose} />;
     default:
-      return <SetupPlayerType isEdit onClose={onClose} />;
+      return <></>;
   }
 };
