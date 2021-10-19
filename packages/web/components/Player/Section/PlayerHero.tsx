@@ -66,13 +66,14 @@ export const PlayerHero: React.FC<Props> = ({ player, isOwnProfile }) => {
 
   return (
     <ProfileSection>
-      {isOwnProfile && (
+      {true && (
         <Box pos="absolute" right={5} top={5}>
           <IconButton
             _focus={{
               boxShadow: 'none',
             }}
             variant="outline"
+            borderWidth={2}
             aria-label="Edit Profile Info"
             size="lg"
             borderColor="pinkShadeOne"
