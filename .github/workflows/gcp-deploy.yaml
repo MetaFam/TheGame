@@ -66,7 +66,7 @@ jobs:
             --memory 512Mi \
             --ingress all \
             --allow-unauthenticated \
-            --set-env-vars HASURA_GRAPHQL_ADMIN_SECRET=metagame_secret
+            --set-env-vars HASURA_GRAPHQL_ADMIN_SECRET=metagame_secret,GITHUB_API_TOKEN=${{ secrets.GH_API_TOKEN }},SOURCECRED_LEDGER_BRANCH=master
 
       - name: Build Hasura Container
         uses: mattes/cached-docker-build-action@v1
