@@ -48,5 +48,16 @@ module.exports = {
     require.resolve("docusaurus-lunr-search"),
     require.resolve("docusaurus-plugin-sass"),
     "docusaurus2-dotenv",
+    [
+      '@docusaurus/plugin-client-redirects',
+      {
+        redirects: [
+          {
+            to: '/docs/', // string
+            from: ['/docs/home/'], // string | string[]
+          },
+        ],
+      },
+    ],
   ],
 };

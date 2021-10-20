@@ -334,7 +334,7 @@ function Home() {
                     'button button--primary button--lg button--explore',
                     styles.button
                   )}
-                  to={useBaseUrl('docs/home')}
+                  to={useBaseUrl('docs/')}
                 >
                   EXPLORE
                 </Link>
