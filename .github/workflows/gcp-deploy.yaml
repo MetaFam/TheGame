@@ -110,6 +110,9 @@ jobs:
             --ingress all \
             --allow-unauthenticated
 
+      - name: Seed Database
+        run: LOCAL_GRAPHQL_URL="https://hasura-pr-${{ github.event.number }}-${CLOUDRUN_SUFFIX}.a.run.app/v1/graphql" LOCAL_BACKEND_ACCOUNT_MIGRATION_URL="https://backend-pr-${{ github.event.number }}-${CLOUDRUN_SUFFIX}.a.run.app/actions/migrateSourceCredAccounts?force=true" yarn hasura:seed-local-db
+
       - name: Comment on Pull Request
         uses: thollander/actions-comment-pull-request@v1
         with:
