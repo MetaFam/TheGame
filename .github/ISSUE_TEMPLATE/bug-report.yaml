@@ -1,0 +1,42 @@
+name: Bug Report
+description: Report a bug
+body:
+  - type: markdown
+    attributes:
+      value: Thanks for taking the time to fill out this bug report!
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What happened?
+      description: Please provide as much information as possible.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect to happen?
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: How can we reproduce the problem (as minimally as possible)?
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Is there anything else we need to know?
+    validations:
+      required: false
+
+  - type: textarea
+    id: system-info
+    attributes:
+      label: Browser and operating system used (if applicable)
+    validations:
+      required: false
