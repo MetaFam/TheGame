@@ -2,10 +2,11 @@
 const fetch = require('node-fetch');
 const gql = require('fake-tag');
 
-const PRODUCTION_URL = 'https://api.metagame.wtf/v1/graphql';
-const LOCAL_URL = 'http://localhost:8080/v1/graphql';
+const PRODUCTION_GRAPHQL_URL = process.env.PRODUCTION_GRAPHQL_URL || 'https://api.metagame.wtf/v1/graphql';
+const LOCAL_GRAPHQL_URL = process.env.LOCAL_GRAPHQL_URL || 'http://localhost:8080/v1/graphql';
+const LOCAL_BACKEND_ACCOUNT_MIGRATION_URL = process.env.LOCAL_BACKEND_ACCOUNT_MIGRATION_URL || 'http://localhost:4000/actions/migrateSourceCredAccounts\?force\=true';
 const HASURA_GRAPHQL_ADMIN_SECRET = process.env.HASURA_GRAPHQL_ADMIN_SECRET || 'metagame_secret';
-const NUM_PLAYERS = 300;
+const NUM_PLAYERS = process.env.SEED_NUM_PLAYERS || 300;
 
 const authHeaders = {
       ['content-type']: 'application/json',
@@ -62,7 +63,7 @@ const topPlayersQuery = gql`
 
 async function fetchTopPlayers() {
   const { errors, data } = await fetchGraphQL(
-    PRODUCTION_URL,
+    PRODUCTION_GRAPHQL_URL,
     topPlayersQuery,
     'GetTopPlayers',
   );
@@ -93,7 +94,7 @@ const getPlayerIdsAndSkillsQuery = gql`
 
 async function fetchPlayerIdsAndSkills(addresses) {
   const { errors, data } = await fetchGraphQL(
-    LOCAL_URL,
+    LOCAL_GRAPHQL_URL,
     getPlayerIdsAndSkillsQuery,
     'GetPlayerIds',
     {
@@ -125,7 +126,7 @@ const deleteSkillsMutation = gql`
 
 async function deleteSkills() {
   const { errors } = await fetchGraphQL(
-    LOCAL_URL,
+    LOCAL_GRAPHQL_URL,
     deleteSkillsMutation,
     'DeleteSkills',
       {},
@@ -185,7 +186,7 @@ const updatePlayerMutation = gql`
 
 async function updatePlayer(variables) {
   const { errors, data } = await fetchGraphQL(
-    LOCAL_URL,
+    LOCAL_GRAPHQL_URL,
     updatePlayerMutation,
     'UpdatePlayer',
       variables,
@@ -215,13 +216,10 @@ function getSkillId(skills, { Skill: { category, name } }) {
 }
 
 async function forceMigrateAccounts() {
-
-    const url = 'http://localhost:4000/actions/migrateSourceCredAccounts\?force\=true';
-  const result = await fetch(url, {
+  const result = await fetch(LOCAL_BACKEND_ACCOUNT_MIGRATION_URL, {
     method: 'POST',
   });
   return await result.json();
-  
 }
 
 async function startSeeding() {
