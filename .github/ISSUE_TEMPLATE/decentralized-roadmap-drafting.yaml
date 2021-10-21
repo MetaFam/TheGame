@@ -1,0 +1,42 @@
+name: Collective-based roadmap drafting 
+description: This template allows you to request a feature proposal for MyMeta. Adding the tag "Roadmap" to it will allow your proposal to be displayed in https://tokenlog.xyz/MetaFam/TheGame where Players and SEED holders will choose, through quadratic voting, the roadmap to follow.
+labels: Roadmap
+body:
+  - type: textarea
+    id: orgs name
+    attributes:
+      label: Feature Submitted By
+      description: your name/org
+    validations:
+      required: true
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: Give a quick summary of the feature idea.
+    validations:
+      required: true
+
+  - type: textarea
+    id: reason
+    attributes:
+      label: Why should we build this?
+      description: This is a breakdown of why you believe MetaGame should spend time and resources to build this idea. Will it be useful for many organizations? Will it help spread the word of using MyMeta as the profile page for orgs? Will it make MyMeta more accessible/understandable to others?
+    validations:
+      required: true
+
+  - type: textarea
+    id: skills
+    attributes:
+      label: Skills Needed?
+    validations:
+      required: true
+
+  - type: textarea
+    id: funding
+    attributes:
+      label: Funding (in USD)
+      description: Are you or your org willing to build or fund this? If so please tell how much can you contribute in it. Otherwise, leave it empty, an engaged Octo might want to take ownership of it :)
+    validations:
+      required: true
