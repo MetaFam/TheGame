@@ -3,7 +3,7 @@ description: This template allows you to request a feature proposal for MyMeta. 
 labels: Roadmap
 body:
   - type: textarea
-    id: orgs name
+    id: orgname
     attributes:
       label: Feature Submitted By
       description: your name/org
