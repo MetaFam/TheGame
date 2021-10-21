@@ -1,5 +1,5 @@
 name: Collective-based roadmap drafting 
-about: Request a feature proposal for MyMeta. Add the tag "Roadmap" to allow your proposal to be displayed in https://tokenlog.xyz/MetaFam/TheGame where Players and SEED holders will choose the path to follow.
+description: Request a feature proposal for MyMeta. Add the tag "Roadmap" to allow your proposal to be displayed in https://tokenlog.xyz/MetaFam/TheGame where Players and SEED holders will choose the path to follow.
 labels: Roadmap
 body:
   - type: textarea
