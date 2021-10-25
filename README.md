@@ -81,18 +81,20 @@ yarn docker:start
 Official docker images of Hasura don't work on M1 yet
 
 In `hasura/Dockerfile`
-Replace 
+Replace
+
 ```
 FROM hasura/graphql-engine:v1.3.3.cli-migrations-v2
 ```
+
 with
+
 ```
 FROM fedormelexin/graphql-engine-arm64:v1.3.3.cli-migrations-v2
 ```
 
 - Runs docker containers for backend, Hasura Engine, and PostGres database
 - will auto-restart on any changes to `packages/backend` and `packages/utils`
-
 
 If you are running for the first time on an empty database, once the services
 are running you have two options to populate the database:
@@ -143,6 +145,21 @@ In case non of the above commands are working try purge the docker containers an
 
 ```shell script
 docker system prune -a
+```
+
+_If you're working on the front-end and the build fails with something like the error below, you'll need to create a `.env` file in `packages/web` and add `NEXT_PUBLIC_GRAPHQL_URL=https://api-staging.metagame.wtf/v1/graphql`_
+
+```
+[Error [CombinedError]: [Network] request to http://localhost:8080/v1/graphql failed, reason: connect ECONNREFUSED 127.0.0.1:8080] {
+  type: 'CombinedError',
+  graphQLErrors: [],
+  networkError: {
+    message: 'request to http://localhost:8080/v1/graphql failed, reason: connect ECONNREFUSED 127.0.0.1:8080',
+    type: 'system',
+    errno: 'ECONNREFUSED',
+    code: 'ECONNREFUSED'
+  }
+}
 ```
 
 ### Run NextJS Web App dev mode (new)
