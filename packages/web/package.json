@@ -23,7 +23,6 @@
     "fake-tag": "3.0.0",
     "graphql": "15.5.0",
     "isomorphic-unfetch": "3.1.0",
-    "lodash": "^4.17.21",
     "moment": "2.29.1",
     "next": "10.2.3",
     "next-images": "1.7.0",
@@ -42,5 +41,8 @@
     "react-spring": "^9.3.0",
     "urql": "2.0.2",
     "web3modal": "1.9.4"
+  },
+  "devDependencies": {
+    "react-container-query": "^0.12.0"
   }
 }

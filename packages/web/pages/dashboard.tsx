@@ -3,7 +3,7 @@ import 'react-resizable/css/styles.css';
 
 import { Box, HStack, MetaButton, MetaHeading, Text } from '@metafam/ds';
 import { PageContainer } from 'components/Container';
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { Layout, Layouts, Responsive, WidthProvider } from 'react-grid-layout';
 
 // type LayoutProps = Layout
@@ -33,7 +33,8 @@ export const initLayouts = {
   xs: gridDataSmall,
 };
 
-export const originalLayouts = getFromLS('metagame-dashboard') || initLayouts;
+export const originalLayouts = getFromLS('layouts') || initLayouts;
+// console.log(originalLayouts);
 
 const Dashboard: FC = () => (
   <PageContainer>
@@ -43,23 +44,40 @@ const Dashboard: FC = () => (
 
 export default Dashboard;
 
+type CurrentLayoutType = {
+  layout: Layout[];
+  layouts: Layouts;
+};
 export const Grid: FC = () => {
   const [gridLayouts, setGridLayouts] = useState(
     JSON.parse(JSON.stringify(originalLayouts)),
   );
   const [ownLayout, setOwnLayout] = useState(false);
-  // const hasLayout = !!getFromLS('metagame-dashboard');
+  const [changed, setChanged] = useState(false);
+  const [current, setCurrent] = useState<CurrentLayoutType>({
+    layout: [],
+    layouts: {},
+  });
 
-  function handleLayoutChange(layout: Layout[], layouts: Layouts) {
-    if (layout) setOwnLayout(true);
-    saveToLS('metagame-dashboard', JSON.parse(JSON.stringify(layouts)));
-    setGridLayouts(JSON.parse(JSON.stringify(layouts)));
-  }
+  useEffect(() => {
+    if (getFromLS('layouts') !== undefined) setOwnLayout(true);
+    function handleLayoutChange(layout: Layout[] = [], layouts: Layouts) {
+      // eslint-disable-next-line no-console
+      console.log(layout);
+      saveToLS('layouts', JSON.parse(JSON.stringify(layouts)));
+      setGridLayouts(JSON.parse(JSON.stringify(layouts)));
+    }
+    if (changed) handleLayoutChange(current.layout, current.layouts);
+  }, [current, changed]);
 
   function handleReset() {
     setGridLayouts(JSON.parse(JSON.stringify(initLayouts)));
-    resetLayouts();
-    setOwnLayout(false);
+
+    setTimeout(() => {
+      setOwnLayout(false);
+      setChanged(false);
+      resetLayouts();
+    }, 300);
   }
 
   return (
@@ -101,14 +119,17 @@ export const Grid: FC = () => {
         },
       }}
     >
-      {ownLayout && (
-        <Box pos="absolute" top={-10} right={5} h={10}>
+      {(changed || ownLayout) && (
+        <Box pos="absolute" top={20} right={12} h={5}>
           <MetaButton onClick={handleReset}>Reset layout</MetaButton>
         </Box>
       )}
       <ResponsiveGridLayout
         className="grid"
-        onLayoutChange={handleLayoutChange}
+        onLayoutChange={(layout, layouts) => {
+          setCurrent({ layout, layouts });
+          setChanged(true);
+        }}
         verticalCompact
         layouts={gridLayouts}
         breakpoints={{ xl: 1920, lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
@@ -127,7 +148,7 @@ export const Grid: FC = () => {
           xxs: [20, 20],
         }}
       >
-        <Box key="latest" className="gridItem">
+        <div key="latest" className="gridItem">
           <Box
             borderBottomRadius="lg"
             borderTopRadius="lg"
@@ -136,8 +157,8 @@ export const Grid: FC = () => {
           >
             <MetaHeading>Latest Content</MetaHeading>
           </Box>
-        </Box>
-        <Box key="xp" className="gridItem">
+        </div>
+        <div key="xp" className="gridItem">
           <Box
             borderBottomRadius="lg"
             borderTopRadius="lg"
@@ -146,8 +167,8 @@ export const Grid: FC = () => {
           >
             <MetaHeading>XP</MetaHeading>
           </Box>
-        </Box>
-        <Box key="seed" className="gridItem">
+        </div>
+        <div key="seed" className="gridItem">
           <Box
             borderBottomRadius="lg"
             borderTopRadius="lg"
@@ -161,8 +182,8 @@ export const Grid: FC = () => {
               <Text>Low / High</Text>
             </HStack>
           </Box>
-        </Box>
-        <Box key="cal" className="gridItem">
+        </div>
+        <div key="cal" className="gridItem">
           <Box
             borderBottomRadius="lg"
             borderTopRadius="lg"
@@ -171,8 +192,8 @@ export const Grid: FC = () => {
           >
             <MetaHeading>Calendar</MetaHeading>
           </Box>
-        </Box>
-        <Box key="leaders" className="gridItem">
+        </div>
+        <div key="leaders" className="gridItem">
           <Box
             borderBottomRadius="lg"
             borderTopRadius="lg"
@@ -181,17 +202,39 @@ export const Grid: FC = () => {
           >
             <MetaHeading>Leaderboard</MetaHeading>
           </Box>
-        </Box>
+        </div>
       </ResponsiveGridLayout>
     </Box>
   );
 };
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+// export function saveSectionsLS() {
+//   if (global.localStorage) {
+//     global.localStorage.setItem(
+//       'metagame-dashboard-sections',
+//       JSON.stringify({
+//         sections: [
+//           {
+//             id: 1,
+//             name: 'latest',
+//           },
+//           {
+//             id: 2,
+//             name: 'xp',
+//           },
+//         ],
+//       }),
+//     );
+//   }
+// }
+
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function resetLayouts() {
-  if (global.localStorage) {
-    global.localStorage.removeItem('metagame-dashboard');
+  if (getFromLS('metagame-dashboard') === null) {
+    return false;
   }
+  return global.localStorage.removeItem('metagame-dashboard');
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -203,7 +246,9 @@ export function getFromLS(key: string) {
       const dashboard = global.localStorage.getItem('metagame-dashboard');
       ls = dashboard !== null ? JSON.parse(dashboard) : {};
     } catch (e) {
-      // return false;
+      // eslint-disable-next-line no-console
+      console.log('getFromLS error: ', e);
+      // return null;
     }
   }
   return ls[key];
