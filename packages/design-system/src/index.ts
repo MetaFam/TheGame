@@ -26,8 +26,10 @@ export { SVG } from './SVG';
 export { theme as MetaTheme } from './theme';
 export { H1, P } from './typography';
 export {
+  AddIcon,
   ArrowBackIcon,
   ArrowForwardIcon,
+  CalendarIcon,
   CheckIcon,
   ChevronDownIcon,
   ChevronUpIcon,
@@ -35,6 +37,7 @@ export {
   DeleteIcon,
   EditIcon,
   EmailIcon,
+  ExternalLinkIcon,
   HamburgerIcon,
   SettingsIcon,
 } from '@chakra-ui/icons';
@@ -94,6 +97,16 @@ export {
   ModalCloseButton,
   ModalContent,
   ModalOverlay,
+  OrderedList,
+  Popover,
+  PopoverArrow,
+  PopoverBody,
+  PopoverCloseButton,
+  PopoverContent,
+  PopoverFooter,
+  PopoverHeader,
+  PopoverTrigger,
+  Portal,
   Select,
   SimpleGrid,
   Skeleton,

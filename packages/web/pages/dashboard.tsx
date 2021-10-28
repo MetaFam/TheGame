@@ -5,10 +5,22 @@ import {
   Avatar,
   Box,
   ButtonGroup,
+  CalendarIcon,
   DeleteIcon,
   EditIcon,
+  ExternalLinkIcon,
+  IconButton,
+  Image,
   MetaButton,
   MetaHeading,
+  Popover,
+  PopoverBody,
+  PopoverCloseButton,
+  PopoverContent,
+  PopoverFooter,
+  PopoverHeader,
+  PopoverTrigger,
+  Portal,
   Stat,
   StatArrow,
   StatGroup,
@@ -133,6 +145,7 @@ export const Grid: FC = () => {
           borderTopRadius: 'lg',
           height: 'unset',
           overflow: 'hidden',
+          transition: 'boxShadow 0.2s 0.3s ease',
           p: {
             fontFamily: 'mono',
             fontSize: 'sm',
@@ -146,19 +159,20 @@ export const Grid: FC = () => {
             borderBottomRadius: 'lg',
             overflow: 'hidden',
             h: '100%',
-            transition: 'bg 0.2s ease',
+            transition: 'bg 0.2s 0.3s ease',
           },
           h2: {
             fontFamily: 'exo',
             fontSize: 'lg',
-            fontWeight: '500',
+            fontWeight: '700',
             textAlign: 'left',
             textTransform: 'uppercase',
           },
         },
         '.react-grid-placeholder': {
-          bg: 'purple80',
-          boxShadow: '0 0 15px solid rgba(0, 0, 0, 0.8)',
+          bg: 'purple',
+          boxShadow: '0 0 0 solid rgba(0, 0, 0, 0.8)',
+          borderRadius: 'lg',
         },
       }}
     >
@@ -195,7 +209,7 @@ export const Grid: FC = () => {
           size="lg"
           fontSize="sm"
           bg="transparent"
-          color={editable ? 'orange.800' : 'purple.400'}
+          color={editable ? 'red.400' : 'purple.400'}
           leftIcon={<EditIcon />}
           transition="color 0.2s ease"
           onClick={toggleEditLayout}
@@ -518,7 +532,681 @@ export const Grid: FC = () => {
             p={6}
             boxShadow="md"
           >
-            <MetaHeading>Calendar</MetaHeading>
+            <ContainerQuery query={containerQueries}>
+              {(params: Params) => (
+                <Box
+                  className={classnames('container', params)}
+                  sx={{
+                    '.player': {
+                      transition: 'all 0.3s ease',
+                      '&:hover': {
+                        boxShadow: '0 0 8px rgba(0,0,0,0.3)',
+                        cursor: 'pointer',
+                      },
+                    },
+                    '&.container': {
+                      '&__xxs': {
+                        '.calendar': {
+                          '&__day': {
+                            '&--title': {
+                              fontSize: 'xs',
+                            },
+                            '&--event': {
+                              h4: {
+                                visibility: 'hidden',
+                                maxH: 0,
+                              },
+                              _hover: {},
+                            },
+                          },
+                        },
+                      },
+                      '&__xs': {
+                        '.calendar': {
+                          '&__day': {
+                            h3: {
+                              fontSize: 'xs',
+                            },
+                          },
+                        },
+                      },
+                    },
+                  }}
+                >
+                  <MetaHeading>Calendar</MetaHeading>
+                  <VStack
+                    as="ol"
+                    className="calendar"
+                    width="100%"
+                    mt={5}
+                    ml={0}
+                    sx={{
+                      listStyle: 'none',
+                    }}
+                  >
+                    <Box
+                      as="li"
+                      className="calendar__day"
+                      display="flex"
+                      width="100%"
+                      px={0}
+                      py={0}
+                      mb={3}
+                      flexFlow="column wrap"
+                      alignItems="flex-start"
+                      justifyContent="flex-start"
+                    >
+                      <Box
+                        as="h3"
+                        fontSize="sm"
+                        className="calendar__day--title"
+                        mb={3}
+                        px={5}
+                      >
+                        Monday • 24 May 2021
+                      </Box>
+                      <VStack
+                        as="ol"
+                        className="calendar__day--events"
+                        ml={0}
+                        width="100%"
+                        sx={{
+                          listStyle: 'none',
+                        }}
+                      >
+                        <Box
+                          as="li"
+                          className="calendar__day--event"
+                          width="100%"
+                          px={5}
+                          py={2}
+                          backgroundColor="blackAlpha.500"
+                          borderRadius="md"
+                          sx={{
+                            '&:hover': {
+                              boxShadow: '0 0 8px rgba(0,0,0,0.3)',
+                              cursor: 'pointer',
+                            },
+                          }}
+                        >
+                          <Popover colorScheme="purple">
+                            <PopoverTrigger>
+                              <Box
+                                tabIndex={0}
+                                role="button"
+                                aria-label="Event summary"
+                              >
+                                <Box
+                                  as="h4"
+                                  fontSize="md"
+                                  fontFamily="exo2"
+                                  fontWeight="bold"
+                                >
+                                  Champions Ring
+                                </Box>
+                                <Box
+                                  fontWeight="100"
+                                  fontFamily="body"
+                                  fontSize="xs"
+                                >
+                                  16:00 – 17:00
+                                </Box>
+                              </Box>
+                            </PopoverTrigger>
+                            <Portal>
+                              <PopoverContent
+                                backgroundColor="purple.400"
+                                backdropFilter="blur(10px)"
+                                boxShadow="0 0 10px rgba(0,0,0,0.3)"
+                                borderWidth={0}
+                                color="white"
+                                sx={{
+                                  _focus: {
+                                    outline: 'none',
+                                  },
+                                }}
+                              >
+                                <Box
+                                  bg="transparent"
+                                  borderWidth={0}
+                                  position="absolute"
+                                  left={-1}
+                                  top={0}
+                                  width="100%"
+                                  textAlign="center"
+                                >
+                                  <Image
+                                    src="/assets/logo.png"
+                                    minH="15px"
+                                    minW="12px"
+                                    maxH="15px"
+                                    mx="auto"
+                                    transform="translateY(-7px)"
+                                  />
+                                </Box>
+                                <PopoverCloseButton />
+                                <PopoverHeader
+                                  borderColor="cyanText"
+                                  borderBottomWidth={1}
+                                  fontWeight="600"
+                                  fontFamily="exo"
+                                >
+                                  Champions Ring
+                                </PopoverHeader>
+                                <PopoverBody>
+                                  <Box
+                                    as="dl"
+                                    sx={{
+                                      dt: {
+                                        fontSize: 'sm',
+                                        fontWeight: '600',
+                                      },
+                                    }}
+                                  >
+                                    <Box as="dt">Date &amp; Time</Box>
+                                    <Box
+                                      as="dd"
+                                      fontWeight="100"
+                                      fontFamily="body"
+                                      fontSize="xs"
+                                    >
+                                      16:00 – 17:00
+                                    </Box>
+                                    <Box as="dt">Description</Box>
+                                    <Box
+                                      as="dd"
+                                      fontWeight="100"
+                                      fontFamily="body"
+                                      fontSize="xs"
+                                    >
+                                      Consequat dolore veniam cupidatat id sit
+                                      velit consequat.
+                                    </Box>
+                                    <Box as="dt">Attendees</Box>
+                                    <Box
+                                      as="dd"
+                                      fontWeight="100"
+                                      fontFamily="body"
+                                      fontSize="xs"
+                                    >
+                                      If there is an attendees list
+                                    </Box>
+                                  </Box>
+                                </PopoverBody>
+                                <PopoverFooter borderTopWidth={0}>
+                                  <ButtonGroup
+                                    variant="ghost"
+                                    colorScheme="purple"
+                                  >
+                                    <IconButton
+                                      aria-label="Add to your calendar"
+                                      icon={<CalendarIcon />}
+                                    />
+                                    <IconButton
+                                      aria-label="View calendar"
+                                      icon={<ExternalLinkIcon />}
+                                    />
+                                  </ButtonGroup>
+                                </PopoverFooter>
+                              </PopoverContent>
+                            </Portal>
+                          </Popover>
+                        </Box>
+                        <Box
+                          as="li"
+                          className="calendar__day--event"
+                          width="100%"
+                          px={5}
+                          py={2}
+                          backgroundColor="blackAlpha.500"
+                          borderRadius="md"
+                          sx={{
+                            transition: 'all 0.2s ease',
+                            '&:hover': {
+                              boxShadow: '0 0 8px rgba(0,0,0,0.3)',
+                              cursor: 'pointer',
+                            },
+                          }}
+                        >
+                          <Popover colorScheme="purple">
+                            <PopoverTrigger>
+                              <Box
+                                tabIndex={0}
+                                role="button"
+                                aria-label="Some box"
+                              >
+                                <Box
+                                  as="h4"
+                                  fontSize="md"
+                                  fontFamily="exo2"
+                                  fontWeight="bold"
+                                >
+                                  Headhunters align
+                                </Box>
+                                <Box
+                                  fontWeight="100"
+                                  fontFamily="body"
+                                  fontSize="xs"
+                                >
+                                  18:00 – 19:00
+                                </Box>
+                              </Box>
+                            </PopoverTrigger>
+                            <Portal>
+                              <PopoverContent
+                                backgroundColor="purple.400"
+                                backdropFilter="blur(10px)"
+                                boxShadow="0 0 10px rgba(0,0,0,0.3)"
+                                borderWidth={0}
+                                color="white"
+                                sx={{
+                                  _focus: {
+                                    outline: 'none',
+                                  },
+                                }}
+                              >
+                                <Box
+                                  bg="transparent"
+                                  borderWidth={0}
+                                  position="absolute"
+                                  left={-1}
+                                  top={0}
+                                  width="100%"
+                                  textAlign="center"
+                                >
+                                  <Image
+                                    src="/assets/logo.png"
+                                    minH="15px"
+                                    minW="12px"
+                                    maxH="15px"
+                                    mx="auto"
+                                    transform="translateY(-7px)"
+                                  />
+                                </Box>
+                                <PopoverCloseButton />
+                                <PopoverHeader
+                                  borderColor="cyanText"
+                                  borderBottomWidth={1}
+                                  fontWeight="600"
+                                  fontFamily="exo"
+                                >
+                                  Headhunters Align
+                                </PopoverHeader>
+                                <PopoverBody>
+                                  <Box
+                                    as="dl"
+                                    sx={{
+                                      dt: {
+                                        fontSize: 'sm',
+                                        fontWeight: '600',
+                                      },
+                                    }}
+                                  >
+                                    <Box as="dt">Date &amp; Time</Box>
+                                    <Box
+                                      as="dd"
+                                      fontWeight="100"
+                                      fontFamily="body"
+                                      fontSize="xs"
+                                    >
+                                      18:00 – 19:00
+                                    </Box>
+                                    <Box as="dt">Description</Box>
+                                    <Box
+                                      as="dd"
+                                      fontWeight="100"
+                                      fontFamily="body"
+                                      fontSize="xs"
+                                    >
+                                      Consequat dolore veniam cupidatat id sit
+                                      velit consequat.
+                                    </Box>
+                                    <Box as="dt">Attendees</Box>
+                                    <Box
+                                      as="dd"
+                                      fontWeight="100"
+                                      fontFamily="body"
+                                      fontSize="xs"
+                                    >
+                                      If there is an attendees list
+                                    </Box>
+                                  </Box>
+                                </PopoverBody>
+                                <PopoverFooter borderTopWidth={0}>
+                                  <ButtonGroup
+                                    variant="ghost"
+                                    colorScheme="purple"
+                                  >
+                                    <IconButton
+                                      aria-label="Add to your calendar"
+                                      icon={<CalendarIcon />}
+                                    />
+                                    <IconButton
+                                      aria-label="View calendar"
+                                      icon={<ExternalLinkIcon />}
+                                    />
+                                  </ButtonGroup>
+                                </PopoverFooter>
+                              </PopoverContent>
+                            </Portal>
+                          </Popover>
+                        </Box>
+                      </VStack>
+                    </Box>
+
+                    <Box
+                      as="li"
+                      className="calendar__day"
+                      display="flex"
+                      width="100%"
+                      px={0}
+                      py={0}
+                      mb={3}
+                      flexFlow="column wrap"
+                      alignItems="flex-start"
+                      justifyContent="flex-start"
+                    >
+                      <Box
+                        as="h3"
+                        fontSize="sm"
+                        className="calendar__day--title"
+                        mb={3}
+                        px={5}
+                      >
+                        Tuesday • 25 May 2021
+                      </Box>
+                      <VStack
+                        as="ol"
+                        className="calendar__day--events"
+                        ml={0}
+                        width="100%"
+                        sx={{
+                          listStyle: 'none',
+                        }}
+                      >
+                        <Box
+                          as="li"
+                          className="calendar__day--event"
+                          width="100%"
+                          px={5}
+                          py={2}
+                          backgroundColor="blackAlpha.500"
+                          borderRadius="md"
+                          sx={{
+                            '&:hover': {
+                              boxShadow: '0 0 8px rgba(0,0,0,0.3)',
+                              cursor: 'pointer',
+                            },
+                          }}
+                        >
+                          <Popover colorScheme="purple">
+                            <PopoverTrigger>
+                              <Box
+                                tabIndex={0}
+                                role="button"
+                                aria-label="Some box"
+                              >
+                                <Box
+                                  as="h4"
+                                  fontSize="md"
+                                  fontFamily="exo2"
+                                  fontWeight="bold"
+                                >
+                                  Content &amp; Shilling Strategy
+                                </Box>
+                                <Box
+                                  fontWeight="100"
+                                  fontFamily="body"
+                                  fontSize="xs"
+                                >
+                                  16:00 – 17:00
+                                </Box>
+                              </Box>
+                            </PopoverTrigger>
+                            <Portal>
+                              <PopoverContent
+                                backgroundColor="purple.400"
+                                backdropFilter="blur(10px)"
+                                boxShadow="0 0 10px rgba(0,0,0,0.3)"
+                                borderWidth={0}
+                                color="white"
+                                sx={{
+                                  _focus: {
+                                    outline: 'none',
+                                  },
+                                }}
+                              >
+                                <Box
+                                  bg="transparent"
+                                  borderWidth={0}
+                                  position="absolute"
+                                  left={-1}
+                                  top={0}
+                                  width="100%"
+                                  textAlign="center"
+                                >
+                                  <Image
+                                    src="/assets/logo.png"
+                                    minH="15px"
+                                    minW="12px"
+                                    maxH="15px"
+                                    mx="auto"
+                                    transform="translateY(-7px)"
+                                  />
+                                </Box>
+                                <PopoverCloseButton />
+                                <PopoverHeader
+                                  borderColor="cyanText"
+                                  borderBottomWidth={1}
+                                  fontWeight="600"
+                                  fontFamily="exo"
+                                >
+                                  Content &amp; Shilling Strategy
+                                </PopoverHeader>
+                                <PopoverBody>
+                                  <Box
+                                    as="dl"
+                                    sx={{
+                                      dt: {
+                                        fontSize: 'sm',
+                                        fontWeight: '600',
+                                      },
+                                    }}
+                                  >
+                                    <Box as="dt">Date &amp; Time</Box>
+                                    <Box
+                                      as="dd"
+                                      fontWeight="100"
+                                      fontFamily="body"
+                                      fontSize="xs"
+                                    >
+                                      17:00 – 18:00
+                                    </Box>
+                                    <Box as="dt">Description</Box>
+                                    <Box
+                                      as="dd"
+                                      fontWeight="100"
+                                      fontFamily="body"
+                                      fontSize="xs"
+                                    >
+                                      Consequat dolore veniam cupidatat id sit
+                                      velit consequat.
+                                    </Box>
+                                    <Box as="dt">Attendees</Box>
+                                    <Box
+                                      as="dd"
+                                      fontWeight="100"
+                                      fontFamily="body"
+                                      fontSize="xs"
+                                    >
+                                      If there is an attendees list
+                                    </Box>
+                                  </Box>
+                                </PopoverBody>
+                                <PopoverFooter borderTopWidth={0}>
+                                  <ButtonGroup
+                                    variant="ghost"
+                                    colorScheme="purple"
+                                  >
+                                    <IconButton
+                                      aria-label="Add to your calendar"
+                                      icon={<CalendarIcon />}
+                                    />
+                                    <IconButton
+                                      aria-label="View calendar"
+                                      icon={<ExternalLinkIcon />}
+                                    />
+                                  </ButtonGroup>
+                                </PopoverFooter>
+                              </PopoverContent>
+                            </Portal>
+                          </Popover>
+                        </Box>
+                        <Box
+                          as="li"
+                          className="calendar__day--event"
+                          width="100%"
+                          px={5}
+                          py={2}
+                          backgroundColor="blackAlpha.500"
+                          borderRadius="md"
+                          sx={{
+                            transition: 'all 0.2s ease',
+                            '&:hover': {
+                              boxShadow: '0 0 8px rgba(0,0,0,0.3)',
+                              cursor: 'pointer',
+                            },
+                          }}
+                        >
+                          <Popover colorScheme="purple">
+                            <PopoverTrigger>
+                              <Box
+                                tabIndex={0}
+                                role="button"
+                                aria-label="Some box"
+                              >
+                                <Box
+                                  as="h4"
+                                  fontSize="md"
+                                  fontFamily="exo2"
+                                  fontWeight="bold"
+                                >
+                                  Shillers Align
+                                </Box>
+                                <Box
+                                  fontWeight="100"
+                                  fontFamily="body"
+                                  fontSize="xs"
+                                >
+                                  17:00 – 18:00
+                                </Box>
+                              </Box>
+                            </PopoverTrigger>
+                            <Portal>
+                              <PopoverContent
+                                backgroundColor="purple.400"
+                                backdropFilter="blur(10px)"
+                                boxShadow="0 0 10px rgba(0,0,0,0.3)"
+                                borderWidth={0}
+                                color="white"
+                                sx={{
+                                  _focus: {
+                                    outline: 'none',
+                                  },
+                                }}
+                              >
+                                <Box
+                                  bg="transparent"
+                                  borderWidth={0}
+                                  position="absolute"
+                                  left={-1}
+                                  top={0}
+                                  width="100%"
+                                  textAlign="center"
+                                >
+                                  <Image
+                                    src="/assets/logo.png"
+                                    minH="15px"
+                                    minW="12px"
+                                    maxH="15px"
+                                    mx="auto"
+                                    transform="translateY(-7px)"
+                                  />
+                                </Box>
+                                <PopoverCloseButton />
+                                <PopoverHeader
+                                  borderColor="cyanText"
+                                  borderBottomWidth={1}
+                                  fontWeight="600"
+                                  fontFamily="exo"
+                                >
+                                  Shillers Align
+                                </PopoverHeader>
+                                <PopoverBody>
+                                  <Box
+                                    as="dl"
+                                    sx={{
+                                      dt: {
+                                        fontSize: 'sm',
+                                        fontWeight: '600',
+                                      },
+                                    }}
+                                  >
+                                    <Box as="dt">Date &amp; Time</Box>
+                                    <Box
+                                      as="dd"
+                                      fontWeight="100"
+                                      fontFamily="body"
+                                      fontSize="xs"
+                                    >
+                                      17:00 – 18:00
+                                    </Box>
+                                    <Box as="dt">Description</Box>
+                                    <Box
+                                      as="dd"
+                                      fontWeight="100"
+                                      fontFamily="body"
+                                      fontSize="xs"
+                                    >
+                                      Consequat dolore veniam cupidatat id sit
+                                      velit consequat.
+                                    </Box>
+                                    <Box as="dt">Attendees</Box>
+                                    <Box
+                                      as="dd"
+                                      fontWeight="100"
+                                      fontFamily="body"
+                                      fontSize="xs"
+                                    >
+                                      If there is an attendees list
+                                    </Box>
+                                  </Box>
+                                </PopoverBody>
+                                <PopoverFooter borderTopWidth={0}>
+                                  <ButtonGroup
+                                    variant="ghost"
+                                    colorScheme="purple"
+                                  >
+                                    <IconButton
+                                      aria-label="Add to your calendar"
+                                      icon={<CalendarIcon />}
+                                    />
+                                    <IconButton
+                                      aria-label="View calendar"
+                                      icon={<ExternalLinkIcon />}
+                                    />
+                                  </ButtonGroup>
+                                </PopoverFooter>
+                              </PopoverContent>
+                            </Portal>
+                          </Popover>
+                        </Box>
+                      </VStack>
+                    </Box>
+                  </VStack>
+                </Box>
+              )}
+            </ContainerQuery>
           </Box>
         </Box>
         <Box key="leaders" className="gridItem">
@@ -667,7 +1355,7 @@ export const Grid: FC = () => {
                       borderRadius="md"
                     >
                       <Box className="player__position" flex={0} mr={3}>
-                        2
+                        4
                       </Box>
                       <Avatar
                         className="player__avatar"
