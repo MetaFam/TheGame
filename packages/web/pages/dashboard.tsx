@@ -1,40 +1,75 @@
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
 
-import { Box, HStack, MetaButton, MetaHeading, Text } from '@metafam/ds';
+import {
+  Avatar,
+  Box,
+  ButtonGroup,
+  DeleteIcon,
+  EditIcon,
+  MetaButton,
+  MetaHeading,
+  Stat,
+  StatArrow,
+  StatGroup,
+  StatHelpText,
+  StatLabel,
+  StatNumber,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
+  VStack,
+} from '@metafam/ds';
+import classnames from 'classnames';
 import { PageContainer } from 'components/Container';
 import { FC, useEffect, useState } from 'react';
+import { ContainerQuery } from 'react-container-query';
 import { Layout, Layouts, Responsive, WidthProvider } from 'react-grid-layout';
+
+import { containerQueries } from '../components/Dashboard/Section';
 
 // type LayoutProps = Layout
 // type LayoutsProps = Layouts
+export interface Query {
+  [key: string]: ContainerQueries;
+}
+export interface Params {
+  [key: string]: boolean;
+}
+export interface ContainerQueries {
+  minWidth?: number;
+  maxWidth?: number;
+  minHeight?: number;
+  maxHeight?: number;
+}
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 export const gridData = [
-  { i: 'latest', x: 0, y: 0, w: 6, h: 5 },
+  { i: 'latest', x: 0, y: 0, w: 6, h: 6 },
   { i: 'xp', x: 6, y: 0, w: 3, h: 2 },
   { i: 'seed', x: 9, y: 0, w: 3, h: 2 },
-  { i: 'cal', x: 6, y: 2, w: 3, h: 3 },
-  { i: 'leaders', x: 9, y: 2, w: 3, h: 3 },
+  { i: 'cal', x: 6, y: 2, w: 3, h: 4 },
+  { i: 'leaders', x: 9, y: 2, w: 3, h: 4 },
 ];
 
 export const gridDataSmall = [
-  { i: 'latest', x: 0, y: 0, w: 4, h: 4, minW: 2, maxW: 4 },
-  { i: 'xp', x: 4, y: 0, w: 2, h: 1, minW: 2, maxW: 4 },
-  { i: 'seed', x: 6, y: 0, w: 2, h: 1 },
-  { i: 'cal', x: 4, y: 2, w: 2, h: 3 },
-  { i: 'leaders', x: 7, y: 2, w: 2, h: 3 },
+  { i: 'latest', x: 0, y: 2, w: 4, h: 3, minW: 2, maxW: 4 },
+  { i: 'xp', x: 0, y: 0, w: 2, h: 1, minW: 2, maxW: 4 },
+  { i: 'seed', x: 2, y: 0, w: 2, h: 1 },
+  { i: 'cal', x: 0, y: 5, w: 4, h: 2 },
+  { i: 'leaders', x: 0, y: 7, w: 4, h: 3 },
 ];
 
 export const initLayouts = {
   lg: gridData,
-  md: gridDataSmall,
+  md: gridData,
   sm: gridDataSmall,
   xs: gridDataSmall,
 };
 
 export const originalLayouts = getFromLS('layouts') || initLayouts;
-// console.log(originalLayouts);
 
 const Dashboard: FC = () => (
   <PageContainer>
@@ -48,6 +83,7 @@ type CurrentLayoutType = {
   layout: Layout[];
   layouts: Layouts;
 };
+
 export const Grid: FC = () => {
   const [gridLayouts, setGridLayouts] = useState(
     JSON.parse(JSON.stringify(originalLayouts)),
@@ -58,6 +94,9 @@ export const Grid: FC = () => {
     layout: [],
     layouts: {},
   });
+  const [editable, setEditable] = useState(false);
+
+  const toggleEditLayout = () => setEditable(!editable);
 
   useEffect(() => {
     if (getFromLS('layouts') !== undefined) setOwnLayout(true);
@@ -87,12 +126,13 @@ export const Grid: FC = () => {
       height="85vh"
       maxH="85vh"
       sx={{
-        border: '1px solid white',
-        borderColor: 'whiteAlpha.300',
-        '.grid > div': {
-          // bg: 'purple80',
+        '.gridItem': {
+          boxShadow: editable
+            ? '0 0 10px rgba(0,0,0,0.4)'
+            : '0 0 0 rgba(0,0,0,0.4)',
           borderTopRadius: 'lg',
           height: 'unset',
+          overflow: 'hidden',
           p: {
             fontFamily: 'mono',
             fontSize: 'sm',
@@ -101,9 +141,12 @@ export const Grid: FC = () => {
             mr: 'auto',
           },
           '& > div': {
-            bg: 'blackAlpha.300',
+            bg: editable ? 'blackAlpha.500' : 'blackAlpha.300',
             backdropFilter: 'blur(10px)',
+            borderBottomRadius: 'lg',
+            overflow: 'hidden',
             h: '100%',
+            transition: 'bg 0.2s ease',
           },
           h2: {
             fontFamily: 'exo',
@@ -119,11 +162,48 @@ export const Grid: FC = () => {
         },
       }}
     >
-      {(changed || ownLayout) && (
-        <Box pos="absolute" top={20} right={12} h={5}>
-          <MetaButton onClick={handleReset}>Reset layout</MetaButton>
-        </Box>
-      )}
+      <ButtonGroup
+        pos="absolute"
+        right={25}
+        top={90}
+        variant="ghost"
+        isAttached
+      >
+        {(changed || ownLayout) && editable && (
+          <MetaButton
+            aria-label="Edit layout"
+            colorScheme="purple"
+            textTransform="uppercase"
+            px={12}
+            letterSpacing="0.1em"
+            size="lg"
+            fontSize="sm"
+            bg="transparent"
+            color="purple.400"
+            onClick={handleReset}
+            leftIcon={<DeleteIcon />}
+          >
+            Reset
+          </MetaButton>
+        )}
+        <MetaButton
+          aria-label="Edit layout"
+          colorScheme="purple"
+          textTransform="uppercase"
+          px={12}
+          letterSpacing="0.1em"
+          size="lg"
+          fontSize="sm"
+          bg="transparent"
+          color={editable ? 'orange.800' : 'purple.400'}
+          leftIcon={<EditIcon />}
+          transition="color 0.2s ease"
+          onClick={toggleEditLayout}
+        >
+          Edit layout
+        </MetaButton>
+      </ButtonGroup>
+
       <ResponsiveGridLayout
         className="grid"
         onLayoutChange={(layout, layouts) => {
@@ -134,10 +214,12 @@ export const Grid: FC = () => {
         layouts={gridLayouts}
         breakpoints={{ xl: 1920, lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
         preventCollision={false}
-        cols={{ xl: 12, lg: 12, md: 8, sm: 4, xs: 2, xxs: 1 }}
-        rowHeight={100}
+        cols={{ xl: 12, lg: 12, md: 12, sm: 4, xs: 4, xxs: 4 }}
+        rowHeight={135}
         autoSize
         isBounded
+        isDraggable={!!editable}
+        isResizable={!!editable}
         transformScale={1}
         margin={{
           xl: [20, 20],
@@ -148,42 +230,288 @@ export const Grid: FC = () => {
           xxs: [20, 20],
         }}
       >
-        <div key="latest" className="gridItem">
+        {/* <DashboardSection key="latest" id="latest" containerQuery={queryData}> */}
+        <Box key="latest" className="gridItem">
           <Box
             borderBottomRadius="lg"
             borderTopRadius="lg"
             p={6}
             boxShadow="md"
           >
-            <MetaHeading>Latest Content</MetaHeading>
+            <ContainerQuery query={containerQueries}>
+              {(params: Params) => (
+                <Box
+                  className={classnames('container', params)}
+                  sx={{
+                    '&.container': {
+                      '&__xs': {
+                        '.chakra-tabs': {
+                          '&__tab-panel': {
+                            p: {
+                              color: 'purple.50',
+                            },
+                            // '&--read': {
+                            //   p: {
+                            //     color: 'purple.50',
+                            //   },
+                            // },
+                            // '&--listen': {
+                            //   p: {
+                            //     color: 'purple.200',
+                            //   },
+                            // },
+                            // '&--watch': {
+                            //   p: {
+                            //     color: 'purple.300',
+                            //   },
+                            // },
+                          },
+                        },
+                      },
+                      '&__sm': {
+                        '.chakra-tabs': {
+                          '&__tab-panel': {
+                            p: {
+                              color: 'purple.200',
+                            },
+                          },
+                        },
+                      },
+                      '&__md': {
+                        '.chakra-tabs': {
+                          '&__tab-panel': {
+                            p: {
+                              color: 'purple.300',
+                            },
+                          },
+                        },
+                      },
+                      '&__lg': {
+                        '.chakra-tabs': {
+                          '&__tab-panel': {
+                            p: {
+                              color: 'pink.400',
+                            },
+                          },
+                        },
+                      },
+                    },
+                  }}
+                >
+                  <MetaHeading>Latest Content</MetaHeading>
+                  <Tabs
+                    mt={5}
+                    size="lg"
+                    variant="line"
+                    colorScheme="gray.600"
+                    isFitted
+                  >
+                    <TabList borderBottomWidth={0}>
+                      <Tab
+                        color="gray.600"
+                        _selected={{ color: 'white', borderColor: 'white' }}
+                      >
+                        Read
+                      </Tab>
+                      <Tab
+                        color="gray.600"
+                        _selected={{ color: 'white', borderColor: 'white' }}
+                      >
+                        Listen
+                      </Tab>
+                      <Tab
+                        color="gray.600"
+                        _selected={{ color: 'white', borderColor: 'white' }}
+                      >
+                        Watch
+                      </Tab>
+                    </TabList>
+
+                    <TabPanels>
+                      <TabPanel className="chakra-tabs__tab-panel--read">
+                        <p>A feed of news and events</p>
+                      </TabPanel>
+                      <TabPanel className="chakra-tabs__tab-panel--listen">
+                        <p>A feed podcast episodes from Anchor or wherever.</p>
+                      </TabPanel>
+                      <TabPanel className="chakra-tabs__tab-panel--watch">
+                        <p>Feed of MetaMedia YouTube content</p>
+                      </TabPanel>
+                    </TabPanels>
+                  </Tabs>
+                </Box>
+              )}
+            </ContainerQuery>
           </Box>
-        </div>
-        <div key="xp" className="gridItem">
+        </Box>
+
+        {/* </DashboardSection> */}
+
+        <Box key="xp" className="gridItem">
           <Box
             borderBottomRadius="lg"
             borderTopRadius="lg"
             p={6}
             boxShadow="md"
           >
-            <MetaHeading>XP</MetaHeading>
+            <ContainerQuery query={containerQueries}>
+              {(params: Params) => (
+                <Box
+                  className={classnames('container', params)}
+                  sx={{
+                    '&.container': {
+                      '&__xxs': {
+                        '.chakra-stack': {
+                          flexFlow: 'column wrap',
+                          alignItems: 'flex-start',
+                          p: {
+                            mx: 0,
+                          },
+                        },
+                        '.chakra-stat': {
+                          flex: '0 1 100%',
+                          '&__group': {
+                            mt: 1,
+                          },
+                          '&__label': {
+                            fontSize: 'xs',
+                          },
+                          '&:nth-of-type(3), &:last-of-type': {
+                            display: 'none',
+                          },
+                        },
+                      },
+                      '&__xs': {
+                        '.chakra-stat': {
+                          '&__label': {
+                            fontSize: 'xs',
+                          },
+                        },
+                      },
+                    },
+                  }}
+                >
+                  <MetaHeading>XP</MetaHeading>
+                  <StatGroup mt={5} flex="0 0 50%">
+                    <Stat mb={3}>
+                      <StatLabel>This Week</StatLabel>
+                      <StatNumber>45</StatNumber>
+                      <StatHelpText>
+                        <StatArrow type="decrease" />
+                        55%
+                      </StatHelpText>
+                    </Stat>
+
+                    <Stat mb={3} flex="0 0 50%">
+                      <StatLabel>Last Week</StatLabel>
+                      <StatNumber>78</StatNumber>
+                      <StatHelpText>
+                        <StatArrow type="decrease" />
+                        22%
+                      </StatHelpText>
+                    </Stat>
+
+                    <Stat
+                      alignSelf="flex-start"
+                      justifySelf="flex-end"
+                      flex="0 0 50%"
+                    >
+                      <StatLabel>All Time</StatLabel>
+                      <StatNumber>2463</StatNumber>
+                      <StatHelpText color="diamond">Diamond</StatHelpText>
+                    </Stat>
+                    <Stat
+                      alignSelf="flex-start"
+                      justifySelf="flex-end"
+                      flex="0 0 50%"
+                    >
+                      <StatLabel>XP/SEED Ratio</StatLabel>
+                      <StatNumber>3.4</StatNumber>
+                      <StatHelpText>
+                        <StatArrow type="decrease" />
+                        0.3
+                      </StatHelpText>
+                    </Stat>
+                  </StatGroup>
+                </Box>
+              )}
+            </ContainerQuery>
           </Box>
-        </div>
-        <div key="seed" className="gridItem">
+        </Box>
+        <Box key="seed" className="gridItem">
           <Box
             borderBottomRadius="lg"
             borderTopRadius="lg"
             p={6}
             boxShadow="md"
           >
-            <MetaHeading>Seed</MetaHeading>
-            <HStack w="100%" justify="space-evenly">
-              <Text>Mkt Price</Text>
-              <Text>Trad Vol</Text>
-              <Text>Low / High</Text>
-            </HStack>
+            <ContainerQuery query={containerQueries}>
+              {(params: Params) => (
+                <Box
+                  className={classnames('container', params)}
+                  sx={{
+                    '&.container': {
+                      '&__xxs': {
+                        '.chakra-stack': {
+                          flexFlow: 'column',
+                          alignItems: 'flex-start',
+                          p: {
+                            mx: 0,
+                          },
+                        },
+                        '.chakra-stat': {
+                          '&__group': {
+                            mt: 1,
+                          },
+                          '&__label': {
+                            fontSize: 'xs',
+                          },
+                          '&:last-of-type': {
+                            display: 'none',
+                          },
+                        },
+                      },
+                      '&__xs': {
+                        '.chakra-stat': {
+                          '&__label': {
+                            fontSize: 'xs',
+                          },
+                        },
+                      },
+                    },
+                  }}
+                >
+                  <MetaHeading>Seed</MetaHeading>
+                  <StatGroup mt={5}>
+                    <Stat mb={3}>
+                      <StatLabel>Market Price</StatLabel>
+                      <StatNumber>$30.77</StatNumber>
+                      <StatHelpText>
+                        <StatArrow type="increase" />
+                        11.43%
+                      </StatHelpText>
+                    </Stat>
+
+                    <Stat mb={3}>
+                      <StatLabel>24h Trading Volume</StatLabel>
+                      <StatNumber>$1,034</StatNumber>
+                      <StatHelpText>
+                        <StatArrow type="increase" />
+                        9.05%
+                      </StatHelpText>
+                    </Stat>
+
+                    <Stat alignSelf="flex-start" flex="0 0 100%">
+                      <StatLabel>24h Low / High</StatLabel>
+                      <StatNumber>$30.24 / $32.17</StatNumber>
+                    </Stat>
+                  </StatGroup>
+                </Box>
+              )}
+            </ContainerQuery>
           </Box>
-        </div>
-        <div key="cal" className="gridItem">
+        </Box>
+        <Box key="cal" className="gridItem">
           <Box
             borderBottomRadius="lg"
             borderTopRadius="lg"
@@ -192,42 +520,178 @@ export const Grid: FC = () => {
           >
             <MetaHeading>Calendar</MetaHeading>
           </Box>
-        </div>
-        <div key="leaders" className="gridItem">
+        </Box>
+        <Box key="leaders" className="gridItem">
           <Box
             borderBottomRadius="lg"
             borderTopRadius="lg"
             p={6}
             boxShadow="md"
           >
-            <MetaHeading>Leaderboard</MetaHeading>
+            <ContainerQuery query={containerQueries}>
+              {(params: Params) => (
+                <Box
+                  className={classnames('container', params)}
+                  sx={{
+                    '.player': {
+                      transition: 'all 0.3s ease',
+                      '&:hover': {
+                        boxShadow: '0 0 8px rgba(0,0,0,0.3)',
+                        cursor: 'pointer',
+                      },
+                    },
+                    '&.container': {
+                      '&__xxs': {
+                        '.player': {
+                          px: 3,
+                          py: 2,
+                          fontSize: 'sm',
+                          justifyContent: 'center',
+                          opacity: 1,
+                          '&__position, &__name, &__score': {
+                            visibility: 'hidden',
+                            maxW: 0,
+                            maxH: 0,
+                            mr: 0,
+                          },
+                          '&__avatar': {
+                            mr: 0,
+                          },
+                        },
+                      },
+                      '&__xs': {
+                        '.player': {
+                          px: 3,
+                          fontSize: 'sm',
+                        },
+                      },
+                    },
+                  }}
+                >
+                  <MetaHeading>Leaderboard</MetaHeading>
+                  <VStack className="leaderboard" width="100%" mt={5}>
+                    <Box
+                      className="player player__chip"
+                      display="flex"
+                      width="100%"
+                      px={8}
+                      py={2}
+                      flexFlow="row nowrap"
+                      alignItems="center"
+                      justifyContent="flex-start"
+                      backgroundColor="blackAlpha.500"
+                      borderRadius="md"
+                    >
+                      <Box className="player__position" flex={0} mr={3}>
+                        1
+                      </Box>
+                      <Avatar
+                        className="player__avatar"
+                        bg="cyan.200"
+                        border="2px solid"
+                        borderColor="diamond"
+                        src="https://pbs.twimg.com/profile_images/1349660293778067456/x4HwomRZ_400x400.jpg"
+                        mr={3}
+                      />
+                      <Box className="player__name">pΞTH</Box>
+                      <Box className="player__score" textAlign="right" flex={1}>
+                        429
+                      </Box>
+                    </Box>
+                    <Box
+                      className="player player__chip"
+                      display="flex"
+                      width="100%"
+                      px={8}
+                      py={2}
+                      flexFlow="row nowrap"
+                      alignItems="center"
+                      justifyContent="flex-start"
+                      backgroundColor="blackAlpha.500"
+                      borderRadius="md"
+                    >
+                      <Box className="player__position" flex={0} mr={3}>
+                        2
+                      </Box>
+                      <Avatar
+                        className="player__avatar"
+                        bg="cyan.200"
+                        border="2px solid"
+                        borderColor="diamond"
+                        src="https://pbs.twimg.com/profile_images/964343435682512896/JEnt0Aed_400x400.jpg"
+                        mr={3}
+                      />
+                      <Box className="player__name">Misanth</Box>
+                      <Box className="player__score" textAlign="right" flex={1}>
+                        390
+                      </Box>
+                    </Box>
+                    <Box
+                      className="player player__chip"
+                      display="flex"
+                      width="100%"
+                      px={8}
+                      py={2}
+                      flexFlow="row nowrap"
+                      alignItems="center"
+                      justifyContent="flex-start"
+                      backgroundColor="blackAlpha.500"
+                      borderRadius="md"
+                    >
+                      <Box className="player__position" flex={0} mr={3}>
+                        3
+                      </Box>
+                      <Avatar
+                        className="player__avatar"
+                        bg="cyan.200"
+                        border="2px solid"
+                        borderColor="diamond"
+                        src="https://metafam.imgix.net/https%3A%2F%2Fipfs.infura.io%2Fipfs%2FQmRKgJ6nA8CaxDRFYQ2o7SLVF4N8zGbezEKnC993foTZX5?ixlib=js-2.3.2&amp;ar=1%3A1&amp;height=200&amp;s=3f23e361b4ac8a70e211a706b95398a9"
+                        mr={3}
+                      />
+                      <Box className="player__name">luxumbra</Box>
+                      <Box className="player__score" textAlign="right" flex={1}>
+                        321
+                      </Box>
+                    </Box>
+                    <Box
+                      className="player player__chip"
+                      display="flex"
+                      width="100%"
+                      px={8}
+                      py={2}
+                      flexFlow="row nowrap"
+                      alignItems="center"
+                      justifyContent="flex-start"
+                      backgroundColor="blackAlpha.500"
+                      borderRadius="md"
+                    >
+                      <Box className="player__position" flex={0} mr={3}>
+                        2
+                      </Box>
+                      <Avatar
+                        className="player__avatar"
+                        bg="cyan.200"
+                        border="2px solid"
+                        borderColor="diamond"
+                        src="https://metafam.imgix.net/https%3A%2F%2Fipfs.infura.io%2Fipfs%2FQmXqFv1JQrUvyVEZXSsriJrxgx9uhBX99RessphRCX5D8j?ixlib=js-2.3.2&amp;ar=1%3A1&amp;height=200&amp;s=ed9e9235a18d845328ddc473bf7bfe5d"
+                        mr={3}
+                      />
+                      <Box className="player__name">Alec</Box>
+                      <Box className="player__score" textAlign="right" flex={1}>
+                        305
+                      </Box>
+                    </Box>
+                  </VStack>
+                </Box>
+              )}
+            </ContainerQuery>
           </Box>
-        </div>
+        </Box>
       </ResponsiveGridLayout>
     </Box>
   );
 };
-
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-// export function saveSectionsLS() {
-//   if (global.localStorage) {
-//     global.localStorage.setItem(
-//       'metagame-dashboard-sections',
-//       JSON.stringify({
-//         sections: [
-//           {
-//             id: 1,
-//             name: 'latest',
-//           },
-//           {
-//             id: 2,
-//             name: 'xp',
-//           },
-//         ],
-//       }),
-//     );
-//   }
-// }
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function resetLayouts() {
