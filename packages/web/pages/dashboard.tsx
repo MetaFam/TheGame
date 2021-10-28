@@ -537,11 +537,21 @@ export const Grid: FC = () => {
                 <Box
                   className={classnames('container', params)}
                   sx={{
-                    '.player': {
-                      transition: 'all 0.3s ease',
-                      '&:hover': {
-                        boxShadow: '0 0 8px rgba(0,0,0,0.3)',
-                        cursor: 'pointer',
+                    '.calendar': {
+                      '&__day': {
+                        '&--title': {
+                          transition: 'all 0.3s ease',
+                        },
+                        '&--event': {
+                          transition: 'all 0.3s ease',
+                          '&:hover': {
+                            boxShadow: '0 0 8px rgba(0,0,0,0.3)',
+                            cursor: 'pointer',
+                          },
+                          h4: {
+                            transition: 'all 0.3s ease',
+                          },
+                        },
                       },
                     },
                     '&.container': {
@@ -550,11 +560,18 @@ export const Grid: FC = () => {
                           '&__day': {
                             '&--title': {
                               fontSize: 'xs',
+                              px: 1,
                             },
                             '&--event': {
+                              py: 1,
+                              px: 2,
                               h4: {
                                 visibility: 'hidden',
                                 maxH: 0,
+                              },
+                              span: {
+                                fontSize: '12px',
+                                fontWeight: '700',
                               },
                               _hover: {},
                             },
@@ -564,8 +581,20 @@ export const Grid: FC = () => {
                       '&__xs': {
                         '.calendar': {
                           '&__day': {
-                            h3: {
+                            '&--title': {
                               fontSize: 'xs',
+                              px: 3,
+                            },
+                            '&--event': {
+                              py: 2,
+                              px: 3,
+                              h4: {
+                                fontSize: 'sm',
+                              },
+                              span: {
+                                fontSize: '12px',
+                              },
+                              _hover: {},
                             },
                           },
                         },
@@ -622,12 +651,6 @@ export const Grid: FC = () => {
                           py={2}
                           backgroundColor="blackAlpha.500"
                           borderRadius="md"
-                          sx={{
-                            '&:hover': {
-                              boxShadow: '0 0 8px rgba(0,0,0,0.3)',
-                              cursor: 'pointer',
-                            },
-                          }}
                         >
                           <Popover colorScheme="purple">
                             <PopoverTrigger>
@@ -639,12 +662,13 @@ export const Grid: FC = () => {
                                 <Box
                                   as="h4"
                                   fontSize="md"
-                                  fontFamily="exo2"
+                                  fontFamily="body"
                                   fontWeight="bold"
                                 >
                                   Champions Ring
                                 </Box>
                                 <Box
+                                  as="span"
                                   fontWeight="100"
                                   fontFamily="body"
                                   fontSize="xs"
@@ -655,7 +679,7 @@ export const Grid: FC = () => {
                             </PopoverTrigger>
                             <Portal>
                               <PopoverContent
-                                backgroundColor="purple.400"
+                                backgroundColor="purpleTag70"
                                 backdropFilter="blur(10px)"
                                 boxShadow="0 0 10px rgba(0,0,0,0.3)"
                                 borderWidth={0}
@@ -736,7 +760,7 @@ export const Grid: FC = () => {
                                 <PopoverFooter borderTopWidth={0}>
                                   <ButtonGroup
                                     variant="ghost"
-                                    colorScheme="purple"
+                                    colorScheme="cyan"
                                   >
                                     <IconButton
                                       aria-label="Add to your calendar"
@@ -760,13 +784,6 @@ export const Grid: FC = () => {
                           py={2}
                           backgroundColor="blackAlpha.500"
                           borderRadius="md"
-                          sx={{
-                            transition: 'all 0.2s ease',
-                            '&:hover': {
-                              boxShadow: '0 0 8px rgba(0,0,0,0.3)',
-                              cursor: 'pointer',
-                            },
-                          }}
                         >
                           <Popover colorScheme="purple">
                             <PopoverTrigger>
@@ -778,12 +795,13 @@ export const Grid: FC = () => {
                                 <Box
                                   as="h4"
                                   fontSize="md"
-                                  fontFamily="exo2"
+                                  fontFamily="body"
                                   fontWeight="bold"
                                 >
                                   Headhunters align
                                 </Box>
                                 <Box
+                                  as="span"
                                   fontWeight="100"
                                   fontFamily="body"
                                   fontSize="xs"
@@ -794,7 +812,7 @@ export const Grid: FC = () => {
                             </PopoverTrigger>
                             <Portal>
                               <PopoverContent
-                                backgroundColor="purple.400"
+                                backgroundColor="purpleTag70"
                                 backdropFilter="blur(10px)"
                                 boxShadow="0 0 10px rgba(0,0,0,0.3)"
                                 borderWidth={0}
@@ -875,7 +893,7 @@ export const Grid: FC = () => {
                                 <PopoverFooter borderTopWidth={0}>
                                   <ButtonGroup
                                     variant="ghost"
-                                    colorScheme="purple"
+                                    colorScheme="cyan"
                                   >
                                     <IconButton
                                       aria-label="Add to your calendar"
@@ -932,12 +950,6 @@ export const Grid: FC = () => {
                           py={2}
                           backgroundColor="blackAlpha.500"
                           borderRadius="md"
-                          sx={{
-                            '&:hover': {
-                              boxShadow: '0 0 8px rgba(0,0,0,0.3)',
-                              cursor: 'pointer',
-                            },
-                          }}
                         >
                           <Popover colorScheme="purple">
                             <PopoverTrigger>
@@ -949,12 +961,13 @@ export const Grid: FC = () => {
                                 <Box
                                   as="h4"
                                   fontSize="md"
-                                  fontFamily="exo2"
+                                  fontFamily="body"
                                   fontWeight="bold"
                                 >
                                   Content &amp; Shilling Strategy
                                 </Box>
                                 <Box
+                                  as="span"
                                   fontWeight="100"
                                   fontFamily="body"
                                   fontSize="xs"
@@ -965,7 +978,7 @@ export const Grid: FC = () => {
                             </PopoverTrigger>
                             <Portal>
                               <PopoverContent
-                                backgroundColor="purple.400"
+                                backgroundColor="purpleTag70"
                                 backdropFilter="blur(10px)"
                                 boxShadow="0 0 10px rgba(0,0,0,0.3)"
                                 borderWidth={0}
@@ -1046,7 +1059,7 @@ export const Grid: FC = () => {
                                 <PopoverFooter borderTopWidth={0}>
                                   <ButtonGroup
                                     variant="ghost"
-                                    colorScheme="purple"
+                                    colorScheme="cyan"
                                   >
                                     <IconButton
                                       aria-label="Add to your calendar"
@@ -1070,13 +1083,6 @@ export const Grid: FC = () => {
                           py={2}
                           backgroundColor="blackAlpha.500"
                           borderRadius="md"
-                          sx={{
-                            transition: 'all 0.2s ease',
-                            '&:hover': {
-                              boxShadow: '0 0 8px rgba(0,0,0,0.3)',
-                              cursor: 'pointer',
-                            },
-                          }}
                         >
                           <Popover colorScheme="purple">
                             <PopoverTrigger>
@@ -1088,12 +1094,13 @@ export const Grid: FC = () => {
                                 <Box
                                   as="h4"
                                   fontSize="md"
-                                  fontFamily="exo2"
+                                  fontFamily="body"
                                   fontWeight="bold"
                                 >
                                   Shillers Align
                                 </Box>
                                 <Box
+                                  as="span"
                                   fontWeight="100"
                                   fontFamily="body"
                                   fontSize="xs"
@@ -1104,7 +1111,7 @@ export const Grid: FC = () => {
                             </PopoverTrigger>
                             <Portal>
                               <PopoverContent
-                                backgroundColor="purple.400"
+                                backgroundColor="purpleTag70"
                                 backdropFilter="blur(10px)"
                                 boxShadow="0 0 10px rgba(0,0,0,0.3)"
                                 borderWidth={0}
@@ -1185,7 +1192,7 @@ export const Grid: FC = () => {
                                 <PopoverFooter borderTopWidth={0}>
                                   <ButtonGroup
                                     variant="ghost"
-                                    colorScheme="purple"
+                                    colorScheme="cyan"
                                   >
                                     <IconButton
                                       aria-label="Add to your calendar"
@@ -1223,6 +1230,9 @@ export const Grid: FC = () => {
                   sx={{
                     '.player': {
                       transition: 'all 0.3s ease',
+                      '&__score': {
+                        fontWeight: '400',
+                      },
                       '&:hover': {
                         boxShadow: '0 0 8px rgba(0,0,0,0.3)',
                         cursor: 'pointer',
@@ -1257,7 +1267,13 @@ export const Grid: FC = () => {
                   }}
                 >
                   <MetaHeading>Leaderboard</MetaHeading>
-                  <VStack className="leaderboard" width="100%" mt={5}>
+                  <VStack
+                    className="leaderboard"
+                    width="100%"
+                    mt={5}
+                    fontFamily="exo2"
+                    fontWeight="700"
+                  >
                     <Box
                       className="player player__chip"
                       display="flex"
