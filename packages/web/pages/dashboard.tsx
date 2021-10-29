@@ -8,15 +8,11 @@ import {
   EditIcon,
   MetaButton,
   MetaHeading,
-  Tab,
-  TabList,
-  TabPanel,
-  TabPanels,
-  Tabs,
 } from '@metafam/ds';
 import classnames from 'classnames';
 import { PageContainer } from 'components/Container';
 import { Calendar } from 'components/Dashboard/Calendar';
+import { LatestContent } from 'components/Dashboard/LatestContent';
 import { Leaderboard } from 'components/Dashboard/Leaderboard';
 import { containerQueries } from 'components/Dashboard/Section';
 import { Seed } from 'components/Dashboard/Seed';
@@ -328,46 +324,7 @@ export const Grid: FC = () => {
                   }}
                 >
                   <MetaHeading>Latest Content</MetaHeading>
-                  <Tabs
-                    mt={5}
-                    size="lg"
-                    variant="line"
-                    colorScheme="gray.600"
-                    isFitted
-                  >
-                    <TabList borderBottomWidth={0}>
-                      <Tab
-                        color="gray.600"
-                        _selected={{ color: 'white', borderColor: 'white' }}
-                      >
-                        Read
-                      </Tab>
-                      <Tab
-                        color="gray.600"
-                        _selected={{ color: 'white', borderColor: 'white' }}
-                      >
-                        Listen
-                      </Tab>
-                      <Tab
-                        color="gray.600"
-                        _selected={{ color: 'white', borderColor: 'white' }}
-                      >
-                        Watch
-                      </Tab>
-                    </TabList>
-
-                    <TabPanels>
-                      <TabPanel className="chakra-tabs__tab-panel--read">
-                        <p>A feed of news and events</p>
-                      </TabPanel>
-                      <TabPanel className="chakra-tabs__tab-panel--listen">
-                        <p>A feed podcast episodes from Anchor or wherever.</p>
-                      </TabPanel>
-                      <TabPanel className="chakra-tabs__tab-panel--watch">
-                        <p>Feed of MetaMedia YouTube content</p>
-                      </TabPanel>
-                    </TabPanels>
-                  </Tabs>
+                  <LatestContent />
                 </Box>
               )}
             </ContainerQuery>
