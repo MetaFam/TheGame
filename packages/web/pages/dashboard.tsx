@@ -26,6 +26,7 @@ import classnames from 'classnames';
 import { PageContainer } from 'components/Container';
 import { Calendar } from 'components/Dashboard/Calendar';
 import { containerQueries } from 'components/Dashboard/Section';
+import { Seed } from 'components/Dashboard/Seed';
 import { FC, useEffect, useState } from 'react';
 import { ContainerQuery } from 'react-container-query';
 import { Layout, Layouts, Responsive, WidthProvider } from 'react-grid-layout';
@@ -516,30 +517,7 @@ export const Grid: FC = () => {
                   }}
                 >
                   <MetaHeading>Seed</MetaHeading>
-                  <StatGroup mt={5}>
-                    <Stat mb={3}>
-                      <StatLabel>Market Price</StatLabel>
-                      <StatNumber>$30.77</StatNumber>
-                      <StatHelpText>
-                        <StatArrow type="increase" />
-                        11.43%
-                      </StatHelpText>
-                    </Stat>
-
-                    <Stat mb={3}>
-                      <StatLabel>24h Trading Volume</StatLabel>
-                      <StatNumber>$1,034</StatNumber>
-                      <StatHelpText>
-                        <StatArrow type="increase" />
-                        9.05%
-                      </StatHelpText>
-                    </Stat>
-
-                    <Stat alignSelf="flex-start" flex="0 0 100%">
-                      <StatLabel>24h Low / High</StatLabel>
-                      <StatNumber>$30.24 / $32.17</StatNumber>
-                    </Stat>
-                  </StatGroup>
+                  <Seed />
                 </Box>
               )}
             </ContainerQuery>
