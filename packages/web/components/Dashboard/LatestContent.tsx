@@ -1,7 +1,7 @@
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@metafam/ds';
 import React from 'react';
 
-export const XP: React.FC = () => (
+export const LatestContent: React.FC = () => (
   <Tabs mt={5} size="lg" variant="line" colorScheme="gray.600" isFitted>
     <TabList borderBottomWidth={0}>
       <Tab
