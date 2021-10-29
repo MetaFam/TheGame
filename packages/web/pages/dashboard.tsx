@@ -66,19 +66,27 @@ export const gridData = [
   { i: 'leaders', x: 9, y: 2, w: 3, h: 4 },
 ];
 
-export const gridDataSmall = [
-  { i: 'latest', x: 0, y: 2, w: 4, h: 3, minW: 2, maxW: 4 },
-  { i: 'xp', x: 0, y: 0, w: 2, h: 1, minW: 2, maxW: 4 },
-  { i: 'seed', x: 2, y: 0, w: 2, h: 1 },
-  { i: 'cal', x: 0, y: 5, w: 4, h: 2 },
-  { i: 'leaders', x: 0, y: 7, w: 4, h: 3 },
+export const gridDataMd = [
+  { i: 'latest', x: 0, y: 0, w: 6, h: 4 },
+  { i: 'xp', x: 6, y: 0, w: 6, h: 2 },
+  { i: 'seed', x: 6, y: 2, w: 6, h: 2 },
+  { i: 'cal', x: 0, y: 4, w: 6, h: 4 },
+  { i: 'leaders', x: 6, y: 4, w: 6, h: 4 },
+];
+
+export const gridDataSm = [
+  { i: 'latest', x: 0, y: 3, w: 4, h: 3 },
+  { i: 'xp', x: 0, y: 0, w: 2, h: 2 },
+  { i: 'seed', x: 2, y: 0, w: 2, h: 2 },
+  { i: 'cal', x: 0, y: 5, w: 2, h: 4 },
+  { i: 'leaders', x: 2, y: 5, w: 2, h: 4 },
 ];
 
 export const initLayouts = {
   lg: gridData,
-  md: gridData,
-  sm: gridDataSmall,
-  xs: gridDataSmall,
+  md: gridDataMd,
+  sm: gridDataSm,
+  xs: gridDataSm,
 };
 
 export const originalLayouts = getFromLS('layouts') || initLayouts;
@@ -110,6 +118,14 @@ export const Grid: FC = () => {
 
   const toggleEditLayout = () => setEditable(!editable);
 
+  const toggleScrollLock = () => {
+    if (typeof window !== 'undefined') {
+      const body = document.querySelector('body');
+      if (body) body.classList.toggle('dashboard-edit');
+    }
+    return null;
+  };
+
   useEffect(() => {
     if (getFromLS('layouts') !== undefined) setOwnLayout(true);
     function handleLayoutChange(layout: Layout[] = [], layouts: Layouts) {
@@ -135,8 +151,7 @@ export const Grid: FC = () => {
     <Box
       className="gridWrapper"
       width="100%"
-      height="85vh"
-      maxH="85vh"
+      height="100%"
       sx={{
         '.gridItem': {
           boxShadow: editable
@@ -161,6 +176,10 @@ export const Grid: FC = () => {
             h: '100%',
             transition: 'bg 0.2s 0.3s ease',
           },
+          '.container': {
+            overflowY: 'auto',
+            height: '100%',
+          },
           h2: {
             fontFamily: 'exo',
             fontSize: 'lg',
@@ -181,6 +200,7 @@ export const Grid: FC = () => {
         right={25}
         top={90}
         variant="ghost"
+        zIndex={10}
         isAttached
       >
         {(changed || ownLayout) && editable && (
@@ -226,14 +246,18 @@ export const Grid: FC = () => {
         }}
         verticalCompact
         layouts={gridLayouts}
-        breakpoints={{ xl: 1920, lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
+        breakpoints={{ xl: 1920, lg: 1180, md: 900, sm: 768, xs: 480, xxs: 0 }}
         preventCollision={false}
         cols={{ xl: 12, lg: 12, md: 12, sm: 4, xs: 4, xxs: 4 }}
         rowHeight={135}
         autoSize
-        isBounded
+        // isBounded
         isDraggable={!!editable}
         isResizable={!!editable}
+        onDragStart={toggleScrollLock}
+        onDragStop={toggleScrollLock}
+        onResizeStart={toggleScrollLock}
+        onResizeStop={toggleScrollLock}
         transformScale={1}
         margin={{
           xl: [20, 20],
@@ -242,6 +266,14 @@ export const Grid: FC = () => {
           sm: [20, 20],
           xs: [20, 20],
           xxs: [20, 20],
+        }}
+        containerPadding={{
+          xl: [20, 20],
+          lg: [20, 20],
+          md: [15, 15],
+          sm: [15, 15],
+          xs: [10, 10],
+          xxs: [10, 10],
         }}
       >
         {/* <DashboardSection key="latest" id="latest" containerQuery={queryData}> */}
