@@ -7,19 +7,17 @@ import {
   DeleteIcon,
   EditIcon,
   MetaButton,
-  MetaHeading,
 } from '@metafam/ds';
-import classnames from 'classnames';
 import { PageContainer } from 'components/Container';
 import { Calendar } from 'components/Dashboard/Calendar';
+import { GridItem } from 'components/Dashboard/GridItem';
 import { LatestContent } from 'components/Dashboard/LatestContent';
 import { Leaderboard } from 'components/Dashboard/Leaderboard';
-import { containerQueries } from 'components/Dashboard/Section';
 import { Seed } from 'components/Dashboard/Seed';
 import { XP } from 'components/Dashboard/XP';
 import { FC, useEffect, useState } from 'react';
-import { ContainerQuery } from 'react-container-query';
 import { Layout, Layouts, Responsive, WidthProvider } from 'react-grid-layout';
+import { gridConfig, gridData, gridDataMd, gridDataSm } from 'utils/dashboard';
 
 // type LayoutProps = Layout
 // type LayoutsProps = Layouts
@@ -37,29 +35,6 @@ export interface ContainerQueries {
 }
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
-export const gridData = [
-  { i: 'latest', x: 0, y: 0, w: 6, h: 6 },
-  { i: 'xp', x: 6, y: 0, w: 3, h: 2 },
-  { i: 'seed', x: 9, y: 0, w: 3, h: 2 },
-  { i: 'cal', x: 6, y: 2, w: 3, h: 4 },
-  { i: 'leaders', x: 9, y: 2, w: 3, h: 4 },
-];
-
-export const gridDataMd = [
-  { i: 'latest', x: 0, y: 0, w: 6, h: 4 },
-  { i: 'xp', x: 6, y: 0, w: 6, h: 2 },
-  { i: 'seed', x: 6, y: 2, w: 6, h: 2 },
-  { i: 'cal', x: 0, y: 4, w: 6, h: 4 },
-  { i: 'leaders', x: 6, y: 4, w: 6, h: 4 },
-];
-
-export const gridDataSm = [
-  { i: 'latest', x: 0, y: 3, w: 4, h: 3 },
-  { i: 'xp', x: 0, y: 0, w: 2, h: 2 },
-  { i: 'seed', x: 2, y: 0, w: 2, h: 2 },
-  { i: 'cal', x: 0, y: 5, w: 2, h: 4 },
-  { i: 'leaders', x: 2, y: 5, w: 2, h: 4 },
-];
 
 export const initLayouts = {
   lg: gridData,
@@ -131,48 +106,7 @@ export const Grid: FC = () => {
       className="gridWrapper"
       width="100%"
       height="100%"
-      sx={{
-        '.gridItem': {
-          boxShadow: editable
-            ? '0 0 10px rgba(0,0,0,0.4)'
-            : '0 0 0 rgba(0,0,0,0.4)',
-          borderTopRadius: 'lg',
-          height: 'unset',
-          overflow: 'hidden',
-          transition: 'boxShadow 0.2s 0.3s ease',
-          p: {
-            fontFamily: 'mono',
-            fontSize: 'sm',
-            fontWeight: 'bold',
-            color: 'blueLight',
-            mr: 'auto',
-          },
-          '& > div': {
-            bg: editable ? 'blackAlpha.500' : 'blackAlpha.300',
-            backdropFilter: 'blur(10px)',
-            borderBottomRadius: 'lg',
-            overflow: 'hidden',
-            h: '100%',
-            transition: 'bg 0.2s 0.3s ease',
-          },
-          '.container': {
-            overflowY: 'auto',
-            height: '100%',
-          },
-          h2: {
-            fontFamily: 'exo',
-            fontSize: 'lg',
-            fontWeight: '700',
-            textAlign: 'left',
-            textTransform: 'uppercase',
-          },
-        },
-        '.react-grid-placeholder': {
-          bg: 'purple',
-          boxShadow: '0 0 0 solid rgba(0, 0, 0, 0.8)',
-          borderRadius: 'lg',
-        },
-      }}
+      sx={gridConfig.wrapper(editable)}
     >
       <ButtonGroup
         pos="absolute"
@@ -257,323 +191,29 @@ export const Grid: FC = () => {
       >
         {/* <DashboardSection key="latest" id="latest" containerQuery={queryData}> */}
         <Box key="latest" className="gridItem">
-          <Box
-            borderBottomRadius="lg"
-            borderTopRadius="lg"
-            p={6}
-            boxShadow="md"
-          >
-            <ContainerQuery query={containerQueries}>
-              {(params: Params) => (
-                <Box
-                  className={classnames('container', params)}
-                  sx={{
-                    '&.container': {
-                      '&__xs': {
-                        '.chakra-tabs': {
-                          '&__tab-panel': {
-                            p: {
-                              color: 'purple.50',
-                            },
-                            // '&--read': {
-                            //   p: {
-                            //     color: 'purple.50',
-                            //   },
-                            // },
-                            // '&--listen': {
-                            //   p: {
-                            //     color: 'purple.200',
-                            //   },
-                            // },
-                            // '&--watch': {
-                            //   p: {
-                            //     color: 'purple.300',
-                            //   },
-                            // },
-                          },
-                        },
-                      },
-                      '&__sm': {
-                        '.chakra-tabs': {
-                          '&__tab-panel': {
-                            p: {
-                              color: 'purple.200',
-                            },
-                          },
-                        },
-                      },
-                      '&__md': {
-                        '.chakra-tabs': {
-                          '&__tab-panel': {
-                            p: {
-                              color: 'purple.300',
-                            },
-                          },
-                        },
-                      },
-                      '&__lg': {
-                        '.chakra-tabs': {
-                          '&__tab-panel': {
-                            p: {
-                              color: 'pink.400',
-                            },
-                          },
-                        },
-                      },
-                    },
-                  }}
-                >
-                  <MetaHeading>Latest Content</MetaHeading>
-                  <LatestContent />
-                </Box>
-              )}
-            </ContainerQuery>
-          </Box>
+          <GridItem title="Latest Content" sx={gridConfig.latest}>
+            <LatestContent />
+          </GridItem>
         </Box>
-
-        {/* </DashboardSection> */}
-
         <Box key="xp" className="gridItem">
-          <Box
-            borderBottomRadius="lg"
-            borderTopRadius="lg"
-            p={6}
-            boxShadow="md"
-          >
-            <ContainerQuery query={containerQueries}>
-              {(params: Params) => (
-                <Box
-                  className={classnames('container', params)}
-                  sx={{
-                    '&.container': {
-                      '&__xxs': {
-                        '.chakra-stack': {
-                          flexFlow: 'column wrap',
-                          alignItems: 'flex-start',
-                          p: {
-                            mx: 0,
-                          },
-                        },
-                        '.chakra-stat': {
-                          flex: '0 1 100%',
-                          '&__group': {
-                            mt: 1,
-                          },
-                          '&__label': {
-                            fontSize: 'xs',
-                          },
-                          '&:nth-of-type(3), &:last-of-type': {
-                            display: 'none',
-                          },
-                        },
-                      },
-                      '&__xs': {
-                        '.chakra-stat': {
-                          '&__label': {
-                            fontSize: 'xs',
-                          },
-                        },
-                      },
-                    },
-                  }}
-                >
-                  <MetaHeading>XP</MetaHeading>
-                  <XP />
-                </Box>
-              )}
-            </ContainerQuery>
-          </Box>
+          <GridItem title="XP" sx={gridConfig.xp}>
+            <XP />
+          </GridItem>
         </Box>
         <Box key="seed" className="gridItem">
-          <Box
-            borderBottomRadius="lg"
-            borderTopRadius="lg"
-            p={6}
-            boxShadow="md"
-          >
-            <ContainerQuery query={containerQueries}>
-              {(params: Params) => (
-                <Box
-                  className={classnames('container', params)}
-                  sx={{
-                    '&.container': {
-                      '&__xxs': {
-                        '.chakra-stack': {
-                          flexFlow: 'column',
-                          alignItems: 'flex-start',
-                          p: {
-                            mx: 0,
-                          },
-                        },
-                        '.chakra-stat': {
-                          '&__group': {
-                            mt: 1,
-                          },
-                          '&__label': {
-                            fontSize: 'xs',
-                          },
-                          '&:last-of-type': {
-                            display: 'none',
-                          },
-                        },
-                      },
-                      '&__xs': {
-                        '.chakra-stat': {
-                          '&__label': {
-                            fontSize: 'xs',
-                          },
-                        },
-                      },
-                    },
-                  }}
-                >
-                  <MetaHeading>Seed</MetaHeading>
-                  <Seed />
-                </Box>
-              )}
-            </ContainerQuery>
-          </Box>
+          <GridItem title="Seed" sx={gridConfig.seed}>
+            <Seed />
+          </GridItem>
         </Box>
-        <Box key="cal" className="gridItem">
-          <Box
-            borderBottomRadius="lg"
-            borderTopRadius="lg"
-            p={6}
-            boxShadow="md"
-          >
-            <ContainerQuery query={containerQueries}>
-              {(params: Params) => (
-                <Box
-                  className={classnames('container', params)}
-                  sx={{
-                    '.calendar': {
-                      '&__day': {
-                        '&--title': {
-                          transition: 'all 0.3s ease',
-                        },
-                        '&--event': {
-                          transition: 'all 0.3s ease',
-                          '&:hover': {
-                            boxShadow: '0 0 8px rgba(0,0,0,0.3)',
-                            cursor: 'pointer',
-                          },
-                          h4: {
-                            transition: 'all 0.3s ease',
-                          },
-                        },
-                      },
-                    },
-                    '&.container': {
-                      '&__xxs': {
-                        '.calendar': {
-                          '&__day': {
-                            '&--title': {
-                              fontSize: 'xs',
-                              px: 1,
-                            },
-                            '&--event': {
-                              py: 1,
-                              px: 2,
-                              h4: {
-                                visibility: 'hidden',
-                                maxH: 0,
-                              },
-                              span: {
-                                fontSize: '12px',
-                                fontWeight: '700',
-                              },
-                              _hover: {},
-                            },
-                          },
-                        },
-                      },
-                      '&__xs': {
-                        '.calendar': {
-                          '&__day': {
-                            '&--title': {
-                              fontSize: 'xs',
-                              px: 3,
-                            },
-                            '&--event': {
-                              py: 2,
-                              px: 3,
-                              h4: {
-                                fontSize: 'sm',
-                              },
-                              span: {
-                                fontSize: '12px',
-                              },
-                              _hover: {},
-                            },
-                          },
-                        },
-                      },
-                    },
-                  }}
-                >
-                  <MetaHeading>Calendar</MetaHeading>
-                  <Calendar />
-                </Box>
-              )}
-            </ContainerQuery>
-          </Box>
+        <Box key="calendar" className="gridItem">
+          <GridItem title="Calendar" sx={gridConfig.calendar}>
+            <Calendar />
+          </GridItem>
         </Box>
-        <Box key="leaders" className="gridItem">
-          <Box
-            borderBottomRadius="lg"
-            borderTopRadius="lg"
-            p={6}
-            boxShadow="md"
-          >
-            <ContainerQuery query={containerQueries}>
-              {(params: Params) => (
-                <Box
-                  className={classnames('container', params)}
-                  sx={{
-                    '.player': {
-                      transition: 'all 0.3s ease',
-                      '&__score': {
-                        fontWeight: '400',
-                      },
-                      '&:hover': {
-                        boxShadow: '0 0 8px rgba(0,0,0,0.3)',
-                        cursor: 'pointer',
-                      },
-                    },
-                    '&.container': {
-                      '&__xxs': {
-                        '.player': {
-                          px: 3,
-                          py: 2,
-                          fontSize: 'sm',
-                          justifyContent: 'center',
-                          opacity: 1,
-                          '&__position, &__name, &__score': {
-                            visibility: 'hidden',
-                            maxW: 0,
-                            maxH: 0,
-                            mr: 0,
-                          },
-                          '&__avatar': {
-                            mr: 0,
-                          },
-                        },
-                      },
-                      '&__xs': {
-                        '.player': {
-                          px: 3,
-                          fontSize: 'sm',
-                        },
-                      },
-                    },
-                  }}
-                >
-                  <MetaHeading>Leaderboard</MetaHeading>
-                  <Leaderboard />
-                </Box>
-              )}
-            </ContainerQuery>
-          </Box>
+        <Box key="leaderboard" className="gridItem">
+          <GridItem title="Leaderboard" sx={gridConfig.leaderboard}>
+            <Leaderboard />
+          </GridItem>
         </Box>
       </ResponsiveGridLayout>
     </Box>
