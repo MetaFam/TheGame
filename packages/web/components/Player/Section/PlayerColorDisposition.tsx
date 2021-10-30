@@ -1,6 +1,6 @@
 import { Link } from '@metafam/ds';
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
-import { getPersonalityInfo } from 'graphql/getPersonalityInfo';
+import { getPersonalityInfo } from 'graphql/queries/enums/getPersonalityInfo';
 import { PersonalityOption } from 'graphql/types';
 import React, { useEffect, useState } from 'react';
 import { BOX_TYPE } from 'utils/boxTypes';

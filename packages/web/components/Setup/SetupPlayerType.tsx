@@ -10,7 +10,7 @@ import {
 import { FlexContainer } from 'components/Container';
 import { useSetupFlow } from 'contexts/SetupContext';
 import { Player_Type, useUpdateAboutYouMutation } from 'graphql/autogen/types';
-import { getPlayerTypes } from 'graphql/getPlayerTypes';
+import { getPlayerTypes } from 'graphql/queries/enums/getPlayerTypes';
 import { useUser } from 'lib/hooks';
 import React, { useEffect, useState } from 'react';
 
