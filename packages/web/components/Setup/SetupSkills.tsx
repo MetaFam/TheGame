@@ -14,7 +14,7 @@ import {
   SkillCategory_Enum,
   useUpdatePlayerSkillsMutation,
 } from 'graphql/autogen/types';
-import { getSkills } from 'graphql/getSkills';
+import { getSkills } from 'graphql/queries/enums/getSkills';
 import { SkillColors } from 'graphql/types';
 import { useUser } from 'lib/hooks';
 import React, { useEffect, useState } from 'react';
