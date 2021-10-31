@@ -192,28 +192,21 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
   user,
   onClose,
 }) => {
-  const [timeZone, setTimeZone] = useState<string>('');
-  const [availability, setAvailability] = useState<string>('');
-  const [username, setUsername] = useState<string>('');
+  const [timeZone, setTimeZone] = useState<string>(
+    user?.player?.timezone || '',
+  );
+  const [availability, setAvailability] = useState<string>(
+    user?.player?.availability_hours?.toString() || '',
+  );
+  const [username, setUsername] = useState<string>(
+    user?.player?.username || '',
+  );
 
   const [invalid, setInvalid] = useState(false);
   const [updateProfileRes, updateProfile] = useUpdateProfileMutation();
   const toast = useToast();
   const [loading, setLoading] = useState(false);
   const [, updateUsername] = useUpdatePlayerUsernameMutation();
-
-  if (user?.player) {
-    const { player } = user;
-    if (player.timezone && !timeZone) {
-      setTimeZone(player.timezone);
-    }
-    if (player.availability_hours && !availability) {
-      setAvailability(player.availability_hours.toString());
-    }
-    if (player.username && !username) {
-      setUsername(player.username);
-    }
-  }
 
   useEffect(() => {
     const value = Number(availability);
@@ -286,7 +279,7 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
         <GridItem>
           <ProfileField
             title="username"
-            value={username || user?.ethereum_address || ''}
+            value={username || ''}
             onChange={(e) => setUsername(e.target.value || '')}
           />
         </GridItem>
