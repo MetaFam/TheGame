@@ -70,6 +70,8 @@ export const gridConfig = {
         height: '100%',
       },
       h2: {
+        fontFamily: 'exo2',
+        fontSize: 'lg',
         fontWeight: '700',
         textAlign: 'left',
         textTransform: 'uppercase',
