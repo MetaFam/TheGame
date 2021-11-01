@@ -57,6 +57,7 @@ export const Calendar: React.FC = () => {
 
     getData();
   }, []);
+  console.log('events', events);
 
   return (
     <div>
