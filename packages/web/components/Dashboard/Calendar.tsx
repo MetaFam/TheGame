@@ -18,7 +18,14 @@ import {
 import React, { useEffect, useState } from 'react';
 
 export const Calendar: React.FC = () => {
-  //   const [result, setResult] = useState([]);
+  const [events, setEvents] = useState<
+    {
+      title: string;
+      description: string;
+      start: number;
+      end: number;
+    }[]
+  >([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -26,25 +33,22 @@ export const Calendar: React.FC = () => {
       try {
         setLoading(true);
 
-        // const settings = {
-        //   method: 'POST',
-        //   headers: {
-        //     Accept: 'application/json',
-        //     'Content-Type': 'application/json',
-        //   },
-        // };
-
-        // const cal_id = 'nih59ktgafmm64ed4qk6ue8vv4@group.calendar.google.com';
-
-        // const api_key = 'AIzaSyCdI6EdlH7x65i_CH7RmPl1AJ-UKarujQo';
-
-        // const fetchResponse = await fetch(
-        //   //   `https://www.googleapis.com/calendar/v3/calendars/${cal_id}/events?key=${api_key}`,
-        //   'https://www.googleapis.com/calendar/v3/calendars/nih59ktgafmm64ed4qk6ue8vv4@group.calendar.google.com/events/import',
-        //   settings,
-        // );
-        // const data = await fetchResponse.json();
-        // setResult(data);
+        const fetchResponse = await fetch(
+          'https://docs.google.com/spreadsheets/d/e/2PACX-1vQw-djV3Ay4Snvu6YzlhQbIMP7m0rTUXyJiYLMhuTo_CKHNMoI14mVB6-hw2JrmZLIz29_wBY4j4UhZ/pub?output=csv',
+        );
+        const data = await fetchResponse.text();
+        const preparedData = data
+          .replace(/(\n)/gm, '')
+          .split(/[\r]/)
+          .map((l) => l.split(','))
+          .map((event) => ({
+            title: event[0],
+            description: event[1],
+            start: Number(event[2]),
+            end: Number(event[3]),
+          }));
+        console.log('preparedData', preparedData);
+        setEvents(preparedData);
         setLoading(false);
       } catch (error) {
         setLoading(false);
