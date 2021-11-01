@@ -66,7 +66,7 @@ export const PlayerHero: React.FC<Props> = ({ player, isOwnProfile }) => {
 
   return (
     <ProfileSection>
-      {true && (
+      {isOwnProfile && (
         <Box pos="absolute" right={5} top={5}>
           <IconButton
             _focus={{

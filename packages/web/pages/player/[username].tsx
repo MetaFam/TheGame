@@ -332,6 +332,7 @@ export const getStaticProps = async (
   return {
     props: {
       player: player || null, // must be serializable
+      key: username,
     },
     revalidate: 1,
   };
