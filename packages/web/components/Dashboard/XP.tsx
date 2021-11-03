@@ -10,8 +10,7 @@ import { useUser } from 'lib/hooks';
 import { useUserXp } from 'lib/hooks/useUserXp';
 import React from 'react';
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export const XP = () => {
+export const XP = (): React.ReactElement => {
   const { user } = useUser();
 
   const {
