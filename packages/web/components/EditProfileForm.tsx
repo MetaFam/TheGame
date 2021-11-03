@@ -88,6 +88,7 @@ export type ProfileFieldProps = {
 interface InputData {
   availability_hours?: number;
   timezone?: string;
+  pronouns?: string;
 }
 
 export const ProfileField: React.FC<ProfileFieldProps> = ({
@@ -201,6 +202,9 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
   const [username, setUsername] = useState<string>(
     user?.player?.username || '',
   );
+  const [pronouns, setPronouns] = useState<string>(
+    user?.player?.pronouns || '',
+  );
 
   const [invalid, setInvalid] = useState(false);
   const [updateProfileRes, updateProfile] = useUpdateProfileMutation();
@@ -227,6 +231,9 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
     }
     if (user.player?.timezone !== timeZone) {
       input.timezone = timeZone;
+    }
+    if (user.player?.pronouns !== pronouns) {
+      input.pronouns = pronouns;
     }
 
     const profile = await updateProfile({
@@ -279,18 +286,23 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
         <GridItem>
           <ProfileField
             title="username"
-            value={username || ''}
+            value={username}
             onChange={(e) => setUsername(e.target.value || '')}
           />
         </GridItem>
 
         {/* <GridItem>
           <ProfileField title="display name" value="User Supreme" />
-        </GridItem>
-
-        <GridItem colSpan={HALF}>
-          <ProfileField title="pronouns" value="They/Them" />
         </GridItem> */}
+      </Grid>
+      <Grid templateColumns="repeat(3, 1fr)">
+        <GridItem>
+          <ProfileField
+            title="pronouns"
+            value={pronouns}
+            onChange={(e) => setPronouns(e.target.value || '')}
+          />
+        </GridItem>
       </Grid>
       {/* <Grid templateColumns="repeat(2, 1fr)" gap={6}>
         <GridItem colSpan={HALF}>
