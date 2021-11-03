@@ -46,6 +46,7 @@ export const PlayerHero: React.FC<Props> = ({ player, isOwnProfile }) => {
   const [offset, setOffset] = useState<string>('');
   const [availabilityHours, setAvailabilityHours] = useState<number>(0);
   const [playerName, setPlayerName] = useState<string>('');
+  const [pronouns, setPronouns] = useState<string>('');
 
   const { user } = useUser();
 
@@ -57,11 +58,9 @@ export const PlayerHero: React.FC<Props> = ({ player, isOwnProfile }) => {
       if (timeDisplay.timeZone) setTimeZone(timeDisplay.timeZone);
       if (timeDisplay.offset) setOffset(timeDisplay.offset);
 
-      const hours = person.availability_hours;
-      if (hours) setAvailabilityHours(hours);
-
-      const { username } = person;
-      if (username) setPlayerName(username);
+      setAvailabilityHours(person.availability_hours || 0);
+      setPronouns(person.pronouns || '');
+      setPlayerName(person.username);
     }
   }, [user, player, isOwnProfile]);
 
@@ -133,9 +132,11 @@ export const PlayerHero: React.FC<Props> = ({ player, isOwnProfile }) => {
           <PlayerContacts player={player} />
         </HStack>
 
-        <PlayerHeroTile title="Personal pronouns">
-          <PlayerPronouns player={player} />
-        </PlayerHeroTile>
+        {pronouns && (
+          <PlayerHeroTile title="Personal pronouns">
+            <PlayerPronouns pronouns={pronouns} />
+          </PlayerHeroTile>
+        )}
         {/* <SimpleGrid columns={2} gap={6} width="full">
           <PlayerHeroTile title="Display name">
             <Text>Vid</Text>
