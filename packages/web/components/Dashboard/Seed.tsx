@@ -9,7 +9,8 @@ import {
   StatLabel,
   StatNumber,
 } from '@metafam/ds';
-import React, { FC } from 'react';
+import React, { FC, ReactNode } from 'react';
+import { AreaSeries, AreaSeriesPoint, FlexibleXYPlot } from 'react-vis';
 
 type SeedProps = {
   token: TokenProps;
@@ -60,16 +61,17 @@ export const Seed: FC<SeedProps> = (props) => {
     ) || null;
 
   const priceIncreased = Math.sign(price_change_percentage_24h) === 1;
-  // console.table('Prices 7d: ', prices);
 
   function highLowPrice7d(days: Array<Array<number>>) {
     const plots: Array<number> = [];
 
-    days.map((d) => {
-      // console.log(d[1]);
+    // we only want to get the last 7 of 30 days
+    const lastWeek = days.slice(-7);
+    lastWeek.map((d) => {
       const day: number = d[1];
       return plots.push(day);
     });
+
     const high = Number(Math.max(...plots)).toFixed(2);
     const low = Number(Math.min(...plots)).toFixed(2);
 
@@ -103,8 +105,8 @@ export const Seed: FC<SeedProps> = (props) => {
 
   return (
     <>
-      <Box>
-        <StatGroup my={5}>
+      <Box position="relative">
+        <StatGroup position="relative" my={5} zIndex={10}>
           <Stat mb={3}>
             <StatLabel>Market Price</StatLabel>
             <StatNumber>${current_price.usd}</StatNumber>
@@ -131,13 +133,89 @@ export const Seed: FC<SeedProps> = (props) => {
           </Stat>
         </StatGroup>
         {ticker && (
-          <Link href={ticker[0]?.token_info_url} isExternal>
+          <Link
+            className="infoLink"
+            href={ticker[0]?.token_info_url}
+            isExternal
+          >
             Pool Info
           </Link>
         )}
+      </Box>
+      <Box
+        className="chartWrapper"
+        position="absolute"
+        width="100%"
+        height="100%"
+        bottom={0}
+        left={0}
+        zIndex={0}
+        sx={{
+          '.seed-chart': {
+            position: 'absolute',
+            bottom: 0,
+            left: 0,
+            right: 0,
+            maxW: '100%',
+            '.seed-chart-path': {
+              // transform: 'translate3d(-20px, 50px, 0)',
+              bottom: 0,
+              strokeWidth: 2,
+              fillOpacity: 0.1,
+            },
+          },
+          '.rv-xy-plot__axis__ticks': {},
+        }}
+      >
+        <Chart data={prices} />
       </Box>
     </>
   );
 };
 
+type ChartType = {
+  children?: ReactNode;
+  data: Array<Array<number>>;
+};
+
+export const Chart: FC<ChartType> = ({ data }) => {
+  function makePlots(days: Array<Array<number>>) {
+    // TODO: adding this as i couldn't work out how to fix the type error. Could do with a pair session for this stuff.
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const plots: Array<string | any | AreaSeriesPoint> = [];
+
+    days.map((d, i) => {
+      const day = {
+        x: i + 1,
+        y: d[1],
+        y0: 0,
+      };
+      return plots.push(day);
+    });
+    // console.log('Plots: ', plots);
+
+    return plots;
+  }
+  const plots = makePlots(data);
+  return (
+    <FlexibleXYPlot
+      className="seed-chart"
+      height={175}
+      margin={{
+        right: -2,
+        left: -2,
+        bottom: -2,
+      }}
+    >
+      <AreaSeries
+        className="seed-chart-path"
+        curve="linear"
+        color="white"
+        stroke="#A426A4"
+        opacity={0.4}
+        data={plots}
+      />
+    </FlexibleXYPlot>
+  );
+};
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
