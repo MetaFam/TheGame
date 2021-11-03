@@ -82,7 +82,7 @@ export class SetupOptions {
     {
       label: 'Pronouns',
       slug: 'pronouns',
-      sectionIndex: 1,
+      sectionIndex: 2,
     },
     {
       label: 'Memberships',
