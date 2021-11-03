@@ -38,7 +38,7 @@ export const SetupPronouns: React.FC<SetupPronounsProps> = ({
     if (error) {
       toast({
         title: 'Error',
-        description: `Unable to update Player Pronouns. ${error.message}`,
+        description: `Unable to update player pronouns. ${error.message}`,
         status: 'error',
         isClosable: true,
       });
@@ -64,6 +64,7 @@ export const SetupPronouns: React.FC<SetupPronounsProps> = ({
 
       <MetaButton
         onClick={handleNextPress}
+        disabled={!user}
         mt={10}
         isLoading={updatePronounsRes.fetching || loading}
         loadingText="Saving"
