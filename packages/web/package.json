@@ -59,7 +59,8 @@
     "rss-to-json": "2.0.2",
     "swr": "1.0.1",
     "urql": "2.0.2",
-    "web3modal": "1.9.4"
+    "web3modal": "1.9.4",
+    "sourcecred": "0.9.0"
   },
   "devDependencies": {
     "@types/react": "17.0.6",
