@@ -250,7 +250,7 @@ const EventPopover = ({ title, start, end, description }: EventPopoverType) => (
             <Box>
               <Box as="dt">Description</Box>
               <Box as="dd" fontWeight="100" fontFamily="body" fontSize="xs">
-                Consequat dolore veniam cupidatat id sit velit consequat.
+                {description.replace(/(<([^>]+)>)/gi, '')}
               </Box>
             </Box>
           )}
