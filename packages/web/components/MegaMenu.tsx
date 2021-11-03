@@ -105,7 +105,7 @@ const Logo = () => (
     textAlign={{ base: 'center', lg: 'left' }}
   >
     <MetaLink
-      href="/dashboard"
+      href="/"
       _focus={{ outline: 'none', bg: 'transparent' }}
       _hover={{ bg: 'transparent' }}
       _active={{ bg: 'transparent' }}
