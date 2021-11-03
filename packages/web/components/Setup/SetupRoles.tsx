@@ -234,6 +234,7 @@ const Role: React.FC<RoleProps> = ({
                 bgColor: 'blackAlpha.300',
               }}
               borderWidth={2}
+              whiteSpace="pre-wrap"
               onClick={() => onSelect(role, selectionIndex !== 0)}
             >
               Make {selectionIndex === 0 ? 'Secondary' : 'Primary'}
@@ -247,6 +248,7 @@ const Role: React.FC<RoleProps> = ({
             borderColor="red.500"
             borderWidth={2}
             _hover={{ color: 'white', bgColor: 'red.500' }}
+            whiteSpace="pre-wrap"
             onClick={handleRemoveClick}
           >
             Remove Role
