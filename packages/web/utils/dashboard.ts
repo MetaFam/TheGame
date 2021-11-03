@@ -1,15 +1,15 @@
 export const gridData = [
   { i: 'latest', x: 0, y: 0, w: 6, h: 6 },
-  { i: 'xp', x: 6, y: 0, w: 3, h: 2 },
-  { i: 'seed', x: 9, y: 0, w: 3, h: 2 },
+  { i: 'xp', x: 6, y: 0, w: 3, h: 2, minH: 2 },
+  { i: 'seed', x: 9, y: 0, w: 3, h: 2, minH: 2 },
   { i: 'calendar', x: 6, y: 2, w: 3, h: 4 },
   { i: 'leaderboard', x: 9, y: 2, w: 3, h: 4 },
 ];
 
 export const gridDataMd = [
   { i: 'latest', x: 0, y: 0, w: 6, h: 4 },
-  { i: 'xp', x: 6, y: 0, w: 6, h: 2 },
-  { i: 'seed', x: 6, y: 2, w: 6, h: 2 },
+  { i: 'xp', x: 6, y: 0, w: 6, h: 2, minH: 2 },
+  { i: 'seed', x: 6, y: 2, w: 6, h: 2, minH: 2 },
   { i: 'calendar', x: 0, y: 4, w: 6, h: 4 },
   { i: 'leaderboard', x: 6, y: 4, w: 6, h: 4 },
 ];
@@ -56,6 +56,7 @@ export const gridConfig = {
       },
       '.container': {
         overflowY: 'auto',
+        overflowX: 'hidden',
         height: '100%',
       },
       h2: {
@@ -177,14 +178,21 @@ export const gridConfig = {
         },
         '.chakra-stat': {
           '&__group': {
-            mt: 1,
+            mt: 3,
+            mb: 0,
           },
           '&__label': {
             fontSize: 'xs',
           },
-          '&:last-of-type': {
+          '&__number': {
+            fontSize: 'lg',
+          },
+          '&:nth-of-type(3n)': {
             display: 'none',
           },
+        },
+        '.infoLink': {
+          display: 'none',
         },
       },
       '&__xs': {

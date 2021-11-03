@@ -233,7 +233,7 @@ export const getStaticProps = async () => {
     const tokenId = 'metagame';
     const apiUrl = 'https://api.coingecko.com/api/v3/';
     const tokenQuery = '?localization=false&tickers=true&market_data=true';
-    const chartQuery = '/market_chart?vs_currency=usd&days=7&interval=daily';
+    const chartQuery = '/market_chart?vs_currency=usd&days=30&interval=daily';
     const token = await fetch(`${apiUrl}coins/${tokenId + tokenQuery}`);
     const tokenJson = await token.json();
 
