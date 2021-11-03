@@ -22,6 +22,13 @@ export const gridDataSm = [
   { i: 'leaderboard', x: 2, y: 5, w: 2, h: 4 },
 ];
 
+export const initLayouts = {
+  lg: gridData,
+  md: gridDataMd,
+  sm: gridDataSm,
+  xs: gridDataSm,
+};
+
 export const gridConfig = {
   wrapper: (editable: boolean): Record<string, unknown> => ({
     '.gridItem': {

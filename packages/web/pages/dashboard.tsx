@@ -13,11 +13,11 @@ import { Calendar } from 'components/Dashboard/Calendar';
 import { GridItem } from 'components/Dashboard/GridItem';
 import { LatestContent } from 'components/Dashboard/LatestContent';
 import { Leaderboard } from 'components/Dashboard/Leaderboard';
-import { Seed } from 'components/Dashboard/Seed';
+import { ChartProps, Seed, TokenProps } from 'components/Dashboard/Seed';
 import { XP } from 'components/Dashboard/XP';
-import { FC, useEffect, useState } from 'react';
+import { FC, ReactNode, useEffect, useState } from 'react';
 import { Layout, Layouts, Responsive, WidthProvider } from 'react-grid-layout';
-import { gridConfig, gridData, gridDataMd, gridDataSm } from 'utils/dashboard';
+import { gridConfig, initLayouts } from 'utils/dashboard';
 
 // type LayoutProps = Layout
 // type LayoutsProps = Layouts
@@ -36,20 +36,22 @@ export interface ContainerQueries {
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
-export const initLayouts = {
-  lg: gridData,
-  md: gridDataMd,
-  sm: gridDataSm,
-  xs: gridDataSm,
-};
-
 export const originalLayouts = getFromLS('layouts') || initLayouts;
 
-const Dashboard: FC = () => (
-  <PageContainer>
-    <Grid />
-  </PageContainer>
-);
+type DashboardProps = {
+  children?: ReactNode;
+  token: TokenProps;
+  chart: ChartProps;
+};
+
+const Dashboard: FC<DashboardProps> = (props) => {
+  const { token, chart } = props;
+  return (
+    <PageContainer>
+      <Grid token={token} chart={chart} />
+    </PageContainer>
+  );
+};
 
 export default Dashboard;
 
@@ -58,7 +60,12 @@ type CurrentLayoutType = {
   layouts: Layouts;
 };
 
-export const Grid: FC = () => {
+type GridProps = {
+  token: TokenProps;
+  chart: ChartProps;
+};
+
+export const Grid: FC<GridProps> = (props) => {
   const [gridLayouts, setGridLayouts] = useState(
     JSON.parse(JSON.stringify(originalLayouts)),
   );
@@ -69,6 +76,7 @@ export const Grid: FC = () => {
     layouts: {},
   });
   const [editable, setEditable] = useState(false);
+  const { token, chart } = props;
 
   const toggleEditLayout = () => setEditable(!editable);
 
@@ -202,7 +210,7 @@ export const Grid: FC = () => {
         </Box>
         <Box key="seed" className="gridItem">
           <GridItem title="Seed" sx={gridConfig.seed}>
-            <Seed />
+            <Seed token={token} chart={chart} />
           </GridItem>
         </Box>
         <Box key="calendar" className="gridItem">
@@ -218,6 +226,31 @@ export const Grid: FC = () => {
       </ResponsiveGridLayout>
     </Box>
   );
+};
+
+export const getStaticProps = async () => {
+  try {
+    const tokenId = 'metagame';
+    const apiUrl = 'https://api.coingecko.com/api/v3/';
+    const tokenQuery = '?localization=false&tickers=true&market_data=true';
+    const chartQuery = '/market_chart?vs_currency=usd&days=7&interval=daily';
+    const token = await fetch(`${apiUrl}coins/${tokenId + tokenQuery}`);
+    const tokenJson = await token.json();
+
+    const chart = await fetch(`${apiUrl}coins/${tokenId + chartQuery}`);
+    const chartJson = await chart.json();
+
+    return {
+      props: {
+        token: tokenJson,
+        chart: chartJson,
+      },
+    };
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.log('getTokenData: ', error);
+    return null;
+  }
 };
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
