@@ -37,6 +37,8 @@ export const theme: Theme = extendTheme({
     body: '"Exo 2", sans-serif',
     mono: '"Exo 2", sans-serif',
     heading: '"Press Start 2P", sans-serif',
+    exo: '"Exo 2", sans-serif',
+    exo2: '"Exo 2", sans-serif',
   },
   // reference scale
   // https://type-scale.com/?size=16&scale=1.200&text=A%20Visual%20Type%20Scale&font=Exo%202&fontweight=400&bodyfont=body_font_default&bodyfontweight=400&lineheight=1.6&backgroundcolor=%23330964&fontcolor=%23ffffff&preview=false
