@@ -49,7 +49,7 @@ export const XP = (): React.ReactElement => {
         </StatHelpText>
       </Stat>
 
-      <Stat alignSelf="flex-start" justifySelf="flex-end" flex="0 0 50%">
+      <Stat alignSelf="flex-start" justifySelf="flex-end" flex="0 0 100%">
         <StatLabel>All Time</StatLabel>
         <StatNumber>{userTotalXp}</StatNumber>
         {user?.player?.rank && (
