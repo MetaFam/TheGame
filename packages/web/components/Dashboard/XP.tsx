@@ -58,14 +58,14 @@ export const XP = (): React.ReactElement => {
           </StatHelpText>
         )}
       </Stat>
-      <Stat alignSelf="flex-start" justifySelf="flex-end" flex="0 0 50%">
+      {/* <Stat alignSelf="flex-start" justifySelf="flex-end" flex="0 0 50%">
         <StatLabel>XP/SEED Ratio</StatLabel>
         <StatNumber>3.4</StatNumber>
         <StatHelpText>
           <StatArrow type="decrease" />
           0.3
         </StatHelpText>
-      </Stat>
+      </Stat> */}
     </StatGroup>
   );
 };
