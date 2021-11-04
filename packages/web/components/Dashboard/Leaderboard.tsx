@@ -4,48 +4,16 @@ import {
   HStack,
   LinkBox,
   LinkOverlay,
-  MetaButton,
-  // MetaTile,
-  // MetaTileBody,
-  // MetaTileHeader,
   Skeleton,
-  // SkeletonCircle,
-  // SkeletonText,
   Text,
   VStack,
 } from '@metafam/ds';
-import { PlayersNotFound } from 'components/Player/Filter/PlayersNotFound';
-// import { PlayerFragmentFragment } from 'graphql/autogen/types';
-// import { getSsrClient } from 'graphql/client';
-// import { getPlayerFilters, getPlayersWithCount } from 'graphql/getPlayers';
 import { PlayerAvatar } from 'components/Player/PlayerAvatar';
-import { GetPlayersQueryVariables } from 'graphql/autogen/types';
 import { usePlayerFilter } from 'lib/hooks/players';
 import { useOnScreen } from 'lib/hooks/useOnScreen';
 import NextLink from 'next/link';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 import { getPlayerName } from 'utils/playerHelpers';
-
-// type StaticProps = InferGetStaticPropsType<typeof getStaticProps>;
-
-// export const getStaticProps = async () => {
-//   const [ssrClient, ssrCache] = getSsrClient();
-
-//   // This populates the cache server-side
-//   const { error } = await getPlayersWithCount(undefined, ssrClient);
-//   if (error) {
-//     // eslint-disable-next-line no-console
-//     console.error('getPlayers error', error);
-//   }
-//   await getPlayerFilters(ssrClient);
-
-//   return {
-//     props: {
-//       urqlState: ssrCache.extractData(),
-//     },
-//     revalidate: 1,
-//   };
-// };
 
 export const Leaderboard: React.FC = () => {
   const {
@@ -57,7 +25,6 @@ export const Leaderboard: React.FC = () => {
     queryVariables,
     // setQueryVariable,
     // resetFilter,
-    totalCount,
     nextPage,
     moreAvailable,
   } = usePlayerFilter();
@@ -65,21 +32,12 @@ export const Leaderboard: React.FC = () => {
   const moreRef = useRef<HTMLDivElement>(null);
 
   const onScreen = useOnScreen(moreRef);
-  const [showMore, setShowMore] = useState(false);
 
   useEffect(() => {
     if (onScreen && !fetching && !fetchingMore && moreAvailable) {
       nextPage();
     }
   }, [nextPage, onScreen, fetching, fetchingMore, moreAvailable]);
-
-  const isLoading = useMemo(() => fetching || fetchingMore || moreAvailable, [
-    fetching,
-    fetchingMore,
-    moreAvailable,
-  ]);
-
-  // console.log('loading players: ', isLoading);
 
   const showSeasonalXP = useMemo(
     () => Object.keys(queryVariables.orderBy).includes('total_xp'),
@@ -164,39 +122,9 @@ export const Leaderboard: React.FC = () => {
             return null;
           })
         : null}
-      <Box>
-        <MetaButton onClick={() => setShowMore(!showMore)}>More</MetaButton>
-      </Box>
-      {fetching ? <LeaderboardSkeleton /> : null}
-      {showMore ? (
-        <MorePlayers
-          ref={moreRef}
-          fetching={isLoading}
-          totalCount={totalCount}
-          queryVariables={queryVariables}
-          showSeasonalXP={showSeasonalXP}
-        />
-      ) : null}
     </VStack>
   );
 };
-
-type MorePlayersLeaderboardProps = {
-  fetching: boolean;
-  totalCount: number;
-  queryVariables: GetPlayersQueryVariables;
-  showSeasonalXP?: boolean;
-};
-
-const MorePlayers = React.forwardRef<
-  HTMLDivElement,
-  MorePlayersLeaderboardProps
->(({ fetching, totalCount = false }, ref) => (
-  <VStack w="100%" ref={ref}>
-    {fetching ? <LeaderboardSkeleton /> : null}
-    {!fetching && totalCount === 0 ? <PlayersNotFound /> : null}
-  </VStack>
-));
 
 export const LeaderboardSkeleton: React.FC<FlexProps> = () => (
   <Box flex={1}>
