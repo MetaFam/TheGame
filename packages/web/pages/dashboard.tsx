@@ -143,14 +143,17 @@ export const Grid: FC<GridProps> = (props) => {
         )}
         <MetaButton
           aria-label="Edit layout"
-          colorScheme="purple"
+          borderColor="transparent"
+          background="rgba(17, 17, 17, 0.9)"
+          _hover={{ color: 'white', borderColor: 'transparent' }}
+          variant="outline"
           textTransform="uppercase"
           px={12}
           letterSpacing="0.1em"
           size="lg"
           fontSize="sm"
           bg="transparent"
-          color={editable ? 'red.400' : 'purple.400'}
+          color={editable ? 'red.400' : 'pinkShadeOne'}
           leftIcon={<EditIcon />}
           transition="color 0.2s ease"
           onClick={toggleEditLayout}
