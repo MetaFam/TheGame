@@ -5,6 +5,7 @@ import {
   // ExternalLinkIcon,
   // IconButton,
   Image,
+  Link,
   Popover,
   PopoverBody,
   PopoverCloseButton,
@@ -28,6 +29,7 @@ export const Calendar: React.FC = () => {
         start: string;
         end: string;
         day: string;
+        location: string;
         guests: string[];
       }[];
     }[]
@@ -52,11 +54,12 @@ export const Calendar: React.FC = () => {
           .map((l) => l.split(','))
           .map((event) => ({
             title: event[0],
-            description: event[1],
+            description: event[1] || '',
             start: format(new Date(Number(event[2])), 'HH:mm'),
             end: format(new Date(Number(event[3])), 'HH:mm'),
             day: format(new Date(Number(event[2])), 'iiii • dd LLL yyyy'),
-            guests: event[4].split(':'),
+            guests: event[4] ? event[4].split(':') : [],
+            location: event[5] || '',
           }));
 
         const daysList: React.SetStateAction<string[]> = [];
@@ -152,13 +155,7 @@ export const Calendar: React.FC = () => {
                         start={event.start}
                         end={event.end}
                       />
-                      <EventPopover
-                        title={event.title}
-                        start={event.start}
-                        end={event.end}
-                        description={event.description}
-                        guests={event.guests}
-                      />
+                      <EventPopover event={event} />
                     </Popover>
                   </Box>
                 ))}
@@ -191,20 +188,17 @@ const Event = ({ title, start, end }: EventType) => (
 );
 
 interface EventPopoverType {
-  title: string;
-  start: string;
-  end: string;
-  description: string;
-  guests: string[];
+  event: {
+    title: string;
+    start: string;
+    end: string;
+    description: string;
+    guests: string[];
+    location: string;
+  };
 }
 
-const EventPopover = ({
-  title,
-  start,
-  end,
-  description,
-  guests,
-}: EventPopoverType) => (
+const EventPopover = ({ event }: EventPopoverType) => (
   <Portal>
     <PopoverContent
       backgroundColor="purpleTag70"
@@ -243,7 +237,7 @@ const EventPopover = ({
         fontWeight="600"
         fontFamily="exo"
       >
-        {title}
+        {event.title}
       </PopoverHeader>
       <PopoverBody>
         <Box
@@ -257,24 +251,40 @@ const EventPopover = ({
         >
           <Box as="dt">Date &amp; Time</Box>
           <Box as="dd" fontWeight="100" fontFamily="body" fontSize="xs" pb={2}>
-            {`${start} – ${end}`}
+            {`${event.start} – ${event.end}`}
           </Box>
-          {description !== 'empty' && (
+          {event.description && (
             <Box pb={2}>
               <Box as="dt">Description</Box>
               <Box as="dd" fontWeight="100" fontFamily="body" fontSize="xs">
-                {description.replace(/(<([^>]+)>)/gi, '')}
+                {event.description.replace(/(<([^>]+)>)/gi, '')}
               </Box>
             </Box>
           )}
-          {guests[0] !== 'empty' && (
+          {event.guests.length > 0 && (
             <Box pb={2}>
               <Box as="dt">Guests</Box>
               <Box as="dd" fontWeight="100" fontFamily="body" fontSize="xs">
-                {guests.map((guest) => (
+                {event.guests.map((guest) => (
                   <Box>{guest}</Box>
                 ))}
               </Box>
+            </Box>
+          )}
+          {event.location && (
+            <Box pb={2}>
+              <Box as="dt">Location</Box>
+              <a href={event.location} target="_blank" rel="noreferrer">
+                <Box
+                  as="dd"
+                  fontWeight="100"
+                  fontFamily="body"
+                  fontSize="xs"
+                  _hover={{ textDecoration: 'underline' }}
+                >
+                  {event.location}
+                </Box>
+              </a>
             </Box>
           )}
         </Box>
