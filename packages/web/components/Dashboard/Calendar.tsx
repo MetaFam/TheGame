@@ -1,15 +1,15 @@
 import {
   Box,
-  ButtonGroup,
-  CalendarIcon,
-  ExternalLinkIcon,
-  IconButton,
+  // ButtonGroup,
+  // CalendarIcon,
+  // ExternalLinkIcon,
+  // IconButton,
   Image,
   Popover,
   PopoverBody,
   PopoverCloseButton,
   PopoverContent,
-  PopoverFooter,
+  // PopoverFooter,
   PopoverHeader,
   PopoverTrigger,
   Portal,
@@ -28,6 +28,7 @@ export const Calendar: React.FC = () => {
         start: string;
         end: string;
         day: string;
+        guests: string[];
       }[];
     }[]
   >([]);
@@ -38,10 +39,13 @@ export const Calendar: React.FC = () => {
       try {
         setLoading(true);
 
+        // csv with the upcoming 5 events
+        // https://docs.google.com/spreadsheets/d/1Pb7Jxa_snve5UoDstGoR4PI5MdCPKUOWcZM_p0kx6FU/edit#gid=0
         const fetchResponse = await fetch(
           'https://docs.google.com/spreadsheets/d/e/2PACX-1vQw-djV3Ay4Snvu6YzlhQbIMP7m0rTUXyJiYLMhuTo_CKHNMoI14mVB6-hw2JrmZLIz29_wBY4j4UhZ/pub?output=csv',
         );
         const data = await fetchResponse.text();
+
         const eventsList = data
           .replace(/(\n)/gm, '')
           .split(/[\r]/)
@@ -52,13 +56,14 @@ export const Calendar: React.FC = () => {
             start: format(new Date(Number(event[2])), 'HH:mm'),
             end: format(new Date(Number(event[3])), 'HH:mm'),
             day: format(new Date(Number(event[2])), 'iiii • dd LLL yyyy'),
+            guests: event[4].split(':'),
           }));
 
         const daysList: React.SetStateAction<string[]> = [];
         const map = new Map();
         eventsList.forEach((item) => {
           if (!map.has(item.day)) {
-            map.set(item.day, true); // set any value to Map
+            map.set(item.day, true);
             daysList.push(item.day);
           }
         });
@@ -152,6 +157,7 @@ export const Calendar: React.FC = () => {
                         start={event.start}
                         end={event.end}
                         description={event.description}
+                        guests={event.guests}
                       />
                     </Popover>
                   </Box>
@@ -189,9 +195,16 @@ interface EventPopoverType {
   start: string;
   end: string;
   description: string;
+  guests: string[];
 }
 
-const EventPopover = ({ title, start, end, description }: EventPopoverType) => (
+const EventPopover = ({
+  title,
+  start,
+  end,
+  description,
+  guests,
+}: EventPopoverType) => (
   <Portal>
     <PopoverContent
       backgroundColor="purpleTag70"
@@ -243,20 +256,30 @@ const EventPopover = ({ title, start, end, description }: EventPopoverType) => (
           }}
         >
           <Box as="dt">Date &amp; Time</Box>
-          <Box as="dd" fontWeight="100" fontFamily="body" fontSize="xs">
+          <Box as="dd" fontWeight="100" fontFamily="body" fontSize="xs" pb={2}>
             {`${start} – ${end}`}
           </Box>
           {description !== 'empty' && (
-            <Box>
+            <Box pb={2}>
               <Box as="dt">Description</Box>
               <Box as="dd" fontWeight="100" fontFamily="body" fontSize="xs">
                 {description.replace(/(<([^>]+)>)/gi, '')}
               </Box>
             </Box>
           )}
+          {guests[0] !== 'empty' && (
+            <Box pb={2}>
+              <Box as="dt">Guests</Box>
+              <Box as="dd" fontWeight="100" fontFamily="body" fontSize="xs">
+                {guests.map((guest) => (
+                  <Box>{guest}</Box>
+                ))}
+              </Box>
+            </Box>
+          )}
         </Box>
       </PopoverBody>
-      <PopoverFooter borderTopWidth={0}>
+      {/* <PopoverFooter borderTopWidth={0}>
         <ButtonGroup variant="ghost" colorScheme="cyan">
           <IconButton
             aria-label="Add to your calendar"
@@ -264,7 +287,7 @@ const EventPopover = ({ title, start, end, description }: EventPopoverType) => (
           />
           <IconButton aria-label="View calendar" icon={<ExternalLinkIcon />} />
         </ButtonGroup>
-      </PopoverFooter>
+      </PopoverFooter> */}
     </PopoverContent>
   </Portal>
 );
