@@ -77,6 +77,7 @@ export const Leaderboard: React.FC = () => {
                   backgroundColor="blackAlpha.500"
                   borderRadius="md"
                   overflowX="hidden"
+                  overflowY="hidden"
                 >
                   <Box className="player__position" flex={0} mr={3}>
                     {playerPosition}
