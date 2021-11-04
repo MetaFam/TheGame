@@ -5,7 +5,6 @@ import {
   // ExternalLinkIcon,
   // IconButton,
   Image,
-  Link,
   Popover,
   PopoverBody,
   PopoverCloseButton,
