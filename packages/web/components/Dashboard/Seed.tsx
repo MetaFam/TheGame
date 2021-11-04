@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import {
   Box,
+  Button,
+  ButtonGroup,
   Link,
   Stat,
   StatArrow,
@@ -9,8 +11,13 @@ import {
   StatLabel,
   StatNumber,
 } from '@metafam/ds';
-import React, { FC, ReactNode } from 'react';
-import { AreaSeries, AreaSeriesPoint, FlexibleXYPlot } from 'react-vis';
+import React, { FC, ReactNode, useState } from 'react';
+import {
+  AreaSeries,
+  AreaSeriesPoint,
+  FlexibleXYPlot,
+  LineSeries,
+} from 'react-vis';
 
 type SeedProps = {
   token: TokenProps;
@@ -28,7 +35,7 @@ export type ChartProps = {
 };
 
 type MarketDataProps = {
-  price_change_percentage_24h: number;
+  price_change_percentage_24h: number | null;
   total_volume: Record<string, number>;
   current_price: Record<string, number>;
 };
@@ -52,7 +59,7 @@ export const Seed: FC<SeedProps> = (props) => {
     total_volume,
     current_price,
   } = market_data;
-  // console.log(tickers);
+  // console.log(props);
 
   // eslint-disable-next-line @typescript-eslint/naming-convention
   const ticker =
@@ -60,7 +67,8 @@ export const Seed: FC<SeedProps> = (props) => {
       (tick) => tick.market.identifier === 'balancer_v1' && tick,
     ) || null;
 
-  const priceIncreased = Math.sign(price_change_percentage_24h) === 1;
+  const priceIncreased =
+    price_change_percentage_24h && Math.sign(price_change_percentage_24h) === 1;
 
   function highLowPrice7d(days: Array<Array<number>>) {
     const plots: Array<number> = [];
@@ -105,14 +113,14 @@ export const Seed: FC<SeedProps> = (props) => {
 
   return (
     <>
-      <Box position="relative">
+      <Box position="relative" zIndex="20">
         <StatGroup position="relative" my={5} zIndex={10}>
           <Stat mb={3}>
             <StatLabel>Market Price</StatLabel>
             <StatNumber>${current_price.usd}</StatNumber>
             <StatHelpText>
               <StatArrow type={priceIncreased ? 'increase' : 'decrease'} />
-              {price_change_percentage_24h}%
+              {`${price_change_percentage_24h}%` || 'not enough data'}
             </StatHelpText>
           </Stat>
 
@@ -137,6 +145,7 @@ export const Seed: FC<SeedProps> = (props) => {
             className="infoLink"
             href={ticker[0]?.token_info_url}
             isExternal
+            zIndex={20}
           >
             Pool Info
           </Link>
@@ -161,7 +170,11 @@ export const Seed: FC<SeedProps> = (props) => {
               // transform: 'translate3d(-20px, 50px, 0)',
               bottom: 0,
               strokeWidth: 2,
-              fillOpacity: 0.1,
+              fillOpacity: 0,
+              '&--fill': {
+                fillOpacity: 0.1,
+                strokeWidth: 0,
+              },
             },
           },
           '.rv-xy-plot__axis__ticks': {},
@@ -179,12 +192,16 @@ type ChartType = {
 };
 
 export const Chart: FC<ChartType> = ({ data }) => {
+  const [scale, setScale] = useState<boolean>(true);
+  const toggleScale = () => {
+    setScale(!scale);
+  };
   function makePlots(days: Array<Array<number>>) {
     // TODO: adding this as i couldn't work out how to fix the type error. Could do with a pair session for this stuff.
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const plots: Array<string | any | AreaSeriesPoint> = [];
 
-    days.map((d, i) => {
+    days.slice(scale ? 0 : -7).map((d, i) => {
       const day = {
         x: i + 1,
         y: d[1],
@@ -197,25 +214,52 @@ export const Chart: FC<ChartType> = ({ data }) => {
     return plots;
   }
   const plots = makePlots(data);
+
   return (
-    <FlexibleXYPlot
-      className="seed-chart"
-      height={175}
-      margin={{
-        right: -2,
-        left: -2,
-        bottom: -2,
-      }}
-    >
-      <AreaSeries
-        className="seed-chart-path"
-        curve="linear"
-        color="white"
-        stroke="#A426A4"
-        opacity={0.4}
-        data={plots}
-      />
-    </FlexibleXYPlot>
+    <Box>
+      <Box position="absolute" top={5} right={5} zIndex={250}>
+        <ButtonGroup variant="ghost" colorScheme="cyan">
+          <Button
+            onClick={() => toggleScale()}
+            sx={{
+              '&:focus, &:hover': {
+                background: 'transparent',
+              },
+            }}
+          >
+            {scale ? '30d' : '7d'}{' '}
+          </Button>
+        </ButtonGroup>
+      </Box>
+      <FlexibleXYPlot
+        className="seed-chart"
+        height={175}
+        margin={{
+          right: -2,
+          left: -2,
+          bottom: -2,
+        }}
+      >
+        <LineSeries
+          className="seed-chart-path"
+          curve="linear"
+          strokeStyle="solid"
+          animation={{ damping: 20, stiffness: 300 }}
+          stroke="#A426A4"
+          opacity={0.5}
+          data={plots}
+        />
+        <AreaSeries
+          className="seed-chart-path--fill"
+          curve="linear"
+          color="white"
+          animation={{ damping: 20, stiffness: 300 }}
+          // stroke="#A426A4"
+          opacity={0.4}
+          data={plots}
+        />
+      </FlexibleXYPlot>
+    </Box>
   );
 };
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
