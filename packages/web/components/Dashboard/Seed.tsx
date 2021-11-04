@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import {
   Box,
-  Button,
-  ButtonGroup,
+  IconButton,
   Link,
   Stat,
   StatArrow,
@@ -12,6 +11,7 @@ import {
   StatNumber,
 } from '@metafam/ds';
 import React, { FC, ReactNode, useState } from 'react';
+import { FaChartBar } from 'react-icons/fa';
 import {
   AreaSeries,
   AreaSeriesPoint,
@@ -217,19 +217,23 @@ export const Chart: FC<ChartType> = ({ data }) => {
 
   return (
     <Box>
-      <Box position="absolute" top={5} right={5} zIndex={250}>
-        <ButtonGroup variant="ghost" colorScheme="cyan">
-          <Button
-            onClick={() => toggleScale()}
-            sx={{
-              '&:focus, &:hover': {
-                background: 'transparent',
-              },
-            }}
-          >
-            {scale ? '30d' : '7d'}{' '}
-          </Button>
-        </ButtonGroup>
+      <Box position="absolute" top={3} right={3} zIndex={250}>
+        <IconButton
+          aria-label="Toggle chart scale"
+          icon={<FaChartBar />}
+          borderColor="pinkShadeOne"
+          background="rgba(17, 17, 17, 0.9)"
+          color="pinkShadeOne"
+          _hover={{ color: 'white', borderColor: 'white' }}
+          variant="outline"
+          isRound
+          onClick={() => toggleScale()}
+          sx={{
+            '&:focus, &:hover': {
+              background: 'transparent',
+            },
+          }}
+        />
       </Box>
       <FlexibleXYPlot
         className="seed-chart"
