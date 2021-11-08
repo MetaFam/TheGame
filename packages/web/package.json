@@ -14,7 +14,7 @@
   "dependencies": {
     "@3id/connect": "0.2.3",
     "@ceramicnetwork/3id-did-resolver": "1.4.3",
-    "@ceramicnetwork/http-client": "1.0.7",
+    "@ceramicnetwork/http-client": "1.4.3",
     "@ceramicnetwork/stream-caip10-link": "1.1.5",
     "@ceramicstudio/idx": "0.12.2",
     "@metafam/ds": "0.1.0",
