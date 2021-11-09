@@ -1,4 +1,4 @@
-FROM node:14 as base
+FROM node:14-slim as base
 WORKDIR /usr/src/app
 
 ARG GRAPHQL_HOST
@@ -6,6 +6,9 @@ ARG GRAPHQL_DOMAIN=onrender.com
 
 ENV GRAPHQL_URL https://$GRAPHQL_HOST.$GRAPHQL_DOMAIN/v1/graphql
 ENV HASURA_GRAPHQL_ADMIN_SECRET metagame_secret
+
+# Install dependencies not included in the slim image
+RUN apt-get update && apt-get install -y --no-install-recommends g++ make python
 
 # Install dependencies for dev and prod
 COPY package.json .
