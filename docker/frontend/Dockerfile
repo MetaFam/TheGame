@@ -37,6 +37,9 @@ COPY packages/@types ./packages/@types/
 # Build
 RUN yarn web:build
 
+# Delete devDependencies
+RUN yarn install --pure-lockfile --production --ignore-scripts --prefer-offline
+
 # Create completely new stage including only necessary files
 FROM node:14-alpine as app
 WORKDIR /app

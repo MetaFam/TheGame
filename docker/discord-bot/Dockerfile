@@ -31,6 +31,9 @@ COPY packages/@types ./packages/@types/
 # Build
 RUN yarn discord-bot build
 
+# Delete devDependencies
+RUN yarn install --pure-lockfile --production --ignore-scripts --prefer-offline
+
 # Create completely new stage including only necessary files
 FROM node:12-alpine as app
 WORKDIR /app
