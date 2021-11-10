@@ -34,4 +34,22 @@ COPY packages/@types ./packages/@types/
 # Build
 RUN yarn backend:build
 
+# Create completely new stage including only necessary files
+FROM node:14-alpine as app
+WORKDIR /app
+
+# Copy necessary files into the stage
+COPY --from=build /usr/src/app/package.json ./package.json
+COPY --from=build /usr/src/app/node_modules ./node_modules
+
+COPY --from=build /usr/src/app/packages/backend/package.json ./packages/backend/package.json
+COPY --from=build /usr/src/app/packages/backend/dist ./packages/backend/dist
+
+COPY --from=build /usr/src/app/packages/utils/package.json ./packages/utils/package.json
+COPY --from=build /usr/src/app/packages/utils/dist ./packages/utils/dist
+COPY --from=build /usr/src/app/packages/utils/node_modules ./packages/utils/node_modules
+
+COPY --from=build /usr/src/app/packages/discord-bot/package.json ./packages/discord-bot/package.json
+COPY --from=build /usr/src/app/packages/discord-bot/dist ./packages/discord-bot/dist
+
 CMD [ "yarn", "backend", "start" ]
