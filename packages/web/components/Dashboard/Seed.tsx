@@ -16,6 +16,7 @@ import {
   AreaSeries,
   AreaSeriesPoint,
   FlexibleXYPlot,
+  GradientDefs,
   LineSeries,
 } from 'react-vis';
 
@@ -172,7 +173,7 @@ export const Seed: FC<SeedProps> = (props) => {
               strokeWidth: 2,
               fillOpacity: 0,
               '&--fill': {
-                fillOpacity: 0.1,
+                fillOpacity: 0.5,
                 strokeWidth: 0,
               },
             },
@@ -248,18 +249,24 @@ export const Chart: FC<ChartType> = ({ data }) => {
           className="seed-chart-path"
           curve="linear"
           strokeStyle="solid"
-          animation={{ damping: 20, stiffness: 300 }}
+          animation={{ damping: 80, stiffness: 800 }}
           stroke="#A426A4"
           opacity={0.5}
           data={plots}
         />
+        <GradientDefs>
+          <linearGradient id="MetaGradient" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0%" stopColor="white" stopOpacity={0.9} />
+            <stop offset="100%" stopColor="black" stopOpacity={1} />
+          </linearGradient>
+        </GradientDefs>
         <AreaSeries
           className="seed-chart-path--fill"
           curve="linear"
-          color="white"
-          animation={{ damping: 20, stiffness: 300 }}
+          color="url(#MetaGradient)"
+          animation={{ damping: 80, stiffness: 800 }}
           // stroke="#A426A4"
-          opacity={0.4}
+          opacity={0.2}
           data={plots}
         />
       </FlexibleXYPlot>
