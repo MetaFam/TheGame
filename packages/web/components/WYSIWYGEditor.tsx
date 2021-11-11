@@ -32,6 +32,7 @@ export const WYSIWYGEditor: React.FC<Props> = ({
         borderLeft: '1px solid var(--chakra-colors-gray-300)',
         borderTop: '1px solid var(--chakra-colors-gray-300)',
         borderRight: '1px solid var(--chakra-colors-gray-300)',
+        color: 'black',
       }}
       editorStyle={{
         padding: '5px',

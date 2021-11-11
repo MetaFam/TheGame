@@ -49,6 +49,7 @@ export const SkillsSelect: React.FC<SetupSkillsProps> = ({
 
   return (
     <SelectSearch
+      menuPlacement="top"
       isMulti
       styles={styles}
       value={skills}
