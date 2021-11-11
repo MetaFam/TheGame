@@ -17,8 +17,8 @@ import {
   useUpdateQuestMutation,
 } from '../../../graphql/autogen/types';
 import { getSsrClient } from '../../../graphql/client';
-import { getGuilds } from '../../../graphql/getGuilds';
-import { getSkills } from '../../../graphql/getSkills"
+import { getSkills } from '../../../graphql/queries/enums/getSkills';
+import { getGuilds } from '../../../graphql/queries/guild';
 import { useUser } from '../../../lib/hooks';
 import { transformCooldownForBackend } from '../../../utils/questHelpers';
 import { CategoryOption, parseSkills } from '../../../utils/skillHelpers';
