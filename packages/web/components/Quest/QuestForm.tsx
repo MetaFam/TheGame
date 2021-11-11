@@ -10,7 +10,7 @@ import {
   Text,
   VStack,
 } from '@metafam/ds';
-import { ContentState, convertFromHTML, EditorState } from 'draft-js';
+import { EditorState } from 'draft-js';
 import {
   GuildFragmentFragment,
   QuestFragmentFragment,
@@ -18,11 +18,12 @@ import {
   QuestStatus_Enum,
 } from 'graphql/autogen/types';
 import { useRouter } from 'next/router';
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Controller, FieldError, useForm } from 'react-hook-form';
 
 import { QuestRepetitionHint, UriRegexp } from '../../utils/questHelpers';
 import { CategoryOption, SkillOption } from '../../utils/skillHelpers';
+import { stateFromHTML } from '../../utils/stateFromHTML';
 import { FlexContainer } from '../Container';
 import { SkillsSelect } from '../Skills';
 import { WYSIWYGEditor } from '../WYSIWYGEditor';
@@ -66,45 +67,41 @@ export interface CreateQuestFormInputs {
 
 const MetaFamGuildId = 'f94b7cd4-cf29-4251-baa5-eaacab98a719';
 
+const getDescriptionEditorState = async (
+  description?: string | null,
+): Promise<EditorState> => {
+  if (description) {
+    const contentState = await stateFromHTML(description);
+
+    return EditorState.createWithContent(contentState);
+  }
+  return EditorState.createEmpty();
+};
+
 const getDefaultFormValues = (
   editQuest: QuestFragmentFragment | undefined,
   guilds: GuildFragmentFragment[],
-): CreateQuestFormInputs => {
-  let description = null;
-  if (editQuest && editQuest.description) {
-    const blocksFromHTML = convertFromHTML(editQuest.description);
-    const contentState = ContentState.createFromBlockArray(
-      blocksFromHTML.contentBlocks,
-      blocksFromHTML.entityMap,
-    );
-    description = EditorState.createWithContent(contentState);
-  } else {
-    description = EditorState.createEmpty();
-  }
-
-  const defaultValues = {
-    title: editQuest?.title || '',
-    repetition: editQuest?.repetition || QuestRepetition_Enum.Unique,
-    description: description || EditorState.createEmpty(),
-    external_link: editQuest?.external_link || '',
-    guild_id:
-      editQuest?.guild_id ||
-      guilds.find((g) => g.id === MetaFamGuildId)?.id ||
-      guilds[0].id,
-    status: editQuest?.status || QuestStatus_Enum.Open,
-    cooldown: editQuest?.cooldown || null,
-    skills: editQuest
-      ? editQuest.quest_skills
-          .map((s) => s.skill)
-          .map((s) => ({
-            value: s.id,
-            label: s.name,
-            ...s,
-          }))
-      : [],
-  };
-  return defaultValues;
-};
+): CreateQuestFormInputs => ({
+  title: editQuest?.title || '',
+  repetition: editQuest?.repetition || QuestRepetition_Enum.Unique,
+  description: EditorState.createEmpty(),
+  external_link: editQuest?.external_link || '',
+  guild_id:
+    editQuest?.guild_id ||
+    guilds.find((g) => g.id === MetaFamGuildId)?.id ||
+    guilds[0].id,
+  status: editQuest?.status || QuestStatus_Enum.Open,
+  cooldown: editQuest?.cooldown || null,
+  skills: editQuest
+    ? editQuest.quest_skills
+        .map((s) => s.skill)
+        .map((s) => ({
+          value: s.id,
+          label: s.name,
+          ...s,
+        }))
+    : [],
+});
 
 type FieldProps = {
   children: React.ReactNode;
@@ -153,19 +150,27 @@ export const QuestForm: React.FC<Props> = ({
   loadingLabel,
   editQuest,
 }) => {
-  const defaultValues = useMemo<CreateQuestFormInputs>(
-    () => getDefaultFormValues(editQuest, guilds),
-    [editQuest, guilds],
-  );
+  const defaultValues = useMemo(() => getDefaultFormValues(editQuest, guilds), [
+    editQuest,
+    guilds,
+  ]);
+
   const {
     register,
     control,
     errors,
     watch,
     handleSubmit,
+    reset,
   } = useForm<CreateQuestFormInputs>({
     defaultValues,
   });
+  useEffect(() => {
+    getDescriptionEditorState(editQuest?.description).then((description) => {
+      defaultValues.description = description;
+      reset(defaultValues);
+    });
+  }, [editQuest, guilds, reset, defaultValues]);
   const router = useRouter();
   const [exitAlert, setExitAlert] = useState<boolean>(false);
   const createQuestInput = watch();

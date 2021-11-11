@@ -13,8 +13,15 @@ module.exports = withTM(
         },
       ];
     },
-    future: {
-      webpack5: true,
+    webpack: (config, { isServer, webpack }) => {
+      if (!isServer) {
+        config.plugins.push(
+          // jsdom is required for draft-js SSR only
+          new webpack.IgnorePlugin(/jsdom$/),
+        );
+      }
+
+      return config;
     },
   }),
 );

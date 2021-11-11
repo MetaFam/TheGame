@@ -13,6 +13,7 @@ import {
 import BackgroundImage from 'assets/main-background.jpg';
 import { MetaLink } from 'components/Link';
 import { QuestFragmentFragment, Skill } from 'graphql/autogen/types';
+import parse from 'html-react-parser';
 import moment from 'moment';
 import React from 'react';
 
@@ -64,6 +65,9 @@ export const QuestTile: React.FC<Props> = ({ quest }) => (
     </MetaTileHeader>
     <MetaTileBody flex={1}>
       <VStack spacing={2} align="stretch">
+        <Text textStyle="caption">DESCRIPTION</Text>
+        <Text noOfLines={4}>{parse(quest.description || '')}</Text>
+
         <Text textStyle="caption">SKILLS</Text>
         <SkillsTags
           skills={quest.quest_skills.map((s) => s.skill) as Skill[]}

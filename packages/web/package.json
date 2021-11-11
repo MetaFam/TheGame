@@ -37,6 +37,8 @@
     "graphql": "15.5.0",
     "html-react-parser": "1.2.8",
     "isomorphic-unfetch": "3.1.0",
+    "jstz": "^2.1.1",
+    "jsdom": "^16.4.0",
     "moment": "2.29.1",
     "next": "10.2.3",
     "next-images": "1.7.0",

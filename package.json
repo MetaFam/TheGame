@@ -49,6 +49,7 @@
     "@graphql-codegen/typescript-react-apollo": "2.2.4",
     "@graphql-codegen/typescript-resolvers": "1.19.1",
     "@graphql-codegen/typescript-urql": "2.0.6",
+    "@types/jsdom": "^16.2.13",
     "@types/node": "15.6.1",
     "@types/react": "17.0.6",
     "@types/react-dom": "17.0.5",
