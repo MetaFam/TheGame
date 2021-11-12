@@ -22,7 +22,7 @@ yarn
 To connect to production servers, you'll need to create a file `.env.local` under `packages/web` and write this inside:
 
 ```
-NEXT_PUBLIC_GRAPHQL_URL=https://api.metagame.wtf/v1/graphql
+NEXT_PUBLIC_GRAPHQL_URL=https://api-staging.metagame.wtf/v1/graphql
 ```
 
 ### Connecting to local server
