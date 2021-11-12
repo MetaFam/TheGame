@@ -13,5 +13,8 @@ module.exports = withTM(
         },
       ];
     },
+    future: {
+      webpack5: true,
+    },
   }),
 );
