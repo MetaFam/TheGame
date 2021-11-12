@@ -16,10 +16,10 @@ export { MultiSelect } from './MultiSelect';
 export { ResponsiveText } from './ResponsiveText';
 export { SelectComponents, SelectSearch, selectStyles } from './SelectSearch';
 export {
-  filterTimezones,
   getTimezonesFor,
   SelectTimeZone,
   TimezoneOptions,
+  timezonesFilter,
   TimezoneType,
 } from './SelectTimeZone';
 export { SVG } from './SVG';
