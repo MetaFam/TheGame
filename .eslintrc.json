@@ -12,6 +12,7 @@
     "project": "./tsconfig.json",
     "ecmaVersion": 6
   },
+  "ignorePatterns": ["packages/web/next.config.js"],
   "plugins": ["simple-import-sort"],
   "settings": {
     "import/resolver": {
