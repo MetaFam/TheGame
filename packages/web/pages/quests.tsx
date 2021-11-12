@@ -6,6 +6,7 @@ import {
   MetaButton,
   Text,
   Tooltip,
+  useToast,
 } from '@metafam/ds';
 import { PageContainer } from 'components/Container';
 import { QuestFilter } from 'components/Quest/QuestFilter';
@@ -46,6 +47,7 @@ const QuestsPage: React.FC<Props> = () => {
     setQueryVariable,
   } = useQuestFilter();
   const { pSeedBalance, fetching: fetchingBalance } = usePSeedBalance();
+  const toast = useToast();
   const canCreateQuest = useMemo(() => isAllowedToCreateQuest(pSeedBalance), [
     pSeedBalance,
   ]);
@@ -69,7 +71,19 @@ const QuestsPage: React.FC<Props> = () => {
             <MetaButton
               // disabled={!canCreateQuest} // if disabled, tooltip doesn't show...
               isLoading={fetchingBalance}
-              onClick={() => canCreateQuest && router.push('/quest/create')}
+              onClick={() => {
+                if (!canCreateQuest) {
+                  toast({
+                    title: 'Error',
+                    description:
+                      'Insufficient pSEED Balance.Must be 100pSEED The octo is sad 😢',
+                    status: 'error',
+                    isClosable: true,
+                  });
+                } else {
+                  router.push('/quest/create');
+                }
+              }}
             >
               New Quest
             </MetaButton>
