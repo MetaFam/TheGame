@@ -16,8 +16,8 @@ import { DropDownIcon } from './icons/DropDownIcon';
 import { MetaTag } from './MetaTag';
 import { SelectComponents, SelectSearch } from './SelectSearch';
 import {
-  filterTimezones,
   getTimezonesFor,
+  timezonesFilter,
   TimezoneType,
 } from './SelectTimeZone';
 
@@ -352,7 +352,7 @@ export const MetaFilterSelectSearch: React.FC<
         const filteredTimezones = getTimezonesFor(searchText);
         setOptions(
           (defaultOptions as TimezoneType[])?.filter(
-            filterTimezones(searchText, filteredTimezones),
+            timezonesFilter(searchText, filteredTimezones),
           ),
         );
       }

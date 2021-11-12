@@ -9,7 +9,6 @@ import {
   DrawerContent,
   DrawerFooter,
   DrawerHeader,
-  filterTimezones,
   Flex,
   FlexProps,
   getTimezonesFor,
@@ -18,6 +17,7 @@ import {
   MetaButton,
   Text,
   TimezoneOptions,
+  timezonesFilter,
   TimezoneType,
 } from '@metafam/ds';
 import { SkillCategory_Enum } from 'graphql/autogen/types';
@@ -383,7 +383,7 @@ const FilterContent: React.FC<FilterContentProps> = ({
             const { label, options: categoryOptions } = v;
             const filteredOptions = isTimezone
               ? (categoryOptions as TimezoneType[]).filter(
-                  filterTimezones(searchText, filteredTimezones),
+                  timezonesFilter(searchText, filteredTimezones),
                 )
               : categoryOptions.filter(searchFilter(searchText));
             const newValue: CategoryValueType = {
@@ -398,7 +398,7 @@ const FilterContent: React.FC<FilterContentProps> = ({
       } else {
         const filteredOptions = isTimezone
           ? (allOptions as TimezoneType[]).filter(
-              filterTimezones(searchText, filteredTimezones),
+              timezonesFilter(searchText, filteredTimezones),
             )
           : (allOptions as ValueType[]).filter(searchFilter(searchText));
         setOptions(filteredOptions);
