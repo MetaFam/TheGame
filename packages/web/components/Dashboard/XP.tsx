@@ -7,54 +7,46 @@ import {
   StatNumber,
 } from '@metafam/ds';
 import { useUser } from 'lib/hooks';
-import { useUserXp } from 'lib/hooks/useUserXp';
+import { useUserXP } from 'lib/hooks/useUserXp';
 import React from 'react';
 
 export const XP = (): React.ReactElement => {
   const { user } = useUser();
 
   const {
-    absVariationLastWeek,
-    absVariationThisWeek,
-    thisWeekXp,
-    lastWeekXp,
-    userTotalXp,
-  } = useUserXp(user?.ethereum_address || '');
+    userTotalXP,
+    variationThisWeek,
+    variationLastWeek,
+    thisWeekXP,
+    lastWeekXP,
+  } = useUserXP(user?.ethereum_address || '');
 
   return (
     <StatGroup mt={5} flex="0 0 50%">
       <Stat mb={3}>
         <StatLabel>This Week</StatLabel>
-        <StatNumber>{thisWeekXp}</StatNumber>
+        <StatNumber>{thisWeekXP}</StatNumber>
         <StatHelpText>
-          <StatArrow
-            type={`${
-              absVariationThisWeek?.isNegative ? 'decrease' : 'increase'
-            }`}
-          />
-          {absVariationThisWeek?.value}%
+          <StatArrow type={variationThisWeek < 0 ? 'decrease' : 'increase'} />
+          {variationThisWeek}%
         </StatHelpText>
       </Stat>
 
       <Stat mb={3} flex="0 0 50%">
         <StatLabel>Last Week</StatLabel>
-        <StatNumber>{lastWeekXp}</StatNumber>
+        <StatNumber>{lastWeekXP}</StatNumber>
         <StatHelpText>
-          <StatArrow
-            type={`${
-              absVariationLastWeek?.isNegative ? 'decrease' : 'increase'
-            }`}
-          />
-          {absVariationLastWeek?.value}%
+          <StatArrow type={variationLastWeek < 0 ? 'decrease' : 'increase'} />
+          {lastWeekXP}%
         </StatHelpText>
       </Stat>
 
       <Stat alignSelf="flex-start" justifySelf="flex-end" flex="0 0 100%">
         <StatLabel>All Time</StatLabel>
-        <StatNumber>{userTotalXp}</StatNumber>
+        <StatNumber>{userTotalXP}</StatNumber>
         {user?.player?.rank && (
-          <StatHelpText color={user?.player?.rank}>
-            {user?.player?.rank}
+          <StatHelpText color={user.player.rank}>
+            {user.player.rank}
           </StatHelpText>
         )}
       </Stat>
