@@ -206,7 +206,7 @@ export const Grid: FC = () => {
           </GridItem>
         </Box>
         <Box key="calendar" className="gridItem">
-          <GridItem title="Calendar" sx={gridConfig.calendar}>
+          <GridItem title="Calendar" sx={{}}>
             <Calendar />
           </GridItem>
         </Box>
