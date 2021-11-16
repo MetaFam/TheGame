@@ -17,6 +17,7 @@
     "@ceramicnetwork/http-client": "1.0.7",
     "@ceramicnetwork/stream-caip10-link": "1.1.5",
     "@ceramicstudio/idx": "0.12.2",
+    "@datamodels/identity-profile-basic": "^0.1.2",
     "@metafam/ds": "0.1.0",
     "@metafam/utils": "1.0.0",
     "@react-spring/web": "^9.3.0",
