@@ -10,6 +10,7 @@ import {
 } from '@metafam/ds';
 import { PageContainer } from 'components/Container';
 import { Calendar } from 'components/Dashboard/Calendar';
+import { gridConfig, initLayouts } from 'components/Dashboard/config';
 import { GridItem } from 'components/Dashboard/GridItem';
 import { LatestContent } from 'components/Dashboard/LatestContent';
 import { Leaderboard } from 'components/Dashboard/Leaderboard';
@@ -17,10 +18,7 @@ import { ChartProps, Seed, TokenProps } from 'components/Dashboard/Seed';
 import { XP } from 'components/Dashboard/XP';
 import { FC, ReactNode, useEffect, useState } from 'react';
 import { Layout, Layouts, Responsive, WidthProvider } from 'react-grid-layout';
-import { gridConfig, initLayouts } from 'utils/dashboard';
 
-// type LayoutProps = Layout
-// type LayoutsProps = Layouts
 export interface Query {
   [key: string]: ContainerQueries;
 }
@@ -65,7 +63,7 @@ type GridProps = {
   chart: ChartProps;
 };
 
-export const Grid: FC<GridProps> = (props) => {
+export const Grid: FC<GridProps> = () => {
   const [gridLayouts, setGridLayouts] = useState(
     JSON.parse(JSON.stringify(originalLayouts)),
   );
@@ -76,7 +74,6 @@ export const Grid: FC<GridProps> = (props) => {
     layouts: {},
   });
   const [editable, setEditable] = useState(false);
-  const { token, chart } = props;
 
   const toggleEditLayout = () => setEditable(!editable);
 
@@ -213,7 +210,7 @@ export const Grid: FC<GridProps> = (props) => {
         </Box>
         <Box key="seed" className="gridItem">
           <GridItem title="Seed" sx={gridConfig.seed}>
-            <Seed token={token} chart={chart} />
+            <Seed />
           </GridItem>
         </Box>
         <Box key="calendar" className="gridItem">
@@ -229,31 +226,6 @@ export const Grid: FC<GridProps> = (props) => {
       </ResponsiveGridLayout>
     </Box>
   );
-};
-
-export const getStaticProps = async () => {
-  try {
-    const tokenId = 'metagame';
-    const apiUrl = 'https://api.coingecko.com/api/v3/';
-    const tokenQuery = '?localization=false&tickers=true&market_data=true';
-    const chartQuery = '/market_chart?vs_currency=usd&days=30&interval=daily';
-    const token = await fetch(`${apiUrl}coins/${tokenId + tokenQuery}`);
-    const tokenJson = await token.json();
-
-    const chart = await fetch(`${apiUrl}coins/${tokenId + chartQuery}`);
-    const chartJson = await chart.json();
-
-    return {
-      props: {
-        token: tokenJson,
-        chart: chartJson,
-      },
-    };
-  } catch (error) {
-    // eslint-disable-next-line no-console
-    console.log('getTokenData: ', error);
-    return null;
-  }
 };
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types

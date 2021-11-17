@@ -10,7 +10,7 @@ import {
   StatLabel,
   StatNumber,
 } from '@metafam/ds';
-import React, { FC, ReactNode, useState } from 'react';
+import React, { FC, ReactNode, useEffect, useState } from 'react';
 import { FaChartBar } from 'react-icons/fa';
 import {
   AreaSeries,
@@ -20,16 +20,30 @@ import {
   LineSeries,
 } from 'react-vis';
 
-type SeedProps = {
-  token: TokenProps;
-  chart: ChartProps;
-  children?: React.ReactChildren;
-};
+import {
+  findHighLowPrice,
+  HighLow7dType,
+  priceIncreased,
+  ticker,
+  volIncreased,
+  volumeChange,
+} from '../../utils/dashboardHelpers';
+import { apiUrl, chartQuery, tokenId, tokenQuery } from './config';
 
 export type TokenProps = {
   market_data: MarketDataProps;
   tickers: Array<TickerProps>;
 };
+export type TokenDataProps = {
+  market: MarketDataProps;
+  ticker: TickerProps;
+  priceUp: boolean;
+  volumeUp: boolean;
+  volumePercent: string;
+  highLow7d: HighLow7dType;
+  prices: Array<Array<number>>;
+};
+
 export type ChartProps = {
   prices: Array<Array<number>>;
   total_volumes: Array<Array<number>>;
@@ -42,7 +56,6 @@ type MarketDataProps = {
 };
 
 type TickerProps = {
-  [index: number]: Array<string>;
   market: MarketProps;
   token_info_url: string;
 };
@@ -51,66 +64,54 @@ type MarketProps = {
   identifier: string;
 };
 
-export const Seed: FC<SeedProps> = (props) => {
-  const { token, chart } = props;
-  const { market_data, tickers } = token;
-  const { prices, total_volumes } = chart;
-  const {
-    price_change_percentage_24h,
-    total_volume,
-    current_price,
-  } = market_data;
-  // console.log(props);
+export const Seed: FC = () => {
+  const [token, setToken] = useState<TokenDataProps | null>();
 
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  const ticker =
-    tickers?.filter(
-      (tick) => tick.market.identifier === 'balancer_v1' && tick,
-    ) || null;
+  useEffect(() => {
+    if (typeof token !== 'undefined') return;
+    (async () => {
+      try {
+        const tokenResponse = await fetch(
+          `${apiUrl}coins/${tokenId + tokenQuery}`,
+        );
+        const tokenJson = await tokenResponse.json();
+        const chartResponse = await fetch(
+          `${apiUrl}coins/${tokenId + chartQuery}`,
+        );
+        const chartJson = await chartResponse.json();
 
-  const priceIncreased =
-    price_change_percentage_24h && Math.sign(price_change_percentage_24h) === 1;
+        const { market_data, tickers } = tokenJson;
+        const { prices, total_volumes } = chartJson;
 
-  function highLowPrice7d(days: Array<Array<number>>) {
-    const plots: Array<number> = [];
+        const buildTokenData = () => {
+          const tokenData: TokenDataProps = {
+            market: market_data,
+            ticker: ticker(tickers, 'balancer_v1'),
+            priceUp:
+              priceIncreased(market_data.price_change_percentage_24h) > 0,
+            volumeUp: volIncreased(total_volumes, market_data.total_volume) > 0,
+            volumePercent: volumeChange(
+              total_volumes,
+              market_data.total_volume,
+            ).toFixed(2),
+            highLow7d: findHighLowPrice(prices, 7),
+            prices,
+          };
 
-    // we only want to get the last 7 of 30 days
-    const lastWeek = days.slice(-7);
-    lastWeek.map((d) => {
-      const day: number = d[1];
-      return plots.push(day);
-    });
-
-    const high = Number(Math.max(...plots)).toFixed(2);
-    const low = Number(Math.min(...plots)).toFixed(2);
-
-    return {
-      high,
-      low,
-    };
-  }
-
-  const highLow7d = highLowPrice7d(prices);
-
-  function volumeChange(
-    vols: Array<Array<number>>,
-    todayVol: Record<string, number>,
-  ) {
-    const plots = [];
-    let element: Array<number> = [];
-
-    for (let i = 0; i < vols.length; i++) {
-      element = vols[i];
-      plots.push({ date: element[0], volume: element[1] });
-    }
-    const lastVol = plots[plots.length - 2].volume;
-    const diff = +todayVol.usd - +lastVol;
-    const volPercent = Number((diff / todayVol.usd) * 100);
-
-    return volPercent;
-  }
-
-  const volIncreased = Math.sign(volumeChange(total_volumes, total_volume));
+          if (!token) {
+            return tokenData;
+          }
+          return null;
+        };
+        setToken(() => buildTokenData());
+        return () => {};
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.log('getTokenData: ', error);
+        return null;
+      }
+    })();
+  });
 
   return (
     <>
@@ -118,39 +119,30 @@ export const Seed: FC<SeedProps> = (props) => {
         <StatGroup position="relative" my={5} zIndex={10}>
           <Stat mb={3}>
             <StatLabel>Market Price</StatLabel>
-            <StatNumber>${current_price.usd}</StatNumber>
+            <StatNumber>${token?.market.current_price.usd}</StatNumber>
             <StatHelpText>
-              <StatArrow type={priceIncreased ? 'increase' : 'decrease'} />
-              {`${price_change_percentage_24h}%` || 'not enough data'}
+              <StatArrow type={token?.priceUp ? 'increase' : 'decrease'} />
+              {`${token?.market.price_change_percentage_24h?.toFixed(2)}%` ||
+                'not enough data'}
             </StatHelpText>
           </Stat>
 
           <Stat mb={3}>
             <StatLabel>24h Trading Volume</StatLabel>
-            <StatNumber>${total_volume.usd}</StatNumber>
+            <StatNumber>${token?.market.total_volume.usd}</StatNumber>
             <StatHelpText>
-              <StatArrow type={volIncreased ? 'increase' : 'decrease'} />
-              {volumeChange(total_volumes, total_volume).toFixed(2)}%
+              <StatArrow type={token?.volumeUp ? 'increase' : 'decrease'} />
+              {token?.volumePercent}%
             </StatHelpText>
           </Stat>
 
           <Stat alignSelf="flex-start" flex="0 0 100%">
             <StatLabel>7d Low / High</StatLabel>
             <StatNumber>
-              ${highLow7d.low} / ${highLow7d.high}
+              ${token?.highLow7d.low} / ${token?.highLow7d.high}
             </StatNumber>
           </Stat>
         </StatGroup>
-        {ticker && (
-          <Link
-            className="infoLink"
-            href={ticker[0]?.token_info_url}
-            isExternal
-            zIndex={20}
-          >
-            Pool Info
-          </Link>
-        )}
       </Box>
       <Box
         className="chartWrapper"
@@ -168,7 +160,6 @@ export const Seed: FC<SeedProps> = (props) => {
             right: 0,
             maxW: '100%',
             '.seed-chart-path': {
-              // transform: 'translate3d(-20px, 50px, 0)',
               bottom: 0,
               strokeWidth: 2,
               fillOpacity: 0,
@@ -178,11 +169,35 @@ export const Seed: FC<SeedProps> = (props) => {
               },
             },
           },
-          '.rv-xy-plot__axis__ticks': {},
         }}
       >
-        <Chart data={prices} />
+        {token?.prices ? (
+          <Chart data={token.prices} />
+        ) : (
+          <Box
+            position="absolute"
+            bottom={5}
+            right={5}
+            opacity={0.5}
+            fontSize="lg"
+          >
+            Loading chart...
+          </Box>
+        )}
       </Box>
+      {token?.ticker && (
+        <Link
+          position="absolute"
+          bottom={5}
+          left={5}
+          className="infoLink"
+          href={token?.ticker.token_info_url}
+          isExternal
+          zIndex={20}
+        >
+          Pool Info
+        </Link>
+      )}
     </>
   );
 };
@@ -194,11 +209,13 @@ type ChartType = {
 
 export const Chart: FC<ChartType> = ({ data }) => {
   const [scale, setScale] = useState<boolean>(true);
+
   const toggleScale = () => {
     setScale(!scale);
   };
+
   function makePlots(days: Array<Array<number>>) {
-    // TODO: adding this as i couldn't work out how to fix the type error. Could do with a pair session for this stuff.
+    // adding this as i couldn't work out how to fix the type error. Could do with a pair session for this stuff.
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const plots: Array<string | any | AreaSeriesPoint> = [];
 
@@ -210,10 +227,10 @@ export const Chart: FC<ChartType> = ({ data }) => {
       };
       return plots.push(day);
     });
-    // console.log('Plots: ', plots);
 
     return plots;
   }
+
   const plots = makePlots(data);
 
   return (
@@ -270,7 +287,17 @@ export const Chart: FC<ChartType> = ({ data }) => {
           data={plots}
         />
       </FlexibleXYPlot>
+      <Box
+        aria-label="Seed Graph scale"
+        position="absolute"
+        bottom={5}
+        right={5}
+        opacity={0.25}
+        fontSize="xl"
+        fontWeight={700}
+      >
+        {!scale ? 7 : 30}d
+      </Box>
     </Box>
   );
 };
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
