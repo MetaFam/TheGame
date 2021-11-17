@@ -4,16 +4,19 @@ import {
   HStack,
   LinkBox,
   LinkOverlay,
+  MetaFilterSelectSearch,
   Skeleton,
   Text,
   VStack,
 } from '@metafam/ds';
 import { PlayerAvatar } from 'components/Player/PlayerAvatar';
-import { usePlayerFilter } from 'lib/hooks/players';
+import { SortOption, sortOptionsMap, usePlayerFilter } from 'lib/hooks/players';
 import { useOnScreen } from 'lib/hooks/useOnScreen';
 import NextLink from 'next/link';
-import React, { useEffect, useMemo, useRef } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { getPlayerName } from 'utils/playerHelpers';
+
+type ValueType = { value: string; label: string };
 
 export const Leaderboard: React.FC = () => {
   const {
@@ -23,7 +26,7 @@ export const Leaderboard: React.FC = () => {
     fetchingMore,
     error,
     queryVariables,
-    // setQueryVariable,
+    setQueryVariable,
     // resetFilter,
     nextPage,
     moreAvailable,
@@ -40,12 +43,15 @@ export const Leaderboard: React.FC = () => {
   }, [nextPage, onScreen, fetching, fetchingMore, moreAvailable]);
 
   const showSeasonalXP = useMemo(
-    () => Object.keys(queryVariables.orderBy).includes('total_xp'),
+    () => Object.keys(queryVariables.orderBy).includes('season_xp'),
     [queryVariables.orderBy],
   );
 
-  // console.log(players);
+  const sortOptions = Object.values(sortOptionsMap);
 
+  const [sortOption, setSortOption] = useState<ValueType>(
+    sortOptionsMap[SortOption.SEASON_XP.toString()],
+  );
   return (
     <VStack
       className="leaderboard"
@@ -54,6 +60,21 @@ export const Leaderboard: React.FC = () => {
       fontFamily="exo2"
       fontWeight="700"
     >
+      <MetaFilterSelectSearch
+        title={`Sorted By: ${sortOption.label}`}
+        tagLabel=""
+        hasValue={sortOption.value !== SortOption.SEASON_XP}
+        // styles={styles}
+        value={[sortOption]}
+        onChange={(value) => {
+          const values = value as ValueType[];
+          if (values && values[values.length - 1]) {
+            setSortOption(values[values.length - 1]);
+            setQueryVariable('orderBy', values[values.length - 1].value);
+          }
+        }}
+        options={sortOptions}
+      />
       {error ? <Text>{`Error: ${error.message}`}</Text> : null}
       {!error && players.length && (fetchingMore || !fetching)
         ? players.map((p, i) => {
