@@ -2,6 +2,10 @@
 
 **What features/fixes does this PR include?**
 
+**Please provide the GitHub issue number**
+
+Closes #
+
 ## Implementation
 
 **Describe technical (nontrivial / non-obvious) parts of your code**
