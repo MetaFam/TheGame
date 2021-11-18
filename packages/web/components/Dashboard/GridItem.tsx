@@ -1,7 +1,7 @@
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
 
-import { Box, MetaHeading } from '@metafam/ds';
+import { Box, Heading } from '@metafam/ds';
 import classnames from 'classnames';
 import React from 'react';
 import { ContainerQuery } from 'react-container-query';
@@ -23,7 +23,7 @@ export const GridItem: React.FC<MetaBoxProps> = ({ children, title, sx }) => (
     <ContainerQuery query={containerQueries}>
       {(params: Params) => (
         <Box className={classnames('container', params)} sx={sx}>
-          <MetaHeading>{title}</MetaHeading>
+          <Heading size="lg">{title}</Heading>
           {children}
         </Box>
       )}

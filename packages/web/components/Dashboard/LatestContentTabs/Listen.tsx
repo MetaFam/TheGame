@@ -1,12 +1,19 @@
 import 'react-h5-audio-player/lib/styles.css';
 
-import { Box, Heading, Text } from '@metafam/ds';
+import { Box, Button, Heading, Text } from '@metafam/ds';
 import React, { useState } from 'react';
 import AudioPlayer from 'react-h5-audio-player';
 import { parse } from 'rss-to-json';
 
 export const Listen: React.FC = () => {
-  const [items, setItems] = useState([]);
+  const [items, setItems] = useState<
+    Array<{
+      title: string;
+      src: string;
+      showMore: boolean;
+      description: string;
+    }>
+  >([]);
 
   const getData = async () => {
     const podcastDataRss = await parse(
@@ -14,27 +21,48 @@ export const Listen: React.FC = () => {
       {},
     );
 
-    console.log('podcast data', podcastDataRss);
-    setItems(podcastDataRss.items);
-    console.log('items', items);
+    const preparedData = podcastDataRss.items.map((item) => ({
+      title: item.title,
+      description: item.description.replace(/<\/?[^>]+(>|$)/g, ''),
+      src: item.enclosures[0].url,
+      showMore: false,
+    }));
+    setItems(preparedData);
+  };
+
+  const findAndReplace = (src: string) => {
+    const foundIndex = items.findIndex((x) => x.src === src);
+    items[foundIndex].showMore = !items[foundIndex].showMore;
+    return items;
   };
 
   if (items.length === 0) getData();
-  console.log('items', items);
 
   return (
     <Box>
       {items.map((item) => (
         <Box>
-          <Heading size="xs" color="white">
-            {item.title}
-          </Heading>
-          <Text>{item.description.replace(/<\/?[^>]+(>|$)/g, '')}</Text>
           <AudioPlayer
             // autoPlay
+            header={
+              <Heading size="xs" color="black">
+                {item.title}
+              </Heading>
+            }
+            footer={
+              <Box>
+                <Text>
+                  {item.showMore
+                    ? item.description
+                    : `${item.description.substring(0, 250)}`}
+                </Text>
+                <Button onClick={() => setItems([...findAndReplace(item.src)])}>
+                  Show more
+                </Button>
+              </Box>
+            }
             preload="none"
-            src={item.enclosures[0].url}
-            onPlay={(e) => console.log('onPlay')}
+            src={item.src}
             // other props here
           />
         </Box>
