@@ -10,7 +10,7 @@ import {
   StatLabel,
   StatNumber,
 } from '@metafam/ds';
-import React, { FC, ReactNode, useEffect, useState } from 'react';
+import React, { FC, ReactElement, ReactNode, useEffect, useState } from 'react';
 import { FaChartBar } from 'react-icons/fa';
 import {
   AreaSeries,
@@ -28,25 +28,22 @@ import {
   volIncreased,
   volumeChange,
 } from '../../utils/dashboardHelpers';
-import { apiUrl, chartQuery, tokenId, tokenQuery } from './config';
+import {
+  apiUrl,
+  chartQuery,
+  chartWrapperStyles,
+  tokenId,
+  tokenQuery,
+} from './config';
 
-export type TokenProps = {
-  market_data: MarketDataProps;
-  tickers: Array<TickerProps>;
-};
-export type TokenDataProps = {
+type TokenDataProps = {
   market: MarketDataProps;
-  ticker: TickerProps;
+  poolTicker: TickerProps;
   priceUp: boolean;
   volumeUp: boolean;
   volumePercent: string;
   highLow7d: HighLow7dType;
   prices: Array<Array<number>>;
-};
-
-export type ChartProps = {
-  prices: Array<Array<number>>;
-  total_volumes: Array<Array<number>>;
 };
 
 type MarketDataProps = {
@@ -64,8 +61,8 @@ type MarketProps = {
   identifier: string;
 };
 
-export const Seed: FC = () => {
-  const [token, setToken] = useState<TokenDataProps | null>();
+export const Seed = (): ReactElement => {
+  const [token, setToken] = useState<TokenDataProps | undefined>();
 
   useEffect(() => {
     if (typeof token !== 'undefined') return;
@@ -79,32 +76,30 @@ export const Seed: FC = () => {
           `${apiUrl}coins/${tokenId + chartQuery}`,
         );
         const chartJson = await chartResponse.json();
-
         const { market_data, tickers } = tokenJson;
         const { prices, total_volumes } = chartJson;
-
-        const buildTokenData = () => {
-          const tokenData: TokenDataProps = {
-            market: market_data,
-            ticker: ticker(tickers, 'balancer_v1'),
-            priceUp:
-              priceIncreased(market_data.price_change_percentage_24h) > 0,
-            volumeUp: volIncreased(total_volumes, market_data.total_volume) > 0,
-            volumePercent: volumeChange(
-              total_volumes,
-              market_data.total_volume,
-            ).toFixed(2),
-            highLow7d: findHighLowPrice(prices, 7),
-            prices,
-          };
-
-          if (!token) {
-            return tokenData;
-          }
-          return null;
+        const market = market_data;
+        const poolTicker = ticker(tickers, 'balancer_v1');
+        const priceUp =
+          priceIncreased(market_data.price_change_percentage_24h) > 0;
+        const volumeUp =
+          volIncreased(total_volumes, market_data.total_volume) > 0;
+        const volumePercent = volumeChange(
+          total_volumes,
+          market_data.total_volume,
+        ).toFixed(2);
+        const highLow7d = findHighLowPrice(prices, 7);
+        const tokenData: TokenDataProps = {
+          market,
+          poolTicker,
+          priceUp,
+          volumeUp,
+          volumePercent,
+          highLow7d,
+          prices,
         };
-        setToken(() => buildTokenData());
-        return () => {};
+
+        return setToken(tokenData);
       } catch (error) {
         // eslint-disable-next-line no-console
         console.log('getTokenData: ', error);
@@ -122,8 +117,9 @@ export const Seed: FC = () => {
             <StatNumber>${token?.market.current_price.usd}</StatNumber>
             <StatHelpText>
               <StatArrow type={token?.priceUp ? 'increase' : 'decrease'} />
-              {`${token?.market.price_change_percentage_24h?.toFixed(2)}%` ||
-                'not enough data'}
+              {token?.market.price_change_percentage_24h
+                ? `${token?.market.price_change_percentage_24h?.toFixed(2)}%`
+                : `No data 😞`}
             </StatHelpText>
           </Stat>
 
@@ -152,24 +148,7 @@ export const Seed: FC = () => {
         bottom={0}
         left={0}
         zIndex={0}
-        sx={{
-          '.seed-chart': {
-            position: 'absolute',
-            bottom: 0,
-            left: 0,
-            right: 0,
-            maxW: '100%',
-            '.seed-chart-path': {
-              bottom: 0,
-              strokeWidth: 2,
-              fillOpacity: 0,
-              '&--fill': {
-                fillOpacity: 0.5,
-                strokeWidth: 0,
-              },
-            },
-          },
-        }}
+        sx={chartWrapperStyles}
       >
         {token?.prices ? (
           <Chart data={token.prices} />
@@ -185,13 +164,13 @@ export const Seed: FC = () => {
           </Box>
         )}
       </Box>
-      {token?.ticker && (
+      {token?.poolTicker && (
         <Link
           position="absolute"
           bottom={5}
           left={5}
           className="infoLink"
-          href={token?.ticker.token_info_url}
+          href={token?.poolTicker.token_info_url}
           isExternal
           zIndex={20}
         >
@@ -217,7 +196,7 @@ export const Chart: FC<ChartType> = ({ data }) => {
   function makePlots(days: Array<Array<number>>) {
     // adding this as i couldn't work out how to fix the type error. Could do with a pair session for this stuff.
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const plots: Array<string | any | AreaSeriesPoint> = [];
+    const plots: Array<AreaSeriesPoint> = [];
 
     days.slice(scale ? 0 : -7).map((d, i) => {
       const day = {

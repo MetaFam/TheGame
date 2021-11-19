@@ -243,3 +243,22 @@ export const gridConfig = {
     },
   },
 };
+
+export const chartWrapperStyles = {
+  '.seed-chart': {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    maxW: '100%',
+    '.seed-chart-path': {
+      bottom: 0,
+      strokeWidth: 2,
+      fillOpacity: 0,
+      '&--fill': {
+        fillOpacity: 0.5,
+        strokeWidth: 0,
+      },
+    },
+  },
+};
