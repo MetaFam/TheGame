@@ -2,6 +2,7 @@
 import {
   Box,
   IconButton,
+  Image,
   Link,
   Stat,
   StatArrow,
@@ -10,6 +11,7 @@ import {
   StatLabel,
   StatNumber,
 } from '@metafam/ds';
+import { animated, useSpring } from '@react-spring/web';
 import React, { FC, ReactElement, ReactNode, useEffect, useState } from 'react';
 import { FaChartBar } from 'react-icons/fa';
 import {
@@ -20,6 +22,7 @@ import {
   LineSeries,
 } from 'react-vis';
 
+import CoinGeckoLogo from '../../assets/attribution/coingecko-logo-text.png';
 import {
   findHighLowPrice,
   HighLow7dType,
@@ -186,8 +189,21 @@ type ChartType = {
   data: Array<Array<number>>;
 };
 
+const ChartRange = ({ value = {} }): React.ReactElement => (
+  <Box>{`${value}d`}</Box>
+);
+const AnimatedChartRange = animated(ChartRange);
+
 export const Chart: FC<ChartType> = ({ data }) => {
   const [scale, setScale] = useState<boolean>(true);
+  const props = useSpring({
+    config: {
+      mass: 10,
+      tension: 280,
+      friction: 100,
+    },
+    range: !scale ? 7 : 30,
+  });
 
   const toggleScale = () => {
     setScale(!scale);
@@ -275,7 +291,34 @@ export const Chart: FC<ChartType> = ({ data }) => {
         fontSize="xl"
         fontWeight={700}
       >
-        {!scale ? 7 : 30}d
+        <AnimatedChartRange value={props.range.to((x) => x.toFixed(0))} />
+      </Box>
+      <Box
+        aria-label="Seed Data powered by CoinGecko"
+        position="absolute"
+        bottom={5}
+        right="auto"
+        fontSize="sm"
+        width="100%"
+        textAlign="center"
+      >
+        <Link
+          d="inline-flex"
+          href={`https://www.coingecko.com/en/coins/${tokenId}`}
+          isExternal
+          width="25%"
+          // title="CoinGecko"
+          sx={{
+            opacity: 0.08,
+            transition: 'all 1s ease-in-out',
+            _hover: {
+              opacity: 0.3,
+              // transform: 'scale(1.1)'
+            },
+          }}
+        >
+          <Image src={CoinGeckoLogo} height="auto" width="100%" mx="auto" />
+        </Link>
       </Box>
     </Box>
   );
