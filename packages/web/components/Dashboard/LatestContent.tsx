@@ -10,19 +10,43 @@ export const LatestContent: React.FC = () => (
     <TabList borderBottomWidth={0}>
       <Tab
         color="gray.600"
-        _selected={{ color: 'white', borderColor: 'white' }}
+        _selected={{ color: 'white', borderBottomColor: 'white' }}
+        _focus={{
+          boxShadow: 'none',
+          backgroundColor: 'transparent',
+        }}
+        _active={{
+          boxShadow: 'none',
+          backgroundColor: 'transparent',
+        }}
       >
         Read
       </Tab>
       <Tab
         color="gray.600"
-        _selected={{ color: 'white', borderColor: 'white' }}
+        _selected={{ color: 'white', borderBottomColor: 'white' }}
+        _focus={{
+          boxShadow: 'none',
+          backgroundColor: 'transparent',
+        }}
+        _active={{
+          boxShadow: 'none',
+          backgroundColor: 'transparent',
+        }}
       >
         Listen
       </Tab>
       <Tab
         color="gray.600"
-        _selected={{ color: 'white', borderColor: 'white' }}
+        _selected={{ color: 'white', borderBottomColor: 'white' }}
+        _focus={{
+          boxShadow: 'none',
+          backgroundColor: 'transparent',
+        }}
+        _active={{
+          boxShadow: 'none',
+          backgroundColor: 'transparent',
+        }}
       >
         Watch
       </Tab>
