@@ -1,4 +1,4 @@
-import { Box, Button, Heading, Text } from '@metafam/ds';
+import { Box, Heading, Text } from '@metafam/ds';
 import React, { useState } from 'react';
 import { parse } from 'rss-to-json';
 
@@ -38,43 +38,45 @@ export const Listen: React.FC = () => {
   return (
     <Box>
       {items.map((item) => (
-        <Box>
-          <Heading size="xs" color="white">
+        <Box
+          key={item.title}
+          mb={4}
+          mt={4}
+          p={6}
+          backgroundColor="blackAlpha.500"
+          borderRadius="md"
+        >
+          <Heading size="xs" color="white" mb={2}>
             {item.title}
           </Heading>
-          <Text>
-            {item.showMore
-              ? item.description
-              : `${item.description.substring(0, 250)}`}
+          <Text
+            textOverflow={item.showMore ? '' : 'ellipsis'}
+            overflow={item.showMore ? '' : 'hidden'}
+            whiteSpace={item.showMore ? 'normal' : 'nowrap'}
+          >
+            {item.description}
           </Text>
           <Text
             cursor="pointer"
             color="white"
             onClick={() => setItems([...findAndReplace(item.src)])}
           >
-            Show more
+            {item.showMore ? 'Show less' : 'Show more'}
           </Text>
-          {/* <audio ref="audio_tag" src="./static/music/foo.mp3" controls autoPlay/> */}
           {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
           <audio
             style={{
               width: '100%',
+              marginTop: 8,
               height: 24,
             }}
             controls
           >
             <source src={item.src} type="audio/mp3" />
-            {/* <track
-              src="captions_en.vtt"
-              kind="captions"
-              label="english_captions"
-            /> */}
             Your browser does not support the audio element.
           </audio>
         </Box>
       ))}
-
-      <Text>A feed podcast episodes from Anchor or wherever.</Text>
     </Box>
   );
 };

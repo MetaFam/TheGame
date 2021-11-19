@@ -23,7 +23,7 @@ export const GridItem: React.FC<MetaBoxProps> = ({ children, title, sx }) => (
     <ContainerQuery query={containerQueries}>
       {(params: Params) => (
         <Box className={classnames('container', params)} sx={sx}>
-          <Heading size="lg">{title}</Heading>
+          <Heading size="md">{title}</Heading>
           {children}
         </Box>
       )}
