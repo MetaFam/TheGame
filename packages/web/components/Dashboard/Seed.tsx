@@ -210,7 +210,6 @@ export const Chart: FC<ChartType> = ({ data }) => {
   };
 
   function makePlots(days: Array<Array<number>>) {
-    // adding this as i couldn't work out how to fix the type error. Could do with a pair session for this stuff.
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const plots: Array<AreaSeriesPoint> = [];
 
@@ -240,7 +239,7 @@ export const Chart: FC<ChartType> = ({ data }) => {
           _hover={{ color: 'white', borderColor: 'white' }}
           variant="outline"
           isRound
-          onClick={() => toggleScale()}
+          onClick={toggleScale}
           sx={{
             '&:focus, &:hover': {
               background: 'transparent',
