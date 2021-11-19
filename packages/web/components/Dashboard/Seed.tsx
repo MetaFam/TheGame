@@ -65,10 +65,10 @@ type MarketProps = {
 };
 
 export const Seed = (): ReactElement => {
-  const [token, setToken] = useState<TokenDataProps | undefined>();
+  const [token, setToken] = useState<TokenDataProps | null>(null);
 
   useEffect(() => {
-    if (typeof token !== 'undefined') return;
+    if (token !== null) return;
     (async () => {
       try {
         const tokenResponse = await fetch(
