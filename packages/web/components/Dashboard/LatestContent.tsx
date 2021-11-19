@@ -29,13 +29,13 @@ export const LatestContent: React.FC = () => (
     </TabList>
 
     <TabPanels>
-      <TabPanel className="chakra-tabs__tab-panel--read">
+      <TabPanel className="chakra-tabs__tab-panel--read" p={0}>
         <Read />
       </TabPanel>
-      <TabPanel className="chakra-tabs__tab-panel--listen">
+      <TabPanel className="chakra-tabs__tab-panel--listen" p={0}>
         <Listen />
       </TabPanel>
-      <TabPanel className="chakra-tabs__tab-panel--watch">
+      <TabPanel className="chakra-tabs__tab-panel--watch" p={0}>
         <Watch />
       </TabPanel>
     </TabPanels>
