@@ -1,8 +1,5 @@
-import 'react-h5-audio-player/lib/styles.css';
-
 import { Box, Button, Heading, Text } from '@metafam/ds';
 import React, { useState } from 'react';
-import AudioPlayer from 'react-h5-audio-player';
 import { parse } from 'rss-to-json';
 
 export const Listen: React.FC = () => {
@@ -42,29 +39,38 @@ export const Listen: React.FC = () => {
     <Box>
       {items.map((item) => (
         <Box>
-          <AudioPlayer
-            // autoPlay
-            header={
-              <Heading size="xs" color="black">
-                {item.title}
-              </Heading>
-            }
-            footer={
-              <Box>
-                <Text>
-                  {item.showMore
-                    ? item.description
-                    : `${item.description.substring(0, 250)}`}
-                </Text>
-                <Button onClick={() => setItems([...findAndReplace(item.src)])}>
-                  Show more
-                </Button>
-              </Box>
-            }
-            preload="none"
-            src={item.src}
-            // other props here
-          />
+          <Heading size="xs" color="white">
+            {item.title}
+          </Heading>
+          <Text>
+            {item.showMore
+              ? item.description
+              : `${item.description.substring(0, 250)}`}
+          </Text>
+          <Text
+            cursor="pointer"
+            color="white"
+            onClick={() => setItems([...findAndReplace(item.src)])}
+          >
+            Show more
+          </Text>
+          {/* <audio ref="audio_tag" src="./static/music/foo.mp3" controls autoPlay/> */}
+          {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
+          <audio
+            style={{
+              width: '100%',
+              height: 24,
+            }}
+            controls
+          >
+            <source src={item.src} type="audio/mp3" />
+            {/* <track
+              src="captions_en.vtt"
+              kind="captions"
+              label="english_captions"
+            /> */}
+            Your browser does not support the audio element.
+          </audio>
         </Box>
       ))}
 
