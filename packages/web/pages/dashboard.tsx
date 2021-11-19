@@ -73,9 +73,8 @@ export const Grid = (): ReactElement => {
 
   useEffect(() => {
     if (getFromLS('layouts') !== undefined) setOwnLayout(true);
-    function handleLayoutChange(layout: Layout[] = [], layouts: Layouts) {
-      // eslint-disable-next-line no-console
-      console.log(layout);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    function handleLayoutChange(_layout: Layout[] = [], layouts: Layouts) {
       saveToLS('layouts', JSON.parse(JSON.stringify(layouts)));
       setGridLayouts(JSON.parse(JSON.stringify(layouts)));
     }
@@ -141,7 +140,7 @@ export const Grid = (): ReactElement => {
           transition="color 0.2s ease"
           onClick={toggleEditLayout}
         >
-          Edit layout
+          {editable ? 'Save' : 'Edit'} layout
         </MetaButton>
       </ButtonGroup>
 
