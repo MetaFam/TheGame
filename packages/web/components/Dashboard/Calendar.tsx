@@ -1,10 +1,9 @@
-import jstz from 'jstz';
 import React from 'react';
 
 const calId = 'nih59ktgafmm64ed4qk6ue8vv4@group.calendar.google.com';
 
 export const Calendar: React.FC = () => {
-  const timezone = jstz.determine().name();
+  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
   return (
     <iframe
