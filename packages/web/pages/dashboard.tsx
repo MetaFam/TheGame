@@ -14,9 +14,9 @@ import { gridConfig, initLayouts } from 'components/Dashboard/config';
 import { GridItem } from 'components/Dashboard/GridItem';
 import { LatestContent } from 'components/Dashboard/LatestContent';
 import { Leaderboard } from 'components/Dashboard/Leaderboard';
-import { ChartProps, Seed, TokenProps } from 'components/Dashboard/Seed';
+import { Seed } from 'components/Dashboard/Seed';
 import { XP } from 'components/Dashboard/XP';
-import { FC, ReactNode, useEffect, useState } from 'react';
+import { ReactElement, useEffect, useState } from 'react';
 import { Layout, Layouts, Responsive, WidthProvider } from 'react-grid-layout';
 
 export interface Query {
@@ -36,20 +36,11 @@ const ResponsiveGridLayout = WidthProvider(Responsive);
 
 export const originalLayouts = getFromLS('layouts') || initLayouts;
 
-type DashboardProps = {
-  children?: ReactNode;
-  token: TokenProps;
-  chart: ChartProps;
-};
-
-const Dashboard: FC<DashboardProps> = (props) => {
-  const { token, chart } = props;
-  return (
-    <PageContainer>
-      <Grid token={token} chart={chart} />
-    </PageContainer>
-  );
-};
+const Dashboard = (): ReactElement => (
+  <PageContainer>
+    <Grid />
+  </PageContainer>
+);
 
 export default Dashboard;
 
@@ -58,12 +49,7 @@ type CurrentLayoutType = {
   layouts: Layouts;
 };
 
-type GridProps = {
-  token: TokenProps;
-  chart: ChartProps;
-};
-
-export const Grid: FC<GridProps> = () => {
+export const Grid = (): ReactElement => {
   const [gridLayouts, setGridLayouts] = useState(
     JSON.parse(JSON.stringify(originalLayouts)),
   );
