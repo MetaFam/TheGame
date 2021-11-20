@@ -1,10 +1,12 @@
 import {
+  Box,
+  Flex,
+  Heading,
+  HStack,
   MetaButton,
   MetaHeading,
-  MetaTag,
   Text,
   Wrap,
-  WrapItem,
 } from '@metafam/ds';
 import { FlexContainer } from 'components/Container';
 import { useSetupFlow } from 'contexts/SetupContext';
@@ -12,6 +14,11 @@ import { Membership } from 'graphql/types';
 import React, { useState } from 'react';
 
 import { useWeb3 } from '../../lib/hooks';
+import {
+  getDaoLink,
+  getImageMoloch,
+  LinkGuild,
+} from '../Player/Section/PlayerMemberships';
 
 export type SetupMembershipsProps = {
   memberships: Array<Membership> | null | undefined;
@@ -52,11 +59,7 @@ export const SetupMemberships: React.FC<SetupMembershipsProps> = ({
             </Text>
             <Wrap justify="center" mb={10} spacing={4} maxW="50rem">
               {memberships.map((member) => (
-                <WrapItem key={member.id}>
-                  <MetaTag size="lg" fontWeight="normal">
-                    {member.moloch.title}
-                  </MetaTag>
-                </WrapItem>
+                <MembershipListing key={member.id} member={member} />
               ))}
             </Wrap>
           </>
@@ -76,5 +79,45 @@ export const SetupMemberships: React.FC<SetupMembershipsProps> = ({
         {nextButtonLabel}
       </MetaButton>
     </FlexContainer>
+  );
+};
+
+type MembershipListingProps = {
+  member: Membership;
+};
+
+const MembershipListing: React.FC<MembershipListingProps> = ({ member }) => {
+  const guildLogo = getImageMoloch(member.moloch.title || member.moloch.chain);
+  const daoUrl = getDaoLink(member.moloch.chain, member.moloch.id);
+
+  return (
+    <LinkGuild
+      daoUrl={daoUrl}
+      guildname={member.moloch.title as string | undefined}
+    >
+      <HStack alignItems="center" mb={4}>
+        <Flex bg="purpleBoxLight" width={16} height={16} mr={6}>
+          <Box
+            bgImage={`url(${guildLogo})`}
+            backgroundSize="cover"
+            width={12}
+            height={12}
+            m="auto"
+          />
+        </Flex>
+        <Box>
+          <Heading
+            _groupHover={{ textDecoration: 'underline' }}
+            fontWeight="bold"
+            textTransform="uppercase"
+            fontSize="xs"
+            color={daoUrl ? 'cyanText' : 'white'}
+            mb="1"
+          >
+            {member.moloch.title || `Unknown ${member.moloch.chain} DAO`}
+          </Heading>
+        </Box>
+      </HStack>
+    </LinkGuild>
   );
 };

@@ -27,7 +27,7 @@ import metaclanImage from '../../../assets/moloch/metaclan.png';
 import raidGuildImage from '../../../assets/moloch/raid_guild.png';
 import { ProfileSection } from '../../ProfileSection';
 
-const getImageMoloch = (title: string) => {
+export const getImageMoloch = (title: string): File => {
   if (title.toLowerCase().includes('hausdao')) return hausdaoImage;
   if (title.toLowerCase().includes('metacartel')) return metacartelImage;
   if (title.toLowerCase().includes('metaclan')) return metaclanImage;
@@ -50,7 +50,7 @@ const getHexChainId = (chain: string | undefined): string => {
   }
 };
 
-const getDaoLink = (
+export const getDaoLink = (
   chain: string | undefined,
   address: string | undefined,
 ): string => {
@@ -66,7 +66,7 @@ type LinkGuildProps = {
   guildname: string | undefined;
 };
 
-const LinkGuild: React.FC<LinkGuildProps> = ({
+export const LinkGuild: React.FC<LinkGuildProps> = ({
   daoUrl,
   guildname,
   children,
