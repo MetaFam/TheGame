@@ -74,7 +74,8 @@ To force update your address, type \`!setAddress ${ethAddress} force\`.
 
     try {
       manager.ledger.addAlias(baseIdentityId, ethAlias);
-      manager.ledger.activate(baseIdentityId);
+      // don't activate yet; only Players should be able to receive SEEDs
+      // and they must be manually activated at mint-time
       const persistRes = await manager.persist();
 
       if (persistRes.error) {
