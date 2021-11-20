@@ -8,26 +8,34 @@ const storage = new sourcecred.ledger.storage.GithubStorage({
   branch: CONFIG.sourceCredLedgerBranch,
 });
 
-export const manager: LedgerManager = new sourcecred.ledger.manager.LedgerManager(
-  {
-    storage,
-  },
-);
+export interface LedgerLoadResult {
+  result: ReloadResult;
+  manager: LedgerManager;
+}
 
 let loading = false;
-let ledgerLoadedPromise: Promise<ReloadResult>;
+let ledgerLoadedPromise: Promise<LedgerLoadResult>;
 
-export const loadSourceCredLedger = (): Promise<ReloadResult> => {
-  if (ledgerLoadedPromise == null) {
-    if (!loading) {
-      loading = true;
-      console.log('reloading ledger...');
-      ledgerLoadedPromise = manager.reloadLedger();
-      ledgerLoadedPromise.then(() => {
-        loading = false;
-      });
-    }
+export const loadSourceCredLedger = (
+  force?: boolean,
+): Promise<LedgerLoadResult> => {
+  const manager: LedgerManager = new sourcecred.ledger.manager.LedgerManager({
+    storage,
+  });
+  if (force === true || (ledgerLoadedPromise == null && !loading)) {
+    loading = true;
+    console.log('reloading ledger...');
+    ledgerLoadedPromise = manager.reloadLedger().then((reloadResult) => ({
+      result: reloadResult,
+      manager,
+    }));
+    ledgerLoadedPromise.then(() => {
+      loading = false;
+    });
   }
-
   return ledgerLoadedPromise;
+};
+
+export const resetLedger = (): void => {
+  loadSourceCredLedger(true);
 };

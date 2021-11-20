@@ -1,7 +1,7 @@
 import { Command, CommandMessage } from '@typeit/discord';
 import { sourcecred as sc } from 'sourcecred';
 
-import { loadSourceCredLedger, manager } from '../../sourcecred';
+import { loadSourceCredLedger } from '../../sourcecred';
 
 const addressUtils = sc.plugins.ethereum.utils.address;
 
@@ -14,9 +14,10 @@ export abstract class SetEthAddress {
   @Command('!setAddress :ethAddress :force')
   async setAddress(message: CommandMessage<SetEthAddressArgs>) {
     const res = await loadSourceCredLedger();
+    const { result: reloadResult, manager } = res;
 
-    if (res.error) {
-      await message.reply(`Error Loading Ledger: ${res.error}`);
+    if (reloadResult.error) {
+      await message.reply(`Error Loading Ledger: ${reloadResult.error}`);
       return;
     }
 
