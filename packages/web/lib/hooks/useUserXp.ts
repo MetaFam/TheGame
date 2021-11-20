@@ -9,6 +9,7 @@ interface XPProps {
   variationLastWeek: number;
   thisWeekXP: number;
   lastWeekXP: number;
+  userWeeklyCred: number[];
 }
 
 export const useUserXP = (userAddress: string): XPProps => {
@@ -18,6 +19,7 @@ export const useUserXP = (userAddress: string): XPProps => {
     variationLastWeek: 0,
     thisWeekXP: 0,
     lastWeekXP: 0,
+    userWeeklyCred: [],
   });
   useEffect(() => {
     if (ethers.utils.isAddress(userAddress))
@@ -45,6 +47,7 @@ const getXP = async (userAddress: string): Promise<XPProps | null> => {
         variationLastWeek: 0,
         thisWeekXP: 0,
         lastWeekXP: 0,
+        userWeeklyCred: [],
       };
 
     const userTotalXP = roundToTwoDecimal(scAccount.totalCred);
@@ -71,6 +74,7 @@ const getXP = async (userAddress: string): Promise<XPProps | null> => {
       variationLastWeek,
       thisWeekXP,
       lastWeekXP,
+      userWeeklyCred,
     };
   } catch (err: unknown) {
     // throw new Error(err);
