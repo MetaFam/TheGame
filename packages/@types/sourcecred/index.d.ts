@@ -788,8 +788,13 @@ declare module 'sourcecred' {
     accounts: () => SCAccountInfo[];
     account: (id: string) => SCAccountInfo;
     accountByAddress: (address: string) => SCAccountInfo;
-    addAlias: (identityId: any, alias: any) => void;
+    addAlias: (identityId: any, alias: Alias) => void;
     activate: (identityId: any) => void;
+  }
+
+  export interface Alias {
+    description: string;
+    address: string;
   }
 
   export interface ReloadResult {
