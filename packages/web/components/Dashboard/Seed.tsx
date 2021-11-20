@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import {
   Box,
-  IconButton,
+  Button,
+  ButtonGroup,
   Image,
   Link,
   Stat,
@@ -170,8 +171,8 @@ export const Seed = (): ReactElement => {
       {token?.poolTicker && (
         <Link
           position="absolute"
-          bottom={5}
-          left={5}
+          bottom={6}
+          left={6}
           className="infoLink"
           href={token?.poolTicker.token_info_url}
           isExternal
@@ -190,30 +191,36 @@ type ChartType = {
 };
 
 const ChartRange = ({ value = {} }): React.ReactElement => (
-  <Box>{`${value}d`}</Box>
+  <Box
+    opacity={value < 12 || value > 25 ? 1 : 0.3}
+    color={value < 12 || value > 25 ? 'white' : 'pinkShadeOne'}
+    fontSize="md"
+    fontWeight={700}
+    transition="all 0.1s ease-in-out"
+  >{`${value}d`}</Box>
 );
 const AnimatedChartRange = animated(ChartRange);
 
 export const Chart: FC<ChartType> = ({ data }) => {
-  const [scale, setScale] = useState<boolean>(true);
+  const [scale, setScale] = useState<number>(30);
   const props = useSpring({
     config: {
       mass: 10,
       tension: 280,
       friction: 100,
     },
-    range: !scale ? 7 : 30,
+    range: scale,
   });
 
-  const toggleScale = () => {
-    setScale(!scale);
+  const switchScale = (range: number) => {
+    setScale(range);
   };
 
   function makePlots(days: Array<Array<number>>) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const plots: Array<AreaSeriesPoint> = [];
 
-    days.slice(scale ? 0 : -7).map((d, i) => {
+    days.slice(scale === 30 ? 0 : -7).map((d, i) => {
       const day = {
         x: i + 1,
         y: d[1],
@@ -229,23 +236,47 @@ export const Chart: FC<ChartType> = ({ data }) => {
 
   return (
     <Box>
-      <Box position="absolute" top={3} right={3} zIndex={250}>
-        <IconButton
-          aria-label="Toggle chart scale"
-          icon={<FaChartBar />}
-          borderColor="pinkShadeOne"
-          background="rgba(17, 17, 17, 0.9)"
-          color="pinkShadeOne"
-          _hover={{ color: 'white', borderColor: 'white' }}
-          variant="outline"
-          isRound
-          onClick={toggleScale}
-          sx={{
-            '&:focus, &:hover': {
-              background: 'transparent',
-            },
-          }}
-        />
+      <Box position="absolute" top={6} right={6} zIndex={250}>
+        <ButtonGroup isAttached>
+          <Button
+            aria-label="Toggle chart scale"
+            icon={<FaChartBar />}
+            borderColor="pinkShadeOne"
+            background="rgba(17, 17, 17, 0.9)"
+            color="pinkShadeOne"
+            _hover={{ color: 'white', borderColor: 'white' }}
+            variant="outline"
+            isRound
+            onClick={() => switchScale(7)}
+            size="xs"
+            sx={{
+              '&:focus, &:hover': {
+                background: 'transparent',
+              },
+            }}
+          >
+            7d
+          </Button>
+          <Button
+            aria-label="Toggle chart scale"
+            icon={<FaChartBar />}
+            borderColor="pinkShadeOne"
+            background="rgba(17, 17, 17, 0.9)"
+            color="pinkShadeOne"
+            _hover={{ color: 'white', borderColor: 'white' }}
+            variant="outline"
+            isRound
+            onClick={() => switchScale(30)}
+            size="xs"
+            sx={{
+              '&:focus, &:hover': {
+                background: 'transparent',
+              },
+            }}
+          >
+            30d
+          </Button>
+        </ButtonGroup>
       </Box>
       <FlexibleXYPlot
         className="seed-chart"
@@ -284,18 +315,15 @@ export const Chart: FC<ChartType> = ({ data }) => {
       <Box
         aria-label="Seed Graph scale"
         position="absolute"
-        bottom={5}
-        right={5}
-        opacity={0.25}
-        fontSize="xl"
-        fontWeight={700}
+        bottom={6}
+        right={6}
       >
         <AnimatedChartRange value={props.range.to((x) => x.toFixed(0))} />
       </Box>
       <Box
         aria-label="Seed Data powered by CoinGecko"
         position="absolute"
-        bottom={5}
+        bottom={6}
         right="auto"
         fontSize="sm"
         width="100%"
