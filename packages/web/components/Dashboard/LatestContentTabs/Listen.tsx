@@ -46,19 +46,26 @@ export const Listen: React.FC = () => {
           backgroundColor="blackAlpha.500"
           borderRadius="md"
         >
-          <Heading size="xs" color="white" mb={2}>
+          <Heading size="xs" color="white" pb={4}>
             {item.title}
           </Heading>
           <Text
             textOverflow={item.showMore ? '' : 'ellipsis'}
             overflow={item.showMore ? '' : 'hidden'}
             whiteSpace={item.showMore ? 'normal' : 'nowrap'}
+            fontSize="sm"
+            cursor="pointer"
+            color="white"
+            onClick={() => setItems([...findAndReplace(item.src)])}
           >
             {item.description}
           </Text>
           <Text
             cursor="pointer"
-            color="white"
+            color="blueLight"
+            pt={1}
+            pb={1}
+            fontWeight="bold"
             onClick={() => setItems([...findAndReplace(item.src)])}
           >
             {item.showMore ? 'Show less' : 'Show more'}
