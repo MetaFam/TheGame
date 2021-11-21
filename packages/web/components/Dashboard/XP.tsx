@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   ButtonGroup,
+  MetaTag,
   Stat,
   StatArrow,
   StatGroup,
@@ -79,9 +80,13 @@ export const XP = (): React.ReactElement => {
           <StatLabel>All Time</StatLabel>
           <StatNumber>{userTotalXP}</StatNumber>
           {user?.player?.rank && (
-            <StatHelpText color={user.player.rank}>
+            <MetaTag
+              backgroundColor={user.player.rank.toLowerCase()}
+              size="md"
+              color="blackAlpha.600"
+            >
               {user.player.rank}
-            </StatHelpText>
+            </MetaTag>
           )}
         </Stat>
         {/* Currently we are not building this stat  */}
