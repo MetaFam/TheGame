@@ -1,8 +1,16 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 const calId = 'nih59ktgafmm64ed4qk6ue8vv4@group.calendar.google.com';
 
 export const Calendar: React.FC = () => {
+  const [isComponentMounted, setIsComponentMounted] = useState(false);
+
+  useEffect(() => setIsComponentMounted(true), []);
+
+  if (!isComponentMounted) {
+    return null;
+  }
+
   const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
   return (
