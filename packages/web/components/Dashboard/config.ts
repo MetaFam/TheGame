@@ -46,10 +46,7 @@ export const gridConfig = {
       overflow: 'hidden',
       transition: 'boxShadow 0.2s 0.3s ease',
       p: {
-        fontFamily: 'mono',
         fontSize: 'sm',
-        fontWeight: 'bold',
-        color: 'blueLight',
         mr: 'auto',
       },
       '& > div': {
@@ -82,9 +79,9 @@ export const gridConfig = {
       '&__xs': {
         '.chakra-tabs': {
           '&__tab-panel': {
-            p: {
-              color: 'purple.50',
-            },
+            // p: {
+            //   color: 'purple.50',
+            // },
             // '&--read': {
             //   p: {
             //     color: 'purple.50',
@@ -106,27 +103,27 @@ export const gridConfig = {
       '&__sm': {
         '.chakra-tabs': {
           '&__tab-panel': {
-            p: {
-              color: 'purple.200',
-            },
+            // p: {
+            //   color: 'purple.200',
+            // },
           },
         },
       },
       '&__md': {
         '.chakra-tabs': {
           '&__tab-panel': {
-            p: {
-              color: 'purple.300',
-            },
+            // p: {
+            //   color: 'purple.300',
+            // },
           },
         },
       },
       '&__lg': {
         '.chakra-tabs': {
           '&__tab-panel': {
-            p: {
-              color: 'pink.400',
-            },
+            // p: {
+            //   color: 'pink.400',
+            // },
           },
         },
       },
