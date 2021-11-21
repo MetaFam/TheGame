@@ -6,6 +6,10 @@
 
 Closes #
 
+## Follow up Improvement Ideas
+
+- [ ] please list any improvement/ideas
+
 ## Implementation
 
 **Describe technical (nontrivial / non-obvious) parts of your code**
