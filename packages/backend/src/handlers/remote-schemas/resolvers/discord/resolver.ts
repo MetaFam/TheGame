@@ -12,7 +12,7 @@ export const getGuildDiscordRoles: QueryResolvers['getGuildDiscordRoles'] = asyn
   const discordClient = await createDiscordClient();
 
   const discordGuild = await discordClient.guilds.fetch(guildDiscordId);
-
+  console.log(discordGuild);
   if (discordGuild != null) {
     await discordGuild.roles.fetch();
     return discordGuild.roles.cache.map((role) => ({
