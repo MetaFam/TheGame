@@ -10,6 +10,7 @@ import {
 import { getGuild } from 'graphql/queries/guild';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
+import useSWR from 'swr';
 
 const SetupGuild: React.FC = () => {
   const router = useRouter();
@@ -20,26 +21,28 @@ const SetupGuild: React.FC = () => {
 
   const guildName = router.query.guildname as string;
 
+  const { data } = useSWR(guildName, getGuild);
+
   useEffect(() => {
-    const fetchGuild = async () => {
-      const guildResponse = await getGuild(guildName);
-      if (guildResponse != null) {
-        setGuild(guildResponse);
-      }
-    };
-    fetchGuild();
-  }, [guildName]);
+    if (data != null) {
+      setGuild(data);
+    }
+  }, [data, guildName]);
 
   if (guild == null) {
     return <></>;
   }
 
-  const onSubmit = async (data: EditGuildFormInputs) => {
-    const { type, ...otherInputs } = data;
+  const onSubmit = async (editGuildFormInputs: EditGuildFormInputs) => {
+    const { type, ...otherInputs } = editGuildFormInputs;
     const payload: GuildInfo = {
       ...otherInputs,
-      discordAdminRoles: data.discordAdminRoles.map((o) => o.value),
-      discordMembershipRoles: data.discordMembershipRoles.map((o) => o.value),
+      discordAdminRoles: editGuildFormInputs.discordAdminRoles.map(
+        (o) => o.value,
+      ),
+      discordMembershipRoles: editGuildFormInputs.discordMembershipRoles.map(
+        (o) => o.value,
+      ),
       type: (type as unknown) as GuildType_ActionEnum,
       uuid: guild.id,
     };
