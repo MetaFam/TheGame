@@ -1,6 +1,7 @@
 import { Box, Heading, LoadingState, Text } from '@metafam/ds';
 import React, { useEffect, useState } from 'react';
 import { parse } from 'rss-to-json';
+import useSWR from 'swr';
 
 export const Listen: React.FC = () => {
   const [items, setItems] = useState<
@@ -14,31 +15,28 @@ export const Listen: React.FC = () => {
 
   const [isLoading, setIsLoading] = useState(true);
 
+  const { data, error } = useSWR(
+    'https://anchor.fm/s/57a641c/podcast/rss',
+    parse,
+  );
+
+  if (error) {
+    console.log(error);
+    setIsLoading(false);
+  }
+
   useEffect(() => {
-    const getData = async () => {
-      try {
-        const podcastDataRss = await parse(
-          'https://anchor.fm/s/57a641c/podcast/rss',
-          {},
-        );
+    if (data) {
+      data.items = data.items.map((item) => ({
+        title: item.title,
+        description: item.description.replace(/<\/?[^>]+(>|$)/g, ''),
+        src: item.enclosures[0].url,
+        showMore: false,
+      }));
 
-        const podcasts = podcastDataRss.items.map((item) => ({
-          title: item.title,
-          description: item.description.replace(/<\/?[^>]+(>|$)/g, ''),
-          src: item.enclosures[0].url,
-          showMore: false,
-        }));
-
-        setIsLoading(false);
-        setItems(podcasts);
-      } catch (error) {
-        console.log(error);
-        setIsLoading(false);
-      }
-    };
-
-    getData();
-  }, []);
+      setIsLoading(false);
+    }
+  }, [data]);
 
   const findAndReplace = (src: string) => {
     const foundIndex = items.findIndex((x) => x.src === src);
