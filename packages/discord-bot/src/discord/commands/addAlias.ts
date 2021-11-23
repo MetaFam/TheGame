@@ -7,7 +7,7 @@ import { loadSourceCredLedger, resetLedger } from '../../sourcecred';
 const supportedPlatforms = ['github', 'discourse'];
 const errorSupportedPlatforms = `Supported platforms: ${supportedPlatforms.join(
   ', ',
-)}`;
+)}.`;
 
 type AddAliasArgs = {
   platform: string;
@@ -27,7 +27,7 @@ export class AddAlias {
 
     if (!message.args.id || !message.args.platform) {
       await message.reply(
-        `Usage: addAlias <platform> <id>. ${errorSupportedPlatforms}`,
+        `Usage: addAlias <platform> <id>.\n\n${errorSupportedPlatforms}`,
       );
       return;
     }
@@ -69,7 +69,7 @@ export class AddAlias {
         address: rawAddress,
       };
     } else {
-      await message.reply(`Invalid platform. ${errorSupportedPlatforms}`);
+      await message.reply(`Invalid platform.\n\n${errorSupportedPlatforms}`);
       return;
     }
 
@@ -107,9 +107,7 @@ export class AddAlias {
           await message.reply('You have already linked this account!');
         } else {
           await message.reply(
-            `You have already linked a ${trimmedPlatform} account: ${
-              parts[parts.length - 1]
-            }`,
+            `You have already linked a ${trimmedPlatform} account: ${existingPlatformIdentifier}.`,
           );
         }
         return;
@@ -148,7 +146,7 @@ export class AddAlias {
       }
 
       await message.reply(
-        `Successfully added ${trimmedPlatform} alias: '${sanitizedId}'`,
+        `Successfully added ${trimmedPlatform} alias: ${sanitizedId}.`,
       );
     } catch (e) {
       await message.reply(
