@@ -41,8 +41,9 @@ const parseAlias = (alias: SCAlias) => {
       identifier,
     };
   } catch (e) {
-    // eslint-disable-next-line no-console
-    console.log('Unable to parse alias: ', { error: e.message, alias });
+    const error = (e as Error).message;
+
+    console.warn('Unable to parse alias: ', { error, alias });
     return null;
   }
 };
@@ -185,7 +186,8 @@ export const migrateSourceCredAccounts = async (
         accountList.length - usersSkipped.length,
     });
   } catch (e) {
-    console.warn('Error migrating players/accounts', e.message);
+    const msg = (e as Error).message;
+    console.warn('Error migrating players/accounts', msg);
     res.sendStatus(500);
   }
 };

@@ -26,10 +26,12 @@ export const updateCompletionHandler = async (
       updateCompletionArgs.updateData,
     );
     res.json(result);
-  } catch (error) {
+  } catch (e) {
+    const error = (e as Error).message;
+
     const errorResponse: UpdateQuestCompletionOutput = {
       success: false,
-      error: error.message,
+      error,
     };
     res.json(errorResponse);
   }

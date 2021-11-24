@@ -1,3 +1,5 @@
+import fetch from 'node-fetch';
+
 import { CONFIG } from '../../../../config';
 import { QueryResolvers } from '../../autogen/types';
 
