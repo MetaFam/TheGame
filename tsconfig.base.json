@@ -22,7 +22,8 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
-    "typeRoots": ["./packages/@types", "./node_modules/@types"]
+    "typeRoots": ["./packages/@types", "./node_modules/@types"],
+    "useUnknownInCatchVariables": false
   },
   "exclude": ["**/node_modules", "**/dist"]
 }
