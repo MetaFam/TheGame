@@ -10,6 +10,7 @@ export type ContentItem = {
   src: string;
   showMore: boolean;
   description: string;
+  html: string;
 };
 
 export const Listen: React.FC = () => {
@@ -31,6 +32,7 @@ export const Listen: React.FC = () => {
         .map((item) => ({
           title: item.title,
           description: item.description.replace(/<\/?[^\s>][^>]*\/?>/gm, ''),
+          html: item.description,
           src: item.enclosures[0].url,
           showMore: false,
         }));
@@ -70,24 +72,35 @@ export const Listen: React.FC = () => {
             <Heading size="xs" color="white" pb={4}>
               {podcast.title}
             </Heading>
-            <Text
-              textOverflow={podcast.showMore ? '' : 'ellipsis'}
-              overflow={podcast.showMore ? '' : 'hidden'}
-              whiteSpace={podcast.showMore ? 'normal' : 'nowrap'}
-              fontSize="sm"
-              cursor="pointer"
-              color="white"
-              onClick={() =>
-                setPodcasts((items) =>
-                  toggleVisibility({
-                    items,
-                    src: podcast.src,
-                  }),
-                )
-              }
-            >
-              {podcast.description}
-            </Text>
+            {podcast.showMore ? (
+              <Box
+                fontSize="sm"
+                color="white"
+                dangerouslySetInnerHTML={{
+                  __html: podcast.html,
+                }}
+              />
+            ) : (
+              <Text
+                textOverflow="ellipsis"
+                overflow="hidden"
+                whiteSpace="nowrap"
+                fontSize="sm"
+                cursor="pointer"
+                color="white"
+                onClick={() =>
+                  setPodcasts((items) =>
+                    toggleVisibility({
+                      items,
+                      src: podcast.src,
+                    }),
+                  )
+                }
+              >
+                {podcast.description}
+              </Text>
+            )}
+
             <Text
               cursor="pointer"
               color="blueLight"
