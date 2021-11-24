@@ -42,7 +42,9 @@ export default async (playerId: string): Promise<UpdateBoxProfileResponse> => {
       `${ethAddress.toLowerCase()}@eip155:1`,
     );
   } catch (err) {
-    if (!err.message.includes('No DID')) {
+    const msg = (err as Error).message;
+
+    if (!msg.includes('No DID')) {
       throw err;
     }
   }

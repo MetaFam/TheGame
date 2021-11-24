@@ -23,10 +23,12 @@ export const createCompletionHandler = async (
     const { questCompletion }: Mutation_RootCreateQuestCompletionArgs = input;
     const result = await createCompletion(playerId, questCompletion);
     res.json(result);
-  } catch (error) {
+  } catch (e) {
+    const error = (e as Error).message;
+
     const errorResponse: CreateQuestCompletionOutput = {
       success: false,
-      error: error.message,
+      error,
     };
     res.json(errorResponse);
   }
