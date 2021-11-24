@@ -22904,10 +22904,10 @@ opencollective-postinstall@^2.0.0:
   resolved "https://registry.yarnpkg.com/opencollective-postinstall/-/opencollective-postinstall-2.0.3.tgz#7a0fff978f6dbfa4d006238fbac98ed4198c3259"
   integrity sha512-8AV/sCtuzUeTo8gQK5qDZzARrulB3egtLzFgteqB2tcT4Mw7B8Kt7JcDHmltjz6FOAHsvTevk70gZEbhM4ZS9Q==
 
-opensea-js@1.1.11:
-  version "1.1.11"
-  resolved "https://registry.yarnpkg.com/opensea-js/-/opensea-js-1.1.11.tgz#1a1b9570117e304328ef29969620fb35346cb7d8"
-  integrity sha512-XKB4iFEWfK2bU5ne2ewvpaotjI2iPj/L7PRQ0j9GFTX5EBy6/A4Sy8B+lfeKSgOsy1GEmyM1DsvekfVqND/2ig==
+opensea-js@1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/opensea-js/-/opensea-js-1.2.1.tgz#7df45cdebfa931ae9c4a1f4b992ff4ecb07a0e2f"
+  integrity sha512-+28GsQTHpr7BQKehFil6aPAvHOUQkY6O0rD9xAx4O/974jSd7JSHPRhma5h4EAJ0RFRkDgvjh3hCikDeoCiM2w==
   dependencies:
     bignumber.js "^4.1.0"
     ethereumjs-abi "git+https://github.com/ProjectWyvern/ethereumjs-abi.git"
