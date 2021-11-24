@@ -23,10 +23,12 @@ export const createQuestHandler = async (
     const createQuestArgs: Mutation_RootCreateQuestArgs = input;
     const result = await createQuest(playerId, createQuestArgs.quest);
     res.json(result);
-  } catch (error) {
+  } catch (e) {
+    const error = (e as Error).message;
+
     const errorResponse: CreateQuestOutput = {
       success: false,
-      error: error.message,
+      error,
     };
     res.json(errorResponse);
   }

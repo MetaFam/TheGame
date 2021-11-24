@@ -24,10 +24,11 @@ export const saveGuildHandler = async (
     res.json({
       success: true,
     });
-  } catch (error) {
+  } catch (e) {
+    const error = (e as Error).message;
     const errorResponse: SaveGuildResponse = {
       success: false,
-      error: error.message,
+      error,
     };
     console.error(error);
     res.json(errorResponse);
