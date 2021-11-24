@@ -34,15 +34,17 @@ const SetupGuild: React.FC = () => {
   }
 
   const onSubmit = async (editGuildFormInputs: EditGuildFormInputs) => {
-    const { type, ...otherInputs } = editGuildFormInputs;
+    const {
+      type,
+      discordAdminRoles: adminRoles,
+      discordMembershipRoles: membershipRoles,
+      ...otherInputs
+    } = editGuildFormInputs;
+
     const payload: GuildInfo = {
       ...otherInputs,
-      discordAdminRoles: editGuildFormInputs.discordAdminRoles.map(
-        (o) => o.value,
-      ),
-      discordMembershipRoles: editGuildFormInputs.discordMembershipRoles.map(
-        (o) => o.value,
-      ),
+      discordAdminRoles: adminRoles.map((o) => o.value),
+      discordMembershipRoles: membershipRoles.map((o) => o.value),
       type: (type as unknown) as GuildType_ActionEnum,
       uuid: guild.id,
     };

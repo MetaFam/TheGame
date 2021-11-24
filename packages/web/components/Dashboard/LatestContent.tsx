@@ -8,48 +8,23 @@ import { Watch } from './LatestContentTabs/Watch';
 export const LatestContent: React.FC = () => (
   <Tabs mt={5} size="lg" variant="line" colorScheme="gray.600" isFitted>
     <TabList borderBottomWidth={0}>
-      <Tab
-        color="gray.600"
-        _selected={{ color: 'white', borderBottomColor: 'white' }}
-        _focus={{
-          boxShadow: 'none',
-          backgroundColor: 'transparent',
-        }}
-        _active={{
-          boxShadow: 'none',
-          backgroundColor: 'transparent',
-        }}
-      >
-        Read
-      </Tab>
-      <Tab
-        color="gray.600"
-        _selected={{ color: 'white', borderBottomColor: 'white' }}
-        _focus={{
-          boxShadow: 'none',
-          backgroundColor: 'transparent',
-        }}
-        _active={{
-          boxShadow: 'none',
-          backgroundColor: 'transparent',
-        }}
-      >
-        Listen
-      </Tab>
-      <Tab
-        color="gray.600"
-        _selected={{ color: 'white', borderBottomColor: 'white' }}
-        _focus={{
-          boxShadow: 'none',
-          backgroundColor: 'transparent',
-        }}
-        _active={{
-          boxShadow: 'none',
-          backgroundColor: 'transparent',
-        }}
-      >
-        Watch
-      </Tab>
+      {['Read', 'Listen', 'Watch'].map((title) => (
+        <Tab
+          key={title}
+          color="gray.600"
+          _selected={{ color: 'white', borderBottomColor: 'white' }}
+          _focus={{
+            boxShadow: 'none',
+            backgroundColor: 'transparent',
+          }}
+          _active={{
+            boxShadow: 'none',
+            backgroundColor: 'transparent',
+          }}
+        >
+          {title}
+        </Tab>
+      ))}
     </TabList>
 
     <TabPanels>
