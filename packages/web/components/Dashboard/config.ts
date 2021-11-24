@@ -3,6 +3,7 @@ export const apiUrl = 'https://api.coingecko.com/api/v3/';
 export const tokenQuery = '?localization=false&tickers=true&market_data=true';
 export const chartQuery =
   '/market_chart?vs_currency=usd&days=30&interval=daily';
+export const podcastRSSURL = 'https://anchor.fm/s/57a641c/podcast/rss';
 
 export const gridData = [
   { i: 'latest', x: 0, y: 0, w: 6, h: 6 },
