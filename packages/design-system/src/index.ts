@@ -14,7 +14,12 @@ export { MetaTag } from './MetaTag';
 export { MetaTile, MetaTileBody, MetaTileHeader } from './MetaTile';
 export { MultiSelect } from './MultiSelect';
 export { ResponsiveText } from './ResponsiveText';
-export { SelectComponents, SelectSearch, selectStyles } from './SelectSearch';
+export {
+  metaFilterSelectStyles,
+  SelectComponents,
+  SelectSearch,
+  selectStyles,
+} from './SelectSearch';
 export {
   getTimezonesFor,
   SelectTimeZone,

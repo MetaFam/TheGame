@@ -1,7 +1,6 @@
 import {
   MetaFilterSelectSearch,
-  MetaTheme,
-  selectStyles,
+  metaFilterSelectStyles,
   TimezoneOptions,
   Wrap,
   WrapItem,
@@ -16,48 +15,19 @@ import { SkillOption } from 'utils/skillHelpers';
 
 type ValueType = { value: string; label: string };
 
-const styles: typeof selectStyles = {
-  ...selectStyles,
+const styles: typeof metaFilterSelectStyles = {
+  ...metaFilterSelectStyles,
   multiValue: (s, { data }) => ({
     ...s,
     background: SkillColors[data.category as SkillCategory_Enum],
-    color: MetaTheme.colors.white,
   }),
   multiValueLabel: (s, { data }) => ({
     ...s,
     background: SkillColors[data.category as SkillCategory_Enum],
-    color: MetaTheme.colors.white,
   }),
   groupHeading: (s, { children }) => ({
     ...s,
-    ...(selectStyles.groupHeading &&
-      selectStyles.groupHeading(s, { children })),
     background: SkillColors[children as SkillCategory_Enum],
-    borderTop: `1px solid ${MetaTheme.colors.borderPurple}`,
-    margin: 0,
-  }),
-  option: (s, { isSelected }) => ({
-    ...s,
-    backgroundColor: 'transparent',
-    fontWeight: isSelected ? 'bold' : 'normal',
-    ':hover': {
-      backgroundColor: 'transparent',
-      color: MetaTheme.colors.white,
-    },
-    ':focus': {
-      boxShadow: '0 0 0 3px rgba(66, 153, 225, 0.6)',
-    },
-  }),
-  menu: () => ({}),
-  control: (s) => ({
-    ...s,
-    background: MetaTheme.colors.dark,
-    border: 'none',
-    ':hover': {},
-  }),
-  noOptionsMessage: (s) => ({
-    ...s,
-    borderTop: `1px solid ${MetaTheme.colors.borderPurple}`,
   }),
 };
 

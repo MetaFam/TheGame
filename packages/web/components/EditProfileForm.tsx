@@ -9,9 +9,8 @@ import {
   InputRightAddon,
   MetaButton,
   MetaFilterSelectSearch,
-  MetaTheme,
+  metaFilterSelectStyles,
   ModalFooter,
-  selectStyles,
   SelectTimeZone,
   Text,
   useToast,
@@ -24,50 +23,6 @@ import React, { FC, useEffect, useState } from 'react';
 
 import { MeType } from '../graphql/types';
 import { TimeZoneOption } from '../utils/skillHelpers';
-
-const DropdownStyles: typeof selectStyles = {
-  ...selectStyles,
-  multiValue: (s) => ({
-    ...s,
-    color: MetaTheme.colors.white,
-  }),
-  multiValueLabel: (s) => ({
-    ...s,
-    color: MetaTheme.colors.white,
-  }),
-  groupHeading: (s, { children }) => ({
-    ...s,
-    ...(selectStyles.groupHeading &&
-      selectStyles.groupHeading(s, { children })),
-    borderTop: `1px solid ${MetaTheme.colors.borderPurple}`,
-    margin: 0,
-  }),
-  option: (s, { isSelected }) => ({
-    ...s,
-    backgroundColor: 'transparent',
-    fontWeight: isSelected ? 'bold' : 'normal',
-    ':hover': {
-      backgroundColor: 'transparent',
-      color: MetaTheme.colors.white,
-    },
-    ':focus': {
-      boxShadow: '0 0 0 3px rgba(66, 153, 225, 0.6)',
-    },
-  }),
-  menu: () => ({
-    minWidth: '100%',
-  }),
-  group: () => ({
-    minWidth: '100%',
-  }),
-  control: (s) => ({
-    ...s,
-    background: MetaTheme.colors.dark,
-    border: 'none',
-    width: '100%',
-    ':hover': {},
-  }),
-};
 
 export type ProfileEditorProps = {
   user: MeType;
@@ -160,7 +115,7 @@ export const CountrySelectDropdown: FC<CountrySelectDropdownProps> = ({
         title={country.label}
         tagLabel=""
         hasValue={Boolean(country)}
-        styles={DropdownStyles}
+        styles={metaFilterSelectStyles}
         value={[country]}
         options={COUNTRIES_OPTIONS}
         onChange={(value) => {
