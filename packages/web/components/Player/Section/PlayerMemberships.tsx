@@ -3,7 +3,6 @@ import {
   Flex,
   Heading,
   HStack,
-  Link,
   LoadingState,
   Modal,
   ModalCloseButton,
@@ -18,84 +17,8 @@ import { getAllMemberships, GuildMembership } from 'graphql/getMemberships';
 import React, { useEffect, useMemo, useState } from 'react';
 import { isBackdropFilterSupported } from 'utils/compatibilityHelpers';
 
-import polygonImage from '../../../assets/chains/polygon.png';
-import xDaiImage from '../../../assets/chains/xDai.png';
-import ethereumImage from '../../../assets/moloch/ethereum.png';
-import hausdaoImage from '../../../assets/moloch/hausdao.png';
-import metacartelImage from '../../../assets/moloch/metacartel.png';
-import metaclanImage from '../../../assets/moloch/metaclan.png';
-import raidGuildImage from '../../../assets/moloch/raid_guild.png';
 import { ProfileSection } from '../../ProfileSection';
-
-export const getImageMoloch = (title: string): File => {
-  if (title.toLowerCase().includes('hausdao')) return hausdaoImage;
-  if (title.toLowerCase().includes('metacartel')) return metacartelImage;
-  if (title.toLowerCase().includes('metaclan')) return metaclanImage;
-  if (title.toLowerCase().includes('raid guild')) return raidGuildImage;
-  if (title.toLowerCase().includes('xdai')) return xDaiImage;
-  if (title.toLowerCase().includes('polygon')) return polygonImage;
-  return ethereumImage;
-};
-
-const getHexChainId = (chain: string | undefined): string => {
-  switch (chain?.toLowerCase()) {
-    case 'xdai':
-      return '0x64';
-    case 'ethereum':
-      return '0x1';
-    case 'polygon':
-      return '0x89';
-    default:
-      return '';
-  }
-};
-
-export const getDaoLink = (
-  chain: string | undefined,
-  address: string | undefined,
-): string => {
-  const hexChainId = getHexChainId(chain);
-  if (address && hexChainId) {
-    return `https://app.daohaus.club/dao/${hexChainId}/${address.toLowerCase()}`;
-  }
-  return '';
-};
-
-type LinkGuildProps = {
-  daoUrl: string;
-  guildname: string | undefined;
-};
-
-export const LinkGuild: React.FC<LinkGuildProps> = ({
-  daoUrl,
-  guildname,
-  children,
-}) => {
-  if (guildname != null) {
-    return (
-      <Link
-        role="group"
-        _hover={{ textDecoration: 'none' }}
-        href={`/guild/${guildname}`}
-      >
-        {children}
-      </Link>
-    );
-  }
-  if (daoUrl != null) {
-    return (
-      <Link
-        role="group"
-        _hover={{ textDecoration: 'none' }}
-        href={daoUrl}
-        isExternal
-      >
-        {children}
-      </Link>
-    );
-  }
-  return <>{children}</>;
-};
+import { getDaoLink, getImageMoloch, LinkGuild } from '../PlayerGuild';
 
 type DaoListingProps = {
   membership: GuildMembership;
