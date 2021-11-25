@@ -23,7 +23,6 @@ export const Leaderboard: React.FC = () => {
   const {
     players,
     fetching,
-    fetchingMore,
     error,
     queryVariables,
     setQueryVariable,
@@ -67,7 +66,7 @@ export const Leaderboard: React.FC = () => {
         />
       </Box>
       {error ? <Text>{`Error: ${error.message}`}</Text> : null}
-      {fetchingMore || fetching ? (
+      {fetching ? (
         <LoadingState />
       ) : (
         !error &&
