@@ -6,6 +6,7 @@ import {
   LinkOverlay,
   LoadingState,
   MetaFilterSelectSearch,
+  metaFilterSelectStyles,
   Skeleton,
   Text,
   VStack,
@@ -51,6 +52,7 @@ export const Leaderboard: React.FC = () => {
       <Box mb={4}>
         <MetaFilterSelectSearch
           title={`Sorted By: ${sortOption.label}`}
+          styles={metaFilterSelectStyles}
           tagLabel=""
           hasValue={sortOption.value !== SortOption.SEASON_XP}
           value={[sortOption]}
