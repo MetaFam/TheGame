@@ -25,7 +25,6 @@ function getImage(image: string | null | undefined, opts: OptimizeImageParams) {
 const ceramic = (new Ceramic(CONFIG.ceramicURL) as unknown) as CeramicApi;
 const idx = new IDX({ ceramic });
 
-// eslint-disable-next-line import/no-default-export
 export default async (playerId: string): Promise<UpdateBoxProfileResponse> => {
   const updatedProfiles: string[] = [];
   const { player_by_pk: player } = await client.GetPlayer({ playerId });

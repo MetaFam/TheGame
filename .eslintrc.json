@@ -1,7 +1,8 @@
 {
   "root": true,
   "extends": [
-    "airbnb-typescript",
+    "airbnb-base",
+    "airbnb-typescript/base",
     "airbnb/hooks",
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
@@ -26,7 +27,7 @@
     "react/prop-types": "off",
 
     // Prefer non-default exports
-    "import/no-default-export": "error",
+    "import/no-default-export": "off",
     "import/prefer-default-export": "off",
 
     // Auto-sort imports
@@ -60,7 +61,7 @@
       "rules": {
         "react/react-in-jsx-scope": "off", // react is a global in this folder
         "import/no-default-export": "off", // pages have to have a default export
-        "import/prefer-default-export": "error",
+        "import/prefer-default-export": "off",
         "@typescript-eslint/explicit-module-boundary-types": [
           // So we can infer prop types
           "warn",
@@ -76,5 +77,6 @@
         "@typescript-eslint/explicit-module-boundary-types": "off"
       }
     }
-  ]
+  ],
+  "parser": "@typescript-eslint/parser"
 }

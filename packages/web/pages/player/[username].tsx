@@ -145,11 +145,12 @@ const PlayerPage: React.FC<Props> = ({ player }) => {
             onRemoveClick={() => removeBox(column, name)}
           />
         );
-      default:
       case BOX_TYPE.PLAYER_ACHIEVEMENTS:
         return (
           <PlayerAchievements onRemoveClick={() => removeBox(column, name)} />
         );
+      default:
+        return <></>;
     }
   };
 

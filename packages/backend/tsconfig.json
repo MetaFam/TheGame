@@ -15,5 +15,5 @@
       "path": "../discord-bot"
     }
   ],
-  "include": ["./src"]
+  "include": ["./src", "./tests"]
 }

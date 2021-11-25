@@ -15,6 +15,7 @@ class MetaDocument extends Document {
     return { ...initialProps };
   }
 
+  // eslint-disable-next-line class-methods-use-this
   render(): JSX.Element {
     return (
       <Html>

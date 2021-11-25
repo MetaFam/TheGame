@@ -15,8 +15,8 @@ export function amountToDecimal(amount: string, decimals: number): string {
 
 export function truncateNumber(
   n: string,
-  sd: number = SIGNIFICANT_DIGITS,
   roundingMode?: BN.RoundingMode,
+  sd: number = SIGNIFICANT_DIGITS,
 ): string {
   return new BN(n).sd(sd, roundingMode).toFixed();
 }

@@ -41,6 +41,7 @@ export const Web3Context = createContext<Web3ContextType>({
   provider: null,
   ceramic: null,
   idx: null,
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   connect: async () => {},
   disconnect: () => undefined,
   connecting: false,
@@ -104,22 +105,23 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
   const [address, setAddress] = useState<string | null>(null);
   const [authToken, setAuthToken] = useState<string | null>(null);
   const calledOnce = useRef<boolean>(false);
-  const ceramic = useMemo(() => (
-    new Ceramic(CONFIG.ceramicURL) as unknown as CeramicApi
-  ), []);
+  const ceramic = useMemo(
+    () => (new Ceramic(CONFIG.ceramicURL) as unknown) as CeramicApi,
+    [],
+  );
 
   useEffect(() => {
     if (address) {
-        const threeIdConnect = new ThreeIdConnect();
-        const authProvider = new EthereumAuthProvider(window.ethereum, address);
-        threeIdConnect.connect(authProvider).then(() => {
-          ceramic.did = new DID({
-            provider: threeIdConnect.getDidProvider(),
-            resolver: ThreeIdResolver.getResolver(ceramic),
-          });
+      const threeIdConnect = new ThreeIdConnect();
+      const authProvider = new EthereumAuthProvider(window.ethereum, address);
+      threeIdConnect.connect(authProvider).then(() => {
+        ceramic.did = new DID({
+          provider: threeIdConnect.getDidProvider(),
+          resolver: ThreeIdResolver.getResolver(ceramic),
         });
+      });
     }
-  }, [address, ceramic])
+  }, [address, ceramic]);
   const idx = new IDX({ ceramic });
 
   const disconnect = useCallback(() => {

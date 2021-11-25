@@ -2,7 +2,6 @@ import { Request, Response } from 'express';
 
 import updateCachedProfile from '../updateSingle';
 
-// eslint-disable-next-line import/no-default-export
 export default async (req: Request, res: Response): Promise<void> => {
   const session = req.body.session_variables;
   const role = session['x-hasura-role'];
