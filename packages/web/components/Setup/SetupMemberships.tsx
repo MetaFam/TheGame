@@ -14,11 +14,7 @@ import { Membership } from 'graphql/types';
 import React, { useState } from 'react';
 
 import { useWeb3 } from '../../lib/hooks';
-import {
-  getDaoLink,
-  getImageMoloch,
-  LinkGuild,
-} from '../Player/Section/PlayerMemberships';
+import { getDaoLink, getImageMoloch, LinkGuild } from '../Player/PlayerGuild';
 
 export type SetupMembershipsProps = {
   memberships: Array<Membership> | null | undefined;
