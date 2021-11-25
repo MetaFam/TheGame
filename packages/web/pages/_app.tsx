@@ -1,4 +1,3 @@
-/* eslint-disable react/no-danger */
 import { ChakraProvider, CSSReset, MetaTheme } from '@metafam/ds';
 import { MegaMenu } from 'components/MegaMenu';
 import { PlayerStatsBar } from 'components/PlayerStatsBar';

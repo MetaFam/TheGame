@@ -19,7 +19,7 @@ export const AllTypes = () => (
         color="cyanText"
         fontWeight="normal"
         verticalAlign="inherit"
-        onClick={() => {}}
+        onClick={console.log}
       >
         Go to my profile
       </Button>
@@ -66,7 +66,7 @@ export const AllTypes = () => (
           color="cyanText"
           fontWeight="normal"
           verticalAlign="inherit"
-          onClick={() => {}}
+          onClick={console.log}
         >
           Read more
         </Button>

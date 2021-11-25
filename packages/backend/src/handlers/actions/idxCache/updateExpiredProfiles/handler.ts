@@ -5,7 +5,6 @@ import updateCachedProfile from '../updateSingle';
 
 const INVALIDATE_AFTER_DAYS = 4; // number of days after which to recache
 
-// eslint-disable-next-line import/no-default-export
 export default async (req: Request, res: Response): Promise<void> => {
   const expiration = new Date();
   expiration.setDate(expiration.getDate() - INVALIDATE_AFTER_DAYS);

@@ -5,7 +5,6 @@ import { Web3Storage } from 'web3.storage';
 
 import { CONFIG } from '../../../config';
 
-// eslint-disable-next-line import/no-default-export
 export default async (req: Request, res: Response): Promise<Response> => {
   const storage = new Web3Storage({ token: CONFIG.web3StorageToken });
   const input = req.files as Record<string, Array<Express.Multer.File>>;

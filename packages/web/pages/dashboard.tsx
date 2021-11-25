@@ -73,12 +73,11 @@ export const Grid = (): ReactElement => {
 
   useEffect(() => {
     if (getFromLS('layouts') !== undefined) setOwnLayout(true);
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    function handleLayoutChange(_layout: Layout[] = [], layouts: Layouts) {
+    function handleLayoutChange(layouts: Layouts) {
       saveToLS('layouts', JSON.parse(JSON.stringify(layouts)));
       setGridLayouts(JSON.parse(JSON.stringify(layouts)));
     }
-    if (changed) handleLayoutChange(current.layout, current.layouts);
+    if (changed) handleLayoutChange(current.layouts);
   }, [current, changed]);
 
   function handleReset() {

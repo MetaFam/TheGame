@@ -23,6 +23,7 @@ const VALID_ADDRESS = '0xb53b0255895c4f9e3a185e484e5b674bccfbc076';
 
 describe('getDaoHausMemberships', () => {
   beforeEach(() => {
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
     jest.spyOn(console, 'warn').mockImplementation(() => {});
   });
 
