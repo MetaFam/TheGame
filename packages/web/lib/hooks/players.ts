@@ -180,15 +180,13 @@ export const usePlayerFilter = (
   );
 
   useEffect(() => {
-    if (error || fetching) {
-      if (error || !shouldAppend.current) {
-        setPlayers([]);
+    if (!error && !fetching) {
+      if (shouldAppend.current) {
+        shouldAppend.current = false;
+        setPlayers((p) => [...p, ...fetchedPlayers]);
+      } else {
+        setPlayers(fetchedPlayers);
       }
-    } else if (shouldAppend.current) {
-      shouldAppend.current = false;
-      setPlayers((p) => [...p, ...fetchedPlayers]);
-    } else {
-      setPlayers(fetchedPlayers);
     }
   }, [fetchedPlayers, fetching, error]);
 
