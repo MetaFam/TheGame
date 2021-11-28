@@ -38,10 +38,10 @@ export const useUser = ({
     if (!redirectTo) return;
 
     if (
-      // If redirectTo is set, redirect if the user was not found.
-      (redirectTo && redirectIfNotFound && !user) ||
-      // If redirectIfNotFound is also set, redirect if the user was found
-      (redirectIfNotFound && user)
+      // If redirectTo is set and redirectIfNotFound is set then redirect if the user was not found.
+      redirectTo &&
+      redirectIfNotFound &&
+      !user
     ) {
       router.push(redirectTo);
     }
