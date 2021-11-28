@@ -53,6 +53,7 @@ export {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogOverlay,
+  AspectRatio,
   Avatar,
   AvatarProps,
   Badge,
