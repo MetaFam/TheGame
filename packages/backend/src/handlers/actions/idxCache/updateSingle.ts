@@ -1,8 +1,20 @@
-import type { CeramicApi } from '@ceramicnetwork/common';
 import Ceramic from '@ceramicnetwork/http-client';
-import { getLegacy3BoxProfileAsBasicProfile, IDX } from '@ceramicstudio/idx';
+import { Caip10Link } from '@ceramicnetwork/stream-caip10-link';
+import {
+  AlsoKnownAs,
+  model as alsoKnownAsModel,
+} from '@datamodels/identity-accounts-web';
 // https://github.com/ceramicnetwork/CIP/blob/main/CIPs/CIP-19/CIP-19.md#record-schema
-import type { BasicProfile } from '@ceramicstudio/idx-constants';
+import {
+  BasicProfile,
+  model as basicProfileModel,
+} from '@datamodels/identity-profile-basic';
+import { ModelManager } from '@glazed/devtools';
+// import { DataModel } from '@glazed/datamodel';
+import { DIDDataStore } from '@glazed/did-datastore';
+import { TileLoader } from '@glazed/tile-loader';
+// import type { ModelTypesToAliases } from '@glazed/types';
+import { getLegacy3BoxProfileAsBasicProfile } from '@self.id/3box-legacy';
 import Box from '3box';
 
 import { CONFIG } from '../../../config';
@@ -11,50 +23,68 @@ import {
   UpdateBoxProfileResponse,
 } from '../../../lib/autogen/hasura-sdk';
 import { client } from '../../../lib/hasuraClient';
-import { optimizeImage, OptimizeImageParams } from '../../../lib/imageHelpers';
 
-function getImage(image: string | null | undefined, opts: OptimizeImageParams) {
-  const [, imageHash] = image?.match(/^ipfs:\/\/(.+)$/) ?? [];
-
-  if (imageHash) {
-    return optimizeImage(`${CONFIG.ipfsEndpoint}/ipfs/${imageHash}`, opts);
-  }
-  return image;
-}
-
-const ceramic = (new Ceramic(CONFIG.ceramicURL) as unknown) as CeramicApi;
-const idx = new IDX({ ceramic });
+const cache = new Map();
+const ceramic = new Ceramic(CONFIG.ceramicURL);
+const loader = new TileLoader({ ceramic, cache });
+const manager = new ModelManager(ceramic);
+manager.addJSONModel(basicProfileModel);
+manager.addJSONModel(alsoKnownAsModel);
 
 export default async (playerId: string): Promise<UpdateBoxProfileResponse> => {
   const updatedProfiles: string[] = [];
   const { player_by_pk: player } = await client.GetPlayer({ playerId });
   const ethAddress = player?.ethereum_address;
 
+  const store = new DIDDataStore({
+    ceramic,
+    loader,
+    model: await manager.toPublished(),
+  });
+
   if (!ethAddress) {
     throw new Error('unknown-player');
   }
 
-  let idxProfile;
+  let basicProfile;
+  let alsoKnownAs;
   try {
-    idxProfile = await idx.get<BasicProfile>(
-      'basicProfile',
+    const caip10 = await Caip10Link.fromAccount(
+      ceramic,
       `${ethAddress.toLowerCase()}@eip155:1`,
     );
-  } catch (err) {
-    const msg = (err as Error).message;
 
-    if (!msg.includes('No DID')) {
+    if (!caip10.did) {
+      console.error(`No CAIP-10 Link For ${ethAddress}`);
+    } else {
+      console.info({ start: '¡here!', cer: CONFIG.ceramicURL });
+
+      basicProfile = (await store.get(
+        'basicProfile',
+        caip10.did,
+      )) as BasicProfile;
+
+      console.info({ basicProfile });
+
+      alsoKnownAs = (await store.get('alsoKnownAs', caip10.did)) as AlsoKnownAs;
+
+      console.info({ alsoKnownAs });
+    }
+  } catch (err) {
+    if (!(err as Error).message.includes('No DID')) {
       throw err;
     }
   }
 
-  if (!idxProfile) {
-    idxProfile = await getLegacy3BoxProfileAsBasicProfile(ethAddress);
+  if (!basicProfile) {
+    basicProfile = await getLegacy3BoxProfileAsBasicProfile(ethAddress);
   }
 
-  if (!idxProfile) {
+  console.info({ profile: JSON.stringify(basicProfile ?? null, null, 2) });
+
+  if (!basicProfile) {
     console.info(`No Profile For: ${ethAddress}`);
-    idxProfile = {}; // create an empty placeholder row
+    basicProfile = {}; // create an empty placeholder row
   }
 
   const {
@@ -67,19 +97,14 @@ export default async (playerId: string): Promise<UpdateBoxProfileResponse> => {
     residenceCountry: country,
     image,
     background,
-  } = idxProfile;
+  } = basicProfile;
   const values = {
     playerId,
     name,
     description,
     emoji,
-    imageURL: getImage(image?.original?.src, {
-      ar: '1:1',
-      height: 200,
-    }),
-    backgroundImageURL: getImage(background?.original?.src, {
-      height: 300,
-    }),
+    imageURL: image?.original?.src,
+    backgroundImageURL: background?.original?.src,
     gender,
     location,
     country,
@@ -92,45 +117,32 @@ export default async (playerId: string): Promise<UpdateBoxProfileResponse> => {
   const boxProfile = await Box.getProfile(ethAddress);
   const verifiedAccounts = await Box.getVerifiedAccounts(boxProfile);
 
-  if (verifiedAccounts.github) {
-    const { insert_player_account: insert } = await client.UpsertAccount({
-      objects: [
-        {
-          player_id: playerId,
-          type: AccountType_Enum.Github,
-          identifier: verifiedAccounts.github.username,
-        },
-      ],
-    });
-    if (insert?.affected_rows) {
-      updatedProfiles.push('github');
-    } else if (insert?.affected_rows === undefined) {
-      // eslint-disable-next-line no-console
-      console.warn(
-        `Unable to insert Github user ${verifiedAccounts.github.username} for playerId ${playerId}`,
-      );
-    }
-  }
-
-  if (verifiedAccounts.twitter) {
-    const { insert_player_account: insert } = await client.UpsertAccount({
-      objects: [
-        {
-          player_id: playerId,
-          type: AccountType_Enum.Twitter,
-          identifier: verifiedAccounts.twitter.username,
-        },
-      ],
-    });
-    if (insert?.affected_rows) {
-      updatedProfiles.push('twitter');
-    } else if (insert?.affected_rows === undefined) {
-      // eslint-disable-next-line no-console
-      console.warn(
-        `Unable to insert Twitter user ${verifiedAccounts.twitter.username} for playerId ${playerId}`,
-      );
-    }
-  }
+  Promise.all(
+    ['GITHUB', 'TWITTER'].map(async (serviceName) => {
+      const service = serviceName as AccountType_Enum;
+      const key = service.toLowerCase() as 'github' | 'twitter';
+      if (verifiedAccounts[key]) {
+        const { username } = verifiedAccounts[key] as { username: string };
+        const { insert_player_account: insert } = await client.UpsertAccount({
+          objects: [
+            {
+              player_id: playerId,
+              type: service,
+              identifier: username,
+            },
+          ],
+        });
+        if ((insert?.affected_rows ?? 0) > 0) {
+          updatedProfiles.push(key);
+        } else if (insert?.affected_rows === undefined) {
+          // eslint-disable-next-line no-console
+          console.warn(
+            `Unable to insert ${service} user ${username} for playerId ${playerId}.`,
+          );
+        }
+      }
+    }),
+  );
 
   return {
     success: true,
