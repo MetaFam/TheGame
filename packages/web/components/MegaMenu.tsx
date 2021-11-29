@@ -132,15 +132,20 @@ const DesktopMenuItem = ({
     color="#ffffff"
     key={title}
     p="0"
-    mb="50px"
-    pr="50px"
     _active={{ bg: 'none' }}
     _focus={{ bg: 'none' }}
   >
     <Link
       display="flex"
+      className="desktop-menu-item"
       href={url}
-      _hover={{ bg: 'none', textDecoration: 'none' }}
+      padding="1rem"
+      _hover={{
+        bg: 'rgba(0,0,0,0.56)',
+        borderRadius: '0.618vmax',
+        textDecoration: 'none',
+        animation: '1.2s',
+      }}
       _focus={{ outline: 'none' }}
     >
       <Avatar
@@ -149,13 +154,21 @@ const DesktopMenuItem = ({
         width="64px"
         height="64px"
         style={{ padding: '10px', marginRight: '20px' }}
-        bg="linear-gradient(180deg, #170B23 0%, #350C58 100%)"
+        bg="black"
+        sx={{
+          '.desktop-menu-item:hover &': {
+            outline: '1px solid rgba(100,100,100,0.28)',
+            boxShadow: 'lg',
+            bg: 'linear-gradient(rgba(0,0,0,1), rgba(100,100,100,0.23)) 116%',
+          },
+        }}
+        // bg="linear-gradient(180deg, #170B23 0%, #350C58 100%)"
       />
       <Box>
-        <Text color="#000" fontSize="xl" fontWeight="bold">
+        <Text color="#fff" fontSize="xl" fontWeight="bold">
           {title}
         </Text>
-        <Text color="#000" fontSize="13px">
+        <Text color="#fff" fontSize="13px">
           {explainerText}
         </Text>
       </Box>
@@ -236,13 +249,29 @@ const DesktopNavLinks = () => {
                   h={isOpen ? 'auto' : 0}
                   opacity={isOpen ? 1 : 0}
                   transition="opacity 0.2s"
+                  zIndex="2"
                 >
                   <path
                     d="M12 0L24 12C14.6274 12 9.37258 12 0 12L12 0Z"
-                    fill="white"
+                    fill="rgba(42, 31, 71, 0.99)"
                   />
                 </Icon>
               </MenuButton>
+              {isOpen ? (
+                <Box
+                  zIndex="-2"
+                  position="absolute"
+                  minW="100vw"
+                  top="81px"
+                  left="calc(100% - 100vw)"
+                  mx="0"
+                  h="100vh"
+                  bg="linear-gradient(rgba(0,0,0,0.9) 10%, rgba(0,0,0,0) 96%)"
+                  sx={{ filter: 'blur(3rem)' }}
+                />
+              ) : (
+                <span />
+              )}
               <MenuList
                 display="grid"
                 gridTemplateColumns={
@@ -251,8 +280,13 @@ const DesktopNavLinks = () => {
                     : 'repeat(1, 1fr)'
                 }
                 width={section.menuItems.length > 3 ? '948px' : '474px'}
-                p="56px 6px 6px 56px"
-                borderColor="transparent"
+                p="2rem"
+                boxShadow="dark-lg"
+                bg="linear-gradient(180deg, rgba(42, 31, 71, 0.9) 6.18%, rgba(17, 3, 32, 0.86) 140%)"
+                borderRadius="0.618vmax"
+                border="0"
+                // borderColor="transparent"
+                // backdropFilter=
               >
                 {section.menuItems.map((item: MenuLinkItem) => (
                   <DesktopMenuItem {...item} key={item.title} />
