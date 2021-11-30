@@ -4,7 +4,8 @@
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
-    "noEmit": true
+    "noEmit": true,
+    "tsBuildInfoFile": "dist/.tsbuildinfo"
   },
   "include": ["./src", "./stories", "./test"]
 }
