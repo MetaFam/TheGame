@@ -8,6 +8,7 @@ import {
 } from 'utils/playerHelpers';
 
 type PlayerAvatarProps = AvatarProps & { player: PlayerFragmentFragment };
+
 export const PlayerAvatar: React.FC<PlayerAvatarProps> = ({
   player,
   ...props

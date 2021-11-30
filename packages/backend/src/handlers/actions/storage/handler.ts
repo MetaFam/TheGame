@@ -14,7 +14,7 @@ export default async (req: Request, res: Response): Promise<Response> => {
     stream: () =>
       (fs.createReadStream(
         Path.isAbsolute(path) ? path : Path.join(process.cwd(), path),
-      ) as unknown) as ReadableStream,
+      ) as unknown) as ReadableStream<string>,
   }));
 
   const cid = await storage.put(files);

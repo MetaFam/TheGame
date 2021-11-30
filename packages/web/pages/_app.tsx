@@ -28,12 +28,11 @@ const App: React.FC<WithUrqlProps> = ({
           <script
             dangerouslySetInnerHTML={{
               __html: `
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments)}
-            gtag('js', new Date());
-
-            gtag('config', '${CONFIG.gaId}');
-            `,
+                window.dataLayer = window.dataLayer || [];
+                function gtag() { dataLayer.push(arguments) }
+                gtag('js', new Date());
+                gtag('config', '${CONFIG.gaId}');
+              `,
             }}
           />
         </>
@@ -43,17 +42,17 @@ const App: React.FC<WithUrqlProps> = ({
           type="text/javascript"
           dangerouslySetInnerHTML={{
             __html: `
-            (function(c,l,a,r,i,t,y){
-              c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-              t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-              y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-            })(window, document, "clarity", "script", '${CONFIG.clarityId}');
-          `,
+              (function(c,l,a,r,i,t,y){
+                c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+                t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+                y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+              })(window, document, "clarity", "script", '${CONFIG.clarityId}');
+            `,
           }}
         />
       )}
     </Head>
-    <Web3ContextProvider resetUrqlClient={resetUrqlClient}>
+    <Web3ContextProvider {...{ resetUrqlClient }}>
       <>
         {!pageProps.hideTopMenu && <MegaMenu />}
         {!pageProps.hideTopMenu && <PlayerStatsBar />}

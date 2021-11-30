@@ -20,48 +20,52 @@ export const PlayerContacts: React.FC<Props> = ({
   return (
     <Wrap>
       {player.accounts?.map((acc) => {
-        if (acc.type === 'TWITTER') {
-          const link = `https://twitter.com/${acc.identifier}`;
-          return (
-            <WrapItem key={link}>
-              <Button
-                as="a"
-                href={link}
-                target="_blank"
-                rel="noreferrer noopener"
-                size="xs"
-                colorScheme="twitter"
-                color="white"
-                leftIcon={<FaTwitter />}
-              >
-                {acc.identifier}
-              </Button>
-            </WrapItem>
-          );
+        switch (acc.type) {
+          case 'TWITTER': {
+            const link = `https://twitter.com/${acc.identifier}`;
+            return (
+              <WrapItem key={link}>
+                <Button
+                  as="a"
+                  href={link}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  size="xs"
+                  colorScheme="twitter"
+                  color="white"
+                  leftIcon={<FaTwitter />}
+                >
+                  {acc.identifier}
+                </Button>
+              </WrapItem>
+            );
+          }
+          case 'GITHUB': {
+            const link = `https://github.com/${acc.identifier}`;
+            return (
+              <WrapItem key={link}>
+                <Button
+                  as="a"
+                  href={link}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  size="xs"
+                  colorScheme="blackAlpha"
+                  backgroundColor="black"
+                  color="white"
+                  leftIcon={<FaGithub />}
+                >
+                  {acc.identifier}
+                </Button>
+              </WrapItem>
+            );
+          }
+          default: {
+            return null;
+          }
         }
-        if (acc.type === 'GITHUB') {
-          const link = `https://github.com/${acc.identifier}`;
-          return (
-            <WrapItem key={link}>
-              <Button
-                as="a"
-                href={link}
-                target="_blank"
-                rel="noreferrer noopener"
-                size="xs"
-                colorScheme="blackAlpha"
-                backgroundColor="black"
-                leftIcon={<FaGithub />}
-                color="white"
-              >
-                {acc.identifier}
-              </Button>
-            </WrapItem>
-          );
-        }
-        return null;
       })}
-      {player.ethereum_address ? (
+      {player.ethereum_address && (
         <WrapItem>
           <Tooltip
             label={copied ? 'Copied!' : 'Copy to clipboard'}
@@ -84,8 +88,8 @@ export const PlayerContacts: React.FC<Props> = ({
             </Button>
           </Tooltip>
         </WrapItem>
-      ) : null}
-      {verified && !disableBrightId ? (
+      )}
+      {verified && !disableBrightId && (
         <WrapItem>
           <Tooltip label="Verified on BrightID" closeOnClick={false} hasArrow>
             <Button
@@ -98,7 +102,7 @@ export const PlayerContacts: React.FC<Props> = ({
             </Button>
           </Tooltip>
         </WrapItem>
-      ) : null}
+      )}
     </Wrap>
   );
 };

@@ -52,9 +52,7 @@ const Players: React.FC<Props> = () => {
     nextPage,
     moreAvailable,
   } = usePlayerFilter();
-
   const moreRef = useRef<HTMLDivElement>(null);
-
   const onScreen = useOnScreen(moreRef);
 
   useEffect(() => {
@@ -83,18 +81,20 @@ const Players: React.FC<Props> = () => {
         pb={{ base: '16', lg: '0' }}
       >
         <PlayerFilter
-          fetching={fetching}
-          fetchingMore={fetchingMore}
-          aggregates={aggregates}
-          queryVariables={queryVariables}
-          setQueryVariable={setQueryVariable}
-          resetFilter={resetFilter}
-          totalCount={totalCount}
+          {...{
+            fetching,
+            fetchingMore,
+            aggregates,
+            queryVariables,
+            setQueryVariable,
+            resetFilter,
+            totalCount,
+          }}
         />
-        {error ? <Text>{`Error: ${error.message}`}</Text> : null}
-        {!error && players.length && (fetchingMore || !fetching) ? (
-          <PlayerList players={players} showSeasonalXP={showSeasonalXP} />
-        ) : null}
+        {error && <Text>{`Error: ${error.message}`}</Text>}
+        {!error && players.length && (fetchingMore || !fetching) && (
+          <PlayerList {...{ players, showSeasonalXP }} />
+        )}
         <MorePlayers
           ref={moreRef}
           fetching={isLoading}

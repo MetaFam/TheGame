@@ -61,12 +61,13 @@ const fetchAllOpenSeaData = async (
   let offset = 0;
   let data: Array<Collectible> = [];
   let lastData: Array<Collectible> = [];
+  const block = 50;
   do {
-    const query = { owner, offset, limit: 50 };
+    const query = { owner, offset, limit: block };
     // eslint-disable-next-line no-await-in-loop
     lastData = await fetchOpenSeaData(query);
     data = data.concat(lastData);
-    offset += 50;
+    offset += block;
   } while (lastData.length > 0);
   return data;
 };
@@ -77,8 +78,9 @@ const fetchOpenSeaData = async (
   try {
     const response = await opensea.getAssets(query);
     return await parseAssets(response.assets);
-  } catch {
-    return [];
+  } catch (err) {
+    console.error(`Error Retrieving OpenSea Assets: ${(err as Error).message}`);
+    return Promise.resolve([]);
   }
 };
 
@@ -108,7 +110,7 @@ const ETH_ADDRESSES = [
 ];
 
 const getPriceString = (event: AssetEvent | null): string => {
-  if (event && event.paymentToken) {
+  if (event?.paymentToken) {
     const {
       address,
       symbol: tokenSymbol,
@@ -116,7 +118,7 @@ const getPriceString = (event: AssetEvent | null): string => {
       usdPrice,
     } = event.paymentToken;
 
-    const symbol = ETH_ADDRESSES.indexOf(address) === -1 ? tokenSymbol : 'Ξ';
+    const symbol = ETH_ADDRESSES.includes(address) ? 'Ξ' : tokenSymbol;
     const price = Number(utils.formatUnits(event.totalPrice, decimals));
     const priceInUSD = usdPrice ? price * Number(usdPrice) : 0;
     return `${price.toFixed(2)}${symbol}${

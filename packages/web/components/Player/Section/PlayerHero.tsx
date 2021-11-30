@@ -13,7 +13,7 @@ import {
   SimpleGrid,
   Text,
   useDisclosure,
-  VStack,
+  VStack
 } from '@metafam/ds';
 import BackgroundImage from 'assets/main-background.jpg';
 import { FlexContainer } from 'components/Container';
@@ -99,8 +99,16 @@ export const PlayerHero: React.FC<Props> = ({
         />
       </Box>
       <VStack spacing={6}>
-        <Box textAlign="center">
-          <Text fontSize="xl" fontFamily="heading" mb={1}>
+        <Box textAlign="center" maxW="full">
+          <Text
+            fontSize="xl"
+            fontFamily="heading"
+            mb={1}
+            textOverflow="ellipsis"
+            whiteSpace="nowrap"
+            overflowX="hidden"
+            title={playerName}
+          >
             {playerName}
           </Text>
           <PlayerBrightId {...{ player }} />
@@ -108,7 +116,7 @@ export const PlayerHero: React.FC<Props> = ({
         <Box>
           {description && (
             <PlayerHeroTile title="Bio">
-              <Text fontSize={{ base: 'sm', sm: 'md' }}>
+              <Text fontSize={{ base: 'sm', sm: 'md' }} textAlign="justify">
                 {show
                   ? description
                   : `${description.substring(0, MAX_BIO_LENGTH - 9)}…`}
@@ -130,10 +138,10 @@ export const PlayerHero: React.FC<Props> = ({
         </Box>
 
         <HStack mt={2}>
-          <PlayerContacts player={player} />
+          <PlayerContacts {...{ player }} />
         </HStack>
 
-        <PlayerPronouns person={person} />
+        <PlayerPronouns {...{ person }} />
 
         {/* <SimpleGrid columns={2} gap={6} width="full">
           <PlayerHeroTile title="Display name">
@@ -146,10 +154,10 @@ export const PlayerHero: React.FC<Props> = ({
 
         <SimpleGrid columns={2} gap={6} width="full">
           <PlayerHeroTile title="Availability">
-            <Availability person={person} />
+            <Availability {...{ person }} />
           </PlayerHeroTile>
           <PlayerHeroTile title="Timezone">
-            <TimeZoneDisplay person={person} />
+            <TimeZoneDisplay {...{ person }} />
           </PlayerHeroTile>
         </SimpleGrid>
 
@@ -171,14 +179,13 @@ export const PlayerHero: React.FC<Props> = ({
           </PlayerHeroTile>
         </SimpleGrid> */}
 
-        {player?.profile_cache?.emoji && (
-          <PlayerHeroTile title="Favorite emoji">
-            <Text>{player?.profile_cache?.emoji}</Text>
+        {player?.profile?.emoji && (
+          <PlayerHeroTile title="Favorite Emoji">
+            <Text ml={10}>{player.profile.emoji}</Text>
           </PlayerHeroTile>
-        )}
       </VStack>
 
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal {...{ isOpen, onClose }}>
         <ModalOverlay />
         <ModalContent
           maxW="80%"
@@ -204,7 +211,7 @@ export const PlayerHero: React.FC<Props> = ({
             }}
           />
           <ModalBody>
-            <EditProfileForm user={user} onClose={onClose} />
+            <EditProfileForm {...{ user, onClose }} />
           </ModalBody>
         </ModalContent>
       </Modal>
@@ -213,10 +220,10 @@ export const PlayerHero: React.FC<Props> = ({
 };
 
 const Availability: React.FC<AvailabilityProps> = ({ person }) => {
-  const [availabilityHours, setAvailabilityHours] = useState<number>(0);
-  const updateFN = () => setAvailabilityHours(person?.availability_hours || 0);
+  const [hours, setHours] = useState<number>();
+  const updateFN = () => setHours(person?.profile?.availableHours);
   const { animation } = useAnimateProfileChanges(
-    person?.availability_hours,
+    person?.profile?.availableHours,
     updateFN,
   );
   return (
@@ -230,7 +237,7 @@ const Availability: React.FC<AvailabilityProps> = ({ person }) => {
         opacity={animation === 'fadeIn' ? 1 : 0}
       >
         <Text fontSize={{ base: 'md', sm: 'lg' }} pr={2}>
-          {`${availabilityHours || '0'} h/week`}
+          {hours == undefined ? <Text as="em">Unspecified</Text> : `${hours} hr ⁄ week`}
         </Text>
       </FlexContainer>
     </Flex>
@@ -238,7 +245,7 @@ const Availability: React.FC<AvailabilityProps> = ({ person }) => {
 };
 
 const TimeZoneDisplay: React.FC<TimeZoneDisplayProps> = ({ person }) => {
-  const timeDisplay = getPlayerTimeZoneDisplay(person?.timezone);
+  const timeDisplay = getPlayerTimeZoneDisplay(person?.profile?.timeZone);
   const [timeZone, setTimeZone] = useState<string>('');
   const [offset, setOffset] = useState<string>('');
   const updateFN = () => {

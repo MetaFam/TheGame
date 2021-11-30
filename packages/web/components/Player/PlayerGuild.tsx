@@ -10,42 +10,39 @@ import metaclanImage from '../../assets/moloch/metaclan.png';
 import raidGuildImage from '../../assets/moloch/raid_guild.png';
 
 type LinkGuildProps = {
-  daoUrl: string;
+  daoUrl: string | null;
   guildname: string | undefined;
+};
+
+export const getMolochImage = (title: string) => {
+  title = title.toLowerCase(); // eslint-disable-line no-param-reassign
+  if (title.includes('hausdao')) return hausdaoImage;
+  if (title.includes('metacartel')) return metacartelImage;
+  if (title.includes('metaclan')) return metaclanImage;
+  if (title.includes('raid guild')) return raidGuildImage;
+  if (title.includes('xdai')) return xDaiImage;
+  if (title.includes('polygon')) return polygonImage;
+  return ethereumImage;
 };
 
 const getHexChainId = (chain: string | undefined): string => {
   switch (chain?.toLowerCase()) {
-    case 'xdai':
-      return '0x64';
-    case 'ethereum':
-      return '0x1';
-    case 'polygon':
-      return '0x89';
-    default:
-      return '';
+    case 'xdai': return '0x64';
+    case 'polygon': return '0x89';
+    case 'ethereum': default: return '0x1';
   }
-};
-
-export const getImageMoloch = (title: string): File => {
-  if (title.toLowerCase().includes('hausdao')) return hausdaoImage;
-  if (title.toLowerCase().includes('metacartel')) return metacartelImage;
-  if (title.toLowerCase().includes('metaclan')) return metaclanImage;
-  if (title.toLowerCase().includes('raid guild')) return raidGuildImage;
-  if (title.toLowerCase().includes('xdai')) return xDaiImage;
-  if (title.toLowerCase().includes('polygon')) return polygonImage;
-  return ethereumImage;
 };
 
 export const getDaoLink = (
   chain: string | undefined,
   address: string | undefined,
-): string => {
-  const hexChainId = getHexChainId(chain);
-  if (address && hexChainId) {
-    return `https://app.daohaus.club/dao/${hexChainId}/${address.toLowerCase()}`;
+): string | null => {
+  if (address && chain) {
+    const hexChainId = getHexChainId(chain);
+    address = address.toLowerCase(); // eslint-disable-line no-param-reassign
+    return `https://app.daohaus.club/dao/${hexChainId}/${address}`;
   }
-  return '';
+  return null;
 };
 
 export const LinkGuild: React.FC<LinkGuildProps> = ({

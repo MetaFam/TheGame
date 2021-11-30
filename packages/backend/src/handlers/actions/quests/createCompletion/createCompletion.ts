@@ -19,11 +19,11 @@ export async function createCompletion(
     quest_id: questCompletion.quest_id,
   });
   if (!quest) {
-    throw new Error('Quest not found');
+    throw new Error('Quest not found.');
   }
 
   if (quest.status !== QuestStatus_Enum.Open) {
-    throw new Error('Quest must be open');
+    throw new Error('Quest must be open.');
   }
 
   // Personal or unique, check if not already done by player

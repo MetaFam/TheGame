@@ -20,9 +20,11 @@ export const PlayerType: React.FC<Props> = ({
   onRemoveClick,
 }) => {
   const [playerType, setPlayerType] = useState<Player_Type | null>();
-  const updateFN = () => setPlayerType(player.type);
-
-  const { animation } = useAnimateProfileChanges(player.type, updateFN);
+  const updateFN = () => setPlayerType(player.profile?.explorerType);
+  const { animation } = useAnimateProfileChanges(
+    player.profile?.explorerType,
+    updateFN,
+  );
 
   return (
     <ProfileSection
