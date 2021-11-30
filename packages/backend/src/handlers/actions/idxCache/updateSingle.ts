@@ -1,6 +1,7 @@
 import Ceramic from '@ceramicnetwork/http-client';
 import { Caip10Link } from '@ceramicnetwork/stream-caip10-link';
 import {
+  Account,
   AlsoKnownAs,
   model as alsoKnownAsModel,
 } from '@datamodels/identity-accounts-web';
@@ -10,12 +11,9 @@ import {
   model as basicProfileModel,
 } from '@datamodels/identity-profile-basic';
 import { ModelManager } from '@glazed/devtools';
-// import { DataModel } from '@glazed/datamodel';
 import { DIDDataStore } from '@glazed/did-datastore';
 import { TileLoader } from '@glazed/tile-loader';
-// import type { ModelTypesToAliases } from '@glazed/types';
 import { getLegacy3BoxProfileAsBasicProfile } from '@self.id/3box-legacy';
-import Box from '3box';
 
 import { CONFIG } from '../../../config';
 import {
@@ -43,32 +41,58 @@ export default async (playerId: string): Promise<UpdateBoxProfileResponse> => {
   });
 
   if (!ethAddress) {
-    throw new Error('unknown-player');
+    throw new Error(`Unknown Player: ${JSON.stringify(player, null, 2)}`);
   }
 
-  let basicProfile;
-  let alsoKnownAs;
+  const caip10 = await Caip10Link.fromAccount(
+    ceramic,
+    `${ethAddress.toLowerCase()}@eip155:1`,
+  );
+
   try {
-    const caip10 = await Caip10Link.fromAccount(
-      ceramic,
-      `${ethAddress.toLowerCase()}@eip155:1`,
-    );
+    let basicProfile;
 
     if (!caip10.did) {
-      console.error(`No CAIP-10 Link For ${ethAddress}`);
+      console.debug(`No CAIP-10 Link For ${ethAddress}`);
     } else {
-      console.info({ start: '¡here!', cer: CONFIG.ceramicURL });
-
       basicProfile = (await store.get(
         'basicProfile',
         caip10.did,
       )) as BasicProfile;
+    }
 
-      console.info({ basicProfile });
+    if (!basicProfile) {
+      basicProfile = await getLegacy3BoxProfileAsBasicProfile(ethAddress);
+    }
 
-      alsoKnownAs = (await store.get('alsoKnownAs', caip10.did)) as AlsoKnownAs;
+    if (!basicProfile) {
+      console.debug(`No Profile For: ${ethAddress}`);
+    } else {
+      const {
+        name,
+        description,
+        emoji,
+        gender,
+        url,
+        homeLocation: location,
+        residenceCountry: country,
+        image,
+        background,
+      } = basicProfile;
+      const values = {
+        playerId,
+        name,
+        description,
+        emoji,
+        imageURL: image?.original?.src,
+        backgroundImageURL: background?.original?.src,
+        gender,
+        location,
+        country,
+        website: url,
+      };
 
-      console.info({ alsoKnownAs });
+      await client.UpsertProfileCache({ objects: [values] });
     }
   } catch (err) {
     if (!(err as Error).message.includes('No DID')) {
@@ -76,73 +100,59 @@ export default async (playerId: string): Promise<UpdateBoxProfileResponse> => {
     }
   }
 
-  if (!basicProfile) {
-    basicProfile = await getLegacy3BoxProfileAsBasicProfile(ethAddress);
+  try {
+    if (caip10.did) {
+      const alsoKnownAs = ((await store.get('alsoKnownAs', caip10.did)) ??
+        {}) as AlsoKnownAs;
+      const { accounts = [] } = alsoKnownAs;
+
+      await Promise.all(
+        accounts?.map(async ({ host, id: username }: Account) => {
+          const service = host
+            ?.replace(/\.com$/, '')
+            .toUpperCase() as AccountType_Enum;
+          if (!service) {
+            console.error(
+              `No hostname for AlsoKnownAs: ${JSON.stringify(
+                alsoKnownAs,
+                null,
+                2,
+              )}`,
+            );
+          } else {
+            // If the account has been registered previously, this will
+            // destructively assign it to the current user removing any
+            // other users.
+            //
+            // ToDo: Examine the JWT to validate that it came from a
+            // trusted source. Specifically, either the IdentityLink
+            // service backing //self.id or one established by MetaGame
+            const {
+              insert_player_account: insert,
+            } = await client.UpsertAccount({
+              objects: [
+                {
+                  playerId,
+                  type: service,
+                  identifier: username,
+                },
+              ],
+            });
+            if (insert?.affected_rows === undefined) {
+              // eslint-disable-next-line no-console
+              console.warn(
+                `Unable to insert ${service} user ${username} for playerId ${playerId}.`,
+              );
+            } else if (insert.affected_rows > 0) {
+              updatedProfiles.push(service);
+            }
+          }
+        }),
+      );
+    }
+  } catch (err) {
+    console.error(`Error: ${(err as Error).message}`);
   }
-
-  console.info({ profile: JSON.stringify(basicProfile ?? null, null, 2) });
-
-  if (!basicProfile) {
-    console.info(`No Profile For: ${ethAddress}`);
-    basicProfile = {}; // create an empty placeholder row
-  }
-
-  const {
-    name,
-    description,
-    emoji,
-    gender,
-    url,
-    homeLocation: location,
-    residenceCountry: country,
-    image,
-    background,
-  } = basicProfile;
-  const values = {
-    playerId,
-    name,
-    description,
-    emoji,
-    imageURL: image?.original?.src,
-    backgroundImageURL: background?.original?.src,
-    gender,
-    location,
-    country,
-    website: url,
-  };
-
-  await client.UpsertProfileCache({ objects: [values] });
-
-  // There isn't yet an interface for linking accounts on self.id
-  const boxProfile = await Box.getProfile(ethAddress);
-  const verifiedAccounts = await Box.getVerifiedAccounts(boxProfile);
-
-  Promise.all(
-    ['GITHUB', 'TWITTER'].map(async (serviceName) => {
-      const service = serviceName as AccountType_Enum;
-      const key = service.toLowerCase() as 'github' | 'twitter';
-      if (verifiedAccounts[key]) {
-        const { username } = verifiedAccounts[key] as { username: string };
-        const { insert_player_account: insert } = await client.UpsertAccount({
-          objects: [
-            {
-              player_id: playerId,
-              type: service,
-              identifier: username,
-            },
-          ],
-        });
-        if ((insert?.affected_rows ?? 0) > 0) {
-          updatedProfiles.push(key);
-        } else if (insert?.affected_rows === undefined) {
-          // eslint-disable-next-line no-console
-          console.warn(
-            `Unable to insert ${service} user ${username} for playerId ${playerId}.`,
-          );
-        }
-      }
-    }),
-  );
 
   return {
     success: true,

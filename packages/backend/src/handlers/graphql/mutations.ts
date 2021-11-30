@@ -19,7 +19,7 @@ gql`
     $objects: [player_account_insert_input!]!
     $on_conflict: player_account_on_conflict = {
       constraint: Account_identifier_type_key
-      update_columns: []
+      update_columns: [playerId]
     }
   ) {
     insert_player_account(objects: $objects, on_conflict: $on_conflict) {
@@ -44,7 +44,7 @@ gql`
       ]
     }
   ) {
-    insert_profile_cache(on_conflict: $onConflict, objects: $objects) {
+    insert_profile_cache(objects: $objects, on_conflict: $onConflict) {
       affected_rows
     }
   }

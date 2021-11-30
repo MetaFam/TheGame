@@ -31,6 +31,7 @@ ARG GRAPHQL_DOMAIN=onrender.com
 
 ENV GRAPHQL_URL https://$GRAPHQL_HOST.$GRAPHQL_DOMAIN/v1/graphql
 ENV HASURA_GRAPHQL_ADMIN_SECRET metagame_secret
+ENV NEXT_CERAMIC_URL http://ceramic.metagame.wtf:7007
 
 # Build
 RUN yarn backend:build

@@ -5063,7 +5063,7 @@ type player_account {
   """
   Player: player!
   identifier: String!
-  player_id: uuid!
+  playerId: uuid!
   type: AccountType_enum!
 }
 
@@ -5110,7 +5110,7 @@ input player_account_bool_exp {
   _not: player_account_bool_exp
   _or: [player_account_bool_exp]
   identifier: String_comparison_exp
-  player_id: uuid_comparison_exp
+  playerId: uuid_comparison_exp
   type: AccountType_enum_comparison_exp
 }
 
@@ -5130,7 +5130,7 @@ input type for inserting data into table "player_account"
 input player_account_insert_input {
   Player: player_obj_rel_insert_input
   identifier: String
-  player_id: uuid
+  playerId: uuid
   type: AccountType_enum
 }
 
@@ -5139,7 +5139,7 @@ aggregate max on columns
 """
 type player_account_max_fields {
   identifier: String
-  player_id: uuid
+  playerId: uuid
 }
 
 """
@@ -5147,7 +5147,7 @@ order by max() on columns of table "player_account"
 """
 input player_account_max_order_by {
   identifier: order_by
-  player_id: order_by
+  playerId: order_by
 }
 
 """
@@ -5155,7 +5155,7 @@ aggregate min on columns
 """
 type player_account_min_fields {
   identifier: String
-  player_id: uuid
+  playerId: uuid
 }
 
 """
@@ -5163,7 +5163,7 @@ order by min() on columns of table "player_account"
 """
 input player_account_min_order_by {
   identifier: order_by
-  player_id: order_by
+  playerId: order_by
 }
 
 """
@@ -5204,7 +5204,7 @@ ordering options when selecting data from "player_account"
 input player_account_order_by {
   Player: player_order_by
   identifier: order_by
-  player_id: order_by
+  playerId: order_by
   type: order_by
 }
 
@@ -5233,7 +5233,7 @@ input type for updating data in table "player_account"
 """
 input player_account_set_input {
   identifier: String
-  player_id: uuid
+  playerId: uuid
   type: AccountType_enum
 }
 

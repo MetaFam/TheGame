@@ -474,6 +474,10 @@
 - table:
     schema: public
     name: player_account
+  configuration:
+    custom_root_fields: {}
+    custom_column_names:
+      player_id: playerId
   object_relationships:
   - name: Player
     using:
