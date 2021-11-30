@@ -368,7 +368,7 @@ const PlayerStats: React.FC<PlayerStatsProps> = ({ player }) => {
         borderRadius={50}
         minW="fit-content"
       >
-        <Image src={XPStar} alt="XP" height={20} width={20} mr={2} />
+        <Image src={XPStar} alt="XP" height={20} width={20} />
         <Text color="white" ml={[0, 0, 0, 2]}>
           {Math.trunc(player.totalXP * 100) / 100}
         </Text>
@@ -384,7 +384,7 @@ const PlayerStats: React.FC<PlayerStatsProps> = ({ player }) => {
         borderRadius={50}
         minW="fit-content"
       >
-        <Image src={SeedMarket} alt="Seed" height={14} width={14} />{' '}
+        <Image src={SeedMarket} alt="Seed" height={14} width={14} />
         <Text color="white" ml={[0, 0, 0, 2]}>
           {parseInt(amountToDecimal(pSeedBalance || '0', 18), 10)}
         </Text>
@@ -540,36 +540,39 @@ export const MegaMenu: React.FC = () => {
         style={{ marginTop: '0px' }}
       >
         {MenuSectionLinks.map((section) => (
-          <Stack pt="16px" key={section.label}>
-            <Text fontSize="16px" fontWeight="600" textTransform="capitalize">
+          <Stack pt={1} key={section.label}>
+            <Text fontSize={18} fontWeight={600} textTransform="capitalize">
               {section.label}
             </Text>
             <SimpleGrid columns={2}>
-              {section.menuItems.map((item: MenuLinkItem) => (
+              {section.menuItems.map(({ title, icon, url }) => (
                 <Link
-                  key={item.title}
+                  key={title}
                   display="flex"
                   alignItems="center"
                   fontSize="12px"
-                  href={item.url}
+                  href={url}
                   border="1px"
                   _odd={{ marginRight: '-1px' }}
                   marginBottom="-1px"
                   borderColor="purple.400"
-                  background="rgba(0, 0, 0, 0.35)"
-                  px={4}
-                  py={3}
+                  bg="rgba(0, 0, 0, 0.35)"
+                  px={2}
+                  py={1.5}
+                  _hover={{
+                    bg: 'rgba(255, 255, 255, 0.1)',
+                  }}
                 >
                   <Avatar
-                    name="alt text"
-                    src={menuIcons[item.icon]}
-                    p="2px"
-                    w="24px"
-                    h="24px"
-                    mr="8px"
+                    name={title}
+                    src={menuIcons[icon]}
+                    p={0}
+                    w={7}
+                    h={7}
+                    mr={1}
                     bg="linear-gradient(180deg, #170B23 0%, #350C58 100%)"
                   />
-                  {item.title}
+                  <Text fontSize={20}>{title}</Text>
                 </Link>
               ))}
             </SimpleGrid>

@@ -13,6 +13,7 @@ import {
   ModalFooter,
   SelectTimeZone,
   Text,
+  Tooltip,
   useToast,
 } from '@metafam/ds';
 import {
@@ -68,17 +69,17 @@ export const ProfileField: React.FC<ProfileFieldProps> = ({
         <>
           <Input
             background="dark"
-            placeholder={placeholder}
             color="white"
             value={innerValue}
             onChange={onChange}
             w="100%"
             my={4}
+            {...{ placeholder }}
           />
           &nbsp;
         </>
       ) : (
-        <>{children || innerValue}</>
+        children
       )}
     </Box>
   );
@@ -213,16 +214,16 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
       });
 
       if (error) {
-        let errorDetail = 'The octo is sad 😢';
+        let errorDetail = 'The octo is sad. 😢';
         if (error.message.includes('Uniqueness violation')) {
-          errorDetail = 'This username is already taken 😢';
+          errorDetail = 'It is already taken. 😢';
         } else if (error.message.includes('username_is_valid')) {
           errorDetail =
             'A username can only contain lowercase letters, numbers, and dashes.';
         }
         toast({
           title: 'Error',
-          description: `Unable to update Player Username. ${errorDetail}`,
+          description: `Unable to update username. ${errorDetail}`,
           status: 'error',
           isClosable: true,
         });
@@ -237,13 +238,15 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
     <Box>
       <Grid templateColumns="repeat(3, 1fr)">
         <GridItem>
-          <ProfileField
-            title="username"
-            value={username}
-            onChange={({ target: { value } }) => {
-              setUsername(value || '');
-            }}
-          />
+          <Tooltip label="Only lowercase letters, numbers, and dashes:">
+            <ProfileField
+              title="username"
+              value={username}
+              onChange={({ target: { value } }) => {
+                setUsername(value || '');
+              }}
+            />
+          </Tooltip>
         </GridItem>
 
         {/* <GridItem>

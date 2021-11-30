@@ -28,42 +28,40 @@ export const PlayerColorDisposition: React.FC<Props> = ({
   const [colorDisposition, setColorDisposition] = useState<
     0 | PersonalityOption | undefined
   >();
-  const mask = player?.color_aspect?.mask;
-  const type = mask && types?.[mask];
+  const mask = player?.profile?.colorMask;
 
   useEffect(() => {
-    const loadTypes = async () => {
+    const load = async () => {
       const { types: list } = await getPersonalityInfo();
       setTypes(list);
     };
-    loadTypes();
-  }, []);
 
-  const updateFN = () => setColorDisposition(type);
-  const { animation } = useAnimateProfileChanges(type, updateFN);
+    load();
+  }, [mask]);
+
+  const updateFN = () => setColorDisposition(colorDisposition);
+  const { animation } = useAnimateProfileChanges(colorDisposition, updateFN);
 
   return (
     <ProfileSection
       title="Color Disposition"
-      onRemoveClick={onRemoveClick}
-      isOwnProfile={isOwnProfile}
-      canEdit={canEdit}
-      boxType={BoxType.PLAYER_COLOR_DISPOSITION}
+      boxType={BoxType.PLAYER.COLOR_DISPOSITION}
+      {...{ onRemoveClick, isOwnProfile, canEdit }}
     >
-      {colorDisposition && types && (
+      {colorDisposition && (
         <FlexContainer
           align="stretch"
-          transition=" opacity 0.4s"
+          transition="opacity 0.4s"
           opacity={animation === 'fadeIn' ? 1 : 0}
         >
           <Link
             isExternal
-            href={`//dysbulic.github.io/5-color-radar/#/combos/${colorDisposition?.mask.toString(
-              2,
-            )}`}
-            maxH="6rem"
+            href={`//dysbulic.github.io/5-color-radar/#/combos/${colorDisposition?.mask
+              .toString(2)
+              .padStart(5, '0')}`}
+            maxH={125}
             fontSize={{ base: 'md', sm: 'lg' }}
-            fontWeight="600"
+            fontWeight={600}
           >
             <ColorBar mask={colorDisposition?.mask} />
           </Link>

@@ -15,15 +15,14 @@ import {
   Tooltip,
 } from '@metafam/ds';
 import { numbers } from '@metafam/utils';
+import SeedMarket from 'assets/seed-icon.svg';
+import XPStar from 'assets/xp-star.svg';
 import { MetaLink } from 'components/Link';
 import { LoginButton } from 'components/LoginButton';
+import { useUser, useWeb3 } from 'lib/hooks';
 import { usePSeedBalance } from 'lib/hooks/balances';
 import React from 'react';
 import { getPlayerImage, getPlayerName } from 'utils/playerHelpers';
-
-import SeedMarket from '../assets/seed-icon.svg';
-import XPStar from '../assets/xp-star.svg';
-import { useUser, useWeb3 } from '../lib/hooks';
 
 const { amountToDecimal } = numbers;
 
@@ -97,7 +96,7 @@ const PlayerStats = () => {
             </Menu>
             <Stack my={2} ml={2} justify="center">
               <Text
-                fontSize={user.player.rank ? 14 : 18}
+                fontSize={user.player.rank ? 14 : 22}
                 fontWeight="semibold"
                 m={0}
                 p={0}
@@ -127,34 +126,46 @@ const PlayerStats = () => {
                 minW="fit-content"
                 py={2}
                 px={4}
+                mb={2}
                 bg="rgba(0,0,0,0.25)"
                 border="1px solid #2B2244"
                 borderRadius={50}
-                borderRight="1px solid #2B2244"
-                borderLeft="1px solid #2B2244"
-                mb={2}
               >
-                <Image src={XPStar} alt="XP" h={7} w={7} mr={3} />
+                <Image
+                  src={XPStar}
+                  alignSelf="center"
+                  alt="XP"
+                  h={7}
+                  w={7}
+                  mr={3}
+                />
                 <Text color="#FFF" lineHeight={2} fontSize={20}>
-                  {Math.trunc(user.player.totalXP * 100) / 100}
+                  {Math.trunc(user.player.totalXP)}
                 </Text>
               </Badge>
             </Tooltip>
             <Tooltip label="pSEEDs" hasArrow>
               <Badge
                 display="flex"
-                minH="100%"
+                minH="fill"
                 minW="fit-content"
                 py={2}
                 px={4}
+                mx={2}
+                mb={2}
                 bg="rgba(0,0,0,0.25)"
                 border="1px solid #2B2244"
                 borderRadius={50}
-                ml={2}
-                mb={2}
-                align="center"
+                alignSelf="center"
               >
-                <Image src={SeedMarket} alt="Seed" h={7} w={6} mr={3} />
+                <Image
+                  src={SeedMarket}
+                  alignSelf="center"
+                  alt="Seed"
+                  h={7}
+                  w={6}
+                  mr={3}
+                />
                 <Text color="#FFF" lineHeight={2} fontSize={20}>
                   {parseInt(amountToDecimal(pSeedBalance || '0', 18), 10)}
                 </Text>

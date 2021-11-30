@@ -41,7 +41,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
 
   return (
     <Box minW="72" pos="relative" w="100%" h="100%">
-      {title ? (
+      {title && (
         <Box bg="purpleProfileSection" borderTopRadius="lg" pt={5} pb={5}>
           <HStack height={5} pr={4} pl={8}>
             <Text
@@ -53,10 +53,12 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
             >
               {title.toUpperCase()}
             </Text>
-            {isOwnProfile &&
-            !canEdit &&
-            boxType &&
-            isBoxDataEditable(boxType) ? (
+            {(
+              isOwnProfile &&
+              !canEdit &&
+              boxType &&
+              isBoxDataEditable(boxType)
+            ) && (
               <IconButton
                 aria-label="Edit Profile Info"
                 size="lg"
@@ -75,10 +77,10 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
                 }}
                 isRound
               />
-            ) : null}
+            )}
           </HStack>
         </Box>
-      ) : null}
+      )}
       <Box
         bg="blueProfileSection"
         borderBottomRadius="lg"
@@ -127,7 +129,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
         />
       ) : null}
       {boxType && (
-        <Modal isOpen={isOpen} onClose={onClose}>
+        <Modal {...{ isOpen, onClose }}>
           <ModalOverlay />
           <ModalContent
             maxW="80%"
@@ -148,11 +150,11 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
               color="pinkShadeOne"
               size="xl"
               p={4}
-              _focus={{
-                boxShadow: 'none',
-              }}
+              _focus={{ boxShadow: 'none' }}
             />
-            <ModalBody>{getEditSectionBox(boxType, onClose)}</ModalBody>
+            <ModalBody>
+              <EditSectionBox {...{ boxType, onClose }} />
+            </ModalBody>
           </ModalContent>
         </Modal>
       )}
@@ -160,25 +162,32 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
   );
 };
 
-const isBoxDataEditable = (boxType: BoxType) =>
+const isBoxDataEditable = (boxType: BoxType) => (
   [
     BoxType.PLAYER_TYPE,
     BoxType.PLAYER_COLOR_DISPOSITION,
     BoxType.PLAYER_SKILLS,
-  ].includes(boxType);
+  ].includes(boxType)
+);
 
-const getEditSectionBox = (
-  boxType: string,
-  onClose: () => void,
-): React.ReactNode => {
+const EditSectionBox = ({
+  boxType,
+  onClose,
+}: {
+  boxType: string;
+  onClose: () => void;
+}) => {
   switch (boxType) {
-    case BoxType.PLAYER_TYPE:
-      return <SetupPlayerType isEdit onClose={onClose} />;
-    case BoxType.PLAYER_COLOR_DISPOSITION:
-      return <SetupPersonalityType isEdit onClose={onClose} />;
-    case BoxType.PLAYER_SKILLS:
-      return <SetupSkills isEdit onClose={onClose} />;
+    case BOX_TYPE.PLAYER.TYPE: {
+      return <SetupPlayerType isEdit {...{ onClose }} />;
+    }
+    case BOX_TYPE.PLAYER.COLOR_DISPOSITION: {
+      return <SetupPersonalityType isEdit {...{ onClose }} />;
+    }
+    case BOX_TYPE.PLAYER.SKILLS: {
+      return <SetupSkills isEdit {...{ onClose }} />;
+    }
     default:
-      return <></>;
   }
+  return <></>;
 };

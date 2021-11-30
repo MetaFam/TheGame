@@ -17,10 +17,7 @@ import { PlayerAvatar } from 'components/Player/PlayerAvatar';
 import { PlayerContacts } from 'components/Player/PlayerContacts';
 import { PlayerTileMemberships } from 'components/Player/PlayerTileMemberships';
 import { SkillsTags } from 'components/Skills';
-import {
-  PlayerFragmentFragment,
-  /* Player_Update_Column, */ Skill,
-} from 'graphql/autogen/types';
+import { PlayerFragmentFragment, Skill } from 'graphql/autogen/types';
 import NextLink from 'next/link';
 import React, { useMemo } from 'react';
 import { FaGlobe } from 'react-icons/fa';
@@ -42,12 +39,13 @@ export const PlayerTile: React.FC<Props> = ({
   player,
   showSeasonalXP = false,
 }) => {
-  const tzDisplay = useMemo(() => getPlayerTimeZoneDisplay(player.timezone), [
-    player.timezone,
-  ]);
+  const { timeZone, offset } = useMemo(
+    () => getPlayerTimeZoneDisplay(player.timezone),
+    [player.timezone],
+  );
   const description = getPlayerDescription(player);
   const displayDescription =
-    description && description.length > MAX_BIO_LENGTH
+    description?.length > MAX_BIO_LENGTH
       ? `${description.substring(0, MAX_BIO_LENGTH - 9)}…`
       : description;
   return (
@@ -71,7 +69,7 @@ export const PlayerTile: React.FC<Props> = ({
           <LinkOverlay>
             <MetaTileHeader>
               <VStack>
-                <PlayerAvatar player={player} size="xl" />
+                <PlayerAvatar {...{ player }} size="xl" />
                 <Heading size="xs" color="white">
                   {getPlayerName(player)}
                 </Heading>
@@ -104,51 +102,55 @@ export const PlayerTile: React.FC<Props> = ({
                 {showSeasonalXP && (
                   <WrapItem>
                     <MetaTag size="md">
-                      SEASONAL XP: {Math.floor(player.seasonXP)}
+                      SEASON Ⅳ XP: {Math.floor(player.seasonXP)}
                     </MetaTag>
                   </WrapItem>
                 )}
               </Wrap>
-              {tzDisplay?.timeZone ? (
+              {timeZone && (
                 <HStack alignItems="baseline" w="auto" justify="center">
                   <FaGlobe color="blueLight" fontSize="0.875rem" />
-                  <Text fontSize="lg">{tzDisplay?.timeZone || '-'}</Text>
-                  {tzDisplay?.offset ? (
-                    <Text fontSize="sm">{tzDisplay?.offset}</Text>
-                  ) : (
-                    ''
-                  )}
+                  <Text fontSize="lg">{timeZone}</Text>
+                  {offset && <Text fontSize="sm">{offset}</Text>}
                 </HStack>
-              ) : null}
-              {displayDescription ? (
+              )}
+              {displayDescription && (
                 <VStack spacing={2} align="stretch" pt="0.5rem">
-                  <Text textStyle="caption">ABOUT</Text>
+                  <Text textStyle="caption" textTransform="uppercase">
+                    About
+                  </Text>
                   <Text fontSize="sm">{displayDescription}</Text>
                 </VStack>
-              ) : null}
+              )}
             </MetaTileHeader>
           </LinkOverlay>
         </NextLink>
         <MetaTileBody>
           {player.skills?.length ? (
             <VStack spacing={2} align="stretch">
-              <Text textStyle="caption">SKILLS</Text>
+              <Text textStyle="caption" textTransform="uppercase">
+                Skills
+              </Text>
               <SkillsTags
-                skills={player.skills.map((s) => s.Skill) as Skill[]}
+                skills={
+                  player.skills.map(({ Skill: skill }) => skill) as Skill[]
+                }
               />
             </VStack>
           ) : null}
 
-          <PlayerTileMemberships player={player} />
+          <PlayerTileMemberships {...{ player }} />
 
-          {player.accounts?.length ? (
+          {player.accounts?.length && (
             <VStack spacing={2} align="stretch">
-              <Text textStyle="caption">CONTACT</Text>
+              <Text textStyle="caption" textTransform="uppercase">
+                Contact
+              </Text>
               <HStack mt={2}>
-                <PlayerContacts player={player} disableBrightId />
+                <PlayerContacts {...{ player }} disableBrightId />
               </HStack>
             </VStack>
-          ) : null}
+          )}
         </MetaTileBody>
       </MetaTile>
     </LinkBox>

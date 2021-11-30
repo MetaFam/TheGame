@@ -37,8 +37,7 @@ export const PlayerAddSection: React.FC<Props> = ({
   const [boxType, setBoxType] = useState<BoxType | undefined>();
   const [boxMetadata, setBoxMetadata] = useState<BoxMetadata>({});
   const selectBoxType = useCallback(
-    (e: React.ChangeEvent<HTMLSelectElement>) => {
-      const boxId = e.target.value as BoxType;
+    ({ target: { value: boxId } }) => {
       setBoxType(boxId);
     },
     [],

@@ -70,9 +70,7 @@ export const PlayerHero: React.FC<Props> = ({
       {isOwnProfile && !canEdit && (
         <Box pos="absolute" right={5} top={5}>
           <IconButton
-            _focus={{
-              boxShadow: 'none',
-            }}
+            _focus={{ boxShadow: 'none' }}
             variant="outline"
             borderWidth={2}
             aria-label="Edit Profile Info"
@@ -113,27 +111,29 @@ export const PlayerHero: React.FC<Props> = ({
           </Text>
           <PlayerBrightId {...{ player }} />
         </Box>
-        <Box>
+        <Box w="100%">
           {description && (
-            <PlayerHeroTile title="Bio">
-              <Text fontSize={{ base: 'sm', sm: 'md' }} textAlign="justify">
-                {show
-                  ? description
-                  : `${description.substring(0, MAX_BIO_LENGTH - 9)}…`}
-                {description.length > MAX_BIO_LENGTH && (
-                  <Text
-                    as="span"
-                    fontSize="xs"
-                    color="cyanText"
-                    cursor="pointer"
-                    onClick={() => setShow((s) => !s)}
-                    pl={1}
-                  >
-                    Read {show ? 'less' : 'more'}
-                  </Text>
-                )}
-              </Text>
-            </PlayerHeroTile>
+            <Box align="flexStart" w="100%">
+              <PlayerHeroTile title="Bio">
+                <Text fontSize={{ base: 'sm', sm: 'md' }} textAlign="justify">
+                  {show
+                    ? description
+                    : `${description.substring(0, MAX_BIO_LENGTH - 9)}…`}
+                  {description.length > MAX_BIO_LENGTH && (
+                    <Text
+                      as="span"
+                      fontSize="xs"
+                      color="cyanText"
+                      cursor="pointer"
+                      onClick={() => setShow((s) => !s)}
+                      pl={1}
+                    >
+                      Read {show ? 'less' : 'more'}
+                    </Text>
+                  )}
+                </Text>
+              </PlayerHeroTile>
+            </Box>
           )}
         </Box>
 
@@ -141,8 +141,12 @@ export const PlayerHero: React.FC<Props> = ({
           <PlayerContacts {...{ player }} />
         </HStack>
 
-        <PlayerPronouns {...{ person }} />
 
+        {person?.profile?.pronouns && (
+          <PlayerHeroTile title="Personal Pronouns">
+            <PlayerPronouns {...{ person }} />
+          </PlayerHeroTile>
+        )}
         {/* <SimpleGrid columns={2} gap={6} width="full">
           <PlayerHeroTile title="Display name">
             <Text>Vid</Text>
@@ -181,7 +185,9 @@ export const PlayerHero: React.FC<Props> = ({
 
         {player?.profile?.emoji && (
           <PlayerHeroTile title="Favorite Emoji">
-            <Text ml={10}>{player.profile.emoji}</Text>
+            <Text ml={10} mt={0} fontSize={45} lineHeight={0.75}>
+              {player.profile.emoji}
+            </Text>
           </PlayerHeroTile>
         )}
       </VStack>
@@ -237,9 +243,20 @@ const Availability: React.FC<AvailabilityProps> = ({ person }) => {
         transition=" opacity 0.4s"
         opacity={animation === 'fadeIn' ? 1 : 0}
       >
-        <Text fontSize={{ base: 'md', sm: 'lg' }} pr={2}>
-          {hours == null ? <Text as="em">Unspecified</Text> : `${hours} hr ⁄ week`}
-        </Text>
+    <Text fontSize={{ base: 'md', sm: 'lg' }} pr={2}>
+      {hours == null ? (
+        <Text as="em">Unspecified</Text>
+      ) : (
+        <>
+          <Text as="span" mr={0.5}>
+            {hours}
+          </Text>
+          <Text as="span" title="hours per week">
+            <Text as="sup">h</Text>⁄<Text as="sub">week</Text>
+          </Text>
+        </>
+      )}
+    </Text>
       </FlexContainer>
     </Flex>
   );
@@ -253,6 +270,7 @@ const TimeZoneDisplay: React.FC<TimeZoneDisplayProps> = ({ person }) => {
     if (timeDisplay.timeZone) setTimeZone(timeDisplay.timeZone);
     if (timeDisplay.offset) setOffset(timeDisplay.offset);
   };
+  const short = offset?.replace(/:00\)$/, ')').replace(/ +/g, '');
 
   const { animation } = useAnimateProfileChanges(
     timeDisplay.timeZone,
@@ -268,13 +286,22 @@ const TimeZoneDisplay: React.FC<TimeZoneDisplayProps> = ({ person }) => {
         transition=" opacity 0.4s"
         opacity={animation === 'fadeIn' ? 1 : 0}
       >
-        <Text fontSize={{ base: 'md', sm: 'lg' }} pr={1}>
-          {timeZone || '-'}
-        </Text>
-        {offset ? (
-          <Text fontSize={{ base: 'sm', sm: 'md' }}>{offset}</Text>
+        {timeZone == null ? (
+          <Text fontStyle="italic">Unspecified.</Text>
         ) : (
-          ''
+          <>
+            <Box pr={1}>
+              <FaGlobe color="blueLight" />
+            </Box>
+            <Text fontSize={{ base: 'md', sm: 'lg' }} pr={1}>
+              {timeZone || '−'}
+            </Text>
+            {short && (
+              <Text fontSize={{ base: 'sm', sm: 'md' }} whiteSpace="pre">
+                {short}
+              </Text>
+            )}
+          </>
         )}
       </FlexContainer>
     </Flex>
