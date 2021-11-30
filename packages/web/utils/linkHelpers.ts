@@ -8,7 +8,7 @@ export const httpLink = (uri: string | undefined | null) => {
   if (cid) {
     const v1CID = new CID(cid).toV1().toString('base32');
     const pattern = CONFIG.ipfsLinkPattern;
-    return pattern.replace(/\${cid}/g, v1CID).replace(/\${path}/g, path ?? '');
+    return pattern.replace(/{cid}/g, v1CID).replace(/{path}/g, path ?? '');
   }
 
   return uri;
