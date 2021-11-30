@@ -83,21 +83,21 @@ export const sortOptionsMap = {
     value: SortOption.SEASON_XP,
     label: 'Seasonal XP',
     output: {
-      season_xp: 'desc',
+      seasonXP: 'desc',
     },
   },
   [SortOption.TOTAL_XP.toString()]: {
     value: SortOption.TOTAL_XP,
     label: 'Total XP',
     output: {
-      total_xp: 'desc',
+      totalXP: 'desc',
     },
   },
   [SortOption.AVAILABILITY.toString()]: {
     value: SortOption.AVAILABILITY,
     label: 'Availability',
     output: {
-      availability_hours: 'desc',
+      availableHours: 'desc',
     },
   },
   [SortOption.USERNAME_A_TO_Z.toString()]: {
