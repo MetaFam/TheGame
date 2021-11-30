@@ -2,7 +2,6 @@ import { EthereumAuthProvider, ThreeIdConnect } from '@3id/connect';
 import ThreeIdResolver from '@ceramicnetwork/3id-did-resolver';
 import type { CeramicApi } from '@ceramicnetwork/common';
 import Ceramic from '@ceramicnetwork/http-client';
-import { IDX } from '@ceramicstudio/idx';
 import { did } from '@metafam/utils';
 import WalletConnectProvider from '@walletconnect/web3-provider';
 import { DID } from 'dids';
@@ -28,7 +27,6 @@ import { CONFIG } from '../config';
 export type Web3ContextType = {
   provider: providers.Web3Provider | null;
   ceramic: CeramicApi | null;
-  idx: IDX | null;
   connect: () => Promise<void>;
   disconnect: () => void;
   connecting: boolean;
@@ -40,7 +38,6 @@ export type Web3ContextType = {
 export const Web3Context = createContext<Web3ContextType>({
   provider: null,
   ceramic: null,
-  idx: null,
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   connect: async () => {},
   disconnect: () => undefined,
@@ -122,7 +119,6 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
       });
     }
   }, [address, ceramic]);
-  const idx = new IDX({ ceramic });
 
   const disconnect = useCallback(() => {
     if (web3Modal === false) return;
@@ -183,7 +179,6 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
       value={{
         provider,
         ceramic,
-        idx,
         connect,
         disconnect,
         connected,
