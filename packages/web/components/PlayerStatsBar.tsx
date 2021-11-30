@@ -12,6 +12,7 @@ import {
   Profile,
   Stack,
   Text,
+  Tooltip,
 } from '@metafam/ds';
 import { numbers } from '@metafam/utils';
 import { MetaLink } from 'components/Link';
@@ -51,7 +52,7 @@ const PlayerStats = () => {
     >
       {connected && !!user?.player ? (
         <>
-          <Flex py="10px" px={2}>
+          <Flex py={1} px={2}>
             <Menu strategy="fixed" offset={[-7, 9]}>
               <MenuButton
                 bg="transparent"
@@ -63,14 +64,15 @@ const PlayerStats = () => {
                 <Avatar
                   name={getPlayerName(user.player)}
                   src={getPlayerImage(user.player)}
-                  w="52px"
-                  h="52px"
+                  w={12}
+                  h={12}
+                  m={0}
                 />
               </MenuButton>
               <MenuList color="black">
                 <MetaLink
                   color="black"
-                  href={`/player/${getPlayerName(user.player)}`}
+                  href={`/player/${user.player.username}`}
                   _hover={{ textDecoration: 'none' }}
                 >
                   <MenuItem>
@@ -93,9 +95,9 @@ const PlayerStats = () => {
                 </MenuItem>
               </MenuList>
             </Menu>
-            <Stack my={2} ml={2}>
+            <Stack my={2} ml={2} justify="center">
               <Text
-                fontSize={14}
+                fontSize={user.player.rank ? 14 : 18}
                 fontWeight="semibold"
                 m={0}
                 p={0}
@@ -103,47 +105,61 @@ const PlayerStats = () => {
               >
                 {getPlayerName(user.player)}
               </Text>
-              <Text fontSize={12} m={0} p={0} lineHeight={1}>
-                {user.player.rank || ''}
-              </Text>
+              {user.player.rank && (
+                <Text fontSize={12} m={0} p={0} lineHeight={1}>
+                  {user.player.rank}
+                </Text>
+              )}
             </Stack>
           </Flex>
-          <Flex mr={2} mt={2} justifyContent="flex-end">
-            <Badge
-              display="flex"
-              minH="fill"
-              minW="fit-content"
-              py={2}
-              px={4}
-              bg="rgba(0,0,0,0.25)"
-              border="1px solid #2B2244"
-              borderRadius={50}
-              borderRight="1px solid #2B2244"
-              borderLeft="1px solid #2B2244"
-              mb={2}
-            >
-              <Image src={XPStar} alt="XP" h="14px" w="14px" mr={3} />
-              <Text color="#ffffff" ml={2}>
-                {Math.trunc(user.player.totalXP * 100) / 100}
-              </Text>
-            </Badge>
-            <Badge
-              display="flex"
-              minH="100%"
-              minW="fit-content"
-              py={2}
-              px={4}
-              bg="rgba(0,0,0,0.25)"
-              border="1px solid #2B2244"
-              borderRadius={50}
-              ml={2}
-              mb={2}
-            >
-              <Image src={SeedMarket} alt="Seed" h="14px" w="14px" mr={3} />
-              <Text color="#ffffff" ml={2}>
-                {parseInt(amountToDecimal(pSeedBalance || '0', 18), 10)}
-              </Text>
-            </Badge>
+          <Flex
+            mr={2}
+            mt={2}
+            flexWrap="wrap"
+            height="100%"
+            alignSelf="baseline"
+            justifyContent="flex-end"
+          >
+            <Tooltip label="Total XP" hasArrow>
+              <Badge
+                display="flex"
+                minH="fill"
+                minW="fit-content"
+                py={2}
+                px={4}
+                bg="rgba(0,0,0,0.25)"
+                border="1px solid #2B2244"
+                borderRadius={50}
+                borderRight="1px solid #2B2244"
+                borderLeft="1px solid #2B2244"
+                mb={2}
+              >
+                <Image src={XPStar} alt="XP" h={7} w={7} mr={3} />
+                <Text color="#FFF" lineHeight={2} fontSize={20}>
+                  {Math.trunc(user.player.totalXP * 100) / 100}
+                </Text>
+              </Badge>
+            </Tooltip>
+            <Tooltip label="pSEEDs" hasArrow>
+              <Badge
+                display="flex"
+                minH="100%"
+                minW="fit-content"
+                py={2}
+                px={4}
+                bg="rgba(0,0,0,0.25)"
+                border="1px solid #2B2244"
+                borderRadius={50}
+                ml={2}
+                mb={2}
+                align="center"
+              >
+                <Image src={SeedMarket} alt="Seed" h={7} w={6} mr={3} />
+                <Text color="#FFF" lineHeight={2} fontSize={20}>
+                  {parseInt(amountToDecimal(pSeedBalance || '0', 18), 10)}
+                </Text>
+              </Badge>
+            </Tooltip>
           </Flex>
         </>
       ) : (

@@ -22,6 +22,7 @@ import {
   Spinner,
   Stack,
   Text,
+  useBreakpointValue,
   useDisclosure,
 } from '@metafam/ds';
 import { numbers } from '@metafam/utils';
@@ -50,23 +51,17 @@ import TheGreatHouses from 'assets/menuIcon/thegreathouses.svg';
 import WelcomeToMetagame from 'assets/menuIcon/welcometometagame.svg';
 import XPEarned from 'assets/menuIcon/xpearned.svg';
 import Youtube from 'assets/menuIcon/youtube.svg';
+import SeedMarket from 'assets/seed-icon.svg';
+import XPStar from 'assets/xp-star.svg';
 import { MetaLink } from 'components/Link';
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
+import { useUser, useWeb3 } from 'lib/hooks';
 import { usePSeedBalance } from 'lib/hooks/balances';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
+import { MenuLinkItem, MenuLinkSet, MenuSectionLinks } from 'utils/menuLinks';
 import { getPlayerImage, getPlayerName } from 'utils/playerHelpers';
-
-// import SearchIcon from '../assets/search-icon.svg';
-import SeedMarket from '../assets/seed-icon.svg';
-import XPStar from '../assets/xp-star.svg';
-import { useUser, useWeb3 } from '../lib/hooks';
-import {
-  MenuLinkItem,
-  MenuLinkSet,
-  MenuSectionLinks,
-} from '../utils/menuLinks';
 
 const { amountToDecimal } = numbers;
 
@@ -102,24 +97,29 @@ type LogoProps = {
   link: string;
 };
 // Navbar logo
-const Logo = ({ link }: LogoProps) => (
-  <Box
-    className="logo"
-    w={{ base: 'fit-content', lg: '209px' }}
-    mt="5px"
-    ml="16px"
-    textAlign={{ base: 'center', lg: 'left' }}
-  >
-    <MetaLink
-      href={link}
-      _focus={{ outline: 'none', bg: 'transparent' }}
-      _hover={{ bg: 'transparent' }}
-      _active={{ bg: 'transparent' }}
+const Logo = ({ link }: LogoProps) => {
+  const width = useBreakpointValue({ base: 36, lg: 55 }) ?? (36 as number);
+  const height = useBreakpointValue({ base: 45, lg: 75 }) ?? (45 as number);
+
+  return (
+    <Box
+      className="logo"
+      w={{ base: 'fit-content', lg: '209px' }}
+      mt="5px"
+      ml="16px"
+      textAlign={{ base: 'center', lg: 'left' }}
     >
-      <Image src="/assets/logo.png" height={44} width={36} />
-    </MetaLink>
-  </Box>
-);
+      <MetaLink
+        href={link}
+        _focus={{ outline: 'none', bg: 'transparent' }}
+        _hover={{ bg: 'transparent' }}
+        _active={{ bg: 'transparent' }}
+      >
+        <Image src="/assets/logo.png" {...{ height, width }} />
+      </MetaLink>
+    </Box>
+  );
+};
 
 type MenuItemProps = {
   title: string;
@@ -135,7 +135,7 @@ const DesktopMenuItem = ({
   icon,
 }: MenuItemProps) => (
   <MenuItem
-    color="#ffffff"
+    color="#FFF"
     key={title}
     p="0"
     _active={{ bg: 'none' }}
@@ -189,11 +189,11 @@ const DesktopMenuItem = ({
 );
 
 const useWindowSize = () => {
-  const [windowSize, setWindowSize] = React.useState({
+  const [windowSize, setWindowSize] = useState({
     width: 0,
     height: 0,
   });
-  React.useEffect(() => {
+  useEffect(() => {
     if (typeof window !== 'undefined') {
       const handleResize = () => {
         setWindowSize({
@@ -212,6 +212,7 @@ const useWindowSize = () => {
   }, []);
   return windowSize;
 };
+
 // Nav links on desktop -- text and links from utils/menuLinks.ts
 const DesktopNavLinks = () => {
   const size = useWindowSize();
@@ -239,18 +240,18 @@ const DesktopNavLinks = () => {
                 minW="fit-content"
                 color="#ffffff"
                 fontSize={['md', 'md', 'md', 'lg']}
-                fontWeight="600"
+                fontWeight={600}
                 textTransform="uppercase"
                 ml={23}
                 mr={23}
-                _expanded={{ color: '#fff' }}
+                _expanded={{ color: '#FFF' }}
                 _focus={{ outline: 'none', border: 'none' }}
               >
                 {section.label}
                 {isOpen ? (
-                  <ChevronUpIcon color="#ffffff" />
+                  <ChevronUpIcon color="#FFF" />
                 ) : (
-                  <ChevronDownIcon color="#ffffff" />
+                  <ChevronDownIcon color="#FFF" />
                 )}
                 <Icon
                   position="absolute"
@@ -367,7 +368,7 @@ const PlayerStats: React.FC<PlayerStatsProps> = ({ player }) => {
         borderRadius={50}
         minW="fit-content"
       >
-        <Image src={XPStar} alt="XP" height={14} width={14} />{' '}
+        <Image src={XPStar} alt="XP" height={20} width={20} mr={2} />
         <Text color="white" ml={[0, 0, 0, 2]}>
           {Math.trunc(player.totalXP * 100) / 100}
         </Text>
