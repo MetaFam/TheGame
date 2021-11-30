@@ -47,8 +47,14 @@ export const gridConfig = {
       overflow: 'hidden',
       transition: 'boxShadow 0.2s 0.3s ease',
       p: {
-        fontSize: 'sm',
+        fontSize: 'md',
+        pb: 2,
         mr: 'auto',
+      },
+      ul: {
+        fontSize: 'sm',
+        pb: 2,
+        pl: 6,
       },
       '& > div': {
         bg: editable ? 'blackAlpha.500' : 'blackAlpha.300',
