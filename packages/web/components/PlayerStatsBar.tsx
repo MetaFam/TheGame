@@ -36,18 +36,18 @@ const PlayerStats = () => {
       align="center"
       display={{ base: 'flex', lg: 'none' }}
       justifyContent={connected ? 'space-between' : 'center'}
-      flex="1"
+      flex={1}
       minW="100vw"
       height="72px"
       bg="rgba(0,0,0,0.75)"
       borderColor="#2B2244"
       sx={{ backdropFilter: 'blur(10px)' }}
       position="fixed"
-      bottom="0"
-      zIndex="200"
+      bottom={0}
+      zIndex={200}
       boxSizing="border-box"
       my="auto"
-      mr="0"
+      mr={0}
     >
       {connected && !!user?.player ? (
         <>
@@ -124,7 +124,7 @@ const PlayerStats = () => {
             >
               <Image src={XPStar} alt="XP" h="14px" w="14px" mr={3} />
               <Text color="#ffffff" ml={2}>
-                {Math.trunc(user.player.total_xp * 100) / 100}
+                {Math.trunc(user.player.totalXP * 100) / 100}
               </Text>
             </Badge>
             <Badge

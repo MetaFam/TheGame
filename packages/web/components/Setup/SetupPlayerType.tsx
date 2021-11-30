@@ -62,7 +62,7 @@ export const SetupPlayerType: React.FC<Props> = ({ isEdit, onClose }) => {
       const { error } = await updateAboutYou({
         playerId: user.id,
         input: {
-          player_type_id: playerType?.id,
+          playerTypeId: playerType?.id,
         },
       });
 

@@ -77,16 +77,14 @@ export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
     if (user.player?.color_aspect?.mask !== colorMask) {
       const { error } = await updateAboutYou({
         playerId: user.id,
-        input: {
-          color_mask: colorMask,
-        },
+        input: { colorMask },
       });
 
       if (error) {
         console.warn(error); // eslint-disable-line no-console
         toast({
           title: 'Error',
-          description: 'Unable to update personality type. The octo is sad. 😢',
+          description: `Unable to update personality type. Error: ${error}`,
           status: 'error',
           isClosable: true,
         });

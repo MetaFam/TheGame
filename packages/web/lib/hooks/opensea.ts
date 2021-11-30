@@ -34,7 +34,7 @@ export const useOpenSeaCollectibles = ({
   const [favorites, setFavorites] = useState<Array<Collectible>>([]);
   const [data, setData] = useState<Array<Collectible>>([]);
   const [loading, setLoading] = useState<boolean>(false);
-  const owner = player.ethereum_address;
+  const owner = player.ethereumAddress;
 
   useEffect(() => {
     async function load() {

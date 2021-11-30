@@ -14,7 +14,7 @@ import { Membership } from 'graphql/types';
 import React, { useState } from 'react';
 
 import { useWeb3 } from '../../lib/hooks';
-import { getDaoLink, getImageMoloch, LinkGuild } from '../Player/PlayerGuild';
+import { getDaoLink, getMolochImage, LinkGuild } from '../Player/PlayerGuild';
 
 export type SetupMembershipsProps = {
   memberships: Array<Membership> | null | undefined;
@@ -35,16 +35,11 @@ export const SetupMemberships: React.FC<SetupMembershipsProps> = ({
       <MetaHeading mb={5} textAlign="center">
         Memberships
       </MetaHeading>
-      {!memberships &&
-        (connected ? (
-          <Text mb={10} maxW="50rem">
-            Loading…
-          </Text>
-        ) : (
-          <Text mb={10} maxW="50rem">
-            Account Not Connected
-          </Text>
-        ))}
+      {!memberships && (
+        <Text mb={10} maxW="50rem">
+          {connected ? 'Loading…' : 'Account Not Connected'}
+        </Text>
+      )}
       {memberships &&
         (memberships.length > 0 ? (
           <>
@@ -83,14 +78,11 @@ type MembershipListingProps = {
 };
 
 const MembershipListing: React.FC<MembershipListingProps> = ({ member }) => {
-  const guildLogo = getImageMoloch(member.moloch.title || member.moloch.chain);
+  const guildLogo = getMolochImage(member.moloch.title || member.moloch.chain);
   const daoUrl = getDaoLink(member.moloch.chain, member.moloch.id);
 
   return (
-    <LinkGuild
-      daoUrl={daoUrl}
-      guildname={member.moloch.title as string | undefined}
-    >
+    <LinkGuild daoUrl={daoUrl} guildname={member.moloch.title}>
       <HStack alignItems="center" mb={4}>
         <Flex bg="purpleBoxLight" width={16} height={16} mr={6}>
           <Box
@@ -108,7 +100,7 @@ const MembershipListing: React.FC<MembershipListingProps> = ({ member }) => {
             textTransform="uppercase"
             fontSize="xs"
             color={daoUrl ? 'cyanText' : 'white'}
-            mb="1"
+            mb={1}
           >
             {member.moloch.title || `Unknown ${member.moloch.chain} DAO`}
           </Heading>

@@ -71,8 +71,8 @@ export const PatronTile: React.FC<Props> = ({ index, patron }) => {
           bgSize="cover"
           bgPosition="center"
           position="absolute"
-          top="0"
-          left="0"
+          top={0}
+          left={0}
           w="100%"
           h="4.5rem"
         />
@@ -90,7 +90,7 @@ export const PatronTile: React.FC<Props> = ({ index, patron }) => {
                 </Heading>
               </VStack>
               <Wrap w="100%" justify="center">
-                {patron.pSeedBalance ? (
+                {patron.pSeedBalance != null && (
                   <WrapItem>
                     <MetaTag size="md">
                       {`pSEED: ${Math.floor(
@@ -98,8 +98,8 @@ export const PatronTile: React.FC<Props> = ({ index, patron }) => {
                       )}`}
                     </MetaTag>
                   </WrapItem>
-                ) : null}
-                {patronRank ? (
+                )}
+                {patronRank && (
                   <WrapItem>
                     <MetaTag
                       backgroundColor={patronRank?.toLowerCase()}
@@ -109,53 +109,51 @@ export const PatronTile: React.FC<Props> = ({ index, patron }) => {
                       {patronRank}
                     </MetaTag>
                   </WrapItem>
-                ) : null}
+                )}
                 <WrapItem>
                   <MetaTag size="md">{`XP: ${Math.floor(
-                    player.total_xp,
+                    player.totalXP,
                   )}`}</MetaTag>
                 </WrapItem>
               </Wrap>
-              {tzDisplay?.timeZone ? (
+              {tzDisplay?.timeZone && (
                 <HStack alignItems="baseline" w="auto" justify="center">
                   <FaGlobe color="blueLight" fontSize="0.875rem" />
                   <Text fontSize="lg">{tzDisplay?.timeZone || '-'}</Text>
-                  {tzDisplay?.offset ? (
+                  {tzDisplay?.offset != null && (
                     <Text fontSize="sm">{tzDisplay?.offset}</Text>
-                  ) : (
-                    ''
                   )}
                 </HStack>
-              ) : null}
-              {displayDescription ? (
+              )}
+              {displayDescription && (
                 <VStack spacing={2} align="stretch" pt="0.5rem">
                   <Text textStyle="caption">ABOUT</Text>
                   <Text fontSize="sm">{displayDescription}</Text>
                 </VStack>
-              ) : null}
+              )}
             </MetaTileHeader>
           </LinkOverlay>
         </NextLink>
         <MetaTileBody>
-          {player.skills?.length ? (
+          {player.skills?.length && (
             <VStack spacing={2} align="stretch">
               <Text textStyle="caption">SKILLS</Text>
               <SkillsTags
                 skills={player.skills.map((s) => s.Skill) as Skill[]}
               />
             </VStack>
-          ) : null}
+          )}
 
           <PlayerTileMemberships player={player} />
 
-          {player.accounts?.length ? (
+          {player.accounts?.length && (
             <VStack spacing={2} align="stretch">
               <Text textStyle="caption">CONTACT</Text>
               <HStack mt="2">
                 <PlayerContacts player={player} />
               </HStack>
             </VStack>
-          ) : null}
+          )}
         </MetaTileBody>
       </MetaTile>
     </LinkBox>

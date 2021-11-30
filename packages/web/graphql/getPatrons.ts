@@ -28,7 +28,7 @@ const patronsQuery = gql`
     $limit: Int
     $forLoginDisplay: Boolean! = false
   ) {
-    player(where: { ethereum_address: { _in: $addresses } }, limit: $limit) {
+    player(where: { ethereumAddress: { _in: $addresses } }, limit: $limit) {
       ...PlayerFragment
     }
   }
@@ -59,7 +59,6 @@ const getPlayersFromAddresses = async (
     if (error) {
       throw error;
     }
-
     return [];
   }
 
@@ -72,9 +71,7 @@ const getpSeedHolders = async (
   const { data, error } = await client
     .query<GetpSeedHoldersQuery, GetpSeedHoldersQueryVariables>(
       pSeedHoldersQuery,
-      {
-        limit,
-      },
+      { limit },
     )
     .toPromise();
 
@@ -82,7 +79,6 @@ const getpSeedHolders = async (
     if (error) {
       throw error;
     }
-
     return [];
   }
 
@@ -95,13 +91,13 @@ export const getPatrons = async (limit = 50): Promise<Array<Patron>> => {
   );
 
   const players: Array<PlayerFragmentFragment> = await getPlayersFromAddresses(
-    tokenBalances.map((u) => u.address),
+    tokenBalances.map(({ address }) => address),
     limit,
   );
 
   const patrons: Array<Patron> = tokenBalances.reduce<Array<Patron>>(
     (res, u) => {
-      const player = players.find((p) => p.ethereum_address === u.address);
+      const player = players.find((p) => p.ethereumAddress === u.address);
       if (player) {
         const patron = { ...player, pSeedBalance: u.pSeedBalance } as Patron;
         res.push(patron);

@@ -30,7 +30,7 @@ export const playerRankUpdated = async (payload: TriggerPayload<Player>) => {
     const getPlayerResponse = await client.GetPlayer({
       playerId: newPlayer.id,
     });
-    const playerDiscordId = getPlayerResponse.player_by_pk?.discord_id;
+    const playerDiscordId = getPlayerResponse.player_by_pk?.discordId;
     if (playerDiscordId == null) return;
 
     const newRank = newPlayer?.rank;

@@ -31,7 +31,7 @@ const InfoPage: React.FunctionComponent = () => {
     formState: { errors },
     setValue,
   } = useForm();
-  const { ceramic, idx, address } = useWeb3();
+  const { ceramic, address } = useWeb3();
 
   useEffect(() => {
     // fetch initial values from IDX
@@ -42,7 +42,7 @@ const InfoPage: React.FunctionComponent = () => {
           `${address}@eip155:1`,
         );
         if (caip10.did) {
-          const result = await idx?.get('basicProfile', caip10.did);
+          const result = {}; // await idx?.get('basicProfile', caip10.did);
           Object.entries(result as Record<string, unknown>).forEach(
             ([key, object]) => {
               let value = object;
@@ -71,7 +71,7 @@ const InfoPage: React.FunctionComponent = () => {
         setInitialized(true);
       }
     })();
-  }, [ceramic, address, idx, setValue]);
+  }, [ceramic, address, setValue]);
 
   const onFileChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -150,9 +150,6 @@ const InfoPage: React.FunctionComponent = () => {
 
     setStatus('Authenticating DID…');
     await ceramic?.did?.authenticate();
-
-    setStatus('Writing to IDX…');
-    await idx?.merge('basicProfile', values);
 
     setStatus(null);
   };

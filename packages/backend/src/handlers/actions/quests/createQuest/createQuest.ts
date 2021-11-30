@@ -25,7 +25,7 @@ export async function createQuest(
   }
 
   const playerData = await client.GetPlayer({ playerId });
-  const ethAddress = playerData.player_by_pk?.ethereum_address;
+  const ethAddress = playerData.player_by_pk?.ethereumAddress;
   if (!ethAddress) {
     throw new Error('Ethereum address not found for player');
   }

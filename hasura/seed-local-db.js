@@ -2,18 +2,30 @@
 const fetch = require('node-fetch');
 const gql = require('fake-tag');
 
-const PRODUCTION_GRAPHQL_URL = process.env.PRODUCTION_GRAPHQL_URL || 'https://api.metagame.wtf/v1/graphql';
-const LOCAL_GRAPHQL_URL = process.env.LOCAL_GRAPHQL_URL || 'http://localhost:8080/v1/graphql';
-const LOCAL_BACKEND_ACCOUNT_MIGRATION_URL = process.env.LOCAL_BACKEND_ACCOUNT_MIGRATION_URL || 'http://localhost:4000/actions/migrateSourceCredAccounts\?force\=true';
-const HASURA_GRAPHQL_ADMIN_SECRET = process.env.HASURA_GRAPHQL_ADMIN_SECRET || 'metagame_secret';
+const PRODUCTION_GRAPHQL_URL = (
+  process.env.PRODUCTION_GRAPHQL_URL
+  || 'https://api.metagame.wtf/v1/graphql'
+);
+const LOCAL_GRAPHQL_URL = (
+  process.env.LOCAL_GRAPHQL_URL || 'http://localhost:8080/v1/graphql'
+);
+const LOCAL_BACKEND_ACCOUNT_MIGRATION_URL = (
+  process.env.LOCAL_BACKEND_ACCOUNT_MIGRATION_URL
+  || 'http://localhost:4000/actions/migrateSourceCredAccounts?force=true'
+);
+const HASURA_GRAPHQL_ADMIN_SECRET = (
+  process.env.HASURA_GRAPHQL_ADMIN_SECRET || 'metagame_secret'
+);
 const NUM_PLAYERS = process.env.SEED_NUM_PLAYERS || 300;
 
 const authHeaders = {
-      ['content-type']: 'application/json',
-      ['x-hasura-admin-secret']: HASURA_GRAPHQL_ADMIN_SECRET,
+  'content-type': 'application/json',
+  'x-hasura-admin-secret': HASURA_GRAPHQL_ADMIN_SECRET,
 }
 
-async function fetchGraphQL(url, operationsDoc, operationName, variables = {}, isUpdate = false) {
+async function fetchGraphQL(
+  url, operationsDoc, operationName, variables = {}, isUpdate = false
+) {
   const result = await fetch(url, {
     method: 'POST',
     body: JSON.stringify({
@@ -21,7 +33,7 @@ async function fetchGraphQL(url, operationsDoc, operationName, variables = {}, i
       variables: variables,
       operationName: operationName,
     }),
-      headers: isUpdate ? authHeaders : undefined,
+    headers: isUpdate ? authHeaders : undefined,
   });
 
   return await result.json();
@@ -33,7 +45,7 @@ const topPlayersQuery = gql`
       limit: ${NUM_PLAYERS}
       order_by: { total_xp: desc }
       where: {
-        availability_hours: { _gte: 0 }
+        availableHours: { _gte: 0 }
         timezone: { _in: null }
         type: { id: { _in: null } }
         skills: { Skill: { id: { _in: null } } }
@@ -41,8 +53,8 @@ const topPlayersQuery = gql`
     ) {
       id
       username
-      ethereum_address
-      availability_hours
+      ethereumAddress
+      availableHours
       timezone
       color_aspect {
         mask
@@ -80,9 +92,9 @@ async function fetchTopPlayers() {
 
 const getPlayerIdsAndSkillsQuery = gql`
   query GetPlayerIds($addresses: [String!]) {
-    player(where: { ethereum_address: { _in: $addresses } }) {
+    player(where: { ethereumAddress: { _in: $addresses } }) {
       id
-      ethereum_address
+      ethereumAddress
     }
     skill {
       id
@@ -102,17 +114,15 @@ async function fetchPlayerIdsAndSkills(addresses) {
     },
   );
 
-  if (errors) {
-    // handle those errors like a pro
-    errors.map((e) => {
-      throw e;
-    });
+  if (errors?.length > 0) {
+    throw errors[0]
   }
 
-  const ids = {};
-  data.player.map(({ id, ethereum_address }) => {
-    ids[ethereum_address] = id;
-  });
+  const ids = Object.fromEntries(
+    data.player.map(({ id, ethereumAddress }) => (
+      [ethereumAddress, id]
+    ))
+  );
   return { ids, skills: data.skill };
 }
 

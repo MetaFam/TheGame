@@ -2,7 +2,7 @@ import { client } from '../../lib/hasuraClient';
 
 async function createPlayer(ethAddress: string) {
   const resProfile = await client.CreatePlayerFromETH({
-    ethereum_address: ethAddress,
+    ethereumAddress: ethAddress,
     username: ethAddress,
   });
   if (resProfile.insert_player?.affected_rows !== 1) {
@@ -14,7 +14,7 @@ async function createPlayer(ethAddress: string) {
 export async function getOrCreatePlayer(ethereumAddress: string) {
   const ethAddress = ethereumAddress.toLowerCase();
   const res = await client.GetPlayerFromETH({
-    ethereum_address: ethAddress,
+    ethereumAddress: ethAddress,
   });
 
   let player = res.player[0];

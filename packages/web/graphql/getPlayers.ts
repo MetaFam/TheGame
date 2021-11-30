@@ -51,7 +51,7 @@ export const defaultQueryVariables: PlayersQueryVariables = {
   limit: PLAYER_LIMIT,
   search: '%%',
   orderBy: {
-    season_xp: 'desc' as Order_By,
+    seasonXP: 'desc' as Order_By,
   },
 };
 
@@ -74,17 +74,17 @@ export const transformToGraphQlVariables = (
   const graphqlWhereClause: Player_Bool_Exp = {
     _or: [
       { username: { _ilike: queryVariables.search } },
-      { ethereum_address: { _ilike: queryVariables.search } },
+      { ethereumAddress: { _ilike: queryVariables.search } },
     ],
   };
 
   if (queryVariables.availability != null) {
-    graphqlWhereClause.availability_hours = {
+    graphqlWhereClause.availableHours = {
       _gte: queryVariables.availability,
     };
   }
   if (queryVariables.timezones?.length) {
-    graphqlWhereClause.timezone = { _in: queryVariables.timezones };
+    graphqlWhereClause.timeZone = { _in: queryVariables.timezones };
   }
   if (queryVariables.playerTypeIds?.length) {
     graphqlWhereClause.type = { id: { _in: queryVariables.playerTypeIds } };
@@ -129,7 +129,7 @@ export const getPlayersWithCount = async (
 
 const playerUsernamesQuery = gql`
   query GetPlayerUsernames($limit: Int) {
-    player(order_by: { total_xp: desc }, limit: $limit) {
+    player(order_by: { totalXP: desc }, limit: $limit) {
       username
     }
   }
@@ -149,11 +149,10 @@ export const getPlayerUsernames = async (limit = 150): Promise<string[]> => {
     if (error) {
       throw error;
     }
-
     return [];
   }
 
-  return data.player.map((p) => p.username);
+  return data.player.map(({ username }) => username);
 };
 
 export const getTopPlayerUsernames = getPlayerUsernames;
@@ -187,8 +186,7 @@ export const getPlayerFilters = async (client: Client = defaultClient) => {
     .toPromise();
 
   if (error) {
-    // eslint-disable-next-line no-console
-    console.error(error);
+    console.error(error); // eslint-disable-line no-console
     throw error;
   }
 

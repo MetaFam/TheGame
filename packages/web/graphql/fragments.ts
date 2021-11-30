@@ -4,14 +4,14 @@ export const PlayerFragment = gql`
   fragment PlayerFragment on player {
     id @skip(if: $forLoginDisplay)
     username
-    total_xp @skip(if: $forLoginDisplay)
-    season_xp @skip(if: $forLoginDisplay)
+    totalXP @skip(if: $forLoginDisplay)
+    seasonXP @skip(if: $forLoginDisplay)
     rank @skip(if: $forLoginDisplay)
-    ethereum_address
+    ethereumAddress
     pronouns
 
     profile_layout @skip(if: $forLoginDisplay)
-    availability_hours @skip(if: $forLoginDisplay)
+    availableHours @skip(if: $forLoginDisplay)
     timezone @skip(if: $forLoginDisplay)
     color_aspect @skip(if: $forLoginDisplay) {
       name
@@ -22,7 +22,7 @@ export const PlayerFragment = gql`
     type @skip(if: $forLoginDisplay) {
       description
       id
-      imageUrl
+      imageURL
       title
     }
 
@@ -110,7 +110,7 @@ export const QuestFragment = gql`
     }
     player {
       id
-      ethereum_address
+      ethereumAddress
     }
     quest_skills {
       skill {
@@ -149,7 +149,7 @@ export const QuestWithCompletionFragment = gql`
       ...QuestCompletionFragment
       player {
         id
-        ethereum_address
+        ethereumAddress
         username
       }
     }

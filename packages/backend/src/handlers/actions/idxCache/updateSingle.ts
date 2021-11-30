@@ -32,7 +32,7 @@ manager.addJSONModel(alsoKnownAsModel);
 export default async (playerId: string): Promise<UpdateBoxProfileResponse> => {
   const updatedProfiles: string[] = [];
   const { player_by_pk: player } = await client.GetPlayer({ playerId });
-  const ethAddress = player?.ethereum_address;
+  const ethAddress = player?.ethereumAddress;
 
   const store = new DIDDataStore({
     ceramic,

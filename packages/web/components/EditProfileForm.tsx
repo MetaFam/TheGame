@@ -41,7 +41,7 @@ export type ProfileFieldProps = {
 };
 
 interface InputData {
-  availability_hours?: number;
+  availableHours?: number;
   timezone?: string;
   pronouns?: string;
 }
@@ -50,8 +50,8 @@ export const ProfileField: React.FC<ProfileFieldProps> = ({
   title,
   placeholder,
   value,
-  children,
   onChange,
+  children,
 }) => {
   const [innerValue, setInnerValue] = useState(value);
 
@@ -152,7 +152,7 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
     user?.player?.timezone || '',
   );
   const [availability, setAvailability] = useState<string>(
-    user?.player?.availability_hours?.toString() || '',
+    user?.player?.availableHours?.toString() || '',
   );
   const [username, setUsername] = useState<string>(
     user?.player?.username || '',
@@ -169,7 +169,7 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
 
   useEffect(() => {
     const value = Number(availability);
-    setInvalid(value < 0 || value > 168);
+    setInvalid(value < 0 || value > 24 * 7);
   }, [availability]);
 
   // const GRID_SIZE = 2;
@@ -181,8 +181,8 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
     setLoading(true);
 
     const input: InputData = {};
-    if (user.player?.availability_hours?.toString() !== availability) {
-      input.availability_hours = Number(availability);
+    if (user.player?.availableHours?.toString() !== availability) {
+      input.availableHours = Number(availability);
     }
     if (user.player?.timezone !== timeZone) {
       input.timezone = timeZone;
@@ -207,18 +207,16 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
     }
 
     if (user.player?.username !== username) {
-      const usernameResponse = await updateUsername({
+      const { error } = await updateUsername({
         playerId: user.id,
         username,
       });
 
-      if (usernameResponse.error) {
+      if (error) {
         let errorDetail = 'The octo is sad 😢';
-        if (usernameResponse.error.message.includes('Uniqueness violation')) {
+        if (error.message.includes('Uniqueness violation')) {
           errorDetail = 'This username is already taken 😢';
-        } else if (
-          usernameResponse.error.message.includes('username_is_valid')
-        ) {
+        } else if (error.message.includes('username_is_valid')) {
           errorDetail =
             'A username can only contain lowercase letters, numbers, and dashes.';
         }
@@ -242,7 +240,9 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
           <ProfileField
             title="username"
             value={username}
-            onChange={(e) => setUsername(e.target.value || '')}
+            onChange={({ target: { value } }) => {
+              setUsername(value || '');
+            }}
           />
         </GridItem>
 
@@ -255,7 +255,9 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
           <ProfileField
             title="pronouns"
             value={pronouns}
-            onChange={(e) => setPronouns(e.target.value || '')}
+            onChange={({ target: { value } }) => {
+              setPronouns(value || '');
+            }}
           />
         </GridItem>
       </Grid>
@@ -280,13 +282,11 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
               type="number"
               color="white"
               value={availability}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setAvailability(e.target.value)
-              }
+              onChange={({ target: { value } }) => setAvailability(value)}
               isInvalid={invalid}
             />
             <InputRightAddon background="purpleBoxDark" color="white">
-              hr/week
+              hr ⁄ week
             </InputRightAddon>
           </InputGroup>
         </GridItem>
@@ -296,7 +296,7 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
           </Text>
           <SelectTimeZone
             value={timeZone}
-            onChange={(tz) => setTimeZone(tz.value)}
+            onChange={({ value }) => setTimeZone(value)}
             labelStyle="abbrev"
           />
         </GridItem>
@@ -324,7 +324,7 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
             onClick={save}
             isDisabled={invalid}
             isLoading={updateProfileRes.fetching || loading}
-            loadingText="Saving"
+            loadingText="Saving…"
           >
             Save Changes
           </MetaButton>

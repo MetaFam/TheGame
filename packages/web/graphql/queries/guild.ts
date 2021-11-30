@@ -85,7 +85,6 @@ export const getGuilds = async (
     if (error) {
       throw error;
     }
-
     return [];
   }
 
@@ -116,11 +115,10 @@ export const getGuildnames = async (
     if (error) {
       throw error;
     }
-
     return [];
   }
 
-  return data.guild.map((g) => g.guildname);
+  return data.guild.map(({ guildname }) => guildname);
 };
 
 const getGuildPlayersQuery = gql`
@@ -129,7 +127,7 @@ const getGuildPlayersQuery = gql`
       Player {
         id
         username
-        total_xp
+        totalXP
         rank
         profile_cache {
           imageURL
@@ -160,7 +158,7 @@ export const getGuildPlayers = async (
     role: isMetafam ? gp.Player.rank : null,
   }));
   if (isMetafam) {
-    guildPlayers?.sort((p1, p2) => p2.total_xp - p1.total_xp);
+    guildPlayers?.sort((p1, p2) => p2.totalXP - p1.totalXP);
   }
 
   return guildPlayers;

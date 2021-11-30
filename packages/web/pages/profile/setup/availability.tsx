@@ -15,26 +15,24 @@ export type DefaultSetupProps = InferGetStaticPropsType<typeof getStaticProps>;
 
 const AvailabilitySetup: React.FC<DefaultSetupProps> = () => {
   const { user } = useUser();
-  const [availability, setAvailability] = useState<string>(
-    user?.player?.availability_hours?.toString() || '',
+  const [available, setAvailability] = useState<number | null>(
+    user?.player?.availableHours ?? null,
   );
 
   if (user?.player) {
     const { player } = user;
-    if (player.availability_hours && !availability) {
-      setAvailability(player.availability_hours.toString());
+    if (player.availableHours != null && available === null) {
+      setAvailability(player.availableHours);
     }
   }
 
   return (
     <SetupContextProvider>
       <SetupProfile>
-        <SetupAvailability
-          availability={availability}
-          setAvailability={setAvailability}
-        />
+        <SetupAvailability {...{ available, setAvailability }} />
       </SetupProfile>
     </SetupContextProvider>
   );
 };
+
 export default AvailabilitySetup;

@@ -30,7 +30,7 @@ const parseAlias = (alias: SCAlias) => {
     const addressParts = sc.core.graph.NodeAddress.toParts(alias.address);
     const type = addressParts[1]?.toUpperCase() as AccountType_Enum;
 
-    if (VALID_ACCOUNT_TYPES.indexOf(type) < 0) {
+    if (!VALID_ACCOUNT_TYPES.includes(type)) {
       return null;
     }
 
@@ -41,9 +41,11 @@ const parseAlias = (alias: SCAlias) => {
       identifier,
     };
   } catch (e) {
-    const error = (e as Error).message;
-
-    console.warn('Unable to parse alias: ', { error, alias });
+    // eslint-disable-next-line no-console
+    console.error('Unable to parse alias:', {
+      error: (e as Error).message,
+      alias,
+    });
     return null;
   }
 };
@@ -87,13 +89,13 @@ export const migrateSourceCredAccounts = async (
 
       const rank = computeRank(index);
       const userWeeklyCred = a.cred;
-      const seasonXp = userWeeklyCred
+      const seasonXP = userWeeklyCred
         .slice(-numWeeksInSeason)
         .reduce((t, c) => t + c, 0);
       return {
-        ethereum_address: ethAddress.toLowerCase(),
-        totalXp: a.totalCred,
-        seasonXp,
+        ethereumAddress: ethAddress.toLowerCase(),
+        totalXP: a.totalCred,
+        seasonXP,
         rank,
         discordId,
         Accounts: {
@@ -112,10 +114,10 @@ export const migrateSourceCredAccounts = async (
       accountList,
       async (player) => {
         const vars = {
-          ethAddress: player.ethereum_address,
+          ethAddress: player.ethereumAddress,
           rank: player.rank,
-          totalXp: player.totalXp,
-          seasonXp: player.seasonXp,
+          totalXP: player.totalXP,
+          seasonXP: player.seasonXP,
           discordId: player.discordId,
         };
 
@@ -130,15 +132,16 @@ export const migrateSourceCredAccounts = async (
               return player;
             }
 
-            // 'force' indicates we should insert new players if they don't already exist.
+            // 'force' indicates we should insert new players
+            // if they don't already exist.
             const upsertResult = await client.InsertPlayers({
               objects: [
                 {
-                  username: player.ethereum_address,
-                  ethereum_address: player.ethereum_address,
+                  username: player.ethereumAddress,
+                  ethereumAddress: player.ethereumAddress,
                   rank: player.rank,
-                  total_xp: player.totalXp,
-                  season_xp: player.seasonXp,
+                  totalXP: player.totalXP,
+                  seasonXP: player.seasonXP,
                 },
               ],
             });
@@ -155,14 +158,14 @@ export const migrateSourceCredAccounts = async (
             try {
               await client.UpsertAccount({
                 objects: player.Accounts.data.map((account) => ({
-                  player_id: playerId,
+                  playerId,
                   type: account.type,
                   identifier: account.identifier,
                 })),
                 on_conflict: accountOnConflict,
               });
             } catch (accErr) {
-              console.log(
+              console.error(
                 'Error updating accounts for Player',
                 playerId,
                 accErr,

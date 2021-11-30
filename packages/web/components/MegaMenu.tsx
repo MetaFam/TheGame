@@ -369,7 +369,7 @@ const PlayerStats: React.FC<PlayerStatsProps> = ({ player }) => {
       >
         <Image src={XPStar} alt="XP" height={14} width={14} />{' '}
         <Text color="white" ml={[0, 0, 0, 2]}>
-          {Math.trunc(player.total_xp * 100) / 100}
+          {Math.trunc(player.totalXP * 100) / 100}
         </Text>
       </Badge>
       <Badge

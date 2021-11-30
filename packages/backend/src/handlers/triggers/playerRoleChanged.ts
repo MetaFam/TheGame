@@ -31,7 +31,7 @@ export const playerRoleChanged = async (
     const getPlayerResponse = await client.GetPlayer({
       playerId,
     });
-    const playerDiscordId = getPlayerResponse.player_by_pk?.discord_id;
+    const playerDiscordId = getPlayerResponse.player_by_pk?.discordId;
     const playerUsername = getPlayerResponse.player_by_pk?.username;
     if (playerDiscordId == null) return;
 

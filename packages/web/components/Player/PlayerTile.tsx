@@ -77,13 +77,13 @@ export const PlayerTile: React.FC<Props> = ({
                 </Heading>
               </VStack>
               <Wrap w="100%" justify="center">
-                {player.type?.title ? (
+                {player.type?.title && (
                   <WrapItem>
-                    <MetaTag size="md">
-                      {player.type?.title.toUpperCase()}
+                    <MetaTag size="md" textTransform="uppercase">
+                      {player.type.title}
                     </MetaTag>
                   </WrapItem>
-                ) : null}
+                )}
                 {player.rank && (
                   <WrapItem>
                     <MetaTag
@@ -98,13 +98,13 @@ export const PlayerTile: React.FC<Props> = ({
                 <WrapItem>
                   <MetaTag size="md">
                     {showSeasonalXP ? 'TOTAL XP: ' : 'XP: '}
-                    {Math.floor(player.total_xp)}
+                    {Math.floor(player.totalXP)}
                   </MetaTag>
                 </WrapItem>
                 {showSeasonalXP && (
                   <WrapItem>
                     <MetaTag size="md">
-                      SEASONAL XP: {Math.floor(player.season_xp)}
+                      SEASONAL XP: {Math.floor(player.seasonXP)}
                     </MetaTag>
                   </WrapItem>
                 )}

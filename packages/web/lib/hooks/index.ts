@@ -31,7 +31,7 @@ export const useUser = ({
     variables: { forLoginDisplay },
     requestPolicy,
   });
-  const me = data?.me[0];
+  const [me] = data?.me ?? [];
   const user = error || !authToken || !me ? null : me;
 
   useEffect(() => {

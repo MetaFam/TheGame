@@ -9,7 +9,7 @@ export const GetPlayerTypes = gql`
       description
       id
       title
-      imageUrl
+      imageURL
     }
   }
 `;
@@ -23,7 +23,6 @@ export const getPlayerTypes = async () => {
     if (error) {
       throw error;
     }
-
     return [];
   }
 

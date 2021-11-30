@@ -65,7 +65,7 @@ export const PlayerContacts: React.FC<Props> = ({
           }
         }
       })}
-      {player.ethereum_address && (
+      {player.ethereumAddress && (
         <WrapItem>
           <Tooltip
             label={copied ? 'Copied!' : 'Copy to clipboard'}
@@ -75,16 +75,14 @@ export const PlayerContacts: React.FC<Props> = ({
             <Button
               onClick={(evt) => {
                 evt.preventDefault();
-                return player.ethereum_address
-                  ? handleCopy(player.ethereum_address.toLowerCase())
-                  : undefined;
+                handleCopy(player.ethereumAddress);
               }}
               size="xs"
               colorScheme="blackAlpha"
               leftIcon={<FaEthereum />}
               color="white"
             >
-              {formatAddress(player.ethereum_address)}
+              {formatAddress(player.ethereumAddress)}
             </Button>
           </Tooltip>
         </WrapItem>

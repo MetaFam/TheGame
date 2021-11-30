@@ -15,12 +15,12 @@ import { useUser } from 'lib/hooks';
 import React, { useEffect, useState } from 'react';
 
 export type SetupAvailabilityProps = {
-  availability: string;
-  setAvailability: React.Dispatch<React.SetStateAction<string>>;
+  available: number | null;
+  setAvailability: React.Dispatch<React.SetStateAction<number | null>>;
 };
 
 export const SetupAvailability: React.FC<SetupAvailabilityProps> = ({
-  availability,
+  available,
   setAvailability,
 }) => {
   const { onNextPress, nextButtonLabel } = useSetupFlow();
@@ -30,9 +30,9 @@ export const SetupAvailability: React.FC<SetupAvailabilityProps> = ({
   const toast = useToast();
 
   useEffect(() => {
-    const value = Number(availability);
-    setInvalid(value < 0 || value > 168);
-  }, [availability]);
+    const value = Number(available);
+    setInvalid(value < 0 || value > 24 * 7);
+  }, [available]);
 
   const [updateProfileRes, updateProfile] = useUpdateProfileMutation();
   const [loading, setLoading] = useState(false);
@@ -44,14 +44,14 @@ export const SetupAvailability: React.FC<SetupAvailabilityProps> = ({
     const { error } = await updateProfile({
       playerId: user.id,
       input: {
-        availability_hours: Number(availability),
+        availableHours: Number(available),
       },
     });
 
     if (error) {
       toast({
         title: 'Error',
-        description: 'Unable to update availability. The octo is sad 😢',
+        description: `Unable to update availability. Error: ${error}`,
         status: 'error',
         isClosable: true,
       });
@@ -80,11 +80,13 @@ export const SetupAvailability: React.FC<SetupAvailabilityProps> = ({
           background="dark"
           placeholder="40"
           type="number"
-          value={availability}
-          onChange={({ target: { value } }) => setAvailability(value)}
+          value={available ?? undefined}
+          onChange={({ target: { value } }) => {
+            setAvailability(parseFloat(value));
+          }}
           isInvalid={invalid}
         />
-        <InputRightAddon background="purpleBoxDark">hr/week</InputRightAddon>
+        <InputRightAddon background="purpleBoxDark">hr ⁄ week</InputRightAddon>
       </InputGroup>
 
       <MetaButton
@@ -93,7 +95,7 @@ export const SetupAvailability: React.FC<SetupAvailabilityProps> = ({
         mt={10}
         isDisabled={invalid}
         isLoading={updateProfileRes.fetching || loading}
-        loadingText="Saving"
+        loadingText="Saving…"
       >
         {nextButtonLabel}
       </MetaButton>

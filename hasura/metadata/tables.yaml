@@ -275,6 +275,10 @@
 - table:
     schema: public
     name: me
+  configuration:
+    custom_root_fields: {}
+    custom_column_names:
+      ethereum_address: ethereumAddress
   object_relationships:
   - name: player
     using:
@@ -297,6 +301,18 @@
 - table:
     schema: public
     name: player
+  configuration:
+    custom_root_fields: {}
+    custom_column_names:
+      ethereum_address: ethereumAddress
+      color_mask: colorMask
+      discord_id: discordId
+      updated_at: updatedAt
+      season_xp: seasonXP
+      created_at: createdAt
+      available_hours: availableHours
+      total_xp: totalXP
+      player_type_id: playerTypeId
   object_relationships:
   - name: color_aspect
     using:
@@ -396,7 +412,7 @@
   - role: player
     permission:
       columns:
-      - availability_hours
+      - available_hours
       - color_mask
       - ethereum_address
       - id
@@ -414,7 +430,7 @@
   - role: public
     permission:
       columns:
-      - availability_hours
+      - available_hours
       - color_mask
       - ethereum_address
       - id
@@ -432,7 +448,7 @@
   - role: player
     permission:
       columns:
-      - availability_hours
+      - available_hours
       - color_mask
       - player_type_id
       - profile_layout
@@ -601,6 +617,10 @@
 - table:
     schema: public
     name: player_type
+  configuration:
+    custom_root_fields: {}
+    custom_column_names:
+      imageUrl: imageURL
   select_permissions:
   - role: player
     permission:

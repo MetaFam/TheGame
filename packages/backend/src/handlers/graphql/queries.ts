@@ -6,8 +6,8 @@ gql`
     player_by_pk(id: $playerId) {
       id
       username
-      ethereum_address
-      discord_id
+      ethereumAddress
+      discordId
       accounts {
         identifier
         type
@@ -15,14 +15,14 @@ gql`
     }
   }
 
-  query GetPlayerFromETH($ethereum_address: String) {
-    player(where: { ethereum_address: { _eq: $ethereum_address } }) {
+  query GetPlayerFromETH($ethereumAddress: String) {
+    player(where: { ethereumAddress: { _eq: $ethereumAddress } }) {
       id
     }
   }
 
   query GetPlayersByDiscordId($discordIds: [String!]!) {
-    player(where: { discord_id: { _in: $discordIds } }) {
+    player(where: { discordId: { _in: $discordIds } }) {
       id
     }
   }
@@ -136,7 +136,7 @@ gql`
       guild_players {
         Player {
           id
-          discord_id
+          discordId
         }
       }
     }
@@ -150,7 +150,7 @@ gql`
     ) {
       Player {
         id
-        discord_id
+        discordId
       }
       Guild {
         id

@@ -11,7 +11,7 @@ import raidGuildImage from '../../assets/moloch/raid_guild.png';
 
 type LinkGuildProps = {
   daoUrl: string | null;
-  guildname: string | undefined;
+  guildname: string | undefined | null;
 };
 
 export const getMolochImage = (title: string) => {
@@ -27,9 +27,13 @@ export const getMolochImage = (title: string) => {
 
 const getHexChainId = (chain: string | undefined): string => {
   switch (chain?.toLowerCase()) {
-    case 'xdai': return '0x64';
-    case 'polygon': return '0x89';
-    case 'ethereum': default: return '0x1';
+    case 'xdai':
+      return '0x64';
+    case 'polygon':
+      return '0x89';
+    case 'ethereum':
+    default:
+      return '0x1';
   }
 };
 

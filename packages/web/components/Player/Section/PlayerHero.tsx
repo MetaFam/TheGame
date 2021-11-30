@@ -107,7 +107,7 @@ export const PlayerHero: React.FC<Props> = ({
             textOverflow="ellipsis"
             whiteSpace="nowrap"
             overflowX="hidden"
-            title={playerName}
+            title={playerName ?? undefined}
           >
             {playerName}
           </Text>
@@ -183,6 +183,7 @@ export const PlayerHero: React.FC<Props> = ({
           <PlayerHeroTile title="Favorite Emoji">
             <Text ml={10}>{player.profile.emoji}</Text>
           </PlayerHeroTile>
+        )}
       </VStack>
 
       <Modal {...{ isOpen, onClose }}>
@@ -237,7 +238,7 @@ const Availability: React.FC<AvailabilityProps> = ({ person }) => {
         opacity={animation === 'fadeIn' ? 1 : 0}
       >
         <Text fontSize={{ base: 'md', sm: 'lg' }} pr={2}>
-          {hours == undefined ? <Text as="em">Unspecified</Text> : `${hours} hr ⁄ week`}
+          {hours == null ? <Text as="em">Unspecified</Text> : `${hours} hr ⁄ week`}
         </Text>
       </FlexContainer>
     </Flex>

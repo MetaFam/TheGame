@@ -2,15 +2,15 @@ import { gql } from 'graphql-request/dist';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-expressions
 gql`
-  mutation CreatePlayerFromETH($ethereum_address: String!, $username: String!) {
+  mutation CreatePlayerFromETH($ethereumAddress: String!, $username: String!) {
     insert_player(
-      objects: { username: $username, ethereum_address: $ethereum_address }
+      objects: { username: $username, ethereumAddress: $ethereumAddress }
     ) {
       affected_rows
       returning {
         id
         username
-        ethereum_address
+        ethereumAddress
       }
     }
   }
@@ -52,24 +52,24 @@ gql`
   mutation UpdatePlayer(
     $ethAddress: String
     $rank: PlayerRank_enum
-    $totalXp: numeric
-    $seasonXp: numeric
+    $totalXP: numeric
+    $seasonXP: numeric
     $discordId: String
   ) {
     update_player(
-      where: { ethereum_address: { _eq: $ethAddress } }
+      where: { ethereumAddress: { _eq: $ethAddress } }
       _set: {
-        ethereum_address: $ethAddress
+        ethereumAddress: $ethAddress
         rank: $rank
-        total_xp: $totalXp
-        season_xp: $seasonXp
-        discord_id: $discordId
+        totalXP: $totalXP
+        seasonXP: $seasonXP
+        discordId: $discordId
       }
     ) {
       affected_rows
       returning {
         id
-        ethereum_address
+        ethereumAddress
         username
       }
     }
@@ -183,7 +183,7 @@ export const CreateQuestCompletion = gql`
     $membersToAdd: [guild_player_insert_input!]!
   ) {
     delete_guild_player(
-      where: { Player: { discord_id: { _in: $memberDiscordIdsToRemove } } }
+      where: { Player: { discordId: { _in: $memberDiscordIdsToRemove } } }
     ) {
       affected_rows
     }
