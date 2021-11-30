@@ -1,0 +1,39 @@
+{
+  '$schema': 'http://json-schema.org/draft-07/schema#',
+  title: 'ExtendedProfile',
+  type: 'object',
+  properties: {
+    username: {
+      type: 'string',
+      maxLength: 150,
+      pattern: '^[a-z0-9-_]+$',
+    },
+    pageBackground: {
+
+    },
+    pronouns: {
+      type: 'string',
+      maxLength: 100,
+    },
+    residence: {
+      type: 'object',
+      properties: {
+        city: {
+          type: 'string',
+          maxLength: 300,
+        },
+        country: {
+          type: 'string',
+          maxLength: 300,
+        },
+      }
+    },
+    icon: {
+      format: 'uri',
+    },
+    mtgDisposition: {
+      type: 'string',
+      pattern: '^[wW]?[uU]?[bB]?[rR]?[gG]?$'
+    }
+  },
+}

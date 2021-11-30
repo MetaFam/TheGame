@@ -1,0 +1,9 @@
+{
+  "definitions": {
+    "extendedProfile": "kjzl6cwe1jw146igohq6agh2yelar6qo7teq64y0aphz7mqct71ckcar18ggdy1"
+  },
+  "schemas": {
+    "ExtendedProfile": "ceramic://k3y52l7qbv1frxtysf7jltj5duxlabkoo87f4ii1j04l5swgc6ftmv0dyl597bsow"
+  },
+  "tiles": {}
+}
