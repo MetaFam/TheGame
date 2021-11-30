@@ -25,7 +25,6 @@ class MetaDocument extends Document {
             rel="stylesheet"
           />
           <link rel="shortcut icon" href="/favicon.png" />
-          <meta charSet="UTF-8" />
         </Head>
         <body>
           <Main />
