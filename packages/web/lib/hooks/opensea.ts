@@ -49,7 +49,10 @@ export const useOpenSeaCollectibles = ({
         setLoading(false);
       }
     }
-    load();
+
+    if (owner) {
+      load();
+    }
   }, [owner]);
 
   return { favorites, data, loading };
@@ -79,6 +82,7 @@ const fetchOpenSeaData = async (
     const response = await opensea.getAssets(query);
     return await parseAssets(response.assets);
   } catch (err) {
+    // eslint-disable-next-line no-console
     console.error(`Error Retrieving OpenSea Assets: ${(err as Error).message}`);
     return Promise.resolve([]);
   }

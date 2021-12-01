@@ -6,13 +6,10 @@ import * as os from 'os';
 import * as path from 'path';
 import { Web3Storage } from 'web3.storage';
 
-declare global {
-  interface ObjectConstructor {
-    fromEntries(xs: [string | number | symbol, any][]): object;
-  }
-}
-
-const handler = async (
+export const handler: (
+  req: NextApiRequest,
+  res: NextApiResponse<Record<string, string>>,
+) => Promise<void> = async (
   req: NextApiRequest,
   res: NextApiResponse<Record<string, string>>,
 ) => {
@@ -34,7 +31,7 @@ const handler = async (
         (fs.createReadStream(filename) as unknown) as ReadableStream<string>,
     }));
     const cid = await storage.put(tmpFiles);
-    console.log({ cid, tmpFiles });
+    console.log({ cid, tmpFiles }); // eslint-disable-line no-console
 
     const uploadedFiles = Object.fromEntries(
       files.map((filename: string) => {
