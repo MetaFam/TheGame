@@ -1,6 +1,6 @@
 import { Text, VStack } from '@metafam/ds';
 import { PageContainer } from 'components/Container';
-import { AdjacentTimezonePlayers } from 'components/Player/Filter/AdjacentTimezonePlayers';
+import { AdjascentTimeZonePlayers } from 'components/Player/Filter/AdjascentTimeZonePlayers';
 import { PlayerFilter } from 'components/Player/Filter/PlayerFilter';
 import { PlayersLoading } from 'components/Player/Filter/PlayersLoading';
 import { PlayersNotFound } from 'components/Player/Filter/PlayersNotFound';
@@ -118,24 +118,21 @@ type MorePlayersProps = {
 
 const MorePlayers = React.forwardRef<HTMLDivElement, MorePlayersProps>(
   ({ fetching, totalCount, queryVariables, showSeasonalXP = false }, ref) => {
-    const isTimezoneSelected = useMemo(
-      () => queryVariables.timezones && queryVariables.timezones.length > 0,
+    const isTimeZoneSelected = useMemo(
+      () => queryVariables.timeZones && queryVariables.timeZones.length > 0,
       [queryVariables],
     );
 
     return (
       <VStack w="100%" ref={ref}>
         {fetching ? <PlayersLoading /> : null}
-        {!fetching && !isTimezoneSelected && totalCount > 0 ? (
+        {!fetching && !isTimeZoneSelected && totalCount > 0 ? (
           <Text color="white">No more players available.</Text>
         ) : null}
-        {!fetching && totalCount === 0 ? <PlayersNotFound /> : null}
-        {!fetching && isTimezoneSelected ? (
-          <AdjacentTimezonePlayers
-            queryVariables={queryVariables}
-            showSeasonalXP={showSeasonalXP}
-          />
-        ) : null}
+        {!fetching && totalCount === 0 && <PlayersNotFound />}
+        {!fetching && isTimeZoneSelected && (
+          <AdjascentTimeZonePlayers {...{ queryVariables, showSeasonalXP }} />
+        )}
       </VStack>
     );
   },

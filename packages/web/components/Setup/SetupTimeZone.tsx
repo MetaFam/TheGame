@@ -29,9 +29,7 @@ export const SetupTimeZone: React.FC = () => {
     setLoading(true);
     const { error } = await updateProfile({
       playerId: user.id,
-      input: {
-        timezone: timeZone,
-      },
+      input: { timeZone },
     });
 
     if (error) {
@@ -63,7 +61,7 @@ export const SetupTimeZone: React.FC = () => {
       </MetaHeading>
       <FlexContainer w="100%" align="stretch" maxW="30rem">
         <SelectTimeZone
-          value={timeZone}
+          value={timeZone ?? ''}
           onChange={(tz) => setTimeZone(tz.value)}
           labelStyle="abbrev"
         />
@@ -73,7 +71,7 @@ export const SetupTimeZone: React.FC = () => {
         onClick={handleNextPress}
         mt={10}
         isLoading={updateProfileRes.fetching || loading}
-        loadingText="Saving"
+        loadingText="Saving…"
       >
         {nextButtonLabel}
       </MetaButton>

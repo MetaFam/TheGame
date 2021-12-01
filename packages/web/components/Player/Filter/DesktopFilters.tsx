@@ -1,7 +1,7 @@
 import {
   MetaFilterSelectSearch,
   metaFilterSelectStyles,
-  TimezoneOptions,
+  TimeZoneOptions,
   Wrap,
   WrapItem,
   WrapProps,
@@ -37,8 +37,8 @@ type Props = {
   setSkills: React.Dispatch<React.SetStateAction<SkillOption[]>>;
   playerTypes: ValueType[];
   setPlayerTypes: React.Dispatch<React.SetStateAction<ValueType[]>>;
-  timezones: ValueType[];
-  setTimezones: React.Dispatch<React.SetStateAction<ValueType[]>>;
+  timeZones: ValueType[];
+  setTimeZones: React.Dispatch<React.SetStateAction<ValueType[]>>;
   availability: ValueType | null;
   setAvailability: React.Dispatch<React.SetStateAction<ValueType | null>>;
   sortOption: ValueType;
@@ -51,8 +51,8 @@ export const DesktopFilters: React.FC<Props> = ({
   setSkills,
   playerTypes,
   setPlayerTypes,
-  timezones,
-  setTimezones,
+  timeZones,
+  setTimeZones,
   availability,
   setAvailability,
   sortOption,
@@ -143,17 +143,17 @@ export const DesktopFilters: React.FC<Props> = ({
       <WrapItem>
         <MetaFilterSelectSearch
           title="Time Zone"
-          tagLabel={timezones.length > 0 ? timezones.length.toString() : ''}
+          tagLabel={timeZones.length > 0 ? timeZones.length.toString() : ''}
           styles={styles}
-          value={timezones}
-          hasValue={timezones.length > 0}
+          value={timeZones}
+          hasValue={timeZones.length > 0}
           onChange={(value) => {
             const values = value as ValueType[];
-            setTimezones(values.slice(-1));
+            setTimeZones(values.slice(-1));
           }}
-          options={TimezoneOptions}
+          options={TimeZoneOptions}
           showSearch
-          isTimezone
+          isTimeZone
         />
       </WrapItem>
     </Wrap>

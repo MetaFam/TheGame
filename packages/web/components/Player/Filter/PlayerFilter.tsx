@@ -62,7 +62,7 @@ export const PlayerFilter: React.FC<Props> = ({
 
   const [skills, setSkills] = useState<SkillOption[]>([]);
   const [playerTypes, setPlayerTypes] = useState<ValueType[]>([]);
-  const [timezones, setTimezones] = useState<ValueType[]>([]);
+  const [timeZones, setTimeZones] = useState<ValueType[]>([]);
   const [availability, setAvailability] = useState<ValueType | null>(null);
   const [sortOption, setSortOption] = useState<ValueType>(
     sortOptionsMap[SortOption.SEASON_XP.toString()],
@@ -84,7 +84,7 @@ export const PlayerFilter: React.FC<Props> = ({
     setSortOption(sortOptionsMap[SortOption.SEASON_XP]);
     setSkills([]);
     setPlayerTypes([]);
-    setTimezones([]);
+    setTimeZones([]);
     setAvailability(null);
   }, [resetFilter]);
   const isSearchUsed = queryVariables.search !== '%%';
@@ -110,10 +110,10 @@ export const PlayerFilter: React.FC<Props> = ({
 
   useEffect(() => {
     setQueryVariable(
-      'timezones',
-      timezones.length > 0 ? timezones.map((t) => t.value) : null,
+      'timeZones',
+      timeZones.length > 0 ? timeZones.map((t) => t.value) : null,
     );
-  }, [setQueryVariable, timezones]);
+  }, [setQueryVariable, timeZones]);
 
   useEffect(() => {
     setQueryVariable(
@@ -188,8 +188,8 @@ export const PlayerFilter: React.FC<Props> = ({
         setSkills={setSkills}
         playerTypes={playerTypes}
         setPlayerTypes={setPlayerTypes}
-        timezones={timezones}
-        setTimezones={setTimezones}
+        timeZones={timeZones}
+        setTimeZones={setTimeZones}
         availability={availability}
         setAvailability={setAvailability}
         sortOption={sortOption}
@@ -201,8 +201,8 @@ export const PlayerFilter: React.FC<Props> = ({
         setSkills={setSkills}
         playerTypes={playerTypes}
         setPlayerTypes={setPlayerTypes}
-        timezones={timezones}
-        setTimezones={setTimezones}
+        timeZones={timeZones}
+        setTimeZones={setTimeZones}
         availability={availability}
         setAvailability={setAvailability}
         isOpen={isSmallScreen ? isOpen : false}
@@ -279,14 +279,14 @@ export const PlayerFilter: React.FC<Props> = ({
                 />
               </WrapItem>
             )}
-            {timezones.map(({ value, label }, index) => (
+            {timeZones.map(({ value, label }, index) => (
               <WrapItem key={value}>
                 <FilterTag
                   label={label}
                   onRemove={() => {
-                    const newTimezones = timezones.slice();
-                    newTimezones.splice(index, 1);
-                    setTimezones(newTimezones);
+                    const newTimeZones = timeZones.slice();
+                    newTimeZones.splice(index, 1);
+                    setTimeZones(newTimeZones);
                   }}
                 />
               </WrapItem>

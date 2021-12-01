@@ -11,14 +11,14 @@ import {
   DrawerHeader,
   Flex,
   FlexProps,
-  getTimezonesFor,
+  getTimeZonesFor,
   IconButton,
   Input,
   MetaButton,
   Text,
-  TimezoneOptions,
-  timezonesFilter,
-  TimezoneType,
+  TimeZoneOptions,
+  timeZonesFilter,
+  TimeZoneType,
 } from '@metafam/ds';
 import { SkillCategory_Enum } from 'graphql/autogen/types';
 import { SkillColors } from 'graphql/types';
@@ -44,8 +44,8 @@ type Props = {
   setSkills: React.Dispatch<React.SetStateAction<SkillOption[]>>;
   playerTypes: ValueType[];
   setPlayerTypes: React.Dispatch<React.SetStateAction<ValueType[]>>;
-  timezones: ValueType[];
-  setTimezones: React.Dispatch<React.SetStateAction<ValueType[]>>;
+  timeZones: ValueType[];
+  setTimeZones: React.Dispatch<React.SetStateAction<ValueType[]>>;
   availability: ValueType | null;
   setAvailability: React.Dispatch<React.SetStateAction<ValueType | null>>;
   sortOption: ValueType;
@@ -71,8 +71,8 @@ export const MobileFilters: React.FC<Props> = ({
   setSkills,
   playerTypes,
   setPlayerTypes,
-  timezones,
-  setTimezones,
+  timeZones,
+  setTimeZones,
   availability,
   setAvailability,
   sortOption,
@@ -179,7 +179,7 @@ export const MobileFilters: React.FC<Props> = ({
               <FilterItem
                 title="Time Zone"
                 onClick={() => setSelected(Selected.TIME_ZONE)}
-                value={timezones}
+                value={timeZones}
               />
             </DrawerBody>
             <DrawerFooter p="1.5rem">
@@ -257,16 +257,16 @@ export const MobileFilters: React.FC<Props> = ({
         )}
         {selected === Selected.TIME_ZONE && (
           <FilterContent
-            value={timezones}
+            value={timeZones}
             onChange={(value) => {
               const values = value as ValueType[];
-              setTimezones(values.slice(-1));
+              setTimeZones(values.slice(-1));
             }}
-            options={TimezoneOptions}
+            options={TimeZoneOptions}
             onBack={onBack}
             isMulti={false}
             showSearch
-            isTimezone
+            isTimeZone
           />
         )}
       </DrawerContent>
@@ -333,7 +333,7 @@ type FilterContentProps = {
   onBack: () => void;
   isMulti?: boolean;
   showSearch?: boolean;
-  isTimezone?: boolean;
+  isTimeZone?: boolean;
   disableEmpty?: boolean;
 };
 
@@ -353,7 +353,7 @@ const FilterContent: React.FC<FilterContentProps> = ({
   onBack,
   isMulti = true,
   showSearch = false,
-  isTimezone = false,
+  isTimeZone = false,
   disableEmpty = false,
 }) => {
   const isCategoryFilter = useMemo(
@@ -387,17 +387,17 @@ const FilterContent: React.FC<FilterContentProps> = ({
       if (!searchText) {
         setOptions(allOptions);
       }
-      let filteredTimezones: string[] = [];
-      if (isTimezone) {
-        filteredTimezones = getTimezonesFor(searchText);
+      let filteredTimeZones: string[] = [];
+      if (isTimeZone) {
+        filteredTimeZones = getTimeZonesFor(searchText);
       }
       if (isCategoryFilter) {
         const newOptions: CategoryValueType[] = (allOptions as CategoryValueType[]).reduce(
           (t: CategoryValueType[], v: CategoryValueType) => {
             const { label, options: categoryOptions } = v;
-            const filteredOptions = isTimezone
-              ? (categoryOptions as TimezoneType[]).filter(
-                  timezonesFilter(searchText, filteredTimezones),
+            const filteredOptions = isTimeZone
+              ? (categoryOptions as TimeZoneType[]).filter(
+                  timeZonesFilter(searchText, filteredTimeZones),
                 )
               : categoryOptions.filter(searchFilter(searchText));
             const newValue: CategoryValueType = {
@@ -410,15 +410,15 @@ const FilterContent: React.FC<FilterContentProps> = ({
         );
         setOptions(newOptions);
       } else {
-        const filteredOptions = isTimezone
-          ? (allOptions as TimezoneType[]).filter(
-              timezonesFilter(searchText, filteredTimezones),
+        const filteredOptions = isTimeZone
+          ? (allOptions as TimeZoneType[]).filter(
+              timeZonesFilter(searchText, filteredTimeZones),
             )
           : (allOptions as ValueType[]).filter(searchFilter(searchText));
         setOptions(filteredOptions);
       }
     },
-    [allOptions, isCategoryFilter, isTimezone],
+    [allOptions, isCategoryFilter, isTimeZone],
   );
 
   const renderOptions = useCallback(

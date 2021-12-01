@@ -12,7 +12,7 @@ import { FlexContainer } from 'components/Container';
 import { MetaLink } from 'components/Link';
 import { ColorBar } from 'components/Player/ColorBar';
 import { useSetupFlow } from 'contexts/SetupContext';
-import { useUpdateAboutYouMutation } from 'graphql/autogen/types';
+import { Maybe, useUpdateAboutYouMutation } from 'graphql/autogen/types';
 import {
   getPersonalityInfo,
   images as BaseImages,
@@ -40,15 +40,15 @@ export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
   }>([]);
   const isWizard = !isEdit;
 
-  const [colorMask, setColorMask] = useState<number | undefined>(
-    user?.player?.color_aspect?.mask,
+  const [colorMask, setColorMask] = useState<Maybe<number> | undefined>(
+    user?.player?.colorMask,
   );
 
   const load = () => {
     const { player } = user ?? {};
     if (player) {
-      if (colorMask === undefined && player.color_aspect !== null) {
-        setColorMask(player.color_aspect?.mask);
+      if (colorMask === undefined && player.colorMask != null) {
+        setColorMask(player.colorMask);
       }
     }
   };
@@ -74,7 +74,7 @@ export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
 
   const save = async () => {
     if (!user) return;
-    if (user.player?.color_aspect?.mask !== colorMask) {
+    if (user.player?.colorMask !== colorMask) {
       const { error } = await updateAboutYou({
         playerId: user.id,
         input: { colorMask },
@@ -96,6 +96,8 @@ export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
   // mask should always only have at most a single bit set
   const toggleMaskElement = (mask = 0): void => {
     setColorMask((current = 0) => {
+      // eslint-disable-next-line no-param-reassign
+      current ??= 0; // in case of null
       if ((mask & current) > 0) {
         // if the bit in mask is set
         return current & ~mask; // unset it

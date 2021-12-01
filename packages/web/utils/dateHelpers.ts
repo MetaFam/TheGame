@@ -1,4 +1,4 @@
-import { TimezoneOptions } from '@metafam/ds';
+import { TimeZoneOptions } from '@metafam/ds';
 
 export interface TimeZoneDisplay {
   timeZone?: string;
@@ -18,13 +18,13 @@ const getOffsetLabel = (offset: number): string => {
 };
 
 export const getPlayerTimeZoneDisplay = (
-  playerTimezone: string | undefined | null,
+  playerTimeZone: string | undefined | null,
 ): TimeZoneDisplay => {
   let tzLabel;
   let offsetLabel;
-  const timezone = TimezoneOptions.find((t) => t.value === playerTimezone);
-  if (timezone) {
-    const { abbrev, offset, value } = timezone;
+  const timeZone = TimeZoneOptions.find((t) => t.value === playerTimeZone);
+  if (timeZone) {
+    const { abbrev, offset, value } = timeZone;
     tzLabel = value;
     if (abbrev.length < 5) {
       tzLabel = abbrev;

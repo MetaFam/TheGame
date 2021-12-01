@@ -30,7 +30,6 @@ export const getPlayer = async (
     if (error) {
       throw error;
     }
-
     return null;
   }
 

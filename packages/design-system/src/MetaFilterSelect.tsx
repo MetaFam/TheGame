@@ -16,9 +16,9 @@ import { DropDownIcon } from './icons/DropDownIcon';
 import { MetaTag } from './MetaTag';
 import { SelectComponents, SelectSearch } from './SelectSearch';
 import {
-  getTimezonesFor,
-  timezonesFilter,
-  TimezoneType,
+  getTimeZonesFor,
+  timeZonesFilter,
+  TimeZoneType,
 } from './SelectTimeZone';
 
 export const MetaSelect: React.FC<SelectProps> = (props) => (
@@ -329,30 +329,30 @@ const SelectContainer: React.FC<
 export const MetaFilterSelectSearch: React.FC<
   React.ComponentProps<typeof SelectSearch> & {
     showSearch?: boolean;
-    isTimezone?: boolean;
+    isTimeZone?: boolean;
     hasValue: boolean;
     tagLabel: string;
   }
 > = ({
   options: defaultOptions,
   showSearch = false,
-  isTimezone = false,
+  isTimeZone = false,
   tagLabel = '',
   hasValue = false,
   ...props
 }) => {
   const [options, setOptions] = useState(defaultOptions);
 
-  const onTimezoneInputChange = useCallback(
+  const onTimeZoneInputChange = useCallback(
     (value: string) => {
       if (!value) {
         setOptions(defaultOptions);
       } else {
         const searchText = value.toLowerCase().trim();
-        const filteredTimezones = getTimezonesFor(searchText);
+        const filteredTimeZones = getTimeZonesFor(searchText);
         setOptions(
-          (defaultOptions as TimezoneType[])?.filter(
-            timezonesFilter(searchText, filteredTimezones),
+          (defaultOptions as TimeZoneType[])?.filter(
+            timeZonesFilter(searchText, filteredTimeZones),
           ),
         );
       }
@@ -381,8 +381,8 @@ export const MetaFilterSelectSearch: React.FC<
       hideSelectedOptions={false}
       showSearch={showSearch}
       options={options}
-      filterOption={isTimezone ? null : undefined}
-      onInputChange={isTimezone ? onTimezoneInputChange : undefined}
+      filterOption={isTimeZone ? null : undefined}
+      onInputChange={isTimeZone ? onTimeZoneInputChange : undefined}
       tagLabel={tagLabel}
       hasValue={hasValue}
       {...props}

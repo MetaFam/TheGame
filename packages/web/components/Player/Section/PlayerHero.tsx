@@ -160,7 +160,7 @@ export const PlayerHero: React.FC<Props> = ({
           <PlayerHeroTile title="Availability">
             <Availability {...{ person }} />
           </PlayerHeroTile>
-          <PlayerHeroTile title="Timezone">
+          <PlayerHeroTile title="Time Zone">
             <TimeZoneDisplay {...{ person }} />
           </PlayerHeroTile>
         </SimpleGrid>

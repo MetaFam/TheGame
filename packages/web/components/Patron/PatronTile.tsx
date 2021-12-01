@@ -55,8 +55,8 @@ const MAX_BIO_LENGTH = 240;
 export const PatronTile: React.FC<Props> = ({ index, patron }) => {
   const player = patron as PlayerFragmentFragment;
   const patronRank = computeRank(index, PATRONS_PER_RANK, PATRON_RANKS);
-  const tzDisplay = useMemo(() => getPlayerTimeZoneDisplay(player.timezone), [
-    player.timezone,
+  const tzDisplay = useMemo(() => getPlayerTimeZoneDisplay(player.timeZone), [
+    player.timeZone,
   ]);
   const description = getPlayerDescription(player);
   const displayDescription =

@@ -228,8 +228,8 @@ export const useFiltersUsed = (
     [queryVariables.skillIds],
   );
   const timezonesFilterUsed = useMemo(
-    () => (queryVariables.timezones as string[])?.length > 0,
-    [queryVariables.timezones],
+    () => (queryVariables.timeZones as string[])?.length > 0,
+    [queryVariables.timeZones],
   );
 
   const filtersUsed = useMemo(

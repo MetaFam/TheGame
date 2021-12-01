@@ -40,8 +40,8 @@ export const PlayerTile: React.FC<Props> = ({
   showSeasonalXP = false,
 }) => {
   const { timeZone, offset } = useMemo(
-    () => getPlayerTimeZoneDisplay(player.timezone),
-    [player.timezone],
+    () => getPlayerTimeZoneDisplay(player.timeZone),
+    [player.timeZone],
   );
   const description = getPlayerDescription(player);
   const displayDescription =

@@ -31,7 +31,7 @@ type Props = {
   showSeasonalXP?: boolean;
 };
 
-export const AdjacentTimezonePlayers: React.FC<Props> = ({
+export const AdjascentTimeZonePlayers: React.FC<Props> = ({
   queryVariables,
   showSeasonalXP,
 }) => {

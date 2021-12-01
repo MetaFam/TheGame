@@ -38,6 +38,7 @@ import React, {
   FC,
   MutableRefObject,
   ReactElement,
+  RefObject,
   useCallback,
   useEffect,
   useRef,
@@ -47,11 +48,14 @@ import { useForm } from 'react-hook-form';
 import { httpLink } from 'utils/linkHelpers';
 
 const Label: React.FC<FormLabelProps> = React.forwardRef(
-  ({ children, ...props }, ref) => (
-    <FormLabel color="cyan" {...{ ref }} {...props}>
-      {children}
-    </FormLabel>
-  ),
+  ({ children, ...props }, container) => {
+    const ref = container as RefObject<HTMLLabelElement>;
+    return (
+      <FormLabel color="cyan" {...{ ref }} {...props}>
+        {children}
+      </FormLabel>
+    );
+  },
 );
 
 const Input: React.FC<InputProps> = ({ children, ...props }) => (

@@ -1,5 +1,6 @@
-import { Box, ChakraProps, Flex } from '@metafam/ds';
+import { Box, ChakraProps, Flex, Text } from '@metafam/ds';
 import { FlexContainer } from 'components/Container';
+import { Maybe } from 'graphql/autogen/types';
 import {
   colors,
   getPersonalityInfo,
@@ -29,18 +30,23 @@ const maskImageStyle = ({ url }: { url: string }): Record<string, string> => ({
 export const ColorBar = ({
   mask = 0,
   ...props
-}: ChakraProps & { mask: number | undefined }): JSX.Element => {
+}: ChakraProps & { mask: Maybe<number> | undefined }): JSX.Element => {
   const [parts, setParts] = useState<Array<PersonalityOption>>([]);
   const [types, setTypes] = useState<Record<number, PersonalityOption>>({});
-  const load = async () => {
-    const { parts: ps, types: ts } = await getPersonalityInfo();
-    setParts(ps);
-    setTypes(ts);
-  };
 
   useEffect(() => {
+    const load = async () => {
+      const { parts: ps, types: ts } = await getPersonalityInfo();
+      setParts(ps);
+      setTypes(ts);
+    };
+
     load();
   }, []);
+
+  if (mask === null) {
+    return <Text fontStyle="italic">Colors have not yet been chosen.</Text>;
+  }
 
   return (
     <Flex

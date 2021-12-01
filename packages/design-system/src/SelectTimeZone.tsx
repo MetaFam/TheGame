@@ -1,14 +1,16 @@
 /* istanbul ignore file */
-import cityTimezones from 'city-timezones';
+import cityTimeZones from 'city-timezones';
 import React, { useCallback, useState } from 'react';
 import { Styles } from 'react-select';
-import TimezoneSelect, { i18nTimezones } from 'react-timezone-select';
+import TimeZoneSelect, {
+  i18nTimezones as i18nTimeZones,
+} from 'react-timezone-select';
 import spacetime from 'spacetime';
 import informal from 'spacetime-informal';
 
 import { theme } from './theme';
 
-export type TimezoneType = {
+export type TimeZoneType = {
   value: string;
   title: string;
   label: string;
@@ -24,14 +26,14 @@ export interface TimeZone {
   abbrev: string;
 }
 
-export interface TimezoneSelectProps extends Record<string, unknown> {
+export interface TimeZoneSelectProps extends Record<string, unknown> {
   value?: TimeZone | string;
   onBlur?: () => void;
-  onChange?: (timezone: TimeZone) => void;
+  onChange?: (timeZone: TimeZone) => void;
   labelStyle: 'original' | 'altName' | 'abbrev';
 }
 
-export const TimezoneOptions: TimezoneType[] = Object.entries(i18nTimezones)
+export const TimeZoneOptions: TimeZoneType[] = Object.entries(i18nTimeZones)
   .map(([value, title]) => {
     const now = spacetime.now().goto(value);
     const tz = now.timezone();
@@ -107,46 +109,46 @@ const selectStyles: Styles = {
   }),
 };
 
-export const timezonesFilter = (
+export const timeZonesFilter = (
   searchText: string,
-  filteredTimezones: string[],
-) => ({ value, title, label, abbrev, altName }: TimezoneType): boolean =>
+  filteredTimeZones: string[],
+) => ({ value, title, label, abbrev, altName }: TimeZoneType): boolean =>
   value.toLowerCase().includes(searchText) ||
   title.toLowerCase().includes(searchText) ||
   label.toLowerCase().includes(searchText) ||
   abbrev.toLowerCase().includes(searchText) ||
   altName.toLowerCase().includes(searchText) ||
-  filteredTimezones.includes(value);
+  filteredTimeZones.includes(value);
 
-export const getTimezonesFor = (searchText: string): string[] =>
-  cityTimezones
+export const getTimeZonesFor = (searchText: string): string[] =>
+  cityTimeZones
     .findFromCityStateProvince(searchText)
     .map(({ timezone }) => timezone);
 
-export const SelectTimeZone: React.FC<TimezoneSelectProps> = ({
+export const SelectTimeZone: React.FC<TimeZoneSelectProps> = ({
   value,
   ...props
 }) => {
-  const [options, setOptions] = useState(TimezoneOptions);
+  const [options, setOptions] = useState(TimeZoneOptions);
 
   const onInputChange = useCallback((val: string) => {
     if (!val) {
-      setOptions(TimezoneOptions);
+      setOptions(TimeZoneOptions);
     } else {
       const searchText = val.toLowerCase().trim();
-      const filteredTimezones = getTimezonesFor(searchText);
+      const filteredTimeZones = getTimeZonesFor(searchText);
       setOptions(
-        TimezoneOptions.filter(timezonesFilter(searchText, filteredTimezones)),
+        TimeZoneOptions.filter(timeZonesFilter(searchText, filteredTimeZones)),
       );
     }
   }, []);
 
   return (
-    <TimezoneSelect
+    <TimeZoneSelect
       value={value ?? ''}
       styles={selectStyles}
       filterOption={null}
-      timezones={Object.fromEntries(
+      timeZones={Object.fromEntries(
         options.map(({ value: val, title }) => [val, title]),
       )}
       {...{ onInputChange }}

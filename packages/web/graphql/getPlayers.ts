@@ -65,7 +65,7 @@ export type PlayersQueryVariables = {
   availability?: number;
   skillIds?: string[];
   playerTypeIds?: number[];
-  timezones?: string[];
+  timeZones?: string[];
 };
 
 export const transformToGraphQlVariables = (
@@ -83,8 +83,8 @@ export const transformToGraphQlVariables = (
       _gte: queryVariables.availability,
     };
   }
-  if (queryVariables.timezones?.length) {
-    graphqlWhereClause.timeZone = { _in: queryVariables.timezones };
+  if (queryVariables.timeZones?.length) {
+    graphqlWhereClause.timeZone = { _in: queryVariables.timeZones };
   }
   if (queryVariables.playerTypeIds?.length) {
     graphqlWhereClause.type = { id: { _in: queryVariables.playerTypeIds } };

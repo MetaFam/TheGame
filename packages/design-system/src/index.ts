@@ -22,11 +22,11 @@ export {
   selectStyles,
 } from './SelectSearch';
 export {
-  getTimezonesFor,
+  getTimeZonesFor,
   SelectTimeZone,
-  TimezoneOptions,
-  timezonesFilter,
-  TimezoneType,
+  TimeZoneOptions,
+  timeZonesFilter,
+  TimeZoneType,
 } from './SelectTimeZone';
 export { SVG } from './SVG';
 export { theme as MetaTheme } from './theme';
