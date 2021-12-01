@@ -25,18 +25,21 @@ module.exports = withTM(
         config.resolve.fallback = {
           fs: false,
           net: false,
-          http: false,
-          os: false,
-          https: false,
+          http: require.resolve('stream-http'),
+          os: require.resolve('os-browserify/browser'),
+          https: require.resolve('https-browserify'),
           child_process: false,
-          stream: false,
+          stream: require.resolve('stream-browserify'),
           'browserify-zlib': false,
           zlib: false,
-          crypto: false,
+          crypto: require.resolve('crypto-browserify'),
           path: false,
           tls: false,
         };
       }
+      config.plugins.push(
+        new webpack.ProvidePlugin({ Buffer: ['buffer', 'Buffer'] }),
+      );
 
       return config;
     },
