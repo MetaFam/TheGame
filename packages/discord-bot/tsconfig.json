@@ -5,7 +5,6 @@
     "module": "commonjs",
     "rootDir": "src",
     "outDir": "dist",
-    "tsBuildInfoFile": "dist/.tsbuildinfo",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "importHelpers": true,
