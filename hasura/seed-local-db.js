@@ -56,9 +56,7 @@ const topPlayersQuery = gql`
       ethereumAddress
       availableHours
       timezone
-      color_aspect {
-        mask
-      }
+      colorMask
       type {
         id
       }
@@ -109,9 +107,7 @@ async function fetchPlayerIdsAndSkills(addresses) {
     LOCAL_GRAPHQL_URL,
     getPlayerIdsAndSkillsQuery,
     'GetPlayerIds',
-    {
-      addresses,
-    },
+    { addresses },
   );
 
   if (errors?.length > 0) {
@@ -139,8 +135,8 @@ async function deleteSkills() {
     LOCAL_GRAPHQL_URL,
     deleteSkillsMutation,
     'DeleteSkills',
-      {},
-      true
+    {},
+    true,
   );
 
   if (errors) {
@@ -170,7 +166,7 @@ const updatePlayerMutation = gql`
         player_type_id: $playerTypeId
         timezone: $timezone
         availability_hours: $availability
-        color_mask: $colorMask
+        colorMask: $colorMask
         username: $username
       }
     ) {
@@ -179,9 +175,7 @@ const updatePlayerMutation = gql`
       ethereum_address
       availability_hours
       timezone
-      color_aspect {
-        mask
-      }
+      colorMask
       type {
         id
       }
@@ -199,15 +193,12 @@ async function updatePlayer(variables) {
     LOCAL_GRAPHQL_URL,
     updatePlayerMutation,
     'UpdatePlayer',
-      variables,
-      true
+    variables,
+    true,
   );
 
-  if (errors) {
-    // handle those errors like a pro
-    errors.map((e) => {
-      throw e;
-    });
+  if (errors?.length > 0) {
+    throw errors[0]
   }
 
   return data.update_player_by_pk;
@@ -218,7 +209,7 @@ const skillsMap = {};
 function getSkillId(skills, { Skill: { category, name } }) {
   const skillMapId = category + name;
   if (!skillsMap[skillMapId]) {
-    skills.map((skill) => {
+    skills.forEach((skill) => {
       skillsMap[skill.category + skill.name] = skill.id;
     });
   }
@@ -233,42 +224,48 @@ async function forceMigrateAccounts() {
 }
 
 async function startSeeding() {
-  console.log(`Force migrating sourcecred users into local db`);
+  console.debug(`Force migrating sourcecred users into local db`);
   const result = await forceMigrateAccounts();
-  console.log(result);
-  console.log(`Fetching players from prod db`);
+  console.debug(result);
+  console.debug(`Fetching players from prod db`);
   const players = await fetchTopPlayers();
-  const addresses = players.map((p) => p.ethereum_address);
-  console.log(`Fetching player ids for players from local db`);
+  const addresses = players.map(({ ethereumAddress }) => ethereumAddress);
+  console.debug(`Fetching player ids for players from local db`);
   const { ids, skills } = await fetchPlayerIdsAndSkills(addresses);
-  const mutations = players.map(player => {
-    const id = ids[player.ethereum_address];
-    if (!id) return undefined;
-    return {
-      playerId: id,
-      availability: player.availability_hours,
-      timezone: player.timezone,
-      playerTypeId: player.type.id,
-      colorMask: player.color_aspect?.mask || null,
-      username: player.username,
-      skills:
-        player.skills.map((skill) => ({
-          skill_id: getSkillId(skills, skill),
-          player_id: id,
-        })),
-    };
-  }).filter(m => !!m);
-  console.log(
+  const mutations = (
+    players.map((player) => {
+      const id = ids[player.ethereumAddress];
+      if (!id) return undefined;
+      return {
+        playerId: id,
+        availability: player.availableHours,
+        timezone: player.timeZone,
+        playerTypeId: player.type.id,
+        colorMask: player.colorMask ?? null,
+        username: player.username,
+        skills: (
+          player.skills.map((skill) => ({
+            skill_id: getSkillId(skills, skill),
+            player_id: id,
+          }))
+        ),
+      };
+    })
+    .filter(m => !!m)
+  );
+  console.debug(
     `Updating player information in local db for players in prod db`,
   );
   await deleteSkills();
-  const updated = await Promise.all(mutations.map((mutation) => updatePlayer(mutation)));
-  console.log(`Successfully seeded local db with ${updated.length} players`);
+  const updated = await Promise.all(mutations.map(
+    (mutation) => updatePlayer(mutation)
+  ));
+  console.debug(`Successfully seeded local db with ${updated.length} players`);
 }
 
 startSeeding()
-  .then(() => process.exit(0))
-  .catch((error) => {
-    console.error(error);
-    process.exit(1);
-  });
+.then(() => process.exit(0))
+.catch((error) => {
+  console.error(error);
+  process.exit(1);
+});

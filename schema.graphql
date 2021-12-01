@@ -4075,7 +4075,7 @@ type player {
     """filter the rows returned"""
     where: player_skill_bool_exp
   ): player_skill_aggregate!
-  timezone: String
+  timeZone: String
 
   """Remote relationship field"""
   token_balances: TokenBalances
@@ -4363,7 +4363,7 @@ input player_bool_exp {
   roles: player_role_bool_exp
   seasonXP: numeric_comparison_exp
   skills: player_skill_bool_exp
-  timezone: String_comparison_exp
+  timeZone: String_comparison_exp
   totalXP: numeric_comparison_exp
   type: player_type_bool_exp
   updatedAt: timestamptz_comparison_exp
@@ -4422,7 +4422,7 @@ input player_insert_input {
   roles: player_role_arr_rel_insert_input
   seasonXP: numeric
   skills: player_skill_arr_rel_insert_input
-  timezone: String
+  timeZone: String
   totalXP: numeric
   type: player_type_obj_rel_insert_input
   updatedAt: timestamptz
@@ -4442,7 +4442,7 @@ type player_max_fields {
   pronouns: String
   role: String
   seasonXP: numeric
-  timezone: String
+  timeZone: String
   totalXP: numeric
   updatedAt: timestamptz
   username: String
@@ -4463,7 +4463,7 @@ input player_max_order_by {
   pronouns: order_by
   role: order_by
   seasonXP: order_by
-  timezone: order_by
+  timeZone: order_by
   totalXP: order_by
   updatedAt: order_by
   username: order_by
@@ -4482,7 +4482,7 @@ type player_min_fields {
   pronouns: String
   role: String
   seasonXP: numeric
-  timezone: String
+  timeZone: String
   totalXP: numeric
   updatedAt: timestamptz
   username: String
@@ -4503,7 +4503,7 @@ input player_min_order_by {
   pronouns: order_by
   role: order_by
   seasonXP: order_by
-  timezone: order_by
+  timeZone: order_by
   totalXP: order_by
   updatedAt: order_by
   username: order_by
@@ -4561,7 +4561,7 @@ input player_order_by {
   roles_aggregate: player_role_aggregate_order_by
   seasonXP: order_by
   skills_aggregate: player_skill_aggregate_order_by
-  timezone: order_by
+  timeZone: order_by
   totalXP: order_by
   type: player_type_order_by
   updatedAt: order_by
@@ -4926,7 +4926,7 @@ enum player_select_column {
   seasonXP
 
   """column name"""
-  timezone
+  timeZone
 
   """column name"""
   totalXP
@@ -4954,7 +4954,7 @@ input player_set_input {
   rank: PlayerRank_enum
   role: String
   seasonXP: numeric
-  timezone: String
+  timeZone: String
   totalXP: numeric
   updatedAt: timestamptz
   username: String
@@ -5727,7 +5727,7 @@ enum player_update_column {
   seasonXP
 
   """column name"""
-  timezone
+  timeZone
 
   """column name"""
   totalXP
@@ -6163,13 +6163,13 @@ columns and relationships of "profile_cache"
 """
 type profile_cache {
   backgroundImageURL: String
-  country: String
+  countryCode: String
   description: String
   emoji: String
   gender: String
   id: uuid!
   imageURL: String
-  last_checked_at: timestamptz
+  lastCheckedAt: timestamptz
   location: String
   name: String
 
@@ -6221,13 +6221,13 @@ input profile_cache_bool_exp {
   _not: profile_cache_bool_exp
   _or: [profile_cache_bool_exp]
   backgroundImageURL: String_comparison_exp
-  country: String_comparison_exp
+  countryCode: String_comparison_exp
   description: String_comparison_exp
   emoji: String_comparison_exp
   gender: String_comparison_exp
   id: uuid_comparison_exp
   imageURL: String_comparison_exp
-  last_checked_at: timestamptz_comparison_exp
+  lastCheckedAt: timestamptz_comparison_exp
   location: String_comparison_exp
   name: String_comparison_exp
   player: player_bool_exp
@@ -6251,13 +6251,13 @@ input type for inserting data into table "profile_cache"
 """
 input profile_cache_insert_input {
   backgroundImageURL: String
-  country: String
+  countryCode: String
   description: String
   emoji: String
   gender: String
   id: uuid
   imageURL: String
-  last_checked_at: timestamptz
+  lastCheckedAt: timestamptz
   location: String
   name: String
   player: player_obj_rel_insert_input
@@ -6268,13 +6268,13 @@ input profile_cache_insert_input {
 """aggregate max on columns"""
 type profile_cache_max_fields {
   backgroundImageURL: String
-  country: String
+  countryCode: String
   description: String
   emoji: String
   gender: String
   id: uuid
   imageURL: String
-  last_checked_at: timestamptz
+  lastCheckedAt: timestamptz
   location: String
   name: String
   playerId: uuid
@@ -6286,13 +6286,13 @@ order by max() on columns of table "profile_cache"
 """
 input profile_cache_max_order_by {
   backgroundImageURL: order_by
-  country: order_by
+  countryCode: order_by
   description: order_by
   emoji: order_by
   gender: order_by
   id: order_by
   imageURL: order_by
-  last_checked_at: order_by
+  lastCheckedAt: order_by
   location: order_by
   name: order_by
   playerId: order_by
@@ -6302,13 +6302,13 @@ input profile_cache_max_order_by {
 """aggregate min on columns"""
 type profile_cache_min_fields {
   backgroundImageURL: String
-  country: String
+  countryCode: String
   description: String
   emoji: String
   gender: String
   id: uuid
   imageURL: String
-  last_checked_at: timestamptz
+  lastCheckedAt: timestamptz
   location: String
   name: String
   playerId: uuid
@@ -6320,13 +6320,13 @@ order by min() on columns of table "profile_cache"
 """
 input profile_cache_min_order_by {
   backgroundImageURL: order_by
-  country: order_by
+  countryCode: order_by
   description: order_by
   emoji: order_by
   gender: order_by
   id: order_by
   imageURL: order_by
-  last_checked_at: order_by
+  lastCheckedAt: order_by
   location: order_by
   name: order_by
   playerId: order_by
@@ -6366,13 +6366,13 @@ ordering options when selecting data from "profile_cache"
 """
 input profile_cache_order_by {
   backgroundImageURL: order_by
-  country: order_by
+  countryCode: order_by
   description: order_by
   emoji: order_by
   gender: order_by
   id: order_by
   imageURL: order_by
-  last_checked_at: order_by
+  lastCheckedAt: order_by
   location: order_by
   name: order_by
   player: player_order_by
@@ -6395,7 +6395,7 @@ enum profile_cache_select_column {
   backgroundImageURL
 
   """column name"""
-  country
+  countryCode
 
   """column name"""
   description
@@ -6413,7 +6413,7 @@ enum profile_cache_select_column {
   imageURL
 
   """column name"""
-  last_checked_at
+  lastCheckedAt
 
   """column name"""
   location
@@ -6433,13 +6433,13 @@ input type for updating data in table "profile_cache"
 """
 input profile_cache_set_input {
   backgroundImageURL: String
-  country: String
+  countryCode: String
   description: String
   emoji: String
   gender: String
   id: uuid
   imageURL: String
-  last_checked_at: timestamptz
+  lastCheckedAt: timestamptz
   location: String
   name: String
   playerId: uuid
@@ -6454,7 +6454,7 @@ enum profile_cache_update_column {
   backgroundImageURL
 
   """column name"""
-  country
+  countryCode
 
   """column name"""
   description
@@ -6472,7 +6472,7 @@ enum profile_cache_update_column {
   imageURL
 
   """column name"""
-  last_checked_at
+  lastCheckedAt
 
   """column name"""
   location

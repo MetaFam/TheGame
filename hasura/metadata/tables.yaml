@@ -312,6 +312,7 @@
       created_at: createdAt
       available_hours: availableHours
       total_xp: totalXP
+      timezone: timeZone
       player_type_id: playerTypeId
   object_relationships:
   - name: color_aspect
@@ -644,7 +645,9 @@
   configuration:
     custom_root_fields: {}
     custom_column_names:
+      country_code: countryCode
       background_image_url: backgroundImageURL
+      last_checked_at: lastCheckedAt
       image_url: imageURL
       player_id: playerId
   object_relationships:
@@ -655,36 +658,39 @@
   - role: player
     permission:
       columns:
-      - name
-      - description
-      - location
-      - emoji
-      - image_url
       - background_image_url
-      - website
+      - country_code
+      - description
+      - emoji
       - gender
       - id
+      - image_url
+      - location
+      - name
       - player_id
+      - website
       filter: {}
   - role: public
     permission:
       columns:
       - background_image_url
+      - country_code
       - description
       - emoji
       - gender
+      - id
       - image_url
       - location
       - name
-      - website
-      - id
       - player_id
+      - website
       filter: {}
   update_permissions:
   - role: player
     permission:
       columns:
       - background_image_url
+      - country_code
       - description
       - emoji
       - gender

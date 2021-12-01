@@ -12,12 +12,8 @@ export const PlayerFragment = gql`
 
     profile_layout @skip(if: $forLoginDisplay)
     availableHours @skip(if: $forLoginDisplay)
-    timezone @skip(if: $forLoginDisplay)
-    color_aspect @skip(if: $forLoginDisplay) {
-      name
-      description
-      mask
-    }
+    timeZone @skip(if: $forLoginDisplay)
+    colorMask @skip(if: $forLoginDisplay)
 
     type @skip(if: $forLoginDisplay) {
       description
@@ -47,14 +43,17 @@ export const PlayerFragment = gql`
       identifier
       type
     }
+
     profile_cache {
+      name
       description
       emoji
-      backgroundImageURL
       imageURL
+      backgroundImageURL
       location
-      name
+      countryCode
     }
+
     daohausMemberships @skip(if: $forLoginDisplay) {
       id
       shares
@@ -67,6 +66,7 @@ export const PlayerFragment = gql`
         chain
       }
     }
+
     brightid_status @skip(if: $forLoginDisplay) {
       unique
       contextIds

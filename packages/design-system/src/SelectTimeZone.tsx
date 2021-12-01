@@ -25,7 +25,7 @@ export interface TimeZone {
 }
 
 export interface TimezoneSelectProps extends Record<string, unknown> {
-  value: TimeZone | string;
+  value?: TimeZone | string;
   onBlur?: () => void;
   onChange?: (timezone: TimeZone) => void;
   labelStyle: 'original' | 'altName' | 'abbrev';
@@ -143,13 +143,13 @@ export const SelectTimeZone: React.FC<TimezoneSelectProps> = ({
 
   return (
     <TimezoneSelect
-      {...{ value, onInputChange }}
+      value={value ?? ''}
       styles={selectStyles}
       filterOption={null}
-      timezones={options.reduce(
-        (t, { value: val, title }) => ({ ...t, [val]: title }),
-        {},
+      timezones={Object.fromEntries(
+        options.map(({ value: val, title }) => [val, title]),
       )}
+      {...{ onInputChange }}
       {...props}
     />
   );

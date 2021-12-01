@@ -165,8 +165,8 @@ export const GetCacheEntries = gql`
     profile_cache(
       where: {
         _or: [
-          { last_checked_at: { _lt: $updatedBefore } }
-          { last_checked_at: { _is_null: true } }
+          { lastCheckedAt: { _lt: $updatedBefore } }
+          { lastCheckedAt: { _is_null: true } }
         ]
       }
     ) {

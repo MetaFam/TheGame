@@ -16,7 +16,7 @@ gql`
     update_player_by_pk(pk_columns: { id: $playerId }, _set: $input) {
       id
       availableHours
-      timezone
+      timeZone
     }
   }
 

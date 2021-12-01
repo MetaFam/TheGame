@@ -39,7 +39,7 @@ gql`
         backgroundImageURL
         gender
         location
-        country
+        countryCode
         website
       ]
     }

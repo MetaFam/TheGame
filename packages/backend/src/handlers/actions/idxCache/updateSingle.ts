@@ -75,7 +75,7 @@ export default async (playerId: string): Promise<UpdateBoxProfileResponse> => {
         gender,
         url,
         homeLocation: location,
-        residenceCountry: country,
+        residenceCountry: countryCode,
         image,
         background,
       } = basicProfile;
@@ -88,7 +88,7 @@ export default async (playerId: string): Promise<UpdateBoxProfileResponse> => {
         backgroundImageURL: background?.original?.src,
         gender,
         location,
-        country,
+        countryCode,
         website: url,
       };
 
