@@ -352,10 +352,9 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
               (refs as { background: MutableRefObject<HTMLImageElement> })
                 .background
             }
-            src={httpLink(
-              (endpoints as { background: { url: string } }).background.url,
-            )}
-            maxH="6em"
+            src={httpLink(endpoints.background.url)}
+            maxW="12em"
+            h="10em"
           />
           <Input
             name="background"
