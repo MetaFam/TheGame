@@ -1,30 +1,32 @@
 import {
   Box,
   ConfirmModal,
+  Flex,
   HStack,
   Input,
   MetaButton,
   MetaTag,
   Select,
-  Textarea,
+  Text,
   VStack,
 } from '@metafam/ds';
-import { Field } from 'components/Forms/Field';
+import { EditorState } from 'draft-js';
 import {
   GuildFragmentFragment,
   QuestFragmentFragment,
   QuestRepetition_Enum,
   QuestStatus_Enum,
 } from 'graphql/autogen/types';
-import { useUser } from 'lib/hooks';
 import { useRouter } from 'next/router';
-import React, { useMemo, useState } from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import React, { useEffect, useMemo, useState } from 'react';
+import { Controller, FieldError, useForm } from 'react-hook-form';
 
 import { QuestRepetitionHint, UriRegexp } from '../../utils/questHelpers';
 import { CategoryOption, SkillOption } from '../../utils/skillHelpers';
+import { stateFromHTML } from '../../utils/stateFromHTML';
 import { FlexContainer } from '../Container';
 import { SkillsSelect } from '../Skills';
+import { WYSIWYGEditor } from '../WYSIWYGEditor';
 import { RepetitionColors } from './QuestTags';
 
 const validations = {
@@ -54,7 +56,7 @@ const validations = {
 
 export interface CreateQuestFormInputs {
   title: string;
-  description: string | undefined | null;
+  description: EditorState;
   repetition: QuestRepetition_Enum;
   status: QuestStatus_Enum;
   guild_id: string | null;
@@ -65,13 +67,24 @@ export interface CreateQuestFormInputs {
 
 const MetaFamGuildId = 'f94b7cd4-cf29-4251-baa5-eaacab98a719';
 
+const getDescriptionEditorState = async (
+  description?: string | null,
+): Promise<EditorState> => {
+  if (description) {
+    const contentState = await stateFromHTML(description);
+
+    return EditorState.createWithContent(contentState);
+  }
+  return EditorState.createEmpty();
+};
+
 const getDefaultFormValues = (
   editQuest: QuestFragmentFragment | undefined,
   guilds: GuildFragmentFragment[],
 ): CreateQuestFormInputs => ({
   title: editQuest?.title || '',
   repetition: editQuest?.repetition || QuestRepetition_Enum.Unique,
-  description: editQuest?.description || '',
+  description: EditorState.createEmpty(),
   external_link: editQuest?.external_link || '',
   guild_id:
     editQuest?.guild_id ||
@@ -89,6 +102,32 @@ const getDefaultFormValues = (
         }))
     : [],
 });
+
+type FieldProps = {
+  children: React.ReactNode;
+  label: string;
+  error?: FieldError;
+};
+
+const Field: React.FC<FieldProps> = ({ children, error, label }) => (
+  <Flex mb={2} w="100%" align="center" direction="column">
+    <Flex justify="space-between" w="100%" mb={2}>
+      <Text textStyle="caption" textAlign="left" ml={4}>
+        {label}
+      </Text>
+
+      <Text textStyle="caption" textAlign="left" color="red.400" mr={4}>
+        {error?.type === 'required' && 'Required'}
+        {error?.type === 'pattern' && 'Invalid URL'}
+        {error?.type === 'minLength' && 'Too short'}
+        {error?.type === 'maxLength' && 'Too long'}
+        {error?.type === 'min' && 'Too small'}
+      </Text>
+    </Flex>
+
+    {children}
+  </Flex>
+);
 
 type Props = {
   guilds: GuildFragmentFragment[];
@@ -111,23 +150,30 @@ export const QuestForm: React.FC<Props> = ({
   loadingLabel,
   editQuest,
 }) => {
-  const defaultValues = useMemo<CreateQuestFormInputs>(
-    () => getDefaultFormValues(editQuest, guilds),
-    [editQuest, guilds],
-  );
+  const defaultValues = useMemo(() => getDefaultFormValues(editQuest, guilds), [
+    editQuest,
+    guilds,
+  ]);
+
   const {
     register,
     control,
     errors,
     watch,
     handleSubmit,
+    reset,
   } = useForm<CreateQuestFormInputs>({
     defaultValues,
   });
+  useEffect(() => {
+    getDescriptionEditorState(editQuest?.description).then((description) => {
+      defaultValues.description = description;
+      reset(defaultValues);
+    });
+  }, [editQuest, guilds, reset, defaultValues]);
   const router = useRouter();
   const [exitAlert, setExitAlert] = useState<boolean>(false);
   const createQuestInput = watch();
-  const { user } = useUser();
 
   return (
     <Box w="100%" maxW="30rem">
@@ -145,14 +191,16 @@ export const QuestForm: React.FC<Props> = ({
           />
         </Field>
 
-        <Field label="Description" error={errors.description}>
-          <Textarea
-            background="dark"
-            placeholder="Please describe in details what needs to be done"
-            isRequired
+        <Field label="Description">
+          <Controller
             name="description"
-            ref={register(validations.description)}
-            isInvalid={!!errors.description}
+            control={control}
+            render={({ onChange, value }) => (
+              <WYSIWYGEditor
+                editorState={value}
+                onEditorStateChange={onChange}
+              />
+            )}
           />
         </Field>
 
@@ -269,7 +317,6 @@ export const QuestForm: React.FC<Props> = ({
             Cancel
           </MetaButton>
           <MetaButton
-            disabled={!user}
             mt={10}
             isLoading={fetching}
             loadingText={loadingLabel}

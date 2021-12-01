@@ -117,7 +117,6 @@ export const Listen: React.FC = () => {
             >
               {podcast.showMore ? 'Show less' : 'Show more'}
             </Text>
-            {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
             <audio
               style={{
                 width: '100%',

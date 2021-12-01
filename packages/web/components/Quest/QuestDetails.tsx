@@ -19,6 +19,7 @@ import {
   QuestWithCompletionFragmentFragment,
   Skill,
 } from 'graphql/autogen/types';
+import parse from 'html-react-parser';
 import moment from 'moment';
 import React from 'react';
 
@@ -91,7 +92,7 @@ export const QuestDetails: React.FC<Props> = ({ quest }) => {
       <MetaTileBody>
         <VStack spacing={2} align="stretch">
           <Text textStyle="caption">DESCRIPTION</Text>
-          <Text>{quest.description}</Text>
+          <Box>{parse(quest.description || '')}</Box>
 
           {quest.repetition === QuestRepetition_Enum.Recurring && (
             <>
