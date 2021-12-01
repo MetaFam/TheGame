@@ -3,6 +3,7 @@ import {
   Button,
   Grid,
   GridItem,
+  Image,
   Input,
   InputGroup,
   InputLeftElement,
@@ -15,12 +16,25 @@ import {
   Text,
   Tooltip,
   useToast,
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
 } from '@metafam/ds';
+
+import { CONFIG } from 'config';
+
+import { httpLink } from 'utils/linkHelpers';
+
 import {
   useUpdatePlayerUsernameMutation,
   useUpdateProfileMutation,
 } from 'graphql/autogen/types';
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect, useState, useCallback, useRef } from 'react';
+
+import { useForm } from 'react-hook-form'; 
+
+import { useWeb3 } from 'lib/hooks'; 
+
 
 import { MeType } from '../graphql/types';
 import { TimeZoneOption } from '../utils/skillHelpers';
@@ -162,6 +176,26 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
     user?.player?.pronouns || '',
   );
 
+  const image = useRef<HTMLImageElement>(null);
+  const background = useRef<HTMLImageElement>(null);
+
+  const [imageURL, setImageURL] = useState<string | null>(
+    user?.player?.profile_cache?.imageURL ?? null 
+  );
+  const [backgroundURL, setBackgroundURL] = useState<string | null>(
+    user?.player?.profile_cache?.backgroundImageURL ?? null 
+  );
+
+
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+    setValue,
+  } = useForm();
+
+  const { ceramic, address } = useWeb3();
+
   const [invalid, setInvalid] = useState(false);
   const [updateProfileRes, updateProfile] = useUpdateProfileMutation();
   const toast = useToast();
@@ -176,6 +210,92 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
   // const GRID_SIZE = 2;
   // const HALF = GRID_SIZE / 2;
 
+
+  const onFileChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      const input = event.target as HTMLInputElement;
+      const file = input.files?.[0];
+      if (!file) return;
+      const img = image.current as HTMLImageElement;
+      const bg = background.current as HTMLImageElement;
+      const reader = new FileReader();
+      reader.addEventListener('load', () => {
+        if (input.name === 'image') {
+          img.src = reader.result as string;
+        }
+        if (input.name === 'background') {
+          bg.src = reader.result as string;
+        }
+      });
+      reader.readAsDataURL(file);
+    },
+    [],
+  );
+
+  const onSubmit = async (inputs: Record<string, unknown>) => {
+    const values = { ...inputs };
+    const formData = new FormData();
+    const [imageFile] = values.image as File[];
+    const [backgroundFile] = values.background as File[];
+    if (!imageFile && !backgroundFile) {
+      delete values.image;
+      delete values.background;
+    } else {
+      // setStatus('Uploading files to web3.storage…');
+
+      if (imageFile) {
+        formData.append('image', imageFile);
+      }
+      if (backgroundFile) {
+        formData.append('background', backgroundFile);
+      }
+      console.log ({formData, imageFile, backgroundFile})
+      const result = await fetch(`/api/storage`, {
+        method: 'POST',
+        body: formData,
+        credentials: 'include',
+      });
+      console.log ({b: await result.text()})
+
+      const cids = await result.json();
+      console.log({cids})
+      const refs = { image: image.current, background: background.current } as {
+        image: HTMLImageElement | null;
+        background: HTMLImageElement | null;
+      };
+      ['image', 'background'].forEach((key) => {
+        if (cids[key]) {
+          values[key] = {
+            original: {
+              src: `ipfs://${cids[key]}`,
+              mimeType: 'image/*',
+              width: refs[key as 'image' | 'background']?.width,
+              height: refs[key as 'image' | 'background']?.height,
+            },
+          };
+        } else {
+          delete values[key];
+        }
+      });
+    }
+
+    // empty string fails validation
+    ['residenceCountry', 'birthDate'].forEach((key) => {
+      if (values[key] === '') {
+        delete values[key];
+      }
+    });
+
+    if (values.residenceCountry) {
+      values.residenceCountry = (values.residenceCountry as string).toUpperCase();
+    }
+
+    // setStatus('Authenticating DID…');
+    await ceramic?.did?.authenticate();
+
+    // setStatus(null);
+  };
+  
   const save = async () => {
     if (!user) return;
 
@@ -235,10 +355,48 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
   };
 
   return (
-    <Box>
+    <Grid 
+      as="form"
+      onSubmit={async (evt) => {
+        // setStatus('Submitting…');
+        await handleSubmit(onSubmit)(evt);
+        // setStatus(null);
+      }}
+    >
+
       <Grid templateColumns="repeat(3, 1fr)">
         <GridItem>
-          <Tooltip label="Only lowercase letters, numbers, and dashes:">
+
+        <FormControl isInvalid={errors.image}>
+          <FormLabel htmlFor="image">Profile Image</FormLabel>
+          <Image ref={image} src={httpLink(imageURL) ?? undefined} maxH="6em" />
+          <Input
+            name="image"
+            type="file"
+            onChange={onFileChange}
+            ref={register}
+            {...register('image')}
+          />
+          <FormErrorMessage>
+            {errors.image && errors.image.message}
+          </FormErrorMessage>
+        </FormControl>
+        <FormControl isInvalid={errors.background}>
+          <FormLabel htmlFor="background">Header Background</FormLabel>
+          <Image ref={background} src={httpLink(backgroundURL) ?? undefined} maxH="6em" />
+          <Input
+            name="background"
+            type="file"
+            onChange={onFileChange}
+            ref={register}
+            {...register('background')}
+          />
+          <FormErrorMessage>
+            {errors.background && errors.background.message}
+          </FormErrorMessage>
+        </FormControl>
+
+
             <ProfileField
               title="username"
               value={username}
@@ -246,7 +404,6 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
                 setUsername(value || '');
               }}
             />
-          </Tooltip>
         </GridItem>
 
         {/* <GridItem>
@@ -324,10 +481,11 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
       {onClose && (
         <ModalFooter mt={6} justifyContent="center">
           <MetaButton
-            onClick={save}
+            // onClick={save}
             isDisabled={invalid}
             isLoading={updateProfileRes.fetching || loading}
             loadingText="Saving…"
+            type="submit"          
           >
             Save Changes
           </MetaButton>
@@ -341,6 +499,6 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
           </Button>
         </ModalFooter>
       )}
-    </Box>
+    </Grid>
   );
 };

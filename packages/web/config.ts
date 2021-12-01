@@ -36,4 +36,5 @@ export const CONFIG = {
     process.env.NEXT_IPFS_LINK_PATTERN ||
     // eslint-disable-next-line no-template-curly-in-string
     'https://{cid}.ipfs.dweb.link/{path}',
+  web3StorageToken: process.env.WEB3_STORAGE_TOKEN || '',
 };
