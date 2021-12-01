@@ -11,5 +11,5 @@ export const httpLink = (uri: string | undefined | null) => {
     return pattern.replace(/{cid}/g, v1CID).replace(/{path}/g, path ?? '');
   }
 
-  return uri;
+  return uri ?? undefined; // Image.src won't take null
 };

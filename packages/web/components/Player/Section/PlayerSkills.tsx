@@ -47,7 +47,7 @@ export const PlayerSkills: React.FC<Props> = ({
       boxType={BoxType.PLAYER.SKILLS}
     >
       {!player?.skills?.length ? (
-        <Text fontStyle="italic">
+        <Text fontStyle="italic" textAlign="center">
           {isOwnProfile ? 'You haven’t ' : 'This player hasn’t '}
           defined any skills.
         </Text>

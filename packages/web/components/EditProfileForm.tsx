@@ -1,43 +1,64 @@
 import {
   Box,
   Button,
-  Grid,
-  GridItem,
+  Flex,
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
+  FormLabelProps,
   Image,
-  Input,
+  Input as ChakraInput,
   InputGroup,
   InputLeftElement,
+  InputProps,
   InputRightAddon,
+  Link,
   MetaButton,
   MetaFilterSelectSearch,
   metaFilterSelectStyles,
   ModalFooter,
   SelectTimeZone,
+  Spinner,
   Text,
+  Textarea,
   Tooltip,
-  useToast,
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
+  // useToast,
+  Wrap,
+  WrapItem,
 } from '@metafam/ds';
-
-import { CONFIG } from 'config';
-
+import {
+  Maybe,
+  Profile_Cache_Select_Column,
+  // Player_Select_Column,
+} from 'graphql/autogen/types';
+import { MeType } from 'graphql/types';
+import { useWeb3 } from 'lib/hooks';
+import React, {
+  ChangeEvent,
+  FC,
+  MutableRefObject,
+  ReactElement,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
+import { useForm } from 'react-hook-form';
 import { httpLink } from 'utils/linkHelpers';
 
-import {
-  useUpdatePlayerUsernameMutation,
-  useUpdateProfileMutation,
-} from 'graphql/autogen/types';
-import React, { FC, useEffect, useState, useCallback, useRef } from 'react';
+const Label: React.FC<FormLabelProps> = React.forwardRef(
+  ({ children, ...props }, ref) => (
+    <FormLabel color="cyan" {...{ ref }} {...props}>
+      {children}
+    </FormLabel>
+  ),
+);
 
-import { useForm } from 'react-hook-form'; 
-
-import { useWeb3 } from 'lib/hooks'; 
-
-
-import { MeType } from '../graphql/types';
-import { TimeZoneOption } from '../utils/skillHelpers';
+const Input: React.FC<InputProps> = ({ children, ...props }) => (
+  <ChakraInput color="white" w="fill" bg="dark" {...props}>
+    {children}
+  </ChakraInput>
+);
 
 export type ProfileEditorProps = {
   user: MeType;
@@ -52,61 +73,17 @@ export type ProfileFieldProps = {
   title: string;
   placeholder?: string;
   value?: string;
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (evt: ChangeEvent<HTMLInputElement>) => void;
 };
 
-interface InputData {
-  availableHours?: number;
-  timezone?: string;
-  pronouns?: string;
-}
-
-export const ProfileField: React.FC<ProfileFieldProps> = ({
-  title,
-  placeholder,
-  value,
-  onChange,
-  children,
-}) => {
-  const [innerValue, setInnerValue] = useState(value);
-
-  useEffect(() => {
-    setInnerValue(value);
-  }, [value]);
-
-  return (
-    <Box m={2}>
-      <Text fontSize="md" color="cyan" mb={1}>
-        {title}
-      </Text>
-      {!children ? (
-        <>
-          <Input
-            background="dark"
-            color="white"
-            value={innerValue}
-            onChange={onChange}
-            w="100%"
-            my={4}
-            {...{ placeholder }}
-          />
-          &nbsp;
-        </>
-      ) : (
-        children
-      )}
-    </Box>
-  );
+export type SelectOption = {
+  label: string;
+  value: string;
 };
 
 export type CountrySelectDropdownProps = {
-  country: CountryOption;
-  onChange: (country: CountryOption | null) => void;
-};
-
-export type CountryOption = {
-  label: string;
-  value: string;
+  country: SelectOption;
+  onChange: (country: Maybe<SelectOption>) => void;
 };
 
 export const COUNTRIES_LIST: { [key: string]: string } = {
@@ -114,8 +91,8 @@ export const COUNTRIES_LIST: { [key: string]: string } = {
   US: 'USA',
   MX: 'Mexico',
 };
-export const COUNTRIES_OPTIONS = Object.keys(COUNTRIES_LIST).map(
-  (key) => ({ value: key, label: COUNTRIES_LIST[key] } as CountryOption),
+export const COUNTRIES_OPTIONS = Object.entries(COUNTRIES_LIST).map(
+  ([abbr, name]) => ({ value: abbr, label: name } as SelectOption),
 );
 export const CountrySelectDropdown: FC<CountrySelectDropdownProps> = ({
   country,
@@ -134,20 +111,16 @@ export const CountrySelectDropdown: FC<CountrySelectDropdownProps> = ({
         value={[country]}
         options={COUNTRIES_OPTIONS}
         onChange={(value) => {
-          if (value) onChange(value as CountryOption);
+          if (value) onChange(value as SelectOption);
         }}
       />
     </Box>
   </Box>
 );
 
-export type TimezoneOption = {
-  label: string;
-  value: string;
-};
 export type TimezoneSelectDropdownProps = {
-  timezone: TimeZoneOption | undefined;
-  onChange: (timezone: TimezoneOption | null) => void;
+  timezone: SelectOption | undefined;
+  onChange: (timezone: SelectOption | null) => void;
 };
 
 export const TIMEZONES_LIST: { [key: string]: string } = {
@@ -155,235 +128,231 @@ export const TIMEZONES_LIST: { [key: string]: string } = {
   '-700': 'GMT-700',
   '-600': 'GMT-600',
 };
-export const TIMEZONES_OPTIONS = Object.keys(TIMEZONES_LIST).map(
-  (key) => ({ value: key, label: TIMEZONES_LIST[key] } as TimezoneOption),
+export const TIMEZONES_OPTIONS = Object.entries(TIMEZONES_LIST).map(
+  ([offset, gmt]) => ({ value: offset, label: gmt } as SelectOption),
 );
+
+export interface BasicProfileProps {
+  description?: Maybe<string>;
+  emoji?: Maybe<string>;
+  backgroundImageURL?: Maybe<string>;
+  imageURL?: Maybe<string>;
+  location?: Maybe<string>;
+  name?: Maybe<string>;
+  countryCode?: Maybe<string>;
+}
+export enum CacheImages {
+  imageURL = 'image',
+  backgroundImageURL = 'background',
+}
+export enum CacheFields {
+  name = 'name',
+  description = 'description',
+  emoji = 'emoji',
+  location = 'location',
+  countryCode = 'residenceCountry',
+}
+export enum CacheSkips {
+  id = Profile_Cache_Select_Column.Id,
+  gender = Profile_Cache_Select_Column.Gender,
+  playerId = Profile_Cache_Select_Column.PlayerId,
+  lastCheckedAt = Profile_Cache_Select_Column.LastCheckedAt,
+}
+export type ImageRefs = {
+  -readonly [key in keyof typeof CacheImages]?: MutableRefObject<HTMLImageElement>;
+};
+export interface InputtedFields {
+  timeZone?: Maybe<string>;
+  availableHours?: Maybe<number>;
+  username: Maybe<string>;
+  pronouns: Maybe<string>;
+}
 
 export const EditProfileForm: React.FC<ProfileEditorProps> = ({
   user,
   onClose,
 }) => {
-  const [timeZone, setTimeZone] = useState<string>(
-    user?.player?.timezone || '',
-  );
-  const [availability, setAvailability] = useState<string>(
-    user?.player?.availableHours?.toString() || '',
-  );
-  const [username, setUsername] = useState<string>(
-    user?.player?.username || '',
-  );
-  const [pronouns, setPronouns] = useState<string>(
-    user?.player?.pronouns || '',
-  );
-
-  const image = useRef<HTMLImageElement>(null);
-  const background = useRef<HTMLImageElement>(null);
-
-  const [imageURL, setImageURL] = useState<string | null>(
-    user?.player?.profile_cache?.imageURL ?? null 
-  );
-  const [backgroundURL, setBackgroundURL] = useState<string | null>(
-    user?.player?.profile_cache?.backgroundImageURL ?? null 
-  );
-
-
+  const [status, setStatus] = useState<Maybe<ReactElement | string>>(null);
   const {
     handleSubmit,
     register,
     formState: { errors },
     setValue,
   } = useForm();
+  const { ceramic } = useWeb3();
+  // const toast = useToast();
+  const { player } = user ?? {};
 
-  const { ceramic, address } = useWeb3();
-
-  const [invalid, setInvalid] = useState(false);
-  const [updateProfileRes, updateProfile] = useUpdateProfileMutation();
-  const toast = useToast();
-  const [loading, setLoading] = useState(false);
-  const [, updateUsername] = useUpdatePlayerUsernameMutation();
+  const refs: ImageRefs = Object.fromEntries(
+    Object.keys(CacheImages).map((type) =>
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      [type, useRef<HTMLImageElement>(null)],
+    ),
+  );
+  const endpoints = Object.fromEntries(
+    Object.entries(CacheImages).map(([id, type]) => {
+      const key = id as keyof typeof CacheImages;
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      const [url, set] = useState<Maybe<string>>(
+        player?.profile_cache?.[key] ?? null,
+      );
+      return [type, { url, set }];
+    }),
+  );
 
   useEffect(() => {
-    const value = Number(availability);
-    setInvalid(value < 0 || value > 24 * 7);
-  }, [availability]);
-
-  // const GRID_SIZE = 2;
-  // const HALF = GRID_SIZE / 2;
-
+    Object.keys(CacheFields).forEach((attr) => {
+      const key = attr as keyof typeof CacheFields;
+      setValue(key, player?.profile_cache?.[key] ?? null);
+    });
+  }, [player, setValue]);
 
   const onFileChange = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      const input = event.target as HTMLInputElement;
+    ({ target: input }: { target: HTMLInputElement }) => {
       const file = input.files?.[0];
       if (!file) return;
-      const img = image.current as HTMLImageElement;
-      const bg = background.current as HTMLImageElement;
+      const key = input.name as keyof typeof refs;
+      const ref = refs[key] as MutableRefObject<HTMLImageElement>;
+      const elem = ref.current as HTMLImageElement | null;
+      if (!elem) return;
       const reader = new FileReader();
       reader.addEventListener('load', () => {
-        if (input.name === 'image') {
-          img.src = reader.result as string;
-        }
-        if (input.name === 'background') {
-          bg.src = reader.result as string;
-        }
+        elem.src = reader.result as string;
       });
       reader.readAsDataURL(file);
     },
-    [],
+    [refs],
   );
 
-  const onSubmit = async (inputs: Record<string, unknown>) => {
-    const values = { ...inputs };
-    const formData = new FormData();
-    const [imageFile] = values.image as File[];
-    const [backgroundFile] = values.background as File[];
-    if (!imageFile && !backgroundFile) {
-      delete values.image;
-      delete values.background;
-    } else {
-      // setStatus('Uploading files to web3.storage…');
+  const onSubmit = async (inputs: BasicProfileProps) => {
+    setStatus(
+      <Text>
+        Uploading images to
+        <Link href="//web3.storage" ml={1}>
+          web3.storage
+        </Link>
+        …
+      </Text>,
+    );
 
-      if (imageFile) {
-        formData.append('image', imageFile);
-      }
-      if (backgroundFile) {
-        formData.append('background', backgroundFile);
-      }
-      console.log ({formData, imageFile, backgroundFile})
+    const formData = new FormData();
+    const images: Record<string, object> = {};
+    const files: Record<string, File> = {};
+    Object.keys(refs).forEach((name) => {
+      const key = name as keyof BasicProfileProps;
+      [files[key]] = (inputs[key] ?? []) as File[];
+    });
+    console.log({ inputs, files }); // eslint-disable-line no-console
+
+    if (Object.values(files).reduce((acc, val) => acc || !!val, false)) {
+      Object.entries(files).forEach(([name, file]) => {
+        formData.append(name, file);
+      });
+      console.log({ formData, files }); // eslint-disable-line no-console
       const result = await fetch(`/api/storage`, {
         method: 'POST',
         body: formData,
         credentials: 'include',
       });
-      console.log ({b: await result.text()})
-
       const cids = await result.json();
-      console.log({cids})
-      const refs = { image: image.current, background: background.current } as {
-        image: HTMLImageElement | null;
-        background: HTMLImageElement | null;
-      };
-      ['image', 'background'].forEach((key) => {
-        if (cids[key]) {
-          values[key] = {
+      console.log({ cids }); // eslint-disable-line no-console
+      Object.keys(files).forEach((type: string) => {
+        if (!cids[type]) {
+          // eslint-disable-next-line no-console
+          console.warn(`Uploaded "${type}" & didn't get a response back.`);
+        } else {
+          const key = type as keyof typeof refs;
+          const ref = refs[key] as MutableRefObject<HTMLImageElement>;
+          const elem = ref.current as HTMLImageElement | null;
+          const { width, height } = elem ?? {};
+          images[type] = {
             original: {
-              src: `ipfs://${cids[key]}`,
+              src: `ipfs://${cids[type]}`,
               mimeType: 'image/*',
-              width: refs[key as 'image' | 'background']?.width,
-              height: refs[key as 'image' | 'background']?.height,
+              width,
+              height,
             },
           };
-        } else {
-          delete values[key];
         }
       });
     }
 
     // empty string fails validation
-    ['residenceCountry', 'birthDate'].forEach((key) => {
-      if (values[key] === '') {
-        delete values[key];
+    ['countryCode', 'birthDate'].forEach((prop) => {
+      const key = prop as keyof BasicProfileProps;
+      if (inputs[key] === '') {
+        delete inputs[key]; // eslint-disable-line no-param-reassign
       }
     });
 
-    if (values.residenceCountry) {
-      values.residenceCountry = (values.residenceCountry as string).toUpperCase();
+    const { countryCode: code }: { countryCode?: Maybe<string> } = inputs;
+    if (code?.length === 2) {
+      // eslint-disable-next-line no-param-reassign
+      inputs.countryCode = code.toUpperCase();
+    } else {
+      delete inputs.countryCode; // eslint-disable-line no-param-reassign
     }
 
-    // setStatus('Authenticating DID…');
+    setStatus(<Text>Authenticating DID…</Text>);
     await ceramic?.did?.authenticate();
-
-    // setStatus(null);
-  };
-  
-  const save = async () => {
-    if (!user) return;
-
-    setLoading(true);
-
-    const input: InputData = {};
-    if (user.player?.availableHours?.toString() !== availability) {
-      input.availableHours = Number(availability);
-    }
-    if (user.player?.timezone !== timeZone) {
-      input.timezone = timeZone;
-    }
-    if (user.player?.pronouns !== pronouns) {
-      input.pronouns = pronouns;
-    }
-
-    const profile = await updateProfile({
-      playerId: user.id,
-      input,
-    });
-
-    if (profile.error) {
-      toast({
-        title: 'Error',
-        description: 'Unable to update profile. The octo is sad 😢',
-        status: 'error',
-        isClosable: true,
-      });
-      setLoading(false);
-    }
-
-    if (user.player?.username !== username) {
-      const { error } = await updateUsername({
-        playerId: user.id,
-        username,
-      });
-
-      if (error) {
-        let errorDetail = 'The octo is sad. 😢';
-        if (error.message.includes('Uniqueness violation')) {
-          errorDetail = 'It is already taken. 😢';
-        } else if (error.message.includes('username_is_valid')) {
-          errorDetail =
-            'A username can only contain lowercase letters, numbers, and dashes.';
-        }
-        toast({
-          title: 'Error',
-          description: `Unable to update username. ${errorDetail}`,
-          status: 'error',
-          isClosable: true,
-        });
-        setLoading(false);
-      }
-    }
-
-    onClose();
   };
 
   return (
-    <Grid 
+    <Wrap
       as="form"
       onSubmit={async (evt) => {
-        // setStatus('Submitting…');
+        setStatus('Submitting…');
         await handleSubmit(onSubmit)(evt);
-        // setStatus(null);
+        setStatus(null);
+        onClose();
       }}
     >
-
-      <Grid templateColumns="repeat(3, 1fr)">
-        <GridItem>
-
-        <FormControl isInvalid={errors.image}>
-          <FormLabel htmlFor="image">Profile Image</FormLabel>
-          <Image ref={image} src={httpLink(imageURL) ?? undefined} maxH="6em" />
-          <Input
-            name="image"
-            type="file"
-            onChange={onFileChange}
-            ref={register}
-            {...register('image')}
-          />
-          <FormErrorMessage>
-            {errors.image && errors.image.message}
-          </FormErrorMessage>
+      <WrapItem>
+        <FormControl isInvalid={errors.image} align="center">
+          <Tooltip label="An image generally cropped to a circle for display. 1MiB maximum size.">
+            <Label htmlFor="image">Profile Image 🛈</Label>
+          </Tooltip>
+          <Box position="relative">
+            <Image
+              ref={
+                (refs as { image: MutableRefObject<HTMLImageElement> }).image
+              }
+              src={httpLink(endpoints.image.url)}
+              h="10em"
+              maxW="10em"
+            />
+            <Input
+              name="image"
+              type="file"
+              onChange={onFileChange}
+              maxW="100%"
+              minH="100%"
+              position="absolute"
+              top={0}
+              bottom={0}
+              left={0}
+              right={0}
+              opacity={0}
+              ref={register}
+              {...register('image')}
+            />
+          </Box>
+          <FormErrorMessage>{errors.image?.message}</FormErrorMessage>
         </FormControl>
-        <FormControl isInvalid={errors.background}>
-          <FormLabel htmlFor="background">Header Background</FormLabel>
-          <Image ref={background} src={httpLink(backgroundURL) ?? undefined} maxH="6em" />
+      </WrapItem>
+      <WrapItem>
+        <FormControl isInvalid={errors.background} align="center">
+          <Label htmlFor="background">Header Background</Label>
+          <Image
+            ref={
+              (refs as { background: MutableRefObject<HTMLImageElement> })
+                .background
+            }
+            src={httpLink(
+              (endpoints as { background: { url: string } }).background.url,
+            )}
+            maxH="6em"
+          />
           <Input
             name="background"
             type="file"
@@ -391,45 +360,94 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
             ref={register}
             {...register('background')}
           />
+          <FormErrorMessage>{errors.background?.message}</FormErrorMessage>
+        </FormControl>
+      </WrapItem>
+      <WrapItem>
+        <FormControl isInvalid={errors.description}>
+          <Label htmlFor="description">Description</Label>
+          <Textarea
+            name="description"
+            placeholder="Describe yourself."
+            ref={register}
+            maxLength={420}
+            {...register('description', {
+              maxLength: {
+                value: 420,
+                message: 'Maximum length is 420 characters.',
+              },
+            })}
+          />
           <FormErrorMessage>
-            {errors.background && errors.background.message}
+            {errors.description && errors.description.message}
           </FormErrorMessage>
         </FormControl>
-
-
-            <ProfileField
-              title="username"
-              value={username}
-              onChange={({ target: { value } }) => {
-                setUsername(value || '');
-              }}
-            />
-        </GridItem>
-
-        {/* <GridItem>
-          <ProfileField title="display name" value="User Supreme" />
-        </GridItem> */}
-      </Grid>
-      <Grid templateColumns="repeat(3, 1fr)">
-        <GridItem>
-          <ProfileField
-            title="pronouns"
-            value={pronouns}
-            onChange={({ target: { value } }) => {
-              setPronouns(value || '');
-            }}
+      </WrapItem>
+      <WrapItem>
+        <FormControl isInvalid={errors.username}>
+          <Tooltip label="Test">
+            <Label htmlFor="name">Username 🛈</Label>
+          </Tooltip>
+          <Input
+            name="username"
+            placeholder="Lowercase alpha, digits, dashes, & underscores only."
+            ref={register}
+            maxLength={150}
+            {...register('username', {
+              maxLength: {
+                value: 150,
+                message: 'Maximum length is 150 characters.',
+              },
+            })}
           />
-        </GridItem>
-      </Grid>
-      {/* <Grid templateColumns="repeat(2, 1fr)" gap={6}>
+          <FormErrorMessage>{errors.username?.message}</FormErrorMessage>
+        </FormControl>
+      </WrapItem>
+      <WrapItem>
+        <FormControl isInvalid={errors.name}>
+          <Label htmlFor="name">Display Name</Label>
+          <Input
+            name="name"
+            placeholder="Arbitrary letters, spaces, & punctuation. Max 150 characters."
+            ref={register}
+            maxLength={150}
+            {...register('name', {
+              maxLength: {
+                value: 150,
+                message: 'Maximum length is 150 characters.',
+              },
+            })}
+          />
+          <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
+        </FormControl>
+      </WrapItem>
+      <WrapItem>
+        <FormControl isInvalid={errors.pronouns}>
+          <Label htmlFor="name">Pronouns</Label>
+          <Input
+            name="pronouns"
+            placeholder="He, she, it, they, them, etc."
+            ref={register}
+            maxLength={150}
+            {...register('pronouns', {
+              maxLength: {
+                value: 150,
+                message: 'Maximum length is 150 characters.',
+              },
+            })}
+          />
+          <FormErrorMessage>{errors.pronouns?.message}</FormErrorMessage>
+        </FormControl>
+      </WrapItem>
+      {/*
+      <Grid templateColumns="repeat(2, 1fr)" gap={6}>
         <GridItem colSpan={HALF}>
           <CountrySelectDropdown country={COUNTRIES_OPTIONS[0]} />
-        </GridItem>  */}
-      <Grid templateColumns="repeat(3, 1fr)" gap={6}>
-        <GridItem>
-          <Text fontSize="md" color="cyan" mb={4}>
-            availability
-          </Text>
+        </GridItem>
+      */}
+      <WrapItem>
+        <FormControl isInvalid={errors.availability}>
+          <Label htmlFor="name">Availability</Label>
           <InputGroup borderColor="transparent" mb={10}>
             <InputLeftElement>
               <span role="img" aria-label="clock">
@@ -437,68 +455,85 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
               </span>
             </InputLeftElement>
             <Input
-              background="dark"
-              placeholder="40"
+              name="availability"
               type="number"
-              color="white"
-              value={availability}
-              onChange={({ target: { value } }) => setAvailability(value)}
-              isInvalid={invalid}
+              placeholder="23"
+              ref={register}
+              max={24 * 7}
+              min={0}
+              {...register('availability', {
+                max: {
+                  value: 24 * 7,
+                  message: `There's only ${24 * 7} hours in a week.`,
+                },
+              })}
             />
             <InputRightAddon background="purpleBoxDark" color="white">
-              hr ⁄ week
+              <Text as="sup">hr</Text> ⁄ <Text as="sub">week</Text>
             </InputRightAddon>
           </InputGroup>
-        </GridItem>
-        <GridItem>
-          <Text fontSize="md" color="cyan" mb={4}>
-            timezone
-          </Text>
+          <FormErrorMessage>{errors.availability?.message}</FormErrorMessage>
+        </FormControl>
+      </WrapItem>
+      <WrapItem>
+        <FormControl isInvalid={errors.timeZone}>
+          <Label htmlFor="name">Time Zone</Label>
           <SelectTimeZone
-            value={timeZone}
-            onChange={({ value }) => setTimeZone(value)}
             labelStyle="abbrev"
+            name="timeZone"
+            placeholder="EST"
+            ref={register}
+            // maxLength={150}
+            // {...register('timeZone', {
+            //   maxLength: {
+            //     value: 150,
+            //     message: 'Maximum length is 150 characters.',
+            //   },
+            // })}
           />
-        </GridItem>
-      </Grid>
-      {/* </Grid>  
+          <FormErrorMessage>{errors.timeZone?.message}</FormErrorMessage>
+        </FormControl>
+      </WrapItem>
+      {/*
       <ProfileField
         title="description"
         placeholder="Replace with Markdown Editor(?)"
       />
       <ProfileField title="website" placeholder="https://your.portfolio.here" />
       <ProfileField title="working hours" placeholder="9am - 10pm" />
-      <ProfileField title="background image" value="">
-        <Flex>
-          <Box>
-            <Image m={2} src={BackgroundImage} alt="background" w="60rem" />
-          </Box>
-          <Box m={4}>
-            <Input type="file" name="background" />
-          </Box>
-        </Flex>
-      </ProfileField> */}
+      */}
       {onClose && (
-        <ModalFooter mt={6} justifyContent="center">
-          <MetaButton
-            // onClick={save}
-            isDisabled={invalid}
-            isLoading={updateProfileRes.fetching || loading}
-            loadingText="Saving…"
-            type="submit"          
-          >
-            Save Changes
-          </MetaButton>
-          <Button
-            variant="ghost"
-            onClick={onClose}
-            color="white"
-            _hover={{ bg: 'none' }}
-          >
-            Close
-          </Button>
+        <ModalFooter mt={6} flex={1}>
+          <Wrap justify="center" flex={1}>
+            <WrapItem>
+              <MetaButton isDisabled={!!status} type="submit">
+                {!status ? (
+                  'Save Changes'
+                ) : (
+                  <Flex align="center">
+                    <Spinner mr={3} />
+                    {typeof status === 'string' ? (
+                      <Text>{status}</Text>
+                    ) : (
+                      status
+                    )}
+                  </Flex>
+                )}
+              </MetaButton>
+            </WrapItem>
+            <WrapItem>
+              <Button
+                variant="ghost"
+                onClick={onClose}
+                color="white"
+                _hover={{ bg: 'none' }}
+              >
+                Close
+              </Button>
+            </WrapItem>
+          </Wrap>
         </ModalFooter>
       )}
-    </Grid>
+    </Wrap>
   );
 };

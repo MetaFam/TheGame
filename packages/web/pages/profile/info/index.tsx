@@ -51,10 +51,9 @@ const InfoPage: React.FunctionComponent = () => {
                   original: { src: url },
                 } = value as Record<string, Record<string, string>>;
                 value = url;
-                const match = url.match(/^ipfs:\/\/(.+)$/);
-                if (match) {
-                  const ipfsUrl = `//ipfs.io/ipfs/${match[1]}`;
-                  value = ipfsUrl;
+                const [, cid] = url.match(/^ipfs:\/\/(.+)$/) ?? [];
+                if (cid) {
+                  value = `//ipfs.io/ipfs/${cid}`;
                 }
                 if (key === 'image') {
                   setImageURL(value as string);

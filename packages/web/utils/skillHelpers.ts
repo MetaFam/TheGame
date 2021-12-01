@@ -1,4 +1,4 @@
-import { PlayerSkillFragmentFragment } from '../graphql/autogen/types';
+import { PlayerSkillFragmentFragment } from 'graphql/autogen/types';
 
 export type SkillMap = {
   [category: string]: CategoryOption;
@@ -32,9 +32,4 @@ export const parseSkills = (
     });
   });
   return Object.values(skillsMap);
-};
-
-export type TimeZoneOption = {
-  value: string;
-  label: string;
 };

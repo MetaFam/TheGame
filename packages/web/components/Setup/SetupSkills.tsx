@@ -57,9 +57,9 @@ export const SetupSkills: React.FC<SetupSkillsProps> = ({
   const [loading, setLoading] = useState(false);
   const [playerSkills, setPlayerSkills] = useState<Array<SkillOption>>([]);
   const isWizard = !isEdit;
+  const { player } = user ?? {};
 
-  if (user?.player) {
-    const { player } = user;
+  if (player) {
     if (
       player.skills &&
       player.skills.length > 0 &&
