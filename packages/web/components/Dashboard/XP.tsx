@@ -12,7 +12,7 @@ import {
 } from '@metafam/ds';
 import { animated, useSpring } from '@react-spring/web';
 import { useUser } from 'lib/hooks';
-import { useUserXP } from 'lib/hooks/useUserXP';
+import { useUserXP } from 'lib/hooks/useUserXp';
 import React, { FC, ReactNode, useState } from 'react';
 import { FaChartBar } from 'react-icons/fa';
 import {
