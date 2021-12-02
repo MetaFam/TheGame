@@ -30,5 +30,5 @@ export const CONFIG = {
     'https://d12-a-ceramic.3boxlabs.com',
   actionsURL: process.env.NEXT_ACTIONS_URL || 'http://localhost:4000',
   calendarId: 'nih59ktgafmm64ed4qk6ue8vv4@group.calendar.google.com',
-  googleDataApiKey: process.env.NEXT_PUBLIC_GOOGEL_API_KEY,
+  googleDataApiKey: process.env.NEXT_PUBLIC_GOOGLE_API_KEY,
 };
