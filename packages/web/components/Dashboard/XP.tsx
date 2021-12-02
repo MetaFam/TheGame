@@ -23,25 +23,7 @@ import {
   LineSeries,
 } from 'react-vis';
 
-// TODO: after dashboard-seed is merged copy this in config.ts
-export const chartWrapperStyles = {
-  '.xp-chart': {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    maxW: '100%',
-    '.xp-chart-path': {
-      bottom: 0,
-      strokeWidth: 2,
-      fillOpacity: 0,
-      '&--fill': {
-        fillOpacity: 0.5,
-        strokeWidth: 0,
-      },
-    },
-  },
-};
+import { XPChartWrapperStyles } from './config';
 
 export const XP = (): React.ReactElement => {
   const { user } = useUser();
@@ -89,15 +71,6 @@ export const XP = (): React.ReactElement => {
             </MetaTag>
           )}
         </Stat>
-        {/* Currently we are not building this stat  */}
-        {/* <Stat alignSelf="flex-start" justifySelf="flex-end" flex="0 0 50%">
-        <StatLabel>XP/SEED Ratio</StatLabel>
-        <StatNumber>3.4</StatNumber>
-        <StatHelpText>
-          <StatArrow type="decrease" />
-          0.3
-        </StatHelpText>
-      </Stat> */}
       </StatGroup>
       <Box
         className="chartWrapper"
@@ -107,7 +80,7 @@ export const XP = (): React.ReactElement => {
         bottom={0}
         left={0}
         zIndex={0}
-        sx={chartWrapperStyles}
+        sx={XPChartWrapperStyles}
       >
         {userWeeklyCred.length > 0 && <Chart data={userWeeklyCred} />}
       </Box>

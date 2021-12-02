@@ -264,3 +264,22 @@ export const chartWrapperStyles = {
     },
   },
 };
+
+export const XPChartWrapperStyles = {
+  '.xp-chart': {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    maxW: '100%',
+    '.xp-chart-path': {
+      bottom: 0,
+      strokeWidth: 2,
+      fillOpacity: 0,
+      '&--fill': {
+        fillOpacity: 0.5,
+        strokeWidth: 0,
+      },
+    },
+  },
+};
