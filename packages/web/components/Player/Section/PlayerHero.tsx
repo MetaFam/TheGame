@@ -23,7 +23,7 @@ import { useUser } from 'lib/hooks';
 import React, { useEffect, useState } from 'react';
 import { FaClock, FaGlobe } from 'react-icons/fa';
 import { getPlayerTimeZoneDisplay } from 'utils/dateHelpers';
-import { getPlayerDescription } from 'utils/playerHelpers';
+import { getPlayerDescription, getPlayerName } from 'utils/playerHelpers';
 
 import { ProfileSection } from '../../ProfileSection';
 import { PlayerContacts } from '../PlayerContacts';
@@ -60,7 +60,7 @@ export const PlayerHero: React.FC<Props> = ({ player, isOwnProfile }) => {
 
       setAvailabilityHours(person.availability_hours || 0);
       setPronouns(person.pronouns || '');
-      setPlayerName(person.username);
+      setPlayerName(getPlayerName(person));
     }
   }, [user, player, isOwnProfile]);
 

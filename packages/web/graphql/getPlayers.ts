@@ -10,7 +10,9 @@ import {
   GetPlayersQueryVariables,
   GetPlayerUsernamesQuery,
   GetPlayerUsernamesQueryVariables,
+  Maybe,
   Order_By,
+  Player_Bool_Exp,
   PlayerFragmentFragment,
 } from './autogen/types';
 import { client as defaultClient } from './client';
@@ -19,45 +21,21 @@ import { PlayerFragment, PlayerSkillFragment } from './fragments';
 // eslint-disable-next-line @typescript-eslint/no-unused-expressions
 gql`
   query GetPlayers(
+    $orderBy: player_order_by!
     $offset: Int
     $limit: Int
-    $skillIds: [uuid!]
-    $playerTypeIds: [Int!]
-    $availability: Int
-    $timezones: [String!]
-    $search: String
-    $orderBy: player_order_by!
+    $where: player_bool_exp
     $forLoginDisplay: Boolean! = false
   ) {
     player(
       order_by: [$orderBy]
       offset: $offset
       limit: $limit
-      where: {
-        availability_hours: { _gte: $availability }
-        timezone: { _in: $timezones }
-        type: { id: { _in: $playerTypeIds } }
-        skills: { Skill: { id: { _in: $skillIds } } }
-        _or: [
-          { username: { _ilike: $search } }
-          { ethereum_address: { _ilike: $search } }
-        ]
-      }
+      where: $where
     ) {
       ...PlayerFragment
     }
-    player_aggregate(
-      where: {
-        availability_hours: { _gte: $availability }
-        timezone: { _in: $timezones }
-        type: { id: { _in: $playerTypeIds } }
-        skills: { Skill: { id: { _in: $skillIds } } }
-        _or: [
-          { username: { _ilike: $search } }
-          { ethereum_address: { _ilike: $search } }
-        ]
-      }
-    ) {
+    player_aggregate(where: $where) {
       aggregate {
         count
       }
@@ -68,17 +46,61 @@ gql`
 
 export const PLAYER_LIMIT = 9;
 
-export const defaultQueryVariables: GetPlayersQueryVariables = {
+export const defaultQueryVariables: PlayersQueryVariables = {
   offset: 0,
   limit: PLAYER_LIMIT,
-  availability: 0,
-  skillIds: null,
-  playerTypeIds: null,
-  timezones: null,
   search: '%%',
   orderBy: {
     season_xp: 'desc' as Order_By,
   },
+};
+
+export type PlayersQueryVariables = {
+  search: string;
+  offset: number;
+  limit: number;
+  orderBy: {
+    season_xp?: Maybe<Order_By> | undefined;
+  };
+  availability?: number;
+  skillIds?: string[];
+  playerTypeIds?: number[];
+  timezones?: string[];
+};
+
+export const transformToGraphQlVariables = (
+  queryVariables: PlayersQueryVariables,
+): GetPlayersQueryVariables => {
+  const graphqlWhereClause: Player_Bool_Exp = {
+    _or: [
+      { username: { _ilike: queryVariables.search } },
+      { ethereum_address: { _ilike: queryVariables.search } },
+    ],
+  };
+
+  if (queryVariables.availability != null) {
+    graphqlWhereClause.availability_hours = {
+      _gte: queryVariables.availability,
+    };
+  }
+  if (queryVariables.timezones?.length) {
+    graphqlWhereClause.timezone = { _in: queryVariables.timezones };
+  }
+  if (queryVariables.playerTypeIds?.length) {
+    graphqlWhereClause.type = { id: { _in: queryVariables.playerTypeIds } };
+  }
+  if (queryVariables.skillIds?.length) {
+    graphqlWhereClause.skills = {
+      Skill: { id: { _in: queryVariables.skillIds } },
+    };
+  }
+
+  return {
+    orderBy: queryVariables.orderBy,
+    offset: queryVariables.offset,
+    limit: queryVariables.limit,
+    where: graphqlWhereClause,
+  };
 };
 
 export type PlayersResponse = {
@@ -94,7 +116,7 @@ export const getPlayersWithCount = async (
   const { data, error } = await client
     .query<GetPlayersQuery, GetPlayersQueryVariables>(
       GetPlayersDocument,
-      queryVariables,
+      transformToGraphQlVariables(queryVariables),
     )
     .toPromise();
 
