@@ -37,7 +37,7 @@ const getXP = async (userAddress: string): Promise<XPProps | null> => {
     ).json();
 
     const scAccount = await accountsData.accounts.find((account) =>
-      filterAccount(account, userAddress),
+      accountFilter(account, userAddress),
     );
 
     if (!scAccount)
@@ -82,7 +82,7 @@ const getXP = async (userAddress: string): Promise<XPProps | null> => {
   }
 };
 
-const filterAccount = (a: SCAccount, userAddress: string) => {
+const accountFilter = (a: SCAccount, userAddress: string) => {
   const { account } = a;
 
   const acc = account.identity.aliases.find(

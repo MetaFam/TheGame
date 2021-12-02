@@ -12,7 +12,7 @@ import {
 } from '@metafam/ds';
 import { animated, useSpring } from '@react-spring/web';
 import { useUser } from 'lib/hooks';
-import { useUserXP } from 'lib/hooks/useUserXp';
+import { useUserXP } from 'lib/hooks/useUserXP';
 import React, { FC, ReactNode, useState } from 'react';
 import { FaChartBar } from 'react-icons/fa';
 import {
@@ -141,16 +141,13 @@ export const Chart: FC<ChartType> = ({ data }) => {
   };
 
   function makePlots(weeks: Array<number>) {
-    const plots: Array<AreaSeriesPoint> = [];
-
-    weeks.slice(scale === 90 ? -12 : -4).map((d, i) => {
-      const week = {
+    const plots: Array<AreaSeriesPoint> = weeks
+      .slice(-Math.floor(scale / 7))
+      .map((d, i) => ({
         x: i + 1,
         y: d,
         y0: 0,
-      };
-      return plots.push(week);
-    });
+      }));
     return plots;
   }
 
@@ -160,44 +157,28 @@ export const Chart: FC<ChartType> = ({ data }) => {
     <Box>
       <Box position="absolute" top={6} right={6} zIndex={250}>
         <ButtonGroup isAttached>
-          <Button
-            aria-label="Toggle chart scale"
-            icon={<FaChartBar />}
-            borderColor="pinkShadeOne"
-            background="rgba(17, 17, 17, 0.9)"
-            color="pinkShadeOne"
-            _hover={{ color: 'white', borderColor: 'white' }}
-            variant="outline"
-            isRound
-            onClick={() => switchScale(30)}
-            size="xs"
-            sx={{
-              '&:focus, &:hover': {
-                background: 'transparent',
-              },
-            }}
-          >
-            30d
-          </Button>
-          <Button
-            aria-label="Toggle chart scale"
-            icon={<FaChartBar />}
-            borderColor="pinkShadeOne"
-            background="rgba(17, 17, 17, 0.9)"
-            color="pinkShadeOne"
-            _hover={{ color: 'white', borderColor: 'white' }}
-            variant="outline"
-            isRound
-            onClick={() => switchScale(90)}
-            size="xs"
-            sx={{
-              '&:focus, &:hover': {
-                background: 'transparent',
-              },
-            }}
-          >
-            90d
-          </Button>
+          {[30, 90].map((s) => (
+            <Button
+              key={s}
+              aria-label="Toggle chart scale"
+              icon={<FaChartBar />}
+              borderColor="pinkShadeOne"
+              background="rgba(17, 17, 17, 0.9)"
+              color="pinkShadeOne"
+              _hover={{ color: 'white', borderColor: 'white' }}
+              variant="outline"
+              isRound
+              onClick={() => switchScale(s)}
+              size="xs"
+              sx={{
+                '&:focus, &:hover': {
+                  background: 'transparent',
+                },
+              }}
+            >
+              {s}d
+            </Button>
+          ))}
         </ButtonGroup>
       </Box>
       <FlexibleXYPlot
