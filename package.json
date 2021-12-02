@@ -34,7 +34,8 @@
     "backend": "yarn --cwd packages/backend/",
     "utils": "yarn --cwd packages/utils/",
     "web": "yarn --cwd packages/web/",
-    "ds": "yarn --cwd packages/design-system/"
+    "ds": "yarn --cwd packages/design-system/",
+    "release": "standard-version"
   },
   "workspaces": [
     "packages/*"
@@ -78,6 +79,7 @@
     "react": "16.14.0",
     "react-dom": "16.14.0",
     "tsdx": "0.14.1",
+    "standard-version": "9.3.2",
     "typescript": "4.4.4",
     "wait-on": "5.3.0"
   },
