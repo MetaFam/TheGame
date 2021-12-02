@@ -33,10 +33,9 @@ module.exports = {
       "what-we-do/mymeta",
     ],
     '🤔 What we do': [
-      "what-we-do/tl;dr",
+//      "what-we-do/tl;dr",
       "what-we-do/metasys",
       "what-we-do/mymeta",
-      "what-we-do/metaos",
 //      "what-we-do/events",
 //      "what-we-do/metalibrary",
     ],
