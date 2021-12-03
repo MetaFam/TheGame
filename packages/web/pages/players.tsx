@@ -1,14 +1,17 @@
 import { Text, VStack } from '@metafam/ds';
 import { PageContainer } from 'components/Container';
-import { AdjascentTimezonePlayers } from 'components/Player/Filter/AdjascentTimezonePlayers';
+import { AdjacentTimezonePlayers } from 'components/Player/Filter/AdjacentTimezonePlayers';
 import { PlayerFilter } from 'components/Player/Filter/PlayerFilter';
 import { PlayersLoading } from 'components/Player/Filter/PlayersLoading';
 import { PlayersNotFound } from 'components/Player/Filter/PlayersNotFound';
 import { PlayerList } from 'components/Player/PlayerList';
 import { HeadComponent } from 'components/Seo';
-import { GetPlayersQueryVariables } from 'graphql/autogen/types';
 import { getSsrClient } from 'graphql/client';
-import { getPlayerFilters, getPlayersWithCount } from 'graphql/getPlayers';
+import {
+  getPlayerFilters,
+  getPlayersWithCount,
+  PlayersQueryVariables,
+} from 'graphql/getPlayers';
 import { usePlayerFilter } from 'lib/hooks/players';
 import { useOnScreen } from 'lib/hooks/useOnScreen';
 import { InferGetStaticPropsType } from 'next';
@@ -109,7 +112,7 @@ export default Players;
 type MorePlayersProps = {
   fetching: boolean;
   totalCount: number;
-  queryVariables: GetPlayersQueryVariables;
+  queryVariables: PlayersQueryVariables;
   showSeasonalXP?: boolean;
 };
 
@@ -128,7 +131,7 @@ const MorePlayers = React.forwardRef<HTMLDivElement, MorePlayersProps>(
         ) : null}
         {!fetching && totalCount === 0 ? <PlayersNotFound /> : null}
         {!fetching && isTimezoneSelected ? (
-          <AdjascentTimezonePlayers
+          <AdjacentTimezonePlayers
             queryVariables={queryVariables}
             showSeasonalXP={showSeasonalXP}
           />

@@ -1,11 +1,15 @@
 import {
-  GetPlayersQueryVariables,
   Player_Order_By,
   PlayerFragmentFragment,
   useGetPlayerFiltersQuery,
   useGetPlayersQuery,
 } from 'graphql/autogen/types';
-import { defaultQueryVariables, PLAYER_LIMIT } from 'graphql/getPlayers';
+import {
+  defaultQueryVariables,
+  PLAYER_LIMIT,
+  PlayersQueryVariables,
+  transformToGraphQlVariables,
+} from 'graphql/getPlayers';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { CategoryOption, parseSkills } from 'utils/skillHelpers';
 
@@ -26,7 +30,7 @@ interface PlayerFilter {
   fetching: boolean;
   fetchingMore: boolean;
   aggregates: PlayerAggregates;
-  queryVariables: GetPlayersQueryVariables;
+  queryVariables: PlayersQueryVariables;
   setQueryVariable: QueryVariableSetter;
   error?: Error;
   resetFilter: () => void;
@@ -47,8 +51,8 @@ const usePlayerAggregates = () => {
   };
 };
 
-const useFilteredPlayers = (queryVariables: GetPlayersQueryVariables) => {
-  const [variables, setVariables] = useState<GetPlayersQueryVariables>(
+const useFilteredPlayers = (queryVariables: PlayersQueryVariables) => {
+  const [variables, setVariables] = useState<PlayersQueryVariables>(
     defaultQueryVariables,
   );
 
@@ -57,7 +61,7 @@ const useFilteredPlayers = (queryVariables: GetPlayersQueryVariables) => {
   }, [queryVariables]);
 
   const [{ fetching, data, error }] = useGetPlayersQuery({
-    variables,
+    variables: transformToGraphQlVariables(variables),
   });
 
   const players = data?.player || [];
@@ -122,12 +126,11 @@ const getOrderByValue = (option: SortOption): Player_Order_By =>
   }).output;
 
 export const usePlayerFilter = (
-  defaultVariables: GetPlayersQueryVariables = defaultQueryVariables,
+  defaultVariables: PlayersQueryVariables = defaultQueryVariables,
 ): PlayerFilter => {
-  const [
-    queryVariables,
-    setQueryVariables,
-  ] = useState<GetPlayersQueryVariables>(defaultVariables);
+  const [queryVariables, setQueryVariables] = useState<PlayersQueryVariables>(
+    defaultVariables,
+  );
 
   const aggregates = usePlayerAggregates();
 
@@ -205,7 +208,7 @@ export const usePlayerFilter = (
 };
 
 export const useFiltersUsed = (
-  queryVariables: GetPlayersQueryVariables,
+  queryVariables: PlayersQueryVariables,
 ): boolean => {
   const sortFilterUsed = useMemo(
     () => !Object.keys(queryVariables.orderBy).includes('season_xp'),
@@ -219,7 +222,7 @@ export const useFiltersUsed = (
     queryVariables.search,
   ]);
   const availabilityFilterUsed = useMemo(
-    () => (queryVariables.availability as number) > 0,
+    () => queryVariables.availability != null,
     [queryVariables.availability],
   );
   const skillIdsFilterUsed = useMemo(
@@ -253,7 +256,7 @@ export const useFiltersUsed = (
 };
 
 const usePaginatedPlayers = (
-  queryVariables: GetPlayersQueryVariables,
+  queryVariables: PlayersQueryVariables,
   setQueryVariable: QueryVariableSetter,
 ) => {
   const {

@@ -1,6 +1,6 @@
 import { Flex, Skeleton, Text, TimezoneOptions, VStack } from '@metafam/ds';
 import { PlayerList } from 'components/Player/PlayerList';
-import { GetPlayersQueryVariables } from 'graphql/autogen/types';
+import { PlayersQueryVariables } from 'graphql/getPlayers';
 import { usePlayerFilter } from 'lib/hooks/players';
 import { useOnScreen } from 'lib/hooks/useOnScreen';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
@@ -8,11 +8,11 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { PlayersLoading } from './PlayersLoading';
 
 const getAdjacentTimezoneQueryVariables = (
-  defaultQueryVariables: GetPlayersQueryVariables,
-): GetPlayersQueryVariables => {
+  defaultQueryVariables: PlayersQueryVariables,
+): PlayersQueryVariables => {
   const timezoneValue = defaultQueryVariables.timezones?.[0];
   const timezone = TimezoneOptions.find((t) => t.value === timezoneValue);
-  const adjascentTimezones = timezone
+  const adjacentTimezones = timezone
     ? TimezoneOptions.filter(
         (t) =>
           Math.abs(t.offset - timezone.offset) <= 4 &&
@@ -22,20 +22,20 @@ const getAdjacentTimezoneQueryVariables = (
   return {
     ...defaultQueryVariables,
     offset: 0,
-    timezones: adjascentTimezones,
+    timezones: adjacentTimezones,
   };
 };
 
 type Props = {
-  queryVariables: GetPlayersQueryVariables;
+  queryVariables: PlayersQueryVariables;
   showSeasonalXP?: boolean;
 };
 
-export const AdjascentTimezonePlayers: React.FC<Props> = ({
+export const AdjacentTimezonePlayers: React.FC<Props> = ({
   queryVariables,
   showSeasonalXP,
 }) => {
-  const [variables, setVariables] = useState<GetPlayersQueryVariables>(
+  const [variables, setVariables] = useState<PlayersQueryVariables>(
     getAdjacentTimezoneQueryVariables(queryVariables),
   );
 

@@ -19,7 +19,7 @@ import {
 } from '@metafam/ds';
 import { DesktopFilters } from 'components/Player/Filter/DesktopFilters';
 import { MobileFilters } from 'components/Player/Filter/MobileFilters';
-import { GetPlayersQueryVariables } from 'graphql/autogen/types';
+import { PlayersQueryVariables } from 'graphql/getPlayers';
 import {
   PlayerAggregates,
   QueryVariableSetter,
@@ -43,7 +43,7 @@ type Props = {
   fetching: boolean;
   fetchingMore: boolean;
   aggregates: PlayerAggregates;
-  queryVariables: GetPlayersQueryVariables;
+  queryVariables: PlayersQueryVariables;
   setQueryVariable: QueryVariableSetter;
   resetFilter: () => void;
   totalCount: number;
@@ -118,7 +118,7 @@ export const PlayerFilter: React.FC<Props> = ({
   useEffect(() => {
     setQueryVariable(
       'availability',
-      availability ? parseInt(availability.value, 10) : 0,
+      availability ? parseInt(availability.value, 10) : null,
     );
   }, [setQueryVariable, availability]);
 
