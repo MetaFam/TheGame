@@ -12,7 +12,7 @@ import Error from 'next/error';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { BOX_TYPE } from 'utils/boxTypes';
-import { getPlayerCoverImageFull } from 'utils/playerHelpers';
+import { getGuildCoverImageFull } from 'utils/playerHelpers';
 
 import { PageContainer } from '../../components/Container';
 import { GuildHero } from '../../components/Guild/GuildHero';
@@ -64,7 +64,7 @@ const GuildPage: React.FC<Props> = ({ guild }) => {
   return (
     <PageContainer p={0}>
       <Box
-        background={`url(${getPlayerCoverImageFull({})}) no-repeat`}
+        background={`url(${getGuildCoverImageFull()}) no-repeat`}
         bgSize="cover"
         bgPos="center"
         h={72}
