@@ -44,14 +44,14 @@ const PlayerPage: React.FC<Props> = ({ player }) => {
   const [fakeData, setFakeData] = useState([
     [],
     [
-      BOX_TYPE.PLAYER_SKILLS,
-      BOX_TYPE.PLAYER_COLOR_DISPOSITION,
-      BOX_TYPE.PLAYER_TYPE,
+      BOX_TYPE.PLAYER.SKILLS,
+      BOX_TYPE.PLAYER.COLOR_DISPOSITION,
+      BOX_TYPE.PLAYER.TYPE,
     ],
     [
-      // BOX_TYPE.PLAYER_ROLES,
-      BOX_TYPE.PLAYER_GALLERY,
-      BOX_TYPE.PLAYER_MEMBERSHIPS,
+      // BOX_TYPE.PLAYER.ROLES,
+      BOX_TYPE.PLAYER.GALLERY,
+      BOX_TYPE.PLAYER.MEMBERSHIPS,
     ],
   ]);
 
@@ -100,7 +100,7 @@ const PlayerPage: React.FC<Props> = ({ player }) => {
   const getBox = (column: number, name: string): React.ReactNode => {
     const person = isOwnProfile ? user?.player : player;
     switch (name) {
-      case BOX_TYPE.PLAYER_SKILLS:
+      case BOX_TYPE.PLAYER.SKILLS:
         return (
           <PlayerSkills
             player={person}
@@ -108,21 +108,21 @@ const PlayerPage: React.FC<Props> = ({ player }) => {
             onRemoveClick={() => removeBox(column, name)}
           />
         );
-      case BOX_TYPE.PLAYER_GALLERY:
+      case BOX_TYPE.PLAYER.GALLERY:
         return (
           <PlayerGallery
             player={person}
             onRemoveClick={() => removeBox(column, name)}
           />
         );
-      case BOX_TYPE.PLAYER_MEMBERSHIPS:
+      case BOX_TYPE.PLAYER.MEMBERSHIPS:
         return (
           <PlayerMemberships
             player={person}
             onRemoveClick={() => removeBox(column, name)}
           />
         );
-      case BOX_TYPE.PLAYER_COLOR_DISPOSITION:
+      case BOX_TYPE.PLAYER.COLOR_DISPOSITION:
         return (
           <PlayerColorDisposition
             player={person}
@@ -130,7 +130,7 @@ const PlayerPage: React.FC<Props> = ({ player }) => {
             onRemoveClick={() => removeBox(column, name)}
           />
         );
-      case BOX_TYPE.PLAYER_TYPE:
+      case BOX_TYPE.PLAYER.TYPE:
         return (
           <PlayerType
             player={person}
@@ -138,14 +138,14 @@ const PlayerPage: React.FC<Props> = ({ player }) => {
             onRemoveClick={() => removeBox(column, name)}
           />
         );
-      case BOX_TYPE.PLAYER_ROLES:
+      case BOX_TYPE.PLAYER.ROLES:
         return (
           <PlayerRoles
             player={person}
             onRemoveClick={() => removeBox(column, name)}
           />
         );
-      case BOX_TYPE.PLAYER_ACHIEVEMENTS:
+      case BOX_TYPE.PLAYER.ACHIEVEMENTS:
         return (
           <PlayerAchievements onRemoveClick={() => removeBox(column, name)} />
         );

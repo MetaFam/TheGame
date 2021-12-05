@@ -134,11 +134,11 @@ const getEditSectionBox = (
   onClose: () => void,
 ): React.ReactNode => {
   switch (boxType) {
-    case BOX_TYPE.PLAYER_TYPE:
+    case BOX_TYPE.PLAYER.TYPE:
       return <SetupPlayerType isEdit onClose={onClose} />;
-    case BOX_TYPE.PLAYER_COLOR_DISPOSITION:
+    case BOX_TYPE.PLAYER.COLOR_DISPOSITION:
       return <SetupPersonalityType isEdit onClose={onClose} />;
-    case BOX_TYPE.PLAYER_SKILLS:
+    case BOX_TYPE.PLAYER.SKILLS:
       return <SetupSkills isEdit onClose={onClose} />;
     default:
       return <></>;
