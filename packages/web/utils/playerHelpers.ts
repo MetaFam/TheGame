@@ -15,6 +15,8 @@ export const getPlayerCoverImageFull = (
   player: PlayerFragmentFragment,
 ): string => player.profile_cache?.backgroundImageURL || BackgroundImageFull;
 
+export const getGuildCoverImageFull = (): string => BackgroundImageFull;
+
 export const getPlayerName = (player: PlayerFragmentFragment): string =>
   player.profile_cache?.name || formatUsernameIfAddress(player.username);
 
