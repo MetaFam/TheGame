@@ -45,7 +45,7 @@ export const PlayerColorDisposition: React.FC<Props> = ({
       title="Color Disposition"
       onRemoveClick={onRemoveClick}
       isOwnProfile={isOwnProfile}
-      boxType={BOX_TYPE.PLAYER_COLOR_DISPOSITION}
+      boxType={BOX_TYPE.PLAYER.COLOR_DISPOSITION}
     >
       {colorDisposition && types && (
         <FlexContainer

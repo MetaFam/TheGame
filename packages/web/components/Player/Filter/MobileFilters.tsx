@@ -59,7 +59,7 @@ type Props = {
 enum Selected {
   NONE,
   ORDER_BY,
-  PLAYER_TYPE,
+  TYPE,
   SKILLS,
   AVAILABILITY,
   TIME_ZONE,
@@ -99,7 +99,7 @@ export const MobileFilters: React.FC<Props> = ({
       case Selected.ORDER_BY:
         setTitle('Order By');
         return;
-      case Selected.PLAYER_TYPE:
+      case Selected.TYPE:
         setTitle('Type of Player');
         return;
       case Selected.SKILLS:
@@ -163,7 +163,7 @@ export const MobileFilters: React.FC<Props> = ({
               />
               <FilterItem
                 title="Type Of Player"
-                onClick={() => setSelected(Selected.PLAYER_TYPE)}
+                onClick={() => setSelected(Selected.TYPE)}
                 value={playerTypes}
               />
               <FilterItem
@@ -216,7 +216,7 @@ export const MobileFilters: React.FC<Props> = ({
             isMulti={false}
           />
         )}
-        {selected === Selected.PLAYER_TYPE && (
+        {selected === Selected.TYPE && (
           <FilterContent
             value={playerTypes}
             onChange={(value) => {
