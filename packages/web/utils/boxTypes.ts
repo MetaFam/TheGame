@@ -1,9 +1,20 @@
 export const BOX_TYPE = {
-  PLAYER_SKILLS: 'Skills',
-  PLAYER_GALLERY: 'Gallery',
-  PLAYER_MEMBERSHIPS: 'Memberships',
-  PLAYER_ACHIEVEMENTS: 'Achievements',
-  PLAYER_TYPE: 'Player Type',
-  PLAYER_COLOR_DISPOSITION: 'Color disposition',
-  PLAYER_ROLES: 'Roles',
+  PLAYER: {
+    SKILLS: 'Skills',
+    GALLERY: 'Gallery',
+    MEMBERSHIPS: 'Memberships',
+    ACHIEVEMENTS: 'Achievements',
+    TYPE: 'Player Type',
+    COLOR_DISPOSITION: 'Color disposition',
+    ROLES: 'Roles',
+  },
+  GUILD: {
+    SKILLS: 'Skills',
+    GALLERY: 'Gallery',
+    ANNOUNCEMENTS: 'Announcements',
+    PLAYERS: 'Players',
+    QUESTS: 'Quests',
+    STATS: 'Stats',
+    LINKS: 'Links',
+  },
 };

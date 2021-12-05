@@ -47,7 +47,7 @@ export const PlayerSkills: React.FC<Props> = ({
       title="Skills"
       onRemoveClick={onRemoveClick}
       isOwnProfile={isOwnProfile}
-      boxType={BOX_TYPE.PLAYER_SKILLS}
+      boxType={BOX_TYPE.PLAYER.SKILLS}
     >
       <Wrap transition=" opacity 0.4s" opacity={animation === 'fadeIn' ? 1 : 0}>
         {(playerSkills || []).map(({ id, name, category }) => (

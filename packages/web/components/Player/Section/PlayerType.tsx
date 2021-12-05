@@ -28,7 +28,7 @@ export const PlayerType: React.FC<Props> = ({
       title="Player type"
       onRemoveClick={onRemoveClick}
       isOwnProfile={isOwnProfile}
-      boxType={BOX_TYPE.PLAYER_TYPE}
+      boxType={BOX_TYPE.PLAYER.TYPE}
     >
       {playerType && (
         <FlexContainer
