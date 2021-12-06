@@ -44,7 +44,13 @@ export const XP = (): React.ReactElement => {
           <StatLabel>This Week</StatLabel>
           <StatNumber>{thisWeekXP}</StatNumber>
           <StatHelpText>
-            <StatArrow type={variationThisWeek < 0 ? 'decrease' : 'increase'} />
+            <StatArrow
+              type={
+                variationThisWeek && variationThisWeek < 0
+                  ? 'decrease'
+                  : 'increase'
+              }
+            />
             {variationThisWeek}%
           </StatHelpText>
         </Stat>
@@ -53,7 +59,13 @@ export const XP = (): React.ReactElement => {
           <StatLabel>Last Week</StatLabel>
           <StatNumber>{lastWeekXP}</StatNumber>
           <StatHelpText>
-            <StatArrow type={variationLastWeek < 0 ? 'decrease' : 'increase'} />
+            <StatArrow
+              type={
+                variationLastWeek && variationLastWeek < 0
+                  ? 'decrease'
+                  : 'increase'
+              }
+            />
             {lastWeekXP}%
           </StatHelpText>
         </Stat>
@@ -82,7 +94,7 @@ export const XP = (): React.ReactElement => {
         zIndex={0}
         sx={XPChartWrapperStyles}
       >
-        {userWeeklyCred.length > 0 && <Chart data={userWeeklyCred} />}
+        {userWeeklyCred && <Chart data={userWeeklyCred} />}
       </Box>
     </>
   );

@@ -4,22 +4,22 @@ import { useEffect, useState } from 'react';
 import { SCAccount, SCAccountsData } from 'sourcecred';
 
 interface XPProps {
-  userTotalXP: number;
-  variationThisWeek: number;
-  variationLastWeek: number;
-  thisWeekXP: number;
-  lastWeekXP: number;
-  userWeeklyCred: number[];
+  userTotalXP: number | null;
+  variationThisWeek: number | null;
+  variationLastWeek: number | null;
+  thisWeekXP: number | null;
+  lastWeekXP: number | null;
+  userWeeklyCred: number[] | null;
 }
 
 export const useUserXP = (userAddress: string): XPProps => {
   const [XPDataObj, setXPDataObj] = useState<XPProps>({
-    userTotalXP: 0,
-    variationThisWeek: 0,
-    variationLastWeek: 0,
-    thisWeekXP: 0,
-    lastWeekXP: 0,
-    userWeeklyCred: [],
+    userTotalXP: null,
+    variationThisWeek: null,
+    variationLastWeek: null,
+    thisWeekXP: null,
+    lastWeekXP: null,
+    userWeeklyCred: null,
   });
   useEffect(() => {
     if (ethers.utils.isAddress(userAddress))
@@ -42,12 +42,12 @@ const getXP = async (userAddress: string): Promise<XPProps | null> => {
 
     if (!scAccount)
       return {
-        userTotalXP: 0,
-        variationThisWeek: 0,
-        variationLastWeek: 0,
-        thisWeekXP: 0,
-        lastWeekXP: 0,
-        userWeeklyCred: [],
+        userTotalXP: null,
+        variationThisWeek: null,
+        variationLastWeek: null,
+        thisWeekXP: null,
+        lastWeekXP: null,
+        userWeeklyCred: null,
       };
 
     const userTotalXP = roundToTwoDecimal(scAccount.totalCred);
