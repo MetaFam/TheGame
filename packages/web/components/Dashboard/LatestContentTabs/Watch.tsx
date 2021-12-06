@@ -4,37 +4,10 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useOnScreen } from '../../../lib/hooks/useOnScreen';
 import { LIMIT, URL } from '../../../utils/LatestContentHelpers';
 
-type Thumbnail = {
-  url: string;
-  width: number;
-  height: number;
-};
 interface Video {
-  etag: string;
   id: string;
-  kind: string;
-  snippet: {
-    channelId: string;
-    channelTitle: string;
-    description: string;
-    playlistId: string;
-    position: number;
-    publishedAt: string;
-    resourceId: {
-      kind: string;
-      videoId: string;
-    };
-    title: string;
-    videoOwnerChannelId: string;
-    videoOwnerChannelTitle: string;
-    thumbnails: {
-      default?: Thumbnail;
-      high?: Thumbnail;
-      medium?: Thumbnail;
-      standard?: Thumbnail;
-      maxres?: Thumbnail;
-    };
-  };
+  videoId: string;
+  title: string;
 }
 
 export const Watch: React.FC = () => {
@@ -58,7 +31,14 @@ export const Watch: React.FC = () => {
       const res = await fetch(URL).then((r) => r.json());
 
       setNextPageToken(res.nextPageToken);
-      setVideos(res.items);
+      setVideos(
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        res.items.map((video: any) => ({
+          id: video.id,
+          videoId: video.snippet.resourceId.videoId,
+          title: video.snippet.title,
+        })),
+      );
       setCount(res.pageInfo.totalResults);
       setLoading(false);
     };
@@ -73,7 +53,14 @@ export const Watch: React.FC = () => {
       fetch(fetchMoreURL)
         .then((r) => r.json())
         .then((res) => {
-          setVideos((prevVideos) => [...prevVideos, ...res.items]);
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          const newItems = res.items.map((video: any) => ({
+            id: video.id,
+            videoId: video.snippet.resourceId.videoId,
+            title: video.snippet.title,
+          }));
+
+          setVideos((prevVideos) => [...prevVideos, ...newItems]);
           setPage((prevPage) => prevPage + 1);
           setNextPageToken(res.nextPageToken);
         });
@@ -87,12 +74,12 @@ export const Watch: React.FC = () => {
   ) : (
     <Box>
       {videos.map((video: Video) => {
-        const url = `https://www.youtube.com/embed/${video?.snippet?.resourceId?.videoId}`;
+        const url = `https://www.youtube.com/embed/${video?.videoId}`;
         return (
           <AspectRatio key={video.id} ratio={2 / 1}>
             <Box
               as="iframe"
-              title={video?.snippet?.title}
+              title={video?.title}
               src={url}
               allowFullScreen
               pt={4}
@@ -100,8 +87,8 @@ export const Watch: React.FC = () => {
           </AspectRatio>
         );
       })}
-      {isFetchingMore && <LoadingState />}
       <span ref={moreRef} />
+      {isFetchingMore && <LoadingState />}
     </Box>
   );
 };
