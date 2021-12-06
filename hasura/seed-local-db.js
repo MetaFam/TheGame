@@ -45,7 +45,7 @@ const topPlayersQuery = gql`
       limit: ${NUM_PLAYERS}
       order_by: { total_xp: desc }
       where: {
-        availableHours: { _gte: 0 }
+        availability_hours: { _gte: 0 }
         timezone: { _in: null }
         type: { id: { _in: null } }
         skills: { Skill: { id: { _in: null } } }
@@ -53,10 +53,10 @@ const topPlayersQuery = gql`
     ) {
       id
       username
-      ethereumAddress
-      availableHours
+      ethereum_address
+      availability_hours
       timezone
-      colorMask
+      color_mask
       type {
         id
       }
@@ -163,18 +163,18 @@ const updatePlayerMutation = gql`
     update_player_by_pk(
       pk_columns: { id: $playerId }
       _set: {
-        player_type_id: $playerTypeId
-        timezone: $timezone
-        availability_hours: $availability
+        playerTypeId: $playerTypeId
+        timeZone: $timezone
+        availableHours: $availability
         colorMask: $colorMask
         username: $username
       }
     ) {
       id
       username
-      ethereum_address
-      availability_hours
-      timezone
+      ethereumAddress
+      availableHours
+      timeZone
       colorMask
       type {
         id
@@ -229,19 +229,19 @@ async function startSeeding() {
   console.debug(result);
   console.debug(`Fetching players from prod db`);
   const players = await fetchTopPlayers();
-  const addresses = players.map(({ ethereumAddress }) => ethereumAddress);
-  console.debug(`Fetching player ids for players from local db`);
+  const addresses = players.map(({ ethereum_address }) => ethereum_address);
+  console.debug(`Fetching player ids for players from local db for ${addresses.length} addresses`);
   const { ids, skills } = await fetchPlayerIdsAndSkills(addresses);
   const mutations = (
     players.map((player) => {
-      const id = ids[player.ethereumAddress];
+      const id = ids[player.ethereum_address];
       if (!id) return undefined;
       return {
         playerId: id,
-        availability: player.availableHours,
-        timezone: player.timeZone,
+        availability: player.availability_hours,
+        timezone: player.timezone,
         playerTypeId: player.type.id,
-        colorMask: player.colorMask ?? null,
+        colorMask: player.color_mask ?? null,
         username: player.username,
         skills: (
           player.skills.map((skill) => ({
