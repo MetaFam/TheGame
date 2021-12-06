@@ -34,7 +34,6 @@ import {
   Wrap,
   WrapItem,
 } from '@metafam/ds';
-import { CONFIG } from 'config';
 import {
   Maybe,
   Profile_Cache_Select_Column,
@@ -246,7 +245,6 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
       const file = input.files?.[0];
       if (!file) return;
       const key = input.name as keyof typeof refs;
-      console.info({ e: 'EVT', key, input });
       const ref = refs[key] as MutableRefObject<HTMLImageElement>;
       const elem = ref.current as HTMLImageElement | null;
       if (!elem) return;
@@ -271,7 +269,6 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
     );
 
     const formData = new FormData();
-    const images: Record<string, object> = {};
     const files: Record<string, File> = {};
     Object.keys(refs).forEach((name) => {
       const key = name as keyof BasicProfileProps;
@@ -352,7 +349,15 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
       delete values.countryCode;
     }
 
-    if (ceramic) {
+    if (!ceramic) {
+      toast({
+        title: 'Ceramic Connection Error',
+        description: 'Unable to connect to the Ceramic API to save changes.',
+        status: 'error',
+        isClosable: true,
+        duration: 8000,
+      });
+    } else {
       setStatus(<Text>Authenticating DID…</Text>);
       await ceramic.did?.authenticate();
 
@@ -366,8 +371,10 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
         model: await manager.toPublished(),
       });
       console.info({ values });
+      setStatus(<Text>Updating Basic Profile…</Text>);
       store.merge('basicProfile', values);
     }
+    setStatus(null);
   };
 
   return (
@@ -390,8 +397,8 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
               <Controller
                 control={control}
                 name="image"
-                defaultValue={null}
-                render={({ name, value, ref, onChange, onBlur }) => (
+                defaultValue=""
+                render={({ field: { name, value, ref, onChange, onBlur } }) => (
                   <Input
                     id="image"
                     type="file"
@@ -433,8 +440,8 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
               <Controller
                 control={control}
                 name="background"
-                defaultValue={null}
-                render={({ name, value, ref, onChange, onBlur }) => (
+                defaultValue=""
+                render={({ field: { name, value, ref, onChange, onBlur } }) => (
                   <Input
                     id="background"
                     type="file"
@@ -502,7 +509,7 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
             <Tooltip label="Lowercase alpha, digits, dashes, & underscores only.">
               <Label htmlFor="username">Username&nbsp;🛈</Label>
             </Tooltip>
-            <ChakraInput
+            <Input
               id="username"
               placeholder="i-am-a-user"
               {...register('username', {
@@ -587,29 +594,27 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
         <WrapItem flex={1} alignItems="center">
           <FormControl isInvalid={errors.timeZone}>
             <Label htmlFor="name">Time Zone</Label>
-            <SelectTimeZone
-              labelStyle="abbrev"
-              id="timeZone"
-              placeholder="EST"
-              style={{
-                minWidth: '15em',
-              }}
-              {...register('timeZone', {
-                maxLength: {
-                  value: 150,
-                  message: 'Maximum length is 150 characters.',
-                },
-              })}
+            <Controller
+              control={control}
+              name="timeZone"
+              defaultValue={Intl.DateTimeFormat().resolvedOptions().timeZone}
+              render={({ field }) => (
+                <SelectTimeZone
+                  labelStyle="abbrev"
+                  id="timeZone"
+                  placeholder="EST"
+                  style={{
+                    minWidth: '15em',
+                  }}
+                  {...field}
+                />
+              )}
             />
             <FormErrorMessage>{errors.timeZone?.message}</FormErrorMessage>
           </FormControl>
         </WrapItem>
       </Wrap>
       {/*
-      <ProfileField
-        title="description"
-        placeholder="Replace with Markdown Editor(?)"
-      />
       <ProfileField title="website" placeholder="https://your.portfolio.here" />
       <ProfileField title="working hours" placeholder="9am - 10pm" />
       */}

@@ -18,7 +18,6 @@
   "author": "MetaFam",
   "license": "ISC",
   "dependencies": {
-    "3box": "1.22.2",
     "@ceramicnetwork/common": "1.8.0",
     "@ceramicnetwork/http-client": "1.5.0",
     "@ceramicnetwork/stream-caip10-link": "1.2.2",
@@ -58,7 +57,6 @@
   },
   "devDependencies": {
     "@types/cors": "^2.8.12",
-    "@types/multer": "^1.4.7",
     "concurrently": "6.1.0",
     "eslint-plugin-jest": "24.3.6",
     "nock": "13.2.1",
