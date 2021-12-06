@@ -60,13 +60,31 @@ const PlayerStats = () => {
                 _hover={{ bg: 'transparent' }}
                 _active={{ bg: 'transparent' }}
               >
-                <Avatar
-                  name={getPlayerName(user.player)}
-                  src={getPlayerImage(user.player)}
-                  w={12}
-                  h={12}
-                  m={0}
-                />
+                <Flex>
+                  <Avatar
+                    name={getPlayerName(user.player)}
+                    src={getPlayerImage(user.player)}
+                    w={12}
+                    h={12}
+                    m={0}
+                  />
+                  <Stack my={2} ml={2} justify="center">
+                    <Text
+                      fontSize={user.player.rank ? 14 : 22}
+                      fontWeight="semibold"
+                      m={0}
+                      p={0}
+                      lineHeight={1}
+                    >
+                      {getPlayerName(user.player)}
+                    </Text>
+                    {user.player.rank && (
+                      <Text fontSize={12} m={0} p={0} lineHeight={1}>
+                        {user.player.rank}
+                      </Text>
+                    )}
+                  </Stack>
+                </Flex>
               </MenuButton>
               <MenuList color="black">
                 <MetaLink
@@ -94,22 +112,6 @@ const PlayerStats = () => {
                 </MenuItem>
               </MenuList>
             </Menu>
-            <Stack my={2} ml={2} justify="center">
-              <Text
-                fontSize={user.player.rank ? 14 : 22}
-                fontWeight="semibold"
-                m={0}
-                p={0}
-                lineHeight={1}
-              >
-                {getPlayerName(user.player)}
-              </Text>
-              {user.player.rank && (
-                <Text fontSize={12} m={0} p={0} lineHeight={1}>
-                  {user.player.rank}
-                </Text>
-              )}
-            </Stack>
           </Flex>
           <Flex
             mr={2}

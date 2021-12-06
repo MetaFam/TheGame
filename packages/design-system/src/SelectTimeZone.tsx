@@ -1,14 +1,13 @@
 /* istanbul ignore file */
 import cityTimeZones from 'city-timezones';
 import React, { useCallback, useState } from 'react';
-import { Styles } from 'react-select';
 import TimeZoneSelect, {
   i18nTimezones as i18nTimeZones,
 } from 'react-timezone-select';
 import spacetime from 'spacetime';
 import informal from 'spacetime-informal';
 
-import { theme } from './theme';
+import { SelectStyles } from './theme';
 
 export type TimeZoneType = {
   value: string;
@@ -72,43 +71,6 @@ export const TimeZoneOptions: TimeZoneType[] = Object.entries(i18nTimeZones)
   })
   .sort((a, b) => (a.offset < b.offset ? -1 : 1));
 
-const selectStyles: Styles = {
-  menu: (styles) => ({
-    ...styles,
-    background: theme.colors.dark,
-  }),
-  input: (styles) => ({
-    ...styles,
-    color: theme.colors.white,
-  }),
-  option: (styles) => ({
-    ...styles,
-    background: theme.colors.dark,
-    color: theme.colors.whiteAlpha[700],
-    ':hover': {
-      backgroundColor: theme.colors.purpleTag,
-      color: theme.colors.white,
-    },
-  }),
-  control: (styles) => ({
-    ...styles,
-    background: theme.colors.dark,
-    border: theme.colors.dark,
-  }),
-  singleValue: (styles) => ({
-    ...styles,
-    color: theme.colors.white,
-  }),
-  dropdownIndicator: (styles) => ({
-    ...styles,
-    color: theme.colors.white,
-    cursor: 'pointer',
-    ':hover': {
-      color: theme.colors.blueLight,
-    },
-  }),
-};
-
 export const timeZonesFilter = (
   searchText: string,
   filteredTimeZones: string[],
@@ -125,34 +87,35 @@ export const getTimeZonesFor = (searchText: string): string[] =>
     .findFromCityStateProvince(searchText)
     .map(({ timezone }) => timezone);
 
-export const SelectTimeZone: React.FC<TimeZoneSelectProps> = ({
-  value,
-  ...props
-}) => {
-  const [options, setOptions] = useState(TimeZoneOptions);
+export const SelectTimeZone: React.FC<TimeZoneSelectProps> = React.forwardRef(
+  ({ value, ...props }, ref) => {
+    const [options, setOptions] = useState(TimeZoneOptions);
 
-  const onInputChange = useCallback((val: string) => {
-    if (!val) {
-      setOptions(TimeZoneOptions);
-    } else {
-      const searchText = val.toLowerCase().trim();
-      const filteredTimeZones = getTimeZonesFor(searchText);
-      setOptions(
-        TimeZoneOptions.filter(timeZonesFilter(searchText, filteredTimeZones)),
-      );
-    }
-  }, []);
+    const onInputChange = useCallback((val: string) => {
+      if (!val) {
+        setOptions(TimeZoneOptions);
+      } else {
+        const searchText = val.toLowerCase().trim();
+        const filteredTimeZones = getTimeZonesFor(searchText);
+        setOptions(
+          TimeZoneOptions.filter(
+            timeZonesFilter(searchText, filteredTimeZones),
+          ),
+        );
+      }
+    }, []);
 
-  return (
-    <TimeZoneSelect
-      value={value ?? ''}
-      styles={selectStyles}
-      filterOption={null}
-      timeZones={Object.fromEntries(
-        options.map(({ value: val, title }) => [val, title]),
-      )}
-      {...{ onInputChange }}
-      {...props}
-    />
-  );
-};
+    return (
+      <TimeZoneSelect
+        value={value ?? ''}
+        styles={SelectStyles}
+        filterOption={null}
+        timeZones={Object.fromEntries(
+          options.map(({ value: val, title }) => [val, title]),
+        )}
+        {...{ ref, onInputChange }}
+        {...props}
+      />
+    );
+  },
+);

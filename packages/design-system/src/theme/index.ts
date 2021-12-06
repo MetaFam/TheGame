@@ -1,5 +1,6 @@
 import { extendTheme, Theme as ChakraTheme } from '@chakra-ui/react';
 import { createBreakpoints } from '@chakra-ui/theme-tools';
+import { Styles } from 'react-select';
 
 import { colors, MetaColors } from './colors';
 import { textStyles } from './texts';
@@ -67,3 +68,40 @@ export const theme: Theme = extendTheme({
     '9xl': '5.16rem',
   },
 });
+
+export const SelectStyles: Styles = {
+  menu: (styles) => ({
+    ...styles,
+    background: theme.colors.dark,
+  }),
+  input: (styles) => ({
+    ...styles,
+    color: theme.colors.white,
+  }),
+  option: (styles) => ({
+    ...styles,
+    background: theme.colors.dark,
+    color: theme.colors.whiteAlpha[700],
+    '&:hover': {
+      backgroundColor: theme.colors.purpleTag,
+      color: theme.colors.white,
+    },
+  }),
+  control: (styles) => ({
+    ...styles,
+    background: theme.colors.dark,
+    border: theme.colors.dark,
+  }),
+  singleValue: (styles) => ({
+    ...styles,
+    color: theme.colors.white,
+  }),
+  dropdownIndicator: (styles) => ({
+    ...styles,
+    color: theme.colors.white,
+    cursor: 'pointer',
+    '&:hover': {
+      color: theme.colors.blueLight,
+    },
+  }),
+};

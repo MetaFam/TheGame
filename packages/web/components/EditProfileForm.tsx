@@ -1,4 +1,11 @@
 import {
+  BasicProfile,
+  model as basicProfileModel,
+} from '@datamodels/identity-profile-basic';
+import { ModelManager } from '@glazed/devtools';
+import { DIDDataStore } from '@glazed/did-datastore';
+import { TileLoader } from '@glazed/tile-loader';
+import {
   Box,
   Button,
   Flex,
@@ -19,13 +26,15 @@ import {
   ModalFooter,
   SelectTimeZone,
   Spinner,
+  Stack,
   Text,
   Textarea,
   Tooltip,
-  // useToast,
+  useToast,
   Wrap,
   WrapItem,
 } from '@metafam/ds';
+import { CONFIG } from 'config';
 import {
   Maybe,
   Profile_Cache_Select_Column,
@@ -44,7 +53,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { httpLink } from 'utils/linkHelpers';
 
 const Label: React.FC<FormLabelProps> = React.forwardRef(
@@ -58,10 +67,28 @@ const Label: React.FC<FormLabelProps> = React.forwardRef(
   },
 );
 
-const Input: React.FC<InputProps> = ({ children, ...props }) => (
-  <ChakraInput color="white" w="fill" bg="dark" {...props}>
-    {children}
-  </ChakraInput>
+const Input: React.FC<InputProps> = React.forwardRef(
+  ({ children, ...props }, reference) => {
+    const ref = reference as RefObject<HTMLInputElement>;
+    return (
+      <ChakraInput
+        color="white"
+        bg="dark"
+        w="100%"
+        minW="7em"
+        _autofill={{
+          '&, &:hover, &:focus, &:active': {
+            WebkitBoxShadow: '0 0 0 2em #000000EE inset !important',
+            WebkitTextFillColor: 'white !important',
+          },
+        }}
+        {...{ ref }}
+        {...props}
+      >
+        {children}
+      </ChakraInput>
+    );
+  },
 );
 
 export type ProfileEditorProps = {
@@ -182,13 +209,16 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
     register,
     formState: { errors },
     setValue,
+    control,
   } = useForm();
   const { ceramic } = useWeb3();
-  // const toast = useToast();
+  const toast = useToast();
   const { player } = user ?? {};
 
+  console.info({ errors });
+
   const refs: ImageRefs = Object.fromEntries(
-    Object.keys(CacheImages).map((type) =>
+    Object.values(CacheImages).map((type) =>
       // eslint-disable-next-line react-hooks/rules-of-hooks
       [type, useRef<HTMLImageElement>(null)],
     ),
@@ -216,6 +246,7 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
       const file = input.files?.[0];
       if (!file) return;
       const key = input.name as keyof typeof refs;
+      console.info({ e: 'EVT', key, input });
       const ref = refs[key] as MutableRefObject<HTMLImageElement>;
       const elem = ref.current as HTMLImageElement | null;
       if (!elem) return;
@@ -244,259 +275,336 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
     const files: Record<string, File> = {};
     Object.keys(refs).forEach((name) => {
       const key = name as keyof BasicProfileProps;
-      [files[key]] = (inputs[key] ?? []) as File[];
+      if ((inputs[key] ?? []).length > 0) {
+        [files[key]] = (inputs[key] ?? []) as File[];
+      }
+      delete inputs[key]; // eslint-disable-line no-param-reassign
     });
-    console.log({ inputs, files }); // eslint-disable-line no-console
+    const values = { ...inputs };
+    console.log({ values, files }); // eslint-disable-line no-console
 
     if (Object.values(files).reduce((acc, val) => acc || !!val, false)) {
       Object.entries(files).forEach(([name, file]) => {
         formData.append(name, file);
       });
-      console.log({ formData, files }); // eslint-disable-line no-console
       const result = await fetch(`/api/storage`, {
         method: 'POST',
         body: formData,
         credentials: 'include',
       });
-      const cids = await result.json();
-      console.log({ cids }); // eslint-disable-line no-console
-      Object.keys(files).forEach((type: string) => {
-        if (!cids[type]) {
-          // eslint-disable-next-line no-console
-          console.warn(`Uploaded "${type}" & didn't get a response back.`);
-        } else {
-          const key = type as keyof typeof refs;
-          const ref = refs[key] as MutableRefObject<HTMLImageElement>;
-          const elem = ref.current as HTMLImageElement | null;
-          const { width, height } = elem ?? {};
-          images[type] = {
-            original: {
-              src: `ipfs://${cids[type]}`,
-              mimeType: 'image/*',
-              width,
-              height,
-            },
-          };
-        }
-      });
+      const response = await result.json();
+      const { error } = response;
+      if (error) {
+        toast({
+          title: 'Error Saving Images',
+          description: `web3.storage reported the following error: "${error}"`,
+          status: 'error',
+          isClosable: true,
+          duration: 8000,
+        });
+      } else {
+        console.log({ response }); // eslint-disable-line no-console
+        Object.keys(files).forEach((type: string) => {
+          if (!response[type]) {
+            // eslint-disable-next-line no-console
+            console.warn(`Uploaded "${type}" & didn't get a response back.`);
+          } else {
+            // const key = type as keyof typeof refs;
+            const key = type as 'image' | 'background';
+            const ref = refs[key] as MutableRefObject<HTMLImageElement>;
+            const elem = ref.current as HTMLImageElement | null;
+            const { width, height } = elem ?? {};
+            values[type] = {
+              original: {
+                src: `ipfs://${response[type]}`,
+                mimeType: 'image/*',
+                width,
+                height,
+              },
+            };
+            console.info({ values });
+          }
+        });
+      }
     }
 
     // empty string fails validation
     ['countryCode', 'birthDate'].forEach((prop) => {
       const key = prop as keyof BasicProfileProps;
-      if (inputs[key] === '') {
-        delete inputs[key]; // eslint-disable-line no-param-reassign
+      if (values[key] === '') {
+        delete values[key];
       }
     });
 
-    const { countryCode: code }: { countryCode?: Maybe<string> } = inputs;
+    const { countryCode: code }: { countryCode?: Maybe<string> } = values;
     if (code?.length === 2) {
-      // eslint-disable-next-line no-param-reassign
-      inputs.countryCode = code.toUpperCase();
+      values.countryCode = code.toUpperCase();
     } else {
-      delete inputs.countryCode; // eslint-disable-line no-param-reassign
+      if ((code ?? '').length > 0) {
+        toast({
+          title: 'Country Code Error',
+          description: `Country Code "${code}" is not the required two letters.`,
+          status: 'error',
+          isClosable: true,
+          duration: 8000,
+        });
+      }
+      delete values.countryCode;
     }
 
-    setStatus(<Text>Authenticating DID…</Text>);
-    await ceramic?.did?.authenticate();
+    if (ceramic) {
+      setStatus(<Text>Authenticating DID…</Text>);
+      await ceramic.did?.authenticate();
+
+      const cache = new Map();
+      const loader = new TileLoader({ ceramic, cache });
+      const manager = new ModelManager(ceramic);
+      manager.addJSONModel(basicProfileModel);
+      const store = new DIDDataStore({
+        ceramic,
+        loader,
+        model: await manager.toPublished(),
+      });
+      console.info({ values });
+      store.merge('basicProfile', values);
+    }
   };
 
   return (
-    <Wrap
-      as="form"
-      onSubmit={async (evt) => {
-        setStatus('Submitting…');
-        await handleSubmit(onSubmit)(evt);
-        setStatus(null);
-        onClose();
-      }}
-    >
-      <WrapItem>
-        <FormControl isInvalid={errors.image} align="center">
-          <Tooltip label="An image generally cropped to a circle for display. 1MiB maximum size.">
-            <Label htmlFor="image">Profile Image 🛈</Label>
-          </Tooltip>
-          <Box position="relative">
-            <Image
-              ref={
-                (refs as { image: MutableRefObject<HTMLImageElement> }).image
-              }
-              src={httpLink(endpoints.image.url)}
+    <Stack as="form" onSubmit={handleSubmit(onSubmit)}>
+      <Wrap>
+        <WrapItem flex={1}>
+          <FormControl isInvalid={errors.image} align="center">
+            <Tooltip label="An image generally cropped to a circle for display. 1MiB maximum size.">
+              <Label htmlFor="image">Profile Image&nbsp;🛈</Label>
+            </Tooltip>
+            <Box position="relative">
+              <Image
+                ref={
+                  (refs as { image: MutableRefObject<HTMLImageElement> }).image
+                }
+                src={httpLink(endpoints.image.url)}
+                h="10em"
+                maxW="10em"
+              />
+              <Controller
+                control={control}
+                name="image"
+                defaultValue={null}
+                render={({ name, value, ref, onChange, onBlur }) => (
+                  <Input
+                    id="image"
+                    type="file"
+                    {...{ name, value, ref, onBlur }}
+                    onChange={async (evt) => {
+                      onFileChange(evt);
+                      onChange(evt);
+                    }}
+                    maxW="100%"
+                    minH="100%"
+                    position="absolute"
+                    top={0}
+                    bottom={0}
+                    left={0}
+                    right={0}
+                    opacity={0}
+                  />
+                )}
+              />
+            </Box>
+            <FormErrorMessage>{errors.image?.message}</FormErrorMessage>
+          </FormControl>
+        </WrapItem>
+        <WrapItem flex={1}>
+          <FormControl isInvalid={errors.background} align="center">
+            <Tooltip label="An image with an ~3:1 aspect ratio to be displayed as a page or profile banner. 1MiB maximum size.">
+              <Label htmlFor="background">Background Banner&nbsp;🛈</Label>
+            </Tooltip>
+            <Box position="relative">
+              <Image
+                ref={
+                  (refs as { background: MutableRefObject<HTMLImageElement> })
+                    .background
+                }
+                src={httpLink(endpoints.background.url)}
+                maxW="12em"
+                h="10em"
+              />
+              <Controller
+                control={control}
+                name="background"
+                defaultValue={null}
+                render={({ name, value, ref, onChange, onBlur }) => (
+                  <Input
+                    id="background"
+                    type="file"
+                    {...{ name, value, ref, onBlur }}
+                    onChange={async (evt) => {
+                      onFileChange(evt);
+                      onChange(evt);
+                    }}
+                    maxW="100%"
+                    minH="100%"
+                    position="absolute"
+                    top={0}
+                    bottom={0}
+                    left={0}
+                    right={0}
+                    opacity={0}
+                  />
+                )}
+              />
+            </Box>
+            <FormErrorMessage>{errors.background?.message}</FormErrorMessage>
+          </FormControl>
+        </WrapItem>
+        <WrapItem flex={1}>
+          <FormControl isInvalid={errors.description}>
+            <Tooltip label="420 characters max.">
+              <Label htmlFor="description">Description&nbsp;🛈</Label>
+            </Tooltip>
+            <Textarea
+              id="description"
+              placeholder="Describe yourself."
+              minW="12em"
               h="10em"
-              maxW="10em"
-            />
-            <Input
-              name="image"
-              type="file"
-              onChange={onFileChange}
-              maxW="100%"
-              minH="100%"
-              position="absolute"
-              top={0}
-              bottom={0}
-              left={0}
-              right={0}
-              opacity={0}
-              ref={register}
-              {...register('image')}
-            />
-          </Box>
-          <FormErrorMessage>{errors.image?.message}</FormErrorMessage>
-        </FormControl>
-      </WrapItem>
-      <WrapItem>
-        <FormControl isInvalid={errors.background} align="center">
-          <Label htmlFor="background">Header Background</Label>
-          <Image
-            ref={
-              (refs as { background: MutableRefObject<HTMLImageElement> })
-                .background
-            }
-            src={httpLink(endpoints.background.url)}
-            maxW="12em"
-            h="10em"
-          />
-          <Input
-            name="background"
-            type="file"
-            onChange={onFileChange}
-            ref={register}
-            {...register('background')}
-          />
-          <FormErrorMessage>{errors.background?.message}</FormErrorMessage>
-        </FormControl>
-      </WrapItem>
-      <WrapItem>
-        <FormControl isInvalid={errors.description}>
-          <Label htmlFor="description">Description</Label>
-          <Textarea
-            name="description"
-            placeholder="Describe yourself."
-            ref={register}
-            maxLength={420}
-            {...register('description', {
-              maxLength: {
-                value: 420,
-                message: 'Maximum length is 420 characters.',
-              },
-            })}
-          />
-          <FormErrorMessage>
-            {errors.description && errors.description.message}
-          </FormErrorMessage>
-        </FormControl>
-      </WrapItem>
-      <WrapItem>
-        <FormControl isInvalid={errors.username}>
-          <Tooltip label="Test">
-            <Label htmlFor="name">Username 🛈</Label>
-          </Tooltip>
-          <Input
-            name="username"
-            placeholder="Lowercase alpha, digits, dashes, & underscores only."
-            ref={register}
-            maxLength={150}
-            {...register('username', {
-              maxLength: {
-                value: 150,
-                message: 'Maximum length is 150 characters.',
-              },
-            })}
-          />
-          <FormErrorMessage>{errors.username?.message}</FormErrorMessage>
-        </FormControl>
-      </WrapItem>
-      <WrapItem>
-        <FormControl isInvalid={errors.name}>
-          <Label htmlFor="name">Display Name</Label>
-          <Input
-            name="name"
-            placeholder="Arbitrary letters, spaces, & punctuation. Max 150 characters."
-            ref={register}
-            maxLength={150}
-            {...register('name', {
-              maxLength: {
-                value: 150,
-                message: 'Maximum length is 150 characters.',
-              },
-            })}
-          />
-          <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
-        </FormControl>
-      </WrapItem>
-      <WrapItem>
-        <FormControl isInvalid={errors.pronouns}>
-          <Label htmlFor="name">Pronouns</Label>
-          <Input
-            name="pronouns"
-            placeholder="He, she, it, they, them, etc."
-            ref={register}
-            maxLength={150}
-            {...register('pronouns', {
-              maxLength: {
-                value: 150,
-                message: 'Maximum length is 150 characters.',
-              },
-            })}
-          />
-          <FormErrorMessage>{errors.pronouns?.message}</FormErrorMessage>
-        </FormControl>
-      </WrapItem>
-      {/*
-      <Grid templateColumns="repeat(2, 1fr)" gap={6}>
-        <GridItem colSpan={HALF}>
-          <CountrySelectDropdown country={COUNTRIES_OPTIONS[0]} />
-        </GridItem>
-      */}
-      <WrapItem>
-        <FormControl isInvalid={errors.availability}>
-          <Label htmlFor="name">Availability</Label>
-          <InputGroup borderColor="transparent" mb={10}>
-            <InputLeftElement>
-              <span role="img" aria-label="clock">
-                🕛
-              </span>
-            </InputLeftElement>
-            <Input
-              name="availability"
-              type="number"
-              placeholder="23"
-              ref={register}
-              max={24 * 7}
-              min={0}
-              {...register('availability', {
-                max: {
-                  value: 24 * 7,
-                  message: `There's only ${24 * 7} hours in a week.`,
+              color="white"
+              {...register('description', {
+                maxLength: {
+                  value: 420,
+                  message: 'Maximum length is 420 characters.',
                 },
               })}
             />
-            <InputRightAddon background="purpleBoxDark" color="white">
-              <Text as="sup">hr</Text> ⁄ <Text as="sub">week</Text>
-            </InputRightAddon>
-          </InputGroup>
-          <FormErrorMessage>{errors.availability?.message}</FormErrorMessage>
-        </FormControl>
-      </WrapItem>
-      <WrapItem>
-        <FormControl isInvalid={errors.timeZone}>
-          <Label htmlFor="name">Time Zone</Label>
-          <SelectTimeZone
-            labelStyle="abbrev"
-            name="timeZone"
-            placeholder="EST"
-            ref={register}
-            // maxLength={150}
-            // {...register('timeZone', {
-            //   maxLength: {
-            //     value: 150,
-            //     message: 'Maximum length is 150 characters.',
-            //   },
-            // })}
-          />
-          <FormErrorMessage>{errors.timeZone?.message}</FormErrorMessage>
-        </FormControl>
-      </WrapItem>
+            <FormErrorMessage>{errors.description?.message}</FormErrorMessage>
+          </FormControl>
+        </WrapItem>
+        <WrapItem flex={1} alignItems="center">
+          <FormControl isInvalid={errors.name}>
+            <Tooltip label="Arbitrary letters, spaces, & punctuation. Max 150 characters.">
+              <Label htmlFor="name">Display Name&nbsp;🛈</Label>
+            </Tooltip>
+            <Input
+              id="name"
+              placeholder="Imma User"
+              {...register('name', {
+                maxLength: {
+                  value: 150,
+                  message: 'Maximum length is 150 characters.',
+                },
+              })}
+            />
+            <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
+          </FormControl>
+        </WrapItem>
+        <WrapItem flex={1} alignItems="center">
+          <FormControl isInvalid={errors.username}>
+            <Tooltip label="Lowercase alpha, digits, dashes, & underscores only.">
+              <Label htmlFor="username">Username&nbsp;🛈</Label>
+            </Tooltip>
+            <ChakraInput
+              id="username"
+              placeholder="i-am-a-user"
+              {...register('username', {
+                required: {
+                  value: true,
+                  message: 'You must specify a username.',
+                },
+                pattern: {
+                  value: /^[a-z0-9-_]+$/,
+                  message:
+                    'Only lowercase letters, digits, dashes, & underscores allowed.',
+                },
+                minLength: {
+                  value: 3,
+                  message: 'Must have at least three characters.',
+                },
+                maxLength: {
+                  value: 150,
+                  message: 'Maximum length is 150 characters.',
+                },
+              })}
+            />
+            <FormErrorMessage>{errors.username?.message}</FormErrorMessage>
+          </FormControl>
+        </WrapItem>
+        <WrapItem flex={1} alignItems="center">
+          <FormControl isInvalid={errors.pronouns}>
+            <Label htmlFor="pronouns">Pronouns</Label>
+            <Input
+              id="pronouns"
+              placeholder="He, she, it, they, them, etc."
+              {...register('pronouns', {
+                maxLength: {
+                  value: 150,
+                  message: 'Maximum length is 150 characters.',
+                },
+              })}
+            />
+            <FormErrorMessage>{errors.pronouns?.message}</FormErrorMessage>
+          </FormControl>
+        </WrapItem>
+        {/*
+        <Grid templateColumns="repeat(2, 1fr)" gap={6}>
+          <GridItem colSpan={HALF}>
+            <CountrySelectDropdown country={COUNTRIES_OPTIONS[0]} />
+          </GridItem>
+        */}
+        <WrapItem flex={1} alignItems="center">
+          <FormControl isInvalid={errors.availability}>
+            <Label htmlFor="availability">Availability</Label>
+            <InputGroup borderColor="transparent">
+              <InputLeftElement>
+                <Text as="span" role="img" aria-label="clock">
+                  🕛
+                </Text>
+              </InputLeftElement>
+              <Input
+                id="availability"
+                type="number"
+                placeholder="23"
+                pl={8}
+                maxW="5em"
+                {...register('availability', {
+                  min: {
+                    value: 0,
+                    message:
+                      'It’s not possible to be available for negative time.',
+                  },
+                  max: {
+                    value: 24 * 7,
+                    message: `There’s only ${24 * 7} hours in a week.`,
+                  },
+                })}
+              />
+              <InputRightAddon background="purpleBoxDark" color="white">
+                <Text as="sup">hr</Text> ⁄ <Text as="sub">week</Text>
+              </InputRightAddon>
+            </InputGroup>
+            <FormErrorMessage>{errors.availability?.message}</FormErrorMessage>
+          </FormControl>
+        </WrapItem>
+        <WrapItem flex={1} alignItems="center">
+          <FormControl isInvalid={errors.timeZone}>
+            <Label htmlFor="name">Time Zone</Label>
+            <SelectTimeZone
+              labelStyle="abbrev"
+              id="timeZone"
+              placeholder="EST"
+              style={{
+                minWidth: '15em',
+              }}
+              {...register('timeZone', {
+                maxLength: {
+                  value: 150,
+                  message: 'Maximum length is 150 characters.',
+                },
+              })}
+            />
+            <FormErrorMessage>{errors.timeZone?.message}</FormErrorMessage>
+          </FormControl>
+        </WrapItem>
+      </Wrap>
       {/*
       <ProfileField
         title="description"
@@ -537,6 +645,6 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
           </Wrap>
         </ModalFooter>
       )}
-    </Wrap>
+    </Stack>
   );
 };

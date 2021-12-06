@@ -233,7 +233,7 @@ export const PlayerFilter: React.FC<Props> = ({
                 />
               </WrapItem>
             )}
-            {sortOption.value !== SortOption.SEASON_XP && (
+            {sortOption?.value !== SortOption.SEASON_XP && (
               <WrapItem>
                 <FilterTag
                   label={`Sorted By: ${sortOption.label}`}
