@@ -22,6 +22,8 @@ export const handler: (
   busboy.on(
     'file',
     async (fieldname: string, file: Readable, filename: string) => {
+      console.log({ fieldname, filename }); // eslint-disable-line no-console
+
       const ext = filename.replace(/^.*\./, '');
       const field = path.basename(fieldname);
       const name = path.join(
@@ -35,10 +37,14 @@ export const handler: (
 
   busboy.on('finish', async () => {
     try {
-      const tmpFiles = files.map((info) => ({
-        name: path.basename(info.name),
+      if (files.length === 0) {
+        throw new Error('No files uploaded.');
+      }
+
+      const tmpFiles = files.map(({ name }) => ({
+        name: path.basename(name),
         stream: () =>
-          (fs.createReadStream(info.name) as unknown) as ReadableStream<string>,
+          (fs.createReadStream(name) as unknown) as ReadableStream<string>,
       }));
       const cid = await storage.put(tmpFiles);
       console.log({ cid, tmpFiles }); // eslint-disable-line no-console
@@ -48,7 +54,7 @@ export const handler: (
           const filename = path.basename(name);
           return [field, `${cid}/${filename}`];
         }),
-      ) as Record<string, string>;
+      );
 
       res.status(200).json(uploadedFiles);
     } catch (err) {
