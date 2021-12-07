@@ -13,7 +13,7 @@ export const LoginButton: React.FC = () => {
   }, [connect]);
 
   if (fetching || connecting) {
-    return <Spinner color="purple.500" size="sm" />;
+    return <Spinner color="purple.500" size="md" my={3} />;
   }
 
   if (connected && !user?.player) return null;

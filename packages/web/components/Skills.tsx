@@ -2,7 +2,7 @@ import {
   MetaTag,
   MetaTheme,
   SelectSearch,
-  selectStyles,
+  SelectStyles,
   Tooltip,
   Wrap,
   WrapItem,
@@ -27,8 +27,8 @@ export const SkillsSelect: React.FC<SetupSkillsProps> = ({
   placeHolder,
   id,
 }) => {
-  const styles: typeof selectStyles = {
-    ...selectStyles,
+  const styles: typeof SelectStyles = {
+    ...SelectStyles,
     multiValue: (s, { data }) => ({
       ...s,
       background: SkillColors[data.category as SkillCategory_Enum],
@@ -41,8 +41,7 @@ export const SkillsSelect: React.FC<SetupSkillsProps> = ({
     }),
     groupHeading: (s, { children }) => ({
       ...s,
-      ...(selectStyles.groupHeading &&
-        selectStyles.groupHeading(s, { children })),
+      ...SelectStyles.groupHeading?.(s, { children }),
       background: SkillColors[children as SkillCategory_Enum],
     }),
   };

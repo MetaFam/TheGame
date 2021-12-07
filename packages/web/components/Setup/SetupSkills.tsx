@@ -4,8 +4,8 @@ import {
   MetaHeading,
   MetaTheme,
   ModalFooter,
+  SearchSelectStyles,
   SelectSearch,
-  selectStyles,
   useToast,
 } from '@metafam/ds';
 import { FlexContainer } from 'components/Container';
@@ -25,8 +25,8 @@ export type SetupSkillsProps = {
   onClose?: () => void;
 };
 
-const styles: typeof selectStyles = {
-  ...selectStyles,
+const styles: typeof SearchSelectStyles = {
+  ...SearchSelectStyles,
   multiValue: (s, { data }) => ({
     ...s,
     background: SkillColors[data.category as SkillCategory_Enum],
@@ -39,9 +39,17 @@ const styles: typeof selectStyles = {
   }),
   groupHeading: (s, { children }) => ({
     ...s,
-    ...(selectStyles.groupHeading &&
-      selectStyles.groupHeading(s, { children })),
+    ...SearchSelectStyles.groupHeading?.(s, { children }),
     background: SkillColors[children as SkillCategory_Enum],
+  }),
+  option: (s, { isSelected, isFocused }) => ({
+    ...s,
+    color:
+      isSelected || isFocused ? MetaTheme.colors.black : MetaTheme.colors.white,
+    '&:hover': {
+      background: MetaTheme.colors.green[50],
+      color: MetaTheme.colors.black,
+    },
   }),
 };
 
@@ -59,36 +67,36 @@ export const SetupSkills: React.FC<SetupSkillsProps> = ({
   const isWizard = !isEdit;
   const { player } = user ?? {};
 
-  if (player) {
-    if (
-      player.skills &&
-      player.skills.length > 0 &&
-      playerSkills.length === 0
-    ) {
-      setPlayerSkills(
-        player.skills.map((s) => ({
-          value: s.Skill.id,
-          label: s.Skill.name,
-          ...s.Skill,
-        })),
-      );
+  useEffect(() => {
+    if (player) {
+      if (
+        player.skills &&
+        player.skills.length > 0 &&
+        playerSkills.length === 0
+      ) {
+        setPlayerSkills(
+          player.skills.map(({ Skill: skill }) => ({
+            value: skill.id,
+            label: skill.name,
+            ...skill,
+          })),
+        );
+      }
     }
-  }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    async function fetchMyAPI() {
+    const fetchMyAPI = async () => {
       const skills = await getSkills();
       setSkillChoices(parseSkills(skills));
-    }
+    };
 
     fetchMyAPI();
   }, []);
 
   const handleNextPress = async () => {
     setLoading(true);
-
-    save();
-
+    await save();
     onNextPress();
   };
 
@@ -96,6 +104,7 @@ export const SetupSkills: React.FC<SetupSkillsProps> = ({
     if (!user) return;
 
     setLoading(true);
+
     const { error } = await updateSkills({
       skills: playerSkills.map((s) => ({ skill_id: s.id })),
     });
@@ -103,8 +112,8 @@ export const SetupSkills: React.FC<SetupSkillsProps> = ({
     if (error) {
       console.warn(error); // eslint-disable-line no-console
       toast({
-        title: 'Error',
-        description: 'Unable to update player skills. The octo is sad 😢',
+        title: 'Update Error',
+        description: `Unable to update skills. Error: ${error}`,
         status: 'error',
         isClosable: true,
       });
@@ -128,13 +137,12 @@ export const SetupSkills: React.FC<SetupSkillsProps> = ({
           options={skillChoices}
           autoFocus
           closeMenuOnSelect={false}
-          placeholder="ADD YOUR SKILLS"
+          placeholder="Add Your Skills…"
         />
       </FlexContainer>
       {isEdit && onClose && (
         <ModalFooter mt={6}>
-          <Button
-            colorScheme="blue"
+          <MetaButton
             mr={3}
             onClick={() => {
               save();
@@ -142,12 +150,14 @@ export const SetupSkills: React.FC<SetupSkillsProps> = ({
             }}
           >
             Save Changes
-          </Button>
+          </MetaButton>
           <Button
             variant="ghost"
             onClick={onClose}
             color="white"
-            _hover={{ bg: 'none' }}
+            _hover={{
+              bg: '#FFFFFF11',
+            }}
           >
             Close
           </Button>
@@ -159,7 +169,7 @@ export const SetupSkills: React.FC<SetupSkillsProps> = ({
           onClick={handleNextPress}
           mt={10}
           isLoading={updateSkillsRes.fetching || loading}
-          loadingText="Saving"
+          loadingText="Saving…"
         >
           {nextButtonLabel}
         </MetaButton>

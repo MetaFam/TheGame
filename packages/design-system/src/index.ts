@@ -29,7 +29,13 @@ export {
   TimeZoneType,
 } from './SelectTimeZone';
 export { SVG } from './SVG';
-export { theme as MetaTheme } from './theme';
+export {
+  ChakraesqueStyles,
+  DropdownStyles,
+  theme as MetaTheme,
+  SearchSelectStyles,
+  SelectStyles,
+} from './theme';
 export { H1, P } from './typography';
 export {
   AddIcon,

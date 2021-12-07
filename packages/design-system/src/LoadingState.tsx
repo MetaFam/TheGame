@@ -7,6 +7,6 @@ export const LoadingState: React.FC<
   }
 > = ({ color = 'purple.500', ...props }) => (
   <Flex w="100%" h="100%" justify="center" align="center" {...props}>
-    <Spinner color={color} size="xl" />
+    <Spinner {...{ color }} size="xl" />
   </Flex>
 );

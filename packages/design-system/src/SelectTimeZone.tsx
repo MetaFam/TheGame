@@ -7,7 +7,7 @@ import TimeZoneSelect, {
 import spacetime from 'spacetime';
 import informal from 'spacetime-informal';
 
-import { SelectStyles } from './theme';
+import { ChakraesqueStyles } from './theme';
 
 export type TimeZoneType = {
   value: string;
@@ -41,7 +41,7 @@ export const TimeZoneOptions: TimeZoneType[] = Object.entries(i18nTimeZones)
     let abbrev = value;
     let altName = value;
 
-    if (tzStrings && tzStrings.standard) {
+    if (tzStrings?.standard) {
       abbrev =
         now.isDST() && tzStrings.daylight
           ? tzStrings.daylight.abbrev
@@ -53,9 +53,9 @@ export const TimeZoneOptions: TimeZoneType[] = Object.entries(i18nTimeZones)
     }
 
     const min = tz.current.offset * 60;
-    const hr = `${(min / 60) ^ 0}:${
-      min % 60 === 0 ? '00' : Math.abs(min % 60)
-    }`;
+    const hr = `${(min / 60) ^ 0}:${Math.abs(min % 60)
+      .toString()
+      .padEnd(2, '0')}`;
     const prefix = `(GMT${hr.includes('-') ? hr : `+${hr}`}) ${title}`;
 
     const label = `${prefix} ${abbrev.length < 5 ? `(${abbrev})` : ''}`;
@@ -87,35 +87,34 @@ export const getTimeZonesFor = (searchText: string): string[] =>
     .findFromCityStateProvince(searchText)
     .map(({ timezone }) => timezone);
 
-export const SelectTimeZone: React.FC<TimeZoneSelectProps> = React.forwardRef(
-  ({ value, ...props }, ref) => {
-    const [options, setOptions] = useState(TimeZoneOptions);
+export const SelectTimeZone: React.FC<TimeZoneSelectProps> = ({
+  value,
+  ...props
+}) => {
+  const [options, setOptions] = useState(TimeZoneOptions);
 
-    const onInputChange = useCallback((val: string) => {
-      if (!val) {
-        setOptions(TimeZoneOptions);
-      } else {
-        const searchText = val.toLowerCase().trim();
-        const filteredTimeZones = getTimeZonesFor(searchText);
-        setOptions(
-          TimeZoneOptions.filter(
-            timeZonesFilter(searchText, filteredTimeZones),
-          ),
-        );
-      }
-    }, []);
+  const onInputChange = useCallback((val: string) => {
+    if (!val) {
+      setOptions(TimeZoneOptions);
+    } else {
+      const searchText = val.toLowerCase().trim();
+      const filteredTimeZones = getTimeZonesFor(searchText);
+      setOptions(
+        TimeZoneOptions.filter(timeZonesFilter(searchText, filteredTimeZones)),
+      );
+    }
+  }, []);
 
-    return (
-      <TimeZoneSelect
-        value={value ?? ''}
-        styles={SelectStyles}
-        filterOption={null}
-        timeZones={Object.fromEntries(
-          options.map(({ value: val, title }) => [val, title]),
-        )}
-        {...{ ref, onInputChange }}
-        {...props}
-      />
-    );
-  },
-);
+  return (
+    <TimeZoneSelect
+      value={value ?? ''}
+      styles={ChakraesqueStyles}
+      filterOption={null}
+      timeZones={Object.fromEntries(
+        options.map(({ value: val, title }) => [val, title]),
+      )}
+      {...{ onInputChange }}
+      {...props}
+    />
+  );
+};
