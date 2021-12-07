@@ -367,6 +367,13 @@ export const Grid: React.FC<Props> = ({ player: initPlayer }): ReactElement => {
       mb="12rem"
       pt={isOwnProfile ? '0rem' : '4rem'}
     >
+      <HeadComponent
+        title={`MetaGame Profile: ${player.username}`}
+        description={(getPlayerDescription(player) ?? '').replace(/\n+/g, ' ')}
+        url={`https://my.metagame.wtf/player/${player.username}`}
+        img={getPlayerImage(player)}
+      />
+
       {isOwnProfile && (
         <ButtonGroup
           w="100%"

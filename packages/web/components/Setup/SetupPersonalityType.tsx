@@ -224,8 +224,7 @@ export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
 
       {isEdit && onClose && (
         <ModalFooter mt={6}>
-          <Button
-            colorScheme="blue"
+          <MetaButton
             mr={3}
             onClick={() => {
               save();
@@ -233,7 +232,7 @@ export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
             }}
           >
             Save Changes
-          </Button>
+          </MetaButton>
           <Button
             variant="ghost"
             onClick={onClose}

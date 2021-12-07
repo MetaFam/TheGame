@@ -23,7 +23,7 @@ export const PlayerSkills: React.FC<Props> = ({
   onRemoveClick,
 }) => {
   const [playerSkills, setPlayerSkills] = useState<
-    { id: number; name: string; category: SkillCategory_Enum }[]
+    Array<{ id: number; name: string; category: SkillCategory_Enum }>
   >([]);
 
   const updateFN = () => {
@@ -55,6 +55,7 @@ export const PlayerSkills: React.FC<Props> = ({
         <Wrap
           transition="opacity 0.4s"
           opacity={animation === 'fadeIn' ? 1 : 0}
+          justify="center"
         >
           {(playerSkills || []).map(({ id, name, category }) => (
             <WrapItem key={id}>

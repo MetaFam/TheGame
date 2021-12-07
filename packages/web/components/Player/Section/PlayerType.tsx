@@ -48,7 +48,11 @@ export const PlayerType: React.FC<Props> = ({
           >
             {playerType.title}
           </Text>
-          <Text fontSize={{ base: 'sm', sm: 'md' }} color="blueLight">
+          <Text
+            fontSize={{ base: 'sm', sm: 'md' }}
+            color="blueLight"
+            textAlign="justify"
+          >
             {playerType.description}
           </Text>
         </FlexContainer>

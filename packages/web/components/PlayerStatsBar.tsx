@@ -28,14 +28,16 @@ const { amountToDecimal } = numbers;
 
 // Display player XP and Seed
 const PlayerStats = () => {
-  const { connected, disconnect } = useWeb3();
+  const { disconnect } = useWeb3();
   const { user } = useUser();
+  const { player } = user ?? {};
   const { pSeedBalance } = usePSeedBalance();
+
   return (
     <Flex
       align="center"
       display={{ base: 'flex', lg: 'none' }}
-      justifyContent={connected ? 'space-between' : 'center'}
+      justifyContent={player ? 'space-between' : 'center'}
       flex={1}
       minW="100vw"
       height="72px"
@@ -49,7 +51,9 @@ const PlayerStats = () => {
       my="auto"
       mr={0}
     >
-      {connected && !!user?.player ? (
+      {!player ? (
+        <LoginButton />
+      ) : (
         <>
           <Flex py={1} px={2}>
             <Menu strategy="fixed" offset={[-7, 9]}>
@@ -62,25 +66,25 @@ const PlayerStats = () => {
               >
                 <Flex>
                   <Avatar
-                    name={getPlayerName(user.player)}
-                    src={getPlayerImage(user.player)}
+                    name={getPlayerName(player)}
+                    src={getPlayerImage(player)}
                     w={12}
                     h={12}
                     m={0}
                   />
                   <Stack my={2} ml={2} justify="center">
                     <Text
-                      fontSize={user.player.rank ? 14 : 22}
+                      fontSize={player.rank ? 14 : 22}
                       fontWeight="semibold"
                       m={0}
                       p={0}
                       lineHeight={1}
                     >
-                      {getPlayerName(user.player)}
+                      {getPlayerName(player)}
                     </Text>
-                    {user.player.rank && (
+                    {player.rank && (
                       <Text fontSize={12} m={0} p={0} lineHeight={1}>
-                        {user.player.rank}
+                        {player.rank}
                       </Text>
                     )}
                   </Stack>
@@ -89,7 +93,7 @@ const PlayerStats = () => {
               <MenuList color="black">
                 <MetaLink
                   color="black"
-                  href={`/player/${user.player.username}`}
+                  href={`/player/${player.username}`}
                   _hover={{ textDecoration: 'none' }}
                 >
                   <MenuItem>
@@ -142,7 +146,7 @@ const PlayerStats = () => {
                   mr={3}
                 />
                 <Text color="#FFF" lineHeight={2} fontSize={20}>
-                  {Math.trunc(user.player.totalXP)}
+                  {Math.trunc(player.totalXP)}
                 </Text>
               </Badge>
             </Tooltip>
@@ -175,8 +179,6 @@ const PlayerStats = () => {
             </Tooltip>
           </Flex>
         </>
-      ) : (
-        <LoginButton />
       )}
     </Flex>
   );

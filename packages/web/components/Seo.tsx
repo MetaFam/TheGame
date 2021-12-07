@@ -15,7 +15,7 @@ export const HeadComponent: React.FC<HeadMetaProps> = ({
   img = 'https://my.metagame.wtf/_next/image?url=%2Fassets%2Flogo.alt.png&w=1920&q=75',
 }) => (
   <Head>
-    <title>MetaGame</title>
+    <title>{title}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="title" content={title} />
     <meta name="description" content={description} />

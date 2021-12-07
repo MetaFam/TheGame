@@ -1,5 +1,6 @@
 import {
   BasicProfile,
+  ImageSources,
   model as basicProfileModel,
 } from '@datamodels/identity-profile-basic';
 import { ModelManager } from '@glazed/devtools';
@@ -8,6 +9,7 @@ import { TileLoader } from '@glazed/tile-loader';
 import {
   Box,
   Button,
+  DropdownStyles,
   Flex,
   FormControl,
   FormErrorMessage,
@@ -34,6 +36,7 @@ import {
   Wrap,
   WrapItem,
 } from '@metafam/ds';
+import { PlayerAvatar } from 'components/Player/PlayerAvatar';
 import {
   Maybe,
   Profile_Cache_Select_Column,
@@ -54,41 +57,6 @@ import React, {
 } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { httpLink } from 'utils/linkHelpers';
-
-const Label: React.FC<FormLabelProps> = React.forwardRef(
-  ({ children, ...props }, container) => {
-    const ref = container as RefObject<HTMLLabelElement>;
-    return (
-      <FormLabel color="cyan" {...{ ref }} {...props}>
-        {children}
-      </FormLabel>
-    );
-  },
-);
-
-const Input: React.FC<InputProps> = React.forwardRef(
-  ({ children, ...props }, reference) => {
-    const ref = reference as RefObject<HTMLInputElement>;
-    return (
-      <ChakraInput
-        color="white"
-        bg="dark"
-        w="100%"
-        minW="7em"
-        _autofill={{
-          '&, &:hover, &:focus, &:active': {
-            WebkitBoxShadow: '0 0 0 2em #000000EE inset !important',
-            WebkitTextFillColor: 'white !important',
-          },
-        }}
-        {...{ ref }}
-        {...props}
-      >
-        {children}
-      </ChakraInput>
-    );
-  },
-);
 
 export type ProfileEditorProps = {
   user: MeType;
@@ -130,7 +98,7 @@ export const CountrySelectDropdown: FC<CountrySelectDropdownProps> = ({
 }) => (
   <Box>
     <Text fontSize="md" color="cyan" mb={1}>
-      country
+      Country
     </Text>
     <Box my={6}>
       <MetaFilterSelectSearch
@@ -148,54 +116,96 @@ export const CountrySelectDropdown: FC<CountrySelectDropdownProps> = ({
   </Box>
 );
 
-export type TimezoneSelectDropdownProps = {
-  timezone: SelectOption | undefined;
-  onChange: (timezone: SelectOption | null) => void;
-};
-
-export const TIMEZONES_LIST: { [key: string]: string } = {
-  '-800': 'GMT-800',
-  '-700': 'GMT-700',
-  '-600': 'GMT-600',
-};
-export const TIMEZONES_OPTIONS = Object.entries(TIMEZONES_LIST).map(
-  ([offset, gmt]) => ({ value: offset, label: gmt } as SelectOption),
+const Label: React.FC<FormLabelProps> = React.forwardRef(
+  ({ children, ...props }, container) => {
+    const ref = container as RefObject<HTMLLabelElement>;
+    return (
+      <FormLabel color="cyan" {...{ ref }} {...props}>
+        {children}
+      </FormLabel>
+    );
+  },
 );
 
-export interface BasicProfileProps {
-  description?: Maybe<string>;
-  emoji?: Maybe<string>;
-  backgroundImageURL?: Maybe<string>;
-  imageURL?: Maybe<string>;
-  location?: Maybe<string>;
-  name?: Maybe<string>;
-  countryCode?: Maybe<string>;
-}
-export enum CacheImages {
-  imageURL = 'image',
-  backgroundImageURL = 'background',
-}
-export enum CacheFields {
-  name = 'name',
-  description = 'description',
-  emoji = 'emoji',
-  location = 'location',
-  countryCode = 'residenceCountry',
-}
+const Input: React.FC<InputProps> = React.forwardRef(
+  ({ children, ...props }, reference) => {
+    const ref = reference as RefObject<HTMLInputElement>;
+    return (
+      <ChakraInput
+        color="white"
+        bg="dark"
+        w="100%"
+        minW="9em"
+        _autofill={{
+          '&, &:hover, &:focus, &:active': {
+            WebkitBoxShadow:
+              '0 0 0 2em var(--chakra-colors-dark) inset !important',
+            WebkitTextFillColor: 'white !important',
+            caretColor: 'white',
+          },
+        }}
+        {...{ ref }}
+        {...props}
+      >
+        {children}
+      </ChakraInput>
+    );
+  },
+);
+
+export type Values<T> = T[keyof T];
+
+export const BasicProfileImages = {
+  imageURL: 'image',
+  backgroundImageURL: 'background',
+} as const;
+export const BasicProfileStrings = {
+  name: 'name',
+  description: 'description',
+  emoji: 'emoji',
+  location: 'homeLocation',
+  countryCode: 'residenceCountry',
+  birthDate: 'birthDate',
+  website: 'url',
+} as const;
+export const BasicProfileFields = {
+  ...BasicProfileImages,
+  ...BasicProfileStrings,
+} as const;
+
+export type BPImages = {
+  -readonly [key in keyof typeof BasicProfileImages as string]?: ImageSources;
+};
+export type BPStrings = {
+  -readonly [key in keyof typeof BasicProfileStrings as string]?: string;
+};
+export type ProfileProps = BPStrings | BPImages;
+
 export enum CacheSkips {
   id = Profile_Cache_Select_Column.Id,
   gender = Profile_Cache_Select_Column.Gender,
   playerId = Profile_Cache_Select_Column.PlayerId,
   lastCheckedAt = Profile_Cache_Select_Column.LastCheckedAt,
 }
-export type ImageRefs = {
-  -readonly [key in keyof typeof CacheImages]?: MutableRefObject<HTMLImageElement>;
+export type Endpoints = {
+  -readonly [key in keyof typeof BasicProfileImages]?: {
+    url: string;
+    set: () => void;
+    ref: MutableRefObject<HTMLImageElement>;
+  };
 };
-export interface InputtedFields {
-  timeZone?: Maybe<string>;
-  availableHours?: Maybe<number>;
-  username: Maybe<string>;
-  pronouns: Maybe<string>;
+export interface TimeZone {
+  name?: string;
+  abbreviation: string;
+  city?: string;
+  country?: string;
+  offset: number;
+}
+export interface ExtendedProfileFields {
+  timeZone?: TimeZone;
+  availableHours?: number;
+  username?: string;
+  pronouns?: string;
 }
 
 export const EditProfileForm: React.FC<ProfileEditorProps> = ({
@@ -206,37 +216,33 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
   const {
     handleSubmit,
     register,
-    formState: { errors },
     setValue,
     control,
+    formState: { errors },
   } = useForm();
   const { ceramic } = useWeb3();
   const toast = useToast();
   const { player } = user ?? {};
 
-  console.info({ errors });
-
-  const refs: ImageRefs = Object.fromEntries(
-    Object.values(CacheImages).map((type) =>
-      // eslint-disable-next-line react-hooks/rules-of-hooks
-      [type, useRef<HTMLImageElement>(null)],
-    ),
-  );
   const endpoints = Object.fromEntries(
-    Object.entries(CacheImages).map(([id, type]) => {
-      const key = id as keyof typeof CacheImages;
+    Object.entries(BasicProfileImages).map(([hasuraId, ceramicId]) => {
+      // eslint-disable-next-line no-param-reassign
+      hasuraId = hasuraId as keyof typeof BasicProfileImages;
       // eslint-disable-next-line react-hooks/rules-of-hooks
       const [url, set] = useState<Maybe<string>>(
-        player?.profile_cache?.[key] ?? null,
+        player?.profile_cache?.[hasuraId] ?? null,
       );
-      return [type, { url, set }];
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      const ref = useRef<HTMLImageElement>(null);
+      return [ceramicId, { url, set, ref }];
     }),
   );
 
   useEffect(() => {
-    Object.keys(CacheFields).forEach((attr) => {
-      const key = attr as keyof typeof CacheFields;
-      setValue(key, player?.profile_cache?.[key] ?? null);
+    Object.entries(player?.profile_cache ?? {}).forEach(([key, value]) => {
+      if (!key.startsWith('_')) {
+        setValue(key, value ?? null);
+      }
     });
   }, [player, setValue]);
 
@@ -244,8 +250,8 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
     ({ target: input }: { target: HTMLInputElement }) => {
       const file = input.files?.[0];
       if (!file) return;
-      const key = input.name as keyof typeof refs;
-      const ref = refs[key] as MutableRefObject<HTMLImageElement>;
+      const key = input.name as keyof typeof endpoints;
+      const ref = endpoints[key].ref as MutableRefObject<HTMLImageElement>;
       const elem = ref.current as HTMLImageElement | null;
       if (!elem) return;
       const reader = new FileReader();
@@ -254,10 +260,10 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
       });
       reader.readAsDataURL(file);
     },
-    [refs],
+    [endpoints],
   );
 
-  const onSubmit = async (inputs: BasicProfileProps) => {
+  const onSubmit = async (inputs: ProfileProps) => {
     setStatus(
       <Text>
         Uploading images to
@@ -268,16 +274,19 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
       </Text>,
     );
 
+    console.log({ inputs });
+
     const formData = new FormData();
     const files: Record<string, File> = {};
-    Object.keys(refs).forEach((name) => {
-      const key = name as keyof BasicProfileProps;
-      if ((inputs[key] ?? []).length > 0) {
-        [files[key]] = (inputs[key] ?? []) as File[];
+    Object.keys(endpoints).forEach((name) => {
+      const key = name as keyof typeof BasicProfileImages;
+      const fileList = (inputs[key] ?? []) as File[];
+      if (fileList.length > 0) {
+        [files[key]] = fileList;
       }
       delete inputs[key]; // eslint-disable-line no-param-reassign
     });
-    const values = { ...inputs };
+    const values: ProfileProps = { ...inputs };
     console.log({ values, files }); // eslint-disable-line no-console
 
     if (Object.values(files).reduce((acc, val) => acc || !!val, false)) {
@@ -300,40 +309,43 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
           duration: 8000,
         });
       } else {
-        console.log({ response }); // eslint-disable-line no-console
         Object.keys(files).forEach((type: string) => {
           if (!response[type]) {
-            // eslint-disable-next-line no-console
-            console.warn(`Uploaded "${type}" & didn't get a response back.`);
+            toast({
+              title: 'Error Saving Image',
+              description: `Uploaded "${type}" & didn't get a response back.`,
+              status: 'warning',
+              isClosable: true,
+              duration: 8000,
+            });
           } else {
-            // const key = type as keyof typeof refs;
-            const key = type as 'image' | 'background';
-            const ref = refs[key] as MutableRefObject<HTMLImageElement>;
+            const key = type as Values<BasicProfileImages>;
+            const ref = endpoints[key]
+              .ref as MutableRefObject<HTMLImageElement>;
             const elem = ref.current as HTMLImageElement | null;
-            const { width, height } = elem ?? {};
-            values[type] = {
+            const { width = 0, height = 0 } = elem ?? {};
+            values[key] = {
               original: {
                 src: `ipfs://${response[type]}`,
                 mimeType: 'image/*',
                 width,
                 height,
               },
-            };
-            console.info({ values });
+            } as ImageSources;
           }
         });
       }
     }
 
     // empty string fails validation
-    ['countryCode', 'birthDate'].forEach((prop) => {
-      const key = prop as keyof BasicProfileProps;
+    ['residenceCountry', 'birthDate'].forEach((prop) => {
+      const key = prop as keyof typeof BasicProfileStrings;
       if (values[key] === '') {
         delete values[key];
       }
     });
 
-    const { countryCode: code }: { countryCode?: Maybe<string> } = values;
+    const { countryCode: code }: { countryCode?: string } = values;
     if (code?.length === 2) {
       values.countryCode = code.toUpperCase();
     } else {
@@ -358,21 +370,47 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
         duration: 8000,
       });
     } else {
-      setStatus(<Text>Authenticating DID…</Text>);
-      await ceramic.did?.authenticate();
+      try {
+        setStatus(<Text>Authenticating DID…</Text>);
+        await ceramic.did?.authenticate();
 
-      const cache = new Map();
-      const loader = new TileLoader({ ceramic, cache });
-      const manager = new ModelManager(ceramic);
-      manager.addJSONModel(basicProfileModel);
-      const store = new DIDDataStore({
-        ceramic,
-        loader,
-        model: await manager.toPublished(),
-      });
-      console.info({ values });
-      setStatus(<Text>Updating Basic Profile…</Text>);
-      store.merge('basicProfile', values);
+        const cache = new Map();
+        const loader = new TileLoader({ ceramic, cache });
+        const manager = new ModelManager(ceramic);
+        manager.addJSONModel(basicProfileModel);
+        const store = new DIDDataStore({
+          ceramic,
+          loader,
+          model: await manager.toPublished(),
+        });
+        console.info({ values });
+
+        const basic: BasicProfile = {};
+        Object.entries(BasicProfileStrings).forEach(([hasuraId, ceramicId]) => {
+          if (values[hasuraId] !== undefined) {
+            // set a value to null to remove it from the profile
+            basic[ceramicId] = (values[hasuraId] as string) ?? undefined;
+          }
+        });
+        Object.values(BasicProfileImages).forEach((ceramicId) => {
+          if (values[ceramicId] !== undefined) {
+            basic[ceramicId] = (values[ceramicId] as ImageSources) ?? undefined;
+          }
+        });
+
+        console.info({ basic });
+
+        setStatus(<Text>Updating Basic Profile…</Text>);
+        await store.merge('basicProfile', basic);
+      } catch (err) {
+        toast({
+          title: 'Ceramic Error',
+          description: `Error saving profile: ${(err as Error).message}`,
+          status: 'error',
+          isClosable: true,
+          duration: 8000,
+        });
+      }
     }
     setStatus(null);
   };
@@ -380,32 +418,33 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
   return (
     <Stack as="form" onSubmit={handleSubmit(onSubmit)}>
       <Wrap>
-        <WrapItem flex={1}>
+        <WrapItem flex={1} px={5}>
           <FormControl isInvalid={errors.image} align="center">
             <Tooltip label="An image generally cropped to a circle for display. 1MiB maximum size.">
               <Label htmlFor="image">Profile Image&nbsp;🛈</Label>
             </Tooltip>
             <Box position="relative">
-              <Image
-                ref={
-                  (refs as { image: MutableRefObject<HTMLImageElement> }).image
-                }
+              <PlayerAvatar
+                // ref={endpoints.image.ref}
+                {...{ player }}
                 src={httpLink(endpoints.image.url)}
                 h="10em"
-                maxW="10em"
+                w="10em"
+                omitBackground={false}
               />
               <Controller
                 control={control}
                 name="image"
-                defaultValue=""
-                render={({ field: { name, value, ref, onChange, onBlur } }) => (
+                defaultValue={[]}
+                render={({ field: { onChange, value, ...props } }) => (
                   <Input
                     id="image"
                     type="file"
-                    {...{ name, value, ref, onBlur }}
+                    {...props}
+                    value={value.filename}
                     onChange={async (evt) => {
+                      onChange(evt.target.files);
                       onFileChange(evt);
-                      onChange(evt);
                     }}
                     maxW="100%"
                     minH="100%"
@@ -422,17 +461,14 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
             <FormErrorMessage>{errors.image?.message}</FormErrorMessage>
           </FormControl>
         </WrapItem>
-        <WrapItem flex={1}>
+        <WrapItem flex={1} px={5}>
           <FormControl isInvalid={errors.background} align="center">
             <Tooltip label="An image with an ~3:1 aspect ratio to be displayed as a page or profile banner. 1MiB maximum size.">
               <Label htmlFor="background">Background Banner&nbsp;🛈</Label>
             </Tooltip>
             <Box position="relative">
               <Image
-                ref={
-                  (refs as { background: MutableRefObject<HTMLImageElement> })
-                    .background
-                }
+                ref={endpoints.background.ref}
                 src={httpLink(endpoints.background.url)}
                 maxW="12em"
                 h="10em"
@@ -440,15 +476,16 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
               <Controller
                 control={control}
                 name="background"
-                defaultValue=""
-                render={({ field: { name, value, ref, onChange, onBlur } }) => (
+                defaultValue={[]}
+                render={({ field: { onChange, value, ...props } }) => (
                   <Input
                     id="background"
                     type="file"
-                    {...{ name, value, ref, onBlur }}
+                    {...props}
+                    value={value.filename}
                     onChange={async (evt) => {
+                      onChange(evt.target.files);
                       onFileChange(evt);
-                      onChange(evt);
                     }}
                     maxW="100%"
                     minH="100%"
@@ -465,7 +502,7 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
             <FormErrorMessage>{errors.background?.message}</FormErrorMessage>
           </FormControl>
         </WrapItem>
-        <WrapItem flex={1}>
+        <WrapItem flex={1} px={5}>
           <FormControl isInvalid={errors.description}>
             <Tooltip label="420 characters max.">
               <Label htmlFor="description">Description&nbsp;🛈</Label>
@@ -473,9 +510,10 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
             <Textarea
               id="description"
               placeholder="Describe yourself."
-              minW="12em"
+              minW="15em"
               h="10em"
               color="white"
+              bg="dark"
               {...register('description', {
                 maxLength: {
                   value: 420,
@@ -486,7 +524,7 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
             <FormErrorMessage>{errors.description?.message}</FormErrorMessage>
           </FormControl>
         </WrapItem>
-        <WrapItem flex={1} alignItems="center">
+        <WrapItem flex={1} alignItems="center" px={5}>
           <FormControl isInvalid={errors.name}>
             <Tooltip label="Arbitrary letters, spaces, & punctuation. Max 150 characters.">
               <Label htmlFor="name">Display Name&nbsp;🛈</Label>
@@ -501,10 +539,12 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
                 },
               })}
             />
-            <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
+            <Box minH="3em">
+              <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
+            </Box>
           </FormControl>
         </WrapItem>
-        <WrapItem flex={1} alignItems="center">
+        <WrapItem flex={1} alignItems="center" px={5}>
           <FormControl isInvalid={errors.username}>
             <Tooltip label="Lowercase alpha, digits, dashes, & underscores only.">
               <Label htmlFor="username">Username&nbsp;🛈</Label>
@@ -532,10 +572,12 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
                 },
               })}
             />
-            <FormErrorMessage>{errors.username?.message}</FormErrorMessage>
+            <Box minH="3em">
+              <FormErrorMessage>{errors.username?.message}</FormErrorMessage>
+            </Box>
           </FormControl>
         </WrapItem>
-        <WrapItem flex={1} alignItems="center">
+        <WrapItem flex={1} alignItems="center" px={5}>
           <FormControl isInvalid={errors.pronouns}>
             <Label htmlFor="pronouns">Pronouns</Label>
             <Input
@@ -548,7 +590,9 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
                 },
               })}
             />
-            <FormErrorMessage>{errors.pronouns?.message}</FormErrorMessage>
+            <Box minH="3em">
+              <FormErrorMessage>{errors.pronouns?.message}</FormErrorMessage>
+            </Box>
           </FormControl>
         </WrapItem>
         {/*
@@ -557,10 +601,10 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
             <CountrySelectDropdown country={COUNTRIES_OPTIONS[0]} />
           </GridItem>
         */}
-        <WrapItem flex={1} alignItems="center">
+        <WrapItem flex={1} alignItems="center" px={5}>
           <FormControl isInvalid={errors.availability}>
             <Label htmlFor="availability">Availability</Label>
-            <InputGroup borderColor="transparent">
+            <InputGroup borderColor="white">
               <InputLeftElement>
                 <Text as="span" role="img" aria-label="clock">
                   🕛
@@ -570,8 +614,12 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
                 id="availability"
                 type="number"
                 placeholder="23"
-                pl={8}
-                maxW="5em"
+                pl={9}
+                minW="5em"
+                maxW="7em"
+                borderTopEndRadius={0}
+                borderBottomEndRadius={0}
+                borderRight={0}
                 {...register('availability', {
                   min: {
                     value: 0,
@@ -588,39 +636,103 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
                 <Text as="sup">hr</Text> ⁄ <Text as="sub">week</Text>
               </InputRightAddon>
             </InputGroup>
-            <FormErrorMessage>{errors.availability?.message}</FormErrorMessage>
+            <Box minH="3em">
+              <FormErrorMessage>
+                {errors.availability?.message}
+              </FormErrorMessage>
+            </Box>
           </FormControl>
         </WrapItem>
-        <WrapItem flex={1} alignItems="center">
+        <WrapItem flex={1} alignItems="center" px={5}>
           <FormControl isInvalid={errors.timeZone}>
             <Label htmlFor="name">Time Zone</Label>
             <Controller
-              control={control}
+              {...{ control }}
               name="timeZone"
               defaultValue={Intl.DateTimeFormat().resolvedOptions().timeZone}
-              render={({ field }) => (
+              render={({ field: { ref, ...props } }) => (
                 <SelectTimeZone
                   labelStyle="abbrev"
                   id="timeZone"
-                  placeholder="EST"
                   style={{
-                    minWidth: '15em',
+                    minWidth: '17em',
                   }}
-                  {...field}
+                  {...props}
                 />
               )}
             />
-            <FormErrorMessage>{errors.timeZone?.message}</FormErrorMessage>
+            <Box minH="3em">
+              <FormErrorMessage>{errors.timeZone?.message}</FormErrorMessage>
+            </Box>
+          </FormControl>
+        </WrapItem>
+        <WrapItem flex={1} alignItems="center" px={5}>
+          <FormControl isInvalid={errors.website}>
+            <Label htmlFor="name">Website</Label>
+            <Input
+              id="website"
+              placeholder="https://github.com/jane-user"
+              {...register('website', {
+                pattern: {
+                  value: /^(ipfs|https?):(\/\/)?.+$/i,
+                  message: 'URL must be IPFS, HTTP or HTTPS.',
+                },
+                maxLength: {
+                  value: 240,
+                  message: 'Maximum length is 240 characters.',
+                },
+              })}
+            />
+            <Box minH="3em">
+              <FormErrorMessage>{errors.website?.message}</FormErrorMessage>
+            </Box>
+          </FormControl>
+        </WrapItem>
+        <WrapItem flex={1} alignItems="center" px={5}>
+          <FormControl isInvalid={errors.location}>
+            <Label htmlFor="location">Location</Label>
+            <Input
+              id="location"
+              placeholder="Laniakea Supercluster"
+              {...register('location', {
+                maxLength: {
+                  value: 140,
+                  message: 'Maximum length is 140 characters.',
+                },
+              })}
+            />
+            <Box minH="3em">
+              <FormErrorMessage>{errors.location?.message}</FormErrorMessage>
+            </Box>
+          </FormControl>
+        </WrapItem>
+        <WrapItem flex={1} alignItems="center" px={5}>
+          <FormControl isInvalid={errors.emoji}>
+            <Label htmlFor="emoji">Spirit Emoji</Label>
+            <Input
+              id="emoji"
+              placeholder="🗽"
+              minW="inherit"
+              maxW="4em"
+              {...register('emoji', {
+                maxLength: {
+                  value: 2,
+                  message: 'Maximum length is 2 characters.',
+                },
+              })}
+            />
+            <Box minH="3em">
+              <FormErrorMessage>{errors.emoji?.message}</FormErrorMessage>
+            </Box>
           </FormControl>
         </WrapItem>
       </Wrap>
       {/*
-      <ProfileField title="website" placeholder="https://your.portfolio.here" />
       <ProfileField title="working hours" placeholder="9am - 10pm" />
       */}
       {onClose && (
         <ModalFooter mt={6} flex={1}>
-          <Wrap justify="center" flex={1}>
+          <Wrap justify="center" align="center" flex={1}>
             <WrapItem>
               <MetaButton isDisabled={!!status} type="submit">
                 {!status ? (
@@ -642,7 +754,7 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
                 variant="ghost"
                 onClick={onClose}
                 color="white"
-                _hover={{ bg: 'none' }}
+                _hover={{ bg: '#FFFFFF11' }}
               >
                 Close
               </Button>

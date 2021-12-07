@@ -28,35 +28,27 @@ const GalleryItem: React.FC<{ nft: Collectible; noMargin?: boolean }> = ({
     href={nft.openseaLink}
     isExternal
     mb={noMargin ? undefined : 6}
-    minW={0}
     display="flex"
   >
-    <HStack spacing={6}>
-      <Flex width="7.5rem" height="7.5rem">
-        <Box
-          bgImage={`url(${nft.imageUrl})`}
-          backgroundSize="contain"
-          backgroundRepeat="no-repeat"
-          backgroundPosition="center"
-          w="7.5rem"
-          h="7.5rem"
-          m="auto"
-        />
-      </Flex>
-      <Flex direction="column">
-        <Heading
-          fontSize="xs"
-          mt={3}
-          mb={3}
-          textTransform="uppercase"
-          display="inline-block"
-          style={{ wordWrap: 'break-word', wordBreak: 'break-all' }}
-        >
-          {nft.title}
-        </Heading>
-        <Text fontSize="sm">{nft.priceString}</Text>
-      </Flex>
-    </HStack>
+    <Box
+      bgImage={`url(${nft.imageUrl})`}
+      backgroundSize="contain"
+      backgroundRepeat="no-repeat"
+      backgroundPosition="center"
+      minW={28}
+      minH={28}
+    />
+    <Flex direction="column" ml={3} justify="center">
+      <Heading
+        fontSize="xs"
+        my={3}
+        display="inline-block"
+        style={{ wordWrap: 'break-word', fontVariant: 'small-caps' }}
+      >
+        {nft.title}
+      </Heading>
+      <Text fontSize="sm">{nft.priceString}</Text>
+    </Flex>
   </Link>
 );
 

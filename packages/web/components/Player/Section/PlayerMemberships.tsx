@@ -3,6 +3,7 @@ import {
   Flex,
   Heading,
   HStack,
+  Image,
   LoadingState,
   Modal,
   ModalCloseButton,
@@ -46,15 +47,12 @@ const DaoListing: React.FC<DaoListingProps> = ({ membership }) => {
       return `XP: ${Math.floor(memberXp)}`;
     }
     if (daoShares != null) {
-      return `Shares: ${memberShares || 0} ⁄ ${daoShares}`;
+      return `Shares: ${memberShares ?? 'Unknown'} ⁄ ${daoShares}`;
     }
     return '';
   }, [memberShares, memberXp, daoShares]);
 
-  const daoUrl = useMemo(
-    () => getDaoLink(chain, address),
-    [chain, address],
-  );
+  const daoUrl = useMemo(() => getDaoLink(chain, address), [chain, address]);
 
   const guildLogo = useMemo(
     () => logoUrl || getMolochImage(title || chain || ''),
@@ -64,25 +62,27 @@ const DaoListing: React.FC<DaoListingProps> = ({ membership }) => {
   return (
     <LinkGuild {...{ daoUrl, guildname }}>
       <HStack alignItems="center" mb={6}>
-        <Flex bg="purpleBoxLight" width={16} height={16} mr={6}>
-          <Box
-            bgImage={`url(${guildLogo})`}
-            backgroundSize="cover"
-            width={12}
-            height={12}
-            m="auto"
-          />
+        <Flex bg="purpleBoxLight" minW={16} minH={16} mr={6}>
+          <Image src={guildLogo} w={12} h={12} m="auto" />
         </Flex>
         <Box>
           <Heading
             _groupHover={{ textDecoration: 'underline' }}
             fontWeight="bold"
-            textTransform="uppercase"
+            style={{ fontVariant: 'small-caps' }}
             fontSize="xs"
             color={daoUrl ? 'cyanText' : 'white'}
-            mb="1"
+            mb={1}
           >
-            {title || `Unknown ${chain} DAO`}
+            {title ?? (
+              <Text>
+                Unknown{' '}
+                <Text as="span" textTransform="capitalize">
+                  {chain}
+                </Text>{' '}
+                DAO
+              </Text>
+            )}
           </Heading>
           <HStack alignItems="center">
             {memberRank && (
@@ -112,44 +112,38 @@ export const PlayerMemberships: React.FC<MembershipSectionProps> = ({
   canEdit,
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [guildMemberships, setGuildMemberships] = useState<GuildMembership[]>(
-    [],
-  );
-  const [loadingMemberships, setLoadingMemberships] = useState(true);
+  const [memberships, setMemberships] = useState<GuildMembership[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getAllMemberships(player).then((memberships) => {
-      setLoadingMemberships(false);
-      setGuildMemberships(memberships);
+    getAllMemberships(player).then((all) => {
+      setLoading(false);
+      setMemberships(all);
     });
   }, [player]);
 
-  const modalContentStyles = (
-    isBackdropFilterSupported()
+  const modalContentStyles = isBackdropFilterSupported()
     ? {
-      backgroundColor: 'rgba(255,255,255,0.08)',
-      backdropFilter: 'blur(8px)',
-    }
+        backgroundColor: 'rgba(255, 255, 255, 0.08)',
+        backdropFilter: 'blur(8px)',
+      }
     : {
-      backgroundColor: 'rgba(7, 2, 29, 0.91)',
-    }
-  );
+        backgroundColor: 'rgba(7, 2, 29, 0.91)',
+      };
 
   return (
     <ProfileSection
       title="Memberships"
-      onRemoveClick={onRemoveClick}
-      isOwnProfile={isOwnProfile}
-      canEdit={canEdit}
       boxType={BoxType.PLAYER_DAO_MEMBERSHIPS}
+      {...{ onRemoveClick, isOwnProfile, canEdit }}
     >
-      {loadingMemberships && <LoadingState />}
+      {loading && <LoadingState />}
 
-      {guildMemberships.slice(0, 4).map((membership) => (
+      {memberships.slice(0, 4).map((membership) => (
         <DaoListing key={membership.memberId} {...{ membership }} />
       ))}
 
-      {guildMemberships.length > 4 && (
+      {memberships.length > 4 && (
         <Text
           as="span"
           fontSize="xs"
@@ -157,7 +151,7 @@ export const PlayerMemberships: React.FC<MembershipSectionProps> = ({
           cursor="pointer"
           onClick={onOpen}
         >
-          View All ({guildMemberships.length})
+          View All ({memberships.length})
         </Text>
       )}
 
@@ -210,10 +204,10 @@ export const PlayerMemberships: React.FC<MembershipSectionProps> = ({
                   padding={6}
                   boxShadow="md"
                 >
-                  {guildMemberships.map((membership) => (
+                  {memberships.map((membership) => (
                     <DaoListing
                       key={membership.memberId}
-                      membership={membership}
+                      {...{ membership }}
                     />
                   ))}
                 </SimpleGrid>

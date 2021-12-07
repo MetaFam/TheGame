@@ -22,6 +22,7 @@ export type Props = {
 export const SetupPlayerType: React.FC<Props> = ({ isEdit, onClose }) => {
   const { onNextPress, nextButtonLabel } = useSetupFlow();
   const { user } = useUser();
+  const { player } = user ?? {};
   const toast = useToast();
 
   const [updateAboutYouRes, updateAboutYou] = useUpdateAboutYouMutation();
@@ -31,34 +32,29 @@ export const SetupPlayerType: React.FC<Props> = ({ isEdit, onClose }) => {
   const [playerType, setPlayerType] = useState<Player_Type>();
   const isWizard = !isEdit;
 
-  if (user?.player) {
-    const { player } = user;
-    if (player.type && !playerType) {
-      setPlayerType(player.type);
-    }
+  if (player?.type && !playerType) {
+    setPlayerType(player.type);
   }
 
   useEffect(() => {
-    async function fetchMyAPI() {
+    const fetchMyAPI = async () => {
       const response = await getPlayerTypes();
       setPlayerTypeChoices(response);
-    }
+    };
 
     fetchMyAPI();
   }, [playerTypeChoices]);
 
   const handleNextPress = async () => {
     setLoading(true);
-
-    save();
-
+    await save();
     onNextPress();
   };
 
   const save = async () => {
     if (!user) return;
 
-    if (user.player?.type?.id !== playerType?.id) {
+    if (player?.type?.id !== playerType?.id) {
       const { error } = await updateAboutYou({
         playerId: user.id,
         input: {
@@ -69,7 +65,7 @@ export const SetupPlayerType: React.FC<Props> = ({ isEdit, onClose }) => {
       if (error) {
         toast({
           title: 'Error',
-          description: 'Unable to update player type. The octo is sad 😢',
+          description: `Unable to update player type. Error: ${error}`,
           status: 'error',
           isClosable: true,
         });
@@ -90,41 +86,38 @@ export const SetupPlayerType: React.FC<Props> = ({ isEdit, onClose }) => {
         that suits you best.
       </Text>
       <SimpleGrid columns={[1, null, 3, 3]} spacing={4}>
-        {playerTypeChoices.map((p) => (
+        {playerTypeChoices.map((choice) => (
           <FlexContainer
-            key={p.id}
+            key={choice.id}
             p={[4, null, 6]}
             bgColor={
-              playerType && playerType.id === p.id
-                ? 'purpleBoxDark'
-                : 'purpleBoxLight'
+              playerType?.id === choice.id ? 'purpleBoxDark' : 'purpleBoxLight'
             }
             borderRadius="0.5rem"
             _hover={{ bgColor: 'purpleBoxDark' }}
             transition="background 0.25s"
             cursor="pointer"
-            onClick={() => setPlayerType(p)}
+            onClick={() => setPlayerType(choice)}
             align="stretch"
             justify="flex-start"
             border="2px"
             borderColor={
-              playerType && playerType.id === p.id
-                ? 'purple.400'
-                : 'transparent'
+              playerType?.id === choice.id ? 'purple.400' : 'transparent'
             }
           >
             <Text color="white" fontWeight="bold" mb={4}>
-              {p.title}
+              {choice.title}
             </Text>
-            <Text color="blueLight">{p.description}</Text>
+            <Text color="blueLight" textAlign="justify">
+              {choice.description}
+            </Text>
           </FlexContainer>
         ))}
       </SimpleGrid>
 
       {isEdit && onClose && (
         <ModalFooter mt={6}>
-          <Button
-            colorScheme="blue"
+          <MetaButton
             mr={3}
             onClick={() => {
               save();
@@ -132,12 +125,12 @@ export const SetupPlayerType: React.FC<Props> = ({ isEdit, onClose }) => {
             }}
           >
             Save Changes
-          </Button>
+          </MetaButton>
           <Button
             variant="ghost"
             onClick={onClose}
             color="white"
-            _hover={{ bg: 'none' }}
+            _hover={{ bg: '#FFFFFF11' }}
           >
             Close
           </Button>
@@ -150,7 +143,7 @@ export const SetupPlayerType: React.FC<Props> = ({ isEdit, onClose }) => {
           mt={10}
           isDisabled={!playerType}
           isLoading={updateAboutYouRes.fetching || loading}
-          loadingText="Saving"
+          loadingText="Saving…"
         >
           {nextButtonLabel}
         </MetaButton>

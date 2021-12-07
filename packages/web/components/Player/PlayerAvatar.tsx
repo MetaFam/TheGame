@@ -7,10 +7,14 @@ import {
   hasPlayerImage,
 } from 'utils/playerHelpers';
 
-type PlayerAvatarProps = AvatarProps & { player: PlayerFragmentFragment };
+type PlayerAvatarProps = AvatarProps & {
+  player?: PlayerFragmentFragment;
+  omitBackground?: boolean;
+};
 
 export const PlayerAvatar: React.FC<PlayerAvatarProps> = ({
   player,
+  omitBackground = true,
   ...props
 }) => {
   const attrs = {
@@ -18,7 +22,9 @@ export const PlayerAvatar: React.FC<PlayerAvatarProps> = ({
     name: getPlayerName(player),
     ...props,
   };
-  if (hasPlayerImage(player)) attrs.bg = 'transparent';
+  if (omitBackground && hasPlayerImage(player)) {
+    attrs.bg = 'transparent';
+  }
 
   return <Avatar {...attrs} />;
 };
