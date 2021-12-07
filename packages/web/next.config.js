@@ -13,6 +13,14 @@ module.exports = withTM(
         },
       ];
     },
+    async rewrites() {
+      return [
+        {
+          source: '/api/metagame/feed',
+          destination: 'https://metagame.substack.com/feed',
+        },
+      ];
+    },
     future: {
       webpack5: true,
     },
@@ -42,6 +50,6 @@ module.exports = withTM(
       );
 
       return config;
-    },
+      }
   }),
 );
