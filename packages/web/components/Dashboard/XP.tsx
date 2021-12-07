@@ -9,6 +9,7 @@ import {
   StatHelpText,
   StatLabel,
   StatNumber,
+  Text,
 } from '@metafam/ds';
 import { animated, useSpring } from '@react-spring/web';
 import { useUser } from 'lib/hooks';
@@ -28,6 +29,15 @@ import { XPChartWrapperStyles } from './config';
 export const XP = (): React.ReactElement => {
   const { user } = useUser();
 
+  const xpStats = useUserXP(user?.ethereum_address || '');
+
+  if (xpStats == null) {
+    return (
+      <Text fontStyle="italic" textAlign="center">
+        Unknown
+      </Text>
+    );
+  }
   const {
     userTotalXP,
     variationThisWeek,
@@ -35,8 +45,7 @@ export const XP = (): React.ReactElement => {
     thisWeekXP,
     lastWeekXP,
     userWeeklyCred,
-  } = useUserXP(user?.ethereum_address || '');
-
+  } = xpStats;
   return (
     <>
       <StatGroup mt={5} flex="0 0 50%">
@@ -44,13 +53,7 @@ export const XP = (): React.ReactElement => {
           <StatLabel>This Week</StatLabel>
           <StatNumber>{thisWeekXP}</StatNumber>
           <StatHelpText>
-            <StatArrow
-              type={
-                variationThisWeek && variationThisWeek < 0
-                  ? 'decrease'
-                  : 'increase'
-              }
-            />
+            <StatArrow type={variationThisWeek < 0 ? 'decrease' : 'increase'} />
             {variationThisWeek}%
           </StatHelpText>
         </Stat>
@@ -59,13 +62,7 @@ export const XP = (): React.ReactElement => {
           <StatLabel>Last Week</StatLabel>
           <StatNumber>{lastWeekXP}</StatNumber>
           <StatHelpText>
-            <StatArrow
-              type={
-                variationLastWeek && variationLastWeek < 0
-                  ? 'decrease'
-                  : 'increase'
-              }
-            />
+            <StatArrow type={variationLastWeek < 0 ? 'decrease' : 'increase'} />
             {lastWeekXP}%
           </StatHelpText>
         </Stat>

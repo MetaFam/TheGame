@@ -4,30 +4,23 @@ import { useEffect, useState } from 'react';
 import { SCAccount, SCAccountsData } from 'sourcecred';
 
 interface XPProps {
-  userTotalXP: number | null;
-  variationThisWeek: number | null;
-  variationLastWeek: number | null;
-  thisWeekXP: number | null;
-  lastWeekXP: number | null;
-  userWeeklyCred: number[] | null;
+  userTotalXP: number;
+  variationThisWeek: number;
+  variationLastWeek: number;
+  thisWeekXP: number;
+  lastWeekXP: number;
+  userWeeklyCred: number[];
 }
 
-export const useUserXP = (userAddress: string): XPProps => {
-  const [XPDataObj, setXPDataObj] = useState<XPProps>({
-    userTotalXP: null,
-    variationThisWeek: null,
-    variationLastWeek: null,
-    thisWeekXP: null,
-    lastWeekXP: null,
-    userWeeklyCred: null,
-  });
+export const useUserXP = (userAddress: string): XPProps | null => {
+  const [xpDataObj, setXPDataObj] = useState<XPProps | null>(null);
   useEffect(() => {
     if (ethers.utils.isAddress(userAddress))
       getXP(userAddress).then((res) => {
         if (res) setXPDataObj(res);
       });
   }, [userAddress]);
-  return XPDataObj;
+  return xpDataObj;
 };
 
 const getXP = async (userAddress: string): Promise<XPProps | null> => {
@@ -40,15 +33,7 @@ const getXP = async (userAddress: string): Promise<XPProps | null> => {
       accountFilter(account, userAddress),
     );
 
-    if (!scAccount)
-      return {
-        userTotalXP: null,
-        variationThisWeek: null,
-        variationLastWeek: null,
-        thisWeekXP: null,
-        lastWeekXP: null,
-        userWeeklyCred: null,
-      };
+    if (!scAccount) return null;
 
     const userTotalXP = roundToTwoDecimal(scAccount.totalCred);
     const numWeeks = scAccount.cred.length;
