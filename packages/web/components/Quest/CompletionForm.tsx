@@ -13,17 +13,7 @@ import {
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-
-import { UriRegexp } from '../../utils/questHelpers';
-
-const validations = {
-  submission_text: {
-    required: true,
-  },
-  submission_link: {
-    pattern: UriRegexp,
-  },
-};
+import { URIRegexp } from 'utils/questHelpers';
 
 type Props = {
   quest: QuestFragmentFragment;
@@ -40,7 +30,7 @@ export const CompletionForm: React.FC<Props> = ({
 }) => {
   const {
     register,
-    errors,
+    formState: { errors },
     handleSubmit,
   } = useForm<CreateQuestCompletionInput>();
   const [exitAlert, setExitAlert] = useState<boolean>(false);
@@ -50,23 +40,39 @@ export const CompletionForm: React.FC<Props> = ({
     <VStack>
       <Text>Description</Text>
       <Input
-        background="dark"
-        placeholder="What did you do ?"
-        isRequired
-        name="submission_text"
-        ref={register(validations.submission_text)}
+        placeholder="What did you do?"
+        {...register('submission_text', {
+          required: {
+            value: true,
+            message: 'This is a required field.',
+          },
+        })}
         isInvalid={!!errors.submission_text}
+        background="dark"
       />
 
       <Text>Link</Text>
       <Input
-        background="dark"
         placeholder="External link"
-        name="submission_link"
-        ref={register(validations.submission_link)}
+        {...register('submission_link', {
+          pattern: {
+            value: URIRegexp,
+            message: 'Supply a valid URL.',
+          },
+        })}
         isInvalid={!!errors.submission_link}
+        background="dark"
       />
       <HStack>
+        <MetaButton
+          mt={10}
+          isLoading={fetching}
+          loadingText="Submitting…"
+          onClick={handleSubmit(onSubmit)}
+          isDisabled={success}
+        >
+          Submit
+        </MetaButton>
         <MetaButton
           variant="outline"
           onClick={() => setExitAlert(true)}
@@ -74,22 +80,13 @@ export const CompletionForm: React.FC<Props> = ({
         >
           Cancel
         </MetaButton>
-        <MetaButton
-          mt={10}
-          isLoading={fetching}
-          loadingText="Submitting..."
-          onClick={handleSubmit(onSubmit)}
-          isDisabled={success}
-        >
-          Submit
-        </MetaButton>
       </HStack>
 
       <ConfirmModal
         isOpen={exitAlert}
         onNope={() => setExitAlert(false)}
         onYep={() => router.push(`/quest/${quest.id}`)}
-        header="Are you sure you want to leave ?"
+        header="Are you sure you want to leave?"
       />
     </VStack>
   );
