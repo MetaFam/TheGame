@@ -18,13 +18,13 @@ const ForumPage: React.FC = () => {
   return (
     <PageContainer p={0} position="fixed">
       <HeadComponent
-        title={`Forum`}
-        description={descriptions.forum}
-        url="https://forum.metagame.wtf/"
+        title={`Welcome to Metagame`}
+        description={descriptions.welcome}
+        url="https://meta-game.notion.site/meta-game/Welcome-to-MetaGame-7e28e75f3c264c7b939eaaa2239b9c28"
       />
       <iframe
-        title="Forum"
-        src="https://forum.metagame.wtf/"
+        title="MetaWiki"
+        src="https://meta-game.notion.site/meta-game/Welcome-to-MetaGame-7e28e75f3c264c7b939eaaa2239b9c28"
         style={{
           height: window.innerHeight - megamenuHeight,
           width: `100%`,

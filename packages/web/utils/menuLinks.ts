@@ -14,6 +14,18 @@ export interface MenuLinkSet {
 export const descriptions = {
   events: "See when we're meeting; join discussions & workshops",
   forum: 'Take part in slower & more thoughtful conversations on the forum',
+  greatHouses:
+    'The Great Houses are here to give people a meta view of different areas of interest',
+  playbooks:
+    'Playbooks are short tutorials on achieving greatness, written by other players',
+  metaradio:
+    "MetaGame's podcasting network; plug knowledge straight into your ears",
+  youtube:
+    "MetaMedia is MetaGame's video hub, talks, workshops, memes & other shizzle",
+  welcome: 'New to MetaGame? This is the first thing you should dive deep into',
+  thegreathouses:
+    'The Great Houses are here to give people a meta view of different areas of interest',
+  wiki: 'New to MetaGame? This is the first thing you should dive deep into',
 };
 
 export const MenuSectionLinks: MenuLinkSet[] = [
@@ -56,7 +68,7 @@ export const MenuSectionLinks: MenuLinkSet[] = [
       {
         title: 'Forum',
         explainerText: descriptions.forum,
-        url: '/community/forum',
+        url: 'https://forum.metagame.wtf/',
         icon: 'forum',
       },
     ],
@@ -66,16 +78,14 @@ export const MenuSectionLinks: MenuLinkSet[] = [
     menuItems: [
       {
         title: 'MetaGame Wiki',
-        explainerText:
-          'New to MetaGame? This is the first thing you should dive deep into',
-        url: 'https://wiki.metagame.wtf/docs/wtf-is-metagame/wtf-is-metagame',
+        explainerText: descriptions.wiki,
+        url: '/learn/wiki',
         icon: 'metagamewiki',
       },
       {
         title: 'The Great Houses',
-        explainerText:
-          'The Great Houses are here to give people a meta view of different areas of interest',
-        url: 'https://wiki.metagame.wtf/docs/great-houses/house-of-daos',
+        explainerText: descriptions.thegreathouses,
+        url: '/learn/thegreathouses',
         icon: 'thegreathouses',
       },
       // {
@@ -87,16 +97,15 @@ export const MenuSectionLinks: MenuLinkSet[] = [
       // },
       {
         title: 'Welcome to MetaGame',
-        explainerText: 'On your path to becoming a player? Go through here',
+        explainerText: descriptions.welcome,
         url:
           'https://meta-game.notion.site/meta-game/Welcome-to-MetaGame-7e28e75f3c264c7b939eaaa2239b9c28',
         icon: 'welcometometagame',
       },
       {
         title: 'Playbooks',
-        explainerText:
-          'Playbooks are short tutorials on achieving greatness, written by other players',
-        url: 'https://wiki.metagame.wtf/docs/playbooks/browse',
+        explainerText: descriptions.playbooks,
+        url: '/learn/playbooks',
         icon: 'playbooks',
       },
       // {
@@ -108,15 +117,13 @@ export const MenuSectionLinks: MenuLinkSet[] = [
       // },
       {
         title: 'Meta Radio',
-        explainerText:
-          "MetaGame's podcasting network; plug knowledge straight into your ears",
-        url: 'https://anchor.fm/MetaGame/',
+        explainerText: descriptions.metaradio,
+        url: '/learn/metaradio',
         icon: 'metaradio',
       },
       {
         title: 'Meta Media YouTube',
-        explainerText:
-          "MetaMedia is MetaGame's video hub, talks, workshops, memes & other shizzle",
+        explainerText: descriptions.youtube,
         url: 'https://www.youtube.com/metamedia',
         icon: 'youtube',
       },
