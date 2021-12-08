@@ -11,6 +11,21 @@ module.exports = withTM(
           destination: '/community/players',
           permanent: false,
         },
+        {
+          source: '/players',
+          destination: '/community/players',
+          permanent: false,
+        },
+        {
+          source: '/patrons',
+          destination: '/community/patrons',
+          permanent: false,
+        },
+        {
+          source: '/guilds',
+          destination: '/community/guilds',
+          permanent: false,
+        },
       ];
     },
     future: {
