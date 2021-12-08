@@ -26,6 +26,11 @@ export const descriptions = {
   thegreathouses:
     'The Great Houses are here to give people a meta view of different areas of interest',
   wiki: 'New to MetaGame? This is the first thing you should dive deep into',
+  becomeapatron: "Don't have time to play? Support MetaGame by buying Seeds",
+  buyseeds:
+    'Find out all about the SEEDs; why, where & how you should buy them',
+  plantseeds: 'Plant your SEEDs and watch them grow',
+  grants: 'Find cool projects & people you could support financially',
 };
 
 export const MenuSectionLinks: MenuLinkSet[] = [
@@ -162,31 +167,26 @@ export const MenuSectionLinks: MenuLinkSet[] = [
     menuItems: [
       {
         title: 'Become a Patron',
-        explainerText:
-          "Don't have time to play? Support MetaGame by buying Seeds",
-        url: 'https://wiki.metagame.wtf/docs/enter-metagame/why-patron',
+        explainerText: descriptions.becomeapatron,
+        url: '/invest/becomeapatron',
         icon: 'becomeapatron',
       },
       {
         title: 'Buy Seeds',
-        explainerText:
-          'Find out all about the SEEDs; why, where & how you should buy them',
-        url:
-          'https://app.balancer.fi/#/swap/ether/0x30cf203b48edaa42c3b4918e955fed26cd012a3f',
+        explainerText: descriptions.buyseeds,
+        url: '/invest/buyseeds',
         icon: 'seeds',
       },
       {
         title: 'Plant Seeds',
-        explainerText: 'Plant your SEEDs and watch them grow',
-        url:
-          'https://pools.balancer.exchange/#/pool/0xea05a15dbce2eb543ffda16950e95b2bd2e40d0e/',
+        explainerText: descriptions.plantseeds,
+        url: '/invest/plantseeds',
         icon: 'invest',
       },
       {
         title: 'Support Grants',
-        explainerText:
-          'Find cool projects & people you could support financially',
-        url: 'https://giveth.io/',
+        explainerText: descriptions.grants,
+        url: '/invest/grants',
         icon: 'grants',
       },
     ],
