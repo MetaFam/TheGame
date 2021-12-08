@@ -397,6 +397,7 @@ export const MegaMenu: React.FC = () => {
     <Stack
       position={router.pathname === '/players' ? 'relative' : 'sticky'}
       top={0}
+      id="MegaMenu"
       zIndex={11}
     >
       <Flex
