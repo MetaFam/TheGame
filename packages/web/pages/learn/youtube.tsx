@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 
 import { descriptions } from '../../utils/menuLinks';
 
-const ForumPage: React.FC = () => {
+const YoutubePage: React.FC = () => {
   // need to ensure that the menu height is calculated on client
   const [isComponentMounted, setIsComponentMounted] = useState(false);
   useEffect(() => setIsComponentMounted(true), []);
@@ -18,13 +18,13 @@ const ForumPage: React.FC = () => {
   return (
     <PageContainer p={0} position="fixed">
       <HeadComponent
-        title={`Forum`}
+        title={`Youtube`}
         description={descriptions.forum}
-        url="https://forum.metagame.wtf/"
+        url="https://www.youtube.com/metamedia/"
       />
       <iframe
-        title="Forum"
-        src="https://forum.metagame.wtf/"
+        title="MetaWiki"
+        src="https://www.youtube.com/metamedia/"
         style={{
           height: window.innerHeight - megamenuHeight,
           width: `100%`,
@@ -34,4 +34,4 @@ const ForumPage: React.FC = () => {
   );
 };
 
-export default ForumPage;
+export default YoutubePage;
