@@ -1,24 +1,10 @@
 import { PageContainer } from 'components/Container';
 import { HeadComponent } from 'components/Seo';
-import { getGuilds } from 'graphql/queries/guild';
-import { InferGetStaticPropsType } from 'next';
 import React, { useEffect, useState } from 'react';
 
 import { descriptions } from '../../utils/menuLinks';
 
-type Props = InferGetStaticPropsType<typeof getStaticProps>;
-
-export const getStaticProps = async () => {
-  const guilds = await getGuilds();
-  return {
-    props: {
-      guilds,
-    },
-    revalidate: 1,
-  };
-};
-
-const EventsPage: React.FC<Props> = () => {
+const EventsPage: React.FC = () => {
   // need to ensure that the menu height is calculated on client
   const [isComponentMounted, setIsComponentMounted] = useState(false);
   useEffect(() => setIsComponentMounted(true), []);
