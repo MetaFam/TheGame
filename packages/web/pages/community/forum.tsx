@@ -4,7 +4,7 @@ import { getGuilds } from 'graphql/queries/guild';
 import { InferGetStaticPropsType } from 'next';
 import React, { useEffect, useState } from 'react';
 
-import { eventsDescription } from '../utils/menuLinks';
+import { descriptions } from '../../utils/menuLinks';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
@@ -33,12 +33,12 @@ const EventsPage: React.FC<Props> = () => {
     <PageContainer p={0} position="fixed">
       <HeadComponent
         title={`Events`}
-        description={eventsDescription}
-        url={`https://wiki.metagame.wtf/docs/great-houses/house-of-daos`}
+        description={descriptions.forum}
+        url="https://forum.metagame.wtf/"
       />
       <iframe
         title="MetaWiki"
-        src="https://wiki.metagame.wtf/docs/great-houses/house-of-daos"
+        src="https://forum.metagame.wtf/"
         style={{
           height: window.innerHeight - megamenuHeight,
           width: `100%`,

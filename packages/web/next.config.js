@@ -8,7 +8,7 @@ module.exports = withTM(
       return [
         {
           source: '/',
-          destination: '/players',
+          destination: '/community/players',
           permanent: false,
         },
       ];

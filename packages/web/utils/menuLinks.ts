@@ -11,8 +11,10 @@ export interface MenuLinkSet {
   menuItems: MenuLinkItem[];
 }
 
-export const eventsDescription =
-  "See when we're meeting; join discussions & workshops";
+export const descriptions = {
+  events: "See when we're meeting; join discussions & workshops",
+  forum: 'Take part in slower & more thoughtful conversations on the forum',
+};
 
 export const MenuSectionLinks: MenuLinkSet[] = [
   {
@@ -22,14 +24,14 @@ export const MenuSectionLinks: MenuLinkSet[] = [
         title: 'Players',
         explainerText:
           'Find players of MetaGame; their NFTs, their skills & whatever else they put on there',
-        url: '/players',
+        url: '/community/players',
         icon: 'players',
       },
       {
         title: 'Patrons',
         explainerText:
           'Check the patrons of MetaGame; the ones supporting MetaGame by buying Seeds',
-        url: '/patrons',
+        url: '/community/patrons',
         icon: 'patrons',
       },
       {
@@ -42,20 +44,19 @@ export const MenuSectionLinks: MenuLinkSet[] = [
         title: 'Guilds',
         explainerText:
           'Discover the guilds of MetaGame; groups of players set around more specific goals',
-        url: '/guilds',
+        url: '/community/guilds',
         icon: 'guilds',
       },
       {
         title: 'Events',
-        explainerText: eventsDescription,
-        url: '/events',
+        explainerText: descriptions.events,
+        url: '/community/events',
         icon: 'events',
       },
       {
         title: 'Forum',
-        explainerText:
-          'Take part in slower & more thoughtful conversations on the forum',
-        url: 'https://forum.metagame.wtf/',
+        explainerText: descriptions.forum,
+        url: '/community/forum',
         icon: 'forum',
       },
     ],
