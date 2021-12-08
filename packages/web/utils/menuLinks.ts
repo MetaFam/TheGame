@@ -11,6 +11,9 @@ export interface MenuLinkSet {
   menuItems: MenuLinkItem[];
 }
 
+export const eventsDescription =
+  "See when we're meeting; join discussions & workshops";
+
 export const MenuSectionLinks: MenuLinkSet[] = [
   {
     label: 'community',
@@ -44,8 +47,8 @@ export const MenuSectionLinks: MenuLinkSet[] = [
       },
       {
         title: 'Events',
-        explainerText: "See when we're meeting; join discussions & workshops",
-        url: 'https://wiki.metagame.wtf/docs/great-houses/house-of-daos',
+        explainerText: eventsDescription,
+        url: '/events',
         icon: 'events',
       },
       {
