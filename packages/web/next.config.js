@@ -16,7 +16,7 @@ module.exports = withTM(
     async rewrites() {
       return [
         {
-          source: '/api/metagame/feed',
+          source: '/metagame/feed',
           destination: 'https://metagame.substack.com/feed',
         },
       ];
@@ -50,6 +50,6 @@ module.exports = withTM(
       );
 
       return config;
-      }
+    },
   }),
 );
