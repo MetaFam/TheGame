@@ -7,10 +7,13 @@ import { ethers } from 'ethers';
 import { Maybe, PlayerFragmentFragment } from 'graphql/autogen/types';
 import { httpLink } from 'utils/linkHelpers';
 
-export const getPlayerImage = (player?: PlayerFragmentFragment): string =>
-  httpLink(player?.profile_cache?.imageURL) || !player?.username
+export const getPlayerImage = (player?: PlayerFragmentFragment): string => {
+  const link = httpLink(player?.profile_cache?.imageURL);
+  if (link) return link;
+  return !player?.username
     ? ProfileIcon
     : `https://avatars.dicebear.com/api/jdenticon/${player.username}.svg`;
+};
 
 export const getPlayerCoverImage = (player: PlayerFragmentFragment): string =>
   httpLink(player.profile_cache?.backgroundImageURL) || PlayerCoverImageSmall;
@@ -31,7 +34,7 @@ export const getPlayerName = (
 
 export const getPlayerDescription = (
   player?: PlayerFragmentFragment,
-): Maybe<string> => player?.profile_cache?.description ?? null;
+): Maybe<string> => player?.profile_cache?.description ?? '';
 
 export const formatAddress = (address = ''): string =>
   `${address.slice(0, 6)}…${address.slice(-4)}`;

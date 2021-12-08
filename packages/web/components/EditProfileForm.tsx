@@ -252,11 +252,9 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
       if (!file) return;
       const key = input.name as keyof typeof endpoints;
       const ref = endpoints[key].ref as MutableRefObject<HTMLImageElement>;
-      const elem = ref.current as HTMLImageElement | null;
-      if (!elem) return;
       const reader = new FileReader();
       reader.addEventListener('load', () => {
-        elem.src = reader.result as string;
+        endpoints[key].set(reader.result as string);
       });
       reader.readAsDataURL(file);
     },
@@ -323,7 +321,7 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
             const ref = endpoints[key]
               .ref as MutableRefObject<HTMLImageElement>;
             const elem = ref.current as HTMLImageElement | null;
-            const { width = 0, height = 0 } = elem ?? {};
+            const { width = 100, height = 100 } = elem ?? {};
             values[key] = {
               original: {
                 src: `ipfs://${response[type]}`,
@@ -424,9 +422,10 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
               <Label htmlFor="image">Profile Image&nbsp;🛈</Label>
             </Tooltip>
             <Box position="relative">
+              {console.log({ h: httpLink(endpoints.image.url) })}
               <PlayerAvatar
                 // ref={endpoints.image.ref}
-                {...{ player }}
+                player={player ?? undefined}
                 src={httpLink(endpoints.image.url)}
                 h="10em"
                 w="10em"
@@ -444,6 +443,7 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
                     value={value.filename}
                     onChange={async (evt) => {
                       onChange(evt.target.files);
+                      console.log('LOOK MESSAGE');
                       onFileChange(evt);
                     }}
                     maxW="100%"
@@ -553,10 +553,6 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
               id="username"
               placeholder="i-am-a-user"
               {...register('username', {
-                required: {
-                  value: true,
-                  message: 'You must specify a username.',
-                },
                 pattern: {
                   value: /^[a-z0-9-_]+$/,
                   message:
