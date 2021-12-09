@@ -15,12 +15,12 @@ export class SetupOptions {
   sections: SetupSection[] = [
     {
       label: 'About You',
-      title: { base: 'About You', sm: '1. About You' },
+      title: { base: 'About', sm: '1. About You' },
     },
     {
       label: 'Professional Profile',
       title: {
-        base: 'Professional',
+        base: 'Pro',
         sm: '2. Professional',
         lg: '2. Professional Profile',
       },
