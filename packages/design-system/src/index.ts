@@ -39,6 +39,7 @@ export {
   EmailIcon,
   ExternalLinkIcon,
   HamburgerIcon,
+  InfoIcon,
   SettingsIcon,
 } from '@chakra-ui/icons';
 export {

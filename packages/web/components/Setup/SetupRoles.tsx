@@ -2,12 +2,16 @@ import {
   Box,
   BoxedNextImage,
   Button,
+  CloseIcon,
   Flex,
+  InfoIcon,
   LoadingState,
   MetaButton,
   MetaHeading,
-  SimpleGrid,
+  Spacer,
   Text,
+  Tooltip,
+  useBreakpointValue,
   useToast,
 } from '@metafam/ds';
 import { FlexContainer } from 'components/Container';
@@ -97,13 +101,17 @@ export const SetupRoles: React.FC<SetupRolesProps> = ({
   };
 
   return (
-    <FlexContainer>
-      <MetaHeading mb={16} textAlign="center">
+    <FlexContainer align="start" mx={{ base: 0, md: 16 }}>
+      <MetaHeading
+        mb={{ base: 6, sm: 16 }}
+        textAlign="center"
+        fontSize={{ base: 'md', md: 'lg' }}
+      >
         Select your role(s)
       </MetaHeading>
       {fetchingExistingRoles && <LoadingState />}
       {!fetchingExistingRoles && roles.length === 0 ? (
-        <Text mb={10}>
+        <Text mb={{ base: 6, sm: 10 }}>
           Unlike other role-playing games, in MetaGame, anyone is free to play
           multiple roles at the same time.
           <br />
@@ -111,21 +119,30 @@ export const SetupRoles: React.FC<SetupRolesProps> = ({
           secondary roles are optional.
         </Text>
       ) : (
-        <SimpleGrid columns={[1, null, 3, 3]} spacing={4} mb={16}>
+        <Flex wrap="wrap" mb={{ base: 4, md: 16 }} w="100%">
           {roles.map((r, i) => {
             const choice = roleChoices.find(
               (roleChoice) => roleChoice.role === r,
             );
             return choice ? (
-              <Box key={r}>
-                <Text
-                  color="cyan.500"
-                  fontWeight="bold"
-                  casing="uppercase"
-                  my="2"
-                >
-                  {i === 0 ? 'Primary' : 'Secondary'} Role
-                </Text>
+              <Box
+                key={r}
+                width={{ base: 'calc(100% - 4px)', md: 'calc(33% - 12px)' }}
+                mr={{ base: 0, md: 4 }}
+                mb={{ base: 2, md: 4 }}
+              >
+                {i < 2 && (
+                  <Text
+                    color="cyan.500"
+                    fontWeight="bold"
+                    casing="uppercase"
+                    my="2"
+                  >
+                    {i === 0 && 'Primary Role'}
+                    {i > 0 && roles.length === 2 && 'Secondary Role'}
+                    {i > 0 && roles.length > 2 && 'Secondary Roles'}
+                  </Text>
+                )}
                 <Role
                   role={choice}
                   selectionIndex={i}
@@ -138,7 +155,7 @@ export const SetupRoles: React.FC<SetupRolesProps> = ({
               <></>
             );
           })}
-        </SimpleGrid>
+        </Flex>
       )}
       <Text
         alignSelf="flex-start"
@@ -149,11 +166,18 @@ export const SetupRoles: React.FC<SetupRolesProps> = ({
       >
         Available Roles
       </Text>
-      <SimpleGrid columns={[1, null, 3, 3]} spacing={4}>
+      <Flex wrap="wrap" mb={16}>
         {availableRoles.map((r) => (
-          <Role key={r.role} role={r} onSelect={handleSelection} />
+          <Box
+            key={r.role}
+            width={{ base: 'calc(100% - 4px)', md: 'calc(33% - 12px)' }}
+            mr={{ base: 0, md: 4 }}
+            mb={{ base: 2, md: 4 }}
+          >
+            <Role role={r} onSelect={handleSelection} />
+          </Box>
         ))}
-      </SimpleGrid>
+      </Flex>
 
       <MetaButton
         onClick={handleNextPress}
@@ -195,66 +219,122 @@ const Role: React.FC<RoleProps> = ({
     }
   };
 
+  const isMobile = useBreakpointValue({ base: true, md: false });
+
   return (
-    <FlexContainer
+    <Flex
       key={role.role}
-      p={[4, null, 6]}
+      p={{ base: 2, lg: 6 }}
       bgColor="purpleBoxLight"
       borderRadius="0.5rem"
       _hover={selectionIndex == null ? { bgColor: 'purpleBoxDark' } : {}}
       cursor={selectionIndex == null ? 'pointer' : 'default'}
       transition="background 0.25s"
+      direction={{ base: 'row', md: 'column' }}
       align="center"
-      justify="stretch"
+      justify={{ base: 'space-between', md: 'stretch' }}
       border="2px"
       borderColor="purple.400"
+      px={4}
       onClick={handleContainerClick}
     >
       <BoxedNextImage
         src={`/assets/roles/${role.role.toLowerCase()}.svg`}
         alt={role.label}
-        height={14}
-        width={14}
+        height={{ base: 4, md: 14 }}
+        width={{ base: 4, md: 14 }}
+        mr={2}
       />
-      <Text color="white" fontWeight="bold" casing="uppercase" my="2">
+      <Text
+        color="white"
+        fontWeight="bold"
+        casing="uppercase"
+        my={{ base: 0, md: 2 }}
+      >
         {role.label}
       </Text>
-      <Text color="white">{role.description}</Text>
+      {!isMobile && <Text color="white">{role.description}</Text>}
+      <Spacer />
+      {isMobile && (
+        <Tooltip
+          hasArrow
+          label={role.description}
+          aria-label="role information"
+        >
+          <InfoIcon ml={2} />
+        </Tooltip>
+      )}
       {selectionIndex != null && (
-        <Flex w="100%" justifyContent="space-around" mt={4}>
-          {numSelectedRoles != null && numSelectedRoles > 1 && (
+        <Flex
+          w="100%"
+          justifyContent={{ base: 'end', md: 'space-around' }}
+          mt={{ base: 0, md: 4 }}
+          ml={2}
+        >
+          {numSelectedRoles != null &&
+            numSelectedRoles > 1 &&
+            (isMobile ? (
+              <Button
+                variant="solid"
+                textTransform="uppercase"
+                color="white"
+                bgColor="purple.200"
+                borderColor="purple.200"
+                size="xs"
+                whiteSpace="pre-wrap"
+                mr={2}
+                onClick={() => onSelect(role, selectionIndex !== 0)}
+              >
+                Make {selectionIndex === 0 ? 'Secondary' : 'Primary'}
+              </Button>
+            ) : (
+              <Button
+                variant="outline"
+                fontWeight="bold"
+                textTransform="uppercase"
+                color="purple.200"
+                borderColor="purple.200"
+                _hover={{
+                  borderColor: 'transparent',
+                  bgColor: 'blackAlpha.300',
+                }}
+                borderWidth={2}
+                whiteSpace="pre-wrap"
+                onClick={() => onSelect(role, selectionIndex !== 0)}
+              >
+                Make {selectionIndex === 0 ? 'Secondary' : 'Primary'}
+              </Button>
+            ))}
+          {isMobile ? (
+            <Button
+              variant="solid"
+              fontWeight="bold"
+              textTransform="uppercase"
+              color="white"
+              bgColor="red.500"
+              size="xs"
+              whiteSpace="pre-wrap"
+              onClick={handleRemoveClick}
+            >
+              <CloseIcon />
+            </Button>
+          ) : (
             <Button
               variant="outline"
               fontWeight="bold"
               textTransform="uppercase"
-              color="purple.200"
-              borderColor="purple.200"
-              _hover={{
-                borderColor: 'transparent',
-                bgColor: 'blackAlpha.300',
-              }}
+              color="red.500"
+              borderColor="red.500"
               borderWidth={2}
+              _hover={{ color: 'white', bgColor: 'red.500' }}
               whiteSpace="pre-wrap"
-              onClick={() => onSelect(role, selectionIndex !== 0)}
+              onClick={handleRemoveClick}
             >
-              Make {selectionIndex === 0 ? 'Secondary' : 'Primary'}
+              Remove Role
             </Button>
           )}
-          <Button
-            variant="outline"
-            fontWeight="bold"
-            textTransform="uppercase"
-            color="red.500"
-            borderColor="red.500"
-            borderWidth={2}
-            _hover={{ color: 'white', bgColor: 'red.500' }}
-            whiteSpace="pre-wrap"
-            onClick={handleRemoveClick}
-          >
-            Remove Role
-          </Button>
         </Flex>
       )}
-    </FlexContainer>
+    </Flex>
   );
 };
