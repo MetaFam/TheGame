@@ -112,7 +112,7 @@ export const SetupRoles: React.FC<SetupRolesProps> = ({
   const isMobile = useBreakpointValue({ base: true, md: false });
 
   return (
-    <FlexContainer align="start" mx={{ base: 0, md: 8, lg: 16 }}>
+    <FlexContainer align="center" mx={{ base: 0, md: 8, lg: 16 }}>
       <MetaHeading
         mb={{ base: 6, sm: 16 }}
         alignSelf="center"
@@ -179,7 +179,7 @@ export const SetupRoles: React.FC<SetupRolesProps> = ({
       >
         Available Roles
       </Text>
-      <Flex wrap="wrap" mb={16}>
+      <Flex wrap="wrap" mb={{ base: 6, md: 16 }}>
         {availableRoles.map((r) => (
           <Box key={r.role} {...roleContainerStyles}>
             <Role role={r} onSelect={handleSelection} />
@@ -189,7 +189,6 @@ export const SetupRoles: React.FC<SetupRolesProps> = ({
 
       <MetaButton
         onClick={handleNextPress}
-        mt={10}
         isDisabled={roles.length < 1}
         isLoading={updateRolesResult.fetching || loading}
         loadingText="Saving"
