@@ -39,7 +39,7 @@ function searchReducer(state: State, action: Action) {
 
 export const NavSearchContext = React.createContext<NavSearchContextType>({
   search: '',
-  setSearch: (search) => {},
+  setSearch: () => {},
   clearSearch: () => {},
 });
 

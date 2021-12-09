@@ -320,7 +320,7 @@ const DesktopNavLinks = () => {
 const Search = () => {
   // const { queryVariables, setQueryVariable, players } = usePlayerFilter();
   const [searchQuery, setSearchQuery] = React.useState('');
-  const { search, setSearch, clearSearch } = useNavSearch();
+  const { setSearch } = useNavSearch();
 
   const handleSubmit = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
