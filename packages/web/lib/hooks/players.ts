@@ -298,3 +298,22 @@ const usePaginatedPlayers = (
     moreAvailable: currentPage < maxPage,
   };
 };
+
+export const useAnimation = (
+  initialAnimation: string,
+  secondAnimation: string,
+  delay: number,
+  depends: unknown,
+): { [key: string]: string } => {
+  const [animation, setAnimation] = useState(secondAnimation);
+
+  useEffect(() => {
+    setAnimation(initialAnimation);
+    setTimeout(() => {
+      setAnimation(secondAnimation);
+    }, delay);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [depends]);
+
+  return { animation };
+};

@@ -16,10 +16,12 @@ import {
   VStack,
 } from '@metafam/ds';
 import BackgroundImage from 'assets/main-background.jpg';
+import { FlexContainer } from 'components/Container';
 import { EditProfileForm } from 'components/EditProfileForm';
 import { PlayerAvatar } from 'components/Player/PlayerAvatar';
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
 import { useUser } from 'lib/hooks';
+import { useAnimation } from 'lib/hooks/players';
 import React, { useEffect, useState } from 'react';
 import { FaClock, FaGlobe } from 'react-icons/fa';
 import { getPlayerTimeZoneDisplay } from 'utils/dateHelpers';
@@ -214,28 +216,56 @@ export const PlayerHero: React.FC<Props> = ({ player, isOwnProfile }) => {
   );
 };
 
-const Availability: React.FC<AvailabilityProps> = ({ availabilityHours }) => (
-  <Flex alignItems="center">
-    <Box pr={2}>
-      <FaClock color="blueLight" />
-    </Box>
-    <Text fontSize={{ base: 'md', sm: 'lg' }} pr={2}>
-      {`${availabilityHours || '0'} h/week`}
-    </Text>
-  </Flex>
-);
+const Availability: React.FC<AvailabilityProps> = ({ availabilityHours }) => {
+  const { animation } = useAnimation(
+    'fadeOut',
+    'fadeIn',
+    400,
+    availabilityHours,
+  );
+  return (
+    <Flex alignItems="center">
+      <Box pr={2}>
+        <FaClock color="blueLight" />
+      </Box>
+      <FlexContainer
+        align="stretch"
+        transition=" opacity 0.4s"
+        opacity={animation === 'fadeIn' ? 1 : 0}
+      >
+        <Text fontSize={{ base: 'md', sm: 'lg' }} pr={2}>
+          {`${availabilityHours || '0'} h/week`}
+        </Text>
+      </FlexContainer>
+    </Flex>
+  );
+};
 
 const TimeZoneDisplay: React.FC<TimeZoneDisplayProps> = ({
   timeZone,
   offset,
-}) => (
-  <Flex alignItems="center">
-    <Box pr={1}>
-      <FaGlobe color="blueLight" />
-    </Box>
-    <Text fontSize={{ base: 'md', sm: 'lg' }} pr={1}>
-      {timeZone || '-'}
-    </Text>
-    {offset ? <Text fontSize={{ base: 'sm', sm: 'md' }}>{offset}</Text> : ''}
-  </Flex>
-);
+}) => {
+  const { animation } = useAnimation('fadeOut', 'fadeIn', 400, timeZone);
+
+  return (
+    <Flex alignItems="center">
+      <Box pr={1}>
+        <FaGlobe color="blueLight" />
+      </Box>
+      <FlexContainer
+        align="stretch"
+        transition=" opacity 0.4s"
+        opacity={animation === 'fadeIn' ? 1 : 0}
+      >
+        <Text fontSize={{ base: 'md', sm: 'lg' }} pr={1}>
+          {timeZone || '-'}
+        </Text>
+        {offset ? (
+          <Text fontSize={{ base: 'sm', sm: 'md' }}>{offset}</Text>
+        ) : (
+          ''
+        )}
+      </FlexContainer>
+    </Flex>
+  );
+};
