@@ -10,7 +10,6 @@ import {
   MetaHeading,
   Spacer,
   Text,
-  Tooltip,
   useBreakpointValue,
   useToast,
 } from '@metafam/ds';
@@ -100,11 +99,23 @@ export const SetupRoles: React.FC<SetupRolesProps> = ({
     setAvailableRoles(computeAvailableRoles(newRoles));
   };
 
+  const roleContainerStyles = {
+    width: {
+      base: 'calc(100% - 4px)',
+      md: 'calc(50% - 16px)',
+      lg: 'calc(33% - 20px)',
+    },
+    mr: { base: 0, md: 4 },
+    mb: { base: 2, md: 4 },
+  };
+
+  const isMobile = useBreakpointValue({ base: true, md: false });
+
   return (
-    <FlexContainer align="start" mx={{ base: 0, md: 16 }}>
+    <FlexContainer align="start" mx={{ base: 0, md: 8, lg: 16 }}>
       <MetaHeading
         mb={{ base: 6, sm: 16 }}
-        textAlign="center"
+        alignSelf="center"
         fontSize={{ base: 'md', md: 'lg' }}
       >
         Select your role(s)
@@ -124,35 +135,37 @@ export const SetupRoles: React.FC<SetupRolesProps> = ({
             const choice = roleChoices.find(
               (roleChoice) => roleChoice.role === r,
             );
-            return choice ? (
-              <Box
-                key={r}
-                width={{ base: 'calc(100% - 4px)', md: 'calc(33% - 12px)' }}
-                mr={{ base: 0, md: 4 }}
-                mb={{ base: 2, md: 4 }}
-              >
-                {i < 2 && (
-                  <Text
-                    color="cyan.500"
-                    fontWeight="bold"
-                    casing="uppercase"
-                    my="2"
-                  >
-                    {i === 0 && 'Primary Role'}
-                    {i > 0 && roles.length === 2 && 'Secondary Role'}
-                    {i > 0 && roles.length > 2 && 'Secondary Roles'}
-                  </Text>
-                )}
-                <Role
-                  role={choice}
-                  selectionIndex={i}
-                  numSelectedRoles={roles.length}
-                  onSelect={handleSelection}
-                  onRemove={handleRemoval}
-                />
-              </Box>
-            ) : (
-              <></>
+            return (
+              choice && (
+                <>
+                  <Box key={r} {...roleContainerStyles}>
+                    <Text
+                      color="cyan.500"
+                      fontWeight="bold"
+                      casing="uppercase"
+                      my="2"
+                    >
+                      {i === 0 && 'Primary Role'}
+                      {i > 0 && roles.length === 2 && 'Secondary Role'}
+                      {i === 1 && roles.length > 2 && 'Secondary Roles'}
+                      {/* we still need a placeholder */}
+                      {!isMobile && roles.length > 2 && i > 1 && (
+                        <span>&nbsp;</span>
+                      )}
+                    </Text>
+
+                    <Role
+                      role={choice}
+                      selectionIndex={i}
+                      numSelectedRoles={roles.length}
+                      onSelect={handleSelection}
+                      onRemove={handleRemoval}
+                    />
+                  </Box>
+                  {/* wrap after the primary */}
+                  {i === 0 && <Box flexBasis="100%" />}
+                </>
+              )
             );
           })}
         </Flex>
@@ -168,12 +181,7 @@ export const SetupRoles: React.FC<SetupRolesProps> = ({
       </Text>
       <Flex wrap="wrap" mb={16}>
         {availableRoles.map((r) => (
-          <Box
-            key={r.role}
-            width={{ base: 'calc(100% - 4px)', md: 'calc(33% - 12px)' }}
-            mr={{ base: 0, md: 4 }}
-            mb={{ base: 2, md: 4 }}
-          >
+          <Box key={r.role} {...roleContainerStyles}>
             <Role role={r} onSelect={handleSelection} />
           </Box>
         ))}
@@ -219,122 +227,134 @@ const Role: React.FC<RoleProps> = ({
     }
   };
 
+  const [showDetails, setShowDetails] = useState(false);
+
   const isMobile = useBreakpointValue({ base: true, md: false });
 
   return (
-    <Flex
-      key={role.role}
+    <Box
       p={{ base: 2, lg: 6 }}
       bgColor="purpleBoxLight"
       borderRadius="0.5rem"
       _hover={selectionIndex == null ? { bgColor: 'purpleBoxDark' } : {}}
       cursor={selectionIndex == null ? 'pointer' : 'default'}
       transition="background 0.25s"
-      direction={{ base: 'row', md: 'column' }}
-      align="center"
-      justify={{ base: 'space-between', md: 'stretch' }}
       border="2px"
       borderColor="purple.400"
       px={4}
       onClick={handleContainerClick}
     >
-      <BoxedNextImage
-        src={`/assets/roles/${role.role.toLowerCase()}.svg`}
-        alt={role.label}
-        height={{ base: 4, md: 14 }}
-        width={{ base: 4, md: 14 }}
-        mr={2}
-      />
-      <Text
-        color="white"
-        fontWeight="bold"
-        casing="uppercase"
-        my={{ base: 0, md: 2 }}
+      <Flex
+        direction={{ base: 'row', md: 'column' }}
+        align="center"
+        justify={{ base: 'space-between', md: 'stretch' }}
       >
-        {role.label}
-      </Text>
-      {!isMobile && <Text color="white">{role.description}</Text>}
-      <Spacer />
-      {isMobile && (
-        <Tooltip
-          hasArrow
-          label={role.description}
-          aria-label="role information"
+        <BoxedNextImage
+          src={`/assets/roles/${role.role.toLowerCase()}.svg`}
+          alt={role.label}
+          height={{ base: 4, md: 14 }}
+          width={{ base: 4, md: 14 }}
+          mr={2}
+        />
+        <Text
+          color="white"
+          fontWeight="bold"
+          casing="uppercase"
+          my={{ base: 0, md: 2 }}
         >
-          <InfoIcon ml={2} />
-        </Tooltip>
-      )}
-      {selectionIndex != null && (
-        <Flex
-          w="100%"
-          justifyContent={{ base: 'end', md: 'space-around' }}
-          mt={{ base: 0, md: 4 }}
-          ml={2}
-        >
-          {numSelectedRoles != null &&
-            numSelectedRoles > 1 &&
-            (isMobile ? (
+          {role.label}
+        </Text>
+        {!isMobile && <Text color="white">{role.description}</Text>}
+        <Spacer />
+        {isMobile && (
+          <InfoIcon
+            ml={2}
+            cursor="pointer"
+            onClick={(e) => {
+              e.stopPropagation();
+              setShowDetails(!showDetails);
+            }}
+          />
+        )}
+        {selectionIndex != null && (
+          <Flex
+            w="100%"
+            justifyContent={{ base: 'end', md: 'space-between' }}
+            mt={{ base: 0, md: 4 }}
+            ml={2}
+          >
+            {numSelectedRoles != null &&
+              numSelectedRoles > 1 &&
+              (isMobile ? (
+                <Button
+                  variant="solid"
+                  textTransform="uppercase"
+                  color="white"
+                  bgColor="purple.200"
+                  borderColor="purple.200"
+                  size="xs"
+                  whiteSpace="pre-wrap"
+                  mr={2}
+                  onClick={() => onSelect(role, selectionIndex !== 0)}
+                >
+                  Make {selectionIndex === 0 ? 'Secondary' : 'Primary'}
+                </Button>
+              ) : (
+                <Button
+                  variant="outline"
+                  fontWeight="bold"
+                  textTransform="uppercase"
+                  color="purple.200"
+                  borderColor="purple.200"
+                  _hover={{
+                    borderColor: 'transparent',
+                    bgColor: 'blackAlpha.300',
+                  }}
+                  fontSize={{ md: '0.875rem', lg: '1rem' }}
+                  borderWidth={2}
+                  whiteSpace="pre-wrap"
+                  onClick={() => onSelect(role, selectionIndex !== 0)}
+                >
+                  Make {selectionIndex === 0 ? 'Secondary' : 'Primary'}
+                </Button>
+              ))}
+            {isMobile ? (
               <Button
                 variant="solid"
+                fontWeight="bold"
                 textTransform="uppercase"
                 color="white"
-                bgColor="purple.200"
-                borderColor="purple.200"
+                bgColor="red.500"
                 size="xs"
                 whiteSpace="pre-wrap"
-                mr={2}
-                onClick={() => onSelect(role, selectionIndex !== 0)}
+                onClick={handleRemoveClick}
               >
-                Make {selectionIndex === 0 ? 'Secondary' : 'Primary'}
+                <CloseIcon />
               </Button>
             ) : (
               <Button
                 variant="outline"
                 fontWeight="bold"
                 textTransform="uppercase"
-                color="purple.200"
-                borderColor="purple.200"
-                _hover={{
-                  borderColor: 'transparent',
-                  bgColor: 'blackAlpha.300',
-                }}
+                color="red.500"
+                borderColor="red.500"
                 borderWidth={2}
+                _hover={{ color: 'white', bgColor: 'red.500' }}
+                fontSize={{ md: '0.875rem', lg: '1rem' }}
                 whiteSpace="pre-wrap"
-                onClick={() => onSelect(role, selectionIndex !== 0)}
+                onClick={handleRemoveClick}
               >
-                Make {selectionIndex === 0 ? 'Secondary' : 'Primary'}
+                Remove
               </Button>
-            ))}
-          {isMobile ? (
-            <Button
-              variant="solid"
-              fontWeight="bold"
-              textTransform="uppercase"
-              color="white"
-              bgColor="red.500"
-              size="xs"
-              whiteSpace="pre-wrap"
-              onClick={handleRemoveClick}
-            >
-              <CloseIcon />
-            </Button>
-          ) : (
-            <Button
-              variant="outline"
-              fontWeight="bold"
-              textTransform="uppercase"
-              color="red.500"
-              borderColor="red.500"
-              borderWidth={2}
-              _hover={{ color: 'white', bgColor: 'red.500' }}
-              whiteSpace="pre-wrap"
-              onClick={handleRemoveClick}
-            >
-              Remove Role
-            </Button>
-          )}
-        </Flex>
+            )}
+          </Flex>
+        )}
+      </Flex>
+      {showDetails && (
+        <Text color="white" mt={4}>
+          {role.description}
+        </Text>
       )}
-    </Flex>
+    </Box>
   );
 };
