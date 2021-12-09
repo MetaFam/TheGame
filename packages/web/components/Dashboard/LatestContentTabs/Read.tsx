@@ -12,7 +12,7 @@ export const Read: React.FC = () => {
   }, []);
 
   return (
-    <Box>
+    <Box pt={4}>
       {data ? (
         data.items?.map((item) => (
           <Box
