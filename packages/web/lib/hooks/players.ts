@@ -300,20 +300,18 @@ const usePaginatedPlayers = (
 };
 
 export const useAnimation = (
-  initialAnimation: string,
-  secondAnimation: string,
-  delay: number,
   depends: unknown,
+  updateFN: () => void,
 ): { [key: string]: string } => {
-  const [animation, setAnimation] = useState(secondAnimation);
+  const [animation, setAnimation] = useState('fadeIn');
 
   useEffect(() => {
-    setAnimation(initialAnimation);
+    setAnimation('fadeOut');
     setTimeout(() => {
-      setAnimation(secondAnimation);
-    }, delay);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [depends]);
+      updateFN();
+      setAnimation('fadeIn');
+    }, 400);
+  }, [depends, updateFN]);
 
   return { animation };
 };
