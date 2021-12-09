@@ -64,8 +64,8 @@ import { getPlayerImage, getPlayerName } from 'utils/playerHelpers';
 import SearchIcon from '../assets/search-icon.svg';
 import SeedMarket from '../assets/seed-icon.svg';
 import XPStar from '../assets/xp-star.svg';
+import { useNavSearch } from '../contexts/NavSearchContext';
 import { useUser, useWeb3 } from '../lib/hooks';
-import { usePlayerFilter } from '../lib/hooks/players';
 import {
   MenuLinkItem,
   MenuLinkSet,
@@ -319,11 +319,13 @@ const DesktopNavLinks = () => {
 // Search -- not working yet
 const Search = () => {
   // const { queryVariables, setQueryVariable, players } = usePlayerFilter();
-  const [search, setSearch] = React.useState('');
+  const [searchQuery, setSearchQuery] = React.useState('');
+  const { search, setSearch, clearSearch } = useNavSearch();
 
   const handleSubmit = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // setQueryVariable('search', `%${search}%`);
+    setSearch(searchQuery);
+    setSearchQuery('');
   };
 
   return (
@@ -353,8 +355,8 @@ const Search = () => {
             alignSelf="center"
             placeholder="Find anything"
             _placeholder={{ color: 'whiteAlpha.500' }}
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
             size="sm"
             fontSize="md"
           />

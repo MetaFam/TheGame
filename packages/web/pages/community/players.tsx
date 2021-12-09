@@ -17,6 +17,8 @@ import { useOnScreen } from 'lib/hooks/useOnScreen';
 import { InferGetStaticPropsType } from 'next';
 import React, { useEffect, useMemo, useRef } from 'react';
 
+import { useNavSearch } from '../contexts/NavSearchContext';
+
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
 export const getStaticProps = async () => {
@@ -52,6 +54,15 @@ const Players: React.FC<Props> = () => {
     nextPage,
     moreAvailable,
   } = usePlayerFilter();
+
+  const { search, clearSearch } = useNavSearch();
+
+  useEffect(() => {
+    if (search !== '' && setQueryVariable) {
+      setQueryVariable('search', `%${search}%`);
+      clearSearch();
+    }
+  }, [search, setQueryVariable, clearSearch]);
 
   const moreRef = useRef<HTMLDivElement>(null);
 
