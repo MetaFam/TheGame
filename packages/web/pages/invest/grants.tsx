@@ -1,22 +1,16 @@
+import { LoadingState } from '@metafam/ds';
 import { PageContainer } from 'components/Container';
 import { HeadComponent } from 'components/Seo';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import { descriptions } from '../../utils/menuLinks';
 
 const GrantsPage: React.FC = () => {
-  // need to ensure that the menu height is calculated on client
-  const [isComponentMounted, setIsComponentMounted] = useState(false);
-  useEffect(() => setIsComponentMounted(true), []);
-  if (!isComponentMounted) {
-    return null;
-  }
-
-  const megamenuHeight =
-    document.getElementById('MegaMenu')?.offsetHeight || 81; // ugly solution, but i couldn't find a better way to set the right height of the iframe
+  const [loading, setLoading] = useState(true);
 
   return (
     <PageContainer p={0} position="fixed">
+      {loading && <LoadingState position="absolute" />}
       <HeadComponent
         title={`Support Grants`}
         description={descriptions.grants}
@@ -25,9 +19,10 @@ const GrantsPage: React.FC = () => {
       <iframe
         title="Support Grants"
         src="https://giveth.io/"
+        onLoad={() => setLoading(false)}
         style={{
-          height: window.innerHeight - megamenuHeight,
           width: `100%`,
+          height: '100%',
         }}
       />
     </PageContainer>
