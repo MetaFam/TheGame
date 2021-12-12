@@ -16,7 +16,7 @@ import { CategoryOption, parseSkills } from 'utils/skillHelpers';
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type QueryVariableSetter = (key: string, value: any) => void;
 
-type OptionType = { value: string; label: string };
+export type OptionType = { value: string; label: string };
 
 export interface PlayerAggregates {
   skillCategories: { name: string }[];
