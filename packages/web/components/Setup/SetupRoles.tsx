@@ -113,11 +113,7 @@ export const SetupRoles: React.FC<SetupRolesProps> = ({
 
   return (
     <FlexContainer align="center" mx={{ base: 0, md: 8, lg: 16 }}>
-      <MetaHeading
-        mb={{ base: 6, sm: 16 }}
-        alignSelf="center"
-        fontSize={{ base: 'md', md: 'lg' }}
-      >
+      <MetaHeading mb={{ base: 6, sm: 16 }} alignSelf="center">
         Select your role(s)
       </MetaHeading>
       {fetchingExistingRoles && <LoadingState />}
