@@ -2,6 +2,7 @@
 // import { zonedTimeToUtc, format, utcToZonedTime } from 'date-fns-tz';
 // import ical from 'cal-parser';
 // import useSWR from 'swr';
+import { CONFIG } from 'config';
 import React, { useEffect, useState } from 'react';
 
 export const Calendar: React.FC = () => {
