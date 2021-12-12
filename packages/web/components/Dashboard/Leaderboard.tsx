@@ -12,7 +12,12 @@ import {
   VStack,
 } from '@metafam/ds';
 import { PlayerAvatar } from 'components/Player/PlayerAvatar';
-import { SortOption, sortOptionsMap, usePlayerFilter } from 'lib/hooks/players';
+import {
+  OptionType,
+  SortOption,
+  sortOptionsMap,
+  usePlayerFilter,
+} from 'lib/hooks/players';
 import NextLink from 'next/link';
 import React, { useMemo, useState } from 'react';
 import { getPlayerName } from 'utils/playerHelpers';
@@ -33,7 +38,11 @@ export const Leaderboard: React.FC = () => {
     [queryVariables.orderBy],
   );
 
-  const sortOptions = Object.values(sortOptionsMap);
+  // Only using two sort options seasonal XP and Total XP
+  const sortOptions = Object.values(sortOptionsMap).slice(
+    0,
+    2,
+  ) as Array<OptionType>;
 
   const [sortOption, setSortOption] = useState<ValueType>(
     sortOptionsMap[SortOption.SEASON_XP.toString()],
