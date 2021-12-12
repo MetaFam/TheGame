@@ -7,9 +7,7 @@ export const Read: React.FC = () => {
   const [url, setUrl] = useState<string | null>(null);
   const { data, error } = useSWR(url, parse);
 
-  useEffect(() => {
-    setUrl(`${window.location.origin}/metagame/feed`);
-  }, []);
+  useEffect(() => setUrl(`${window.location.origin}/metagame/feed`), []);
 
   return (
     <Box pt={4}>
