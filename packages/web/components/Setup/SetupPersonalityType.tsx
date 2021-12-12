@@ -107,7 +107,7 @@ export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
   };
 
   return (
-    <FlexContainer maxW="100%">
+    <FlexContainer>
       <Flex direction="column">
         {isWizard && (
           <MetaHeading mb={5} textAlign="center">
@@ -155,9 +155,11 @@ export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
                   key={mask}
                   display="flex"
                   direction="row"
+                  justifyContent="start"
                   p={6}
                   m={2}
                   h="auto"
+                  w={{ base: '100%', md: 'auto' }}
                   spacing={4}
                   borderRadius={8}
                   cursor="pointer"
@@ -195,6 +197,7 @@ export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
                     w="100%"
                     maxW={16}
                     h={16}
+                    mr={2}
                     src={image}
                     alt={option.name}
                     filter="drop-shadow(0px 0px 3px black)"
@@ -217,7 +220,7 @@ export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
             })}
       </FlexContainer>
 
-      <ColorBar mask={colorMask} mt={8} w="min(100vw, 30rem)" />
+      <ColorBar mask={colorMask} mt={8} w="min(90vw, 30rem)" />
 
       {isEdit && onClose && (
         <ModalFooter mt={6}>
