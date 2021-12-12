@@ -16,6 +16,15 @@ module.exports = withTM(
     future: {
       webpack5: true,
     },
+    async rewrites() {
+      return [
+        {
+          source: '/metagame/calendar',
+          destination:
+            'https://calendar.google.com/calendar/ical/nih59ktgafmm64ed4qk6ue8vv4%40group.calendar.google.com/public/basic.ics',
+        },
+      ];
+    },
     webpack: (config, { isServer, webpack }) => {
       if (!isServer) {
         config.plugins.push(
