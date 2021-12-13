@@ -1,8 +1,8 @@
 import {
   Box,
+  Button,
   ConfirmModal,
   Flex,
-  HStack,
   Input,
   MetaButton,
   MetaTag,
@@ -10,7 +10,6 @@ import {
   Text,
   VStack,
 } from '@metafam/ds';
-import { EditorState } from 'draft-js';
 import {
   GuildFragmentFragment,
   QuestFragmentFragment,
@@ -23,7 +22,6 @@ import { Controller, FieldError, useForm } from 'react-hook-form';
 
 import { QuestRepetitionHint, URIRegexp } from '../../utils/questHelpers';
 import { CategoryOption, SkillOption } from '../../utils/skillHelpers';
-import { stateFromHTML } from '../../utils/stateFromHTML';
 import { FlexContainer } from '../Container';
 import { SkillsSelect } from '../Skills';
 import { WYSIWYGEditor } from '../WYSIWYGEditor';
@@ -56,27 +54,16 @@ const validations = {
 
 export interface CreateQuestFormInputs {
   title: string;
-  description: EditorState;
+  description: string;
   repetition: QuestRepetition_Enum;
   status: QuestStatus_Enum;
-  guild_id: string | null;
-  external_link?: string | null;
+  guildId: string | null;
+  externalLink?: string | null;
   cooldown?: number | null;
   skills: SkillOption[];
 }
 
 const MetaFamGuildId = 'f94b7cd4-cf29-4251-baa5-eaacab98a719';
-
-const getDescriptionEditorState = async (
-  description?: string | null,
-): Promise<EditorState> => {
-  if (description) {
-    const contentState = await stateFromHTML(description);
-
-    return EditorState.createWithContent(contentState);
-  }
-  return EditorState.createEmpty();
-};
 
 const getDefaultFormValues = (
   editQuest: QuestFragmentFragment | undefined,
@@ -84,23 +71,21 @@ const getDefaultFormValues = (
 ): CreateQuestFormInputs => ({
   title: editQuest?.title || '',
   repetition: editQuest?.repetition || QuestRepetition_Enum.Unique,
-  description: EditorState.createEmpty(),
-  external_link: editQuest?.external_link || '',
-  guild_id:
-    editQuest?.guild_id ||
-    guilds.find((g) => g.id === MetaFamGuildId)?.id ||
+  description: editQuest?.description ?? '',
+  externalLink: editQuest?.externalLink ?? '',
+  guildId:
+    editQuest?.guildId ??
+    guilds.find((g) => g.id === MetaFamGuildId)?.id ??
     guilds[0].id,
   status: editQuest?.status || QuestStatus_Enum.Open,
   cooldown: editQuest?.cooldown || null,
-  skills: editQuest
-    ? editQuest.quest_skills
-        .map((s) => s.skill)
-        .map((s) => ({
-          value: s.id,
-          label: s.name,
-          ...s,
-        }))
-    : [],
+  skills: (editQuest?.quest_skills ?? [])
+    .map((s) => s.skill)
+    .map((s) => ({
+      value: s.id,
+      label: s.name,
+      ...s,
+    })),
 });
 
 type FieldProps = {
@@ -166,14 +151,16 @@ export const QuestForm: React.FC<Props> = ({
     defaultValues,
   });
   useEffect(() => {
-    getDescriptionEditorState(editQuest?.description).then((description) => {
-      defaultValues.description = description;
-      reset(defaultValues);
-    });
+    // getDescriptionEditorState(editQuest?.description).then((description) => {
+    //   defaultValues.description = description;
+    //   reset(defaultValues);
+    // });
   }, [editQuest, guilds, reset, defaultValues]);
   const router = useRouter();
   const [exitAlert, setExitAlert] = useState<boolean>(false);
   const createQuestInput = watch();
+
+  console.info({ errors, createQuestInput });
 
   return (
     <Box w="100%" maxW="30rem">
@@ -200,29 +187,38 @@ export const QuestForm: React.FC<Props> = ({
           />
         </Field>
 
-        <Field label="Description" error={errors.description}>
+        <Field label="Description">
           <Controller
             name="description"
             control={control}
-            render={({ field: { onChange, value } }) => (
-              <WYSIWYGEditor
-                editorState={value}
-                onEditorStateChange={onChange}
-              />
-            )}
+            rules={{
+              required: {
+                value: true,
+                message: 'A description is required.',
+              },
+            }}
+            defaultValue={defaultValues.description}
+            render={({
+              field: { onChange, value },
+            }: {
+              field: { onChange: (content: string) => unknown; value: string };
+            }) => {
+              console.info({ value });
+              return <WYSIWYGEditor {...{ value, onChange }} />;
+            }}
           />
         </Field>
 
-        <Field label="Link" error={errors.external_link}>
+        <Field label="Link" error={errors.externalLink}>
           <Input
             placeholder="External link"
-            {...register('external_link', {
+            {...register('externalLink', {
               pattern: {
                 value: URIRegexp,
                 message: 'Supply a valid URL.',
               },
             })}
-            isInvalid={!!errors.external_link}
+            isInvalid={!!errors.externalLink}
             background="dark"
           />
         </Field>
@@ -279,13 +275,13 @@ export const QuestForm: React.FC<Props> = ({
 
         <Field label="Guild">
           <Select
-            {...register('guild_id', {
+            {...register('guildId', {
               required: {
                 value: true,
                 message: 'This is a required field.',
               },
             })}
-            isInvalid={!!errors.guild_id}
+            isInvalid={!!errors.guildId}
             bg="dark"
             color="white"
           >
@@ -337,10 +333,9 @@ export const QuestForm: React.FC<Props> = ({
           </FlexContainer>
         </Field>
 
-        <HStack justify="space-between" mt={4} w="100%">
+        <Flex justify="center" align="center" my="2em ! important" w="100%">
           <MetaButton
             disabled={guilds.length === 0}
-            mt={10}
             isLoading={fetching}
             loadingText={loadingLabel}
             onClick={handleSubmit(onSubmit)}
@@ -348,15 +343,16 @@ export const QuestForm: React.FC<Props> = ({
           >
             {submitLabel}
           </MetaButton>
-          <MetaButton
-            variant="outline"
-            colorScheme="pink"
+          <Button
+            variant="ghost"
             onClick={() => setExitAlert(true)}
             isDisabled={fetching || success}
+            _hover={{ bg: '#FFFFFF11' }}
+            ml={5}
           >
             Cancel
-          </MetaButton>
-        </HStack>
+          </Button>
+        </Flex>
       </VStack>
 
       <ConfirmModal

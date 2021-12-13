@@ -570,9 +570,9 @@ input ColorAspect_variance_order_by {
 }
 
 input CreateQuestCompletionInput {
-  quest_id: String!
-  submission_link: String
-  submission_text: String
+  questId: String!
+  submissionLink: String
+  submissionText: String
 }
 
 type CreateQuestCompletionOutput {
@@ -585,10 +585,10 @@ type CreateQuestCompletionOutput {
 input CreateQuestInput {
   cooldown: Int
   description: String
-  external_link: String
-  guild_id: uuid!
+  externalLink: String
+  guildId: uuid!
   repetition: QuestRepetition_ActionEnum
-  skills_id: [uuid]!
+  skillsId: [uuid]!
   title: String!
 }
 
@@ -1518,18 +1518,18 @@ input GuildInfo {
   daoAddress: String
   description: String
   discordAdminRoles: [String]!
-  discordInviteUrl: String
+  discordInviteURL: String
   discordMembershipRoles: [String]!
-  githubUrl: String
+  githubURL: String
   guildname: String!
-  joinUrl: String
-  logoUrl: String
+  joinURL: String
+  logoURL: String
   membershipThroughDiscord: Boolean
   name: String!
-  twitterUrl: String
+  twitterURL: String
   type: GuildType_ActionEnum!
   uuid: String!
-  websiteUrl: String
+  websiteURL: String
 }
 
 """
@@ -2649,7 +2649,7 @@ type mutation_root {
   """
   delete single row from the table: "quest_skill"
   """
-  delete_quest_skill_by_pk(quest_id: uuid!, skill_id: uuid!): quest_skill
+  delete_quest_skill_by_pk(questId: uuid!, skillId: uuid!): quest_skill
 
   """
   delete data from the table: "skill"
@@ -7534,7 +7534,7 @@ type query_root {
   ): quest_skill_aggregate!
 
   """fetch data from the table: "quest_skill" using primary key columns"""
-  quest_skill_by_pk(quest_id: uuid!, skill_id: uuid!): quest_skill
+  quest_skill_by_pk(questId: uuid!, skillId: uuid!): quest_skill
 
   """
   fetch data from the table: "skill"
@@ -7590,14 +7590,14 @@ type quest {
   """An object relationship"""
   QuestStatus: QuestStatus!
   cooldown: Int
-  created_at: timestamptz!
-  created_by_player_id: uuid!
+  createdAt: timestamptz!
+  createdByPlayerId: uuid!
   description: String
-  external_link: String
+  externalLink: String
 
   """An object relationship"""
   guild: guild!
-  guild_id: uuid!
+  guildId: uuid!
   id: uuid!
 
   """An object relationship"""
@@ -7751,12 +7751,12 @@ input quest_bool_exp {
   _not: quest_bool_exp
   _or: [quest_bool_exp]
   cooldown: Int_comparison_exp
-  created_at: timestamptz_comparison_exp
-  created_by_player_id: uuid_comparison_exp
+  createdAt: timestamptz_comparison_exp
+  createdByPlayerId: uuid_comparison_exp
   description: String_comparison_exp
-  external_link: String_comparison_exp
+  externalLink: String_comparison_exp
   guild: guild_bool_exp
-  guild_id: uuid_comparison_exp
+  guildId: uuid_comparison_exp
   id: uuid_comparison_exp
   player: player_bool_exp
   quest_completions: quest_completion_bool_exp
@@ -7772,7 +7772,7 @@ columns and relationships of "quest_completion"
 type quest_completion {
   """An object relationship"""
   QuestCompletionStatus: QuestCompletionStatus!
-  completed_by_player_id: uuid!
+  completedByPlayerId: uuid!
   id: uuid!
 
   """An object relationship"""
@@ -7780,11 +7780,11 @@ type quest_completion {
 
   """An object relationship"""
   quest: quest!
-  quest_id: uuid!
+  questId: uuid!
   status: QuestCompletionStatus_enum!
-  submission_link: String
-  submission_text: String
-  submitted_at: timestamptz!
+  submissionLink: String
+  submissionText: String
+  submittedAt: timestamptz!
 }
 
 """
@@ -7829,15 +7829,15 @@ input quest_completion_bool_exp {
   _and: [quest_completion_bool_exp]
   _not: quest_completion_bool_exp
   _or: [quest_completion_bool_exp]
-  completed_by_player_id: uuid_comparison_exp
+  completedByPlayerId: uuid_comparison_exp
   id: uuid_comparison_exp
   player: player_bool_exp
   quest: quest_bool_exp
-  quest_id: uuid_comparison_exp
+  questId: uuid_comparison_exp
   status: QuestCompletionStatus_enum_comparison_exp
-  submission_link: String_comparison_exp
-  submission_text: String_comparison_exp
-  submitted_at: timestamptz_comparison_exp
+  submissionLink: String_comparison_exp
+  submissionText: String_comparison_exp
+  submittedAt: timestamptz_comparison_exp
 }
 
 """
@@ -7853,59 +7853,59 @@ input type for inserting data into table "quest_completion"
 """
 input quest_completion_insert_input {
   QuestCompletionStatus: QuestCompletionStatus_obj_rel_insert_input
-  completed_by_player_id: uuid
+  completedByPlayerId: uuid
   id: uuid
   player: player_obj_rel_insert_input
   quest: quest_obj_rel_insert_input
-  quest_id: uuid
+  questId: uuid
   status: QuestCompletionStatus_enum
-  submission_link: String
-  submission_text: String
-  submitted_at: timestamptz
+  submissionLink: String
+  submissionText: String
+  submittedAt: timestamptz
 }
 
 """aggregate max on columns"""
 type quest_completion_max_fields {
-  completed_by_player_id: uuid
+  completedByPlayerId: uuid
   id: uuid
-  quest_id: uuid
-  submission_link: String
-  submission_text: String
-  submitted_at: timestamptz
+  questId: uuid
+  submissionLink: String
+  submissionText: String
+  submittedAt: timestamptz
 }
 
 """
 order by max() on columns of table "quest_completion"
 """
 input quest_completion_max_order_by {
-  completed_by_player_id: order_by
+  completedByPlayerId: order_by
   id: order_by
-  quest_id: order_by
-  submission_link: order_by
-  submission_text: order_by
-  submitted_at: order_by
+  questId: order_by
+  submissionLink: order_by
+  submissionText: order_by
+  submittedAt: order_by
 }
 
 """aggregate min on columns"""
 type quest_completion_min_fields {
-  completed_by_player_id: uuid
+  completedByPlayerId: uuid
   id: uuid
-  quest_id: uuid
-  submission_link: String
-  submission_text: String
-  submitted_at: timestamptz
+  questId: uuid
+  submissionLink: String
+  submissionText: String
+  submittedAt: timestamptz
 }
 
 """
 order by min() on columns of table "quest_completion"
 """
 input quest_completion_min_order_by {
-  completed_by_player_id: order_by
+  completedByPlayerId: order_by
   id: order_by
-  quest_id: order_by
-  submission_link: order_by
-  submission_text: order_by
-  submitted_at: order_by
+  questId: order_by
+  submissionLink: order_by
+  submissionText: order_by
+  submittedAt: order_by
 }
 
 """
@@ -7941,15 +7941,15 @@ ordering options when selecting data from "quest_completion"
 """
 input quest_completion_order_by {
   QuestCompletionStatus: QuestCompletionStatus_order_by
-  completed_by_player_id: order_by
+  completedByPlayerId: order_by
   id: order_by
   player: player_order_by
   quest: quest_order_by
-  quest_id: order_by
+  questId: order_by
   status: order_by
-  submission_link: order_by
-  submission_text: order_by
-  submitted_at: order_by
+  submissionLink: order_by
+  submissionText: order_by
+  submittedAt: order_by
 }
 
 """
@@ -7964,38 +7964,38 @@ select columns of table "quest_completion"
 """
 enum quest_completion_select_column {
   """column name"""
-  completed_by_player_id
+  completedByPlayerId
 
   """column name"""
   id
 
   """column name"""
-  quest_id
+  questId
 
   """column name"""
   status
 
   """column name"""
-  submission_link
+  submissionLink
 
   """column name"""
-  submission_text
+  submissionText
 
   """column name"""
-  submitted_at
+  submittedAt
 }
 
 """
 input type for updating data in table "quest_completion"
 """
 input quest_completion_set_input {
-  completed_by_player_id: uuid
+  completedByPlayerId: uuid
   id: uuid
-  quest_id: uuid
+  questId: uuid
   status: QuestCompletionStatus_enum
-  submission_link: String
-  submission_text: String
-  submitted_at: timestamptz
+  submissionLink: String
+  submissionText: String
+  submittedAt: timestamptz
 }
 
 """
@@ -8003,25 +8003,25 @@ update columns of table "quest_completion"
 """
 enum quest_completion_update_column {
   """column name"""
-  completed_by_player_id
+  completedByPlayerId
 
   """column name"""
   id
 
   """column name"""
-  quest_id
+  questId
 
   """column name"""
   status
 
   """column name"""
-  submission_link
+  submissionLink
 
   """column name"""
-  submission_text
+  submissionText
 
   """column name"""
-  submitted_at
+  submittedAt
 }
 
 """
@@ -8046,12 +8046,12 @@ input quest_insert_input {
   QuestRepetition: QuestRepetition_obj_rel_insert_input
   QuestStatus: QuestStatus_obj_rel_insert_input
   cooldown: Int
-  created_at: timestamptz
-  created_by_player_id: uuid
+  createdAt: timestamptz
+  createdByPlayerId: uuid
   description: String
-  external_link: String
+  externalLink: String
   guild: guild_obj_rel_insert_input
-  guild_id: uuid
+  guildId: uuid
   id: uuid
   player: player_obj_rel_insert_input
   quest_completions: quest_completion_arr_rel_insert_input
@@ -8064,11 +8064,11 @@ input quest_insert_input {
 """aggregate max on columns"""
 type quest_max_fields {
   cooldown: Int
-  created_at: timestamptz
-  created_by_player_id: uuid
+  createdAt: timestamptz
+  createdByPlayerId: uuid
   description: String
-  external_link: String
-  guild_id: uuid
+  externalLink: String
+  guildId: uuid
   id: uuid
   title: String
 }
@@ -8078,11 +8078,11 @@ order by max() on columns of table "quest"
 """
 input quest_max_order_by {
   cooldown: order_by
-  created_at: order_by
-  created_by_player_id: order_by
+  createdAt: order_by
+  createdByPlayerId: order_by
   description: order_by
-  external_link: order_by
-  guild_id: order_by
+  externalLink: order_by
+  guildId: order_by
   id: order_by
   title: order_by
 }
@@ -8090,11 +8090,11 @@ input quest_max_order_by {
 """aggregate min on columns"""
 type quest_min_fields {
   cooldown: Int
-  created_at: timestamptz
-  created_by_player_id: uuid
+  createdAt: timestamptz
+  createdByPlayerId: uuid
   description: String
-  external_link: String
-  guild_id: uuid
+  externalLink: String
+  guildId: uuid
   id: uuid
   title: String
 }
@@ -8104,11 +8104,11 @@ order by min() on columns of table "quest"
 """
 input quest_min_order_by {
   cooldown: order_by
-  created_at: order_by
-  created_by_player_id: order_by
+  createdAt: order_by
+  createdByPlayerId: order_by
   description: order_by
-  external_link: order_by
-  guild_id: order_by
+  externalLink: order_by
+  guildId: order_by
   id: order_by
   title: order_by
 }
@@ -8148,12 +8148,12 @@ input quest_order_by {
   QuestRepetition: QuestRepetition_order_by
   QuestStatus: QuestStatus_order_by
   cooldown: order_by
-  created_at: order_by
-  created_by_player_id: order_by
+  createdAt: order_by
+  createdByPlayerId: order_by
   description: order_by
-  external_link: order_by
+  externalLink: order_by
   guild: guild_order_by
-  guild_id: order_by
+  guildId: order_by
   id: order_by
   player: player_order_by
   quest_completions_aggregate: quest_completion_aggregate_order_by
@@ -8178,19 +8178,19 @@ enum quest_select_column {
   cooldown
 
   """column name"""
-  created_at
+  createdAt
 
   """column name"""
-  created_by_player_id
+  createdByPlayerId
 
   """column name"""
   description
 
   """column name"""
-  external_link
+  externalLink
 
   """column name"""
-  guild_id
+  guildId
 
   """column name"""
   id
@@ -8210,11 +8210,11 @@ input type for updating data in table "quest"
 """
 input quest_set_input {
   cooldown: Int
-  created_at: timestamptz
-  created_by_player_id: uuid
+  createdAt: timestamptz
+  createdByPlayerId: uuid
   description: String
-  external_link: String
-  guild_id: uuid
+  externalLink: String
+  guildId: uuid
   id: uuid
   repetition: QuestRepetition_enum
   status: QuestStatus_enum
@@ -8227,11 +8227,11 @@ columns and relationships of "quest_skill"
 type quest_skill {
   """An object relationship"""
   quest: quest!
-  quest_id: uuid!
+  questId: uuid!
 
   """An object relationship"""
   skill: skill!
-  skill_id: uuid!
+  skillId: uuid!
 }
 
 """
@@ -8276,9 +8276,9 @@ input quest_skill_bool_exp {
   _not: quest_skill_bool_exp
   _or: [quest_skill_bool_exp]
   quest: quest_bool_exp
-  quest_id: uuid_comparison_exp
+  questId: uuid_comparison_exp
   skill: skill_bool_exp
-  skill_id: uuid_comparison_exp
+  skillId: uuid_comparison_exp
 }
 
 """
@@ -8294,37 +8294,37 @@ input type for inserting data into table "quest_skill"
 """
 input quest_skill_insert_input {
   quest: quest_obj_rel_insert_input
-  quest_id: uuid
+  questId: uuid
   skill: skill_obj_rel_insert_input
-  skill_id: uuid
+  skillId: uuid
 }
 
 """aggregate max on columns"""
 type quest_skill_max_fields {
-  quest_id: uuid
-  skill_id: uuid
+  questId: uuid
+  skillId: uuid
 }
 
 """
 order by max() on columns of table "quest_skill"
 """
 input quest_skill_max_order_by {
-  quest_id: order_by
-  skill_id: order_by
+  questId: order_by
+  skillId: order_by
 }
 
 """aggregate min on columns"""
 type quest_skill_min_fields {
-  quest_id: uuid
-  skill_id: uuid
+  questId: uuid
+  skillId: uuid
 }
 
 """
 order by min() on columns of table "quest_skill"
 """
 input quest_skill_min_order_by {
-  quest_id: order_by
-  skill_id: order_by
+  questId: order_by
+  skillId: order_by
 }
 
 """
@@ -8360,17 +8360,17 @@ ordering options when selecting data from "quest_skill"
 """
 input quest_skill_order_by {
   quest: quest_order_by
-  quest_id: order_by
+  questId: order_by
   skill: skill_order_by
-  skill_id: order_by
+  skillId: order_by
 }
 
 """
 primary key columns input for table: "quest_skill"
 """
 input quest_skill_pk_columns_input {
-  quest_id: uuid!
-  skill_id: uuid!
+  questId: uuid!
+  skillId: uuid!
 }
 
 """
@@ -8378,18 +8378,18 @@ select columns of table "quest_skill"
 """
 enum quest_skill_select_column {
   """column name"""
-  quest_id
+  questId
 
   """column name"""
-  skill_id
+  skillId
 }
 
 """
 input type for updating data in table "quest_skill"
 """
 input quest_skill_set_input {
-  quest_id: uuid
-  skill_id: uuid
+  questId: uuid
+  skillId: uuid
 }
 
 """
@@ -8397,10 +8397,10 @@ update columns of table "quest_skill"
 """
 enum quest_skill_update_column {
   """column name"""
-  quest_id
+  questId
 
   """column name"""
-  skill_id
+  skillId
 }
 
 """aggregate stddev on columns"""
@@ -8459,19 +8459,19 @@ enum quest_update_column {
   cooldown
 
   """column name"""
-  created_at
+  createdAt
 
   """column name"""
-  created_by_player_id
+  createdByPlayerId
 
   """column name"""
   description
 
   """column name"""
-  external_link
+  externalLink
 
   """column name"""
-  guild_id
+  guildId
 
   """column name"""
   id
@@ -10651,7 +10651,7 @@ type subscription_root {
   ): quest_skill_aggregate!
 
   """fetch data from the table: "quest_skill" using primary key columns"""
-  quest_skill_by_pk(quest_id: uuid!, skill_id: uuid!): quest_skill
+  quest_skill_by_pk(questId: uuid!, skillId: uuid!): quest_skill
 
   """
   fetch data from the table: "skill"
@@ -10731,7 +10731,7 @@ type UpdateIDXProfileResponse {
 }
 
 input UpdateQuestCompletionInput {
-  quest_completion_id: String!
+  questCompletionId: String!
   status: QuestCompletionStatus_ActionEnum!
 }
 

@@ -67,23 +67,23 @@ enum GuildType_ActionEnum {
 }
 
 input CreateQuestInput {
-  guild_id : uuid!
+  guildId : uuid!
   title : String!
   description : String
-  external_link : String
+  externalLink : String
   repetition : QuestRepetition_ActionEnum
   cooldown : Int
-  skills_id : [uuid]!
+  skillsId : [uuid]!
 }
 
 input CreateQuestCompletionInput {
-  quest_id : String!
-  submission_link : String
-  submission_text : String
+  questId : String!
+  submissionLink : String
+  submissionText : String
 }
 
 input UpdateQuestCompletionInput {
-  quest_completion_id : String!
+  questCompletionId : String!
   status : QuestCompletionStatus_ActionEnum!
 }
 
@@ -93,12 +93,12 @@ input GuildInfo {
   name : String!
   type : GuildType_ActionEnum!
   description : String
-  discordInviteUrl : String
-  joinUrl : String
-  logoUrl : String
-  websiteUrl : String
-  twitterUrl : String
-  githubUrl : String
+  discordInviteURL : String
+  joinURL : String
+  logoURL : String
+  websiteURL : String
+  twitterURL : String
+  githubURL : String
   daoAddress : String
   membershipThroughDiscord : Boolean
   discordAdminRoles : [String]!

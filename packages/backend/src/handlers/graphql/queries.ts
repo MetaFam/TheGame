@@ -27,51 +27,51 @@ gql`
     }
   }
 
-  query GetQuestById($quest_id: uuid!) {
-    quest_by_pk(id: $quest_id) {
+  query GetQuestById($questId: uuid!) {
+    quest_by_pk(id: $questId) {
       id
       cooldown
       status
       repetition
-      created_by_player_id
+      createdByPlayerId
     }
   }
 
-  query GetQuestCompletions($quest_id: uuid!, $player_id: uuid!) {
+  query GetQuestCompletions($questId: uuid!, $playerId: uuid!) {
     quest_completion(
       where: {
-        quest_id: { _eq: $quest_id }
-        completed_by_player_id: { _eq: $player_id }
+        questId: { _eq: $questId }
+        completedByPlayerId: { _eq: $playerId }
       }
     ) {
       id
-      quest_id
-      completed_by_player_id
+      questId
+      completedByPlayerId
     }
   }
 
   query GetQuestCompletionById($quest_completion_id: uuid!) {
     quest_completion_by_pk(id: $quest_completion_id) {
       id
-      quest_id
-      completed_by_player_id
+      questId
+      completedByPlayerId
       status
     }
   }
 
-  query GetLastQuestCompletionForPlayer($quest_id: uuid!, $player_id: uuid!) {
+  query GetLastQuestCompletionForPlayer($questId: uuid!, $playerId: uuid!) {
     quest_completion(
       limit: 1
-      order_by: { submitted_at: desc }
+      order_by: { submittedAt: desc }
       where: {
-        quest_id: { _eq: $quest_id }
-        completed_by_player_id: { _eq: $player_id }
+        questId: { _eq: $questId }
+        completedByPlayerId: { _eq: $playerId }
       }
     ) {
       id
-      quest_id
-      completed_by_player_id
-      submitted_at
+      questId
+      completedByPlayerId
+      submittedAt
     }
   }
 `;

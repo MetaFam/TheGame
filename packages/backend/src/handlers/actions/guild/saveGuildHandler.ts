@@ -51,12 +51,12 @@ const saveGuild = async (playerId: string, guildInfo: GuildInfo) => {
     name: guildInfo.name,
     type: (guildInfo.type as unknown) as GuildType_Enum,
     description: guildInfo.description,
-    discord_invite_url: guildInfo.discordInviteUrl,
-    join_button_url: guildInfo.joinUrl,
-    logo: guildInfo.logoUrl,
-    website_url: guildInfo.websiteUrl,
-    twitter_url: guildInfo.twitterUrl,
-    github_url: guildInfo.githubUrl,
+    discord_invite_url: guildInfo.discordInviteURL,
+    join_button_url: guildInfo.joinURL,
+    logo: guildInfo.logoURL,
+    website_url: guildInfo.websiteURL,
+    twitter_url: guildInfo.twitterURL,
+    github_url: guildInfo.githubURL,
     moloch_address: guildInfo.daoAddress,
   };
 

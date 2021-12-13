@@ -29,7 +29,7 @@ import { XPChartWrapperStyles } from './config';
 export const XP = (): React.ReactElement => {
   const { user } = useUser();
 
-  const xpStats = useUserXP(user?.ethereum_address || '');
+  const xpStats = useUserXP(user?.ethereumAddress || '');
 
   if (xpStats == null) {
     return (

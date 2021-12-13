@@ -100,8 +100,8 @@ export const CreateQuestCompletion = gql`
       affected_rows
       returning {
         id
-        quest_id
-        completed_by_player_id
+        questId
+        completedByPlayerId
       }
     }
   }
@@ -129,13 +129,13 @@ export const CreateQuestCompletion = gql`
 
   mutation RejectOtherQuestCompletions(
     $accepted_quest_completion_id: uuid!
-    $quest_id: uuid!
+    $questId: uuid!
   ) {
     update_quest_completion(
       where: {
         _and: [
           { id: { _neq: $accepted_quest_completion_id } }
-          { quest_id: { _eq: $quest_id } }
+          { questId: { _eq: $questId } }
         ]
       }
       _set: { status: REJECTED }

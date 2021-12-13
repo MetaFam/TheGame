@@ -55,7 +55,7 @@ export function canCompleteQuest(
       (qc) => qc.player.id === user.id,
     );
     if (myLastCompletion) {
-      const submittedAt = new Date(myLastCompletion.submitted_at);
+      const submittedAt = new Date(myLastCompletion.submittedAt);
       const now = new Date();
       const diff = +now - +submittedAt;
       if (diff < quest.cooldown * 1000) {

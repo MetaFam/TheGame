@@ -46,7 +46,7 @@ const SubmitQuestCompletionPage: React.FC<Props> = ({ quest }) => {
     createQuestCompletion({
       input: {
         ...data,
-        quest_id: quest.id,
+        questId: quest.id,
       },
     }).then((response) => {
       const createQuestCompletionResponse =
@@ -54,7 +54,7 @@ const SubmitQuestCompletionPage: React.FC<Props> = ({ quest }) => {
       if (createQuestCompletionResponse?.success) {
         router.push(`/quest/${quest.id}`);
         toast({
-          title: 'Submitted quest completion',
+          title: 'Submitted Quest Completion',
           description: 'Now, wait until it gets accepted 😉',
           status: 'success',
           isClosable: true,
@@ -123,7 +123,7 @@ export const getStaticProps = async (
 
   return {
     props: {
-      quest: quest === undefined ? null : quest,
+      quest: quest ?? null,
     },
     revalidate: 1,
   };

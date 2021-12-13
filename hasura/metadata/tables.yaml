@@ -705,6 +705,13 @@
 - table:
     schema: public
     name: quest
+  configuration:
+    custom_root_fields: {}
+    custom_column_names:
+      external_link: externalLink
+      created_by_player_id: createdByPlayerId
+      created_at: createdAt
+      guild_id: guildId
   object_relationships:
   - name: guild
     using:
@@ -793,6 +800,14 @@
 - table:
     schema: public
     name: quest_completion
+  configuration:
+    custom_root_fields: {}
+    custom_column_names:
+      quest_id: questId
+      submission_link: submissionLink
+      submission_text: submissionText
+      completed_by_player_id: completedByPlayerId
+      submitted_at: submittedAt
   object_relationships:
   - name: player
     using:
@@ -842,6 +857,11 @@
 - table:
     schema: public
     name: quest_skill
+  configuration:
+    custom_root_fields: {}
+    custom_column_names:
+      quest_id: questId
+      skill_id: skillId
   object_relationships:
   - name: quest
     using:

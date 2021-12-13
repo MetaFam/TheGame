@@ -34,7 +34,7 @@ export const Leaderboard: React.FC = () => {
   } = usePlayerFilter();
 
   const showSeasonalXP = useMemo(
-    () => Object.keys(queryVariables.orderBy).includes('season_xp'),
+    () => Object.keys(queryVariables.orderBy).includes('seasonXP'),
     [queryVariables.orderBy],
   );
 
@@ -83,8 +83,8 @@ export const Leaderboard: React.FC = () => {
           const playerPosition: number = i + 1;
           if (
             playerPosition <= 7 &&
-            ((showSeasonalXP && p.season_xp >= 1) ||
-              (!showSeasonalXP && p.total_xp >= 50))
+            ((showSeasonalXP && p.seasonXP >= 1) ||
+              (!showSeasonalXP && p.totalXP >= 50))
           ) {
             return (
               <LinkBox
@@ -138,7 +138,7 @@ export const Leaderboard: React.FC = () => {
                   </NextLink>
                 </Box>
                 <Box className="player__score" textAlign="right" flex={1}>
-                  {Math.floor(showSeasonalXP ? p.season_xp : p.total_xp)}
+                  {Math.floor(showSeasonalXP ? p.seasonXP : p.totalXP)}
                 </Box>
               </LinkBox>
             );

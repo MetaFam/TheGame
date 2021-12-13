@@ -1,6 +1,7 @@
 import {
+  Button,
   ConfirmModal,
-  HStack,
+  Flex,
   Input,
   MetaButton,
   Text,
@@ -41,31 +42,30 @@ export const CompletionForm: React.FC<Props> = ({
       <Text>Description</Text>
       <Input
         placeholder="What did you do?"
-        {...register('submission_text', {
+        {...register('submissionText', {
           required: {
             value: true,
             message: 'This is a required field.',
           },
         })}
-        isInvalid={!!errors.submission_text}
+        isInvalid={!!errors.submissionText}
         background="dark"
       />
 
       <Text>Link</Text>
       <Input
         placeholder="External link"
-        {...register('submission_link', {
+        {...register('submissionLink', {
           pattern: {
             value: URIRegexp,
             message: 'Supply a valid URL.',
           },
         })}
-        isInvalid={!!errors.submission_link}
+        isInvalid={!!errors.submissionLink}
         background="dark"
       />
-      <HStack>
+      <Flex align="center" justify="center" mt={10}>
         <MetaButton
-          mt={10}
           isLoading={fetching}
           loadingText="Submitting…"
           onClick={handleSubmit(onSubmit)}
@@ -73,14 +73,15 @@ export const CompletionForm: React.FC<Props> = ({
         >
           Submit
         </MetaButton>
-        <MetaButton
-          variant="outline"
+        <Button
+          variant="ghost"
           onClick={() => setExitAlert(true)}
           isDisabled={fetching || success}
+          _hover={{ bg: '#FFFFFF11' }}
         >
           Cancel
-        </MetaButton>
-      </HStack>
+        </Button>
+      </Flex>
 
       <ConfirmModal
         isOpen={exitAlert}

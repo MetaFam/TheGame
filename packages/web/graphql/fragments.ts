@@ -95,11 +95,11 @@ export const GuildFragment = gql`
 export const QuestFragment = gql`
   fragment QuestFragment on quest {
     id
-    created_at
+    createdAt
     cooldown
     description
-    external_link
-    guild_id
+    externalLink
+    guildId
     status
     title
     repetition
@@ -125,11 +125,11 @@ export const QuestFragment = gql`
 export const QuestWithCompletionFragment = gql`
   fragment QuestWithCompletionFragment on quest {
     id
-    created_at
+    createdAt
     cooldown
     description
-    external_link
-    guild_id
+    externalLink
+    guildId
     status
     title
     repetition
@@ -145,7 +145,7 @@ export const QuestWithCompletionFragment = gql`
         category
       }
     }
-    quest_completions(order_by: [{ submitted_at: desc }]) {
+    quest_completions(order_by: [{ submittedAt: desc }]) {
       ...QuestCompletionFragment
       player {
         id
@@ -159,11 +159,11 @@ export const QuestWithCompletionFragment = gql`
 export const QuestCompletionFragment = gql`
   fragment QuestCompletionFragment on quest_completion {
     id
-    completed_by_player_id
+    completedByPlayerId
     status
-    submission_link
-    submission_text
-    submitted_at
+    submissionLink
+    submissionText
+    submittedAt
   }
 `;
 

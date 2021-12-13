@@ -60,7 +60,7 @@ export type PlayersQueryVariables = {
   offset: number;
   limit: number;
   orderBy: {
-    season_xp?: Maybe<Order_By> | undefined;
+    seasonXP?: Maybe<Order_By>;
   };
   availability?: number;
   skillIds?: string[];
