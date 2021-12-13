@@ -22,7 +22,6 @@ export const getPlayerRoles = async () => {
     if (error) {
       throw error;
     }
-
     return [];
   }
 

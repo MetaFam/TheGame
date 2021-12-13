@@ -7,7 +7,7 @@ import TimeZoneSelect, {
 import spacetime from 'spacetime';
 import informal from 'spacetime-informal';
 
-import { ChakraesqueStyles } from './theme';
+import { chakraesqueStyles } from './theme';
 
 export type TimeZoneType = {
   value: string;
@@ -32,11 +32,11 @@ export interface TimeZoneSelectProps extends Record<string, unknown> {
   labelStyle: 'original' | 'altName' | 'abbrev';
 }
 
-const TimeZoneSelectStyles: typeof ChakraesqueStyles = {
-  ...ChakraesqueStyles,
+const timeZoneSelectStyles: typeof chakraesqueStyles = {
+  ...chakraesqueStyles,
   control: (styles, props) => ({
     ...styles,
-    ...ChakraesqueStyles.control?.(styles, props),
+    ...chakraesqueStyles.control?.(styles, props),
     minWidth: '17em',
   }),
 };
@@ -117,7 +117,7 @@ export const SelectTimeZone: React.FC<TimeZoneSelectProps> = ({
   return (
     <TimeZoneSelect
       value={value ?? ''}
-      styles={TimeZoneSelectStyles}
+      styles={timeZoneSelectStyles}
       filterOption={null}
       timeZones={Object.fromEntries(
         options.map(({ value: val, title }) => [val, title]),

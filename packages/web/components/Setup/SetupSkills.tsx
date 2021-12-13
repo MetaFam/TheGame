@@ -4,7 +4,7 @@ import {
   MetaHeading,
   MetaTheme,
   ModalFooter,
-  SearchSelectStyles,
+  searchSelectStyles,
   SelectSearch,
   useToast,
 } from '@metafam/ds';
@@ -25,8 +25,8 @@ export type SetupSkillsProps = {
   onClose?: () => void;
 };
 
-const styles: typeof SearchSelectStyles = {
-  ...SearchSelectStyles,
+const styles: typeof searchSelectStyles = {
+  ...searchSelectStyles,
   multiValue: (s, { data }) => ({
     ...s,
     background: SkillColors[data.category as SkillCategory_Enum],
@@ -39,7 +39,7 @@ const styles: typeof SearchSelectStyles = {
   }),
   groupHeading: (s, { children }) => ({
     ...s,
-    ...SearchSelectStyles.groupHeading?.(s, { children }),
+    ...searchSelectStyles.groupHeading?.(s, { children }),
     background: SkillColors[children as SkillCategory_Enum],
   }),
   option: (s, { isSelected, isFocused }) => ({

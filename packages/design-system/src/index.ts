@@ -19,7 +19,6 @@ export {
   metaFilterSelectStyles,
   SelectComponents,
   SelectSearch,
-  selectStyles,
 } from './SelectSearch';
 export {
   getTimeZonesFor,
@@ -30,11 +29,11 @@ export {
 } from './SelectTimeZone';
 export { SVG } from './SVG';
 export {
-  ChakraesqueStyles,
-  DropdownStyles,
+  chakraesqueStyles,
+  dropdownStyles,
   theme as MetaTheme,
-  SearchSelectStyles,
-  SelectStyles,
+  searchSelectStyles,
+  selectStyles,
 } from './theme';
 export { H1, P } from './typography';
 export {

@@ -69,7 +69,7 @@ export const theme: Theme = extendTheme({
   },
 });
 
-export const SelectStyles: Styles = {
+export const selectStyles: Styles = {
   menu: (styles) => ({
     ...styles,
     background: theme.colors.dark,
@@ -120,7 +120,7 @@ export const SelectStyles: Styles = {
   }),
 };
 
-export const SearchSelectStyles: Styles = {
+export const searchSelectStyles: Styles = {
   menuPortal: (styles) => ({
     ...styles,
     borderRadius: theme.radii.md,
@@ -211,8 +211,8 @@ export const SearchSelectStyles: Styles = {
   }),
 };
 
-export const DropdownStyles: typeof SearchSelectStyles = {
-  ...SearchSelectStyles,
+export const dropdownStyles: typeof searchSelectStyles = {
+  ...searchSelectStyles,
   multiValue: (s) => ({
     ...s,
     color: theme.colors.white,
@@ -223,7 +223,7 @@ export const DropdownStyles: typeof SearchSelectStyles = {
   }),
   groupHeading: (s, { children }) => ({
     ...s,
-    ...SearchSelectStyles.groupHeading?.(s, { children }),
+    ...searchSelectStyles.groupHeading?.(s, { children }),
     borderTop: `1px solid ${theme.colors.borderPurple}`,
     margin: 0,
   }),
@@ -255,8 +255,8 @@ export const DropdownStyles: typeof SearchSelectStyles = {
   }),
 };
 
-export const ChakraesqueStyles: Styles = {
-  ...SearchSelectStyles,
+export const chakraesqueStyles: Styles = {
+  ...searchSelectStyles,
   option: (styles, { isSelected, isFocused }) => ({
     ...styles,
     background: (() => {
@@ -284,7 +284,7 @@ export const ChakraesqueStyles: Styles = {
   }),
   control: (styles, props) => ({
     ...styles,
-    ...SearchSelectStyles.control?.(styles, props),
+    ...searchSelectStyles.control?.(styles, props),
     background: theme.colors.dark,
     border: `1px soild ${theme.colors.white}`,
     padding: '0.25em 0.5em',

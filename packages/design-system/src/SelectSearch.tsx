@@ -1,12 +1,12 @@
 import React from 'react';
 import Select, { components, Props as SelectProps } from 'react-select';
 
-import { SearchSelectStyles } from './theme';
+import { searchSelectStyles, selectStyles, theme } from './theme';
 
 export const SelectComponents = components;
 
 export const SelectSearch: React.FC<SelectProps> = (props) => (
-  <Select styles={SearchSelectStyles} {...props} />
+  <Select styles={searchSelectStyles} {...props} />
 );
 
 export const metaFilterSelectStyles: typeof selectStyles = {
