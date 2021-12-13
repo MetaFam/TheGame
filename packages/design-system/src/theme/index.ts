@@ -168,6 +168,7 @@ export const SearchSelectStyles: Styles = {
   control: (styles) => ({
     ...styles,
     minWidth: '6rem',
+    color: theme.colors.white,
     background: theme.colors.dark,
     border: `2px solid ${theme.colors.borderPurple}`,
     '&:hover': {
@@ -255,31 +256,42 @@ export const DropdownStyles: typeof SearchSelectStyles = {
 };
 
 export const ChakraesqueStyles: Styles = {
+  ...SearchSelectStyles,
   option: (styles, { isSelected, isFocused }) => ({
     ...styles,
     background: (() => {
-      if (isSelected) {
-        return theme.colors.blueLight;
-      }
       if (isFocused) {
         return theme.colors.green[100];
       }
+      if (isSelected) {
+        return theme.colors.blueLight;
+      }
       return theme.colors.dark;
     })(),
-    color:
-      isSelected || isFocused
-        ? theme.colors.white
-        : theme.colors.whiteAlpha[700],
+    color: (() => {
+      if (isFocused) {
+        return theme.colors.black;
+      }
+      if (isSelected) {
+        return theme.colors.white;
+      }
+      return theme.colors.whiteAlpha[700];
+    })(),
     '&:hover': {
       backgroundColor: theme.colors.purpleTag,
       color: theme.colors.white,
     },
   }),
-  control: (styles) => ({
+  control: (styles, props) => ({
     ...styles,
+    ...SearchSelectStyles.control?.(styles, props),
     background: theme.colors.dark,
     border: `1px soild ${theme.colors.white}`,
     padding: '0.25em 0.5em',
     borderRadius: 10,
+  }),
+  singleValue: (style) => ({
+    ...style,
+    color: theme.colors.white,
   }),
 };
