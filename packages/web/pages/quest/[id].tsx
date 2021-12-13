@@ -61,7 +61,7 @@ const QuestPage: React.FC<Props> = ({ quest_id }) => {
   return (
     <PageContainer>
       <HeadComponent
-        title="Metagame Quests"
+        title="MetaGame Quests"
         description={quest.title}
         url={`https://my.metagame.wtf/quest/${quest_id}`}
       />

@@ -23,11 +23,11 @@ export const useUser = ({
   user: MeType | null;
   fetching: boolean;
 } => {
-  const { authToken } = useWeb3();
+  const { authToken, connecting } = useWeb3();
   const router = useRouter();
 
   const [{ data, error, fetching }] = useGetMeQuery({
-    pause: !authToken,
+    pause: connecting || !authToken,
     variables: { forLoginDisplay },
     requestPolicy,
   });
@@ -35,17 +35,18 @@ export const useUser = ({
   const user = error || !authToken || !me ? null : me;
 
   useEffect(() => {
-    if (!redirectTo) return;
+    if (!redirectTo || fetching || connecting) return;
 
     if (
-      // If redirectTo is set and redirectIfNotFound is set then redirect if the user was not found.
+      // If redirectTo is set and redirectIfNotFound is set then
+      // redirect if the user was not found.
       redirectTo &&
       redirectIfNotFound &&
       !user
     ) {
       router.push(redirectTo);
     }
-  }, [router, user, redirectIfNotFound, redirectTo]);
+  }, [router, user, fetching, connecting, redirectIfNotFound, redirectTo]);
 
   return { user, fetching };
 };

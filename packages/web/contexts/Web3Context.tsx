@@ -4,8 +4,10 @@ import type { CeramicApi } from '@ceramicnetwork/common';
 import Ceramic from '@ceramicnetwork/http-client';
 import { did } from '@metafam/utils';
 import WalletConnectProvider from '@walletconnect/web3-provider';
+import { CONFIG } from 'config';
 import { DID } from 'dids';
 import { providers } from 'ethers';
+import { Maybe } from 'graphql/autogen/types';
 import {
   clearToken,
   clearWalletConnect,
@@ -21,8 +23,6 @@ import React, {
   useState,
 } from 'react';
 import Web3Modal from 'web3modal';
-
-import { CONFIG } from '../config';
 
 export type Web3ContextType = {
   provider: providers.Web3Provider | null;
@@ -96,9 +96,9 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
   children,
   resetUrqlClient,
 }) => {
-  const [provider, setProvider] = useState<providers.Web3Provider | null>(null);
+  const [provider, setProvider] = useState<Maybe<providers.Web3Provider>>(null);
   const [connected, setConnected] = useState<boolean>(false);
-  const [connecting, setConnecting] = useState<boolean>(false);
+  const [connecting, setConnecting] = useState<boolean>(true);
   const [address, setAddress] = useState<string | null>(null);
   const [authToken, setAuthToken] = useState<string | null>(null);
   const calledOnce = useRef<boolean>(false);
@@ -108,7 +108,7 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
   );
 
   useEffect(() => {
-    if (address) {
+    if (provider && address) {
       const threeIdConnect = new ThreeIdConnect();
       const authProvider = new EthereumAuthProvider(window.ethereum, address);
       threeIdConnect.connect(authProvider).then(() => {
@@ -118,7 +118,7 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
         });
       });
     }
-  }, [address, ceramic]);
+  }, [provider, address, ceramic]);
 
   const disconnect = useCallback(() => {
     if (web3Modal === false) return;
@@ -154,13 +154,13 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
       setAddress(addr);
       setProvider(web3Provider);
       setAuthToken(token);
-      setConnecting(false);
       setConnected(true);
       if (resetUrqlClient) resetUrqlClient();
     } catch (error) {
       console.log(error); // eslint-disable-line no-console
-      setConnecting(false);
       disconnect();
+    } finally {
+      setConnecting(false);
     }
   }, [resetUrqlClient, disconnect]);
 

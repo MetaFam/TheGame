@@ -50,7 +50,7 @@ import Roles from 'assets/menuIcon/roles.svg';
 import SeedEarned from 'assets/menuIcon/seedearned.svg';
 import Seeds from 'assets/menuIcon/seeds.svg';
 import TheGreatHouses from 'assets/menuIcon/thegreathouses.svg';
-import WelcomeToMetagame from 'assets/menuIcon/welcometometagame.svg';
+import WelcomeToMetaGame from 'assets/menuIcon/welcometometagame.svg';
 import XPEarned from 'assets/menuIcon/xpearned.svg';
 import Youtube from 'assets/menuIcon/youtube.svg';
 import SeedMarket from 'assets/seed-icon.svg';
@@ -86,7 +86,7 @@ const menuIcons: { [key: string]: string } = {
   seedearned: SeedEarned,
   seeds: Seeds,
   thegreathouses: TheGreatHouses,
-  welcometometagame: WelcomeToMetagame,
+  welcometometagame: WelcomeToMetaGame,
   xpearned: XPEarned,
   youtube: Youtube,
   metaradio: MetaRadio,

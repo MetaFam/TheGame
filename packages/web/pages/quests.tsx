@@ -25,7 +25,7 @@ type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
 export const getStaticProps = async () => {
   const [ssrClient, ssrCache] = getSsrClient();
-  // This populate the cache server-side
+  // This populates the cache server-side
   await getQuests(undefined, ssrClient);
 
   return {
@@ -55,17 +55,17 @@ const QuestsPage: React.FC<Props> = () => {
   return (
     <PageContainer>
       <HeadComponent
-        title="Metagame's Quests"
-        description="Metagame is a Massive Online Coordination Game! Metagame has some epic quests going on!"
+        title="MetaGame’s Quests"
+        description="MetaGame is a Massive Online Coordination Game! MetaGame has some epic quests going on!"
         url="https://my.metagame.wtf/quests"
       />
       <Box w="100%" maxW="80rem">
         <HStack justify="space-between" w="100%">
-          <Heading>Quest explorer</Heading>
+          <Heading>Quest Explorer</Heading>
           <Tooltip
             label={
               !canCreateQuest &&
-              'You need to hold at least 100 pSEED to create a quest'
+              'You need to hold at least 100 pSEED to create a quest.'
             }
           >
             <MetaButton
@@ -76,7 +76,7 @@ const QuestsPage: React.FC<Props> = () => {
                   toast({
                     title: 'Error',
                     description:
-                      'Insufficient pSEED Balance.Must be 100pSEED The octo is sad 😢',
+                      'Insufficient pSEED Balance. Must have ≥ 100pSEED.',
                     status: 'error',
                     isClosable: true,
                   });
@@ -100,7 +100,7 @@ const QuestsPage: React.FC<Props> = () => {
         <Box mt={8} w="100%">
           {fetching && <LoadingState />}
           {error && <Text>{`Error: ${error.message}`}</Text>}
-          {quests && !fetching && <QuestList quests={quests} />}
+          {quests && !fetching && <QuestList {...{ quests }} />}
         </Box>
       </Box>
     </PageContainer>

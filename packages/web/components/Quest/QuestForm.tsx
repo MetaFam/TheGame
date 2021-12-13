@@ -17,7 +17,7 @@ import {
   QuestStatus_Enum,
 } from 'graphql/autogen/types';
 import { useRouter } from 'next/router';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Controller, FieldError, useForm } from 'react-hook-form';
 
 import { QuestRepetitionHint, URIRegexp } from '../../utils/questHelpers';
@@ -66,20 +66,20 @@ export interface CreateQuestFormInputs {
 const MetaFamGuildId = 'f94b7cd4-cf29-4251-baa5-eaacab98a719';
 
 const getDefaultFormValues = (
-  editQuest: QuestFragmentFragment | undefined,
+  base: QuestFragmentFragment | undefined,
   guilds: GuildFragmentFragment[],
 ): CreateQuestFormInputs => ({
-  title: editQuest?.title || '',
-  repetition: editQuest?.repetition || QuestRepetition_Enum.Unique,
-  description: editQuest?.description ?? '',
-  externalLink: editQuest?.externalLink ?? '',
+  title: base?.title || '',
+  repetition: base?.repetition ?? QuestRepetition_Enum.Unique,
+  description: base?.description ?? '',
+  externalLink: base?.externalLink ?? '',
   guildId:
-    editQuest?.guildId ??
+    base?.guildId ??
     guilds.find((g) => g.id === MetaFamGuildId)?.id ??
     guilds[0].id,
-  status: editQuest?.status || QuestStatus_Enum.Open,
-  cooldown: editQuest?.cooldown || null,
-  skills: (editQuest?.quest_skills ?? [])
+  status: base?.status || QuestStatus_Enum.Open,
+  cooldown: base?.cooldown || null,
+  skills: (base?.quest_skills ?? [])
     .map((s) => s.skill)
     .map((s) => ({
       value: s.id,
@@ -146,21 +146,12 @@ export const QuestForm: React.FC<Props> = ({
     formState: { errors },
     watch,
     handleSubmit,
-    reset,
   } = useForm<CreateQuestFormInputs>({
     defaultValues,
   });
-  useEffect(() => {
-    // getDescriptionEditorState(editQuest?.description).then((description) => {
-    //   defaultValues.description = description;
-    //   reset(defaultValues);
-    // });
-  }, [editQuest, guilds, reset, defaultValues]);
   const router = useRouter();
   const [exitAlert, setExitAlert] = useState<boolean>(false);
   const createQuestInput = watch();
-
-  console.info({ errors, createQuestInput });
 
   return (
     <Box w="100%" maxW="30rem">
@@ -184,10 +175,11 @@ export const QuestForm: React.FC<Props> = ({
             })}
             isInvalid={!!errors.title}
             background="dark"
+            autoFocus
           />
         </Field>
 
-        <Field label="Description">
+        <Field label="Description" error={errors.description}>
           <Controller
             name="description"
             control={control}
@@ -196,16 +188,15 @@ export const QuestForm: React.FC<Props> = ({
                 value: true,
                 message: 'A description is required.',
               },
+              minLength: {
+                value: 13,
+                message: 'Too short…',
+              },
             }}
             defaultValue={defaultValues.description}
-            render={({
-              field: { onChange, value },
-            }: {
-              field: { onChange: (content: string) => unknown; value: string };
-            }) => {
-              console.info({ value });
-              return <WYSIWYGEditor {...{ value, onChange }} />;
-            }}
+            render={({ field: { onChange, value } }) => (
+              <WYSIWYGEditor {...{ value, onChange }} />
+            )}
           />
         </Field>
 
@@ -348,6 +339,7 @@ export const QuestForm: React.FC<Props> = ({
             onClick={() => setExitAlert(true)}
             isDisabled={fetching || success}
             _hover={{ bg: '#FFFFFF11' }}
+            _active={{ bg: '#FF000008' }}
             ml={5}
           >
             Cancel
