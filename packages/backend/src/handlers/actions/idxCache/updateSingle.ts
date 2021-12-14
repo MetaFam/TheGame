@@ -5,16 +5,14 @@ import {
   AlsoKnownAs,
   model as alsoKnownAsModel,
 } from '@datamodels/identity-accounts-web';
-import extendedProfileModel from '@metafam/utils/dist/ExtendedProfileModel.json';
-// https://github.com/ceramicnetwork/CIP/blob/main/CIPs/CIP-19/CIP-19.md#record-schema
 import {
   BasicProfile,
   model as basicProfileModel,
 } from '@datamodels/identity-profile-basic';
-import { ProfileProps } from '@metafam/web/components/EditProfileForm';
 import { ModelManager } from '@glazed/devtools';
 import { DIDDataStore } from '@glazed/did-datastore';
 import { TileLoader } from '@glazed/tile-loader';
+import { extendedProfileModel } from '@metafam/utils';
 import { getLegacy3BoxProfileAsBasicProfile } from '@self.id/3box-legacy';
 
 import { CONFIG } from '../../../config';
@@ -53,7 +51,9 @@ export default async (playerId: string): Promise<UpdateBoxProfileResponse> => {
   );
 
   try {
-    let basicProfile, extendedProfile, values: ProfileProps;
+    let basicProfile;
+    let extendedProfile;
+    let values;
 
     if (!caip10.did) {
       console.debug(`No CAIP-10 Link For ${ethAddress}`);
@@ -63,10 +63,7 @@ export default async (playerId: string): Promise<UpdateBoxProfileResponse> => {
         caip10.did,
       )) as BasicProfile;
 
-      extendedProfile = (await store.get(
-        'extendedProfile',
-        caip10.did,
-      )) // as ExtendedProfile;
+      extendedProfile = await store.get('extendedProfile', caip10.did); // as ExtendedProfile;
     }
 
     if (!basicProfile) {
@@ -99,7 +96,7 @@ export default async (playerId: string): Promise<UpdateBoxProfileResponse> => {
         countryCode,
         website: url,
       };
-    
+
       if (extendedProfile) {
         values.pronouns = extendedProfile.pronouns;
       }
