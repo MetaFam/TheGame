@@ -51,8 +51,7 @@
         },
         offset: {
           description: 'The number of minutes this time zone varies from Universal Time (UTC). I.e. -200 for “UTC-5:00”.',
-          type: 'number',
-          format: 'integer',
+          type: 'integer',
         },
         location: {
           description: 'Somewhere located within this time zone. I.e. “New York City, New York”. There are standard locations for each zone, but they are sometimes far from the user and theuy would like to specify somewhere else.',
@@ -99,7 +98,7 @@
       type: 'object',
       properties: {
         name: {
-          style: 'string',
+          type: 'string',
           pattern: '^home|work|play|[^ \t]+$',
           maxLength: 383,
         },

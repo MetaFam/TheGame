@@ -5,11 +5,13 @@ import {
   AlsoKnownAs,
   model as alsoKnownAsModel,
 } from '@datamodels/identity-accounts-web';
+import extendedProfileModel from '@metafam/utils/dist/ExtendedProfileModel.json';
 // https://github.com/ceramicnetwork/CIP/blob/main/CIPs/CIP-19/CIP-19.md#record-schema
 import {
   BasicProfile,
   model as basicProfileModel,
 } from '@datamodels/identity-profile-basic';
+import { ProfileProps } from '@metafam/web/components/EditProfileForm';
 import { ModelManager } from '@glazed/devtools';
 import { DIDDataStore } from '@glazed/did-datastore';
 import { TileLoader } from '@glazed/tile-loader';
@@ -28,6 +30,7 @@ const loader = new TileLoader({ ceramic, cache });
 const manager = new ModelManager(ceramic);
 manager.addJSONModel(basicProfileModel);
 manager.addJSONModel(alsoKnownAsModel);
+manager.addJSONModel(extendedProfileModel);
 
 export default async (playerId: string): Promise<UpdateBoxProfileResponse> => {
   const updatedProfiles: string[] = [];
@@ -50,7 +53,7 @@ export default async (playerId: string): Promise<UpdateBoxProfileResponse> => {
   );
 
   try {
-    let basicProfile;
+    let basicProfile, extendedProfile, values: ProfileProps;
 
     if (!caip10.did) {
       console.debug(`No CAIP-10 Link For ${ethAddress}`);
@@ -59,6 +62,11 @@ export default async (playerId: string): Promise<UpdateBoxProfileResponse> => {
         'basicProfile',
         caip10.did,
       )) as BasicProfile;
+
+      extendedProfile = (await store.get(
+        'extendedProfile',
+        caip10.did,
+      )) // as ExtendedProfile;
     }
 
     if (!basicProfile) {
@@ -79,7 +87,7 @@ export default async (playerId: string): Promise<UpdateBoxProfileResponse> => {
         image,
         background,
       } = basicProfile;
-      const values = {
+      values = {
         playerId,
         name,
         description,
@@ -91,9 +99,12 @@ export default async (playerId: string): Promise<UpdateBoxProfileResponse> => {
         countryCode,
         website: url,
       };
-
-      await client.UpsertProfileCache({ objects: [values] });
+    
+      if (extendedProfile) {
+        values.pronouns = extendedProfile.pronouns;
+      }
     }
+    await client.UpsertProfileCache({ objects: [values] });
   } catch (err) {
     if (!(err as Error).message.includes('No DID')) {
       throw err;
