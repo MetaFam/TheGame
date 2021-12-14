@@ -45,7 +45,7 @@
     "@babel/core": "7.14.2",
     "@storybook/addon-actions": "6.3.2",
     "@storybook/addon-docs": "6.3.2",
-    "@storybook/addon-links": "6.3.2",
+    "@storybook/addon-links": "6.4.9",
     "@storybook/addons": "6.3.2",
     "@storybook/react": "6.3.2",
     "babel-loader": "8.2.2",
