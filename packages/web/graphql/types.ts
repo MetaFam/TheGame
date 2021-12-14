@@ -6,7 +6,7 @@ import {
   Moloch,
   PlayerFragmentFragment,
   PlayerRank_Enum,
-  Profile_Cache,
+  Profile,
   SkillCategory_Enum,
 } from 'graphql/autogen/types';
 
@@ -51,5 +51,5 @@ export type GuildPlayer = {
   username: string;
   totalXP?: number;
   rank?: Maybe<PlayerRank_Enum>;
-  profile_cache?: Maybe<Pick<Profile_Cache, 'imageURL' | 'name'>>;
+  profile?: Maybe<Pick<Profile, 'imageURL' | 'name'>>;
 };

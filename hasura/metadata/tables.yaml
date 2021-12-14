@@ -318,12 +318,12 @@
   - name: color_aspect
     using:
       foreign_key_constraint_on: color_mask
-  - name: profile_cache
+  - name: profile
     using:
       manual_configuration:
         remote_table:
           schema: public
-          name: profile_cache
+          name: profile
         column_mapping:
           id: player_id
   - name: type
@@ -641,13 +641,14 @@
       filter: {}
 - table:
     schema: public
-    name: profile_cache
+    name: profile
   configuration:
     custom_root_fields: {}
     custom_column_names:
       country_code: countryCode
       background_image_url: backgroundImageURL
       last_checked_at: lastCheckedAt
+      banner_image_url: bannerImageURL
       image_url: imageURL
       player_id: playerId
   object_relationships:
@@ -659,6 +660,7 @@
     permission:
       columns:
       - background_image_url
+      - banner_image_url
       - country_code
       - description
       - emoji
@@ -668,12 +670,15 @@
       - location
       - name
       - player_id
+      - pronouns
+      - username
       - website
       filter: {}
   - role: public
     permission:
       columns:
       - background_image_url
+      - banner_image_url
       - country_code
       - description
       - emoji
@@ -683,6 +688,8 @@
       - location
       - name
       - player_id
+      - pronouns
+      - username
       - website
       filter: {}
   update_permissions:
@@ -690,6 +697,7 @@
     permission:
       columns:
       - background_image_url
+      - banner_image_url
       - country_code
       - description
       - emoji
@@ -697,6 +705,8 @@
       - image_url
       - location
       - name
+      - pronouns
+      - username
       - website
       filter:
         player_id:

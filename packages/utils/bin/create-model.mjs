@@ -68,7 +68,7 @@ const __dirname = dirname(__filename)
     }
   )
  
-  const model = await manager.toPublished()
+  const model = await manager.toJSON()
   const out = `${__dirname}/../src/ExtendedProfileModel.json`
   await writeFile(out, JSON.stringify(model, null, 2))
 

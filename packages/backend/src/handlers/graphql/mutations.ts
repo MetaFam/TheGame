@@ -28,9 +28,9 @@ gql`
   }
 
   mutation UpsertProfileCache(
-    $objects: [profile_cache_insert_input!]!
-    $onConflict: profile_cache_on_conflict = {
-      constraint: profile_cache_player_id_key
+    $objects: [profile_insert_input!]!
+    $onConflict: profile_on_conflict = {
+      constraint: profile_player_id_key
       update_columns: [
         name
         description
@@ -44,7 +44,7 @@ gql`
       ]
     }
   ) {
-    insert_profile_cache(objects: $objects, on_conflict: $onConflict) {
+    insert_profile(objects: $objects, on_conflict: $onConflict) {
       affected_rows
     }
   }

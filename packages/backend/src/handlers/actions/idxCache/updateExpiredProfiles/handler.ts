@@ -8,7 +8,7 @@ const INVALIDATE_AFTER_DAYS = 4; // number of days after which to recache
 export default async (req: Request, res: Response): Promise<void> => {
   const expiration = new Date();
   expiration.setDate(expiration.getDate() - INVALIDATE_AFTER_DAYS);
-  const { profile_cache: players } = await client.GetCacheEntries({
+  const { profile: players } = await client.GetCacheEntries({
     updatedBefore: expiration,
   });
   const idsToProcess: string[] = [];

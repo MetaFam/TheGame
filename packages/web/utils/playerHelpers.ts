@@ -4,15 +4,15 @@ import GuildCoverImageSmall from 'assets/guild-background-small.jpeg';
 import PlayerCoverImageFull from 'assets/player-background-full.jpg';
 import PlayerCoverImageSmall from 'assets/player-background-small.jpg';
 import { ethers } from 'ethers';
-import { Maybe, PlayerFragmentFragment } from 'graphql/autogen/types';
+import { PlayerFragmentFragment } from 'graphql/autogen/types';
 import { httpLink } from 'utils/linkHelpers';
 
 export const getPlayerImage = (player?: PlayerFragmentFragment): string => {
-  const link = httpLink(player?.profile_cache?.imageURL);
+  const link = httpLink(player?.profile?.imageURL);
   if (link) return link;
-  return !player?.username
+  return !player?.profile?.username
     ? ProfileIcon
-    : `https://avatars.dicebear.com/api/jdenticon/${player.username}.svg`;
+    : `https://avatars.dicebear.com/api/jdenticon/${player.profile.username}.svg`;
 };
 
 export const getPlayerCoverImage = (player: PlayerFragmentFragment): string =>
@@ -30,11 +30,10 @@ export const getGuildCoverImageSmall = (): string => GuildCoverImageSmall;
 export const getPlayerName = (
   player?: PlayerFragmentFragment,
 ): string | undefined =>
-  player?.profile_cache?.name || formatUsernameIfAddress(player?.username);
+  player?.profile?.name || formatUsernameIfAddress(player?.username);
 
-export const getPlayerDescription = (
-  player?: PlayerFragmentFragment,
-): Maybe<string> => player?.profile_cache?.description ?? '';
+export const getPlayerDescription = (player?: PlayerFragmentFragment): string =>
+  player?.profile?.description ?? '';
 
 export const formatAddress = (address = ''): string =>
   `${address.slice(0, 6)}…${address.slice(-4)}`;
@@ -43,4 +42,4 @@ export const formatUsernameIfAddress = (username = ''): string =>
   ethers.utils.isAddress(username) ? formatAddress(username) : username;
 
 export const hasPlayerImage = (player?: PlayerFragmentFragment): boolean =>
-  !!player?.profile_cache?.imageURL;
+  !!player?.profile?.imageURL;

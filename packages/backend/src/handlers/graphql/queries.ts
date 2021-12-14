@@ -162,7 +162,7 @@ gql`
 
 export const GetCacheEntries = gql`
   query GetCacheEntries($updatedBefore: timestamptz!) {
-    profile_cache(
+    profile(
       where: {
         _or: [
           { lastCheckedAt: { _lt: $updatedBefore } }

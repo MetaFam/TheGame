@@ -44,11 +44,13 @@ export const PlayerFragment = gql`
       type
     }
 
-    profile_cache {
+    profile {
       name
+      username
       description
       emoji
       imageURL
+      bannerImageURL
       backgroundImageURL
       location
       countryCode

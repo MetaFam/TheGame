@@ -129,7 +129,7 @@ const getGuildPlayersQuery = gql`
         username
         totalXP
         rank
-        profile_cache {
+        profile {
           imageURL
           name
         }

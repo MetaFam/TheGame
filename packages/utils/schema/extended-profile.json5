@@ -9,8 +9,8 @@
       maxLength: 383,
       pattern: '^[a-z0-9-_]+$',
     },
-    pageBackgroundURL: {
-      description: '`basicProfile` stores a profile image and a header banner (recommended 3:1 image ratio). This is an image to be used as the background image for the page.',
+    background: {
+      description: '`basicProfile` stores a profile image and a header banner (recommended 3:1 image ratio). This is a squarish image to be used as the background image for the page.',
       $ref: '#/$defs/sources',
     },
     pronouns: {
@@ -84,7 +84,7 @@
   $defs: {
     IPFSURL: {
       type: 'string',
-      pattern: '^ipfs:(//)?.+',
+      pattern: '^ipfs:(//)?.+$',
       maxLength: 511,
     },
     naturalNumber: {
@@ -100,7 +100,7 @@
       properties: {
         name: {
           style: 'string',
-          pattern: '^home|work|play|w+$',
+          pattern: '^home|work|play|[^ \t]+$',
           maxLength: 383,
         },
         landmark: {
@@ -202,7 +202,7 @@
             {
               description: 'The ratio of the height and width. This makes more sense for vector images that scale indefinitely.',
               type: 'string',
-              pattern: '^(d+(.d*)?|d*(.d+)?|d+(.d*)?[:⁄/]d+(.d*)?)$',
+              pattern: '^([0-9]+(\\.[0-9]*)?|[0-9]*(\\.[0-9]+)?|[0-9]+(\\.[0-9]*)?[:⁄/][0-9]+(\\.[0-9]*)?)$',
             },
           ],
         },
