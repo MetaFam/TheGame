@@ -296,3 +296,20 @@ const usePaginatedPlayers = (
     moreAvailable: currentPage < maxPage,
   };
 };
+
+export const useAnimation = (
+  depends: unknown,
+  updateFN: () => void,
+): { [key: string]: string } => {
+  const [animation, setAnimation] = useState('fadeIn');
+
+  useEffect(() => {
+    setAnimation('fadeOut');
+    setTimeout(() => {
+      updateFN();
+      setAnimation('fadeIn');
+    }, 400);
+  }, [depends, updateFN]);
+
+  return { animation };
+};

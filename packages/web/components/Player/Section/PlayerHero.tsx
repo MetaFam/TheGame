@@ -16,10 +16,12 @@ import {
   VStack,
 } from '@metafam/ds';
 import BackgroundImage from 'assets/main-background.jpg';
+import { FlexContainer } from 'components/Container';
 import { EditProfileForm } from 'components/EditProfileForm';
 import { PlayerAvatar } from 'components/Player/PlayerAvatar';
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
 import { useUser } from 'lib/hooks';
+import { useAnimation } from 'lib/hooks/players';
 import React, { useEffect, useState } from 'react';
 import { FaClock, FaGlobe } from 'react-icons/fa';
 import { getPlayerTimeZoneDisplay } from 'utils/dateHelpers';
@@ -34,35 +36,26 @@ import { PlayerPronouns } from './PlayerPronouns';
 const MAX_BIO_LENGTH = 240;
 
 type Props = { player: PlayerFragmentFragment; isOwnProfile: boolean };
-type AvailabilityProps = { availabilityHours?: number };
-type TimeZoneDisplayProps = { timeZone?: string; offset?: string };
+type AvailabilityProps = { person: PlayerFragmentFragment | null | undefined };
+type TimeZoneDisplayProps = {
+  person: PlayerFragmentFragment | null | undefined;
+};
 
 export const PlayerHero: React.FC<Props> = ({ player, isOwnProfile }) => {
   const description = getPlayerDescription(player);
   const [show, setShow] = useState(description.length <= MAX_BIO_LENGTH);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const [timeZone, setTimeZone] = useState<string>('');
-  const [offset, setOffset] = useState<string>('');
-  const [availabilityHours, setAvailabilityHours] = useState<number>(0);
   const [playerName, setPlayerName] = useState<string>('');
-  const [pronouns, setPronouns] = useState<string>('');
 
   const { user } = useUser();
 
+  const person = isOwnProfile ? user?.player : player;
   useEffect(() => {
-    const person = isOwnProfile ? user?.player : player;
-
     if (person) {
-      const timeDisplay = getPlayerTimeZoneDisplay(person.timezone);
-      if (timeDisplay.timeZone) setTimeZone(timeDisplay.timeZone);
-      if (timeDisplay.offset) setOffset(timeDisplay.offset);
-
-      setAvailabilityHours(person.availability_hours || 0);
-      setPronouns(person.pronouns || '');
       setPlayerName(getPlayerName(person));
     }
-  }, [user, player, isOwnProfile]);
+  }, [person]);
 
   return (
     <ProfileSection>
@@ -132,11 +125,8 @@ export const PlayerHero: React.FC<Props> = ({ player, isOwnProfile }) => {
           <PlayerContacts player={player} />
         </HStack>
 
-        {pronouns && (
-          <PlayerHeroTile title="Personal pronouns">
-            <PlayerPronouns pronouns={pronouns} />
-          </PlayerHeroTile>
-        )}
+        <PlayerPronouns person={person} />
+
         {/* <SimpleGrid columns={2} gap={6} width="full">
           <PlayerHeroTile title="Display name">
             <Text>Vid</Text>
@@ -148,10 +138,10 @@ export const PlayerHero: React.FC<Props> = ({ player, isOwnProfile }) => {
 
         <SimpleGrid columns={2} gap={6} width="full">
           <PlayerHeroTile title="Availability">
-            <Availability availabilityHours={availabilityHours} />
+            <Availability person={person} />
           </PlayerHeroTile>
           <PlayerHeroTile title="Timezone">
-            <TimeZoneDisplay timeZone={timeZone} offset={offset} />
+            <TimeZoneDisplay person={person} />
           </PlayerHeroTile>
         </SimpleGrid>
 
@@ -214,28 +204,57 @@ export const PlayerHero: React.FC<Props> = ({ player, isOwnProfile }) => {
   );
 };
 
-const Availability: React.FC<AvailabilityProps> = ({ availabilityHours }) => (
-  <Flex alignItems="center">
-    <Box pr={2}>
-      <FaClock color="blueLight" />
-    </Box>
-    <Text fontSize={{ base: 'md', sm: 'lg' }} pr={2}>
-      {`${availabilityHours || '0'} h/week`}
-    </Text>
-  </Flex>
-);
+const Availability: React.FC<AvailabilityProps> = ({ person }) => {
+  const [availabilityHours, setAvailabilityHours] = useState<number>(0);
+  const updateFN = () => setAvailabilityHours(person?.availability_hours || 0);
+  const { animation } = useAnimation(person?.availability_hours, updateFN);
+  return (
+    <Flex alignItems="center">
+      <Box pr={2}>
+        <FaClock color="blueLight" />
+      </Box>
+      <FlexContainer
+        align="stretch"
+        transition=" opacity 0.4s"
+        opacity={animation === 'fadeIn' ? 1 : 0}
+      >
+        <Text fontSize={{ base: 'md', sm: 'lg' }} pr={2}>
+          {`${availabilityHours || '0'} h/week`}
+        </Text>
+      </FlexContainer>
+    </Flex>
+  );
+};
 
-const TimeZoneDisplay: React.FC<TimeZoneDisplayProps> = ({
-  timeZone,
-  offset,
-}) => (
-  <Flex alignItems="center">
-    <Box pr={1}>
-      <FaGlobe color="blueLight" />
-    </Box>
-    <Text fontSize={{ base: 'md', sm: 'lg' }} pr={1}>
-      {timeZone || '-'}
-    </Text>
-    {offset ? <Text fontSize={{ base: 'sm', sm: 'md' }}>{offset}</Text> : ''}
-  </Flex>
-);
+const TimeZoneDisplay: React.FC<TimeZoneDisplayProps> = ({ person }) => {
+  const timeDisplay = getPlayerTimeZoneDisplay(person?.timezone);
+  const [timeZone, setTimeZone] = useState<string>('');
+  const [offset, setOffset] = useState<string>('');
+  const updateFN = () => {
+    if (timeDisplay.timeZone) setTimeZone(timeDisplay.timeZone);
+    if (timeDisplay.offset) setOffset(timeDisplay.offset);
+  };
+
+  const { animation } = useAnimation(timeDisplay.timeZone, updateFN);
+  return (
+    <Flex alignItems="center">
+      <Box pr={1}>
+        <FaGlobe color="blueLight" />
+      </Box>
+      <FlexContainer
+        align="stretch"
+        transition=" opacity 0.4s"
+        opacity={animation === 'fadeIn' ? 1 : 0}
+      >
+        <Text fontSize={{ base: 'md', sm: 'lg' }} pr={1}>
+          {timeZone || '-'}
+        </Text>
+        {offset ? (
+          <Text fontSize={{ base: 'sm', sm: 'md' }}>{offset}</Text>
+        ) : (
+          ''
+        )}
+      </FlexContainer>
+    </Flex>
+  );
+};
