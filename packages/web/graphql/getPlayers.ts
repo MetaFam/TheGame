@@ -24,7 +24,6 @@ gql`
     $orderBy: player_order_by!
     $offset: Int
     $limit: Int
-    # $where: Player_Bool_Exp
     $where: player_bool_exp
     $forLoginDisplay: Boolean! = false
   ) {

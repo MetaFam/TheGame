@@ -408,7 +408,6 @@
       - color_mask
       - ethereum_address
       - id
-      - player_type_id
       - profile_layout
       - rank
       - role

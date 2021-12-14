@@ -29,13 +29,9 @@ export const getStaticProps = async () => {
   }
   await getPlayerFilters(ssrClient);
 
-  const ssr = ssrCache.extractData();
-
-  console.info({ ssr });
-
   return {
     props: {
-      urqlState: ssr,
+      urqlState: ssrCache.extractData(),
     },
     revalidate: 1,
   };
