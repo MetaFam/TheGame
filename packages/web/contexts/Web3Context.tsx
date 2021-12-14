@@ -145,7 +145,7 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
       const web3Provider = new providers.Web3Provider(modal);
       const addr = await web3Provider.getSigner().getAddress();
 
-      let token: string | null = await getExistingAuth(web3Provider);
+      let token = await getExistingAuth(web3Provider);
 
       if (!token) {
         token = await authenticateWallet(web3Provider);
@@ -157,7 +157,7 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
       setConnected(true);
       if (resetUrqlClient) resetUrqlClient();
     } catch (error) {
-      console.log(error); // eslint-disable-line no-console
+      console.error(error); // eslint-disable-line no-console
       disconnect();
     } finally {
       setConnecting(false);
@@ -170,7 +170,7 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
 
     if (web3Modal === false) return;
     if (web3Modal.cachedProvider) {
-      connect().catch(() => undefined);
+      connect().catch(console.error); // eslint-disable-line no-console
     }
   }, [connect]);
 

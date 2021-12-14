@@ -24,6 +24,7 @@ gql`
     $orderBy: player_order_by!
     $offset: Int
     $limit: Int
+    # $where: Player_Bool_Exp
     $where: player_bool_exp
     $forLoginDisplay: Boolean! = false
   ) {
@@ -68,7 +69,7 @@ export type PlayersQueryVariables = {
   timeZones?: string[];
 };
 
-export const transformToGraphQlVariables = (
+export const transformToGraphQLVariables = (
   queryVariables: PlayersQueryVariables,
 ): GetPlayersQueryVariables => {
   const graphqlWhereClause: Player_Bool_Exp = {
@@ -116,13 +117,13 @@ export const getPlayersWithCount = async (
   const { data, error } = await client
     .query<GetPlayersQuery, GetPlayersQueryVariables>(
       GetPlayersDocument,
-      transformToGraphQlVariables(queryVariables),
+      transformToGraphQLVariables(queryVariables),
     )
     .toPromise();
 
   return {
-    players: data?.player || [],
-    count: data?.player_aggregate.aggregate?.count || 0,
+    players: data?.player ?? [],
+    count: data?.player_aggregate.aggregate?.count ?? 0,
     error,
   };
 };
@@ -151,7 +152,9 @@ export const getPlayerUsernames = async (limit = 150): Promise<string[]> => {
     }
     return [];
   }
-  return data.player.map(({ profile }) => profile?.username ?? '');
+  return data.player
+    .map(({ profile }) => profile?.username ?? null)
+    .filter((u) => !!u) as Array<string>;
 };
 
 export const getTopPlayerUsernames = getPlayerUsernames;
@@ -184,10 +187,7 @@ export const getPlayerFilters = async (client: Client = defaultClient) => {
     )
     .toPromise();
 
-  if (error) {
-    console.error(error); // eslint-disable-line no-console
-    throw error;
-  }
+  if (error) throw new Error(error.message);
 
   return data;
 };

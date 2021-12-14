@@ -25,14 +25,17 @@ export const getStaticProps = async () => {
   // This populates the cache server-side
   const { error } = await getPlayersWithCount(undefined, ssrClient);
   if (error) {
-    // eslint-disable-next-line no-console
-    console.error('getPlayers error', error);
+    throw new Error(`getPlayers error: ${error}`);
   }
   await getPlayerFilters(ssrClient);
 
+  const ssr = ssrCache.extractData();
+
+  console.info({ ssr });
+
   return {
     props: {
-      urqlState: ssrCache.extractData(),
+      urqlState: ssr,
     },
     revalidate: 1,
   };

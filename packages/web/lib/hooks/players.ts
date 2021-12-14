@@ -8,7 +8,7 @@ import {
   defaultQueryVariables,
   PLAYER_LIMIT,
   PlayersQueryVariables,
-  transformToGraphQlVariables,
+  transformToGraphQLVariables,
 } from 'graphql/getPlayers';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { CategoryOption, parseSkills } from 'utils/skillHelpers';
@@ -61,7 +61,7 @@ const useFilteredPlayers = (queryVariables: PlayersQueryVariables) => {
   }, [queryVariables]);
 
   const [{ fetching, data, error }] = useGetPlayersQuery({
-    variables: transformToGraphQlVariables(variables),
+    variables: transformToGraphQLVariables(variables),
   });
 
   const players = data?.player || [];
