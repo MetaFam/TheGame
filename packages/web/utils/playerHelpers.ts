@@ -30,7 +30,8 @@ export const getGuildCoverImageSmall = (): string => GuildCoverImageSmall;
 export const getPlayerName = (
   player?: PlayerFragmentFragment,
 ): string | undefined =>
-  player?.profile?.name || formatUsernameIfAddress(player?.username);
+  player?.profile?.name ||
+  formatUsernameIfAddress(player?.profile?.username ?? undefined);
 
 export const getPlayerDescription = (player?: PlayerFragmentFragment): string =>
   player?.profile?.description ?? '';

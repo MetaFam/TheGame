@@ -10,7 +10,7 @@ import { PlayerFragment } from './fragments';
 
 const playerQuery = gql`
   query GetPlayer($username: String!, $forLoginDisplay: Boolean! = false) {
-    player(where: { username: { _eq: $username } }) {
+    player(where: { profile: { username: { _eq: $username } } }) {
       ...PlayerFragment
     }
   }
@@ -32,6 +32,5 @@ export const getPlayer = async (
     }
     return null;
   }
-
   return data.player?.[0] ?? null;
 };

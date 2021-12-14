@@ -3,13 +3,10 @@ import gql from 'fake-tag';
 export const PlayerFragment = gql`
   fragment PlayerFragment on player {
     id @skip(if: $forLoginDisplay)
-    username
     totalXP @skip(if: $forLoginDisplay)
     seasonXP @skip(if: $forLoginDisplay)
     rank @skip(if: $forLoginDisplay)
     ethereumAddress
-    pronouns @skip(if: $forLoginDisplay)
-
     profile_layout @skip(if: $forLoginDisplay)
     availableHours @skip(if: $forLoginDisplay)
     timeZone @skip(if: $forLoginDisplay)
@@ -54,6 +51,8 @@ export const PlayerFragment = gql`
       backgroundImageURL
       location
       countryCode
+      website
+      pronouns
     }
 
     daohausMemberships @skip(if: $forLoginDisplay) {
@@ -152,7 +151,9 @@ export const QuestWithCompletionFragment = gql`
       player {
         id
         ethereumAddress
-        username
+        profile {
+          username
+        }
       }
     }
   }

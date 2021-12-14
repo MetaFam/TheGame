@@ -5,9 +5,11 @@ gql`
   query GetPlayer($playerId: uuid!) {
     player_by_pk(id: $playerId) {
       id
-      username
       ethereumAddress
       discordId
+      profile {
+        username
+      }
       accounts {
         identifier
         type

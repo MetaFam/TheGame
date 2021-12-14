@@ -14,19 +14,18 @@ export const getStaticProps = async () => ({
 export type DefaultSetupProps = InferGetStaticPropsType<typeof getStaticProps>;
 
 const UsernameSetup: React.FC<DefaultSetupProps> = () => {
-  const [username, setUsername] = useState<string | undefined>(undefined);
+  const [username, setUsername] = useState<string>();
   const { address } = useWeb3();
   const { user } = useUser();
+  const { player } = user ?? {};
+  const { username: name } = player?.profile ?? {};
 
-  if (user?.player) {
-    const { player } = user;
-    if (
-      player.username &&
-      player.username.toLowerCase() !== address?.toLowerCase() &&
-      username === undefined
-    ) {
-      setUsername(player.username);
-    }
+  if (
+    name &&
+    name.toLowerCase() !== address?.toLowerCase() &&
+    username === undefined
+  ) {
+    setUsername(name);
   }
 
   return (

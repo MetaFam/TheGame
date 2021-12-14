@@ -4,13 +4,20 @@ import { gql } from 'graphql-request/dist';
 gql`
   mutation CreatePlayerFromETH($ethereumAddress: String!, $username: String!) {
     insert_player(
-      objects: { username: $username, ethereumAddress: $ethereumAddress }
+      objects: [
+        {
+          ethereumAddress: $ethereumAddress
+          profile: { data: { username: $username } }
+        }
+      ]
     ) {
       affected_rows
       returning {
         id
-        username
         ethereumAddress
+        profile {
+          username
+        }
       }
     }
   }
@@ -70,7 +77,9 @@ gql`
       returning {
         id
         ethereumAddress
-        username
+        profile {
+          username
+        }
       }
     }
   }

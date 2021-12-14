@@ -3,12 +3,15 @@ import gql from 'fake-tag';
 // eslint-disable-next-line @typescript-eslint/no-unused-expressions
 gql`
   mutation UpdatePlayerUsername($playerId: uuid!, $username: String!) {
-    update_player_by_pk(
-      pk_columns: { id: $playerId }
+    update_profile(
+      where: { playerId: { _eq: $playerId } }
       _set: { username: $username }
     ) {
-      id
-      username
+      affected_rows
+      returning {
+        playerId
+        username
+      }
     }
   }
 
@@ -63,9 +66,12 @@ gql`
 `;
 
 export const UpdateProfilePronouns = gql`
-  mutation updateProfilePronouns($playerId: uuid!, $input: player_set_input!) {
-    update_player_by_pk(pk_columns: { id: $playerId }, _set: $input) {
-      id
+  mutation updateProfilePronouns($playerId: uuid!, $input: profile_set_input!) {
+    update_profile(where: { playerId: { _eq: $playerId } }, _set: $input) {
+      affected_rows
+      returning {
+        playerId
+      }
     }
   }
 `;

@@ -18,10 +18,7 @@ export const SetupPronouns: React.FC<SetupPronounsProps> = ({
   const { user } = useUser();
   const toast = useToast();
 
-  const [
-    updatePronounsRes,
-    updatePronouns,
-  ] = useUpdateProfilePronounsMutation();
+  const [{ fetching }, updatePronouns] = useUpdateProfilePronounsMutation();
   const [loading, setLoading] = useState(false);
 
   const handleNextPress = async () => {
@@ -52,7 +49,7 @@ export const SetupPronouns: React.FC<SetupPronounsProps> = ({
   return (
     <FlexContainer>
       <MetaHeading mb={10} textAlign="center">
-        What pronouns do you prefer?
+        Which pronouns do you prefer?
       </MetaHeading>
       <Input
         background="dark"
@@ -66,8 +63,8 @@ export const SetupPronouns: React.FC<SetupPronounsProps> = ({
         onClick={handleNextPress}
         disabled={!user}
         mt={10}
-        isLoading={updatePronounsRes.fetching || loading}
-        loadingText="Saving"
+        isLoading={fetching || loading}
+        loadingText="Saving…"
       >
         {nextButtonLabel}
       </MetaButton>

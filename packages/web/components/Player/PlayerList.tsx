@@ -17,8 +17,11 @@ export const PlayerList: React.FC<Props> = ({
     spacing={8}
     autoRows="minmax(35rem, auto)"
   >
-    {players.map((player) => (
-      <PlayerTile key={player.username} {...{ player, showSeasonalXP }} />
+    {players.map((player, idx) => (
+      <PlayerTile
+        key={player.profile?.username ?? idx}
+        {...{ player, showSeasonalXP }}
+      />
     ))}
   </SimpleGrid>
 );

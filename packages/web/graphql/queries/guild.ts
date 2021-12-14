@@ -1,6 +1,4 @@
-import gql from 'fake-tag';
 import { GuildPlayer } from 'graphql/types';
-
 import {
   GetGuildMetadataQuery,
   GetGuildMetadataQueryVariables,
@@ -18,7 +16,7 @@ import {
 import { client } from '../client';
 import { GuildFragment, PlayerFragment } from '../fragments';
 
-const guildQuery = gql`
+const guildQuery = /* GraphQL */`
   query GetGuild($guildname: String!) {
     guild(where: { guildname: { _eq: $guildname } }) {
       ...GuildFragment
@@ -40,7 +38,7 @@ export const getGuild = async (
   return undefined;
 };
 
-const guildMetadataQuery = gql`
+const guildMetadataQuery = /* GraphQL */`
   query GetGuildMetadata($id: uuid!) {
     guild_metadata(where: { guild_id: { _eq: $id } }) {
       guild_id
@@ -65,7 +63,7 @@ export const getGuildMetadata = async (id: string) => {
   return data?.guild_metadata[0];
 };
 
-const guildsQuery = gql`
+const guildsQuery = /* GraphQL */`
   query GetGuilds($limit: Int) {
     guild(where: { status: { _eq: ACTIVE } }, limit: $limit) {
       ...GuildFragment
@@ -91,7 +89,7 @@ export const getGuilds = async (
   return data.guild;
 };
 
-const guildnamesQuery = gql`
+const guildnamesQuery = /* GraphQL */`
   query GetGuildnames($status: GuildStatus_enum, $limit: Int) {
     guild(where: { status: { _eq: $status } }, limit: $limit) {
       id
@@ -121,15 +119,16 @@ export const getGuildnames = async (
   return data.guild.map(({ guildname }) => guildname);
 };
 
-const getGuildPlayersQuery = gql`
+const getGuildPlayersQuery = /* GraphQL */`
   query GetGuildPlayers($guildId: uuid!) {
     guild_player(where: { guild_id: { _eq: $guildId } }) {
       Player {
         id
-        username
         totalXP
         rank
+        ethereumAddress
         profile {
+          username
           imageURL
           name
         }

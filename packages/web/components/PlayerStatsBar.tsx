@@ -93,7 +93,7 @@ const PlayerStats = () => {
               <MenuList color="black">
                 <MetaLink
                   color="black"
-                  href={`/player/${player.username}`}
+                  href={`/player/${player.profile?.username}`}
                   _hover={{ textDecoration: 'none' }}
                 >
                   <MenuItem>

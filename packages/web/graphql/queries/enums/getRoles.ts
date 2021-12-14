@@ -24,6 +24,5 @@ export const getPlayerRoles = async () => {
     }
     return [];
   }
-
   return data.PlayerRole;
 };

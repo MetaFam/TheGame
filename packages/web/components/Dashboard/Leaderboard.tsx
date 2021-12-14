@@ -80,9 +80,9 @@ export const Leaderboard: React.FC = () => {
       ) : (
         !error &&
         players.map((p, i) => {
-          const playerPosition: number = i + 1;
+          const position = i + 1;
           if (
-            playerPosition <= 7 &&
+            position <= 7 &&
             ((showSeasonalXP && p.seasonXP >= 1) ||
               (!showSeasonalXP && p.totalXP >= 50))
           ) {
@@ -103,7 +103,7 @@ export const Leaderboard: React.FC = () => {
                 overflowY="hidden"
               >
                 <Box className="player__position" flex={0} mr={3}>
-                  {playerPosition}
+                  {position}
                 </Box>
                 <PlayerAvatar
                   className="player__avatar"
@@ -130,7 +130,7 @@ export const Leaderboard: React.FC = () => {
                 />
                 <Box className="player__name">
                   <NextLink
-                    as={`/player/${p.username}`}
+                    as={`/player/${p.profile?.username}`}
                     href="/player/[username]"
                     passHref
                   >

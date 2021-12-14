@@ -32,7 +32,7 @@ export type Membership = Pick<Member, 'id'> & {
 
 export type MeType =
   | (Pick<Me, 'id' | 'ethereumAddress' | 'username'> & {
-      player?: PlayerFragmentFragment | null | undefined;
+      player?: Maybe<PlayerFragmentFragment>;
     })
   | null
   | undefined;
@@ -48,8 +48,7 @@ export const SkillColors: Record<SkillCategory_Enum, string> = {
 
 export type GuildPlayer = {
   role?: Maybe<PlayerRank_Enum>;
-  username: string;
   totalXP?: number;
   rank?: Maybe<PlayerRank_Enum>;
-  profile?: Maybe<Pick<Profile, 'imageURL' | 'name'>>;
+  profile?: Maybe<Pick<Profile, 'imageURL' | 'name' | 'username'>>;
 };

@@ -6,7 +6,7 @@ import React from 'react';
 import { getPlayerName } from 'utils/playerHelpers';
 
 type GuildPlayerProps = {
-  player: GuildPlayer;
+  player: PlayerFragmentFragment;
 };
 
 export const GuildPlayerComponent: React.FC<GuildPlayerProps> = ({
@@ -15,15 +15,10 @@ export const GuildPlayerComponent: React.FC<GuildPlayerProps> = ({
   <Link
     role="group"
     _hover={{ textDecoration: 'none' }}
-    href={`/player/${player.username}`}
+    href={`/player/${player.profile?.username}`}
   >
     <HStack alignItems="center" mb={6}>
-      <PlayerAvatar
-        w={16}
-        h={16}
-        mr={6}
-        player={(player as unknown) as PlayerFragmentFragment}
-      />
+      <PlayerAvatar w={16} h={16} mr={6} {...{ player }} />
       <Box>
         <Heading
           _groupHover={{ textDecoration: 'underline' }}
@@ -33,10 +28,10 @@ export const GuildPlayerComponent: React.FC<GuildPlayerProps> = ({
           color="white"
           mb="1"
         >
-          {getPlayerName((player as unknown) as PlayerFragmentFragment)}
+          {getPlayerName(player)}
         </Heading>
         <HStack alignItems="center">
-          <Text fontSize="xs">{player.role}</Text>
+          <Text fontSize="xs">{(player as GuildPlayer).role}</Text>
         </HStack>
       </Box>
     </HStack>

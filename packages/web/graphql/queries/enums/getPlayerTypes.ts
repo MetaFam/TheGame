@@ -6,9 +6,9 @@ import { client } from '../../client';
 export const GetPlayerTypes = gql`
   query GetPlayerTypes {
     player_type {
-      description
       id
       title
+      description
       imageURL
     }
   }
@@ -25,6 +25,5 @@ export const getPlayerTypes = async () => {
     }
     return [];
   }
-
   return data.player_type;
 };

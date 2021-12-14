@@ -77,7 +77,7 @@ export const PatronTile: React.FC<Props> = ({ index, patron }) => {
           h="4.5rem"
         />
         <NextLink
-          as={`/player/${player.username}`}
+          as={`/player/${player.profile?.username}`}
           href="/player/[username]"
           passHref
         >

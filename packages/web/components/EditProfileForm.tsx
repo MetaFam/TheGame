@@ -1,3 +1,4 @@
+import { Caip10Link } from '@ceramicnetwork/stream-caip10-link';
 import {
   BasicProfile,
   ImageSources,
@@ -9,12 +10,14 @@ import { TileLoader } from '@glazed/tile-loader';
 import {
   Box,
   Button,
+  Center,
   Flex,
   FormControl,
   FormErrorMessage,
   FormLabel,
   FormLabelProps,
   Image,
+  InfoIcon,
   Input as ChakraInput,
   InputGroup,
   InputLeftElement,
@@ -22,8 +25,6 @@ import {
   InputRightAddon,
   Link,
   MetaButton,
-  MetaFilterSelectSearch,
-  metaFilterSelectStyles,
   ModalFooter,
   SelectTimeZone,
   Spinner,
@@ -35,85 +36,46 @@ import {
   Wrap,
   WrapItem,
 } from '@metafam/ds';
-import { PlayerAvatar } from 'components/Player/PlayerAvatar';
+import {
+  BasicProfileImages,
+  BasicProfileStrings,
+  ExtendedProfile,
+  ExtendedProfileImages,
+  extendedProfileModel,
+  ExtendedProfileObjects,
+  ExtendedProfileStrings,
+  HasuraProfileProps,
+  Images,
+  ProfileProps,
+  Values,
+} from '@metafam/utils';
 import {
   Maybe,
-  Profile_Cache_Select_Column,
-  // Player_Select_Column,
+  useInsertCacheInvalidationMutation,
 } from 'graphql/autogen/types';
+import { getPlayer } from 'graphql/getPlayer';
 import { MeType } from 'graphql/types';
 import { useWeb3 } from 'lib/hooks';
+import router, { useRouter } from 'next/router';
 import React, {
-  ChangeEvent,
-  FC,
-  MutableRefObject,
   ReactElement,
   RefObject,
   useCallback,
   useEffect,
+  useMemo,
   useRef,
   useState,
 } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { httpLink } from 'utils/linkHelpers';
+import { dispositionFor } from 'utils/playerHelpers';
+
+const MAX_DESC_LEN = 420; // characters
 
 export type ProfileEditorProps = {
   user: MeType;
   onClose: () => void;
 };
-
-export type ProfileSectionFormProps = {
-  title: string;
-};
-
-export type ProfileFieldProps = {
-  title: string;
-  placeholder?: string;
-  value?: string;
-  onChange?: (evt: ChangeEvent<HTMLInputElement>) => void;
-};
-
-export type SelectOption = {
-  label: string;
-  value: string;
-};
-
-export type CountrySelectDropdownProps = {
-  country: SelectOption;
-  onChange: (country: Maybe<SelectOption>) => void;
-};
-
-export const COUNTRIES_LIST: { [key: string]: string } = {
-  UK: 'United Kingdom',
-  US: 'USA',
-  MX: 'Mexico',
-};
-export const COUNTRIES_OPTIONS = Object.entries(COUNTRIES_LIST).map(
-  ([abbr, name]) => ({ value: abbr, label: name } as SelectOption),
-);
-export const CountrySelectDropdown: FC<CountrySelectDropdownProps> = ({
-  country,
-  onChange,
-}) => (
-  <Box>
-    <Text fontSize="md" color="cyan" mb={1}>
-      Country
-    </Text>
-    <Box my={6}>
-      <MetaFilterSelectSearch
-        title={country.label}
-        tagLabel=""
-        hasValue={Boolean(country)}
-        styles={metaFilterSelectStyles}
-        value={[country]}
-        options={COUNTRIES_OPTIONS}
-        onChange={(value) => {
-          if (value) onChange(value as SelectOption);
-        }}
-      />
-    </Box>
-  </Box>
-);
 
 const Label: React.FC<FormLabelProps> = React.forwardRef(
   ({ children, ...props }, container) => {
@@ -128,119 +90,126 @@ const Label: React.FC<FormLabelProps> = React.forwardRef(
 
 const Input: React.FC<InputProps> = React.forwardRef(
   ({ children, ...props }, reference) => {
+    const [width, setWidth] = useState('9em');
     const ref = reference as RefObject<HTMLInputElement>;
+    const textRef = useRef<HTMLInputElement>(null);
+    const isText = !props.type || props.type === 'text';
+    const calcWidth = (text: string) => {
+      const input = textRef.current;
+      if (text && input) {
+        input.textContent = text;
+        setWidth(`calc(${input.scrollWidth}px + 2.25em)`);
+      }
+    };
+
     return (
-      <ChakraInput
-        color="white"
-        bg="dark"
-        w="100%"
-        minW="9em"
-        _autofill={{
-          '&, &:hover, &:focus, &:active': {
-            WebkitBoxShadow:
-              '0 0 0 2em var(--chakra-colors-dark) inset !important',
-            WebkitTextFillColor: 'white !important',
-            caretColor: 'white',
-          },
-        }}
-        {...{ ref }}
-        {...props}
-      >
-        {children}
-      </ChakraInput>
+      <Box>
+        <Text position="absolute" whiteSpace="pre" ref={textRef}></Text>
+        <ChakraInput
+          color="white"
+          bg="dark"
+          minW="9rem"
+          _autofill={{
+            '&, &:hover, &:focus, &:active': {
+              WebkitBoxShadow:
+                '0 0 0 2em var(--chakra-colors-dark) inset !important',
+              WebkitTextFillColor: 'white !important',
+              caretColor: 'white',
+            },
+          }}
+          // event is supposed to have a type definition in
+          // @types/react if the DOM library is included,
+          // but VS doesn't think it does.
+          onInput={(event /* { target: { value } } */) => {
+            const {
+              target: { value },
+            } = (event as unknown) as { target: { value: string } };
+            if (isText) calcWidth(value);
+          }}
+          onFocus={(evt) => {
+            if (isText) calcWidth(evt.target.value);
+          }}
+          {...props}
+          {...{ ref, width }}
+        >
+          {children}
+        </ChakraInput>
+      </Box>
     );
   },
 );
-
-export type Values<T> = T[keyof T];
-
-export const BasicProfileImages = {
-  imageURL: 'image',
-  backgroundImageURL: 'background',
-} as const;
-export const BasicProfileStrings = {
-  name: 'name',
-  description: 'description',
-  emoji: 'emoji',
-  location: 'homeLocation',
-  countryCode: 'residenceCountry',
-  birthDate: 'birthDate',
-  website: 'url',
-} as const;
-export const BasicProfileFields = {
-  ...BasicProfileImages,
-  ...BasicProfileStrings,
-} as const;
-
-export type BPImages = {
-  -readonly [key in keyof typeof BasicProfileImages as string]?: ImageSources;
-};
-export type BPStrings = {
-  -readonly [key in keyof typeof BasicProfileStrings as string]?: string;
-};
-export type ProfileProps = BPStrings | BPImages;
-
-export enum CacheSkips {
-  id = Profile_Cache_Select_Column.Id,
-  gender = Profile_Cache_Select_Column.Gender,
-  playerId = Profile_Cache_Select_Column.PlayerId,
-  lastCheckedAt = Profile_Cache_Select_Column.LastCheckedAt,
-}
-export type Endpoints = {
-  -readonly [key in keyof typeof BasicProfileImages]?: {
-    url: string;
-    set: () => void;
-    ref: MutableRefObject<HTMLImageElement>;
-  };
-};
-export interface TimeZone {
-  name?: string;
-  abbreviation: string;
-  city?: string;
-  country?: string;
-  offset: number;
-}
-export interface ExtendedProfileFields {
-  timeZone?: TimeZone;
-  availableHours?: number;
-  username?: string;
-  pronouns?: string;
-}
 
 export const EditProfileForm: React.FC<ProfileEditorProps> = ({
   user,
   onClose,
 }) => {
+  const { player } = user ?? {};
   const [status, setStatus] = useState<Maybe<ReactElement | string>>(null);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const username = useMemo(() => player?.profile?.username, []);
+  const [, invalidateCache] = useInsertCacheInvalidationMutation();
+  const params = useRouter();
   const {
     handleSubmit,
     register,
     setValue,
     control,
+    watch,
     formState: { errors },
   } = useForm();
-  const { ceramic } = useWeb3();
+  const { ceramic, address } = useWeb3();
   const toast = useToast();
-  const { player } = user ?? {};
+  const description = watch('description');
+  const remaining = useMemo(() => MAX_DESC_LEN - (description?.length ?? 0), [
+    description,
+  ]);
 
   const endpoints = Object.fromEntries(
-    Object.entries(BasicProfileImages).map(([hasuraId, ceramicId]) => {
-      // eslint-disable-next-line no-param-reassign
-      hasuraId = hasuraId as keyof typeof BasicProfileImages;
+    Object.keys(Images).map((hasuraId) => {
+      const key = hasuraId as keyof typeof Images;
       // eslint-disable-next-line react-hooks/rules-of-hooks
-      const [url, set] = useState<Maybe<string>>(
-        player?.profile_cache?.[hasuraId] ?? null,
+      const [active, setActive] = useState(false);
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      const [loading, setLoading] = useState(true);
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      const [url, setURL] = useState<Maybe<string>>(
+        player?.profile?.[key] ?? null,
       );
       // eslint-disable-next-line react-hooks/rules-of-hooks
+      const [file, setFile] = useState<Maybe<File>>(null);
+      // eslint-disable-next-line react-hooks/rules-of-hooks
       const ref = useRef<HTMLImageElement>(null);
-      return [ceramicId, { url, set, ref }];
+      // key ends in “URL”
+      return [
+        key,
+        {
+          loading,
+          active,
+          val: url,
+          file,
+          ref,
+          setLoading,
+          setActive,
+          setURL,
+          setFile,
+        },
+      ];
     }),
   );
 
   useEffect(() => {
-    Object.entries(player?.profile_cache ?? {}).forEach(([key, value]) => {
+    if (!endpoints.profileImageURL.ref.current) {
+      console.warn('Unable to initially focus the profile image.');
+    } else {
+      endpoints.profileImageURL.ref.current.focus();
+      endpoints.profileImageURL.setActive(true);
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    Object.entries(player?.profile ?? {}).forEach(([key, value]) => {
       if (!key.startsWith('_')) {
-        setValue(key, value ?? null);
+        setValue(key, value ?? undefined);
       }
     });
   }, [player, setValue]);
@@ -250,199 +219,352 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
       const file = input.files?.[0];
       if (!file) return;
       const key = input.name as keyof typeof endpoints;
-      const ref = endpoints[key].ref as MutableRefObject<HTMLImageElement>;
+      endpoints[key].setFile(file);
       const reader = new FileReader();
       reader.addEventListener('load', () => {
-        endpoints[key].set(reader.result as string);
+        endpoints[key].setURL(reader.result as string);
       });
       reader.readAsDataURL(file);
     },
     [endpoints],
   );
 
-  const onSubmit = async (inputs: ProfileProps) => {
-    setStatus(
-      <Text>
-        Uploading images to
-        <Link href="//web3.storage" ml={1}>
-          web3.storage
-        </Link>
-        …
-      </Text>,
-    );
-
-    console.log({ inputs });
-
-    const formData = new FormData();
-    const files: Record<string, File> = {};
-    Object.keys(endpoints).forEach((name) => {
-      const key = name as keyof typeof BasicProfileImages;
-      const fileList = (inputs[key] ?? []) as File[];
-      if (fileList.length > 0) {
-        [files[key]] = fileList;
-      }
-      delete inputs[key]; // eslint-disable-line no-param-reassign
+  if (!ceramic) {
+    toast({
+      title: 'Ceramic Connection Error',
+      description: 'Unable to connect to the Ceramic API to save changes.',
+      status: 'error',
+      isClosable: true,
+      duration: 8000,
     });
-    const values: ProfileProps = { ...inputs };
-    console.log({ values, files }); // eslint-disable-line no-console
+    onClose();
+    return null;
+  }
 
-    if (Object.values(files).reduce((acc, val) => acc || !!val, false)) {
-      Object.entries(files).forEach(([name, file]) => {
-        formData.append(name, file);
-      });
-      const result = await fetch(`/api/storage`, {
-        method: 'POST',
-        body: formData,
-        credentials: 'include',
-      });
-      const response = await result.json();
-      const { error } = response;
-      if (error) {
-        toast({
-          title: 'Error Saving Images',
-          description: `web3.storage reported the following error: "${error}"`,
-          status: 'error',
-          isClosable: true,
-          duration: 8000,
-        });
-      } else {
-        Object.keys(files).forEach((type: string) => {
-          if (!response[type]) {
-            toast({
-              title: 'Error Saving Image',
-              description: `Uploaded "${type}" & didn't get a response back.`,
-              status: 'warning',
-              isClosable: true,
-              duration: 8000,
-            });
-          } else {
-            const key = type as Values<BasicProfileImages>;
-            const ref = endpoints[key]
-              .ref as MutableRefObject<HTMLImageElement>;
-            const elem = ref.current as HTMLImageElement | null;
-            const { width = 100, height = 100 } = elem ?? {};
-            values[key] = {
-              original: {
-                src: `ipfs://${response[type]}`,
-                mimeType: 'image/*',
-                width,
-                height,
-              },
-            } as ImageSources;
-          }
-        });
-      }
-    }
-
-    // empty string fails validation
-    ['residenceCountry', 'birthDate'].forEach((prop) => {
-      const key = prop as keyof typeof BasicProfileStrings;
-      if (values[key] === '') {
-        delete values[key];
-      }
-    });
-
-    const { countryCode: code }: { countryCode?: string } = values;
-    if (code?.length === 2) {
-      values.countryCode = code.toUpperCase();
-    } else {
-      if ((code ?? '').length > 0) {
-        toast({
-          title: 'Country Code Error',
-          description: `Country Code "${code}" is not the required two letters.`,
-          status: 'error',
-          isClosable: true,
-          duration: 8000,
-        });
-      }
-      delete values.countryCode;
-    }
-
-    if (!ceramic) {
-      toast({
-        title: 'Ceramic Connection Error',
-        description: 'Unable to connect to the Ceramic API to save changes.',
-        status: 'error',
-        isClosable: true,
-        duration: 8000,
-      });
-    } else {
-      try {
+  const onSubmit = async (inputs: HasuraProfileProps) => {
+    try {
+      if (!ceramic.did?.authenticated) {
         setStatus(<Text>Authenticating DID…</Text>);
         await ceramic.did?.authenticate();
-
-        const cache = new Map();
-        const loader = new TileLoader({ ceramic, cache });
-        const manager = new ModelManager(ceramic);
-        manager.addJSONModel(basicProfileModel);
-        const store = new DIDDataStore({
-          ceramic,
-          loader,
-          model: await manager.toPublished(),
-        });
-        console.info({ values });
-
-        const basic: BasicProfile = {};
-        Object.entries(BasicProfileStrings).forEach(([hasuraId, ceramicId]) => {
-          if (values[hasuraId] !== undefined) {
-            // set a value to null to remove it from the profile
-            basic[ceramicId] = (values[hasuraId] as string) ?? undefined;
-          }
-        });
-        Object.values(BasicProfileImages).forEach((ceramicId) => {
-          if (values[ceramicId] !== undefined) {
-            basic[ceramicId] = (values[ceramicId] as ImageSources) ?? undefined;
-          }
-        });
-
-        console.info({ basic });
-
-        setStatus(<Text>Updating Basic Profile…</Text>);
-        await store.merge('basicProfile', basic);
-      } catch (err) {
-        toast({
-          title: 'Ceramic Error',
-          description: `Error saving profile: ${(err as Error).message}`,
-          status: 'error',
-          isClosable: true,
-          duration: 8000,
-        });
       }
+
+      if (params.query.debug) {
+        // eslint-disable-next-line no-console
+        console.debug(`For ETH Address: ${address}`);
+        // eslint-disable-next-line no-console
+        console.debug(`Connected DID: ${ceramic.did?.id}`);
+
+        const caip10 = await Caip10Link.fromAccount(
+          ceramic,
+          `${address}@eip155:1`,
+        );
+        // eslint-disable-next-line no-console
+        console.debug(`CAIP-10 DID: ${caip10.did}`);
+      }
+
+      const cache = new Map();
+      const loader = new TileLoader({ ceramic, cache });
+      const manager = new ModelManager(ceramic);
+      manager.addJSONModel(basicProfileModel);
+      manager.addJSONModel(extendedProfileModel);
+
+      const store = new DIDDataStore({
+        ceramic,
+        loader,
+        model: await manager.toPublished(),
+      });
+
+      setStatus(
+        <Text>
+          Uploading images to
+          <Link href="//web3.storage" ml={1}>
+            web3.storage
+          </Link>
+          …
+        </Text>,
+      );
+
+      const formData = new FormData();
+      const files: Record<string, File> = {};
+      const sources: Record<string, ImageSources> = {};
+      const values: ProfileProps = { ...inputs };
+      Object.keys(Images).forEach((hasuraId) => {
+        const key = hasuraId as keyof typeof Images;
+        if (endpoints[key].file) {
+          files[key] = endpoints[key].file as File;
+        }
+        delete values[key];
+      });
+
+      if (params.query.debug) {
+        // eslint-disable-next-line no-console
+        console.debug({ inputs, values, files, endpoints });
+      }
+
+      const toType = (key: string) => {
+        const match = key.match(/^(.+?)(Image)?(URL)$/i);
+        const [name] = match?.slice(1) ?? ['unknown'];
+        return name;
+      };
+
+      if (Object.keys(files).length > 0) {
+        Object.entries(files).forEach(([key, file]) => {
+          formData.append(toType(key), file);
+        });
+        const result = await fetch(`/api/storage`, {
+          method: 'POST',
+          body: formData,
+          credentials: 'include',
+        });
+        if (result.status >= 300) {
+          throw new Error(
+            `web3.storage ${result.status} response: "${result.statusText}"`,
+          );
+        }
+        const response = await result.json();
+        const { error } = response;
+        if (error) {
+          toast({
+            title: 'Error Saving Images',
+            description: `web3.storage reported the following error: "${error}"`,
+            status: 'error',
+            isClosable: true,
+            duration: 8000,
+          });
+        } else {
+          Object.keys(files).forEach((key: string) => {
+            const tKey = toType(key);
+            if (!response[tKey]) {
+              toast({
+                title: 'Error Saving Image',
+                description: `Uploaded "${tKey}" & didn't get a response back.`,
+                status: 'warning',
+                isClosable: true,
+                duration: 8000,
+              });
+            } else {
+              const { val, ref } = endpoints[key];
+              let [, mime] = val?.match(/^data:([^;]+);/) ?? [];
+              mime ??= 'image/*';
+
+              const elem = ref.current as HTMLImageElement | null;
+              const props: { width?: number; height?: number } = {};
+              ['width', 'height'].forEach((prop) => {
+                props[prop as 'width' | 'height'] = Math.max(
+                  elem?.[
+                    `natural${prop[0].toUpperCase()}${prop.slice(1)}` as
+                      | 'naturalWidth'
+                      | 'naturalHeight'
+                  ] ?? 0,
+                  elem?.[prop as 'width' | 'height'] ?? 0,
+                  1,
+                );
+              });
+              sources[key as keyof typeof Images] = {
+                original: {
+                  src: `ipfs://${response[tKey]}`,
+                  mimeType: mime,
+                  ...props,
+                },
+              } as ImageSources;
+            }
+          });
+        }
+      }
+
+      if (params.query.debug) {
+        // eslint-disable-next-line no-console
+        console.debug({ files, values, inputs });
+      }
+
+      // empty string fails validation
+      ['residenceCountry', 'birthDate'].forEach((prop) => {
+        const key = prop as keyof typeof BasicProfileStrings;
+        if (values[key] === '') {
+          delete values[key];
+        }
+      });
+
+      const { countryCode: code }: { countryCode?: string } = values;
+      if (code?.length === 2) {
+        values.countryCode = code.toUpperCase();
+      } else {
+        if ((code ?? '').length > 0) {
+          toast({
+            title: 'Country Code Error',
+            description: `Country Code "${code}" is not the required two letters.`,
+            status: 'error',
+            isClosable: true,
+            duration: 8000,
+          });
+        }
+        delete values.countryCode;
+      }
+
+      const basic: BasicProfile = {};
+      const extended: ExtendedProfile = {};
+
+      // [
+      //   { map: BasicProfileStrings, obj: basic },
+      //   { map: BasicProfileImages, obj: basic },
+      //   { map: ExtendedProfileStrings, obj: extended },
+      //   { map: ExtendedProfileImages, obj: extended },
+      // ].forEach(({ map, obj }) => {
+      //   Object.entries(map).forEach(([hasuraId, ceramicId]) => {
+      //     const fromKey = ceramicId as Values<typeof map>;
+      //     const toKey = hasuraId as keyof typeof map;
+      //     if (values[toKey] !== undefined) {
+      //       // eslint-disable-next-line no-param-reassign
+      //       obj[fromKey] = values[fromKey] as any ?? undefined;
+      //     }
+      //   });
+      // });
+
+      Object.entries(BasicProfileStrings).forEach(([hasuraId, ceramicId]) => {
+        const fromKey = ceramicId as Values<typeof BasicProfileStrings>;
+        const toKey = hasuraId as keyof typeof BasicProfileStrings;
+        if (values[toKey] !== undefined) {
+          basic[fromKey] = (values[toKey] as string) ?? null;
+        }
+      });
+
+      Object.entries(BasicProfileImages).forEach(([hasuraId, ceramicId]) => {
+        const fromKey = ceramicId as Values<typeof BasicProfileImages>;
+        const toKey = hasuraId as keyof typeof BasicProfileImages;
+        if (sources[toKey] !== undefined) {
+          basic[fromKey] = sources[toKey] ?? null;
+        }
+      });
+
+      setStatus(<Text>Updating Basic Profile…</Text>);
+      const basRes = await store.merge('basicProfile', basic);
+      if (params.query.debug) {
+        // eslint-disable-next-line no-console
+        console.info('Basic Profile:', basRes.toUrl());
+      }
+
+      Object.entries(ExtendedProfileStrings).forEach(
+        ([hasuraId, ceramicId]) => {
+          const fromKey = ceramicId as Values<typeof ExtendedProfileStrings>;
+          const toKey = hasuraId as keyof typeof ExtendedProfileStrings;
+          if (values[toKey] !== undefined) {
+            extended[fromKey] = values[toKey];
+          }
+        },
+      );
+
+      Object.entries(ExtendedProfileImages).forEach(([hasuraId, ceramicId]) => {
+        const fromKey = ceramicId as Values<typeof ExtendedProfileImages>;
+        const toKey = hasuraId as keyof typeof ExtendedProfileImages;
+        if (sources[toKey] !== undefined) {
+          extended[fromKey] = sources[toKey];
+        }
+      });
+
+      Object.entries(ExtendedProfileObjects).forEach(
+        ([hasuraId, ceramicId]) => {
+          const fromKey = ceramicId as Values<typeof ExtendedProfileObjects>;
+          const toKey = hasuraId as keyof typeof ExtendedProfileObjects;
+          if (values[toKey] !== undefined) {
+            switch (fromKey) {
+              case 'availableHours': {
+                extended[fromKey] = values[toKey] as number;
+                break;
+              }
+              case 'colorDisposition': {
+                extended[fromKey] =
+                  dispositionFor(values.colorMask) ?? undefined;
+                break;
+              }
+              default: {
+                // eslint-disable-next-line no-console
+                console.warn(`Unknown Profile Key: "${fromKey}"`);
+              }
+            }
+          }
+        },
+      );
+
+      if (params.query.debug) {
+        // eslint-disable-next-line no-console
+        console.debug({ values, basic, extended });
+      }
+
+      setStatus(<Text>Updating Extended Profile…</Text>);
+      const extRes = await store.merge('extendedProfile', extended);
+      if (params.query.debug) {
+        // eslint-disable-next-line no-console
+        console.info('Extended Profile:', extRes.toUrl());
+      }
+
+      if (player) {
+        setStatus(<Text>Invalidating Cache…</Text>);
+        await invalidateCache({ playerId: player.id });
+      }
+
+      if (player && extended.username !== username) {
+        router.push(`/player/${player.ethereumAddress}`);
+      }
+
+      onClose();
+    } catch (err) {
+      toast({
+        title: 'Ceramic Error',
+        description: `Error saving profile: ${(err as Error).message}`,
+        status: 'error',
+        isClosable: true,
+        duration: 15000,
+      });
+    } finally {
+      setStatus(null);
     }
-    setStatus(null);
   };
 
   return (
     <Stack as="form" onSubmit={handleSubmit(onSubmit)}>
       <Wrap>
         <WrapItem flex={1} px={5}>
-          <FormControl isInvalid={errors.image} align="center">
-            <Tooltip label="An image generally cropped to a circle for display. 1MiB maximum size.">
-              <Label htmlFor="image">Profile Image&nbsp;🛈</Label>
+          <FormControl isInvalid={errors.profileImageURL} align="center">
+            <Tooltip label="An image representing the user generally cropped to a circle for display. 1MiB maximum size.">
+              <Label htmlFor="profileImageURL" userSelect="none">
+                Profile Image
+                <InfoIcon ml={2} />
+              </Label>
             </Tooltip>
             <Box position="relative">
-              {console.log({ h: httpLink(endpoints.image.url) })}
-              <PlayerAvatar
-                // ref={endpoints.image.ref}
-                player={player ?? undefined}
-                src={httpLink(endpoints.image.url)}
-                h="10em"
-                w="10em"
-                omitBackground={false}
-              />
+              <Box w="10em" h="10em" borderRadius="full" display="inline-flex">
+                <Image
+                  ref={endpoints.profileImageURL.ref ?? null}
+                  onLoad={() => {
+                    endpoints.profileImageURL.setLoading(false);
+                  }}
+                  display={
+                    endpoints.profileImageURL.loading ? 'none' : 'inherit'
+                  }
+                  src={httpLink(endpoints.profileImageURL.val)}
+                  borderRadius="full"
+                  objectFit="cover"
+                  h="full"
+                  w="full"
+                  border="2px solid"
+                  borderColor={
+                    endpoints.profileImageURL.active
+                      ? 'blue.400'
+                      : 'transparent'
+                  }
+                />
+              </Box>
               <Controller
                 control={control}
-                name="image"
+                name="profileImageURL"
                 defaultValue={[]}
                 render={({ field: { onChange, value, ...props } }) => (
                   <Input
-                    id="image"
                     type="file"
                     {...props}
-                    value={value.filename}
+                    value={value?.filename ?? ''}
                     onChange={async (evt) => {
                       onChange(evt.target.files);
-                      console.log('LOOK MESSAGE');
                       onFileChange(evt);
                     }}
                     maxW="100%"
@@ -453,63 +575,105 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
                     left={0}
                     right={0}
                     opacity={0}
+                    onFocus={() => endpoints.profileImageURL.setActive(true)}
+                    onBlur={() => endpoints.profileImageURL.setActive(false)}
                   />
                 )}
               />
             </Box>
-            <FormErrorMessage>{errors.image?.message}</FormErrorMessage>
+            <FormErrorMessage>
+              {errors.profileImageURL?.message}
+            </FormErrorMessage>
           </FormControl>
         </WrapItem>
-        <WrapItem flex={1} px={5}>
-          <FormControl isInvalid={errors.background} align="center">
-            <Tooltip label="An image with an ~3:1 aspect ratio to be displayed as a page or profile banner. 1MiB maximum size.">
-              <Label htmlFor="background">Background Banner&nbsp;🛈</Label>
-            </Tooltip>
-            <Box position="relative">
-              <Image
-                ref={endpoints.background.ref}
-                src={httpLink(endpoints.background.url)}
+        {[
+          {
+            key: 'bannerImageURL',
+            title: 'Header Banner',
+            description:
+              'An image with an ~3:1 aspect ratio to be displayed as a page or profile banner. 1MiB maximum size.',
+          },
+          {
+            key: 'backgroundImageURL',
+            title: 'Page Background',
+            description:
+              'An image with an ~1:1 aspect ratio to be the page background. 1MiB maximum size.',
+          },
+        ].map(({ key, title, description: spec }) => (
+          <WrapItem flex={1} px={5} {...{ key }}>
+            <FormControl isInvalid={errors[key]} align="center">
+              <Tooltip label={spec}>
+                <Label htmlFor={key} userSelect="none" whiteSpace="nowrap">
+                  {title}
+                  <InfoIcon ml={2} />
+                </Label>
+              </Tooltip>
+              <Center
+                position="relative"
                 maxW="12em"
                 h="10em"
-              />
-              <Controller
-                control={control}
-                name="background"
-                defaultValue={[]}
-                render={({ field: { onChange, value, ...props } }) => (
-                  <Input
-                    id="background"
-                    type="file"
-                    {...props}
-                    value={value.filename}
-                    onChange={async (evt) => {
-                      onChange(evt.target.files);
-                      onFileChange(evt);
-                    }}
-                    maxW="100%"
-                    minH="100%"
-                    position="absolute"
-                    top={0}
-                    bottom={0}
-                    left={0}
-                    right={0}
-                    opacity={0}
-                  />
+                border="2px solid"
+                borderColor={endpoints[key].active ? 'blue.400' : 'transparent'}
+              >
+                <Image
+                  ref={endpoints[key].ref ?? null}
+                  onLoad={() => {
+                    endpoints[key].setLoading(false);
+                  }}
+                  display={endpoints[key].loading ? 'none' : 'inherit'}
+                  src={httpLink(endpoints[key].val)}
+                  h="full"
+                  w="full"
+                />
+                {endpoints[key].loading && (
+                  <Spinner size="xl" color="purple.500" thickness="4px" />
                 )}
-              />
-            </Box>
-            <FormErrorMessage>{errors.background?.message}</FormErrorMessage>
-          </FormControl>
-        </WrapItem>
+                <Controller
+                  control={control}
+                  name={key}
+                  defaultValue={[]}
+                  render={({ field: { onChange, value, ...props } }) => (
+                    <Input
+                      type="file"
+                      {...props}
+                      value={value?.filename}
+                      onChange={async (evt) => {
+                        onChange(evt.target.files);
+                        onFileChange(evt);
+                      }}
+                      maxW="100%"
+                      minH="100%"
+                      position="absolute"
+                      top={0}
+                      bottom={0}
+                      left={0}
+                      right={0}
+                      opacity={0}
+                      onFocus={() => endpoints[key].setActive(true)}
+                      onBlur={() => endpoints[key].setActive(false)}
+                    />
+                  )}
+                />
+              </Center>
+              <FormErrorMessage>{errors[key]?.message}</FormErrorMessage>
+            </FormControl>
+          </WrapItem>
+        ))}
         <WrapItem flex={1} px={5}>
           <FormControl isInvalid={errors.description}>
-            <Tooltip label="420 characters max.">
-              <Label htmlFor="description">Description&nbsp;🛈</Label>
+            <Tooltip label={`${MAX_DESC_LEN} characters max.`}>
+              <Label htmlFor="description" userSelect="none">
+                Description
+                <Text as="sup" ml={2}>
+                  {remaining}
+                </Text>
+                ⁄<Text as="sub">{MAX_DESC_LEN}</Text>
+                <InfoIcon ml={2} />
+              </Label>
             </Tooltip>
             <Textarea
-              id="description"
               placeholder="Describe yourself."
-              minW="15em"
+              minW="18em"
               h="10em"
               color="white"
               bg="dark"
@@ -526,10 +690,12 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
         <WrapItem flex={1} alignItems="center" px={5}>
           <FormControl isInvalid={errors.name}>
             <Tooltip label="Arbitrary letters, spaces, & punctuation. Max 150 characters.">
-              <Label htmlFor="name">Display Name&nbsp;🛈</Label>
+              <Label htmlFor="name" userSelect="none">
+                Display Name
+                <InfoIcon ml={2} />
+              </Label>
             </Tooltip>
             <Input
-              id="name"
               placeholder="Imma User"
               {...register('name', {
                 maxLength: {
@@ -546,12 +712,23 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
         <WrapItem flex={1} alignItems="center" px={5}>
           <FormControl isInvalid={errors.username}>
             <Tooltip label="Lowercase alpha, digits, dashes, & underscores only.">
-              <Label htmlFor="username">Username&nbsp;🛈</Label>
+              <Label htmlFor="username" userSelect="none">
+                Username
+                <InfoIcon ml={2} />
+              </Label>
             </Tooltip>
             <Input
-              id="username"
               placeholder="i-am-a-user"
               {...register('username', {
+                validate: async (value) => {
+                  if (value !== username && (await getPlayer(value))) {
+                    return `Username "${value}" is already in use.`;
+                  }
+                  if (/0x[0-9a-z]{40}/i.test(value)) {
+                    return `Username "${value}" has the same format as an Ethereum address.`;
+                  }
+                  return true;
+                },
                 pattern: {
                   value: /^[a-z0-9-_]+$/,
                   message:
@@ -597,8 +774,8 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
           </GridItem>
         */}
         <WrapItem flex={1} alignItems="center" px={5}>
-          <FormControl isInvalid={errors.availability}>
-            <Label htmlFor="availability">Availability</Label>
+          <FormControl isInvalid={errors.availableHours}>
+            <Label htmlFor="availableHours">Availability</Label>
             <InputGroup borderColor="white">
               <InputLeftElement>
                 <Text as="span" role="img" aria-label="clock">
@@ -606,7 +783,6 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
                 </Text>
               </InputLeftElement>
               <Input
-                id="availability"
                 type="number"
                 placeholder="23"
                 pl={9}
@@ -615,7 +791,8 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
                 borderTopEndRadius={0}
                 borderBottomEndRadius={0}
                 borderRight={0}
-                {...register('availability', {
+                {...register('availableHours', {
+                  valueAsNumber: true,
                   min: {
                     value: 0,
                     message:
@@ -633,7 +810,7 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
             </InputGroup>
             <Box minH="3em">
               <FormErrorMessage>
-                {errors.availability?.message}
+                {errors.availableHours?.message}
               </FormErrorMessage>
             </Box>
           </FormControl>
@@ -645,12 +822,11 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
               {...{ control }}
               name="timeZone"
               defaultValue={Intl.DateTimeFormat().resolvedOptions().timeZone}
-              render={({ field: { ref, ...props } }) => (
+              render={({ field: { onChange, ref, ...props } }) => (
                 <SelectTimeZone
                   labelStyle="abbrev"
-                  id="timeZone"
-                  style={{
-                    minWidth: '17em',
+                  onChange={(tz) => {
+                    onChange(tz.value);
                   }}
                   {...props}
                 />
@@ -726,7 +902,7 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
       <ProfileField title="working hours" placeholder="9am - 10pm" />
       */}
       {onClose && (
-        <ModalFooter mt={6} flex={1}>
+        <ModalFooter mt={6} flex={1} justifyContent="center">
           <Wrap justify="center" align="center" flex={1}>
             <WrapItem>
               <MetaButton isDisabled={!!status} type="submit">
@@ -750,6 +926,8 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
                 onClick={onClose}
                 color="white"
                 _hover={{ bg: '#FFFFFF11' }}
+                _active={{ bg: '#FF000011' }}
+                disabled={!!status}
               >
                 Close
               </Button>

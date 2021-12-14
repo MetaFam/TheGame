@@ -73,7 +73,7 @@ export const transformToGraphQlVariables = (
 ): GetPlayersQueryVariables => {
   const graphqlWhereClause: Player_Bool_Exp = {
     _or: [
-      { username: { _ilike: queryVariables.search } },
+      { profile: { username: { _ilike: queryVariables.search } } },
       { ethereumAddress: { _ilike: queryVariables.search } },
     ],
   };
@@ -130,7 +130,9 @@ export const getPlayersWithCount = async (
 const playerUsernamesQuery = gql`
   query GetPlayerUsernames($limit: Int) {
     player(order_by: { totalXP: desc }, limit: $limit) {
-      username
+      profile {
+        username
+      }
     }
   }
 `;
@@ -139,9 +141,7 @@ export const getPlayerUsernames = async (limit = 150): Promise<string[]> => {
   const { data, error } = await defaultClient
     .query<GetPlayerUsernamesQuery, GetPlayerUsernamesQueryVariables>(
       playerUsernamesQuery,
-      {
-        limit,
-      },
+      { limit },
     )
     .toPromise();
 
@@ -151,8 +151,7 @@ export const getPlayerUsernames = async (limit = 150): Promise<string[]> => {
     }
     return [];
   }
-
-  return data.player.map(({ username }) => username);
+  return data.player.map(({ profile }) => profile?.username ?? '');
 };
 
 export const getTopPlayerUsernames = getPlayerUsernames;

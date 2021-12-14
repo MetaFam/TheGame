@@ -137,7 +137,11 @@ export const migrateSourceCredAccounts = async (
             const upsertResult = await client.InsertPlayers({
               objects: [
                 {
-                  username: player.ethereumAddress,
+                  profile: {
+                    data: {
+                      username: player.ethereumAddress,
+                    },
+                  },
                   ethereumAddress: player.ethereumAddress,
                   rank: player.rank,
                   totalXP: player.totalXP,

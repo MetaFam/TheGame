@@ -1,5 +1,6 @@
 import { Web3Context, Web3ContextType } from 'contexts/Web3Context';
 import { useGetMeQuery } from 'graphql/autogen/types';
+import { Maybe } from 'graphql/jsutils/Maybe';
 import { MeType } from 'graphql/types';
 import { useRouter } from 'next/router';
 import React, { useContext, useEffect } from 'react';
@@ -20,7 +21,7 @@ export const useUser = ({
   forLoginDisplay = false,
   requestPolicy = 'cache-first',
 }: UseUserOpts = {}): {
-  user: MeType | null;
+  user: Maybe<MeType>;
   fetching: boolean;
 } => {
   const { authToken, connecting } = useWeb3();

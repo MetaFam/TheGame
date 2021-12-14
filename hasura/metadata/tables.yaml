@@ -375,15 +375,6 @@
   remote_relationships:
   - definition:
       remote_field:
-        getBoxProfile:
-          arguments:
-            address: $ethereum_address
-      hasura_fields:
-      - ethereum_address
-      remote_schema: backend
-    name: box_profile
-  - definition:
-      remote_field:
         getDaoHausMemberships:
           arguments:
             memberAddress: $ethereum_address
@@ -419,13 +410,11 @@
       - id
       - player_type_id
       - profile_layout
-      - pronouns
       - rank
       - role
       - season_xp
       - timezone
       - total_xp
-      - username
       filter: {}
       allow_aggregations: true
   - role: public
@@ -436,13 +425,11 @@
       - ethereum_address
       - id
       - profile_layout
-      - pronouns
       - rank
       - role
       - season_xp
       - timezone
       - total_xp
-      - username
       filter: {}
       allow_aggregations: true
   update_permissions:
@@ -453,10 +440,8 @@
       - color_mask
       - player_type_id
       - profile_layout
-      - pronouns
       - role
       - timezone
-      - username
       filter:
         id:
           _eq: X-Hasura-User-Id
