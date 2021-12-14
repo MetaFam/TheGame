@@ -2,9 +2,9 @@ import { Avatar, AvatarProps } from '@metafam/ds';
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
 import React from 'react';
 import {
-  getPlayerImage,
-  getPlayerName,
-  hasPlayerImage,
+  getImageFor,
+  getNameOf,
+  hasImage,
 } from 'utils/playerHelpers';
 
 type PlayerAvatarProps = AvatarProps & {
@@ -12,19 +12,19 @@ type PlayerAvatarProps = AvatarProps & {
   omitBackground?: boolean;
 };
 
-export const PlayerAvatar: React.FC<PlayerAvatarProps> = ({
-  player,
-  omitBackground = true,
-  ...props
-}) => {
+export const PlayerAvatar: React.FC<PlayerAvatarProps> = React.forwardRef<
+  HTMLSpanElement,
+  PlayerAvatarProps
+>(({ player, src, ...props }, ref) => {
   const attrs = {
-    src: getPlayerImage(player),
-    name: getPlayerName(player),
+    src: src ?? getImageFor(player),
+    name: getNameOf(player),
     ...props,
   };
-  if (omitBackground && hasPlayerImage(player)) {
+
+  if (src || hasImage(player)) {
     attrs.bg = 'transparent';
   }
 
-  return <Avatar {...attrs} />;
-};
+  return <Avatar {...attrs} {...{ ref }} />;
+});

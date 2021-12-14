@@ -1,39 +1,228 @@
 {
-  '$schema': 'http://json-schema.org/draft-07/schema#',
+  $schema: 'http://json-schema.org/draft-07/schema#',
   title: 'ExtendedProfile',
   type: 'object',
   properties: {
     username: {
+      description: '`name` in the `basicProfile` allows the storage of an arbitrarily spaced, capitalized, and punctuated text-based identifier for someone. `username` is primarily for use in interfaces, either as something short to type, or as part of a URL.',
       type: 'string',
-      maxLength: 150,
+      maxLength: 383,
       pattern: '^[a-z0-9-_]+$',
     },
-    pageBackground: {
-
+    pageBackgroundURL: {
+      description: '`basicProfile` stores a profile image and a header banner (recommended 3:1 image ratio). This is an image to be used as the background image for the page.',
+      $ref: '#/$defs/sources',
     },
     pronouns: {
+      description: 'A users preferred way of designating themselves pronominally. Generally specified as the singlular and possessive forms separated by a slash. I.e. "he / his" or "they / their".',
       type: 'string',
-      maxLength: 100,
+      maxLength: 255,
     },
-    residence: {
+    waypoints: {
+      description: 'A waypoint is a mechanism for keeping a location semi-secret by disclosing another location and then some travel time from the waypoint to the secret location.\n\nFor example, I might say my home is within 45 minutes of Bristol Motor Speedway as the crow flies.\n\nMy eventual goal is to use waypoints as part of the orchestration of a couriering service. A client hires a vehicle and pair of partners for a maximum rate based on their proximities to waypoints.',
+      type: 'array',
+      items: { $ref: '#/$defs/waypoint' },
+    },
+    iconURLs: {
+      description: 'Similar to the profile image in the basic profile, these images are meant to represent the user. Whereas the profile image is circular, these have rectangular bounds.\n\nThese images are to be employed when displaying information dense applications showing multiple users.',
+      type: 'string',
+      format: 'uri',
+      maxLength: 511,
+      minLength: 1,
+    },
+    magicDisposition: {
+      description: 'Magic: The Gathering uses a five color character alignment matrix. Players may have any, all, or none of the five colors: white, blue, black, red, and green. Each color represents a valuation of certain priorities over others.\n\nThe string is simply the first letter of each present color in the player except for blue which uses a “U” to avoid conflicting with black.',
+      type: 'string',
+      pattern: '^([wW]?|[uU]?|[bB]?|[rR]?|[gG]?){0,5}$',
+      maxLength: 5,
+    },
+    timeZone: {
       type: 'object',
       properties: {
-        city: {
+        name: {
+          description: 'The expanded version of the abbreviation for the time zone. I.e. “Eastern Daylight Time”.',
           type: 'string',
-          maxLength: 300,
+          maxLength: 127,
         },
-        country: {
+        abbreviation: {
+          description: 'The abbreviated form of the time zone’s name. I.e. “EDT”.',
           type: 'string',
-          maxLength: 300,
+          maxLength: 127,
         },
-      }
+        offset: {
+          description: 'The number of minutes this time zone varies from Universal Time (UTC). I.e. -200 for “UTC-5:00”.',
+          type: 'number',
+          format: 'integer',
+        },
+        location: {
+          description: 'Somewhere located within this time zone. I.e. “New York City, New York”. There are standard locations for each zone, but they are sometimes far from the user and theuy would like to specify somewhere else.',
+          type: 'string',
+        },
+      },
     },
-    icon: {
-      format: 'uri',
+    availableHours: {
+      description: 'The number of hours the user is avaiable each week for work projects.',
+      type: 'number',
+      minimum: 0,
+      maximum: 168,
     },
-    mtgDisposition: {
+    playerType: {
+      description: 'A descriptor that signifies in which aspect of the development process, from initial exploration to final maintenance, the user is most comfortable.',
+      type: 'object',
+      properties: {
+        title: {
+          type: 'string',
+          pattern: '^(Pioneer|Settler|Town Planner|.+)$',
+        },
+        description: {
+          type: 'string',
+          maxLength: 255,
+        },
+      },
+    },
+  },
+  $defs: {
+    IPFSURL: {
       type: 'string',
-      pattern: '^[wW]?[uU]?[bB]?[rR]?[gG]?$'
-    }
+      pattern: '^ipfs:(//)?.+',
+      maxLength: 511,
+    },
+    naturalNumber: {
+      type: 'integer',
+      minimum: 1,
+    },
+    wholeNumber: {
+      type: 'integer',
+      minimum: 0,
+    },
+    waypoint: {
+      type: 'object',
+      properties: {
+        name: {
+          style: 'string',
+          pattern: '^home|work|play|w+$',
+          maxLength: 383,
+        },
+        landmark: {
+          anyOf: [
+            {
+              description: 'Any intervening geographic identifier in order of increasing specificity. For example, someone in Nashville might have `[‘Earth’, ‘North America’, ‘U.S. of A.’, ‘Tennessee’, ‘Dickenson County’, ‘Nashville’, ‘Vanderbilt University’]`.',
+              type: 'array',
+              items: {
+                type: 'string',
+                maxLength: 255,
+              },
+              minLength: 1,
+            },
+            {
+              type: 'object',
+              properties: {
+                latitude: {
+                  type: 'number',
+                  minimum: -90,
+                  maximum: 90,
+                },
+                longitude: {
+                  type: 'number',
+                  minimum: -360,
+                  maximum: 360,
+                },
+              },
+              required: ['latitude', 'longitude'],
+            },
+          ],
+        },
+        distance: {
+          type: 'object',
+          properties: {
+            "crow's": {
+              description: 'ISO-8601 time duration of a crow’s flight time from the `landmark` of the waypoint to what is `name`d.',
+              type: 'string',
+              maxLength: 255,
+            },
+            "car's": {
+              type: 'array',
+              items: {
+                type: 'object',
+                properties: {
+                  windows: {
+                    type: 'array',
+                    items: {
+                      type: 'object',
+                      properties: {
+                        startsAt: {
+                          description: 'The ISO-8601 description of a point in time acting as the opening for the window in question. This can either be a fixed point (Oct. 6, 2021 @ 12:30), a recurring date (New Years Eve), or a weekdate (Fridays @ 16:45).',
+                          type: 'string',
+                          maxLength: 255,
+                        },
+                        endsAt: {
+                          description: 'Companion to the opening of the window, this is the point in time at which it closes. In addition to the types of dates above, this may be a duration as well.',
+                          type: 'string',
+                          maxLength: 255,
+                        },
+                      },
+                    },
+                  },
+                  duration: {
+                    description: 'ISO-8601 time duration of the average drive time from the waypoint to the location in question.',
+                    type: 'string',
+                    maxLength: 255,
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    image: {
+      type: 'object',
+      properties: {
+        src: {
+          $ref: '#/$defs/IPFSURL',
+        },
+        mimeType: {
+          type: 'string',
+          maxLength: 127,
+        },
+        proportion: {
+          anyOf: [
+            {
+              type: 'object',
+              properties: {
+                width: {
+                  $ref: '#/$defs/naturalNumber',
+                },
+                height: {
+                  $ref: '#/$defs/naturalNumber',
+                },
+              },
+              required: ['width', 'height'],
+            },
+            {
+              description: 'The ratio of the height and width. This makes more sense for vector images that scale indefinitely.',
+              type: 'string',
+              pattern: '^(d+(.d*)?|d*(.d+)?|d+(.d*)?[:⁄/]d+(.d*)?)$',
+            },
+          ],
+        },
+        size: {
+          description: 'The number of bytes in the image. An eighth of the number of bits.',
+          $ref: '#/$defs/wholeNumber',
+        },
+      },
+      required: ['src', 'mimeType', 'proportion'],
+    },
+    sources: {
+      type: 'object',
+      properties: {
+        original: { $ref: '#/$defs/image' },
+        alternatives: {
+          type: 'array',
+          items: { $ref: '#/$defs/image' },
+        },
+      },
+      required: ['original'],
+    },
   },
 }
