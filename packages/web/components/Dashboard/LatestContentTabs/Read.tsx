@@ -1,18 +1,15 @@
 import { Box, Heading, Link, LoadingState, Text } from '@metafam/ds';
-import React, { useEffect, useState } from 'react';
-import { parse } from 'rss-to-json';
+import React from 'react';
 import useSWR from 'swr';
 
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
+
 export const Read: React.FC = () => {
-  const [url, setUrl] = useState<string | null>(null);
-  const { data, error } = useSWR(url, parse);
-
-  useEffect(() => setUrl(`${window.location.origin}/metagame/feed`), []);
-
+  const { data, error } = useSWR('/api/feed', fetcher);
   return (
     <Box pt={4}>
-      {data ? (
-        data.items?.map((item) => (
+      {data && data.response ? (
+        data.response.items?.map((item: any) => (
           <Box
             key={item.title}
             mt={4}
@@ -38,7 +35,7 @@ export const Read: React.FC = () => {
       ) : (
         <>
           {!error && <LoadingState />}
-          {error && <Text>Something Went Wrong</Text>}
+          {error || (data?.error && <Text>Something Went Wrong</Text>)}
         </>
       )}
     </Box>
