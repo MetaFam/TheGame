@@ -69,26 +69,30 @@ export const Watch: React.FC = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [onScreen]);
-  return loading ? (
-    <LoadingState />
-  ) : (
-    <Box>
-      {videos.map((video: Video) => {
-        const url = `https://www.youtube.com/embed/${video?.videoId}`;
-        return (
-          <AspectRatio key={video.id} ratio={2 / 1}>
-            <Box
-              as="iframe"
-              title={video?.title}
-              src={url}
-              allowFullScreen
-              pt={4}
-            />
-          </AspectRatio>
-        );
-      })}
+  return (
+    <>
+      {loading ? (
+        <LoadingState />
+      ) : (
+        <Box>
+          {videos.map((video: Video) => {
+            const url = `https://www.youtube.com/embed/${video?.videoId}`;
+            return (
+              <AspectRatio key={video.id} ratio={2 / 1}>
+                <Box
+                  as="iframe"
+                  title={video?.title}
+                  src={url}
+                  allowFullScreen
+                  pt={4}
+                />
+              </AspectRatio>
+            );
+          })}
+        </Box>
+      )}
       <span ref={moreRef} />
       {isFetchingMore && <LoadingState />}
-    </Box>
+    </>
   );
 };
