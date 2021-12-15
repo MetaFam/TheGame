@@ -12,8 +12,9 @@ import {
 import { ModelManager } from '@glazed/devtools';
 import { DIDDataStore } from '@glazed/did-datastore';
 import { TileLoader } from '@glazed/tile-loader';
-import { extendedProfileModel } from '@metafam/utils';
+import { extendedProfileModel, ProfileProps } from '@metafam/utils';
 import { getLegacy3BoxProfileAsBasicProfile } from '@self.id/3box-legacy';
+import { Maybe } from 'graphql/jsutils/Maybe';
 
 import { CONFIG } from '../../../config';
 import {
@@ -53,7 +54,7 @@ export default async (playerId: string): Promise<UpdateBoxProfileResponse> => {
   try {
     let basicProfile;
     let extendedProfile;
-    let values;
+    let values: Maybe<ProfileProps> = null;
 
     if (!caip10.did) {
       console.debug(`No CAIP-10 Link For ${ethAddress}`);
@@ -101,7 +102,9 @@ export default async (playerId: string): Promise<UpdateBoxProfileResponse> => {
         values.pronouns = extendedProfile.pronouns;
       }
     }
-    await client.UpsertProfileCache({ objects: [values] });
+    if (values) {
+      await client.UpsertProfileCache({ objects: [values] });
+    }
   } catch (err) {
     if (!(err as Error).message.includes('No DID')) {
       throw err;

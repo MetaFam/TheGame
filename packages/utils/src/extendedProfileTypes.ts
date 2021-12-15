@@ -16,6 +16,7 @@ export const BasicProfileStrings = {
   location: 'homeLocation',
   countryCode: 'residenceCountry',
   birthDate: 'birthDate',
+  gender: 'gender',
   website: 'url',
 } as const;
 export const BasicProfileFields = {
@@ -45,14 +46,14 @@ export const ExtendedProfileFields = {
 export type HasuraBPImages = {
   -readonly [key in keyof typeof BasicProfileImages]?: string;
 };
-export type BPStrings = {
+export type HasuraBPStrings = {
   -readonly [key in keyof typeof BasicProfileStrings]?: string;
 };
 
 export type HasuraEPImages = {
   -readonly [key in keyof typeof ExtendedProfileImages]?: string;
 };
-export type EPStrings = {
+export type HasuraEPStrings = {
   -readonly [key in keyof typeof ExtendedProfileStrings]?: string;
 };
 
@@ -73,24 +74,35 @@ export type EPObjects = {
 };
 
 export type HasuraProfileProps = HasuraBPImages &
-  BPStrings &
+  HasuraBPStrings &
   HasuraEPImages &
-  EPStrings &
+  HasuraEPStrings &
   EPObjects;
 
 export type CeramicBPImages = {
   -readonly [key in Values<typeof BasicProfileImages>]?: ImageSources;
 };
+export type CeramicBPStrings = {
+  -readonly [key in Values<typeof BasicProfileStrings>]?: string;
+};
 export type CeramicEPImages = {
   -readonly [key in Values<typeof ExtendedProfileImages>]?: ImageSources;
 };
-export type ExtendedProfile = CeramicEPImages & EPStrings & EPObjects;
+export type CeramicEPStrings = {
+  -readonly [key in Values<typeof ExtendedProfileStrings>]?: string;
+};
 
-export type CeramicProfileProps = CeramicBPImages &
-  BPStrings &
+export type ExtendedProfile = CeramicEPImages & CeramicEPStrings & EPObjects;
+
+export type ProfileProps = CeramicBPImages &
+  HasuraBPImages &
+  CeramicBPStrings &
+  HasuraBPStrings &
   CeramicEPImages &
-  EPStrings &
-  EPObjects;
+  HasuraEPImages &
+  HasuraEPStrings &
+  CeramicEPStrings &
+  EPObjects & { playerId?: string };
 
 export const Images = {
   ...BasicProfileImages,

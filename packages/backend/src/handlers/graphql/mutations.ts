@@ -45,6 +45,7 @@ gql`
         imageURL
         backgroundImageURL
         gender
+        pronouns
         location
         countryCode
         website
