@@ -309,7 +309,8 @@ export const useAnimation = (
       updateFN();
       setAnimation('fadeIn');
     }, 400);
-  }, [depends, updateFN]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [depends]);
 
   return { animation };
 };
