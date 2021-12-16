@@ -18,9 +18,9 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       timeout: 1000,
     });
 
-    return res.json({ response: apiResponse });
+    return res.json({ error: null, response: apiResponse });
   } catch (err) {
-    return res.json({ error: err });
+    return res.json({ error: err, response: null });
   }
 }
 
