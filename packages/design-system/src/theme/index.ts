@@ -11,6 +11,7 @@ export const theme: Theme = extendTheme({
   styles: {
     global: {
       body: {
+        backgroundColor: 'rgb(25, 14, 39)',
         '&.dashboard-edit': {
           overflow: { base: 'hidden', xl: 'initial' }, // Locks scrolling on the body when resizing or dragging the grid on mobile devices
         },
