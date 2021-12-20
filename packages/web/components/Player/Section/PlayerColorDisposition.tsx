@@ -2,6 +2,7 @@ import { Link } from '@metafam/ds';
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
 import { getPersonalityInfo } from 'graphql/queries/enums/getPersonalityInfo';
 import { PersonalityOption } from 'graphql/types';
+import { useAnimation } from 'lib/hooks/players';
 import React, { useEffect, useState } from 'react';
 import { BOX_TYPE } from 'utils/boxTypes';
 
@@ -25,7 +26,6 @@ export const PlayerColorDisposition: React.FC<Props> = ({
   const [colorDisposition, setColorDisposition] = useState<
     0 | PersonalityOption | undefined
   >();
-  const [animation, setAnimation] = useState<string>('fadeIn');
   const mask = player?.color_aspect?.mask;
   const type = mask && types?.[mask];
 
@@ -37,13 +37,13 @@ export const PlayerColorDisposition: React.FC<Props> = ({
     loadTypes();
   }, []);
 
+  const updateFN = () => setColorDisposition(type);
+
   useEffect(() => {
-    setAnimation('fadeOut');
-    setTimeout(() => {
-      setColorDisposition(type);
-      setAnimation('fadeIn');
-    }, 400);
+    setColorDisposition(type);
   }, [mask, type]);
+
+  const { animation } = useAnimation(type, updateFN);
 
   return (
     <ProfileSection

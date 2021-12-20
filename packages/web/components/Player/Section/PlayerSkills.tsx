@@ -4,7 +4,8 @@ import {
   SkillCategory_Enum,
 } from 'graphql/autogen/types';
 import { SkillColors } from 'graphql/types';
-import React, { useEffect, useRef, useState } from 'react';
+import { useAnimation } from 'lib/hooks/players';
+import React, { useState } from 'react';
 import { BOX_TYPE } from 'utils/boxTypes';
 
 import { ProfileSection } from '../../ProfileSection';
@@ -22,34 +23,20 @@ export const PlayerSkills: React.FC<Props> = ({
   const [playerSkills, setPlayerSkills] = useState<
     { id: number; name: string; category: SkillCategory_Enum }[]
   >([]);
-  const [animation, setAnimation] = useState<string>('fadeIn');
 
-  const usePrevious = <T extends unknown>(value: T): T | undefined => {
-    const ref = useRef<T>();
-    useEffect(() => {
-      ref.current = value;
-    });
-    return ref.current;
-  };
-  const previousSkills = usePrevious(playerSkills);
-
-  useEffect(() => {
-    if (JSON.stringify(playerSkills) !== JSON.stringify(previousSkills)) {
-      setAnimation('fadeOut');
-      setTimeout(() => {
-        if (player.skills) {
-          setPlayerSkills(
-            player.skills.map((s) => ({
-              id: s.Skill.id,
-              name: s.Skill.name,
-              category: s.Skill.category,
-            })),
-          );
-        }
-        setAnimation('fadeIn');
-      }, 400);
+  const updateFN = () => {
+    if (player.skills) {
+      setPlayerSkills(
+        player.skills.map((s) => ({
+          id: s.Skill.id,
+          name: s.Skill.name,
+          category: s.Skill.category,
+        })),
+      );
     }
-  }, [player, previousSkills, playerSkills]);
+  };
+
+  const { animation } = useAnimation(playerSkills, updateFN);
 
   if (!player.skills?.length) {
     return null;
