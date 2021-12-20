@@ -11,7 +11,7 @@ type SetEthAddressArgs = {
 };
 
 export abstract class SetEthAddress {
-  @Command('!setAddress :ethAddress :force')
+  @Command('!mg setAddress :ethAddress :force')
   async setAddress(message: CommandMessage<SetEthAddressArgs>) {
     const res = await loadSourceCredLedger();
     const { result: reloadResult, manager } = res;

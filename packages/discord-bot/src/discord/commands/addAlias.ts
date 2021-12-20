@@ -15,7 +15,7 @@ type AddAliasArgs = {
 };
 
 export class AddAlias {
-  @Command('!addAlias :platform :id')
+  @Command('!mg addAlias :platform :id')
   async addAlias(message: CommandMessage<AddAliasArgs>) {
     const res = await loadSourceCredLedger();
     const { result: reloadResult, manager } = res;
