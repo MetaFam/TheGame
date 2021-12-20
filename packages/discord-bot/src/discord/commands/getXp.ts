@@ -12,7 +12,7 @@ import {
 import { getDiscordId, replyWithUnexpectedError } from '../../utils';
 
 export class GetXpCommand {
-  @Command('!xp :discordUser')
+  @Command('!mg xp :discordUser')
   async getXp(message: CommandMessage) {
     let targetUserDiscordId = '';
     try {
