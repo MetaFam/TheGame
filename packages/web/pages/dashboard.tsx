@@ -95,12 +95,12 @@ export const Grid = (): ReactElement => {
       className="gridWrapper"
       width="100%"
       height="100%"
+      mt={{ base: '-20px', md: '-30px' }}
       sx={gridConfig.wrapper(editable)}
     >
       <ButtonGroup
-        pos="absolute"
-        right={25}
-        top={90}
+        w="100%"
+        justifyContent={'end'}
         variant="ghost"
         zIndex={10}
         isAttached

@@ -88,7 +88,7 @@ export const XP = (): React.ReactElement => {
         height="100%"
         bottom={0}
         left={0}
-        zIndex={0}
+        zIndex={-1}
         sx={XPChartWrapperStyles}
       >
         {userWeeklyCred && <Chart data={userWeeklyCred} />}

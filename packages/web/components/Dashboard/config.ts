@@ -22,11 +22,11 @@ export const gridDataMd = [
 ];
 
 export const gridDataSm = [
-  { i: 'latest', x: 0, y: 3, w: 4, h: 3 },
-  { i: 'xp', x: 0, y: 0, w: 2, h: 2 },
-  { i: 'seed', x: 2, y: 0, w: 2, h: 2 },
-  { i: 'calendar', x: 0, y: 5, w: 2, h: 4 },
-  { i: 'leaderboard', x: 2, y: 5, w: 2, h: 4 },
+  { i: 'latest', x: 0, y: 4, w: 4, h: 3 },
+  { i: 'xp', x: 0, y: 0, w: 4, h: 2 },
+  { i: 'seed', x: 0, y: 2, w: 4, h: 2 },
+  { i: 'calendar', x: 0, y: 7, w: 4, h: 4 },
+  { i: 'leaderboard', x: 0, y: 11, w: 4, h: 4 },
 ];
 
 export const initLayouts = {
