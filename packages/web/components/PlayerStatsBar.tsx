@@ -1,12 +1,15 @@
 import {
   Avatar,
   Badge,
+  Dashboard,
   Flex,
   Image,
+  LogOut,
   Menu,
   MenuButton,
   MenuItem,
   MenuList,
+  Profile,
   Stack,
   Text,
 } from '@metafam/ds';
@@ -70,9 +73,24 @@ const PlayerStats = () => {
                   href={`/player/${getPlayerName(user.player)}`}
                   _hover={{ textDecoration: 'none' }}
                 >
-                  <MenuItem>View Profile</MenuItem>
+                  <MenuItem>
+                    <Profile w={4} h={4} mr={4} /> View Profile
+                  </MenuItem>
                 </MetaLink>
-                <MenuItem onClick={disconnect}>Disconnect</MenuItem>
+                <MetaLink
+                  color="black"
+                  href={'/dashboard'}
+                  _hover={{ textDecoration: 'none' }}
+                >
+                  <MenuItem>
+                    <Dashboard w={4} h={4} mr={4} color="red.500" />
+                    Dashboard
+                  </MenuItem>
+                </MetaLink>
+                <MenuItem onClick={disconnect}>
+                  <LogOut w={4} h={4} mr={4} />
+                  Disconnect
+                </MenuItem>
               </MenuList>
             </Menu>
             <Stack my={2} ml={2}>

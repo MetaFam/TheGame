@@ -6,15 +6,18 @@ import {
   ChevronDownIcon,
   ChevronUpIcon,
   CloseIcon,
+  Dashboard,
   Flex,
   HamburgerIcon,
   Icon,
   Link,
+  LogOut,
   Menu,
   MenuButton,
   MenuItem,
   MenuList,
   MetaButton,
+  Profile,
   SimpleGrid,
   Spinner,
   Stack,
@@ -404,9 +407,24 @@ const PlayerStats: React.FC<PlayerStatsProps> = ({ player }) => {
             href={`/player/${player.username}`}
             _hover={{ textDecoration: 'none' }}
           >
-            <MenuItem>View Profile</MenuItem>
+            <MenuItem>
+              <Profile w={4} h={4} mr={4} /> View Profile
+            </MenuItem>
           </MetaLink>
-          <MenuItem onClick={disconnect}>Disconnect</MenuItem>
+          <MetaLink
+            color="black"
+            href={'/dashboard'}
+            _hover={{ textDecoration: 'none' }}
+          >
+            <MenuItem>
+              <Dashboard w={4} h={4} mr={4} color="red.500" />
+              Dashboard
+            </MenuItem>
+          </MetaLink>
+          <MenuItem onClick={disconnect}>
+            <LogOut w={4} h={4} mr={4} />
+            Disconnect
+          </MenuItem>
         </MenuList>
       </Menu>
     </Flex>
