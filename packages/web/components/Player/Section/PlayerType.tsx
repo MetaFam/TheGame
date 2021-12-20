@@ -1,7 +1,7 @@
 import { Text } from '@metafam/ds';
 import { Player_Type, PlayerFragmentFragment } from 'graphql/autogen/types';
 import { useAnimation } from 'lib/hooks/players';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { BOX_TYPE } from 'utils/boxTypes';
 
 import { FlexContainer } from '../../Container';
@@ -21,11 +21,7 @@ export const PlayerType: React.FC<Props> = ({
   const [playerType, setPlayerType] = useState<Player_Type | null>();
   const updateFN = () => setPlayerType(player.type);
 
-  useEffect(() => {
-    setPlayerType(player.type);
-  }, [player]);
-
-  const { animation } = useAnimation(playerType, updateFN);
+  const { animation } = useAnimation(player.type, updateFN);
 
   return (
     <ProfileSection

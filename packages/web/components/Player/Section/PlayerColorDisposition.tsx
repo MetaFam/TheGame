@@ -38,11 +38,6 @@ export const PlayerColorDisposition: React.FC<Props> = ({
   }, []);
 
   const updateFN = () => setColorDisposition(type);
-
-  useEffect(() => {
-    setColorDisposition(type);
-  }, [mask, type]);
-
   const { animation } = useAnimation(type, updateFN);
 
   return (
