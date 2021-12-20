@@ -1,6 +1,6 @@
 import { Text } from '@metafam/ds';
 import { Player_Type, PlayerFragmentFragment } from 'graphql/autogen/types';
-import { useAnimation } from 'lib/hooks/players';
+import { useAnimateProfileChanges } from 'lib/hooks/players';
 import React, { useState } from 'react';
 import { BOX_TYPE } from 'utils/boxTypes';
 
@@ -21,7 +21,7 @@ export const PlayerType: React.FC<Props> = ({
   const [playerType, setPlayerType] = useState<Player_Type | null>();
   const updateFN = () => setPlayerType(player.type);
 
-  const { animation } = useAnimation(player.type, updateFN);
+  const { animation } = useAnimateProfileChanges(player.type, updateFN);
 
   return (
     <ProfileSection

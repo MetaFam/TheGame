@@ -4,7 +4,7 @@ import {
   SkillCategory_Enum,
 } from 'graphql/autogen/types';
 import { SkillColors } from 'graphql/types';
-import { useAnimation } from 'lib/hooks/players';
+import { useAnimateProfileChanges } from 'lib/hooks/players';
 import React, { useState } from 'react';
 import { BOX_TYPE } from 'utils/boxTypes';
 
@@ -36,7 +36,7 @@ export const PlayerSkills: React.FC<Props> = ({
     }
   };
 
-  const { animation } = useAnimation(playerSkills, updateFN);
+  const { animation } = useAnimateProfileChanges(player.skills, updateFN);
 
   if (!player.skills?.length) {
     return null;
