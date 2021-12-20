@@ -24080,10 +24080,10 @@ opencollective-postinstall@^2.0.0:
   resolved "https://registry.yarnpkg.com/opencollective-postinstall/-/opencollective-postinstall-2.0.3.tgz#7a0fff978f6dbfa4d006238fbac98ed4198c3259"
   integrity sha512-8AV/sCtuzUeTo8gQK5qDZzARrulB3egtLzFgteqB2tcT4Mw7B8Kt7JcDHmltjz6FOAHsvTevk70gZEbhM4ZS9Q==
 
-opensea-js@1.2.1:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/opensea-js/-/opensea-js-1.2.1.tgz#7df45cdebfa931ae9c4a1f4b992ff4ecb07a0e2f"
-  integrity sha512-+28GsQTHpr7BQKehFil6aPAvHOUQkY6O0rD9xAx4O/974jSd7JSHPRhma5h4EAJ0RFRkDgvjh3hCikDeoCiM2w==
+opensea-js@1.2.7:
+  version "1.2.7"
+  resolved "https://registry.yarnpkg.com/opensea-js/-/opensea-js-1.2.7.tgz#af66d476f601a9d5825d546b3ead9dd238c714e2"
+  integrity sha512-s/ixGOIOpvqKiau3lSdUJF/osKVYh9yVZBpOslsk5bgRlbkJkBrfqCh0/2GH11EvX/wRYSaL70IYKvYew7g2pg==
   dependencies:
     bignumber.js "^4.1.0"
     ethereumjs-abi "git+https://github.com/ProjectWyvern/ethereumjs-abi.git"
@@ -24096,7 +24096,7 @@ opensea-js@1.2.1:
     web3 "0.20.7"
     webpack "^3.10.0"
     wyvern-js "git+https://github.com/ProjectOpenSea/wyvern-js.git#v3.2.1"
-    wyvern-schemas "git+https://github.com/ProjectOpenSea/wyvern-schemas.git#v0.11.1"
+    wyvern-schemas "git+https://github.com/ProjectOpenSea/wyvern-schemas.git#v0.13.1"
 
 optimism@^0.16.1:
   version "0.16.1"
@@ -31728,9 +31728,10 @@ ws@^5.1.1:
     web3 "^0.20.4"
     webpack "^3.10.0"
 
-"wyvern-schemas@git+https://github.com/ProjectOpenSea/wyvern-schemas.git#v0.11.1":
-  version "0.10.7"
-  resolved "git+https://github.com/ProjectOpenSea/wyvern-schemas.git#e1a08fcf8ce2b11a0fe9cbdc7c9f77c59fadef26"
+"wyvern-schemas@git+https://github.com/ProjectOpenSea/wyvern-schemas.git#v0.13.1":
+  version "0.13.0"
+  uid dda99d5bb08d780fc7aa357efaf00cdf8934b92a
+  resolved "git+https://github.com/ProjectOpenSea/wyvern-schemas.git#dda99d5bb08d780fc7aa357efaf00cdf8934b92a"
   dependencies:
     "@0xproject/utils" "^0.3.4"
     axios "^0.17.1"
