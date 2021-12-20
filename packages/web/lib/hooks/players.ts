@@ -303,13 +303,24 @@ export const useAnimation = (
 ): { [key: string]: string } => {
   const [animation, setAnimation] = useState('fadeIn');
 
+  const usePrevious = <T extends unknown>(value: T): T | undefined => {
+    const ref = useRef<T>();
+    useEffect(() => {
+      ref.current = value;
+    });
+    return ref.current;
+  };
+  const previousValue = usePrevious(depends);
+
   useEffect(() => {
-    setAnimation('fadeOut');
-    setTimeout(() => {
-      updateFN();
-      setAnimation('fadeIn');
-    }, 400);
-  }, [depends, updateFN]);
+    if (JSON.stringify(previousValue) !== JSON.stringify(depends)) {
+      setAnimation('fadeOut');
+      setTimeout(() => {
+        updateFN();
+        setAnimation('fadeIn');
+      }, 400);
+    }
+  }, [depends, previousValue, updateFN]);
 
   return { animation };
 };
