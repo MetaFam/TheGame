@@ -139,6 +139,7 @@ const DesktopMenuItem = ({
       display="flex"
       className="desktop-menu-item"
       href={url}
+      width="full"
       m={1}
       padding="1rem"
       borderRadius="0.618vmax"
