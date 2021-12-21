@@ -19,20 +19,17 @@ import { PlayerContacts } from 'components/Player/PlayerContacts';
 import { PlayerTileMemberships } from 'components/Player/PlayerTileMemberships';
 import { SkillsTags } from 'components/Skills';
 import { utils } from 'ethers';
-import {
-  PlayerFragmentFragment,
-  PlayerRank_Enum,
-  Skill,
-} from 'graphql/autogen/types';
+import { Player, PlayerRank_Enum, Skill } from 'graphql/autogen/types';
 import { Patron } from 'graphql/types';
 import NextLink from 'next/link';
 import React, { useMemo } from 'react';
 import { FaGlobe } from 'react-icons/fa';
 import { getPlayerTimeZoneDisplay } from 'utils/dateHelpers';
 import {
-  getPlayerCoverImage,
-  getPlayerDescription,
-  getPlayerName,
+  getBannerFor,
+  getDescriptionOf,
+  getNameOf,
+  getURLFor,
 } from 'utils/playerHelpers';
 
 const PATRON_RANKS = [
@@ -53,12 +50,12 @@ type Props = {
 const MAX_BIO_LENGTH = 240;
 
 export const PatronTile: React.FC<Props> = ({ index, patron }) => {
-  const player = patron as PlayerFragmentFragment;
+  const player = patron as Player;
   const patronRank = computeRank(index, PATRONS_PER_RANK, PATRON_RANKS);
   const tzDisplay = useMemo(() => getPlayerTimeZoneDisplay(player.timeZone), [
     player.timeZone,
   ]);
-  const description = getPlayerDescription(player);
+  const description = getDescriptionOf(player);
   const displayDescription =
     description && description.length > MAX_BIO_LENGTH
       ? `${description.substring(0, MAX_BIO_LENGTH - 9)}…`
@@ -67,7 +64,7 @@ export const PatronTile: React.FC<Props> = ({ index, patron }) => {
     <LinkBox>
       <MetaTile>
         <Box
-          bgImage={`url(${getPlayerCoverImage(player)})`}
+          bgImage={`url(${getBannerFor(player)})`}
           bgSize="cover"
           bgPosition="center"
           position="absolute"
@@ -76,17 +73,13 @@ export const PatronTile: React.FC<Props> = ({ index, patron }) => {
           w="100%"
           h="4.5rem"
         />
-        <NextLink
-          as={`/player/${player.profile?.username}`}
-          href="/player/[username]"
-          passHref
-        >
+        <NextLink as={getURLFor(player)} href="/player/[username]" passHref>
           <LinkOverlay>
             <MetaTileHeader>
               <VStack>
                 <PlayerAvatar player={player} size="xl" />
                 <Heading size="xs" color="white">
-                  {getPlayerName(player)}
+                  {getNameOf(player)}
                 </Heading>
               </VStack>
               <Wrap w="100%" justify="center">

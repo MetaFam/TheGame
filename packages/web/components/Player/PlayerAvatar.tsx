@@ -1,14 +1,10 @@
 import { Avatar, AvatarProps } from '@metafam/ds';
-import { PlayerFragmentFragment } from 'graphql/autogen/types';
+import { Player } from 'graphql/autogen/types';
 import React from 'react';
-import {
-  getImageFor,
-  getNameOf,
-  hasImage,
-} from 'utils/playerHelpers';
+import { getImageFor, getNameOf, hasImage } from 'utils/playerHelpers';
 
 type PlayerAvatarProps = AvatarProps & {
-  player?: PlayerFragmentFragment;
+  player?: Player;
   omitBackground?: boolean;
 };
 

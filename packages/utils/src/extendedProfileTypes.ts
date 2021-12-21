@@ -6,7 +6,7 @@ export type Values<T> = T[keyof T];
 export { BasicProfile };
 
 export const BasicProfileImages = {
-  imageURL: 'image',
+  profileImageURL: 'image',
   bannerImageURL: 'background',
 } as const;
 export const BasicProfileStrings = {
@@ -77,7 +77,7 @@ export type HasuraProfileProps = HasuraBPImages &
   HasuraBPStrings &
   HasuraEPImages &
   HasuraEPStrings &
-  EPObjects;
+  EPObjects & { playerId?: string };
 
 export type CeramicBPImages = {
   -readonly [key in Values<typeof BasicProfileImages>]?: ImageSources;

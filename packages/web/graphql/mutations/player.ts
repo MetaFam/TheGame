@@ -30,7 +30,7 @@ gql`
       type {
         id
         description
-        imageURL
+        profileImageURL
         title
       }
     }

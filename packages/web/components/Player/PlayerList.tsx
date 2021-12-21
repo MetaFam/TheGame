@@ -1,10 +1,10 @@
 import { SimpleGrid } from '@metafam/ds';
 import { PlayerTile } from 'components/Player/PlayerTile';
-import { PlayerFragmentFragment } from 'graphql/autogen/types';
+import { Player } from 'graphql/autogen/types';
 import React from 'react';
 
 type Props = {
-  players: PlayerFragmentFragment[];
+  players: Player[];
   showSeasonalXP?: boolean;
 };
 

@@ -40,9 +40,11 @@ gql`
       constraint: profile_player_id_key
       update_columns: [
         name
+        username
         description
         emoji
-        imageURL
+        profileImageURL
+        bannerImageURL
         backgroundImageURL
         gender
         pronouns

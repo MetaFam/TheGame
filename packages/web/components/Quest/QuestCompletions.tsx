@@ -17,12 +17,12 @@ import {
   QuestWithCompletionFragmentFragment,
   useUpdateQuestCompletionMutation,
 } from 'graphql/autogen/types';
+import { useUser } from 'lib/hooks';
 import moment from 'moment';
 import React, { useCallback, useState } from 'react';
 import { FaExternalLinkAlt } from 'react-icons/fa';
+import { getNameOf } from 'utils/playerHelpers';
 
-import { useUser } from '../../lib/hooks';
-import { getPlayerName } from '../../utils/playerHelpers';
 import { CompletionStatusTag } from './QuestTags';
 
 interface AlertSubmission {
@@ -93,7 +93,7 @@ export const QuestCompletions: React.FC<Props> = ({ quest }) => {
           }) => (
             <Box key={id} w="100%">
               <HStack px={4} py={4}>
-                <Avatar name={getPlayerName(player as Player)} />
+                <Avatar name={getNameOf(player as Player)} />
                 <CompletionStatusTag status={status} />
                 <Text>
                   <i>
@@ -102,7 +102,7 @@ export const QuestCompletions: React.FC<Props> = ({ quest }) => {
                       as={`/player/${player.profile?.username}`}
                       href="/player/[username]"
                     >
-                      {getPlayerName(player as Player)}
+                      {getNameOf(player as Player)}
                     </MetaLink>
                   </i>
                 </Text>

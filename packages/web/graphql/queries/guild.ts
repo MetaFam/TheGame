@@ -1,4 +1,3 @@
-import { GuildPlayer } from 'graphql/types';
 import {
   GetGuildMetadataQuery,
   GetGuildMetadataQueryVariables,
@@ -12,11 +11,12 @@ import {
   GetGuildsQueryVariables,
   GuildFragmentFragment,
   GuildStatus_Enum,
-} from '../autogen/types';
-import { client } from '../client';
-import { GuildFragment, PlayerFragment } from '../fragments';
+} from 'graphql/autogen/types';
+import { client } from 'graphql/client';
+import { GuildFragment, PlayerFragment } from 'graphql/fragments';
+import { GuildPlayer } from 'graphql/types';
 
-const guildQuery = /* GraphQL */`
+const guildQuery = /* GraphQL */ `
   query GetGuild($guildname: String!) {
     guild(where: { guildname: { _eq: $guildname } }) {
       ...GuildFragment
@@ -38,7 +38,7 @@ export const getGuild = async (
   return undefined;
 };
 
-const guildMetadataQuery = /* GraphQL */`
+const guildMetadataQuery = /* GraphQL */ `
   query GetGuildMetadata($id: uuid!) {
     guild_metadata(where: { guild_id: { _eq: $id } }) {
       guild_id
@@ -63,7 +63,7 @@ export const getGuildMetadata = async (id: string) => {
   return data?.guild_metadata[0];
 };
 
-const guildsQuery = /* GraphQL */`
+const guildsQuery = /* GraphQL */ `
   query GetGuilds($limit: Int) {
     guild(where: { status: { _eq: ACTIVE } }, limit: $limit) {
       ...GuildFragment
@@ -89,7 +89,7 @@ export const getGuilds = async (
   return data.guild;
 };
 
-const guildnamesQuery = /* GraphQL */`
+const guildnamesQuery = /* GraphQL */ `
   query GetGuildnames($status: GuildStatus_enum, $limit: Int) {
     guild(where: { status: { _eq: $status } }, limit: $limit) {
       id
@@ -119,7 +119,7 @@ export const getGuildnames = async (
   return data.guild.map(({ guildname }) => guildname);
 };
 
-const getGuildPlayersQuery = /* GraphQL */`
+const getGuildPlayersQuery = /* GraphQL */ `
   query GetGuildPlayers($guildId: uuid!) {
     guild_player(where: { guild_id: { _eq: $guildId } }) {
       Player {
@@ -129,7 +129,7 @@ const getGuildPlayersQuery = /* GraphQL */`
         ethereumAddress
         profile {
           username
-          imageURL
+          profileImageURL
           name
         }
       }

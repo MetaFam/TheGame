@@ -4,43 +4,57 @@ import GuildCoverImageSmall from 'assets/guild-background-small.jpeg';
 import PlayerCoverImageFull from 'assets/player-background-full.jpg';
 import PlayerCoverImageSmall from 'assets/player-background-small.jpg';
 import { ethers } from 'ethers';
-import { PlayerFragmentFragment } from 'graphql/autogen/types';
+import { Player } from 'graphql/autogen/types';
 import { httpLink } from 'utils/linkHelpers';
 
-export const getPlayerImage = (player?: PlayerFragmentFragment): string => {
-  const link = httpLink(player?.profile?.imageURL);
+export const getImageFor = (player?: Player): string => {
+  const link = httpLink(player?.profile?.profileImageURL);
   if (link) return link;
-  return !player?.profile?.username
-    ? ProfileIcon
-    : `https://avatars.dicebear.com/api/jdenticon/${player.profile.username}.svg`;
+
+  const { username } = player?.profile ?? {};
+  return username
+    ? `https://avatars.dicebear.com/api/jdenticon/${username}.svg`
+    : ProfileIcon;
 };
 
-export const getPlayerCoverImage = (player: PlayerFragmentFragment): string =>
-  httpLink(player.profile_cache?.backgroundImageURL) || PlayerCoverImageSmall;
+export const getBannerFor = (player: Player): string =>
+  httpLink(player.profile?.bannerImageURL) || PlayerCoverImageSmall;
 
-export const getPlayerCoverImageFull = (
-  player?: PlayerFragmentFragment,
-): string =>
-  httpLink(player?.profile_cache?.backgroundImageURL) || PlayerCoverImageFull;
+export const getFullBannerFor = (player?: Player): string =>
+  httpLink(player?.profile?.bannerImageURL) || PlayerCoverImageFull;
 
 export const getGuildCoverImageFull = (): string => GuildCoverImageFull;
 
 export const getGuildCoverImageSmall = (): string => GuildCoverImageSmall;
 
-export const getPlayerName = (
-  player?: PlayerFragmentFragment,
-): string | undefined =>
+export const getNameOf = (player?: Player): string | undefined =>
   player?.profile?.name ||
-  formatUsernameIfAddress(player?.profile?.username ?? undefined);
+  formatIfAddress(player?.profile?.username ?? undefined);
 
-export const getPlayerDescription = (player?: PlayerFragmentFragment): string =>
-  player?.profile?.description ?? '';
+export const getUsernameOf = (player?: Player): string | undefined =>
+  formatIfAddress(player?.profile?.username ?? undefined);
+
+export const getDescriptionOf = (player?: Player): string | undefined =>
+  player?.profile?.description ?? undefined;
 
 export const formatAddress = (address = ''): string =>
   `${address.slice(0, 6)}…${address.slice(-4)}`;
 
-export const formatUsernameIfAddress = (username = ''): string =>
+export const formatIfAddress = (username = ''): string =>
   ethers.utils.isAddress(username) ? formatAddress(username) : username;
 
-export const hasPlayerImage = (player?: PlayerFragmentFragment): boolean =>
-  !!player?.profile?.imageURL;
+export const getURLFor = (
+  player?: Player,
+  opts?: { rel: boolean },
+): string | undefined => {
+  const { username } = player?.profile ?? {};
+  const { rel = true } = opts ?? {};
+  if (username) {
+    const path = `/player/${username}`;
+    return `${rel ? '' : 'https://my.metagame.wtf'}${path}`;
+  }
+  return undefined;
+};
+
+export const hasImage = (player?: Player): boolean =>
+  !!player?.profile?.profileImageURL;

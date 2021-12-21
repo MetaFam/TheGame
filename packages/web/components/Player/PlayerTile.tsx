@@ -17,19 +17,20 @@ import { PlayerAvatar } from 'components/Player/PlayerAvatar';
 import { PlayerContacts } from 'components/Player/PlayerContacts';
 import { PlayerTileMemberships } from 'components/Player/PlayerTileMemberships';
 import { SkillsTags } from 'components/Skills';
-import { PlayerFragmentFragment, Skill } from 'graphql/autogen/types';
+import { Player, Skill } from 'graphql/autogen/types';
 import NextLink from 'next/link';
 import React, { useMemo } from 'react';
 import { FaGlobe } from 'react-icons/fa';
 import { getPlayerTimeZoneDisplay } from 'utils/dateHelpers';
 import {
-  getPlayerCoverImage,
-  getPlayerDescription,
-  getPlayerName,
+  getBannerFor,
+  getDescriptionOf,
+  getNameOf,
+  getURLFor,
 } from 'utils/playerHelpers';
 
 type Props = {
-  player: PlayerFragmentFragment;
+  player: Player;
   showSeasonalXP?: boolean;
 };
 
@@ -43,10 +44,10 @@ export const PlayerTile: React.FC<Props> = ({
     () => getPlayerTimeZoneDisplay(player.timeZone),
     [player.timeZone],
   );
-  const description = getPlayerDescription(player);
+  const description = getDescriptionOf(player);
   const displayDescription =
-    description?.length > MAX_BIO_LENGTH
-      ? `${description.substring(0, MAX_BIO_LENGTH - 9)}…`
+    (description?.length ?? 0) > MAX_BIO_LENGTH
+      ? `${description!.substring(0, MAX_BIO_LENGTH - 9)}…`
       : description;
 
   console.info({ player });
@@ -55,7 +56,7 @@ export const PlayerTile: React.FC<Props> = ({
     <LinkBox>
       <MetaTile>
         <Box
-          bgImage={`url(${getPlayerCoverImage(player)})`}
+          bgImage={`url(${getBannerFor(player)})`}
           bgSize="cover"
           bgPosition="center"
           position="absolute"
@@ -65,7 +66,7 @@ export const PlayerTile: React.FC<Props> = ({
           h="4.5rem"
         />
         <NextLink
-          as={`/player/${player.profile?.username}`}
+          as={getURLFor(player, { rel: true })}
           href="/player/[username]"
           passHref
         >
@@ -74,7 +75,7 @@ export const PlayerTile: React.FC<Props> = ({
               <VStack>
                 <PlayerAvatar {...{ player }} size="xl" />
                 <Heading size="xs" color="white">
-                  {getPlayerName(player)}
+                  {getNameOf(player)}
                 </Heading>
               </VStack>
               <Wrap w="100%" justify="center">

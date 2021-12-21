@@ -20,7 +20,7 @@ import {
 } from 'lib/hooks/players';
 import NextLink from 'next/link';
 import React, { useMemo, useState } from 'react';
-import { getPlayerName } from 'utils/playerHelpers';
+import { getNameOf } from 'utils/playerHelpers';
 
 type ValueType = { value: string; label: string };
 
@@ -134,7 +134,7 @@ export const Leaderboard: React.FC = () => {
                     href="/player/[username]"
                     passHref
                   >
-                    <LinkOverlay>{getPlayerName(p)}</LinkOverlay>
+                    <LinkOverlay>{getNameOf(p)}</LinkOverlay>
                   </NextLink>
                 </Box>
                 <Box className="player__score" textAlign="right" flex={1}>

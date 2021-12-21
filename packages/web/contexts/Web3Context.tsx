@@ -1,7 +1,7 @@
 import { EthereumAuthProvider, ThreeIdConnect } from '@3id/connect';
 import ThreeIdResolver from '@ceramicnetwork/3id-did-resolver';
 import type { CeramicApi } from '@ceramicnetwork/common';
-import Ceramic from '@ceramicnetwork/http-client';
+import { CeramicClient } from '@ceramicnetwork/http-client';
 import { did } from '@metafam/utils';
 import WalletConnectProvider from '@walletconnect/web3-provider';
 import { CONFIG } from 'config';
@@ -19,7 +19,6 @@ import React, {
   useCallback,
   useEffect,
   useMemo,
-  useRef,
   useState,
 } from 'react';
 import Web3Modal from 'web3modal';
@@ -88,28 +87,24 @@ export async function authenticateWallet(
 }
 
 interface Web3ContextProviderOptions {
-  children: React.ReactElement;
   resetUrqlClient?: () => void;
 }
 
 export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
-  children,
   resetUrqlClient,
+  children,
 }) => {
   const [provider, setProvider] = useState<Maybe<providers.Web3Provider>>(null);
-  const [connected, setConnected] = useState<boolean>(false);
-  const [connecting, setConnecting] = useState<boolean>(true);
-  const [address, setAddress] = useState<string | null>(null);
-  const [authToken, setAuthToken] = useState<string | null>(null);
-  const calledOnce = useRef<boolean>(false);
-  const ceramic = useMemo(
-    () => (new Ceramic(CONFIG.ceramicURL) as unknown) as CeramicApi,
-    [],
-  );
+  const [connected, setConnected] = useState(false);
+  const [connecting, setConnecting] = useState(true);
+  const [address, setAddress] = useState<Maybe<string>>(null);
+  const [authToken, setAuthToken] = useState<Maybe<string>>(null);
+  const ceramic = useMemo(() => new CeramicClient(CONFIG.ceramicURL), []);
 
   useEffect(() => {
     if (provider && address) {
       const threeIdConnect = new ThreeIdConnect();
+      // Can this work with WalletConnect?
       const authProvider = new EthereumAuthProvider(window.ethereum, address);
       threeIdConnect.connect(authProvider).then(() => {
         ceramic.did = new DID({
@@ -165,14 +160,11 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
   }, [resetUrqlClient, disconnect]);
 
   useEffect(() => {
-    if (calledOnce.current) return;
-    calledOnce.current = true;
-
     if (web3Modal === false) return;
     if (web3Modal.cachedProvider) {
       connect().catch(console.error); // eslint-disable-line no-console
     }
-  }, [connect]);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <Web3Context.Provider

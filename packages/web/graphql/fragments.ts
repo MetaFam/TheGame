@@ -46,7 +46,7 @@ export const PlayerFragment = gql`
       username
       description
       emoji
-      imageURL
+      profileImageURL
       bannerImageURL
       backgroundImageURL
       location

@@ -629,11 +629,11 @@
   configuration:
     custom_root_fields: {}
     custom_column_names:
+      profile_image_url: profileImageURL
       country_code: countryCode
       background_image_url: backgroundImageURL
       last_checked_at: lastCheckedAt
       banner_image_url: bannerImageURL
-      image_url: imageURL
       player_id: playerId
   object_relationships:
   - name: player
@@ -650,7 +650,7 @@
       - emoji
       - gender
       - id
-      - image_url
+      - profile_image_url
       - location
       - name
       - player_id
@@ -668,7 +668,7 @@
       - emoji
       - gender
       - id
-      - image_url
+      - profile_image_url
       - location
       - name
       - player_id
@@ -686,7 +686,7 @@
       - description
       - emoji
       - gender
-      - image_url
+      - profile_image_url
       - location
       - name
       - pronouns

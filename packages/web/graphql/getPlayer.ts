@@ -3,23 +3,22 @@ import gql from 'fake-tag';
 import {
   GetPlayerQuery,
   GetPlayerQueryVariables,
-  PlayerFragmentFragment,
+  Maybe,
+  Player,
 } from './autogen/types';
 import { client } from './client';
 import { PlayerFragment } from './fragments';
 
 const playerQuery = gql`
   query GetPlayer($username: String!, $forLoginDisplay: Boolean! = false) {
-    player(where: { profile: { username: { _eq: $username } } }) {
+    player(where: { profile: { username: { _ilike: $username } } }) {
       ...PlayerFragment
     }
   }
   ${PlayerFragment}
 `;
 
-export const getPlayer = async (
-  username: string | undefined,
-): Promise<PlayerFragmentFragment | null> => {
+export const getPlayer = async (username?: string): Promise<Maybe<Player>> => {
   if (!username) return null;
 
   const { data, error } = await client
@@ -32,5 +31,7 @@ export const getPlayer = async (
     }
     return null;
   }
-  return data.player?.[0] ?? null;
+
+  const [player] = data.player ?? [];
+  return (player as Player) ?? null;
 };

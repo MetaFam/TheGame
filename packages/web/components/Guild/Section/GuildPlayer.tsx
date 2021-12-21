@@ -1,12 +1,12 @@
 import { Box, Heading, HStack, Link, Text } from '@metafam/ds';
 import { PlayerAvatar } from 'components/Player/PlayerAvatar';
-import { PlayerFragmentFragment } from 'graphql/autogen/types';
+import { Player } from 'graphql/autogen/types';
 import { GuildPlayer } from 'graphql/types';
 import React from 'react';
-import { getPlayerName } from 'utils/playerHelpers';
+import { getNameOf } from 'utils/playerHelpers';
 
 type GuildPlayerProps = {
-  player: PlayerFragmentFragment;
+  player: Player;
 };
 
 export const GuildPlayerComponent: React.FC<GuildPlayerProps> = ({
@@ -28,7 +28,7 @@ export const GuildPlayerComponent: React.FC<GuildPlayerProps> = ({
           color="white"
           mb="1"
         >
-          {getPlayerName(player)}
+          {getNameOf(player)}
         </Heading>
         <HStack alignItems="center">
           <Text fontSize="xs">{(player as GuildPlayer).role}</Text>

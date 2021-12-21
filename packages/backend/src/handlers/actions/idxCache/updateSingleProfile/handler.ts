@@ -28,6 +28,6 @@ export default async (req: Request, res: Response): Promise<void> => {
     );
     res.json({ success: true });
   } else {
-    throw new Error('Already queued to be refreshed.');
+    console.warn(`"${playerId}" already queued to be refreshed.`);
   }
 };

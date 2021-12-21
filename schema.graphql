@@ -6054,7 +6054,6 @@ type profile {
   emoji: String
   gender: String
   id: uuid!
-  imageURL: String
   lastCheckedAt: timestamptz
   location: String
   name: String
@@ -6062,6 +6061,7 @@ type profile {
   """An object relationship"""
   player: player!
   playerId: uuid!
+  profileImageURL: String
   pronouns: String
   username: String
   website: String
@@ -6115,12 +6115,12 @@ input profile_bool_exp {
   emoji: String_comparison_exp
   gender: String_comparison_exp
   id: uuid_comparison_exp
-  imageURL: String_comparison_exp
   lastCheckedAt: timestamptz_comparison_exp
   location: String_comparison_exp
   name: String_comparison_exp
   player: player_bool_exp
   playerId: uuid_comparison_exp
+  profileImageURL: String_comparison_exp
   pronouns: String_comparison_exp
   username: String_comparison_exp
   website: String_comparison_exp
@@ -6151,12 +6151,12 @@ input profile_insert_input {
   emoji: String
   gender: String
   id: uuid
-  imageURL: String
   lastCheckedAt: timestamptz
   location: String
   name: String
   player: player_obj_rel_insert_input
   playerId: uuid
+  profileImageURL: String
   pronouns: String
   username: String
   website: String
@@ -6171,11 +6171,11 @@ type profile_max_fields {
   emoji: String
   gender: String
   id: uuid
-  imageURL: String
   lastCheckedAt: timestamptz
   location: String
   name: String
   playerId: uuid
+  profileImageURL: String
   pronouns: String
   username: String
   website: String
@@ -6192,11 +6192,11 @@ input profile_max_order_by {
   emoji: order_by
   gender: order_by
   id: order_by
-  imageURL: order_by
   lastCheckedAt: order_by
   location: order_by
   name: order_by
   playerId: order_by
+  profileImageURL: order_by
   pronouns: order_by
   username: order_by
   website: order_by
@@ -6211,11 +6211,11 @@ type profile_min_fields {
   emoji: String
   gender: String
   id: uuid
-  imageURL: String
   lastCheckedAt: timestamptz
   location: String
   name: String
   playerId: uuid
+  profileImageURL: String
   pronouns: String
   username: String
   website: String
@@ -6232,11 +6232,11 @@ input profile_min_order_by {
   emoji: order_by
   gender: order_by
   id: order_by
-  imageURL: order_by
   lastCheckedAt: order_by
   location: order_by
   name: order_by
   playerId: order_by
+  profileImageURL: order_by
   pronouns: order_by
   username: order_by
   website: order_by
@@ -6281,12 +6281,12 @@ input profile_order_by {
   emoji: order_by
   gender: order_by
   id: order_by
-  imageURL: order_by
   lastCheckedAt: order_by
   location: order_by
   name: order_by
   player: player_order_by
   playerId: order_by
+  profileImageURL: order_by
   pronouns: order_by
   username: order_by
   website: order_by
@@ -6325,9 +6325,6 @@ enum profile_select_column {
   id
 
   """column name"""
-  imageURL
-
-  """column name"""
   lastCheckedAt
 
   """column name"""
@@ -6338,6 +6335,9 @@ enum profile_select_column {
 
   """column name"""
   playerId
+
+  """column name"""
+  profileImageURL
 
   """column name"""
   pronouns
@@ -6360,11 +6360,11 @@ input profile_set_input {
   emoji: String
   gender: String
   id: uuid
-  imageURL: String
   lastCheckedAt: timestamptz
   location: String
   name: String
   playerId: uuid
+  profileImageURL: String
   pronouns: String
   username: String
   website: String
@@ -6396,9 +6396,6 @@ enum profile_update_column {
   id
 
   """column name"""
-  imageURL
-
-  """column name"""
   lastCheckedAt
 
   """column name"""
@@ -6409,6 +6406,9 @@ enum profile_update_column {
 
   """column name"""
   playerId
+
+  """column name"""
+  profileImageURL
 
   """column name"""
   pronouns

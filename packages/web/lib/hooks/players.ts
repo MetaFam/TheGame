@@ -1,6 +1,6 @@
 import {
+  Player,
   Player_Order_By,
-  PlayerFragmentFragment,
   useGetPlayerFiltersQuery,
   useGetPlayersQuery,
 } from 'graphql/autogen/types';
@@ -25,7 +25,7 @@ export interface PlayerAggregates {
 }
 
 interface PlayerFilter {
-  players: PlayerFragmentFragment[];
+  players: Player[];
   totalCount: number;
   fetching: boolean;
   fetchingMore: boolean;
@@ -64,7 +64,7 @@ const useFilteredPlayers = (queryVariables: PlayersQueryVariables) => {
     variables: transformToGraphQLVariables(variables),
   });
 
-  const players = data?.player || [];
+  const players = (data?.player as Player[]) || [];
   const totalCount = data?.player_aggregate.aggregate?.count || 0;
 
   return { fetching, players, totalCount, error };
@@ -175,9 +175,7 @@ export const usePlayerFilter = (
     moreAvailable,
   } = usePaginatedPlayers(queryVariables, setQueryVariable);
 
-  const [players, setPlayers] = useState<PlayerFragmentFragment[]>(
-    fetchedPlayers,
-  );
+  const [players, setPlayers] = useState<Player[]>(fetchedPlayers);
 
   useEffect(() => {
     if (!error && !fetching) {

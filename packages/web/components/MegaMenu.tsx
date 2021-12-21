@@ -56,13 +56,15 @@ import Youtube from 'assets/menuIcon/youtube.svg';
 import SeedMarket from 'assets/seed-icon.svg';
 import XPStar from 'assets/xp-star.svg';
 import { MetaLink } from 'components/Link';
-import { PlayerFragmentFragment } from 'graphql/autogen/types';
+import { Player } from 'graphql/autogen/types';
 import { useUser, useWeb3 } from 'lib/hooks';
 import { usePSeedBalance } from 'lib/hooks/balances';
 import { useRouter } from 'next/router';
 import React, { useCallback, useEffect, useState } from 'react';
 import { MenuLinkItem, MenuLinkSet, MenuSectionLinks } from 'utils/menuLinks';
-import { getPlayerImage, getPlayerName, getURLFor } from 'utils/playerHelpers';
+import { getURLFor } from 'utils/playerHelpers';
+
+import { PlayerAvatar } from './Player/PlayerAvatar';
 
 const { amountToDecimal } = numbers;
 
@@ -347,7 +349,7 @@ const DesktopNavLinks = () => {
 // );
 
 type PlayerStatsProps = {
-  player: PlayerFragmentFragment;
+  player: Player;
 };
 // Display player XP and Seed
 const PlayerStats: React.FC<PlayerStatsProps> = ({ player }) => {
@@ -411,9 +413,8 @@ const PlayerStats: React.FC<PlayerStatsProps> = ({ player }) => {
           _hover={{ bg: 'transparent' }}
           _active={{ bg: 'transparent' }}
         >
-          <Avatar
-            name={getPlayerName(player)}
-            src={getPlayerImage(player)}
+          <PlayerAvatar
+            {...{ player }}
             w={14}
             h={14}
             m={0}

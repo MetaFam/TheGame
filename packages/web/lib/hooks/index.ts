@@ -1,9 +1,9 @@
 import { Web3Context, Web3ContextType } from 'contexts/Web3Context';
-import { useGetMeQuery } from 'graphql/autogen/types';
+import { Player, useGetMeQuery } from 'graphql/autogen/types';
 import { Maybe } from 'graphql/jsutils/Maybe';
 import { MeType } from 'graphql/types';
 import { useRouter } from 'next/router';
-import React, { useContext, useEffect } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import { RequestPolicy } from 'urql';
 
 export const useWeb3 = (): Web3ContextType => useContext(Web3Context);
@@ -33,18 +33,18 @@ export const useUser = ({
     requestPolicy,
   });
   const [me] = data?.me ?? [];
-  const user = error || !authToken || !me ? null : me;
+  const user = useMemo(
+    () =>
+      !error && authToken && me ? { ...me, player: me.player as Player } : null,
+    [error, authToken, me],
+  );
 
   useEffect(() => {
     if (!redirectTo || fetching || connecting) return;
 
-    if (
-      // If redirectTo is set and redirectIfNotFound is set then
-      // redirect if the user was not found.
-      redirectTo &&
-      redirectIfNotFound &&
-      !user
-    ) {
+    // If redirectTo is set and redirectIfNotFound is set then
+    // redirect if the user was not found.
+    if (redirectTo && redirectIfNotFound && !user) {
       router.push(redirectTo);
     }
   }, [router, user, fetching, connecting, redirectIfNotFound, redirectTo]);
@@ -52,11 +52,9 @@ export const useUser = ({
   return { user, fetching };
 };
 
+// https://www.joshwcomeau.com/react/the-perils-of-rehydration/
 export const useMounted = (): boolean => {
-  // https://www.joshwcomeau.com/react/the-perils-of-rehydration/
-  const [hasMounted, setHasMounted] = React.useState(false);
-  React.useEffect(() => {
-    setHasMounted(true);
-  }, []);
-  return hasMounted;
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  return mounted;
 };

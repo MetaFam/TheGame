@@ -184,33 +184,18 @@
           type: 'string',
           maxLength: 127,
         },
-        proportion: {
-          anyOf: [
-            {
-              type: 'object',
-              properties: {
-                width: {
-                  $ref: '#/$defs/naturalNumber',
-                },
-                height: {
-                  $ref: '#/$defs/naturalNumber',
-                },
-              },
-              required: ['width', 'height'],
-            },
-            {
-              description: 'The ratio of the height and width. This makes more sense for vector images that scale indefinitely.',
-              type: 'string',
-              pattern: '^([0-9]+(\\.[0-9]*)?|[0-9]*(\\.[0-9]+)?|[0-9]+(\\.[0-9]*)?[:⁄/][0-9]+(\\.[0-9]*)?)$',
-            },
-          ],
+        width: {
+          $ref: '#/$defs/naturalNumber',
+        },
+        height: {
+          $ref: '#/$defs/naturalNumber',
         },
         size: {
           description: 'The number of bytes in the image. An eighth of the number of bits.',
           $ref: '#/$defs/wholeNumber',
         },
       },
-      required: ['src', 'mimeType', 'proportion'],
+      required: ['src'],
     },
     sources: {
       type: 'object',

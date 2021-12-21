@@ -1,5 +1,4 @@
 import {
-  Avatar,
   Badge,
   Dashboard,
   Flex,
@@ -22,7 +21,9 @@ import { LoginButton } from 'components/LoginButton';
 import { useUser, useWeb3 } from 'lib/hooks';
 import { usePSeedBalance } from 'lib/hooks/balances';
 import React from 'react';
-import { getPlayerImage, getPlayerName } from 'utils/playerHelpers';
+import { getNameOf } from 'utils/playerHelpers';
+
+import { PlayerAvatar } from './Player/PlayerAvatar';
 
 const { amountToDecimal } = numbers;
 
@@ -65,13 +66,7 @@ const PlayerStats = () => {
                 _active={{ bg: 'transparent' }}
               >
                 <Flex>
-                  <Avatar
-                    name={getPlayerName(player)}
-                    src={getPlayerImage(player)}
-                    w={12}
-                    h={12}
-                    m={0}
-                  />
+                  <PlayerAvatar {...{ player }} w={12} h={12} m={0} />
                   <Stack my={2} ml={2} justify="center">
                     <Text
                       fontSize={player.rank ? 14 : 22}
@@ -80,7 +75,7 @@ const PlayerStats = () => {
                       p={0}
                       lineHeight={1}
                     >
-                      {getPlayerName(player)}
+                      {getNameOf(player)}
                     </Text>
                     {player.rank && (
                       <Text fontSize={12} m={0} p={0} lineHeight={1}>

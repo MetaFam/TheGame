@@ -3,11 +3,10 @@ import { MegaMenu } from 'components/MegaMenu';
 import { PlayerStatsBar } from 'components/PlayerStatsBar';
 import { CONFIG } from 'config';
 import { Web3ContextProvider } from 'contexts/Web3Context';
+import { wrapUrqlClient } from 'graphql/client';
 import Head from 'next/head';
 import { WithUrqlProps } from 'next-urql';
 import React from 'react';
-
-import { wrapUrqlClient } from '../graphql/client';
 
 const App: React.FC<WithUrqlProps> = ({
   pageProps,
@@ -18,7 +17,7 @@ const App: React.FC<WithUrqlProps> = ({
     <CSSReset />
     <Head>
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <title>MetaGame</title>
+      <title>Ⲙⲉⲧⲁ𝓖ⲁⲙⲉ</title>
       {CONFIG.gaId != null && (
         <>
           <script
@@ -26,6 +25,7 @@ const App: React.FC<WithUrqlProps> = ({
             src={`https://www.googletagmanager.com/gtag/js?id=${CONFIG.gaId}`}
           />
           <script
+            type="text/javascript"
             dangerouslySetInnerHTML={{
               __html: `
                 window.dataLayer = window.dataLayer || [];
@@ -53,11 +53,9 @@ const App: React.FC<WithUrqlProps> = ({
       )}
     </Head>
     <Web3ContextProvider {...{ resetUrqlClient }}>
-      <>
-        {!pageProps.hideTopMenu && <MegaMenu />}
-        {!pageProps.hideTopMenu && <PlayerStatsBar />}
-        <Component {...pageProps} />
-      </>
+      {!pageProps.hideTopMenu && <MegaMenu />}
+      {!pageProps.hideTopMenu && <PlayerStatsBar />}
+      <Component {...pageProps} />
     </Web3ContextProvider>
   </ChakraProvider>
 );

@@ -31,7 +31,7 @@ import React, { useEffect, useState } from 'react';
 import { FaClock, FaGlobe } from 'react-icons/fa';
 import { BoxType } from 'utils/boxTypes';
 import { getPlayerTimeZoneDisplay } from 'utils/dateHelpers';
-import { getPlayerDescription, getPlayerName } from 'utils/playerHelpers';
+import { getDescriptionOf, getNameOf } from 'utils/playerHelpers';
 
 const MAX_BIO_LENGTH = 240;
 
@@ -42,7 +42,7 @@ type Props = {
 };
 type AvailabilityProps = { person: PlayerFragmentFragment | null | undefined };
 type TimeZoneDisplayProps = {
-  person: PlayerFragmentFragment | null | undefined;
+  person: Player | null | undefined;
 };
 
 export const PlayerHero: React.FC<Props> = ({

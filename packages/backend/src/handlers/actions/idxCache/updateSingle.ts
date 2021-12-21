@@ -7,18 +7,29 @@ import {
 } from '@datamodels/identity-accounts-web';
 import {
   BasicProfile,
+  ImageSources,
   model as basicProfileModel,
 } from '@datamodels/identity-profile-basic';
 import { ModelManager } from '@glazed/devtools';
 import { DIDDataStore } from '@glazed/did-datastore';
 import { TileLoader } from '@glazed/tile-loader';
-import { extendedProfileModel, ProfileProps } from '@metafam/utils';
+import {
+  BasicProfileImages,
+  BasicProfileStrings,
+  ExtendedProfile,
+  ExtendedProfileImages,
+  extendedProfileModel,
+  ExtendedProfileObjects,
+  ExtendedProfileStrings,
+  HasuraProfileProps,
+  Values,
+} from '@metafam/utils';
 import { getLegacy3BoxProfileAsBasicProfile } from '@self.id/3box-legacy';
-import { Maybe } from 'graphql/jsutils/Maybe';
 
 import { CONFIG } from '../../../config';
 import {
   AccountType_Enum,
+  Maybe,
   UpdateBoxProfileResponse,
 } from '../../../lib/autogen/hasura-sdk';
 import { client } from '../../../lib/hasuraClient';
@@ -36,82 +47,139 @@ export default async (playerId: string): Promise<UpdateBoxProfileResponse> => {
   const { player_by_pk: player } = await client.GetPlayer({ playerId });
   const ethAddress = player?.ethereumAddress;
 
-  const store = new DIDDataStore({
-    ceramic,
-    loader,
-    model: await manager.toPublished(),
-  });
-
   if (!ethAddress) {
-    throw new Error(`Unknown Player: ${JSON.stringify(player, null, 2)}`);
+    throw new Error(`Unknown Player: "${playerId}"`);
   }
 
-  const caip10 = await Caip10Link.fromAccount(
-    ceramic,
-    `${ethAddress.toLowerCase()}@eip155:1`,
-  );
-
   try {
-    let basicProfile;
-    let extendedProfile;
-    let values: Maybe<ProfileProps> = null;
+    const store = new DIDDataStore({
+      ceramic,
+      loader,
+      model: await manager.toPublished(),
+    });
+    const caip10 = await Caip10Link.fromAccount(
+      ceramic,
+      // Defaulting to mainnet. This may cause data irregularities
+      // if their wallet is connected to a different DID on a
+      // different chain.
+      `${ethAddress.toLowerCase()}@eip155:1`,
+    );
+    const values: HasuraProfileProps = { playerId };
+    let basicProfile: Maybe<BasicProfile> = null;
 
     if (!caip10.did) {
       console.debug(`No CAIP-10 Link For ${ethAddress}`);
     } else {
-      basicProfile = (await store.get(
-        'basicProfile',
-        caip10.did,
-      )) as BasicProfile;
-
-      extendedProfile = await store.get('extendedProfile', caip10.did); // as ExtendedProfile;
+      basicProfile = await store.get('basicProfile', caip10.did);
     }
 
+    // This isn't called if they haven't created a mainnet DID
+    // This should be checked even without a DID
     if (!basicProfile) {
       basicProfile = await getLegacy3BoxProfileAsBasicProfile(ethAddress);
     }
 
     if (!basicProfile) {
-      console.debug(`No Profile For: ${ethAddress}`);
+      console.debug(`No Basic Profile For: ${ethAddress} (${caip10.did})`);
     } else {
-      const {
-        name,
-        description,
-        emoji,
-        gender,
-        url,
-        homeLocation: location,
-        residenceCountry: countryCode,
-        image,
-        background,
-      } = basicProfile;
-      values = {
-        playerId,
-        name,
-        description,
-        emoji,
-        imageURL: image?.original?.src,
-        backgroundImageURL: background?.original?.src,
-        gender,
-        location,
-        countryCode,
-        website: url,
-      };
+      Object.entries(BasicProfileStrings).forEach(([hasuraId, ceramicId]) => {
+        const fromKey = ceramicId as Values<typeof BasicProfileStrings>;
+        const toKey = hasuraId as keyof typeof BasicProfileStrings;
+        if (basicProfile?.[fromKey] != null) {
+          values[toKey] = (basicProfile[fromKey] as string) ?? null;
+        }
+      });
+      Object.entries(BasicProfileImages).forEach(([hasuraId, ceramicId]) => {
+        const fromKey = ceramicId as Values<typeof BasicProfileImages>;
+        const toKey = hasuraId as keyof typeof BasicProfileImages;
+        if (basicProfile?.[fromKey] != null) {
+          values[toKey] = (basicProfile[fromKey] as ImageSources).original.src;
+        }
+      });
+    }
 
-      if (extendedProfile) {
-        values.pronouns = extendedProfile.pronouns;
+    if (caip10.did) {
+      const extendedProfile: Maybe<ExtendedProfile> = await store.get(
+        'extendedProfile',
+        caip10.did,
+      );
+
+      if (!extendedProfile) {
+        console.debug(`No Extended Profile For: ${ethAddress} (${caip10.did})`);
+      } else {
+        Object.entries(ExtendedProfileStrings).forEach(
+          ([hasuraId, ceramicId]) => {
+            const fromKey = ceramicId as Values<typeof ExtendedProfileStrings>;
+            const toKey = hasuraId as keyof typeof ExtendedProfileStrings;
+            if (extendedProfile?.[fromKey] != null) {
+              values[toKey] = (extendedProfile[fromKey] as string) ?? null;
+            }
+          },
+        );
+        Object.entries(ExtendedProfileImages).forEach(
+          ([hasuraId, ceramicId]) => {
+            const fromKey = ceramicId as Values<typeof ExtendedProfileImages>;
+            const toKey = hasuraId as keyof typeof ExtendedProfileImages;
+            if (extendedProfile?.[fromKey] != null) {
+              values[toKey] = (extendedProfile[
+                fromKey
+              ] as ImageSources).original.src;
+            }
+          },
+        );
+        Object.values(ExtendedProfileObjects).forEach(
+          ([hasuraId, ceramicId]) => {
+            const fromKey = ceramicId as Values<typeof ExtendedProfileObjects>;
+            const toKey = hasuraId as keyof typeof ExtendedProfileObjects;
+            if (extendedProfile?.[fromKey] != null) {
+              switch (toKey) {
+                default: {
+                  console.info({ fromKey, toKey });
+                }
+              }
+            }
+          },
+        );
       }
     }
-    if (values) {
-      await client.UpsertProfileCache({ objects: [values] });
-    }
-  } catch (err) {
-    if (!(err as Error).message.includes('No DID')) {
-      throw err;
-    }
-  }
 
-  try {
+    try {
+      const response = await client.UpsertProfileCache({ objects: [values] });
+
+      console.info({
+        s: CONFIG.ceramicURL,
+        addr: ethAddress,
+        did: caip10.did,
+
+        basicProfile,
+        values,
+      });
+
+      console.info({ response });
+    } catch (err) {
+      if (
+        (err as Error).message.includes(
+          'violates unique constraint "profile_username_key"',
+        )
+      ) {
+        values.username = `${values.username}-${ethAddress.slice(0, 6)}`;
+        const response = await client.UpsertProfileCache({
+          objects: [values],
+        });
+
+        console.info({
+          s: CONFIG.ceramicURL,
+          addr: ethAddress,
+          did: caip10.did,
+
+          basicProfile,
+          values,
+        });
+
+        console.info({ response });
+      }
+    }
+
     if (caip10.did) {
       const alsoKnownAs = ((await store.get('alsoKnownAs', caip10.did)) ??
         {}) as AlsoKnownAs;
@@ -123,13 +191,7 @@ export default async (playerId: string): Promise<UpdateBoxProfileResponse> => {
             ?.replace(/\.com$/, '')
             .toUpperCase() as AccountType_Enum;
           if (!service) {
-            console.error(
-              `No hostname for AlsoKnownAs: ${JSON.stringify(
-                alsoKnownAs,
-                null,
-                2,
-              )}`,
-            );
+            console.error(`No hostname for AlsoKnownAs: "${host}"`);
           } else {
             // If the account has been registered previously, this will
             // destructively assign it to the current user removing any
@@ -162,7 +224,9 @@ export default async (playerId: string): Promise<UpdateBoxProfileResponse> => {
       );
     }
   } catch (err) {
-    console.error(`Error: ${(err as Error).message}`);
+    if (!(err as Error).message.includes('No DID')) {
+      throw err;
+    }
   }
 
   return {
