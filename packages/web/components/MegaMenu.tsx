@@ -98,8 +98,11 @@ const menuIcons: { [key: string]: string } = {
   becomeapatron: BecomeAPatron,
 };
 
+type LogoProps = {
+  link: string;
+};
 // Navbar logo
-const Logo = () => (
+const Logo = ({ link }: LogoProps) => (
   <Box
     className="logo"
     w={{ base: 'fit-content', lg: '209px' }}
@@ -108,7 +111,7 @@ const Logo = () => (
     textAlign={{ base: 'center', lg: 'left' }}
   >
     <MetaLink
-      href="/"
+      href={link}
       _focus={{ outline: 'none', bg: 'transparent' }}
       _hover={{ bg: 'transparent' }}
       _active={{ bg: 'transparent' }}
@@ -490,7 +493,7 @@ export const MegaMenu: React.FC = () => {
           w={{ base: 'fit-content', lg: '100%' }}
           justifyContent="space-between"
         >
-          <Logo />
+          <Logo link={user?.player ? '/dashboard' : '/'} />
           <DesktopNavLinks />
           {/* <Search /> */}
           {fetching ? (
