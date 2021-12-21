@@ -139,13 +139,16 @@ const DesktopMenuItem = ({
       display="flex"
       className="desktop-menu-item"
       href={url}
+      m={1}
       padding="1rem"
+      borderRadius="0.618vmax"
       _hover={{
-        bg: 'rgba(0,0,0,0.56)',
-        borderRadius: '0.618vmax',
+        backgroundColor: 'rgba(0,0,0,0.56)',
         textDecoration: 'none',
-        animation: '1.2s',
+        transition: '0s',
       }}
+      transitionTimingFunction="ease-in"
+      transition="0.5s"
       _focus={{ outline: 'none' }}
     >
       <Avatar
@@ -154,15 +157,17 @@ const DesktopMenuItem = ({
         width="64px"
         height="64px"
         style={{ padding: '10px', marginRight: '20px' }}
-        bg="black"
+        bg="linear-gradient(180deg, rgba(0, 0, 0, 0.36) 0%, rgba(0, 0, 0, 0.36) 100%);"
+        boxShadow="0 0 0 2px rgba(0, 0, 0, 0.08)"
         sx={{
           '.desktop-menu-item:hover &': {
-            outline: '1px solid rgba(100,100,100,0.28)',
-            boxShadow: 'lg',
-            bg: 'linear-gradient(rgba(0,0,0,1), rgba(100,100,100,0.23)) 116%',
+            boxShadow: '0 0 1px 1px rgba(255, 255, 255, 0.1)',
+            bg: 'linear-gradient(180deg, #170B23 0%, #350C58 100%);',
+            transition: '0s',
           },
         }}
-        // bg="linear-gradient(180deg, #170B23 0%, #350C58 100%)"
+        transitionTimingFunction="ease-in"
+        transition="0.3s"
       />
       <Box>
         <Text color="#fff" fontSize="xl" fontWeight="bold">
