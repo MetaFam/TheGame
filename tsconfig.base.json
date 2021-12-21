@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
-    "module": "esnext",
-    "target": "es6",
-    "lib": ["esnext"],
+    "module": "ESNext",
+    "target": "ES6",
+    "lib": ["ES2019", "ES2020", "ESNext"],
     "moduleResolution": "node",
     "jsx": "react",
     "outDir": "./dist",
