@@ -1,4 +1,6 @@
 /* istanbul ignore file */
+
+import { Maybe } from '@metafam/utils';
 import cityTimeZones from 'city-timezones';
 import React, { useCallback, useState } from 'react';
 import TimeZoneSelect, {
@@ -6,16 +8,15 @@ import TimeZoneSelect, {
 } from 'react-timezone-select';
 import spacetime from 'spacetime';
 import informal from 'spacetime-informal';
-
 import { chakraesqueStyles } from './theme';
 
 export type TimeZoneType = {
-  value: string;
-  title: string;
+  location: string;
+  title: Maybe<string>;
   label: string;
   offset: number;
-  abbrev: string;
-  altName: string;
+  abbreviation: Maybe<string>;
+  name: string;
 };
 
 export interface TimeZone {
@@ -23,6 +24,7 @@ export interface TimeZone {
   label: string;
   altName: string;
   abbrev: string;
+  offset: number;
 }
 
 export interface TimeZoneSelectProps extends Record<string, unknown> {
@@ -41,55 +43,65 @@ const timeZoneSelectStyles: typeof chakraesqueStyles = {
   }),
 };
 
+export const getTimeZoneFor = ({
+  location,
+  title,
+}: {
+  location: string;
+  title?: Maybe<string>;
+}): TimeZoneType => {
+  title = title ?? null;
+  const now = spacetime.now().goto(location);
+  const tz = now.timezone();
+  const tzStrings = informal.display(location);
+
+  let abbreviation = null;
+  let name = location;
+
+  if (tzStrings?.standard) {
+    abbreviation =
+      now.isDST() && tzStrings.daylight
+        ? tzStrings.daylight.abbrev
+        : tzStrings.standard.abbrev;
+    name =
+      now.isDST() && tzStrings.daylight
+        ? tzStrings.daylight.name
+        : tzStrings.standard.name;
+  }
+
+  const min = tz.current.offset * 60;
+  const hr = `${(min / 60) ^ 0}:${Math.abs(min % 60)
+    .toString()
+    .padEnd(2, '0')}`;
+  const prefix = `(GMT${hr.includes('-') ? hr : `+${hr}`}) ${title}`;
+  const label = `${prefix} ${
+    abbreviation && abbreviation.length < 5 ? `(${abbreviation})` : ''
+  }`;
+
+  return {
+    location,
+    title,
+    label,
+    offset: tz.current.offset,
+    abbreviation,
+    name,
+  };
+};
+
 export const TimeZoneOptions: TimeZoneType[] = Object.entries(i18nTimeZones)
-  .map(([value, title]) => {
-    const now = spacetime.now().goto(value);
-    const tz = now.timezone();
-    const tzStrings = informal.display(value);
-
-    let abbrev = value;
-    let altName = value;
-
-    if (tzStrings?.standard) {
-      abbrev =
-        now.isDST() && tzStrings.daylight
-          ? tzStrings.daylight.abbrev
-          : tzStrings.standard.abbrev;
-      altName =
-        now.isDST() && tzStrings.daylight
-          ? tzStrings.daylight.name
-          : tzStrings.standard.name;
-    }
-
-    const min = tz.current.offset * 60;
-    const hr = `${(min / 60) ^ 0}:${Math.abs(min % 60)
-      .toString()
-      .padEnd(2, '0')}`;
-    const prefix = `(GMT${hr.includes('-') ? hr : `+${hr}`}) ${title}`;
-
-    const label = `${prefix} ${abbrev.length < 5 ? `(${abbrev})` : ''}`;
-
-    return {
-      value,
-      title,
-      label,
-      offset: tz.current.offset,
-      abbrev,
-      altName,
-    };
-  })
+  .map(([location, title]) => getTimeZoneFor({ location, title }))
   .sort((a, b) => (a.offset < b.offset ? -1 : 1));
 
 export const timeZonesFilter = (
   searchText: string,
   filteredTimeZones: string[],
-) => ({ value, title, label, abbrev, altName }: TimeZoneType): boolean =>
-  value.toLowerCase().includes(searchText) ||
-  title.toLowerCase().includes(searchText) ||
+) => ({ location, title, label, abbreviation, name }: TimeZoneType): boolean =>
+  location.toLowerCase().includes(searchText) ||
+  title?.toLowerCase().includes(searchText) ||
   label.toLowerCase().includes(searchText) ||
-  abbrev.toLowerCase().includes(searchText) ||
-  altName.toLowerCase().includes(searchText) ||
-  filteredTimeZones.includes(value);
+  abbreviation?.toLowerCase().includes(searchText) ||
+  name.toLowerCase().includes(searchText) ||
+  filteredTimeZones.includes(location);
 
 export const getTimeZonesFor = (searchText: string): string[] =>
   cityTimeZones
@@ -120,7 +132,7 @@ export const SelectTimeZone: React.FC<TimeZoneSelectProps> = ({
       styles={timeZoneSelectStyles}
       filterOption={null}
       timeZones={Object.fromEntries(
-        options.map(({ value: val, title }) => [val, title]),
+        options.map(({ location, title }) => [location, title]),
       )}
       {...{ onInputChange }}
       {...props}

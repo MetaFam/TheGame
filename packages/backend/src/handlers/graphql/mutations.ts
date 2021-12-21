@@ -46,10 +46,18 @@ gql`
         profileImageURL
         bannerImageURL
         backgroundImageURL
+        availableHours
         gender
         pronouns
         location
         countryCode
+        timeZone {
+          name
+          fullForm
+          abbreviation
+          location
+          offset
+        }
         website
       ]
     }

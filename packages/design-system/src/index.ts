@@ -21,6 +21,7 @@ export {
   SelectSearch,
 } from './SelectSearch';
 export {
+  getTimeZoneFor,
   getTimeZonesFor,
   SelectTimeZone,
   TimeZoneOptions,

@@ -3,7 +3,7 @@
 import { CeramicClient } from '@ceramicnetwork/http-client'
 import { Caip10Link } from '@ceramicnetwork/stream-caip10-link'
 import {
-  model as basicProfileModel,
+  model as basicProfileModel
 } from '@datamodels/identity-profile-basic'
 import { ModelManager } from '@glazed/devtools'
 import { DIDDataStore } from '@glazed/did-datastore'
@@ -19,6 +19,8 @@ const query = async () => {
   const manager = new ModelManager(ceramic)
   manager.addJSONModel(basicProfileModel)
 
+  console.info(`Connecting to: ${daemon}`)
+
   const store = new DIDDataStore({
     ceramic,
     loader,
@@ -33,6 +35,8 @@ const query = async () => {
   if (!caip10.did) {
     console.debug(`No CAIP-10 Link For ${ethAddress}`);
   } else {
+    console.debug(`DID: ${caip10.did}`)
+
     const profile = (await store.get(
       'basicProfile',
       caip10.did,

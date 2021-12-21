@@ -1,6 +1,6 @@
 import { BasicProfile, ImageSources } from '@datamodels/identity-profile-basic';
-import { MutableRefObject } from 'react';
 
+export type Maybe<T> = T | null;
 export type Values<T> = T[keyof T];
 
 export { BasicProfile };
@@ -57,11 +57,24 @@ export type HasuraEPStrings = {
   -readonly [key in keyof typeof ExtendedProfileStrings]?: string;
 };
 
+export type AbbreviatedForm = {
+  fullForm?: Maybe<string>;
+  abbreviation: Maybe<string>;
+}
+export type NamedOffset = {
+  AbbreviatedForm
+  & { offset?: number }
+}
+
 export interface TimeZone {
-  name?: string;
-  abbreviation: string;
-  location?: string;
-  offset: number;
+  annual?: AbbreviatedForm;
+  standardName?: Maybe<string>; //         Eastern Standard Time
+  standardAbbreviation?: Maybe<string>; // EST
+  standardOffset: number; //               -5
+  savingsName?: Maybe<string>; //          Eastern Daylight Time
+  savingsAbbreviation?: Maybe<string>; //  EDT
+  savingsOffset: number; //                -4
+  locations?: [string]; //                 ['NYC']
 }
 export interface TitledDescription {
   title: string;
@@ -112,11 +125,3 @@ export const Strings = {
   ...BasicProfileStrings,
   ...ExtendedProfileStrings,
 } as const;
-
-export type Endpoints = {
-  -readonly [key in keyof typeof Images]?: {
-    val: string;
-    set: () => void;
-    ref: MutableRefObject<HTMLImageElement>;
-  };
-};

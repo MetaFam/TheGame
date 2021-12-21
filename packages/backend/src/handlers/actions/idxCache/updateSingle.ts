@@ -25,7 +25,6 @@ import {
   Values,
 } from '@metafam/utils';
 import { getLegacy3BoxProfileAsBasicProfile } from '@self.id/3box-legacy';
-
 import { CONFIG } from '../../../config';
 import {
   AccountType_Enum,
@@ -33,14 +32,6 @@ import {
   UpdateBoxProfileResponse,
 } from '../../../lib/autogen/hasura-sdk';
 import { client } from '../../../lib/hasuraClient';
-
-const cache = new Map();
-const ceramic = new Ceramic(CONFIG.ceramicURL);
-const loader = new TileLoader({ ceramic, cache });
-const manager = new ModelManager(ceramic);
-manager.addJSONModel(basicProfileModel);
-manager.addJSONModel(alsoKnownAsModel);
-manager.addJSONModel(extendedProfileModel);
 
 export default async (playerId: string): Promise<UpdateBoxProfileResponse> => {
   const updatedProfiles: string[] = [];
@@ -52,6 +43,14 @@ export default async (playerId: string): Promise<UpdateBoxProfileResponse> => {
   }
 
   try {
+    const cache = new Map();
+    const ceramic = new Ceramic(CONFIG.ceramicURL);
+    const loader = new TileLoader({ ceramic, cache });
+    const manager = new ModelManager(ceramic);
+    manager.addJSONModel(basicProfileModel);
+    manager.addJSONModel(alsoKnownAsModel);
+    manager.addJSONModel(extendedProfileModel);
+
     const store = new DIDDataStore({
       ceramic,
       loader,
@@ -127,12 +126,20 @@ export default async (playerId: string): Promise<UpdateBoxProfileResponse> => {
             }
           },
         );
-        Object.values(ExtendedProfileObjects).forEach(
+        Object.entries(ExtendedProfileObjects).forEach(
           ([hasuraId, ceramicId]) => {
             const fromKey = ceramicId as Values<typeof ExtendedProfileObjects>;
             const toKey = hasuraId as keyof typeof ExtendedProfileObjects;
             if (extendedProfile?.[fromKey] != null) {
               switch (toKey) {
+                case 'availableHours': {
+                  values[toKey] = extendedProfile[fromKey] as number;
+                  break;
+                }
+                case 'timeZone': {
+                  // values[toKey] = extendedProfile[fromKey] as TimeZone;
+                  break;
+                }
                 default: {
                   console.info({ fromKey, toKey });
                 }
@@ -158,11 +165,15 @@ export default async (playerId: string): Promise<UpdateBoxProfileResponse> => {
       console.info({ response });
     } catch (err) {
       if (
-        (err as Error).message.includes(
+        !(err as Error).message.includes(
           'violates unique constraint "profile_username_key"',
         )
       ) {
-        values.username = `${values.username}-${ethAddress.slice(0, 6)}`;
+        throw err;
+      } else {
+        values.username = `${values.username}-${(
+          caip10.did ?? ethAddress
+        ).slice(-8)}`;
         const response = await client.UpsertProfileCache({
           objects: [values],
         });
@@ -225,7 +236,7 @@ export default async (playerId: string): Promise<UpdateBoxProfileResponse> => {
     }
   } catch (err) {
     if (!(err as Error).message.includes('No DID')) {
-      throw err;
+      throw new Error(`Update Error: ${(err as Error).message}`);
     }
   }
 

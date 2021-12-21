@@ -310,7 +310,6 @@
       updated_at: updatedAt
       season_xp: seasonXP
       created_at: createdAt
-      available_hours: availableHours
       total_xp: totalXP
       timezone: timeZone
       player_type_id: playerTypeId
@@ -404,7 +403,6 @@
   - role: player
     permission:
       columns:
-      - available_hours
       - color_mask
       - ethereum_address
       - id
@@ -419,7 +417,6 @@
   - role: public
     permission:
       columns:
-      - available_hours
       - color_mask
       - ethereum_address
       - id
@@ -635,6 +632,7 @@
       last_checked_at: lastCheckedAt
       banner_image_url: bannerImageURL
       player_id: playerId
+      available_hours: availableHours
   object_relationships:
   - name: player
     using:
@@ -643,6 +641,7 @@
   - role: player
     permission:
       columns:
+      - available_hours
       - background_image_url
       - banner_image_url
       - country_code
@@ -650,10 +649,10 @@
       - emoji
       - gender
       - id
-      - profile_image_url
       - location
       - name
       - player_id
+      - profile_image_url
       - pronouns
       - username
       - website
@@ -661,6 +660,7 @@
   - role: public
     permission:
       columns:
+      - available_hours
       - background_image_url
       - banner_image_url
       - country_code
@@ -668,10 +668,10 @@
       - emoji
       - gender
       - id
-      - profile_image_url
       - location
       - name
       - player_id
+      - profile_image_url
       - pronouns
       - username
       - website
@@ -680,15 +680,16 @@
   - role: player
     permission:
       columns:
+      - available_hours
       - background_image_url
       - banner_image_url
       - country_code
       - description
       - emoji
       - gender
-      - profile_image_url
       - location
       - name
+      - profile_image_url
       - pronouns
       - username
       - website

@@ -1,6 +1,7 @@
 import { SetupAvailability } from 'components/Setup/SetupAvailability';
 import { SetupProfile } from 'components/Setup/SetupProfile';
 import { SetupContextProvider } from 'contexts/SetupContext';
+import { Maybe } from 'graphql/autogen/types';
 import { useUser } from 'lib/hooks';
 import { InferGetStaticPropsType } from 'next';
 import React, { useState } from 'react';
@@ -15,14 +16,14 @@ export type DefaultSetupProps = InferGetStaticPropsType<typeof getStaticProps>;
 
 const AvailabilitySetup: React.FC<DefaultSetupProps> = () => {
   const { user } = useUser();
-  const [available, setAvailability] = useState<number | null>(
-    user?.player?.availableHours ?? null,
+  const { player } = user ?? {};
+  const [available, setAvailability] = useState<Maybe<number>>(
+    player?.profile?.availableHours ?? null,
   );
 
-  if (user?.player) {
-    const { player } = user;
-    if (player.availableHours != null && available === null) {
-      setAvailability(player.availableHours);
+  if (player) {
+    if (player?.profile?.availableHours != null && available === null) {
+      setAvailability(player.profile.availableHours);
     }
   }
 

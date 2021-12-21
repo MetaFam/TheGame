@@ -8,7 +8,6 @@ export const PlayerFragment = gql`
     rank @skip(if: $forLoginDisplay)
     ethereumAddress
     profile_layout @skip(if: $forLoginDisplay)
-    availableHours @skip(if: $forLoginDisplay)
     timeZone @skip(if: $forLoginDisplay)
     colorMask @skip(if: $forLoginDisplay)
 
@@ -53,6 +52,7 @@ export const PlayerFragment = gql`
       countryCode
       website
       pronouns
+      availableHours
     }
 
     daohausMemberships @skip(if: $forLoginDisplay) {

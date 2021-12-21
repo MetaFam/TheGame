@@ -18,7 +18,6 @@ gql`
   mutation UpdateProfile($playerId: uuid!, $input: player_set_input!) {
     update_player_by_pk(pk_columns: { id: $playerId }, _set: $input) {
       id
-      availableHours
       timeZone
     }
   }
@@ -30,7 +29,7 @@ gql`
       type {
         id
         description
-        profileImageURL
+        imageURL
         title
       }
     }
