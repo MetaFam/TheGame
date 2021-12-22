@@ -37,27 +37,8 @@
       maxLength: 5,
     },
     timeZone: {
-      type: 'object',
-      properties: {
-        name: {
-          description: 'The expanded version of the abbreviation for the time zone. I.e. “Eastern Daylight Time”.',
-          type: 'string',
-          maxLength: 127,
-        },
-        abbreviation: {
-          description: 'The abbreviated form of the time zone’s name. I.e. “EDT”.',
-          type: 'string',
-          maxLength: 127,
-        },
-        offset: {
-          description: 'The number of hours this time zone varies from Universal Time (UTC). I.e. -5.5 for “UTC-5:30”.',
-          type: 'number',
-        },
-        location: {
-          description: 'Somewhere located within this time zone. I.e. “New York City, New York”. There are standard locations for each zone, but they are sometimes far from the user and theuy would like to specify somewhere else.',
-          type: 'string',
-        },
-      },
+      type: 'string',
+      maxLength: 127,
     },
     availableHours: {
       description: 'The number of hours the user is avaiable each week for work projects.',

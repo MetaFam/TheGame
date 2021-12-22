@@ -14,7 +14,6 @@ UPDATE profile
   AND profile.available_hours IS NULL
 ;
 
-
 ALTER TABLE public.player
   DROP COLUMN IF EXISTS available_hours CASCADE
 ;

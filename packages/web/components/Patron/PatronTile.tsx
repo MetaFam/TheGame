@@ -1,5 +1,6 @@
 import {
   Box,
+  getTimeZoneFor,
   Heading,
   HStack,
   LinkBox,
@@ -24,7 +25,6 @@ import { Patron } from 'graphql/types';
 import NextLink from 'next/link';
 import React, { useMemo } from 'react';
 import { FaGlobe } from 'react-icons/fa';
-import { getPlayerTimeZoneDisplay } from 'utils/dateHelpers';
 import {
   getBannerFor,
   getDescriptionOf,
@@ -52,9 +52,14 @@ const MAX_BIO_LENGTH = 240;
 export const PatronTile: React.FC<Props> = ({ index, patron }) => {
   const player = patron as Player;
   const patronRank = computeRank(index, PATRONS_PER_RANK, PATRON_RANKS);
-  const tzDisplay = useMemo(() => getPlayerTimeZoneDisplay(player.timeZone), [
-    player.timeZone,
-  ]);
+  const { label: timeZone = null, offset = null } = useMemo(
+    () =>
+      getTimeZoneFor({ location: player.profile?.timeZone ?? undefined }) ?? {
+        label: null,
+        offset: null,
+      },
+    [player.profile?.timeZone],
+  );
   const description = getDescriptionOf(player);
   const displayDescription =
     description && description.length > MAX_BIO_LENGTH
@@ -109,18 +114,16 @@ export const PatronTile: React.FC<Props> = ({ index, patron }) => {
                   )}`}</MetaTag>
                 </WrapItem>
               </Wrap>
-              {tzDisplay?.timeZone && (
+              {timeZone && (
                 <HStack alignItems="baseline" w="auto" justify="center">
                   <FaGlobe color="blueLight" fontSize="0.875rem" />
-                  <Text fontSize="lg">{tzDisplay?.timeZone || '-'}</Text>
-                  {tzDisplay?.offset != null && (
-                    <Text fontSize="sm">{tzDisplay?.offset}</Text>
-                  )}
+                  <Text fontSize="lg">{timeZone || '―'}</Text>
+                  {offset != null && <Text fontSize="sm">{offset}</Text>}
                 </HStack>
               )}
               {displayDescription && (
                 <VStack spacing={2} align="stretch" pt="0.5rem">
-                  <Text textStyle="caption">ABOUT</Text>
+                  <Text textStyle="caption">About</Text>
                   <Text fontSize="sm">{displayDescription}</Text>
                 </VStack>
               )}

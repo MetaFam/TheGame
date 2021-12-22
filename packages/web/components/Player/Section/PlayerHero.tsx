@@ -2,6 +2,7 @@ import {
   Box,
   EditIcon,
   Flex,
+  getTimeZoneFor,
   HStack,
   IconButton,
   Modal,
@@ -12,6 +13,7 @@ import {
   ModalOverlay,
   SimpleGrid,
   Text,
+  Tooltip,
   useDisclosure,
   VStack
 } from '@metafam/ds';
@@ -263,17 +265,17 @@ const Availability: React.FC<AvailabilityProps> = ({ person }) => {
 };
 
 const TimeZoneDisplay: React.FC<TimeZoneDisplayProps> = ({ person }) => {
-  const timeDisplay = getPlayerTimeZoneDisplay(person?.profile?.timeZone);
+  const tz = getTimeZoneFor({ title: person?.profile?.timeZone });
   const [timeZone, setTimeZone] = useState<string>('');
   const [offset, setOffset] = useState<string>('');
   const updateFN = () => {
-    if (timeDisplay.timeZone) setTimeZone(timeDisplay.timeZone);
-    if (timeDisplay.offset) setOffset(timeDisplay.offset);
+    if (tz?.name) setTimeZone(tz.name);
+    if (tz?.utc) setOffset(tz.utc);
   };
   const short = offset?.replace(/:00\)$/, ')').replace(/ +/g, '');
 
   const { animation } = useAnimateProfileChanges(
-    timeDisplay.timeZone,
+    tz?.name,
     updateFN,
   );
   return (
@@ -289,19 +291,21 @@ const TimeZoneDisplay: React.FC<TimeZoneDisplayProps> = ({ person }) => {
         {timeZone == null ? (
           <Text fontStyle="italic">Unspecified.</Text>
         ) : (
-          <>
-            <Box pr={1}>
-              <FaGlobe color="blueLight" />
-            </Box>
-            <Text fontSize={{ base: 'md', sm: 'lg' }} pr={1}>
-              {timeZone || '−'}
-            </Text>
-            {short && (
-              <Text fontSize={{ base: 'sm', sm: 'md' }} whiteSpace="pre">
-                {short}
+          <Tooltip label={tz?.name} hasArrow>
+            <Flex align="center" whiteSpace="pre">
+              <Box pr={1}>
+                <FaGlobe color="blueLight" />
+              </Box>
+              <Text fontSize={{ base: 'md', sm: 'lg' }} pr={1}>
+                {timeZone || '−'}
               </Text>
-            )}
-          </>
+              {short && (
+                <Text fontSize={{ base: 'sm', sm: 'md' }} whiteSpace="pre">
+                  {short}
+                </Text>
+              )}
+            </Flex>
+          </Tooltip>
         )}
       </FlexContainer>
     </Flex>

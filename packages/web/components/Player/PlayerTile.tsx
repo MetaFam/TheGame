@@ -42,11 +42,11 @@ export const PlayerTile: React.FC<Props> = ({
 }) => {
   const { label: timeZone = 'Unknown', offset } = useMemo(
     () =>
-      getTimeZoneFor({ location: player.timeZone ?? undefined }) ?? {
+      getTimeZoneFor({ location: player.profile?.timeZone ?? undefined }) ?? {
         label: undefined,
         offset: undefined,
       }, // Hack
-    [player.timeZone],
+    [player.profile?.timeZone],
   );
   const description = getDescriptionOf(player);
   const displayDescription =

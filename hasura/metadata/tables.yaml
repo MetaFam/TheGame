@@ -311,7 +311,6 @@
       season_xp: seasonXP
       created_at: createdAt
       total_xp: totalXP
-      timezone: timeZone
       player_type_id: playerTypeId
   object_relationships:
   - name: color_aspect
@@ -410,7 +409,6 @@
       - rank
       - role
       - season_xp
-      - timezone
       - total_xp
       filter: {}
       allow_aggregations: true
@@ -424,7 +422,6 @@
       - rank
       - role
       - season_xp
-      - timezone
       - total_xp
       filter: {}
       allow_aggregations: true
@@ -655,6 +652,7 @@
       - player_id
       - profile_image_url
       - pronouns
+      - time_zone
       - username
       - website
       filter: {}
@@ -674,6 +672,7 @@
       - player_id
       - profile_image_url
       - pronouns
+      - time_zone
       - username
       - website
       filter: {}
@@ -692,6 +691,7 @@
       - name
       - profile_image_url
       - pronouns
+      - time_zone
       - username
       - website
       filter:
