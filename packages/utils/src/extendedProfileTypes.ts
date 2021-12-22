@@ -31,10 +31,14 @@ export const ExtendedProfileStrings = {
   username: 'username',
   pronouns: 'pronouns',
   magicDisposition: 'magicDisposition',
+  // B/c of the difficulty determining whether it is
+  // daylight savings in a particular zone, only the
+  // name is saved & the details are retrieved from
+  // a library.
+  timeZone: 'timeZone',
 } as const;
 export const ExtendedProfileObjects = {
   availableHours: 'availableHours',
-  timeZone: 'timeZone',
   playerType: 'playerType',
 } as const;
 export const ExtendedProfileFields = {
@@ -57,27 +61,12 @@ export type HasuraEPStrings = {
   -readonly [key in keyof typeof ExtendedProfileStrings]?: string;
 };
 
-export type AbbreviatedForm = {
-  fullForm?: Maybe<string>;
-  abbreviation: Maybe<string>;
-}
-export type NamedOffset = 
-  AbbreviatedForm
-  & { offset?: number };
-
-export interface TimeZone {
-  annual?: AbbreviatedForm;
-  standard?: NamedOffset; //         Eastern Standard Time
-  savings?: NamedOffset; //          Eastern Daylight Time
-  locations?: [string]; //                 ['NYC']
-}
 export interface TitledDescription {
   title: string;
   description?: string;
 }
 export type EPObjects = {
   availableHours?: number;
-  timeZone?: string;
   playerType?: TitledDescription;
 };
 

@@ -5,12 +5,18 @@ import cityTimeZones from 'city-timezones';
 import React, { useCallback, useState } from 'react';
 import TimeZoneSelect, {
   i18nTimezones as i18nTimeZones,
+  ITimezone,
+  ITimezoneOption,
 } from 'react-timezone-select';
 import spacetime from 'spacetime';
 import informal from 'spacetime-informal';
+
 import { chakraesqueStyles } from './theme';
 
-export type TimeZoneType = {
+export type LabeledValue = { value: string; label: string };
+
+export type TimeZone = {
+  utc: string;
   location: string;
   title: Maybe<string>;
   label: string;
@@ -19,18 +25,10 @@ export type TimeZoneType = {
   name: string;
 };
 
-export interface TimeZone {
-  value: string;
-  label: string;
-  altName: string;
-  abbrev: string;
-  offset: number;
-}
-
 export interface TimeZoneSelectProps extends Record<string, unknown> {
-  value?: TimeZone | string;
+  value?: ITimezone;
   onBlur?: () => void;
-  onChange?: (timeZone: TimeZone) => void;
+  onChange?: (timeZone: ITimezoneOption) => void;
   labelStyle: 'original' | 'altName' | 'abbrev';
 }
 
@@ -46,11 +44,13 @@ const timeZoneSelectStyles: typeof chakraesqueStyles = {
 export const getTimeZoneFor = ({
   location,
   title,
+  opts = {},
 }: {
   location: string;
   title?: Maybe<string>;
-}): TimeZoneType => {
-  title = title ?? null;
+  opts?: Record<string, boolean>;
+}): TimeZone => {
+  title = title ?? null; // eslint-disable-line no-param-reassign
   const now = spacetime.now().goto(location);
   const tz = now.timezone();
   const tzStrings = informal.display(location);
@@ -69,16 +69,20 @@ export const getTimeZoneFor = ({
         : tzStrings.standard.name;
   }
 
-  const min = tz.current.offset * 60;
-  const hr = `${(min / 60) ^ 0}:${Math.abs(min % 60)
-    .toString()
-    .padEnd(2, '0')}`;
-  const prefix = `(GMT${hr.includes('-') ? hr : `+${hr}`}) ${title}`;
-  const label = `${prefix} ${
-    abbreviation && abbreviation.length < 5 ? `(${abbreviation})` : ''
+  const mins = tz.current.offset * 60;
+  let hrs = `${(mins / 60) ^ 0}`;
+  if (!opts.shortHours || Math.abs(mins % 60) !== 0) {
+    hrs += `:${Math.abs(mins % 60)
+      .toString()
+      .padEnd(2, '0')}`;
+  }
+  const utc = `(GMT${hrs.includes('-') ? hrs : `+${hrs}`})`;
+  const label = `${utc} ${title ?? name} ${
+    abbreviation && ` (${abbreviation})`
   }`;
 
   return {
+    utc,
     location,
     title,
     label,
@@ -88,25 +92,26 @@ export const getTimeZoneFor = ({
   };
 };
 
-export const TimeZoneOptions: TimeZoneType[] = Object.entries(i18nTimeZones)
+export const TimeZoneOptions: TimeZone[] = Object.entries(i18nTimeZones)
   .map(([location, title]) => getTimeZoneFor({ location, title }))
   .sort((a, b) => (a.offset < b.offset ? -1 : 1));
 
-export const timeZonesFilter = (
-  searchText: string,
-  filteredTimeZones: string[],
-) => ({ location, title, label, abbreviation, name }: TimeZoneType): boolean =>
-  location.toLowerCase().includes(searchText) ||
-  title?.toLowerCase().includes(searchText) ||
-  label.toLowerCase().includes(searchText) ||
-  abbreviation?.toLowerCase().includes(searchText) ||
-  name.toLowerCase().includes(searchText) ||
-  filteredTimeZones.includes(location);
+export const timeZonesFilter = (search: string) => (tz: TimeZone): boolean => {
+  const cityZones = getCityZonesFor(search);
 
-export const getTimeZonesFor = (searchText: string): string[] =>
-  cityTimeZones
-    .findFromCityStateProvince(searchText)
-    .map(({ timezone }) => timezone);
+  return (
+    Object.values(tz).reduce((acc: boolean, val: number | Maybe<string>) => {
+      const match =
+        val != null &&
+        val !== '' &&
+        val.toString().toLowerCase().includes(search);
+      return acc || match;
+    }, false) || cityZones.length > 0
+  );
+};
+
+export const getCityZonesFor = (search: string): string[] =>
+  cityTimeZones.findFromCityStateProvince(search).map(({ timezone: tz }) => tz);
 
 export const SelectTimeZone: React.FC<TimeZoneSelectProps> = ({
   value,
@@ -115,15 +120,12 @@ export const SelectTimeZone: React.FC<TimeZoneSelectProps> = ({
   const [options, setOptions] = useState(TimeZoneOptions);
 
   const onInputChange = useCallback((val: string) => {
-    if (!val) {
-      setOptions(TimeZoneOptions);
-    } else {
-      const searchText = val.toLowerCase().trim();
-      const filteredTimeZones = getTimeZonesFor(searchText);
-      setOptions(
-        TimeZoneOptions.filter(timeZonesFilter(searchText, filteredTimeZones)),
-      );
+    const search = val.length > 0 ? val.toLowerCase().trim() : null;
+    let opts = TimeZoneOptions;
+    if (search) {
+      opts = opts.filter(timeZonesFilter(search));
     }
+    setOptions(opts);
   }, []);
 
   return (

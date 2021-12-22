@@ -25,6 +25,7 @@ import {
   Values,
 } from '@metafam/utils';
 import { getLegacy3BoxProfileAsBasicProfile } from '@self.id/3box-legacy';
+
 import { CONFIG } from '../../../config';
 import {
   AccountType_Enum,
@@ -134,10 +135,6 @@ export default async (playerId: string): Promise<UpdateBoxProfileResponse> => {
               switch (toKey) {
                 case 'availableHours': {
                   values[toKey] = extendedProfile[fromKey] as number;
-                  break;
-                }
-                case 'timeZone': {
-                  // values[toKey] = extendedProfile[fromKey] as TimeZone;
                   break;
                 }
                 default: {

@@ -26,7 +26,7 @@ export interface PlayerAggregates {
 
 interface PlayerFilter {
   players: Player[];
-  totalCount: number;
+  total: number;
   fetching: boolean;
   fetchingMore: boolean;
   aggregates: PlayerAggregates;
@@ -65,9 +65,9 @@ const useFilteredPlayers = (queryVariables: PlayersQueryVariables) => {
   });
 
   const players = (data?.player as Player[]) || [];
-  const totalCount = data?.player_aggregate.aggregate?.count || 0;
+  const total = data?.player_aggregate.aggregate?.count || 0;
 
-  return { fetching, players, totalCount, error };
+  return { fetching, players, total, error };
 };
 
 export enum SortOption {
@@ -79,28 +79,28 @@ export enum SortOption {
 }
 
 export const sortOptionsMap = {
-  [SortOption.SEASON_XP.toString()]: {
+  [SortOption.SEASON_XP]: {
     value: SortOption.SEASON_XP,
     label: 'Seasonal XP',
     output: {
       seasonXP: 'desc',
     },
   },
-  [SortOption.TOTAL_XP.toString()]: {
+  [SortOption.TOTAL_XP]: {
     value: SortOption.TOTAL_XP,
     label: 'Total XP',
     output: {
       totalXP: 'desc',
     },
   },
-  [SortOption.AVAILABILITY.toString()]: {
+  [SortOption.AVAILABILITY]: {
     value: SortOption.AVAILABILITY,
     label: 'Availability',
     output: {
       availableHours: 'desc',
     },
   },
-  [SortOption.USERNAME_A_TO_Z.toString()]: {
+  [SortOption.USERNAME_A_TO_Z]: {
     value: SortOption.USERNAME_A_TO_Z,
     label: 'Username (A-Z)',
     output: {
@@ -171,7 +171,7 @@ export const usePlayerFilter = (
     fetching,
     error,
     nextPage,
-    totalCount,
+    total,
     moreAvailable,
   } = usePaginatedPlayers(queryVariables, setQueryVariable);
 
@@ -197,7 +197,7 @@ export const usePlayerFilter = (
     queryVariables,
     setQueryVariable,
     resetFilter,
-    totalCount,
+    total,
     nextPage,
     moreAvailable,
   };
@@ -258,12 +258,12 @@ const usePaginatedPlayers = (
   const {
     fetching,
     players: fetchedPlayers,
-    totalCount,
+    total,
     error,
   } = useFilteredPlayers(queryVariables);
 
   const itemsPerPage = PLAYER_LIMIT;
-  const maxPage = Math.ceil(totalCount / itemsPerPage);
+  const maxPage = Math.ceil(total / itemsPerPage);
   const currentOffset = useMemo(() => (queryVariables.offset as number) || 0, [
     queryVariables.offset,
   ]);
@@ -288,7 +288,7 @@ const usePaginatedPlayers = (
   return {
     nextPage,
     fetchedPlayers,
-    totalCount,
+    total,
     fetching,
     error,
     moreAvailable: currentPage < maxPage,

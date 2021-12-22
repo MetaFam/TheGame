@@ -83,9 +83,8 @@ export const DesktopFilters: React.FC<Props> = ({
       <WrapItem>
         <MetaFilterSelectSearch
           title={`Sorted By: ${sortOption.label}`}
-          tagLabel=""
           hasValue={sortOption.value !== SortOption.SEASON_XP}
-          styles={styles}
+          {...{ styles }}
           value={[sortOption]}
           onChange={(value) => {
             const values = value as ValueType[];
@@ -136,7 +135,7 @@ export const DesktopFilters: React.FC<Props> = ({
           }}
           options={[1, 5, 10, 20, 30, 40].map((value) => ({
             value: value.toString(),
-            label: `≥ ${value.toString()} h/week`,
+            label: `≥ ${value.toString()} hr ⁄ week`,
           }))}
         />
       </WrapItem>
@@ -144,12 +143,11 @@ export const DesktopFilters: React.FC<Props> = ({
         <MetaFilterSelectSearch
           title="Time Zone"
           tagLabel={timeZones.length > 0 ? timeZones.length.toString() : ''}
-          styles={styles}
+          {...{ styles }}
           value={timeZones}
           hasValue={timeZones.length > 0}
-          onChange={(value) => {
-            const values = value as ValueType[];
-            setTimeZones(values.slice(-1));
+          onChange={(values) => {
+            setTimeZones((values as ValueType[]).slice(-1));
           }}
           options={TimeZoneOptions}
           showSearch

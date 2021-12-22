@@ -10,15 +10,13 @@ import { PlayersLoading } from './PlayersLoading';
 const getAdjacentTimeZoneQueryVariables = (
   defaultQueryVariables: PlayersQueryVariables,
 ): PlayersQueryVariables => {
-  const timeZoneValue = defaultQueryVariables.timeZones?.[0];
-  const timeZone = TimeZoneOptions.find((t) => t.value === timeZoneValue);
-  const adjascentTimeZones = timeZone
-    ? TimeZoneOptions.filter(
-        (t) =>
-          Math.abs(t.offset - timeZone.offset) <= 4 &&
-          t.value !== timeZoneValue,
-      ).map((t) => t.value)
-    : [];
+  const [zoneName] = defaultQueryVariables.timeZones ?? [];
+  const timeZone = TimeZoneOptions.find(({ name }) => name === zoneName);
+  const adjascentTimeZones = !timeZone
+    ? []
+    : TimeZoneOptions.filter(
+        (t) => Math.abs(t.offset - timeZone.offset) <= 4 && t.name === zoneName,
+      ).map(({ name }) => name);
   return {
     ...defaultQueryVariables,
     offset: 0,

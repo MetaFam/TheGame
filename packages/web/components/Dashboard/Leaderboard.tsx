@@ -2,6 +2,7 @@ import {
   Box,
   FlexProps,
   HStack,
+  LabeledValue,
   LinkBox,
   LinkOverlay,
   LoadingState,
@@ -21,8 +22,6 @@ import {
 import NextLink from 'next/link';
 import React, { useMemo, useState } from 'react';
 import { getNameOf } from 'utils/playerHelpers';
-
-type ValueType = { value: string; label: string };
 
 export const Leaderboard: React.FC = () => {
   const {
@@ -44,7 +43,7 @@ export const Leaderboard: React.FC = () => {
     2,
   ) as Array<OptionType>;
 
-  const [sortOption, setSortOption] = useState<ValueType>(
+  const [sortOption, setSortOption] = useState<LabeledValue>(
     sortOptionsMap[SortOption.SEASON_XP.toString()],
   );
 
@@ -54,7 +53,7 @@ export const Leaderboard: React.FC = () => {
       width="100%"
       mt={5}
       fontFamily="exo2"
-      fontWeight="700"
+      fontWeight={700}
       alignItems="baseline"
     >
       <Box mb={4}>
@@ -64,17 +63,25 @@ export const Leaderboard: React.FC = () => {
           tagLabel=""
           hasValue={sortOption.value !== SortOption.SEASON_XP}
           value={[sortOption]}
-          onChange={(value) => {
-            const values = value as ValueType[];
-            if (values && values[values.length - 1]) {
-              setSortOption(values[values.length - 1]);
-              setQueryVariable('orderBy', values[values.length - 1].value);
+          onChange={(choice) => {
+            console.info({ choice });
+
+            if (Array.isArray(choice)) {
+              // eslint-disable-next-line no-param-reassign
+              [choice] = choice.slice(-1);
+            }
+
+            if (choice) {
+              const labeled = choice as LabeledValue;
+              console.info({ labeled });
+              setSortOption(labeled);
+              setQueryVariable('orderBy', labeled.value);
             }
           }}
           options={sortOptions}
         />
       </Box>
-      {error ? <Text>{`Error: ${error.message}`}</Text> : null}
+      {error && <Text>{`Error: ${error.message}`}</Text>}
       {fetching ? (
         <LoadingState />
       ) : (

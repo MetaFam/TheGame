@@ -10,17 +10,14 @@ import {
   Text,
   useBreakpointValue,
 } from '@chakra-ui/react';
+import { CategoryOption } from '@metafam/web/utils/skillHelpers';
 import React, { useCallback, useRef, useState } from 'react';
-import { getTimeZoneFor } from '.';
+import { Props as ReactSelectProps } from 'react-select';
 
 import { DropDownIcon } from './icons/DropDownIcon';
 import { MetaTag } from './MetaTag';
 import { SelectComponents, SelectSearch } from './SelectSearch';
-import {
-  getTimeZonesFor,
-  timeZonesFilter,
-  TimeZoneType,
-} from './SelectTimeZone';
+import { LabeledValue, TimeZone, timeZonesFilter } from './SelectTimeZone';
 
 export const MetaSelect: React.FC<SelectProps> = (props) => (
   <Select
@@ -286,19 +283,16 @@ const SelectMenu: React.FC<
             <Input
               autoFocus
               width="calc(100% - 2rem)"
-              placeholder="Search..."
+              placeholder="Search…"
               _placeholder={{ color: 'whiteAlpha.500' }}
               borderRadius="0"
               borderWidth="2px"
               mx="4"
               my="2"
               borderColor="borderPurple"
-              onChange={(e) => {
-                const val = e.target.value;
-                setInput(val);
-                if (onInputChange) {
-                  onInputChange(val, { action: 'input-change' });
-                }
+              onChange={({ target: { value } }) => {
+                setInput(value);
+                onInputChange?.(value, { action: 'input-change' });
               }}
               value={input}
             />
@@ -327,49 +321,58 @@ const SelectContainer: React.FC<
   );
 };
 
+export const zonesToOptions = (zones: TimeZone[] = []) =>
+  zones.map(({ location, label }) => ({ value: location, label }));
+
 export const MetaFilterSelectSearch: React.FC<
-  {options: string[];
-    showSearch?: boolean;
-    isTimeZone?: boolean;
-    hasValue: boolean;
-    tagLabel: string;
-  }
+  | ReactSelectProps<LabeledValue>
+  | {
+      options?: Array<TimeZone | LabeledValue | CategoryOption>;
+      showSearch?: boolean;
+      isTimeZone?: boolean;
+      hasValue?: boolean;
+      tagLabel?: string;
+      onInputChange?: (...props: Array<unknown>) => void;
+    }
 > = ({
-  options: defaultOptions,
+  options: defaults,
   showSearch = false,
   isTimeZone = false,
   tagLabel = '',
   hasValue = false,
+  onInputChange = () => {},
   ...props
 }) => {
-  const [options, setOptions] = useState(defaultOptions);
-
-  const optionsFor = (search: string) => {
-    const timeZones = search ? getTimeZonesFor(search) : defaultOptions
-    const opts = (
-      timeZones?.map((location) => ({
-        label: getTimeZoneFor({ location }).label,
-        value: location,  
-      } as SelectProps)) ?? []
-    )
-    setOptions(
-      (opts as SelectProps[])?.filter(
-        timeZonesFilter(searchText, filteredTimeZones),
-      ),
-    );
-
-  }
-  const onTimeZoneInputChange = useCallback(
-    (value: string) => {
-      const search = value.toLowerCase().trim();
-    },
-    [defaultOptions],
+  const [options, setOptions] = useState<Array<LabeledValue>>(
+    isTimeZone
+      ? zonesToOptions(defaults as TimeZone[])
+      : (defaults as LabeledValue[]),
   );
+
+  const onZoneInputChange = useCallback(
+    (val: string) => {
+      const search = val.length > 0 ? val.toLowerCase().trim() : null;
+      let opts = defaults;
+      if (search) {
+        if (isTimeZone) {
+          opts = zonesToOptions(
+            (opts as Array<TimeZone>).filter(timeZonesFilter(search)),
+          );
+        } else if (opts) {
+          opts = (opts as Array<LabeledValue>).filter(({ value }) =>
+            value.toLowerCase().includes(search),
+          );
+        }
+      }
+      setOptions(opts as Array<LabeledValue>);
+    },
+    [defaults, isTimeZone],
+  );
+
   return (
     <SelectSearch
       isMulti
       closeMenuOnSelect={false}
-      placeholder=" "
       components={{
         MultiValueContainer: () => null,
         SingleValue: () => null,
@@ -385,21 +388,15 @@ export const MetaFilterSelectSearch: React.FC<
       }}
       isClearable={false}
       hideSelectedOptions={false}
-      showSearch={showSearch}
-      options={options}
       filterOption={isTimeZone ? null : undefined}
-      onInputChange={isTimeZone ? onTimeZoneInputChange : undefined}
-      tagLabel={tagLabel}
-      hasValue={hasValue}
-      {...props}
+      onInputChange={isTimeZone ? onZoneInputChange : onInputChange}
+      {...{
+        showSearch,
+        options,
+        tagLabel,
+        hasValue,
+        ...props,
+      }}
     />
   );
 };
-function searchText(searchText: any, filteredTimeZones: any): (value: SelectProps, index: number, array: SelectProps[]) => value is SelectProps {
-  throw new Error('Function not implemented.');
-}
-
-function filteredTimeZones(searchText: any, filteredTimeZones: any): (value: SelectProps, index: number, array: SelectProps[]) => value is SelectProps {
-  throw new Error('Function not implemented.');
-}
-

@@ -21,12 +21,13 @@ export {
   SelectSearch,
 } from './SelectSearch';
 export {
+  getCityZonesFor,
   getTimeZoneFor,
-  getTimeZonesFor,
+  LabeledValue,
   SelectTimeZone,
+  TimeZone,
   TimeZoneOptions,
   timeZonesFilter,
-  TimeZoneType,
 } from './SelectTimeZone';
 export { SVG } from './SVG';
 export {
