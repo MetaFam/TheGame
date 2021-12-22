@@ -46,7 +46,7 @@ export const AdjacentTimezonePlayers: React.FC<Props> = ({
 
   const {
     players,
-    totalCount,
+    total,
     fetching,
     fetchingMore,
     error,
@@ -85,11 +85,10 @@ export const AdjacentTimezonePlayers: React.FC<Props> = ({
               pb={{ base: 4, md: 0 }}
             >
               <Text fontWeight="bold" fontSize="xl" w="100%" maxW="79rem">
-                {totalCount} player{totalCount === 1 ? '' : 's'} in adjacent
-                time Zones
+                {total} player{total === 1 ? '' : 's'} in adjacent time zones
               </Text>
             </Flex>
-            <PlayerList players={players} showSeasonalXP={showSeasonalXP} />
+            <PlayerList {...{ players, showSeasonalXP }} />
           </>
         ) : (
           <Flex justify="space-between" w="100%" maxW="79rem" align="center">
@@ -98,7 +97,7 @@ export const AdjacentTimezonePlayers: React.FC<Props> = ({
         ))}
       <VStack w="100%" ref={moreRef}>
         {isLoading ? <PlayersLoading /> : null}
-        {!isLoading && totalCount > 0 ? (
+        {!isLoading && total > 0 ? (
           <Text color="white">No more players available</Text>
         ) : null}
       </VStack>

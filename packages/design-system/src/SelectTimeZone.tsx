@@ -13,7 +13,10 @@ import informal from 'spacetime-informal';
 
 import { chakraesqueStyles } from './theme';
 
-export type LabeledValue = { value: string; label: string };
+export type Labeled = { label?: string };
+export type LabeledValue<T> = Labeled & { value?: T };
+export type LabeledOptions<T> = Labeled & { options?: Array<T> };
+export type CombinedLabel<T> = LabeledValue<T> & LabeledOptions<T>;
 
 export type TimeZone = {
   utc: string;
@@ -46,17 +49,25 @@ export const getTimeZoneFor = ({
   title,
   opts = {},
 }: {
-  location: string;
+  location?: string;
   title?: Maybe<string>;
   opts?: Record<string, boolean>;
-}): TimeZone => {
+}): Maybe<TimeZone> => {
+  const anchor = location ?? title;
+
+  if (!anchor) {
+    // eslint-disable-next-line no-console
+    console.warn('Tried to rertieve a time zone with no arguments.');
+    return null;
+  }
+
   title = title ?? null; // eslint-disable-line no-param-reassign
-  const now = spacetime.now().goto(location);
+  const now = spacetime.now().goto(anchor);
   const tz = now.timezone();
-  const tzStrings = informal.display(location);
+  const tzStrings = informal.display(anchor);
 
   let abbreviation = null;
-  let name = location;
+  let name = anchor;
 
   if (tzStrings?.standard) {
     abbreviation =
@@ -74,7 +85,7 @@ export const getTimeZoneFor = ({
   if (!opts.shortHours || Math.abs(mins % 60) !== 0) {
     hrs += `:${Math.abs(mins % 60)
       .toString()
-      .padEnd(2, '0')}`;
+      .padStart(2, '0')}`;
   }
   const utc = `(GMT${hrs.includes('-') ? hrs : `+${hrs}`})`;
   const label = `${utc} ${title ?? name} ${
@@ -83,7 +94,7 @@ export const getTimeZoneFor = ({
 
   return {
     utc,
-    location,
+    location: anchor,
     title,
     label,
     offset: tz.current.offset,
@@ -93,7 +104,7 @@ export const getTimeZoneFor = ({
 };
 
 export const TimeZoneOptions: TimeZone[] = Object.entries(i18nTimeZones)
-  .map(([location, title]) => getTimeZoneFor({ location, title }))
+  .map(([location, title]) => getTimeZoneFor({ location, title }) as TimeZone)
   .sort((a, b) => (a.offset < b.offset ? -1 : 1));
 
 export const timeZonesFilter = (search: string) => (tz: TimeZone): boolean => {

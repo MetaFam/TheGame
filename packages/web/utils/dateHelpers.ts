@@ -1,4 +1,5 @@
 import { TimeZoneOptions } from '@metafam/ds';
+import { Maybe } from '@metafam/utils';
 
 export interface TimeZoneDisplay {
   timeZone?: string;
@@ -18,16 +19,16 @@ const getOffsetLabel = (offset: number): string => {
 };
 
 export const getPlayerTimeZoneDisplay = (
-  playerTimeZone: string | undefined | null,
+  zone?: Maybe<string>,
 ): TimeZoneDisplay => {
   let tzLabel;
   let offsetLabel;
-  const timeZone = TimeZoneOptions.find((t) => t.value === playerTimeZone);
+  const timeZone = TimeZoneOptions.find((t) => t.name === zone);
   if (timeZone) {
-    const { abbrev, offset, value } = timeZone;
-    tzLabel = value;
-    if (abbrev.length < 5) {
-      tzLabel = abbrev;
+    const { abbreviation, offset, label } = timeZone;
+    tzLabel = label;
+    if (abbreviation) {
+      tzLabel = abbreviation;
       offsetLabel = getOffsetLabel(offset);
     } else if (offset === 0) {
       tzLabel = 'GMT';

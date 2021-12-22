@@ -1,5 +1,6 @@
 import {
   Box,
+  getTimeZoneFor,
   Heading,
   HStack,
   LinkBox,
@@ -21,7 +22,6 @@ import { Player, Skill } from 'graphql/autogen/types';
 import NextLink from 'next/link';
 import React, { useMemo } from 'react';
 import { FaGlobe } from 'react-icons/fa';
-import { getPlayerTimeZoneDisplay } from 'utils/dateHelpers';
 import {
   getBannerFor,
   getDescriptionOf,
@@ -40,14 +40,19 @@ export const PlayerTile: React.FC<Props> = ({
   player,
   showSeasonalXP = false,
 }) => {
-  const { timeZone, offset } = useMemo(
-    () => getPlayerTimeZoneDisplay(player.timeZone),
+  const { label: timeZone = 'Unknown', offset } = useMemo(
+    () =>
+      getTimeZoneFor({ location: player.timeZone ?? undefined }) ?? {
+        label: undefined,
+        offset: undefined,
+      }, // Hack
     [player.timeZone],
   );
   const description = getDescriptionOf(player);
   const displayDescription =
     (description?.length ?? 0) > MAX_BIO_LENGTH
-      ? `${description!.substring(0, MAX_BIO_LENGTH - 9)}…`
+      ? // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        `${description!.substring(0, MAX_BIO_LENGTH - 9)}…`
       : description;
 
   console.info({ player });

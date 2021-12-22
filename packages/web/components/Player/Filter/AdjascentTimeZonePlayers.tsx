@@ -8,19 +8,22 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { PlayersLoading } from './PlayersLoading';
 
 const getAdjacentTimeZoneQueryVariables = (
-  defaultQueryVariables: PlayersQueryVariables,
+  query: PlayersQueryVariables,
 ): PlayersQueryVariables => {
-  const timeZoneValue = defaultQueryVariables.timeZones?.[0];
-  const timeZone = TimeZoneOptions.find((t) => t.value === timeZoneValue);
-  const adjascentTimeZones = timeZone
-    ? TimeZoneOptions.filter(
-        (t) =>
-          Math.abs(t.offset - timeZone.offset) <= 4 &&
-          t.value !== timeZoneValue,
-      ).map((t) => t.value)
-    : [];
+  const [location] = query.timeZones ?? [];
+  const timeZone = TimeZoneOptions.find(
+    ({ location: loc }) => loc === location,
+  );
+  const adjascentTimeZones = !timeZone
+    ? []
+    : TimeZoneOptions.filter(
+        (tz) =>
+          Math.abs(tz.offset - timeZone.offset) <= 4 &&
+          tz.location !== location,
+      ).map(({ location: loc }) => loc);
+
   return {
-    ...defaultQueryVariables,
+    ...query,
     offset: 0,
     timeZones: adjascentTimeZones,
   };
@@ -48,7 +51,7 @@ export const AdjascentTimeZonePlayers: React.FC<Props> = ({
 
   const {
     players,
-    totalCount,
+    total,
     fetching,
     fetchingMore,
     error,
@@ -87,8 +90,7 @@ export const AdjascentTimeZonePlayers: React.FC<Props> = ({
               pb={{ base: 4, md: 0 }}
             >
               <Text fontWeight="bold" fontSize="xl" w="100%" maxW="79rem">
-                {totalCount} player{totalCount === 1 ? '' : 's'} in adjacent
-                time Zones
+                {total} player{total === 1 ? '' : 's'} in adjacent time zones
               </Text>
             </Flex>
             <PlayerList players={players} showSeasonalXP={showSeasonalXP} />
@@ -100,7 +102,7 @@ export const AdjascentTimeZonePlayers: React.FC<Props> = ({
         ))}
       <VStack w="100%" ref={moreRef}>
         {isLoading ? <PlayersLoading /> : null}
-        {!isLoading && totalCount > 0 ? (
+        {!isLoading && total > 0 ? (
           <Text color="white">No more players available</Text>
         ) : null}
       </VStack>

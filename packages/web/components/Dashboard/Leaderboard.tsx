@@ -43,7 +43,7 @@ export const Leaderboard: React.FC = () => {
     2,
   ) as Array<OptionType>;
 
-  const [sortOption, setSortOption] = useState<LabeledValue>(
+  const [sortOption, setSortOption] = useState<LabeledValue<string>>(
     sortOptionsMap[SortOption.SEASON_XP.toString()],
   );
 
@@ -62,7 +62,9 @@ export const Leaderboard: React.FC = () => {
           styles={metaFilterSelectStyles}
           tagLabel=""
           hasValue={sortOption.value !== SortOption.SEASON_XP}
-          value={[sortOption]}
+          value={[
+            { label: sortOption.label ?? '', value: sortOption.value ?? '' },
+          ]} // Hack
           onChange={(choice) => {
             console.info({ choice });
 
@@ -72,7 +74,7 @@ export const Leaderboard: React.FC = () => {
             }
 
             if (choice) {
-              const labeled = choice as LabeledValue;
+              const labeled = choice as LabeledValue<string>;
               console.info({ labeled });
               setSortOption(labeled);
               setQueryVariable('orderBy', labeled.value);

@@ -15,10 +15,13 @@ gql`
     }
   }
 
-  mutation UpdateProfile($playerId: uuid!, $input: player_set_input!) {
-    update_player_by_pk(pk_columns: { id: $playerId }, _set: $input) {
-      id
-      timeZone
+  mutation UpdateProfile($playerId: uuid!, $input: profile_set_input!) {
+    update_profile(where: { playerId: { _eq: $playerId } }, _set: $input) {
+      affected_rows
+      returning {
+        playerId
+        username
+      }
     }
   }
 

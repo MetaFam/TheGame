@@ -632,6 +632,7 @@
       last_checked_at: lastCheckedAt
       banner_image_url: bannerImageURL
       player_id: playerId
+      time_zone: timeZone
       available_hours: availableHours
   object_relationships:
   - name: player

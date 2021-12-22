@@ -6025,6 +6025,7 @@ type profile {
   playerId: uuid!
   profileImageURL: String
   pronouns: String
+  timeZone: String
   username: String
   website: String
 }
@@ -6113,6 +6114,7 @@ input profile_bool_exp {
   playerId: uuid_comparison_exp
   profileImageURL: String_comparison_exp
   pronouns: String_comparison_exp
+  timeZone: String_comparison_exp
   username: String_comparison_exp
   website: String_comparison_exp
 }
@@ -6157,6 +6159,7 @@ input profile_insert_input {
   playerId: uuid
   profileImageURL: String
   pronouns: String
+  timeZone: String
   username: String
   website: String
 }
@@ -6177,6 +6180,7 @@ type profile_max_fields {
   playerId: uuid
   profileImageURL: String
   pronouns: String
+  timeZone: String
   username: String
   website: String
 }
@@ -6199,6 +6203,7 @@ input profile_max_order_by {
   playerId: order_by
   profileImageURL: order_by
   pronouns: order_by
+  timeZone: order_by
   username: order_by
   website: order_by
 }
@@ -6219,6 +6224,7 @@ type profile_min_fields {
   playerId: uuid
   profileImageURL: String
   pronouns: String
+  timeZone: String
   username: String
   website: String
 }
@@ -6241,6 +6247,7 @@ input profile_min_order_by {
   playerId: order_by
   profileImageURL: order_by
   pronouns: order_by
+  timeZone: order_by
   username: order_by
   website: order_by
 }
@@ -6292,6 +6299,7 @@ input profile_order_by {
   playerId: order_by
   profileImageURL: order_by
   pronouns: order_by
+  timeZone: order_by
   username: order_by
   website: order_by
 }
@@ -6350,6 +6358,9 @@ enum profile_select_column {
   pronouns
 
   """column name"""
+  timeZone
+
+  """column name"""
   username
 
   """column name"""
@@ -6374,6 +6385,7 @@ input profile_set_input {
   playerId: uuid
   profileImageURL: String
   pronouns: String
+  timeZone: String
   username: String
   website: String
 }
@@ -6471,6 +6483,9 @@ enum profile_update_column {
 
   """column name"""
   pronouns
+
+  """column name"""
+  timeZone
 
   """column name"""
   username

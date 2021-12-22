@@ -39,8 +39,8 @@ export const SetupAvailability: React.FC<SetupAvailabilityProps> = ({
 
   const handleNextPress = async () => {
     if (!user) return;
-
     setLoading(true);
+
     const { error } = await updateProfile({
       playerId: user.id,
       input: {
@@ -51,7 +51,7 @@ export const SetupAvailability: React.FC<SetupAvailabilityProps> = ({
     if (error) {
       toast({
         title: 'Error',
-        description: `Unable to update availability. Error: ${error}`,
+        description: `Unable to update availability: "${error}"`,
         status: 'error',
         isClosable: true,
       });

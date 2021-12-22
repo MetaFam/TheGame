@@ -12,6 +12,7 @@ import {
   Stack,
   styled,
   Text,
+  TimeZone,
   useBreakpointValue,
   useDisclosure,
   Wrap,
@@ -46,7 +47,7 @@ type Props = {
   queryVariables: PlayersQueryVariables;
   setQueryVariable: QueryVariableSetter;
   resetFilter: () => void;
-  totalCount: number;
+  total: number;
 };
 
 export const PlayerFilter: React.FC<Props> = ({
@@ -56,13 +57,13 @@ export const PlayerFilter: React.FC<Props> = ({
   queryVariables,
   setQueryVariable,
   resetFilter,
-  totalCount,
+  total,
 }) => {
   const [search, setSearch] = useState<string>('');
 
   const [skills, setSkills] = useState<SkillOption[]>([]);
   const [playerTypes, setPlayerTypes] = useState<ValueType[]>([]);
-  const [timeZones, setTimeZones] = useState<ValueType[]>([]);
+  const [timeZones, setTimeZones] = useState<Array<TimeZone>>([]);
   const [availability, setAvailability] = useState<ValueType | null>(null);
   const [sortOption, setSortOption] = useState<ValueType>(
     sortOptionsMap[SortOption.SEASON_XP.toString()],
@@ -111,7 +112,7 @@ export const PlayerFilter: React.FC<Props> = ({
   useEffect(() => {
     setQueryVariable(
       'timeZones',
-      timeZones.length > 0 ? timeZones.map((t) => t.value) : null,
+      timeZones.length > 0 ? timeZones.map((t) => t.label) : null,
     );
   }, [setQueryVariable, timeZones]);
 
@@ -183,17 +184,19 @@ export const PlayerFilter: React.FC<Props> = ({
       </Form>
       <DesktopFilters
         display={isSmallScreen ? 'none' : 'flex'}
-        aggregates={aggregates}
-        skills={skills}
-        setSkills={setSkills}
-        playerTypes={playerTypes}
-        setPlayerTypes={setPlayerTypes}
-        timeZones={timeZones}
-        setTimeZones={setTimeZones}
-        availability={availability}
-        setAvailability={setAvailability}
-        sortOption={sortOption}
-        setSortOption={setSortOption}
+        {...{
+          aggregates,
+          skills,
+          setSkills,
+          playerTypes,
+          setPlayerTypes,
+          timeZones,
+          setTimeZones,
+          availability,
+          setAvailability,
+          sortOption,
+          setSortOption,
+        }}
       />
       <MobileFilters
         aggregates={aggregates}
@@ -279,14 +282,14 @@ export const PlayerFilter: React.FC<Props> = ({
                 />
               </WrapItem>
             )}
-            {timeZones.map(({ value, label }, index) => (
-              <WrapItem key={value}>
+            {timeZones.map(({ name, label }, index) => (
+              <WrapItem key={name}>
                 <FilterTag
                   label={label}
                   onRemove={() => {
-                    const newTimeZones = timeZones.slice();
-                    newTimeZones.splice(index, 1);
-                    setTimeZones(newTimeZones);
+                    const newZones = [...timeZones];
+                    newZones.splice(index, 1);
+                    setTimeZones(newZones);
                   }}
                 />
               </WrapItem>
@@ -307,7 +310,7 @@ export const PlayerFilter: React.FC<Props> = ({
       {fetchingMore || !fetching ? (
         <Flex justify="space-between" w="100%" maxW="79rem" align="center">
           <Text fontWeight="bold" fontSize="xl">
-            {totalCount} player{totalCount === 1 ? '' : 's'}
+            {total} player{total === 1 ? '' : 's'}
           </Text>
           <Button
             variant="link"
@@ -317,7 +320,7 @@ export const PlayerFilter: React.FC<Props> = ({
             minH="2.5rem"
             minW="8.5rem"
             display={isSmallScreen ? 'flex' : 'none'}
-            p="2"
+            p={2}
           >
             FILTER AND SORT
           </Button>

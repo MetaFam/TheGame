@@ -21,8 +21,11 @@ export {
   SelectSearch,
 } from './SelectSearch';
 export {
+  CombinedLabel,
   getCityZonesFor,
   getTimeZoneFor,
+  Labeled,
+  LabeledOptions,
   LabeledValue,
   SelectTimeZone,
   TimeZone,

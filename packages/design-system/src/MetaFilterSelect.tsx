@@ -10,7 +10,6 @@ import {
   Text,
   useBreakpointValue,
 } from '@chakra-ui/react';
-import { CategoryOption } from '@metafam/web/utils/skillHelpers';
 import React, { useCallback, useRef, useState } from 'react';
 import { Props as ReactSelectProps } from 'react-select';
 
@@ -153,8 +152,8 @@ const SelectValueContainer: React.FC<
   } = props;
 
   return (
-    <Flex mr="-1rem" py="1" align="center" cursor="pointer">
-      <ValueDisplay title={title} menuIsOpen={menuIsOpen} tagLabel={tagLabel} />
+    <Flex mr="-1rem" py={1} align="center" cursor="pointer">
+      <ValueDisplay {...{ title, menuIsOpen, tagLabel }} />
       <SelectComponents.ValueContainer {...props} />
     </Flex>
   );
@@ -191,11 +190,11 @@ const SelectControl: React.FC<
       onTouchEnd={onClick}
       align="center"
       borderTopRadius="4px"
-      borderBottomRadius={menuIsOpen ? '0' : '4px'}
+      borderBottomRadius={menuIsOpen ? 0 : '4px'}
       borderColor="borderPurple"
       borderStyle="solid"
       borderWidth={hasValue && !menuIsOpen ? '4px' : '2px'}
-      borderBottom={menuIsOpen ? '0' : undefined}
+      borderBottom={menuIsOpen ? 0 : undefined}
       height="auto"
       bg="dark"
       _hover={{
@@ -229,15 +228,15 @@ const SelectMenu: React.FC<
       position="absolute"
       top="calc(100% - 1px)"
       minWidth="15rem"
-      left={placeRight ? 'auto' : '0'}
-      right={placeRight ? '0' : 'auto'}
-      zIndex="1"
+      left={placeRight ? 'auto' : 0}
+      right={placeRight ? 0 : 'auto'}
+      zIndex={1}
       direction="column"
     >
       <Flex w="100%" direction={placeRight ? 'row-reverse' : 'row'}>
         <Flex
-          height="3"
-          p="0"
+          height={3}
+          p={0}
           bg="dark"
           borderLeftColor="borderPurple"
           borderLeftStyle="solid"
@@ -287,8 +286,8 @@ const SelectMenu: React.FC<
               _placeholder={{ color: 'whiteAlpha.500' }}
               borderRadius="0"
               borderWidth="2px"
-              mx="4"
-              my="2"
+              mx={4}
+              my={2}
               borderColor="borderPurple"
               onChange={({ target: { value } }) => {
                 setInput(value);
@@ -324,17 +323,9 @@ const SelectContainer: React.FC<
 export const zonesToOptions = (zones: TimeZone[] = []) =>
   zones.map(({ location, label }) => ({ value: location, label }));
 
-export const MetaFilterSelectSearch: React.FC<
-  | ReactSelectProps<LabeledValue>
-  | {
-      options?: Array<TimeZone | LabeledValue | CategoryOption>;
-      showSearch?: boolean;
-      isTimeZone?: boolean;
-      hasValue?: boolean;
-      tagLabel?: string;
-      onInputChange?: (...props: Array<unknown>) => void;
-    }
-> = ({
+export function MetaFilterSelectSearch<
+  T extends Required<LabeledValue<string>>
+>({
   options: defaults,
   showSearch = false,
   isTimeZone = false,
@@ -342,29 +333,38 @@ export const MetaFilterSelectSearch: React.FC<
   hasValue = false,
   onInputChange = () => {},
   ...props
-}) => {
-  const [options, setOptions] = useState<Array<LabeledValue>>(
+}:
+  | ReactSelectProps<Required<LabeledValue<string>>>
+  | {
+      options?: Array<T | TimeZone>;
+      showSearch?: boolean;
+      isTimeZone?: boolean;
+      hasValue?: boolean;
+      tagLabel?: string;
+      onInputChange?: (...subProps: Array<unknown>) => void;
+    }) {
+  const [options, setOptions] = useState(
     isTimeZone
-      ? zonesToOptions(defaults as TimeZone[])
-      : (defaults as LabeledValue[]),
+      ? (zonesToOptions(defaults as TimeZone[]) as Array<T>)
+      : (defaults as Array<T>),
   );
 
   const onZoneInputChange = useCallback(
     (val: string) => {
       const search = val.length > 0 ? val.toLowerCase().trim() : null;
-      let opts = defaults;
+      let opts = defaults ?? [];
       if (search) {
         if (isTimeZone) {
           opts = zonesToOptions(
             (opts as Array<TimeZone>).filter(timeZonesFilter(search)),
-          );
+          ) as Array<T>;
         } else if (opts) {
-          opts = (opts as Array<LabeledValue>).filter(({ value }) =>
-            value.toLowerCase().includes(search),
-          );
+          opts = (opts as Array<
+            Required<LabeledValue<string>>
+          >).filter(({ value }) => value?.toLowerCase().includes(search));
         }
       }
-      setOptions(opts as Array<LabeledValue>);
+      setOptions(opts as Array<T>);
     },
     [defaults, isTimeZone],
   );
@@ -374,12 +374,12 @@ export const MetaFilterSelectSearch: React.FC<
       isMulti
       closeMenuOnSelect={false}
       components={{
-        MultiValueContainer: () => null,
-        SingleValue: () => null,
-        IndicatorSeparator: () => null,
-        DropdownIndicator: () => null,
-        IndicatorsContainer: () => null,
-        Input: () => null,
+        // MultiValueContainer: () => null,
+        // SingleValue: () => null,
+        // IndicatorSeparator: () => null,
+        // DropdownIndicator: () => null,
+        // IndicatorsContainer: () => null,
+        // Input: () => null,
         ValueContainer: SelectValueContainer,
         Option: SelectOption,
         Menu: SelectMenu,
@@ -399,4 +399,4 @@ export const MetaFilterSelectSearch: React.FC<
       }}
     />
   );
-};
+}

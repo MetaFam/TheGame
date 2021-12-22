@@ -35,7 +35,7 @@ export const SetupTimeZone: React.FC = () => {
     if (error) {
       toast({
         title: 'Error',
-        description: 'Unable to update time zone. The octo is sad 😢',
+        description: `Unable to update your time zone: ${error.message}`,
         status: 'error',
         isClosable: true,
       });

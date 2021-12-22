@@ -47,7 +47,7 @@ const Players: React.FC<Props> = () => {
     queryVariables,
     setQueryVariable,
     resetFilter,
-    totalCount,
+    total,
     nextPage,
     moreAvailable,
   } = usePlayerFilter();
@@ -87,7 +87,7 @@ const Players: React.FC<Props> = () => {
             queryVariables,
             setQueryVariable,
             resetFilter,
-            totalCount,
+            total,
           }}
         />
         {error && <Text>{`Error: ${error.message}`}</Text>}
@@ -97,9 +97,11 @@ const Players: React.FC<Props> = () => {
         <MorePlayers
           ref={moreRef}
           fetching={isLoading}
-          totalCount={totalCount}
-          queryVariables={queryVariables}
-          showSeasonalXP={showSeasonalXP}
+          {...{
+            total,
+            queryVariables,
+            showSeasonalXP,
+          }}
         />
       </VStack>
     </PageContainer>
@@ -110,25 +112,25 @@ export default Players;
 
 type MorePlayersProps = {
   fetching: boolean;
-  totalCount: number;
+  total: number;
   queryVariables: PlayersQueryVariables;
   showSeasonalXP?: boolean;
 };
 
 const MorePlayers = React.forwardRef<HTMLDivElement, MorePlayersProps>(
-  ({ fetching, totalCount, queryVariables, showSeasonalXP = false }, ref) => {
+  ({ fetching, total, queryVariables, showSeasonalXP = false }, ref) => {
     const isTimeZoneSelected = useMemo(
       () => queryVariables.timeZones && queryVariables.timeZones.length > 0,
       [queryVariables],
     );
 
     return (
-      <VStack w="100%" ref={ref}>
-        {fetching ? <PlayersLoading /> : null}
-        {!fetching && !isTimeZoneSelected && totalCount > 0 ? (
+      <VStack w="100%" {...{ ref }}>
+        {fetching && <PlayersLoading />}
+        {!fetching && !isTimeZoneSelected && total > 0 && (
           <Text color="white">No more players available.</Text>
-        ) : null}
-        {!fetching && totalCount === 0 && <PlayersNotFound />}
+        )}
+        {!fetching && total === 0 && <PlayersNotFound />}
         {!fetching && isTimeZoneSelected && (
           <AdjascentTimeZonePlayers {...{ queryVariables, showSeasonalXP }} />
         )}

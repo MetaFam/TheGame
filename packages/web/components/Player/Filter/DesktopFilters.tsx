@@ -1,7 +1,8 @@
 import {
   MetaFilterSelectSearch,
   metaFilterSelectStyles,
-  TimeZoneOptions,
+  TimeZone,
+  // TimeZoneOptions,
   Wrap,
   WrapItem,
   WrapProps,
@@ -37,8 +38,8 @@ type Props = {
   setSkills: React.Dispatch<React.SetStateAction<SkillOption[]>>;
   playerTypes: ValueType[];
   setPlayerTypes: React.Dispatch<React.SetStateAction<ValueType[]>>;
-  timeZones: ValueType[];
-  setTimeZones: React.Dispatch<React.SetStateAction<ValueType[]>>;
+  timeZones: TimeZone[];
+  setTimeZones: React.Dispatch<React.SetStateAction<TimeZone[]>>;
   availability: ValueType | null;
   setAvailability: React.Dispatch<React.SetStateAction<ValueType | null>>;
   sortOption: ValueType;
@@ -102,8 +103,8 @@ export const DesktopFilters: React.FC<Props> = ({
           styles={styles}
           value={playerTypes}
           hasValue={playerTypes.length > 0}
-          onChange={(value) => {
-            setPlayerTypes(value as ValueType[]);
+          onChange={(values) => {
+            setPlayerTypes(values as ValueType[]);
           }}
           options={aggregates.playerTypes}
         />
@@ -115,8 +116,8 @@ export const DesktopFilters: React.FC<Props> = ({
           styles={styles}
           value={skills}
           hasValue={skills.length > 0}
-          onChange={(value) => {
-            setSkills(value as SkillOption[]);
+          onChange={(values) => {
+            setSkills(values as SkillOption[]);
           }}
           options={aggregates.skillChoices}
           showSearch
@@ -139,7 +140,7 @@ export const DesktopFilters: React.FC<Props> = ({
           }))}
         />
       </WrapItem>
-      <WrapItem>
+      {/* <WrapItem>
         <MetaFilterSelectSearch
           title="Time Zone"
           tagLabel={timeZones.length > 0 ? timeZones.length.toString() : ''}
@@ -147,13 +148,13 @@ export const DesktopFilters: React.FC<Props> = ({
           value={timeZones}
           hasValue={timeZones.length > 0}
           onChange={(values) => {
-            setTimeZones((values as ValueType[]).slice(-1));
+            setTimeZones((values as TimeZone[]).slice(-1));
           }}
           options={TimeZoneOptions}
           showSearch
           isTimeZone
         />
-      </WrapItem>
+      </WrapItem> */}
     </Wrap>
   );
 };

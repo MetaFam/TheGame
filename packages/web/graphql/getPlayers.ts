@@ -69,37 +69,39 @@ export type PlayersQueryVariables = {
 };
 
 export const transformToGraphQLVariables = (
-  queryVariables: PlayersQueryVariables,
+  query: PlayersQueryVariables,
 ): GetPlayersQueryVariables => {
-  const graphqlWhereClause: Player_Bool_Exp = {
+  const where: Player_Bool_Exp = {
     _or: [
-      { profile: { username: { _ilike: queryVariables.search } } },
-      { ethereumAddress: { _ilike: queryVariables.search } },
+      { profile: { username: { _ilike: query.search } } },
+      { ethereumAddress: { _ilike: query.search } },
     ],
   };
 
-  if (queryVariables.availability != null) {
-    graphqlWhereClause.availableHours = {
-      _gte: queryVariables.availability,
+  if (query.availability != null) {
+    where.profile ??= {};
+    where.profile.availableHours = {
+      _gte: query.availability,
     };
   }
-  if (queryVariables.timeZones?.length) {
-    graphqlWhereClause.timeZone = { _in: queryVariables.timeZones };
+  if (query.timeZones?.length) {
+    where.profile ??= {};
+    where.profile.timeZone = { _in: query.timeZones };
   }
-  if (queryVariables.playerTypeIds?.length) {
-    graphqlWhereClause.type = { id: { _in: queryVariables.playerTypeIds } };
+  if (query.playerTypeIds?.length) {
+    where.type = { id: { _in: query.playerTypeIds } };
   }
-  if (queryVariables.skillIds?.length) {
-    graphqlWhereClause.skills = {
-      Skill: { id: { _in: queryVariables.skillIds } },
+  if (query.skillIds?.length) {
+    where.skills = {
+      Skill: { id: { _in: query.skillIds } },
     };
   }
 
   return {
-    orderBy: queryVariables.orderBy,
-    offset: queryVariables.offset,
-    limit: queryVariables.limit,
-    where: graphqlWhereClause,
+    orderBy: query.orderBy,
+    offset: query.offset,
+    limit: query.limit,
+    where,
   };
 };
 

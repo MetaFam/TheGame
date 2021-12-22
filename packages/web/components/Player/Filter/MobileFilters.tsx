@@ -4,6 +4,7 @@ import {
   Button,
   CheckIcon,
   CloseIcon,
+  CombinedLabel,
   Drawer,
   DrawerBody,
   DrawerContent,
@@ -11,14 +12,15 @@ import {
   DrawerHeader,
   Flex,
   FlexProps,
-  getTimeZonesFor,
   IconButton,
   Input,
+  LabeledOptions,
+  LabeledValue,
   MetaButton,
   Text,
+  TimeZone,
   TimeZoneOptions,
   timeZonesFilter,
-  TimeZoneType,
 } from '@metafam/ds';
 import { SkillCategory_Enum } from 'graphql/autogen/types';
 import { SkillColors } from 'graphql/types';
@@ -33,10 +35,6 @@ import React, {
 import { SkillOption } from 'utils/skillHelpers';
 
 type ValueType = { value: string; label: string };
-type CategoryValueType = {
-  label: string;
-  options: ValueType[];
-};
 
 type Props = {
   aggregates: PlayerAggregates;
@@ -44,8 +42,8 @@ type Props = {
   setSkills: React.Dispatch<React.SetStateAction<SkillOption[]>>;
   playerTypes: ValueType[];
   setPlayerTypes: React.Dispatch<React.SetStateAction<ValueType[]>>;
-  timeZones: ValueType[];
-  setTimeZones: React.Dispatch<React.SetStateAction<ValueType[]>>;
+  timeZones: TimeZone[];
+  setTimeZones: React.Dispatch<React.SetStateAction<TimeZone[]>>;
   availability: ValueType | null;
   setAvailability: React.Dispatch<React.SetStateAction<ValueType | null>>;
   sortOption: ValueType;
@@ -96,24 +94,30 @@ export const MobileFilters: React.FC<Props> = ({
 
   useEffect(() => {
     switch (selected) {
-      case Selected.ORDER_BY:
+      case Selected.ORDER_BY: {
         setTitle('Order By');
         return;
-      case Selected.TYPE:
+      }
+      case Selected.TYPE: {
         setTitle('Type of Player');
         return;
-      case Selected.SKILLS:
+      }
+      case Selected.SKILLS: {
         setTitle('Skills');
         return;
-      case Selected.AVAILABILITY:
+      }
+      case Selected.AVAILABILITY: {
         setTitle('Availability');
         return;
-      case Selected.TIME_ZONE:
+      }
+      case Selected.TIME_ZONE: {
         setTitle('Time Zone');
         return;
+      }
       case Selected.NONE:
-      default:
+      default: {
         setTitle('Filter');
+      }
     }
   }, [selected]);
 
@@ -155,31 +159,31 @@ export const MobileFilters: React.FC<Props> = ({
         </DrawerHeader>
         {selected === Selected.NONE && (
           <>
-            <DrawerBody p="0">
-              <FilterItem
+            <DrawerBody p={0}>
+              <FilterItem<ValueType>
                 title="Order By"
                 onClick={() => setSelected(Selected.ORDER_BY)}
-                value={[sortOption]}
+                values={[sortOption]}
               />
-              <FilterItem
+              <FilterItem<ValueType>
                 title="Type Of Player"
                 onClick={() => setSelected(Selected.TYPE)}
-                value={playerTypes}
+                values={playerTypes}
               />
-              <FilterItem
+              <FilterItem<ValueType>
                 title="Skills"
                 onClick={() => setSelected(Selected.SKILLS)}
-                value={skills as ValueType[]}
+                values={skills as ValueType[]}
               />
-              <FilterItem
+              <FilterItem<ValueType>
                 title="Availability"
                 onClick={() => setSelected(Selected.AVAILABILITY)}
-                value={availability ? [availability] : []}
+                values={availability ? [availability] : []}
               />
-              <FilterItem
+              <FilterItem<TimeZone>
                 title="Time Zone"
                 onClick={() => setSelected(Selected.TIME_ZONE)}
-                value={timeZones}
+                values={timeZones}
               />
             </DrawerBody>
             <DrawerFooter p="1.5rem">
@@ -191,14 +195,14 @@ export const MobileFilters: React.FC<Props> = ({
                     onClick={resetAllFilters}
                     size="sm"
                     minH="2.5rem"
-                    p="2"
+                    p={2}
                     mb="1rem"
                   >
-                    RESET ALL FILTERS
+                    Reset All Filters
                   </Button>
                 )}
                 <MetaButton onClick={onClose} w="15rem">
-                  SHOW RESULTS
+                  Show Results
                 </MetaButton>
               </Flex>
             </DrawerFooter>
@@ -206,12 +210,10 @@ export const MobileFilters: React.FC<Props> = ({
         )}
         {selected === Selected.ORDER_BY && (
           <FilterContent
-            value={[sortOption]}
-            onChange={(value) => {
-              const values = value as ValueType[];
-              if (values[values.length - 1]) {
-                setSortOption(values[values.length - 1]);
-              }
+            values={[sortOption]}
+            onChange={(values: ValueType[]) => {
+              const [last] = values.slice(-1);
+              if (last) setSortOption(last);
             }}
             options={sortOptions}
             onBack={onBack}
@@ -221,45 +223,44 @@ export const MobileFilters: React.FC<Props> = ({
         )}
         {selected === Selected.TYPE && (
           <FilterContent
-            value={playerTypes}
-            onChange={(value) => {
-              setPlayerTypes(value as ValueType[]);
+            values={playerTypes}
+            onChange={(values: ValueType[]) => {
+              setPlayerTypes(values);
             }}
             options={aggregates.playerTypes}
             onBack={onBack}
           />
         )}
         {selected === Selected.SKILLS && (
-          <FilterContent
-            value={skills as ValueType[]}
-            onChange={(value) => {
-              setSkills(value as SkillOption[]);
+          <FilterContent<SkillOption>
+            values={skills}
+            onChange={(values) => {
+              setSkills(values);
             }}
-            options={aggregates.skillChoices as CategoryValueType[]}
+            options={(aggregates.skillChoices as unknown) as SkillOption[]}
             onBack={onBack}
             showSearch
           />
         )}
         {selected === Selected.AVAILABILITY && (
-          <FilterContent
-            value={availability ? [availability] : []}
-            onChange={(value) => {
-              const values = value as ValueType[];
-              setAvailability(values[values.length - 1]);
+          <FilterContent<ValueType>
+            values={availability ? [availability] : []}
+            onChange={(values) => {
+              const [last] = (values as ValueType[]).slice(-1);
+              setAvailability(last);
             }}
             options={[1, 5, 10, 20, 30, 40].map((value) => ({
               value: value.toString(),
-              label: `≥ ${value.toString()} h/week`,
+              label: `≥ ${value} hr ⁄ week`,
             }))}
             onBack={onBack}
             isMulti={false}
           />
         )}
         {selected === Selected.TIME_ZONE && (
-          <FilterContent
-            value={timeZones}
-            onChange={(value) => {
-              const values = value as ValueType[];
+          <FilterContent<TimeZone>
+            values={timeZones}
+            onChange={(values) => {
               setTimeZones(values.slice(-1));
             }}
             options={TimeZoneOptions}
@@ -274,13 +275,16 @@ export const MobileFilters: React.FC<Props> = ({
   );
 };
 
-type FilterItemProps = {
+type FilterItemProps<T> = {
   title: string;
-  value: ValueType[];
+  values: T[];
 } & FlexProps;
 
-const FilterItem: React.FC<FilterItemProps> = ({ title, value, ...props }) => {
-  const lastIndex = value.length - 1;
+function FilterItem<T extends LabeledOptions<T>>({
+  title,
+  values,
+  ...props
+}: FilterItemProps<T>): React.ReactElement {
   return (
     <Flex
       justify="space-between"
@@ -304,32 +308,34 @@ const FilterItem: React.FC<FilterItemProps> = ({ title, value, ...props }) => {
         <Text fontWeight="bold" fontSize="md">
           {title}
         </Text>
-        {value.length > 0 && (
+        {values.length > 0 && (
           <Text
-            fontWeight="300"
+            fontWeight={300}
             fontSize="sm"
             textOverflow="ellipsis"
             overflow="hidden"
             whiteSpace="nowrap"
             w="100%"
           >
-            {value.reduce(
-              (t, v, i) =>
-                i === lastIndex ? t.concat(v.label) : t.concat(v.label, ', '),
-              '',
-            )}
+            {values
+              .slice(0, -1)
+              .map(({ label }) => label)
+              .join(', ')}
+            {values.length > 3 ? ',' : ''}
+            {' & '}
+            {values.slice(-1)}
           </Text>
         )}
       </Flex>
       <ArrowForwardIcon boxSize="2rem" color="white" />
     </Flex>
   );
-};
+}
 
-type FilterContentProps = {
-  value: ValueType[];
-  onChange: (value: ValueType[]) => void;
-  options: ValueType[] | CategoryValueType[];
+type FilterContentProps<T extends CombinedLabel<T>> = {
+  values: Array<T>;
+  onChange: (values: Array<T>) => void;
+  options: Array<T>;
   onBack: () => void;
   isMulti?: boolean;
   showSearch?: boolean;
@@ -340,16 +346,19 @@ type FilterContentProps = {
 const scrollbarVisible = (element: HTMLDivElement): boolean =>
   element.scrollHeight > element.clientHeight;
 
-const searchFilter: (searchText: string) => (v: ValueType) => boolean = (
-  searchText,
-) => ({ value, label }) =>
-  label.toLowerCase().includes(searchText) ||
-  value.toLowerCase().includes(searchText);
+const searchFilter: (
+  searchText: string,
+) => (v: LabeledValue<string>) => boolean = (searchText) => ({
+  value,
+  label,
+}) =>
+  (label?.toLowerCase().includes(searchText) ?? false) ||
+  (value?.toLowerCase().includes(searchText) ?? false);
 
 const FilterContent: React.FC<FilterContentProps> = ({
   value: savedValue,
   onChange,
-  options: allOptions,
+  options: corpus,
   onBack,
   isMulti = true,
   showSearch = false,
@@ -357,19 +366,18 @@ const FilterContent: React.FC<FilterContentProps> = ({
   disableEmpty = false,
 }) => {
   const isCategoryFilter = useMemo(
-    () =>
-      allOptions.length > 0 && !!(allOptions as CategoryValueType[])[0].options,
-    [allOptions],
+    () => !!(corpus[0] as LabeledOptions<T>)?.options,
+    [corpus],
   );
-  const [value, setValue] = useState(savedValue);
+  const [values, setValues] = useState(savedValue);
   const onClear = useCallback(() => {
-    setValue([]);
+    setValues([]);
   }, []);
   const onSave = useCallback(() => {
-    onChange(value);
+    onChange(values);
     onBack();
-  }, [value, onChange, onBack]);
-  const [options, setOptions] = useState(allOptions);
+  }, [values, onChange, onBack]);
+  const [options, setOptions] = useState(corpus);
 
   const [search, setSearch] = useState('');
   const isChanged = useMemo(
@@ -385,51 +393,51 @@ const FilterContent: React.FC<FilterContentProps> = ({
   const onSearch = useCallback(
     (searchText: string) => {
       if (!searchText) {
-        setOptions(allOptions);
-      }
-      let filteredTimeZones: string[] = [];
-      if (isTimeZone) {
-        filteredTimeZones = getTimeZonesFor(searchText);
+        setOptions(corpus);
       }
       if (isCategoryFilter) {
-        const newOptions: CategoryValueType[] = (allOptions as CategoryValueType[]).reduce(
-          (t: CategoryValueType[], v: CategoryValueType) => {
-            const { label, options: categoryOptions } = v;
+        const newOptions = corpus.reduce(
+          (
+            t: Array<LabeledOptions<T | TimeZone>>,
+            v: LabeledOptions<T | TimeZone>,
+          ) => {
+            const { label: optionLabel, options: optionSet } = v;
             const filteredOptions = isTimeZone
-              ? (categoryOptions as TimeZoneType[]).filter(
-                  timeZonesFilter(searchText, filteredTimeZones),
-                )
-              : categoryOptions.filter(searchFilter(searchText));
-            const newValue: CategoryValueType = {
-              label,
+              ? (optionSet as TimeZone[]).filter(timeZonesFilter(search))
+              : (optionSet as T[]).filter(searchFilter(searchText));
+            const newValue = {
+              optionLabel,
               options: filteredOptions,
             };
-            return newOptions.length > 0 ? [...t, newValue] : t;
+            return [...t, newValue];
           },
           [],
         );
-        setOptions(newOptions);
+        setOptions((newOptions as unknown) as Array<T>); // Hack: fix eventually
       } else {
         const filteredOptions = isTimeZone
-          ? (allOptions as TimeZoneType[]).filter(
-              timeZonesFilter(searchText, filteredTimeZones),
+          ? ((corpus as unknown) as TimeZone[]).filter(
+              timeZonesFilter(searchText),
             )
-          : (allOptions as ValueType[]).filter(searchFilter(searchText));
-        setOptions(filteredOptions);
+          : (corpus as T[]).filter(searchFilter(searchText));
+        setOptions((filteredOptions as unknown) as T[]);
       }
     },
-    [allOptions, isCategoryFilter, isTimeZone],
+    [corpus, isCategoryFilter, isTimeZone, search],
   );
 
-  const renderOptions = useCallback(
-    (optionsToRender: ValueType[]) => {
+  type RenderCallback<U> = (optionsToRender: Array<U>) => React.ReactElement;
+
+  const renderOptions = useCallback<RenderCallback<LabeledValue<T>>>(
+    (optionsToRender: Array<LabeledValue<T>>) => {
       const lastIndex = optionsToRender.length - 1;
       return (
         <>
-          {optionsToRender.map((option: ValueType, index: number) => {
-            const { value: optionValue, label } = option;
-            const isSelected = value.reduce(
-              (t, v) => t || v.value === optionValue,
+          {optionsToRender.map((option: LabeledValue<T>, index: number) => {
+            const { value: optionValue = null, label } = option;
+            const isSelected = values.reduce(
+              (acc, curr) =>
+                acc || (curr as LabeledValue<T>).value === optionValue,
               false,
             );
             return (
@@ -437,28 +445,37 @@ const FilterContent: React.FC<FilterContentProps> = ({
                 pl="1rem"
                 cursor="pointer"
                 _hover={{ bg: 'whiteAlpha.100' }}
-                key={optionValue}
+                key={
+                  typeof optionValue === 'string' ? optionValue : Math.random()
+                }
                 onClick={() => {
                   if (isSelected && disableEmpty && value.length === 1) return;
                   if (isMulti) {
                     if (isSelected) {
-                      const newValue = value.slice();
-                      newValue.splice(value.indexOf(option), 1);
-                      setValue(newValue);
+                      const newValue = [...values] as Array<
+                        LabeledValue<unknown>
+                      >;
+                      newValue.splice(
+                        newValue.findIndex((opt) => opt.value === option.value),
+                        1,
+                      );
+                      setValues(newValue as Array<T>);
                     } else {
-                      const newValue = value.slice();
+                      const newValue = [...values] as Array<
+                        LabeledValue<unknown>
+                      >;
                       newValue.push(option);
-                      setValue(newValue);
+                      setValues(newValue as Array<T>);
                     }
-                  } else {
-                    setValue(isSelected ? [] : [option]);
+                  } else if (option.value) {
+                    setValues(isSelected ? [] : [option.value]);
                   }
                 }}
               >
                 <Flex
                   w="100%"
                   p="1rem"
-                  pl="0"
+                  pl={0}
                   justify="space-between"
                   align="center"
                   borderBottom={lastIndex === index ? '0' : '1px solid'}
@@ -477,7 +494,7 @@ const FilterContent: React.FC<FilterContentProps> = ({
         </>
       );
     },
-    [isMulti, value, disableEmpty],
+    [isMulti, values, disableEmpty],
   );
 
   const [hasScrollbar, setHasScrollbar] = useState(false);
@@ -529,7 +546,7 @@ const FilterContent: React.FC<FilterContentProps> = ({
           position="relative"
         >
           {isCategoryFilter
-            ? (options as CategoryValueType[]).map(
+            ? (options as Array<LabeledOptions<T>>).map(
                 ({ label, options: categoryOptions }) => (
                   <Flex direction="column" key={label}>
                     <Flex
@@ -545,16 +562,16 @@ const FilterContent: React.FC<FilterContentProps> = ({
                         {label}
                       </Text>
                     </Flex>
-                    {renderOptions(categoryOptions)}
+                    {renderOptions(categoryOptions ?? [])}
                   </Flex>
                 ),
               )
-            : renderOptions(options as ValueType[])}
+            : renderOptions(options as Array<LabeledValue<T>>)}
         </Flex>
       </DrawerBody>
       <DrawerFooter p="1.5rem">
         <Flex direction="column" justify="center" w="100%" align="center">
-          {value.length > 0 && (!disableEmpty || value.length > 1) && (
+          {values.length > 0 && (!disableEmpty || values.length > 1) && (
             <Button
               variant="link"
               color="cyan.400"
@@ -564,14 +581,14 @@ const FilterContent: React.FC<FilterContentProps> = ({
               p="2"
               mb="1rem"
             >
-              CANCEL SELECTION
+              Cancel Selection
             </Button>
           )}
           <MetaButton onClick={onSave} isDisabled={!isChanged} w="15rem">
-            SAVE
+            Save
           </MetaButton>
         </Flex>
       </DrawerFooter>
     </>
   );
-};
+}
