@@ -61,19 +61,14 @@ export type AbbreviatedForm = {
   fullForm?: Maybe<string>;
   abbreviation: Maybe<string>;
 }
-export type NamedOffset = {
+export type NamedOffset = 
   AbbreviatedForm
-  & { offset?: number }
-}
+  & { offset?: number };
 
 export interface TimeZone {
   annual?: AbbreviatedForm;
-  standardName?: Maybe<string>; //         Eastern Standard Time
-  standardAbbreviation?: Maybe<string>; // EST
-  standardOffset: number; //               -5
-  savingsName?: Maybe<string>; //          Eastern Daylight Time
-  savingsAbbreviation?: Maybe<string>; //  EDT
-  savingsOffset: number; //                -4
+  standard?: NamedOffset; //         Eastern Standard Time
+  savings?: NamedOffset; //          Eastern Daylight Time
   locations?: [string]; //                 ['NYC']
 }
 export interface TitledDescription {
@@ -82,7 +77,7 @@ export interface TitledDescription {
 }
 export type EPObjects = {
   availableHours?: number;
-  timeZone?: TimeZone;
+  timeZone?: string;
   playerType?: TitledDescription;
 };
 

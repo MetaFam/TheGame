@@ -11,6 +11,7 @@ import {
   useBreakpointValue,
 } from '@chakra-ui/react';
 import React, { useCallback, useRef, useState } from 'react';
+import { getTimeZoneFor } from '.';
 
 import { DropDownIcon } from './icons/DropDownIcon';
 import { MetaTag } from './MetaTag';
@@ -327,7 +328,7 @@ const SelectContainer: React.FC<
 };
 
 export const MetaFilterSelectSearch: React.FC<
-  React.ComponentProps<typeof SelectSearch> & {
+  {options: string[];
     showSearch?: boolean;
     isTimeZone?: boolean;
     hasValue: boolean;
@@ -343,19 +344,24 @@ export const MetaFilterSelectSearch: React.FC<
 }) => {
   const [options, setOptions] = useState(defaultOptions);
 
+  const optionsFor = (search: string) => {
+    const timeZones = search ? getTimeZonesFor(search) : defaultOptions
+    const opts = (
+      timeZones?.map((location) => ({
+        label: getTimeZoneFor({ location }).label,
+        value: location,  
+      } as SelectProps)) ?? []
+    )
+    setOptions(
+      (opts as SelectProps[])?.filter(
+        timeZonesFilter(searchText, filteredTimeZones),
+      ),
+    );
+
+  }
   const onTimeZoneInputChange = useCallback(
     (value: string) => {
-      if (!value) {
-        setOptions(defaultOptions);
-      } else {
-        const searchText = value.toLowerCase().trim();
-        const filteredTimeZones = getTimeZonesFor(searchText);
-        setOptions(
-          (defaultOptions as TimeZoneType[])?.filter(
-            timeZonesFilter(searchText, filteredTimeZones),
-          ),
-        );
-      }
+      const search = value.toLowerCase().trim();
     },
     [defaultOptions],
   );
@@ -389,3 +395,11 @@ export const MetaFilterSelectSearch: React.FC<
     />
   );
 };
+function searchText(searchText: any, filteredTimeZones: any): (value: SelectProps, index: number, array: SelectProps[]) => value is SelectProps {
+  throw new Error('Function not implemented.');
+}
+
+function filteredTimeZones(searchText: any, filteredTimeZones: any): (value: SelectProps, index: number, array: SelectProps[]) => value is SelectProps {
+  throw new Error('Function not implemented.');
+}
+

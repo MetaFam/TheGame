@@ -51,13 +51,13 @@ gql`
         pronouns
         location
         countryCode
-        timeZone {
-          name
-          fullForm
-          abbreviation
-          location
-          offset
-        }
+        # timeZone {
+        #   name
+        #   fullForm
+        #   abbreviation
+        #   location
+        #   offset
+        # }
         website
       ]
     }
