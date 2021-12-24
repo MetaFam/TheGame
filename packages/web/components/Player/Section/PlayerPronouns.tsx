@@ -1,7 +1,7 @@
 import { MetaTag } from '@metafam/ds';
 import { FlexContainer } from 'components/Container';
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
-import { useAnimation } from 'lib/hooks/players';
+import { useAnimateProfileChanges } from 'lib/hooks/players';
 import React, { useState } from 'react';
 
 import { PlayerHeroTile } from './PlayerHeroTile';
@@ -13,7 +13,7 @@ export const PlayerPronouns: React.FC<Props> = ({ person }) => {
   const updateFN = () => {
     setPronouns(person?.pronouns || '');
   };
-  const { animation } = useAnimation(person?.pronouns, updateFN);
+  const { animation } = useAnimateProfileChanges(person?.pronouns, updateFN);
 
   return pronouns ? (
     <PlayerHeroTile title="Personal pronouns">

@@ -21,7 +21,7 @@ import { EditProfileForm } from 'components/EditProfileForm';
 import { PlayerAvatar } from 'components/Player/PlayerAvatar';
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
 import { useUser } from 'lib/hooks';
-import { useAnimation } from 'lib/hooks/players';
+import { useAnimateProfileChanges } from 'lib/hooks/players';
 import React, { useEffect, useState } from 'react';
 import { FaClock, FaGlobe } from 'react-icons/fa';
 import { getPlayerTimeZoneDisplay } from 'utils/dateHelpers';
@@ -207,7 +207,10 @@ export const PlayerHero: React.FC<Props> = ({ player, isOwnProfile }) => {
 const Availability: React.FC<AvailabilityProps> = ({ person }) => {
   const [availabilityHours, setAvailabilityHours] = useState<number>(0);
   const updateFN = () => setAvailabilityHours(person?.availability_hours || 0);
-  const { animation } = useAnimation(person?.availability_hours, updateFN);
+  const { animation } = useAnimateProfileChanges(
+    person?.availability_hours,
+    updateFN,
+  );
   return (
     <Flex alignItems="center">
       <Box pr={2}>
@@ -235,7 +238,10 @@ const TimeZoneDisplay: React.FC<TimeZoneDisplayProps> = ({ person }) => {
     if (timeDisplay.offset) setOffset(timeDisplay.offset);
   };
 
-  const { animation } = useAnimation(timeDisplay.timeZone, updateFN);
+  const { animation } = useAnimateProfileChanges(
+    timeDisplay.timeZone,
+    updateFN,
+  );
   return (
     <Flex alignItems="center">
       <Box pr={1}>

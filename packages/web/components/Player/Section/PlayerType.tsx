@@ -1,6 +1,7 @@
 import { Text } from '@metafam/ds';
 import { Player_Type, PlayerFragmentFragment } from 'graphql/autogen/types';
-import React, { useEffect, useRef, useState } from 'react';
+import { useAnimateProfileChanges } from 'lib/hooks/players';
+import React, { useState } from 'react';
 import { BOX_TYPE } from 'utils/boxTypes';
 
 import { FlexContainer } from '../../Container';
@@ -18,31 +19,9 @@ export const PlayerType: React.FC<Props> = ({
   onRemoveClick,
 }) => {
   const [playerType, setPlayerType] = useState<Player_Type | null>();
-  const [animation, setAnimation] = useState<string>('fadeIn');
+  const updateFN = () => setPlayerType(player.type);
 
-  const type = player?.type;
-
-  const usePrevious = <T extends unknown>(value: T): T | undefined => {
-    const ref = useRef<T>();
-    useEffect(() => {
-      ref.current = value;
-    });
-    return ref.current;
-  };
-  const previousType = usePrevious(type);
-
-  // todo refactor so that usePrevious won't be needed anymore
-  // something is retriggering useEffect when color disposition is changed, for example
-  // i suspect the type object's reference is changing
-  useEffect(() => {
-    if (previousType?.title !== type?.title) {
-      setAnimation('fadeOut');
-      setTimeout(() => {
-        setPlayerType(type);
-        setAnimation('fadeIn');
-      }, 400);
-    }
-  }, [type, previousType]);
+  const { animation } = useAnimateProfileChanges(player.type, updateFN);
 
   return (
     <ProfileSection
