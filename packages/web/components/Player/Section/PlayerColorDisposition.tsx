@@ -1,5 +1,7 @@
-import { Link } from '@metafam/ds';
+import { Link, Text } from '@metafam/ds';
+import { Maybe } from '@metafam/utils';
 import { FlexContainer } from 'components/Container';
+import { ColorBar } from 'components/Player/ColorBar';
 import { ProfileSection } from 'components/Profile/ProfileSection';
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
 import { getPersonalityInfo } from 'graphql/queries/enums/getPersonalityInfo';
@@ -7,8 +9,6 @@ import { PersonalityOption } from 'graphql/types';
 import { useAnimateProfileChanges } from 'lib/hooks/players';
 import React, { useEffect, useState } from 'react';
 import { BoxType } from 'utils/boxTypes';
-
-import { ColorBar } from '../ColorBar';
 
 type Props = {
   player: PlayerFragmentFragment;
@@ -48,7 +48,11 @@ export const PlayerColorDisposition: React.FC<Props> = ({
       boxType={BoxType.PLAYER.COLOR_DISPOSITION}
       {...{ onRemoveClick, isOwnProfile, canEdit }}
     >
-      {colorDisposition && (
+      {!colorDisposition ? (
+        <Text fontStyle="italic" textAlign="center">
+          Unspecified
+        </Text>
+      ) : (
         <FlexContainer
           align="stretch"
           transition="opacity 0.4s"
@@ -56,14 +60,14 @@ export const PlayerColorDisposition: React.FC<Props> = ({
         >
           <Link
             isExternal
-            href={`//dysbulic.github.io/5-color-radar/#/combos/${colorDisposition?.mask
+            href={`//dysbulic.github.io/5-color-radar/#/combos/${colorDisposition.mask
               .toString(2)
               .padStart(5, '0')}`}
             maxH={125}
             fontSize={{ base: 'md', sm: 'lg' }}
             fontWeight={600}
           >
-            <ColorBar mask={colorDisposition?.mask} />
+            <ColorBar mask={colorDisposition.mask} />
           </Link>
         </FlexContainer>
       )}

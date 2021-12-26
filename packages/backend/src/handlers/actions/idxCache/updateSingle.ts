@@ -32,6 +32,7 @@ import {
   Maybe,
   UpdateBoxProfileResponse,
 } from '../../../lib/autogen/hasura-sdk';
+import { maskFor } from '../../../lib/colorHelpers';
 import { client } from '../../../lib/hasuraClient';
 
 export default async (playerId: string): Promise<UpdateBoxProfileResponse> => {
@@ -132,9 +133,17 @@ export default async (playerId: string): Promise<UpdateBoxProfileResponse> => {
             const fromKey = ceramicId as Values<typeof ExtendedProfileObjects>;
             const toKey = hasuraId as keyof typeof ExtendedProfileObjects;
             if (extendedProfile?.[fromKey] != null) {
-              switch (toKey) {
+              switch (fromKey) {
                 case 'availableHours': {
-                  values[toKey] = extendedProfile[fromKey] as number;
+                  values.availableHours = extendedProfile.availableHours;
+                  break;
+                }
+                case 'colorDisposition': {
+                  values.colorMask =
+                    maskFor(extendedProfile.colorDisposition) ?? undefined;
+                  break;
+                }
+                case 'playerType': {
                   break;
                 }
                 default: {

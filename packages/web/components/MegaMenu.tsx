@@ -424,7 +424,7 @@ const PlayerStats: React.FC<PlayerStatsProps> = ({ player }) => {
         <MenuList mt="8px" color="black">
           <MetaLink
             color="black"
-            href={getURLFor(player)}
+            href={getURLFor(player) ?? '/'}
             _hover={{ textDecoration: 'none' }}
           >
             <MenuItem>
@@ -459,6 +459,7 @@ export const MegaMenu: React.FC = () => {
     await connect();
   }, [connect]);
   const { user, fetching } = useUser();
+  const { player } = user ?? {};
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const menuToggle = () => {
@@ -471,6 +472,7 @@ export const MegaMenu: React.FC = () => {
     document.body.style.overflow = 'hidden';
     return onOpen();
   };
+
   return (
     <Stack
       position={
@@ -523,8 +525,8 @@ export const MegaMenu: React.FC = () => {
             />
           ) : (
             <>
-              {connected && !!user?.player ? (
-                <PlayerStats player={user.player} />
+              {connected && !!player ? (
+                <PlayerStats {...{ player }} />
               ) : (
                 <MetaButton
                   display={{ base: 'none', lg: 'block' }}

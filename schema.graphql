@@ -217,42 +217,6 @@ type ColorAspect {
   description: String
   mask: Int!
   name: String!
-
-  """An array relationship"""
-  players(
-    """distinct select on columns"""
-    distinct_on: [player_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [player_order_by!]
-
-    """filter the rows returned"""
-    where: player_bool_exp
-  ): [player!]!
-
-  """An aggregated array relationship"""
-  players_aggregate(
-    """distinct select on columns"""
-    distinct_on: [player_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [player_order_by!]
-
-    """filter the rows returned"""
-    where: player_bool_exp
-  ): player_aggregate!
 }
 
 """
@@ -327,7 +291,6 @@ input ColorAspect_bool_exp {
   description: String_comparison_exp
   mask: Int_comparison_exp
   name: String_comparison_exp
-  players: player_bool_exp
 }
 
 """
@@ -355,7 +318,6 @@ input ColorAspect_insert_input {
   description: String
   mask: Int
   name: String
-  players: player_arr_rel_insert_input
 }
 
 """aggregate max on columns"""
@@ -425,7 +387,6 @@ input ColorAspect_order_by {
   description: order_by
   mask: order_by
   name: order_by
-  players_aggregate: player_aggregate_order_by
 }
 
 """
@@ -3785,10 +3746,6 @@ type player {
 
   """Remote relationship field"""
   brightid_status: BrightIdStatus
-  colorMask: Int
-
-  """An object relationship"""
-  color_aspect: ColorAspect
   createdAt: timestamptz
 
   """Remote relationship field"""
@@ -4225,7 +4182,6 @@ input player_arr_rel_insert_input {
 
 """aggregate avg on columns"""
 type player_avg_fields {
-  colorMask: Float
   playerTypeId: Float
   seasonXP: Float
   totalXP: Float
@@ -4235,7 +4191,6 @@ type player_avg_fields {
 order by avg() on columns of table "player"
 """
 input player_avg_order_by {
-  colorMask: order_by
   playerTypeId: order_by
   seasonXP: order_by
   totalXP: order_by
@@ -4249,8 +4204,6 @@ input player_bool_exp {
   _not: player_bool_exp
   _or: [player_bool_exp]
   accounts: player_account_bool_exp
-  colorMask: Int_comparison_exp
-  color_aspect: ColorAspect_bool_exp
   createdAt: timestamptz_comparison_exp
   discordId: String_comparison_exp
   ethereumAddress: String_comparison_exp
@@ -4289,7 +4242,6 @@ enum player_constraint {
 input type for incrementing integer column in table "player"
 """
 input player_inc_input {
-  colorMask: Int
   playerTypeId: Int
   seasonXP: numeric
   totalXP: numeric
@@ -4300,8 +4252,6 @@ input type for inserting data into table "player"
 """
 input player_insert_input {
   accounts: player_account_arr_rel_insert_input
-  colorMask: Int
-  color_aspect: ColorAspect_obj_rel_insert_input
   createdAt: timestamptz
   discordId: String
   ethereumAddress: String
@@ -4324,7 +4274,6 @@ input player_insert_input {
 
 """aggregate max on columns"""
 type player_max_fields {
-  colorMask: Int
   createdAt: timestamptz
   discordId: String
   ethereumAddress: String
@@ -4341,7 +4290,6 @@ type player_max_fields {
 order by max() on columns of table "player"
 """
 input player_max_order_by {
-  colorMask: order_by
   createdAt: order_by
   discordId: order_by
   ethereumAddress: order_by
@@ -4356,7 +4304,6 @@ input player_max_order_by {
 
 """aggregate min on columns"""
 type player_min_fields {
-  colorMask: Int
   createdAt: timestamptz
   discordId: String
   ethereumAddress: String
@@ -4373,7 +4320,6 @@ type player_min_fields {
 order by min() on columns of table "player"
 """
 input player_min_order_by {
-  colorMask: order_by
   createdAt: order_by
   discordId: order_by
   ethereumAddress: order_by
@@ -4419,8 +4365,6 @@ ordering options when selecting data from "player"
 """
 input player_order_by {
   accounts_aggregate: player_account_aggregate_order_by
-  colorMask: order_by
-  color_aspect: ColorAspect_order_by
   createdAt: order_by
   discordId: order_by
   ethereumAddress: order_by
@@ -4763,9 +4707,6 @@ select columns of table "player"
 """
 enum player_select_column {
   """column name"""
-  colorMask
-
-  """column name"""
   createdAt
 
   """column name"""
@@ -4803,7 +4744,6 @@ enum player_select_column {
 input type for updating data in table "player"
 """
 input player_set_input {
-  colorMask: Int
   createdAt: timestamptz
   discordId: String
   ethereumAddress: String
@@ -5143,7 +5083,6 @@ input player_skill_variance_order_by {
 
 """aggregate stddev on columns"""
 type player_stddev_fields {
-  colorMask: Float
   playerTypeId: Float
   seasonXP: Float
   totalXP: Float
@@ -5153,7 +5092,6 @@ type player_stddev_fields {
 order by stddev() on columns of table "player"
 """
 input player_stddev_order_by {
-  colorMask: order_by
   playerTypeId: order_by
   seasonXP: order_by
   totalXP: order_by
@@ -5161,7 +5099,6 @@ input player_stddev_order_by {
 
 """aggregate stddev_pop on columns"""
 type player_stddev_pop_fields {
-  colorMask: Float
   playerTypeId: Float
   seasonXP: Float
   totalXP: Float
@@ -5171,7 +5108,6 @@ type player_stddev_pop_fields {
 order by stddev_pop() on columns of table "player"
 """
 input player_stddev_pop_order_by {
-  colorMask: order_by
   playerTypeId: order_by
   seasonXP: order_by
   totalXP: order_by
@@ -5179,7 +5115,6 @@ input player_stddev_pop_order_by {
 
 """aggregate stddev_samp on columns"""
 type player_stddev_samp_fields {
-  colorMask: Float
   playerTypeId: Float
   seasonXP: Float
   totalXP: Float
@@ -5189,7 +5124,6 @@ type player_stddev_samp_fields {
 order by stddev_samp() on columns of table "player"
 """
 input player_stddev_samp_order_by {
-  colorMask: order_by
   playerTypeId: order_by
   seasonXP: order_by
   totalXP: order_by
@@ -5197,7 +5131,6 @@ input player_stddev_samp_order_by {
 
 """aggregate sum on columns"""
 type player_sum_fields {
-  colorMask: Int
   playerTypeId: Int
   seasonXP: numeric
   totalXP: numeric
@@ -5207,7 +5140,6 @@ type player_sum_fields {
 order by sum() on columns of table "player"
 """
 input player_sum_order_by {
-  colorMask: order_by
   playerTypeId: order_by
   seasonXP: order_by
   totalXP: order_by
@@ -5540,9 +5472,6 @@ update columns of table "player"
 """
 enum player_update_column {
   """column name"""
-  colorMask
-
-  """column name"""
   createdAt
 
   """column name"""
@@ -5578,7 +5507,6 @@ enum player_update_column {
 
 """aggregate var_pop on columns"""
 type player_var_pop_fields {
-  colorMask: Float
   playerTypeId: Float
   seasonXP: Float
   totalXP: Float
@@ -5588,7 +5516,6 @@ type player_var_pop_fields {
 order by var_pop() on columns of table "player"
 """
 input player_var_pop_order_by {
-  colorMask: order_by
   playerTypeId: order_by
   seasonXP: order_by
   totalXP: order_by
@@ -5596,7 +5523,6 @@ input player_var_pop_order_by {
 
 """aggregate var_samp on columns"""
 type player_var_samp_fields {
-  colorMask: Float
   playerTypeId: Float
   seasonXP: Float
   totalXP: Float
@@ -5606,7 +5532,6 @@ type player_var_samp_fields {
 order by var_samp() on columns of table "player"
 """
 input player_var_samp_order_by {
-  colorMask: order_by
   playerTypeId: order_by
   seasonXP: order_by
   totalXP: order_by
@@ -5614,7 +5539,6 @@ input player_var_samp_order_by {
 
 """aggregate variance on columns"""
 type player_variance_fields {
-  colorMask: Float
   playerTypeId: Float
   seasonXP: Float
   totalXP: Float
@@ -5624,7 +5548,6 @@ type player_variance_fields {
 order by variance() on columns of table "player"
 """
 input player_variance_order_by {
-  colorMask: order_by
   playerTypeId: order_by
   seasonXP: order_by
   totalXP: order_by
@@ -5996,6 +5919,7 @@ type profile {
   availableHours: Int
   backgroundImageURL: String
   bannerImageURL: String
+  colorMask: Int
   countryCode: String
   description: String
   emoji: String
@@ -6068,6 +5992,7 @@ input profile_arr_rel_insert_input {
 """aggregate avg on columns"""
 type profile_avg_fields {
   availableHours: Float
+  colorMask: Float
 }
 
 """
@@ -6075,6 +6000,7 @@ order by avg() on columns of table "profile"
 """
 input profile_avg_order_by {
   availableHours: order_by
+  colorMask: order_by
 }
 
 """
@@ -6087,6 +6013,7 @@ input profile_bool_exp {
   availableHours: Int_comparison_exp
   backgroundImageURL: String_comparison_exp
   bannerImageURL: String_comparison_exp
+  colorMask: Int_comparison_exp
   countryCode: String_comparison_exp
   description: String_comparison_exp
   emoji: String_comparison_exp
@@ -6123,6 +6050,7 @@ input type for incrementing integer column in table "profile"
 """
 input profile_inc_input {
   availableHours: Int
+  colorMask: Int
 }
 
 """
@@ -6132,6 +6060,7 @@ input profile_insert_input {
   availableHours: Int
   backgroundImageURL: String
   bannerImageURL: String
+  colorMask: Int
   countryCode: String
   description: String
   emoji: String
@@ -6154,6 +6083,7 @@ type profile_max_fields {
   availableHours: Int
   backgroundImageURL: String
   bannerImageURL: String
+  colorMask: Int
   countryCode: String
   description: String
   emoji: String
@@ -6177,6 +6107,7 @@ input profile_max_order_by {
   availableHours: order_by
   backgroundImageURL: order_by
   bannerImageURL: order_by
+  colorMask: order_by
   countryCode: order_by
   description: order_by
   emoji: order_by
@@ -6198,6 +6129,7 @@ type profile_min_fields {
   availableHours: Int
   backgroundImageURL: String
   bannerImageURL: String
+  colorMask: Int
   countryCode: String
   description: String
   emoji: String
@@ -6221,6 +6153,7 @@ input profile_min_order_by {
   availableHours: order_by
   backgroundImageURL: order_by
   bannerImageURL: order_by
+  colorMask: order_by
   countryCode: order_by
   description: order_by
   emoji: order_by
@@ -6272,6 +6205,7 @@ input profile_order_by {
   availableHours: order_by
   backgroundImageURL: order_by
   bannerImageURL: order_by
+  colorMask: order_by
   countryCode: order_by
   description: order_by
   emoji: order_by
@@ -6308,6 +6242,9 @@ enum profile_select_column {
 
   """column name"""
   bannerImageURL
+
+  """column name"""
+  colorMask
 
   """column name"""
   countryCode
@@ -6359,6 +6296,7 @@ input profile_set_input {
   availableHours: Int
   backgroundImageURL: String
   bannerImageURL: String
+  colorMask: Int
   countryCode: String
   description: String
   emoji: String
@@ -6378,6 +6316,7 @@ input profile_set_input {
 """aggregate stddev on columns"""
 type profile_stddev_fields {
   availableHours: Float
+  colorMask: Float
 }
 
 """
@@ -6385,11 +6324,13 @@ order by stddev() on columns of table "profile"
 """
 input profile_stddev_order_by {
   availableHours: order_by
+  colorMask: order_by
 }
 
 """aggregate stddev_pop on columns"""
 type profile_stddev_pop_fields {
   availableHours: Float
+  colorMask: Float
 }
 
 """
@@ -6397,11 +6338,13 @@ order by stddev_pop() on columns of table "profile"
 """
 input profile_stddev_pop_order_by {
   availableHours: order_by
+  colorMask: order_by
 }
 
 """aggregate stddev_samp on columns"""
 type profile_stddev_samp_fields {
   availableHours: Float
+  colorMask: Float
 }
 
 """
@@ -6409,11 +6352,13 @@ order by stddev_samp() on columns of table "profile"
 """
 input profile_stddev_samp_order_by {
   availableHours: order_by
+  colorMask: order_by
 }
 
 """aggregate sum on columns"""
 type profile_sum_fields {
   availableHours: Int
+  colorMask: Int
 }
 
 """
@@ -6421,6 +6366,7 @@ order by sum() on columns of table "profile"
 """
 input profile_sum_order_by {
   availableHours: order_by
+  colorMask: order_by
 }
 
 """
@@ -6435,6 +6381,9 @@ enum profile_update_column {
 
   """column name"""
   bannerImageURL
+
+  """column name"""
+  colorMask
 
   """column name"""
   countryCode
@@ -6482,6 +6431,7 @@ enum profile_update_column {
 """aggregate var_pop on columns"""
 type profile_var_pop_fields {
   availableHours: Float
+  colorMask: Float
 }
 
 """
@@ -6489,11 +6439,13 @@ order by var_pop() on columns of table "profile"
 """
 input profile_var_pop_order_by {
   availableHours: order_by
+  colorMask: order_by
 }
 
 """aggregate var_samp on columns"""
 type profile_var_samp_fields {
   availableHours: Float
+  colorMask: Float
 }
 
 """
@@ -6501,11 +6453,13 @@ order by var_samp() on columns of table "profile"
 """
 input profile_var_samp_order_by {
   availableHours: order_by
+  colorMask: order_by
 }
 
 """aggregate variance on columns"""
 type profile_variance_fields {
   availableHours: Float
+  colorMask: Float
 }
 
 """
@@ -6513,6 +6467,7 @@ order by variance() on columns of table "profile"
 """
 input profile_variance_order_by {
   availableHours: order_by
+  colorMask: order_by
 }
 
 type Query {

@@ -149,11 +149,6 @@ export const PlayerHero: React.FC<Props> = ({
             <PlayerPronouns {...{ person }} />
           </PlayerHeroTile>
         )}
-        {/* <SimpleGrid columns={2} gap={6} width="full">
-          <PlayerHeroTile title="Display name">
-            <Text>Vid</Text>
-          </PlayerHeroTile> 
-        </SimpleGrid> */}
         {/* <PlayerHeroTile title="Website">
           <Text>www.mycoolportfolio.com</Text>
         </PlayerHeroTile> */}

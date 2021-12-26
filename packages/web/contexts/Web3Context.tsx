@@ -150,6 +150,7 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
       setProvider(web3Provider);
       setAuthToken(token);
       setConnected(true);
+
       if (resetUrqlClient) resetUrqlClient();
     } catch (error) {
       console.error(error); // eslint-disable-line no-console

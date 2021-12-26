@@ -6,13 +6,13 @@
     schema: public
     name: ColorAspect
   array_relationships:
-  - name: players
+  - name: profiles
     using:
       foreign_key_constraint_on:
         column: color_mask
         table:
           schema: public
-          name: player
+          name: profile
   select_permissions:
   - role: player
     permission:
@@ -305,7 +305,6 @@
     custom_root_fields: {}
     custom_column_names:
       ethereum_address: ethereumAddress
-      color_mask: colorMask
       discord_id: discordId
       updated_at: updatedAt
       season_xp: seasonXP
@@ -313,9 +312,6 @@
       total_xp: totalXP
       player_type_id: playerTypeId
   object_relationships:
-  - name: color_aspect
-    using:
-      foreign_key_constraint_on: color_mask
   - name: profile
     using:
       manual_configuration:
@@ -402,7 +398,6 @@
   - role: player
     permission:
       columns:
-      - color_mask
       - ethereum_address
       - id
       - profile_layout
@@ -415,7 +410,6 @@
   - role: public
     permission:
       columns:
-      - color_mask
       - ethereum_address
       - id
       - profile_layout
@@ -628,10 +622,14 @@
       background_image_url: backgroundImageURL
       last_checked_at: lastCheckedAt
       banner_image_url: bannerImageURL
+      color_mask: colorMask
       player_id: playerId
       time_zone: timeZone
       available_hours: availableHours
   object_relationships:
+  - name: ColorAspect
+    using:
+      foreign_key_constraint_on: color_mask
   - name: player
     using:
       foreign_key_constraint_on: player_id
@@ -642,6 +640,7 @@
       - available_hours
       - background_image_url
       - banner_image_url
+      - color_mask
       - country_code
       - description
       - emoji
@@ -662,6 +661,7 @@
       - available_hours
       - background_image_url
       - banner_image_url
+      - color_mask
       - country_code
       - description
       - emoji
@@ -683,6 +683,7 @@
       - available_hours
       - background_image_url
       - banner_image_url
+      - color_mask
       - country_code
       - description
       - emoji

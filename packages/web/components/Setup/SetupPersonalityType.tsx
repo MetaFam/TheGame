@@ -1,3 +1,6 @@
+import { ModelManager } from '@glazed/devtools';
+import { DIDDataStore } from '@glazed/did-datastore';
+import { TileLoader } from '@glazed/tile-loader';
 import {
   Button,
   Flex,
@@ -5,21 +8,26 @@ import {
   MetaButton,
   MetaHeading,
   ModalFooter,
+  Spinner,
   Text,
   useToast,
+  Wrap,
+  WrapItem,
 } from '@metafam/ds';
+import { extendedProfileModel } from '@metafam/utils';
 import { FlexContainer } from 'components/Container';
 import { MetaLink } from 'components/Link';
 import { ColorBar } from 'components/Player/ColorBar';
 import { useSetupFlow } from 'contexts/SetupContext';
-import { Maybe, useUpdateAboutYouMutation } from 'graphql/autogen/types';
+import { Maybe } from 'graphql/autogen/types';
 import {
   getPersonalityInfo,
   images as BaseImages,
 } from 'graphql/queries/enums/getPersonalityInfo';
 import { PersonalityOption } from 'graphql/types';
-import { useUser } from 'lib/hooks';
-import React, { useEffect, useState } from 'react';
+import { useUser, useWeb3 } from 'lib/hooks';
+import React, { ReactElement, useEffect, useState } from 'react';
+import { dispositionFor } from 'utils/playerHelpers';
 
 export type SetupPersonalityTypeProps = {
   isEdit?: boolean;
@@ -32,23 +40,23 @@ export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
 }) => {
   const { onNextPress, nextButtonLabel } = useSetupFlow();
   const { user } = useUser();
+  const { ceramic } = useWeb3();
   const toast = useToast();
-  const [updateAboutYouRes, updateAboutYou] = useUpdateAboutYouMutation();
-  const [loading, setLoading] = useState(false);
+  const [status, setStatus] = useState<Maybe<ReactElement | string>>(null);
   const [personalityTypes, setPersonalityTypes] = useState<{
     [x: number]: PersonalityOption;
   }>([]);
   const isWizard = !isEdit;
 
   const [colorMask, setColorMask] = useState<Maybe<number> | undefined>(
-    user?.player?.colorMask,
+    user?.player?.profile?.colorMask,
   );
 
   const load = () => {
     const { player } = user ?? {};
     if (player) {
-      if (colorMask === undefined && player.colorMask != null) {
-        setColorMask(player.colorMask);
+      if (colorMask === undefined && player.profile?.colorMask != null) {
+        setColorMask(player.profile.colorMask);
       }
     }
   };
@@ -65,7 +73,7 @@ export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
   }, []);
 
   const handleNextPress = async () => {
-    setLoading(true);
+    setStatus('Saving…');
 
     save();
 
@@ -74,21 +82,50 @@ export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
 
   const save = async () => {
     if (!user) return;
-    if (user.player?.colorMask !== colorMask) {
-      const { error } = await updateAboutYou({
-        playerId: user.id,
-        input: { colorMask },
-      });
 
-      if (error) {
-        console.warn(error); // eslint-disable-line no-console
+    if (!ceramic) {
+      toast({
+        title: 'Ceramic Error',
+        description: 'Ceramic is not defined. Cannot update.',
+        status: 'error',
+        isClosable: true,
+      });
+      return;
+    }
+
+    if (user.player?.profile?.colorMask !== colorMask) {
+      try {
+        if (!ceramic.did?.authenticated) {
+          setStatus(<Text>Authenticating DID…</Text>);
+          await ceramic.did?.authenticate();
+        }
+
+        setStatus(<Text>Saving Color Disposition…</Text>);
+
+        const cache = new Map();
+        const loader = new TileLoader({ ceramic, cache });
+        const manager = new ModelManager(ceramic);
+        manager.addJSONModel(extendedProfileModel);
+
+        const store = new DIDDataStore({
+          ceramic,
+          loader,
+          model: await manager.toPublished(),
+        });
+
+        const colorDisposition = dispositionFor(colorMask);
+        await store.merge('extendedProfile', { colorDisposition });
+      } catch (err) {
+        console.warn(err); // eslint-disable-line no-console
         toast({
           title: 'Error',
-          description: `Unable to update personality type. Error: ${error}`,
+          description: `Unable to update personality type. Error: ${
+            (err as Error).message
+          }`,
           status: 'error',
           isClosable: true,
         });
-        setLoading(false);
+        setStatus(null);
       }
     }
   };
@@ -224,23 +261,41 @@ export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
 
       {isEdit && onClose && (
         <ModalFooter mt={6}>
-          <MetaButton
-            mr={3}
-            onClick={() => {
-              save();
-              onClose();
-            }}
-          >
-            Save Changes
-          </MetaButton>
-          <Button
-            variant="ghost"
-            onClick={onClose}
-            color="white"
-            _hover={{ bg: 'none' }}
-          >
-            Close
-          </Button>
+          <Wrap justify="center" align="center" flex={1}>
+            <WrapItem>
+              <MetaButton
+                isDisabled={!!status}
+                onClick={async () => {
+                  await save();
+                  onClose();
+                }}
+              >
+                {!status ? (
+                  'Save Changes'
+                ) : (
+                  <Flex align="center">
+                    <Spinner mr={3} />
+                    {typeof status === 'string' ? (
+                      <Text>{status}</Text>
+                    ) : (
+                      status
+                    )}
+                  </Flex>
+                )}
+              </MetaButton>
+            </WrapItem>
+            <WrapItem>
+              <Button
+                variant="ghost"
+                onClick={onClose}
+                color="white"
+                _hover={{ bg: '#FFFFFF11' }}
+                _active={{ bg: '#FF000011' }}
+              >
+                Close
+              </Button>
+            </WrapItem>
+          </Wrap>
         </ModalFooter>
       )}
 
@@ -249,8 +304,8 @@ export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
           onClick={handleNextPress}
           mt={10}
           isDisabled={colorMask === undefined}
-          isLoading={updateAboutYouRes.fetching || loading}
-          loadingText="Saving"
+          isLoading={!!status}
+          loadingText={status?.toString() ?? undefined}
         >
           {nextButtonLabel}
         </MetaButton>

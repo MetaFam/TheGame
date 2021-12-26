@@ -40,6 +40,7 @@ export const ExtendedProfileStrings = {
 export const ExtendedProfileObjects = {
   availableHours: 'availableHours',
   playerType: 'playerType',
+  colorMask: 'colorDisposition',
 } as const;
 export const ExtendedProfileFields = {
   ...ExtendedProfileImages,
@@ -70,11 +71,20 @@ export type EPObjects = {
   playerType?: TitledDescription;
 };
 
+export type HasuraEPObjects = {
+  availableHours?: number;
+  playerType?: TitledDescription;
+  colorMask?: number;
+};
+export type CeramicEPObjects = EPObjects & {
+  colorDisposition?: string;
+};
+
 export type HasuraProfileProps = HasuraBPImages &
   HasuraBPStrings &
   HasuraEPImages &
   HasuraEPStrings &
-  EPObjects & { playerId?: string };
+  HasuraEPObjects & { playerId?: string };
 
 export type CeramicBPImages = {
   -readonly [key in Values<typeof BasicProfileImages>]?: ImageSources;
@@ -89,7 +99,9 @@ export type CeramicEPStrings = {
   -readonly [key in Values<typeof ExtendedProfileStrings>]?: string;
 };
 
-export type ExtendedProfile = CeramicEPImages & CeramicEPStrings & EPObjects;
+export type ExtendedProfile = CeramicEPImages &
+  CeramicEPStrings &
+  CeramicEPObjects;
 
 export type ProfileProps = CeramicBPImages &
   HasuraBPImages &
@@ -99,7 +111,8 @@ export type ProfileProps = CeramicBPImages &
   HasuraEPImages &
   HasuraEPStrings &
   CeramicEPStrings &
-  EPObjects & { playerId?: string };
+  HasuraEPObjects &
+  CeramicEPObjects & { playerId?: string };
 
 export const Images = {
   ...BasicProfileImages,

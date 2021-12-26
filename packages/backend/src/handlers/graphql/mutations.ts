@@ -49,15 +49,10 @@ gql`
         availableHours
         gender
         pronouns
+        colorMask
         location
         countryCode
-        # timeZone {
-        #   name
-        #   fullForm
-        #   abbreviation
-        #   location
-        #   offset
-        # }
+        timeZone
         website
       ]
     }

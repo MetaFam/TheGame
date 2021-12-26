@@ -39,6 +39,11 @@ export const useUser = ({
     [error, authToken, me],
   );
 
+  if (error) {
+    // eslint-disable-next-line no-console
+    console.error(`useUser Error: ${error.message}`);
+  }
+
   useEffect(() => {
     if (!redirectTo || fetching || connecting) return;
 
