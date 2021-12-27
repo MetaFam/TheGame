@@ -23,14 +23,14 @@ export class GetXpCommand {
       }
     } catch (e) {
       await message.reply(
-        `Could not recognize user ${message.args.discordUser}. Try \`!ac help\` if you need help.`,
+        `Could not recognize user ${message.args.discordUser}. Try \`!mg help\` if you need help.`,
       );
       return;
     }
 
     if (targetUserDiscordId.trim().length === 0) {
       await message.reply(
-        `Could not recognize user. Try \`!ac help\` if you need help.`,
+        `Could not recognize user. Try \`!mg help\` if you need help.`,
       );
       return;
     }
