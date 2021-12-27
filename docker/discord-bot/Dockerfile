@@ -28,7 +28,6 @@ ARG GRAPHQL_HOST
 
 ENV GRAPHQL_URL https://$GRAPHQL_HOST.onrender.com/v1/graphql
 ENV HASURA_GRAPHQL_ADMIN_SECRET metagame_secret
-ENV RUNTIME_ENV docker
 
 # Build
 RUN yarn discord-bot build
@@ -39,6 +38,9 @@ RUN yarn install --pure-lockfile --production --ignore-scripts --prefer-offline
 # Create completely new stage including only necessary files
 FROM node:12-alpine as app
 WORKDIR /app
+
+# Needed at runtime
+ENV RUNTIME_ENV docker
 
 # Copy necessary files into the stage
 COPY --from=build /usr/src/app/package.json ./package.json
