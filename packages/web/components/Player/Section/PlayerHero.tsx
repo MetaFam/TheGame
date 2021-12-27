@@ -245,20 +245,20 @@ const Availability: React.FC<AvailabilityProps> = ({ person }) => {
         transition=" opacity 0.4s"
         opacity={animation === 'fadeIn' ? 1 : 0}
       >
-    <Text fontSize={{ base: 'md', sm: 'lg' }} pr={2}>
-      {hours == null ? (
-        <Text as="em">Unspecified</Text>
-      ) : (
-        <>
-          <Text as="span" mr={0.5}>
-            {hours}
-          </Text>
-          <Text as="span" title="hours per week">
-            <Text as="sup">h</Text>⁄<Text as="sub">week</Text>
-          </Text>
-        </>
-      )}
-    </Text>
+        <Text fontSize={{ base: 'md', sm: 'lg' }} pr={2}>
+          {hours == null ? (
+            <Text as="em">Unspecified</Text>
+          ) : (
+            <>
+              <Text as="span" mr={0.5}>
+                {hours}
+              </Text>
+              <Text as="span" title="hours per week">
+                <Text as="sup">h</Text>⁄<Text as="sub">week</Text>
+              </Text>
+            </>
+          )}
+        </Text>
       </FlexContainer>
     </Flex>
   );
@@ -296,7 +296,12 @@ const TimeZoneDisplay: React.FC<TimeZoneDisplayProps> = ({ person }) => {
               <Box pr={1}>
                 <FaGlobe color="blueLight" />
               </Box>
-              <Text fontSize={{ base: 'md', sm: 'lg' }} pr={1}>
+              <Text
+                fontSize={{ base: 'md', sm: 'lg' }}
+                pr={1}
+                overflowX="hidden"
+                textOverflow="ellipsis"
+              >
                 {timeZone || '−'}
               </Text>
               {short && (

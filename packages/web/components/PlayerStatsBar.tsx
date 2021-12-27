@@ -18,12 +18,11 @@ import SeedMarket from 'assets/seed-icon.svg';
 import XPStar from 'assets/xp-star.svg';
 import { MetaLink } from 'components/Link';
 import { LoginButton } from 'components/LoginButton';
+import { PlayerAvatar } from 'components/Player/PlayerAvatar';
 import { useUser, useWeb3 } from 'lib/hooks';
 import { usePSeedBalance } from 'lib/hooks/balances';
 import React from 'react';
-import { getNameOf } from 'utils/playerHelpers';
-
-import { PlayerAvatar } from './Player/PlayerAvatar';
+import { getNameOf, getURLFor } from 'utils/playerHelpers';
 
 const { amountToDecimal } = numbers;
 
@@ -88,7 +87,7 @@ const PlayerStats = () => {
               <MenuList color="black">
                 <MetaLink
                   color="black"
-                  href={`/player/${player.profile?.username}`}
+                  href={getURLFor(player) ?? '/'}
                   _hover={{ textDecoration: 'none' }}
                 >
                   <MenuItem>
@@ -138,10 +137,10 @@ const PlayerStats = () => {
                   alt="XP"
                   h={7}
                   w={7}
-                  mr={3}
+                  mr={[1, 3]}
                 />
                 <Text color="#FFF" lineHeight={2} fontSize={20}>
-                  {Math.trunc(player.totalXP)}
+                  {Math.trunc(player.totalXP).toLocaleString()}
                 </Text>
               </Badge>
             </Tooltip>
@@ -152,7 +151,7 @@ const PlayerStats = () => {
                 minW="fit-content"
                 py={2}
                 px={4}
-                mx={2}
+                mx={[0, 2]}
                 mb={2}
                 bg="rgba(0,0,0,0.25)"
                 border="1px solid #2B2244"
@@ -165,10 +164,13 @@ const PlayerStats = () => {
                   alt="Seed"
                   h={7}
                   w={6}
-                  mr={3}
+                  mr={[1, 3]}
                 />
                 <Text color="#FFF" lineHeight={2} fontSize={20}>
-                  {parseInt(amountToDecimal(pSeedBalance || '0', 18), 10)}
+                  {parseInt(
+                    amountToDecimal(pSeedBalance || '0', 18),
+                    10,
+                  ).toLocaleString()}
                 </Text>
               </Badge>
             </Tooltip>

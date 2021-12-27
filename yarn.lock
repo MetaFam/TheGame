@@ -2131,6 +2131,13 @@
   resolved "https://registry.yarnpkg.com/@ctrl/tinycolor/-/tinycolor-3.4.0.tgz#c3c5ae543c897caa9c2a68630bed355be5f9990f"
   integrity sha512-JZButFdZ1+/xAfpguQHoabIXkcqRRKpMrWKBkpEZZyxfY9C1DpADFB8PEqGSTeFr135SaTRfKqGKx5xSCLI7ZQ==
 
+"@datamodels/identity-accounts-crypto@^0.1.2":
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/@datamodels/identity-accounts-crypto/-/identity-accounts-crypto-0.1.2.tgz#a6235e94ff391bacaf78b967b462308892527ab7"
+  integrity sha512-N8Y3uVCxeYEze09eIUJKy3P9QSivZJeHwFVGZhRYhQpKqqUBLfNOL2Tfb2jRRu0n5G3Zqwwd9j9zbZ3uwpjOfA==
+  dependencies:
+    "@glazed/types" "^0.1.3"
+
 "@datamodels/identity-accounts-web@0.1.2":
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/@datamodels/identity-accounts-web/-/identity-accounts-web-0.1.2.tgz#0727ea1097b89968b33c36034bc864dd3ec22315"

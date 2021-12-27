@@ -56,6 +56,7 @@ import Youtube from 'assets/menuIcon/youtube.svg';
 import SeedMarket from 'assets/seed-icon.svg';
 import XPStar from 'assets/xp-star.svg';
 import { MetaLink } from 'components/Link';
+import { PlayerAvatar } from 'components/Player/PlayerAvatar';
 import { Player } from 'graphql/autogen/types';
 import { useUser, useWeb3 } from 'lib/hooks';
 import { usePSeedBalance } from 'lib/hooks/balances';
@@ -63,8 +64,6 @@ import { useRouter } from 'next/router';
 import React, { useCallback, useEffect, useState } from 'react';
 import { MenuLinkItem, MenuLinkSet, MenuSectionLinks } from 'utils/menuLinks';
 import { getURLFor } from 'utils/playerHelpers';
-
-import { PlayerAvatar } from './Player/PlayerAvatar';
 
 const { amountToDecimal } = numbers;
 
@@ -108,9 +107,8 @@ const Logo = ({ link }: LogoProps) => {
     <Box
       className="logo"
       w={{ base: 'fit-content', lg: '209px' }}
-      mt={2}
+      mt={[0.5, 2]}
       ml={3}
-      textAlign={{ base: 'center', lg: 'left' }}
     >
       <MetaLink
         href={link}
@@ -120,7 +118,8 @@ const Logo = ({ link }: LogoProps) => {
       >
         <Image
           src="/assets/logo.png"
-          {...{ height, width }}
+          height={`${height}px`}
+          width={`${width}px`}
           _hover={{ transform: 'scale(1.1)' }}
         />
       </MetaLink>
@@ -255,8 +254,7 @@ const DesktopNavLinks = () => {
                 fontSize={['md', 'md', 'md', 'lg']}
                 fontWeight={600}
                 textTransform="uppercase"
-                ml={23}
-                mr={23}
+                mx={23}
                 _expanded={{ color: '#FFF' }}
                 _focus={{ outline: 'none', border: 'none' }}
               >

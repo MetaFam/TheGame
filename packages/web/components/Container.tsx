@@ -8,7 +8,7 @@ export const PageContainer: React.FC<Props> = ({ children, ...props }) => (
   <Flex
     bgSize="cover"
     bgAttachment="fixed"
-    w="fit-content"
+    w="full"
     minH="100vh"
     px={[4, 8, 12]}
     pt={[4, 8, 12]}

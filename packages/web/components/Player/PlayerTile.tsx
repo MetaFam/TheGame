@@ -69,11 +69,7 @@ export const PlayerTile: React.FC<Props> = ({
           w="100%"
           h="4.5rem"
         />
-        <NextLink
-          as={getURLFor(player, { rel: true })}
-          href="/player/[username]"
-          passHref
-        >
+        <NextLink as={getURLFor(player)} href="/player/[username]" passHref>
           <LinkOverlay>
             <MetaTileHeader>
               <VStack>
@@ -93,7 +89,7 @@ export const PlayerTile: React.FC<Props> = ({
                 {player.rank && (
                   <WrapItem>
                     <MetaTag
-                      backgroundColor={player.rank?.toLowerCase()}
+                      backgroundColor={player.rank.toLowerCase()}
                       size="md"
                       color="blackAlpha.600"
                     >
@@ -104,13 +100,14 @@ export const PlayerTile: React.FC<Props> = ({
                 <WrapItem>
                   <MetaTag size="md">
                     {showSeasonalXP ? 'TOTAL XP: ' : 'XP: '}
-                    {Math.floor(player.totalXP)}
+                    {Math.floor(player.totalXP).toLocaleString()}
                   </MetaTag>
                 </WrapItem>
                 {showSeasonalXP && (
                   <WrapItem>
                     <MetaTag size="md">
-                      SEASON Ⅳ XP: {Math.floor(player.seasonXP)}
+                      SEASON Ⅴ XP:{' '}
+                      {Math.floor(player.seasonXP).toLocaleString()}
                     </MetaTag>
                   </WrapItem>
                 )}

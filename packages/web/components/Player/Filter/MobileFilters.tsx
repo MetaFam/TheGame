@@ -323,7 +323,7 @@ function FilterItem<T extends LabeledOptions<T>>({
               .join(', ')}
             {values.length > 3 ? ',' : ''}
             {' & '}
-            {values.slice(-1)}
+            {values.slice(-1)[0]?.label}
           </Text>
         )}
       </Flex>

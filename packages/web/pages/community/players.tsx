@@ -25,7 +25,7 @@ export const getStaticProps = async () => {
   // This populates the cache server-side
   const { error } = await getPlayersWithCount(undefined, ssrClient);
   if (error) {
-    throw new Error(`getPlayers error: ${error}`);
+    throw new Error(`getPlayers Error: ${error}`);
   }
   await getPlayerFilters(ssrClient);
 
@@ -67,18 +67,14 @@ const Players: React.FC<Props> = () => {
   ]);
 
   const showSeasonalXP = useMemo(
-    () => Object.keys(queryVariables.orderBy).includes('season_xp'),
+    () => Object.keys(queryVariables.orderBy).includes('seasonXP'),
     [queryVariables.orderBy],
   );
 
   return (
     <PageContainer>
       <HeadComponent url="https://my.metagame.wtf/community/players" />
-      <VStack
-        w="100%"
-        spacing={{ base: '4', md: '8' }}
-        pb={{ base: '16', lg: '0' }}
-      >
+      <VStack w="100%" spacing={{ base: 4, md: 8 }} pb={{ base: 16, lg: 0 }}>
         <PlayerFilter
           {...{
             fetching,

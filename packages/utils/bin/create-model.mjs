@@ -1,16 +1,16 @@
 #!/usr/bin/env -S node --experimental-json-modules
 
-import { access, readFile, writeFile } from 'node:fs/promises'
-import { constants } from 'fs'
 import { CeramicClient } from '@ceramicnetwork/http-client'
 import { ModelManager } from '@glazed/devtools'
 import { DID } from 'dids'
+import { constants } from 'fs'
+import JSON5 from 'json5'
 import { Ed25519Provider } from 'key-did-provider-ed25519'
 import { getResolver } from 'key-did-resolver'
+import { access, readFile, writeFile } from 'node:fs/promises'
+import { dirname } from 'path'
 import { fromString } from 'uint8arrays'
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
-import JSON5 from 'json5';
+import { fileURLToPath } from 'url'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
