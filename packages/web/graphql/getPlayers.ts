@@ -173,7 +173,7 @@ gql`
     ) {
       ...PlayerSkillFragment
     }
-    player_type(distinct_on: id) {
+    ExplorerType(distinct_on: id) {
       value: id
       label: title
     }

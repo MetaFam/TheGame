@@ -39,6 +39,7 @@ actions:
     forward_client_headers: true
   permissions:
   - role: player
+  - role: public
 - name: updateQuestCompletion
   definition:
     kind: synchronous

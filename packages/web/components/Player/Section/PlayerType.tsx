@@ -1,7 +1,7 @@
 import { Text } from '@metafam/ds';
 import { FlexContainer } from 'components/Container';
 import { ProfileSection } from 'components/Profile/ProfileSection';
-import { Player_Type, PlayerFragmentFragment } from 'graphql/autogen/types';
+import { ExplorerType, PlayerFragmentFragment } from 'graphql/autogen/types';
 import { useAnimateProfileChanges } from 'lib/hooks/players';
 import React, { useState } from 'react';
 import { BoxType } from 'utils/boxTypes';
@@ -19,7 +19,7 @@ export const PlayerType: React.FC<Props> = ({
   canEdit,
   onRemoveClick,
 }) => {
-  const [playerType, setPlayerType] = useState<Player_Type | null>();
+  const [playerType, setPlayerType] = useState<ExplorerType | null>();
   const updateFN = () => setPlayerType(player.profile?.explorerType);
   const { animation } = useAnimateProfileChanges(
     player.profile?.explorerType,
@@ -28,13 +28,17 @@ export const PlayerType: React.FC<Props> = ({
 
   return (
     <ProfileSection
-      title="Player type"
+      title="Player Type"
       onRemoveClick={onRemoveClick}
       isOwnProfile={isOwnProfile}
       canEdit={canEdit}
       boxType={BoxType.PLAYER_TYPE}
     >
-      {playerType && (
+      {!playerType ? (
+        <Text fontStyle="italic" textAlign="center">
+          Unspecified
+        </Text>
+      ) : (
         <FlexContainer
           align="stretch"
           transition=" opacity 0.4s"

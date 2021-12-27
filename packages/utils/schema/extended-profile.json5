@@ -46,19 +46,10 @@
       minimum: 0,
       maximum: 168,
     },
-    playerType: {
+    explorerType: {
       description: 'A descriptor that signifies in which aspect of the development process, from initial exploration to final maintenance, the user is most comfortable.',
-      type: 'object',
-      properties: {
-        title: {
-          type: 'string',
-          pattern: '^(Pioneer|Settler|Town Planner|.+)$',
-        },
-        description: {
-          type: 'string',
-          maxLength: 255,
-        },
-      },
+      type: 'string',
+      pattern: '^(Pioneer|Settler|Town Planner)$',
     },
   },
   $defs: {

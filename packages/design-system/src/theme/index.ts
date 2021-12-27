@@ -1,6 +1,7 @@
 import { extendTheme, Theme as ChakraTheme } from '@chakra-ui/react';
 import { createBreakpoints } from '@chakra-ui/theme-tools';
 import { Styles } from 'react-select';
+
 import { colors, MetaColors } from './colors';
 import { textStyles } from './texts';
 

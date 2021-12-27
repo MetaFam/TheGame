@@ -30,6 +30,38 @@
       filter: {}
 - table:
     schema: public
+    name: ExplorerType
+  configuration:
+    custom_root_fields: {}
+    custom_column_names:
+      image_url: imageURL
+  array_relationships:
+  - name: profiles
+    using:
+      foreign_key_constraint_on:
+        column: explorer_type_title
+        table:
+          schema: public
+          name: profile
+  select_permissions:
+  - role: player
+    permission:
+      columns:
+      - description
+      - id
+      - image_url
+      - title
+      filter: {}
+  - role: public
+    permission:
+      columns:
+      - id
+      - description
+      - image_url
+      - title
+      filter: {}
+- table:
+    schema: public
     name: GuildPosition
   is_enum: true
 - table:
@@ -589,30 +621,6 @@
           _eq: X-Hasura-User-Id
 - table:
     schema: public
-    name: player_type
-  configuration:
-    custom_root_fields: {}
-    custom_column_names:
-      imageUrl: imageURL
-  select_permissions:
-  - role: player
-    permission:
-      columns:
-      - description
-      - id
-      - imageUrl
-      - title
-      filter: {}
-  - role: public
-    permission:
-      columns:
-      - id
-      - description
-      - imageUrl
-      - title
-      filter: {}
-- table:
-    schema: public
     name: profile
   configuration:
     custom_root_fields: {}
@@ -626,10 +634,14 @@
       player_id: playerId
       time_zone: timeZone
       available_hours: availableHours
+      explorer_type_title: explorerTypeTitle
   object_relationships:
-  - name: ColorAspect
+  - name: colorAspect
     using:
       foreign_key_constraint_on: color_mask
+  - name: explorerType
+    using:
+      foreign_key_constraint_on: explorer_type_title
   - name: player
     using:
       foreign_key_constraint_on: player_id
@@ -644,6 +656,7 @@
       - country_code
       - description
       - emoji
+      - explorer_type_title
       - gender
       - id
       - location
@@ -665,6 +678,7 @@
       - country_code
       - description
       - emoji
+      - explorer_type_title
       - gender
       - id
       - location

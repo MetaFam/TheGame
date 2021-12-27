@@ -13,6 +13,7 @@ import {
   ModalOverlay,
   SimpleGrid,
   Text,
+  TimeZone,
   Tooltip,
   useDisclosure,
   VStack
@@ -117,7 +118,11 @@ export const PlayerHero: React.FC<Props> = ({
           {description && (
             <Box align="flexStart" w="100%">
               <PlayerHeroTile title="Bio">
-                <Text fontSize={{ base: 'sm', sm: 'md' }} textAlign="justify">
+                <Text
+                  fontSize={{ base: 'sm', sm: 'md' }}
+                  textAlign="justify"
+                  whiteSpace="pre-wrap"
+                >
                   {show
                     ? description
                     : `${description.substring(0, MAX_BIO_LENGTH - 9)}…`}

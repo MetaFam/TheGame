@@ -1,18 +1,26 @@
+import { ModelManager } from '@glazed/devtools';
+import { DIDDataStore } from '@glazed/did-datastore';
+import { TileLoader } from '@glazed/tile-loader';
 import {
   Button,
+  Flex,
   MetaButton,
   MetaHeading,
   ModalFooter,
   SimpleGrid,
+  Spinner,
   Text,
   useToast,
+  Wrap,
+  WrapItem,
 } from '@metafam/ds';
+import { extendedProfileModel, Maybe } from '@metafam/utils';
 import { FlexContainer } from 'components/Container';
 import { useSetupFlow } from 'contexts/SetupContext';
-import { Player_Type, useUpdateAboutYouMutation } from 'graphql/autogen/types';
-import { getPlayerTypes } from 'graphql/queries/enums/getPlayerTypes';
-import { useUser } from 'lib/hooks';
-import React, { useEffect, useState } from 'react';
+import { ExplorerType } from 'graphql/autogen/types';
+import { getExplorerTypes } from 'graphql/queries/enums/getExplorerTypes';
+import { useUser, useWeb3 } from 'lib/hooks';
+import React, { ReactElement, useEffect, useState } from 'react';
 
 export type Props = {
   isEdit?: boolean;
@@ -23,30 +31,33 @@ export const SetupPlayerType: React.FC<Props> = ({ isEdit, onClose }) => {
   const { onNextPress, nextButtonLabel } = useSetupFlow();
   const { user } = useUser();
   const { player } = user ?? {};
+  const { ceramic } = useWeb3();
   const toast = useToast();
-
-  const [updateAboutYouRes, updateAboutYou] = useUpdateAboutYouMutation();
-  const [loading, setLoading] = useState(false);
-  const [playerTypeChoices, setPlayerTypeChoices] = useState<Player_Type[]>([]);
-
-  const [playerType, setPlayerType] = useState<Player_Type>();
+  const [status, setStatus] = useState<Maybe<ReactElement | string>>(null);
+  const [explorerType, setExplorerType] = useState<ExplorerType>();
+  const [typeChoices, setTypeChoices] = useState<ExplorerType[]>([]);
   const isWizard = !isEdit;
 
-  if (player?.type && !playerType) {
-    setPlayerType(player.type);
-  }
+  const load = () => {
+    if (player) {
+      if (explorerType === undefined && player.profile?.explorerType != null) {
+        setExplorerType(player.profile.explorerType);
+      }
+    }
+  };
+  useEffect(load, [explorerType, player, player?.profile?.explorerType]);
 
   useEffect(() => {
-    const fetchMyAPI = async () => {
-      const response = await getPlayerTypes();
-      setPlayerTypeChoices(response);
+    const fetchTypes = async () => {
+      const response = await getExplorerTypes();
+      setTypeChoices(response);
     };
 
-    fetchMyAPI();
-  }, [playerTypeChoices]);
+    fetchTypes();
+  }, [setTypeChoices]);
 
   const handleNextPress = async () => {
-    setLoading(true);
+    setStatus('Saving Type Selection…');
     await save();
     onNextPress();
   };
@@ -54,22 +65,51 @@ export const SetupPlayerType: React.FC<Props> = ({ isEdit, onClose }) => {
   const save = async () => {
     if (!user) return;
 
-    if (player?.type?.id !== playerType?.id) {
-      const { error } = await updateAboutYou({
-        playerId: user.id,
-        input: {
-          playerTypeId: playerType?.id,
-        },
+    if (!ceramic) {
+      toast({
+        title: 'Ceramic Error',
+        description: 'Ceramic is not defined. Cannot update.',
+        status: 'error',
+        isClosable: true,
       });
+      return;
+    }
 
-      if (error) {
+    if (player?.profile?.explorerType?.id !== explorerType?.id) {
+      try {
+        if (!ceramic.did?.authenticated) {
+          setStatus('Authenticating DID…');
+          await ceramic.did?.authenticate();
+        }
+
+        setStatus('Loading Profile Configuration…');
+
+        const cache = new Map();
+        const loader = new TileLoader({ ceramic, cache });
+        const manager = new ModelManager(ceramic);
+        manager.addJSONModel(extendedProfileModel);
+
+        const store = new DIDDataStore({
+          ceramic,
+          loader,
+          model: await manager.toPublished(),
+        });
+
+        setStatus('Saving to Ceramic…');
+        await store.merge('extendedProfile', {
+          explorerType: explorerType?.title,
+        });
+      } catch (err) {
+        console.warn(err); // eslint-disable-line no-console
         toast({
           title: 'Error',
-          description: `Unable to update player type. Error: ${error}`,
+          description: `Unable to update player type. Error: ${
+            (err as Error).message
+          }`,
           status: 'error',
           isClosable: true,
         });
-        setLoading(false);
+        setStatus(null);
       }
     }
   };
@@ -82,27 +122,29 @@ export const SetupPlayerType: React.FC<Props> = ({ isEdit, onClose }) => {
         </MetaHeading>
       )}
       <Text mb={10} color={isWizard ? 'current' : 'white'}>
-        Please read the features of each player type below. And select the one
+        Please read the features of each player type below, and select the one
         that suits you best.
       </Text>
       <SimpleGrid columns={[1, null, 3, 3]} spacing={4}>
-        {playerTypeChoices.map((choice) => (
+        {typeChoices.map((choice) => (
           <FlexContainer
             key={choice.id}
             p={[4, null, 6]}
             bgColor={
-              playerType?.id === choice.id ? 'purpleBoxDark' : 'purpleBoxLight'
+              explorerType?.id === choice.id
+                ? 'purpleBoxDark'
+                : 'purpleBoxLight'
             }
             borderRadius="0.5rem"
             _hover={{ bgColor: 'purpleBoxDark' }}
             transition="background 0.25s"
             cursor="pointer"
-            onClick={() => setPlayerType(choice)}
+            onClick={() => setExplorerType(choice)}
             align="stretch"
             justify="flex-start"
             border="2px"
             borderColor={
-              playerType?.id === choice.id ? 'purple.400' : 'transparent'
+              explorerType?.id === choice.id ? 'purple.400' : 'transparent'
             }
           >
             <Text color="white" fontWeight="bold" mb={4}>
@@ -117,23 +159,42 @@ export const SetupPlayerType: React.FC<Props> = ({ isEdit, onClose }) => {
 
       {isEdit && onClose && (
         <ModalFooter mt={6}>
-          <MetaButton
-            mr={3}
-            onClick={() => {
-              save();
-              onClose();
-            }}
-          >
-            Save Changes
-          </MetaButton>
-          <Button
-            variant="ghost"
-            onClick={onClose}
-            color="white"
-            _hover={{ bg: '#FFFFFF11' }}
-          >
-            Close
-          </Button>
+          <Wrap justify="center" align="center" flex={1}>
+            <WrapItem>
+              <MetaButton
+                isDisabled={!!status}
+                onClick={async () => {
+                  await save();
+                  onClose();
+                }}
+              >
+                {!status ? (
+                  'Save Changes'
+                ) : (
+                  <Flex align="center">
+                    <Spinner mr={3} />
+                    {typeof status === 'string' ? (
+                      <Text>{status}</Text>
+                    ) : (
+                      status
+                    )}
+                  </Flex>
+                )}
+              </MetaButton>
+            </WrapItem>
+            <WrapItem>
+              <Button
+                variant="ghost"
+                onClick={onClose}
+                color="white"
+                _hover={{ bg: '#FFFFFF11' }}
+                _active={{ bg: '#FF000011' }}
+                disabled={!!status}
+              >
+                Close
+              </Button>
+            </WrapItem>
+          </Wrap>
         </ModalFooter>
       )}
 
@@ -141,9 +202,9 @@ export const SetupPlayerType: React.FC<Props> = ({ isEdit, onClose }) => {
         <MetaButton
           onClick={handleNextPress}
           mt={10}
-          isDisabled={!playerType}
-          isLoading={updateAboutYouRes.fetching || loading}
-          loadingText="Saving…"
+          isDisabled={!explorerType}
+          isLoading={!!status}
+          loadingText={status?.toString()}
         >
           {nextButtonLabel}
         </MetaButton>

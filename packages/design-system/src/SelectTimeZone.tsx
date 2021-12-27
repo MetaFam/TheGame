@@ -55,11 +55,7 @@ export const getTimeZoneFor = ({
 }): Maybe<TimeZone> => {
   const anchor = location ?? title;
 
-  if (!anchor) {
-    // eslint-disable-next-line no-console
-    console.warn('Tried to rertieve a time zone with no arguments.');
-    return null;
-  }
+  if (!anchor) return null;
 
   title = title ?? null; // eslint-disable-line no-param-reassign
   const now = spacetime.now().goto(anchor);

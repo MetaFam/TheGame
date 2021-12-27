@@ -3,21 +3,21 @@ import { gql } from 'graphql-request/dist';
 // eslint-disable-next-line @typescript-eslint/no-unused-expressions
 gql`
   mutation CreatePlayerFromETH($ethereumAddress: String!, $username: String!) {
-    insert_player(
+    insert_profile(
       objects: [
         {
-          ethereumAddress: $ethereumAddress
-          profile: { data: { username: $username } }
+          username: $username
+          player: { data: { ethereumAddress: $ethereumAddress } }
         }
       ]
     ) {
       affected_rows
       returning {
-        id
-        ethereumAddress
-        profile {
-          username
+        player {
+          id
+          ethereumAddress
         }
+        username
       }
     }
   }
@@ -50,6 +50,7 @@ gql`
         gender
         pronouns
         colorMask
+        explorerTypeTitle
         location
         countryCode
         timeZone

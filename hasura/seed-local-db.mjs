@@ -1,6 +1,4 @@
-/* eslint-disable */
-const fetch = require('node-fetch');
-const gql = require('fake-tag');
+import fetch from 'node-fetch';
 
 const PRODUCTION_GRAPHQL_URL = (
   process.env.PRODUCTION_GRAPHQL_URL
@@ -30,26 +28,21 @@ async function fetchGraphQL(
     method: 'POST',
     body: JSON.stringify({
       query: operationsDoc,
-      variables: variables,
-      operationName: operationName,
+      variables,
+      operationName,
     }),
     headers: isUpdate ? authHeaders : undefined,
   });
 
-  return await result.json();
+  const json = await result.json();
+  return json;
 }
 
-const topPlayersQuery = gql`
+const topPlayersQuery = /* GraphQL */`
   query GetTopPlayers {
     player(
       limit: ${NUM_PLAYERS}
       order_by: { total_xp: desc }
-      where: {
-        availability_hours: { _gte: 0 }
-        timezone: { _in: null }
-        type: { id: { _in: null } }
-        skills: { Skill: { id: { _in: null } } }
-      }
     ) {
       id
       username
@@ -58,7 +51,7 @@ const topPlayersQuery = gql`
       timezone
       color_mask
       type {
-        id
+        title
       }
       skills {
         Skill {
@@ -88,7 +81,7 @@ async function fetchTopPlayers() {
   return data.player;
 }
 
-const getPlayerIdsAndSkillsQuery = gql`
+const getPlayerIdsAndSkillsQuery = /* GraphQL */`
   query GetPlayerIds($addresses: [String!]) {
     player(where: { ethereumAddress: { _in: $addresses } }) {
       id
@@ -110,7 +103,7 @@ async function fetchPlayerIdsAndSkills(addresses) {
     { addresses },
   );
 
-  if (errors?.length > 0) {
+  if (errors) {
     throw errors[0]
   }
 
@@ -122,7 +115,7 @@ async function fetchPlayerIdsAndSkills(addresses) {
   return { ids, skills: data.skill };
 }
 
-const deleteSkillsMutation = gql`
+const deleteSkillsMutation = /* GraphQL */`
   mutation DeleteSkills {
     delete_player_skill(where: {}) {
       affected_rows
@@ -139,20 +132,15 @@ async function deleteSkills() {
     true,
   );
 
-  if (errors) {
-    // handle those errors like a pro
-    errors.map((e) => {
-      throw e;
-    });
-  }
+  if (errors) throw errors[0];
 }
 
-const updatePlayerMutation = gql`
+const updatePlayerMutation = /* GraphQL */`
   mutation UpdatePlayer(
     $playerId: uuid!
-    $availability: Int
-    $timezone: String
-    $playerTypeId: Int
+    $availableHours: Int
+    $timeZone: String
+    $explorerTypeTitle: String
     $colorMask: Int
     $username: String
     $skills: [player_skill_insert_input!]!
@@ -160,33 +148,36 @@ const updatePlayerMutation = gql`
     insert_player_skill(objects: $skills) {
       affected_rows
     }
-    update_player_by_pk(
-      pk_columns: { id: $playerId }
+    update_profile(
+      where: { playerId: { _eq: $playerId } }
       _set: {
-        playerTypeId: $playerTypeId
-        timeZone: $timezone
-        availableHours: $availability
+        explorerTypeTitle: $explorerTypeTitle
+        timeZone: $timeZone
+        availableHours: $availableHours
         colorMask: $colorMask
         username: $username
       }
     ) {
-      id
-      username
-      ethereumAddress
-      availableHours
-      timeZone
-      colorMask
-      type {
-        id
-      }
-      skills {
-        Skill {
+      returning {
+        username
+        availableHours
+        timeZone
+        colorMask
+        explorerTypeTitle
+        player {
+          skills {
+            Skill {
+              id
+            }
+          }
           id
+          ethereumAddress
         }
       }
     }
   }
 `;
+
 
 async function updatePlayer(variables) {
   const { errors, data } = await fetchGraphQL(
@@ -197,11 +188,12 @@ async function updatePlayer(variables) {
     true,
   );
 
-  if (errors?.length > 0) {
-    throw errors[0]
+  if (errors) {
+    console.error({ errors });
+    throw errors[0];
   }
 
-  return data.update_player_by_pk;
+  return data.update_profile;
 }
 
 const skillsMap = {};
@@ -220,7 +212,8 @@ async function forceMigrateAccounts() {
   const result = await fetch(LOCAL_BACKEND_ACCOUNT_MIGRATION_URL, {
     method: 'POST',
   });
-  return await result.json();
+  const json = await result.json();
+  return json;
 }
 
 async function startSeeding() {
@@ -232,21 +225,22 @@ async function startSeeding() {
   const addresses = players.map(({ ethereum_address }) => ethereum_address);
   console.debug(`Fetching player ids for players from local db for ${addresses.length} addresses`);
   const { ids, skills } = await fetchPlayerIdsAndSkills(addresses);
+  console.debug(`Fetched ${Object.keys(ids).length} player ids for players from addresses.`);
   const mutations = (
     players.map((player) => {
-      const id = ids[player.ethereum_address];
-      if (!id) return undefined;
+      const playerId = ids[player.ethereum_address];
+      if (!playerId) return undefined;
       return {
-        playerId: id,
-        availability: player.availability_hours,
-        timezone: player.timezone,
-        playerTypeId: player.type.id,
+        playerId,
+        availableHours: player.availability_hours,
+        timeZone: player.timezone,
+        explorerTypeTitle: player.type?.title,
         colorMask: player.color_mask ?? null,
         username: player.username,
         skills: (
           player.skills.map((skill) => ({
             skill_id: getSkillId(skills, skill),
-            player_id: id,
+            player_id: playerId,
           }))
         ),
       };
@@ -254,7 +248,7 @@ async function startSeeding() {
     .filter(m => !!m)
   );
   console.debug(
-    `Updating player information in local db for players in prod db`,
+    `Updating ${mutations.length} players information in local db for players in prod db.`,
   );
   await deleteSkills();
   const updated = await Promise.all(mutations.map(

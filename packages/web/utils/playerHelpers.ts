@@ -48,7 +48,8 @@ export const getURLFor = (
   player?: Player,
   opts?: { rel: boolean },
 ): string | undefined => {
-  const { username } = player?.profile ?? {};
+  let { username } = player?.profile ?? {};
+  username ??= player?.ethereumAddress;
   const { rel = true } = opts ?? {};
   if (username) {
     const path = `/player/${username}`;

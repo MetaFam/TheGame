@@ -66,8 +66,6 @@ export const Leaderboard: React.FC = () => {
             { label: sortOption.label ?? '', value: sortOption.value ?? '' },
           ]} // Hack
           onChange={(choice) => {
-            console.info({ choice });
-
             if (Array.isArray(choice)) {
               // eslint-disable-next-line no-param-reassign
               [choice] = choice.slice(-1);
@@ -75,7 +73,6 @@ export const Leaderboard: React.FC = () => {
 
             if (choice) {
               const labeled = choice as LabeledValue<string>;
-              console.info({ labeled });
               setSortOption(labeled);
               setQueryVariable('orderBy', labeled.value);
             }

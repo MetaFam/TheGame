@@ -42,6 +42,8 @@ export default async (playerId: string): Promise<UpdateBoxProfileResponse> => {
 
   if (!ethAddress) {
     throw new Error(`Unknown Player: "${playerId}"`);
+  } else {
+    console.debug(`Updating profile cache for "${ethAddress}".`);
   }
 
   try {
@@ -67,6 +69,7 @@ export default async (playerId: string): Promise<UpdateBoxProfileResponse> => {
     );
     const values: HasuraProfileProps = { playerId };
     let basicProfile: Maybe<BasicProfile> = null;
+    let extendedProfile: Maybe<ExtendedProfile> = null;
 
     if (!caip10.did) {
       console.debug(`No CAIP-10 Link For ${ethAddress}`);
@@ -100,10 +103,7 @@ export default async (playerId: string): Promise<UpdateBoxProfileResponse> => {
     }
 
     if (caip10.did) {
-      const extendedProfile: Maybe<ExtendedProfile> = await store.get(
-        'extendedProfile',
-        caip10.did,
-      );
+      extendedProfile = await store.get('extendedProfile', caip10.did);
 
       if (!extendedProfile) {
         console.debug(`No Extended Profile For: ${ethAddress} (${caip10.did})`);
@@ -143,9 +143,6 @@ export default async (playerId: string): Promise<UpdateBoxProfileResponse> => {
                     maskFor(extendedProfile.colorDisposition) ?? undefined;
                   break;
                 }
-                case 'playerType': {
-                  break;
-                }
                 default: {
                   console.info({ fromKey, toKey });
                 }
@@ -164,6 +161,7 @@ export default async (playerId: string): Promise<UpdateBoxProfileResponse> => {
         addr: ethAddress,
         did: caip10.did,
 
+        extendedProfile,
         basicProfile,
         values,
       });

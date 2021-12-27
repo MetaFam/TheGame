@@ -43,7 +43,7 @@ const usePlayerAggregates = () => {
   const skillChoices = useMemo(() => parseSkills(data?.skill || []), [data]);
   return {
     skillCategories: data?.skill_aggregate.nodes || [],
-    playerTypes: (data?.player_type || []).map(({ value, label }) => ({
+    playerTypes: (data?.ExplorerType || []).map(({ value, label }) => ({
       value: value.toString(),
       label,
     })),

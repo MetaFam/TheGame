@@ -36,10 +36,10 @@ export const ExtendedProfileStrings = {
   // name is saved & the details are retrieved from
   // a library.
   timeZone: 'timeZone',
+  explorerTypeTitle: 'explorerType',
 } as const;
 export const ExtendedProfileObjects = {
   availableHours: 'availableHours',
-  playerType: 'playerType',
   colorMask: 'colorDisposition',
 } as const;
 export const ExtendedProfileFields = {

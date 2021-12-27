@@ -7,7 +7,7 @@ export default async (req: Request, res: Response): Promise<void> => {
   const role = session['x-hasura-role'];
   const playerId = req.body.input?.playerId;
 
-  if (!['admin', 'player'].includes(role)) {
+  if (!['admin', 'player', 'public'].includes(role)) {
     throw new Error(`Expected Role: admin or player. Got "${role}".`);
   }
 
@@ -16,16 +16,15 @@ export default async (req: Request, res: Response): Promise<void> => {
   }
 
   if (!req.app.locals.queuedRecacheFor[playerId]) {
+    const recache = async () => {
+      try {
+        await updateCachedProfile(playerId);
+      } finally {
+        req.app.locals.queuedRecacheFor[playerId] = false;
+      }
+    };
     req.app.locals.queuedRecacheFor[playerId] = true;
-    req.app.locals.limiter.schedule(() =>
-      (async () => {
-        try {
-          await updateCachedProfile(playerId);
-        } finally {
-          req.app.locals.queuedRecacheFor[playerId] = false;
-        }
-      })(),
-    );
+    req.app.locals.limiter.schedule(() => recache());
     res.json({ success: true });
   } else {
     console.warn(`"${playerId}" already queued to be refreshed.`);

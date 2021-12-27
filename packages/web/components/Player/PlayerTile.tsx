@@ -10,10 +10,13 @@ import {
   MetaTileBody,
   MetaTileHeader,
   Text,
+  TimeZone,
+  Tooltip,
   VStack,
   Wrap,
   WrapItem,
 } from '@metafam/ds';
+import { Maybe } from '@metafam/utils';
 import { PlayerAvatar } from 'components/Player/PlayerAvatar';
 import { PlayerContacts } from 'components/Player/PlayerContacts';
 import { PlayerTileMemberships } from 'components/Player/PlayerTileMemberships';
@@ -40,12 +43,8 @@ export const PlayerTile: React.FC<Props> = ({
   player,
   showSeasonalXP = false,
 }) => {
-  const { label: timeZone = 'Unknown', offset } = useMemo(
-    () =>
-      getTimeZoneFor({ location: player.profile?.timeZone ?? undefined }) ?? {
-        label: undefined,
-        offset: undefined,
-      }, // Hack
+  const tz: Maybe<TimeZone> = useMemo(
+    () => getTimeZoneFor({ location: player.profile?.timeZone ?? undefined }),
     [player.profile?.timeZone],
   );
   const description = getDescriptionOf(player);
@@ -116,12 +115,14 @@ export const PlayerTile: React.FC<Props> = ({
                   </WrapItem>
                 )}
               </Wrap>
-              {timeZone && (
-                <HStack alignItems="baseline" w="auto" justify="center">
-                  <FaGlobe color="blueLight" fontSize="0.875rem" />
-                  <Text fontSize="lg">{timeZone}</Text>
-                  {offset && <Text fontSize="sm">{offset}</Text>}
-                </HStack>
+              {tz && (
+                <Tooltip label={tz.name} hasArrow>
+                  <HStack alignItems="baseline" w="auto" justify="center">
+                    <FaGlobe color="blueLight" fontSize="0.875rem" />
+                    <Text fontSize="lg">{tz.abbreviation}</Text>
+                    {tz.utc && <Text fontSize="sm">{tz.utc}</Text>}
+                  </HStack>
+                </Tooltip>
               )}
               {displayDescription && (
                 <VStack spacing={2} align="stretch" pt="0.5rem">

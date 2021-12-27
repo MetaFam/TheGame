@@ -40,36 +40,34 @@ export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
 }) => {
   const { onNextPress, nextButtonLabel } = useSetupFlow();
   const { user } = useUser();
+  const { player } = user ?? {};
   const { ceramic } = useWeb3();
   const toast = useToast();
   const [status, setStatus] = useState<Maybe<ReactElement | string>>(null);
+  const [colorMask, setColorMask] = useState<Maybe<number> | undefined>(
+    player?.profile?.colorMask,
+  );
   const [personalityTypes, setPersonalityTypes] = useState<{
     [x: number]: PersonalityOption;
   }>([]);
   const isWizard = !isEdit;
 
-  const [colorMask, setColorMask] = useState<Maybe<number> | undefined>(
-    user?.player?.profile?.colorMask,
-  );
-
   const load = () => {
-    const { player } = user ?? {};
     if (player) {
       if (colorMask === undefined && player.profile?.colorMask != null) {
         setColorMask(player.profile.colorMask);
       }
     }
   };
-
-  useEffect(load, [user, colorMask]);
+  useEffect(load, [player, colorMask]);
 
   useEffect(() => {
-    async function fetchMyAPI() {
+    const fetchInfo = async () => {
       const { types } = await getPersonalityInfo();
       setPersonalityTypes(types);
-    }
+    };
 
-    fetchMyAPI();
+    fetchInfo();
   }, []);
 
   const handleNextPress = async () => {

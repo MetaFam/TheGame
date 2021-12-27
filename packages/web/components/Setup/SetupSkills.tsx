@@ -27,6 +27,10 @@ export type SetupSkillsProps = {
 
 const styles: typeof searchSelectStyles = {
   ...searchSelectStyles,
+  menuList: (s) => ({
+    ...s,
+    minHeight: '75vh',
+  }),
   multiValue: (s, { data }) => ({
     ...s,
     background: SkillColors[data.category as SkillCategory_Enum],
@@ -46,7 +50,7 @@ const styles: typeof searchSelectStyles = {
     ...s,
     color:
       isSelected || isFocused ? MetaTheme.colors.black : MetaTheme.colors.white,
-    '&:hover': {
+    ':hover': {
       background: MetaTheme.colors.green[50],
       color: MetaTheme.colors.black,
     },
@@ -144,8 +148,10 @@ export const SetupSkills: React.FC<SetupSkillsProps> = ({
         <ModalFooter mt={6}>
           <MetaButton
             mr={3}
-            onClick={() => {
-              save();
+            isLoading={loading}
+            loadingText="Saving…"
+            onClick={async () => {
+              await save();
               onClose();
             }}
           >
@@ -155,9 +161,9 @@ export const SetupSkills: React.FC<SetupSkillsProps> = ({
             variant="ghost"
             onClick={onClose}
             color="white"
-            _hover={{
-              bg: '#FFFFFF11',
-            }}
+            _hover={{ bg: '#FFFFFF11' }}
+            _active={{ bg: '#FF000011' }}
+            disabled={loading}
           >
             Close
           </Button>

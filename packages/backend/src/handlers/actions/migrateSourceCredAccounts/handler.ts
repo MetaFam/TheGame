@@ -54,9 +54,9 @@ export const migrateSourceCredAccounts = async (
   req: Request,
   res: Response,
 ): Promise<void> => {
-  const ledgerRes = await ledgerManager.reloadLedger();
-  if (ledgerRes.error) {
-    throw new Error(`Unable to load ledger: ${ledgerRes.error}`);
+  const { error: loadError } = await ledgerManager.reloadLedger();
+  if (loadError) {
+    throw new Error(`Unable to load ledger: ${loadError}`);
   }
 
   const force = req.query.force != null;
@@ -122,26 +122,25 @@ export const migrateSourceCredAccounts = async (
         };
 
         try {
-          const updateResult = await client.UpdatePlayer(vars);
+          const { update_player: update } = await client.UpdatePlayer(vars);
 
-          let playerId: string;
-          let affected = updateResult.update_player?.affected_rows;
+          let playerId: string = update?.returning[0]?.id;
+          let { affected_rows: affected } = update ?? {};
 
-          if (affected === 0) {
+          if ((affected ?? 0) > 1) {
+            throw new Error(
+              `Multiple players (${affected}) updated incorrectly: ${player.ethereumAddress}`,
+            );
+          } else if (affected === 0) {
             if (!force) {
               return player;
             }
 
             // 'force' indicates we should insert new players
             // if they don't already exist.
-            const upsertResult = await client.InsertPlayers({
+            const { insert_player: insert } = await client.InsertPlayers({
               objects: [
                 {
-                  profile: {
-                    data: {
-                      username: player.ethereumAddress,
-                    },
-                  },
                   ethereumAddress: player.ethereumAddress,
                   rank: player.rank,
                   totalXP: player.totalXP,
@@ -149,16 +148,28 @@ export const migrateSourceCredAccounts = async (
                 },
               ],
             });
-            affected = upsertResult.insert_player?.affected_rows;
-            playerId = upsertResult.insert_player?.returning[0]?.id;
-          } else {
-            playerId = updateResult.update_player?.returning[0]?.id;
-          }
-          if (affected && affected > 1) {
-            throw new Error('Multiple players updated incorrectly');
+            affected = insert?.affected_rows;
+            playerId = insert?.returning[0]?.id;
           }
 
           if (playerId) {
+            try {
+              await client.UpsertProfileCache({
+                objects: [
+                  {
+                    playerId,
+                    username: player.ethereumAddress,
+                  },
+                ],
+              });
+            } catch (err) {
+              console.error(
+                'Error updating username for Player',
+                playerId,
+                err,
+              );
+            }
+
             try {
               await client.UpsertAccount({
                 objects: player.Accounts.data.map((account) => ({

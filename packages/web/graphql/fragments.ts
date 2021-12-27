@@ -9,13 +9,6 @@ export const PlayerFragment = gql`
     ethereumAddress
     profile_layout @skip(if: $forLoginDisplay)
 
-    type @skip(if: $forLoginDisplay) {
-      description
-      id
-      imageURL
-      title
-    }
-
     skills @skip(if: $forLoginDisplay) {
       Skill {
         category
@@ -53,6 +46,12 @@ export const PlayerFragment = gql`
       availableHours
       timeZone
       colorMask
+      explorerType {
+        id
+        title
+        description
+        imageURL
+      }
     }
 
     daohausMemberships @skip(if: $forLoginDisplay) {
