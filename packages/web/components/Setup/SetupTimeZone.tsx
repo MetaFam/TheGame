@@ -3,23 +3,25 @@ import { FlexContainer } from 'components/Container';
 import { useSetupFlow } from 'contexts/SetupContext';
 import { useUpdateProfileMutation } from 'graphql/autogen/types';
 import { useUser } from 'lib/hooks';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-export type SetupTimezoneProps = {
-  timeZone: string;
-  setTimeZone: React.Dispatch<React.SetStateAction<string>>;
-};
-
-export const SetupTimeZone: React.FC<SetupTimezoneProps> = ({
-  timeZone,
-  setTimeZone,
-}) => {
+export const SetupTimeZone: React.FC = () => {
   const { onNextPress, nextButtonLabel } = useSetupFlow();
+  const [timeZone, setTimeZone] = useState<string>('');
   const { user } = useUser();
   const toast = useToast();
 
   const [updateProfileRes, updateProfile] = useUpdateProfileMutation();
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (user?.player) {
+      const { player } = user;
+      if (player.timezone && !timeZone) {
+        setTimeZone(player.timezone);
+      }
+    }
+  }, [user, timeZone]);
 
   const handleNextPress = async () => {
     if (!user) return;
@@ -45,6 +47,14 @@ export const SetupTimeZone: React.FC<SetupTimezoneProps> = ({
 
     onNextPress();
   };
+
+  const [isComponentMounted, setIsComponentMounted] = useState(false);
+
+  useEffect(() => setIsComponentMounted(true), []);
+
+  if (!isComponentMounted) {
+    return null;
+  }
 
   return (
     <FlexContainer>
