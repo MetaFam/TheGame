@@ -50,7 +50,7 @@ export const GuildPlayers: React.FC<Props> = ({ guildId, guildname }) => {
     <ProfileSection title="Players">
       {loadingPlayers && <LoadingState />}
 
-      {guildPlayers == null ? (
+      {guildPlayers == null || guildPlayers.length === 0 ? (
         <p>No known players yet.</p>
       ) : (
         <>
