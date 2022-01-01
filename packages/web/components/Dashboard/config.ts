@@ -57,6 +57,7 @@ export const gridConfig = {
         pl: 6,
       },
       '& > div': {
+        pointerEvents: editable ? 'none' : 'initial',
         bg: editable ? 'blackAlpha.500' : 'blackAlpha.300',
         backdropFilter: 'blur(10px)',
         borderBottomRadius: 'lg',

@@ -7,19 +7,16 @@ import {
   DeleteIcon,
   EditIcon,
   Flex,
-  GridItem,
   MetaButton,
+  ResponsiveText,
 } from '@metafam/ds';
 import { PageContainer } from 'components/Container';
-import { gridConfig, initLayouts } from 'components/Player/Section/config';
-// import { PlayerAchievements } from 'components/Player/Section/PlayerAchievements';
-import { PlayerColorDisposition } from 'components/Player/Section/PlayerColorDisposition';
-// import { PlayerGallery } from 'components/Player/Section/PlayerGallery';
-import { PlayerHero } from 'components/Player/Section/PlayerHero';
-import { PlayerMemberships } from 'components/Player/Section/PlayerMemberships';
-// import { PlayerRoles } from 'components/Player/Section/PlayerRoles';
-import { PlayerSkills } from 'components/Player/Section/PlayerSkills';
-import { PlayerType } from 'components/Player/Section/PlayerType';
+import {
+  getBoxLayoutItemDefaults,
+  gridConfig,
+  initLayouts,
+} from 'components/Player/Section/config';
+import { PlayerSection } from 'components/Player/Section/PlayerSection';
 import { HeadComponent } from 'components/Seo';
 import { useInsertCacheInvalidationMutation } from 'graphql/autogen/types';
 import { getPlayer } from 'graphql/getPlayer';
@@ -30,8 +27,9 @@ import {
   GetStaticPropsContext,
   InferGetStaticPropsType,
 } from 'next';
-import { ReactElement, useEffect, useState } from 'react';
-import { Layout, Layouts, Responsive, WidthProvider } from 'react-grid-layout';
+import { ReactElement, useCallback, useEffect, useMemo, useState } from 'react';
+import { Layouts, Responsive, WidthProvider } from 'react-grid-layout';
+import { BoxType } from 'utils/boxTypes';
 import {
   getPlayerCoverImageFull,
   getPlayerDescription,
@@ -52,8 +50,6 @@ export interface ContainerQueries {
 }
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
-
-export const originalLayouts = initLayouts;
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
@@ -77,7 +73,8 @@ const PlayerPage: React.FC<Props> = ({ player }): ReactElement => (
       w="100%"
       h="100%"
       minH="100vh"
-      p={[4, 8, 12]}
+      p="4"
+      pt="8"
       direction="column"
       align="center"
     >
@@ -88,9 +85,64 @@ const PlayerPage: React.FC<Props> = ({ player }): ReactElement => (
 
 export default PlayerPage;
 
-type CurrentLayoutType = {
-  layout: Layout[];
-  layouts: Layouts;
+const makeLayouts = (editable: boolean, layouts: Layouts) => {
+  const newLayouts: Layouts = {};
+  Object.keys(layouts).map((key) => {
+    newLayouts[key] = layouts[key].map((item) =>
+      item.i === 'hero' ? { ...item, isResizable: editable } : item,
+    );
+    return key;
+  });
+  return newLayouts;
+};
+
+const ALL_BOXES = [
+  BoxType.PLAYER_HERO,
+  BoxType.PLAYER_SKILLS,
+  BoxType.PLAYER_COLOR_DISPOSITION,
+  BoxType.PLAYER_TYPE,
+  BoxType.PLAYER_NFT_GALLERY,
+  BoxType.PLAYER_DAO_MEMBERSHIPS,
+  BoxType.PLAYER_ROLES,
+];
+
+const DEFAULT_BOXES = [
+  BoxType.PLAYER_HERO,
+  BoxType.PLAYER_SKILLS,
+  BoxType.PLAYER_COLOR_DISPOSITION,
+  BoxType.PLAYER_TYPE,
+  BoxType.PLAYER_NFT_GALLERY,
+  BoxType.PLAYER_DAO_MEMBERSHIPS,
+];
+
+const removeBoxFromLayouts = (
+  boxType: BoxType,
+  pastLayouts: Layouts,
+): Layouts => {
+  const layouts = { ...pastLayouts };
+  Object.keys(layouts).map((key) => {
+    layouts[key] = layouts[key].filter(
+      (item) => (item.i as BoxType) !== boxType,
+    );
+    return key;
+  });
+  return layouts;
+};
+
+const addBoxToLayouts = (boxType: BoxType, pastLayouts: Layouts): Layouts => {
+  const layouts = { ...pastLayouts };
+  Object.keys(layouts).map((key) => {
+    const heroItem = layouts[key].find(
+      (item) => item.i === BoxType.PLAYER_HERO,
+    );
+    layouts[key].push({
+      ...getBoxLayoutItemDefaults(boxType),
+      x: 0,
+      y: heroItem ? heroItem.y + heroItem.h : 0,
+    });
+    return key;
+  });
+  return layouts;
 };
 
 export const Grid: React.FC<Props> = ({ player }): ReactElement => {
@@ -109,18 +161,31 @@ export const Grid: React.FC<Props> = ({ player }): ReactElement => {
       invalidateCache({ playerId: player.id });
     }
   }, [player, invalidateCache]);
-  const [gridLayouts, setGridLayouts] = useState(
-    JSON.parse(JSON.stringify(originalLayouts)), // TODO: persist in hasura
+  const [savedLayouts, setSavedLayouts] = useState<Layouts>(
+    JSON.parse(JSON.stringify(initLayouts)), // TODO: persist in hasura
   );
-  const [ownLayout, setOwnLayout] = useState(false);
+  const [currentLayouts, setCurrentLayouts] = useState<Layouts>(
+    JSON.parse(JSON.stringify(initLayouts)),
+  );
   const [changed, setChanged] = useState(false);
-  const [current, setCurrent] = useState<CurrentLayoutType>({
-    layout: [],
-    layouts: {},
-  });
+
   const [editable, setEditable] = useState(false);
 
-  const toggleEditLayout = () => setEditable(!editable);
+  const toggleEditLayout = useCallback(() => {
+    if (editable) {
+      const layouts = removeBoxFromLayouts(
+        BoxType.PLAYER_ADD_BOX,
+        currentLayouts,
+      );
+      setCurrentLayouts(layouts);
+      setSavedLayouts(layouts);
+    } else {
+      const layouts = addBoxToLayouts(BoxType.PLAYER_ADD_BOX, currentLayouts);
+      setCurrentLayouts(layouts);
+    }
+    setEditable(!editable);
+    setChanged(false);
+  }, [editable, currentLayouts]);
 
   const toggleScrollLock = () => {
     if (typeof window !== 'undefined') {
@@ -130,91 +195,137 @@ export const Grid: React.FC<Props> = ({ player }): ReactElement => {
     return null;
   };
 
-  useEffect(() => {
-    function handleLayoutChange(layouts: Layouts) {
-      const parsedLayouts = JSON.parse(JSON.stringify(layouts));
-      // TODO: save parsedLayouts to hasura
-      setGridLayouts(parsedLayouts);
-    }
-    if (changed) handleLayoutChange(current.layouts);
-  }, [current, changed]);
+  const handleLayoutChange = useCallback((layouts: Layouts) => {
+    const parsedLayouts = JSON.parse(JSON.stringify(layouts));
+    setCurrentLayouts(parsedLayouts);
+    setChanged(true);
+  }, []);
 
-  function handleReset() {
-    setGridLayouts(JSON.parse(JSON.stringify(initLayouts)));
+  const handleReset = useCallback(() => {
+    const parsedLayouts = JSON.parse(JSON.stringify(savedLayouts));
+    const layouts = addBoxToLayouts(BoxType.PLAYER_ADD_BOX, parsedLayouts);
+    setCurrentLayouts(layouts);
 
     setTimeout(() => {
-      setOwnLayout(false);
       setChanged(false);
-      // resetLayouts();
     }, 300);
-  }
+  }, [savedLayouts]);
+
+  const wrapperSX = useMemo(() => gridConfig.wrapper(editable), [editable]);
+
+  const displayLayouts = useMemo(() => makeLayouts(editable, currentLayouts), [
+    editable,
+    currentLayouts,
+  ]);
+
+  const onRemoveBox = useCallback(
+    (boxType: BoxType): void => {
+      const layouts = removeBoxFromLayouts(boxType, currentLayouts);
+      setCurrentLayouts(layouts);
+      setChanged(true);
+    },
+    [currentLayouts],
+  );
+
+  const onAddBox = useCallback(
+    (boxType: BoxType): void => {
+      const layouts = addBoxToLayouts(boxType, currentLayouts);
+      setCurrentLayouts(layouts);
+      setChanged(true);
+    },
+    [currentLayouts],
+  );
+
+  const boxes = useMemo(() => {
+    const boxIds = new Set<BoxType>();
+    Object.keys(currentLayouts).map((key) => {
+      const layout = currentLayouts[key];
+      layout.forEach((item) => boxIds.add(item.i as BoxType));
+      return key;
+    });
+    const boxIdArray = Array.from(boxIds);
+    return boxIdArray.length > 0 ? boxIdArray : DEFAULT_BOXES;
+  }, [currentLayouts]);
+
+  const availableBoxList = useMemo(
+    () => ALL_BOXES.filter((box) => !boxes.includes(box)),
+    [boxes],
+  );
 
   return (
     <Box
       className="gridWrapper"
       width="100%"
       height="100%"
-      sx={gridConfig.wrapper(editable)}
+      sx={wrapperSX}
+      maxW="96rem"
+      mb="12rem"
+      pt={isOwnProfile ? '0rem' : '10rem'}
     >
-      <ButtonGroup
-        w="100%"
-        justifyContent={'end'}
-        variant="ghost"
-        zIndex={10}
-        isAttached
-      >
-        {(changed || ownLayout) && editable && (
+      {isOwnProfile && (
+        <ButtonGroup
+          w="100%"
+          px="2rem"
+          justifyContent={'end'}
+          variant="ghost"
+          zIndex={10}
+          isAttached
+          mb="7rem"
+        >
+          {changed && editable && (
+            <MetaButton
+              aria-label="Edit layout"
+              colorScheme="purple"
+              _hover={{ background: 'purple.600' }}
+              textTransform="uppercase"
+              px={12}
+              letterSpacing="0.1em"
+              size="lg"
+              fontSize="sm"
+              onClick={handleReset}
+              leftIcon={<DeleteIcon />}
+            >
+              Reset
+            </MetaButton>
+          )}
           <MetaButton
             aria-label="Edit layout"
-            colorScheme="purple"
+            borderColor="transparent"
+            background="rgba(17, 17, 17, 0.9)"
+            _hover={{ color: 'white', borderColor: 'transparent' }}
+            variant="outline"
             textTransform="uppercase"
             px={12}
             letterSpacing="0.1em"
             size="lg"
             fontSize="sm"
             bg="transparent"
-            color="purple.400"
-            onClick={handleReset}
-            leftIcon={<DeleteIcon />}
+            color={editable ? 'red.400' : 'pinkShadeOne'}
+            leftIcon={<EditIcon />}
+            transition="color 0.2s ease"
+            onClick={toggleEditLayout}
           >
-            Reset
+            <ResponsiveText
+              content={{
+                base: editable ? 'Save' : 'Edit',
+                md: `${editable ? 'Save' : 'Edit'} layout`,
+              }}
+            />
           </MetaButton>
-        )}
-        <MetaButton
-          aria-label="Edit layout"
-          borderColor="transparent"
-          background="rgba(17, 17, 17, 0.9)"
-          _hover={{ color: 'white', borderColor: 'transparent' }}
-          variant="outline"
-          textTransform="uppercase"
-          px={12}
-          letterSpacing="0.1em"
-          size="lg"
-          fontSize="sm"
-          bg="transparent"
-          color={editable ? 'red.400' : 'pinkShadeOne'}
-          leftIcon={<EditIcon />}
-          transition="color 0.2s ease"
-          onClick={toggleEditLayout}
-        >
-          {editable ? 'Save' : 'Edit'} layout
-        </MetaButton>
-      </ButtonGroup>
+        </ButtonGroup>
+      )}
 
       <ResponsiveGridLayout
         className="grid"
-        onLayoutChange={(layout, layouts) => {
-          setCurrent({ layout, layouts });
-          setChanged(true);
+        onLayoutChange={(_layout, layouts) => {
+          handleLayoutChange(layouts);
         }}
         verticalCompact
-        layouts={gridLayouts}
-        breakpoints={{ xl: 1920, lg: 1180, md: 900, sm: 768, xs: 480, xxs: 0 }}
+        layouts={displayLayouts}
+        breakpoints={{ lg: 1180, md: 900, sm: 768, xxs: 0 }}
         preventCollision={false}
-        cols={{ xl: 12, lg: 12, md: 12, sm: 4, xs: 4, xxs: 4 }}
-        rowHeight={135}
-        autoSize
-        // isBounded
+        cols={{ lg: 3, md: 2, sm: 1, xxs: 1 }}
+        rowHeight={32}
         isDraggable={!!editable}
         isResizable={!!editable}
         onDragStart={toggleScrollLock}
@@ -223,55 +334,32 @@ export const Grid: React.FC<Props> = ({ player }): ReactElement => {
         onResizeStop={toggleScrollLock}
         transformScale={1}
         margin={{
-          xl: [30, 30],
           lg: [30, 30],
           md: [30, 30],
           sm: [30, 30],
-          xs: [30, 30],
           xxs: [30, 30],
         }}
         containerPadding={{
-          xl: [30, 30],
           lg: [30, 30],
           md: [20, 20],
           sm: [20, 20],
-          xs: [15, 15],
           xxs: [15, 15],
         }}
       >
-        {/* <DashboardSection key="latest" id="latest" containerQuery={queryData}> */}
-        <Box key="hero" className="gridItem">
-          <GridItem>
-            <PlayerHero player={player} isOwnProfile={isOwnProfile} />
-          </GridItem>
-        </Box>
-        <Box key="colors" className="gridItem">
-          <GridItem>
-            <PlayerColorDisposition player={player} />
-          </GridItem>
-        </Box>
-        <Box key="skills" className="gridItem">
-          <GridItem>
-            <PlayerSkills player={player} />
-          </GridItem>
-        </Box>
-        <Box key="type" className="gridItem">
-          <GridItem>
-            <PlayerType player={player} />
-          </GridItem>
-        </Box>
-        <Box key="memberships" className="gridItem">
-          <GridItem>
-            <PlayerMemberships player={player} />
-          </GridItem>
-        </Box>
-        {/* 
-        <Box key="gallery" className="gridItem">
-            <GridItem >
-        <PlayerGallery player={player} />
-            </GridItem>
-        </Box>
-        */}
+        {boxes.map((item) => (
+          // item === BoxType.PLAYER_ADD_BOX && !editable ? null : (
+          <Flex key={item} className="gridItem">
+            <PlayerSection
+              boxType={item}
+              player={player}
+              isOwnProfile={isOwnProfile}
+              canEdit={editable}
+              removeBox={onRemoveBox}
+              availableBoxList={availableBoxList}
+              setNewBox={onAddBox}
+            />
+          </Flex>
+        ))}
       </ResponsiveGridLayout>
     </Box>
   );

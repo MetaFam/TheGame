@@ -2,7 +2,7 @@ import { Text } from '@metafam/ds';
 import { Player_Type, PlayerFragmentFragment } from 'graphql/autogen/types';
 import { useAnimateProfileChanges } from 'lib/hooks/players';
 import React, { useState } from 'react';
-import { BOX_TYPE } from 'utils/boxTypes';
+import { BoxType } from 'utils/boxTypes';
 
 import { FlexContainer } from '../../Container';
 import { ProfileSection } from '../../ProfileSection';
@@ -10,12 +10,14 @@ import { ProfileSection } from '../../ProfileSection';
 type Props = {
   player: PlayerFragmentFragment;
   isOwnProfile?: boolean;
+  canEdit?: boolean;
   onRemoveClick?: () => void;
 };
 
 export const PlayerType: React.FC<Props> = ({
   player,
   isOwnProfile,
+  canEdit,
   onRemoveClick,
 }) => {
   const [playerType, setPlayerType] = useState<Player_Type | null>();
@@ -28,7 +30,8 @@ export const PlayerType: React.FC<Props> = ({
       title="Player type"
       onRemoveClick={onRemoveClick}
       isOwnProfile={isOwnProfile}
-      boxType={BOX_TYPE.PLAYER.TYPE}
+      canEdit={canEdit}
+      boxType={BoxType.PLAYER_TYPE}
     >
       {playerType && (
         <FlexContainer
