@@ -1,21 +1,38 @@
 import { HStack, Text } from '@metafam/ds';
+import { PlayerFragmentFragment } from 'graphql/autogen/types';
 import React from 'react';
 import { FaMedal } from 'react-icons/fa';
+import { BoxType } from 'utils/boxTypes';
 
 import { ProfileSection } from '../../ProfileSection';
 
 // TODO Fake data
-type Props = { onRemoveClick?: () => void };
-export const PlayerAchievements: React.FC<Props> = ({ onRemoveClick }) => {
+type Props = {
+  player: PlayerFragmentFragment;
+  isOwnProfile?: boolean;
+  canEdit?: boolean;
+  onRemoveClick?: () => void;
+};
+export const PlayerAchievements: React.FC<Props> = ({
+  isOwnProfile,
+  canEdit,
+  onRemoveClick,
+}) => {
   const [show, setShow] = React.useState(false);
   const fakeData = [
+    'Fake Achievement No. 1',
     'Founding Father of MetaGame',
     'Summoner of Meta Fam',
-    'Dragon Quests Quest',
   ];
 
   return (
-    <ProfileSection title="Achievements" onRemoveClick={onRemoveClick}>
+    <ProfileSection
+      title="Achievements"
+      onRemoveClick={onRemoveClick}
+      isOwnProfile={isOwnProfile}
+      canEdit={canEdit}
+      boxType={BoxType.PLAYER_ACHIEVEMENTS}
+    >
       {(fakeData || []).slice(0, show ? 999 : 3).map((title) => (
         <HStack alignItems="baseline" mb={3}>
           <FaMedal color="#FBB112" />

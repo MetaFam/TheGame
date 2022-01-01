@@ -1,9 +1,10 @@
 import { Button, Flex, FlexProps, HStack, Select } from '@metafam/ds';
 import React from 'react';
+import { BoxType } from 'utils/boxTypes';
 
 type Props = FlexProps & {
-  boxList: string[];
-  setNewBox: (name: string) => void;
+  boxList: BoxType[];
+  setNewBox: (name: BoxType) => void;
 };
 
 export const PlayerAddSection: React.FC<Props> = ({
@@ -14,7 +15,7 @@ export const PlayerAddSection: React.FC<Props> = ({
   const [show, setShow] = React.useState(false);
   const addSection = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setShow(false);
-    setNewBox(e.target.value);
+    setNewBox(e.target.value as BoxType);
   };
 
   return (
@@ -25,6 +26,7 @@ export const PlayerAddSection: React.FC<Props> = ({
       borderTopRadius="lg"
       py={12}
       boxShadow="md"
+      w="100%"
       css={{ backdropFilter: 'blur(8px)' }}
       {...props}
     >

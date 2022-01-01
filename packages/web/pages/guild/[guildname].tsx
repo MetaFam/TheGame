@@ -11,7 +11,7 @@ import {
 import Error from 'next/error';
 import { useRouter } from 'next/router';
 import React from 'react';
-import { BOX_TYPE } from 'utils/boxTypes';
+import { BoxType } from 'utils/boxTypes';
 import { getGuildCoverImageFull } from 'utils/playerHelpers';
 
 import { PageContainer } from '../../components/Container';
@@ -26,14 +26,14 @@ const GuildPage: React.FC<Props> = ({ guild }) => {
   const router = useRouter();
 
   // Hidden until implemented
-  // BOX_TYPE.GUILD.SKILLS,
-  // BOX_TYPE.GUILD.STATS,
-  // BOX_TYPE.GUILD.QUESTS,
-  // BOX_TYPE.GUILD.GALLERY,
+  // BoxType.GUILD_SKILLS,
+  // BoxType.GUILD_STATS,
+  // BoxType.GUILD_QUESTS,
+  // BoxType.GUILD_GALLERY,
 
   const boxes = [
-    [BOX_TYPE.GUILD.PLAYERS],
-    [BOX_TYPE.GUILD.ANNOUNCEMENTS, BOX_TYPE.GUILD.LINKS],
+    [BoxType.GUILD_PLAYERS],
+    [BoxType.GUILD_ANNOUNCEMENTS, BoxType.GUILD_LINKS],
   ];
 
   if (router.isFallback) {
@@ -46,11 +46,11 @@ const GuildPage: React.FC<Props> = ({ guild }) => {
 
   const getBox = (name: string): React.ReactNode => {
     switch (name) {
-      case BOX_TYPE.GUILD.PLAYERS:
+      case BoxType.GUILD_PLAYERS:
         return <GuildPlayers guildId={guild.id} guildname={guild.guildname} />;
-      case BOX_TYPE.GUILD.LINKS:
+      case BoxType.GUILD_LINKS:
         return <GuildLinks guild={guild} />;
-      case BOX_TYPE.GUILD.ANNOUNCEMENTS:
+      case BoxType.GUILD_ANNOUNCEMENTS:
         return (
           <ProfileSection title="Announcements">
             <p>No announcements.</p>

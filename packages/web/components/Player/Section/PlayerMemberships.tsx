@@ -15,6 +15,7 @@ import {
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
 import { getAllMemberships, GuildMembership } from 'graphql/getMemberships';
 import React, { useEffect, useMemo, useState } from 'react';
+import { BoxType } from 'utils/boxTypes';
 import { isBackdropFilterSupported } from 'utils/compatibilityHelpers';
 
 import { ProfileSection } from '../../ProfileSection';
@@ -93,12 +94,16 @@ const DaoListing: React.FC<DaoListingProps> = ({ membership }) => {
 
 type MembershipSectionProps = {
   player: PlayerFragmentFragment;
+  isOwnProfile?: boolean;
+  canEdit?: boolean;
   onRemoveClick?: () => void;
 };
 
 export const PlayerMemberships: React.FC<MembershipSectionProps> = ({
   player,
   onRemoveClick,
+  isOwnProfile,
+  canEdit,
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [guildMemberships, setGuildMemberships] = useState<GuildMembership[]>(
@@ -123,7 +128,13 @@ export const PlayerMemberships: React.FC<MembershipSectionProps> = ({
       };
 
   return (
-    <ProfileSection title="Memberships" onRemoveClick={onRemoveClick}>
+    <ProfileSection
+      title="Memberships"
+      onRemoveClick={onRemoveClick}
+      isOwnProfile={isOwnProfile}
+      canEdit={canEdit}
+      boxType={BoxType.PLAYER_DAO_MEMBERSHIPS}
+    >
       {loadingMemberships && <LoadingState />}
 
       {guildMemberships.slice(0, 4).map((membership) => (

@@ -18,14 +18,14 @@ import { SetupPlayerType } from 'components/Setup/SetupPlayerType';
 import { SetupSkills } from 'components/Setup/SetupSkills';
 import React from 'react';
 import { FaTimes } from 'react-icons/fa';
-import { BOX_TYPE } from 'utils/boxTypes';
+import { BoxType } from 'utils/boxTypes';
 
 export type ProfileSectionProps = {
   children?: React.ReactNode;
   onRemoveClick?: () => void;
   isOwnProfile?: boolean;
   canEdit?: boolean;
-  boxType?: string;
+  boxType?: BoxType;
   title?: string;
 };
 
@@ -54,7 +54,10 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
             >
               {title.toUpperCase()}
             </Text>
-            {isOwnProfile ? (
+            {isOwnProfile &&
+            !canEdit &&
+            boxType &&
+            isBoxDataEditable(boxType) ? (
               <IconButton
                 aria-label="Edit Profile Info"
                 size="lg"
@@ -74,12 +77,24 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
                 isRound
               />
             ) : null}
-            {canEdit ? (
-              <FaTimes
-                color="blueLight"
-                opacity="0.4"
-                cursor="pointer"
+            {canEdit && boxType && boxType !== BoxType.PLAYER_HERO ? (
+              <IconButton
+                aria-label="Edit Profile Info"
+                size="lg"
+                background="transparent"
+                color="pinkShadeOne"
+                icon={<FaTimes />}
+                _hover={{ color: 'white' }}
                 onClick={onRemoveClick}
+                _focus={{
+                  boxShadow: 'none',
+                  backgroundColor: 'transparent',
+                }}
+                _active={{
+                  transform: 'scale(0.8)',
+                  backgroundColor: 'transparent',
+                }}
+                isRound
               />
             ) : null}
           </HStack>
@@ -94,8 +109,20 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
         css={{ backdropFilter: 'blur(8px)' }}
         w="100%"
         h="100%"
+        pos="relative"
+        pointerEvents={canEdit ? 'none' : 'initial'}
       >
         {children}
+        {canEdit && (
+          <Box
+            w="100%"
+            h="100%"
+            bg="purpleTag50"
+            pos="absolute"
+            top="0"
+            left="0"
+          />
+        )}
       </Box>
       {boxType && (
         <Modal isOpen={isOpen} onClose={onClose}>
@@ -131,16 +158,23 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
   );
 };
 
+const isBoxDataEditable = (boxType: BoxType) =>
+  [
+    BoxType.PLAYER_TYPE,
+    BoxType.PLAYER_COLOR_DISPOSITION,
+    BoxType.PLAYER_SKILLS,
+  ].includes(boxType);
+
 const getEditSectionBox = (
   boxType: string,
   onClose: () => void,
 ): React.ReactNode => {
   switch (boxType) {
-    case BOX_TYPE.PLAYER.TYPE:
+    case BoxType.PLAYER_TYPE:
       return <SetupPlayerType isEdit onClose={onClose} />;
-    case BOX_TYPE.PLAYER.COLOR_DISPOSITION:
+    case BoxType.PLAYER_COLOR_DISPOSITION:
       return <SetupPersonalityType isEdit onClose={onClose} />;
-    case BOX_TYPE.PLAYER.SKILLS:
+    case BoxType.PLAYER_SKILLS:
       return <SetupSkills isEdit onClose={onClose} />;
     default:
       return <></>;

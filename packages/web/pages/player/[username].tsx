@@ -12,7 +12,7 @@ import {
 import Error from 'next/error';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
-import { BOX_TYPE } from 'utils/boxTypes';
+import { BoxType } from 'utils/boxTypes';
 import {
   getPlayerCoverImageFull,
   getPlayerDescription,
@@ -36,7 +36,7 @@ const PlayerPage: React.FC<Props> = ({ player }) => {
   const router = useRouter();
 
   const [boxAvailableList, setBoxAvailableList] = useState<string[]>([]);
-  const [canEdit] = useState(true);
+  const [canEdit] = useState(false);
   const [, invalidateCache] = useInsertCacheInvalidationMutation();
   const { user, fetching } = useUser();
   const { connected } = useWeb3();
@@ -44,15 +44,11 @@ const PlayerPage: React.FC<Props> = ({ player }) => {
   const [fakeData, setFakeData] = useState([
     [],
     [
-      BOX_TYPE.PLAYER.SKILLS,
-      BOX_TYPE.PLAYER.COLOR_DISPOSITION,
-      BOX_TYPE.PLAYER.TYPE,
+      BoxType.PLAYER_SKILLS,
+      BoxType.PLAYER_COLOR_DISPOSITION,
+      BoxType.PLAYER_TYPE,
     ],
-    [
-      // BOX_TYPE.PLAYER.ROLES,
-      BOX_TYPE.PLAYER.GALLERY,
-      BOX_TYPE.PLAYER.MEMBERSHIPS,
-    ],
+    [BoxType.PLAYER_NFT_GALLERY, BoxType.PLAYER_DAO_MEMBERSHIPS],
   ]);
 
   useEffect(() => {
@@ -84,7 +80,7 @@ const PlayerPage: React.FC<Props> = ({ player }) => {
   const addBox = (column: number, name: string) => {
     setBoxAvailableList(boxAvailableList.filter((box) => box !== name));
     const updatedFakeData = [...fakeData];
-    updatedFakeData[column].push(name);
+    updatedFakeData[column].push(name as BoxType);
     setFakeData(updatedFakeData);
   };
 
@@ -100,7 +96,7 @@ const PlayerPage: React.FC<Props> = ({ player }) => {
   const getBox = (column: number, name: string): React.ReactNode => {
     const person = isOwnProfile ? user?.player : player;
     switch (name) {
-      case BOX_TYPE.PLAYER.SKILLS:
+      case BoxType.PLAYER_SKILLS:
         return (
           <PlayerSkills
             player={person}
@@ -108,21 +104,21 @@ const PlayerPage: React.FC<Props> = ({ player }) => {
             onRemoveClick={() => removeBox(column, name)}
           />
         );
-      case BOX_TYPE.PLAYER.GALLERY:
+      case BoxType.PLAYER_NFT_GALLERY:
         return (
           <PlayerGallery
             player={person}
             onRemoveClick={() => removeBox(column, name)}
           />
         );
-      case BOX_TYPE.PLAYER.MEMBERSHIPS:
+      case BoxType.PLAYER_DAO_MEMBERSHIPS:
         return (
           <PlayerMemberships
             player={person}
             onRemoveClick={() => removeBox(column, name)}
           />
         );
-      case BOX_TYPE.PLAYER.COLOR_DISPOSITION:
+      case BoxType.PLAYER_COLOR_DISPOSITION:
         return (
           <PlayerColorDisposition
             player={person}
@@ -130,7 +126,7 @@ const PlayerPage: React.FC<Props> = ({ player }) => {
             onRemoveClick={() => removeBox(column, name)}
           />
         );
-      case BOX_TYPE.PLAYER.TYPE:
+      case BoxType.PLAYER_TYPE:
         return (
           <PlayerType
             player={person}
@@ -138,16 +134,19 @@ const PlayerPage: React.FC<Props> = ({ player }) => {
             onRemoveClick={() => removeBox(column, name)}
           />
         );
-      case BOX_TYPE.PLAYER.ROLES:
+      case BoxType.PLAYER_ROLES:
         return (
           <PlayerRoles
             player={person}
             onRemoveClick={() => removeBox(column, name)}
           />
         );
-      case BOX_TYPE.PLAYER.ACHIEVEMENTS:
+      case BoxType.PLAYER_ACHIEVEMENTS:
         return (
-          <PlayerAchievements onRemoveClick={() => removeBox(column, name)} />
+          <PlayerAchievements
+            player={person}
+            onRemoveClick={() => removeBox(column, name)}
+          />
         );
       default:
         return <></>;
@@ -226,7 +225,7 @@ const PlayerPage: React.FC<Props> = ({ player }) => {
             ))}
             {canEdit ? (
               <PlayerAddSection
-                boxList={boxAvailableList}
+                boxList={boxAvailableList as BoxType[]}
                 setNewBox={(name) => addBox(0, name)}
                 mb={6}
                 display={{ base: 'none', md: 'flex' }}
@@ -256,7 +255,7 @@ const PlayerPage: React.FC<Props> = ({ player }) => {
                   ))}
                   {canEdit ? (
                     <PlayerAddSection
-                      boxList={boxAvailableList}
+                      boxList={boxAvailableList as BoxType[]}
                       setNewBox={(name) => addBox(1, name)}
                       mb={6}
                       display={{ base: 'none', lg: 'flex' }}
@@ -274,7 +273,7 @@ const PlayerPage: React.FC<Props> = ({ player }) => {
                   ))}
                   {canEdit ? (
                     <PlayerAddSection
-                      boxList={boxAvailableList}
+                      boxList={boxAvailableList as BoxType[]}
                       setNewBox={(name) => addBox(2, name)}
                       mb={6}
                     />
