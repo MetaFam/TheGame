@@ -6,7 +6,7 @@ import { ProfileSection } from '../../ProfileSection';
 
 type Props = {
   player: PlayerFragmentFragment;
-  onRemoveClick: () => void;
+  onRemoveClick?: () => void;
 };
 export const PlayerRoles: React.FC<Props> = ({ onRemoveClick }) => (
   <ProfileSection title="Roles" onRemoveClick={onRemoveClick}>

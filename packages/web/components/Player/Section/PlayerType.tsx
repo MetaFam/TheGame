@@ -9,8 +9,8 @@ import { ProfileSection } from '../../ProfileSection';
 
 type Props = {
   player: PlayerFragmentFragment;
-  isOwnProfile: boolean;
-  onRemoveClick: () => void;
+  isOwnProfile?: boolean;
+  onRemoveClick?: () => void;
 };
 
 export const PlayerType: React.FC<Props> = ({
