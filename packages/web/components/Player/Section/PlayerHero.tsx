@@ -24,6 +24,7 @@ import { useUser } from 'lib/hooks';
 import { useAnimateProfileChanges } from 'lib/hooks/players';
 import React, { useEffect, useState } from 'react';
 import { FaClock, FaGlobe } from 'react-icons/fa';
+import { BoxType } from 'utils/boxTypes';
 import { getPlayerTimeZoneDisplay } from 'utils/dateHelpers';
 import { getPlayerDescription, getPlayerName } from 'utils/playerHelpers';
 
@@ -35,13 +36,21 @@ import { PlayerPronouns } from './PlayerPronouns';
 
 const MAX_BIO_LENGTH = 240;
 
-type Props = { player: PlayerFragmentFragment; isOwnProfile: boolean };
+type Props = {
+  player: PlayerFragmentFragment;
+  isOwnProfile?: boolean;
+  canEdit?: boolean;
+};
 type AvailabilityProps = { person: PlayerFragmentFragment | null | undefined };
 type TimeZoneDisplayProps = {
   person: PlayerFragmentFragment | null | undefined;
 };
 
-export const PlayerHero: React.FC<Props> = ({ player, isOwnProfile }) => {
+export const PlayerHero: React.FC<Props> = ({
+  player,
+  isOwnProfile,
+  canEdit,
+}) => {
   const description = getPlayerDescription(player);
   const [show, setShow] = useState(description.length <= MAX_BIO_LENGTH);
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -58,8 +67,8 @@ export const PlayerHero: React.FC<Props> = ({ player, isOwnProfile }) => {
   }, [person]);
 
   return (
-    <ProfileSection>
-      {isOwnProfile && (
+    <ProfileSection canEdit={canEdit} boxType={BoxType.PLAYER_HERO}>
+      {isOwnProfile && !canEdit && (
         <Box pos="absolute" right={5} top={5}>
           <IconButton
             _focus={{

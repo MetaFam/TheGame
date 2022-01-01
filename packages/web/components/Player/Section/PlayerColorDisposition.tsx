@@ -4,7 +4,7 @@ import { getPersonalityInfo } from 'graphql/queries/enums/getPersonalityInfo';
 import { PersonalityOption } from 'graphql/types';
 import { useAnimateProfileChanges } from 'lib/hooks/players';
 import React, { useEffect, useState } from 'react';
-import { BOX_TYPE } from 'utils/boxTypes';
+import { BoxType } from 'utils/boxTypes';
 
 import { FlexContainer } from '../../Container';
 import { ProfileSection } from '../../ProfileSection';
@@ -13,11 +13,13 @@ import { ColorBar } from '../ColorBar';
 type Props = {
   player: PlayerFragmentFragment;
   isOwnProfile?: boolean;
+  canEdit?: boolean;
   onRemoveClick?: () => void;
 };
 export const PlayerColorDisposition: React.FC<Props> = ({
   player,
   isOwnProfile,
+  canEdit,
   onRemoveClick,
 }) => {
   const [types, setTypes] = useState<{
@@ -45,7 +47,8 @@ export const PlayerColorDisposition: React.FC<Props> = ({
       title="Color Disposition"
       onRemoveClick={onRemoveClick}
       isOwnProfile={isOwnProfile}
-      boxType={BOX_TYPE.PLAYER.COLOR_DISPOSITION}
+      canEdit={canEdit}
+      boxType={BoxType.PLAYER_COLOR_DISPOSITION}
     >
       {colorDisposition && types && (
         <FlexContainer

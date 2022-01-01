@@ -16,9 +16,8 @@ import { ProfileSection } from 'components/ProfileSection';
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
 import { Collectible, useOpenSeaCollectibles } from 'lib/hooks/opensea';
 import React from 'react';
+import { BoxType } from 'utils/boxTypes';
 import { isBackdropFilterSupported } from 'utils/compatibilityHelpers';
-
-type Props = { player: PlayerFragmentFragment; onRemoveClick?: () => void };
 
 const GalleryItem: React.FC<{ nft: Collectible; noMargin?: boolean }> = ({
   nft,
@@ -60,7 +59,19 @@ const GalleryItem: React.FC<{ nft: Collectible; noMargin?: boolean }> = ({
   </Link>
 );
 
-export const PlayerGallery: React.FC<Props> = ({ player, onRemoveClick }) => {
+type Props = {
+  player: PlayerFragmentFragment;
+  isOwnProfile?: boolean;
+  canEdit?: boolean;
+  onRemoveClick?: () => void;
+};
+
+export const PlayerGallery: React.FC<Props> = ({
+  player,
+  onRemoveClick,
+  isOwnProfile,
+  canEdit,
+}) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { favorites, data, loading } = useOpenSeaCollectibles({ player });
 
@@ -74,7 +85,13 @@ export const PlayerGallery: React.FC<Props> = ({ player, onRemoveClick }) => {
       };
 
   return (
-    <ProfileSection title="NFT Gallery" onRemoveClick={onRemoveClick}>
+    <ProfileSection
+      title="NFT Gallery"
+      onRemoveClick={onRemoveClick}
+      isOwnProfile={isOwnProfile}
+      canEdit={canEdit}
+      boxType={BoxType.PLAYER_NFT_GALLERY}
+    >
       {!loading &&
         favorites?.map((nft) => <GalleryItem nft={nft} key={nft.tokenId} />)}
       {!loading && data?.length > 3 && (

@@ -1,4 +1,5 @@
 import { MetaTag, Wrap, WrapItem } from '@metafam/ds';
+import { ProfileSection } from 'components/ProfileSection';
 import {
   PlayerFragmentFragment,
   SkillCategory_Enum,
@@ -6,18 +7,18 @@ import {
 import { SkillColors } from 'graphql/types';
 import { useAnimateProfileChanges } from 'lib/hooks/players';
 import React, { useState } from 'react';
-import { BOX_TYPE } from 'utils/boxTypes';
-
-import { ProfileSection } from '../../ProfileSection';
+import { BoxType } from 'utils/boxTypes';
 
 type Props = {
   player: PlayerFragmentFragment;
   isOwnProfile?: boolean;
+  canEdit?: boolean;
   onRemoveClick?: () => void;
 };
 export const PlayerSkills: React.FC<Props> = ({
   player,
   isOwnProfile,
+  canEdit,
   onRemoveClick,
 }) => {
   const [playerSkills, setPlayerSkills] = useState<
@@ -47,7 +48,8 @@ export const PlayerSkills: React.FC<Props> = ({
       title="Skills"
       onRemoveClick={onRemoveClick}
       isOwnProfile={isOwnProfile}
-      boxType={BOX_TYPE.PLAYER.SKILLS}
+      canEdit={canEdit}
+      boxType={BoxType.PLAYER_SKILLS}
     >
       <Wrap transition=" opacity 0.4s" opacity={animation === 'fadeIn' ? 1 : 0}>
         {(playerSkills || []).map(({ id, name, category }) => (
