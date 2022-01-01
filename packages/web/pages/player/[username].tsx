@@ -36,7 +36,7 @@ const PlayerPage: React.FC<Props> = ({ player }) => {
   const router = useRouter();
 
   const [boxAvailableList, setBoxAvailableList] = useState<string[]>([]);
-  const [canEdit] = useState(false);
+  const [canEdit] = useState(true);
   const [, invalidateCache] = useInsertCacheInvalidationMutation();
   const { user, fetching } = useUser();
   const { connected } = useWeb3();
