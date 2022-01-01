@@ -5,7 +5,7 @@ import { FaMedal } from 'react-icons/fa';
 import { ProfileSection } from '../../ProfileSection';
 
 // TODO Fake data
-type Props = { onRemoveClick: () => void };
+type Props = { onRemoveClick?: () => void };
 export const PlayerAchievements: React.FC<Props> = ({ onRemoveClick }) => {
   const [show, setShow] = React.useState(false);
   const fakeData = [

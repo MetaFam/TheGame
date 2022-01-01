@@ -93,7 +93,7 @@ const DaoListing: React.FC<DaoListingProps> = ({ membership }) => {
 
 type MembershipSectionProps = {
   player: PlayerFragmentFragment;
-  onRemoveClick: () => void;
+  onRemoveClick?: () => void;
 };
 
 export const PlayerMemberships: React.FC<MembershipSectionProps> = ({

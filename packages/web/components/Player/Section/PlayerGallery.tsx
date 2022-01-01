@@ -18,7 +18,7 @@ import { Collectible, useOpenSeaCollectibles } from 'lib/hooks/opensea';
 import React from 'react';
 import { isBackdropFilterSupported } from 'utils/compatibilityHelpers';
 
-type Props = { player: PlayerFragmentFragment; onRemoveClick: () => void };
+type Props = { player: PlayerFragmentFragment; onRemoveClick?: () => void };
 
 const GalleryItem: React.FC<{ nft: Collectible; noMargin?: boolean }> = ({
   nft,
