@@ -1,5 +1,10 @@
-import React from 'react';
-import { Container, Box, Text, Image, Button } from "@chakra-ui/react"
+import {
+  Container,
+  Box,
+  Text,
+  Image,
+  Button 
+  } from "@chakra-ui/react"
 import BackgroundImage from 'assets/landing/intro-background.png'
 import MetaGameLogo from 'assets/landing/synthlogo-2.svg'
 import { FaArrowDown } from 'react-icons/fa';
@@ -8,7 +13,7 @@ function Intro() {
   return (
     <Box
       width="100%"
-      height="100vh"
+      minHeight = "1040px"
       backgroundImage={`url(${BackgroundImage})`}
       bgPosition="center"
       bgSize="cover"
@@ -43,19 +48,16 @@ function Intro() {
               JOIN NAO
               </Button>
         <Button 
-        fontWeight="normal"
-         fontSize="18px"
+          fontWeight="normal"
+          fontSize="18px"
           bg="transparent" 
           border='1px'
-           borderColor="#79F8FB"
-            color="#79F8FB"
-            width='284px'
- 
-              rightIcon={<FaArrowDown />}
-             
-                >
-                  EXPLORE MOAR
-                  </Button>
+          borderColor="#79F8FB"
+          color="#79F8FB"
+          width='284px'
+          rightIcon={<FaArrowDown />}>
+            EXPLORE MOAR
+        </Button>
       </Container>
     </Box>
   );
