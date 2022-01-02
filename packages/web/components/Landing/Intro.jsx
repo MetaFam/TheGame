@@ -44,8 +44,9 @@ function Intro() {
            bg="#B40C85" 
            mb="16px"
            width='284px'
+           textTransform = "uppercase"
             >
-              JOIN NAO
+            Join Nao
               </Button>
         <Button 
           fontWeight="normal"
@@ -55,8 +56,9 @@ function Intro() {
           borderColor="#79F8FB"
           color="#79F8FB"
           width='284px'
+          textTransform = "uppercase"
           rightIcon={<FaArrowDown />}>
-            EXPLORE MOAR
+            Explore Moar
         </Button>
       </Container>
     </Box>
