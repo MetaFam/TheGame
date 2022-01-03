@@ -11,20 +11,30 @@ const Custom404: FC = () => {
 
   return (
     <Flex
-      p={{ xl: 16, sm: 6 }}
+      p={{ xl: 16, md: 16, base: 6 }}
+      pt={{ base: '25%', md: '25%', lg: '25%' }}
       flexDirection={'column'}
       backgroundImage={`url(${BackgroundImage})`}
-      backgroundSize={{ xl: '1000px' }}
-      backgroundPosition={{ sm: 'top', xl: '70% 65%' }}
+      backgroundSize={{
+        base: '700px',
+        md: '1000px',
+        lg: '1200px',
+        xl: '1100px',
+      }}
+      backgroundPosition={{
+        base: '75% -30%',
+        md: '85% -50%',
+        lg: '85% 0%',
+        xl: '70% 65%',
+      }}
       backgroundRepeat={'no-repeat'}
       minHeight={'inherit'}
     >
       <Heading
         as="h1"
-        size="4xl"
         fontFamily={'Exo 2'}
         pb={8}
-        fontSize={{ base: '90px', sm: '39px', md: '67px' }}
+        fontSize={{ base: '39px', md: '67px' }}
       >
         Oops!
       </Heading>
@@ -32,17 +42,17 @@ const Custom404: FC = () => {
         as="h2"
         fontFamily={'Exo 2'}
         pb={8}
-        fontSize={{ base: '38px', sm: '20px', md: '31px' }}
+        fontSize={{ base: '20px', md: '31px' }}
       >
         We can't seem to find the page you're looking for.
       </Heading>
-      <Box fontSize={{ base: '25px', sm: '16px' }}>
+      <Box fontSize={{ sm: '16px' }}>
         Here are some good places to start exploring MetaGame, instead:
       </Box>
       <Flex direction="column">
         <Box pt={8}>
           <MetaButton
-            width={{ sm: '100%', md: '25%', xl: '25%' }}
+            width={{ base: '100%', md: '50%', lg: '25%', xl: '25%' }}
             onClick={() => router.push('/')}
           >
             Home
@@ -50,7 +60,7 @@ const Custom404: FC = () => {
         </Box>
         <Box pt={8}>
           <MetaButton
-            width={{ sm: '100%', md: '25%', xl: '25%' }}
+            width={{ base: '100%', md: '50%', lg: '25%', xl: '25%' }}
             onClick={() => router.push('/learn/wiki')}
           >
             Wiki
@@ -58,14 +68,18 @@ const Custom404: FC = () => {
         </Box>
         <Box pt={8}>
           <Link href="https://forum.metagame.wtf">
-            <MetaButton width={{ sm: '100%', md: '25%', xl: '25%' }}>
+            <MetaButton
+              width={{ base: '100%', md: '50%', lg: '25%', xl: '25%' }}
+            >
               Forum
             </MetaButton>
           </Link>
         </Box>
         <Box pt={8}>
           <Link href="https://discord.gg/metagame">
-            <MetaButton width={{ sm: '100%', md: '25%', xl: '25%' }}>
+            <MetaButton
+              width={{ base: '100%', md: '50%', lg: '25%', xl: '25%' }}
+            >
               Discord
             </MetaButton>
           </Link>

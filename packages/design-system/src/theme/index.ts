@@ -1,4 +1,5 @@
 import { extendTheme, Theme as ChakraTheme } from '@chakra-ui/react';
+import { createBreakpoints } from '@chakra-ui/theme-tools';
 
 import { colors, MetaColors } from './colors';
 import { textStyles } from './texts';
@@ -7,7 +8,15 @@ type Theme = ChakraTheme & {
   colors: MetaColors;
 };
 
+const breakpoints = createBreakpoints({
+  sm: '30em',
+  md: '48em',
+  lg: '62em',
+  xl: '80em',
+  '2xl': '96em',
+});
 export const theme: Theme = extendTheme({
+  breakpoints,
   styles: {
     global: {
       body: {
