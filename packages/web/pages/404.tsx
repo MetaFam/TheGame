@@ -11,12 +11,13 @@ const Custom404: FC = () => {
 
   return (
     <Flex
-      p={{ base: 10, sm: 6 }}
+      p={{ xl: 16, sm: 6 }}
       flexDirection={'column'}
       backgroundImage={`url(${BackgroundImage})`}
-      backgroundSize={'contain'}
-      backgroundPosition={{ sm: 'top', xl: '70%' }}
+      backgroundSize={{ xl: '1000px' }}
+      backgroundPosition={{ sm: 'top', xl: '70% 65%' }}
       backgroundRepeat={'no-repeat'}
+      minHeight={'inherit'}
     >
       <Heading
         as="h1"
@@ -41,7 +42,7 @@ const Custom404: FC = () => {
       <Flex direction="column">
         <Box pt={8}>
           <MetaButton
-            width={{ sm: '100%', xl: '25%' }}
+            width={{ sm: '100%', md: '25%', xl: '25%' }}
             onClick={() => router.push('/')}
           >
             Home
@@ -49,7 +50,7 @@ const Custom404: FC = () => {
         </Box>
         <Box pt={8}>
           <MetaButton
-            width={{ sm: '100%', xl: '25%' }}
+            width={{ sm: '100%', md: '25%', xl: '25%' }}
             onClick={() => router.push('/learn/wiki')}
           >
             Wiki
@@ -57,12 +58,16 @@ const Custom404: FC = () => {
         </Box>
         <Box pt={8}>
           <Link href="https://forum.metagame.wtf">
-            <MetaButton width={{ sm: '100%', xl: '25%' }}>Forum</MetaButton>
+            <MetaButton width={{ sm: '100%', md: '25%', xl: '25%' }}>
+              Forum
+            </MetaButton>
           </Link>
         </Box>
         <Box pt={8}>
           <Link href="https://discord.gg/metagame">
-            <MetaButton width={{ sm: '100%', xl: '25%' }}>Discord</MetaButton>
+            <MetaButton width={{ sm: '100%', md: '25%', xl: '25%' }}>
+              Discord
+            </MetaButton>
           </Link>
         </Box>
       </Flex>
