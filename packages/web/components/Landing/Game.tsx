@@ -46,13 +46,14 @@ function Game() {
           “Metagame is any approach to a game that transcends or operates outside of the prescribed rules of the game, uses external factors to affect the game, or goes beyond the supposed limits or environment set by the game.”
 
           <Text textAlign = "right">- From{' '} 
-          <Link color='#79F8FB' href='#'
-            as='u'
-            fontSize="38px"
-            LineHeight="56px"
-            fontWeight="normal">
-            The Wiki
-          </Link>
+            <Link  
+            
+              color='#79F8FB' href='#'
+              fontSize="38px"
+              LineHeight="56px"
+              fontWeight="normal">
+              The Wiki
+            </Link>
         </Text>
         </Text>
 
