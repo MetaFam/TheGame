@@ -16,6 +16,7 @@ import { LatestContent } from 'components/Dashboard/LatestContent';
 import { Leaderboard } from 'components/Dashboard/Leaderboard';
 import { Seed } from 'components/Dashboard/Seed';
 import { XP } from 'components/Dashboard/XP';
+import { useUser } from 'lib/hooks';
 import { ReactElement, useEffect, useState } from 'react';
 import { Layout, Layouts, Responsive, WidthProvider } from 'react-grid-layout';
 
@@ -53,6 +54,8 @@ export const Grid = (): ReactElement => {
   const [gridLayouts, setGridLayouts] = useState(
     JSON.parse(JSON.stringify(originalLayouts)),
   );
+  useUser({ redirectTo: '/community/players', redirectIfNotFound: true });
+
   const [ownLayout, setOwnLayout] = useState(false);
   const [changed, setChanged] = useState(false);
   const [current, setCurrent] = useState<CurrentLayoutType>({
