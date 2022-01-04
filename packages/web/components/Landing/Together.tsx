@@ -24,7 +24,7 @@ function Together() {
                 justifyContent="center"
                 maxWidth="1200px"
                 alignItems="center"
-
+         
             >
                 <Box
                     fontSize="48px"
@@ -35,15 +35,16 @@ function Together() {
                     bgClip='text'
                     maxWidth="1200px"
                     display="inline"
-                    pb="35px"
-                    pt="130px"
-                    textAlign="center"
+                    pb = "35px"
+                    pt = "130px"
+                    textAlign = "center"
                 >
-                    <Text pb="50px"> We are bringing together the people & building blocks aligned on the idea of creating a new kind of society.</Text>
-                    <Text pb="50px"> One that is optimized for human wellbeing rather than profit.</Text>
-                    <Text pb="50px">One that revolves around solving problems & living well, in balance with nature.</Text>
-                </Box>
+              <Text       pb = "50px"> We are bringing together the people & building blocks aligned on the idea of creating a new kind of society.</Text>
 
+              <Text       pb = "50px"> One that is optimized for human wellbeing rather than profit.</Text>
+                <Text       pb = "50px">One that revolves around solving problems & living well, in balance with nature.</Text>
+                </Box>
+    
             </Container>
         </Box>
     );
