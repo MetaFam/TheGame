@@ -33,13 +33,13 @@ function WildWeb() {
                     maxWidth="978px">
 
                     <Text pt="130px" pb="35px">
-                        Web3 technologies are allowing us to  <Text fontWeight = "bold" >reimagine socioeconomic systems</Text> from ground up.
+                        Web3 technologies are allowing us to  <strong>reimagine socioeconomic systems</strong> from ground up.
                     </Text>
                     <Text pb="35px">
-                        A new world is being built but it’s <Text fontWeight = "bold">hard to navigate.</Text>
+                        A new world is being built but it’s <strong>hard to navigate.</strong><br />
                     </Text>
                     <Text pb="35px">
-                        The resources, building blocks & tools are all over the place  <Text fontWeight = "bold">but the maps are inexistent.</Text>
+                        The resources, building blocks & tools are all over the place  <strong>but the maps are inexistent.</strong>
                     </Text>
                     <Text pb="35px">
                         There are pitfalls, gold rushing cowboys & snake oil salesmen at every corner.
