@@ -27,6 +27,7 @@ import {
   GetStaticPropsContext,
   InferGetStaticPropsType,
 } from 'next';
+import Error from 'next/error';
 import { ReactElement, useCallback, useEffect, useMemo, useState } from 'react';
 import { Layouts, Responsive, WidthProvider } from 'react-grid-layout';
 import { BoxType } from 'utils/boxTypes';
@@ -53,35 +54,40 @@ const ResponsiveGridLayout = WidthProvider(Responsive);
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
-const PlayerPage: React.FC<Props> = ({ player }): ReactElement => (
-  <PageContainer p={0}>
-    <Box
-      background={`url(${getPlayerCoverImageFull(player)}) no-repeat`}
-      bgSize="cover"
-      bgPos="center"
-      h={72}
-      position="absolute"
-      w="full"
-    />
-    <HeadComponent
-      title={`Metagame profile for ${player.username}`}
-      description={getPlayerDescription(player).replace('\n', ' ')}
-      url={`https://my.metagame.wtf/player/${player.username}`}
-      img={getPlayerImage(player)}
-    />
-    <Flex
-      w="100%"
-      h="100%"
-      minH="100vh"
-      p="4"
-      pt="8"
-      direction="column"
-      align="center"
-    >
-      <Grid player={player} />
-    </Flex>
-  </PageContainer>
-);
+const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
+  if (!player) {
+    return <Error statusCode={404} />;
+  }
+  return (
+    <PageContainer p={0}>
+      <Box
+        background={`url(${getPlayerCoverImageFull(player)}) no-repeat`}
+        bgSize="cover"
+        bgPos="center"
+        h={72}
+        position="absolute"
+        w="full"
+      />
+      <HeadComponent
+        title={`Metagame profile for ${player.username}`}
+        description={getPlayerDescription(player).replace('\n', ' ')}
+        url={`https://my.metagame.wtf/player/${player.username}`}
+        img={getPlayerImage(player)}
+      />
+      <Flex
+        w="100%"
+        h="100%"
+        minH="100vh"
+        p="4"
+        pt="8"
+        direction="column"
+        align="center"
+      >
+        <Grid player={player} />
+      </Flex>
+    </PageContainer>
+  );
+};
 
 export default PlayerPage;
 
@@ -348,7 +354,6 @@ export const Grid: React.FC<Props> = ({ player }): ReactElement => {
         }}
       >
         {boxes.map((item) => (
-          // item === BoxType.PLAYER_ADD_BOX && !editable ? null : (
           <Flex key={item} className="gridItem">
             <PlayerSection
               boxType={item}
