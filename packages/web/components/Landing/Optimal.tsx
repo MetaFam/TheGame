@@ -24,25 +24,25 @@ function Optimal() {
                 justifyContent="center"
                 maxWidth="100%"
                 alignItems="center"
-                textAlign="center"
 
             >
                 <Box fontSize="48px"
-                     LineHeight="72px"
-                     fontWeight="normal"
-                     color="white"
-                     maxWidth="1200px">
+                    LineHeight="64px"
+                    fontWeight="normal"
+                    color="white"
+                    maxWidth="978px">
 
                     <Text pt="130px" pb="35px" textAlign = "center">
                     To find your metagame means to <Text fontWeight = "bold" color = "#79F8FB">play life in the optimal way.</Text>
                     </Text>
                     <Box pb="35px">
-                    <Text>By coordinating with others on building a better world;
-                    doing things that create a <Text  as ="span"  fontWeight = "bold" color = "#79F8FB"> a positive impact<br/> </Text> make
-                    <Text  as ="span"  fontWeight = "bold" color = "#79F8FB"> you happy </Text>
+                    <Text> By coordinating with others on building a better world;
+                    doing things that create a positive impact, make </Text>
+                  
+                    <Text  fontWeight = "bold" color = "#79F8FB">you happy</Text>
                      AND 
-                     <Text as ="span" fontWeight = "bold" color = "#79F8FB"> earn you money.</Text>
-                     </Text>
+                     <Text fontWeight = "bold" color = "#79F8FB">earn you money.</Text>
+                  
                     </Box>
 
                 </Box>
@@ -54,3 +54,4 @@ function Optimal() {
 
 export default Optimal;
 
+<Text fontWeight = "bold" color = "#79F8FB">earn you money.</Text>
