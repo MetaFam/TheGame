@@ -12,19 +12,20 @@ const Custom404: FC = () => {
   return (
     <Flex
       p={{ xl: 16, md: 16, base: 6 }}
-      pt={{ base: '25%', md: '25%', lg: '25%' }}
+      pt={{ base: '0%', md: '10%', lg: '10%', xl: '5%' }}
       flexDirection={'column'}
       backgroundImage={`url(${BackgroundImage})`}
       backgroundSize={{
         base: '700px',
         md: '1000px',
-        lg: '1200px',
+        lg: '1150px',
         xl: '1100px',
+        '2xl': '1500px',
       }}
       backgroundPosition={{
         base: '75% -30%',
         md: '85% -50%',
-        lg: '85% 0%',
+        lg: '85% 70%',
         xl: '70% 65%',
       }}
       backgroundRepeat={'no-repeat'}
