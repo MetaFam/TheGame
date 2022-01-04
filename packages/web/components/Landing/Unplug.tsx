@@ -3,11 +3,11 @@ import {
     Box,
     Text,
 } from "@chakra-ui/react"
-import BackgroundImage from 'assets/landing/optimal-background.png'
+import BackgroundImage from 'assets/landing/unplug-background.png'
 
 
 
-function Optimal() {
+function Unplug() {
     return (
         <Box
             width="100%"
@@ -27,24 +27,19 @@ function Optimal() {
                 textAlign="center"
 
             >
-                <Box fontSize="48px"
-                     LineHeight="72px"
+                <Box fontSize="67px"
+                     LineHeight="80px"
                      fontWeight="normal"
                      color="white"
                      maxWidth="1200px">
 
                     <Text pt="130px" pb="35px" textAlign = "center">
-                    To find your metagame means to <Text fontWeight = "bold" color = "#79F8FB">play life in the optimal way.</Text>
+                    So unplug yourself from the matrix & enter the future.
                     </Text>
-                    <Box pb="35px">
-                    <Text>By coordinating with others on building a better world;
-                    doing things that create a <Text  as ="span"  fontWeight = "bold" color = "#79F8FB"> a positive impact<br/> </Text> make
-                    <Text  as ="span"  fontWeight = "bold" color = "#79F8FB"> you happy </Text>
-                     AND 
-                     <Text as ="span" fontWeight = "bold" color = "#79F8FB"> earn you money.</Text>
-                     </Text>
-                    </Box>
-
+                   
+                    <Text  textAlign = "center">
+                    earn, earn & make a difference.
+                    </Text>
                 </Box>
 
             </Container>
@@ -52,5 +47,5 @@ function Optimal() {
     );
 }
 
-export default Optimal;
+export default Unplug;
 
