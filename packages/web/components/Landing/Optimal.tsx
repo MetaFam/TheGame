@@ -27,22 +27,22 @@ function Optimal() {
 
             >
                 <Box fontSize="48px"
-                    LineHeight="64px"
+                    LineHeight="72px"
                     fontWeight="normal"
                     color="white"
-                    maxWidth="978px">
+                    maxWidth="1200px">
 
                     <Text pt="130px" pb="35px" textAlign = "center">
                     To find your metagame means to <Text fontWeight = "bold" color = "#79F8FB">play life in the optimal way.</Text>
                     </Text>
                     <Box pb="35px">
                     <Text> By coordinating with others on building a better world;
-                    doing things that create a positive impact, make </Text>
+                    doing things that create a   <Text  as ="span"  fontWeight = "bold" color = "#79F8FB"> a positive impact </Text> make
                   
-                    <Text  fontWeight = "bold" color = "#79F8FB">you happy</Text>
+                    <Text  as ="span"  fontWeight = "bold" color = "#79F8FB"> you happy </Text>
                      AND 
-                     <Text fontWeight = "bold" color = "#79F8FB">earn you money.</Text>
-                  
+                     <Text as ="span" fontWeight = "bold" color = "#79F8FB"> earn you money.</Text>
+                     </Text>
                     </Box>
 
                 </Box>
