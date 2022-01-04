@@ -13,23 +13,17 @@ export interface Params {
 }
 
 export type MetaBoxProps = {
-  title?: string;
-  sx?: Record<string, unknown>;
-  p?: number;
+  title: string;
   children: React.ReactNode;
+  sx: Record<string, unknown>;
 };
 
-export const GridItem: React.FC<MetaBoxProps> = ({
-  title,
-  sx,
-  p = 6,
-  children,
-}) => (
-  <Box borderBottomRadius="lg" borderTopRadius="lg" p={p} boxShadow="md">
+export const GridItem: React.FC<MetaBoxProps> = ({ children, title, sx }) => (
+  <Box borderBottomRadius="lg" borderTopRadius="lg" p={6} boxShadow="md">
     <ContainerQuery query={containerQueries}>
       {(params: Params) => (
         <Box className={classnames('container', params)} sx={sx}>
-          {title && <Heading size="md">{title}</Heading>}
+          <Heading size="md">{title}</Heading>
           {children}
         </Box>
       )}
