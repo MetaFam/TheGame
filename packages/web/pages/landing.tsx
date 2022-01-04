@@ -11,6 +11,7 @@ import Optimal from '../components/Landing/Optimal';
 import Unplug from '../components/Landing/Unplug';
 import Who from '../components/Landing/Who';
 import JustWatch from '../components/Landing/JustWatch';
+import Cards from '../components/Landing/Cards';
 
 function Landing(): JSX.Element {
   return <div>
@@ -25,7 +26,9 @@ function Landing(): JSX.Element {
     <Optimal />#
     <Unplug />
     <Who />
+    <Cards /> 
     <JustWatch />
+
   </div>;
 }
 
