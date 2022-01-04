@@ -1,4 +1,4 @@
-import { Box, Flex, LoadingState } from '@metafam/ds';
+import { Box, Flex, LoadingState, MetaButton } from '@metafam/ds';
 import { PlayerHero } from 'components/Player/Section/PlayerHero';
 import { useInsertCacheInvalidationMutation } from 'graphql/autogen/types';
 import { getPlayer } from 'graphql/getPlayer';
@@ -10,6 +10,7 @@ import {
   InferGetStaticPropsType,
 } from 'next';
 import Error from 'next/error';
+import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { BoxType } from 'utils/boxTypes';
@@ -187,6 +188,34 @@ const PlayerPage: React.FC<Props> = ({ player }) => {
             />
           </Flex>
         )} */}
+        {isOwnProfile && (
+          <Flex width="full" justifyContent="center">
+            <NextLink
+              as={`/player/grid/${player.username}`}
+              href="/player/grid/[username]"
+            >
+              <MetaButton
+                aria-label="Try Grid Layout"
+                borderColor="transparent"
+                background="rgba(17, 17, 17, 0.9)"
+                _hover={{ color: 'white', borderColor: 'transparent' }}
+                variant="outline"
+                textTransform="uppercase"
+                px={12}
+                m={10}
+                letterSpacing="0.1em"
+                size="lg"
+                fontSize="sm"
+                bg="transparent"
+                color={'pinkShadeOne'}
+                transition="color 0.2s ease"
+                zIndex="docked"
+              >
+                Try Grid Layout
+              </MetaButton>
+            </NextLink>
+          </Flex>
+        )}
       </Box>
       <Flex
         w="full"
