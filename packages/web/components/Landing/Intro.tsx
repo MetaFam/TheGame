@@ -30,7 +30,7 @@ function Intro() {
         <Image
           src={MetaGameLogo} />
         <Text
-         fontSize="16px" s
+         fontSize="16px" 
          fontWeight="normal"
           color="white"
            mt="10px"
