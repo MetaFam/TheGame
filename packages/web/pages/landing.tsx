@@ -6,6 +6,8 @@ import Revolution from '../components/Landing/Revolution';
 import WildWeb from '../components/Landing/WildWeb';
 import Frontier from '../components/Landing/Frontier';
 import Together from '../components/Landing/Together';
+import WhatWeDo from '../components/Landing/WhatWeDo';
+import Optimal from '../components/Landing/Optimal';
 
 function Landing(): JSX.Element {
   return <div>
@@ -16,6 +18,8 @@ function Landing(): JSX.Element {
     <WildWeb />
     <Frontier />
     <Together /> 
+    <WhatWeDo /> 
+    <Optimal />
   </div>;
 }
 
