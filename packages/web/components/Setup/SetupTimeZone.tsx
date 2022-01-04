@@ -3,7 +3,7 @@ import { FlexContainer } from 'components/Container';
 import { useSetupFlow } from 'contexts/SetupContext';
 import { useUpdateProfileMutation } from 'graphql/autogen/types';
 import { useUser } from 'lib/hooks';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 export type SetupTimezoneProps = {
   timeZone: string;
@@ -45,6 +45,14 @@ export const SetupTimeZone: React.FC<SetupTimezoneProps> = ({
 
     onNextPress();
   };
+
+  const [isComponentMounted, setIsComponentMounted] = useState(false);
+
+  useEffect(() => setIsComponentMounted(true), []);
+
+  if (!isComponentMounted) {
+    return null;
+  }
 
   return (
     <FlexContainer>
