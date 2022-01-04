@@ -8,6 +8,9 @@ import Frontier from '../components/Landing/Frontier';
 import Together from '../components/Landing/Together';
 import WhatWeDo from '../components/Landing/WhatWeDo';
 import Optimal from '../components/Landing/Optimal';
+import Unplug from '../components/Landing/Unplug';
+import Who from '../components/Landing/Who';
+import JustWatch from '../components/Landing/JustWatch';
 
 function Landing(): JSX.Element {
   return <div>
@@ -19,7 +22,10 @@ function Landing(): JSX.Element {
     <Frontier />
     <Together /> 
     <WhatWeDo /> 
-    <Optimal />
+    <Optimal />#
+    <Unplug />
+    <Who />
+    <JustWatch />
   </div>;
 }
 
