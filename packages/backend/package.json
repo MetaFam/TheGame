@@ -39,7 +39,7 @@
     "ethers": "5.4.3",
     "express": "4.17.1",
     "express-graphql": "0.12.0",
-    "graphql": "15.5.0",
+    "graphql": "15.8.0",
     "graphql-request": "3.4.0",
     "graphql-tag": "2.12.5",
     "graphql-tools": "7.0.4",

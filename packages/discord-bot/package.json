@@ -27,7 +27,7 @@
     "dotenv": "9.0.2",
     "ethers": "5.4.3",
     "express": "4.17.1",
-    "graphql": "15.5.0",
+    "graphql": "15.8.0",
     "graphql-request": "3.4.0",
     "graphql-tag": "2.12.4",
     "node-fetch": "2.6.1",

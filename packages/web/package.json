@@ -34,7 +34,7 @@
     "draftjs-to-html": "0.9.1",
     "ethers": "5.4.3",
     "fake-tag": "3.0.0",
-    "graphql": "15.5.0",
+    "graphql": "15.8.0",
     "html-react-parser": "1.2.8",
     "isomorphic-unfetch": "3.1.0",
     "jsdom": "19.0.0",
