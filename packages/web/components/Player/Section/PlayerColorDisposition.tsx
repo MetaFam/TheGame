@@ -1,5 +1,4 @@
 import { Link, Text } from '@metafam/ds';
-import { Maybe } from '@metafam/utils';
 import { FlexContainer } from 'components/Container';
 import { ColorBar } from 'components/Player/ColorBar';
 import { ProfileSection } from 'components/Profile/ProfileSection';
@@ -22,7 +21,7 @@ export const PlayerColorDisposition: React.FC<Props> = ({
   canEdit,
   onRemoveClick,
 }) => {
-  const [types, setTypes] = useState<{
+  const [, setTypes] = useState<{
     [any: string]: PersonalityOption;
   }>();
   const [colorDisposition, setColorDisposition] = useState<

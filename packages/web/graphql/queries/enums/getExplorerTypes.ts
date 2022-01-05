@@ -1,4 +1,4 @@
-import { GetExplorerTypesQuery } from 'graphql/autogen/types';
+import { ExplorerType, GetExplorerTypesQuery } from 'graphql/autogen/types';
 import { client } from 'graphql/client';
 
 export const GetExplorerTypes = /* GraphQL */ `
@@ -23,5 +23,5 @@ export const getExplorerTypes = async () => {
     }
     return [];
   }
-  return data.ExplorerType;
+  return data.ExplorerType as Array<ExplorerType>;
 };

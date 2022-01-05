@@ -13,10 +13,9 @@ import {
   ModalOverlay,
   SimpleGrid,
   Text,
-  TimeZone,
   Tooltip,
   useDisclosure,
-  VStack
+  VStack,
 } from '@metafam/ds';
 import BackgroundImage from 'assets/main-background.jpg';
 import { FlexContainer } from 'components/Container';
@@ -57,14 +56,14 @@ export const PlayerHero: React.FC<Props> = ({
   const [show, setShow] = useState(description.length <= MAX_BIO_LENGTH);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const [playerName, setPlayerName] = useState<string>('');
+  const [playerName, setPlayerName] = useState<string>();
 
   const { user } = useUser();
 
   const person = isOwnProfile ? user?.player : player;
   useEffect(() => {
     if (person) {
-      setPlayerName(getPlayerName(person));
+      setPlayerName(getNameOf(person));
     }
   }, [person]);
 
@@ -148,7 +147,6 @@ export const PlayerHero: React.FC<Props> = ({
           <PlayerContacts {...{ player }} />
         </HStack>
 
-
         {person?.profile?.pronouns && (
           <PlayerHeroTile title="Personal Pronouns">
             <PlayerPronouns {...{ person }} />
@@ -230,7 +228,7 @@ export const PlayerHero: React.FC<Props> = ({
 
 const Availability: React.FC<AvailabilityProps> = ({ person }) => {
   const [hours, setHours] = useState<number>();
-  const updateFN = () => setHours(person?.profile?.availableHours);
+  const updateFN = () => setHours(person?.profile?.availableHours ?? undefined);
   const { animation } = useAnimateProfileChanges(
     person?.profile?.availableHours,
     updateFN,
@@ -274,10 +272,7 @@ const TimeZoneDisplay: React.FC<TimeZoneDisplayProps> = ({ person }) => {
   };
   const short = offset?.replace(/:00\)$/, ')').replace(/ +/g, '');
 
-  const { animation } = useAnimateProfileChanges(
-    tz?.name,
-    updateFN,
-  );
+  const { animation } = useAnimateProfileChanges(tz?.name, updateFN);
   return (
     <Flex alignItems="center">
       <Box pr={1}>
