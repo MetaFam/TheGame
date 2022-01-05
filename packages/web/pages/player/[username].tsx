@@ -1,5 +1,23 @@
-import { Box, Flex, LoadingState, MetaButton } from '@metafam/ds';
-import { PlayerHero } from 'components/Player/Section/PlayerHero';
+import 'react-grid-layout/css/styles.css';
+import 'react-resizable/css/styles.css';
+
+import {
+  Box,
+  ButtonGroup,
+  DeleteIcon,
+  EditIcon,
+  Flex,
+  MetaButton,
+  ResponsiveText,
+} from '@metafam/ds';
+import { PageContainer } from 'components/Container';
+import {
+  getBoxLayoutItemDefaults,
+  gridConfig,
+  initLayouts,
+} from 'components/Player/Section/config';
+import { PlayerSection } from 'components/Player/Section/PlayerSection';
+import { HeadComponent } from 'components/Seo';
 import { useInsertCacheInvalidationMutation } from 'graphql/autogen/types';
 import { getPlayer } from 'graphql/getPlayer';
 import { getTopPlayerUsernames } from 'graphql/getPlayers';
@@ -10,9 +28,8 @@ import {
   InferGetStaticPropsType,
 } from 'next';
 import Error from 'next/error';
-import NextLink from 'next/link';
-import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import { ReactElement, useCallback, useEffect, useMemo, useState } from 'react';
+import { Layouts, Responsive, WidthProvider } from 'react-grid-layout';
 import { BoxType } from 'utils/boxTypes';
 import {
   getPlayerCoverImageFull,
@@ -20,140 +37,14 @@ import {
   getPlayerImage,
 } from 'utils/playerHelpers';
 
-import { PageContainer } from '../../components/Container';
-import { PlayerAchievements } from '../../components/Player/Section/PlayerAchievements';
-import { PlayerAddSection } from '../../components/Player/Section/PlayerAddSection';
-import { PlayerColorDisposition } from '../../components/Player/Section/PlayerColorDisposition';
-import { PlayerGallery } from '../../components/Player/Section/PlayerGallery';
-import { PlayerMemberships } from '../../components/Player/Section/PlayerMemberships';
-import { PlayerRoles } from '../../components/Player/Section/PlayerRoles';
-import { PlayerSkills } from '../../components/Player/Section/PlayerSkills';
-import { PlayerType } from '../../components/Player/Section/PlayerType';
-import { HeadComponent } from '../../components/Seo';
+const ResponsiveGridLayout = WidthProvider(Responsive);
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
-const PlayerPage: React.FC<Props> = ({ player }) => {
-  const router = useRouter();
-
-  const [boxAvailableList, setBoxAvailableList] = useState<string[]>([]);
-  const [canEdit] = useState(false);
-  const [, invalidateCache] = useInsertCacheInvalidationMutation();
-  const { user, fetching } = useUser();
-  const { connected } = useWeb3();
-
-  const [fakeData, setFakeData] = useState([
-    [],
-    [
-      BoxType.PLAYER_SKILLS,
-      BoxType.PLAYER_COLOR_DISPOSITION,
-      BoxType.PLAYER_TYPE,
-    ],
-    [BoxType.PLAYER_NFT_GALLERY, BoxType.PLAYER_DAO_MEMBERSHIPS],
-  ]);
-
-  useEffect(() => {
-    if (connected && !fetching && user?.id === player?.id) {
-      setIsOwnProfile(true);
-    }
-  }, [user, fetching, connected, player?.id]);
-
-  const [isOwnProfile, setIsOwnProfile] = useState(false);
-
-  useEffect(() => {
-    if (player) {
-      invalidateCache({ playerId: player.id });
-    }
-  }, [player, invalidateCache]);
-
-  if (router.isFallback) {
-    return (
-      <PageContainer>
-        <LoadingState />
-      </PageContainer>
-    );
-  }
-
+const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
   if (!player) {
     return <Error statusCode={404} />;
   }
-
-  const addBox = (column: number, name: string) => {
-    setBoxAvailableList(boxAvailableList.filter((box) => box !== name));
-    const updatedFakeData = [...fakeData];
-    updatedFakeData[column].push(name as BoxType);
-    setFakeData(updatedFakeData);
-  };
-
-  const removeBox = (column: number, name: string) => {
-    setBoxAvailableList([...boxAvailableList, name]);
-    const updatedFakeData = [...fakeData];
-    updatedFakeData[column] = updatedFakeData[column].filter(
-      (box) => box !== name,
-    );
-    setFakeData(updatedFakeData);
-  };
-
-  const getBox = (column: number, name: string): React.ReactNode => {
-    const person = isOwnProfile ? user?.player : player;
-    switch (name) {
-      case BoxType.PLAYER_SKILLS:
-        return (
-          <PlayerSkills
-            player={person}
-            isOwnProfile={isOwnProfile}
-            onRemoveClick={() => removeBox(column, name)}
-          />
-        );
-      case BoxType.PLAYER_NFT_GALLERY:
-        return (
-          <PlayerGallery
-            player={person}
-            onRemoveClick={() => removeBox(column, name)}
-          />
-        );
-      case BoxType.PLAYER_DAO_MEMBERSHIPS:
-        return (
-          <PlayerMemberships
-            player={person}
-            onRemoveClick={() => removeBox(column, name)}
-          />
-        );
-      case BoxType.PLAYER_COLOR_DISPOSITION:
-        return (
-          <PlayerColorDisposition
-            player={person}
-            isOwnProfile={isOwnProfile}
-            onRemoveClick={() => removeBox(column, name)}
-          />
-        );
-      case BoxType.PLAYER_TYPE:
-        return (
-          <PlayerType
-            player={person}
-            isOwnProfile={isOwnProfile}
-            onRemoveClick={() => removeBox(column, name)}
-          />
-        );
-      case BoxType.PLAYER_ROLES:
-        return (
-          <PlayerRoles
-            player={person}
-            onRemoveClick={() => removeBox(column, name)}
-          />
-        );
-      case BoxType.PLAYER_ACHIEVEMENTS:
-        return (
-          <PlayerAchievements
-            player={person}
-            onRemoveClick={() => removeBox(column, name)}
-          />
-        );
-      default:
-        return <></>;
-    }
-  };
-
   return (
     <PageContainer p={0}>
       <Box
@@ -163,161 +54,309 @@ const PlayerPage: React.FC<Props> = ({ player }) => {
         h={72}
         position="absolute"
         w="full"
-      >
-        {/* {isOwnProfile && (
-          <Flex width="full" justifyContent="end">
-            <IconButton
-              variant="outline"
-              aria-label="Edit Profile Info"
-              size="lg"
-              borderColor="pinkShadeOne"
-              background="rgba(17, 17, 17, 0.9)"
-              color="pinkShadeOne"
-              _hover={{ color: 'white', borderColor: 'white' }}
-              icon={<EditIcon />}
-              isRound
-              zIndex="docked"
-              m={5}
-              _focus={{
-                boxShadow: 'none',
-              }}
-              _active={{
-                transform: 'scale(0.8)',
-                backgroundColor: 'transparent',
-              }}
-            />
-          </Flex>
-        )} */}
-        {isOwnProfile && (
-          <Flex width="full" justifyContent="center">
-            <NextLink
-              as={`/player/grid/${player.username}`}
-              href="/player/grid/[username]"
-            >
-              <MetaButton
-                aria-label="Try Grid Layout"
-                borderColor="transparent"
-                background="rgba(17, 17, 17, 0.9)"
-                _hover={{ color: 'white', borderColor: 'transparent' }}
-                variant="outline"
-                textTransform="uppercase"
-                px={12}
-                m={10}
-                letterSpacing="0.1em"
-                size="lg"
-                fontSize="sm"
-                bg="transparent"
-                color={'pinkShadeOne'}
-                transition="color 0.2s ease"
-                zIndex="docked"
-              >
-                Try Grid Layout
-              </MetaButton>
-            </NextLink>
-          </Flex>
-        )}
-      </Box>
+      />
+      <HeadComponent
+        title={`Metagame profile for ${player.username}`}
+        description={getPlayerDescription(player).replace('\n', ' ')}
+        url={`https://my.metagame.wtf/player/${player.username}`}
+        img={getPlayerImage(player)}
+      />
       <Flex
-        w="full"
+        w="100%"
+        h="100%"
         minH="100vh"
-        pl={[4, 8, 12]}
-        pr={[4, 8, 12]}
-        pb={[4, 8, 12]}
-        pt={200 - 72}
+        p="4"
+        pt="8rem"
         direction="column"
         align="center"
-        zIndex={1}
       >
-        <HeadComponent
-          title={`Metagame profile for ${player.username}`}
-          description={getPlayerDescription(player).replace('\n', ' ')}
-          url={`https://my.metagame.wtf/player/${player.username}`}
-          img={getPlayerImage(player)}
-        />
-        <Flex
-          align="center"
-          direction={{ base: 'column', md: 'row' }}
-          alignItems="flex-start"
-          maxWidth="7xl"
-        >
-          <Box
-            width={{ base: '100%', md: '50%', lg: '33%' }}
-            mr={{ base: 0, md: 4 }}
-          >
-            <Box mb="6">
-              <PlayerHero {...{ player }} isOwnProfile={isOwnProfile} />
-            </Box>
-            {(fakeData || [[], [], []])[0].map((name) => (
-              <Box mb="6" key={name}>
-                {getBox(0, name)}
-              </Box>
-            ))}
-            {canEdit ? (
-              <PlayerAddSection
-                boxList={boxAvailableList as BoxType[]}
-                setNewBox={(name) => addBox(0, name)}
-                mb={6}
-                display={{ base: 'none', md: 'flex' }}
-              />
-            ) : null}
-          </Box>
-          <Box
-            width={{ base: '100%', md: '50%', lg: '66%' }}
-            ml={{ base: 0, md: 4 }}
-            mt={[0, 0, 100]}
-            mb={[100, 100, 0]}
-          >
-            <Box width="100%">
-              <Flex
-                align="center"
-                direction={{ base: 'column', lg: 'row' }}
-                alignItems="flex-start"
-              >
-                <Box
-                  width={{ base: '100%', lg: '50%' }}
-                  mr={{ base: 0, lg: 4 }}
-                >
-                  {(fakeData || [[], [], []])[1].map((name) => (
-                    <Box mb="6" key={name}>
-                      {getBox(1, name)}
-                    </Box>
-                  ))}
-                  {canEdit ? (
-                    <PlayerAddSection
-                      boxList={boxAvailableList as BoxType[]}
-                      setNewBox={(name) => addBox(1, name)}
-                      mb={6}
-                      display={{ base: 'none', lg: 'flex' }}
-                    />
-                  ) : null}
-                </Box>
-                <Box
-                  width={{ base: '100%', lg: '50%' }}
-                  ml={{ base: 0, lg: 4 }}
-                >
-                  {(fakeData || [[], [], []])[2].map((name) => (
-                    <Box mb="6" key={name}>
-                      {getBox(2, name)}
-                    </Box>
-                  ))}
-                  {canEdit ? (
-                    <PlayerAddSection
-                      boxList={boxAvailableList as BoxType[]}
-                      setNewBox={(name) => addBox(2, name)}
-                      mb={6}
-                    />
-                  ) : null}
-                </Box>
-              </Flex>
-            </Box>
-          </Box>
-        </Flex>
+        <Grid player={player} />
       </Flex>
     </PageContainer>
   );
 };
 
 export default PlayerPage;
+
+const makeLayouts = (editable: boolean, layouts: Layouts) => {
+  const newLayouts: Layouts = {};
+  Object.keys(layouts).map((key) => {
+    newLayouts[key] = layouts[key].map((item) =>
+      item.i === 'hero' ? { ...item, isResizable: editable } : item,
+    );
+    return key;
+  });
+  return newLayouts;
+};
+
+const ALL_BOXES = [
+  BoxType.PLAYER_HERO,
+  BoxType.PLAYER_SKILLS,
+  BoxType.PLAYER_COLOR_DISPOSITION,
+  BoxType.PLAYER_TYPE,
+  BoxType.PLAYER_NFT_GALLERY,
+  BoxType.PLAYER_DAO_MEMBERSHIPS,
+  BoxType.PLAYER_ACHIEVEMENTS,
+  BoxType.PLAYER_ROLES,
+];
+
+const DEFAULT_BOXES = [
+  BoxType.PLAYER_HERO,
+  BoxType.PLAYER_SKILLS,
+  BoxType.PLAYER_COLOR_DISPOSITION,
+  BoxType.PLAYER_TYPE,
+  BoxType.PLAYER_NFT_GALLERY,
+  BoxType.PLAYER_DAO_MEMBERSHIPS,
+];
+
+const removeBoxFromLayouts = (
+  boxType: BoxType,
+  pastLayouts: Layouts,
+): Layouts => {
+  const layouts = { ...pastLayouts };
+  Object.keys(layouts).map((key) => {
+    layouts[key] = layouts[key].filter(
+      (item) => (item.i as BoxType) !== boxType,
+    );
+    return key;
+  });
+  return layouts;
+};
+
+const addBoxToLayouts = (boxType: BoxType, pastLayouts: Layouts): Layouts => {
+  const layouts = { ...pastLayouts };
+  Object.keys(layouts).map((key) => {
+    const heroItem = layouts[key].find(
+      (item) => item.i === BoxType.PLAYER_HERO,
+    );
+    layouts[key].push({
+      ...getBoxLayoutItemDefaults(boxType),
+      x: 0,
+      y: heroItem ? heroItem.y + heroItem.h : 0,
+    });
+    return key;
+  });
+  return layouts;
+};
+
+export const Grid: React.FC<Props> = ({ player }): ReactElement => {
+  const [isOwnProfile, setIsOwnProfile] = useState(false);
+  const [, invalidateCache] = useInsertCacheInvalidationMutation();
+  const { user, fetching } = useUser();
+  const { connected } = useWeb3();
+  useEffect(() => {
+    if (connected && !fetching && user?.id === player?.id) {
+      setIsOwnProfile(true);
+    }
+  }, [user, fetching, connected, player?.id]);
+
+  useEffect(() => {
+    if (player) {
+      invalidateCache({ playerId: player.id });
+    }
+  }, [player, invalidateCache]);
+  const [savedLayouts, setSavedLayouts] = useState<Layouts>(
+    JSON.parse(JSON.stringify(initLayouts)), // TODO: persist in hasura
+  );
+  const [currentLayouts, setCurrentLayouts] = useState<Layouts>(
+    JSON.parse(JSON.stringify(initLayouts)),
+  );
+  const [changed, setChanged] = useState(false);
+
+  const [editable, setEditable] = useState(false);
+
+  const toggleEditLayout = useCallback(() => {
+    if (editable) {
+      const layouts = removeBoxFromLayouts(
+        BoxType.PLAYER_ADD_BOX,
+        currentLayouts,
+      );
+      setCurrentLayouts(layouts);
+      setSavedLayouts(layouts);
+    } else {
+      const layouts = addBoxToLayouts(BoxType.PLAYER_ADD_BOX, currentLayouts);
+      setCurrentLayouts(layouts);
+    }
+    setEditable(!editable);
+    setChanged(false);
+  }, [editable, currentLayouts]);
+
+  const toggleScrollLock = () => {
+    if (typeof window !== 'undefined') {
+      const body = document.querySelector('body');
+      if (body) body.classList.toggle('dashboard-edit');
+    }
+    return null;
+  };
+
+  const handleLayoutChange = useCallback((layouts: Layouts) => {
+    const parsedLayouts = JSON.parse(JSON.stringify(layouts));
+    setCurrentLayouts(parsedLayouts);
+    setChanged(true);
+  }, []);
+
+  const handleReset = useCallback(() => {
+    const parsedLayouts = JSON.parse(JSON.stringify(savedLayouts));
+    const layouts = addBoxToLayouts(BoxType.PLAYER_ADD_BOX, parsedLayouts);
+    setCurrentLayouts(layouts);
+
+    setTimeout(() => {
+      setChanged(false);
+    }, 300);
+  }, [savedLayouts]);
+
+  const wrapperSX = useMemo(() => gridConfig.wrapper(editable), [editable]);
+
+  const displayLayouts = useMemo(() => makeLayouts(editable, currentLayouts), [
+    editable,
+    currentLayouts,
+  ]);
+
+  const onRemoveBox = useCallback(
+    (boxType: BoxType): void => {
+      const layouts = removeBoxFromLayouts(boxType, currentLayouts);
+      setCurrentLayouts(layouts);
+      setChanged(true);
+    },
+    [currentLayouts],
+  );
+
+  const onAddBox = useCallback(
+    (boxType: BoxType): void => {
+      const layouts = addBoxToLayouts(boxType, currentLayouts);
+      setCurrentLayouts(layouts);
+      setChanged(true);
+    },
+    [currentLayouts],
+  );
+
+  const boxes = useMemo(() => {
+    const boxIds = new Set<BoxType>();
+    Object.keys(currentLayouts).map((key) => {
+      const layout = currentLayouts[key];
+      layout.forEach((item) => boxIds.add(item.i as BoxType));
+      return key;
+    });
+    const boxIdArray = Array.from(boxIds);
+    return boxIdArray.length > 0 ? boxIdArray : DEFAULT_BOXES;
+  }, [currentLayouts]);
+
+  const availableBoxList = useMemo(
+    () => ALL_BOXES.filter((box) => !boxes.includes(box)),
+    [boxes],
+  );
+
+  return (
+    <Box
+      className="gridWrapper"
+      width="100%"
+      height="100%"
+      sx={wrapperSX}
+      maxW="96rem"
+      mb="12rem"
+      pt={isOwnProfile ? '0rem' : '10rem'}
+    >
+      {isOwnProfile && (
+        <ButtonGroup
+          w="100%"
+          px="2rem"
+          justifyContent={'end'}
+          variant="ghost"
+          zIndex={10}
+          isAttached
+          mb="7rem"
+        >
+          {changed && editable && (
+            <MetaButton
+              aria-label="Edit layout"
+              colorScheme="purple"
+              _hover={{ background: 'purple.600' }}
+              textTransform="uppercase"
+              px={12}
+              letterSpacing="0.1em"
+              size="lg"
+              fontSize="sm"
+              onClick={handleReset}
+              leftIcon={<DeleteIcon />}
+            >
+              Reset
+            </MetaButton>
+          )}
+          <MetaButton
+            aria-label="Edit layout"
+            borderColor="transparent"
+            background="rgba(17, 17, 17, 0.9)"
+            _hover={{ color: 'white', borderColor: 'transparent' }}
+            variant="outline"
+            textTransform="uppercase"
+            px={12}
+            letterSpacing="0.1em"
+            size="lg"
+            fontSize="sm"
+            bg="transparent"
+            color={editable ? 'red.400' : 'pinkShadeOne'}
+            leftIcon={<EditIcon />}
+            transition="color 0.2s ease"
+            onClick={toggleEditLayout}
+          >
+            <ResponsiveText
+              content={{
+                base: editable ? 'Save' : 'Edit',
+                md: `${editable ? 'Save' : 'Edit'} layout`,
+              }}
+            />
+          </MetaButton>
+        </ButtonGroup>
+      )}
+
+      <ResponsiveGridLayout
+        className="grid"
+        onLayoutChange={(_layout, layouts) => {
+          handleLayoutChange(layouts);
+        }}
+        verticalCompact
+        layouts={displayLayouts}
+        breakpoints={{ lg: 1180, md: 900, sm: 768, xxs: 0 }}
+        preventCollision={false}
+        cols={{ lg: 3, md: 2, sm: 1, xxs: 1 }}
+        rowHeight={32}
+        isDraggable={!!editable}
+        isResizable={!!editable}
+        onDragStart={toggleScrollLock}
+        onDragStop={toggleScrollLock}
+        onResizeStart={toggleScrollLock}
+        onResizeStop={toggleScrollLock}
+        transformScale={1}
+        margin={{
+          lg: [30, 30],
+          md: [30, 30],
+          sm: [30, 30],
+          xxs: [30, 30],
+        }}
+        containerPadding={{
+          lg: [30, 30],
+          md: [20, 20],
+          sm: [20, 20],
+          xxs: [15, 15],
+        }}
+      >
+        {boxes.map((item) => (
+          <Flex key={item} className="gridItem">
+            <PlayerSection
+              boxType={item}
+              player={player}
+              isOwnProfile={isOwnProfile}
+              canEdit={editable}
+              removeBox={onRemoveBox}
+              availableBoxList={availableBoxList}
+              setNewBox={onAddBox}
+            />
+          </Flex>
+        ))}
+      </ResponsiveGridLayout>
+    </Box>
+  );
+};
 
 type QueryParams = { username: string };
 
