@@ -301,7 +301,7 @@ export const useAnimateProfileChanges = (
 ): { [key: string]: string } => {
   const [animation, setAnimation] = useState('fadeIn');
 
-  const usePrevious = <T extends unknown>(value: T): T | undefined => {
+  const usePrevious = <T>(value: T): T | undefined => {
     const ref = useRef<T>();
     useEffect(() => {
       ref.current = value;
