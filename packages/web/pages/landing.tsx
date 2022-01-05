@@ -23,7 +23,7 @@ function Landing(): JSX.Element {
     <Frontier />
     <Together /> 
     <WhatWeDo /> 
-    <Optimal />#
+    <Optimal />
     <Unplug />
     <Who />
     <Cards /> 
