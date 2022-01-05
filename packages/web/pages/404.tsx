@@ -44,6 +44,13 @@ const Custom404: FC = () => {
         }}
         backgroundRepeat={'no-repeat'}
         minHeight={'inherit'}
+        justifyContent={{
+          base: 'flex-end',
+          sm: 'flex-end',
+          md: 'flex-end',
+          lg: 'flex-start',
+          xl: 'flex-start',
+        }}
       >
         <BoxedNextImage
           mb={{ base: 8 }}
