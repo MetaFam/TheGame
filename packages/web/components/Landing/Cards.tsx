@@ -51,8 +51,8 @@ function Intro() {
                       bgPosition="center"
                       bgSize="cover"
                     backgroundImage={`url(${CardBackground})`}
-                    bgPosition="center"
-                    bgSize="cover"
+                   
+              
                     width="33%"
                     display="flex"
                     alignItems="center"
@@ -76,8 +76,7 @@ function Intro() {
                     </Box>
                 </Box>
                 <Box
-                      bgPosition="center"
-                      bgSize="cover"
+                 
                     backgroundImage={`url(${CardBackground})`}
                     bgPosition="center"
                     bgSize="cover"
