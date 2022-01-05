@@ -10,6 +10,7 @@ export {
   MetaSelect,
 } from './MetaFilterSelect';
 export { MetaHeading } from './MetaHeading';
+export { MetaSecondaryButton } from './MetaSecondaryButton';
 export { MetaTag } from './MetaTag';
 export { MetaTile, MetaTileBody, MetaTileHeader } from './MetaTile';
 export { MultiSelect } from './MultiSelect';
