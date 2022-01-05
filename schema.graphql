@@ -610,6 +610,42 @@ type ExplorerType {
   description: String!
   id: Int!
   imageURL: String
+
+  """An array relationship"""
+  profiles(
+    """distinct select on columns"""
+    distinct_on: [profile_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [profile_order_by!]
+
+    """filter the rows returned"""
+    where: profile_bool_exp
+  ): [profile!]!
+
+  """An aggregated array relationship"""
+  profiles_aggregate(
+    """distinct select on columns"""
+    distinct_on: [profile_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [profile_order_by!]
+
+    """filter the rows returned"""
+    where: profile_bool_exp
+  ): profile_aggregate!
   title: String!
 }
 
@@ -685,6 +721,7 @@ input ExplorerType_bool_exp {
   description: String_comparison_exp
   id: Int_comparison_exp
   imageURL: String_comparison_exp
+  profiles: profile_bool_exp
   title: String_comparison_exp
 }
 
@@ -713,6 +750,7 @@ input ExplorerType_insert_input {
   description: String
   id: Int
   imageURL: String
+  profiles: profile_arr_rel_insert_input
   title: String
 }
 
@@ -787,6 +825,7 @@ input ExplorerType_order_by {
   description: order_by
   id: order_by
   imageURL: order_by
+  profiles_aggregate: profile_aggregate_order_by
   title: order_by
 }
 
