@@ -170,10 +170,7 @@ export const Grid: React.FC<Props> = ({ player }): ReactElement => {
   const [
     { layoutItems: currentLayoutItems, layouts: currentLayouts },
     setCurrentLayoutData,
-  ] = useState<ProfileLayoutData>({
-    layouts: DEFAULT_PLAYER_LAYOUTS,
-    layoutItems: DEFAULT_LAYOUT_ITEMS,
-  });
+  ] = useState<ProfileLayoutData>(savedLayoutData);
 
   const [changed, setChanged] = useState(false);
 
@@ -393,11 +390,13 @@ export const Grid: React.FC<Props> = ({ player }): ReactElement => {
       >
         {currentLayoutItems.map(({ boxKey, boxType, boxMetadata }) =>
           boxType === BoxType.PLAYER_ADD_BOX ? (
-            <PlayerAddSection
-              player={player}
-              boxList={availableBoxList}
-              onAddBox={onAddBox}
-            />
+            <Flex key={boxKey} className="gridItem">
+              <PlayerAddSection
+                player={player}
+                boxList={availableBoxList}
+                onAddBox={onAddBox}
+              />
+            </Flex>
           ) : (
             <Flex key={boxKey} className="gridItem">
               <PlayerSection
