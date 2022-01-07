@@ -1,5 +1,4 @@
 import { Box, LinkBox, LinkOverlay, Text } from '@metafam/ds';
-import { MetaLink } from 'components/Link';
 import { ProfileSection } from 'components/Profile/ProfileSection';
 import React, { useEffect, useRef, useState } from 'react';
 import { BoxType } from 'utils/boxTypes';
@@ -175,9 +174,9 @@ const LinkPreview: React.FC<LinkPreviewProps> = ({
         }}
       >
         <h3>
-          <MetaLink href={url} passHref isExternal>
-            <LinkOverlay>{title}</LinkOverlay>
-          </MetaLink>
+          <LinkOverlay href={url} isExternal>
+            {title}
+          </LinkOverlay>
         </h3>
         {description && (
           <Box

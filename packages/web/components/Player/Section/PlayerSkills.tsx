@@ -39,10 +39,6 @@ export const PlayerSkills: React.FC<Props> = ({
 
   const { animation } = useAnimateProfileChanges(player.skills, updateFN);
 
-  if (!player.skills?.length) {
-    return null;
-  }
-
   return (
     <ProfileSection
       title="Skills"
