@@ -50,6 +50,16 @@ gql`
       affected_rows
     }
   }
+
+  mutation UpdatePlayerProfileLayout($playerId: uuid!, $layout: String!) {
+    update_player_by_pk(
+      pk_columns: { id: $playerId }
+      _set: { profile_layout: $layout }
+    ) {
+      id
+      profile_layout
+    }
+  }
 `;
 
 export const UpdateProfilePronouns = gql`
