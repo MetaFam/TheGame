@@ -206,23 +206,6 @@ type BoxProfile {
   website: String
 }
 
-scalar bpchar
-
-"""
-expression to compare columns of type bpchar. All fields are combined with logical 'AND'.
-"""
-input bpchar_comparison_exp {
-  _eq: bpchar
-  _gt: bpchar
-  _gte: bpchar
-  _in: [bpchar!]
-  _is_null: Boolean
-  _lt: bpchar
-  _lte: bpchar
-  _neq: bpchar
-  _nin: [bpchar!]
-}
-
 type BrightIdStatus {
   app: String!
   context: String!
@@ -876,7 +859,7 @@ columns and relationships of "guild_metadata"
 
 """
 type guild_metadata {
-  creator_id: uuid!
+  creator_id: uuid
 
   """Remote relationship field"""
   discordRoles: [DiscordRole!]!
@@ -891,7 +874,7 @@ type guild_metadata {
   guild_id: uuid!
 
   """An object relationship"""
-  player: player!
+  player: player
 }
 
 """
@@ -3937,8 +3920,7 @@ type player {
 
   """An object relationship"""
   profile_cache: profile_cache
-  playerType: player_type
-  player_type_id: Int
+  profile_layout: String
   pronouns: String
 
   """An array relationship"""
@@ -4366,6 +4348,7 @@ input player_bool_exp {
   id: uuid_comparison_exp
   player_type_id: Int_comparison_exp
   profile_cache: profile_cache_bool_exp
+  profile_layout: String_comparison_exp
   pronouns: String_comparison_exp
   quest_completions: quest_completion_bool_exp
   quests: quest_bool_exp
@@ -4424,6 +4407,7 @@ input player_insert_input {
   id: uuid
   player_type_id: Int
   profile_cache: profile_cache_obj_rel_insert_input
+  profile_layout: String
   pronouns: String
   quest_completions: quest_completion_arr_rel_insert_input
   quests: quest_arr_rel_insert_input
@@ -4448,6 +4432,7 @@ type player_max_fields {
   ethereum_address: String
   id: uuid
   player_type_id: Int
+  profile_layout: String
   pronouns: String
   role: String
   season_xp: numeric
@@ -4468,6 +4453,7 @@ input player_max_order_by {
   ethereum_address: order_by
   id: order_by
   player_type_id: order_by
+  profile_layout: order_by
   pronouns: order_by
   role: order_by
   season_xp: order_by
@@ -4486,6 +4472,7 @@ type player_min_fields {
   ethereum_address: String
   id: uuid
   player_type_id: Int
+  profile_layout: String
   pronouns: String
   role: String
   season_xp: numeric
@@ -4506,6 +4493,7 @@ input player_min_order_by {
   ethereum_address: order_by
   id: order_by
   player_type_id: order_by
+  profile_layout: order_by
   pronouns: order_by
   role: order_by
   season_xp: order_by
@@ -4558,6 +4546,7 @@ input player_order_by {
   id: order_by
   player_type_id: order_by
   profile_cache: profile_cache_order_by
+  profile_layout: order_by
   pronouns: order_by
   quest_completions_aggregate: quest_completion_aggregate_order_by
   quests_aggregate: quest_aggregate_order_by
@@ -4916,6 +4905,9 @@ enum player_select_column {
   player_type_id
 
   """column name"""
+  profile_layout
+
+  """column name"""
   pronouns
 
   """column name"""
@@ -4951,6 +4943,7 @@ input player_set_input {
   ethereum_address: String
   id: uuid
   player_type_id: Int
+  profile_layout: String
   pronouns: String
   rank: PlayerRank_enum
   role: String
@@ -5713,6 +5706,9 @@ enum player_update_column {
   player_type_id
 
   """column name"""
+  profile_layout
+
+  """column name"""
   pronouns
 
   """column name"""
@@ -5976,7 +5972,6 @@ columns and relationships of "PlayerRole"
 """
 type PlayerRole {
   description: String
-  emoji: bpchar
   label: String!
   role: String!
 }
@@ -6023,7 +6018,6 @@ input PlayerRole_bool_exp {
   _not: PlayerRole_bool_exp
   _or: [PlayerRole_bool_exp]
   description: String_comparison_exp
-  emoji: bpchar_comparison_exp
   label: String_comparison_exp
   role: String_comparison_exp
 }
@@ -6041,7 +6035,6 @@ input type for inserting data into table "PlayerRole"
 """
 input PlayerRole_insert_input {
   description: String
-  emoji: bpchar
   label: String
   role: String
 }
@@ -6111,7 +6104,6 @@ ordering options when selecting data from "PlayerRole"
 """
 input PlayerRole_order_by {
   description: order_by
-  emoji: order_by
   label: order_by
   role: order_by
 }
@@ -6131,9 +6123,6 @@ enum PlayerRole_select_column {
   description
 
   """column name"""
-  emoji
-
-  """column name"""
   label
 
   """column name"""
@@ -6145,7 +6134,6 @@ input type for updating data in table "PlayerRole"
 """
 input PlayerRole_set_input {
   description: String
-  emoji: bpchar
   label: String
   role: String
 }
@@ -6156,9 +6144,6 @@ update columns of table "PlayerRole"
 enum PlayerRole_update_column {
   """column name"""
   description
-
-  """column name"""
-  emoji
 
   """column name"""
   label
@@ -10767,3 +10752,4 @@ input uuid_comparison_exp {
   _neq: uuid
   _nin: [uuid!]
 }
+

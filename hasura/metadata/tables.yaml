@@ -393,6 +393,7 @@
       - ethereum_address
       - id
       - player_type_id
+      - profile_layout
       - pronouns
       - rank
       - role
@@ -409,6 +410,7 @@
       - color_mask
       - ethereum_address
       - id
+      - profile_layout
       - pronouns
       - rank
       - role
@@ -425,6 +427,7 @@
       - availability_hours
       - color_mask
       - player_type_id
+      - profile_layout
       - pronouns
       - role
       - timezone
