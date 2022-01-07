@@ -51,7 +51,7 @@ export const playerRoleChanged = async (
       discordId: Constants.METAFAM_DISCORD_GUILD_ID,
     });
     const metadata: GuildDiscordMetadata =
-      getGuildResponse.guild_metadata[0]?.discord_metadata;
+      getGuildResponse.guild[0]?.metadata?.discord_metadata;
     const roleIds = metadata.playerRoles as RoleIds;
 
     const discordPlayer = await guild.members.fetch(playerDiscordId);
