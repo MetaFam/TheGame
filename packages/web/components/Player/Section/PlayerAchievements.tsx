@@ -33,7 +33,7 @@ export const PlayerAchievements: React.FC<Props> = ({
       boxType={BoxType.PLAYER_ACHIEVEMENTS}
     >
       {(fakeData || []).slice(0, show ? 999 : 3).map((title) => (
-        <HStack alignItems="baseline" mb={3}>
+        <HStack alignItems="baseline" mb={3} key={title}>
           <FaMedal color="#FBB112" />
           <Text fontSize="md">{title}</Text>
         </HStack>

@@ -10,6 +10,7 @@ export const PlayerFragment = gql`
     ethereum_address
     pronouns
 
+    profile_layout @skip(if: $forLoginDisplay)
     availability_hours @skip(if: $forLoginDisplay)
     timezone @skip(if: $forLoginDisplay)
     color_aspect @skip(if: $forLoginDisplay) {
