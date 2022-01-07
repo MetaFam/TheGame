@@ -2,41 +2,58 @@ import {
   Button,
   Flex,
   FlexProps,
-  HStack,
+  Input,
   Modal,
   ModalBody,
   ModalCloseButton,
   ModalContent,
+  ModalFooter,
   ModalHeader,
   ModalOverlay,
   Select,
   useDisclosure,
+  VStack,
 } from '@metafam/ds';
 import BackgroundImage from 'assets/main-background.jpg';
-import React from 'react';
+import { FlexContainer } from 'components/Container';
+import { PlayerSection } from 'components/Profile/PlayerSection';
+import { PlayerFragmentFragment } from 'graphql/autogen/types';
+import React, { useCallback, useEffect, useState } from 'react';
 import { BoxMetadata, BoxType } from 'utils/boxTypes';
 
 type Props = FlexProps & {
+  player: PlayerFragmentFragment;
   boxList: BoxType[];
   onAddBox: (arg0: BoxType, arg1: BoxMetadata) => void;
 };
 
 export const PlayerAddSection: React.FC<Props> = ({
+  player,
   boxList,
   onAddBox,
   ...props
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const addSection = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const [boxType, setBoxType] = useState<BoxType | undefined>();
+  const [boxMetadata, setBoxMetadata] = useState<BoxMetadata>({});
+  const selectBoxType = useCallback(
+    (e: React.ChangeEvent<HTMLSelectElement>) => {
+      const boxId = e.target.value as BoxType;
+      setBoxType(boxId);
+    },
+    [],
+  );
+
+  const addSection = useCallback(() => {
+    if (!boxType) return;
+    onAddBox(boxType, boxMetadata);
     onClose();
-    const boxType = e.target.value as BoxType;
-    onAddBox(
-      boxType,
-      boxType === BoxType.EMBEDDED_URL
-        ? { url: 'https://github.com/MetaFam/TheGame' }
-        : {},
-    );
-  };
+  }, [boxType, boxMetadata, onAddBox, onClose]);
+
+  useEffect(() => {
+    setBoxMetadata({});
+    setBoxType(undefined);
+  }, [isOpen]);
 
   return (
     <Flex
@@ -60,7 +77,7 @@ export const PlayerAddSection: React.FC<Props> = ({
         opacity="0.4"
         size="lg"
       >
-        ADD NEW SECTION
+        ADD NEW BLOCK
       </Button>
       <Modal isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay />
@@ -71,57 +88,99 @@ export const PlayerAddSection: React.FC<Props> = ({
           bgAttachment="fixed"
           p={[4, 8, 12]}
         >
-          <ModalHeader
-            color="white"
-            fontSize="4xl"
-            alignSelf="center"
-            fontWeight="normal"
-          >
-            Add New Section
-          </ModalHeader>
-          <ModalCloseButton
-            color="pinkShadeOne"
-            size="xl"
-            p={4}
-            _focus={{
-              boxShadow: 'none',
-            }}
-          />
-          <ModalBody>
-            <HStack m="auto" color="white">
-              <Select
-                css={{
-                  '&>option': {
-                    backgroundColor: '#40347C',
-                    borderBottom: '2px solid #962d22',
-                  },
-                }}
-                placeholder="Select a section"
-                borderColor="offwhite"
-                onChange={addSection}
+          <FlexContainer>
+            <ModalHeader
+              color="white"
+              fontSize="4xl"
+              alignSelf="center"
+              fontWeight="normal"
+            >
+              Add New Block
+            </ModalHeader>
+            <ModalCloseButton
+              color="pinkShadeOne"
+              size="xl"
+              p={4}
+              _focus={{
+                boxShadow: 'none',
+              }}
+            />
+            <ModalBody>
+              <VStack
+                spacing="6"
+                color="white"
+                w={{ base: '100%', sm: '30rem' }}
+                maxW="30rem"
               >
-                {!(boxList || []).length && (
-                  <option value="nothing" disabled>
-                    No choice :/
-                  </option>
+                <Select
+                  css={{
+                    '&>option': {
+                      backgroundColor: '#40347C',
+                      borderBottom: '2px solid #962d22',
+                    },
+                  }}
+                  placeholder="Select a section"
+                  borderColor="offwhite"
+                  onChange={selectBoxType}
+                >
+                  {!(boxList || []).length && (
+                    <option value="nothing" disabled>
+                      No choice :/
+                    </option>
+                  )}
+                  {(boxList || []).sort().map((box) => (
+                    <option value={box} key={box}>
+                      {box.toUpperCase()}
+                    </option>
+                  ))}
+                </Select>
+                {boxType === BoxType.EMBEDDED_URL && (
+                  <Input
+                    background="dark"
+                    w="100%"
+                    type="text"
+                    placeholder="Paste the URL of the content"
+                    _placeholder={{ color: 'whiteAlpha.500' }}
+                    onChange={(e) => setBoxMetadata({ url: e.target.value })}
+                    size="lg"
+                    borderRadius="0"
+                    borderColor="borderPurple"
+                    fontSize="md"
+                    borderWidth="2px"
+                  />
                 )}
-                {(boxList || []).sort().map((box) => (
-                  <option value={box} key={box}>
-                    {box}
-                  </option>
-                ))}
-              </Select>
+                {boxType && (
+                  <Flex w={{ base: '100%', sm: '30rem' }} maxW="30rem">
+                    <PlayerSection
+                      boxType={boxType}
+                      boxMetadata={boxMetadata}
+                      player={player}
+                      isOwnProfile={false}
+                      canEdit={false}
+                    />
+                  </Flex>
+                )}
+              </VStack>
+            </ModalBody>
+            <ModalFooter>
               <Button
-                onClick={onClose}
-                bg="blue20"
-                _hover={{ bg: 'purpleBoxLight', opacity: '1' }}
-                color="offwhite"
-                opacity="0.8"
+                colorScheme="blue"
+                mr={3}
+                onClick={addSection}
+                isDisabled={!boxType}
               >
-                CANCEL
+                Save Block
               </Button>
-            </HStack>
-          </ModalBody>
+              <Button
+                variant="ghost"
+                onClick={onClose}
+                color="white"
+                _hover={{ bg: 'none' }}
+              >
+                Close
+              </Button>
+            </ModalFooter>
+          </FlexContainer>
         </ModalContent>
       </Modal>
     </Flex>

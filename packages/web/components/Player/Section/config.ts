@@ -1,6 +1,8 @@
 import { Layout, Layouts } from 'react-grid-layout';
 import { BoxMetadata, BoxType, getBoxKey } from 'utils/boxTypes';
 
+export const GRID_ROW_HEIGHT = 32;
+
 export const ALL_BOXES = [
   BoxType.PLAYER_HERO,
   BoxType.PLAYER_SKILLS,
@@ -12,6 +14,8 @@ export const ALL_BOXES = [
   BoxType.PLAYER_ROLES,
   BoxType.EMBEDDED_URL,
 ];
+
+export const MULTIPLE_ALLOWED_BOXES = [BoxType.EMBEDDED_URL];
 
 export const DEFAULT_BOXES = [
   BoxType.PLAYER_HERO,

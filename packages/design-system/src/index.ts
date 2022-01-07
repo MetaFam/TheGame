@@ -60,6 +60,7 @@ export {
   AvatarProps,
   Badge,
   Box,
+  BoxProps,
   Button,
   ButtonGroup,
   ButtonProps,

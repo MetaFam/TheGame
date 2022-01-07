@@ -16,8 +16,11 @@ import {
   DEFAULT_BOXES,
   DEFAULT_PLAYER_LAYOUTS,
   getBoxLayoutItemDefaults,
+  GRID_ROW_HEIGHT,
   gridConfig,
+  MULTIPLE_ALLOWED_BOXES,
 } from 'components/Player/Section/config';
+import { PlayerAddSection } from 'components/Player/Section/PlayerAddSection';
 import { PlayerSection } from 'components/Profile/PlayerSection';
 import { HeadComponent } from 'components/Seo';
 import { useInsertCacheInvalidationMutation } from 'graphql/autogen/types';
@@ -157,15 +160,21 @@ export const Grid: React.FC<Props> = ({ player }): ReactElement => {
       invalidateCache({ playerId: player.id });
     }
   }, [player, invalidateCache]);
-  const [savedLayoutData, setSavedLayoutData] = useState<ProfileLayoutData>(
-    { layouts: DEFAULT_PLAYER_LAYOUTS, layoutItems: DEFAULT_LAYOUT_ITEMS }, // TODO: persist in hasura
-  );
+
+  // TODO: persist in hasura
+  const [savedLayoutData, setSavedLayoutData] = useState<ProfileLayoutData>({
+    layouts: DEFAULT_PLAYER_LAYOUTS,
+    layoutItems: DEFAULT_LAYOUT_ITEMS,
+  });
+
   const [
     { layoutItems: currentLayoutItems, layouts: currentLayouts },
     setCurrentLayoutData,
-  ] = useState<ProfileLayoutData>(
-    { layouts: DEFAULT_PLAYER_LAYOUTS, layoutItems: DEFAULT_LAYOUT_ITEMS }, // TODO: persist in hasura
-  );
+  ] = useState<ProfileLayoutData>({
+    layouts: DEFAULT_PLAYER_LAYOUTS,
+    layoutItems: DEFAULT_LAYOUT_ITEMS,
+  });
+
   const [changed, setChanged] = useState(false);
 
   const [editable, setEditable] = useState(false);
@@ -218,7 +227,22 @@ export const Grid: React.FC<Props> = ({ player }): ReactElement => {
   );
 
   const handleReset = useCallback(() => {
-    setCurrentLayoutData(savedLayoutData);
+    const layoutData = {
+      layouts: addBoxToLayouts(
+        BoxType.PLAYER_ADD_BOX,
+        {},
+        savedLayoutData.layouts,
+      ),
+      layoutItems: [
+        ...savedLayoutData.layoutItems,
+        {
+          boxType: BoxType.PLAYER_ADD_BOX,
+          boxMetadata: {},
+          boxKey: getBoxKey(BoxType.PLAYER_ADD_BOX, {}),
+        },
+      ],
+    };
+    setCurrentLayoutData(layoutData);
 
     setTimeout(() => {
       setChanged(false);
@@ -266,7 +290,8 @@ export const Grid: React.FC<Props> = ({ player }): ReactElement => {
     () =>
       ALL_BOXES.filter(
         (box) =>
-          !currentLayoutItems.map(({ boxType }) => boxType).includes(box),
+          !currentLayoutItems.map(({ boxType }) => boxType).includes(box) ||
+          MULTIPLE_ALLOWED_BOXES.includes(box),
       ),
     [currentLayoutItems],
   );
@@ -345,7 +370,7 @@ export const Grid: React.FC<Props> = ({ player }): ReactElement => {
         breakpoints={{ lg: 1180, md: 900, sm: 768, xxs: 0 }}
         preventCollision={false}
         cols={{ lg: 3, md: 2, sm: 1, xxs: 1 }}
-        rowHeight={32}
+        rowHeight={GRID_ROW_HEIGHT}
         isDraggable={!!editable}
         isResizable={!!editable}
         onDragStart={toggleScrollLock}
@@ -366,20 +391,26 @@ export const Grid: React.FC<Props> = ({ player }): ReactElement => {
           xxs: [15, 15],
         }}
       >
-        {currentLayoutItems.map(({ boxKey, boxType, boxMetadata }) => (
-          <Flex key={boxKey} className="gridItem">
-            <PlayerSection
-              boxType={boxType}
-              boxMetadata={boxMetadata}
+        {currentLayoutItems.map(({ boxKey, boxType, boxMetadata }) =>
+          boxType === BoxType.PLAYER_ADD_BOX ? (
+            <PlayerAddSection
               player={player}
-              isOwnProfile={isOwnProfile}
-              canEdit={editable}
-              removeBox={onRemoveBox}
-              availableBoxList={availableBoxList}
+              boxList={availableBoxList}
               onAddBox={onAddBox}
             />
-          </Flex>
-        ))}
+          ) : (
+            <Flex key={boxKey} className="gridItem">
+              <PlayerSection
+                boxType={boxType}
+                boxMetadata={boxMetadata}
+                player={player}
+                isOwnProfile={isOwnProfile}
+                canEdit={editable}
+                removeBox={onRemoveBox}
+              />
+            </Flex>
+          ),
+        )}
       </ResponsiveGridLayout>
     </Box>
   );

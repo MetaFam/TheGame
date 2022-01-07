@@ -1,5 +1,4 @@
 import { PlayerAchievements } from 'components/Player/Section/PlayerAchievements';
-import { PlayerAddSection } from 'components/Player/Section/PlayerAddSection';
 import { PlayerColorDisposition } from 'components/Player/Section/PlayerColorDisposition';
 import { PlayerGallery } from 'components/Player/Section/PlayerGallery';
 import { PlayerHero } from 'components/Player/Section/PlayerHero';
@@ -15,8 +14,6 @@ type Props = {
   boxType: BoxType;
   boxMetadata: BoxMetadata;
   player: PlayerFragmentFragment;
-  availableBoxList: BoxType[];
-  onAddBox: (arg0: BoxType, arg1: BoxMetadata) => void;
   isOwnProfile?: boolean;
   canEdit?: boolean;
   removeBox?: (boxKey: string) => void;
@@ -26,8 +23,6 @@ export const PlayerSection: React.FC<Props> = ({
   boxMetadata,
   boxType,
   player,
-  availableBoxList,
-  onAddBox,
   isOwnProfile,
   canEdit,
   removeBox,
@@ -107,18 +102,16 @@ export const PlayerSection: React.FC<Props> = ({
       );
     case BoxType.EMBEDDED_URL: {
       const url = boxMetadata?.url as string;
-      return (
+      return url ? (
         <EmbeddedUrl
           address={url}
           canEdit={canEdit}
           onRemoveClick={() => removeBox?.(boxKey)}
         />
+      ) : (
+        <></>
       );
     }
-    case BoxType.PLAYER_ADD_BOX:
-      return (
-        <PlayerAddSection boxList={availableBoxList} onAddBox={onAddBox} />
-      );
     default:
       return <></>;
   }
