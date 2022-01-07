@@ -86,7 +86,7 @@ export const getBoxLayoutItemDefaults = (boxId: BoxType): Layout => {
         x: 0,
         y: 0,
         w: 1,
-        h: 6,
+        h: 5,
         maxW: 1,
       };
     case BoxType.PLAYER_COLOR_DISPOSITION:
@@ -95,7 +95,7 @@ export const getBoxLayoutItemDefaults = (boxId: BoxType): Layout => {
         x: 0,
         y: 0,
         w: 1,
-        h: 5,
+        h: 4,
         maxW: 1,
       };
     case BoxType.PLAYER_ROLES:

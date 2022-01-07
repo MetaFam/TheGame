@@ -55,7 +55,6 @@ export const PlayerColorDisposition: React.FC<Props> = ({
           align="stretch"
           transition=" opacity 0.4s"
           opacity={animation === 'fadeIn' ? 1 : 0}
-          py="1.5rem"
         >
           <Link
             isExternal
