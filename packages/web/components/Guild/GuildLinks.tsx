@@ -1,9 +1,8 @@
 import { IconButton, Wrap, WrapItem } from '@metafam/ds';
+import { ProfileSection } from 'components/Profile/ProfileSection';
 import { GuildFragmentFragment } from 'graphql/autogen/types';
 import React from 'react';
 import { FaDiscord, FaGithub, FaGlobe, FaTwitter } from 'react-icons/fa';
-
-import { ProfileSection } from '../ProfileSection';
 
 type Props = {
   guild: GuildFragmentFragment;

@@ -1,9 +1,8 @@
 import { BoxedNextImage, MetaTag, Text, Wrap } from '@metafam/ds';
+import { ProfileSection } from 'components/Profile/ProfileSection';
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
 import React from 'react';
 import { BoxType } from 'utils/boxTypes';
-
-import { ProfileSection } from '../../ProfileSection';
 
 type Props = {
   player: PlayerFragmentFragment;

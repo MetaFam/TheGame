@@ -1,10 +1,9 @@
 import { MetaTag } from '@metafam/ds';
 import { FlexContainer } from 'components/Container';
+import { PlayerHeroTile } from 'components/Player/Section/PlayerHeroTile';
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
 import { useAnimateProfileChanges } from 'lib/hooks/players';
 import React, { useState } from 'react';
-
-import { PlayerHeroTile } from './PlayerHeroTile';
 
 type Props = { person: PlayerFragmentFragment | null | undefined };
 

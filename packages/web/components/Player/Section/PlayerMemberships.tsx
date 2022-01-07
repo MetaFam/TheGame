@@ -12,14 +12,17 @@ import {
   Text,
   useDisclosure,
 } from '@metafam/ds';
+import {
+  getDaoLink,
+  getImageMoloch,
+  LinkGuild,
+} from 'components/Player/PlayerGuild';
+import { ProfileSection } from 'components/Profile/ProfileSection';
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
 import { getAllMemberships, GuildMembership } from 'graphql/getMemberships';
 import React, { useEffect, useMemo, useState } from 'react';
 import { BoxType } from 'utils/boxTypes';
 import { isBackdropFilterSupported } from 'utils/compatibilityHelpers';
-
-import { ProfileSection } from '../../ProfileSection';
-import { getDaoLink, getImageMoloch, LinkGuild } from '../PlayerGuild';
 
 type DaoListingProps = {
   membership: GuildMembership;

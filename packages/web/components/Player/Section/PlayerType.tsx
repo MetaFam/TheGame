@@ -1,11 +1,10 @@
 import { Text } from '@metafam/ds';
+import { FlexContainer } from 'components/Container';
+import { ProfileSection } from 'components/Profile/ProfileSection';
 import { Player_Type, PlayerFragmentFragment } from 'graphql/autogen/types';
 import { useAnimateProfileChanges } from 'lib/hooks/players';
 import React, { useState } from 'react';
 import { BoxType } from 'utils/boxTypes';
-
-import { FlexContainer } from '../../Container';
-import { ProfileSection } from '../../ProfileSection';
 
 type Props = {
   player: PlayerFragmentFragment;
