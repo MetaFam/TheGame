@@ -43,33 +43,33 @@ export const handleOAuthCallback = async (
       discordId: discordGuild.id,
     });
 
-    if (getGuildMetadataResponse.guild_metadata.length > 0) {
-      const existingGuild = getGuildMetadataResponse.guild_metadata[0];
+    if (getGuildMetadataResponse.guild.length > 0) {
+      const existingGuild = getGuildMetadataResponse.guild[0];
 
       // if a guild with the same server ID already exists, see if a discord refresh token is set.
-      if (existingGuild.discord_metadata?.refreshToken != null) {
+      if (existingGuild.metadata?.discord_metadata?.refreshToken != null) {
         // if so, it's already set up
         // might want to save the new refresh token if it's different...?
-
-        const getGuildResponse = await client.GetGuild({
-          id: existingGuild.guild_id,
-        });
         const successResponse: DiscordGuildAuthResponse = {
           success: true,
-          guildname: getGuildResponse.guild[0].guildname,
+          guildname: existingGuild.guildname,
           exists: true,
         };
         res.json(successResponse);
       } else {
-        // otherwise, update the existing guild with the provided info from discord
-        await client.UpdateGuildDiscordMetadata({
-          guildId: existingGuild.guild_id,
-          discordMetadata: parseDiscordMetadata(response.oauthResponse),
+        // otherwise, create metadata for the existing guild with the provided info from discord
+        await client.CreateGuildMetadata({
+          object: {
+            guild_id: existingGuild.id,
+            creator_id: sessionVariables['x-hasura-user-id'],
+            discord_id: discordGuild.id,
+            discord_metadata: parseDiscordMetadata(response.oauthResponse),
+          },
         });
 
         const successResponse: DiscordGuildAuthResponse = {
           success: true,
-          guildname: existingGuild.guild_id,
+          guildname: existingGuild.guildname,
         };
         res.json(successResponse);
       }
