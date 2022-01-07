@@ -1,35 +1,37 @@
 import React from 'react';
-import Intro from '../components/Landing/sections/Intro';
-import Game from '../components/Landing/sections/Game';
-import Build from '../components/Landing/sections/Build';
-import Revolution from '../components/Landing/sections/Revolution';
-import WildWeb from '../components/Landing/sections/WildWeb';
-import Frontier from '../components/Landing/sections/Frontier';
-import Together from '../components/Landing/sections/Together';
-import WhatWeDo from '../components/Landing/sections/WhatWeDo';
-import Optimal from '../components/Landing/sections/Optimal';
-import Unplug from '../components/Landing/sections/Unplug';
-import Who from '../components/Landing/sections/Who';
-import JustWatch from '../components/Landing/sections/JustWatch';
-import Cards from '../components/Landing/sections/Cards';
-
-function Landing(): JSX.Element {
-  return <div>
+import Build from '../components/Landing/Sections/Build';
+import Cards from '../components/Landing/Sections/Cards';
+import Frontier from '../components/Landing/Sections/Frontier';
+import Game from '../components/Landing/Sections/Game';
+import Intro from '../components/Landing/Sections/Intro';
+import JustWatch from '../components/Landing/Sections/JustWatch';
+import Optimal from '../components/Landing/Sections/Optimal';
+import Revolution from '../components/Landing/Sections/Revolution';
+import Together from '../components/Landing/Sections/Together';
+import Unplug from '../components/Landing/Sections/Unplug';
+import WhatWeDo from '../components/Landing/Sections/WhatWeDo';
+import Who from '../components/Landing/Sections/Who';
+import WildWeb from '../components/Landing/Sections/WildWeb';
+export const getStaticProps = async () => ({
+  props: {
+    hideTopMenu: true,
+  },
+});
+const Landing: React.FC = () => (
+  <div>
     <Intro />
     <Game />
     <Build />
-    <Revolution/>
+    <Revolution />
     <WildWeb />
     <Frontier />
-    <Together /> 
-    <WhatWeDo /> 
+    <Together />
+    <WhatWeDo />
     <Optimal />
     <Unplug />
     <Who />
-    <Cards /> 
+    <Cards />
     <JustWatch />
-
-  </div>;
-}
-
+  </div>
+);
 export default Landing;
