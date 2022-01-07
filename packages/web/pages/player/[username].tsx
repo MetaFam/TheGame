@@ -12,11 +12,13 @@ import {
 } from '@metafam/ds';
 import { PageContainer } from 'components/Container';
 import {
+  ALL_BOXES,
+  DEFAULT_BOXES,
+  DEFAULT_PLAYER_LAYOUTS,
   getBoxLayoutItemDefaults,
   gridConfig,
-  initLayouts,
 } from 'components/Player/Section/config';
-import { PlayerSection } from 'components/Player/Section/PlayerSection';
+import { PlayerSection } from 'components/Profile/PlayerSection';
 import { HeadComponent } from 'components/Seo';
 import { useInsertCacheInvalidationMutation } from 'graphql/autogen/types';
 import { getPlayer } from 'graphql/getPlayer';
@@ -29,8 +31,8 @@ import {
 } from 'next';
 import Error from 'next/error';
 import { ReactElement, useCallback, useEffect, useMemo, useState } from 'react';
-import { Layouts, Responsive, WidthProvider } from 'react-grid-layout';
-import { BoxType } from 'utils/boxTypes';
+import { Layout, Layouts, Responsive, WidthProvider } from 'react-grid-layout';
+import { BoxMetadata, BoxType, getBoxKey } from 'utils/boxTypes';
 import {
   getPlayerCoverImageFull,
   getPlayerDescription,
@@ -89,54 +91,54 @@ const makeLayouts = (editable: boolean, layouts: Layouts) => {
   return newLayouts;
 };
 
-const ALL_BOXES = [
-  BoxType.PLAYER_HERO,
-  BoxType.PLAYER_SKILLS,
-  BoxType.PLAYER_COLOR_DISPOSITION,
-  BoxType.PLAYER_TYPE,
-  BoxType.PLAYER_NFT_GALLERY,
-  BoxType.PLAYER_DAO_MEMBERSHIPS,
-  BoxType.PLAYER_ACHIEVEMENTS,
-  BoxType.PLAYER_ROLES,
-];
-
-const DEFAULT_BOXES = [
-  BoxType.PLAYER_HERO,
-  BoxType.PLAYER_SKILLS,
-  BoxType.PLAYER_COLOR_DISPOSITION,
-  BoxType.PLAYER_TYPE,
-  BoxType.PLAYER_NFT_GALLERY,
-  BoxType.PLAYER_DAO_MEMBERSHIPS,
-];
-
 const removeBoxFromLayouts = (
-  boxType: BoxType,
+  boxKey: string,
   pastLayouts: Layouts,
 ): Layouts => {
   const layouts = { ...pastLayouts };
   Object.keys(layouts).map((key) => {
-    layouts[key] = layouts[key].filter(
-      (item) => (item.i as BoxType) !== boxType,
-    );
+    layouts[key] = layouts[key].filter((item) => item.i !== boxKey);
     return key;
   });
   return layouts;
 };
 
-const addBoxToLayouts = (boxType: BoxType, pastLayouts: Layouts): Layouts => {
+const addBoxToLayouts = (
+  boxType: BoxType,
+  boxMetadata: BoxMetadata,
+  pastLayouts: Layouts,
+): Layouts => {
   const layouts = { ...pastLayouts };
   Object.keys(layouts).map((key) => {
     const heroItem = layouts[key].find(
-      (item) => item.i === BoxType.PLAYER_HERO,
+      (item) => item.i === getBoxKey(BoxType.PLAYER_HERO, {}),
     );
     layouts[key].push({
       ...getBoxLayoutItemDefaults(boxType),
       x: 0,
       y: heroItem ? heroItem.y + heroItem.h : 0,
+      i: getBoxKey(boxType, boxMetadata),
     });
     return key;
   });
   return layouts;
+};
+
+type LayoutItem = {
+  boxKey: string;
+  boxType: BoxType;
+  boxMetadata: BoxMetadata;
+};
+
+const DEFAULT_LAYOUT_ITEMS = DEFAULT_BOXES.map((boxType) => ({
+  boxType,
+  boxMetadata: {},
+  boxKey: getBoxKey(boxType, {}),
+}));
+
+type ProfileLayoutData = {
+  layoutItems: LayoutItem[];
+  layouts: Layouts;
 };
 
 export const Grid: React.FC<Props> = ({ player }): ReactElement => {
@@ -155,11 +157,14 @@ export const Grid: React.FC<Props> = ({ player }): ReactElement => {
       invalidateCache({ playerId: player.id });
     }
   }, [player, invalidateCache]);
-  const [savedLayouts, setSavedLayouts] = useState<Layouts>(
-    JSON.parse(JSON.stringify(initLayouts)), // TODO: persist in hasura
+  const [savedLayoutData, setSavedLayoutData] = useState<ProfileLayoutData>(
+    { layouts: DEFAULT_PLAYER_LAYOUTS, layoutItems: DEFAULT_LAYOUT_ITEMS }, // TODO: persist in hasura
   );
-  const [currentLayouts, setCurrentLayouts] = useState<Layouts>(
-    JSON.parse(JSON.stringify(initLayouts)),
+  const [
+    { layoutItems: currentLayoutItems, layouts: currentLayouts },
+    setCurrentLayoutData,
+  ] = useState<ProfileLayoutData>(
+    { layouts: DEFAULT_PLAYER_LAYOUTS, layoutItems: DEFAULT_LAYOUT_ITEMS }, // TODO: persist in hasura
   );
   const [changed, setChanged] = useState(false);
 
@@ -167,19 +172,34 @@ export const Grid: React.FC<Props> = ({ player }): ReactElement => {
 
   const toggleEditLayout = useCallback(() => {
     if (editable) {
-      const layouts = removeBoxFromLayouts(
-        BoxType.PLAYER_ADD_BOX,
-        currentLayouts,
-      );
-      setCurrentLayouts(layouts);
-      setSavedLayouts(layouts);
+      const layoutData = {
+        layouts: removeBoxFromLayouts(
+          getBoxKey(BoxType.PLAYER_ADD_BOX, {}),
+          currentLayouts,
+        ),
+        layoutItems: currentLayoutItems.filter(
+          (item) => item.boxType !== BoxType.PLAYER_ADD_BOX,
+        ),
+      };
+      setCurrentLayoutData(layoutData);
+      setSavedLayoutData(layoutData);
     } else {
-      const layouts = addBoxToLayouts(BoxType.PLAYER_ADD_BOX, currentLayouts);
-      setCurrentLayouts(layouts);
+      const layoutData = {
+        layouts: addBoxToLayouts(BoxType.PLAYER_ADD_BOX, {}, currentLayouts),
+        layoutItems: [
+          ...currentLayoutItems,
+          {
+            boxType: BoxType.PLAYER_ADD_BOX,
+            boxMetadata: {},
+            boxKey: getBoxKey(BoxType.PLAYER_ADD_BOX, {}),
+          },
+        ],
+      };
+      setCurrentLayoutData(layoutData);
     }
     setEditable(!editable);
     setChanged(false);
-  }, [editable, currentLayouts]);
+  }, [editable, currentLayouts, currentLayoutItems]);
 
   const toggleScrollLock = () => {
     if (typeof window !== 'undefined') {
@@ -189,21 +209,21 @@ export const Grid: React.FC<Props> = ({ player }): ReactElement => {
     return null;
   };
 
-  const handleLayoutChange = useCallback((layouts: Layouts) => {
-    const parsedLayouts = JSON.parse(JSON.stringify(layouts));
-    setCurrentLayouts(parsedLayouts);
-    setChanged(true);
-  }, []);
+  const handleLayoutChange = useCallback(
+    (_layoutItems: Layout[], layouts: Layouts) => {
+      setCurrentLayoutData({ layouts, layoutItems: currentLayoutItems });
+      setChanged(true);
+    },
+    [currentLayoutItems],
+  );
 
   const handleReset = useCallback(() => {
-    const parsedLayouts = JSON.parse(JSON.stringify(savedLayouts));
-    const layouts = addBoxToLayouts(BoxType.PLAYER_ADD_BOX, parsedLayouts);
-    setCurrentLayouts(layouts);
+    setCurrentLayoutData(savedLayoutData);
 
     setTimeout(() => {
       setChanged(false);
     }, 300);
-  }, [savedLayouts]);
+  }, [savedLayoutData]);
 
   const wrapperSX = useMemo(() => gridConfig.wrapper(editable), [editable]);
 
@@ -213,37 +233,42 @@ export const Grid: React.FC<Props> = ({ player }): ReactElement => {
   ]);
 
   const onRemoveBox = useCallback(
-    (boxType: BoxType): void => {
-      const layouts = removeBoxFromLayouts(boxType, currentLayouts);
-      setCurrentLayouts(layouts);
+    (boxKey: string): void => {
+      const layoutData = {
+        layouts: removeBoxFromLayouts(boxKey, currentLayouts),
+        layoutItems: currentLayoutItems.filter(
+          (item) => item.boxKey !== boxKey,
+        ),
+      };
+      setCurrentLayoutData(layoutData);
       setChanged(true);
     },
-    [currentLayouts],
+    [currentLayouts, currentLayoutItems],
   );
 
   const onAddBox = useCallback(
-    (boxType: BoxType): void => {
-      const layouts = addBoxToLayouts(boxType, currentLayouts);
-      setCurrentLayouts(layouts);
+    (boxType: BoxType, boxMetadata: BoxMetadata): void => {
+      const layoutData = {
+        layouts: addBoxToLayouts(boxType, boxMetadata, currentLayouts),
+        layoutItems: [
+          ...currentLayoutItems,
+          { boxType, boxMetadata, boxKey: getBoxKey(boxType, boxMetadata) },
+        ],
+      };
+
+      setCurrentLayoutData(layoutData);
       setChanged(true);
     },
-    [currentLayouts],
+    [currentLayouts, currentLayoutItems],
   );
 
-  const boxes = useMemo(() => {
-    const boxIds = new Set<BoxType>();
-    Object.keys(currentLayouts).map((key) => {
-      const layout = currentLayouts[key];
-      layout.forEach((item) => boxIds.add(item.i as BoxType));
-      return key;
-    });
-    const boxIdArray = Array.from(boxIds);
-    return boxIdArray.length > 0 ? boxIdArray : DEFAULT_BOXES;
-  }, [currentLayouts]);
-
   const availableBoxList = useMemo(
-    () => ALL_BOXES.filter((box) => !boxes.includes(box)),
-    [boxes],
+    () =>
+      ALL_BOXES.filter(
+        (box) =>
+          !currentLayoutItems.map(({ boxType }) => boxType).includes(box),
+      ),
+    [currentLayoutItems],
   );
 
   return (
@@ -254,7 +279,7 @@ export const Grid: React.FC<Props> = ({ player }): ReactElement => {
       sx={wrapperSX}
       maxW="96rem"
       mb="12rem"
-      pt={isOwnProfile ? '0rem' : '10rem'}
+      pt={isOwnProfile ? '0rem' : '4rem'}
     >
       {isOwnProfile && (
         <ButtonGroup
@@ -264,7 +289,8 @@ export const Grid: React.FC<Props> = ({ player }): ReactElement => {
           variant="ghost"
           zIndex={10}
           isAttached
-          mb="7rem"
+          h="3rem"
+          mb="1rem"
         >
           {changed && editable && (
             <MetaButton
@@ -310,9 +336,9 @@ export const Grid: React.FC<Props> = ({ player }): ReactElement => {
       )}
 
       <ResponsiveGridLayout
-        className="grid"
-        onLayoutChange={(_layout, layouts) => {
-          handleLayoutChange(layouts);
+        className="gridItems"
+        onLayoutChange={(layoutItems, layouts) => {
+          handleLayoutChange(layoutItems, layouts);
         }}
         verticalCompact
         layouts={displayLayouts}
@@ -340,16 +366,17 @@ export const Grid: React.FC<Props> = ({ player }): ReactElement => {
           xxs: [15, 15],
         }}
       >
-        {boxes.map((item) => (
-          <Flex key={item} className="gridItem">
+        {currentLayoutItems.map(({ boxKey, boxType, boxMetadata }) => (
+          <Flex key={boxKey} className="gridItem">
             <PlayerSection
-              boxType={item}
+              boxType={boxType}
+              boxMetadata={boxMetadata}
               player={player}
               isOwnProfile={isOwnProfile}
               canEdit={editable}
               removeBox={onRemoveBox}
               availableBoxList={availableBoxList}
-              setNewBox={onAddBox}
+              onAddBox={onAddBox}
             />
           </Flex>
         ))}

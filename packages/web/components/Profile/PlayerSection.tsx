@@ -1,4 +1,5 @@
 import { PlayerAchievements } from 'components/Player/Section/PlayerAchievements';
+import { PlayerAddSection } from 'components/Player/Section/PlayerAddSection';
 import { PlayerColorDisposition } from 'components/Player/Section/PlayerColorDisposition';
 import { PlayerGallery } from 'components/Player/Section/PlayerGallery';
 import { PlayerHero } from 'components/Player/Section/PlayerHero';
@@ -6,30 +7,32 @@ import { PlayerMemberships } from 'components/Player/Section/PlayerMemberships';
 import { PlayerRoles } from 'components/Player/Section/PlayerRoles';
 import { PlayerSkills } from 'components/Player/Section/PlayerSkills';
 import { PlayerType } from 'components/Player/Section/PlayerType';
+import { EmbeddedUrl } from 'components/Profile/EmbeddedUrlSection';
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
-import { BoxType } from 'utils/boxTypes';
-
-import { PlayerAddSection } from './PlayerAddSection';
+import { BoxMetadata, BoxType, getBoxKey } from 'utils/boxTypes';
 
 type Props = {
   boxType: BoxType;
+  boxMetadata: BoxMetadata;
   player: PlayerFragmentFragment;
   availableBoxList: BoxType[];
-  setNewBox: (arg0: BoxType) => void;
+  onAddBox: (arg0: BoxType, arg1: BoxMetadata) => void;
   isOwnProfile?: boolean;
   canEdit?: boolean;
-  removeBox?: (boxType: BoxType) => void;
+  removeBox?: (boxKey: string) => void;
 };
 
 export const PlayerSection: React.FC<Props> = ({
+  boxMetadata,
   boxType,
   player,
   availableBoxList,
-  setNewBox,
+  onAddBox,
   isOwnProfile,
   canEdit,
   removeBox,
 }) => {
+  const boxKey = getBoxKey(boxType, boxMetadata);
   switch (boxType) {
     case BoxType.PLAYER_HERO:
       return (
@@ -45,7 +48,7 @@ export const PlayerSection: React.FC<Props> = ({
           player={player}
           isOwnProfile={isOwnProfile}
           canEdit={canEdit}
-          onRemoveClick={() => removeBox?.(boxType)}
+          onRemoveClick={() => removeBox?.(boxKey)}
         />
       );
     case BoxType.PLAYER_NFT_GALLERY:
@@ -54,7 +57,7 @@ export const PlayerSection: React.FC<Props> = ({
           player={player}
           isOwnProfile={isOwnProfile}
           canEdit={canEdit}
-          onRemoveClick={() => removeBox?.(boxType)}
+          onRemoveClick={() => removeBox?.(boxKey)}
         />
       );
     case BoxType.PLAYER_DAO_MEMBERSHIPS:
@@ -63,7 +66,7 @@ export const PlayerSection: React.FC<Props> = ({
           player={player}
           isOwnProfile={isOwnProfile}
           canEdit={canEdit}
-          onRemoveClick={() => removeBox?.(boxType)}
+          onRemoveClick={() => removeBox?.(boxKey)}
         />
       );
     case BoxType.PLAYER_COLOR_DISPOSITION:
@@ -72,7 +75,7 @@ export const PlayerSection: React.FC<Props> = ({
           player={player}
           isOwnProfile={isOwnProfile}
           canEdit={canEdit}
-          onRemoveClick={() => removeBox?.(boxType)}
+          onRemoveClick={() => removeBox?.(boxKey)}
         />
       );
     case BoxType.PLAYER_TYPE:
@@ -81,7 +84,7 @@ export const PlayerSection: React.FC<Props> = ({
           player={player}
           isOwnProfile={isOwnProfile}
           canEdit={canEdit}
-          onRemoveClick={() => removeBox?.(boxType)}
+          onRemoveClick={() => removeBox?.(boxKey)}
         />
       );
     case BoxType.PLAYER_ROLES:
@@ -90,7 +93,7 @@ export const PlayerSection: React.FC<Props> = ({
           player={player}
           isOwnProfile={isOwnProfile}
           canEdit={canEdit}
-          onRemoveClick={() => removeBox?.(boxType)}
+          onRemoveClick={() => removeBox?.(boxKey)}
         />
       );
     case BoxType.PLAYER_ACHIEVEMENTS:
@@ -99,12 +102,22 @@ export const PlayerSection: React.FC<Props> = ({
           player={player}
           isOwnProfile={isOwnProfile}
           canEdit={canEdit}
-          onRemoveClick={() => removeBox?.(boxType)}
+          onRemoveClick={() => removeBox?.(boxKey)}
         />
       );
+    case BoxType.EMBEDDED_URL: {
+      const url = boxMetadata?.url as string;
+      return (
+        <EmbeddedUrl
+          address={url}
+          canEdit={canEdit}
+          onRemoveClick={() => removeBox?.(boxKey)}
+        />
+      );
+    }
     case BoxType.PLAYER_ADD_BOX:
       return (
-        <PlayerAddSection boxList={availableBoxList} setNewBox={setNewBox} />
+        <PlayerAddSection boxList={availableBoxList} onAddBox={onAddBox} />
       );
     default:
       return <></>;
