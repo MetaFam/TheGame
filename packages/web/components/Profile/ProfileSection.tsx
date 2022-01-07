@@ -29,7 +29,6 @@ export type ProfileSectionProps = {
   title?: string;
 };
 
-// TODO If MetaBox is only used for Player profile maybe merge both component
 export const ProfileSection: React.FC<ProfileSectionProps> = ({
   children,
   onRemoveClick,
@@ -77,26 +76,6 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
                 isRound
               />
             ) : null}
-            {canEdit && boxType && boxType !== BoxType.PLAYER_HERO ? (
-              <IconButton
-                aria-label="Edit Profile Info"
-                size="lg"
-                background="transparent"
-                color="pinkShadeOne"
-                icon={<FaTimes />}
-                _hover={{ color: 'white' }}
-                onClick={onRemoveClick}
-                _focus={{
-                  boxShadow: 'none',
-                  backgroundColor: 'transparent',
-                }}
-                _active={{
-                  transform: 'scale(0.8)',
-                  backgroundColor: 'transparent',
-                }}
-                isRound
-              />
-            ) : null}
           </HStack>
         </Box>
       ) : null}
@@ -104,7 +83,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
         bg="blueProfileSection"
         borderBottomRadius="lg"
         borderTopRadius={!title ? 'lg' : 0}
-        p={8}
+        p={boxType === BoxType.EMBEDDED_URL ? 0 : 8}
         boxShadow="md"
         css={{ backdropFilter: 'blur(8px)' }}
         w="100%"
@@ -124,6 +103,29 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
           />
         )}
       </Box>
+      {canEdit && boxType && boxType !== BoxType.PLAYER_HERO ? (
+        <IconButton
+          aria-label="Edit Profile Info"
+          size="lg"
+          pos="absolute"
+          top="0"
+          right="0"
+          background="transparent"
+          color="pinkShadeOne"
+          icon={<FaTimes />}
+          _hover={{ color: 'white' }}
+          onClick={onRemoveClick}
+          _focus={{
+            boxShadow: 'none',
+            backgroundColor: 'transparent',
+          }}
+          _active={{
+            transform: 'scale(0.8)',
+            backgroundColor: 'transparent',
+          }}
+          isRound
+        />
+      ) : null}
       {boxType && (
         <Modal isOpen={isOpen} onClose={onClose}>
           <ModalOverlay />

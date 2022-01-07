@@ -1,4 +1,6 @@
 import { Link } from '@metafam/ds';
+import { FlexContainer } from 'components/Container';
+import { ProfileSection } from 'components/Profile/ProfileSection';
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
 import { getPersonalityInfo } from 'graphql/queries/enums/getPersonalityInfo';
 import { PersonalityOption } from 'graphql/types';
@@ -6,8 +8,6 @@ import { useAnimateProfileChanges } from 'lib/hooks/players';
 import React, { useEffect, useState } from 'react';
 import { BoxType } from 'utils/boxTypes';
 
-import { FlexContainer } from '../../Container';
-import { ProfileSection } from '../../ProfileSection';
 import { ColorBar } from '../ColorBar';
 
 type Props = {

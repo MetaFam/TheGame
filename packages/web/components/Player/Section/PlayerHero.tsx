@@ -19,6 +19,11 @@ import BackgroundImage from 'assets/main-background.jpg';
 import { FlexContainer } from 'components/Container';
 import { EditProfileForm } from 'components/EditProfileForm';
 import { PlayerAvatar } from 'components/Player/PlayerAvatar';
+import { PlayerContacts } from 'components/Player/PlayerContacts';
+import { PlayerBrightId } from 'components/Player/Section/PlayerBrightId';
+import { PlayerHeroTile } from 'components/Player/Section/PlayerHeroTile';
+import { PlayerPronouns } from 'components/Player/Section/PlayerPronouns';
+import { ProfileSection } from 'components/Profile/ProfileSection';
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
 import { useUser } from 'lib/hooks';
 import { useAnimateProfileChanges } from 'lib/hooks/players';
@@ -27,12 +32,6 @@ import { FaClock, FaGlobe } from 'react-icons/fa';
 import { BoxType } from 'utils/boxTypes';
 import { getPlayerTimeZoneDisplay } from 'utils/dateHelpers';
 import { getPlayerDescription, getPlayerName } from 'utils/playerHelpers';
-
-import { ProfileSection } from '../../ProfileSection';
-import { PlayerContacts } from '../PlayerContacts';
-import { PlayerBrightId } from './PlayerBrightId';
-import { PlayerHeroTile } from './PlayerHeroTile';
-import { PlayerPronouns } from './PlayerPronouns';
 
 const MAX_BIO_LENGTH = 240;
 

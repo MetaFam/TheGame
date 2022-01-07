@@ -1,5 +1,10 @@
 import { Box, Flex, LoadingState } from '@metafam/ds';
+import { PageContainer } from 'components/Container';
+import { GuildHero } from 'components/Guild/GuildHero';
+import { GuildLinks } from 'components/Guild/GuildLinks';
 import { GuildPlayers } from 'components/Guild/Section/GuildPlayers';
+import { ProfileSection } from 'components/Profile/ProfileSection';
+import { HeadComponent } from 'components/Seo';
 import { QuestFragmentFragment, QuestStatus_Enum } from 'graphql/autogen/types';
 import { getQuests } from 'graphql/getQuests';
 import { getGuild, getGuildnames } from 'graphql/queries/guild';
@@ -13,12 +18,6 @@ import { useRouter } from 'next/router';
 import React from 'react';
 import { BoxType } from 'utils/boxTypes';
 import { getGuildCoverImageFull } from 'utils/playerHelpers';
-
-import { PageContainer } from '../../components/Container';
-import { GuildHero } from '../../components/Guild/GuildHero';
-import { GuildLinks } from '../../components/Guild/GuildLinks';
-import { ProfileSection } from '../../components/ProfileSection';
-import { HeadComponent } from '../../components/Seo';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 

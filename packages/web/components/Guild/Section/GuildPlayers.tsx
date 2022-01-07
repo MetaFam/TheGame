@@ -11,7 +11,7 @@ import {
   Text,
   useDisclosure,
 } from '@metafam/ds';
-import { ProfileSection } from 'components/ProfileSection';
+import { ProfileSection } from 'components/Profile/ProfileSection';
 import { getGuildPlayers } from 'graphql/queries/guild';
 import { GuildPlayer } from 'graphql/types';
 import React, { useEffect, useState } from 'react';

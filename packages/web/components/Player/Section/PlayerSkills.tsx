@@ -1,5 +1,5 @@
 import { MetaTag, Wrap, WrapItem } from '@metafam/ds';
-import { ProfileSection } from 'components/ProfileSection';
+import { ProfileSection } from 'components/Profile/ProfileSection';
 import {
   PlayerFragmentFragment,
   SkillCategory_Enum,

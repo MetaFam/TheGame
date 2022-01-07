@@ -12,7 +12,7 @@ import {
   useDisclosure,
 } from '@metafam/ds';
 import { MetaLink as Link } from 'components/Link';
-import { ProfileSection } from 'components/ProfileSection';
+import { ProfileSection } from 'components/Profile/ProfileSection';
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
 import { Collectible, useOpenSeaCollectibles } from 'lib/hooks/opensea';
 import React from 'react';
