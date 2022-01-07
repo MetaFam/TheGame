@@ -9,6 +9,7 @@ import {
   Flex,
   MetaButton,
   ResponsiveText,
+  useToast,
 } from '@metafam/ds';
 import { PageContainer } from 'components/Container';
 import {
@@ -23,7 +24,10 @@ import {
 import { PlayerAddSection } from 'components/Player/Section/PlayerAddSection';
 import { PlayerSection } from 'components/Profile/PlayerSection';
 import { HeadComponent } from 'components/Seo';
-import { useInsertCacheInvalidationMutation } from 'graphql/autogen/types';
+import {
+  useInsertCacheInvalidationMutation,
+  useUpdatePlayerProfileLayoutMutation,
+} from 'graphql/autogen/types';
 import { getPlayer } from 'graphql/getPlayer';
 import { getTopPlayerUsernames } from 'graphql/getPlayers';
 import { useUser, useWeb3 } from 'lib/hooks';
@@ -161,11 +165,24 @@ export const Grid: React.FC<Props> = ({ player }): ReactElement => {
     }
   }, [player, invalidateCache]);
 
-  // TODO: persist in hasura
-  const [savedLayoutData, setSavedLayoutData] = useState<ProfileLayoutData>({
-    layouts: DEFAULT_PLAYER_LAYOUTS,
-    layoutItems: DEFAULT_LAYOUT_ITEMS,
-  });
+  const toast = useToast();
+
+  const [
+    { fetching: fetchingSaveRes },
+    saveLayoutData,
+  ] = useUpdatePlayerProfileLayoutMutation();
+  const [saving, setSaving] = useState(false);
+
+  const layoutsFromDB = player.profile_layout
+    ? JSON.parse(player.profile_layout)
+    : null;
+
+  const [savedLayoutData, setSavedLayoutData] = useState<ProfileLayoutData>(
+    layoutsFromDB || {
+      layouts: DEFAULT_PLAYER_LAYOUTS,
+      layoutItems: DEFAULT_LAYOUT_ITEMS,
+    },
+  );
 
   const [
     { layoutItems: currentLayoutItems, layouts: currentLayouts },
@@ -175,53 +192,6 @@ export const Grid: React.FC<Props> = ({ player }): ReactElement => {
   const [changed, setChanged] = useState(false);
 
   const [editable, setEditable] = useState(false);
-
-  const toggleEditLayout = useCallback(() => {
-    if (editable) {
-      const layoutData = {
-        layouts: removeBoxFromLayouts(
-          getBoxKey(BoxType.PLAYER_ADD_BOX, {}),
-          currentLayouts,
-        ),
-        layoutItems: currentLayoutItems.filter(
-          (item) => item.boxType !== BoxType.PLAYER_ADD_BOX,
-        ),
-      };
-      setCurrentLayoutData(layoutData);
-      setSavedLayoutData(layoutData);
-    } else {
-      const layoutData = {
-        layouts: addBoxToLayouts(BoxType.PLAYER_ADD_BOX, {}, currentLayouts),
-        layoutItems: [
-          ...currentLayoutItems,
-          {
-            boxType: BoxType.PLAYER_ADD_BOX,
-            boxMetadata: {},
-            boxKey: getBoxKey(BoxType.PLAYER_ADD_BOX, {}),
-          },
-        ],
-      };
-      setCurrentLayoutData(layoutData);
-    }
-    setEditable(!editable);
-    setChanged(false);
-  }, [editable, currentLayouts, currentLayoutItems]);
-
-  const toggleScrollLock = () => {
-    if (typeof window !== 'undefined') {
-      const body = document.querySelector('body');
-      if (body) body.classList.toggle('dashboard-edit');
-    }
-    return null;
-  };
-
-  const handleLayoutChange = useCallback(
-    (_layoutItems: Layout[], layouts: Layouts) => {
-      setCurrentLayoutData({ layouts, layoutItems: currentLayoutItems });
-      setChanged(true);
-    },
-    [currentLayoutItems],
-  );
 
   const handleReset = useCallback(() => {
     const layoutData = {
@@ -245,6 +215,80 @@ export const Grid: React.FC<Props> = ({ player }): ReactElement => {
       setChanged(false);
     }, 300);
   }, [savedLayoutData]);
+
+  const persistLayoutData = useCallback(
+    async (layoutData: ProfileLayoutData) => {
+      if (!user) return;
+
+      setSaving(true);
+      const { error } = await saveLayoutData({
+        playerId: user.id,
+        layout: JSON.stringify(layoutData),
+      });
+
+      if (error) {
+        const errorDetail = 'The octo is sad 😢';
+        toast({
+          title: 'Error',
+          description: `Unable to save layout. ${errorDetail}`,
+          status: 'error',
+          isClosable: true,
+        });
+        handleReset();
+      } else {
+        setCurrentLayoutData(layoutData);
+        setSavedLayoutData(layoutData);
+      }
+      setSaving(false);
+    },
+    [handleReset, saveLayoutData, toast, user],
+  );
+
+  const toggleEditLayout = useCallback(() => {
+    if (editable) {
+      const layoutData = {
+        layouts: removeBoxFromLayouts(
+          getBoxKey(BoxType.PLAYER_ADD_BOX, {}),
+          currentLayouts,
+        ),
+        layoutItems: currentLayoutItems.filter(
+          (item) => item.boxType !== BoxType.PLAYER_ADD_BOX,
+        ),
+      };
+      persistLayoutData(layoutData);
+    } else {
+      const layoutData = {
+        layouts: addBoxToLayouts(BoxType.PLAYER_ADD_BOX, {}, currentLayouts),
+        layoutItems: [
+          ...currentLayoutItems,
+          {
+            boxType: BoxType.PLAYER_ADD_BOX,
+            boxMetadata: {},
+            boxKey: getBoxKey(BoxType.PLAYER_ADD_BOX, {}),
+          },
+        ],
+      };
+      setCurrentLayoutData(layoutData);
+    }
+    setEditable(!editable);
+    setChanged(false);
+  }, [editable, currentLayouts, currentLayoutItems, persistLayoutData]);
+
+  const toggleScrollLock = () => {
+    if (typeof window !== 'undefined') {
+      const body = document.querySelector('body');
+      if (body) body.classList.toggle('dashboard-edit');
+    }
+    return null;
+  };
+
+  const handleLayoutChange = useCallback(
+    (_layoutItems: Layout[], layouts: Layouts) => {
+      setCurrentLayoutData({ layouts, layoutItems: currentLayoutItems });
+      setChanged(true);
+    },
+    [currentLayoutItems],
+  );
 
   const wrapperSX = useMemo(() => gridConfig.wrapper(editable), [editable]);
 
@@ -345,6 +389,7 @@ export const Grid: React.FC<Props> = ({ player }): ReactElement => {
             color={editable ? 'red.400' : 'pinkShadeOne'}
             leftIcon={<EditIcon />}
             transition="color 0.2s ease"
+            isLoading={saving || fetchingSaveRes}
             onClick={toggleEditLayout}
           >
             <ResponsiveText
