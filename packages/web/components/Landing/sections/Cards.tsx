@@ -4,7 +4,7 @@ import {
     Image,
     HStack,
     ListItem,
-    UnorderedList,
+    OrderedList,
 } from "@metafam/ds"
 import CardBackground from 'assets/landing/card-background.png'
 import CardImage from 'assets/landing/card-image.png'
@@ -39,12 +39,12 @@ function Intro() {
                         <Text fontSize="20px" pb="40px">MetaGame is for those who want to play an active role in building the future.</Text>
 
                         <Text pb="20px">For those who want to:</Text>
-                        <UnorderedList pb="153px" fontSize="20px" lineHeight="32px">
+                        <OrderedList pb="153px" fontSize="20px" lineHeight="32px">
                             <ListItem pb="20px" >Build their knowledge, get experience & level up.</ListItem>
                             <ListItem pb="20px" >Find cool projects, solve problems & get paid.</ListItem>
                             <ListItem pb="20px" >Become a part of something bigger.</ListItem>
 
-                        </UnorderedList>
+                        </OrderedList>
                     </Box>
                 </Box>
                 <Box
