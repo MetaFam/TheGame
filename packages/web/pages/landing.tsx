@@ -1,4 +1,5 @@
 import React from 'react';
+
 import Build from '../components/Landing/Sections/Build';
 import Cards from '../components/Landing/Sections/Cards';
 import Frontier from '../components/Landing/Sections/Frontier';
@@ -12,6 +13,7 @@ import Unplug from '../components/Landing/Sections/Unplug';
 import WhatWeDo from '../components/Landing/Sections/WhatWeDo';
 import Who from '../components/Landing/Sections/Who';
 import WildWeb from '../components/Landing/Sections/WildWeb';
+
 export const getStaticProps = async () => ({
   props: {
     hideTopMenu: true,
