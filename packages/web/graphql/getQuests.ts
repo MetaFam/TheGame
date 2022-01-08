@@ -62,6 +62,17 @@ gql`
   }
 `;
 
+// eslint-disable-next-line @typescript-eslint/no-unused-expressions
+gql`
+  query GetQuestsByRoles($roles: [String!]) {
+    quest(where: { quest_roles: { role: { _in: $roles } } }) {
+      title
+      id
+      description
+    }
+  }
+`;
+
 export const defaultQueryVariables: GetQuestsQueryVariables = {
   limit: 10,
   status: QuestStatus_Enum.Open,

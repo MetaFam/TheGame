@@ -1,0 +1,1 @@
+CREATE TABLE "public"."quest_role"("quest_id" UUID NOT NULL, "role" text NOT NULL, "rank" integer NOT NULL, PRIMARY KEY ("quest_id","role") , FOREIGN KEY ("quest_id") REFERENCES "public"."quest"("id") ON UPDATE restrict ON DELETE cascade, FOREIGN KEY ("role") REFERENCES "public"."PlayerRole"("role") ON UPDATE restrict ON DELETE restrict, UNIQUE ("quest_id"));
