@@ -67,12 +67,12 @@ function Intro() {
                         <Text fontSize="20px" pb="40px">It's also for groups of people, those building tools & services for a decentralized future.</Text>
 
                         <Text pb="20px">For those who want to:</Text>
-                        <UnorderedList pb="153px" fontSize="20px" lineHeight="32px">
+                        <OrderedList pb="153px" fontSize="20px" lineHeight="32px">
                             <ListItem pb="20px" >Help finding tools, frameworks & funds accessible.</ListItem>
                             <ListItem pb="20px" >Help getting value-aligned contributors & adopters</ListItem>
                             <ListItem pb="20px" >Become a part of the "new world" puzzle.</ListItem>
 
-                        </UnorderedList>
+                        </OrderedList>
                     </Box>
                 </Box>
                 <Box
@@ -94,12 +94,12 @@ function Intro() {
                         <Text fontSize="20px" pb="40px">Those who really want to see MetaGame succeed, but prefer to help with funds.</Text>
 
                         <Text pb="20px">Why?</Text>
-                        <UnorderedList pb="153px" fontSize="20px" lineHeight="32px">
+                        <OrderedList pb="153px" fontSize="20px" lineHeight="32px">
                             <ListItem pb="20px" >They love builder onboarding & support systems.</ListItem>
                             <ListItem pb="20px" >Membership and other things, all paid in Seeds.</ListItem>
                             <ListItem pb="20px" >Understanding MetaGame made them go: Fuck yeah!</ListItem>
 
-                        </UnorderedList>
+                        </OrderedList>
                     </Box>
                 </Box>
 
