@@ -1,7 +1,8 @@
 import {
   Flex,
   MetaButton,
-  MetaSelect,
+  MetaFilterSelectSearch,
+  metaFilterSelectStyles,
   Switch,
   Text,
   Wrap,
@@ -13,7 +14,7 @@ import {
   QuestFragmentFragment,
   QuestStatus_Enum,
 } from 'graphql/autogen/types';
-import React from 'react';
+import React, { useState } from 'react';
 
 import { useUser } from '../../lib/hooks';
 import { QueryVariableSetter, QuestAggregates } from '../../lib/hooks/quests';
@@ -24,6 +25,8 @@ type Props = {
   queryVariables: GetQuestsQueryVariables;
   setQueryVariable: QueryVariableSetter;
 };
+
+type ValueType = { value: string; label: string };
 
 /* TODO
 - text search
@@ -38,85 +41,168 @@ export const QuestFilter: React.FC<Props> = ({
   const { user } = useUser();
   const myId = user?.id;
 
-  return (
-    <Wrap justify="space-between">
-      <WrapItem>
-        <Wrap>
-          <WrapItem>
-            <MetaSelect
-              value={queryVariables.limit as number}
-              onChange={(e) =>
-                setQueryVariable('limit', Number(e.target.value))
-              }
-            >
-              <option value={10}>10</option>
-              <option value={20}>20</option>
-              <option value={50}>50</option>
-            </MetaSelect>
-          </WrapItem>
-          <WrapItem>
-            <MetaSelect
-              value={queryVariables.order as string}
-              onChange={(e) => setQueryVariable('order', e.target.value)}
-            >
-              <option value={Order_By.Desc}>Newest</option>
-              <option value={Order_By.Asc}>Oldest</option>
-            </MetaSelect>
-          </WrapItem>
-          <WrapItem>
-            <MetaSelect
-              value={queryVariables.status as string}
-              onChange={(e) => setQueryVariable('status', e.target.value)}
-            >
-              <option value={QuestStatus_Enum.Open}>Open</option>
-              <option value={QuestStatus_Enum.Closed}>Closed</option>
-            </MetaSelect>
-          </WrapItem>
-          <WrapItem>
-            <MetaSelect
-              value={(queryVariables.guild_id as string) || ''}
-              onChange={(e) => setQueryVariable('guild_id', e.target.value)}
-            >
-              <option value="">All guilds</option>
-              {aggregates.guilds &&
-                aggregates.guilds.map((g: { id: string; name: string }) => (
-                  <option key={g.id} value={g.id}>
-                    {g.name}
-                  </option>
-                ))}
-            </MetaSelect>
-          </WrapItem>
+  const limitOptions = [
+    {
+      label: '10',
+      value: '10',
+    },
+    {
+      label: '20',
+      value: '20',
+    },
+    {
+      label: '50',
+      value: '50',
+    },
+  ];
 
-          {myId && (
-            <WrapItem>
-              <Flex align="center">
-                <MetaButton
-                  size="md"
-                  colorScheme="cyan"
-                  variant="outline"
-                  borderWidth="2px"
-                  borderRadius="4px"
-                  color="cyan.500"
-                  px={4}
-                  onClick={() =>
-                    setQueryVariable(
-                      'created_by_player_id',
-                      queryVariables.created_by_player_id ? '' : myId,
-                    )
+  const orderOptions = [
+    {
+      label: 'Newest',
+      value: Order_By.Desc,
+    },
+    {
+      label: 'Oldest',
+      value: Order_By.Asc,
+    },
+  ];
+
+  const statusOptions = [
+    {
+      label: 'Open',
+      value: QuestStatus_Enum.Open,
+    },
+    {
+      label: 'Closed',
+      value: QuestStatus_Enum.Closed,
+    },
+  ];
+
+  const guildOptions = [
+    {
+      label: 'All guilds',
+      value: '',
+    },
+  ].concat(
+    aggregates.guilds.map(({ name, id }) => ({
+      label: name,
+      value: id,
+    })),
+  );
+
+  const [limit, setLimit] = useState<ValueType>(limitOptions[0]);
+  const [order, setOrder] = useState<ValueType>(orderOptions[0]);
+  const [status, setStatus] = useState<ValueType>(statusOptions[0]);
+  const [guild, setGuild] = useState<ValueType>(guildOptions[0]);
+
+  return (
+    <Wrap justifyContent="center">
+      <Wrap
+        transition="all 0.25s"
+        py="6"
+        style={{ backdropFilter: 'blur(7px)' }}
+        position="sticky"
+        top="-1px"
+        borderTop="1px solid transparent"
+        zIndex="1"
+        justifyContent="center"
+        w="100%"
+        maxW="79rem"
+        bg="whiteAlpha.200"
+        px="1.5rem"
+        borderRadius="6px"
+      >
+        <MetaFilterSelectSearch
+          title={`Limit: ${limit.label}`}
+          tagLabel=""
+          styles={metaFilterSelectStyles}
+          hasValue={false}
+          value={limit}
+          onChange={(value) => {
+            const values = value as ValueType[];
+            const v = values[values.length - 1];
+            setLimit(v);
+            setQueryVariable('limit', Number(v.value));
+          }}
+          options={limitOptions}
+        />
+        <MetaFilterSelectSearch
+          title={`Order: ${order.label}`}
+          tagLabel=""
+          styles={metaFilterSelectStyles}
+          hasValue={false}
+          value={order}
+          onChange={(value) => {
+            const values = value as ValueType[];
+            const o = values[values.length - 1];
+
+            setOrder(o);
+            setQueryVariable('order', o.value);
+          }}
+          options={orderOptions}
+        />
+        <MetaFilterSelectSearch
+          title={`Status: ${status.label}`}
+          tagLabel=""
+          styles={metaFilterSelectStyles}
+          hasValue={false}
+          value={status}
+          onChange={(value) => {
+            const values = value as ValueType[];
+            const s = values[values.length - 1];
+
+            setStatus(s);
+            setQueryVariable('status', s.value);
+          }}
+          options={statusOptions}
+        />
+        {aggregates.guilds.length && (
+          <MetaFilterSelectSearch
+            title={`Guild: ${guild.label}`}
+            tagLabel=""
+            styles={metaFilterSelectStyles}
+            hasValue={false}
+            value={guild}
+            onChange={(value) => {
+              const values = value as ValueType[];
+              const g = values[values.length - 1];
+
+              setGuild(g);
+              setQueryVariable('guild_id', g.value);
+            }}
+            options={guildOptions}
+          />
+        )}
+
+        {myId && (
+          <WrapItem>
+            <Flex align="center">
+              <MetaButton
+                size="md"
+                colorScheme="cyan"
+                variant="outline"
+                borderWidth="2px"
+                borderRadius="4px"
+                color="cyan.500"
+                px={4}
+                onClick={() =>
+                  setQueryVariable(
+                    'created_by_player_id',
+                    queryVariables.created_by_player_id ? '' : myId,
+                  )
+                }
+              >
+                <Text mr={2}>Created by me</Text>
+                <Switch
+                  isChecked={
+                    myId && queryVariables.created_by_player_id === myId
                   }
-                >
-                  <Text mr={2}>Created by me</Text>
-                  <Switch
-                    isChecked={
-                      myId && queryVariables.created_by_player_id === myId
-                    }
-                  />
-                </MetaButton>
-              </Flex>
-            </WrapItem>
-          )}
-        </Wrap>
-      </WrapItem>
+                />
+              </MetaButton>
+            </Flex>
+          </WrapItem>
+        )}
+      </Wrap>
       {quests && (
         <WrapItem>
           <Text align="center" fontWeight="bold">
