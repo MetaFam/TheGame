@@ -1,35 +1,41 @@
 import React from 'react';
-import Intro from '../components/Landing/Intro';
-import Game from '../components/Landing/Game';
-import Build from '../components/Landing/Build';
-import Revolution from '../components/Landing/Revolution';
-import WildWeb from '../components/Landing/WildWeb';
-import Frontier from '../components/Landing/Frontier';
-import Together from '../components/Landing/Together';
-import WhatWeDo from '../components/Landing/WhatWeDo';
-import Optimal from '../components/Landing/Optimal';
-import Unplug from '../components/Landing/Unplug';
-import Who from '../components/Landing/Who';
-import JustWatch from '../components/Landing/JustWatch';
-import Cards from '../components/Landing/Cards';
 
-function Landing(): JSX.Element {
-  return <div>
+import Build from '../components/Landing/Build';
+import Cards from '../components/Landing/Cards';
+import Frontier from '../components/Landing/Frontier';
+import Game from '../components/Landing/Game';
+import Intro from '../components/Landing/Intro';
+import JustWatch from '../components/Landing/JustWatch';
+import Optimal from '../components/Landing/Optimal';
+import Revolution from '../components/Landing/Revolution';
+import Together from '../components/Landing/Together';
+import Unplug from '../components/Landing/Unplug';
+import WhatWeDo from '../components/Landing/WhatWeDo';
+import Who from '../components/Landing/Who';
+import WildWeb from '../components/Landing/WildWeb';
+
+export const getStaticProps = async () => ({
+  props: {
+    hideTopMenu: true,
+  },
+});
+
+const Landing: React.FC = () => (
+  <div>
     <Intro />
     <Game />
     <Build />
-    <Revolution/>
+    <Revolution />
     <WildWeb />
     <Frontier />
-    <Together /> 
-    <WhatWeDo /> 
+    <Together />
+    <WhatWeDo />
     <Optimal />
     <Unplug />
     <Who />
-    <Cards /> 
+    <Cards />
     <JustWatch />
-
-  </div>;
-}
+  </div>
+);
 
 export default Landing;
