@@ -4,7 +4,7 @@ import {
     Text,
     ListItem,
     UnorderedList,
-} from "@chakra-ui/react"
+} from "@metafam/ds"
 import BackgroundImage from 'assets/landing/whatWeDo-background.png'
 
 
