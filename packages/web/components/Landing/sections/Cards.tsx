@@ -5,7 +5,7 @@ import {
     HStack,
     ListItem,
     UnorderedList,
-} from "@chakra-ui/react"
+} from "@metafam/ds"
 import CardBackground from 'assets/landing/card-background.png'
 import CardImage from 'assets/landing/card-image.png'
 

@@ -4,7 +4,7 @@ import {
     Text,
     Link
 
-} from "@chakra-ui/react"
+} from "@metafam/ds"
 import BackgroundImage from 'assets/landing/revolution-background.png'
 
 

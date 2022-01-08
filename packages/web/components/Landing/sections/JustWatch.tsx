@@ -4,7 +4,7 @@ import {
     Text,
 
     Button 
-    } from "@chakra-ui/react"
+    } from "@metafam/ds"
   import BackgroundImage from 'assets/landing/just-watch-background.png'
 
   import { FaArrowDown } from 'react-icons/fa';

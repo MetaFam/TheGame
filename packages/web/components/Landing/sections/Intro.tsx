@@ -4,7 +4,7 @@ import {
   Text,
   Image,
   Button 
-  } from "@chakra-ui/react"
+  } from "@metafam/ds"
 import BackgroundImage from 'assets/landing/intro-background.png'
 import MetaGameLogo from 'assets/landing/synthlogo-2.svg'
 import { FaArrowDown } from 'react-icons/fa';
