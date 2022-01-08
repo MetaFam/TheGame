@@ -1,4 +1,11 @@
-import { Box, Flex, LinkBox, LinkOverlay, Text } from '@metafam/ds';
+import {
+  Box,
+  Flex,
+  LinkBox,
+  LinkOverlay,
+  LoadingState,
+  Text,
+} from '@metafam/ds';
 import { ProfileSection } from 'components/Profile/ProfileSection';
 import React, { useEffect, useRef, useState } from 'react';
 import { BoxType } from 'utils/boxTypes';
@@ -27,6 +34,7 @@ export const EmbeddedUrl: React.FC<EmbeddedUrlProps> = ({
       height="100%"
       width="100%"
       backgroundColor="whiteAlpha.200"
+      customLoader={<LoadingState />}
       showLoader
       canEdit={canEdit}
     />
@@ -40,7 +48,6 @@ interface LinkPreviewProps {
   height?: string | number;
   descriptionLength?: number;
   borderRadius?: string | number;
-  imageHeight?: string | number;
   textAlign?: 'left' | 'right' | 'center';
   margin?: string | number;
   fallback?: JSX.Element[] | JSX.Element | null;
@@ -67,7 +74,6 @@ const LinkPreview: React.FC<LinkPreviewProps> = ({
   width,
   height,
   borderRadius = 'lg',
-  imageHeight = '13rem',
   textAlign,
   margin,
   fallback = null,
