@@ -313,6 +313,10 @@ export const Grid: React.FC<Props> = ({ player }): ReactElement => {
 
   const onAddBox = useCallback(
     (boxType: BoxType, boxMetadata: BoxMetadata): void => {
+      const boxKey = getBoxKey(boxType, boxMetadata);
+      if (currentLayoutItems.find((item) => item.boxKey === boxKey)) {
+        return;
+      }
       const layoutData = {
         layouts: addBoxToLayouts(boxType, boxMetadata, currentLayouts),
         layoutItems: [
