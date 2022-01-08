@@ -162,6 +162,7 @@ const LinkPreview: React.FC<LinkPreviewProps> = ({
             backgroundImage: `url(${image})`,
             height: 'auto',
             flex: 1,
+            minH: '12rem',
             width: '100%',
             backgroundSize: 'cover',
             backgroundRepeat: 'no-repeat',
