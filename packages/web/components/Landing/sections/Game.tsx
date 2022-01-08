@@ -3,7 +3,7 @@ import {
   Box,
   Text,
   Link
-} from "@chakra-ui/react"
+} from "@metafam/ds"
 import BackgroundImage from 'assets/landing/game-background.png'
 
 

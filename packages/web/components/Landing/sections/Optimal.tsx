@@ -2,7 +2,7 @@ import {
     Container,
     Box,
     Text,
-} from "@chakra-ui/react"
+} from "@metafam/ds"
 import BackgroundImage from 'assets/landing/optimal-background.png'
 
 
