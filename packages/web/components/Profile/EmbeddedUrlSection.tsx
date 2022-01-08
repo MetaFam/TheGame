@@ -1,4 +1,4 @@
-import { Box, LinkBox, LinkOverlay, Text } from '@metafam/ds';
+import { Box, Flex, LinkBox, LinkOverlay, Text } from '@metafam/ds';
 import { ProfileSection } from 'components/Profile/ProfileSection';
 import React, { useEffect, useRef, useState } from 'react';
 import { BoxType } from 'utils/boxTypes';
@@ -24,7 +24,7 @@ export const EmbeddedUrl: React.FC<EmbeddedUrlProps> = ({
     <LinkPreview
       url={address}
       className="linkPreview"
-      height="auto"
+      height="100%"
       width="100%"
       backgroundColor="whiteAlpha.200"
       showLoader
@@ -149,60 +149,63 @@ const LinkPreview: React.FC<LinkPreviewProps> = ({
         },
       }}
     >
-      <Box
-        data-testid="image-container"
-        sx={{
-          backgroundImage: `url(${image})`,
-          height: imageHeight,
-          width: '100%',
-          backgroundSize: 'cover',
-          backgroundRepeat: 'no-repeat',
-          backgroundPosition: 'center',
-        }}
-        className="Image"
-      />
-      <Box
-        sx={{
-          p: 4,
-          h3: {
-            fontSize: '14px',
-            fontWeight: '900',
-            a: {
-              color: 'white',
+      <Flex w="100%" h="100%" direction="column">
+        <Box
+          data-testid="image-container"
+          sx={{
+            backgroundImage: `url(${image})`,
+            height: 'auto',
+            flex: 1,
+            width: '100%',
+            backgroundSize: 'cover',
+            backgroundRepeat: 'no-repeat',
+            backgroundPosition: 'center',
+          }}
+          className="Image"
+        />
+        <Box
+          sx={{
+            p: 4,
+            h3: {
+              fontSize: '14px',
+              fontWeight: '900',
+              a: {
+                color: 'white',
+              },
             },
-          },
-        }}
-      >
-        <h3>
-          <LinkOverlay href={url} isExternal>
-            {title}
-          </LinkOverlay>
-        </h3>
-        {description && (
+          }}
+        >
+          <h3>
+            <LinkOverlay href={url} isExternal>
+              {title}
+            </LinkOverlay>
+          </h3>
+          {description && (
+            <Box
+              data-testid="desc"
+              className="Description Secondary"
+              sx={{
+                color: secondaryTextColor,
+                fontSize: '12px',
+                mt: 1,
+              }}
+            >
+              <Text noOfLines={3}>{description}</Text>
+            </Box>
+          )}
           <Box
-            data-testid="desc"
-            className="Description Secondary"
+            className="Secondary SiteDetails"
             sx={{
-              color: secondaryTextColor,
+              color: 'cyanText',
               fontSize: '12px',
               mt: 1,
             }}
           >
-            <Text noOfLines={3}>{description}</Text>
+            {siteName && <span>{siteName} • </span>}
+            <Text isTruncated>{url}</Text>
           </Box>
-        )}
-        <Box
-          className="Secondary SiteDetails"
-          sx={{
-            color: 'cyanText',
-            fontSize: '12px',
-            mt: 1,
-          }}
-        >
-          {siteName && <span>{siteName} • </span>}
-          <Text isTruncated>{url}</Text>
         </Box>
-      </Box>
+      </Flex>
     </LinkBox>
   );
 };
