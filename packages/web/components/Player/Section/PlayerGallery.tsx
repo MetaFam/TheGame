@@ -3,6 +3,7 @@ import {
   Flex,
   Heading,
   HStack,
+  LoadingState,
   Modal,
   ModalCloseButton,
   ModalContent,
@@ -92,6 +93,7 @@ export const PlayerGallery: React.FC<Props> = ({
       canEdit={canEdit}
       boxType={BoxType.PLAYER_NFT_GALLERY}
     >
+      {loading && <LoadingState />}
       {!loading &&
         favorites?.map((nft) => <GalleryItem nft={nft} key={nft.tokenId} />)}
       {!loading && data?.length > 3 && (
