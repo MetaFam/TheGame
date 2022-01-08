@@ -46,93 +46,96 @@ export const GuildPlayers: React.FC<Props> = ({ guildId, guildname }) => {
         backgroundColor: 'rgba(7, 2, 29, 0.91)',
       };
 
+  const GuildMembers = () =>
+    guildPlayers == null || guildPlayers.length === 0 ? (
+      <p>No known players yet.</p>
+    ) : (
+      <>
+        {guildPlayers.slice(0, 4).map((player) => (
+          <GuildPlayerComponent key={player.username} player={player} />
+        ))}
+
+        {guildPlayers.length > 4 && (
+          <Text
+            as="span"
+            fontSize="xs"
+            color="cyanText"
+            cursor="pointer"
+            onClick={onOpen}
+          >
+            View all ({guildPlayers.length})
+          </Text>
+        )}
+
+        <Modal
+          isOpen={isOpen}
+          onClose={onClose}
+          isCentered
+          scrollBehavior="inside"
+        >
+          <ModalOverlay>
+            <ModalContent maxW="6xl" bg="none">
+              <Box bg="purple80" borderTopRadius="lg" p={4} w="100%">
+                <HStack>
+                  <Text
+                    fontSize="sm"
+                    fontWeight="bold"
+                    color="blueLight"
+                    as="div"
+                    mr="auto"
+                  >
+                    Players
+                  </Text>
+                  <ModalCloseButton color="blueLight" />
+                </HStack>
+              </Box>
+
+              <Flex p={2} css={modalContentStyles}>
+                <Box
+                  overflowY="scroll"
+                  overflowX="hidden"
+                  maxH="80vh"
+                  borderBottomRadius="lg"
+                  w="100%"
+                  color="white"
+                  css={{
+                    scrollbarColor: 'rgba(70,20,100,0.8) rgba(255,255,255,0)',
+                    '::-webkit-scrollbar': {
+                      width: '8px',
+                      background: 'none',
+                    },
+                    '::-webkit-scrollbar-thumb': {
+                      background: 'rgba(70,20,100,0.8)',
+                      borderRadius: '999px',
+                    },
+                  }}
+                >
+                  <SimpleGrid
+                    columns={{ base: 1, md: 2 }}
+                    gap={6}
+                    padding={6}
+                    boxShadow="md"
+                  >
+                    {guildPlayers.map((player) => (
+                      <GuildPlayerComponent
+                        key={player.username}
+                        player={player}
+                      />
+                    ))}
+                  </SimpleGrid>
+                </Box>
+              </Flex>
+            </ModalContent>
+          </ModalOverlay>
+        </Modal>
+      </>
+    );
+
   return (
     <ProfileSection title="Players">
       {loadingPlayers && <LoadingState />}
 
-      {guildPlayers == null || guildPlayers.length === 0 ? (
-        <p>No known players yet.</p>
-      ) : (
-        <>
-          {guildPlayers.slice(0, 4).map((player) => (
-            <GuildPlayerComponent key={player.username} player={player} />
-          ))}
-
-          {guildPlayers.length > 4 && (
-            <Text
-              as="span"
-              fontSize="xs"
-              color="cyanText"
-              cursor="pointer"
-              onClick={onOpen}
-            >
-              View all ({guildPlayers.length})
-            </Text>
-          )}
-
-          <Modal
-            isOpen={isOpen}
-            onClose={onClose}
-            isCentered
-            scrollBehavior="inside"
-          >
-            <ModalOverlay>
-              <ModalContent maxW="6xl" bg="none">
-                <Box bg="purple80" borderTopRadius="lg" p={4} w="100%">
-                  <HStack>
-                    <Text
-                      fontSize="sm"
-                      fontWeight="bold"
-                      color="blueLight"
-                      as="div"
-                      mr="auto"
-                    >
-                      Players
-                    </Text>
-                    <ModalCloseButton color="blueLight" />
-                  </HStack>
-                </Box>
-
-                <Flex p={2} css={modalContentStyles}>
-                  <Box
-                    overflowY="scroll"
-                    overflowX="hidden"
-                    maxH="80vh"
-                    borderBottomRadius="lg"
-                    w="100%"
-                    color="white"
-                    css={{
-                      scrollbarColor: 'rgba(70,20,100,0.8) rgba(255,255,255,0)',
-                      '::-webkit-scrollbar': {
-                        width: '8px',
-                        background: 'none',
-                      },
-                      '::-webkit-scrollbar-thumb': {
-                        background: 'rgba(70,20,100,0.8)',
-                        borderRadius: '999px',
-                      },
-                    }}
-                  >
-                    <SimpleGrid
-                      columns={{ base: 1, md: 2 }}
-                      gap={6}
-                      padding={6}
-                      boxShadow="md"
-                    >
-                      {guildPlayers.map((player) => (
-                        <GuildPlayerComponent
-                          key={player.username}
-                          player={player}
-                        />
-                      ))}
-                    </SimpleGrid>
-                  </Box>
-                </Flex>
-              </ModalContent>
-            </ModalOverlay>
-          </Modal>
-        </>
-      )}
+      {!loadingPlayers && <GuildMembers />}
     </ProfileSection>
   );
 };
