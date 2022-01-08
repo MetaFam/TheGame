@@ -685,6 +685,14 @@
         table:
           schema: public
           name: quest_completion
+  - name: quest_roles
+    using:
+      manual_configuration:
+        remote_table:
+          schema: public
+          name: quest_role
+        column_mapping:
+          id: quest_id
   - name: quest_skills
     using:
       foreign_key_constraint_on:
@@ -798,6 +806,50 @@
         - completed_by_player_id:
             _eq: X-Hasura-User-Id
       check: null
+- table:
+    schema: public
+    name: quest_role
+  object_relationships:
+  - name: PlayerRole
+    using:
+      foreign_key_constraint_on: role
+  - name: quest
+    using:
+      foreign_key_constraint_on: quest_id
+  insert_permissions:
+  - role: player
+    permission:
+      check:
+        quest:
+          created_by_player_id:
+            _eq: X-Hasura-User-Id
+      columns:
+      - rank
+      - role
+      - quest_id
+      backend_only: false
+  select_permissions:
+  - role: player
+    permission:
+      columns:
+      - quest_id
+      - rank
+      - role
+      filter: {}
+  - role: public
+    permission:
+      columns:
+      - rank
+      - role
+      - quest_id
+      filter: {}
+  delete_permissions:
+  - role: player
+    permission:
+      filter:
+        quest:
+          created_by_player_id:
+            _eq: X-Hasura-User-Id
 - table:
     schema: public
     name: quest_skill
