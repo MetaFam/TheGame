@@ -12,7 +12,7 @@ const Editor = dynamic<EditorProps>(
 
 type Props = {
   editorState: EditorState;
-  onEditorStateChange: any;
+  onEditorStateChange: (state: EditorState) => void;
 };
 
 export const WYSIWYGEditor: React.FC<Props> = ({

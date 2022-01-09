@@ -27,8 +27,4 @@ const cpUpload = upload.fields([
   { name: 'image', maxCount: 1 },
   { name: 'background', maxCount: 1 },
 ]);
-actionRoutes.post(
-  '/storage',
-  cpUpload,
-  web3StorageUpload,
-);
+actionRoutes.post('/storage', cpUpload, web3StorageUpload);
