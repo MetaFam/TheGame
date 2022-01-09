@@ -29,9 +29,9 @@ export const Watch: React.FC = () => {
   useEffect(() => {
     const load = async () => {
       const res = await fetch(URL).then((r) => r.json());
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const videosList = res.items
-        ? res.items.map((video: any) => ({
+        ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          res.items.map((video: any) => ({
             id: video.id,
             videoId: video.snippet.resourceId.videoId,
             title: video.snippet.title,
