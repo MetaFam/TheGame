@@ -39,12 +39,15 @@ export const useOpenSeaCollectibles = ({
   useEffect(() => {
     async function load() {
       setLoading(true);
-      if (owner) {
-        const allData = await fetchAllOpenSeaData(owner);
-        setData(allData);
-        setFavorites(allData.slice(0, 3));
+      try {
+        if (owner) {
+          const allData = await fetchAllOpenSeaData(owner);
+          setData(allData);
+          setFavorites(allData.slice(0, 3));
+        }
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     }
     load();
   }, [owner]);
@@ -71,8 +74,12 @@ const fetchAllOpenSeaData = async (
 const fetchOpenSeaData = async (
   query: OpenSeaAssetQuery,
 ): Promise<Array<Collectible>> => {
-  const response = await opensea.getAssets(query);
-  return parseAssets(response.assets);
+  try {
+    const response = await opensea.getAssets(query);
+    return await parseAssets(response.assets);
+  } catch {
+    return [];
+  }
 };
 
 const parseAssets = async (

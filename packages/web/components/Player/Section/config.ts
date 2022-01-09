@@ -10,9 +10,10 @@ export const ALL_BOXES = [
   BoxType.PLAYER_TYPE,
   BoxType.PLAYER_NFT_GALLERY,
   BoxType.PLAYER_DAO_MEMBERSHIPS,
-  BoxType.PLAYER_ACHIEVEMENTS,
   BoxType.PLAYER_ROLES,
   BoxType.EMBEDDED_URL,
+  // BoxType.PLAYER_ACHIEVEMENTS,
+  // TODO: Add more types of sections
 ];
 
 export const MULTIPLE_ALLOWED_BOXES = [BoxType.EMBEDDED_URL];
