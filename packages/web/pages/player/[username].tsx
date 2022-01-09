@@ -148,22 +148,27 @@ type ProfileLayoutData = {
   layouts: Layouts;
 };
 
-export const Grid: React.FC<Props> = ({ player }): ReactElement => {
+export const Grid: React.FC<Props> = ({ player: initPlayer }): ReactElement => {
   const [isOwnProfile, setIsOwnProfile] = useState(false);
   const [, invalidateCache] = useInsertCacheInvalidationMutation();
   const { user, fetching } = useUser();
   const { connected } = useWeb3();
+  const [player, setPlayer] = useState(initPlayer);
+
   useEffect(() => {
-    if (connected && !fetching && user?.id === player?.id) {
-      setIsOwnProfile(true);
+    if (!fetching && user?.player && user?.id === player?.id) {
+      setPlayer(user?.player);
+      if (connected) {
+        setIsOwnProfile(true);
+      }
     }
   }, [user, fetching, connected, player?.id]);
 
   useEffect(() => {
-    if (player) {
+    if (player?.id) {
       invalidateCache({ playerId: player.id });
     }
-  }, [player, invalidateCache]);
+  }, [player?.id, invalidateCache]);
 
   const toast = useToast();
 
@@ -173,7 +178,7 @@ export const Grid: React.FC<Props> = ({ player }): ReactElement => {
   ] = useUpdatePlayerProfileLayoutMutation();
   const [saving, setSaving] = useState(false);
 
-  const layoutsFromDB = player.profile_layout
+  const layoutsFromDB = player?.profile_layout
     ? JSON.parse(player.profile_layout)
     : null;
 
@@ -188,6 +193,17 @@ export const Grid: React.FC<Props> = ({ player }): ReactElement => {
     { layoutItems: currentLayoutItems, layouts: currentLayouts },
     setCurrentLayoutData,
   ] = useState<ProfileLayoutData>(savedLayoutData);
+
+  useEffect(() => {
+    const dbLayouts = player?.profile_layout
+      ? JSON.parse(player.profile_layout)
+      : null;
+    if (dbLayouts) {
+      setSavedLayoutData(dbLayouts);
+      setCurrentLayoutData(dbLayouts);
+      setEditable(false);
+    }
+  }, [player?.profile_layout]);
 
   const [changed, setChanged] = useState(false);
 

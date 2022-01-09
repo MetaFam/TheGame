@@ -21,7 +21,8 @@ export const Listen: React.FC = () => {
   const { data, error } = useSWR(podcastRSSURL, parse);
 
   if (error) {
-    console.error(error);
+    // eslint-disable-next-line no-console
+    console.error('Podcast fetch error: ', error);
     setLoading(false);
   }
 

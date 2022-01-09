@@ -12,9 +12,9 @@ export default async (req: Request, res: Response): Promise<Response> => {
   const files = Object.entries(input).map(([key, [{ path }]]) => ({
     name: key,
     stream: () =>
-      fs.createReadStream(
+      (fs.createReadStream(
         Path.isAbsolute(path) ? path : Path.join(process.cwd(), path),
-      ) as any,
+      ) as unknown) as ReadableStream,
   }));
 
   const cid = await storage.put(files);
