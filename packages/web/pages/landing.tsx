@@ -1,5 +1,6 @@
 import React from 'react';
 
+// eslint-disable-next-line import/no-named-as-default
 import Build from '../components/Landing/Sections/Build';
 import Cards from '../components/Landing/Sections/Cards';
 import Frontier from '../components/Landing/Sections/Frontier';
