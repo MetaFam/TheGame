@@ -1,7 +1,7 @@
 import { Box, Container, Text } from '@metafam/ds';
 import BackgroundImage from 'assets/landing/build-background.png';
 
-export const Build: React.FC = () => (
+const Build: React.FC = () => (
   <Box
     width="100%"
     minHeight="1040px"
@@ -20,7 +20,7 @@ export const Build: React.FC = () => (
     >
       <Text
         fontSize="38px"
-        LineHeight="56px"
+        lineHeight="56px"
         fontWeight="normal"
         color="white"
         display="flex"
@@ -34,7 +34,7 @@ export const Build: React.FC = () => (
       <Text
         pt="56px"
         fontSize="38px"
-        LineHeight="56px"
+        lineHeight="56px"
         fontWeight="normal"
         color="white"
         display="flex"
