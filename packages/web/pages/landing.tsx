@@ -1,18 +1,19 @@
 import React from 'react';
 
-import Build from '../components/Landing/Build';
-import Cards from '../components/Landing/Cards';
-import Frontier from '../components/Landing/Frontier';
-import Game from '../components/Landing/Game';
-import Intro from '../components/Landing/Intro';
-import JustWatch from '../components/Landing/JustWatch';
-import Optimal from '../components/Landing/Optimal';
-import Revolution from '../components/Landing/Revolution';
-import Together from '../components/Landing/Together';
-import Unplug from '../components/Landing/Unplug';
-import WhatWeDo from '../components/Landing/WhatWeDo';
-import Who from '../components/Landing/Who';
-import WildWeb from '../components/Landing/WildWeb';
+// eslint-disable-next-line import/no-named-as-default
+import Build from '../components/Landing/Sections/Build';
+import Cards from '../components/Landing/Sections/Cards';
+import Frontier from '../components/Landing/Sections/Frontier';
+import Game from '../components/Landing/Sections/Game';
+import Intro from '../components/Landing/Sections/Intro';
+import JustWatch from '../components/Landing/Sections/JustWatch';
+import Optimal from '../components/Landing/Sections/Optimal';
+import Revolution from '../components/Landing/Sections/Revolution';
+import Together from '../components/Landing/Sections/Together';
+import Unplug from '../components/Landing/Sections/Unplug';
+import WhatWeDo from '../components/Landing/Sections/WhatWeDo';
+import Who from '../components/Landing/Sections/Who';
+import WildWeb from '../components/Landing/Sections/WildWeb';
 
 export const getStaticProps = async () => ({
   props: {
