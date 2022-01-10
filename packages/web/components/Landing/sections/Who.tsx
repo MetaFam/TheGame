@@ -1,39 +1,37 @@
 import { Box, Container, Text } from '@metafam/ds';
 import BackgroundImage from 'assets/landing/who-background.png';
 
-function Who() {
-  return (
-    <Box
+const Who: React.FC = () => (
+  <Box
+    width="100%"
+    minHeight="1040px"
+    backgroundImage={`url(${BackgroundImage})`}
+    bgPosition="center"
+    bgSize="cover"
+  >
+    <Container
       width="100%"
-      minHeight="1040px"
-      backgroundImage={`url(${BackgroundImage})`}
-      bgPosition="center"
-      bgSize="cover"
+      height="100vh"
+      display="flex"
+      flexDirection="column"
+      justifyContent="flex-end"
+      maxWidth="100%"
+      alignItems="center"
+      textAlign="center"
     >
-      <Container
-        width="100%"
-        height="100vh"
-        display="flex"
-        flexDirection="column"
-        justifyContent="flex-end"
-        maxWidth="100%"
-        alignItems="center"
-        textAlign="center"
+      <Box
+        fontSize="67px"
+        lineHeight="80px"
+        fontWeight="normal"
+        color="white"
+        maxWidth="1200px"
       >
-        <Box
-          fontSize="67px"
-          LineHeight="80px"
-          fontWeight="normal"
-          color="white"
-          maxWidth="1200px"
-        >
-          <Text pt="130px" pb="35px" textAlign="center">
-            So, whom is it for?
-          </Text>
-        </Box>
-      </Container>
-    </Box>
-  );
-}
+        <Text pt="130px" pb="35px" textAlign="center">
+          So, whom is it for?
+        </Text>
+      </Box>
+    </Container>
+  </Box>
+);
 
 export default Who;
