@@ -101,7 +101,6 @@ const EditQuestPage: React.FC<Props> = ({
       <Heading mb={4}>Edit Quest</Heading>
 
       <QuestForm
-        roleChoices={[]}
         guilds={guilds}
         skillChoices={skillChoices}
         roleChoices={roleChoices}
