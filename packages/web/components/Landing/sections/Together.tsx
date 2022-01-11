@@ -4,7 +4,7 @@ import BackgroundImage from 'assets/landing/together-background.png';
 const Together: React.FC = () => (
   <Box
     width="100%"
-    minHeight="1040px"
+    minHeight="65rem"
     backgroundImage={`url(${BackgroundImage})`}
     bgPosition="center"
     bgSize="cover"
@@ -15,17 +15,17 @@ const Together: React.FC = () => (
       display="flex"
       flexDirection="column"
       justifyContent="center"
-      maxWidth="1200px"
+      maxWidth="75rem"
       alignItems="center"
     >
       <Box
-        fontSize="48px"
+        fontSize="3rem"
         lineHeight="64px"
         fontWeight="normal"
         color="white"
         bgGradient=" linear-gradient(180deg, #FFFFFF 15.3%, #FD208A 85.41%);                    "
         bgClip="text"
-        maxWidth="1200px"
+        maxWidth="75rem"
         display="inline"
         pb="35px"
         pt="130px"

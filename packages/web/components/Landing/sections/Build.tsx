@@ -4,7 +4,7 @@ import BackgroundImage from 'assets/landing/build-background.png';
 const Build: React.FC = () => (
   <Box
     width="100%"
-    minHeight="1040px"
+    minHeight="65rem"
     backgroundImage={`url(${BackgroundImage})`}
     bgPosition="center"
     bgSize="cover"
@@ -19,13 +19,13 @@ const Build: React.FC = () => (
       pl="137px"
     >
       <Text
-        fontSize="38px"
-        lineHeight="56px"
+        fontSize="2.375rem"
+        lineHeight="3.5rem"
         fontWeight="normal"
         color="white"
         display="flex"
         flexDirection="column"
-        maxWidth="524px"
+        maxWidth="32.75rem"
       >
         Many have already woken up to the world-shaping potential of Web3
         technologies.
@@ -33,13 +33,13 @@ const Build: React.FC = () => (
 
       <Text
         pt="56px"
-        fontSize="38px"
-        lineHeight="56px"
+        fontSize="2.375rem"
+        lineHeight="3.5rem"
         fontWeight="normal"
         color="white"
         display="flex"
         flexDirection="column"
-        maxWidth="524px"
+        maxWidth="32.75rem"
       >
         Some are grabbing the opportunity to build the future they want to live
         in.

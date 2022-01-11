@@ -5,7 +5,7 @@ import { FaArrowDown } from 'react-icons/fa';
 const JustWatch: React.FC = () => (
   <Box
     width="100%"
-    minHeight="1040px"
+    minHeight="65rem"
     backgroundImage={`url(${BackgroundImage})`}
     bgPosition="center"
     bgSize="cover"
@@ -18,13 +18,13 @@ const JustWatch: React.FC = () => (
       width="100%"
       height="100vh"
       pb="78px"
-      maxWidth="1200px"
+      maxWidth="75rem"
       textAlign="center"
     >
       <Text
-        max-width="1200px"
-        fontSize="76px"
-        lineHeight="80px"
+        max-width="75rem"
+        fontSize="4.188rem"
+        lineHeight="5rem"
         fontWeight="normal"
         color="white"
         mt="10px"
@@ -34,22 +34,22 @@ const JustWatch: React.FC = () => (
       </Text>
       <Button
         fontWeight="normal"
-        fontSize="18px"
+        fontSize="1.125rem"
         bg="#B40C85"
         mb="16px"
-        width="284px"
+        width="17.75rem"
         textTransform="uppercase"
       >
         Join Nao
       </Button>
       <Button
         fontWeight="normal"
-        fontSize="18px"
+        fontSize="1.125rem"
         bg="transparent"
         border="1px"
         borderColor="white"
         color="white"
-        width="284px"
+        width="17.75rem"
         textTransform="uppercase"
         rightIcon={<FaArrowDown />}
       >

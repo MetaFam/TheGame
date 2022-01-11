@@ -4,7 +4,7 @@ import BackgroundImage from 'assets/landing/wildweb-background.png';
 const WildWeb: React.FC = () => (
   <Box
     width="100%"
-    minHeight="1040px"
+    minHeight="65rem"
     backgroundImage={`url(${BackgroundImage})`}
     bgPosition="center"
     bgSize="cover"
@@ -19,11 +19,11 @@ const WildWeb: React.FC = () => (
       alignItems="center"
     >
       <Box
-        fontSize="48px"
+        fontSize="3rem"
         lineHeight="64px"
         fontWeight="normal"
         color="white"
-        maxWidth="978px"
+        maxWidth="61.125rem"
       >
         <Text pt="130px" pb="35px">
           Web3 technologies are allowing us to{' '}
@@ -43,7 +43,12 @@ const WildWeb: React.FC = () => (
           corner.
         </Text>
 
-        <Text pb="35px" maxWidth="978px" width="100%" textTransform="uppercase">
+        <Text
+          pb="35px"
+          maxWidth="61.125rem"
+          width="100%"
+          textTransform="uppercase"
+        >
           It’s a Wild Web.
         </Text>
       </Box>
