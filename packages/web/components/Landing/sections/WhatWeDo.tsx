@@ -4,7 +4,7 @@ import BackgroundImage from 'assets/landing/whatWeDo-background.png';
 const WhatWeDo: React.FC = () => (
   <Box
     width="100%"
-    minHeight="1040px"
+    minHeight="65rem"
     backgroundImage={`url(${BackgroundImage})`}
     bgPosition="center"
     bgSize="cover"

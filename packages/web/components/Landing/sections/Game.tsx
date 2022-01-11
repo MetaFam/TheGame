@@ -4,7 +4,7 @@ import BackgroundImage from 'assets/landing/game-background.png';
 const Game: React.FC = () => (
   <Box
     width="100%"
-    minHeight="1040px"
+    minHeight="65rem"
     backgroundImage={`url(${BackgroundImage})`}
     bgPosition="center"
     bgSize="cover"
@@ -19,13 +19,13 @@ const Game: React.FC = () => (
       pl="137px"
     >
       <Text
-        fontSize="38px"
-        lineHeight="56px"
+        fontSize="2.375rem"
+        lineHeight="3.5rem"
         fontWeight="normal"
         color="white"
         display="flex"
         flexDirection="column"
-        maxWidth="524px"
+        maxWidth="32.75rem"
       >
         “Metagame is any approach to a game that transcends or operates outside
         of the prescribed rules of the game, uses external factors to affect the
@@ -36,8 +36,8 @@ const Game: React.FC = () => (
           <Link
             color="#79F8FB"
             href="#"
-            fontSize="38px"
-            lineHeight="56px"
+            fontSize="2.375rem"
+            lineHeight="3.5rem"
             fontWeight="normal"
           >
             The Wiki

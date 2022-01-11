@@ -4,7 +4,7 @@ import BackgroundImage from 'assets/landing/optimal-background.png';
 const Optimal: React.FC = () => (
   <Box
     width="100%"
-    minHeight="1040px"
+    minHeight="65rem"
     backgroundImage={`url(${BackgroundImage})`}
     bgPosition="center"
     bgSize="cover"
@@ -20,15 +20,15 @@ const Optimal: React.FC = () => (
       textAlign="center"
     >
       <Box
-        fontSize="48px"
+        fontSize="3rem"
         lineHeight="72px"
         fontWeight="normal"
         color="white"
-        maxWidth="1200px"
+        maxWidth="75rem"
       >
         <Text pt="130px" pb="35px" textAlign="center">
           To find your metagame means to{' '}
-          <Text fontWeight="bold" color="#79F8FB">
+          <Text fontWeight="bold" color="cyanText">
             play life in the optimal way.
           </Text>
         </Text>
@@ -36,18 +36,18 @@ const Optimal: React.FC = () => (
           <Text>
             By coordinating with others on building a better world; doing things
             that create a{' '}
-            <Text as="span" fontWeight="bold" color="#79F8FB">
+            <Text as="span" fontWeight="bold" color="cyanText">
               {' '}
               a positive impact
               <br />{' '}
             </Text>{' '}
             make
-            <Text as="span" fontWeight="bold" color="#79F8FB">
+            <Text as="span" fontWeight="bold" color="cyanText">
               {' '}
               you happy{' '}
             </Text>
             AND
-            <Text as="span" fontWeight="bold" color="#79F8FB">
+            <Text as="span" fontWeight="bold" color="cyanText">
               {' '}
               earn you money.
             </Text>

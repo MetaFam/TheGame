@@ -4,7 +4,7 @@ import BackgroundImage from 'assets/landing/unplug-background.png';
 const Unplug: React.FC = () => (
   <Box
     width="100%"
-    minHeight="1040px"
+    minHeight="65rem"
     backgroundImage={`url(${BackgroundImage})`}
     bgPosition="center"
     bgSize="cover"
@@ -20,11 +20,11 @@ const Unplug: React.FC = () => (
       textAlign="center"
     >
       <Box
-        fontSize="67px"
-        lineHeight="80px"
+        fontSize="4.188rem"
+        lineHeight="5rem"
         fontWeight="normal"
         color="white"
-        maxWidth="1200px"
+        maxWidth="75rem"
       >
         <Text pt="130px" pb="35px" textAlign="center">
           So unplug yourself from the matrix & enter the future.

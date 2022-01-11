@@ -5,7 +5,7 @@ import CardImage from 'assets/landing/card-image.png';
 const Cards: React.FC = () => (
   <Box
     width="100%"
-    minHeight="1040px"
+    minHeight="65rem"
     background="dark"
     bgPosition="center"
     bgSize="cover"
