@@ -4,7 +4,7 @@ import BackgroundImage from 'assets/landing/revolution-background.png';
 const Build: React.FC = () => (
   <Box
     width="100%"
-    minHeight="1040px"
+    minHeight="65rem"
     backgroundImage={`url(${BackgroundImage})`}
     bgPosition="center"
     bgSize="cover"
@@ -21,8 +21,8 @@ const Build: React.FC = () => (
       pr="116px"
     >
       <Text
-        fontSize="67px"
-        lineHeight="80px"
+        fontSize="4.188rem"
+        lineHeight="5rem"
         fontWeight="normal"
         color="white"
         display="flex"
@@ -34,8 +34,8 @@ const Build: React.FC = () => (
 
       <Text
         pt="24px"
-        fontSize="67px"
-        lineHeight="80px"
+        fontSize="4.188rem"
+        lineHeight="5rem"
         fontWeight="normal"
         color="white"
         maxWidth="568px"

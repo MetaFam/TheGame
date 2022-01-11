@@ -4,7 +4,7 @@ import BackgroundImage from 'assets/landing/who-background.png';
 const Who: React.FC = () => (
   <Box
     width="100%"
-    minHeight="1040px"
+    minHeight="65rem"
     backgroundImage={`url(${BackgroundImage})`}
     bgPosition="center"
     bgSize="cover"
@@ -21,10 +21,10 @@ const Who: React.FC = () => (
     >
       <Box
         fontSize="67px"
-        lineHeight="80px"
+        lineHeight="5rem"
         fontWeight="normal"
         color="white"
-        maxWidth="1200px"
+        maxWidth="75rem"
       >
         <Text pt="130px" pb="35px" textAlign="center">
           So, whom is it for?

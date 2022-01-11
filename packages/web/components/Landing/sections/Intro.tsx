@@ -6,7 +6,7 @@ import { FaArrowDown } from 'react-icons/fa';
 const Intro: React.FC = () => (
   <Box
     width="100%"
-    minHeight="1040px"
+    minHeight="65rem"
     backgroundImage={`url(${BackgroundImage})`}
     bgPosition="center"
     bgSize="cover"
@@ -18,7 +18,7 @@ const Intro: React.FC = () => (
       alignItems="center"
       width="100%"
       height="100vh"
-      pb="78px"
+      pb="4.875rem"
     >
       <Image src={MetaGameLogo} />
       <Text
@@ -26,28 +26,28 @@ const Intro: React.FC = () => (
         fontWeight="normal"
         color="white"
         mt="10px"
-        mb="35px"
+        mb="2.188rem"
       >
         A Massive Online Coordination Game
       </Text>
       <Button
         fontWeight="normal"
-        fontSize="18px"
+        fontSize="1.125rem"
         bg="#B40C85"
         mb="16px"
-        width="284px"
+        width="17.75rem"
         textTransform="uppercase"
       >
         Join Nao
       </Button>
       <Button
         fontWeight="normal"
-        fontSize="18px"
+        fontSize="1.125rem"
         bg="transparent"
         border="1px"
-        borderColor="#79F8FB"
+        borderColor="cyanText"
         color="#79F8FB"
-        width="284px"
+        width="17.75rem"
         textTransform="uppercase"
         rightIcon={<FaArrowDown />}
       >
