@@ -18,7 +18,6 @@ import React, { FC, ReactNode, useState } from 'react';
 import { FaChartBar } from 'react-icons/fa';
 import {
   AreaSeries,
-  AreaSeriesPoint,
   FlexibleXYPlot,
   GradientDefs,
   LineSeries,
@@ -69,7 +68,7 @@ export const XP = (): React.ReactElement => {
 
         <Stat alignSelf="flex-start" justifySelf="flex-end" flex="0 0 100%">
           <StatLabel>All Time</StatLabel>
-          <StatNumber>{userTotalXP}</StatNumber>
+          <StatNumber>{userTotalXP.toLocaleString()}</StatNumber>
           {user?.player?.rank && (
             <MetaTag
               backgroundColor={user.player.rank.toLowerCase()}
@@ -118,51 +117,46 @@ export const Chart: FC<ChartType> = ({ data }) => {
     range: scale,
   });
 
-  const switchScale = (range: number) => {
-    setScale(range);
-  };
-
-  function makePlots(weeks: Array<number>) {
-    const plots: Array<AreaSeriesPoint> = weeks
-      .slice(-Math.floor(scale / 7))
-      .map((d, i) => ({
-        x: i + 1,
-        y: d,
-        y0: 0,
-      }));
-    return plots;
-  }
+  const makePlots = (weeks: Array<number>) =>
+    weeks.slice(-Math.floor(scale / 7)).map((d, i) => ({
+      x: i + 1,
+      y: d,
+      y0: 0,
+    }));
 
   const plots = makePlots(data);
 
   return (
     <Box>
-      <Box position="absolute" top={6} right={6} zIndex={250}>
-        <ButtonGroup isAttached>
-          {[30, 90].map((s) => (
-            <Button
-              key={s}
-              aria-label="Toggle chart scale"
-              icon={<FaChartBar />}
-              borderColor="pinkShadeOne"
-              background="rgba(17, 17, 17, 0.9)"
-              color="pinkShadeOne"
-              _hover={{ color: 'white', borderColor: 'white' }}
-              variant="outline"
-              isRound
-              onClick={() => switchScale(s)}
-              size="xs"
-              sx={{
-                '&:focus, &:hover': {
-                  background: 'transparent',
-                },
-              }}
-            >
-              {s}d
-            </Button>
-          ))}
-        </ButtonGroup>
-      </Box>
+      <ButtonGroup
+        isAttached
+        position="absolute"
+        top={6}
+        right={6}
+        zIndex={250}
+      >
+        {[30, 90].map((s) => (
+          <Button
+            key={s}
+            aria-label="Toggle chart scale"
+            icon={<FaChartBar />}
+            borderColor="pinkShadeOne"
+            background="rgba(17, 17, 17, 0.9)"
+            color="pinkShadeOne"
+            _hover={{ color: 'white', borderColor: 'white' }}
+            variant="outline"
+            onClick={() => setScale(s)}
+            size="xs"
+            sx={{
+              '&:focus, &:hover': {
+                background: 'transparent',
+              },
+            }}
+          >
+            {s}d
+          </Button>
+        ))}
+      </ButtonGroup>
       <FlexibleXYPlot
         className="xp-chart"
         height={200}
@@ -192,7 +186,6 @@ export const Chart: FC<ChartType> = ({ data }) => {
           curve="linear"
           color="url(#MetaGradient)"
           animation={{ damping: 80, stiffness: 800 }}
-          // stroke="#A426A4"
           opacity={0.2}
           data={plots}
         />

@@ -1,16 +1,17 @@
 import { MetaButton, Spinner } from '@metafam/ds';
-import { useUser, useWeb3 } from 'lib/hooks';
+import { useMounted, useUser, useWeb3 } from 'lib/hooks';
 import React, { useCallback } from 'react';
 
 export const LoginButton: React.FC = () => {
   const { connect, connecting, connected } = useWeb3();
   const { user, fetching } = useUser({ forLoginDisplay: true });
+  const mounted = useMounted();
 
   const handleLoginClick = useCallback(async () => {
     await connect();
   }, [connect]);
 
-  if (fetching || connecting) {
+  if (!mounted || fetching || connecting) {
     return (
       <Spinner color="purple.500" size="md" my={3} thickness="4px" speed="4s" />
     );

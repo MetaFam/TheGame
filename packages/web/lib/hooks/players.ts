@@ -102,14 +102,14 @@ export const sortOptionsMap = {
   },
   [SortOption.USERNAME_A_TO_Z]: {
     value: SortOption.USERNAME_A_TO_Z,
-    label: 'Username (A-Z)',
+    label: 'Username (A–Z)',
     output: {
       username: 'asc',
     },
   },
-  [SortOption.USERNAME_Z_TO_A.toString()]: {
+  [SortOption.USERNAME_Z_TO_A]: {
     value: SortOption.USERNAME_Z_TO_A,
-    label: 'Username (Z-A)',
+    label: 'Username (Z–A)',
     output: {
       username: 'desc',
     },
@@ -119,7 +119,7 @@ export const sortOptionsMap = {
 export const sortOptions = Object.values(sortOptionsMap) as Array<OptionType>;
 
 const getOrderByValue = (option: SortOption): Player_Order_By =>
-  (sortOptionsMap[(option || SortOption.SEASON_XP).toString()] as {
+  (sortOptionsMap[option || SortOption.SEASON_XP] as {
     value: SortOption;
     label: string;
     output: Player_Order_By;

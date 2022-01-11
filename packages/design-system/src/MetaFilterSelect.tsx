@@ -374,18 +374,19 @@ export function MetaFilterSelectSearch<
       isMulti
       closeMenuOnSelect={false}
       components={{
-        // MultiValueContainer: () => null,
-        // SingleValue: () => null,
-        // IndicatorSeparator: () => null,
-        // DropdownIndicator: () => null,
-        // IndicatorsContainer: () => null,
-        // Input: () => null,
+        MultiValueContainer: () => null,
+        SingleValue: () => null,
+        IndicatorSeparator: () => null,
+        DropdownIndicator: () => null,
+        IndicatorsContainer: () => null,
+        Input: () => null,
         ValueContainer: SelectValueContainer,
         Option: SelectOption,
         Menu: SelectMenu,
         Control: SelectControl,
         SelectContainer,
       }}
+      placeholder=""
       isClearable={false}
       hideSelectedOptions={false}
       filterOption={isTimeZone ? null : undefined}

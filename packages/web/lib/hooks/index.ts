@@ -3,7 +3,7 @@ import { Player, useGetMeQuery } from 'graphql/autogen/types';
 import { Maybe } from 'graphql/jsutils/Maybe';
 import { MeType } from 'graphql/types';
 import { useRouter } from 'next/router';
-import { useContext, useEffect, useMemo, useState } from 'react';
+import { useContext, useEffect, useMemo, useRef } from 'react';
 import { RequestPolicy } from 'urql';
 
 export const useWeb3 = (): Web3ContextType => useContext(Web3Context);
@@ -59,7 +59,12 @@ export const useUser = ({
 
 // https://www.joshwcomeau.com/react/the-perils-of-rehydration/
 export const useMounted = (): boolean => {
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
-  return mounted;
+  const mounted = useRef(false);
+  useEffect(() => {
+    mounted.current = true;
+    return () => {
+      mounted.current = false;
+    };
+  }, []);
+  return mounted.current;
 };

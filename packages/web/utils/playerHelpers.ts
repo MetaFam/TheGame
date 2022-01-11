@@ -12,9 +12,9 @@ export const getImageFor = (player?: Player): string => {
   const link = httpLink(player?.profile?.profileImageURL);
   if (link) return link;
 
-  const { username } = player?.profile ?? {};
-  return username
-    ? `https://avatars.dicebear.com/api/jdenticon/${username}.svg`
+  const { ethereumAddress } = player ?? {};
+  return ethereumAddress
+    ? `https://avatars.dicebear.com/api/jdenticon/${ethereumAddress}.svg`
     : ProfileIcon;
 };
 
@@ -30,7 +30,8 @@ export const getGuildCoverImageSmall = (): string => GuildCoverImageSmall;
 
 export const getNameOf = (player?: Player): string | undefined =>
   player?.profile?.name ||
-  formatIfAddress(player?.profile?.username ?? undefined);
+  player?.profile?.username ||
+  formatIfAddress(player?.ethereumAddress);
 
 export const getUsernameOf = (player?: Player): string | undefined =>
   formatIfAddress(player?.profile?.username ?? undefined);

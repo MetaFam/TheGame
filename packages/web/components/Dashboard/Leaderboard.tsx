@@ -21,7 +21,7 @@ import {
 } from 'lib/hooks/players';
 import NextLink from 'next/link';
 import React, { useMemo, useState } from 'react';
-import { getNameOf } from 'utils/playerHelpers';
+import { getNameOf, getURLFor } from 'utils/playerHelpers';
 
 export const Leaderboard: React.FC = () => {
   const {
@@ -44,7 +44,7 @@ export const Leaderboard: React.FC = () => {
   ) as Array<OptionType>;
 
   const [sortOption, setSortOption] = useState<LabeledValue<string>>(
-    sortOptionsMap[SortOption.SEASON_XP.toString()],
+    sortOptionsMap[SortOption.SEASON_XP],
   );
 
   return (
@@ -58,7 +58,15 @@ export const Leaderboard: React.FC = () => {
     >
       <Box mb={4}>
         <MetaFilterSelectSearch
-          title={`Sorted By: ${sortOption.label}`}
+          title={
+            <Text
+              as="span"
+              textTransform="none"
+              style={{ fontVariant: 'small-caps' }}
+            >
+              Sort By: <Text as="span">{sortOption.label}</Text>
+            </Text>
+          }
           styles={metaFilterSelectStyles}
           tagLabel=""
           hasValue={sortOption.value !== SortOption.SEASON_XP}
@@ -98,7 +106,8 @@ export const Leaderboard: React.FC = () => {
                 className="player player__chip"
                 display="flex"
                 width="100%"
-                px={8}
+                maxW="100%"
+                px={1}
                 py={2}
                 flexFlow="row nowrap"
                 alignItems="center"
@@ -108,14 +117,14 @@ export const Leaderboard: React.FC = () => {
                 overflowX="hidden"
                 overflowY="hidden"
               >
-                <Box className="player__position" flex={0} mr={3}>
+                <Box className="player__position" flex={0} mr={1.5}>
                   {position}
                 </Box>
                 <PlayerAvatar
                   className="player__avatar"
                   bg="cyan.200"
-                  border="0"
-                  mr={3}
+                  border={0}
+                  mr={1}
                   size="sm"
                   player={p}
                   sx={{
@@ -136,15 +145,24 @@ export const Leaderboard: React.FC = () => {
                 />
                 <Box className="player__name">
                   <NextLink
-                    as={`/player/${p.profile?.username}`}
+                    as={getURLFor(p)}
                     href="/player/[username]"
                     passHref
                   >
-                    <LinkOverlay>{getNameOf(p)}</LinkOverlay>
+                    <LinkOverlay
+                      overflowX="hidden"
+                      whiteSpace="pre"
+                      textOverflow="ellipsis"
+                      mr={2}
+                    >
+                      {getNameOf(p)}
+                    </LinkOverlay>
                   </NextLink>
                 </Box>
                 <Box className="player__score" textAlign="right" flex={1}>
-                  {Math.floor(showSeasonalXP ? p.seasonXP : p.totalXP)}
+                  {Math.floor(
+                    showSeasonalXP ? p.seasonXP : p.totalXP,
+                  ).toLocaleString()}
                 </Box>
               </LinkBox>
             );

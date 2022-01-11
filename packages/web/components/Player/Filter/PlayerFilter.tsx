@@ -66,7 +66,7 @@ export const PlayerFilter: React.FC<Props> = ({
   const [timeZones, setTimeZones] = useState<Array<TimeZone>>([]);
   const [availability, setAvailability] = useState<ValueType | null>(null);
   const [sortOption, setSortOption] = useState<ValueType>(
-    sortOptionsMap[SortOption.SEASON_XP.toString()],
+    sortOptionsMap[SortOption.SEASON_XP],
   );
 
   const onSearch = (e: React.ChangeEvent<HTMLFormElement>) => {
@@ -241,9 +241,7 @@ export const PlayerFilter: React.FC<Props> = ({
                 <FilterTag
                   label={`Sorted By: ${sortOption.label}`}
                   onRemove={() => {
-                    setSortOption(
-                      sortOptionsMap[SortOption.SEASON_XP.toString()],
-                    );
+                    setSortOption(sortOptionsMap[SortOption.SEASON_XP]);
                   }}
                 />
               </WrapItem>

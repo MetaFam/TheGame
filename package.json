@@ -12,6 +12,7 @@
     "docker:build": "docker-compose up --build -d",
     "docker:stop": "docker-compose down",
     "docker:clean": "docker-compose down -v",
+    "build": "lerna run build",
     "web:dev": "lerna run dev --parallel --scope @metafam/web --include-dependencies",
     "web:build": "lerna run build --scope @metafam/web --include-dependencies --stream",
     "backend:dev": "lerna run dev --parallel --scope @metafam/backend",
@@ -78,8 +79,8 @@
     "prettier": "2.2.1",
     "react": "17.0.2",
     "react-dom": "17.0.2",
-    "tsdx": "0.14.1",
     "standard-version": "9.3.2",
+    "tsdx": "0.14.1",
     "typescript": "4.5.4",
     "wait-on": "5.3.0"
   },

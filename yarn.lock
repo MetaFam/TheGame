@@ -19503,23 +19503,13 @@ react-clientside-effect@^1.2.2:
   dependencies:
     "@babel/runtime" "^7.12.13"
 
-react-container-query@^0.12.0:
+react-container-query@0.12.0:
   version "0.12.0"
   resolved "https://registry.yarnpkg.com/react-container-query/-/react-container-query-0.12.0.tgz#193322fc5b5e641535c89c9a02644285a23d9db6"
   integrity sha512-KwHd1U7sobGcJ3tMqHASfQBTcXhsKIYEYCvrRGVv3mHxEKVHATnrrS9fMMAZ8623fTiHpV1FvtTY+KB30O56CA==
   dependencies:
     container-query-toolkit "0.1.3"
     resize-observer-lite "0.2.3"
-
-react-dom@16.14.0, react-dom@^16.13.0, react-dom@^16.8.6:
-  version "16.14.0"
-  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.14.0.tgz#7ad838ec29a777fb3c75c3a190f661cf92ab8b89"
-  integrity sha512-1gCeQXDLoIqMgqD3IO2Ah9bnf0w9kzhwN5q4FGnHZ67hBm9yePzB5JJAIQCc8x3pFnNlwFq4RidZggNAAkzWWw==
-  dependencies:
-    loose-envify "^1.1.0"
-    object-assign "^4.1.1"
-    prop-types "^15.6.2"
-    scheduler "^0.19.1"
 
 react-dom@17.0.2:
   version "17.0.2"
@@ -19529,6 +19519,16 @@ react-dom@17.0.2:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
     scheduler "^0.20.2"
+
+react-dom@^16.13.0, react-dom@^16.8.6:
+  version "16.14.0"
+  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.14.0.tgz#7ad838ec29a777fb3c75c3a190f661cf92ab8b89"
+  integrity sha512-1gCeQXDLoIqMgqD3IO2Ah9bnf0w9kzhwN5q4FGnHZ67hBm9yePzB5JJAIQCc8x3pFnNlwFq4RidZggNAAkzWWw==
+  dependencies:
+    loose-envify "^1.1.0"
+    object-assign "^4.1.1"
+    prop-types "^15.6.2"
+    scheduler "^0.19.1"
 
 react-draft-wysiwyg@1.14.7:
   version "1.14.7"
@@ -19713,7 +19713,7 @@ react-remove-scroll@2.4.1:
     use-callback-ref "^1.2.3"
     use-sidecar "^1.0.1"
 
-react-resizable@^3.0.4:
+react-resizable@3.0.4, react-resizable@^3.0.4:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/react-resizable/-/react-resizable-3.0.4.tgz#aa20108eff28c52c6fddaa49abfbef8abf5e581b"
   integrity sha512-StnwmiESiamNzdRHbSSvA65b0ZQJ7eVQpPusrSmcpyGKzC0gojhtO62xxH6YOBmepk9dQTBi9yxidL3W4s3EBA==
@@ -19799,7 +19799,7 @@ react-timezone-select@1.0.3:
     spacetime "^6.14.0"
     spacetime-informal "^0.6.1"
 
-react-timezone-select@^1.1.15:
+react-timezone-select@1.1.15:
   version "1.1.15"
   resolved "https://registry.yarnpkg.com/react-timezone-select/-/react-timezone-select-1.1.15.tgz#928b51028dfb193cefc10215426aa8f493fe3137"
   integrity sha512-a+GD66LAkpS8zl3F4wfEwocJU8I3DmDKhZSzhNjXwcSal+jIKLw8RObesiOptfuktgGMDi12esv1FY2k5zZoBw==
@@ -19818,7 +19818,7 @@ react-transition-group@^4.3.0, react-transition-group@^4.4.0, react-transition-g
     loose-envify "^1.4.0"
     prop-types "^15.6.2"
 
-react-vis@^1.11.7:
+react-vis@1.11.7:
   version "1.11.7"
   resolved "https://registry.yarnpkg.com/react-vis/-/react-vis-1.11.7.tgz#909902af00158895d14da1adfe1d0dc0045228ff"
   integrity sha512-vJqS12l/6RHeSq8DVl4PzX0j8iPgbT8H8PtgTRsimKsBNcPjPseO4RICw1FUPrwj8MPrrna34LBtzyC4ATd5Ow==
