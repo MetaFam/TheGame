@@ -12,6 +12,7 @@ import {
 } from '@metafam/ds';
 import {
   GuildFragmentFragment,
+  PlayerRole,
   QuestFragmentFragment,
   QuestRepetition_Enum,
   QuestStatus_Enum,
@@ -23,6 +24,7 @@ import { Controller, FieldError, useForm } from 'react-hook-form';
 import { QuestRepetitionHint, URIRegexp } from '../../utils/questHelpers';
 import { CategoryOption, SkillOption } from '../../utils/skillHelpers';
 import { FlexContainer } from '../Container';
+import { RolesSelect } from '../Roles';
 import { SkillsSelect } from '../Skills';
 import { WYSIWYGEditor } from '../WYSIWYGEditor';
 import { RepetitionColors } from './QuestTags';
@@ -120,24 +122,24 @@ type Props = {
   guilds: GuildFragmentFragment[];
   editQuest?: QuestFragmentFragment;
   skillChoices: Array<CategoryOption>;
+  roleChoices: Array<PlayerRole>;
   onSubmit: (data: CreateQuestFormInputs) => void;
   success?: boolean;
   fetching?: boolean;
   submitLabel: string;
   loadingLabel: string;
-  roleChoices: [];
 };
 
 export const QuestForm: React.FC<Props> = ({
   guilds,
   skillChoices,
+  roleChoices,
   onSubmit,
   success,
   fetching,
   submitLabel,
   loadingLabel,
   editQuest,
-  roleChoices,
 }) => {
   console.log('roleChoices', roleChoices);
   const defaultValues = useMemo(() => getDefaultFormValues(editQuest, guilds), [
@@ -329,7 +331,25 @@ export const QuestForm: React.FC<Props> = ({
           </FlexContainer>
         </Field>
 
-        <Flex justify="center" align="center" my="2em ! important" w="100%">
+        <Field label="Roles">
+          <FlexContainer w="100%" align="stretch" maxW="50rem">
+            <Controller
+              name="roles"
+              control={control}
+              defaultValue={[]}
+              render={({field : { onChange, value }}) => (
+                <RolesSelect
+                  roleChoices={roleChoices}
+                  roles={value}
+                  setRoles={onChange}
+                  placeHolder="Select required roles"
+                />
+              )}
+            />
+          </FlexContainer>
+        </Field>
+
+        <Flex justify="space-between" mt={4} w="100%">
           <MetaButton
             disabled={guilds.length === 0}
             isLoading={fetching}
