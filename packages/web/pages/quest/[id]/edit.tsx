@@ -90,6 +90,8 @@ const EditQuestPage: React.FC<Props> = ({ quest, skillChoices, guilds }) => {
         roleChoices={[]}
         guilds={guilds}
         skillChoices={skillChoices}
+        // roleChoices={roleChoices}
+        roleChoices={[]}
         onSubmit={onSubmit}
         success={!!updateQuestResult.data}
         fetching={updateQuestResult.fetching}
