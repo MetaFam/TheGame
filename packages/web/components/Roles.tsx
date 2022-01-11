@@ -1,4 +1,8 @@
+<<<<<<< develop
 import { MetaTag, SelectSearch, Tooltip, Wrap, WrapItem } from '@metafam/ds';
+=======
+import { SelectSearch } from '@metafam/ds';
+>>>>>>> feat: add role selector to create quest form
 import { PlayerRole } from 'graphql/autogen/types';
 import React from 'react';
 import { RoleOption } from 'utils/roleHelpers';
@@ -23,7 +27,7 @@ export const RolesSelect: React.FC<SetupRolesProps> = ({
     isMulti
     value={roles}
     onChange={(value) => setRoles(value as Array<RoleOption>)}
-    options={(roleChoices || []).map((roleChoice) => ({
+    options={roleChoices.map((roleChoice) => ({
       label: roleChoice.label,
       value: roleChoice.role,
     }))}
