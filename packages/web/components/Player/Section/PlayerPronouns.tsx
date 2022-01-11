@@ -18,7 +18,7 @@ export const PlayerPronouns: React.FC<Props> = ({ person }) => {
   );
 
   return pronouns ? (
-    <PlayerHeroTile title="Personal pronouns">
+    <PlayerHeroTile title="Personal Pronouns">
       <FlexContainer
         align="stretch"
         transition=" opacity 0.4s"

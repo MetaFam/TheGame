@@ -54,8 +54,6 @@ export const PlayerTile: React.FC<Props> = ({
         `${description!.substring(0, MAX_BIO_LENGTH - 9)}…`
       : description;
 
-  console.info({ player });
-
   return (
     <LinkBox>
       <MetaTile>

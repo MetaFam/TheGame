@@ -147,11 +147,7 @@ export const PlayerHero: React.FC<Props> = ({
           <PlayerContacts {...{ player }} />
         </HStack>
 
-        {person?.profile?.pronouns && (
-          <PlayerHeroTile title="Personal Pronouns">
-            <PlayerPronouns {...{ person }} />
-          </PlayerHeroTile>
-        )}
+        {person?.profile?.pronouns && <PlayerPronouns {...{ person }} />}
         {/* <PlayerHeroTile title="Website">
           <Text>www.mycoolportfolio.com</Text>
         </PlayerHeroTile> */}
@@ -252,7 +248,7 @@ const Availability: React.FC<AvailabilityProps> = ({ person }) => {
                 {hours}
               </Text>
               <Text as="span" title="hours per week">
-                <Text as="sup">h</Text>⁄<Text as="sub">week</Text>
+                <Text as="sup">hr</Text>⁄<Text as="sub">week</Text>
               </Text>
             </>
           )}
@@ -264,10 +260,10 @@ const Availability: React.FC<AvailabilityProps> = ({ person }) => {
 
 const TimeZoneDisplay: React.FC<TimeZoneDisplayProps> = ({ person }) => {
   const tz = getTimeZoneFor({ title: person?.profile?.timeZone });
-  const [timeZone, setTimeZone] = useState<string>('');
+  const [timeZone, setTimeZone] = useState<string>();
   const [offset, setOffset] = useState<string>('');
   const updateFN = () => {
-    if (tz?.name) setTimeZone(tz.name);
+    if (tz?.abbreviation) setTimeZone(tz.abbreviation);
     if (tz?.utc) setOffset(tz.utc);
   };
   const short = offset?.replace(/:00\)$/, ')').replace(/ +/g, '');
@@ -275,38 +271,37 @@ const TimeZoneDisplay: React.FC<TimeZoneDisplayProps> = ({ person }) => {
   const { animation } = useAnimateProfileChanges(tz?.name, updateFN);
   return (
     <Flex alignItems="center">
-      <Box pr={1}>
-        <FaGlobe color="blueLight" />
-      </Box>
       <FlexContainer
         align="stretch"
         transition=" opacity 0.4s"
         opacity={animation === 'fadeIn' ? 1 : 0}
       >
-        {timeZone == null ? (
-          <Text fontStyle="italic">Unspecified.</Text>
-        ) : (
-          <Tooltip label={tz?.name} hasArrow>
-            <Flex align="center" whiteSpace="pre">
-              <Box pr={1}>
-                <FaGlobe color="blueLight" />
-              </Box>
-              <Text
-                fontSize={{ base: 'md', sm: 'lg' }}
-                pr={1}
-                overflowX="hidden"
-                textOverflow="ellipsis"
-              >
-                {timeZone || '−'}
-              </Text>
-              {short && (
-                <Text fontSize={{ base: 'sm', sm: 'md' }} whiteSpace="pre">
-                  {short}
+        <Flex align="center" whiteSpace="pre">
+          <Box pr={1}>
+            <FaGlobe color="blueLight" />
+          </Box>
+          {timeZone == null ? (
+            <Text fontStyle="italic">Unspecified</Text>
+          ) : (
+            <Tooltip label={tz?.name} hasArrow>
+              <Flex align="center" whiteSpace="pre">
+                <Text
+                  fontSize={{ base: 'md', sm: 'lg' }}
+                  pr={1}
+                  overflowX="hidden"
+                  textOverflow="ellipsis"
+                >
+                  {timeZone || '−'}
                 </Text>
-              )}
-            </Flex>
-          </Tooltip>
-        )}
+                {short && (
+                  <Text fontSize={{ base: 'sm', sm: 'md' }} whiteSpace="pre">
+                    {short}
+                  </Text>
+                )}
+              </Flex>
+            </Tooltip>
+          )}
+        </Flex>
       </FlexContainer>
     </Flex>
   );

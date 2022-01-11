@@ -101,7 +101,7 @@ export const Grid = (): ReactElement => {
     >
       <ButtonGroup
         w="100%"
-        justifyContent={'end'}
+        justifyContent="end"
         variant="ghost"
         zIndex={10}
         isAttached
@@ -231,7 +231,7 @@ export function getFromLS(key: string) {
       ls = dashboard !== null ? JSON.parse(dashboard) : {};
     } catch (e) {
       // eslint-disable-next-line no-console
-      console.log('getFromLS error: ', e);
+      console.error('getFromLS error: ', e);
       // return null;
     }
   }

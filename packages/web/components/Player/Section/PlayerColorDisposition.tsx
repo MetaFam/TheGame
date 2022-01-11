@@ -25,7 +25,7 @@ export const PlayerColorDisposition: React.FC<Props> = ({
     [any: string]: PersonalityOption;
   }>();
   const [colorDisposition, setColorDisposition] = useState<
-    0 | PersonalityOption | undefined
+    PersonalityOption | undefined
   >();
   const mask = player?.profile?.colorMask;
 
@@ -47,7 +47,7 @@ export const PlayerColorDisposition: React.FC<Props> = ({
       boxType={BoxType.PLAYER.COLOR_DISPOSITION}
       {...{ onRemoveClick, isOwnProfile, canEdit }}
     >
-      {!colorDisposition ? (
+      {mask == null ? (
         <Text fontStyle="italic" textAlign="center">
           Unspecified
         </Text>
@@ -59,14 +59,15 @@ export const PlayerColorDisposition: React.FC<Props> = ({
         >
           <Link
             isExternal
-            href={`//dysbulic.github.io/5-color-radar/#/combos/${colorDisposition.mask
+            href={`//dysbulic.github.io/5-color-radar/#/combos/${mask
               .toString(2)
               .padStart(5, '0')}`}
             maxH={125}
             fontSize={{ base: 'md', sm: 'lg' }}
             fontWeight={600}
+            _focus={{ border: 'none' }}
           >
-            <ColorBar mask={colorDisposition.mask} />
+            <ColorBar {...{ mask }} />
           </Link>
         </FlexContainer>
       )}

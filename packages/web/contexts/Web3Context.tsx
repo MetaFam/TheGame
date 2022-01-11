@@ -56,12 +56,13 @@ const providerOptions = {
 };
 
 const web3Modal =
-  typeof window !== 'undefined' &&
-  new Web3Modal({
-    network: 'mainnet',
-    cacheProvider: true,
-    providerOptions,
-  });
+  typeof window === 'undefined'
+    ? null
+    : new Web3Modal({
+        network: 'mainnet',
+        cacheProvider: true,
+        providerOptions,
+      });
 
 export async function getExistingAuth(
   ethersProvider: providers.Web3Provider,
@@ -94,18 +95,18 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
   resetUrqlClient,
   children,
 }) => {
+  const [wallet, setWallet] = useState();
   const [provider, setProvider] = useState<Maybe<providers.Web3Provider>>(null);
   const [connected, setConnected] = useState(false);
-  const [connecting, setConnecting] = useState(true);
+  const [connecting, setConnecting] = useState(!!web3Modal?.cachedProvider);
   const [address, setAddress] = useState<Maybe<string>>(null);
   const [authToken, setAuthToken] = useState<Maybe<string>>(null);
   const ceramic = useMemo(() => new CeramicClient(CONFIG.ceramicURL), []);
 
   useEffect(() => {
-    if (provider && address) {
-      const threeIdConnect = new ThreeIdConnect();
-      // Can this work with WalletConnect?
-      const authProvider = new EthereumAuthProvider(window.ethereum, address);
+    if (wallet && address) {
+      const threeIdConnect = new ThreeIdConnect(CONFIG.ceramicNetwork);
+      const authProvider = new EthereumAuthProvider(wallet, address);
       threeIdConnect.connect(authProvider).then(() => {
         ceramic.did = new DID({
           provider: threeIdConnect.getDidProvider(),
@@ -113,25 +114,27 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
         });
       });
     }
-  }, [provider, address, ceramic]);
+  }, [wallet, address, ceramic]);
 
   const disconnect = useCallback(() => {
-    if (web3Modal === false) return;
+    if (web3Modal === null) return;
 
     web3Modal.clearCachedProvider();
     ceramic.close();
     clearWalletConnect();
     clearToken();
     setAuthToken(null);
+    setWallet(undefined);
     setAddress(null);
     setProvider(null);
-    setConnecting(false);
     setConnected(false);
+    setConnecting(false);
+
     if (resetUrqlClient) resetUrqlClient();
   }, [resetUrqlClient, ceramic]);
 
   const connect = useCallback(async () => {
-    if (web3Modal === false) return;
+    if (web3Modal === null) return;
 
     setConnecting(true);
 
@@ -146,10 +149,12 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
         token = await authenticateWallet(web3Provider);
       }
 
+      setWallet(modal);
       setAddress(addr);
       setProvider(web3Provider);
       setAuthToken(token);
       setConnected(true);
+
       if (resetUrqlClient) resetUrqlClient();
     } catch (error) {
       console.error(error); // eslint-disable-line no-console
@@ -157,10 +162,10 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
     } finally {
       setConnecting(false);
     }
-  }, [resetUrqlClient, disconnect]);
+  }, [disconnect, resetUrqlClient]);
 
   useEffect(() => {
-    if (web3Modal === false) return;
+    if (web3Modal === null) return;
     if (web3Modal.cachedProvider) {
       connect().catch(console.error); // eslint-disable-line no-console
     }

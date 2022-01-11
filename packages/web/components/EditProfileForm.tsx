@@ -199,6 +199,7 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
 
   useEffect(() => {
     if (!endpoints.profileImageURL.ref.current) {
+      // eslint-disable-next-line no-console
       console.warn('Unable to initially focus the profile image.');
     } else {
       endpoints.profileImageURL.ref.current.focus();
@@ -502,6 +503,7 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
         await invalidateCache({ playerId: player.id });
       }
 
+      // if they changed their username, the page will 404 on reload
       if (player && extended.username !== username) {
         router.push(`/player/${player.ethereumAddress}`);
       }

@@ -64,7 +64,7 @@ export const SetupSkills: React.FC<SetupSkillsProps> = ({
   const { onNextPress, nextButtonLabel } = useSetupFlow();
   const { user } = useUser();
   const toast = useToast();
-  const [skillChoices, setSkillChoices] = useState<CategoryOption[]>([]);
+  const [skillChoices, setSkillChoices] = useState<Array<CategoryOption>>([]);
   const [updateSkillsRes, updateSkills] = useUpdatePlayerSkillsMutation();
   const [loading, setLoading] = useState(false);
   const [playerSkills, setPlayerSkills] = useState<Array<SkillOption>>([]);
@@ -90,12 +90,12 @@ export const SetupSkills: React.FC<SetupSkillsProps> = ({
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    const fetchMyAPI = async () => {
+    const fetchSkills = async () => {
       const skills = await getSkills();
       setSkillChoices(parseSkills(skills));
     };
 
-    fetchMyAPI();
+    fetchSkills();
   }, []);
 
   const handleNextPress = async () => {

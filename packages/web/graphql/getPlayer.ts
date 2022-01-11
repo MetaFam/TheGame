@@ -1,5 +1,3 @@
-import gql from 'fake-tag';
-
 import {
   GetPlayerForAddressQuery,
   GetPlayerForAddressQueryVariables,
@@ -11,7 +9,7 @@ import {
 import { client } from './client';
 import { PlayerFragment } from './fragments';
 
-const usernameQuery = gql`
+const usernameQuery = /* GraphQL */ `
   query GetPlayerForUsername(
     $username: String!
     $forLoginDisplay: Boolean! = false
@@ -23,7 +21,7 @@ const usernameQuery = gql`
   ${PlayerFragment}
 `;
 
-const addressQuery = gql`
+const addressQuery = /* GraphQL */ `
   query GetPlayerForAddress(
     $address: String!
     $forLoginDisplay: Boolean! = false
@@ -39,7 +37,7 @@ export const getPlayer = async (username?: string): Promise<Maybe<Player>> => {
   if (!username) return null;
 
   let response;
-  if (/0x[0-9a-z]{40}/i.test(username)) {
+  if (/^0x[0-9a-z]{40}$/i.test(username)) {
     response = await client
       .query<GetPlayerForAddressQuery, GetPlayerForAddressQueryVariables>(
         addressQuery,
