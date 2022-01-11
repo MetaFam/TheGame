@@ -8,9 +8,10 @@ import {
   QuestRepetition_ActionEnum,
   useCreateQuestMutation,
 } from 'graphql/autogen/types';
+import { getPlayerRoles } from 'graphql/queries/enums/getRoles';
 import { getSkills } from 'graphql/queries/enums/getSkills';
 import { getGuilds } from 'graphql/queries/guild';
-import { useUser } from 'lib/hooks';
+// import { useUser } from 'lib/hooks';
 import { InferGetStaticPropsType } from 'next';
 import { useRouter } from 'next/router';
 import React from 'react';
@@ -36,8 +37,12 @@ const extractFormData = (data: CreateQuestFormInputs) => {
   };
 };
 
-const CreateQuestPage: React.FC<Props> = ({ guilds, skillChoices }) => {
-  useUser({ redirectTo: '/quests', redirectIfNotFound: true });
+const CreateQuestPage: React.FC<Props> = ({
+  guilds,
+  skillChoices,
+  roleChoices,
+}) => {
+  // useUser({ redirectTo: '/quests', redirectIfNotFound: true });
   const router = useRouter();
   const toast = useToast();
   const [createQuestState, createQuest] = useCreateQuestMutation();
@@ -96,6 +101,7 @@ const CreateQuestPage: React.FC<Props> = ({ guilds, skillChoices }) => {
       <QuestForm
         guilds={guilds}
         skillChoices={skillChoices}
+        roleChoices={roleChoices}
         onSubmit={onSubmit}
         success={!!createQuestState.data?.createQuest?.success}
         fetching={createQuestState.fetching}
@@ -107,6 +113,7 @@ const CreateQuestPage: React.FC<Props> = ({ guilds, skillChoices }) => {
 };
 
 export const getStaticProps = async () => {
+  const roleChoices = await getPlayerRoles();
   const guilds = await getGuilds();
   const skills = await getSkills();
   const skillChoices = parseSkills(skills);
@@ -115,6 +122,7 @@ export const getStaticProps = async () => {
     props: {
       guilds,
       skillChoices,
+      roleChoices,
     },
     revalidate: 1,
   };

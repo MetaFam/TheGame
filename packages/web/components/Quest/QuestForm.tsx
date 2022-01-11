@@ -13,6 +13,7 @@ import {
 import { EditorState } from 'draft-js';
 import {
   GuildFragmentFragment,
+  PlayerRole,
   QuestFragmentFragment,
   QuestRepetition_Enum,
   QuestStatus_Enum,
@@ -25,6 +26,7 @@ import { QuestRepetitionHint, UriRegexp } from '../../utils/questHelpers';
 import { CategoryOption, SkillOption } from '../../utils/skillHelpers';
 import { stateFromHTML } from '../../utils/stateFromHTML';
 import { FlexContainer } from '../Container';
+import { RolesSelect } from '../Roles';
 import { SkillsSelect } from '../Skills';
 import { WYSIWYGEditor } from '../WYSIWYGEditor';
 import { RepetitionColors } from './QuestTags';
@@ -133,6 +135,7 @@ type Props = {
   guilds: GuildFragmentFragment[];
   editQuest?: QuestFragmentFragment;
   skillChoices: Array<CategoryOption>;
+  roleChoices: Array<PlayerRole>;
   onSubmit: (data: CreateQuestFormInputs) => void;
   success?: boolean;
   fetching?: boolean;
@@ -143,6 +146,7 @@ type Props = {
 export const QuestForm: React.FC<Props> = ({
   guilds,
   skillChoices,
+  roleChoices,
   onSubmit,
   success,
   fetching,
@@ -301,6 +305,24 @@ export const QuestForm: React.FC<Props> = ({
                   skills={value}
                   setSkills={onChange}
                   placeHolder="Select required skills"
+                />
+              )}
+            />
+          </FlexContainer>
+        </Field>
+
+        <Field label="Roles">
+          <FlexContainer w="100%" align="stretch" maxW="50rem">
+            <Controller
+              name="roles"
+              control={control}
+              defaultValue={[]}
+              render={({ onChange, value }) => (
+                <RolesSelect
+                  roleChoices={roleChoices}
+                  roles={value}
+                  setRoles={onChange}
+                  placeHolder="Select required roles"
                 />
               )}
             />
