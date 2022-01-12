@@ -24,6 +24,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Info
+        run: |
+          echo "Repository: $GITHUB_REPOSITORY"
+          echo "Event Name: $GITHUB_EVENT_NAME"
+          echo "SHA: $GITHUB_SHA"
+          echo "Branch: $GITHUB_REF"
+          echo "Head: $GITHUB_HEAD_REF"
+          echo "Base: $GITHUB_BASE_REF"
+
       - name: Checkout
         uses: actions/checkout@v2
 
@@ -42,6 +51,7 @@ jobs:
           export_default_credentials: true
 
       - name: Delete Database of Hasura
+        continue-on-error: true
         run: |
           wget -q https://dl.google.com/cloudsql/cloud_sql_proxy.linux.amd64 -O cloud_sql_proxy
           chmod +x cloud_sql_proxy
@@ -59,9 +69,11 @@ jobs:
           gcloud -q sql databases create hasura-pr-${{ github.event.number }} -i ${CLOUDSQL_INSTANCE_NAME}
 
       - name: Undeploy Backend
+        continue-on-error: true
         run: gcloud -q run services delete backend-pr-${{ github.event.number }} --region ${CLOUDRUN_REGION}
 
       - name: Delete Backend Image
+        continue-on-error: true
         run: gcloud -q artifacts docker images delete ${REGISTRY_REGION}-docker.pkg.dev/${PROJECT_ID}/${REGISTRY_REPO}/backend:pr-${{ github.event.number }}
 
       - name: Build Backend Container
@@ -87,9 +99,11 @@ jobs:
             --set-env-vars HASURA_GRAPHQL_ADMIN_SECRET=metagame_secret,GITHUB_API_TOKEN=${{ secrets.GH_API_TOKEN }},SOURCECRED_LEDGER_BRANCH=master
 
       - name: Undeploy Hasura
+        continue-on-error: true
         run: gcloud -q run services delete hasura-pr-${{ github.event.number }} --region ${CLOUDRUN_REGION}
 
       - name: Delete Hasura Image
+        continue-on-error: true
         run: gcloud -q artifacts docker images delete ${REGISTRY_REGION}-docker.pkg.dev/${PROJECT_ID}/${REGISTRY_REPO}/hasura:pr-${{ github.event.number }}
 
       - name: Build Hasura Container
@@ -116,9 +130,11 @@ jobs:
             --set-env-vars HASURA_GRAPHQL_DATABASE_URL=postgres://hasura-pr-${{ github.event.number }}:${HASURA_DB_PASSWORD}@/hasura-pr-${{ github.event.number }}?host=/cloudsql/${CLOUDSQL_CONNECTION_NAME},HASURA_GRAPHQL_ADMIN_SECRET=metagame_secret,HASURA_GRAPHQL_SERVER_PORT=8080,HASURA_GRAPHQL_ENABLE_CONSOLE=true
 
       - name: Undeploy Frontend
+        continue-on-error: true
         run: gcloud -q run services delete frontend-pr-${{ github.event.number }} --region ${CLOUDRUN_REGION}
 
       - name: Delete Frontend Image
+        continue-on-error: true
         run: gcloud -q artifacts docker images delete ${REGISTRY_REGION}-docker.pkg.dev/${PROJECT_ID}/${REGISTRY_REPO}/frontend:pr-${{ github.event.number }}
 
       - name: Build Frontend Container
