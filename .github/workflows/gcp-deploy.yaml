@@ -44,6 +44,10 @@ jobs:
           echo "HASURA_TAG=${{env.DOCKER_PATH}}/hasura:pr-${{github.event.number}}" >> $GITHUB_ENV
           echo "FRONTEND_TAG=${{env.DOCKER_PATH}}/frontend:pr-${{github.event.number}}" >> $GITHUB_ENV
 
+      - name: Variable Split
+        run: |
+          echo "GRAPHQL_URL=https://${{env.GRAPHQL_HOST}}\.${{env.DEPLOYMENT_DOMAIN}}/v1/graphql" >> $GITHUB_ENV
+
       - name: Info
         run: |
           echo "Repository: $GITHUB_REPOSITORY"
@@ -51,12 +55,11 @@ jobs:
           echo "SHA: $GITHUB_SHA"
           echo "Branch: $GITHUB_REF"
           echo "Head: $GITHUB_HEAD_REF"
-          echo "Head SHA: ${{ github.event.pull_request.head.sha }}"
+          echo "Head SHA: ${{github.event.pull_request.head.sha}}"
           echo "Base: $GITHUB_BASE_REF"
-          echo "Base SHA: ${{ github.event.pull_request.base.sha }}"
+          echo "Base SHA: ${{github.event.pull_request.base.sha}}"
           echo "GraphQL URL: $GRAPHQL_HOST $GRAPHQL_URL"
           echo "Backend Tag: $BACKEND_TAG"
-${{env.GRAPHQL_HOST}}
 
       - name: Checkout
         uses: actions/checkout@v2
