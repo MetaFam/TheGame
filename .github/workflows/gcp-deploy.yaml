@@ -50,6 +50,7 @@ jobs:
           echo "BACKEND_TAG=${{env.DOCKER_PATH}}/backend:pr-${{github.event.number}}" >> $GITHUB_ENV
           echo "HASURA_TAG=${{env.DOCKER_PATH}}/hasura:pr-${{github.event.number}}" >> $GITHUB_ENV
           echo "FRONTEND_TAG=${{env.DOCKER_PATH}}/frontend:pr-${{github.event.number}}" >> $GITHUB_ENV
+          echo "DB_PASSWORD=$(cat /dev/urandom | tr -cd [:alnum:] | head -c 16)" >> $GITHUB_ENV
 
       - name: Info
         run: |
@@ -62,9 +63,8 @@ jobs:
           echo "Base: $GITHUB_BASE_REF"
           echo "Base SHA: ${{github.event.pull_request.base.sha}}"
           echo "Hasura URL: $HASURA_URL"
-          echo "Backend URL: $BACKEND_URL"
           echo "Frontend URL: $FRONTEND_URL"
-          echo "Backend Tag: $BACKEND_TAG"
+          echo "Database Password: $DB_PASSWORD"
 
       - name: Checkout
         uses: actions/checkout@v2
@@ -98,7 +98,6 @@ jobs:
 
       - name: Create User and Database for Hasura
         run: |
-          echo "DB_PASSWORD=$(cat /dev/urandom | tr -cd [:alnum:] | head -c 16)" >> $GITHUB_ENV
           gcloud -q sql users create ${{env.DB_NAME}} -i ${{env.CLOUDSQL_INSTANCE_NAME}} --password ${{env.DB_PASSWORD}}
           gcloud -q sql databases create ${{env.DB_NAME}} -i ${{env.CLOUDSQL_INSTANCE_NAME}}
 
