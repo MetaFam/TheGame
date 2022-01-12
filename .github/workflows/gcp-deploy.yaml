@@ -196,7 +196,7 @@ jobs:
             --ingress all \
             --max-instances 1 \
             --allow-unauthenticated \
-            --set-env-vars GRAPHQL_URL=${{env.HASURA_URL}}
+            --set-env-vars NEXT_PUBLIC_GRAPHQL_URL=${{env.HASURA_URL}}
 
       - name: Seed Database
         run: |
