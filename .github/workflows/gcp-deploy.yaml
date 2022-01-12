@@ -14,17 +14,17 @@ env:
   REGISTRY_REGION: us-east4
   REGISTRY_REPO: thegame
   DEPLOYMENT_DOMAIN: a.run.app
-  CLOUDRUN_REGION: ${{env.REGISTRY_REGION}}
+  CLOUDRUN_REGION: ${{ env.REGISTRY_REGION }}
   CLOUDRUN_SUFFIX: mjhnbmqqna-uk
   CLOUDSQL_INSTANCE_NAME: thegame
-  CLOUDSQL_CONNECTION_NAME: ${{env.PROJECT_ID}}:${{env.REGISTRY_REGION}}:${{env.REGISTRY_REPO}}
-  DB_NAME: hasura-pr-${{github.event.number}}
+  CLOUDSQL_CONNECTION_NAME: ${{ env.PROJECT_ID }}:${{ env.REGISTRY_REGION }}:${{ env.REGISTRY_REPO }}
+  DB_NAME: hasura-pr-${{ github.event.number }}
   GRAPHQL_HOST: "$DB_NAME-$CLOUDRUN_SUFFIX"
   GRAPHQL_DOMAIN: "$DEPLOYMENT_DOMAIN"
   GRAPHQL_URL: "https://${GRAPHQL_HOST}.${GRAPHQL_DOMAIN}/v1/graphql"
-  BACKEND_SERVICE: backend-pr-${{github.event.number}}
-  DOCKER_REGISTRY: ${{REGISTRY_REGION}}-docker.pkg.dev
-  BACKEND_TAG: $env.DOCKER_REGISTRY/${{ env.PROJECT_ID }}/${{REGISTRY_REPO}}/backend:pr-${{ github.event.number }}
+  BACKEND_SERVICE: backend-pr-${{ github.event.number }}
+  DOCKER_REGISTRY: ${{ env.REGISTRY_REGION }}-docker.pkg.dev
+  BACKEND_TAG: $env.DOCKER_REGISTRY/${{ env.PROJECT_ID }}/${{ emv.REGISTRY_REPO }}/backend:pr-${{ github.event.number }}
   BACKEND_HOST: ${BACKEND_SERVICE}-${CLOUDRUN_SUFFIX}.${DEPLOYMENT_DOMAIN}
   BACKEND_PORT: 4000
   SC_MIGRATE_URL: https://${BACKEND_HOST}/actions/migrateSourceCredAccounts?force=true
