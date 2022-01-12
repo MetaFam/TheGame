@@ -27,22 +27,26 @@ jobs:
     name: Build and Deploy
     runs-on: ubuntu-latest
 
-    env:
-      CLOUDRUN_REGION: ${{env.REGISTRY_REGION}}
-      CLOUDSQL_INSTANCE_NAME: ${{env.REGISTRY_REPO}}
-      CLOUDSQL_CONNECTION_NAME: ${{env.PROJECT_ID}}:${{env.REGISTRY_REGION}}:${{env.REGISTRY_REPO}}
-      GRAPHQL_HOST: ${{env.DB_NAME}}-${{env.CLOUDRUN_SUFFIX}}
-      GRAPHQL_URL: https://${{env.GRAPHQL_HOST}}.${{env.DEPLOYMENT_DOMAIN}}/v1/graphql
-      DOCKER_REGISTRY: ${{env.REGISTRY_REGION}}-docker.pkg.dev
-      DOCKER_PATH: ${{env.DOCKER_REGISTRY}}/${{env.PROJECT_ID}}/${{env.REGISTRY_REPO}}
-      BACKEND_TAG: ${{env.DOCKER_PATH}}/backend:pr-${{github.event.number}}
-      BACKEND_HOST: ${{env.BACKEND_SERVICE}}-${{env.CLOUDRUN_SUFFIX}}.${{env.DEPLOYMENT_DOMAIN}}
-      SC_MIGRATE_URL: https://${{env.BACKEND_HOST}}/actions/migrateSourceCredAccounts?force=true
-      HASURA_SERVICE: ${{env.DB_NAME}}
-      HASURA_TAG: ${{env.DOCKER_PATH}}/hasura:pr-${{github.event.number}}
-      FRONTEND_TAG: ${{env.DOCKER_PATH}}/frontend:pr-${{github.event.number}}
-
     steps:
+      - name: Variables
+        run: |
+          echo "CLOUDRUN_REGION=${{env.REGISTRY_REGION}}" >> $GITHUB_ENV
+          echo "CLOUDSQL_INSTANCE_NAME=${{env.REGISTRY_REPO}}" >> $GITHUB_ENV
+          echo "CLOUDSQL_CONNECTION_NAME=${{env.PROJECT_ID}}:${{env.REGISTRY_REGION}}:${{env.REGISTRY_REPO}}" >> $GITHUB_ENV
+          echo "GRAPHQL_HOST=${{env.DB_NAME}}-${{env.CLOUDRUN_SUFFIX}}" >> $GITHUB_ENV
+          echo "GRAPHQL_URL=https://${{env.GRAPHQL_HOST}}.${{env.DEPLOYMENT_DOMAIN}}/v1/graphql" >> $GITHUB_ENV
+          echo "DOCKER_REGISTRY=${{env.REGISTRY_REGION}}-docker.pkg.dev" >> $GITHUB_ENV
+          echo "DOCKER_PATH=${{env.DOCKER_REGISTRY}}/${{env.PROJECT_ID}}/${{env.REGISTRY_REPO}}" >> $GITHUB_ENV
+          echo "BACKEND_TAG=${{env.DOCKER_PATH}}/backend:pr-${{github.event.number}}" >> $GITHUB_ENV
+          echo "BACKEND_HOST=${{env.BACKEND_SERVICE}}-${{env.CLOUDRUN_SUFFIX}}.${{env.DEPLOYMENT_DOMAIN}}" >> $GITHUB_ENV
+          echo "SC_MIGRATE_URL=https://${{env.BACKEND_HOST}}/actions/migrateSourceCredAccounts?force=true" >> $GITHUB_ENV
+          echo "HASURA_SERVICE=${{env.DB_NAME}}" >> $GITHUB_ENV
+          echo "HASURA_TAG=${{env.DOCKER_PATH}}/hasura:pr-${{github.event.number}}" >> $GITHUB_ENV
+          echo "FRONTEND_TAG=${{env.DOCKER_PATH}}/frontend:pr-${{github.event.number}}" >> $GITHUB_ENV
+
+
+
+
       - name: Info
         run: |
           echo "Repository: $GITHUB_REPOSITORY"
