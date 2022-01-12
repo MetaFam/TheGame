@@ -11,7 +11,9 @@ export const PageContainer: React.FC<Props> = ({ children, ...props }) => (
     w="100%"
     h="100%"
     minH="100vh"
-    p={[4, 8, 12]}
+    px={[4, 8, 12]}
+    pt={[4, 8, 12]}
+    pb={[20, 20, 20, 12]}
     direction="column"
     align="center"
     backgroundImage={`url(${BackgroundImage})`}

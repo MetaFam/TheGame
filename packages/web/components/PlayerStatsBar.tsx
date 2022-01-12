@@ -38,6 +38,7 @@ const PlayerStats = () => {
       justifyContent={connected ? 'space-between' : 'center'}
       flex="1"
       minW="100vw"
+      height="72px"
       bg="rgba(0,0,0,0.75)"
       borderColor="#2B2244"
       sx={{ backdropFilter: 'blur(10px)' }}
@@ -45,13 +46,12 @@ const PlayerStats = () => {
       bottom="0"
       zIndex="200"
       boxSizing="border-box"
-      mt="auto"
+      my="auto"
       mr="0"
-      mb="auto"
     >
       {connected && !!user?.player ? (
         <>
-          <Flex pt={2} pb={6} px={2}>
+          <Flex py="10px" px={2}>
             <Menu strategy="fixed" offset={[-7, 9]}>
               <MenuButton
                 bg="transparent"
@@ -108,14 +108,7 @@ const PlayerStats = () => {
               </Text>
             </Stack>
           </Flex>
-          <Flex
-            mr={2}
-            mt={2}
-            flexWrap="wrap"
-            height="100%"
-            alignSelf="baseline"
-            justifyContent="flex-end"
-          >
+          <Flex mr={2} mt={2} justifyContent="flex-end">
             <Badge
               display="flex"
               minH="fill"
