@@ -31,9 +31,9 @@ jobs:
           echo "SHA: $GITHUB_SHA"
           echo "Branch: $GITHUB_REF"
           echo "Head: $GITHUB_HEAD_REF"
-          echo "Head SHA ${{ github.event.pull_request.head.sha }}"
+          echo "Head SHA: ${{ github.event.pull_request.head.sha }}"
           echo "Base: $GITHUB_BASE_REF"
-          echo "Base SHA ${{ github.event.pull_request.base.sha }}"
+          echo "Base SHA: ${{ github.event.pull_request.base.sha }}"
 
       - name: Checkout
         uses: actions/checkout@v2
@@ -84,7 +84,7 @@ jobs:
         uses: mattes/cached-docker-build-action@v1
         with:
           args: ". -f ./docker/backend/Dockerfile --tag ${REGISTRY_REGION}-docker.pkg.dev/${PROJECT_ID}/${REGISTRY_REPO}/backend:pr-${{ github.event.number }} --build-arg GRAPHQL_HOST=hasura-pr-${{ github.event.number }}-${CLOUDRUN_SUFFIX} --build-arg GRAPHQL_DOMAIN=a.run.app"
-          cache_key: "${{ hashFiles('**/lockfiles') }}"
+          cache_key: "${{ hashFiles('**') }}"
 
       - name: Push Backend Container
         run: docker push ${REGISTRY_REGION}-docker.pkg.dev/${PROJECT_ID}/${REGISTRY_REPO}/backend:pr-${{ github.event.number }}
@@ -114,7 +114,7 @@ jobs:
         uses: mattes/cached-docker-build-action@v1
         with:
           args: "./hasura -f ./hasura/Dockerfile --tag ${REGISTRY_REGION}-docker.pkg.dev/${PROJECT_ID}/${REGISTRY_REPO}/hasura:pr-${{ github.event.number }} --build-arg BACKEND_HOST=backend-pr-${{ github.event.number }}-${CLOUDRUN_SUFFIX}.a.run.app --build-arg BACKEND_PROTOCOL=https"
-          cache_key: "${{ hashFiles('**/lockfiles') }}"
+          cache_key: "${{ hashFiles('**') }}"
 
       - name: Push Hasura Container
         run: docker push ${REGISTRY_REGION}-docker.pkg.dev/${PROJECT_ID}/${REGISTRY_REPO}/hasura:pr-${{ github.event.number }}
@@ -145,7 +145,7 @@ jobs:
         uses: mattes/cached-docker-build-action@v1
         with:
           args: ". -f ./docker/frontend/Dockerfile --tag ${REGISTRY_REGION}-docker.pkg.dev/${PROJECT_ID}/${REGISTRY_REPO}/frontend:pr-${{ github.event.number }} --build-arg GRAPHQL_HOST=hasura-pr-${{ github.event.number }}-${CLOUDRUN_SUFFIX} --build-arg GRAPHQL_DOMAIN=a.run.app"
-          cache_key: "${{ hashFiles('**/lockfiles') }}"
+          cache_key: "${{ hashFiles('**') }}"
 
       - name: Push Frontend Container
         run: docker push ${REGISTRY_REGION}-docker.pkg.dev/${PROJECT_ID}/${REGISTRY_REPO}/frontend:pr-${{ github.event.number }}
