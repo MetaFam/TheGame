@@ -9,39 +9,40 @@ on:
       - reopened
       - synchronize
 
+env:
+  PROJECT_ID: metagame-thegame
+  REGISTRY_REGION: us-east4
+  REGISTRY_REPO: thegame
+  DEPLOYMENT_DOMAIN: a.run.app
+  CLOUDRUN_SUFFIX: mjhnbmqqna-uk
+  DB_NAME: hasura-pr-${{ github.event.number }}
+  BACKEND_SERVICE: backend-pr-${{ github.event.number }}
+  FRONTEND_SERVICE: frontend-pr-${{ github.event.number }}
+  BACKEND_PORT: 4000
+  HASURA_PORT: 8080
+  FRONTEND_PORT: 3000
+
 jobs:
   build-and-deploy:
     name: Build and Deploy
     runs-on: ubuntu-latest
 
-    env:
-      PROJECT_ID: metagame-thegame
-      REGISTRY_REGION: us-east4
-      REGISTRY_REPO: thegame
-      DEPLOYMENT_DOMAIN: a.run.app
-      CLOUDRUN_SUFFIX: mjhnbmqqna-uk
-      DB_NAME: hasura-pr-${{ github.event.number }}
-      BACKEND_SERVICE: backend-pr-${{ github.event.number }}
-      FRONTEND_SERVICE: frontend-pr-${{ github.event.number }}
-      BACKEND_PORT: 4000
-      HASURA_PORT: 8080
-      FRONTEND_PORT: 3000
-      DOCKER_REGISTRY: ${REGISTRY_REGION}-docker.pkg.dev
-      BACKEND_TAG: ${DOCKER_REGISTRY}/${PROJECT_ID}/${REGISTRY_REPO}/backend:pr-${{github.event.number}}
-
     steps:
       - name: Variables
         run: |
-          CLOUDRUN_REGION=$REGISTRY_REGION
-          CLOUDSQL_INSTANCE_NAME=$REGISTRY_REPO
-          CLOUDSQL_CONNECTION_NAME=$PROJECT_ID:$REGISTRY_REGION:$REGISTRY_REPO
-          GRAPHQL_HOST=${DB_NAME}-${CLOUDRUN_SUFFIX}
-          GRAPHQL_URL="https://${GRAPHQL_HOST}.${DEPLOYMENT_DOMAIN}/v1/graphql"
-          BACKEND_HOST=${BACKEND_SERVICE}-${CLOUDRUN_SUFFIX}.${DEPLOYMENT_DOMAIN}
-          SC_MIGRATE_URL="https://${BACKEND_HOST}/actions/migrateSourceCredAccounts?force=true"
-          HASURA_SERVICE=$DB_NAME
-          HASURA_TAG=${DOCKER_REGISTRY}/${PROJECT_ID}/${REGISTRY_REPO}/hasura:pr-${{github.event.number}}
-          FRONTEND_TAG=${DOCKER_REGISTRY}/${PROJECT_ID}/${REGISTRY_REPO}/frontend:pr-${{github.event.number}}
+          echo "CLOUDRUN_REGION=$REGISTRY_REGION" >> $GITHUB_ENV
+          echo "CLOUDSQL_INSTANCE_NAME=$REGISTRY_REPO" >> $GITHUB_ENV
+          echo "CLOUDSQL_CONNECTION_NAME=${PROJECT_ID}:${REGISTRY_REGION}:${REGISTRY_REPO}" >> $GITHUB_ENV
+          echo "GRAPHQL_HOST=${DB_NAME}-${CLOUDRUN_SUFFIX}" >> $GITHUB_ENV
+          echo "GRAPHQL_URL=https://${GRAPHQL_HOST}.${DEPLOYMENT_DOMAIN}/v1/graphql" >> $GITHUB_ENV
+          echo "DOCKER_REGISTRY=${REGISTRY_REGION}-docker.pkg.dev" >> $GITHUB_ENV
+          echo "DOCKER_PATH=${DOCKER_REGISTRY}/${PROJECT_ID}/${REGISTRY_REPO}" >> $GITHUB_ENV
+          echo "BACKEND_TAG=${DOCKER_PATH}/backend:pr-${{github.event.number}}" >> $GITHUB_ENV
+          echo "BACKEND_HOST=${BACKEND_SERVICE}-${CLOUDRUN_SUFFIX}.${DEPLOYMENT_DOMAIN}" >> $GITHUB_ENV
+          echo "SC_MIGRATE_URL=https://${BACKEND_HOST}/actions/migrateSourceCredAccounts?force=true" >> $GITHUB_ENV
+          echo "HASURA_SERVICE=$DB_NAME" >> $GITHUB_ENV
+          echo "HASURA_TAG=${DOCKER_PATH}/hasura:pr-${{github.event.number}}" >> $GITHUB_ENV
+          echo "FRONTEND_TAG=${DOCKER_PATH}/frontend:pr-${{github.event.number}}" >> $GITHUB_ENV
 
       - name: Info
         run: |
