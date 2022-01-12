@@ -37,7 +37,7 @@ jobs:
       DOCKER_PATH: ${{env.DOCKER_REGISTRY}}/${{env.PROJECT_ID}}/${{env.REGISTRY_REPO}}
       BACKEND_TAG: ${{env.DOCKER_PATH}}/backend:pr-${{github.event.number}}
       BACKEND_HOST: ${{env.BACKEND_SERVICE}}-${{env.CLOUDRUN_SUFFIX}}.${{env.DEPLOYMENT_DOMAIN}}
-      SC_MIGRATE_URL: https://${{env.BACKEND_HOST}}/actions/migrateSourceCredAccounts?force: true
+      SC_MIGRATE_URL: https://${{env.BACKEND_HOST}}/actions/migrateSourceCredAccounts?force=true
       HASURA_SERVICE: ${{env.DB_NAME}}
       HASURA_TAG: ${{env.DOCKER_PATH}}/hasura:pr-${{github.event.number}}
       FRONTEND_TAG: ${{env.DOCKER_PATH}}/frontend:pr-${{github.event.number}}
