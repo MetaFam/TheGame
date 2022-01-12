@@ -7,8 +7,7 @@ on:
     types:
       - opened
       - reopened
-  push:
-    
+      - synchronize
 
 env:
   PROJECT_ID: metagame-thegame
@@ -22,7 +21,6 @@ env:
 jobs:
   build-and-deploy:
     name: Build and Deploy
-    if: ${{ github.event.issue.pull_request }}
     runs-on: ubuntu-latest
 
     steps:
