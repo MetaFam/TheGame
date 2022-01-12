@@ -102,7 +102,7 @@ export class GetXpCommand {
         );
       }
     } catch (e) {
-      await replyWithUnexpectedError(message);
+      await replyWithUnexpectedError(message, (e as Error).message);
     }
   }
 }
@@ -114,7 +114,7 @@ const filterAccount = (player: SCAccount, targetUserDiscordID: Snowflake) => {
 
   const discordAliases = accountInfo.identity.aliases.filter((alias) => {
     const parts = sc.core.graph.NodeAddress.toParts(alias.address);
-    return parts.indexOf('discord') > 0;
+    return parts.includes('discord');
   });
 
   if (discordAliases.length >= 1) {
@@ -133,9 +133,9 @@ const scAliasMatchesDiscordId = (
   discordAccount: SCAlias,
   targetUserDiscordID: Snowflake,
 ) => {
-  const discordId = sc.core.graph.NodeAddress.toParts(
+  const [, , , discordId] = sc.core.graph.NodeAddress.toParts(
     discordAccount.address,
-  )[4];
+  );
   if (discordId === targetUserDiscordID) {
     return discordId;
   }
