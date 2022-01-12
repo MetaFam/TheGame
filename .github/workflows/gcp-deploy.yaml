@@ -28,25 +28,28 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Variables
+      - name: First Intepolation of Variables
         run: |
           echo "CLOUDRUN_REGION=${{env.REGISTRY_REGION}}" >> $GITHUB_ENV
           echo "CLOUDSQL_INSTANCE_NAME=${{env.REGISTRY_REPO}}" >> $GITHUB_ENV
           echo "CLOUDSQL_CONNECTION_NAME=${{env.PROJECT_ID}}:${{env.REGISTRY_REGION}}:${{env.REGISTRY_REPO}}" >> $GITHUB_ENV
-          echo "GRAPHQL_HOST=${{env.DB_NAME}}-${{env.CLOUDRUN_SUFFIX}}" >> $GITHUB_ENV
-          echo "GRAPHQL_URL=https://${{env.GRAPHQL_HOST}}\.${{env.DEPLOYMENT_DOMAIN}}/v1/graphql" >> $GITHUB_ENV
-          echo "DOCKER_REGISTRY=${{env.REGISTRY_REGION}}-docker.pkg.dev" >> $GITHUB_ENV
-          echo "DOCKER_PATH=${{env.DOCKER_REGISTRY}}/${{env.PROJECT_ID}}/${{env.REGISTRY_REPO}}" >> $GITHUB_ENV
-          echo "BACKEND_TAG=${{env.DOCKER_PATH}}/backend:pr-${{github.event.number}}" >> $GITHUB_ENV
-          echo "BACKEND_HOST=${{env.BACKEND_SERVICE}}-${{env.CLOUDRUN_SUFFIX}}.${{env.DEPLOYMENT_DOMAIN}}" >> $GITHUB_ENV
-          echo "SC_MIGRATE_URL=https://${{env.BACKEND_HOST}}/actions/migrateSourceCredAccounts?force=true" >> $GITHUB_ENV
           echo "HASURA_SERVICE=${{env.DB_NAME}}" >> $GITHUB_ENV
+          echo "DOCKER_REGISTRY=${{env.REGISTRY_REGION}}-docker.pkg.dev" >> $GITHUB_ENV
+          echo "BACKEND_HOST=${{env.BACKEND_SERVICE}}-${{env.CLOUDRUN_SUFFIX}}.${{env.DEPLOYMENT_DOMAIN}}" >> $GITHUB_ENV
+
+      - name: Those Varaiables May Now Be Interpolated
+        run: |
+          echo "HASURA_HOST=${{env.HASURA_SERVICE}}-${{env.CLOUDRUN_SUFFIX}}.${{env.DEPLOYMENT_DOMAIN}}" >> $GITHUB_ENV
+          echo "DOCKER_PATH=${{env.DOCKER_REGISTRY}}/${{env.PROJECT_ID}}/${{env.REGISTRY_REPO}}" >> $GITHUB_ENV
+          echo "SC_MIGRATE_URL=https://${{env.BACKEND_HOST}}/actions/migrateSourceCredAccounts?force=true" >> $GITHUB_ENV
+          echo "FRONTEND_URL=https://${{env.FRONTEND_SERVICE}}-${{env.CLOUDRUN_SUFFIX}}.${{env.DEPLOYMENT_DOMAIN}}" >> $GITHUB_ENV
+
+      - name: And Again In Another Steps
+        run: |
+          echo "HASURA_URL=https://${{env.HASURA_HOST}}/v1/graphql" >> $GITHUB_ENV
+          echo "BACKEND_TAG=${{env.DOCKER_PATH}}/backend:pr-${{github.event.number}}" >> $GITHUB_ENV
           echo "HASURA_TAG=${{env.DOCKER_PATH}}/hasura:pr-${{github.event.number}}" >> $GITHUB_ENV
           echo "FRONTEND_TAG=${{env.DOCKER_PATH}}/frontend:pr-${{github.event.number}}" >> $GITHUB_ENV
-
-      - name: Variable Split
-        run: |
-          echo "GRAPHQL_URL=https://${{env.GRAPHQL_HOST}}\.${{env.DEPLOYMENT_DOMAIN}}/v1/graphql" >> $GITHUB_ENV
 
       - name: Info
         run: |
@@ -58,7 +61,9 @@ jobs:
           echo "Head SHA: ${{github.event.pull_request.head.sha}}"
           echo "Base: $GITHUB_BASE_REF"
           echo "Base SHA: ${{github.event.pull_request.base.sha}}"
-          echo "GraphQL URL: $GRAPHQL_HOST $GRAPHQL_URL"
+          echo "Hasura URL: $HASURA_URL"
+          echo "Backend URL: $BACKEND_URL"
+          echo "Frontend URL: $FRONTEND_URL"
           echo "Backend Tag: $BACKEND_TAG"
 
       - name: Checkout
@@ -108,7 +113,7 @@ jobs:
       - name: Build Backend Container
         uses: mattes/cached-docker-build-action@v1
         with:
-          args: ". -f ./docker/backend/Dockerfile --tag ${{env.BACKEND_TAG}} --build-arg GRAPHQL_HOST=${{env.GRAPHQL_HOST}} --build-arg GRAPHQL_DOMAIN=${{env.GRAPHQL_DOMAIN}}"
+          args: ". -f ./docker/backend/Dockerfile --tag ${{env.BACKEND_TAG}} --build-arg GRAPHQL_URL=${{env.HASURA_URL}}"
           cache_key: "${{ hashFiles('packages/backend/**') }}"
 
       - name: Push Backend Container
@@ -129,58 +134,58 @@ jobs:
 
       - name: Undeploy Hasura
         continue-on-error: true
-        run: gcloud -q run services delete $HASURA_SERVICE --region $CLOUDRUN_REGION
+        run: gcloud -q run services delete ${{env.HASURA_SERVICE}} --region ${{env.CLOUDRUN_REGION}}
 
       - name: Delete Hasura Image
         continue-on-error: true
-        run: gcloud -q artifacts docker images delete $HASURA_TAG
+        run: gcloud -q artifacts docker images delete ${{env.HASURA_TAG}}
 
       - name: Build Hasura Container
         uses: mattes/cached-docker-build-action@v1
         with:
-          args: "./hasura -f ./hasura/Dockerfile --tag $HASURA_TAG --build-arg BACKEND_HOST=$BACKEND_HOST --build-arg BACKEND_PROTOCOL=https"
+          args: "./hasura -f ./hasura/Dockerfile --tag ${{env.HASURA_TAG}} --build-arg BACKEND_HOST=${{env.BACKEND_HOST}} --build-arg BACKEND_PROTOCOL=https"
           cache_key: "${{ hashFiles('hasura/**') }}"
 
       - name: Push Hasura Container
-        run: docker push $HASURA_TAG
+        run: docker push ${{env.HASURA_TAG}}
 
       - name: Deploy Hasura
         run: |
-          gcloud -q run deploy $HASURA_SERVICE \
-            --image $HASURA_TAG \
-            --region $CLOUDRUN_REGION \
-            --port $HASURA_PORT \
+          gcloud -q run deploy ${{env.HASURA_SERVICE}} \
+            --image ${{env.HASURA_TAG}} \
+            --region ${{env.CLOUDRUN_REGION}} \
+            --port ${{env.HASURA_PORT}} \
             --cpu 1 \
             --memory 512Mi \
             --ingress all \
             --allow-unauthenticated \
-            --add-cloudsql-instances $CLOUDSQL_CONNECTION_NAME \
+            --add-cloudsql-instances ${{env.CLOUDSQL_CONNECTION_NAME}} \
             --max-instances 1 \
-            --set-env-vars HASURA_GRAPHQL_DATABASE_URL=postgres://${DB_NAME}:${DB_PASSWORD}@/${DB_NAME}?host=/cloudsql/${CLOUDSQL_CONNECTION_NAME},HASURA_GRAPHQL_ADMIN_SECRET=metagame_secret,HASURA_GRAPHQL_SERVER_PORT=${HASURA_PORT},HASURA_GRAPHQL_ENABLE_CONSOLE=true
+            --set-env-vars HASURA_GRAPHQL_DATABASE_URL=postgres://${{env.DB_NAME}}:${{env.DB_PASSWORD}}@/${{env.DB_NAME}}?host=/cloudsql/${{env.CLOUDSQL_CONNECTION_NAME}},HASURA_GRAPHQL_ADMIN_SECRET=metagame_secret,HASURA_GRAPHQL_SERVER_PORT=${{env.HASURA_PORT}},HASURA_GRAPHQL_ENABLE_CONSOLE=true
 
       - name: Undeploy Frontend
         continue-on-error: true
-        run: gcloud -q run services delete $FRONTEND_SERVICE --region $CLOUDRUN_REGION
+        run: gcloud -q run services delete ${{env.FRONTEND_SERVICE}} --region ${{env.CLOUDRUN_REGION}}
 
       - name: Delete Frontend Image
         continue-on-error: true
-        run: gcloud -q artifacts docker images delete $FRONTEND_TAG
+        run: gcloud -q artifacts docker images delete ${{env.FRONTEND_TAG}}
 
       - name: Build Frontend Container
         uses: mattes/cached-docker-build-action@v1
         with:
-          args: ". -f ./docker/frontend/Dockerfile --tag $FRONTEND_TAG --build-arg GRAPHQL_HOST=${HASURA_SERVICE}-${CLOUDRUN_SUFFIX} --build-arg GRAPHQL_DOMAIN=$DEPLOYMENT_DOMAIN"
+          args: ". -f ./docker/frontend/Dockerfile --tag ${{env.FRONTEND_TAG}} --build-arg GRAPHQL_URL=${{env.HASURA_URL}}"
           cache_key: "${{ hashFiles('packages/web/**', 'packages/design-system/**') }}"
 
       - name: Push Frontend Container
-        run: docker push $FRONTEND_TAG
+        run: docker push ${{env.FRONTEND_TAG}}
 
       - name: Deploy Frontend
         run: |
-          gcloud -q run deploy $FRONTEND_SERVICE \
-            --image $FRONTEND_TAG \
-            --region $CLOUDRUN_REGION \
-            --port $FRONTEND_PORT \
+          gcloud -q run deploy ${{env.FRONTEND_SERVICE}} \
+            --image ${{env.FRONTEND_TAG}} \
+            --region ${{env.CLOUDRUN_REGION}} \
+            --port ${{env.FRONTEND_PORT}} \
             --cpu 1 \
             --memory 512Mi \
             --ingress all \
@@ -192,8 +197,8 @@ jobs:
           mv package.json package.json.temp
           npm install --no-package-lock --no-save node-fetch
           mv package.json.temp package.json
-          LOCAL_GRAPHQL_URL="$GRAPHQL_URL" \
-            LOCAL_BACKEND_ACCOUNT_MIGRATION_URL="$SC_MIGRATE_URL" \
+          LOCAL_GRAPHQL_URL="${{env.HASURA_URL}}" \
+            LOCAL_BACKEND_ACCOUNT_MIGRATION_URL="${{env.SC_MIGRATE_URL}}" \
             yarn hasura:seed-local-db
 
       - name: Comment on Pull Request
@@ -202,6 +207,6 @@ jobs:
           message: |
             Successfully deployed a preview of this pull request:
 
-            * [Frontend](https://${FRONTEND_SERVICE}-${CLOUDRUN_SUFFIX}.${DEPLOYMENT_DOMAIN})
-            * [Hasura](https://${HASURA_SERVICE}-${CLOUDRUN_SUFFIX}.${DEPLOYMENT_DOMAIN})
+            * [Frontend](${{env.FRONTEND_URL}})
+            * [Hasura](${{env.HASURA_URL}})
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

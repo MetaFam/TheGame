@@ -5,7 +5,7 @@ RUN chmod +x /wait
 
 ## Default setup
 
-ARG BACKEND_HOST
+ARG BACKEND_HOST=localhost
 ARG BACKEND_PROTOCOL=http
 ARG AUTH_HOOK_PATH=auth-webhook
 ARG ACTION_BASE_PATH=actions

@@ -26,10 +26,11 @@ COPY packages/discord-bot ./packages/discord-bot/
 COPY packages/@types ./packages/@types/
 
 # Set env vars
-ARG GRAPHQL_HOST
+ARG GRAPHQL_HOST=hasura
 ARG GRAPHQL_DOMAIN=onrender.com
+ARG GRAPHQL_URL=https://$GRAPHQL_HOST.$GRAPHQL_DOMAIN/v1/graphql
 
-ENV GRAPHQL_URL https://$GRAPHQL_HOST.$GRAPHQL_DOMAIN/v1/graphql
+ENV GRAPHQL_URL $GRAPHQL_URL
 ENV HASURA_GRAPHQL_ADMIN_SECRET metagame_secret
 ENV NEXT_CERAMIC_URL http://ceramic.metagame.wtf:7007
 

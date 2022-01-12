@@ -30,10 +30,11 @@ COPY packages/design-system ./packages/design-system/
 COPY packages/@types ./packages/@types/
 
 # Set env vars
-ARG GRAPHQL_HOST
+ARG GRAPHQL_HOST=hasura
 ARG GRAPHQL_DOMAIN=onrender.com
+ARG GRAPHQL_URL=https://$GRAPHQL_HOST.$GRAPHQL_DOMAIN/v1/graphql
 
-ENV NEXT_PUBLIC_GRAPHQL_URL https://$GRAPHQL_HOST.$GRAPHQL_DOMAIN/v1/graphql
+ENV NEXT_PUBLIC_GRAPHQL_URL $GRAPHQL_URL
 
 # Build
 RUN yarn web:build
