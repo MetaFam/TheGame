@@ -17,11 +17,11 @@ env:
   CLOUDRUN_REGION: us-east4
   CLOUDRUN_SUFFIX: mjhnbmqqna-uk
   CLOUDSQL_INSTANCE_NAME: thegame
-  CLOUDSQL_CONNECTION_NAME: metagame-thegame:us-east4:thegame
+  CLOUDSQL_CONNECTION_NAME: $PROJECT_ID:$REGISTRY_REGION:$REGISTRY_REPO
   DB_NAME: hasura-pr-${{ github.event.number }}
-  GRAPHQL_HOST: ${DB_NAME}-${CLOUDRUN_SUFFIX}
+  GRAPHQL_HOST: "$DB_NAME-$CLOUDRUN_SUFFIX"
   GRAPHQL_DOMAIN: $DEPLOYMENT_DOMAIN
-  GRAPHQL_URL: https://${GRAPHQL_HOST}.${GRAPHQL_DOMAIN}/v1/graphql
+  GRAPHQL_URL: https://$GRAPHQL_HOST.$GRAPHQL_DOMAIN/v1/graphql
   BACKEND_SERVICE: backend-pr-${{ github.event.number }}
   DOCKER_REGISTRY: ${REGISTRY_REGION}-docker.pkg.dev
   BACKEND_TAG: ${DOCKER_REGISTRY}/${PROJECT_ID}/${REGISTRY_REPO}/backend:pr-${{ github.event.number }}
