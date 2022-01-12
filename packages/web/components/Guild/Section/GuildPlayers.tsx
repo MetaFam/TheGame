@@ -16,6 +16,7 @@ import { getGuildPlayers } from 'graphql/queries/guild';
 import { GuildPlayer } from 'graphql/types';
 import React, { useEffect, useState } from 'react';
 import { isBackdropFilterSupported } from 'utils/compatibilityHelpers';
+
 import { GuildPlayerComponent } from './GuildPlayer';
 
 type Props = {
