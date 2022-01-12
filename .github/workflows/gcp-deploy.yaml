@@ -31,10 +31,14 @@ jobs:
           echo "SHA: $GITHUB_SHA"
           echo "Branch: $GITHUB_REF"
           echo "Head: $GITHUB_HEAD_REF"
+          echo "Head SHA ${{ github.event.pull_request.head.sha }}"
           echo "Base: $GITHUB_BASE_REF"
+          echo "Base SHA ${{ github.event.pull_request.base.sha }}"
 
       - name: Checkout
         uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
 
       - name: Login to Registry
         uses: docker/login-action@v1
