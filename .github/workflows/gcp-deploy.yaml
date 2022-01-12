@@ -44,7 +44,7 @@ jobs:
           echo "SC_MIGRATE_URL=https://${{env.BACKEND_HOST}}/actions/migrateSourceCredAccounts?force=true" >> $GITHUB_ENV
           echo "FRONTEND_URL=https://${{env.FRONTEND_SERVICE}}-${{env.CLOUDRUN_SUFFIX}}.${{env.DEPLOYMENT_DOMAIN}}" >> $GITHUB_ENV
 
-      - name: And Again In Another Steps
+      - name: And Again In Another Step
         run: |
           echo "HASURA_URL=https://${{env.HASURA_HOST}}/v1/graphql" >> $GITHUB_ENV
           echo "BACKEND_TAG=${{env.DOCKER_PATH}}/backend:pr-${{github.event.number}}" >> $GITHUB_ENV
@@ -129,7 +129,10 @@ jobs:
             --ingress all \
             --allow-unauthenticated \
             --max-instances 1 \
-            --set-env-vars HASURA_GRAPHQL_ADMIN_SECRET=metagame_secret,GITHUB_API_TOKEN=${{secrets.GH_API_TOKEN}},SOURCECRED_LEDGER_BRANCH=master
+            --set-env-vars HASURA_GRAPHQL_ADMIN_SECRET=metagame_secret \
+            --set-env-vars GITHUB_API_TOKEN=${{secrets.GH_API_TOKEN}} \
+            --set-env-vars SOURCECRED_LEDGER_BRANCH=master \
+            --set-env-vars GRAPHQL_URL=${{env.HASURA_URL}}
 
       - name: Undeploy Hasura
         continue-on-error: true
@@ -160,7 +163,10 @@ jobs:
             --allow-unauthenticated \
             --add-cloudsql-instances ${{env.CLOUDSQL_CONNECTION_NAME}} \
             --max-instances 1 \
-            --set-env-vars HASURA_GRAPHQL_DATABASE_URL=postgres://${{env.DB_NAME}}:${{env.DB_PASSWORD}}@/${{env.DB_NAME}}?host=/cloudsql/${{env.CLOUDSQL_CONNECTION_NAME}},HASURA_GRAPHQL_ADMIN_SECRET=metagame_secret,HASURA_GRAPHQL_SERVER_PORT=${{env.HASURA_PORT}},HASURA_GRAPHQL_ENABLE_CONSOLE=true
+            --set-env-vars HASURA_GRAPHQL_DATABASE_URL=postgres://${{env.DB_NAME}}:${{env.DB_PASSWORD}}@/${{env.DB_NAME}}?host=/cloudsql/${{env.CLOUDSQL_CONNECTION_NAME}} \
+            --set-env-vars HASURA_GRAPHQL_ADMIN_SECRET=metagame_secret \
+            --set-env-vars HASURA_GRAPHQL_SERVER_PORT=${{env.HASURA_PORT}} \
+            --set-env-vars HASURA_GRAPHQL_ENABLE_CONSOLE=true
 
       - name: Undeploy Frontend
         continue-on-error: true

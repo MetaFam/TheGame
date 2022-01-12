@@ -1,5 +1,7 @@
 import fetch from 'node-fetch';
 
+/* eslint-disable no-console */
+
 const PRODUCTION_GRAPHQL_URL = (
   process.env.PRODUCTION_GRAPHQL_URL
   || 'https://api.metagame.wtf/v1/graphql'
@@ -217,10 +219,10 @@ async function forceMigrateAccounts() {
 }
 
 async function startSeeding() {
-  console.debug(`Force migrating sourcecred users into local db`);
+  console.debug(`Force migrating sourcecred users with: ${LOCAL_BACKEND_ACCOUNT_MIGRATION_URL}`);
   const result = await forceMigrateAccounts();
   console.debug(result);
-  console.debug(`Fetching players from prod db`);
+  console.debug(`Fetching players from: ${PRODUCTION_GRAPHQL_URL}`);
   const players = await fetchTopPlayers();
   const addresses = players.map(({ ethereum_address }) => ethereum_address);
   console.debug(`Fetching player ids for players from local db for ${addresses.length} addresses`);
@@ -248,7 +250,7 @@ async function startSeeding() {
     .filter(m => !!m)
   );
   console.debug(
-    `Updating ${mutations.length} players information in local db for players in prod db.`,
+    `Updating ${mutations.length} players information in ${LOCAL_GRAPHQL_URL}`,
   );
   await deleteSkills();
   const updated = await Promise.all(mutations.map(
