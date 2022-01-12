@@ -209,11 +209,14 @@ export const MobileFilters: React.FC<Props> = ({
             value={[sortOption]}
             onChange={(value) => {
               const values = value as ValueType[];
-              setSortOption(values[values.length - 1]);
+              if (values[values.length - 1]) {
+                setSortOption(values[values.length - 1]);
+              }
             }}
             options={sortOptions}
             onBack={onBack}
             isMulti={false}
+            disableEmpty
           />
         )}
         {selected === Selected.TYPE && (
@@ -331,6 +334,7 @@ type FilterContentProps = {
   isMulti?: boolean;
   showSearch?: boolean;
   isTimezone?: boolean;
+  disableEmpty?: boolean;
 };
 
 const scrollbarVisible = (element: HTMLDivElement): boolean =>
@@ -343,20 +347,21 @@ const searchFilter: (searchText: string) => (v: ValueType) => boolean = (
   value.toLowerCase().includes(searchText);
 
 const FilterContent: React.FC<FilterContentProps> = ({
-  value: selectedValue,
+  value: savedValue,
   onChange,
   options: allOptions,
   onBack,
   isMulti = true,
   showSearch = false,
   isTimezone = false,
+  disableEmpty = false,
 }) => {
   const isCategoryFilter = useMemo(
     () =>
       allOptions.length > 0 && !!(allOptions as CategoryValueType[])[0].options,
     [allOptions],
   );
-  const [value, setValue] = useState(selectedValue);
+  const [value, setValue] = useState(savedValue);
   const onClear = useCallback(() => {
     setValue([]);
   }, []);
@@ -367,6 +372,15 @@ const FilterContent: React.FC<FilterContentProps> = ({
   const [options, setOptions] = useState(allOptions);
 
   const [search, setSearch] = useState('');
+  const isChanged = useMemo(
+    () =>
+      value.length !== savedValue.length ||
+      value.reduce(
+        (t, i) => t || !savedValue.find((v) => v.value === i.value),
+        false,
+      ),
+    [value, savedValue],
+  );
 
   const onSearch = useCallback(
     (searchText: string) => {
@@ -425,6 +439,7 @@ const FilterContent: React.FC<FilterContentProps> = ({
                 _hover={{ bg: 'whiteAlpha.100' }}
                 key={optionValue}
                 onClick={() => {
+                  if (isSelected && disableEmpty && value.length === 1) return;
                   if (isMulti) {
                     if (isSelected) {
                       const newValue = value.slice();
@@ -462,7 +477,7 @@ const FilterContent: React.FC<FilterContentProps> = ({
         </>
       );
     },
-    [isMulti, value],
+    [isMulti, value, disableEmpty],
   );
 
   const [hasScrollbar, setHasScrollbar] = useState(false);
@@ -539,7 +554,7 @@ const FilterContent: React.FC<FilterContentProps> = ({
       </DrawerBody>
       <DrawerFooter p="1.5rem">
         <Flex direction="column" justify="center" w="100%" align="center">
-          {value.length > 0 && (
+          {value.length > 0 && (!disableEmpty || value.length > 1) && (
             <Button
               variant="link"
               color="cyan.400"
@@ -552,7 +567,7 @@ const FilterContent: React.FC<FilterContentProps> = ({
               CANCEL SELECTION
             </Button>
           )}
-          <MetaButton onClick={onSave} w="15rem">
+          <MetaButton onClick={onSave} isDisabled={!isChanged} w="15rem">
             SAVE
           </MetaButton>
         </Flex>
