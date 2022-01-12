@@ -195,7 +195,8 @@ jobs:
             --memory 512Mi \
             --ingress all \
             --max-instances 1 \
-            --allow-unauthenticated
+            --allow-unauthenticated \
+            --set-env-vars GRAPHQL_URL=${{env.HASURA_URL}}
 
       - name: Seed Database
         run: |
