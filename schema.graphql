@@ -4189,11 +4189,10 @@ type player {
     where: guild_player_bool_exp
   ): guild_player_aggregate!
   id: uuid!
-  playerTypeId: Int
 
   """An object relationship"""
   profile: profile
-  profile_layout: String
+  profileLayout: String
 
   """An array relationship"""
   quest_completions(
@@ -4345,9 +4344,6 @@ type player {
   """Remote relationship field"""
   token_balances: TokenBalances
   totalXP: numeric
-
-  """An object relationship"""
-  type: ExplorerType
   updatedAt: timestamptz
 }
 
@@ -4582,7 +4578,6 @@ input player_arr_rel_insert_input {
 
 """aggregate avg on columns"""
 type player_avg_fields {
-  playerTypeId: Float
   seasonXP: Float
   totalXP: Float
 }
@@ -4591,7 +4586,6 @@ type player_avg_fields {
 order by avg() on columns of table "player"
 """
 input player_avg_order_by {
-  playerTypeId: order_by
   seasonXP: order_by
   totalXP: order_by
 }
@@ -4609,9 +4603,8 @@ input player_bool_exp {
   ethereumAddress: String_comparison_exp
   guilds: guild_player_bool_exp
   id: uuid_comparison_exp
-  playerTypeId: Int_comparison_exp
   profile: profile_bool_exp
-  profile_layout: String_comparison_exp
+  profileLayout: String_comparison_exp
   quest_completions: quest_completion_bool_exp
   quests: quest_bool_exp
   rank: PlayerRank_enum_comparison_exp
@@ -4620,7 +4613,6 @@ input player_bool_exp {
   seasonXP: numeric_comparison_exp
   skills: player_skill_bool_exp
   totalXP: numeric_comparison_exp
-  type: ExplorerType_bool_exp
   updatedAt: timestamptz_comparison_exp
 }
 
@@ -4642,7 +4634,6 @@ enum player_constraint {
 input type for incrementing integer column in table "player"
 """
 input player_inc_input {
-  playerTypeId: Int
   seasonXP: numeric
   totalXP: numeric
 }
@@ -4657,9 +4648,8 @@ input player_insert_input {
   ethereumAddress: String
   guilds: guild_player_arr_rel_insert_input
   id: uuid
-  playerTypeId: Int
   profile: profile_obj_rel_insert_input
-  profile_layout: String
+  profileLayout: String
   quest_completions: quest_completion_arr_rel_insert_input
   quests: quest_arr_rel_insert_input
   rank: PlayerRank_enum
@@ -4668,7 +4658,6 @@ input player_insert_input {
   seasonXP: numeric
   skills: player_skill_arr_rel_insert_input
   totalXP: numeric
-  type: ExplorerType_obj_rel_insert_input
   updatedAt: timestamptz
 }
 
@@ -4678,8 +4667,7 @@ type player_max_fields {
   discordId: String
   ethereumAddress: String
   id: uuid
-  playerTypeId: Int
-  profile_layout: String
+  profileLayout: String
   role: String
   seasonXP: numeric
   totalXP: numeric
@@ -4694,8 +4682,7 @@ input player_max_order_by {
   discordId: order_by
   ethereumAddress: order_by
   id: order_by
-  playerTypeId: order_by
-  profile_layout: order_by
+  profileLayout: order_by
   role: order_by
   seasonXP: order_by
   totalXP: order_by
@@ -4708,8 +4695,7 @@ type player_min_fields {
   discordId: String
   ethereumAddress: String
   id: uuid
-  playerTypeId: Int
-  profile_layout: String
+  profileLayout: String
   role: String
   seasonXP: numeric
   totalXP: numeric
@@ -4724,8 +4710,7 @@ input player_min_order_by {
   discordId: order_by
   ethereumAddress: order_by
   id: order_by
-  playerTypeId: order_by
-  profile_layout: order_by
+  profileLayout: order_by
   role: order_by
   seasonXP: order_by
   totalXP: order_by
@@ -4770,9 +4755,8 @@ input player_order_by {
   ethereumAddress: order_by
   guilds_aggregate: guild_player_aggregate_order_by
   id: order_by
-  playerTypeId: order_by
   profile: profile_order_by
-  profile_layout: order_by
+  profileLayout: order_by
   quest_completions_aggregate: quest_completion_aggregate_order_by
   quests_aggregate: quest_aggregate_order_by
   rank: order_by
@@ -4781,7 +4765,6 @@ input player_order_by {
   seasonXP: order_by
   skills_aggregate: player_skill_aggregate_order_by
   totalXP: order_by
-  type: ExplorerType_order_by
   updatedAt: order_by
 }
 
@@ -5119,10 +5102,7 @@ enum player_select_column {
   id
 
   """column name"""
-  playerTypeId
-
-  """column name"""
-  profile_layout
+  profileLayout
 
   """column name"""
   rank
@@ -5148,8 +5128,7 @@ input player_set_input {
   discordId: String
   ethereumAddress: String
   id: uuid
-  playerTypeId: Int
-  profile_layout: String
+  profileLayout: String
   rank: PlayerRank_enum
   role: String
   seasonXP: numeric
@@ -5483,7 +5462,6 @@ input player_skill_variance_order_by {
 
 """aggregate stddev on columns"""
 type player_stddev_fields {
-  playerTypeId: Float
   seasonXP: Float
   totalXP: Float
 }
@@ -5492,14 +5470,12 @@ type player_stddev_fields {
 order by stddev() on columns of table "player"
 """
 input player_stddev_order_by {
-  playerTypeId: order_by
   seasonXP: order_by
   totalXP: order_by
 }
 
 """aggregate stddev_pop on columns"""
 type player_stddev_pop_fields {
-  playerTypeId: Float
   seasonXP: Float
   totalXP: Float
 }
@@ -5508,14 +5484,12 @@ type player_stddev_pop_fields {
 order by stddev_pop() on columns of table "player"
 """
 input player_stddev_pop_order_by {
-  playerTypeId: order_by
   seasonXP: order_by
   totalXP: order_by
 }
 
 """aggregate stddev_samp on columns"""
 type player_stddev_samp_fields {
-  playerTypeId: Float
   seasonXP: Float
   totalXP: Float
 }
@@ -5524,14 +5498,12 @@ type player_stddev_samp_fields {
 order by stddev_samp() on columns of table "player"
 """
 input player_stddev_samp_order_by {
-  playerTypeId: order_by
   seasonXP: order_by
   totalXP: order_by
 }
 
 """aggregate sum on columns"""
 type player_sum_fields {
-  playerTypeId: Int
   seasonXP: numeric
   totalXP: numeric
 }
@@ -5540,7 +5512,6 @@ type player_sum_fields {
 order by sum() on columns of table "player"
 """
 input player_sum_order_by {
-  playerTypeId: order_by
   seasonXP: order_by
   totalXP: order_by
 }
@@ -5562,10 +5533,7 @@ enum player_update_column {
   id
 
   """column name"""
-  playerTypeId
-
-  """column name"""
-  profile_layout
+  profileLayout
 
   """column name"""
   rank
@@ -5585,7 +5553,6 @@ enum player_update_column {
 
 """aggregate var_pop on columns"""
 type player_var_pop_fields {
-  playerTypeId: Float
   seasonXP: Float
   totalXP: Float
 }
@@ -5594,14 +5561,12 @@ type player_var_pop_fields {
 order by var_pop() on columns of table "player"
 """
 input player_var_pop_order_by {
-  playerTypeId: order_by
   seasonXP: order_by
   totalXP: order_by
 }
 
 """aggregate var_samp on columns"""
 type player_var_samp_fields {
-  playerTypeId: Float
   seasonXP: Float
   totalXP: Float
 }
@@ -5610,14 +5575,12 @@ type player_var_samp_fields {
 order by var_samp() on columns of table "player"
 """
 input player_var_samp_order_by {
-  playerTypeId: order_by
   seasonXP: order_by
   totalXP: order_by
 }
 
 """aggregate variance on columns"""
 type player_variance_fields {
-  playerTypeId: Float
   seasonXP: Float
   totalXP: Float
 }
@@ -5626,7 +5589,6 @@ type player_variance_fields {
 order by variance() on columns of table "player"
 """
 input player_variance_order_by {
-  playerTypeId: order_by
   seasonXP: order_by
   totalXP: order_by
 }

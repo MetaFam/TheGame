@@ -211,8 +211,8 @@ export const useFiltersUsed = (
     [queryVariables.orderBy],
   );
   const playerTypesFilterUsed = useMemo(
-    () => (queryVariables.playerTypeIds as number[])?.length > 0,
-    [queryVariables.playerTypeIds],
+    () => (queryVariables.explorerTypeTitles as string[])?.length > 0,
+    [queryVariables.explorerTypeTitles],
   );
   const searchFilterUsed = useMemo(() => queryVariables.search !== '%%', [
     queryVariables.search,

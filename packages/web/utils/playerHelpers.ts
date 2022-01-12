@@ -6,9 +6,10 @@ import PlayerCoverImageFull from 'assets/player-background-full.jpg';
 import PlayerCoverImageSmall from 'assets/player-background-small.jpg';
 import { ethers } from 'ethers';
 import { Player } from 'graphql/autogen/types';
+import { GuildPlayer } from 'graphql/types';
 import { httpLink } from 'utils/linkHelpers';
 
-export const getImageFor = (player?: Player): string => {
+export const getImageFor = (player?: Player | GuildPlayer): string => {
   const link = httpLink(player?.profile?.profileImageURL);
   if (link) return link;
 
@@ -28,7 +29,7 @@ export const getGuildCoverImageFull = (): string => GuildCoverImageFull;
 
 export const getGuildCoverImageSmall = (): string => GuildCoverImageSmall;
 
-export const getNameOf = (player?: Player): string | undefined =>
+export const getNameOf = (player?: Player | GuildPlayer): string | undefined =>
   player?.profile?.name ||
   player?.profile?.username ||
   formatIfAddress(player?.ethereumAddress);
@@ -46,7 +47,7 @@ export const formatIfAddress = (username = ''): string =>
   ethers.utils.isAddress(username) ? formatAddress(username) : username;
 
 export const getURLFor = (
-  player?: Player,
+  player?: Player | GuildPlayer,
   opts?: { rel: boolean },
 ): string | undefined => {
   let { username } = player?.profile ?? {};
@@ -59,7 +60,7 @@ export const getURLFor = (
   return undefined;
 };
 
-export const hasImage = (player?: Player): boolean =>
+export const hasImage = (player?: Player | GuildPlayer): boolean =>
   !!player?.profile?.profileImageURL;
 
 export const dispositionFor = (mask?: Maybe<number>) => {

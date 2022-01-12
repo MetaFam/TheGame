@@ -17,8 +17,8 @@ export const SetupTimeZone: React.FC = () => {
   useEffect(() => {
     if (user?.player) {
       const { player } = user;
-      if (player.timezone && !timeZone) {
-        setTimeZone(player.timezone);
+      if (player.profile?.timeZone && !timeZone) {
+        setTimeZone(player.profile.timeZone);
       }
     }
   }, [user, timeZone]);

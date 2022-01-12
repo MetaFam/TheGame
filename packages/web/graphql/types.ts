@@ -47,6 +47,7 @@ export const SkillColors: Record<SkillCategory_Enum, string> = {
 };
 
 export type GuildPlayer = {
+  ethereumAddress: string;
   role?: Maybe<PlayerRank_Enum>;
   totalXP?: number;
   rank?: Maybe<PlayerRank_Enum>;

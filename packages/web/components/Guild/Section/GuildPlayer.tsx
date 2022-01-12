@@ -1,12 +1,11 @@
 import { Box, Heading, HStack, Link, Text } from '@metafam/ds';
 import { PlayerAvatar } from 'components/Player/PlayerAvatar';
-import { Player } from 'graphql/autogen/types';
 import { GuildPlayer } from 'graphql/types';
 import React from 'react';
-import { getNameOf } from 'utils/playerHelpers';
+import { getNameOf, getURLFor } from 'utils/playerHelpers';
 
 type GuildPlayerProps = {
-  player: Player;
+  player: GuildPlayer;
 };
 
 export const GuildPlayerComponent: React.FC<GuildPlayerProps> = ({
@@ -15,7 +14,7 @@ export const GuildPlayerComponent: React.FC<GuildPlayerProps> = ({
   <Link
     role="group"
     _hover={{ textDecoration: 'none' }}
-    href={`/player/${player.profile?.username}`}
+    href={getURLFor(player)}
   >
     <HStack alignItems="center" mb={6}>
       <PlayerAvatar w={16} h={16} mr={6} {...{ player }} />

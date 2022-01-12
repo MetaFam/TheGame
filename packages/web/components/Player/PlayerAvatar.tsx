@@ -1,10 +1,11 @@
 import { Avatar, AvatarProps } from '@metafam/ds';
 import { Player } from 'graphql/autogen/types';
+import { GuildPlayer } from 'graphql/types';
 import React from 'react';
 import { getImageFor, getNameOf, hasImage } from 'utils/playerHelpers';
 
 type PlayerAvatarProps = AvatarProps & {
-  player?: Player;
+  player?: Player | GuildPlayer;
   omitBackground?: boolean;
 };
 

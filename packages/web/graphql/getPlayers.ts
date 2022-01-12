@@ -1,4 +1,3 @@
-import gql from 'fake-tag';
 import { Client } from 'urql';
 
 import {
@@ -19,7 +18,7 @@ import { client as defaultClient } from './client';
 import { PlayerFragment, PlayerSkillFragment } from './fragments';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-gql`
+/* GraphQL */ `
   query GetPlayers(
     $orderBy: player_order_by!
     $offset: Int
@@ -64,7 +63,7 @@ export type PlayersQueryVariables = {
   };
   availability?: number;
   skillIds?: string[];
-  playerTypeIds?: number[];
+  explorerTypeTitles?: string[];
   timeZones?: string[];
 };
 
@@ -88,8 +87,9 @@ export const transformToGraphQLVariables = (
     where.profile ??= {};
     where.profile.timeZone = { _in: query.timeZones };
   }
-  if (query.playerTypeIds?.length) {
-    where.type = { id: { _in: query.playerTypeIds } };
+  if (query.explorerTypeTitles?.length) {
+    where.profile ??= {};
+    where.profile.explorerTypeTitle = { _in: query.explorerTypeTitles };
   }
   if (query.skillIds?.length) {
     where.skills = {
@@ -129,7 +129,7 @@ export const getPlayersWithCount = async (
   };
 };
 
-const playerUsernamesQuery = gql`
+const playerUsernamesQuery = /* GraphQL */ `
   query GetPlayerUsernames($limit: Int) {
     player(order_by: { totalXP: desc }, limit: $limit) {
       profile {
@@ -161,7 +161,7 @@ export const getPlayerUsernames = async (limit = 150): Promise<string[]> => {
 export const getTopPlayerUsernames = getPlayerUsernames;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-gql`
+/* GraphQL */ `
   query GetPlayerFilters {
     skill_aggregate(distinct_on: category) {
       nodes {

@@ -77,10 +77,10 @@ export const PlayerTile: React.FC<Props> = ({
                 </Heading>
               </VStack>
               <Wrap w="100%" justify="center">
-                {player.type?.title && (
+                {player.profile?.explorerTypeTitle && (
                   <WrapItem>
                     <MetaTag size="md" textTransform="uppercase">
-                      {player.type.title}
+                      {player.profile?.explorerTypeTitle}
                     </MetaTag>
                   </WrapItem>
                 )}

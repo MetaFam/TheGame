@@ -1,7 +1,5 @@
-import gql from 'fake-tag';
-
 // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-gql`
+/* GraphQL */ `
   mutation UpdatePlayerUsername($playerId: uuid!, $username: String!) {
     update_profile(
       where: { playerId: { _eq: $playerId } }
@@ -28,11 +26,13 @@ gql`
   mutation UpdateAboutYou($playerId: uuid!, $input: player_set_input!) {
     update_player_by_pk(pk_columns: { id: $playerId }, _set: $input) {
       id
-      type {
-        id
-        description
-        imageURL
-        title
+      profile {
+        explorerType {
+          id
+          description
+          imageURL
+          title
+        }
       }
     }
   }
@@ -66,7 +66,7 @@ gql`
   }
 `;
 
-export const UpdateProfilePronouns = gql`
+export const UpdateProfilePronouns = /* GraphQL */ `
   mutation updateProfilePronouns($playerId: uuid!, $input: profile_set_input!) {
     update_profile(where: { playerId: { _eq: $playerId } }, _set: $input) {
       affected_rows

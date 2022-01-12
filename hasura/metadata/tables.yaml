@@ -342,7 +342,7 @@
       season_xp: seasonXP
       created_at: createdAt
       total_xp: totalXP
-      player_type_id: playerTypeId
+      profile_layout: profileLayout
   object_relationships:
   - name: profile
     using:
@@ -352,9 +352,6 @@
           name: profile
         column_mapping:
           id: player_id
-  - name: type
-    using:
-      foreign_key_constraint_on: player_type_id
   array_relationships:
   - name: accounts
     using:
@@ -455,12 +452,8 @@
   - role: player
     permission:
       columns:
-      - available_hours
-      - color_mask
-      - player_type_id
       - profile_layout
       - role
-      - timezone
       filter:
         id:
           _eq: X-Hasura-User-Id
