@@ -1,4 +1,4 @@
-import fetch from 'node-fetch';
+import { fetch } from '@metafam/utils';
 
 import { CONFIG } from '../../../../config';
 import { BrightIdStatus, QueryResolvers } from '../../autogen/types';

@@ -1,11 +1,11 @@
 import {
   Constants,
+  fetch,
   getLatestEthAddress,
   isNotNullOrUndefined,
 } from '@metafam/utils';
 import bluebird from 'bluebird';
 import { Request, Response } from 'express';
-import fetch from 'node-fetch';
 import { SCAccountsData, SCAlias, sourcecred as sc } from 'sourcecred';
 
 import {
