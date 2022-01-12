@@ -1,5 +1,5 @@
 import { Constants } from '@metafam/utils';
-import fetch from 'node-fetch';
+import { RequestInfo, RequestInit } from 'node-fetch';
 import { URLSearchParams } from 'url';
 
 import { CONFIG } from './config';
@@ -7,6 +7,11 @@ import {
   DiscordAccessTokenResponse,
   OAuth2CodeExchangeResponse,
 } from './types';
+
+const fetch = async (url: RequestInfo, init?: RequestInit | undefined) => {
+  const { default: nodeFetch } = await import('node-fetch');
+  return nodeFetch(url, init);
+};
 
 export const tokenRequestData = {
   client_id: Constants.DISCORD_BOT_CLIENT_ID,

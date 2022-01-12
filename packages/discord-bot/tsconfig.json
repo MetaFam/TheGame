@@ -1,20 +1,16 @@
 {
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "display": "MetaGame's Discord Bot",
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "composite": true,
-    "module": "commonjs",
-    "rootDir": "src",
+    "lib": ["ES2021"],
+    "module": "CommonJS",
+    "target": "ES2021",
     "outDir": "dist",
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "importHelpers": true,
-    "forceConsistentCasingInFileNames": true,
-    "moduleResolution": "node"
+    "rootDir": "src",
+    "composite": true,
+    "tsBuildInfoFile": "dist/.tsbuildinfo"
   },
-  "references": [
-    {
-      "path": "../utils"
-    }
-  ],
+  "references": [{ "path": "../utils" }],
   "include": ["./src"]
 }

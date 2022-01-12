@@ -1,19 +1,17 @@
 {
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "display": "MyMeta's Backend",
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "module": "commonjs",
-    "rootDir": "src",
+    "lib": ["ES2021"],
+    "module": "CommonJS",
+    "target": "ES2021",
     "outDir": "dist",
-    "esModuleInterop": true
+    "rootDir": "src",
+    "composite": true,
+    "tsBuildInfoFile": "dist/.tsbuildinfo"
   },
-  "references": [
-    {
-      "path": "../utils"
-    },
-    {
-      "path": "../discord-bot"
-    }
-  ],
-  "include": ["./src"],
+  "references": [{ "path": "../utils" }, { "path": "../discord-bot" }],
+  "include": ["src", "src/**/*.json"],
   "exclude": ["./tests"]
 }
