@@ -89,7 +89,9 @@ export const DesktopFilters: React.FC<Props> = ({
           value={[sortOption]}
           onChange={(value) => {
             const values = value as ValueType[];
-            setSortOption(values[values.length - 1]);
+            if (values[values.length - 1]) {
+              setSortOption(values[values.length - 1]);
+            }
           }}
           options={sortOptions}
         />
