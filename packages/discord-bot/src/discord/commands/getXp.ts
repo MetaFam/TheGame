@@ -38,9 +38,8 @@ export class GetXpCommand {
     const discordUser = message.guild?.members.cache.get(targetUserDiscordId);
 
     try {
-      const accountsData: SCAccountsData = await (
-        await fetch(Constants.SC_ACCOUNTS_FILE)
-      ).json();
+      const accountsResult = await fetch(Constants.SC_ACCOUNTS_FILE);
+      const accountsData = (await accountsResult.json()) as SCAccountsData;
 
       const scAccount = accountsData.accounts.find((account) =>
         filterAccount(account, targetUserDiscordId),
@@ -73,7 +72,7 @@ export class GetXpCommand {
             .addFields(
               {
                 name: 'Total',
-                value: `${Math.round(userTotalCred)} XP`,
+                value: `${Math.round(userTotalCred).toLocaleString()} XP`,
                 inline: true,
               },
               {
