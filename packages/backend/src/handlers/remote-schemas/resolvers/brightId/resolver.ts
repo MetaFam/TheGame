@@ -1,7 +1,7 @@
 import fetch from 'node-fetch';
 
 import { CONFIG } from '../../../../config';
-import { QueryResolvers } from '../../autogen/types';
+import { BrightIdStatus, QueryResolvers } from '../../autogen/types';
 
 const CONTEXT = 'MetaGame';
 
@@ -16,7 +16,7 @@ export const getBrightIdStatus: QueryResolvers['getBrightIdStatus'] = async (
   try {
     const response = await fetch(`${ENDPOINT}/${contextId}`);
     if (!response.ok) return null;
-    const responseData = await response.json();
+    const responseData = (await response.json()) as { data: BrightIdStatus };
     return responseData.data;
   } catch (err) {
     return null;

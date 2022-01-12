@@ -58,10 +58,10 @@
   mutation UpdatePlayerProfileLayout($playerId: uuid!, $layout: String!) {
     update_player_by_pk(
       pk_columns: { id: $playerId }
-      _set: { profile_layout: $layout }
+      _set: { profileLayout: $layout }
     ) {
       id
-      profile_layout
+      profileLayout
     }
   }
 `;

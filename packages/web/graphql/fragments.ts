@@ -7,7 +7,7 @@ export const PlayerFragment = gql`
     seasonXP @skip(if: $forLoginDisplay)
     rank @skip(if: $forLoginDisplay)
     ethereumAddress
-    profile_layout @skip(if: $forLoginDisplay)
+    profileLayout @skip(if: $forLoginDisplay)
 
     skills @skip(if: $forLoginDisplay) {
       Skill {

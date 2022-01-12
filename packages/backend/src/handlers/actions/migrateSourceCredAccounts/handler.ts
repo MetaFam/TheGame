@@ -60,11 +60,10 @@ export const migrateSourceCredAccounts = async (
   }
 
   const force = req.query.force != null;
-  console.log(`Updating players from sourcecred. Force-insert? ${force}`);
+  console.debug(`Updating players from sourcecred. Force-insert? ${force}`);
 
-  const accountsData: SCAccountsData = await (
-    await fetch(Constants.SC_ACCOUNTS_FILE)
-  ).json();
+  const accountsResult = await fetch(Constants.SC_ACCOUNTS_FILE);
+  const accountsData = (await accountsResult.json()) as SCAccountsData;
   const accountOnConflict = {
     constraint: Player_Account_Constraint.AccountIdentifierTypeKey,
     update_columns: [],
