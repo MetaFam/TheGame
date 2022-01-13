@@ -4,7 +4,8 @@ import BackgroundImage from 'assets/landing/build-background.png';
 const Build: React.FC = () => (
   <Box
     width="100%"
-    minHeight="65rem"
+    minHeight="100%"
+    maxHeight="65rem"
     backgroundImage={`url(${BackgroundImage})`}
     bgPosition="center"
     bgSize="cover"
@@ -16,7 +17,7 @@ const Build: React.FC = () => (
       flexDirection="column"
       justifyContent="center"
       maxWidth="100%"
-      pl="137px"
+      pl={{ base: '0', md: '137px' }}
     >
       <Text
         fontSize="2.375rem"
