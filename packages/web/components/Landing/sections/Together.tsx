@@ -20,8 +20,8 @@ const Together: React.FC = () => (
       alignItems="center"
     >
       <Box
-        fontSize="3rem"
-        lineHeight="64px"
+        fontSize={{ base: '1.5rem', md: '3rem' }}
+        lineHeight={{ base: '2.25rem', md: '4rem' }}
         fontWeight="normal"
         color="white"
         bgGradient=" linear-gradient(180deg, #FFFFFF 15.3%, #FD208A 85.41%);                    "
