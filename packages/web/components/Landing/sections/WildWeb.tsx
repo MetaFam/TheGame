@@ -25,7 +25,10 @@ const WildWeb: React.FC = () => (
         color="white"
         maxWidth="61.125rem"
       >
-        <Text pt="130px" pb="35px">
+        <Text
+          pt={{ base: '16px', md: '130px' }}
+          pb={{ base: '19px', md: '35px' }}
+        >
           Web3 technologies are allowing us to{' '}
           <Text fontWeight="bold">reimagine socioeconomic systems</Text> from
           ground up.
