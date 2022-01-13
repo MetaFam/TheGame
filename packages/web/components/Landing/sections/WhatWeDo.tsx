@@ -28,7 +28,7 @@ const WhatWeDo: React.FC = () => (
           What are we doing?
         </Text>
         <OrderedList pb="35px" fontWeight="300" opacity="0.8">
-          <ListItem>Curating knowledge</ListItem>
+          <ListItem>Curating knowledge </ListItem>
           <ListItem>Organizing events</ListItem>
           <ListItem>Producing content</ListItem>
           <ListItem>Building technologies</ListItem>
