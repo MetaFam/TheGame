@@ -762,6 +762,10 @@ h1 {
     left: 100%;
 }
 
+.markdown details a {
+    text-decoration: none;
+}
+
 .pagination-nav__link .pagination-nav__label {
     font-size: 0.8rem;
 }

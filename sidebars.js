@@ -62,6 +62,9 @@ module.exports = {
       "playbooks/understanding-impostor-syndrome",
       "playbooks/how-to-join-a-dao-community",
       "playbooks/how-to-git-on-github-non-builder",
+      "playbooks/how-to-build-a-network-for-impact",
+      "playbooks/handling-fomo-in-web3",
+
     ],
     "🌳 Other": [
       "resources/calendar",
