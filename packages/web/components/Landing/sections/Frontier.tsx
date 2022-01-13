@@ -7,8 +7,6 @@ const Frontier: React.FC = () => (
     minHeight="100%"
     maxHeight="65rem"
     backgroundImage={`url(${BackgroundImage})`}
-    bgPosition="center"
-    bgSize="cover"
   >
     <Container
       width="100%"

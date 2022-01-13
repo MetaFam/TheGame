@@ -4,7 +4,8 @@ import BackgroundImage from 'assets/landing/unplug-background.png';
 const Unplug: React.FC = () => (
   <Box
     width="100%"
-    minHeight="65rem"
+    minHeight="100%"
+    maxHeight="65rem"
     backgroundImage={`url(${BackgroundImage})`}
     bgPosition="center"
     bgSize="cover"
@@ -20,8 +21,8 @@ const Unplug: React.FC = () => (
       textAlign="center"
     >
       <Box
-        fontSize="4.188rem"
-        lineHeight="5rem"
+        fontSize={{ base: '1.5rem', md: '4.188rem' }}
+        lineHeight={{ base: '3rem', md: '5rem' }}
         fontWeight="normal"
         color="white"
         maxWidth="75rem"
