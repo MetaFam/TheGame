@@ -32,7 +32,7 @@ const WhatWeDo: React.FC = () => (
           <ListItem>Organizing events</ListItem>
           <ListItem>Producing content</ListItem>
           <ListItem>Building technologies</ListItem>
-          <ListItem>Uniting aligned people & communities</ListItem>
+          <ListItem>Uniting aligned people & communities </ListItem>
           <ListItem>
             Putting together the pieces of the New World puzzle
           </ListItem>
