@@ -4,9 +4,9 @@ import BackgroundImage from 'assets/landing/wildweb-background.png';
 const WildWeb: React.FC = () => (
   <Box
     width="100%"
-    minHeight="65rem"
+    minHeight="100%"
+    maxHeight="65rem"
     backgroundImage={`url(${BackgroundImage})`}
-    bgPosition="center"
     bgSize="cover"
   >
     <Container
@@ -19,7 +19,7 @@ const WildWeb: React.FC = () => (
       alignItems="center"
     >
       <Box
-        fontSize="3rem"
+        fontSize={{ base: '2rem', md: '3rem' }}
         lineHeight="64px"
         fontWeight="normal"
         color="white"

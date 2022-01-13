@@ -16,7 +16,7 @@ const Frontier: React.FC = () => (
       flexDirection="column"
       justifyContent="center"
       maxWidth="100%"
-      pl="137px"
+      pl={{ base: '0', md: '137px' }}
     >
       <Text
         fontSize="2.375rem"
