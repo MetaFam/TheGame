@@ -4,7 +4,8 @@ import BackgroundImage from 'assets/landing/together-background.png';
 const Together: React.FC = () => (
   <Box
     width="100%"
-    minHeight="65rem"
+    minHeight="100%"
+    maxHeight="65rem"
     backgroundImage={`url(${BackgroundImage})`}
     bgPosition="center"
     bgSize="cover"
@@ -31,16 +32,16 @@ const Together: React.FC = () => (
         pt="130px"
         textAlign="center"
       >
-        <Text pb="50px">
+        <Text pb={{ base: '19px', md: '50px' }}>
           {' '}
           We are bringing together the people & building blocks aligned on the
           idea of creating a new kind of society.
         </Text>
-        <Text pb="50px">
+        <Text pb={{ base: '19px', md: '50px' }}>
           {' '}
           One that is optimized for human wellbeing rather than profit.
         </Text>
-        <Text pb="50px">
+        <Text pb={{ base: '19px', md: '50px' }}>
           One that revolves around solving problems & living well, in balance
           with nature.
         </Text>
