@@ -1,14 +1,11 @@
 import {
   Box,
-  Flex,
-  HStack,
   Image,
   ListItem,
   MetaButton,
   MetaHeading,
   Text,
   UnorderedList,
-  VStack,
 } from '@metafam/ds';
 import { Constants, generateUuid } from '@metafam/utils';
 import { FlexContainer } from 'components/Container';
@@ -52,38 +49,46 @@ export const GuildJoin: React.FC = () => {
       <MetaHeading textAlign="center" mb={10}>
         Join MetaGame as Guild
       </MetaHeading>
-      <Flex
-        direction="row"
+      <Box
         bg="whiteAlpha.200"
         style={{ backdropFilter: 'blur(7px)' }}
         rounded="lg"
         p="6"
         my="6"
         w="100%"
-        align="stretch"
-        justify="space-between"
+        maxW={['100%', '60rem']}
       >
-        <HStack h="100%" maxW="60rem" spacing="6" align="start">
-          <Image src="/assets/guilds.png" alt="Guild" maxW="20rem" />
-          <VStack spacing={8} align="stretch" pl="6">
-            <JoinCopy />
-            <Text pt={8}>
-              To apply, your guild must have a{' '}
-              <MetaLink isExternal href="https://discord.com/">
-                Discord
-              </MetaLink>{' '}
-              server. Clicking the link below will redirect to a Discord page
-              asking for your permission to collect certain relevant information
-              about your guild.
-            </Text>
-            {stateGuid?.length && (
-              <MetaButton size="lg" maxW="15rem" as="a" href={discordAuthURL}>
-                Apply to Join
-              </MetaButton>
-            )}
-          </VStack>
-        </HStack>
-      </Flex>
+        <Image
+          src="/assets/guilds.png"
+          alt="Guild"
+          maxW={['16rem', '20rem']}
+          p={4}
+          float={['none', 'right']}
+        />
+        <Box>
+          <JoinCopy />
+          <Text pt={8}>
+            To apply, your guild must have a{' '}
+            <MetaLink isExternal href="https://discord.com/">
+              Discord
+            </MetaLink>{' '}
+            server. Clicking the link below will redirect to a Discord page
+            asking for your permission to collect certain relevant information
+            about your guild.
+          </Text>
+          {stateGuid?.length && (
+            <MetaButton
+              size="lg"
+              maxW="15rem"
+              mt={4}
+              as="a"
+              href={discordAuthURL}
+            >
+              Apply to Join
+            </MetaButton>
+          )}
+        </Box>
+      </Box>
     </FlexContainer>
   );
 };
@@ -120,13 +125,13 @@ export const JoinCopy: React.FC = () => {
 
   return (
     <Box sx={css}>
-      <Text>
+      <Text mt={{ xs: 8, sm: 0 }}>
         Hello Guilder!
         <br />
         Thinking maybe your project should join MetaGame but aren't sure?
       </Text>
       <Text className="header">Introduction</Text>
-      <Text>
+      <Box>
         At MetaGame, we believe Ethereum is a core technology for building
         socioeconomic systems of the future &amp; DAOs are how we get there. We
         are building an Onboarding Machine &amp; A Decentralized Factory for
@@ -146,7 +151,7 @@ export const JoinCopy: React.FC = () => {
           &amp; ethos before trying to join.
         </Box>
         <Box fontWeight="bold">Think:</Box>
-      </Text>
+      </Box>
       <UnorderedList>
         <ListItem>
           How does my DAO fit into this “Decentralized Factory”?
