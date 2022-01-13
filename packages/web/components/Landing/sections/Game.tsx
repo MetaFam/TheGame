@@ -4,7 +4,8 @@ import BackgroundImage from 'assets/landing/game-background.png';
 const Game: React.FC = () => (
   <Box
     width="100%"
-    minHeight="65rem"
+    minHeight="100%"
+    maxHeight="65rem"
     backgroundImage={`url(${BackgroundImage})`}
     bgPosition="center"
     bgSize="cover"
@@ -16,10 +17,10 @@ const Game: React.FC = () => (
       flexDirection="column"
       justifyContent="center"
       maxWidth="100%"
-      pl="137px"
+      pl={{ base: '0', md: '137px' }}
     >
       <Text
-        fontSize="2.375rem"
+        fontSize={{ base: '1.5rem', md: '2.375rem' }}
         lineHeight="3.5rem"
         fontWeight="normal"
         color="white"

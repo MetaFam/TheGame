@@ -6,7 +6,8 @@ import { FaArrowDown } from 'react-icons/fa';
 const Intro: React.FC = () => (
   <Box
     width="100%"
-    minHeight="65rem"
+    minHeight="100%"
+    maxHeight="65rem"
     backgroundImage={`url(${BackgroundImage})`}
     bgPosition="center"
     bgSize="cover"
