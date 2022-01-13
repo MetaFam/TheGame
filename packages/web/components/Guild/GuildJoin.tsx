@@ -168,12 +168,7 @@ export const JoinCopy: React.FC = () => {
           <MetaLink href="/">MetaGame</MetaLink>
         </ListItem>
         <ListItem>
-          <MetaLink
-            isExternal
-            href="https://wiki.metagame.wtf/docs/wtf-is-metagame/wtf-is-metagame"
-          >
-            WTF Is MetaGame
-          </MetaLink>
+          <MetaLink href="/learn/wiki">WTF Is MetaGame</MetaLink>
         </ListItem>
         <ListItem>
           <MetaLink
