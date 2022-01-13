@@ -1,4 +1,4 @@
-import { Box, HStack, Image, ListItem, OrderedList, Text } from '@metafam/ds';
+import { Box, Flex, Image, ListItem, OrderedList, Text } from '@metafam/ds';
 import CardBackground from 'assets/landing/card-background.png';
 import CardImage from 'assets/landing/card-image.png';
 
@@ -10,12 +10,12 @@ const Cards: React.FC = () => (
     bgPosition="center"
     bgSize="cover"
   >
-    <HStack spacing={0}>
+    <Flex spacing={0} direction={{ base: 'column', md: 'row' }}>
       <Box
         backgroundImage={`url(${CardBackground})`}
         bgPosition="center"
         bgSize="cover"
-        width="33%"
+        width={{ base: '100%', md: '33%' }}
         display="flex"
         alignItems="center"
         flexDirection="column"
@@ -48,7 +48,7 @@ const Cards: React.FC = () => (
         bgPosition="center"
         bgSize="cover"
         backgroundImage={`url(${CardBackground})`}
-        width="33%"
+        width={{ base: '100%', md: '33%' }}
         display="flex"
         alignItems="center"
         flexDirection="column"
@@ -83,7 +83,7 @@ const Cards: React.FC = () => (
         backgroundImage={`url(${CardBackground})`}
         bgPosition="center"
         bgSize="cover"
-        width="33%"
+        width={{ base: '100%', md: '33%' }}
         display="flex"
         alignItems="center"
         flexDirection="column"
@@ -114,7 +114,7 @@ const Cards: React.FC = () => (
           </OrderedList>
         </Box>
       </Box>
-    </HStack>
+    </Flex>
   </Box>
 );
 
