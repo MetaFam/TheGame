@@ -111,7 +111,7 @@ type QueryParams = { id: string };
 
 export const getStaticPaths: GetStaticPaths<QueryParams> = async () => ({
   paths: [],
-  fallback: true,
+  fallback: 'blocking',
 });
 
 export const getStaticProps = async (

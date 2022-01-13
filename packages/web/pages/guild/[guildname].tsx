@@ -164,7 +164,7 @@ export const getStaticPaths: GetStaticPaths<QueryParams> = async () => {
     paths: guildnames.map((guildname) => ({
       params: { guildname },
     })),
-    fallback: false,
+    fallback: 'blocking',
   };
 };
 
