@@ -4,7 +4,8 @@ import BackgroundImage from 'assets/landing/optimal-background.png';
 const Optimal: React.FC = () => (
   <Box
     width="100%"
-    minHeight="65rem"
+    minHeight="100%"
+    maxHeight="65rem"
     backgroundImage={`url(${BackgroundImage})`}
     bgPosition="center"
     bgSize="cover"
@@ -20,8 +21,8 @@ const Optimal: React.FC = () => (
       textAlign="center"
     >
       <Box
-        fontSize="3rem"
-        lineHeight="72px"
+        fontSize={{ base: '2rem', md: '3rem' }}
+        lineHeight={{ base: '3rem', md: '4.5rem' }}
         fontWeight="normal"
         color="white"
         maxWidth="75rem"
