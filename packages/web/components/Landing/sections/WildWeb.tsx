@@ -19,8 +19,8 @@ const WildWeb: React.FC = () => (
       alignItems="center"
     >
       <Box
-        fontSize={{ base: '2rem', md: '3rem' }}
-        lineHeight="64px"
+        fontSize={{ base: '1.5rem', md: '3rem' }}
+        lineHeight={{ base: '2.25rem', md: '4rem' }}
         fontWeight="normal"
         color="white"
         maxWidth="61.125rem"

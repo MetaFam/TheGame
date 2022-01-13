@@ -4,7 +4,8 @@ import BackgroundImage from 'assets/landing/whatWeDo-background.png';
 const WhatWeDo: React.FC = () => (
   <Box
     width="100%"
-    minHeight="65rem"
+    minHeight="100%"
+    maxHeight="65rem"
     backgroundImage={`url(${BackgroundImage})`}
     bgPosition="center"
     bgSize="cover"
@@ -18,7 +19,11 @@ const WhatWeDo: React.FC = () => (
       maxWidth="100%"
       alignItems="center"
     >
-      <Box fontSize="40px" lineHeight="64px" maxWidth="999px">
+      <Box
+        fontSize={{ base: '1.5rem', md: '3rem' }}
+        lineHeight={{ base: '2.25rem', md: '4rem' }}
+        maxWidth="999px"
+      >
         <Text pt="130px" pb="35px" fontWeight="700">
           What are we doing?
         </Text>
