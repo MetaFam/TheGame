@@ -6,7 +6,7 @@ const JustWatch: React.FC = () => (
   <Box
     width="100%"
     minHeight="100%"
-    maxHeight="65rem"
+    maxHeight="100%"
     backgroundImage={`url(${BackgroundImage})`}
     bgPosition="center"
     bgSize="cover"
