@@ -1,4 +1,4 @@
-import { Box, Button, Container, Image, Text } from '@metafam/ds';
+import { Box, Button, Image, Text, VStack } from '@metafam/ds';
 import BackgroundImage from 'assets/landing/intro-background.png';
 import MetaGameLogo from 'assets/landing/synthlogo-2.svg';
 import { FaArrowDown } from 'react-icons/fa';
@@ -7,12 +7,13 @@ const Intro: React.FC = () => (
   <Box
     width="100%"
     minHeight="100%"
-    maxHeight="65rem"
+    maxHeight="100%"
     backgroundImage={`url(${BackgroundImage})`}
     bgPosition="center"
     bgSize="cover"
   >
-    <Container
+    <VStack
+      spacing="24px"
       flexDirection="column"
       justifyContent="flex-end"
       display="flex"
@@ -23,7 +24,7 @@ const Intro: React.FC = () => (
     >
       <Image src={MetaGameLogo} />
       <Text
-        fontSize="16px"
+        fontSize="1rem"
         fontWeight="normal"
         color="white"
         mt="10px"
@@ -35,7 +36,7 @@ const Intro: React.FC = () => (
         fontWeight="normal"
         fontSize="1.125rem"
         bg="#B40C85"
-        mb="16px"
+        mb="1rem"
         width="17.75rem"
         textTransform="uppercase"
       >
@@ -54,7 +55,7 @@ const Intro: React.FC = () => (
       >
         Explore Moar
       </Button>
-    </Container>
+    </VStack>
   </Box>
 );
 
