@@ -15670,10 +15670,10 @@ jpjs@^1.2.1:
   resolved "https://registry.yarnpkg.com/jpjs/-/jpjs-1.2.1.tgz#f343833de8838a5beba1f42d5a219be0114c44b7"
   integrity sha512-GxJWybWU4NV0RNKi6EIqk6IRPOTqd/h+U7sbtyuD7yUISUzV78LdHnq2xkevJsTlz/EImux4sWj+wfMiwKLkiw==
 
-js-base64@3.6.1:
-  version "3.6.1"
-  resolved "https://registry.yarnpkg.com/js-base64/-/js-base64-3.6.1.tgz#555aae398b74694b4037af1f8a5a6209d170efbe"
-  integrity sha512-Frdq2+tRRGLQUIQOgsIGSCd1VePCS2fsddTG5dTCqR0JHgltXWfsxnY0gIXPoMeRmdom6Oyq+UMOFg5suduOjQ==
+js-base64@3.7.2:
+  version "3.7.2"
+  resolved "https://registry.yarnpkg.com/js-base64/-/js-base64-3.7.2.tgz#816d11d81a8aff241603d19ce5761e13e41d7745"
+  integrity sha512-NnRs6dsyqUXejqk/yv2aiXlAvOs56sLkX6nUdeaNezI5LFFLlsZjOThmwnrcwh5ZZRwZlCMnVAY3CvhIhoVEKQ==
 
 js-base64@^2.1.9:
   version "2.6.4"

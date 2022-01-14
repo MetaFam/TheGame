@@ -20,10 +20,10 @@
     "cids": "1.1.9",
     "ethers": "5.4.3",
     "imgix-core-js": "2.3.2",
-    "js-base64": "3.6.1",
     "key-did-provider-ed25519": "1.1.0",
     "key-did-resolver": "1.4.0",
     "node-fetch": "3.1.0",
+    "js-base64": "3.7.2",
     "sourcecred": "0.9.0",
     "uuid": "8.3.2"
   },
