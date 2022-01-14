@@ -61,9 +61,9 @@ export const GuildJoin: React.FC = () => {
         <Image
           src="/assets/guilds.png"
           alt="Guild"
-          maxW={['16rem', '20rem']}
+          maxW={['14rem', '20rem']}
           p={4}
-          float={['none', 'right']}
+          float={['none', 'none', 'right']}
         />
         <Box>
           <JoinCopy />
