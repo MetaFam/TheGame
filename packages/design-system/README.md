@@ -20,22 +20,6 @@ yarn start
 
 This builds to `/dist` and runs the project in watch mode so any edits you save inside `src` causes a rebuild to `/dist`.
 
-Then run storybook:
-
-### Storybook
-
-Run inside another terminal:
-
-```
-yarn storybook
-```
-
-This loads the stories from `./stories`.
-
-> NOTE: Stories should reference the components as if using the library, similar to the example playground. This means importing from the root project directory. This has been aliased in the tsconfig and the storybook webpack config as a helper.
-
-To run tests, use `yarn test`.
-
 ### Jest
 
 Jest tests are set up to run with `npm test` or `yarn test`. This runs the test watcher (Jest) in an interactive mode. By default, runs tests related to files changed since the last commit.
@@ -43,14 +27,11 @@ Jest tests are set up to run with `npm test` or `yarn test`. This runs the test 
 #### Folder Structure
 
 ```
-/.storybook       # Storybook configuration
 /__tests__        # Test Files
   foo.test.tsx
 /src
   index.tsx       # Entry Point
   theme/index.ts        # Default Theme
-/stories          # Storybook files
-  Foo.stories.tsx
 package.json
 tsconfig.json
 ```
