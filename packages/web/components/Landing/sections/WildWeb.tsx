@@ -1,7 +1,7 @@
 import { Box, Container, Text } from '@metafam/ds';
 import BackgroundImage from 'assets/landing/wildweb-background.png';
 
-const WildWeb: React.FC = () => (
+export const WildWeb: React.FC = () => (
   <Box
     width="100%"
     minHeight="100%"
@@ -58,5 +58,3 @@ const WildWeb: React.FC = () => (
     </Container>
   </Box>
 );
-
-export default WildWeb;

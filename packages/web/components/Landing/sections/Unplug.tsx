@@ -1,7 +1,7 @@
 import { Box, Container, Text } from '@metafam/ds';
 import BackgroundImage from 'assets/landing/unplug-background.png';
 
-const Unplug: React.FC = () => (
+export const Unplug: React.FC = () => (
   <Box
     width="100%"
     minHeight="100%"
@@ -36,5 +36,3 @@ const Unplug: React.FC = () => (
     </Container>
   </Box>
 );
-
-export default Unplug;

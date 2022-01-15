@@ -1,7 +1,7 @@
 import { Box, Container, Link, Text } from '@metafam/ds';
 import BackgroundImage from 'assets/landing/revolution-background.png';
 
-const Build: React.FC = () => (
+export const Revolution: React.FC = () => (
   <Box
     width="100%"
     minHeight="100%"
@@ -50,5 +50,3 @@ const Build: React.FC = () => (
     </Container>
   </Box>
 );
-
-export default Build;
