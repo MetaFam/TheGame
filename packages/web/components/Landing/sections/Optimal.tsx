@@ -27,13 +27,13 @@ export const Optimal: React.FC = () => (
         color="white"
         maxWidth="75rem"
       >
-        <Text pt="130px" pb="35px" textAlign="center">
+        <Text pt="8.125rem" pb="2.188rem" textAlign="center">
           To find your metagame means to{' '}
           <Text fontWeight="bold" color="cyanText">
             play life in the optimal way.
           </Text>
         </Text>
-        <Box pb="35px">
+        <Box pb="2.188rem">
           <Text>
             By coordinating with others on building a better world; doing things
             that create a{' '}

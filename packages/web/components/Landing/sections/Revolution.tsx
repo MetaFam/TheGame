@@ -17,9 +17,9 @@ export const Revolution: React.FC = () => (
       flexDirection="column"
       justifyContent={{ base: 'center', md: 'flex-end' }}
       maxWidth="100%"
-      pl={{ base: '0', md: '137px' }}
+      pl={{ base: '0', md: '8.563rem' }}
       alignItems="flex-end"
-      pr={{ base: '0', md: '116px' }}
+      pr={{ base: '0', md: '7.25rem' }}
     >
       <Text
         fontSize={{ base: '3rem', md: '4.188rem' }}
@@ -28,18 +28,18 @@ export const Revolution: React.FC = () => (
         color="white"
         display="flex"
         flexDirection="column"
-        maxWidth="568px"
+        maxWidth="35.5rem"
       >
         A revolution is happening online;
       </Text>
 
       <Text
-        pt="24px"
+        pt="1.5rem"
         fontSize={{ base: '3rem', md: '4.188rem' }}
         lineHeight="5rem"
         fontWeight="normal"
         color="white"
-        maxWidth="568px"
+        maxWidth="35.5rem"
       >
         will you{' '}
         <Link color="#E839B7" href="#">

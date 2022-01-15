@@ -28,20 +28,20 @@ export const Together: React.FC = () => (
         bgClip="text"
         maxWidth="75rem"
         display="inline"
-        pb="35px"
-        pt="130px"
+        pb="2.188rem"
+        pt="8.125rem"
         textAlign="center"
       >
-        <Text pb={{ base: '19px', md: '50px' }}>
+        <Text pb={{ base: '1.188rem', md: '3.125rem' }}>
           {' '}
           We are bringing together the people & building blocks aligned on the
           idea of creating a new kind of society.
         </Text>
-        <Text pb={{ base: '19px', md: '50px' }}>
+        <Text pb={{ base: '1.188rem', md: '3.125rem' }}>
           {' '}
           One that is optimized for human wellbeing rather than profit.
         </Text>
-        <Text pb={{ base: '19px', md: '50px' }}>
+        <Text pb={{ base: '1.188rem', md: '3.125rem' }}>
           One that revolves around solving problems & living well, in balance
           with nature.
         </Text>

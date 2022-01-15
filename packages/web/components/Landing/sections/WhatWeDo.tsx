@@ -22,12 +22,12 @@ export const WhatWeDo: React.FC = () => (
       <Box
         fontSize={{ base: '1.5rem', md: '3rem' }}
         lineHeight={{ base: '2.25rem', md: '4rem' }}
-        maxWidth="999px"
+        maxWidth="62.438rem"
       >
-        <Text pt="130px" pb="35px" fontWeight="700">
+        <Text pt="8.125rem" pb="2.188rem" fontWeight="700">
           What are we doing?
         </Text>
-        <OrderedList pb="35px" fontWeight="300" opacity="0.8">
+        <OrderedList pb="2.188rem" fontWeight="300" opacity="0.8">
           <ListItem>Curating knowledge </ListItem>
           <ListItem>Organizing events</ListItem>
           <ListItem>Producing content</ListItem>
