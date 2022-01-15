@@ -8,7 +8,6 @@ We're using the following stack:
 
 - [NextJS](https://nextjs.org/)
 - [Chakra UI](https://chakra-ui.com/)
-- [Storybook](https://storybook.js.org/)
 
 #### Backend
 
