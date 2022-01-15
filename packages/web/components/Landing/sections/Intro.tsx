@@ -13,7 +13,7 @@ export const Intro: React.FC = () => (
     bgSize="cover"
   >
     <VStack
-      spacing="24px"
+      spacing="1.5rem"
       flexDirection="column"
       justifyContent="flex-end"
       display="flex"
@@ -27,7 +27,7 @@ export const Intro: React.FC = () => (
         fontSize="1rem"
         fontWeight="normal"
         color="white"
-        mt="10px"
+        mt="0.625rem"
         mb="2.188rem"
       >
         A Massive Online Coordination Game

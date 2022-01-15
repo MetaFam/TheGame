@@ -21,13 +21,13 @@ export const Who: React.FC = () => (
       textAlign="center"
     >
       <Box
-        fontSize="67px"
+        fontSize="4.188rem"
         lineHeight="5rem"
         fontWeight="normal"
         color="white"
         maxWidth="75rem"
       >
-        <Text pt="130px" pb="35px" textAlign="center">
+        <Text pt="8.125rem" pb="2.188rem" textAlign="center">
           So, whom is it for?
         </Text>
       </Box>

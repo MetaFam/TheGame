@@ -27,7 +27,7 @@ export const Unplug: React.FC = () => (
         color="white"
         maxWidth="75rem"
       >
-        <Text pt="130px" pb="35px" textAlign="center">
+        <Text pt="8.125rem" pb="2.188rem" textAlign="center">
           So unplug yourself from the matrix & enter the future.
         </Text>
 
