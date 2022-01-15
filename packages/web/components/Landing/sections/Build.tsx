@@ -17,7 +17,7 @@ export const Build: React.FC = () => (
       flexDirection="column"
       justifyContent="center"
       maxWidth="100%"
-      pl={{ base: '0', md: '137px' }}
+      pl={{ base: '0', md: '8.563rem' }}
     >
       <Text
         fontSize="2.375rem"
@@ -33,7 +33,7 @@ export const Build: React.FC = () => (
       </Text>
 
       <Text
-        pt="56px"
+        pt="3.5rem"
         fontSize="2.375rem"
         lineHeight="3.5rem"
         fontWeight="normal"
