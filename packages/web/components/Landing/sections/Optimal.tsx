@@ -1,7 +1,7 @@
 import { Box, Container, Text } from '@metafam/ds';
 import BackgroundImage from 'assets/landing/optimal-background.png';
 
-const Optimal: React.FC = () => (
+export const Optimal: React.FC = () => (
   <Box
     width="100%"
     minHeight="100%"
@@ -58,5 +58,3 @@ const Optimal: React.FC = () => (
     </Container>
   </Box>
 );
-
-export default Optimal;
