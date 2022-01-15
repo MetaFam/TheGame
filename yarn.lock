@@ -5860,13 +5860,14 @@
   resolved "https://registry.yarnpkg.com/@tootallnate/once/-/once-2.0.0.tgz#f544a148d3ab35801c1f633a7441fd87c2e484bf"
   integrity sha512-XCuKFP5PS55gnMVu3dty8KPatLqUoy/ZYzDzAGCQ8JNFCkLXzmI7vNHCR+XpbZaMWQK/vQubr7PkYq8g470J/A==
 
-"@typeit/discord@4.0.10":
-  version "4.0.10"
-  resolved "https://registry.yarnpkg.com/@typeit/discord/-/discord-4.0.10.tgz#ce71746466b51091695d01f55c92ef5427365539"
-  integrity sha512-aUkNbGlbFboR0VydHb07FCPS/o7mb2ipHtBKtpWUH4Xyl5LMWNtY2kL8cdNnoSftqDgSjtcG6yvCqD0XlHTlkg==
+"@typeit/discord@5.0.16":
+  version "5.0.16"
+  resolved "https://registry.yarnpkg.com/@typeit/discord/-/discord-5.0.16.tgz#95d2cbf462bad8793d548c20b42e9506d9f9dc6e"
+  integrity sha512-r12/X1wFgKYZSs/KD11kyeTCvLmy4afccweoTjqprOr0m2/VOtjLq3xlkhxWioh0yF+3hQNmxYeUy7YFGSO/gA==
   dependencies:
-    discord.js "^12.2.0"
-    glob "^7.1.6"
+    discord-api-types "^0.18.1"
+    discord.js "github:discordjs/discord.js"
+    glob "^7.1.7"
 
 "@types/babel__core@^7.0.0", "@types/babel__core@^7.1.7":
   version "7.1.14"
@@ -11448,7 +11449,12 @@ dirty-chai@^2.0.1:
   resolved "https://registry.yarnpkg.com/dirty-chai/-/dirty-chai-2.0.1.tgz#6b2162ef17f7943589da840abc96e75bda01aff3"
   integrity sha512-ys79pWKvDMowIDEPC6Fig8d5THiC0DJ2gmTeGzVAoEH18J8OzLud0Jh7I9IWg3NSk8x2UocznUuFmfHCXYZx9w==
 
-discord.js@12.5.3, discord.js@^12.2.0:
+discord-api-types@^0.18.1:
+  version "0.18.1"
+  resolved "https://registry.yarnpkg.com/discord-api-types/-/discord-api-types-0.18.1.tgz#5d08ed1263236be9c21a22065d0e6b51f790f492"
+  integrity sha512-hNC38R9ZF4uaujaZQtQfm5CdQO58uhdkoHQAVvMfIL0LgOSZeW575W8H6upngQOuoxWd8tiRII3LLJm9zuQKYg==
+
+discord.js@12.5.3:
   version "12.5.3"
   resolved "https://registry.yarnpkg.com/discord.js/-/discord.js-12.5.3.tgz#56820d473c24320871df9ea0bbc6b462f21cf85c"
   integrity sha512-D3nkOa/pCkNyn6jLZnAiJApw2N9XrIsXUAdThf01i7yrEuqUmDGc7/CexVWwEcgbQR97XQ+mcnqJpmJ/92B4Aw==
@@ -11461,6 +11467,11 @@ discord.js@12.5.3, discord.js@^12.2.0:
     setimmediate "^1.0.5"
     tweetnacl "^1.0.3"
     ws "^7.4.4"
+
+"discord.js@github:discordjs/discord.js":
+  version "0.0.0"
+  uid "7c07976018728154be0ce0314d3e8dfe8eb9ed5b"
+  resolved "https://codeload.github.com/discordjs/discord.js/tar.gz/7c07976018728154be0ce0314d3e8dfe8eb9ed5b"
 
 dlv@^1.1.3:
   version "1.1.3"
@@ -14131,7 +14142,19 @@ glob-to-regexp@^0.4.1:
   resolved "https://registry.yarnpkg.com/glob-to-regexp/-/glob-to-regexp-0.4.1.tgz#c75297087c851b9a578bd217dd59a92f59fe546e"
   integrity sha512-lkX1HJXwyMcprw/5YUZc2s7DrpAiHB21/V+E1rHUrVNokkvB6bqMzT0VfV6/86ZNabt1k14YOIaT7nDvOX3Iiw==
 
-glob@^7.0.0, glob@^7.1.1, glob@^7.1.2, glob@^7.1.3, glob@^7.1.4, glob@^7.1.6, glob@~7.1.6:
+glob@^7.0.0, glob@^7.1.1, glob@^7.1.2, glob@^7.1.3, glob@^7.1.4, glob@^7.1.6, glob@^7.1.7:
+  version "7.2.0"
+  resolved "https://registry.yarnpkg.com/glob/-/glob-7.2.0.tgz#d15535af7732e02e948f4c41628bd910293f6023"
+  integrity sha512-lmLf6gtyrPq8tTjSmrO94wBeQbFR3HbLHbuyD69wuyQkImp2hWqMGB47OX65FBkPffO641IP9jWa1z4ivqG26Q==
+  dependencies:
+    fs.realpath "^1.0.0"
+    inflight "^1.0.4"
+    inherits "2"
+    minimatch "^3.0.4"
+    once "^1.3.0"
+    path-is-absolute "^1.0.0"
+
+glob@~7.1.6:
   version "7.1.6"
   resolved "https://registry.yarnpkg.com/glob/-/glob-7.1.6.tgz#141f33b81a7c2492e125594307480c46679278a6"
   integrity sha512-LwaxwyZ72Lk7vZINtNNrywX0ZuLyStrdDtabefZKAY5ZGJhVtgdznluResxNmPitE0SAO+O26sWTHeKSI2wMBA==
