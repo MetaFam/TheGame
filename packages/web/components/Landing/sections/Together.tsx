@@ -1,7 +1,7 @@
 import { Box, Container, Text } from '@metafam/ds';
 import BackgroundImage from 'assets/landing/together-background.png';
 
-const Together: React.FC = () => (
+export const Together: React.FC = () => (
   <Box
     width="100%"
     minHeight="100%"
@@ -49,5 +49,3 @@ const Together: React.FC = () => (
     </Container>
   </Box>
 );
-
-export default Together;

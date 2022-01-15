@@ -2,7 +2,7 @@ import { Box, Flex, Image, ListItem, OrderedList, Text } from '@metafam/ds';
 import CardBackground from 'assets/landing/card-background.png';
 import CardImage from 'assets/landing/card-image.png';
 
-const Cards: React.FC = () => (
+export const Cards: React.FC = () => (
   <Box
     width="100%"
     maxHeight="100%"
@@ -117,5 +117,3 @@ const Cards: React.FC = () => (
     </Flex>
   </Box>
 );
-
-export default Cards;

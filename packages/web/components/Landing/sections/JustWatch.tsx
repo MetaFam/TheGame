@@ -2,7 +2,7 @@ import { Box, Button, Container, Text } from '@metafam/ds';
 import BackgroundImage from 'assets/landing/just-watch-background.png';
 import { FaArrowDown } from 'react-icons/fa';
 
-const JustWatch: React.FC = () => (
+export const JustWatch: React.FC = () => (
   <Box
     width="100%"
     minHeight="100%"
@@ -59,5 +59,3 @@ const JustWatch: React.FC = () => (
     </Container>
   </Box>
 );
-
-export default JustWatch;

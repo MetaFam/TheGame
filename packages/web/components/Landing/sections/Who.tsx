@@ -1,7 +1,7 @@
 import { Box, Container, Text } from '@metafam/ds';
 import BackgroundImage from 'assets/landing/who-background.png';
 
-const Who: React.FC = () => (
+export const Who: React.FC = () => (
   <Box
     width="100%"
     minHeight="100%"
@@ -34,5 +34,3 @@ const Who: React.FC = () => (
     </Container>
   </Box>
 );
-
-export default Who;

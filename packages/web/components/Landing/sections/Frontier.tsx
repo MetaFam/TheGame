@@ -1,7 +1,7 @@
 import { Box, Container, Text } from '@metafam/ds';
 import BackgroundImage from 'assets/landing/frontier-background.png';
 
-const Frontier: React.FC = () => (
+export const Frontier: React.FC = () => (
   <Box
     width="100%"
     minHeight="100%"
@@ -47,5 +47,3 @@ const Frontier: React.FC = () => (
     </Container>
   </Box>
 );
-
-export default Frontier;
