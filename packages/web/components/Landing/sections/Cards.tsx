@@ -65,10 +65,10 @@ const Cards: React.FC = () => (
             a decentralized future.
           </Text>
 
-          <Text pb="20px">For those who want to:</Text>
+          <Text pb="20px">For those who want</Text>
           <OrderedList pb="153px" fontSize="20px" lineHeight="32px">
             <ListItem pb="20px">
-              Help finding tools, frameworks & funds accessible.
+              Help finding tools, frameworks & accessible funds.
             </ListItem>
             <ListItem pb="20px">
               Help getting value-aligned contributors & adopters
