@@ -17,7 +17,7 @@ export const Game: React.FC = () => (
       flexDirection="column"
       justifyContent="center"
       maxWidth="100%"
-      pl={{ base: '0', md: '137px' }}
+      pl={{ base: '0', md: '8.563rem' }}
     >
       <Text
         fontSize={{ base: '1.5rem', md: '2.375rem' }}

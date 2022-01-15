@@ -19,28 +19,33 @@ export const Cards: React.FC = () => (
         display="flex"
         alignItems="center"
         flexDirection="column"
-        pl="76px"
-        pr="76px"
+        pl="4.75rem"
+        pr="4.75rem"
       >
-        <Image maxWidth="220px" pt="153px" pb="40px" src={CardImage} />
-        <Box max-width="327px">
-          <Text pb="40px" fontSize="37px" lineHeight="40px" textAlign="center">
+        <Image maxWidth="13.75rem" pt="9.563rem" pb="2.5rem" src={CardImage} />
+        <Box max-width="20.438rem">
+          <Text
+            pb="2.5rem"
+            fontSize="2.5rem"
+            lineHeight="2.5rem"
+            textAlign="center"
+          >
             PLAYERS
           </Text>
-          <Text fontSize="20px" pb="40px">
+          <Text fontSize="1.25rem" pb="2.5rem">
             MetaGame is for those who want to play an active role in building
             the future.
           </Text>
 
-          <Text pb="20px">For those who want to:</Text>
-          <OrderedList pb="153px" fontSize="20px" lineHeight="32px">
-            <ListItem pb="20px">
+          <Text pb="1.25rem">For those who want to:</Text>
+          <OrderedList pb="9.563rem" fontSize="1.25rem" lineHeight="2rem">
+            <ListItem pb="1.25rem">
               Build their knowledge, get experience & level up.
             </ListItem>
-            <ListItem pb="20px">
+            <ListItem pb="1.25rem">
               Find cool projects, solve problems & get paid.
             </ListItem>
-            <ListItem pb="20px">Become a part of something bigger.</ListItem>
+            <ListItem pb="1.25rem">Become a part of something bigger.</ListItem>
           </OrderedList>
         </Box>
       </Box>
@@ -52,28 +57,33 @@ export const Cards: React.FC = () => (
         display="flex"
         alignItems="center"
         flexDirection="column"
-        pl="76px"
-        pr="76px"
+        pl="4.75rem"
+        pr="4.75rem"
       >
-        <Image maxWidth="220px" pt="153px" pb="40px" src={CardImage} />
-        <Box max-width="327px">
-          <Text pb="40px" fontSize="37px" lineHeight="40px" textAlign="center">
+        <Image maxWidth="13.75rem" pt="9.563rem" pb="2.5rem" src={CardImage} />
+        <Box max-width="20.438rem">
+          <Text
+            pb="2.5rem"
+            fontSize="2.313rem"
+            lineHeight="2.5rem"
+            textAlign="center"
+          >
             GUILDS
           </Text>
-          <Text fontSize="20px" pb="40px">
+          <Text fontSize="1.25rem" pb="2.5rem">
             It's also for groups of people, those building tools & services for
             a decentralized future.
           </Text>
 
-          <Text pb="20px">For those who want</Text>
-          <OrderedList pb="153px" fontSize="20px" lineHeight="32px">
-            <ListItem pb="20px">
+          <Text pb="1.25rem">For those who want</Text>
+          <OrderedList pb="9.563rem" fontSize="1.25rem" lineHeight="2rem">
+            <ListItem pb="1.25rem">
               Help finding tools, frameworks & accessible funds.
             </ListItem>
-            <ListItem pb="20px">
+            <ListItem pb="1.25rem">
               Help getting value-aligned contributors & adopters
             </ListItem>
-            <ListItem pb="20px">
+            <ListItem pb="1.25rem">
               Become part of the "new world" puzzle.
             </ListItem>
           </OrderedList>
@@ -87,28 +97,33 @@ export const Cards: React.FC = () => (
         display="flex"
         alignItems="center"
         flexDirection="column"
-        pl="76px"
-        pr="76px"
+        pl="4.75rem"
+        pr="4.75rem"
       >
-        <Image maxWidth="220px" pt="153px" pb="40px" src={CardImage} />
-        <Box max-width="327px">
-          <Text pb="40px" fontSize="37px" lineHeight="40px" textAlign="center">
+        <Image maxWidth="13.75rem" pt="9.563rem" pb="2.5rem" src={CardImage} />
+        <Box max-width="20.438rem">
+          <Text
+            pb="2.5rem"
+            fontSize="2.313rem"
+            lineHeight="2.5rem"
+            textAlign="center"
+          >
             PATRONS
           </Text>
-          <Text fontSize="20px" pb="40px">
+          <Text fontSize="1.25rem" pb="2.5rem">
             Those who really want to see MetaGame succeed, but prefer to help
             with funds.
           </Text>
 
-          <Text pb="20px">Why?</Text>
-          <OrderedList pb="153px" fontSize="20px" lineHeight="32px">
-            <ListItem pb="20px">
+          <Text pb="1.25rem">Why?</Text>
+          <OrderedList pb="9.563rem" fontSize="1.25rem" lineHeight="2rem">
+            <ListItem pb="1.25rem">
               They love builder onboarding & support systems.
             </ListItem>
-            <ListItem pb="20px">
+            <ListItem pb="1.25rem">
               Membership and other things, all paid in Seeds.
             </ListItem>
-            <ListItem pb="20px">
+            <ListItem pb="1.25rem">
               Understanding MetaGame made them go: Fuck yeah!
             </ListItem>
           </OrderedList>

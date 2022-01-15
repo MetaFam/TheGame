@@ -18,7 +18,7 @@ export const JustWatch: React.FC = () => (
       alignItems="center"
       width="100%"
       height="100vh"
-      pb="78px"
+      pb="4.875rem"
       maxWidth="75rem"
       textAlign="center"
     >
@@ -28,8 +28,8 @@ export const JustWatch: React.FC = () => (
         lineHeight="5rem"
         fontWeight="normal"
         color="white"
-        mt="10px"
-        mb="35px"
+        mt="0.625rem"
+        mb="2.188rem"
       >
         The revolution will be televized, but don’t just watch.
       </Text>
@@ -37,7 +37,7 @@ export const JustWatch: React.FC = () => (
         fontWeight="normal"
         fontSize="1.125rem"
         bg="#B40C85"
-        mb="16px"
+        mb="1rem"
         width="17.75rem"
         textTransform="uppercase"
       >

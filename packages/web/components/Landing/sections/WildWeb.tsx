@@ -26,28 +26,28 @@ export const WildWeb: React.FC = () => (
         maxWidth="61.125rem"
       >
         <Text
-          pt={{ base: '16px', md: '130px' }}
-          pb={{ base: '19px', md: '35px' }}
+          pt={{ base: '1rem', md: '8.125rem' }}
+          pb={{ base: '1.188rem', md: '2.188rem' }}
         >
           Web3 technologies are allowing us to{' '}
           <Text fontWeight="bold">reimagine socioeconomic systems</Text> from
           ground up.
         </Text>
-        <Text pb="35px">
+        <Text pb="2.188remx">
           A new world is being built but it’s{' '}
           <Text fontWeight="bold">hard to navigate.</Text>
         </Text>
-        <Text pb="35px">
+        <Text pb="2.188rem">
           The resources, building blocks & tools are all over the place{' '}
           <Text fontWeight="bold">but the maps are inexistent.</Text>
         </Text>
-        <Text pb="35px">
+        <Text pb="2.188rem">
           There are pitfalls, gold rushing cowboys & snake oil salesmen at every
           corner.
         </Text>
 
         <Text
-          pb="35px"
+          pb="2.188rem"
           maxWidth="61.125rem"
           width="100%"
           textTransform="uppercase"
