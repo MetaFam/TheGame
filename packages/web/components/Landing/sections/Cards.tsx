@@ -74,7 +74,7 @@ const Cards: React.FC = () => (
               Help getting value-aligned contributors & adopters
             </ListItem>
             <ListItem pb="20px">
-              Become a part of the "new world" puzzle.
+              Become part of the "new world" puzzle.
             </ListItem>
           </OrderedList>
         </Box>
