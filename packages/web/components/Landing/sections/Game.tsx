@@ -1,7 +1,7 @@
 import { Box, Container, Link, Text } from '@metafam/ds';
 import BackgroundImage from 'assets/landing/game-background.png';
 
-const Game: React.FC = () => (
+export const Game: React.FC = () => (
   <Box
     width="100%"
     minHeight="100%"
@@ -48,5 +48,3 @@ const Game: React.FC = () => (
     </Container>
   </Box>
 );
-
-export default Game;

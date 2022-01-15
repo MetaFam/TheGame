@@ -1,7 +1,7 @@
 import { Box, Container, Text } from '@metafam/ds';
 import BackgroundImage from 'assets/landing/build-background.png';
 
-const Build: React.FC = () => (
+export const Build: React.FC = () => (
   <Box
     width="100%"
     minHeight="100%"
@@ -48,5 +48,3 @@ const Build: React.FC = () => (
     </Container>
   </Box>
 );
-
-export default Build;

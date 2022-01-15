@@ -1,7 +1,7 @@
 import { Box, Container, ListItem, OrderedList, Text } from '@metafam/ds';
 import BackgroundImage from 'assets/landing/whatWeDo-background.png';
 
-const WhatWeDo: React.FC = () => (
+export const WhatWeDo: React.FC = () => (
   <Box
     width="100%"
     minHeight="100%"
@@ -46,5 +46,3 @@ const WhatWeDo: React.FC = () => (
     </Container>
   </Box>
 );
-
-export default WhatWeDo;

@@ -3,7 +3,7 @@ import BackgroundImage from 'assets/landing/intro-background.png';
 import MetaGameLogo from 'assets/landing/synthlogo-2.svg';
 import { FaArrowDown } from 'react-icons/fa';
 
-const Intro: React.FC = () => (
+export const Intro: React.FC = () => (
   <Box
     width="100%"
     minHeight="100%"
@@ -58,5 +58,3 @@ const Intro: React.FC = () => (
     </VStack>
   </Box>
 );
-
-export default Intro;
