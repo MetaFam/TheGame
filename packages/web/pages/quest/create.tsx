@@ -46,9 +46,14 @@ const CreateQuestPage: React.FC<Props> = ({
       roleIds: roles.map((r) => r.value),
     };
 
+    console.log(input);
+
+    // return;
+
     createQuest({
       input,
     }).then((response) => {
+      console.log('response', response);
       const createQuestResponse = response.data?.createQuest;
       if (createQuestResponse?.success) {
         router.push(`/quest/${createQuestResponse.quest_id}`);
