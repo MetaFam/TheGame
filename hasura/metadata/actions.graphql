@@ -74,6 +74,7 @@ input CreateQuestInput {
   repetition : QuestRepetition_ActionEnum
   cooldown : Int
   skills_id : [uuid]!
+  roles_id : [uuid]!
 }
 
 input CreateQuestCompletionInput {

@@ -21,12 +21,13 @@ import { parseSkills } from 'utils/skillHelpers';
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
 const extractFormData = (data: CreateQuestFormInputs) => {
-  const { skills, repetition, cooldown, ...createQuestInputs } = data;
+  const { skills, repetition, cooldown, roles, ...createQuestInputs } = data;
   const convertedDescription = draftToHtml(
     convertToRaw(createQuestInputs.description.getCurrentContent()),
   );
   return {
     skills,
+    roles,
     repetition,
     cooldown,
     title: createQuestInputs.title,
@@ -50,6 +51,7 @@ const CreateQuestPage: React.FC<Props> = ({
   const onSubmit = (data: CreateQuestFormInputs) => {
     const {
       skills,
+      roles,
       repetition,
       cooldown,
       ...createQuestInputs
@@ -60,11 +62,17 @@ const CreateQuestPage: React.FC<Props> = ({
       repetition: (data.repetition as unknown) as QuestRepetition_ActionEnum,
       cooldown: transformCooldownForBackend(cooldown, repetition),
       skills_id: skills.map((s) => s.id),
+      roles_id: roles.map((r) => r.value),
     };
+
+    console.log(input);
+
+    // return;
 
     createQuest({
       input,
     }).then((response) => {
+      console.log('response', response);
       const createQuestResponse = response.data?.createQuest;
       if (createQuestResponse?.success) {
         router.push(`/quest/${createQuestResponse.quest_id}`);

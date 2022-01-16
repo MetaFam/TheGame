@@ -666,6 +666,7 @@ input CreateQuestInput {
   external_link: String
   guild_id: uuid!
   repetition: QuestRepetition_ActionEnum
+  roles_id: [uuid]!
   skills_id: [uuid]!
   title: String!
 }
@@ -3057,7 +3058,9 @@ type mutation_root {
   delete data from the table: "quest_role"
   """
   delete_quest_role(
-    """filter the rows which have to be deleted"""
+    """
+    filter the rows which have to be deleted
+    """
     where: quest_role_bool_exp!
   ): quest_role_mutation_response
 
@@ -3780,10 +3783,14 @@ type mutation_root {
   insert data into the table: "quest_role"
   """
   insert_quest_role(
-    """the rows to be inserted"""
+    """
+    the rows to be inserted
+    """
     objects: [quest_role_insert_input!]!
 
-    """on conflict condition"""
+    """
+    on conflict condition
+    """
     on_conflict: quest_role_on_conflict
   ): quest_role_mutation_response
 
@@ -3791,10 +3798,14 @@ type mutation_root {
   insert a single row into the table: "quest_role"
   """
   insert_quest_role_one(
-    """the row to be inserted"""
+    """
+    the row to be inserted
+    """
     object: quest_role_insert_input!
 
-    """on conflict condition"""
+    """
+    on conflict condition
+    """
     on_conflict: quest_role_on_conflict
   ): quest_role
 
@@ -4572,13 +4583,19 @@ type mutation_root {
   update data of the table: "quest_role"
   """
   update_quest_role(
-    """increments the integer columns with given value of the filtered values"""
+    """
+    increments the integer columns with given value of the filtered values
+    """
     _inc: quest_role_inc_input
 
-    """sets the columns of the filtered rows to the given values"""
+    """
+    sets the columns of the filtered rows to the given values
+    """
     _set: quest_role_set_input
 
-    """filter the rows which have to be updated"""
+    """
+    filter the rows which have to be updated
+    """
     where: quest_role_bool_exp!
   ): quest_role_mutation_response
 
@@ -4586,10 +4603,14 @@ type mutation_root {
   update single row of the table: "quest_role"
   """
   update_quest_role_by_pk(
-    """increments the integer columns with given value of the filtered values"""
+    """
+    increments the integer columns with given value of the filtered values
+    """
     _inc: quest_role_inc_input
 
-    """sets the columns of the filtered rows to the given values"""
+    """
+    sets the columns of the filtered rows to the given values
+    """
     _set: quest_role_set_input
     pk_columns: quest_role_pk_columns_input!
   ): quest_role
@@ -9371,19 +9392,29 @@ type query_root {
   fetch data from the table: "quest_role"
   """
   quest_role(
-    """distinct select on columns"""
+    """
+    distinct select on columns
+    """
     distinct_on: [quest_role_select_column!]
 
-    """limit the number of rows returned"""
+    """
+    limit the number of rows returned
+    """
     limit: Int
 
-    """skip the first n rows. Use only with order_by"""
+    """
+    skip the first n rows. Use only with order_by
+    """
     offset: Int
 
-    """sort the rows by one or more columns"""
+    """
+    sort the rows by one or more columns
+    """
     order_by: [quest_role_order_by!]
 
-    """filter the rows returned"""
+    """
+    filter the rows returned
+    """
     where: quest_role_bool_exp
   ): [quest_role!]!
 
@@ -9391,23 +9422,35 @@ type query_root {
   fetch aggregated fields from the table: "quest_role"
   """
   quest_role_aggregate(
-    """distinct select on columns"""
+    """
+    distinct select on columns
+    """
     distinct_on: [quest_role_select_column!]
 
-    """limit the number of rows returned"""
+    """
+    limit the number of rows returned
+    """
     limit: Int
 
-    """skip the first n rows. Use only with order_by"""
+    """
+    skip the first n rows. Use only with order_by
+    """
     offset: Int
 
-    """sort the rows by one or more columns"""
+    """
+    sort the rows by one or more columns
+    """
     order_by: [quest_role_order_by!]
 
-    """filter the rows returned"""
+    """
+    filter the rows returned
+    """
     where: quest_role_bool_exp
   ): quest_role_aggregate!
 
-  """fetch data from the table: "quest_role" using primary key columns"""
+  """
+  fetch data from the table: "quest_role" using primary key columns
+  """
   quest_role_by_pk(quest_id: uuid!, role: String!): quest_role
 
   """
@@ -9632,43 +9675,69 @@ type quest {
     where: quest_completion_bool_exp
   ): quest_completion_aggregate!
 
-  """An array relationship"""
+  """
+  An array relationship
+  """
   quest_roles(
-    """distinct select on columns"""
+    """
+    distinct select on columns
+    """
     distinct_on: [quest_role_select_column!]
 
-    """limit the number of rows returned"""
+    """
+    limit the number of rows returned
+    """
     limit: Int
 
-    """skip the first n rows. Use only with order_by"""
+    """
+    skip the first n rows. Use only with order_by
+    """
     offset: Int
 
-    """sort the rows by one or more columns"""
+    """
+    sort the rows by one or more columns
+    """
     order_by: [quest_role_order_by!]
 
-    """filter the rows returned"""
+    """
+    filter the rows returned
+    """
     where: quest_role_bool_exp
   ): [quest_role!]!
 
-  """An aggregated array relationship"""
+  """
+  An aggregated array relationship
+  """
   quest_roles_aggregate(
-    """distinct select on columns"""
+    """
+    distinct select on columns
+    """
     distinct_on: [quest_role_select_column!]
 
-    """limit the number of rows returned"""
+    """
+    limit the number of rows returned
+    """
     limit: Int
 
-    """skip the first n rows. Use only with order_by"""
+    """
+    skip the first n rows. Use only with order_by
+    """
     offset: Int
 
-    """sort the rows by one or more columns"""
+    """
+    sort the rows by one or more columns
+    """
     order_by: [quest_role_order_by!]
 
-    """filter the rows returned"""
+    """
+    filter the rows returned
+    """
     where: quest_role_bool_exp
   ): quest_role_aggregate!
 
-  """An array relationship"""
+  """
+  An array relationship
+  """
   quest_skills(
     """
     distinct select on columns
@@ -10284,10 +10353,14 @@ input quest_pk_columns_input {
 columns and relationships of "quest_role"
 """
 type quest_role {
-  """An object relationship"""
+  """
+  An object relationship
+  """
   PlayerRole: PlayerRole!
 
-  """An object relationship"""
+  """
+  An object relationship
+  """
   quest: quest!
   quest_id: uuid!
   rank: Int!
@@ -10344,7 +10417,9 @@ input quest_role_arr_rel_insert_input {
   on_conflict: quest_role_on_conflict
 }
 
-"""aggregate avg on columns"""
+"""
+aggregate avg on columns
+"""
 type quest_role_avg_fields {
   rank: Float
 }
@@ -10374,11 +10449,10 @@ input quest_role_bool_exp {
 unique or primary key constraints on table "quest_role"
 """
 enum quest_role_constraint {
-  """unique or primary key constraint"""
+  """
+  unique or primary key constraint
+  """
   quest_role_pkey
-
-  """unique or primary key constraint"""
-  quest_role_quest_id_key
 }
 
 """
@@ -10399,7 +10473,9 @@ input quest_role_insert_input {
   role: String
 }
 
-"""aggregate max on columns"""
+"""
+aggregate max on columns
+"""
 type quest_role_max_fields {
   quest_id: uuid
   rank: Int
@@ -10415,7 +10491,9 @@ input quest_role_max_order_by {
   role: order_by
 }
 
-"""aggregate min on columns"""
+"""
+aggregate min on columns
+"""
 type quest_role_min_fields {
   quest_id: uuid
   rank: Int
@@ -10435,10 +10513,14 @@ input quest_role_min_order_by {
 response of any mutation on the table "quest_role"
 """
 type quest_role_mutation_response {
-  """number of affected rows by the mutation"""
+  """
+  number of affected rows by the mutation
+  """
   affected_rows: Int!
 
-  """data of the affected rows by the mutation"""
+  """
+  data of the affected rows by the mutation
+  """
   returning: [quest_role!]!
 }
 
@@ -10482,13 +10564,19 @@ input quest_role_pk_columns_input {
 select columns of table "quest_role"
 """
 enum quest_role_select_column {
-  """column name"""
+  """
+  column name
+  """
   quest_id
 
-  """column name"""
+  """
+  column name
+  """
   rank
 
-  """column name"""
+  """
+  column name
+  """
   role
 }
 
@@ -10501,7 +10589,9 @@ input quest_role_set_input {
   role: String
 }
 
-"""aggregate stddev on columns"""
+"""
+aggregate stddev on columns
+"""
 type quest_role_stddev_fields {
   rank: Float
 }
@@ -10513,7 +10603,9 @@ input quest_role_stddev_order_by {
   rank: order_by
 }
 
-"""aggregate stddev_pop on columns"""
+"""
+aggregate stddev_pop on columns
+"""
 type quest_role_stddev_pop_fields {
   rank: Float
 }
@@ -10525,7 +10617,9 @@ input quest_role_stddev_pop_order_by {
   rank: order_by
 }
 
-"""aggregate stddev_samp on columns"""
+"""
+aggregate stddev_samp on columns
+"""
 type quest_role_stddev_samp_fields {
   rank: Float
 }
@@ -10537,7 +10631,9 @@ input quest_role_stddev_samp_order_by {
   rank: order_by
 }
 
-"""aggregate sum on columns"""
+"""
+aggregate sum on columns
+"""
 type quest_role_sum_fields {
   rank: Int
 }
@@ -10553,17 +10649,25 @@ input quest_role_sum_order_by {
 update columns of table "quest_role"
 """
 enum quest_role_update_column {
-  """column name"""
+  """
+  column name
+  """
   quest_id
 
-  """column name"""
+  """
+  column name
+  """
   rank
 
-  """column name"""
+  """
+  column name
+  """
   role
 }
 
-"""aggregate var_pop on columns"""
+"""
+aggregate var_pop on columns
+"""
 type quest_role_var_pop_fields {
   rank: Float
 }
@@ -10575,7 +10679,9 @@ input quest_role_var_pop_order_by {
   rank: order_by
 }
 
-"""aggregate var_samp on columns"""
+"""
+aggregate var_samp on columns
+"""
 type quest_role_var_samp_fields {
   rank: Float
 }
@@ -10587,7 +10693,9 @@ input quest_role_var_samp_order_by {
   rank: order_by
 }
 
-"""aggregate variance on columns"""
+"""
+aggregate variance on columns
+"""
 type quest_role_variance_fields {
   rank: Float
 }
@@ -13817,19 +13925,29 @@ type subscription_root {
   fetch data from the table: "quest_role"
   """
   quest_role(
-    """distinct select on columns"""
+    """
+    distinct select on columns
+    """
     distinct_on: [quest_role_select_column!]
 
-    """limit the number of rows returned"""
+    """
+    limit the number of rows returned
+    """
     limit: Int
 
-    """skip the first n rows. Use only with order_by"""
+    """
+    skip the first n rows. Use only with order_by
+    """
     offset: Int
 
-    """sort the rows by one or more columns"""
+    """
+    sort the rows by one or more columns
+    """
     order_by: [quest_role_order_by!]
 
-    """filter the rows returned"""
+    """
+    filter the rows returned
+    """
     where: quest_role_bool_exp
   ): [quest_role!]!
 
@@ -13837,23 +13955,35 @@ type subscription_root {
   fetch aggregated fields from the table: "quest_role"
   """
   quest_role_aggregate(
-    """distinct select on columns"""
+    """
+    distinct select on columns
+    """
     distinct_on: [quest_role_select_column!]
 
-    """limit the number of rows returned"""
+    """
+    limit the number of rows returned
+    """
     limit: Int
 
-    """skip the first n rows. Use only with order_by"""
+    """
+    skip the first n rows. Use only with order_by
+    """
     offset: Int
 
-    """sort the rows by one or more columns"""
+    """
+    sort the rows by one or more columns
+    """
     order_by: [quest_role_order_by!]
 
-    """filter the rows returned"""
+    """
+    filter the rows returned
+    """
     where: quest_role_bool_exp
   ): quest_role_aggregate!
 
-  """fetch data from the table: "quest_role" using primary key columns"""
+  """
+  fetch data from the table: "quest_role" using primary key columns
+  """
   quest_role_by_pk(quest_id: uuid!, role: String!): quest_role
 
   """
