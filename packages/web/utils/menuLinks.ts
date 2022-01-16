@@ -159,6 +159,13 @@ export const MenuSectionLinks: MenuLinkSet[] = [
         url: '/quests',
         icon: 'quests',
       },
+      {
+        title: 'Quests Demo App',
+        explainerText:
+          'Take a look at available quest and claim ones that suit you best',
+        url: '/quests',
+        icon: 'quests',
+      },
     ],
   },
   {
