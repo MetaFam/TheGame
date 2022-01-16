@@ -1,8 +1,4 @@
-<<<<<<< develop
 import { MetaTag, SelectSearch, Tooltip, Wrap, WrapItem } from '@metafam/ds';
-=======
-import { SelectSearch } from '@metafam/ds';
->>>>>>> feat: add role selector to create quest form
 import { PlayerRole } from 'graphql/autogen/types';
 import React from 'react';
 import { RoleOption } from 'utils/roleHelpers';
