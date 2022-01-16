@@ -13,6 +13,7 @@ import {
 } from '@metafam/ds';
 import { MetaLink } from 'components/Link';
 import {
+  PlayerRole,
   Quest,
   QuestRepetition_Enum,
   QuestStatus_Enum,
@@ -25,6 +26,7 @@ import React from 'react';
 
 import BackgroundImage from '../../assets/main-background.jpg';
 import { useUser } from '../../lib/hooks';
+import { RolesTags } from '../Roles';
 import { SkillsTags } from '../Skills';
 import { RepetitionTag, StatusTag } from './QuestTags';
 
@@ -91,8 +93,12 @@ export const QuestDetails: React.FC<Props> = ({ quest }) => {
       </MetaTileHeader>
       <MetaTileBody>
         <VStack spacing={2} align="stretch">
-          <Text textStyle="caption">DESCRIPTION</Text>
-          <Box>{parse(quest.description || '')}</Box>
+          <Box pb={2}>
+            <Text textStyle="caption" pb={1}>
+              DESCRIPTION
+            </Text>
+            <Text>{parse(quest.description || '')}</Text>
+          </Box>
 
           {quest.repetition === QuestRepetition_Enum.Recurring && (
             <>
@@ -104,11 +110,23 @@ export const QuestDetails: React.FC<Props> = ({ quest }) => {
             </>
           )}
 
-          <Text textStyle="caption">SKILLS</Text>
-          <SkillsTags
-            skills={quest.quest_skills.map((s) => s.skill) as Skill[]}
-            maxSkills={4}
-          />
+          <Box pb={2}>
+            <Text textStyle="caption" pb={1}>
+              SKILLS
+            </Text>
+            <SkillsTags
+              skills={quest.quest_skills.map((s) => s.skill) as Skill[]}
+              maxSkills={4}
+            />
+          </Box>
+          <Box pb={2}>
+            <Text textStyle="caption" pb={1}>
+              ROLES
+            </Text>
+            <RolesTags
+              roles={quest.quest_roles.map((s) => s.PlayerRole) as PlayerRole[]}
+            />
+          </Box>
         </VStack>
       </MetaTileBody>
     </MetaTile>

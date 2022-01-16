@@ -119,6 +119,13 @@ export const QuestFragment = gql`
         category
       }
     }
+    quest_roles {
+      PlayerRole {
+        role
+        label
+        description
+      }
+    }
   }
 `;
 
@@ -143,6 +150,13 @@ export const QuestWithCompletionFragment = gql`
         id
         name
         category
+      }
+    }
+    quest_roles {
+      PlayerRole {
+        role
+        label
+        description
       }
     }
     quest_completions(order_by: [{ submitted_at: desc }]) {
