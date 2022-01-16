@@ -12,11 +12,16 @@ import {
 } from '@metafam/ds';
 import BackgroundImage from 'assets/main-background.jpg';
 import { MetaLink } from 'components/Link';
-import { QuestFragmentFragment, Skill } from 'graphql/autogen/types';
+import {
+  PlayerRole,
+  QuestFragmentFragment,
+  Skill,
+} from 'graphql/autogen/types';
 import parse from 'html-react-parser';
 import moment from 'moment';
 import React from 'react';
 
+import { RolesTags } from '../Roles';
 import { SkillsTags } from '../Skills';
 import { RepetitionTag, StatusTag } from './QuestTags';
 
@@ -65,13 +70,33 @@ export const QuestTile: React.FC<Props> = ({ quest }) => (
     </MetaTileHeader>
     <MetaTileBody flex={1}>
       <VStack spacing={2} align="stretch">
-        <Text textStyle="caption">DESCRIPTION</Text>
-        <Box noOfLines={4}>{parse(quest.description || '')}</Box>
-        <Text textStyle="caption">SKILLS</Text>
-        <SkillsTags
-          skills={quest.quest_skills.map((s) => s.skill) as Skill[]}
-          maxSkills={4}
-        />
+        <Box pb={2}>
+          <Text textStyle="caption" pb={1}>
+            DESCRIPTION
+          </Text>
+          <Text>{parse(quest.description || '')}</Text>
+        </Box>
+        <Box pb={2}>
+          <Text textStyle="caption" pb={1}>
+            SKILLS
+          </Text>
+          <SkillsTags
+            skills={quest.quest_skills.map((s) => s.skill) as Skill[]}
+            maxSkills={4}
+          />
+        </Box>
+        <Box pb={2}>
+          <Text textStyle="caption" pb={1}>
+            ROLES
+          </Text>
+          {quest.quest_roles.length ? (
+            <RolesTags
+              roles={quest.quest_roles.map((s) => s.PlayerRole) as PlayerRole[]}
+            />
+          ) : (
+            <Text>/</Text>
+          )}
+        </Box>
       </VStack>
     </MetaTileBody>
   </MetaTile>
