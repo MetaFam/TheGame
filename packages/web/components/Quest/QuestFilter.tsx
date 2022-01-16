@@ -121,10 +121,13 @@ export const QuestFilter: React.FC<Props> = ({
           onChange={(value) => {
             const values = value as ValueType[];
             const v = values[values.length - 1];
-            setLimit(v);
-            setQueryVariable('limit', Number(v.value));
+            if (v) {
+              setLimit(v);
+              setQueryVariable('limit', Number(v.value));
+            }
           }}
           options={limitOptions}
+          disableEmpty
         />
         <MetaFilterSelectSearch
           title={`Order: ${order.label}`}
@@ -135,11 +138,13 @@ export const QuestFilter: React.FC<Props> = ({
           onChange={(value) => {
             const values = value as ValueType[];
             const o = values[values.length - 1];
-
-            setOrder(o);
-            setQueryVariable('order', o.value);
+            if (o) {
+              setOrder(o);
+              setQueryVariable('order', o.value);
+            }
           }}
           options={orderOptions}
+          disableEmpty
         />
         <MetaFilterSelectSearch
           title={`Status: ${status.label}`}
@@ -150,11 +155,13 @@ export const QuestFilter: React.FC<Props> = ({
           onChange={(value) => {
             const values = value as ValueType[];
             const s = values[values.length - 1];
-
-            setStatus(s);
-            setQueryVariable('status', s.value);
+            if (s) {
+              setStatus(s);
+              setQueryVariable('status', s.value);
+            }
           }}
           options={statusOptions}
+          disableEmpty
         />
         {aggregates.guilds.length && (
           <MetaFilterSelectSearch
@@ -166,11 +173,13 @@ export const QuestFilter: React.FC<Props> = ({
             onChange={(value) => {
               const values = value as ValueType[];
               const g = values[values.length - 1];
-
-              setGuild(g);
-              setQueryVariable('guild_id', g.value);
+              if (g) {
+                setGuild(g);
+                setQueryVariable('guild_id', g.value);
+              }
             }}
             options={guildOptions}
+            disableEmpty
           />
         )}
 
