@@ -5,7 +5,7 @@ import {
   QuestRepetition_Enum,
 } from '../../../../lib/autogen/hasura-sdk';
 import { client } from '../../../../lib/hasuraClient';
-import { isAllowedToCreateQuest } from './permissions';
+// import { isAllowedToCreateQuest } from './permissions';
 
 export async function createQuest(
   playerId: string,
@@ -30,10 +30,10 @@ export async function createQuest(
     throw new Error('Ethereum address not found for player');
   }
 
-  const allowed = await isAllowedToCreateQuest(ethAddress);
-  if (!allowed) {
-    throw new Error('Player not allowed to create quests');
-  }
+  // const allowed = await isAllowedToCreateQuest(ethAddress);
+  // if (!allowed) {
+  //   throw new Error('Player not allowed to create quests');
+  // }
 
   const { skillIds, roleIds, ...questValues } = quest;
 

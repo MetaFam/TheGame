@@ -24,19 +24,24 @@ const CreateQuestPage: React.FC<Props> = ({ guilds, skillChoices, roleChoices })
   const [createQuestState, createQuest] = useCreateQuestMutation();
 
   const onSubmit = (data: CreateQuestFormInputs) => {
-    const { skills, repetition, cooldown, status, ...createQuestInputs } = data;
+    const { skills, roles, repetition, cooldown, status, ...createQuestInputs } = data;
 
     const input = {
       ...createQuestInputs,
       repetition: (data.repetition as unknown) as QuestRepetition_ActionEnum,
       cooldown: transformCooldownForBackend(cooldown, repetition),
-      roleIds: [],
       skillIds: skills.map((s) => s.id),
+      roleIds: roles.map((r) => r.value),
     };
+
+    console.log(input);
+
+    // return;
 
     createQuest({
       input,
     }).then((response) => {
+      console.log('response', response);
       const createQuestResponse = response.data?.createQuest;
       if (createQuestResponse?.success) {
         router.push(`/quest/${createQuestResponse.quest_id}`);
