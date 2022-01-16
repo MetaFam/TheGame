@@ -90,7 +90,7 @@ const SelectOption: React.FC<
   const {
     isSelected,
     data: { value: optionValue },
-    selectProps: { onChange, value: selectValue },
+    selectProps: { onChange, value: selectValue, disableEmpty },
   } = props;
 
   const clearValue = useCallback(() => {
@@ -118,7 +118,7 @@ const SelectOption: React.FC<
       borderBottomStyle="solid"
       borderBottomColor="borderPurple"
       _hover={{ backgroundColor: 'whiteAlpha.100' }}
-      onClick={isSelected ? clearValue : undefined}
+      onClick={isSelected && !disableEmpty ? clearValue : undefined}
       css={{ div: { cursor: 'pointer' } }}
     >
       <SelectComponents.Option {...props} />
