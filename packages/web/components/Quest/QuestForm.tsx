@@ -22,6 +22,7 @@ import React, { useMemo, useState } from 'react';
 import { Controller, FieldError, useForm } from 'react-hook-form';
 
 import { QuestRepetitionHint, URIRegexp } from '../../utils/questHelpers';
+import { RoleOption } from '../../utils/roleHelpers';
 import { CategoryOption, SkillOption } from '../../utils/skillHelpers';
 import { FlexContainer } from '../Container';
 import { RolesSelect } from '../Roles';
@@ -63,7 +64,7 @@ export interface CreateQuestFormInputs {
   externalLink?: string | null;
   cooldown?: number | null;
   skills: SkillOption[];
-  roles: [];
+  roles: RoleOption[];
 }
 
 const MetaFamGuildId = 'f94b7cd4-cf29-4251-baa5-eaacab98a719';
