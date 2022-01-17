@@ -32,7 +32,7 @@ ARG GRAPHQL_URL=https://$GRAPHQL_HOST.$GRAPHQL_DOMAIN/v1/graphql
 
 ENV GRAPHQL_URL $GRAPHQL_URL
 ENV HASURA_GRAPHQL_ADMIN_SECRET metagame_secret
-ENV NEXT_CERAMIC_URL http://ceramic.metagame.wtf:7007
+ENV NEXT_CERAMIC_URL https://ceramic.metagame.wtf
 
 # Build
 RUN yarn backend:build

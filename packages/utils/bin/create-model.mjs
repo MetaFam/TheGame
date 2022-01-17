@@ -39,7 +39,7 @@ const __dirname = dirname(__filename)
 
   const ceramicURI = (
     process.env.CERAMIC_URI
-    || 'http://ceramic.metagame.wtf:7007'
+    || 'https://ceramic.metagame.wtf'
     || 'http://localhost:7007'
   )
   console.debug(`Connecting to ${ceramicURI}`)

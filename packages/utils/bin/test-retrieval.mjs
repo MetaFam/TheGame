@@ -27,7 +27,7 @@ const __dirname = dirname(__filename)
 let ethAddress = '0x615b044B6Ccb048532bcF99AAdf619d7fdD2Aa01'
 ethAddress = '0xC33290860C1DA6a84195C5cf1575860d3A3ED73d'
 
-const daemon = 'http://ceramic.metagame.wtf:7007'
+const daemon = 'https://ceramic.metagame.wtf'
 const ceramic = new CeramicClient(daemon)
 
 console.info(`Connecting to: ${daemon}`)

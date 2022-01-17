@@ -179,8 +179,8 @@ export const Grid: React.FC<Props> = ({ player: initPlayer }): ReactElement => {
   ] = useUpdatePlayerProfileLayoutMutation();
   const [saving, setSaving] = useState(false);
 
-  const layoutsFromDB = player?.profile_layout
-    ? JSON.parse(player.profile_layout)
+  const layoutsFromDB = player?.profileLayout
+    ? JSON.parse(player.profileLayout)
     : null;
 
   const [savedLayoutData, setSavedLayoutData] = useState<ProfileLayoutData>(
@@ -196,15 +196,15 @@ export const Grid: React.FC<Props> = ({ player: initPlayer }): ReactElement => {
   ] = useState<ProfileLayoutData>(savedLayoutData);
 
   useEffect(() => {
-    const dbLayouts = player?.profile_layout
-      ? JSON.parse(player.profile_layout)
+    const dbLayouts = player?.profileLayout
+      ? JSON.parse(player.profileLayout)
       : null;
     if (dbLayouts) {
       setSavedLayoutData(dbLayouts);
       setCurrentLayoutData(dbLayouts);
       setEditable(false);
     }
-  }, [player?.profile_layout]);
+  }, [player?.profileLayout]);
 
   const [changed, setChanged] = useState(false);
 

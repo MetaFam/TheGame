@@ -87,7 +87,7 @@ export const CONFIG: IConfig = {
   ),
   ceramicURL: parseEnv(
     process.env.NEXT_CERAMIC_URL,
-    'http://ceramic.metagame.wtf:7007' || 'https://d12-a-ceramic.3boxlabs.com', // 'http://localhost:7007',
+    'https://ceramic.metagame.wtf' || 'https://d12-a-ceramic.3boxlabs.com', // 'http://localhost:7007',
   ),
   web3StorageToken: parseEnv(process.env.WEB3_STORAGE_TOKEN, ''),
 };
