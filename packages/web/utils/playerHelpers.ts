@@ -35,7 +35,7 @@ export const getPlayerName = (
   player?: PlayerFragmentFragment | GuildPlayer,
 ): string | undefined =>
   player?.profile?.name ||
-  player?.profile?.username ||
+  formatIfAddress(player?.profile?.username ?? undefined) ||
   formatAddress(player?.ethereumAddress);
 
 export const getPlayerUsername = (

@@ -254,7 +254,10 @@ async function startSeeding() {
   );
   await deleteSkills();
   const updated = await Promise.all(mutations.map(
-    (mutation) => updatePlayer(mutation)
+    (mutation) => {
+      console.debug(`Updating ${mutation.username} (${mutation.playerId})`)
+      return updatePlayer(mutation)
+    }
   ));
   console.debug(`Successfully seeded local db with ${updated.length} players`);
 }

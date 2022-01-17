@@ -153,23 +153,6 @@ export const migrateSourceCredAccounts = async (
 
           if (playerId) {
             try {
-              await client.UpsertProfile({
-                objects: [
-                  {
-                    playerId,
-                    username: player.ethereumAddress,
-                  },
-                ],
-              });
-            } catch (err) {
-              console.error(
-                'Error updating username for Player',
-                playerId,
-                err,
-              );
-            }
-
-            try {
               await client.UpsertAccount({
                 objects: player.Accounts.data.map((account) => ({
                   playerId,

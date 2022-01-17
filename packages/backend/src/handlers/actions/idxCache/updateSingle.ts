@@ -30,6 +30,7 @@ import { CONFIG } from '../../../config';
 import {
   AccountType_Enum,
   Maybe,
+  Profile_Update_Column,
   UpdateBoxProfileResponse,
 } from '../../../lib/autogen/hasura-sdk';
 import { maskFor } from '../../../lib/colorHelpers';
@@ -154,7 +155,10 @@ export default async (playerId: string): Promise<UpdateBoxProfileResponse> => {
     }
 
     try {
-      const response = await client.UpsertProfile({ objects: [values] });
+      const response = await client.UpsertProfile({
+        objects: [values],
+        updateColumns: Object.keys(values) as Profile_Update_Column[],
+      });
 
       console.info({
         s: CONFIG.ceramicURL,
@@ -180,6 +184,7 @@ export default async (playerId: string): Promise<UpdateBoxProfileResponse> => {
         ).slice(-8)}`;
         const response = await client.UpsertProfile({
           objects: [values],
+          updateColumns: Object.keys(values) as Profile_Update_Column[],
         });
 
         console.info({

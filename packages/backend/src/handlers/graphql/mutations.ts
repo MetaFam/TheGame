@@ -28,29 +28,15 @@
 
   mutation UpsertProfile(
     $objects: [profile_insert_input!]!
-    $onConflict: profile_on_conflict = {
-      constraint: profile_player_id_key
-      update_columns: [
-        name
-        username
-        description
-        emoji
-        profileImageURL
-        bannerImageURL
-        backgroundImageURL
-        availableHours
-        gender
-        pronouns
-        colorMask
-        explorerTypeTitle
-        location
-        countryCode
-        timeZone
-        website
-      ]
-    }
+    $updateColumns: [profile_update_column!]!
   ) {
-    insert_profile(objects: $objects, on_conflict: $onConflict) {
+    insert_profile(
+      objects: $objects,
+      on_conflict: {
+        constraint: profile_player_id_key
+        update_columns: $updateColumns
+      }
+    ) {
       affected_rows
     }
   }

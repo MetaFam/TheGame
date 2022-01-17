@@ -207,7 +207,7 @@ export const gridConfig = {
         ? '0 0 10px rgba(0,0,0,0.6)'
         : '0 0 0 rgba(0,0,0,0.4)',
       bg: editable ? 'blackAlpha.600' : 'blackAlpha.300',
-      overflow: 'hidden',
+      // overflow: 'hidden',
       borderRadius: 'lg',
       transition: 'boxShadow 0.2s 0.3s ease',
       '& > div': {

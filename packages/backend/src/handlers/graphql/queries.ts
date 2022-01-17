@@ -1,7 +1,5 @@
-import { gql } from 'graphql-request/dist';
-
 // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-gql`
+/* GraphQL */ `
   query GetPlayer($playerId: uuid!) {
     player_by_pk(id: $playerId) {
       id
@@ -78,7 +76,7 @@ gql`
   }
 `;
 
-export const GuildFragment = gql`
+export const GuildFragment = /* GraphQL */ `
   fragment GuildFragment on guild {
     id
     guildname
@@ -96,7 +94,7 @@ export const GuildFragment = gql`
 `;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-gql`
+/* GraphQL */ `
   query GetGuild($id: uuid!) {
     guild(where: { id: { _eq: $id } }) {
       ...GuildFragment
@@ -162,7 +160,7 @@ gql`
   }
 `;
 
-export const GetCacheEntries = gql`
+export const GetCacheEntries = /* GraphQL */ `
   query GetCacheEntries($updatedBefore: timestamptz!) {
     profile(
       where: {

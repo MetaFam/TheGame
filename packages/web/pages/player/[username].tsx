@@ -62,7 +62,15 @@ const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
     return <Error statusCode={404} />;
   }
   return (
-    <PageContainer p={0}>
+    <PageContainer p={0} pt={0}>
+      {' '}
+      {/* have to override pt in PageContainer */}
+      <HeadComponent
+        title={`MetaGame Profile: ${getPlayerName(player)}`}
+        description={(getPlayerDescription(player) ?? '').replace('\n', ' ')}
+        url={getPlayerURL(player, { rel: false })}
+        img={getPlayerImage(player)}
+      />
       <Box
         background={`url(${getPlayerBannerFull(player)}) no-repeat`}
         bgSize="cover"
@@ -70,12 +78,6 @@ const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
         h={72}
         position="absolute"
         w="full"
-      />
-      <HeadComponent
-        title={`MetaGame Profile: ${getPlayerName(player)}`}
-        description={(getPlayerDescription(player) ?? '').replace('\n', ' ')}
-        url={getPlayerURL(player, { rel: false })}
-        img={getPlayerImage(player)}
       />
       <Flex
         w="100%"
@@ -535,23 +537,12 @@ export const getStaticProps = async (
     };
   }
 
-  let player = await getPlayer(username);
-  if (player == null) {
-    player = await getPlayer(username.toLowerCase());
-    if (player != null) {
-      return {
-        redirect: {
-          destination: `/player/${username.toLowerCase()}`,
-          permanent: false,
-        },
-      };
-    }
-  }
+  const player = await getPlayer(username);
 
   return {
     props: {
-      player: player || null, // must be serializable
-      key: username,
+      player: player ?? null, // must be serializable
+      key: username.toLowerCase(),
     },
     revalidate: 1,
   };
