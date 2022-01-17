@@ -26,7 +26,7 @@ export const CONFIG = {
   // mainnet
   ceramicURL:
     process.env.NEXT_CERAMIC_URL ||
-    'http://ceramic.metagame.wtf:7007' || // mainnet
+    'https://ceramic.metagame.wtf' || // mainnet
     'https://ceramic-clay.3boxlabs.com' || // testnet
     'https://d12-a-ceramic.3boxlabs.com',
   ceramicNetwork:

@@ -11,16 +11,12 @@ import { router } from './handlers/routes';
 const app = express();
 
 app.locals.limiter = new Bottleneck({
-  maxConcurrent: 10,
+  maxConcurrent: 5,
 });
 // tracks the current contents of Bottleneck
 app.locals.queuedRecacheFor = {};
 
 app.use(bodyParser.json());
-
-app.use(cors({ credentials: true, origin: true }));
-
-app.disable('x-powered-by');
 
 app.use(cors({ credentials: true, origin: true }));
 
