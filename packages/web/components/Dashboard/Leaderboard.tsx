@@ -21,7 +21,7 @@ import {
 } from 'lib/hooks/players';
 import NextLink from 'next/link';
 import React, { useMemo, useState } from 'react';
-import { getNameOf, getURLFor } from 'utils/playerHelpers';
+import { getPlayerName, getPlayerURL } from 'utils/playerHelpers';
 
 export const Leaderboard: React.FC = () => {
   const {
@@ -145,7 +145,7 @@ export const Leaderboard: React.FC = () => {
                 />
                 <Box className="player__name">
                   <NextLink
-                    as={getURLFor(p)}
+                    as={getPlayerURL(p)}
                     href="/player/[username]"
                     passHref
                   >
@@ -155,7 +155,7 @@ export const Leaderboard: React.FC = () => {
                       textOverflow="ellipsis"
                       mr={2}
                     >
-                      {getNameOf(p)}
+                      {getPlayerName(p)}
                     </LinkOverlay>
                   </NextLink>
                 </Box>

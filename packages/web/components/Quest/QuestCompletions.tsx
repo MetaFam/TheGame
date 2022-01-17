@@ -21,7 +21,7 @@ import { useUser } from 'lib/hooks';
 import moment from 'moment';
 import React, { useCallback, useState } from 'react';
 import { FaExternalLinkAlt } from 'react-icons/fa';
-import { getNameOf } from 'utils/playerHelpers';
+import { getPlayerName } from 'utils/playerHelpers';
 
 import { CompletionStatusTag } from './QuestTags';
 
@@ -93,7 +93,7 @@ export const QuestCompletions: React.FC<Props> = ({ quest }) => {
           }) => (
             <Box key={id} w="100%">
               <HStack px={4} py={4}>
-                <Avatar name={getNameOf(player as Player)} />
+                <Avatar name={getPlayerName(player as Player)} />
                 <CompletionStatusTag status={status} />
                 <Text>
                   <i>
@@ -102,7 +102,7 @@ export const QuestCompletions: React.FC<Props> = ({ quest }) => {
                       as={`/player/${player.profile?.username}`}
                       href="/player/[username]"
                     >
-                      {getNameOf(player as Player)}
+                      {getPlayerName(player as Player)}
                     </MetaLink>
                   </i>
                 </Text>

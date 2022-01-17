@@ -1,4 +1,4 @@
-import { MetaTag, Wrap, WrapItem } from '@metafam/ds';
+import { MetaTag, Text, Wrap, WrapItem } from '@metafam/ds';
 import { ProfileSection } from 'components/Profile/ProfileSection';
 import {
   PlayerFragmentFragment,
@@ -44,7 +44,7 @@ export const PlayerSkills: React.FC<Props> = ({
     <ProfileSection
       title="Skills"
       {...{ onRemoveClick, isOwnProfile, canEdit }}
-      boxType={BoxType.PLAYER.SKILLS}
+      boxType={BoxType.PLAYER_SKILLS}
     >
       {!player?.skills?.length ? (
         <Text fontStyle="italic" textAlign="center">

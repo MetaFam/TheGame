@@ -2,7 +2,7 @@ import { Avatar, AvatarProps } from '@metafam/ds';
 import { Player } from 'graphql/autogen/types';
 import { GuildPlayer } from 'graphql/types';
 import React from 'react';
-import { getImageFor, getNameOf, hasImage } from 'utils/playerHelpers';
+import { getPlayerImage, getPlayerName, hasImage } from 'utils/playerHelpers';
 
 type PlayerAvatarProps = AvatarProps & {
   player?: Player | GuildPlayer;
@@ -14,8 +14,8 @@ export const PlayerAvatar: React.FC<PlayerAvatarProps> = React.forwardRef<
   PlayerAvatarProps
 >(({ player, src, ...props }, ref) => {
   const attrs = {
-    src: src ?? getImageFor(player),
-    name: getNameOf(player),
+    src: src ?? getPlayerImage(player),
+    name: getPlayerName(player),
     ...props,
   };
 

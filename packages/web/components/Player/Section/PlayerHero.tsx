@@ -32,8 +32,7 @@ import { useAnimateProfileChanges } from 'lib/hooks/players';
 import React, { useEffect, useState } from 'react';
 import { FaClock, FaGlobe } from 'react-icons/fa';
 import { BoxType } from 'utils/boxTypes';
-import { getPlayerTimeZoneDisplay } from 'utils/dateHelpers';
-import { getDescriptionOf, getNameOf } from 'utils/playerHelpers';
+import { getPlayerDescription, getPlayerName } from 'utils/playerHelpers';
 
 const MAX_BIO_LENGTH = 240;
 
@@ -44,7 +43,7 @@ type Props = {
 };
 type AvailabilityProps = { person: PlayerFragmentFragment | null | undefined };
 type TimeZoneDisplayProps = {
-  person: Player | null | undefined;
+  person: PlayerFragmentFragment | null | undefined;
 };
 
 export const PlayerHero: React.FC<Props> = ({
@@ -53,7 +52,9 @@ export const PlayerHero: React.FC<Props> = ({
   canEdit,
 }) => {
   const description = getPlayerDescription(player);
-  const [show, setShow] = useState(description.length <= MAX_BIO_LENGTH);
+  const [show, setShow] = useState(
+    (description ?? '').length <= MAX_BIO_LENGTH,
+  );
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const [playerName, setPlayerName] = useState<string>();
@@ -63,7 +64,7 @@ export const PlayerHero: React.FC<Props> = ({
   const person = isOwnProfile ? user?.player : player;
   useEffect(() => {
     if (person) {
-      setPlayerName(getNameOf(person));
+      setPlayerName(getPlayerName(person));
     }
   }, [person]);
 

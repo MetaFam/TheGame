@@ -18,7 +18,7 @@ export type LabeledValue<T> = Labeled & { value?: T };
 export type LabeledOptions<T> = Labeled & { options?: Array<T> };
 export type CombinedLabel<T> = LabeledValue<T> & LabeledOptions<T>;
 
-export type TimeZone = {
+export type TimeZoneType = {
   utc: string;
   location: string;
   title: Maybe<string>;
@@ -26,6 +26,7 @@ export type TimeZone = {
   offset: number;
   abbreviation: Maybe<string>;
   name: string;
+  value: string; // for compatibility w/ select option
 };
 
 export interface TimeZoneSelectProps extends Record<string, unknown> {
@@ -52,7 +53,7 @@ export const getTimeZoneFor = ({
   location?: string;
   title?: Maybe<string>;
   opts?: Record<string, boolean>;
-}): Maybe<TimeZone> => {
+}): Maybe<TimeZoneType> => {
   const anchor = location ?? title;
 
   if (!anchor) return null;
@@ -62,7 +63,7 @@ export const getTimeZoneFor = ({
   const tz = now.timezone();
   const tzStrings = informal.display(anchor);
 
-  let abbreviation = null;
+  let abbreviation: Maybe<string> = null;
   let name = anchor;
 
   if (tzStrings?.standard) {
@@ -96,16 +97,26 @@ export const getTimeZoneFor = ({
     offset: tz.current.offset,
     abbreviation,
     name,
+    get value() {
+      return abbreviation ?? 'Unknown';
+    },
   };
 };
 
-export const TimeZoneOptions: TimeZone[] = Object.entries(i18nTimeZones)
-  .map(([location, title]) => getTimeZoneFor({ location, title }) as TimeZone)
+export const TimeZoneOptions: TimeZoneType[] = Object.entries(i18nTimeZones)
+  .map(
+    ([location, title]) => getTimeZoneFor({ location, title }) as TimeZoneType,
+  )
   .sort((a, b) => (a.offset < b.offset ? -1 : 1));
 
-export const timeZonesFilter = (search: string) => (tz: TimeZone): boolean => {
-  const cityZones = getCityZonesFor(search);
-
+export const timeZonesFilter = (
+  search: string,
+  cityZones: string[] | undefined = undefined,
+) => (tz: TimeZoneType): boolean => {
+  if (!cityZones) {
+    // eslint-disable-next-line no-param-reassign
+    cityZones = getCityZonesFor(search);
+  }
   return (
     Object.values(tz).reduce((acc: boolean, val: number | Maybe<string>) => {
       const match =

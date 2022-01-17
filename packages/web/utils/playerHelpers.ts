@@ -5,11 +5,13 @@ import GuildCoverImageSmall from 'assets/guild-background-small.jpeg';
 import PlayerCoverImageFull from 'assets/player-background-full.jpg';
 import PlayerCoverImageSmall from 'assets/player-background-small.jpg';
 import { ethers } from 'ethers';
-import { Player } from 'graphql/autogen/types';
+import { PlayerFragmentFragment } from 'graphql/autogen/types';
 import { GuildPlayer } from 'graphql/types';
 import { httpLink } from 'utils/linkHelpers';
 
-export const getImageFor = (player?: Player | GuildPlayer): string => {
+export const getPlayerImage = (
+  player?: PlayerFragmentFragment | GuildPlayer,
+): string => {
   const link = httpLink(player?.profile?.profileImageURL);
   if (link) return link;
 
@@ -19,26 +21,31 @@ export const getImageFor = (player?: Player | GuildPlayer): string => {
     : ProfileIcon;
 };
 
-export const getBannerFor = (player: Player): string =>
+export const getPlayerBanner = (player: PlayerFragmentFragment): string =>
   httpLink(player.profile?.bannerImageURL) || PlayerCoverImageSmall;
 
-export const getFullBannerFor = (player?: Player): string =>
+export const getPlayerBannerFull = (player?: PlayerFragmentFragment): string =>
   httpLink(player?.profile?.bannerImageURL) || PlayerCoverImageFull;
 
 export const getGuildCoverImageFull = (): string => GuildCoverImageFull;
 
 export const getGuildCoverImageSmall = (): string => GuildCoverImageSmall;
 
-export const getNameOf = (player?: Player | GuildPlayer): string | undefined =>
+export const getPlayerName = (
+  player?: PlayerFragmentFragment | GuildPlayer,
+): string | undefined =>
   player?.profile?.name ||
   player?.profile?.username ||
-  formatIfAddress(player?.ethereumAddress);
+  formatAddress(player?.ethereumAddress);
 
-export const getUsernameOf = (player?: Player): string | undefined =>
+export const getPlayerUsername = (
+  player?: PlayerFragmentFragment,
+): string | undefined =>
   formatIfAddress(player?.profile?.username ?? undefined);
 
-export const getDescriptionOf = (player?: Player): string | undefined =>
-  player?.profile?.description ?? undefined;
+export const getPlayerDescription = (
+  player?: PlayerFragmentFragment,
+): string | undefined => player?.profile?.description ?? undefined;
 
 export const formatAddress = (address = ''): string =>
   `${address.slice(0, 6)}…${address.slice(-4)}`;
@@ -46,8 +53,8 @@ export const formatAddress = (address = ''): string =>
 export const formatIfAddress = (username = ''): string =>
   ethers.utils.isAddress(username) ? formatAddress(username) : username;
 
-export const getURLFor = (
-  player?: Player | GuildPlayer,
+export const getPlayerURL = (
+  player?: PlayerFragmentFragment | GuildPlayer,
   opts?: { rel: boolean },
 ): string | undefined => {
   let { username } = player?.profile ?? {};
@@ -60,8 +67,9 @@ export const getURLFor = (
   return undefined;
 };
 
-export const hasImage = (player?: Player | GuildPlayer): boolean =>
-  !!player?.profile?.profileImageURL;
+export const hasImage = (
+  player?: PlayerFragmentFragment | GuildPlayer,
+): boolean => !!player?.profile?.profileImageURL;
 
 export const dispositionFor = (mask?: Maybe<number>) => {
   if (mask == null) return null;

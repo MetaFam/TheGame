@@ -41,9 +41,11 @@ import { ReactElement, useCallback, useEffect, useMemo, useState } from 'react';
 import { Layout, Layouts, Responsive, WidthProvider } from 'react-grid-layout';
 import { BoxMetadata, BoxType, getBoxKey } from 'utils/boxTypes';
 import {
-  getPlayerCoverImageFull,
+  getPlayerBannerFull,
   getPlayerDescription,
   getPlayerImage,
+  getPlayerName,
+  getPlayerURL,
 } from 'utils/playerHelpers';
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
@@ -57,7 +59,7 @@ const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
   return (
     <PageContainer p={0}>
       <Box
-        background={`url(${getPlayerCoverImageFull(player)}) no-repeat`}
+        background={`url(${getPlayerBannerFull(player)}) no-repeat`}
         bgSize="cover"
         bgPos="center"
         h={72}
@@ -65,16 +67,16 @@ const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
         w="full"
       />
       <HeadComponent
-        title={`Metagame profile for ${player.username}`}
-        description={getPlayerDescription(player).replace('\n', ' ')}
-        url={`https://my.metagame.wtf/player/${player.username}`}
+        title={`MetaGame profile for: ${getPlayerName(player)}`}
+        description={(getPlayerDescription(player) ?? '').replace('\n', ' ')}
+        url={getPlayerURL(player, { rel: false })}
         img={getPlayerImage(player)}
       />
       <Flex
         w="100%"
         h="100%"
         minH="100vh"
-        p="4"
+        p={4}
         pt="8rem"
         direction="column"
         align="center"
@@ -89,11 +91,10 @@ export default PlayerPage;
 
 const makeLayouts = (editable: boolean, layouts: Layouts) => {
   const newLayouts: Layouts = {};
-  Object.keys(layouts).map((key) => {
+  Object.keys(layouts).forEach((key) => {
     newLayouts[key] = layouts[key].map((item) =>
       item.i === 'hero' ? { ...item, isResizable: editable } : item,
     );
-    return key;
   });
   return newLayouts;
 };

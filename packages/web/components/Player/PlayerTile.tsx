@@ -10,7 +10,7 @@ import {
   MetaTileBody,
   MetaTileHeader,
   Text,
-  TimeZone,
+  TimeZoneType,
   Tooltip,
   VStack,
   Wrap,
@@ -26,10 +26,10 @@ import NextLink from 'next/link';
 import React, { useMemo } from 'react';
 import { FaGlobe } from 'react-icons/fa';
 import {
-  getBannerFor,
-  getDescriptionOf,
-  getNameOf,
-  getURLFor,
+  getPlayerBanner,
+  getPlayerDescription,
+  getPlayerName,
+  getPlayerURL,
 } from 'utils/playerHelpers';
 
 type Props = {
@@ -43,11 +43,11 @@ export const PlayerTile: React.FC<Props> = ({
   player,
   showSeasonalXP = false,
 }) => {
-  const tz: Maybe<TimeZone> = useMemo(
+  const tz: Maybe<TimeZoneType> = useMemo(
     () => getTimeZoneFor({ location: player.profile?.timeZone ?? undefined }),
     [player.profile?.timeZone],
   );
-  const description = getDescriptionOf(player);
+  const description = getPlayerDescription(player);
   const displayDescription =
     (description?.length ?? 0) > MAX_BIO_LENGTH
       ? // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -58,7 +58,7 @@ export const PlayerTile: React.FC<Props> = ({
     <LinkBox>
       <MetaTile>
         <Box
-          bgImage={`url(${getBannerFor(player)})`}
+          bgImage={`url(${getPlayerBanner(player)})`}
           bgSize="cover"
           bgPosition="center"
           position="absolute"
@@ -67,13 +67,13 @@ export const PlayerTile: React.FC<Props> = ({
           w="100%"
           h="4.5rem"
         />
-        <NextLink as={getURLFor(player)} href="/player/[username]" passHref>
+        <NextLink as={getPlayerURL(player)} href="/player/[username]" passHref>
           <LinkOverlay>
             <MetaTileHeader>
               <VStack>
                 <PlayerAvatar {...{ player }} size="xl" />
                 <Heading size="xs" color="white">
-                  {getNameOf(player)}
+                  {getPlayerName(player)}
                 </Heading>
               </VStack>
               <Wrap w="100%" justify="center">

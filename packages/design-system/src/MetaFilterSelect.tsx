@@ -16,7 +16,7 @@ import { Props as ReactSelectProps } from 'react-select';
 import { DropDownIcon } from './icons/DropDownIcon';
 import { MetaTag } from './MetaTag';
 import { SelectComponents, SelectSearch } from './SelectSearch';
-import { LabeledValue, TimeZone, timeZonesFilter } from './SelectTimeZone';
+import { LabeledValue, timeZonesFilter, TimeZoneType } from './SelectTimeZone';
 
 export const MetaSelect: React.FC<SelectProps> = (props) => (
   <Select
@@ -320,7 +320,7 @@ const SelectContainer: React.FC<
   );
 };
 
-export const zonesToOptions = (zones: TimeZone[] = []) =>
+export const zonesToOptions = (zones: TimeZoneType[] = []) =>
   zones.map(({ location, label }) => ({ value: location, label }));
 
 export function MetaFilterSelectSearch<
@@ -336,7 +336,7 @@ export function MetaFilterSelectSearch<
 }:
   | ReactSelectProps<Required<LabeledValue<string>>>
   | {
-      options?: Array<T | TimeZone>;
+      options?: Array<T | TimeZoneType>;
       showSearch?: boolean;
       isTimeZone?: boolean;
       hasValue?: boolean;
@@ -345,7 +345,7 @@ export function MetaFilterSelectSearch<
     }) {
   const [options, setOptions] = useState(
     isTimeZone
-      ? (zonesToOptions(defaults as TimeZone[]) as Array<T>)
+      ? (zonesToOptions(defaults as TimeZoneType[]) as Array<T>)
       : (defaults as Array<T>),
   );
 
@@ -356,7 +356,7 @@ export function MetaFilterSelectSearch<
       if (search) {
         if (isTimeZone) {
           opts = zonesToOptions(
-            (opts as Array<TimeZone>).filter(timeZonesFilter(search)),
+            (opts as Array<TimeZoneType>).filter(timeZonesFilter(search)),
           ) as Array<T>;
         } else if (opts) {
           opts = (opts as Array<

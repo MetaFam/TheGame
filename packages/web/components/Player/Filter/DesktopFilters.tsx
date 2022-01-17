@@ -1,7 +1,7 @@
 import {
   MetaFilterSelectSearch,
   metaFilterSelectStyles,
-  TimeZone,
+  TimeZoneType,
   // TimeZoneOptions,
   Wrap,
   WrapItem,
@@ -38,8 +38,8 @@ type Props = {
   setSkills: React.Dispatch<React.SetStateAction<SkillOption[]>>;
   playerTypes: ValueType[];
   setPlayerTypes: React.Dispatch<React.SetStateAction<ValueType[]>>;
-  timeZones: TimeZone[];
-  setTimeZones: React.Dispatch<React.SetStateAction<TimeZone[]>>;
+  timeZones: TimeZoneType[];
+  setTimeZones: React.Dispatch<React.SetStateAction<TimeZoneType[]>>;
   availability: ValueType | null;
   setAvailability: React.Dispatch<React.SetStateAction<ValueType | null>>;
   sortOption: ValueType;

@@ -28,9 +28,9 @@ export {
   LabeledOptions,
   LabeledValue,
   SelectTimeZone,
-  TimeZone,
   TimeZoneOptions,
   timeZonesFilter,
+  TimeZoneType,
 } from './SelectTimeZone';
 export { SVG } from './SVG';
 export {

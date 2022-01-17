@@ -22,7 +22,7 @@ import { PlayerAvatar } from 'components/Player/PlayerAvatar';
 import { useUser, useWeb3 } from 'lib/hooks';
 import { usePSeedBalance } from 'lib/hooks/balances';
 import React from 'react';
-import { getNameOf, getURLFor } from 'utils/playerHelpers';
+import { getPlayerName, getPlayerURL } from 'utils/playerHelpers';
 
 const { amountToDecimal } = numbers;
 
@@ -74,7 +74,7 @@ const PlayerStats = () => {
                       p={0}
                       lineHeight={1}
                     >
-                      {getNameOf(player)}
+                      {getPlayerName(player)}
                     </Text>
                     {player.rank && (
                       <Text fontSize={12} m={0} p={0} lineHeight={1}>
@@ -87,7 +87,7 @@ const PlayerStats = () => {
               <MenuList color="black">
                 <MetaLink
                   color="black"
-                  href={getURLFor(player) ?? '/'}
+                  href={getPlayerURL(player) ?? '/'}
                   _hover={{ textDecoration: 'none' }}
                 >
                   <MenuItem>

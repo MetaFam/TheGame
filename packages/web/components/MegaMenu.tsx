@@ -63,7 +63,7 @@ import { usePSeedBalance } from 'lib/hooks/balances';
 import { useRouter } from 'next/router';
 import React, { useCallback, useEffect, useState } from 'react';
 import { MenuLinkItem, MenuLinkSet, MenuSectionLinks } from 'utils/menuLinks';
-import { getURLFor } from 'utils/playerHelpers';
+import { getPlayerURL } from 'utils/playerHelpers';
 
 const { amountToDecimal } = numbers;
 
@@ -422,7 +422,7 @@ const PlayerStats: React.FC<PlayerStatsProps> = ({ player }) => {
         <MenuList mt="8px" color="black">
           <MetaLink
             color="black"
-            href={getURLFor(player) ?? '/'}
+            href={getPlayerURL(player) ?? '/'}
             _hover={{ textDecoration: 'none' }}
           >
             <MenuItem>

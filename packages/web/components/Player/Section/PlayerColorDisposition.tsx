@@ -44,7 +44,7 @@ export const PlayerColorDisposition: React.FC<Props> = ({
   return (
     <ProfileSection
       title="Color Disposition"
-      boxType={BoxType.PLAYER.COLOR_DISPOSITION}
+      boxType={BoxType.PLAYER_COLOR_DISPOSITION}
       {...{ onRemoveClick, isOwnProfile, canEdit }}
     >
       {mask == null ? (

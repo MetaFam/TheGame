@@ -12,7 +12,7 @@ import {
   Stack,
   styled,
   Text,
-  TimeZone,
+  TimeZoneType,
   useBreakpointValue,
   useDisclosure,
   Wrap,
@@ -63,7 +63,7 @@ export const PlayerFilter: React.FC<Props> = ({
 
   const [skills, setSkills] = useState<SkillOption[]>([]);
   const [playerTypes, setPlayerTypes] = useState<ValueType[]>([]);
-  const [timeZones, setTimeZones] = useState<Array<TimeZone>>([]);
+  const [timeZones, setTimeZones] = useState<Array<TimeZoneType>>([]);
   const [availability, setAvailability] = useState<ValueType | null>(null);
   const [sortOption, setSortOption] = useState<ValueType>(
     sortOptionsMap[SortOption.SEASON_XP],

@@ -26,10 +26,10 @@ import NextLink from 'next/link';
 import React, { useMemo } from 'react';
 import { FaGlobe } from 'react-icons/fa';
 import {
-  getBannerFor,
-  getDescriptionOf,
-  getNameOf,
-  getURLFor,
+  getPlayerBanner,
+  getPlayerDescription,
+  getPlayerName,
+  getPlayerURL,
 } from 'utils/playerHelpers';
 
 const PATRON_RANKS = [
@@ -60,7 +60,7 @@ export const PatronTile: React.FC<Props> = ({ index, patron }) => {
       },
     [player.profile?.timeZone],
   );
-  const description = getDescriptionOf(player);
+  const description = getPlayerDescription(player);
   const displayDescription =
     description && description.length > MAX_BIO_LENGTH
       ? `${description.substring(0, MAX_BIO_LENGTH - 9)}…`
@@ -69,7 +69,7 @@ export const PatronTile: React.FC<Props> = ({ index, patron }) => {
     <LinkBox>
       <MetaTile>
         <Box
-          bgImage={`url(${getBannerFor(player)})`}
+          bgImage={`url(${getPlayerBanner(player)})`}
           bgSize="cover"
           bgPosition="center"
           position="absolute"
@@ -78,13 +78,13 @@ export const PatronTile: React.FC<Props> = ({ index, patron }) => {
           w="100%"
           h="4.5rem"
         />
-        <NextLink as={getURLFor(player)} href="/player/[username]" passHref>
+        <NextLink as={getPlayerURL(player)} href="/player/[username]" passHref>
           <LinkOverlay>
             <MetaTileHeader>
               <VStack>
                 <PlayerAvatar player={player} size="xl" />
                 <Heading size="xs" color="white">
-                  {getNameOf(player)}
+                  {getPlayerName(player)}
                 </Heading>
               </VStack>
               <Wrap w="100%" justify="center">
@@ -111,7 +111,7 @@ export const PatronTile: React.FC<Props> = ({ index, patron }) => {
                 <WrapItem>
                   <MetaTag size="md">{`XP: ${Math.floor(
                     player.totalXP,
-                  )}`}</MetaTag>
+                  ).toLocaleString()}`}</MetaTag>
                 </WrapItem>
               </Wrap>
               {timeZone && (

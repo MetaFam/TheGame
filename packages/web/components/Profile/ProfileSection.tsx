@@ -54,12 +54,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
             >
               {title}
             </Text>
-            {(
-              isOwnProfile &&
-              !canEdit &&
-              boxType &&
-              isBoxDataEditable(boxType)
-            ) && (
+            {isOwnProfile && !canEdit && boxType && isBoxDataEditable(boxType) && (
               <IconButton
                 aria-label="Edit Profile Info"
                 size="lg"
@@ -163,13 +158,12 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
   );
 };
 
-const isBoxDataEditable = (boxType: BoxType) => (
+const isBoxDataEditable = (boxType: BoxType) =>
   [
     BoxType.PLAYER_TYPE,
     BoxType.PLAYER_COLOR_DISPOSITION,
     BoxType.PLAYER_SKILLS,
-  ].includes(boxType)
-);
+  ].includes(boxType);
 
 const EditSectionBox = ({
   boxType,
@@ -179,13 +173,13 @@ const EditSectionBox = ({
   onClose: () => void;
 }) => {
   switch (boxType) {
-    case BOX_TYPE.PLAYER.TYPE: {
+    case BoxType.PLAYER_TYPE: {
       return <SetupPlayerType isEdit {...{ onClose }} />;
     }
-    case BOX_TYPE.PLAYER.COLOR_DISPOSITION: {
+    case BoxType.PLAYER_COLOR_DISPOSITION: {
       return <SetupPersonalityType isEdit {...{ onClose }} />;
     }
-    case BOX_TYPE.PLAYER.SKILLS: {
+    case BoxType.PLAYER_SKILLS: {
       return <SetupSkills isEdit {...{ onClose }} />;
     }
     default:
