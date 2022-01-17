@@ -154,7 +154,7 @@ export default async (playerId: string): Promise<UpdateBoxProfileResponse> => {
     }
 
     try {
-      const response = await client.UpsertProfileCache({ objects: [values] });
+      const response = await client.UpsertProfile({ objects: [values] });
 
       console.info({
         s: CONFIG.ceramicURL,
@@ -178,7 +178,7 @@ export default async (playerId: string): Promise<UpdateBoxProfileResponse> => {
         values.username = `${values.username}-${(
           caip10.did ?? ethAddress
         ).slice(-8)}`;
-        const response = await client.UpsertProfileCache({
+        const response = await client.UpsertProfile({
           objects: [values],
         });
 

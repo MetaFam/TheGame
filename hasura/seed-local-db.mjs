@@ -225,7 +225,7 @@ async function startSeeding() {
   console.debug(`Fetching players from: ${PRODUCTION_GRAPHQL_URL}`);
   const players = await fetchTopPlayers();
   const addresses = players.map(({ ethereum_address }) => ethereum_address);
-  console.debug(`Fetching player ids for players from local db for ${addresses.length} addresses`);
+  console.debug(`Fetching player ids for players from ${LOCAL_GRAPHQL_URL} for ${addresses.length} addresses`);
   const { ids, skills } = await fetchPlayerIdsAndSkills(addresses);
   console.debug(`Fetched ${Object.keys(ids).length} player ids for players from addresses.`);
   const mutations = (

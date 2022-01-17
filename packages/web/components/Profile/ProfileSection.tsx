@@ -40,7 +40,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
-    <Box minW={72} pos="relative" w="100%" h="100%">
+    <Box minW={72} pos="relative" w="100%" h="100%" className="this-is-a-test">
       {title && (
         <Box bg="purpleProfileSection" borderTopRadius="lg" py={5}>
           <HStack height={5} pr={4} pl={8}>

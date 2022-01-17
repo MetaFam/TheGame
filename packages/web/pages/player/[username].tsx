@@ -3,12 +3,13 @@ import 'react-resizable/css/styles.css';
 
 import {
   Box,
-  ButtonGroup,
-  DeleteIcon,
-  EditIcon,
+  // ButtonGroup,
+  // DeleteIcon,
+  // EditIcon,
   Flex,
-  MetaButton,
-  ResponsiveText,
+  // MetaButton,
+  // ResponsiveText,
+  useBreakpointValue,
   useToast,
 } from '@metafam/ds';
 import { PageContainer } from 'components/Container';
@@ -17,7 +18,7 @@ import {
   DEFAULT_BOXES,
   DEFAULT_PLAYER_LAYOUTS,
   getBoxLayoutItemDefaults,
-  GRID_ROW_HEIGHT,
+  // GRID_ROW_HEIGHT,
   gridConfig,
   MULTIPLE_ALLOWED_BOXES,
 } from 'components/Player/Section/config';
@@ -67,7 +68,7 @@ const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
         w="full"
       />
       <HeadComponent
-        title={`MetaGame profile for: ${getPlayerName(player)}`}
+        title={`MetaGame Profile: ${getPlayerName(player)}`}
         description={(getPlayerDescription(player) ?? '').replace('\n', ' ')}
         url={getPlayerURL(player, { rel: false })}
         img={getPlayerImage(player)}
@@ -358,6 +359,8 @@ export const Grid: React.FC<Props> = ({ player: initPlayer }): ReactElement => {
     [currentLayoutItems],
   );
 
+  const columnCount = useBreakpointValue({ base: 1, md: 2, lg: 3 });
+
   return (
     <Box
       className="gridWrapper"
@@ -368,7 +371,7 @@ export const Grid: React.FC<Props> = ({ player: initPlayer }): ReactElement => {
       mb="12rem"
       pt={isOwnProfile ? '0rem' : '4rem'}
     >
-      {isOwnProfile && (
+      {/* {isOwnProfile && (
         <ButtonGroup
           w="100%"
           px="2rem"
@@ -421,9 +424,9 @@ export const Grid: React.FC<Props> = ({ player: initPlayer }): ReactElement => {
             />
           </MetaButton>
         </ButtonGroup>
-      )}
+      )} */}
 
-      <ResponsiveGridLayout
+      {/* <ResponsiveGridLayout
         className="gridItems"
         onLayoutChange={(layoutItems, layouts) => {
           handleLayoutChange(layoutItems, layouts);
@@ -441,6 +444,7 @@ export const Grid: React.FC<Props> = ({ player: initPlayer }): ReactElement => {
         onResizeStart={toggleScrollLock}
         onResizeStop={toggleScrollLock}
         transformScale={1}
+        autoSize={true}
         margin={{
           lg: [30, 30],
           md: [30, 30],
@@ -453,10 +457,17 @@ export const Grid: React.FC<Props> = ({ player: initPlayer }): ReactElement => {
           sm: [20, 20],
           xxs: [15, 15],
         }}
-      >
+      > */}
+
+      {/* Temporarily added in place of the responsive grid. */}
+      <Box style={{ columnCount }}>
         {currentLayoutItems.map(({ boxKey, boxType, boxMetadata }) =>
           boxType === BoxType.PLAYER_ADD_BOX ? (
-            <Flex key={boxKey} className="gridItem">
+            <Flex
+              key={boxKey}
+              className="gridItem"
+              style={{ breakInside: 'avoid' }}
+            >
               <PlayerAddSection
                 player={player}
                 boxList={availableBoxList}
@@ -464,7 +475,12 @@ export const Grid: React.FC<Props> = ({ player: initPlayer }): ReactElement => {
               />
             </Flex>
           ) : (
-            <Flex key={boxKey} className="gridItem">
+            <Flex
+              key={boxKey}
+              className="gridItem"
+              mb={5}
+              style={{ breakInside: 'avoid' }}
+            >
               <PlayerSection
                 boxType={boxType}
                 boxMetadata={boxMetadata}
@@ -476,7 +492,8 @@ export const Grid: React.FC<Props> = ({ player: initPlayer }): ReactElement => {
             </Flex>
           ),
         )}
-      </ResponsiveGridLayout>
+      </Box>
+      {/* </ResponsiveGridLayout> */}
     </Box>
   );
 };

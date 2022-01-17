@@ -1,23 +1,15 @@
-import { gql } from 'graphql-request/dist';
-
 // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-gql`
-  mutation CreatePlayerFromETH($ethereumAddress: String!, $username: String!) {
-    insert_profile(
+/* GraphQL */ `
+  mutation CreatePlayerFromETH($ethereumAddress: String!) {
+    insert_player(
       objects: [
-        {
-          username: $username
-          player: { data: { ethereumAddress: $ethereumAddress } }
-        }
+        { ethereumAddress: $ethereumAddress }
       ]
     ) {
       affected_rows
       returning {
-        player {
-          id
-          ethereumAddress
-        }
-        username
+        id
+        ethereumAddress
       }
     }
   }
@@ -34,7 +26,7 @@ gql`
     }
   }
 
-  mutation UpsertProfileCache(
+  mutation UpsertProfile(
     $objects: [profile_insert_input!]!
     $onConflict: profile_on_conflict = {
       constraint: profile_player_id_key
@@ -110,7 +102,7 @@ gql`
   }
 `;
 
-export const CreateQuestCompletion = gql`
+export const CreateQuestCompletion = /* GraphQL */ `
   mutation CreateQuestCompletion($objects: [quest_completion_insert_input!]!) {
     insert_quest_completion(objects: $objects) {
       affected_rows

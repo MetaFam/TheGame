@@ -153,7 +153,7 @@ export const migrateSourceCredAccounts = async (
 
           if (playerId) {
             try {
-              await client.UpsertProfileCache({
+              await client.UpsertProfile({
                 objects: [
                   {
                     playerId,
