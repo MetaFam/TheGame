@@ -7,7 +7,6 @@ import { JustWatch } from 'components/Landing/sections/JustWatch';
 import { Optimal } from 'components/Landing/sections/Optimal';
 import { Revolution } from 'components/Landing/sections/Revolution';
 import { Together } from 'components/Landing/sections/Together';
-import { Unplug } from 'components/Landing/sections/Unplug';
 import { WhatWeDo } from 'components/Landing/sections/WhatWeDo';
 import { Who } from 'components/Landing/sections/Who';
 import { WildWeb } from 'components/Landing/sections/WildWeb';
@@ -29,7 +28,6 @@ const Landing: React.FC = () => (
     <Together />
     <WhatWeDo />
     <Optimal />
-    <Unplug />
     <Who />
     <Cards />
     <JustWatch />
