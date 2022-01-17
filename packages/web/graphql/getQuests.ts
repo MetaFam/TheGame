@@ -31,6 +31,7 @@ gql`
     $guildId: uuid
     $order: order_by
     $createdByPlayerId: uuid
+    $quest_roles: [String!]
   ) {
     quest(
       limit: $limit
@@ -39,6 +40,7 @@ gql`
         status: { _eq: $status }
         guildId: { _eq: $guildId }
         createdByPlayerId: { _eq: $createdByPlayerId }
+        quest_roles: { role: { _in: $quest_roles } }
       }
     ) {
       ...QuestFragment
