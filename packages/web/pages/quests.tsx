@@ -14,6 +14,7 @@ import { QuestList } from 'components/Quest/QuestList';
 import { HeadComponent } from 'components/Seo';
 import { getSsrClient } from 'graphql/client';
 import { getQuests } from 'graphql/getQuests';
+import { getPlayerRoles } from 'graphql/queries/enums/getRoles';
 import { usePSeedBalance } from 'lib/hooks/balances';
 import { useQuestFilter } from 'lib/hooks/quests';
 import { InferGetStaticPropsType } from 'next';
@@ -24,6 +25,7 @@ import { isAllowedToCreateQuest } from 'utils/questHelpers';
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
 export const getStaticProps = async () => {
+  const roleChoices = await getPlayerRoles();
   const [ssrClient, ssrCache] = getSsrClient();
   // This populate the cache server-side
   await getQuests(undefined, ssrClient);
@@ -31,12 +33,13 @@ export const getStaticProps = async () => {
   return {
     props: {
       urqlState: ssrCache.extractData(),
+      roleChoices,
     },
     revalidate: 1,
   };
 };
 
-const QuestsPage: React.FC<Props> = () => {
+const QuestsPage: React.FC<Props> = ({ roleChoices }) => {
   const router = useRouter();
   const {
     quests,
@@ -95,6 +98,7 @@ const QuestsPage: React.FC<Props> = () => {
             queryVariables={queryVariables}
             setQueryVariable={setQueryVariable}
             quests={quests || []}
+            roleChoices={roleChoices}
           />
         </Box>
         <Box mt={8} w="100%">

@@ -11,6 +11,7 @@ import {
 import {
   GetQuestsQueryVariables,
   Order_By,
+  PlayerRole,
   QuestFragmentFragment,
   QuestStatus_Enum,
 } from 'graphql/autogen/types';
@@ -24,6 +25,7 @@ type Props = {
   aggregates: QuestAggregates;
   queryVariables: GetQuestsQueryVariables;
   setQueryVariable: QueryVariableSetter;
+  roleChoices: Array<PlayerRole>;
 };
 
 type ValueType = { value: string; label: string };
@@ -37,6 +39,7 @@ export const QuestFilter: React.FC<Props> = ({
   aggregates,
   queryVariables,
   setQueryVariable,
+  roleChoices,
 }) => {
   const { user } = useUser();
   const myId = user?.id;
@@ -90,10 +93,16 @@ export const QuestFilter: React.FC<Props> = ({
     })),
   );
 
+  const roleOptions = roleChoices.map(({ label, role }) => ({
+    label,
+    value: role,
+  }));
+
   const [limit, setLimit] = useState<ValueType>(limitOptions[0]);
   const [order, setOrder] = useState<ValueType>(orderOptions[0]);
   const [status, setStatus] = useState<ValueType>(statusOptions[0]);
   const [guild, setGuild] = useState<ValueType>(guildOptions[0]);
+  const [roles, setRoles] = useState<ValueType[]>([]);
 
   return (
     <Wrap justifyContent="center">
@@ -179,6 +188,28 @@ export const QuestFilter: React.FC<Props> = ({
               }
             }}
             options={guildOptions}
+            disableEmpty
+          />
+        )}
+        {roleChoices.length && (
+          <MetaFilterSelectSearch
+            title="Roles"
+            tagLabel={roles.length > 0 ? roles.length.toString() : ''}
+            styles={metaFilterSelectStyles}
+            hasValue={false}
+            value={roles}
+            onChange={(value) => {
+              const values = value as ValueType[];
+              const g = values;
+              if (g) {
+                setRoles(g);
+                setQueryVariable(
+                  'quest_roles',
+                  g.map((x) => x.value),
+                );
+              }
+            }}
+            options={roleOptions}
             disableEmpty
           />
         )}
