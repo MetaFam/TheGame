@@ -97,7 +97,7 @@ export const sortOptionsMap = {
     value: SortOption.AVAILABILITY,
     label: 'Availability',
     output: {
-      availableHours: 'desc',
+      profile: { availableHours: 'desc' },
     },
   },
   [SortOption.USERNAME_A_TO_Z]: {

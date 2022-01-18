@@ -1,7 +1,7 @@
 import { client } from '../../lib/hasuraClient';
 
 async function createPlayer(ethAddress: string) {
-  const { insert_player: insert } = await client.CreatePlayerFromETH({
+  const { insert_profile: insert } = await client.CreatePlayerFromETH({
     ethereumAddress: ethAddress,
   });
   if (insert?.affected_rows !== 1) {
@@ -19,7 +19,8 @@ export async function getOrCreatePlayer(ethereumAddress: string) {
   let player = res.player[0];
 
   if (!player) {
-    player = await createPlayer(ethAddress);
+    const profile = await createPlayer(ethAddress);
+    player = profile.player;
   }
 
   return player;

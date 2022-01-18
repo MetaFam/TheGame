@@ -49,6 +49,8 @@ import {
   ProfileProps,
   Values,
 } from '@metafam/utils';
+import FileOpenIcon from 'assets/file-open-icon.svg';
+import PlayerProfileIcon from 'assets/player-profile-icon.svg';
 import {
   Maybe,
   useInsertCacheInvalidationMutation,
@@ -548,6 +550,12 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
                       : 'transparent'
                   }
                 />
+                {endpoints.profileImageURL.loading &&
+                  (endpoints.profileImageURL.val == null ? (
+                    <Image maxW="50%" src={PlayerProfileIcon} />
+                  ) : (
+                    <Spinner size="xl" color="purple.500" thickness="4px" />
+                  ))}
               </Box>
               <Controller
                 control={control}
@@ -620,9 +628,12 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
                   h="full"
                   w="full"
                 />
-                {endpoints[key].loading && (
-                  <Spinner size="xl" color="purple.500" thickness="4px" />
-                )}
+                {endpoints[key].loading &&
+                  (endpoints[key].val == null ? (
+                    <Image maxW="50%" src={FileOpenIcon} />
+                  ) : (
+                    <Spinner size="xl" color="purple.500" thickness="4px" />
+                  ))}
                 <Controller
                   control={control}
                   name={key}

@@ -1,5 +1,4 @@
 // DRY
-
 export const WEB_PATH_JOIN_GUILD = 'join/guild';
 
 export const DISCORD_BOT_CLIENT_ID = '804609082308034560';
@@ -17,7 +16,7 @@ export const CERAMIC_URL =
   'https://ceramic.metagame.wtf' ||
   'https://d12-a-ceramic.3boxlabs.com';
 
-export const IMGIX_TOKEN = process.env.IMGIX_TOKEN || '';
+export const { IMGIX_TOKEN } = process.env;
 export const IMGIX_DOMAIN = process.env.IMGIX_DOMAIN || 'metafam.imgix.net';
 export const IPFS_LINK_PATTERN =
   process.env.IPFS_LINK_PATTERN ||

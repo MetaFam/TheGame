@@ -1,15 +1,18 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-expressions
 /* GraphQL */ `
   mutation CreatePlayerFromETH($ethereumAddress: String!) {
-    insert_player(
+    insert_profile(
       objects: [
-        { ethereumAddress: $ethereumAddress }
+        { player: { data: { ethereumAddress: $ethereumAddress } } }
       ]
     ) {
       affected_rows
       returning {
         id
-        ethereumAddress
+        player {
+          id
+          ethereumAddress
+        }
       }
     }
   }
