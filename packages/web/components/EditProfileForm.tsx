@@ -317,60 +317,53 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
           body: formData,
           credentials: 'include',
         });
-        if (result.status >= 300) {
-          throw new Error(
-            `web3.storage ${result.status} response: "${result.statusText}"`,
-          );
-        }
         const response = await result.json();
         const { error } = response;
-        if (error) {
-          toast({
-            title: 'Error Saving Images',
-            description: `web3.storage reported the following error: "${error}"`,
-            status: 'error',
-            isClosable: true,
-            duration: 8000,
-          });
-        } else {
-          Object.keys(files).forEach((key: string) => {
-            const tKey = toType(key);
-            if (!response[tKey]) {
-              toast({
-                title: 'Error Saving Image',
-                description: `Uploaded "${tKey}" & didn't get a response back.`,
-                status: 'warning',
-                isClosable: true,
-                duration: 8000,
-              });
-            } else {
-              const { val, ref } = endpoints[key];
-              let [, mime] = val?.match(/^data:([^;]+);/) ?? [];
-              mime ??= 'image/*';
-
-              const elem = ref.current as HTMLImageElement | null;
-              const props: { width?: number; height?: number } = {};
-              ['width', 'height'].forEach((prop) => {
-                props[prop as 'width' | 'height'] = Math.max(
-                  elem?.[
-                    `natural${prop[0].toUpperCase()}${prop.slice(1)}` as
-                      | 'naturalWidth'
-                      | 'naturalHeight'
-                  ] ?? 0,
-                  elem?.[prop as 'width' | 'height'] ?? 0,
-                  1,
-                );
-              });
-              sources[key as keyof typeof Images] = {
-                original: {
-                  src: `ipfs://${response[tKey]}`,
-                  mimeType: mime,
-                  ...props,
-                },
-              } as ImageSources;
-            }
-          });
+        if (result.status >= 400 || error) {
+          throw new Error(
+            `web3.storage ${result.status} response: "${
+              error ?? result.statusText
+            }"`,
+          );
         }
+
+        Object.keys(files).forEach((key: string) => {
+          const tKey = toType(key);
+          if (!response[tKey]) {
+            toast({
+              title: 'Error Saving Image',
+              description: `Uploaded "${tKey}" & didn't get a response back.`,
+              status: 'warning',
+              isClosable: true,
+              duration: 8000,
+            });
+          } else {
+            const { val, ref } = endpoints[key];
+            let [, mime] = val?.match(/^data:([^;]+);/) ?? [];
+            mime ??= 'image/*';
+
+            const elem = ref.current as HTMLImageElement | null;
+            const props: { width?: number; height?: number } = {};
+            ['width', 'height'].forEach((prop) => {
+              props[prop as 'width' | 'height'] = Math.max(
+                elem?.[
+                  `natural${prop[0].toUpperCase()}${prop.slice(1)}` as
+                    | 'naturalWidth'
+                    | 'naturalHeight'
+                ] ?? 0,
+                elem?.[prop as 'width' | 'height'] ?? 0,
+                1,
+              );
+            });
+            sources[key as keyof typeof Images] = {
+              original: {
+                src: `ipfs://${response[tKey]}`,
+                mimeType: mime,
+                ...props,
+              },
+            } as ImageSources;
+          }
+        });
       }
 
       if (params.query.debug) {
