@@ -20,6 +20,6 @@ export const CERAMIC_URL =
 export const IMGIX_TOKEN = process.env.IMGIX_TOKEN || '';
 export const IMGIX_DOMAIN = process.env.IMGIX_DOMAIN || 'metafam.imgix.net';
 export const IPFS_LINK_PATTERN =
-  process.env.NEXT_IPFS_LINK_PATTERN ||
+  process.env.IPFS_LINK_PATTERN ||
   'https://ipfs.infura.io/ipfs/{cid}/{path}' ||
   'https://{v1cid}.ipfs.dweb.link/{path}';
