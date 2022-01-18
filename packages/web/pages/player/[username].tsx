@@ -3,14 +3,13 @@ import 'react-resizable/css/styles.css';
 
 import {
   Box,
-  // ButtonGroup,
-  // DeleteIcon,
-  // EditIcon,
+  ButtonGroup,
+  DeleteIcon,
+  EditIcon,
   Flex,
-  // MetaButton,
-  // ResponsiveText,
-  useBreakpointValue,
-  // useToast,
+  MetaButton,
+  ResponsiveText,
+  useToast,
 } from '@metafam/ds';
 import { PageContainer } from 'components/Container';
 import {
@@ -18,8 +17,6 @@ import {
   DEFAULT_BOXES,
   DEFAULT_PLAYER_LAYOUTS,
   getBoxLayoutItemDefaults,
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore no-unused-variable
   GRID_ROW_HEIGHT,
   gridConfig,
   MULTIPLE_ALLOWED_BOXES,
@@ -29,7 +26,7 @@ import { PlayerSection } from 'components/Profile/PlayerSection';
 import { HeadComponent } from 'components/Seo';
 import {
   useInsertCacheInvalidationMutation,
-  // useUpdatePlayerProfileLayoutMutation,
+  useUpdatePlayerProfileLayoutMutation,
 } from 'graphql/autogen/types';
 import { getPlayer } from 'graphql/getPlayer';
 import { getTopPlayerUsernames } from 'graphql/getPlayers';
@@ -41,9 +38,7 @@ import {
 } from 'next';
 import Error from 'next/error';
 import { ReactElement, useCallback, useEffect, useMemo, useState } from 'react';
-import {
-  /* Layout, */ Layouts /* Responsive, WidthProvider */,
-} from 'react-grid-layout';
+import { Layout, Layouts, Responsive, WidthProvider } from 'react-grid-layout';
 import { BoxMetadata, BoxType, getBoxKey } from 'utils/boxTypes';
 import {
   getPlayerBannerFull,
@@ -53,7 +48,7 @@ import {
   getPlayerURL,
 } from 'utils/playerHelpers';
 
-// const ResponsiveGridLayout = WidthProvider(Responsive);
+const ResponsiveGridLayout = WidthProvider(Responsive);
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
@@ -62,7 +57,7 @@ const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
     return <Error statusCode={404} />;
   }
   return (
-    <PageContainer p={0} pt={0}>
+    <PageContainer p={0} pt={0} mt="-4.5rem">
       {' '}
       {/* have to override pt in PageContainer */}
       <HeadComponent
@@ -96,7 +91,6 @@ const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
 
 export default PlayerPage;
 
-/*
 const makeLayouts = (editable: boolean, layouts: Layouts) => {
   const newLayouts: Layouts = {};
   Object.keys(layouts).forEach((key) => {
@@ -106,7 +100,6 @@ const makeLayouts = (editable: boolean, layouts: Layouts) => {
   });
   return newLayouts;
 };
-*/
 
 const removeBoxFromLayouts = (
   boxKey: string,
@@ -180,15 +173,13 @@ export const Grid: React.FC<Props> = ({ player: initPlayer }): ReactElement => {
     }
   }, [player?.id, invalidateCache]);
 
-  // const toast = useToast();
+  const toast = useToast();
 
-  /*
   const [
     { fetching: fetchingSaveRes },
     saveLayoutData,
   ] = useUpdatePlayerProfileLayoutMutation();
-  */
-  // const [saving, setSaving] = useState(false);
+  const [saving, setSaving] = useState(false);
 
   const layoutsFromDB = player?.profileLayout
     ? JSON.parse(player.profileLayout)
@@ -217,11 +208,10 @@ export const Grid: React.FC<Props> = ({ player: initPlayer }): ReactElement => {
     }
   }, [player?.profileLayout]);
 
-  const [, /* changed */ setChanged] = useState(false);
+  const [changed, setChanged] = useState(false);
 
   const [editable, setEditable] = useState(false);
 
-  /*
   const handleReset = useCallback(() => {
     const layoutData = {
       layouts: addBoxToLayouts(
@@ -256,10 +246,9 @@ export const Grid: React.FC<Props> = ({ player: initPlayer }): ReactElement => {
       });
 
       if (error) {
-        const errorDetail = 'The octo is sad 😢';
         toast({
           title: 'Error',
-          description: `Unable to save layout. ${errorDetail}`,
+          description: `Unable to save layout. Error: ${error}`,
           status: 'error',
           isClosable: true,
         });
@@ -318,15 +307,13 @@ export const Grid: React.FC<Props> = ({ player: initPlayer }): ReactElement => {
     },
     [currentLayoutItems],
   );
-  */
+
   const wrapperSX = useMemo(() => gridConfig.wrapper(editable), [editable]);
 
-  /*
   const displayLayouts = useMemo(() => makeLayouts(editable, currentLayouts), [
     editable,
     currentLayouts,
   ]);
-  */
 
   const onRemoveBox = useCallback(
     (boxKey: string): void => {
@@ -372,8 +359,6 @@ export const Grid: React.FC<Props> = ({ player: initPlayer }): ReactElement => {
     [currentLayoutItems],
   );
 
-  const columnCount = useBreakpointValue({ base: 1, md: 2, lg: 3 });
-
   return (
     <Box
       className="gridWrapper"
@@ -384,7 +369,7 @@ export const Grid: React.FC<Props> = ({ player: initPlayer }): ReactElement => {
       mb="12rem"
       pt={isOwnProfile ? '0rem' : '4rem'}
     >
-      {/* {isOwnProfile && (
+      {isOwnProfile && (
         <ButtonGroup
           w="100%"
           px="2rem"
@@ -437,9 +422,8 @@ export const Grid: React.FC<Props> = ({ player: initPlayer }): ReactElement => {
             />
           </MetaButton>
         </ButtonGroup>
-      )} */}
-
-      {/* <ResponsiveGridLayout
+      )}
+      <ResponsiveGridLayout
         className="gridItems"
         onLayoutChange={(layoutItems, layouts) => {
           handleLayoutChange(layoutItems, layouts);
@@ -470,10 +454,7 @@ export const Grid: React.FC<Props> = ({ player: initPlayer }): ReactElement => {
           sm: [20, 20],
           xxs: [15, 15],
         }}
-      > */}
-
-      {/* Temporarily added in place of the responsive grid. */}
-      <Box style={{ columnCount }}>
+      >
         {currentLayoutItems.map(({ boxKey, boxType, boxMetadata }) =>
           boxType === BoxType.PLAYER_ADD_BOX ? (
             <Flex
@@ -505,8 +486,7 @@ export const Grid: React.FC<Props> = ({ player: initPlayer }): ReactElement => {
             </Flex>
           ),
         )}
-      </Box>
-      {/* </ResponsiveGridLayout> */}
+      </ResponsiveGridLayout>
     </Box>
   );
 };

@@ -91,7 +91,7 @@ custom_types:
   - name: UpdateQuestCompletionInput
   - name: GuildInfo
   objects:
-  - name: UpdateBoxProfileResponse
+  - name: UpdateIDXProfileResponse
   - name: CreateQuestOutput
     relationships:
     - remote_table:
@@ -121,7 +121,6 @@ custom_types:
         quest_completion_id: id
   - name: DiscordGuildAuthResponse
   - name: CacheProcessOutput
-  - name: UpdateIDXProfileResponse
   - name: ExpiredPlayerProfiles
   - name: SaveGuildResponse
   scalars: []

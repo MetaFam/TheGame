@@ -13,4 +13,13 @@ export const SC_OUTPUT_BASE =
 export const SC_ACCOUNTS_FILE = `${SC_OUTPUT_BASE}output/accounts.json`;
 
 export const CERAMIC_URL =
-  process.env.CERAMIC_URL || 'https://d12-a-ceramic.3boxlabs.com';
+  process.env.CERAMIC_URL ||
+  'https://ceramic.metagame.wtf' ||
+  'https://d12-a-ceramic.3boxlabs.com';
+
+export const IMGIX_TOKEN = process.env.IMGIX_TOKEN || '';
+export const IMGIX_DOMAIN = process.env.IMGIX_DOMAIN || 'metafam.imgix.net';
+export const IPFS_LINK_PATTERN =
+  process.env.NEXT_IPFS_LINK_PATTERN ||
+  'https://ipfs.infura.io/ipfs/{cid}/{path}' ||
+  'https://{v1cid}.ipfs.dweb.link/{path}';

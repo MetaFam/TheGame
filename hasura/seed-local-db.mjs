@@ -137,8 +137,8 @@ async function deleteSkills() {
   if (errors) throw errors[0];
 }
 
-const updatePlayerMutation = /* GraphQL */`
-  mutation UpdatePlayer(
+const upsertPlayerMutation = /* GraphQL */`
+  mutation UpsertPlayer(
     $playerId: uuid!
     $availableHours: Int
     $timeZone: String
@@ -150,16 +150,27 @@ const updatePlayerMutation = /* GraphQL */`
     insert_player_skill(objects: $skills) {
       affected_rows
     }
-    update_profile(
-      where: { playerId: { _eq: $playerId } }
-      _set: {
+    insert_profile(
+      objects: [{
+        playerId: $playerId
         explorerTypeTitle: $explorerTypeTitle
         timeZone: $timeZone
         availableHours: $availableHours
         colorMask: $colorMask
         username: $username
+      }]
+      on_conflict: {
+        constraint: profile_player_id_key
+        update_columns: [
+          explorerTypeTitle
+          timeZone
+          availableHours
+          colorMask
+          username
+        ]
       }
     ) {
+      affected_rows
       returning {
         username
         availableHours
@@ -167,25 +178,24 @@ const updatePlayerMutation = /* GraphQL */`
         colorMask
         explorerTypeTitle
         player {
+          id
+          ethereumAddress
           skills {
             Skill {
               id
             }
           }
-          id
-          ethereumAddress
         }
       }
     }
   }
 `;
 
-
-async function updatePlayer(variables) {
+async function upsertPlayer(variables) {
   const { errors, data } = await fetchGraphQL(
     LOCAL_GRAPHQL_URL,
-    updatePlayerMutation,
-    'UpdatePlayer',
+    upsertPlayerMutation,
+    'UpsertPlayer',
     variables,
     true,
   );
@@ -229,22 +239,26 @@ async function startSeeding() {
   const { ids, skills } = await fetchPlayerIdsAndSkills(addresses);
   console.debug(`Fetched ${Object.keys(ids).length} player ids for players from addresses.`);
   const mutations = (
-    players.map((player) => {
+    players.map((player, idx) => {
       const playerId = ids[player.ethereum_address];
       if (!playerId) return undefined;
       return {
-        playerId,
-        availableHours: player.availability_hours,
-        timeZone: player.timezone,
-        explorerTypeTitle: player.type?.title,
-        colorMask: player.color_mask ?? null,
-        username: player.username,
-        skills: (
-          player.skills.map((skill) => ({
-            skill_id: getSkillId(skills, skill),
-            player_id: playerId,
-          }))
-        ),
+        ethereumAddress: player.ethereum_address,
+        count: idx + 1,
+        variables: {
+          playerId,
+          availableHours: player.availability_hours,
+          timeZone: player.timezone,
+          explorerTypeTitle: player.type?.title,
+          colorMask: player.color_mask ?? null,
+          username: player.username,
+          skills: (
+            player.skills.map((skill) => ({
+              skill_id: getSkillId(skills, skill),
+              player_id: playerId,
+            }))
+          ),
+        }
       };
     })
     .filter(m => !!m)
@@ -254,9 +268,9 @@ async function startSeeding() {
   );
   await deleteSkills();
   const updated = await Promise.all(mutations.map(
-    (mutation) => {
-      console.debug(`Updating ${mutation.username} (${mutation.playerId})`)
-      return updatePlayer(mutation)
+    ({ ethereumAddress, count, variables }) => {
+      console.debug(`${count.toString().padStart(3, '0')}: Updating ${ethereumAddress} ("${variables.username}")`);
+      return upsertPlayer(variables)
     }
   ));
   console.debug(`Successfully seeded local db with ${updated.length} players`);

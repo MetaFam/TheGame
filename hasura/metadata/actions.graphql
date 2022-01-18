@@ -105,9 +105,13 @@ input GuildInfo {
   discordMembershipRoles : [String]!
 }
 
-type UpdateBoxProfileResponse {
+type UpdateIDXProfileResponse {
   success : Boolean!
-  updatedProfiles : [String!]!
+  ceramic : String!
+  did : String
+  ethereumAddress : String
+  accountLinks : [String]
+  fields : [String]
 }
 
 type CreateQuestOutput {
@@ -137,12 +141,8 @@ type DiscordGuildAuthResponse {
 
 type CacheProcessOutput {
   success : Boolean!
+  queued : Boolean!
   error : String
-}
-
-type UpdateIDXProfileResponse {
-  success : Boolean!
-  updatedProfiles : [String!]!
 }
 
 type ExpiredPlayerProfiles {

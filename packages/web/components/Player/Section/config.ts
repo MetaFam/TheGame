@@ -42,7 +42,7 @@ export const getBoxLayoutItemDefaults = (boxId: BoxType): Layout => {
         x: 0,
         y: 0,
         w: 1,
-        h: 14,
+        h: 22,
         maxW: 1,
       };
     case BoxType.PLAYER_SKILLS:
@@ -60,7 +60,7 @@ export const getBoxLayoutItemDefaults = (boxId: BoxType): Layout => {
         x: 0,
         y: 0,
         w: 1,
-        h: 10,
+        h: 14,
         maxW: 1,
       };
     case BoxType.PLAYER_DAO_MEMBERSHIPS:
@@ -87,7 +87,7 @@ export const getBoxLayoutItemDefaults = (boxId: BoxType): Layout => {
         x: 0,
         y: 0,
         w: 1,
-        h: 5,
+        h: 7,
         maxW: 1,
       };
     case BoxType.PLAYER_COLOR_DISPOSITION:
@@ -96,13 +96,11 @@ export const getBoxLayoutItemDefaults = (boxId: BoxType): Layout => {
         x: 0,
         y: 0,
         w: 1,
-        h: 4,
+        h: 5.5,
         maxW: 1,
       };
     case BoxType.PLAYER_ROLES:
       return {
-        // boxType: BoxType.PLAYER_ROLES,
-        // boxMetadata: {},
         i: getBoxKey(BoxType.PLAYER_ROLES, {}),
         x: 0,
         y: 0,

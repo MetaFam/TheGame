@@ -31,20 +31,22 @@ import {
   AccountType_Enum,
   Maybe,
   Profile_Update_Column,
-  UpdateBoxProfileResponse,
+  UpdateIdxProfileResponse,
 } from '../../../lib/autogen/hasura-sdk';
 import { maskFor } from '../../../lib/colorHelpers';
 import { client } from '../../../lib/hasuraClient';
 
-export default async (playerId: string): Promise<UpdateBoxProfileResponse> => {
-  const updatedProfiles: string[] = [];
+export default async (playerId: string): Promise<UpdateIdxProfileResponse> => {
+  const accountLinks: string[] = [];
+  const fields: string[] = [];
   const { player_by_pk: player } = await client.GetPlayer({ playerId });
-  const ethAddress = player?.ethereumAddress;
+  const { ethereumAddress } = player ?? {};
+  let did = null;
 
-  if (!ethAddress) {
+  if (!ethereumAddress) {
     throw new Error(`Unknown Player: "${playerId}"`);
   } else {
-    console.debug(`Updating profile cache for "${ethAddress}".`);
+    console.debug(`Updating Profile Cache For ${ethereumAddress}`);
   }
 
   try {
@@ -61,31 +63,31 @@ export default async (playerId: string): Promise<UpdateBoxProfileResponse> => {
       loader,
       model: await manager.toPublished(),
     });
-    const caip10 = await Caip10Link.fromAccount(
+    ({ did } = await Caip10Link.fromAccount(
       ceramic,
       // Defaulting to mainnet. This may cause data irregularities
       // if their wallet is connected to a different DID on a
       // different chain.
-      `${ethAddress.toLowerCase()}@eip155:1`,
-    );
-    const values: HasuraProfileProps = { playerId };
+      `${ethereumAddress.toLowerCase()}@eip155:1`,
+    ));
+    const values: HasuraProfileProps = {};
     let basicProfile: Maybe<BasicProfile> = null;
     let extendedProfile: Maybe<ExtendedProfile> = null;
 
-    if (!caip10.did) {
-      console.debug(`No CAIP-10 Link For ${ethAddress}`);
+    if (!did) {
+      console.debug(`No CAIP-10 Link For ${ethereumAddress}`);
     } else {
-      basicProfile = await store.get('basicProfile', caip10.did);
+      basicProfile = await store.get('basicProfile', did);
     }
 
     // This isn't called if they haven't created a mainnet DID
     // This should be checked even without a DID
     if (!basicProfile) {
-      basicProfile = await getLegacy3BoxProfileAsBasicProfile(ethAddress);
+      basicProfile = await getLegacy3BoxProfileAsBasicProfile(ethereumAddress);
     }
 
     if (!basicProfile) {
-      console.debug(`No Basic Profile For: ${ethAddress} (${caip10.did})`);
+      console.debug(`No Basic Profile For: ${ethereumAddress} (${did})`);
     } else {
       Object.entries(BasicProfileStrings).forEach(([hasuraId, ceramicId]) => {
         const fromKey = ceramicId as Values<typeof BasicProfileStrings>;
@@ -103,11 +105,11 @@ export default async (playerId: string): Promise<UpdateBoxProfileResponse> => {
       });
     }
 
-    if (caip10.did) {
-      extendedProfile = await store.get('extendedProfile', caip10.did);
+    if (did) {
+      extendedProfile = await store.get('extendedProfile', did);
 
       if (!extendedProfile) {
-        console.debug(`No Extended Profile For: ${ethAddress} (${caip10.did})`);
+        console.debug(`No Extended Profile For: ${ethereumAddress} (${did})`);
       } else {
         Object.entries(ExtendedProfileStrings).forEach(
           ([hasuraId, ceramicId]) => {
@@ -154,54 +156,40 @@ export default async (playerId: string): Promise<UpdateBoxProfileResponse> => {
       }
     }
 
-    try {
-      const response = await client.UpsertProfile({
-        objects: [values],
-        updateColumns: Object.keys(values) as Profile_Update_Column[],
-      });
+    if (!basicProfile && !extendedProfile) {
+      console.info(`No Profile Information For ${ethereumAddress}.`);
+    } else {
+      try {
+        fields.push(...Object.keys(values));
+        values.playerId = playerId;
 
-      console.info({
-        s: CONFIG.ceramicURL,
-        addr: ethAddress,
-        did: caip10.did,
-
-        extendedProfile,
-        basicProfile,
-        values,
-      });
-
-      console.info({ response });
-    } catch (err) {
-      if (
-        !(err as Error).message.includes(
-          'violates unique constraint "profile_username_key"',
-        )
-      ) {
-        throw err;
-      } else {
-        values.username = `${values.username}-${(
-          caip10.did ?? ethAddress
-        ).slice(-8)}`;
-        const response = await client.UpsertProfile({
+        await client.UpsertProfile({
           objects: [values],
-          updateColumns: Object.keys(values) as Profile_Update_Column[],
+          updateColumns: fields as Profile_Update_Column[],
         });
+      } catch (err) {
+        if (
+          !(err as Error).message.includes(
+            'violates unique constraint "profile_username_key"',
+          )
+        ) {
+          throw err;
+        } else {
+          // this is brittle and likely subject to exploit
+          values.username = `${values.username}-${(
+            did ?? ethereumAddress
+          ).slice(-8)}`;
 
-        console.info({
-          s: CONFIG.ceramicURL,
-          addr: ethAddress,
-          did: caip10.did,
-
-          basicProfile,
-          values,
-        });
-
-        console.info({ response });
+          await client.UpsertProfile({
+            objects: [values],
+            updateColumns: fields as Profile_Update_Column[],
+          });
+        }
       }
     }
 
-    if (caip10.did) {
-      const alsoKnownAs = ((await store.get('alsoKnownAs', caip10.did)) ??
+    if (did) {
+      const alsoKnownAs = ((await store.get('alsoKnownAs', did)) ??
         {}) as AlsoKnownAs;
       const { accounts = [] } = alsoKnownAs;
 
@@ -237,7 +225,7 @@ export default async (playerId: string): Promise<UpdateBoxProfileResponse> => {
                 `Unable to insert ${service} user ${username} for playerId ${playerId}.`,
               );
             } else if (insert.affected_rows > 0) {
-              updatedProfiles.push(service);
+              accountLinks.push(service);
             }
           }
         }),
@@ -245,12 +233,16 @@ export default async (playerId: string): Promise<UpdateBoxProfileResponse> => {
     }
   } catch (err) {
     if (!(err as Error).message.includes('No DID')) {
-      throw new Error(`Update Error: ${(err as Error).message}`);
+      throw err;
     }
   }
 
   return {
     success: true,
-    updatedProfiles,
+    ceramic: CONFIG.ceramicURL,
+    did,
+    ethereumAddress,
+    accountLinks,
+    fields,
   };
 };

@@ -202,6 +202,7 @@ type BrightIdStatus {
 
 type CacheProcessOutput {
   error: String
+  queued: Boolean!
   success: Boolean!
 }
 
@@ -10774,14 +10775,13 @@ type TokenBalances {
   seedBalance: String!
 }
 
-type UpdateBoxProfileResponse {
-  success: Boolean!
-  updatedProfiles: [String!]!
-}
-
 type UpdateIDXProfileResponse {
+  accountLinks: [String]
+  ceramic: String!
+  did: String
+  ethereumAddress: String
+  fields: [String]
   success: Boolean!
-  updatedProfiles: [String!]!
 }
 
 input UpdateQuestCompletionInput {

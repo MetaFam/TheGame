@@ -7,12 +7,15 @@ import PlayerCoverImageSmall from 'assets/player-background-small.jpg';
 import { ethers } from 'ethers';
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
 import { GuildPlayer } from 'graphql/types';
-import { httpLink } from 'utils/linkHelpers';
+
+import { optimizedImage } from './imageHelpers';
 
 export const getPlayerImage = (
   player?: PlayerFragmentFragment | GuildPlayer,
 ): string => {
-  const link = httpLink(player?.profile?.profileImageURL);
+  const key = 'profileImageURL';
+  const link = optimizedImage(key, player?.profile?.[key]);
+
   if (link) return link;
 
   const { ethereumAddress } = player ?? {};
@@ -21,11 +24,20 @@ export const getPlayerImage = (
     : ProfileIcon;
 };
 
-export const getPlayerBanner = (player: PlayerFragmentFragment): string =>
-  httpLink(player.profile?.bannerImageURL) || PlayerCoverImageSmall;
+export const getPlayerBanner = (player: PlayerFragmentFragment): string => {
+  const key = 'bannerImageURL';
+  return (
+    optimizedImage(key, player.profile?.[key], { height: 100 }) ||
+    PlayerCoverImageSmall
+  );
+};
 
-export const getPlayerBannerFull = (player?: PlayerFragmentFragment): string =>
-  httpLink(player?.profile?.bannerImageURL) || PlayerCoverImageFull;
+export const getPlayerBannerFull = (
+  player?: PlayerFragmentFragment,
+): string => {
+  const key = 'bannerImageURL';
+  return optimizedImage(key, player?.profile?.[key]) || PlayerCoverImageFull;
+};
 
 export const getGuildCoverImageFull = (): string => GuildCoverImageFull;
 

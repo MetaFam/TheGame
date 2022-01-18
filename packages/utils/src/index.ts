@@ -7,6 +7,8 @@ export * as Constants from './constants';
 export * as did from './did';
 export * as DiscordUtil from './discordHelpers';
 export * from './extendedProfileTypes';
+export * from './imageHelpers';
+export * from './linkHelpers';
 export * from './networkHelpers';
 export * as numbers from './numbers';
 export * from './promiseHelpers';

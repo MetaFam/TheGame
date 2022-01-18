@@ -13,11 +13,13 @@
     "precommit": "yarn lint-staged"
   },
   "dependencies": {
-    "@datamodels/identity-profile-basic": "^0.1.2",
+    "@datamodels/identity-profile-basic": "0.1.2",
     "@types/react": "17.0.37",
     "@types/uuid": "8.3.0",
     "bignumber.js": "9.0.1",
+    "cids": "1.1.9",
     "ethers": "5.4.3",
+    "imgix-core-js": "2.3.2",
     "js-base64": "3.6.1",
     "key-did-provider-ed25519": "1.1.0",
     "key-did-resolver": "1.4.0",
@@ -26,7 +28,7 @@
     "uuid": "8.3.2"
   },
   "devDependencies": {
-    "@ceramicnetwork/http-client": "^1.5.7",
-    "@datamodels/identity-accounts-crypto": "^0.1.2"
+    "@ceramicnetwork/http-client": "1.5.7",
+    "@datamodels/identity-accounts-crypto": "0.1.2"
   }
 }

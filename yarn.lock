@@ -1496,7 +1496,7 @@
     query-string "7.0.1"
     rxjs "^7.0.0"
 
-"@ceramicnetwork/http-client@^1.5.7":
+"@ceramicnetwork/http-client@1.5.7":
   version "1.5.7"
   resolved "https://registry.yarnpkg.com/@ceramicnetwork/http-client/-/http-client-1.5.7.tgz#de2046a990e497dfd7dcba6cbc24eaedfd0e8749"
   integrity sha512-gdoQ88SWM5JaEA4DfsfcO1hJdbHtRLgNIh00lFU6LgslPktM01SajRK0VckIqcDJBcTXIAcRYIV1A5mU4YV61w==
@@ -2194,7 +2194,7 @@
   resolved "https://registry.yarnpkg.com/@ctrl/tinycolor/-/tinycolor-3.4.0.tgz#c3c5ae543c897caa9c2a68630bed355be5f9990f"
   integrity sha512-JZButFdZ1+/xAfpguQHoabIXkcqRRKpMrWKBkpEZZyxfY9C1DpADFB8PEqGSTeFr135SaTRfKqGKx5xSCLI7ZQ==
 
-"@datamodels/identity-accounts-crypto@^0.1.2":
+"@datamodels/identity-accounts-crypto@0.1.2":
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/@datamodels/identity-accounts-crypto/-/identity-accounts-crypto-0.1.2.tgz#a6235e94ff391bacaf78b967b462308892527ab7"
   integrity sha512-N8Y3uVCxeYEze09eIUJKy3P9QSivZJeHwFVGZhRYhQpKqqUBLfNOL2Tfb2jRRu0n5G3Zqwwd9j9zbZ3uwpjOfA==
@@ -2208,7 +2208,7 @@
   dependencies:
     "@glazed/types" "^0.1.3"
 
-"@datamodels/identity-profile-basic@0.1.2", "@datamodels/identity-profile-basic@^0.1.2":
+"@datamodels/identity-profile-basic@0.1.2":
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/@datamodels/identity-profile-basic/-/identity-profile-basic-0.1.2.tgz#4eb78b5493950f1a8b3cbca87ec56dd6d26eba4e"
   integrity sha512-bV+71JP5ykYB2s77LJkGxUzcWYRyYMGSkhtpn+oN/bAgRAKjlp7UYnivM7XVK5NXAVcI7RPlTQt7YHk3R5Wj4A==
@@ -5480,7 +5480,7 @@
   dependencies:
     "@types/node" "*"
 
-"@types/cors@^2.8.12":
+"@types/cors@2.8.12":
   version "2.8.12"
   resolved "https://registry.yarnpkg.com/@types/cors/-/cors-2.8.12.tgz#6b2c510a7ad7039e98e7b8d3d6598f4359e5c080"
   integrity sha512-vt+kDhq/M2ayberEtJcIN/hxXy1Pk+59g2FV/ZQceeaTyCtCucjL2Q7FXlFjtWn4n15KCr1NE2lNNFhp0lEThw==
@@ -9590,7 +9590,7 @@ core-util-is@1.0.2, core-util-is@~1.0.0:
   resolved "https://registry.yarnpkg.com/core-util-is/-/core-util-is-1.0.2.tgz#b5fd54220aa2bc5ab57aab7140c940754503c1a7"
   integrity sha1-tf1UIgqivFq1eqtxQMlAdUUDwac=
 
-cors@^2.8.5:
+cors@2.8.5:
   version "2.8.5"
   resolved "https://registry.yarnpkg.com/cors/-/cors-2.8.5.tgz#eac11da51592dd86b9f06f6e7ac293b3df875d29"
   integrity sha512-KIHbLJqu73RGr/hnbrO9uBeixNGuvSQjul/jdFvS/KFSIH1hWVd1ng7zOHx+YrEfInLG7q4n6GHQ9cDtxv/P6g==
@@ -23680,6 +23680,23 @@ web3-utils@^1.3.0:
     underscore "1.9.1"
     utf8 "3.0.0"
 
+web3.storage@3.3.1:
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/web3.storage/-/web3.storage-3.3.1.tgz#be9c68ee76d63724820aecc151988bea4e916439"
+  integrity sha512-8DMeXiQ2O1bXeh7cg5l62Z7sJhHlR+0+5lbnuMNeocCw0YYnD/xOtoyOmImVRjTyF+7QQpZ6bjdb0f6lV8MC1w==
+  dependencies:
+    "@ipld/car" "^3.1.4"
+    "@web-std/blob" "^2.1.0"
+    "@web-std/fetch" "^2.0.2"
+    "@web-std/file" "^1.1.0"
+    browser-readablestream-to-it "^1.0.2"
+    carbites "^1.0.6"
+    files-from-path "^0.2.0"
+    ipfs-car "^0.5.8"
+    p-retry "^4.5.0"
+    parse-link-header "^1.0.1"
+    streaming-iterables "^6.0.0"
+
 web3.storage@3.5.0:
   version "3.5.0"
   resolved "https://registry.yarnpkg.com/web3.storage/-/web3.storage-3.5.0.tgz#bb024c8b7919fe801de41ff2f5bde8f2b97d45b1"
@@ -23700,23 +23717,6 @@ web3.storage@3.5.0:
     parse-link-header "^1.0.1"
     streaming-iterables "^6.0.0"
     uint8arrays "^3.0.0"
-
-web3.storage@^3.3.1:
-  version "3.3.1"
-  resolved "https://registry.yarnpkg.com/web3.storage/-/web3.storage-3.3.1.tgz#be9c68ee76d63724820aecc151988bea4e916439"
-  integrity sha512-8DMeXiQ2O1bXeh7cg5l62Z7sJhHlR+0+5lbnuMNeocCw0YYnD/xOtoyOmImVRjTyF+7QQpZ6bjdb0f6lV8MC1w==
-  dependencies:
-    "@ipld/car" "^3.1.4"
-    "@web-std/blob" "^2.1.0"
-    "@web-std/fetch" "^2.0.2"
-    "@web-std/file" "^1.1.0"
-    browser-readablestream-to-it "^1.0.2"
-    carbites "^1.0.6"
-    files-from-path "^0.2.0"
-    ipfs-car "^0.5.8"
-    p-retry "^4.5.0"
-    parse-link-header "^1.0.1"
-    streaming-iterables "^6.0.0"
 
 web3@0.20.7, web3@^0.20.0, web3@^0.20.4:
   version "0.20.7"

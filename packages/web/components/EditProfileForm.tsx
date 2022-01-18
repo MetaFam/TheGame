@@ -67,7 +67,7 @@ import React, {
   useState,
 } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { httpLink } from 'utils/linkHelpers';
+import { optimizedImage } from 'utils/imageHelpers';
 import { dispositionFor } from 'utils/playerHelpers';
 
 const MAX_DESC_LEN = 420; // characters
@@ -172,8 +172,8 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
       // eslint-disable-next-line react-hooks/rules-of-hooks
       const [loading, setLoading] = useState(true);
       // eslint-disable-next-line react-hooks/rules-of-hooks
-      const [url, setURL] = useState<Maybe<string>>(
-        player?.profile?.[key] ?? null,
+      const [url, setURL] = useState<string | undefined>(
+        optimizedImage(key, player?.profile?.[key]),
       );
       // eslint-disable-next-line react-hooks/rules-of-hooks
       const [file, setFile] = useState<Maybe<File>>(null);
@@ -543,7 +543,7 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
                   display={
                     endpoints.profileImageURL.loading ? 'none' : 'inherit'
                   }
-                  src={httpLink(endpoints.profileImageURL.val)}
+                  src={endpoints.profileImageURL.val}
                   borderRadius="full"
                   objectFit="cover"
                   h="full"
@@ -623,7 +623,7 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
                     endpoints[key].setLoading(false);
                   }}
                   display={endpoints[key].loading ? 'none' : 'inherit'}
-                  src={httpLink(endpoints[key].val)}
+                  src={endpoints[key].val}
                   h="full"
                   w="full"
                 />

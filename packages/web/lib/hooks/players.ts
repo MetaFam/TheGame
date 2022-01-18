@@ -104,14 +104,14 @@ export const sortOptionsMap = {
     value: SortOption.USERNAME_A_TO_Z,
     label: 'Username (A–Z)',
     output: {
-      username: 'asc',
+      profile: { username: 'asc' },
     },
   },
   [SortOption.USERNAME_Z_TO_A]: {
     value: SortOption.USERNAME_Z_TO_A,
     label: 'Username (Z–A)',
     output: {
-      username: 'desc',
+      profile: { username: 'desc' },
     },
   },
 };

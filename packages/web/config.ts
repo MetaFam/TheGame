@@ -34,11 +34,5 @@ export const CONFIG = {
   actionsURL: process.env.NEXT_ACTIONS_URL || 'http://localhost:4000',
   calendarId: 'nih59ktgafmm64ed4qk6ue8vv4@group.calendar.google.com',
   googleDataApiKey: process.env.NEXT_PUBLIC_YOUTUBE_API_KEY,
-  ipfsLinkPattern:
-    process.env.NEXT_IPFS_LINK_PATTERN ||
-    // eslint-disable-next-line no-template-curly-in-string
-    'https://{cid}.ipfs.dweb.link/{path}',
-  web3StorageToken:
-    process.env.WEB3_STORAGE_TOKEN ||
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweGE0OWIyMGIyMzVGY2E3N0QzRURlZWFDMzlDODkyZkVENmUzOTU5OTQiLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2MzA3MDMyMDg0ODEsIm5hbWUiOiJNeU1ldGEifQ.q7_i_XmkIMb6_6u9pNI6tkNUq0vhiJ0e1oV8GLdeez0',
+  web3StorageToken: process.env.NEXT_WEB3_STORAGE_TOKEN || '',
 };
