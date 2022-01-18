@@ -67,16 +67,16 @@ export const formatIfAddress = (username = ''): string =>
 
 export const getPlayerURL = (
   player?: PlayerFragmentFragment | GuildPlayer,
-  opts?: { rel: boolean },
+  opts: { rel?: boolean; default?: string } = {},
 ): string | undefined => {
   let { username } = player?.profile ?? {};
   username ??= player?.ethereumAddress;
-  const { rel = true } = opts ?? {};
+  const { rel: relative = true } = opts;
   if (username) {
     const path = `/player/${username}`;
-    return `${rel ? '' : 'https://my.metagame.wtf'}${path}`;
+    return `${relative ? '' : 'https://my.metagame.wtf'}${path}`;
   }
-  return undefined;
+  return opts.default;
 };
 
 export const hasImage = (
