@@ -202,5 +202,5 @@ jobs:
             Successfully deployed a preview of this pull request:
 
             * [Frontend](${{env.FRONTEND_URL}})
-            * [Hasura](https://${{env.HASURA_HOST}})
+            * [Hasura](//${{env.HASURA_HOST}})
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

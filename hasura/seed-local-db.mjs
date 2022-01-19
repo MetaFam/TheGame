@@ -1,3 +1,4 @@
+import Bottleneck from 'bottleneck';
 import fetch from 'node-fetch';
 
 /* eslint-disable no-console */
@@ -36,8 +37,14 @@ async function fetchGraphQL(
     headers: isUpdate ? authHeaders : undefined,
   });
 
-  const json = await result.json();
-  return json;
+  const body = await result.text()
+  try {
+    return JSON.parse(body);
+  } catch (err) {
+    console.error(`JSON Error: ${err.message}`);
+    console.error(body);
+    return { errors: [err.message] };
+  }
 }
 
 const topPlayersQuery = /* GraphQL */`
@@ -267,10 +274,14 @@ async function startSeeding() {
     `Updating ${mutations.length} players information in ${LOCAL_GRAPHQL_URL}`,
   );
   await deleteSkills();
+  const limiter = new Bottleneck({
+    maxConcurrent: 30,
+    minTime: 100, // 100 = 10 / second
+  });
   const updated = await Promise.all(mutations.map(
     ({ ethereumAddress, count, variables }) => {
       console.debug(`${count.toString().padStart(3, '0')}: Updating ${ethereumAddress} ("${variables.username}")`);
-      return upsertPlayer(variables)
+      return limiter.schedule(() => upsertPlayer(variables))
     }
   ));
   console.debug(`Successfully seeded local db with ${updated.length} players`);
