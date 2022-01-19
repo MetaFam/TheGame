@@ -189,7 +189,7 @@ jobs:
       - name: Seed Database
         run: |
           mv package.json package.json.temp
-          npm install --no-package-lock --no-save node-fetch
+          npm install --no-package-lock --no-save node-fetch bottleneck
           mv package.json.temp package.json
           LOCAL_GRAPHQL_URL="${{env.GRAPHQL_URL}}" \
             LOCAL_BACKEND_ACCOUNT_MIGRATION_URL="${{env.SC_MIGRATE_URL}}" \
