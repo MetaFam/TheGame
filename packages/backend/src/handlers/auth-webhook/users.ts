@@ -20,7 +20,7 @@ export async function getOrCreatePlayer(ethereumAddress: string) {
 
   if (!player) {
     const profile = await createPlayer(ethAddress);
-    player = profile.player;
+    ({ player } = profile);
   }
 
   return player;

@@ -34,5 +34,5 @@ export const CONFIG = {
   actionsURL: process.env.NEXT_ACTIONS_URL || 'http://localhost:4000',
   calendarId: 'nih59ktgafmm64ed4qk6ue8vv4@group.calendar.google.com',
   googleDataApiKey: process.env.NEXT_PUBLIC_YOUTUBE_API_KEY,
-  web3StorageToken: process.env.NEXT_WEB3_STORAGE_TOKEN || '',
+  web3StorageToken: process.env.WEB3_STORAGE_TOKEN || '',
 };

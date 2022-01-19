@@ -46,25 +46,11 @@ jobs:
 
       - name: And Again In Another Step
         run: |
-          echo "HASURA_URL=https://${{env.HASURA_HOST}}/v1/graphql" >> $GITHUB_ENV
+          echo "GRAPHQL_URL=https://${{env.HASURA_HOST}}/v1/graphql" >> $GITHUB_ENV
           echo "BACKEND_TAG=${{env.DOCKER_PATH}}/backend:pr-${{github.event.number}}" >> $GITHUB_ENV
           echo "HASURA_TAG=${{env.DOCKER_PATH}}/hasura:pr-${{github.event.number}}" >> $GITHUB_ENV
           echo "FRONTEND_TAG=${{env.DOCKER_PATH}}/frontend:pr-${{github.event.number}}" >> $GITHUB_ENV
           echo "DB_PASSWORD=$(cat /dev/urandom | tr -cd [:alnum:] | head -c 16)" >> $GITHUB_ENV
-
-      - name: Info
-        run: |
-          echo "Repository: $GITHUB_REPOSITORY"
-          echo "Event Name: $GITHUB_EVENT_NAME"
-          echo "SHA: $GITHUB_SHA"
-          echo "Branch: $GITHUB_REF"
-          echo "Head: $GITHUB_HEAD_REF"
-          echo "Head SHA: ${{github.event.pull_request.head.sha}}"
-          echo "Base: $GITHUB_BASE_REF"
-          echo "Base SHA: ${{github.event.pull_request.base.sha}}"
-          echo "Hasura URL: $HASURA_URL"
-          echo "Frontend URL: $FRONTEND_URL"
-          echo "Database Password: $DB_PASSWORD"
 
       - name: Checkout
         uses: actions/checkout@v2
@@ -112,7 +98,7 @@ jobs:
       - name: Build Backend Container
         uses: mattes/cached-docker-build-action@v1
         with:
-          args: ". -f ./docker/backend/Dockerfile --tag ${{env.BACKEND_TAG}} --build-arg GRAPHQL_URL=${{env.HASURA_URL}}"
+          args: ". -f ./docker/backend/Dockerfile --tag ${{env.BACKEND_TAG}} --build-arg GRAPHQL_URL=${{env.GRAPHQL_URL}}"
           cache_key: "${{ hashFiles('packages/backend/**') }}"
 
       - name: Push Backend Container
@@ -132,9 +118,7 @@ jobs:
             --set-env-vars HASURA_GRAPHQL_ADMIN_SECRET=metagame_secret \
             --set-env-vars GITHUB_API_TOKEN=${{secrets.GH_API_TOKEN}} \
             --set-env-vars SOURCECRED_LEDGER_BRANCH=master \
-            --set-env-vars GRAPHQL_URL=${{env.HASURA_URL}} \
-            --set-env-vars NEXT_WEB3_STORAGE_TOKEN=${{secrets.WEB3_STORAGE_TOKEN}} \
-            --set-env-vars IMGIX_TOKEN=${{secrets.IMGIX_TOKEN}}
+            --set-env-vars GRAPHQL_URL=${{env.GRAPHQL_URL}}
 
       - name: Undeploy Hasura
         continue-on-error: true
@@ -181,7 +165,7 @@ jobs:
       - name: Build Frontend Container
         uses: mattes/cached-docker-build-action@v1
         with:
-          args: ". -f ./docker/frontend/Dockerfile --tag ${{env.FRONTEND_TAG}} --build-arg GRAPHQL_URL=${{env.HASURA_URL}}"
+          args: ". -f ./docker/frontend/Dockerfile --tag ${{env.FRONTEND_TAG}} --build-arg GRAPHQL_URL=${{env.GRAPHQL_URL}}"
           cache_key: "${{ hashFiles('packages/web/**', 'packages/design-system/**') }}"
 
       - name: Push Frontend Container
@@ -198,14 +182,16 @@ jobs:
             --ingress all \
             --max-instances 1 \
             --allow-unauthenticated \
-            --set-env-vars NEXT_PUBLIC_GRAPHQL_URL=${{env.HASURA_URL}}
+            --set-env-vars NEXT_PUBLIC_GRAPHQL_URL=${{env.GRAPHQL_URL}} \
+            --set-env-vars WEB3_STORAGE_TOKEN=${{secrets.WEB3_STORAGE_TOKEN}} \
+            --set-env-vars NEXT_PUBLIC_IMGIX_TOKEN=${{secrets.IMGIX_TOKEN}}
 
       - name: Seed Database
         run: |
           mv package.json package.json.temp
           npm install --no-package-lock --no-save node-fetch
           mv package.json.temp package.json
-          LOCAL_GRAPHQL_URL="${{env.HASURA_URL}}" \
+          LOCAL_GRAPHQL_URL="${{env.GRAPHQL_URL}}" \
             LOCAL_BACKEND_ACCOUNT_MIGRATION_URL="${{env.SC_MIGRATE_URL}}" \
             yarn hasura:seed-local-db
 

@@ -16,8 +16,10 @@ export const CERAMIC_URL =
   'https://ceramic.metagame.wtf' ||
   'https://d12-a-ceramic.3boxlabs.com';
 
-export const { IMGIX_TOKEN } = process.env;
-export const IMGIX_DOMAIN = process.env.IMGIX_DOMAIN || 'metafam.imgix.net';
+export const {
+  NEXT_PUBLIC_IMGIX_TOKEN: IMGIX_TOKEN,
+  NEXT_PUBLIC_IMGIX_DOMAIN: IMGIX_DOMAIN = 'metafam.imgix.net',
+} = process.env;
 export const IPFS_LINK_PATTERN =
   process.env.IPFS_LINK_PATTERN ||
   'https://ipfs.infura.io/ipfs/{cid}/{path}' ||
