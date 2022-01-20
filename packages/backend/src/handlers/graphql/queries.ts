@@ -88,6 +88,8 @@ export const GuildFragment = gql`
     type
     website_url
     discord_id
+    status
+    membership_through_discord
   }
 `;
 
@@ -110,6 +112,12 @@ gql`
         creator_id
         discord_metadata
       }
+    }
+  }
+
+  query GetGuilds($status: GuildStatus_enum) {
+    guild(where: { status: { _eq: $status } }) {
+      ...GuildFragment
     }
   }
 
