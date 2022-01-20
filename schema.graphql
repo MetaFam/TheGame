@@ -7568,14 +7568,10 @@ type query_root {
     """distinct select on columns"""
     distinct_on: [quest_select_column!]
 
-    """
-    limit the number of rows returned
-    """
+    """limit the number of rows returned"""
     limit: Int
 
-    """
-    skip the first n rows. Use only with order_by
-    """
+    """skip the first n rows. Use only with order_by"""
     offset: Int
 
     """sort the rows by one or more columns"""
@@ -7592,17 +7588,12 @@ type query_root {
     """distinct select on columns"""
     distinct_on: [quest_select_column!]
 
-    """
-    limit the number of rows returned
-    """
+    """limit the number of rows returned"""
     limit: Int
 
-    """
-    skip the first n rows. Use only with order_by
-    """
+    """skip the first n rows. Use only with order_by"""
     offset: Int
 
-<<<<<<< quest-roles-demo-1
     """sort the rows by one or more columns"""
     order_by: [quest_order_by!]
 
@@ -7612,23 +7603,6 @@ type query_root {
 
   """fetch data from the table: "quest" using primary key columns"""
   quest_by_pk(id: uuid!): quest
-=======
-    """
-    sort the rows by one or more columns
-    """
-    order_by: [quest_role_order_by!]
-
-    """
-    filter the rows returned
-    """
-    where: quest_role_bool_exp
-  ): quest_role_aggregate!
-
-  """
-  fetch data from the table: "quest_role" using primary key columns
-  """
-  quest_role_by_pk(quest_id: uuid!, role: String!): quest_role
->>>>>>> feat: save roles to backend
 
   """
   fetch data from the table: "quest_completion"
@@ -7850,33 +7824,17 @@ type quest {
   """An object relationship"""
   player: player!
 
-<<<<<<< quest-roles-demo-1
   """An array relationship"""
   quest_completions(
     """distinct select on columns"""
     distinct_on: [quest_completion_select_column!]
-=======
-  """
-  An array relationship
-  """
-  quest_roles(
-    """
-    distinct select on columns
-    """
-    distinct_on: [quest_role_select_column!]
->>>>>>> feat: save roles to backend
 
-    """
-    limit the number of rows returned
-    """
+    """limit the number of rows returned"""
     limit: Int
 
-    """
-    skip the first n rows. Use only with order_by
-    """
+    """skip the first n rows. Use only with order_by"""
     offset: Int
 
-<<<<<<< quest-roles-demo-1
     """sort the rows by one or more columns"""
     order_by: [quest_completion_order_by!]
 
@@ -7888,66 +7846,24 @@ type quest {
   quest_completions_aggregate(
     """distinct select on columns"""
     distinct_on: [quest_completion_select_column!]
-=======
-    """
-    sort the rows by one or more columns
-    """
-    order_by: [quest_role_order_by!]
 
-    """
-    filter the rows returned
-    """
-    where: quest_role_bool_exp
-  ): [quest_role!]!
-
-  """
-  An aggregated array relationship
-  """
-  quest_roles_aggregate(
-    """
-    distinct select on columns
-    """
-    distinct_on: [quest_role_select_column!]
->>>>>>> feat: save roles to backend
-
-    """
-    limit the number of rows returned
-    """
+    """limit the number of rows returned"""
     limit: Int
 
-    """
-    skip the first n rows. Use only with order_by
-    """
+    """skip the first n rows. Use only with order_by"""
     offset: Int
 
-<<<<<<< quest-roles-demo-1
     """sort the rows by one or more columns"""
     order_by: [quest_completion_order_by!]
 
     """filter the rows returned"""
     where: quest_completion_bool_exp
   ): quest_completion_aggregate!
-=======
-    """
-    sort the rows by one or more columns
-    """
-    order_by: [quest_role_order_by!]
-
-    """
-    filter the rows returned
-    """
-    where: quest_role_bool_exp
-  ): quest_role_aggregate!
->>>>>>> feat: save roles to backend
 
   """
   An array relationship
   """
-<<<<<<< quest-roles-demo-1
   quest_roles(
-=======
-  quest_skills(
->>>>>>> feat: save roles to backend
     """
     distinct select on columns
     """
