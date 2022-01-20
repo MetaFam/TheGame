@@ -2,6 +2,7 @@ import express from 'express';
 import multer from 'multer';
 
 import { asyncHandlerWrapper } from '../../lib/apiHelpers';
+import { syncAllGuildDiscordMembers } from '../triggers/syncDiscordGuildMembers';
 import { guildRoutes } from './guild/routes';
 import { cacheRoutes } from './idxCache/routes';
 import { migrateSourceCredAccounts } from './migrateSourceCredAccounts/handler';
@@ -17,6 +18,10 @@ actionRoutes.use('/idxCache', cacheRoutes);
 actionRoutes.post(
   '/migrateSourceCredAccounts',
   asyncHandlerWrapper(migrateSourceCredAccounts),
+);
+actionRoutes.post(
+  '/syncAllGuildDiscordMembers',
+  asyncHandlerWrapper(syncAllGuildDiscordMembers),
 );
 
 actionRoutes.use('/quests', questsRoutes);
