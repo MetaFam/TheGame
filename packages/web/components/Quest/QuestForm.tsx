@@ -91,7 +91,14 @@ const getDefaultFormValues = (
       ...s,
     })),
   // fix this
-  roles: [],
+  roles: editQuest
+    ? editQuest.quest_roles
+        .map((s) => s.PlayerRole)
+        .map((s) => ({
+          value: s.role,
+          label: s.label,
+        }))
+    : [],
 });
 
 type FieldProps = {
