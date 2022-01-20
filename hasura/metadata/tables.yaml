@@ -70,14 +70,16 @@
   - role: player
     permission:
       columns:
-      - role
-      - label
       - description
+      - isBasic
+      - label
+      - role
       filter: {}
   - role: public
     permission:
       columns:
       - description
+      - isBasic
       - label
       - role
       filter: {}
