@@ -1,10 +1,8 @@
-import { PlayerRole } from '../graphql/autogen/types';
-
 export type RoleMap = {
   [category: string]: CategoryOption;
 };
 
-export type RoleOption = PlayerRole & {
+export type RoleOption = {
   value: string;
   label: string;
 };

@@ -1,5 +1,15 @@
 import { Heading, LoadingState, useToast } from '@metafam/ds';
+import {
+  GuildFragmentFragment,
+  PlayerRole,
+  QuestFragmentFragment,
+  useUpdateQuestMutation,
+} from 'graphql/autogen/types';
+import { getSsrClient } from 'graphql/client';
 import { getQuest } from 'graphql/getQuest';
+import { getPlayerRoles } from 'graphql/queries/enums/getRoles';
+import { getSkills } from 'graphql/queries/enums/getSkills';
+import { getGuilds } from 'graphql/queries/guild';
 import { GetStaticPaths, GetStaticPropsContext } from 'next';
 import { useRouter } from 'next/router';
 import React from 'react';
@@ -9,14 +19,6 @@ import {
   CreateQuestFormInputs,
   QuestForm,
 } from '../../../components/Quest/QuestForm';
-import {
-  GuildFragmentFragment,
-  QuestFragmentFragment,
-  useUpdateQuestMutation,
-} from '../../../graphql/autogen/types';
-import { getSsrClient } from '../../../graphql/client';
-import { getSkills } from '../../../graphql/queries/enums/getSkills';
-import { getGuilds } from '../../../graphql/queries/guild';
 import { useUser } from '../../../lib/hooks';
 import { transformCooldownForBackend } from '../../../utils/questHelpers';
 import { CategoryOption, parseSkills } from '../../../utils/skillHelpers';
@@ -25,9 +27,15 @@ type Props = {
   quest: QuestFragmentFragment;
   guilds: GuildFragmentFragment[];
   skillChoices: Array<CategoryOption>;
+  roleChoices: Array<PlayerRole>;
 };
 
-const EditQuestPage: React.FC<Props> = ({ quest, skillChoices, guilds }) => {
+const EditQuestPage: React.FC<Props> = ({
+  quest,
+  skillChoices,
+  roleChoices,
+  guilds,
+}) => {
   useUser({ redirectTo: '/quests' });
   const router = useRouter();
   const toast = useToast();
@@ -42,16 +50,22 @@ const EditQuestPage: React.FC<Props> = ({ quest, skillChoices, guilds }) => {
       cooldown: transformCooldownForBackend(data.cooldown, data.repetition),
       status: data.status,
     };
+
     const skillsObjects = data.skills.map((s) => ({
       questId: quest.id,
       skillId: s.id,
+    }));
+
+    const rolesObjects = data.roles.map((s) => ({
+      quest_id: quest.id,
+      role: s.value,
     }));
 
     updateQuest({
       id: quest.id,
       input: updateQuestInput,
       skills: skillsObjects,
-      roles: [],
+      roles: rolesObjects,
     }).then((res) => {
       if (res.data?.update_quest_by_pk && !res.error) {
         router.push(`/quest/${quest.id}`);
@@ -87,11 +101,9 @@ const EditQuestPage: React.FC<Props> = ({ quest, skillChoices, guilds }) => {
       <Heading mb={4}>Edit Quest</Heading>
 
       <QuestForm
-        roleChoices={[]}
         guilds={guilds}
         skillChoices={skillChoices}
-        // roleChoices={roleChoices}
-        roleChoices={[]}
+        roleChoices={roleChoices}
         onSubmit={onSubmit}
         success={!!updateQuestResult.data}
         fetching={updateQuestResult.fetching}
@@ -128,12 +140,14 @@ export const getStaticProps = async (
   const guilds = await getGuilds();
   const skills = await getSkills();
   const skillChoices = parseSkills(skills);
+  const roleChoices = await getPlayerRoles();
 
   return {
     props: {
       quest,
       guilds,
       skillChoices,
+      roleChoices,
     },
     revalidate: 1,
   };
