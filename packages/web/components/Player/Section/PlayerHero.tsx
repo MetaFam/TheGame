@@ -68,7 +68,7 @@ export const PlayerHero: React.FC<Props> = ({
   }, [person]);
 
   return (
-    <ProfileSection canEdit={canEdit} boxType={BoxType.PLAYER_HERO}>
+    <ProfileSection canEdit={canEdit} boxType={BoxType.PLAYER_HERO} withoutBG>
       {isOwnProfile && !canEdit && (
         <Box pos="absolute" right={5} top={5}>
           <IconButton

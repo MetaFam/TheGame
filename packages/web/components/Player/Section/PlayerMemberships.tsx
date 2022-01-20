@@ -102,12 +102,10 @@ type MembershipSectionProps = {
   player: PlayerFragmentFragment;
   isOwnProfile?: boolean;
   canEdit?: boolean;
-  onRemoveClick?: () => void;
 };
 
 export const PlayerMemberships: React.FC<MembershipSectionProps> = ({
   player,
-  onRemoveClick,
   isOwnProfile,
   canEdit,
 }) => {
@@ -135,7 +133,8 @@ export const PlayerMemberships: React.FC<MembershipSectionProps> = ({
     <ProfileSection
       title="Memberships"
       boxType={BoxType.PLAYER_DAO_MEMBERSHIPS}
-      {...{ onRemoveClick, isOwnProfile, canEdit }}
+      {...{ isOwnProfile, canEdit }}
+      withoutBG
     >
       {loading && <LoadingState />}
 

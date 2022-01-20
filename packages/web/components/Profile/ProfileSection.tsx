@@ -1,6 +1,7 @@
 import {
   Box,
   EditIcon,
+  Flex,
   HStack,
   IconButton,
   Modal,
@@ -17,38 +18,38 @@ import { SetupPersonalityType } from 'components/Setup/SetupPersonalityType';
 import { SetupPlayerType } from 'components/Setup/SetupPlayerType';
 import { SetupSkills } from 'components/Setup/SetupSkills';
 import React from 'react';
-import { FaTimes } from 'react-icons/fa';
 import { BoxType } from 'utils/boxTypes';
 
 export type ProfileSectionProps = {
   children?: React.ReactNode;
-  onRemoveClick?: () => void;
   isOwnProfile?: boolean;
   canEdit?: boolean;
   boxType?: BoxType;
   title?: string;
+  withoutBG?: boolean;
 };
 
 export const ProfileSection: React.FC<ProfileSectionProps> = ({
   children,
-  onRemoveClick,
   isOwnProfile,
   canEdit,
   boxType,
   title,
+  withoutBG = false,
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
-    <Box
+    <Flex
       minW="min(var(--chakra-sizes-72), calc(100vw - 3rem))"
       pos="relative"
       w="100%"
-      h="100%"
+      h="auto"
+      direction="column"
     >
       {title && (
-        <Box bg="purpleProfileSection" borderTopRadius="lg" py={5}>
-          <HStack height={5} pr={4} pl={8}>
+        <Box bg="purpleProfileSection" borderTopRadius="lg" pt={5} pb={5}>
+          <HStack h={5} pr={4} pl={8}>
             <Text
               fontSize="md"
               color="blueLight"
@@ -83,52 +84,17 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
         </Box>
       )}
       <Box
-        bg="blueProfileSection"
+        bg={withoutBG ? 'none' : 'blueProfileSection'}
         borderBottomRadius="lg"
         borderTopRadius={!title ? 'lg' : 0}
         p={boxType === BoxType.EMBEDDED_URL ? 0 : 8}
-        boxShadow="md"
         css={{ backdropFilter: 'blur(8px)' }}
         w="100%"
-        h="100%"
         pos="relative"
         pointerEvents={canEdit ? 'none' : 'initial'}
       >
         {children}
-        {canEdit && (
-          <Box
-            w="100%"
-            h="100%"
-            bg="purpleTag50"
-            pos="absolute"
-            top="0"
-            left="0"
-          />
-        )}
       </Box>
-      {canEdit && boxType && boxType !== BoxType.PLAYER_HERO ? (
-        <IconButton
-          aria-label="Edit Profile Info"
-          size="lg"
-          pos="absolute"
-          top="0"
-          right="0"
-          background="transparent"
-          color="pinkShadeOne"
-          icon={<FaTimes />}
-          _hover={{ color: 'white' }}
-          onClick={onRemoveClick}
-          _focus={{
-            boxShadow: 'none',
-            backgroundColor: 'transparent',
-          }}
-          _active={{
-            transform: 'scale(0.8)',
-            backgroundColor: 'transparent',
-          }}
-          isRound
-        />
-      ) : null}
       {boxType && (
         <Modal {...{ isOpen, onClose }}>
           <ModalOverlay />
@@ -159,7 +125,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
           </ModalContent>
         </Modal>
       )}
-    </Box>
+    </Flex>
   );
 };
 
