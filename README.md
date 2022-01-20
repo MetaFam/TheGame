@@ -53,6 +53,10 @@ Create your local .env file
 cp .env.sample .env
 ```
 
+Create a GitHub token at https://github.com/settings/tokens
+
+Set `GITHUB_API_TOKEN=your_github_token` in `.env`
+
 ### Install Packages
 
 ```shell script
