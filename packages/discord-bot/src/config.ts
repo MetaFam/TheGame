@@ -14,6 +14,7 @@ interface IConfig {
   sourceCredLedgerBranch: string;
   discordApiBaseUrl: string;
   discourseInstanceUrl: string;
+  botName: string;
 }
 
 function parseEnv<T extends string | number>(
@@ -59,4 +60,5 @@ export const CONFIG: IConfig = {
     process.env.DISCOURSE_INSTANCE_URL,
     'https://forum.metagame.wtf',
   ),
+  botName: 'MetaGameBot',
 };
