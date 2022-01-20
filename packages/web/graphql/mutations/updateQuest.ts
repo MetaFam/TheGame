@@ -30,25 +30,5 @@ export const UpdateQuestMutation = gql`
         role
       }
     }
-    delete_quest_role(where: { quest_id: { _eq: $id } }) {
-      affected_rows
-    }
-    insert_quest_role(objects: $roles) {
-      affected_rows
-      returning {
-        quest_id
-        role
-      }
-    }
-    delete_quest_role(where: { quest_id: { _eq: $id } }) {
-      affected_rows
-    }
-    insert_quest_role(objects: $roles) {
-      affected_rows
-      returning {
-        quest_id
-        role
-      }
-    }
   }
 `;
