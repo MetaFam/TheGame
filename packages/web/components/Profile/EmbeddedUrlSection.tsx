@@ -15,25 +15,18 @@ const proxyLink = 'https://rlp-proxy.herokuapp.com/v2?url='; // TODO: deploy our
 type EmbeddedUrlProps = {
   address?: string;
   canEdit?: boolean;
-  onRemoveClick?: () => void;
 };
 
 export const EmbeddedUrl: React.FC<EmbeddedUrlProps> = ({
   address,
   canEdit,
-  onRemoveClick,
 }) => (
-  <ProfileSection
-    onRemoveClick={onRemoveClick}
-    canEdit={canEdit}
-    boxType={BoxType.EMBEDDED_URL}
-  >
+  <ProfileSection canEdit={canEdit} boxType={BoxType.EMBEDDED_URL} withoutBG>
     <LinkPreview
       url={address}
       className="linkPreview"
       height="100%"
       width="100%"
-      backgroundColor="whiteAlpha.200"
       customLoader={<LoadingState />}
       showLoader
       canEdit={canEdit}
@@ -51,8 +44,6 @@ interface LinkPreviewProps {
   textAlign?: 'left' | 'right' | 'center';
   margin?: string | number;
   fallback?: JSX.Element[] | JSX.Element | null;
-  backgroundColor?: string;
-  backgroundColorHover?: string;
   primaryTextColor?: string;
   secondaryTextColor?: string;
   showLoader?: boolean;
@@ -77,7 +68,6 @@ const LinkPreview: React.FC<LinkPreviewProps> = ({
   textAlign,
   margin,
   fallback = null,
-  backgroundColor = 'whiteAlpha.200',
   secondaryTextColor = 'rgb(255,255,255)',
   showLoader = true,
   customLoader = null,
@@ -115,7 +105,7 @@ const LinkPreview: React.FC<LinkPreviewProps> = ({
 
   if (loading && showLoader) {
     if (customLoader) {
-      return <>{customLoader}</>;
+      return <Box py="2rem">{customLoader}</Box>;
     }
     return (
       <Box>
@@ -145,10 +135,8 @@ const LinkPreview: React.FC<LinkPreviewProps> = ({
         borderRadius,
         textAlign,
         margin,
-        backgroundColor,
         backdropFilter: 'blur(7px)',
         borderWidth: '0',
-        boxShadow: 'md',
         overflow: 'hidden',
         '&:hover': {
           cursor: 'pointer',

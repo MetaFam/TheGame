@@ -8,18 +8,17 @@ type Props = {
   player: PlayerFragmentFragment;
   isOwnProfile?: boolean;
   canEdit?: boolean;
-  onRemoveClick?: () => void;
 };
 export const PlayerRoles: React.FC<Props> = ({
   player,
   isOwnProfile,
   canEdit,
-  onRemoveClick,
 }) => (
   <ProfileSection
     title="Roles"
     boxType={BoxType.PLAYER_ROLES}
-    {...{ onRemoveClick, isOwnProfile, canEdit }}
+    {...{ isOwnProfile, canEdit }}
+    withoutBG
   >
     <Wrap>
       {player.roles &&

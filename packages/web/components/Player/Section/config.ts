@@ -201,21 +201,11 @@ export const DEFAULT_PLAYER_LAYOUTS: Layouts = {
 export const gridConfig = {
   wrapper: (editable: boolean): Record<string, unknown> => ({
     '.gridItem': {
-      boxShadow: editable
-        ? '0 0 10px rgba(0,0,0,0.6)'
-        : '0 0 0 rgba(0,0,0,0.4)',
-      bg: editable ? 'blackAlpha.600' : 'blackAlpha.300',
-      // overflow: 'hidden',
+      boxShadow: editable ? 'lg' : 'md',
+      bg: 'blueProfileSection',
+      overflow: 'hidden',
       borderRadius: 'lg',
       transition: 'boxShadow 0.2s 0.3s ease',
-      '& > div': {
-        overflow: 'hidden',
-        h: '100%',
-      },
-      '.container': {
-        h: '100%',
-        overflow: 'hidden',
-      },
     },
     '.react-grid-placeholder': {
       bg: 'purple',

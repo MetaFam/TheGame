@@ -13,14 +13,12 @@ type Props = {
   player: PlayerFragmentFragment;
   isOwnProfile?: boolean;
   canEdit?: boolean;
-  onRemoveClick?: () => void;
 };
 
 export const PlayerSkills: React.FC<Props> = ({
   player,
   isOwnProfile,
   canEdit,
-  onRemoveClick,
 }) => {
   const [playerSkills, setPlayerSkills] = useState<
     Array<{ id: number; name: string; category: SkillCategory_Enum }>
@@ -43,8 +41,9 @@ export const PlayerSkills: React.FC<Props> = ({
   return (
     <ProfileSection
       title="Skills"
-      {...{ onRemoveClick, isOwnProfile, canEdit }}
+      {...{ isOwnProfile, canEdit }}
       boxType={BoxType.PLAYER_SKILLS}
+      withoutBG
     >
       {!player?.skills?.length ? (
         <Text fontStyle="italic" textAlign="center">
