@@ -10,14 +10,12 @@ type Props = {
   player: PlayerFragmentFragment;
   isOwnProfile?: boolean;
   canEdit?: boolean;
-  onRemoveClick?: () => void;
 };
 
 export const PlayerType: React.FC<Props> = ({
   player,
   isOwnProfile,
   canEdit,
-  onRemoveClick,
 }) => {
   const [playerType, setPlayerType] = useState<ExplorerType | null>();
   const updateFN = () =>
@@ -29,11 +27,10 @@ export const PlayerType: React.FC<Props> = ({
 
   return (
     <ProfileSection
-      title="Player Type"
-      onRemoveClick={onRemoveClick}
-      isOwnProfile={isOwnProfile}
-      canEdit={canEdit}
+      title="Player type"
+      {...{ isOwnProfile, canEdit }}
       boxType={BoxType.PLAYER_TYPE}
+      withoutBG
     >
       {!playerType ? (
         <Text fontStyle="italic" textAlign="center">

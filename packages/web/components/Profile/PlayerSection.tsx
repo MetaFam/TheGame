@@ -1,3 +1,4 @@
+import { Flex, IconButton } from '@metafam/ds';
 import { PlayerAchievements } from 'components/Player/Section/PlayerAchievements';
 import { PlayerColorDisposition } from 'components/Player/Section/PlayerColorDisposition';
 import { PlayerGallery } from 'components/Player/Section/PlayerGallery';
@@ -8,6 +9,8 @@ import { PlayerSkills } from 'components/Player/Section/PlayerSkills';
 import { PlayerType } from 'components/Player/Section/PlayerType';
 import { EmbeddedUrl } from 'components/Profile/EmbeddedUrlSection';
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
+import React from 'react';
+import { FaTimes } from 'react-icons/fa';
 import { BoxMetadata, BoxType, getBoxKey } from 'utils/boxTypes';
 
 type Props = {
@@ -19,15 +22,13 @@ type Props = {
   removeBox?: (boxKey: string) => void;
 };
 
-export const PlayerSection: React.FC<Props> = ({
+const PlayerSectionInner: React.FC<Props> = ({
   boxMetadata,
   boxType,
   player,
   isOwnProfile,
   canEdit,
-  removeBox,
 }) => {
-  const boxKey = getBoxKey(boxType, boxMetadata);
   switch (boxType) {
     case BoxType.PLAYER_HERO:
       return (
@@ -43,7 +44,6 @@ export const PlayerSection: React.FC<Props> = ({
           player={player}
           isOwnProfile={isOwnProfile}
           canEdit={canEdit}
-          onRemoveClick={() => removeBox?.(boxKey)}
         />
       );
     case BoxType.PLAYER_NFT_GALLERY:
@@ -52,7 +52,6 @@ export const PlayerSection: React.FC<Props> = ({
           player={player}
           isOwnProfile={isOwnProfile}
           canEdit={canEdit}
-          onRemoveClick={() => removeBox?.(boxKey)}
         />
       );
     case BoxType.PLAYER_DAO_MEMBERSHIPS:
@@ -61,7 +60,6 @@ export const PlayerSection: React.FC<Props> = ({
           player={player}
           isOwnProfile={isOwnProfile}
           canEdit={canEdit}
-          onRemoveClick={() => removeBox?.(boxKey)}
         />
       );
     case BoxType.PLAYER_COLOR_DISPOSITION:
@@ -70,7 +68,6 @@ export const PlayerSection: React.FC<Props> = ({
           player={player}
           isOwnProfile={isOwnProfile}
           canEdit={canEdit}
-          onRemoveClick={() => removeBox?.(boxKey)}
         />
       );
     case BoxType.PLAYER_TYPE:
@@ -79,7 +76,6 @@ export const PlayerSection: React.FC<Props> = ({
           player={player}
           isOwnProfile={isOwnProfile}
           canEdit={canEdit}
-          onRemoveClick={() => removeBox?.(boxKey)}
         />
       );
     case BoxType.PLAYER_ROLES:
@@ -88,7 +84,6 @@ export const PlayerSection: React.FC<Props> = ({
           player={player}
           isOwnProfile={isOwnProfile}
           canEdit={canEdit}
-          onRemoveClick={() => removeBox?.(boxKey)}
         />
       );
     case BoxType.PLAYER_ACHIEVEMENTS:
@@ -97,22 +92,73 @@ export const PlayerSection: React.FC<Props> = ({
           player={player}
           isOwnProfile={isOwnProfile}
           canEdit={canEdit}
-          onRemoveClick={() => removeBox?.(boxKey)}
         />
       );
     case BoxType.EMBEDDED_URL: {
       const url = boxMetadata?.url as string;
-      return url ? (
-        <EmbeddedUrl
-          address={url}
-          canEdit={canEdit}
-          onRemoveClick={() => removeBox?.(boxKey)}
-        />
-      ) : (
-        <></>
-      );
+      return url ? <EmbeddedUrl address={url} canEdit={canEdit} /> : <></>;
     }
     default:
       return <></>;
   }
 };
+
+export const PlayerSection = React.forwardRef<HTMLDivElement, Props>(
+  ({ boxMetadata, boxType, player, isOwnProfile, canEdit, removeBox }, ref) => {
+    const boxKey = getBoxKey(boxType, boxMetadata);
+
+    return (
+      <Flex
+        w="100%"
+        ref={ref}
+        direction="column"
+        h="auto"
+        minH="100%"
+        boxShadow="md"
+        pos="relative"
+      >
+        <PlayerSectionInner
+          boxType={boxType}
+          boxMetadata={boxMetadata}
+          player={player}
+          isOwnProfile={isOwnProfile}
+          canEdit={canEdit}
+        />
+        {canEdit && (
+          <Flex
+            className="gridItemOverlay"
+            w="100%"
+            h="100%"
+            bg="purpleTag50"
+            pos="absolute"
+            top="0"
+            left="0"
+          />
+        )}
+        {canEdit && boxType && boxType !== BoxType.PLAYER_HERO ? (
+          <IconButton
+            aria-label="Edit Profile Info"
+            size="lg"
+            pos="absolute"
+            top="0"
+            right="0"
+            background="transparent"
+            color="pinkShadeOne"
+            icon={<FaTimes />}
+            _hover={{ color: 'white' }}
+            onClick={() => removeBox?.(boxKey)}
+            _focus={{
+              boxShadow: 'none',
+              backgroundColor: 'transparent',
+            }}
+            _active={{
+              transform: 'scale(0.8)',
+              backgroundColor: 'transparent',
+            }}
+            isRound
+          />
+        ) : null}
+      </Flex>
+    );
+  },
+);

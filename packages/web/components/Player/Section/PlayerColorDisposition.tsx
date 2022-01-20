@@ -13,13 +13,11 @@ type Props = {
   player: PlayerFragmentFragment;
   isOwnProfile?: boolean;
   canEdit?: boolean;
-  onRemoveClick?: () => void;
 };
 export const PlayerColorDisposition: React.FC<Props> = ({
   player,
   isOwnProfile,
   canEdit,
-  onRemoveClick,
 }) => {
   const [, setTypes] = useState<{
     [any: string]: PersonalityOption;
@@ -45,7 +43,8 @@ export const PlayerColorDisposition: React.FC<Props> = ({
     <ProfileSection
       title="Color Disposition"
       boxType={BoxType.PLAYER_COLOR_DISPOSITION}
-      {...{ onRemoveClick, isOwnProfile, canEdit }}
+      {...{ isOwnProfile, canEdit }}
+      withoutBG
     >
       {mask == null ? (
         <Text fontStyle="italic" textAlign="center">

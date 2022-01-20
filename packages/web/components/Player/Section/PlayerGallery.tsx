@@ -56,12 +56,10 @@ type Props = {
   player: PlayerFragmentFragment;
   isOwnProfile?: boolean;
   canEdit?: boolean;
-  onRemoveClick?: () => void;
 };
 
 export const PlayerGallery: React.FC<Props> = ({
   player,
-  onRemoveClick,
   isOwnProfile,
   canEdit,
 }) => {
@@ -80,10 +78,10 @@ export const PlayerGallery: React.FC<Props> = ({
   return (
     <ProfileSection
       title="NFT Gallery"
-      onRemoveClick={onRemoveClick}
       isOwnProfile={isOwnProfile}
       canEdit={canEdit}
       boxType={BoxType.PLAYER_NFT_GALLERY}
+      withoutBG
     >
       {loading && <LoadingState />}
       {!loading &&

@@ -10,12 +10,10 @@ type Props = {
   player: PlayerFragmentFragment;
   isOwnProfile?: boolean;
   canEdit?: boolean;
-  onRemoveClick?: () => void;
 };
 export const PlayerAchievements: React.FC<Props> = ({
   isOwnProfile,
   canEdit,
-  onRemoveClick,
 }) => {
   const [show, setShow] = React.useState(false);
   const fakeData = [
@@ -27,10 +25,10 @@ export const PlayerAchievements: React.FC<Props> = ({
   return (
     <ProfileSection
       title="Achievements"
-      onRemoveClick={onRemoveClick}
       isOwnProfile={isOwnProfile}
       canEdit={canEdit}
       boxType={BoxType.PLAYER_ACHIEVEMENTS}
+      withoutBG
     >
       {(fakeData || []).slice(0, show ? 999 : 3).map((title) => (
         <HStack alignItems="baseline" mb={3} key={title}>

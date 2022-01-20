@@ -15,6 +15,7 @@ Closes #
 **Describe technical (nontrivial / non-obvious) parts of your code**
 
 **Side effects**
+
 <!---
 Server deploy required?
 Desktop apps?
