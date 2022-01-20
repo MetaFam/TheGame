@@ -200,13 +200,17 @@ export const QuestFilter: React.FC<Props> = ({
             value={roles}
             onChange={(value) => {
               const values = value as ValueType[];
-              const g = values;
-              if (g) {
-                setRoles(g);
+              const selectedRoles = values;
+
+              if (selectedRoles.length) {
+                setRoles(selectedRoles);
                 setQueryVariable(
                   'quest_roles',
-                  g.map((x) => x.value),
+                  selectedRoles.map((x) => x.value),
                 );
+              } else {
+                setRoles([]);
+                setQueryVariable('quest_roles', '');
               }
             }}
             options={roleOptions}
