@@ -1,4 +1,9 @@
-import { Command, CommandMessage } from '@typeit/discord';
+import {
+  Discord,
+  SimpleCommand,
+  SimpleCommandMessage,
+  SimpleCommandOption,
+} from 'discordx';
 import { Alias, sourcecred as sc } from 'sourcecred';
 
 import { CONFIG } from '../../config';
@@ -9,23 +14,24 @@ const errorSupportedPlatforms = `Supported platforms: ${supportedPlatforms.join(
   ', ',
 )}.`;
 
-type AddAliasArgs = {
-  platform: string;
-  id: string;
-};
-
+@Discord()
 export class AddAlias {
-  @Command('!mg addAlias :platform :id')
-  async addAlias(message: CommandMessage<AddAliasArgs>) {
+  @SimpleCommand('addAlias')
+  async addAlias(
+    @SimpleCommandOption('platform', { type: 'STRING' }) platform: string,
+    @SimpleCommandOption('id', { type: 'STRING' }) platformId: string,
+    command: SimpleCommandMessage,
+  ) {
     const res = await loadSourceCredLedger();
     const { result: reloadResult, manager } = res;
+    const { message } = command;
 
     if (reloadResult.error) {
       await message.reply(`Error Loading Ledger: ${reloadResult.error}`);
       return;
     }
 
-    if (!message.args.id || !message.args.platform) {
+    if (!platformId || !platform) {
       await message.reply(
         `Usage: addAlias <platform> <id>.\n\n${errorSupportedPlatforms}`,
       );
@@ -36,11 +42,11 @@ export class AddAlias {
     let sanitizedId: string;
 
     // parse and validate platform arg
-    const trimmedPlatform = message.args.platform.trim().toLowerCase();
+    const trimmedPlatform = platform.trim().toLowerCase();
 
     if (trimmedPlatform === 'github') {
       // standardize and sanitize input
-      sanitizedId = message.args.id
+      sanitizedId = platformId
         .trim()
         .toLowerCase()
         // Sanitize: Github allows alphanumeric characters plus -
@@ -54,7 +60,7 @@ export class AddAlias {
         address: rawAddress,
       };
     } else if (trimmedPlatform === 'discourse') {
-      sanitizedId = message.args.id
+      sanitizedId = platformId
         .trim()
         // Sanitize: Discourse allows alphanumeric characters plus -_.
         .replace(/[^0-9a-zA-Z-_.]/, '');
