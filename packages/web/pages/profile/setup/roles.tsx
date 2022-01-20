@@ -11,7 +11,7 @@ export const getStaticProps = async () => {
 
   return {
     props: {
-      roleChoices,
+      roleChoices: roleChoices.filter((r) => r.isBasic),
       hideTopMenu: true,
     },
   };
