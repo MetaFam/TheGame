@@ -17,36 +17,31 @@ async function createDiscordClient(): Promise<Client> {
   );
 
   const client = new Client({
-    intents: [Intents.FLAGS.GUILD_MEMBERS],
+    intents: [
+      Intents.FLAGS.GUILDS,
+      Intents.FLAGS.GUILD_MESSAGES, // required for simple commands it seems
+      Intents.FLAGS.GUILD_MEMBERS,
+    ],
     silent: false,
     simpleCommand: {
-      prefix: '!mg',
+      prefix: '!mg ',
       responses: {
         notFound: (command: Message<boolean>) => {
           command.reply(`${CONFIG.botName} doesn't recognize that command.`);
         },
       },
     },
+    botGuilds:
+      process.env.RUNTIME_ENV === 'docker' ? undefined : ['808834438196494387'],
   });
 
   client.once('ready', async () => {
     // make sure all guilds are in cache
     await client.guilds.fetch();
+  });
 
-    // init all application commands
-    await client.initApplicationCommands({
-      guild: { log: true },
-      global: { log: true },
-    });
-
-    // init permissions; enabled log to see changes
-    await client.initApplicationPermissions(true);
-
-    // uncomment this line to clear all guild commands,
-    // useful when moving to global commands from guild commands
-    //  await client.clearApplicationCommands(
-    //    ...client.guilds.cache.map((g) => g.id)
-    //  );
+  client.on('messageCreate', (message) => {
+    client.executeCommand(message);
   });
 
   await client.login(CONFIG.discordBotToken);

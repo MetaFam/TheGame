@@ -1,4 +1,3 @@
-import { CommandMessage } from '@typeit/discord';
 import { Message, Snowflake } from 'discord.js';
 
 export const getDiscordId = (targetParameter: string): Snowflake => {
@@ -17,8 +16,8 @@ export const getDiscordId = (targetParameter: string): Snowflake => {
 };
 
 export const replyWithUnexpectedError = (
-  message: CommandMessage,
-  error: string,
+  message: Message,
+  error: Error,
 ): Promise<Message> => {
   let reply = `The octo is sad 😢, as there was an unexpected error: "${error}"`;
 
