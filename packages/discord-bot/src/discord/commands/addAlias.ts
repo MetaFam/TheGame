@@ -8,6 +8,7 @@ import { Alias, sourcecred as sc } from 'sourcecred';
 
 import { CONFIG } from '../../config';
 import { loadSourceCredLedger, resetLedger } from '../../sourcecred';
+import { replyWithUnexpectedError } from '../../utils';
 
 const supportedPlatforms = ['github', 'discourse'];
 const errorSupportedPlatforms = `Supported platforms: ${supportedPlatforms.join(
@@ -103,9 +104,11 @@ export class AddAlias {
       const platformAlias = existingIdentity.identity.aliases.find(
         (existingAlias) => {
           const parts = addressModule.toParts(existingAlias.address);
+          console.log(parts);
           return parts[1] === trimmedPlatform;
         },
       );
+      console.log(platformAlias);
       if (platformAlias != null) {
         const parts = addressModule.toParts(platformAlias.address);
         const existingPlatformIdentifier = parts[parts.length - 1];
@@ -155,10 +158,8 @@ export class AddAlias {
         `Successfully added ${trimmedPlatform} alias: ${sanitizedId}.`,
       );
     } catch (e) {
-      await message.reply(
-        'MetaGameBot regrets to inform you of an unexpected error 😥. Contact a friendly Builder for assistance.',
-      );
       console.error(e);
+      await replyWithUnexpectedError(message);
     }
   }
 }
