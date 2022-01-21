@@ -1,9 +1,9 @@
 import express from 'express';
 
-import { createDiscordClient } from '.';
+import { initDiscordBot } from './bot';
 import { CONFIG } from './config';
 
-const discordClientPromise = createDiscordClient();
+const discordClientPromise = initDiscordBot();
 
 const app = express();
 
