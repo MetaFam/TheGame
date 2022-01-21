@@ -9,7 +9,7 @@ export const GetPlayerTypes = gql`
       role
       label
       description
-      isBasic
+      basic
     }
   }
 `;
