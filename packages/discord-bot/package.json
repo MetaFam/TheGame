@@ -33,7 +33,7 @@
     "graphql-tag": "2.12.4",
     "node-fetch": "2.6.1",
     "reflect-metadata": "0.1.13",
-    "sourcecred": "0.11"
+    "sourcecred": "0.11.0"
   },
   "devDependencies": {
     "concurrently": "6.1.0",

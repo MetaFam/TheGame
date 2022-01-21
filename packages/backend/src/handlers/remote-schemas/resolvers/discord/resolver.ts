@@ -1,4 +1,5 @@
 import { createDiscordClient } from '@metafam/discord-bot';
+import { Role } from 'discord.js';
 
 import { client } from '../../../../lib/hasuraClient';
 import { QueryResolvers } from '../../autogen/types';
@@ -14,10 +15,10 @@ export const getGuildDiscordRoles: QueryResolvers['getGuildDiscordRoles'] = asyn
 
   if (discordGuild != null) {
     await discordGuild.roles.fetch();
-    return discordGuild.roles.cache.map(({ id, position, name }) => ({
-      id,
-      position,
-      name,
+    return discordGuild.roles.cache.map((role: Role) => ({
+      id: role.id,
+      position: role.position,
+      name: role.name,
     }));
   }
 
@@ -50,10 +51,10 @@ export const getDiscordServerMemberRoles: QueryResolvers['getDiscordServerMember
 
     // these are returned in descending order by position
     // (meaning, most significant role is first)
-    return member.roles.cache.map(({ id, position, name }) => ({
-      id,
-      position,
-      name,
+    return member.roles.cache.map((role: Role) => ({
+      id: role.id,
+      position: role.position,
+      name: role.name,
     }));
   }
 
