@@ -121,7 +121,7 @@ export const QuestFragment = gql`
     }
     quest_roles {
       PlayerRole {
-        isBasic
+        basic
         role
         label
         description
@@ -155,7 +155,7 @@ export const QuestWithCompletionFragment = gql`
     }
     quest_roles {
       PlayerRole {
-        isBasic
+        basic
         role
         label
         description

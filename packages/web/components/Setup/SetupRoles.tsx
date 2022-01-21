@@ -40,7 +40,7 @@ export const SetupRoles: React.FC<SetupRolesProps> = ({
   const toast = useToast();
 
   const computeAvailableRoles = (playerRoles: string[]) =>
-    roleChoices.filter((r) => !playerRoles.includes(r.role) && r.isBasic);
+    roleChoices.filter((r) => !playerRoles.includes(r.role) && r.basic);
 
   const [updateRolesResult, updateRoles] = useUpdatePlayerRolesMutation();
   const [loading, setLoading] = useState(false);
@@ -51,7 +51,7 @@ export const SetupRoles: React.FC<SetupRolesProps> = ({
   useMemo(() => {
     if (roles.length > 0) {
       setAvailableRoles(
-        roleChoices.filter((r) => !roles.includes(r.role) && r.isBasic),
+        roleChoices.filter((r) => !roles.includes(r.role) && r.basic),
       );
     }
   }, [roles, roleChoices]);

@@ -71,7 +71,7 @@
     permission:
       columns:
       - description
-      - isBasic
+      - basic
       - label
       - role
       filter: {}
@@ -79,7 +79,7 @@
     permission:
       columns:
       - description
-      - isBasic
+      - basic
       - label
       - role
       filter: {}
