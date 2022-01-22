@@ -128,6 +128,14 @@
   - name: GuildType
     using:
       foreign_key_constraint_on: type
+  - name: metadata
+    using:
+      manual_configuration:
+        remote_table:
+          schema: public
+          name: guild_metadata
+        column_mapping:
+          id: guild_id
   array_relationships:
   - name: guild_players
     using:
@@ -393,6 +401,7 @@
       - ethereum_address
       - id
       - player_type_id
+      - profile_layout
       - pronouns
       - rank
       - role
@@ -409,6 +418,7 @@
       - color_mask
       - ethereum_address
       - id
+      - profile_layout
       - pronouns
       - rank
       - role
@@ -425,6 +435,7 @@
       - availability_hours
       - color_mask
       - player_type_id
+      - profile_layout
       - pronouns
       - role
       - timezone
