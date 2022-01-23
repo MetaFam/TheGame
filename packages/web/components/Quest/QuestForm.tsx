@@ -91,8 +91,8 @@ const getDefaultFormValues = (
       ...s,
     })),
   // fix this
-  roles: editQuest
-    ? editQuest.quest_roles
+  roles: base
+    ? base.quest_roles
         .map((s) => s.PlayerRole)
         .map((s) => ({
           value: s.role,
