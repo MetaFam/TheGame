@@ -2,6 +2,9 @@ import gql from 'fake-tag';
 import { Client } from 'urql';
 
 import {
+  GetAcceptedQuestsByPlayerDocument,
+  GetAcceptedQuestsByPlayerQuery,
+  GetAcceptedQuestsByPlayerQueryVariables,
   GetQuestIdsDocument,
   GetQuestIdsQuery,
   GetQuestIdsQueryVariables,
@@ -12,7 +15,7 @@ import {
   QuestStatus_Enum,
 } from './autogen/types';
 import { client as defaultClient } from './client';
-import { QuestFragment } from './fragments';
+import { QuestFragment, QuestWithCompletionFragment } from './fragments';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-expressions
 gql`
@@ -52,6 +55,21 @@ gql`
 
 // eslint-disable-next-line @typescript-eslint/no-unused-expressions
 gql`
+  query GetAcceptedQuestsByPlayer(
+    $completed_by_player_id: uuid
+    $order: order_by
+  ) {
+    quest_completion(
+      order_by: { submitted_at: $order }
+      where: { completed_by_player_id: { _eq: $completed_by_player_id } }
+    ) {
+      ...QuestCompletionFragment
+    }
+  }
+`;
+
+// eslint-disable-next-line @typescript-eslint/no-unused-expressions
+gql`
   query GetQuestGuilds {
     quest_aggregate(distinct_on: guild_id) {
       nodes {
@@ -60,17 +78,6 @@ gql`
           name
         }
       }
-    }
-  }
-`;
-
-// eslint-disable-next-line @typescript-eslint/no-unused-expressions
-gql`
-  query GetQuestsByRoles($roles: [String!]) {
-    quest(where: { quest_roles: { role: { _in: $roles } } }) {
-      title
-      id
-      description
     }
   }
 `;
@@ -107,6 +114,7 @@ export const getQuests = async (
     )
     .toPromise();
 
+  console.log('data', data);
   if (!data) {
     if (error) {
       throw error;
@@ -116,4 +124,30 @@ export const getQuests = async (
   }
 
   return data.quest;
+};
+
+export const getAcceptedQuestsByPlayerQuery = async (
+  playerId: any,
+  order: Order_By = Order_By.Desc,
+  client: Client = defaultClient,
+) => {
+  const { data, error } = await client
+    .query<
+      GetAcceptedQuestsByPlayerQuery,
+      GetAcceptedQuestsByPlayerQueryVariables
+    >(GetAcceptedQuestsByPlayerDocument, {
+      order,
+      completed_by_player_id: playerId,
+    })
+    .toPromise();
+
+  if (!data) {
+    if (error) {
+      throw error;
+    }
+
+    return [];
+  }
+
+  return data.quest_completion;
 };

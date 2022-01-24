@@ -1,5 +1,6 @@
 import { PlayerAchievements } from 'components/Player/Section/PlayerAchievements';
 import { PlayerColorDisposition } from 'components/Player/Section/PlayerColorDisposition';
+import { PlayerCompletedQuests } from 'components/Player/Section/PlayerCompletedQuests';
 import { PlayerGallery } from 'components/Player/Section/PlayerGallery';
 import { PlayerHero } from 'components/Player/Section/PlayerHero';
 import { PlayerMemberships } from 'components/Player/Section/PlayerMemberships';
@@ -94,6 +95,15 @@ export const PlayerSection: React.FC<Props> = ({
     case BoxType.PLAYER_ACHIEVEMENTS:
       return (
         <PlayerAchievements
+          player={player}
+          isOwnProfile={isOwnProfile}
+          canEdit={canEdit}
+          onRemoveClick={() => removeBox?.(boxKey)}
+        />
+      );
+    case BoxType.PLAYER_COMPLETED_QUESTS:
+      return (
+        <PlayerCompletedQuests
           player={player}
           isOwnProfile={isOwnProfile}
           canEdit={canEdit}
