@@ -107,7 +107,7 @@ export const PlayerHero: React.FC<Props> = ({
             textOverflow="ellipsis"
             whiteSpace="nowrap"
             overflowX="hidden"
-            title={playerName ?? undefined}
+            title={playerName}
           >
             {playerName}
           </Text>
@@ -208,7 +208,7 @@ export const PlayerHero: React.FC<Props> = ({
           <ModalCloseButton
             color="pinkShadeOne"
             size="xl"
-            p={4}
+            p={{ base: 1, sm: 4 }}
             _focus={{
               boxShadow: 'none',
             }}

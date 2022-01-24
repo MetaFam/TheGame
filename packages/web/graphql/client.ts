@@ -21,10 +21,16 @@ import {
 
 const errorHasResponseTimeout = (err: CombinedError): boolean =>
   err.graphQLErrors.length > 0 &&
-  !!err.graphQLErrors.find((_err) => _err.message === 'ResponseTimeout');
+  !!err.graphQLErrors.find((e) => e.message === 'ResponseTimeout');
 
 const retryExchangeFunc = retryExchange({
-  retryIf: (error) => !!(errorHasResponseTimeout(error) || error.networkError),
+  maxNumberAttempts: 5,
+  initialDelayMs: 1000,
+  randomDelay: true,
+  retryIf: (error) => {
+    console.debug('GraphQL Retry', { error }); // eslint-disable-line no-console
+    return !!(errorHasResponseTimeout(error) || error.networkError);
+  },
 });
 
 export const client = createClient({

@@ -141,7 +141,8 @@ export const PlayerMemberships: React.FC<MembershipSectionProps> = ({
 
       {memberships.length === 0 && (
         <Text fontStyle="italic" textAlign="center">
-          No DAO memberships found for this player.
+          No DAO member&shy;ships found for{' '}
+          {isOwnProfile ? 'you' : 'this player'}.
         </Text>
       )}
 

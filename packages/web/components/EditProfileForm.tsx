@@ -100,7 +100,9 @@ const Input: React.FC<InputProps> = React.forwardRef(
       const input = textRef.current;
       if (text && input) {
         input.textContent = text;
-        setWidth(`calc(${input.scrollWidth}px + 2.25em)`);
+        setWidth(
+          `min(calc(100vw - 2rem), calc(${input.scrollWidth}px + 2.25em))`,
+        );
       }
     };
 
@@ -663,7 +665,7 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
             </Tooltip>
             <Textarea
               placeholder="Describe yourself."
-              minW="18em"
+              minW="min(18em, calc(100vw - 2rem))"
               h="10em"
               color="white"
               bg="dark"

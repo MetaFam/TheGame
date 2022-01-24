@@ -80,7 +80,7 @@ export const PlayerTile: React.FC<Props> = ({
                 {player.profile?.explorerTypeTitle && (
                   <WrapItem>
                     <MetaTag size="md" textTransform="uppercase">
-                      {player.profile?.explorerTypeTitle}
+                      {player.profile.explorerTypeTitle}
                     </MetaTag>
                   </WrapItem>
                 )}
@@ -131,7 +131,7 @@ export const PlayerTile: React.FC<Props> = ({
           </LinkOverlay>
         </NextLink>
         <MetaTileBody>
-          {player.skills?.length ? (
+          {player.skills?.length && (
             <VStack spacing={2} align="stretch">
               <Text textStyle="caption" textTransform="uppercase">
                 Skills
@@ -142,7 +142,7 @@ export const PlayerTile: React.FC<Props> = ({
                 }
               />
             </VStack>
-          ) : null}
+          )}
 
           <PlayerTileMemberships {...{ player }} />
 
