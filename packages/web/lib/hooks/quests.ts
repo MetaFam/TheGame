@@ -4,9 +4,8 @@ import {
   useGetQuestGuildsQuery,
   useGetQuestsQuery,
 } from 'graphql/autogen/types';
+import { defaultQueryVariables } from 'graphql/getQuests';
 import { useCallback, useState } from 'react';
-
-import { defaultQueryVariables } from '../../graphql/getQuests';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type QueryVariableSetter = (key: string, value: any) => void;
