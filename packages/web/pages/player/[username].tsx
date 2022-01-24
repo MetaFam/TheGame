@@ -52,7 +52,7 @@ const ResponsiveGridLayout = WidthProvider(Responsive);
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
-const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
+export const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
   if (!player) {
     return <Error statusCode={404} />;
   }

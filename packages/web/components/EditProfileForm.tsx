@@ -205,7 +205,6 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
       console.warn('Unable to initially focus the profile image.');
     } else {
       endpoints.profileImageURL.ref.current.focus();
-      endpoints.profileImageURL.setActive(true);
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -558,19 +557,19 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
                   ))}
               </Box>
               <Controller
-                control={control}
+                {...{ control }}
                 name="profileImageURL"
                 defaultValue={[]}
                 render={({ field: { onChange, value, ...props } }) => (
                   <Input
-                    type="file"
                     {...props}
+                    type="file"
                     value={value?.filename ?? ''}
                     onChange={async (evt) => {
                       onChange(evt.target.files);
                       onFileChange(evt);
                     }}
-                    maxW="100%"
+                    minW="100% !important"
                     minH="100%"
                     position="absolute"
                     top={0}

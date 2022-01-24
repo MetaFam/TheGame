@@ -1,7 +1,7 @@
 import Busboy, { BusboyHeaders } from 'busboy';
 import { CONFIG } from 'config';
 import * as fs from 'fs';
-import { mkdtemp } from 'fs/promises';
+import { mkdtemp, rmdir, unlink } from 'fs/promises';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import * as os from 'os';
 import * as path from 'path';
@@ -47,7 +47,14 @@ export const handler: (
           (fs.createReadStream(name) as unknown) as ReadableStream<string>,
       }));
       const cid = await storage.put(tmpFiles);
-      console.log({ cid, tmpFiles }); // eslint-disable-line no-console
+      console.log({ cid, files, tmpFiles }); // eslint-disable-line no-console
+
+      await Promise.all(
+        files.map(async ({ name }) => {
+          await unlink(name);
+          await rmdir(path.dirname(name));
+        }),
+      );
 
       const uploadedFiles = Object.fromEntries(
         files.map(({ field, name }) => {
@@ -56,7 +63,7 @@ export const handler: (
         }),
       );
 
-      res.status(200).json(uploadedFiles);
+      res.status(201).json(uploadedFiles);
     } catch (err) {
       console.error(err); // eslint-disable-line no-console
       res.status(500).json({ error: (err as Error).message });
