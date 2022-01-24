@@ -23,7 +23,7 @@ export type Skill = {
 export type PersonalityOption = {
   mask: number;
   name: string;
-  description?: string | null | undefined;
+  description?: Maybe<string>;
 };
 
 export type Membership = Pick<Member, 'id'> & {

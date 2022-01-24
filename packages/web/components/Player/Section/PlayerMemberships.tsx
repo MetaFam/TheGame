@@ -139,6 +139,12 @@ export const PlayerMemberships: React.FC<MembershipSectionProps> = ({
     >
       {loading && <LoadingState />}
 
+      {memberships.length === 0 && (
+        <Text fontStyle="italic" textAlign="center">
+          No DAO memberships found for this player.
+        </Text>
+      )}
+
       {memberships.slice(0, 4).map((membership) => (
         <DaoListing key={membership.memberId} {...{ membership }} />
       ))}
@@ -205,10 +211,7 @@ export const PlayerMemberships: React.FC<MembershipSectionProps> = ({
                   boxShadow="md"
                 >
                   {memberships.map((membership) => (
-                    <DaoListing
-                      key={membership.memberId}
-                      {...{ membership }}
-                    />
+                    <DaoListing key={membership.memberId} {...{ membership }} />
                   ))}
                 </SimpleGrid>
               </Box>

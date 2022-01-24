@@ -142,7 +142,12 @@ export const PlayerFilter: React.FC<Props> = ({
               background="dark"
               w="100%"
               type="text"
-              minW={{ base: '18rem', sm: 'md', md: 'lg', lg: 'xl' }}
+              minW={{
+                base: 'min(18rem, calc(100vw - 2rem))',
+                sm: 'md',
+                md: 'lg',
+                lg: 'xl',
+              }}
               placeholder="SEARCH PLAYERS BY USERNAME OR ETHEREUM ADDRESS"
               _placeholder={{ color: 'whiteAlpha.500' }}
               value={search}

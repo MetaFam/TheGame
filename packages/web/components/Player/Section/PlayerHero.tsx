@@ -16,6 +16,8 @@ import {
   Tooltip,
   useDisclosure,
   VStack,
+  Wrap,
+  WrapItem,
 } from '@metafam/ds';
 import BackgroundImage from 'assets/main-background.jpg';
 import { FlexContainer } from 'components/Container';
@@ -56,9 +58,7 @@ export const PlayerHero: React.FC<Props> = ({
     (description ?? '').length <= MAX_BIO_LENGTH,
   );
   const { isOpen, onOpen, onClose } = useDisclosure();
-
   const [playerName, setPlayerName] = useState<string>();
-
   const { user } = useUser();
 
   const person = isOwnProfile ? user?.player : player;
@@ -153,14 +153,14 @@ export const PlayerHero: React.FC<Props> = ({
           <Text>www.mycoolportfolio.com</Text>
         </PlayerHeroTile> */}
 
-        <SimpleGrid columns={2} gap={6} width="full">
+        <Flex justify="stretch" w="full">
           <PlayerHeroTile title="Availability">
             <Availability {...{ person }} />
           </PlayerHeroTile>
           <PlayerHeroTile title="Time Zone">
             <TimeZoneDisplay {...{ person }} />
           </PlayerHeroTile>
-        </SimpleGrid>
+        </Flex>
 
         {/* <SimpleGrid columns={2} gap={6} width="full">
           <PlayerHeroTile title="Country">
@@ -285,21 +285,25 @@ const TimeZoneDisplay: React.FC<TimeZoneDisplayProps> = ({ person }) => {
             <Text fontStyle="italic">Unspecified</Text>
           ) : (
             <Tooltip label={tz?.name} hasArrow>
-              <Flex align="center" whiteSpace="pre">
-                <Text
-                  fontSize={{ base: 'md', sm: 'lg' }}
-                  pr={1}
-                  overflowX="hidden"
-                  textOverflow="ellipsis"
-                >
-                  {timeZone || '−'}
-                </Text>
-                {short && (
-                  <Text fontSize={{ base: 'sm', sm: 'md' }} whiteSpace="pre">
-                    {short}
+              <Wrap justify="center" align="center">
+                <WrapItem my="0 !important">
+                  <Text
+                    fontSize={{ base: 'md', sm: 'lg' }}
+                    pr={1}
+                    overflowX="hidden"
+                    textOverflow="ellipsis"
+                  >
+                    {timeZone || '−'}
                   </Text>
+                </WrapItem>
+                {short && (
+                  <WrapItem my="0 !important">
+                    <Text fontSize={{ base: 'sm', sm: 'md' }} whiteSpace="pre">
+                      {short}
+                    </Text>
+                  </WrapItem>
                 )}
-              </Flex>
+              </Wrap>
             </Tooltip>
           )}
         </Flex>

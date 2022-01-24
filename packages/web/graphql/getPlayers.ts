@@ -27,7 +27,9 @@ import { PlayerFragment, PlayerSkillFragment } from './fragments';
     $forLoginDisplay: Boolean! = false
   ) {
     player(
-      order_by: [$orderBy]
+      # players were appearing multiple times when orderBy was the
+      # same for many entries; i.e. availability = 0
+      order_by: [$orderBy, { ethereumAddress: desc }]
       offset: $offset
       limit: $limit
       where: $where

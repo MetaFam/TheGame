@@ -131,10 +131,9 @@ export const usePlayerFilter = (
   const [queryVariables, setQueryVariables] = useState<PlayersQueryVariables>(
     defaultVariables,
   );
-
   const aggregates = usePlayerAggregates();
-
   const shouldAppend = useRef(false);
+
   const setQueryVariable: QueryVariableSetter = useCallback(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (key: string, value: any) => {
@@ -161,11 +160,6 @@ export const usePlayerFilter = (
     [],
   );
 
-  const resetFilter = () => {
-    shouldAppend.current = false;
-    setQueryVariables(defaultQueryVariables);
-  };
-
   const {
     fetchedPlayers,
     fetching,
@@ -174,8 +168,12 @@ export const usePlayerFilter = (
     total,
     moreAvailable,
   } = usePaginatedPlayers(queryVariables, setQueryVariable);
-
   const [players, setPlayers] = useState<Player[]>(fetchedPlayers);
+
+  const resetFilter = () => {
+    shouldAppend.current = false;
+    setQueryVariables(defaultQueryVariables);
+  };
 
   useEffect(() => {
     if (!error && !fetching) {
@@ -207,7 +205,7 @@ export const useFiltersUsed = (
   queryVariables: PlayersQueryVariables,
 ): boolean => {
   const sortFilterUsed = useMemo(
-    () => !Object.keys(queryVariables.orderBy).includes('season_xp'),
+    () => !Object.keys(queryVariables.orderBy).includes('seasonXP'),
     [queryVariables.orderBy],
   );
   const playerTypesFilterUsed = useMemo(

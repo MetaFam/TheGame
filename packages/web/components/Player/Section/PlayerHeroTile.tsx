@@ -1,4 +1,4 @@
-import { Box, HStack, Text } from '@metafam/ds';
+import { Box, BoxProps, HStack, Text } from '@metafam/ds';
 import React from 'react';
 
 type Props = {
@@ -6,9 +6,13 @@ type Props = {
   children: React.ReactNode;
 };
 
-export const PlayerHeroTile: React.FC<Props> = ({ children, title }) => (
-  <Box width="full">
-    <Text fontSize="md" color="blueLight" mb={1}>
+export const PlayerHeroTile: React.FC<Props & BoxProps> = ({
+  children,
+  title,
+  ...props
+}) => (
+  <Box width="full" {...props}>
+    <Text fontSize="md" color="blueLight" mb={1} whiteSpace="nowrap">
       {title}
     </Text>
     <HStack alignItems="baseline" fontSize="lg">
