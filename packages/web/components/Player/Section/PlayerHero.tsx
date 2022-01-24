@@ -191,7 +191,7 @@ export const PlayerHero: React.FC<Props> = ({
       <Modal {...{ isOpen, onClose }}>
         <ModalOverlay />
         <ModalContent
-          maxW={['100%', '80%']}
+          maxW={['100%', 'min(80%, 60rem)']}
           backgroundImage={`url(${BackgroundImage})`}
           bgSize="cover"
           bgAttachment="fixed"
