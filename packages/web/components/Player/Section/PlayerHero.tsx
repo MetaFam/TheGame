@@ -11,7 +11,6 @@ import {
   ModalContent,
   ModalHeader,
   ModalOverlay,
-  SimpleGrid,
   Text,
   Tooltip,
   useDisclosure,
