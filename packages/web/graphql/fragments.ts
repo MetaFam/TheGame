@@ -180,6 +180,10 @@ export const QuestCompletionFragment = gql`
     submission_link
     submission_text
     submitted_at
+    quest_id
+    completed {
+      title
+    }
   }
 `;
 
