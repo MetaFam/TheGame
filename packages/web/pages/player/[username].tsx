@@ -70,8 +70,7 @@ export const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
   if (!player) return <Error statusCode={404} />;
 
   return (
-    // have to override pt in PageContainer
-    <PageContainer p={0} pt={0} mt="-4.5rem">
+    <PageContainer pt={0} px={[0, 4, 8]} mt="-4.5rem">
       <HeadComponent
         title={`MetaGame Profile: ${getPlayerName(player)}`}
         description={(getPlayerDescription(player) ?? '').replace('\n', ' ')}
@@ -90,8 +89,9 @@ export const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
         w="full"
         h="full"
         minH="100vh"
-        p={4}
         pt="8rem"
+        pb="4"
+        px="0"
         direction="column"
         align="center"
       >
@@ -170,8 +170,26 @@ const updateHeightsInLayouts = (
 const getBoxKeyFromTarget = (target: HTMLDivElement | null): string =>
   (target?.offsetParent as HTMLDivElement)?.offsetParent?.id || '';
 
+type LayoutItem = {
+  boxKey: string;
+  boxType: BoxType;
+  boxMetadata: BoxMetadata;
+};
+
+const DEFAULT_LAYOUT_ITEMS = DEFAULT_BOXES.map((boxType) => ({
+  boxType,
+  boxMetadata: {},
+  boxKey: getBoxKey(boxType, {}),
+}));
+
+type ProfileLayoutData = {
+  layoutItems: LayoutItem[];
+  layouts: Layouts;
+};
+
 const useItemHeights = (
   ref: React.MutableRefObject<(HTMLDivElement | null)[]>,
+  layoutItems: LayoutItem[],
 ): { [boxKey: string]: number } => {
   const [heights, setHeights] = useState<{ [boxKey: string]: number }>({});
 
@@ -191,34 +209,21 @@ const useItemHeights = (
       ref.current.map((item) => {
         const target = item?.children[0] as HTMLDivElement;
         if (target) {
-          newHeights[getBoxKeyFromTarget(target)] =
-            target.getBoundingClientRect().height;
+          newHeights[
+            getBoxKeyFromTarget(target)
+          ] = target.getBoundingClientRect().height;
           observer.observe(target);
         }
         return item;
       });
       setHeights(newHeights);
     }
-  }, [ref]);
+    return () => {
+      observer.disconnect();
+    };
+  }, [ref, layoutItems]);
 
   return heights;
-};
-
-type LayoutItem = {
-  boxKey: string;
-  boxType: BoxType;
-  boxMetadata: BoxMetadata;
-};
-
-const DEFAULT_LAYOUT_ITEMS = DEFAULT_BOXES.map((boxType) => ({
-  boxType,
-  boxMetadata: {},
-  boxKey: getBoxKey(boxType, {}),
-}));
-
-type ProfileLayoutData = {
-  layoutItems: LayoutItem[];
-  layouts: Layouts;
 };
 
 export const Grid: React.FC<Props> = ({ player: initPlayer }): ReactElement => {
@@ -245,8 +250,10 @@ export const Grid: React.FC<Props> = ({ player: initPlayer }): ReactElement => {
 
   const toast = useToast();
 
-  const [{ fetching: fetchingSaveRes }, saveLayoutData] =
-    useUpdatePlayerProfileLayoutMutation();
+  const [
+    { fetching: fetchingSaveRes },
+    saveLayoutData,
+  ] = useUpdatePlayerProfileLayoutMutation();
   const [saving, setSaving] = useState(false);
 
   const savedLayoutData = useMemo<ProfileLayoutData>(
@@ -271,14 +278,17 @@ export const Grid: React.FC<Props> = ({ player: initPlayer }): ReactElement => {
     itemsRef.current = itemsRef.current.slice(0, currentLayoutItems.length);
   }, [currentLayoutItems]);
 
-  const heights = useItemHeights(itemsRef);
+  const heights = useItemHeights(itemsRef, currentLayoutItems);
 
   useEffect(() => {
-    setCurrentLayoutData(({ layouts, layoutItems }) => ({
-      layouts: updateHeightsInLayouts(layouts, heights),
-      layoutItems,
-    }));
-  }, [heights]);
+    const layouts = updateHeightsInLayouts(currentLayouts, heights);
+    if (JSON.stringify(layouts) !== JSON.stringify(currentLayouts)) {
+      setCurrentLayoutData(({ layoutItems }) => ({
+        layouts,
+        layoutItems,
+      }));
+    }
+  }, [currentLayouts, heights]);
 
   const [changed, setChanged] = useState(false);
 
@@ -293,9 +303,10 @@ export const Grid: React.FC<Props> = ({ player: initPlayer }): ReactElement => {
 
   const handleReset = useCallback(() => {
     const layoutData = {
-      layouts: updateHeightsInLayouts(
-        addBoxToLayouts(BoxType.PLAYER_ADD_BOX, {}, savedLayoutData.layouts),
-        heights,
+      layouts: addBoxToLayouts(
+        BoxType.PLAYER_ADD_BOX,
+        {},
+        savedLayoutData.layouts,
       ),
       layoutItems: [
         ...savedLayoutData.layoutItems,
@@ -311,7 +322,7 @@ export const Grid: React.FC<Props> = ({ player: initPlayer }): ReactElement => {
     setTimeout(() => {
       setChanged(false);
     }, 300);
-  }, [savedLayoutData, heights]);
+  }, [savedLayoutData]);
 
   const persistLayoutData = useCallback(
     async (layoutData: ProfileLayoutData) => {
@@ -379,10 +390,10 @@ export const Grid: React.FC<Props> = ({ player: initPlayer }): ReactElement => {
 
   const wrapperSX = useMemo(() => gridConfig.wrapper(editable), [editable]);
 
-  const displayLayouts = useMemo(
-    () => makeLayouts(editable, currentLayouts),
-    [editable, currentLayouts],
-  );
+  const displayLayouts = useMemo(() => makeLayouts(editable, currentLayouts), [
+    editable,
+    currentLayouts,
+  ]);
 
   const onRemoveBox = useCallback(
     (boxKey: string): void => {
