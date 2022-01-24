@@ -3,7 +3,7 @@ import { Player, useGetMeQuery } from 'graphql/autogen/types';
 import { Maybe } from 'graphql/jsutils/Maybe';
 import { MeType } from 'graphql/types';
 import { useRouter } from 'next/router';
-import { useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { useContext, useEffect, useMemo, useRef } from 'react';
 import { CombinedError, RequestPolicy } from 'urql';
 
 export const useWeb3 = (): Web3ContextType => useContext(Web3Context);
