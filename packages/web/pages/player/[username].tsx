@@ -78,23 +78,14 @@ export const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
         img={getPlayerImage(player)}
       />
       <Box
-        background={`url(${getPlayerBannerFull(player)}) no-repeat`}
+        bg={`url(${getPlayerBannerFull(player)}) no-repeat`}
         bgSize="cover"
         bgPos="center"
         h={72}
-        position="absolute"
+        pos="absolute"
         w="full"
       />
-      <Flex
-        w="full"
-        h="full"
-        minH="100vh"
-        pt="8rem"
-        pb="4"
-        px="0"
-        direction="column"
-        align="center"
-      >
+      <Flex w="full" h="full" pt="3rem" direction="column" align="center">
         <Grid {...{ player }} />
       </Flex>
     </PageContainer>
