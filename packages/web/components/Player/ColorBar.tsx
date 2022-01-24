@@ -79,7 +79,7 @@ export const ColorBar = ({
         minH="1.5rem"
         flex="0 0 100%"
         minW="100%"
-        border="0"
+        border={0}
         borderRadius="15px"
         overflow="hidden"
       >

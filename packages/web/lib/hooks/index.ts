@@ -3,8 +3,8 @@ import { Player, useGetMeQuery } from 'graphql/autogen/types';
 import { Maybe } from 'graphql/jsutils/Maybe';
 import { MeType } from 'graphql/types';
 import { useRouter } from 'next/router';
-import { useContext, useEffect, useMemo, useRef } from 'react';
-import { RequestPolicy } from 'urql';
+import { useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { CombinedError, RequestPolicy } from 'urql';
 
 export const useWeb3 = (): Web3ContextType => useContext(Web3Context);
 
@@ -23,6 +23,7 @@ export const useUser = ({
 }: UseUserOpts = {}): {
   user: Maybe<MeType>;
   fetching: boolean;
+  error?: CombinedError;
 } => {
   const { authToken, connecting } = useWeb3();
   const router = useRouter();
@@ -54,7 +55,7 @@ export const useUser = ({
     }
   }, [router, user, fetching, connecting, redirectIfNotFound, redirectTo]);
 
-  return { user, fetching };
+  return { user, fetching, error };
 };
 
 // https://www.joshwcomeau.com/react/the-perils-of-rehydration/

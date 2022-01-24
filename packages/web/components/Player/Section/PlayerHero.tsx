@@ -192,11 +192,11 @@ export const PlayerHero: React.FC<Props> = ({
       <Modal {...{ isOpen, onClose }}>
         <ModalOverlay />
         <ModalContent
-          maxW="80%"
+          maxW={['100%', '80%']}
           backgroundImage={`url(${BackgroundImage})`}
           bgSize="cover"
           bgAttachment="fixed"
-          p={[4, 8, 12]}
+          p={[0, 8, 12]}
         >
           <ModalHeader
             color="white"
@@ -214,7 +214,7 @@ export const PlayerHero: React.FC<Props> = ({
               boxShadow: 'none',
             }}
           />
-          <ModalBody>
+          <ModalBody p={[0, 2]}>
             <EditProfileForm {...{ user, onClose }} />
           </ModalBody>
         </ModalContent>

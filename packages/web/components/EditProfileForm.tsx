@@ -221,6 +221,7 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
       const file = input.files?.[0];
       if (!file) return;
       const key = input.name as keyof typeof endpoints;
+      endpoints[key].setLoading(true);
       endpoints[key].setFile(file);
       const reader = new FileReader();
       reader.addEventListener('load', () => {
@@ -399,22 +400,6 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
       const basic: BasicProfile = {};
       const extended: ExtendedProfile = {};
 
-      // [
-      //   { map: BasicProfileStrings, obj: basic },
-      //   { map: BasicProfileImages, obj: basic },
-      //   { map: ExtendedProfileStrings, obj: extended },
-      //   { map: ExtendedProfileImages, obj: extended },
-      // ].forEach(({ map, obj }) => {
-      //   Object.entries(map).forEach(([hasuraId, ceramicId]) => {
-      //     const fromKey = ceramicId as Values<typeof map>;
-      //     const toKey = hasuraId as keyof typeof map;
-      //     if (values[toKey] !== undefined) {
-      //       // eslint-disable-next-line no-param-reassign
-      //       obj[fromKey] = values[fromKey] as any ?? undefined;
-      //     }
-      //   });
-      // });
-
       Object.entries(BasicProfileStrings).forEach(([hasuraId, ceramicId]) => {
         const fromKey = ceramicId as Values<typeof BasicProfileStrings>;
         const toKey = hasuraId as keyof typeof BasicProfileStrings;
@@ -551,7 +536,7 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
                 />
                 {endpoints.profileImageURL.loading &&
                   (endpoints.profileImageURL.val == null ? (
-                    <Image maxW="50%" src={PlayerProfileIcon} />
+                    <Image maxW="50%" src={PlayerProfileIcon} opacity={0.5} />
                   ) : (
                     <Spinner size="xl" color="purple.500" thickness="4px" />
                   ))}
@@ -629,7 +614,7 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
                 />
                 {endpoints[key].loading &&
                   (endpoints[key].val == null ? (
-                    <Image maxW="50%" src={FileOpenIcon} />
+                    <Image maxW="50%" src={FileOpenIcon} opacity={0.5} />
                   ) : (
                     <Spinner size="xl" color="purple.500" thickness="4px" />
                   ))}

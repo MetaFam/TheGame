@@ -95,10 +95,8 @@ export const PlayerFilter: React.FC<Props> = ({
 
   useEffect(() => {
     setQueryVariable(
-      'playerTypeIds',
-      playerTypes.length > 0
-        ? playerTypes.map((pT) => Number.parseInt(pT.value, 10))
-        : null,
+      'explorerTypeTitles',
+      playerTypes.length > 0 ? playerTypes.map(({ label }) => label) : null,
     );
   }, [setQueryVariable, playerTypes]);
 
