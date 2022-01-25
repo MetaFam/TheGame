@@ -19,15 +19,17 @@ export const parseSkills = (
 ): Array<CategoryOption> => {
   const skillsMap: SkillMap = {};
   skills.forEach((skill) => {
-    if (!(skill.category in skillsMap)) {
-      skillsMap[skill.category] = {
-        label: skill.category,
-        options: [],
-      };
-    }
+    skillsMap[skill.category] ??= {
+      label: skill.category,
+      options: [],
+    };
     skillsMap[skill.category].options?.push({
-      value: skill.id,
-      label: skill.name,
+      get value() {
+        return this.id;
+      },
+      get label() {
+        return this.name;
+      },
       ...skill,
     });
   });

@@ -11,13 +11,14 @@ import {
 import { FlexContainer } from 'components/Container';
 import { useSetupFlow } from 'contexts/SetupContext';
 import {
+  Skill,
   SkillCategory_Enum,
   useUpdatePlayerSkillsMutation,
 } from 'graphql/autogen/types';
 import { getSkills } from 'graphql/queries/enums/getSkills';
 import { SkillColors } from 'graphql/types';
 import { useUser } from 'lib/hooks';
-import React, { useEffect, useState } from 'react';
+import React, { CSSProperties, useEffect, useState } from 'react';
 import { CategoryOption, parseSkills, SkillOption } from 'utils/skillHelpers';
 
 export type SetupSkillsProps = {
@@ -27,26 +28,32 @@ export type SetupSkillsProps = {
 
 const styles: typeof searchSelectStyles = {
   ...searchSelectStyles,
-  menuList: (s) => ({
+  menuList: (s: CSSProperties) => ({
     ...s,
     minHeight: '75vh',
   }),
-  multiValue: (s, { data }) => ({
+  multiValue: (s: CSSProperties, { data }: { data: Skill }) => ({
     ...s,
     background: SkillColors[data.category as SkillCategory_Enum],
     color: MetaTheme.colors.white,
   }),
-  multiValueLabel: (s, { data }) => ({
+  multiValueLabel: (s: CSSProperties, { data }: { data: Skill }) => ({
     ...s,
     background: SkillColors[data.category as SkillCategory_Enum],
     color: MetaTheme.colors.white,
   }),
-  groupHeading: (s, { children }) => ({
+  groupHeading: (
+    s: CSSProperties,
+    { children }: { children: SkillCategory_Enum },
+  ) => ({
     ...s,
     ...searchSelectStyles.groupHeading?.(s, { children }),
-    background: SkillColors[children as SkillCategory_Enum],
+    background: SkillColors[children],
   }),
-  option: (s, { isSelected, isFocused }) => ({
+  option: (
+    s: CSSProperties,
+    { isSelected, isFocused }: { isSelected: boolean; isFocused: boolean },
+  ) => ({
     ...s,
     color:
       isSelected || isFocused ? MetaTheme.colors.black : MetaTheme.colors.white,
