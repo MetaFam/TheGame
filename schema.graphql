@@ -577,6 +577,7 @@ input CreateQuestInput {
   guildId: uuid!
   repetition: QuestRepetition_ActionEnum
   skillsId: [uuid]!
+  skills_id: [uuid]!
   title: String!
 }
 
@@ -5853,6 +5854,7 @@ enum PlayerRank_update_column {
 columns and relationships of "PlayerRole"
 """
 type PlayerRole {
+  basic: Boolean
   description: String
   label: String!
   role: String!
@@ -5899,6 +5901,7 @@ input PlayerRole_bool_exp {
   _and: [PlayerRole_bool_exp]
   _not: PlayerRole_bool_exp
   _or: [PlayerRole_bool_exp]
+  basic: Boolean_comparison_exp
   description: String_comparison_exp
   label: String_comparison_exp
   role: String_comparison_exp
@@ -5916,6 +5919,7 @@ enum PlayerRole_constraint {
 input type for inserting data into table "PlayerRole"
 """
 input PlayerRole_insert_input {
+  basic: Boolean
   description: String
   label: String
   role: String
@@ -5985,6 +5989,7 @@ input PlayerRole_on_conflict {
 ordering options when selecting data from "PlayerRole"
 """
 input PlayerRole_order_by {
+  basic: order_by
   description: order_by
   label: order_by
   role: order_by
@@ -6001,7 +6006,14 @@ input PlayerRole_pk_columns_input {
 select columns of table "PlayerRole"
 """
 enum PlayerRole_select_column {
-  """column name"""
+  """
+  column name
+  """
+  basic
+
+  """
+  column name
+  """
   description
 
   """column name"""
@@ -6015,6 +6027,7 @@ enum PlayerRole_select_column {
 input type for updating data in table "PlayerRole"
 """
 input PlayerRole_set_input {
+  basic: Boolean
   description: String
   label: String
   role: String
@@ -6024,7 +6037,18 @@ input PlayerRole_set_input {
 update columns of table "PlayerRole"
 """
 enum PlayerRole_update_column {
+<<<<<<< develop
   """column name"""
+=======
+  """
+  column name
+  """
+  basic
+
+  """
+  column name
+  """
+>>>>>>> fix: update schema
   description
 
   """column name"""
@@ -8450,7 +8474,7 @@ type quest_role {
   """
   quest: quest!
   quest_id: uuid!
-  rank: Int!
+  rank: Int
   role: String!
 }
 
@@ -8540,11 +8564,6 @@ enum quest_role_constraint {
   unique or primary key constraint
   """
   quest_role_pkey
-
-  """
-  unique or primary key constraint
-  """
-  quest_role_quest_id_key
 }
 
 """
