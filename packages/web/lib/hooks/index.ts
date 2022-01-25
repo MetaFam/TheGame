@@ -11,14 +11,12 @@ export const useWeb3 = (): Web3ContextType => useContext(Web3Context);
 type UseUserOpts = {
   redirectTo?: string;
   redirectIfNotFound?: boolean;
-  forLoginDisplay?: boolean;
   requestPolicy?: RequestPolicy | undefined;
 };
 
 export const useUser = ({
   redirectTo,
   redirectIfNotFound = false,
-  forLoginDisplay = false,
   requestPolicy = 'cache-first',
 }: UseUserOpts = {}): {
   user: Maybe<MeType>;
@@ -30,7 +28,6 @@ export const useUser = ({
 
   const [{ data, error, fetching }] = useGetMeQuery({
     pause: connecting || !authToken,
-    variables: { forLoginDisplay },
     requestPolicy,
   });
   const [me] = data?.me ?? [];
