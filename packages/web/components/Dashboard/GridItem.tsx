@@ -18,11 +18,18 @@ export type MetaBoxProps = {
   sx: Record<string, unknown>;
 };
 
-export const GridItem: React.FC<MetaBoxProps> = ({ children, title, sx }) => (
+export const GridItem: React.FC<MetaBoxProps> = ({
+  children,
+  title,
+  ...props
+}) => (
   <Box borderBottomRadius="lg" borderTopRadius="lg" p={6} boxShadow="md">
-    <ContainerQuery query={containerQueries}>
+    <ContainerQuery
+      query={containerQueries}
+      initialSize={{ width: 100, height: 100 }}
+    >
       {(params: Params) => (
-        <Box className={classnames('container', params)} sx={sx}>
+        <Box className={classnames('container', params)} {...props}>
           <Heading size="md">{title}</Heading>
           {children}
         </Box>

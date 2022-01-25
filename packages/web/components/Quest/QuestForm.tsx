@@ -1,8 +1,8 @@
 import {
   Box,
+  Button,
   ConfirmModal,
   Flex,
-  HStack,
   Input,
   MetaButton,
   MetaTag,
@@ -10,7 +10,6 @@ import {
   Text,
   VStack,
 } from '@metafam/ds';
-import { EditorState } from 'draft-js';
 import {
   GuildFragmentFragment,
   QuestFragmentFragment,
@@ -18,12 +17,11 @@ import {
   QuestStatus_Enum,
 } from 'graphql/autogen/types';
 import { useRouter } from 'next/router';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Controller, FieldError, useForm } from 'react-hook-form';
 
-import { QuestRepetitionHint, UriRegexp } from '../../utils/questHelpers';
+import { QuestRepetitionHint, URIRegexp } from '../../utils/questHelpers';
 import { CategoryOption, SkillOption } from '../../utils/skillHelpers';
-import { stateFromHTML } from '../../utils/stateFromHTML';
 import { FlexContainer } from '../Container';
 import { SkillsSelect } from '../Skills';
 import { WYSIWYGEditor } from '../WYSIWYGEditor';
@@ -46,7 +44,7 @@ const validations = {
     required: true,
   },
   external_link: {
-    pattern: UriRegexp,
+    pattern: URIRegexp,
   },
   cooldown: {
     valueAsNumber: true,
@@ -56,51 +54,38 @@ const validations = {
 
 export interface CreateQuestFormInputs {
   title: string;
-  description: EditorState;
+  description: string;
   repetition: QuestRepetition_Enum;
   status: QuestStatus_Enum;
-  guild_id: string | null;
-  external_link: string | undefined | null;
-  cooldown: number | undefined | null;
+  guildId: string | null;
+  externalLink?: string | null;
+  cooldown?: number | null;
   skills: SkillOption[];
 }
 
 const MetaFamGuildId = 'f94b7cd4-cf29-4251-baa5-eaacab98a719';
 
-const getDescriptionEditorState = async (
-  description?: string | null,
-): Promise<EditorState> => {
-  if (description) {
-    const contentState = await stateFromHTML(description);
-
-    return EditorState.createWithContent(contentState);
-  }
-  return EditorState.createEmpty();
-};
-
 const getDefaultFormValues = (
-  editQuest: QuestFragmentFragment | undefined,
+  base: QuestFragmentFragment | undefined,
   guilds: GuildFragmentFragment[],
 ): CreateQuestFormInputs => ({
-  title: editQuest?.title || '',
-  repetition: editQuest?.repetition || QuestRepetition_Enum.Unique,
-  description: EditorState.createEmpty(),
-  external_link: editQuest?.external_link || '',
-  guild_id:
-    editQuest?.guild_id ||
-    guilds.find((g) => g.id === MetaFamGuildId)?.id ||
+  title: base?.title || '',
+  repetition: base?.repetition ?? QuestRepetition_Enum.Unique,
+  description: base?.description ?? '',
+  externalLink: base?.externalLink ?? '',
+  guildId:
+    base?.guildId ??
+    guilds.find((g) => g.id === MetaFamGuildId)?.id ??
     guilds[0].id,
-  status: editQuest?.status || QuestStatus_Enum.Open,
-  cooldown: editQuest?.cooldown || null,
-  skills: editQuest
-    ? editQuest.quest_skills
-        .map((s) => s.skill)
-        .map((s) => ({
-          value: s.id,
-          label: s.name,
-          ...s,
-        }))
-    : [],
+  status: base?.status || QuestStatus_Enum.Open,
+  cooldown: base?.cooldown || null,
+  skills: (base?.quest_skills ?? [])
+    .map((s) => s.skill)
+    .map((s) => ({
+      value: s.id,
+      label: s.name,
+      ...s,
+    })),
 });
 
 type FieldProps = {
@@ -158,19 +143,12 @@ export const QuestForm: React.FC<Props> = ({
   const {
     register,
     control,
-    errors,
+    formState: { errors },
     watch,
     handleSubmit,
-    reset,
   } = useForm<CreateQuestFormInputs>({
     defaultValues,
   });
-  useEffect(() => {
-    getDescriptionEditorState(editQuest?.description).then((description) => {
-      defaultValues.description = description;
-      reset(defaultValues);
-    });
-  }, [editQuest, guilds, reset, defaultValues]);
   const router = useRouter();
   const [exitAlert, setExitAlert] = useState<boolean>(false);
   const createQuestInput = watch();
@@ -180,45 +158,70 @@ export const QuestForm: React.FC<Props> = ({
       <VStack>
         <Field label="Title" error={errors.title}>
           <Input
-            background="dark"
-            placeholder="Buidl stuff"
-            isRequired
-            name="title"
-            ref={register(validations.title)}
+            placeholder="Buidl stuff…"
+            {...register('title', {
+              required: {
+                value: true,
+                message: 'This is a required field.',
+              },
+              minLength: {
+                value: validations.title.minLength,
+                message: `Must be at least ${validations.title.minLength} characters.`,
+              },
+              maxLength: {
+                value: validations.title.maxLength,
+                message: `Must be no more than ${validations.title.maxLength} characters.`,
+              },
+            })}
             isInvalid={!!errors.title}
-            minLength={validations.title.minLength}
-            maxLength={validations.title.maxLength}
+            background="dark"
+            autoFocus
           />
         </Field>
 
-        <Field label="Description">
+        <Field label="Description" error={errors.description}>
           <Controller
             name="description"
             control={control}
-            render={({ onChange, value }) => (
-              <WYSIWYGEditor
-                editorState={value}
-                onEditorStateChange={onChange}
-              />
+            rules={{
+              required: {
+                value: true,
+                message: 'A description is required.',
+              },
+              minLength: {
+                value: 13,
+                message: 'Too short…',
+              },
+            }}
+            defaultValue={defaultValues.description}
+            render={({ field: { onChange, value } }) => (
+              <WYSIWYGEditor {...{ value, onChange }} />
             )}
           />
         </Field>
 
-        <Field label="Link" error={errors.external_link}>
+        <Field label="Link" error={errors.externalLink}>
           <Input
-            background="dark"
             placeholder="External link"
-            name="external_link"
-            ref={register(validations.external_link)}
-            isInvalid={!!errors.external_link}
+            {...register('externalLink', {
+              pattern: {
+                value: URIRegexp,
+                message: 'Supply a valid URL.',
+              },
+            })}
+            isInvalid={!!errors.externalLink}
+            background="dark"
           />
         </Field>
 
         <Field label="Repetition">
           <Select
-            isRequired
-            name="repetition"
-            ref={register(validations.repetition)}
+            {...register('repetition', {
+              required: {
+                value: true,
+                message: 'This is a required field.',
+              },
+            })}
             isInvalid={!!errors.repetition}
             bg="dark"
             color="white"
@@ -242,23 +245,34 @@ export const QuestForm: React.FC<Props> = ({
         {createQuestInput.repetition === QuestRepetition_Enum.Recurring && (
           <Field label="Cooldown (hours)" error={errors.cooldown}>
             <Input
-              isRequired
-              background="dark"
               placeholder="3600"
-              name="cooldown"
               type="number"
-              ref={register(validations.cooldown)}
+              {...register('cooldown', {
+                valueAsNumber: true,
+                required: {
+                  value: true,
+                  message: 'This is a required field.',
+                },
+                min: {
+                  value: 1,
+                  message: 'Cooldown must be at least one hour.',
+                },
+              })}
               isInvalid={!!errors.cooldown}
+              background="dark"
             />
           </Field>
         )}
 
         <Field label="Guild">
           <Select
-            isRequired
-            name="guild_id"
-            ref={register(validations.guild_id)}
-            isInvalid={!!errors.guild_id}
+            {...register('guildId', {
+              required: {
+                value: true,
+                message: 'This is a required field.',
+              },
+            })}
+            isInvalid={!!errors.guildId}
             bg="dark"
             color="white"
           >
@@ -273,12 +287,15 @@ export const QuestForm: React.FC<Props> = ({
         {editQuest && (
           <Field label="Status">
             <Select
-              isRequired
-              name="status"
+              {...register('status', {
+                required: {
+                  value: true,
+                  message: 'This is a required field.',
+                },
+              })}
+              isInvalid={!!errors.status}
               bg="dark"
               color="white"
-              ref={register}
-              isInvalid={!!errors.status}
             >
               {Object.entries(QuestStatus_Enum).map(([key, value]) => (
                 <option key={value} value={value}>
@@ -293,31 +310,23 @@ export const QuestForm: React.FC<Props> = ({
           <FlexContainer w="100%" align="stretch" maxW="50rem">
             <Controller
               name="skills"
-              control={control}
+              {...{ control }}
               defaultValue={[]}
-              render={({ onChange, value }) => (
+              render={({ field: { onChange, value } }) => (
                 <SkillsSelect
-                  skillChoices={skillChoices}
+                  {...{ skillChoices }}
                   skills={value}
                   setSkills={onChange}
-                  placeHolder="Select required skills"
+                  placeHolder="Select Required Skills…"
                 />
               )}
             />
           </FlexContainer>
         </Field>
 
-        <HStack justify="space-between" mt={4} w="100%">
+        <Flex justify="center" align="center" my="2em ! important" w="100%">
           <MetaButton
-            variant="outline"
-            colorScheme="pink"
-            onClick={() => setExitAlert(true)}
-            isDisabled={fetching || success}
-          >
-            Cancel
-          </MetaButton>
-          <MetaButton
-            mt={10}
+            disabled={guilds.length === 0}
             isLoading={fetching}
             loadingText={loadingLabel}
             onClick={handleSubmit(onSubmit)}
@@ -325,7 +334,17 @@ export const QuestForm: React.FC<Props> = ({
           >
             {submitLabel}
           </MetaButton>
-        </HStack>
+          <Button
+            variant="ghost"
+            onClick={() => setExitAlert(true)}
+            isDisabled={fetching || success}
+            _hover={{ bg: '#FFFFFF11' }}
+            _active={{ bg: '#FF000008' }}
+            ml={5}
+          >
+            Cancel
+          </Button>
+        </Flex>
       </VStack>
 
       <ConfirmModal
@@ -334,7 +353,7 @@ export const QuestForm: React.FC<Props> = ({
         onYep={() =>
           router.push(editQuest ? `/quest/${editQuest.id}` : '/quests')
         }
-        header="Are you sure you want to leave ?"
+        header="Are you sure you want to leave?"
       />
     </Box>
   );

@@ -6,13 +6,13 @@
     schema: public
     name: ColorAspect
   array_relationships:
-  - name: players
+  - name: profiles
     using:
       foreign_key_constraint_on:
         column: color_mask
         table:
           schema: public
-          name: player
+          name: profile
   select_permissions:
   - role: player
     permission:
@@ -27,6 +27,38 @@
       - mask
       - description
       - name
+      filter: {}
+- table:
+    schema: public
+    name: ExplorerType
+  configuration:
+    custom_root_fields: {}
+    custom_column_names:
+      image_url: imageURL
+  array_relationships:
+  - name: profiles
+    using:
+      foreign_key_constraint_on:
+        column: explorer_type_title
+        table:
+          schema: public
+          name: profile
+  select_permissions:
+  - role: player
+    permission:
+      columns:
+      - description
+      - id
+      - image_url
+      - title
+      filter: {}
+  - role: public
+    permission:
+      columns:
+      - id
+      - description
+      - image_url
+      - title
       filter: {}
 - table:
     schema: public
@@ -275,6 +307,10 @@
 - table:
     schema: public
     name: me
+  configuration:
+    custom_root_fields: {}
+    custom_column_names:
+      ethereum_address: ethereumAddress
   object_relationships:
   - name: player
     using:
@@ -297,21 +333,25 @@
 - table:
     schema: public
     name: player
+  configuration:
+    custom_root_fields: {}
+    custom_column_names:
+      ethereum_address: ethereumAddress
+      discord_id: discordId
+      updated_at: updatedAt
+      season_xp: seasonXP
+      created_at: createdAt
+      total_xp: totalXP
+      profile_layout: profileLayout
   object_relationships:
-  - name: color_aspect
-    using:
-      foreign_key_constraint_on: color_mask
-  - name: profile_cache
+  - name: profile
     using:
       manual_configuration:
         remote_table:
           schema: public
-          name: profile_cache
+          name: profile
         column_mapping:
           id: player_id
-  - name: type
-    using:
-      foreign_key_constraint_on: player_type_id
   array_relationships:
   - name: accounts
     using:
@@ -358,15 +398,6 @@
   remote_relationships:
   - definition:
       remote_field:
-        getBoxProfile:
-          arguments:
-            address: $ethereum_address
-      hasura_fields:
-      - ethereum_address
-      remote_schema: backend
-    name: box_profile
-  - definition:
-      remote_field:
         getDaoHausMemberships:
           arguments:
             memberAddress: $ethereum_address
@@ -396,50 +427,33 @@
   - role: player
     permission:
       columns:
-      - availability_hours
-      - color_mask
       - ethereum_address
       - id
-      - player_type_id
       - profile_layout
-      - pronouns
       - rank
       - role
       - season_xp
-      - timezone
       - total_xp
-      - username
       filter: {}
       allow_aggregations: true
   - role: public
     permission:
       columns:
-      - availability_hours
-      - color_mask
       - ethereum_address
       - id
       - profile_layout
-      - pronouns
       - rank
       - role
       - season_xp
-      - timezone
       - total_xp
-      - username
       filter: {}
       allow_aggregations: true
   update_permissions:
   - role: player
     permission:
       columns:
-      - availability_hours
-      - color_mask
-      - player_type_id
       - profile_layout
-      - pronouns
       - role
-      - timezone
-      - username
       filter:
         id:
           _eq: X-Hasura-User-Id
@@ -474,6 +488,10 @@
 - table:
     schema: public
     name: player_account
+  configuration:
+    custom_root_fields: {}
+    custom_column_names:
+      player_id: playerId
   object_relationships:
   - name: Player
     using:
@@ -596,34 +614,27 @@
           _eq: X-Hasura-User-Id
 - table:
     schema: public
-    name: player_type
-  select_permissions:
-  - role: player
-    permission:
-      columns:
-      - description
-      - id
-      - imageUrl
-      - title
-      filter: {}
-  - role: public
-    permission:
-      columns:
-      - id
-      - description
-      - imageUrl
-      - title
-      filter: {}
-- table:
-    schema: public
-    name: profile_cache
+    name: profile
   configuration:
     custom_root_fields: {}
     custom_column_names:
+      profile_image_url: profileImageURL
+      country_code: countryCode
       background_image_url: backgroundImageURL
-      image_url: imageURL
+      last_checked_at: lastCheckedAt
+      banner_image_url: bannerImageURL
+      color_mask: colorMask
       player_id: playerId
+      time_zone: timeZone
+      available_hours: availableHours
+      explorer_type_title: explorerTypeTitle
   object_relationships:
+  - name: colorAspect
+    using:
+      foreign_key_constraint_on: color_mask
+  - name: explorerType
+    using:
+      foreign_key_constraint_on: explorer_type_title
   - name: player
     using:
       foreign_key_constraint_on: player_id
@@ -631,42 +642,65 @@
   - role: player
     permission:
       columns:
-      - name
-      - description
-      - location
-      - emoji
-      - image_url
+      - available_hours
       - background_image_url
-      - website
+      - banner_image_url
+      - color_mask
+      - country_code
+      - description
+      - emoji
+      - explorer_type_title
       - gender
       - id
+      - location
+      - name
       - player_id
+      - profile_image_url
+      - pronouns
+      - time_zone
+      - username
+      - website
       filter: {}
   - role: public
     permission:
       columns:
+      - available_hours
       - background_image_url
+      - banner_image_url
+      - color_mask
+      - country_code
       - description
       - emoji
+      - explorer_type_title
       - gender
-      - image_url
+      - id
       - location
       - name
-      - website
-      - id
       - player_id
+      - profile_image_url
+      - pronouns
+      - time_zone
+      - username
+      - website
       filter: {}
   update_permissions:
   - role: player
     permission:
       columns:
+      - available_hours
       - background_image_url
+      - banner_image_url
+      - color_mask
+      - country_code
       - description
       - emoji
       - gender
-      - image_url
       - location
       - name
+      - profile_image_url
+      - pronouns
+      - time_zone
+      - username
       - website
       filter:
         player_id:
@@ -675,6 +709,13 @@
 - table:
     schema: public
     name: quest
+  configuration:
+    custom_root_fields: {}
+    custom_column_names:
+      external_link: externalLink
+      created_by_player_id: createdByPlayerId
+      created_at: createdAt
+      guild_id: guildId
   object_relationships:
   - name: guild
     using:
@@ -763,6 +804,14 @@
 - table:
     schema: public
     name: quest_completion
+  configuration:
+    custom_root_fields: {}
+    custom_column_names:
+      quest_id: questId
+      submission_link: submissionLink
+      submission_text: submissionText
+      completed_by_player_id: completedByPlayerId
+      submitted_at: submittedAt
   object_relationships:
   - name: player
     using:
@@ -812,6 +861,11 @@
 - table:
     schema: public
     name: quest_skill
+  configuration:
+    custom_root_fields: {}
+    custom_column_names:
+      quest_id: questId
+      skill_id: skillId
   object_relationships:
   - name: quest
     using:

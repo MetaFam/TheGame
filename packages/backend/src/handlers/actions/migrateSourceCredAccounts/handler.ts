@@ -1,11 +1,11 @@
 import {
   Constants,
+  fetch,
   getLatestEthAddress,
   isNotNullOrUndefined,
 } from '@metafam/utils';
 import bluebird from 'bluebird';
 import { Request, Response } from 'express';
-import fetch from 'node-fetch';
 import { SCAccountsData, SCAlias, sourcecred as sc } from 'sourcecred';
 
 import {
@@ -30,7 +30,7 @@ const parseAlias = (alias: SCAlias) => {
     const addressParts = sc.core.graph.NodeAddress.toParts(alias.address);
     const type = addressParts[1]?.toUpperCase() as AccountType_Enum;
 
-    if (VALID_ACCOUNT_TYPES.indexOf(type) < 0) {
+    if (!VALID_ACCOUNT_TYPES.includes(type)) {
       return null;
     }
 
@@ -41,9 +41,11 @@ const parseAlias = (alias: SCAlias) => {
       identifier,
     };
   } catch (e) {
-    const error = (e as Error).message;
-
-    console.warn('Unable to parse alias: ', { error, alias });
+    // eslint-disable-next-line no-console
+    console.error('Unable to parse alias:', {
+      error: (e as Error).message,
+      alias,
+    });
     return null;
   }
 };
@@ -52,17 +54,16 @@ export const migrateSourceCredAccounts = async (
   req: Request,
   res: Response,
 ): Promise<void> => {
-  const ledgerRes = await ledgerManager.reloadLedger();
-  if (ledgerRes.error) {
-    throw new Error(`Unable to load ledger: ${ledgerRes.error}`);
+  const { error: loadError } = await ledgerManager.reloadLedger();
+  if (loadError) {
+    throw new Error(`Unable to load ledger: ${loadError}`);
   }
 
   const force = req.query.force != null;
-  console.log(`Updating players from sourcecred. Force-insert? ${force}`);
+  console.debug(`Updating players from sourcecred. Force-insert? ${force}`);
 
-  const accountsData: SCAccountsData = await (
-    await fetch(Constants.SC_ACCOUNTS_FILE)
-  ).json();
+  const accountsResult = await fetch(Constants.SC_ACCOUNTS_FILE);
+  const accountsData = (await accountsResult.json()) as SCAccountsData;
   const accountOnConflict = {
     constraint: Player_Account_Constraint.AccountIdentifierTypeKey,
     update_columns: [],
@@ -87,13 +88,13 @@ export const migrateSourceCredAccounts = async (
 
       const rank = computeRank(index);
       const userWeeklyCred = a.cred;
-      const seasonXp = userWeeklyCred
+      const seasonXP = userWeeklyCred
         .slice(-numWeeksInSeason)
         .reduce((t, c) => t + c, 0);
       return {
-        ethereum_address: ethAddress.toLowerCase(),
-        totalXp: a.totalCred,
-        seasonXp,
+        ethereumAddress: ethAddress.toLowerCase(),
+        totalXP: a.totalCred,
+        seasonXP,
         rank,
         discordId,
         Accounts: {
@@ -112,57 +113,56 @@ export const migrateSourceCredAccounts = async (
       accountList,
       async (player) => {
         const vars = {
-          ethAddress: player.ethereum_address,
+          ethAddress: player.ethereumAddress,
           rank: player.rank,
-          totalXp: player.totalXp,
-          seasonXp: player.seasonXp,
+          totalXP: player.totalXP,
+          seasonXP: player.seasonXP,
           discordId: player.discordId,
         };
 
         try {
-          const updateResult = await client.UpdatePlayer(vars);
+          const { update_player: update } = await client.UpdatePlayer(vars);
 
-          let playerId: string;
-          let affected = updateResult.update_player?.affected_rows;
+          let playerId: string = update?.returning[0]?.id;
+          let { affected_rows: affected } = update ?? {};
 
-          if (affected === 0) {
+          if ((affected ?? 0) > 1) {
+            throw new Error(
+              `Multiple players (${affected}) updated incorrectly: ${player.ethereumAddress}`,
+            );
+          } else if (affected === 0) {
             if (!force) {
               return player;
             }
 
-            // 'force' indicates we should insert new players if they don't already exist.
-            const upsertResult = await client.InsertPlayers({
+            // 'force' indicates we should insert new players
+            // if they don't already exist.
+            const { insert_player: insert } = await client.InsertPlayers({
               objects: [
                 {
-                  username: player.ethereum_address,
-                  ethereum_address: player.ethereum_address,
+                  ethereumAddress: player.ethereumAddress,
                   rank: player.rank,
-                  total_xp: player.totalXp,
-                  season_xp: player.seasonXp,
+                  totalXP: player.totalXP,
+                  seasonXP: player.seasonXP,
                 },
               ],
             });
-            affected = upsertResult.insert_player?.affected_rows;
-            playerId = upsertResult.insert_player?.returning[0]?.id;
-          } else {
-            playerId = updateResult.update_player?.returning[0]?.id;
-          }
-          if (affected && affected > 1) {
-            throw new Error('Multiple players updated incorrectly');
+            affected = insert?.affected_rows;
+            playerId = insert?.returning[0]?.id;
           }
 
           if (playerId) {
             try {
               await client.UpsertAccount({
                 objects: player.Accounts.data.map((account) => ({
-                  player_id: playerId,
+                  playerId,
                   type: account.type,
                   identifier: account.identifier,
                 })),
                 on_conflict: accountOnConflict,
               });
             } catch (accErr) {
-              console.log(
+              console.error(
                 'Error updating accounts for Player',
                 playerId,
                 accErr,

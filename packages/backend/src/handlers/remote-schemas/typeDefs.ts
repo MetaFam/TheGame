@@ -4,7 +4,6 @@ export const typeDefs = gql`
   scalar uuid
 
   type Query {
-    getBoxProfile(address: String): BoxProfile
     getDaoHausMemberships(memberAddress: String): [Member!]!
     getBrightIdStatus(contextId: uuid): BrightIdStatus
     getTokenBalances(address: String): TokenBalances
@@ -21,19 +20,6 @@ export const typeDefs = gql`
     app: String!
     context: String!
     contextIds: [String!]!
-  }
-
-  type BoxProfile {
-    ethereumAddress: String
-    name: String
-    description: String
-    location: String
-    job: String
-    emoji: String
-    imageURL: String
-    coverImageURL: String
-    website: String
-    collectiblesFavorites: [CollectiblesFavorites!]
   }
 
   type CollectiblesFavorites {

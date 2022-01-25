@@ -74,7 +74,7 @@ export const QuestFilter: React.FC<Props> = ({
           </WrapItem>
           <WrapItem>
             <MetaSelect
-              value={(queryVariables.guild_id as string) || ''}
+              value={(queryVariables.guildId as string) || ''}
               onChange={(e) => setQueryVariable('guild_id', e.target.value)}
             >
               <option value="">All guilds</option>
@@ -101,14 +101,14 @@ export const QuestFilter: React.FC<Props> = ({
                   onClick={() =>
                     setQueryVariable(
                       'created_by_player_id',
-                      queryVariables.created_by_player_id ? '' : myId,
+                      queryVariables.createdByPlayerId ? '' : myId,
                     )
                   }
                 >
                   <Text mr={2}>Created by me</Text>
                   <Switch
                     isChecked={
-                      myId && queryVariables.created_by_player_id === myId
+                      myId && queryVariables.createdByPlayerId === myId
                     }
                   />
                 </MetaButton>

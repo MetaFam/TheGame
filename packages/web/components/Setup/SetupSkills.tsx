@@ -4,20 +4,21 @@ import {
   MetaHeading,
   MetaTheme,
   ModalFooter,
+  searchSelectStyles,
   SelectSearch,
-  selectStyles,
   useToast,
 } from '@metafam/ds';
 import { FlexContainer } from 'components/Container';
 import { useSetupFlow } from 'contexts/SetupContext';
 import {
+  Skill,
   SkillCategory_Enum,
   useUpdatePlayerSkillsMutation,
 } from 'graphql/autogen/types';
 import { getSkills } from 'graphql/queries/enums/getSkills';
 import { SkillColors } from 'graphql/types';
 import { useUser } from 'lib/hooks';
-import React, { useEffect, useState } from 'react';
+import React, { CSSProperties, useEffect, useState } from 'react';
 import { CategoryOption, parseSkills, SkillOption } from 'utils/skillHelpers';
 
 export type SetupSkillsProps = {
@@ -25,23 +26,41 @@ export type SetupSkillsProps = {
   onClose?: () => void;
 };
 
-const styles: typeof selectStyles = {
-  ...selectStyles,
-  multiValue: (s, { data }) => ({
+const styles: typeof searchSelectStyles = {
+  ...searchSelectStyles,
+  menuList: (s: CSSProperties) => ({
+    ...s,
+    minHeight: '75vh',
+  }),
+  multiValue: (s: CSSProperties, { data }: { data: Skill }) => ({
     ...s,
     background: SkillColors[data.category as SkillCategory_Enum],
     color: MetaTheme.colors.white,
   }),
-  multiValueLabel: (s, { data }) => ({
+  multiValueLabel: (s: CSSProperties, { data }: { data: Skill }) => ({
     ...s,
     background: SkillColors[data.category as SkillCategory_Enum],
     color: MetaTheme.colors.white,
   }),
-  groupHeading: (s, { children }) => ({
+  groupHeading: (
+    s: CSSProperties,
+    { children }: { children: SkillCategory_Enum },
+  ) => ({
     ...s,
-    ...(selectStyles.groupHeading &&
-      selectStyles.groupHeading(s, { children })),
-    background: SkillColors[children as SkillCategory_Enum],
+    ...searchSelectStyles.groupHeading?.(s, { children }),
+    background: SkillColors[children],
+  }),
+  option: (
+    s: CSSProperties,
+    { isSelected, isFocused }: { isSelected: boolean; isFocused: boolean },
+  ) => ({
+    ...s,
+    color:
+      isSelected || isFocused ? MetaTheme.colors.black : MetaTheme.colors.white,
+    ':hover': {
+      background: MetaTheme.colors.green[50],
+      color: MetaTheme.colors.black,
+    },
   }),
 };
 
@@ -52,43 +71,43 @@ export const SetupSkills: React.FC<SetupSkillsProps> = ({
   const { onNextPress, nextButtonLabel } = useSetupFlow();
   const { user } = useUser();
   const toast = useToast();
-  const [skillChoices, setSkillChoices] = useState<CategoryOption[]>([]);
+  const [skillChoices, setSkillChoices] = useState<Array<CategoryOption>>([]);
   const [updateSkillsRes, updateSkills] = useUpdatePlayerSkillsMutation();
   const [loading, setLoading] = useState(false);
   const [playerSkills, setPlayerSkills] = useState<Array<SkillOption>>([]);
   const isWizard = !isEdit;
-
-  if (user?.player) {
-    const { player } = user;
-    if (
-      player.skills &&
-      player.skills.length > 0 &&
-      playerSkills.length === 0
-    ) {
-      setPlayerSkills(
-        player.skills.map((s) => ({
-          value: s.Skill.id,
-          label: s.Skill.name,
-          ...s.Skill,
-        })),
-      );
-    }
-  }
+  const { player } = user ?? {};
 
   useEffect(() => {
-    async function fetchMyAPI() {
+    if (player) {
+      if (
+        player.skills &&
+        player.skills.length > 0 &&
+        playerSkills.length === 0
+      ) {
+        setPlayerSkills(
+          player.skills.map(({ Skill: skill }) => ({
+            value: skill.id,
+            label: skill.name,
+            ...skill,
+          })),
+        );
+      }
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    const fetchSkills = async () => {
       const skills = await getSkills();
       setSkillChoices(parseSkills(skills));
-    }
+    };
 
-    fetchMyAPI();
+    fetchSkills();
   }, []);
 
   const handleNextPress = async () => {
     setLoading(true);
-
-    save();
-
+    await save();
     onNextPress();
   };
 
@@ -96,6 +115,7 @@ export const SetupSkills: React.FC<SetupSkillsProps> = ({
     if (!user) return;
 
     setLoading(true);
+
     const { error } = await updateSkills({
       skills: playerSkills.map((s) => ({ skill_id: s.id })),
     });
@@ -103,8 +123,8 @@ export const SetupSkills: React.FC<SetupSkillsProps> = ({
     if (error) {
       console.warn(error); // eslint-disable-line no-console
       toast({
-        title: 'Error',
-        description: 'Unable to update player skills. The octo is sad 😢',
+        title: 'Update Error',
+        description: `Unable to update skills. Error: ${error}`,
         status: 'error',
         isClosable: true,
       });
@@ -128,26 +148,29 @@ export const SetupSkills: React.FC<SetupSkillsProps> = ({
           options={skillChoices}
           autoFocus
           closeMenuOnSelect={false}
-          placeholder="ADD YOUR SKILLS"
+          placeholder="Add Your Skills…"
         />
       </FlexContainer>
       {isEdit && onClose && (
         <ModalFooter mt={6}>
-          <Button
-            colorScheme="blue"
+          <MetaButton
             mr={3}
-            onClick={() => {
-              save();
+            isLoading={loading}
+            loadingText="Saving…"
+            onClick={async () => {
+              await save();
               onClose();
             }}
           >
             Save Changes
-          </Button>
+          </MetaButton>
           <Button
             variant="ghost"
             onClick={onClose}
             color="white"
-            _hover={{ bg: 'none' }}
+            _hover={{ bg: '#FFFFFF11' }}
+            _active={{ bg: '#FF000011' }}
+            disabled={loading}
           >
             Close
           </Button>
@@ -159,7 +182,7 @@ export const SetupSkills: React.FC<SetupSkillsProps> = ({
           onClick={handleNextPress}
           mt={10}
           isLoading={updateSkillsRes.fetching || loading}
-          loadingText="Saving"
+          loadingText="Saving…"
         >
           {nextButtonLabel}
         </MetaButton>

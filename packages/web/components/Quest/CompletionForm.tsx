@@ -1,6 +1,7 @@
 import {
+  Button,
   ConfirmModal,
-  HStack,
+  Flex,
   Input,
   MetaButton,
   Text,
@@ -13,17 +14,7 @@ import {
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-
-import { UriRegexp } from '../../utils/questHelpers';
-
-const validations = {
-  submission_text: {
-    required: true,
-  },
-  submission_link: {
-    pattern: UriRegexp,
-  },
-};
+import { URIRegexp } from 'utils/questHelpers';
 
 type Props = {
   quest: QuestFragmentFragment;
@@ -40,7 +31,7 @@ export const CompletionForm: React.FC<Props> = ({
 }) => {
   const {
     register,
-    errors,
+    formState: { errors },
     handleSubmit,
   } = useForm<CreateQuestCompletionInput>();
   const [exitAlert, setExitAlert] = useState<boolean>(false);
@@ -50,46 +41,53 @@ export const CompletionForm: React.FC<Props> = ({
     <VStack>
       <Text>Description</Text>
       <Input
+        placeholder="What did you do?"
+        {...register('submissionText', {
+          required: {
+            value: true,
+            message: 'This is a required field.',
+          },
+        })}
+        isInvalid={!!errors.submissionText}
         background="dark"
-        placeholder="What did you do ?"
-        isRequired
-        name="submission_text"
-        ref={register(validations.submission_text)}
-        isInvalid={!!errors.submission_text}
       />
 
       <Text>Link</Text>
       <Input
-        background="dark"
         placeholder="External link"
-        name="submission_link"
-        ref={register(validations.submission_link)}
-        isInvalid={!!errors.submission_link}
+        {...register('submissionLink', {
+          pattern: {
+            value: URIRegexp,
+            message: 'Supply a valid URL.',
+          },
+        })}
+        isInvalid={!!errors.submissionLink}
+        background="dark"
       />
-      <HStack>
+      <Flex align="center" justify="center" mt={10}>
         <MetaButton
-          variant="outline"
-          onClick={() => setExitAlert(true)}
-          isDisabled={fetching || success}
-        >
-          Cancel
-        </MetaButton>
-        <MetaButton
-          mt={10}
           isLoading={fetching}
-          loadingText="Submitting..."
+          loadingText="Submitting…"
           onClick={handleSubmit(onSubmit)}
           isDisabled={success}
         >
           Submit
         </MetaButton>
-      </HStack>
+        <Button
+          variant="ghost"
+          onClick={() => setExitAlert(true)}
+          isDisabled={fetching || success}
+          _hover={{ bg: '#FFFFFF11' }}
+        >
+          Cancel
+        </Button>
+      </Flex>
 
       <ConfirmModal
         isOpen={exitAlert}
         onNope={() => setExitAlert(false)}
         onYep={() => router.push(`/quest/${quest.id}`)}
-        header="Are you sure you want to leave ?"
+        header="Are you sure you want to leave?"
       />
     </VStack>
   );

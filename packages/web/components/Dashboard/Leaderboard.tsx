@@ -2,6 +2,7 @@ import {
   Box,
   FlexProps,
   HStack,
+  LabeledValue,
   LinkBox,
   LinkOverlay,
   LoadingState,
@@ -20,9 +21,7 @@ import {
 } from 'lib/hooks/players';
 import NextLink from 'next/link';
 import React, { useMemo, useState } from 'react';
-import { getPlayerName } from 'utils/playerHelpers';
-
-type ValueType = { value: string; label: string };
+import { getPlayerName, getPlayerURL } from 'utils/playerHelpers';
 
 export const Leaderboard: React.FC = () => {
   const {
@@ -34,7 +33,7 @@ export const Leaderboard: React.FC = () => {
   } = usePlayerFilter();
 
   const showSeasonalXP = useMemo(
-    () => Object.keys(queryVariables.orderBy).includes('season_xp'),
+    () => Object.keys(queryVariables.orderBy).includes('seasonXP'),
     [queryVariables.orderBy],
   );
 
@@ -44,8 +43,8 @@ export const Leaderboard: React.FC = () => {
     2,
   ) as Array<OptionType>;
 
-  const [sortOption, setSortOption] = useState<ValueType>(
-    sortOptionsMap[SortOption.SEASON_XP.toString()],
+  const [sortOption, setSortOption] = useState<LabeledValue<string>>(
+    sortOptionsMap[SortOption.SEASON_XP],
   );
 
   return (
@@ -54,37 +53,52 @@ export const Leaderboard: React.FC = () => {
       width="100%"
       mt={5}
       fontFamily="exo2"
-      fontWeight="700"
+      fontWeight={700}
       alignItems="baseline"
     >
       <Box mb={4}>
         <MetaFilterSelectSearch
-          title={`Sorted By: ${sortOption.label}`}
+          title={
+            <Text
+              as="span"
+              textTransform="none"
+              style={{ fontVariant: 'small-caps' }}
+            >
+              Sort By: <Text as="span">{sortOption.label}</Text>
+            </Text>
+          }
           styles={metaFilterSelectStyles}
           tagLabel=""
           hasValue={sortOption.value !== SortOption.SEASON_XP}
-          value={[sortOption]}
-          onChange={(value) => {
-            const values = value as ValueType[];
-            if (values && values[values.length - 1]) {
-              setSortOption(values[values.length - 1]);
-              setQueryVariable('orderBy', values[values.length - 1].value);
+          value={[
+            { label: sortOption.label ?? '', value: sortOption.value ?? '' },
+          ]} // Hack
+          onChange={(choice) => {
+            if (Array.isArray(choice)) {
+              // eslint-disable-next-line no-param-reassign
+              [choice] = choice.slice(-1);
+            }
+
+            if (choice) {
+              const labeled = choice as LabeledValue<string>;
+              setSortOption(labeled);
+              setQueryVariable('orderBy', labeled.value);
             }
           }}
           options={sortOptions}
         />
       </Box>
-      {error ? <Text>{`Error: ${error.message}`}</Text> : null}
+      {error && <Text>{`Error: ${error.message}`}</Text>}
       {fetching ? (
         <LoadingState />
       ) : (
         !error &&
         players.map((p, i) => {
-          const playerPosition: number = i + 1;
+          const position = i + 1;
           if (
-            playerPosition <= 7 &&
-            ((showSeasonalXP && p.season_xp >= 1) ||
-              (!showSeasonalXP && p.total_xp >= 50))
+            position <= 7 &&
+            ((showSeasonalXP && p.seasonXP >= 1) ||
+              (!showSeasonalXP && p.totalXP >= 50))
           ) {
             return (
               <LinkBox
@@ -92,7 +106,8 @@ export const Leaderboard: React.FC = () => {
                 className="player player__chip"
                 display="flex"
                 width="100%"
-                px={8}
+                maxW="100%"
+                px={1}
                 py={2}
                 flexFlow="row nowrap"
                 alignItems="center"
@@ -102,14 +117,14 @@ export const Leaderboard: React.FC = () => {
                 overflowX="hidden"
                 overflowY="hidden"
               >
-                <Box className="player__position" flex={0} mr={3}>
-                  {playerPosition}
+                <Box className="player__position" flex={0} mr={1.5}>
+                  {position}
                 </Box>
                 <PlayerAvatar
                   className="player__avatar"
                   bg="cyan.200"
-                  border="0"
-                  mr={3}
+                  border={0}
+                  mr={1}
                   size="sm"
                   player={p}
                   sx={{
@@ -130,15 +145,24 @@ export const Leaderboard: React.FC = () => {
                 />
                 <Box className="player__name">
                   <NextLink
-                    as={`/player/${p.username}`}
+                    as={getPlayerURL(p)}
                     href="/player/[username]"
                     passHref
                   >
-                    <LinkOverlay>{getPlayerName(p)}</LinkOverlay>
+                    <LinkOverlay
+                      overflowX="hidden"
+                      whiteSpace="pre"
+                      textOverflow="ellipsis"
+                      mr={2}
+                    >
+                      {getPlayerName(p)}
+                    </LinkOverlay>
                   </NextLink>
                 </Box>
                 <Box className="player__score" textAlign="right" flex={1}>
-                  {Math.floor(showSeasonalXP ? p.season_xp : p.total_xp)}
+                  {Math.floor(
+                    showSeasonalXP ? p.seasonXP : p.totalXP,
+                  ).toLocaleString()}
                 </Box>
               </LinkBox>
             );

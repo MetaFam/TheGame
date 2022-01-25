@@ -26,13 +26,12 @@ type Props = {
 
 export const GuildPlayers: React.FC<Props> = ({ guildId, guildname }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-
   const [guildPlayers, setGuildPlayers] = useState<GuildPlayer[]>([]);
-  const [loadingPlayers, setLoadingPlayers] = useState<boolean>(true);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     getGuildPlayers(guildId, guildname === 'metafam').then((players) => {
-      setLoadingPlayers(false);
+      setLoading(false);
       setGuildPlayers(players);
     });
   }, [guildId, guildname]);
@@ -52,7 +51,7 @@ export const GuildPlayers: React.FC<Props> = ({ guildId, guildname }) => {
     ) : (
       <>
         {guildPlayers.slice(0, 4).map((player) => (
-          <GuildPlayerComponent key={player.username} player={player} />
+          <GuildPlayerComponent key={player.ethereumAddress} {...{ player }} />
         ))}
 
         {guildPlayers.length > 4 && (
@@ -118,8 +117,8 @@ export const GuildPlayers: React.FC<Props> = ({ guildId, guildname }) => {
                   >
                     {guildPlayers.map((player) => (
                       <GuildPlayerComponent
-                        key={player.username}
-                        player={player}
+                        key={player.ethereumAddress}
+                        {...{ player }}
                       />
                     ))}
                   </SimpleGrid>
@@ -133,9 +132,7 @@ export const GuildPlayers: React.FC<Props> = ({ guildId, guildname }) => {
 
   return (
     <ProfileSection title="Players">
-      {loadingPlayers && <LoadingState />}
-
-      {!loadingPlayers && <GuildMembers />}
+      {loading ? <LoadingState /> : <GuildMembers />}
     </ProfileSection>
   );
 };

@@ -248,7 +248,7 @@ export const gridConfig = {
   },
 };
 
-export const chartWrapperStyles = {
+export const SEEDChartWrapperStyles = {
   '.seed-chart': {
     position: 'absolute',
     bottom: 0,

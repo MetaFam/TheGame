@@ -18,8 +18,9 @@ export const getDiscordId = (targetParameter: string): Snowflake => {
 
 export const replyWithUnexpectedError = (
   message: CommandMessage,
+  error: string,
 ): Promise<Message> => {
-  let reply = 'The octo is sad 😢, as there was an unexpected error.';
+  let reply = `The octo is sad 😢, as there was an unexpected error: "${error}"`;
 
   const feedbackChannel = message.guild?.channels?.cache.get(
     '794214722639101992',

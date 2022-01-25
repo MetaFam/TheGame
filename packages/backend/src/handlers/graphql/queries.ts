@@ -1,13 +1,13 @@
-import { gql } from 'graphql-request/dist';
-
 // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-gql`
+/* GraphQL */ `
   query GetPlayer($playerId: uuid!) {
     player_by_pk(id: $playerId) {
       id
-      username
-      ethereum_address
-      discord_id
+      ethereumAddress
+      discordId
+      profile {
+        username
+      }
       accounts {
         identifier
         type
@@ -15,68 +15,68 @@ gql`
     }
   }
 
-  query GetPlayerFromETH($ethereum_address: String) {
-    player(where: { ethereum_address: { _eq: $ethereum_address } }) {
+  query GetPlayerFromETH($ethereumAddress: String) {
+    player(where: { ethereumAddress: { _eq: $ethereumAddress } }) {
       id
     }
   }
 
   query GetPlayersByDiscordId($discordIds: [String!]!) {
-    player(where: { discord_id: { _in: $discordIds } }) {
+    player(where: { discordId: { _in: $discordIds } }) {
       id
     }
   }
 
-  query GetQuestById($quest_id: uuid!) {
-    quest_by_pk(id: $quest_id) {
+  query GetQuestById($questId: uuid!) {
+    quest_by_pk(id: $questId) {
       id
       cooldown
       status
       repetition
-      created_by_player_id
+      createdByPlayerId
     }
   }
 
-  query GetQuestCompletions($quest_id: uuid!, $player_id: uuid!) {
+  query GetQuestCompletions($questId: uuid!, $playerId: uuid!) {
     quest_completion(
       where: {
-        quest_id: { _eq: $quest_id }
-        completed_by_player_id: { _eq: $player_id }
+        questId: { _eq: $questId }
+        completedByPlayerId: { _eq: $playerId }
       }
     ) {
       id
-      quest_id
-      completed_by_player_id
+      questId
+      completedByPlayerId
     }
   }
 
   query GetQuestCompletionById($quest_completion_id: uuid!) {
     quest_completion_by_pk(id: $quest_completion_id) {
       id
-      quest_id
-      completed_by_player_id
+      questId
+      completedByPlayerId
       status
     }
   }
 
-  query GetLastQuestCompletionForPlayer($quest_id: uuid!, $player_id: uuid!) {
+  query GetLastQuestCompletionForPlayer($questId: uuid!, $playerId: uuid!) {
     quest_completion(
       limit: 1
-      order_by: { submitted_at: desc }
+      order_by: { submittedAt: desc }
       where: {
-        quest_id: { _eq: $quest_id }
-        completed_by_player_id: { _eq: $player_id }
+        questId: { _eq: $questId }
+        completedByPlayerId: { _eq: $playerId }
       }
     ) {
       id
-      quest_id
-      completed_by_player_id
-      submitted_at
+      questId
+      completedByPlayerId
+      submittedAt
     }
   }
 `;
 
-export const GuildFragment = gql`
+export const GuildFragment = /* GraphQL */ `
   fragment GuildFragment on guild {
     id
     guildname
@@ -94,7 +94,7 @@ export const GuildFragment = gql`
 `;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-gql`
+/* GraphQL */ `
   query GetGuild($id: uuid!) {
     guild(where: { id: { _eq: $id } }) {
       ...GuildFragment
@@ -136,7 +136,7 @@ gql`
       guild_players {
         Player {
           id
-          discord_id
+          discordId
         }
       }
     }
@@ -150,7 +150,7 @@ gql`
     ) {
       Player {
         id
-        discord_id
+        discordId
       }
       Guild {
         id
@@ -160,13 +160,13 @@ gql`
   }
 `;
 
-export const GetCacheEntries = gql`
+export const GetCacheEntries = /* GraphQL */ `
   query GetCacheEntries($updatedBefore: timestamptz!) {
-    profile_cache(
+    profile(
       where: {
         _or: [
-          { last_checked_at: { _lt: $updatedBefore } }
-          { last_checked_at: { _is_null: true } }
+          { lastCheckedAt: { _lt: $updatedBefore } }
+          { lastCheckedAt: { _is_null: true } }
         ]
       }
     ) {

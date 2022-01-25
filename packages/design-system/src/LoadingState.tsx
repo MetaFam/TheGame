@@ -1,12 +1,12 @@
-import { Flex, FlexProps, Spinner } from '@chakra-ui/react';
+import { Center, CenterProps, Spinner } from '@chakra-ui/react';
 import React from 'react';
 
 export const LoadingState: React.FC<
-  FlexProps & {
+  CenterProps & {
     color?: string;
   }
 > = ({ color = 'purple.500', ...props }) => (
-  <Flex w="100%" h="100%" justify="center" align="center" {...props}>
-    <Spinner color={color} size="xl" />
-  </Flex>
+  <Center w="fill-content" h="100%" justify="center" align="center" {...props}>
+    <Spinner {...{ color }} size="xl" thickness="4px" speed="1.5s" />
+  </Center>
 );

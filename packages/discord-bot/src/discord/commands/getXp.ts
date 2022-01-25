@@ -1,7 +1,6 @@
-import { Constants } from '@metafam/utils';
+import { Constants, fetch } from '@metafam/utils';
 import { Command, CommandMessage } from '@typeit/discord';
 import { MessageEmbed, Snowflake } from 'discord.js';
-import fetch from 'node-fetch';
 import {
   SCAccount,
   SCAccountsData,
@@ -38,9 +37,8 @@ export class GetXpCommand {
     const discordUser = message.guild?.members.cache.get(targetUserDiscordId);
 
     try {
-      const accountsData: SCAccountsData = await (
-        await fetch(Constants.SC_ACCOUNTS_FILE)
-      ).json();
+      const accountsResult = await fetch(Constants.SC_ACCOUNTS_FILE);
+      const accountsData = (await accountsResult.json()) as SCAccountsData;
 
       const scAccount = accountsData.accounts.find((account) =>
         filterAccount(account, targetUserDiscordId),
@@ -73,7 +71,7 @@ export class GetXpCommand {
             .addFields(
               {
                 name: 'Total',
-                value: `${Math.round(userTotalCred)} XP`,
+                value: `${Math.round(userTotalCred).toLocaleString()} XP`,
                 inline: true,
               },
               {
@@ -103,7 +101,7 @@ export class GetXpCommand {
         );
       }
     } catch (e) {
-      await replyWithUnexpectedError(message);
+      await replyWithUnexpectedError(message, (e as Error).message);
     }
   }
 }
@@ -115,7 +113,7 @@ const filterAccount = (player: SCAccount, targetUserDiscordID: Snowflake) => {
 
   const discordAliases = accountInfo.identity.aliases.filter((alias) => {
     const parts = sc.core.graph.NodeAddress.toParts(alias.address);
-    return parts.indexOf('discord') > 0;
+    return parts.includes('discord');
   });
 
   if (discordAliases.length >= 1) {
@@ -134,9 +132,9 @@ const scAliasMatchesDiscordId = (
   discordAccount: SCAlias,
   targetUserDiscordID: Snowflake,
 ) => {
-  const discordId = sc.core.graph.NodeAddress.toParts(
+  const [, , , discordId] = sc.core.graph.NodeAddress.toParts(
     discordAccount.address,
-  )[4];
+  );
   if (discordId === targetUserDiscordID) {
     return discordId;
   }

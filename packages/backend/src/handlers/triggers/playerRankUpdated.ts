@@ -21,7 +21,7 @@ export const playerRankUpdated = async (payload: TriggerPayload<Player>) => {
   const { old: oldPlayer, new: newPlayer } = payload.event.data;
 
   console.log(
-    `updateDiscordRole action triggered for player (username=${newPlayer?.username})`,
+    `updateDiscordRole action triggered for player (username=${newPlayer?.profile?.username})`,
   );
 
   try {
@@ -30,7 +30,7 @@ export const playerRankUpdated = async (payload: TriggerPayload<Player>) => {
     const getPlayerResponse = await client.GetPlayer({
       playerId: newPlayer.id,
     });
-    const playerDiscordId = getPlayerResponse.player_by_pk?.discord_id;
+    const playerDiscordId = getPlayerResponse.player_by_pk?.discordId;
     if (playerDiscordId == null) return;
 
     const newRank = newPlayer?.rank;
@@ -95,7 +95,9 @@ export const playerRankUpdated = async (payload: TriggerPayload<Player>) => {
     }
 
     if (removedRole) {
-      console.log(`${newPlayer?.username}: removed role ${removedRole}`);
+      console.log(
+        `${newPlayer?.profile?.username}: removed role ${removedRole}`,
+      );
     }
 
     // Add the new rank.
@@ -104,7 +106,7 @@ export const playerRankUpdated = async (payload: TriggerPayload<Player>) => {
       console.warn(`Discord role associated with ${newRank} was not found!`);
     } else {
       await discordPlayer.roles.add([discordRoleForRank]);
-      console.log(`${newPlayer?.username}: added role ${newRank}`);
+      console.log(`${newPlayer?.profile?.username}: added role ${newRank}`);
     }
   } catch (e) {
     console.error(e);

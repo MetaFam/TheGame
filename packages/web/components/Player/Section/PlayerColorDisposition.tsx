@@ -1,5 +1,6 @@
-import { Link } from '@metafam/ds';
+import { Link, Text } from '@metafam/ds';
 import { FlexContainer } from 'components/Container';
+import { ColorBar } from 'components/Player/ColorBar';
 import { ProfileSection } from 'components/Profile/ProfileSection';
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
 import { getPersonalityInfo } from 'graphql/queries/enums/getPersonalityInfo';
@@ -7,8 +8,6 @@ import { PersonalityOption } from 'graphql/types';
 import { useAnimateProfileChanges } from 'lib/hooks/players';
 import React, { useEffect, useState } from 'react';
 import { BoxType } from 'utils/boxTypes';
-
-import { ColorBar } from '../ColorBar';
 
 type Props = {
   player: PlayerFragmentFragment;
@@ -22,50 +21,53 @@ export const PlayerColorDisposition: React.FC<Props> = ({
   canEdit,
   onRemoveClick,
 }) => {
-  const [types, setTypes] = useState<{
+  const [, setTypes] = useState<{
     [any: string]: PersonalityOption;
   }>();
   const [colorDisposition, setColorDisposition] = useState<
-    0 | PersonalityOption | undefined
+    PersonalityOption | undefined
   >();
-  const mask = player?.color_aspect?.mask;
-  const type = mask && types?.[mask];
+  const mask = player?.profile?.colorMask;
 
   useEffect(() => {
-    const loadTypes = async () => {
+    const load = async () => {
       const { types: list } = await getPersonalityInfo();
       setTypes(list);
     };
-    loadTypes();
-  }, []);
 
-  const updateFN = () => setColorDisposition(type);
-  const { animation } = useAnimateProfileChanges(type, updateFN);
+    load();
+  }, [mask]);
+
+  const updateFN = () => setColorDisposition(colorDisposition);
+  const { animation } = useAnimateProfileChanges(colorDisposition, updateFN);
 
   return (
     <ProfileSection
       title="Color Disposition"
-      onRemoveClick={onRemoveClick}
-      isOwnProfile={isOwnProfile}
-      canEdit={canEdit}
       boxType={BoxType.PLAYER_COLOR_DISPOSITION}
+      {...{ onRemoveClick, isOwnProfile, canEdit }}
     >
-      {colorDisposition && types && (
+      {mask == null ? (
+        <Text fontStyle="italic" textAlign="center">
+          Unspecified
+        </Text>
+      ) : (
         <FlexContainer
           align="stretch"
-          transition=" opacity 0.4s"
+          transition="opacity 0.4s"
           opacity={animation === 'fadeIn' ? 1 : 0}
         >
           <Link
             isExternal
-            href={`//dysbulic.github.io/5-color-radar/#/combos/${colorDisposition?.mask.toString(
-              2,
-            )}`}
-            maxH="6rem"
+            href={`//dysbulic.github.io/5-color-radar/#/combos/${mask
+              .toString(2)
+              .padStart(5, '0')}`}
+            maxH={125}
             fontSize={{ base: 'md', sm: 'lg' }}
-            fontWeight="600"
+            fontWeight={600}
+            _focus={{ border: 'none' }}
           >
-            <ColorBar mask={colorDisposition?.mask} />
+            <ColorBar {...{ mask }} />
           </Link>
         </FlexContainer>
       )}

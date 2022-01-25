@@ -11,15 +11,12 @@ import {
   useBreakpointValue,
 } from '@chakra-ui/react';
 import React, { useCallback, useRef, useState } from 'react';
+import { Props as ReactSelectProps } from 'react-select';
 
 import { DropDownIcon } from './icons/DropDownIcon';
 import { MetaTag } from './MetaTag';
 import { SelectComponents, SelectSearch } from './SelectSearch';
-import {
-  getTimezonesFor,
-  timezonesFilter,
-  TimezoneType,
-} from './SelectTimeZone';
+import { LabeledValue, timeZonesFilter, TimeZoneType } from './SelectTimeZone';
 
 export const MetaSelect: React.FC<SelectProps> = (props) => (
   <Select
@@ -155,8 +152,8 @@ const SelectValueContainer: React.FC<
   } = props;
 
   return (
-    <Flex mr="-1rem" py="1" align="center" cursor="pointer">
-      <ValueDisplay title={title} menuIsOpen={menuIsOpen} tagLabel={tagLabel} />
+    <Flex mr="-1rem" py={1} align="center" cursor="pointer">
+      <ValueDisplay {...{ title, menuIsOpen, tagLabel }} />
       <SelectComponents.ValueContainer {...props} />
     </Flex>
   );
@@ -193,11 +190,11 @@ const SelectControl: React.FC<
       onTouchEnd={onClick}
       align="center"
       borderTopRadius="4px"
-      borderBottomRadius={menuIsOpen ? '0' : '4px'}
+      borderBottomRadius={menuIsOpen ? 0 : '4px'}
       borderColor="borderPurple"
       borderStyle="solid"
       borderWidth={hasValue && !menuIsOpen ? '4px' : '2px'}
-      borderBottom={menuIsOpen ? '0' : undefined}
+      borderBottom={menuIsOpen ? 0 : undefined}
       height="auto"
       bg="dark"
       _hover={{
@@ -231,15 +228,15 @@ const SelectMenu: React.FC<
       position="absolute"
       top="calc(100% - 1px)"
       minWidth="15rem"
-      left={placeRight ? 'auto' : '0'}
-      right={placeRight ? '0' : 'auto'}
-      zIndex="1"
+      left={placeRight ? 'auto' : 0}
+      right={placeRight ? 0 : 'auto'}
+      zIndex={1}
       direction="column"
     >
       <Flex w="100%" direction={placeRight ? 'row-reverse' : 'row'}>
         <Flex
-          height="3"
-          p="0"
+          height={3}
+          p={0}
           bg="dark"
           borderLeftColor="borderPurple"
           borderLeftStyle="solid"
@@ -285,19 +282,16 @@ const SelectMenu: React.FC<
             <Input
               autoFocus
               width="calc(100% - 2rem)"
-              placeholder="Search..."
+              placeholder="Search…"
               _placeholder={{ color: 'whiteAlpha.500' }}
               borderRadius="0"
               borderWidth="2px"
-              mx="4"
-              my="2"
+              mx={4}
+              my={2}
               borderColor="borderPurple"
-              onChange={(e) => {
-                const val = e.target.value;
-                setInput(val);
-                if (onInputChange) {
-                  onInputChange(val, { action: 'input-change' });
-                }
+              onChange={({ target: { value } }) => {
+                setInput(value);
+                onInputChange?.(value, { action: 'input-change' });
               }}
               value={input}
             />
@@ -326,44 +320,59 @@ const SelectContainer: React.FC<
   );
 };
 
-export const MetaFilterSelectSearch: React.FC<
-  React.ComponentProps<typeof SelectSearch> & {
-    showSearch?: boolean;
-    isTimezone?: boolean;
-    hasValue: boolean;
-    tagLabel: string;
-  }
-> = ({
-  options: defaultOptions,
+export const zonesToOptions = (zones: TimeZoneType[] = []) =>
+  zones.map(({ location, label }) => ({ value: location, label }));
+
+export function MetaFilterSelectSearch<
+  T extends Required<LabeledValue<string>>
+>({
+  options: defaults,
   showSearch = false,
-  isTimezone = false,
+  isTimeZone = false,
   tagLabel = '',
   hasValue = false,
+  onInputChange = () => {},
   ...props
-}) => {
-  const [options, setOptions] = useState(defaultOptions);
-
-  const onTimezoneInputChange = useCallback(
-    (value: string) => {
-      if (!value) {
-        setOptions(defaultOptions);
-      } else {
-        const searchText = value.toLowerCase().trim();
-        const filteredTimezones = getTimezonesFor(searchText);
-        setOptions(
-          (defaultOptions as TimezoneType[])?.filter(
-            timezonesFilter(searchText, filteredTimezones),
-          ),
-        );
-      }
-    },
-    [defaultOptions],
+}:
+  | ReactSelectProps<Required<LabeledValue<string>>>
+  | {
+      options?: Array<T | TimeZoneType>;
+      showSearch?: boolean;
+      isTimeZone?: boolean;
+      hasValue?: boolean;
+      tagLabel?: string;
+      onInputChange?: (...subProps: Array<unknown>) => void;
+    }) {
+  const [options, setOptions] = useState(
+    isTimeZone
+      ? (zonesToOptions(defaults as TimeZoneType[]) as Array<T>)
+      : (defaults as Array<T>),
   );
+
+  const onZoneInputChange = useCallback(
+    (val: string) => {
+      const search = val.length > 0 ? val.toLowerCase().trim() : null;
+      let opts = defaults ?? [];
+      if (search) {
+        if (isTimeZone) {
+          opts = zonesToOptions(
+            (opts as Array<TimeZoneType>).filter(timeZonesFilter(search)),
+          ) as Array<T>;
+        } else if (opts) {
+          opts = (opts as Array<
+            Required<LabeledValue<string>>
+          >).filter(({ value }) => value?.toLowerCase().includes(search));
+        }
+      }
+      setOptions(opts as Array<T>);
+    },
+    [defaults, isTimeZone],
+  );
+
   return (
     <SelectSearch
       isMulti
       closeMenuOnSelect={false}
-      placeholder=" "
       components={{
         MultiValueContainer: () => null,
         SingleValue: () => null,
@@ -377,15 +386,18 @@ export const MetaFilterSelectSearch: React.FC<
         Control: SelectControl,
         SelectContainer,
       }}
+      placeholder=""
       isClearable={false}
       hideSelectedOptions={false}
-      showSearch={showSearch}
-      options={options}
-      filterOption={isTimezone ? null : undefined}
-      onInputChange={isTimezone ? onTimezoneInputChange : undefined}
-      tagLabel={tagLabel}
-      hasValue={hasValue}
-      {...props}
+      filterOption={isTimeZone ? null : undefined}
+      onInputChange={isTimeZone ? onZoneInputChange : onInputChange}
+      {...{
+        showSearch,
+        options,
+        tagLabel,
+        hasValue,
+        ...props,
+      }}
     />
   );
-};
+}

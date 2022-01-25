@@ -8,19 +8,14 @@ interface PSeedBalanceHook {
 export const usePSeedBalance: () => PSeedBalanceHook = () => {
   const { user } = useUser();
 
-  const [respSeedBalance] = useGetpSeedBalanceQuery({
+  const [{ data, fetching }] = useGetpSeedBalanceQuery({
     variables: {
-      address: user?.ethereum_address || '',
+      address: user?.ethereumAddress ?? '',
     },
-    pause: !user?.ethereum_address,
+    pause: !user?.ethereumAddress,
   });
   const pSeedBalance =
-    (user?.ethereum_address &&
-      respSeedBalance.data?.getTokenBalances?.pSeedBalance) ||
-    null;
+    (user?.ethereumAddress && data?.getTokenBalances?.pSeedBalance) ?? null;
 
-  return {
-    pSeedBalance,
-    fetching: respSeedBalance.fetching,
-  };
+  return { pSeedBalance, fetching };
 };

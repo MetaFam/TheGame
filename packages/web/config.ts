@@ -23,12 +23,15 @@ export const CONFIG = {
   clarityId: process.env.NEXT_CLARITY_ID,
   discordApiBaseUrl:
     process.env.DISCORD_API_BASE_URL || 'https://discord.com/api/v8',
-  // mainnet
   ceramicURL:
-    process.env.NEXT_CERAMIC_URL ||
+    process.env.NEXT_PUBLIC_CERAMIC_URL ||
+    'https://ceramic.metagame.wtf' || // mainnet
     'https://ceramic-clay.3boxlabs.com' || // testnet
-    'https://d12-a-ceramic.3boxlabs.com',
+    'https://d12-a-ceramic.3boxlabs.com', // mainnet by 3Box
+  ceramicNetwork:
+    process.env.NEXT_PUBLIC_CERAMIC_NETWORK || 'mainnet' || 'testnet-clay',
   actionsURL: process.env.NEXT_ACTIONS_URL || 'http://localhost:4000',
   calendarId: 'nih59ktgafmm64ed4qk6ue8vv4@group.calendar.google.com',
   googleDataApiKey: process.env.NEXT_PUBLIC_YOUTUBE_API_KEY,
+  web3StorageToken: process.env.WEB3_STORAGE_TOKEN || '',
 };

@@ -1,6 +1,6 @@
 import {
+  Player,
   Player_Order_By,
-  PlayerFragmentFragment,
   useGetPlayerFiltersQuery,
   useGetPlayersQuery,
 } from 'graphql/autogen/types';
@@ -8,7 +8,7 @@ import {
   defaultQueryVariables,
   PLAYER_LIMIT,
   PlayersQueryVariables,
-  transformToGraphQlVariables,
+  transformToGraphQLVariables,
 } from 'graphql/getPlayers';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { CategoryOption, parseSkills } from 'utils/skillHelpers';
@@ -25,8 +25,8 @@ export interface PlayerAggregates {
 }
 
 interface PlayerFilter {
-  players: PlayerFragmentFragment[];
-  totalCount: number;
+  players: Player[];
+  total: number;
   fetching: boolean;
   fetchingMore: boolean;
   aggregates: PlayerAggregates;
@@ -43,7 +43,7 @@ const usePlayerAggregates = () => {
   const skillChoices = useMemo(() => parseSkills(data?.skill || []), [data]);
   return {
     skillCategories: data?.skill_aggregate.nodes || [],
-    playerTypes: (data?.player_type || []).map(({ value, label }) => ({
+    playerTypes: (data?.ExplorerType || []).map(({ value, label }) => ({
       value: value.toString(),
       label,
     })),
@@ -61,13 +61,13 @@ const useFilteredPlayers = (queryVariables: PlayersQueryVariables) => {
   }, [queryVariables]);
 
   const [{ fetching, data, error }] = useGetPlayersQuery({
-    variables: transformToGraphQlVariables(variables),
+    variables: transformToGraphQLVariables(variables),
   });
 
-  const players = data?.player || [];
-  const totalCount = data?.player_aggregate.aggregate?.count || 0;
+  const players = (data?.player as Player[]) || [];
+  const total = data?.player_aggregate.aggregate?.count || 0;
 
-  return { fetching, players, totalCount, error };
+  return { fetching, players, total, error };
 };
 
 export enum SortOption {
@@ -79,39 +79,39 @@ export enum SortOption {
 }
 
 export const sortOptionsMap = {
-  [SortOption.SEASON_XP.toString()]: {
+  [SortOption.SEASON_XP]: {
     value: SortOption.SEASON_XP,
     label: 'Seasonal XP',
     output: {
-      season_xp: 'desc',
+      seasonXP: 'desc',
     },
   },
-  [SortOption.TOTAL_XP.toString()]: {
+  [SortOption.TOTAL_XP]: {
     value: SortOption.TOTAL_XP,
     label: 'Total XP',
     output: {
-      total_xp: 'desc',
+      totalXP: 'desc',
     },
   },
-  [SortOption.AVAILABILITY.toString()]: {
+  [SortOption.AVAILABILITY]: {
     value: SortOption.AVAILABILITY,
     label: 'Availability',
     output: {
-      availability_hours: 'desc',
+      profile: { availableHours: 'desc' },
     },
   },
-  [SortOption.USERNAME_A_TO_Z.toString()]: {
+  [SortOption.USERNAME_A_TO_Z]: {
     value: SortOption.USERNAME_A_TO_Z,
-    label: 'Username (A-Z)',
+    label: 'Username (A–Z)',
     output: {
-      username: 'asc',
+      profile: { username: 'asc' },
     },
   },
-  [SortOption.USERNAME_Z_TO_A.toString()]: {
+  [SortOption.USERNAME_Z_TO_A]: {
     value: SortOption.USERNAME_Z_TO_A,
-    label: 'Username (Z-A)',
+    label: 'Username (Z–A)',
     output: {
-      username: 'desc',
+      profile: { username: 'desc' },
     },
   },
 };
@@ -119,7 +119,7 @@ export const sortOptionsMap = {
 export const sortOptions = Object.values(sortOptionsMap) as Array<OptionType>;
 
 const getOrderByValue = (option: SortOption): Player_Order_By =>
-  (sortOptionsMap[(option || SortOption.SEASON_XP).toString()] as {
+  (sortOptionsMap[option || SortOption.SEASON_XP] as {
     value: SortOption;
     label: string;
     output: Player_Order_By;
@@ -131,10 +131,9 @@ export const usePlayerFilter = (
   const [queryVariables, setQueryVariables] = useState<PlayersQueryVariables>(
     defaultVariables,
   );
-
   const aggregates = usePlayerAggregates();
-
   const shouldAppend = useRef(false);
+
   const setQueryVariable: QueryVariableSetter = useCallback(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (key: string, value: any) => {
@@ -161,23 +160,20 @@ export const usePlayerFilter = (
     [],
   );
 
-  const resetFilter = () => {
-    shouldAppend.current = false;
-    setQueryVariables(defaultQueryVariables);
-  };
-
   const {
     fetchedPlayers,
     fetching,
     error,
     nextPage,
-    totalCount,
+    total,
     moreAvailable,
   } = usePaginatedPlayers(queryVariables, setQueryVariable);
+  const [players, setPlayers] = useState<Player[]>(fetchedPlayers);
 
-  const [players, setPlayers] = useState<PlayerFragmentFragment[]>(
-    fetchedPlayers,
-  );
+  const resetFilter = () => {
+    shouldAppend.current = false;
+    setQueryVariables(defaultQueryVariables);
+  };
 
   useEffect(() => {
     if (!error && !fetching) {
@@ -199,7 +195,7 @@ export const usePlayerFilter = (
     queryVariables,
     setQueryVariable,
     resetFilter,
-    totalCount,
+    total,
     nextPage,
     moreAvailable,
   };
@@ -209,12 +205,12 @@ export const useFiltersUsed = (
   queryVariables: PlayersQueryVariables,
 ): boolean => {
   const sortFilterUsed = useMemo(
-    () => !Object.keys(queryVariables.orderBy).includes('season_xp'),
+    () => !Object.keys(queryVariables.orderBy).includes('seasonXP'),
     [queryVariables.orderBy],
   );
   const playerTypesFilterUsed = useMemo(
-    () => (queryVariables.playerTypeIds as number[])?.length > 0,
-    [queryVariables.playerTypeIds],
+    () => (queryVariables.explorerTypeTitles as string[])?.length > 0,
+    [queryVariables.explorerTypeTitles],
   );
   const searchFilterUsed = useMemo(() => queryVariables.search !== '%%', [
     queryVariables.search,
@@ -228,8 +224,8 @@ export const useFiltersUsed = (
     [queryVariables.skillIds],
   );
   const timezonesFilterUsed = useMemo(
-    () => (queryVariables.timezones as string[])?.length > 0,
-    [queryVariables.timezones],
+    () => (queryVariables.timeZones as string[])?.length > 0,
+    [queryVariables.timeZones],
   );
 
   const filtersUsed = useMemo(
@@ -260,12 +256,12 @@ const usePaginatedPlayers = (
   const {
     fetching,
     players: fetchedPlayers,
-    totalCount,
+    total,
     error,
   } = useFilteredPlayers(queryVariables);
 
   const itemsPerPage = PLAYER_LIMIT;
-  const maxPage = Math.ceil(totalCount / itemsPerPage);
+  const maxPage = Math.ceil(total / itemsPerPage);
   const currentOffset = useMemo(() => (queryVariables.offset as number) || 0, [
     queryVariables.offset,
   ]);
@@ -290,7 +286,7 @@ const usePaginatedPlayers = (
   return {
     nextPage,
     fetchedPlayers,
-    totalCount,
+    total,
     fetching,
     error,
     moreAvailable: currentPage < maxPage,
@@ -303,7 +299,7 @@ export const useAnimateProfileChanges = (
 ): { [key: string]: string } => {
   const [animation, setAnimation] = useState('fadeIn');
 
-  const usePrevious = <T extends unknown>(value: T): T | undefined => {
+  const usePrevious = <T>(value: T): T | undefined => {
     const ref = useRef<T>();
     useEffect(() => {
       ref.current = value;

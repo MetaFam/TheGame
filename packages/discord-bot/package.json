@@ -19,7 +19,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@metafam/utils": "1.0.0",
+    "@metafam/utils": "1.0.1",
     "@typeit/discord": "4.0.10",
     "@types/express": "4.17.11",
     "@types/node-fetch": "2.5.10",

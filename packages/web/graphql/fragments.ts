@@ -3,28 +3,11 @@ import gql from 'fake-tag';
 export const PlayerFragment = gql`
   fragment PlayerFragment on player {
     id @skip(if: $forLoginDisplay)
-    username
-    total_xp @skip(if: $forLoginDisplay)
-    season_xp @skip(if: $forLoginDisplay)
+    totalXP @skip(if: $forLoginDisplay)
+    seasonXP @skip(if: $forLoginDisplay)
     rank @skip(if: $forLoginDisplay)
-    ethereum_address
-    pronouns
-
-    profile_layout @skip(if: $forLoginDisplay)
-    availability_hours @skip(if: $forLoginDisplay)
-    timezone @skip(if: $forLoginDisplay)
-    color_aspect @skip(if: $forLoginDisplay) {
-      name
-      description
-      mask
-    }
-
-    type @skip(if: $forLoginDisplay) {
-      description
-      id
-      imageUrl
-      title
-    }
+    ethereumAddress
+    profileLayout @skip(if: $forLoginDisplay)
 
     skills @skip(if: $forLoginDisplay) {
       Skill {
@@ -47,14 +30,30 @@ export const PlayerFragment = gql`
       identifier
       type
     }
-    profile_cache {
+
+    profile {
+      name
+      username
       description
       emoji
+      profileImageURL
+      bannerImageURL
       backgroundImageURL
-      imageURL
       location
-      name
+      countryCode
+      website
+      pronouns
+      availableHours
+      timeZone
+      colorMask
+      explorerType {
+        id
+        title
+        description
+        imageURL
+      }
     }
+
     daohausMemberships @skip(if: $forLoginDisplay) {
       id
       shares
@@ -67,6 +66,7 @@ export const PlayerFragment = gql`
         chain
       }
     }
+
     brightid_status @skip(if: $forLoginDisplay) {
       unique
       contextIds
@@ -95,11 +95,11 @@ export const GuildFragment = gql`
 export const QuestFragment = gql`
   fragment QuestFragment on quest {
     id
-    created_at
+    createdAt
     cooldown
     description
-    external_link
-    guild_id
+    externalLink
+    guildId
     status
     title
     repetition
@@ -110,7 +110,7 @@ export const QuestFragment = gql`
     }
     player {
       id
-      ethereum_address
+      ethereumAddress
     }
     quest_skills {
       skill {
@@ -125,11 +125,11 @@ export const QuestFragment = gql`
 export const QuestWithCompletionFragment = gql`
   fragment QuestWithCompletionFragment on quest {
     id
-    created_at
+    createdAt
     cooldown
     description
-    external_link
-    guild_id
+    externalLink
+    guildId
     status
     title
     repetition
@@ -145,12 +145,14 @@ export const QuestWithCompletionFragment = gql`
         category
       }
     }
-    quest_completions(order_by: [{ submitted_at: desc }]) {
+    quest_completions(order_by: [{ submittedAt: desc }]) {
       ...QuestCompletionFragment
       player {
         id
-        ethereum_address
-        username
+        ethereumAddress
+        profile {
+          username
+        }
       }
     }
   }
@@ -159,11 +161,11 @@ export const QuestWithCompletionFragment = gql`
 export const QuestCompletionFragment = gql`
   fragment QuestCompletionFragment on quest_completion {
     id
-    completed_by_player_id
+    completedByPlayerId
     status
-    submission_link
-    submission_text
-    submitted_at
+    submissionLink
+    submissionText
+    submittedAt
   }
 `;
 

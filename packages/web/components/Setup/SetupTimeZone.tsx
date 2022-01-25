@@ -17,8 +17,8 @@ export const SetupTimeZone: React.FC = () => {
   useEffect(() => {
     if (user?.player) {
       const { player } = user;
-      if (player.timezone && !timeZone) {
-        setTimeZone(player.timezone);
+      if (player.profile?.timeZone && !timeZone) {
+        setTimeZone(player.profile.timeZone);
       }
     }
   }, [user, timeZone]);
@@ -29,15 +29,13 @@ export const SetupTimeZone: React.FC = () => {
     setLoading(true);
     const { error } = await updateProfile({
       playerId: user.id,
-      input: {
-        timezone: timeZone,
-      },
+      input: { timeZone },
     });
 
     if (error) {
       toast({
         title: 'Error',
-        description: 'Unable to update time zone. The octo is sad 😢',
+        description: `Unable to update your time zone: ${error.message}`,
         status: 'error',
         isClosable: true,
       });
@@ -63,7 +61,7 @@ export const SetupTimeZone: React.FC = () => {
       </MetaHeading>
       <FlexContainer w="100%" align="stretch" maxW="30rem">
         <SelectTimeZone
-          value={timeZone}
+          value={timeZone ?? ''}
           onChange={(tz) => setTimeZone(tz.value)}
           labelStyle="abbrev"
         />
@@ -73,7 +71,7 @@ export const SetupTimeZone: React.FC = () => {
         onClick={handleNextPress}
         mt={10}
         isLoading={updateProfileRes.fetching || loading}
-        loadingText="Saving"
+        loadingText="Saving…"
       >
         {nextButtonLabel}
       </MetaButton>

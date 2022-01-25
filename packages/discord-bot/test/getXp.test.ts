@@ -22,11 +22,11 @@ describe('getxp command', () => {
   });
 
   it('should not blow up', async () => {
-    message.content = '!getxp';
+    message.content = '!mg xp';
     message.member = {
       id: '469544954184597504',
     };
     await getXp.getXp(message);
     expect(message.reply).toHaveBeenCalled();
-  });
+  }, 30000);
 });

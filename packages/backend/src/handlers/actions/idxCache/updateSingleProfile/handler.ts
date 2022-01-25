@@ -1,33 +1,25 @@
 import { Request, Response } from 'express';
 
-import updateCachedProfile from '../updateSingle';
+import { queueRecache } from '../../../../lib/cacheHelper';
 
 export default async (req: Request, res: Response): Promise<void> => {
-  const session = req.body.session_variables;
-  const role = session['x-hasura-role'];
-  const playerId = req.body.input?.playerId;
+  const role = req.body.session_variables['x-hasura-role'];
+  const { playerId } = req.body.input ?? {};
+  const { limiter } = req.app.locals;
 
-  if (!['admin', 'player'].includes(role)) {
-    throw new Error(`Expected Role: admin or player. Got "${role}".`);
+  if (!['admin', 'player', 'public'].includes(role)) {
+    throw new Error(`Expected Role: admin, player, or public. Got "${role}".`);
   }
 
   if (!playerId) {
-    throw new Error('No playerId specified to update.');
+    throw new Error('Player Id not specified in updateSingleProfile handler.');
   }
 
-  if (!req.app.locals.queuedRecacheFor[playerId]) {
-    req.app.locals.queuedRecacheFor[playerId] = true;
-    req.app.locals.limiter.schedule(() =>
-      (async () => {
-        try {
-          await updateCachedProfile(playerId);
-        } finally {
-          req.app.locals.queuedRecacheFor[playerId] = false;
-        }
-      })(),
-    );
-    res.json({ success: true });
-  } else {
-    throw new Error('Already queued to be refreshed.');
+  if (!limiter) {
+    throw new Error('Couldn’t find Bottleneck limiter.');
   }
+
+  const queued = await queueRecache({ playerId, limiter });
+
+  res.json({ success: true, queued });
 };

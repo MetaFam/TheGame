@@ -24,15 +24,15 @@ export const triggerHandler = async (
   res: Response,
 ): Promise<void> => {
   const role = req.body.event?.session_variables?.['x-hasura-role'];
-
   if (role !== 'admin') {
     throw new Error('Unauthorized');
   }
 
+  const { limiter } = req.app.locals;
   const trigger = TRIGGERS[req.body.trigger.name as keyof typeof TRIGGERS];
 
   if (trigger) {
-    await trigger(req.body);
+    await trigger(req.body, limiter);
     res.sendStatus(200);
   } else {
     res.sendStatus(404);

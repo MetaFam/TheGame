@@ -8,13 +8,21 @@ import {
   Wrap,
   WrapItem,
 } from '@metafam/ds';
+import { PageContainer } from 'components/Container';
 import { MetaLink } from 'components/Link';
+import { PlayerTile } from 'components/Player/PlayerTile';
+import { QuestCompletions } from 'components/Quest/QuestCompletions';
+import { QuestDetails } from 'components/Quest/QuestDetails';
+import { HeadComponent } from 'components/Seo';
 import {
+  Player,
   QuestRepetition_Enum,
   useGetQuestWithCompletionsQuery,
 } from 'graphql/autogen/types';
+import { getSsrClient } from 'graphql/client';
 import { getQuestWithCompletions } from 'graphql/getQuest';
 import { getQuestIds } from 'graphql/getQuests';
+import { useUser } from 'lib/hooks';
 import {
   GetStaticPaths,
   GetStaticPropsContext,
@@ -23,15 +31,7 @@ import {
 import { useRouter } from 'next/router';
 import React, { useMemo } from 'react';
 import { FaArrowLeft } from 'react-icons/fa';
-
-import { PageContainer } from '../../components/Container';
-import { PlayerTile } from '../../components/Player/PlayerTile';
-import { QuestCompletions } from '../../components/Quest/QuestCompletions';
-import { QuestDetails } from '../../components/Quest/QuestDetails';
-import { HeadComponent } from '../../components/Seo';
-import { getSsrClient } from '../../graphql/client';
-import { useUser } from '../../lib/hooks';
-import { canCompleteQuest } from '../../utils/questHelpers';
+import { canCompleteQuest } from 'utils/questHelpers';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
@@ -61,7 +61,7 @@ const QuestPage: React.FC<Props> = ({ quest_id }) => {
   return (
     <PageContainer>
       <HeadComponent
-        title="Metagame Quests"
+        title="MetaGame Quests"
         description={quest.title}
         url={`https://my.metagame.wtf/quest/${quest_id}`}
       />
@@ -103,7 +103,7 @@ const QuestPage: React.FC<Props> = ({ quest_id }) => {
               <Heading mb={4} ml={2}>
                 Created by
               </Heading>
-              <PlayerTile player={quest.player} />
+              <PlayerTile player={quest.player as Player} />
             </Flex>
           </WrapItem>
         </Wrap>

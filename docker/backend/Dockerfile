@@ -1,4 +1,4 @@
-FROM node:14-slim as base
+FROM node:16-slim as base
 WORKDIR /usr/src/app
 
 # Install dependencies not included in the slim image
@@ -26,11 +26,13 @@ COPY packages/discord-bot ./packages/discord-bot/
 COPY packages/@types ./packages/@types/
 
 # Set env vars
-ARG GRAPHQL_HOST
+ARG GRAPHQL_HOST=hasura
 ARG GRAPHQL_DOMAIN=onrender.com
+ARG GRAPHQL_URL=https://$GRAPHQL_HOST.$GRAPHQL_DOMAIN/v1/graphql
 
-ENV GRAPHQL_URL https://$GRAPHQL_HOST.$GRAPHQL_DOMAIN/v1/graphql
+ENV GRAPHQL_URL $GRAPHQL_URL
 ENV HASURA_GRAPHQL_ADMIN_SECRET metagame_secret
+ENV CERAMIC_URL https://ceramic.metagame.wtf
 
 # Build
 RUN yarn backend:build
@@ -39,7 +41,7 @@ RUN yarn backend:build
 RUN yarn install --pure-lockfile --production --ignore-scripts --prefer-offline
 
 # Create completely new stage including only necessary files
-FROM node:14-alpine as app
+FROM node:16-alpine as app
 WORKDIR /app
 
 # Copy necessary files into the stage

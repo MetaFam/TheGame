@@ -31,8 +31,8 @@ export const QuestTile: React.FC<Props> = ({ quest }) => (
       bgSize="cover"
       bgPosition="center"
       position="absolute"
-      top="0"
-      left="0"
+      top={0}
+      left={0}
       w="100%"
       h="3.5rem"
     />
@@ -58,7 +58,7 @@ export const QuestTile: React.FC<Props> = ({ quest }) => (
           />
           <StatusTag status={quest.status} />
           <Text>
-            <i>{moment(quest.created_at).fromNow()}</i>
+            <i>{moment(quest.createdAt).fromNow()}</i>
           </Text>
         </HStack>
       </VStack>

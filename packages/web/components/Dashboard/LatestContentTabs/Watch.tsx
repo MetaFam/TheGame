@@ -1,8 +1,7 @@
 import { AspectRatio, Box, LoadingState } from '@metafam/ds';
+import { useOnScreen } from 'lib/hooks/useOnScreen';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-
-import { useOnScreen } from '../../../lib/hooks/useOnScreen';
-import { LIMIT, URL } from '../../../utils/LatestContentHelpers';
+import { LIMIT, URL } from 'utils/LatestContentHelpers';
 
 interface Video {
   id: string;
@@ -18,17 +17,15 @@ export const Watch: React.FC = () => {
   const [page, setPage] = useState<number>(1);
   const [loading, setLoading] = useState<boolean>(true);
   const [isFetchingMore, setIsFetchingMore] = useState<boolean>(false);
-
+  const abortController = useMemo(() => new AbortController(), []);
   const onScreen = useOnScreen(moreRef);
-
-  const maxPages = useMemo(() => {
-    const pages = Math.ceil(count / LIMIT) || 0;
-    return pages;
-  }, [count]);
+  const maxPages = useMemo(() => Math.ceil(count / LIMIT) || 0, [count]);
 
   useEffect(() => {
     const load = async () => {
-      const res = await fetch(URL).then((r) => r.json());
+      const res = await fetch(URL, {
+        signal: abortController.signal,
+      }).then((r) => r.json());
       const videosList = res.items
         ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
           res.items.map((video: any) => ({
@@ -42,8 +39,13 @@ export const Watch: React.FC = () => {
       setCount(res.pageInfo ? res.pageInfo.totalResults : null);
       setLoading(false);
     };
+
     load();
-  }, []);
+
+    return () => {
+      abortController.abort();
+    };
+  }, [abortController]);
 
   useEffect(() => {
     if (!loading && onScreen && page <= maxPages && nextPageToken) {

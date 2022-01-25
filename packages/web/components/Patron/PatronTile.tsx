@@ -1,5 +1,6 @@
 import {
   Box,
+  getTimeZoneFor,
   Heading,
   HStack,
   LinkBox,
@@ -19,20 +20,16 @@ import { PlayerContacts } from 'components/Player/PlayerContacts';
 import { PlayerTileMemberships } from 'components/Player/PlayerTileMemberships';
 import { SkillsTags } from 'components/Skills';
 import { utils } from 'ethers';
-import {
-  PlayerFragmentFragment,
-  PlayerRank_Enum,
-  Skill,
-} from 'graphql/autogen/types';
+import { Player, PlayerRank_Enum, Skill } from 'graphql/autogen/types';
 import { Patron } from 'graphql/types';
 import NextLink from 'next/link';
 import React, { useMemo } from 'react';
 import { FaGlobe } from 'react-icons/fa';
-import { getPlayerTimeZoneDisplay } from 'utils/dateHelpers';
 import {
-  getPlayerCoverImage,
+  getPlayerBanner,
   getPlayerDescription,
   getPlayerName,
+  getPlayerURL,
 } from 'utils/playerHelpers';
 
 const PATRON_RANKS = [
@@ -53,11 +50,16 @@ type Props = {
 const MAX_BIO_LENGTH = 240;
 
 export const PatronTile: React.FC<Props> = ({ index, patron }) => {
-  const player = patron as PlayerFragmentFragment;
+  const player = patron as Player;
   const patronRank = computeRank(index, PATRONS_PER_RANK, PATRON_RANKS);
-  const tzDisplay = useMemo(() => getPlayerTimeZoneDisplay(player.timezone), [
-    player.timezone,
-  ]);
+  const { label: timeZone = null, offset = null } = useMemo(
+    () =>
+      getTimeZoneFor({ location: player.profile?.timeZone ?? undefined }) ?? {
+        label: null,
+        offset: null,
+      },
+    [player.profile?.timeZone],
+  );
   const description = getPlayerDescription(player);
   const displayDescription =
     description && description.length > MAX_BIO_LENGTH
@@ -67,20 +69,16 @@ export const PatronTile: React.FC<Props> = ({ index, patron }) => {
     <LinkBox>
       <MetaTile>
         <Box
-          bgImage={`url(${getPlayerCoverImage(player)})`}
+          bgImage={`url(${getPlayerBanner(player)})`}
           bgSize="cover"
           bgPosition="center"
           position="absolute"
-          top="0"
-          left="0"
+          top={0}
+          left={0}
           w="100%"
           h="4.5rem"
         />
-        <NextLink
-          as={`/player/${player.username}`}
-          href="/player/[username]"
-          passHref
-        >
+        <NextLink as={getPlayerURL(player)} href="/player/[username]" passHref>
           <LinkOverlay>
             <MetaTileHeader>
               <VStack>
@@ -90,7 +88,7 @@ export const PatronTile: React.FC<Props> = ({ index, patron }) => {
                 </Heading>
               </VStack>
               <Wrap w="100%" justify="center">
-                {patron.pSeedBalance ? (
+                {patron.pSeedBalance != null && (
                   <WrapItem>
                     <MetaTag size="md">
                       {`pSEED: ${Math.floor(
@@ -98,8 +96,8 @@ export const PatronTile: React.FC<Props> = ({ index, patron }) => {
                       )}`}
                     </MetaTag>
                   </WrapItem>
-                ) : null}
-                {patronRank ? (
+                )}
+                {patronRank && (
                   <WrapItem>
                     <MetaTag
                       backgroundColor={patronRank?.toLowerCase()}
@@ -109,53 +107,49 @@ export const PatronTile: React.FC<Props> = ({ index, patron }) => {
                       {patronRank}
                     </MetaTag>
                   </WrapItem>
-                ) : null}
+                )}
                 <WrapItem>
                   <MetaTag size="md">{`XP: ${Math.floor(
-                    player.total_xp,
-                  )}`}</MetaTag>
+                    player.totalXP,
+                  ).toLocaleString()}`}</MetaTag>
                 </WrapItem>
               </Wrap>
-              {tzDisplay?.timeZone ? (
+              {timeZone && (
                 <HStack alignItems="baseline" w="auto" justify="center">
                   <FaGlobe color="blueLight" fontSize="0.875rem" />
-                  <Text fontSize="lg">{tzDisplay?.timeZone || '-'}</Text>
-                  {tzDisplay?.offset ? (
-                    <Text fontSize="sm">{tzDisplay?.offset}</Text>
-                  ) : (
-                    ''
-                  )}
+                  <Text fontSize="lg">{timeZone || '―'}</Text>
+                  {offset != null && <Text fontSize="sm">{offset}</Text>}
                 </HStack>
-              ) : null}
-              {displayDescription ? (
+              )}
+              {displayDescription && (
                 <VStack spacing={2} align="stretch" pt="0.5rem">
-                  <Text textStyle="caption">ABOUT</Text>
+                  <Text textStyle="caption">About</Text>
                   <Text fontSize="sm">{displayDescription}</Text>
                 </VStack>
-              ) : null}
+              )}
             </MetaTileHeader>
           </LinkOverlay>
         </NextLink>
         <MetaTileBody>
-          {player.skills?.length ? (
+          {player.skills?.length && (
             <VStack spacing={2} align="stretch">
               <Text textStyle="caption">SKILLS</Text>
               <SkillsTags
                 skills={player.skills.map((s) => s.Skill) as Skill[]}
               />
             </VStack>
-          ) : null}
+          )}
 
           <PlayerTileMemberships player={player} />
 
-          {player.accounts?.length ? (
+          {player.accounts?.length && (
             <VStack spacing={2} align="stretch">
               <Text textStyle="caption">CONTACT</Text>
               <HStack mt="2">
                 <PlayerContacts player={player} />
               </HStack>
             </VStack>
-          ) : null}
+          )}
         </MetaTileBody>
       </MetaTile>
     </LinkBox>

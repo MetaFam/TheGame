@@ -10,15 +10,14 @@ export const getGuildDiscordRoles: QueryResolvers['getGuildDiscordRoles'] = asyn
   if (!guildDiscordId) return [];
 
   const discordClient = await createDiscordClient();
-
   const discordGuild = await discordClient.guilds.fetch(guildDiscordId);
 
   if (discordGuild != null) {
     await discordGuild.roles.fetch();
-    return discordGuild.roles.cache.map((role) => ({
-      id: role.id,
-      position: role.position,
-      name: role.name,
+    return discordGuild.roles.cache.map(({ id, position, name }) => ({
+      id,
+      position,
+      name,
     }));
   }
 
@@ -36,13 +35,13 @@ export const getDiscordServerMemberRoles: QueryResolvers['getDiscordServerMember
   const guildDiscordId =
     getGuildPlayerResponse.guild_player[0].Guild.discord_id;
   const playerDiscordId =
-    getGuildPlayerResponse.guild_player[0].Player.discord_id;
+    getGuildPlayerResponse.guild_player[0].Player.discordId;
 
   if (guildDiscordId == null || playerDiscordId == null) return [];
 
   const discordClient = await createDiscordClient();
-
   const discordGuild = await discordClient.guilds.fetch(guildDiscordId);
+
   if (discordGuild != null) {
     await discordGuild.members.fetch(playerDiscordId);
     await discordGuild.roles.fetch();
@@ -52,10 +51,10 @@ export const getDiscordServerMemberRoles: QueryResolvers['getDiscordServerMember
 
     // these are returned in descending order by position
     // (meaning, most significant role is first)
-    return member.roles.cache.map((role) => ({
-      id: role.id,
-      position: role.position,
-      name: role.name,
+    return member.roles.cache.map(({ id, position, name }) => ({
+      id,
+      position,
+      name,
     }));
   }
 

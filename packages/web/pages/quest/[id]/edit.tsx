@@ -1,6 +1,4 @@
 import { Heading, LoadingState, useToast } from '@metafam/ds';
-import { convertToRaw } from 'draft-js';
-import draftToHtml from 'draftjs-to-html';
 import { getQuest } from 'graphql/getQuest';
 import { GetStaticPaths, GetStaticPropsContext } from 'next';
 import { useRouter } from 'next/router';
@@ -38,17 +36,15 @@ const EditQuestPage: React.FC<Props> = ({ quest, skillChoices, guilds }) => {
   const onSubmit = (data: CreateQuestFormInputs) => {
     const updateQuestInput = {
       title: data.title,
-      description: draftToHtml(
-        convertToRaw(data.description.getCurrentContent()),
-      ),
-      external_link: data.external_link,
+      description: data.description,
+      externalLink: data.externalLink,
       repetition: data.repetition,
       cooldown: transformCooldownForBackend(data.cooldown, data.repetition),
       status: data.status,
     };
     const skillsObjects = data.skills.map((s) => ({
-      quest_id: quest.id,
-      skill_id: s.id,
+      questId: quest.id,
+      skillId: s.id,
     }));
     updateQuest({
       id: quest.id,
@@ -95,7 +91,7 @@ const EditQuestPage: React.FC<Props> = ({ quest, skillChoices, guilds }) => {
         success={!!updateQuestResult.data}
         fetching={updateQuestResult.fetching}
         submitLabel="Edit Quest"
-        loadingLabel="Editing quest..."
+        loadingLabel="Editing quest…"
         editQuest={quest}
       />
     </PageContainer>

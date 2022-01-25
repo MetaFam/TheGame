@@ -17,7 +17,7 @@ import { QuestFragment } from './fragments';
 // eslint-disable-next-line @typescript-eslint/no-unused-expressions
 gql`
   query GetQuestIds($limit: Int) {
-    quest(limit: $limit, order_by: { created_at: desc }) {
+    quest(limit: $limit, order_by: { createdAt: desc }) {
       id
     }
   }
@@ -28,17 +28,17 @@ gql`
   query GetQuests(
     $limit: Int
     $status: QuestStatus_enum
-    $guild_id: uuid
+    $guildId: uuid
     $order: order_by
-    $created_by_player_id: uuid
+    $createdByPlayerId: uuid
   ) {
     quest(
       limit: $limit
-      order_by: { created_at: $order }
+      order_by: { createdAt: $order }
       where: {
         status: { _eq: $status }
-        guild_id: { _eq: $guild_id }
-        created_by_player_id: { _eq: $created_by_player_id }
+        guildId: { _eq: $guildId }
+        createdByPlayerId: { _eq: $createdByPlayerId }
       }
     ) {
       ...QuestFragment
@@ -51,9 +51,9 @@ gql`
 // eslint-disable-next-line @typescript-eslint/no-unused-expressions
 gql`
   query GetQuestGuilds {
-    quest_aggregate(distinct_on: guild_id) {
+    quest_aggregate(distinct_on: guildId) {
       nodes {
-        guild_id
+        guildId
         guild {
           name
         }
@@ -65,9 +65,9 @@ gql`
 export const defaultQueryVariables: GetQuestsQueryVariables = {
   limit: 10,
   status: QuestStatus_Enum.Open,
-  guild_id: undefined,
+  guildId: undefined,
   order: Order_By.Desc,
-  created_by_player_id: undefined,
+  createdByPlayerId: undefined,
 };
 
 export const getQuestIds = async (
@@ -98,7 +98,6 @@ export const getQuests = async (
     if (error) {
       throw error;
     }
-
     return [];
   }
 

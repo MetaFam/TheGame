@@ -18,10 +18,8 @@ export const PlayerRoles: React.FC<Props> = ({
 }) => (
   <ProfileSection
     title="Roles"
-    onRemoveClick={onRemoveClick}
-    isOwnProfile={isOwnProfile}
-    canEdit={canEdit}
     boxType={BoxType.PLAYER_ROLES}
+    {...{ onRemoveClick, isOwnProfile, canEdit }}
   >
     <Wrap>
       {player.roles &&

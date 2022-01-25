@@ -17,17 +17,17 @@ import {
   QuestWithCompletionFragmentFragment,
   useUpdateQuestCompletionMutation,
 } from 'graphql/autogen/types';
+import { useUser } from 'lib/hooks';
 import moment from 'moment';
 import React, { useCallback, useState } from 'react';
 import { FaExternalLinkAlt } from 'react-icons/fa';
+import { getPlayerName } from 'utils/playerHelpers';
 
-import { useUser } from '../../lib/hooks';
-import { getPlayerName } from '../../utils/playerHelpers';
 import { CompletionStatusTag } from './QuestTags';
 
 interface AlertSubmission {
   status: QuestCompletionStatus_ActionEnum;
-  quest_completion_id: string;
+  questCompletionId: string;
 }
 
 type Props = {
@@ -42,19 +42,17 @@ export const QuestCompletions: React.FC<Props> = ({ quest }) => {
     setAlertSubmission,
   ] = useState<AlertSubmission | null>(null);
   const [
-    updateQuestCompletionStatus,
+    { fetching },
     updateQuestCompletion,
   ] = useUpdateQuestCompletionMutation();
   const isMyQuest = user?.id === (quest as Quest).player.id;
+  const { Accepted, Rejected } = QuestCompletionStatus_ActionEnum;
 
   const onConfirmAlert = useCallback(() => {
     if (!alertSubmission) return;
 
-    updateQuestCompletion({
-      quest_completion_id: alertSubmission.quest_completion_id,
-      status: alertSubmission.status,
-    }).then((response) => {
-      if (response.data?.updateQuestCompletion?.success) {
+    updateQuestCompletion({ ...alertSubmission }).then(({ data, error }) => {
+      if (data?.updateQuestCompletion?.success) {
         toast({
           title: 'Quest completion updated',
           description: `The completion is now ${alertSubmission.status}`,
@@ -67,9 +65,9 @@ export const QuestCompletions: React.FC<Props> = ({ quest }) => {
         toast({
           title: 'Error while updating completion',
           description:
-            response.error?.message ||
-            response.data?.updateQuestCompletion?.error ||
-            'unknown error',
+            error?.message ||
+            data?.updateQuestCompletion?.error ||
+            'Unknown Error',
           status: 'error',
           isClosable: true,
           duration: 10000,
@@ -84,60 +82,67 @@ export const QuestCompletions: React.FC<Props> = ({ quest }) => {
         {quest.quest_completions.length === 0 && (
           <Text>There are no proposal for this quest yet.</Text>
         )}
-        {quest.quest_completions.map((questCompletion) => (
-          <Box key={questCompletion.id} w="100%">
-            <HStack px={4} py={4}>
-              <Avatar name={getPlayerName(questCompletion.player as Player)} />
-              <CompletionStatusTag status={questCompletion.status} />
-              <Text>
-                <i>
-                  by{' '}
-                  <MetaLink
-                    as={`/player/${questCompletion.player.username}`}
-                    href="/player/[username]"
-                  >
-                    {getPlayerName(questCompletion.player as Player)}
+        {quest.quest_completions.map(
+          ({
+            id,
+            status,
+            player,
+            submittedAt,
+            submissionText,
+            submissionLink,
+          }) => (
+            <Box key={id} w="100%">
+              <HStack px={4} py={4}>
+                <Avatar name={getPlayerName(player as Player)} />
+                <CompletionStatusTag status={status} />
+                <Text>
+                  <i>
+                    by{' '}
+                    <MetaLink
+                      as={`/player/${player.profile?.username}`}
+                      href="/player/[username]"
+                    >
+                      {getPlayerName(player as Player)}
+                    </MetaLink>
+                  </i>
+                </Text>
+                <Text>{moment(submittedAt).fromNow()}</Text>
+              </HStack>
+
+              <Box bg="whiteAlpha.200" px={8} py={4} rounded="lg">
+                <Text textStyle="caption" mb={2}>
+                  Message
+                </Text>
+                <Text>{submissionText}</Text>
+
+                {submissionLink && (
+                  <MetaLink href={submissionLink} isExternal>
+                    <MetaButton
+                      variant="link"
+                      colorScheme="cyan"
+                      leftIcon={<FaExternalLinkAlt />}
+                      size="md"
+                      mt={4}
+                    >
+                      Open Link
+                    </MetaButton>
                   </MetaLink>
-                </i>
-              </Text>
-              <Text>{moment(questCompletion.submitted_at).fromNow()}</Text>
-            </HStack>
+                )}
+              </Box>
 
-            <Box bg="whiteAlpha.200" px={8} py={4} rounded="lg">
-              <Text textStyle="caption" mb={2}>
-                Message
-              </Text>
-              <Text>{questCompletion.submission_text}</Text>
-
-              {questCompletion.submission_link && (
-                <MetaLink href={questCompletion.submission_link} isExternal>
-                  <MetaButton
-                    variant="link"
-                    colorScheme="cyan"
-                    leftIcon={<FaExternalLinkAlt />}
-                    size="md"
-                    mt={4}
-                  >
-                    Open link
-                  </MetaButton>
-                </MetaLink>
-              )}
-            </Box>
-
-            {isMyQuest &&
-              questCompletion.status === QuestCompletionStatus_Enum.Pending && (
+              {isMyQuest && status === QuestCompletionStatus_Enum.Pending && (
                 <HStack mt={4}>
                   <MetaButton
                     variant="solid"
                     size="md"
                     onClick={() =>
                       setAlertSubmission({
-                        status: QuestCompletionStatus_ActionEnum.Accepted,
-                        quest_completion_id: questCompletion.id,
+                        status: Accepted,
+                        questCompletionId: id,
                       })
                     }
                   >
-                    Accept submission
+                    Accept Submission
                   </MetaButton>
 
                   <MetaButton
@@ -146,33 +151,32 @@ export const QuestCompletions: React.FC<Props> = ({ quest }) => {
                     size="md"
                     onClick={() =>
                       setAlertSubmission({
-                        status: QuestCompletionStatus_ActionEnum.Rejected,
-                        quest_completion_id: questCompletion.id,
+                        status: Rejected,
+                        questCompletionId: id,
                       })
                     }
                   >
-                    Reject submission
+                    Reject Submission
                   </MetaButton>
                 </HStack>
               )}
-          </Box>
-        ))}
+            </Box>
+          ),
+        )}
       </VStack>
 
       <ConfirmModal
         isOpen={!!alertSubmission}
         onNope={() => setAlertSubmission(null)}
         onYep={onConfirmAlert}
-        loading={updateQuestCompletionStatus.fetching}
-        loadingText="Updating..."
+        loading={fetching}
+        loadingText="Updating…"
         header={
           <>
-            {alertSubmission?.status ===
-              QuestCompletionStatus_ActionEnum.Accepted &&
-              'Are you sure you want to accept this submission ?'}
-            {alertSubmission?.status ===
-              QuestCompletionStatus_ActionEnum.Rejected &&
-              'Are you sure you want to reject this submission ?'}
+            {alertSubmission?.status === Accepted &&
+              'Are you sure you want to accept this submission?'}
+            {alertSubmission?.status === Rejected &&
+              'Are you sure you want to reject this submission?'}
           </>
         }
       />

@@ -1,23 +1,27 @@
 import { Avatar, AvatarProps } from '@metafam/ds';
-import { PlayerFragmentFragment } from 'graphql/autogen/types';
+import { Player } from 'graphql/autogen/types';
+import { GuildPlayer } from 'graphql/types';
 import React from 'react';
-import {
-  getPlayerImage,
-  getPlayerName,
-  hasPlayerImage,
-} from 'utils/playerHelpers';
+import { getPlayerImage, getPlayerName, hasImage } from 'utils/playerHelpers';
 
-type PlayerAvatarProps = AvatarProps & { player: PlayerFragmentFragment };
-export const PlayerAvatar: React.FC<PlayerAvatarProps> = ({
-  player,
-  ...props
-}) => {
+type PlayerAvatarProps = AvatarProps & {
+  player?: Player | GuildPlayer;
+  omitBackground?: boolean;
+};
+
+export const PlayerAvatar: React.FC<PlayerAvatarProps> = React.forwardRef<
+  HTMLSpanElement,
+  PlayerAvatarProps
+>(({ player, src, ...props }, ref) => {
   const attrs = {
-    src: getPlayerImage(player),
+    src: src ?? getPlayerImage(player),
     name: getPlayerName(player),
     ...props,
   };
-  if (hasPlayerImage(player)) attrs.bg = 'transparent';
 
-  return <Avatar {...attrs} />;
-};
+  if (src || hasImage(player)) {
+    attrs.bg = 'transparent';
+  }
+
+  return <Avatar {...attrs} {...{ ref }} />;
+});

@@ -12,6 +12,7 @@ import {
   Stack,
   styled,
   Text,
+  TimeZoneType,
   useBreakpointValue,
   useDisclosure,
   Wrap,
@@ -46,7 +47,7 @@ type Props = {
   queryVariables: PlayersQueryVariables;
   setQueryVariable: QueryVariableSetter;
   resetFilter: () => void;
-  totalCount: number;
+  total: number;
 };
 
 export const PlayerFilter: React.FC<Props> = ({
@@ -56,16 +57,16 @@ export const PlayerFilter: React.FC<Props> = ({
   queryVariables,
   setQueryVariable,
   resetFilter,
-  totalCount,
+  total,
 }) => {
   const [search, setSearch] = useState<string>('');
 
   const [skills, setSkills] = useState<SkillOption[]>([]);
   const [playerTypes, setPlayerTypes] = useState<ValueType[]>([]);
-  const [timezones, setTimezones] = useState<ValueType[]>([]);
+  const [timeZones, setTimeZones] = useState<Array<TimeZoneType>>([]);
   const [availability, setAvailability] = useState<ValueType | null>(null);
   const [sortOption, setSortOption] = useState<ValueType>(
-    sortOptionsMap[SortOption.SEASON_XP.toString()],
+    sortOptionsMap[SortOption.SEASON_XP],
   );
 
   const onSearch = (e: React.ChangeEvent<HTMLFormElement>) => {
@@ -84,7 +85,7 @@ export const PlayerFilter: React.FC<Props> = ({
     setSortOption(sortOptionsMap[SortOption.SEASON_XP]);
     setSkills([]);
     setPlayerTypes([]);
-    setTimezones([]);
+    setTimeZones([]);
     setAvailability(null);
   }, [resetFilter]);
   const isSearchUsed = queryVariables.search !== '%%';
@@ -94,10 +95,8 @@ export const PlayerFilter: React.FC<Props> = ({
 
   useEffect(() => {
     setQueryVariable(
-      'playerTypeIds',
-      playerTypes.length > 0
-        ? playerTypes.map((pT) => Number.parseInt(pT.value, 10))
-        : null,
+      'explorerTypeTitles',
+      playerTypes.length > 0 ? playerTypes.map(({ label }) => label) : null,
     );
   }, [setQueryVariable, playerTypes]);
 
@@ -110,10 +109,10 @@ export const PlayerFilter: React.FC<Props> = ({
 
   useEffect(() => {
     setQueryVariable(
-      'timezones',
-      timezones.length > 0 ? timezones.map((t) => t.value) : null,
+      'timeZones',
+      timeZones.length > 0 ? timeZones.map((t) => t.label) : null,
     );
-  }, [setQueryVariable, timezones]);
+  }, [setQueryVariable, timeZones]);
 
   useEffect(() => {
     setQueryVariable(
@@ -143,7 +142,12 @@ export const PlayerFilter: React.FC<Props> = ({
               background="dark"
               w="100%"
               type="text"
-              minW={{ base: '18rem', sm: 'md', md: 'lg', lg: 'xl' }}
+              minW={{
+                base: 'min(18rem, calc(100vw - 2rem))',
+                sm: 'md',
+                md: 'lg',
+                lg: 'xl',
+              }}
               placeholder="SEARCH PLAYERS BY USERNAME OR ETHEREUM ADDRESS"
               _placeholder={{ color: 'whiteAlpha.500' }}
               value={search}
@@ -183,17 +187,19 @@ export const PlayerFilter: React.FC<Props> = ({
       </Form>
       <DesktopFilters
         display={isSmallScreen ? 'none' : 'flex'}
-        aggregates={aggregates}
-        skills={skills}
-        setSkills={setSkills}
-        playerTypes={playerTypes}
-        setPlayerTypes={setPlayerTypes}
-        timezones={timezones}
-        setTimezones={setTimezones}
-        availability={availability}
-        setAvailability={setAvailability}
-        sortOption={sortOption}
-        setSortOption={setSortOption}
+        {...{
+          aggregates,
+          skills,
+          setSkills,
+          playerTypes,
+          setPlayerTypes,
+          timeZones,
+          setTimeZones,
+          availability,
+          setAvailability,
+          sortOption,
+          setSortOption,
+        }}
       />
       <MobileFilters
         aggregates={aggregates}
@@ -201,8 +207,8 @@ export const PlayerFilter: React.FC<Props> = ({
         setSkills={setSkills}
         playerTypes={playerTypes}
         setPlayerTypes={setPlayerTypes}
-        timezones={timezones}
-        setTimezones={setTimezones}
+        timeZones={timeZones}
+        setTimeZones={setTimeZones}
         availability={availability}
         setAvailability={setAvailability}
         isOpen={isSmallScreen ? isOpen : false}
@@ -233,14 +239,12 @@ export const PlayerFilter: React.FC<Props> = ({
                 />
               </WrapItem>
             )}
-            {sortOption.value !== SortOption.SEASON_XP && (
+            {sortOption?.value !== SortOption.SEASON_XP && (
               <WrapItem>
                 <FilterTag
                   label={`Sorted By: ${sortOption.label}`}
                   onRemove={() => {
-                    setSortOption(
-                      sortOptionsMap[SortOption.SEASON_XP.toString()],
-                    );
+                    setSortOption(sortOptionsMap[SortOption.SEASON_XP]);
                   }}
                 />
               </WrapItem>
@@ -279,14 +283,14 @@ export const PlayerFilter: React.FC<Props> = ({
                 />
               </WrapItem>
             )}
-            {timezones.map(({ value, label }, index) => (
-              <WrapItem key={value}>
+            {timeZones.map(({ name, label }, index) => (
+              <WrapItem key={name}>
                 <FilterTag
                   label={label}
                   onRemove={() => {
-                    const newTimezones = timezones.slice();
-                    newTimezones.splice(index, 1);
-                    setTimezones(newTimezones);
+                    const newZones = [...timeZones];
+                    newZones.splice(index, 1);
+                    setTimeZones(newZones);
                   }}
                 />
               </WrapItem>
@@ -307,7 +311,7 @@ export const PlayerFilter: React.FC<Props> = ({
       {fetchingMore || !fetching ? (
         <Flex justify="space-between" w="100%" maxW="79rem" align="center">
           <Text fontWeight="bold" fontSize="xl">
-            {totalCount} player{totalCount === 1 ? '' : 's'}
+            {total} player{total === 1 ? '' : 's'}
           </Text>
           <Button
             variant="link"
@@ -317,7 +321,7 @@ export const PlayerFilter: React.FC<Props> = ({
             minH="2.5rem"
             minW="8.5rem"
             display={isSmallScreen ? 'flex' : 'none'}
-            p="2"
+            p={2}
           >
             FILTER AND SORT
           </Button>

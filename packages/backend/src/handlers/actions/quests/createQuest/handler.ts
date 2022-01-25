@@ -1,9 +1,6 @@
 import { Request, Response } from 'express';
 
-import {
-  CreateQuestOutput,
-  Mutation_RootCreateQuestArgs,
-} from '../../../../lib/autogen/hasura-sdk';
+import { Mutation_RootCreateQuestArgs } from '../../../../lib/autogen/hasura-sdk';
 import { createQuest } from './createQuest';
 
 export const createQuestHandler = async (
@@ -23,13 +20,10 @@ export const createQuestHandler = async (
     const createQuestArgs: Mutation_RootCreateQuestArgs = input;
     const result = await createQuest(playerId, createQuestArgs.quest);
     res.json(result);
-  } catch (e) {
-    const error = (e as Error).message;
-
-    const errorResponse: CreateQuestOutput = {
+  } catch (error) {
+    res.json({
       success: false,
-      error,
-    };
-    res.json(errorResponse);
+      error: (error as Error).message,
+    });
   }
 };

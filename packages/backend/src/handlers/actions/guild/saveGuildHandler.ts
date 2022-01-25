@@ -5,7 +5,6 @@ import {
   Guild_Set_Input,
   GuildInfo,
   GuildType_Enum,
-  SaveGuildResponse,
 } from '../../../lib/autogen/hasura-sdk';
 import { client } from '../../../lib/hasuraClient';
 
@@ -14,72 +13,66 @@ export const saveGuildHandler = async (
   res: Response,
 ): Promise<void> => {
   const { input, session_variables: sessionVariables } = req.body;
-
   const playerId = sessionVariables['x-hasura-user-id'];
 
   try {
     const { guildInformation } = input;
     await saveGuild(playerId, guildInformation as GuildInfo);
-
-    res.json({
-      success: true,
-    });
-  } catch (e) {
-    const error = (e as Error).message;
-    const errorResponse: SaveGuildResponse = {
-      success: false,
-      error,
-    };
+    res.json({ success: true });
+  } catch (error) {
     console.error(error);
-    res.json(errorResponse);
+    res.json({
+      success: false,
+      error: (error as Error).message,
+    });
   }
 };
 
 const saveGuild = async (playerId: string, guildInfo: GuildInfo) => {
-  const existingGuildMetadataResponse = await client.GetGuildMetadataById({
-    id: guildInfo.uuid,
-  });
-  if (
-    existingGuildMetadataResponse?.guild_metadata == null ||
-    existingGuildMetadataResponse.guild_metadata.length !== 1
-  ) {
-    throw new Error('No pending guild with that ID exists');
+  const { guild_metadata: metadata } =
+    (await client.GetGuildMetadataById({
+      id: guildInfo.uuid,
+    })) ?? {};
+  if (metadata == null || metadata.length === 0) {
+    throw new Error('No pending guild with that ID exists.');
   }
-  const existingGuildMetadata = existingGuildMetadataResponse.guild_metadata[0];
+  const [
+    { creator_id: creatorId, discord_metadata: discordMetadata },
+  ] = metadata;
 
-  if (existingGuildMetadata.creator_id !== playerId) {
+  if (creatorId !== playerId) {
     throw new Error(
-      "Only the guild's discord server owner can edit this guild",
+      'Only the guild’s discord server owner can edit this guild.',
     );
   }
 
-  const updateGuildData: Guild_Set_Input = {
+  const updatedData: Guild_Set_Input = {
     guildname: guildInfo.guildname,
     name: guildInfo.name,
     type: (guildInfo.type as unknown) as GuildType_Enum,
     description: guildInfo.description,
-    discord_invite_url: guildInfo.discordInviteUrl,
-    join_button_url: guildInfo.joinUrl,
-    logo: guildInfo.logoUrl,
-    website_url: guildInfo.websiteUrl,
-    twitter_url: guildInfo.twitterUrl,
-    github_url: guildInfo.githubUrl,
+    discord_invite_url: guildInfo.discordInviteURL,
+    join_button_url: guildInfo.joinURL,
+    logo: guildInfo.logoURL,
+    website_url: guildInfo.websiteURL,
+    twitter_url: guildInfo.twitterURL,
+    github_url: guildInfo.githubURL,
     moloch_address: guildInfo.daoAddress,
   };
 
   await client.UpdateGuild({
     guildId: guildInfo.uuid,
-    object: updateGuildData,
+    object: updatedData,
   });
 
-  const updateGuildMetadata: GuildDiscordMetadata = {
-    ...existingGuildMetadata.discord_metadata,
+  const updatedMetadata: GuildDiscordMetadata = {
+    ...discordMetadata,
     membershipRoleIds: guildInfo.discordMembershipRoles,
     administratorRoleIds: guildInfo.discordAdminRoles,
   };
 
   await client.UpdateGuildDiscordMetadata({
     guildId: guildInfo.uuid,
-    discordMetadata: updateGuildMetadata,
+    discordMetadata: updatedMetadata,
   });
 };

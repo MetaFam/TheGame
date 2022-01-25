@@ -12,6 +12,7 @@
     "docker:build": "docker-compose up --build -d",
     "docker:stop": "docker-compose down",
     "docker:clean": "docker-compose down -v",
+    "build": "lerna run build",
     "web:dev": "lerna run dev --parallel --scope @metafam/web --include-dependencies",
     "web:build": "lerna run build --scope @metafam/web --include-dependencies --stream",
     "backend:dev": "lerna run dev --parallel --scope @metafam/backend",
@@ -19,7 +20,7 @@
     "hasura": "hasura --project ./hasura",
     "hasura:console": "yarn hasura console --no-browser",
     "hasura:migrate:init": "yarn hasura migrate create \"init\" --from-server",
-    "hasura:seed-local-db": "node hasura/seed-local-db.js",
+    "hasura:seed-local-db": "node hasura/seed-local-db.mjs",
     "test": "lerna run test --parallel --",
     "generate": "lerna run generate --parallel --",
     "test:full": "yarn lint && yarn typecheck && yarn test",
@@ -50,16 +51,16 @@
     "@graphql-codegen/typescript-react-apollo": "2.2.4",
     "@graphql-codegen/typescript-resolvers": "1.19.1",
     "@graphql-codegen/typescript-urql": "2.0.6",
-    "@types/jsdom": "^16.2.13",
+    "@types/jsdom": "16.2.13",
     "@types/node": "15.6.1",
     "@types/react": "17.0.6",
     "@types/react-dom": "17.0.5",
-    "@typescript-eslint/eslint-plugin": "4.32.0",
+    "@typescript-eslint/eslint-plugin": "5.5.0",
     "@typescript-eslint/parser": "5.4.0",
     "env-cmd": "10.1.0",
     "eslint": "7.32.0",
     "eslint-config-airbnb": "19.0.2",
-    "eslint-config-airbnb-typescript": "13.0.1",
+    "eslint-config-airbnb-typescript": "16.1.0",
     "eslint-config-prettier": "8.3.0",
     "eslint-import-resolver-typescript": "2.4.0",
     "eslint-plugin-import": "2.23.4",
@@ -76,15 +77,19 @@
     "lerna": "4.0.0",
     "lint-staged": "11.0.0",
     "prettier": "2.2.1",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "tsdx": "0.14.1",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
     "standard-version": "9.3.2",
+    "tsdx": "0.14.1",
     "typescript": "4.5.4",
     "wait-on": "5.3.0"
   },
   "resolutions": {
-    "bcrypto": "5.2.0"
+    "bcrypto": "5.2.0",
+    "typescript": "4.5.4"
   },
-  "dependencies": {}
+  "dependencies": {
+    "bottleneck": "^2.19.5",
+    "node-fetch": "3.1.0"
+  }
 }

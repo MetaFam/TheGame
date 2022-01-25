@@ -1,9 +1,5 @@
 import { Request, Response } from 'express';
 
-import {
-  CreateQuestCompletionOutput,
-  Mutation_RootCreateQuestCompletionArgs,
-} from '../../../../lib/autogen/hasura-sdk';
 import { createCompletion } from './createCompletion';
 
 export const createCompletionHandler = async (
@@ -17,19 +13,16 @@ export const createCompletionHandler = async (
 
   try {
     if (role !== 'player') {
-      throw new Error('Expected player role');
+      throw new Error(`Expected player role; got ${role}.`);
     }
 
-    const { questCompletion }: Mutation_RootCreateQuestCompletionArgs = input;
+    const { questCompletion } = input;
     const result = await createCompletion(playerId, questCompletion);
     res.json(result);
-  } catch (e) {
-    const error = (e as Error).message;
-
-    const errorResponse: CreateQuestCompletionOutput = {
+  } catch (error) {
+    res.json({
       success: false,
-      error,
-    };
-    res.json(errorResponse);
+      error: (error as Error).message,
+    });
   }
 };

@@ -1,4 +1,3 @@
-import gql from 'fake-tag';
 import { Client } from 'urql';
 
 import {
@@ -19,7 +18,7 @@ import { client as defaultClient } from './client';
 import { PlayerFragment, PlayerSkillFragment } from './fragments';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-gql`
+/* GraphQL */ `
   query GetPlayers(
     $orderBy: player_order_by!
     $offset: Int
@@ -28,7 +27,9 @@ gql`
     $forLoginDisplay: Boolean! = false
   ) {
     player(
-      order_by: [$orderBy]
+      # players were appearing multiple times when orderBy was the
+      # same for many entries; i.e. availability = 0
+      order_by: [$orderBy, { ethereumAddress: desc }]
       offset: $offset
       limit: $limit
       where: $where
@@ -51,7 +52,7 @@ export const defaultQueryVariables: PlayersQueryVariables = {
   limit: PLAYER_LIMIT,
   search: '%%',
   orderBy: {
-    season_xp: 'desc' as Order_By,
+    seasonXP: 'desc' as Order_By,
   },
 };
 
@@ -60,46 +61,49 @@ export type PlayersQueryVariables = {
   offset: number;
   limit: number;
   orderBy: {
-    season_xp?: Maybe<Order_By> | undefined;
+    seasonXP?: Maybe<Order_By>;
   };
   availability?: number;
   skillIds?: string[];
-  playerTypeIds?: number[];
-  timezones?: string[];
+  explorerTypeTitles?: string[];
+  timeZones?: string[];
 };
 
-export const transformToGraphQlVariables = (
-  queryVariables: PlayersQueryVariables,
+export const transformToGraphQLVariables = (
+  query: PlayersQueryVariables,
 ): GetPlayersQueryVariables => {
-  const graphqlWhereClause: Player_Bool_Exp = {
+  const where: Player_Bool_Exp = {
     _or: [
-      { username: { _ilike: queryVariables.search } },
-      { ethereum_address: { _ilike: queryVariables.search } },
+      { profile: { username: { _ilike: query.search } } },
+      { ethereumAddress: { _ilike: query.search } },
     ],
   };
 
-  if (queryVariables.availability != null) {
-    graphqlWhereClause.availability_hours = {
-      _gte: queryVariables.availability,
+  if (query.availability != null) {
+    where.profile ??= {};
+    where.profile.availableHours = {
+      _gte: query.availability,
     };
   }
-  if (queryVariables.timezones?.length) {
-    graphqlWhereClause.timezone = { _in: queryVariables.timezones };
+  if (query.timeZones?.length) {
+    where.profile ??= {};
+    where.profile.timeZone = { _in: query.timeZones };
   }
-  if (queryVariables.playerTypeIds?.length) {
-    graphqlWhereClause.type = { id: { _in: queryVariables.playerTypeIds } };
+  if (query.explorerTypeTitles?.length) {
+    where.profile ??= {};
+    where.profile.explorerTypeTitle = { _in: query.explorerTypeTitles };
   }
-  if (queryVariables.skillIds?.length) {
-    graphqlWhereClause.skills = {
-      Skill: { id: { _in: queryVariables.skillIds } },
+  if (query.skillIds?.length) {
+    where.skills = {
+      Skill: { id: { _in: query.skillIds } },
     };
   }
 
   return {
-    orderBy: queryVariables.orderBy,
-    offset: queryVariables.offset,
-    limit: queryVariables.limit,
-    where: graphqlWhereClause,
+    orderBy: query.orderBy,
+    offset: query.offset,
+    limit: query.limit,
+    where,
   };
 };
 
@@ -116,21 +120,23 @@ export const getPlayersWithCount = async (
   const { data, error } = await client
     .query<GetPlayersQuery, GetPlayersQueryVariables>(
       GetPlayersDocument,
-      transformToGraphQlVariables(queryVariables),
+      transformToGraphQLVariables(queryVariables),
     )
     .toPromise();
 
   return {
-    players: data?.player || [],
-    count: data?.player_aggregate.aggregate?.count || 0,
+    players: data?.player ?? [],
+    count: data?.player_aggregate.aggregate?.count ?? 0,
     error,
   };
 };
 
-const playerUsernamesQuery = gql`
+const playerUsernamesQuery = /* GraphQL */ `
   query GetPlayerUsernames($limit: Int) {
-    player(order_by: { total_xp: desc }, limit: $limit) {
-      username
+    player(order_by: { totalXP: desc }, limit: $limit) {
+      profile {
+        username
+      }
     }
   }
 `;
@@ -139,9 +145,7 @@ export const getPlayerUsernames = async (limit = 150): Promise<string[]> => {
   const { data, error } = await defaultClient
     .query<GetPlayerUsernamesQuery, GetPlayerUsernamesQueryVariables>(
       playerUsernamesQuery,
-      {
-        limit,
-      },
+      { limit },
     )
     .toPromise();
 
@@ -149,17 +153,17 @@ export const getPlayerUsernames = async (limit = 150): Promise<string[]> => {
     if (error) {
       throw error;
     }
-
     return [];
   }
-
-  return data.player.map((p) => p.username);
+  return data.player
+    .map(({ profile }) => profile?.username ?? null)
+    .filter((u) => !!u) as Array<string>;
 };
 
 export const getTopPlayerUsernames = getPlayerUsernames;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-gql`
+/* GraphQL */ `
   query GetPlayerFilters {
     skill_aggregate(distinct_on: category) {
       nodes {
@@ -171,7 +175,7 @@ gql`
     ) {
       ...PlayerSkillFragment
     }
-    player_type(distinct_on: id) {
+    ExplorerType(distinct_on: id) {
       value: id
       label: title
     }
@@ -186,11 +190,7 @@ export const getPlayerFilters = async (client: Client = defaultClient) => {
     )
     .toPromise();
 
-  if (error) {
-    // eslint-disable-next-line no-console
-    console.error(error);
-    throw error;
-  }
+  if (error) throw new Error(error.message);
 
   return data;
 };

@@ -1,16 +1,18 @@
-import { gql } from 'graphql-request/dist';
-
 // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-gql`
-  mutation CreatePlayerFromETH($ethereum_address: String!, $username: String!) {
-    insert_player(
-      objects: { username: $username, ethereum_address: $ethereum_address }
+/* GraphQL */ `
+  mutation CreatePlayerFromETH($ethereumAddress: String!) {
+    insert_profile(
+      objects: [
+        { player: { data: { ethereumAddress: $ethereumAddress } } }
+      ]
     ) {
       affected_rows
       returning {
         id
-        username
-        ethereum_address
+        player {
+          id
+          ethereumAddress
+        }
       }
     }
   }
@@ -19,7 +21,7 @@ gql`
     $objects: [player_account_insert_input!]!
     $on_conflict: player_account_on_conflict = {
       constraint: Account_identifier_type_key
-      update_columns: []
+      update_columns: [playerId]
     }
   ) {
     insert_player_account(objects: $objects, on_conflict: $on_conflict) {
@@ -27,24 +29,17 @@ gql`
     }
   }
 
-  mutation UpsertProfileCache(
-    $objects: [profile_cache_insert_input!]!
-    $onConflict: profile_cache_on_conflict = {
-      constraint: profile_cache_player_id_key
-      update_columns: [
-        name
-        description
-        emoji
-        imageURL
-        backgroundImageURL
-        gender
-        location
-        country
-        website
-      ]
-    }
+  mutation UpsertProfile(
+    $objects: [profile_insert_input!]!
+    $updateColumns: [profile_update_column!]!
   ) {
-    insert_profile_cache(on_conflict: $onConflict, objects: $objects) {
+    insert_profile(
+      objects: $objects,
+      on_conflict: {
+        constraint: profile_player_id_key
+        update_columns: $updateColumns
+      }
+    ) {
       affected_rows
     }
   }
@@ -52,25 +47,27 @@ gql`
   mutation UpdatePlayer(
     $ethAddress: String
     $rank: PlayerRank_enum
-    $totalXp: numeric
-    $seasonXp: numeric
+    $totalXP: numeric
+    $seasonXP: numeric
     $discordId: String
   ) {
     update_player(
-      where: { ethereum_address: { _eq: $ethAddress } }
+      where: { ethereumAddress: { _eq: $ethAddress } }
       _set: {
-        ethereum_address: $ethAddress
+        ethereumAddress: $ethAddress
         rank: $rank
-        total_xp: $totalXp
-        season_xp: $seasonXp
-        discord_id: $discordId
+        totalXP: $totalXP
+        seasonXP: $seasonXP
+        discordId: $discordId
       }
     ) {
       affected_rows
       returning {
         id
-        ethereum_address
-        username
+        ethereumAddress
+        profile {
+          username
+        }
       }
     }
   }
@@ -94,14 +91,14 @@ gql`
   }
 `;
 
-export const CreateQuestCompletion = gql`
+export const CreateQuestCompletion = /* GraphQL */ `
   mutation CreateQuestCompletion($objects: [quest_completion_insert_input!]!) {
     insert_quest_completion(objects: $objects) {
       affected_rows
       returning {
         id
-        quest_id
-        completed_by_player_id
+        questId
+        completedByPlayerId
       }
     }
   }
@@ -129,13 +126,13 @@ export const CreateQuestCompletion = gql`
 
   mutation RejectOtherQuestCompletions(
     $accepted_quest_completion_id: uuid!
-    $quest_id: uuid!
+    $questId: uuid!
   ) {
     update_quest_completion(
       where: {
         _and: [
           { id: { _neq: $accepted_quest_completion_id } }
-          { quest_id: { _eq: $quest_id } }
+          { questId: { _eq: $questId } }
         ]
       }
       _set: { status: REJECTED }
@@ -183,7 +180,7 @@ export const CreateQuestCompletion = gql`
     $membersToAdd: [guild_player_insert_input!]!
   ) {
     delete_guild_player(
-      where: { Player: { discord_id: { _in: $memberDiscordIdsToRemove } } }
+      where: { Player: { discordId: { _in: $memberDiscordIdsToRemove } } }
     ) {
       affected_rows
     }

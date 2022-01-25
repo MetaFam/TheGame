@@ -2,11 +2,11 @@ import gql from 'fake-tag';
 
 export const UpdateQuestCompletionMutation = gql`
   mutation UpdateQuestCompletion(
-    $quest_completion_id: String!
+    $questCompletionId: String!
     $status: QuestCompletionStatus_ActionEnum!
   ) {
     updateQuestCompletion(
-      updateData: { quest_completion_id: $quest_completion_id, status: $status }
+      updateData: { questCompletionId: $questCompletionId, status: $status }
     ) {
       error
       success

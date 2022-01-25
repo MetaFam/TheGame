@@ -9,7 +9,7 @@ import {
 } from '@metafam/ds';
 import { Skill, SkillCategory_Enum } from 'graphql/autogen/types';
 import { SkillColors } from 'graphql/types';
-import React from 'react';
+import React, { CSSProperties } from 'react';
 import { CategoryOption, SkillOption } from 'utils/skillHelpers';
 
 export type SetupSkillsProps = {
@@ -29,21 +29,23 @@ export const SkillsSelect: React.FC<SetupSkillsProps> = ({
 }) => {
   const styles: typeof selectStyles = {
     ...selectStyles,
-    multiValue: (s, { data }) => ({
+    multiValue: (s: CSSProperties, { data }: { data: Skill }) => ({
       ...s,
       background: SkillColors[data.category as SkillCategory_Enum],
       color: MetaTheme.colors.white,
     }),
-    multiValueLabel: (s, { data }) => ({
+    multiValueLabel: (s: CSSProperties, { data }: { data: Skill }) => ({
       ...s,
       background: SkillColors[data.category as SkillCategory_Enum],
       color: MetaTheme.colors.white,
     }),
-    groupHeading: (s, { children }) => ({
+    groupHeading: (
+      s: CSSProperties,
+      { children }: { children: SkillCategory_Enum },
+    ) => ({
       ...s,
-      ...(selectStyles.groupHeading &&
-        selectStyles.groupHeading(s, { children })),
-      background: SkillColors[children as SkillCategory_Enum],
+      ...selectStyles.groupHeading?.(s, { children }),
+      background: SkillColors[children],
     }),
   };
 
