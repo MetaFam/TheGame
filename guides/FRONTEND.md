@@ -4,12 +4,11 @@
 
 In order to develop MetaGame FrontEnd components, you need.
 
-Node.js (v14 works, and later versions have some issues)
+- Node.js (the current setup is using lts/gallium (16.13.1))
 
-- Yarn (1.15.2 as some later versions throw errors)
-  to set a version for yarn eg: `yarn policies set-version 1.15.2`
+- Yarn _(v1.19.0 as some later versions throw errors when adding dependencies)_ _(to set yarn's version: `yarn policies set-version 1.19.0`)_
 
-You can either choose to only develop the frontend and use our deployed backend services, or run the services on your own machines. If you're about to only work on UI, it's much quicker to connect to the remote servers.
+You can either choose to only develop the frontend and use our deployed backend services, or run the services on your own machines. If you're only going to work on UI, it's much quicker to connect to the remote servers.
 
 ### Install dependencies
 
@@ -19,11 +18,15 @@ yarn
 
 ### Connecting to remote servers
 
-To connect to staging servers, you'll need to create a file `.env.local` under `packages/web` and write this inside:
+To connect to staging servers, you'll need to create a file `.env` under `packages/web/` and write this inside:
 
-```
+```bash
 NEXT_PUBLIC_GRAPHQL_URL=https://api-staging.metagame.wtf/v1/graphql
 ```
+
+### Enabling profile image editing
+
+The storage of images associated with a profile is in [web3.storage](//web3.storage). In order to be able to connect, you will need to create an API token and save it in `packages/web/.env` as `WEB3_STORAGE_TOKEN`.
 
 ### Connecting to local server
 
@@ -31,6 +34,12 @@ If you want to connect to locally running backend services, you will need to be 
 
 ```bash
 yarn docker:start
+```
+
+Or, if you prefer to be able to see the output from the backend:
+
+```bash
+docker-compose up --build
 ```
 
 If you have difficulties running the backend, checkout the [Backend Guide](BACKEND.md).
@@ -43,18 +52,18 @@ Once you are ready to connect to the backend, you can start the web app by using
 yarn web:dev
 ```
 
-Go to [http://localhost:3000](http://localhost:3000)
+Go to [localhost:3000](http://localhost:3000).
 
 Happy Coding!
 
 ## Creating GraphQL queries
 
-In both the `web` and `metamaps` folder, all GraphQL queries are hosted in a folder called `graphql`.
+The GraphQL queries are created by running, first, `yarn update-schema` which exports a GraphQL schema from Hasura, then, `yarn generate` which combines that schema with additional programmer-provided queries and mutations.
 
-```
-web/graphql
-metamaps/graphql
-```
+The programmer contributions can be found at:
+
+- `packages/web/graphql/`
+- `packages/backend/src/handlers/graphql/`
 
 Related queries and mutations should be in the same file.
 
@@ -63,9 +72,7 @@ Related queries and mutations should be in the same file.
 Queries are to pull and retrieve data from the database. In the following example we will be using the `Map` table as an example.
 
 ```typescript
-import gql from 'fake-tag';
-
-export const GetMapQuery = gql`
+export const GetMapQuery = /* GraphQL */ `
   query GetMap($id: uuid!) {
     Map_by_pk(id: $id) {
       id
@@ -83,7 +90,7 @@ In the above example we retrieved a map by id. There are several key things you 
 
 ```graphql
 query GetMap($id: uuid!) {
-  ...
+  ⋮
 ```
 
 We provided a `$id`. It is important that all queries and mutations have parameters that are prefixed with a `$`.
@@ -107,7 +114,7 @@ Specifying these columns are important depending on what data you need to pull t
 Map_by_pk(id: $id)
 ```
 
-You can actually review all queries and mutations available in Hasura on `http://localhost:9695`.
+You can actually review all queries and mutations available in Hasura on `http://localhost:9695` by running `yarn hasura console`.
 
 ### Integrating the GraphQL query
 
@@ -175,9 +182,7 @@ Keep in mind the following parts of the query state:
 GraphQL mutations are used to update and insert new data into the database. The following is an example of inserting data into the `Map` table.
 
 ```typescript
-import gql from 'fake-tag';
-
-export const CreateMap = gql`
+export const CreateMap = /* GraphQL */ `
   mutation createMap($author: String!, $name: String!) {
     insert_Map_one(object: { author_address: $author, name: $name, data: "" }) {
       id

@@ -2,7 +2,7 @@ overwrite: true
 require:
   - ts-node/register
 generates:
-  ./graphql/autogen/types.tsx:
+  ./graphql/autogen/types.ts:
     schema: '../../schema.graphql'
     documents:
       - ./graphql/**/(!(*.d)).ts

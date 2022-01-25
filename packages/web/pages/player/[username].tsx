@@ -41,40 +41,44 @@ import { ReactElement, useCallback, useEffect, useMemo, useState } from 'react';
 import { Layout, Layouts, Responsive, WidthProvider } from 'react-grid-layout';
 import { BoxMetadata, BoxType, getBoxKey } from 'utils/boxTypes';
 import {
-  getPlayerCoverImageFull,
+  getPlayerBannerFull,
   getPlayerDescription,
   getPlayerImage,
+  getPlayerName,
+  getPlayerURL,
 } from 'utils/playerHelpers';
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
-const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
+export const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
   if (!player) {
     return <Error statusCode={404} />;
   }
   return (
-    <PageContainer p={0}>
+    <PageContainer p={0} pt={0} mt="-4.5rem">
+      {' '}
+      {/* have to override pt in PageContainer */}
+      <HeadComponent
+        title={`MetaGame Profile: ${getPlayerName(player)}`}
+        description={(getPlayerDescription(player) ?? '').replace('\n', ' ')}
+        url={getPlayerURL(player, { rel: false })}
+        img={getPlayerImage(player)}
+      />
       <Box
-        background={`url(${getPlayerCoverImageFull(player)}) no-repeat`}
+        background={`url(${getPlayerBannerFull(player)}) no-repeat`}
         bgSize="cover"
         bgPos="center"
         h={72}
         position="absolute"
         w="full"
       />
-      <HeadComponent
-        title={`Metagame profile for ${player.username}`}
-        description={getPlayerDescription(player).replace('\n', ' ')}
-        url={`https://my.metagame.wtf/player/${player.username}`}
-        img={getPlayerImage(player)}
-      />
       <Flex
         w="100%"
         h="100%"
         minH="100vh"
-        p="4"
+        p={4}
         pt="8rem"
         direction="column"
         align="center"
@@ -89,11 +93,10 @@ export default PlayerPage;
 
 const makeLayouts = (editable: boolean, layouts: Layouts) => {
   const newLayouts: Layouts = {};
-  Object.keys(layouts).map((key) => {
+  Object.keys(layouts).forEach((key) => {
     newLayouts[key] = layouts[key].map((item) =>
       item.i === 'hero' ? { ...item, isResizable: editable } : item,
     );
-    return key;
   });
   return newLayouts;
 };
@@ -178,8 +181,8 @@ export const Grid: React.FC<Props> = ({ player: initPlayer }): ReactElement => {
   ] = useUpdatePlayerProfileLayoutMutation();
   const [saving, setSaving] = useState(false);
 
-  const layoutsFromDB = player?.profile_layout
-    ? JSON.parse(player.profile_layout)
+  const layoutsFromDB = player?.profileLayout
+    ? JSON.parse(player.profileLayout)
     : null;
 
   const [savedLayoutData, setSavedLayoutData] = useState<ProfileLayoutData>(
@@ -195,15 +198,15 @@ export const Grid: React.FC<Props> = ({ player: initPlayer }): ReactElement => {
   ] = useState<ProfileLayoutData>(savedLayoutData);
 
   useEffect(() => {
-    const dbLayouts = player?.profile_layout
-      ? JSON.parse(player.profile_layout)
+    const dbLayouts = player?.profileLayout
+      ? JSON.parse(player.profileLayout)
       : null;
     if (dbLayouts) {
       setSavedLayoutData(dbLayouts);
       setCurrentLayoutData(dbLayouts);
       setEditable(false);
     }
-  }, [player?.profile_layout]);
+  }, [player?.profileLayout]);
 
   const [changed, setChanged] = useState(false);
 
@@ -243,10 +246,9 @@ export const Grid: React.FC<Props> = ({ player: initPlayer }): ReactElement => {
       });
 
       if (error) {
-        const errorDetail = 'The octo is sad 😢';
         toast({
           title: 'Error',
-          description: `Unable to save layout. ${errorDetail}`,
+          description: `Unable to save layout. Error: ${error}`,
           status: 'error',
           isClosable: true,
         });
@@ -421,7 +423,6 @@ export const Grid: React.FC<Props> = ({ player: initPlayer }): ReactElement => {
           </MetaButton>
         </ButtonGroup>
       )}
-
       <ResponsiveGridLayout
         className="gridItems"
         onLayoutChange={(layoutItems, layouts) => {
@@ -440,6 +441,7 @@ export const Grid: React.FC<Props> = ({ player: initPlayer }): ReactElement => {
         onResizeStart={toggleScrollLock}
         onResizeStop={toggleScrollLock}
         transformScale={1}
+        autoSize={true}
         margin={{
           lg: [30, 30],
           md: [30, 30],
@@ -455,7 +457,11 @@ export const Grid: React.FC<Props> = ({ player: initPlayer }): ReactElement => {
       >
         {currentLayoutItems.map(({ boxKey, boxType, boxMetadata }) =>
           boxType === BoxType.PLAYER_ADD_BOX ? (
-            <Flex key={boxKey} className="gridItem">
+            <Flex
+              key={boxKey}
+              className="gridItem"
+              style={{ breakInside: 'avoid' }}
+            >
               <PlayerAddSection
                 player={player}
                 boxList={availableBoxList}
@@ -463,7 +469,12 @@ export const Grid: React.FC<Props> = ({ player: initPlayer }): ReactElement => {
               />
             </Flex>
           ) : (
-            <Flex key={boxKey} className="gridItem">
+            <Flex
+              key={boxKey}
+              className="gridItem"
+              mb={5}
+              style={{ breakInside: 'avoid' }}
+            >
               <PlayerSection
                 boxType={boxType}
                 boxMetadata={boxMetadata}
@@ -506,23 +517,12 @@ export const getStaticProps = async (
     };
   }
 
-  let player = await getPlayer(username);
-  if (player == null) {
-    player = await getPlayer(username.toLowerCase());
-    if (player != null) {
-      return {
-        redirect: {
-          destination: `/player/${username.toLowerCase()}`,
-          permanent: false,
-        },
-      };
-    }
-  }
+  const player = await getPlayer(username);
 
   return {
     props: {
-      player: player || null, // must be serializable
-      key: username,
+      player: player ?? null, // must be serializable
+      key: username.toLowerCase(),
     },
     revalidate: 1,
   };

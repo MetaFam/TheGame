@@ -1,17 +1,15 @@
 {
   "compilerOptions": {
-    "module": "esnext",
-    "target": "es6",
-    "lib": ["esnext"],
-    "moduleResolution": "node",
+    "module": "ESNext",
+    "target": "ES6",
+    "lib": ["ES2019", "ES2020", "ESNext"],
+    "moduleResolution": "Node",
     "jsx": "react",
-    "outDir": "./dist",
     "skipLibCheck": true,
     "strict": true,
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
-    "incremental": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
@@ -22,6 +20,7 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
+    "importHelpers": true,
     "typeRoots": ["./packages/@types", "./node_modules/@types"]
   },
   "exclude": ["**/node_modules", "**/dist"]

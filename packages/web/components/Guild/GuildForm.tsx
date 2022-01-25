@@ -15,6 +15,7 @@ import {
   DiscordRole,
   GuildFragmentFragment,
   GuildType_Enum,
+  Maybe,
   useGetGuildMetadataQuery,
 } from 'graphql/autogen/types';
 import { useRouter } from 'next/router';
@@ -45,14 +46,14 @@ const validations = {
 export interface EditGuildFormInputs {
   guildname: string;
   name: string;
-  description: string | undefined | null;
-  discordInviteUrl: string | undefined | null;
-  joinUrl: string | undefined | null;
-  logoUrl: string | undefined | null;
-  websiteUrl: string | undefined | null;
-  twitterUrl: string | undefined | null;
-  githubUrl: string | undefined | null;
-  daoAddress: string | undefined | null;
+  description?: Maybe<string>;
+  discordInviteUrl?: Maybe<string>;
+  joinUrl?: Maybe<string>;
+  logoUrl?: Maybe<string>;
+  websiteUrl?: Maybe<string>;
+  twitterUrl?: Maybe<string>;
+  githubUrl?: Maybe<string>;
+  daoAddress?: Maybe<string>;
   type: GuildType_Enum;
   discordAdminRoles: SelectOption[];
   discordMembershipRoles: SelectOption[];
@@ -139,7 +140,7 @@ export const GuildForm: React.FC<Props> = ({
 
   const {
     register,
-    errors,
+    formState: { errors },
     handleSubmit,
     reset,
     control,
@@ -162,25 +163,38 @@ export const GuildForm: React.FC<Props> = ({
       <VStack>
         <Field label="Guildname" error={errors.guildname}>
           <Input
-            type="text"
-            isRequired
-            name="guildname"
-            ref={register(validations.guildname)}
+            {...register('guildname', {
+              required: {
+                value: true,
+                message: 'This is a required field.',
+              },
+              minLength: {
+                value: validations.guildname.minLength,
+                message: `Must be at least ${validations.guildname.minLength} characters.`,
+              },
+              maxLength: {
+                value: validations.guildname.maxLength,
+                message: `Must be no more than ${validations.guildname.maxLength} characters.`,
+              },
+            })}
             isInvalid={!!errors.guildname}
-            minLength={validations.guildname.minLength}
-            maxLength={validations.guildname.maxLength}
             background="dark"
           />
           <span>A unique identifier for your guild, like a username.</span>
         </Field>
         <Field label="Name" error={errors.name}>
           <Input
-            type="text"
-            isRequired
-            name="name"
-            ref={register(validations.name)}
+            {...register('name', {
+              required: {
+                value: true,
+                message: 'This is a required field.',
+              },
+              minLength: {
+                value: validations.guildname.minLength,
+                message: `Must be at least ${validations.guildname.minLength} characters.`,
+              },
+            })}
             isInvalid={!!errors.name}
-            minLength={validations.guildname.minLength}
             background="dark"
           />
           <span>
@@ -189,79 +203,70 @@ export const GuildForm: React.FC<Props> = ({
         </Field>
         <Field label="Description" error={errors.description}>
           <Textarea
+            placeholder="What’s your guild all about?"
+            {...register('description')}
             background="dark"
-            placeholder="What's your guild all about?"
-            name="description"
-            ref={register}
           />
         </Field>
         <Field label="Logo URL" error={errors.logoUrl}>
-          <Input type="text" name="logoUrl" background="dark" ref={register} />
+          <Input {...register('logoUrl')} background="dark" />
           <span>
             Logos should be square (same width and height) and reasonably
             high-resolution.
           </span>
         </Field>
         <Field label="Website URL" error={errors.websiteUrl}>
-          <Input
-            type="text"
-            name="websiteUrl"
-            background="dark"
-            ref={register}
-          />
+          <Input {...register('websiteUrl')} background="dark" />
           <span>Your guild&apos;s main website.</span>
         </Field>
         <Field label="Discord Invite URL" error={errors.discordInviteUrl}>
           <Input
-            type="text"
-            name="discordInviteUrl"
-            background="dark"
             placeholder="https://discord.gg/fHvx7gu"
-            ref={register}
+            {...register('discordInviteUrl')}
+            background="dark"
           />
           <span>A public invite URL for your Discord server.</span>
         </Field>
         <Field label="Join URL" error={errors.joinUrl}>
-          <Input type="text" name="joinUrl" background="dark" ref={register} />
-          <span>The URL that the &quot;JOIN&quot; button will point to.</span>
+          <Input {...register('joinUrl')} background="dark" />
+          <span>
+            The URL that the <q>JOIN</q> button will point to.
+          </span>
         </Field>
         <Field label="Twitter URL" error={errors.twitterUrl}>
           <Input
-            type="text"
-            name="twitterUrl"
+            placeholder="https://twitter.com/…"
+            {...register('twitterUrl')}
             background="dark"
-            placeholder="https://twitter.com/..."
-            ref={register}
           />
           <span>Your guild&apos;s home on Twitter.</span>
         </Field>
         <Field label="GitHub URL" error={errors.githubUrl}>
           <Input
-            type="text"
-            name="githubUrl"
+            placeholder="https://github.com/…"
+            {...register('githubUrl')}
             background="dark"
-            placeholder="https://github.com/..."
-            ref={register}
           />
           <span>Your guild&apos;s home on GitHub.</span>
         </Field>
         <Field label="DAO Address" error={errors.daoAddress}>
           <Input
-            type="text"
-            name="daoAddress"
+            placeholder="0x…"
+            {...register('daoAddress')}
             background="dark"
-            placeholder="0x..."
-            ref={register}
           />
           <span>If your guild has a DAO, enter its address here.</span>
         </Field>
         <Field label="Type" error={errors.type}>
           <Select
-            isRequired
-            name="type"
-            ref={register(validations.type)}
+            {...register('type', {
+              required: {
+                value: true,
+                message: 'This is a required field.',
+              },
+            })}
             isInvalid={!!errors.type}
-            bg="dark"
+            background="dark"
             color="white"
           >
             {Object.entries(GuildType_Enum).map(([key, value]) => (
@@ -273,10 +278,10 @@ export const GuildForm: React.FC<Props> = ({
         </Field>
         <Box py={5}>
           {fetchingRoles ? (
-            <div>
-              Fetching roles from Discord...
+            <Box>
+              Fetching roles from Discord…
               <LoadingState />
-            </div>
+            </Box>
           ) : (
             <>
               <Field
@@ -292,7 +297,7 @@ export const GuildForm: React.FC<Props> = ({
               >
                 <Controller
                   name="discordAdminRoles"
-                  control={control}
+                  {...{ control }}
                   rules={validations.discordAdminRoles}
                   render={(props) => (
                     <MultiSelect isMulti options={roleOptions} {...props} />
@@ -316,7 +321,7 @@ export const GuildForm: React.FC<Props> = ({
               >
                 <Controller
                   name="discordMembershipRoles"
-                  control={control}
+                  {...{ control }}
                   rules={validations.discordMembershipRoles}
                   render={(props) => (
                     <MultiSelect isMulti options={roleOptions} {...props} />
@@ -333,12 +338,12 @@ export const GuildForm: React.FC<Props> = ({
         <HStack justify="space-between" mt={10} w="100%">
           <MetaButton
             isLoading={submitting}
-            loadingText="Submitting information..."
+            loadingText="Submitting information…"
             onClick={handleSubmit(onSubmit)}
             isDisabled={success}
             bg="purple.500"
           >
-            Submit guild information
+            Submit Guild Information
           </MetaButton>
           <MetaButton
             fontSize="xs"
@@ -347,7 +352,7 @@ export const GuildForm: React.FC<Props> = ({
             isDisabled={fetchingRoles}
             onClick={loadGuildMetadata}
           >
-            Reload roles
+            Reload Roles
           </MetaButton>
           <MetaButton
             onClick={() => router.push('/')}

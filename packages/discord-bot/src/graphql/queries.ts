@@ -1,17 +1,15 @@
-import { gql } from 'graphql-request/dist';
-
-export const GetPlayer = gql`
+export const GetPlayer = /* GraphQL */ `
   query GetPlayer($playerId: uuid!) {
     player_by_pk(id: $playerId) {
       id
-      ethereum_address
+      ethereumAddress
     }
   }
 `;
 
-export const GetPlayerFromEth = gql`
-  query GetPlayerFromETH($ethereum_address: String) {
-    player(where: { ethereum_address: { _eq: $ethereum_address } }) {
+export const GetPlayerFromEth = /* GraphQL */ `
+  query GetPlayerFromETH($ethereumAddress: String) {
+    player(where: { ethereumAddress: { _ilike: $ethereumAddress } }) {
       id
     }
   }

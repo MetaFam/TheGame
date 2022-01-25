@@ -177,7 +177,7 @@ export const getStaticProps = async (
   let quests: QuestFragmentFragment[] = [];
   if (guild != null) {
     quests = await getQuests({
-      guild_id: guild.id,
+      guildId: guild.id,
       status: QuestStatus_Enum.Open,
     });
   }

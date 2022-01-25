@@ -1,35 +1,39 @@
-import gql from 'fake-tag';
-
 // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-gql`
+/* GraphQL */ `
   mutation UpdatePlayerUsername($playerId: uuid!, $username: String!) {
-    update_player_by_pk(
-      pk_columns: { id: $playerId }
+    update_profile(
+      where: { playerId: { _eq: $playerId } }
       _set: { username: $username }
     ) {
-      id
-      username
+      affected_rows
+      returning {
+        playerId
+        username
+      }
     }
   }
 
-  mutation UpdateProfile($playerId: uuid!, $input: player_set_input!) {
-    update_player_by_pk(pk_columns: { id: $playerId }, _set: $input) {
-      id
-      availability_hours
-      timezone
+  mutation UpdateProfile($playerId: uuid!, $input: profile_set_input!) {
+    update_profile(where: { playerId: { _eq: $playerId } }, _set: $input) {
+      affected_rows
+      returning {
+        playerId
+        username
+      }
     }
   }
 
   mutation UpdateAboutYou($playerId: uuid!, $input: player_set_input!) {
     update_player_by_pk(pk_columns: { id: $playerId }, _set: $input) {
-      color_mask
-      type {
-        description
-        id
-        imageUrl
-        title
-      }
       id
+      profile {
+        explorerType {
+          id
+          description
+          imageURL
+          title
+        }
+      }
     }
   }
 
@@ -54,18 +58,21 @@ gql`
   mutation UpdatePlayerProfileLayout($playerId: uuid!, $layout: String!) {
     update_player_by_pk(
       pk_columns: { id: $playerId }
-      _set: { profile_layout: $layout }
+      _set: { profileLayout: $layout }
     ) {
       id
-      profile_layout
+      profileLayout
     }
   }
 `;
 
-export const UpdateProfilePronouns = gql`
-  mutation updateProfilePronouns($playerId: uuid!, $input: player_set_input!) {
-    update_player_by_pk(pk_columns: { id: $playerId }, _set: $input) {
-      id
+export const UpdateProfilePronouns = /* GraphQL */ `
+  mutation updateProfilePronouns($playerId: uuid!, $input: profile_set_input!) {
+    update_profile(where: { playerId: { _eq: $playerId } }, _set: $input) {
+      affected_rows
+      returning {
+        playerId
+      }
     }
   }
 `;

@@ -1,7 +1,7 @@
 import { Text } from '@metafam/ds';
 import { FlexContainer } from 'components/Container';
 import { ProfileSection } from 'components/Profile/ProfileSection';
-import { Player_Type, PlayerFragmentFragment } from 'graphql/autogen/types';
+import { ExplorerType, PlayerFragmentFragment } from 'graphql/autogen/types';
 import { useAnimateProfileChanges } from 'lib/hooks/players';
 import React, { useState } from 'react';
 import { BoxType } from 'utils/boxTypes';
@@ -19,20 +19,27 @@ export const PlayerType: React.FC<Props> = ({
   canEdit,
   onRemoveClick,
 }) => {
-  const [playerType, setPlayerType] = useState<Player_Type | null>();
-  const updateFN = () => setPlayerType(player.type);
-
-  const { animation } = useAnimateProfileChanges(player.type, updateFN);
+  const [playerType, setPlayerType] = useState<ExplorerType | null>();
+  const updateFN = () =>
+    setPlayerType(player.profile?.explorerType as ExplorerType);
+  const { animation } = useAnimateProfileChanges(
+    player.profile?.explorerType,
+    updateFN,
+  );
 
   return (
     <ProfileSection
-      title="Player type"
+      title="Player Type"
       onRemoveClick={onRemoveClick}
       isOwnProfile={isOwnProfile}
       canEdit={canEdit}
       boxType={BoxType.PLAYER_TYPE}
     >
-      {playerType && (
+      {!playerType ? (
+        <Text fontStyle="italic" textAlign="center">
+          Unspecified
+        </Text>
+      ) : (
         <FlexContainer
           align="stretch"
           transition=" opacity 0.4s"
@@ -46,7 +53,11 @@ export const PlayerType: React.FC<Props> = ({
           >
             {playerType.title}
           </Text>
-          <Text fontSize={{ base: 'sm', sm: 'md' }} color="blueLight">
+          <Text
+            fontSize={{ base: 'sm', sm: 'md' }}
+            color="blueLight"
+            textAlign="justify"
+          >
             {playerType.description}
           </Text>
         </FlexContainer>

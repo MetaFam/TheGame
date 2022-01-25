@@ -98,7 +98,7 @@ export const getAllMemberships = async (player: PlayerFragmentFragment) => {
       title: gp.Guild.name,
       guildname: gp.Guild.guildname,
       memberRank: gp.discordRoles[0].name || undefined,
-      memberXp: gp.Guild.guildname === 'metafam' ? player.total_xp : null,
+      memberXp: gp.Guild.guildname === 'metafam' ? player.totalXP : null,
       logoUrl: gp.Guild.logo || undefined,
     })),
     ...(daohausMemberships || []).map((m) => ({

@@ -17,7 +17,6 @@ import React, { FC, ReactElement, ReactNode, useEffect, useState } from 'react';
 import { FaChartBar } from 'react-icons/fa';
 import {
   AreaSeries,
-  AreaSeriesPoint,
   FlexibleXYPlot,
   GradientDefs,
   LineSeries,
@@ -35,7 +34,7 @@ import {
 import {
   apiUrl,
   chartQuery,
-  chartWrapperStyles,
+  SEEDChartWrapperStyles,
   tokenId,
   tokenQuery,
 } from './config';
@@ -152,7 +151,7 @@ export const Seed = (): ReactElement => {
         bottom={0}
         left={0}
         zIndex={0}
-        sx={chartWrapperStyles}
+        sx={SEEDChartWrapperStyles}
       >
         {token?.prices ? (
           <Chart data={token.prices} />
@@ -212,33 +211,27 @@ export const Chart: FC<ChartType> = ({ data }) => {
     range: scale,
   });
 
-  const switchScale = (range: number) => {
-    setScale(range);
-  };
-
-  function makePlots(days: Array<Array<number>>) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const plots: Array<AreaSeriesPoint> = [];
-
-    days.slice(scale === 30 ? 0 : -7).map((d, i) => {
-      const day = {
-        x: i + 1,
-        y: d[1],
-        y0: 0,
-      };
-      return plots.push(day);
-    });
-
-    return plots;
-  }
+  const makePlots = (days: Array<Array<number>>) =>
+    days.slice(scale === 30 ? 0 : -7).map((d, i) => ({
+      x: i + 1,
+      y: d[1],
+      y0: 0,
+    }));
 
   const plots = makePlots(data);
 
   return (
     <Box>
-      <Box position="absolute" top={6} right={6} zIndex={250}>
-        <ButtonGroup isAttached>
+      <ButtonGroup
+        isAttached
+        position="absolute"
+        top={6}
+        right={6}
+        zIndex={250}
+      >
+        {[7, 30].map((s) => (
           <Button
+            key={s}
             aria-label="Toggle chart scale"
             icon={<FaChartBar />}
             borderColor="pinkShadeOne"
@@ -246,8 +239,7 @@ export const Chart: FC<ChartType> = ({ data }) => {
             color="pinkShadeOne"
             _hover={{ color: 'white', borderColor: 'white' }}
             variant="outline"
-            isRound
-            onClick={() => switchScale(7)}
+            onClick={() => setScale(s)}
             size="xs"
             sx={{
               '&:focus, &:hover': {
@@ -255,29 +247,10 @@ export const Chart: FC<ChartType> = ({ data }) => {
               },
             }}
           >
-            7d
+            {s}d
           </Button>
-          <Button
-            aria-label="Toggle chart scale"
-            icon={<FaChartBar />}
-            borderColor="pinkShadeOne"
-            background="rgba(17, 17, 17, 0.9)"
-            color="pinkShadeOne"
-            _hover={{ color: 'white', borderColor: 'white' }}
-            variant="outline"
-            isRound
-            onClick={() => switchScale(30)}
-            size="xs"
-            sx={{
-              '&:focus, &:hover': {
-                background: 'transparent',
-              },
-            }}
-          >
-            30d
-          </Button>
-        </ButtonGroup>
-      </Box>
+        ))}
+      </ButtonGroup>
       <FlexibleXYPlot
         className="seed-chart"
         height={175}
@@ -307,7 +280,6 @@ export const Chart: FC<ChartType> = ({ data }) => {
           curve="linear"
           color="url(#MetaGradient)"
           animation={{ damping: 80, stiffness: 800 }}
-          // stroke="#A426A4"
           opacity={0.2}
           data={plots}
         />

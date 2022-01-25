@@ -18,7 +18,6 @@ async function serverDOMBuilder(): Promise<(html: string) => HTMLBodyElement> {
 
   return (html: string) => {
     doc.documentElement.innerHTML = html;
-
     return doc.getElementsByTagName('body')[0];
   };
 }

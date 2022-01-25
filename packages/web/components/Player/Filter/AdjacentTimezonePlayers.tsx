@@ -1,4 +1,4 @@
-import { Flex, Skeleton, Text, TimezoneOptions, VStack } from '@metafam/ds';
+import { Flex, Skeleton, Text, TimeZoneOptions, VStack } from '@metafam/ds';
 import { PlayerList } from 'components/Player/PlayerList';
 import { PlayersQueryVariables } from 'graphql/getPlayers';
 import { usePlayerFilter } from 'lib/hooks/players';
@@ -7,22 +7,20 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 import { PlayersLoading } from './PlayersLoading';
 
-const getAdjacentTimezoneQueryVariables = (
+const getAdjacentTimeZoneQueryVariables = (
   defaultQueryVariables: PlayersQueryVariables,
 ): PlayersQueryVariables => {
-  const timezoneValue = defaultQueryVariables.timezones?.[0];
-  const timezone = TimezoneOptions.find((t) => t.value === timezoneValue);
-  const adjacentTimezones = timezone
-    ? TimezoneOptions.filter(
-        (t) =>
-          Math.abs(t.offset - timezone.offset) <= 4 &&
-          t.value !== timezoneValue,
-      ).map((t) => t.value)
-    : [];
+  const [zoneName] = defaultQueryVariables.timeZones ?? [];
+  const timeZone = TimeZoneOptions.find(({ name }) => name === zoneName);
+  const adjascentTimeZones = !timeZone
+    ? []
+    : TimeZoneOptions.filter(
+        (t) => Math.abs(t.offset - timeZone.offset) <= 4 && t.name === zoneName,
+      ).map(({ name }) => name);
   return {
     ...defaultQueryVariables,
     offset: 0,
-    timezones: adjacentTimezones,
+    timeZones: adjascentTimeZones,
   };
 };
 
@@ -36,11 +34,11 @@ export const AdjacentTimezonePlayers: React.FC<Props> = ({
   showSeasonalXP,
 }) => {
   const [variables, setVariables] = useState<PlayersQueryVariables>(
-    getAdjacentTimezoneQueryVariables(queryVariables),
+    getAdjacentTimeZoneQueryVariables(queryVariables),
   );
 
   useEffect(() => {
-    setVariables(getAdjacentTimezoneQueryVariables(queryVariables));
+    setVariables(getAdjacentTimeZoneQueryVariables(queryVariables));
   }, [queryVariables]);
 
   const moreRef = useRef(null);
@@ -48,7 +46,7 @@ export const AdjacentTimezonePlayers: React.FC<Props> = ({
 
   const {
     players,
-    totalCount,
+    total,
     fetching,
     fetchingMore,
     error,
@@ -87,11 +85,10 @@ export const AdjacentTimezonePlayers: React.FC<Props> = ({
               pb={{ base: 4, md: 0 }}
             >
               <Text fontWeight="bold" fontSize="xl" w="100%" maxW="79rem">
-                {totalCount} player{totalCount === 1 ? '' : 's'} in adjacent
-                time zones
+                {total} player{total === 1 ? '' : 's'} in adjacent time zones
               </Text>
             </Flex>
-            <PlayerList players={players} showSeasonalXP={showSeasonalXP} />
+            <PlayerList {...{ players, showSeasonalXP }} />
           </>
         ) : (
           <Flex justify="space-between" w="100%" maxW="79rem" align="center">
@@ -100,7 +97,7 @@ export const AdjacentTimezonePlayers: React.FC<Props> = ({
         ))}
       <VStack w="100%" ref={moreRef}>
         {isLoading ? <PlayersLoading /> : null}
-        {!isLoading && totalCount > 0 ? (
+        {!isLoading && total > 0 ? (
           <Text color="white">No more players available</Text>
         ) : null}
       </VStack>

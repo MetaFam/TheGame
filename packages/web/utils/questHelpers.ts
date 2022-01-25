@@ -9,21 +9,19 @@ import { MeType } from '../graphql/types';
 
 const { BN, amountToDecimal } = numbers;
 
-export const UriRegexp = /\w+:(\/?\/?)[^\s]+/;
+export const URIRegexp = /\w+:(\/\/)?[^\s]+/;
 
 // Hours to seconds
 export function transformCooldownForBackend(
-  cooldown: number | undefined | null,
-  repetition: QuestRepetition_Enum | undefined | null,
+  cooldown?: number | null,
+  repetition?: QuestRepetition_Enum | null,
 ): number | null {
   if (!cooldown || !repetition || repetition !== QuestRepetition_Enum.Recurring)
     return null;
   return cooldown * 60 * 60;
 }
 
-export function isAllowedToCreateQuest(
-  balance: string | undefined | null,
-): boolean {
+export function isAllowedToCreateQuest(balance?: string | null): boolean {
   if (!balance) return false;
 
   const pSEEDDecimals = 18;
@@ -37,8 +35,8 @@ export function isAllowedToCreateQuest(
 
 // TODO factorize this with backend
 export function canCompleteQuest(
-  quest: QuestWithCompletionFragmentFragment | null | undefined,
-  user: MeType | null | undefined,
+  quest?: QuestWithCompletionFragmentFragment | null,
+  user?: MeType | null,
 ): boolean {
   if (!user || !quest) return false;
 
@@ -57,7 +55,7 @@ export function canCompleteQuest(
       (qc) => qc.player.id === user.id,
     );
     if (myLastCompletion) {
-      const submittedAt = new Date(myLastCompletion.submitted_at);
+      const submittedAt = new Date(myLastCompletion.submittedAt);
       const now = new Date();
       const diff = +now - +submittedAt;
       if (diff < quest.cooldown * 1000) {

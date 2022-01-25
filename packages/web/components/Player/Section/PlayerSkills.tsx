@@ -1,4 +1,4 @@
-import { MetaTag, Wrap, WrapItem } from '@metafam/ds';
+import { MetaTag, Text, Wrap, WrapItem } from '@metafam/ds';
 import { ProfileSection } from 'components/Profile/ProfileSection';
 import {
   PlayerFragmentFragment,
@@ -15,6 +15,7 @@ type Props = {
   canEdit?: boolean;
   onRemoveClick?: () => void;
 };
+
 export const PlayerSkills: React.FC<Props> = ({
   player,
   isOwnProfile,
@@ -22,7 +23,7 @@ export const PlayerSkills: React.FC<Props> = ({
   onRemoveClick,
 }) => {
   const [playerSkills, setPlayerSkills] = useState<
-    { id: number; name: string; category: SkillCategory_Enum }[]
+    Array<{ id: number; name: string; category: SkillCategory_Enum }>
   >([]);
 
   const updateFN = () => {
@@ -42,24 +43,33 @@ export const PlayerSkills: React.FC<Props> = ({
   return (
     <ProfileSection
       title="Skills"
-      onRemoveClick={onRemoveClick}
-      isOwnProfile={isOwnProfile}
-      canEdit={canEdit}
+      {...{ onRemoveClick, isOwnProfile, canEdit }}
       boxType={BoxType.PLAYER_SKILLS}
     >
-      <Wrap transition=" opacity 0.4s" opacity={animation === 'fadeIn' ? 1 : 0}>
-        {(playerSkills || []).map(({ id, name, category }) => (
-          <WrapItem key={id}>
-            <MetaTag
-              size="md"
-              fontWeight="normal"
-              backgroundColor={SkillColors[category]}
-            >
-              {name}
-            </MetaTag>
-          </WrapItem>
-        ))}
-      </Wrap>
+      {!player?.skills?.length ? (
+        <Text fontStyle="italic" textAlign="center">
+          {isOwnProfile ? 'You haven’t ' : 'This player hasn’t '}
+          defined any skills.
+        </Text>
+      ) : (
+        <Wrap
+          transition="opacity 0.4s"
+          opacity={animation === 'fadeIn' ? 1 : 0}
+          justify="center"
+        >
+          {(playerSkills || []).map(({ id, name, category }) => (
+            <WrapItem key={id}>
+              <MetaTag
+                size="md"
+                fontWeight="normal"
+                backgroundColor={SkillColors[category]}
+              >
+                {name}
+              </MetaTag>
+            </WrapItem>
+          ))}
+        </Wrap>
+      )}
     </ProfileSection>
   );
 };

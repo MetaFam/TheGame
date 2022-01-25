@@ -1,7 +1,8 @@
 import {
   MetaFilterSelectSearch,
   metaFilterSelectStyles,
-  TimezoneOptions,
+  TimeZoneType,
+  // TimeZoneOptions,
   Wrap,
   WrapItem,
   WrapProps,
@@ -37,8 +38,8 @@ type Props = {
   setSkills: React.Dispatch<React.SetStateAction<SkillOption[]>>;
   playerTypes: ValueType[];
   setPlayerTypes: React.Dispatch<React.SetStateAction<ValueType[]>>;
-  timezones: ValueType[];
-  setTimezones: React.Dispatch<React.SetStateAction<ValueType[]>>;
+  timeZones: TimeZoneType[];
+  setTimeZones: React.Dispatch<React.SetStateAction<TimeZoneType[]>>;
   availability: ValueType | null;
   setAvailability: React.Dispatch<React.SetStateAction<ValueType | null>>;
   sortOption: ValueType;
@@ -51,8 +52,8 @@ export const DesktopFilters: React.FC<Props> = ({
   setSkills,
   playerTypes,
   setPlayerTypes,
-  timezones,
-  setTimezones,
+  timeZones,
+  setTimeZones,
   availability,
   setAvailability,
   sortOption,
@@ -83,9 +84,8 @@ export const DesktopFilters: React.FC<Props> = ({
       <WrapItem>
         <MetaFilterSelectSearch
           title={`Sorted By: ${sortOption.label}`}
-          tagLabel=""
           hasValue={sortOption.value !== SortOption.SEASON_XP}
-          styles={styles}
+          {...{ styles }}
           value={[sortOption]}
           onChange={(value) => {
             const values = value as ValueType[];
@@ -103,8 +103,8 @@ export const DesktopFilters: React.FC<Props> = ({
           styles={styles}
           value={playerTypes}
           hasValue={playerTypes.length > 0}
-          onChange={(value) => {
-            setPlayerTypes(value as ValueType[]);
+          onChange={(values) => {
+            setPlayerTypes(values as ValueType[]);
           }}
           options={aggregates.playerTypes}
         />
@@ -116,8 +116,8 @@ export const DesktopFilters: React.FC<Props> = ({
           styles={styles}
           value={skills}
           hasValue={skills.length > 0}
-          onChange={(value) => {
-            setSkills(value as SkillOption[]);
+          onChange={(values) => {
+            setSkills(values as SkillOption[]);
           }}
           options={aggregates.skillChoices}
           showSearch
@@ -136,26 +136,25 @@ export const DesktopFilters: React.FC<Props> = ({
           }}
           options={[1, 5, 10, 20, 30, 40].map((value) => ({
             value: value.toString(),
-            label: `≥ ${value.toString()} h/week`,
+            label: `≥ ${value.toString()} hr ⁄ week`,
           }))}
         />
       </WrapItem>
-      <WrapItem>
+      {/* <WrapItem>
         <MetaFilterSelectSearch
           title="Time Zone"
-          tagLabel={timezones.length > 0 ? timezones.length.toString() : ''}
-          styles={styles}
-          value={timezones}
-          hasValue={timezones.length > 0}
-          onChange={(value) => {
-            const values = value as ValueType[];
-            setTimezones(values.slice(-1));
+          tagLabel={timeZones.length > 0 ? timeZones.length.toString() : ''}
+          {...{ styles }}
+          value={timeZones}
+          hasValue={timeZones.length > 0}
+          onChange={(values) => {
+            setTimeZones((values as TimeZone[]).slice(-1));
           }}
-          options={TimezoneOptions}
+          options={TimeZoneOptions}
           showSearch
-          isTimezone
+          isTimeZone
         />
-      </WrapItem>
+      </WrapItem> */}
     </Wrap>
   );
 };

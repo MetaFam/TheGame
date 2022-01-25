@@ -1,6 +1,6 @@
 import { Text, VStack } from '@metafam/ds';
 import { PageContainer } from 'components/Container';
-import { AdjacentTimezonePlayers } from 'components/Player/Filter/AdjacentTimezonePlayers';
+import { AdjascentTimeZonePlayers } from 'components/Player/Filter/AdjascentTimeZonePlayers';
 import { PlayerFilter } from 'components/Player/Filter/PlayerFilter';
 import { PlayersLoading } from 'components/Player/Filter/PlayersLoading';
 import { PlayersNotFound } from 'components/Player/Filter/PlayersNotFound';
@@ -25,8 +25,7 @@ export const getStaticProps = async () => {
   // This populates the cache server-side
   const { error } = await getPlayersWithCount(undefined, ssrClient);
   if (error) {
-    // eslint-disable-next-line no-console
-    console.error('getPlayers error', error);
+    throw new Error(`getPlayers Error: ${error}`);
   }
   await getPlayerFilters(ssrClient);
 
@@ -48,13 +47,11 @@ const Players: React.FC<Props> = () => {
     queryVariables,
     setQueryVariable,
     resetFilter,
-    totalCount,
+    total,
     nextPage,
     moreAvailable,
   } = usePlayerFilter();
-
   const moreRef = useRef<HTMLDivElement>(null);
-
   const onScreen = useOnScreen(moreRef);
 
   useEffect(() => {
@@ -70,37 +67,37 @@ const Players: React.FC<Props> = () => {
   ]);
 
   const showSeasonalXP = useMemo(
-    () => Object.keys(queryVariables.orderBy).includes('season_xp'),
+    () => Object.keys(queryVariables.orderBy).includes('seasonXP'),
     [queryVariables.orderBy],
   );
 
   return (
     <PageContainer>
       <HeadComponent url="https://my.metagame.wtf/community/players" />
-      <VStack
-        w="100%"
-        spacing={{ base: '4', md: '8' }}
-        pb={{ base: '16', lg: '0' }}
-      >
+      <VStack w="100%" spacing={{ base: 4, md: 8 }} pb={{ base: 16, lg: 0 }}>
         <PlayerFilter
-          fetching={fetching}
-          fetchingMore={fetchingMore}
-          aggregates={aggregates}
-          queryVariables={queryVariables}
-          setQueryVariable={setQueryVariable}
-          resetFilter={resetFilter}
-          totalCount={totalCount}
+          {...{
+            fetching,
+            fetchingMore,
+            aggregates,
+            queryVariables,
+            setQueryVariable,
+            resetFilter,
+            total,
+          }}
         />
-        {error ? <Text>{`Error: ${error.message}`}</Text> : null}
-        {!error && players.length && (fetchingMore || !fetching) ? (
-          <PlayerList players={players} showSeasonalXP={showSeasonalXP} />
-        ) : null}
+        {error && <Text>{`Error: ${error.message}`}</Text>}
+        {!error && players.length && (fetchingMore || !fetching) && (
+          <PlayerList {...{ players, showSeasonalXP }} />
+        )}
         <MorePlayers
           ref={moreRef}
           fetching={isLoading}
-          totalCount={totalCount}
-          queryVariables={queryVariables}
-          showSeasonalXP={showSeasonalXP}
+          {...{
+            total,
+            queryVariables,
+            showSeasonalXP,
+          }}
         />
       </VStack>
     </PageContainer>
@@ -111,31 +108,28 @@ export default Players;
 
 type MorePlayersProps = {
   fetching: boolean;
-  totalCount: number;
+  total: number;
   queryVariables: PlayersQueryVariables;
   showSeasonalXP?: boolean;
 };
 
 const MorePlayers = React.forwardRef<HTMLDivElement, MorePlayersProps>(
-  ({ fetching, totalCount, queryVariables, showSeasonalXP = false }, ref) => {
-    const isTimezoneSelected = useMemo(
-      () => queryVariables.timezones && queryVariables.timezones.length > 0,
+  ({ fetching, total, queryVariables, showSeasonalXP = false }, ref) => {
+    const isTimeZoneSelected = useMemo(
+      () => queryVariables.timeZones && queryVariables.timeZones.length > 0,
       [queryVariables],
     );
 
     return (
-      <VStack w="100%" ref={ref}>
-        {fetching ? <PlayersLoading /> : null}
-        {!fetching && !isTimezoneSelected && totalCount > 0 ? (
+      <VStack w="100%" {...{ ref }}>
+        {fetching && <PlayersLoading />}
+        {!fetching && !isTimeZoneSelected && total > 0 && (
           <Text color="white">No more players available.</Text>
-        ) : null}
-        {!fetching && totalCount === 0 ? <PlayersNotFound /> : null}
-        {!fetching && isTimezoneSelected ? (
-          <AdjacentTimezonePlayers
-            queryVariables={queryVariables}
-            showSeasonalXP={showSeasonalXP}
-          />
-        ) : null}
+        )}
+        {!fetching && total === 0 && <PlayersNotFound />}
+        {!fetching && isTimeZoneSelected && (
+          <AdjascentTimeZonePlayers {...{ queryVariables, showSeasonalXP }} />
+        )}
       </VStack>
     );
   },

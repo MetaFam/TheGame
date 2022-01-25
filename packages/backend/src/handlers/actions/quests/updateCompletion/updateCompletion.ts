@@ -15,13 +15,13 @@ export async function updateCompletion(
   const {
     quest_completion_by_pk: questCompletion,
   } = await client.GetQuestCompletionById({
-    quest_completion_id: updateData.quest_completion_id,
+    quest_completion_id: updateData.questCompletionId,
   });
   if (!questCompletion) {
     throw new Error('Quest completion not found');
   }
   const { quest_by_pk: quest } = await client.GetQuestById({
-    quest_id: questCompletion.quest_id,
+    questId: questCompletion.questId,
   });
   if (!quest) {
     throw new Error('Quest not found');
@@ -30,7 +30,7 @@ export async function updateCompletion(
   if (quest.status !== QuestStatus_Enum.Open) {
     throw new Error('Quest must be open');
   }
-  if (quest.created_by_player_id !== playerId) {
+  if (quest.createdByPlayerId !== playerId) {
     throw new Error('Only quest creator can update a completion');
   }
   if (questCompletion.status !== QuestCompletionStatus_Enum.Pending) {
@@ -69,7 +69,7 @@ export async function updateCompletion(
     }
     await client.RejectOtherQuestCompletions({
       accepted_quest_completion_id: questCompletion.id,
-      quest_id: quest.id,
+      questId: quest.id,
     });
   }
 

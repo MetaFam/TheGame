@@ -2,6 +2,7 @@ import {
   Avatar,
   Badge,
   Box,
+  BoxedNextImage as Image,
   Button,
   ChevronDownIcon,
   ChevronUpIcon,
@@ -22,6 +23,8 @@ import {
   Spinner,
   Stack,
   Text,
+  Tooltip,
+  useBreakpointValue,
   useDisclosure,
 } from '@metafam/ds';
 import { numbers } from '@metafam/utils';
@@ -47,26 +50,20 @@ import Roles from 'assets/menuIcon/roles.svg';
 import SeedEarned from 'assets/menuIcon/seedearned.svg';
 import Seeds from 'assets/menuIcon/seeds.svg';
 import TheGreatHouses from 'assets/menuIcon/thegreathouses.svg';
-import WelcomeToMetagame from 'assets/menuIcon/welcometometagame.svg';
+import WelcomeToMetaGame from 'assets/menuIcon/welcometometagame.svg';
 import XPEarned from 'assets/menuIcon/xpearned.svg';
 import Youtube from 'assets/menuIcon/youtube.svg';
+import SeedMarket from 'assets/seed-icon.svg';
+import XPStar from 'assets/xp-star.svg';
 import { MetaLink } from 'components/Link';
-import { PlayerFragmentFragment } from 'graphql/autogen/types';
+import { PlayerAvatar } from 'components/Player/PlayerAvatar';
+import { Player } from 'graphql/autogen/types';
+import { useUser, useWeb3 } from 'lib/hooks';
 import { usePSeedBalance } from 'lib/hooks/balances';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
-import React, { useCallback } from 'react';
-import { getPlayerImage, getPlayerName } from 'utils/playerHelpers';
-
-// import SearchIcon from '../assets/search-icon.svg';
-import SeedMarket from '../assets/seed-icon.svg';
-import XPStar from '../assets/xp-star.svg';
-import { useUser, useWeb3 } from '../lib/hooks';
-import {
-  MenuLinkItem,
-  MenuLinkSet,
-  MenuSectionLinks,
-} from '../utils/menuLinks';
+import React, { useCallback, useEffect, useState } from 'react';
+import { MenuLinkItem, MenuLinkSet, MenuSectionLinks } from 'utils/menuLinks';
+import { getPlayerURL } from 'utils/playerHelpers';
 
 const { amountToDecimal } = numbers;
 
@@ -90,7 +87,7 @@ const menuIcons: { [key: string]: string } = {
   seedearned: SeedEarned,
   seeds: Seeds,
   thegreathouses: TheGreatHouses,
-  welcometometagame: WelcomeToMetagame,
+  welcometometagame: WelcomeToMetaGame,
   xpearned: XPEarned,
   youtube: Youtube,
   metaradio: MetaRadio,
@@ -102,24 +99,33 @@ type LogoProps = {
   link: string;
 };
 // Navbar logo
-const Logo = ({ link }: LogoProps) => (
-  <Box
-    className="logo"
-    w={{ base: 'fit-content', lg: '209px' }}
-    mt="5px"
-    ml="16px"
-    textAlign={{ base: 'center', lg: 'left' }}
-  >
-    <MetaLink
-      href={link}
-      _focus={{ outline: 'none', bg: 'transparent' }}
-      _hover={{ bg: 'transparent' }}
-      _active={{ bg: 'transparent' }}
+const Logo = ({ link }: LogoProps) => {
+  const width = useBreakpointValue({ base: 36, lg: 55 }) ?? (36 as number);
+  const height = useBreakpointValue({ base: 45, lg: 75 }) ?? (45 as number);
+
+  return (
+    <Box
+      className="logo"
+      w={{ base: 'fit-content', lg: '209px' }}
+      mt={[0.5, 2]}
+      ml={3}
     >
-      <Image src="/assets/logo.png" height={44} width={36} />
-    </MetaLink>
-  </Box>
-);
+      <MetaLink
+        href={link}
+        _focus={{ outline: 'none', bg: 'transparent' }}
+        _hover={{ bg: 'transparent' }}
+        _active={{ bg: 'transparent' }}
+      >
+        <Image
+          src="/assets/logo.png"
+          height={`${height}px`}
+          width={`${width}px`}
+          _hover={{ transform: 'scale(1.1)' }}
+        />
+      </MetaLink>
+    </Box>
+  );
+};
 
 type MenuItemProps = {
   title: string;
@@ -135,11 +141,14 @@ const DesktopMenuItem = ({
   icon,
 }: MenuItemProps) => (
   <MenuItem
-    color="#ffffff"
+    color="#FFF"
     key={title}
-    p="0"
+    mb={4}
+    p={2}
+    borderRadius="md"
     _active={{ bg: 'none' }}
     _focus={{ bg: 'none' }}
+    _hover={{ bg: '#C8BAFC33' }}
   >
     <Link
       display="flex"
@@ -157,6 +166,7 @@ const DesktopMenuItem = ({
       transitionTimingFunction="ease-in"
       transition="0.5s"
       _focus={{ outline: 'none' }}
+      alignItems="center"
     >
       <Avatar
         alt={title}
@@ -189,11 +199,11 @@ const DesktopMenuItem = ({
 );
 
 const useWindowSize = () => {
-  const [windowSize, setWindowSize] = React.useState({
+  const [windowSize, setWindowSize] = useState({
     width: 0,
     height: 0,
   });
-  React.useEffect(() => {
+  useEffect(() => {
     if (typeof window !== 'undefined') {
       const handleResize = () => {
         setWindowSize({
@@ -212,23 +222,26 @@ const useWindowSize = () => {
   }, []);
   return windowSize;
 };
+
 // Nav links on desktop -- text and links from utils/menuLinks.ts
 const DesktopNavLinks = () => {
   const size = useWindowSize();
+
   return (
     <Flex
       justifyContent="center"
       alignContent="center"
       display={{ base: 'none', lg: 'flex' }}
       minW={{ base: 'auto', md: '40%' }}
+      ml={-20}
     >
       {MenuSectionLinks.map((section: MenuLinkSet) => (
         <Menu
           key={section.label}
           offset={
             section.label === 'invest' && size.width > 1463 && size.width < 2200
-              ? [0, 7]
-              : [-56, 7]
+              ? [0, -10]
+              : [-56, -10]
           }
         >
           {({ isOpen }) => (
@@ -237,27 +250,25 @@ const DesktopNavLinks = () => {
                 as={Button}
                 variant="link"
                 minW="fit-content"
-                color="#ffffff"
+                color="#FFF"
                 fontSize={['md', 'md', 'md', 'lg']}
-                fontWeight="600"
+                fontWeight={600}
                 textTransform="uppercase"
-                ml={23}
-                mr={23}
-                _expanded={{ color: '#fff' }}
+                mx={23}
+                _expanded={{ color: '#FFF' }}
                 _focus={{ outline: 'none', border: 'none' }}
               >
                 {section.label}
                 {isOpen ? (
-                  <ChevronUpIcon color="#ffffff" />
+                  <ChevronUpIcon color="#FFF" />
                 ) : (
-                  <ChevronDownIcon color="#ffffff" />
+                  <ChevronDownIcon color="#FFF" />
                 )}
                 <Icon
                   position="absolute"
                   left="calc(50% - 21px)"
-                  top="63px"
+                  top={14}
                   borderColor="transparent"
-                  width="24px"
                   h={isOpen ? 'auto' : 0}
                   opacity={isOpen ? 1 : 0}
                   transition="opacity 0.2s"
@@ -297,8 +308,6 @@ const DesktopNavLinks = () => {
                 bg="linear-gradient(180deg, rgba(42, 31, 71, 0.9) 6.18%, rgba(17, 3, 32, 0.86) 140%)"
                 borderRadius="0.618vmax"
                 border="0"
-                // borderColor="transparent"
-                // backdropFilter=
               >
                 {section.menuItems.map((item: MenuLinkItem) => (
                   <DesktopMenuItem {...item} key={item.title} />
@@ -338,7 +347,7 @@ const DesktopNavLinks = () => {
 // );
 
 type PlayerStatsProps = {
-  player: PlayerFragmentFragment;
+  player: Player;
 };
 // Display player XP and Seed
 const PlayerStats: React.FC<PlayerStatsProps> = ({ player }) => {
@@ -353,42 +362,47 @@ const PlayerStats: React.FC<PlayerStatsProps> = ({ player }) => {
       minW={{ base: '20%', lg: 'fit-content' }}
       maxW={{ base: '20%', lg: 'fit-content' }}
       p={2}
-      flex="1"
+      flex={1}
       my="auto"
-      mr="0"
+      mr={0}
     >
-      <Badge
-        display={{ base: 'none', lg: 'flex' }}
-        flexDirection="row"
-        px={4}
-        py={2}
-        bg="rgba(0,0,0,0.25)"
-        border="1px solid #2B2244"
-        borderRadius={50}
-        minW="fit-content"
-      >
-        <Image src={XPStar} alt="XP" height={14} width={14} />{' '}
-        <Text color="white" ml={[0, 0, 0, 2]}>
-          {Math.trunc(player.total_xp * 100) / 100}
-        </Text>
-      </Badge>
-      <Badge
-        display={{ base: 'none', lg: 'flex' }}
-        flexDirection="row"
-        m={2}
-        px={4}
-        py={2}
-        bg="rgba(0,0,0,0.25)"
-        border="1px solid #2B2244"
-        borderRadius={50}
-        minW="fit-content"
-      >
-        <Image src={SeedMarket} alt="Seed" height={14} width={14} />{' '}
-        <Text color="white" ml={[0, 0, 0, 2]}>
-          {parseInt(amountToDecimal(pSeedBalance || '0', 18), 10)}
-        </Text>
-      </Badge>
-
+      <Tooltip label="XP" hasArrow>
+        <Badge
+          display={{ base: 'none', lg: 'flex' }}
+          flexDirection="row"
+          px={4}
+          py={2}
+          bg="rgba(0,0,0,0.25)"
+          border="1px solid #2B2244"
+          borderRadius={50}
+          minW="fit-content"
+          alignItems="center"
+        >
+          <Image src={XPStar} alt="XP" height={5} width={5} />
+          <Text color="white" ml={[0, 0, 0, 2]} fontSize={18}>
+            {Math.floor(player.totalXP)}
+          </Text>
+        </Badge>
+      </Tooltip>
+      <Tooltip label="pSEEDs" hasArrow>
+        <Badge
+          display={{ base: 'none', lg: 'flex' }}
+          flexDirection="row"
+          m={2}
+          px={4}
+          py={2}
+          bg="rgba(0,0,0,0.25)"
+          border="1px solid #2B2244"
+          borderRadius={50}
+          minW="fit-content"
+          alignItems="center"
+        >
+          <Image src={SeedMarket} alt="pSeed" height={5} width={5} />
+          <Text color="white" ml={[0, 0, 0, 2]} fontSize={18}>
+            {parseInt(amountToDecimal(pSeedBalance || '0', 18), 10)}
+          </Text>
+        </Badge>
+      </Tooltip>
       <Menu>
         <MenuButton
           bg="transparent"
@@ -397,17 +411,18 @@ const PlayerStats: React.FC<PlayerStatsProps> = ({ player }) => {
           _hover={{ bg: 'transparent' }}
           _active={{ bg: 'transparent' }}
         >
-          <Avatar
-            name={getPlayerName(player)}
-            src={getPlayerImage(player)}
-            w="52px"
-            h="52px"
+          <PlayerAvatar
+            {...{ player }}
+            w={14}
+            h={14}
+            m={0}
+            _hover={{ transform: 'scale(0.9)' }}
           />
         </MenuButton>
         <MenuList mt="8px" color="black">
           <MetaLink
             color="black"
-            href={`/player/${player.username}`}
+            href={getPlayerURL(player) ?? '/'}
             _hover={{ textDecoration: 'none' }}
           >
             <MenuItem>
@@ -442,18 +457,20 @@ export const MegaMenu: React.FC = () => {
     await connect();
   }, [connect]);
   const { user, fetching } = useUser();
+  const { player } = user ?? {};
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const menuToggle = () => {
     if (isOpen) {
       document.body.style.height = 'auto';
-      document.body.style.overflow = 'scroll';
+      document.body.style.overflowY = 'scroll';
       return onClose();
     }
     document.body.style.height = '100%';
     document.body.style.overflow = 'hidden';
     return onOpen();
   };
+
   return (
     <Stack
       position={
@@ -484,9 +501,9 @@ export const MegaMenu: React.FC = () => {
           my="auto"
         >
           {isOpen ? (
-            <CloseIcon color="#ffffff" ml={2} />
+            <CloseIcon color="#FFF" ml={2} />
           ) : (
-            <HamburgerIcon color="#ffffff" ml={2} />
+            <HamburgerIcon color="#FFF" ml={2} />
           )}
         </Flex>
         <Flex
@@ -506,8 +523,8 @@ export const MegaMenu: React.FC = () => {
             />
           ) : (
             <>
-              {connected && !!user?.player ? (
-                <PlayerStats player={user.player} />
+              {connected && !!player ? (
+                <PlayerStats {...{ player }} />
               ) : (
                 <MetaButton
                   display={{ base: 'none', lg: 'block' }}
@@ -527,48 +544,51 @@ export const MegaMenu: React.FC = () => {
       <Stack
         display={{ base: isOpen ? 'block' : 'none', xl: 'none' }}
         position="absolute"
-        top={{ base: '76px', md: '76px' }}
+        top={76}
         zIndex={1}
         overflowY="scroll"
         w="100vw"
-        bg="rgba(0,0,0,0.8)"
+        bg="rgba(0, 0, 0, 0.8)"
         h="calc(100vh - 160px)"
         sx={{ backdropFilter: 'blur(10px)' }}
         p="0px 16px 16px"
         border="none"
-        style={{ marginTop: '0px' }}
+        mt={0}
       >
         {MenuSectionLinks.map((section) => (
-          <Stack pt="16px" key={section.label}>
-            <Text fontSize="16px" fontWeight="600" textTransform="capitalize">
+          <Stack pt={1} key={section.label}>
+            <Text fontSize={18} fontWeight={600} textTransform="capitalize">
               {section.label}
             </Text>
             <SimpleGrid columns={2}>
-              {section.menuItems.map((item: MenuLinkItem) => (
+              {section.menuItems.map(({ title, icon, url }) => (
                 <Link
-                  key={item.title}
+                  key={title}
                   display="flex"
                   alignItems="center"
-                  fontSize="12px"
-                  href={item.url}
+                  href={url}
                   border="1px"
                   _odd={{ marginRight: '-1px' }}
                   marginBottom="-1px"
                   borderColor="purple.400"
-                  background="rgba(0, 0, 0, 0.35)"
-                  px={4}
-                  py={3}
+                  bg="rgba(0, 0, 0, 0.35)"
+                  px={2}
+                  py={1.5}
+                  _hover={{
+                    bg: 'rgba(255, 255, 255, 0.1)',
+                  }}
+                  isExternal={/^https?:\/\//.test(url)}
                 >
                   <Avatar
-                    name="alt text"
-                    src={menuIcons[item.icon]}
-                    p="2px"
-                    w="24px"
-                    h="24px"
-                    mr="8px"
+                    name={title}
+                    src={menuIcons[icon]}
+                    p={0}
+                    w={7}
+                    h={7}
+                    mr={1}
                     bg="linear-gradient(180deg, #170B23 0%, #350C58 100%)"
                   />
-                  {item.title}
+                  <Text fontSize={20}>{title}</Text>
                 </Link>
               ))}
             </SimpleGrid>

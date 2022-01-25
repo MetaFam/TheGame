@@ -1,26 +1,26 @@
 import { client } from '../../lib/hasuraClient';
 
 async function createPlayer(ethAddress: string) {
-  const resProfile = await client.CreatePlayerFromETH({
-    ethereum_address: ethAddress,
-    username: ethAddress,
+  const { insert_profile: insert } = await client.CreatePlayerFromETH({
+    ethereumAddress: ethAddress,
   });
-  if (resProfile.insert_player?.affected_rows !== 1) {
+  if (insert?.affected_rows !== 1) {
     throw new Error('Error while creating player');
   }
-  return resProfile.insert_player.returning[0];
+  return insert.returning[0];
 }
 
 export async function getOrCreatePlayer(ethereumAddress: string) {
   const ethAddress = ethereumAddress.toLowerCase();
   const res = await client.GetPlayerFromETH({
-    ethereum_address: ethAddress,
+    ethereumAddress: ethAddress,
   });
 
   let player = res.player[0];
 
   if (!player) {
-    player = await createPlayer(ethAddress);
+    const profile = await createPlayer(ethAddress);
+    ({ player } = profile);
   }
 
   return player;

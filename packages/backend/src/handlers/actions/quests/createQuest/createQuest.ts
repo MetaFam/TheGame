@@ -25,7 +25,7 @@ export async function createQuest(
   }
 
   const playerData = await client.GetPlayer({ playerId });
-  const ethAddress = playerData.player_by_pk?.ethereum_address;
+  const ethAddress = playerData.player_by_pk?.ethereumAddress;
   if (!ethAddress) {
     throw new Error('Ethereum address not found for player');
   }
@@ -35,14 +35,14 @@ export async function createQuest(
     throw new Error('Player not allowed to create quests');
   }
 
-  const { skills_id: skillsId, ...questValues } = quest;
+  const { skillsId, ...questValues } = quest;
 
   const questInput: Quest_Insert_Input = {
     ...questValues,
     repetition: questRepetition,
-    created_by_player_id: playerId,
+    createdByPlayerId: playerId,
     quest_skills: {
-      data: skillsId.map((s) => ({ skill_id: s })),
+      data: skillsId.map((s) => ({ skillId: s })),
     },
   };
 

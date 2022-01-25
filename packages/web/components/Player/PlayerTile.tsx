@@ -1,5 +1,6 @@
 import {
   Box,
+  getTimeZoneFor,
   Heading,
   HStack,
   LinkBox,
@@ -9,30 +10,30 @@ import {
   MetaTileBody,
   MetaTileHeader,
   Text,
+  TimeZoneType,
+  Tooltip,
   VStack,
   Wrap,
   WrapItem,
 } from '@metafam/ds';
+import { Maybe } from '@metafam/utils';
 import { PlayerAvatar } from 'components/Player/PlayerAvatar';
 import { PlayerContacts } from 'components/Player/PlayerContacts';
 import { PlayerTileMemberships } from 'components/Player/PlayerTileMemberships';
 import { SkillsTags } from 'components/Skills';
-import {
-  PlayerFragmentFragment,
-  /* Player_Update_Column, */ Skill,
-} from 'graphql/autogen/types';
+import { Player, Skill } from 'graphql/autogen/types';
 import NextLink from 'next/link';
 import React, { useMemo } from 'react';
 import { FaGlobe } from 'react-icons/fa';
-import { getPlayerTimeZoneDisplay } from 'utils/dateHelpers';
 import {
-  getPlayerCoverImage,
+  getPlayerBanner,
   getPlayerDescription,
   getPlayerName,
+  getPlayerURL,
 } from 'utils/playerHelpers';
 
 type Props = {
-  player: PlayerFragmentFragment;
+  player: Player;
   showSeasonalXP?: boolean;
 };
 
@@ -42,19 +43,22 @@ export const PlayerTile: React.FC<Props> = ({
   player,
   showSeasonalXP = false,
 }) => {
-  const tzDisplay = useMemo(() => getPlayerTimeZoneDisplay(player.timezone), [
-    player.timezone,
-  ]);
+  const tz: Maybe<TimeZoneType> = useMemo(
+    () => getTimeZoneFor({ location: player.profile?.timeZone ?? undefined }),
+    [player.profile?.timeZone],
+  );
   const description = getPlayerDescription(player);
   const displayDescription =
-    description && description.length > MAX_BIO_LENGTH
-      ? `${description.substring(0, MAX_BIO_LENGTH - 9)}…`
+    (description?.length ?? 0) > MAX_BIO_LENGTH
+      ? // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        `${description!.substring(0, MAX_BIO_LENGTH - 9)}…`
       : description;
+
   return (
     <LinkBox>
       <MetaTile>
         <Box
-          bgImage={`url(${getPlayerCoverImage(player)})`}
+          bgImage={`url(${getPlayerBanner(player)})`}
           bgSize="cover"
           bgPosition="center"
           position="absolute"
@@ -63,31 +67,27 @@ export const PlayerTile: React.FC<Props> = ({
           w="100%"
           h="4.5rem"
         />
-        <NextLink
-          as={`/player/${player.username}`}
-          href="/player/[username]"
-          passHref
-        >
+        <NextLink as={getPlayerURL(player)} href="/player/[username]" passHref>
           <LinkOverlay>
             <MetaTileHeader>
               <VStack>
-                <PlayerAvatar player={player} size="xl" />
+                <PlayerAvatar {...{ player }} size="xl" />
                 <Heading size="xs" color="white">
                   {getPlayerName(player)}
                 </Heading>
               </VStack>
               <Wrap w="100%" justify="center">
-                {player.type?.title ? (
+                {player.profile?.explorerTypeTitle && (
                   <WrapItem>
-                    <MetaTag size="md">
-                      {player.type?.title.toUpperCase()}
+                    <MetaTag size="md" textTransform="uppercase">
+                      {player.profile.explorerTypeTitle}
                     </MetaTag>
                   </WrapItem>
-                ) : null}
+                )}
                 {player.rank && (
                   <WrapItem>
                     <MetaTag
-                      backgroundColor={player.rank?.toLowerCase()}
+                      backgroundColor={player.rank.toLowerCase()}
                       size="md"
                       color="blackAlpha.600"
                     >
@@ -98,57 +98,64 @@ export const PlayerTile: React.FC<Props> = ({
                 <WrapItem>
                   <MetaTag size="md">
                     {showSeasonalXP ? 'TOTAL XP: ' : 'XP: '}
-                    {Math.floor(player.total_xp)}
+                    {Math.floor(player.totalXP).toLocaleString()}
                   </MetaTag>
                 </WrapItem>
                 {showSeasonalXP && (
                   <WrapItem>
                     <MetaTag size="md">
-                      SEASONAL XP: {Math.floor(player.season_xp)}
+                      SEASON Ⅴ XP:{' '}
+                      {Math.floor(player.seasonXP).toLocaleString()}
                     </MetaTag>
                   </WrapItem>
                 )}
               </Wrap>
-              {tzDisplay?.timeZone ? (
-                <HStack alignItems="baseline" w="auto" justify="center">
-                  <FaGlobe color="blueLight" fontSize="0.875rem" />
-                  <Text fontSize="lg">{tzDisplay?.timeZone || '-'}</Text>
-                  {tzDisplay?.offset ? (
-                    <Text fontSize="sm">{tzDisplay?.offset}</Text>
-                  ) : (
-                    ''
-                  )}
-                </HStack>
-              ) : null}
-              {displayDescription ? (
+              {tz && (
+                <Tooltip label={tz.name} hasArrow>
+                  <HStack alignItems="baseline" w="auto" justify="center">
+                    <FaGlobe color="blueLight" fontSize="0.875rem" />
+                    <Text fontSize="lg">{tz.abbreviation}</Text>
+                    {tz.utc && <Text fontSize="sm">{tz.utc}</Text>}
+                  </HStack>
+                </Tooltip>
+              )}
+              {displayDescription && (
                 <VStack spacing={2} align="stretch" pt="0.5rem">
-                  <Text textStyle="caption">ABOUT</Text>
+                  <Text textStyle="caption" textTransform="uppercase">
+                    About
+                  </Text>
                   <Text fontSize="sm">{displayDescription}</Text>
                 </VStack>
-              ) : null}
+              )}
             </MetaTileHeader>
           </LinkOverlay>
         </NextLink>
         <MetaTileBody>
-          {player.skills?.length ? (
+          {player.skills?.length && (
             <VStack spacing={2} align="stretch">
-              <Text textStyle="caption">SKILLS</Text>
+              <Text textStyle="caption" textTransform="uppercase">
+                Skills
+              </Text>
               <SkillsTags
-                skills={player.skills.map((s) => s.Skill) as Skill[]}
+                skills={
+                  player.skills.map(({ Skill: skill }) => skill) as Skill[]
+                }
               />
             </VStack>
-          ) : null}
+          )}
 
-          <PlayerTileMemberships player={player} />
+          <PlayerTileMemberships {...{ player }} />
 
-          {player.accounts?.length ? (
+          {player.accounts?.length && (
             <VStack spacing={2} align="stretch">
-              <Text textStyle="caption">CONTACT</Text>
+              <Text textStyle="caption" textTransform="uppercase">
+                Contact
+              </Text>
               <HStack mt={2}>
-                <PlayerContacts player={player} disableBrightId />
+                <PlayerContacts {...{ player }} disableBrightId />
               </HStack>
             </VStack>
-          ) : null}
+          )}
         </MetaTileBody>
       </MetaTile>
     </LinkBox>

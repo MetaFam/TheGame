@@ -11,19 +11,19 @@ export async function createCompletion(
   playerId: string,
   questCompletion: CreateQuestCompletionInput,
 ): Promise<CreateQuestCompletionOutput> {
-  if (!questCompletion.submission_link && !questCompletion.submission_text) {
+  if (!questCompletion.submissionLink && !questCompletion.submissionText) {
     throw new Error('Must provide at least a submission link or text');
   }
 
   const { quest_by_pk: quest } = await client.GetQuestById({
-    quest_id: questCompletion.quest_id,
+    questId: questCompletion.questId,
   });
   if (!quest) {
-    throw new Error('Quest not found');
+    throw new Error('Quest not found.');
   }
 
   if (quest.status !== QuestStatus_Enum.Open) {
-    throw new Error('Quest must be open');
+    throw new Error('Quest must be open.');
   }
 
   // Personal or unique, check if not already done by player
@@ -34,8 +34,8 @@ export async function createCompletion(
     const {
       quest_completion: existingQuestCompletions,
     } = await client.GetQuestCompletions({
-      player_id: playerId,
-      quest_id: questCompletion.quest_id,
+      playerId,
+      questId: questCompletion.questId,
     });
     if (existingQuestCompletions.length > 0) {
       throw new Error(
@@ -49,12 +49,12 @@ export async function createCompletion(
     const {
       quest_completion: existingQuestCompletions,
     } = await client.GetLastQuestCompletionForPlayer({
-      player_id: playerId,
-      quest_id: quest.id,
+      playerId,
+      questId: quest.id,
     });
     if (existingQuestCompletions.length > 0) {
       const existingQuestCompletion = existingQuestCompletions[0];
-      const submittedAt = new Date(existingQuestCompletion.submitted_at);
+      const submittedAt = new Date(existingQuestCompletion.submittedAt);
       const now = new Date();
       const diff = +now - +submittedAt;
       if (diff < quest.cooldown * 1000) {
@@ -67,7 +67,7 @@ export async function createCompletion(
 
   const questCompletionInput: Quest_Completion_Insert_Input = {
     ...questCompletion,
-    completed_by_player_id: playerId,
+    completedByPlayerId: playerId,
   };
   const createQuestCompletionResult = await client.CreateQuestCompletion({
     objects: questCompletionInput,

@@ -1,9 +1,11 @@
-import { Constants } from '@metafam/utils';
-import fetch from 'node-fetch';
+import { Constants, fetch } from '@metafam/utils';
 import { URLSearchParams } from 'url';
 
 import { CONFIG } from './config';
-import { DiscordAccessTokenResponse } from './types';
+import {
+  DiscordAccessTokenResponse,
+  OAuth2CodeExchangeResponse,
+} from './types';
 
 export const tokenRequestData = {
   client_id: Constants.DISCORD_BOT_CLIENT_ID,
@@ -35,7 +37,7 @@ export const exchangeCodeForAccessToken = async (
   };
 
   if (discordResponse.ok) {
-    const parsedBody = await discordResponse.json();
+    const parsedBody = (await discordResponse.json()) as OAuth2CodeExchangeResponse;
     response.oauthResponse = parsedBody;
   } else {
     response.error = discordResponse.statusText;

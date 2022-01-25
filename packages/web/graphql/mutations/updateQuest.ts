@@ -9,14 +9,14 @@ export const UpdateQuestMutation = gql`
     update_quest_by_pk(pk_columns: { id: $id }, _set: $input) {
       id
     }
-    delete_quest_skill(where: { quest_id: { _eq: $id } }) {
+    delete_quest_skill(where: { questId: { _eq: $id } }) {
       affected_rows
     }
     insert_quest_skill(objects: $skills) {
       affected_rows
       returning {
-        quest_id
-        skill_id
+        questId
+        skillId
       }
     }
   }

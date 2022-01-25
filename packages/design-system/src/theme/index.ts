@@ -1,5 +1,6 @@
 import { extendTheme, Theme as ChakraTheme } from '@chakra-ui/react';
 import { createBreakpoints } from '@chakra-ui/theme-tools';
+import { Styles } from 'react-select';
 
 import { colors, MetaColors } from './colors';
 import { textStyles } from './texts';
@@ -67,3 +68,315 @@ export const theme: Theme = extendTheme({
     '9xl': '5.16rem',
   },
 });
+
+export const selectStyles: Styles = {
+  menu: (styles) => ({
+    ...styles,
+    background: theme.colors.dark,
+  }),
+  input: (styles) => ({
+    ...styles,
+    color: theme.colors.white,
+  }),
+  option: (styles, { isSelected, isFocused }) => ({
+    ...styles,
+    background: (() => {
+      if (isSelected) {
+        return theme.colors.blueLight;
+      }
+      if (isFocused) {
+        return theme.colors.purpleTag;
+      }
+      return theme.colors.dark;
+    })(),
+    color:
+      isSelected || isFocused
+        ? theme.colors.white
+        : theme.colors.whiteAlpha[700],
+    '&:hover': {
+      backgroundColor: theme.colors.purpleTag,
+      color: theme.colors.white,
+    },
+  }),
+  control: (styles) => ({
+    ...styles,
+    background: theme.colors.dark,
+    border: `1px soild ${theme.colors.white}`,
+    padding: '0.25em 0.5em',
+    borderRadius: 10,
+    minWidth: '17em',
+  }),
+  singleValue: (styles) => ({
+    ...styles,
+    color: theme.colors.white,
+  }),
+  dropdownIndicator: (styles) => ({
+    ...styles,
+    color: theme.colors.white,
+    cursor: 'pointer',
+    '&:hover': {
+      color: theme.colors.blueLight,
+    },
+  }),
+};
+
+export const multiSelectStyles: Styles = {
+  container: (styles) => ({
+    ...styles,
+    width: '100%',
+  }),
+  menu: (styles) => ({
+    ...styles,
+    background: theme.colors.dark,
+  }),
+  menuList: (styles) => ({
+    ...styles,
+    paddingTop: 0,
+  }),
+  noOptionsMessage: (styles) => ({
+    ...styles,
+    color: theme.colors.white,
+  }),
+  input: (styles) => ({
+    ...styles,
+    color: theme.colors.white,
+  }),
+  group: (styles) => ({
+    ...styles,
+    paddingTop: 0,
+    paddingBottom: 0,
+  }),
+  groupHeading: (styles) => ({
+    ...styles,
+    color: theme.colors.white,
+    background: theme.colors.purple[400],
+    paddingTop: theme.space['3'],
+    paddingBottom: theme.space['3'],
+    position: 'sticky',
+    top: 0,
+    borderRadius: theme.radii.md,
+  }),
+  option: (styles) => ({
+    ...styles,
+    background: theme.colors.dark,
+    ':hover': {
+      backgroundColor: theme.colors.purpleTag,
+      color: theme.colors.white,
+    },
+  }),
+  control: (styles) => ({
+    ...styles,
+    background: theme.colors.dark,
+    border: theme.colors.dark,
+  }),
+  multiValue: (styles) => ({
+    ...styles,
+    background: theme.colors.purpleTag,
+    color: theme.colors.white,
+  }),
+  multiValueLabel: (styles) => ({
+    ...styles,
+    background: theme.colors.purpleTag,
+    color: theme.colors.white,
+  }),
+  multiValueRemove: (styles) => ({
+    ...styles,
+    color: theme.colors.white,
+    cursor: 'pointer',
+    ':hover': {
+      color: theme.colors.blueLight,
+    },
+  }),
+  clearIndicator: (styles) => ({
+    ...styles,
+    color: theme.colors.white,
+    cursor: 'pointer',
+    ':hover': {
+      color: theme.colors.blueLight,
+    },
+  }),
+  dropdownIndicator: (styles) => ({
+    ...styles,
+    color: theme.colors.white,
+    cursor: 'pointer',
+    ':hover': {
+      color: theme.colors.blueLight,
+    },
+  }),
+};
+
+export const searchSelectStyles: Styles = {
+  menuPortal: (styles) => ({
+    ...styles,
+    borderRadius: theme.radii.md,
+  }),
+  menu: (styles) => ({
+    ...styles,
+    background: theme.colors.dark,
+    minWidth: '15rem',
+    border: `2px solid ${theme.colors.borderPurple}`,
+  }),
+  menuList: (styles) => ({
+    ...styles,
+    padding: 0,
+  }),
+  noOptionsMessage: (styles) => ({
+    ...styles,
+    color: theme.colors.white,
+  }),
+  input: (styles) => ({
+    ...styles,
+    color: theme.colors.white,
+  }),
+  group: (styles) => ({
+    ...styles,
+    paddingTop: 0,
+    paddingBottom: 0,
+  }),
+  groupHeading: (styles) => ({
+    ...styles,
+    color: theme.colors.white,
+    background: theme.colors.purple[400],
+    paddingTop: theme.space['3'],
+    paddingBottom: theme.space['3'],
+    position: 'sticky',
+    top: 0,
+  }),
+  option: (styles) => ({
+    ...styles,
+    backgroundColor: 'transparent',
+    ':hover': {
+      backgroundColor: theme.colors.whiteAlpha[100],
+      color: theme.colors.white,
+    },
+  }),
+  control: (styles) => ({
+    ...styles,
+    minWidth: '6rem',
+    color: theme.colors.white,
+    background: theme.colors.dark,
+    border: `2px solid ${theme.colors.borderPurple}`,
+    '&:hover': {
+      borderColor: theme.colors.white,
+    },
+  }),
+  multiValue: (styles) => ({
+    ...styles,
+    background: theme.colors.purpleTag,
+    color: theme.colors.white,
+  }),
+  multiValueLabel: (styles) => ({
+    ...styles,
+    background: theme.colors.purpleTag,
+    color: theme.colors.white,
+  }),
+  multiValueRemove: (styles) => ({
+    ...styles,
+    color: theme.colors.white,
+    cursor: 'pointer',
+    '&:hover': {
+      color: theme.colors.blueLight,
+    },
+  }),
+  clearIndicator: (styles) => ({
+    ...styles,
+    color: theme.colors.white,
+    cursor: 'pointer',
+    '&:hover': {
+      color: theme.colors.blueLight,
+    },
+  }),
+  dropdownIndicator: (styles) => ({
+    ...styles,
+    color: theme.colors.white,
+    cursor: 'pointer',
+    '&:hover': {
+      color: theme.colors.blueLight,
+    },
+  }),
+};
+
+export const dropdownStyles: typeof searchSelectStyles = {
+  ...searchSelectStyles,
+  multiValue: (s) => ({
+    ...s,
+    color: theme.colors.white,
+  }),
+  multiValueLabel: (s) => ({
+    ...s,
+    color: theme.colors.white,
+  }),
+  groupHeading: (s, { children }) => ({
+    ...s,
+    ...searchSelectStyles.groupHeading?.(s, { children }),
+    borderTop: `1px solid ${theme.colors.borderPurple}`,
+    margin: 0,
+  }),
+  option: (s, { isSelected, isFocused }) => ({
+    ...s,
+    backgroundColor: 'transparent',
+    fontWeight: isSelected || isFocused ? 'bold' : 'normal',
+    '&:hover': {
+      backgroundColor: 'transparent',
+      color: theme.colors.white,
+    },
+    '&:focus': {
+      boxShadow: '0 0 0 3px rgba(66, 153, 225, 0.6)',
+    },
+  }),
+  menu: () => ({
+    minWidth: '100%',
+    border: `1px solid ${theme.colors.white}`,
+  }),
+  group: () => ({
+    minWidth: '100%',
+  }),
+  control: (s) => ({
+    ...s,
+    background: theme.colors.dark,
+    border: 'none',
+    width: '100%',
+    '&:hover': {},
+  }),
+};
+
+export const chakraesqueStyles: Styles = {
+  ...searchSelectStyles,
+  option: (styles, { isSelected, isFocused }) => ({
+    ...styles,
+    background: (() => {
+      if (isFocused) {
+        return theme.colors.green[100];
+      }
+      if (isSelected) {
+        return theme.colors.blueLight;
+      }
+      return theme.colors.dark;
+    })(),
+    color: (() => {
+      if (isFocused) {
+        return theme.colors.black;
+      }
+      if (isSelected) {
+        return theme.colors.white;
+      }
+      return theme.colors.whiteAlpha[700];
+    })(),
+    '&:hover': {
+      backgroundColor: theme.colors.purpleTag,
+      color: theme.colors.white,
+    },
+  }),
+  control: (styles, props) => ({
+    ...styles,
+    ...searchSelectStyles.control?.(styles, props),
+    background: theme.colors.dark,
+    border: `1px soild ${theme.colors.white}`,
+    padding: '0.25em 0.5em',
+    borderRadius: 10,
+  }),
+  singleValue: (style) => ({
+    ...style,
+    color: theme.colors.white,
+  }),
+};

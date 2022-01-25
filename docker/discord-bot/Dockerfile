@@ -1,4 +1,4 @@
-FROM node:12-slim as base
+FROM node:16-slim as base
 WORKDIR /usr/src/app
 
 # Install dependencies not included in the slim image
@@ -36,7 +36,7 @@ RUN yarn discord-bot build
 RUN yarn install --pure-lockfile --production --ignore-scripts --prefer-offline
 
 # Create completely new stage including only necessary files
-FROM node:12-alpine as app
+FROM node:16-alpine as app
 WORKDIR /app
 
 # Needed at runtime

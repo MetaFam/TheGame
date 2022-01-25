@@ -23,17 +23,16 @@ export const playerRoleChanged = async (
 ) => {
   if (CONFIG.nodeEnv !== 'production') return;
 
-  const { old: oldPlayerRole, new: newPlayerRole } = payload.event.data;
+  const { old: oldRole, new: newRole } = payload.event.data;
 
-  const playerId = newPlayerRole?.player_id || oldPlayerRole?.player_id;
+  const playerId = newRole?.player_id || oldRole?.player_id;
 
   try {
-    const getPlayerResponse = await client.GetPlayer({
-      playerId,
-    });
-    const playerDiscordId = getPlayerResponse.player_by_pk?.discord_id;
-    const playerUsername = getPlayerResponse.player_by_pk?.username;
-    if (playerDiscordId == null) return;
+    const { player_by_pk: playerByPK } = await client.GetPlayer({ playerId });
+    const { discordId } = playerByPK ?? {};
+    const { username } = playerByPK?.profile ?? {};
+
+    if (discordId == null) return;
 
     // instantiate discord client. We'll need serverId, playerId, and roleIds
     const discordClient = await createDiscordClient();
@@ -54,31 +53,27 @@ export const playerRoleChanged = async (
       getGuildResponse.guild[0]?.metadata?.discord_metadata;
     const roleIds = metadata.playerRoles as RoleIds;
 
-    const discordPlayer = await guild.members.fetch(playerDiscordId);
+    const discordPlayer = await guild.members.fetch(discordId);
     if (discordPlayer == null) {
       console.warn(
-        `No discord player with ID ${playerDiscordId} found in server ${guild.name}!`,
+        `No discord player with ID ${discordId} found in server ${guild.name}!`,
       );
       return;
     }
 
-    if (oldPlayerRole != null && newPlayerRole == null) {
-      const roleId = roleIds[oldPlayerRole.role];
+    if (oldRole != null && newRole == null) {
+      const roleId = roleIds[oldRole.role];
       // this throws a typeerror if the player doesn't actually have the role
       const success = await discordPlayer.roles.remove(roleId);
       if (success) {
-        console.debug(
-          `Removed role ${oldPlayerRole.role} for player ${playerUsername}`,
-        );
+        console.debug(`Removed role ${oldRole.role} for player ${username}`);
       }
-    } else if (oldPlayerRole == null && newPlayerRole != null) {
-      const roleId = roleIds[newPlayerRole.role];
+    } else if (oldRole == null && newRole != null) {
+      const roleId = roleIds[newRole.role];
       console.log(roleId);
       const success = await discordPlayer.roles.add([roleId]);
       if (success) {
-        console.debug(
-          `Added role ${newPlayerRole.role} for player ${playerUsername}`,
-        );
+        console.debug(`Added role ${newRole.role} for player ${username}`);
       }
     }
   } catch (e) {

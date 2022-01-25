@@ -37,7 +37,7 @@ export const useQuestFilter = (): QuestFilter => {
   const quests = data?.quest || null;
   const guilds =
     resGuilds?.data?.quest_aggregate.nodes.map((q) => ({
-      id: q.guild_id,
+      id: q.guildId,
       name: q.guild.name,
     })) || [];
 

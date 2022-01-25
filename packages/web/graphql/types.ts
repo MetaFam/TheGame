@@ -4,13 +4,13 @@ import {
   Me,
   Member,
   Moloch,
-  PlayerFragmentFragment,
+  Player,
   PlayerRank_Enum,
-  Profile_Cache,
+  Profile,
   SkillCategory_Enum,
 } from 'graphql/autogen/types';
 
-export type Patron = PlayerFragmentFragment & {
+export type Patron = Player & {
   pSeedBalance: string;
 };
 
@@ -23,7 +23,7 @@ export type Skill = {
 export type PersonalityOption = {
   mask: number;
   name: string;
-  description?: string | null | undefined;
+  description?: Maybe<string>;
 };
 
 export type Membership = Pick<Member, 'id'> & {
@@ -31,8 +31,8 @@ export type Membership = Pick<Member, 'id'> & {
 };
 
 export type MeType =
-  | (Pick<Me, 'id' | 'ethereum_address' | 'username'> & {
-      player?: PlayerFragmentFragment | null | undefined;
+  | (Pick<Me, 'id' | 'ethereumAddress' | 'username'> & {
+      player?: Maybe<Player>;
     })
   | null
   | undefined;
@@ -47,9 +47,9 @@ export const SkillColors: Record<SkillCategory_Enum, string> = {
 };
 
 export type GuildPlayer = {
+  ethereumAddress: string;
   role?: Maybe<PlayerRank_Enum>;
-  username: string;
-  total_xp?: number;
+  totalXP?: number;
   rank?: Maybe<PlayerRank_Enum>;
-  profile_cache?: Maybe<Pick<Profile_Cache, 'imageURL' | 'name'>>;
+  profile?: Maybe<Pick<Profile, 'profileImageURL' | 'name' | 'username'>>;
 };

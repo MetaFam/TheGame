@@ -1,5 +1,7 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-require('dotenv').config({ path: `${__dirname}/../.env` });
+import dotenv from 'dotenv';
+import * as Path from 'path';
+
+dotenv.config({ path: Path.join(__dirname, '../.env') });
 
 interface IConfig {
   port: number;

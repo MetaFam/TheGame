@@ -12,14 +12,11 @@ interface IConfig {
   seedGraphqlURL: string;
   githubApiToken: string;
   adminKey: string;
-  ipfsEndpoint: string;
-  imgixToken: string;
   infuraId: string;
   pSEEDAddress: string;
   brightIdAppURL: string;
   sourceCredLedgerBranch: string;
   ceramicURL: string;
-  web3StorageToken: string;
 }
 
 function parseEnv<T extends string | number>(
@@ -67,8 +64,6 @@ export const CONFIG: IConfig = {
     'metagame_secret',
   ),
   githubApiToken: parseEnv(process.env.GITHUB_API_TOKEN, ''),
-  ipfsEndpoint: parseEnv(process.env.IPFS_ENDPOINT, 'https://ipfs.infura.io'),
-  imgixToken: parseEnv(process.env.IMGIX_TOKEN, ''),
   pSEEDAddress: parseEnv(
     process.env.PSEED_ADDRESS,
     '0x34a01c0a95b0592cc818cd846c3cf285d6c85a31',
@@ -87,7 +82,8 @@ export const CONFIG: IConfig = {
   ),
   ceramicURL: parseEnv(
     process.env.CERAMIC_URL,
-    'https://d12-a-ceramic.3boxlabs.com', // 'http://localhost:7007',
+    'https://ceramic.metagame.wtf' ||
+      'https://d12-a-ceramic.3boxlabs.com' ||
+      'http://localhost:7007',
   ),
-  web3StorageToken: parseEnv(process.env.WEB3_STORAGE_TOKEN, ''),
 };

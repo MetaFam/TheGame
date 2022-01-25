@@ -70,7 +70,7 @@ export const QuestDetails: React.FC<Props> = ({ quest }) => {
             />
             <StatusTag status={quest.status} />
             <Text>
-              <i>{moment(quest.created_at).fromNow()}</i>
+              <i>{moment(quest.createdAt).fromNow()}</i>
             </Text>
           </HStack>
           <HStack w="100%" mt={2}>
@@ -79,8 +79,8 @@ export const QuestDetails: React.FC<Props> = ({ quest }) => {
                 <MetaButton size="md">Edit Quest</MetaButton>
               </MetaLink>
             )}
-            {quest.external_link && (
-              <MetaLink href={quest.external_link} isExternal>
+            {quest.externalLink && (
+              <MetaLink href={quest.externalLink} isExternal>
                 <MetaButton variant="outline" colorScheme="cyan" size="md">
                   Open link
                 </MetaButton>

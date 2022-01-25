@@ -14,7 +14,7 @@ Available MetaGameBot commands:
 
 export class HelpCommand {
   @Command('!mg help')
-  async getXp(message: CommandMessage) {
+  async getHelp(message: CommandMessage) {
     await message.reply(helpContent);
   }
 }

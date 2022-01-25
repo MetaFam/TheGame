@@ -6,7 +6,6 @@ import {
   getDiscordServerMemberRoles,
   getGuildDiscordRoles,
 } from './resolvers/discord/resolver';
-import { getBoxProfile } from './resolvers/getBoxProfile/resolver';
 import {
   getTokenBalances,
   getTopPSeedHolders,
@@ -16,7 +15,6 @@ import { uuid } from './types/uuid';
 
 const resolvers = {
   Query: {
-    getBoxProfile,
     getDaoHausMemberships,
     getBrightIdStatus,
     getTokenBalances,

@@ -2,6 +2,7 @@ import {
   Box,
   EditIcon,
   Flex,
+  getTimeZoneFor,
   HStack,
   IconButton,
   Modal,
@@ -10,10 +11,12 @@ import {
   ModalContent,
   ModalHeader,
   ModalOverlay,
-  SimpleGrid,
   Text,
+  Tooltip,
   useDisclosure,
   VStack,
+  Wrap,
+  WrapItem,
 } from '@metafam/ds';
 import BackgroundImage from 'assets/main-background.jpg';
 import { FlexContainer } from 'components/Container';
@@ -30,7 +33,6 @@ import { useAnimateProfileChanges } from 'lib/hooks/players';
 import React, { useEffect, useState } from 'react';
 import { FaClock, FaGlobe } from 'react-icons/fa';
 import { BoxType } from 'utils/boxTypes';
-import { getPlayerTimeZoneDisplay } from 'utils/dateHelpers';
 import { getPlayerDescription, getPlayerName } from 'utils/playerHelpers';
 
 const MAX_BIO_LENGTH = 240;
@@ -51,11 +53,11 @@ export const PlayerHero: React.FC<Props> = ({
   canEdit,
 }) => {
   const description = getPlayerDescription(player);
-  const [show, setShow] = useState(description.length <= MAX_BIO_LENGTH);
+  const [show, setShow] = useState(
+    (description ?? '').length <= MAX_BIO_LENGTH,
+  );
   const { isOpen, onOpen, onClose } = useDisclosure();
-
-  const [playerName, setPlayerName] = useState<string>('');
-
+  const [playerName, setPlayerName] = useState<string>();
   const { user } = useUser();
 
   const person = isOwnProfile ? user?.player : player;
@@ -70,9 +72,7 @@ export const PlayerHero: React.FC<Props> = ({
       {isOwnProfile && !canEdit && (
         <Box pos="absolute" right={5} top={5}>
           <IconButton
-            _focus={{
-              boxShadow: 'none',
-            }}
+            _focus={{ boxShadow: 'none' }}
             variant="outline"
             borderWidth={2}
             aria-label="Edit Profile Info"
@@ -99,59 +99,67 @@ export const PlayerHero: React.FC<Props> = ({
         />
       </Box>
       <VStack spacing={6}>
-        <Box textAlign="center">
-          <Text fontSize="xl" fontFamily="heading" mb={1}>
+        <Box textAlign="center" maxW="full">
+          <Text
+            fontSize="xl"
+            fontFamily="heading"
+            mb={1}
+            textOverflow="ellipsis"
+            whiteSpace="nowrap"
+            overflowX="hidden"
+            title={playerName}
+          >
             {playerName}
           </Text>
           <PlayerBrightId {...{ player }} />
         </Box>
-        <Box>
+        <Box w="100%">
           {description && (
-            <PlayerHeroTile title="Bio">
-              <Text fontSize={{ base: 'sm', sm: 'md' }}>
-                {show
-                  ? description
-                  : `${description.substring(0, MAX_BIO_LENGTH - 9)}…`}
-                {description.length > MAX_BIO_LENGTH && (
-                  <Text
-                    as="span"
-                    fontSize="xs"
-                    color="cyanText"
-                    cursor="pointer"
-                    onClick={() => setShow((s) => !s)}
-                    pl={1}
-                  >
-                    Read {show ? 'less' : 'more'}
-                  </Text>
-                )}
-              </Text>
-            </PlayerHeroTile>
+            <Box align="flexStart" w="100%">
+              <PlayerHeroTile title="Bio">
+                <Text
+                  fontSize={{ base: 'sm', sm: 'md' }}
+                  textAlign="justify"
+                  whiteSpace="pre-wrap"
+                >
+                  {show
+                    ? description
+                    : `${description.substring(0, MAX_BIO_LENGTH - 9)}…`}
+                  {description.length > MAX_BIO_LENGTH && (
+                    <Text
+                      as="span"
+                      fontSize="xs"
+                      color="cyanText"
+                      cursor="pointer"
+                      onClick={() => setShow((s) => !s)}
+                      pl={1}
+                    >
+                      Read {show ? 'less' : 'more'}
+                    </Text>
+                  )}
+                </Text>
+              </PlayerHeroTile>
+            </Box>
           )}
         </Box>
 
         <HStack mt={2}>
-          <PlayerContacts player={player} />
+          <PlayerContacts {...{ player }} />
         </HStack>
 
-        <PlayerPronouns person={person} />
-
-        {/* <SimpleGrid columns={2} gap={6} width="full">
-          <PlayerHeroTile title="Display name">
-            <Text>Vid</Text>
-          </PlayerHeroTile> 
-        </SimpleGrid> */}
+        {person?.profile?.pronouns && <PlayerPronouns {...{ person }} />}
         {/* <PlayerHeroTile title="Website">
           <Text>www.mycoolportfolio.com</Text>
         </PlayerHeroTile> */}
 
-        <SimpleGrid columns={2} gap={6} width="full">
+        <Flex justify="stretch" w="full">
           <PlayerHeroTile title="Availability">
-            <Availability person={person} />
+            <Availability {...{ person }} />
           </PlayerHeroTile>
-          <PlayerHeroTile title="Timezone">
-            <TimeZoneDisplay person={person} />
+          <PlayerHeroTile title="Time Zone">
+            <TimeZoneDisplay {...{ person }} />
           </PlayerHeroTile>
-        </SimpleGrid>
+        </Flex>
 
         {/* <SimpleGrid columns={2} gap={6} width="full">
           <PlayerHeroTile title="Country">
@@ -171,21 +179,23 @@ export const PlayerHero: React.FC<Props> = ({
           </PlayerHeroTile>
         </SimpleGrid> */}
 
-        {player?.profile_cache?.emoji && (
-          <PlayerHeroTile title="Favorite emoji">
-            <Text>{player?.profile_cache?.emoji}</Text>
+        {player?.profile?.emoji && (
+          <PlayerHeroTile title="Favorite Emoji">
+            <Text ml={10} mt={0} fontSize={45} lineHeight={0.75}>
+              {player.profile.emoji}
+            </Text>
           </PlayerHeroTile>
         )}
       </VStack>
 
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal {...{ isOpen, onClose }}>
         <ModalOverlay />
         <ModalContent
-          maxW="80%"
+          maxW={['100%', 'min(80%, 60rem)']}
           backgroundImage={`url(${BackgroundImage})`}
           bgSize="cover"
           bgAttachment="fixed"
-          p={[4, 8, 12]}
+          p={[0, 8, 12]}
         >
           <ModalHeader
             color="white"
@@ -198,13 +208,13 @@ export const PlayerHero: React.FC<Props> = ({
           <ModalCloseButton
             color="pinkShadeOne"
             size="xl"
-            p={4}
+            p={{ base: 1, sm: 4 }}
             _focus={{
               boxShadow: 'none',
             }}
           />
-          <ModalBody>
-            <EditProfileForm user={user} onClose={onClose} />
+          <ModalBody p={[0, 2]}>
+            <EditProfileForm {...{ user, onClose }} />
           </ModalBody>
         </ModalContent>
       </Modal>
@@ -213,10 +223,10 @@ export const PlayerHero: React.FC<Props> = ({
 };
 
 const Availability: React.FC<AvailabilityProps> = ({ person }) => {
-  const [availabilityHours, setAvailabilityHours] = useState<number>(0);
-  const updateFN = () => setAvailabilityHours(person?.availability_hours || 0);
+  const [hours, setHours] = useState<number>();
+  const updateFN = () => setHours(person?.profile?.availableHours ?? undefined);
   const { animation } = useAnimateProfileChanges(
-    person?.availability_hours,
+    person?.profile?.availableHours,
     updateFN,
   );
   return (
@@ -230,7 +240,18 @@ const Availability: React.FC<AvailabilityProps> = ({ person }) => {
         opacity={animation === 'fadeIn' ? 1 : 0}
       >
         <Text fontSize={{ base: 'md', sm: 'lg' }} pr={2}>
-          {`${availabilityHours || '0'} h/week`}
+          {hours == null ? (
+            <Text as="em">Unspecified</Text>
+          ) : (
+            <>
+              <Text as="span" mr={0.5}>
+                {hours}
+              </Text>
+              <Text as="span" title="hours per week">
+                <Text as="sup">hr</Text>⁄<Text as="sub">week</Text>
+              </Text>
+            </>
+          )}
         </Text>
       </FlexContainer>
     </Flex>
@@ -238,36 +259,53 @@ const Availability: React.FC<AvailabilityProps> = ({ person }) => {
 };
 
 const TimeZoneDisplay: React.FC<TimeZoneDisplayProps> = ({ person }) => {
-  const timeDisplay = getPlayerTimeZoneDisplay(person?.timezone);
-  const [timeZone, setTimeZone] = useState<string>('');
+  const tz = getTimeZoneFor({ title: person?.profile?.timeZone });
+  const [timeZone, setTimeZone] = useState<string>();
   const [offset, setOffset] = useState<string>('');
   const updateFN = () => {
-    if (timeDisplay.timeZone) setTimeZone(timeDisplay.timeZone);
-    if (timeDisplay.offset) setOffset(timeDisplay.offset);
+    if (tz?.abbreviation) setTimeZone(tz.abbreviation);
+    if (tz?.utc) setOffset(tz.utc);
   };
+  const short = offset?.replace(/:00\)$/, ')').replace(/ +/g, '');
 
-  const { animation } = useAnimateProfileChanges(
-    timeDisplay.timeZone,
-    updateFN,
-  );
+  const { animation } = useAnimateProfileChanges(tz?.name, updateFN);
   return (
     <Flex alignItems="center">
-      <Box pr={1}>
-        <FaGlobe color="blueLight" />
-      </Box>
       <FlexContainer
         align="stretch"
         transition=" opacity 0.4s"
         opacity={animation === 'fadeIn' ? 1 : 0}
       >
-        <Text fontSize={{ base: 'md', sm: 'lg' }} pr={1}>
-          {timeZone || '-'}
-        </Text>
-        {offset ? (
-          <Text fontSize={{ base: 'sm', sm: 'md' }}>{offset}</Text>
-        ) : (
-          ''
-        )}
+        <Flex align="center" whiteSpace="pre">
+          <Box pr={1}>
+            <FaGlobe color="blueLight" />
+          </Box>
+          {timeZone == null ? (
+            <Text fontStyle="italic">Unspecified</Text>
+          ) : (
+            <Tooltip label={tz?.name} hasArrow>
+              <Wrap justify="center" align="center">
+                <WrapItem my="0 !important">
+                  <Text
+                    fontSize={{ base: 'md', sm: 'lg' }}
+                    pr={1}
+                    overflowX="hidden"
+                    textOverflow="ellipsis"
+                  >
+                    {timeZone || '−'}
+                  </Text>
+                </WrapItem>
+                {short && (
+                  <WrapItem my="0 !important">
+                    <Text fontSize={{ base: 'sm', sm: 'md' }} whiteSpace="pre">
+                      {short}
+                    </Text>
+                  </WrapItem>
+                )}
+              </Wrap>
+            </Tooltip>
+          )}
+        </Flex>
       </FlexContainer>
     </Flex>
   );

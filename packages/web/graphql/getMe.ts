@@ -5,7 +5,7 @@ export const GetMeQuery = gql`
   query GetMe($forLoginDisplay: Boolean! = false) {
     me {
       id
-      ethereum_address
+      ethereumAddress
       username
       player {
         ...PlayerFragment

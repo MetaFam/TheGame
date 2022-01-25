@@ -27,7 +27,6 @@ export const getSkills = async (): Promise<PlayerSkillFragmentFragment[]> => {
     if (error) {
       throw error;
     }
-
     return [];
   }
 

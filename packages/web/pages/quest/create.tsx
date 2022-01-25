@@ -2,8 +2,6 @@ import { MetaHeading, useToast } from '@metafam/ds';
 import { PageContainer } from 'components/Container';
 import { CreateQuestFormInputs, QuestForm } from 'components/Quest/QuestForm';
 import { HeadComponent } from 'components/Seo';
-import { convertToRaw } from 'draft-js';
-import draftToHtml from 'draftjs-to-html';
 import {
   QuestRepetition_ActionEnum,
   useCreateQuestMutation,
@@ -19,23 +17,6 @@ import { parseSkills } from 'utils/skillHelpers';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
-const extractFormData = (data: CreateQuestFormInputs) => {
-  const { skills, repetition, cooldown, ...createQuestInputs } = data;
-  const convertedDescription = draftToHtml(
-    convertToRaw(createQuestInputs.description.getCurrentContent()),
-  );
-  return {
-    skills,
-    repetition,
-    cooldown,
-    title: createQuestInputs.title,
-    description: convertedDescription,
-    status: createQuestInputs.status,
-    guild_id: createQuestInputs.guild_id,
-    external_link: createQuestInputs.external_link,
-  };
-};
-
 const CreateQuestPage: React.FC<Props> = ({ guilds, skillChoices }) => {
   useUser({ redirectTo: '/quests', redirectIfNotFound: true });
   const router = useRouter();
@@ -43,18 +24,13 @@ const CreateQuestPage: React.FC<Props> = ({ guilds, skillChoices }) => {
   const [createQuestState, createQuest] = useCreateQuestMutation();
 
   const onSubmit = (data: CreateQuestFormInputs) => {
-    const {
-      skills,
-      repetition,
-      cooldown,
-      ...createQuestInputs
-    } = extractFormData(data);
+    const { skills, repetition, cooldown, status, ...createQuestInputs } = data;
 
     const input = {
       ...createQuestInputs,
       repetition: (data.repetition as unknown) as QuestRepetition_ActionEnum,
       cooldown: transformCooldownForBackend(cooldown, repetition),
-      skills_id: skills.map((s) => s.id),
+      skillsId: skills.map((s) => s.id),
     };
 
     createQuest({
@@ -64,7 +40,7 @@ const CreateQuestPage: React.FC<Props> = ({ guilds, skillChoices }) => {
       if (createQuestResponse?.success) {
         router.push(`/quest/${createQuestResponse.quest_id}`);
         toast({
-          title: 'Quest created',
+          title: 'Quest Created',
           description: 'Your quest is now live!',
           status: 'success',
           isClosable: true,
@@ -72,11 +48,11 @@ const CreateQuestPage: React.FC<Props> = ({ guilds, skillChoices }) => {
         });
       } else {
         toast({
-          title: 'Error while creating quest',
+          title: 'Error Creating Quest',
           description:
             response.error?.message ||
             createQuestResponse?.error ||
-            'unknown error',
+            'Unknown Error',
           status: 'error',
           isClosable: true,
           duration: 10000,
@@ -88,19 +64,17 @@ const CreateQuestPage: React.FC<Props> = ({ guilds, skillChoices }) => {
   return (
     <PageContainer>
       <HeadComponent
-        description="Create a Quest for Metagame."
+        description="Create a Quest for MetaGame."
         url="https://my.metagame.wtf/quest/create"
       />
-      <MetaHeading mb={4}>Create quest</MetaHeading>
+      <MetaHeading mb={4}>Create a Quest</MetaHeading>
 
       <QuestForm
-        guilds={guilds}
-        skillChoices={skillChoices}
-        onSubmit={onSubmit}
+        {...{ guilds, skillChoices, onSubmit }}
         success={!!createQuestState.data?.createQuest?.success}
         fetching={createQuestState.fetching}
         submitLabel="Create Quest"
-        loadingLabel="Creating quest..."
+        loadingLabel="Creating Quest…"
       />
     </PageContainer>
   );

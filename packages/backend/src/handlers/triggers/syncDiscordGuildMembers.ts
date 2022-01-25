@@ -100,8 +100,8 @@ const syncGuildMembers = async (guild: GuildFragmentFragment) => {
     id: guild.id,
   });
   const guildMemberDiscordIds = getGuildMembersResponse.guild[0].guild_players
-    .filter((p) => p.Player.discord_id != null)
-    .map((p) => p.Player.discord_id) as string[];
+    .filter((p) => p.Player.discordId != null)
+    .map((p) => p.Player.discordId) as string[];
 
   await discordGuild.members.fetch();
 

@@ -1,4 +1,6 @@
 import { retryExchange } from '@urql/exchange-retry';
+import { CONFIG } from 'config';
+import { getTokenFromStore } from 'lib/auth';
 import {
   initUrqlClient,
   NextComponentType,
@@ -11,20 +13,24 @@ import {
   Client,
   CombinedError,
   createClient,
+  // debugExchange,
   dedupExchange,
   fetchExchange,
   ssrExchange,
 } from 'urql';
 
-import { CONFIG } from '../config';
-import { getTokenFromStore } from '../lib/auth';
-
 const errorHasResponseTimeout = (err: CombinedError): boolean =>
   err.graphQLErrors.length > 0 &&
-  !!err.graphQLErrors.find((_err) => _err.message === 'ResponseTimeout');
+  !!err.graphQLErrors.find((e) => e.message === 'ResponseTimeout');
 
 const retryExchangeFunc = retryExchange({
-  retryIf: (error) => !!(errorHasResponseTimeout(error) || error.networkError),
+  maxNumberAttempts: 5,
+  initialDelayMs: 1000,
+  randomDelay: true,
+  retryIf: (error) => {
+    console.debug('GraphQL Retry', { error }); // eslint-disable-line no-console
+    return !!(errorHasResponseTimeout(error) || error.networkError);
+  },
 });
 
 export const client = createClient({
@@ -40,6 +46,7 @@ export const getSsrClient = (): [Client, ReturnType<typeof ssrExchange>] => {
     {
       url: CONFIG.graphqlURL,
       exchanges: [
+        // debugExchange,
         dedupExchange,
         cacheExchange,
         ssrCache,
