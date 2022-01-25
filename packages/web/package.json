@@ -14,7 +14,7 @@
   "dependencies": {
     "@3id/connect": "0.2.3",
     "@ceramicnetwork/3id-did-resolver": "1.4.9",
-    "@ceramicnetwork/http-client": "1.5.0",
+    "@ceramicnetwork/http-client": "1.5.7",
     "@ceramicnetwork/stream-caip10-link": "1.2.2",
     "@datamodels/identity-profile-basic": "0.1.2",
     "@glazed/devtools": "0.1.3",

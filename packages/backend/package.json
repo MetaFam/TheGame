@@ -19,7 +19,7 @@
   "license": "ISC",
   "dependencies": {
     "@ceramicnetwork/common": "1.8.0",
-    "@ceramicnetwork/http-client": "1.5.0",
+    "@ceramicnetwork/http-client": "1.5.7",
     "@ceramicnetwork/stream-caip10-link": "1.2.2",
     "@datamodels/identity-accounts-web": "0.1.2",
     "@datamodels/identity-profile-basic": "0.1.2",
