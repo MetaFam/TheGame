@@ -37,13 +37,13 @@ const __dirname = dirname(__filename)
   })
   await did.authenticate()
 
-  const ceramicURI = (
-    process.env.CERAMIC_URI
+  const ceramicURL = (
+    process.env.CERAMIC_URL
     || 'https://ceramic.metagame.wtf'
     || 'http://localhost:7007'
   )
-  console.debug(`Connecting to ${ceramicURI}`)
-  const ceramic = new CeramicClient(ceramicURI)
+  console.debug(`Connecting to ${ceramicURL}`)
+  const ceramic = new CeramicClient(ceramicURL)
   ceramic.did = did
 
   const manager = new ModelManager(ceramic)

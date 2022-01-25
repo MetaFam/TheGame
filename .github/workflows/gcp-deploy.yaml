@@ -2,8 +2,6 @@ name: Deploy Preview to Cloud Run
 
 on:
   pull_request:
-    branches:
-      - develop
     types:
       - opened
       - reopened
@@ -55,7 +53,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
         with:
-          ref: ${{ github.event.pull_request.head.sha }}
+          ref: ${{github.event.pull_request.head.sha}}
 
       - name: Login to Registry
         uses: docker/login-action@v1
@@ -99,7 +97,7 @@ jobs:
         uses: mattes/cached-docker-build-action@v1
         with:
           args: ". -f ./docker/backend/Dockerfile --tag ${{env.BACKEND_TAG}} --build-arg GRAPHQL_URL=${{env.GRAPHQL_URL}}"
-          cache_key: "${{ hashFiles('packages/backend/**') }}"
+          cache_key: "${{hashFiles('packages/backend/**')}}"
 
       - name: Push Backend Container
         run: docker push ${{env.BACKEND_TAG}}
@@ -132,7 +130,7 @@ jobs:
         uses: mattes/cached-docker-build-action@v1
         with:
           args: "./hasura -f ./hasura/Dockerfile --tag ${{env.HASURA_TAG}} --build-arg BACKEND_HOST=${{env.BACKEND_HOST}} --build-arg BACKEND_PROTOCOL=https"
-          cache_key: "${{ hashFiles('hasura/**') }}"
+          cache_key: "${{hashFiles('hasura/**')}}"
 
       - name: Push Hasura Container
         run: docker push ${{env.HASURA_TAG}}
@@ -166,7 +164,7 @@ jobs:
         uses: mattes/cached-docker-build-action@v1
         with:
           args: ". -f ./docker/frontend/Dockerfile --tag ${{env.FRONTEND_TAG}} --build-arg GRAPHQL_URL=${{env.GRAPHQL_URL}}"
-          cache_key: "${{ hashFiles('packages/web/**', 'packages/design-system/**') }}"
+          cache_key: "${{hashFiles('packages/web/**', 'packages/design-system/**')}}"
 
       - name: Push Frontend Container
         run: docker push ${{env.FRONTEND_TAG}}
@@ -203,4 +201,4 @@ jobs:
 
             * [Frontend](${{env.FRONTEND_URL}})
             * [Hasura](//${{env.HASURA_HOST}})
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}

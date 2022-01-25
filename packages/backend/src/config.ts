@@ -81,7 +81,7 @@ export const CONFIG: IConfig = {
     'staging', // Just so we dont mess up the master ledger in case people are testing locally
   ),
   ceramicURL: parseEnv(
-    process.env.NEXT_CERAMIC_URL,
+    process.env.CERAMIC_URL,
     'https://ceramic.metagame.wtf' ||
       'https://d12-a-ceramic.3boxlabs.com' ||
       'http://localhost:7007',
