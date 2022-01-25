@@ -17,11 +17,11 @@ export const Watch: React.FC = () => {
   const [page, setPage] = useState<number>(1);
   const [loading, setLoading] = useState<boolean>(true);
   const [isFetchingMore, setIsFetchingMore] = useState<boolean>(false);
-  const abortController = useMemo(() => new AbortController(), []);
   const onScreen = useOnScreen(moreRef);
   const maxPages = useMemo(() => Math.ceil(count / LIMIT) || 0, [count]);
 
   useEffect(() => {
+    const abortController = new AbortController();
     const load = async () => {
       const res = await fetch(URL, {
         signal: abortController.signal,
@@ -45,7 +45,7 @@ export const Watch: React.FC = () => {
     return () => {
       abortController.abort();
     };
-  }, [abortController]);
+  }, []);
 
   useEffect(() => {
     if (!loading && onScreen && page <= maxPages && nextPageToken) {
