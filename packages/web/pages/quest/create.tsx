@@ -31,6 +31,7 @@ const CreateQuestPage: React.FC<Props> = ({ guilds, skillChoices }) => {
       repetition: (data.repetition as unknown) as QuestRepetition_ActionEnum,
       cooldown: transformCooldownForBackend(cooldown, repetition),
       skillsId: skills.map((s) => s.id),
+      roles_id: [],
     };
 
     createQuest({
@@ -70,7 +71,14 @@ const CreateQuestPage: React.FC<Props> = ({ guilds, skillChoices }) => {
       <MetaHeading mb={4}>Create a Quest</MetaHeading>
 
       <QuestForm
+<<<<<<< develop
         {...{ guilds, skillChoices, onSubmit }}
+=======
+        guilds={guilds}
+        skillChoices={skillChoices}
+        roleChoices={[]}
+        onSubmit={onSubmit}
+>>>>>>> fix: lint
         success={!!createQuestState.data?.createQuest?.success}
         fetching={createQuestState.fetching}
         submitLabel="Create Quest"
