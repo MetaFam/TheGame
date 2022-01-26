@@ -6037,9 +6037,6 @@ input PlayerRole_set_input {
 update columns of table "PlayerRole"
 """
 enum PlayerRole_update_column {
-<<<<<<< develop
-  """column name"""
-=======
   """
   column name
   """
@@ -6048,7 +6045,6 @@ enum PlayerRole_update_column {
   """
   column name
   """
->>>>>>> fix: update schema
   description
 
   """column name"""
