@@ -15,7 +15,7 @@ import {
   QuestStatus_Enum,
 } from './autogen/types';
 import { client as defaultClient } from './client';
-import { QuestFragment, QuestWithCompletionFragment } from './fragments';
+import { QuestFragment } from './fragments';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-expressions
 gql`

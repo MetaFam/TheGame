@@ -823,6 +823,14 @@
       completed_by_player_id: completedByPlayerId
       submitted_at: submittedAt
   object_relationships:
+  - name: completed
+    using:
+      manual_configuration:
+        remote_table:
+          schema: public
+          name: quest
+        column_mapping:
+          quest_id: id
   - name: player
     using:
       foreign_key_constraint_on: completed_by_player_id
