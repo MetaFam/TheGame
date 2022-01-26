@@ -1,10 +1,12 @@
 /* eslint-disable no-console */
 import { createDiscordClient } from '@metafam/discord-bot';
 import { Constants } from '@metafam/utils';
+import { TextChannel } from 'discord.js';
 
 import { CONFIG } from '../../config';
 import { Player, PlayerRank_Enum } from '../../lib/autogen/hasura-sdk';
 import { client } from '../../lib/hasuraClient';
+import { isRankHigher } from '../../lib/rankHelpers';
 import { TriggerPayload } from './types';
 
 type RankRoleIds = { [rank in PlayerRank_Enum]: string };
@@ -106,6 +108,16 @@ export const playerRankUpdated = async (payload: TriggerPayload<Player>) => {
       console.warn(`Discord role associated with ${newRank} was not found!`);
     } else {
       await discordPlayer.roles.add([discordRoleForRank]);
+
+      // We should check whether this role is higher than the previous
+      if (isRankHigher(oldPlayer?.rank, newPlayer?.rank)) {
+        const propsChannel = discordClient.channels.cache.get(
+          Constants.DISCORD_PROPS_CHANNEL_ID,
+        ) as TextChannel;
+        propsChannel.send(
+          `Props to ${discordPlayer} for becoming ${newRank}, congrats!`,
+        );
+      }
       console.log(`${newPlayer?.profile?.username}: added role ${newRank}`);
     }
   } catch (e) {
