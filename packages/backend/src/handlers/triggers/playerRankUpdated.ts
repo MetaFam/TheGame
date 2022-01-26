@@ -115,7 +115,7 @@ export const playerRankUpdated = async (payload: TriggerPayload<Player>) => {
           Constants.DISCORD_PROPS_CHANNEL_ID,
         ) as TextChannel;
         propsChannel.send(
-          `Props to ${newPlayer?.username} for becoming ${newRank}, congrats!`,
+          `Props to ${discordPlayer.toString()} for becoming ${newRank}, congrats!`,
         );
       }
       console.log(`${newPlayer?.profile?.username}: added role ${newRank}`);
