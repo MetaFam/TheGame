@@ -46,6 +46,7 @@ const EditQuestPage: React.FC<Props> = ({ quest, skillChoices, guilds }) => {
       questId: quest.id,
       skillId: s.id,
     }));
+
     updateQuest({
       id: quest.id,
       input: updateQuestInput,

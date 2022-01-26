@@ -8056,6 +8056,11 @@ columns and relationships of "quest_completion"
 type quest_completion {
   """An object relationship"""
   QuestCompletionStatus: QuestCompletionStatus!
+
+  """
+  An object relationship
+  """
+  completed: quest
   completedByPlayerId: uuid!
   id: uuid!
 
@@ -8113,6 +8118,7 @@ input quest_completion_bool_exp {
   _and: [quest_completion_bool_exp]
   _not: quest_completion_bool_exp
   _or: [quest_completion_bool_exp]
+  completed: quest_bool_exp
   completedByPlayerId: uuid_comparison_exp
   id: uuid_comparison_exp
   player: player_bool_exp
@@ -8137,6 +8143,7 @@ input type for inserting data into table "quest_completion"
 """
 input quest_completion_insert_input {
   QuestCompletionStatus: QuestCompletionStatus_obj_rel_insert_input
+  completed: quest_obj_rel_insert_input
   completedByPlayerId: uuid
   id: uuid
   player: player_obj_rel_insert_input
@@ -8225,6 +8232,7 @@ ordering options when selecting data from "quest_completion"
 """
 input quest_completion_order_by {
   QuestCompletionStatus: QuestCompletionStatus_order_by
+  completed: quest_order_by
   completedByPlayerId: order_by
   id: order_by
   player: player_order_by
