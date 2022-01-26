@@ -13,8 +13,8 @@ import {
   GetStaticPropsContext,
   InferGetStaticPropsType,
 } from 'next';
-import Error from 'next/error';
 import { useRouter } from 'next/router';
+import Page404 from 'pages/404';
 import React from 'react';
 import { BoxType } from 'utils/boxTypes';
 import { getGuildCoverImageFull } from 'utils/playerHelpers';
@@ -40,7 +40,7 @@ const GuildPage: React.FC<Props> = ({ guild }) => {
   }
 
   if (!guild) {
-    return <Error statusCode={404} />;
+    return <Page404 />;
   }
 
   const getBox = (name: string): React.ReactNode => {
@@ -164,7 +164,7 @@ export const getStaticPaths: GetStaticPaths<QueryParams> = async () => {
     paths: guildnames.map((guildname) => ({
       params: { guildname },
     })),
-    fallback: true,
+    fallback: 'blocking',
   };
 };
 
@@ -186,6 +186,7 @@ export const getStaticProps = async (
     props: {
       guild: guild === undefined ? null : guild,
       quests,
+      hideTopMenu: !guild,
     },
     revalidate: 1,
   };

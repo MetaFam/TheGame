@@ -37,9 +37,10 @@ import {
   InferGetStaticPropsType,
 } from 'next';
 import Error from 'next/error';
-import { ReactElement, useCallback, useEffect, useMemo, useState } from 'react';
+import Page404 from 'pages/404';
+import React, { ReactElement, useCallback, useEffect, useMemo, useState } from 'react';
 import { Layout, Layouts, Responsive, WidthProvider } from 'react-grid-layout';
-import { BoxMetadata, BoxType, getBoxKey } from 'utils/boxTypes';
+import { BoxMetadata, BoxType, getBoxKey  } from 'utils/boxTypes';
 import {
   getPlayerBannerFull,
   getPlayerDescription,
@@ -53,13 +54,11 @@ const ResponsiveGridLayout = WidthProvider(Responsive);
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
 export const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
-  if (!player) {
-    return <Error statusCode={404} />;
-  }
+  if (!player) return <Error statusCode={404} />;
+
   return (
+    // have to override pt in PageContainer
     <PageContainer p={0} pt={0} mt="-4.5rem">
-      {' '}
-      {/* have to override pt in PageContainer */}
       <HeadComponent
         title={`MetaGame Profile: ${getPlayerName(player)}`}
         description={(getPlayerDescription(player) ?? '').replace('\n', ' ')}
@@ -75,15 +74,15 @@ export const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
         w="full"
       />
       <Flex
-        w="100%"
-        h="100%"
+        w="full"
+        h="full"
         minH="100vh"
         p={4}
         pt="8rem"
         direction="column"
         align="center"
       >
-        <Grid player={player} />
+        <Grid {...{ player }} />
       </Flex>
     </PageContainer>
   );
@@ -181,9 +180,10 @@ export const Grid: React.FC<Props> = ({ player: initPlayer }): ReactElement => {
   ] = useUpdatePlayerProfileLayoutMutation();
   const [saving, setSaving] = useState(false);
 
-  const layoutsFromDB = player?.profileLayout
-    ? JSON.parse(player.profileLayout)
-    : null;
+  const layoutsFromDB = useMemo(
+    () => (player.profileLayout ? JSON.parse(player.profileLayout) : null),
+    [player.profileLayout],
+  );
 
   const [savedLayoutData, setSavedLayoutData] = useState<ProfileLayoutData>(
     layoutsFromDB || {
@@ -359,6 +359,8 @@ export const Grid: React.FC<Props> = ({ player: initPlayer }): ReactElement => {
     [currentLayoutItems],
   );
 
+  if (!player) return <Page404 />;
+
   return (
     <Box
       className="gridWrapper"
@@ -367,7 +369,7 @@ export const Grid: React.FC<Props> = ({ player: initPlayer }): ReactElement => {
       sx={wrapperSX}
       maxW="96rem"
       mb="12rem"
-      pt={isOwnProfile ? '0rem' : '4rem'}
+      pt={isOwnProfile ? 0 : '4rem'}
     >
       {isOwnProfile && (
         <ButtonGroup
@@ -382,7 +384,7 @@ export const Grid: React.FC<Props> = ({ player: initPlayer }): ReactElement => {
         >
           {changed && editable && (
             <MetaButton
-              aria-label="Edit layout"
+              aria-label="Edit Layout"
               colorScheme="purple"
               _hover={{ background: 'purple.600' }}
               textTransform="uppercase"
@@ -500,7 +502,7 @@ export const getStaticPaths: GetStaticPaths<QueryParams> = async () => {
     paths: playerUsernames.map((username) => ({
       params: { username },
     })),
-    fallback: true,
+    fallback: 'blocking',
   };
 };
 
@@ -523,6 +525,7 @@ export const getStaticProps = async (
     props: {
       player: player ?? null, // must be serializable
       key: username.toLowerCase(),
+      hideTopMenu: !player,
     },
     revalidate: 1,
   };

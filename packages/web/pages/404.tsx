@@ -7,8 +7,11 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { FC } from 'react';
 
+import { useWeb3 } from '../lib/hooks';
+
 const Custom404: FC = () => {
   const router = useRouter();
+  const { connected } = useWeb3();
 
   return (
     <Flex>
@@ -83,7 +86,9 @@ const Custom404: FC = () => {
           <Box pt={5}>
             <MetaSecondaryButton
               width={{ base: '100%', md: '50%', lg: '25%', xl: '25%' }}
-              onClick={() => router.push('/')}
+              onClick={() =>
+                router.push(connected ? '/dashboard' : '/community/players')
+              }
             >
               Home
             </MetaSecondaryButton>

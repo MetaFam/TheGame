@@ -10,7 +10,6 @@ import {
   GetStaticPropsContext,
   InferGetStaticPropsType,
 } from 'next';
-import Error from 'next/error';
 import { useRouter } from 'next/router';
 import React from 'react';
 
@@ -18,6 +17,7 @@ import { PageContainer } from '../../../components/Container';
 import { CompletionForm } from '../../../components/Quest/CompletionForm';
 import { getSsrClient } from '../../../graphql/client';
 import { useUser } from '../../../lib/hooks';
+import Page404 from '../../404';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
@@ -39,7 +39,7 @@ const SubmitQuestCompletionPage: React.FC<Props> = ({ quest }) => {
   }
 
   if (!quest) {
-    return <Error statusCode={404} />;
+    return <Page404 />;
   }
 
   const onSubmit = (data: CreateQuestCompletionInput) => {
@@ -111,7 +111,7 @@ type QueryParams = { id: string };
 
 export const getStaticPaths: GetStaticPaths<QueryParams> = async () => ({
   paths: [],
-  fallback: true,
+  fallback: 'blocking',
 });
 
 export const getStaticProps = async (
@@ -124,6 +124,7 @@ export const getStaticProps = async (
   return {
     props: {
       quest: quest ?? null,
+      hideTopMenu: !quest,
     },
     revalidate: 1,
   };
