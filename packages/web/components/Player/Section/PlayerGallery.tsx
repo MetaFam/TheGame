@@ -83,11 +83,11 @@ export const PlayerGallery: React.FC<Props> = ({
       boxType={BoxType.PLAYER_NFT_GALLERY}
       withoutBG
     >
-      {loading && <LoadingState />}
+      {loading && <LoadingState mb={6} />}
       {!loading &&
         favorites?.map((nft) => <GalleryItem nft={nft} key={nft.tokenId} />)}
       {!loading && data.length === 0 && (
-        <Text textAlign="center" fontStyle="italic">
+        <Text textAlign="center" fontStyle="italic" mb="1rem">
           No{' '}
           <Text as="span" title="Non-Fungible Token" borderBottom="2px dotted">
             NFT
@@ -113,7 +113,7 @@ export const PlayerGallery: React.FC<Props> = ({
         scrollBehavior="inside"
       >
         <ModalOverlay>
-          <ModalContent maxW="6xl" bg="none">
+          <ModalContent mx="1rem" maxW="6xl" bg="none">
             <Box bg="purple80" borderTopRadius="lg" p={4} w="100%">
               <HStack>
                 <Text

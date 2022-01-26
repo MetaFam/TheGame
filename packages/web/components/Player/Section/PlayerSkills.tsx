@@ -22,7 +22,13 @@ export const PlayerSkills: React.FC<Props> = ({
 }) => {
   const [playerSkills, setPlayerSkills] = useState<
     Array<{ id: number; name: string; category: SkillCategory_Enum }>
-  >([]);
+  >(
+    player.skills?.map((s) => ({
+      id: s.Skill.id,
+      name: s.Skill.name,
+      category: s.Skill.category,
+    })) ?? [],
+  );
 
   const updateFN = () => {
     if (player.skills) {
@@ -46,7 +52,7 @@ export const PlayerSkills: React.FC<Props> = ({
       withoutBG
     >
       {!player?.skills?.length ? (
-        <Text fontStyle="italic" textAlign="center">
+        <Text fontStyle="italic" textAlign="center" mb={6}>
           {isOwnProfile ? 'You haven’t ' : 'This player hasn’t '}
           defined any skills.
         </Text>

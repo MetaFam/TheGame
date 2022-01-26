@@ -19,7 +19,7 @@ type Props = {
   player: PlayerFragmentFragment;
   isOwnProfile?: boolean;
   canEdit?: boolean;
-  removeBox?: (boxKey: string) => void;
+  onRemoveBox?: (boxKey: string) => void;
 };
 
 const PlayerSectionInner: React.FC<Props> = ({
@@ -31,72 +31,24 @@ const PlayerSectionInner: React.FC<Props> = ({
 }) => {
   switch (boxType) {
     case BoxType.PLAYER_HERO:
-      return (
-        <PlayerHero
-          player={player}
-          isOwnProfile={isOwnProfile}
-          canEdit={canEdit}
-        />
-      );
+      return <PlayerHero {...{ player, isOwnProfile, canEdit }} />;
     case BoxType.PLAYER_SKILLS:
-      return (
-        <PlayerSkills
-          player={player}
-          isOwnProfile={isOwnProfile}
-          canEdit={canEdit}
-        />
-      );
+      return <PlayerSkills {...{ player, isOwnProfile, canEdit }} />;
     case BoxType.PLAYER_NFT_GALLERY:
-      return (
-        <PlayerGallery
-          player={player}
-          isOwnProfile={isOwnProfile}
-          canEdit={canEdit}
-        />
-      );
+      return <PlayerGallery {...{ player, isOwnProfile, canEdit }} />;
     case BoxType.PLAYER_DAO_MEMBERSHIPS:
-      return (
-        <PlayerMemberships
-          player={player}
-          isOwnProfile={isOwnProfile}
-          canEdit={canEdit}
-        />
-      );
+      return <PlayerMemberships {...{ player, isOwnProfile, canEdit }} />;
     case BoxType.PLAYER_COLOR_DISPOSITION:
-      return (
-        <PlayerColorDisposition
-          player={player}
-          isOwnProfile={isOwnProfile}
-          canEdit={canEdit}
-        />
-      );
+      return <PlayerColorDisposition {...{ player, isOwnProfile, canEdit }} />;
     case BoxType.PLAYER_TYPE:
-      return (
-        <PlayerType
-          player={player}
-          isOwnProfile={isOwnProfile}
-          canEdit={canEdit}
-        />
-      );
+      return <PlayerType {...{ player, isOwnProfile, canEdit }} />;
     case BoxType.PLAYER_ROLES:
-      return (
-        <PlayerRoles
-          player={player}
-          isOwnProfile={isOwnProfile}
-          canEdit={canEdit}
-        />
-      );
+      return <PlayerRoles {...{ player, isOwnProfile, canEdit }} />;
     case BoxType.PLAYER_ACHIEVEMENTS:
-      return (
-        <PlayerAchievements
-          player={player}
-          isOwnProfile={isOwnProfile}
-          canEdit={canEdit}
-        />
-      );
+      return <PlayerAchievements {...{ player, isOwnProfile, canEdit }} />;
     case BoxType.EMBEDDED_URL: {
       const url = boxMetadata?.url as string;
-      return url ? <EmbeddedUrl address={url} canEdit={canEdit} /> : <></>;
+      return url ? <EmbeddedUrl {...{ url, canEdit }} /> : <></>;
     }
     default:
       return <></>;
@@ -104,7 +56,10 @@ const PlayerSectionInner: React.FC<Props> = ({
 };
 
 export const PlayerSection = React.forwardRef<HTMLDivElement, Props>(
-  ({ boxMetadata, boxType, player, isOwnProfile, canEdit, removeBox }, ref) => {
+  (
+    { boxMetadata, boxType, player, isOwnProfile, canEdit, onRemoveBox },
+    ref,
+  ) => {
     const boxKey = getBoxKey(boxType, boxMetadata);
 
     return (
@@ -118,11 +73,7 @@ export const PlayerSection = React.forwardRef<HTMLDivElement, Props>(
         pos="relative"
       >
         <PlayerSectionInner
-          boxType={boxType}
-          boxMetadata={boxMetadata}
-          player={player}
-          isOwnProfile={isOwnProfile}
-          canEdit={canEdit}
+          {...{ boxMetadata, boxType, player, isOwnProfile, canEdit }}
         />
         {canEdit && (
           <Flex
@@ -131,22 +82,22 @@ export const PlayerSection = React.forwardRef<HTMLDivElement, Props>(
             h="100%"
             bg="purpleTag50"
             pos="absolute"
-            top="0"
-            left="0"
+            top={0}
+            left={0}
           />
         )}
-        {canEdit && boxType && boxType !== BoxType.PLAYER_HERO ? (
+        {canEdit && boxType && boxType !== BoxType.PLAYER_HERO && (
           <IconButton
             aria-label="Edit Profile Info"
             size="lg"
             pos="absolute"
-            top="0"
-            right="0"
-            background="transparent"
+            top={0}
+            right={0}
+            bg="transparent"
             color="pinkShadeOne"
             icon={<FaTimes />}
             _hover={{ color: 'white' }}
-            onClick={() => removeBox?.(boxKey)}
+            onClick={() => onRemoveBox?.(boxKey)}
             _focus={{
               boxShadow: 'none',
               backgroundColor: 'transparent',
@@ -157,7 +108,7 @@ export const PlayerSection = React.forwardRef<HTMLDivElement, Props>(
             }}
             isRound
           />
-        ) : null}
+        )}
       </Flex>
     );
   },

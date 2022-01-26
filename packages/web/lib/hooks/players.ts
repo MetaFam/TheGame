@@ -293,19 +293,20 @@ const usePaginatedPlayers = (
   };
 };
 
+const usePrevious = <T>(value: T): T | undefined => {
+  const ref = useRef<T>();
+  useEffect(() => {
+    ref.current = value;
+  });
+  return ref.current;
+};
+
 export const useAnimateProfileChanges = (
   depends: unknown,
   updateFN: () => void,
 ): { [key: string]: string } => {
   const [animation, setAnimation] = useState('fadeIn');
 
-  const usePrevious = <T>(value: T): T | undefined => {
-    const ref = useRef<T>();
-    useEffect(() => {
-      ref.current = value;
-    });
-    return ref.current;
-  };
   const previousValue = usePrevious(depends);
 
   useEffect(() => {

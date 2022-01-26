@@ -3,10 +3,8 @@ import { FlexContainer } from 'components/Container';
 import { ColorBar } from 'components/Player/ColorBar';
 import { ProfileSection } from 'components/Profile/ProfileSection';
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
-import { getPersonalityInfo } from 'graphql/queries/enums/getPersonalityInfo';
-import { PersonalityOption } from 'graphql/types';
 import { useAnimateProfileChanges } from 'lib/hooks/players';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { BoxType } from 'utils/boxTypes';
 
 type Props = {
@@ -19,35 +17,22 @@ export const PlayerColorDisposition: React.FC<Props> = ({
   isOwnProfile,
   canEdit,
 }) => {
-  const [, setTypes] = useState<{
-    [any: string]: PersonalityOption;
-  }>();
-  const [colorDisposition, setColorDisposition] = useState<
-    PersonalityOption | undefined
-  >();
-  const mask = player?.profile?.colorMask;
+  const [mask, setMask] = useState<number | null>(
+    player?.profile?.colorMask ?? null,
+  );
 
-  useEffect(() => {
-    const load = async () => {
-      const { types: list } = await getPersonalityInfo();
-      setTypes(list);
-    };
-
-    load();
-  }, [mask]);
-
-  const updateFN = () => setColorDisposition(colorDisposition);
-  const { animation } = useAnimateProfileChanges(colorDisposition, updateFN);
+  const updateFN = () => setMask(mask);
+  const { animation } = useAnimateProfileChanges(mask, updateFN);
 
   return (
     <ProfileSection
       title="Color Disposition"
       boxType={BoxType.PLAYER_COLOR_DISPOSITION}
-      {...{ isOwnProfile, canEdit }}
       withoutBG
+      {...{ isOwnProfile, canEdit }}
     >
       {mask == null ? (
-        <Text fontStyle="italic" textAlign="center">
+        <Text fontStyle="italic" textAlign="center" mb={6}>
           Unspecified
         </Text>
       ) : (
