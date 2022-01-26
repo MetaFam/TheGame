@@ -1,13 +1,12 @@
-import { Box, ChakraProps, Flex } from '@metafam/ds';
+import { Box, ChakraProps, Flex, Text } from '@metafam/ds';
 import { FlexContainer } from 'components/Container';
 import { Maybe } from 'graphql/autogen/types';
 import {
   colors,
-  getPersonalityInfo,
   images,
+  PersonalityInfo,
 } from 'graphql/queries/enums/getPersonalityInfo';
-import { PersonalityOption } from 'graphql/types';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 // This is just verbose, so I am pulling it out to
 // save space in the main template
@@ -28,21 +27,16 @@ const maskImageStyle = ({ url }: { url: string }): Record<string, string> => ({
  * combination below.
  */
 export const ColorBar = ({
-  mask = 0,
+  mask = null,
+  personalityInfo: { parts, types },
   ...props
-}: ChakraProps & { mask: number }): JSX.Element => {
-  const [parts, setParts] = useState<Array<PersonalityOption>>([]);
-  const [types, setTypes] = useState<Record<number, PersonalityOption>>({});
-
-  useEffect(() => {
-    const load = async () => {
-      const { parts: ps, types: ts } = await getPersonalityInfo();
-      setParts(ps);
-      setTypes(ts);
-    };
-
-    load();
-  }, []);
+}: ChakraProps & {
+  mask: Maybe<number>;
+  personalityInfo: PersonalityInfo;
+}): JSX.Element => {
+  if (mask === null) {
+    return <Text fontStyle="italic">Colors have not yet been chosen.</Text>;
+  }
 
   return (
     <Flex

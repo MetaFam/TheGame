@@ -96,7 +96,7 @@ jobs:
       - name: Build Backend Container
         uses: mattes/cached-docker-build-action@v1
         with:
-          args: ". -f ./docker/backend/Dockerfile --tag ${{env.BACKEND_TAG}} --build-arg GRAPHQL_URL=${{env.GRAPHQL_URL}}"
+          args: '. -f ./docker/backend/Dockerfile --tag ${{env.BACKEND_TAG}} --build-arg GRAPHQL_URL=${{env.GRAPHQL_URL}}'
           cache_key: "${{hashFiles('packages/backend/**')}}"
 
       - name: Push Backend Container
@@ -129,7 +129,7 @@ jobs:
       - name: Build Hasura Container
         uses: mattes/cached-docker-build-action@v1
         with:
-          args: "./hasura -f ./hasura/Dockerfile --tag ${{env.HASURA_TAG}} --build-arg BACKEND_HOST=${{env.BACKEND_HOST}} --build-arg BACKEND_PROTOCOL=https"
+          args: './hasura -f ./hasura/Dockerfile --tag ${{env.HASURA_TAG}} --build-arg BACKEND_HOST=${{env.BACKEND_HOST}} --build-arg BACKEND_PROTOCOL=https'
           cache_key: "${{hashFiles('hasura/**')}}"
 
       - name: Push Hasura Container
@@ -163,7 +163,7 @@ jobs:
       - name: Build Frontend Container
         uses: mattes/cached-docker-build-action@v1
         with:
-          args: ". -f ./docker/frontend/Dockerfile --tag ${{env.FRONTEND_TAG}} --build-arg GRAPHQL_URL=${{env.GRAPHQL_URL}}"
+          args: '. -f ./docker/frontend/Dockerfile --tag ${{env.FRONTEND_TAG}} --build-arg GRAPHQL_URL=${{env.GRAPHQL_URL}}'
           cache_key: "${{hashFiles('packages/web/**', 'packages/design-system/**')}}"
 
       - name: Push Frontend Container

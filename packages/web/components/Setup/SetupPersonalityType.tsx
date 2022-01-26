@@ -23,8 +23,8 @@ import { Maybe } from 'graphql/autogen/types';
 import {
   getPersonalityInfo,
   images as BaseImages,
+  PersonalityInfo,
 } from 'graphql/queries/enums/getPersonalityInfo';
-import { PersonalityOption } from 'graphql/types';
 import { useUser, useWeb3 } from 'lib/hooks';
 import React, { ReactElement, useEffect, useState } from 'react';
 import { dispositionFor } from 'utils/playerHelpers';
@@ -47,9 +47,10 @@ export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
   const [colorMask, setColorMask] = useState<Maybe<number> | undefined>(
     player?.profile?.colorMask,
   );
-  const [personalityTypes, setPersonalityTypes] = useState<{
-    [x: number]: PersonalityOption;
-  }>([]);
+  const [{ types, parts }, setPersonalityInfo] = useState<PersonalityInfo>({
+    types: {},
+    parts: [],
+  });
   const isWizard = !isEdit;
 
   const load = () => {
@@ -62,10 +63,8 @@ export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
   useEffect(load, [player, colorMask]);
 
   useEffect(() => {
-    const fetchInfo = async () => {
-      const { types } = await getPersonalityInfo();
-      setPersonalityTypes(types);
-    };
+    const fetchInfo = async () =>
+      setPersonalityInfo(await getPersonalityInfo());
 
     fetchInfo();
   }, []);
@@ -177,11 +176,11 @@ export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
         wrap="wrap"
         id="colors"
       >
-        {Object.keys(personalityTypes).length &&
+        {Object.keys(types).length &&
           Object.entries(BaseImages)
             .reverse()
             .map(([orig, image], idx) => {
-              const option = personalityTypes[parseInt(orig, 10)];
+              const option = types[parseInt(orig, 10)];
               const { mask = 0 } = option ?? {};
               const selected = ((colorMask ?? 0) & mask) > 0;
 
@@ -255,7 +254,12 @@ export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
             })}
       </FlexContainer>
 
-      <ColorBar mask={colorMask} mt={8} w="min(90vw, 30rem)" />
+      <ColorBar
+        mask={colorMask ?? null}
+        mt={8}
+        w="min(90vw, 30rem)"
+        personalityInfo={{ types, parts }}
+      />
 
       {isEdit && onClose && (
         <ModalFooter mt={6}>
