@@ -8,9 +8,11 @@ import React, { useState } from 'react';
 type Props = { person: PlayerFragmentFragment | null | undefined };
 
 export const PlayerPronouns: React.FC<Props> = ({ person }) => {
-  const [pronouns, setPronouns] = useState<string>();
+  const [pronouns, setPronouns] = useState<string>(
+    person?.profile?.pronouns ?? '',
+  );
   const updateFN = () => {
-    setPronouns(person?.profile?.pronouns ?? undefined);
+    setPronouns(person?.profile?.pronouns ?? '');
   };
   const { animation } = useAnimateProfileChanges(
     person?.profile?.pronouns,

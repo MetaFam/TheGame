@@ -305,7 +305,7 @@ export const useAnimateProfileChanges = (
   depends: unknown,
   updateFN: () => void,
 ): { [key: string]: string } => {
-  const [animation, setAnimation] = useState('fadeIn');
+  const [animation, setAnimation] = useState('fadeOut');
 
   const previousValue = usePrevious(depends);
 
