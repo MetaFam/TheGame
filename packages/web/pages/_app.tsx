@@ -17,7 +17,7 @@ const App: React.FC<WithUrqlProps> = ({
     <CSSReset />
     <Head>
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <title>Ⲙⲉⲧⲁ𝓖ⲁⲙⲉ</title>
+      <title>MetaGame</title>
       {CONFIG.gaId != null && (
         <>
           <script
