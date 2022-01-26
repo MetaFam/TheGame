@@ -23,3 +23,15 @@ export function computeRank(totalRankIndex: number): PlayerRank_Enum | null {
     RANKS,
   ) as PlayerRank_Enum | null;
 }
+
+export function isRankHigher(
+  oldRank: PlayerRank_Enum | null | undefined,
+  newRank: PlayerRank_Enum | null | undefined,
+): boolean {
+  if (oldRank == null) return true;
+  if (newRank == null) return false;
+
+  const oldIndex = RANKS.indexOf(oldRank);
+  const newIndex = RANKS.indexOf(newRank);
+  return newIndex < oldIndex;
+}
