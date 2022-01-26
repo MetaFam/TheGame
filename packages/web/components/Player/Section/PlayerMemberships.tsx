@@ -131,15 +131,15 @@ export const PlayerMemberships: React.FC<MembershipSectionProps> = ({
 
   return (
     <ProfileSection
-      title="Memberships"
+      title="DAO Memberships"
       boxType={BoxType.PLAYER_DAO_MEMBERSHIPS}
-      {...{ isOwnProfile, canEdit }}
       withoutBG
+      {...{ isOwnProfile, canEdit }}
     >
-      {loading && <LoadingState />}
+      {loading && <LoadingState mb={6} />}
 
-      {memberships.length === 0 && (
-        <Text fontStyle="italic" textAlign="center">
+      {!loading && memberships.length === 0 && (
+        <Text fontStyle="italic" textAlign="center" mb="1rem">
           No DAO member&shy;ships found for{' '}
           {isOwnProfile ? 'you' : 'this player'}.
         </Text>

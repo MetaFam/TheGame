@@ -14,6 +14,7 @@ import {
   useDisclosure,
   VStack,
 } from '@metafam/ds';
+import { Maybe } from '@metafam/utils';
 import BackgroundImage from 'assets/main-background.jpg';
 import { FlexContainer } from 'components/Container';
 import { PlayerSection } from 'components/Profile/PlayerSection';
@@ -28,13 +29,14 @@ type Props = FlexProps & {
 };
 
 export const PlayerAddSection = React.forwardRef<HTMLDivElement, Props>(
-  ({ player, boxList, onAddBox, ...props }, ref) => {
+  ({ player, boxList = [], onAddBox, ...props }, ref) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
-    const [boxType, setBoxType] = useState<BoxType | undefined>();
+    const [boxType, setBoxType] = useState<Maybe<BoxType>>(null);
     const [boxMetadata, setBoxMetadata] = useState<BoxMetadata>({});
-    const selectBoxType = useCallback(({ target: { value: boxId } }) => {
-      setBoxType(boxId);
-    }, []);
+    const selectBoxType = useCallback(
+      ({ target: { value: boxId } }) => setBoxType(boxId),
+      [],
+    );
 
     const addSection = useCallback(() => {
       if (!boxType) return;
@@ -44,7 +46,7 @@ export const PlayerAddSection = React.forwardRef<HTMLDivElement, Props>(
 
     useEffect(() => {
       setBoxMetadata({});
-      setBoxType(undefined);
+      setBoxType(null);
     }, [isOpen]);
 
     return (
@@ -58,9 +60,8 @@ export const PlayerAddSection = React.forwardRef<HTMLDivElement, Props>(
       >
         <Flex
           bg="whiteAlpha.200"
-          borderBottomRadius="lg"
           border="dashed 1px rgba(255, 255, 255, 0.3)"
-          borderTopRadius="lg"
+          borderRadius="lg"
           boxShadow="md"
           w="100%"
           h="100%"
@@ -71,12 +72,12 @@ export const PlayerAddSection = React.forwardRef<HTMLDivElement, Props>(
             onClick={onOpen}
             w="100%"
             h="100%"
-            m="0"
+            m={0}
             bg="blue20"
-            _hover={{ bg: 'purpleBoxLight', opacity: '0.8' }}
             color="offwhite"
-            opacity="0.4"
+            opacity={0.4}
             size="lg"
+            _hover={{ bg: 'purpleBoxLight', opacity: '0.8' }}
           >
             ADD NEW BLOCK
           </Button>
@@ -84,7 +85,7 @@ export const PlayerAddSection = React.forwardRef<HTMLDivElement, Props>(
             <ModalOverlay />
             <ModalContent
               maxW="50rem"
-              backgroundImage={`url(${BackgroundImage})`}
+              bgImage={`url(${BackgroundImage})`}
               bgSize="cover"
               bgAttachment="fixed"
               p={[4, 8, 12]}
@@ -124,29 +125,29 @@ export const PlayerAddSection = React.forwardRef<HTMLDivElement, Props>(
                       borderColor="offwhite"
                       onChange={selectBoxType}
                     >
-                      {!(boxList || []).length && (
+                      {boxList.length === 0 ? (
                         <option value="nothing" disabled>
                           No choice :/
                         </option>
+                      ) : (
+                        boxList.sort().map((box) => (
+                          <option value={box} key={box}>
+                            {box.toUpperCase()}
+                          </option>
+                        ))
                       )}
-                      {(boxList || []).sort().map((box) => (
-                        <option value={box} key={box}>
-                          {box.toUpperCase()}
-                        </option>
-                      ))}
                     </Select>
                     {boxType === BoxType.EMBEDDED_URL && (
                       <Input
-                        background="dark"
+                        bg="dark"
                         w="100%"
-                        type="text"
                         placeholder="Paste the URL of the content"
                         _placeholder={{ color: 'whiteAlpha.500' }}
-                        onChange={(e) =>
-                          setBoxMetadata({ url: e.target.value })
+                        onChange={({ target: { value: url } }) =>
+                          setBoxMetadata({ url })
                         }
                         size="lg"
-                        borderRadius="0"
+                        borderRadius={0}
                         borderColor="borderPurple"
                         fontSize="md"
                         borderWidth="2px"
@@ -160,11 +161,13 @@ export const PlayerAddSection = React.forwardRef<HTMLDivElement, Props>(
                         borderRadius="lg"
                       >
                         <PlayerSection
-                          boxType={boxType}
-                          boxMetadata={boxMetadata}
-                          player={player}
                           isOwnProfile={false}
                           canEdit={false}
+                          {...{
+                            boxType,
+                            boxMetadata,
+                            player,
+                          }}
                         />
                       </Flex>
                     )}
