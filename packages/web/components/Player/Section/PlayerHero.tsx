@@ -223,8 +223,10 @@ export const PlayerHero: React.FC<Props> = ({
 };
 
 const Availability: React.FC<AvailabilityProps> = ({ person }) => {
-  const [hours, setHours] = useState<number>();
-  const updateFN = () => setHours(person?.profile?.availableHours ?? undefined);
+  const [hours, setHours] = useState<number | null>(
+    person?.profile?.availableHours ?? null,
+  );
+  const updateFN = () => setHours(person?.profile?.availableHours ?? null);
   const { animation } = useAnimateProfileChanges(
     person?.profile?.availableHours,
     updateFN,
@@ -258,17 +260,19 @@ const Availability: React.FC<AvailabilityProps> = ({ person }) => {
   );
 };
 
-const TimeZoneDisplay: React.FC<TimeZoneDisplayProps> = ({ person }) => {
-  const tz = getTimeZoneFor({ title: person?.profile?.timeZone });
-  const [timeZone, setTimeZone] = useState<string>();
-  const [offset, setOffset] = useState<string>('');
+const TimeZoneDisplay: React.FC<TimeZoneDisplayProps> = () => {
+  const tz = getTimeZoneFor({ title: null }); // person?.profile?.timeZone });
+  const [timeZone, setTimeZone] = useState<string | null>(
+    tz?.abbreviation ?? null,
+  );
+  const [offset, setOffset] = useState<string>(tz?.utc ?? '');
   const updateFN = () => {
     if (tz?.abbreviation) setTimeZone(tz.abbreviation);
     if (tz?.utc) setOffset(tz.utc);
   };
-  const short = offset?.replace(/:00\)$/, ')').replace(/ +/g, '');
+  const short = offset.replace(/:00\)$/, ')').replace(/ +/g, '');
+  const { animation } = useAnimateProfileChanges(timeZone, updateFN);
 
-  const { animation } = useAnimateProfileChanges(tz?.name, updateFN);
   return (
     <Flex alignItems="center">
       <FlexContainer
@@ -277,10 +281,10 @@ const TimeZoneDisplay: React.FC<TimeZoneDisplayProps> = ({ person }) => {
         opacity={animation === 'fadeIn' ? 1 : 0}
       >
         <Flex align="center" whiteSpace="pre">
-          <Box pr={1}>
+          <Box pr={2}>
             <FaGlobe color="blueLight" />
           </Box>
-          {timeZone == null ? (
+          {timeZone === null ? (
             <Text fontStyle="italic">Unspecified</Text>
           ) : (
             <Tooltip label={tz?.name} hasArrow>
