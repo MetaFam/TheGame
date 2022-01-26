@@ -24,12 +24,12 @@ export function computeRank(totalRankIndex: number): PlayerRank_Enum | null {
   ) as PlayerRank_Enum | null;
 }
 
-export function playerRankedUp(
+export function isRankHigher(
   oldRank: PlayerRank_Enum | null | undefined,
   newRank: PlayerRank_Enum | null | undefined,
 ): boolean {
-  if (oldRank === null || oldRank === undefined) return true;
-  if (newRank === null || newRank === undefined) return false;
+  if (oldRank == null) return true;
+  if (newRank == null) return false;
 
   const oldIndex = RANKS.indexOf(oldRank);
   const newIndex = RANKS.indexOf(newRank);

@@ -6,7 +6,7 @@ import { TextChannel } from 'discord.js';
 import { CONFIG } from '../../config';
 import { Player, PlayerRank_Enum } from '../../lib/autogen/hasura-sdk';
 import { client } from '../../lib/hasuraClient';
-import { playerRankedUp } from '../../lib/rankHelpers';
+import { isRankHigher } from '../../lib/rankHelpers';
 import { TriggerPayload } from './types';
 
 type RankRoleIds = { [rank in PlayerRank_Enum]: string };
@@ -110,12 +110,12 @@ export const playerRankUpdated = async (payload: TriggerPayload<Player>) => {
       await discordPlayer.roles.add([discordRoleForRank]);
 
       // We should check whether this role is higher than the previous
-      if (playerRankedUp(oldPlayer?.rank, newPlayer?.rank)) {
+      if (isRankHigher(oldPlayer?.rank, newPlayer?.rank)) {
         const propsChannel = discordClient.channels.cache.get(
           Constants.DISCORD_PROPS_CHANNEL_ID,
         ) as TextChannel;
         propsChannel.send(
-          `Props to ${discordPlayer.toString()} for becoming ${newRank}, congrats!`,
+          `Props to ${discordPlayer} for becoming ${newRank}, congrats!`,
         );
       }
       console.log(`${newPlayer?.profile?.username}: added role ${newRank}`);
