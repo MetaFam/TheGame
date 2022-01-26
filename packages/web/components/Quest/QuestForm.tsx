@@ -61,6 +61,7 @@ export interface CreateQuestFormInputs {
   externalLink?: string | null;
   cooldown?: number | null;
   skills: SkillOption[];
+  roles: [];
 }
 
 const MetaFamGuildId = 'f94b7cd4-cf29-4251-baa5-eaacab98a719';
@@ -123,6 +124,7 @@ type Props = {
   fetching?: boolean;
   submitLabel: string;
   loadingLabel: string;
+  roleChoices: [];
 };
 
 export const QuestForm: React.FC<Props> = ({
@@ -134,7 +136,9 @@ export const QuestForm: React.FC<Props> = ({
   submitLabel,
   loadingLabel,
   editQuest,
+  roleChoices,
 }) => {
+  console.log('roleChoices', roleChoices);
   const defaultValues = useMemo(() => getDefaultFormValues(editQuest, guilds), [
     editQuest,
     guilds,
