@@ -13,23 +13,19 @@ import { BoxType } from 'utils/boxTypes';
 const proxyLink = 'https://rlp-proxy.herokuapp.com/v2?url='; // TODO: deploy our own proxy (makes use of the Twitter API)
 
 type EmbeddedUrlProps = {
-  address?: string;
+  url?: string;
   canEdit?: boolean;
 };
 
-export const EmbeddedUrl: React.FC<EmbeddedUrlProps> = ({
-  address,
-  canEdit,
-}) => (
+export const EmbeddedUrl: React.FC<EmbeddedUrlProps> = ({ url, canEdit }) => (
   <ProfileSection canEdit={canEdit} boxType={BoxType.EMBEDDED_URL} withoutBG>
     <LinkPreview
-      url={address}
       className="linkPreview"
       height="100%"
       width="100%"
       customLoader={<LoadingState />}
       showLoader
-      canEdit={canEdit}
+      {...{ url, canEdit }}
     />
   </ProfileSection>
 );

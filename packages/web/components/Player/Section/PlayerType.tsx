@@ -17,7 +17,9 @@ export const PlayerType: React.FC<Props> = ({
   isOwnProfile,
   canEdit,
 }) => {
-  const [playerType, setPlayerType] = useState<ExplorerType | null>();
+  const [playerType, setPlayerType] = useState<ExplorerType | null>(
+    (player.profile?.explorerType as ExplorerType) ?? null,
+  );
   const updateFN = () =>
     setPlayerType(player.profile?.explorerType as ExplorerType);
   const { animation } = useAnimateProfileChanges(
@@ -33,7 +35,7 @@ export const PlayerType: React.FC<Props> = ({
       withoutBG
     >
       {!playerType ? (
-        <Text fontStyle="italic" textAlign="center">
+        <Text fontStyle="italic" textAlign="center" mb={6}>
           Unspecified
         </Text>
       ) : (
