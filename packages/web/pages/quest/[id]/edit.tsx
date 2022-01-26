@@ -50,6 +50,7 @@ const EditQuestPage: React.FC<Props> = ({ quest, skillChoices, guilds }) => {
       id: quest.id,
       input: updateQuestInput,
       skills: skillsObjects,
+      roles: [],
     }).then((res) => {
       if (res.data?.update_quest_by_pk && !res.error) {
         router.push(`/quest/${quest.id}`);
@@ -85,6 +86,7 @@ const EditQuestPage: React.FC<Props> = ({ quest, skillChoices, guilds }) => {
       <Heading mb={4}>Edit Quest</Heading>
 
       <QuestForm
+        roleChoices={[]}
         guilds={guilds}
         skillChoices={skillChoices}
         onSubmit={onSubmit}
