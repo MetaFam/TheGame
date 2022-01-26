@@ -3,17 +3,20 @@ import { FlexContainer } from 'components/Container';
 import { ColorBar } from 'components/Player/ColorBar';
 import { ProfileSection } from 'components/Profile/ProfileSection';
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
+import { PersonalityInfo } from 'graphql/queries/enums/getPersonalityInfo';
 import { useAnimateProfileChanges } from 'lib/hooks/players';
 import React, { useState } from 'react';
 import { BoxType } from 'utils/boxTypes';
 
 type Props = {
   player: PlayerFragmentFragment;
+  personalityInfo: PersonalityInfo;
   isOwnProfile?: boolean;
   canEdit?: boolean;
 };
 export const PlayerColorDisposition: React.FC<Props> = ({
   player,
+  personalityInfo,
   isOwnProfile,
   canEdit,
 }) => {
@@ -51,7 +54,7 @@ export const PlayerColorDisposition: React.FC<Props> = ({
             fontWeight={600}
             _focus={{ border: 'none' }}
           >
-            <ColorBar {...{ mask }} />
+            <ColorBar {...{ mask, personalityInfo }} />
           </Link>
         </FlexContainer>
       )}
