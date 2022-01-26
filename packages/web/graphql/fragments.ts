@@ -182,7 +182,7 @@ export const QuestCompletionFragment = gql`
     submissionLink
     submissionText
     submittedAt
-    quest_id
+    questId
     completed {
       title
     }

@@ -56,12 +56,12 @@ gql`
 // eslint-disable-next-line @typescript-eslint/no-unused-expressions
 gql`
   query GetAcceptedQuestsByPlayer(
-    $completed_by_player_id: uuid
+    $completedByPlayerId: uuid
     $order: order_by
   ) {
     quest_completion(
-      order_by: { submitted_at: $order }
-      where: { completed_by_player_id: { _eq: $completed_by_player_id } }
+      order_by: { submittedAt: $order }
+      where: { completedByPlayerId: { _eq: $completedByPlayerId } }
     ) {
       ...QuestCompletionFragment
     }
@@ -136,7 +136,7 @@ export const getAcceptedQuestsByPlayerQuery = async (
       GetAcceptedQuestsByPlayerQueryVariables
     >(GetAcceptedQuestsByPlayerDocument, {
       order,
-      completed_by_player_id: playerId,
+      completedByPlayerId: playerId,
     })
     .toPromise();
 

@@ -43,7 +43,7 @@ export const PlayerCompletedQuests: React.FC<Props> = ({
     >
       {quests.length ? (
         quests.map((quest, i) => (
-          <Link href={`/quest/${quest.quest_id}`}>{`${i + 1}. ${
+          <Link href={`/quest/${quest.questId}`}>{`${i + 1}. ${
             quest.completed?.title
           }`}</Link>
         ))
