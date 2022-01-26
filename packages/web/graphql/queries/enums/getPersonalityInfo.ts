@@ -45,10 +45,12 @@ export const colors: {
   0b00001: { start: '#0E9651', end: '#9FD638' },
 };
 
-export const getPersonalityInfo = async (): Promise<{
+export type PersonalityInfo = {
   parts: Array<PersonalityOption>;
-  types: { [any: string]: PersonalityOption };
-}> => {
+  types: { [x: number]: PersonalityOption };
+};
+
+export const getPersonalityInfo = async (): Promise<PersonalityInfo> => {
   const { data, error } = await client.query(AspectsQuery).toPromise();
 
   if (error) throw error;

@@ -30,6 +30,7 @@ import {
 } from 'graphql/autogen/types';
 import { getPlayer } from 'graphql/getPlayer';
 import { getTopPlayerUsernames } from 'graphql/getPlayers';
+import { getPersonalityInfo } from 'graphql/queries/enums/getPersonalityInfo';
 import { useUser, useWeb3 } from 'lib/hooks';
 import {
   GetStaticPaths,
@@ -65,7 +66,10 @@ const ResponsiveGridLayout = WidthProvider(Responsive);
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
-export const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
+export const PlayerPage: React.FC<Props> = ({
+  player,
+  personalityInfo,
+}): ReactElement => {
   if (!player) return <Error statusCode={404} />;
 
   return (
@@ -85,7 +89,7 @@ export const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
         w="full"
       />
       <Flex w="full" h="full" pt="3rem" direction="column" align="center">
-        <Grid {...{ player }} />
+        <Grid {...{ player, personalityInfo }} />
       </Flex>
     </PageContainer>
   );
@@ -212,7 +216,10 @@ const useItemHeights = (items: HTMLElement[]): { [boxKey: string]: number } => {
   return heights;
 };
 
-export const Grid: React.FC<Props> = ({ player: initPlayer }): ReactElement => {
+export const Grid: React.FC<Props> = ({
+  player: initPlayer,
+  personalityInfo,
+}): ReactElement => {
   const [isOwnProfile, setIsOwnProfile] = useState(false);
   const [, invalidateCache] = useInsertCacheInvalidationMutation();
   const { user, fetching } = useUser();
@@ -493,7 +500,7 @@ export const Grid: React.FC<Props> = ({ player: initPlayer }): ReactElement => {
             {boxType === BoxType.PLAYER_ADD_BOX ? (
               <PlayerAddSection
                 boxList={availableBoxList}
-                {...{ player, onAddBox }}
+                {...{ player, onAddBox, personalityInfo }}
                 ref={(e) => {
                   itemsRef.current[i] = e as HTMLElement;
                 }}
@@ -505,6 +512,7 @@ export const Grid: React.FC<Props> = ({ player: initPlayer }): ReactElement => {
                   boxMetadata,
                   player,
                   isOwnProfile,
+                  personalityInfo,
                   canEdit,
                   onRemoveBox,
                 }}
@@ -547,9 +555,11 @@ export const getStaticProps = async (
   }
 
   const player = await getPlayer(username);
+  const personalityInfo = await getPersonalityInfo();
 
   return {
     props: {
+      personalityInfo,
       player: player ?? null, // must be serializable
       key: username.toLowerCase(),
       hideTopMenu: !player,

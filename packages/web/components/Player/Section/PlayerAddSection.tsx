@@ -19,17 +19,19 @@ import BackgroundImage from 'assets/main-background.jpg';
 import { FlexContainer } from 'components/Container';
 import { PlayerSection } from 'components/Profile/PlayerSection';
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
+import { PersonalityInfo } from 'graphql/queries/enums/getPersonalityInfo';
 import React, { useCallback, useEffect, useState } from 'react';
 import { BoxMetadata, BoxType } from 'utils/boxTypes';
 
 type Props = FlexProps & {
   player: PlayerFragmentFragment;
+  personalityInfo: PersonalityInfo;
   boxList: BoxType[];
   onAddBox: (arg0: BoxType, arg1: BoxMetadata) => void;
 };
 
 export const PlayerAddSection = React.forwardRef<HTMLDivElement, Props>(
-  ({ player, boxList = [], onAddBox, ...props }, ref) => {
+  ({ player, personalityInfo, boxList = [], onAddBox, ...props }, ref) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [boxType, setBoxType] = useState<Maybe<BoxType>>(null);
     const [boxMetadata, setBoxMetadata] = useState<BoxMetadata>({});
@@ -167,6 +169,7 @@ export const PlayerAddSection = React.forwardRef<HTMLDivElement, Props>(
                             boxType,
                             boxMetadata,
                             player,
+                            personalityInfo,
                           }}
                         />
                       </Flex>

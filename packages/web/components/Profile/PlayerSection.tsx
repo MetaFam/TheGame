@@ -9,6 +9,7 @@ import { PlayerSkills } from 'components/Player/Section/PlayerSkills';
 import { PlayerType } from 'components/Player/Section/PlayerType';
 import { EmbeddedUrl } from 'components/Profile/EmbeddedUrlSection';
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
+import { PersonalityInfo } from 'graphql/queries/enums/getPersonalityInfo';
 import React from 'react';
 import { FaTimes } from 'react-icons/fa';
 import { BoxMetadata, BoxType, getBoxKey } from 'utils/boxTypes';
@@ -17,6 +18,7 @@ type Props = {
   boxType: BoxType;
   boxMetadata: BoxMetadata;
   player: PlayerFragmentFragment;
+  personalityInfo: PersonalityInfo;
   isOwnProfile?: boolean;
   canEdit?: boolean;
   onRemoveBox?: (boxKey: string) => void;
@@ -27,6 +29,7 @@ const PlayerSectionInner: React.FC<Props> = ({
   boxType,
   player,
   isOwnProfile,
+  personalityInfo,
   canEdit,
 }) => {
   switch (boxType) {
@@ -39,7 +42,11 @@ const PlayerSectionInner: React.FC<Props> = ({
     case BoxType.PLAYER_DAO_MEMBERSHIPS:
       return <PlayerMemberships {...{ player, isOwnProfile, canEdit }} />;
     case BoxType.PLAYER_COLOR_DISPOSITION:
-      return <PlayerColorDisposition {...{ player, isOwnProfile, canEdit }} />;
+      return (
+        <PlayerColorDisposition
+          {...{ player, isOwnProfile, canEdit, personalityInfo }}
+        />
+      );
     case BoxType.PLAYER_TYPE:
       return <PlayerType {...{ player, isOwnProfile, canEdit }} />;
     case BoxType.PLAYER_ROLES:
@@ -57,7 +64,15 @@ const PlayerSectionInner: React.FC<Props> = ({
 
 export const PlayerSection = React.forwardRef<HTMLDivElement, Props>(
   (
-    { boxMetadata, boxType, player, isOwnProfile, canEdit, onRemoveBox },
+    {
+      boxMetadata,
+      boxType,
+      player,
+      isOwnProfile,
+      canEdit,
+      onRemoveBox,
+      personalityInfo,
+    },
     ref,
   ) => {
     const boxKey = getBoxKey(boxType, boxMetadata);
@@ -73,7 +88,14 @@ export const PlayerSection = React.forwardRef<HTMLDivElement, Props>(
         pos="relative"
       >
         <PlayerSectionInner
-          {...{ boxMetadata, boxType, player, isOwnProfile, canEdit }}
+          {...{
+            boxMetadata,
+            boxType,
+            player,
+            isOwnProfile,
+            canEdit,
+            personalityInfo,
+          }}
         />
         {canEdit && (
           <Flex
