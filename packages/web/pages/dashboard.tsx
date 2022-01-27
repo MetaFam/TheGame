@@ -16,6 +16,7 @@ import { LatestContent } from 'components/Dashboard/LatestContent';
 import { Leaderboard } from 'components/Dashboard/Leaderboard';
 import { Seed } from 'components/Dashboard/Seed';
 import { XP } from 'components/Dashboard/XP';
+import { HeadComponent } from 'components/Seo';
 import { ReactElement, useEffect, useState } from 'react';
 import { Layout, Layouts, Responsive, WidthProvider } from 'react-grid-layout';
 
@@ -38,6 +39,7 @@ export const originalLayouts = getFromLS('layouts') || initLayouts;
 
 const Dashboard = (): ReactElement => (
   <PageContainer>
+    <HeadComponent title="MetaGame Dashboard" />
     <Grid />
   </PageContainer>
 );

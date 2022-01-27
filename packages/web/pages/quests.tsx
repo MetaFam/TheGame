@@ -55,7 +55,7 @@ const QuestsPage: React.FC<Props> = () => {
   return (
     <PageContainer>
       <HeadComponent
-        title="MetaGame’s Quests"
+        title="MetaGame Quests"
         description="MetaGame is a Massive Online Coordination Game! MetaGame has some epic quests going on!"
         url="https://my.metagame.wtf/quests"
       />

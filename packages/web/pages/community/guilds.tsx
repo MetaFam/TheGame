@@ -20,7 +20,7 @@ export const getStaticProps = async () => {
 const GuildsPage: React.FC<Props> = ({ guilds }) => (
   <PageContainer>
     <HeadComponent
-      title="MetaGame’s Guilds"
+      title="MetaGame Guilds"
       description="MetaGame is a Massive Online Coordination Game! Guilds participating in MetaGame…."
       url="https://my.metagame.wtf/community/guilds"
     />

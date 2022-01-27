@@ -62,6 +62,12 @@ const GuildPage: React.FC<Props> = ({ guild }) => {
 
   return (
     <PageContainer p={0}>
+      <HeadComponent
+        title={`MetaGame Guild Profile: ${guild.name}`}
+        description={`${(guild.description ?? '').replace('\n', ' ')}`}
+        url={`https://my.metagame.wtf/guild/${guild.guildname}`}
+        img={`${guild.logo}`}
+      />
       <Box
         background={`url(${getGuildCoverImageFull()}) no-repeat`}
         bgSize="cover"
@@ -81,12 +87,6 @@ const GuildPage: React.FC<Props> = ({ guild }) => {
         align="center"
         zIndex={1}
       >
-        <HeadComponent
-          title={guild.name}
-          description={`${guild.description}`}
-          url={`https://my.metagame.wtf/guild/${guild.guildname}`}
-          img={`${guild.logo}`}
-        />
         <Flex
           align="center"
           direction={{ base: 'column', md: 'row' }}
