@@ -1,1 +1,6 @@
-[]
+- function:
+    schema: public
+    name: search_guilds
+- function:
+    schema: public
+    name: search_players
