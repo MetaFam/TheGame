@@ -2,6 +2,7 @@ import {
   Avatar,
   Badge,
   Box,
+  BoxedNextImage,
   Button,
   ChevronDownIcon,
   ChevronUpIcon,
@@ -14,6 +15,8 @@ import {
   InputGroup,
   InputLeftElement,
   Link,
+  LinkBox,
+  LinkOverlay,
   LogOut,
   Menu,
   MenuButton,
@@ -21,6 +24,7 @@ import {
   MenuList,
   MetaButton,
   Profile,
+  SelectSearch,
   SimpleGrid,
   Spinner,
   Stack,
@@ -59,12 +63,17 @@ import { usePSeedBalance } from 'lib/hooks/balances';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import React, { useCallback } from 'react';
+import { components } from 'react-select';
+import AsyncSelect from 'react-select/async';
+import { useDebouncedCallback } from 'use-debounce';
 import { getPlayerImage, getPlayerName } from 'utils/playerHelpers';
 
 import SearchIcon from '../assets/search-icon.svg';
 import SeedMarket from '../assets/seed-icon.svg';
 import XPStar from '../assets/xp-star.svg';
 import { useNavSearch } from '../contexts/NavSearchContext';
+import { getGuildsByText } from '../graphql/getGuilds';
+import { getPlayersByText } from '../graphql/getPlayers';
 import { useUser, useWeb3 } from '../lib/hooks';
 import {
   MenuLinkItem,
@@ -316,10 +325,86 @@ const DesktopNavLinks = () => {
   );
 };
 
+export type SearchOption = {
+  value: string;
+  label: string;
+};
+
+// const Control = (props: any) => ({ children, ...rest }: any) => (
+//   <components.Control {...rest}>👍 {children}</components.Control>
+// );
+const SeeAllComponent = ({ text, url }: { text: string; url: string }) => (
+  <Link href={url}>
+    <Text ml="2">See all {text}</Text>
+  </Link>
+);
 // Search -- not working yet
 const Search = () => {
-  // const { queryVariables, setQueryVariable, players } = usePlayerFilter();
+  const [inputValue, setValue] = React.useState('');
+  const [selectedValue, setSelectedValue] = React.useState(null);
   const [searchQuery, setSearchQuery] = React.useState('');
+
+  const debounced = useDebouncedCallback(async () => {
+    const { players } = await getPlayersByText(`%${inputValue}%`);
+    const { guilds } = await getGuildsByText(`%${inputValue}%`);
+
+    const mappedPlayersOptions = players.map((player) => ({
+      label: (
+        <Link href={`/player/${player.username}`}>
+          <Flex align="center">
+            <Avatar
+              name={getPlayerName(player)}
+              src={getPlayerImage(player)}
+              w="20px"
+              h="20px"
+            />
+            <Text ml="2">{player.username}</Text>
+          </Flex>
+        </Link>
+      ),
+      value: player.username,
+    }));
+
+    const mappedGuildsOptions = guilds.map((guild) => ({
+      value: guild.guildname,
+      label: (
+        <Link href={`/guild/${guild.guildname}`}>
+          <Flex align="center">
+            <Avatar name={guild.guildname} src={guild.logo} w="20px" h="20px" />
+            <Text ml="2">{guild.guildname}</Text>
+          </Flex>
+        </Link>
+      ),
+    }));
+
+    const mappedPlayers =
+      mappedPlayersOptions.length === 3
+        ? [
+            ...mappedPlayersOptions,
+            {
+              label: (
+                <SeeAllComponent
+                  text="players"
+                  url={`/community/search?q=${encodeURI(inputValue)}`}
+                />
+              ),
+              value: '',
+            },
+          ]
+        : mappedPlayersOptions;
+
+    return [
+      {
+        label: 'Players',
+        options: mappedPlayers,
+      },
+      {
+        label: 'Guilds',
+        options: mappedGuildsOptions,
+      },
+    ];
+  }, 300);
+
   const { setSearch } = useNavSearch();
 
   const handleSubmit = (e: React.ChangeEvent<HTMLFormElement>) => {
@@ -328,39 +413,46 @@ const Search = () => {
     setSearchQuery('');
   };
 
+  const handleInputChange = (value: any) => {
+    setValue(value);
+  };
+
+  // handle selection
+  const handleChange = (value: any) => {
+    setSelectedValue(value);
+  };
+
   return (
-    <Flex alignItems="center">
-      <form onSubmit={handleSubmit}>
-        <InputGroup
-          justifyContent="flex-start"
-          minW={{ base: '20%', lg: '10%' }}
-          h="fit-content"
-          p={2}
-          mt="auto"
-          mb="auto"
-          bg={{ base: 'none', xl: 'rgba(255,255,255,0.05)' }}
-          border={{ base: 'none', xl: '1px solid #2B2244' }}
-          borderRadius={4}
-        >
-          <InputLeftElement
-            pointerEvents="none"
-            children={
-              <Image src={SearchIcon} alt="search" height={16} width={16} />
-            }
-          />
-          <Input
-            variant="unstyled"
-            w="100%"
-            type="text"
-            alignSelf="center"
-            placeholder="Find anything"
-            _placeholder={{ color: 'whiteAlpha.500' }}
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            size="sm"
-            fontSize="md"
-          />
-        </InputGroup>
+    <Flex alignItems="center" minWidth="40">
+      <form onSubmit={handleSubmit} style={{ width: '100%', color: 'black' }}>
+        <AsyncSelect
+          components={{
+            DropdownIndicator: () => null,
+            IndicatorSeparator: () => null,
+            // Control: ({ children, ...rest }) => (
+            //   <components.Control {...rest}>
+            //     <BoxedNextImage
+            //       src={SearchIcon}
+            //       alt="search"
+            //       height={5}
+            //       width={5}
+            //       ml="2"
+            //     />
+            //     {children}
+            //   </components.Control>
+            // ),
+          }}
+          cacheOptions
+          defaultOptions
+          value={selectedValue}
+          getOptionLabel={(e) => e?.label}
+          getOptionValue={(e) => e?.value}
+          loadOptions={() => debounced()}
+          onInputChange={handleInputChange}
+          onChange={handleChange}
+          placeholder="Search Anything..."
+          h="40"
+        />
       </form>
     </Flex>
   );
