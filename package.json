@@ -3,7 +3,7 @@
   "version": "0.2.0",
   "license": "GPL-3.0",
   "engines": {
-    "node": ">=16"
+    "node": ">=12"
   },
   "private": true,
   "scripts": {
