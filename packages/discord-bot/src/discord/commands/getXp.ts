@@ -115,7 +115,7 @@ export class GetXpCommand {
       }
     } catch (e) {
       console.error(e);
-      await replyWithUnexpectedError(message, e as Error);
+      await replyWithUnexpectedError(message);
     }
   }
 }
