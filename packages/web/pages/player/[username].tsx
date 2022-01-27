@@ -7,6 +7,7 @@ import {
   DeleteIcon,
   EditIcon,
   Flex,
+  LoadingState,
   MetaButton,
   ResponsiveText,
   useToast,
@@ -37,7 +38,7 @@ import {
   GetStaticPropsContext,
   InferGetStaticPropsType,
 } from 'next';
-import Error from 'next/error';
+import { useRouter } from 'next/router';
 import Page404 from 'pages/404';
 import {
   ReactElement,
@@ -70,12 +71,18 @@ export const PlayerPage: React.FC<Props> = ({
   player,
   personalityInfo,
 }): ReactElement => {
-  if (!player) return <Error statusCode={404} />;
+  const router = useRouter();
+
+  if (router.isFallback) {
+    return <LoadingState />;
+  }
+
+  if (!player) return <Page404 />;
 
   return (
     <PageContainer pt={0} px={[0, 4, 8]}>
       <HeadComponent
-        title={`MetaGame Profile: ${getPlayerName(player)}`}
+        title={`MetaGame Player Profile: ${getPlayerName(player)}`}
         description={(getPlayerDescription(player) ?? '').replace('\n', ' ')}
         url={getPlayerURL(player, { rel: false })}
         img={getPlayerImage(player)}

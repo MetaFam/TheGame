@@ -20,7 +20,7 @@ export const getStaticProps = async () => {
 const PatronsPage: React.FC<Props> = ({ patrons }) => (
   <PageContainer>
     <HeadComponent
-      title="MetaGame’s Patrons"
+      title="MetaGame Patrons"
       description="MetaGame is a Massive Online Coordination Game! MetaGame’s Patrons enable us to succeed by helping us with funds."
       url="https://my.metagame.wtf/community/patrons"
     />
