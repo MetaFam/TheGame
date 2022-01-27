@@ -2,8 +2,7 @@ import { LoadingState } from '@metafam/ds';
 import { PageContainer } from 'components/Container';
 import { HeadComponent } from 'components/Seo';
 import React, { useState } from 'react';
-
-import { descriptions } from '../../utils/menuLinks';
+import { descriptions } from 'utils/menuLinks';
 
 const BuySeedsPage: React.FC = () => {
   const [loading, setLoading] = useState(true);
@@ -12,16 +11,16 @@ const BuySeedsPage: React.FC = () => {
     <PageContainer p={0} position="fixed">
       {loading && <LoadingState position="absolute" />}
       <HeadComponent
-        title={`Buy Seeds`}
+        title="MetaGame: Buy Seeds"
         description={descriptions.buyseeds}
         url="https://polygon.balancer.fi/#/trade"
       />
       <iframe
-        title="Buy Seeds"
+        title="MetaGame: Buy Seeds"
         src="https://polygon.balancer.fi/#/trade"
         onLoad={() => setLoading(false)}
         style={{
-          width: `100%`,
+          width: '100%',
           height: '100%',
         }}
       />
