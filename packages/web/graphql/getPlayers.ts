@@ -5,6 +5,9 @@ import {
   GetPlayerFiltersDocument,
   GetPlayerFiltersQuery,
   GetPlayerFiltersQueryVariables,
+  GetPlayersByTextSearchDocument,
+  GetPlayersByTextSearchQuery,
+  GetPlayersByTextSearchQueryVariables,
   GetPlayersDocument,
   GetPlayersQuery,
   GetPlayersQueryVariables,
@@ -193,4 +196,34 @@ export const getPlayerFilters = async (client: Client = defaultClient) => {
   }
 
   return data;
+};
+
+// eslint-disable-next-line @typescript-eslint/no-unused-expressions
+gql`
+query getPlayersByTextSearch($text:String,$forLoginDisplay: Boolean! = false){
+  search_players(args:{search: $text},limit:3){
+    ...PlayerFragment
+  }
+  ${PlayerFragment}
+}
+`;
+
+export const getPlayersByText = async (
+  text: string,
+  client: Client = defaultClient,
+) => {
+  const { data, error } = await client
+    .query<GetPlayersByTextSearchQuery, GetPlayersByTextSearchQueryVariables>(
+      GetPlayersByTextSearchDocument,
+      {
+        text,
+      },
+    )
+    .toPromise();
+
+  return {
+    players: data?.search_players || [],
+    // count: data?.player_aggregate.aggregate?.count || 0,
+    error,
+  };
 };
