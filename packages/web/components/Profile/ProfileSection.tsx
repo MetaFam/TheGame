@@ -88,6 +88,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
         borderBottomRadius="lg"
         borderTopRadius={!title ? 'lg' : 0}
         p={boxType === BoxType.EMBEDDED_URL ? 0 : 8}
+        boxShadow="md"
         css={{ backdropFilter: 'blur(8px)' }}
         w="100%"
         pos="relative"
