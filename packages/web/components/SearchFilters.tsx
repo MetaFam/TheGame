@@ -20,6 +20,7 @@ const FilterItems = [
   },
 ];
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const SearchFilters: any = ({
   activeFilter,
   search,

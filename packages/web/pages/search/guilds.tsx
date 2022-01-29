@@ -9,6 +9,7 @@ import SearchFilters from '../../components/SearchFilters';
 import { getCompleteGuildsByText } from '../../graphql/queries/guild';
 import { GlobalFilters } from '../../utils/GlobalSearch';
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 const GuildSearchPage = () => {
   const { query } = useRouter();
   const [guilds, setGuilds] = useState<GuildFragmentFragment[]>([]);
