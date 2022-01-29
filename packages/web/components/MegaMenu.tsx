@@ -2,7 +2,6 @@ import {
   Avatar,
   Badge,
   Box,
-  BoxedNextImage,
   Button,
   ChevronDownIcon,
   ChevronUpIcon,
@@ -11,12 +10,7 @@ import {
   Flex,
   HamburgerIcon,
   Icon,
-  Input,
-  InputGroup,
-  InputLeftElement,
   Link,
-  LinkBox,
-  LinkOverlay,
   LogOut,
   Menu,
   MenuButton,
@@ -24,7 +18,6 @@ import {
   MenuList,
   MetaButton,
   Profile,
-  SelectSearch,
   SimpleGrid,
   Spinner,
   Stack,
@@ -61,19 +54,17 @@ import { MetaLink } from 'components/Link';
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
 import { usePSeedBalance } from 'lib/hooks/balances';
 import Image from 'next/image';
-import { useRouter } from 'next/router';
+import router from 'next/router';
 import React, { useCallback } from 'react';
-import { components } from 'react-select';
 import AsyncSelect from 'react-select/async';
 import { useDebouncedCallback } from 'use-debounce';
 import { getPlayerImage, getPlayerName } from 'utils/playerHelpers';
 
-import SearchIcon from '../assets/search-icon.svg';
+// import SearchIcon from '../assets/search-icon.svg';
 import SeedMarket from '../assets/seed-icon.svg';
 import XPStar from '../assets/xp-star.svg';
-import { useNavSearch } from '../contexts/NavSearchContext';
-import { getGuildsByText } from '../graphql/getGuilds';
 import { getPlayersByText } from '../graphql/getPlayers';
+import { getGuildsByText } from '../graphql/queries/guild';
 import { useUser, useWeb3 } from '../lib/hooks';
 import {
   MenuLinkItem,
@@ -341,14 +332,13 @@ const SeeAllComponent = ({ text, url }: { text: string; url: string }) => (
 // Search -- not working yet
 const Search = () => {
   const [inputValue, setValue] = React.useState('');
-  const [selectedValue, setSelectedValue] = React.useState(null);
-  const [searchQuery, setSearchQuery] = React.useState('');
+  const [selectedValue, setSelectedValue] = React.useState<string>('');
 
   const debounced = useDebouncedCallback(async () => {
     const { players } = await getPlayersByText(`%${inputValue}%`);
     const { guilds } = await getGuildsByText(`%${inputValue}%`);
 
-    const mappedPlayersOptions = players.map((player) => ({
+    let mappedPlayersOptions = players.map((player) => ({
       label: (
         <Link href={`/player/${player.username}`}>
           <Flex align="center">
@@ -365,7 +355,7 @@ const Search = () => {
       value: player.username,
     }));
 
-    const mappedGuildsOptions = guilds.map((guild) => ({
+    let mappedGuildsOptions = guilds.map((guild) => ({
       value: guild.guildname,
       label: (
         <Link href={`/guild/${guild.guildname}`}>
@@ -377,48 +367,58 @@ const Search = () => {
       ),
     }));
 
-    const mappedPlayers =
-      mappedPlayersOptions.length === 3
-        ? [
-            ...mappedPlayersOptions,
-            {
-              label: (
-                <SeeAllComponent
-                  text="players"
-                  url={`/community/search?q=${encodeURI(inputValue)}`}
-                />
-              ),
-              value: '',
-            },
-          ]
-        : mappedPlayersOptions;
+    if (mappedPlayersOptions.length === 3) {
+      mappedPlayersOptions = [
+        ...mappedPlayersOptions,
+        {
+          label: (
+            <SeeAllComponent
+              text="players"
+              url={`/search/players?q=${encodeURI(inputValue)}`}
+            />
+          ),
+          value: '',
+        },
+      ];
+    }
+
+    if (mappedGuildsOptions.length === 3) {
+      mappedGuildsOptions = [
+        ...mappedGuildsOptions,
+        {
+          label: (
+            <SeeAllComponent
+              text="guilds"
+              url={`/search/guilds?q=${encodeURI(inputValue)}`}
+            />
+          ),
+          value: '',
+        },
+      ];
+    }
 
     return [
       {
         label: 'Players',
-        options: mappedPlayers,
+        options: mappedPlayersOptions,
       },
       {
         label: 'Guilds',
         options: mappedGuildsOptions,
       },
     ];
-  }, 300);
-
-  const { setSearch } = useNavSearch();
-
+  }, 200);
   const handleSubmit = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setSearch(searchQuery);
-    setSearchQuery('');
+    router.push(`/search/players?q=${inputValue}`);
   };
 
-  const handleInputChange = (value: any) => {
+  const handleInputChange = (value: string) => {
     setValue(value);
   };
 
   // handle selection
-  const handleChange = (value: any) => {
+  const handleChange = (value: string) => {
     setSelectedValue(value);
   };
 
@@ -556,7 +556,6 @@ const PlayerStats: React.FC<PlayerStatsProps> = ({ player }) => {
 
 export const MegaMenu: React.FC = () => {
   const { connected, connect } = useWeb3();
-  const router = useRouter();
 
   const handleLoginClick = useCallback(async () => {
     await connect();

@@ -2,6 +2,9 @@ import gql from 'fake-tag';
 import { GuildPlayer } from 'graphql/types';
 
 import {
+  GetCompleteGuildsByTextSearchDocument,
+  GetCompleteGuildsByTextSearchQuery,
+  GetCompleteGuildsByTextSearchQueryVariables,
   GetGuildMetadataQuery,
   GetGuildMetadataQueryVariables,
   GetGuildnamesQuery,
@@ -10,6 +13,9 @@ import {
   GetGuildPlayersQueryVariables,
   GetGuildQuery,
   GetGuildQueryVariables,
+  GetGuildsByTextSearchDocument,
+  GetGuildsByTextSearchQuery,
+  GetGuildsByTextSearchQueryVariables,
   GetGuildsQuery,
   GetGuildsQueryVariables,
   GuildFragmentFragment,
@@ -164,4 +170,56 @@ export const getGuildPlayers = async (
   }
 
   return guildPlayers;
+};
+
+// eslint-disable-next-line @typescript-eslint/no-unused-expressions
+gql`
+  query getGuildsByTextSearch($text: String) {
+    search_guilds(args: { search: $text }, limit: 3) {
+      id
+      guildname
+      logo
+    }
+  }
+`;
+
+export const getGuildsByText = async (text: string) => {
+  const { data, error } = await client
+    .query<GetGuildsByTextSearchQuery, GetGuildsByTextSearchQueryVariables>(
+      GetGuildsByTextSearchDocument,
+      {
+        text,
+      },
+    )
+    .toPromise();
+
+  return {
+    guilds: data?.search_guilds || [],
+    error,
+  };
+};
+
+// eslint-disable-next-line @typescript-eslint/no-unused-expressions
+gql`
+  query getCompleteGuildsByTextSearch($text: String) {
+    search_guilds(args: { search: $text }, limit: 50) {
+      ...GuildFragment
+    }
+  }
+`;
+
+export const getCompleteGuildsByText = async (text: string) => {
+  const { data, error } = await client
+    .query<
+      GetCompleteGuildsByTextSearchQuery,
+      GetCompleteGuildsByTextSearchQueryVariables
+    >(GetCompleteGuildsByTextSearchDocument, {
+      text,
+    })
+    .toPromise();
+
+  return {
+    guilds: data?.search_guilds || [],
+    error,
+  };
 };

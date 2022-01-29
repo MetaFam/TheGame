@@ -7,7 +7,6 @@ import Head from 'next/head';
 import { WithUrqlProps } from 'next-urql';
 import React from 'react';
 
-import { NavSearchContextProvider } from '../contexts/NavSearchContext';
 import { wrapUrqlClient } from '../graphql/client';
 
 const App: React.FC<WithUrqlProps> = ({
@@ -55,13 +54,11 @@ const App: React.FC<WithUrqlProps> = ({
       )}
     </Head>
     <Web3ContextProvider resetUrqlClient={resetUrqlClient}>
-      <NavSearchContextProvider>
-        <>
-          {!pageProps.hideTopMenu && <MegaMenu />}
-          {!pageProps.hideTopMenu && <PlayerStatsBar />}
-          <Component {...pageProps} />
-        </>
-      </NavSearchContextProvider>
+      <>
+        {!pageProps.hideTopMenu && <MegaMenu />}
+        {!pageProps.hideTopMenu && <PlayerStatsBar />}
+        <Component {...pageProps} />
+      </>
     </Web3ContextProvider>
   </ChakraProvider>
 );

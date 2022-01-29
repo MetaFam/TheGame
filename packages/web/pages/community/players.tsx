@@ -17,8 +17,6 @@ import { useOnScreen } from 'lib/hooks/useOnScreen';
 import { InferGetStaticPropsType } from 'next';
 import React, { useEffect, useMemo, useRef } from 'react';
 
-import { useNavSearch } from '../contexts/NavSearchContext';
-
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
 export const getStaticProps = async () => {
@@ -54,15 +52,6 @@ const Players: React.FC<Props> = () => {
     nextPage,
     moreAvailable,
   } = usePlayerFilter();
-
-  const { search, clearSearch } = useNavSearch();
-
-  useEffect(() => {
-    if (search !== '' && setQueryVariable) {
-      setQueryVariable('search', `%${search}%`);
-      clearSearch();
-    }
-  }, [search, setQueryVariable, clearSearch]);
 
   const moreRef = useRef<HTMLDivElement>(null);
 
@@ -127,7 +116,7 @@ type MorePlayersProps = {
   showSeasonalXP?: boolean;
 };
 
-const MorePlayers = React.forwardRef<HTMLDivElement, MorePlayersProps>(
+export const MorePlayers = React.forwardRef<HTMLDivElement, MorePlayersProps>(
   ({ fetching, totalCount, queryVariables, showSeasonalXP = false }, ref) => {
     const isTimezoneSelected = useMemo(
       () => queryVariables.timezones && queryVariables.timezones.length > 0,

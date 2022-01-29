@@ -206,23 +206,6 @@ type BoxProfile {
   website: String
 }
 
-scalar bpchar
-
-"""
-expression to compare columns of type bpchar. All fields are combined with logical 'AND'.
-"""
-input bpchar_comparison_exp {
-  _eq: bpchar
-  _gt: bpchar
-  _gte: bpchar
-  _in: [bpchar!]
-  _is_null: Boolean
-  _lt: bpchar
-  _lte: bpchar
-  _neq: bpchar
-  _nin: [bpchar!]
-}
-
 type BrightIdStatus {
   app: String!
   context: String!
@@ -876,7 +859,7 @@ columns and relationships of "guild_metadata"
 
 """
 type guild_metadata {
-  creator_id: uuid!
+  creator_id: uuid
 
   """Remote relationship field"""
   discordRoles: [DiscordRole!]!
@@ -891,7 +874,7 @@ type guild_metadata {
   guild_id: uuid!
 
   """An object relationship"""
-  player: player!
+  player: player
 }
 
 """
@@ -3937,8 +3920,6 @@ type player {
 
   """An object relationship"""
   profile_cache: profile_cache
-  playerType: player_type
-  player_type_id: Int
   pronouns: String
 
   """An array relationship"""
@@ -5976,7 +5957,6 @@ columns and relationships of "PlayerRole"
 """
 type PlayerRole {
   description: String
-  emoji: bpchar
   label: String!
   role: String!
 }
@@ -6023,7 +6003,6 @@ input PlayerRole_bool_exp {
   _not: PlayerRole_bool_exp
   _or: [PlayerRole_bool_exp]
   description: String_comparison_exp
-  emoji: bpchar_comparison_exp
   label: String_comparison_exp
   role: String_comparison_exp
 }
@@ -6041,7 +6020,6 @@ input type for inserting data into table "PlayerRole"
 """
 input PlayerRole_insert_input {
   description: String
-  emoji: bpchar
   label: String
   role: String
 }
@@ -6111,7 +6089,6 @@ ordering options when selecting data from "PlayerRole"
 """
 input PlayerRole_order_by {
   description: order_by
-  emoji: order_by
   label: order_by
   role: order_by
 }
@@ -6131,9 +6108,6 @@ enum PlayerRole_select_column {
   description
 
   """column name"""
-  emoji
-
-  """column name"""
   label
 
   """column name"""
@@ -6145,7 +6119,6 @@ input type for updating data in table "PlayerRole"
 """
 input PlayerRole_set_input {
   description: String
-  emoji: bpchar
   label: String
   role: String
 }
@@ -6156,9 +6129,6 @@ update columns of table "PlayerRole"
 enum PlayerRole_update_column {
   """column name"""
   description
-
-  """column name"""
-  emoji
 
   """column name"""
   label
@@ -7544,6 +7514,106 @@ type query_root {
 
   """fetch data from the table: "quest_skill" using primary key columns"""
   quest_skill_by_pk(quest_id: uuid!, skill_id: uuid!): quest_skill
+
+  """
+  execute function "search_guilds" which returns "guild"
+  """
+  search_guilds(
+    """
+    input parameters for function "search_guilds"
+    """
+    args: search_guilds_args!
+
+    """distinct select on columns"""
+    distinct_on: [guild_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [guild_order_by!]
+
+    """filter the rows returned"""
+    where: guild_bool_exp
+  ): [guild!]!
+
+  """
+  execute function "search_guilds" and query aggregates on result of table type "guild"
+  """
+  search_guilds_aggregate(
+    """
+    input parameters for function "search_guilds"
+    """
+    args: search_guilds_args!
+
+    """distinct select on columns"""
+    distinct_on: [guild_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [guild_order_by!]
+
+    """filter the rows returned"""
+    where: guild_bool_exp
+  ): guild_aggregate!
+
+  """
+  execute function "search_players" which returns "player"
+  """
+  search_players(
+    """
+    input parameters for function "search_players"
+    """
+    args: search_players_args!
+
+    """distinct select on columns"""
+    distinct_on: [player_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [player_order_by!]
+
+    """filter the rows returned"""
+    where: player_bool_exp
+  ): [player!]!
+
+  """
+  execute function "search_players" and query aggregates on result of table type "player"
+  """
+  search_players_aggregate(
+    """
+    input parameters for function "search_players"
+    """
+    args: search_players_args!
+
+    """distinct select on columns"""
+    distinct_on: [player_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [player_order_by!]
+
+    """filter the rows returned"""
+    where: player_bool_exp
+  ): player_aggregate!
 
   """
   fetch data from the table: "skill"
@@ -9176,6 +9246,14 @@ type SaveGuildResponse {
   success: Boolean
 }
 
+input search_guilds_args {
+  search: String
+}
+
+input search_players_args {
+  search: String
+}
+
 """
 columns and relationships of "skill"
 """
@@ -10663,6 +10741,106 @@ type subscription_root {
   quest_skill_by_pk(quest_id: uuid!, skill_id: uuid!): quest_skill
 
   """
+  execute function "search_guilds" which returns "guild"
+  """
+  search_guilds(
+    """
+    input parameters for function "search_guilds"
+    """
+    args: search_guilds_args!
+
+    """distinct select on columns"""
+    distinct_on: [guild_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [guild_order_by!]
+
+    """filter the rows returned"""
+    where: guild_bool_exp
+  ): [guild!]!
+
+  """
+  execute function "search_guilds" and query aggregates on result of table type "guild"
+  """
+  search_guilds_aggregate(
+    """
+    input parameters for function "search_guilds"
+    """
+    args: search_guilds_args!
+
+    """distinct select on columns"""
+    distinct_on: [guild_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [guild_order_by!]
+
+    """filter the rows returned"""
+    where: guild_bool_exp
+  ): guild_aggregate!
+
+  """
+  execute function "search_players" which returns "player"
+  """
+  search_players(
+    """
+    input parameters for function "search_players"
+    """
+    args: search_players_args!
+
+    """distinct select on columns"""
+    distinct_on: [player_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [player_order_by!]
+
+    """filter the rows returned"""
+    where: player_bool_exp
+  ): [player!]!
+
+  """
+  execute function "search_players" and query aggregates on result of table type "player"
+  """
+  search_players_aggregate(
+    """
+    input parameters for function "search_players"
+    """
+    args: search_players_args!
+
+    """distinct select on columns"""
+    distinct_on: [player_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [player_order_by!]
+
+    """filter the rows returned"""
+    where: player_bool_exp
+  ): player_aggregate!
+
+  """
   fetch data from the table: "skill"
   """
   skill(
@@ -10767,3 +10945,4 @@ input uuid_comparison_exp {
   _neq: uuid
   _nin: [uuid!]
 }
+

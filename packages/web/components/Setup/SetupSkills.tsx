@@ -111,7 +111,6 @@ export const SetupSkills: React.FC<SetupSkillsProps> = ({
       setLoading(false);
     }
   };
-
   return (
     <FlexContainer>
       {isWizard && (

@@ -1,0 +1,33 @@
+import { PageContainer } from 'components/Container';
+import { GuildList } from 'components/Guild/GuildList';
+import { HeadComponent } from 'components/Seo';
+import { GuildFragmentFragment } from 'graphql/autogen/types';
+import { useRouter } from 'next/router';
+import React, { useEffect, useState } from 'react';
+
+import SearchFilters from '../../components/SearchFilters';
+import { getCompleteGuildsByText } from '../../graphql/queries/guild';
+import { GlobalFilters } from '../../utils/GlobalSearch';
+
+const GuildSearchPage = () => {
+  const { query } = useRouter();
+  const [guilds, setGuilds] = useState<GuildFragmentFragment[]>([]);
+  const search: string = decodeURI(query.q as string);
+  useEffect(() => {
+    if (search) {
+      const getData = async () => {
+        const res = await getCompleteGuildsByText(`%${search}%`);
+        setGuilds(res.guilds);
+      };
+      getData();
+    }
+  }, [search]);
+  return (
+    <PageContainer>
+      <HeadComponent url="https://my.metagame.wtf/community/search" />
+      <SearchFilters activeFilter={GlobalFilters.GUILDS} search={search} />
+      <GuildList guilds={guilds} />
+    </PageContainer>
+  );
+};
+export default GuildSearchPage;
