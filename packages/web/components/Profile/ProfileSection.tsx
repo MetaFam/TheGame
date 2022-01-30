@@ -9,6 +9,7 @@ import {
   ModalBody,
   ModalCloseButton,
   ModalContent,
+  ModalFooter,
   ModalHeader,
   ModalOverlay,
   Text,
@@ -31,6 +32,7 @@ export type ProfileSectionProps = {
   customModalText?: string;
   customModalTitle?: string;
   customModal?: React.ReactNode;
+  subheader?: string;
 };
 
 export const ProfileSection: React.FC<ProfileSectionProps> = ({
@@ -43,6 +45,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
   customModalText,
   customModal,
   customModalTitle,
+  subheader,
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -133,7 +136,6 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
             maxH="80%"
             backgroundImage={`url(${BackgroundImage})`}
             bgSize="cover"
-            overflow="hidden"
             bgAttachment="fixed"
             p={[4, 8, 12]}
           >
@@ -142,8 +144,22 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
               fontSize="4xl"
               alignSelf="center"
               fontWeight="normal"
+              textAlign="center"
             >
               {customModalTitle || title}
+
+              {subheader && (
+                <Text
+                  fontStyle="italic"
+                  color="gray.400"
+                  textAlign="center"
+                  fontSize="md"
+                  mt={3}
+                  mb={10}
+                >
+                  {subheader}
+                </Text>
+              )}
             </ModalHeader>
             <ModalCloseButton
               color="pinkShadeOne"
@@ -157,6 +173,21 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
               )}
               {customModalText && customModal}
             </ModalBody>
+            {/* we should figure out how to unify modal footers (edit sections have their own,
+              look into EditSectionBox components - they have footers with 'save' and 'cancel' buttons) */}
+            {customModalText && customModal && (
+              <ModalFooter mt={6} justifyContent="center">
+                <Button
+                  variant="ghost"
+                  onClick={onClose}
+                  color="magenta"
+                  _hover={{ bg: '#FFFFFF11' }}
+                  _active={{ bg: '#FF000011' }}
+                >
+                  Go back to profile
+                </Button>
+              </ModalFooter>
+            )}
           </ModalContent>
         </Modal>
       )}

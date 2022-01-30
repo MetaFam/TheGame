@@ -46,7 +46,21 @@ export const PlayerCompletedQuests: React.FC<Props> = ({
       boxType={BoxType.PLAYER_ACHIEVEMENTS}
       customModalTitle={`Completed Quests (${quests.length})`}
       customModalText="Show All"
-      customModal={<AllQuests quests={quests} />}
+      customModal={
+        <AllQuests
+          quests={quests
+            .concat(quests)
+            .concat(quests)
+            .concat(quests)
+            .concat(quests)
+            .concat(quests)
+            .concat(quests)
+            .concat(quests)
+            .concat(quests)}
+        />
+      }
+      subheader='A quest is considered "complete" when it is accepted by the
+      quest owner.'
     >
       {quests.length ? (
         <Box display="flex" flexDirection="column">
@@ -94,10 +108,5 @@ const QuestList: React.FC<QuestProps> = ({ quests, mb = 2 }) => (
 );
 
 const AllQuests: React.FC<QuestProps> = ({ quests }) => (
-  <Box>
-    <Text fontStyle="italic" color="gray.400" textAlign="center" mb={12}>
-      A quest is considered "complete" when it is accepted by the quest owner.
-    </Text>
-    <QuestList quests={quests} mb={6} />
-  </Box>
+  <QuestList quests={quests} mb={6} />
 );
