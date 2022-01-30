@@ -338,94 +338,105 @@ const SeeAllComponent = ({
 // Search -- not working yet
 const Search = () => {
   const [inputValue, setValue] = React.useState('');
+  const realtimeInput = React.useRef('');
   const [selectedValue, setSelectedValue] = React.useState<string>('');
   const router = useRouter();
 
-  const debounced = useDebouncedCallback(async () => {
-    const { players } = await getPlayersByText(`%${inputValue}%`);
-    const { guilds } = await getGuildsByText(`%${inputValue}%`);
+  const debounced = useDebouncedCallback(
+    async () => {
+      const { players } = await getPlayersByText(`%${inputValue}%`);
+      const { guilds } = await getGuildsByText(`%${inputValue}%`);
 
-    let mappedPlayersOptions = players.map((player) => ({
-      label: (
-        <Flex
-          align="center"
-          onClick={() => router.push(`/player/${player.username}`)}
-        >
-          <Avatar
-            name={getPlayerName(player)}
-            src={getPlayerImage(player)}
-            w="20px"
-            h="20px"
-          />
-          <Text ml="2">{player.username}</Text>
-        </Flex>
-      ),
-      value: player.username,
-    }));
-
-    let mappedGuildsOptions = guilds.map((guild) => ({
-      value: guild.guildname,
-      label: (
-        <Flex
-          align="center"
-          onClick={() => router.push(`/guild/${guild.guildname}`)}
-        >
-          <Avatar
-            name={guild.guildname}
-            src={guild?.logo as string | undefined}
-            w="20px"
-            h="20px"
-          />
-          <Text ml="2">{guild.guildname}</Text>
-        </Flex>
-      ),
-    }));
-
-    if (mappedPlayersOptions.length === 3) {
-      mappedPlayersOptions = [
-        ...mappedPlayersOptions,
-        {
-          label: (
-            <SeeAllComponent
-              text="players"
-              handleClick={() =>
-                router.push(`/search/players?q=${encodeURI(inputValue)}`)
-              }
+      let mappedPlayersOptions = players.map((player) => ({
+        label: (
+          <Flex
+            align="center"
+            onClick={() => router.push(`/player/${player.username}`)}
+          >
+            <Avatar
+              name={getPlayerName(player)}
+              src={getPlayerImage(player)}
+              w="20px"
+              h="20px"
             />
-          ),
-          value: '',
+            <Text ml="2">{player.username}</Text>
+          </Flex>
+        ),
+        value: player.username,
+      }));
+
+      let mappedGuildsOptions = guilds.map((guild) => ({
+        value: guild.guildname,
+        label: (
+          <Flex
+            align="center"
+            onClick={() => router.push(`/guild/${guild.guildname}`)}
+          >
+            <Avatar
+              name={guild.guildname}
+              src={guild?.logo as string | undefined}
+              w="20px"
+              h="20px"
+            />
+            <Text ml="2">{guild.guildname}</Text>
+          </Flex>
+        ),
+      }));
+
+      if (mappedPlayersOptions.length === 3) {
+        mappedPlayersOptions = [
+          ...mappedPlayersOptions,
+          {
+            label: (
+              <SeeAllComponent
+                text="players"
+                handleClick={() =>
+                  router.push(
+                    `/search/players?q=${encodeURI(realtimeInput.current)}`,
+                  )
+                }
+              />
+            ),
+            value: '',
+          },
+        ];
+      }
+
+      if (mappedGuildsOptions.length === 3) {
+        mappedGuildsOptions = [
+          ...mappedGuildsOptions,
+          {
+            label: (
+              <SeeAllComponent
+                text="guilds"
+                handleClick={() =>
+                  router.push(
+                    `/search/guilds?q=${encodeURI(realtimeInput.current)}`,
+                  )
+                }
+              />
+            ),
+            value: '',
+          },
+        ];
+      }
+
+      return [
+        {
+          label: 'Players',
+          options: mappedPlayersOptions,
+        },
+        {
+          label: 'Guilds',
+          options: mappedGuildsOptions,
         },
       ];
-    }
-
-    if (mappedGuildsOptions.length === 3) {
-      mappedGuildsOptions = [
-        ...mappedGuildsOptions,
-        {
-          label: (
-            <SeeAllComponent
-              text="guilds"
-              handleClick={() =>
-                router.push(`/search/guilds?q=${encodeURI(inputValue)}`)
-              }
-            />
-          ),
-          value: '',
-        },
-      ];
-    }
-
-    return [
-      {
-        label: 'Players',
-        options: mappedPlayersOptions,
-      },
-      {
-        label: 'Guilds',
-        options: mappedGuildsOptions,
-      },
-    ];
-  }, 200);
+    },
+    300,
+    {
+      leading: true,
+    },
+  );
   const handleSubmit = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     router.push(`/search/players?q=${inputValue}`);
@@ -461,11 +472,15 @@ const Search = () => {
             // ),
           }}
           cacheOptions
+          noOptionsMessage={() => null}
           // defaultOptions
           value={selectedValue}
           getOptionLabel={(e: { label: string }) => e.label}
           getOptionValue={(e: { value: string }) => e.value}
-          loadOptions={() => debounced()}
+          loadOptions={(val: string) => {
+            realtimeInput.current = val;
+            return debounced();
+          }}
           onInputChange={handleInputChange}
           onChange={handleChange}
           placeholder="Search Anything..."
