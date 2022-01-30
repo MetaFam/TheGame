@@ -1,9 +1,10 @@
 import { retryExchange } from '@urql/exchange-retry';
 import { CONFIG } from 'config';
 import { getTokenFromStore } from 'lib/auth';
+import { NextComponentType } from 'next';
 import {
   initUrqlClient,
-  NextComponentType,
+  NextUrqlContext,
   withUrqlClient,
   WithUrqlProps,
 } from 'next-urql';
@@ -64,7 +65,8 @@ export const getSsrClient = (): [Client, ReturnType<typeof ssrExchange>] => {
 // We do this to enable ssr cache on pages that are not directly wrapped in 'withUrqlClient' (but on _app)
 // https://github.com/FormidableLabs/urql/issues/1481
 const customWithUrqlClient = (
-  WithUrql: NextComponentType,
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  WithUrql: NextComponentType<NextUrqlContext, {}, WithUrqlProps>,
 ): React.FC<WithUrqlProps> => ({ pageProps, urqlState, ...props }) =>
   createElement(WithUrql, {
     urqlState: pageProps.urqlState || urqlState,
