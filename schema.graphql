@@ -7981,9 +7981,7 @@ type quest_completion {
   """An object relationship"""
   QuestCompletionStatus: QuestCompletionStatus!
 
-  """
-  An object relationship
-  """
+  """An object relationship"""
   completed: quest
   completedByPlayerId: uuid!
   id: uuid!
