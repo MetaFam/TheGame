@@ -1,1 +1,1 @@
-ALTER TABLE "public"."PlayerRole" ADD COLUMN "isBasic" boolean NULL DEFAULT true;
+ALTER TABLE "public"."PlayerRole" ADD COLUMN "basic" boolean NULL DEFAULT true;
