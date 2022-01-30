@@ -42,36 +42,15 @@ export const PlayerCompletedQuests: React.FC<Props> = ({
   return (
     <ProfileSection
       title="Completed Quests"
-      isOwnProfile={isOwnProfile}
-      canEdit={canEdit}
+      {...{ isOwnProfile, canEdit }}
       boxType={BoxType.PLAYER_ACHIEVEMENTS}
+      customModalTitle={`Completed Quests (${quests.length})`}
+      customModalText="Show All"
+      customModal={<AllQuests quests={quests} />}
     >
       {quests.length ? (
         <Box display="flex" flexDirection="column">
-          {quests.map((quest, i) => (
-            <Box mb={2}>
-              <Link key={quest.id} href={`/quest/${quest.questId}`}>
-                <Text fontSize="xl">{quest.completed?.title}</Text>
-              </Link>
-              {quest.submissionLink && (
-                <Button
-                  mt={2}
-                  variant="ghost"
-                  h={8}
-                  p="xs"
-                  color="#D59BD5"
-                  backgroundColor={'rgba(255, 255, 255, 0.04);'}
-                  _hover={{ bg: '#FFFFFF11' }}
-                  _active={{ bg: '#FF000011' }}
-                  rightIcon={<ExternalLinkIcon boxSize={3} />}
-                >
-                  <Link key={quest.id} href={quest.submissionLink} isExternal>
-                    <Text fontSize="xs">See proof of delivery</Text>
-                  </Link>
-                </Button>
-              )}
-            </Box>
-          ))}
+          <QuestList quests={quests.slice(0, 4)} />
         </Box>
       ) : (
         <Text>No completed quests yet</Text>
@@ -79,3 +58,46 @@ export const PlayerCompletedQuests: React.FC<Props> = ({
     </ProfileSection>
   );
 };
+
+interface QuestProps {
+  quests: Array<QuestCompletionFragmentFragment>;
+  mb?: number;
+}
+
+const QuestList: React.FC<QuestProps> = ({ quests, mb = 2 }) => (
+  <>
+    {quests.map((quest) => (
+      <Box mb={mb}>
+        <Link key={quest.id} href={`/quest/${quest.questId}`} color="white">
+          <Text fontSize="xl">{quest.completed?.title}</Text>
+        </Link>
+        {quest.submissionLink && (
+          <Link key={quest.id} href={quest.submissionLink} isExternal>
+            <Button
+              mt={2}
+              variant="ghost"
+              h={8}
+              p="xs"
+              color="#D59BD5"
+              backgroundColor={'rgba(255, 255, 255, 0.04);'}
+              _hover={{ bg: '#FFFFFF11' }}
+              _active={{ bg: '#FF000011' }}
+              rightIcon={<ExternalLinkIcon boxSize={3} />}
+            >
+              <Text fontSize="xs">See proof of delivery</Text>
+            </Button>
+          </Link>
+        )}
+      </Box>
+    ))}
+  </>
+);
+
+const AllQuests: React.FC<QuestProps> = ({ quests }) => (
+  <Box>
+    <Text fontStyle="italic" color="gray.400" textAlign="center" mb={12}>
+      A quest is considered "complete" when it is accepted by the quest owner.
+    </Text>
+    <QuestList quests={quests} mb={6} />
+  </Box>
+);

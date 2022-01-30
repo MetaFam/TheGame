@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   EditIcon,
   Flex,
   HStack,
@@ -27,6 +28,9 @@ export type ProfileSectionProps = {
   boxType?: BoxType;
   title?: string;
   withoutBG?: boolean;
+  customModalText?: string;
+  customModalTitle?: string;
+  customModal?: React.ReactNode;
 };
 
 export const ProfileSection: React.FC<ProfileSectionProps> = ({
@@ -36,6 +40,9 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
   boxType,
   title,
   withoutBG = false,
+  customModalText,
+  customModal,
+  customModalTitle,
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -60,13 +67,34 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
             >
               {title}
             </Text>
-            {isOwnProfile && !canEdit && boxType && isBoxDataEditable(boxType) && (
-              <IconButton
-                aria-label="Edit Profile Info"
-                size="lg"
-                background="transparent"
+            {!customModal &&
+              isOwnProfile &&
+              !canEdit &&
+              boxType &&
+              isBoxDataEditable(boxType) && (
+                <IconButton
+                  aria-label="Edit Profile Info"
+                  size="lg"
+                  background="transparent"
+                  color="pinkShadeOne"
+                  icon={<EditIcon />}
+                  _hover={{ color: 'white' }}
+                  onClick={onOpen}
+                  _focus={{
+                    boxShadow: 'none',
+                    backgroundColor: 'transparent',
+                  }}
+                  _active={{
+                    transform: 'scale(0.8)',
+                    backgroundColor: 'transparent',
+                  }}
+                  isRound
+                />
+              )}
+            {customModal && customModalText && (
+              <Button
                 color="pinkShadeOne"
-                icon={<EditIcon />}
+                background="transparent"
                 _hover={{ color: 'white' }}
                 onClick={onOpen}
                 _focus={{
@@ -77,8 +105,9 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
                   transform: 'scale(0.8)',
                   backgroundColor: 'transparent',
                 }}
-                isRound
-              />
+              >
+                {customModalText}
+              </Button>
             )}
           </HStack>
         </Box>
@@ -101,8 +130,10 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
           <ModalOverlay />
           <ModalContent
             maxW="80%"
+            maxH="80%"
             backgroundImage={`url(${BackgroundImage})`}
             bgSize="cover"
+            overflow="hidden"
             bgAttachment="fixed"
             p={[4, 8, 12]}
           >
@@ -112,7 +143,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
               alignSelf="center"
               fontWeight="normal"
             >
-              {title}
+              {customModalTitle || title}
             </ModalHeader>
             <ModalCloseButton
               color="pinkShadeOne"
@@ -120,8 +151,11 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
               p={4}
               _focus={{ boxShadow: 'none' }}
             />
-            <ModalBody>
-              <EditSectionBox {...{ boxType, onClose }} />
+            <ModalBody overflowY="scroll">
+              {!customModal && !customModalText && (
+                <EditSectionBox {...{ boxType, onClose }} />
+              )}
+              {customModalText && customModal}
             </ModalBody>
           </ModalContent>
         </Modal>
