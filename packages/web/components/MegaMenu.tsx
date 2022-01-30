@@ -54,7 +54,7 @@ import { MetaLink } from 'components/Link';
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
 import { usePSeedBalance } from 'lib/hooks/balances';
 import Image from 'next/image';
-import router from 'next/router';
+import { useRouter } from 'next/router';
 import React, { useCallback } from 'react';
 import AsyncSelect from 'react-select/async';
 import { useDebouncedCallback } from 'use-debounce';
@@ -324,15 +324,22 @@ export type SearchOption = {
 // const Control = (props: any) => ({ children, ...rest }: any) => (
 //   <components.Control {...rest}>👍 {children}</components.Control>
 // );
-const SeeAllComponent = ({ text, url }: { text: string; url: string }) => (
-  <Link href={url}>
+const SeeAllComponent = ({
+  text,
+  handleClick,
+}: {
+  text: string;
+  handleClick: any;
+}) => (
+  <Box onClick={handleClick}>
     <Text ml="2">See all {text}</Text>
-  </Link>
+  </Box>
 );
 // Search -- not working yet
 const Search = () => {
   const [inputValue, setValue] = React.useState('');
   const [selectedValue, setSelectedValue] = React.useState<string>('');
+  const router = useRouter();
 
   const debounced = useDebouncedCallback(async () => {
     const { players } = await getPlayersByText(`%${inputValue}%`);
@@ -340,17 +347,18 @@ const Search = () => {
 
     let mappedPlayersOptions = players.map((player) => ({
       label: (
-        <Link href={`/player/${player.username}`}>
-          <Flex align="center">
-            <Avatar
-              name={getPlayerName(player)}
-              src={getPlayerImage(player)}
-              w="20px"
-              h="20px"
-            />
-            <Text ml="2">{player.username}</Text>
-          </Flex>
-        </Link>
+        <Flex
+          align="center"
+          onClick={() => router.push(`/player/${player.username}`)}
+        >
+          <Avatar
+            name={getPlayerName(player)}
+            src={getPlayerImage(player)}
+            w="20px"
+            h="20px"
+          />
+          <Text ml="2">{player.username}</Text>
+        </Flex>
       ),
       value: player.username,
     }));
@@ -358,12 +366,18 @@ const Search = () => {
     let mappedGuildsOptions = guilds.map((guild) => ({
       value: guild.guildname,
       label: (
-        <Link href={`/guild/${guild.guildname}`}>
-          <Flex align="center">
-            <Avatar name={guild.guildname} src={guild.logo} w="20px" h="20px" />
-            <Text ml="2">{guild.guildname}</Text>
-          </Flex>
-        </Link>
+        <Flex
+          align="center"
+          onClick={() => router.push(`/guild/${guild.guildname}`)}
+        >
+          <Avatar
+            name={guild.guildname}
+            src={guild?.logo as string | undefined}
+            w="20px"
+            h="20px"
+          />
+          <Text ml="2">{guild.guildname}</Text>
+        </Flex>
       ),
     }));
 
@@ -374,7 +388,9 @@ const Search = () => {
           label: (
             <SeeAllComponent
               text="players"
-              url={`/search/players?q=${encodeURI(inputValue)}`}
+              handleClick={() =>
+                router.push(`/search/players?q=${encodeURI(inputValue)}`)
+              }
             />
           ),
           value: '',
@@ -389,7 +405,9 @@ const Search = () => {
           label: (
             <SeeAllComponent
               text="guilds"
-              url={`/search/guilds?q=${encodeURI(inputValue)}`}
+              handleClick={() =>
+                router.push(`/search/guilds?q=${encodeURI(inputValue)}`)
+              }
             />
           ),
           value: '',
@@ -418,8 +436,8 @@ const Search = () => {
   };
 
   // handle selection
-  const handleChange = (value: string) => {
-    setSelectedValue(value);
+  const handleChange = () => {
+    setSelectedValue('');
   };
 
   return (
@@ -443,10 +461,10 @@ const Search = () => {
             // ),
           }}
           cacheOptions
-          defaultOptions
+          // defaultOptions
           value={selectedValue}
-          getOptionLabel={(e) => e?.label}
-          getOptionValue={(e) => e?.value}
+          getOptionLabel={(e: { label: string }) => e.label}
+          getOptionValue={(e: { value: string }) => e.value}
           loadOptions={() => debounced()}
           onInputChange={handleInputChange}
           onChange={handleChange}
@@ -556,11 +574,12 @@ const PlayerStats: React.FC<PlayerStatsProps> = ({ player }) => {
 
 export const MegaMenu: React.FC = () => {
   const { connected, connect } = useWeb3();
-
   const handleLoginClick = useCallback(async () => {
     await connect();
   }, [connect]);
   const { user, fetching } = useUser();
+
+  const router = useRouter();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const menuToggle = () => {
