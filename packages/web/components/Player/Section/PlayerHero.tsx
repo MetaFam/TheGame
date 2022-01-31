@@ -18,6 +18,7 @@ import {
   Wrap,
   WrapItem,
 } from '@metafam/ds';
+import { Maybe } from '@metafam/utils';
 import BackgroundImage from 'assets/main-background.jpg';
 import { FlexContainer } from 'components/Container';
 import { EditProfileForm } from 'components/EditProfileForm';
@@ -27,7 +28,7 @@ import { PlayerBrightId } from 'components/Player/Section/PlayerBrightId';
 import { PlayerHeroTile } from 'components/Player/Section/PlayerHeroTile';
 import { PlayerPronouns } from 'components/Player/Section/PlayerPronouns';
 import { ProfileSection } from 'components/Profile/ProfileSection';
-import { PlayerFragmentFragment } from 'graphql/autogen/types';
+import { Player } from 'graphql/autogen/types';
 import { useUser } from 'lib/hooks';
 import { useAnimateProfileChanges } from 'lib/hooks/players';
 import React, { useEffect, useState } from 'react';
@@ -38,13 +39,13 @@ import { getPlayerDescription, getPlayerName } from 'utils/playerHelpers';
 const MAX_BIO_LENGTH = 240;
 
 type Props = {
-  player: PlayerFragmentFragment;
+  player: Player;
   isOwnProfile?: boolean;
   canEdit?: boolean;
 };
-type AvailabilityProps = { person: PlayerFragmentFragment | null | undefined };
+type AvailabilityProps = { person?: Maybe<Player> };
 type TimeZoneDisplayProps = {
-  person: PlayerFragmentFragment | null | undefined;
+  person?: Maybe<Player>;
 };
 
 export const PlayerHero: React.FC<Props> = ({
@@ -179,10 +180,10 @@ export const PlayerHero: React.FC<Props> = ({
           </PlayerHeroTile>
         </SimpleGrid> */}
 
-        {player?.profile?.emoji && (
+        {person?.profile?.emoji && (
           <PlayerHeroTile title="Favorite Emoji">
             <Text ml={10} mt={0} fontSize={45} lineHeight={0.75}>
-              {player.profile.emoji}
+              {person.profile.emoji}
             </Text>
           </PlayerHeroTile>
         )}
@@ -260,8 +261,8 @@ const Availability: React.FC<AvailabilityProps> = ({ person }) => {
   );
 };
 
-const TimeZoneDisplay: React.FC<TimeZoneDisplayProps> = () => {
-  const tz = getTimeZoneFor({ title: null }); // person?.profile?.timeZone });
+const TimeZoneDisplay: React.FC<TimeZoneDisplayProps> = ({ person }) => {
+  const tz = getTimeZoneFor({ title: person?.profile?.timeZone });
   const [timeZone, setTimeZone] = useState<string | null>(
     tz?.abbreviation ?? null,
   );

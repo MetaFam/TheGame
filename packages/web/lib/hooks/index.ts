@@ -1,6 +1,7 @@
 import { Web3Context, Web3ContextType } from 'contexts/Web3Context';
 import {
   Player,
+  Profile,
   useGetLoginBasicsQuery,
   useGetMeQuery,
 } from 'graphql/autogen/types';
@@ -9,6 +10,7 @@ import { LoginBasicsType } from 'graphql/types';
 import { useRouter } from 'next/router';
 import { useContext, useEffect, useMemo, useRef } from 'react';
 import { CombinedError, RequestPolicy } from 'urql';
+import { useProfileOverride } from 'utils/cacheHelper';
 
 export const useWeb3 = (): Web3ContextType => useContext(Web3Context);
 
@@ -39,6 +41,8 @@ export const useUser = ({
     () => (!error && authToken && me ? (me.player as Player) : null),
     [error, authToken, me],
   );
+  const override = useProfileOverride(user?.profile ?? null);
+  if (user && override) user.profile = override as Profile;
 
   if (error) {
     // eslint-disable-next-line no-console
@@ -75,6 +79,8 @@ export const useLoginBasics = ({
     () => (!error && authToken ? me?.player ?? null : null),
     [error, authToken, me],
   );
+  const override = useProfileOverride(user?.profile ?? null);
+  if (user && override) user.profile = override as Profile;
 
   if (error) {
     // eslint-disable-next-line no-console

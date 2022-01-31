@@ -1,3 +1,6 @@
+import 'react-grid-layout/css/styles.css';
+import 'react-resizable/css/styles.css';
+
 import {
   Box,
   ButtonGroup,
@@ -15,8 +18,8 @@ import {
   DEFAULT_BOXES,
   DEFAULT_PLAYER_LAYOUTS,
   getBoxLayoutItemDefaults,
-  gridConfig,
   GRID_ROW_HEIGHT,
+  gridConfig,
   MULTIPLE_ALLOWED_BOXES,
 } from 'components/Player/Section/config';
 import { PlayerAddSection } from 'components/Player/Section/PlayerAddSection';
@@ -46,8 +49,6 @@ import React, {
   useState,
 } from 'react';
 import { Layout, Layouts, Responsive, WidthProvider } from 'react-grid-layout';
-import 'react-grid-layout/css/styles.css';
-import 'react-resizable/css/styles.css';
 import {
   BoxMetadata,
   BoxType,
