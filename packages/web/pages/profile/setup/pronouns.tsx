@@ -16,10 +16,9 @@ export type DefaultSetupProps = InferGetStaticPropsType<typeof getStaticProps>;
 const PronounsSetup: React.FC<DefaultSetupProps> = () => {
   const [pronouns, setPronouns] = useState<string>();
   const { user } = useUser();
-  const { player } = user ?? {};
 
-  if (player?.profile?.pronouns && pronouns === undefined) {
-    setPronouns(player.profile.pronouns);
+  if (user?.profile?.pronouns && pronouns === undefined) {
+    setPronouns(user.profile.pronouns);
   }
 
   return (

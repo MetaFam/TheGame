@@ -457,7 +457,6 @@ export const MegaMenu: React.FC = () => {
     await connect();
   }, [connect]);
   const { user, fetching } = useUser();
-  const { player } = user ?? {};
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const menuToggle = () => {
@@ -510,7 +509,7 @@ export const MegaMenu: React.FC = () => {
           w={{ base: 'fit-content', lg: '100%' }}
           justifyContent="space-between"
         >
-          <Logo link={user?.player ? '/dashboard' : '/'} />
+          <Logo link={user ? '/dashboard' : '/'} />
           <DesktopNavLinks />
           {/* <Search /> */}
           {fetching ? (
@@ -523,8 +522,8 @@ export const MegaMenu: React.FC = () => {
             />
           ) : (
             <>
-              {connected && !!player ? (
-                <PlayerStats {...{ player }} />
+              {connected && !!user ? (
+                <PlayerStats player={user} />
               ) : (
                 <MetaButton
                   display={{ base: 'none', lg: 'block' }}

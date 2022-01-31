@@ -1,7 +1,6 @@
 import { MetaTheme } from '@metafam/ds';
 import {
   Maybe,
-  Me,
   Member,
   Moloch,
   Player,
@@ -30,12 +29,7 @@ export type Membership = Pick<Member, 'id'> & {
   moloch: Pick<Moloch, 'id' | 'title' | 'version' | 'chain'>;
 };
 
-export type MeType =
-  | (Pick<Me, 'id' | 'ethereumAddress' | 'username'> & {
-      player?: Maybe<Player>;
-    })
-  | null
-  | undefined;
+export type MeType = Maybe<Player>;
 
 export type LoginBasicsType =
   | (Pick<Player, 'id' | 'ethereumAddress' | 'rank' | 'totalXP'> & {

@@ -1,6 +1,3 @@
-import 'react-grid-layout/css/styles.css';
-import 'react-resizable/css/styles.css';
-
 import {
   Box,
   ButtonGroup,
@@ -18,8 +15,8 @@ import {
   DEFAULT_BOXES,
   DEFAULT_PLAYER_LAYOUTS,
   getBoxLayoutItemDefaults,
-  GRID_ROW_HEIGHT,
   gridConfig,
+  GRID_ROW_HEIGHT,
   MULTIPLE_ALLOWED_BOXES,
 } from 'components/Player/Section/config';
 import { PlayerAddSection } from 'components/Player/Section/PlayerAddSection';
@@ -40,7 +37,7 @@ import {
 } from 'next';
 import { useRouter } from 'next/router';
 import Page404 from 'pages/404';
-import {
+import React, {
   ReactElement,
   useCallback,
   useEffect,
@@ -49,6 +46,8 @@ import {
   useState,
 } from 'react';
 import { Layout, Layouts, Responsive, WidthProvider } from 'react-grid-layout';
+import 'react-grid-layout/css/styles.css';
+import 'react-resizable/css/styles.css';
 import {
   BoxMetadata,
   BoxType,
@@ -234,8 +233,8 @@ export const Grid: React.FC<Props> = ({
   const [player, setPlayer] = useState(initPlayer);
 
   useEffect(() => {
-    if (!fetching && user?.player && user?.id === player?.id) {
-      setPlayer(user?.player);
+    if (!fetching && user && user?.id === player?.id) {
+      setPlayer(user);
       if (connected) {
         setIsOwnProfile(true);
       }

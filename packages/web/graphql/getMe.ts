@@ -3,10 +3,9 @@ import { PlayerFragment } from 'graphql/fragments';
 export const GetMeQuery = /* GraphQL */ `
   query GetMe {
     me {
-      id
-      ethereumAddress
-      username
       player {
+        id
+        ethereumAddress
         ...PlayerFragment
       }
     }

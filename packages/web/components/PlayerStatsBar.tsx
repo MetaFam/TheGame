@@ -29,14 +29,14 @@ const { amountToDecimal } = numbers;
 // Display player XP and Seed
 const PlayerStats = () => {
   const { disconnect } = useWeb3();
-  const { player } = useLoginBasics();
+  const { user } = useLoginBasics();
   const { pSeedBalance } = usePSeedBalance();
 
   return (
     <Flex
       align="center"
       display={{ base: 'flex', lg: 'none' }}
-      justifyContent={player ? 'space-between' : 'center'}
+      justifyContent={user ? 'space-between' : 'center'}
       flex={1}
       minW="100vw"
       height="72px"
@@ -50,7 +50,7 @@ const PlayerStats = () => {
       my="auto"
       mr={0}
     >
-      {!player ? (
+      {!user ? (
         <LoginButton />
       ) : (
         <>
@@ -64,20 +64,20 @@ const PlayerStats = () => {
                 _active={{ bg: 'transparent' }}
               >
                 <Flex>
-                  <PlayerAvatar {...{ player }} w={12} h={12} m={0} />
+                  <PlayerAvatar player={user} w={12} h={12} m={0} />
                   <Stack my={2} ml={2} justify="center">
                     <Text
-                      fontSize={player.rank ? 14 : 22}
+                      fontSize={user.rank ? 14 : 22}
                       fontWeight="semibold"
                       m={0}
                       p={0}
                       lineHeight={1}
                     >
-                      {getPlayerName(player)}
+                      {getPlayerName(user)}
                     </Text>
-                    {player.rank && (
+                    {user.rank && (
                       <Text fontSize={12} m={0} p={0} lineHeight={1}>
-                        {player.rank}
+                        {user.rank}
                       </Text>
                     )}
                   </Stack>
@@ -86,7 +86,7 @@ const PlayerStats = () => {
               <MenuList color="black">
                 <MetaLink
                   color="black"
-                  href={getPlayerURL(player) ?? '/'}
+                  href={getPlayerURL(user) ?? '/'}
                   _hover={{ textDecoration: 'none' }}
                 >
                   <MenuItem>
@@ -139,7 +139,7 @@ const PlayerStats = () => {
                   mr={[1, 3]}
                 />
                 <Text color="#FFF" lineHeight={2} fontSize={20}>
-                  {Math.trunc(player.totalXP).toLocaleString()}
+                  {Math.trunc(user.totalXP).toLocaleString()}
                 </Text>
               </Badge>
             </Tooltip>

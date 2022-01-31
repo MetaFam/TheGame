@@ -15,10 +15,9 @@ import {
   QuestFragmentFragment,
   QuestStatus_Enum,
 } from 'graphql/autogen/types';
+import { useUser } from 'lib/hooks';
+import { QueryVariableSetter, QuestAggregates } from 'lib/hooks/quests';
 import React, { useState } from 'react';
-
-import { useUser } from '../../lib/hooks';
-import { QueryVariableSetter, QuestAggregates } from '../../lib/hooks/quests';
 
 type Props = {
   quests: QuestFragmentFragment[];

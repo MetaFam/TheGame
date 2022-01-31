@@ -25,7 +25,7 @@ const PlayerRolesSetup: React.FC<Props> = (props) => {
   const [loadingRoles, setLoadingRoles] = useState<boolean>(true);
   const { user } = useUser({ requestPolicy: 'network-only' });
 
-  const playerRoles = user?.player?.roles;
+  const playerRoles = user?.roles;
 
   useEffect(() => {
     if (playerRoles != null) {

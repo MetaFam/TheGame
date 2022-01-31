@@ -5,7 +5,7 @@ import {
   useGetMeQuery,
 } from 'graphql/autogen/types';
 import { Maybe } from 'graphql/jsutils/Maybe';
-import { LoginBasicsType, MeType } from 'graphql/types';
+import { LoginBasicsType } from 'graphql/types';
 import { useRouter } from 'next/router';
 import { useContext, useEffect, useMemo, useRef } from 'react';
 import { CombinedError, RequestPolicy } from 'urql';
@@ -23,7 +23,7 @@ export const useUser = ({
   redirectIfNotFound = false,
   requestPolicy = 'cache-first',
 }: UseUserOpts = {}): {
-  user: Maybe<MeType>;
+  user: Maybe<Player>;
   fetching: boolean;
   error?: CombinedError;
 } => {
@@ -36,8 +36,7 @@ export const useUser = ({
   });
   const [me] = data?.me ?? [];
   const user = useMemo(
-    () =>
-      !error && authToken && me ? { ...me, player: me.player as Player } : null,
+    () => (!error && authToken && me ? (me.player as Player) : null),
     [error, authToken, me],
   );
 
@@ -62,7 +61,7 @@ export const useUser = ({
 export const useLoginBasics = ({
   requestPolicy = 'cache-first',
 }: UseUserOpts = {}): {
-  player: Maybe<LoginBasicsType>;
+  user: Maybe<LoginBasicsType>;
   fetching: boolean;
   error?: CombinedError;
 } => {
@@ -72,7 +71,7 @@ export const useLoginBasics = ({
     requestPolicy,
   });
   const [me] = data?.me ?? [];
-  const player = useMemo(
+  const user = useMemo(
     () => (!error && authToken ? me?.player ?? null : null),
     [error, authToken, me],
   );
@@ -82,7 +81,7 @@ export const useLoginBasics = ({
     console.error(`useLoginBasics Error: ${error.message}`);
   }
 
-  return { player, fetching, error };
+  return { user, fetching, error };
 };
 
 // https://www.joshwcomeau.com/react/the-perils-of-rehydration/

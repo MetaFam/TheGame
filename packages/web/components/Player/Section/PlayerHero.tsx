@@ -60,7 +60,7 @@ export const PlayerHero: React.FC<Props> = ({
   const [playerName, setPlayerName] = useState<string>();
   const { user } = useUser();
 
-  const person = isOwnProfile ? user?.player : player;
+  const person = isOwnProfile ? user : player;
   useEffect(() => {
     if (person) {
       setPlayerName(getPlayerName(person));
@@ -214,7 +214,7 @@ export const PlayerHero: React.FC<Props> = ({
             }}
           />
           <ModalBody p={[0, 2]}>
-            <EditProfileForm {...{ user, onClose }} />
+            <EditProfileForm {...{ player: user ?? null, onClose }} />
           </ModalBody>
         </ModalContent>
       </Modal>

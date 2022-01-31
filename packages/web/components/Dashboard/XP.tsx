@@ -13,7 +13,7 @@ import {
 } from '@metafam/ds';
 import { animated, useSpring } from '@react-spring/web';
 import { useUser } from 'lib/hooks';
-import { useUserXP } from 'lib/hooks/useUserXp';
+import { useUserXP } from 'lib/hooks/useUserXP';
 import React, { FC, ReactNode, useState } from 'react';
 import { FaChartBar } from 'react-icons/fa';
 import {
@@ -69,13 +69,13 @@ export const XP = (): React.ReactElement => {
         <Stat alignSelf="flex-start" justifySelf="flex-end" flex="0 0 100%">
           <StatLabel>All Time</StatLabel>
           <StatNumber>{userTotalXP.toLocaleString()}</StatNumber>
-          {user?.player?.rank && (
+          {user?.rank && (
             <MetaTag
-              backgroundColor={user.player.rank.toLowerCase()}
+              backgroundColor={user.rank.toLowerCase()}
               size="md"
               color="blackAlpha.600"
             >
-              {user.player.rank}
+              {user.rank}
             </MetaTag>
           )}
         </Stat>

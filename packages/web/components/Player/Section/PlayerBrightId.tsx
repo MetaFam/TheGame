@@ -26,9 +26,7 @@ export const PlayerBrightId: React.FC<Props> = ({ player }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { user, fetching } = useUser();
   const { verified, deeplink, universalLink } = useBrightIdStatus({ player });
-
   const { connected } = useWeb3();
-
   const [isLoggedInUser, setIsLoggedInUser] = useState(false);
 
   useEffect(() => {

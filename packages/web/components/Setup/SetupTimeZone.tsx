@@ -2,7 +2,7 @@ import { MetaButton, MetaHeading, SelectTimeZone, useToast } from '@metafam/ds';
 import { FlexContainer } from 'components/Container';
 import { useSetupFlow } from 'contexts/SetupContext';
 import { useUpdateProfileMutation } from 'graphql/autogen/types';
-import { useUser } from 'lib/hooks';
+import { useMounted, useUser } from 'lib/hooks';
 import React, { useEffect, useState } from 'react';
 
 export const SetupTimeZone: React.FC = () => {
@@ -10,15 +10,15 @@ export const SetupTimeZone: React.FC = () => {
   const [timeZone, setTimeZone] = useState<string>('');
   const { user } = useUser();
   const toast = useToast();
+  const mounted = useMounted();
 
   const [updateProfileRes, updateProfile] = useUpdateProfileMutation();
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (user?.player) {
-      const { player } = user;
-      if (player.profile?.timeZone && !timeZone) {
-        setTimeZone(player.profile.timeZone);
+    if (user) {
+      if (user.profile?.timeZone && !timeZone) {
+        setTimeZone(user.profile.timeZone);
       }
     }
   }, [user, timeZone]);
@@ -46,13 +46,7 @@ export const SetupTimeZone: React.FC = () => {
     onNextPress();
   };
 
-  const [isComponentMounted, setIsComponentMounted] = useState(false);
-
-  useEffect(() => setIsComponentMounted(true), []);
-
-  if (!isComponentMounted) {
-    return null;
-  }
+  if (!mounted) return null;
 
   return (
     <FlexContainer>

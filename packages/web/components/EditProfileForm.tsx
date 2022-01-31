@@ -53,10 +53,10 @@ import FileOpenIcon from 'assets/file-open-icon.svg';
 import PlayerProfileIcon from 'assets/player-profile-icon.svg';
 import {
   Maybe,
+  Player,
   useInsertCacheInvalidationMutation,
 } from 'graphql/autogen/types';
 import { getPlayer } from 'graphql/getPlayer';
-import { MeType } from 'graphql/types';
 import { useWeb3 } from 'lib/hooks';
 import router, { useRouter } from 'next/router';
 import React, {
@@ -75,7 +75,7 @@ import { dispositionFor } from 'utils/playerHelpers';
 const MAX_DESC_LEN = 420; // characters
 
 export type ProfileEditorProps = {
-  user: MeType;
+  player: Maybe<Player>;
   onClose: () => void;
 };
 
@@ -144,10 +144,9 @@ const Input: React.FC<InputProps> = React.forwardRef(
 );
 
 export const EditProfileForm: React.FC<ProfileEditorProps> = ({
-  user,
+  player,
   onClose,
 }) => {
-  const { player } = user ?? {};
   const [status, setStatus] = useState<Maybe<ReactElement | string>>(null);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const username = useMemo(() => player?.profile?.username, []);
