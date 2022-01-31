@@ -37,6 +37,12 @@ export type MeType =
   | null
   | undefined;
 
+export type LoginBasicsType =
+  | (Pick<Player, 'id' | 'ethereumAddress' | 'rank' | 'totalXP'> & {
+      profile?: Maybe<Pick<Profile, 'name' | 'username' | 'profileImageURL'>>;
+    })
+  | null;
+
 export const SkillColors: Record<SkillCategory_Enum, string> = {
   [SkillCategory_Enum.Community]: MetaTheme.colors.green['700'],
   [SkillCategory_Enum.Design]: MetaTheme.colors.pink['700'],

@@ -24,7 +24,6 @@ import { PlayerFragment, PlayerSkillFragment } from './fragments';
     $offset: Int
     $limit: Int
     $where: player_bool_exp
-    $forLoginDisplay: Boolean! = false
   ) {
     player(
       # players were appearing multiple times when orderBy was the

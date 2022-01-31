@@ -1,9 +1,7 @@
-import gql from 'fake-tag';
 import { GetPlayerRolesQuery } from 'graphql/autogen/types';
+import { client } from 'graphql/client';
 
-import { client } from '../../client';
-
-export const GetPlayerTypes = gql`
+export const GetPlayerTypes = /* GraphQL */ `
   query GetPlayerRoles {
     PlayerRole {
       role

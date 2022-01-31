@@ -6,7 +6,7 @@ import PlayerCoverImageFull from 'assets/player-background-full.jpg';
 import PlayerCoverImageSmall from 'assets/player-background-small.jpg';
 import { ethers } from 'ethers';
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
-import { GuildPlayer } from 'graphql/types';
+import { GuildPlayer, LoginBasicsType } from 'graphql/types';
 
 import { optimizedImage } from './imageHelpers';
 
@@ -44,14 +44,14 @@ export const getGuildCoverImageFull = (): string => GuildCoverImageFull;
 export const getGuildCoverImageSmall = (): string => GuildCoverImageSmall;
 
 export const getPlayerName = (
-  player?: PlayerFragmentFragment | GuildPlayer,
+  player?: PlayerFragmentFragment | GuildPlayer | LoginBasicsType,
 ): string | undefined =>
   player?.profile?.name ||
   formatIfAddress(player?.profile?.username ?? undefined) ||
   formatAddress(player?.ethereumAddress);
 
 export const getPlayerUsername = (
-  player?: PlayerFragmentFragment,
+  player?: PlayerFragmentFragment | LoginBasicsType,
 ): string | undefined =>
   formatIfAddress(player?.profile?.username ?? undefined);
 
@@ -66,7 +66,7 @@ export const formatIfAddress = (username = ''): string =>
   ethers.utils.isAddress(username) ? formatAddress(username) : username;
 
 export const getPlayerURL = (
-  player?: PlayerFragmentFragment | GuildPlayer,
+  player?: PlayerFragmentFragment | GuildPlayer | LoginBasicsType,
   opts: { rel?: boolean; default?: string } = {},
 ): string | undefined => {
   let { username } = player?.profile ?? {};
@@ -80,7 +80,7 @@ export const getPlayerURL = (
 };
 
 export const hasImage = (
-  player?: PlayerFragmentFragment | GuildPlayer,
+  player?: PlayerFragmentFragment | GuildPlayer | LoginBasicsType,
 ): boolean => !!player?.profile?.profileImageURL;
 
 export const dispositionFor = (mask?: Maybe<number>) => {

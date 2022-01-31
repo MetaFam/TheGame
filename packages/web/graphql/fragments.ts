@@ -1,15 +1,13 @@
-import gql from 'fake-tag';
-
-export const PlayerFragment = gql`
+export const PlayerFragment = /* GraphQL */ `
   fragment PlayerFragment on player {
-    id @skip(if: $forLoginDisplay)
-    totalXP @skip(if: $forLoginDisplay)
-    seasonXP @skip(if: $forLoginDisplay)
-    rank @skip(if: $forLoginDisplay)
+    id
+    totalXP
+    seasonXP
+    rank
     ethereumAddress
-    profileLayout @skip(if: $forLoginDisplay)
+    profileLayout
 
-    skills @skip(if: $forLoginDisplay) {
+    skills {
       Skill {
         category
         id
@@ -17,7 +15,7 @@ export const PlayerFragment = gql`
       }
     }
 
-    roles(order_by: { rank: asc }) @skip(if: $forLoginDisplay) {
+    roles(order_by: { rank: asc }) {
       role
       rank
       PlayerRole {
@@ -25,8 +23,7 @@ export const PlayerFragment = gql`
       }
     }
 
-    accounts(where: { type: { _in: [TWITTER, GITHUB] } })
-      @skip(if: $forLoginDisplay) {
+    accounts(where: { type: { _in: [TWITTER, GITHUB] } }) {
       identifier
       type
     }
@@ -54,7 +51,7 @@ export const PlayerFragment = gql`
       }
     }
 
-    daohausMemberships @skip(if: $forLoginDisplay) {
+    daohausMemberships {
       id
       shares
       molochAddress
@@ -67,14 +64,14 @@ export const PlayerFragment = gql`
       }
     }
 
-    brightid_status @skip(if: $forLoginDisplay) {
+    brightid_status {
       unique
       contextIds
     }
   }
 `;
 
-export const GuildFragment = gql`
+export const GuildFragment = /* GraphQL */ `
   fragment GuildFragment on guild {
     id
     guildname
@@ -92,7 +89,7 @@ export const GuildFragment = gql`
   }
 `;
 
-export const QuestFragment = gql`
+export const QuestFragment = /* GraphQL */ `
   fragment QuestFragment on quest {
     id
     createdAt
@@ -130,7 +127,7 @@ export const QuestFragment = gql`
   }
 `;
 
-export const QuestWithCompletionFragment = gql`
+export const QuestWithCompletionFragment = /* GraphQL */ `
   fragment QuestWithCompletionFragment on quest {
     id
     createdAt
@@ -174,7 +171,7 @@ export const QuestWithCompletionFragment = gql`
   }
 `;
 
-export const QuestCompletionFragment = gql`
+export const QuestCompletionFragment = /* GraphQL */ `
   fragment QuestCompletionFragment on quest_completion {
     id
     completedByPlayerId
@@ -189,14 +186,14 @@ export const QuestCompletionFragment = gql`
   }
 `;
 
-export const TokenBalancesFragment = gql`
+export const TokenBalancesFragment = /* GraphQL */ `
   fragment TokenBalancesFragment on TokenBalances {
     address: id
     pSeedBalance
   }
 `;
 
-export const PlayerSkillFragment = gql`
+export const PlayerSkillFragment = /* GraphQL */ `
   fragment PlayerSkillFragment on skill {
     id
     name

@@ -1,5 +1,3 @@
-import gql from 'fake-tag';
-
 import {
   GetDaoMembershipsQuery,
   GetDaoMembershipsQueryVariables,
@@ -9,7 +7,7 @@ import {
 } from './autogen/types';
 import { client } from './client';
 
-const daoMembershipsQuery = gql`
+const daoMembershipsQuery = /* GraphQL */ `
   query GetDaoMemberships($address: String) {
     getDaoHausMemberships(memberAddress: $address) {
       id
@@ -23,7 +21,7 @@ const daoMembershipsQuery = gql`
   }
 `;
 
-const guildMembershipsQuery = gql`
+const guildMembershipsQuery = /* GraphQL */ `
   query GetPlayerGuilds($playerId: uuid!) {
     guild_player(where: { player_id: { _eq: $playerId } }) {
       guild_id

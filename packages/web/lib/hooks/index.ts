@@ -1,7 +1,11 @@
 import { Web3Context, Web3ContextType } from 'contexts/Web3Context';
-import { Player, useGetMeQuery } from 'graphql/autogen/types';
+import {
+  Player,
+  useGetLoginBasicsQuery,
+  useGetMeQuery,
+} from 'graphql/autogen/types';
 import { Maybe } from 'graphql/jsutils/Maybe';
-import { MeType } from 'graphql/types';
+import { LoginBasicsType, MeType } from 'graphql/types';
 import { useRouter } from 'next/router';
 import { useContext, useEffect, useMemo, useRef } from 'react';
 import { CombinedError, RequestPolicy } from 'urql';
@@ -43,7 +47,7 @@ export const useUser = ({
   }
 
   useEffect(() => {
-    if (!redirectTo || fetching || connecting) return;
+    if (fetching || connecting) return;
 
     // If redirectTo is set and redirectIfNotFound is set then
     // redirect if the user was not found.
@@ -53,6 +57,32 @@ export const useUser = ({
   }, [router, user, fetching, connecting, redirectIfNotFound, redirectTo]);
 
   return { user, fetching, error };
+};
+
+export const useLoginBasics = ({
+  requestPolicy = 'cache-first',
+}: UseUserOpts = {}): {
+  player: Maybe<LoginBasicsType>;
+  fetching: boolean;
+  error?: CombinedError;
+} => {
+  const { authToken, connecting } = useWeb3();
+  const [{ data, error, fetching }] = useGetLoginBasicsQuery({
+    pause: connecting || !authToken,
+    requestPolicy,
+  });
+  const [me] = data?.me ?? [];
+  const player = useMemo(
+    () => (!error && authToken ? me?.player ?? null : null),
+    [error, authToken, me],
+  );
+
+  if (error) {
+    // eslint-disable-next-line no-console
+    console.error(`useLoginBasics Error: ${error.message}`);
+  }
+
+  return { player, fetching, error };
 };
 
 // https://www.joshwcomeau.com/react/the-perils-of-rehydration/

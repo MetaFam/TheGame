@@ -1,8 +1,7 @@
-import gql from 'fake-tag';
 import { PlayerFragment } from 'graphql/fragments';
 
-export const GetMeQuery = gql`
-  query GetMe($forLoginDisplay: Boolean! = false) {
+export const GetMeQuery = /* GraphQL */ `
+  query GetMe {
     me {
       id
       ethereumAddress
@@ -13,4 +12,22 @@ export const GetMeQuery = gql`
     }
   }
   ${PlayerFragment}
+`;
+
+export const GetLoginBasicsQuery = /* GraphQL */ `
+  query GetLoginBasics {
+    me {
+      player {
+        id
+        ethereumAddress
+        rank
+        totalXP
+        profile {
+          name
+          username
+          profileImageURL
+        }
+      }
+    }
+  }
 `;

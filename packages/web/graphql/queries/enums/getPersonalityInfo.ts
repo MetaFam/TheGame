@@ -3,14 +3,12 @@ import BalanceAltImg from 'assets/colors/Balance.svg';
 import ChaosAltImg from 'assets/colors/Chaos.svg';
 import JusticeAltImg from 'assets/colors/Justice.svg';
 import WisdomAltImg from 'assets/colors/Wisdom.svg';
-import gql from 'fake-tag';
+import { ColorAspect } from 'graphql/autogen/types';
+import { client } from 'graphql/client';
+import { PersonalityOption } from 'graphql/types';
 import { isPow2 } from 'utils/mathHelper';
 
-import { ColorAspect } from '../../autogen/types';
-import { client } from '../../client';
-import { PersonalityOption } from '../../types';
-
-const AspectsQuery = gql`
+const AspectsQuery = /* GraphQL */ `
   query GetAspects {
     ColorAspect {
       mask

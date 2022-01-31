@@ -1,5 +1,3 @@
-import gql from 'fake-tag';
-
 import {
   GetPatronsQuery,
   GetPatronsQueryVariables,
@@ -13,7 +11,7 @@ import { PlayerFragment, TokenBalancesFragment } from './fragments';
 import { Patron } from './types';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-gql`
+/* GraphQL */ `
   query GetpSeedBalance($address: String!) {
     getTokenBalances(address: $address) {
       ...TokenBalancesFragment
@@ -22,12 +20,8 @@ gql`
   ${TokenBalancesFragment}
 `;
 
-const patronsQuery = gql`
-  query GetPatrons(
-    $addresses: [String!]
-    $limit: Int
-    $forLoginDisplay: Boolean! = false
-  ) {
+const patronsQuery = /* GraphQL */ `
+  query GetPatrons($addresses: [String!], $limit: Int) {
     player(where: { ethereumAddress: { _in: $addresses } }, limit: $limit) {
       ...PlayerFragment
     }
@@ -35,7 +29,7 @@ const patronsQuery = gql`
   ${PlayerFragment}
 `;
 
-const pSeedHoldersQuery = gql`
+const pSeedHoldersQuery = /* GraphQL */ `
   query GetpSeedHolders($limit: Int) {
     pSeedHolders: getTopPSeedHolders(limit: $limit) {
       ...TokenBalancesFragment

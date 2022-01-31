@@ -19,7 +19,7 @@ import XPStar from 'assets/xp-star.svg';
 import { MetaLink } from 'components/Link';
 import { LoginButton } from 'components/LoginButton';
 import { PlayerAvatar } from 'components/Player/PlayerAvatar';
-import { useUser, useWeb3 } from 'lib/hooks';
+import { useLoginBasics, useWeb3 } from 'lib/hooks';
 import { usePSeedBalance } from 'lib/hooks/balances';
 import React from 'react';
 import { getPlayerName, getPlayerURL } from 'utils/playerHelpers';
@@ -29,8 +29,7 @@ const { amountToDecimal } = numbers;
 // Display player XP and Seed
 const PlayerStats = () => {
   const { disconnect } = useWeb3();
-  const { user } = useUser();
-  const { player } = user ?? {};
+  const { player } = useLoginBasics();
   const { pSeedBalance } = usePSeedBalance();
 
   return (
