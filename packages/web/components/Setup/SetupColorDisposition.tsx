@@ -14,7 +14,10 @@ import { FlexContainer } from 'components/Container';
 import { MetaLink } from 'components/Link';
 import { ColorBar } from 'components/Player/ColorBar';
 import { useSetupFlow } from 'contexts/SetupContext';
-import { Maybe } from 'graphql/autogen/types';
+import {
+  Maybe,
+  useInsertCacheInvalidationMutation,
+} from 'graphql/autogen/types';
 import {
   getPersonalityInfo,
   images as BaseImages,
@@ -47,6 +50,7 @@ export const SetupColorDisposition: React.FC<SetupColorDispositionProps> = ({
   const [mask, setMask] = useState(existingMask);
   const params = useRouter();
   const saveToCeramic = useSaveCeramicProfile({ debug: !!params.query.debug });
+  const [, invalidateCache] = useInsertCacheInvalidationMutation();
   const [{ types, parts }, setPersonalityInfo] = useState<PersonalityInfo>({
     types: {},
     parts: [],
@@ -61,18 +65,21 @@ export const SetupColorDisposition: React.FC<SetupColorDispositionProps> = ({
   }, []);
 
   const handleNextPress = async () => {
-    setStatus('Saving…');
-
     await save();
-
     onNextPress();
   };
 
   const save = async () => {
+    setStatus('Saving to Ceramic…');
     await saveToCeramic({
       values: { colorMask: mask ?? undefined },
       setStatus,
     });
+
+    if (user) {
+      setStatus('Invalidating Cache…');
+      await invalidateCache({ playerId: user.id });
+    }
   };
 
   // newMask should always only have at most a single bit

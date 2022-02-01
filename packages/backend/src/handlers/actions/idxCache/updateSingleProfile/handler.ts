@@ -7,8 +7,6 @@ export default async (req: Request, res: Response): Promise<void> => {
   const { playerId } = req.body.input ?? {};
   const { limiter } = req.app.locals;
 
-  console.info(`Queueing recache for ${playerId}.`);
-
   if (!['admin', 'player', 'public'].includes(role)) {
     throw new Error(`Expected Role: admin, player, or public. Got "${role}".`);
   }
