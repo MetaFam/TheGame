@@ -1,3 +1,5 @@
+import { Maybe } from '@metafam/utils';
+
 export type SetupStep = {
   label: string;
   slug?: string;
@@ -50,8 +52,8 @@ export class SetupOptions {
       sectionIndex: 0,
     },
     {
-      label: 'Personality Type',
-      slug: 'personalityType',
+      label: 'Color Disposition',
+      slug: 'colorDisposition',
       sectionIndex: 0,
     },
     {
@@ -96,7 +98,7 @@ export class SetupOptions {
     },
   ];
 
-  stepIndexMatchingSlug(slug: string | null): number {
+  stepIndexMatchingSlug(slug: Maybe<string>): number {
     return this.steps.findIndex((step) => step.slug === slug);
   }
 
