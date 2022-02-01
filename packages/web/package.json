@@ -47,7 +47,7 @@
     "next": "10.2.3",
     "next-images": "1.7.0",
     "next-urql": "3.3.2",
-    "node-fetch": "2.6.1",
+    "node-fetch": "3.1.1",
     "opensea-js": "1.2.7",
     "react": "17.0.2",
     "react-container-query": "0.12.0",

@@ -90,7 +90,7 @@
   },
   "dependencies": {
     "bottleneck": "2.19.5",
-    "node-fetch": "3.1.0"
+    "node-fetch": "3.1.1"
   },
   "browserslist": [
     "defaults",
