@@ -35,25 +35,17 @@ export async function createQuest(
     throw new Error('Player not allowed to create quests');
   }
 
-<<<<<<< develop
-  const { skillsId, ...questValues } = quest;
-=======
-  const { skills_id: skillsId, roles_id: rolesId, ...questValues } = quest;
->>>>>>> chore: add createQuest changes
+  const { skillIds, roleIds, ...questValues } = quest;
 
   const questInput: Quest_Insert_Input = {
     ...questValues,
     repetition: questRepetition,
-<<<<<<< develop
     createdByPlayerId: playerId,
-=======
-    created_by_player_id: playerId,
     quest_roles: {
-      data: rolesId.map((r, i) => ({ role: r, rank: i + 1 })),
+      data: roleIds.map((r, i) => ({ role: r, rank: i + 1 })),
     },
->>>>>>> chore: add createQuest changes
     quest_skills: {
-      data: skillsId.map((s) => ({ skillId: s })),
+      data: skillIds.map((s) => ({ skillId: s })),
     },
   };
 
