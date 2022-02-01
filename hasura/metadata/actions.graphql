@@ -73,8 +73,8 @@ input CreateQuestInput {
   externalLink : String
   repetition : QuestRepetition_ActionEnum
   cooldown : Int
-  skillsId : [uuid]!
-  roles_id : [uuid]!
+  roleIds : [uuid]!
+  skillIds : [uuid]!
 }
 
 input CreateQuestCompletionInput {
