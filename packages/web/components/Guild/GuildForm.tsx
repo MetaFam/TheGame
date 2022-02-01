@@ -11,6 +11,7 @@ import {
 } from '@metafam/ds';
 import { SelectOption } from '@metafam/ds/src/MultiSelect';
 import { Field } from 'components/Forms/Field';
+import { MetaLink } from 'components/Link';
 import {
   DiscordRole,
   GuildFragmentFragment,
@@ -159,7 +160,11 @@ export const GuildForm: React.FC<Props> = ({
   }, [workingGuild, guildMetadata, roleOptions, reset]);
 
   return (
-    <Box w="100%" maxW="40rem">
+    <Box
+      w="100%"
+      maxW="40rem"
+      sx={{ '.description': { ml: 4, mt: 1, fontSize: 'sm' } }}
+    >
       <VStack>
         <Field label="Guildname" error={errors.guildname}>
           <Input
@@ -180,7 +185,9 @@ export const GuildForm: React.FC<Props> = ({
             isInvalid={!!errors.guildname}
             background="dark"
           />
-          <span>A unique identifier for your guild, like a username.</span>
+          <span className="description">
+            A unique identifier for your guild, like a username.
+          </span>
         </Field>
         <Field label="Name" error={errors.name}>
           <Input
@@ -197,7 +204,7 @@ export const GuildForm: React.FC<Props> = ({
             isInvalid={!!errors.name}
             background="dark"
           />
-          <span>
+          <span className="description">
             Your guild&apos;s name. This is what will show throughout MetaGame.
           </span>
         </Field>
@@ -210,14 +217,14 @@ export const GuildForm: React.FC<Props> = ({
         </Field>
         <Field label="Logo URL" error={errors.logoUrl}>
           <Input {...register('logoUrl')} background="dark" />
-          <span>
+          <span className="description">
             Logos should be square (same width and height) and reasonably
             high-resolution.
           </span>
         </Field>
         <Field label="Website URL" error={errors.websiteUrl}>
           <Input {...register('websiteUrl')} background="dark" />
-          <span>Your guild&apos;s main website.</span>
+          <span className="description">Your guild&apos;s main website.</span>
         </Field>
         <Field label="Discord Invite URL" error={errors.discordInviteUrl}>
           <Input
@@ -225,11 +232,13 @@ export const GuildForm: React.FC<Props> = ({
             {...register('discordInviteUrl')}
             background="dark"
           />
-          <span>A public invite URL for your Discord server.</span>
+          <span className="description">
+            A public invite URL for your Discord server.
+          </span>
         </Field>
         <Field label="Join URL" error={errors.joinUrl}>
           <Input {...register('joinUrl')} background="dark" />
-          <span>
+          <span className="description">
             The URL that the <q>JOIN</q> button will point to.
           </span>
         </Field>
@@ -239,7 +248,9 @@ export const GuildForm: React.FC<Props> = ({
             {...register('twitterUrl')}
             background="dark"
           />
-          <span>Your guild&apos;s home on Twitter.</span>
+          <span className="description">
+            Your guild&apos;s home on Twitter.
+          </span>
         </Field>
         <Field label="GitHub URL" error={errors.githubUrl}>
           <Input
@@ -247,7 +258,7 @@ export const GuildForm: React.FC<Props> = ({
             {...register('githubUrl')}
             background="dark"
           />
-          <span>Your guild&apos;s home on GitHub.</span>
+          <span className="description">Your guild&apos;s home on GitHub.</span>
         </Field>
         <Field label="DAO Address" error={errors.daoAddress}>
           <Input
@@ -255,7 +266,17 @@ export const GuildForm: React.FC<Props> = ({
             {...register('daoAddress')}
             background="dark"
           />
-          <span>If your guild has a DAO, enter its address here.</span>
+          <span className="description">
+            If your guild has a DAO, enter its address here. This is the address
+            that will be used to look up your DAO's information from the{' '}
+            <MetaLink
+              isExternal
+              href="https://thegraph.com/hosted-service/subgraph/odyssy-automaton/daohaus"
+            >
+              DaoHaus Supergraph
+            </MetaLink>{' '}
+            on Mainnet, Polygon and xDai.
+          </span>
         </Field>
         <Field label="Type" error={errors.type}>
           <Select
@@ -276,7 +297,7 @@ export const GuildForm: React.FC<Props> = ({
             ))}
           </Select>
         </Field>
-        <Box py={5}>
+        <Box py={5} w="100%">
           {fetchingRoles ? (
             <Box>
               Fetching roles from Discord…
@@ -303,7 +324,7 @@ export const GuildForm: React.FC<Props> = ({
                     <MultiSelect isMulti options={roleOptions} {...props} />
                   )}
                 />
-                <span>
+                <span className="description">
                   Members of your Discord server with these roles will have
                   administration privileges.
                 </span>
@@ -327,7 +348,7 @@ export const GuildForm: React.FC<Props> = ({
                     <MultiSelect isMulti options={roleOptions} {...props} />
                   )}
                 />
-                <span>
+                <span className="description">
                   Members of your Discord server with these roles will be
                   considered members of this guild.
                 </span>

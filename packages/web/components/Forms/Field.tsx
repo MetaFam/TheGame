@@ -9,7 +9,7 @@ type FieldProps = {
 };
 
 export const Field: React.FC<FieldProps> = ({ children, error, label }) => (
-  <Flex mb={2} w="100%" align="center" direction="column">
+  <Flex pb={3} w="100%" direction="column">
     <Flex justify="space-between" w="100%" mb={2}>
       <Text textStyle="caption" textAlign="left" ml={4}>
         {label}
