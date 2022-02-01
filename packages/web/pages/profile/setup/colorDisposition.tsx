@@ -1,4 +1,4 @@
-import { SetupPersonalityType } from 'components/Setup/SetupPersonalityType';
+import { SetupColorDisposition } from 'components/Setup/SetupColorDisposition';
 import { SetupProfile } from 'components/Setup/SetupProfile';
 import { SetupContextProvider } from 'contexts/SetupContext';
 import { InferGetStaticPropsType } from 'next';
@@ -12,11 +12,12 @@ export const getStaticProps = async () => ({
 
 export type DefaultSetupProps = InferGetStaticPropsType<typeof getStaticProps>;
 
-const PersonalityTypeSetup: React.FC<DefaultSetupProps> = () => (
+const ColorDispositionSetup: React.FC<DefaultSetupProps> = () => (
   <SetupContextProvider>
     <SetupProfile>
-      <SetupPersonalityType />
+      <SetupColorDisposition />
     </SetupProfile>
   </SetupContextProvider>
 );
-export default PersonalityTypeSetup;
+
+export default ColorDispositionSetup;

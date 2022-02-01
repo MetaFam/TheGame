@@ -57,9 +57,9 @@ export const useSaveCeramicProfile = ({
       images = {},
       setStatus = () => {},
     }: {
-      values: HasuraStringProps & HasuraEPObjects;
-      images: HasuraImageSourcedProps;
-      setStatus: (msg: string) => void;
+      values?: HasuraStringProps & HasuraEPObjects;
+      images?: HasuraImageSourcedProps;
+      setStatus?: (msg: string) => void;
     }) => {
       if (!ceramic) {
         toast({

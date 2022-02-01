@@ -1,6 +1,3 @@
-import { ModelManager } from '@glazed/devtools';
-import { DIDDataStore } from '@glazed/did-datastore';
-import { TileLoader } from '@glazed/tile-loader';
 import {
   Button,
   Flex,
@@ -10,11 +7,9 @@ import {
   ModalFooter,
   Spinner,
   Text,
-  useToast,
   Wrap,
   WrapItem,
 } from '@metafam/ds';
-import { extendedProfileModel } from '@metafam/utils';
 import { FlexContainer } from 'components/Container';
 import { MetaLink } from 'components/Link';
 import { ColorBar } from 'components/Player/ColorBar';
@@ -25,41 +20,38 @@ import {
   images as BaseImages,
   PersonalityInfo,
 } from 'graphql/queries/enums/getPersonalityInfo';
-import { useUser, useWeb3 } from 'lib/hooks';
+import { useUser } from 'lib/hooks';
+import { useProfileField } from 'lib/store';
+import { useRouter } from 'next/router';
 import React, { ReactElement, useEffect, useState } from 'react';
-import { dispositionFor } from 'utils/playerHelpers';
+import { useSaveCeramicProfile } from 'utils/cacheHelper';
+import { isEmpty } from 'utils/objectHelpers';
 
-export type SetupPersonalityTypeProps = {
+export type SetupColorDispositionProps = {
   isEdit?: boolean;
   onClose?: () => void;
 };
 
-export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
+export const SetupColorDisposition: React.FC<SetupColorDispositionProps> = ({
   isEdit,
   onClose,
 }) => {
   const { onNextPress, nextButtonLabel } = useSetupFlow();
   const { user } = useUser();
-  const { ceramic } = useWeb3();
-  const toast = useToast();
   const [status, setStatus] = useState<Maybe<ReactElement | string>>(null);
-  const [colorMask, setColorMask] = useState<Maybe<number> | undefined>(
-    user?.profile?.colorMask,
-  );
+  const { value: existingMask } = useProfileField<number>({
+    field: 'colorMask',
+    player: user,
+    owner: true,
+  });
+  const [mask, setMask] = useState(existingMask);
+  const params = useRouter();
+  const saveToCeramic = useSaveCeramicProfile({ debug: !!params.query.debug });
   const [{ types, parts }, setPersonalityInfo] = useState<PersonalityInfo>({
     types: {},
     parts: [],
   });
   const isWizard = !isEdit;
-
-  const load = () => {
-    if (user) {
-      if (colorMask === undefined && user.profile?.colorMask != null) {
-        setColorMask(user.profile.colorMask);
-      }
-    }
-  };
-  useEffect(load, [user, colorMask]);
 
   useEffect(() => {
     const fetchInfo = async () =>
@@ -71,76 +63,41 @@ export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
   const handleNextPress = async () => {
     setStatus('Saving…');
 
-    save();
+    await save();
 
     onNextPress();
   };
 
   const save = async () => {
-    if (!user) return;
-
-    if (!ceramic) {
-      toast({
-        title: 'Ceramic Error',
-        description: 'Ceramic is not defined. Cannot update.',
-        status: 'error',
-        isClosable: true,
-      });
-      return;
-    }
-
-    if (user?.profile?.colorMask !== colorMask) {
-      try {
-        if (!ceramic.did?.authenticated) {
-          setStatus(<Text>Authenticating DID…</Text>);
-          await ceramic.did?.authenticate();
-        }
-
-        setStatus(<Text>Saving Color Disposition…</Text>);
-
-        const cache = new Map();
-        const loader = new TileLoader({ ceramic, cache });
-        const manager = new ModelManager(ceramic);
-        manager.addJSONModel(extendedProfileModel);
-
-        const store = new DIDDataStore({
-          ceramic,
-          loader,
-          model: await manager.toPublished(),
-        });
-
-        const colorDisposition = dispositionFor(colorMask);
-        await store.merge('extendedProfile', { colorDisposition });
-      } catch (err) {
-        console.warn(err); // eslint-disable-line no-console
-        toast({
-          title: 'Error',
-          description: `Unable to update personality type. Error: ${
-            (err as Error).message
-          }`,
-          status: 'error',
-          isClosable: true,
-        });
-        setStatus(null);
-      }
-    }
+    await saveToCeramic({
+      values: { colorMask: mask ?? undefined },
+      setStatus,
+    });
   };
 
-  // mask should always only have at most a single bit set
-  const toggleMaskElement = (mask = 0): void => {
-    setColorMask((current = 0) => {
+  // newMask should always only have at most a single bit
+  // set — the one being toggled
+  const toggleMaskElement = (newMask = 0): void => {
+    setMask((current = 0) => {
       // eslint-disable-next-line no-param-reassign
       current ??= 0; // in case of null
-      if ((mask & current) > 0) {
+      if ((newMask & current) > 0) {
         // if the bit in mask is set
-        return current & ~mask; // unset it
+        return current & ~newMask; // unset it
       }
-      return current | mask; // otherwise set it
+      return current | newMask; // otherwise set it
     });
   };
 
   return (
-    <FlexContainer>
+    <FlexContainer
+      as="form"
+      onSubmit={async (evt) => {
+        evt.preventDefault();
+        await save();
+        onClose?.();
+      }}
+    >
       <Flex direction="column">
         {isWizard && (
           <MetaHeading mb={5} textAlign="center">
@@ -175,17 +132,17 @@ export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
         wrap="wrap"
         id="colors"
       >
-        {Object.keys(types).length &&
+        {!isEmpty(types) &&
           Object.entries(BaseImages)
             .reverse()
             .map(([orig, image], idx) => {
               const option = types[parseInt(orig, 10)];
-              const { mask = 0 } = option ?? {};
-              const selected = ((colorMask ?? 0) & mask) > 0;
+              const { mask: thisMask = 0 } = option ?? {};
+              const selected = ((mask ?? 0) & thisMask) > 0;
 
               return (
                 <Button
-                  key={mask}
+                  key={thisMask}
                   display="flex"
                   direction="row"
                   justifyContent="start"
@@ -196,7 +153,7 @@ export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
                   spacing={4}
                   borderRadius={8}
                   cursor="pointer"
-                  onClick={() => toggleMaskElement(mask)}
+                  onClick={() => toggleMaskElement(thisMask)}
                   autoFocus={idx === 0} // Doesn't work
                   ref={(input) => {
                     if (idx === 0 && !input?.getAttribute('focused-once')) {
@@ -254,7 +211,7 @@ export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
       </FlexContainer>
 
       <ColorBar
-        mask={colorMask ?? null}
+        mask={mask ?? null}
         mt={8}
         w="min(90vw, 30rem)"
         personalityInfo={{ types, parts }}
@@ -264,13 +221,7 @@ export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
         <ModalFooter mt={6}>
           <Wrap justify="center" align="center" flex={1}>
             <WrapItem>
-              <MetaButton
-                isDisabled={!!status}
-                onClick={async () => {
-                  await save();
-                  onClose();
-                }}
-              >
+              <MetaButton type="submit" isDisabled={!!status}>
                 {!status ? (
                   'Save Changes'
                 ) : (
@@ -304,7 +255,7 @@ export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
         <MetaButton
           onClick={handleNextPress}
           mt={10}
-          isDisabled={colorMask === undefined}
+          isDisabled={mask === undefined}
           isLoading={!!status}
           loadingText={status?.toString() ?? undefined}
         >
