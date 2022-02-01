@@ -242,7 +242,7 @@ export const Grid: React.FC<Props> = ({
   const [player, setPlayer] = useState(initPlayer);
 
   useEffect(() => {
-    if (!fetching && user && user?.id === player?.id) {
+    if (!fetching && user && user.id === player.id) {
       setPlayer(user);
       if (connected) {
         setIsOwnProfile(true);
