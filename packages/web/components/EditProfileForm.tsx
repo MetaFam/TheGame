@@ -1,13 +1,7 @@
 /* eslint-disable no-console */
+
 import { Caip10Link } from '@ceramicnetwork/stream-caip10-link';
-import {
-  BasicProfile,
-  ImageSources,
-  model as basicProfileModel,
-} from '@datamodels/identity-profile-basic';
-import { ModelManager } from '@glazed/devtools';
-import { DIDDataStore } from '@glazed/did-datastore';
-import { TileLoader } from '@glazed/tile-loader';
+import { ImageSources } from '@datamodels/identity-profile-basic';
 import {
   Box,
   Button,
@@ -37,21 +31,7 @@ import {
   Wrap,
   WrapItem,
 } from '@metafam/ds';
-import {
-  AllProfileFields,
-  BasicProfileImages,
-  BasicProfileStrings,
-  ExtendedProfile,
-  ExtendedProfileImages,
-  extendedProfileModel,
-  ExtendedProfileObjects,
-  ExtendedProfileStrings,
-  HasuraProfileProps,
-  Images,
-  ProfileProps,
-  ReversedProfileFields,
-  Values,
-} from '@metafam/utils';
+import { HasuraProfileProps, Images } from '@metafam/utils';
 import FileOpenIcon from 'assets/file-open-icon.svg';
 import PlayerProfileIcon from 'assets/player-profile-icon.svg';
 import {
@@ -61,8 +41,7 @@ import {
 } from 'graphql/autogen/types';
 import { getPlayer } from 'graphql/getPlayer';
 import { useWeb3 } from 'lib/hooks';
-import { useProfileField } from 'lib/store';
-import router, { useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 import React, {
   ReactElement,
   RefObject,
@@ -73,9 +52,9 @@ import React, {
   useState,
 } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import { useSaveCeramicProfile } from 'utils/cacheHelper';
 import { optimizedImage } from 'utils/imageHelpers';
 import { isEmpty } from 'utils/objectHelpers';
-import { dispositionFor } from 'utils/playerHelpers';
 
 const MAX_DESC_LEN = 420; // characters
 
@@ -157,6 +136,7 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
   const username = useMemo(() => player?.profile?.username, []);
   const [, invalidateCache] = useInsertCacheInvalidationMutation();
   const params = useRouter();
+  const saveToCeramic = useSaveCeramicProfile({ debug: !!params.query.debug });
   const {
     handleSubmit,
     register,
@@ -205,21 +185,8 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
     }),
   );
 
-  const setters = Object.fromEntries(
-    Object.keys(AllProfileFields).map((key) => {
-      // eslint-disable-next-line react-hooks/rules-of-hooks
-      const { setter } = useProfileField({
-        field: key,
-        player,
-        owner: true,
-      });
-      return [key, setter];
-    }),
-  );
-
   useEffect(() => {
     if (!endpoints.profileImageURL.ref.current) {
-      // eslint-disable-next-line no-console
       console.warn('Unable to initially focus the profile image.');
     } else {
       endpoints.profileImageURL.ref.current.focus();
@@ -250,7 +217,7 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
     [endpoints],
   );
 
-  if (!ceramic) {
+  if (!ceramic || !saveToCeramic) {
     toast({
       title: 'Ceramic Connection Error',
       description: 'Unable to connect to the Ceramic API to save changes.',
@@ -284,18 +251,6 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
         console.debug(`CAIP-10 DID: ${caip10.did}`);
       }
 
-      const cache = new Map();
-      const loader = new TileLoader({ ceramic, cache });
-      const manager = new ModelManager(ceramic);
-      manager.addJSONModel(basicProfileModel);
-      manager.addJSONModel(extendedProfileModel);
-
-      const store = new DIDDataStore({
-        ceramic,
-        loader,
-        model: await manager.toPublished(),
-      });
-
       setStatus(
         <Text>
           Uploading images to
@@ -308,8 +263,8 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
 
       const formData = new FormData();
       const files: Record<string, File> = {};
-      const sources: Record<string, ImageSources> = {};
-      const values: ProfileProps = { ...inputs };
+      const images: Record<string, ImageSources> = {};
+      const values = { ...inputs };
       Object.keys(Images).forEach((hasuraId) => {
         const key = hasuraId as keyof typeof Images;
         if (endpoints[key].file) {
@@ -375,7 +330,7 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
                 1,
               );
             });
-            sources[key as keyof typeof Images] = {
+            images[key as keyof typeof Images] = {
               original: {
                 src: `ipfs://${response[tKey]}`,
                 mimeType: mime,
@@ -390,32 +345,8 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
         console.debug({ files, values, inputs, dirtyFields });
       }
 
-      // empty string fails validation
-      ['residenceCountry', 'birthDate'].forEach((prop) => {
-        const key = prop as keyof typeof BasicProfileStrings;
-        if (values[key] === '') {
-          delete values[key];
-        }
-      });
-
-      const { countryCode: code }: { countryCode?: string } = values;
-      if (code?.length === 2) {
-        values.countryCode = code.toUpperCase();
-      } else {
-        if ((code ?? '').length > 0) {
-          toast({
-            title: 'Country Code Error',
-            description: `Country Code "${code}" is not the required two letters.`,
-            status: 'error',
-            isClosable: true,
-            duration: 8000,
-          });
-        }
-        delete values.countryCode;
-      }
-
       Object.keys(values).forEach((hasuraId) => {
-        const key = hasuraId as keyof ProfileProps;
+        const key = hasuraId as keyof HasuraProfileProps;
         if (!dirtyFields[key]) {
           if (params.query.debug) {
             console.info(`Removing Unchanged Value [${key}]: “${values[key]}”`);
@@ -424,127 +355,20 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
         }
       });
 
-      const basic: BasicProfile = {};
-      const extended: ExtendedProfile = {};
-
-      setStatus(<Text>Updating Basic Profile…</Text>);
-
-      Object.entries(BasicProfileStrings).forEach(([hasuraId, ceramicId]) => {
-        const fromKey = ceramicId as Values<typeof BasicProfileStrings>;
-        const toKey = hasuraId as keyof typeof BasicProfileStrings;
-        if (values[toKey] !== undefined) {
-          basic[fromKey] = (values[toKey] as string) ?? null;
-        }
-      });
-
-      Object.entries(BasicProfileImages).forEach(([hasuraId, ceramicId]) => {
-        const fromKey = ceramicId as Values<typeof BasicProfileImages>;
-        const toKey = hasuraId as keyof typeof BasicProfileImages;
-        if (sources[toKey] !== undefined) {
-          basic[fromKey] = sources[toKey] ?? null;
-        }
-      });
-
-      if (!isEmpty(basic)) {
-        const basRes = await store.merge('basicProfile', basic);
-        if (params.query.debug) {
-          console.info('Basic Profile:', basRes.toUrl());
-        }
-      }
-
-      setStatus(<Text>Updating Extended Profile…</Text>);
-
-      Object.entries(ExtendedProfileStrings).forEach(
-        ([hasuraId, ceramicId]) => {
-          const fromKey = ceramicId as Values<typeof ExtendedProfileStrings>;
-          const toKey = hasuraId as keyof typeof ExtendedProfileStrings;
-          if (values[toKey] !== undefined) {
-            extended[fromKey] = values[toKey];
-          }
-        },
-      );
-
-      Object.entries(ExtendedProfileImages).forEach(([hasuraId, ceramicId]) => {
-        const fromKey = ceramicId as Values<typeof ExtendedProfileImages>;
-        const toKey = hasuraId as keyof typeof ExtendedProfileImages;
-        if (sources[toKey] !== undefined) {
-          extended[fromKey] = sources[toKey];
-        }
-      });
-
-      Object.entries(ExtendedProfileObjects).forEach(
-        ([hasuraId, ceramicId]) => {
-          const fromKey = ceramicId as Values<typeof ExtendedProfileObjects>;
-          const toKey = hasuraId as keyof typeof ExtendedProfileObjects;
-          if (values[toKey] !== undefined) {
-            switch (fromKey) {
-              case 'availableHours': {
-                extended[fromKey] = values[toKey] as number;
-                break;
-              }
-              case 'colorDisposition': {
-                extended[fromKey] =
-                  dispositionFor(values.colorMask) ?? undefined;
-                break;
-              }
-              default: {
-                console.warn(`Unknown Profile Key: "${fromKey}"`);
-              }
-            }
-          }
-        },
-      );
-
-      if (params.query.debug) {
-        console.debug({ values, sources, basic, extended });
-      }
-
-      if (!isEmpty(extended)) {
-        const extRes = await store.merge('extendedProfile', extended);
-        if (params.query.debug) {
-          console.info('Extended Profile:', extRes.toUrl());
-        }
-      }
+      saveToCeramic({ values, images, setStatus });
 
       if (player) {
         setStatus(<Text>Invalidating Cache…</Text>);
         await invalidateCache({ playerId: player.id });
       }
 
-      setStatus(<Text>Updating Local State…</Text>);
-      Object.entries({ ...basic, ...extended }).forEach(
-        ([ceramicKey, value]) => {
-          const hasuraKey = ReversedProfileFields[ceramicKey];
-          if (!hasuraKey) {
-            console.warn(`Couldn’t find key to match ${ceramicKey}.`);
-          } else if (setters[hasuraKey]) {
-            if (!(hasuraKey in Images)) {
-              if (params.query.debug) {
-                console.info(`Setting ${hasuraKey} to “${value}”.`);
-              }
-              setters[hasuraKey]?.(value);
-            }
-          } else {
-            console.warn(`Missing setter for ${hasuraKey} (${ceramicKey}).`);
-          }
-        },
-      );
-
-      Object.entries(sources).forEach(([hasuraKey, incoming]) => {
-        const value = incoming.original.src;
-        if (setters[hasuraKey]) {
-          if (params.query.debug) {
-            console.info(`Setting ${hasuraKey} to “${value}”.`);
-          }
-          setters[hasuraKey]?.(value);
-        } else {
-          console.warn(`Missing setter for ${hasuraKey}.`);
-        }
-      });
-
       // if they changed their username, the page will 404 on reload
-      if (player && extended.username !== username) {
-        router.push(`/player/${player.ethereumAddress}`);
+      if (player && inputs.username !== username) {
+        window.history.replaceState(
+          null,
+          `${inputs.name ?? inputs.username}’s MetaGame Profile`,
+          `/player/${player.ethereumAddress}`,
+        );
       }
 
       return onClose();

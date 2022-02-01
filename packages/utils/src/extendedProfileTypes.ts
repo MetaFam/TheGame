@@ -5,6 +5,18 @@ export type Values<T> = T[keyof T];
 
 export { BasicProfile };
 
+// The format of these object literals is:
+// <hasura key>: <ceramic key>
+//
+// Adding a new profile field would consist of
+// adding a new entry to the appropriate one of
+// these types, and then adding the appropriate
+// field to packages/utils/schema/extended-profile.json5.
+//
+// The script packages/utils/bin/create-model.mjs
+// would need to be updated to update the document
+// type rather than overwrite it, or existing profile
+// definitions would get lost.
 export const BasicProfileImages = {
   profileImageURL: 'image',
   bannerImageURL: 'background',
@@ -38,6 +50,9 @@ export const ExtendedProfileStrings = {
   timeZone: 'timeZone',
   explorerTypeTitle: 'explorerType',
 } as const;
+// Objects are handled specially in the save function.
+// There is a switch on the key and specific code for
+// setting each value.
 export const ExtendedProfileObjects = {
   availableHours: 'availableHours',
   colorMask: 'colorDisposition',
@@ -46,6 +61,11 @@ export const ExtendedProfileFields = {
   ...ExtendedProfileImages,
   ...ExtendedProfileStrings,
   ...ExtendedProfileObjects,
+} as const;
+
+export const StringProfileFields = {
+  ...BasicProfileStrings,
+  ...ExtendedProfileStrings,
 } as const;
 
 export const AllProfileFields = {
@@ -89,6 +109,14 @@ export type CeramicEPObjects = EPObjects & {
   colorDisposition?: string;
 };
 
+export type HasuraStringProps = HasuraBPStrings & HasuraEPStrings;
+export type HasuraImageSourcedProps = {
+  -readonly [key in keyof typeof BasicProfileImages]?: ImageSources;
+} &
+  {
+    -readonly [key in keyof typeof ExtendedProfileImages]?: ImageSources;
+  };
+
 export type HasuraProfileProps = HasuraBPImages &
   HasuraBPStrings &
   HasuraEPImages &
@@ -111,6 +139,8 @@ export type CeramicEPStrings = {
 export type ExtendedProfile = CeramicEPImages &
   CeramicEPStrings &
   CeramicEPObjects;
+
+export type CeramicProfileProps = BasicProfile & ExtendedProfile;
 
 export type ProfileProps = CeramicBPImages &
   HasuraBPImages &

@@ -77,7 +77,7 @@ export const PlayerPage: React.FC<Props> = ({
   const { value: banner } = useProfileField({
     field: 'bannerImageURL',
     player,
-    owner: user?.id === player.id,
+    owner: !!user && user.id === player?.id,
     getter: getPlayerBannerFull,
   });
 

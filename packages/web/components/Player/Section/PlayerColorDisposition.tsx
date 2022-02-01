@@ -5,7 +5,8 @@ import { ProfileSection } from 'components/Profile/ProfileSection';
 import { Player } from 'graphql/autogen/types';
 import { PersonalityInfo } from 'graphql/queries/enums/getPersonalityInfo';
 import { useAnimateProfileChanges } from 'lib/hooks/players';
-import React, { useState } from 'react';
+import { useProfileField } from 'lib/store';
+import React from 'react';
 import { BoxType } from 'utils/boxTypes';
 
 type Props = {
@@ -20,12 +21,12 @@ export const PlayerColorDisposition: React.FC<Props> = ({
   isOwnProfile,
   canEdit,
 }) => {
-  const [mask, setMask] = useState<number | null>(
-    player?.profile?.colorMask ?? null,
-  );
-
-  const updateFN = () => setMask(mask);
-  const { animation } = useAnimateProfileChanges(mask, updateFN);
+  const { value: mask } = useProfileField<number>({
+    field: 'colorMask',
+    player,
+    owner: isOwnProfile,
+  });
+  const { animation } = useAnimateProfileChanges(mask);
 
   return (
     <ProfileSection
