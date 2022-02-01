@@ -43,11 +43,8 @@ export const useProfileField = <T = string>({
     () => (getter ? getter(player) : player?.profile?.[key]) ?? null,
     [key, getter, player],
   );
-
-  // console.info({ field, player, fields, data, owner });
-
   let atom = owner ? fields[field] : null;
-  if (!atom && owner) {
+  if (!atom && owner && player) {
     atom = newAtom<Maybe<typeof value>>(value);
     fields[field] = atom;
   }
