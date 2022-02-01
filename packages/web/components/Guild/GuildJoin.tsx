@@ -1,5 +1,6 @@
 import {
   Box,
+  Flex,
   Image,
   ListItem,
   MetaButton,
@@ -11,12 +12,14 @@ import { Constants, generateUUID } from '@metafam/utils';
 import { FlexContainer } from 'components/Container';
 import { MetaLink } from 'components/Link';
 import { CONFIG } from 'config';
+import { useUser } from 'lib/hooks';
 import { get, set } from 'lib/store';
 import React, { useEffect, useState } from 'react';
 
 export const discordAuthStateGuidKey = 'metagame-add-guild';
 
 export const GuildJoin: React.FC = () => {
+  const { user } = useUser();
   const discordOAuthCallbackURL = `${CONFIG.publicURL}/${Constants.DISCORD_OAUTH_CALLBACK_PATH}`;
 
   const [stateGuid, setStateGuid] = useState<string>();
@@ -72,20 +75,30 @@ export const GuildJoin: React.FC = () => {
             <MetaLink isExternal href="https://discord.com/">
               Discord
             </MetaLink>{' '}
-            server. Clicking the link below will redirect to a Discord page
-            asking for your permission to collect certain relevant information
-            about your guild.
+            server.
           </Text>
-          {stateGuid?.length && (
-            <MetaButton
-              size="lg"
-              maxW="15rem"
-              mt={4}
-              as="a"
-              href={discordAuthURL}
-            >
-              Apply to Join
-            </MetaButton>
+          {stateGuid?.length && user?.player ? (
+            <>
+              <Text pt={4}>
+                Clicking the link below will redirect to a Discord page asking
+                for your permission to collect certain relevant information
+                about your guild.
+              </Text>
+              <MetaButton
+                size="lg"
+                maxW="15rem"
+                mt={4}
+                as="a"
+                href={discordAuthURL}
+              >
+                Apply to Join
+              </MetaButton>
+            </>
+          ) : (
+            <Flex fontStyle="italic" mt={4}>
+              Please log in or create a player profile by pressing the "Connect"
+              button to start the guild setup process.
+            </Flex>
           )}
         </Box>
       </Box>
