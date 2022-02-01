@@ -15,7 +15,7 @@ export const PlayerContacts: React.FC<Props> = ({
   player,
   disableBrightId = false,
 }) => {
-  const { verified } = useBrightIdStatus({ player });
+  const { verified } = useBrightIdStatus({ player }) ?? {};
   const [copied, handleCopy] = useCopyToClipboard();
   return (
     <Wrap>

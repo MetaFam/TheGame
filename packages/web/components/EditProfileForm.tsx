@@ -33,7 +33,7 @@ import {
   Wrap,
   WrapItem,
 } from '@metafam/ds';
-import { HasuraProfileProps, Images } from '@metafam/utils';
+import { AllProfileFields, HasuraProfileProps, Images } from '@metafam/utils';
 import FileOpenIcon from 'assets/file-open-icon.svg';
 import PlayerProfileIcon from 'assets/player-profile-icon.svg';
 import {
@@ -43,6 +43,7 @@ import {
 } from 'graphql/autogen/types';
 import { getPlayer } from 'graphql/getPlayer';
 import { useWeb3 } from 'lib/hooks';
+import { useProfileField } from 'lib/store';
 import { useRouter } from 'next/router';
 import React, {
   ReactElement,
@@ -171,6 +172,19 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
     description,
   ]);
 
+  const fields = Object.fromEntries(
+    Object.keys(AllProfileFields).map((key) => {
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      const { value } = useProfileField({
+        field: key,
+        player,
+        owner: true,
+      });
+
+      return [key, value];
+    }),
+  );
+
   const endpoints = Object.fromEntries(
     Object.keys(Images).map((hasuraId) => {
       const key = hasuraId as keyof typeof Images;
@@ -180,7 +194,7 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
       const [loading, setLoading] = useState(true);
       // eslint-disable-next-line react-hooks/rules-of-hooks
       const [url, setURL] = useState<string | undefined>(
-        optimizedImage(key, player?.profile?.[key]),
+        optimizedImage(key, fields[key]),
       );
       // eslint-disable-next-line react-hooks/rules-of-hooks
       const [file, setFile] = useState<Maybe<File>>(null);
@@ -213,12 +227,12 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    Object.entries(player?.profile ?? {}).forEach(([key, value]) => {
+    Object.entries(fields).forEach(([key, value]) => {
       if (!key.startsWith('_')) {
         setValue(key, value ?? undefined);
       }
     });
-  }, [player, setValue]);
+  }, [fields, setValue]);
 
   const onFileChange = useCallback(
     ({ target: input }: { target: HTMLInputElement }) => {
@@ -563,7 +577,7 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
                 <Text as="sup" ml={2}>
                   {remaining}
                 </Text>
-                ⁄<Text as="sub">{MAX_DESC_LEN}</Text>
+                <Text as="sub">{MAX_DESC_LEN}</Text>
                 <InfoIcon ml={2} />
               </Label>
             </Tooltip>
