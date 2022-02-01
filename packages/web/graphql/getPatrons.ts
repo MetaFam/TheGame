@@ -3,7 +3,7 @@ import {
   GetPatronsQueryVariables,
   GetpSeedHoldersQuery,
   GetpSeedHoldersQueryVariables,
-  PlayerFragmentFragment,
+  Player,
   TokenBalancesFragmentFragment,
 } from './autogen/types';
 import { client } from './client';
@@ -41,7 +41,7 @@ const pSeedHoldersQuery = /* GraphQL */ `
 const getPlayersFromAddresses = async (
   addresses: Array<string>,
   limit: number,
-): Promise<Array<PlayerFragmentFragment>> => {
+): Promise<Array<Player>> => {
   const { data, error } = await client
     .query<GetPatronsQuery, GetPatronsQueryVariables>(patronsQuery, {
       addresses,
@@ -56,7 +56,7 @@ const getPlayersFromAddresses = async (
     return [];
   }
 
-  return data.player;
+  return data.player as Array<Player>;
 };
 
 const getpSeedHolders = async (
@@ -84,7 +84,7 @@ export const getPatrons = async (limit = 50): Promise<Array<Patron>> => {
     limit,
   );
 
-  const players: Array<PlayerFragmentFragment> = await getPlayersFromAddresses(
+  const players: Array<Player> = await getPlayersFromAddresses(
     tokenBalances.map(({ address }) => address),
     limit,
   );

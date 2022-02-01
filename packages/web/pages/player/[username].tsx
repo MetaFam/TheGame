@@ -33,6 +33,7 @@ import { getPlayer } from 'graphql/getPlayer';
 import { getTopPlayerUsernames } from 'graphql/getPlayers';
 import { getPersonalityInfo } from 'graphql/queries/enums/getPersonalityInfo';
 import { useUser, useWeb3 } from 'lib/hooks';
+import { useProfileField } from 'lib/store';
 import {
   GetStaticPaths,
   GetStaticPropsContext,
@@ -72,6 +73,13 @@ export const PlayerPage: React.FC<Props> = ({
   personalityInfo,
 }): ReactElement => {
   const router = useRouter();
+  const { user } = useUser();
+  const { value: banner } = useProfileField({
+    field: 'bannerImageURL',
+    player,
+    owner: user?.id === player.id,
+    getter: getPlayerBannerFull,
+  });
 
   if (router.isFallback) {
     return <LoadingState />;
@@ -82,13 +90,13 @@ export const PlayerPage: React.FC<Props> = ({
   return (
     <PageContainer pt={0} px={[0, 4, 8]}>
       <HeadComponent
-        title={`MetaGame Player Profile: ${getPlayerName(player)}`}
+        title={`MetaGame Profile: ${getPlayerName(player)}`}
         description={(getPlayerDescription(player) ?? '').replace('\n', ' ')}
         url={getPlayerURL(player, { rel: false })}
         img={getPlayerImage(player)}
       />
       <Box
-        bg={`url(${getPlayerBannerFull(player)}) no-repeat`}
+        bg={`url(${banner}) no-repeat`}
         bgSize="cover"
         bgPos="center"
         h={72}

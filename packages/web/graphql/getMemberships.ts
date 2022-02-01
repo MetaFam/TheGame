@@ -3,7 +3,7 @@ import {
   GetDaoMembershipsQueryVariables,
   GetPlayerGuildsQuery,
   GetPlayerGuildsQueryVariables,
-  PlayerFragmentFragment,
+  Player,
 } from './autogen/types';
 import { client } from './client';
 
@@ -78,7 +78,7 @@ export type GuildMembership = {
   guildname?: string;
 };
 
-export const getAllMemberships = async (player: PlayerFragmentFragment) => {
+export const getAllMemberships = async (player: Player) => {
   const guildPlayers = await getGuildMemberships(player.id);
 
   const daohausMemberships = player.daohausMemberships?.filter(

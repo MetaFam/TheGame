@@ -1,6 +1,6 @@
 import { CONFIG } from 'config';
 import { utils } from 'ethers';
-import { PlayerFragmentFragment } from 'graphql/autogen/types';
+import { Player } from 'graphql/autogen/types';
 import { OpenSeaAPI } from 'opensea-js';
 import {
   AssetEvent,
@@ -12,7 +12,7 @@ import { useEffect, useState } from 'react';
 const opensea = new OpenSeaAPI({ apiKey: CONFIG.openseaApiKey });
 
 type OpenSeaCollectiblesOpts = {
-  player: PlayerFragmentFragment;
+  player: Player;
 };
 
 export type Collectible = {

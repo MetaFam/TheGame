@@ -1,6 +1,4 @@
-import gql from 'fake-tag';
-
-export const UpdateQuestCompletionMutation = gql`
+export const UpdateQuestCompletionMutation = /* GraphQL */ `
   mutation UpdateQuestCompletion(
     $questCompletionId: String!
     $status: QuestCompletionStatus_ActionEnum!

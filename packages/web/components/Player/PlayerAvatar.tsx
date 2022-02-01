@@ -1,21 +1,36 @@
 import { Avatar, AvatarProps } from '@metafam/ds';
 import { Player } from 'graphql/autogen/types';
 import { GuildPlayer } from 'graphql/types';
+import { useProfileField } from 'lib/store';
 import React from 'react';
 import { getPlayerImage, getPlayerName, hasImage } from 'utils/playerHelpers';
 
 type PlayerAvatarProps = AvatarProps & {
   player?: Player | GuildPlayer;
   omitBackground?: boolean;
+  isOwnProfile?: boolean;
 };
 
 export const PlayerAvatar: React.FC<PlayerAvatarProps> = React.forwardRef<
   HTMLSpanElement,
   PlayerAvatarProps
->(({ player, src, ...props }, ref) => {
+>(({ player: user, isOwnProfile = false, src, ...props }, ref) => {
+  const player = user as Player;
+  const { value: image } = useProfileField({
+    field: 'profileImageURL',
+    player,
+    owner: isOwnProfile,
+    getter: getPlayerImage,
+  });
+  const { name } = useProfileField({
+    field: 'name',
+    player,
+    owner: isOwnProfile,
+    getter: getPlayerName,
+  });
   const attrs = {
-    src: src ?? getPlayerImage(player),
-    name: getPlayerName(player),
+    src: src ?? image ?? undefined,
+    name: name ?? undefined,
     ...props,
   };
 

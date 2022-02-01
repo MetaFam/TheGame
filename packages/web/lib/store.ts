@@ -1,7 +1,7 @@
-import { Maybe } from '@metafam/utils';
+import { httpLink, Maybe } from '@metafam/utils';
 import { Player, Profile } from 'graphql/autogen/types';
-import { Atom, atom as newAtom, useAtom } from 'jotai';
-import { useState } from 'react';
+import { Atom, atom as newAtom, PrimitiveAtom, useAtom } from 'jotai';
+import { useMemo } from 'react';
 
 export const get = (key: string): string | null =>
   typeof window === 'undefined' ? null : localStorage.getItem(key);
@@ -16,25 +16,53 @@ export const remove = (key: string): void => {
   localStorage.removeItem(key);
 };
 
-export const useProfileField = ({
+export type ProfileFieldType<T> = {
+  [field in keyof Profile]?: Maybe<T>;
+} & {
+  value: Maybe<T>;
+  setter: Maybe<(value: unknown) => void>;
+};
+
+const fields: Record<string, Atom<Maybe<string | number>>> = {};
+
+export const useProfileField = <T = string>({
   field,
-  player,
+  player = null,
   owner = false,
+  getter = null,
 }: {
   field: string;
-  player: Player;
-  owner: boolean;
-}) => {
-  const [fields, setFields] = useState<Record<string, Atom<Maybe<string>>>>({});
-  const data = player?.profile?.[field as keyof Profile] ?? null;
-  let atom = fields[field];
+  player?: Maybe<Player>;
+  owner?: boolean;
+  getter?: Maybe<(player: Maybe<Player>) => T>;
+}): ProfileFieldType<T> => {
+  const defaultAtom = useMemo(() => newAtom(null), []);
+  const key = field as keyof Profile;
+  let setter = null;
+  let value = useMemo(
+    () => (getter ? getter(player) : player?.profile?.[key]) ?? null,
+    [key, getter, player],
+  );
+
+  // console.info({ field, player, fields, data, owner });
+
+  let atom = owner ? fields[field] : null;
   if (!atom && owner) {
-    atom = newAtom<Maybe<string>>(data);
-    setFields((f) => ({
-      ...f,
-      field: atom,
-    }));
+    atom = newAtom<Maybe<typeof value>>(value);
+    fields[field] = atom;
   }
-  const [value, setter] = useAtom(atom);
-  return owner ? { value, setter } : { value: data, setter: null };
+
+  // eslint-disable-next-line @typescript-eslint/no-shadow
+  const ret = useAtom(
+    (atom ?? defaultAtom) as PrimitiveAtom<Maybe<typeof value>>,
+  );
+  if (owner) {
+    [value, setter] = ret;
+  }
+
+  if (field.endsWith('ImageURL')) {
+    value = httpLink(value);
+  }
+
+  return { value, setter, [field]: value };
 };

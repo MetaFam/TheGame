@@ -9,7 +9,7 @@ import { PlayerRoles } from 'components/Player/Section/PlayerRoles';
 import { PlayerSkills } from 'components/Player/Section/PlayerSkills';
 import { PlayerType } from 'components/Player/Section/PlayerType';
 import { EmbeddedUrl } from 'components/Profile/EmbeddedUrlSection';
-import { PlayerFragmentFragment } from 'graphql/autogen/types';
+import { Player } from 'graphql/autogen/types';
 import { PersonalityInfo } from 'graphql/queries/enums/getPersonalityInfo';
 import React from 'react';
 import { FaTimes } from 'react-icons/fa';
@@ -18,7 +18,7 @@ import { BoxMetadata, BoxType, getBoxKey } from 'utils/boxTypes';
 type Props = {
   boxType: BoxType;
   boxMetadata: BoxMetadata;
-  player: PlayerFragmentFragment;
+  player: Player;
   personalityInfo: PersonalityInfo;
   isOwnProfile?: boolean;
   canEdit?: boolean;
@@ -61,7 +61,7 @@ const PlayerSectionInner: React.FC<Props> = ({
       return url ? <EmbeddedUrl {...{ url, canEdit }} /> : <></>;
     }
     default:
-      return <></>;
+      return null;
   }
 };
 

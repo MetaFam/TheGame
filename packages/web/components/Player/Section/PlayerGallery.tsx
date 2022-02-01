@@ -14,7 +14,7 @@ import {
 } from '@metafam/ds';
 import { MetaLink as Link } from 'components/Link';
 import { ProfileSection } from 'components/Profile/ProfileSection';
-import { PlayerFragmentFragment } from 'graphql/autogen/types';
+import { Player } from 'graphql/autogen/types';
 import { Collectible, useOpenSeaCollectibles } from 'lib/hooks/opensea';
 import React from 'react';
 import { BoxType } from 'utils/boxTypes';
@@ -53,7 +53,7 @@ const GalleryItem: React.FC<{ nft: Collectible; noMargin?: boolean }> = ({
 );
 
 type Props = {
-  player: PlayerFragmentFragment;
+  player: Player;
   isOwnProfile?: boolean;
   canEdit?: boolean;
 };

@@ -1,5 +1,5 @@
 import { CONFIG } from 'config';
-import { PlayerFragmentFragment } from 'graphql/autogen/types';
+import { Player } from 'graphql/autogen/types';
 import { useEffect, useMemo } from 'react';
 
 const BRIGHTID_CONTEXT = 'MetaGame';
@@ -27,7 +27,7 @@ const isStatusVerified = (
 export const useBrightIdStatus = ({
   player,
 }: {
-  player: PlayerFragmentFragment;
+  player: Player;
 }): {
   verified: boolean;
   deeplink: string;
@@ -59,7 +59,7 @@ export const useBrightIdUpdated = ({
   player,
   poll,
 }: {
-  player: PlayerFragmentFragment;
+  player: Player;
   poll: boolean;
 }): void => {
   const contextId = player.id;

@@ -413,6 +413,7 @@ const PlayerStats: React.FC<PlayerStatsProps> = ({ player }) => {
         >
           <PlayerAvatar
             {...{ player }}
+            isOwnProfile={true}
             w={14}
             h={14}
             m={0}

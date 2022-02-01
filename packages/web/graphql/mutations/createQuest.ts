@@ -1,6 +1,4 @@
-import gql from 'fake-tag';
-
-export const CreateQuestMutation = gql`
+export const CreateQuestMutation = /* GraphQL */ `
   mutation CreateQuest($input: CreateQuestInput!) {
     createQuest(quest: $input) {
       success

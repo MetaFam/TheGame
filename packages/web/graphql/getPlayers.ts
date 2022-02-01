@@ -11,8 +11,8 @@ import {
   GetPlayerUsernamesQueryVariables,
   Maybe,
   Order_By,
+  Player,
   Player_Bool_Exp,
-  PlayerFragmentFragment,
 } from './autogen/types';
 import { client as defaultClient } from './client';
 import { PlayerFragment, PlayerSkillFragment } from './fragments';
@@ -107,9 +107,9 @@ export const transformToGraphQLVariables = (
 };
 
 export type PlayersResponse = {
-  error: Error | undefined;
+  error?: Error;
   count: number;
-  players: PlayerFragmentFragment[];
+  players: Array<Player>;
 };
 
 export const getPlayersWithCount = async (
@@ -124,7 +124,7 @@ export const getPlayersWithCount = async (
     .toPromise();
 
   return {
-    players: data?.player ?? [],
+    players: (data?.player as Array<Player>) ?? [],
     count: data?.player_aggregate.aggregate?.count ?? 0,
     error,
   };

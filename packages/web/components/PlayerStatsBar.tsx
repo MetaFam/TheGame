@@ -19,8 +19,10 @@ import XPStar from 'assets/xp-star.svg';
 import { MetaLink } from 'components/Link';
 import { LoginButton } from 'components/LoginButton';
 import { PlayerAvatar } from 'components/Player/PlayerAvatar';
+import { Player } from 'graphql/autogen/types';
 import { useLoginBasics, useWeb3 } from 'lib/hooks';
 import { usePSeedBalance } from 'lib/hooks/balances';
+import { useProfileField } from 'lib/store';
 import React from 'react';
 import { getPlayerName, getPlayerURL } from 'utils/playerHelpers';
 
@@ -31,6 +33,12 @@ const PlayerStats = () => {
   const { disconnect } = useWeb3();
   const { user } = useLoginBasics();
   const { pSeedBalance } = usePSeedBalance();
+  const { name } = useProfileField({
+    field: 'name',
+    player: user as Player,
+    owner: true,
+    getter: getPlayerName,
+  });
 
   return (
     <Flex
@@ -64,7 +72,13 @@ const PlayerStats = () => {
                 _active={{ bg: 'transparent' }}
               >
                 <Flex>
-                  <PlayerAvatar player={user} w={12} h={12} m={0} />
+                  <PlayerAvatar
+                    player={user}
+                    isOwnProfile={true}
+                    w={12}
+                    h={12}
+                    m={0}
+                  />
                   <Stack my={2} ml={2} justify="center">
                     <Text
                       fontSize={user.rank ? 14 : 22}
@@ -73,7 +87,7 @@ const PlayerStats = () => {
                       p={0}
                       lineHeight={1}
                     >
-                      {getPlayerName(user)}
+                      {name}
                     </Text>
                     {user.rank && (
                       <Text fontSize={12} m={0} p={0} lineHeight={1}>

@@ -1,6 +1,4 @@
-import gql from 'fake-tag';
-
-export const UpdateQuestMutation = gql`
+export const UpdateQuestMutation = /* GraphQL */ `
   mutation UpdateQuest(
     $id: uuid!
     $input: quest_set_input!

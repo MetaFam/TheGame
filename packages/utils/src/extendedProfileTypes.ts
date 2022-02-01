@@ -48,6 +48,15 @@ export const ExtendedProfileFields = {
   ...ExtendedProfileObjects,
 } as const;
 
+export const AllProfileFields = {
+  ...BasicProfileFields,
+  ...ExtendedProfileFields,
+} as const;
+
+export const ReversedProfileFields = Object.fromEntries(
+  Object.entries(AllProfileFields).map(([k, v]) => [v, k]),
+);
+
 export type HasuraBPImages = {
   -readonly [key in keyof typeof BasicProfileImages]?: string;
 };

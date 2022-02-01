@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { Caip10Link } from '@ceramicnetwork/stream-caip10-link';
 import {
   BasicProfile,
@@ -37,6 +38,7 @@ import {
   WrapItem,
 } from '@metafam/ds';
 import {
+  AllProfileFields,
   BasicProfileImages,
   BasicProfileStrings,
   ExtendedProfile,
@@ -47,6 +49,7 @@ import {
   HasuraProfileProps,
   Images,
   ProfileProps,
+  ReversedProfileFields,
   Values,
 } from '@metafam/utils';
 import FileOpenIcon from 'assets/file-open-icon.svg';
@@ -58,6 +61,7 @@ import {
 } from 'graphql/autogen/types';
 import { getPlayer } from 'graphql/getPlayer';
 import { useWeb3 } from 'lib/hooks';
+import { useProfileField } from 'lib/store';
 import router, { useRouter } from 'next/router';
 import React, {
   ReactElement,
@@ -70,6 +74,7 @@ import React, {
 } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { optimizedImage } from 'utils/imageHelpers';
+import { isEmpty } from 'utils/objectHelpers';
 import { dispositionFor } from 'utils/playerHelpers';
 
 const MAX_DESC_LEN = 420; // characters
@@ -158,7 +163,7 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
     setValue,
     control,
     watch,
-    formState: { errors },
+    formState: { errors, dirtyFields },
   } = useForm();
   const { ceramic, address } = useWeb3();
   const toast = useToast();
@@ -197,6 +202,18 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
           setFile,
         },
       ];
+    }),
+  );
+
+  const setters = Object.fromEntries(
+    Object.keys(AllProfileFields).map((key) => {
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      const { setter } = useProfileField({
+        field: key,
+        player,
+        owner: true,
+      });
+      return [key, setter];
     }),
   );
 
@@ -247,22 +264,23 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
 
   const onSubmit = async (inputs: HasuraProfileProps) => {
     try {
+      if (isEmpty(dirtyFields)) {
+        return onClose();
+      }
+
       if (!ceramic.did?.authenticated) {
         setStatus(<Text>Authenticating DID…</Text>);
         await ceramic.did?.authenticate();
       }
 
       if (params.query.debug) {
-        // eslint-disable-next-line no-console
         console.debug(`For ETH Address: ${address}`);
-        // eslint-disable-next-line no-console
         console.debug(`Connected DID: ${ceramic.did?.id}`);
 
         const caip10 = await Caip10Link.fromAccount(
           ceramic,
           `${address}@eip155:1`,
         );
-        // eslint-disable-next-line no-console
         console.debug(`CAIP-10 DID: ${caip10.did}`);
       }
 
@@ -301,7 +319,6 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
       });
 
       if (params.query.debug) {
-        // eslint-disable-next-line no-console
         console.debug({ inputs, values, files, endpoints });
       }
 
@@ -370,8 +387,7 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
       }
 
       if (params.query.debug) {
-        // eslint-disable-next-line no-console
-        console.debug({ files, values, inputs });
+        console.debug({ files, values, inputs, dirtyFields });
       }
 
       // empty string fails validation
@@ -398,8 +414,20 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
         delete values.countryCode;
       }
 
+      Object.keys(values).forEach((hasuraId) => {
+        const key = hasuraId as keyof ProfileProps;
+        if (!dirtyFields[key]) {
+          if (params.query.debug) {
+            console.info(`Removing Unchanged Value [${key}]: “${values[key]}”`);
+          }
+          delete values[key];
+        }
+      });
+
       const basic: BasicProfile = {};
       const extended: ExtendedProfile = {};
+
+      setStatus(<Text>Updating Basic Profile…</Text>);
 
       Object.entries(BasicProfileStrings).forEach(([hasuraId, ceramicId]) => {
         const fromKey = ceramicId as Values<typeof BasicProfileStrings>;
@@ -417,12 +445,14 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
         }
       });
 
-      setStatus(<Text>Updating Basic Profile…</Text>);
-      const basRes = await store.merge('basicProfile', basic);
-      if (params.query.debug) {
-        // eslint-disable-next-line no-console
-        console.info('Basic Profile:', basRes.toUrl());
+      if (!isEmpty(basic)) {
+        const basRes = await store.merge('basicProfile', basic);
+        if (params.query.debug) {
+          console.info('Basic Profile:', basRes.toUrl());
+        }
       }
+
+      setStatus(<Text>Updating Extended Profile…</Text>);
 
       Object.entries(ExtendedProfileStrings).forEach(
         ([hasuraId, ceramicId]) => {
@@ -458,7 +488,6 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
                 break;
               }
               default: {
-                // eslint-disable-next-line no-console
                 console.warn(`Unknown Profile Key: "${fromKey}"`);
               }
             }
@@ -467,15 +496,14 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
       );
 
       if (params.query.debug) {
-        // eslint-disable-next-line no-console
-        console.debug({ values, basic, extended });
+        console.debug({ values, sources, basic, extended });
       }
 
-      setStatus(<Text>Updating Extended Profile…</Text>);
-      const extRes = await store.merge('extendedProfile', extended);
-      if (params.query.debug) {
-        // eslint-disable-next-line no-console
-        console.info('Extended Profile:', extRes.toUrl());
+      if (!isEmpty(extended)) {
+        const extRes = await store.merge('extendedProfile', extended);
+        if (params.query.debug) {
+          console.info('Extended Profile:', extRes.toUrl());
+        }
       }
 
       if (player) {
@@ -483,12 +511,43 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
         await invalidateCache({ playerId: player.id });
       }
 
+      setStatus(<Text>Updating Local State…</Text>);
+      Object.entries({ ...basic, ...extended }).forEach(
+        ([ceramicKey, value]) => {
+          const hasuraKey = ReversedProfileFields[ceramicKey];
+          if (!hasuraKey) {
+            console.warn(`Couldn’t find key to match ${ceramicKey}.`);
+          } else if (setters[hasuraKey]) {
+            if (!(hasuraKey in Images)) {
+              if (params.query.debug) {
+                console.info(`Setting ${hasuraKey} to “${value}”.`);
+              }
+              setters[hasuraKey]?.(value);
+            }
+          } else {
+            console.warn(`Missing setter for ${hasuraKey} (${ceramicKey}).`);
+          }
+        },
+      );
+
+      Object.entries(sources).forEach(([hasuraKey, incoming]) => {
+        const value = incoming.original.src;
+        if (setters[hasuraKey]) {
+          if (params.query.debug) {
+            console.info(`Setting ${hasuraKey} to “${value}”.`);
+          }
+          setters[hasuraKey]?.(value);
+        } else {
+          console.warn(`Missing setter for ${hasuraKey}.`);
+        }
+      });
+
       // if they changed their username, the page will 404 on reload
       if (player && extended.username !== username) {
         router.push(`/player/${player.ethereumAddress}`);
       }
 
-      onClose();
+      return onClose();
     } catch (err) {
       toast({
         title: 'Ceramic Error',
@@ -497,6 +556,7 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
         isClosable: true,
         duration: 15000,
       });
+      return null;
     } finally {
       setStatus(null);
     }
