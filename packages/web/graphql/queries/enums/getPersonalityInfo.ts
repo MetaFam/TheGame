@@ -1,3 +1,4 @@
+import { Maybe } from '@metafam/utils';
 import AmbitionAltImg from 'assets/colors/Ambition.svg';
 import BalanceAltImg from 'assets/colors/Balance.svg';
 import ChaosAltImg from 'assets/colors/Chaos.svg';
@@ -44,8 +45,8 @@ export const colors: {
 };
 
 export type PersonalityInfo = {
-  parts: Array<PersonalityOption>;
-  types: { [x: number]: PersonalityOption };
+  parts?: Maybe<Array<PersonalityOption>>;
+  types?: Maybe<{ [x: number]: PersonalityOption }>;
 };
 
 export const getPersonalityInfo = async (): Promise<PersonalityInfo> => {

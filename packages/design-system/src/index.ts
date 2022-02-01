@@ -100,6 +100,7 @@ export {
   GridItem,
   Heading,
   HStack,
+  HTMLChakraProps,
   Icon,
   IconButton,
   Image,
@@ -170,5 +171,4 @@ export {
   WrapProps,
 } from '@chakra-ui/react';
 export { default as styled } from '@emotion/styled';
-// needed for checkbox-icon in node_modules/@chakra-ui/checkbox/dist/esm/checkbox-icon.js
-export { motion } from 'framer-motion';
+export { HTMLMotionProps, motion } from 'framer-motion';

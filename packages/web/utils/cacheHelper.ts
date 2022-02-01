@@ -30,11 +30,11 @@ import { useCallback } from 'react';
 import { isEmpty } from './objectHelpers';
 import { dispositionFor } from './playerHelpers';
 
-export const useSaveCeramicProfile = ({
-  debug = false,
-}: {
-  debug: boolean;
-}) => {
+export type SaveProps = {
+  debug?: boolean;
+};
+
+export const useSaveCeramicProfile = ({ debug = false }: SaveProps) => {
   const { ceramic } = useWeb3();
   const { user } = useUser();
   const toast = useToast();

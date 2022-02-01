@@ -143,7 +143,7 @@ export const SetupColorDisposition: React.FC<SetupColorDispositionProps> = ({
           Object.entries(BaseImages)
             .reverse()
             .map(([orig, image], idx) => {
-              const option = types[parseInt(orig, 10)];
+              const option = types?.[parseInt(orig, 10)];
               const { mask: thisMask = 0 } = option ?? {};
               const selected = ((mask ?? 0) & thisMask) > 0;
 
@@ -196,12 +196,12 @@ export const SetupColorDisposition: React.FC<SetupColorDispositionProps> = ({
                     h={16}
                     mr={2}
                     src={image}
-                    alt={option.name}
+                    alt={option?.name}
                     filter="drop-shadow(0px 0px 3px black)"
                   />
                   <FlexContainer align="stretch" ml={2}>
                     <Text color="white" casing="uppercase" textAlign="left">
-                      {option.name}
+                      {option?.name}
                     </Text>
                     <Text
                       color="blueLight"
@@ -209,7 +209,7 @@ export const SetupColorDisposition: React.FC<SetupColorDispositionProps> = ({
                       whiteSpace="initial"
                       textAlign="left"
                     >
-                      {option.description}
+                      {option?.description}
                     </Text>
                   </FlexContainer>
                 </Button>

@@ -1,6 +1,3 @@
-import { ModelManager } from '@glazed/devtools';
-import { DIDDataStore } from '@glazed/did-datastore';
-import { TileLoader } from '@glazed/tile-loader';
 import {
   Button,
   Flex,
@@ -10,17 +7,18 @@ import {
   SimpleGrid,
   Spinner,
   Text,
-  useToast,
   Wrap,
   WrapItem,
 } from '@metafam/ds';
-import { extendedProfileModel, Maybe } from '@metafam/utils';
+import { Maybe } from '@metafam/utils';
 import { FlexContainer } from 'components/Container';
 import { useSetupFlow } from 'contexts/SetupContext';
 import { ExplorerType } from 'graphql/autogen/types';
 import { getExplorerTypes } from 'graphql/queries/enums/getExplorerTypes';
-import { useUser, useWeb3 } from 'lib/hooks';
+import { useUser } from 'lib/hooks';
+import { useProfileField } from 'lib/store';
 import React, { ReactElement, useEffect, useState } from 'react';
+import { useSaveCeramicProfile } from 'utils/cacheHelper';
 
 export type Props = {
   isEdit?: boolean;
@@ -30,26 +28,22 @@ export type Props = {
 export const SetupPlayerType: React.FC<Props> = ({ isEdit, onClose }) => {
   const { onNextPress, nextButtonLabel } = useSetupFlow();
   const { user } = useUser();
-  const { ceramic } = useWeb3();
-  const toast = useToast();
   const [status, setStatus] = useState<Maybe<ReactElement | string>>(null);
-  const [explorerType, setExplorerType] = useState<ExplorerType>();
+  const { value: existingType } = useProfileField<ExplorerType>({
+    field: 'explorerType',
+    player: user,
+    owner: true,
+  });
+  const [explorerType, setExplorerType] = useState<Maybe<ExplorerType>>(
+    existingType,
+  );
   const [typeChoices, setTypeChoices] = useState<ExplorerType[]>([]);
+  const saveToCeramic = useSaveCeramicProfile({});
   const isWizard = !isEdit;
-
-  const load = () => {
-    if (user) {
-      if (explorerType === undefined && user.profile?.explorerType != null) {
-        setExplorerType(user.profile.explorerType);
-      }
-    }
-  };
-  useEffect(load, [explorerType, user, user?.profile?.explorerType]);
 
   useEffect(() => {
     const fetchTypes = async () => {
-      const response = await getExplorerTypes();
-      setTypeChoices(response);
+      setTypeChoices(await getExplorerTypes());
     };
 
     fetchTypes();
@@ -62,59 +56,21 @@ export const SetupPlayerType: React.FC<Props> = ({ isEdit, onClose }) => {
   };
 
   const save = async () => {
-    if (!user) return;
-
-    if (!ceramic) {
-      toast({
-        title: 'Ceramic Error',
-        description: 'Ceramic is not defined. Cannot update.',
-        status: 'error',
-        isClosable: true,
-      });
-      return;
-    }
-
-    if (user?.profile?.explorerType?.id !== explorerType?.id) {
-      try {
-        if (!ceramic.did?.authenticated) {
-          setStatus('Authenticating DID…');
-          await ceramic.did?.authenticate();
-        }
-
-        setStatus('Loading Profile Configuration…');
-
-        const cache = new Map();
-        const loader = new TileLoader({ ceramic, cache });
-        const manager = new ModelManager(ceramic);
-        manager.addJSONModel(extendedProfileModel);
-
-        const store = new DIDDataStore({
-          ceramic,
-          loader,
-          model: await manager.toPublished(),
-        });
-
-        setStatus('Saving to Ceramic…');
-        await store.merge('extendedProfile', {
-          explorerType: explorerType?.title,
-        });
-      } catch (err) {
-        console.warn(err); // eslint-disable-line no-console
-        toast({
-          title: 'Error',
-          description: `Unable to update player type. Error: ${
-            (err as Error).message
-          }`,
-          status: 'error',
-          isClosable: true,
-        });
-        setStatus(null);
-      }
-    }
+    await saveToCeramic({
+      values: { explorerTypeTitle: explorerType?.title },
+      setStatus,
+    });
   };
 
   return (
-    <FlexContainer>
+    <FlexContainer
+      as="form"
+      onSubmit={async (evt) => {
+        evt.preventDefault();
+        await save();
+        onClose?.();
+      }}
+    >
       {isWizard && (
         <MetaHeading mb={5} textAlign="center">
           Player Type
@@ -160,13 +116,7 @@ export const SetupPlayerType: React.FC<Props> = ({ isEdit, onClose }) => {
         <ModalFooter mt={6}>
           <Wrap justify="center" align="center" flex={1}>
             <WrapItem>
-              <MetaButton
-                isDisabled={!!status}
-                onClick={async () => {
-                  await save();
-                  onClose();
-                }}
-              >
+              <MetaButton isDisabled={!!status} type="submit">
                 {!status ? (
                   'Save Changes'
                 ) : (

@@ -28,14 +28,26 @@ const maskImageStyle = ({ url }: { url: string }): Record<string, string> => ({
  */
 export const ColorBar = ({
   mask = null,
-  personalityInfo: { parts, types },
+  personalityInfo: { parts = null, types = null } = {},
   ...props
 }: ChakraProps & {
   mask: Maybe<number>;
   personalityInfo: PersonalityInfo;
 }): JSX.Element => {
+  if (parts == null || types == null) {
+    return (
+      <Text fontStyle="italic" textAlign="center">
+        Error loading personality information.
+      </Text>
+    );
+  }
+
   if (mask === null) {
-    return <Text fontStyle="italic">Colors have not yet been chosen.</Text>;
+    return (
+      <Text fontStyle="italic" textAlign="center">
+        Colors have not yet been chosen.
+      </Text>
+    );
   }
 
   return (

@@ -4,6 +4,7 @@ import { Caip10Link } from '@ceramicnetwork/stream-caip10-link';
 import { ImageSources } from '@datamodels/identity-profile-basic';
 import {
   Box,
+  BoxProps,
   Button,
   Center,
   Flex,
@@ -21,6 +22,7 @@ import {
   Link,
   MetaButton,
   ModalFooter,
+  motion,
   SelectTimeZone,
   Spinner,
   Stack,
@@ -125,6 +127,23 @@ const Input: React.FC<InputProps> = React.forwardRef(
       </Box>
     );
   },
+);
+
+export type Merge<P, T> = Omit<P, keyof T> & T;
+export const MotionBox = motion<BoxProps>(Box);
+export const PulseHoverBox: React.FC<{ duration?: number }> = ({
+  // duration = 2,
+  children,
+}) => (
+  <MotionBox
+    whileHover={{
+      scale: 1.2,
+      // transition: { duration },
+    }}
+    whileTap={{ scale: 0.9 }}
+  >
+    {children}
+  </MotionBox>
 );
 
 export const EditProfileForm: React.FC<ProfileEditorProps> = ({
@@ -399,26 +418,28 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
             </Tooltip>
             <Box position="relative">
               <Box w="10em" h="10em" borderRadius="full" display="inline-flex">
-                <Image
-                  ref={endpoints.profileImageURL.ref ?? null}
-                  onLoad={() => {
-                    endpoints.profileImageURL.setLoading(false);
-                  }}
-                  display={
-                    endpoints.profileImageURL.loading ? 'none' : 'inherit'
-                  }
-                  src={endpoints.profileImageURL.val}
-                  borderRadius="full"
-                  objectFit="cover"
-                  h="full"
-                  w="full"
-                  border="2px solid"
-                  borderColor={
-                    endpoints.profileImageURL.active
-                      ? 'blue.400'
-                      : 'transparent'
-                  }
-                />
+                <PulseHoverBox>
+                  <Image
+                    ref={endpoints.profileImageURL.ref ?? null}
+                    onLoad={() => {
+                      endpoints.profileImageURL.setLoading(false);
+                    }}
+                    display={
+                      endpoints.profileImageURL.loading ? 'none' : 'inherit'
+                    }
+                    src={endpoints.profileImageURL.val}
+                    borderRadius="full"
+                    objectFit="cover"
+                    h="full"
+                    w="full"
+                    border="2px solid"
+                    borderColor={
+                      endpoints.profileImageURL.active
+                        ? 'blue.400'
+                        : 'transparent'
+                    }
+                  />
+                </PulseHoverBox>
                 {endpoints.profileImageURL.loading &&
                   (endpoints.profileImageURL.val == null ? (
                     <Image maxW="50%" src={PlayerProfileIcon} opacity={0.5} />
