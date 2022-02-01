@@ -61,7 +61,7 @@
     "react-timezone-select": "1.1.15",
     "react-vis": "1.11.7",
     "rss-to-json": "2.0.2",
-    "sourcecred": "0.9.0",
+    "sourcecred": "0.10.2",
     "swr": "1.0.1",
     "urql": "2.0.2",
     "web3.storage": "3.5.0",
