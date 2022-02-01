@@ -238,9 +238,7 @@ export const QuestFilter: React.FC<Props> = ({
               >
                 <Text mr={2}>Created by me</Text>
                 <Switch
-                  isChecked={
-                    myId && queryVariables.createdByPlayerId === myId
-                  }
+                  isChecked={myId && queryVariables.createdByPlayerId === myId}
                 />
               </MetaButton>
             </Flex>

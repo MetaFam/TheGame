@@ -90,7 +90,6 @@ const getDefaultFormValues = (
       label: s.name,
       ...s,
     })),
-  // fix this
   roles: base
     ? base.quest_roles
         .map((s) => s.PlayerRole)
@@ -346,7 +345,7 @@ export const QuestForm: React.FC<Props> = ({
               name="roles"
               control={control}
               defaultValue={[]}
-              render={({field : { onChange, value }}) => (
+              render={({ field: { onChange, value } }) => (
                 <RolesSelect
                   roleChoices={roleChoices}
                   roles={value}

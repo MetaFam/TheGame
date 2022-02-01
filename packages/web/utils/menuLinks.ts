@@ -156,17 +156,9 @@ export const MenuSectionLinks: MenuLinkSet[] = [
         title: 'Quests',
         explainerText:
           'Take a look at available quest and claim ones that suit you best',
-        url:
-          'https://meta-game.notion.site/e0e83b7ea2a54d6294c5e167ba7b306a?v=81e5d4755ab44c3a93df3eaaee6fd369',
+        url: '/quests',
         icon: 'quests',
       },
-      // {
-      //   title: 'Quests Demo App',
-      //   explainerText:
-      //     'Take a look at available quest and claim ones that suit you best',
-      //   url: '/quests',
-      //   icon: 'quests',
-      // },
     ],
   },
   {

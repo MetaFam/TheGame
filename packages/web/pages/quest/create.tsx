@@ -9,7 +9,7 @@ import {
 import { getPlayerRoles } from 'graphql/queries/enums/getRoles';
 import { getSkills } from 'graphql/queries/enums/getSkills';
 import { getGuilds } from 'graphql/queries/guild';
-// import { useUser } from 'lib/hooks';
+import { useUser } from 'lib/hooks';
 import { InferGetStaticPropsType } from 'next';
 import { useRouter } from 'next/router';
 import React from 'react';
@@ -18,13 +18,25 @@ import { parseSkills } from 'utils/skillHelpers';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
-const CreateQuestPage: React.FC<Props> = ({ guilds, skillChoices, roleChoices }) => {
+const CreateQuestPage: React.FC<Props> = ({
+  guilds,
+  skillChoices,
+  roleChoices,
+}) => {
+  useUser({ redirectTo: '/quests', redirectIfNotFound: true });
   const router = useRouter();
   const toast = useToast();
   const [createQuestState, createQuest] = useCreateQuestMutation();
 
   const onSubmit = (data: CreateQuestFormInputs) => {
-    const { skills, roles, repetition, cooldown, status, ...createQuestInputs } = data;
+    const {
+      skills,
+      roles,
+      repetition,
+      cooldown,
+      status,
+      ...createQuestInputs
+    } = data;
 
     const input = {
       ...createQuestInputs,
