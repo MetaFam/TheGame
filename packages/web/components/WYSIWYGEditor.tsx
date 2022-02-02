@@ -45,7 +45,8 @@ export const WYSIWYGEditor: React.FC<Props> = ({
     if (value != null && value.trim() !== '') {
       def();
     }
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <Box>
