@@ -21,20 +21,18 @@ import {
   HasuraImageSourcedProps,
   HasuraProfileProps,
   HasuraStringProps,
+  Optional,
   Values,
 } from '@metafam/utils';
-import { useUser, useWeb3 } from 'lib/hooks';
-import { useProfileField } from 'lib/store';
+import { useProfileField } from 'lib/hooks/useProfileField';
+import { useUser } from 'lib/hooks/useUser';
+import { useWeb3 } from 'lib/hooks/useWeb3';
 import { useCallback } from 'react';
+import { isEmpty } from 'utils/objectHelpers';
+import { dispositionFor } from 'utils/playerHelpers';
 
-import { isEmpty } from './objectHelpers';
-import { dispositionFor } from './playerHelpers';
-
-export type SaveProps = {
-  debug?: boolean;
-};
-
-export const useSaveCeramicProfile = ({ debug = false }: SaveProps) => {
+export const useSaveCeramicProfile = (opts?: Optional<{ debug: boolean }>) => {
+  const { debug = false } = opts ?? {};
   const { ceramic } = useWeb3();
   const { user } = useUser();
   const toast = useToast();
@@ -174,7 +172,7 @@ export const useSaveCeramicProfile = ({ debug = false }: SaveProps) => {
                 extended[fromKey] = vals[toKey] as number;
                 break;
               }
-              case 'colorDisposition': {
+              case 'magicDisposition': {
                 extended[fromKey] = dispositionFor(vals.colorMask) ?? undefined;
                 break;
               }

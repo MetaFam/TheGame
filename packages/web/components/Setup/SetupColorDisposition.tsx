@@ -23,11 +23,9 @@ import {
   images as BaseImages,
   PersonalityInfo,
 } from 'graphql/queries/enums/getPersonalityInfo';
-import { useUser } from 'lib/hooks';
-import { useProfileField } from 'lib/store';
+import { useProfileField, useSaveCeramicProfile, useUser } from 'lib/hooks';
 import { useRouter } from 'next/router';
 import React, { ReactElement, useEffect, useState } from 'react';
-import { useSaveCeramicProfile } from 'utils/cacheHelper';
 import { isEmpty } from 'utils/objectHelpers';
 
 export type SetupColorDispositionProps = {

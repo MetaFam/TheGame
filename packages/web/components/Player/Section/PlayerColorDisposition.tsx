@@ -4,8 +4,8 @@ import { ColorBar } from 'components/Player/ColorBar';
 import { ProfileSection } from 'components/Profile/ProfileSection';
 import { Player } from 'graphql/autogen/types';
 import { PersonalityInfo } from 'graphql/queries/enums/getPersonalityInfo';
+import { useProfileField } from 'lib/hooks';
 import { useAnimateProfileChanges } from 'lib/hooks/players';
-import { useProfileField } from 'lib/store';
 import React from 'react';
 import { BoxType } from 'utils/boxTypes';
 

@@ -1,7 +1,7 @@
 import { Avatar, AvatarProps } from '@metafam/ds';
 import { Player } from 'graphql/autogen/types';
 import { GuildPlayer } from 'graphql/types';
-import { useProfileField } from 'lib/store';
+import { useProfileField } from 'lib/hooks';
 import React from 'react';
 import { getPlayerImage, getPlayerName, hasImage } from 'utils/playerHelpers';
 

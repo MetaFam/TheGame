@@ -144,9 +144,9 @@ export default async (playerId: string): Promise<UpdateIdxProfileResponse> => {
                   values.availableHours = extendedProfile.availableHours;
                   break;
                 }
-                case 'colorDisposition': {
+                case 'magicDisposition': {
                   values.colorMask =
-                    maskFor(extendedProfile.colorDisposition) ?? undefined;
+                    maskFor(extendedProfile.magicDisposition) ?? undefined;
                   break;
                 }
                 default: {

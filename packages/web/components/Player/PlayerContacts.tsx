@@ -73,8 +73,7 @@ export const PlayerContacts: React.FC<Props> = ({
             hasArrow
           >
             <Button
-              onClick={(evt) => {
-                evt.preventDefault();
+              onClick={() => {
                 handleCopy(player.ethereumAddress);
               }}
               size="xs"

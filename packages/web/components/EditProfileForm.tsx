@@ -33,7 +33,12 @@ import {
   Wrap,
   WrapItem,
 } from '@metafam/ds';
-import { AllProfileFields, HasuraProfileProps, Images } from '@metafam/utils';
+import {
+  AllProfileFields,
+  HasuraProfileProps,
+  Images,
+  Optional,
+} from '@metafam/utils';
 import FileOpenIcon from 'assets/file-open-icon.svg';
 import PlayerProfileIcon from 'assets/player-profile-icon.svg';
 import {
@@ -42,8 +47,7 @@ import {
   useInsertCacheInvalidationMutation,
 } from 'graphql/autogen/types';
 import { getPlayer } from 'graphql/getPlayer';
-import { useWeb3 } from 'lib/hooks';
-import { useProfileField } from 'lib/store';
+import { useProfileField, useSaveCeramicProfile, useWeb3 } from 'lib/hooks';
 import { useRouter } from 'next/router';
 import React, {
   ReactElement,
@@ -55,7 +59,6 @@ import React, {
   useState,
 } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { useSaveCeramicProfile } from 'utils/cacheHelper';
 import { optimizedImage } from 'utils/imageHelpers';
 import { isEmpty } from 'utils/objectHelpers';
 
@@ -154,9 +157,9 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
   const [status, setStatus] = useState<Maybe<ReactElement | string>>(null);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const username = useMemo(() => player?.profile?.username, []);
-  const [, invalidateCache] = useInsertCacheInvalidationMutation();
   const params = useRouter();
   const saveToCeramic = useSaveCeramicProfile({ debug: !!params.query.debug });
+  const [, invalidateCache] = useInsertCacheInvalidationMutation();
   const {
     handleSubmit,
     register,
@@ -180,7 +183,6 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
         player,
         owner: true,
       });
-
       return [key, value];
     }),
   );
@@ -193,7 +195,7 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
       // eslint-disable-next-line react-hooks/rules-of-hooks
       const [loading, setLoading] = useState(true);
       // eslint-disable-next-line react-hooks/rules-of-hooks
-      const [url, setURL] = useState<string | undefined>(
+      const [url, setURL] = useState<Optional<string>>(
         optimizedImage(key, fields[key]),
       );
       // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -232,7 +234,7 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
         setValue(key, value ?? undefined);
       }
     });
-  }, [fields, setValue]);
+  }, [setValue]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const onFileChange = useCallback(
     ({ target: input }: { target: HTMLInputElement }) => {
@@ -430,7 +432,7 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
                 <InfoIcon ml={2} />
               </Label>
             </Tooltip>
-            <Box position="relative">
+            <Center position="relative">
               <Box w="10em" h="10em" borderRadius="full" display="inline-flex">
                 <PulseHoverBox>
                   <Image
@@ -487,7 +489,7 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
                   />
                 )}
               />
-            </Box>
+            </Center>
             <FormErrorMessage>
               {errors.profileImageURL?.message}
             </FormErrorMessage>
@@ -577,7 +579,7 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
                 <Text as="sup" ml={2}>
                   {remaining}
                 </Text>
-                <Text as="sub">{MAX_DESC_LEN}</Text>
+                ⁄<Text as="sub">{MAX_DESC_LEN}</Text>
                 <InfoIcon ml={2} />
               </Label>
             </Tooltip>

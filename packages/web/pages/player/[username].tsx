@@ -32,8 +32,7 @@ import {
 import { getPlayer } from 'graphql/getPlayer';
 import { getTopPlayerUsernames } from 'graphql/getPlayers';
 import { getPersonalityInfo } from 'graphql/queries/enums/getPersonalityInfo';
-import { useUser, useWeb3 } from 'lib/hooks';
-import { useProfileField } from 'lib/store';
+import { useProfileField, useUser, useWeb3 } from 'lib/hooks';
 import {
   GetStaticPaths,
   GetStaticPropsContext,

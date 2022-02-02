@@ -163,6 +163,7 @@ export {
   UnorderedList,
   useBreakpointValue,
   useDisclosure,
+  useMediaQuery,
   useTheme,
   useToast,
   VStack,

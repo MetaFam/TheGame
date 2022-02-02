@@ -20,9 +20,8 @@ import { MetaLink } from 'components/Link';
 import { LoginButton } from 'components/LoginButton';
 import { PlayerAvatar } from 'components/Player/PlayerAvatar';
 import { Player } from 'graphql/autogen/types';
-import { useLoginBasics, useWeb3 } from 'lib/hooks';
+import { useLoginBasics, useProfileField, useWeb3 } from 'lib/hooks';
 import { usePSeedBalance } from 'lib/hooks/balances';
-import { useProfileField } from 'lib/store';
 import React from 'react';
 import { getPlayerName, getPlayerURL } from 'utils/playerHelpers';
 

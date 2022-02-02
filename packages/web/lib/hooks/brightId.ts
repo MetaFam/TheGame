@@ -1,4 +1,4 @@
-import { Maybe } from '@metafam/utils';
+import { Optional } from '@metafam/utils';
 import { CONFIG } from 'config';
 import { Player } from 'graphql/autogen/types';
 import { useEffect, useMemo } from 'react';
@@ -28,8 +28,8 @@ const isStatusVerified = (
 export const useBrightIdStatus = ({
   player,
 }: {
-  player: Player;
-}): Maybe<{
+  player?: Player;
+}): Optional<{
   verified: boolean;
   deeplink: string;
   universalLink: string;
@@ -42,7 +42,7 @@ export const useBrightIdStatus = ({
       const universalLink = `${UNIVERSAL_LINK_ENDPOINT}/${contextId}`;
       return { verified, deeplink, universalLink };
     }
-    return null;
+    return undefined;
   }, [player]);
 
 const fetchVerificationData = async (

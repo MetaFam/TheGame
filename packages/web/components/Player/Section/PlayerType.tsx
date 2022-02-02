@@ -2,8 +2,8 @@ import { Text } from '@metafam/ds';
 import { FlexContainer } from 'components/Container';
 import { ProfileSection } from 'components/Profile/ProfileSection';
 import { ExplorerType, Player } from 'graphql/autogen/types';
-import { useAnimateProfileChanges } from 'lib/hooks/players';
-import React, { useState } from 'react';
+import { useProfileField } from 'lib/hooks';
+import React from 'react';
 import { BoxType } from 'utils/boxTypes';
 
 type Props = {
@@ -17,32 +17,28 @@ export const PlayerType: React.FC<Props> = ({
   isOwnProfile,
   canEdit,
 }) => {
-  const [playerType, setPlayerType] = useState<ExplorerType | null>(
-    (player.profile?.explorerType as ExplorerType) ?? null,
-  );
-  const updateFN = () =>
-    setPlayerType(player.profile?.explorerType as ExplorerType);
-  const { animation } = useAnimateProfileChanges(
-    player.profile?.explorerType,
-    updateFN,
-  );
+  const { explorerType } = useProfileField<ExplorerType>({
+    field: 'explorerType',
+    player,
+    owner: isOwnProfile,
+  });
 
   return (
     <ProfileSection
-      title="Player type"
+      title="Player Type"
       {...{ isOwnProfile, canEdit }}
       boxType={BoxType.PLAYER_TYPE}
       withoutBG
     >
-      {!playerType ? (
+      {!explorerType ? (
         <Text fontStyle="italic" textAlign="center" mb={6}>
           Unspecified
         </Text>
       ) : (
         <FlexContainer
           align="stretch"
-          transition=" opacity 0.4s"
-          opacity={animation === 'fadeIn' ? 1 : 0}
+          transition="opacity 0.4s"
+          // opacity={animation === 'fadeIn' ? 1 : 0}
         >
           <Text
             color="white"
@@ -50,14 +46,14 @@ export const PlayerType: React.FC<Props> = ({
             casing="uppercase"
             fontSize={{ base: 'md', sm: 'lg' }}
           >
-            {playerType.title}
+            {explorerType.title}
           </Text>
           <Text
             fontSize={{ base: 'sm', sm: 'md' }}
             color="blueLight"
             textAlign="justify"
           >
-            {playerType.description}
+            {explorerType.description}
           </Text>
         </FlexContainer>
       )}

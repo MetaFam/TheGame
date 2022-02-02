@@ -2,6 +2,7 @@ import { BasicProfile, ImageSources } from '@datamodels/identity-profile-basic';
 
 export type Maybe<T> = T | null;
 export type Values<T> = T[keyof T];
+export type Optional<T> = T | undefined;
 
 export { BasicProfile };
 
@@ -42,7 +43,6 @@ export const ExtendedProfileImages = {
 export const ExtendedProfileStrings = {
   username: 'username',
   pronouns: 'pronouns',
-  magicDisposition: 'magicDisposition',
   // B/c of the difficulty determining whether it is
   // daylight savings in a particular zone, only the
   // name is saved & the details are retrieved from
@@ -55,7 +55,7 @@ export const ExtendedProfileStrings = {
 // setting each value.
 export const ExtendedProfileObjects = {
   availableHours: 'availableHours',
-  colorMask: 'colorDisposition',
+  colorMask: 'magicDisposition',
 } as const;
 export const ExtendedProfileFields = {
   ...ExtendedProfileImages,
@@ -106,7 +106,7 @@ export type HasuraEPObjects = {
   colorMask?: number;
 };
 export type CeramicEPObjects = EPObjects & {
-  colorDisposition?: string;
+  magicDisposition?: string;
 };
 
 export type HasuraStringProps = HasuraBPStrings & HasuraEPStrings;

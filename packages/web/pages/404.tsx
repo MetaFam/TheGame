@@ -1,124 +1,105 @@
-/* eslint-disable import/no-extraneous-dependencies */
-import { Box, Flex, Heading } from '@chakra-ui/react';
-import { BoxedNextImage, MetaSecondaryButton } from '@metafam/ds';
+import {
+  Box,
+  BoxedNextImage,
+  Flex,
+  Heading,
+  MetaSecondaryButton,
+  Stack,
+  useMediaQuery,
+} from '@metafam/ds';
 import BackgroundImage from 'assets/404-bg.svg';
 import LogoImage from 'assets/logo.png';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import React, { FC } from 'react';
+import { useWeb3 } from 'lib/hooks';
+import React from 'react';
 
-import { useWeb3 } from '../lib/hooks';
-
-const Custom404: FC = () => {
-  const router = useRouter();
+const Custom404: React.FC = () => {
   const { connected } = useWeb3();
+  const [short] = useMediaQuery('(max-height: 18rem) and (min-width: 40rem)');
 
   return (
-    <Flex>
-      <BoxedNextImage
-        pos={{ base: 'relative', xl: 'absolute' }}
-        mb={{ base: 16 }}
-        m={{ xl: 5 }}
-        w="2.5rem"
-        h="2.5rem"
-        src={LogoImage}
-        alt="Avatar"
-        display={{ base: 'none', xl: 'block' }}
-      />
+    <Flex backgroundColor="#1B0D29">
       <Flex
-        w="100%"
-        h="100vh"
-        p={{ xl: 16, md: 16, base: 6 }}
-        pt={{ base: '30%', md: '10%', lg: '10%', xl: '10%' }}
-        flexDirection={'column'}
+        w="full"
+        h="100%"
+        p={{ base: 6, md: 16 }}
+        pt={{
+          base: 'max(0, min(20%, 100vh - 14rem))',
+          md: 'max(0, min(3%, 100vh - 18rem))',
+        }}
+        pb={0}
+        direction={short ? 'row' : 'column'}
         backgroundImage={`url(${BackgroundImage})`}
-        backgroundSize={{
-          base: '700px',
-          md: '1000px',
-          lg: '1150px',
-          xl: '1100px',
-          '2xl': '1500px',
-        }}
-        backgroundPosition={{
-          base: '75% -30%',
-          md: '85% -50%',
-          lg: '85% 70%',
-          xl: '70% 65%',
-        }}
-        backgroundRepeat={'no-repeat'}
-        minHeight={'inherit'}
+        backgroundSize="100%"
+        backgroundPosition="center"
+        backgroundRepeat="no-repeat"
+        minHeight="inherit"
         justifyContent={{
           base: 'flex-end',
-          sm: 'flex-end',
-          md: 'flex-end',
           lg: 'flex-start',
-          xl: 'flex-start',
         }}
       >
-        <BoxedNextImage
-          mb={{ base: 8 }}
-          w="3rem"
-          h="3rem"
-          src={LogoImage}
-          alt="Avatar"
-          display={{ base: 'table', xl: 'none' }}
-        />
-        <Heading
-          as="h1"
-          fontFamily={'Exo 2'}
-          pb={2}
-          fontSize={{ base: '39px', md: '67px' }}
-        >
-          Oops!
-        </Heading>
-        <Heading
-          as="h2"
-          fontFamily={'Exo 2'}
-          pb={6}
-          fontSize={{ base: '20px', md: '31px' }}
-        >
-          We can't seem to find the page you're looking for.
-        </Heading>
-        <Box fontSize={{ sm: '16px' }}>
-          Here are some good places to start exploring MetaGame, instead:
-        </Box>
-        <Flex direction="column">
-          <Box pt={5}>
-            <MetaSecondaryButton
-              width={{ base: '100%', md: '50%', lg: '25%', xl: '25%' }}
-              onClick={() =>
-                router.push(connected ? '/dashboard' : '/community/players')
-              }
-            >
-              Home
-            </MetaSecondaryButton>
-          </Box>
-          <Box pt={5}>
-            <MetaSecondaryButton
-              width={{ base: '100%', md: '50%', lg: '25%', xl: '25%' }}
-              onClick={() => router.push('/learn/wiki')}
-            >
-              Wiki
-            </MetaSecondaryButton>
-          </Box>
-          <Box pt={5}>
-            <Link href="https://forum.metagame.wtf">
-              <MetaSecondaryButton
-                width={{ base: '100%', md: '50%', lg: '25%', xl: '25%' }}
+        <Stack mt={[0, 20]}>
+          <Flex direction={['column', 'row']}>
+            <BoxedNextImage
+              mb={{ base: 8 }}
+              mr={5}
+              w={['full', '6rem']}
+              h="6rem"
+              src={LogoImage}
+              alt="Avatar"
+              justify="center"
+            />
+            <Stack>
+              <Heading
+                as="h1"
+                fontFamily={'Exo 2'}
+                pb={2}
+                fontSize="max(10vmin, 2rem)"
               >
-                Forum
-              </MetaSecondaryButton>
-            </Link>
+                Oops!
+              </Heading>
+              <Heading as="h2" fontFamily={'Exo 2'} fontSize="max(3vmin, 1rem)">
+                We can't seem to find the page you're looking for.
+              </Heading>
+            </Stack>
+          </Flex>
+          <Box fontSize="max(3.5vmin, 0.75rem)">
+            Here are some good places to start exploring MetaGame, instead:
           </Box>
-          <Box pt={5}>
-            <Link href="https://discord.gg/metagame">
-              <MetaSecondaryButton
-                width={{ base: '100%', md: '50%', lg: '25%', xl: '25%' }}
-              >
-                Discord
-              </MetaSecondaryButton>
-            </Link>
-          </Box>
+        </Stack>
+        <Flex direction="column" mx={10}>
+          <MetaSecondaryButton
+            as="a"
+            mt={5}
+            width={{ base: '100%', md: '50vw', lg: '25vw' }}
+            href={connected ? '/dashboard' : '/community/players'}
+          >
+            Home
+          </MetaSecondaryButton>
+          <MetaSecondaryButton
+            as="a"
+            mt={5}
+            width={{ base: '100%', md: '50vw', lg: '25vw' }}
+            href="/learn/wiki"
+          >
+            Wiki
+          </MetaSecondaryButton>
+          <MetaSecondaryButton
+            as="a"
+            mt={5}
+            width={{ base: '100%', md: '50vw', lg: '25vw' }}
+            href="https://forum.metagame.wtf"
+          >
+            Forum
+          </MetaSecondaryButton>
+          <MetaSecondaryButton
+            as="a"
+            mt={5}
+            width={{ base: '100%', md: '50vw', lg: '25vw' }}
+            href="https://discord.gg/metagame"
+          >
+            Discord
+          </MetaSecondaryButton>
         </Flex>
       </Flex>
     </Flex>

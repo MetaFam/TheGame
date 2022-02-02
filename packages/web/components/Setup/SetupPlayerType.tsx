@@ -13,12 +13,13 @@ import {
 import { Maybe } from '@metafam/utils';
 import { FlexContainer } from 'components/Container';
 import { useSetupFlow } from 'contexts/SetupContext';
-import { ExplorerType } from 'graphql/autogen/types';
+import {
+  ExplorerType,
+  useInsertCacheInvalidationMutation,
+} from 'graphql/autogen/types';
 import { getExplorerTypes } from 'graphql/queries/enums/getExplorerTypes';
-import { useUser } from 'lib/hooks';
-import { useProfileField } from 'lib/store';
+import { useProfileField, useSaveCeramicProfile, useUser } from 'lib/hooks';
 import React, { ReactElement, useEffect, useState } from 'react';
-import { useSaveCeramicProfile } from 'utils/cacheHelper';
 
 export type Props = {
   isEdit?: boolean;
@@ -29,7 +30,10 @@ export const SetupPlayerType: React.FC<Props> = ({ isEdit, onClose }) => {
   const { onNextPress, nextButtonLabel } = useSetupFlow();
   const { user } = useUser();
   const [status, setStatus] = useState<Maybe<ReactElement | string>>(null);
-  const { value: existingType } = useProfileField<ExplorerType>({
+  const {
+    value: existingType,
+    setter: setType,
+  } = useProfileField<ExplorerType>({
     field: 'explorerType',
     player: user,
     owner: true,
@@ -38,7 +42,8 @@ export const SetupPlayerType: React.FC<Props> = ({ isEdit, onClose }) => {
     existingType,
   );
   const [typeChoices, setTypeChoices] = useState<ExplorerType[]>([]);
-  const saveToCeramic = useSaveCeramicProfile({});
+  const saveToCeramic = useSaveCeramicProfile();
+  const [, invalidateCache] = useInsertCacheInvalidationMutation();
   const isWizard = !isEdit;
 
   useEffect(() => {
@@ -50,16 +55,22 @@ export const SetupPlayerType: React.FC<Props> = ({ isEdit, onClose }) => {
   }, [setTypeChoices]);
 
   const handleNextPress = async () => {
-    setStatus('Saving Type Selection…');
     await save();
     onNextPress();
   };
 
   const save = async () => {
+    setStatus('Saving Type Selection…');
+    setType?.(explorerType);
     await saveToCeramic({
-      values: { explorerTypeTitle: explorerType?.title },
+      values: {
+        explorerTypeTitle: explorerType?.title,
+      },
       setStatus,
     });
+
+    setStatus('Invalidating Cache…');
+    await invalidateCache({ playerId: user?.id });
   };
 
   return (
