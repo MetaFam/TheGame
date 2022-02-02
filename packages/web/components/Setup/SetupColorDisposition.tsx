@@ -24,7 +24,6 @@ import {
   PersonalityInfo,
 } from 'graphql/queries/enums/getPersonalityInfo';
 import { useProfileField, useSaveCeramicProfile, useUser } from 'lib/hooks';
-import { useRouter } from 'next/router';
 import React, { ReactElement, useEffect, useState } from 'react';
 import { isEmpty } from 'utils/objectHelpers';
 
@@ -39,15 +38,14 @@ export const SetupColorDisposition: React.FC<SetupColorDispositionProps> = ({
 }) => {
   const { onNextPress, nextButtonLabel } = useSetupFlow();
   const { user } = useUser();
-  const [status, setStatus] = useState<Maybe<ReactElement | string>>(null);
+  const [status, setStatus] = useState<Maybe<ReactElement | string>>();
   const { value: existingMask } = useProfileField<number>({
     field: 'colorMask',
     player: user,
     owner: true,
   });
   const [mask, setMask] = useState(existingMask);
-  const params = useRouter();
-  const saveToCeramic = useSaveCeramicProfile({ debug: !!params.query.debug });
+  const saveToCeramic = useSaveCeramicProfile({ setStatus });
   const [, invalidateCache] = useInsertCacheInvalidationMutation();
   const [{ types, parts }, setPersonalityInfo] = useState<PersonalityInfo>({
     types: {},
@@ -70,8 +68,7 @@ export const SetupColorDisposition: React.FC<SetupColorDispositionProps> = ({
   const save = async () => {
     setStatus('Saving to Ceramic…');
     await saveToCeramic({
-      values: { colorMask: mask ?? undefined },
-      setStatus,
+      values: { colorMask: mask },
     });
 
     if (user) {

@@ -154,11 +154,12 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
   player,
   onClose,
 }) => {
-  const [status, setStatus] = useState<Maybe<ReactElement | string>>(null);
+  const [status, setStatus] = useState<Maybe<ReactElement | string>>();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const username = useMemo(() => player?.profile?.username, []);
   const params = useRouter();
-  const saveToCeramic = useSaveCeramicProfile({ debug: !!params.query.debug });
+  const debug = !!params.query.debug;
+  const saveToCeramic = useSaveCeramicProfile({ debug, setStatus });
   const [, invalidateCache] = useInsertCacheInvalidationMutation();
   const {
     handleSubmit,
@@ -275,7 +276,7 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
         await ceramic.did?.authenticate();
       }
 
-      if (params.query.debug) {
+      if (debug) {
         console.debug(`For ETH Address: ${address}`);
         console.debug(`Connected DID: ${ceramic.did?.id}`);
 
@@ -308,7 +309,7 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
         delete values[key];
       });
 
-      if (params.query.debug) {
+      if (debug) {
         console.debug({ inputs, values, files, endpoints });
       }
 
@@ -376,21 +377,21 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
         });
       }
 
-      if (params.query.debug) {
+      if (debug) {
         console.debug({ files, values, inputs, dirtyFields });
       }
 
       Object.keys(values).forEach((hasuraId) => {
         const key = hasuraId as keyof HasuraProfileProps;
         if (!dirtyFields[key]) {
-          if (params.query.debug) {
+          if (debug) {
             console.info(`Removing Unchanged Value [${key}]: “${values[key]}”`);
           }
           delete values[key];
         }
       });
 
-      saveToCeramic({ values, images, setStatus });
+      await saveToCeramic({ values, images });
 
       if (player) {
         setStatus(<Text>Invalidating Cache…</Text>);

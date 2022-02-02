@@ -29,7 +29,7 @@ export type Props = {
 export const SetupPlayerType: React.FC<Props> = ({ isEdit, onClose }) => {
   const { onNextPress, nextButtonLabel } = useSetupFlow();
   const { user } = useUser();
-  const [status, setStatus] = useState<Maybe<ReactElement | string>>(null);
+  const [status, setStatus] = useState<Maybe<ReactElement | string>>();
   const {
     value: existingType,
     setter: setType,
@@ -42,7 +42,7 @@ export const SetupPlayerType: React.FC<Props> = ({ isEdit, onClose }) => {
     existingType,
   );
   const [typeChoices, setTypeChoices] = useState<ExplorerType[]>([]);
-  const saveToCeramic = useSaveCeramicProfile();
+  const saveToCeramic = useSaveCeramicProfile({ setStatus });
   const [, invalidateCache] = useInsertCacheInvalidationMutation();
   const isWizard = !isEdit;
 
@@ -66,7 +66,6 @@ export const SetupPlayerType: React.FC<Props> = ({ isEdit, onClose }) => {
       values: {
         explorerTypeTitle: explorerType?.title,
       },
-      setStatus,
     });
 
     setStatus('Invalidating Cache…');

@@ -96,17 +96,15 @@ export interface TitledDescription {
   description?: string;
 }
 export type EPObjects = {
-  availableHours?: number;
-  playerType?: TitledDescription;
+  availableHours?: Maybe<number>;
+  playerType?: Maybe<TitledDescription>;
 };
 
-export type HasuraEPObjects = {
-  availableHours?: number;
-  playerType?: TitledDescription;
-  colorMask?: number;
+export type HasuraEPObjects = EPObjects & {
+  colorMask?: Maybe<number>;
 };
 export type CeramicEPObjects = EPObjects & {
-  magicDisposition?: string;
+  magicDisposition?: Maybe<string>;
 };
 
 export type HasuraStringProps = HasuraBPStrings & HasuraEPStrings;

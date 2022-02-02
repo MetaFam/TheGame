@@ -21,24 +21,35 @@ import {
   HasuraImageSourcedProps,
   HasuraProfileProps,
   HasuraStringProps,
-  Optional,
+  Maybe,
   Values,
 } from '@metafam/utils';
 import { useProfileField } from 'lib/hooks/useProfileField';
 import { useUser } from 'lib/hooks/useUser';
 import { useWeb3 } from 'lib/hooks/useWeb3';
-import { useCallback } from 'react';
+import { useRouter } from 'next/router';
+import { ReactElement, useCallback } from 'react';
 import { isEmpty } from 'utils/objectHelpers';
 import { dispositionFor } from 'utils/playerHelpers';
 
-export const useSaveCeramicProfile = (opts?: Optional<{ debug: boolean }>) => {
-  const { debug = false } = opts ?? {};
+export const useSaveCeramicProfile = ({
+  debug = false,
+  setStatus = () => {},
+  fields = Object.keys(AllProfileFields),
+}: {
+  debug?: boolean;
+  setStatus?: (msg?: Maybe<ReactElement | string>) => void;
+  fields?: Array<string>;
+} = {}) => {
+  const router = useRouter();
   const { ceramic } = useWeb3();
   const { user } = useUser();
   const toast = useToast();
 
+  debug ||= !!router.query.debug; // eslint-disable-line no-param-reassign
+
   const setters = Object.fromEntries(
-    Object.keys(AllProfileFields).map((key) => {
+    fields.map((key) => {
       // eslint-disable-next-line react-hooks/rules-of-hooks
       const { setter } = useProfileField({
         field: key,
@@ -53,11 +64,9 @@ export const useSaveCeramicProfile = (opts?: Optional<{ debug: boolean }>) => {
     async ({
       values = {},
       images = {},
-      setStatus = () => {},
     }: {
       values?: HasuraStringProps & HasuraEPObjects;
       images?: HasuraImageSourcedProps;
-      setStatus?: (msg: string) => void;
     }) => {
       if (!ceramic) {
         toast({
@@ -209,7 +218,7 @@ export const useSaveCeramicProfile = (opts?: Optional<{ debug: boolean }>) => {
 
       return vals;
     },
-    [ceramic, debug, setters, toast],
+    [ceramic, debug, setStatus, setters, toast],
   );
 
   return save;
