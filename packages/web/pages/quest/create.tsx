@@ -32,7 +32,6 @@ const CreateQuestPage: React.FC<Props> = ({ guilds, skillChoices }) => {
       cooldown: transformCooldownForBackend(cooldown, repetition),
       roleIds: [],
       skillIds: skills.map((s) => s.id),
-      roles_id: [],
     };
 
     createQuest({
