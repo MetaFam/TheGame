@@ -114,7 +114,6 @@ export const getQuests = async (
     )
     .toPromise();
 
-  console.log('data', data);
   if (!data) {
     if (error) {
       throw error;
