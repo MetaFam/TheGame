@@ -66,13 +66,13 @@ export const DesktopFilters: React.FC<Props> = ({
   return (
     <Wrap
       transition="all 0.25s"
-      py="6"
+      py={6}
       style={{ backdropFilter: 'blur(7px)' }}
       ref={filterRef}
       position="sticky"
       top="-1px"
       borderTop="1px solid transparent"
-      zIndex="1"
+      zIndex={1}
       justifyContent="center"
       w={isSticky ? 'calc(100% + 6rem)' : '100%'}
       maxW={isSticky ? 'auto' : '79rem'}

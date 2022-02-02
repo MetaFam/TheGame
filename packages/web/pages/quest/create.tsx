@@ -42,8 +42,8 @@ const CreateQuestPage: React.FC<Props> = ({
       ...createQuestInputs,
       repetition: (data.repetition as unknown) as QuestRepetition_ActionEnum,
       cooldown: transformCooldownForBackend(cooldown, repetition),
-      skillIds: skills.map((s) => s.id),
-      roleIds: roles.map((r) => r.value),
+      skillIds: skills.map(({ id }) => id),
+      roleIds: roles.map(({ value }) => value),
     };
 
     createQuest({

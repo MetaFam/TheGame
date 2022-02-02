@@ -56,9 +56,9 @@ const EditQuestPage: React.FC<Props> = ({
       skillId: s.id,
     }));
 
-    const rolesObjects = data.roles.map((s) => ({
+    const rolesObjects = data.roles.map(({ value }) => ({
       quest_id: quest.id,
-      role: s.value,
+      role: value,
     }));
 
     updateQuest({
@@ -103,7 +103,7 @@ const EditQuestPage: React.FC<Props> = ({
       <QuestForm
         guilds={guilds}
         skillChoices={skillChoices}
-        roleChoices={roleChoices}
+        {...{ roleChoices }}
         onSubmit={onSubmit}
         success={!!updateQuestResult.data}
         fetching={updateQuestResult.fetching}

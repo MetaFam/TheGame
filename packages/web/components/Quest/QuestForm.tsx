@@ -20,9 +20,9 @@ import {
 import { useRouter } from 'next/router';
 import React, { useMemo, useState } from 'react';
 import { Controller, FieldError, useForm } from 'react-hook-form';
+import { RoleOption } from 'utils/roleHelpers';
 
 import { QuestRepetitionHint, URIRegexp } from '../../utils/questHelpers';
-import { RoleOption } from '../../utils/roleHelpers';
 import { CategoryOption, SkillOption } from '../../utils/skillHelpers';
 import { FlexContainer } from '../Container';
 import { RolesSelect } from '../Roles';
@@ -93,9 +93,9 @@ const getDefaultFormValues = (
   roles: base
     ? base.quest_roles
         .map((s) => s.PlayerRole)
-        .map((s) => ({
-          value: s.role,
-          label: s.label,
+        .map(({ role, label }) => ({
+          label,
+          value: role,
         }))
     : [],
 });
@@ -149,7 +149,6 @@ export const QuestForm: React.FC<Props> = ({
   loadingLabel,
   editQuest,
 }) => {
-  console.log('roleChoices', roleChoices);
   const defaultValues = useMemo(() => getDefaultFormValues(editQuest, guilds), [
     editQuest,
     guilds,
@@ -343,11 +342,11 @@ export const QuestForm: React.FC<Props> = ({
           <FlexContainer w="100%" align="stretch" maxW="50rem">
             <Controller
               name="roles"
-              control={control}
+              {...{ control }}
               defaultValue={[]}
               render={({ field: { onChange, value } }) => (
                 <RolesSelect
-                  roleChoices={roleChoices}
+                  {...{ roleChoices }}
                   roles={value}
                   setRoles={onChange}
                   placeHolder="Select required roles"

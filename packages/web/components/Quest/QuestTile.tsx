@@ -81,7 +81,7 @@ export const QuestTile: React.FC<Props> = ({ quest }) => (
             SKILLS
           </Text>
           <SkillsTags
-            skills={quest.quest_skills.map((s) => s.skill) as Skill[]}
+            skills={quest.quest_skills.map(({ skill }) => skill) as Skill[]}
             maxSkills={4}
           />
         </Box>
@@ -91,7 +91,9 @@ export const QuestTile: React.FC<Props> = ({ quest }) => (
           </Text>
           {quest.quest_roles.length ? (
             <RolesTags
-              roles={quest.quest_roles.map((s) => s.PlayerRole) as PlayerRole[]}
+              roles={
+                quest.quest_roles.map(({ PlayerRole: r }) => r) as PlayerRole[]
+              }
             />
           ) : (
             <Text>/</Text>

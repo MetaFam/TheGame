@@ -29,9 +29,9 @@ export type ProfileSectionProps = {
   boxType?: BoxType;
   title?: string;
   withoutBG?: boolean;
-  customModalText?: string;
-  customModalTitle?: string;
-  customModal?: React.ReactNode;
+  modalText?: string;
+  modalTitle?: string;
+  modal?: React.ReactNode;
   subheader?: string;
 };
 
@@ -42,9 +42,9 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
   boxType,
   title,
   withoutBG = false,
-  customModalText,
-  customModal,
-  customModalTitle,
+  modalText,
+  modal,
+  modalTitle,
   subheader,
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -70,7 +70,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
             >
               {title}
             </Text>
-            {!customModal &&
+            {!modal &&
               isOwnProfile &&
               !canEdit &&
               boxType &&
@@ -94,7 +94,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
                   isRound
                 />
               )}
-            {customModal && customModalText && (
+            {modal && modalText && (
               <Button
                 color="pinkShadeOne"
                 background="transparent"
@@ -109,7 +109,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
                   backgroundColor: 'transparent',
                 }}
               >
-                {customModalText}
+                {modalText}
               </Button>
             )}
           </HStack>
@@ -146,7 +146,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
               fontWeight="normal"
               textAlign="center"
             >
-              {customModalTitle || title}
+              {modalTitle || title}
 
               {subheader && (
                 <Text
@@ -168,14 +168,14 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
               _focus={{ boxShadow: 'none' }}
             />
             <ModalBody overflowY="scroll">
-              {!customModal && !customModalText && (
+              {!modal && !modalText && (
                 <EditSectionBox {...{ boxType, onClose }} />
               )}
-              {customModalText && customModal}
+              {modalText && modal}
             </ModalBody>
             {/* we should figure out how to unify modal footers (edit sections have their own,
               look into EditSectionBox components - they have footers with 'save' and 'cancel' buttons) */}
-            {customModalText && customModal && (
+            {modalText && modal && (
               <ModalFooter mt={6} justifyContent="center">
                 <Button
                   variant="ghost"
@@ -184,7 +184,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
                   _hover={{ bg: '#FFFFFF11' }}
                   _active={{ bg: '#FF000011' }}
                 >
-                  Go back to profile
+                  Go Back to Profile
                 </Button>
               </ModalFooter>
             )}

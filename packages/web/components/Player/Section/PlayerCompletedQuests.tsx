@@ -1,4 +1,4 @@
-import { Box, Button, ExternalLinkIcon, Link, Text } from '@metafam/ds';
+import { Box, Button, ExternalLinkIcon, Link, Stack, Text } from '@metafam/ds';
 import { ProfileSection } from 'components/Profile/ProfileSection';
 import {
   PlayerFragmentFragment,
@@ -44,16 +44,16 @@ export const PlayerCompletedQuests: React.FC<Props> = ({
       title="Completed Quests"
       {...{ isOwnProfile, canEdit }}
       boxType={BoxType.PLAYER_ACHIEVEMENTS}
-      customModalTitle={`Completed Quests (${quests.length})`}
-      customModalText="Show All"
-      customModal={<AllQuests quests={quests} />}
+      modalTitle={`Completed Quests (${quests.length})`}
+      modalText="Show All"
+      modal={<AllQuests quests={quests} />}
       subheader='A quest is considered "complete" when it is accepted by the
       quest owner.'
     >
       {quests.length ? (
-        <Box display="flex" flexDirection="column">
+        <Stack>
           <QuestList quests={quests.slice(0, 4)} />
-        </Box>
+        </Stack>
       ) : (
         <Text>No completed quests yet</Text>
       )}
@@ -70,11 +70,11 @@ const QuestList: React.FC<QuestProps> = ({ quests, mb = 2 }) => (
   <>
     {quests.map((quest) => (
       <Box mb={mb}>
-        <Link key={quest.id} href={`/quest/${quest.questId}`} color="white">
+        <Link href={`/quest/${quest.questId}`} color="white">
           <Text fontSize="xl">{quest.completed?.title}</Text>
         </Link>
         {quest.submissionLink && (
-          <Link key={quest.id} href={quest.submissionLink} isExternal>
+          <Link href={quest.submissionLink} isExternal>
             <Button
               mt={2}
               variant="ghost"
@@ -96,5 +96,5 @@ const QuestList: React.FC<QuestProps> = ({ quests, mb = 2 }) => (
 );
 
 const AllQuests: React.FC<QuestProps> = ({ quests }) => (
-  <QuestList quests={quests} mb={6} />
+  <QuestList {...{ quests }} mb={6} />
 );

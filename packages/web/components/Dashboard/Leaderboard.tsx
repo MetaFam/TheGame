@@ -68,7 +68,6 @@ export const Leaderboard: React.FC = () => {
             </Text>
           }
           styles={metaFilterSelectStyles}
-          tagLabel=""
           hasValue={sortOption.value !== SortOption.SEASON_XP}
           value={[
             { label: sortOption.label ?? '', value: sortOption.value ?? '' },
