@@ -87,6 +87,7 @@ const getDefaultFormValues = (
       label: s.name,
       ...s,
     })),
+  roles: [],
 });
 
 type FieldProps = {
