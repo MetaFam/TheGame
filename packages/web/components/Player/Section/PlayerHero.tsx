@@ -58,7 +58,6 @@ type ColorDispositionProps = {
 
 export const PlayerHero: React.FC<Props> = ({
   player,
-  personalityInfo,
   isOwnProfile,
   canEdit,
 }) => {

@@ -8,7 +8,10 @@ import {
   LoadingState,
   MetaButton,
   MetaHeading,
+<<<<<<< develop
   ModalBody,
+=======
+>>>>>>> feat: can edit roles from profile page
   ModalFooter,
   Spacer,
   Text,
@@ -44,18 +47,29 @@ export const SetupRoles: React.FC<SetupRolesProps> = ({
   const { fetching: fetchingUser, user } = useUser({
     requestPolicy: 'network-only',
   });
+<<<<<<< develop
   const [fetchingRoleChoices, setFetchingRoleChoices] = useState(true);
+=======
+  const [fetchingRoleChoices, setFetchingRoleChoices] = useState(false);
+>>>>>>> feat: can edit roles from profile page
   const [roleChoices, setRoleChoices] = useState<PlayerRole[]>(
     inputRoleChoices,
   );
   useEffect(() => {
     if (inputRoleChoices.length === 0 && roleChoices.length === 0) {
+<<<<<<< develop
+=======
+      setFetchingRoleChoices(true);
+>>>>>>> feat: can edit roles from profile page
       getPlayerRoles().then((s) => {
         setRoleChoices(s.filter(({ basic }) => basic));
         setFetchingRoleChoices(false);
       });
+<<<<<<< develop
     } else {
       setFetchingRoleChoices(false);
+=======
+>>>>>>> feat: can edit roles from profile page
     }
   }, [inputRoleChoices, roleChoices]);
   const fetching = useMemo(() => fetchingUser || fetchingRoleChoices, [
@@ -220,6 +234,7 @@ export const SetupRoles: React.FC<SetupRolesProps> = ({
         </>
       )}
 
+<<<<<<< develop
       {isWizard && !fetching && (
         <FlexContainer pb={8}>
           <MetaButton
@@ -231,6 +246,43 @@ export const SetupRoles: React.FC<SetupRolesProps> = ({
             {nextButtonLabel}
           </MetaButton>
         </FlexContainer>
+=======
+      {isEdit && onClose && (
+        <ModalFooter mt={6}>
+          <MetaButton
+            mr={3}
+            isLoading={loading}
+            loadingText="Saving…"
+            onClick={async () => {
+              await save();
+              onClose();
+            }}
+          >
+            Save Changes
+          </MetaButton>
+          <Button
+            variant="ghost"
+            onClick={onClose}
+            color="white"
+            _hover={{ bg: '#FFFFFF11' }}
+            _active={{ bg: '#FF000011' }}
+            disabled={loading}
+          >
+            Close
+          </Button>
+        </ModalFooter>
+      )}
+
+      {isWizard && (
+        <MetaButton
+          onClick={handleNextPress}
+          isDisabled={roles.length < 1}
+          isLoading={updateRolesResult.fetching || loading}
+          loadingText="Saving"
+        >
+          {nextButtonLabel}
+        </MetaButton>
+>>>>>>> feat: can edit roles from profile page
       )}
     </FlexContainer>
   );
