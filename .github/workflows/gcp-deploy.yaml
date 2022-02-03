@@ -123,6 +123,7 @@ jobs:
           export_default_credentials: true
 
       - name: "Delete GCloud SQL User: ${{needs.env.outputs.DB_NAME}}"
+        continue-on-error: true
         run: |
           gcloud -q sql users delete ${{needs.env.outputs.DB_NAME}} \
             -i ${{needs.env.outputs.CLOUDSQL_INSTANCE_NAME}}
