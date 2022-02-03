@@ -63,7 +63,7 @@ export const SetupAvailability: React.FC<SetupAvailabilityProps> = ({
   };
 
   return (
-    <FlexContainer>
+    <FlexContainer mb={8}>
       <MetaHeading mb={5} textAlign="center">
         Avail&#xAD;ability
       </MetaHeading>

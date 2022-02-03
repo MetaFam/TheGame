@@ -55,7 +55,7 @@ export const SetupTimeZone: React.FC = () => {
   }
 
   return (
-    <FlexContainer>
+    <FlexContainer mb={8}>
       <MetaHeading mb={10} mt={-64} textAlign="center">
         Which time zone are you in?
       </MetaHeading>

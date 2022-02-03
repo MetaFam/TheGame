@@ -55,7 +55,7 @@ export const PlayerStatsBar = () => {
           <Menu>
             <MenuButton
               bg="transparent"
-              ariaLabel="menu options"
+              aria-label="menu options"
               _focus={{ outline: 'none', bg: 'transparent' }}
               _hover={{ bg: 'transparent' }}
               _active={{ bg: 'transparent' }}
