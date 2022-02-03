@@ -52,7 +52,7 @@ const App: React.FC<WithUrqlProps> = ({
       )}
     </Head>
     <Web3ContextProvider {...{ resetUrqlClient }}>
-      <MegaMenu hideMenu={pageProps.hideTopMenu}>
+      <MegaMenu hideMenu={pageProps.hideMenu}>
         <Component {...pageProps} />
       </MegaMenu>
     </Web3ContextProvider>
