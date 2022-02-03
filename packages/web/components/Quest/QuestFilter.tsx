@@ -28,7 +28,7 @@ type Props = {
   roleChoices: Array<PlayerRole>;
 };
 
-type ValueType = { value: string; label: string };
+type FilterString = { value: string; label: string };
 
 /* TODO
 - text search
@@ -44,20 +44,7 @@ export const QuestFilter: React.FC<Props> = ({
   const { user } = useUser();
   const myId = user?.id;
 
-  const limitOptions = [
-    {
-      label: '10',
-      value: '10',
-    },
-    {
-      label: '20',
-      value: '20',
-    },
-    {
-      label: '50',
-      value: '50',
-    },
-  ];
+  const limitOptions = ['10', '20', '50'].map((n) => ({ label: n, value: n }));
 
   const orderOptions = [
     {
@@ -98,22 +85,22 @@ export const QuestFilter: React.FC<Props> = ({
     value: role,
   }));
 
-  const [limit, setLimit] = useState<ValueType>(limitOptions[0]);
-  const [order, setOrder] = useState<ValueType>(orderOptions[0]);
-  const [status, setStatus] = useState<ValueType>(statusOptions[0]);
-  const [guild, setGuild] = useState<ValueType>(guildOptions[0]);
-  const [roles, setRoles] = useState<ValueType[]>([]);
+  const [limit, setLimit] = useState<FilterString>(limitOptions[0]);
+  const [order, setOrder] = useState<FilterString>(orderOptions[0]);
+  const [status, setStatus] = useState<FilterString>(statusOptions[0]);
+  const [guild, setGuild] = useState<FilterString>(guildOptions[0]);
+  const [roles, setRoles] = useState<FilterString[]>([]);
 
   return (
     <Wrap justifyContent="center">
       <Wrap
         transition="all 0.25s"
-        py="6"
+        py={6}
         style={{ backdropFilter: 'blur(7px)' }}
         position="sticky"
         top="-1px"
         borderTop="1px solid transparent"
-        zIndex="1"
+        zIndex={1}
         justifyContent="center"
         w="100%"
         maxW="79rem"
@@ -123,13 +110,12 @@ export const QuestFilter: React.FC<Props> = ({
       >
         <MetaFilterSelectSearch
           title={`Limit: ${limit.label}`}
-          tagLabel=""
           styles={metaFilterSelectStyles}
           hasValue={false}
           value={limit}
           onChange={(value) => {
-            const values = value as ValueType[];
-            const v = values[values.length - 1];
+            const values = value as FilterString[];
+            const [v] = values.slice(-1);
             if (v) {
               setLimit(v);
               setQueryVariable('limit', Number(v.value));
@@ -140,13 +126,12 @@ export const QuestFilter: React.FC<Props> = ({
         />
         <MetaFilterSelectSearch
           title={`Order: ${order.label}`}
-          tagLabel=""
           styles={metaFilterSelectStyles}
           hasValue={false}
           value={order}
           onChange={(value) => {
-            const values = value as ValueType[];
-            const o = values[values.length - 1];
+            const values = value as FilterString[];
+            const [o] = values.slice(-1);
             if (o) {
               setOrder(o);
               setQueryVariable('order', o.value);
@@ -157,13 +142,12 @@ export const QuestFilter: React.FC<Props> = ({
         />
         <MetaFilterSelectSearch
           title={`Status: ${status.label}`}
-          tagLabel=""
           styles={metaFilterSelectStyles}
           hasValue={false}
           value={status}
           onChange={(value) => {
-            const values = value as ValueType[];
-            const s = values[values.length - 1];
+            const values = value as FilterString[];
+            const [s] = values.slice(-1);
             if (s) {
               setStatus(s);
               setQueryVariable('status', s.value);
@@ -175,16 +159,15 @@ export const QuestFilter: React.FC<Props> = ({
         {aggregates.guilds.length && (
           <MetaFilterSelectSearch
             title={`Guild: ${guild.label}`}
-            tagLabel=""
             styles={metaFilterSelectStyles}
             hasValue={false}
             value={guild}
             onChange={(value) => {
-              const values = value as ValueType[];
-              const g = values[values.length - 1];
+              const values = value as FilterString[];
+              const [g] = values.slice(-1);
               if (g) {
                 setGuild(g);
-                setQueryVariable('guild_id', g.value);
+                setQueryVariable('guildId', g.value);
               }
             }}
             options={guildOptions}
@@ -194,23 +177,22 @@ export const QuestFilter: React.FC<Props> = ({
         {roleChoices.length && (
           <MetaFilterSelectSearch
             title="Roles"
-            tagLabel={roles.length > 0 ? roles.length.toString() : ''}
             styles={metaFilterSelectStyles}
             hasValue={false}
             value={roles}
             onChange={(value) => {
-              const values = value as ValueType[];
+              const values = value as FilterString[];
               const selectedRoles = values;
 
               if (selectedRoles.length) {
                 setRoles(selectedRoles);
                 setQueryVariable(
-                  'quest_roles',
+                  'questRoles',
                   selectedRoles.map((x) => x.value),
                 );
               } else {
                 setRoles([]);
-                setQueryVariable('quest_roles', '');
+                setQueryVariable('questRoles', '');
               }
             }}
             options={roleOptions}
@@ -236,7 +218,7 @@ export const QuestFilter: React.FC<Props> = ({
                   )
                 }
               >
-                <Text mr={2}>Created by me</Text>
+                <Text mr={2}>Created By Me</Text>
                 <Switch
                   isChecked={myId && queryVariables.createdByPlayerId === myId}
                 />

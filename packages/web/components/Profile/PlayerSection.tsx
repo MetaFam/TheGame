@@ -1,6 +1,7 @@
 import { Flex, IconButton } from '@metafam/ds';
 import { PlayerAchievements } from 'components/Player/Section/PlayerAchievements';
 import { PlayerColorDisposition } from 'components/Player/Section/PlayerColorDisposition';
+import { PlayerCompletedQuests } from 'components/Player/Section/PlayerCompletedQuests';
 import { PlayerGallery } from 'components/Player/Section/PlayerGallery';
 import { PlayerHero } from 'components/Player/Section/PlayerHero';
 import { PlayerMemberships } from 'components/Player/Section/PlayerMemberships';
@@ -53,6 +54,8 @@ const PlayerSectionInner: React.FC<Props> = ({
       return <PlayerRoles {...{ player, isOwnProfile, canEdit }} />;
     case BoxType.PLAYER_ACHIEVEMENTS:
       return <PlayerAchievements {...{ player, isOwnProfile, canEdit }} />;
+    case BoxType.PLAYER_COMPLETED_QUESTS:
+      return <PlayerCompletedQuests {...{ player, isOwnProfile, canEdit }} />;
     case BoxType.EMBEDDED_URL: {
       const url = boxMetadata?.url as string;
       return url ? <EmbeddedUrl {...{ url, canEdit }} /> : <></>;

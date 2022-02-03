@@ -39,11 +39,11 @@ interface RolesProps {
 }
 export const RolesTags: React.FC<RolesProps> = ({ roles }) => (
   <Wrap>
-    {roles.map((role) => (
-      <WrapItem key={role.role}>
-        <Tooltip label={role.description}>
+    {roles.map(({ role, label, description }) => (
+      <WrapItem key={role}>
+        <Tooltip label={description}>
           <MetaTag size="md" fontWeight="normal" backgroundColor="purpleTag">
-            {role.label}
+            {label}
           </MetaTag>
         </Tooltip>
       </WrapItem>

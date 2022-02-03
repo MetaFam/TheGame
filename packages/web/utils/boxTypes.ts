@@ -10,6 +10,7 @@ export enum BoxType {
   PLAYER_TYPE = 'player-type',
   PLAYER_COLOR_DISPOSITION = 'player-color-disposition',
   PLAYER_ROLES = 'player-roles',
+  PLAYER_COMPLETED_QUESTS = 'player-completed-quests',
   PLAYER_ADD_BOX = 'player-add-box',
   // Guild Profile Boxes
   GUILD_SKILLS = 'guild-skills',
