@@ -117,11 +117,12 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
         borderBottomRadius="lg"
         borderTopRadius={!title ? 'lg' : 0}
         p={boxType === BoxType.EMBEDDED_URL ? 0 : 8}
-        boxShadow="md"
+        boxShadow={withoutBG ? 'none' : 'md'}
         css={{ backdropFilter: 'blur(8px)' }}
         w="100%"
         pos="relative"
         pointerEvents={canEdit ? 'none' : 'initial'}
+        pb={8}
       >
         {children}
       </Box>
@@ -164,7 +165,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
               p={4}
               _focus={{ boxShadow: 'none' }}
             />
-            <ModalBody overflowY="scroll">
+            <ModalBody overflowY="auto" overflowX="hidden">
               {!modal && !modalText && (
                 <EditSectionBox {...{ boxType, onClose }} />
               )}
