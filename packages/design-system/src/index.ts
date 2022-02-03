@@ -56,6 +56,7 @@ export {
   ExternalLinkIcon,
   HamburgerIcon,
   InfoIcon,
+  RepeatClockIcon,
   SettingsIcon,
 } from '@chakra-ui/icons';
 export {

@@ -9,6 +9,7 @@ import {
   Flex,
   LoadingState,
   MetaButton,
+  RepeatClockIcon,
   ResponsiveText,
   useToast,
 } from '@metafam/ds';
@@ -299,6 +300,13 @@ export const Grid: React.FC<Props> = ({
     setCanEdit(false);
   }, [savedLayoutData]);
 
+  const handleDefault = useCallback(() => {
+    setCurrentLayoutData({
+      layouts: DEFAULT_PLAYER_LAYOUTS,
+      layoutItems: DEFAULT_LAYOUT_ITEMS,
+    });
+  }, []);
+
   const persistLayoutData = useCallback(
     async (layoutData: ProfileLayoutData) => {
       if (!user) return;
@@ -365,6 +373,7 @@ export const Grid: React.FC<Props> = ({
 
   const wrapperSX = useMemo(() => gridConfig.wrapper(canEdit), [canEdit]);
 
+  // display layouts
   const displayLayouts = useMemo(() => makeLayouts(canEdit, currentLayouts), [
     canEdit,
     currentLayouts,
@@ -432,14 +441,12 @@ export const Grid: React.FC<Props> = ({
           justifyContent="end"
           variant="ghost"
           zIndex={10}
-          isAttached
           h="3rem"
           mb="1rem"
         >
           {changed && canEdit && (
             <MetaButton
               aria-label="Cancel edit layout"
-              colorScheme="purple"
               _hover={{ background: 'purple.600' }}
               textTransform="uppercase"
               px={12}
@@ -450,6 +457,21 @@ export const Grid: React.FC<Props> = ({
               leftIcon={<DeleteIcon />}
             >
               Cancel
+            </MetaButton>
+          )}
+          {changed && canEdit && (
+            <MetaButton
+              aria-label="Default layout"
+              _hover={{ background: 'purple.600' }}
+              textTransform="uppercase"
+              px={12}
+              letterSpacing="0.1em"
+              size="lg"
+              fontSize="sm"
+              onClick={handleDefault}
+              leftIcon={<RepeatClockIcon />}
+            >
+              Default
             </MetaButton>
           )}
           <MetaButton
