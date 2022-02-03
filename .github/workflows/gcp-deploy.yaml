@@ -483,12 +483,12 @@ jobs:
           mv package.json.temp package.json
           LOCAL_GRAPHQL_URL="${{needs.env.outputs.GRAPHQL_URL}}" \
             LOCAL_BACKEND_ACCOUNT_MIGRATION_URL="${{needs.env.outputs.SC_MIGRATE_URL}}" \
-            yarn hasura:seed-local-db
+            yarn hasura:seed-db
 
   finish-deployment:
     name: Finish Deployment
     runs-on: ubuntu-latest
-    needs: [start-deployment]
+    needs: [start-deployment, seed-db]
     
     steps:
       - name: Finish Deployment
