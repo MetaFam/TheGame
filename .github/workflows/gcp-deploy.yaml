@@ -490,7 +490,8 @@ jobs:
     name: Finish Deployment
     runs-on: ubuntu-latest
     needs: [start-deployment, seed-db]
-    
+    if: always()
+
     steps:
       - name: Finish Deployment
         uses: bobheadxi/deployments@v0.6.2
