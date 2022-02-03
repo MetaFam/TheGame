@@ -9,7 +9,6 @@ import { getAcceptedQuestsByPlayerQuery } from 'graphql/getQuests';
 import React, { useEffect, useState } from 'react';
 import { BoxType } from 'utils/boxTypes';
 
-// TODO Fake data
 type Props = {
   player: PlayerFragmentFragment;
   isOwnProfile?: boolean;
@@ -27,13 +26,17 @@ export const PlayerCompletedQuests: React.FC<Props> = ({
 
   useEffect(() => {
     const loadQuests = async () => {
-      const response = await getAcceptedQuestsByPlayerQuery(player?.id);
-      if (response.length) {
-        setQuests(
-          response.filter(
-            (quest) => quest.status === QuestCompletionStatus_Enum.Accepted,
-          ),
-        );
+      try {
+        const response = await getAcceptedQuestsByPlayerQuery(player?.id);
+        if (response.length) {
+          setQuests(
+            response.filter(
+              (quest) => quest.status === QuestCompletionStatus_Enum.Accepted,
+            ),
+          );
+        }
+      } catch (error) {
+        console.error("Couldn't fetch quests", error);
       }
     };
     loadQuests();
@@ -45,7 +48,7 @@ export const PlayerCompletedQuests: React.FC<Props> = ({
       {...{ isOwnProfile, canEdit }}
       boxType={BoxType.PLAYER_ACHIEVEMENTS}
       modalTitle={`Completed Quests (${quests.length})`}
-      modalText="Show All"
+      modalText={quests.length ? 'Show All' : ''}
       modal={<AllQuests quests={quests} />}
       subheader='A quest is considered "complete" when it is accepted by the
       quest owner.'
@@ -55,7 +58,9 @@ export const PlayerCompletedQuests: React.FC<Props> = ({
           <QuestList quests={quests.slice(0, 4)} />
         </Stack>
       ) : (
-        <Text>No completed quests yet</Text>
+        <Text fontStyle="italic" textAlign="center" mb="1rem">
+          No completed quests found for {isOwnProfile ? 'you' : 'this player'}.
+        </Text>
       )}
     </ProfileSection>
   );

@@ -5,6 +5,7 @@ import {
   getTimeZoneFor,
   HStack,
   IconButton,
+  Link,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -28,6 +29,8 @@ import { PlayerHeroTile } from 'components/Player/Section/PlayerHeroTile';
 import { PlayerPronouns } from 'components/Player/Section/PlayerPronouns';
 import { ProfileSection } from 'components/Profile/ProfileSection';
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
+import { Maybe } from 'graphql/jsutils/Maybe';
+import { PersonalityInfo } from 'graphql/queries/enums/getPersonalityInfo';
 import { useUser } from 'lib/hooks';
 import { useAnimateProfileChanges } from 'lib/hooks/players';
 import React, { useEffect, useState } from 'react';
@@ -35,20 +38,28 @@ import { FaClock, FaGlobe } from 'react-icons/fa';
 import { BoxType } from 'utils/boxTypes';
 import { getPlayerDescription, getPlayerName } from 'utils/playerHelpers';
 
+import { ColorBar } from '../ColorBar';
+
 const MAX_BIO_LENGTH = 240;
 
 type Props = {
   player: PlayerFragmentFragment;
+  personalityInfo: PersonalityInfo;
   isOwnProfile?: boolean;
   canEdit?: boolean;
 };
-type AvailabilityProps = { person: PlayerFragmentFragment | null | undefined };
+type AvailabilityProps = { person?: Maybe<PlayerFragmentFragment> };
 type TimeZoneDisplayProps = {
-  person: PlayerFragmentFragment | null | undefined;
+  person?: Maybe<PlayerFragmentFragment>;
+};
+type ColorDispositionProps = {
+  person?: Maybe<PlayerFragmentFragment>;
+  personalityInfo: PersonalityInfo;
 };
 
 export const PlayerHero: React.FC<Props> = ({
   player,
+  personalityInfo,
   isOwnProfile,
   canEdit,
 }) => {
@@ -111,7 +122,6 @@ export const PlayerHero: React.FC<Props> = ({
           >
             {playerName}
           </Text>
-          <PlayerBrightId {...{ player }} />
         </Box>
         <Box w="100%">
           {description && (
@@ -145,6 +155,7 @@ export const PlayerHero: React.FC<Props> = ({
 
         <HStack mt={2}>
           <PlayerContacts {...{ player }} />
+          <PlayerBrightId {...{ player }} />
         </HStack>
 
         {person?.profile?.pronouns && <PlayerPronouns {...{ person }} />}
@@ -186,6 +197,11 @@ export const PlayerHero: React.FC<Props> = ({
             </Text>
           </PlayerHeroTile>
         )}
+        {/* player?.profile?.colorMask && (
+          <PlayerHeroTile title="Color Disposition">
+            <ColorDispositionDisplay {...{ person, personalityInfo }} />
+          </PlayerHeroTile>
+        ) */}
       </VStack>
 
       <Modal {...{ isOpen, onClose }}>
@@ -312,5 +328,49 @@ const TimeZoneDisplay: React.FC<TimeZoneDisplayProps> = () => {
         </Flex>
       </FlexContainer>
     </Flex>
+  );
+};
+
+export const ColorDispositionDisplay: React.FC<ColorDispositionProps> = ({
+  person,
+  personalityInfo,
+}) => {
+  const [mask, setMask] = useState<number | null>(
+    person?.profile?.colorMask ?? null,
+  );
+
+  const updateFN = () => setMask(mask);
+  const { animation } = useAnimateProfileChanges(mask, updateFN);
+
+  return (
+    <FlexContainer
+      align="stretch"
+      justify="stretch"
+      w="100%"
+      transition=" opacity 0.4s"
+      opacity={animation === 'fadeIn' ? 1 : 0}
+      mb={-12}
+    >
+      <Flex align="center" whiteSpace="pre" w="100%">
+        {mask == null ? (
+          <Text fontStyle="italic" textAlign="center" mb={6}>
+            Unspecified
+          </Text>
+        ) : (
+          <Link
+            isExternal
+            href={`//dysbulic.github.io/5-color-radar/#/combos/${mask
+              .toString(2)
+              .padStart(5, '0')}`}
+            w="100%"
+            fontSize={{ base: 'md', sm: 'lg' }}
+            fontWeight={600}
+            _focus={{ border: 'none' }}
+          >
+            <ColorBar {...{ mask, personalityInfo }} />
+          </Link>
+        )}
+      </Flex>
+    </FlexContainer>
   );
 };
