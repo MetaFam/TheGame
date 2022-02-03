@@ -144,6 +144,7 @@ export {
   Spacer,
   Spinner,
   Stack,
+  StackProps,
   Stat,
   StatArrow,
   StatGroup,

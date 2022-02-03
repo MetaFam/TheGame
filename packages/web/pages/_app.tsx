@@ -1,6 +1,5 @@
 import { ChakraProvider, CSSReset, MetaTheme } from '@metafam/ds';
 import { MegaMenu } from 'components/MegaMenu';
-import { PlayerStatsBar } from 'components/PlayerStatsBar';
 import { CONFIG } from 'config';
 import { Web3ContextProvider } from 'contexts/Web3Context';
 import { wrapUrqlClient } from 'graphql/client';
@@ -53,9 +52,9 @@ const App: React.FC<WithUrqlProps> = ({
       )}
     </Head>
     <Web3ContextProvider {...{ resetUrqlClient }}>
-      {!pageProps.hideTopMenu && <MegaMenu />}
-      {!pageProps.hideTopMenu && <PlayerStatsBar />}
-      <Component {...pageProps} />
+      <MegaMenu hideMenu={pageProps.hideMenu}>
+        <Component {...pageProps} />
+      </MegaMenu>
     </Web3ContextProvider>
   </ChakraProvider>
 );

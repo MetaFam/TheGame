@@ -141,7 +141,7 @@ export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
   };
 
   return (
-    <FlexContainer>
+    <FlexContainer spacing={8}>
       <Flex direction="column">
         {isWizard && (
           <MetaHeading mb={5} textAlign="center">
@@ -168,14 +168,7 @@ export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
           .
         </Text>
       </Flex>
-      <FlexContainer
-        grow={1}
-        spacing={8}
-        maxW="70rem"
-        direction="row"
-        wrap="wrap"
-        id="colors"
-      >
+      <Wrap spacing={2} justify="center" maxW="70rem">
         {Object.keys(types).length &&
           Object.entries(BaseImages)
             .reverse()
@@ -185,74 +178,76 @@ export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
               const selected = ((colorMask ?? 0) & mask) > 0;
 
               return (
-                <Button
-                  key={mask}
-                  display="flex"
-                  direction="row"
-                  justifyContent="start"
-                  p={6}
-                  m={2}
-                  h="auto"
-                  w={{ base: '100%', md: 'auto' }}
-                  spacing={4}
-                  borderRadius={8}
-                  cursor="pointer"
-                  onClick={() => toggleMaskElement(mask)}
-                  autoFocus={idx === 0} // Doesn't work
-                  ref={(input) => {
-                    if (idx === 0 && !input?.getAttribute('focused-once')) {
-                      input?.focus();
-                      input?.setAttribute('focused-once', 'true');
-                    }
-                  }}
-                  onKeyPress={(e) => {
-                    if (e.key === 'Enter') {
-                      if (isWizard) handleNextPress();
-                      if (isEdit) save();
-                      e.preventDefault();
-                    }
-                  }}
-                  transition="background 0.25s, filter 0.5s"
-                  bgColor={selected ? 'purpleBoxDark' : 'purpleBoxLight'}
-                  _hover={{
-                    filter: 'hue-rotate(25deg)',
-                  }}
-                  _focus={{
-                    borderColor: '#FFFFFF55',
-                    outline: 'none',
-                  }}
-                  _active={{
-                    bg: selected ? 'purpleBoxDark' : 'purpleBoxLight',
-                  }}
-                  borderWidth={2}
-                  borderColor={selected ? 'purple.400' : 'transparent'}
-                >
-                  <Image
-                    w="100%"
-                    maxW={16}
-                    h={16}
-                    mr={2}
-                    src={image}
-                    alt={option.name}
-                    filter="drop-shadow(0px 0px 3px black)"
-                  />
-                  <FlexContainer align="stretch" ml={2}>
-                    <Text color="white" casing="uppercase" textAlign="left">
-                      {option.name}
-                    </Text>
-                    <Text
-                      color="blueLight"
-                      fontWeight="normal"
-                      whiteSpace="initial"
-                      textAlign="left"
-                    >
-                      {option.description}
-                    </Text>
-                  </FlexContainer>
-                </Button>
+                <WrapItem>
+                  <Button
+                    key={mask}
+                    display="flex"
+                    direction="row"
+                    justifyContent="start"
+                    p={6}
+                    m={2}
+                    h="auto"
+                    w={{ base: '100%', md: 'auto' }}
+                    spacing={4}
+                    borderRadius={8}
+                    cursor="pointer"
+                    onClick={() => toggleMaskElement(mask)}
+                    autoFocus={idx === 0} // Doesn't work
+                    ref={(input) => {
+                      if (idx === 0 && !input?.getAttribute('focused-once')) {
+                        input?.focus();
+                        input?.setAttribute('focused-once', 'true');
+                      }
+                    }}
+                    onKeyPress={(e) => {
+                      if (e.key === 'Enter') {
+                        if (isWizard) handleNextPress();
+                        if (isEdit) save();
+                        e.preventDefault();
+                      }
+                    }}
+                    transition="background 0.25s, filter 0.5s"
+                    bgColor={selected ? 'purpleBoxDark' : 'purpleBoxLight'}
+                    _hover={{
+                      filter: 'hue-rotate(25deg)',
+                    }}
+                    _focus={{
+                      borderColor: '#FFFFFF55',
+                      outline: 'none',
+                    }}
+                    _active={{
+                      bg: selected ? 'purpleBoxDark' : 'purpleBoxLight',
+                    }}
+                    borderWidth={2}
+                    borderColor={selected ? 'purple.400' : 'transparent'}
+                  >
+                    <Image
+                      w="100%"
+                      maxW={16}
+                      h={16}
+                      mr={2}
+                      src={image}
+                      alt={option.name}
+                      filter="drop-shadow(0px 0px 3px black)"
+                    />
+                    <FlexContainer align="stretch" ml={2}>
+                      <Text color="white" casing="uppercase" textAlign="left">
+                        {option.name}
+                      </Text>
+                      <Text
+                        color="blueLight"
+                        fontWeight="normal"
+                        whiteSpace="initial"
+                        textAlign="left"
+                      >
+                        {option.description}
+                      </Text>
+                    </FlexContainer>
+                  </Button>
+                </WrapItem>
               );
             })}
-      </FlexContainer>
+      </Wrap>
 
       <ColorBar
         mask={colorMask ?? null}

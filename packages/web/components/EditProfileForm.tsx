@@ -815,13 +815,15 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
               name="timeZone"
               defaultValue={Intl.DateTimeFormat().resolvedOptions().timeZone}
               render={({ field: { onChange, ref, ...props } }) => (
-                <SelectTimeZone
-                  labelStyle="abbrev"
-                  onChange={(tz) => {
-                    onChange(tz.value);
-                  }}
-                  {...props}
-                />
+                <Box w="100%" minW="16rem">
+                  <SelectTimeZone
+                    labelStyle="abbrev"
+                    onChange={(tz) => {
+                      onChange(tz.value);
+                    }}
+                    {...props}
+                  />
+                </Box>
               )}
             />
             <Box minH="3em">

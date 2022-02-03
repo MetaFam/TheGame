@@ -41,7 +41,7 @@ const timeZoneSelectStyles: typeof chakraesqueStyles = {
   control: (styles, props) => ({
     ...styles,
     ...chakraesqueStyles.control?.(styles, props),
-    width: '17em',
+    width: '100%',
     maxWidth: 'calc(100vw - 2rem)',
   }),
 };
