@@ -26,10 +26,13 @@ jobs:
     name: Generate Deployment Start Message
     runs-on: ubuntu-latest
 
+    outputs:
+      deployment_id: ${{steps.create-message.outputs.deployment_id}}
+
     steps:
       - name: Start Deployment
         uses: bobheadxi/deployments@v0.6.2
-        id: deployment-message
+        id: create-message
         with:
           step: start
           token: ${{github.token}}
@@ -489,7 +492,7 @@ jobs:
   finish-deployment:
     name: Finish Deployment
     runs-on: ubuntu-latest
-    needs: [start-deployment, seed-db]
+    needs: [start-deployment, deploy-frontend]
     if: always()
 
     steps:
@@ -500,4 +503,4 @@ jobs:
           token: ${{github.token}}
           env_url: ${{needs.env.outputs.FRONTEND_URL}}
           status: ${{job.status}}
-          deployment_id: ${{steps.deployment-message.outputs.deployment_id}}
+          deployment_id: ${{needs.start-deployment.outputs.deployment_id}}
