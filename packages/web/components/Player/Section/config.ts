@@ -22,7 +22,7 @@ export const MULTIPLE_ALLOWED_BOXES = [BoxType.EMBEDDED_URL];
 export const DEFAULT_BOXES = [
   BoxType.PLAYER_HERO,
   BoxType.PLAYER_SKILLS,
-  BoxType.PLAYER_COLOR_DISPOSITION,
+  // BoxType.PLAYER_COLOR_DISPOSITION,
   BoxType.PLAYER_TYPE,
   BoxType.PLAYER_NFT_GALLERY,
   BoxType.PLAYER_DAO_MEMBERSHIPS,
@@ -149,40 +149,25 @@ const DEFAULT_BOX_POSITIONS_LG: {
   [boxType: string]: { x: number; y: number };
 } = {
   [BoxType.PLAYER_HERO]: { x: 0, y: 0 },
-  [BoxType.PLAYER_SKILLS]: { x: 1, y: 0 },
-  [BoxType.PLAYER_COLOR_DISPOSITION]: {
-    x: 1,
-    y: 7,
-  },
-  [BoxType.PLAYER_TYPE]: { x: 1, y: 12 },
+  [BoxType.PLAYER_DAO_MEMBERSHIPS]: { x: 1, y: 0 },
+  [BoxType.PLAYER_SKILLS]: { x: 1, y: 9 },
   [BoxType.PLAYER_NFT_GALLERY]: { x: 2, y: 0 },
-  [BoxType.PLAYER_DAO_MEMBERSHIPS]: { x: 2, y: 10 },
 };
 const DEFAULT_BOX_POSITIONS_MD: {
   [boxType: string]: { x: number; y: number };
 } = {
   [BoxType.PLAYER_HERO]: { x: 0, y: 0 },
-  [BoxType.PLAYER_SKILLS]: { x: 1, y: 5 },
-  [BoxType.PLAYER_COLOR_DISPOSITION]: {
-    x: 1,
-    y: 0,
-  },
-  [BoxType.PLAYER_TYPE]: { x: 1, y: 6 },
   [BoxType.PLAYER_NFT_GALLERY]: { x: 0, y: 7 },
-  [BoxType.PLAYER_DAO_MEMBERSHIPS]: { x: 0, y: 16 },
+  [BoxType.PLAYER_DAO_MEMBERSHIPS]: { x: 1, y: 0 },
+  [BoxType.PLAYER_SKILLS]: { x: 1, y: 9 },
 };
 const DEFAULT_BOX_POSITIONS_SM: {
   [boxType: string]: { x: number; y: number };
 } = {
   [BoxType.PLAYER_HERO]: { x: 0, y: 0 },
+  [BoxType.PLAYER_DAO_MEMBERSHIPS]: { x: 0, y: 7 },
   [BoxType.PLAYER_SKILLS]: { x: 0, y: 15 },
-  [BoxType.PLAYER_COLOR_DISPOSITION]: {
-    x: 0,
-    y: 10,
-  },
-  [BoxType.PLAYER_TYPE]: { x: 0, y: 19 },
-  [BoxType.PLAYER_NFT_GALLERY]: { x: 0, y: 7 },
-  [BoxType.PLAYER_DAO_MEMBERSHIPS]: { x: 0, y: 16 },
+  [BoxType.PLAYER_NFT_GALLERY]: { x: 0, y: 20 },
 };
 
 export const DEFAULT_PLAYER_LAYOUTS: Layouts = {
