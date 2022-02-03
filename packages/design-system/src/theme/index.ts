@@ -16,6 +16,7 @@ const breakpoints = createBreakpoints({
   xl: '80em',
   '2xl': '96em',
 });
+
 export const theme: Theme = extendTheme({
   breakpoints,
   styles: {
