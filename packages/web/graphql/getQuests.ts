@@ -13,6 +13,7 @@ import {
   GetQuestsQueryVariables,
   Order_By,
   QuestStatus_Enum,
+  Scalars,
 } from './autogen/types';
 import { client as defaultClient } from './client';
 import { QuestFragment } from './fragments';
@@ -125,7 +126,7 @@ export const getQuests = async (
 };
 
 export const getAcceptedQuestsByPlayerQuery = async (
-  playerId: any,
+  playerId: Scalars['uuid'],
   order: Order_By = Order_By.Desc,
   client: Client = defaultClient,
 ) => {

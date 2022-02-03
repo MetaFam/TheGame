@@ -28,7 +28,7 @@ type Props = {
   roleChoices: Array<PlayerRole>;
 };
 
-type ValueType = { value: string; label: string };
+type FilterString = { value: string; label: string };
 
 /* TODO
 - text search
@@ -85,11 +85,11 @@ export const QuestFilter: React.FC<Props> = ({
     value: role,
   }));
 
-  const [limit, setLimit] = useState<ValueType>(limitOptions[0]);
-  const [order, setOrder] = useState<ValueType>(orderOptions[0]);
-  const [status, setStatus] = useState<ValueType>(statusOptions[0]);
-  const [guild, setGuild] = useState<ValueType>(guildOptions[0]);
-  const [roles, setRoles] = useState<ValueType[]>([]);
+  const [limit, setLimit] = useState<FilterString>(limitOptions[0]);
+  const [order, setOrder] = useState<FilterString>(orderOptions[0]);
+  const [status, setStatus] = useState<FilterString>(statusOptions[0]);
+  const [guild, setGuild] = useState<FilterString>(guildOptions[0]);
+  const [roles, setRoles] = useState<FilterString[]>([]);
 
   return (
     <Wrap justifyContent="center">
@@ -114,7 +114,7 @@ export const QuestFilter: React.FC<Props> = ({
           hasValue={false}
           value={limit}
           onChange={(value) => {
-            const values = value as ValueType[];
+            const values = value as FilterString[];
             const [v] = values.slice(-1);
             if (v) {
               setLimit(v);
@@ -130,7 +130,7 @@ export const QuestFilter: React.FC<Props> = ({
           hasValue={false}
           value={order}
           onChange={(value) => {
-            const values = value as ValueType[];
+            const values = value as FilterString[];
             const [o] = values.slice(-1);
             if (o) {
               setOrder(o);
@@ -146,7 +146,7 @@ export const QuestFilter: React.FC<Props> = ({
           hasValue={false}
           value={status}
           onChange={(value) => {
-            const values = value as ValueType[];
+            const values = value as FilterString[];
             const [s] = values.slice(-1);
             if (s) {
               setStatus(s);
@@ -163,7 +163,7 @@ export const QuestFilter: React.FC<Props> = ({
             hasValue={false}
             value={guild}
             onChange={(value) => {
-              const values = value as ValueType[];
+              const values = value as FilterString[];
               const [g] = values.slice(-1);
               if (g) {
                 setGuild(g);
@@ -181,18 +181,18 @@ export const QuestFilter: React.FC<Props> = ({
             hasValue={false}
             value={roles}
             onChange={(value) => {
-              const values = value as ValueType[];
+              const values = value as FilterString[];
               const selectedRoles = values;
 
               if (selectedRoles.length) {
                 setRoles(selectedRoles);
                 setQueryVariable(
-                  'quest_roles',
+                  'questRoles',
                   selectedRoles.map((x) => x.value),
                 );
               } else {
                 setRoles([]);
-                setQueryVariable('quest_roles', '');
+                setQueryVariable('questRoles', '');
               }
             }}
             options={roleOptions}

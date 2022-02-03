@@ -879,6 +879,10 @@
 - table:
     schema: public
     name: quest_role
+  configuration:
+    custom_root_fields: {}
+    custom_column_names:
+      quest_id: questId
   object_relationships:
   - name: PlayerRole
     using:

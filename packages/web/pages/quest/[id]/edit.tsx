@@ -57,7 +57,7 @@ const EditQuestPage: React.FC<Props> = ({
     }));
 
     const rolesObjects = data.roles.map(({ value }) => ({
-      quest_id: quest.id,
+      questId: quest.id,
       role: value,
     }));
 

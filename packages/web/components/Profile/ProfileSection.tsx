@@ -15,6 +15,7 @@ import {
   Text,
   useDisclosure,
 } from '@metafam/ds';
+import { Maybe } from '@metafam/utils';
 import BackgroundImage from 'assets/main-background.jpg';
 import { SetupPersonalityType } from 'components/Setup/SetupPersonalityType';
 import { SetupPlayerType } from 'components/Setup/SetupPlayerType';
@@ -70,30 +71,26 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
             >
               {title}
             </Text>
-            {!modal &&
-              isOwnProfile &&
-              !canEdit &&
-              boxType &&
-              isBoxDataEditable(boxType) && (
-                <IconButton
-                  aria-label="Edit Profile Info"
-                  size="lg"
-                  background="transparent"
-                  color="pinkShadeOne"
-                  icon={<EditIcon />}
-                  _hover={{ color: 'white' }}
-                  onClick={onOpen}
-                  _focus={{
-                    boxShadow: 'none',
-                    backgroundColor: 'transparent',
-                  }}
-                  _active={{
-                    transform: 'scale(0.8)',
-                    backgroundColor: 'transparent',
-                  }}
-                  isRound
-                />
-              )}
+            {!modal && isOwnProfile && !canEdit && isBoxDataEditable(boxType) && (
+              <IconButton
+                aria-label="Edit Profile Info"
+                size="lg"
+                background="transparent"
+                color="pinkShadeOne"
+                icon={<EditIcon />}
+                _hover={{ color: 'white' }}
+                onClick={onOpen}
+                _focus={{
+                  boxShadow: 'none',
+                  backgroundColor: 'transparent',
+                }}
+                _active={{
+                  transform: 'scale(0.8)',
+                  backgroundColor: 'transparent',
+                }}
+                isRound
+              />
+            )}
             {modal && modalText && (
               <Button
                 color="pinkShadeOne"
@@ -195,7 +192,8 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
   );
 };
 
-const isBoxDataEditable = (boxType: BoxType) =>
+const isBoxDataEditable = (boxType?: Maybe<BoxType>) =>
+  !!boxType &&
   [
     BoxType.PLAYER_TYPE,
     BoxType.PLAYER_COLOR_DISPOSITION,
