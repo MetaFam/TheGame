@@ -141,14 +141,11 @@ const DesktopMenuItem = ({
   icon,
 }: MenuItemProps) => (
   <MenuItem
-    color="#FFF"
+    color="#ffffff"
     key={title}
-    mb={4}
-    p={2}
-    borderRadius="md"
+    p={0}
     _active={{ bg: 'none' }}
     _focus={{ bg: 'none' }}
-    _hover={{ bg: '#C8BAFC33' }}
   >
     <Link
       display="flex"
