@@ -61,7 +61,7 @@ import { Player } from 'graphql/autogen/types';
 import { useUser, useWeb3 } from 'lib/hooks';
 import { usePSeedBalance } from 'lib/hooks/balances';
 import { useRouter } from 'next/router';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { MenuLinkItem, MenuLinkSet, MenuSectionLinks } from 'utils/menuLinks';
 import { getPlayerURL } from 'utils/playerHelpers';
 
@@ -452,24 +452,11 @@ const PlayerStats: React.FC<PlayerStatsProps> = ({ player }) => {
 export const MegaMenu: React.FC = () => {
   const { connected, connect } = useWeb3();
   const router = useRouter();
-
-  const handleLoginClick = useCallback(async () => {
-    await connect();
-  }, [connect]);
   const { user, fetching } = useUser();
   const { player } = user ?? {};
 
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const menuToggle = () => {
-    if (isOpen) {
-      document.body.style.height = 'auto';
-      document.body.style.overflowY = 'scroll';
-      return onClose();
-    }
-    document.body.style.height = '100%';
-    document.body.style.overflow = 'hidden';
-    return onOpen();
-  };
+  const menuToggle = () => (isOpen ? onClose() : onOpen());
 
   return (
     <Stack
@@ -482,7 +469,7 @@ export const MegaMenu: React.FC = () => {
     >
       <Flex
         justifyContent="space-between"
-        minH={{ base: '76px', md: '76px' }}
+        minH="5rem"
         borderBottom="1px"
         bg="rgba(0,0,0,0.5)"
         borderColor="#2B2244"
@@ -494,16 +481,17 @@ export const MegaMenu: React.FC = () => {
           onClick={menuToggle}
           flexWrap="nowrap"
           alignItems="center"
-          h="fit-content"
-          w="fit-content"
+          cursor="pointer"
+          h="2rem"
+          w="2rem"
           display={{ base: 'flex', lg: 'none' }}
           p={2}
           my="auto"
         >
           {isOpen ? (
-            <CloseIcon color="#FFF" ml={2} />
+            <CloseIcon fontSize="1.5rem" color="#FFF" ml={2} />
           ) : (
-            <HamburgerIcon color="#FFF" ml={2} />
+            <HamburgerIcon fontSize="2rem" color="#FFF" ml={2} />
           )}
         </Flex>
         <Flex
@@ -532,7 +520,7 @@ export const MegaMenu: React.FC = () => {
                   my="10px"
                   px="24px"
                   ml="90px"
-                  onClick={handleLoginClick}
+                  onClick={connect}
                 >
                   Connect
                 </MetaButton>
@@ -543,17 +531,16 @@ export const MegaMenu: React.FC = () => {
       </Flex>
       <Stack
         display={{ base: isOpen ? 'block' : 'none', xl: 'none' }}
-        position="absolute"
-        top={76}
+        position="fixed"
+        top="4.5rem"
         zIndex={1}
-        overflowY="scroll"
+        overflowX="hidden"
         w="100vw"
         bg="rgba(0, 0, 0, 0.8)"
-        h="calc(100vh - 160px)"
+        h="calc(100vh - 10rem)"
         sx={{ backdropFilter: 'blur(10px)' }}
-        p="0px 16px 16px"
+        p="1rem"
         border="none"
-        mt={0}
       >
         {MenuSectionLinks.map((section) => (
           <Stack pt={1} key={section.label}>

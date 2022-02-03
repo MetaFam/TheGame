@@ -1,29 +1,54 @@
-import { Flex } from '@metafam/ds';
-import BackgroundImage from 'assets/main-background.jpg';
-import React from 'react';
+import { Flex, FlexProps, Stack, StackProps } from '@metafam/ds';
+import { HeadComponent } from 'components/Seo';
 
-type Props = React.ComponentProps<typeof Flex>;
-
-export const PageContainer: React.FC<Props> = ({ children, ...props }) => (
+export const PageContainer: React.FC<FlexProps> = ({ children, ...props }) => (
   <Flex
-    bgSize="cover"
-    bgAttachment="fixed"
-    w="full"
-    minH="100vh"
-    px={[4, 8, 12]}
-    pt={[4, 8, 12]}
-    pb={[20, 20, 20, 12]}
+    w="100%"
+    h="100%"
+    p={{ base: 8, lg: 12 }}
     direction="column"
     align="center"
-    backgroundImage={`url(${BackgroundImage})`}
+    pos="relative"
     {...props}
   >
     {children}
   </Flex>
 );
 
-export const FlexContainer: React.FC<Props> = ({ children, ...props }) => (
-  <Flex align="center" justify="center" direction="column" {...props}>
+export const FlexContainer: React.FC<StackProps> = ({ children, ...props }) => (
+  <Stack
+    w="100%"
+    align="center"
+    justify="center"
+    direction="column"
+    spacing={8}
+    {...props}
+  >
     {children}
+  </Stack>
+);
+
+type EmbedProps = {
+  title: string;
+  description: string;
+  url: string;
+} & FlexProps;
+
+export const EmbedContainer: React.FC<EmbedProps> = ({
+  title,
+  description,
+  url,
+  ...props
+}) => (
+  <Flex w="100%" h="100%" direction="column" {...props}>
+    <HeadComponent title={title} description={description} url={url} />
+    <iframe
+      title={title}
+      src={url}
+      style={{
+        width: '100%',
+        height: '100%',
+      }}
+    />
   </Flex>
 );

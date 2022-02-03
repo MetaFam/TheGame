@@ -80,7 +80,7 @@ export const PlayerPage: React.FC<Props> = ({
   if (!player) return <Page404 />;
 
   return (
-    <PageContainer pt={0} px={[0, 4, 8]}>
+    <PageContainer p={0} px={[0, 4, 8]}>
       <HeadComponent
         title={`MetaGame Player Profile: ${getPlayerName(player)}`}
         description={(getPlayerDescription(player) ?? '').replace('\n', ' ')}

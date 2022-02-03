@@ -39,14 +39,28 @@ export const ColorBar = ({
   }
 
   return (
-    <Flex
-      direction="column-reverse"
-      w="100%"
-      maxW="100%"
-      className="color-bar"
-      {...props}
-    >
-      <Flex maxW="100%" minH="1.5rem" mt={3}>
+    <FlexContainer spacing={4} {...props}>
+      <Text color="white">{types?.[mask]?.name}</Text>
+      <Flex
+        w="100%"
+        h="1.5rem"
+        border={0}
+        borderRadius="1rem"
+        overflow="hidden"
+      >
+        {parts.map((part) =>
+          (mask & part.mask) === 0 ? null : (
+            <Flex
+              key={part.mask}
+              grow={1}
+              bg={`linear-gradient(to right, ${colors[part.mask].start}, ${
+                colors[part.mask].end
+              })`}
+            />
+          ),
+        )}
+      </Flex>
+      <Flex w="100%">
         {parts.map((part) => {
           const set = (mask & part.mask) !== 0;
 
@@ -65,32 +79,6 @@ export const ColorBar = ({
           );
         })}
       </Flex>
-      <Flex
-        minH="1.5rem"
-        flex="0 0 100%"
-        minW="100%"
-        border={0}
-        borderRadius="15px"
-        overflow="hidden"
-      >
-        {parts.map((part) =>
-          (mask & part.mask) === 0 ? null : (
-            <Flex
-              key={part.mask}
-              grow={1}
-              h="1.5rem"
-              bg={`linear-gradient(to right, ${colors[part.mask].start}, ${
-                colors[part.mask].end
-              })`}
-            />
-          ),
-        )}
-      </Flex>
-      <FlexContainer mb={2} minH="1.5rem">
-        <Box as="span" color="white">
-          {types?.[mask]?.name}
-        </Box>
-      </FlexContainer>
-    </Flex>
+    </FlexContainer>
   );
 };
