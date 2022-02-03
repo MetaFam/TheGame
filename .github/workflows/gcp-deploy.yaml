@@ -209,7 +209,7 @@ jobs:
         run: gcloud -q artifacts docker images delete ${{needs.env.outputs.BACKEND_TAG}}
 
   build-backend:
-    name: Build Backend
+    name: Build Backend Container
     runs-on: ubuntu-latest
     needs: [env, delete-backend, undeploy-backend]
 
@@ -408,7 +408,7 @@ jobs:
         run: gcloud -q artifacts docker images delete ${{needs.env.outputs.FRONTEND_TAG}}
 
   build-frontend:
-    name: Build Frontend
+    name: Build Frontend Container
     runs-on: ubuntu-latest
     needs: [env, delete-frontend, undeploy-frontend, deploy-hasura, seed-db]
 
