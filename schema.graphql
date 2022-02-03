@@ -2947,7 +2947,7 @@ type mutation_root {
   """
   delete single row from the table: "quest_role"
   """
-  delete_quest_role_by_pk(quest_id: uuid!, role: String!): quest_role
+  delete_quest_role_by_pk(questId: uuid!, role: String!): quest_role
 
   """
   delete data from the table: "quest_skill"
@@ -7662,7 +7662,7 @@ type query_root {
   ): quest_role_aggregate!
 
   """fetch data from the table: "quest_role" using primary key columns"""
-  quest_role_by_pk(quest_id: uuid!, role: String!): quest_role
+  quest_role_by_pk(questId: uuid!, role: String!): quest_role
 
   """
   fetch data from the table: "quest_skill"
@@ -7980,6 +7980,9 @@ columns and relationships of "quest_completion"
 type quest_completion {
   """An object relationship"""
   QuestCompletionStatus: QuestCompletionStatus!
+
+  """An object relationship"""
+  completed: quest
   completedByPlayerId: uuid!
   id: uuid!
 
@@ -8037,6 +8040,7 @@ input quest_completion_bool_exp {
   _and: [quest_completion_bool_exp]
   _not: quest_completion_bool_exp
   _or: [quest_completion_bool_exp]
+  completed: quest_bool_exp
   completedByPlayerId: uuid_comparison_exp
   id: uuid_comparison_exp
   player: player_bool_exp
@@ -8061,6 +8065,7 @@ input type for inserting data into table "quest_completion"
 """
 input quest_completion_insert_input {
   QuestCompletionStatus: QuestCompletionStatus_obj_rel_insert_input
+  completed: quest_obj_rel_insert_input
   completedByPlayerId: uuid
   id: uuid
   player: player_obj_rel_insert_input
@@ -8149,6 +8154,7 @@ ordering options when selecting data from "quest_completion"
 """
 input quest_completion_order_by {
   QuestCompletionStatus: QuestCompletionStatus_order_by
+  completed: quest_order_by
   completedByPlayerId: order_by
   id: order_by
   player: player_order_by
@@ -8389,7 +8395,7 @@ type quest_role {
 
   """An object relationship"""
   quest: quest!
-  quest_id: uuid!
+  questId: uuid!
   rank: Int
   role: String!
 }
@@ -8465,7 +8471,7 @@ input quest_role_bool_exp {
   _not: quest_role_bool_exp
   _or: [quest_role_bool_exp]
   quest: quest_bool_exp
-  quest_id: uuid_comparison_exp
+  questId: uuid_comparison_exp
   rank: Int_comparison_exp
   role: String_comparison_exp
 }
@@ -8491,14 +8497,14 @@ input type for inserting data into table "quest_role"
 input quest_role_insert_input {
   PlayerRole: PlayerRole_obj_rel_insert_input
   quest: quest_obj_rel_insert_input
-  quest_id: uuid
+  questId: uuid
   rank: Int
   role: String
 }
 
 """aggregate max on columns"""
 type quest_role_max_fields {
-  quest_id: uuid
+  questId: uuid
   rank: Int
   role: String
 }
@@ -8507,14 +8513,14 @@ type quest_role_max_fields {
 order by max() on columns of table "quest_role"
 """
 input quest_role_max_order_by {
-  quest_id: order_by
+  questId: order_by
   rank: order_by
   role: order_by
 }
 
 """aggregate min on columns"""
 type quest_role_min_fields {
-  quest_id: uuid
+  questId: uuid
   rank: Int
   role: String
 }
@@ -8523,7 +8529,7 @@ type quest_role_min_fields {
 order by min() on columns of table "quest_role"
 """
 input quest_role_min_order_by {
-  quest_id: order_by
+  questId: order_by
   rank: order_by
   role: order_by
 }
@@ -8562,7 +8568,7 @@ ordering options when selecting data from "quest_role"
 input quest_role_order_by {
   PlayerRole: PlayerRole_order_by
   quest: quest_order_by
-  quest_id: order_by
+  questId: order_by
   rank: order_by
   role: order_by
 }
@@ -8571,7 +8577,7 @@ input quest_role_order_by {
 primary key columns input for table: "quest_role"
 """
 input quest_role_pk_columns_input {
-  quest_id: uuid!
+  questId: uuid!
   role: String!
 }
 
@@ -8580,7 +8586,7 @@ select columns of table "quest_role"
 """
 enum quest_role_select_column {
   """column name"""
-  quest_id
+  questId
 
   """column name"""
   rank
@@ -8593,7 +8599,7 @@ enum quest_role_select_column {
 input type for updating data in table "quest_role"
 """
 input quest_role_set_input {
-  quest_id: uuid
+  questId: uuid
   rank: Int
   role: String
 }
@@ -8651,7 +8657,7 @@ update columns of table "quest_role"
 """
 enum quest_role_update_column {
   """column name"""
-  quest_id
+  questId
 
   """column name"""
   rank
@@ -11177,7 +11183,7 @@ type subscription_root {
   ): quest_role_aggregate!
 
   """fetch data from the table: "quest_role" using primary key columns"""
-  quest_role_by_pk(quest_id: uuid!, role: String!): quest_role
+  quest_role_by_pk(questId: uuid!, role: String!): quest_role
 
   """
   fetch data from the table: "quest_skill"

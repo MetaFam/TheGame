@@ -98,7 +98,7 @@ const QuestsPage: React.FC<Props> = ({ roleChoices }) => {
             queryVariables={queryVariables}
             setQueryVariable={setQueryVariable}
             quests={quests || []}
-            roleChoices={roleChoices}
+            {...{ roleChoices }}
           />
         </Box>
         <Box mt={8} w="100%">

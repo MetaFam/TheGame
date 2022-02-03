@@ -115,7 +115,7 @@ export const QuestDetails: React.FC<Props> = ({ quest }) => {
               SKILLS
             </Text>
             <SkillsTags
-              skills={quest.quest_skills.map((s) => s.skill) as Skill[]}
+              skills={quest.quest_skills.map(({ skill }) => skill) as Skill[]}
               maxSkills={4}
             />
           </Box>
@@ -124,7 +124,9 @@ export const QuestDetails: React.FC<Props> = ({ quest }) => {
               ROLES
             </Text>
             <RolesTags
-              roles={quest.quest_roles.map((s) => s.PlayerRole) as PlayerRole[]}
+              roles={
+                quest.quest_roles.map(({ PlayerRole: r }) => r) as PlayerRole[]
+              }
             />
           </Box>
         </VStack>

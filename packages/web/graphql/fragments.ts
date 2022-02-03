@@ -182,6 +182,10 @@ export const QuestCompletionFragment = gql`
     submissionLink
     submissionText
     submittedAt
+    questId
+    completed {
+      title
+    }
   }
 `;
 

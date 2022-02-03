@@ -42,10 +42,10 @@ export async function createQuest(
     repetition: questRepetition,
     createdByPlayerId: playerId,
     quest_roles: {
-      data: roleIds.map((r, i) => ({ role: r, rank: i + 1 })),
+      data: roleIds.map((role, i) => ({ role, rank: i + 1 })),
     },
     quest_skills: {
-      data: skillIds.map((s) => ({ skillId: s })),
+      data: skillIds.map((skillId) => ({ skillId })),
     },
   };
 
