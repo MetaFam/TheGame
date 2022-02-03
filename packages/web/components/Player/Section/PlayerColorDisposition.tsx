@@ -1,23 +1,22 @@
-import { Link, Text } from '@metafam/ds';
-import { FlexContainer } from 'components/Container';
+import { Text } from '@metafam/ds';
 import { ColorBar } from 'components/Player/ColorBar';
 import { ProfileSection } from 'components/Profile/ProfileSection';
 import { Player } from 'graphql/autogen/types';
 import { PersonalityInfo } from 'graphql/queries/enums/getPersonalityInfo';
 import { useProfileField } from 'lib/hooks';
-import { useAnimateProfileChanges } from 'lib/hooks/players';
 import React from 'react';
 import { BoxType } from 'utils/boxTypes';
 
-type Props = {
+export type ColorDispositionProps = {
   player: Player;
-  personalityInfo: PersonalityInfo;
+  types: PersonalityInfo;
   isOwnProfile?: boolean;
   canEdit?: boolean;
 };
-export const PlayerColorDisposition: React.FC<Props> = ({
+
+export const PlayerColorDisposition: React.FC<ColorDispositionProps> = ({
   player,
-  personalityInfo,
+  types,
   isOwnProfile,
   canEdit,
 }) => {
@@ -26,7 +25,6 @@ export const PlayerColorDisposition: React.FC<Props> = ({
     player,
     owner: isOwnProfile,
   });
-  const { animation } = useAnimateProfileChanges(mask);
 
   return (
     <ProfileSection
@@ -40,24 +38,7 @@ export const PlayerColorDisposition: React.FC<Props> = ({
           Unspecified
         </Text>
       ) : (
-        <FlexContainer
-          align="stretch"
-          transition="opacity 0.4s"
-          opacity={animation === 'fadeIn' ? 1 : 0}
-        >
-          <Link
-            isExternal
-            href={`//dysbulic.github.io/5-color-radar/#/combos/${mask
-              .toString(2)
-              .padStart(5, '0')}`}
-            maxH={125}
-            fontSize={{ base: 'md', sm: 'lg' }}
-            fontWeight={600}
-            _focus={{ border: 'none' }}
-          >
-            <ColorBar {...{ mask, personalityInfo }} />
-          </Link>
-        </FlexContainer>
+        <ColorBar {...{ mask, types }} />
       )}
     </ProfileSection>
   );

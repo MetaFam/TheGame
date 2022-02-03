@@ -11,6 +11,9 @@ export type ProfileFieldType<T> = {
 };
 
 const fields: Record<string, Atom<Maybe<string | number>>> = {};
+const nullAtom = newAtom(null, () => {
+  throw new Error('Unimplemented');
+});
 
 export const useProfileField = <T = string>({
   field,
@@ -23,7 +26,6 @@ export const useProfileField = <T = string>({
   owner?: boolean;
   getter?: Maybe<(player: Maybe<Player>) => T>;
 }): ProfileFieldType<T> => {
-  const defaultAtom = useMemo(() => newAtom(null), []);
   const key = field as keyof Profile;
   let setter: Maybe<(val: unknown) => void> = null;
   let value = useMemo(
@@ -37,10 +39,8 @@ export const useProfileField = <T = string>({
   }
 
   // eslint-disable-next-line @typescript-eslint/no-shadow
-  const ret = useAtom(
-    (atom ?? defaultAtom) as PrimitiveAtom<Maybe<typeof value>>,
-  );
-  if (owner) {
+  const ret = useAtom((atom ?? nullAtom) as PrimitiveAtom<Maybe<typeof value>>);
+  if (owner && ret) {
     [value, setter] = ret;
   }
 
@@ -48,11 +48,9 @@ export const useProfileField = <T = string>({
     value = httpLink(value);
   }
 
-  value = useMemo(() => value, [value]);
-
   return {
     value,
-    setter: useMemo(() => setter, [setter]),
+    setter,
     [field]: value,
   };
 };

@@ -212,7 +212,7 @@ const EditSectionBox = ({
       return <SetupPlayerType isEdit {...{ onClose }} />;
     }
     case BoxType.PLAYER_COLOR_DISPOSITION: {
-      return <SetupColorDisposition isEdit {...{ onClose }} />;
+      return <SetupColorDisposition {...{ onClose }} />;
     }
     case BoxType.PLAYER_SKILLS: {
       return <SetupSkills isEdit {...{ onClose }} />;

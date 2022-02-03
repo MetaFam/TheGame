@@ -4,10 +4,8 @@ import BalanceAltImg from 'assets/colors/Balance.svg';
 import ChaosAltImg from 'assets/colors/Chaos.svg';
 import JusticeAltImg from 'assets/colors/Justice.svg';
 import WisdomAltImg from 'assets/colors/Wisdom.svg';
-import { ColorAspect } from 'graphql/autogen/types';
 import { client } from 'graphql/client';
 import { PersonalityOption } from 'graphql/types';
-import { isPow2 } from 'utils/mathHelper';
 
 const AspectsQuery = /* GraphQL */ `
   query GetAspects {
@@ -44,32 +42,15 @@ export const colors: {
   0b00001: { start: '#0E9651', end: '#9FD638' },
 };
 
-export type PersonalityInfo = {
-  parts?: Maybe<Array<PersonalityOption>>;
-  types?: Maybe<{ [x: number]: PersonalityOption }>;
-};
+export type PersonalityInfo = Maybe<Record<string, PersonalityOption>>;
 
 export const getPersonalityInfo = async (): Promise<PersonalityInfo> => {
   const { data, error } = await client.query(AspectsQuery).toPromise();
 
   if (error) throw error;
-  if (!data) throw new Error("data isn't set");
+  if (!data) throw new Error('Data isn’t set.');
 
-  const parts: Array<PersonalityOption> = [];
-  const types: { [x: number]: PersonalityOption } = {};
-  data.ColorAspect.forEach((aspect: ColorAspect) => {
-    const option = {
-      name: aspect.name,
-      description: aspect.description,
-      mask: aspect.mask,
-    };
-    types[aspect.mask] = option;
-
-    // pure colors are powers of 2 (only 1 bit set)
-    if (isPow2(aspect.mask)) {
-      parts.push(option);
-    }
-  });
-
-  return { parts, types };
+  return Object.fromEntries(
+    data.ColorAspect.map((option: PersonalityOption) => [option.mask, option]),
+  );
 };

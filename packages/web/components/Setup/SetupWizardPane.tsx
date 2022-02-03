@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   FormControl,
   FormErrorMessage,
   MetaHeading,
@@ -8,6 +9,8 @@ import {
   StatusedSubmitButton,
   Text,
   useToast,
+  Wrap,
+  WrapItem,
 } from '@metafam/ds';
 import { Maybe } from '@metafam/utils';
 import { FlexContainer } from 'components/Container';
@@ -19,29 +22,34 @@ import {
   useSaveCeramicProfile,
   useUser,
 } from 'lib/hooks';
-import { ReactElement, useEffect, useState } from 'react';
-import { useForm, UseFormRegisterReturn } from 'react-hook-form';
+import { ReactElement, useCallback, useEffect, useState } from 'react';
+import { Control, useForm, UseFormRegisterReturn } from 'react-hook-form';
 
 export type WizardPaneProps = {
   field: string;
-  title?: string;
-  prompt?: string;
+  title?: string | ReactElement;
+  prompt?: string | ReactElement;
+  onClose?: () => void;
 };
 
-export type WizardPaneCallbackProps = {
+export type WizardPaneCallbackProps<T = string> = {
   register: (
     field: string,
     opts: Record<string, unknown>,
   ) => UseFormRegisterReturn;
+  control: Control;
   loading: boolean;
   errored: boolean;
   dirty: boolean;
+  current: T;
+  setter: (arg: T | ((prev: T) => T)) => void;
 };
 
 export const SetupWizardPane: React.FC<WizardPaneProps> = ({
   field,
   title,
   prompt,
+  onClose,
   children,
 }) => {
   const { onNextPress, nextButtonLabel } = useSetupFlow();
@@ -54,13 +62,17 @@ export const SetupWizardPane: React.FC<WizardPaneProps> = ({
   });
   const {
     register,
+    control,
     handleSubmit,
     setValue,
     watch,
     formState: { errors, isValidating: validating },
   } = useForm();
   const current = watch(field, existing);
-  const saveToCeramic = useSaveCeramicProfile({ setStatus, fields: [field] });
+  const saveToCeramic = useSaveCeramicProfile({
+    setStatus,
+    fields: [field],
+  });
   const [, invalidateCache] = useInsertCacheInvalidationMutation();
   const toast = useToast();
 
@@ -97,6 +109,17 @@ export const SetupWizardPane: React.FC<WizardPaneProps> = ({
     }
   };
 
+  const setter = useCallback(
+    (val: unknown) => {
+      let next = val;
+      if (val instanceof Function) {
+        next = val(current);
+      }
+      setValue(field, next);
+    },
+    [current, field, setValue],
+  );
+
   return (
     <FlexContainer as="form" onSubmit={handleSubmit(onSubmit)}>
       {title && (
@@ -104,14 +127,16 @@ export const SetupWizardPane: React.FC<WizardPaneProps> = ({
           {title}
         </MetaHeading>
       )}
-      {prompt && (
+      {typeof prompt === 'string' ? (
         <Text mb={10} textAlign="center">
           {prompt}
         </Text>
+      ) : (
+        prompt
       )}
       <FormControl isInvalid={!!errors[field]} isDisabled={!user}>
         {!user && (
-          <Stack align="center" mb={4}>
+          <Stack align="center" my={8}>
             <Spinner thickness="4px" speed="1.25s" size="lg" />
             <Text>Loading Current Value…</Text>
           </Stack>
@@ -125,19 +150,39 @@ export const SetupWizardPane: React.FC<WizardPaneProps> = ({
         {typeof children === 'function'
           ? children.call(null, {
               register,
+              control,
               loading: !user,
               errored: !!errors[field],
               dirty: current !== existing,
+              current,
+              setter,
             })
           : children}
-        <Box minH="3em">
+        <Box>
           <FormErrorMessage style={{ justifyContent: 'center' }}>
             {errors[field]?.message}
           </FormErrorMessage>
         </Box>
       </FormControl>
 
-      <StatusedSubmitButton label={nextButtonLabel} {...{ status }} />
+      <Wrap>
+        <WrapItem>
+          <StatusedSubmitButton label={nextButtonLabel} {...{ status }} />
+        </WrapItem>
+        {onClose && (
+          <WrapItem>
+            <Button
+              variant="ghost"
+              onClick={onClose}
+              color="white"
+              _hover={{ bg: '#FFFFFF11' }}
+              _active={{ bg: '#FF000011' }}
+            >
+              Close
+            </Button>
+          </WrapItem>
+        )}
+      </Wrap>
     </FlexContainer>
   );
 };

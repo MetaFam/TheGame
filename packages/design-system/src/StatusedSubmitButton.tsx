@@ -12,7 +12,14 @@ export const StatusedSubmitButton = ({
   label?: Maybe<string>;
   status?: Maybe<string | ReactElement>;
 }) => (
-  <MetaButton type="submit" disabled={!!status} mt={10} {...props}>
+  <MetaButton
+    type="submit"
+    _focus={{ filter: 'brightness(1.75)' }}
+    sx={{ ':hover': { filter: 'rotate-hue(-90)', border: '2px solid green' } }}
+    disabled={!!status}
+    mt={10}
+    {...props}
+  >
     {status == null ? (
       label
     ) : (

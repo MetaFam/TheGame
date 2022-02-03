@@ -55,12 +55,13 @@ export const useSaveCeramicProfile = ({
 
   const setters = Object.fromEntries(
     fields.map((key) => {
-      // eslint-disable-next-line react-hooks/rules-of-hooks
-      const { setter } = useProfileField({
-        field: key,
-        player: user,
-        owner: true,
-      });
+      const { setter = null } =
+        // eslint-disable-next-line react-hooks/rules-of-hooks
+        useProfileField({
+          field: key,
+          player: user,
+          owner: true,
+        });
       return [key, setter];
     }),
   );
