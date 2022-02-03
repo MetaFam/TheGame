@@ -36,6 +36,7 @@ export const PlayerCompletedQuests: React.FC<Props> = ({
           );
         }
       } catch (error) {
+        // eslint-disable-next-line no-console
         console.error("Couldn't fetch quests", error);
       }
     };

@@ -18,7 +18,7 @@ import {
 import { getSkills } from 'graphql/queries/enums/getSkills';
 import { SkillColors } from 'graphql/types';
 import { useUser } from 'lib/hooks';
-import React, { CSSProperties, useEffect, useState } from 'react';
+import React, { CSSProperties, useCallback, useEffect, useState } from 'react';
 import { CategoryOption, parseSkills, SkillOption } from 'utils/skillHelpers';
 
 export type SetupSkillsProps = {
@@ -69,7 +69,7 @@ export const SetupSkills: React.FC<SetupSkillsProps> = ({
   onClose,
 }) => {
   const { onNextPress, nextButtonLabel } = useSetupFlow();
-  const { user } = useUser();
+  const { user } = useUser({ requestPolicy: 'network-only' });
   const toast = useToast();
   const [skillChoices, setSkillChoices] = useState<Array<CategoryOption>>([]);
   const [updateSkillsRes, updateSkills] = useUpdatePlayerSkillsMutation();
@@ -105,13 +105,7 @@ export const SetupSkills: React.FC<SetupSkillsProps> = ({
     fetchSkills();
   }, []);
 
-  const handleNextPress = async () => {
-    setLoading(true);
-    await save();
-    onNextPress();
-  };
-
-  const save = async () => {
+  const save = useCallback(async () => {
     if (!user) return;
 
     setLoading(true);
@@ -130,10 +124,16 @@ export const SetupSkills: React.FC<SetupSkillsProps> = ({
       });
       setLoading(false);
     }
-  };
+  }, [user, playerSkills, toast, updateSkills]);
+
+  const handleNextPress = useCallback(async () => {
+    setLoading(true);
+    await save();
+    onNextPress();
+  }, [save, onNextPress]);
 
   return (
-    <FlexContainer>
+    <FlexContainer mb={8}>
       {isWizard && (
         <MetaHeading mb={5} textAlign="center">
           What are your super&#xAD;powers?

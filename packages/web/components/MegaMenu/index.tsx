@@ -11,18 +11,12 @@ export const MegaMenu: React.FC<Props> = ({ hideMenu = false, children }) => (
     spacing={0}
     overflow="hidden"
     pb={{ base: hideMenu ? '0' : '5rem', lg: '0' }}
+    bgSize="cover"
+    bgAttachment="fixed"
+    backgroundImage={`url(${BackgroundImage})`}
   >
     {!hideMenu && <MegaMenuHeader />}
-    <Stack
-      w="100%"
-      h="100%"
-      spacing={0}
-      overflowY="auto"
-      overflowX="hidden"
-      bgSize="cover"
-      bgAttachment="fixed"
-      backgroundImage={`url(${BackgroundImage})`}
-    >
+    <Stack w="100%" h="100%" spacing={0} overflowY="auto" overflowX="hidden">
       {children}
     </Stack>
     {!hideMenu && <MegaMenuFooter />}

@@ -17,10 +17,16 @@ export const PlayerRoles: React.FC<Props> = ({
   <ProfileSection
     title="Roles"
     boxType={BoxType.PLAYER_ROLES}
-    {...{ isOwnProfile, canEdit }}
     withoutBG
+    {...{ isOwnProfile, canEdit }}
   >
-    <Wrap>
+    {!player.roles ||
+      (player.roles.length === 0 && (
+        <Text fontStyle="italic" textAlign="center" mb="1rem">
+          No Roles found for {isOwnProfile ? 'you' : 'this player'}.
+        </Text>
+      ))}
+    <Wrap mb="1rem">
       {player.roles &&
         player.roles
           .sort((a, b) => (a.rank > b.rank ? 1 : -1))

@@ -141,7 +141,7 @@ export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
   };
 
   return (
-    <FlexContainer spacing={8}>
+    <FlexContainer mb={8}>
       <Flex direction="column">
         {isWizard && (
           <MetaHeading mb={5} textAlign="center">

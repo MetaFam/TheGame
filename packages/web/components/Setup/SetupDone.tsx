@@ -10,7 +10,7 @@ export const SetupDone: React.FC = () => {
   const { user } = useUser();
   const [loading, setLoading] = useState(false);
   return (
-    <FlexContainer flex={1}>
+    <FlexContainer flex={1} mb={8}>
       <MetaHeading mb={10}>Game on!</MetaHeading>
 
       <Stack

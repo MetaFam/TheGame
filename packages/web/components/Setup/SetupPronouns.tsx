@@ -47,7 +47,7 @@ export const SetupPronouns: React.FC<SetupPronounsProps> = ({
   };
 
   return (
-    <FlexContainer>
+    <FlexContainer mb={8}>
       <MetaHeading mb={10} textAlign="center">
         Which pronouns do you prefer?
       </MetaHeading>

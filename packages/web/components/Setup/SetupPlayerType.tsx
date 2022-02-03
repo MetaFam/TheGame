@@ -115,7 +115,7 @@ export const SetupPlayerType: React.FC<Props> = ({ isEdit, onClose }) => {
   };
 
   return (
-    <FlexContainer>
+    <FlexContainer mb={8}>
       {isWizard && (
         <MetaHeading mb={5} textAlign="center">
           Player Type
