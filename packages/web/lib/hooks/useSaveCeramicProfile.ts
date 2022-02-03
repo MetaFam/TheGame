@@ -7,7 +7,6 @@ import {
 import { ModelManager } from '@glazed/devtools';
 import { DIDDataStore } from '@glazed/did-datastore';
 import { TileLoader } from '@glazed/tile-loader';
-import { useToast } from '@metafam/ds';
 import {
   AllProfileFields,
   BasicProfileImages,
@@ -32,6 +31,13 @@ import { ReactElement, useCallback } from 'react';
 import { isEmpty } from 'utils/objectHelpers';
 import { dispositionFor } from 'utils/playerHelpers';
 
+export class CeramicError extends Error {
+  // eslint-disable-next-line @typescript-eslint/no-useless-constructor
+  constructor(message: string) {
+    super(message);
+  }
+}
+
 export const useSaveCeramicProfile = ({
   debug = false,
   setStatus = () => {},
@@ -44,7 +50,6 @@ export const useSaveCeramicProfile = ({
   const router = useRouter();
   const { ceramic } = useWeb3();
   const { user } = useUser();
-  const toast = useToast();
 
   debug ||= !!router.query.debug; // eslint-disable-line no-param-reassign
 
@@ -69,19 +74,24 @@ export const useSaveCeramicProfile = ({
       images?: HasuraImageSourcedProps;
     }) => {
       if (!ceramic) {
-        toast({
-          title: 'Ceramic Connection Error',
-          description: 'Unable to connect to the Ceramic API to save changes.',
-          status: 'error',
-          isClosable: true,
-          duration: 8000,
-        });
-        return null;
+        throw new CeramicError(
+          'Unable to connect to the Ceramic API to save changes.',
+        );
       }
 
       if (!ceramic.did?.authenticated) {
-        setStatus('Authenticating DID…');
-        await ceramic.did?.authenticate();
+        try {
+          setStatus('Authenticating DID…');
+          await ceramic.did?.authenticate();
+        } catch (err) {
+          if (
+            (err as Error).message ===
+            'Unexpected token u in JSON at position 0'
+          ) {
+            throw new CeramicError('User canceled authentication.');
+          }
+          throw err;
+        }
       }
 
       const vals: HasuraProfileProps = { ...values };
@@ -110,15 +120,9 @@ export const useSaveCeramicProfile = ({
       if (code?.length === 2) {
         vals.countryCode = code.toUpperCase();
       } else if (code) {
-        toast({
-          title: 'Country Code Error',
-          description: `Country Code "${code}" is not the required two letters.`,
-          status: 'error',
-          isClosable: true,
-          duration: 8000,
-        });
-
-        delete vals.countryCode;
+        throw new CeramicError(
+          `Country Code “${code}” is not the required two letters.`,
+        );
       }
 
       const basic: BasicProfile = {};
@@ -218,7 +222,7 @@ export const useSaveCeramicProfile = ({
 
       return vals;
     },
-    [ceramic, debug, setStatus, setters, toast],
+    [ceramic, debug, setStatus, setters],
   );
 
   return save;

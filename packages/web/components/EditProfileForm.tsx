@@ -634,11 +634,11 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
               placeholder="i-am-a-user"
               {...register('username', {
                 validate: async (value) => {
-                  if (value !== username && (await getPlayer(value))) {
-                    return `Username "${value}" is already in use.`;
-                  }
                   if (/0x[0-9a-z]{40}/i.test(value)) {
                     return `Username "${value}" has the same format as an Ethereum address.`;
+                  }
+                  if (value !== username && (await getPlayer(value))) {
+                    return `Username "${value}" is already in use.`;
                   }
                   return true;
                 },
