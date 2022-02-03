@@ -100,8 +100,8 @@ type LogoProps = {
 };
 // Navbar logo
 const Logo = ({ link }: LogoProps) => {
-  const width = useBreakpointValue({ base: 36, lg: 55 }) ?? (36 as number);
-  const height = useBreakpointValue({ base: 45, lg: 75 }) ?? (45 as number);
+  const width = useBreakpointValue({ base: 36, lg: 49 }) ?? (36 as number);
+  const height = useBreakpointValue({ base: 45, lg: 67 }) ?? (45 as number);
 
   return (
     <Box
@@ -265,6 +265,7 @@ const DesktopNavLinks = () => {
                   position="absolute"
                   left="calc(50% - 21px)"
                   top={14}
+                  width={6}
                   borderColor="transparent"
                   h={isOpen ? 'auto' : 0}
                   opacity={isOpen ? 1 : 0}
