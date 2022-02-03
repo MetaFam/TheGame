@@ -502,5 +502,5 @@ jobs:
           step: finish
           token: ${{github.token}}
           env_url: ${{needs.env.outputs.FRONTEND_URL}}
-          status: ${{job.status}}
+          status: ${{jobs.deploy-frontend.status}}
           deployment_id: ${{needs.start-deployment.outputs.deployment_id}}
