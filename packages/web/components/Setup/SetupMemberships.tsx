@@ -31,7 +31,7 @@ export const SetupMemberships: React.FC<SetupMembershipsProps> = ({
   const [loading, setLoading] = useState(false);
 
   return (
-    <FlexContainer>
+    <FlexContainer mb={8}>
       <MetaHeading mb={5} textAlign="center">
         Memberships
       </MetaHeading>

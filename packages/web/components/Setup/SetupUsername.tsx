@@ -52,7 +52,7 @@ export const SetupUsername: React.FC<SetupUsernameProps> = ({
   };
 
   return (
-    <FlexContainer>
+    <FlexContainer mb={8}>
       <MetaHeading mb={10} textAlign="center">
         What username would you like?
       </MetaHeading>
