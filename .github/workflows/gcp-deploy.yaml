@@ -223,7 +223,7 @@ jobs:
         uses: mattes/cached-docker-build-action@v1
         with:
           args: |
-            . -f ./docker/backend/Dockerfile \
+            . -f docker/backend/Dockerfile \
               --tag ${{needs.env.outputs.BACKEND_TAG}} \
               --build-arg GRAPHQL_URL=${{needs.env.outputs.GRAPHQL_URL}}
           cache_key: "${{hashFiles('packages/backend/**')}}"
@@ -325,7 +325,7 @@ jobs:
         uses: mattes/cached-docker-build-action@v1
         with:
           args: |
-            ./hasura -f ./hasura/Dockerfile \
+            ./hasura -f hasura/Dockerfile \
               --tag ${{needs.env.outputs.HASURA_TAG}} \
               --build-arg BACKEND_HOST=${{needs.env.outputs.BACKEND_HOST}} \
               --build-arg BACKEND_PROTOCOL=https
@@ -422,9 +422,9 @@ jobs:
         uses: mattes/cached-docker-build-action@v1
         with:
           args: |
-            . -f ./docker/frontend/Dockerfile \
-            --tag ${{needs.env.outputs.FRONTEND_TAG}} \
-            --build-arg GRAPHQL_URL=${{needs.env.outputs.GRAPHQL_URL}}
+            . -f docker/frontend/Dockerfile \
+              --tag ${{needs.env.outputs.FRONTEND_TAG}} \
+              --build-arg GRAPHQL_URL=${{needs.env.outputs.GRAPHQL_URL}}
           cache_key: "${{hashFiles('packages/web/**', 'packages/design-system/**')}}"
 
       - name: "Login to Registry: ${{needs.env.outputs.DOCKER_REGISTRY}}"
@@ -500,4 +500,4 @@ jobs:
           token: ${{github.token}}
           env_url: ${{needs.env.outputs.FRONTEND_URL}}
           status: ${{job.status}}
-          deployment_id: ${{steps.start-deployment.outputs.deployment_id}}
+          deployment_id: ${{steps.deployment-message.outputs.deployment_id}}
