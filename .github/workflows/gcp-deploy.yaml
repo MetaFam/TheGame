@@ -104,7 +104,7 @@ jobs:
           echo "::set-output name=HASURA_HOST::${{steps.first.outputs.HASURA_SERVICE}}-${{env.CLOUDRUN_SUFFIX}}.${{env.DEPLOYMENT_DOMAIN}}"
           echo "::set-output name=DOCKER_PATH::${{steps.first.outputs.DOCKER_REGISTRY}}/${{env.PROJECT_ID}}/${{env.REGISTRY_REPO}}"
           echo "::set-output name=SC_MIGRATE_URL::https://${{steps.first.outputs.BACKEND_HOST}}/actions/migrateSourceCredAccounts?force=true"
-          echo "::set-output name=DB_URL::postgres://${{env.DB_NAME}}:${{steps.first.outputs.DB_PASSWORD}}@/${{env.DB_NAME}}?host=/cloudsql/${{steps.first.outputs.CLOUDSQL_CONNECTION_NAME}}
+          echo "::set-output name=DB_URL::postgres://${{env.DB_NAME}}:${{steps.first.outputs.DB_PASSWORD}}@/${{env.DB_NAME}}?host=/cloudsql/${{steps.first.outputs.CLOUDSQL_CONNECTION_NAME}}"
 
       - name: And That Result Again In Another Step
         id: third
