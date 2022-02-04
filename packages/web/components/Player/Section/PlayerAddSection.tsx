@@ -16,7 +16,6 @@ import {
 } from '@metafam/ds';
 import { Maybe } from '@metafam/utils';
 import BackgroundImage from 'assets/main-background.jpg';
-import { FlexContainer } from 'components/Container';
 import { PlayerSection } from 'components/Profile/PlayerSection';
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
 import { PersonalityInfo } from 'graphql/queries/enums/getPersonalityInfo';
@@ -90,31 +89,30 @@ export const PlayerAddSection = React.forwardRef<HTMLDivElement, Props>(
               bgImage={`url(${BackgroundImage})`}
               bgSize="cover"
               bgAttachment="fixed"
-              p={[4, 8, 12]}
+              px={[4, 8, 12]}
+              py={8}
             >
-              <FlexContainer>
-                <ModalHeader
-                  color="white"
-                  fontSize="4xl"
-                  alignSelf="center"
-                  fontWeight="normal"
-                >
-                  Add New Block
-                </ModalHeader>
+              <VStack spacing={0} align="center">
                 <ModalCloseButton
                   color="pinkShadeOne"
                   size="xl"
                   p={4}
+                  top={0}
+                  right={0}
                   _focus={{
                     boxShadow: 'none',
                   }}
                 />
+                <ModalHeader color="white" fontSize="4xl" fontWeight="normal">
+                  Add New Block
+                </ModalHeader>
                 <ModalBody>
                   <VStack
-                    spacing="6"
+                    spacing={6}
                     color="white"
                     w={{ base: '100%', sm: '30rem' }}
                     maxW="30rem"
+                    minH="30rem"
                   >
                     <Select
                       css={{
@@ -194,7 +192,7 @@ export const PlayerAddSection = React.forwardRef<HTMLDivElement, Props>(
                     Close
                   </Button>
                 </ModalFooter>
-              </FlexContainer>
+              </VStack>
             </ModalContent>
           </Modal>
         </Flex>
