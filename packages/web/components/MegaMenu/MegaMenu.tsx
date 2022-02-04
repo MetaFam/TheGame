@@ -98,17 +98,21 @@ const menuIcons: { [key: string]: string } = {
 type LogoProps = {
   link: string;
 };
+
+const iconSize = 60;
+
 // Navbar logo
 const Logo = ({ link }: LogoProps) => {
-  const width = useBreakpointValue({ base: 36, lg: 49 }) ?? (36 as number);
-  const height = useBreakpointValue({ base: 45, lg: 67 }) ?? (45 as number);
+  const width = useBreakpointValue({ base: 36, lg: 40 }) ?? (36 as number);
+  const height =
+    useBreakpointValue({ base: 45, lg: iconSize }) ?? (45 as number);
 
   return (
     <Box
       className="logo"
-      w={{ base: 'fit-content', lg: '209px' }}
-      mt={[0.5, 2]}
+      alignSelf="center"
       ml={3}
+      w={{ base: 'fit-content', lg: '20%' }}
     >
       <MetaLink
         href={link}
@@ -168,8 +172,8 @@ const DesktopMenuItem = ({
       <Avatar
         alt={title}
         src={menuIcons[icon]}
-        width="64px"
-        height="64px"
+        width={`${iconSize}px`}
+        height={`${iconSize}px`}
         style={{ padding: '10px', marginRight: '20px' }}
         bg="linear-gradient(180deg, rgba(0, 0, 0, 0.36) 0%, rgba(0, 0, 0, 0.36) 100%);"
         boxShadow="0 0 0 2px rgba(0, 0, 0, 0.08)"
@@ -201,8 +205,7 @@ const DesktopNavLinks = () => (
     justifyContent="center"
     alignContent="center"
     display={{ base: 'none', lg: 'flex' }}
-    minW={{ base: 'auto', md: '40%' }}
-    ml={-20}
+    // minW={{ base: 'auto', md: '60%' }}
   >
     {MenuSectionLinks.map((section: MenuLinkSet) => (
       <Menu
@@ -346,7 +349,7 @@ const PlayerStats: React.FC<PlayerStatsProps> = ({ player }) => {
           alignItems="center"
         >
           <Image src={XPStar} alt="XP" height={5} width={5} />
-          <Text color="white" ml={[0, 0, 0, 2]} fontSize={18}>
+          <Text color="white" ml={[0, 0, 0, 2]}>
             {Math.floor(player.totalXP)}
           </Text>
         </Badge>
@@ -365,7 +368,7 @@ const PlayerStats: React.FC<PlayerStatsProps> = ({ player }) => {
           alignItems="center"
         >
           <Image src={SeedMarket} alt="pSeed" height={5} width={5} />
-          <Text color="white" ml={[0, 0, 0, 2]} fontSize={18}>
+          <Text color="white" ml={[0, 0, 0, 2]}>
             {parseInt(amountToDecimal(pSeedBalance || '0', 18), 10)}
           </Text>
         </Badge>
@@ -380,8 +383,8 @@ const PlayerStats: React.FC<PlayerStatsProps> = ({ player }) => {
         >
           <PlayerAvatar
             {...{ player }}
-            w={14}
-            h={14}
+            w="52px"
+            h="52px"
             m={0}
             _hover={{ transform: 'scale(0.9)' }}
           />
@@ -435,8 +438,6 @@ export const MegaMenu: React.FC = () => {
       zIndex={11}
     >
       <Flex
-        justifyContent="space-between"
-        minH="5rem"
         borderBottom="1px"
         bg="rgba(0,0,0,0.5)"
         borderColor="#2B2244"
