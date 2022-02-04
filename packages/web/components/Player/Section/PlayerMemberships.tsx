@@ -62,8 +62,14 @@ const DaoListing: React.FC<DaoListingProps> = ({ membership }) => {
   return (
     <LinkGuild {...{ daoUrl, guildname }}>
       <HStack alignItems="center" mb={6}>
-        <Flex bg="purpleBoxLight" minW={16} minH={16} mr={6}>
-          <Image src={guildLogo} w={12} h={12} m="auto" />
+        <Flex bg="purpleBoxLight" minW={16} minH={16} mr={6} borderRadius={8}>
+          <Image
+            src={guildLogo}
+            w="3.25rem"
+            h="3.25rem"
+            m="auto"
+            borderRadius={4}
+          />
         </Flex>
         <Box>
           <Heading
