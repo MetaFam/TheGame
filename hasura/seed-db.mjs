@@ -10,8 +10,8 @@ const PRODUCTION_GRAPHQL_URL = (
 const SOURCE_GRAPHQL_URL = (
   process.env.SOURCE_GRAPHQL_URL || 'http://localhost:8080/v1/graphql'
 );
-const SOURCE_BACKEND_ACCOUNT_MIGRATION_URL = (
-  process.env.SOURCE_BACKEND_ACCOUNT_MIGRATION_URL
+const ACCOUNT_MIGRATION_URL = (
+  process.env.ACCOUNT_MIGRATION_URL
   || 'http://localhost:4000/actions/migrateSourceCredAccounts?force=true'
 );
 const HASURA_GRAPHQL_ADMIN_SECRET = (
@@ -228,7 +228,7 @@ function getSkillId(skills, { Skill: { category, name } }) {
 }
 
 async function forceMigrateAccounts() {
-  const result = await fetch(SOURCE_BACKEND_ACCOUNT_MIGRATION_URL, {
+  const result = await fetch(ACCOUNT_MIGRATION_URL, {
     method: 'POST',
   });
   const json = await result.json();
@@ -236,7 +236,7 @@ async function forceMigrateAccounts() {
 }
 
 async function startSeeding() {
-  console.debug(`Force migrating sourcecred users with: ${SOURCE_BACKEND_ACCOUNT_MIGRATION_URL}`);
+  console.debug(`Force migrating sourcecred users with: ${ACCOUNT_MIGRATION_URL}`);
   const result = await forceMigrateAccounts();
   console.debug(result);
   console.debug(`Fetching players from: ${PRODUCTION_GRAPHQL_URL}`);

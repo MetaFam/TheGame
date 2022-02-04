@@ -486,7 +486,7 @@ jobs:
           npm install --no-package-lock --no-save node-fetch bottleneck
           mv package.json.temp package.json
           SOURCE_GRAPHQL_URL="${{needs.env.outputs.GRAPHQL_URL}}" \
-            SOURCE_BACKEND_ACCOUNT_MIGRATION_URL="${{needs.env.outputs.SC_MIGRATE_URL}}" \
+            ACCOUNT_MIGRATION_URL="${{needs.env.outputs.SC_MIGRATE_URL}}" \
             yarn hasura:seed-db
 
   finish-deployment:
