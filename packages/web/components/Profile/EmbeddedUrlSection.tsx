@@ -7,10 +7,12 @@ import {
   Text,
 } from '@metafam/ds';
 import { ProfileSection } from 'components/Profile/ProfileSection';
-import React, { useEffect, useRef, useState } from 'react';
+import { Maybe } from 'graphql/autogen/types';
+import { useDelay } from 'lib/hooks/useDelay';
+import React, { useCallback, useEffect, useState } from 'react';
 import { BoxType } from 'utils/boxTypes';
 
-const proxyLink = 'https://rlp-proxy.herokuapp.com/v2?url='; // TODO: deploy our own proxy (makes use of the Twitter API)
+const metadataLink = '/api/metadata?url=';
 
 type EmbeddedUrlProps = {
   url?: string;
@@ -18,180 +20,109 @@ type EmbeddedUrlProps = {
 };
 
 export const EmbeddedUrl: React.FC<EmbeddedUrlProps> = ({ url, canEdit }) => (
-  <ProfileSection canEdit={canEdit} boxType={BoxType.EMBEDDED_URL} withoutBG>
-    <LinkPreview
-      className="linkPreview"
-      height="100%"
-      width="100%"
-      customLoader={<LoadingState />}
-      showLoader
-      {...{ url, canEdit }}
-    />
+  <ProfileSection
+    canEdit={canEdit}
+    boxType={BoxType.EMBEDDED_URL}
+    pb={0}
+    withoutBG
+  >
+    <LinkPreview {...{ url, canEdit }} />
   </ProfileSection>
 );
 
 interface LinkPreviewProps {
   url?: string;
-  className?: string;
-  width?: string | number;
-  height?: string | number;
-  descriptionLength?: number;
-  borderRadius?: string | number;
-  textAlign?: 'left' | 'right' | 'center';
-  margin?: string | number;
-  fallback?: JSX.Element[] | JSX.Element | null;
-  primaryTextColor?: string;
-  secondaryTextColor?: string;
-  showLoader?: boolean;
-  customLoader?: JSX.Element[] | JSX.Element | null;
   canEdit?: boolean;
 }
 
-interface APIResponse {
-  title: string | null;
-  description: string | null;
-  image: string | null;
-  siteName: string | null;
-  hostname: string | null;
+interface URIMetadata {
+  url?: Maybe<string>;
+  title?: Maybe<string>;
+  description?: Maybe<string>;
+  image?: Maybe<string>;
+  site_name?: Maybe<string>;
 }
 
-const LinkPreview: React.FC<LinkPreviewProps> = ({
-  url = '',
-  className = '',
-  width,
-  height,
-  borderRadius = 'lg',
-  textAlign,
-  margin,
-  fallback = null,
-  secondaryTextColor = 'rgb(255,255,255)',
-  showLoader = true,
-  customLoader = null,
-}) => {
-  const isMounted = useRef(true);
-
-  const [metadata, setMetadata] = useState<APIResponse | null>();
+const LinkPreview: React.FC<LinkPreviewProps> = ({ url: inputUrl = '' }) => {
+  const [metadata, setMetadata] = useState<Maybe<URIMetadata>>(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    isMounted.current = true;
-
+  const updateMetadata = useCallback((uri: string) => {
     setLoading(true);
-    fetch(proxyLink + url)
+    fetch(metadataLink + uri)
       .then((res) => res.json())
-      .then((res) => {
-        if (isMounted.current) {
-          setMetadata((res.metadata as unknown) as APIResponse);
-          setLoading(false);
-        }
+      .then(({ error, response }) => {
+        if (error) throw error;
+        setMetadata((response.og as unknown) as URIMetadata);
+        setLoading(false);
       })
       .catch((err: Error) => {
         // eslint-disable-next-line no-console
         console.error('No metadata could be found for the given URL.', err);
-        if (isMounted.current) {
-          setMetadata(null);
-          setLoading(false);
-        }
+        setMetadata(null);
+        setLoading(false);
       });
+  }, []);
 
-    return () => {
-      isMounted.current = false;
-    };
-  }, [url]);
+  const delayedUpdate = useDelay(updateMetadata);
 
-  if (loading && showLoader) {
-    if (customLoader) {
-      return <Box py="2rem">{customLoader}</Box>;
-    }
+  useEffect(() => delayedUpdate(inputUrl), [inputUrl, delayedUpdate]);
+
+  if (!metadata || loading) {
     return (
-      <Box>
-        <p>Loading...</p>
+      <Box
+        minH="18rem"
+        w="100%"
+        h="100%"
+        borderRadius="lg"
+        backdropFilter="blur(7px)"
+        borderWidth={0}
+      >
+        {loading && <LoadingState />}
       </Box>
     );
   }
 
-  if (!metadata) {
-    return <>{fallback}</>;
-  }
-
-  const { image, description, title, siteName } = metadata;
-
-  const onClick = () => {
-    window.open(url, '_blank');
-  };
+  const { image, description, title, site_name: siteName, url } = metadata;
 
   return (
     <LinkBox
-      data-testid="container"
-      onClick={onClick}
-      className={`Container ${className}`}
-      sx={{
-        width,
-        height,
-        borderRadius,
-        textAlign,
-        margin,
-        backdropFilter: 'blur(7px)',
-        borderWidth: '0',
-        overflow: 'hidden',
-        '&:hover': {
-          cursor: 'pointer',
-        },
+      onClick={() => window.open(url ?? inputUrl, '_blank')}
+      minH="18rem"
+      w="100%"
+      h="100%"
+      borderRadius="lg"
+      backdropFilter="blur(7px)"
+      borderWidth={0}
+      overflow="hidden"
+      _hover={{
+        cursor: 'pointer',
       }}
     >
       <Flex w="100%" h="100%" direction="column">
         <Box
-          data-testid="image-container"
-          sx={{
-            backgroundImage: `url(${image})`,
-            height: 'auto',
-            flex: 1,
-            minH: '12rem',
-            width: '100%',
-            backgroundSize: 'cover',
-            backgroundRepeat: 'no-repeat',
-            backgroundPosition: 'center',
-          }}
-          className="Image"
+          bgImage={image ? `url(${image})` : 'none'}
+          height="auto"
+          h="12rem"
+          w="100%"
+          bgSize="cover"
+          bgRepeat="no-repeat"
+          bgPosition="center"
         />
-        <Box
-          sx={{
-            p: 4,
-            h3: {
-              fontSize: '14px',
-              fontWeight: '900',
-              a: {
-                color: 'white',
-              },
-            },
-          }}
-        >
-          <h3>
-            <LinkOverlay href={url} isExternal>
+        <Box p={4}>
+          <LinkOverlay href={url ?? inputUrl} isExternal>
+            <Text fontSize="md" fontWeight="900" color="white">
               {title}
-            </LinkOverlay>
-          </h3>
+            </Text>
+          </LinkOverlay>
           {description && (
-            <Box
-              data-testid="desc"
-              className="Description Secondary"
-              sx={{
-                color: secondaryTextColor,
-                fontSize: '12px',
-                mt: 1,
-              }}
-            >
-              <Text noOfLines={3}>{description}</Text>
+            <Box mt={1}>
+              <Text fontSize="sm" color="white" noOfLines={3}>
+                {description}
+              </Text>
             </Box>
           )}
-          <Box
-            className="Secondary SiteDetails"
-            sx={{
-              color: 'cyanText',
-              fontSize: '12px',
-              mt: 1,
-            }}
-          >
+          <Box mt={1} color="cyanText" fontSize="sm">
             {siteName && <span>{siteName} • </span>}
             <Text isTruncated>{url}</Text>
           </Box>
