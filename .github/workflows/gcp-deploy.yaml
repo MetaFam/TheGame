@@ -366,6 +366,11 @@ jobs:
     runs-on: ubuntu-latest
     needs: [env, build-hasura, deploy-backend]
 
+    env:
+      db: ${{needs.env.outputs.DB_NAME}}
+      pass: ${{needs.env.outputs.DB_PASSWORD}}
+      host: ${{needs.env.outputs.DB_HOST}}
+
     steps:
       - name: Set Up GCloud CLI
         uses: google-github-actions/setup-gcloud@v0.2.1
@@ -386,9 +391,7 @@ jobs:
             --allow-unauthenticated \
             --add-cloudsql-instances ${{needs.env.outputs.CLOUDSQL_CONNECTION_NAME}} \
             --max-instances 1 \
-            --set-env-vars HASURA_GRAPHQL_DATABASE_URL=\
-            postgres://${{needs.env.outputs.DB_NAME}}:${{needs.env.outputs.DB_PASSWORD}}\
-            @${{needs.env.outputs.DB_HOST}} \
+            --set-env-vars HASURA_GRAPHQL_DATABASE_URL=postgres://${{env.db}}:${{env.pass}}@${{env.host}} \
             --set-env-vars HASURA_GRAPHQL_ADMIN_SECRET=${{needs.env.outputs.HASURA_SECRET}} \
             --set-env-vars HASURA_GRAPHQL_SERVER_PORT=${{needs.env.outputs.HASURA_PORT}} \
             --set-env-vars HASURA_GRAPHQL_ENABLE_CONSOLE=true
