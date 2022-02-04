@@ -206,12 +206,7 @@ const DesktopNavLinks = () => (
     display={{ base: 'none', lg: 'flex' }}
   >
     {MenuSectionLinks.map((section: MenuLinkSet) => (
-      <Menu
-        key={section.label}
-        offset={[0, -8]}
-        preventOverflow
-        placement="top"
-      >
+      <Menu key={section.label} offset={[0, 0]} preventOverflow placement="top">
         {({ isOpen }) => (
           <>
             <MenuButton
