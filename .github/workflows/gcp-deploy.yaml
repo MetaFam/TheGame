@@ -75,7 +75,7 @@ jobs:
       DOCKER_REGISTRY: ${{steps.first.outputs.DOCKER_REGISTRY}}
       BACKEND_HOST: ${{steps.first.outputs.BACKEND_HOST}}
       FRONTEND_URL: ${{steps.first.outputs.FRONTEND_URL}}
-      DB_PASSWORD: ${{steps.first.outputs.DB_PASSWORD}}
+      DB_PWD: ${{steps.first.outputs.DB_PWD}}
       HASURA_HOST: ${{steps.second.outputs.HASURA_HOST}}
       DOCKER_PATH: ${{steps.second.outputs.DOCKER_PATH}}
       SC_MIGRATE_URL: ${{steps.second.outputs.SC_MIGRATE_URL}}
@@ -96,7 +96,7 @@ jobs:
           echo "::set-output name=DOCKER_REGISTRY::${{env.REGISTRY_REGION}}-docker.pkg.dev"
           echo "::set-output name=BACKEND_HOST::${{env.BACKEND_SERVICE}}-${{env.CLOUDRUN_SUFFIX}}.${{env.DEPLOYMENT_DOMAIN}}"
           echo "::set-output name=FRONTEND_URL::https://${{env.FRONTEND_SERVICE}}-${{env.CLOUDRUN_SUFFIX}}.${{env.DEPLOYMENT_DOMAIN}}"
-          echo "::set-output name=DB_PASSWORD::$(cat /dev/urandom | tr -cd [:alnum:] | head -c 16)"
+          echo "::set-output name=DB_PWD::$(cat /dev/urandom | tr -cd [:alnum:] | head -c 16)"
 
       - name: Those Variables May Now Be Interpolated
         id: second
@@ -104,7 +104,7 @@ jobs:
           echo "::set-output name=HASURA_HOST::${{steps.first.outputs.HASURA_SERVICE}}-${{env.CLOUDRUN_SUFFIX}}.${{env.DEPLOYMENT_DOMAIN}}"
           echo "::set-output name=DOCKER_PATH::${{steps.first.outputs.DOCKER_REGISTRY}}/${{env.PROJECT_ID}}/${{env.REGISTRY_REPO}}"
           echo "::set-output name=SC_MIGRATE_URL::https://${{steps.first.outputs.BACKEND_HOST}}/actions/migrateSourceCredAccounts?force=true"
-          echo "::set-output name=DB_URL::postgres://${{env.DB_NAME}}:${{steps.first.outputs.DB_PASSWORD}}@/${{env.DB_NAME}}?host=/cloudsql/${{steps.first.outputs.CLOUDSQL_CONNECTION_NAME}}"
+          echo "::set-output name=DB_URL::postgres://${{env.DB_NAME}}:${{steps.first.outputs.DB_PWD}}@/${{env.DB_NAME}}?host=/cloudsql/${{steps.first.outputs.CLOUDSQL_CONNECTION_NAME}}"
 
       - name: And That Result Again In Another Step
         id: third
@@ -163,7 +163,7 @@ jobs:
         run: |
           gcloud -q sql users create ${{needs.env.outputs.DB_NAME}} \
             -i ${{needs.env.outputs.CLOUDSQL_INSTANCE_NAME}} \
-            --password ${{needs.env.outputs.DB_PASSWORD}}
+            --password ${{needs.env.outputs.DB_PWD}}
 
       - name: "Create Database: ${{needs.env.outputs.DB_NAME}}"
         run: |
