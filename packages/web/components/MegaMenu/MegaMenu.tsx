@@ -111,7 +111,6 @@ const Logo = ({ link }: LogoProps) => {
     <Box
       className="logo"
       alignSelf="center"
-      ml={3}
       w={{ base: 'fit-content', lg: '20%' }}
     >
       <MetaLink
@@ -205,7 +204,6 @@ const DesktopNavLinks = () => (
     justifyContent="center"
     alignContent="center"
     display={{ base: 'none', lg: 'flex' }}
-    // minW={{ base: 'auto', md: '60%' }}
   >
     {MenuSectionLinks.map((section: MenuLinkSet) => (
       <Menu
@@ -329,12 +327,6 @@ const PlayerStats: React.FC<PlayerStatsProps> = ({ player }) => {
       align="center"
       display={{ base: 'none', lg: 'flex' }}
       justifyContent="flex-end"
-      minW={{ base: '20%', lg: 'fit-content' }}
-      maxW={{ base: '20%', lg: 'fit-content' }}
-      p={2}
-      flex={1}
-      my="auto"
-      mr={0}
     >
       <Tooltip label="XP" hasArrow>
         <Badge
@@ -444,6 +436,7 @@ export const MegaMenu: React.FC = () => {
         sx={{ backdropFilter: 'blur(10px)' }}
         px={4}
         py={1.5}
+        h={20}
       >
         <Flex
           onClick={menuToggle}
@@ -455,6 +448,7 @@ export const MegaMenu: React.FC = () => {
           display={{ base: 'flex', lg: 'none' }}
           p={2}
           my="auto"
+          flexGrow={1}
         >
           {isOpen ? (
             <CloseIcon fontSize="1.5rem" color="#FFF" ml={2} />
@@ -469,32 +463,32 @@ export const MegaMenu: React.FC = () => {
           <Logo link={user?.player ? '/dashboard' : '/'} />
           <DesktopNavLinks />
           {/* <Search /> */}
-          {fetching ? (
-            <Spinner
-              mt="18px"
-              mr="24px"
-              ml="162px"
-              mb="26px"
-              display={{ base: 'none', lg: 'block' }}
-            />
-          ) : (
-            <>
-              {connected && !!player ? (
-                <PlayerStats {...{ player }} />
-              ) : (
-                <MetaButton
-                  display={{ base: 'none', lg: 'block' }}
-                  h="48px"
-                  my="10px"
-                  px="24px"
-                  ml="90px"
-                  onClick={connect}
-                >
-                  Connect
-                </MetaButton>
-              )}
-            </>
-          )}
+          <Box
+            w="20%"
+            alignSelf="center"
+            textAlign="right"
+            display={{ base: 'none', lg: 'block' }}
+          >
+            {fetching ? (
+              <Spinner mr={4} />
+            ) : (
+              <>
+                {connected && !!player ? (
+                  <PlayerStats {...{ player }} />
+                ) : (
+                  <MetaButton
+                    h="48px"
+                    my="10px"
+                    px="24px"
+                    ml="90px"
+                    onClick={connect}
+                  >
+                    Connect
+                  </MetaButton>
+                )}
+              </>
+            )}
+          </Box>
         </Flex>
       </Flex>
       <Stack
