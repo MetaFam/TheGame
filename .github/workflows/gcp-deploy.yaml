@@ -388,7 +388,7 @@ jobs:
             --max-instances 1 \
             --set-env-vars HASURA_GRAPHQL_DATABASE_URL=\
             postgres://${{needs.env.outputs.DB_NAME}}:${{needs.env.outputs.DB_PASSWORD}}\
-            @${{needs.env.outputs.DB_HOST}}" \
+            @${{needs.env.outputs.DB_HOST}} \
             --set-env-vars HASURA_GRAPHQL_ADMIN_SECRET=${{needs.env.outputs.HASURA_SECRET}} \
             --set-env-vars HASURA_GRAPHQL_SERVER_PORT=${{needs.env.outputs.HASURA_PORT}} \
             --set-env-vars HASURA_GRAPHQL_ENABLE_CONSOLE=true
