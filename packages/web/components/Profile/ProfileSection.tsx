@@ -1,5 +1,6 @@
 import {
   Box,
+  BoxProps,
   Button,
   EditIcon,
   Flex,
@@ -35,7 +36,7 @@ export type ProfileSectionProps = {
   modalTitle?: string;
   modal?: React.ReactNode;
   subheader?: string;
-};
+} & BoxProps;
 
 export const ProfileSection: React.FC<ProfileSectionProps> = ({
   children,
@@ -48,6 +49,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
   modal,
   modalTitle,
   subheader,
+  ...props
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -124,6 +126,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
         pos="relative"
         pointerEvents={canEdit ? 'none' : 'initial'}
         pb={8}
+        {...props}
       >
         {children}
       </Box>
