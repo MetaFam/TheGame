@@ -22,7 +22,8 @@ export const PlayerPronouns: React.FC<Props> = ({ person }) => {
   return pronouns ? (
     <PlayerHeroTile title="Personal Pronouns">
       <FlexContainer
-        align="stretch"
+        direction="row"
+        justify="flex-start"
         transition=" opacity 0.4s"
         opacity={animation === 'fadeIn' ? 1 : 0}
       >

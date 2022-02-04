@@ -191,9 +191,7 @@ export const PlayerHero: React.FC<Props> = ({
 
         {player?.profile?.emoji && (
           <PlayerHeroTile title="Favorite Emoji">
-            <Text ml={10} mt={0} fontSize={45} lineHeight={0.75}>
-              {player.profile.emoji}
-            </Text>
+            <Text fontSize="1.25rem">{player.profile.emoji}</Text>
           </PlayerHeroTile>
         )}
         {/* player?.profile?.colorMask && (
@@ -275,8 +273,8 @@ const Availability: React.FC<AvailabilityProps> = ({ person }) => {
   );
 };
 
-const TimeZoneDisplay: React.FC<TimeZoneDisplayProps> = () => {
-  const tz = getTimeZoneFor({ title: null }); // person?.profile?.timeZone });
+const TimeZoneDisplay: React.FC<TimeZoneDisplayProps> = ({ person }) => {
+  const tz = getTimeZoneFor({ title: person?.profile?.timeZone });
   const [timeZone, setTimeZone] = useState<string | null>(
     tz?.abbreviation ?? null,
   );
