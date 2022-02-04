@@ -28,3 +28,9 @@ export const Field: React.FC<FieldProps> = ({ children, error, label }) => (
     {children}
   </Flex>
 );
+
+export const FieldDescription: React.FC = ({ children }) => (
+  <Text ml={4} mt={1} fontSize="sm">
+    {children}
+  </Text>
+);
