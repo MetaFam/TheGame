@@ -445,7 +445,7 @@ export const Grid: React.FC<Props> = ({
           )}
           {changed && canEdit && (
             <MetaButton
-              aria-label="Default layout"
+              aria-label="Reset to default"
               _hover={{ background: 'purple.600' }}
               textTransform="uppercase"
               px={12}
@@ -455,7 +455,7 @@ export const Grid: React.FC<Props> = ({
               onClick={handleDefault}
               leftIcon={<RepeatClockIcon />}
             >
-              Default
+              Reset to default
             </MetaButton>
           )}
           <MetaButton
