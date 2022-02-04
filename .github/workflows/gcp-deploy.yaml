@@ -82,7 +82,7 @@ jobs:
       HASURA_HOST: ${{steps.second.outputs.HASURA_HOST}}
       DOCKER_PATH: ${{steps.second.outputs.DOCKER_PATH}}
       SC_MIGRATE_URL: ${{steps.second.outputs.SC_MIGRATE_URL}}
-      DB_URL: ${{steps.second.outputs.DB_URL}}
+      DB_HOST: ${{steps.second.outputs.DB_HOST}}
       GRAPHQL_URL: ${{steps.third.outputs.GRAPHQL_URL}}
       BACKEND_TAG: ${{steps.third.outputs.BACKEND_TAG}}
       HASURA_TAG: ${{steps.third.outputs.HASURA_TAG}}
@@ -102,7 +102,7 @@ jobs:
           ${{env.BACKEND_SERVICE}}-${{env.CLOUDRUN_SUFFIX}}.${{env.DEPLOYMENT_DOMAIN}}"
           echo "::set-output name=FRONTEND_URL::\
           https://${{env.FRONTEND_SERVICE}}-${{env.CLOUDRUN_SUFFIX}}.${{env.DEPLOYMENT_DOMAIN}}"
-          echo "::set-output name=DB_PASSWORD::$(head -c 16 /dev/urandom | tr -cd [:alnum:])"
+          echo "::set-output name=DB_PASSWORD::$(head -c 48 /dev/urandom | tr -cd [:alnum:])"
 
       - name: Those Variables May Now Be Interpolated
         id: second
