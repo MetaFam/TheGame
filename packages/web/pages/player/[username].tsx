@@ -420,10 +420,9 @@ export const Grid: React.FC<Props> = ({
     <Box
       className="gridWrapper"
       width="100%"
-      height="100%"
       sx={wrapperSX}
       maxW="96rem"
-      mb="12rem"
+      pb="3rem"
       pt={isOwnProfile ? 0 : '4rem'}
     >
       {isOwnProfile && (
