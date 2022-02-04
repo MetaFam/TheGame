@@ -514,7 +514,7 @@ jobs:
   finish-deployment:
     name: Finish Deployment
     runs-on: ubuntu-latest
-    needs: [start-deployment, deploy-frontend]
+    needs: [env, start-deployment, deploy-frontend]
     if: always()
 
     env:
