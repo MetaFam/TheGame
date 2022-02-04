@@ -121,7 +121,7 @@ export const PlayerStatsBar = () => {
                   alt="XP"
                   boxSize="1.5rem"
                 />
-                <Text color="#FFF" lineHeight={2} fontSize={20}>
+                <Text color="#FFF" lineHeight={2}>
                   {Math.trunc(player.totalXP).toLocaleString()}
                 </Text>
               </HStack>
@@ -140,7 +140,7 @@ export const PlayerStatsBar = () => {
                   alt="Seed"
                   boxSize="1.5rem"
                 />
-                <Text color="#FFF" lineHeight={2} fontSize={20}>
+                <Text color="#FFF" lineHeight={2}>
                   {parseInt(
                     amountToDecimal(pSeedBalance || '0', 18),
                     10,
