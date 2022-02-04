@@ -79,6 +79,7 @@ jobs:
       HASURA_HOST: ${{steps.second.outputs.HASURA_HOST}}
       DOCKER_PATH: ${{steps.second.outputs.DOCKER_PATH}}
       SC_MIGRATE_URL: ${{steps.second.outputs.SC_MIGRATE_URL}}
+      DB_URL: ${{steps.second.outputs.DB_URL}}
       GRAPHQL_URL: ${{steps.third.outputs.GRAPHQL_URL}}
       BACKEND_TAG: ${{steps.third.outputs.BACKEND_TAG}}
       HASURA_TAG: ${{steps.third.outputs.HASURA_TAG}}
@@ -103,6 +104,7 @@ jobs:
           echo "::set-output name=HASURA_HOST::${{steps.first.outputs.HASURA_SERVICE}}-${{env.CLOUDRUN_SUFFIX}}.${{env.DEPLOYMENT_DOMAIN}}"
           echo "::set-output name=DOCKER_PATH::${{steps.first.outputs.DOCKER_REGISTRY}}/${{env.PROJECT_ID}}/${{env.REGISTRY_REPO}}"
           echo "::set-output name=SC_MIGRATE_URL::https://${{steps.first.outputs.BACKEND_HOST}}/actions/migrateSourceCredAccounts?force=true"
+          echo "::set-output name=DB_URL::postgres://${{env.DB_NAME}}:${{steps.first.outputs.DB_PASSWORD}}@/${{env.DB_NAME}}?host=/cloudsql/${{steps.first.outputs.CLOUDSQL_CONNECTION_NAME}}
 
       - name: And That Result Again In Another Step
         id: third
@@ -369,7 +371,7 @@ jobs:
             --allow-unauthenticated \
             --add-cloudsql-instances ${{needs.env.outputs.CLOUDSQL_CONNECTION_NAME}} \
             --max-instances 1 \
-            --set-env-vars HASURA_GRAPHQL_DATABASE_URL=postgres://${{needs.env.outputs.DB_NAME}}:${{needs.env.outputs.DB_PASSWORD}}@/${{needs.env.outputs.DB_NAME}}?host=/cloudsql/${{needs.env.outputs.CLOUDSQL_CONNECTION_NAME}} \
+            --set-env-vars HASURA_GRAPHQL_DATABASE_URL=${{needs.env.outputs.DB_URL}} \
             --set-env-vars HASURA_GRAPHQL_ADMIN_SECRET=${{needs.env.outputs.HASURA_SECRET}} \
             --set-env-vars HASURA_GRAPHQL_SERVER_PORT=${{needs.env.outputs.HASURA_PORT}} \
             --set-env-vars HASURA_GRAPHQL_ENABLE_CONSOLE=true
