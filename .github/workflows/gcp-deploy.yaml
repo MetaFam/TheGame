@@ -39,8 +39,8 @@ jobs:
           env: test
           desc: |
             "Test instance deployment for PR #${{github.event.number}} \
-              of ${{github.event.pull_request.head.label}} \
-              by ${{github.event.pull_request.user.login}}"
+            of ${{github.event.pull_request.head.label}} \
+            by ${{github.event.pull_request.user.login}}"
           ref: ${{github.event.pull_request.head.sha}}
 
   cancel-previous:
@@ -95,38 +95,38 @@ jobs:
           echo "::set-output name=CLOUDRUN_REGION::${{env.REGISTRY_REGION}}"
           echo "::set-output name=CLOUDSQL_INSTANCE_NAME::${{env.REGISTRY_REPO}}"
           echo "::set-output name=CLOUDSQL_CONNECTION_NAME::\
-            ${{env.PROJECT_ID}}:${{env.REGISTRY_REGION}}:${{env.REGISTRY_REPO}}"
+          ${{env.PROJECT_ID}}:${{env.REGISTRY_REGION}}:${{env.REGISTRY_REPO}}"
           echo "::set-output name=HASURA_SERVICE::${{env.DB_NAME}}"
           echo "::set-output name=DOCKER_REGISTRY::${{env.REGISTRY_REGION}}-docker.pkg.dev"
           echo "::set-output name=BACKEND_HOST::\
-            ${{env.BACKEND_SERVICE}}-${{env.CLOUDRUN_SUFFIX}}.${{env.DEPLOYMENT_DOMAIN}}"
+          ${{env.BACKEND_SERVICE}}-${{env.CLOUDRUN_SUFFIX}}.${{env.DEPLOYMENT_DOMAIN}}"
           echo "::set-output name=FRONTEND_URL::\
-            https://${{env.FRONTEND_SERVICE}}-${{env.CLOUDRUN_SUFFIX}}.${{env.DEPLOYMENT_DOMAIN}}"
+          https://${{env.FRONTEND_SERVICE}}-${{env.CLOUDRUN_SUFFIX}}.${{env.DEPLOYMENT_DOMAIN}}"
           echo "::set-output name=DB_PASSWORD::$(head -c 16 /dev/urandom | tr -cd [:alnum:])"
 
       - name: Those Variables May Now Be Interpolated
         id: second
         run: |
           echo "::set-output name=HASURA_HOST::\
-            ${{steps.first.outputs.HASURA_SERVICE}}-${{env.CLOUDRUN_SUFFIX}}.${{env.DEPLOYMENT_DOMAIN}}"
+          ${{steps.first.outputs.HASURA_SERVICE}}-${{env.CLOUDRUN_SUFFIX}}.${{env.DEPLOYMENT_DOMAIN}}"
           echo "::set-output name=DOCKER_PATH::\
-            ${{steps.first.outputs.DOCKER_REGISTRY}}/${{env.PROJECT_ID}}/${{env.REGISTRY_REPO}}"
+          ${{steps.first.outputs.DOCKER_REGISTRY}}/${{env.PROJECT_ID}}/${{env.REGISTRY_REPO}}"
           echo "::set-output name=SC_MIGRATE_URL::\
-            https://${{steps.first.outputs.BACKEND_HOST}}/actions/migrateSourceCredAccounts?force=true"
+          https://${{steps.first.outputs.BACKEND_HOST}}/actions/migrateSourceCredAccounts?force=true"
           echo "::set-output name=DB_HOST::\
-            /${{env.DB_NAME}}?host=/cloudsql/${{steps.first.outputs.CLOUDSQL_CONNECTION_NAME}}"
+          /${{env.DB_NAME}}?host=/cloudsql/${{steps.first.outputs.CLOUDSQL_CONNECTION_NAME}}"
 
       - name: And That Result Again In Another Step
         id: third
         run: |
           echo "::set-output name=GRAPHQL_URL::\
-            https://${{steps.second.outputs.HASURA_HOST}}/v1/graphql"
+          https://${{steps.second.outputs.HASURA_HOST}}/v1/graphql"
           echo "::set-output name=BACKEND_TAG::\
-            ${{steps.second.outputs.DOCKER_PATH}}/backend:pr-${{github.event.number}}"
+          ${{steps.second.outputs.DOCKER_PATH}}/backend:pr-${{github.event.number}}"
           echo "::set-output name=HASURA_TAG::\
-            ${{steps.second.outputs.DOCKER_PATH}}/hasura:pr-${{github.event.number}}"
+          ${{steps.second.outputs.DOCKER_PATH}}/hasura:pr-${{github.event.number}}"
           echo "::set-output name=FRONTEND_TAG::\
-            ${{steps.second.outputs.DOCKER_PATH}}/frontend:pr-${{github.event.number}}"
+          ${{steps.second.outputs.DOCKER_PATH}}/frontend:pr-${{github.event.number}}"
 
   delete-db:
     name: Delete Hasura’s User & Database
@@ -387,8 +387,8 @@ jobs:
             --add-cloudsql-instances ${{needs.env.outputs.CLOUDSQL_CONNECTION_NAME}} \
             --max-instances 1 \
             --set-env-vars HASURA_GRAPHQL_DATABASE_URL=\
-              postgres://${{needs.env.outputs.DB_NAME}}:${{needs.env.outputs.DB_PASSWORD}}\
-              @${{needs.env.outputs.DB_HOST}}" \
+            postgres://${{needs.env.outputs.DB_NAME}}:${{needs.env.outputs.DB_PASSWORD}}\
+            @${{needs.env.outputs.DB_HOST}}" \
             --set-env-vars HASURA_GRAPHQL_ADMIN_SECRET=${{needs.env.outputs.HASURA_SECRET}} \
             --set-env-vars HASURA_GRAPHQL_SERVER_PORT=${{needs.env.outputs.HASURA_PORT}} \
             --set-env-vars HASURA_GRAPHQL_ENABLE_CONSOLE=true
