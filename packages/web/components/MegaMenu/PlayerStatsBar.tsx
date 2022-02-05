@@ -100,7 +100,7 @@ export const PlayerStatsBar = () => {
             </MenuList>
           </Menu>
           <HStack justify="flex-end">
-            <XPSeedsBalance totalXP={player.totalXP} />
+            <XPSeedsBalance totalXP={player.totalXP} mobile />
           </HStack>
         </>
       )}
