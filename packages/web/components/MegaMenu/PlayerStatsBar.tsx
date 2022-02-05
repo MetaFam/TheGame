@@ -2,7 +2,6 @@ import {
   Dashboard,
   Flex,
   HStack,
-  Image,
   LogOut,
   Menu,
   MenuButton,
@@ -11,27 +10,21 @@ import {
   Profile,
   Stack,
   Text,
-  Tooltip,
 } from '@metafam/ds';
-import { numbers } from '@metafam/utils';
-import SeedMarket from 'assets/seed-icon.svg';
-import XPStar from 'assets/xp-star.svg';
 import { MetaLink } from 'components/Link';
 import { LoginButton } from 'components/LoginButton';
 import { PlayerAvatar } from 'components/Player/PlayerAvatar';
 import { useUser, useWeb3 } from 'lib/hooks';
-import { usePSeedBalance } from 'lib/hooks/balances';
 import React from 'react';
 import { getPlayerName, getPlayerURL } from 'utils/playerHelpers';
 
-const { amountToDecimal } = numbers;
+import { XPSeedsBalance } from './XPSeedsBalance';
 
 // Display player XP and Seed
 export const PlayerStatsBar = () => {
   const { disconnect } = useWeb3();
   const { user } = useUser();
   const { player } = user ?? {};
-  const { pSeedBalance } = usePSeedBalance();
 
   return (
     <Flex
@@ -106,48 +99,8 @@ export const PlayerStatsBar = () => {
               </MenuItem>
             </MenuList>
           </Menu>
-          <HStack height="100%" justify="flex-end" px="0.5rem">
-            <Tooltip label="Total XP" hasArrow>
-              <HStack
-                bg="rgba(0,0,0,0.25)"
-                border="1px solid #2B2244"
-                borderRadius="full"
-                px="0.75rem"
-                minW="fit-content"
-              >
-                <Image
-                  src={XPStar}
-                  alignSelf="center"
-                  alt="XP"
-                  boxSize="1.5rem"
-                />
-                <Text color="#FFF" lineHeight={2}>
-                  {Math.trunc(player.totalXP).toLocaleString()}
-                </Text>
-              </HStack>
-            </Tooltip>
-            <Tooltip label="pSEEDs" hasArrow>
-              <HStack
-                bg="rgba(0,0,0,0.25)"
-                border="1px solid #2B2244"
-                borderRadius="full"
-                px="0.75rem"
-                minW="fit-content"
-              >
-                <Image
-                  src={SeedMarket}
-                  alignSelf="center"
-                  alt="Seed"
-                  boxSize="1.5rem"
-                />
-                <Text color="#FFF" lineHeight={2}>
-                  {parseInt(
-                    amountToDecimal(pSeedBalance || '0', 18),
-                    10,
-                  ).toLocaleString()}
-                </Text>
-              </HStack>
-            </Tooltip>
+          <HStack justify="flex-end">
+            <XPSeedsBalance totalXP={player.totalXP} />
           </HStack>
         </>
       )}
