@@ -162,7 +162,7 @@ jobs:
           kill $PID
 
   create-db:
-    name: "Create New SQL User & Database"
+    name: Create New SQL User & Database
     runs-on: ubuntu-latest
     needs: [env, delete-db]
 
