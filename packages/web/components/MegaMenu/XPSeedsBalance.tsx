@@ -27,7 +27,7 @@ export const XPSeedsBalance: React.FC<Props> = ({ totalXP }) => {
           minW="fit-content"
         >
           <Image src={XPStar} alignSelf="center" alt="XP" boxSize="1rem" />
-          <Text color="#FFF" lineHeight={2} fontSize="sm">
+          <Text color="#FFF" lineHeight={2} fontSize="xs" fontWeight="bold">
             {Math.trunc(totalXP).toLocaleString()}
           </Text>
         </HStack>
@@ -47,7 +47,7 @@ export const XPSeedsBalance: React.FC<Props> = ({ totalXP }) => {
             alt="Seed"
             boxSize="1rem"
           />
-          <Text color="#FFF" lineHeight={2} fontSize="sm">
+          <Text color="#FFF" lineHeight={2} fontSize="xs" fontWeight="bold">
             {parseInt(
               amountToDecimal(pSeedBalance || '0', 18),
               10,
