@@ -44,11 +44,11 @@ jobs:
           ref: ${{github.event.pull_request.head.sha}}
 
   cancel-previous:
-    name: Cancel Existing Workflows
+    name: Cancel Existing Runs
     runs-on: ubuntu-latest
 
     steps:
-      - name: Cancel Running Actions
+      - name: Cancel Existing Runs
         uses: styfle/cancel-workflow-action@0.4.0
         with:
           access_token: ${{github.token}}
@@ -129,19 +129,19 @@ jobs:
           ${{steps.second.outputs.DOCKER_PATH}}/frontend:pr-${{github.event.number}}"
 
   delete-db:
-    name: Delete Hasura’s User & Database
+    name: Delete SQL User & Database
     runs-on: ubuntu-latest
     needs: [env]
 
     steps:
-      - name: Set Up GCloud CLI
+      - name: Set Up gcloud CLI
         uses: google-github-actions/setup-gcloud@v0.2.1
         with:
           project_id: ${{needs.env.outputs.PROJECT_ID}}
           service_account_key: ${{secrets.GCP_SA_KEY}}
           export_default_credentials: true
 
-      - name: "Delete GCloud SQL User: ${{needs.env.outputs.DB_NAME}}"
+      - name: "Delete SQL User: ${{needs.env.outputs.DB_NAME}}"
         continue-on-error: true
         run: |
           gcloud -q sql users delete ${{needs.env.outputs.DB_NAME}} \
@@ -167,14 +167,14 @@ jobs:
     needs: [env, delete-db]
 
     steps:
-      - name: Set Up GCloud CLI
+      - name: Set Up gcloud CLI
         uses: google-github-actions/setup-gcloud@v0.2.1
         with:
           project_id: ${{needs.env.outputs.PROJECT_ID}}
           service_account_key: ${{secrets.GCP_SA_KEY}}
           export_default_credentials: true
 
-      - name: "Create GCloud SQL User: ${{needs.env.outputs.DB_NAME}}"
+      - name: "Create SQL User: ${{needs.env.outputs.DB_NAME}}"
         run: |
           gcloud -q sql users create ${{needs.env.outputs.DB_NAME}} \
             -i ${{needs.env.outputs.CLOUDSQL_INSTANCE_NAME}} \
@@ -191,7 +191,7 @@ jobs:
     needs: [env]
 
     steps:
-      - name: Set Up GCloud CLI
+      - name: Set Up gcloud CLI
         uses: google-github-actions/setup-gcloud@v0.2.1
         with:
           project_id: ${{needs.env.outputs.PROJECT_ID}}
@@ -205,7 +205,7 @@ jobs:
             --region ${{needs.env.outputs.CLOUDRUN_REGION}}
 
   delete-backend:
-    name: Remove Backend Container Image
+    name: Delete Backend Container Image
     runs-on: ubuntu-latest
     needs: [env]
 
@@ -217,19 +217,19 @@ jobs:
           username: _json_key
           password: ${{secrets.GCP_SA_KEY}}
 
-      - name: Set Up GCloud CLI
+      - name: Set Up gcloud CLI
         uses: google-github-actions/setup-gcloud@v0.2.1
         with:
           project_id: ${{needs.env.outputs.PROJECT_ID}}
           service_account_key: ${{secrets.GCP_SA_KEY}}
           export_default_credentials: true
 
-      - name: "Delete Container: ${{needs.env.outputs.BACKEND_TAG}}"
+      - name: "Delete Container Image: ${{needs.env.outputs.BACKEND_TAG}}"
         continue-on-error: true
         run: gcloud -q artifacts docker images delete ${{needs.env.outputs.BACKEND_TAG}}
 
   build-backend:
-    name: Build Backend Container
+    name: Build Backend Container Image
     runs-on: ubuntu-latest
     needs: [env, delete-backend, undeploy-backend]
 
@@ -239,7 +239,7 @@ jobs:
         with:
           ref: ${{github.event.pull_request.head.sha}}
 
-      - name: "Build Container: ${{needs.env.outputs.BACKEND_TAG}}"
+      - name: "Build Container Image: ${{needs.env.outputs.BACKEND_TAG}}"
         uses: mattes/cached-docker-build-action@v1
         with:
           args: |
@@ -255,7 +255,7 @@ jobs:
           username: _json_key
           password: ${{secrets.GCP_SA_KEY}}
 
-      - name: "Push Container: ${{needs.env.outputs.BACKEND_TAG}}"
+      - name: "Push Container Image: ${{needs.env.outputs.BACKEND_TAG}}"
         run: docker push ${{needs.env.outputs.BACKEND_TAG}}
 
   deploy-backend:
@@ -264,14 +264,14 @@ jobs:
     needs: [env, create-db, build-backend]
 
     steps:
-      - name: Set Up GCloud CLI
+      - name: Set Up gcloud CLI
         uses: google-github-actions/setup-gcloud@v0.2.1
         with:
           project_id: ${{needs.env.outputs.PROJECT_ID}}
           service_account_key: ${{secrets.GCP_SA_KEY}}
           export_default_credentials: true
 
-      - name: "Deploy Container: ${{needs.env.outputs.BACKEND_TAG}}"
+      - name: "Deploy Container Image: ${{needs.env.outputs.BACKEND_TAG}}"
         run: |
           gcloud -q run deploy ${{needs.env.outputs.BACKEND_SERVICE}} \
             --image ${{needs.env.outputs.BACKEND_TAG}} \
@@ -293,7 +293,7 @@ jobs:
     needs: [env]
 
     steps:
-      - name: Set Up GCloud CLI
+      - name: Set Up gcloud CLI
         uses: google-github-actions/setup-gcloud@v0.2.1
         with:
           project_id: ${{needs.env.outputs.PROJECT_ID}}
@@ -307,7 +307,7 @@ jobs:
             --region ${{needs.env.outputs.CLOUDRUN_REGION}}
 
   delete-hasura:
-    name: Remove Hasura Container Image
+    name: Delete Hasura Container Image
     runs-on: ubuntu-latest
     needs: [env]
 
@@ -319,19 +319,19 @@ jobs:
           username: _json_key
           password: ${{secrets.GCP_SA_KEY}}
 
-      - name: Set Up GCloud CLI
+      - name: Set Up gcloud CLI
         uses: google-github-actions/setup-gcloud@v0.2.1
         with:
           project_id: ${{needs.env.outputs.PROJECT_ID}}
           service_account_key: ${{secrets.GCP_SA_KEY}}
           export_default_credentials: true
 
-      - name: "Delete Container: ${{needs.env.outputs.HASURA_TAG}}"
+      - name: "Delete Container Image: ${{needs.env.outputs.HASURA_TAG}}"
         continue-on-error: true
         run: gcloud -q artifacts docker images delete ${{needs.env.outputs.HASURA_TAG}}
 
   build-hasura:
-    name: Build Hasura Container
+    name: Build Hasura Container Image
     runs-on: ubuntu-latest
     needs: [env, delete-hasura, undeploy-hasura]
 
@@ -341,7 +341,7 @@ jobs:
         with:
           ref: ${{github.event.pull_request.head.sha}}
 
-      - name: "Build Container: ${{needs.env.outputs.HASURA_TAG}}"
+      - name: "Build Container Image: ${{needs.env.outputs.HASURA_TAG}}"
         uses: mattes/cached-docker-build-action@v1
         with:
           args: |
@@ -358,7 +358,7 @@ jobs:
           username: _json_key
           password: ${{secrets.GCP_SA_KEY}}
 
-      - name: "Push Container: ${{needs.env.outputs.HASURA_TAG}}"
+      - name: "Push Container Image: ${{needs.env.outputs.HASURA_TAG}}"
         run: docker push ${{needs.env.outputs.HASURA_TAG}}
 
   deploy-hasura:
@@ -372,14 +372,14 @@ jobs:
       host: ${{needs.env.outputs.DB_HOST}}
 
     steps:
-      - name: Set Up GCloud CLI
+      - name: Set Up gcloud CLI
         uses: google-github-actions/setup-gcloud@v0.2.1
         with:
           project_id: ${{needs.env.outputs.PROJECT_ID}}
           service_account_key: ${{secrets.GCP_SA_KEY}}
           export_default_credentials: true
 
-      - name: "Deploy Container: ${{needs.env.outputs.HASURA_TAG}}"
+      - name: "Deploy Container Image: ${{needs.env.outputs.HASURA_TAG}}"
         run: |
           gcloud -q run deploy ${{needs.env.outputs.HASURA_SERVICE}} \
             --image ${{needs.env.outputs.HASURA_TAG}} \
@@ -402,7 +402,7 @@ jobs:
     needs: [env]
 
     steps:
-      - name: Set Up GCloud CLI
+      - name: Set Up gcloud CLI
         uses: google-github-actions/setup-gcloud@v0.2.1
         with:
           project_id: ${{needs.env.outputs.PROJECT_ID}}
@@ -416,24 +416,24 @@ jobs:
             --region ${{needs.env.outputs.CLOUDRUN_REGION}}
 
   delete-frontend:
-    name: Remove Frontend Container Image
+    name: Delete Frontend Container Image
     runs-on: ubuntu-latest
     needs: [env]
 
     steps:
-      - name: Set Up GCloud CLI
+      - name: Set Up gcloud CLI
         uses: google-github-actions/setup-gcloud@v0.2.1
         with:
           project_id: ${{needs.env.outputs.PROJECT_ID}}
           service_account_key: ${{secrets.GCP_SA_KEY}}
           export_default_credentials: true
 
-      - name: "Delete Container: ${{needs.env.outputs.FRONTEND_TAG}}"
+      - name: "Delete Container Image: ${{needs.env.outputs.FRONTEND_TAG}}"
         continue-on-error: true
         run: gcloud -q artifacts docker images delete ${{needs.env.outputs.FRONTEND_TAG}}
 
   build-frontend:
-    name: Build Frontend Container
+    name: Build Frontend Container Image
     runs-on: ubuntu-latest
     needs: [env, delete-frontend, undeploy-frontend, deploy-hasura, seed-db]
 
@@ -443,7 +443,7 @@ jobs:
         with:
           ref: ${{github.event.pull_request.head.sha}}
 
-      - name: "Build Container: ${{needs.env.outputs.FRONTEND_TAG}}"
+      - name: "Build Container Image: ${{needs.env.outputs.FRONTEND_TAG}}"
         uses: mattes/cached-docker-build-action@v1
         with:
           args: |
@@ -459,7 +459,7 @@ jobs:
           username: _json_key
           password: ${{secrets.GCP_SA_KEY}}
 
-      - name: "Push Container: ${{needs.env.outputs.FRONTEND_TAG}}"
+      - name: "Push Container Image: ${{needs.env.outputs.FRONTEND_TAG}}"
         run: docker push ${{needs.env.outputs.FRONTEND_TAG}}
 
   deploy-frontend:
@@ -468,14 +468,14 @@ jobs:
     needs: [env, build-frontend]
 
     steps:
-      - name: Set Up GCloud CLI
+      - name: Set Up gcloud CLI
         uses: google-github-actions/setup-gcloud@v0.2.1
         with:
           project_id: ${{needs.env.outputs.PROJECT_ID}}
           service_account_key: ${{secrets.GCP_SA_KEY}}
           export_default_credentials: true
 
-      - name: "Deploy Container: ${{needs.env.outputs.FRONTEND_SERVICE}}"
+      - name: "Deploy Container Image: ${{needs.env.outputs.FRONTEND_SERVICE}}"
         run: |
           gcloud -q run deploy ${{needs.env.outputs.FRONTEND_SERVICE}} \
             --image ${{needs.env.outputs.FRONTEND_TAG}} \
