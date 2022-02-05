@@ -1,6 +1,5 @@
 import {
   Avatar,
-  Badge,
   Box,
   BoxedNextImage as Image,
   Button,
@@ -23,11 +22,9 @@ import {
   Spinner,
   Stack,
   Text,
-  Tooltip,
   useBreakpointValue,
   useDisclosure,
 } from '@metafam/ds';
-import { numbers } from '@metafam/utils';
 import Alliances from 'assets/menuIcon/alliances.svg';
 import Asketh from 'assets/menuIcon/asketh.svg';
 import BecomeAPatron from 'assets/menuIcon/becomeapatron.svg';
@@ -53,19 +50,16 @@ import TheGreatHouses from 'assets/menuIcon/thegreathouses.svg';
 import WelcomeToMetaGame from 'assets/menuIcon/welcometometagame.svg';
 import XPEarned from 'assets/menuIcon/xpearned.svg';
 import Youtube from 'assets/menuIcon/youtube.svg';
-import SeedMarket from 'assets/seed-icon.svg';
-import XPStar from 'assets/xp-star.svg';
 import { MetaLink } from 'components/Link';
 import { PlayerAvatar } from 'components/Player/PlayerAvatar';
 import { Player } from 'graphql/autogen/types';
 import { useUser, useWeb3 } from 'lib/hooks';
-import { usePSeedBalance } from 'lib/hooks/balances';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { MenuLinkItem, MenuLinkSet, MenuSectionLinks } from 'utils/menuLinks';
 import { getPlayerURL } from 'utils/playerHelpers';
 
-const { amountToDecimal } = numbers;
+import { XPSeedsBalance } from './XPSeedsBalance';
 
 const menuIcons: { [key: string]: string } = {
   alliances: Alliances,
@@ -315,7 +309,6 @@ type PlayerStatsProps = {
 // Display player XP and Seed
 const PlayerStats: React.FC<PlayerStatsProps> = ({ player }) => {
   const { disconnect } = useWeb3();
-  const { pSeedBalance } = usePSeedBalance();
 
   return (
     <Flex
@@ -323,43 +316,7 @@ const PlayerStats: React.FC<PlayerStatsProps> = ({ player }) => {
       display={{ base: 'none', lg: 'flex' }}
       justifyContent="flex-end"
     >
-      <Tooltip label="XP" hasArrow>
-        <Badge
-          display={{ base: 'none', lg: 'flex' }}
-          flexDirection="row"
-          px={4}
-          py={2}
-          bg="rgba(0,0,0,0.25)"
-          border="1px solid #2B2244"
-          borderRadius={50}
-          minW="fit-content"
-          alignItems="center"
-        >
-          <Image src={XPStar} alt="XP" height={5} width={5} />
-          <Text color="white" ml={[0, 0, 0, 2]}>
-            {Math.floor(player.totalXP)}
-          </Text>
-        </Badge>
-      </Tooltip>
-      <Tooltip label="pSEEDs" hasArrow>
-        <Badge
-          display={{ base: 'none', lg: 'flex' }}
-          flexDirection="row"
-          m={2}
-          px={4}
-          py={2}
-          bg="rgba(0,0,0,0.25)"
-          border="1px solid #2B2244"
-          borderRadius={50}
-          minW="fit-content"
-          alignItems="center"
-        >
-          <Image src={SeedMarket} alt="pSeed" height={5} width={5} />
-          <Text color="white" ml={[0, 0, 0, 2]}>
-            {parseInt(amountToDecimal(pSeedBalance || '0', 18), 10)}
-          </Text>
-        </Badge>
-      </Tooltip>
+      <XPSeedsBalance totalXP={player.totalXP} />
       <Menu>
         <MenuButton
           bg="transparent"
@@ -372,7 +329,7 @@ const PlayerStats: React.FC<PlayerStatsProps> = ({ player }) => {
             {...{ player }}
             w="52px"
             h="52px"
-            m={0}
+            ml={4}
             _hover={{ transform: 'scale(0.9)' }}
           />
         </MenuButton>
