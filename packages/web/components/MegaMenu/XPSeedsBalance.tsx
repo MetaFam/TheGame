@@ -10,9 +10,13 @@ const { amountToDecimal } = numbers;
 // Display player XP and Seed
 type Props = {
   totalXP: number;
+  mobile?: boolean;
 };
 // Display player XP and Seed
-export const XPSeedsBalance: React.FC<Props> = ({ totalXP }) => {
+export const XPSeedsBalance: React.FC<Props> = ({
+  totalXP,
+  mobile = false,
+}) => {
   const { pSeedBalance } = usePSeedBalance();
 
   return (
@@ -26,8 +30,18 @@ export const XPSeedsBalance: React.FC<Props> = ({ totalXP }) => {
           py={1}
           minW="fit-content"
         >
-          <Image src={XPStar} alignSelf="center" alt="XP" boxSize="1rem" />
-          <Text color="#FFF" lineHeight={2} fontSize="xs" fontWeight="bold">
+          <Image
+            src={XPStar}
+            alignSelf="center"
+            alt="XP"
+            boxSize={mobile ? '1.5rem' : '1rem'}
+          />
+          <Text
+            color="#FFF"
+            lineHeight={2}
+            fontSize={mobile ? 'sm' : 'xs'}
+            fontWeight="bold"
+          >
             {Math.trunc(totalXP).toLocaleString()}
           </Text>
         </HStack>
@@ -45,9 +59,14 @@ export const XPSeedsBalance: React.FC<Props> = ({ totalXP }) => {
             src={SeedMarket}
             alignSelf="center"
             alt="Seed"
-            boxSize="1rem"
+            boxSize={mobile ? '1.5rem' : '1rem'}
           />
-          <Text color="#FFF" lineHeight={2} fontSize="xs" fontWeight="bold">
+          <Text
+            color="#FFF"
+            lineHeight={2}
+            fontSize={mobile ? 'sm' : 'xs'}
+            fontWeight="bold"
+          >
             {parseInt(
               amountToDecimal(pSeedBalance || '0', 18),
               10,
