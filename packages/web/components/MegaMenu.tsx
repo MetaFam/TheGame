@@ -323,7 +323,7 @@ export type SearchOption = {
   label: string;
 };
 
-const SeeAllComponent = ({
+const SeeAllResultsComponent = ({
   text,
   handleClick,
 }: {
@@ -337,10 +337,52 @@ const SeeAllComponent = ({
   </Box>
 );
 
-const LabelComponent = ({ text }: { text: string }) => (
+const MainHeadingComponent = ({ text }: { text: string }) => (
   <Text fontWeight="bold" color="black">
     {text}
   </Text>
+);
+
+const optionsEqualToLimit = (len: number) => len === 3;
+
+const AddSeeAllResultsOption = (
+  options: Array<{ label: JSX.Element; value: string }>,
+  text: string,
+  input: string,
+) => {
+  const router = useRouter();
+
+  return [
+    ...options,
+    {
+      label: (
+        <SeeAllResultsComponent
+          text={text}
+          handleClick={() =>
+            router.push(`/search/players?q=${encodeURI(input)}`)
+          }
+        />
+      ),
+      value: '',
+    },
+  ];
+};
+
+const MenuOptionLabel = ({
+  handleClick,
+  name,
+  imgSrc,
+  text,
+}: {
+  handleClick: () => void;
+  name: string;
+  imgSrc?: string;
+  text: string;
+}) => (
+  <Flex align="center" onClick={handleClick}>
+    <Avatar name={name} src={imgSrc} w="20px" h="20px" />
+    <Text ml="2">{text}</Text>
+  </Flex>
 );
 
 const Search = () => {
@@ -355,18 +397,12 @@ const Search = () => {
 
       let mappedPlayersOptions = players.map((player) => ({
         label: (
-          <Flex
-            align="center"
-            onClick={() => router.push(`/player/${player.username}`)}
-          >
-            <Avatar
-              name={getPlayerName(player)}
-              src={getPlayerImage(player)}
-              w="20px"
-              h="20px"
-            />
-            <Text ml="2">{player.username}</Text>
-          </Flex>
+          <MenuOptionLabel
+            handleClick={() => router.push(`/player/${player.username}`)}
+            name={getPlayerName(player)}
+            imgSrc={getPlayerImage(player)}
+            text={player.username}
+          />
         ),
         value: player.username,
       }));
@@ -374,66 +410,38 @@ const Search = () => {
       let mappedGuildsOptions = guilds.map((guild) => ({
         value: guild.guildname,
         label: (
-          <Flex
-            align="center"
-            onClick={() => router.push(`/guild/${guild.guildname}`)}
-          >
-            <Avatar
-              name={guild.guildname}
-              src={guild?.logo as string | undefined}
-              w="20px"
-              h="20px"
-            />
-            <Text ml="2">{guild.guildname}</Text>
-          </Flex>
+          <MenuOptionLabel
+            handleClick={() => router.push(`/guild/${guild.guildname}`)}
+            name={guild.guildname}
+            imgSrc={guild?.logo as string | undefined}
+            text={guild.guildname}
+          />
         ),
       }));
 
-      if (mappedPlayersOptions.length === 3) {
-        mappedPlayersOptions = [
-          ...mappedPlayersOptions,
-          {
-            label: (
-              <SeeAllComponent
-                text="players"
-                handleClick={() =>
-                  router.push(
-                    `/search/players?q=${encodeURI(realtimeInput.current)}`,
-                  )
-                }
-              />
-            ),
-            value: '',
-          },
-        ];
+      if (optionsEqualToLimit(mappedPlayersOptions.length)) {
+        mappedPlayersOptions = AddSeeAllResultsOption(
+          mappedPlayersOptions,
+          'players',
+          realtimeInput.current,
+        );
       }
 
-      if (mappedGuildsOptions.length === 3) {
-        mappedGuildsOptions = [
-          ...mappedGuildsOptions,
-          {
-            label: (
-              <SeeAllComponent
-                text="guilds"
-                handleClick={() =>
-                  router.push(
-                    `/search/guilds?q=${encodeURI(realtimeInput.current)}`,
-                  )
-                }
-              />
-            ),
-            value: '',
-          },
-        ];
+      if (optionsEqualToLimit(mappedGuildsOptions.length)) {
+        mappedGuildsOptions = AddSeeAllResultsOption(
+          mappedGuildsOptions,
+          'guilds',
+          realtimeInput.current,
+        );
       }
 
       return [
         {
-          label: <LabelComponent text="Players" />,
+          label: <MainHeadingComponent text="Players" />,
           options: mappedPlayersOptions,
         },
         {
-          label: <LabelComponent text="Guilds" />,
+          label: <MainHeadingComponent text="Guilds" />,
           options: mappedGuildsOptions,
         },
       ];
