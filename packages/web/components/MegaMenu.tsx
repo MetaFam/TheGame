@@ -348,25 +348,14 @@ const optionsEqualToLimit = (len: number) => len === 3;
 const AddSeeAllResultsOption = (
   options: Array<{ label: JSX.Element; value: string }>,
   text: string,
-  input: string,
-) => {
-  const router = useRouter();
-
-  return [
-    ...options,
-    {
-      label: (
-        <SeeAllResultsComponent
-          text={text}
-          handleClick={() =>
-            router.push(`/search/players?q=${encodeURI(input)}`)
-          }
-        />
-      ),
-      value: '',
-    },
-  ];
-};
+  handleClick: () => void,
+) => [
+  ...options,
+  {
+    label: <SeeAllResultsComponent text={text} handleClick={handleClick} />,
+    value: '',
+  },
+];
 
 const MenuOptionLabel = ({
   handleClick,
@@ -386,7 +375,7 @@ const MenuOptionLabel = ({
 );
 
 const Search = () => {
-  const [inputValue, setValue] = React.useState('');
+  const [inputValue, setValue] = React.useState<string>('');
   const realtimeInput = React.useRef('');
   const router = useRouter();
 
@@ -408,7 +397,6 @@ const Search = () => {
       }));
 
       let mappedGuildsOptions = guilds.map((guild) => ({
-        value: guild.guildname,
         label: (
           <MenuOptionLabel
             handleClick={() => router.push(`/guild/${guild.guildname}`)}
@@ -417,21 +405,29 @@ const Search = () => {
             text={guild.guildname}
           />
         ),
+        value: guild.guildname,
       }));
 
+      // If Number of Options are equal to Limit (3) add See All Results Option
       if (optionsEqualToLimit(mappedPlayersOptions.length)) {
+        const handleClickSeeAllPlayers = () =>
+          router.push(`/search/players?q=${encodeURI(realtimeInput.current)}`);
+
         mappedPlayersOptions = AddSeeAllResultsOption(
           mappedPlayersOptions,
           'players',
-          realtimeInput.current,
+          handleClickSeeAllPlayers,
         );
       }
 
       if (optionsEqualToLimit(mappedGuildsOptions.length)) {
+        const handleClickSeeAllGuilds = () =>
+          router.push(`/search/quilds?q=${encodeURI(realtimeInput.current)}`);
+
         mappedGuildsOptions = AddSeeAllResultsOption(
           mappedGuildsOptions,
           'guilds',
-          realtimeInput.current,
+          handleClickSeeAllGuilds,
         );
       }
 
@@ -453,6 +449,7 @@ const Search = () => {
   );
   const handleSubmit = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
+    // Default Show Players Matching With Query
     router.push(`/search/players?q=${inputValue}`);
   };
 
