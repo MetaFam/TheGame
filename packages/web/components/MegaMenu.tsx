@@ -2,6 +2,7 @@ import {
   Avatar,
   Badge,
   Box,
+  // BoxedNextImage,
   Button,
   ChevronDownIcon,
   ChevronUpIcon,
@@ -56,6 +57,7 @@ import { usePSeedBalance } from 'lib/hooks/balances';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import React, { useCallback } from 'react';
+// import { components } from 'react-select';
 import AsyncSelect from 'react-select/async';
 import { useDebouncedCallback } from 'use-debounce';
 import { getPlayerImage, getPlayerName } from 'utils/playerHelpers';
@@ -321,21 +323,26 @@ export type SearchOption = {
   label: string;
 };
 
-// const Control = (props: any) => ({ children, ...rest }: any) => (
-//   <components.Control {...rest}>👍 {children}</components.Control>
-// );
 const SeeAllComponent = ({
   text,
   handleClick,
 }: {
   text: string;
-  handleClick: any;
+  handleClick: () => void;
 }) => (
   <Box onClick={handleClick}>
-    <Text ml="2">See all {text}</Text>
+    <Text ml="2" color="#E839B7">
+      See all {text}
+    </Text>
   </Box>
 );
-// Search -- not working yet
+
+const LabelComponent = ({ text }: { text: string }) => (
+  <Text fontWeight="bold" color="black">
+    {text}
+  </Text>
+);
+
 const Search = () => {
   const [inputValue, setValue] = React.useState('');
   const realtimeInput = React.useRef('');
@@ -423,11 +430,11 @@ const Search = () => {
 
       return [
         {
-          label: 'Players',
+          label: <LabelComponent text="Players" />,
           options: mappedPlayersOptions,
         },
         {
-          label: 'Guilds',
+          label: <LabelComponent text="Guilds" />,
           options: mappedGuildsOptions,
         },
       ];
@@ -453,8 +460,18 @@ const Search = () => {
 
   return (
     <Flex alignItems="center" minWidth="40">
-      <form onSubmit={handleSubmit} style={{ width: '100%', color: 'black' }}>
+      <form
+        onSubmit={handleSubmit}
+        style={{ width: '100%', color: 'black', cursor: 'pointer' }}
+      >
         <AsyncSelect
+          styles={{
+            menu: (provided, _) => ({
+              ...provided,
+              cursor: 'pointer',
+              minWidth: 'fit-content',
+            }),
+          }}
           components={{
             DropdownIndicator: () => null,
             IndicatorSeparator: () => null,
@@ -473,6 +490,7 @@ const Search = () => {
           }}
           cacheOptions
           noOptionsMessage={() => null}
+          cursor="pointer"
           // defaultOptions
           value={selectedValue}
           getOptionLabel={(e: { label: string }) => e.label}
