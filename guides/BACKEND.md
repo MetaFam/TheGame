@@ -82,7 +82,7 @@ backend_1   | @metafam/backend: [0] Listening on port 4000
 After which you can run:
 
 ```bash
-yarn hasura:seed-local-db
+yarn hasura:seed-db
 ```
 
 Which populates it with testing data.

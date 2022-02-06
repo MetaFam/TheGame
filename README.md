@@ -105,7 +105,7 @@ are running you have two options to populate the database:
 1. Populate the database with the production dataset:
 
 ```shell script
-yarn hasura:seed-local-db
+yarn hasura:seed-db
 ```
 
 2. Populate the database with the initial dataset:
