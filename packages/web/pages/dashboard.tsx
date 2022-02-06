@@ -4,9 +4,9 @@ import 'react-resizable/css/styles.css';
 import {
   Box,
   ButtonGroup,
-  DeleteIcon,
   EditIcon,
   MetaButton,
+  RepeatClockIcon,
 } from '@metafam/ds';
 import { PageContainer } from 'components/Container';
 import { Calendar } from 'components/Dashboard/Calendar';
@@ -110,7 +110,7 @@ export const Grid = (): ReactElement => {
       >
         {(changed || ownLayout) && editable && (
           <MetaButton
-            aria-label="Edit layout"
+            aria-label="Reset to default"
             colorScheme="purple"
             textTransform="uppercase"
             px={12}
@@ -120,9 +120,9 @@ export const Grid = (): ReactElement => {
             bg="transparent"
             color="purple.400"
             onClick={handleReset}
-            leftIcon={<DeleteIcon />}
+            leftIcon={<RepeatClockIcon />}
           >
-            Reset
+            Reset to default
           </MetaButton>
         )}
         <MetaButton
