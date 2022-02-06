@@ -16,12 +16,11 @@ import {
 import { PageContainer } from 'components/Container';
 import {
   ALL_BOXES,
-  DEFAULT_BOXES,
-  DEFAULT_PLAYER_LAYOUTS,
-  getBoxLayoutItemDefaults,
+  DEFAULT_PLAYER_LAYOUT_DATA,
   GRID_ROW_HEIGHT,
   gridConfig,
   MULTIPLE_ALLOWED_BOXES,
+  ProfileLayoutData,
 } from 'components/Player/Section/config';
 import { PlayerAddSection } from 'components/Player/Section/PlayerAddSection';
 import { PlayerSection } from 'components/Profile/PlayerSection';
@@ -50,12 +49,16 @@ import {
   useState,
 } from 'react';
 import { Layout, Layouts, Responsive, WidthProvider } from 'react-grid-layout';
+import { BoxMetadata, BoxType, getBoxKey } from 'utils/boxTypes';
 import {
-  BoxMetadata,
-  BoxType,
-  getBoxKey,
-  getBoxTypeFromKey,
-} from 'utils/boxTypes';
+  addBoxToLayouts,
+  disableAddBoxInLayoutData,
+  enableAddBoxInLayoutData,
+  isSameLayouts,
+  makeLayouts,
+  onRemoveBoxFromLayouts,
+  updateHeightsInLayouts,
+} from 'utils/layoutHelpers';
 import {
   getPlayerBannerFull,
   getPlayerDescription,
@@ -105,81 +108,8 @@ export const PlayerPage: React.FC<Props> = ({
 
 export default PlayerPage;
 
-const onRemoveBoxFromLayouts = (boxKey: string, layouts: Layouts): Layouts =>
-  Object.fromEntries(
-    Object.entries(layouts).map(([key, items]) => [
-      key,
-      items.filter((item) => item.i !== boxKey),
-    ]),
-  );
-
-const addBoxToLayouts = (
-  boxType: BoxType,
-  boxMetadata: BoxMetadata,
-  layouts: Layouts,
-): Layouts =>
-  Object.fromEntries(
-    Object.entries(layouts).map(([key, items]) => {
-      const heroItem = items.find(
-        (item) => item.i === getBoxKey(BoxType.PLAYER_HERO, {}),
-      );
-      return [
-        key,
-        [
-          ...items,
-          {
-            ...getBoxLayoutItemDefaults(boxType),
-            x: 0,
-            y: heroItem ? heroItem.y + heroItem.h : 0,
-            i: getBoxKey(boxType, boxMetadata),
-          },
-        ],
-      ];
-    }),
-  );
-
-const HEIGHT_MODIFIER = 0.57; // not sure why 0.57 but for some reason it works!
-
-const updateHeightsInLayouts = (
-  layouts: Layouts,
-  heights: { [boxKey: string]: number },
-): Layouts =>
-  Object.fromEntries(
-    Object.entries(layouts).map(([key, items]) => [
-      key,
-      items.map((item) => {
-        const itemHeight =
-          (HEIGHT_MODIFIER * (heights[item.i] || 0)) / GRID_ROW_HEIGHT;
-        const boxType = getBoxTypeFromKey(item.i);
-        return boxType === BoxType.PLAYER_ADD_BOX
-          ? item
-          : {
-              ...item,
-              h: itemHeight >= 1 ? itemHeight : 1,
-            };
-      }),
-    ]),
-  );
-
 const getBoxKeyFromTarget = (target: HTMLElement | null): string =>
   (target?.offsetParent as HTMLElement)?.offsetParent?.id ?? '';
-
-type LayoutItem = {
-  boxKey: string;
-  boxType: BoxType;
-  boxMetadata: BoxMetadata;
-};
-
-const DEFAULT_LAYOUT_ITEMS = DEFAULT_BOXES.map((boxType) => ({
-  boxType,
-  boxMetadata: {},
-  boxKey: getBoxKey(boxType, {}),
-}));
-
-type ProfileLayoutData = {
-  layoutItems: LayoutItem[];
-  layouts: Layouts;
-};
 
 const useItemHeights = (items: HTMLElement[]): { [boxKey: string]: number } => {
   const [heights, setHeights] = useState<{ [boxKey: string]: number }>({});
@@ -251,17 +181,18 @@ export const Grid: React.FC<Props> = ({
     () =>
       player?.profileLayout
         ? JSON.parse(player.profileLayout)
-        : {
-            layouts: DEFAULT_PLAYER_LAYOUTS,
-            layoutItems: DEFAULT_LAYOUT_ITEMS,
-          },
+        : DEFAULT_PLAYER_LAYOUT_DATA,
     [player?.profileLayout],
   );
 
-  const [
-    { layoutItems: currentLayoutItems, layouts: currentLayouts },
-    setCurrentLayoutData,
-  ] = useState<ProfileLayoutData>(savedLayoutData);
+  const [currentLayoutData, setCurrentLayoutData] = useState<ProfileLayoutData>(
+    savedLayoutData,
+  );
+
+  const {
+    layoutItems: currentLayoutItems,
+    layouts: currentLayouts,
+  } = currentLayoutData;
 
   const itemsRef = useRef<HTMLElement[]>([]);
 
@@ -291,11 +222,13 @@ export const Grid: React.FC<Props> = ({
   }, [savedLayoutData]);
 
   const handleDefault = useCallback(() => {
-    setCurrentLayoutData({
-      layouts: DEFAULT_PLAYER_LAYOUTS,
-      layoutItems: DEFAULT_LAYOUT_ITEMS,
-    });
+    setCurrentLayoutData(enableAddBoxInLayoutData(DEFAULT_PLAYER_LAYOUT_DATA));
   }, []);
+
+  const isDefaultLayout = useMemo(
+    () => isSameLayouts(DEFAULT_PLAYER_LAYOUT_DATA, currentLayoutData),
+    [currentLayoutData],
+  );
 
   const persistLayoutData = useCallback(
     async (layoutData: ProfileLayoutData) => {
@@ -325,33 +258,13 @@ export const Grid: React.FC<Props> = ({
 
   const toggleEditLayout = useCallback(async () => {
     if (canEdit) {
-      const layoutData = {
-        layouts: onRemoveBoxFromLayouts(
-          getBoxKey(BoxType.PLAYER_ADD_BOX, {}),
-          currentLayouts,
-        ),
-        layoutItems: currentLayoutItems.filter(
-          (item) => item.boxType !== BoxType.PLAYER_ADD_BOX,
-        ),
-      };
-      await persistLayoutData(layoutData);
+      await persistLayoutData(disableAddBoxInLayoutData(currentLayoutData));
     } else {
-      const layoutData = {
-        layouts: addBoxToLayouts(BoxType.PLAYER_ADD_BOX, {}, currentLayouts),
-        layoutItems: [
-          ...currentLayoutItems,
-          {
-            boxType: BoxType.PLAYER_ADD_BOX,
-            boxMetadata: {},
-            boxKey: getBoxKey(BoxType.PLAYER_ADD_BOX, {}),
-          },
-        ],
-      };
-      setCurrentLayoutData(layoutData);
+      setCurrentLayoutData(enableAddBoxInLayoutData(currentLayoutData));
     }
     setCanEdit(!canEdit);
     setChanged(false);
-  }, [canEdit, currentLayouts, currentLayoutItems, persistLayoutData]);
+  }, [canEdit, currentLayoutData, persistLayoutData]);
 
   const handleLayoutChange = useCallback(
     (_layoutItems: Layout[], layouts: Layouts) => {
@@ -443,7 +356,7 @@ export const Grid: React.FC<Props> = ({
               Cancel
             </MetaButton>
           )}
-          {changed && canEdit && (
+          {changed && canEdit && !isDefaultLayout && (
             <MetaButton
               aria-label="Reset to default"
               _hover={{ background: 'purple.600' }}

@@ -1,6 +1,17 @@
 import { Layout, Layouts } from 'react-grid-layout';
 import { BoxMetadata, BoxType, getBoxKey } from 'utils/boxTypes';
 
+export type LayoutItem = {
+  boxKey: string;
+  boxType: BoxType;
+  boxMetadata: BoxMetadata;
+};
+
+export type ProfileLayoutData = {
+  layoutItems: LayoutItem[];
+  layouts: Layouts;
+};
+
 export const GRID_ROW_HEIGHT = 32;
 
 export const ALL_BOXES = [
@@ -18,16 +29,6 @@ export const ALL_BOXES = [
 ];
 
 export const MULTIPLE_ALLOWED_BOXES = [BoxType.EMBEDDED_URL];
-
-export const DEFAULT_BOXES = [
-  BoxType.PLAYER_HERO,
-  BoxType.PLAYER_SKILLS,
-  // BoxType.PLAYER_COLOR_DISPOSITION,
-  BoxType.PLAYER_TYPE,
-  BoxType.PLAYER_NFT_GALLERY,
-  BoxType.PLAYER_DAO_MEMBERSHIPS,
-  BoxType.PLAYER_COMPLETED_QUESTS,
-];
 
 export type LayoutMetadata = {
   [key: string]: {
@@ -145,10 +146,20 @@ export const getBoxLayoutItemDefaults = (boxId: BoxType): Layout => {
   }
 };
 
+const DEFAULT_BOXES = [
+  BoxType.PLAYER_HERO,
+  BoxType.PLAYER_SKILLS,
+  BoxType.PLAYER_NFT_GALLERY,
+  BoxType.PLAYER_DAO_MEMBERSHIPS,
+  BoxType.PLAYER_COLOR_DISPOSITION,
+  // Adding default boxes MUST be accompanied by adding default box positions as well
+];
+
 const DEFAULT_BOX_POSITIONS_LG: {
   [boxType: string]: { x: number; y: number };
 } = {
   [BoxType.PLAYER_HERO]: { x: 0, y: 0 },
+  [BoxType.PLAYER_COLOR_DISPOSITION]: { x: 0, y: 7 },
   [BoxType.PLAYER_DAO_MEMBERSHIPS]: { x: 1, y: 0 },
   [BoxType.PLAYER_SKILLS]: { x: 1, y: 9 },
   [BoxType.PLAYER_NFT_GALLERY]: { x: 2, y: 0 },
@@ -157,6 +168,7 @@ const DEFAULT_BOX_POSITIONS_MD: {
   [boxType: string]: { x: number; y: number };
 } = {
   [BoxType.PLAYER_HERO]: { x: 0, y: 0 },
+  [BoxType.PLAYER_COLOR_DISPOSITION]: { x: 0, y: 5 },
   [BoxType.PLAYER_NFT_GALLERY]: { x: 0, y: 7 },
   [BoxType.PLAYER_DAO_MEMBERSHIPS]: { x: 1, y: 0 },
   [BoxType.PLAYER_SKILLS]: { x: 1, y: 9 },
@@ -165,12 +177,14 @@ const DEFAULT_BOX_POSITIONS_SM: {
   [boxType: string]: { x: number; y: number };
 } = {
   [BoxType.PLAYER_HERO]: { x: 0, y: 0 },
+  [BoxType.PLAYER_COLOR_DISPOSITION]: { x: 0, y: 5 },
   [BoxType.PLAYER_DAO_MEMBERSHIPS]: { x: 0, y: 7 },
   [BoxType.PLAYER_SKILLS]: { x: 0, y: 15 },
   [BoxType.PLAYER_NFT_GALLERY]: { x: 0, y: 20 },
+  [BoxType.PLAYER_COLOR_DISPOSITION]: { x: 2, y: 9 },
 };
 
-export const DEFAULT_PLAYER_LAYOUTS: Layouts = {
+const DEFAULT_PLAYER_LAYOUTS: Layouts = {
   lg: DEFAULT_BOXES.map((boxType) => ({
     ...getBoxLayoutItemDefaults(boxType),
     ...DEFAULT_BOX_POSITIONS_LG[boxType],
@@ -183,6 +197,17 @@ export const DEFAULT_PLAYER_LAYOUTS: Layouts = {
     ...getBoxLayoutItemDefaults(boxType),
     ...DEFAULT_BOX_POSITIONS_SM[boxType],
   })),
+};
+
+const DEFAULT_LAYOUT_ITEMS = DEFAULT_BOXES.map((boxType) => ({
+  boxType,
+  boxMetadata: {},
+  boxKey: getBoxKey(boxType, {}),
+}));
+
+export const DEFAULT_PLAYER_LAYOUT_DATA = {
+  layouts: DEFAULT_PLAYER_LAYOUTS,
+  layoutItems: DEFAULT_LAYOUT_ITEMS,
 };
 
 export const gridConfig = {
