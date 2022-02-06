@@ -14,13 +14,11 @@ import { MorePlayers } from '../community/players';
 const PlayerSearchPage = () => {
   const {
     players,
-    aggregates,
     fetching,
     fetchingMore,
     error,
     queryVariables,
     setQueryVariable,
-    resetFilter,
     totalCount,
     nextPage,
     moreAvailable,
