@@ -7,11 +7,11 @@ const PRODUCTION_GRAPHQL_URL = (
   process.env.PRODUCTION_GRAPHQL_URL
   || 'https://api.metagame.wtf/v1/graphql'
 );
-const LOCAL_GRAPHQL_URL = (
-  process.env.LOCAL_GRAPHQL_URL || 'http://localhost:8080/v1/graphql'
+const SOURCE_GRAPHQL_URL = (
+  process.env.SOURCE_GRAPHQL_URL || 'http://localhost:8080/v1/graphql'
 );
-const LOCAL_BACKEND_ACCOUNT_MIGRATION_URL = (
-  process.env.LOCAL_BACKEND_ACCOUNT_MIGRATION_URL
+const ACCOUNT_MIGRATION_URL = (
+  process.env.ACCOUNT_MIGRATION_URL
   || 'http://localhost:4000/actions/migrateSourceCredAccounts?force=true'
 );
 const HASURA_GRAPHQL_ADMIN_SECRET = (
@@ -106,7 +106,7 @@ const getPlayerIdsAndSkillsQuery = /* GraphQL */`
 
 async function fetchPlayerIdsAndSkills(addresses) {
   const { errors, data } = await fetchGraphQL(
-    LOCAL_GRAPHQL_URL,
+    SOURCE_GRAPHQL_URL,
     getPlayerIdsAndSkillsQuery,
     'GetPlayerIds',
     { addresses },
@@ -134,7 +134,7 @@ const deleteSkillsMutation = /* GraphQL */`
 
 async function deleteSkills() {
   const { errors } = await fetchGraphQL(
-    LOCAL_GRAPHQL_URL,
+    SOURCE_GRAPHQL_URL,
     deleteSkillsMutation,
     'DeleteSkills',
     {},
@@ -200,7 +200,7 @@ const upsertPlayerMutation = /* GraphQL */`
 
 async function upsertPlayer(variables) {
   const { errors, data } = await fetchGraphQL(
-    LOCAL_GRAPHQL_URL,
+    SOURCE_GRAPHQL_URL,
     upsertPlayerMutation,
     'UpsertPlayer',
     variables,
@@ -228,7 +228,7 @@ function getSkillId(skills, { Skill: { category, name } }) {
 }
 
 async function forceMigrateAccounts() {
-  const result = await fetch(LOCAL_BACKEND_ACCOUNT_MIGRATION_URL, {
+  const result = await fetch(ACCOUNT_MIGRATION_URL, {
     method: 'POST',
   });
   const json = await result.json();
@@ -236,13 +236,13 @@ async function forceMigrateAccounts() {
 }
 
 async function startSeeding() {
-  console.debug(`Force migrating sourcecred users with: ${LOCAL_BACKEND_ACCOUNT_MIGRATION_URL}`);
+  console.debug(`Force migrating sourcecred users with: ${ACCOUNT_MIGRATION_URL}`);
   const result = await forceMigrateAccounts();
   console.debug(result);
   console.debug(`Fetching players from: ${PRODUCTION_GRAPHQL_URL}`);
   const players = await fetchTopPlayers();
   const addresses = players.map(({ ethereum_address }) => ethereum_address);
-  console.debug(`Fetching player ids for players from ${LOCAL_GRAPHQL_URL} for ${addresses.length} addresses`);
+  console.debug(`Fetching player ids for players from ${SOURCE_GRAPHQL_URL} for ${addresses.length} addresses`);
   const { ids, skills } = await fetchPlayerIdsAndSkills(addresses);
   console.debug(`Fetched ${Object.keys(ids).length} player ids for players from addresses.`);
   const mutations = (
@@ -271,7 +271,7 @@ async function startSeeding() {
     .filter(m => !!m)
   );
   console.debug(
-    `Updating ${mutations.length} players information in ${LOCAL_GRAPHQL_URL}`,
+    `Updating ${mutations.length} players information in ${SOURCE_GRAPHQL_URL}`,
   );
   await deleteSkills();
   const limiter = new Bottleneck({
@@ -284,7 +284,7 @@ async function startSeeding() {
       return limiter.schedule(() => upsertPlayer(variables))
     }
   ));
-  console.debug(`Successfully seeded local db with ${updated.length} players`);
+  console.debug(`Successfully seeded db with ${updated.length} players`);
 }
 
 startSeeding()
