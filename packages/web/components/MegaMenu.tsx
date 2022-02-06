@@ -346,7 +346,6 @@ const LabelComponent = ({ text }: { text: string }) => (
 const Search = () => {
   const [inputValue, setValue] = React.useState('');
   const realtimeInput = React.useRef('');
-  const [selectedValue, setSelectedValue] = React.useState<any>('');
   const router = useRouter();
 
   const debounced = useDebouncedCallback(
@@ -453,17 +452,14 @@ const Search = () => {
     setValue(value);
   };
 
-  // handle selection
+  // // handle selection
   const handleChange = () => {
-    setSelectedValue('');
+    setValue('');
   };
 
   return (
     <Flex alignItems="center" minWidth="40">
-      <form
-        onSubmit={handleSubmit}
-        style={{ width: '100%', color: 'black', cursor: 'pointer' }}
-      >
+      <form onSubmit={handleSubmit} style={{ width: '100%', color: 'black' }}>
         <AsyncSelect
           styles={{
             menu: (provided, _) => ({
@@ -491,7 +487,6 @@ const Search = () => {
           cacheOptions
           noOptionsMessage={() => null}
           // defaultOptions
-          value={selectedValue}
           getOptionLabel={(e: { label: string }) => e.label}
           getOptionValue={(e: { label: string }) => e.label}
           loadOptions={(val: string) => {
