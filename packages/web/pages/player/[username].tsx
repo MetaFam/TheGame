@@ -5,6 +5,7 @@ import {
   Box,
   ButtonGroup,
   CloseIcon,
+  ConfirmModal,
   EditIcon,
   Flex,
   LoadingState,
@@ -153,6 +154,8 @@ export const Grid: React.FC<Props> = ({
   const { user, fetching } = useUser();
   const { connected } = useWeb3();
   const [player, setPlayer] = useState(initPlayer);
+  const [exitAlertCancel, setExitAlertCancel] = useState<boolean>(false);
+  const [exitAlertReset, setExitAlertReset] = useState<boolean>(false);
 
   useEffect(() => {
     if (!fetching && user?.player && user?.id === player?.id) {
@@ -219,10 +222,12 @@ export const Grid: React.FC<Props> = ({
   const handleCancel = useCallback(() => {
     setCurrentLayoutData(savedLayoutData);
     setCanEdit(false);
+    setExitAlertCancel(false);
   }, [savedLayoutData]);
 
   const handleReset = useCallback(() => {
     setCurrentLayoutData(enableAddBoxInLayoutData(DEFAULT_PLAYER_LAYOUT_DATA));
+    setExitAlertReset(false);
   }, []);
 
   const isDefaultLayout = useMemo(
@@ -343,18 +348,18 @@ export const Grid: React.FC<Props> = ({
         >
           {changed && canEdit && !isDefaultLayout && (
             <MetaButton
-              aria-label="Reset to default"
+              aria-label="Reset"
               _hover={{ background: 'purple.600' }}
               textTransform="uppercase"
               px={12}
               letterSpacing="0.1em"
               size="lg"
               fontSize="sm"
-              onClick={handleReset}
+              onClick={() => setExitAlertReset(true)}
               leftIcon={<RepeatClockIcon />}
               whiteSpace="pre-wrap"
             >
-              Reset to default
+              Reset
             </MetaButton>
           )}
           {changed && canEdit && (
@@ -366,12 +371,26 @@ export const Grid: React.FC<Props> = ({
               letterSpacing="0.1em"
               size="lg"
               fontSize="sm"
-              onClick={handleCancel}
+              onClick={() => setExitAlertCancel(true)}
               leftIcon={<CloseIcon />}
             >
               Cancel
             </MetaButton>
           )}
+
+          <ConfirmModal
+            isOpen={exitAlertReset}
+            onNope={() => setExitAlertReset(false)}
+            onYep={handleReset}
+            header="Are you sure you want to reset the layout to default?"
+          />
+          <ConfirmModal
+            isOpen={exitAlertCancel}
+            onNope={() => setExitAlertCancel(false)}
+            onYep={handleCancel}
+            header="Are you sure you want to cancel editing the layout?"
+          />
+
           <MetaButton
             aria-label="Edit layout"
             borderColor="transparent"

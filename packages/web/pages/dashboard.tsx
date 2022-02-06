@@ -4,6 +4,7 @@ import 'react-resizable/css/styles.css';
 import {
   Box,
   ButtonGroup,
+  ConfirmModal,
   EditIcon,
   MetaButton,
   RepeatClockIcon,
@@ -63,6 +64,7 @@ export const Grid = (): ReactElement => {
     layouts: {},
   });
   const [editable, setEditable] = useState(false);
+  const [exitAlert, setExitAlert] = useState<boolean>(false);
 
   const toggleEditLayout = () => setEditable(!editable);
 
@@ -91,6 +93,7 @@ export const Grid = (): ReactElement => {
       setChanged(false);
       resetLayouts();
     }, 300);
+    setExitAlert(false);
   }
 
   return (
@@ -110,7 +113,7 @@ export const Grid = (): ReactElement => {
       >
         {(changed || ownLayout) && editable && (
           <MetaButton
-            aria-label="Reset to default"
+            aria-label="Reset"
             colorScheme="purple"
             textTransform="uppercase"
             px={12}
@@ -122,9 +125,15 @@ export const Grid = (): ReactElement => {
             onClick={handleReset}
             leftIcon={<RepeatClockIcon />}
           >
-            Reset to default
+            Reset
           </MetaButton>
         )}
+        <ConfirmModal
+          isOpen={exitAlert}
+          onNope={() => setExitAlert(false)}
+          onYep={handleReset}
+          header="Are you sure you want to reset the layout to default?"
+        />
         <MetaButton
           aria-label="Edit layout"
           borderColor="transparent"
