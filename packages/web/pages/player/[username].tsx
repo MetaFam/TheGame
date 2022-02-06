@@ -4,7 +4,7 @@ import 'react-resizable/css/styles.css';
 import {
   Box,
   ButtonGroup,
-  DeleteIcon,
+  CloseIcon,
   EditIcon,
   Flex,
   LoadingState,
@@ -221,7 +221,7 @@ export const Grid: React.FC<Props> = ({
     setCanEdit(false);
   }, [savedLayoutData]);
 
-  const handleDefault = useCallback(() => {
+  const handleReset = useCallback(() => {
     setCurrentLayoutData(enableAddBoxInLayoutData(DEFAULT_PLAYER_LAYOUT_DATA));
   }, []);
 
@@ -341,6 +341,22 @@ export const Grid: React.FC<Props> = ({
           h="3rem"
           mb="1rem"
         >
+          {changed && canEdit && !isDefaultLayout && (
+            <MetaButton
+              aria-label="Reset to default"
+              _hover={{ background: 'purple.600' }}
+              textTransform="uppercase"
+              px={12}
+              letterSpacing="0.1em"
+              size="lg"
+              fontSize="sm"
+              onClick={handleReset}
+              leftIcon={<RepeatClockIcon />}
+              whiteSpace="pre-wrap"
+            >
+              Reset to default
+            </MetaButton>
+          )}
           {changed && canEdit && (
             <MetaButton
               aria-label="Cancel edit layout"
@@ -351,24 +367,9 @@ export const Grid: React.FC<Props> = ({
               size="lg"
               fontSize="sm"
               onClick={handleCancel}
-              leftIcon={<DeleteIcon />}
+              leftIcon={<CloseIcon />}
             >
               Cancel
-            </MetaButton>
-          )}
-          {changed && canEdit && !isDefaultLayout && (
-            <MetaButton
-              aria-label="Reset to default"
-              _hover={{ background: 'purple.600' }}
-              textTransform="uppercase"
-              px={12}
-              letterSpacing="0.1em"
-              size="lg"
-              fontSize="sm"
-              onClick={handleDefault}
-              leftIcon={<RepeatClockIcon />}
-            >
-              Reset to default
             </MetaButton>
           )}
           <MetaButton
