@@ -46,15 +46,32 @@ export const ConfirmModal: React.FC<Props> = ({
           {body && <AlertDialogBody>{body}</AlertDialogBody>}
 
           <AlertDialogFooter>
-            <MetaButton ref={cancelRef} onClick={onNope} isDisabled={loading}>
+            <MetaButton
+              ref={cancelRef}
+              onClick={onNope}
+              colorScheme="purple"
+              isDisabled={loading}
+              textTransform="uppercase"
+              letterSpacing="0.1em"
+              size="lg"
+              fontSize="sm"
+              color="white"
+              _hover={{ background: 'purple.600' }}
+            >
               Nope
             </MetaButton>
             <MetaButton
-              colorScheme="red"
               onClick={onYep}
+              colorScheme="purple"
               isLoading={loading}
               loadingText={loadingText}
               ml={3}
+              textTransform="uppercase"
+              letterSpacing="0.1em"
+              size="lg"
+              fontSize="sm"
+              color="white"
+              _hover={{ background: 'purple.600' }}
             >
               Yep
             </MetaButton>
