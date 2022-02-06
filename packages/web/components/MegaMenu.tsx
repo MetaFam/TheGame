@@ -346,7 +346,7 @@ const LabelComponent = ({ text }: { text: string }) => (
 const Search = () => {
   const [inputValue, setValue] = React.useState('');
   const realtimeInput = React.useRef('');
-  const [selectedValue, setSelectedValue] = React.useState<string>('');
+  const [selectedValue, setSelectedValue] = React.useState<any>('');
   const router = useRouter();
 
   const debounced = useDebouncedCallback(
@@ -490,11 +490,10 @@ const Search = () => {
           }}
           cacheOptions
           noOptionsMessage={() => null}
-          cursor="pointer"
           // defaultOptions
           value={selectedValue}
           getOptionLabel={(e: { label: string }) => e.label}
-          getOptionValue={(e: { value: string }) => e.value}
+          getOptionValue={(e: { label: string }) => e.label}
           loadOptions={(val: string) => {
             realtimeInput.current = val;
             return debounced();
@@ -502,7 +501,6 @@ const Search = () => {
           onInputChange={handleInputChange}
           onChange={handleChange}
           placeholder="Search Anything..."
-          h="40"
         />
       </form>
     </Flex>
