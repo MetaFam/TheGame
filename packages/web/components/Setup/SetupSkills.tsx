@@ -3,6 +3,7 @@ import {
   MetaButton,
   MetaHeading,
   MetaTheme,
+  ModalBody,
   ModalFooter,
   searchSelectStyles,
   SelectSearch,
@@ -132,7 +133,7 @@ export const SetupSkills: React.FC<SetupSkillsProps> = ({
     onNextPress();
   }, [save, onNextPress]);
 
-  return (
+  const setup = (
     <FlexContainer mb={8}>
       {isWizard && (
         <MetaHeading mb={5} textAlign="center">
@@ -151,31 +152,6 @@ export const SetupSkills: React.FC<SetupSkillsProps> = ({
           placeholder="Add Your Skills…"
         />
       </FlexContainer>
-      {isEdit && onClose && (
-        <ModalFooter mt={6}>
-          <MetaButton
-            mr={3}
-            isLoading={loading}
-            loadingText="Saving…"
-            onClick={async () => {
-              await save();
-              onClose();
-            }}
-          >
-            Save Changes
-          </MetaButton>
-          <Button
-            variant="ghost"
-            onClick={onClose}
-            color="white"
-            _hover={{ bg: '#FFFFFF11' }}
-            _active={{ bg: '#FF000011' }}
-            disabled={loading}
-          >
-            Close
-          </Button>
-        </ModalFooter>
-      )}
 
       {isWizard && (
         <MetaButton
@@ -188,5 +164,39 @@ export const SetupSkills: React.FC<SetupSkillsProps> = ({
         </MetaButton>
       )}
     </FlexContainer>
+  );
+  return isWizard ? (
+    setup
+  ) : (
+    <>
+      <ModalBody> {setup} </ModalBody>
+      {isEdit && onClose && (
+        <FlexContainer>
+          <ModalFooter py={6}>
+            <MetaButton
+              mr={3}
+              isLoading={loading}
+              loadingText="Saving…"
+              onClick={async () => {
+                await save();
+                onClose();
+              }}
+            >
+              Save Changes
+            </MetaButton>
+            <Button
+              variant="ghost"
+              onClick={onClose}
+              color="white"
+              _hover={{ bg: '#FFFFFF11' }}
+              _active={{ bg: '#FF000011' }}
+              disabled={loading}
+            >
+              Close
+            </Button>
+          </ModalFooter>
+        </FlexContainer>
+      )}
+    </>
   );
 };
