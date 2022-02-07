@@ -24,7 +24,6 @@ import { FlexContainer } from 'components/Container';
 import { EditProfileForm } from 'components/EditProfileForm';
 import { PlayerAvatar } from 'components/Player/PlayerAvatar';
 import { PlayerContacts } from 'components/Player/PlayerContacts';
-import { PlayerBrightId } from 'components/Player/Section/PlayerBrightId';
 import { PlayerHeroTile } from 'components/Player/Section/PlayerHeroTile';
 import { PlayerPronouns } from 'components/Player/Section/PlayerPronouns';
 import { ProfileSection } from 'components/Profile/ProfileSection';
@@ -154,7 +153,6 @@ export const PlayerHero: React.FC<Props> = ({
 
         <HStack mt={2}>
           <PlayerContacts {...{ player }} />
-          <PlayerBrightId {...{ player }} />
         </HStack>
 
         {person?.profile?.pronouns && <PlayerPronouns {...{ person }} />}

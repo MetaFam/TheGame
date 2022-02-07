@@ -1,10 +1,11 @@
-import { BrightIdIcon, Button, Tooltip, Wrap, WrapItem } from '@metafam/ds';
+import { Button, Tooltip, Wrap, WrapItem } from '@metafam/ds';
 import { PlayerFragmentFragment } from 'graphql/autogen/types';
-import { useBrightIdStatus } from 'lib/hooks/brightId';
 import { useCopyToClipboard } from 'lib/hooks/useCopyToClipboard';
 import React from 'react';
 import { FaEthereum, FaGithub, FaTwitter } from 'react-icons/fa';
 import { formatAddress } from 'utils/playerHelpers';
+
+import { PlayerBrightId } from './Section/PlayerBrightId';
 
 type Props = {
   player: PlayerFragmentFragment;
@@ -13,9 +14,8 @@ type Props = {
 
 export const PlayerContacts: React.FC<Props> = ({
   player,
-  disableBrightId = false,
+  disableBrightId = true, // TODO: enable after fixing issue #1068
 }) => {
-  const { verified } = useBrightIdStatus({ player });
   const [copied, handleCopy] = useCopyToClipboard();
   return (
     <Wrap>
@@ -87,18 +87,9 @@ export const PlayerContacts: React.FC<Props> = ({
           </Tooltip>
         </WrapItem>
       )}
-      {verified && !disableBrightId && (
+      {!disableBrightId && (
         <WrapItem>
-          <Tooltip label="Verified on BrightID" closeOnClick={false} hasArrow>
-            <Button
-              size="xs"
-              colorScheme="brightIdOrange"
-              leftIcon={<BrightIdIcon />}
-              color="white"
-            >
-              Verified
-            </Button>
-          </Tooltip>
+          <PlayerBrightId {...{ player }} />
         </WrapItem>
       )}
     </Wrap>
