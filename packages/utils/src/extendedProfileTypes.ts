@@ -2,9 +2,22 @@ import { BasicProfile, ImageSources } from '@datamodels/identity-profile-basic';
 
 export type Maybe<T> = T | null;
 export type Values<T> = T[keyof T];
+export type Optional<T> = T | undefined;
 
 export { BasicProfile };
 
+// The format of these object literals is:
+// <hasura key>: <ceramic key>
+//
+// Adding a new profile field would consist of
+// adding a new entry to the appropriate one of
+// these types, and then adding the appropriate
+// field to packages/utils/schema/extended-profile.json5.
+//
+// The script packages/utils/bin/create-model.mjs
+// would need to be updated to update the document
+// type rather than overwrite it, or existing profile
+// definitions would get lost.
 export const BasicProfileImages = {
   profileImageURL: 'image',
   bannerImageURL: 'background',
@@ -30,7 +43,6 @@ export const ExtendedProfileImages = {
 export const ExtendedProfileStrings = {
   username: 'username',
   pronouns: 'pronouns',
-  magicDisposition: 'magicDisposition',
   // B/c of the difficulty determining whether it is
   // daylight savings in a particular zone, only the
   // name is saved & the details are retrieved from
@@ -38,15 +50,32 @@ export const ExtendedProfileStrings = {
   timeZone: 'timeZone',
   explorerTypeTitle: 'explorerType',
 } as const;
+// Objects are handled specially in the save function.
+// There is a switch on the key and specific code for
+// setting each value.
 export const ExtendedProfileObjects = {
   availableHours: 'availableHours',
-  colorMask: 'colorDisposition',
+  colorMask: 'magicDisposition',
 } as const;
 export const ExtendedProfileFields = {
   ...ExtendedProfileImages,
   ...ExtendedProfileStrings,
   ...ExtendedProfileObjects,
 } as const;
+
+export const StringProfileFields = {
+  ...BasicProfileStrings,
+  ...ExtendedProfileStrings,
+} as const;
+
+export const AllProfileFields = {
+  ...BasicProfileFields,
+  ...ExtendedProfileFields,
+} as const;
+
+export const ReversedProfileFields = Object.fromEntries(
+  Object.entries(AllProfileFields).map(([k, v]) => [v, k]),
+);
 
 export type HasuraBPImages = {
   -readonly [key in keyof typeof BasicProfileImages]?: string;
@@ -67,18 +96,24 @@ export interface TitledDescription {
   description?: string;
 }
 export type EPObjects = {
-  availableHours?: number;
-  playerType?: TitledDescription;
+  availableHours?: Maybe<number>;
+  playerType?: Maybe<TitledDescription>;
 };
 
-export type HasuraEPObjects = {
-  availableHours?: number;
-  playerType?: TitledDescription;
-  colorMask?: number;
+export type HasuraEPObjects = EPObjects & {
+  colorMask?: Maybe<number>;
 };
 export type CeramicEPObjects = EPObjects & {
-  colorDisposition?: string;
+  magicDisposition?: Maybe<string>;
 };
+
+export type HasuraStringProps = HasuraBPStrings & HasuraEPStrings;
+export type HasuraImageSourcedProps = {
+  -readonly [key in keyof typeof BasicProfileImages]?: ImageSources;
+} &
+  {
+    -readonly [key in keyof typeof ExtendedProfileImages]?: ImageSources;
+  };
 
 export type HasuraProfileProps = HasuraBPImages &
   HasuraBPStrings &
@@ -102,6 +137,8 @@ export type CeramicEPStrings = {
 export type ExtendedProfile = CeramicEPImages &
   CeramicEPStrings &
   CeramicEPObjects;
+
+export type CeramicProfileProps = BasicProfile & ExtendedProfile;
 
 export type ProfileProps = CeramicBPImages &
   HasuraBPImages &

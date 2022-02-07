@@ -25,7 +25,7 @@ export const getMolochImage = (title: string) => {
   return ethereumImage;
 };
 
-const getHexChainId = (chain: string | undefined): string => {
+const getHexChainId = (chain?: string): string => {
   switch (chain?.toLowerCase()) {
     case 'xdai':
       return '0x64';
@@ -37,10 +37,7 @@ const getHexChainId = (chain: string | undefined): string => {
   }
 };
 
-export const getDaoLink = (
-  chain: string | undefined,
-  address: string | undefined,
-): string | null => {
+export const getDaoLink = (chain?: string, address?: string): string | null => {
   if (address && chain) {
     const hexChainId = getHexChainId(chain);
     address = address.toLowerCase(); // eslint-disable-line no-param-reassign

@@ -1,4 +1,4 @@
-export type HighLow7dType = {
+export type HighLowType = {
   high: string;
   low: string;
 };
@@ -6,23 +6,15 @@ export type HighLow7dType = {
 export function findHighLowPrice(
   days: Array<Array<number>>,
   range: number,
-): HighLow7dType {
-  const plots: Array<number> = [];
-
+): HighLowType {
   // we only want to get the last 7 of 30 days
   const lastWeek = days.slice(-range);
-  lastWeek.map((d) => {
-    const day: number = d[1];
-    return plots.push(day);
-  });
+  const plots = lastWeek.map((d) => d[1]);
 
   const high = Number(Math.max(...plots)).toFixed(2);
   const low = Number(Math.min(...plots)).toFixed(2);
 
-  return {
-    high,
-    low,
-  };
+  return { high, low };
 }
 
 export function volumeChange(

@@ -1,4 +1,3 @@
-import gql from 'fake-tag';
 import { Client } from 'urql';
 
 import {
@@ -19,7 +18,7 @@ import { client as defaultClient } from './client';
 import { QuestFragment } from './fragments';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-gql`
+/* GraphQL */ `
   query GetQuestIds($limit: Int) {
     quest(limit: $limit, order_by: { createdAt: desc }) {
       id
@@ -28,7 +27,7 @@ gql`
 `;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-gql`
+/* GraphQL */ `
   query GetQuests(
     $limit: Int
     $status: QuestStatus_enum
@@ -70,7 +69,7 @@ gql`
 `;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-gql`
+/* GraphQL */ `
   query GetQuestGuilds {
     quest_aggregate(distinct_on: guildId) {
       nodes {

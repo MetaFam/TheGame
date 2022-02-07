@@ -41,7 +41,9 @@ jobs:
             "Test instance deployment for PR #${{github.event.number}} \
             of ${{github.event.pull_request.head.label}} \
             by ${{github.event.pull_request.user.login}}"
-          ref: ${{github.event.pull_request.head.sha}}
+          # ref: ${{github.event.pull_request.head.sha}}
+          ref: ${{github.head_ref}}
+          no_override: false
 
   cancel-previous:
     name: Cancel Existing Runs

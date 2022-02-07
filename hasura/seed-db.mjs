@@ -231,8 +231,15 @@ async function forceMigrateAccounts() {
   const result = await fetch(ACCOUNT_MIGRATION_URL, {
     method: 'POST',
   });
-  const json = await result.json();
-  return json;
+
+  const body = await result.text();
+  try {
+    return JSON.parse(body);
+  } catch (err) {
+    console.error(`JSON Error: ${err.message}`);
+    console.error(body);
+    return { errors: [err.message] };
+  }
 }
 
 async function startSeeding() {

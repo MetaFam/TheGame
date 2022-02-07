@@ -1,3 +1,4 @@
+import { Maybe } from '@metafam/utils';
 import {
   Player,
   Player_Order_By,
@@ -13,8 +14,13 @@ import {
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { CategoryOption, parseSkills } from 'utils/skillHelpers';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type QueryVariableSetter = (key: string, value: any) => void;
+export type QueryVariableValue = Maybe<
+  SortOption | string | number | Array<string>
+>;
+export type QueryVariableSetter = (
+  key: string,
+  value?: QueryVariableValue,
+) => void;
 
 export type OptionType = { value: string; label: string };
 
@@ -135,8 +141,7 @@ export const usePlayerFilter = (
   const shouldAppend = useRef(false);
 
   const setQueryVariable: QueryVariableSetter = useCallback(
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (key: string, value: any) => {
+    (key: string, value?: QueryVariableValue) => {
       if (key === 'limit') {
         throw new Error('Cannot update limit');
       }
@@ -303,7 +308,7 @@ const usePrevious = <T>(value: T): T | undefined => {
 
 export const useAnimateProfileChanges = (
   depends: unknown,
-  updateFN: () => void,
+  updateFN?: () => void,
 ): { [key: string]: string } => {
   const [animation, setAnimation] = useState('fadeOut');
 
@@ -313,7 +318,7 @@ export const useAnimateProfileChanges = (
     if (JSON.stringify(previousValue) !== JSON.stringify(depends)) {
       setAnimation('fadeOut');
       setTimeout(() => {
-        updateFN();
+        if (updateFN) updateFN();
         setAnimation('fadeIn');
       }, 400);
     }

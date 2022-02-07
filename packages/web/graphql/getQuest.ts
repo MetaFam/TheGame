@@ -1,4 +1,3 @@
-import gql from 'fake-tag';
 import { Client } from 'urql';
 
 import {
@@ -17,7 +16,7 @@ import {
 } from './fragments';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-gql`
+/* GraphQL */ `
   query GetQuest($id: uuid!) {
     quest_by_pk(id: $id) {
       ...QuestFragment
@@ -27,7 +26,7 @@ gql`
 `;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-gql`
+/* GraphQL */ `
   query GetQuestWithCompletions(
     $id: uuid!
     $forLoginDisplay: Boolean! = false
