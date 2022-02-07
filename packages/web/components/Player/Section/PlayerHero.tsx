@@ -153,7 +153,6 @@ export const PlayerHero: React.FC<Props> = ({
 
         <HStack mt={2}>
           <PlayerContacts {...{ player }} />
-          <PlayerBrightId {...{ player }} />
         </HStack>
 
         {person?.profile?.pronouns && <PlayerPronouns {...{ person }} />}
