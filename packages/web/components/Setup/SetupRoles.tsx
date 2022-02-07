@@ -8,6 +8,7 @@ import {
   LoadingState,
   MetaButton,
   MetaHeading,
+  ModalBody,
   ModalFooter,
   Spacer,
   Text,
@@ -43,17 +44,18 @@ export const SetupRoles: React.FC<SetupRolesProps> = ({
   const { fetching: fetchingUser, user } = useUser({
     requestPolicy: 'network-only',
   });
-  const [fetchingRoleChoices, setFetchingRoleChoices] = useState(false);
+  const [fetchingRoleChoices, setFetchingRoleChoices] = useState(true);
   const [roleChoices, setRoleChoices] = useState<PlayerRole[]>(
     inputRoleChoices,
   );
   useEffect(() => {
     if (inputRoleChoices.length === 0 && roleChoices.length === 0) {
-      setFetchingRoleChoices(true);
       getPlayerRoles().then((s) => {
         setRoleChoices(s.filter(({ basic }) => basic));
         setFetchingRoleChoices(false);
       });
+    } else {
+      setFetchingRoleChoices(false);
     }
   }, [inputRoleChoices, roleChoices]);
   const fetching = useMemo(() => fetchingUser || fetchingRoleChoices, [
@@ -134,12 +136,12 @@ export const SetupRoles: React.FC<SetupRolesProps> = ({
 
   const isMobile = useBreakpointValue({ base: true, md: false });
 
-  return (
+  const setup = (
     <FlexContainer
       align="center"
       mx={isWizard ? { base: 0, md: 8, lg: 16 } : 0}
-      mb={8}
       color="white"
+      mb={isWizard ? 'auto' : 0}
     >
       {isWizard && (
         <MetaHeading mb={{ base: 6, sm: 16 }} alignSelf="center">
@@ -147,56 +149,57 @@ export const SetupRoles: React.FC<SetupRolesProps> = ({
         </MetaHeading>
       )}
       {fetching && <LoadingState />}
-      {!fetching && roles.length === 0 ? (
-        <Text mb={{ base: 6, sm: 10 }}>
-          Unlike other role-playing games, in MetaGame, anyone is free to play
-          multiple roles at the same time.
-          <br />
-          Players are required to specify their primary role, whereas any
-          secondary roles are optional.
-        </Text>
-      ) : (
-        <Flex wrap="wrap" mb={{ base: 4, md: 16 }} w="100%">
-          {roles.map((r, i) => {
-            const choice = roleChoices.find(
-              (roleChoice) => roleChoice.role === r,
-            );
-            return (
-              choice && (
-                <>
-                  <Box key={r} {...roleContainerStyles}>
-                    <Text
-                      color="cyan.500"
-                      fontWeight="bold"
-                      casing="uppercase"
-                      my="2"
-                    >
-                      {i === 0 && 'Primary Role'}
-                      {i > 0 && roles.length === 2 && 'Secondary Role'}
-                      {i === 1 && roles.length > 2 && 'Secondary Roles'}
-                      {/* we still need a placeholder */}
-                      {!isMobile && roles.length > 2 && i > 1 && (
-                        <span>&nbsp;</span>
-                      )}
-                    </Text>
+      {!fetching &&
+        (roles.length === 0 ? (
+          <Text mb={{ base: 6, sm: 10 }}>
+            Unlike other role-playing games, in MetaGame, anyone is free to play
+            multiple roles at the same time.
+            <br />
+            Players are required to specify their primary role, whereas any
+            secondary roles are optional.
+          </Text>
+        ) : (
+          <Flex wrap="wrap" mb={{ base: 4, md: 16 }} w="100%">
+            {roles.map((r, i) => {
+              const choice = roleChoices.find(
+                (roleChoice) => roleChoice.role === r,
+              );
+              return (
+                choice && (
+                  <>
+                    <Box key={r} {...roleContainerStyles}>
+                      <Text
+                        color="cyan.500"
+                        fontWeight="bold"
+                        casing="uppercase"
+                        my="2"
+                      >
+                        {i === 0 && 'Primary Role'}
+                        {i > 0 && roles.length === 2 && 'Secondary Role'}
+                        {i === 1 && roles.length > 2 && 'Secondary Roles'}
+                        {/* we still need a placeholder */}
+                        {!isMobile && roles.length > 2 && i > 1 && (
+                          <span>&nbsp;</span>
+                        )}
+                      </Text>
 
-                    <Role
-                      role={choice}
-                      selectionIndex={i}
-                      numSelectedRoles={roles.length}
-                      onSelect={handleSelection}
-                      onRemove={handleRemoval}
-                    />
-                  </Box>
-                  {/* wrap after the primary */}
-                  {i === 0 && <Box flexBasis="100%" />}
-                </>
-              )
-            );
-          })}
-        </Flex>
-      )}
-      {availableRoles.length > 0 && (
+                      <Role
+                        role={choice}
+                        selectionIndex={i}
+                        numSelectedRoles={roles.length}
+                        onSelect={handleSelection}
+                        onRemove={handleRemoval}
+                      />
+                    </Box>
+                    {/* wrap after the primary */}
+                    {i === 0 && <Box flexBasis="100%" />}
+                  </>
+                )
+              );
+            })}
+          </Flex>
+        ))}
+      {availableRoles.length > 0 && !fetching && (
         <>
           <Text
             alignSelf="flex-start"
@@ -217,43 +220,53 @@ export const SetupRoles: React.FC<SetupRolesProps> = ({
         </>
       )}
 
-      {isEdit && onClose && (
-        <ModalFooter mt={6}>
+      {isWizard && !fetching && (
+        <FlexContainer pb={8}>
           <MetaButton
-            mr={3}
-            isLoading={loading}
-            loadingText="Saving…"
-            onClick={async () => {
-              await save();
-              onClose();
-            }}
+            onClick={handleNextPress}
+            isDisabled={roles.length < 1}
+            isLoading={updateRolesResult.fetching || loading}
+            loadingText="Saving"
           >
-            Save Changes
+            {nextButtonLabel}
           </MetaButton>
-          <Button
-            variant="ghost"
-            onClick={onClose}
-            color="white"
-            _hover={{ bg: '#FFFFFF11' }}
-            _active={{ bg: '#FF000011' }}
-            disabled={loading}
-          >
-            Close
-          </Button>
-        </ModalFooter>
-      )}
-
-      {isWizard && (
-        <MetaButton
-          onClick={handleNextPress}
-          isDisabled={roles.length < 1}
-          isLoading={updateRolesResult.fetching || loading}
-          loadingText="Saving"
-        >
-          {nextButtonLabel}
-        </MetaButton>
+        </FlexContainer>
       )}
     </FlexContainer>
+  );
+  return isWizard ? (
+    setup
+  ) : (
+    <>
+      <ModalBody>{setup} </ModalBody>
+      {isEdit && onClose && (
+        <FlexContainer>
+          <ModalFooter py={8}>
+            <MetaButton
+              mr={3}
+              isLoading={loading}
+              loadingText="Saving…"
+              onClick={async () => {
+                await save();
+                onClose();
+              }}
+            >
+              Save Changes
+            </MetaButton>
+            <Button
+              variant="ghost"
+              onClick={onClose}
+              color="white"
+              _hover={{ bg: '#FFFFFF11' }}
+              _active={{ bg: '#FF000011' }}
+              disabled={loading}
+            >
+              Close
+            </Button>
+          </ModalFooter>
+        </FlexContainer>
+      )}
+    </>
   );
 };
 

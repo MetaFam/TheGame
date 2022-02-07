@@ -131,7 +131,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
         {children}
       </Box>
       {boxType && (
-        <Modal {...{ isOpen, onClose }}>
+        <Modal isCentered scrollBehavior="inside" {...{ isOpen, onClose }}>
           <ModalOverlay />
           <ModalContent
             maxW="80%"
@@ -169,12 +169,11 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
               p={4}
               _focus={{ boxShadow: 'none' }}
             />
-            <ModalBody overflowY="auto" overflowX="hidden">
-              {!modal && !modalText && (
-                <EditSectionBox {...{ boxType, onClose }} />
-              )}
-              {modalText && modal}
-            </ModalBody>
+            {!modal && !modalText && (
+              <EditSectionBox {...{ boxType, onClose }} />
+            )}
+            {modalText && modal && <ModalBody>{modalText && modal}</ModalBody>}
+
             {/* we should figure out how to unify modal footers (edit sections have their own,
               look into EditSectionBox components - they have footers with 'save' and 'cancel' buttons) */}
             {modalText && modal && (

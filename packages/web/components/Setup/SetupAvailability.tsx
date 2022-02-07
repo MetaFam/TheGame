@@ -70,7 +70,7 @@ export const SetupAvailability: React.FC<SetupAvailabilityProps> = ({
       <Text mb={10}>
         What is your weekly availability for any kind of freelance work?
       </Text>
-      <InputGroup borderColor="transparent" mb={10}>
+      <InputGroup borderColor="transparent" mb={10} maxW="20rem">
         <InputLeftElement>
           <span role="img" aria-label="clock">
             🕛

@@ -6,6 +6,7 @@ import {
   Flex,
   MetaButton,
   MetaHeading,
+  ModalBody,
   ModalFooter,
   SimpleGrid,
   Spinner,
@@ -114,7 +115,7 @@ export const SetupPlayerType: React.FC<Props> = ({ isEdit, onClose }) => {
     }
   };
 
-  return (
+  const setup = (
     <FlexContainer mb={8}>
       {isWizard && (
         <MetaHeading mb={5} textAlign="center">
@@ -156,48 +157,6 @@ export const SetupPlayerType: React.FC<Props> = ({ isEdit, onClose }) => {
           </FlexContainer>
         ))}
       </SimpleGrid>
-
-      {isEdit && onClose && (
-        <ModalFooter mt={6}>
-          <Wrap justify="center" align="center" flex={1}>
-            <WrapItem>
-              <MetaButton
-                isDisabled={!!status}
-                onClick={async () => {
-                  await save();
-                  onClose();
-                }}
-              >
-                {!status ? (
-                  'Save Changes'
-                ) : (
-                  <Flex align="center">
-                    <Spinner mr={3} />
-                    {typeof status === 'string' ? (
-                      <Text>{status}</Text>
-                    ) : (
-                      status
-                    )}
-                  </Flex>
-                )}
-              </MetaButton>
-            </WrapItem>
-            <WrapItem>
-              <Button
-                variant="ghost"
-                onClick={onClose}
-                color="white"
-                _hover={{ bg: '#FFFFFF11' }}
-                _active={{ bg: '#FF000011' }}
-                disabled={!!status}
-              >
-                Close
-              </Button>
-            </WrapItem>
-          </Wrap>
-        </ModalFooter>
-      )}
-
       {isWizard && (
         <MetaButton
           onClick={handleNextPress}
@@ -210,5 +169,55 @@ export const SetupPlayerType: React.FC<Props> = ({ isEdit, onClose }) => {
         </MetaButton>
       )}
     </FlexContainer>
+  );
+  return isWizard ? (
+    setup
+  ) : (
+    <>
+      <ModalBody>{setup}</ModalBody>
+
+      {isEdit && onClose && (
+        <FlexContainer>
+          <ModalFooter py={6}>
+            <Wrap justify="center" align="center" flex={1}>
+              <WrapItem>
+                <MetaButton
+                  isDisabled={!!status}
+                  onClick={async () => {
+                    await save();
+                    onClose();
+                  }}
+                >
+                  {!status ? (
+                    'Save Changes'
+                  ) : (
+                    <Flex align="center">
+                      <Spinner mr={3} />
+                      {typeof status === 'string' ? (
+                        <Text>{status}</Text>
+                      ) : (
+                        status
+                      )}
+                    </Flex>
+                  )}
+                </MetaButton>
+              </WrapItem>
+              <WrapItem>
+                <Button
+                  variant="ghost"
+                  onClick={onClose}
+                  color="white"
+                  _hover={{ bg: '#FFFFFF11' }}
+                  _active={{ bg: '#FF000011' }}
+                  disabled={!!status}
+                >
+                  Close
+                </Button>
+              </WrapItem>
+            </Wrap>
+          </ModalFooter>
+        </FlexContainer>
+      )}
+    </>
   );
 };
