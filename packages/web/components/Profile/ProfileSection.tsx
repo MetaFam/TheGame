@@ -209,13 +209,13 @@ const EditSectionBox = ({
 }) => {
   switch (boxType) {
     case BoxType.PLAYER_TYPE: {
-      return <SetupPlayerType isEdit {...{ onClose }} />;
+      return <SetupPlayerType {...{ onClose }} />;
     }
     case BoxType.PLAYER_COLOR_DISPOSITION: {
       return <SetupColorDisposition {...{ onClose }} />;
     }
     case BoxType.PLAYER_SKILLS: {
-      return <SetupSkills isEdit {...{ onClose }} />;
+      return <SetupSkills {...{ onClose }} />;
     }
     default:
   }

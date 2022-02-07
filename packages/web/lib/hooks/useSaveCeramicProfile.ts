@@ -23,7 +23,7 @@ import {
   Maybe,
   Values,
 } from '@metafam/utils';
-import { useProfileField } from 'lib/hooks/useProfileField';
+import { useProfileField } from 'lib/hooks/useField';
 import { useUser } from 'lib/hooks/useUser';
 import { useWeb3 } from 'lib/hooks/useWeb3';
 import { useRouter } from 'next/router';

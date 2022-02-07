@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  Flex,
   FormControl,
   FormErrorMessage,
   MetaHeading,
@@ -15,21 +16,32 @@ import {
 import { Maybe } from '@metafam/utils';
 import { FlexContainer } from 'components/Container';
 import { useSetupFlow } from 'contexts/SetupContext';
-import { useInsertCacheInvalidationMutation } from 'graphql/autogen/types';
+import { CeramicError } from 'lib/hooks';
 import {
-  CeramicError,
-  useProfileField,
-  useSaveCeramicProfile,
-  useUser,
-} from 'lib/hooks';
-import { ReactElement, useCallback, useEffect, useState } from 'react';
+  PropsWithChildren,
+  ReactElement,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
 import { Control, useForm, UseFormRegisterReturn } from 'react-hook-form';
 
-export type WizardPaneProps = {
-  field: string;
-  title?: string | ReactElement;
-  prompt?: string | ReactElement;
+import { WizardPaneProps } from './ProfileWizardPane';
+
+export type MaybeModalProps = {
   onClose?: () => void;
+};
+
+export type GenericPaneProps<T = string> = WizardPaneProps & {
+  value: Maybe<T>;
+  fetching: boolean;
+  onSave?: ({
+    values,
+    setStatus,
+  }: {
+    values: Record<string, unknown>;
+    setStatus?: (msg: string) => void;
+  }) => void;
 };
 
 export type WizardPaneCallbackProps<T = string> = {
@@ -45,21 +57,18 @@ export type WizardPaneCallbackProps<T = string> = {
   setter: (arg: T | ((prev: T) => T)) => void;
 };
 
-export const SetupWizardPane: React.FC<WizardPaneProps> = ({
+export const GenericWizardPane = <T,>({
   field,
   title,
   prompt,
   onClose,
+  onSave,
+  value: existing,
+  fetching = false,
   children,
-}) => {
+}: PropsWithChildren<GenericPaneProps<T>>) => {
   const { onNextPress, nextButtonLabel } = useSetupFlow();
   const [status, setStatus] = useState<Maybe<string | ReactElement>>();
-  const { user } = useUser();
-  const { value: existing } = useProfileField<number>({
-    field,
-    player: user,
-    owner: true,
-  });
   const {
     register,
     control,
@@ -69,45 +78,40 @@ export const SetupWizardPane: React.FC<WizardPaneProps> = ({
     formState: { errors, isValidating: validating },
   } = useForm();
   const current = watch(field, existing);
-  const saveToCeramic = useSaveCeramicProfile({
-    setStatus,
-    fields: [field],
-  });
-  const [, invalidateCache] = useInsertCacheInvalidationMutation();
   const toast = useToast();
 
   useEffect(() => {
     setValue(field, existing);
   }, [existing, field, setValue]);
 
-  const onSubmit = async (values: { [field: string]: Maybe<number> }) => {
-    try {
-      if (current === existing) {
-        setStatus('No Change. Skipping Save…');
-        await new Promise((resolve) => {
-          setTimeout(resolve, 25);
+  const onSubmit = useCallback(
+    async (values) => {
+      try {
+        if (current === existing) {
+          setStatus('No Change. Skipping Save…');
+          await new Promise((resolve) => {
+            setTimeout(resolve, 10);
+          });
+        } else if (onSave) {
+          setStatus('Saving…');
+          await onSave({ values, setStatus });
+        }
+
+        onNextPress();
+      } catch (err) {
+        const heading = err instanceof CeramicError ? 'Ceramic Error' : 'Error';
+        toast({
+          title: heading,
+          description: (err as Error).message,
+          status: 'error',
+          isClosable: true,
+          duration: 12000,
         });
-      } else {
-        setStatus('Saving to Ceramic…');
-        await saveToCeramic({ values });
-
-        setStatus('Invalidating Cache…');
-        await invalidateCache({ playerId: user?.id });
+        setStatus(null);
       }
-
-      onNextPress();
-    } catch (err) {
-      const heading = err instanceof CeramicError ? 'Ceramic Error' : 'Error';
-      toast({
-        title: heading,
-        description: (err as Error).message,
-        status: 'error',
-        isClosable: true,
-        duration: 12000,
-      });
-      setStatus(null);
-    }
-  };
+    },
+    [current, existing, onNextPress, onSave, toast],
+  );
 
   const setter = useCallback(
     (val: unknown) => {
@@ -128,18 +132,18 @@ export const SetupWizardPane: React.FC<WizardPaneProps> = ({
         </MetaHeading>
       )}
       {typeof prompt === 'string' ? (
-        <Text mb={10} textAlign="center">
+        <Text mb={0} textAlign="center">
           {prompt}
         </Text>
       ) : (
         prompt
       )}
-      <FormControl isInvalid={!!errors[field]} isDisabled={!user}>
-        {!user && (
-          <Stack align="center" my={8}>
-            <Spinner thickness="4px" speed="1.25s" size="lg" />
+      <FormControl isInvalid={!!errors[field]} isDisabled={fetching}>
+        {fetching && (
+          <Flex justify="center" align="center" my={8}>
+            <Spinner thickness="4px" speed="1.25s" size="lg" mr={4} />
             <Text>Loading Current Value…</Text>
-          </Stack>
+          </Flex>
         )}
         {validating && (
           <Stack align="center" mb={4}>
@@ -147,18 +151,18 @@ export const SetupWizardPane: React.FC<WizardPaneProps> = ({
             <Text>Validating…</Text>
           </Stack>
         )}
-        {typeof children === 'function'
-          ? children.call(null, {
-              register,
-              control,
-              loading: !user,
-              errored: !!errors[field],
-              dirty: current !== existing,
-              current,
-              setter,
-            })
-          : children}
-        <Box>
+        <Box mt={10}>
+          {typeof children === 'function'
+            ? children.call(null, {
+                register,
+                control,
+                loading: fetching,
+                errored: !!errors[field],
+                dirty: current !== existing,
+                current,
+                setter,
+              })
+            : children}
           <FormErrorMessage style={{ justifyContent: 'center' }}>
             {errors[field]?.message}
           </FormErrorMessage>

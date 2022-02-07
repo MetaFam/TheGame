@@ -1,14 +1,19 @@
-import { Flex, SelectTimeZone } from '@metafam/ds';
+import { Flex, SelectTimeZone, Text } from '@metafam/ds';
+import { useMounted } from 'lib/hooks';
 import React from 'react';
 import { Controller } from 'react-hook-form';
 
-import { SetupWizardPane, WizardPaneCallbackProps } from './SetupWizardPane';
+import {
+  ProfileWizardPane,
+  WizardPaneCallbackProps,
+} from './ProfileWizardPane';
 
 export const SetupTimeZone: React.FC = () => {
   const field = 'timeZone';
+  const mounted = useMounted();
 
   return (
-    <SetupWizardPane
+    <ProfileWizardPane
       {...{ field }}
       title="Time Zone"
       prompt="Which zone are you in?"
@@ -18,19 +23,21 @@ export const SetupTimeZone: React.FC = () => {
           <Controller
             {...{ control }}
             name={field}
-            // defaultValue={Intl.DateTimeFormat().resolvedOptions().timeZone}
-            render={({ field: { onChange, ref, ...props } }) => (
-              <SelectTimeZone
-                labelStyle="abbrev"
-                onChange={(tz) => {
-                  onChange(tz.value);
-                }}
-                {...props}
-              />
-            )}
+            defaultValue={Intl.DateTimeFormat().resolvedOptions().timeZone}
+            render={({ field: { onChange, ref, ...props } }) =>
+              !mounted ? (
+                <Text>⸘Not Mounted‽</Text> // avoiding “different className” error
+              ) : (
+                <SelectTimeZone
+                  labelStyle="abbrev"
+                  onChange={(tz) => onChange(tz.value)}
+                  {...props}
+                />
+              )
+            }
           />
         </Flex>
       )}
-    </SetupWizardPane>
+    </ProfileWizardPane>
   );
 };

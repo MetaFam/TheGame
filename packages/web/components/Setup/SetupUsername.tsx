@@ -2,13 +2,16 @@ import { Flex, Input } from '@metafam/ds';
 import { getPlayer } from 'graphql/getPlayer';
 import React from 'react';
 
-import { SetupWizardPane, WizardPaneCallbackProps } from './SetupWizardPane';
+import {
+  ProfileWizardPane,
+  WizardPaneCallbackProps,
+} from './ProfileWizardPane';
 
 export const SetupUsername: React.FC = () => {
   const field = 'username';
 
   return (
-    <SetupWizardPane
+    <ProfileWizardPane
       {...{ field }}
       title="Username"
       prompt="What name would you like to use in your profile URL?"
@@ -55,6 +58,6 @@ export const SetupUsername: React.FC = () => {
           </Flex>
         );
       }}
-    </SetupWizardPane>
+    </ProfileWizardPane>
   );
 };

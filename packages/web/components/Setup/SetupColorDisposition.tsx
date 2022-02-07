@@ -19,16 +19,16 @@ import {
 import { PersonalityOption } from 'graphql/types';
 import React, { useEffect, useState } from 'react';
 
-import { SetupWizardPane, WizardPaneCallbackProps } from './SetupWizardPane';
+import {
+  MaybeModalProps,
+  ProfileWizardPane,
+  WizardPaneCallbackProps,
+} from './ProfileWizardPane';
 
 export type ColorButtonsProps = {
   mask: number;
   setMask: (bit: number | ((prev: number) => number)) => void;
   types: NonNullable<PersonalityInfo>;
-};
-
-export type MaybeModalProps = {
-  onClose?: () => void;
 };
 
 // newMask should always only have at most a single bit
@@ -149,7 +149,7 @@ export const SetupColorDisposition: React.FC<MaybeModalProps> = ({
   }, []);
 
   return (
-    <SetupWizardPane
+    <ProfileWizardPane
       {...{ field, onClose }}
       title="Person&#xAD;ality Type"
       prompt={
@@ -196,6 +196,6 @@ export const SetupColorDisposition: React.FC<MaybeModalProps> = ({
           </Stack>
         );
       }}
-    </SetupWizardPane>
+    </ProfileWizardPane>
   );
 };

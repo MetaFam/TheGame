@@ -1,13 +1,18 @@
 import React from 'react';
-import Select, { components, Props as SelectProps } from 'react-select';
+import Select, {
+  components,
+  mergeStyles,
+  Props as SelectProps,
+} from 'react-select';
 
 import { searchSelectStyles, selectStyles, theme } from './theme';
 
 export const SelectComponents = components;
 
-export const SelectSearch: React.FC<SelectProps> = (props) => (
-  <Select styles={searchSelectStyles} {...props} />
-);
+export const SelectSearch: React.FC<SelectProps> = ({
+  styles = {},
+  ...props
+}) => <Select styles={mergeStyles(searchSelectStyles, styles)} {...props} />;
 
 export const metaFilterSelectStyles: typeof selectStyles = {
   ...selectStyles,
@@ -21,8 +26,7 @@ export const metaFilterSelectStyles: typeof selectStyles = {
   }),
   groupHeading: (s, { children }) => ({
     ...s,
-    ...(selectStyles.groupHeading &&
-      selectStyles.groupHeading(s, { children })),
+    ...selectStyles.groupHeading?.(s, { children }),
     borderTop: `1px solid ${theme.colors.borderPurple}`,
     margin: 0,
   }),

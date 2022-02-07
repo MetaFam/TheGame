@@ -8,18 +8,19 @@ import {
   Text,
   Wrap,
 } from '@metafam/ds';
+import { Maybe, Optional } from '@metafam/utils';
 import { FlexContainer } from 'components/Container';
 import { useSetupFlow } from 'contexts/SetupContext';
 import { Membership } from 'graphql/types';
+import { useWeb3 } from 'lib/hooks';
 import React, { useState } from 'react';
 
-import { useWeb3 } from '../../lib/hooks';
 import { getDaoLink, getMolochImage, LinkGuild } from '../Player/PlayerGuild';
 
 export type SetupMembershipsProps = {
-  memberships: Array<Membership> | null | undefined;
+  memberships: Maybe<Optional<Array<Membership>>>;
   setMemberships: React.Dispatch<
-    React.SetStateAction<Array<Membership> | null | undefined>
+    React.SetStateAction<Maybe<Optional<Array<Membership>>>>
   >;
 };
 
@@ -40,25 +41,24 @@ export const SetupMemberships: React.FC<SetupMembershipsProps> = ({
           {connected ? 'Loading…' : 'Account Not Connected'}
         </Text>
       )}
-      {memberships &&
-        (memberships.length > 0 ? (
-          <>
-            <Text mb={10} maxW="50rem">
-              We found the following guilds associated with your account and
-              automatically added them to your profile. You can edit them later
-              in your profile.
-            </Text>
-            <Wrap justify="center" mb={10} spacing={4} maxW="50rem">
-              {memberships.map((member) => (
-                <MembershipListing key={member.id} member={member} />
-              ))}
-            </Wrap>
-          </>
-        ) : (
+      {memberships && memberships.length > 0 ? (
+        <>
           <Text mb={10} maxW="50rem">
-            We did not find any guilds associated with your account.
+            We found the following guilds associated with your account and
+            automatically added them to your profile. You can edit them later in
+            your profile.
           </Text>
-        ))}
+          <Wrap justify="center" mb={10} spacing={4} maxW="50rem">
+            {memberships.map((member) => (
+              <MembershipListing key={member.id} {...{ member }} />
+            ))}
+          </Wrap>
+        </>
+      ) : (
+        <Text mb={10} maxW="50rem">
+          We did not find any guilds associated with your account.
+        </Text>
+      )}
       <MetaButton
         onClick={() => {
           setLoading(true);
@@ -77,12 +77,16 @@ type MembershipListingProps = {
   member: Membership;
 };
 
-const MembershipListing: React.FC<MembershipListingProps> = ({ member }) => {
-  const guildLogo = getMolochImage(member.moloch.title || member.moloch.chain);
-  const daoUrl = getDaoLink(member.moloch.chain, member.moloch.id);
+const MembershipListing: React.FC<MembershipListingProps> = ({
+  member: {
+    moloch: { id, title, chain },
+  },
+}) => {
+  const guildLogo = getMolochImage(title ?? chain);
+  const daoUrl = getDaoLink(chain, id);
 
   return (
-    <LinkGuild daoUrl={daoUrl} guildname={member.moloch.title}>
+    <LinkGuild {...{ daoUrl }} guildname={title}>
       <HStack alignItems="center" mb={4}>
         <Flex bg="purpleBoxLight" width={16} height={16} mr={6}>
           <Box
@@ -102,7 +106,7 @@ const MembershipListing: React.FC<MembershipListingProps> = ({ member }) => {
             color={daoUrl ? 'cyanText' : 'white'}
             mb={1}
           >
-            {member.moloch.title || `Unknown ${member.moloch.chain} DAO`}
+            {title ?? `Unknown ${chain} DAO`}
           </Heading>
         </Box>
       </HStack>

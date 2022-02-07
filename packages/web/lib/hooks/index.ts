@@ -1,18 +1,18 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useState } from 'react';
 
-export * from './useProfileField';
+export * from './useField';
 export * from './useSaveCeramicProfile';
 export * from './useUser';
 export * from './useWeb3';
 
 // https://www.joshwcomeau.com/react/the-perils-of-rehydration/
 export const useMounted = (): boolean => {
-  const mounted = useRef(false);
+  const [mounted, setMounted] = useState(false);
   useEffect(() => {
-    mounted.current = true;
+    setMounted(true);
     return () => {
-      mounted.current = false;
+      setMounted(false);
     };
   }, []);
-  return mounted.current;
+  return mounted;
 };

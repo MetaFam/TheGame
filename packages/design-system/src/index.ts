@@ -38,6 +38,7 @@ export {
   chakraesqueStyles,
   dropdownStyles,
   theme as MetaTheme,
+  multiSelectStyles,
   searchSelectStyles,
   selectStyles,
 } from './theme';

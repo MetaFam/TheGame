@@ -6,25 +6,20 @@ type RefProps = { ref?: React.Ref<HTMLButtonElement> };
 
 export const MetaButton: React.FC<
   ButtonProps & LinkProps & RefProps
-> = React.forwardRef<HTMLButtonElement>(({ children, ...props }, ref) => {
-  console.info({ props });
-  return (
-    <Button
-      colorScheme="purple"
-      textTransform="uppercase"
-      px={12}
-      letterSpacing="0.1em"
-      size="lg"
-      fontSize="sm"
-      bg="purple.400"
-      color="white"
-      sx={{
-        ':hover': { filter: 'rotate-hue(-90)', border: '2px solid green' },
-      }}
-      {...{ ref }}
-      {...props}
-    >
-      {children}
-    </Button>
-  );
-});
+> = React.forwardRef<HTMLButtonElement>(({ children, ...props }, ref) => (
+  <Button
+    colorScheme="purple"
+    textTransform="uppercase"
+    px={12}
+    letterSpacing="0.1em"
+    size="lg"
+    fontSize="sm"
+    bg="purple.400"
+    color="white"
+    _hover={{ filter: 'rotate-hue(-90)' }}
+    {...{ ref }}
+    {...props}
+  >
+    {children}
+  </Button>
+));

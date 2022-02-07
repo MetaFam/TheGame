@@ -7,13 +7,16 @@ import {
 } from '@metafam/ds';
 import React from 'react';
 
-import { SetupWizardPane, WizardPaneCallbackProps } from './SetupWizardPane';
+import {
+  ProfileWizardPane,
+  WizardPaneCallbackProps,
+} from './ProfileWizardPane';
 
 export const SetupAvailability: React.FC = () => {
   const field = 'availableHours';
 
   return (
-    <SetupWizardPane
+    <ProfileWizardPane
       {...{ field }}
       title="Avail&#xAD;ability"
       prompt="What is your weekly availability for any kind of freelance work?"
@@ -70,6 +73,6 @@ export const SetupAvailability: React.FC = () => {
           </InputGroup>
         );
       }}
-    </SetupWizardPane>
+    </ProfileWizardPane>
   );
 };
