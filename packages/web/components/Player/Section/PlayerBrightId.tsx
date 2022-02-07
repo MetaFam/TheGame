@@ -10,6 +10,7 @@ import {
   ModalContent,
   ModalOverlay,
   Text,
+  Tooltip,
   useDisclosure,
   VStack,
 } from '@metafam/ds';
@@ -48,7 +49,20 @@ export const PlayerBrightId: React.FC<Props> = ({ player }) => {
         backgroundColor: 'rgba(7, 2, 29, 0.91)',
       };
 
-  if (verified || !isLoggedInUser) return null;
+  if (!isLoggedInUser && !verified) return null;
+  if (!isLoggedInUser && verified)
+    return (
+      <Tooltip label="Verified on BrightID" closeOnClick={false} hasArrow>
+        <Button
+          size="xs"
+          colorScheme="brightIdOrange"
+          leftIcon={<BrightIdIcon />}
+          color="white"
+        >
+          Verified
+        </Button>
+      </Tooltip>
+    );
 
   return (
     <Flex align="center" justify="center">
