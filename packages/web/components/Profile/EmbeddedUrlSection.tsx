@@ -87,7 +87,6 @@ const LinkPreview: React.FC<LinkPreviewProps> = ({ url: inputUrl = '' }) => {
 
   return (
     <LinkBox
-      onClick={() => window.open(url ?? inputUrl, '_blank')}
       minH="18rem"
       w="100%"
       h="100%"
@@ -95,9 +94,6 @@ const LinkPreview: React.FC<LinkPreviewProps> = ({ url: inputUrl = '' }) => {
       backdropFilter="blur(7px)"
       borderWidth={0}
       overflow="hidden"
-      _hover={{
-        cursor: 'pointer',
-      }}
     >
       <Flex w="100%" h="100%" direction="column">
         <Box

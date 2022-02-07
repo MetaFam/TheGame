@@ -104,16 +104,6 @@ export const PlayerPage: React.FC<Props> = ({
 
 export default PlayerPage;
 
-const makeLayouts = (canEdit: boolean, layouts: Layouts): Layouts =>
-  Object.fromEntries(
-    Object.entries(layouts).map(([key, items]) => [
-      key,
-      items.map((item) =>
-        item.i === 'hero' ? { ...item, isResizable: canEdit } : item,
-      ),
-    ]),
-  );
-
 const onRemoveBoxFromLayouts = (boxKey: string, layouts: Layouts): Layouts =>
   Object.fromEntries(
     Object.entries(layouts).map(([key, items]) => [
@@ -365,11 +355,6 @@ export const Grid: React.FC<Props> = ({
 
   const wrapperSX = useMemo(() => gridConfig.wrapper(canEdit), [canEdit]);
 
-  const displayLayouts = useMemo(() => makeLayouts(canEdit, currentLayouts), [
-    canEdit,
-    currentLayouts,
-  ]);
-
   const onRemoveBox = useCallback(
     (boxKey: string): void => {
       const layoutData = {
@@ -481,10 +466,8 @@ export const Grid: React.FC<Props> = ({
       )}
       <ResponsiveGridLayout
         className="gridItems"
-        onLayoutChange={(layoutItems, layouts) => {
-          handleLayoutChange(layoutItems, layouts);
-        }}
-        layouts={displayLayouts}
+        onLayoutChange={handleLayoutChange}
+        layouts={currentLayouts}
         breakpoints={{ lg: 1180, md: 900, sm: 0 }}
         cols={{ lg: 3, md: 2, sm: 1 }}
         rowHeight={GRID_ROW_HEIGHT}
