@@ -14,6 +14,7 @@ import {
   getTokenFromStore,
   setTokenInStore,
 } from 'lib/auth';
+import { clearProfileFields } from 'lib/hooks/useField';
 import React, {
   createContext,
   useCallback,
@@ -126,6 +127,7 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
     ceramic.close();
     clearWalletConnect();
     clearToken();
+    clearProfileFields();
     setAuthToken(null);
     setWallet(undefined);
     setAddress(null);

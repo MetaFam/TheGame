@@ -10,7 +10,7 @@ export const optimizedImage = (key: string, url?: Maybe<string>, opts = {}) => {
       return imageLink(url, { height: 300, ...opts }) ?? undefined;
     }
     default: {
-      return imageLink(url) ?? undefined;
+      return imageLink(url, opts) ?? undefined;
     }
   }
 };

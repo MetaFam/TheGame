@@ -65,7 +65,7 @@ export const useBrightIdUpdated = ({
   player: Player;
   poll: boolean;
 }): void => {
-  const contextId = player.id;
+  const contextId = player?.id;
 
   useEffect(() => {
     if (!contextId || !poll) return () => undefined;

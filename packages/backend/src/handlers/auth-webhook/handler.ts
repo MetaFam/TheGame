@@ -2,7 +2,7 @@ import { did } from '@metafam/utils';
 import { Request, Response } from 'express';
 
 import { defaultProvider } from '../../lib/ethereum';
-import { getOrCreatePlayer } from './users';
+import { getOrCreatePlayerId } from './users';
 
 const unauthorizedVariables = {
   'X-Hasura-Role': 'public',
@@ -40,11 +40,11 @@ export const authHandler = async (
       return;
     }
 
-    const player = await getOrCreatePlayer(claim.iss);
+    const id = await getOrCreatePlayerId(claim.iss);
 
     const hasuraVariables = {
       'X-Hasura-Role': 'player',
-      'X-Hasura-User-Id': player.id,
+      'X-Hasura-User-Id': id,
     };
 
     res.json(hasuraVariables);

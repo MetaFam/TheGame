@@ -12,10 +12,14 @@ export type ProfileFieldType<T> = {
 
 export type ProfileValueType = string | number | Array<string> | ExplorerType;
 
-const fields: Record<string, Atom<Maybe<unknown>>> = {};
+let fields: Record<string, Atom<Maybe<unknown>>> = {};
 const nullAtom = newAtom(null, () => {
   throw new Error('Unimplemented');
 });
+
+export const clearProfileFields = () => {
+  fields = {};
+};
 
 export const useProfileField = <T extends ProfileValueType = string>({
   field,

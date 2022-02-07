@@ -221,6 +221,10 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
     }),
   );
 
+  if (debug) {
+    console.debug({ fields, endpoints });
+  }
+
   useEffect(() => {
     if (!endpoints.profileImageURL.ref.current) {
       console.warn('Unable to initially focus the profile image.');
@@ -457,12 +461,14 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
                     }
                   />
                 </PulseHoverBox>
-                {endpoints.profileImageURL.loading &&
-                  (endpoints.profileImageURL.val == null ? (
-                    <Image maxW="50%" src={PlayerProfileIcon} opacity={0.5} />
-                  ) : (
-                    <Spinner size="xl" color="purple.500" thickness="4px" />
-                  ))}
+                <Center>
+                  {endpoints.profileImageURL.loading &&
+                    (endpoints.profileImageURL.val == null ? (
+                      <Image maxW="50%" src={PlayerProfileIcon} opacity={0.5} />
+                    ) : (
+                      <Spinner size="xl" color="purple.500" thickness="4px" />
+                    ))}
+                </Center>
               </Box>
               <Controller
                 {...{ control }}

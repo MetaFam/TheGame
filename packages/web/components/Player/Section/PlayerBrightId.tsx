@@ -34,7 +34,7 @@ export const PlayerBrightId: React.FC<Props> = ({ player }) => {
     if (connected && !fetching && user?.id === player.id) {
       setIsLoggedInUser(true);
     }
-  }, [user, fetching, connected, player.id]);
+  }, [user, fetching, connected, player?.id]);
 
   useBrightIdUpdated({ player, poll: !verified && isOpen && isLoggedInUser });
 
