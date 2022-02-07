@@ -56,7 +56,6 @@ import {
   disableAddBoxInLayoutData,
   enableAddBoxInLayoutData,
   isSameLayouts,
-  makeLayouts,
   onRemoveBoxFromLayouts,
   updateHeightsInLayouts,
 } from 'utils/layoutHelpers';
