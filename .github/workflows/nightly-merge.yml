@@ -13,7 +13,7 @@ jobs:
         uses: actions/checkout@v1
 
       - name: Nightly Merge
-        uses: robotology/gh-action-nightly-merge@v1.3.1
+        uses: robotology/gh-action-nightly-merge@v1.3.2
         with:
           stable_branch: 'master'
           development_branch: 'develop'
