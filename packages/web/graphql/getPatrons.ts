@@ -4,11 +4,11 @@ import {
   GetpSeedHoldersQuery,
   GetpSeedHoldersQueryVariables,
   Player,
-  TokenBalancesFragmentFragment,
-} from './autogen/types';
-import { client } from './client';
-import { PlayerFragment, TokenBalancesFragment } from './fragments';
-import { Patron } from './types';
+  TokenBalancesFragment as TokenBalancesFragmentType,
+} from 'graphql/autogen/types';
+import { client } from 'graphql/client';
+import { PlayerFragment, TokenBalancesFragment } from 'graphql/fragments';
+import { Patron } from 'graphql/types';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-expressions
 /* GraphQL */ `
@@ -65,7 +65,7 @@ const getPlayersFromAddresses = async (
 
 const getpSeedHolders = async (
   limit: number,
-): Promise<Array<TokenBalancesFragmentFragment>> => {
+): Promise<Array<TokenBalancesFragmentType>> => {
   const { data, error } = await client
     .query<GetpSeedHoldersQuery, GetpSeedHoldersQueryVariables>(
       pSeedHoldersQuery,
@@ -84,7 +84,7 @@ const getpSeedHolders = async (
 };
 
 export const getPatrons = async (limit = 50): Promise<Array<Patron>> => {
-  const tokenBalances: Array<TokenBalancesFragmentFragment> = await getpSeedHolders(
+  const tokenBalances: Array<TokenBalancesFragmentType> = await getpSeedHolders(
     limit,
   );
 

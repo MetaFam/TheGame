@@ -12,11 +12,7 @@ import {
 } from '@metafam/ds';
 import BackgroundImage from 'assets/main-background.jpg';
 import { MetaLink } from 'components/Link';
-import {
-  PlayerRole,
-  QuestFragmentFragment,
-  Skill,
-} from 'graphql/autogen/types';
+import { PlayerRole, QuestFragment, Skill } from 'graphql/autogen/types';
 import parse from 'html-react-parser';
 import moment from 'moment';
 import React from 'react';
@@ -26,7 +22,7 @@ import { SkillsTags } from '../Skills';
 import { RepetitionTag, StatusTag } from './QuestTags';
 
 type Props = {
-  quest: QuestFragmentFragment;
+  quest: QuestFragment;
 };
 
 export const QuestTile: React.FC<Props> = ({ quest }) => (

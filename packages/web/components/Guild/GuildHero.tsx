@@ -1,9 +1,9 @@
 import { Avatar, Box, MetaButton, Text, VStack } from '@metafam/ds';
 import { ProfileSection } from 'components/Profile/ProfileSection';
-import { GuildFragmentFragment } from 'graphql/autogen/types';
+import { GuildFragment } from 'graphql/autogen/types';
 import React from 'react';
 
-type Props = { guild: GuildFragmentFragment };
+type Props = { guild: GuildFragment };
 
 export const GuildHero: React.FC<Props> = ({ guild }) => (
   <ProfileSection>

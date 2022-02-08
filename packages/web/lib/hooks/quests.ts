@@ -1,6 +1,6 @@
 import {
   GetQuestsQueryVariables,
-  QuestFragmentFragment,
+  QuestFragment,
   useGetQuestGuildsQuery,
   useGetQuestsQuery,
 } from 'graphql/autogen/types';
@@ -12,7 +12,7 @@ import { defaultQueryVariables } from '../../graphql/getQuests';
 export type QueryVariableSetter = (key: string, value: any) => void;
 
 interface QuestFilter {
-  quests: QuestFragmentFragment[] | null;
+  quests: QuestFragment[] | null;
   fetching: boolean;
   queryVariables: GetQuestsQueryVariables;
   setQueryVariable: QueryVariableSetter;

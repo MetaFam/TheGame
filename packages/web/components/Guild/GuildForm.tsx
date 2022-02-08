@@ -14,7 +14,7 @@ import { Field, FieldDescription } from 'components/Forms/Field';
 import { MetaLink } from 'components/Link';
 import {
   DiscordRole,
-  GuildFragmentFragment,
+  GuildFragment,
   GuildType_Enum,
   Maybe,
   useGetGuildMetadataQuery,
@@ -61,7 +61,7 @@ export interface EditGuildFormInputs {
 }
 
 const getDefaultFormValues = (
-  guild: GuildFragmentFragment,
+  guild: GuildFragment,
   metadata: GuildMetadata | undefined,
   roleOptions: SelectOption[],
 ): EditGuildFormInputs => {
@@ -95,7 +95,7 @@ const getDefaultFormValues = (
 };
 
 type Props = {
-  workingGuild: GuildFragmentFragment;
+  workingGuild: GuildFragment;
   onSubmit: (data: EditGuildFormInputs) => void;
   success?: boolean;
   submitting?: boolean;

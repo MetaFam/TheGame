@@ -11,9 +11,9 @@ import {
   VStack,
 } from '@metafam/ds';
 import {
-  GuildFragmentFragment,
+  GuildFragment,
   PlayerRole,
-  QuestFragmentFragment,
+  QuestFragment,
   QuestRepetition_Enum,
   QuestStatus_Enum,
 } from 'graphql/autogen/types';
@@ -70,8 +70,8 @@ export interface CreateQuestFormInputs {
 const MetaFamGuildId = 'f94b7cd4-cf29-4251-baa5-eaacab98a719';
 
 const getDefaultFormValues = (
-  base: QuestFragmentFragment | undefined,
-  guilds: GuildFragmentFragment[],
+  base: QuestFragment | undefined,
+  guilds: GuildFragment[],
 ): CreateQuestFormInputs => ({
   title: base?.title || '',
   repetition: base?.repetition ?? QuestRepetition_Enum.Unique,
@@ -127,8 +127,8 @@ const Field: React.FC<FieldProps> = ({ children, error, label }) => (
 );
 
 type Props = {
-  guilds: GuildFragmentFragment[];
-  editQuest?: QuestFragmentFragment;
+  guilds: GuildFragment[];
+  editQuest?: QuestFragment;
   skillChoices: Array<CategoryOption>;
   roleChoices: Array<PlayerRole>;
   onSubmit: (data: CreateQuestFormInputs) => void;

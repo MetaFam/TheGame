@@ -2,7 +2,7 @@ import { Flex, MetaHeading, useToast } from '@metafam/ds';
 import { FlexContainer, PageContainer } from 'components/Container';
 import { EditGuildFormInputs, GuildForm } from 'components/Guild/GuildForm';
 import {
-  GuildFragmentFragment,
+  GuildFragment,
   GuildInfo,
   GuildType_ActionEnum,
   useUpdateGuildMutation,
@@ -15,7 +15,7 @@ import useSWR from 'swr';
 const SetupGuild: React.FC = () => {
   const router = useRouter();
 
-  const [guild, setGuild] = useState<GuildFragmentFragment | undefined>();
+  const [guild, setGuild] = useState<GuildFragment | undefined>();
   const [updateGuildState, updateGuild] = useUpdateGuildMutation();
   const toast = useToast();
 

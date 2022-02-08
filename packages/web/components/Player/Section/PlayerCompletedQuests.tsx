@@ -2,7 +2,7 @@ import { Box, Button, ExternalLinkIcon, Link, Stack, Text } from '@metafam/ds';
 import { ProfileSection } from 'components/Profile/ProfileSection';
 import {
   Player,
-  QuestCompletionFragmentFragment,
+  QuestCompletionFragment,
   QuestCompletionStatus_Enum,
 } from 'graphql/autogen/types';
 import { getAcceptedQuestsByPlayerQuery } from 'graphql/getQuests';
@@ -20,9 +20,7 @@ export const PlayerCompletedQuests: React.FC<Props> = ({
   isOwnProfile,
   canEdit,
 }) => {
-  const [quests, setQuests] = useState<Array<QuestCompletionFragmentFragment>>(
-    [],
-  );
+  const [quests, setQuests] = useState<Array<QuestCompletionFragment>>([]);
 
   useEffect(() => {
     const loadQuests = async () => {
@@ -68,7 +66,7 @@ export const PlayerCompletedQuests: React.FC<Props> = ({
 };
 
 interface QuestProps {
-  quests: Array<QuestCompletionFragmentFragment>;
+  quests: Array<QuestCompletionFragment>;
   mb?: number;
 }
 

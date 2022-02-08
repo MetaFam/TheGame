@@ -5,7 +5,7 @@ import { GuildLinks } from 'components/Guild/GuildLinks';
 import { GuildPlayers } from 'components/Guild/Section/GuildPlayers';
 import { ProfileSection } from 'components/Profile/ProfileSection';
 import { HeadComponent } from 'components/Seo';
-import { QuestFragmentFragment, QuestStatus_Enum } from 'graphql/autogen/types';
+import { QuestFragment, QuestStatus_Enum } from 'graphql/autogen/types';
 import { getQuests } from 'graphql/getQuests';
 import { getGuild, getGuildnames } from 'graphql/queries/guild';
 import {
@@ -174,7 +174,7 @@ export const getStaticProps = async (
   const guildname = context.params?.guildname;
   const guild = await getGuild(guildname);
 
-  let quests: QuestFragmentFragment[] = [];
+  let quests: QuestFragment[] = [];
   if (guild != null) {
     quests = await getQuests({
       guildId: guild.id,

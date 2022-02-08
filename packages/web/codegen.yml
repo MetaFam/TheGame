@@ -15,5 +15,11 @@ generates:
     config:
       gqlImport: fake-tag
       skipTypename: true
-      namingConvention:
-        transformUnderscore: true
+      dedupeOperationSuffix: true
+      documentMode: documentNode
+
+      # This generates typenames more in line with the rest
+      # of the codebase, but, unfortunately, player_role and
+      # PlayerRole create the same output name
+      # namingConvention:
+      #   transformUnderscore: true

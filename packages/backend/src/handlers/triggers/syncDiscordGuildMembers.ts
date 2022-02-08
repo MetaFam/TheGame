@@ -8,7 +8,7 @@ import { Request, Response } from 'express';
 import {
   Guild,
   Guild_Player_Insert_Input,
-  GuildFragmentFragment,
+  GuildFragment,
   GuildStatus_Enum,
   SyncGuildMembersMutation,
 } from '../../lib/autogen/hasura-sdk';
@@ -54,7 +54,7 @@ export const syncAllGuildDiscordMembers = async (
   }
 };
 
-const syncGuildMembers = async (guild: GuildFragmentFragment) => {
+const syncGuildMembers = async (guild: GuildFragment) => {
   if (guild?.discord_id == null) return;
 
   const getMetadataResponse = await client.GetGuildMetadataById({

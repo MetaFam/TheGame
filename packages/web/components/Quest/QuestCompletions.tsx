@@ -14,7 +14,7 @@ import {
   Quest,
   QuestCompletionStatus_ActionEnum,
   QuestCompletionStatus_Enum,
-  QuestWithCompletionFragmentFragment,
+  QuestWithCompletionFragment,
   useUpdateQuestCompletionMutation,
 } from 'graphql/autogen/types';
 import { useUser } from 'lib/hooks';
@@ -31,7 +31,7 @@ interface AlertSubmission {
 }
 
 type Props = {
-  quest: QuestWithCompletionFragmentFragment;
+  quest: QuestWithCompletionFragment;
 };
 
 export const QuestCompletions: React.FC<Props> = ({ quest }) => {

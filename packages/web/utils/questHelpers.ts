@@ -3,7 +3,7 @@ import { numbers } from '@metafam/utils';
 import {
   QuestRepetition_Enum,
   QuestStatus_Enum,
-  QuestWithCompletionFragmentFragment,
+  QuestWithCompletionFragment,
 } from '../graphql/autogen/types';
 import { MeType } from '../graphql/types';
 
@@ -35,7 +35,7 @@ export function isAllowedToCreateQuest(balance?: string | null): boolean {
 
 // TODO factorize this with backend
 export function canCompleteQuest(
-  quest?: QuestWithCompletionFragmentFragment | null,
+  quest?: QuestWithCompletionFragment | null,
   user?: MeType | null,
 ): boolean {
   if (!user || !quest) return false;

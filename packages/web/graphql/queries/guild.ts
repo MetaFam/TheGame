@@ -9,7 +9,7 @@ import {
   GetGuildQueryVariables,
   GetGuildsQuery,
   GetGuildsQueryVariables,
-  GuildFragmentFragment,
+  GuildFragment as GuildFragmentType,
   GuildStatus_Enum,
 } from 'graphql/autogen/types';
 import { client } from 'graphql/client';
@@ -27,7 +27,7 @@ const guildQuery = /* GraphQL */ `
 
 export const getGuild = async (
   guildname: string | undefined,
-): Promise<GuildFragmentFragment | undefined> => {
+): Promise<GuildFragmentType | undefined> => {
   if (guildname) {
     const { data } = await client
       .query<GetGuildQuery, GetGuildQueryVariables>(guildQuery, { guildname })
@@ -72,9 +72,7 @@ const guildsQuery = /* GraphQL */ `
   ${GuildFragment}
 `;
 
-export const getGuilds = async (
-  limit = 50,
-): Promise<GuildFragmentFragment[]> => {
+export const getGuilds = async (limit = 50): Promise<GuildFragmentType[]> => {
   const { data, error } = await client
     .query<GetGuildsQuery, GetGuildsQueryVariables>(guildsQuery, { limit })
     .toPromise();

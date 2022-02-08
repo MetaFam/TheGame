@@ -1,10 +1,10 @@
 import { SimpleGrid } from '@metafam/ds';
 import { GuildTile } from 'components/Guild/GuildTile';
-import { GuildFragmentFragment } from 'graphql/autogen/types';
+import { GuildFragment } from 'graphql/autogen/types';
 import React from 'react';
 
 type Props = {
-  guilds: GuildFragmentFragment[];
+  guilds: GuildFragment[];
 };
 
 export const GuildList: React.FC<Props> = ({ guilds }) => (
