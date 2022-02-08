@@ -16,6 +16,7 @@ export const MetaButton: React.FC<
     fontSize="sm"
     bg="purple.400"
     color="white"
+    _hover={{ filter: 'rotate-hue(-90)' }}
     {...{ ref }}
     {...props}
   >
