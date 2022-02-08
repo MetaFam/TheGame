@@ -26,17 +26,16 @@ type Props = { player: Player };
 export const PlayerBrightId: React.FC<Props> = ({ player }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { user, fetching } = useUser();
-  const { verified, deeplink, universalLink } = useBrightIdStatus({ player });
-
+  const { verified, deeplink, universalLink } =
+    useBrightIdStatus({ player }) ?? {};
   const { connected } = useWeb3();
-
   const [isLoggedInUser, setIsLoggedInUser] = useState(false);
 
   useEffect(() => {
     if (connected && !fetching && user?.id === player.id) {
       setIsLoggedInUser(true);
     }
-  }, [user, fetching, connected, player.id]);
+  }, [user, fetching, connected, player?.id]);
 
   useBrightIdUpdated({ player, poll: !verified && isOpen && isLoggedInUser });
 
@@ -50,6 +49,7 @@ export const PlayerBrightId: React.FC<Props> = ({ player }) => {
       };
 
   if (!isLoggedInUser && !verified) return null;
+
   if (!isLoggedInUser && verified)
     return (
       <Tooltip label="Verified on BrightID" closeOnClick={false} hasArrow>
@@ -98,10 +98,21 @@ export const PlayerBrightId: React.FC<Props> = ({ player }) => {
             </Box>
             <VStack p={4} css={modalContentStyles} w="100%" color="blueLight">
               <VStack p={4} w="100%" maxW="20rem">
-                <QRCode value={deeplink} />
-                <Link href={universalLink} isExternal color="cyanText" mt={2}>
-                  Open link in App
-                </Link>
+                {deeplink ? (
+                  <Box>
+                    <QRCode value={deeplink} />
+                    <Link
+                      href={universalLink}
+                      isExternal
+                      color="cyanText"
+                      mt={2}
+                    >
+                      Open Link in App
+                    </Link>
+                  </Box>
+                ) : (
+                  <Text>Could not load BrightID!</Text>
+                )}
               </VStack>
               <Text>
                 {"Don't have BrightID yet? "}

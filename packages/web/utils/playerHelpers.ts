@@ -10,7 +10,9 @@ import { GuildPlayer } from 'graphql/types';
 
 import { optimizedImage } from './imageHelpers';
 
-export const getPlayerImage = (player?: Player | GuildPlayer): string => {
+export const getPlayerImage = (
+  player?: Maybe<Player | GuildPlayer>,
+): string => {
   const key = 'profileImageURL';
   const link = optimizedImage(key, player?.profile?.[key]);
 
@@ -22,15 +24,15 @@ export const getPlayerImage = (player?: Player | GuildPlayer): string => {
     : ProfileIcon;
 };
 
-export const getPlayerBanner = (player: Player): string => {
+export const getPlayerBanner = (player: Maybe<Player>): string => {
   const key = 'bannerImageURL';
   return (
-    optimizedImage(key, player.profile?.[key], { height: 100 }) ||
+    optimizedImage(key, player?.profile?.[key], { height: 100 }) ??
     PlayerCoverImageSmall
   );
 };
 
-export const getPlayerBannerFull = (player?: Player): string => {
+export const getPlayerBannerFull = (player?: Maybe<Player>): string => {
   const key = 'bannerImageURL';
   return optimizedImage(key, player?.profile?.[key]) || PlayerCoverImageFull;
 };
@@ -40,17 +42,18 @@ export const getGuildCoverImageFull = (): string => GuildCoverImageFull;
 export const getGuildCoverImageSmall = (): string => GuildCoverImageSmall;
 
 export const getPlayerName = (
-  player?: Player | GuildPlayer,
+  player?: Maybe<Player | GuildPlayer>,
 ): string | undefined =>
   player?.profile?.name ||
   formatIfAddress(player?.profile?.username ?? undefined) ||
   formatAddress(player?.ethereumAddress);
 
-export const getPlayerUsername = (player?: Player): string | undefined =>
+export const getPlayerUsername = (player?: Maybe<Player>): string | undefined =>
   formatIfAddress(player?.profile?.username ?? undefined);
 
-export const getPlayerDescription = (player?: Player): string | undefined =>
-  player?.profile?.description ?? undefined;
+export const getPlayerDescription = (
+  player?: Maybe<Player>,
+): string | undefined => player?.profile?.description ?? undefined;
 
 export const formatAddress = (address = ''): string =>
   `${address.slice(0, 6)}…${address.slice(-4)}`;
@@ -59,7 +62,7 @@ export const formatIfAddress = (username = ''): string =>
   ethers.utils.isAddress(username) ? formatAddress(username) : username;
 
 export const getPlayerURL = (
-  player?: Player | GuildPlayer,
+  player?: Maybe<Player | GuildPlayer>,
   opts: { rel?: boolean; default?: string } = {},
 ): string | undefined => {
   let { username } = player?.profile ?? {};
@@ -72,7 +75,7 @@ export const getPlayerURL = (
   return opts.default;
 };
 
-export const hasImage = (player?: Player | GuildPlayer): boolean =>
+export const hasImage = (player?: Maybe<Player | GuildPlayer>): boolean =>
   !!player?.profile?.profileImageURL;
 
 export const dispositionFor = (mask?: Maybe<number>) => {

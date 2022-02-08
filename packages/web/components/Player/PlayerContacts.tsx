@@ -19,7 +19,7 @@ export const PlayerContacts: React.FC<Props> = ({
   const [copied, handleCopy] = useCopyToClipboard();
   return (
     <Wrap>
-      {player.accounts?.map((acc) => {
+      {player?.accounts?.map((acc) => {
         switch (acc.type) {
           case 'TWITTER': {
             const link = `https://twitter.com/${acc.identifier}`;
@@ -65,7 +65,7 @@ export const PlayerContacts: React.FC<Props> = ({
           }
         }
       })}
-      {player.ethereumAddress && (
+      {player?.ethereumAddress && (
         <WrapItem>
           <Tooltip
             label={copied ? 'Copied!' : 'Copy to clipboard'}

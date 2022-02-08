@@ -63,9 +63,9 @@ export type PlayersQueryVariables = {
     seasonXP?: Maybe<Order_By>;
   };
   availability?: number;
-  skillIds?: string[];
-  explorerTypeTitles?: string[];
-  timeZones?: string[];
+  skillIds?: Array<string>;
+  explorerTypeTitles?: Array<string>;
+  timeZones?: Array<string>;
 };
 
 export const transformToGraphQLVariables = (
@@ -107,9 +107,9 @@ export const transformToGraphQLVariables = (
 };
 
 export type PlayersResponse = {
-  error: Error | undefined;
+  error?: Error;
   count: number;
-  players: Player[];
+  players: Array<Player>;
 };
 
 export const getPlayersWithCount = async (

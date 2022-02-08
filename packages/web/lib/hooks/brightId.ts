@@ -1,3 +1,4 @@
+import { Optional } from '@metafam/utils';
 import { CONFIG } from 'config';
 import { Player } from 'graphql/autogen/types';
 import { useEffect, useMemo } from 'react';
@@ -27,19 +28,22 @@ const isStatusVerified = (
 export const useBrightIdStatus = ({
   player,
 }: {
-  player: Player;
-}): {
+  player?: Player;
+}): Optional<{
   verified: boolean;
   deeplink: string;
   universalLink: string;
-} =>
+}> =>
   useMemo(() => {
-    const contextId = player.id;
-    const verified = isStatusVerified(player.brightid_status, contextId);
-    const deeplink = `${DEEPLINK_ENDPOINT}/${contextId}`;
-    const universalLink = `${UNIVERSAL_LINK_ENDPOINT}/${contextId}`;
+    if (player) {
+      const contextId = player.id;
+      const verified = isStatusVerified(player.brightid_status, contextId);
+      const deeplink = `${DEEPLINK_ENDPOINT}/${contextId}`;
+      const universalLink = `${UNIVERSAL_LINK_ENDPOINT}/${contextId}`;
 
-    return { verified, deeplink, universalLink };
+      return { verified, deeplink, universalLink };
+    }
+    return undefined;
   }, [player]);
 
 const fetchVerificationData = async (
