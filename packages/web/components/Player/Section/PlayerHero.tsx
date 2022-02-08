@@ -69,7 +69,7 @@ export const PlayerHero: React.FC<Props> = ({
   const [playerName, setPlayerName] = useState<string>();
   const { user } = useUser();
 
-  const person = isOwnProfile ? user?.player : player;
+  const person = isOwnProfile ? user : player;
   useEffect(() => {
     if (person) {
       setPlayerName(getPlayerName(person));

@@ -19,7 +19,7 @@ export const SetupDone: React.FC = () => {
         justify="center"
         align="center"
       >
-        {user?.player && <PlayerTile player={user.player} />}
+        {user && <PlayerTile player={user} />}
         <MetaButton
           onClick={() => {
             setLoading(true);

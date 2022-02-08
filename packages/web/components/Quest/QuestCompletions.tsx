@@ -21,7 +21,7 @@ import { useUser } from 'lib/hooks';
 import moment from 'moment';
 import React, { useCallback, useState } from 'react';
 import { FaExternalLinkAlt } from 'react-icons/fa';
-import { getPlayerName } from 'utils/playerHelpers';
+import { getPlayerName, getPlayerURL } from 'utils/playerHelpers';
 
 import { CompletionStatusTag } from './QuestTags';
 
@@ -99,7 +99,7 @@ export const QuestCompletions: React.FC<Props> = ({ quest }) => {
                   <i>
                     by{' '}
                     <MetaLink
-                      as={`/player/${player.profile?.username}`}
+                      as={getPlayerURL(player)}
                       href="/player/[username]"
                     >
                       {getPlayerName(player as Player)}

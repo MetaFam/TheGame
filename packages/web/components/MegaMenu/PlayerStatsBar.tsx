@@ -24,7 +24,6 @@ import { XPSeedsBalance } from './XPSeedsBalance';
 export const PlayerStatsBar = () => {
   const { disconnect } = useWeb3();
   const { user } = useUser();
-  const { player } = user ?? {};
 
   return (
     <Flex
@@ -33,7 +32,7 @@ export const PlayerStatsBar = () => {
       pos="fixed"
       left={0}
       bottom={0}
-      justify={player ? 'space-between' : 'center'}
+      justify={user ? 'space-between' : 'center'}
       w="100%"
       h="5rem"
       bg="rgba(0,0,0,0.75)"
@@ -41,7 +40,7 @@ export const PlayerStatsBar = () => {
       px="1rem"
       sx={{ backdropFilter: 'blur(10px)' }}
     >
-      {!player ? (
+      {!user ? (
         <LoginButton />
       ) : (
         <>
@@ -54,20 +53,20 @@ export const PlayerStatsBar = () => {
               _active={{ bg: 'transparent' }}
             >
               <Flex>
-                <PlayerAvatar {...{ player }} w={12} h={12} m={0} />
+                <PlayerAvatar player={user} w={12} h={12} m={0} />
                 <Stack my={2} ml={2} justify="center">
                   <Text
-                    fontSize={player.rank ? 14 : 22}
+                    fontSize={user.rank ? 14 : 22}
                     fontWeight="semibold"
                     m={0}
                     p={0}
                     lineHeight={1}
                   >
-                    {getPlayerName(player)}
+                    {getPlayerName(user)}
                   </Text>
-                  {player.rank && (
+                  {user.rank && (
                     <Text fontSize={12} m={0} p={0} lineHeight={1}>
-                      {player.rank}
+                      {user.rank}
                     </Text>
                   )}
                 </Stack>
@@ -76,7 +75,7 @@ export const PlayerStatsBar = () => {
             <MenuList color="black">
               <MetaLink
                 color="black"
-                href={getPlayerURL(player) ?? '/'}
+                href={getPlayerURL(user) ?? '/'}
                 _hover={{ textDecoration: 'none' }}
               >
                 <MenuItem>
@@ -100,7 +99,7 @@ export const PlayerStatsBar = () => {
             </MenuList>
           </Menu>
           <HStack justify="flex-end">
-            <XPSeedsBalance totalXP={player.totalXP} mobile />
+            <XPSeedsBalance totalXP={user.totalXP} mobile />
           </HStack>
         </>
       )}

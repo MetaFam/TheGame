@@ -77,17 +77,12 @@ export const SetupSkills: React.FC<SetupSkillsProps> = ({
   const [loading, setLoading] = useState(false);
   const [playerSkills, setPlayerSkills] = useState<Array<SkillOption>>([]);
   const isWizard = !isEdit;
-  const { player } = user ?? {};
 
   useEffect(() => {
-    if (player) {
-      if (
-        player.skills &&
-        player.skills.length > 0 &&
-        playerSkills.length === 0
-      ) {
+    if (user) {
+      if (user.skills && user.skills.length > 0 && playerSkills.length === 0) {
         setPlayerSkills(
-          player.skills.map(({ Skill: skill }) => ({
+          user.skills.map(({ Skill: skill }) => ({
             value: skill.id,
             label: skill.name,
             ...skill,
@@ -112,7 +107,7 @@ export const SetupSkills: React.FC<SetupSkillsProps> = ({
     setLoading(true);
 
     const { error } = await updateSkills({
-      skills: playerSkills.map((s) => ({ skill_id: s.id })),
+      skills: playerSkills.map(({ id }) => ({ skill_id: id })),
     });
 
     if (error) {

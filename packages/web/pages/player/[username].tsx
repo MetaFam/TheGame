@@ -157,8 +157,8 @@ export const Grid: React.FC<Props> = ({
   const [exitAlertReset, setExitAlertReset] = useState<boolean>(false);
 
   useEffect(() => {
-    if (!fetching && user?.player && user?.id === player?.id) {
-      setPlayer(user?.player);
+    if (!fetching && user && user.id === player?.id) {
+      setPlayer(user);
       if (connected) {
         setIsOwnProfile(true);
       }
@@ -473,10 +473,10 @@ export const Grid: React.FC<Props> = ({
 type QueryParams = { username: string };
 
 export const getStaticPaths: GetStaticPaths<QueryParams> = async () => {
-  const playerUsernames = await getTopPlayerUsernames();
+  const usernames = await getTopPlayerUsernames();
 
   return {
-    paths: playerUsernames.map((username) => ({
+    paths: usernames.map((username) => ({
       params: { username },
     })),
     fallback: 'blocking',
