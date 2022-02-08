@@ -11,7 +11,7 @@ export const SetupDone: React.FC = () => {
   const [loading, setLoading] = useState(false);
   return (
     <FlexContainer flex={1} mb={8}>
-      <MetaHeading mb={10}>Game on!</MetaHeading>
+      <MetaHeading mb={10}>Game On!</MetaHeading>
 
       <Stack
         spacing={8}

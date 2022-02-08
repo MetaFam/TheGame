@@ -89,14 +89,15 @@ const menuIcons: { [key: string]: string } = {
   becomeapatron: BecomeAPatron,
 };
 
+const ICON_SIZE = 60;
+
 type LogoProps = {
   link: string;
+  iconSize?: number;
 };
 
-const iconSize = 60;
-
 // Navbar logo
-const Logo = ({ link }: LogoProps) => {
+const Logo = ({ link, iconSize = ICON_SIZE }: LogoProps) => {
   const width = useBreakpointValue({ base: 36, lg: 40 }) ?? (36 as number);
   const height =
     useBreakpointValue({ base: 45, lg: iconSize }) ?? (45 as number);
@@ -106,6 +107,8 @@ const Logo = ({ link }: LogoProps) => {
       className="logo"
       alignSelf="center"
       w={{ base: 'fit-content', lg: '20%' }}
+      mt={[0.5, 2]}
+      ml={3}
     >
       <MetaLink
         href={link}
@@ -129,6 +132,7 @@ type MenuItemProps = {
   url: string;
   explainerText: string;
   icon: string;
+  iconSize?: number;
 };
 // Menu links (with icons and explanatory text) -- used in DesktopNavLinks below
 const DesktopMenuItem = ({
@@ -136,13 +140,17 @@ const DesktopMenuItem = ({
   url,
   explainerText,
   icon,
+  iconSize = ICON_SIZE,
 }: MenuItemProps) => (
   <MenuItem
-    color="#ffffff"
+    color="#FFF"
     key={title}
+    mb={4}
     p={0}
+    borderRadius="md"
     _active={{ bg: 'none' }}
     _focus={{ bg: 'none' }}
+    _hover={{ bg: '#C8BAFC33' }}
   >
     <Link
       display="flex"
@@ -181,10 +189,10 @@ const DesktopMenuItem = ({
         transition="0.3s"
       />
       <Box>
-        <Text color="#fff" fontSize="xl" fontWeight="bold">
+        <Text color="#FFF" fontSize="xl" fontWeight="bold">
           {title}
         </Text>
-        <Text color="#fff" fontSize="13px">
+        <Text color="#FFF" fontSize="13px">
           {explainerText}
         </Text>
       </Box>
@@ -223,14 +231,14 @@ const DesktopNavLinks = () => (
               )}
               <Icon
                 position="absolute"
-                left="calc(50% - 21px)"
+                left="calc(50% - 1.25rem)"
                 top={14}
                 width={6}
                 borderColor="transparent"
                 h={isOpen ? 'auto' : 0}
                 opacity={isOpen ? 1 : 0}
                 transition="opacity 0.2s"
-                zIndex="2"
+                zIndex={2}
               >
                 <path
                   d="M12 0L24 12C14.6274 12 9.37258 12 0 12L12 0Z"
@@ -240,15 +248,15 @@ const DesktopNavLinks = () => (
             </MenuButton>
             {isOpen ? (
               <Box
-                zIndex="-2"
                 position="absolute"
                 minW="100vw"
                 top="81px"
                 left="calc(100% - 100vw)"
-                mx="0"
+                mx={0}
                 h="100vh"
                 bg="linear-gradient(rgba(0,0,0,0.9) 10%, rgba(0,0,0,0) 96%)"
                 sx={{ filter: 'blur(3rem)' }}
+                zIndex={-2}
               />
             ) : (
               <span />
@@ -277,31 +285,6 @@ const DesktopNavLinks = () => (
     ))}
   </Flex>
 );
-
-// Search -- not working yet
-// const Search = () => (
-//   <Flex
-//     justifyContent="flex-end"
-//     minW={{ base: '20%', lg: '10%' }}
-//     h="fit-content"
-//     p={2}
-//     mt="auto"
-//     mb="auto"
-//     bg={{ base: 'none', xl: 'rgba(255,255,255,0.05)' }}
-//     border={{ base: 'none', xl: '1px solid #2B2244' }}
-//     borderRadius={4}
-//   >
-//     <Image src={SearchIcon} alt="search" height={16} width={16} />
-//     <Text
-//       display={{ base: 'none', xl: 'block' }}
-//       color="rgba(255,255,255,0.5)"
-//       alignSelf="center"
-//       ml={2}
-//     >
-//       find anything
-//     </Text>
-//   </Flex>
-// );
 
 type PlayerStatsProps = {
   player: Player;
@@ -399,7 +382,7 @@ export const MegaMenu: React.FC = () => {
           display={{ base: 'flex', lg: 'none' }}
           p={2}
           my="auto"
-          flexGrow={1}
+          grow={1}
         >
           {isOpen ? (
             <CloseIcon fontSize="1.5rem" color="#FFF" ml={2} />

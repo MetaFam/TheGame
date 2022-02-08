@@ -28,7 +28,7 @@ const CurrentUserPage = (): Maybe<React.ReactElement> => {
   }
 
   if (user) {
-    return PlayerPage({ player: user });
+    return <PlayerPage player={user} />;
   }
 
   if (error) {

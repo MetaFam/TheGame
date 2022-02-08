@@ -40,7 +40,8 @@ export async function getOrCreatePlayerId(ethereumAddress: string) {
           setTimeout(resolve, wait);
         });
       }
-    } else {
+    }
+    if ([undefined, 'failed'].includes(status[ethAddress])) {
       try {
         status[ethAddress] = 'creating';
         console.info(`Account Creation: ${ethAddress}`);
@@ -50,6 +51,7 @@ export async function getOrCreatePlayerId(ethereumAddress: string) {
         console.error(
           `Account Creation Failed: ${ethAddress} (${(err as Error).message})`,
         );
+        status[ethAddress] = 'failed';
       }
     }
 

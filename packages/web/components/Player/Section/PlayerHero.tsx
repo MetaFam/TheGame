@@ -225,7 +225,7 @@ export const PlayerHero: React.FC<Props> = ({
             }}
           />
           <ModalBody p={[0, 2]}>
-            <EditProfileForm {...{ user, onClose }} />
+            <EditProfileForm player={user} {...{ onClose }} />
           </ModalBody>
         </ModalContent>
       </Modal>

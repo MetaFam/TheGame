@@ -47,7 +47,7 @@ const PlayerSectionInner: React.FC<Props> = ({
     case BoxType.PLAYER_COLOR_DISPOSITION:
       return (
         <PlayerColorDisposition
-          {...{ player, isOwnProfile, canEdit, personalityInfo }}
+          {...{ player, isOwnProfile, canEdit, types: personalityInfo }}
         />
       );
     case BoxType.PLAYER_TYPE:

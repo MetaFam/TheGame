@@ -8,7 +8,7 @@ import { CombinedError, RequestPolicy } from 'urql';
 type UseUserOpts = {
   redirectTo?: string;
   redirectIfNotFound?: boolean;
-  requestPolicy?: RequestPolicy | undefined;
+  requestPolicy?: RequestPolicy;
 };
 
 export const useUser = ({
