@@ -41,7 +41,7 @@
     "fake-tag": "3.0.0",
     "graphql": "15.8.0",
     "html-metadata-parser": "2.0.4",
-    "html-react-parser": "1.2.8",
+    "html-react-parser": "1.4.8",
     "isomorphic-unfetch": "3.1.0",
     "jotai": "1.5.3",
     "jsdom": "19.0.0",
