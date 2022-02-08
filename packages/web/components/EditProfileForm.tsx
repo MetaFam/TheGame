@@ -453,7 +453,7 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
                 extended[fromKey] = values[toKey] as number;
                 break;
               }
-              case 'colorDisposition': {
+              case 'magicDisposition': {
                 extended[fromKey] =
                   dispositionFor(values.colorMask) ?? undefined;
                 break;

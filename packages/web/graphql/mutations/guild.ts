@@ -1,7 +1,7 @@
-import gql from 'fake-tag';
+export {};
 
 // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-gql`
+/* GraphQL */ `
   mutation AuthenticateDiscordGuild($code: String!) {
     authenticateDiscordGuild(code: $code) {
       success

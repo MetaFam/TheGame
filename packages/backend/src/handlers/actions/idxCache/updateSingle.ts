@@ -1,3 +1,4 @@
+import { CeramicApi } from '@ceramicnetwork/common';
 import Ceramic from '@ceramicnetwork/http-client';
 import { Caip10Link } from '@ceramicnetwork/stream-caip10-link';
 import {
@@ -51,7 +52,7 @@ export default async (playerId: string): Promise<UpdateIdxProfileResponse> => {
 
   try {
     const cache = new Map();
-    const ceramic = new Ceramic(CONFIG.ceramicURL);
+    const ceramic = (new Ceramic(CONFIG.ceramicURL) as unknown) as CeramicApi;
     const loader = new TileLoader({ ceramic, cache });
     const manager = new ModelManager(ceramic);
     manager.addJSONModel(basicProfileModel);
@@ -141,9 +142,9 @@ export default async (playerId: string): Promise<UpdateIdxProfileResponse> => {
                   values.availableHours = extendedProfile.availableHours;
                   break;
                 }
-                case 'colorDisposition': {
+                case 'magicDisposition': {
                   values.colorMask =
-                    maskFor(extendedProfile.colorDisposition) ?? undefined;
+                    maskFor(extendedProfile.magicDisposition) ?? undefined;
                   break;
                 }
                 default: {
