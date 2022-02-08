@@ -2,8 +2,8 @@ overwrite: true
 require:
   - ts-node/register
 generates:
-  ./src/handlers/remote-schemas/autogen/types.ts:
-    schema: './src/handlers/remote-schemas/typeDefs.ts'
+  src/handlers/remote-schemas/autogen/types.ts:
+    schema: src/handlers/remote-schemas/typeDefs.ts
     plugins:
       - typescript
       - typescript-resolvers
@@ -13,10 +13,10 @@ generates:
       noSchemaStitching: true
       avoidOptionals: true
       maybeValue: 'T extends PromiseLike<infer U> ? Promise<U | null> : T | null | undefined'
-  ./src/lib/autogen/hasura-sdk.ts:
+  src/lib/autogen/hasura-sdk.ts:
     schema: '../../schema.graphql'
     documents:
-      - ./src/handlers/graphql/**/(!(*.d)).ts
+      - src/handlers/graphql/**/(!(*.d)).ts
     plugins:
       - typescript
       - typescript-operations
@@ -27,10 +27,11 @@ generates:
       immutableTypes: true
       scalars:
         account_type: "'ETHEREUM' | 'DISCORD' | 'GITHUB' | 'TWITTER' | 'DISCOURSE'"
-  ./src/lib/autogen/daohaus-sdk.ts:
+      dedupeOperationSuffix: true
+  src/lib/autogen/daohaus-sdk.ts:
     schema: 'https://api.thegraph.com/subgraphs/name/odyssy-automaton/daohaus'
     documents:
-      - ./src/handlers/remote-schemas/resolvers/daohaus/**/(!(*.d)).ts
+      - src/handlers/remote-schemas/resolvers/daohaus/**/(!(*.d)).ts
     plugins:
       - typescript
       - typescript-operations
@@ -39,10 +40,11 @@ generates:
           content: '/* eslint-disable */'
     config:
       avoidOptionals: true
-  ./src/lib/autogen/seedgraph-sdk.ts:
+      dedupeOperationSuffix: true
+  src/lib/autogen/seedgraph-sdk.ts:
     schema: 'https://api.thegraph.com/subgraphs/name/dan13ram/seed-graph'
     documents:
-      - ./src/handlers/remote-schemas/resolvers/seedGraph/**/(!(*.d)).ts
+      - src/handlers/remote-schemas/resolvers/seedGraph/**/(!(*.d)).ts
     plugins:
       - typescript
       - typescript-operations
@@ -51,3 +53,4 @@ generates:
           content: '/* eslint-disable */'
     config:
       avoidOptionals: true
+      dedupeOperationSuffix: true

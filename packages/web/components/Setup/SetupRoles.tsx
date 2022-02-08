@@ -64,7 +64,7 @@ export const SetupRoles: React.FC<SetupRolesProps> = ({
   ]);
   const [roles, setRoles] = useState<string[]>([]);
   useEffect(() => {
-    setRoles(user?.player?.roles.map((r) => r.role) ?? []);
+    setRoles(user?.roles.map((r) => r.role) ?? []);
   }, [user]);
 
   const availableRoles = useMemo(

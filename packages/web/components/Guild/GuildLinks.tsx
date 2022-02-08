@@ -1,11 +1,11 @@
 import { IconButton, Wrap, WrapItem } from '@metafam/ds';
 import { ProfileSection } from 'components/Profile/ProfileSection';
-import { GuildFragmentFragment } from 'graphql/autogen/types';
+import { GuildFragment } from 'graphql/autogen/types';
 import React from 'react';
 import { FaDiscord, FaGithub, FaGlobe, FaTwitter } from 'react-icons/fa';
 
 type Props = {
-  guild: GuildFragmentFragment;
+  guild: GuildFragment;
 };
 
 export const GuildLinks: React.FC<Props> = ({ guild }) => (

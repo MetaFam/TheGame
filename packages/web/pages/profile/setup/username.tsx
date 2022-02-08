@@ -17,8 +17,7 @@ const UsernameSetup: React.FC<DefaultSetupProps> = () => {
   const [username, setUsername] = useState<string>();
   const { address } = useWeb3();
   const { user } = useUser();
-  const { player } = user ?? {};
-  const { username: name } = player?.profile ?? {};
+  const { username: name } = user?.profile ?? {};
 
   if (
     name &&

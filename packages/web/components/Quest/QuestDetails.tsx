@@ -17,7 +17,7 @@ import {
   Quest,
   QuestRepetition_Enum,
   QuestStatus_Enum,
-  QuestWithCompletionFragmentFragment,
+  QuestWithCompletionFragment,
   Skill,
 } from 'graphql/autogen/types';
 import parse from 'html-react-parser';
@@ -31,7 +31,7 @@ import { SkillsTags } from '../Skills';
 import { RepetitionTag, StatusTag } from './QuestTags';
 
 type Props = {
-  quest: QuestWithCompletionFragmentFragment;
+  quest: QuestWithCompletionFragment;
 };
 
 export const QuestDetails: React.FC<Props> = ({ quest }) => {

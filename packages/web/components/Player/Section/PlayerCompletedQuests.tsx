@@ -1,8 +1,8 @@
 import { Box, Button, ExternalLinkIcon, Link, Stack, Text } from '@metafam/ds';
 import { ProfileSection } from 'components/Profile/ProfileSection';
 import {
-  PlayerFragmentFragment,
-  QuestCompletionFragmentFragment,
+  Player,
+  QuestCompletionFragment,
   QuestCompletionStatus_Enum,
 } from 'graphql/autogen/types';
 import { getAcceptedQuestsByPlayerQuery } from 'graphql/getQuests';
@@ -10,7 +10,7 @@ import React, { useEffect, useState } from 'react';
 import { BoxType } from 'utils/boxTypes';
 
 type Props = {
-  player: PlayerFragmentFragment;
+  player: Player;
   isOwnProfile?: boolean;
   canEdit?: boolean;
 };
@@ -20,9 +20,7 @@ export const PlayerCompletedQuests: React.FC<Props> = ({
   isOwnProfile,
   canEdit,
 }) => {
-  const [quests, setQuests] = useState<Array<QuestCompletionFragmentFragment>>(
-    [],
-  );
+  const [quests, setQuests] = useState<Array<QuestCompletionFragment>>([]);
 
   useEffect(() => {
     const loadQuests = async () => {
@@ -68,7 +66,7 @@ export const PlayerCompletedQuests: React.FC<Props> = ({
 };
 
 interface QuestProps {
-  quests: Array<QuestCompletionFragmentFragment>;
+  quests: Array<QuestCompletionFragment>;
   mb?: number;
 }
 

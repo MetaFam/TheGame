@@ -4,11 +4,10 @@ import BalanceAltImg from 'assets/colors/Balance.svg';
 import ChaosAltImg from 'assets/colors/Chaos.svg';
 import JusticeAltImg from 'assets/colors/Justice.svg';
 import WisdomAltImg from 'assets/colors/Wisdom.svg';
-import gql from 'fake-tag';
 import { client } from 'graphql/client';
 import { PersonalityOption } from 'graphql/types';
 
-const AspectsQuery = gql`
+const AspectsQuery = /* GraphQL */ `
   query GetAspects {
     ColorAspect {
       mask

@@ -1,6 +1,6 @@
 import {
   GetSkillsQuery,
-  PlayerSkillFragmentFragment,
+  PlayerSkillFragment as PlayerSkillFragmentType,
 } from 'graphql/autogen/types';
 import { client } from 'graphql/client';
 import { PlayerSkillFragment } from 'graphql/fragments';
@@ -16,7 +16,7 @@ const skillsQuery = /* GraphQL */ `
   ${PlayerSkillFragment}
 `;
 
-export const getSkills = async (): Promise<PlayerSkillFragmentFragment[]> => {
+export const getSkills = async (): Promise<PlayerSkillFragmentType[]> => {
   const { data, error } = await client
     .query<GetSkillsQuery>(skillsQuery)
     .toPromise();

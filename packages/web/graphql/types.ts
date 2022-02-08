@@ -37,14 +37,14 @@ export type MeType =
   | null
   | undefined;
 
-export const SkillColors: Record<SkillCategory_Enum, string> = {
+export const SkillColors = {
   [SkillCategory_Enum.Community]: MetaTheme.colors.green['700'],
   [SkillCategory_Enum.Design]: MetaTheme.colors.pink['700'],
   [SkillCategory_Enum.Dev]: MetaTheme.colors.cyan['700'],
   [SkillCategory_Enum.Engineering]: MetaTheme.colors.blue['700'],
   [SkillCategory_Enum.Technologies]: MetaTheme.colors.gray['600'],
   [SkillCategory_Enum.Strategy]: MetaTheme.colors.yellow['700'],
-};
+} as const;
 
 export type GuildPlayer = {
   ethereumAddress: string;

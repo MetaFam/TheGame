@@ -12,12 +12,12 @@ import {
   Text,
   VStack,
 } from '@metafam/ds';
-import { GuildFragmentFragment } from 'graphql/autogen/types';
+import { GuildFragment } from 'graphql/autogen/types';
 import NextLink from 'next/link';
 import React from 'react';
 
 type Props = {
-  guild: GuildFragmentFragment;
+  guild: GuildFragment;
 };
 
 export const GuildTile: React.FC<Props> = ({ guild }) => (

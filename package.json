@@ -86,7 +86,8 @@
   },
   "resolutions": {
     "bcrypto": "5.2.0",
-    "typescript": "4.5.4"
+    "typescript": "4.5.4",
+    "@ceramicnetwork/common": "1.11.0"
   },
   "dependencies": {
     "bottleneck": "2.19.5",

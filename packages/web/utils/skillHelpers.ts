@@ -1,10 +1,10 @@
-import { PlayerSkillFragmentFragment } from 'graphql/autogen/types';
+import { PlayerSkillFragment } from 'graphql/autogen/types';
 
 export type SkillMap = {
   [category: string]: CategoryOption;
 };
 
-export type SkillOption = PlayerSkillFragmentFragment & {
+export type SkillOption = PlayerSkillFragment & {
   value: string;
   label: string;
 };
@@ -15,7 +15,7 @@ export type CategoryOption = {
 };
 
 export const parseSkills = (
-  skills: Array<PlayerSkillFragmentFragment>,
+  skills: Array<PlayerSkillFragment>,
 ): Array<CategoryOption> => {
   const skillsMap: SkillMap = {};
   skills.forEach((skill) => {

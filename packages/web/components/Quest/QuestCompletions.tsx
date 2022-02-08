@@ -14,14 +14,14 @@ import {
   Quest,
   QuestCompletionStatus_ActionEnum,
   QuestCompletionStatus_Enum,
-  QuestWithCompletionFragmentFragment,
+  QuestWithCompletionFragment,
   useUpdateQuestCompletionMutation,
 } from 'graphql/autogen/types';
 import { useUser } from 'lib/hooks';
 import moment from 'moment';
 import React, { useCallback, useState } from 'react';
 import { FaExternalLinkAlt } from 'react-icons/fa';
-import { getPlayerName } from 'utils/playerHelpers';
+import { getPlayerName, getPlayerURL } from 'utils/playerHelpers';
 
 import { CompletionStatusTag } from './QuestTags';
 
@@ -31,7 +31,7 @@ interface AlertSubmission {
 }
 
 type Props = {
-  quest: QuestWithCompletionFragmentFragment;
+  quest: QuestWithCompletionFragment;
 };
 
 export const QuestCompletions: React.FC<Props> = ({ quest }) => {
@@ -99,7 +99,7 @@ export const QuestCompletions: React.FC<Props> = ({ quest }) => {
                   <i>
                     by{' '}
                     <MetaLink
-                      as={`/player/${player.profile?.username}`}
+                      as={getPlayerURL(player)}
                       href="/player/[username]"
                     >
                       {getPlayerName(player as Player)}

@@ -1,5 +1,4 @@
-import { CeramicApi } from '@ceramicnetwork/common';
-import Ceramic from '@ceramicnetwork/http-client';
+import { CeramicClient } from '@ceramicnetwork/http-client';
 import { Caip10Link } from '@ceramicnetwork/stream-caip10-link';
 import {
   Account,
@@ -52,7 +51,7 @@ export default async (playerId: string): Promise<UpdateIdxProfileResponse> => {
 
   try {
     const cache = new Map();
-    const ceramic = (new Ceramic(CONFIG.ceramicURL) as unknown) as CeramicApi;
+    const ceramic = new CeramicClient(CONFIG.ceramicURL);
     const loader = new TileLoader({ ceramic, cache });
     const manager = new ModelManager(ceramic);
     manager.addJSONModel(basicProfileModel);

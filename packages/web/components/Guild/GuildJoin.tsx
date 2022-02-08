@@ -77,7 +77,7 @@ export const GuildJoin: React.FC = () => {
             </MetaLink>{' '}
             server.
           </Text>
-          {stateGuid?.length && user?.player ? (
+          {stateGuid?.length && user ? (
             <>
               <Text pt={4}>
                 Clicking the link below will redirect to a Discord page asking

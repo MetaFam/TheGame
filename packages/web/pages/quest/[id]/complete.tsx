@@ -1,23 +1,22 @@
 import { Flex, Heading, LoadingState, Stack, useToast } from '@metafam/ds';
+import { PageContainer } from 'components/Container';
 import { MetaLink } from 'components/Link';
+import { CompletionForm } from 'components/Quest/CompletionForm';
 import {
   CreateQuestCompletionInput,
   useCreateQuestCompletionMutation,
 } from 'graphql/autogen/types';
+import { getSsrClient } from 'graphql/client';
 import { getQuest } from 'graphql/getQuest';
+import { useUser } from 'lib/hooks';
 import {
   GetStaticPaths,
   GetStaticPropsContext,
   InferGetStaticPropsType,
 } from 'next';
 import { useRouter } from 'next/router';
+import Page404 from 'pages/404';
 import React from 'react';
-
-import { PageContainer } from '../../../components/Container';
-import { CompletionForm } from '../../../components/Quest/CompletionForm';
-import { getSsrClient } from '../../../graphql/client';
-import { useUser } from '../../../lib/hooks';
-import Page404 from '../../404';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
