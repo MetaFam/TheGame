@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 
 export * from './useUser';
+export * from './useWeb3';
 
 // https://www.joshwcomeau.com/react/the-perils-of-rehydration/
 export const useMounted = (): boolean => {
