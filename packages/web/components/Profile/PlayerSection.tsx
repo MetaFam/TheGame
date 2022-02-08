@@ -35,9 +35,7 @@ const PlayerSectionInner: React.FC<Props> = ({
 }) => {
   switch (boxType) {
     case BoxType.PLAYER_HERO:
-      return (
-        <PlayerHero {...{ player, personalityInfo, isOwnProfile, canEdit }} />
-      );
+      return <PlayerHero {...{ player, isOwnProfile, canEdit }} />;
     case BoxType.PLAYER_SKILLS:
       return <PlayerSkills {...{ player, isOwnProfile, canEdit }} />;
     case BoxType.PLAYER_NFT_GALLERY:
@@ -63,7 +61,7 @@ const PlayerSectionInner: React.FC<Props> = ({
       return url ? <EmbeddedUrl {...{ url, canEdit }} /> : <></>;
     }
     default:
-      return <></>;
+      return null;
   }
 };
 

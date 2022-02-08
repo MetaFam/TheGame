@@ -4,24 +4,23 @@ import 'react-resizable/css/styles.css';
 import {
   Box,
   ButtonGroup,
-  CloseIcon,
-  ConfirmModal,
+  DeleteIcon,
   EditIcon,
   Flex,
   LoadingState,
   MetaButton,
-  RepeatClockIcon,
   ResponsiveText,
   useToast,
 } from '@metafam/ds';
 import { PageContainer } from 'components/Container';
 import {
   ALL_BOXES,
-  DEFAULT_PLAYER_LAYOUT_DATA,
+  DEFAULT_BOXES,
+  DEFAULT_PLAYER_LAYOUTS,
+  getBoxLayoutItemDefaults,
   GRID_ROW_HEIGHT,
   gridConfig,
   MULTIPLE_ALLOWED_BOXES,
-  ProfileLayoutData,
 } from 'components/Player/Section/config';
 import { PlayerAddSection } from 'components/Player/Section/PlayerAddSection';
 import { PlayerSection } from 'components/Profile/PlayerSection';
@@ -37,11 +36,11 @@ import {
   getPersonalityInfo,
   PersonalityInfo,
 } from 'graphql/queries/enums/getPersonalityInfo';
-import { useUser, useWeb3 } from 'lib/hooks';
+import { useProfileField, useUser, useWeb3 } from 'lib/hooks';
 import { GetStaticPaths, GetStaticPropsContext } from 'next';
 import { useRouter } from 'next/router';
 import Page404 from 'pages/404';
-import {
+import React, {
   ReactElement,
   useCallback,
   useEffect,
@@ -50,15 +49,12 @@ import {
   useState,
 } from 'react';
 import { Layout, Layouts, Responsive, WidthProvider } from 'react-grid-layout';
-import { BoxMetadata, BoxType, getBoxKey } from 'utils/boxTypes';
 import {
-  addBoxToLayouts,
-  disableAddBoxInLayoutData,
-  enableAddBoxInLayoutData,
-  isSameLayouts,
-  onRemoveBoxFromLayouts,
-  updateHeightsInLayouts,
-} from 'utils/layoutHelpers';
+  BoxMetadata,
+  BoxType,
+  getBoxKey,
+  getBoxTypeFromKey,
+} from 'utils/boxTypes';
 import {
   getPlayerBannerFull,
   getPlayerDescription,
@@ -79,6 +75,13 @@ export const PlayerPage: React.FC<Props> = ({
   personalityInfo,
 }): ReactElement => {
   const router = useRouter();
+  const { user } = useUser();
+  const { value: banner } = useProfileField({
+    field: 'bannerImageURL',
+    player,
+    owner: !!user && user.id === player?.id,
+    getter: getPlayerBannerFull,
+  });
 
   if (router.isFallback) {
     return <LoadingState />;
@@ -87,15 +90,15 @@ export const PlayerPage: React.FC<Props> = ({
   if (!player) return <Page404 />;
 
   return (
-    <PageContainer p={0} px={[0, 4, 8]}>
+    <PageContainer pt={0} px={[0, 4, 8]}>
       <HeadComponent
-        title={`MetaGame Player Profile: ${getPlayerName(player)}`}
+        title={`MetaGame Profile: ${getPlayerName(player)}`}
         description={(getPlayerDescription(player) ?? '').replace('\n', ' ')}
         url={getPlayerURL(player, { rel: false })}
         img={getPlayerImage(player)}
       />
       <Box
-        bg={`url(${getPlayerBannerFull(player)}) no-repeat`}
+        bg={`url(${banner}) no-repeat`}
         bgSize="cover"
         bgPos="center"
         h={72}
@@ -111,8 +114,91 @@ export const PlayerPage: React.FC<Props> = ({
 
 export default PlayerPage;
 
+const makeLayouts = (canEdit: boolean, layouts: Layouts): Layouts =>
+  Object.fromEntries(
+    Object.entries(layouts).map(([key, items]) => [
+      key,
+      items.map((item) =>
+        item.i === 'hero' ? { ...item, isResizable: canEdit } : item,
+      ),
+    ]),
+  );
+
+const onRemoveBoxFromLayouts = (boxKey: string, layouts: Layouts): Layouts =>
+  Object.fromEntries(
+    Object.entries(layouts).map(([key, items]) => [
+      key,
+      items.filter((item) => item.i !== boxKey),
+    ]),
+  );
+
+const addBoxToLayouts = (
+  boxType: BoxType,
+  boxMetadata: BoxMetadata,
+  layouts: Layouts,
+): Layouts =>
+  Object.fromEntries(
+    Object.entries(layouts).map(([key, items]) => {
+      const heroItem = items.find(
+        (item) => item.i === getBoxKey(BoxType.PLAYER_HERO, {}),
+      );
+      return [
+        key,
+        [
+          ...items,
+          {
+            ...getBoxLayoutItemDefaults(boxType),
+            x: 0,
+            y: heroItem ? heroItem.y + heroItem.h : 0,
+            i: getBoxKey(boxType, boxMetadata),
+          },
+        ],
+      ];
+    }),
+  );
+
+const HEIGHT_MODIFIER = 0.57; // not sure why 0.57 but for some reason it works!
+
+const updateHeightsInLayouts = (
+  layouts: Layouts,
+  heights: { [boxKey: string]: number },
+): Layouts =>
+  Object.fromEntries(
+    Object.entries(layouts).map(([key, items]) => [
+      key,
+      items.map((item) => {
+        const itemHeight =
+          (HEIGHT_MODIFIER * (heights[item.i] || 0)) / GRID_ROW_HEIGHT;
+        const boxType = getBoxTypeFromKey(item.i);
+        return boxType === BoxType.PLAYER_ADD_BOX
+          ? item
+          : {
+              ...item,
+              h: itemHeight >= 1 ? itemHeight : 1,
+            };
+      }),
+    ]),
+  );
+
 const getBoxKeyFromTarget = (target: HTMLElement | null): string =>
   (target?.offsetParent as HTMLElement)?.offsetParent?.id ?? '';
+
+type LayoutItem = {
+  boxKey: string;
+  boxType: BoxType;
+  boxMetadata: BoxMetadata;
+};
+
+const DEFAULT_LAYOUT_ITEMS = DEFAULT_BOXES.map((boxType) => ({
+  boxType,
+  boxMetadata: {},
+  boxKey: getBoxKey(boxType, {}),
+}));
+
+type ProfileLayoutData = {
+  layoutItems: LayoutItem[];
+  layouts: Layouts;
+};
 
 const useItemHeights = (items: HTMLElement[]): { [boxKey: string]: number } => {
   const [heights, setHeights] = useState<{ [boxKey: string]: number }>({});
@@ -156,11 +242,9 @@ export const Grid: React.FC<Props> = ({
   const { user, fetching } = useUser();
   const { connected } = useWeb3();
   const [player, setPlayer] = useState(initPlayer);
-  const [exitAlertCancel, setExitAlertCancel] = useState<boolean>(false);
-  const [exitAlertReset, setExitAlertReset] = useState<boolean>(false);
 
   useEffect(() => {
-    if (!fetching && user && user.id === player?.id) {
+    if (!fetching && user && user.id === player.id) {
       setPlayer(user);
       if (connected) {
         setIsOwnProfile(true);
@@ -186,18 +270,17 @@ export const Grid: React.FC<Props> = ({
     () =>
       player?.profileLayout
         ? JSON.parse(player.profileLayout)
-        : DEFAULT_PLAYER_LAYOUT_DATA,
+        : {
+            layouts: DEFAULT_PLAYER_LAYOUTS,
+            layoutItems: DEFAULT_LAYOUT_ITEMS,
+          },
     [player?.profileLayout],
   );
 
-  const [currentLayoutData, setCurrentLayoutData] = useState<ProfileLayoutData>(
-    savedLayoutData,
-  );
-
-  const {
-    layoutItems: currentLayoutItems,
-    layouts: currentLayouts,
-  } = currentLayoutData;
+  const [
+    { layoutItems: currentLayoutItems, layouts: currentLayouts },
+    setCurrentLayoutData,
+  ] = useState<ProfileLayoutData>(savedLayoutData);
 
   const itemsRef = useRef<HTMLElement[]>([]);
 
@@ -224,18 +307,7 @@ export const Grid: React.FC<Props> = ({
   const handleCancel = useCallback(() => {
     setCurrentLayoutData(savedLayoutData);
     setCanEdit(false);
-    setExitAlertCancel(false);
   }, [savedLayoutData]);
-
-  const handleReset = useCallback(() => {
-    setCurrentLayoutData(enableAddBoxInLayoutData(DEFAULT_PLAYER_LAYOUT_DATA));
-    setExitAlertReset(false);
-  }, []);
-
-  const isDefaultLayout = useMemo(
-    () => isSameLayouts(DEFAULT_PLAYER_LAYOUT_DATA, currentLayoutData),
-    [currentLayoutData],
-  );
 
   const persistLayoutData = useCallback(
     async (layoutData: ProfileLayoutData) => {
@@ -265,13 +337,33 @@ export const Grid: React.FC<Props> = ({
 
   const toggleEditLayout = useCallback(async () => {
     if (canEdit) {
-      await persistLayoutData(disableAddBoxInLayoutData(currentLayoutData));
+      const layoutData = {
+        layouts: onRemoveBoxFromLayouts(
+          getBoxKey(BoxType.PLAYER_ADD_BOX, {}),
+          currentLayouts,
+        ),
+        layoutItems: currentLayoutItems.filter(
+          (item) => item.boxType !== BoxType.PLAYER_ADD_BOX,
+        ),
+      };
+      await persistLayoutData(layoutData);
     } else {
-      setCurrentLayoutData(enableAddBoxInLayoutData(currentLayoutData));
+      const layoutData = {
+        layouts: addBoxToLayouts(BoxType.PLAYER_ADD_BOX, {}, currentLayouts),
+        layoutItems: [
+          ...currentLayoutItems,
+          {
+            boxType: BoxType.PLAYER_ADD_BOX,
+            boxMetadata: {},
+            boxKey: getBoxKey(BoxType.PLAYER_ADD_BOX, {}),
+          },
+        ],
+      };
+      setCurrentLayoutData(layoutData);
     }
     setCanEdit(!canEdit);
     setChanged(false);
-  }, [canEdit, currentLayoutData, persistLayoutData]);
+  }, [canEdit, currentLayouts, currentLayoutItems, persistLayoutData]);
 
   const handleLayoutChange = useCallback(
     (_layoutItems: Layout[], layouts: Layouts) => {
@@ -282,6 +374,11 @@ export const Grid: React.FC<Props> = ({
   );
 
   const wrapperSX = useMemo(() => gridConfig.wrapper(canEdit), [canEdit]);
+
+  const displayLayouts = useMemo(() => makeLayouts(canEdit, currentLayouts), [
+    canEdit,
+    currentLayouts,
+  ]);
 
   const onRemoveBox = useCallback(
     (boxKey: string): void => {
@@ -333,9 +430,10 @@ export const Grid: React.FC<Props> = ({
     <Box
       className="gridWrapper"
       width="100%"
+      height="100%"
       sx={wrapperSX}
       maxW="96rem"
-      pb="3rem"
+      mb="12rem"
       pt={isOwnProfile ? 0 : '4rem'}
     >
       {isOwnProfile && (
@@ -345,54 +443,26 @@ export const Grid: React.FC<Props> = ({
           justifyContent="end"
           variant="ghost"
           zIndex={10}
+          isAttached
           h="3rem"
           mb="1rem"
         >
-          {changed && canEdit && !isDefaultLayout && (
-            <MetaButton
-              aria-label="Reset"
-              _hover={{ background: 'purple.600' }}
-              textTransform="uppercase"
-              px={12}
-              letterSpacing="0.1em"
-              size="lg"
-              fontSize="sm"
-              onClick={() => setExitAlertReset(true)}
-              leftIcon={<RepeatClockIcon />}
-              whiteSpace="pre-wrap"
-            >
-              Reset
-            </MetaButton>
-          )}
           {changed && canEdit && (
             <MetaButton
               aria-label="Cancel edit layout"
+              colorScheme="purple"
               _hover={{ background: 'purple.600' }}
               textTransform="uppercase"
               px={12}
               letterSpacing="0.1em"
               size="lg"
               fontSize="sm"
-              onClick={() => setExitAlertCancel(true)}
-              leftIcon={<CloseIcon />}
+              onClick={handleCancel}
+              leftIcon={<DeleteIcon />}
             >
               Cancel
             </MetaButton>
           )}
-
-          <ConfirmModal
-            isOpen={exitAlertReset}
-            onNope={() => setExitAlertReset(false)}
-            onYep={handleReset}
-            header="Are you sure you want to reset the layout to default?"
-          />
-          <ConfirmModal
-            isOpen={exitAlertCancel}
-            onNope={() => setExitAlertCancel(false)}
-            onYep={handleCancel}
-            header="Are you sure you want to cancel editing the layout?"
-          />
-
           <MetaButton
             aria-label="Edit layout"
             borderColor="transparent"
@@ -422,8 +492,10 @@ export const Grid: React.FC<Props> = ({
       )}
       <ResponsiveGridLayout
         className="gridItems"
-        onLayoutChange={handleLayoutChange}
-        layouts={currentLayouts}
+        onLayoutChange={(layoutItems, layouts) => {
+          handleLayoutChange(layoutItems, layouts);
+        }}
+        layouts={displayLayouts}
         breakpoints={{ lg: 1180, md: 900, sm: 0 }}
         cols={{ lg: 3, md: 2, sm: 1 }}
         rowHeight={GRID_ROW_HEIGHT}
@@ -476,10 +548,10 @@ export const Grid: React.FC<Props> = ({
 type QueryParams = { username: string };
 
 export const getStaticPaths: GetStaticPaths<QueryParams> = async () => {
-  const usernames = await getTopPlayerUsernames();
+  const playerUsernames = await getTopPlayerUsernames();
 
   return {
-    paths: usernames.map((username) => ({
+    paths: playerUsernames.map((username) => ({
       params: { username },
     })),
     fallback: 'blocking',

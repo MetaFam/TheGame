@@ -1,9 +1,9 @@
 import {
   Box,
-  BoxProps,
   Button,
   EditIcon,
   Flex,
+  FlexProps,
   HStack,
   IconButton,
   Modal,
@@ -18,9 +18,8 @@ import {
 } from '@metafam/ds';
 import { Maybe } from '@metafam/utils';
 import BackgroundImage from 'assets/main-background.jpg';
-import { SetupPersonalityType } from 'components/Setup/SetupPersonalityType';
+import { SetupColorDisposition } from 'components/Setup/SetupColorDisposition';
 import { SetupPlayerType } from 'components/Setup/SetupPlayerType';
-import { SetupRoles } from 'components/Setup/SetupRoles';
 import { SetupSkills } from 'components/Setup/SetupSkills';
 import React from 'react';
 import { BoxType } from 'utils/boxTypes';
@@ -36,9 +35,9 @@ export type ProfileSectionProps = {
   modalTitle?: string;
   modal?: React.ReactNode;
   subheader?: string;
-} & BoxProps;
+};
 
-export const ProfileSection: React.FC<ProfileSectionProps> = ({
+export const ProfileSection: React.FC<FlexProps & ProfileSectionProps> = ({
   children,
   isOwnProfile,
   canEdit,
@@ -60,6 +59,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
       w="100%"
       h="auto"
       direction="column"
+      {...props}
     >
       {title && (
         <Box bg="purpleProfileSection" borderTopRadius="lg" pt={5} pb={5}>
@@ -120,18 +120,16 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
         borderBottomRadius="lg"
         borderTopRadius={!title ? 'lg' : 0}
         p={boxType === BoxType.EMBEDDED_URL ? 0 : 8}
-        boxShadow={withoutBG ? 'none' : 'md'}
+        boxShadow="md"
         css={{ backdropFilter: 'blur(8px)' }}
         w="100%"
         pos="relative"
         pointerEvents={canEdit ? 'none' : 'initial'}
-        pb={8}
-        {...props}
       >
         {children}
       </Box>
       {boxType && (
-        <Modal isCentered scrollBehavior="inside" {...{ isOpen, onClose }}>
+        <Modal {...{ isOpen, onClose }}>
           <ModalOverlay />
           <ModalContent
             maxW="80%"
@@ -169,11 +167,12 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
               p={4}
               _focus={{ boxShadow: 'none' }}
             />
-            {!modal && !modalText && (
-              <EditSectionBox {...{ boxType, onClose }} />
-            )}
-            {modalText && modal && <ModalBody>{modalText && modal}</ModalBody>}
-
+            <ModalBody overflowY="scroll">
+              {!modal && !modalText && (
+                <EditSectionBox {...{ boxType, onClose }} />
+              )}
+              {modalText && modal}
+            </ModalBody>
             {/* we should figure out how to unify modal footers (edit sections have their own,
               look into EditSectionBox components - they have footers with 'save' and 'cancel' buttons) */}
             {modalText && modal && (
@@ -202,7 +201,6 @@ const isBoxDataEditable = (boxType?: Maybe<BoxType>) =>
     BoxType.PLAYER_TYPE,
     BoxType.PLAYER_COLOR_DISPOSITION,
     BoxType.PLAYER_SKILLS,
-    BoxType.PLAYER_ROLES,
   ].includes(boxType);
 
 const EditSectionBox = ({
@@ -214,16 +212,13 @@ const EditSectionBox = ({
 }) => {
   switch (boxType) {
     case BoxType.PLAYER_TYPE: {
-      return <SetupPlayerType isEdit {...{ onClose }} />;
+      return <SetupPlayerType {...{ onClose }} />;
     }
     case BoxType.PLAYER_COLOR_DISPOSITION: {
-      return <SetupPersonalityType isEdit {...{ onClose }} />;
+      return <SetupColorDisposition {...{ onClose }} />;
     }
     case BoxType.PLAYER_SKILLS: {
-      return <SetupSkills isEdit {...{ onClose }} />;
-    }
-    case BoxType.PLAYER_ROLES: {
-      return <SetupRoles isEdit {...{ onClose }} />;
+      return <SetupSkills {...{ onClose }} />;
     }
     default:
   }

@@ -146,7 +146,7 @@ export const getBoxLayoutItemDefaults = (boxId: BoxType): Layout => {
   }
 };
 
-const DEFAULT_BOXES = [
+export const DEFAULT_BOXES = [
   BoxType.PLAYER_HERO,
   BoxType.PLAYER_SKILLS,
   BoxType.PLAYER_NFT_GALLERY,
@@ -184,7 +184,7 @@ const DEFAULT_BOX_POSITIONS_SM: {
   [BoxType.PLAYER_COLOR_DISPOSITION]: { x: 2, y: 9 },
 };
 
-const DEFAULT_PLAYER_LAYOUTS: Layouts = {
+export const DEFAULT_PLAYER_LAYOUTS: Layouts = {
   lg: DEFAULT_BOXES.map((boxType) => ({
     ...getBoxLayoutItemDefaults(boxType),
     ...DEFAULT_BOX_POSITIONS_LG[boxType],

@@ -1,16 +1,11 @@
 import {
-  Button,
-  MetaButton,
-  MetaHeading,
+  Flex,
   MetaTheme,
-  ModalBody,
-  ModalFooter,
-  searchSelectStyles,
+  multiSelectStyles,
   SelectSearch,
-  useToast,
+  Spinner,
+  Text,
 } from '@metafam/ds';
-import { FlexContainer } from 'components/Container';
-import { useSetupFlow } from 'contexts/SetupContext';
 import {
   Skill,
   SkillCategory_Enum,
@@ -18,17 +13,24 @@ import {
 } from 'graphql/autogen/types';
 import { getSkills } from 'graphql/queries/enums/getSkills';
 import { SkillColors } from 'graphql/types';
-import { useUser } from 'lib/hooks';
-import React, { CSSProperties, useCallback, useEffect, useState } from 'react';
+import { useMounted, useOverridableField, useUser } from 'lib/hooks';
+import React, { CSSProperties, useEffect, useState } from 'react';
 import { CategoryOption, parseSkills, SkillOption } from 'utils/skillHelpers';
+
+import { GenericWizardPane } from './GenericWizardPane';
+import { MaybeModalProps, WizardPaneCallbackProps } from './ProfileWizardPane';
 
 export type SetupSkillsProps = {
   isEdit?: boolean;
   onClose?: () => void;
 };
 
-const styles: typeof searchSelectStyles = {
-  ...searchSelectStyles,
+const styles: typeof multiSelectStyles = {
+  ...multiSelectStyles,
+  container: (s: CSSProperties) => ({
+    ...s,
+    width: 'min(90vw, 40rem)',
+  }),
   menuList: (s: CSSProperties) => ({
     ...s,
     minHeight: '75vh',
@@ -48,7 +50,7 @@ const styles: typeof searchSelectStyles = {
     { children }: { children: SkillCategory_Enum },
   ) => ({
     ...s,
-    ...searchSelectStyles.groupHeading?.(s, { children }),
+    ...multiSelectStyles.groupHeading?.(s, { children }),
     background: SkillColors[children],
   }),
   option: (
@@ -58,140 +60,117 @@ const styles: typeof searchSelectStyles = {
     ...s,
     color:
       isSelected || isFocused ? MetaTheme.colors.black : MetaTheme.colors.white,
-    ':hover': {
+    background:
+      isSelected || isFocused
+        ? MetaTheme.colors.blue[50]
+        : MetaTheme.colors.dark,
+    ':hover, :focus, :active': {
       background: MetaTheme.colors.green[50],
       color: MetaTheme.colors.black,
     },
   }),
 };
 
-export const SetupSkills: React.FC<SetupSkillsProps> = ({
-  isEdit,
-  onClose,
-}) => {
-  const { onNextPress, nextButtonLabel } = useSetupFlow();
-  const { user } = useUser({ requestPolicy: 'network-only' });
-  const toast = useToast();
-  const [skillChoices, setSkillChoices] = useState<Array<CategoryOption>>([]);
-  const [updateSkillsRes, updateSkills] = useUpdatePlayerSkillsMutation();
-  const [loading, setLoading] = useState(false);
-  const [playerSkills, setPlayerSkills] = useState<Array<SkillOption>>([]);
-  const isWizard = !isEdit;
+export const SetupSkills: React.FC<MaybeModalProps> = ({ onClose }) => {
+  const field = 'skills';
+  const mounted = useMounted();
+  const [choices, setChoices] = useState<Array<CategoryOption>>();
+  const { user } = useUser();
+  const { value, setter: setValue } = useOverridableField<Array<SkillOption>>({
+    field: 'skills',
+    loaded: !!user,
+  });
+  const [, updateSkills] = useUpdatePlayerSkillsMutation();
 
   useEffect(() => {
-    if (user) {
-      if (user.skills && user.skills.length > 0 && playerSkills.length === 0) {
-        setPlayerSkills(
-          user.skills.map(({ Skill: skill }) => ({
-            value: skill.id,
-            label: skill.name,
-            ...skill,
-          })),
+    if (user && setValue && choices && !value) {
+      if (user.skills.length > 0) {
+        const options = choices.map(({ options: opts }) => opts).flat();
+        setValue(
+          user.skills.map(({ Skill: { id: sid } }) =>
+            options.find(({ id: cid }) => sid === cid),
+          ),
         );
       }
     }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [choices, setValue, user, value]);
 
   useEffect(() => {
     const fetchSkills = async () => {
       const skills = await getSkills();
-      setSkillChoices(parseSkills(skills));
+      setChoices(parseSkills(skills));
     };
 
     fetchSkills();
   }, []);
 
-  const save = useCallback(async () => {
-    if (!user) return;
-
-    setLoading(true);
+  const onSave = async ({
+    values,
+    setStatus,
+  }: {
+    values: Record<string, unknown>;
+    setStatus?: (msg: string) => void;
+  }) => {
+    setStatus?.('Writing to Hasura…');
 
     const { error } = await updateSkills({
-      skills: playerSkills.map(({ id }) => ({ skill_id: id })),
+      skills: (values.skills as Array<SkillOption>).map(({ id }) => ({
+        skill_id: id,
+      })),
     });
 
     if (error) {
-      console.warn(error); // eslint-disable-line no-console
-      toast({
-        title: 'Update Error',
-        description: `Unable to update skills. Error: ${error}`,
-        status: 'error',
-        isClosable: true,
-      });
-      setLoading(false);
+      throw new Error(`Unable to update skills. Error: ${error}`);
     }
-  }, [user, playerSkills, toast, updateSkills]);
 
-  const handleNextPress = useCallback(async () => {
-    setLoading(true);
-    await save();
-    onNextPress();
-  }, [save, onNextPress]);
+    if (setValue) {
+      setStatus?.('Setting Local State…');
+      setValue(values.skills);
+    }
+  };
 
-  const setup = (
-    <FlexContainer mb={8}>
-      {isWizard && (
-        <MetaHeading mb={5} textAlign="center">
-          What are your super&#xAD;powers?
-        </MetaHeading>
-      )}
-      <FlexContainer w="100%" align="stretch" maxW="50rem">
-        <SelectSearch
-          isMulti
-          styles={styles}
-          value={playerSkills}
-          onChange={(value) => setPlayerSkills(value as Array<SkillOption>)}
-          options={skillChoices}
-          autoFocus
-          closeMenuOnSelect={false}
-          placeholder="Add Your Skills…"
-        />
-      </FlexContainer>
+  return (
+    <GenericWizardPane<Array<SkillOption>>
+      {...{ field, value, onClose, onSave }}
+      title="Skills"
+      prompt="What are your super&#xAD;powers?"
+      fetching={!user}
+    >
+      {({
+        register,
+        setter,
+        current,
+      }: WizardPaneCallbackProps<Array<SkillOption>>) => {
+        const { ref: registerRef, onChange, ...props } = register(field, {});
 
-      {isWizard && (
-        <MetaButton
-          onClick={handleNextPress}
-          mt={10}
-          isLoading={updateSkillsRes.fetching || loading}
-          loadingText="Saving…"
-        >
-          {nextButtonLabel}
-        </MetaButton>
-      )}
-    </FlexContainer>
-  );
-  return isWizard ? (
-    setup
-  ) : (
-    <>
-      <ModalBody> {setup} </ModalBody>
-      {isEdit && onClose && (
-        <FlexContainer>
-          <ModalFooter py={6}>
-            <MetaButton
-              mr={3}
-              isLoading={loading}
-              loadingText="Saving…"
-              onClick={async () => {
-                await save();
-                onClose();
+        if (choices == null || !mounted) {
+          return (
+            <Flex>
+              <Spinner />
+              <Text>Loading Options…</Text>
+            </Flex>
+          );
+        }
+
+        return (
+          <Flex w="full" align="stretch" maxW="50rem">
+            <SelectSearch
+              isMulti
+              {...{ styles }}
+              onChange={(newValue) => {
+                const values = (newValue as unknown) as Array<SkillOption>;
+                setter(values);
               }}
-            >
-              Save Changes
-            </MetaButton>
-            <Button
-              variant="ghost"
-              onClick={onClose}
-              color="white"
-              _hover={{ bg: '#FFFFFF11' }}
-              _active={{ bg: '#FF000011' }}
-              disabled={loading}
-            >
-              Close
-            </Button>
-          </ModalFooter>
-        </FlexContainer>
-      )}
-    </>
+              options={choices}
+              value={current}
+              autoFocus
+              closeMenuOnSelect={false}
+              placeholder="Add your skills…"
+              {...props}
+            />
+          </Flex>
+        );
+      }}
+    </GenericWizardPane>
   );
 };

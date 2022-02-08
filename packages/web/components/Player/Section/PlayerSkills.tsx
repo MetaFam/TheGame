@@ -14,8 +14,8 @@ type Props = {
 
 export const PlayerSkills: React.FC<Props> = ({
   player,
-  isOwnProfile,
-  canEdit,
+  isOwnProfile = false,
+  canEdit = false,
 }) => {
   const [playerSkills, setPlayerSkills] = useState<
     Array<{ id: number; name: string; category: SkillCategory_Enum }>

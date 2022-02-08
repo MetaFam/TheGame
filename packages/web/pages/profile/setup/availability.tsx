@@ -1,10 +1,8 @@
 import { SetupAvailability } from 'components/Setup/SetupAvailability';
 import { SetupProfile } from 'components/Setup/SetupProfile';
 import { SetupContextProvider } from 'contexts/SetupContext';
-import { Maybe } from 'graphql/autogen/types';
-import { useUser } from 'lib/hooks';
 import { InferGetStaticPropsType } from 'next';
-import React, { useState } from 'react';
+import React from 'react';
 
 export const getStaticProps = async () => ({
   props: {
@@ -14,25 +12,12 @@ export const getStaticProps = async () => ({
 
 export type DefaultSetupProps = InferGetStaticPropsType<typeof getStaticProps>;
 
-const AvailabilitySetup: React.FC<DefaultSetupProps> = () => {
-  const { user } = useUser();
-  const [available, setAvailability] = useState<Maybe<number>>(
-    user?.profile?.availableHours ?? null,
-  );
-
-  if (user) {
-    if (user.profile?.availableHours != null && available === null) {
-      setAvailability(user.profile.availableHours);
-    }
-  }
-
-  return (
-    <SetupContextProvider>
-      <SetupProfile>
-        <SetupAvailability {...{ available, setAvailability }} />
-      </SetupProfile>
-    </SetupContextProvider>
-  );
-};
+const AvailabilitySetup: React.FC<DefaultSetupProps> = () => (
+  <SetupContextProvider>
+    <SetupProfile>
+      <SetupAvailability />
+    </SetupProfile>
+  </SetupContextProvider>
+);
 
 export default AvailabilitySetup;
