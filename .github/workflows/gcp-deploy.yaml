@@ -42,7 +42,8 @@ jobs:
             of ${{github.event.pull_request.head.label}} \
             by ${{github.event.pull_request.user.login}}"
           # ref: ${{github.event.pull_request.head.sha}}
-          ref: refs/heads/${{github.event.pull_request.head.ref}}
+          # ref: refs/heads/${{github.event.pull_request.head.ref}}
+          ref: ${{github.event.after}} # SHA of the last commit
           no_override: true
 
   cancel-previous:
@@ -92,16 +93,12 @@ jobs:
 
     steps:
       - name: Trying to find the right ref…
-        env:
-          github_object: ${{toJson(github)}}
         run: |
           echo "github.head_ref: ${{github.head_ref}}"
           echo "github.event.pull_request.head.sha: ${{github.event.pull_request.head.sha}}"
           echo "github.event.pull_request.head.ref: ${{github.event.pull_request.head.ref}}"
           echo "env.GITHUB_SHA: ${{env.GITHUB_SHA}}"
           echo "env.GITHUB_REF: ${{env.GITHUB_REF}}"
-          echo "-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-"
-          echo "${{env.github_object}}"
 
       - name: First Intepolation of Variables
         id: first
