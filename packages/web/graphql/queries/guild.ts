@@ -7,6 +7,9 @@ import {
   GetGuildPlayersQueryVariables,
   GetGuildQuery,
   GetGuildQueryVariables,
+  GetGuildsByTextSearchDocument,
+  GetGuildsByTextSearchQuery,
+  GetGuildsByTextSearchQueryVariables,
   GetGuildsQuery,
   GetGuildsQueryVariables,
   GuildFragment as GuildFragmentType,
@@ -159,4 +162,30 @@ export const getGuildPlayers = async (
   }
 
   return guildPlayers;
+};
+
+// eslint-disable-next-line @typescript-eslint/no-unused-expressions
+/* GraphQL */ `
+  query getGuildsByTextSearch($text: String) {
+    search_guilds(args: { search: $text }, limit: 3) {
+      ...GuildFragment
+    }
+  }
+  ${GuildFragment}
+`;
+
+export const getGuildsByText = async (text: string) => {
+  const { data, error } = await client
+    .query<GetGuildsByTextSearchQuery, GetGuildsByTextSearchQueryVariables>(
+      GetGuildsByTextSearchDocument,
+      {
+        text: `%${text}%`,
+      },
+    )
+    .toPromise();
+
+  return {
+    guilds: data?.search_guilds || [],
+    error,
+  };
 };
