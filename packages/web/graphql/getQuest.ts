@@ -1,5 +1,3 @@
-import { Client } from 'urql';
-
 import {
   GetQuestDocument,
   GetQuestQuery,
@@ -7,13 +5,14 @@ import {
   GetQuestWithCompletionsDocument,
   GetQuestWithCompletionsQuery,
   GetQuestWithCompletionsQueryVariables,
-} from './autogen/types';
-import { client as defaultClient } from './client';
+} from 'graphql/autogen/types';
+import { client as defaultClient } from 'graphql/client';
 import {
   PlayerFragment,
   QuestFragment,
   QuestWithCompletionFragment,
-} from './fragments';
+} from 'graphql/fragments';
+import { Client } from 'urql';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-expressions
 /* GraphQL */ `

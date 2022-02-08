@@ -42,7 +42,6 @@ export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
 }) => {
   const { onNextPress, nextButtonLabel } = useSetupFlow();
   const { fetching: fetchingUser, user } = useUser();
-  const { player } = user ?? {};
   const { ceramic } = useWeb3();
   const toast = useToast();
   const [status, setStatus] = useState<Maybe<ReactElement | string>>(null);
@@ -51,10 +50,10 @@ export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
   const isWizard = !isEdit;
 
   useEffect(() => {
-    if (player?.profile?.colorMask != null) {
-      setColorMask(player.profile.colorMask);
+    if (user?.profile?.colorMask != null) {
+      setColorMask(user.profile.colorMask);
     }
-  }, [colorMask, player]);
+  }, [colorMask, user]);
 
   const [fetchingInfo, setFetchingInfo] = useState(true);
 
@@ -92,7 +91,7 @@ export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
       return;
     }
 
-    if (user.player?.profile?.colorMask !== colorMask) {
+    if (user.profile?.colorMask !== colorMask) {
       try {
         if (!ceramic.did?.authenticated) {
           setStatus(<Text>Authenticating DID…</Text>);

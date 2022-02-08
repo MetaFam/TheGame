@@ -1,13 +1,13 @@
 import { Text } from '@metafam/ds';
 import { FlexContainer } from 'components/Container';
 import { ProfileSection } from 'components/Profile/ProfileSection';
-import { ExplorerType, PlayerFragmentFragment } from 'graphql/autogen/types';
+import { ExplorerType, Player } from 'graphql/autogen/types';
 import { useAnimateProfileChanges } from 'lib/hooks/players';
 import React, { useState } from 'react';
 import { BoxType } from 'utils/boxTypes';
 
 type Props = {
-  player: PlayerFragmentFragment;
+  player: Player;
   isOwnProfile?: boolean;
   canEdit?: boolean;
 };

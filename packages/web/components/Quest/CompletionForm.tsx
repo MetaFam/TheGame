@@ -9,7 +9,7 @@ import {
 } from '@metafam/ds';
 import {
   CreateQuestCompletionInput,
-  QuestFragmentFragment,
+  QuestFragment,
 } from 'graphql/autogen/types';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
@@ -17,7 +17,7 @@ import { useForm } from 'react-hook-form';
 import { URIRegexp } from 'utils/questHelpers';
 
 type Props = {
-  quest: QuestFragmentFragment;
+  quest: QuestFragment;
   onSubmit: (data: CreateQuestCompletionInput) => void;
   success?: boolean;
   fetching?: boolean;

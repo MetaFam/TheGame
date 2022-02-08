@@ -1,19 +1,17 @@
-import gql from 'fake-tag';
-
 import {
   GetPatronsQuery,
   GetPatronsQueryVariables,
   GetpSeedHoldersQuery,
   GetpSeedHoldersQueryVariables,
-  PlayerFragmentFragment,
-  TokenBalancesFragmentFragment,
-} from './autogen/types';
-import { client } from './client';
-import { PlayerFragment, TokenBalancesFragment } from './fragments';
-import { Patron } from './types';
+  Player,
+  TokenBalancesFragment as TokenBalancesFragmentType,
+} from 'graphql/autogen/types';
+import { client } from 'graphql/client';
+import { PlayerFragment, TokenBalancesFragment } from 'graphql/fragments';
+import { Patron } from 'graphql/types';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-gql`
+/* GraphQL */ `
   query GetpSeedBalance($address: String!) {
     getTokenBalances(address: $address) {
       ...TokenBalancesFragment
@@ -22,7 +20,7 @@ gql`
   ${TokenBalancesFragment}
 `;
 
-const patronsQuery = gql`
+const patronsQuery = /* GraphQL */ `
   query GetPatrons(
     $addresses: [String!]
     $limit: Int
@@ -35,7 +33,7 @@ const patronsQuery = gql`
   ${PlayerFragment}
 `;
 
-const pSeedHoldersQuery = gql`
+const pSeedHoldersQuery = /* GraphQL */ `
   query GetpSeedHolders($limit: Int) {
     pSeedHolders: getTopPSeedHolders(limit: $limit) {
       ...TokenBalancesFragment
@@ -47,7 +45,7 @@ const pSeedHoldersQuery = gql`
 const getPlayersFromAddresses = async (
   addresses: Array<string>,
   limit: number,
-): Promise<Array<PlayerFragmentFragment>> => {
+): Promise<Array<Player>> => {
   const { data, error } = await client
     .query<GetPatronsQuery, GetPatronsQueryVariables>(patronsQuery, {
       addresses,
@@ -62,12 +60,12 @@ const getPlayersFromAddresses = async (
     return [];
   }
 
-  return data.player;
+  return data.player as Array<Player>;
 };
 
 const getpSeedHolders = async (
   limit: number,
-): Promise<Array<TokenBalancesFragmentFragment>> => {
+): Promise<Array<TokenBalancesFragmentType>> => {
   const { data, error } = await client
     .query<GetpSeedHoldersQuery, GetpSeedHoldersQueryVariables>(
       pSeedHoldersQuery,
@@ -86,11 +84,11 @@ const getpSeedHolders = async (
 };
 
 export const getPatrons = async (limit = 50): Promise<Array<Patron>> => {
-  const tokenBalances: Array<TokenBalancesFragmentFragment> = await getpSeedHolders(
+  const tokenBalances: Array<TokenBalancesFragmentType> = await getpSeedHolders(
     limit,
   );
 
-  const players: Array<PlayerFragmentFragment> = await getPlayersFromAddresses(
+  const players: Array<Player> = await getPlayersFromAddresses(
     tokenBalances.map(({ address }) => address),
     limit,
   );

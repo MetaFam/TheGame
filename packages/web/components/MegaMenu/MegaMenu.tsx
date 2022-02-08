@@ -327,8 +327,8 @@ const PlayerStats: React.FC<PlayerStatsProps> = ({ player }) => {
         >
           <PlayerAvatar
             {...{ player }}
-            w="52px"
-            h="52px"
+            w={14}
+            h={14}
             ml={4}
             _hover={{ transform: 'scale(0.9)' }}
           />
@@ -367,7 +367,6 @@ export const MegaMenu: React.FC = () => {
   const { connected, connect } = useWeb3();
   const router = useRouter();
   const { user, fetching } = useUser();
-  const { player } = user ?? {};
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const menuToggle = () => (isOpen ? onClose() : onOpen());
@@ -412,7 +411,7 @@ export const MegaMenu: React.FC = () => {
           w={{ base: 'fit-content', lg: '100%' }}
           justifyContent="space-between"
         >
-          <Logo link={user?.player ? '/dashboard' : '/'} />
+          <Logo link={user ? '/dashboard' : '/'} />
           <DesktopNavLinks />
           {/* <Search /> */}
           <Box
@@ -425,8 +424,8 @@ export const MegaMenu: React.FC = () => {
               <Spinner mr={4} />
             ) : (
               <>
-                {connected && !!player ? (
-                  <PlayerStats {...{ player }} />
+                {connected && !!user ? (
+                  <PlayerStats player={user} />
                 ) : (
                   <MetaButton
                     h="48px"

@@ -1,5 +1,3 @@
-import { Client } from 'urql';
-
 import {
   GetAcceptedQuestsByPlayerDocument,
   GetAcceptedQuestsByPlayerQuery,
@@ -13,9 +11,10 @@ import {
   Order_By,
   QuestStatus_Enum,
   Scalars,
-} from './autogen/types';
-import { client as defaultClient } from './client';
-import { QuestFragment } from './fragments';
+} from 'graphql/autogen/types';
+import { client as defaultClient } from 'graphql/client';
+import { QuestFragment } from 'graphql/fragments';
+import { Client } from 'urql';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-expressions
 /* GraphQL */ `

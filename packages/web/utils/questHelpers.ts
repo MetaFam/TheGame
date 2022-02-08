@@ -1,11 +1,10 @@
-import { numbers } from '@metafam/utils';
-
+import { Maybe, numbers } from '@metafam/utils';
 import {
+  Player,
   QuestRepetition_Enum,
   QuestStatus_Enum,
-  QuestWithCompletionFragmentFragment,
-} from '../graphql/autogen/types';
-import { MeType } from '../graphql/types';
+  QuestWithCompletionFragment,
+} from 'graphql/autogen/types';
 
 const { BN, amountToDecimal } = numbers;
 
@@ -35,8 +34,8 @@ export function isAllowedToCreateQuest(balance?: string | null): boolean {
 
 // TODO factorize this with backend
 export function canCompleteQuest(
-  quest?: QuestWithCompletionFragmentFragment | null,
-  user?: MeType | null,
+  quest?: Maybe<QuestWithCompletionFragment>,
+  user?: Maybe<Player>,
 ): boolean {
   if (!user || !quest) return false;
 
@@ -67,10 +66,10 @@ export function canCompleteQuest(
   return true;
 }
 
-export const QuestRepetitionHint: Record<QuestRepetition_Enum, string> = {
+export const QuestRepetitionHint = {
   [QuestRepetition_Enum.Recurring]:
     'Recurring quests can be done multiple time per player after a cooldown.',
   [QuestRepetition_Enum.Personal]:
     'Personal quests can be done once per player',
   [QuestRepetition_Enum.Unique]: 'Unique quests can be done only once',
-};
+} as const;

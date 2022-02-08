@@ -31,7 +31,6 @@ export type Props = {
 export const SetupPlayerType: React.FC<Props> = ({ isEdit, onClose }) => {
   const { onNextPress, nextButtonLabel } = useSetupFlow();
   const { user } = useUser();
-  const { player } = user ?? {};
   const { ceramic } = useWeb3();
   const toast = useToast();
   const [status, setStatus] = useState<Maybe<ReactElement | string>>(null);
@@ -40,13 +39,13 @@ export const SetupPlayerType: React.FC<Props> = ({ isEdit, onClose }) => {
   const isWizard = !isEdit;
 
   const load = () => {
-    if (player) {
-      if (explorerType === undefined && player.profile?.explorerType != null) {
-        setExplorerType(player.profile.explorerType);
+    if (user) {
+      if (explorerType === undefined && user.profile?.explorerType != null) {
+        setExplorerType(user.profile.explorerType);
       }
     }
   };
-  useEffect(load, [explorerType, player, player?.profile?.explorerType]);
+  useEffect(load, [explorerType, user, user?.profile?.explorerType]);
 
   useEffect(() => {
     const fetchTypes = async () => {
@@ -76,7 +75,7 @@ export const SetupPlayerType: React.FC<Props> = ({ isEdit, onClose }) => {
       return;
     }
 
-    if (player?.profile?.explorerType?.id !== explorerType?.id) {
+    if (user?.profile?.explorerType?.id !== explorerType?.id) {
       try {
         if (!ceramic.did?.authenticated) {
           setStatus('Authenticating DID…');

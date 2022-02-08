@@ -1,5 +1,3 @@
-import { Client } from 'urql';
-
 import {
   GetPlayerFiltersDocument,
   GetPlayerFiltersQuery,
@@ -11,11 +9,12 @@ import {
   GetPlayerUsernamesQueryVariables,
   Maybe,
   Order_By,
+  Player,
   Player_Bool_Exp,
-  PlayerFragmentFragment,
-} from './autogen/types';
-import { client as defaultClient } from './client';
-import { PlayerFragment, PlayerSkillFragment } from './fragments';
+} from 'graphql/autogen/types';
+import { client as defaultClient } from 'graphql/client';
+import { PlayerFragment, PlayerSkillFragment } from 'graphql/fragments';
+import { Client } from 'urql';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-expressions
 /* GraphQL */ `
@@ -110,7 +109,7 @@ export const transformToGraphQLVariables = (
 export type PlayersResponse = {
   error: Error | undefined;
   count: number;
-  players: PlayerFragmentFragment[];
+  players: Player[];
 };
 
 export const getPlayersWithCount = async (
@@ -125,7 +124,7 @@ export const getPlayersWithCount = async (
     .toPromise();
 
   return {
-    players: data?.player ?? [],
+    players: (data?.player as Array<Player>) ?? [],
     count: data?.player_aggregate.aggregate?.count ?? 0,
     error,
   };

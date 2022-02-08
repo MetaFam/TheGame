@@ -27,7 +27,7 @@ import { PlayerContacts } from 'components/Player/PlayerContacts';
 import { PlayerHeroTile } from 'components/Player/Section/PlayerHeroTile';
 import { PlayerPronouns } from 'components/Player/Section/PlayerPronouns';
 import { ProfileSection } from 'components/Profile/ProfileSection';
-import { PlayerFragmentFragment } from 'graphql/autogen/types';
+import { Player } from 'graphql/autogen/types';
 import { Maybe } from 'graphql/jsutils/Maybe';
 import { PersonalityInfo } from 'graphql/queries/enums/getPersonalityInfo';
 import { useUser } from 'lib/hooks';
@@ -42,17 +42,17 @@ import { ColorBar } from '../ColorBar';
 const MAX_BIO_LENGTH = 240;
 
 type Props = {
-  player: PlayerFragmentFragment;
+  player: Player;
   personalityInfo: PersonalityInfo;
   isOwnProfile?: boolean;
   canEdit?: boolean;
 };
-type AvailabilityProps = { person?: Maybe<PlayerFragmentFragment> };
+type AvailabilityProps = { person?: Maybe<Player> };
 type TimeZoneDisplayProps = {
-  person?: Maybe<PlayerFragmentFragment>;
+  person?: Maybe<Player>;
 };
 type ColorDispositionProps = {
-  person?: Maybe<PlayerFragmentFragment>;
+  person?: Maybe<Player>;
   personalityInfo: PersonalityInfo;
 };
 
@@ -69,7 +69,7 @@ export const PlayerHero: React.FC<Props> = ({
   const [playerName, setPlayerName] = useState<string>();
   const { user } = useUser();
 
-  const person = isOwnProfile ? user?.player : player;
+  const person = isOwnProfile ? user : player;
   useEffect(() => {
     if (person) {
       setPlayerName(getPlayerName(person));

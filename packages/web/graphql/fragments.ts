@@ -1,6 +1,4 @@
-import gql from 'fake-tag';
-
-export const PlayerFragment = gql`
+export const PlayerFragment = /* GraphQL */ `
   fragment PlayerFragment on player {
     id @skip(if: $forLoginDisplay)
     totalXP @skip(if: $forLoginDisplay)
@@ -74,7 +72,7 @@ export const PlayerFragment = gql`
   }
 `;
 
-export const GuildFragment = gql`
+export const GuildFragment = /* GraphQL */ `
   fragment GuildFragment on guild {
     id
     guildname
@@ -92,7 +90,7 @@ export const GuildFragment = gql`
   }
 `;
 
-export const QuestFragment = gql`
+export const QuestFragment = /* GraphQL */ `
   fragment QuestFragment on quest {
     id
     createdAt
@@ -130,7 +128,7 @@ export const QuestFragment = gql`
   }
 `;
 
-export const QuestWithCompletionFragment = gql`
+export const QuestWithCompletionFragment = /* GraphQL */ `
   fragment QuestWithCompletionFragment on quest {
     id
     createdAt
@@ -174,7 +172,7 @@ export const QuestWithCompletionFragment = gql`
   }
 `;
 
-export const QuestCompletionFragment = gql`
+export const QuestCompletionFragment = /* GraphQL */ `
   fragment QuestCompletionFragment on quest_completion {
     id
     completedByPlayerId
@@ -189,14 +187,14 @@ export const QuestCompletionFragment = gql`
   }
 `;
 
-export const TokenBalancesFragment = gql`
+export const TokenBalancesFragment = /* GraphQL */ `
   fragment TokenBalancesFragment on TokenBalances {
     address: id
     pSeedBalance
   }
 `;
 
-export const PlayerSkillFragment = gql`
+export const PlayerSkillFragment = /* GraphQL */ `
   fragment PlayerSkillFragment on skill {
     id
     name

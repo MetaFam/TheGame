@@ -17,18 +17,18 @@ jobs:
 
     steps:
       - name: Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.4.0
+        uses: styfle/cancel-workflow-action@0.9.1
         with:
-          access_token: ${{ github.token }}
+          access_token: ${{github.token}}
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v2.5.1
         with:
           node-version: 16.x
 
       - uses: actions/cache@v2
         with:
           path: '**/node_modules'
-          key: nodeModules-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
+          key: nodeModules-${{runner.os}}-${{hashFiles('**/yarn.lock')}}
 
       - name: Install packages
         run: yarn --frozen-lockfile
