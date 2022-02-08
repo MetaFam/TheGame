@@ -27,7 +27,7 @@ One thing to note is that the system optimizes for long-term value creation & al
 
 Seed Market is the place where Seeds switch hands between the players who created them, and the patrons, who wish to support MetaGame financially.
 
-Because the Seed Market runs on Balancer, an automated market maker, it requires a supply of both Seeds and Ether - so we encourage all Seed holders to [plant & water their Seeds](https://beta.pools.balancer.exchange/#/pool/0xea05a15dbce2eb543ffda16950e95b2bd2e40d0e/swaps).
+Because the Seed Market runs on Balancer, an automated market maker, it requires a supply of both Seeds and Ether - so we encourage all Seed holders to [plant & water their Seeds](https://polygon.balancer.fi/#/pool/0x8a8fcd351ed553fc75aecbc566a32f94471f302e000100000000000000000081/invest).
 
 ## **⚔️ What are Seeds for?**
 
