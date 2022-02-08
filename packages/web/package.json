@@ -65,7 +65,7 @@
     "rss-to-json": "2.0.2",
     "sourcecred": "0.9.0",
     "swr": "1.0.1",
-    "urql": "2.0.2",
+    "urql": "2.1.3",
     "web3.storage": "3.5.0",
     "web3modal": "1.9.4"
   },
