@@ -1,11 +1,11 @@
 import { BoxedNextImage, MetaTag, Text, Wrap } from '@metafam/ds';
 import { ProfileSection } from 'components/Profile/ProfileSection';
-import { PlayerFragmentFragment } from 'graphql/autogen/types';
+import { Player } from 'graphql/autogen/types';
 import React from 'react';
 import { BoxType } from 'utils/boxTypes';
 
 type Props = {
-  player: PlayerFragmentFragment;
+  player: Player;
   isOwnProfile?: boolean;
   canEdit?: boolean;
 };

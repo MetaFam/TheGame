@@ -19,7 +19,7 @@ import {
   LinkGuild,
 } from 'components/Player/PlayerGuild';
 import { ProfileSection } from 'components/Profile/ProfileSection';
-import { PlayerFragmentFragment } from 'graphql/autogen/types';
+import { Player } from 'graphql/autogen/types';
 import { getAllMemberships, GuildMembership } from 'graphql/getMemberships';
 import React, { useEffect, useMemo, useState } from 'react';
 import { BoxType } from 'utils/boxTypes';
@@ -105,7 +105,7 @@ const DaoListing: React.FC<DaoListingProps> = ({ membership }) => {
 };
 
 type MembershipSectionProps = {
-  player: PlayerFragmentFragment;
+  player: Player;
   isOwnProfile?: boolean;
   canEdit?: boolean;
 };

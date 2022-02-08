@@ -15,3 +15,5 @@ generates:
     config:
       gqlImport: fake-tag
       skipTypename: true
+      namingConvention:
+        transformUnderscore: true

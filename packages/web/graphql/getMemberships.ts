@@ -1,15 +1,13 @@
-import gql from 'fake-tag';
-
 import {
   GetDaoMembershipsQuery,
   GetDaoMembershipsQueryVariables,
   GetPlayerGuildsQuery,
   GetPlayerGuildsQueryVariables,
-  PlayerFragmentFragment,
+  Player,
 } from './autogen/types';
 import { client } from './client';
 
-const daoMembershipsQuery = gql`
+const daoMembershipsQuery = /* GraphQL */ `
   query GetDaoMemberships($address: String) {
     getDaoHausMemberships(memberAddress: $address) {
       id
@@ -23,7 +21,7 @@ const daoMembershipsQuery = gql`
   }
 `;
 
-const guildMembershipsQuery = gql`
+const guildMembershipsQuery = /* GraphQL */ `
   query GetPlayerGuilds($playerId: uuid!) {
     guild_player(where: { player_id: { _eq: $playerId } }) {
       guild_id
@@ -80,7 +78,7 @@ export type GuildMembership = {
   guildname?: string;
 };
 
-export const getAllMemberships = async (player: PlayerFragmentFragment) => {
+export const getAllMemberships = async (player: Player) => {
   const guildPlayers = await getGuildMemberships(player.id);
 
   const daohausMemberships = player.daohausMemberships?.filter(

@@ -1,7 +1,7 @@
 import { Box, Button, ExternalLinkIcon, Link, Stack, Text } from '@metafam/ds';
 import { ProfileSection } from 'components/Profile/ProfileSection';
 import {
-  PlayerFragmentFragment,
+  Player,
   QuestCompletionFragmentFragment,
   QuestCompletionStatus_Enum,
 } from 'graphql/autogen/types';
@@ -10,7 +10,7 @@ import React, { useEffect, useState } from 'react';
 import { BoxType } from 'utils/boxTypes';
 
 type Props = {
-  player: PlayerFragmentFragment;
+  player: Player;
   isOwnProfile?: boolean;
   canEdit?: boolean;
 };

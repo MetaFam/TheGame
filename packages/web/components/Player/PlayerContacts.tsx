@@ -1,5 +1,5 @@
 import { Button, Tooltip, Wrap, WrapItem } from '@metafam/ds';
-import { PlayerFragmentFragment } from 'graphql/autogen/types';
+import { Player } from 'graphql/autogen/types';
 import { useCopyToClipboard } from 'lib/hooks/useCopyToClipboard';
 import React from 'react';
 import { FaEthereum, FaGithub, FaTwitter } from 'react-icons/fa';
@@ -8,7 +8,7 @@ import { formatAddress } from 'utils/playerHelpers';
 import { PlayerBrightId } from './Section/PlayerBrightId';
 
 type Props = {
-  player: PlayerFragmentFragment;
+  player: Player;
   disableBrightId?: boolean;
 };
 

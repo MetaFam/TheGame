@@ -17,13 +17,13 @@ import {
 import { Maybe } from '@metafam/utils';
 import BackgroundImage from 'assets/main-background.jpg';
 import { PlayerSection } from 'components/Profile/PlayerSection';
-import { PlayerFragmentFragment } from 'graphql/autogen/types';
+import { Player } from 'graphql/autogen/types';
 import { PersonalityInfo } from 'graphql/queries/enums/getPersonalityInfo';
 import React, { useCallback, useEffect, useState } from 'react';
 import { BoxMetadata, BoxType } from 'utils/boxTypes';
 
 type Props = FlexProps & {
-  player: PlayerFragmentFragment;
+  player: Player;
   personalityInfo: PersonalityInfo;
   boxList: BoxType[];
   onAddBox: (arg0: BoxType, arg1: BoxMetadata) => void;

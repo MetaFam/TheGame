@@ -1,9 +1,9 @@
 import { MetaTag, Text, VStack, Wrap, WrapItem } from '@metafam/ds';
-import { PlayerFragmentFragment } from 'graphql/autogen/types';
+import { Player } from 'graphql/autogen/types';
 import React, { useMemo } from 'react';
 
 type Props = {
-  player: PlayerFragmentFragment;
+  player: Player;
 };
 
 const SHOW_MEMBERSHIPS = 4;

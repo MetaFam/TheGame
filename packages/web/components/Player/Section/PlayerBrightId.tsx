@@ -14,14 +14,14 @@ import {
   useDisclosure,
   VStack,
 } from '@metafam/ds';
-import { PlayerFragmentFragment } from 'graphql/autogen/types';
+import { Player } from 'graphql/autogen/types';
 import { useUser, useWeb3 } from 'lib/hooks';
 import { useBrightIdStatus, useBrightIdUpdated } from 'lib/hooks/brightId';
 import React, { useEffect, useState } from 'react';
 import { QRCode } from 'react-qr-svg';
 import { isBackdropFilterSupported } from 'utils/compatibilityHelpers';
 
-type Props = { player: PlayerFragmentFragment };
+type Props = { player: Player };
 
 export const PlayerBrightId: React.FC<Props> = ({ player }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
