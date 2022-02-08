@@ -6,16 +6,16 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { url } = req.query;
   if (req.method === 'GET') {
     try {
-      const apiResponse = await parse(url as string, {
+      const response = await parse(url as string, {
         timeout: 2000,
       });
 
-      return res.json({ error: null, response: apiResponse });
+      return res.json({ response });
     } catch (err) {
-      return res.json({ error: err, response: null });
+      return res.json({ error: (err as Error).message });
     }
   } else {
-    return res.json({ error: 'Error: Incorrect Method', response: null });
+    return res.json({ error: `Incorrect Method: ${req.method}` });
   }
 }
 

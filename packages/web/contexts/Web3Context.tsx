@@ -101,7 +101,10 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
   const [connecting, setConnecting] = useState(!!web3Modal?.cachedProvider);
   const [address, setAddress] = useState<Maybe<string>>(null);
   const [authToken, setAuthToken] = useState<Maybe<string>>(null);
-  const ceramic = useMemo(() => new CeramicClient(CONFIG.ceramicURL), []);
+  const ceramic = useMemo(
+    () => (new CeramicClient(CONFIG.ceramicURL) as unknown) as CeramicApi,
+    [],
+  );
 
   useEffect(() => {
     if (wallet && address) {
