@@ -13,10 +13,10 @@ export const MetaSecondaryButton: React.FC<
     px={12}
     letterSpacing="0.1em"
     size="lg"
-    lineHeight="28px"
+    lineHeight={28}
     fontWeight={600}
     fontFamily="Exo 2"
-    fontSize="18px"
+    fontSize={18}
     bg="#4F69CD"
     color="white"
     ref={ref}

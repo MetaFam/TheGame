@@ -1,13 +1,11 @@
-import gql from 'fake-tag';
 import {
   GetSkillsQuery,
   PlayerSkillFragmentFragment,
 } from 'graphql/autogen/types';
 import { client } from 'graphql/client';
+import { PlayerSkillFragment } from 'graphql/fragments';
 
-import { PlayerSkillFragment } from '../../fragments';
-
-const skillsQuery = gql`
+const skillsQuery = /* GraphQL */ `
   query GetSkills {
     skill(
       order_by: { Player_Skills_aggregate: { count: desc }, category: asc }

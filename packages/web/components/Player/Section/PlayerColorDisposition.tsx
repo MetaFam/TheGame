@@ -16,7 +16,7 @@ type Props = {
 };
 export const PlayerColorDisposition: React.FC<Props> = ({
   player,
-  personalityInfo,
+  personalityInfo: types,
   isOwnProfile,
   canEdit,
 }) => {
@@ -54,7 +54,7 @@ export const PlayerColorDisposition: React.FC<Props> = ({
             fontWeight={600}
             _focus={{ border: 'none' }}
           >
-            <ColorBar {...{ mask, personalityInfo }} />
+            <ColorBar {...{ mask, types }} />
           </Link>
         </FlexContainer>
       )}

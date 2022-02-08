@@ -25,7 +25,7 @@ import {
 import CoinGeckoLogo from '../../assets/attribution/coingecko-logo-text.png';
 import {
   findHighLowPrice,
-  HighLow7dType,
+  HighLowType,
   priceIncreased,
   ticker,
   volIncreased,
@@ -45,7 +45,7 @@ type TokenDataProps = {
   priceUp: boolean;
   volumeUp: boolean;
   volumePercent: string;
-  highLow7d: HighLow7dType;
+  highLow7d: HighLowType;
   prices: Array<Array<number>>;
 };
 

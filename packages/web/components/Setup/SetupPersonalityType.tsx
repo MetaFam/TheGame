@@ -47,10 +47,7 @@ export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
   const toast = useToast();
   const [status, setStatus] = useState<Maybe<ReactElement | string>>(null);
   const [colorMask, setColorMask] = useState<Maybe<number> | undefined>();
-  const [{ types, parts }, setPersonalityInfo] = useState<PersonalityInfo>({
-    types: {},
-    parts: [],
-  });
+  const [types, setPersonalityInfo] = useState<PersonalityInfo>({});
   const isWizard = !isEdit;
 
   useEffect(() => {
@@ -171,11 +168,11 @@ export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
       ) : (
         <>
           <Wrap spacing={2} justify="center" maxW="70rem">
-            {Object.keys(types).length &&
+            {Object.keys(types ?? {}).length &&
               Object.entries(BaseImages)
                 .reverse()
                 .map(([orig, image], idx) => {
-                  const option = types[parseInt(orig, 10)];
+                  const option = types?.[parseInt(orig, 10)];
                   const { mask = 0 } = option ?? {};
                   const selected = ((colorMask ?? 0) & mask) > 0;
 
@@ -232,7 +229,7 @@ export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
                           h={16}
                           mr={2}
                           src={image}
-                          alt={option.name}
+                          alt={option?.name}
                           filter="drop-shadow(0px 0px 3px black)"
                         />
                         <FlexContainer align="stretch" ml={2}>
@@ -241,7 +238,7 @@ export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
                             casing="uppercase"
                             textAlign="left"
                           >
-                            {option.name}
+                            {option?.name}
                           </Text>
                           <Text
                             color="blueLight"
@@ -249,7 +246,7 @@ export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
                             whiteSpace="initial"
                             textAlign="left"
                           >
-                            {option.description}
+                            {option?.description}
                           </Text>
                         </FlexContainer>
                       </Button>
@@ -262,7 +259,7 @@ export const SetupPersonalityType: React.FC<SetupPersonalityTypeProps> = ({
             mask={colorMask ?? null}
             mt={8}
             w="min(90vw, 30rem)"
-            personalityInfo={{ types, parts }}
+            {...{ types }}
           />
           {isWizard && (
             <MetaButton

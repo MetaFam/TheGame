@@ -328,7 +328,7 @@ const TimeZoneDisplay: React.FC<TimeZoneDisplayProps> = ({ person }) => {
 
 export const ColorDispositionDisplay: React.FC<ColorDispositionProps> = ({
   person,
-  personalityInfo,
+  personalityInfo: types,
 }) => {
   const [mask, setMask] = useState<number | null>(
     person?.profile?.colorMask ?? null,
@@ -362,7 +362,7 @@ export const ColorDispositionDisplay: React.FC<ColorDispositionProps> = ({
             fontWeight={600}
             _focus={{ border: 'none' }}
           >
-            <ColorBar {...{ mask, personalityInfo }} />
+            <ColorBar {...{ mask, types }} />
           </Link>
         )}
       </Flex>
