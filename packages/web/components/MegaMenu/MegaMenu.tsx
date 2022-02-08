@@ -327,8 +327,8 @@ const PlayerStats: React.FC<PlayerStatsProps> = ({ player }) => {
         >
           <PlayerAvatar
             {...{ player }}
-            w="52px"
-            h="52px"
+            w={14}
+            h={14}
             ml={4}
             _hover={{ transform: 'scale(0.9)' }}
           />

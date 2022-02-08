@@ -53,7 +53,7 @@ export const PlayerStatsBar = () => {
               _active={{ bg: 'transparent' }}
             >
               <Flex>
-                <PlayerAvatar player={user} w={12} h={12} m={0} />
+                <PlayerAvatar player={user} w={14} h={14} m={0} />
                 <Stack my={2} ml={2} justify="center">
                   <Text
                     fontSize={user.rank ? 14 : 22}
