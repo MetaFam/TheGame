@@ -27,18 +27,18 @@ import { PlayerAddSection } from 'components/Player/Section/PlayerAddSection';
 import { PlayerSection } from 'components/Profile/PlayerSection';
 import { HeadComponent } from 'components/Seo';
 import {
+  Player,
   useInsertCacheInvalidationMutation,
   useUpdatePlayerProfileLayoutMutation,
 } from 'graphql/autogen/types';
 import { getPlayer } from 'graphql/getPlayer';
 import { getTopPlayerUsernames } from 'graphql/getPlayers';
-import { getPersonalityInfo } from 'graphql/queries/enums/getPersonalityInfo';
-import { useUser, useWeb3 } from 'lib/hooks';
 import {
-  GetStaticPaths,
-  GetStaticPropsContext,
-  InferGetStaticPropsType,
-} from 'next';
+  getPersonalityInfo,
+  PersonalityInfo,
+} from 'graphql/queries/enums/getPersonalityInfo';
+import { useUser, useWeb3 } from 'lib/hooks';
+import { GetStaticPaths, GetStaticPropsContext } from 'next';
 import { useRouter } from 'next/router';
 import Page404 from 'pages/404';
 import {
@@ -69,7 +69,10 @@ import {
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
-type Props = InferGetStaticPropsType<typeof getStaticProps>;
+type Props = {
+  player: Player;
+  personalityInfo: PersonalityInfo;
+};
 
 export const PlayerPage: React.FC<Props> = ({
   player,
