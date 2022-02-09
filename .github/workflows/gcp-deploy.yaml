@@ -43,7 +43,7 @@ jobs:
             by ${{github.event.pull_request.user.login}}"
           ref: ${{github.head_ref}}
           no_override: true
-          logs: https://github.com/${{github.repository}}/${{github.head_ref}}/commit/${{github.event.after}}/checks
+          logs: https://github.com/${{github.repository}}/commit/${{github.event.after}}/checks
 
   cancel-previous:
     name: Cancel Existing Runs
