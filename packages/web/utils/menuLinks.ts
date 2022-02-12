@@ -26,10 +26,7 @@ export const descriptions = {
   thegreathouses:
     'The Great Houses are here to give people a meta view of different areas of interest',
   wiki: 'New to MetaGame? This is the first thing you should dive deep into',
-  becomeapatron: "Don't have time to play? Support MetaGame by buying Seeds",
-  buyseeds:
-    'Find out all about the SEEDs; why, where & how you should buy them',
-  plantseeds: 'Plant your SEEDs and watch them grow',
+  seeds: 'Find out all about the SEEDs; why, where & how you should buy them',
   grants: 'Find cool projects & people you could support financially',
 };
 
@@ -161,7 +158,7 @@ export const MenuSectionLinks: MenuLinkSet[] = [
       },
       {
         title: 'Seeds',
-        explainerText: descriptions.buyseeds,
+        explainerText: descriptions.seeds,
         url: '/seeds',
         icon: 'seeds',
       },
