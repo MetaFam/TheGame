@@ -55,12 +55,15 @@ import { PlayerAvatar } from 'components/Player/PlayerAvatar';
 import { Player } from 'graphql/autogen/types';
 import { useUser, useWeb3 } from 'lib/hooks';
 import { useRouter } from 'next/router';
-import players from 'pages/community/players';
 import React from 'react';
-import { distinctUntilChanged, forkJoin, Subject } from 'rxjs';
-import { debounceTime, switchMap } from 'rxjs/operators';
+import { distinctUntilChanged, forkJoin, from, Subject } from 'rxjs';
+import { debounceTime, filter, switchMap } from 'rxjs/operators';
 import { MenuLinkItem, MenuLinkSet, MenuSectionLinks } from 'utils/menuLinks';
-import { getPlayerURL } from 'utils/playerHelpers';
+import {
+  getPlayerImage,
+  getPlayerName,
+  getPlayerURL,
+} from 'utils/playerHelpers';
 
 import { getPlayersByText } from '../../graphql/getPlayers';
 import { getGuildsByText } from '../../graphql/queries/guild';
@@ -289,7 +292,6 @@ const DesktopNavLinks = () => (
 //   return { players, guilds };
 // };
 
-// Search -- not working yet
 const Search = () => {
   const searchInputSubjectRef = React.useRef(new Subject<string>());
   const [query, setQuery] = React.useState('');
@@ -297,7 +299,9 @@ const Search = () => {
     players: [],
     guilds: [],
   });
+  const [isFocused, setIsFocused] = React.useState(false);
   const [isLoading, setLoading] = React.useState(false);
+  const router = useRouter();
   const handleSubmit = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     // Default Show Players Matching With Query
@@ -308,15 +312,17 @@ const Search = () => {
   };
 
   React.useEffect(() => {
-    setLoading(true);
+    // setLoading(true);
     searchInputSubjectRef.current.next(query);
   }, [query]);
 
   React.useEffect(() => {
     const searchSubscription = searchInputSubjectRef.current
       .pipe(
+        filter((searchValue: string) => searchValue.length >= 1),
         debounceTime(300),
         distinctUntilChanged(),
+
         // switchMap(async (queryString: string) => {
         //   if (queryString !== '' && !queryString) {
         //     setSearchResults([]);
@@ -329,21 +335,20 @@ const Search = () => {
         // }),
         // switchMap((queryString: string) => {
         //   if (queryString !== '' && !queryString) {
-        //     setSearchResults([]);
+        //     // setSearchResults([]);
         //     return;
         //   }
 
         //   // eslint-disable-next-line consistent-return
         //   return forkJoin([
-        //     getPlayersByText(queryString),
-        //     getGuildsByText(queryString),
+        //     from(getPlayersByText(queryString)),
+        //     from(getGuildsByText(queryString))
         //   ]);
         // }),
       )
       .subscribe(async (val: string) => {
         if (val !== '' && !val) {
           setLoading(false);
-
           return;
         }
         const { players } = await getPlayersByText(val);
@@ -351,20 +356,113 @@ const Search = () => {
         setSearchResults({ guilds, players });
         setLoading(false);
       });
-
-    return searchSubscription.unsubscribe;
+    return () => searchSubscription && searchSubscription.unsubscribe;
   }, []);
   return (
-    <Flex alignItems="center" minWidth="40">
+    // <Box position="absolute">
+    <Flex
+      flexDirection="column"
+      alignItems="center"
+      minWidth="40"
+      marginTop="5"
+    >
       <form onSubmit={handleSubmit} style={{ width: '100%', color: 'black' }}>
-        <input value={query} onChange={handleChange} style={inputStyle} />
+        <input
+          value={query}
+          onChange={handleChange}
+          style={inputStyle}
+          onBlur={() => setIsFocused(false)}
+          onFocus={() => setIsFocused(true)}
+        />
       </form>
+      {isFocused && (
+        <Box
+          zIndex={2}
+          bg="white"
+          w="100%"
+          mt={2}
+          css={{ backdropFilter: 'blur(8px)' }}
+          borderRadius="8px"
+          p={2}
+        >
+          {searchResults.players.length > 0 && (
+            <Text
+              fontWeight="600"
+              color="black"
+              w="100%"
+              px={3}
+              pt={1}
+              fontFamily="Exo 2"
+              fontSize="1rem"
+            >
+              Players
+            </Text>
+          )}
+          {searchResults?.players?.map((player): any => (
+            <>
+              <Flex
+                align="center"
+                onClick={() =>
+                  router.push(`/player/${player?.profile?.username}`)
+                }
+                px={3}
+                py={2}
+                cursor="pointer"
+              >
+                <Avatar
+                  name={getPlayerName(player)}
+                  src={getPlayerImage(player)}
+                  w="20px"
+                  h="20px"
+                />
+                <Text px="2" color="black" fontFamily="Exo 2" fontWeight="400">
+                  {player?.profile?.username}
+                </Text>
+              </Flex>
+            </>
+          ))}
+          {searchResults?.players.length === 3 && (
+            <Text fontFamily="Exo 2" fontWeight="600" color="magenta" px={3}>
+              See all players
+            </Text>
+          )}
+
+          {searchResults.guilds.length > 0 && (
+            <Text fontWeight="bold" color="black" w="100%" p={3}>
+              Guilds
+            </Text>
+          )}
+          {searchResults.guilds?.map((guild): any => (
+            <>
+              <Flex
+                align="center"
+                onClick={() => router.push(`/guild/${guild.guildname}`)}
+                p={3}
+                cursor="pointer"
+              >
+                <Avatar
+                  name={guild.guildname}
+                  src={guild?.logo}
+                  w="20px"
+                  h="20px"
+                />
+                <Text ml="2" color="black">
+                  {guild.guildname}
+                </Text>
+              </Flex>
+            </>
+          ))}
+        </Box>
+      )}
     </Flex>
+
+    // </Box>
   );
 };
 
 const inputStyle = {
   padding: '5px',
+  borderRadius: '6px',
 };
 
 type PlayerStatsProps = {
