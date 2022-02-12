@@ -1,5 +1,8 @@
+import { fetch, imageLink } from '@metafam/utils';
+
+import { CONFIG } from '../../../../config';
 import { getClient } from '../../../../lib/daoHausClient';
-import { Member, QueryResolvers } from '../../autogen/types';
+import { DaoMetadata, Member, QueryResolvers } from '../../autogen/types';
 
 const addChain = (memberAddress: string) => async (chain: string) => {
   const client = getClient(chain);
@@ -7,17 +10,37 @@ const addChain = (memberAddress: string) => async (chain: string) => {
     (await client.GetDaoHausMemberships({ memberAddress })).members
   );
 
-  const ids = members.map(({ moloch: { id } }) => id);
-  const { daoMetas } = await client.GetDaoHausTitles({ ids });
+  const metadataForDaos = await Promise.all(
+    members.map(async ({ moloch: { id } }) => {
+      console.log('fetching metadata for ', id);
+      const response = await fetch(`${CONFIG.daoHausMetadataUrl}/${id}`);
+      const metadataArr = response.ok
+        ? ((await response.json()) as DaoMetadata[])
+        : [];
+      return metadataArr.length > 0 ? metadataArr[0] : null;
+    }),
+  );
 
-  const titles = Object.fromEntries(
-    daoMetas.map(({ id, title }) => [id, title]),
+  const metadataByContract = Object.fromEntries(
+    metadataForDaos
+      .filter((metadata) => metadata != null)
+      .map((metadata) => [metadata?.contractAddress, metadata]),
   );
 
   return members.map((member: Member) => {
     const updatedMember: Member = { ...member };
     updatedMember.moloch.chain = chain;
-    updatedMember.moloch.title = titles[member.moloch.id];
+
+    const metadata: DaoMetadata =
+      metadataByContract[updatedMember.molochAddress];
+    updatedMember.moloch.title = metadata?.name;
+    if (metadata?.avatarImg) {
+      const imgUrl = metadata.avatarImg.startsWith('Qm')
+        ? `ipfs://${metadata.avatarImg}`
+        : metadata.avatarImg;
+      updatedMember.moloch.avatarUrl = imageLink(imgUrl);
+    }
+
     return updatedMember;
   });
 };

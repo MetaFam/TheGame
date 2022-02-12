@@ -1,5 +1,7 @@
 export const InsertCacheInvalidation = /* GraphQL */ `
   mutation InsertCacheInvalidation($playerId: uuid!) {
-    updateIDXProfile(playerId: $playerId)
+    updateIDXProfile(playerId: $playerId) {
+      success
+    }
   }
 `;

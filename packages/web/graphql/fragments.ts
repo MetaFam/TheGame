@@ -62,6 +62,7 @@ export const PlayerFragment = /* GraphQL */ `
         version
         totalShares
         chain
+        avatarUrl
       }
     }
 
