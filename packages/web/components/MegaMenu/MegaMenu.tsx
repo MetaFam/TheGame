@@ -365,6 +365,7 @@ const Search = () => {
       alignItems="center"
       minWidth="40"
       marginTop="5"
+      position="relative"
     >
       <form onSubmit={handleSubmit} style={{ width: '100%', color: 'black' }}>
         <input
@@ -378,10 +379,14 @@ const Search = () => {
       {isFocused && (
         <Box
           zIndex={2}
+          position="absolute"
           bg="white"
-          w="100%"
+          w="fit-content"
           mt={2}
-          css={{ backdropFilter: 'blur(8px)' }}
+          css={{
+            backdropFilter: 'blur(8px)',
+            transform: 'translate3d(0px, 42.5px, 0px)',
+          }}
           borderRadius="8px"
           p={2}
         >
