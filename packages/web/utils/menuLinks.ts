@@ -159,34 +159,11 @@ export const MenuSectionLinks: MenuLinkSet[] = [
         url: '/quests',
         icon: 'quests',
       },
-    ],
-  },
-  {
-    label: 'invest',
-    menuItems: [
       {
-        title: 'Become a Patron',
-        explainerText: descriptions.becomeapatron,
-        url: '/invest/becomeapatron',
-        icon: 'becomeapatron',
-      },
-      {
-        title: 'Buy Seeds',
+        title: 'Seeds',
         explainerText: descriptions.buyseeds,
-        url: '/invest/buyseeds',
+        url: '/seeds',
         icon: 'seeds',
-      },
-      {
-        title: 'Plant Seeds',
-        explainerText: descriptions.plantseeds,
-        url: '/invest/plantseeds',
-        icon: 'invest',
-      },
-      {
-        title: 'Support Grants',
-        explainerText: descriptions.grants,
-        url: '/invest/grants',
-        icon: 'grants',
       },
     ],
   },
