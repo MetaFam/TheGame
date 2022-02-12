@@ -30,11 +30,12 @@ export const typeDefs = gql`
   type Moloch {
     id: ID!
     summoner: String!
-    title: String
-    version: String
     totalShares: String!
     totalLoot: String!
     chain: String!
+    title: String
+    version: String
+    avatarUrl: String
   }
 
   type Member {
@@ -60,5 +61,14 @@ export const typeDefs = gql`
     id: String!
     position: Int!
     name: String!
+  }
+
+  # e.g. https://data.daohaus.club/dao/0xb152b115c94275b54a3f0b08c1aa1d21f32a659a
+  type DaoMetadata {
+    contractAddress: String!
+    network: String!
+    name: String!
+    description: String!
+    avatarImg: String
   }
 `;

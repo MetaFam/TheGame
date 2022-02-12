@@ -9,6 +9,7 @@ interface IConfig {
   daoHausGraphqlURL: string;
   daoHausPolygonGraphqlURL: string;
   daoHausXdaiGraphqlURL: string;
+  daoHausMetadataUrl: string;
   seedGraphqlURL: string;
   githubApiToken: string;
   adminKey: string;
@@ -52,12 +53,16 @@ export const CONFIG: IConfig = {
     'https://api.thegraph.com/subgraphs/name/odyssy-automaton/daohaus',
   ),
   daoHausPolygonGraphqlURL: parseEnv(
-    process.env.DAOUHAUS_POLYGON_GRAPHQL_URL,
+    process.env.DAOHAUS_POLYGON_GRAPHQL_URL,
     'https://api.thegraph.com/subgraphs/name/odyssy-automaton/daohaus-matic',
   ),
   daoHausXdaiGraphqlURL: parseEnv(
-    process.env.DAOUHAUS_XDAI_GRAPHQL_URL,
+    process.env.DAOHAUS_XDAI_GRAPHQL_URL,
     'https://api.thegraph.com/subgraphs/name/odyssy-automaton/daohaus-xdai',
+  ),
+  daoHausMetadataUrl: parseEnv(
+    process.env.DAOHAUS_METADATA_URL,
+    'https://data.daohaus.club/dao',
   ),
   adminKey: parseEnv(
     process.env.HASURA_GRAPHQL_ADMIN_SECRET,

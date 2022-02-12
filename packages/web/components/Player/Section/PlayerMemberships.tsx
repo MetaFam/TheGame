@@ -14,16 +14,13 @@ import {
   useDisclosure,
 } from '@metafam/ds';
 import BackgroundImage from 'assets/main-background.jpg';
-import {
-  getDaoLink,
-  getMolochImage,
-  LinkGuild,
-} from 'components/Player/PlayerGuild';
+import { LinkGuild } from 'components/Player/PlayerGuild';
 import { ProfileSection } from 'components/Profile/ProfileSection';
 import { Player } from 'graphql/autogen/types';
 import { getAllMemberships, GuildMembership } from 'graphql/getMemberships';
 import React, { useEffect, useMemo, useState } from 'react';
 import { BoxType } from 'utils/boxTypes';
+import { getChainImage, getDaoLink } from 'utils/daoHelpers';
 
 type DaoListingProps = {
   membership: GuildMembership;
@@ -47,17 +44,17 @@ const DaoListing: React.FC<DaoListingProps> = ({ membership }) => {
       return `XP: ${Math.floor(memberXp)}`;
     }
     if (daoShares != null) {
-      return `Shares: ${memberShares ?? 'Unknown'} ⁄ ${daoShares}`;
+      return `Shares: ${memberShares ?? 'Unknown'} / ${daoShares}`;
     }
     return '';
   }, [memberShares, memberXp, daoShares]);
 
   const daoUrl = useMemo(() => getDaoLink(chain, address), [chain, address]);
 
-  const guildLogo = useMemo(
-    () => logoUrl || getMolochImage(title || chain || ''),
-    [logoUrl, chain, title],
-  );
+  const guildLogo = useMemo(() => logoUrl || getChainImage(chain), [
+    logoUrl,
+    chain,
+  ]);
 
   return (
     <LinkGuild {...{ daoUrl, guildname }}>

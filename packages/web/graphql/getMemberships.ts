@@ -105,6 +105,7 @@ export const getAllMemberships = async (player: Player) => {
       memberShares: m.shares,
       daoShares: m.moloch.totalShares,
       chain: m.moloch.chain,
+      logoUrl: m.moloch.avatarUrl || undefined,
       address: m.molochAddress,
     })),
   ];
