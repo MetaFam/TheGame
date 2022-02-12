@@ -21,6 +21,7 @@ export type MetaColors = ChakraTheme['colors'] & {
   silver: string;
   discord: string;
   discordDark: string;
+  magenta: string;
   bronze: string;
   purple80: string;
   purpleProfileSection: string;
@@ -55,6 +56,7 @@ export const colors: MetaColors = {
   cyanText: '#79F8FB',
   discord: '#7289da',
   discordDark: '#5d6eb3',
+  magenta: '#E839B7',
   cyan: {
     50: '#dbffff',
     100: '#b1fcfe',
