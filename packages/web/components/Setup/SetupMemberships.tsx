@@ -12,9 +12,10 @@ import { FlexContainer } from 'components/Container';
 import { useSetupFlow } from 'contexts/SetupContext';
 import { Membership } from 'graphql/types';
 import React, { useState } from 'react';
+import { getChainImage, getDaoLink } from 'utils/daoHelpers';
 
 import { useWeb3 } from '../../lib/hooks';
-import { getDaoLink, getMolochImage, LinkGuild } from '../Player/PlayerGuild';
+import { LinkGuild } from '../Player/PlayerGuild';
 
 export type SetupMembershipsProps = {
   memberships: Array<Membership> | null | undefined;
@@ -78,7 +79,7 @@ type MembershipListingProps = {
 };
 
 const MembershipListing: React.FC<MembershipListingProps> = ({ member }) => {
-  const guildLogo = getMolochImage(member.moloch.title || member.moloch.chain);
+  const guildLogo = getChainImage(member.moloch.chain);
   const daoUrl = getDaoLink(member.moloch.chain, member.moloch.id);
 
   return (

@@ -24,12 +24,3 @@ export const GetDaoHausMemberships = gql`
     }
   }
 `;
-
-export const GetDaoHausTitles = gql`
-  query GetDaoHausTitles($ids: [ID!]) {
-    daoMetas(where: { id_in: $ids }) {
-      id
-      title
-    }
-  }
-`;
