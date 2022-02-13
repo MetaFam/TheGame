@@ -38,11 +38,11 @@ jobs:
           token: ${{github.token}}
           env: test
           desc: |
-            "Test instance deployment for PR #${{github.event.number}} \
+            Test instance deployment for PR #${{github.event.number}} \
             of ${{github.event.pull_request.head.label}} \
-            by ${{github.event.pull_request.user.login}}"
+            by ${{github.event.pull_request.user.login}}
           ref: ${{github.head_ref}}
-          no_override: true
+          auto_inactive: false
           logs: https://github.com/${{github.repository}}/commit/${{github.event.after}}/checks
 
   cancel-previous:

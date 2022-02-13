@@ -25,6 +25,8 @@ import {
   useBreakpointValue,
   useDisclosure,
 } from '@metafam/ds';
+import { Values } from '@metafam/utils';
+import LogoImage from 'assets/logo.png';
 import Alliances from 'assets/menuIcon/alliances.svg';
 import Asketh from 'assets/menuIcon/asketh.svg';
 import BecomeAPatron from 'assets/menuIcon/becomeapatron.svg';
@@ -61,7 +63,7 @@ import { getPlayerURL } from 'utils/playerHelpers';
 
 import { XPSeedsBalance } from './XPSeedsBalance';
 
-const menuIcons: { [key: string]: string } = {
+const menuIcons: Record<string, string> = {
   alliances: Alliances,
   asketh: Asketh,
   contribute: Contribute,
@@ -87,7 +89,7 @@ const menuIcons: { [key: string]: string } = {
   metaradio: MetaRadio,
   events: Events,
   becomeapatron: BecomeAPatron,
-};
+} as const;
 
 const ICON_SIZE = 60;
 
@@ -98,9 +100,8 @@ type LogoProps = {
 
 // Navbar logo
 const Logo = ({ link, iconSize = ICON_SIZE }: LogoProps) => {
-  const width = useBreakpointValue({ base: 36, lg: 40 }) ?? (36 as number);
-  const height =
-    useBreakpointValue({ base: 45, lg: iconSize }) ?? (45 as number);
+  const width = useBreakpointValue({ base: 36, lg: 45 }) ?? 36;
+  const height = useBreakpointValue({ base: 45, lg: iconSize }) ?? 45;
 
   return (
     <Box
@@ -117,9 +118,10 @@ const Logo = ({ link, iconSize = ICON_SIZE }: LogoProps) => {
         _active={{ bg: 'transparent' }}
       >
         <Image
-          src="/assets/logo.png"
-          height={`${height}px`}
-          width={`${width}px`}
+          src={LogoImage}
+          w={`${width}px`}
+          h={`${height}px`}
+          transition="0.25s"
           _hover={{ transform: 'scale(1.1)' }}
         />
       </MetaLink>
@@ -131,7 +133,7 @@ type MenuItemProps = {
   title: string;
   url: string;
   explainerText: string;
-  icon: string;
+  icon: Values<typeof menuIcons>;
   iconSize?: number;
 };
 // Menu links (with icons and explanatory text) -- used in DesktopNavLinks below
@@ -158,7 +160,7 @@ const DesktopMenuItem = ({
       href={url}
       width="full"
       m={1}
-      padding="1rem"
+      p="1rem"
       borderRadius="0.618vmax"
       _hover={{
         backgroundColor: 'rgba(0,0,0,0.56)',
@@ -246,7 +248,7 @@ const DesktopNavLinks = () => (
                 />
               </Icon>
             </MenuButton>
-            {isOpen ? (
+            {isOpen && (
               <Box
                 position="absolute"
                 minW="100vw"
@@ -258,8 +260,6 @@ const DesktopNavLinks = () => (
                 sx={{ filter: 'blur(3rem)' }}
                 zIndex={-2}
               />
-            ) : (
-              <span />
             )}
             <MenuList
               display="grid"
@@ -347,7 +347,7 @@ const PlayerStats: React.FC<PlayerStatsProps> = ({ player }) => {
 };
 
 export const MegaMenu: React.FC = () => {
-  const { connected, connect } = useWeb3();
+  const { connected, connect, connecting } = useWeb3();
   const router = useRouter();
   const { user, fetching } = useUser();
 
@@ -403,25 +403,27 @@ export const MegaMenu: React.FC = () => {
             textAlign="right"
             display={{ base: 'none', lg: 'block' }}
           >
-            {fetching ? (
-              <Spinner mr={4} />
-            ) : (
-              <>
-                {connected && !!user ? (
-                  <PlayerStats player={user} />
-                ) : (
-                  <MetaButton
-                    h="48px"
-                    my="10px"
-                    px="24px"
-                    ml="90px"
-                    onClick={connect}
-                  >
-                    Connect
-                  </MetaButton>
-                )}
-              </>
-            )}
+            {(() => {
+              if (connecting || fetching) {
+                return (
+                  <Spinner
+                    mr={8}
+                    thickness="3px"
+                    speed="1s"
+                    size="lg"
+                    title="Connecting…"
+                  />
+                );
+              }
+              if (connected && !!user) {
+                return <PlayerStats player={user} />;
+              }
+              return (
+                <MetaButton h={10} px={6} ml={150} onClick={connect}>
+                  Connect
+                </MetaButton>
+              );
+            })()}
           </Box>
         </Flex>
       </Flex>
