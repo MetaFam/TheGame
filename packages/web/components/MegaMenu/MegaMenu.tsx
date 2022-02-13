@@ -355,10 +355,9 @@ const Search = () => {
     players: [],
     guilds: [],
   });
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [isFocused, setIsFocused] = useState<boolean>(false);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [isLoading, setLoading] = useState<boolean>(false);
+
+  // const [isFocused, setIsFocused] = useState<boolean>(false);
+  // const [isLoading, setLoading] = useState<boolean>(false);
   const handleSubmit = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     // Default Show Players Matching With Query
@@ -366,7 +365,7 @@ const Search = () => {
   };
 
   useEffect(() => {
-    setLoading(true);
+    // setLoading(true);
     searchInputSubjectRef.current.next(query);
   }, [query]);
 
@@ -402,13 +401,13 @@ const Search = () => {
       )
       .subscribe(async (val: string) => {
         if (val !== '' && !val) {
-          setLoading(false);
+          // setLoading(false);
           return;
         }
         const { players } = await getPlayersByText(val);
         const { guilds } = await getGuildsByText(val);
         setSearchResults({ guilds, players });
-        setLoading(false);
+        // setLoading(false);
       });
     return searchSubscription && searchSubscription.unsubscribe;
   }, []);
@@ -451,8 +450,8 @@ const Search = () => {
             _placeholder={{ color: 'whiteAlpha.500' }}
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            onBlur={() => setIsFocused(false)}
-            onFocus={() => setIsFocused(true)}
+            // onBlur={() => setIsFocused(false)}
+            // onFocus={() => setIsFocused(true)}
             size="sm"
             fontSize="md"
           />
