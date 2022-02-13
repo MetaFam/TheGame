@@ -160,14 +160,25 @@ export const PlayerHero: React.FC<Props> = ({
           <Text>www.mycoolportfolio.com</Text>
         </PlayerHeroTile> */}
 
-        <Flex justify="stretch" w="full">
-          <PlayerHeroTile title="Availability">
-            <Availability {...{ person }} />
-          </PlayerHeroTile>
-          <PlayerHeroTile title="Time Zone">
-            <TimeZoneDisplay {...{ person }} />
-          </PlayerHeroTile>
-        </Flex>
+        <Wrap justify="space-between" w="full">
+          <WrapItem>
+            <PlayerHeroTile title="Availability">
+              <Availability {...{ person }} />
+            </PlayerHeroTile>
+          </WrapItem>
+          <WrapItem>
+            <PlayerHeroTile title="Time Zone">
+              <TimeZoneDisplay {...{ person }} />
+            </PlayerHeroTile>
+          </WrapItem>
+          {player?.profile?.emoji && (
+            <WrapItem>
+              <PlayerHeroTile title="Favorite Emoji">
+                <Text fontSize="1.25rem">{player.profile.emoji}</Text>
+              </PlayerHeroTile>
+            </WrapItem>
+          )}
+        </Wrap>
 
         {/* <SimpleGrid columns={2} gap={6} width="full">
           <PlayerHeroTile title="Country">
@@ -187,11 +198,6 @@ export const PlayerHero: React.FC<Props> = ({
           </PlayerHeroTile>
         </SimpleGrid> */}
 
-        {player?.profile?.emoji && (
-          <PlayerHeroTile title="Favorite Emoji">
-            <Text fontSize="1.25rem">{player.profile.emoji}</Text>
-          </PlayerHeroTile>
-        )}
         {/* player?.profile?.colorMask && (
           <PlayerHeroTile title="Color Disposition">
             <ColorDispositionDisplay {...{ person, personalityInfo }} />
