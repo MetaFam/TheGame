@@ -7711,6 +7711,56 @@ type query_root {
   quest_skill_by_pk(questId: uuid!, skillId: uuid!): quest_skill
 
   """
+  execute function "search_guilds" which returns "guild"
+  """
+  search_guilds(
+    """
+    input parameters for function "search_guilds"
+    """
+    args: search_guilds_args!
+
+    """distinct select on columns"""
+    distinct_on: [guild_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [guild_order_by!]
+
+    """filter the rows returned"""
+    where: guild_bool_exp
+  ): [guild!]!
+
+  """
+  execute function "search_guilds" and query aggregates on result of table type "guild"
+  """
+  search_guilds_aggregate(
+    """
+    input parameters for function "search_guilds"
+    """
+    args: search_guilds_args!
+
+    """distinct select on columns"""
+    distinct_on: [guild_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [guild_order_by!]
+
+    """filter the rows returned"""
+    where: guild_bool_exp
+  ): guild_aggregate!
+
+  """
   fetch data from the table: "skill"
   """
   skill(
@@ -9712,6 +9762,10 @@ type SaveGuildResponse {
   success: Boolean
 }
 
+input search_guilds_args {
+  search: String
+}
+
 """
 columns and relationships of "skill"
 """
@@ -11240,6 +11294,56 @@ type subscription_root {
 
   """fetch data from the table: "quest_skill" using primary key columns"""
   quest_skill_by_pk(questId: uuid!, skillId: uuid!): quest_skill
+
+  """
+  execute function "search_guilds" which returns "guild"
+  """
+  search_guilds(
+    """
+    input parameters for function "search_guilds"
+    """
+    args: search_guilds_args!
+
+    """distinct select on columns"""
+    distinct_on: [guild_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [guild_order_by!]
+
+    """filter the rows returned"""
+    where: guild_bool_exp
+  ): [guild!]!
+
+  """
+  execute function "search_guilds" and query aggregates on result of table type "guild"
+  """
+  search_guilds_aggregate(
+    """
+    input parameters for function "search_guilds"
+    """
+    args: search_guilds_args!
+
+    """distinct select on columns"""
+    distinct_on: [guild_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [guild_order_by!]
+
+    """filter the rows returned"""
+    where: guild_bool_exp
+  ): guild_aggregate!
 
   """
   fetch data from the table: "skill"
