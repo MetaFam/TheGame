@@ -63,8 +63,10 @@ import {
 import { useUser, useWeb3 } from 'lib/hooks';
 import { useRouter } from 'next/router';
 import React, { useEffect, useRef, useState } from 'react';
-import { distinctUntilChanged, forkJoin, from, Subject } from 'rxjs';
-import { debounceTime, filter, switchMap } from 'rxjs/operators';
+import { distinctUntilChanged, Subject } from 'rxjs';
+// import { forkJoin, from } from 'rxjs';
+import { debounceTime, filter } from 'rxjs/operators';
+// import {  switchMap } from 'rxjs/operators';
 import { MenuLinkItem, MenuLinkSet, MenuSectionLinks } from 'utils/menuLinks';
 import {
   getPlayerImage,
@@ -353,7 +355,9 @@ const Search = () => {
     players: [],
     guilds: [],
   });
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isFocused, setIsFocused] = useState<boolean>(false);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isLoading, setLoading] = useState<boolean>(false);
   const handleSubmit = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
