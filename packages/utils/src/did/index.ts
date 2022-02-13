@@ -2,7 +2,8 @@ import { providers } from 'ethers';
 import { Base64 } from 'js-base64';
 import { v4 as uuidv4 } from 'uuid';
 
-import { signerHelper, verifySignature } from '../ethereumHelper';
+import { getSignature, verifySignature } from '../ethereumHelper';
+import { Maybe } from '../extendedProfileTypes';
 
 const tokenDuration = 1000 * 60 * 60 * 24 * 7; // 7 days
 
@@ -22,7 +23,7 @@ export async function createToken(
   const iat = +new Date();
 
   const claim = {
-    iat: +new Date(),
+    iat,
     exp: iat + tokenDuration,
     iss: address,
     aud: 'the-game',
@@ -30,30 +31,25 @@ export async function createToken(
   };
 
   const serializedClaim = JSON.stringify(claim);
-  const proof = await signerHelper(provider, serializedClaim);
+  const proof = await getSignature(provider, serializedClaim);
 
   return Base64.encode(JSON.stringify([proof, serializedClaim]));
 }
 
 export async function verifyToken(
   token: string,
-  provider: providers.JsonRpcProvider,
-): Promise<Claim | null> {
-  try {
-    const rawToken = Base64.decode(token, 'base64');
-    const [proof, rawClaim] = JSON.parse(rawToken);
-    const claim: Claim = JSON.parse(rawClaim);
-    const address = claim.iss;
+  provider: providers.Web3Provider,
+): Promise<Maybe<Claim>> {
+  const address = provider.getSigner().getAddress();
+  const rawToken = Base64.decode(token, 'base64');
+  const [proof, rawClaim] = JSON.parse(rawToken);
+  const claim: Claim = JSON.parse(rawClaim);
+  const claimant = claim.iss;
+  const valid = await verifySignature(claimant, rawClaim, proof, provider);
 
-    const valid = await verifySignature(address, rawClaim, proof, provider);
-
-    if (!valid) {
-      throw new Error('invalid signature');
-    }
-    return claim;
-  } catch (e) {
-    // eslint-disable-next-line no-console
-    console.error('Token verification failed', e);
-    return null;
+  if (!valid) {
+    throw new Error('Invalid Signature');
   }
+
+  return claim;
 }

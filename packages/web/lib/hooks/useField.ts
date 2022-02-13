@@ -17,7 +17,7 @@ const nullAtom = newAtom(null, () => {
   throw new Error('Unimplemented');
 });
 
-export const clearProfileFields = () => {
+export const clearJotaiState = () => {
   fields = {};
 };
 
