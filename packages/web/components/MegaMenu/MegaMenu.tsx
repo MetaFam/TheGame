@@ -10,6 +10,9 @@ import {
   Flex,
   HamburgerIcon,
   Icon,
+  Input,
+  InputGroup,
+  InputLeftElement,
   Link,
   LogOut,
   Menu,
@@ -69,6 +72,7 @@ import {
   getPlayerURL,
 } from 'utils/playerHelpers';
 
+import SearchIcon from '../../assets/search-icon.svg';
 import { getPlayersByText } from '../../graphql/getPlayers';
 import { getGuildsByText } from '../../graphql/queries/guild';
 import { XPSeedsBalance } from './XPSeedsBalance';
@@ -298,7 +302,7 @@ interface OptionProps {
 }
 
 const Option = ({ onClick, name, imgSrc, text }: OptionProps) => (
-  <Flex align="center" onClick={onClick} px={3} py={2} cursor="pointer">
+  <Flex align="center" {...{ onClick }} px={3} py={2} cursor="pointer">
     <Avatar name={name} src={imgSrc} w="20px" h="20px" />
     <Text px="2" color="black" fontFamily="Exo 2" fontWeight="400">
       {text}
@@ -320,10 +324,18 @@ const ResultsTitle = ({ children }: { children: string }) => (
   </Text>
 );
 
-const SeeAllOption = ({ type }: { type: string }) => (
-  <Text fontFamily="Exo 2" fontWeight={600} color="magenta" px={3}>
-    See All {type}
-  </Text>
+const SeeAllOption = ({
+  type,
+  onClick,
+}: {
+  type: string;
+  onClick: () => void;
+}) => (
+  <Box {...{ onClick }} cursor="pointer">
+    <Text fontFamily="Exo 2" fontWeight={600} color="magenta" px={3}>
+      See All {type}
+    </Text>
+  </Box>
 );
 
 const atLimit = (x: number, limit = 3) => x === limit;
@@ -346,10 +358,7 @@ const Search = () => {
   const handleSubmit = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     // Default Show Players Matching With Query
-    //  router.push(`/search/players?q=${inputValue}`);
-  };
-  const handleChange = (e: any) => {
-    setQuery(e.target.value);
+    router.push(`/search/players?q=${query}`);
   };
 
   useEffect(() => {
@@ -399,7 +408,6 @@ const Search = () => {
       });
     return () => searchSubscription && searchSubscription.unsubscribe;
   }, []);
-
   return (
     <Flex
       flexDirection="column"
@@ -409,68 +417,98 @@ const Search = () => {
       position="relative"
     >
       <form onSubmit={handleSubmit} style={{ width: '100%', color: 'black' }}>
-        <input
-          value={query}
-          onChange={handleChange}
-          style={inputStyle}
-          onBlur={() => setIsFocused(false)}
-          onFocus={() => setIsFocused(true)}
-        />
-      </form>
-      {isFocused && (
-        <Box
-          zIndex={2}
-          position="absolute"
-          bg="white"
-          w="fit-content"
-          mt={2}
-          css={{
-            backdropFilter: 'blur(8px)',
-            transform: 'translate3d(0px, 42.5px, 0px)',
-          }}
-          borderRadius="8px"
+        <InputGroup
+          justifyContent="flex-start"
+          minW={{ base: '20%', lg: '10%' }}
+          h="fit-content"
           p={2}
+          mt="auto"
+          mb="auto"
+          bg={{
+            base: 'none',
+            xl: 'rgba(255, 255, 255, 0.05)',
+          }}
+          border={{ base: 'none', xl: '1px solid #2B2244' }}
+          borderRadius={4}
         >
-          {searchResults.players.length > 0 && (
-            <ResultsTitle>Players</ResultsTitle>
-          )}
-          {searchResults?.players?.map((player: PlayerFragmentFragment) => (
-            <Option
-              onClick={() =>
-                router.push(`/player/${player?.profile?.username}`)
-              }
-              name={getPlayerName(player) as string}
-              imgSrc={getPlayerImage(player)}
-              text={player?.profile?.username as string}
-            />
-          ))}
-          {atLimit(searchResults?.players.length) && (
-            <SeeAllOption type="Players" />
-          )}
-
-          {searchResults.guilds.length > 0 && (
-            <ResultsTitle>Guilds</ResultsTitle>
-          )}
-          {searchResults?.guilds?.map((guild: GuildFragmentFragment) => (
-            <Option
-              onClick={() => router.push(`/guild/${guild.guildname}`)}
-              name={guild.guildname}
-              imgSrc={guild?.logo as string | undefined}
-              text={guild.guildname}
-            />
-          ))}
-          {atLimit(searchResults?.guilds.length) && (
-            <SeeAllOption type="Guilds" />
-          )}
-        </Box>
-      )}
+          <InputLeftElement
+            pointerEvents="none"
+            children={
+              <Image src={SearchIcon} alt="search" height={4} width={4} />
+            }
+          />
+          <Input
+            variant="unstyled"
+            color="white"
+            w="100%"
+            type="text"
+            alignSelf="center"
+            placeholder="Find anything"
+            _placeholder={{ color: 'whiteAlpha.500' }}
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            onBlur={() => setIsFocused(false)}
+            onFocus={() => setIsFocused(true)}
+            size="sm"
+            fontSize="md"
+          />
+        </InputGroup>
+      </form>
+      {/* {!isFocused && ( */}
+      <Box
+        zIndex={2}
+        position="absolute"
+        bg="white"
+        w="fit-content"
+        mt={2}
+        css={{
+          backdropFilter: 'blur(8px)',
+          transform: 'translate3d(0px, 42.5px, 0px)',
+        }}
+        borderRadius="8px"
+        p={2}
+      >
+        {searchResults.players.length > 0 && (
+          <ResultsTitle>Players</ResultsTitle>
+        )}
+        {searchResults?.players?.map((player: PlayerFragmentFragment) => (
+          <Option
+            key={player.id}
+            onClick={() => {
+              console.log('Click');
+              router.push(`/player/${player?.profile?.username}`);
+            }}
+            name={getPlayerName(player) as string}
+            imgSrc={getPlayerImage(player)}
+            text={player?.profile?.username as string}
+          />
+        ))}
+        {atLimit(searchResults?.players.length) && (
+          <SeeAllOption
+            type="Players"
+            onClick={() => router.push(`/search/players?q=${encodeURI(query)}`)}
+          />
+        )}
+        {searchResults.guilds.length > 0 && <ResultsTitle>Guilds</ResultsTitle>}
+        {searchResults?.guilds?.map((guild: GuildFragmentFragment) => (
+          <Option
+            key={guild.id}
+            onClick={() => router.push(`/guild/${guild.guildname}`)}
+            name={guild.guildname}
+            imgSrc={guild?.logo as string | undefined}
+            text={guild.guildname}
+          />
+        ))}
+        {atLimit(searchResults?.guilds.length) && (
+          <SeeAllOption
+            type="Guilds"
+            onClick={() => router.push(`/search/quilds?q=${encodeURI(query)}`)}
+          />
+        )}
+      </Box>
+      {/* )} */}
     </Flex>
   );
-};
-
-const inputStyle = {
-  padding: '5px',
-  borderRadius: '6px',
 };
 
 type PlayerStatsProps = {
