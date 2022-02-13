@@ -210,7 +210,13 @@ const DesktopNavLinks = () => (
     display={{ base: 'none', lg: 'flex' }}
   >
     {MenuSectionLinks.map((section: MenuLinkSet) => (
-      <Menu key={section.label} offset={[0, 0]} preventOverflow placement="top">
+      <Menu
+        key={section.label}
+        offset={[0, 0]}
+        preventOverflow
+        flip={false}
+        placement="bottom"
+      >
         {({ isOpen }) => (
           <>
             <MenuButton
@@ -273,7 +279,7 @@ const DesktopNavLinks = () => (
               boxShadow="dark-lg"
               bg="linear-gradient(180deg, rgba(42, 31, 71, 0.9) 6.18%, rgba(17, 3, 32, 0.86) 140%)"
               borderRadius="0.618vmax"
-              border="0"
+              border={0}
             >
               {section.menuItems.map((item: MenuLinkItem) => (
                 <DesktopMenuItem {...item} key={item.title} />
