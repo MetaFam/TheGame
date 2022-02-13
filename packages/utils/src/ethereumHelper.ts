@@ -33,15 +33,21 @@ async function getWalletType(
   address: string,
   provider: providers.BaseProvider,
 ): Promise<WalletType> {
-  const code = await new Promise((resolve) => {
+  const code = await new Promise((resolve, reject) => {
     const seconds = 45;
     const id = setTimeout(() => {
-      throw new Error(`\`.getCode\` Timed Out After ${seconds}s`);
+      reject(new Error(`\`.getCode\` Timed Out After ${seconds}s`));
     }, seconds * 1000);
-    provider.getCode(address).then((c) => {
-      clearTimeout(id);
-      resolve(c);
-    });
+    provider
+      .getCode(address)
+      .then((c) => {
+        clearTimeout(id);
+        resolve(c);
+      })
+      .catch((err) => {
+        console.error('`.getCode` Error', err);
+        reject(err);
+      });
   });
   return code === '0x' ? WalletType.EOA : WalletType.SMART;
 }

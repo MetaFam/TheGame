@@ -22,6 +22,7 @@ const status: Record<string, string> = {};
  */
 export async function getOrCreatePlayerId(ethereumAddress: string) {
   const ethAddress = ethereumAddress.toLowerCase();
+  let created = false;
   const {
     player: [existing],
   } = await client.GetPlayerFromETH({
@@ -46,6 +47,7 @@ export async function getOrCreatePlayerId(ethereumAddress: string) {
         status[ethAddress] = 'creating';
         console.info(`Account Creation: ${ethAddress}`);
         ({ id } = await createPlayer(ethAddress));
+        created = true;
         status[ethAddress] = 'created';
       } catch (err) {
         console.error(
@@ -57,13 +59,13 @@ export async function getOrCreatePlayerId(ethereumAddress: string) {
 
     if (!id) {
       const {
-        player: [created],
+        player: [newPlayer],
       } = await client.GetPlayerFromETH({
         ethereumAddress: ethAddress,
       });
-      ({ id } = created ?? {});
+      ({ id } = newPlayer ?? {});
     }
   }
 
-  return id;
+  return { id, created };
 }

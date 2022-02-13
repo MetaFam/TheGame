@@ -11,10 +11,11 @@ const unauthorizedVariables = {
 function getHeaderToken(req: Request): string | null {
   const authHeader = req.headers.authorization;
   if (!authHeader) return null;
-  if (authHeader.substring(0, 6) !== 'Bearer')
-    throw new Error('invalid token type');
+  if (!authHeader.startsWith('Bearer')) {
+    throw new Error(`Invalid Token Type: ${authHeader.split(/\s/)[0]}`);
+  }
 
-  const token = authHeader.replace('Bearer', '').trim();
+  const token = authHeader.replace(/^Bearer/, '').trim();
   if (token.length === 0) return null;
   return token;
 }
@@ -40,13 +41,13 @@ export const authHandler = async (
       return;
     }
 
-    const id = await getOrCreatePlayerId(claim.iss);
+    const { id, created } = await getOrCreatePlayerId(claim.iss);
 
     const hasuraVariables = {
       'X-Hasura-Role': 'player',
       'X-Hasura-User-Id': id,
     };
 
-    res.json(hasuraVariables);
+    res.status(created ? 201 : 200).json(hasuraVariables);
   }
 };

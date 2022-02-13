@@ -38,13 +38,20 @@ export async function createToken(
 
 export async function verifyToken(
   token: string,
-  provider: providers.Web3Provider,
+  provider: providers.JsonRpcProvider,
+  connectedAddress?: string,
 ): Promise<Maybe<Claim>> {
-  const address = provider.getSigner().getAddress();
   const rawToken = Base64.decode(token, 'base64');
   const [proof, rawClaim] = JSON.parse(rawToken);
   const claim: Claim = JSON.parse(rawClaim);
   const claimant = claim.iss;
+
+  if (connectedAddress != null && claimant !== connectedAddress) {
+    throw new Error(
+      `Connected address (${connectedAddress}) ≠ claim issuer (${claimant}).`,
+    );
+  }
+
   const valid = await verifySignature(claimant, rawClaim, proof, provider);
 
   if (!valid) {
