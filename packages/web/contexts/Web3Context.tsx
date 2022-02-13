@@ -14,7 +14,7 @@ import {
   getTokenFromStore,
   setTokenInStore,
 } from 'lib/auth';
-import { clearProfileFields } from 'lib/hooks/useField';
+import { clearJotaiState } from 'lib/hooks/useField';
 import React, {
   createContext,
   useCallback,
@@ -67,12 +67,12 @@ const web3Modal =
 
 export async function getExistingAuth(
   ethersProvider: providers.Web3Provider,
-): Promise<string | null> {
+): Promise<Maybe<string>> {
   const token = getTokenFromStore();
   if (!token) return null;
 
   try {
-    await did.verifyToken(token, ethersProvider);
+    const res = await did.verifyToken(token, ethersProvider);
     return token;
   } catch (e) {
     clearToken();
@@ -124,7 +124,7 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
     ceramic.close();
     clearWalletConnect();
     clearToken();
-    clearProfileFields();
+    clearJotaiState();
     setAuthToken(null);
     setWallet(undefined);
     setAddress(null);
@@ -136,7 +136,7 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
   }, [resetUrqlClient, ceramic]);
 
   const connect = useCallback(async () => {
-    if (web3Modal === null) return;
+    if (web3Modal == null) return;
 
     setConnecting(true);
 

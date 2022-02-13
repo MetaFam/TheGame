@@ -1,15 +1,15 @@
 import { Contract, providers, utils } from 'ethers';
 
-export async function signerHelper(
+export async function getSignature(
   provider: providers.Web3Provider,
-  rawMessage: string,
+  msg: string,
 ): Promise<string> {
   const ethereum = provider.provider;
   const signer = provider.getSigner();
   const address = await signer.getAddress();
-  if (!ethereum.request) throw new Error('invalid ethereum provider');
+  if (!ethereum.request) throw new Error('No `request` On Ethereum Provider');
 
-  let params = [rawMessage, address.toLowerCase()];
+  let params = [msg, address.toLowerCase()];
   if (ethereum.isMetaMask) {
     params = [params[1], params[0]];
   }
@@ -33,7 +33,16 @@ async function getWalletType(
   address: string,
   provider: providers.BaseProvider,
 ): Promise<WalletType> {
-  const code = await provider.getCode(address);
+  const code = await new Promise((resolve) => {
+    const seconds = 45;
+    const id = setTimeout(() => {
+      throw new Error(`\`.getCode\` Timed Out After ${seconds}s`);
+    }, seconds * 1000);
+    provider.getCode(address).then((c) => {
+      clearTimeout(id);
+      resolve(c);
+    });
+  });
   return code === '0x' ? WalletType.EOA : WalletType.SMART;
 }
 
@@ -51,16 +60,15 @@ export async function verifySignature(
   }
 
   // Smart wallet
-  const arrayishMessage = utils.toUtf8Bytes(message);
-  const hexMessage = utils.hexlify(arrayishMessage);
-  const hexArray = utils.arrayify(hexMessage);
-  const hashMessage = utils.hashMessage(hexArray);
+  const msgBytes = utils.toUtf8Bytes(message);
+  const hexMsg = utils.hexlify(msgBytes);
+  const hexArray = utils.arrayify(hexMsg);
+  const hashMsg = utils.hashMessage(hexArray);
 
   const contract = new Contract(address, smartWalletABI, provider);
   try {
-    const returnValue = await contract.isValidSignature(hashMessage, signature);
-    return returnValue;
+    return contract.isValidSignature(hashMsg, signature);
   } catch (error) {
-    throw new Error('unsupported smart wallet');
+    throw new Error(`Unsupported Smart Wallet: ${(error as Error).message}`);
   }
 }
