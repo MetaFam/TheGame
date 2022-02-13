@@ -406,7 +406,7 @@ const Search = () => {
         setSearchResults({ guilds, players });
         setLoading(false);
       });
-    return () => searchSubscription && searchSubscription.unsubscribe;
+    return searchSubscription && searchSubscription.unsubscribe;
   }, []);
   return (
     <Flex
