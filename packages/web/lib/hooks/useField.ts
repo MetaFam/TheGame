@@ -3,6 +3,9 @@ import { ExplorerType, Player, Profile } from 'graphql/autogen/types';
 import { Atom, atom as newAtom, PrimitiveAtom, useAtom } from 'jotai';
 import { useMemo } from 'react';
 
+// eslint-disable-next-line import/no-cycle
+import { useUser } from './useUser';
+
 export type ProfileFieldType<T> = {
   [field in keyof Profile]?: Maybe<T>;
 } & {
@@ -24,14 +27,14 @@ export const clearJotaiState = () => {
 export const useProfileField = <T extends ProfileValueType = string>({
   field,
   player = null,
-  owner = false,
   getter = null,
 }: {
   field: string;
   player?: Maybe<Player>;
-  owner?: boolean;
   getter?: Maybe<(player: Maybe<Player>) => Optional<Maybe<T>>>;
 }): ProfileFieldType<T> => {
+  const { user } = useUser();
+  const owner = user && user.id === player?.id;
   const key = field as keyof Profile;
   let setter: Maybe<(val: unknown) => void> = null;
   let value = useMemo(

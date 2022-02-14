@@ -109,20 +109,14 @@ export const PlayerHero: React.FC<Props> = ({
 
         <Wrap justify="space-between" w="full">
           <WrapItem>
-            <PlayerHeroTile title="Availability">
-              <Availability {...{ person }} />
-            </PlayerHeroTile>
+            <Availability {...{ person }} />
           </WrapItem>
           <WrapItem>
-            <PlayerHeroTile title="Time Zone">
-              <TimeZone {...{ person }} />
-            </PlayerHeroTile>
+            <TimeZone {...{ person }} />
           </WrapItem>
           {player?.profile?.emoji && (
             <WrapItem>
-              <PlayerHeroTile title="Favorite Emoji">
-                <Text fontSize="1.25rem">{player.profile.emoji}</Text>
-              </PlayerHeroTile>
+              <PlayerEmoji {...{ person }} />
             </WrapItem>
           )}
         </Wrap>
@@ -188,14 +182,10 @@ export const PlayerHero: React.FC<Props> = ({
   );
 };
 
-export const PlayerPronouns: React.FC<DisplayComponentProps> = ({
-  person,
-  isOwnProfile = false,
-}) => {
+export const PlayerPronouns: React.FC<DisplayComponentProps> = ({ person }) => {
   const { pronouns } = useProfileField({
     field: 'pronouns',
     player: person,
-    owner: isOwnProfile,
   });
   // This is broken now…
   // Fix it by making the animation into a component which
@@ -222,14 +212,10 @@ export const PlayerPronouns: React.FC<DisplayComponentProps> = ({
   );
 };
 
-const PlayerEmoji: React.FC<DisplayComponentProps> = ({
-  person,
-  isOwnProfile = false,
-}) => {
+const PlayerEmoji: React.FC<DisplayComponentProps> = ({ person }) => {
   const { emoji } = useProfileField({
     field: 'emoji',
     player: person,
-    owner: isOwnProfile,
   });
 
   if (!emoji || emoji === '') {
@@ -245,14 +231,10 @@ const PlayerEmoji: React.FC<DisplayComponentProps> = ({
   );
 };
 
-const PlayerDescription: React.FC<DisplayComponentProps> = ({
-  person,
-  isOwnProfile = false,
-}) => {
+const PlayerDescription: React.FC<DisplayComponentProps> = ({ person }) => {
   const { description } = useProfileField({
     field: 'description',
     player: person,
-    owner: isOwnProfile,
   });
   const [show, setShow] = useState(false);
 
@@ -298,14 +280,10 @@ const PlayerDescription: React.FC<DisplayComponentProps> = ({
   );
 };
 
-const PlayerName: React.FC<DisplayComponentProps> = ({
-  person,
-  isOwnProfile = false,
-}) => {
+const PlayerName: React.FC<DisplayComponentProps> = ({ person }) => {
   const { name } = useProfileField({
     field: 'name',
     player: person,
-    owner: isOwnProfile,
     getter: getPlayerName,
   });
 
@@ -324,13 +302,9 @@ const PlayerName: React.FC<DisplayComponentProps> = ({
   );
 };
 
-const Availability: React.FC<DisplayComponentProps> = ({
-  person,
-  isOwnProfile = false,
-}) => {
+const Availability: React.FC<DisplayComponentProps> = ({ person }) => {
   const { value: current } = useProfileField<number>({
     field: 'availableHours',
-    owner: isOwnProfile,
     player: person ?? null,
   });
   const [hours, setHours] = useState<Maybe<number>>(current);
@@ -338,41 +312,39 @@ const Availability: React.FC<DisplayComponentProps> = ({
   const { animation } = useAnimateProfileChanges(current, updateFN);
 
   return (
-    <Flex alignItems="center">
-      <Box pr={2}>
-        <FaClock color="blueLight" />
-      </Box>
-      <FlexContainer
-        align="stretch"
-        transition="opacity 0.4s"
-        opacity={animation === 'fadeIn' ? 1 : 0}
-      >
-        <Text fontSize={{ base: 'md', sm: 'lg' }} pr={2}>
-          {hours == null ? (
-            <Text as="em">Unspecified</Text>
-          ) : (
-            <>
-              <Text as="span" mr={0.5}>
-                {hours}
-              </Text>
-              <Text as="span" title="hours per week">
-                <Text as="sup">hr</Text>⁄<Text as="sub">week</Text>
-              </Text>
-            </>
-          )}
-        </Text>
-      </FlexContainer>
-    </Flex>
+    <PlayerHeroTile title="Availability">
+      <Flex alignItems="center">
+        <Box pr={2}>
+          <FaClock color="blueLight" />
+        </Box>
+        <FlexContainer
+          align="stretch"
+          transition="opacity 0.4s"
+          opacity={animation === 'fadeIn' ? 1 : 0}
+        >
+          <Text fontSize={{ base: 'md', sm: 'lg' }} pr={2}>
+            {hours == null ? (
+              <Text as="em">Unspecified</Text>
+            ) : (
+              <>
+                <Text as="span" mr={0.5}>
+                  {hours}
+                </Text>
+                <Text as="span" title="hours per week">
+                  <Text as="sup">hr</Text>⁄<Text as="sub">week</Text>
+                </Text>
+              </>
+            )}
+          </Text>
+        </FlexContainer>
+      </Flex>
+    </PlayerHeroTile>
   );
 };
 
-const TimeZone: React.FC<DisplayComponentProps> = ({
-  person,
-  isOwnProfile = false,
-}) => {
+const TimeZone: React.FC<DisplayComponentProps> = ({ person }) => {
   const { value: current } = useProfileField({
     field: 'timeZone',
-    owner: isOwnProfile,
     player: person ?? null,
   });
   const tz = getTimeZoneFor({ title: current });
@@ -390,43 +362,48 @@ const TimeZone: React.FC<DisplayComponentProps> = ({
   const { animation } = useAnimateProfileChanges(tz, updateFN);
 
   return (
-    <Flex alignItems="center">
-      <FlexContainer
-        align="stretch"
-        transition="opacity 0.4s"
-        opacity={animation === 'fadeIn' ? 1 : 0}
-      >
-        <Flex align="center" whiteSpace="pre">
-          <Box pr={2}>
-            <FaGlobe color="blueLight" />
-          </Box>
-          {timeZone === null ? (
-            <Text fontStyle="italic">Unspecified</Text>
-          ) : (
-            <Tooltip label={tz?.name} hasArrow>
-              <Wrap justify="center" align="center">
-                <WrapItem my="0 !important">
-                  <Text
-                    fontSize={{ base: 'md', sm: 'lg' }}
-                    pr={1}
-                    overflowX="hidden"
-                    textOverflow="ellipsis"
-                  >
-                    {timeZone || '−'}
-                  </Text>
-                </WrapItem>
-                {short && (
+    <PlayerHeroTile title="Time Zone">
+      <Flex alignItems="center">
+        <FlexContainer
+          align="stretch"
+          transition="opacity 0.4s"
+          opacity={animation === 'fadeIn' ? 1 : 0}
+        >
+          <Flex align="center" whiteSpace="pre">
+            <Box pr={2}>
+              <FaGlobe color="blueLight" />
+            </Box>
+            {timeZone === null ? (
+              <Text fontStyle="italic">Unspecified</Text>
+            ) : (
+              <Tooltip label={tz?.name} hasArrow>
+                <Wrap justify="center" align="center">
                   <WrapItem my="0 !important">
-                    <Text fontSize={{ base: 'sm', sm: 'md' }} whiteSpace="pre">
-                      {short}
+                    <Text
+                      fontSize={{ base: 'md', sm: 'lg' }}
+                      pr={1}
+                      overflowX="hidden"
+                      textOverflow="ellipsis"
+                    >
+                      {timeZone || '−'}
                     </Text>
                   </WrapItem>
-                )}
-              </Wrap>
-            </Tooltip>
-          )}
-        </Flex>
-      </FlexContainer>
-    </Flex>
+                  {short && (
+                    <WrapItem my="0 !important">
+                      <Text
+                        fontSize={{ base: 'sm', sm: 'md' }}
+                        whiteSpace="pre"
+                      >
+                        {short}
+                      </Text>
+                    </WrapItem>
+                  )}
+                </Wrap>
+              </Tooltip>
+            )}
+          </Flex>
+        </FlexContainer>
+      </Flex>
+    </PlayerHeroTile>
   );
 };
