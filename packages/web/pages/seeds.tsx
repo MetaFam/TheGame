@@ -6,7 +6,15 @@ import {
   Heading,
   Image,
   LoadingState,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
   Text,
+  useDisclosure,
   VStack,
 } from '@metafam/ds';
 import Seeds from 'assets/menuIcon/seeds.svg';
@@ -21,6 +29,9 @@ import React, { useRef } from 'react';
 const SeedsPage: React.FC = () => {
   const router = useRouter();
   const topRef = useRef<HTMLDivElement>(null);
+  const btnRef = useRef<HTMLDivElement>(null);
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   function handleBackClick() {
     topRef?.current?.scrollIntoView({ behavior: 'smooth' });
@@ -71,7 +82,7 @@ const SeedsPage: React.FC = () => {
           <Image width="full" src={SeedsFlowChart} alignSelf="end" mt={4} />
         </Flex>
         {cardsData.map(({ title, description }) => (
-          <Card title={title} description={description} />
+          <Card title={title} description={description} onOpen={onOpen} />
         ))}
         <Image src={Octopus} pt={8} />
         <Box pb={4}>
@@ -88,6 +99,23 @@ const SeedsPage: React.FC = () => {
           </Button>
         </Box>
       </VStack>
+
+      <Modal
+        onClose={onClose}
+        finalFocusRef={btnRef}
+        isOpen={isOpen}
+        scrollBehavior="inside"
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Modal Title</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>Modal Body</ModalBody>
+          <ModalFooter>
+            <Button onClick={onClose}>Close</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </PageContainer>
   );
 };
@@ -95,9 +123,10 @@ const SeedsPage: React.FC = () => {
 type CardProps = {
   title: string;
   description: string;
+  onOpen: () => void;
 };
 
-const Card: React.FC<CardProps> = ({ title, description }) => (
+const Card: React.FC<CardProps> = ({ title, description, onOpen }) => (
   <Flex
     direction="column"
     bgColor="#110035"
@@ -122,6 +151,7 @@ const Card: React.FC<CardProps> = ({ title, description }) => (
         color="magenta"
         _hover={{ bg: '#FFFFFF11' }}
         _active={{ bg: '#FF000011' }}
+        onClick={onOpen}
       >
         Learn more
       </Button>
@@ -157,7 +187,7 @@ const cardsData = [
   {
     title: 'JOIN THE SEED FUND',
     description:
-      'Don’t feel like watering Seeds yourself? Worry not, you can still be a caring patron, and leave all the work to us.',
+      "Don't feel like watering Seeds yourself? Worry not, you can still be a caring patron, and leave all the work to us.",
   },
   {
     title: 'FAQ',
