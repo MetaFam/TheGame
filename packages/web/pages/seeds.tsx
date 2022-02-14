@@ -59,6 +59,14 @@ const SeedsPage: React.FC = () => {
           XP & getting paid out on their XP generated - in Seeds.
           <br />
           <br />
+          • All tokens are retroactive rewards for non-financial contributions.
+          <br />
+          • No tokens were minted for investment or speculation purposes.
+          <br />
+          • There was never any liquidity mining program, yet there is
+          liquidity. 🙃
+          <br />
+          <br />
           Here’s how it works (in Phase I*):
           <Image width="full" src={SeedsFlowChart} alignSelf="end" mt={4} />
         </Flex>
