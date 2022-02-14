@@ -33,33 +33,28 @@ import { useProfileField, useUser } from 'lib/hooks';
 import { useAnimateProfileChanges } from 'lib/hooks/players';
 import React, { useEffect, useState } from 'react';
 import { FaClock, FaGlobe } from 'react-icons/fa';
-import { BoxType } from 'utils/boxTypes';
+import { BoxTypes } from 'utils/boxTypes';
 import { getPlayerName } from 'utils/playerHelpers';
 
 const MAX_BIO_LENGTH = 240;
 
 type Props = {
   player: Player;
-  isOwnProfile?: boolean;
-  canEdit?: boolean;
+  editing?: boolean;
 };
 type DisplayComponentProps = {
-  person?: Maybe<Player>;
+  player?: Maybe<Player>;
   isOwnProfile?: boolean;
 };
 
-export const PlayerHero: React.FC<Props> = ({
-  player,
-  isOwnProfile,
-  canEdit,
-}) => {
+export const PlayerHero: React.FC<Props> = ({ player, editing }) => {
   const { user } = useUser();
-  const person = (isOwnProfile ? user : player) as Player;
+  const isOwnProfile = user ? user.id === player?.id : null;
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
-    <ProfileSection {...{ canEdit }} boxType={BoxType.PLAYER_HERO} withoutBG>
-      {isOwnProfile && !canEdit && (
+    <ProfileSection {...{ editing }} type={BoxTypes.PLAYER_HERO} withoutBG>
+      {isOwnProfile && !editing && (
         <Box pos="absolute" right={5} top={5}>
           <IconButton
             _focus={{ boxShadow: 'none' }}
@@ -85,21 +80,19 @@ export const PlayerHero: React.FC<Props> = ({
         <PlayerAvatar
           w={{ base: 32, md: 56 }}
           h={{ base: 32, md: 56 }}
-          {...{ player, isOwnProfile }}
+          {...{ player }}
         />
       </Box>
       <VStack spacing={6}>
         <Box textAlign="center" maxW="full">
-          <PlayerName {...{ person, isOwnProfile }} />
-          <PlayerBrightId player={person} />
+          <PlayerName {...{ player }} />
+          <PlayerBrightId {...{ player }} />
         </Box>
-        <PlayerDescription {...{ person, isOwnProfile }} />
+        <PlayerDescription {...{ player }} />
 
         <HStack mt={2}>
-          <PlayerContacts {...{ player: person }} />
+          <PlayerContacts {...{ player }} />
         </HStack>
-
-        <PlayerPronouns {...{ person, isOwnProfile }} />
 
         {/*
         <PlayerHeroTile title="Website">
@@ -109,14 +102,17 @@ export const PlayerHero: React.FC<Props> = ({
 
         <Wrap justify="space-between" w="full">
           <WrapItem>
-            <Availability {...{ person }} />
+            <PlayerPronouns {...{ player }} />
           </WrapItem>
           <WrapItem>
-            <TimeZone {...{ person }} />
+            <Availability {...{ player }} />
+          </WrapItem>
+          <WrapItem>
+            <TimeZone {...{ player }} />
           </WrapItem>
           {player?.profile?.emoji && (
             <WrapItem>
-              <PlayerEmoji {...{ person }} />
+              <PlayerEmoji {...{ player }} />
             </WrapItem>
           )}
         </Wrap>
@@ -138,12 +134,6 @@ export const PlayerHero: React.FC<Props> = ({
             </Flex>
           </PlayerHeroTile>
         </SimpleGrid> */}
-
-        {/* player?.profile?.colorMask && (
-          <PlayerHeroTile title="Color Disposition">
-            <ColorDispositionDisplay {...{ person, personalityInfo }} />
-          </PlayerHeroTile>
-        ) */}
       </VStack>
 
       {isOwnProfile && (
@@ -173,7 +163,7 @@ export const PlayerHero: React.FC<Props> = ({
               }}
             />
             <ModalBody p={[0, 2]}>
-              <EditProfileForm {...{ player: person ?? null, onClose }} />
+              <EditProfileForm {...{ player, onClose }} />
             </ModalBody>
           </ModalContent>
         </Modal>
@@ -182,16 +172,17 @@ export const PlayerHero: React.FC<Props> = ({
   );
 };
 
-export const PlayerPronouns: React.FC<DisplayComponentProps> = ({ person }) => {
+export const PlayerPronouns: React.FC<DisplayComponentProps> = ({ player }) => {
   const { pronouns } = useProfileField({
     field: 'pronouns',
-    player: person,
+    player,
   });
   // This is broken now…
   // Fix it by making the animation into a component which
   // saves the children and replaces them after fading in
   // and out. (If such a thing is possible…)
-  const { animation } = useAnimateProfileChanges(pronouns);
+  //
+  // const { animation } = useAnimateProfileChanges(pronouns);
 
   if (!pronouns || pronouns === '') {
     return null;
@@ -199,23 +190,17 @@ export const PlayerPronouns: React.FC<DisplayComponentProps> = ({ person }) => {
 
   return (
     <PlayerHeroTile title="Personal Pronouns">
-      <FlexContainer
-        align="stretch"
-        transition="opacity 0.4s"
-        opacity={animation === 'fadeIn' ? 1 : 0}
-      >
-        <MetaTag size="md" fontWeight="normal" backgroundColor="gray.600">
-          {pronouns}
-        </MetaTag>
-      </FlexContainer>
+      <MetaTag size="md" fontWeight="normal" backgroundColor="gray.600">
+        {pronouns}
+      </MetaTag>
     </PlayerHeroTile>
   );
 };
 
-const PlayerEmoji: React.FC<DisplayComponentProps> = ({ person }) => {
+const PlayerEmoji: React.FC<DisplayComponentProps> = ({ player }) => {
   const { emoji } = useProfileField({
     field: 'emoji',
-    player: person,
+    player,
   });
 
   if (!emoji || emoji === '') {
@@ -231,10 +216,10 @@ const PlayerEmoji: React.FC<DisplayComponentProps> = ({ person }) => {
   );
 };
 
-const PlayerDescription: React.FC<DisplayComponentProps> = ({ person }) => {
+const PlayerDescription: React.FC<DisplayComponentProps> = ({ player }) => {
   const { description } = useProfileField({
     field: 'description',
-    player: person,
+    player,
   });
   const [show, setShow] = useState(false);
 
@@ -280,10 +265,10 @@ const PlayerDescription: React.FC<DisplayComponentProps> = ({ person }) => {
   );
 };
 
-const PlayerName: React.FC<DisplayComponentProps> = ({ person }) => {
+const PlayerName: React.FC<DisplayComponentProps> = ({ player }) => {
   const { name } = useProfileField({
     field: 'name',
-    player: person,
+    player,
     getter: getPlayerName,
   });
 
@@ -302,10 +287,10 @@ const PlayerName: React.FC<DisplayComponentProps> = ({ person }) => {
   );
 };
 
-const Availability: React.FC<DisplayComponentProps> = ({ person }) => {
+const Availability: React.FC<DisplayComponentProps> = ({ player }) => {
   const { value: current } = useProfileField<number>({
     field: 'availableHours',
-    player: person ?? null,
+    player,
   });
   const [hours, setHours] = useState<Maybe<number>>(current);
   const updateFN = () => setHours(current ?? null);
@@ -342,10 +327,10 @@ const Availability: React.FC<DisplayComponentProps> = ({ person }) => {
   );
 };
 
-const TimeZone: React.FC<DisplayComponentProps> = ({ person }) => {
+const TimeZone: React.FC<DisplayComponentProps> = ({ player }) => {
   const { value: current } = useProfileField({
     field: 'timeZone',
-    player: person ?? null,
+    player,
   });
   const tz = getTimeZoneFor({ title: current });
   const [timeZone, setTimeZone] = useState<string | null>(

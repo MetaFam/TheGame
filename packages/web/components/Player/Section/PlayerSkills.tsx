@@ -4,18 +4,18 @@ import { Player, SkillCategory_Enum } from 'graphql/autogen/types';
 import { SkillColors } from 'graphql/types';
 import { useAnimateProfileChanges } from 'lib/hooks/players';
 import React, { useState } from 'react';
-import { BoxType } from 'utils/boxTypes';
+import { BoxTypes } from 'utils/boxTypes';
 
 type Props = {
   player: Player;
   isOwnProfile?: boolean;
-  canEdit?: boolean;
+  editing?: boolean;
 };
 
 export const PlayerSkills: React.FC<Props> = ({
   player,
   isOwnProfile = false,
-  canEdit = false,
+  editing = false,
 }) => {
   const [playerSkills, setPlayerSkills] = useState<
     Array<{ id: number; name: string; category: SkillCategory_Enum }>
@@ -44,8 +44,8 @@ export const PlayerSkills: React.FC<Props> = ({
   return (
     <ProfileSection
       title="Skills"
-      {...{ isOwnProfile, canEdit }}
-      boxType={BoxType.PLAYER_SKILLS}
+      {...{ isOwnProfile, editing }}
+      type={BoxTypes.PLAYER_SKILLS}
       withoutBG
     >
       {!player?.skills?.length ? (

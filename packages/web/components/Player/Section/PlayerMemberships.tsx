@@ -21,7 +21,7 @@ import { ProfileSection } from 'components/Profile/ProfileSection';
 import { Player } from 'graphql/autogen/types';
 import { getAllMemberships, GuildMembership } from 'graphql/getMemberships';
 import React, { useEffect, useMemo, useState } from 'react';
-import { BoxType } from 'utils/boxTypes';
+import { BoxTypes } from 'utils/boxTypes';
 import { getDaoLink } from 'utils/daoHelpers';
 
 type DaoListingProps = {
@@ -107,13 +107,13 @@ const DaoListing: React.FC<DaoListingProps> = ({ membership }) => {
 type MembershipSectionProps = {
   player: Player;
   isOwnProfile?: boolean;
-  canEdit?: boolean;
+  editing?: boolean;
 };
 
 export const PlayerMemberships: React.FC<MembershipSectionProps> = ({
   player,
   isOwnProfile,
-  canEdit,
+  editing,
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [memberships, setMemberships] = useState<GuildMembership[]>([]);
@@ -129,9 +129,9 @@ export const PlayerMemberships: React.FC<MembershipSectionProps> = ({
   return (
     <ProfileSection
       title="DAO Memberships"
-      boxType={BoxType.PLAYER_DAO_MEMBERSHIPS}
+      type={BoxTypes.PLAYER_DAO_MEMBERSHIPS}
       withoutBG
-      {...{ isOwnProfile, canEdit }}
+      {...{ isOwnProfile, editing }}
     >
       {loading && <LoadingState mb={6} />}
 

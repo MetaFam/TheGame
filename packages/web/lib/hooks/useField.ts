@@ -11,6 +11,7 @@ export type ProfileFieldType<T> = {
 } & {
   value: Maybe<T>;
   setter: Maybe<(value: unknown) => void>;
+  owner: Maybe<boolean>;
 };
 
 export type ProfileValueType = string | number | Array<string> | ExplorerType;
@@ -34,7 +35,7 @@ export const useProfileField = <T extends ProfileValueType = string>({
   getter?: Maybe<(player: Maybe<Player>) => Optional<Maybe<T>>>;
 }): ProfileFieldType<T> => {
   const { user } = useUser();
-  const owner = user && user.id === player?.id;
+  const owner = user ? user.id === player?.id : null;
   const key = field as keyof Profile;
   let setter: Maybe<(val: unknown) => void> = null;
   let value = useMemo(
@@ -61,6 +62,7 @@ export const useProfileField = <T extends ProfileValueType = string>({
     value,
     setter,
     [field]: value,
+    owner,
   };
 };
 

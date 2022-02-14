@@ -151,7 +151,7 @@ export const SetupColorDisposition: React.FC<MaybeModalProps> = ({
   return (
     <ProfileWizardPane
       {...{ field, onClose }}
-      title="Person&#xAD;ality Type"
+      title="Color Dis&#xAD;po&#xAD;sit&#xAD;ion"
       prompt={
         <Text textAlign="center" maxW="30rem">
           Please select your personality components below. Not sure what type

@@ -70,7 +70,6 @@ export const ProfileWizardPane = <T extends ProfileValueType>({
   const { value: existing } = useProfileField<T>({
     field,
     player: user,
-    owner: true,
   });
   const {
     register,

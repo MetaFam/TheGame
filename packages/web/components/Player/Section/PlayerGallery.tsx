@@ -18,7 +18,7 @@ import { ProfileSection } from 'components/Profile/ProfileSection';
 import { Player } from 'graphql/autogen/types';
 import { useOpenSeaCollectibles } from 'lib/hooks/opensea';
 import React from 'react';
-import { BoxType } from 'utils/boxTypes';
+import { BoxTypes } from 'utils/boxTypes';
 import { Collectible } from 'utils/openseaHelpers';
 
 const GalleryItem: React.FC<{ nft: Collectible; noMargin?: boolean }> = ({
@@ -56,13 +56,13 @@ const GalleryItem: React.FC<{ nft: Collectible; noMargin?: boolean }> = ({
 type Props = {
   player: Player;
   isOwnProfile?: boolean;
-  canEdit?: boolean;
+  editing?: boolean;
 };
 
 export const PlayerGallery: React.FC<Props> = ({
   player,
   isOwnProfile,
-  canEdit,
+  editing,
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { favorites, data, loading } = useOpenSeaCollectibles({ player });
@@ -70,14 +70,13 @@ export const PlayerGallery: React.FC<Props> = ({
   return (
     <ProfileSection
       title="NFT Gallery"
-      isOwnProfile={isOwnProfile}
-      canEdit={canEdit}
-      boxType={BoxType.PLAYER_NFT_GALLERY}
+      {...{ isOwnProfile, editing }}
+      type={BoxTypes.PLAYER_NFT_GALLERY}
       withoutBG
     >
       {loading && <LoadingState mb={6} />}
       {!loading &&
-        favorites?.map((nft) => <GalleryItem nft={nft} key={nft.tokenId} />)}
+        favorites?.map((nft) => <GalleryItem {...{ nft }} key={nft.tokenId} />)}
       {!loading && data.length === 0 && (
         <Text textAlign="center" fontStyle="italic" mb="1rem">
           No{' '}

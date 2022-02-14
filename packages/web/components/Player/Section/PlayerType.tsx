@@ -4,30 +4,25 @@ import { ProfileSection } from 'components/Profile/ProfileSection';
 import { ExplorerType, Player } from 'graphql/autogen/types';
 import { useProfileField } from 'lib/hooks';
 import React from 'react';
-import { BoxType } from 'utils/boxTypes';
+import { BoxTypes } from 'utils/boxTypes';
 
 type Props = {
   player: Player;
   isOwnProfile?: boolean;
-  canEdit?: boolean;
+  editing?: boolean;
 };
 
-export const PlayerType: React.FC<Props> = ({
-  player,
-  isOwnProfile,
-  canEdit,
-}) => {
-  const { explorerType } = useProfileField<ExplorerType>({
+export const PlayerType: React.FC<Props> = ({ player, editing }) => {
+  const { explorerType, owner: isOwnProfile } = useProfileField<ExplorerType>({
     field: 'explorerType',
     player,
-    owner: isOwnProfile,
   });
 
   return (
     <ProfileSection
       title="Player Type"
-      {...{ isOwnProfile, canEdit }}
-      boxType={BoxType.PLAYER_TYPE}
+      {...{ isOwnProfile, editing }}
+      type={BoxTypes.PLAYER_TYPE}
       withoutBG
     >
       {!explorerType ? (

@@ -22,16 +22,16 @@ import { SetupColorDisposition } from 'components/Setup/SetupColorDisposition';
 import { SetupPlayerType } from 'components/Setup/SetupPlayerType';
 import { SetupSkills } from 'components/Setup/SetupSkills';
 import React from 'react';
-import { BoxType } from 'utils/boxTypes';
+import { BoxType, BoxTypes } from 'utils/boxTypes';
 
 export type ProfileSectionProps = {
   children?: React.ReactNode;
-  isOwnProfile?: boolean;
-  canEdit?: boolean;
-  boxType?: BoxType;
+  isOwnProfile?: Maybe<boolean>;
+  editing?: boolean;
+  type?: BoxType;
   title?: string;
   withoutBG?: boolean;
-  modalText?: string;
+  modalPrompt?: string;
   modalTitle?: string;
   modal?: React.ReactNode;
   subheader?: string;
@@ -40,11 +40,11 @@ export type ProfileSectionProps = {
 export const ProfileSection: React.FC<FlexProps & ProfileSectionProps> = ({
   children,
   isOwnProfile,
-  canEdit,
-  boxType,
+  editing,
+  type: boxType,
   title,
   withoutBG = false,
-  modalText,
+  modalPrompt,
   modal,
   modalTitle,
   subheader,
@@ -62,7 +62,7 @@ export const ProfileSection: React.FC<FlexProps & ProfileSectionProps> = ({
       {...props}
     >
       {title && (
-        <Box bg="purpleProfileSection" borderTopRadius="lg" pt={5} pb={5}>
+        <Box bg="purpleProfileSection" borderTopRadius="lg" py={5}>
           <HStack h={5} pr={4} pl={8}>
             <Text
               fontSize="md"
@@ -74,7 +74,7 @@ export const ProfileSection: React.FC<FlexProps & ProfileSectionProps> = ({
             >
               {title}
             </Text>
-            {!modal && isOwnProfile && !canEdit && isBoxDataEditable(boxType) && (
+            {isOwnProfile && !editing && isEditable(boxType) && (
               <IconButton
                 aria-label="Edit Profile Info"
                 size="lg"
@@ -94,7 +94,7 @@ export const ProfileSection: React.FC<FlexProps & ProfileSectionProps> = ({
                 isRound
               />
             )}
-            {modal && modalText && (
+            {modal && modalPrompt && (
               <Button
                 color="pinkShadeOne"
                 background="transparent"
@@ -109,7 +109,7 @@ export const ProfileSection: React.FC<FlexProps & ProfileSectionProps> = ({
                   backgroundColor: 'transparent',
                 }}
               >
-                {modalText}
+                {modalPrompt}
               </Button>
             )}
           </HStack>
@@ -119,12 +119,12 @@ export const ProfileSection: React.FC<FlexProps & ProfileSectionProps> = ({
         bg={withoutBG ? 'none' : 'blueProfileSection'}
         borderBottomRadius="lg"
         borderTopRadius={!title ? 'lg' : 0}
-        p={boxType === BoxType.EMBEDDED_URL ? 0 : 8}
+        p={boxType === BoxTypes.EMBEDDED_URL ? 0 : 8}
         boxShadow="md"
         css={{ backdropFilter: 'blur(8px)' }}
         w="100%"
         pos="relative"
-        pointerEvents={canEdit ? 'none' : 'initial'}
+        pointerEvents={editing ? 'none' : 'initial'}
       >
         {children}
       </Box>
@@ -132,8 +132,8 @@ export const ProfileSection: React.FC<FlexProps & ProfileSectionProps> = ({
         <Modal {...{ isOpen, onClose }}>
           <ModalOverlay />
           <ModalContent
-            maxW="80%"
-            maxH="80%"
+            maxW={['100%', '80%']}
+            maxH={['100%', '80%']}
             backgroundImage={`url(${BackgroundImage})`}
             bgSize="cover"
             bgAttachment="fixed"
@@ -167,16 +167,13 @@ export const ProfileSection: React.FC<FlexProps & ProfileSectionProps> = ({
               p={4}
               _focus={{ boxShadow: 'none' }}
             />
-            <ModalBody overflowY="scroll">
-              {!modal && !modalText && (
-                <EditSectionBox {...{ boxType, onClose }} />
-              )}
-              {modalText && modal}
+            <ModalBody>
+              {!modal ? <EditSectionBox {...{ boxType, onClose }} /> : modal}
             </ModalBody>
             {/* we should figure out how to unify modal footers (edit sections have their own,
               look into EditSectionBox components - they have footers with 'save' and 'cancel' buttons) */}
-            {modalText && modal && (
-              <ModalFooter mt={6} justifyContent="center">
+            {modal && (
+              <ModalFooter mt={6} justify="center">
                 <Button
                   variant="ghost"
                   onClick={onClose}
@@ -195,13 +192,13 @@ export const ProfileSection: React.FC<FlexProps & ProfileSectionProps> = ({
   );
 };
 
-const isBoxDataEditable = (boxType?: Maybe<BoxType>) =>
-  !!boxType &&
-  [
-    BoxType.PLAYER_TYPE,
-    BoxType.PLAYER_COLOR_DISPOSITION,
-    BoxType.PLAYER_SKILLS,
-  ].includes(boxType);
+const isEditable = (type?: Maybe<BoxType>) =>
+  !!type &&
+  ([
+    BoxTypes.PLAYER_TYPE,
+    BoxTypes.PLAYER_COLOR_DISPOSITION,
+    BoxTypes.PLAYER_SKILLS,
+  ] as Array<BoxType>).includes(type);
 
 const EditSectionBox = ({
   boxType,
@@ -211,13 +208,13 @@ const EditSectionBox = ({
   onClose: () => void;
 }) => {
   switch (boxType) {
-    case BoxType.PLAYER_TYPE: {
+    case BoxTypes.PLAYER_TYPE: {
       return <SetupPlayerType {...{ onClose }} />;
     }
-    case BoxType.PLAYER_COLOR_DISPOSITION: {
+    case BoxTypes.PLAYER_COLOR_DISPOSITION: {
       return <SetupColorDisposition {...{ onClose }} />;
     }
-    case BoxType.PLAYER_SKILLS: {
+    case BoxTypes.PLAYER_SKILLS: {
       return <SetupSkills {...{ onClose }} />;
     }
     default:

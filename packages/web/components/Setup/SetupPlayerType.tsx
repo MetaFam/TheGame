@@ -36,7 +36,6 @@ export const SetupPlayerType: React.FC<Props> = ({ isEdit, onClose }) => {
   } = useProfileField<ExplorerType>({
     field: 'explorerType',
     player: user,
-    owner: true,
   });
   const [explorerType, setExplorerType] = useState<Maybe<ExplorerType>>(
     existingType,
