@@ -47,6 +47,7 @@ export {
   AddIcon,
   ArrowBackIcon,
   ArrowForwardIcon,
+  ArrowUpIcon,
   CalendarIcon,
   CheckIcon,
   ChevronDownIcon,
