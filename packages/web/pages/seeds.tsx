@@ -1,4 +1,5 @@
 import {
+  ArrowUpIcon,
   Box,
   Button,
   Flex,
@@ -9,15 +10,21 @@ import {
   VStack,
 } from '@metafam/ds';
 import Seeds from 'assets/menuIcon/seeds.svg';
+import Octopus from 'assets/octopus.png';
 import SeedCardBg from 'assets/seed-card-bg.png';
 import SeedsFlowChart from 'assets/seeds-flowchart.png';
 import { PageContainer } from 'components/Container';
 import { HeadComponent } from 'components/Seo';
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useRef } from 'react';
 
 const SeedsPage: React.FC = () => {
   const router = useRouter();
+  const topRef = useRef<HTMLDivElement>(null);
+
+  function handleBackClick() {
+    topRef?.current?.scrollIntoView({ behavior: 'smooth' });
+  }
 
   if (router.isFallback) {
     return <LoadingState />;
@@ -39,6 +46,7 @@ const SeedsPage: React.FC = () => {
           pb={4}
           display="flex"
           flexDir="row"
+          ref={topRef}
         >
           Seeds{' '}
           <Image height={10} width={10} src={Seeds} alignSelf="end" ml={2} />
@@ -57,6 +65,20 @@ const SeedsPage: React.FC = () => {
         {cardsData.map(({ title, description }) => (
           <Card title={title} description={description} />
         ))}
+        <Image src={Octopus} pt={8} />
+        <Box pb={4}>
+          <Button
+            leftIcon={<ArrowUpIcon />}
+            variant="ghost"
+            color="whiteAlpha.700"
+            bgColor="whiteAlpha.50"
+            _hover={{ bg: 'whiteAlpha.200' }}
+            _active={{ bg: 'whiteAlpha.200' }}
+            onClick={handleBackClick}
+          >
+            Back to top
+          </Button>
+        </Box>
       </VStack>
     </PageContainer>
   );
