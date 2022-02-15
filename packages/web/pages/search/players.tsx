@@ -6,10 +6,9 @@ import { HeadComponent } from 'components/Seo';
 import { usePlayerFilter } from 'lib/hooks/players';
 import { useOnScreen } from 'lib/hooks/useOnScreen';
 import { useRouter } from 'next/router';
+import { MorePlayers } from 'pages/community/players';
 import React, { useEffect, useMemo, useRef } from 'react';
-
-import { GlobalFilters } from '../../utils/GlobalSearch';
-import { MorePlayers } from '../community/players';
+import { GlobalFilters } from 'utils/GlobalSearch';
 
 const PlayerSearchPage = () => {
   const {
