@@ -783,6 +783,99 @@ const JoinTheFund = () => (
   </div>
 );
 
+const FAQ = () => {
+  const [isOpenAccomplish, setIsOpenAccomplish] = React.useState(false);
+  const [isOpenInfinity, setIsOpenInfinity] = React.useState(false);
+  const [isOpenGrow, setIsOpenGrow] = React.useState(false);
+  const [isOpenCap, setIsOpenCap] = React.useState(false);
+
+  return (
+    <div>
+      <Box onClick={() => setIsOpenAccomplish(!isOpenAccomplish)} my={4}>
+        <details>
+          <summary>What have you accomplished so far?</summary>
+        </details>
+      </Box>
+      {isOpenAccomplish && (
+        <p>
+          Many things! Go read the fundraise
+          <Link
+            ml={1}
+            isExternal
+            color="gray.500"
+            textDecoration="underline"
+            mr={1}
+            href="https://metagame.substack.com/p/calling-for-rain"
+          >
+            announcement post
+          </Link>
+          , pitch video or dig through the website itself.
+        </p>
+      )}
+      <Box onClick={() => setIsOpenInfinity(!isOpenInfinity)} my={4}>
+        <details>
+          <summary>Will you just keep on minting Seeds to infinity?</summary>
+        </details>
+      </Box>
+      {isOpenInfinity && (
+        <p>
+          Not likely! The idea is that MetaGame will go
+          <Link
+            ml={1}
+            isExternal
+            color="gray.500"
+            textDecoration="underline"
+            mr={1}
+            href="https://wiki.metagame.wtf/docs/how-does-it-work/phases-of-metagame"
+          >
+            through 3 phases
+          </Link>
+          ; starting with Seeds, growing into Trees in
+          <em>Phase II</em> aka <em>The Growth Phase </em>before transitioning
+          to Phase III - where Trees bear the fruits of our labor &amp; we’re
+          able to reward contributors with MetaGame’s incoming streams without
+          having to mint new tokens.
+        </p>
+      )}
+      <Box onClick={() => setIsOpenGrow(!isOpenGrow)} my={4}>
+        <details>
+          <summary>Why should the price of Seeds grow?</summary>
+        </details>
+      </Box>
+      {isOpenGrow && (
+        <>
+          <p>🌊 Seed Watering Streams</p>
+          <UnorderedList mt={2}>
+            <ListItem>
+              all fees &amp; payments received by MetaGame go into sustaining
+              the price.
+            </ListItem>
+            <ListItem>
+              people subscribe to buying Seeds for any of the above reasons or
+              others.
+            </ListItem>
+            <ListItem>
+              projects we helped incubate share a % of their tokens?
+            </ListItem>
+          </UnorderedList>
+        </>
+      )}
+
+      <Box onClick={() => setIsOpenCap(!isOpenCap)} my={4}>
+        <details>
+          <summary>What’s market cap?</summary>
+        </details>
+      </Box>
+      {isOpenCap && (
+        <p>
+          At the time of writing this post (February 2022), the market cap was
+          $600k
+        </p>
+      )}
+    </div>
+  );
+};
+
 const cardsData = [
   {
     title: 'Usefulness of Seeds',
@@ -822,6 +915,7 @@ const cardsData = [
   {
     title: 'FAQ',
     description: 'Here are the most frequent questions about Seeds — answered.',
+    Content: FAQ,
   },
 ];
 
