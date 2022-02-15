@@ -219,7 +219,7 @@ const UsefulnessOfSeedsModal = () => {
       <Box
         onClick={() => setIsOpenSpending(!isOpenSpending)}
         fontWeight="bold"
-        my={2}
+        my={4}
       >
         <details>
           <summary>💸 Spending Seeds</summary>
@@ -227,114 +227,91 @@ const UsefulnessOfSeedsModal = () => {
       </Box>
       {isOpenSpending && (
         <Flex direction="column">
-          <h3 id="1fed05ce-e544-4d19-98a9-92fce177479c">
+          <Text fontSize={16} fontWeight="bold" my={2}>
             Things you can spend on now:
-          </h3>
-          <figure id="61f6cad0-606a-477f-979f-d0d1719c806f">
-            <div>
-              <span>💡</span>
-            </div>
-            <div>
-              <em>
-                <strong>
-                  Note! You need to be a member to access any of these
-                </strong>
-              </em>
-            </div>
-          </figure>
-          <ul id="e3ff1855-96e4-4538-a4f4-660b0443698e">
-            <li>💸 to get a shout-out in the podcast.</li>
-          </ul>
-          <ul id="8b8de903-f9d7-4200-a8bb-6b32cf78a712">
-            <li>💸 to have MetaGame tweet for you.</li>
-          </ul>
-          <ul id="8e0fbfcc-edcc-4a56-aa45-2c11e2266f60">
-            <li>💸 to get a shout-out in the newsletter.</li>
-          </ul>
-          <ul id="482a2551-79b8-47fe-8166-87ba4d813396">
-            <li>💸 to buy some limited edition merchandise.</li>
-          </ul>
-          <ul id="19a3ac99-c57b-4c47-bf55-02a1a830b306">
-            <li>
+          </Text>
+          <Box p={2} bgColor="gray.100" mb={2}>
+            💡 Note: You need to be a member to access any of these
+          </Box>
+          <UnorderedList>
+            <ListItem>💸 to get a shout-out in the podcast.</ListItem>
+            <ListItem>💸 to have MetaGame tweet for you.</ListItem>
+            <ListItem>💸 to get a shout-out in the newsletter.</ListItem>
+            <ListItem>
+              💸 to buy some ListItemmited edition merchandise.
+            </ListItem>
+            <ListItem>
               💸 to get products &amp; services from other players &amp; guilds.
-            </li>
-          </ul>
-          <ul id="7e782159-a05f-45e5-a057-8fe318a99149">
-            <li>
+            </ListItem>
+            <ListItem>
               💸 to get access to the
-              <a href="https://tokenengineeringcommunity.github.io/website/">
+              <Link
+                ml={1}
+                href="https://tokenengineeringcommunity.github.io/website/"
+                isExternal
+                color="gray.500"
+                textDecoration="underline"
+                mr={1}
+              >
                 Token Engineering
-              </a>
+              </Link>
               course.
-            </li>
-          </ul>
-          <ul id="50317e88-53ab-4440-8096-4b2556d9828d">
-            <li>💸 to get some user testing sessions.</li>
-          </ul>
-          <ul id="fa5b656e-cec1-4731-9bd4-e389cfed8cbc">
-            <li>
+            </ListItem>
+            <ListItem>💸 to get some user testing sessions.</ListItem>
+            <ListItem>
               💸 to
               <a href="https://www.effectivealtruism.org/">
                 give away to good causes
               </a>
               . ☺️
-            </li>
-          </ul>
-          <blockquote id="bdb42b19-8f0f-4a32-aae5-afffbf0046f8">
-            Note: If you’re interested in spending your Seeds on any of this,
+            </ListItem>
+          </UnorderedList>
+          <Box p={2} bgColor="gray.100" my={2}>
+            💡 Note: If you’re interested in spending your Seeds on any of this,
             ask about it; #
-            <a href="https://discord.gg/cBq5Md6KTU">💸-spending-seeds</a>
-          </blockquote>
-          <h3 id="13af2a09-8eeb-4770-89f9-82d282110a1e">In the future:</h3>
-          <ul id="bc33850e-e3c1-4679-8daa-b7eec5e9408f">
-            <li>💸 for the subscription fee</li>
-          </ul>
-          <ul id="86f51c8d-3323-498a-8c0b-ccb7ed234c0f">
-            <li>💸 for fees if buying/selling things with other tokens</li>
-          </ul>
-          <ul id="8fd11315-09fc-401c-a2bc-a6d6bd338ab2">
-            <li>💸 to install an app in MetaGame</li>
-          </ul>
-          <ul id="4458231f-3267-41c3-8752-490408fec944">
-            <li>💸 for posting quests &amp; raids - if in self-interest</li>
-          </ul>
-          <ul id="91fa0003-44ac-4d17-9fbb-7f0980900725">
-            <li>💸 for access to courses</li>
-          </ul>
-          <ul id="fd2293b4-318e-443b-a66d-548fad6022fc">
-            <li>💸 to pay for likes/upvotes</li>
-          </ul>
-          <ul id="46419470-924d-4a48-b9b9-42465b201459">
-            <li>💸 to have your message displayed on the ticker</li>
-          </ul>
-          <ul id="b1c383c4-9e62-4279-a295-71007d7d1314">
-            <li>
+            <Link
+              ml={1}
+              href="https://discord.gg/cBq5Md6KTU"
+              isExternal
+              textColor="gray.500"
+              textDecoration="underline"
+              mr={1}
+            >
+              💸-spending-seeds
+            </Link>
+          </Box>
+          <Text fontSize={16} fontWeight="bold" my={2}>
+            In the future:
+          </Text>
+          <UnorderedList mb={4}>
+            <ListItem>💸 for the subscription fee</ListItem>
+            <ListItem>
+              💸 for fees if buying/selling things with other tokens
+            </ListItem>
+            <ListItem>💸 to install an app in MetaGame</ListItem>
+            <ListItem>
+              💸 for posting quests &amp; raids - if in self-interest
+            </ListItem>
+            <ListItem>💸 for access to courses</ListItem>
+            <ListItem>💸 to pay for likes/upvotes</ListItem>
+            <ListItem>💸 to have your message displayed on the ticker</ListItem>
+            <ListItem>
               💸 to buy themes, addons, in-game skins &amp; other cosmetics
-            </li>
-          </ul>
-          <ul id="ab113a41-a01b-4ccf-920c-e44f7a9cd048">
-            <li>💸 to post role openings or boost them</li>
-          </ul>
-          <ul id="34464c56-873b-431e-8d00-82757e8d6a9b">
-            <li>💸 to boost your discovery position</li>
-          </ul>
-          <ul id="79d33652-a8c1-49dc-a29c-0d771692666b">
-            <li>
+            </ListItem>
+            <ListItem>💸 to post role openings or boost them</ListItem>
+            <ListItem>💸 to boost your discovery position</ListItem>
+            <ListItem>
               💸 to pay for other MetaFam services; like advising, building or
               shilling
-            </li>
-          </ul>
-          <figure id="87a34ae6-4f66-4afc-8d47-372b939bbb7d">
-            <a href="https://cdn.substack.com/image/fetch/w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F3ae3bc90-a157-4057-9722-167f5645d6a4_500x281.png">
-              <img src="https://cdn.substack.com/image/fetch/w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F3ae3bc90-a157-4057-9722-167f5645d6a4_500x281.png" />
-            </a>
-          </figure>
+            </ListItem>
+          </UnorderedList>
+          <img src="https://cdn.substack.com/image/fetch/w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F3ae3bc90-a157-4057-9722-167f5645d6a4_500x281.png" />
         </Flex>
       )}
       <Box
         onClick={() => setIsOpenStaking(!isOpenStaking)}
         fontWeight="bold"
-        my={2}
+        my={4}
       >
         <details>
           <summary>🥩 Staking Seeds</summary>
@@ -355,57 +332,37 @@ const UsefulnessOfSeedsModal = () => {
           <p id="f0776aa3-1544-47e3-8478-325f7c417601">
             We’re building a future we <em>want </em>to live in, and a future in
             which humans rate each other on a 1-5 star system is definitely
-            <strong>not </strong>the kind of future we want to live in.
+            <strong> not </strong>the kind of future we want to live in.
           </p>
           <p id="2f1ee454-08dd-46a5-942f-e0dd1cdbdaeb">
             Instead, players of MetaGame will be required to stake some of their
             skin in the game.
           </p>
-          <ul id="f1b2d7d8-6539-4ccd-9fa7-4b2e2f1e0aea">
-            <li>🥩 to take quests</li>
-          </ul>
-          <ul id="199d76c1-f45b-4c12-8580-3d2b03293732">
-            <li>🥩 for your friend when onboarding them</li>
-          </ul>
-          <ul id="e591b64d-a4b7-49d8-ac84-b5b14e9c5ce8">
-            <li>🥩 for your guild to enter</li>
-          </ul>
-          <ul id="78991b80-633a-48b3-934f-20527ccb73a3">
-            <li>🥩 as collateral for your personal token</li>
-          </ul>
-          <ul id="2426303b-8da4-47d3-b0c2-25ccaf1d8f42">
-            <li>🥩 to enter a contract with someone</li>
-          </ul>
-          <ul id="e6112447-d1ef-472f-a182-321c934be6d7">
-            <li>🥩 when claiming the metafam.eth subdomain</li>
-          </ul>
-          <ul id="f5d3fb03-fc59-43ca-9df5-b88895047294">
-            <li>🥩 when claiming the @metagame.wtf email</li>
-          </ul>
-          <ul id="2fbd07e4-98ac-4898-8505-8bf3822bac38">
-            <li>🥩 on your project or product reviews</li>
-          </ul>
-          <ul id="d6eb4ccc-a178-46d7-a65f-73b4721e3c04">
-            <li>
+          <UnorderedList mb={4}>
+            <ListItem>🥩 to take quests</ListItem>
+            <ListItem>🥩 for your friend when onboarding them</ListItem>
+            <ListItem>🥩 for your guild to enter</ListItem>
+            <ListItem>🥩 as collateral for your personal token</ListItem>
+            <ListItem>🥩 to enter a contract with someone</ListItem>
+            <ListItem>🥩 when claiming the metafam.eth subdomain</ListItem>
+            <ListItem>🥩 when claiming the @metagame.wtf email</ListItem>
+            <ListItem>🥩 on your project or product reviews</ListItem>
+            <ListItem>
               🥩 on content curation (ponzinomics)
-              <ul id="18c35ad5-9e0f-4f94-a1f3-445ee3a4dada">
-                <li>
+              <ul id="b518575e-5a2f-454a-b7b5-9e6a52905855">
+                <ListItem ml={4}>
                   writing reviews &amp; recommendations will require staking
-                </li>
+                </ListItem>
               </ul>
-            </li>
-          </ul>
-          <figure id="b0fb38dc-792f-4657-9380-a0979b29e956">
-            <a href="https://cdn.substack.com/image/fetch/w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F5a1c40a8-4983-4a95-81f1-3563b108de65_426x426.png">
-              <img src="https://cdn.substack.com/image/fetch/w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F5a1c40a8-4983-4a95-81f1-3563b108de65_426x426.png" />
-            </a>
-          </figure>
+            </ListItem>
+          </UnorderedList>
+          <img src="https://cdn.substack.com/image/fetch/w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F5a1c40a8-4983-4a95-81f1-3563b108de65_426x426.png" />
         </div>
       )}
       <Box
         onClick={() => setIsOpenPlanting(!isOpenPlanting)}
         fontWeight="bold"
-        my={2}
+        my={4}
       >
         <details>
           <summary>🌱 Planting Seeds</summary>
@@ -416,36 +373,35 @@ const UsefulnessOfSeedsModal = () => {
           <p id="d808b202-fb7f-4513-b001-13a316afca4a">
             If you’re confused as to what “planting Seeds” means, it means using
             your Seeds by putting them into the
-            <a href="https://polygon.balancer.fi/#/pool/0x8a8fcd351ed553fc75aecbc566a32f94471f302e000100000000000000000081">
-              <strong>Balancer pool aka the </strong>
-            </a>
-            <a href="https://polygon.balancer.fi/#/pool/0x8a8fcd351ed553fc75aecbc566a32f94471f302e000100000000000000000081">
-              <em>
-                <strong>Seed plantation</strong>
-              </em>
-            </a>
-            <a href="https://pools.balancer.exchange/#/pool/0xea05a15dbce2eb543ffda16950e95b2bd2e40d0e/">
-              .
-            </a>
+            <Link
+              ml={1}
+              isExternal
+              color="gray.500"
+              textDecoration="underline"
+              mr={1}
+              href="https://polygon.balancer.fi/#/pool/0x8a8fcd351ed553fc75aecbc566a32f94471f302e000100000000000000000081"
+            >
+              <strong>
+                Balancer pool aka the <em>Seed plantation.</em>
+              </strong>
+            </Link>
           </p>
-          <ul id="b7e0aeb5-9c83-4b3a-8f33-3ed50eaae1b7">
-            <li>🌱 to be eligible for MetaFam-only limited edition merch</li>
-          </ul>
-          <ul id="3ee9dab1-4c1c-4a27-b7c4-dc9263d1e297">
-            <li>🌱 to be eligible for random drops &amp; the Phase II token</li>
-          </ul>
-          <ul id="850847cd-0fc5-409f-986a-d14383af96d1">
-            <li>🌱 to stay in the game as a patron</li>
-          </ul>
-          <ul id="3579b8ba-7633-4d42-b20f-fd19525d93c6">
-            <li>🌱 to appear on the Patrons leaderboard</li>
-          </ul>
-          <ul id="a7557c81-368b-493d-a409-6a48c442d249">
-            <li>🌱🌱 for guilds to appear higher on the leaderboard</li>
-          </ul>
-          <ul id="e4dc803c-fe00-4831-a2c1-d8e768a08d06">
-            <li>🌱🌱🌱 to appear higher on the Patrons leaderboard 🙃</li>
-          </ul>
+          <UnorderedList mb={4}>
+            <ListItem>
+              🌱 to be eligible for MetaFam-only limited edition merch
+            </ListItem>
+            <ListItem>
+              🌱 to be eligible for random drops &amp; the Phase II token
+            </ListItem>
+            <ListItem>🌱 to stay in the game as a patron</ListItem>
+            <ListItem>🌱 to appear on the Patrons leaderboard</ListItem>
+            <ListItem>
+              🌱🌱 for guilds to appear higher on the leaderboard
+            </ListItem>
+            <ListItem>
+              🌱🌱🌱 to appear higher on the Patrons leaderboard 🙃
+            </ListItem>
+          </UnorderedList>
         </div>
       )}
     </Flex>
