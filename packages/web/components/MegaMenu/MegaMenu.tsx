@@ -350,19 +350,33 @@ interface SearchResults {
 const Search = () => {
   const router = useRouter();
   const searchInputSubjectRef = useRef(new Subject<string>());
+  const searchBoxRef = useRef(null);
   const [query, setQuery] = useState<string>('');
+  const [showDropdown, setShowDropdown] = useState(false);
   const [searchResults, setSearchResults] = useState<SearchResults>({
     players: [],
     guilds: [],
   });
-
-  // const [isFocused, setIsFocused] = useState<boolean>(false);
+  const dropdown = useRef(null);
   // const [isLoading, setLoading] = useState<boolean>(false);
   const handleSubmit = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     // Default Show Players Matching With Query
     router.push(`/search/players?q=${query}`);
   };
+
+  useEffect(() => {
+    // only add the event listener when the dropdown is opened
+    if (!showDropdown) return;
+    function handleClick(event: any) {
+      if (dropdown.current && !dropdown.current.contains(event.target)) {
+        setShowDropdown(false);
+      }
+    }
+    window.addEventListener('click', handleClick);
+    // clean up
+    return () => window.removeEventListener('click', handleClick);
+  }, [showDropdown]);
 
   useEffect(() => {
     // setLoading(true);
@@ -399,18 +413,25 @@ const Search = () => {
         //   ]);
         // }),
       )
-      .subscribe(async (val: string) => {
+      .subscribe((val: string) => {
         if (val !== '' && !val) {
           // setLoading(false);
           return;
         }
-        const { players } = await getPlayersByText(val);
-        const { guilds } = await getGuildsByText(val);
-        setSearchResults({ guilds, players });
+        const res1 = getPlayersByText(val);
+        const res2 = getGuildsByText(val);
+        Promise.all([res1, res2]).then((values) => {
+          console.log(values);
+          setSearchResults({
+            players: values[0].players,
+            guilds: values[1].guilds,
+          });
+        });
         // setLoading(false);
       });
-    return searchSubscription && searchSubscription.unsubscribe;
+    return () => searchSubscription?.unsubscribe();
   }, []);
+
   return (
     <Flex
       flexDirection="column"
@@ -418,6 +439,7 @@ const Search = () => {
       minWidth="40"
       marginTop="5"
       position="relative"
+      ref={dropdown}
     >
       <form onSubmit={handleSubmit} style={{ width: '100%', color: 'black' }}>
         <InputGroup
@@ -450,66 +472,78 @@ const Search = () => {
             _placeholder={{ color: 'whiteAlpha.500' }}
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            // onBlur={() => setIsFocused(false)}
-            // onFocus={() => setIsFocused(true)}
+            onFocus={() => setShowDropdown(true)}
             size="sm"
             fontSize="md"
           />
         </InputGroup>
       </form>
-      {/* {!isFocused && ( */}
-      <Box
-        zIndex={2}
-        position="absolute"
-        bg="white"
-        w="fit-content"
-        mt={2}
-        css={{
-          backdropFilter: 'blur(8px)',
-          transform: 'translate3d(0px, 42.5px, 0px)',
-        }}
-        borderRadius="8px"
-        p={2}
-      >
-        {searchResults.players.length > 0 && (
-          <ResultsTitle>Players</ResultsTitle>
-        )}
-        {searchResults?.players?.map((player: PlayerFragmentFragment) => (
-          <Option
-            key={player.id}
-            onClick={() => {
-              console.log('Click');
-              router.push(`/player/${player?.profile?.username}`);
+      {showDropdown &&
+        (searchResults.players.length > 0 ||
+          searchResults.guilds.length > 0) && (
+          <Box
+            zIndex={2}
+            position="absolute"
+            bg="white"
+            w="fit-content"
+            mt={2}
+            css={{
+              backdropFilter: 'blur(8px)',
+              transform: 'translate3d(0px, 42.5px, 0px)',
             }}
-            name={getPlayerName(player) as string}
-            imgSrc={getPlayerImage(player)}
-            text={player?.profile?.username as string}
-          />
-        ))}
-        {atLimit(searchResults?.players.length) && (
-          <SeeAllOption
-            type="Players"
-            onClick={() => router.push(`/search/players?q=${encodeURI(query)}`)}
-          />
+            borderRadius="8px"
+            p={2}
+          >
+            {searchResults.players.length > 0 && (
+              <ResultsTitle>Players</ResultsTitle>
+            )}
+            {searchResults?.players?.map((player: PlayerFragmentFragment) => (
+              <Option
+                key={player.id}
+                onClick={() => {
+                  router.push(`/player/${player?.profile?.username}`);
+                  setShowDropdown(false);
+                }}
+                name={getPlayerName(player) as string}
+                imgSrc={getPlayerImage(player)}
+                text={player?.profile?.username as string}
+              />
+            ))}
+            {atLimit(searchResults?.players.length) && (
+              <SeeAllOption
+                type="Players"
+                onClick={() => {
+                  router.push(`/search/players?q=${encodeURI(query)}`);
+                  setShowDropdown(false);
+                }}
+              />
+            )}
+            {searchResults.guilds.length > 0 && (
+              <ResultsTitle>Guilds</ResultsTitle>
+            )}
+            {searchResults?.guilds?.map((guild: GuildFragmentFragment) => (
+              <Option
+                key={guild.id}
+                onClick={() => {
+                  router.push(`/guild/${guild.guildname}`);
+                  setShowDropdown(false);
+                }}
+                name={guild.guildname}
+                imgSrc={guild?.logo as string | undefined}
+                text={guild.guildname}
+              />
+            ))}
+            {atLimit(searchResults?.guilds.length) && (
+              <SeeAllOption
+                type="Guilds"
+                onClick={() => {
+                  router.push(`/search/quilds?q=${encodeURI(query)}`);
+                  setShowDropdown(false);
+                }}
+              />
+            )}
+          </Box>
         )}
-        {searchResults.guilds.length > 0 && <ResultsTitle>Guilds</ResultsTitle>}
-        {searchResults?.guilds?.map((guild: GuildFragmentFragment) => (
-          <Option
-            key={guild.id}
-            onClick={() => router.push(`/guild/${guild.guildname}`)}
-            name={guild.guildname}
-            imgSrc={guild?.logo as string | undefined}
-            text={guild.guildname}
-          />
-        ))}
-        {atLimit(searchResults?.guilds.length) && (
-          <SeeAllOption
-            type="Guilds"
-            onClick={() => router.push(`/search/quilds?q=${encodeURI(query)}`)}
-          />
-        )}
-      </Box>
-      {/* )} */}
     </Flex>
   );
 };
