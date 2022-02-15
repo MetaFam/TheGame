@@ -64,7 +64,7 @@ const SeedsPage: React.FC = () => {
         </Heading>
 
         <Flex fontSize={18} flexDirection="column">
-          Seeds are MetaGame’s labor token. <br />
+          Seeds are MetaGame's labor token. <br />
           <br />
           People contribute towards creation of MetaGame, meanwhile generating
           XP & getting paid out on their XP generated - in Seeds.
@@ -78,7 +78,7 @@ const SeedsPage: React.FC = () => {
           liquidity. 🙃
           <br />
           <br />
-          Here’s how it works (in Phase I*):
+          Here's how it works (in Phase I*):
           <Image width="full" src={SeedsFlowChart} alignSelf="end" mt={4} />
         </Flex>
         {cardsData.map(({ title, description, Content }) => (
@@ -165,21 +165,23 @@ const GetRankedModal = () => (
       As you might know already, the top ~56 of each; players & patrons, will be
       ranked in leagues. Well, leagues come with their perks!
     </Text>
-    <li>
-      <b>🥉 Bronze Founder</b>
-    </li>
-    <li>
-      <b>🥈 Silver Founder</b>
-    </li>
-    <li>
-      <b>🥇 Golden Founder</b>
-    </li>
-    <li>
-      <b>🔘 Platinum Founder</b>
-    </li>
-    <li>
-      <b>💎 Diamond Founder</b>
-    </li>
+    <UnorderedList>
+      <ListItem>
+        <b>🥉 Bronze Founder</b>
+      </ListItem>
+      <ListItem>
+        <b>🥈 Silver Founder</b>
+      </ListItem>
+      <ListItem>
+        <b>🥇 Golden Founder</b>
+      </ListItem>
+      <ListItem>
+        <b>🔘 Platinum Founder</b>
+      </ListItem>
+      <ListItem>
+        <b>💎 Diamond Founder</b>
+      </ListItem>
+    </UnorderedList>
     <Text>
       We have a bunch of ideas on what these ranked league perks could be: from
       access to special channels & private AMAs, to interviews, unique NFTs &
@@ -187,7 +189,7 @@ const GetRankedModal = () => (
     </Text>
     <Box>
       <Text fontWeight="bold">
-        But, before publishing a list, we’d love to hear from all of you -
+        But, before publishing a list, we'd love to hear from all of you -
       </Text>
       <Text decoration="underline">
         what do you think the ranked league perks should be? 🙃
@@ -260,14 +262,21 @@ const UsefulnessOfSeedsModal = () => {
             <ListItem>💸 to get some user testing sessions.</ListItem>
             <ListItem>
               💸 to
-              <a href="https://www.effectivealtruism.org/">
+              <Link
+                ml={1}
+                isExternal
+                color="gray.500"
+                textDecoration="underline"
+                mr={1}
+                href="https://www.effectivealtruism.org/"
+              >
                 give away to good causes
-              </a>
+              </Link>
               . ☺️
             </ListItem>
           </UnorderedList>
           <Box p={2} bgColor="gray.100" my={2}>
-            💡 Note: If you’re interested in spending your Seeds on any of this,
+            💡 Note: If you're interested in spending your Seeds on any of this,
             ask about it; #
             <Link
               ml={1}
@@ -325,12 +334,12 @@ const UsefulnessOfSeedsModal = () => {
           </p>
           <p id="625f823e-7934-4f0d-9aef-4e12a223c3ce">
             <strong>
-              As you might already know; in MetaGame, we don’t believe in rating
+              As you might already know; in MetaGame, we don't believe in rating
               humans.
             </strong>
           </p>
           <p id="f0776aa3-1544-47e3-8478-325f7c417601">
-            We’re building a future we <em>want </em>to live in, and a future in
+            We're building a future we <em>want </em>to live in, and a future in
             which humans rate each other on a 1-5 star system is definitely
             <strong> not </strong>the kind of future we want to live in.
           </p>
@@ -371,7 +380,7 @@ const UsefulnessOfSeedsModal = () => {
       {isOpenPlanting && (
         <div>
           <p id="d808b202-fb7f-4513-b001-13a316afca4a">
-            If you’re confused as to what “planting Seeds” means, it means using
+            If you're confused as to what “planting Seeds” means, it means using
             your Seeds by putting them into the
             <Link
               ml={1}
@@ -418,7 +427,7 @@ const BuyingAndSellingModal = () => (
       If you want to buy some Seeds:
     </p>
     <UnorderedList>
-      <ListItem>First, you’ll need to have some tokens on Polygon</ListItem>
+      <ListItem>First, you'll need to have some tokens on Polygon</ListItem>
       <ListItem>
         Then you can go to the
         <Link
@@ -444,7 +453,7 @@ const BuyingAndSellingModal = () => (
       </ListItem>
       <ListItem>Preview trade, confirm &amp; swap 🙂</ListItem>
       <ListItem>
-        That’s it! Now go to your MetaMask, scroll down to “add custom token”
+        That's it! Now go to your MetaMask, scroll down to “add custom token”
         &amp; paste the token address:
         0x30cf203b48edaa42c3b4918e955fed26cd012a3f
       </ListItem>
@@ -452,13 +461,278 @@ const BuyingAndSellingModal = () => (
     <Text>If you want to sell your Seeds:</Text>
     <UnorderedList>
       <ListItem>
-        You’ll still need some Matic on Polygon first.. Either
-        <a href="https://googlethatforyou.com?q=how%20to%20buy%20matic%3F">
+        You'll still need some Matic on Polygon first.. Either
+        <Link
+          ml={1}
+          isExternal
+          color="gray.500"
+          textDecoration="underline"
+          mr={1}
+          href="https://googlethatforyou.com?q=how%20to%20buy%20matic%3F"
+        >
           buy some
-        </a>
-        or <a href="https://discord.gg/8THHVwfd">ask on discord</a>.
+        </Link>
+        or
+        <Link
+          ml={1}
+          isExternal
+          color="gray.500"
+          textDecoration="underline"
+          mr={1}
+          href="https://discord.gg/8THHVwfd"
+        >
+          ask on discord
+        </Link>
+        .
       </ListItem>
       <ListItem>Take the same steps as the buyers above 🙂</ListItem>
+    </UnorderedList>
+  </div>
+);
+
+const BecomeAPatron = () => (
+  <div>
+    <p>
+      Though some usecases exist, they're not meaningfully contributing to the
+      treasury yet &amp; the rest are just ideas. Main reasons you'd want to
+      become a patron right now:
+    </p>
+    <UnorderedList>
+      <ListItem>
+        <strong>
+          Because you love the idea of MetaGame &amp; want to see it succeed.
+        </strong>
+        <ul>
+          <ListItem ml={4}>
+            <Link
+              ml={1}
+              isExternal
+              color="gray.500"
+              textDecoration="underline"
+              mr={1}
+              href="https://wiki.metagame.wtf/docs/enter-metagame/why-patron"
+            >
+              Reading about it made you go “this is everything I've ever wanted”
+              or at least “fuck yeah, this is epic!”
+            </Link>
+          </ListItem>
+        </ul>
+      </ListItem>
+      <ListItem>
+        You want to become a part of MetaGame but you don't have time to
+        actively contribute.
+      </ListItem>
+      <ListItem>
+        Not convinced?
+        <ul>
+          <ListItem ml={4}>Maybe watch this video</ListItem>
+        </ul>
+      </ListItem>
+    </UnorderedList>
+    <Box my={2}>
+      <iframe
+        width="100%"
+        src="https://www.youtube.com/embed/CYuwpR8CLXY?feature=oembed"
+      ></iframe>
+    </Box>
+    <p>There are 2 ways to become a patron:</p>
+    <UnorderedList>
+      <ListItem>
+        Join the
+        <Link
+          ml={1}
+          href="https://metagame.substack.com/p/calling-for-rain"
+          isExternal
+          color="gray.500"
+          textDecoration="underline"
+          mr={1}
+        >
+          Seed Fund raise
+        </Link>
+      </ListItem>
+      <ListItem>Water the Seeds yourself 👇</ListItem>
+    </UnorderedList>
+  </div>
+);
+
+const PlantingAndWatering = () => (
+  <div>
+    <p>So you've decided to become a patron?</p>
+    <Box fontWeight="bold" my={4}>
+      First, you'll need some tokens on Polygon.
+    </Box>
+    <UnorderedList>
+      <ListItem>Ideally, it would be WETH &amp; RAI.</ListItem>
+      <ListItem>
+        If you only got Matic, no worries, you can just swap it for WETH &amp;
+        RAI.
+      </ListItem>
+      <ListItem>
+        If you don't have anything...
+        <ul>
+          <ListItem ml={4}>
+            Either
+            <Link
+              ml={1}
+              href="https://wallet.polygon.technology/bridge"
+              isExternal
+              color="gray.500"
+              textDecoration="underline"
+              mr={1}
+            >
+              bridge
+            </Link>
+            some from mainnet
+          </ListItem>
+        </ul>
+        <ul>
+          <ListItem ml={4}>
+            Or obtain Matic in
+            <Link
+              ml={1}
+              href="https://googlethatforyou.com?q=how%20to%20buy%20matic%3F"
+              isExternal
+              color="gray.500"
+              textDecoration="underline"
+              mr={1}
+            >
+              {' '}
+              any number of ways
+            </Link>
+          </ListItem>
+        </ul>
+      </ListItem>
+    </UnorderedList>
+    <Box fontWeight="bold" my={4}>
+      Then, you'll need to use WETH &amp; RAI to
+      <Link
+        ml={1}
+        href="https://polygon.balancer.fi/#/pool/0x8a8fcd351ed553fc75aecbc566a32f94471f302e000100000000000000000081"
+        isExternal
+        color="gray.500"
+        textDecoration="underline"
+        mr={1}
+      >
+        water the Seeds
+      </Link>
+      .
+    </Box>
+    <UnorderedList>
+      <ListItem>
+        How much should you water them?
+        <ul>
+          <ListItem ml={4}>
+            The minimal requirement to join as a patron is 8pSeeds which is
+            roughly $150.
+          </ListItem>
+        </ul>
+        <ul>
+          <ListItem ml={4}>
+            Beyond that, you are free to water them however much you want if you
+            wish a high position in the ranked league of patrons, but be careful
+            not to slip.
+          </ListItem>
+        </ul>
+      </ListItem>
+      <ListItem>
+        After that, you will need to make sure to water them once every so
+        often. You will be notified over
+        <Link
+          ml={1}
+          isExternal
+          color="gray.500"
+          textDecoration="underline"
+          mr={1}
+          href="https://metagame.substack.com/"
+        >
+          the newsletter
+        </Link>{' '}
+        or we will do it for you, if you join the Seed Fund 🙃
+        <ul>
+          <ListItem ml={4}>
+            The number of patrons in
+            <Link
+              ml={1}
+              isExternal
+              color="gray.500"
+              textDecoration="underline"
+              mr={1}
+              href="https://wiki.metagame.wtf/docs/how-does-it-work/phases-of-metagame"
+            >
+              <em>Phase I</em>
+            </Link>
+            is limited to 150, meaning, you will need to be watering them at
+            least as much as the 150th person on the leaderboard if you wish to
+            remain a patron until the end of
+            <em>
+              <Link
+                ml={1}
+                isExternal
+                color="gray.500"
+                textDecoration="underline"
+                mr={1}
+                href="https://wiki.metagame.wtf/docs/how-does-it-work/phases-of-metagame"
+              >
+                Phase I
+              </Link>
+            </em>
+            (2023).
+          </ListItem>
+        </ul>
+        <ul>
+          <ListItem ml={4}>
+            Do note that even if you drop off the leaderboard, you will still
+            get your single digit season achievement NFT for being an early
+            patron &amp; etched in the lore as well as remain among the first
+            ones to get invited back in Phase II when MetaGame scales above
+            <Link
+              ml={1}
+              isExternal
+              color="gray.500"
+              textDecoration="underline"
+              mr={1}
+              href="https://wiki.metagame.wtf/docs/wtf-is-metagame/the-300-of-metagame"
+            >
+              <em>The 300 of MetaGame</em>
+            </Link>
+            .
+          </ListItem>
+        </ul>
+      </ListItem>
+    </UnorderedList>
+  </div>
+);
+
+const JoinTheFund = () => (
+  <div>
+    <p>Wish to skip the hassle of watering Seeds on your own?</p>
+    <p>No worries, we got you covered!</p>
+    <p>
+      We're making it easy for people to do just that by launching the Seed Fund
+      DAO.
+    </p>
+    <p>
+      You will only need to approve of MetaGame's monthly progress reports &amp;
+      we'll be taking care of the rest. No more carrying the buckets from the
+      well to the fields!
+    </p>
+    <UnorderedList>
+      <ListItem>Add some mainnet Ether</ListItem>
+      <ListItem>Approve our progress &amp; proposals</ListItem>
+      <ListItem>We water the Seed plantation for you</ListItem>
+      <ListItem>
+        <Link
+          ml={1}
+          isExternal
+          color="gray.500"
+          textDecoration="underline"
+          mr={1}
+          href="https://wiki.metagame.wtf/docs/wtf-is-metagame/the-300-of-metagame"
+        >
+          Join here
+        </Link>{' '}
+        if interested 👀
+      </ListItem>
     </UnorderedList>
   </div>
 );
@@ -479,11 +753,13 @@ const cardsData = [
     title: 'BECOME A PATRON',
     description:
       "Love the idea of MetaGame & want to see it succeed, but don't have time or skill to actively contribute? We've got you covered.",
+    Content: BecomeAPatron,
   },
   {
     title: 'PLANTING & WATERING SEEDS',
     description:
       'Being a good patron means regularly watering your Seeds, and planting new ones, every once in a while.',
+    Content: PlantingAndWatering,
   },
   {
     title: 'GET RANKED!',
@@ -495,6 +771,7 @@ const cardsData = [
     title: 'JOIN THE SEED FUND',
     description:
       "Don't feel like watering Seeds yourself? Worry not, you can still be a caring patron, and leave all the work to us.",
+    Content: JoinTheFund,
   },
   {
     title: 'FAQ',
