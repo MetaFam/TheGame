@@ -1,13 +1,12 @@
 import { PageContainer } from 'components/Container';
 import { GuildList } from 'components/Guild/GuildList';
+import SearchFilters from 'components/SearchFilters';
 import { HeadComponent } from 'components/Seo';
 import { GuildFragmentFragment } from 'graphql/autogen/types';
+import { searchGuilds } from 'graphql/queries/guild';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
-
-import SearchFilters from '../../components/SearchFilters';
-import { getGuildsByText } from '../../graphql/queries/guild';
-import { GlobalFilters } from '../../utils/GlobalSearch';
+import { GlobalFilters } from 'utils/GlobalSearch';
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 const GuildSearchPage = () => {
@@ -17,7 +16,7 @@ const GuildSearchPage = () => {
   useEffect(() => {
     if (search) {
       const getData = async () => {
-        const res = await getGuildsByText(search);
+        const res = await searchGuilds(search);
         setGuilds(res.guilds);
       };
       getData();
