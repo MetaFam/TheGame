@@ -119,7 +119,6 @@ export const ColorButtons: React.FC<ColorButtonsProps> = ({
                     color="blueLight"
                     fontWeight="normal"
                     whiteSpace="initial"
-                    // textAlign="left"
                   >
                     {description}
                   </Text>

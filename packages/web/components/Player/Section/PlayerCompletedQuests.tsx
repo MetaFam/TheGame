@@ -83,7 +83,7 @@ const QuestList: React.FC<QuestProps & BoxProps> = ({
 }) => (
   <>
     {quests.map((quest) => (
-      <Box {...props} {...{ mb }}>
+      <Box {...{ mb, ...props }}>
         <Link href={`/quest/${quest.questId}`} color="white">
           <Text fontSize="xl">{quest.completed?.title}</Text>
         </Link>

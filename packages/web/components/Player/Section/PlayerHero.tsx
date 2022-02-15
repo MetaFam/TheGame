@@ -71,7 +71,7 @@ export const PlayerHero: React.FC<HeroProps> = ({ player, editing }) => {
             isRound
             _active={{
               transform: 'scale(0.8)',
-              backgroundColor: 'transparent',
+              bg: 'transparent',
             }}
           />
         </Box>
@@ -175,7 +175,7 @@ export const Pronouns: React.FC<DisplayComponentProps> = ({
   // saves the children and replaces them after fading in
   // and out. (If such a thing is possible…)
   //
-  // const { animation } = useAnimateProfileChanges(pronouns);
+  // const { animation } = useAnimateProfileChanges(pronouns)
 
   if (!pronouns || pronouns === '') {
     return null;
@@ -349,62 +349,41 @@ const TimeZone: React.FC<DisplayComponentProps> = ({
     player,
   });
   const tz = getTimeZoneFor({ title: current });
-  const [timeZone, setTimeZone] = useState<string | null>(
-    tz?.abbreviation ?? null,
-  );
-  const [offset, setOffset] = useState<string>(tz?.utc ?? '');
-  const updateFN = () => {
-    if (tz) {
-      setTimeZone(tz.abbreviation);
-      setOffset(tz.utc);
-    }
-  };
-  const short = offset.replace(/:00\)$/, ')').replace(/ +/g, '');
-  const { animation } = useAnimateProfileChanges(tz, updateFN);
+  const timeZone = tz?.abbreviation ?? null;
+  const short = (tz?.utc ?? '').replace(/:00\)$/, ')').replace(/ +/g, '');
 
   return (
     <Wrapper>
       <PlayerHeroTile title="Time Zone">
-        <Flex alignItems="center">
-          <FlexContainer
-            align="stretch"
-            transition="opacity 0.4s"
-            opacity={animation === 'fadeIn' ? 1 : 0}
-          >
-            <Flex align="center" whiteSpace="pre">
-              <Box pr={2}>
-                <FaGlobe color="blueLight" />
-              </Box>
-              {timeZone === null ? (
-                <Text fontStyle="italic">Unspecified</Text>
-              ) : (
-                <Tooltip label={tz?.name} hasArrow>
-                  <Wrap justify="center" align="center">
-                    <WrapItem my="0 !important">
-                      <Text
-                        fontSize={{ base: 'md', sm: 'lg' }}
-                        pr={1}
-                        overflowX="hidden"
-                        textOverflow="ellipsis"
-                      >
-                        {timeZone || '−'}
-                      </Text>
-                    </WrapItem>
-                    {short && (
-                      <WrapItem my="0 !important">
-                        <Text
-                          fontSize={{ base: 'sm', sm: 'md' }}
-                          whiteSpace="pre"
-                        >
-                          {short}
-                        </Text>
-                      </WrapItem>
-                    )}
-                  </Wrap>
-                </Tooltip>
-              )}
-            </Flex>
-          </FlexContainer>
+        <Flex align="center" whiteSpace="pre">
+          <Box pr={2}>
+            <FaGlobe color="blueLight" />
+          </Box>
+          {timeZone === null ? (
+            <Text fontStyle="italic">Unspecified</Text>
+          ) : (
+            <Tooltip label={tz?.name} hasArrow>
+              <Wrap justify="center" align="center">
+                <WrapItem my="0 !important">
+                  <Text
+                    fontSize={{ base: 'md', sm: 'lg' }}
+                    pr={1}
+                    overflowX="hidden"
+                    textOverflow="ellipsis"
+                  >
+                    {timeZone || '−'}
+                  </Text>
+                </WrapItem>
+                {short && (
+                  <WrapItem my="0 !important">
+                    <Text fontSize={{ base: 'sm', sm: 'md' }} whiteSpace="pre">
+                      {short}
+                    </Text>
+                  </WrapItem>
+                )}
+              </Wrap>
+            </Tooltip>
+          )}
         </Flex>
       </PlayerHeroTile>
     </Wrapper>

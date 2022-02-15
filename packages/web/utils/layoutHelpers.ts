@@ -103,7 +103,6 @@ export const enableAddBoxInLayoutData = ({
     ...layoutItems,
     {
       type: BoxTypes.PLAYER_ADD_BOX,
-      metadata: {},
       key: createBoxKey(BoxTypes.PLAYER_ADD_BOX),
     },
   ],

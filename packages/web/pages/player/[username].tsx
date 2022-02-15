@@ -166,21 +166,17 @@ const useItemHeights = (items: Array<Maybe<HTMLElement>>) => {
   return heights;
 };
 
-export const Grid: React.FC<Props> = ({ player: initPlayer }): ReactElement => {
+export const Grid: React.FC<Props> = ({ player }): ReactElement => {
   const [isOwnProfile, setIsOwnProfile] = useState(false);
   const [, invalidateCache] = useInsertCacheInvalidationMutation();
   const { user, fetching } = useUser();
   const { connected } = useWeb3();
-  const [player /* , setPlayer */] = useState(initPlayer);
   const [saving, setSaving] = useState(false);
   const toast = useToast();
 
   useEffect(() => {
-    if (!fetching && user && user.id === player.id) {
-      // setPlayer(user);
-      if (connected) {
-        setIsOwnProfile(true);
-      }
+    if (!fetching && user && user.id === player.id && connected) {
+      setIsOwnProfile(true);
     }
   }, [user, fetching, connected, player?.id]);
 
@@ -230,7 +226,6 @@ export const Grid: React.FC<Props> = ({ player: initPlayer }): ReactElement => {
   }, [currentLayouts, heights]);
 
   const [changed, setChanged] = useState(false);
-
   const [editing, setEditing] = useState(false);
 
   const handleCancel = useCallback(() => {

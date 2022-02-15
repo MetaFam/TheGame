@@ -29,8 +29,8 @@ export const PlayerRoles: React.FC<Props> = ({
       {(player.roles ?? [])
         .sort((a, b) => (a.rank > b.rank ? 1 : -1))
         .map(({ role, rank, PlayerRole: { label } }) => (
-          <WrapItem>
-            <MetaTag key={role}>
+          <WrapItem key={role}>
+            <MetaTag>
               <BoxedNextImage
                 src={`/assets/roles/${role.toLowerCase()}.svg`}
                 alt={label}

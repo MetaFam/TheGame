@@ -13,14 +13,22 @@ import {
   Text,
 } from '@metafam/ds';
 import { MetaLink } from 'components/Link';
-import { XPSeedsBalance } from 'components/MegaMenu/XPSeedsBalance';
 import { PlayerAvatar } from 'components/Player/PlayerAvatar';
-import { useUser, useWeb3 } from 'lib/hooks';
+import { useProfileField, useUser, useWeb3 } from 'lib/hooks';
+import React from 'react';
 import { getPlayerName, getPlayerURL } from 'utils/playerHelpers';
 
-export const MegaMenuFooter = () => {
-  const { connected, connect, connecting, disconnect } = useWeb3();
-  const { user, fetching } = useUser();
+import { XPSeedsBalance } from './XPSeedsBalance';
+
+// Display player XP and Seed
+export const PlayerStatsBar = () => {
+  const { connecting, connected, connect, disconnect } = useWeb3();
+  const { fetching, user } = useUser();
+  const { name } = useProfileField({
+    field: 'name',
+    player: user,
+    getter: getPlayerName,
+  });
 
   return (
     <Flex
@@ -30,11 +38,11 @@ export const MegaMenuFooter = () => {
       left={0}
       bottom={0}
       justify={user ? 'space-between' : 'center'}
-      w="100%"
-      h="5rem"
-      bg="rgba(0,0,0,0.75)"
+      w="full"
+      h={20}
+      bg="rgba(0, 0, 0, 0.75)"
       borderColor="#2B2244"
-      px="1rem"
+      px={4}
       sx={{ backdropFilter: 'blur(10px)' }}
     >
       {connected && !!user && !fetching && !connecting ? (
@@ -42,10 +50,10 @@ export const MegaMenuFooter = () => {
           <Menu>
             <MenuButton
               bg="transparent"
-              aria-label="menu options"
-              _focus={{ outline: 'none', bg: 'transparent' }}
-              _hover={{ bg: 'transparent' }}
-              _active={{ bg: 'transparent' }}
+              aria-label="Menu Options"
+              _focus={{ outline: 'none' }}
+              _hover={{ filter: 'brightness(1.1)' }}
+              _active={{ filter: 'hue-rotate(30deg)' }}
             >
               <Flex>
                 <PlayerAvatar player={user} w={14} h={14} m={0} />
@@ -57,7 +65,7 @@ export const MegaMenuFooter = () => {
                     p={0}
                     lineHeight={1}
                   >
-                    {getPlayerName(user)}
+                    {name}
                   </Text>
                   {user.rank && (
                     <Text fontSize={12} m={0} p={0} lineHeight={1}>

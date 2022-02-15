@@ -83,14 +83,8 @@ export const ProfileSection: React.FC<FlexProps & ProfileSectionProps> = ({
               icon={<EditIcon />}
               _hover={{ color: 'white' }}
               onClick={onOpen}
-              _focus={{
-                boxShadow: 'none',
-                backgroundColor: 'transparent',
-              }}
-              _active={{
-                transform: 'scale(0.8)',
-                backgroundColor: 'transparent',
-              }}
+              _focus={{ boxShadow: 'none' }}
+              _active={{ transform: 'scale(0.8)' }}
               isRound
             />
           )}
@@ -100,14 +94,8 @@ export const ProfileSection: React.FC<FlexProps & ProfileSectionProps> = ({
               background="transparent"
               _hover={{ color: 'white' }}
               onClick={onOpen}
-              _focus={{
-                boxShadow: 'none',
-                backgroundColor: 'transparent',
-              }}
-              _active={{
-                transform: 'scale(0.8)',
-                backgroundColor: 'transparent',
-              }}
+              _focus={{ boxShadow: 'none' }}
+              _active={{ transform: 'scale(0.8)' }}
             >
               {modalPrompt}
             </Button>
@@ -121,7 +109,7 @@ export const ProfileSection: React.FC<FlexProps & ProfileSectionProps> = ({
         p={boxType === BoxTypes.EMBEDDED_URL ? 0 : 8}
         boxShadow="md"
         css={{ backdropFilter: 'blur(8px)' }}
-        w="100%"
+        w="full"
         pos="relative"
         pointerEvents={editing ? 'none' : 'initial'}
       >
