@@ -15,7 +15,7 @@ export const StatusedSubmitButton = ({
   <MetaButton
     type="submit"
     _focus={{ filter: 'brightness(1.75)' }}
-    sx={{ ':hover': { filter: 'rotate-hue(-90)', border: '2px solid green' } }}
+    _hover={{ filter: 'hue-rotate(-90deg)', border: '2px solid green' }}
     disabled={!!status}
     mt={10}
     {...props}
