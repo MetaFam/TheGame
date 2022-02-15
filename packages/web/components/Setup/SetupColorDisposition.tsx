@@ -133,6 +133,7 @@ export const ColorButtons: React.FC<ColorButtonsProps> = ({
 );
 
 export const SetupColorDisposition: React.FC<MaybeModalProps> = ({
+  buttonLabel,
   onClose,
 }) => {
   const field = 'colorMask';
@@ -150,7 +151,7 @@ export const SetupColorDisposition: React.FC<MaybeModalProps> = ({
 
   return (
     <ProfileWizardPane
-      {...{ field, onClose }}
+      {...{ field, buttonLabel, onClose }}
       title="Color Dis&#xAD;po&#xAD;sit&#xAD;ion"
       prompt={
         <Text textAlign="center" maxW="30rem">

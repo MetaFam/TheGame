@@ -37,6 +37,7 @@ export const PlayerColorDisposition: React.FC<ColorDispositionProps> = ({
       title="Color Disposition"
       type={BoxTypes.PLAYER_COLOR_DISPOSITION}
       withoutBG
+      modalTitle={false}
       {...{ isOwnProfile, editing }}
     >
       {mask == null ? (

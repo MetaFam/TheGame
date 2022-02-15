@@ -100,7 +100,7 @@ export const PlayerHero: React.FC<HeroProps> = ({ player, editing }) => {
         </PlayerHeroTile>
         */}
 
-        <Wrap justify="space-around" w="full">
+        <Wrap justify="space-between" w="full">
           <Pronouns {...{ player }} Wrapper={WrapItem} />
           <Availability {...{ player }} Wrapper={WrapItem} />
           <TimeZone {...{ player }} Wrapper={WrapItem} />

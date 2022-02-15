@@ -34,6 +34,7 @@ import {
 import { Control, useForm, UseFormRegisterReturn } from 'react-hook-form';
 
 export type MaybeModalProps = {
+  buttonLabel?: string | ReactElement;
   onClose?: () => void;
 };
 
@@ -41,6 +42,7 @@ export type WizardPaneProps = {
   field: string;
   title?: string | ReactElement;
   prompt?: string | ReactElement;
+  buttonLabel?: string | ReactElement;
   onClose?: () => void;
 };
 
@@ -62,6 +64,7 @@ export const ProfileWizardPane = <T extends ProfileValueType>({
   title,
   prompt,
   onClose,
+  buttonLabel,
   children,
 }: PropsWithChildren<WizardPaneProps>) => {
   const { onNextPress, nextButtonLabel } = useSetupFlow();
@@ -109,7 +112,7 @@ export const ProfileWizardPane = <T extends ProfileValueType>({
           }
         }
 
-        onNextPress();
+        (onClose ?? onNextPress).call(this);
       } catch (err) {
         const heading = err instanceof CeramicError ? 'Ceramic Error' : 'Error';
         toast({
@@ -126,6 +129,7 @@ export const ProfileWizardPane = <T extends ProfileValueType>({
       current,
       existing,
       invalidateCache,
+      onClose,
       onNextPress,
       saveToCeramic,
       toast,
@@ -145,7 +149,7 @@ export const ProfileWizardPane = <T extends ProfileValueType>({
   );
 
   return (
-    <FlexContainer as="form" onSubmit={handleSubmit(onSubmit)}>
+    <FlexContainer as="form" onSubmit={handleSubmit(onSubmit)} color="white">
       {title && (
         <MetaHeading mb={5} textAlign="center">
           {title}
@@ -189,9 +193,12 @@ export const ProfileWizardPane = <T extends ProfileValueType>({
         </Box>
       </FormControl>
 
-      <Wrap>
+      <Wrap align="center">
         <WrapItem>
-          <StatusedSubmitButton label={nextButtonLabel} {...{ status }} />
+          <StatusedSubmitButton
+            label={buttonLabel ?? nextButtonLabel}
+            {...{ status }}
+          />
         </WrapItem>
         {onClose && (
           <WrapItem>

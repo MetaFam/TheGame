@@ -9,15 +9,16 @@ export const StatusedSubmitButton = ({
   status = null,
   ...props
 }: {
-  label?: Maybe<string>;
+  label?: Maybe<string | ReactElement>;
   status?: Maybe<string | ReactElement>;
 }) => (
   <MetaButton
     type="submit"
+    border="2px solid transparent"
+    transition="filter 0.25s"
+    _hover={{ filter: 'hue-rotate(-10deg)', border: '2px solid green' }}
     _focus={{ filter: 'brightness(1.75)' }}
-    _hover={{ filter: 'hue-rotate(-90deg)', border: '2px solid green' }}
     disabled={!!status}
-    mt={10}
     {...props}
   >
     {status == null ? (
