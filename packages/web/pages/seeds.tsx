@@ -1,9 +1,12 @@
 import {
+  ArrowLeftIcon,
+  ArrowRightIcon,
   ArrowUpIcon,
   Box,
   Button,
   Flex,
   Heading,
+  IconButton,
   Image,
   Link,
   ListItem,
@@ -21,6 +24,7 @@ import {
   VStack,
 } from '@metafam/ds';
 import Seeds from 'assets/menuIcon/seeds.svg';
+import ModalCardBg from 'assets/modal-bg.png';
 import Octopus from 'assets/octopus.png';
 import SeedCardBg from 'assets/seed-card-bg.png';
 import SeedsFlowChart from 'assets/seeds-flowchart.png';
@@ -146,12 +150,54 @@ const Card: React.FC<CardProps> = ({ title, description, Content }) => {
 
       <Modal onClose={onClose} isOpen={isOpen} scrollBehavior="inside">
         <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>{title}</ModalHeader>
-          <ModalCloseButton />
+        <ModalContent
+          bgImg={ModalCardBg}
+          bgPos="center"
+          bgColor="purpleModalDark"
+          bgRepeat="no-repeat"
+          textColor="white"
+          maxH="full"
+          h="full"
+          marginTop={0}
+        >
+          <ModalHeader fontSize={24} fontWeight="bold">
+            {title.toUpperCase()}
+            <ModalCloseButton color="purple" size="lg" top={4} />
+          </ModalHeader>
           <ModalBody>{Content && <Content />}</ModalBody>
-          <ModalFooter>
-            <Button onClick={onClose}>Close</Button>
+          <ModalFooter justifyContent="space-between">
+            <IconButton
+              ml="3"
+              minW="4"
+              variant="unstyled"
+              size="xs"
+              color="silver"
+              icon={<ArrowLeftIcon />}
+              _hover={{ color: 'white' }}
+              onClick={console.log}
+              aria-label="back"
+            />
+            <Button
+              variant="ghost"
+              color="violet "
+              bgColor="whiteAlpha.50"
+              _hover={{ bg: 'whiteAlpha.200' }}
+              _active={{ bg: 'whiteAlpha.200' }}
+              onClick={onClose}
+            >
+              Close Window
+            </Button>
+            <IconButton
+              ml="3"
+              minW="4"
+              variant="unstyled"
+              size="xs"
+              color="silver"
+              icon={<ArrowRightIcon />}
+              _hover={{ color: 'white' }}
+              onClick={console.log}
+              aria-label="next"
+            />
           </ModalFooter>
         </ModalContent>
       </Modal>
@@ -232,7 +278,7 @@ const UsefulnessOfSeedsModal = () => {
           <Text fontSize={16} fontWeight="bold" my={2}>
             Things you can spend on now:
           </Text>
-          <Box p={2} bgColor="gray.100" mb={2}>
+          <Box p={2} bgColor="whiteAlpha.300" mb={2}>
             💡 Note: You need to be a member to access any of these
           </Box>
           <UnorderedList>
@@ -275,7 +321,7 @@ const UsefulnessOfSeedsModal = () => {
               . ☺️
             </ListItem>
           </UnorderedList>
-          <Box p={2} bgColor="gray.100" my={2}>
+          <Box p={2} bgColor="whiteAlpha.300" my={2}>
             💡 Note: If you're interested in spending your Seeds on any of this,
             ask about it; #
             <Link
@@ -419,7 +465,7 @@ const UsefulnessOfSeedsModal = () => {
 
 const BuyingAndSellingModal = () => (
   <div>
-    <Box p={2} bgColor="gray.100" mb={2}>
+    <Box p={2} bgColor="whiteAlpha.300" mb={2}>
       💡 Note: No need to buy Seeds to become a patron, you can just
       <em> water </em>them.
     </Box>
