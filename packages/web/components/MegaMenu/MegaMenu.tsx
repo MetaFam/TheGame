@@ -99,9 +99,9 @@ type LogoProps = {
 };
 
 // Navbar logo
-const Logo = ({ link, iconSize = ICON_SIZE }: LogoProps) => {
-  const width = useBreakpointValue({ base: 36, lg: 45 }) ?? 36;
-  const height = useBreakpointValue({ base: 45, lg: iconSize }) ?? 45;
+const Logo = ({ link }: LogoProps) => {
+  const w = useBreakpointValue({ base: 9, lg: 12 }) ?? 9;
+  const h = useBreakpointValue({ base: 12, lg: 16 }) ?? 12;
 
   return (
     <Box
@@ -119,8 +119,7 @@ const Logo = ({ link, iconSize = ICON_SIZE }: LogoProps) => {
       >
         <Image
           src={LogoImage}
-          w={`${width}px`}
-          h={`${height}px`}
+          {...{ w, h }}
           transition="0.25s"
           _hover={{ transform: 'scale(1.1)' }}
         />
