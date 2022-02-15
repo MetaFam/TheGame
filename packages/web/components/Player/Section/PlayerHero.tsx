@@ -24,8 +24,8 @@ import BackgroundImage from 'assets/main-background.jpg';
 import { FlexContainer } from 'components/Container';
 import { EditProfileForm } from 'components/EditProfileForm';
 import { PlayerAvatar } from 'components/Player/PlayerAvatar';
-import { PlayerContacts } from 'components/Player/PlayerContacts';
-import { PlayerBrightId } from 'components/Player/Section/PlayerBrightId';
+import { PlayerContacts as Contacts } from 'components/Player/PlayerContacts';
+import { PlayerBrightId as BrightId } from 'components/Player/Section/PlayerBrightId';
 import { PlayerHeroTile } from 'components/Player/Section/PlayerHeroTile';
 import { ProfileSection } from 'components/Profile/ProfileSection';
 import { Player } from 'graphql/autogen/types';
@@ -38,16 +38,16 @@ import { getPlayerName } from 'utils/playerHelpers';
 
 const MAX_BIO_LENGTH = 240;
 
-type Props = {
+type HeroProps = {
   player: Player;
   editing?: boolean;
 };
 type DisplayComponentProps = {
   player?: Maybe<Player>;
-  isOwnProfile?: boolean;
+  Wrapper?: React.FC;
 };
 
-export const PlayerHero: React.FC<Props> = ({ player, editing }) => {
+export const PlayerHero: React.FC<HeroProps> = ({ player, editing }) => {
   const { user } = useUser();
   const isOwnProfile = user ? user.id === player?.id : null;
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -76,7 +76,7 @@ export const PlayerHero: React.FC<Props> = ({ player, editing }) => {
           />
         </Box>
       )}
-      <Box textAlign="center" mb={8} mt={2}>
+      <Box align="center" mb={8} mt={2}>
         <PlayerAvatar
           w={{ base: 32, md: 56 }}
           h={{ base: 32, md: 56 }}
@@ -85,13 +85,13 @@ export const PlayerHero: React.FC<Props> = ({ player, editing }) => {
       </Box>
       <VStack spacing={6}>
         <Box textAlign="center" maxW="full">
-          <PlayerName {...{ player }} />
-          <PlayerBrightId {...{ player }} />
+          <Name {...{ player }} />
+          <BrightId {...{ player }} />
         </Box>
-        <PlayerDescription {...{ player }} />
+        <Description {...{ player }} />
 
         <HStack mt={2}>
-          <PlayerContacts {...{ player }} />
+          <Contacts {...{ player }} />
         </HStack>
 
         {/*
@@ -100,21 +100,11 @@ export const PlayerHero: React.FC<Props> = ({ player, editing }) => {
         </PlayerHeroTile>
         */}
 
-        <Wrap justify="space-between" w="full">
-          <WrapItem>
-            <PlayerPronouns {...{ player }} />
-          </WrapItem>
-          <WrapItem>
-            <Availability {...{ player }} />
-          </WrapItem>
-          <WrapItem>
-            <TimeZone {...{ player }} />
-          </WrapItem>
-          {player?.profile?.emoji && (
-            <WrapItem>
-              <PlayerEmoji {...{ player }} />
-            </WrapItem>
-          )}
+        <Wrap justify="space-around" w="full">
+          <Pronouns {...{ player }} Wrapper={WrapItem} />
+          <Availability {...{ player }} Wrapper={WrapItem} />
+          <TimeZone {...{ player }} Wrapper={WrapItem} />
+          <Emoji {...{ player }} Wrapper={WrapItem} />
         </Wrap>
 
         {/* <SimpleGrid columns={2} gap={6} width="full">
@@ -172,7 +162,10 @@ export const PlayerHero: React.FC<Props> = ({ player, editing }) => {
   );
 };
 
-export const PlayerPronouns: React.FC<DisplayComponentProps> = ({ player }) => {
+export const Pronouns: React.FC<DisplayComponentProps> = ({
+  player,
+  Wrapper = React.Fragment,
+}) => {
   const { pronouns } = useProfileField({
     field: 'pronouns',
     player,
@@ -189,15 +182,20 @@ export const PlayerPronouns: React.FC<DisplayComponentProps> = ({ player }) => {
   }
 
   return (
-    <PlayerHeroTile title="Personal Pronouns">
-      <MetaTag size="md" fontWeight="normal" backgroundColor="gray.600">
-        {pronouns}
-      </MetaTag>
-    </PlayerHeroTile>
+    <Wrapper>
+      <PlayerHeroTile title="Personal Pronouns">
+        <MetaTag size="md" fontWeight="normal" backgroundColor="gray.600">
+          {pronouns}
+        </MetaTag>
+      </PlayerHeroTile>
+    </Wrapper>
   );
 };
 
-const PlayerEmoji: React.FC<DisplayComponentProps> = ({ player }) => {
+const Emoji: React.FC<DisplayComponentProps> = ({
+  player,
+  Wrapper = React.Fragment,
+}) => {
   const { emoji } = useProfileField({
     field: 'emoji',
     player,
@@ -208,15 +206,20 @@ const PlayerEmoji: React.FC<DisplayComponentProps> = ({ player }) => {
   }
 
   return (
-    <PlayerHeroTile title="Favorite Emoji">
-      <Text ml={10} mt={0} fontSize={45} lineHeight={0.75}>
-        {emoji}
-      </Text>
-    </PlayerHeroTile>
+    <Wrapper>
+      <PlayerHeroTile title="Favorite Emoji">
+        <Text ml={10} mt={0} fontSize={45} lineHeight={0.75}>
+          {emoji}
+        </Text>
+      </PlayerHeroTile>
+    </Wrapper>
   );
 };
 
-const PlayerDescription: React.FC<DisplayComponentProps> = ({ player }) => {
+const Description: React.FC<DisplayComponentProps> = ({
+  player,
+  Wrapper = React.Fragment,
+}) => {
   const { description } = useProfileField({
     field: 'description',
     player,
@@ -232,8 +235,8 @@ const PlayerDescription: React.FC<DisplayComponentProps> = ({ player }) => {
   }
 
   return (
-    <Box align="flexStart" w="100%">
-      <PlayerHeroTile title="Bio">
+    <Wrapper>
+      <PlayerHeroTile title="Bio" align="flexStart">
         <Text
           fontSize={{ base: 'sm', sm: 'md' }}
           textAlign="justify"
@@ -261,11 +264,14 @@ const PlayerDescription: React.FC<DisplayComponentProps> = ({ player }) => {
           )}
         </Text>
       </PlayerHeroTile>
-    </Box>
+    </Wrapper>
   );
 };
 
-const PlayerName: React.FC<DisplayComponentProps> = ({ player }) => {
+const Name: React.FC<DisplayComponentProps> = ({
+  player,
+  Wrapper = React.Fragment,
+}) => {
   const { name } = useProfileField({
     field: 'name',
     player,
@@ -273,21 +279,26 @@ const PlayerName: React.FC<DisplayComponentProps> = ({ player }) => {
   });
 
   return (
-    <Text
-      fontSize="xl"
-      fontFamily="heading"
-      mb={1}
-      textOverflow="ellipsis"
-      whiteSpace="nowrap"
-      overflowX="hidden"
-      title={name ?? undefined}
-    >
-      {name}
-    </Text>
+    <Wrapper>
+      <Text
+        fontSize="xl"
+        fontFamily="heading"
+        mb={1}
+        textOverflow="ellipsis"
+        whiteSpace="nowrap"
+        overflowX="hidden"
+        title={name ?? undefined}
+      >
+        {name}
+      </Text>
+    </Wrapper>
   );
 };
 
-const Availability: React.FC<DisplayComponentProps> = ({ player }) => {
+const Availability: React.FC<DisplayComponentProps> = ({
+  player,
+  Wrapper = React.Fragment,
+}) => {
   const { value: current } = useProfileField<number>({
     field: 'availableHours',
     player,
@@ -297,37 +308,42 @@ const Availability: React.FC<DisplayComponentProps> = ({ player }) => {
   const { animation } = useAnimateProfileChanges(current, updateFN);
 
   return (
-    <PlayerHeroTile title="Availability">
-      <Flex alignItems="center">
-        <Box pr={2}>
-          <FaClock color="blueLight" />
-        </Box>
-        <FlexContainer
-          align="stretch"
-          transition="opacity 0.4s"
-          opacity={animation === 'fadeIn' ? 1 : 0}
-        >
-          <Text fontSize={{ base: 'md', sm: 'lg' }} pr={2}>
-            {hours == null ? (
-              <Text as="em">Unspecified</Text>
-            ) : (
-              <>
-                <Text as="span" mr={0.5}>
-                  {hours}
-                </Text>
-                <Text as="span" title="hours per week">
-                  <Text as="sup">hr</Text>⁄<Text as="sub">week</Text>
-                </Text>
-              </>
-            )}
-          </Text>
-        </FlexContainer>
-      </Flex>
-    </PlayerHeroTile>
+    <Wrapper>
+      <PlayerHeroTile title="Availability">
+        <Flex alignItems="center">
+          <Box pr={2}>
+            <FaClock color="blueLight" />
+          </Box>
+          <FlexContainer
+            align="stretch"
+            transition="opacity 0.4s"
+            opacity={animation === 'fadeIn' ? 1 : 0}
+          >
+            <Text fontSize={{ base: 'md', sm: 'lg' }} pr={2}>
+              {hours == null ? (
+                <Text as="em">Unspecified</Text>
+              ) : (
+                <>
+                  <Text as="span" mr={0.5}>
+                    {hours}
+                  </Text>
+                  <Text as="span" title="hours per week">
+                    <Text as="sup">hr</Text>⁄<Text as="sub">week</Text>
+                  </Text>
+                </>
+              )}
+            </Text>
+          </FlexContainer>
+        </Flex>
+      </PlayerHeroTile>
+    </Wrapper>
   );
 };
 
-const TimeZone: React.FC<DisplayComponentProps> = ({ player }) => {
+const TimeZone: React.FC<DisplayComponentProps> = ({
+  player,
+  Wrapper = React.Fragment,
+}) => {
   const { value: current } = useProfileField({
     field: 'timeZone',
     player,
@@ -347,48 +363,50 @@ const TimeZone: React.FC<DisplayComponentProps> = ({ player }) => {
   const { animation } = useAnimateProfileChanges(tz, updateFN);
 
   return (
-    <PlayerHeroTile title="Time Zone">
-      <Flex alignItems="center">
-        <FlexContainer
-          align="stretch"
-          transition="opacity 0.4s"
-          opacity={animation === 'fadeIn' ? 1 : 0}
-        >
-          <Flex align="center" whiteSpace="pre">
-            <Box pr={2}>
-              <FaGlobe color="blueLight" />
-            </Box>
-            {timeZone === null ? (
-              <Text fontStyle="italic">Unspecified</Text>
-            ) : (
-              <Tooltip label={tz?.name} hasArrow>
-                <Wrap justify="center" align="center">
-                  <WrapItem my="0 !important">
-                    <Text
-                      fontSize={{ base: 'md', sm: 'lg' }}
-                      pr={1}
-                      overflowX="hidden"
-                      textOverflow="ellipsis"
-                    >
-                      {timeZone || '−'}
-                    </Text>
-                  </WrapItem>
-                  {short && (
+    <Wrapper>
+      <PlayerHeroTile title="Time Zone">
+        <Flex alignItems="center">
+          <FlexContainer
+            align="stretch"
+            transition="opacity 0.4s"
+            opacity={animation === 'fadeIn' ? 1 : 0}
+          >
+            <Flex align="center" whiteSpace="pre">
+              <Box pr={2}>
+                <FaGlobe color="blueLight" />
+              </Box>
+              {timeZone === null ? (
+                <Text fontStyle="italic">Unspecified</Text>
+              ) : (
+                <Tooltip label={tz?.name} hasArrow>
+                  <Wrap justify="center" align="center">
                     <WrapItem my="0 !important">
                       <Text
-                        fontSize={{ base: 'sm', sm: 'md' }}
-                        whiteSpace="pre"
+                        fontSize={{ base: 'md', sm: 'lg' }}
+                        pr={1}
+                        overflowX="hidden"
+                        textOverflow="ellipsis"
                       >
-                        {short}
+                        {timeZone || '−'}
                       </Text>
                     </WrapItem>
-                  )}
-                </Wrap>
-              </Tooltip>
-            )}
-          </Flex>
-        </FlexContainer>
-      </Flex>
-    </PlayerHeroTile>
+                    {short && (
+                      <WrapItem my="0 !important">
+                        <Text
+                          fontSize={{ base: 'sm', sm: 'md' }}
+                          whiteSpace="pre"
+                        >
+                          {short}
+                        </Text>
+                      </WrapItem>
+                    )}
+                  </Wrap>
+                </Tooltip>
+              )}
+            </Flex>
+          </FlexContainer>
+        </Flex>
+      </PlayerHeroTile>
+    </Wrapper>
   );
 };

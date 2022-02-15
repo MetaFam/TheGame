@@ -82,6 +82,7 @@ export {
   ButtonProps,
   Center,
   chakra,
+  ChakraComponent,
   ChakraProps,
   ChakraProvider,
   ComponentWithAs,
