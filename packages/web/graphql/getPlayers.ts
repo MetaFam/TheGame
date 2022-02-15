@@ -214,7 +214,7 @@ export const getPlayerFilters = async (client: Client = defaultClient) => {
 }
 `;
 
-export const getPlayersByText = async (
+export const searchPlayers = async (
   text: string,
   client: Client = defaultClient,
 ) => {

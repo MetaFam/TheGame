@@ -7,13 +7,12 @@ import {
   GetGuildPlayersQueryVariables,
   GetGuildQuery,
   GetGuildQueryVariables,
-  GetGuildsByTextSearchDocument,
-  GetGuildsByTextSearchQuery,
-  GetGuildsByTextSearchQueryVariables,
   GetGuildsQuery,
   GetGuildsQueryVariables,
   GuildFragment as GuildFragmentType,
   GuildStatus_Enum,
+  SearchGuildsQuery,
+  SearchGuildsQueryVariables,
 } from 'graphql/autogen/types';
 import { client } from 'graphql/client';
 import { GuildFragment, PlayerFragment } from 'graphql/fragments';
@@ -165,27 +164,25 @@ export const getGuildPlayers = async (
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-/* GraphQL */ `
-  query getGuildsByTextSearch($text: String) {
-    search_guilds(args: { search: $text }, limit: 3) {
+const guildSearch = /* GraphQL */ `
+  query SearchGuilds($search: String!) {
+    guild(where: { guildname: { _ilike: $search } }) {
       ...GuildFragment
     }
   }
   ${GuildFragment}
 `;
 
-export const getGuildsByText = async (text: string) => {
+export const searchGuilds = async (search = '') => {
   const { data, error } = await client
-    .query<GetGuildsByTextSearchQuery, GetGuildsByTextSearchQueryVariables>(
-      GetGuildsByTextSearchDocument,
-      {
-        text: `%${text}%`,
-      },
-    )
+    .query<SearchGuildsQuery, SearchGuildsQueryVariables>(guildSearch, {
+      search: `%${search}%`,
+    })
     .toPromise();
 
+  if (!data && error) throw new Error('Something Went Wrong');
+
   return {
-    guilds: data?.search_guilds || [],
-    error,
+    guilds: data?.guild || [],
   };
 };

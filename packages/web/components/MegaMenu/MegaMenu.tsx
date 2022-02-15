@@ -53,6 +53,7 @@ import TheGreatHouses from 'assets/menuIcon/thegreathouses.svg';
 import WelcomeToMetaGame from 'assets/menuIcon/welcometometagame.svg';
 import XPEarned from 'assets/menuIcon/xpearned.svg';
 import Youtube from 'assets/menuIcon/youtube.svg';
+import SearchIcon from 'assets/search-icon.svg';
 import { MetaLink } from 'components/Link';
 import { PlayerAvatar } from 'components/Player/PlayerAvatar';
 import {
@@ -60,12 +61,14 @@ import {
   Player,
   PlayerFragmentFragment,
 } from 'graphql/autogen/types';
+import { searchPlayers } from 'graphql/getPlayers';
+import { searchGuilds } from 'graphql/queries/guild';
 import { useUser, useWeb3 } from 'lib/hooks';
 import { useRouter } from 'next/router';
 import React, { useEffect, useRef, useState } from 'react';
-import { distinctUntilChanged, Subject } from 'rxjs';
+import { distinctUntilChanged, forkJoin, from, Subject } from 'rxjs';
 // import { forkJoin, from } from 'rxjs';
-import { debounceTime, filter } from 'rxjs/operators';
+import { debounceTime, filter, switchMap } from 'rxjs/operators';
 // import {  switchMap } from 'rxjs/operators';
 import { MenuLinkItem, MenuLinkSet, MenuSectionLinks } from 'utils/menuLinks';
 import {
@@ -74,9 +77,6 @@ import {
   getPlayerURL,
 } from 'utils/playerHelpers';
 
-import SearchIcon from '../../assets/search-icon.svg';
-import { getPlayersByText } from '../../graphql/getPlayers';
-import { getGuildsByText } from '../../graphql/queries/guild';
 import { XPSeedsBalance } from './XPSeedsBalance';
 
 const menuIcons: { [key: string]: string } = {
@@ -305,7 +305,7 @@ interface OptionProps {
 
 const Option = ({ onClick, name, imgSrc, text }: OptionProps) => (
   <Flex align="center" {...{ onClick }} px={3} py={2} cursor="pointer">
-    <Avatar name={name} src={imgSrc} w="20px" h="20px" />
+    <Avatar name={name} src={imgSrc} w="24px" h="24px" />
     <Text px="2" color="black" fontFamily="Exo 2" fontWeight="400">
       {text}
     </Text>
@@ -334,7 +334,13 @@ const SeeAllOption = ({
   onClick: () => void;
 }) => (
   <Box {...{ onClick }} cursor="pointer">
-    <Text fontFamily="Exo 2" fontWeight={600} color="magenta" px={3}>
+    <Text
+      fontFamily="Exo 2"
+      fontWeight={600}
+      color="magenta"
+      px={3}
+      fontSize="0.875rem"
+    >
       See All {type}
     </Text>
   </Box>
@@ -350,15 +356,13 @@ interface SearchResults {
 const Search = () => {
   const router = useRouter();
   const searchInputSubjectRef = useRef(new Subject<string>());
-  const searchBoxRef = useRef(null);
   const [query, setQuery] = useState<string>('');
   const [showDropdown, setShowDropdown] = useState(false);
   const [searchResults, setSearchResults] = useState<SearchResults>({
     players: [],
     guilds: [],
   });
-  const dropdown = useRef(null);
-  // const [isLoading, setLoading] = useState<boolean>(false);
+  const dropdown = useRef<HTMLDivElement | null>(null);
   const handleSubmit = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     // Default Show Players Matching With Query
@@ -368,18 +372,21 @@ const Search = () => {
   useEffect(() => {
     // only add the event listener when the dropdown is opened
     if (!showDropdown) return;
+
+    // TODO: find type for this
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     function handleClick(event: any) {
       if (dropdown.current && !dropdown.current.contains(event.target)) {
         setShowDropdown(false);
       }
     }
     window.addEventListener('click', handleClick);
-    // clean up
+
+    // eslint-disable-next-line consistent-return
     return () => window.removeEventListener('click', handleClick);
   }, [showDropdown]);
 
   useEffect(() => {
-    // setLoading(true);
     searchInputSubjectRef.current.next(query);
   }, [query]);
 
@@ -389,45 +396,18 @@ const Search = () => {
         filter((searchValue: string) => searchValue.length >= 1),
         debounceTime(300),
         distinctUntilChanged(),
-
-        // switchMap(async (queryString: string) => {
-        //   if (queryString !== '' && !queryString) {
-        //     setSearchResults([]);
-        //     return;
-        //   }
-        //   const { players } = await getPlayersByText(queryString);
-        //   const { guilds } = await getGuildsByText(queryString);
-        //   // eslint-disable-next-line consistent-return
-        //   return { players, guilds };
-        // }),
-        // switchMap((queryString: string) => {
-        //   if (queryString !== '' && !queryString) {
-        //     // setSearchResults([]);
-        //     return;
-        //   }
-
-        //   // eslint-disable-next-line consistent-return
-        //   return forkJoin([
-        //     from(getPlayersByText(queryString)),
-        //     from(getGuildsByText(queryString))
-        //   ]);
-        // }),
+        switchMap((queryString) =>
+          forkJoin([
+            from(searchPlayers(queryString)),
+            from(searchGuilds(queryString)),
+          ]),
+        ),
       )
-      .subscribe((val: string) => {
-        if (val !== '' && !val) {
-          // setLoading(false);
-          return;
-        }
-        const res1 = getPlayersByText(val);
-        const res2 = getGuildsByText(val);
-        Promise.all([res1, res2]).then((values) => {
-          console.log(values);
-          setSearchResults({
-            players: values[0].players,
-            guilds: values[1].guilds,
-          });
+      .subscribe((values) => {
+        setSearchResults({
+          players: values[0].players,
+          guilds: values[1].guilds,
         });
-        // setLoading(false);
       });
     return () => searchSubscription?.unsubscribe();
   }, []);
