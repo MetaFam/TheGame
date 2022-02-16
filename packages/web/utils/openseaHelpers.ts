@@ -1,11 +1,14 @@
+import { Maybe } from '@metafam/utils';
 import { utils } from 'ethers';
 import { AssetEvent, OpenSeaAsset } from 'opensea-js/lib/types';
+
+const { formatUnits: formatTokenAmount } = utils;
 
 export type Collectible = {
   address: string;
   tokenId: string;
   title: string;
-  imageUrl: string;
+  imageURL: string;
   openseaLink: string;
   priceString: string;
 };
@@ -15,19 +18,26 @@ export const parseOpenSeaAssets = async (
 ): Promise<Array<Collectible>> =>
   assets
     .map(
-      (asset) =>
+      ({
+        assetContract: { address },
+        tokenId,
+        name,
+        imageUrl,
+        openseaLink,
+        lastSale,
+      }) =>
         ({
-          address: asset.assetContract.address,
-          tokenId: asset.tokenId,
-          title: asset.name,
-          imageUrl: asset.imageUrl,
-          openseaLink: asset.openseaLink,
-          priceString: getPriceString(asset.lastSale),
+          address,
+          tokenId,
+          title: name,
+          imageURL: imageUrl,
+          openseaLink,
+          priceString: getPriceString(lastSale),
         } as Collectible),
     )
     .filter(
       (collectible: Collectible) =>
-        !!collectible.title && !!collectible.imageUrl,
+        !!collectible.title && !!collectible.imageURL,
     );
 
 const ETH_ADDRESSES = [
@@ -35,18 +45,16 @@ const ETH_ADDRESSES = [
   '0x0000000000000000000000000000000000000000', // ETH
 ];
 
-const getPriceString = (event: AssetEvent | null): string => {
+const getPriceString = (event: Maybe<AssetEvent>): string => {
   if (event?.paymentToken) {
     const {
-      address,
-      symbol: tokenSymbol,
-      decimals,
-      usdPrice,
-    } = event.paymentToken;
+      paymentToken: { address, symbol: tokenSymbol, decimals, usdPrice },
+      totalPrice,
+    } = event;
 
     const symbol = ETH_ADDRESSES.includes(address) ? 'Ξ' : tokenSymbol;
-    const price = Number(utils.formatUnits(event.totalPrice, decimals));
-    const priceInUSD = usdPrice ? price * Number(usdPrice) : 0;
+    const price = Number(formatTokenAmount(totalPrice, decimals));
+    const priceInUSD = usdPrice ? price * Number(usdPrice) : false;
     return `${price.toFixed(2)}${symbol}${
       priceInUSD ? ` ($${priceInUSD.toFixed(2)})` : ''
     }`;

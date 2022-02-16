@@ -13,6 +13,7 @@ import {
   Text,
   useDisclosure,
 } from '@metafam/ds';
+import BackgroundImage from 'assets/main-background.jpg';
 import {
   getDaoLink,
   getMolochImage,
@@ -23,7 +24,6 @@ import { Player } from 'graphql/autogen/types';
 import { getAllMemberships, GuildMembership } from 'graphql/getMemberships';
 import React, { useEffect, useMemo, useState } from 'react';
 import { BoxType } from 'utils/boxTypes';
-import { isBackdropFilterSupported } from 'utils/compatibilityHelpers';
 
 type DaoListingProps = {
   membership: GuildMembership;
@@ -126,15 +126,6 @@ export const PlayerMemberships: React.FC<MembershipSectionProps> = ({
     });
   }, [player]);
 
-  const modalContentStyles = isBackdropFilterSupported()
-    ? {
-        backgroundColor: 'rgba(255, 255, 255, 0.08)',
-        backdropFilter: 'blur(8px)',
-      }
-    : {
-        backgroundColor: 'rgba(7, 2, 29, 0.91)',
-      };
-
   return (
     <ProfileSection
       title="DAO Memberships"
@@ -174,7 +165,12 @@ export const PlayerMemberships: React.FC<MembershipSectionProps> = ({
         scrollBehavior="inside"
       >
         <ModalOverlay>
-          <ModalContent maxW="6xl" bg="none">
+          <ModalContent
+            maxW="6xl"
+            bgImage={`url(${BackgroundImage})`}
+            bgSize="cover"
+            bgAttachment="fixed"
+          >
             <Box bg="purple80" borderTopRadius="lg" p={4} w="100%">
               <HStack>
                 <Text
@@ -190,7 +186,7 @@ export const PlayerMemberships: React.FC<MembershipSectionProps> = ({
               </HStack>
             </Box>
 
-            <Flex p={2} css={modalContentStyles}>
+            <Flex p={2}>
               <Box
                 overflowY="scroll"
                 overflowX="hidden"

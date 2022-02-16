@@ -12,13 +12,13 @@ import {
   Text,
   useDisclosure,
 } from '@metafam/ds';
+import BackgroundImage from 'assets/main-background.jpg';
 import { MetaLink as Link } from 'components/Link';
 import { ProfileSection } from 'components/Profile/ProfileSection';
 import { Player } from 'graphql/autogen/types';
 import { useOpenSeaCollectibles } from 'lib/hooks/opensea';
 import React from 'react';
 import { BoxType } from 'utils/boxTypes';
-import { isBackdropFilterSupported } from 'utils/compatibilityHelpers';
 import { Collectible } from 'utils/openseaHelpers';
 
 const GalleryItem: React.FC<{ nft: Collectible; noMargin?: boolean }> = ({
@@ -32,7 +32,7 @@ const GalleryItem: React.FC<{ nft: Collectible; noMargin?: boolean }> = ({
     display="flex"
   >
     <Box
-      bgImage={`url(${nft.imageUrl})`}
+      bgImage={`url(${nft.imageURL})`}
       backgroundSize="contain"
       backgroundRepeat="no-repeat"
       backgroundPosition="center"
@@ -66,15 +66,6 @@ export const PlayerGallery: React.FC<Props> = ({
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { favorites, data, loading } = useOpenSeaCollectibles({ player });
-
-  const modalContentStyles = isBackdropFilterSupported()
-    ? {
-        backgroundColor: 'rgba(255,255,255,0.08)',
-        backdropFilter: 'blur(8px)',
-      }
-    : {
-        backgroundColor: 'rgba(7, 2, 29, 0.91)',
-      };
 
   return (
     <ProfileSection
@@ -114,7 +105,13 @@ export const PlayerGallery: React.FC<Props> = ({
         scrollBehavior="inside"
       >
         <ModalOverlay>
-          <ModalContent mx="1rem" maxW="6xl" bg="none">
+          <ModalContent
+            mx="1rem"
+            maxW="6xl"
+            bgImage={`url(${BackgroundImage})`}
+            bgSize="cover"
+            bgAttachment="fixed"
+          >
             <Box bg="purple80" borderTopRadius="lg" p={4} w="100%">
               <HStack>
                 <Text
@@ -129,7 +126,7 @@ export const PlayerGallery: React.FC<Props> = ({
                 <ModalCloseButton color="blueLight" />
               </HStack>
             </Box>
-            <Flex p={2} css={modalContentStyles}>
+            <Flex p={2}>
               <Box
                 overflowY="scroll"
                 overflowX="hidden"
