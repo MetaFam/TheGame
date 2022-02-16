@@ -3,8 +3,9 @@ import BackgroundImage from 'assets/landing/build-background.png';
 
 export const Build: React.FC = () => (
   <Box
-    width="100%"
-   minHeight="100%" 
+    maxWidth="100%"
+    minWidth="100"
+    minHeight="100%" 
     maxHeight="100%"
     backgroundImage={`url(${BackgroundImage})`}
     bgPosition="center"
