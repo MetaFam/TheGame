@@ -209,22 +209,12 @@ const GetRankedModal = () => (
       As you might know already, the top ~56 of each; players & patrons, will be
       ranked in leagues. Well, leagues come with their perks!
     </Text>
-    <UnorderedList>
-      <ListItem>
-        <b>🥉 Bronze Founder</b>
-      </ListItem>
-      <ListItem>
-        <b>🥈 Silver Founder</b>
-      </ListItem>
-      <ListItem>
-        <b>🥇 Golden Founder</b>
-      </ListItem>
-      <ListItem>
-        <b>🔘 Platinum Founder</b>
-      </ListItem>
-      <ListItem>
-        <b>💎 Diamond Founder</b>
-      </ListItem>
+    <UnorderedList fontWeight="bold">
+      <ListItem>🥉 Bronze Founder</ListItem>
+      <ListItem>🥈 Silver Founder</ListItem>
+      <ListItem>🥇 Golden Founder</ListItem>
+      <ListItem>🔘 Platinum Founder</ListItem>
+      <ListItem>💎 Diamond Founder</ListItem>
     </UnorderedList>
     <Text>
       We have a bunch of ideas on what these ranked league perks could be: from
@@ -249,19 +239,19 @@ const UsefulnessOfSeedsModal = () => {
 
   return (
     <Flex direction="column">
-      <p>
+      <Text>
         So far, the main thing Seeds are used for is rewarding contributors as a
         means of bootstrapping. Not a very promising usecase in terms of token
         value, we know!
-      </p>
-      <p>
+      </Text>
+      <Text>
         But, we're building an entire gamified socioeconomic system, so finding
         usecases for money shouldn't be much trouble 😁
-      </p>
-      <p>
+      </Text>
+      <Text>
         So, lets look at some of the current &amp; potential ways of using
         Seeds!
-      </p>
+      </Text>
       <Box
         onClick={() => setIsOpenSpending(!isOpenSpending)}
         fontWeight="bold"
@@ -358,7 +348,7 @@ const UsefulnessOfSeedsModal = () => {
               shilling
             </ListItem>
           </UnorderedList>
-          <img src="https://cdn.substack.com/image/fetch/w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F3ae3bc90-a157-4057-9722-167f5645d6a4_500x281.png" />
+          <Image src="https://cdn.substack.com/image/fetch/w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F3ae3bc90-a157-4057-9722-167f5645d6a4_500x281.png" />
         </Flex>
       )}
       <Box
@@ -371,26 +361,24 @@ const UsefulnessOfSeedsModal = () => {
         </details>
       </Box>
       {isOpenStaking && (
-        <div>
-          <p>
+        <Box>
+          <Text>
             Here are some of the things people might be required to stake Seeds
             for.
-          </p>
-          <p>
-            <strong>
-              As you might already know; in MetaGame, we don't believe in rating
-              humans.
-            </strong>
-          </p>
-          <p>
-            We're building a future we <em>want </em>to live in, and a future in
+          </Text>
+          <Text fontWeight="bold">
+            As you might already know; in MetaGame, we don't believe in rating
+            humans.
+          </Text>
+          <Text>
+            We're building a future we <em>want</em> to live in, and a future in
             which humans rate each other on a 1-5 star system is definitely
-            <strong> not </strong>the kind of future we want to live in.
-          </p>
-          <p>
+            <strong> not</strong> the kind of future we want to live in.
+          </Text>
+          <Text>
             Instead, players of MetaGame will be required to stake some of their
             skin in the game.
-          </p>
+          </Text>
           <UnorderedList mb={4}>
             <ListItem>🥩 to take quests</ListItem>
             <ListItem>🥩 for your friend when onboarding them</ListItem>
@@ -409,8 +397,8 @@ const UsefulnessOfSeedsModal = () => {
               </ul>
             </ListItem>
           </UnorderedList>
-          <img src="https://cdn.substack.com/image/fetch/w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F5a1c40a8-4983-4a95-81f1-3563b108de65_426x426.png" />
-        </div>
+          <Image src="https://cdn.substack.com/image/fetch/w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F5a1c40a8-4983-4a95-81f1-3563b108de65_426x426.png" />
+        </Box>
       )}
       <Box
         onClick={() => setIsOpenPlanting(!isOpenPlanting)}
@@ -422,8 +410,8 @@ const UsefulnessOfSeedsModal = () => {
         </details>
       </Box>
       {isOpenPlanting && (
-        <div>
-          <p>
+        <Box>
+          <Text>
             If you're confused as to what “planting Seeds” means, it means using
             your Seeds by putting them into the
             <Link
@@ -438,7 +426,7 @@ const UsefulnessOfSeedsModal = () => {
                 Balancer pool aka the <em>Seed plantation.</em>
               </strong>
             </Link>
-          </p>
+          </Text>
           <UnorderedList mb={4}>
             <ListItem>
               🌱 to be eligible for MetaFam-only limited edition merch
@@ -455,19 +443,19 @@ const UsefulnessOfSeedsModal = () => {
               🌱🌱🌱 to appear higher on the Patrons leaderboard 🙃
             </ListItem>
           </UnorderedList>
-        </div>
+        </Box>
       )}
     </Flex>
   );
 };
 
 const BuyingAndSellingModal = () => (
-  <div>
+  <Box>
     <Box p={2} bgColor="whiteAlpha.300" mb={2}>
       💡 Note: No need to buy Seeds to become a patron, you can just
       <em> water </em>them.
     </Box>
-    <p>If you want to buy some Seeds:</p>
+    <Text>If you want to buy some Seeds:</Text>
     <UnorderedList>
       <ListItem>First, you'll need to have some tokens on Polygon</ListItem>
       <ListItem>
@@ -529,21 +517,21 @@ const BuyingAndSellingModal = () => (
       </ListItem>
       <ListItem>Take the same steps as the buyers above 🙂</ListItem>
     </UnorderedList>
-  </div>
+  </Box>
 );
 
 const BecomeAPatron = () => (
-  <div>
-    <p>
+  <Box>
+    <Text>
       Though some usecases exist, they're not meaningfully contributing to the
       treasury yet &amp; the rest are just ideas. Main reasons you'd want to
       become a patron right now:
-    </p>
+    </Text>
     <UnorderedList>
       <ListItem>
-        <strong>
+        <Text fontWeight="bold">
           Because you love the idea of MetaGame &amp; want to see it succeed.
-        </strong>
+        </Text>
         <ul>
           <ListItem ml={4}>
             <Link
@@ -577,7 +565,7 @@ const BecomeAPatron = () => (
         src="https://www.youtube.com/embed/CYuwpR8CLXY?feature=oembed"
       ></iframe>
     </Box>
-    <p>There are 2 ways to become a patron:</p>
+    <Text>There are 2 ways to become a patron:</Text>
     <UnorderedList>
       <ListItem>
         Join the
@@ -594,12 +582,12 @@ const BecomeAPatron = () => (
       </ListItem>
       <ListItem>Water the Seeds yourself 👇</ListItem>
     </UnorderedList>
-  </div>
+  </Box>
 );
 
 const PlantingAndWatering = () => (
-  <div>
-    <p>So you've decided to become a patron?</p>
+  <Box>
+    <Text>So you've decided to become a patron?</Text>
     <Box fontWeight="bold" my={4}>
       First, you'll need some tokens on Polygon.
     </Box>
@@ -638,7 +626,6 @@ const PlantingAndWatering = () => (
               textDecoration="underline"
               mr={1}
             >
-              {' '}
               any number of ways
             </Link>
           </ListItem>
@@ -700,24 +687,24 @@ const PlantingAndWatering = () => (
               textDecoration="underline"
               mr={1}
               href="https://wiki.metagame.wtf/docs/how-does-it-work/phases-of-metagame"
+              fontStyle="italic"
             >
-              <em>Phase I</em>
+              Phase I
             </Link>
             is limited to 150, meaning, you will need to be watering them at
             least as much as the 150th person on the leaderboard if you wish to
             remain a patron until the end of
-            <em>
-              <Link
-                ml={1}
-                isExternal
-                color="gray.500"
-                textDecoration="underline"
-                mr={1}
-                href="https://wiki.metagame.wtf/docs/how-does-it-work/phases-of-metagame"
-              >
-                Phase I
-              </Link>
-            </em>
+            <Link
+              ml={1}
+              isExternal
+              color="gray.500"
+              textDecoration="underline"
+              mr={1}
+              href="https://wiki.metagame.wtf/docs/how-does-it-work/phases-of-metagame"
+              fontStyle="italic"
+            >
+              Phase I
+            </Link>
             (2023).
           </ListItem>
         </ul>
@@ -734,30 +721,31 @@ const PlantingAndWatering = () => (
               textDecoration="underline"
               mr={1}
               href="https://wiki.metagame.wtf/docs/wtf-is-metagame/the-300-of-metagame"
+              fontStyle="italic"
             >
-              <em>The 300 of MetaGame</em>
+              The 300 of MetaGame
             </Link>
             .
           </ListItem>
         </ul>
       </ListItem>
     </UnorderedList>
-  </div>
+  </Box>
 );
 
 const JoinTheFund = () => (
-  <div>
-    <p>Wish to skip the hassle of watering Seeds on your own?</p>
-    <p>No worries, we got you covered!</p>
-    <p>
+  <Box>
+    <Text>Wish to skip the hassle of watering Seeds on your own?</Text>
+    <Text>No worries, we got you covered!</Text>
+    <Text>
       We're making it easy for people to do just that by launching the Seed Fund
       DAO.
-    </p>
-    <p>
+    </Text>
+    <Text>
       You will only need to approve of MetaGame's monthly progress reports &amp;
       we'll be taking care of the rest. No more carrying the buckets from the
       well to the fields!
-    </p>
+    </Text>
     <UnorderedList>
       <ListItem>Add some mainnet Ether</ListItem>
       <ListItem>Approve our progress &amp; proposals</ListItem>
@@ -776,7 +764,7 @@ const JoinTheFund = () => (
         if interested 👀
       </ListItem>
     </UnorderedList>
-  </div>
+  </Box>
 );
 
 const FAQ = () => {
@@ -793,7 +781,7 @@ const FAQ = () => {
         </details>
       </Box>
       {isOpenAccomplish && (
-        <p>
+        <Text>
           Many things! Go read the fundraise
           <Link
             ml={1}
@@ -806,7 +794,7 @@ const FAQ = () => {
             announcement post
           </Link>
           , pitch video or dig through the website itself.
-        </p>
+        </Text>
       )}
       <Box onClick={() => setIsOpenInfinity(!isOpenInfinity)} my={4}>
         <details>
@@ -814,7 +802,7 @@ const FAQ = () => {
         </details>
       </Box>
       {isOpenInfinity && (
-        <p>
+        <Text>
           Not likely! The idea is that MetaGame will go
           <Link
             ml={1}
@@ -831,7 +819,7 @@ const FAQ = () => {
           to Phase III - where Trees bear the fruits of our labor &amp; we’re
           able to reward contributors with MetaGame’s incoming streams without
           having to mint new tokens.
-        </p>
+        </Text>
       )}
       <Box onClick={() => setIsOpenGrow(!isOpenGrow)} my={4}>
         <details>
@@ -840,7 +828,7 @@ const FAQ = () => {
       </Box>
       {isOpenGrow && (
         <>
-          <p>🌊 Seed Watering Streams</p>
+          <Text>🌊 Seed Watering Streams</Text>
           <UnorderedList mt={2}>
             <ListItem>
               all fees &amp; payments received by MetaGame go into sustaining
@@ -863,10 +851,10 @@ const FAQ = () => {
         </details>
       </Box>
       {isOpenCap && (
-        <p>
+        <Text>
           At the time of writing this post (February 2022), the market cap was
           $600k
-        </p>
+        </Text>
       )}
     </div>
   );
