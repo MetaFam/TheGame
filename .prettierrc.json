@@ -2,5 +2,13 @@
   "printWidth": 80,
   "singleQuote": true,
   "trailingComma": "all",
-  "arrowParens": "always"
+  "arrowParens": "always",
+  "overrides": [
+    {
+      "files": "*.yaml",
+      "options": {
+        "singleQuote": false
+      }
+    }
+  ]
 }
