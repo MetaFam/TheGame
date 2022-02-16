@@ -1,12 +1,10 @@
 import {
-  ArrowLeftIcon,
-  ArrowRightIcon,
   ArrowUpIcon,
   Box,
   Button,
   Flex,
+  Grid,
   Heading,
-  IconButton,
   Image,
   Link,
   ListItem,
@@ -23,7 +21,6 @@ import {
   useDisclosure,
   VStack,
 } from '@metafam/ds';
-import Seeds from 'assets/menuIcon/seeds.svg';
 import ModalCardBg from 'assets/modal-bg.png';
 import Octopus from 'assets/octopus.png';
 import SeedCardBg from 'assets/seed-card-bg.png';
@@ -46,48 +43,62 @@ const SeedsPage: React.FC = () => {
   }
 
   return (
-    <PageContainer py={8} px={4}>
+    <PageContainer py={8} px={[6, 6, 20, 24]}>
       <VStack w="100%" spacing={{ base: 4, md: 8 }}>
         <HeadComponent
           title="MetaGame Seeds Page"
           description="seed description"
           url="https://my.metagame.wtf/seeds"
         />
-        <Heading
-          size="3xl"
-          fontWeight={600}
-          color="white"
-          fontFamily="mono"
-          pb={4}
-          display="flex"
-          flexDir="row"
-          ref={topRef}
-        >
-          Seeds{' '}
-          <Image height={10} width={10} src={Seeds} alignSelf="end" ml={2} />
-        </Heading>
-
-        <Flex fontSize={18} flexDirection="column">
-          Seeds are MetaGame's labor token. <br />
-          <br />
-          People contribute towards creation of MetaGame, meanwhile generating
-          XP & getting paid out on their XP generated - in Seeds.
-          <br />
-          <br />
-          • All tokens are retroactive rewards for non-financial contributions.
-          <br />
-          • No tokens were minted for investment or speculation purposes.
-          <br />
-          • There was never any liquidity mining program, yet there is
-          liquidity. 🙃
-          <br />
-          <br />
-          Here's how it works (in Phase I*):
+        <Grid templateColumns={['auto', 'auto', 'auto', '1fr 1fr']} gap={6}>
+          <Flex fontSize={[18, 18, 18, 22]} flexDirection="column">
+            <Heading
+              fontSize="6xl"
+              fontWeight={600}
+              color="white"
+              fontFamily="mono"
+              mb={[4, 4, 4, 12]}
+              display="flex"
+              flexDir="row"
+              ref={topRef}
+            >
+              Seeds{' '}
+              <Text pl={4} alignSelf="center" fontSize="4xl">
+                🌱
+              </Text>
+            </Heading>
+            <Text mb={4}>Seeds are MetaGame's labor token.</Text>
+            <Text mb={4}>
+              People contribute towards creation of MetaGame, meanwhile
+              generating XP & getting paid out on their XP generated - in Seeds.
+            </Text>
+            <Flex direction="column" ml={4}>
+              <UnorderedList spacing={2}>
+                <ListItem>
+                  All tokens are retroactive rewards for non-financial
+                  contributions.
+                </ListItem>
+                <ListItem>
+                  No tokens were minted for investment or speculation purposes.
+                </ListItem>
+                <ListItem>
+                  There was never any liquidity mining program, yet there is
+                  liquidity. 🙃
+                </ListItem>
+              </UnorderedList>
+            </Flex>
+          </Flex>
           <Image width="full" src={SeedsFlowChart} alignSelf="end" mt={4} />
-        </Flex>
-        {cardsData.map(({ title, description, Content }) => (
-          <Card title={title} description={description} Content={Content} />
-        ))}
+        </Grid>
+
+        <Grid
+          templateColumns={['auto', 'auto', '1fr 1fr', '1fr 1fr 1fr']}
+          gap={6}
+        >
+          {cardsData.map(({ title, description, Content }) => (
+            <Card title={title} description={description} Content={Content} />
+          ))}
+        </Grid>
         <Image src={Octopus} pt={8} />
         <Box pb={4}>
           <Button
@@ -131,6 +142,8 @@ const Card: React.FC<CardProps> = ({ title, description, Content }) => {
       p={8}
       minH="3xs"
       key={title}
+      maxW="sm"
+      w={['full', 'auto']}
     >
       <Box borderTopRadius="lg">
         <Text fontSize="xl" fontWeight="bold" mt={1} mb={4}>
@@ -165,21 +178,11 @@ const Card: React.FC<CardProps> = ({ title, description, Content }) => {
             <ModalCloseButton color="purple" size="lg" top={4} />
           </ModalHeader>
           <ModalBody>{Content && <Content />}</ModalBody>
-          <ModalFooter justifyContent="space-between">
-            <IconButton
-              ml="3"
-              minW="4"
-              variant="unstyled"
-              size="xs"
-              color="silver"
-              icon={<ArrowLeftIcon />}
-              _hover={{ color: 'white' }}
-              onClick={console.log}
-              aria-label="back"
-            />
+          <ModalFooter justifyContent="center">
             <Button
               variant="ghost"
-              color="violet "
+              color="violet"
+              p={6}
               bgColor="whiteAlpha.50"
               _hover={{ bg: 'whiteAlpha.200' }}
               _active={{ bg: 'whiteAlpha.200' }}
@@ -187,17 +190,6 @@ const Card: React.FC<CardProps> = ({ title, description, Content }) => {
             >
               Close Window
             </Button>
-            <IconButton
-              ml="3"
-              minW="4"
-              variant="unstyled"
-              size="xs"
-              color="silver"
-              icon={<ArrowRightIcon />}
-              _hover={{ color: 'white' }}
-              onClick={console.log}
-              aria-label="next"
-            />
           </ModalFooter>
         </ModalContent>
       </Modal>
@@ -251,16 +243,16 @@ const UsefulnessOfSeedsModal = () => {
 
   return (
     <Flex direction="column">
-      <p id="257def0e-fb04-4530-a5da-a53ad6b9d704">
+      <p>
         So far, the main thing Seeds are used for is rewarding contributors as a
         means of bootstrapping. Not a very promising usecase in terms of token
         value, we know!
       </p>
-      <p id="97d3e56f-5fee-4ca0-9a91-c7a858b3a782">
+      <p>
         But, we're building an entire gamified socioeconomic system, so finding
         usecases for money shouldn't be much trouble 😁
       </p>
-      <p id="ec8e7aa3-7f61-4f8e-b5f7-f4f335cd1e0a">
+      <p>
         So, lets look at some of the current &amp; potential ways of using
         Seeds!
       </p>
@@ -374,22 +366,22 @@ const UsefulnessOfSeedsModal = () => {
       </Box>
       {isOpenStaking && (
         <div>
-          <p id="b8958fc8-9ace-4a75-bfe0-b2f885ed02bb">
+          <p>
             Here are some of the things people might be required to stake Seeds
             for.
           </p>
-          <p id="625f823e-7934-4f0d-9aef-4e12a223c3ce">
+          <p>
             <strong>
               As you might already know; in MetaGame, we don't believe in rating
               humans.
             </strong>
           </p>
-          <p id="f0776aa3-1544-47e3-8478-325f7c417601">
+          <p>
             We're building a future we <em>want </em>to live in, and a future in
             which humans rate each other on a 1-5 star system is definitely
             <strong> not </strong>the kind of future we want to live in.
           </p>
-          <p id="2f1ee454-08dd-46a5-942f-e0dd1cdbdaeb">
+          <p>
             Instead, players of MetaGame will be required to stake some of their
             skin in the game.
           </p>
@@ -404,7 +396,7 @@ const UsefulnessOfSeedsModal = () => {
             <ListItem>🥩 on your project or product reviews</ListItem>
             <ListItem>
               🥩 on content curation (ponzinomics)
-              <ul id="b518575e-5a2f-454a-b7b5-9e6a52905855">
+              <ul>
                 <ListItem ml={4}>
                   writing reviews &amp; recommendations will require staking
                 </ListItem>
@@ -425,7 +417,7 @@ const UsefulnessOfSeedsModal = () => {
       </Box>
       {isOpenPlanting && (
         <div>
-          <p id="d808b202-fb7f-4513-b001-13a316afca4a">
+          <p>
             If you're confused as to what “planting Seeds” means, it means using
             your Seeds by putting them into the
             <Link
@@ -469,9 +461,7 @@ const BuyingAndSellingModal = () => (
       💡 Note: No need to buy Seeds to become a patron, you can just
       <em> water </em>them.
     </Box>
-    <p id="9071de1e-5172-4257-93fe-f641e8f8aedd">
-      If you want to buy some Seeds:
-    </p>
+    <p>If you want to buy some Seeds:</p>
     <UnorderedList>
       <ListItem>First, you'll need to have some tokens on Polygon</ListItem>
       <ListItem>
@@ -487,7 +477,7 @@ const BuyingAndSellingModal = () => (
           Seeds plantation
         </Link>
         &amp; click the “trade” tab middle top
-        <ul id="b518575e-5a2f-454a-b7b5-9e6a52905855">
+        <ul>
           <ListItem ml={4}>
             Seeds not showing up? Search by
             0x30cf203b48edaa42c3b4918e955fed26cd012a3f
