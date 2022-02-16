@@ -63,8 +63,10 @@ const fetchOpenSeaData = async (
     const res = await fetch(
       `/api/opensea?owner=${owner}&offset=${offset}&limit=${limit}`,
     );
-    const { response } = await res.json();
-    return response;
+    const { assets, error } = await res.json();
+    if (error) throw new Error(error);
+    if (!assets) throw new Error('Received empty assets');
+    return assets;
   } catch (err) {
     // eslint-disable-next-line no-console
     console.error(`Error Retrieving OpenSea Assets: ${(err as Error).message}`);
