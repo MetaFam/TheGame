@@ -121,7 +121,7 @@ const SeedsPage: React.FC = () => {
 type CardProps = {
   title: string;
   description: string;
-  Content?: any;
+  Content: () => JSX.Element;
 };
 
 const Card: React.FC<CardProps> = ({ title, description, Content }) => {
@@ -130,10 +130,8 @@ const Card: React.FC<CardProps> = ({ title, description, Content }) => {
   return (
     <Flex
       direction="column"
-      bgColor="#110035"
       borderRadius="lg"
       borderWidth="1px"
-      borderColor="whiteAlpha.400"
       textColor="white"
       alignItems="center"
       textAlign="center"
@@ -144,6 +142,14 @@ const Card: React.FC<CardProps> = ({ title, description, Content }) => {
       key={title}
       maxW="sm"
       w={['full', 'auto']}
+      cursor="pointer"
+      onClick={onOpen}
+      sx={{
+        bgColor: '#110035',
+        borderColor: 'whiteAlpha.400',
+        transition: 'all 0.1s ease-in-out',
+        _hover: { bgColor: '#150042', borderColor: 'whiteAlpha.700' },
+      }}
     >
       <Box borderTopRadius="lg">
         <Text fontSize="xl" fontWeight="bold" mt={1} mb={4}>
