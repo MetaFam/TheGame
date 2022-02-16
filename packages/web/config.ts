@@ -13,7 +13,6 @@ export const CONFIG = {
   })(),
   infuraId:
     process.env.NEXT_PUBLIC_INFURA_ID || '781d8466252d47508e177b8637b1c2fd',
-  openseaApiKey: process.env.NEXT_OPENSEA_API_KEY,
   brightIdAppURL:
     process.env.NEXT_BRIGHTID_APP_URL || 'https://app.brightid.org',
   brightIdNodeURL:
@@ -34,4 +33,5 @@ export const CONFIG = {
   calendarId: 'nih59ktgafmm64ed4qk6ue8vv4@group.calendar.google.com',
   googleDataApiKey: process.env.NEXT_PUBLIC_YOUTUBE_API_KEY,
   web3StorageToken: process.env.WEB3_STORAGE_TOKEN || '',
+  openseaApiKey: process.env.OPENSEA_API_KEY || '',
 };
