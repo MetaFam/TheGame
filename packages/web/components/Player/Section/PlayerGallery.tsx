@@ -15,10 +15,11 @@ import {
 import { MetaLink as Link } from 'components/Link';
 import { ProfileSection } from 'components/Profile/ProfileSection';
 import { Player } from 'graphql/autogen/types';
-import { Collectible, useOpenSeaCollectibles } from 'lib/hooks/opensea';
+import { useOpenSeaCollectibles } from 'lib/hooks/opensea';
 import React from 'react';
 import { BoxType } from 'utils/boxTypes';
 import { isBackdropFilterSupported } from 'utils/compatibilityHelpers';
+import { Collectible } from 'utils/openseaHelpers';
 
 const GalleryItem: React.FC<{ nft: Collectible; noMargin?: boolean }> = ({
   nft,
