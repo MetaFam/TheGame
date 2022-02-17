@@ -25,26 +25,27 @@ import React, {
 import Web3Modal from 'web3modal';
 
 export type Web3ContextType = {
-  provider: providers.Web3Provider | null;
-  ceramic: CeramicApi | null;
+  provider: Maybe<providers.Web3Provider>;
+  ceramic: Maybe<CeramicApi>;
+  address: Maybe<string>;
+  chainId: Maybe<number>;
+  authToken: Maybe<string>;
   connect: () => Promise<void>;
   disconnect: () => void;
   connecting: boolean;
   connected: boolean;
-  address: string | null;
-  authToken: string | null;
 };
 
 export const Web3Context = createContext<Web3ContextType>({
   provider: null,
   ceramic: null,
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  connect: async () => {},
+  address: null,
+  chainId: null,
+  authToken: null,
+  connect: async () => undefined,
   disconnect: () => undefined,
   connecting: false,
   connected: false,
-  address: null,
-  authToken: null,
 });
 
 const providerOptions = {
@@ -56,14 +57,18 @@ const providerOptions = {
   },
 };
 
-const web3Modal =
+const [web3Modal, ceramic, threeIdConnect] =
   typeof window === 'undefined'
-    ? null
-    : new Web3Modal({
-        network: 'mainnet',
-        cacheProvider: true,
-        providerOptions,
-      });
+    ? [null, null, null]
+    : [
+        new Web3Modal({
+          network: 'mainnet',
+          cacheProvider: true,
+          providerOptions,
+        }),
+        new CeramicClient(CONFIG.ceramicURL),
+        new ThreeIdConnect(CONFIG.ceramicNetwork),
+      ];
 
 export async function getExistingAuth(
   ethersProvider: providers.Web3Provider,
@@ -93,57 +98,61 @@ interface Web3ContextProviderOptions {
   resetUrqlClient?: () => void;
 }
 
+type Web3State = {
+  wallet: Maybe<Web3Modal>;
+  provider: Maybe<providers.Web3Provider>;
+  address: Maybe<string>;
+  chainId: Maybe<number>;
+  authToken: Maybe<string>;
+};
+
 export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
   resetUrqlClient,
   children,
 }) => {
-  const [wallet, setWallet] = useState();
-  const [provider, setProvider] = useState<Maybe<providers.Web3Provider>>(null);
-  const [connected, setConnected] = useState(false);
+  const [{ wallet, provider, chainId, address, authToken }, setWeb3State] =
+    useState<Web3State>({
+      wallet: null,
+      provider: null,
+      address: null,
+      chainId: null,
+      authToken: null,
+    });
   const [connecting, setConnecting] = useState(!!web3Modal?.cachedProvider);
-  const [address, setAddress] = useState<Maybe<string>>(null);
-  const [authToken, setAuthToken] = useState<Maybe<string>>(null);
-  const ceramic = useMemo(() => new CeramicClient(CONFIG.ceramicURL), []);
 
-  useEffect(() => {
-    if (wallet && address) {
-      const threeIdConnect = new ThreeIdConnect(CONFIG.ceramicNetwork);
-      const authProvider = new EthereumAuthProvider(wallet, address);
-      threeIdConnect.connect(authProvider).then(() => {
-        ceramic.did = new DID({
-          provider: threeIdConnect.getDidProvider(),
-          resolver: ThreeIdResolver.getResolver(ceramic),
-        });
-      });
-    }
-  }, [wallet, address, ceramic]);
+  const connected = useMemo(
+    () =>
+      !!wallet &&
+      !!provider &&
+      !!address &&
+      !!chainId &&
+      !!authToken &&
+      !connecting,
+    [wallet, provider, address, authToken, chainId, connecting],
+  );
 
   const disconnect = useCallback(() => {
     if (web3Modal === null) return;
 
     web3Modal.clearCachedProvider();
-    ceramic.close();
+    ceramic?.close();
     clearWalletConnect();
     clearToken();
     clearJotaiState();
-    setAuthToken(null);
-    setWallet(undefined);
-    setAddress(null);
-    setProvider(null);
-    setConnected(false);
+    setWeb3State({
+      wallet: null,
+      provider: null,
+      address: null,
+      chainId: null,
+      authToken: null,
+    });
     setConnecting(false);
+    resetUrqlClient?.();
+  }, [resetUrqlClient]);
 
-    if (resetUrqlClient) resetUrqlClient();
-  }, [resetUrqlClient, ceramic]);
-
-  const connect = useCallback(async () => {
-    if (web3Modal == null) return;
-
-    setConnecting(true);
-
-    try {
-      const modal = await web3Modal.connect();
-      const web3Provider = new providers.Web3Provider(modal);
+  const updateWeb3State = useCallback(
+    async (prov) => {
+      const web3Provider = new providers.Web3Provider(prov);
       const addr = await web3Provider.getSigner().getAddress();
 
       let token = await getExistingAuth(web3Provider, addr);
@@ -152,27 +161,60 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
         token = await authenticateWallet(web3Provider);
       }
 
-      setWallet(modal);
-      setAddress(addr);
-      setProvider(web3Provider);
-      setAuthToken(token);
-      setConnected(true);
+      const { chainId: networkId } = prov;
 
-      if (resetUrqlClient) resetUrqlClient();
+      if (ceramic && threeIdConnect) {
+        const authProvider = new EthereumAuthProvider(prov, addr);
+        await threeIdConnect.connect(authProvider);
+        ceramic.did = new DID({
+          provider: threeIdConnect.getDidProvider(),
+          resolver: ThreeIdResolver.getResolver(ceramic),
+        });
+      }
+
+      setWeb3State({
+        wallet: prov,
+        provider: web3Provider,
+        chainId: networkId,
+        address: addr,
+        authToken: token,
+      });
+
+      resetUrqlClient?.();
+    },
+    [resetUrqlClient],
+  );
+
+  const connect = useCallback(async () => {
+    if (web3Modal == null) return;
+
+    setConnecting(true);
+
+    try {
+      const prov = await web3Modal.connect();
+      await updateWeb3State(prov);
+
+      prov.on('accountsChanged', () => {
+        disconnect();
+        window.location.reload();
+      });
+      prov.on('chainChanged', () => {
+        disconnect();
+        window.location.reload();
+      });
     } catch (error) {
       console.error('`connect` Error', error); // eslint-disable-line no-console
       disconnect();
     } finally {
       setConnecting(false);
     }
-  }, [disconnect, resetUrqlClient]);
+  }, [disconnect, updateWeb3State]);
 
   useEffect(() => {
-    if (web3Modal === null) return;
-    if (web3Modal.cachedProvider) {
-      connect().catch(console.error); // eslint-disable-line no-console
+    if (web3Modal?.cachedProvider) {
+      connect();
     }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [connect]);
 
   return (
     <Web3Context.Provider
@@ -185,6 +227,7 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
         connecting,
         address,
         authToken,
+        chainId,
       }}
     >
       {children}
