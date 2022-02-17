@@ -1,4 +1,4 @@
-import { did } from '@metafam/utils';
+import { did, Maybe } from '@metafam/utils';
 import { Request, Response } from 'express';
 
 import { defaultProvider } from '../../lib/ethereum';
@@ -8,7 +8,7 @@ const unauthorizedVariables = {
   'X-Hasura-Role': 'public',
 };
 
-function getHeaderToken(req: Request): string | null {
+function getHeaderToken(req: Request): Maybe<string> {
   const authHeader = req.headers.authorization;
   if (!authHeader) return null;
   if (!authHeader.startsWith('Bearer')) {
@@ -24,30 +24,34 @@ export const authHandler = async (
   req: Request,
   res: Response,
 ): Promise<void> => {
-  let token;
   try {
-    token = getHeaderToken(req);
-  } catch (_) {
-    res.status(401).send();
-    return;
-  }
-
-  if (!token) {
-    res.json(unauthorizedVariables);
-  } else {
+    const token = getHeaderToken(req);
+    if (!token) {
+      res.json(unauthorizedVariables);
+      return;
+    }
     const claim = await did.verifyToken(token, defaultProvider);
     if (!claim) {
-      res.status(401).send();
-      return;
+      throw new Error('Invalid token');
     }
 
     const { id, created } = await getOrCreatePlayerId(claim.iss);
+
+    if (created) {
+      console.debug(
+        `Created and Authorized playerId: ${id} with address: ${claim.iss}`,
+      );
+    }
 
     const hasuraVariables = {
       'X-Hasura-Role': 'player',
       'X-Hasura-User-Id': id,
     };
 
-    res.status(created ? 201 : 200).json(hasuraVariables);
+    // hasura auth web hook must only respond with 200 or 401
+    res.status(200).json(hasuraVariables);
+  } catch (error) {
+    console.error('Error authorizing request: ', error);
+    res.status(401).send();
   }
 };
