@@ -20,11 +20,11 @@ export const useUser = ({
   fetching: boolean;
   error?: CombinedError;
 } => {
-  const { authToken, connecting } = useWeb3();
+  const { authToken, connecting, connected } = useWeb3();
   const router = useRouter();
 
   const [{ data, error, fetching }] = useGetMeQuery({
-    pause: connecting || !authToken,
+    pause: connecting || !connected || !authToken,
     requestPolicy,
   });
   const [me] = data?.me ?? [];
