@@ -9,6 +9,7 @@ import {
   VStack,
 } from '@metafam/ds';
 import { MetaLink } from 'components/Link';
+import { CompletionStatusTag } from 'components/Quest/QuestTags';
 import {
   Player,
   Quest,
@@ -22,8 +23,6 @@ import moment from 'moment';
 import React, { useCallback, useState } from 'react';
 import { FaExternalLinkAlt } from 'react-icons/fa';
 import { getPlayerName, getPlayerURL } from 'utils/playerHelpers';
-
-import { CompletionStatusTag } from './QuestTags';
 
 interface AlertSubmission {
   status: QuestCompletionStatus_ActionEnum;
