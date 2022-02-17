@@ -8,16 +8,13 @@ export const MetaSecondaryButton: React.FC<
   ButtonProps & LinkProps & RefProps
 > = React.forwardRef<HTMLButtonElement>(({ children, ...props }, ref) => (
   <Button
-    colorScheme="purple"
+    colorScheme="secondaryBlue"
     textTransform="uppercase"
     px={12}
     letterSpacing="0.1em"
     size="lg"
-    lineHeight={28}
-    fontWeight={600}
-    fontFamily="Exo 2"
-    fontSize={18}
-    bg="#4F69CD"
+    fontSize="sm"
+    bg="secondaryBlue.400"
     color="white"
     ref={ref}
     {...props}

@@ -18,7 +18,7 @@ import { Leaderboard } from 'components/Dashboard/Leaderboard';
 import { Seed } from 'components/Dashboard/Seed';
 import { XP } from 'components/Dashboard/XP';
 import { HeadComponent } from 'components/Seo';
-import { ReactElement, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Layout, Layouts, Responsive, WidthProvider } from 'react-grid-layout';
 
 export interface Query {
@@ -38,21 +38,21 @@ const ResponsiveGridLayout = WidthProvider(Responsive);
 
 export const originalLayouts = getFromLS('layouts') || initLayouts;
 
-const Dashboard = (): ReactElement => (
+const DashboardPage: React.FC = () => (
   <PageContainer>
     <HeadComponent title="MetaGame Dashboard" />
     <Grid />
   </PageContainer>
 );
 
-export default Dashboard;
+export default DashboardPage;
 
 type CurrentLayoutType = {
   layout: Layout[];
   layouts: Layouts;
 };
 
-export const Grid = (): ReactElement => {
+export const Grid: React.FC = () => {
   const [gridLayouts, setGridLayouts] = useState(
     JSON.parse(JSON.stringify(originalLayouts)),
   );

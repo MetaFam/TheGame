@@ -1,15 +1,14 @@
-import { Build } from 'components/Landing/sections/Build';
-import { Cards } from 'components/Landing/sections/Cards';
-import { Frontier } from 'components/Landing/sections/Frontier';
-import { Game } from 'components/Landing/sections/Game';
-import { Intro } from 'components/Landing/sections/Intro';
-import { JustWatch } from 'components/Landing/sections/JustWatch';
-import { Optimal } from 'components/Landing/sections/Optimal';
-import { Revolution } from 'components/Landing/sections/Revolution';
-import { Together } from 'components/Landing/sections/Together';
-import { WhatWeDo } from 'components/Landing/sections/WhatWeDo';
-import { Who } from 'components/Landing/sections/Who';
-import { WildWeb } from 'components/Landing/sections/WildWeb';
+import { PageContainer } from 'components/Container';
+import { Build } from 'components/Landing/Build';
+import { Game } from 'components/Landing/Game';
+import { Intro } from 'components/Landing/Intro';
+import { JustWatch } from 'components/Landing/JustWatch';
+import { Optimal } from 'components/Landing/Optimal';
+import { Revolution } from 'components/Landing/Revolution';
+import { Together } from 'components/Landing/Together';
+import { WhatWeDo } from 'components/Landing/WhatWeDo';
+import { Who } from 'components/Landing/Who';
+import { WildWeb } from 'components/Landing/WildWeb';
 import React from 'react';
 
 export const getStaticProps = async () => ({
@@ -17,21 +16,20 @@ export const getStaticProps = async () => ({
     hideTopMenu: true,
   },
 });
+
 const Landing: React.FC = () => (
-  <div>
+  <PageContainer p={0}>
     <Intro />
     <Game />
     <Build />
     <Revolution />
     <WildWeb />
-    <Frontier />
     <Together />
     <WhatWeDo />
     <Optimal />
     <Who />
-    <Cards />
     <JustWatch />
-  </div>
+  </PageContainer>
 );
 
 export default Landing;
