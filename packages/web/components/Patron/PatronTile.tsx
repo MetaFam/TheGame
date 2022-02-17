@@ -18,7 +18,7 @@ import { computeRank } from '@metafam/utils';
 import { PlayerAvatar } from 'components/Player/PlayerAvatar';
 import { PlayerContacts } from 'components/Player/PlayerContacts';
 import { PlayerTileMemberships } from 'components/Player/PlayerTileMemberships';
-import { SkillsTags } from 'components/Skills';
+import { SkillsTags } from 'components/Quest/Skills';
 import { utils } from 'ethers';
 import { Player, PlayerRank_Enum, Skill } from 'graphql/autogen/types';
 import { Patron } from 'graphql/types';

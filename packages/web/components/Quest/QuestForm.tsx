@@ -10,6 +10,11 @@ import {
   Text,
   VStack,
 } from '@metafam/ds';
+import { FlexContainer } from 'components/Container';
+import { RepetitionColors } from 'components/Quest/QuestTags';
+import { RolesSelect } from 'components/Quest/Roles';
+import { SkillsSelect } from 'components/Quest/Skills';
+import { WYSIWYGEditor } from 'components/Quest/WYSIWYGEditor';
 import {
   GuildFragment,
   PlayerRole,
@@ -20,15 +25,9 @@ import {
 import { useRouter } from 'next/router';
 import React, { useMemo, useState } from 'react';
 import { Controller, FieldError, useForm } from 'react-hook-form';
+import { QuestRepetitionHint, URIRegexp } from 'utils/questHelpers';
 import { RoleOption } from 'utils/roleHelpers';
-
-import { QuestRepetitionHint, URIRegexp } from '../../utils/questHelpers';
-import { CategoryOption, SkillOption } from '../../utils/skillHelpers';
-import { FlexContainer } from '../Container';
-import { RolesSelect } from '../Roles';
-import { SkillsSelect } from '../Skills';
-import { WYSIWYGEditor } from '../WYSIWYGEditor';
-import { RepetitionColors } from './QuestTags';
+import { CategoryOption, SkillOption } from 'utils/skillHelpers';
 
 const validations = {
   title: {

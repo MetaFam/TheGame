@@ -11,7 +11,11 @@ import {
   Text,
   VStack,
 } from '@metafam/ds';
+import BackgroundImage from 'assets/main-background.jpg';
 import { MetaLink } from 'components/Link';
+import { RepetitionTag, StatusTag } from 'components/Quest/QuestTags';
+import { RolesTags } from 'components/Quest/Roles';
+import { SkillsTags } from 'components/Quest/Skills';
 import {
   PlayerRole,
   Quest,
@@ -21,14 +25,9 @@ import {
   Skill,
 } from 'graphql/autogen/types';
 import parse from 'html-react-parser';
+import { useUser } from 'lib/hooks';
 import moment from 'moment';
 import React from 'react';
-
-import BackgroundImage from '../../assets/main-background.jpg';
-import { useUser } from '../../lib/hooks';
-import { RolesTags } from '../Roles';
-import { SkillsTags } from '../Skills';
-import { RepetitionTag, StatusTag } from './QuestTags';
 
 type Props = {
   quest: QuestWithCompletionFragment;

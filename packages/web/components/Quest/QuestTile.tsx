@@ -12,14 +12,13 @@ import {
 } from '@metafam/ds';
 import BackgroundImage from 'assets/main-background.jpg';
 import { MetaLink } from 'components/Link';
+import { RepetitionTag, StatusTag } from 'components/Quest/QuestTags';
+import { RolesTags } from 'components/Quest/Roles';
+import { SkillsTags } from 'components/Quest/Skills';
 import { PlayerRole, QuestFragment, Skill } from 'graphql/autogen/types';
 import parse from 'html-react-parser';
 import moment from 'moment';
 import React from 'react';
-
-import { RolesTags } from '../Roles';
-import { SkillsTags } from '../Skills';
-import { RepetitionTag, StatusTag } from './QuestTags';
 
 type Props = {
   quest: QuestFragment;
