@@ -1,7 +1,7 @@
 import { Stack } from '@metafam/ds';
 import BackgroundImage from 'assets/main-background.jpg';
-import { MegaMenu as MegaMenuHeader } from 'components/MegaMenu/MegaMenu';
-import { PlayerStatsBar as MegaMenuFooter } from 'components/MegaMenu/PlayerStatsBar';
+import { MegaMenuFooter } from 'components/MegaMenu/MegaMenuFooter';
+import { MegaMenuHeader } from 'components/MegaMenu/MegaMenuHeader';
 
 type Props = { hide?: boolean };
 
