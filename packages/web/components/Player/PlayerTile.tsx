@@ -20,7 +20,7 @@ import { Maybe } from '@metafam/utils';
 import { PlayerAvatar } from 'components/Player/PlayerAvatar';
 import { PlayerContacts } from 'components/Player/PlayerContacts';
 import { PlayerTileMemberships } from 'components/Player/PlayerTileMemberships';
-import { SkillsTags } from 'components/Skills';
+import { SkillsTags } from 'components/Quest/Skills';
 import { Player, Skill } from 'graphql/autogen/types';
 import NextLink from 'next/link';
 import React, { useMemo } from 'react';

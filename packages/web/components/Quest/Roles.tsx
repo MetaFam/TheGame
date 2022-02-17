@@ -34,6 +34,7 @@ export const RolesSelect: React.FC<SetupRolesProps> = ({
     inputId={`roles-select-input-${id || ''}`}
   />
 );
+
 interface RolesProps {
   roles: PlayerRole[];
 }

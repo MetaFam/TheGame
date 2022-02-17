@@ -6,8 +6,7 @@ import {
 } from 'graphql/autogen/types';
 import moment from 'moment';
 import React from 'react';
-
-import { QuestRepetitionHint } from '../../utils/questHelpers';
+import { QuestRepetitionHint } from 'utils/questHelpers';
 
 export const RepetitionColors: Record<QuestRepetition_Enum, string> = {
   [QuestRepetition_Enum.Recurring]: 'cyan.700',
