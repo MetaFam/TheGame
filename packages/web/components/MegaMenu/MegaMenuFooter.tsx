@@ -7,23 +7,21 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
+  MetaButton,
   Profile,
   Stack,
   Text,
 } from '@metafam/ds';
 import { MetaLink } from 'components/Link';
-import { LoginButton } from 'components/LoginButton';
+import { XPSeedsBalance } from 'components/MegaMenu/XPSeedsBalance';
 import { PlayerAvatar } from 'components/Player/PlayerAvatar';
 import { useUser, useWeb3 } from 'lib/hooks';
 import React from 'react';
 import { getPlayerName, getPlayerURL } from 'utils/playerHelpers';
 
-import { XPSeedsBalance } from './XPSeedsBalance';
-
-// Display player XP and Seed
-export const PlayerStatsBar = () => {
-  const { disconnect } = useWeb3();
-  const { user } = useUser();
+export const MegaMenuFooter = () => {
+  const { connected, connect, connecting, disconnect } = useWeb3();
+  const { user, fetching } = useUser();
 
   return (
     <Flex
@@ -40,9 +38,7 @@ export const PlayerStatsBar = () => {
       px="1rem"
       sx={{ backdropFilter: 'blur(10px)' }}
     >
-      {!user ? (
-        <LoginButton />
-      ) : (
+      {connected && !!user && !fetching && !connecting ? (
         <>
           <Menu>
             <MenuButton
@@ -102,6 +98,16 @@ export const PlayerStatsBar = () => {
             <XPSeedsBalance totalXP={user.totalXP} mobile />
           </HStack>
         </>
+      ) : (
+        <MetaButton
+          mx={4}
+          my={3.5}
+          px={8}
+          onClick={connect}
+          isLoading={connecting || fetching}
+        >
+          Connect Wallet
+        </MetaButton>
       )}
     </Flex>
   );
