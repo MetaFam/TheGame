@@ -52,3 +52,21 @@ export const EmbedContainer: React.FC<EmbedProps> = ({
     />
   </Flex>
 );
+
+export const FullPageContainer: React.FC<
+  StackProps & { bgImageUrl?: string }
+> = ({ bgImageUrl, children, ...props }) => (
+  <FlexContainer
+    minH="100vh"
+    bg="dark"
+    bgImage={bgImageUrl && `url(${bgImageUrl})`}
+    bgPosition="center"
+    bgAttachment="fixed"
+    bgSize="cover"
+    spacing={0}
+    p={{ base: 4, md: 8, lg: 12 }}
+    {...props}
+  >
+    {children}
+  </FlexContainer>
+);

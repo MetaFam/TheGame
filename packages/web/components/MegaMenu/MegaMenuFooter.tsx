@@ -16,7 +16,6 @@ import { MetaLink } from 'components/Link';
 import { XPSeedsBalance } from 'components/MegaMenu/XPSeedsBalance';
 import { PlayerAvatar } from 'components/Player/PlayerAvatar';
 import { useUser, useWeb3 } from 'lib/hooks';
-import React from 'react';
 import { getPlayerName, getPlayerURL } from 'utils/playerHelpers';
 
 export const MegaMenuFooter = () => {

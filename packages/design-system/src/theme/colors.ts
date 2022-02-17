@@ -27,6 +27,7 @@ export type MetaColors = ChakraTheme['colors'] & {
   brightIdOrange: ColorHues;
   borderPurple: string;
   pinkShadeOne: string;
+  secondaryBlue: ColorHues;
 };
 
 export const colors: MetaColors = {
@@ -89,5 +90,17 @@ export const colors: MetaColors = {
     700: '#ae3204',
     800: '#4d1300',
     900: '#1f0400',
+  },
+  secondaryBlue: {
+    50: '#e7eeff',
+    100: '#c1ccf3',
+    200: '#9baae6',
+    300: '#7389d9',
+    400: '#4c67cc',
+    500: '#334db3',
+    600: '#263c8c',
+    700: '#1a2b65',
+    800: '#0d1a40',
+    900: '#02091b',
   },
 };
