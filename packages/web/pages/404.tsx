@@ -1,6 +1,10 @@
-/* eslint-disable import/no-extraneous-dependencies */
-import { Box, Flex, Heading } from '@chakra-ui/react';
-import { BoxedNextImage, MetaSecondaryButton } from '@metafam/ds';
+import {
+  Box,
+  BoxedNextImage,
+  Flex,
+  Heading,
+  MetaSecondaryButton,
+} from '@metafam/ds';
 import BackgroundImage from 'assets/404-bg.svg';
 import LogoImage from 'assets/logo.png';
 import Link from 'next/link';
@@ -86,11 +90,9 @@ const Custom404: FC = () => {
           <Box pt={5}>
             <MetaSecondaryButton
               width={{ base: '100%', md: '50%', lg: '25%', xl: '25%' }}
-              onClick={() =>
-                router.push(connected ? '/dashboard' : '/community/players')
-              }
+              onClick={() => router.push(connected ? '/dashboard' : '/')}
             >
-              Home
+              {connected ? 'Dashboard' : 'Home'}
             </MetaSecondaryButton>
           </Box>
           <Box pt={5}>
