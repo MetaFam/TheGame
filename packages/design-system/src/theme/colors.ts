@@ -26,6 +26,19 @@ export type MetaColors = ChakraTheme['colors'] & {
   brightIdOrange: ColorHues;
   borderPurple: string;
   pinkShadeOne: string;
+  landing50: string;
+  landing100: string;
+  landing150: string;
+  landing200: string;
+  landing250: string;
+  landing300: string;
+  landing350: string;
+  landing400: string;
+  landing450: string;
+  landing500: string;
+  landing550: string;
+  landing600: string;
+  landing650: string;
 };
 
 export const colors: MetaColors = {
@@ -88,4 +101,17 @@ export const colors: MetaColors = {
     800: '#4d1300',
     900: '#1f0400',
   },
+  landing50: '#1A0340',
+  landing100: '#240E74',
+  landing150: '#462080',
+  landing200: '#5A32E6',
+  landing250: '#7241FF',
+  landing300: '#7A52F0',
+  landing350: '#79F8FB',
+  landing400: '#A5B9F6',
+  landing450: '#E839B7',
+  landing500: '#FF00FF',
+  landing550: '#DD5FED',
+  landing600: '#DF9BFF',
+  landing650: '#DFB9D7',
 };

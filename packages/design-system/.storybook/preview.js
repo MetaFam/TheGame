@@ -14,6 +14,10 @@ const withChakra = (StoryFn) => (
         {
           font: 'Press+Start+2P',
         },
+        {
+          font: 'Poppins',
+          weights: [700],
+        },
       ]}
     />
     <CSSReset />

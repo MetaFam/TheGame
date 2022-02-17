@@ -93,6 +93,7 @@ export {
   InputLeftElement,
   InputRightAddon,
   InputRightElement,
+  keyframes,
   Link,
   LinkBox,
   LinkOverlay,
