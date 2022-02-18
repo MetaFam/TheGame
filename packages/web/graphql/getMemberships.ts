@@ -16,6 +16,7 @@ const daoMembershipsQuery = /* GraphQL */ `
         title
         version
         chain
+        avatarUrl
       }
     }
   }
