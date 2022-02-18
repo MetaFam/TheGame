@@ -15,45 +15,36 @@ import { MenuLinkItem, MenuLinkSet, MenuSectionLinks } from 'utils/menuLinks';
 
 // Nav links on desktop -- text and links from utils/menuLinks.ts
 export const DesktopNavLinks = () => (
-  <Flex
-    justifyContent="center"
-    alignContent="center"
-    display={{ base: 'none', lg: 'flex' }}
-  >
+  <Flex justify="center" h="100%" display={{ base: 'none', lg: 'flex' }}>
     {MenuSectionLinks.map((section: MenuLinkSet) => (
-      <Menu
-        key={section.label}
-        offset={[0, 0]}
-        preventOverflow
-        flip={false}
-        placement="bottom"
-      >
+      <Menu key={section.label} offset={[0, 0]} flip={false}>
         {({ isOpen }) => (
           <>
             <MenuButton
               as={Button}
               variant="link"
               minW="fit-content"
-              color="#FFF"
-              fontSize={['md', 'md', 'md', 'lg']}
+              color="white"
+              fontSize="lg"
               fontWeight={700}
               textTransform="uppercase"
-              mx={23}
+              mx={6}
               _expanded={{ color: 'cyan.300' }}
               _focus={{ outline: 'none', border: 'none' }}
+              rightIcon={
+                isOpen ? (
+                  <ChevronUpIcon color="white" />
+                ) : (
+                  <ChevronDownIcon color="white" />
+                )
+              }
             >
               {section.label}
-              {isOpen ? (
-                <ChevronUpIcon color="#FFF" />
-              ) : (
-                <ChevronDownIcon color="#FFF" />
-              )}
               <Icon
                 position="absolute"
                 left="calc(50% - 1.25rem)"
                 top={14}
-                width={6}
-                borderColor="transparent"
+                w={6}
                 h={isOpen ? 'auto' : 0}
                 opacity={isOpen ? 1 : 0}
                 transition="opacity 0.2s"
@@ -69,7 +60,7 @@ export const DesktopNavLinks = () => (
               <Box
                 position="absolute"
                 minW="100vw"
-                top="81px"
+                top="5rem"
                 left="calc(100% - 100vw)"
                 mx={0}
                 h="100vh"
@@ -85,11 +76,12 @@ export const DesktopNavLinks = () => (
                   ? 'repeat(2, 1fr)'
                   : 'repeat(1, 1fr)'
               }
-              width={section.menuItems.length > 3 ? '948px' : '474px'}
-              p="2rem"
+              gridGap={2}
+              w={section.menuItems.length > 3 ? '60rem' : '30rem'}
+              p={4}
               boxShadow="dark-lg"
               bg="linear-gradient(180deg, rgba(42, 31, 71, 0.9) 6.18%, rgba(17, 3, 32, 0.86) 140%)"
-              borderRadius="0.618vmax"
+              borderRadius="md"
               border={0}
             >
               {section.menuItems.map((item: MenuLinkItem) => (

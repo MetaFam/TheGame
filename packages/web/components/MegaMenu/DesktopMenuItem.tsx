@@ -2,14 +2,11 @@ import { Avatar, Box, Link, MenuItem, Text } from '@metafam/ds';
 import { Values } from '@metafam/utils';
 import { menuIcons } from 'utils/menuIcons';
 
-const ICON_SIZE = 60;
-
 type MenuItemProps = {
   title: string;
   url: string;
   explainerText: string;
   icon: Values<Record<string, string>>;
-  iconSize?: number;
 };
 
 // Menu links (with icons and explanatory text) -- used in DesktopNavLinks below
@@ -18,61 +15,53 @@ export const DesktopMenuItem = ({
   url,
   explainerText,
   icon,
-  iconSize = ICON_SIZE,
 }: MenuItemProps) => (
   <MenuItem
-    color="#FFF"
-    key={title}
-    mb={4}
+    h="full"
     p={0}
     borderRadius="md"
+    overflow="hidden"
     _active={{ bg: 'none' }}
     _focus={{ bg: 'none' }}
-    _hover={{ bg: '#C8BAFC33' }}
+    _hover={{ bg: 'none' }}
   >
     <Link
       display="flex"
-      className="desktop-menu-item"
+      role="group"
       href={url}
-      width="full"
-      m={1}
-      p="1rem"
-      borderRadius="0.618vmax"
+      w="full"
+      h="full"
+      p={4}
+      transition="0.5s ease-in"
+      alignItems="center"
       _hover={{
         backgroundColor: 'rgba(0,0,0,0.56)',
         textDecoration: 'none',
         transition: '0s',
       }}
-      transitionTimingFunction="ease-in"
-      transition="0.5s"
       _focus={{ outline: 'none' }}
-      alignItems="center"
     >
       <Avatar
         alt={title}
         src={menuIcons[icon]}
-        width={`${iconSize}px`}
-        height={`${iconSize}px`}
-        style={{ padding: '10px', marginRight: '20px' }}
+        w="3.75rem"
+        h="3.75rem"
+        p={3}
+        mr={5}
         bg="linear-gradient(180deg, rgba(0, 0, 0, 0.36) 0%, rgba(0, 0, 0, 0.36) 100%);"
         boxShadow="0 0 0 2px rgba(0, 0, 0, 0.08)"
-        sx={{
-          '.desktop-menu-item:hover &': {
-            boxShadow: '0 0 1px 1px rgba(255, 255, 255, 0.1)',
-            bg: 'linear-gradient(180deg, #170B23 0%, #350C58 100%);',
-            transition: '0s',
-          },
+        _groupHover={{
+          boxShadow: '0 0 1px 1px rgba(255, 255, 255, 0.1)',
+          bg: 'linear-gradient(180deg, #170B23 0%, #350C58 100%);',
+          transition: '0s',
         }}
-        transitionTimingFunction="ease-in"
-        transition="0.3s"
+        transition="0.3s ease-in"
       />
-      <Box>
-        <Text color="#FFF" fontSize="xl" fontWeight="bold">
+      <Box color="white">
+        <Text fontSize="xl" fontWeight="bold">
           {title}
         </Text>
-        <Text color="#FFF" fontSize="13px">
-          {explainerText}
-        </Text>
+        <Text fontSize="sm">{explainerText}</Text>
       </Box>
     </Link>
   </MenuItem>
