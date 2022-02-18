@@ -17,7 +17,7 @@ import { MenuLinkItem, MenuLinkSet, MenuSectionLinks } from 'utils/menuLinks';
 export const DesktopNavLinks = () => (
   <Flex justify="center" h="100%" display={{ base: 'none', lg: 'flex' }}>
     {MenuSectionLinks.map((section: MenuLinkSet) => (
-      <Menu key={section.label} offset={[0, 0]} flip={false}>
+      <Menu key={section.label} offset={[0, 0]} preventOverflow placement="top">
         {({ isOpen }) => (
           <>
             <MenuButton
@@ -72,12 +72,12 @@ export const DesktopNavLinks = () => (
             <MenuList
               display="grid"
               gridTemplateColumns={
-                section.menuItems.length > 3
+                section.menuItems.length > 4
                   ? 'repeat(2, 1fr)'
                   : 'repeat(1, 1fr)'
               }
               gridGap={2}
-              w={section.menuItems.length > 3 ? '60rem' : '30rem'}
+              w={section.menuItems.length > 4 ? '60rem' : '30rem'}
               p={4}
               boxShadow="dark-lg"
               bg="linear-gradient(180deg, rgba(42, 31, 71, 0.9) 6.18%, rgba(17, 3, 32, 0.86) 140%)"

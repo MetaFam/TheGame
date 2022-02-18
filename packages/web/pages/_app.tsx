@@ -1,5 +1,5 @@
 import { ChakraProvider, CSSReset, MetaTheme } from '@metafam/ds';
-import { MegaMenu } from 'components/MegaMenu';
+import { MegaMenu } from 'components/MegaMenu/index';
 import { CONFIG } from 'config';
 import { Web3ContextProvider } from 'contexts/Web3Context';
 import { wrapUrqlClient } from 'graphql/client';
