@@ -10,7 +10,7 @@ import { MorePlayers } from 'pages/community/players';
 import React, { useEffect, useMemo, useRef } from 'react';
 import { GlobalFilters } from 'utils/GlobalSearch';
 
-const PlayerSearchPage = () => {
+const PlayerSearchPage: React.FC = () => {
   const {
     players,
     fetching,
@@ -23,12 +23,12 @@ const PlayerSearchPage = () => {
     moreAvailable,
   } = usePlayerFilter();
   const { query } = useRouter();
-  const search: string = decodeURI(query.q as string);
+  const searchQuery = (Array.isArray(query.q) ? query.q[0] : query.q) || '';
+
+  const search = decodeURI(searchQuery);
 
   useEffect(() => {
-    if (search) {
-      setQueryVariable('search', `%${search}%`);
-    }
+    setQueryVariable('search', `%${search}%`);
   }, [search, setQueryVariable]);
 
   const moreRef = useRef<HTMLDivElement>(null);
@@ -53,13 +53,9 @@ const PlayerSearchPage = () => {
   return (
     <PageContainer>
       <HeadComponent url="https://my.metagame.wtf/community/search" />
-      <VStack
-        w="100%"
-        spacing={{ base: '4', md: '8' }}
-        pb={{ base: '16', lg: '0' }}
-      >
+      <VStack w="100%" spacing={{ base: 4, md: 8 }} pb={{ base: 16, lg: 0 }}>
         <SearchFilters activeFilter={GlobalFilters.PLAYERS} search={search} />
-        {error ? <Text>{`Error: ${error.message}`}</Text> : null}
+        {error && <Text>Error: {error.message}</Text>}
         {!error && players.length && (fetchingMore || !fetching) && (
           <PlayerList {...{ players, showSeasonalXP }} />
         )}

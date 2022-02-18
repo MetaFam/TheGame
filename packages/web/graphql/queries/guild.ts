@@ -165,8 +165,8 @@ export const getGuildPlayers = async (
 
 // eslint-disable-next-line @typescript-eslint/no-unused-expressions
 const guildSearch = /* GraphQL */ `
-  query SearchGuilds($search: String!) {
-    guild(where: { guildname: { _ilike: $search } }, limit: 3) {
+  query SearchGuilds($search: String!, $limit: Int = 3) {
+    guild(where: { guildname: { _ilike: $search } }, limit: $limit) {
       ...GuildFragment
     }
   }
@@ -180,7 +180,7 @@ export const searchGuilds = async (search = '') => {
     })
     .toPromise();
 
-  if (!data && error) throw new Error('Something Went Wrong');
+  if (!data && error) throw new Error(`Error:- ${error}`);
 
   return {
     guilds: data?.guild || [],

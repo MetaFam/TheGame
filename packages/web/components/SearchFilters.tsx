@@ -1,9 +1,7 @@
 import { Box, Text, VStack, Wrap } from '@metafam/ds';
-// import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react';
-
-import { GlobalFilters } from '../utils/GlobalSearch';
+import { GlobalFilters } from 'utils/GlobalSearch';
 
 const FilterItems = [
   {
@@ -19,45 +17,39 @@ const FilterItems = [
     baseUrl: '/search/patrons',
   },
 ];
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const SearchFilters: any = ({
-  activeFilter,
-  search,
-}: {
+interface SearchFiltersProps {
   activeFilter: string;
   search: string;
+}
+const SearchFilters: React.FC<SearchFiltersProps> = ({
+  activeFilter,
+  search,
 }) => {
   const router = useRouter();
 
   return (
-    <VStack
-      w="100%"
-      spacing={{ base: '4', md: '8' }}
-      pb={{ base: '16', lg: '0' }}
-    >
+    <VStack w="100%" spacing={{ base: 4, md: 8 }} pb={{ base: 16, lg: 0 }}>
       <Text fontSize="lg" fontWeight="bold" as="div" mx="auto">
         Search Results for "{search}"
       </Text>
       <Wrap
         transition="all 0.25s"
-        py="2"
+        py={2}
         style={{ backdropFilter: 'blur(7px)' }}
         position="sticky"
         top="-1px"
         borderTop="1px solid transparent"
-        zIndex="1"
+        zIndex={1}
         justify="center"
-        w={'100%'}
-        maxW={'79rem'}
-        //   bg={isSticky ? 'purpleTag70' : 'whiteAlpha.200'}
-        px={'1.5rem'}
-        borderRadius={'6px'}
+        w="100%"
+        maxW="79rem"
+        px={6}
+        borderRadius="md"
       >
         {FilterItems.map((item) => (
           <Box
             justify="center"
-            p="4"
+            p={4}
             borderBottomWidth={activeFilter === item.name ? '1px' : '0px'}
             borderBottomColor={
               activeFilter === item.name ? 'cyanText' : undefined

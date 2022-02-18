@@ -20,9 +20,6 @@ import { client as defaultClient } from 'graphql/client';
 import { PlayerFragment, PlayerSkillFragment } from 'graphql/fragments';
 import { Client } from 'urql';
 
-import { client as defaultClient } from './client';
-import { PlayerFragment, PlayerSkillFragment } from './fragments';
-
 // eslint-disable-next-line @typescript-eslint/no-unused-expressions
 /* GraphQL */ `
   query GetPlayers(
@@ -203,11 +200,11 @@ export const getPlayerFilters = async (client: Client = defaultClient) => {
 
 // eslint-disable-next-line @typescript-eslint/no-unused-expressions
 /* GraphQL */ `
- query SearchPlayers($search: String! ,$forLoginDisplay: Boolean! = false) {
+ query SearchPlayers($search: String! ,$forLoginDisplay: Boolean! = false, $limit: Int = 3) {
   player(where: { _or: [
     { profile: { username: { _ilike: $search } } },
     { ethereumAddress: { _ilike: $search } }
-  ] },limit:3) {
+  ] }, limit: $limit) {
   ...PlayerFragment
 }
   ${PlayerFragment}
@@ -229,7 +226,6 @@ export const searchPlayers = async (
 
   return {
     players: data?.player || [],
-    // count: data?.player_aggregate.aggregate?.count || 0,
     error,
   };
 };
