@@ -9,6 +9,91 @@ import {
 } from '@metafam/ds';
 import React, { useState } from 'react';
 
+export const WTFisXP = () => (
+  <Flex direction="column">
+    <Text mb={2}>
+      XP or “experience point” is a unit of contribution to MetaGame. In
+      essence, its an accounting system for value creation.
+    </Text>
+
+    <Text mb={2}>
+      Whether it’s completing quests, writing useful things on
+      <Link
+        ml={1}
+        href="https://forum.metagame.wtf/"
+        isExternal
+        color="gray.500"
+        textDecoration="underline"
+        mr={1}
+      >
+        forums
+      </Link>
+      , or laying down code on
+      <Link
+        ml={1}
+        href="https://github.com/metafam/"
+        isExternal
+        color="gray.500"
+        textDecoration="underline"
+        mr={1}
+      >
+        GitHub
+      </Link>
+      - your XP automagically accrues. Once a month, you are rewarded Seeds for
+      your contributions, based on the amount of XP that you generated.
+    </Text>
+
+    <Text mb={2}>
+      Your XP is calculated by a thing called
+      <Link
+        ml={1}
+        href="https://sourcecred.io/"
+        isExternal
+        color="gray.500"
+        textDecoration="underline"
+        mr={1}
+      >
+        SourceCred
+      </Link>
+      which is, in essence, an accounting system for value creation in
+      communities. It tracks whatever is happening on Discord, forums & Github,
+      then spits out numbers based on PRs, references, emojis, props given, and
+      a bunch of other granularly-adjustable parameters.
+    </Text>
+
+    <Text mb={2}>
+      - Wait, you leave all the value allocation to an algorithm? 😱
+    </Text>
+
+    <Text mb={2}>
+      Of course not! Although it <em>does</em> do a pretty damn good job, we
+      regularly review the numbers to make amends for what's missing or isn't
+      properly accounted for.
+    </Text>
+
+    <Text mb={2}> - Can it be used by other DAOs?</Text>
+
+    <Text mb={2}>
+      Of course! We believe its a good DAO bootstrapping/accounting/rewarding
+      system.{' '}
+    </Text>
+    <Text mb={2}>
+      We're calling it MetaSys & you can go read more about it
+      <Link
+        ml={1}
+        href="https://wiki.metagame.wtf/docs/what-we-do/metasys"
+        isExternal
+        color="gray.500"
+        textDecoration="underline"
+        mr={1}
+      >
+        here
+      </Link>
+      .
+    </Text>
+  </Flex>
+);
+
 export const GetRankedModal = () => (
   <Flex direction="column">
     <Text>
