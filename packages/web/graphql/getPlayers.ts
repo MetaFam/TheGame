@@ -11,7 +11,6 @@ import {
   Order_By,
   Player,
   Player_Bool_Exp,
-  PlayerFragmentFragment,
   SearchPlayersDocument,
   SearchPlayersQuery,
   SearchPlayersQueryVariables,
