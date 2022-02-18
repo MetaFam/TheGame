@@ -30,17 +30,11 @@ type LogoProps = {
 
 // Navbar logo
 const Logo = ({ link }: LogoProps) => {
-  const w = useBreakpointValue({ base: 9, lg: 12 }) ?? 9;
-  const h = useBreakpointValue({ base: 12, lg: 16 }) ?? 12;
+  const w = useBreakpointValue({ base: 9, lg: 10 }) ?? 9;
+  const h = useBreakpointValue({ base: 12, lg: 14 }) ?? 12;
 
   return (
-    <Box
-      className="logo"
-      alignSelf="center"
-      w={{ base: 'fit-content', lg: '20%' }}
-      mt={[0.5, 2]}
-      ml={3}
-    >
+    <Box w={{ base: 'fit-content', lg: '20%' }}>
       <MetaLink
         href={link}
         _focus={{ outline: 'none', bg: 'transparent' }}
@@ -49,8 +43,8 @@ const Logo = ({ link }: LogoProps) => {
       >
         <Image
           src={LogoImage}
-          {...{ w, h }}
           transition="0.25s"
+          {...{ w, h }}
           _hover={{ transform: 'scale(1.1)' }}
         />
       </MetaLink>
@@ -104,14 +98,14 @@ export const MegaMenuHeader: React.FC = () => {
         </Flex>
         <Flex
           w={{ base: 'fit-content', lg: '100%' }}
-          justifyContent="space-between"
+          justify="space-between"
+          align="center"
         >
           <Logo link={user ? '/dashboard' : '/'} />
           <DesktopNavLinks />
           {/* <Search /> */}
           <Box
             w="20%"
-            alignSelf="center"
             textAlign="right"
             display={{ base: 'none', lg: 'block' }}
           >
