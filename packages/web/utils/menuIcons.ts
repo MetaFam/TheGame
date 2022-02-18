@@ -1,11 +1,8 @@
 import Alliances from 'assets/menuIcon/alliances.svg';
 import Asketh from 'assets/menuIcon/asketh.svg';
-import BecomeAPatron from 'assets/menuIcon/becomeapatron.svg';
-import Contribute from 'assets/menuIcon/contribute.svg';
 import Discord from 'assets/menuIcon/discord.svg';
 import Events from 'assets/menuIcon/events.svg';
 import Forum from 'assets/menuIcon/forum.svg';
-import Grants from 'assets/menuIcon/grants.svg';
 import Guilds from 'assets/menuIcon/guilds.svg';
 import Invest from 'assets/menuIcon/invest.svg';
 import Learn from 'assets/menuIcon/learn.svg';
@@ -27,10 +24,8 @@ import Youtube from 'assets/menuIcon/youtube.svg';
 export const menuIcons: Record<string, string> = {
   alliances: Alliances,
   asketh: Asketh,
-  contribute: Contribute,
   discord: Discord,
   forum: Forum,
-  grants: Grants,
   guilds: Guilds,
   invest: Invest,
   learn: Learn,
@@ -49,5 +44,4 @@ export const menuIcons: Record<string, string> = {
   youtube: Youtube,
   metaradio: MetaRadio,
   events: Events,
-  becomeapatron: BecomeAPatron,
 } as const;
