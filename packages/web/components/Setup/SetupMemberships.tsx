@@ -1,21 +1,24 @@
 import {
   Box,
+  Center,
+  ChainIcon,
   Flex,
   Heading,
   HStack,
+  Image,
   MetaButton,
   MetaHeading,
+  SimpleGrid,
   Text,
-  Wrap,
 } from '@metafam/ds';
 import { FlexContainer } from 'components/Container';
 import { useSetupFlow } from 'contexts/SetupContext';
 import { Membership } from 'graphql/types';
 import React, { useState } from 'react';
-import { getChainImage, getDaoLink } from 'utils/daoHelpers';
+import { getDaoLink } from 'utils/daoHelpers';
 
 import { useWeb3 } from '../../lib/hooks';
-import { LinkGuild } from '../Player/PlayerGuild';
+import { DaoHausLink } from '../Player/PlayerGuild';
 
 export type SetupMembershipsProps = {
   memberships: Array<Membership> | null | undefined;
@@ -43,18 +46,18 @@ export const SetupMemberships: React.FC<SetupMembershipsProps> = ({
       )}
       {memberships &&
         (memberships.length > 0 ? (
-          <>
-            <Text mb={10} maxW="50rem">
+          <Box maxW="50rem">
+            <Text mb={10}>
               We found the following guilds associated with your account and
               automatically added them to your profile. You can edit them later
               in your profile.
             </Text>
-            <Wrap justify="center" mb={10} spacing={4} maxW="50rem">
+            <SimpleGrid columns={2} spacing={4}>
               {memberships.map((member) => (
                 <MembershipListing key={member.id} member={member} />
               ))}
-            </Wrap>
-          </>
+            </SimpleGrid>
+          </Box>
         ) : (
           <Text mb={10} maxW="50rem">
             We did not find any guilds associated with your account.
@@ -79,20 +82,25 @@ type MembershipListingProps = {
 };
 
 const MembershipListing: React.FC<MembershipListingProps> = ({ member }) => {
-  const guildLogo = getChainImage(member.moloch.chain);
   const daoUrl = getDaoLink(member.moloch.chain, member.moloch.id);
 
+  const { avatarUrl, chain, title } = member.moloch;
+
   return (
-    <LinkGuild daoUrl={daoUrl} guildname={member.moloch.title}>
+    <DaoHausLink daoUrl={daoUrl}>
       <HStack alignItems="center" mb={4}>
         <Flex bg="purpleBoxLight" width={16} height={16} mr={6}>
-          <Box
-            bgImage={`url(${guildLogo})`}
-            backgroundSize="cover"
-            width={12}
-            height={12}
-            m="auto"
-          />
+          {avatarUrl ? (
+            <Image
+              src={avatarUrl}
+              w="3.25rem"
+              h="3.25rem"
+              m="auto"
+              borderRadius={4}
+            />
+          ) : (
+            <ChainIcon chain={chain} boxSize={16} p={2} />
+          )}
         </Flex>
         <Box>
           <Heading
@@ -103,10 +111,21 @@ const MembershipListing: React.FC<MembershipListingProps> = ({ member }) => {
             color={daoUrl ? 'cyanText' : 'white'}
             mb={1}
           >
-            {member.moloch.title || `Unknown ${member.moloch.chain} DAO`}
+            <Center justifyContent="left">
+              {title ?? (
+                <Text>
+                  Unknown{' '}
+                  <Text as="span" textTransform="capitalize">
+                    {chain}
+                  </Text>{' '}
+                  DAO
+                </Text>
+              )}
+              <ChainIcon chain={chain} ml={2} boxSize={3} />
+            </Center>
           </Heading>
         </Box>
       </HStack>
-    </LinkGuild>
+    </DaoHausLink>
   );
 };

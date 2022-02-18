@@ -17,5 +17,5 @@ export const XDaiIcon = createIcon({
       </g>
     </g>
   ),
-  viewBox: '0 0 560 400',
+  viewBox: '0 0 256 256',
 });

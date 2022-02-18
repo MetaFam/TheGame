@@ -1,5 +1,7 @@
 import {
   Box,
+  Center,
+  ChainIcon,
   Flex,
   Heading,
   HStack,
@@ -20,7 +22,7 @@ import { Player } from 'graphql/autogen/types';
 import { getAllMemberships, GuildMembership } from 'graphql/getMemberships';
 import React, { useEffect, useMemo, useState } from 'react';
 import { BoxType } from 'utils/boxTypes';
-import { getChainImage, getDaoLink } from 'utils/daoHelpers';
+import { getDaoLink } from 'utils/daoHelpers';
 
 type DaoListingProps = {
   membership: GuildMembership;
@@ -51,22 +53,21 @@ const DaoListing: React.FC<DaoListingProps> = ({ membership }) => {
 
   const daoUrl = useMemo(() => getDaoLink(chain, address), [chain, address]);
 
-  const guildLogo = useMemo(() => logoUrl || getChainImage(chain), [
-    logoUrl,
-    chain,
-  ]);
-
   return (
     <LinkGuild {...{ daoUrl, guildname }}>
       <HStack alignItems="center" mb={6}>
         <Flex bg="purpleBoxLight" minW={16} minH={16} mr={6} borderRadius={8}>
-          <Image
-            src={guildLogo}
-            w="3.25rem"
-            h="3.25rem"
-            m="auto"
-            borderRadius={4}
-          />
+          {logoUrl ? (
+            <Image
+              src={logoUrl}
+              w="3.25rem"
+              h="3.25rem"
+              m="auto"
+              borderRadius={4}
+            />
+          ) : (
+            <ChainIcon chain={chain} boxSize={16} p={2} />
+          )}
         </Flex>
         <Box>
           <Heading
@@ -77,15 +78,18 @@ const DaoListing: React.FC<DaoListingProps> = ({ membership }) => {
             color={daoUrl ? 'cyanText' : 'white'}
             mb={1}
           >
-            {title ?? (
-              <Text>
-                Unknown{' '}
-                <Text as="span" textTransform="capitalize">
-                  {chain}
-                </Text>{' '}
-                DAO
-              </Text>
-            )}
+            <Center justifyContent="left">
+              {title ?? (
+                <Text>
+                  Unknown{' '}
+                  <Text as="span" textTransform="capitalize">
+                    {chain}
+                  </Text>{' '}
+                  DAO
+                </Text>
+              )}
+              <ChainIcon chain={chain} ml={2} boxSize={3} />
+            </Center>
           </Heading>
           <HStack alignItems="center">
             {memberRank && (
