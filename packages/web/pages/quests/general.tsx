@@ -39,7 +39,7 @@ export const getStaticProps = async () => {
   };
 };
 
-const QuestsPage: React.FC<Props> = ({ roleChoices }) => {
+const GeneralQuests: React.FC<Props> = ({ roleChoices }) => {
   const router = useRouter();
   const {
     quests,
@@ -60,7 +60,7 @@ const QuestsPage: React.FC<Props> = ({ roleChoices }) => {
       <HeadComponent
         title="MetaGame Quests"
         description="MetaGame is a Massive Online Coordination Game! MetaGame has some epic quests going on!"
-        url="https://my.metagame.wtf/quests"
+        url="https://my.metagame.wtf/quests/general"
       />
       <Box w="100%" maxW="80rem">
         <HStack justify="space-between" w="100%">
@@ -111,4 +111,4 @@ const QuestsPage: React.FC<Props> = ({ roleChoices }) => {
   );
 };
 
-export default QuestsPage;
+export default GeneralQuests;
