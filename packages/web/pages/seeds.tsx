@@ -35,14 +35,14 @@ const SeedsPage: React.FC = () => {
 
   return (
     <PageContainer py={8} px={[6, 6, 20, 24]}>
-      <VStack w="100%" spacing={{ base: 4, md: 8 }}>
+      <VStack maxW="7xl" w="100%" spacing={{ base: 4, md: 8 }}>
         <HeadComponent
           title="MetaGame Seeds Page"
           description="seed description"
           url="https://my.metagame.wtf/seeds"
         />
         <Grid templateColumns={['auto', 'auto', 'auto', '1fr 1fr']} gap={6}>
-          <Flex fontSize={[18, 18, 18, 22]} flexDirection="column">
+          <Flex fontSize={18} flexDirection="column">
             <Heading
               fontSize="6xl"
               fontWeight={600}
@@ -53,7 +53,7 @@ const SeedsPage: React.FC = () => {
               flexDir="row"
               ref={topRef}
             >
-              Seeds{' '}
+              Seeds
               <Text pl={4} alignSelf="center" fontSize="4xl">
                 🌱
               </Text>
