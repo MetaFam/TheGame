@@ -3,6 +3,7 @@ import BackgroundImage from 'assets/landing/game-background.png';
 
 export const Game: React.FC = () => (
   <Box
+    id="about"
     width="100%"
     minHeight="100%"
     maxHeight="100%"

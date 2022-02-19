@@ -1,11 +1,17 @@
 import { RefObject, useEffect, useState } from 'react';
 
-export const useOnScreen = (ref: RefObject<HTMLDivElement>): boolean => {
+export const useOnScreen = (
+  ref: RefObject<HTMLDivElement>,
+  rootMargin = '0px',
+): boolean => {
   const [isIntersecting, setIntersecting] = useState(false);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(([entry]) =>
-      setIntersecting(entry.isIntersecting),
+    const observer = new IntersectionObserver(
+      ([entry]) => setIntersecting(entry.isIntersecting),
+      {
+        rootMargin,
+      },
     );
     if (ref.current) {
       observer.observe(ref.current);
@@ -13,7 +19,7 @@ export const useOnScreen = (ref: RefObject<HTMLDivElement>): boolean => {
     return () => {
       observer.disconnect();
     };
-  }, [ref]);
+  }, [ref, rootMargin]);
 
   return isIntersecting;
 };
