@@ -1,5 +1,5 @@
 CREATE TABLE "public"."dao" (
-  "id" uuid NOT NULL,
+  "id" uuid NOT NULL DEFAULT gen_random_uuid(),
   "contract_address" text NOT NULL, 
   "network" text NOT NULL DEFAULT 'mainnet', 
   "label" text NULL, 
@@ -7,5 +7,6 @@ CREATE TABLE "public"."dao" (
   "guild_id" uuid NULL, 
   PRIMARY KEY ("id"), 
   FOREIGN KEY ("guild_id") REFERENCES "public"."guild"("id") ON UPDATE no action ON DELETE cascade, 
-  UNIQUE ("id", "contract_address")
+  UNIQUE ("id"),
+  UNIQUE ("contract_address")
 );

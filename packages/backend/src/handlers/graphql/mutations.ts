@@ -194,4 +194,10 @@ export const CreateQuestCompletion = /* GraphQL */ `
       affected_rows
     }
   }
+
+  mutation UpdateDao($daoId: uuid!, $object: dao_set_input!) {
+    update_dao_by_pk(pk_columns: { id: $daoId }, _set: $object) {
+      id
+    }
+  }
 `;
