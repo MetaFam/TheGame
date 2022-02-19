@@ -71,7 +71,6 @@ const DaoListing: React.FC<DaoListingProps> = ({ membership }) => {
         </Flex>
         <Box>
           <Heading
-            _groupHover={{ textDecoration: 'underline' }}
             fontWeight="bold"
             style={{ fontVariant: 'small-caps' }}
             fontSize="xs"
