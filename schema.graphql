@@ -592,11 +592,50 @@ type CreateQuestOutput {
 columns and relationships of "dao"
 """
 type dao {
-  contract_address: String!
-  guild_id: uuid
+  contractAddress: String!
+
+  """An object relationship"""
+  guild: guild
+  guildId: uuid
   id: uuid!
   label: String
   network: String!
+
+  """An array relationship"""
+  players(
+    """distinct select on columns"""
+    distinct_on: [dao_player_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [dao_player_order_by!]
+
+    """filter the rows returned"""
+    where: dao_player_bool_exp
+  ): [dao_player!]!
+
+  """An aggregated array relationship"""
+  players_aggregate(
+    """distinct select on columns"""
+    distinct_on: [dao_player_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [dao_player_order_by!]
+
+    """filter the rows returned"""
+    where: dao_player_bool_exp
+  ): dao_player_aggregate!
   url: String
 }
 
@@ -641,11 +680,13 @@ input dao_bool_exp {
   _and: [dao_bool_exp]
   _not: dao_bool_exp
   _or: [dao_bool_exp]
-  contract_address: String_comparison_exp
-  guild_id: uuid_comparison_exp
+  contractAddress: String_comparison_exp
+  guild: guild_bool_exp
+  guildId: uuid_comparison_exp
   id: uuid_comparison_exp
   label: String_comparison_exp
   network: String_comparison_exp
+  players: dao_player_bool_exp
   url: String_comparison_exp
 }
 
@@ -657,9 +698,6 @@ enum dao_constraint {
   dao_contract_address_key
 
   """unique or primary key constraint"""
-  dao_id_key
-
-  """unique or primary key constraint"""
   dao_pkey
 }
 
@@ -667,18 +705,20 @@ enum dao_constraint {
 input type for inserting data into table "dao"
 """
 input dao_insert_input {
-  contract_address: String
-  guild_id: uuid
+  contractAddress: String
+  guild: guild_obj_rel_insert_input
+  guildId: uuid
   id: uuid
   label: String
   network: String
+  players: dao_player_arr_rel_insert_input
   url: String
 }
 
 """aggregate max on columns"""
 type dao_max_fields {
-  contract_address: String
-  guild_id: uuid
+  contractAddress: String
+  guildId: uuid
   id: uuid
   label: String
   network: String
@@ -689,8 +729,8 @@ type dao_max_fields {
 order by max() on columns of table "dao"
 """
 input dao_max_order_by {
-  contract_address: order_by
-  guild_id: order_by
+  contractAddress: order_by
+  guildId: order_by
   id: order_by
   label: order_by
   network: order_by
@@ -699,8 +739,8 @@ input dao_max_order_by {
 
 """aggregate min on columns"""
 type dao_min_fields {
-  contract_address: String
-  guild_id: uuid
+  contractAddress: String
+  guildId: uuid
   id: uuid
   label: String
   network: String
@@ -711,8 +751,8 @@ type dao_min_fields {
 order by min() on columns of table "dao"
 """
 input dao_min_order_by {
-  contract_address: order_by
-  guild_id: order_by
+  contractAddress: order_by
+  guildId: order_by
   id: order_by
   label: order_by
   network: order_by
@@ -751,11 +791,13 @@ input dao_on_conflict {
 ordering options when selecting data from "dao"
 """
 input dao_order_by {
-  contract_address: order_by
-  guild_id: order_by
+  contractAddress: order_by
+  guild: guild_order_by
+  guildId: order_by
   id: order_by
   label: order_by
   network: order_by
+  players_aggregate: dao_player_aggregate_order_by
   url: order_by
 }
 
@@ -770,8 +812,9 @@ input dao_pk_columns_input {
 columns and relationships of "dao_player"
 """
 type dao_player {
-  dao_id: uuid!
-  player_id: uuid!
+  daoId: uuid!
+  playerId: uuid!
+  visible: Boolean
 }
 
 """
@@ -815,8 +858,9 @@ input dao_player_bool_exp {
   _and: [dao_player_bool_exp]
   _not: dao_player_bool_exp
   _or: [dao_player_bool_exp]
-  dao_id: uuid_comparison_exp
-  player_id: uuid_comparison_exp
+  daoId: uuid_comparison_exp
+  playerId: uuid_comparison_exp
+  visible: Boolean_comparison_exp
 }
 
 """
@@ -831,36 +875,37 @@ enum dao_player_constraint {
 input type for inserting data into table "dao_player"
 """
 input dao_player_insert_input {
-  dao_id: uuid
-  player_id: uuid
+  daoId: uuid
+  playerId: uuid
+  visible: Boolean
 }
 
 """aggregate max on columns"""
 type dao_player_max_fields {
-  dao_id: uuid
-  player_id: uuid
+  daoId: uuid
+  playerId: uuid
 }
 
 """
 order by max() on columns of table "dao_player"
 """
 input dao_player_max_order_by {
-  dao_id: order_by
-  player_id: order_by
+  daoId: order_by
+  playerId: order_by
 }
 
 """aggregate min on columns"""
 type dao_player_min_fields {
-  dao_id: uuid
-  player_id: uuid
+  daoId: uuid
+  playerId: uuid
 }
 
 """
 order by min() on columns of table "dao_player"
 """
 input dao_player_min_order_by {
-  dao_id: order_by
-  player_id: order_by
+  daoId: order_by
+  playerId: order_by
 }
 
 """
@@ -895,16 +940,17 @@ input dao_player_on_conflict {
 ordering options when selecting data from "dao_player"
 """
 input dao_player_order_by {
-  dao_id: order_by
-  player_id: order_by
+  daoId: order_by
+  playerId: order_by
+  visible: order_by
 }
 
 """
 primary key columns input for table: "dao_player"
 """
 input dao_player_pk_columns_input {
-  dao_id: uuid!
-  player_id: uuid!
+  daoId: uuid!
+  playerId: uuid!
 }
 
 """
@@ -912,18 +958,22 @@ select columns of table "dao_player"
 """
 enum dao_player_select_column {
   """column name"""
-  dao_id
+  daoId
 
   """column name"""
-  player_id
+  playerId
+
+  """column name"""
+  visible
 }
 
 """
 input type for updating data in table "dao_player"
 """
 input dao_player_set_input {
-  dao_id: uuid
-  player_id: uuid
+  daoId: uuid
+  playerId: uuid
+  visible: Boolean
 }
 
 """
@@ -931,10 +981,13 @@ update columns of table "dao_player"
 """
 enum dao_player_update_column {
   """column name"""
-  dao_id
+  daoId
 
   """column name"""
-  player_id
+  playerId
+
+  """column name"""
+  visible
 }
 
 """
@@ -942,10 +995,10 @@ select columns of table "dao"
 """
 enum dao_select_column {
   """column name"""
-  contract_address
+  contractAddress
 
   """column name"""
-  guild_id
+  guildId
 
   """column name"""
   id
@@ -964,8 +1017,8 @@ enum dao_select_column {
 input type for updating data in table "dao"
 """
 input dao_set_input {
-  contract_address: String
-  guild_id: uuid
+  contractAddress: String
+  guildId: uuid
   id: uuid
   label: String
   network: String
@@ -977,10 +1030,10 @@ update columns of table "dao"
 """
 enum dao_update_column {
   """column name"""
-  contract_address
+  contractAddress
 
   """column name"""
-  guild_id
+  guildId
 
   """column name"""
   id
@@ -1390,6 +1443,42 @@ columns and relationships of "guild"
 type guild {
   """An object relationship"""
   GuildType: GuildType!
+
+  """An array relationship"""
+  daos(
+    """distinct select on columns"""
+    distinct_on: [dao_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [dao_order_by!]
+
+    """filter the rows returned"""
+    where: dao_bool_exp
+  ): [dao!]!
+
+  """An aggregated array relationship"""
+  daos_aggregate(
+    """distinct select on columns"""
+    distinct_on: [dao_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [dao_order_by!]
+
+    """filter the rows returned"""
+    where: dao_bool_exp
+  ): dao_aggregate!
   description: String
   discord_id: String
   discord_invite_url: String
@@ -1440,7 +1529,6 @@ type guild {
 
   """An object relationship"""
   metadata: guild_metadata
-  moloch_address: String
   name: String!
   position: GuildPosition_enum
 
@@ -1529,6 +1617,7 @@ input guild_bool_exp {
   _and: [guild_bool_exp]
   _not: guild_bool_exp
   _or: [guild_bool_exp]
+  daos: dao_bool_exp
   description: String_comparison_exp
   discord_id: String_comparison_exp
   discord_invite_url: String_comparison_exp
@@ -1540,7 +1629,6 @@ input guild_bool_exp {
   logo: String_comparison_exp
   membership_through_discord: Boolean_comparison_exp
   metadata: guild_metadata_bool_exp
-  moloch_address: String_comparison_exp
   name: String_comparison_exp
   position: GuildPosition_enum_comparison_exp
   quests: quest_bool_exp
@@ -1569,6 +1657,7 @@ input type for inserting data into table "guild"
 """
 input guild_insert_input {
   GuildType: GuildType_obj_rel_insert_input
+  daos: dao_arr_rel_insert_input
   description: String
   discord_id: String
   discord_invite_url: String
@@ -1580,7 +1669,6 @@ input guild_insert_input {
   logo: String
   membership_through_discord: Boolean
   metadata: guild_metadata_obj_rel_insert_input
-  moloch_address: String
   name: String
   position: GuildPosition_enum
   quests: quest_arr_rel_insert_input
@@ -1600,7 +1688,6 @@ type guild_max_fields {
   id: uuid
   join_button_url: String
   logo: String
-  moloch_address: String
   name: String
   twitter_url: String
   website_url: String
@@ -1618,7 +1705,6 @@ input guild_max_order_by {
   id: order_by
   join_button_url: order_by
   logo: order_by
-  moloch_address: order_by
   name: order_by
   twitter_url: order_by
   website_url: order_by
@@ -1884,7 +1970,6 @@ type guild_min_fields {
   id: uuid
   join_button_url: String
   logo: String
-  moloch_address: String
   name: String
   twitter_url: String
   website_url: String
@@ -1902,7 +1987,6 @@ input guild_min_order_by {
   id: order_by
   join_button_url: order_by
   logo: order_by
-  moloch_address: order_by
   name: order_by
   twitter_url: order_by
   website_url: order_by
@@ -1941,6 +2025,7 @@ ordering options when selecting data from "guild"
 """
 input guild_order_by {
   GuildType: GuildType_order_by
+  daos_aggregate: dao_aggregate_order_by
   description: order_by
   discord_id: order_by
   discord_invite_url: order_by
@@ -1952,7 +2037,6 @@ input guild_order_by {
   logo: order_by
   membership_through_discord: order_by
   metadata: guild_metadata_order_by
-  moloch_address: order_by
   name: order_by
   position: order_by
   quests_aggregate: quest_aggregate_order_by
@@ -2186,9 +2270,6 @@ enum guild_select_column {
   membership_through_discord
 
   """column name"""
-  moloch_address
-
-  """column name"""
   name
 
   """column name"""
@@ -2220,7 +2301,6 @@ input guild_set_input {
   join_button_url: String
   logo: String
   membership_through_discord: Boolean
-  moloch_address: String
   name: String
   position: GuildPosition_enum
   status: GuildStatus_enum
@@ -2261,9 +2341,6 @@ enum guild_update_column {
   membership_through_discord
 
   """column name"""
-  moloch_address
-
-  """column name"""
   name
 
   """column name"""
@@ -2282,8 +2359,15 @@ enum guild_update_column {
   website_url
 }
 
+input GuildDao {
+  contractAddress: String!
+  label: String
+  network: String!
+  url: String
+}
+
 input GuildInfo {
-  daoAddress: String
+  daos: [GuildDao]
   description: String
   discordAdminRoles: [String]!
   discordInviteURL: String
@@ -3254,7 +3338,7 @@ type mutation_root {
   """
   delete single row from the table: "dao_player"
   """
-  delete_dao_player_by_pk(dao_id: uuid!, player_id: uuid!): dao_player
+  delete_dao_player_by_pk(daoId: uuid!, playerId: uuid!): dao_player
 
   """
   delete data from the table: "guild"
@@ -7762,7 +7846,7 @@ type query_root {
   ): dao_player_aggregate!
 
   """fetch data from the table: "dao_player" using primary key columns"""
-  dao_player_by_pk(dao_id: uuid!, player_id: uuid!): dao_player
+  dao_player_by_pk(daoId: uuid!, playerId: uuid!): dao_player
   getBrightIdStatus(contextId: uuid): BrightIdStatus
   getDaoHausMemberships(memberAddress: String): [Member!]!
   getDiscordServerMemberRoles(guildId: uuid!, playerId: uuid!): [DiscordRole!]!
@@ -11385,7 +11469,7 @@ type subscription_root {
   ): dao_player_aggregate!
 
   """fetch data from the table: "dao_player" using primary key columns"""
-  dao_player_by_pk(dao_id: uuid!, player_id: uuid!): dao_player
+  dao_player_by_pk(daoId: uuid!, playerId: uuid!): dao_player
 
   """
   fetch data from the table: "guild"

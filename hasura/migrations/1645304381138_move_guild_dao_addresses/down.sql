@@ -1,0 +1,1 @@
+DELETE FROM dao WHERE guild_id IS NOT NULL;

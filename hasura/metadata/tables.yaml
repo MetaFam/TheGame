@@ -163,6 +163,53 @@
     custom_column_names:
       contract_address: contractAddress
       guild_id: guildId
+  object_relationships:
+  - name: guild
+    using:
+      foreign_key_constraint_on: guild_id
+  array_relationships:
+  - name: players
+    using:
+      foreign_key_constraint_on:
+        column: dao_id
+        table:
+          schema: public
+          name: dao_player
+  select_permissions:
+  - role: player
+    permission:
+      columns:
+      - contract_address
+      - label
+      - network
+      - url
+      - guild_id
+      - id
+      filter: {}
+  - role: public
+    permission:
+      columns:
+      - contract_address
+      - label
+      - network
+      - url
+      - guild_id
+      - id
+      filter: {}
+  update_permissions:
+  - role: player
+    permission:
+      columns:
+      - contract_address
+      - label
+      - network
+      - url
+      filter:
+        guild:
+          metadata:
+            creator_id:
+              _eq: X-Hasura-User-Id
+      check: null
 - table:
     schema: public
     name: dao_player
@@ -171,6 +218,15 @@
     custom_column_names:
       player_id: playerId
       dao_id: daoId
+  update_permissions:
+  - role: player
+    permission:
+      columns:
+      - visible
+      filter:
+        player_id:
+          _eq: X-Hasura-User-Id
+      check: null
 - table:
     schema: public
     name: guild
@@ -187,6 +243,13 @@
         column_mapping:
           id: guild_id
   array_relationships:
+  - name: daos
+    using:
+      foreign_key_constraint_on:
+        column: guild_id
+        table:
+          schema: public
+          name: dao
   - name: guild_players
     using:
       foreign_key_constraint_on:
@@ -214,27 +277,6 @@
       - join_button_url
       - logo
       - membership_through_discord
-      - moloch_address
-      - name
-      - position
-      - status
-      - twitter_url
-      - type
-      - website_url
-      filter: {}
-  - role: public
-    permission:
-      columns:
-      - description
-      - discord_id
-      - discord_invite_url
-      - github_url
-      - guildname
-      - id
-      - join_button_url
-      - logo
-      - membership_through_discord
-      - moloch_address
       - name
       - position
       - status

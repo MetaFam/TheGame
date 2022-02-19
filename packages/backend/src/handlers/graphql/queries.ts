@@ -1,4 +1,5 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-expressions
+/* eslint-disable @typescript-eslint/no-unused-expressions */
+
 /* GraphQL */ `
   query GetPlayer($playerId: uuid!) {
     player_by_pk(id: $playerId) {
@@ -83,7 +84,6 @@ export const GuildFragment = /* GraphQL */ `
     description
     join_button_url
     logo
-    moloch_address
     name
     type
     website_url
@@ -93,11 +93,17 @@ export const GuildFragment = /* GraphQL */ `
   }
 `;
 
-// eslint-disable-next-line @typescript-eslint/no-unused-expressions
 /* GraphQL */ `
   query GetGuild($id: uuid!) {
     guild(where: { id: { _eq: $id } }) {
-      ...GuildFragment
+      ...GuildFragment,
+      daos { 
+        id
+        contractAddress
+        network
+        label
+        url
+      }
     }
   }
   ${GuildFragment}

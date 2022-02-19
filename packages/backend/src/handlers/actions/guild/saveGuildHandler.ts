@@ -2,7 +2,9 @@ import { GuildDiscordMetadata } from '@metafam/discord-bot';
 import { Request, Response } from 'express';
 
 import {
+  Dao_Set_Input,
   Guild_Set_Input,
+  GuildDao,
   GuildInfo,
   GuildType_Enum,
 } from '../../../lib/autogen/hasura-sdk';
@@ -46,6 +48,16 @@ const saveGuild = async (playerId: string, guildInfo: GuildInfo) => {
     );
   }
 
+  // we have to sync existing DAOs with the DAOs passed in here.
+  // If this guild already exists, fetch its current DAOs.
+  const currentGuildDaos: { [contractAddress: string]: GuildDao } = {};
+  const { guild: currentGuild } = await client.GetGuild({ id: guildInfo.uuid });
+  if (currentGuild?.length > 0) {
+    currentGuild[0].daos.forEach((dao) => {
+      currentGuildDaos[dao.contractAddress] = dao;
+    });
+  }
+
   const updatedData: Guild_Set_Input = {
     guildname: guildInfo.guildname,
     name: guildInfo.name,
@@ -57,13 +69,36 @@ const saveGuild = async (playerId: string, guildInfo: GuildInfo) => {
     website_url: guildInfo.websiteURL,
     twitter_url: guildInfo.twitterURL,
     github_url: guildInfo.githubURL,
-    moloch_address: guildInfo.daoAddress,
   };
 
   await client.UpdateGuild({
     guildId: guildInfo.uuid,
     object: updatedData,
   });
+
+  // If there are current DAOs not in the list of incoming DAOs, we want to detach those current DAOs with this guild.
+  // We can't just delete them because there may be existing players associated with these detached DAOs
+  const updatedDaos = guildInfo.daos || [];
+  Object.keys(currentGuildDaos).forEach(async (contractAddress) => {
+    const daoMatch = updatedDaos.find(
+      (newDao) => newDao?.contractAddress === contractAddress,
+    );
+    if (daoMatch == null) {
+      const updatePayload = {
+        ...currentGuildDaos[contractAddress],
+        guild: null,
+      };
+      await client.UpdateDao({
+        daoId: currentGuildDaos[contractAddress],
+        object: updatePayload,
+      });
+    }
+  });
+
+  // 2. If there are incoming DAOs _not_ in the list of current DAOs, add and associate them with this guild
+
+  // 3. If the incoming DAO is already associated with this guild, update its information
+  // 4. Invalidate any DAO member caches as well?
 
   const updatedMetadata: GuildDiscordMetadata = {
     ...discordMetadata,

@@ -100,10 +100,17 @@ input GuildInfo {
   websiteURL : String
   twitterURL : String
   githubURL : String
-  daoAddress : String
   membershipThroughDiscord : Boolean
   discordAdminRoles : [String]!
   discordMembershipRoles : [String]!
+  daos : [GuildDao]
+}
+
+input GuildDao {
+  contractAddress : String!
+  network : String!
+  label : String
+  url : String
 }
 
 type UpdateIDXProfileResponse {
