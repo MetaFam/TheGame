@@ -28,11 +28,7 @@ export const InternalGuildLink: React.FC<InternalGuildLinkProps> = ({
   guildName,
   children,
 }) => (
-  <Link
-    role="group"
-    _hover={{ textDecoration: 'none' }}
-    href={`/guild/${guildName}`}
-  >
+  <Link _hover={{ textDecoration: 'none' }} href={`/guild/${guildName}`}>
     {children}
   </Link>
 );
@@ -43,12 +39,7 @@ type DaoHausLinkProps = {
 
 export const DaoHausLink: React.FC<DaoHausLinkProps> = ({ daoUrl, children }) =>
   daoUrl != null ? (
-    <Link
-      role="group"
-      _hover={{ textDecoration: 'none' }}
-      href={daoUrl}
-      isExternal
-    >
+    <Link _hover={{ textDecoration: 'none' }} href={daoUrl} isExternal>
       {children}
     </Link>
   ) : (

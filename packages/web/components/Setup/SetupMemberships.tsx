@@ -104,7 +104,6 @@ const MembershipListing: React.FC<MembershipListingProps> = ({ member }) => {
         </Flex>
         <Box>
           <Heading
-            _groupHover={{ textDecoration: 'underline' }}
             fontWeight="bold"
             textTransform="uppercase"
             fontSize="xs"
