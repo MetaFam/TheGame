@@ -589,6 +589,413 @@ type CreateQuestOutput {
 }
 
 """
+columns and relationships of "dao"
+"""
+type dao {
+  contract_address: String!
+  guild_id: uuid
+  id: uuid!
+  label: String
+  network: String!
+  url: String
+}
+
+"""
+aggregated selection of "dao"
+"""
+type dao_aggregate {
+  aggregate: dao_aggregate_fields
+  nodes: [dao!]!
+}
+
+"""
+aggregate fields of "dao"
+"""
+type dao_aggregate_fields {
+  count(columns: [dao_select_column!], distinct: Boolean): Int
+  max: dao_max_fields
+  min: dao_min_fields
+}
+
+"""
+order by aggregate values of table "dao"
+"""
+input dao_aggregate_order_by {
+  count: order_by
+  max: dao_max_order_by
+  min: dao_min_order_by
+}
+
+"""
+input type for inserting array relation for remote table "dao"
+"""
+input dao_arr_rel_insert_input {
+  data: [dao_insert_input!]!
+  on_conflict: dao_on_conflict
+}
+
+"""
+Boolean expression to filter rows from the table "dao". All fields are combined with a logical 'AND'.
+"""
+input dao_bool_exp {
+  _and: [dao_bool_exp]
+  _not: dao_bool_exp
+  _or: [dao_bool_exp]
+  contract_address: String_comparison_exp
+  guild_id: uuid_comparison_exp
+  id: uuid_comparison_exp
+  label: String_comparison_exp
+  network: String_comparison_exp
+  url: String_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "dao"
+"""
+enum dao_constraint {
+  """unique or primary key constraint"""
+  dao_contract_address_key
+
+  """unique or primary key constraint"""
+  dao_id_key
+
+  """unique or primary key constraint"""
+  dao_pkey
+}
+
+"""
+input type for inserting data into table "dao"
+"""
+input dao_insert_input {
+  contract_address: String
+  guild_id: uuid
+  id: uuid
+  label: String
+  network: String
+  url: String
+}
+
+"""aggregate max on columns"""
+type dao_max_fields {
+  contract_address: String
+  guild_id: uuid
+  id: uuid
+  label: String
+  network: String
+  url: String
+}
+
+"""
+order by max() on columns of table "dao"
+"""
+input dao_max_order_by {
+  contract_address: order_by
+  guild_id: order_by
+  id: order_by
+  label: order_by
+  network: order_by
+  url: order_by
+}
+
+"""aggregate min on columns"""
+type dao_min_fields {
+  contract_address: String
+  guild_id: uuid
+  id: uuid
+  label: String
+  network: String
+  url: String
+}
+
+"""
+order by min() on columns of table "dao"
+"""
+input dao_min_order_by {
+  contract_address: order_by
+  guild_id: order_by
+  id: order_by
+  label: order_by
+  network: order_by
+  url: order_by
+}
+
+"""
+response of any mutation on the table "dao"
+"""
+type dao_mutation_response {
+  """number of affected rows by the mutation"""
+  affected_rows: Int!
+
+  """data of the affected rows by the mutation"""
+  returning: [dao!]!
+}
+
+"""
+input type for inserting object relation for remote table "dao"
+"""
+input dao_obj_rel_insert_input {
+  data: dao_insert_input!
+  on_conflict: dao_on_conflict
+}
+
+"""
+on conflict condition type for table "dao"
+"""
+input dao_on_conflict {
+  constraint: dao_constraint!
+  update_columns: [dao_update_column!]!
+  where: dao_bool_exp
+}
+
+"""
+ordering options when selecting data from "dao"
+"""
+input dao_order_by {
+  contract_address: order_by
+  guild_id: order_by
+  id: order_by
+  label: order_by
+  network: order_by
+  url: order_by
+}
+
+"""
+primary key columns input for table: "dao"
+"""
+input dao_pk_columns_input {
+  id: uuid!
+}
+
+"""
+columns and relationships of "dao_player"
+"""
+type dao_player {
+  dao_id: uuid!
+  player_id: uuid!
+}
+
+"""
+aggregated selection of "dao_player"
+"""
+type dao_player_aggregate {
+  aggregate: dao_player_aggregate_fields
+  nodes: [dao_player!]!
+}
+
+"""
+aggregate fields of "dao_player"
+"""
+type dao_player_aggregate_fields {
+  count(columns: [dao_player_select_column!], distinct: Boolean): Int
+  max: dao_player_max_fields
+  min: dao_player_min_fields
+}
+
+"""
+order by aggregate values of table "dao_player"
+"""
+input dao_player_aggregate_order_by {
+  count: order_by
+  max: dao_player_max_order_by
+  min: dao_player_min_order_by
+}
+
+"""
+input type for inserting array relation for remote table "dao_player"
+"""
+input dao_player_arr_rel_insert_input {
+  data: [dao_player_insert_input!]!
+  on_conflict: dao_player_on_conflict
+}
+
+"""
+Boolean expression to filter rows from the table "dao_player". All fields are combined with a logical 'AND'.
+"""
+input dao_player_bool_exp {
+  _and: [dao_player_bool_exp]
+  _not: dao_player_bool_exp
+  _or: [dao_player_bool_exp]
+  dao_id: uuid_comparison_exp
+  player_id: uuid_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "dao_player"
+"""
+enum dao_player_constraint {
+  """unique or primary key constraint"""
+  dao_player_pkey
+}
+
+"""
+input type for inserting data into table "dao_player"
+"""
+input dao_player_insert_input {
+  dao_id: uuid
+  player_id: uuid
+}
+
+"""aggregate max on columns"""
+type dao_player_max_fields {
+  dao_id: uuid
+  player_id: uuid
+}
+
+"""
+order by max() on columns of table "dao_player"
+"""
+input dao_player_max_order_by {
+  dao_id: order_by
+  player_id: order_by
+}
+
+"""aggregate min on columns"""
+type dao_player_min_fields {
+  dao_id: uuid
+  player_id: uuid
+}
+
+"""
+order by min() on columns of table "dao_player"
+"""
+input dao_player_min_order_by {
+  dao_id: order_by
+  player_id: order_by
+}
+
+"""
+response of any mutation on the table "dao_player"
+"""
+type dao_player_mutation_response {
+  """number of affected rows by the mutation"""
+  affected_rows: Int!
+
+  """data of the affected rows by the mutation"""
+  returning: [dao_player!]!
+}
+
+"""
+input type for inserting object relation for remote table "dao_player"
+"""
+input dao_player_obj_rel_insert_input {
+  data: dao_player_insert_input!
+  on_conflict: dao_player_on_conflict
+}
+
+"""
+on conflict condition type for table "dao_player"
+"""
+input dao_player_on_conflict {
+  constraint: dao_player_constraint!
+  update_columns: [dao_player_update_column!]!
+  where: dao_player_bool_exp
+}
+
+"""
+ordering options when selecting data from "dao_player"
+"""
+input dao_player_order_by {
+  dao_id: order_by
+  player_id: order_by
+}
+
+"""
+primary key columns input for table: "dao_player"
+"""
+input dao_player_pk_columns_input {
+  dao_id: uuid!
+  player_id: uuid!
+}
+
+"""
+select columns of table "dao_player"
+"""
+enum dao_player_select_column {
+  """column name"""
+  dao_id
+
+  """column name"""
+  player_id
+}
+
+"""
+input type for updating data in table "dao_player"
+"""
+input dao_player_set_input {
+  dao_id: uuid
+  player_id: uuid
+}
+
+"""
+update columns of table "dao_player"
+"""
+enum dao_player_update_column {
+  """column name"""
+  dao_id
+
+  """column name"""
+  player_id
+}
+
+"""
+select columns of table "dao"
+"""
+enum dao_select_column {
+  """column name"""
+  contract_address
+
+  """column name"""
+  guild_id
+
+  """column name"""
+  id
+
+  """column name"""
+  label
+
+  """column name"""
+  network
+
+  """column name"""
+  url
+}
+
+"""
+input type for updating data in table "dao"
+"""
+input dao_set_input {
+  contract_address: String
+  guild_id: uuid
+  id: uuid
+  label: String
+  network: String
+  url: String
+}
+
+"""
+update columns of table "dao"
+"""
+enum dao_update_column {
+  """column name"""
+  contract_address
+
+  """column name"""
+  guild_id
+
+  """column name"""
+  id
+
+  """column name"""
+  label
+
+  """column name"""
+  network
+
+  """column name"""
+  url
+}
+
+"""
 e.g. https://data.daohaus.club/dao/0xb152b115c94275b54a3f0b08c1aa1d21f32a659a
 """
 type DaoMetadata {
@@ -2824,6 +3231,32 @@ type mutation_root {
   delete_SkillCategory_by_pk(name: String!): SkillCategory
 
   """
+  delete data from the table: "dao"
+  """
+  delete_dao(
+    """filter the rows which have to be deleted"""
+    where: dao_bool_exp!
+  ): dao_mutation_response
+
+  """
+  delete single row from the table: "dao"
+  """
+  delete_dao_by_pk(id: uuid!): dao
+
+  """
+  delete data from the table: "dao_player"
+  """
+  delete_dao_player(
+    """filter the rows which have to be deleted"""
+    where: dao_player_bool_exp!
+  ): dao_player_mutation_response
+
+  """
+  delete single row from the table: "dao_player"
+  """
+  delete_dao_player_by_pk(dao_id: uuid!, player_id: uuid!): dao_player
+
+  """
   delete data from the table: "guild"
   """
   delete_guild(
@@ -3250,6 +3683,50 @@ type mutation_root {
     """on conflict condition"""
     on_conflict: SkillCategory_on_conflict
   ): SkillCategory
+
+  """
+  insert data into the table: "dao"
+  """
+  insert_dao(
+    """the rows to be inserted"""
+    objects: [dao_insert_input!]!
+
+    """on conflict condition"""
+    on_conflict: dao_on_conflict
+  ): dao_mutation_response
+
+  """
+  insert a single row into the table: "dao"
+  """
+  insert_dao_one(
+    """the row to be inserted"""
+    object: dao_insert_input!
+
+    """on conflict condition"""
+    on_conflict: dao_on_conflict
+  ): dao
+
+  """
+  insert data into the table: "dao_player"
+  """
+  insert_dao_player(
+    """the rows to be inserted"""
+    objects: [dao_player_insert_input!]!
+
+    """on conflict condition"""
+    on_conflict: dao_player_on_conflict
+  ): dao_player_mutation_response
+
+  """
+  insert a single row into the table: "dao_player"
+  """
+  insert_dao_player_one(
+    """the row to be inserted"""
+    object: dao_player_insert_input!
+
+    """on conflict condition"""
+    on_conflict: dao_player_on_conflict
+  ): dao_player
 
   """
   insert data into the table: "guild"
@@ -3808,6 +4285,46 @@ type mutation_root {
     _set: SkillCategory_set_input
     pk_columns: SkillCategory_pk_columns_input!
   ): SkillCategory
+
+  """
+  update data of the table: "dao"
+  """
+  update_dao(
+    """sets the columns of the filtered rows to the given values"""
+    _set: dao_set_input
+
+    """filter the rows which have to be updated"""
+    where: dao_bool_exp!
+  ): dao_mutation_response
+
+  """
+  update single row of the table: "dao"
+  """
+  update_dao_by_pk(
+    """sets the columns of the filtered rows to the given values"""
+    _set: dao_set_input
+    pk_columns: dao_pk_columns_input!
+  ): dao
+
+  """
+  update data of the table: "dao_player"
+  """
+  update_dao_player(
+    """sets the columns of the filtered rows to the given values"""
+    _set: dao_player_set_input
+
+    """filter the rows which have to be updated"""
+    where: dao_player_bool_exp!
+  ): dao_player_mutation_response
+
+  """
+  update single row of the table: "dao_player"
+  """
+  update_dao_player_by_pk(
+    """sets the columns of the filtered rows to the given values"""
+    _set: dao_player_set_input
+    pk_columns: dao_player_pk_columns_input!
+  ): dao_player
 
   """
   update data of the table: "guild"
@@ -7160,6 +7677,92 @@ type query_root {
 
   """fetch data from the table: "SkillCategory" using primary key columns"""
   SkillCategory_by_pk(name: String!): SkillCategory
+
+  """
+  fetch data from the table: "dao"
+  """
+  dao(
+    """distinct select on columns"""
+    distinct_on: [dao_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [dao_order_by!]
+
+    """filter the rows returned"""
+    where: dao_bool_exp
+  ): [dao!]!
+
+  """
+  fetch aggregated fields from the table: "dao"
+  """
+  dao_aggregate(
+    """distinct select on columns"""
+    distinct_on: [dao_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [dao_order_by!]
+
+    """filter the rows returned"""
+    where: dao_bool_exp
+  ): dao_aggregate!
+
+  """fetch data from the table: "dao" using primary key columns"""
+  dao_by_pk(id: uuid!): dao
+
+  """
+  fetch data from the table: "dao_player"
+  """
+  dao_player(
+    """distinct select on columns"""
+    distinct_on: [dao_player_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [dao_player_order_by!]
+
+    """filter the rows returned"""
+    where: dao_player_bool_exp
+  ): [dao_player!]!
+
+  """
+  fetch aggregated fields from the table: "dao_player"
+  """
+  dao_player_aggregate(
+    """distinct select on columns"""
+    distinct_on: [dao_player_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [dao_player_order_by!]
+
+    """filter the rows returned"""
+    where: dao_player_bool_exp
+  ): dao_player_aggregate!
+
+  """fetch data from the table: "dao_player" using primary key columns"""
+  dao_player_by_pk(dao_id: uuid!, player_id: uuid!): dao_player
   getBrightIdStatus(contextId: uuid): BrightIdStatus
   getDaoHausMemberships(memberAddress: String): [Member!]!
   getDiscordServerMemberRoles(guildId: uuid!, playerId: uuid!): [DiscordRole!]!
@@ -10697,6 +11300,92 @@ type subscription_root {
 
   """fetch data from the table: "SkillCategory" using primary key columns"""
   SkillCategory_by_pk(name: String!): SkillCategory
+
+  """
+  fetch data from the table: "dao"
+  """
+  dao(
+    """distinct select on columns"""
+    distinct_on: [dao_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [dao_order_by!]
+
+    """filter the rows returned"""
+    where: dao_bool_exp
+  ): [dao!]!
+
+  """
+  fetch aggregated fields from the table: "dao"
+  """
+  dao_aggregate(
+    """distinct select on columns"""
+    distinct_on: [dao_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [dao_order_by!]
+
+    """filter the rows returned"""
+    where: dao_bool_exp
+  ): dao_aggregate!
+
+  """fetch data from the table: "dao" using primary key columns"""
+  dao_by_pk(id: uuid!): dao
+
+  """
+  fetch data from the table: "dao_player"
+  """
+  dao_player(
+    """distinct select on columns"""
+    distinct_on: [dao_player_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [dao_player_order_by!]
+
+    """filter the rows returned"""
+    where: dao_player_bool_exp
+  ): [dao_player!]!
+
+  """
+  fetch aggregated fields from the table: "dao_player"
+  """
+  dao_player_aggregate(
+    """distinct select on columns"""
+    distinct_on: [dao_player_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [dao_player_order_by!]
+
+    """filter the rows returned"""
+    where: dao_player_bool_exp
+  ): dao_player_aggregate!
+
+  """fetch data from the table: "dao_player" using primary key columns"""
+  dao_player_by_pk(dao_id: uuid!, player_id: uuid!): dao_player
 
   """
   fetch data from the table: "guild"

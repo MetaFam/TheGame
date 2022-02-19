@@ -157,6 +157,22 @@
   is_enum: true
 - table:
     schema: public
+    name: dao
+  configuration:
+    custom_root_fields: {}
+    custom_column_names:
+      contract_address: contractAddress
+      guild_id: guildId
+- table:
+    schema: public
+    name: dao_player
+  configuration:
+    custom_root_fields: {}
+    custom_column_names:
+      player_id: playerId
+      dao_id: daoId
+- table:
+    schema: public
     name: guild
   object_relationships:
   - name: GuildType
