@@ -94,7 +94,7 @@ export const WTFisXP = () => (
   </Flex>
 );
 
-export const GetRankedModal = () => (
+export const GetRanked = () => (
   <Flex direction="column">
     <Text>
       As you might know already, the top ~56 of each; players & patrons, will be
@@ -123,7 +123,7 @@ export const GetRankedModal = () => (
   </Flex>
 );
 
-export const UsefulnessOfSeedsModal = () => {
+export const UsefulnessOfSeeds = () => {
   const [isOpenSpending, setIsOpenSpending] = useState(false);
   const [isOpenStaking, setIsOpenStaking] = useState(false);
   const [isOpenPlanting, setIsOpenPlanting] = useState(false);
@@ -340,7 +340,7 @@ export const UsefulnessOfSeedsModal = () => {
   );
 };
 
-export const BuyingAndSellingModal = () => (
+export const BuyingAndSelling = () => (
   <Box>
     <Box p={2} bgColor="whiteAlpha.300" mb={2}>
       💡 Note: No need to buy Seeds to become a patron, you can just
@@ -426,7 +426,6 @@ export const BecomeAPatron = () => (
         <ul>
           <ListItem ml={4}>
             <Link
-              ml={1}
               isExternal
               color="gray.500"
               textDecoration="underline"
@@ -643,7 +642,6 @@ export const JoinTheFund = () => (
       <ListItem>We water the Seed plantation for you</ListItem>
       <ListItem>
         <Link
-          ml={1}
           isExternal
           color="gray.500"
           textDecoration="underline"

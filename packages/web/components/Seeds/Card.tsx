@@ -67,14 +67,15 @@ export const Card: React.FC<CardProps> = ({ title, description, Content }) => {
       <Modal onClose={onClose} isOpen={isOpen} scrollBehavior="inside">
         <ModalOverlay />
         <ModalContent
+          borderRadius="xl"
           bgImg={ModalCardBg}
           bgPos="center"
           bgColor="purpleModalDark"
           bgRepeat="no-repeat"
           textColor="white"
-          maxH="full"
-          h="full"
-          marginTop={0}
+          maxH={['full', 'full', '90%']}
+          h={['full', 'full', '90%']}
+          marginTop={[0, 0, 'auto']}
         >
           <ModalHeader fontSize={24} fontWeight="bold">
             {title.toUpperCase()}
@@ -86,7 +87,8 @@ export const Card: React.FC<CardProps> = ({ title, description, Content }) => {
               variant="ghost"
               color="violet"
               p={6}
-              bgColor="whiteAlpha.50"
+              w="full"
+              bgColor="whiteAlpha.100"
               _hover={{ bg: 'whiteAlpha.200' }}
               _active={{ bg: 'whiteAlpha.200' }}
               onClick={onClose}

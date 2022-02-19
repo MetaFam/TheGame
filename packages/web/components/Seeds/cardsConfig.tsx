@@ -1,11 +1,11 @@
 import {
   BecomeAPatron,
-  BuyingAndSellingModal,
+  BuyingAndSelling,
   FAQ,
-  GetRankedModal,
+  GetRanked,
   JoinTheFund,
   PlantingAndWatering,
-  UsefulnessOfSeedsModal,
+  UsefulnessOfSeeds,
   WTFisXP,
 } from './modals';
 
@@ -20,7 +20,7 @@ export const cardsConfig = [
     title: 'Usefulness of Seeds',
     description:
       'A reward for those actively contributing to the creation of MetaGame - or much more?',
-    Content: UsefulnessOfSeedsModal,
+    Content: UsefulnessOfSeeds,
   },
   {
     title: 'BECOME A PATRON',
@@ -32,7 +32,7 @@ export const cardsConfig = [
     title: 'BUYING & SELLING Seeds',
     description:
       'Looking to buy some Seeds? Want to sell some Seeds? Just follow these few simple steps',
-    Content: BuyingAndSellingModal,
+    Content: BuyingAndSelling,
   },
   {
     title: 'PLANTING & WATERING SEEDS',
@@ -50,7 +50,7 @@ export const cardsConfig = [
     title: 'GET RANKED!',
     description:
       'Leaderboards are a thing! The higher you reach, the more fame, glory and perks await you!',
-    Content: GetRankedModal,
+    Content: GetRanked,
   },
   {
     title: 'FAQ',
