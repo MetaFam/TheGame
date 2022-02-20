@@ -200,4 +200,19 @@ export const CreateQuestCompletion = /* GraphQL */ `
       id
     }
   }
+
+  mutation DetachDaosFromGuild($contractAddresses: [String!]!) {
+    update_dao(
+      where: { contractAddress: { _in: $contractAddresses } }
+      _set: { guildId: null }
+    ) {
+      affected_rows
+    }
+  }
+
+  mutation InsertDaos($objects: [dao_insert_input!]!) {
+    insert_dao(objects: $objects) {
+      affected_rows
+    }
+  }
 `;
