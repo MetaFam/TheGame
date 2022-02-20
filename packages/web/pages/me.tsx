@@ -1,23 +1,16 @@
 import { Flex, Link, MetaButton, Spinner, Text, Tooltip } from '@metafam/ds';
-import { getPersonalityInfo } from 'graphql/queries/enums/getPersonalityInfo';
 import { useMounted, useUser, useWeb3 } from 'lib/hooks';
 import { InferGetStaticPropsType } from 'next';
 import { PlayerPage } from 'pages/player/[username]';
 
-export const getStaticProps = async () => {
-  const personalityInfo = await getPersonalityInfo();
-
-  return {
-    props: {
-      personalityInfo,
-    },
-    revalidate: 1,
-  };
-};
+export const getStaticProps = async () => ({
+  props: {},
+  revalidate: 1,
+});
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
-const CurrentUserPage: React.FC<Props> = ({ personalityInfo }) => {
+const CurrentUserPage: React.FC<Props> = () => {
   const { connect, connecting, connected } = useWeb3();
   const { user, fetching, error } = useUser();
   const mounted = useMounted();
@@ -42,7 +35,7 @@ const CurrentUserPage: React.FC<Props> = ({ personalityInfo }) => {
   }
 
   if (user) {
-    return <PlayerPage player={user} personalityInfo={personalityInfo} />;
+    return <PlayerPage player={user} />;
   }
 
   if (error) {

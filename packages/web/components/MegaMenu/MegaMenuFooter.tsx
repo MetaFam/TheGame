@@ -21,7 +21,7 @@ import { getPlayerName, getPlayerURL } from 'utils/playerHelpers';
 import { XPSeedsBalance } from './XPSeedsBalance';
 
 // Display player XP and Seed
-export const PlayerStatsBar = () => {
+export const MegaMenuFooter = () => {
   const { connecting, connected, connect, disconnect } = useWeb3();
   const { fetching, user } = useUser();
   const { name } = useProfileField({
