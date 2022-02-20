@@ -39,6 +39,7 @@ export type MetaColors = ChakraTheme['colors'] & {
   landing550: string;
   landing600: string;
   landing650: string;
+  landingDarkGlass: string;
 };
 
 export const colors: MetaColors = {
@@ -114,4 +115,5 @@ export const colors: MetaColors = {
   landing550: '#DD5FED',
   landing600: '#DF9BFF',
   landing650: '#DFB9D7',
+  landingDarkGlass: 'rgba(27, 13, 42, 0.8)',
 };
