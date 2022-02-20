@@ -61,7 +61,8 @@ const SeedsPage: React.FC = () => {
             <Text mb={4}>Seeds are MetaGame's labor token.</Text>
             <Text mb={4}>
               People contribute towards creation of MetaGame, meanwhile
-              generating XP & getting paid out on their XP generated - in Seeds.
+              generating XP & getting paid out in Seeds proportional to their
+              gained XP
             </Text>
             <Flex direction="column" ml={4}>
               <UnorderedList spacing={2}>

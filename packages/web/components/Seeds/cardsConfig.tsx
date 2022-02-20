@@ -23,13 +23,13 @@ export const cardsConfig = [
     Content: UsefulnessOfSeeds,
   },
   {
-    title: 'BECOME A PATRON',
+    title: 'Become a Patron',
     description:
-      "Love the idea of MetaGame but don't got time to actively contribute? We've got you covered!",
+      "Love the idea of MetaGame but don't have time to actively contribute? We've got you covered!",
     Content: BecomeAPatron,
   },
   {
-    title: 'BUYING & SELLING Seeds',
+    title: 'Buying & Selling Seeds',
     description:
       'Looking to buy some Seeds? Want to sell some Seeds? Just follow these few simple steps',
     Content: BuyingAndSelling,
