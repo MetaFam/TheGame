@@ -1,51 +1,88 @@
-import { Box, Container, Text } from '@metafam/ds';
+import { Box, Button, Container, Text } from '@metafam/ds';
 import BackgroundImage from 'assets/landing/together-background.png';
+import { useOnScreen } from 'lib/hooks/useOnScreen';
+import { useRouter } from 'next/router';
+import { useRef } from 'react';
+import { BsArrowDown } from 'react-icons/bs';
 
-export const Together: React.FC = () => (
-  <Box
-    width="100%"
-    minHeight="100%"
-    maxHeight="100%"
-    backgroundImage={`url(${BackgroundImage})`}
-    bgPosition="center"
-    bgSize="cover"
-  >
+export const Together: React.FC = () => {
+  const ref = useRef<HTMLDivElement>(null);
+  const onScreen = useOnScreen(ref, '300px');
+  const { push } = useRouter();
+
+  const handleSectionNav = (sectionId: string) => {
+    push(`#${sectionId}`);
+  };
+
+  return (
     <Container
-      width="100%"
-      height="100vh"
-      display="flex"
-      flexDirection="column"
-      justifyContent="center"
-      maxWidth="75rem"
-      alignItems="center"
+      id="section-7"
+      position="relative"
+      centerContent
+      h="100vh"
+      maxW="full"
+      backgroundImage={`url(${BackgroundImage})`}
+      bgPosition="center"
+      bgSize="cover"
     >
-      <Box
-        fontSize={{ base: '1.5rem', md: '3rem' }}
-        lineHeight={{ base: '2.25rem', md: '4rem' }}
-        fontWeight="normal"
-        color="white"
-        bgGradient=" linear-gradient(180deg, #FFFFFF 15.3%, #FD208A 85.41%);                    "
-        bgClip="text"
-        maxWidth="75rem"
-        display="inline"
-        pb="2.188rem"
-        pt="8.125rem"
-        textAlign="center"
+      <Container
+        d="flex"
+        maxW={{ base: '100%', md: '7xl', '2xl': '8xl' }}
+        height="100%"
+        alignItems="center"
+        justifyContent="center"
       >
-        <Text pb={{ base: '1.188rem', md: '3.125rem' }}>
-          {' '}
-          We are bringing together the people & building blocks aligned on the
-          idea of creating a new kind of society.
-        </Text>
-        <Text pb={{ base: '1.188rem', md: '3.125rem' }}>
-          {' '}
-          One that is optimized for human wellbeing rather than profit.
-        </Text>
-        <Text pb={{ base: '1.188rem', md: '3.125rem' }}>
-          One that revolves around solving problems & living well, in balance
-          with nature.
-        </Text>
+        <Box
+          ref={ref}
+          display="flex"
+          flexDirection="column"
+          justifyItems="center"
+          textAlign="center"
+          fontSize={{ base: 'xl', md: '2.5rem', '2xl': '3rem' }}
+          lineHeight={{ base: '2rem', md: '3.5rem', '2xl': '4rem' }}
+          fontWeight="normal"
+          color="white"
+          bgGradient=" linear-gradient(180deg, #FFFFFF 15.3%, #FD208A 85.41%)"
+          bgClip="text"
+          maxWidth="6xl"
+          pl={{ base: 0, md: 0 }}
+          zIndex={100}
+          transform={`translate3d(0, ${onScreen ? '0' : '20vh'}, 0)`}
+          opacity={onScreen ? 1 : 0}
+          transition="transform 0.3s 0.1s ease-in-out, opacity 0.5s 0.2s ease-in"
+        >
+          <Text pb={{ base: '1.188rem', md: '3.125rem' }}>
+            {' '}
+            We are bringing together the people & building blocks aligned on the
+            idea of creating a new kind of society.
+          </Text>
+          <Text pb={{ base: '1.188rem', md: '3.125rem' }}>
+            {' '}
+            One that is optimized for human wellbeing rather than profit.
+          </Text>
+          <Text pb={{ base: '1.188rem', md: '3.125rem' }}>
+            One that revolves around solving problems & living well, in balance
+            with nature.
+          </Text>
+        </Box>
+      </Container>
+      <Box
+        pos="absolute"
+        bottom="0"
+        py={20}
+        maxW={{ base: '100%', md: '7xl', '2xl': '8xl' }}
+        zIndex={200}
+        centerContent
+      >
+        <Button
+          colorScheme="white"
+          size="lg"
+          rightIcon={<BsArrowDown />}
+          onClick={() => handleSectionNav('section-8')}
+        >
+          Next
+        </Button>
       </Box>
     </Container>
-  </Box>
-);
+  );
+};

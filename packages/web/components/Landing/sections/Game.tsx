@@ -1,51 +1,87 @@
-import { Box, Container, Link, Text } from '@metafam/ds';
+import { Box, Button, Container, Link, Text } from '@metafam/ds';
 import BackgroundImage from 'assets/landing/game-background.png';
+import { useOnScreen } from 'lib/hooks/useOnScreen';
+import { useRouter } from 'next/router';
+import { FC, useRef } from 'react';
+import { BsArrowDown } from 'react-icons/bs';
 
-export const Game: React.FC = () => (
-  <Box
-    id="about"
-    width="100%"
-    minHeight="100%"
-    maxHeight="100%"
-    backgroundImage={`url(${BackgroundImage})`}
-    bgPosition="center"
-    bgSize="cover"
-  >
+export const Game: FC = () => {
+  const ref = useRef<HTMLDivElement>(null);
+  const onScreen = useOnScreen(ref, '300px');
+  const { push } = useRouter();
+
+  const handleSectionNav = (sectionId: string) => {
+    push(`#${sectionId}`);
+  };
+
+  return (
     <Container
-      width="100%"
-      height="100vh"
-      display="flex"
-      flexDirection="column"
-      justifyContent="center"
-      maxWidth="100%"
-      pl={{ base: '0', md: '8.563rem' }}
+      id="section-2"
+      position="relative"
+      centerContent
+      h="100vh"
+      maxW="full"
+      backgroundImage={`url(${BackgroundImage})`}
+      bgPosition="center"
+      bgSize="cover"
     >
-      <Text
-        fontSize={{ base: '1.5rem', md: '2.375rem' }}
-        lineHeight="3.5rem"
-        fontWeight="normal"
-        color="white"
-        display="flex"
-        flexDirection="column"
-        maxWidth="32.75rem"
+      <Container
+        d="flex"
+        maxW={{ base: '100%', md: '7xl', '2xl': '8xl' }}
+        height="100%"
+        alignItems="center"
       >
-        “Metagame is any approach to a game that transcends or operates outside
-        of the prescribed rules of the game, uses external factors to affect the
-        game, or goes beyond the supposed limits or environment set by the
-        game.”
-        <Text textAlign="right">
-          - From{' '}
-          <Link
-            color="#79F8FB"
-            href="#"
-            fontSize="2.375rem"
-            lineHeight="3.5rem"
-            fontWeight="normal"
-          >
-            The Wiki
-          </Link>
-        </Text>
-      </Text>
+        <Box
+          ref={ref}
+          display="flex"
+          flexDirection="column"
+          justifyContent="center"
+          maxWidth="2xl"
+          fontSize={{ base: '1.5rem', md: '2.375rem' }}
+          lineHeight={{ base: '2.35rem', md: '3.5rem' }}
+          pl={{ base: 0, md: 0 }}
+          zIndex={100}
+          transform={`translate3d(0, ${onScreen ? '0' : '20vh'}, 0)`}
+          opacity={onScreen ? 1 : 0}
+          transition="transform 0.3s 0.1s ease-in-out, opacity 0.5s 0.2s ease-in"
+        >
+          <Text fontWeight="normal" color="white">
+            “Metagame is any approach to a game that transcends or operates
+            outside of the prescribed rules of the game, uses external factors
+            to affect the game, or goes beyond the supposed limits or
+            environment set by the game.”
+            <Text textAlign="right">
+              - From{' '}
+              <Link
+                color="#79F8FB"
+                href="https://en.wikipedia.org/wiki/Metagaming"
+                fontWeight="normal"
+                isExternal
+                textDecoration="none"
+              >
+                The Wiki
+              </Link>
+            </Text>
+          </Text>
+        </Box>
+      </Container>
+      <Box
+        pos="absolute"
+        bottom="0"
+        py={20}
+        maxW={{ base: '100%', md: '7xl', '2xl': '8xl' }}
+        zIndex={200}
+        centerContent
+      >
+        <Button
+          colorScheme="white"
+          size="lg"
+          rightIcon={<BsArrowDown />}
+          onClick={() => handleSectionNav('section-3')}
+        >
+          Next
+        </Button>
+      </Box>
     </Container>
-  </Box>
-);
+  );
+};

@@ -1,50 +1,85 @@
-import { Box, Container, Text } from '@metafam/ds';
+import { Box, Button, Container, Text } from '@metafam/ds';
 import BackgroundImage from 'assets/landing/build-background.png';
+import { useOnScreen } from 'lib/hooks/useOnScreen';
+import { useRouter } from 'next/router';
+import { useRef } from 'react';
+import { BsArrowDown } from 'react-icons/bs';
 
-export const Build: React.FC = () => (
-  <Box
-    width="100%"
-    minHeight="100%"
-    maxHeight="100%"
-    backgroundImage={`url(${BackgroundImage})`}
-    bgPosition="center"
-    bgSize="cover"
-  >
+export const Build: React.FC = () => {
+  const ref = useRef<HTMLDivElement>(null);
+  const onScreen = useOnScreen(ref, '300px');
+  const { push } = useRouter();
+
+  const handleSectionNav = (sectionId: string) => {
+    push(`#${sectionId}`);
+  };
+
+  return (
     <Container
-      width="100%"
-      height="100vh"
-      display="flex"
-      flexDirection="column"
-      justifyContent="center"
-      maxWidth="100%"
-      pl={{ base: '0', md: '8.563rem' }}
+      id="section-3"
+      position="relative"
+      centerContent
+      h="100vh"
+      maxW="full"
+      backgroundImage={`url(${BackgroundImage})`}
+      bgPosition="center"
+      bgSize="cover"
     >
-      <Text
-        fontSize="2.375rem"
-        lineHeight="3.5rem"
-        fontWeight="normal"
-        color="white"
-        display="flex"
-        flexDirection="column"
-        maxWidth="32.75rem"
+      <Container
+        d="flex"
+        maxW={{ base: '100%', md: '7xl', '2xl': '8xl' }}
+        height="100%"
+        alignItems="center"
       >
-        Many have already woken up to the world-shaping potential of Web3
-        technologies.
-      </Text>
+        <Box
+          ref={ref}
+          display="flex"
+          flexDirection="column"
+          justifyContent="center"
+          fontSize={{ base: '1.5rem', md: '2.375rem' }}
+          lineHeight={{ base: '2.35rem', md: '3.5rem' }}
+          maxWidth="2xl"
+          pl={{ base: 0, md: 0 }}
+          zIndex={100}
+          transform={`translate3d(0, ${onScreen ? '0' : '20vh'}, 0)`}
+          opacity={onScreen ? 1 : 0}
+          transition="transform 0.3s 0.1s ease-in-out, opacity 0.5s 0.2s ease-in"
+        >
+          <Text fontWeight="normal" color="white">
+            Many have already woken up to the world-shaping potential of Web3
+            technologies.
+          </Text>
 
-      <Text
-        pt="3.5rem"
-        fontSize="2.375rem"
-        lineHeight="3.5rem"
-        fontWeight="normal"
-        color="white"
-        display="flex"
-        flexDirection="column"
-        maxWidth="32.75rem"
+          <Text
+            pt="3.5rem"
+            fontWeight="normal"
+            color="white"
+            display="flex"
+            flexDirection="column"
+            maxWidth="32.75rem"
+          >
+            Some are grabbing the opportunity to build the future they want to
+            live in.
+          </Text>
+        </Box>
+      </Container>
+      <Box
+        pos="absolute"
+        bottom="0"
+        py={20}
+        maxW={{ base: '100%', md: '7xl', '2xl': '8xl' }}
+        zIndex={200}
+        centerContent
       >
-        Some are grabbing the opportunity to build the future they want to live
-        in.
-      </Text>
+        <Button
+          colorScheme="white"
+          size="lg"
+          rightIcon={<BsArrowDown />}
+          onClick={() => handleSectionNav('section-4')}
+        >
+          Next
+        </Button>
+      </Box>
     </Container>
-  </Box>
-);
+  );
+};

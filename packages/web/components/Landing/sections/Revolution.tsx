@@ -1,52 +1,105 @@
-import { Box, Container, Link, Text } from '@metafam/ds';
+import { Box, Button, Container, Link, Text } from '@metafam/ds';
 import BackgroundImage from 'assets/landing/revolution-background.png';
+import { useOnScreen } from 'lib/hooks/useOnScreen';
+import { useRouter } from 'next/router';
+import { useRef } from 'react';
+import { BsArrowDown } from 'react-icons/bs';
 
-export const Revolution: React.FC = () => (
-  <Box
-    width="100%"
-    minHeight="100%"
-    maxHeight="100%"
-    backgroundImage={`url(${BackgroundImage})`}
-    bgPosition="center"
-    bgSize="cover"
-  >
+export const Revolution: React.FC = () => {
+  const ref = useRef<HTMLDivElement>(null);
+  const onScreen = useOnScreen(ref, '300px');
+  const { push } = useRouter();
+
+  const handleSectionNav = (sectionId: string) => {
+    push(`#${sectionId}`);
+  };
+
+  return (
     <Container
-      width="100%"
-      height="100vh"
-      display="flex"
-      flexDirection="column"
-      justifyContent={{ base: 'center', md: 'flex-end' }}
-      maxWidth="100%"
-      pl={{ base: '0', md: '8.563rem' }}
-      alignItems="flex-end"
-      pr={{ base: '0', md: '7.25rem' }}
+      id="section-4"
+      position="relative"
+      centerContent
+      h="100vh"
+      maxW="full"
+      backgroundImage={`url(${BackgroundImage})`}
+      bgPosition="center"
+      bgSize="cover"
     >
-      <Text
-        fontSize={{ base: '3rem', md: '4.188rem' }}
-        lineHeight="5rem"
-        fontWeight="normal"
-        color="white"
-        display="flex"
-        flexDirection="column"
-        maxWidth="35.5rem"
+      <Container
+        d="flex"
+        maxW={{ base: '100%', md: '7xl', '2xl': '8xl' }}
+        height="100%"
+        alignItems="center"
+        justifyContent="end"
       >
-        A revolution is happening online;
-      </Text>
+        <Box
+          ref={ref}
+          display="flex"
+          flexDirection="column"
+          justifyContent="center"
+          fontSize={{ base: '4xl', md: '8xl' }}
+          lineHeight={{ base: '3rem', md: '5rem' }}
+          maxWidth="2xl"
+          pl={{ base: 0, md: 0 }}
+          zIndex={100}
+          transform={`translate3d(0, ${onScreen ? '0' : '20vh'}, 0)`}
+          opacity={onScreen ? 1 : 0}
+          transition="transform 0.3s 0.1s ease-in-out, opacity 0.5s 0.2s ease-in"
+        >
+          <Text
+            // fontSize={{ base: '3rem', md: '4.188rem' }}
+            fontWeight="normal"
+            color="white"
+          >
+            A revolution is happening online;
+          </Text>
 
-      <Text
-        pt="1.5rem"
-        fontSize={{ base: '3rem', md: '4.188rem' }}
-        lineHeight="5rem"
-        fontWeight="normal"
-        color="white"
-        maxWidth="35.5rem"
+          <Text
+            pt="1.5rem"
+            // fontSize={{ base: '3rem', md: '4.188rem' }}
+            fontWeight="normal"
+            color="white"
+          >
+            will you{' '}
+            <Link
+              href="#"
+              sx={{
+                background:
+                  'linear-gradient(90deg, #FF61E6 -29.22%, #7C56FF 107.53%)',
+                backgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                transition: 'backgroundImage 0.3s ease-in',
+                '&.active, &:hover': {
+                  background:
+                    'linear-gradient(90deg, #FF61E6 -29.22%, #7C56FF 107.53%)',
+                  backgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                },
+              }}
+            >
+              join
+            </Link>{' '}
+            or miss out?
+          </Text>
+        </Box>
+      </Container>
+      <Box
+        pos="absolute"
+        bottom="0"
+        py={20}
+        maxW={{ base: '100%', md: '7xl', '2xl': '8xl' }}
+        zIndex={200}
+        centerContent
       >
-        will you{' '}
-        <Link color="#E839B7" href="#">
-          join
-        </Link>{' '}
-        or miss out?
-      </Text>
+        <Button
+          colorScheme="white"
+          size="lg"
+          rightIcon={<BsArrowDown />}
+          onClick={() => handleSectionNav('section-5')}
+        >
+          Next
+        </Button>
+      </Box>
     </Container>
-  </Box>
-);
+  );
+};
