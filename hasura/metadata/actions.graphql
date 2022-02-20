@@ -103,7 +103,7 @@ input GuildInfo {
   membershipThroughDiscord : Boolean
   discordAdminRoles : [String]!
   discordMembershipRoles : [String]!
-  daos : [GuildDao]
+  daos : [GuildDao!]
 }
 
 input GuildDao {
