@@ -26,7 +26,7 @@ export const WTFisXP = () => (
         textDecoration="underline"
         mr={1}
       >
-        forums
+        the forum
       </Link>
       , or laying down code on
       <Link
@@ -44,7 +44,7 @@ export const WTFisXP = () => (
     </Text>
 
     <Text mb={2}>
-      Your XP is calculated by a thing called
+      Your XP is calculated by
       <Link
         ml={1}
         href="https://sourcecred.io/"
@@ -62,7 +62,7 @@ export const WTFisXP = () => (
     </Text>
 
     <Text mb={2}>
-      - Wait, you leave all the value allocation to an algorithm? 😱
+      <em>Wait, you leave all the value allocation to an algorithm? 😱</em>
     </Text>
 
     <Text mb={2}>
@@ -71,7 +71,9 @@ export const WTFisXP = () => (
       properly accounted for.
     </Text>
 
-    <Text mb={2}> - Can it be used by other DAOs?</Text>
+    <Text mb={2}>
+      <em>Can it be used by other DAOs?</em>
+    </Text>
 
     <Text mb={2}>
       Of course! We believe its a good DAO bootstrapping/accounting/rewarding
@@ -132,12 +134,12 @@ export const UsefulnessOfSeeds = () => {
     <Flex direction="column">
       <Text>
         So far, the main thing Seeds are used for is rewarding contributors as a
-        means of bootstrapping. Not a very promising usecase in terms of token
+        means of bootstrapping. Not a very promising use case in terms of token
         value, we know!
       </Text>
       <Text>
         But, we're building an entire gamified socioeconomic system, so finding
-        usecases for money shouldn't be much trouble 😁
+        use cases for money shouldn't be much trouble 😁
       </Text>
       <Text>
         So, lets look at some of the current &amp; potential ways of using
@@ -164,9 +166,7 @@ export const UsefulnessOfSeeds = () => {
             <ListItem>💸 to get a shout-out in the podcast.</ListItem>
             <ListItem>💸 to have MetaGame tweet for you.</ListItem>
             <ListItem>💸 to get a shout-out in the newsletter.</ListItem>
-            <ListItem>
-              💸 to buy some ListItemmited edition merchandise.
-            </ListItem>
+            <ListItem>💸 to buy some limited edition merchandise.</ListItem>
             <ListItem>
               💸 to get products &amp; services from other players &amp; guilds.
             </ListItem>
@@ -202,7 +202,7 @@ export const UsefulnessOfSeeds = () => {
           </UnorderedList>
           <Box p={2} bgColor="whiteAlpha.300" my={2}>
             💡 Note: If you're interested in spending your Seeds on any of this,
-            ask about it; #
+            ask about it in our discord channel #ask about it; #
             <Link
               ml={1}
               href="https://discord.gg/cBq5Md6KTU"
@@ -414,7 +414,7 @@ export const BuyingAndSelling = () => (
 export const BecomeAPatron = () => (
   <Box>
     <Text>
-      Though some usecases exist, they're not meaningfully contributing to the
+      Though some use cases exist, they're not meaningfully contributing to the
       treasury yet &amp; the rest are just ideas. Main reasons you'd want to
       become a patron right now:
     </Text>
@@ -455,7 +455,7 @@ export const BecomeAPatron = () => (
         src="https://www.youtube.com/embed/CYuwpR8CLXY?feature=oembed"
       ></iframe>
     </Box>
-    <Text>There are 2 ways to become a patron:</Text>
+    <Text>There are two ways to become a patron:</Text>
     <UnorderedList>
       <ListItem>
         Join the
@@ -482,7 +482,20 @@ export const PlantingAndWatering = () => (
       First, you'll need some tokens on Polygon.
     </Box>
     <UnorderedList>
-      <ListItem>Ideally, it would be WETH &amp; RAI.</ListItem>
+      <ListItem>
+        Ideally, it would be WETH &amp;{' '}
+        <Link
+          ml={1}
+          href="https://reflexer.finance/"
+          isExternal
+          color="gray.500"
+          textDecoration="underline"
+          mr={1}
+        >
+          RAI
+        </Link>
+        .
+      </ListItem>
       <ListItem>
         If you only got Matic, no worries, you can just swap it for WETH &amp;
         RAI.
@@ -541,7 +554,7 @@ export const PlantingAndWatering = () => (
         How much should you water them?
         <ul>
           <ListItem ml={4}>
-            The minimal requirement to join as a patron is 8pSeeds which is
+            The minimal requirement to join as a patron is 8 pSeeds which is
             roughly $150.
           </ListItem>
         </ul>
@@ -566,7 +579,18 @@ export const PlantingAndWatering = () => (
         >
           the newsletter
         </Link>{' '}
-        or we will do it for you, if you join the Seed Fund 🙃
+        or we will do it for you, if you join the
+        <Link
+          ml={1}
+          href="https://polygon.balancer.fi/#/pool/0x8a8fcd351ed553fc75aecbc566a32f94471f302e000100000000000000000081"
+          isExternal
+          color="green.300"
+          textDecoration="underline"
+          mr={1}
+        >
+          Seeds Fund
+        </Link>{' '}
+        🙃
         <ul>
           <ListItem ml={4}>
             The number of patrons in
@@ -581,9 +605,9 @@ export const PlantingAndWatering = () => (
             >
               Phase I
             </Link>
-            is limited to 150, meaning, you will need to be watering them at
-            least as much as the 150th person on the leaderboard if you wish to
-            remain a patron until the end of
+            is limited to 150, meaning, you will need to water them at least as
+            much as the 150th person on the leaderboard if you wish to remain a
+            patron until the end of
             <Link
               ml={1}
               isExternal
