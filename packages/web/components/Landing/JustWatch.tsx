@@ -1,37 +1,95 @@
-import { MetaButton, MetaSecondaryButton, Text, VStack } from '@metafam/ds';
+import { Box, Button, Container, HStack, Text, VStack } from '@metafam/ds';
 import BackgroundImage from 'assets/landing/just-watch-background.png';
 import { FullPageContainer } from 'components/Container';
 import { MetaLink } from 'components/Link';
+import { useOnScreen } from 'lib/hooks/useOnScreen';
+import { useRef } from 'react';
+import { BsArrowRight } from 'react-icons/bs';
 
-export const JustWatch: React.FC = () => (
-  <FullPageContainer
-    bgImageUrl={BackgroundImage}
-    justify={{ base: 'center', md: 'flex-end' }}
-  >
-    <VStack
-      fontSize={{ base: 'xl', md: '5xl' }}
-      color="white"
-      spacing={8}
-      py="5rem"
+export const JustWatch: React.FC = () => {
+  const ref = useRef<HTMLDivElement>(null);
+  const onScreen = useOnScreen(ref);
+
+  return (
+    <FullPageContainer
+      bgImageUrl={BackgroundImage}
+      id="section-10"
+      position="relative"
+      justify={{ base: 'center', md: 'flex-end' }}
     >
-      <Text textAlign="center">
-        The revolution will be televized, but don’t just watch.
-      </Text>
-
-      <MetaLink
-        isExternal
-        _hover={{}}
-        href="https://wiki.metagame.wtf/docs/enter-metagame/join-metagame"
+      <Container
+        d="flex"
+        maxW={{ base: '100%', md: '7xl', '2xl': '8xl' }}
+        height="100%"
+        alignItems="center"
+        justifyContent="center"
       >
-        <MetaButton fontSize="lg" w="12rem">
-          Join
-        </MetaButton>
-      </MetaLink>
-      <MetaLink _hover={{}} isExternal href="https://wiki.metagame.wtf/docs/">
-        <MetaSecondaryButton fontSize="lg" w="12rem">
-          Explore
-        </MetaSecondaryButton>
-      </MetaLink>
-    </VStack>
-  </FullPageContainer>
-);
+        <Box
+          ref={ref}
+          display="flex"
+          flexDirection="column"
+          justifyContent="center"
+          maxWidth={{ base: '100%', lg: '2xl' }}
+          pl={{ base: 0, md: 0 }}
+          textAlign="center"
+          zIndex={100}
+          transform={`translate3d(0, ${onScreen ? '0' : '50px'}, 0)`}
+          opacity={onScreen ? 1 : 0}
+          transition="transform 0.3s 0.1s ease-in-out, opacity 0.5s 0.2s ease-in"
+        >
+          <VStack>
+            <Text
+              fontSize={{ base: '4xl', md: '8xl' }}
+              lineHeight={{ base: '3rem', md: '5rem' }}
+              fontWeight="700"
+              color="white"
+              mb="2.188rem"
+            >
+              The revolution will be televized, but{' '}
+              <Text
+                as="span"
+                className="gradient-text"
+                opacity={onScreen ? 1 : 0}
+                transition="opacity 0.5s 0.6s ease-in"
+              >
+                don’t just watch.
+              </Text>
+            </Text>
+            <HStack
+              opacity={onScreen ? 1 : 0}
+              transition="transform 0.3s 0.1s ease-in-out, opacity 0.5s 1s ease-in"
+            >
+              <MetaLink
+                isExternal
+                _hover={{}}
+                href="https://wiki.metagame.wtf/docs/enter-metagame/join-metagame"
+              >
+                <Button
+                  className="border-grad"
+                  colorScheme="white"
+                  rounded="md"
+                  size="lg"
+                >
+                  Join us here
+                </Button>
+              </MetaLink>
+              <MetaLink
+                _hover={{}}
+                isExternal
+                href="https://wiki.metagame.wtf/docs/"
+              >
+                <Button
+                  colorScheme="white"
+                  size="lg"
+                  rightIcon={<BsArrowRight />}
+                >
+                  Explore
+                </Button>
+              </MetaLink>
+            </HStack>
+          </VStack>
+        </Box>
+      </Container>
+    </FullPageContainer>
+  );
+};
