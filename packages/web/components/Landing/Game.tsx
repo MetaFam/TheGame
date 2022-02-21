@@ -10,16 +10,16 @@ import { BsArrowDown } from 'react-icons/bs';
 export const Game: React.FC = () => {
   const ref = useRef<HTMLDivElement>(null);
   const onScreen = useOnScreen(ref);
-  const { push } = useRouter();
-
+  const router = useRouter();
+  const section = 'section-2';
   const handleSectionNav = (sectionId: string) => {
-    push(`#${sectionId}`);
+    router.push(`#${sectionId}`);
   };
 
   return (
     <FullPageContainer
       bgImageUrl={BackgroundImage}
-      id="section-2"
+      id={section}
       position="relative"
     >
       <Container
