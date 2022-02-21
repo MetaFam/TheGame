@@ -21,10 +21,47 @@ export const theme: Theme = extendTheme({
   breakpoints,
   styles: {
     global: {
+      html: {
+        scrollBehavior: 'smooth',
+      },
       body: {
         background: colors.dark,
         '&.dashboard-edit': {
           overflow: { base: 'hidden', xl: 'initial' }, // Locks scrolling on the body when resizing or dragging the grid on mobile devices
+        },
+        '.gradient-text': {
+          background:
+            'linear-gradient(90deg, #FF61E6 -29.22%, #7C56FF 107.53%)',
+          backgroundClip: 'text',
+          WebkitTextFillColor: 'transparent',
+        },
+        '.border-grad': {
+          border: '1px double transparent',
+          background: 'transparent',
+          backgroundImage:
+            'linear-gradient(#1B0D2A, #1B0D2A), radial-gradient(circle at top left, #FF61E6 -29.22%, #7C56FF 107.53%)',
+          backgroundClip: 'padding-box, border-box',
+          backgroundOrigin: 'border-box',
+          WebkitBackgroundOrigin: 'border-box',
+          boxSizing: 'border-box',
+          '& > span': {
+            background:
+              'linear-gradient(90deg, #FF61E6 -29.22%, #7C56FF 107.53%)',
+            backgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            transition: 'all 0.3s ease',
+          },
+          '&:hover': {
+            backgroundImage:
+              'linear-gradient(#1B0D2A, #1B0D2A), radial-gradient(circle at top left, #FF61E6 -29.22%, #7C56FF 107.53%)',
+            backgroundSize: '130%',
+            '& > span': {
+              background:
+                'linear-gradient(-90deg, #FF61E6 -29.22%, #7C56FF 107.53%)',
+              backgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+            },
+          },
         },
       },
       '#__next': {
