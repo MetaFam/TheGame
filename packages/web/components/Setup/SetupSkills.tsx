@@ -17,8 +17,11 @@ import { useMounted, useOverridableField, useUser } from 'lib/hooks';
 import React, { CSSProperties, useEffect, useState } from 'react';
 import { CategoryOption, parseSkills, SkillOption } from 'utils/skillHelpers';
 
-import { GenericWizardPane } from './GenericWizardPane';
-import { MaybeModalProps, WizardPaneCallbackProps } from './ProfileWizardPane';
+import {
+  MaybeModalProps,
+  WizardPane,
+  WizardPaneCallbackProps,
+} from './WizardPane';
 
 export type SetupSkillsProps = {
   isEdit?: boolean;
@@ -130,7 +133,7 @@ export const SetupSkills: React.FC<MaybeModalProps> = ({ onClose }) => {
   };
 
   return (
-    <GenericWizardPane<Array<SkillOption>>
+    <WizardPane<Array<SkillOption>>
       {...{ field, value, onClose, onSave }}
       title="Skills"
       prompt="What are your super&#xAD;powers?"
@@ -171,6 +174,6 @@ export const SetupSkills: React.FC<MaybeModalProps> = ({ onClose }) => {
           </Flex>
         );
       }}
-    </GenericWizardPane>
+    </WizardPane>
   );
 };

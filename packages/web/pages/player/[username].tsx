@@ -75,6 +75,13 @@ export const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
     player,
     getter: getPlayerBannerFull,
   });
+  const [, invalidateCache] = useInsertCacheInvalidationMutation();
+
+  useEffect(() => {
+    if (player?.id) {
+      invalidateCache({ playerId: player.id });
+    }
+  }, [player?.id, invalidateCache]);
 
   if (router.isFallback) {
     return <LoadingState />;
@@ -168,7 +175,6 @@ const useItemHeights = (items: Array<Maybe<HTMLElement>>) => {
 
 export const Grid: React.FC<Props> = ({ player }): ReactElement => {
   const [isOwnProfile, setIsOwnProfile] = useState(false);
-  const [, invalidateCache] = useInsertCacheInvalidationMutation();
   const { user, fetching } = useUser();
   const { connected } = useWeb3();
   const [saving, setSaving] = useState(false);
@@ -179,12 +185,6 @@ export const Grid: React.FC<Props> = ({ player }): ReactElement => {
       setIsOwnProfile(true);
     }
   }, [user, fetching, connected, player?.id]);
-
-  useEffect(() => {
-    if (player?.id) {
-      invalidateCache({ playerId: player.id });
-    }
-  }, [player?.id, invalidateCache]);
 
   const [
     { fetching: fetchingSaveRes },

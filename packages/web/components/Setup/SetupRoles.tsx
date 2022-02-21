@@ -144,20 +144,23 @@ export const SetupRoles: React.FC<SetupRolesProps> = ({
       mb={isWizard ? 'auto' : 0}
     >
       {isWizard && (
-        <MetaHeading mb={{ base: 6, sm: 16 }} alignSelf="center">
-          Select your role(s)
+        <MetaHeading mb={[0, 5]} alignSelf="center">
+          Roles
         </MetaHeading>
       )}
       {fetching && <LoadingState />}
       {!fetching &&
         (roles.length === 0 ? (
-          <Text mb={{ base: 6, sm: 10 }}>
-            Unlike other role-playing games, in MetaGame, anyone is free to play
-            multiple roles at the same time.
-            <br />
-            Players are required to specify their primary role, whereas any
-            secondary roles are optional.
-          </Text>
+          <Box maxW="20rem">
+            <Text mb={[6, 10]} textAlign="justify" style={{ textIndent: 25 }}>
+              Unlike other role-playing games, in MetaGame, anyone is free to
+              play multiple roles at the same time.
+            </Text>
+            <Text mb={[6, 10]} textAlign="justify" style={{ textIndent: 25 }}>
+              Players are required to specify their primary role, whereas any
+              secondary roles are optional.
+            </Text>
+          </Box>
         ) : (
           <Flex wrap="wrap" mb={{ base: 4, md: 16 }} w="100%">
             {roles.map((r, i) => {
@@ -292,28 +295,26 @@ const Role: React.FC<RoleProps> = ({
   };
 
   const handleRemoveClick = () => {
-    if (onRemove) {
-      onRemove(role);
-    }
+    onRemove?.(role);
   };
 
   const [showDetails, setShowDetails] = useState(false);
-
+  const selected = selectionIndex != null;
   const isMobile = useBreakpointValue({ base: true, md: false });
 
   return (
     <Box
-      p={{ base: 2, lg: 6 }}
+      py={{ base: selected ? 1.5 : 2, lg: 6 }}
       bgColor="purpleBoxLight"
       borderRadius="0.5rem"
-      _hover={selectionIndex == null ? { bgColor: 'purpleBoxDark' } : {}}
-      cursor={selectionIndex == null ? 'pointer' : 'default'}
+      _hover={!selected ? { bgColor: 'purpleBoxDark' } : undefined}
+      cursor={!selected ? 'pointer' : 'default'}
       transition="background 0.25s"
       border="2px"
       borderColor="purple.400"
-      px={4}
+      px={[selected ? 1.5 : 3, 4]}
       onClick={handleContainerClick}
-      h={selectionIndex != null ? 'auto' : '100%'}
+      h={selected ? 'auto' : '100%'}
     >
       <Flex
         direction={{ base: 'row', md: 'column' }}
@@ -323,8 +324,8 @@ const Role: React.FC<RoleProps> = ({
         <BoxedNextImage
           src={`/assets/roles/${role.role.toLowerCase()}.svg`}
           alt={role.label}
-          height={{ base: 4, md: 14 }}
-          width={{ base: 4, md: 14 }}
+          h={{ base: 6, md: 14 }}
+          minW={{ base: selected ? 4 : 6, md: 14 }}
           mr={2}
         />
         <Text
@@ -332,22 +333,30 @@ const Role: React.FC<RoleProps> = ({
           fontWeight="bold"
           casing="uppercase"
           my={{ base: 0, md: 2 }}
+          onClick={(evt) => {
+            if (selectionIndex != null) {
+              evt.stopPropagation();
+              setShowDetails((show) => !show);
+            }
+          }}
         >
           {role.label}
         </Text>
         {!isMobile && <Text color="white">{role.description}</Text>}
         <Spacer />
-        {isMobile && (
+        {isMobile && (numSelectedRoles == null || numSelectedRoles <= 1) && (
           <InfoIcon
-            ml={2}
+            ml={1}
             cursor="pointer"
+            transform={showDetails ? 'rotate(-180deg)' : undefined}
+            transition="0.5s"
             onClick={(e) => {
               e.stopPropagation();
-              setShowDetails(!showDetails);
+              setShowDetails((show) => !show);
             }}
           />
         )}
-        {selectionIndex != null && (
+        {selected && (
           <Flex
             w="100%"
             justifyContent={{ base: 'end', md: 'space-between' }}
@@ -366,6 +375,7 @@ const Role: React.FC<RoleProps> = ({
                   size="xs"
                   whiteSpace="pre-wrap"
                   mr={2}
+                  px={1}
                   onClick={() => onSelect(role, selectionIndex !== 0)}
                 >
                   Make {selectionIndex === 0 ? 'Secondary' : 'Primary'}
@@ -397,7 +407,6 @@ const Role: React.FC<RoleProps> = ({
                 color="white"
                 bgColor="red.500"
                 size="xs"
-                whiteSpace="pre-wrap"
                 onClick={handleRemoveClick}
               >
                 <CloseIcon />
@@ -412,7 +421,6 @@ const Role: React.FC<RoleProps> = ({
                 borderWidth={2}
                 _hover={{ color: 'white', bgColor: 'red.500' }}
                 fontSize={{ md: '0.875rem', lg: '1rem' }}
-                whiteSpace="pre-wrap"
                 onClick={handleRemoveClick}
               >
                 Remove

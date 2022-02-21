@@ -3,6 +3,7 @@ import {
   EditIcon,
   Flex,
   getTimeZoneFor,
+  Grid,
   HStack,
   IconButton,
   MetaTag,
@@ -88,6 +89,7 @@ export const PlayerHero: React.FC<HeroProps> = ({ player, editing }) => {
           <Name {...{ player }} />
           <BrightId {...{ player }} />
         </Box>
+
         <Description {...{ player }} />
 
         <HStack mt={2}>
@@ -100,12 +102,16 @@ export const PlayerHero: React.FC<HeroProps> = ({ player, editing }) => {
         </PlayerHeroTile>
         */}
 
-        <Wrap justify="space-between" w="full">
-          <Pronouns {...{ player }} Wrapper={WrapItem} />
-          <Availability {...{ player }} Wrapper={WrapItem} />
-          <TimeZone {...{ player }} Wrapper={WrapItem} />
-          <Emoji {...{ player }} Wrapper={WrapItem} />
-        </Wrap>
+        <Grid
+          templateColumns="repeat(auto-fill, minmax(9rem, 1fr))"
+          w="full"
+          rowGap={5}
+        >
+          <Pronouns {...{ player }} />
+          <Availability {...{ player }} />
+          <TimeZone {...{ player }} />
+          <Emoji {...{ player }} />
+        </Grid>
 
         {/* <SimpleGrid columns={2} gap={6} width="full">
           <PlayerHeroTile title="Country">

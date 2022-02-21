@@ -2,10 +2,8 @@ import { Flex, Input } from '@metafam/ds';
 import { getPlayer } from 'graphql/getPlayer';
 import React from 'react';
 
-import {
-  ProfileWizardPane,
-  WizardPaneCallbackProps,
-} from './ProfileWizardPane';
+import { ProfileWizardPane } from './ProfileWizardPane';
+import { WizardPaneCallbackProps } from './WizardPane';
 
 export const SetupUsername: React.FC = () => {
   const field = 'username';

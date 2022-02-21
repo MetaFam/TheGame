@@ -1,12 +1,10 @@
-import { Flex, SelectTimeZone, Text } from '@metafam/ds';
+import { Center, SelectTimeZone, Text } from '@metafam/ds';
 import { useMounted } from 'lib/hooks';
 import React from 'react';
 import { Controller } from 'react-hook-form';
 
-import {
-  ProfileWizardPane,
-  WizardPaneCallbackProps,
-} from './ProfileWizardPane';
+import { ProfileWizardPane } from './ProfileWizardPane';
+import { WizardPaneCallbackProps } from './WizardPane';
 
 export const SetupTimeZone: React.FC = () => {
   const field = 'timeZone';
@@ -19,7 +17,7 @@ export const SetupTimeZone: React.FC = () => {
       prompt="Which zone are you in?"
     >
       {({ control }: WizardPaneCallbackProps) => (
-        <Flex justify="center" maxW="30rem">
+        <Center maxW="20rem" m="auto">
           <Controller
             {...{ control }}
             name={field}
@@ -36,7 +34,7 @@ export const SetupTimeZone: React.FC = () => {
               )
             }
           />
-        </Flex>
+        </Center>
       )}
     </ProfileWizardPane>
   );

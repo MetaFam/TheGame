@@ -26,15 +26,22 @@ import {
 } from 'react';
 import { Control, useForm, UseFormRegisterReturn } from 'react-hook-form';
 
-import { WizardPaneProps } from './ProfileWizardPane';
-
 export type MaybeModalProps = {
+  buttonLabel?: string | ReactElement;
   onClose?: () => void;
 };
 
-export type GenericPaneProps<T = string> = WizardPaneProps & {
+export type WizardPaneProps = {
+  field: string;
+  title?: string | ReactElement;
+  prompt?: string | ReactElement;
+  buttonLabel?: string | ReactElement;
+  onClose?: () => void;
+};
+
+export type PaneProps<T = string> = WizardPaneProps & {
   value: Maybe<T>;
-  fetching: boolean;
+  fetching?: boolean;
   onSave?: ({
     values,
     setStatus,
@@ -57,16 +64,17 @@ export type WizardPaneCallbackProps<T = string> = {
   setter: (arg: T | ((prev: T) => T)) => void;
 };
 
-export const GenericWizardPane = <T,>({
+export const WizardPane = <T,>({
   field,
   title,
   prompt,
+  buttonLabel,
   onClose,
   onSave,
   value: existing,
   fetching = false,
   children,
-}: PropsWithChildren<GenericPaneProps<T>>) => {
+}: PropsWithChildren<PaneProps<T>>) => {
   const { onNextPress, nextButtonLabel } = useSetupFlow();
   const [status, setStatus] = useState<Maybe<string | ReactElement>>();
   const {
@@ -97,7 +105,7 @@ export const GenericWizardPane = <T,>({
           await onSave({ values, setStatus });
         }
 
-        onNextPress();
+        (onClose ?? onNextPress).call(this);
       } catch (err) {
         const heading = err instanceof CeramicError ? 'Ceramic Error' : 'Error';
         toast({
@@ -110,7 +118,7 @@ export const GenericWizardPane = <T,>({
         setStatus(null);
       }
     },
-    [current, existing, onNextPress, onSave, toast],
+    [current, existing, onClose, onNextPress, onSave, toast],
   );
 
   const setter = useCallback(
@@ -125,7 +133,7 @@ export const GenericWizardPane = <T,>({
   );
 
   return (
-    <FlexContainer as="form" onSubmit={handleSubmit(onSubmit)}>
+    <FlexContainer as="form" onSubmit={handleSubmit(onSubmit)} color="white">
       {title && (
         <MetaHeading mb={5} textAlign="center">
           {title}
@@ -151,7 +159,7 @@ export const GenericWizardPane = <T,>({
             <Text>Validating…</Text>
           </Stack>
         )}
-        <Box mt={10}>
+        <Box my={5}>
           {typeof children === 'function'
             ? children.call(null, {
                 register,
@@ -169,9 +177,12 @@ export const GenericWizardPane = <T,>({
         </Box>
       </FormControl>
 
-      <Wrap>
+      <Wrap align="center">
         <WrapItem>
-          <StatusedSubmitButton label={nextButtonLabel} {...{ status }} />
+          <StatusedSubmitButton
+            label={buttonLabel ?? nextButtonLabel}
+            {...{ status }}
+          />
         </WrapItem>
         {onClose && (
           <WrapItem>

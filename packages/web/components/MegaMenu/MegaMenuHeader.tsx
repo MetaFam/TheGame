@@ -84,17 +84,17 @@ export const MegaMenuHeader: React.FC = () => {
           flexWrap="nowrap"
           alignItems="center"
           cursor="pointer"
-          h="2rem"
-          w="2rem"
+          h={8}
+          w={8}
           display={{ base: 'flex', lg: 'none' }}
           p={2}
           my="auto"
           grow={1}
         >
           {isOpen ? (
-            <CloseIcon fontSize="1.5rem" color="#FFF" ml={2} />
+            <CloseIcon fontSize="2xl" color="#FFF" ml={2} />
           ) : (
-            <HamburgerIcon fontSize="2rem" color="#FFF" ml={2} />
+            <HamburgerIcon fontSize="3xl" color="#FFF" ml={2} />
           )}
         </Flex>
         <Flex
@@ -106,7 +106,7 @@ export const MegaMenuHeader: React.FC = () => {
           <DesktopNavLinks />
           {/* <Search /> */}
           <Box
-            w="20%"
+            w={0.2}
             textAlign="right"
             display={{ base: 'none', lg: 'block' }}
           >

@@ -52,6 +52,7 @@ export const MegaMenuFooter = () => {
             <MenuButton
               bg="transparent"
               aria-label="Menu Options"
+              transition="filter 2.75s"
               _focus={{ outline: 'none' }}
               _hover={{ filter: 'brightness(1.1)' }}
               _active={{ filter: 'hue-rotate(30deg)' }}

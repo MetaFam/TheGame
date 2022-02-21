@@ -7,10 +7,8 @@ import {
 } from '@metafam/ds';
 import React from 'react';
 
-import {
-  ProfileWizardPane,
-  WizardPaneCallbackProps,
-} from './ProfileWizardPane';
+import { ProfileWizardPane } from './ProfileWizardPane';
+import { WizardPaneCallbackProps } from './WizardPane';
 
 export const SetupAvailability: React.FC = () => {
   const field = 'availableHours';

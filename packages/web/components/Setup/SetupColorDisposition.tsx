@@ -19,11 +19,8 @@ import {
 import { PersonalityOption } from 'graphql/types';
 import React, { useEffect, useState } from 'react';
 
-import {
-  MaybeModalProps,
-  ProfileWizardPane,
-  WizardPaneCallbackProps,
-} from './ProfileWizardPane';
+import { ProfileWizardPane } from './ProfileWizardPane';
+import { MaybeModalProps, WizardPaneCallbackProps } from './WizardPane';
 
 export type ColorButtonsProps = {
   mask: number;

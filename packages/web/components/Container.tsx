@@ -5,7 +5,7 @@ export const PageContainer: React.FC<FlexProps> = ({ children, ...props }) => (
   <Flex
     w="100%"
     h="100%"
-    p={{ base: 8, lg: 12 }}
+    p={{ base: 3, sm: 8, lg: 12 }}
     direction="column"
     align="center"
     pos="relative"

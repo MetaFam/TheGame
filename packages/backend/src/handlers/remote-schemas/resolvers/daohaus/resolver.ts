@@ -12,7 +12,7 @@ const addChain = (memberAddress: string) => async (chain: string) => {
 
   const metadataForDaos = await Promise.all(
     members.map(async ({ moloch: { id } }) => {
-      console.log('fetching metadata for ', id);
+      console.log(`Fetching DAO Metadata For: ${id}`);
       const response = await fetch(`${CONFIG.daoHausMetadataUrl}/${id}`);
       const metadataArr = response.ok
         ? ((await response.json()) as DaoMetadata[])
