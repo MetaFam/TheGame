@@ -1,41 +1,92 @@
-import { Text, VStack } from '@metafam/ds';
+import { Box, Button, Container, Text } from '@metafam/ds';
 import BackgroundImage from 'assets/landing/optimal-background.png';
 import { FullPageContainer } from 'components/Container';
+import { useOnScreen } from 'lib/hooks/useOnScreen';
+import { useRouter } from 'next/router';
+import { useRef } from 'react';
+import { BsArrowDown } from 'react-icons/bs';
 
-export const Optimal: React.FC = () => (
-  <FullPageContainer bgImageUrl={BackgroundImage}>
-    <VStack
-      fontSize={{ base: 'xl', md: '5xl' }}
-      color="white"
-      maxWidth={{ base: '16rem', md: '32rem', lg: '64rem' }}
-      spacing={8}
-      align="stretch"
+export const Optimal: React.FC = () => {
+  const ref = useRef<HTMLDivElement>(null);
+  const onScreen = useOnScreen(ref);
+  const { push } = useRouter();
+
+  const handleSectionNav = (sectionId: string) => {
+    push(`#${sectionId}`);
+  };
+
+  return (
+    <FullPageContainer
+      bgImageUrl={BackgroundImage}
+      id="section-8"
+      position="relative"
     >
-      <Text textAlign="center">
-        To find your metagame means to{' '}
-        <Text as="span" fontWeight="bold" color="cyanText">
-          play life in the optimal way.
-        </Text>
-      </Text>
-      <Text textAlign="center">
-        By coordinating with others on building a better world; doing things
-        that create a{' '}
-        <Text as="span" fontWeight="bold" color="cyanText">
-          {' '}
-          a positive impact
-          <br />{' '}
-        </Text>{' '}
-        make
-        <Text as="span" fontWeight="bold" color="cyanText">
-          {' '}
-          you happy{' '}
-        </Text>
-        AND
-        <Text as="span" fontWeight="bold" color="cyanText">
-          {' '}
-          earn you money.
-        </Text>
-      </Text>
-    </VStack>
-  </FullPageContainer>
-);
+      <Container
+        d="flex"
+        maxW={{ base: '100%', md: '7xl', '2xl': '8xl' }}
+        height="100%"
+        alignItems="center"
+        justifyContent="center"
+      >
+        <Box
+          ref={ref}
+          display="flex"
+          flexDirection="column"
+          justifyContent="center"
+          fontSize={{ base: '1.5rem', md: '2.5rem', '2xl': '3rem' }}
+          lineHeight={{ base: '2.25rem', md: '3.5rem', '2xl': '4rem' }}
+          maxWidth="5xl"
+          pt={{ base: 0, lg: '8.125rem' }}
+          pl={{ base: 0, md: 0 }}
+          zIndex={100}
+          transform={`translate3d(0, ${onScreen ? '0' : '50px'}, 0)`}
+          opacity={onScreen ? 1 : 0}
+          transition="transform 0.3s 0.1s ease-in-out, opacity 0.5s 0.2s ease-in"
+        >
+          <Text pb="2.188rem" textAlign="center">
+            To find your metagame means to{' '}
+            <Text as="span" fontWeight="bold" color="cyanText">
+              play life in the optimal way.
+            </Text>
+          </Text>
+          <Text as="p" textAlign="center">
+            By coordinating with others on building a better world; doing things
+            that create a{' '}
+            <Text as="span" fontWeight="bold" color="cyanText">
+              {' '}
+              a positive impact
+              <br />{' '}
+            </Text>{' '}
+            make
+            <Text as="span" fontWeight="bold" color="cyanText">
+              {' '}
+              you happy{' '}
+            </Text>
+            AND
+            <Text as="span" fontWeight="bold" color="cyanText">
+              {' '}
+              earn you money.
+            </Text>
+          </Text>
+        </Box>
+      </Container>
+      <Box
+        pos="absolute"
+        bottom="0"
+        py={20}
+        maxW={{ base: '100%', md: '7xl', '2xl': '8xl' }}
+        zIndex={200}
+        centerContent
+      >
+        <Button
+          colorScheme="white"
+          size="lg"
+          rightIcon={<BsArrowDown />}
+          onClick={() => handleSectionNav('section-9')}
+        >
+          Next
+        </Button>
+      </Box>
+    </FullPageContainer>
+  );
+};

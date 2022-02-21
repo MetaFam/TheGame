@@ -2,6 +2,8 @@ import { Image, ListItem, OrderedList, Stack, Text, VStack } from '@metafam/ds';
 import GuildsImage from 'assets/landing/guilds.png';
 import PatronsImage from 'assets/landing/patrons.png';
 import PlayersImage from 'assets/landing/players.png';
+import { useOnScreen } from 'lib/hooks/useOnScreen';
+import { useRef } from 'react';
 
 type CardProps = {
   title: string;
@@ -42,46 +44,55 @@ const Card: React.FC<CardProps> = ({
   </Stack>
 );
 
-export const Cards: React.FC = () => (
-  <Stack
-    direction={{ base: 'column', md: 'row' }}
-    color="white"
-    spacing={12}
-    fontSize="md"
-    maxW="96rem"
-  >
-    <Card
-      title="PLAYERS"
-      image={PlayersImage}
-      description="MetaGame is for those who want to play an active role in building the future."
-      listTitle="For those who want to:"
-      list={[
-        'Build their knowledge, get experience & level up.',
-        'Find cool projects, solve problems & get paid.',
-        'Become a part of something bigger.',
-      ]}
-    />
-    <Card
-      title="GUILDS"
-      image={GuildsImage}
-      description="It's also for groups of people, those building tools & services for a decentralized future."
-      listTitle="For those who want"
-      list={[
-        'Help finding tools, frameworks & accessible funds.',
-        'Help getting value-aligned contributors & adopters',
-        'Become part of the "new world" puzzle.',
-      ]}
-    />
-    <Card
-      title="PATRONS"
-      image={PatronsImage}
-      description="Those who really want to see MetaGame succeed, but prefer to help with funds."
-      listTitle="Why?"
-      list={[
-        'They love builder onboarding & support systems.',
-        'Membership and other things, all paid in Seeds.',
-        'Understanding MetaGame made them go: Fuck yeah!',
-      ]}
-    />
-  </Stack>
-);
+export const Cards: React.FC = () => {
+  const ref = useRef<HTMLDivElement>(null);
+  const onScreen = useOnScreen(ref);
+
+  return (
+    <Stack
+      ref={ref}
+      direction={{ base: 'column', md: 'row' }}
+      color="white"
+      spacing={12}
+      fontSize="md"
+      maxW="96rem"
+      transform={`translate3d(0, ${onScreen ? '0' : '50px'}, 0)`}
+      opacity={onScreen ? 1 : 0}
+      transition="transform 0.3s 0.3s ease-in-out, opacity 0.5s 0.4s ease-in"
+    >
+      <Card
+        title="PLAYERS"
+        image={PlayersImage}
+        description="MetaGame is for those who want to play an active role in building the future."
+        listTitle="For those who want to:"
+        list={[
+          'Build their knowledge, get experience & level up.',
+          'Find cool projects, solve problems & get paid.',
+          'Become a part of something bigger.',
+        ]}
+      />
+      <Card
+        title="GUILDS"
+        image={GuildsImage}
+        description="It's also for groups of people, those building tools & services for a decentralized future."
+        listTitle="For those who want"
+        list={[
+          'Help finding tools, frameworks & accessible funds.',
+          'Help getting value-aligned contributors & adopters',
+          'Become part of the "new world" puzzle.',
+        ]}
+      />
+      <Card
+        title="PATRONS"
+        image={PatronsImage}
+        description="Those who really want to see MetaGame succeed, but prefer to help with funds."
+        listTitle="Why?"
+        list={[
+          'They love builder onboarding & support systems.',
+          'Membership and other things, all paid in Seeds.',
+          'Understanding MetaGame made them go: Fuck yeah!',
+        ]}
+      />
+    </Stack>
+  );
+};
