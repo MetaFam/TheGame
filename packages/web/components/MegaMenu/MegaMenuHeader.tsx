@@ -17,7 +17,7 @@ import LogoImage from 'assets/logo-new.png';
 import { MetaLink } from 'components/Link';
 import { DesktopNavLinks } from 'components/MegaMenu/DesktopNavLinks';
 import { DesktopPlayerStats } from 'components/MegaMenu/DesktopPlayerStats';
-import { useUser, useWeb3 } from 'lib/hooks';
+import { useMounted, useUser, useWeb3 } from 'lib/hooks';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { menuIcons } from 'utils/menuIcons';
@@ -56,6 +56,7 @@ export const MegaMenuHeader: React.FC = () => {
   const { connected, connect, connecting } = useWeb3();
   const router = useRouter();
   const { user, fetching } = useUser();
+  const mounted = useMounted();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const menuToggle = () => (isOpen ? onClose() : onOpen());
@@ -71,7 +72,7 @@ export const MegaMenuHeader: React.FC = () => {
     >
       <Flex
         borderBottom="1px"
-        bg="rgba(0,0,0,0.5)"
+        bg="rgba(0, 0, 0, 0.5)"
         borderColor="#2B2244"
         sx={{ backdropFilter: 'blur(10px)' }}
         px={4}
@@ -116,7 +117,7 @@ export const MegaMenuHeader: React.FC = () => {
                 h={10}
                 px={6}
                 onClick={connect}
-                isLoading={connecting || fetching}
+                isLoading={!mounted || connecting || fetching}
               >
                 Connect
               </MetaButton>

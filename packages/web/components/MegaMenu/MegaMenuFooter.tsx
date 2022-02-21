@@ -14,7 +14,7 @@ import {
 } from '@metafam/ds';
 import { MetaLink } from 'components/Link';
 import { PlayerAvatar } from 'components/Player/PlayerAvatar';
-import { useProfileField, useUser, useWeb3 } from 'lib/hooks';
+import { useMounted, useProfileField, useUser, useWeb3 } from 'lib/hooks';
 import React from 'react';
 import { getPlayerName, getPlayerURL } from 'utils/playerHelpers';
 
@@ -24,6 +24,7 @@ import { XPSeedsBalance } from './XPSeedsBalance';
 export const MegaMenuFooter = () => {
   const { connecting, connected, connect, disconnect } = useWeb3();
   const { fetching, user } = useUser();
+  const mounted = useMounted();
   const { name } = useProfileField({
     field: 'name',
     player: user,
@@ -111,7 +112,7 @@ export const MegaMenuFooter = () => {
           my={3.5}
           px={8}
           onClick={connect}
-          isLoading={connecting || fetching}
+          isLoading={!mounted || connecting || fetching}
         >
           Connect Wallet
         </MetaButton>
