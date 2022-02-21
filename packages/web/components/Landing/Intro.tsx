@@ -1,15 +1,6 @@
-import {
-  BoxedNextImage,
-  Button,
-  Container,
-  Heading,
-  HStack,
-  Stack,
-  Text,
-} from '@metafam/ds';
+import { Button, Container, Heading, Stack, Text } from '@metafam/ds';
 // import { animated } from '@react-spring/web';
 import BackgroundImage from 'assets/landing/sections/section-1.jpg';
-import MetaGameLogo from 'assets/logo-new.png';
 import { FullPageContainer } from 'components/Container';
 import { useOnScreen } from 'lib/hooks/useOnScreen';
 import { useRouter } from 'next/router';
@@ -115,7 +106,7 @@ export const IntroHero: React.FC = () => {
       align="center"
       justify="left"
       spacing={{ base: 8, lg: 10 }}
-      py={{ base: 10, lg: 20 }}
+      pb={{ base: 10, lg: 15, '2xl': 20 }}
       direction={{ base: 'column', lg: 'column' }}
       maxW="lg"
       zIndex={100}
@@ -130,18 +121,10 @@ export const IntroHero: React.FC = () => {
         fontWeight="300"
         color="white"
       >
-        <HStack spacing={2} alignItems="center" justifyContent="flex-start">
-          <BoxedNextImage
-            src={MetaGameLogo}
-            alt="MetaGame Logo"
-            width="105px"
-            height="117px"
-          />
-          <Text as="span">MetaGame</Text>
-        </HStack>
+        <Text as="span">MetaGame</Text>
       </Heading>
 
-      <Text as="p" className="gradient" fontSize={{ base: 'md', '2xl': '3xl' }}>
+      <Text as="p" className="gradient" fontSize={{ base: 'md', lg: '3xl' }}>
         A Massive Online Coordination Game
       </Text>
       {/* <Text as="p">
@@ -155,7 +138,7 @@ export const IntroHero: React.FC = () => {
         pt={{ base: 0, xl: 0 }}
         spacing={{ base: 4, sm: 6 }}
         direction={{ base: 'column', sm: 'row' }}
-        transform={`translate3d(0, ${onScreen ? '0' : '20vh'}, 0)`}
+        transform={`translate3d(0, ${onScreen ? '0' : '50px'}, 0)`}
         opacity={onScreen ? 1 : 0}
         transition="transform 0.3s 0.6s ease-in-out, opacity 0.5s 0.7s ease-in"
       >
