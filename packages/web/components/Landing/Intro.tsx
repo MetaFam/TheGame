@@ -8,7 +8,7 @@ import {
   Text,
 } from '@metafam/ds';
 // import { animated } from '@react-spring/web';
-import BackgroundImage from 'assets/landing/intro-background.png';
+import BackgroundImage from 'assets/landing/sections/section-1.jpg';
 import MetaGameLogo from 'assets/logo-new.png';
 import { FullPageContainer } from 'components/Container';
 import { useOnScreen } from 'lib/hooks/useOnScreen';
