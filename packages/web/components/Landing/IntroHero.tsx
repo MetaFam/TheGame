@@ -19,8 +19,8 @@ export const IntroHero: React.FC = () => {
       pos="relative"
       align="center"
       justify="left"
-      spacing={{ base: 8, lg: 10 }}
-      pb={{ base: 10, lg: 15, '2xl': 20 }}
+      spacing={{ base: 8, xl: 4, '2xl': 10 }}
+      pb={{ base: 10, xl: 15, '2xl': 20 }}
       direction={{ base: 'column', lg: 'column' }}
       maxW="lg"
       zIndex={100}
@@ -31,19 +31,23 @@ export const IntroHero: React.FC = () => {
       <Heading
         as="h1"
         fontFamily="body"
-        fontSize={{ base: '5xl', md: '7xl' }}
+        fontSize={{ base: '5xl', xl: '5xl', '2xl': '7xl' }}
         fontWeight="300"
         color="white"
       >
         <Text as="span">MetaGame</Text>
       </Heading>
 
-      <Text as="p" className="gradient" fontSize={{ base: 'md', lg: '3xl' }}>
+      <Text
+        as="p"
+        className="gradient"
+        fontSize={{ base: 'md', xl: 'xl', '2xl': '3xl' }}
+      >
         A Massive Online Coordination Game
       </Text>
 
       <Stack
-        pt={{ base: 0, xl: 0 }}
+        pt={{ base: 0, xl: 5, '2xl': 0 }}
         spacing={{ base: 4, sm: 6 }}
         justifyContent="space-evenly"
         direction={{ base: 'column', sm: 'row' }}
