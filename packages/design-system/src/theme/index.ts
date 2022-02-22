@@ -22,7 +22,7 @@ export const theme: Theme = extendTheme({
   styles: {
     global: {
       html: {
-        scrollBehavior: 'smooth',
+        // scrollBehavior: 'smooth',
       },
       body: {
         background: colors.dark,

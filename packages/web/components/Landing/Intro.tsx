@@ -1,11 +1,8 @@
-import { Button, Container, Heading, Stack, Text } from '@metafam/ds';
-// import { animated } from '@react-spring/web';
+import { Container } from '@metafam/ds';
 import BackgroundImage from 'assets/landing/sections/section-1.jpg';
 import { FullPageContainer } from 'components/Container';
-import { useOnScreen } from 'lib/hooks/useOnScreen';
-import { useRouter } from 'next/router';
-import { useRef } from 'react';
-import { BsArrowDown } from 'react-icons/bs';
+
+import { IntroHero } from './IntroHero';
 
 export const Intro: React.FC = () => (
   <FullPageContainer
@@ -66,18 +63,6 @@ export const Intro: React.FC = () => (
       },
     }}
   >
-    {/* <Box
-      pos="absolute"
-      top={0}
-      left={0}
-      backgroundImage={`url(${BackgroundImage})`}
-      bgPosition="center"
-      bgRepeat="no-repeat"
-      bgSize="cover"
-      height="100%"
-      width="100%"
-      zIndex={0}
-    /> */}
     <Container
       d="flex"
       maxW={{ base: '100%', md: '7xl', '2xl': '8xl' }}
@@ -89,75 +74,3 @@ export const Intro: React.FC = () => (
     </Container>
   </FullPageContainer>
 );
-
-export const IntroHero: React.FC = () => {
-  const { push } = useRouter();
-  const heroRef = useRef<HTMLDivElement>(null);
-  const onScreen = useOnScreen(heroRef);
-
-  const handleSectionNav = (sectionId: string) => {
-    push(`#${sectionId}`);
-  };
-
-  return (
-    <Stack
-      ref={heroRef}
-      pos="relative"
-      align="center"
-      justify="left"
-      spacing={{ base: 8, lg: 10 }}
-      pb={{ base: 10, lg: 15, '2xl': 20 }}
-      direction={{ base: 'column', lg: 'column' }}
-      maxW="lg"
-      zIndex={100}
-      transform={`translate3d(0, ${onScreen ? '0' : '50px'}, 0)`}
-      opacity={onScreen ? 1 : 0}
-      transition="transform 0.3s 0.1s ease-in-out, opacity 0.5s 0.2s ease-in"
-    >
-      <Heading
-        as="h1"
-        fontFamily="body"
-        fontSize={{ base: '5xl', md: '7xl' }}
-        fontWeight="300"
-        color="white"
-      >
-        <Text as="span">MetaGame</Text>
-      </Heading>
-
-      <Text as="p" className="gradient" fontSize={{ base: 'md', lg: '3xl' }}>
-        A Massive Online Coordination Game
-      </Text>
-      {/* <Text as="p">
-          By coordinating with others on building a better world; doing things
-          that create <Text as="span">a positive impact</Text>, make{' '}
-          <Text as="span">you happy</Text>, and{' '}
-          <Text as="span">earn you money</Text>.
-        </Text> */}
-
-      <Stack
-        pt={{ base: 0, xl: 0 }}
-        spacing={{ base: 4, sm: 6 }}
-        direction={{ base: 'column', sm: 'row' }}
-        transform={`translate3d(0, ${onScreen ? '0' : '50px'}, 0)`}
-        opacity={onScreen ? 1 : 0}
-        transition="transform 0.3s 0.6s ease-in-out, opacity 0.5s 0.7s ease-in"
-      >
-        {/* <Button className="border-grad" rounded="md" size="lg">
-          <Text as="span">Join now</Text>
-        </Button> */}
-        <Button
-          className="border-grad"
-          colorScheme="white"
-          size="lg"
-          leftIcon={<BsArrowDown />}
-          rightIcon={<BsArrowDown />}
-          onClick={() => handleSectionNav('section-2')}
-        >
-          <Text as="span">Explore more</Text>
-        </Button>
-      </Stack>
-    </Stack>
-  );
-};
-
-// const AnimatedIntroHero = animated(IntroHero);
