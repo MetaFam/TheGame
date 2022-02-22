@@ -452,6 +452,7 @@ export const BecomeAPatron = () => (
     <Box my={2}>
       <iframe
         width="100%"
+        height="300px"
         src="https://www.youtube.com/embed/CYuwpR8CLXY?feature=oembed"
       ></iframe>
     </Box>
