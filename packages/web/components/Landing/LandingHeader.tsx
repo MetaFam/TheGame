@@ -69,7 +69,7 @@ export const LandingHeader: React.FC = () => {
             spacing={8}
             alignItems="center"
             opacity={toggle ? 1 : 0}
-            transition="opacity 0.3s 0.2s ease"
+            transition="opacity 0.3s 0.6s ease"
             zIndex={toggle ? 600 : 0}
           >
             <NavLink key="link-home-logo" target="section-1">

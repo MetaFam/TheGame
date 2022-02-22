@@ -67,7 +67,7 @@ export const Together: React.FC = () => {
         bottom="0"
         py={20}
         maxW={{ base: '100%', md: '7xl', '2xl': '8xl' }}
-        zIndex={200}
+        zIndex={150}
         centerContent
       >
         <Button
