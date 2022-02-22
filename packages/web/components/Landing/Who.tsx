@@ -58,7 +58,6 @@ export const Who: React.FC = () => {
         py={20}
         maxW={{ base: '100%', md: '7xl', '2xl': '8xl' }}
         zIndex={150}
-        centerContent
       >
         <Button
           colorScheme="white"
