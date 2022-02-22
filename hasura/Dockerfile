@@ -1,9 +1,11 @@
+# syntax = docker/dockerfile:1 # use BuildKit
+
 FROM hasura/graphql-engine:v1.3.3.cli-migrations-v2
 
 ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.9.0/wait /wait
 RUN chmod +x /wait
 
-## Default setup
+## Default Setup
 
 ARG BACKEND_HOST=localhost
 ARG BACKEND_PROTOCOL=http
@@ -15,21 +17,28 @@ ARG HASURA_GRAPHQL_SERVER_PORT=8080
 
 ENV HASURA_GRAPHQL_DEV_MODE false
 ENV HASURA_GRAPHQL_ENABLE_TELEMETRY false
-ENV HASURA_GRAPHQL_ENABLED_LOG_TYPES startup, http-log, webhook-log, websocket-log, query-log
-ENV HASURA_GRAPHQL_AUTH_HOOK $BACKEND_PROTOCOL://$BACKEND_HOST/$AUTH_HOOK_PATH
-ENV ACTION_BASE_ENDPOINT $BACKEND_PROTOCOL://$BACKEND_HOST/$ACTION_BASE_PATH
-ENV REMOTE_SCHEMA_ENDPOINT $BACKEND_PROTOCOL://$BACKEND_HOST/$REMOTE_SCHEMA_PATH
-ENV TRIGGERS_ENDPOINT $BACKEND_PROTOCOL://$BACKEND_HOST/$TRIGGERS_PATH
-ENV HASURA_GRAPHQL_MIGRATIONS_DATABASE_ENV_VAR HASURA_GRAPHQL_DATABASE_URL
+ENV HASURA_GRAPHQL_ENABLED_LOG_TYPES \
+    startup, http-log, webhook-log, websocket-log, query-log
+ENV HASURA_GRAPHQL_AUTH_HOOK \
+    $BACKEND_PROTOCOL://$BACKEND_HOST/$AUTH_HOOK_PATH
+ENV ACTION_BASE_ENDPOINT \
+    $BACKEND_PROTOCOL://$BACKEND_HOST/$ACTION_BASE_PATH
+ENV REMOTE_SCHEMA_ENDPOINT \
+    $BACKEND_PROTOCOL://$BACKEND_HOST/$REMOTE_SCHEMA_PATH
+ENV TRIGGERS_ENDPOINT \
+    $BACKEND_PROTOCOL://$BACKEND_HOST/$TRIGGERS_PATH
+ENV HASURA_GRAPHQL_MIGRATIONS_DATABASE_ENV_VAR \
+    HASURA_GRAPHQL_DATABASE_URL
 ENV HASURA_GRAPHQL_NO_OF_RETRIES 3
 ENV HASURA_GRAPHQL_MIGRATIONS_SERVER_TIMEOUT 90
-## Migrations
 
+## Migrations & Metadata
 COPY migrations /hasura-migrations
 COPY metadata /hasura-metadata
 
 ## Execution
 
-ENTRYPOINT ["/bin/sh", "-c", "/wait && /bin/docker-entrypoint.sh /bin/sh \"$@\""]
+ENTRYPOINT ["/bin/sh", "-c", \
+            "/wait && /bin/docker-entrypoint.sh /bin/sh \"$@\""]
 
 CMD graphql-engine serve --server-port $HASURA_GRAPHQL_SERVER_PORT
