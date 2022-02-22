@@ -21,21 +21,24 @@ const Card: React.FC<CardProps> = ({
   list,
 }) => (
   <Stack
-    spacing={12}
+    spacing={{ base: 4, lg: 12 }}
     bg="whiteAlpha.50"
     borderRadius="md"
     align="center"
-    p={12}
+    p={{ base: 6, lg: 12 }}
   >
-    <Image maxWidth="12rem" src={image} />
+    <Image maxWidth={{ base: '8rem', lg: '12rem' }} src={image} />
     <VStack>
-      <Text fontSize="2.5rem" textAlign="center">
+      <Text fontSize={{ base: '3xl', lg: '2.5rem' }} textAlign="center">
         {title}
       </Text>
-      <Text fontSize="1.25rem">{description}</Text>
+      <Text fontSize={{ base: 'md', lg: '1.25rem' }}>{description}</Text>
 
       <Text>{listTitle}</Text>
-      <OrderedList fontSize="1.25rem">
+      <OrderedList
+        fontSize={{ base: 'md', lg: '1.25rem' }}
+        listStylePosition="inside"
+      >
         {list.map((item) => (
           <ListItem key={item}>{item}</ListItem>
         ))}
@@ -53,7 +56,7 @@ export const Cards: React.FC = () => {
       ref={ref}
       direction={{ base: 'column', md: 'row' }}
       color="white"
-      spacing={12}
+      spacing={{ base: 4, lg: 12 }}
       fontSize="md"
       maxW="96rem"
       transform={`translate3d(0, ${onScreen ? '0' : '50px'}, 0)`}

@@ -1,4 +1,4 @@
-import { Box, BoxedNextImage, Button, HStack, Link } from '@metafam/ds';
+import { Box, BoxedNextImage, Button, HStack } from '@metafam/ds';
 import MetaGameLogo from 'assets/logo-new.png';
 import { PageContainer } from 'components/Container';
 import { Build } from 'components/Landing/Build';
@@ -57,12 +57,12 @@ const Landing: React.FC = () => {
           justifyContent="center"
           bottom={20}
           left="33%"
-          opacity={currentSection !== 'section-10' ? 0 : 1}
+          opacity={currentSection === 'section-10' ? 1 : 0}
           transition="opacity 0.3s 0.3s ease"
           zIndex={300}
         >
           <HStack spacing={8} alignItems="center">
-            <Link
+            <MetaLink
               href="#section-1"
               sx={{
                 transition: 'all 0.3s ease',
@@ -89,19 +89,18 @@ const Landing: React.FC = () => {
                   width="35px"
                   height="39px"
                 />
-                {/* <Box as="span">MetaGame</Box> */}
               </HStack>
-            </Link>
+            </MetaLink>
           </HStack>
         </Box>
       )}
       <MetaLink
         className="topLink"
         position="fixed"
-        bottom={20}
-        right={8}
+        bottom={{ base: 5, lg: 20 }}
+        right={{ base: 0, lg: 8 }}
         href="#section-1"
-        opacity={currentSection === 'section-1' ? 0 : 1}
+        opacity={currentSection.includes('section-1') ? 0 : 1}
         transform={`translate3d(0,${
           currentSection === 'section-1' ? '30px' : '0px'
         },0)`}

@@ -23,7 +23,7 @@ export const Who: React.FC = () => {
       position="relative"
       fontSize={{ base: 'xl', md: '5xl' }}
       spacing={12}
-      px={12}
+      px={{ base: 3, lg: 12 }}
       py="6rem"
       minH={{ base: 'unset', md: '100vh' }}
     >

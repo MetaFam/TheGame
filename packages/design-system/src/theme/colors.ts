@@ -132,5 +132,5 @@ export const colors: MetaColors = {
   landing550: '#DD5FED',
   landing600: '#DF9BFF',
   landing650: '#DFB9D7',
-  landingDarkGlass: 'rgba(27, 13, 42, 0.8)',
+  landingDarkGlass: 'rgba(27, 13, 42, 0.9)',
 };
