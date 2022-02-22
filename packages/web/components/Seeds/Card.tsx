@@ -12,6 +12,7 @@ import {
   Text,
   useDisclosure,
 } from '@metafam/ds';
+import BackgroundImage from 'assets/main-background.jpg';
 import ModalCardBg from 'assets/modal-bg.png';
 import SeedCardBg from 'assets/seed-card-bg.png';
 
@@ -67,14 +68,16 @@ export const Card: React.FC<CardProps> = ({ title, description, Content }) => {
         <ModalOverlay />
         <ModalContent
           borderRadius="xl"
-          bgImg={ModalCardBg}
+          bgImage={[ModalCardBg, ModalCardBg, BackgroundImage]}
           bgPos="center"
           bgColor="purpleModalDark"
           bgRepeat="no-repeat"
           textColor="white"
           maxH={['full', 'full', '90%']}
-          h={['full', 'full', '90%']}
-          marginTop={[0, 0, 'auto']}
+          h={['full', 'full', 'auto']}
+          // w="auto"
+          maxW="3xl"
+          alignItems="center"
         >
           <ModalHeader fontSize={24} fontWeight="bold">
             {title.toUpperCase()}
