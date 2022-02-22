@@ -32,8 +32,8 @@ export const Build: React.FC = () => {
           display="flex"
           flexDirection="column"
           justifyContent="center"
-          fontSize={{ base: '1.5rem', md: '2.375rem' }}
-          lineHeight={{ base: '2.35rem', md: '3.5rem' }}
+          fontSize={{ base: '1.5rem', '2xl': '2.375rem' }}
+          lineHeight={{ base: '2.35rem', '2xl': '3.5rem' }}
           maxWidth="2xl"
           pl={{ base: 0, md: 0 }}
           zIndex={100}
@@ -47,7 +47,7 @@ export const Build: React.FC = () => {
           </Text>
 
           <Text
-            pt="3.5rem"
+            pt={{ base: 5, '2xl': 10 }}
             fontWeight="normal"
             color="white"
             display="flex"

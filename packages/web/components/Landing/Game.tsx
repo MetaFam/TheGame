@@ -33,9 +33,9 @@ export const Game: React.FC = () => {
           display="flex"
           flexDirection="column"
           justifyContent="center"
-          maxWidth="2xl"
-          fontSize={{ base: '1.5rem', md: '2.375rem' }}
-          lineHeight={{ base: '2.35rem', md: '3.5rem' }}
+          maxWidth={{ base: 'unset', xl: 'lg', '2xl': '2xl' }}
+          fontSize={{ base: '1.5rem', '2xl': '2.375rem' }}
+          lineHeight={{ base: '2.35rem', '2xl': '3.5rem' }}
           pl={{ base: 0, md: 0 }}
           zIndex={100}
           transform={`translate3d(0, ${onScreen ? '0' : '50px'}, 0)`}

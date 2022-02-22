@@ -1,10 +1,10 @@
-import { Box, BoxedNextImage, Button, HStack } from '@metafam/ds';
-import MetaGameLogo from 'assets/logo-new.png';
+import { Button } from '@metafam/ds';
 import { PageContainer } from 'components/Container';
 import { Build } from 'components/Landing/Build';
 import { Game } from 'components/Landing/Game';
 import { Intro } from 'components/Landing/Intro';
 import { JustWatch } from 'components/Landing/JustWatch';
+import { LandingFooter } from 'components/Landing/LandingFooter';
 import { LandingHeader } from 'components/Landing/LandingHeader';
 import { Optimal } from 'components/Landing/Optimal';
 import { Revolution } from 'components/Landing/Revolution';
@@ -48,57 +48,13 @@ const Landing: React.FC = () => {
         <JustWatch />
       </PageContainer>
       {currentSection === 'section-10' && (
-        <Box
-          as="footer"
-          d="flex"
-          w="33%"
-          flexFlow="row nowrap"
-          position="fixed"
-          justifyContent="center"
-          bottom={20}
-          left="33%"
-          opacity={currentSection === 'section-10' ? 1 : 0}
-          transition="opacity 0.3s 0.3s ease"
-          zIndex={300}
-        >
-          <HStack spacing={8} alignItems="center">
-            <MetaLink
-              href="#section-1"
-              sx={{
-                transition: 'all 0.3s ease',
-                '&:hover': {
-                  background:
-                    'linear-gradient(90deg, #FF61E6 -29.22%, #7C56FF 107.53%)',
-                  backgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  textDecoration: 'none',
-                  filter: 'drop-shadow(0 0 15px #FF61E6)',
-                },
-              }}
-            >
-              <HStack
-                fontFamily="body"
-                fontSize="md"
-                spacing={2}
-                alignItems="center"
-                justifyContent="flex-start"
-              >
-                <BoxedNextImage
-                  src={MetaGameLogo}
-                  alt="MetaGame Logo"
-                  width="35px"
-                  height="39px"
-                />
-              </HStack>
-            </MetaLink>
-          </HStack>
-        </Box>
+        <LandingFooter currentSection={currentSection} />
       )}
       <MetaLink
         className="topLink"
         position="fixed"
-        bottom={{ base: 5, lg: 20 }}
-        right={{ base: 0, lg: 8 }}
+        bottom={{ base: 5, '2xl': 20 }}
+        right={{ base: 0, '2xl': 8 }}
         href="#section-1"
         opacity={currentSection.includes('section-1') ? 0 : 1}
         transform={`translate3d(0,${

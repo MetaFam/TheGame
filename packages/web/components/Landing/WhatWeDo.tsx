@@ -33,15 +33,16 @@ export const WhatWeDo: React.FC = () => {
         maxW={{ base: '100%', md: '7xl', '2xl': '8xl' }}
         height="100%"
         alignItems="center"
+        justifyContent="center"
       >
         <Box
           ref={ref}
           display="flex"
           flexDirection="column"
           justifyContent="center"
-          fontSize={{ base: 'lg', md: '2.5rem', '2xl': '3rem' }}
-          lineHeight={{ base: '2rem', md: '3.5rem', '2xl': '4rem' }}
-          maxWidth="5xl"
+          fontSize={{ base: 'md', md: '3xl', '2xl': '6xl' }}
+          lineHeight={{ base: '2rem', md: '2.4rem', '2xl': '3.5rem' }}
+          maxWidth={{ base: 'unset', xl: '2xl', '2xl': '5xl' }}
           pl={{ base: 0, md: 0 }}
           zIndex={100}
           transform={`translate3d(0, ${onScreen ? '0' : '50px'}, 0)`}

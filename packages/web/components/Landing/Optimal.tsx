@@ -33,10 +33,10 @@ export const Optimal: React.FC = () => {
           display="flex"
           flexDirection="column"
           justifyContent="center"
-          fontSize={{ base: '1.5rem', md: '2.5rem', '2xl': '3rem' }}
-          lineHeight={{ base: '2.25rem', md: '3.5rem', '2xl': '4rem' }}
-          maxWidth="5xl"
-          pt={{ base: 0, lg: '8.125rem' }}
+          maxWidth={{ base: '95%', xl: '2xl', '2xl': '6xl' }}
+          fontSize={{ base: 'lg', md: '3xl', '2xl': '6xl' }}
+          lineHeight={{ base: '2rem', md: '2.4rem', '2xl': '3.5rem' }}
+          pt={{ base: 0, lg: 0 }}
           pl={{ base: 0, md: 0 }}
           zIndex={100}
           transform={`translate3d(0, ${onScreen ? '0' : '50px'}, 0)`}
@@ -44,7 +44,8 @@ export const Optimal: React.FC = () => {
           transition="transform 0.3s 0.1s ease-in-out, opacity 0.5s 0.2s ease-in"
         >
           <Text pb="2.188rem" textAlign="center">
-            To find your metagame means to{' '}
+            To find your metagame means
+            <br /> to{' '}
             <Text as="span" fontWeight="bold" color="cyanText">
               play life in the optimal way.
             </Text>

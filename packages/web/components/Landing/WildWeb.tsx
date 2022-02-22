@@ -26,15 +26,16 @@ export const WildWeb: React.FC = () => {
         maxW={{ base: '100%', md: '7xl', '2xl': '8xl' }}
         height="100%"
         alignItems="center"
+        justifyContent="center"
       >
         <Box
           ref={ref}
           display="flex"
           flexDirection="column"
           justifyContent="center"
-          maxWidth="4xl"
-          fontSize={{ base: 'md', md: '2.5rem', '2xl': '3rem' }}
-          lineHeight={{ base: '2rem', md: '3.5rem', '2xl': '4rem' }}
+          maxWidth={{ base: 'unset', xl: '2xl', '2xl': '5xl' }}
+          fontSize={{ base: 'md', xl: '3xl', '2xl': '6xl' }}
+          lineHeight={{ base: '1.5rem', xl: '2.4rem', '2xl': '3.5rem' }}
           fontWeight="normal"
           pl={{ base: 0, md: 0 }}
           zIndex={100}
@@ -42,20 +43,20 @@ export const WildWeb: React.FC = () => {
           opacity={onScreen ? 1 : 0}
           transition="transform 0.3s 0.1s ease-in-out, opacity 0.5s 0.2s ease-in"
         >
-          <Text pb={{ base: '1.188rem', md: '2.188rem' }}>
+          <Text pb={{ base: '1.188rem', '2xl': '2.188rem' }}>
             Web3 technologies are allowing us to{' '}
-            <Text fontWeight="bold">reimagine socioeconomic systems</Text> from
-            the ground up.
+            <Text as="strong">reimagine socioeconomic systems</Text> from the
+            ground up.
           </Text>
-          <Text pb="2.188remx">
+          <Text pb={{ base: '1.188rem', '2xl': '2.188rem' }}>
             A new world is being built but it's{' '}
-            <Text fontWeight="bold">hard to navigate.</Text>
+            <Text as="strong">hard to navigate.</Text>
           </Text>
-          <Text pb="2.188rem">
+          <Text pb={{ base: '1.188rem', '2xl': '2.188rem' }}>
             The resources, building blocks & tools are all over the place{' '}
-            <Text fontWeight="bold">but the maps are inexistent.</Text>
+            <Text as="strong">but the maps are inexistent.</Text>
           </Text>
-          <Text pb="2.188rem">
+          <Text pb={{ base: '1.188rem', '2xl': '2.188rem' }}>
             There are pitfalls, gold rushing cowboys & snake oil salesmen at
             every corner.
           </Text>

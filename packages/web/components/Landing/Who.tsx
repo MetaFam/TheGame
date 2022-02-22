@@ -40,8 +40,8 @@ export const Who: React.FC = () => {
           flexDirection="column"
           justifyContent="center"
           maxWidth="2xl"
-          fontSize={{ base: '1.5rem', md: '2.5rem', '2xl': '3rem' }}
-          lineHeight={{ base: '2.25rem', md: '3.5rem', '2xl': '4rem' }}
+          fontSize={{ base: '1.5rem', xl: '4xl', '2xl': '3rem' }}
+          lineHeight={{ base: '2.25rem', xl: '2rem', '2xl': '4rem' }}
           pl={{ base: 0, md: 0 }}
           zIndex={100}
           transform={`translate3d(0, ${onScreen ? '0' : '50px'}, 0)`}
@@ -54,7 +54,7 @@ export const Who: React.FC = () => {
       <Cards />
       <Box
         pos="absolute"
-        bottom="0"
+        bottom={0}
         py={20}
         maxW={{ base: '100%', md: '7xl', '2xl': '8xl' }}
         zIndex={150}
