@@ -83,10 +83,7 @@ const SeedsPage: React.FC = () => {
           <Image width="full" src={SeedsFlowChart} alignSelf="end" mt={4} />
         </Grid>
 
-        <Grid
-          templateColumns={['auto', 'auto', '1fr 1fr', '1fr 1fr 1fr']}
-          gap={6}
-        >
+        <Grid templateColumns={['auto', 'auto', '1fr 1fr']} gap={6}>
           {cardsConfig.map(({ title, description, Content }) => (
             <Card title={title} description={description} Content={Content} />
           ))}

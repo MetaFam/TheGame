@@ -37,7 +37,6 @@ export const Card: React.FC<CardProps> = ({ title, description, Content }) => {
       p={8}
       minH="3xs"
       key={title}
-      maxW="sm"
       w={['full', 'auto']}
       cursor="pointer"
       onClick={onOpen}
