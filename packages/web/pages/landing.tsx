@@ -56,7 +56,7 @@ const Landing: React.FC = () => {
         bottom={{ base: 5, '2xl': 20 }}
         right={{ base: 0, '2xl': 8 }}
         href="#section-1"
-        opacity={currentSection.includes('section-1') ? 0 : 1}
+        opacity={currentSection === 'section-1' ? 0 : 1}
         transform={`translate3d(0,${
           currentSection === 'section-1' ? '30px' : '0px'
         },0)`}

@@ -113,6 +113,7 @@ export {
   InputProps,
   InputRightAddon,
   InputRightElement,
+  keyframes,
   Link,
   LinkBox,
   LinkOverlay,
