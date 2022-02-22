@@ -1,4 +1,5 @@
 import {
+  Center,
   Flex,
   MetaTheme,
   multiSelectStyles,
@@ -156,7 +157,7 @@ export const SetupSkills: React.FC<MaybeModalProps> = ({ onClose }) => {
         }
 
         return (
-          <Flex w="full" align="stretch" maxW="50rem">
+          <Center w="full" align="stretch">
             <SelectSearch
               isMulti
               {...{ styles }}
@@ -171,7 +172,7 @@ export const SetupSkills: React.FC<MaybeModalProps> = ({ onClose }) => {
               placeholder="Add your skills…"
               {...props}
             />
-          </Flex>
+          </Center>
         );
       }}
     </WizardPane>
