@@ -31,7 +31,7 @@ export const IntroHero: React.FC = () => {
       <Heading
         as="h1"
         fontFamily="body"
-        fontSize={{ base: '5xl', xl: '5xl', '2xl': '7xl' }}
+        fontSize={{ base: '5xl', md: '7xl', xl: '5xl', '2xl': '7xl' }}
         fontWeight="300"
         color="white"
       >
@@ -41,7 +41,7 @@ export const IntroHero: React.FC = () => {
       <Text
         as="p"
         className="gradient"
-        fontSize={{ base: 'md', xl: 'xl', '2xl': '3xl' }}
+        fontSize={{ base: 'md', md: '2xl', xl: 'xl', '2xl': '3xl' }}
       >
         A Massive Online Coordination Game
       </Text>

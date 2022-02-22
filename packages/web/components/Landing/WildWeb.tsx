@@ -33,9 +33,9 @@ export const WildWeb: React.FC = () => {
           display="flex"
           flexDirection="column"
           justifyContent="center"
-          maxWidth={{ base: 'unset', xl: '2xl', '2xl': '5xl' }}
-          fontSize={{ base: 'md', xl: '3xl', '2xl': '6xl' }}
-          lineHeight={{ base: '1.5rem', xl: '2.4rem', '2xl': '3.5rem' }}
+          maxWidth={{ base: '95%', md: 'md', xl: '2xl', '2xl': '5xl' }}
+          fontSize={{ base: 'md', md: '3xl', '2xl': '6xl' }}
+          lineHeight={{ base: '1.5rem', md: '2.4rem', '2xl': '3.5rem' }}
           fontWeight="normal"
           pl={{ base: 0, md: 0 }}
           zIndex={100}
@@ -61,7 +61,9 @@ export const WildWeb: React.FC = () => {
             every corner.
           </Text>
 
-          <Text textTransform="uppercase">It’s a Wild Web.</Text>
+          <Text as="strong" textTransform="uppercase">
+            It’s a Wild Web.
+          </Text>
         </Box>
       </Container>
       <Box

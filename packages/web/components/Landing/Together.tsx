@@ -40,7 +40,7 @@ export const Together: React.FC = () => {
           color="white"
           bgGradient=" linear-gradient(180deg, #FFFFFF 15.3%, #FD208A 85.41%)"
           bgClip="text"
-          maxWidth={{ base: 'unset', xl: '2xl', '2xl': '6xl' }}
+          maxWidth={{ base: '95%', md: '2xl', '2xl': '6xl' }}
           pl={{ base: 0, md: 0 }}
           zIndex={100}
           transform={`translate3d(0, ${onScreen ? '0' : '50px'}, 0)`}
@@ -48,12 +48,10 @@ export const Together: React.FC = () => {
           transition="transform 0.3s 0.1s ease-in-out, opacity 0.5s 0.2s ease-in"
         >
           <Text pb={{ base: '1.188rem', md: '3.125rem' }}>
-            {' '}
             We are bringing together the people & building blocks aligned on the
             idea of creating a new kind of society.
           </Text>
           <Text pb={{ base: '1.188rem', md: '3.125rem' }}>
-            {' '}
             One that is optimized for human wellbeing rather than profit.
           </Text>
           <Text pb={{ base: '1.188rem', md: '3.125rem' }}>
