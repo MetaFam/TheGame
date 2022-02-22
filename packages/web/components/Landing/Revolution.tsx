@@ -25,7 +25,7 @@ export const Revolution: React.FC = () => {
     >
       <Container
         d="flex"
-        maxW={{ base: '100%', md: '7xl', '2xl': '8xl' }}
+        maxW={{ base: '100%', xl: '7xl', '2xl': '8xl' }}
         height="100%"
         alignItems="center"
         justifyContent="end"
@@ -37,7 +37,7 @@ export const Revolution: React.FC = () => {
           justifyContent="center"
           fontSize={{ base: '4xl', xl: '6xl', '2xl': '8xl' }}
           lineHeight={{ base: '2rem', xl: '2.5rem', '2xl': '4.3rem' }}
-          maxWidth={{ base: '2xl', xl: 'md', '2xl': '2xl' }}
+          maxWidth={{ base: '2xl', md: 'md', '2xl': '2xl' }}
           pl={{ base: 0, md: 0 }}
           zIndex={100}
           transform={`translate3d(0, ${onScreen ? '0' : '50px'}, 0)`}

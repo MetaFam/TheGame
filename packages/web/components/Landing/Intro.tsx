@@ -65,7 +65,7 @@ export const Intro: React.FC = () => (
   >
     <Container
       d="flex"
-      maxW={{ base: '100%', md: '7xl', '2xl': '8xl' }}
+      maxW={{ base: '100%', xl: '7xl', '2xl': '8xl' }}
       height="100%"
       alignItems="flex-end"
       justifyContent="center"

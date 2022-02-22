@@ -29,7 +29,7 @@ export const JustWatch: React.FC = () => {
           display="flex"
           flexDirection="column"
           justifyContent="center"
-          maxWidth={{ base: '100%', lg: '2xl', xl: 'md', '2xl': '2xl' }}
+          maxWidth={{ base: '100%', md: '2xl', xl: 'md', '2xl': '2xl' }}
           pl={{ base: 0, md: 0 }}
           textAlign="center"
           zIndex={100}
@@ -39,8 +39,8 @@ export const JustWatch: React.FC = () => {
         >
           <VStack>
             <Text
-              fontSize={{ base: '4xl', xl: '6xl', '2xl': '8xl' }}
-              lineHeight={{ base: '3rem', xl: '3rem', '2xl': '5rem' }}
+              fontSize={{ base: '4xl', md: '6xl', '2xl': '8xl' }}
+              lineHeight={{ base: '2.5rem', md: '3rem', '2xl': '5rem' }}
               fontWeight="700"
               color="white"
               mb="2.188rem"
