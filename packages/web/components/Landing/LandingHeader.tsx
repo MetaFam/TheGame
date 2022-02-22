@@ -137,7 +137,6 @@ export const LandingHeader: React.FC = () => {
               marginRight: 0,
               zIndex: 401,
               overflow: `hidden`,
-              // transform: `translate3d(0, ${toggle ? '0' : '50px'}, 0)`,
               '&:hover, &:focus,  &[data-hover]': {
                 outline: `none`,
                 background: 'transparent',
@@ -170,7 +169,7 @@ export const LandingHeader: React.FC = () => {
                 },
               },
               'path, circle': {
-                fill: toggle ? `landing350` : `white`,
+                fill: toggle ? `landing600` : `landing250`,
                 transition: `all 0.2s 0.2s ease`,
               },
             }}
@@ -269,7 +268,7 @@ export const LandingHeader: React.FC = () => {
           size="lg"
           px={10}
           opacity={toggle ? 1 : 0}
-          transition="opacity 0.3s 1s ease-in-out"
+          transition="opacity 0.3s 0.6s ease-in-out"
         >
           <Box as="span">Join</Box>
         </Button>
