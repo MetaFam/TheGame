@@ -21,7 +21,7 @@ export const Revolution: React.FC = () => {
       bgImageUrl={BackgroundImage}
       id="section-4"
       position="relative"
-      justify={{ base: 'center', md: 'flex-end' }}
+      justify={{ base: 'flex-end', xl: 'flex-end' }}
     >
       <Container
         d="flex"
@@ -35,29 +35,18 @@ export const Revolution: React.FC = () => {
           display="flex"
           flexDirection="column"
           justifyContent="center"
-          fontSize={{ base: '4xl', md: '8xl' }}
-          lineHeight={{ base: '3rem', md: '5rem' }}
-          maxWidth="2xl"
+          fontSize={{ base: '4xl', xl: '6xl', '2xl': '8xl' }}
+          lineHeight={{ base: '2rem', xl: '2.5rem', '2xl': '4.3rem' }}
+          maxWidth={{ base: '2xl', xl: 'md', '2xl': '2xl' }}
           pl={{ base: 0, md: 0 }}
           zIndex={100}
           transform={`translate3d(0, ${onScreen ? '0' : '50px'}, 0)`}
           opacity={onScreen ? 1 : 0}
           transition="transform 0.3s 0.1s ease-in-out, opacity 0.5s 0.2s ease-in"
         >
-          <Text
-            // fontSize={{ base: '3rem', md: '4.188rem' }}
-            fontWeight="normal"
-            color="white"
-          >
-            A revolution is happening online;
-          </Text>
+          <Text>A revolution is happening online;</Text>
 
-          <Text
-            pt="1.5rem"
-            // fontSize={{ base: '3rem', md: '4.188rem' }}
-            fontWeight="normal"
-            color="white"
-          >
+          <Text pt={{ base: 4, '2xl': 10 }}>
             will you{' '}
             <MetaLink
               href="https://wiki.metagame.wtf/docs/enter-metagame/join-metagame"
@@ -78,13 +67,14 @@ export const Revolution: React.FC = () => {
             >
               join
             </MetaLink>{' '}
-            or miss out?
+            or
+            <br /> miss out?
           </Text>
         </Box>
       </Container>
       <Box
         pos="absolute"
-        bottom="0"
+        bottom={0}
         py={20}
         maxW={{ base: '100%', md: '7xl', '2xl': '8xl' }}
         zIndex={150}

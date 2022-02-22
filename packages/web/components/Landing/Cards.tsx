@@ -21,22 +21,27 @@ const Card: React.FC<CardProps> = ({
   list,
 }) => (
   <Stack
-    spacing={{ base: 4, lg: 12 }}
+    spacing={{ base: 4, '2xl': 12 }}
     bg="whiteAlpha.50"
     borderRadius="md"
     align="center"
-    p={{ base: 6, lg: 12 }}
+    p={{ base: 6, xl: 8, '2xl': 12 }}
   >
-    <Image maxWidth={{ base: '8rem', lg: '12rem' }} src={image} />
+    <Image maxWidth={{ base: '8rem', '2xl': '12rem' }} src={image} />
     <VStack>
-      <Text fontSize={{ base: '3xl', lg: '2.5rem' }} textAlign="center">
+      <Text
+        fontSize={{ base: '2xl', xl: '3xl', '2xl': '2.5rem' }}
+        textAlign="center"
+      >
         {title}
       </Text>
-      <Text fontSize={{ base: 'md', lg: '1.25rem' }}>{description}</Text>
+      <Text fontSize={{ base: 'sm', xl: 'md', '2xl': '1.25rem' }}>
+        {description}
+      </Text>
 
       <Text>{listTitle}</Text>
       <OrderedList
-        fontSize={{ base: 'md', lg: '1.25rem' }}
+        fontSize={{ base: 'sm', xl: 'md', '2xl': '1.25rem' }}
         listStylePosition="inside"
       >
         {list.map((item) => (

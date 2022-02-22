@@ -34,13 +34,13 @@ export const Together: React.FC = () => {
           flexDirection="column"
           justifyItems="center"
           textAlign="center"
-          fontSize={{ base: 'xl', md: '2.5rem', '2xl': '3rem' }}
-          lineHeight={{ base: '2rem', md: '3.5rem', '2xl': '4rem' }}
+          fontSize={{ base: 'md', md: '3xl', '2xl': '6xl' }}
+          lineHeight={{ base: '2rem', md: '2.4rem', '2xl': '3.5rem' }}
           fontWeight="normal"
           color="white"
           bgGradient=" linear-gradient(180deg, #FFFFFF 15.3%, #FD208A 85.41%)"
           bgClip="text"
-          maxWidth="6xl"
+          maxWidth={{ base: 'unset', xl: '2xl', '2xl': '6xl' }}
           pl={{ base: 0, md: 0 }}
           zIndex={100}
           transform={`translate3d(0, ${onScreen ? '0' : '50px'}, 0)`}
