@@ -17,7 +17,7 @@ export const SetupUsername: React.FC = () => {
       {({ register, dirty, errored }: WizardPaneCallbackProps) => {
         const { ref: registerRef, ...props } = register(field, {
           validate: async (value: string) => {
-            if (/0x[0-9a-z]{40}/i.test(value)) {
+            if (/^0x[0-9a-z]{40}$/i.test(value)) {
               return `Username “${value}” has the same format as an Ethereum address.`;
             }
             if (dirty && (await getPlayer(value))) {
