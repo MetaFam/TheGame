@@ -39,7 +39,7 @@ export const WhatWeDo: React.FC = () => {
           display="flex"
           flexDirection="column"
           justifyContent="center"
-          fontSize={{ base: 'xl', md: '2.5rem', '2xl': '3rem' }}
+          fontSize={{ base: 'lg', md: '2.5rem', '2xl': '3rem' }}
           lineHeight={{ base: '2rem', md: '3.5rem', '2xl': '4rem' }}
           maxWidth="5xl"
           pl={{ base: 0, md: 0 }}
