@@ -76,13 +76,18 @@ export const GuildFragment = /* GraphQL */ `
     discord_invite_url
     join_button_url
     logo
-    moloch_address
     name
     type
     position
     website_url
     github_url
     twitter_url
+    daos {
+      contractAddress
+      network
+      label
+      url
+    }
   }
 `;
 

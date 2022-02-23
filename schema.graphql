@@ -4826,6 +4826,42 @@ type player {
 
   """Remote relationship field"""
   daohausMemberships: [Member!]!
+
+  """An array relationship"""
+  daos(
+    """distinct select on columns"""
+    distinct_on: [dao_player_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [dao_player_order_by!]
+
+    """filter the rows returned"""
+    where: dao_player_bool_exp
+  ): [dao_player!]!
+
+  """An aggregated array relationship"""
+  daos_aggregate(
+    """distinct select on columns"""
+    distinct_on: [dao_player_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [dao_player_order_by!]
+
+    """filter the rows returned"""
+    where: dao_player_bool_exp
+  ): dao_player_aggregate!
   discordId: String
   ethereumAddress: String!
 
@@ -5275,6 +5311,7 @@ input player_bool_exp {
   _or: [player_bool_exp]
   accounts: player_account_bool_exp
   createdAt: timestamptz_comparison_exp
+  daos: dao_player_bool_exp
   discordId: String_comparison_exp
   ethereumAddress: String_comparison_exp
   guilds: guild_player_bool_exp
@@ -5320,6 +5357,7 @@ input type for inserting data into table "player"
 input player_insert_input {
   accounts: player_account_arr_rel_insert_input
   createdAt: timestamptz
+  daos: dao_player_arr_rel_insert_input
   discordId: String
   ethereumAddress: String
   guilds: guild_player_arr_rel_insert_input
@@ -5427,6 +5465,7 @@ ordering options when selecting data from "player"
 input player_order_by {
   accounts_aggregate: player_account_aggregate_order_by
   createdAt: order_by
+  daos_aggregate: dao_player_aggregate_order_by
   discordId: order_by
   ethereumAddress: order_by
   guilds_aggregate: guild_player_aggregate_order_by
