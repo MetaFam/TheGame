@@ -14,7 +14,7 @@ export const LandingFooter = ({ currentSection = '' }) => (
     left="33%"
     opacity={currentSection === 'section-10' ? 1 : 0}
     transition="opacity 0.3s 0.3s ease"
-    zIndex={300}
+    zIndex={200}
   >
     <HStack spacing={8} alignItems="center">
       <MetaLink
@@ -22,12 +22,7 @@ export const LandingFooter = ({ currentSection = '' }) => (
         sx={{
           transition: 'all 0.3s ease',
           '&:hover': {
-            background:
-              'linear-gradient(90deg, #FF61E6 -29.22%, #7C56FF 107.53%)',
-            backgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            textDecoration: 'none',
-            filter: 'drop-shadow(0 0 15px #FF61E6)',
+            filter: 'drop-shadow(0 0 20px #79F8FB)',
           },
         }}
       >

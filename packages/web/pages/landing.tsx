@@ -35,7 +35,7 @@ const Landing: React.FC = () => {
   return (
     <>
       <LandingHeader />
-      <PageContainer position="relative" p={0}>
+      <PageContainer position="relative" className="landing" p={0}>
         <Intro />
         <Game />
         <Build />

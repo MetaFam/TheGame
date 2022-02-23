@@ -9,6 +9,7 @@ import {
   keyframes,
   Link,
   styled,
+  Text,
   VStack,
 } from '@metafam/ds';
 import MetaGameLogo from 'assets/logo-new.png';
@@ -95,35 +96,6 @@ export const LandingHeader: React.FC = () => {
         zIndex={300}
         sx={{
           backgroundColor: 'transparent',
-          // backdropFilter: toggle && 'blur(7px)',
-          '.border-grad': {
-            border: '1px double transparent',
-            background: 'transparent',
-            backgroundImage:
-              'linear-gradient(#1B0D2A, #1B0D2A), radial-gradient(circle at top left, #FF61E6 -29.22%, #7C56FF 107.53%)',
-            backgroundClip: 'padding-box, border-box',
-            backgroundOrigin: 'border-box',
-            WebkitBackgroundOrigin: 'border-box',
-            boxSizing: 'border-box',
-            '& > span': {
-              background:
-                'linear-gradient(90deg, #FF61E6 -29.22%, #7C56FF 107.53%)',
-              backgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              transition: 'all 0.3s ease',
-            },
-            '&:hover': {
-              backgroundImage:
-                'linear-gradient(#1B0D2A, #1B0D2A), radial-gradient(circle at top left, #FF61E6 -29.22%, #7C56FF 107.53%)',
-              backgroundSize: '130%',
-              '& > span': {
-                background:
-                  'linear-gradient(-90deg, #FF61E6 -29.22%, #7C56FF 107.53%)',
-                backgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-              },
-            },
-          },
         }}
       >
         <Flex
@@ -159,33 +131,7 @@ export const LandingHeader: React.FC = () => {
               </HStack>
             </NavLink>
           </HStack>
-          {/* Menu Desktop */}
-          {/* <HStack
-            as="nav"
-            className="header__menu--desktop"
-            d={{ base: 'none', md: 'block' }}
-            alignItems="center"
-            fontSize="xs"
-          >
-            <NavLink key={'link-home'} target="section-1">
-              Home
-            </NavLink>
-            <NavLink key={'link-about'} target="section-2">
-              About
-            </NavLink>
-            <NavLink key={'link-mission'} target="section-3">
-              Mission
-            </NavLink>
-            <NavLink key={'link-whatdo'} target="section-4">
-              What we do?
-            </NavLink>
-          </HStack> */}
-          {/* // Header join button */}
-          {/* <HStack d={{ base: 'none', md: 'block' }} alignItems="center">
-            <Button className="border-grad" rounded="md" size="md" px={10}>
-              <Box as="span">Join</Box>
-            </Button>
-          </HStack> */}
+
           {/* // Header toggle button (mobile) */}
           <Button
             className="menu__toggle-button"
@@ -244,13 +190,13 @@ export const LandingHeader: React.FC = () => {
             }}
           >
             <div>
-              <SVG />
+              <MenuIconSVG />
             </div>
             <div>
-              <SVG />
+              <MenuIconSVG />
             </div>
             <div>
-              <SVG />
+              <MenuIconSVG />
             </div>
           </Button>
         </Flex>
@@ -264,7 +210,6 @@ export const LandingHeader: React.FC = () => {
         left={0}
         alignItems="center"
         justifyContent="center"
-        background="landingDarkGlass"
         height="100vh"
         width="100%"
         maxW="full"
@@ -278,194 +223,206 @@ export const LandingHeader: React.FC = () => {
           transition: `transform 0.3s 0.1s ease-in-out, opacity 0.3s 0.2s ease-in-out`,
           backgroundColor: 'landingDarkGlass',
           backdropFilter: 'blur(7px)',
-          '.border-grad': {
-            border: '1px double transparent',
-            background: 'transparent',
-            backgroundImage:
-              'linear-gradient(#1B0D2A, #1B0D2A), radial-gradient(circle at top left, #FF61E6 -29.22%, #7C56FF 107.53%)',
-            backgroundClip: 'padding-box, border-box',
-            backgroundOrigin: 'border-box',
-            WebkitBackgroundOrigin: 'border-box',
-            boxSizing: 'border-box',
-            '& > span': {
-              background:
-                'linear-gradient(90deg, #FF61E6 -29.22%, #7C56FF 107.53%)',
-              backgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              transition: 'all 0.3s ease',
-            },
-            '&:hover': {
-              backgroundImage:
-                'linear-gradient(#1B0D2A, #1B0D2A), radial-gradient(circle at top left, #FF61E6 -29.22%, #7C56FF 107.53%)',
-              backgroundSize: '130%',
-              '& > span': {
-                background:
-                  'linear-gradient(-90deg, #FF61E6 -29.22%, #7C56FF 107.53%)',
-                backgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-              },
-            },
-          },
         }}
       >
-        <VStack
-          as="nav"
-          className="menu--mobile__menu-items"
-          d={{ base: 'flex' }}
-          fontSize="lg"
-          spacing={4}
-          mb={{ base: 16 }}
-          opacity={toggle ? 1 : 0}
-          transition="opacity 0.3s 0.5s ease-in-out"
-        >
-          <NavLink key={'link-home'} target="section-1">
-            Home
-          </NavLink>
-          <NavLink key={'link-about'} target="section-2">
-            About
-          </NavLink>
-          <NavLink key={'link-mission'} target="section-3">
-            Mission
-          </NavLink>
-          <NavLink key={'link-whatdo'} target="section-4">
-            What we do?
-          </NavLink>
-        </VStack>
-        <Button
-          className="border-grad"
-          rounded="md"
-          size="lg"
-          px={10}
-          opacity={toggle ? 1 : 0}
-          transition="opacity 0.3s 0.6s ease-in-out"
-        >
-          <Box as="span">Join</Box>
-        </Button>
-        <Box
+        <HStack
+          spacing={{ base: 4, '2xl': 10 }}
+          textAlign="left"
           sx={{
-            animation: upDownAnimation,
-            position: 'absolute',
-            width: '100%',
-            height: '20vh',
-            bottom: { base: -5, '2xl': -10 },
-            left: 0,
-            right: 0,
-            zIndex: 300,
-            pointerEvents: 'none',
-            overflowX: 'hidden',
-            overflowY: 'hidden',
+            '.menu--mobile__menu-items': {
+              span: {
+                color: '#DD5FED',
+              },
+            },
           }}
         >
-          <InnerWaveA
+          <VStack
+            className="menu--mobile__menu-items"
+            d={{ base: 'flex' }}
+            fontSize="lg"
+            spacing={4}
+            alignItems="flex-start"
+            // mb={{ base: 16 }}
+            opacity={toggle ? 1 : 0}
+            transition="opacity 0.3s 0.5s ease-in-out"
             sx={{
-              position: `absolute`,
-              width: `200%`,
-              left: 0,
-              top: { base: 0, '2xl': `50px` },
-              height: `full`,
-              svg: {
-                width: `100%`,
-                height: [`150px`, `150px`, `200px`],
-                transform: `scale(-1, -1)`,
-                zIndex: 50,
-              },
-              zIndex: 50,
-              'svg > path': {
-                boxShadow: `0 0 35px rgba(0,0,0,1)`,
+              a: {
+                textAlign: 'center',
               },
             }}
           >
-            <LandingSVG
-              xmlns="http://www.w3.org/2000/svg"
-              id="contact-wave-1"
-              viewBox="0 0 800 338.05"
-              fill="landing450"
-              preserveAspectRatio="none"
-            >
-              <path opacity={0.1}>
-                <animate
-                  attributeName="d"
-                  values="M 0 100 Q 250 50 400 200 Q 550 350 800 300 L 800 0 L 0 0 L 0 100 Z;M 0 100 Q 200 150 400 200 Q 600 250 800 300 L 800 0 L 0 0 L 0 100 Z;M 0 100 Q 150 350 400 200 Q 650 50 800 300 L 800 0 L 0 0 L 0 70 Z"
-                  repeatCount="indefinite"
-                />
-              </path>
-            </LandingSVG>
-          </InnerWaveA>
-          <InnerWaveB
-            sx={{
-              position: `absolute`,
-              width: `180%`,
-              right: 0,
-              top: { base: '40px', '2xl': `30px` },
-              height: `full`,
-              svg: {
-                width: `100%`,
-                height: [`150px`, `150px`, `150px`, `200px`],
-                zIndex: 30,
-              },
-              transform: `scale(1, -1)`,
-              zIndex: 300,
-              'svg > path': {
-                boxShadow: `0 0 35px rgba(0,0,0,1)`,
-              },
-            }}
+            <NavLink target="section-1">
+              <Text as="span">1.</Text> Start here
+            </NavLink>
+            <NavLink target="section-2">
+              <Text as="span">2.</Text> What is a Metagame?
+            </NavLink>
+            <NavLink target="section-3">
+              <Text as="span">3.</Text> Build the future!
+            </NavLink>
+            <NavLink target="section-4">
+              <Text as="span">4.</Text> A revolution!?
+            </NavLink>
+            <NavLink target="section-5">
+              <Text as="span">5.</Text> The Wild Web
+            </NavLink>
+          </VStack>
+          <VStack
+            className="menu--mobile__menu-items"
+            d={{ base: 'flex' }}
+            fontSize="lg"
+            spacing={4}
+            alignItems="flex-start"
+            // mb={{ base: 16 }}
+            opacity={toggle ? 1 : 0}
+            transition="opacity 0.3s 0.5s ease-in-out"
           >
-            <LandingSVG
-              xmlns="http://www.w3.org/2000/svg"
-              id="contact-wave-2"
-              viewBox="0 0 800 338.05"
-              fill="landing500"
-              preserveAspectRatio="none"
-            >
-              <path opacity={0.1}>
-                <animate
-                  attributeName="d"
-                  values="M 0 100 Q 250 50 400 200 Q 550 350 800 300 L 800 0 L 0 0 L 0 100 Z;M 0 100 Q 200 150 400 200 Q 600 250 800 300 L 800 0 L 0 0 L 0 100 Z;M 0 100 Q 150 350 400 200 Q 650 50 800 300 L 800 0 L 0 0 L 0 70 Z"
-                  repeatCount="indefinite"
-                />
-              </path>
-            </LandingSVG>
-          </InnerWaveB>
-          <InnerWaveC
-            sx={{
-              position: `absolute`,
-              width: `160%`,
-              left: 0,
-              top: { base: -3, '2xl': `50px` },
-              height: `full`,
-              svg: {
-                width: `100%`,
-                height: [`150px`, `150px`, `200px`],
-                transform: `scale(-1, -1)`,
-                zIndex: 50,
-              },
-              zIndex: 50,
-              'svg > path': {
-                boxShadow: `0 0 35px rgba(0,0,0,1)`,
-              },
-            }}
-          >
-            <LandingSVG
-              xmlns="http://www.w3.org/2000/svg"
-              id="contact-wave-1"
-              viewBox="0 0 800 338.05"
-              fill="landing250"
-              preserveAspectRatio="none"
-            >
-              <path opacity={0.1}>
-                <animate
-                  attributeName="d"
-                  values="M 0 100 Q 250 50 400 200 Q 550 350 800 300 L 800 0 L 0 0 L 0 100 Z;M 0 100 Q 200 150 400 200 Q 600 250 800 300 L 800 0 L 0 0 L 0 100 Z;M 0 100 Q 150 350 400 200 Q 650 50 800 300 L 800 0 L 0 0 L 0 70 Z"
-                  repeatCount="indefinite"
-                />
-              </path>
-            </LandingSVG>
-          </InnerWaveC>
-        </Box>
+            <NavLink target="section-6">
+              <Text as="span">6.</Text> Human Coordination
+            </NavLink>
+            <NavLink target="section-7">
+              <Text as="span">7.</Text> Wot do ser?
+            </NavLink>
+            <NavLink target="section-8">
+              <Text as="span">8.</Text> Play Life
+            </NavLink>
+            <NavLink target="section-9">
+              <Text as="span">9.</Text> For who?
+            </NavLink>
+            <NavLink target="section-10">
+              <Text as="span">10.</Text> Join us!
+            </NavLink>
+          </VStack>
+        </HStack>
+        <AnimatedWaves animationName={upDownAnimation} />
       </Container>
     </>
   );
 };
+
+const AnimatedWaves = ({ animationName = '' }) => (
+  <Box
+    sx={{
+      animation: animationName,
+      position: 'absolute',
+      width: '100%',
+      height: '20vh',
+      bottom: { base: -5, '2xl': -10 },
+      left: 0,
+      right: 0,
+      zIndex: 300,
+      pointerEvents: 'none',
+      overflowX: 'hidden',
+      overflowY: 'hidden',
+    }}
+  >
+    <InnerWaveA
+      sx={{
+        position: `absolute`,
+        width: `200%`,
+        left: 0,
+        top: { base: 0, '2xl': `50px` },
+        height: `full`,
+        svg: {
+          width: `100%`,
+          height: [`150px`, `150px`, `200px`],
+          transform: `scale(-1, -1)`,
+          zIndex: 50,
+        },
+        zIndex: 50,
+        'svg > path': {
+          boxShadow: `0 0 35px rgba(0,0,0,1)`,
+        },
+      }}
+    >
+      <LandingSVG
+        xmlns="http://www.w3.org/2000/svg"
+        id="contact-wave-1"
+        viewBox="0 0 800 338.05"
+        fill="landing450"
+        preserveAspectRatio="none"
+      >
+        <path opacity={0.1}>
+          <animate
+            attributeName="d"
+            values="M 0 100 Q 250 50 400 200 Q 550 350 800 300 L 800 0 L 0 0 L 0 100 Z;M 0 100 Q 200 150 400 200 Q 600 250 800 300 L 800 0 L 0 0 L 0 100 Z;M 0 100 Q 150 350 400 200 Q 650 50 800 300 L 800 0 L 0 0 L 0 70 Z"
+            repeatCount="indefinite"
+          />
+        </path>
+      </LandingSVG>
+    </InnerWaveA>
+    <InnerWaveB
+      sx={{
+        position: `absolute`,
+        width: `180%`,
+        right: 0,
+        top: { base: '40px', '2xl': `30px` },
+        height: `full`,
+        svg: {
+          width: `100%`,
+          height: [`150px`, `150px`, `150px`, `200px`],
+          zIndex: 30,
+        },
+        transform: `scale(1, -1)`,
+        zIndex: 300,
+        'svg > path': {
+          boxShadow: `0 0 35px rgba(0,0,0,1)`,
+        },
+      }}
+    >
+      <LandingSVG
+        xmlns="http://www.w3.org/2000/svg"
+        id="contact-wave-2"
+        viewBox="0 0 800 338.05"
+        fill="landing500"
+        preserveAspectRatio="none"
+      >
+        <path opacity={0.1}>
+          <animate
+            attributeName="d"
+            values="M 0 100 Q 250 50 400 200 Q 550 350 800 300 L 800 0 L 0 0 L 0 100 Z;M 0 100 Q 200 150 400 200 Q 600 250 800 300 L 800 0 L 0 0 L 0 100 Z;M 0 100 Q 150 350 400 200 Q 650 50 800 300 L 800 0 L 0 0 L 0 70 Z"
+            repeatCount="indefinite"
+          />
+        </path>
+      </LandingSVG>
+    </InnerWaveB>
+    <InnerWaveC
+      sx={{
+        position: `absolute`,
+        width: `160%`,
+        left: 0,
+        top: { base: -3, '2xl': `50px` },
+        height: `full`,
+        svg: {
+          width: `100%`,
+          height: [`150px`, `150px`, `200px`],
+          transform: `scale(-1, -1)`,
+          zIndex: 50,
+        },
+        zIndex: 50,
+        'svg > path': {
+          boxShadow: `0 0 35px rgba(0,0,0,1)`,
+        },
+      }}
+    >
+      <LandingSVG
+        xmlns="http://www.w3.org/2000/svg"
+        id="contact-wave-1"
+        viewBox="0 0 800 338.05"
+        fill="landing250"
+        preserveAspectRatio="none"
+      >
+        <path opacity={0.1}>
+          <animate
+            attributeName="d"
+            values="M 0 100 Q 250 50 400 200 Q 550 350 800 300 L 800 0 L 0 0 L 0 100 Z;M 0 100 Q 200 150 400 200 Q 600 250 800 300 L 800 0 L 0 0 L 0 100 Z;M 0 100 Q 150 350 400 200 Q 650 50 800 300 L 800 0 L 0 0 L 0 70 Z"
+            repeatCount="indefinite"
+          />
+        </path>
+      </LandingSVG>
+    </InnerWaveC>
+  </Box>
+);
 
 const NavLink = ({
   children,
@@ -573,7 +530,7 @@ export const icons = {
 // };
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export const SVG = () => (
+export const MenuIconSVG = () => (
   <Box
     as="svg"
     width={[`1.5rem`, `1.5rem`, `2rem`]}
