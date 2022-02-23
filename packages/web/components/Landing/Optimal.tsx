@@ -1,24 +1,20 @@
-import { Box, Button, Container, Text } from '@metafam/ds';
+import { Box, Container, Text } from '@metafam/ds';
 import BackgroundImage from 'assets/landing/optimal-background.png';
 import { FullPageContainer } from 'components/Container';
 import { useOnScreen } from 'lib/hooks/useOnScreen';
-import { useRouter } from 'next/router';
 import { useRef } from 'react';
-import { BsArrowDown } from 'react-icons/bs';
+
+import { LandingNextButton } from './LandingNextButton';
 
 export const Optimal: React.FC = () => {
   const ref = useRef<HTMLDivElement>(null);
   const onScreen = useOnScreen(ref);
-  const { push } = useRouter();
-
-  const handleSectionNav = (sectionId: string) => {
-    push(`#${sectionId}`);
-  };
+  const section = 'section-8';
 
   return (
     <FullPageContainer
       bgImageUrl={BackgroundImage}
-      id="section-8"
+      id={section}
       position="relative"
     >
       <Container
@@ -71,23 +67,7 @@ export const Optimal: React.FC = () => {
           </Text>
         </Box>
       </Container>
-      <Box
-        pos="absolute"
-        bottom="0"
-        py={{ base: 4, md: 20 }}
-        maxW={{ base: '100%', md: '7xl', '2xl': '8xl' }}
-        zIndex={150}
-      >
-        <Button
-          colorScheme="white"
-          size="lg"
-          textShadow="0 0 5px rgba(0,0,0,0.8)"
-          rightIcon={<BsArrowDown />}
-          onClick={() => handleSectionNav('section-9')}
-        >
-          Next
-        </Button>
-      </Box>
+      <LandingNextButton section="section-9" />
     </FullPageContainer>
   );
 };

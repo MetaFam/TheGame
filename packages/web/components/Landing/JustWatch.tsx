@@ -9,11 +9,12 @@ import { BsArrowRight } from 'react-icons/bs';
 export const JustWatch: React.FC = () => {
   const ref = useRef<HTMLDivElement>(null);
   const onScreen = useOnScreen(ref);
+  const section = 'section-10';
 
   return (
     <FullPageContainer
       bgImageUrl={BackgroundImage}
-      id="section-10"
+      id={section}
       position="relative"
       justify={{ base: 'center', md: 'flex-end' }}
     >
@@ -40,7 +41,7 @@ export const JustWatch: React.FC = () => {
           <VStack>
             <Text
               fontSize={{ base: '4xl', md: '6xl', '2xl': '8xl' }}
-              lineHeight={{ base: '2.5rem', md: '3rem', '2xl': '5rem' }}
+              lineHeight={{ base: '2.5rem', md: '3rem', '2xl': '4rem' }}
               fontWeight="700"
               color="white"
               mb="2.188rem"
@@ -83,7 +84,7 @@ export const JustWatch: React.FC = () => {
                   size="lg"
                   rightIcon={<BsArrowRight />}
                 >
-                  Explore
+                  Explore more
                 </Button>
               </MetaLink>
             </HStack>

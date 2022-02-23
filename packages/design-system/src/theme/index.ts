@@ -29,6 +29,24 @@ export const theme: Theme = extendTheme({
         '&.dashboard-edit': {
           overflow: { base: 'hidden', xl: 'initial' }, // Locks scrolling on the body when resizing or dragging the grid on mobile devices
         },
+        '.landing h2': {
+          '& > .gradient': {
+            background:
+              'conic-gradient(from 92.2deg at 53.45% 74.83%, #8EBBFF 0deg, #DE3FFF 88.12deg, #79F8FB 105deg, #7C56FF 165deg, #FF61E6 251.25deg, #927CFF 286.87deg, #76EBF2 326.25deg, #8EBBFF 360deg)',
+            backgroundPosition: '-254%',
+            backgroundSize: '133%',
+            backgroundClip: 'text',
+            textFillColor: 'transparent',
+            WebkitTextFillColor: 'transparent',
+            transition: 'background 0.3s ease',
+          },
+        },
+        '.gradient': {
+          background:
+            'linear-gradient(90deg, #FF61E6 -29.22%, #7C56FF 107.53%)',
+          backgroundClip: 'text',
+          WebkitTextFillColor: 'transparent',
+        },
         '.gradient-text': {
           background:
             'linear-gradient(90deg, #FF61E6 -29.22%, #7C56FF 107.53%)',
