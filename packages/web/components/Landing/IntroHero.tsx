@@ -20,7 +20,7 @@ export const IntroHero: React.FC = () => {
       align="center"
       justify="left"
       spacing={{ base: 8, xl: 4, '2xl': 10 }}
-      pb={{ base: 10, xl: 15, '2xl': 20 }}
+      pb={{ base: 10, xl: 15, '2xl': 10 }}
       direction={{ base: 'column', lg: 'column' }}
       maxW="lg"
       zIndex={100}
