@@ -1,11 +1,14 @@
 import {
   Box,
+  CloseButton,
+  Flex,
   HStack,
   Input,
   LoadingState,
   MetaButton,
   MultiSelect,
   Select,
+  Text,
   Textarea,
   VStack,
 } from '@metafam/ds';
@@ -14,6 +17,7 @@ import { Field, FieldDescription } from 'components/Forms/Field';
 import { MetaLink } from 'components/Link';
 import {
   DiscordRole,
+  GuildDao,
   GuildFragment,
   GuildType_Enum,
   Maybe,
@@ -21,7 +25,7 @@ import {
 } from 'graphql/autogen/types';
 import { useRouter } from 'next/router';
 import React, { useEffect, useMemo } from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import { Controller, useFieldArray, useForm } from 'react-hook-form';
 
 const validations = {
   guildname: {
@@ -42,6 +46,12 @@ const validations = {
   discordMembershipRoles: {
     validate: (roles: SelectOption[]) => roles != null && roles.length > 0,
   },
+  daoAddress: {
+    required: true,
+  },
+  daoNetwork: {
+    required: true,
+  },
 };
 
 export interface EditGuildFormInputs {
@@ -54,10 +64,10 @@ export interface EditGuildFormInputs {
   websiteUrl?: Maybe<string>;
   twitterUrl?: Maybe<string>;
   githubUrl?: Maybe<string>;
-  daoAddress?: Maybe<string>;
   type: GuildType_Enum;
   discordAdminRoles: SelectOption[];
   discordMembershipRoles: SelectOption[];
+  daos?: Maybe<GuildDao[]>;
 }
 
 const getDefaultFormValues = (
@@ -77,6 +87,18 @@ const getDefaultFormValues = (
       ? []
       : roleOptions.filter((r) => discordMembershipRoleIds.includes(r.value));
 
+  const daos =
+    guild.daos?.length > 0
+      ? guild.daos
+      : [
+          {
+            contractAddress: '',
+            network: 'mainnet',
+            label: '',
+            url: '',
+          },
+        ];
+
   return {
     guildname: guild.guildname,
     name: guild.name,
@@ -87,10 +109,10 @@ const getDefaultFormValues = (
     websiteUrl: guild.website_url || '',
     twitterUrl: guild.twitter_url || '',
     githubUrl: guild.github_url || '',
-    daoAddress: guild.moloch_address || '',
     type: guild.type,
     discordAdminRoles: discordAdminRoleOptions,
     discordMembershipRoles: discordMembershipRoleOptions,
+    daos,
   };
 };
 
@@ -147,6 +169,11 @@ export const GuildForm: React.FC<Props> = ({
     control,
   } = useForm<EditGuildFormInputs>({
     mode: 'onTouched',
+  });
+
+  const { fields: daoFields, append, remove } = useFieldArray({
+    control,
+    name: 'daos',
   });
 
   useEffect(() => {
@@ -256,24 +283,6 @@ export const GuildForm: React.FC<Props> = ({
           />
           <FieldDescription>Your guild&apos;s home on GitHub.</FieldDescription>
         </Field>
-        <Field label="DAO Address" error={errors.daoAddress}>
-          <Input
-            placeholder="0x…"
-            {...register('daoAddress')}
-            background="dark"
-          />
-          <FieldDescription>
-            If your guild has a DAO, enter its address here. This is the address
-            that will be used to look up your DAO's information from the{' '}
-            <MetaLink
-              isExternal
-              href="https://thegraph.com/hosted-service/subgraph/odyssy-automaton/daohaus"
-            >
-              DaoHaus Subgraph
-            </MetaLink>{' '}
-            on Mainnet, Polygon and xDai.
-          </FieldDescription>
-        </Field>
         <Field label="Type" error={errors.type}>
           <Select
             {...register('type', {
@@ -293,6 +302,121 @@ export const GuildForm: React.FC<Props> = ({
             ))}
           </Select>
         </Field>
+        <Box
+          borderWidth="1px"
+          borderRadius="lg"
+          borderColor="rgba(255, 255, 255, 0.25)"
+          p={4}
+        >
+          <Text mb={2}>DAO information</Text>
+          <Text fontSize="sm" mb={4}>
+            If your guild has one or more DAOs, enter their information here. If
+            your DAO is in DAOHaus, we will look up its information from the{' '}
+            <MetaLink
+              isExternal
+              href="https://thegraph.com/hosted-service/subgraph/odyssy-automaton/daohaus"
+            >
+              DAOHaus Subgraph
+            </MetaLink>
+            . Otherwise you can provide your own URL to link to.
+          </Text>
+          {daoFields.map((_, index) => (
+            <Box
+              key={index}
+              background="rgba(255, 255, 255, 0.1)"
+              borderRadius="lg"
+              p={2}
+              mb={4}
+            >
+              {daoFields.length > 1 && (
+                <HStack justifyContent="space-between">
+                  <Text size="lg" ml={2}>
+                    {index + 1}.
+                  </Text>
+                  <CloseButton size="sm" onClick={() => remove(index)} />
+                </HStack>
+              )}
+              <Box borderRadius="lg" p={2}>
+                <Flex direction="row">
+                  <Box mr={4}>
+                    <Field label="Label">
+                      <Input
+                        placeholder="DAO, Multisig, etc"
+                        {...register(`daos.${index}.label`)}
+                        background="dark"
+                      />
+                    </Field>
+                  </Box>
+                  <Box flex="1">
+                    <Field label="URL">
+                      <Input
+                        placeholder="https://"
+                        {...register(`daos.${index}.url`)}
+                        background="dark"
+                      />
+                      <FieldDescription>
+                        An optional URL to link this address to
+                      </FieldDescription>
+                    </Field>
+                  </Box>
+                </Flex>
+                <Flex direction="row">
+                  <Box maxWidth="10rem" mr={4}>
+                    <Field label="Network">
+                      <Select
+                        {...register(`daos.${index}.network`, {
+                          required: {
+                            value: true,
+                            message: 'This is a required field.',
+                          },
+                        })}
+                        background="dark"
+                        color="white"
+                      >
+                        <option key="mainnet" value="mainnet">
+                          Mainnet
+                        </option>
+                        <option key="polygon" value="polygon">
+                          Polygon
+                        </option>
+                        <option key="xdai" value="xdai">
+                          xDai
+                        </option>
+                      </Select>
+                    </Field>
+                  </Box>
+                  <Box flex="1">
+                    <Field label="Address">
+                      <Input
+                        placeholder="0x…"
+                        {...register(`daos.${index}.contractAddress`)}
+                        background="dark"
+                      />
+                      <FieldDescription>
+                        The address of the DAO contract, multisig, treasury,
+                        etc.
+                      </FieldDescription>
+                    </Field>
+                  </Box>
+                </Flex>
+              </Box>
+            </Box>
+          ))}
+          <MetaButton
+            size="sm"
+            onClick={() =>
+              append({
+                contractAddress: '',
+                network: 'mainnet',
+                label: '',
+                url: '',
+              })
+            }
+          >
+            Add another
+          </MetaButton>
+        </Box>
+
         <Box py={5} w="100%">
           {fetchingRoles ? (
             <Box>

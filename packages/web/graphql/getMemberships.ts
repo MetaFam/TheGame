@@ -29,10 +29,13 @@ const guildMembershipsQuery = /* GraphQL */ `
       Guild {
         id
         logo
-        moloch_address
         name
         guildname
         membership_through_discord
+        daos {
+          id
+          contractAddress
+        }
       }
       discordRoles {
         id
@@ -82,12 +85,15 @@ export type GuildMembership = {
 export const getAllMemberships = async (player: Player) => {
   const guildPlayers = await getGuildMemberships(player.id);
 
+  // filter out any Daohaus DAOs that are also linked to an existing Guild whose
+  // membership is determined by their Discord server
   const daohausMemberships = player.daohausMemberships?.filter(
     (m) =>
       !guildPlayers?.some(
         (gp) =>
-          gp.Guild.moloch_address === m.molochAddress &&
-          gp.Guild.membership_through_discord === true,
+          gp.Guild.daos.some(
+            (dao) => dao.contractAddress === m.molochAddress,
+          ) && gp.Guild.membership_through_discord === true,
       ),
   );
 

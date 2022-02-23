@@ -284,6 +284,25 @@
       - type
       - website_url
       filter: {}
+  - role: public
+    permission:
+      columns:
+      - id
+      - type
+      - name
+      - logo
+      - description
+      - join_button_url
+      - website_url
+      - guildname
+      - discord_id
+      - status
+      - discord_invite_url
+      - twitter_url
+      - github_url
+      - position
+      - membership_through_discord
+      filter: {}
   event_triggers:
   - name: syncDiscordGuildMembers
     definition:
@@ -420,6 +439,13 @@
         table:
           schema: public
           name: player_account
+  - name: daos
+    using:
+      foreign_key_constraint_on:
+        column: player_id
+        table:
+          schema: public
+          name: dao_player
   - name: guilds
     using:
       foreign_key_constraint_on:
