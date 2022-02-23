@@ -37,13 +37,15 @@ export const useProfileField = <T extends ProfileValueType = string>({
   const { user } = useUser();
   const owner = user ? user.id === player?.id : null;
   const key = field as keyof Profile;
+  const value = player?.profile?.[key] ?? null;
   let setter: Maybe<(val: unknown) => void> = null;
-  let value = useMemo(
-    () => (getter ? getter(player) : player?.profile?.[key]) ?? null,
-    [key, getter, player],
-  );
+  let display = useMemo(() => (getter ? getter(player) : value) ?? null, [
+    getter,
+    player,
+    value,
+  ]);
   let atom = owner ? fields[field] : null;
-  if (!atom && owner && player) {
+  if (!atom && owner && player && value) {
     // eslint-disable-next-line no-multi-assign
     fields[field] = atom = newAtom<Maybe<T>>(value);
   }
@@ -51,17 +53,17 @@ export const useProfileField = <T extends ProfileValueType = string>({
   // eslint-disable-next-line @typescript-eslint/no-shadow
   const ret = useAtom((atom ?? nullAtom) as PrimitiveAtom<Maybe<typeof value>>);
   if (atom) {
-    [value, setter] = ret;
+    [display, setter] = ret;
   }
 
   if (field.endsWith('ImageURL')) {
-    value = httpLink(value);
+    display = httpLink(display);
   }
 
   return {
-    value,
+    value: display,
     setter,
-    [field]: value,
+    [field]: display,
     owner,
   };
 };
