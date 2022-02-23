@@ -78,7 +78,15 @@ interface OptionProps {
 const Option = ({ onClick, name, image, text }: OptionProps) => (
   <Flex align="center" {...{ onClick }} px={3} py={2} cursor="pointer">
     <Avatar name={name} src={image} w={6} h={6} />
-    <Text px={2} color="black" fontFamily="Exo 2" fontWeight={400}>
+    <Text
+      px={2}
+      color="black"
+      fontFamily="Exo 2"
+      fontWeight={400}
+      textOverflow="ellipsis"
+      overflow="hidden"
+      whiteSpace="nowrap"
+    >
       {text}
     </Text>
   </Flex>
@@ -128,7 +136,7 @@ interface SearchResults {
 const Search = () => {
   const router = useRouter();
   const searchInputSubjectRef = useRef(new Subject<string>());
-  const searchBarRef = useRef(null);
+  const searchBarRef = useRef<HTMLInputElement>(null);
   const [query, setQuery] = useState<string>('');
   const [showDropdown, setShowDropdown] = useState(false);
   const [{ players, guilds }, setSearchResults] = useState<SearchResults>({
@@ -190,13 +198,7 @@ const Search = () => {
       position="relative"
       ref={dropdown}
     >
-      <Box
-        as="form"
-        onSubmit={handleSubmit}
-        w="full"
-        color="black"
-        ref={searchBarRef}
-      >
+      <Box as="form" onSubmit={handleSubmit} w="full" color="black">
         <InputGroup
           justifyContent="flex-start"
           minW={{ base: '20%', lg: '10%' }}
@@ -227,10 +229,11 @@ const Search = () => {
             onFocus={() => setShowDropdown(true)}
             size="sm"
             fontSize="md"
+            ref={searchBarRef}
           />
         </InputGroup>
       </Box>
-      {showDropdown && players.length + guilds.length > 0 && (
+      {showDropdown && searchBarRect && players.length + guilds.length > 0 && (
         <Portal>
           <Box
             zIndex={15}
@@ -239,8 +242,8 @@ const Search = () => {
             right={searchBarRect.right}
             left={searchBarRect.left}
             bg="white"
-            w="fit-content"
-            height="300px"
+            maxW={searchBarRect.width}
+            w="100%"
             mt={2}
             css={{
               backdropFilter: 'blur(8px)',
