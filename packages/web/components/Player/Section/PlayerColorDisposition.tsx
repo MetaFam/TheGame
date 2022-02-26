@@ -19,7 +19,11 @@ export const PlayerColorDisposition: React.FC<ColorDispositionProps> = ({
   player,
   editing = false,
 }) => {
-  const { value: mask, owner: isOwnProfile } = useProfileField<number>({
+  const {
+    value: mask,
+    owner: isOwnProfile,
+    fetching,
+  } = useProfileField<number>({
     field: 'colorMask',
     player,
   });
@@ -45,7 +49,7 @@ export const PlayerColorDisposition: React.FC<ColorDispositionProps> = ({
           Unspecified
         </Text>
       ) : (
-        <ColorBar {...{ mask, types }} />
+        <ColorBar {...{ mask, types }} loading={fetching} />
       )}
     </ProfileSection>
   );

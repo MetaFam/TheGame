@@ -16,14 +16,7 @@ export const PageContainer: React.FC<FlexProps> = ({ children, ...props }) => (
 );
 
 export const FlexContainer: React.FC<StackProps> = ({ children, ...props }) => (
-  <Stack
-    w="100%"
-    align="center"
-    justify="center"
-    direction="column"
-    spacing={8}
-    {...props}
-  >
+  <Stack w="full" align="center" justify="center" spacing={[6, 8]} {...props}>
     {children}
   </Stack>
 );

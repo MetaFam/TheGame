@@ -1,8 +1,6 @@
 import {
   Button,
   Center,
-  Flex,
-  HStack,
   Input,
   InputGroup,
   SimpleGrid,
@@ -95,19 +93,16 @@ export const SetupPlayerType: React.FC<MaybeModalProps> = ({
       title="Player Type"
       prompt="Which one suits you best?"
     >
-      {({ register, loading, current, setter }: WizardPaneCallbackProps) => {
-        console.info({ current, loading });
-        return (
-          <Center mt={5}>
-            <Input type="hidden" {...register(field, {})} />
-            <ExplorerTypes
-              selectedType={current}
-              setSelectedType={setter}
-              disabled={loading}
-            />
-          </Center>
-        );
-      }}
+      {({ register, loading, current, setter }: WizardPaneCallbackProps) => (
+        <Center mt={5}>
+          <Input type="hidden" {...register(field, {})} />
+          <ExplorerTypes
+            selectedType={current}
+            setSelectedType={setter}
+            disabled={loading}
+          />
+        </Center>
+      )}
     </ProfileWizardPane>
   );
 };

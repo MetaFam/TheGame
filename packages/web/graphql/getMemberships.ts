@@ -16,7 +16,7 @@ const daoMembershipsQuery = /* GraphQL */ `
         title
         version
         chain
-        avatarUrl
+        avatarURL
       }
     }
   }
@@ -106,7 +106,7 @@ export const getAllMemberships = async (player: Player) => {
       memberShares: m.shares,
       daoShares: m.moloch.totalShares,
       chain: m.moloch.chain,
-      logoUrl: m.moloch.avatarUrl || undefined,
+      logoUrl: m.moloch.avatarURL || undefined,
       address: m.molochAddress,
     })),
   ];

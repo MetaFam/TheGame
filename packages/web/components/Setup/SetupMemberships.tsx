@@ -1,6 +1,5 @@
 import {
   Box,
-  Center,
   ChainIcon,
   Flex,
   Heading,
@@ -8,7 +7,6 @@ import {
   Image,
   MetaButton,
   MetaHeading,
-  SimpleGrid,
   Spinner,
   Text,
   Wrap,
@@ -68,12 +66,12 @@ export const SetupMemberships: React.FC<SetupMembershipsProps> = ({
 
         return (
           <Box maxW="50rem">
-            <Text mb={10}>
+            <Text mb={10} maxW="40rem">
               We found the following guilds associated with your account and
               automatically added them to your profile. You can edit them later
               in your profile.
             </Text>
-            <Wrap columns={2} spacing={4}>
+            <Wrap columns={2} spacing={4} justify="center">
               {memberships?.map((member) => (
                 <WrapItem key={member.id}>
                   <MembershipListing {...{ member }} />
@@ -107,43 +105,45 @@ const MembershipListing: React.FC<MembershipListingProps> = ({ member }) => {
   const { avatarURL, chain, title } = member.moloch;
 
   return (
-    <DaoHausLink {...{ daoURL }} bg="dark">
-      <HStack alignItems="center" mb={4}>
-        <Flex bg="purpleBoxLight" width={16} height={16} mr={6}>
-          {avatarUrl ? (
+    <DaoHausLink
+      {...{ daoURL }}
+      bg="dark"
+      border="2px transparent solid"
+      _hover={{ borderColor: 'purpleBoxLight' }}
+    >
+      <HStack align="center">
+        <Flex bg="purpleBoxLight" width={16} height={16} mr={1}>
+          {avatarURL ? (
             <Image
-              src={avatarUrl}
+              src={avatarURL}
               w="3.25rem"
               h="3.25rem"
               m="auto"
               borderRadius={4}
             />
           ) : (
-            <ChainIcon chain={chain} boxSize={16} p={2} />
+            <ChainIcon {...{ chain }} boxSize={16} p={2} />
           )}
         </Flex>
-        <Box>
-          <Heading
-            fontWeight="bold"
-            textTransform="uppercase"
-            fontSize="xs"
-            color={daoUrl ? 'cyanText' : 'white'}
-            mb={1}
-          >
-            <Center justifyContent="left">
-              {title ?? (
-                <Text>
-                  Unknown{' '}
-                  <Text as="span" textTransform="capitalize">
-                    {chain}
-                  </Text>{' '}
-                  DAO
-                </Text>
-              )}
-              <ChainIcon chain={chain} ml={2} boxSize={3} />
-            </Center>
-          </Heading>
-        </Box>
+        <Heading
+          fontWeight="bold"
+          textTransform="uppercase"
+          fontSize="xs"
+          color={daoURL ? 'cyanText' : 'white'}
+          justify="center"
+          align="center"
+        >
+          {title ?? (
+            <Text as={React.Fragment}>
+              Unknown{' '}
+              <Text as="span" textTransform="capitalize">
+                {chain}
+              </Text>{' '}
+              DAO
+            </Text>
+          )}
+          <ChainIcon {...{ chain }} mx={2} boxSize="1rem" />
+        </Heading>
       </HStack>
     </DaoHausLink>
   );

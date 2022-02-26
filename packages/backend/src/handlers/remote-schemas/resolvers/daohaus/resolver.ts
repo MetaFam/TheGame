@@ -33,13 +33,14 @@ const addChain = (memberAddress: string) => async (chain: string) => {
 
     const metadata: DaoMetadata =
       metadataByContract[updatedMember.molochAddress];
+
     updatedMember.moloch.title = metadata?.name;
-    if (metadata?.avatarImg) {
-      const imgUrl = metadata.avatarImg.startsWith('Qm')
-        ? `ipfs://${metadata.avatarImg}`
-        : metadata.avatarImg;
-      updatedMember.moloch.avatarUrl = imageLink(imgUrl);
+
+    let imgURL = metadata?.avatarImg;
+    if (imgURL?.startsWith('Qm')) {
+      imgURL = `ipfs://${imgURL}`;
     }
+    updatedMember.moloch.avatarURL = imageLink(imgURL);
 
     return updatedMember;
   });

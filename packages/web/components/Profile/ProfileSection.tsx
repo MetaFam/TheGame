@@ -19,6 +19,7 @@ import { Maybe } from '@metafam/utils';
 import BackgroundImage from 'assets/main-background.jpg';
 import { SetupColorDisposition } from 'components/Setup/SetupColorDisposition';
 import { SetupPlayerType } from 'components/Setup/SetupPlayerType';
+import { SetupRoles } from 'components/Setup/SetupRoles';
 import { SetupSkills } from 'components/Setup/SetupSkills';
 import React from 'react';
 import { BoxType, BoxTypes } from 'utils/boxTypes';
@@ -186,6 +187,7 @@ const isEditable = (type?: Maybe<BoxType>) =>
     BoxTypes.PLAYER_TYPE,
     BoxTypes.PLAYER_COLOR_DISPOSITION,
     BoxTypes.PLAYER_SKILLS,
+    BoxTypes.PLAYER_ROLES,
   ] as Array<BoxType>).includes(type);
 
 const EditSection = ({
@@ -206,6 +208,9 @@ const EditSection = ({
     }
     case BoxTypes.PLAYER_SKILLS: {
       return <SetupSkills {...{ onClose, buttonLabel }} />;
+    }
+    case BoxTypes.PLAYER_ROLES: {
+      return <SetupRoles {...{ onClose, buttonLabel }} />;
     }
     default:
   }

@@ -9,7 +9,7 @@ import {
 import LogoImage from 'assets/logo.png';
 import { FlexContainer } from 'components/Container';
 import { useSetupFlow } from 'contexts/SetupContext';
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 export const SetupHeader: React.FC = () => {
   const {
@@ -21,12 +21,12 @@ export const SetupHeader: React.FC = () => {
 
   const { sectionIndex } = steps[stepIndex];
 
-  const templateColumns = [0.5, ...sections.map(() => 1), 0.5].map(
+  const templateColumns = [0, ...sections.map(() => 1), 0].map(
     (col) => `${col}fr`,
   );
 
   return (
-    <Grid templateColumns={templateColumns.join(' ')} gap="1rem" w="100%">
+    <Grid templateColumns={templateColumns.join(' ')} gap={[1, 4]} w="full">
       <FlexContainer justify="flex-end" onClick={onBackPress} cursor="pointer">
         <Text fontSize={25} fontFamily="heading">
           &lt;
@@ -50,7 +50,7 @@ export const SetupHeader: React.FC = () => {
 };
 
 interface StepProps {
-  title: { [any: string]: string | undefined };
+  title: { [any: string]: string | undefined | ReactElement };
   isDone: boolean;
   isActive: boolean;
 }
@@ -61,8 +61,8 @@ export const SectionProgress: React.FC<StepProps> = ({
   isActive,
 }) => {
   const { options, stepIndex } = useSetupFlow();
-
   const progress = isDone ? 100 : options.progressWithinSection(stepIndex);
+
   return (
     <FlexContainer pos="relative">
       <ResponsiveText
@@ -72,8 +72,12 @@ export const SectionProgress: React.FC<StepProps> = ({
         fontWeight="bold"
         color="offwhite"
         opacity={isActive ? 1 : 0.4}
-        mb={4}
+        mb={2}
         content={title}
+        ml={[0, '3.5em']}
+        pr={2}
+        sx={{ textIndent: [0, '-1.5em'] }}
+        h={4}
       />
       <Flex bgColor="blue20" w="full" h={2} borderRadius="sm" overflow="hidden">
         {(isActive || isDone) && (

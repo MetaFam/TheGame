@@ -12,6 +12,7 @@ export type ProfileFieldType<T> = {
   value: Maybe<T>;
   setter: Maybe<(value: unknown) => void>;
   owner: Maybe<boolean>;
+  fetching: boolean;
 };
 
 export type ProfileValueType = string | number | Array<string> | ExplorerType;
@@ -34,7 +35,7 @@ export const useProfileField = <T extends ProfileValueType = string>({
   player?: Maybe<Player>;
   getter?: Maybe<(player: Maybe<Player>) => Optional<Maybe<T>>>;
 }): ProfileFieldType<T> => {
-  const { user } = useUser();
+  const { fetching, user } = useUser();
   const owner = user ? user.id === player?.id : null;
   const key = field as keyof Profile;
   const value = player?.profile?.[key] ?? null;
@@ -65,6 +66,7 @@ export const useProfileField = <T extends ProfileValueType = string>({
     setter,
     [field]: display,
     owner,
+    fetching,
   };
 };
 

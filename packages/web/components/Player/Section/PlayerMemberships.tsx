@@ -51,10 +51,10 @@ const DaoListing: React.FC<DaoListingProps> = ({ membership }) => {
     return '';
   }, [memberShares, memberXp, daoShares]);
 
-  const daoUrl = useMemo(() => getDaoLink(chain, address), [chain, address]);
+  const daoURL = useMemo(() => getDaoLink(chain, address), [chain, address]);
 
   return (
-    <LinkGuild {...{ daoUrl, guildname }}>
+    <LinkGuild {...{ daoURL, guildname }}>
       <HStack alignItems="center" mb={6}>
         <Flex bg="purpleBoxLight" minW={16} minH={16} mr={6} borderRadius={8}>
           {logoUrl ? (
@@ -74,7 +74,7 @@ const DaoListing: React.FC<DaoListingProps> = ({ membership }) => {
             fontWeight="bold"
             style={{ fontVariant: 'small-caps' }}
             fontSize="xs"
-            color={daoUrl ? 'cyanText' : 'white'}
+            color={daoURL ? 'cyanText' : 'white'}
             mb={1}
           >
             <Center justifyContent="left">

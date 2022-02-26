@@ -85,10 +85,10 @@ export const WizardPane = <T,>({
     handleSubmit,
     setValue,
     watch,
-    formState: { errors, isValidating: validating },
+    formState: { errors, isValidating: validating, dirtyFields },
   } = useForm();
   const current = watch(field, existing);
-  const dirty = current !== existing;
+  const dirty = current !== existing || dirtyFields[field];
   const toast = useToast();
 
   useEffect(() => {

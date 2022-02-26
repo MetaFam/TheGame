@@ -4,303 +4,271 @@ import {
   Button,
   CloseIcon,
   Flex,
+  Heading,
   InfoIcon,
-  LoadingState,
-  MetaButton,
-  MetaHeading,
-  ModalBody,
-  ModalFooter,
+  Input,
   Spacer,
+  Stack,
   Text,
   useBreakpointValue,
-  useToast,
+  Wrap,
+  WrapItem,
 } from '@metafam/ds';
-import { FlexContainer } from 'components/Container';
-import { useSetupFlow } from 'contexts/SetupContext';
+import { Maybe, Optional } from '@metafam/utils';
 import {
   PlayerRole,
   useUpdatePlayerRolesMutation,
 } from 'graphql/autogen/types';
 import { getPlayerRoles } from 'graphql/queries/enums/getRoles';
-import { useUser } from 'lib/hooks';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { useOverridableField, useUser } from 'lib/hooks';
+import React, { ReactElement, useEffect, useState } from 'react';
+import { isEmpty } from 'utils/objectHelpers';
+
+import { WizardPane, WizardPaneCallbackProps } from './WizardPane';
 
 export type RoleValue = string;
 
 export type SetupRolesProps = {
-  roleChoices?: Array<PlayerRole>;
+  choices?: Maybe<Array<PlayerRole>>;
   isEdit?: boolean;
   onClose?: () => void;
+  buttonLabel?: Optional<string | ReactElement>;
 };
 
 export const SetupRoles: React.FC<SetupRolesProps> = ({
-  roleChoices: inputRoleChoices = [],
-  isEdit,
+  choices: inputChoices = null,
   onClose,
+  buttonLabel,
 }) => {
-  const isWizard = !isEdit;
-  const { onNextPress, nextButtonLabel } = useSetupFlow();
-  const toast = useToast();
-  const { fetching: fetchingUser, user } = useUser({
-    requestPolicy: 'network-only',
-  });
-  const [fetchingRoleChoices, setFetchingRoleChoices] = useState(true);
-  const [roleChoices, setRoleChoices] = useState<PlayerRole[]>(
-    inputRoleChoices,
+  const field = 'roles';
+  const { user } = useUser();
+  const [choices, setChoices] = useState<Maybe<Array<PlayerRole>>>(
+    inputChoices,
   );
+  const [, updateRoles] = useUpdatePlayerRolesMutation();
+  const { value: roles, setter: setRoles } = useOverridableField<Array<string>>(
+    {
+      field,
+      loaded: !!user,
+    },
+  );
+  const isMobile = useBreakpointValue({ base: true, md: false }) ?? false;
+
   useEffect(() => {
-    if (inputRoleChoices.length === 0 && roleChoices.length === 0) {
-      getPlayerRoles().then((s) => {
-        setRoleChoices(s.filter(({ basic }) => basic));
-        setFetchingRoleChoices(false);
-      });
-    } else {
-      setFetchingRoleChoices(false);
+    const fetchRoles = async () => {
+      const roleChoices = await getPlayerRoles();
+      setChoices(roleChoices.filter(({ basic }) => basic));
+    };
+
+    if (!choices) {
+      fetchRoles();
     }
-  }, [inputRoleChoices, roleChoices]);
-  const fetching = useMemo(() => fetchingUser || fetchingRoleChoices, [
-    fetchingUser,
-    fetchingRoleChoices,
-  ]);
-  const [roles, setRoles] = useState<string[]>([]);
+  }, [choices]);
+
   useEffect(() => {
-    setRoles(user?.roles.map((r) => r.role) ?? []);
-  }, [user]);
+    if (user && setRoles) {
+      setRoles(user.roles.map(({ role }) => role));
+    }
+  }, [user, setRoles]);
 
-  const availableRoles = useMemo(
-    () =>
-      roleChoices.filter(({ role, basic }) => !roles.includes(role) && basic),
-    [roles, roleChoices],
-  );
+  const onSave = async ({
+    values,
+    setStatus,
+  }: {
+    values: Record<string, unknown>;
+    setStatus?: (msg: string) => void;
+  }) => {
+    const { roles: toSet } = values as { ['roles']: Array<string> };
 
-  const [updateRolesResult, updateRoles] = useUpdatePlayerRolesMutation();
-  const [loading, setLoading] = useState(false);
-
-  const save = useCallback(async () => {
-    if (!user) return;
-
-    setLoading(true);
+    setStatus?.('Writing to Hasura…');
 
     const { error } = await updateRoles({
-      roles: roles.map((r, i) => ({
-        rank: i,
-        role: r,
-      })),
+      [field]: toSet.map((role, rank) => ({ rank, role })),
     });
 
     if (error) {
-      toast({
-        title: 'Error',
-        description: 'Unable to update roles. The octo is sad 😢',
-        status: 'error',
-        isClosable: true,
-      });
-      setLoading(false);
+      throw new Error(`Unable to update roles. Error: ${error}`);
     }
-  }, [user, roles, toast, updateRoles]);
 
-  const handleNextPress = useCallback(async () => {
-    setLoading(true);
-    await save();
-    onNextPress();
-  }, [save, onNextPress]);
-
-  const handleSelection = (role: PlayerRole, isPrimary?: boolean) => {
-    if (isPrimary === false && roles.length < 1) {
-      return;
+    if (setRoles) {
+      setStatus?.('Setting Local State…');
+      setRoles(toSet);
     }
-    let newRoles: RoleValue[] = [];
-    const otherRoles = roles.filter((r) => r !== role.role);
-    if (isPrimary === true) {
-      newRoles = [role.role, ...otherRoles];
-    } else {
-      newRoles = [...otherRoles, role.role];
-    }
-    setRoles(newRoles);
   };
 
-  const handleRemoval = (role: PlayerRole) => {
-    const newRoles = roles.filter((r) => r !== role.role);
-    setRoles(newRoles);
-  };
-
-  const roleContainerStyles = {
-    width: {
-      base: 'calc(100% - 4px)',
-      md: 'calc(50% - 16px)',
-      lg: 'calc(33% - 20px)',
-    },
-    mr: { base: 0, md: 4 },
-    mb: { base: 2, md: 4 },
-  };
-
-  const isMobile = useBreakpointValue({ base: true, md: false });
-
-  const setup = (
-    <FlexContainer
-      align="center"
-      mx={isWizard ? { base: 0, md: 8, lg: 16 } : 0}
-      color="white"
-      mb={isWizard ? 'auto' : 0}
-    >
-      {isWizard && (
-        <MetaHeading mb={[0, 5]} alignSelf="center">
-          Roles
-        </MetaHeading>
-      )}
-      {fetching && <LoadingState />}
-      {!fetching &&
-        (roles.length === 0 ? (
-          <Box maxW="30rem">
-            <Text mb={[6, 10]} textAlign="justify" style={{ textIndent: 25 }}>
-              Unlike other role-playing games, in MetaGame, anyone is free to
-              play multiple roles at the same time.
-            </Text>
-            <Text mb={[6, 10]} textAlign="justify" style={{ textIndent: 25 }}>
-              Players are required to specify their primary role, whereas any
-              secondary roles are optional.
-            </Text>
-          </Box>
-        ) : (
-          <Flex wrap="wrap" mb={{ base: 4, md: 16 }} w="100%">
-            {roles.map((r, i) => {
-              const choice = roleChoices.find(
-                (roleChoice) => roleChoice.role === r,
-              );
-              return (
-                choice && (
-                  <>
-                    <Box key={r} {...roleContainerStyles}>
-                      <Text
-                        color="cyan.500"
-                        fontWeight="bold"
-                        casing="uppercase"
-                        my="2"
-                      >
-                        {i === 0 && 'Primary Role'}
-                        {i > 0 && roles.length === 2 && 'Secondary Role'}
-                        {i === 1 && roles.length > 2 && 'Secondary Roles'}
-                        {/* we still need a placeholder */}
-                        {!isMobile && roles.length > 2 && i > 1 && (
-                          <span>&nbsp;</span>
-                        )}
-                      </Text>
-
-                      <Role
-                        role={choice}
-                        selectionIndex={i}
-                        numSelectedRoles={roles.length}
-                        onSelect={handleSelection}
-                        onRemove={handleRemoval}
-                      />
-                    </Box>
-                    {/* wrap after the primary */}
-                    {i === 0 && <Box flexBasis="100%" />}
-                  </>
-                )
-              );
-            })}
-          </Flex>
-        ))}
-      {availableRoles.length > 0 && !fetching && (
+  return (
+    <WizardPane<Array<string>>
+      {...{ field, onClose, onSave, buttonLabel }}
+      value={roles}
+      title="Roles"
+      prompt={
         <>
-          <Text
-            alignSelf="flex-start"
-            color="white"
-            fontWeight="bold"
-            casing="uppercase"
-            my="2"
-          >
-            Available Roles
+          <Text mb={[6, 10]} textAlign="justify" style={{ textIndent: 25 }}>
+            Unlike other role-playing games, in MetaGame, a player is free to
+            take multiple roles at the same time.
           </Text>
-          <Flex wrap="wrap" mb={{ base: 6, md: 16 }}>
-            {availableRoles.map((r) => (
-              <Box key={r.role} {...roleContainerStyles}>
-                <Role role={r} onSelect={handleSelection} />
-              </Box>
-            ))}
-          </Flex>
+          <Text mb={[6, 10]} textAlign="justify" style={{ textIndent: 25 }}>
+            Players are required to specify their primary role, whereas any
+            secondary roles are optional.
+          </Text>
         </>
-      )}
+      }
+      fetching={!user}
+    >
+      {({
+        register,
+        current,
+        setter,
+      }: WizardPaneCallbackProps<Array<string>>) => {
+        if (!choices) {
+          return <Text>Loading Role Choices…</Text>;
+        }
 
-      {isWizard && !fetching && (
-        <FlexContainer pb={8}>
-          <MetaButton
-            onClick={handleNextPress}
-            isDisabled={roles.length < 1}
-            isLoading={updateRolesResult.fetching || loading}
-            loadingText="Saving"
-          >
-            {nextButtonLabel}
-          </MetaButton>
-        </FlexContainer>
-      )}
-    </FlexContainer>
-  );
-  return isWizard ? (
-    setup
-  ) : (
-    <>
-      <ModalBody>{setup} </ModalBody>
-      {isEdit && onClose && (
-        <FlexContainer>
-          <ModalFooter py={8}>
-            <MetaButton
-              mr={3}
-              isLoading={loading}
-              loadingText="Saving…"
-              onClick={async () => {
-                await save();
-                onClose();
-              }}
-            >
-              Save Changes
-            </MetaButton>
-            <Button
-              variant="ghost"
-              onClick={onClose}
-              color="white"
-              _hover={{ bg: '#FFFFFF11' }}
-              _active={{ bg: '#FF000011' }}
-              disabled={loading}
-            >
-              Close
-            </Button>
-          </ModalFooter>
-        </FlexContainer>
-      )}
-    </>
+        if (!current) return null;
+
+        const availableRoles =
+          choices
+            ?.filter(({ role, basic }) => !current?.includes(role) && basic)
+            .map(({ role }) => role) ?? [];
+
+        const select = ({ role }: PlayerRole, isPrimary?: boolean) => {
+          if (current) {
+            let out = null;
+            const otherRoles = current.filter((r) => r !== role);
+            if (isPrimary || isEmpty(otherRoles)) {
+              out = [role, ...otherRoles];
+            } else {
+              out = [...otherRoles, role];
+            }
+            setter(out);
+          }
+        };
+
+        const remove = ({ role }: PlayerRole) => {
+          if (current) {
+            const out = current.filter((r) => r !== role);
+            setter(out);
+          }
+        };
+
+        return (
+          <Stack mb={{ base: 4, md: 16 }} w="full">
+            <Input type="hidden" {...register(field, {})} />
+            <RoleGroup
+              title="Primary Role"
+              active={true}
+              primary={true}
+              roles={current.slice(0, 1)}
+              numSelectedRoles={current.length}
+              {...{ isMobile, choices, select, remove }}
+            />
+            <RoleGroup
+              title="Secondary Role"
+              active={true}
+              roles={current.slice(1)}
+              numSelectedRoles={current.length}
+              {...{ isMobile, choices, select, remove }}
+            />
+            <RoleGroup
+              title="Available Role"
+              roles={availableRoles}
+              {...{ isMobile, choices, select }}
+            />
+          </Stack>
+        );
+      }}
+    </WizardPane>
   );
 };
 
+export type RoleGroupProps = {
+  roles: Array<string>;
+  choices: Array<PlayerRole>;
+  title: string;
+  active?: boolean;
+  primary?: boolean;
+  numSelectedRoles?: number;
+  select?: (role: PlayerRole, primary?: boolean) => void;
+  remove?: (role: PlayerRole, primary?: boolean) => void;
+  isMobile: boolean;
+};
+
+const RoleGroup: React.FC<RoleGroupProps> = ({
+  roles,
+  choices,
+  title,
+  active,
+  primary,
+  numSelectedRoles,
+  select,
+  remove,
+  isMobile,
+}) =>
+  roles.length === 0 ? null : (
+    <Box mr={{ base: 0, md: 4 }} my={{ base: 2, md: 4 }}>
+      {title && (
+        <Heading
+          flexDirection="column"
+          color={active ? 'cyan.500' : 'white'}
+          fontWeight="bold"
+          casing="uppercase"
+          my={2}
+          fontSize={['xs', 'sm']}
+        >
+          {title}
+          {roles.length > 1 ? 's' : null}
+        </Heading>
+      )}
+      <Wrap>
+        {roles.map((r) => {
+          const choice = choices?.find(({ role }) => role === r);
+
+          return (
+            <WrapItem key={r} w="full" maxW={isMobile ? 'full' : '20rem'}>
+              {!choice ? (
+                <Text textStyle="error">Couldn't find role “{r}”.</Text>
+              ) : (
+                <Role
+                  role={choice}
+                  selected={active}
+                  onSelect={select}
+                  onRemove={remove}
+                  {...{ primary, numSelectedRoles, isMobile }}
+                />
+              )}
+            </WrapItem>
+          );
+        })}
+      </Wrap>
+    </Box>
+  );
+
 type RoleProps = {
   role: PlayerRole;
-  selectionIndex?: number;
+  selected?: boolean;
+  primary?: boolean;
   numSelectedRoles?: number;
-  onSelect: (role: PlayerRole, isPrimary?: boolean) => void;
+  onSelect?: (role: PlayerRole, isPrimary?: boolean) => void;
   onRemove?: (role: PlayerRole) => void;
+  isMobile: boolean;
 };
 
 const Role: React.FC<RoleProps> = ({
   role,
-  selectionIndex,
+  selected = false,
+  primary = false,
   numSelectedRoles,
   onSelect,
   onRemove,
+  isMobile = false,
 }) => {
-  const handleContainerClick = () => {
-    if (selectionIndex == null) {
+  const onClick = () => {
+    if (!selected && onSelect) {
       onSelect(role);
     }
   };
 
-  const handleRemoveClick = () => {
-    onRemove?.(role);
-  };
-
   const [showDetails, setShowDetails] = useState(false);
-  const selected = selectionIndex != null;
-  const isMobile = useBreakpointValue({ base: true, md: false });
 
   return (
     <Box
@@ -313,14 +281,11 @@ const Role: React.FC<RoleProps> = ({
       border="2px"
       borderColor="purple.400"
       px={[selected ? 1.5 : 3, 4]}
-      onClick={handleContainerClick}
       h={selected ? 'auto' : '100%'}
+      w="full"
+      {...{ onClick }}
     >
-      <Flex
-        direction={{ base: 'row', md: 'column' }}
-        align="center"
-        justify={{ base: 'space-between', md: 'stretch' }}
-      >
+      <Flex direction={{ base: 'row', md: 'column' }} align="center">
         <BoxedNextImage
           src={`/assets/roles/${role.role.toLowerCase()}.svg`}
           alt={role.label}
@@ -376,9 +341,9 @@ const Role: React.FC<RoleProps> = ({
                   whiteSpace="pre-wrap"
                   mr={2}
                   px={1}
-                  onClick={() => onSelect(role, selectionIndex !== 0)}
+                  onClick={() => onSelect?.(role, !primary)}
                 >
-                  Make {selectionIndex === 0 ? 'Secondary' : 'Primary'}
+                  Make {primary ? 'Secondary' : 'Primary'}
                 </Button>
               ) : (
                 <Button
@@ -388,15 +353,16 @@ const Role: React.FC<RoleProps> = ({
                   color="purple.200"
                   borderColor="purple.200"
                   _hover={{
-                    borderColor: 'transparent',
+                    borderColor: 'purple.900',
                     bgColor: 'blackAlpha.300',
                   }}
                   fontSize={{ md: '0.875rem', lg: '1rem' }}
                   borderWidth={2}
+                  mr={3}
                   whiteSpace="pre-wrap"
-                  onClick={() => onSelect(role, selectionIndex !== 0)}
+                  onClick={() => onSelect?.(role, !primary)}
                 >
-                  Make {selectionIndex === 0 ? 'Secondary' : 'Primary'}
+                  Make {primary ? 'Secondary' : 'Primary'}
                 </Button>
               ))}
             {isMobile ? (
@@ -407,7 +373,7 @@ const Role: React.FC<RoleProps> = ({
                 color="white"
                 bgColor="red.500"
                 size="xs"
-                onClick={handleRemoveClick}
+                onClick={() => onRemove?.(role)}
               >
                 <CloseIcon />
               </Button>
@@ -421,7 +387,7 @@ const Role: React.FC<RoleProps> = ({
                 borderWidth={2}
                 _hover={{ color: 'white', bgColor: 'red.500' }}
                 fontSize={{ md: '0.875rem', lg: '1rem' }}
-                onClick={handleRemoveClick}
+                onClick={() => onRemove?.(role)}
               >
                 Remove
               </Button>

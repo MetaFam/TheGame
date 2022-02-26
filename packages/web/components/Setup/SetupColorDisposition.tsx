@@ -28,6 +28,7 @@ export type ColorButtonsProps = {
     bit: number | ((prev: Optional<Maybe<number>>) => Maybe<number>),
   ) => void;
   types: NonNullable<PersonalityInfo>;
+  disabled: boolean;
 };
 
 // newMask should always only have at most a single bit
@@ -50,6 +51,7 @@ export const ColorButtons: React.FC<ColorButtonsProps> = ({
   mask,
   setMask,
   types,
+  disabled = false,
 }) => (
   <Wrap spacing={[3, 7]} maxW="70rem" justify="center">
     {Object.entries(MaskImages)
@@ -101,6 +103,7 @@ export const ColorButtons: React.FC<ColorButtonsProps> = ({
               }}
               borderWidth={2}
               borderColor={selected ? 'purple.400' : 'transparent'}
+              isDisabled={disabled}
             >
               <Flex>
                 <Image
@@ -175,7 +178,12 @@ export const SetupColorDisposition: React.FC<MaybeModalProps> = ({
         </Text>
       }
     >
-      {({ register, current = 0, setter }: WizardPaneCallbackProps<number>) => {
+      {({
+        register,
+        loading,
+        current = 0,
+        setter,
+      }: WizardPaneCallbackProps<number>) => {
         if (types == null) {
           return (
             <Text fontStyle="italic" textAlign="center">
@@ -187,13 +195,20 @@ export const SetupColorDisposition: React.FC<MaybeModalProps> = ({
         return (
           <Stack align="center" mt={10}>
             <Input type="hidden" {...register(field, {})} />
-            <ColorButtons mask={current} setMask={setter} {...{ types }} />
-            <ColorBar
+            <ColorButtons
+              mask={current}
+              setMask={setter}
+              disabled={loading}
               {...{ types }}
-              mask={current ?? null}
-              mt={5}
-              w="min(90vw, 30rem)"
             />
+            {!loading && (
+              <ColorBar
+                {...{ types, loading }}
+                mask={current ?? null}
+                mt={5}
+                w="min(90vw, 30rem)"
+              />
+            )}
           </Stack>
         );
       }}

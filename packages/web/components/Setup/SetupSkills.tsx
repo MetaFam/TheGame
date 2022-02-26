@@ -37,7 +37,7 @@ const styles: typeof multiSelectStyles = {
   }),
   menuList: (s: CSSProperties) => ({
     ...s,
-    minHeight: '75vh',
+    minHeight: 'min(15rem, 60vh)',
   }),
   multiValue: (s: CSSProperties, { data }: { data: Skill }) => ({
     ...s,
@@ -75,7 +75,10 @@ const styles: typeof multiSelectStyles = {
   }),
 };
 
-export const SetupSkills: React.FC<MaybeModalProps> = ({ onClose }) => {
+export const SetupSkills: React.FC<MaybeModalProps> = ({
+  onClose,
+  buttonLabel,
+}) => {
   const field = 'skills';
   const mounted = useMounted();
   const [choices, setChoices] = useState<Array<CategoryOption>>();
@@ -109,7 +112,7 @@ export const SetupSkills: React.FC<MaybeModalProps> = ({ onClose }) => {
   }, []);
 
   const onSave = async ({
-    values,
+    values: { skills },
     setStatus,
   }: {
     values: Record<string, unknown>;
@@ -118,7 +121,7 @@ export const SetupSkills: React.FC<MaybeModalProps> = ({ onClose }) => {
     setStatus?.('Writing to Hasura…');
 
     const { error } = await updateSkills({
-      skills: (values.skills as Array<SkillOption>).map(({ id }) => ({
+      skills: (skills as Array<SkillOption>).map(({ id }) => ({
         skill_id: id,
       })),
     });
@@ -129,13 +132,13 @@ export const SetupSkills: React.FC<MaybeModalProps> = ({ onClose }) => {
 
     if (setValue) {
       setStatus?.('Setting Local State…');
-      setValue(values.skills);
+      setValue(skills);
     }
   };
 
   return (
     <WizardPane<Array<SkillOption>>
-      {...{ field, value, onClose, onSave }}
+      {...{ field, value, onClose, onSave, buttonLabel }}
       title="Skills"
       prompt="What are your super&#xAD;powers?"
       fetching={!user}
@@ -170,6 +173,7 @@ export const SetupSkills: React.FC<MaybeModalProps> = ({ onClose }) => {
               autoFocus
               closeMenuOnSelect={false}
               placeholder="Add your skills…"
+              menuShouldScrollIntoView={true}
               {...props}
             />
           </Center>

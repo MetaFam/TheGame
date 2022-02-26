@@ -35,7 +35,7 @@ export const typeDefs = gql`
     chain: String!
     title: String
     version: String
-    avatarUrl: String
+    avatarURL: String
   }
 
   type Member {

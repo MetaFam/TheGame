@@ -1,6 +1,7 @@
 import { BoxedNextImage, MetaTag, Text, Wrap, WrapItem } from '@metafam/ds';
 import { ProfileSection } from 'components/Profile/ProfileSection';
 import { Player } from 'graphql/autogen/types';
+import { useOverridableField } from 'lib/hooks';
 import React from 'react';
 import { BoxTypes } from 'utils/boxTypes';
 
@@ -13,27 +14,35 @@ export const PlayerRoles: React.FC<Props> = ({
   player,
   isOwnProfile,
   editing,
-}) => (
-  <ProfileSection
-    title="Roles"
-    type={BoxTypes.PLAYER_ROLES}
-    withoutBG
-    {...{ isOwnProfile, editing }}
-  >
-    {player?.roles?.length === 0 && (
-      <Text fontStyle="italic" textAlign="center" mb="1rem">
-        No Roles found for {isOwnProfile ? 'you' : 'this player'}.
-      </Text>
-    )}
-    <Wrap mb="1rem">
-      {(player.roles ?? [])
-        .sort((a, b) => (a.rank > b.rank ? 1 : -1))
-        .map(({ role, rank, PlayerRole: { label } }) => (
+}) => {
+  const field = 'roles';
+  const { value: roles } = useOverridableField({
+    field,
+    defaultValue: (player.roles ?? [])
+      .sort((a, b) => a.rank - b.rank)
+      .map(({ role }) => role),
+  });
+
+  return (
+    <ProfileSection
+      title="Roles"
+      modalTitle={false}
+      type={BoxTypes.PLAYER_ROLES}
+      withoutBG
+      {...{ isOwnProfile, editing }}
+    >
+      {roles?.length === 0 && (
+        <Text fontStyle="italic" textAlign="center" mb="1rem">
+          No Roles found for {isOwnProfile ? 'you' : 'this player'}.
+        </Text>
+      )}
+      <Wrap mb={4}>
+        {(roles ?? []).map((role, rank) => (
           <WrapItem key={role}>
             <MetaTag>
               <BoxedNextImage
                 src={`/assets/roles/${role.toLowerCase()}.svg`}
-                alt={label}
+                alt={role}
                 h={4}
                 w={4}
                 mr={2}
@@ -44,11 +53,12 @@ export const PlayerRoles: React.FC<Props> = ({
                 casing="uppercase"
                 my={{ base: 0, md: 2 }}
               >
-                {label}
+                {role}
               </Text>
             </MetaTag>
           </WrapItem>
         ))}
-    </Wrap>
-  </ProfileSection>
-);
+      </Wrap>
+    </ProfileSection>
+  );
+};
