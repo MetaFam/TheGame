@@ -53,7 +53,7 @@ export const ProfileSection: React.FC<FlexProps & ProfileSectionProps> = ({
 
   return (
     <Flex
-      minW="min(var(--chakra-sizes-72), calc(100vw - 3rem))"
+      minW="min(var(--chakra-sizes-72), calc(100vw - 3rem), 100%)"
       pos="relative"
       w="100%"
       h="auto"

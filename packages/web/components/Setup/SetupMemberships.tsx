@@ -9,60 +9,80 @@ import {
   MetaButton,
   MetaHeading,
   SimpleGrid,
+  Spinner,
   Text,
+  Wrap,
+  WrapItem,
 } from '@metafam/ds';
+import { Maybe, Optional } from '@metafam/utils';
 import { FlexContainer } from 'components/Container';
 import { useSetupFlow } from 'contexts/SetupContext';
 import { Membership } from 'graphql/types';
 import React, { useState } from 'react';
 import { getDaoLink } from 'utils/daoHelpers';
 
-import { useWeb3 } from '../../lib/hooks';
+import { useMounted, useWeb3 } from '../../lib/hooks';
 import { DaoHausLink } from '../Player/PlayerGuild';
 
 export type SetupMembershipsProps = {
   memberships: Array<Membership> | null | undefined;
   setMemberships: React.Dispatch<
-    React.SetStateAction<Array<Membership> | null | undefined>
+    React.SetStateAction<Optional<Maybe<Array<Membership>>>>
   >;
 };
 
 export const SetupMemberships: React.FC<SetupMembershipsProps> = ({
   memberships,
 }) => {
-  const { connected } = useWeb3();
+  const { connecting, connected } = useWeb3();
   const { onNextPress, nextButtonLabel } = useSetupFlow();
   const [loading, setLoading] = useState(false);
+  const mounted = useMounted();
 
   return (
     <FlexContainer mb={8}>
       <MetaHeading mb={5} textAlign="center">
         Member&shy;ships
       </MetaHeading>
-      {!memberships && (
-        <Text mb={10} maxW="50rem">
-          {connected ? 'Loading…' : 'Account Not Connected'}
-        </Text>
-      )}
-      {memberships &&
-        (memberships.length > 0 ? (
+      {(() => {
+        if (!memberships) {
+          return (
+            <Flex>
+              <Spinner mr={4} />
+              <Text mb={10} maxW="50rem">
+                {!mounted || connecting || connected
+                  ? 'Loading…'
+                  : 'Account Not Connected'}
+              </Text>
+            </Flex>
+          );
+        }
+
+        if (memberships.length === 0) {
+          return (
+            <Text mb={10} maxW="50rem">
+              We did not find any guilds associated with your account.
+            </Text>
+          );
+        }
+
+        return (
           <Box maxW="50rem">
             <Text mb={10}>
               We found the following guilds associated with your account and
               automatically added them to your profile. You can edit them later
               in your profile.
             </Text>
-            <SimpleGrid columns={2} spacing={4}>
-              {memberships.map((member) => (
-                <MembershipListing key={member.id} member={member} />
+            <Wrap columns={2} spacing={4}>
+              {memberships?.map((member) => (
+                <WrapItem key={member.id}>
+                  <MembershipListing {...{ member }} />
+                </WrapItem>
               ))}
-            </SimpleGrid>
+            </Wrap>
           </Box>
-        ) : (
-          <Text mb={10} maxW="50rem">
-            We did not find any guilds associated with your account.
-          </Text>
-        ))}
+        );
+      })()}
       <MetaButton
         onClick={() => {
           setLoading(true);
@@ -82,12 +102,12 @@ type MembershipListingProps = {
 };
 
 const MembershipListing: React.FC<MembershipListingProps> = ({ member }) => {
-  const daoUrl = getDaoLink(member.moloch.chain, member.moloch.id);
+  const daoURL = getDaoLink(member.moloch.chain, member.moloch.id);
 
-  const { avatarUrl, chain, title } = member.moloch;
+  const { avatarURL, chain, title } = member.moloch;
 
   return (
-    <DaoHausLink daoUrl={daoUrl}>
+    <DaoHausLink {...{ daoURL }} bg="dark">
       <HStack alignItems="center" mb={4}>
         <Flex bg="purpleBoxLight" width={16} height={16} mr={6}>
           {avatarUrl ? (

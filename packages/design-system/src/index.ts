@@ -121,6 +121,7 @@ export {
   Link,
   LinkBox,
   LinkOverlay,
+  LinkProps,
   List,
   ListIcon,
   ListItem,

@@ -8,7 +8,7 @@ import {
   Wrap,
   WrapItem,
 } from '@metafam/ds';
-import { Maybe } from '@metafam/utils';
+import { Maybe, Optional } from '@metafam/utils';
 import { MetaLink } from 'components/Link';
 import { ColorBar } from 'components/Player/ColorBar';
 import {
@@ -24,7 +24,9 @@ import { MaybeModalProps, WizardPaneCallbackProps } from './WizardPane';
 
 export type ColorButtonsProps = {
   mask: number;
-  setMask: (bit: number | ((prev: number) => number)) => void;
+  setMask: (
+    bit: number | ((prev: Optional<Maybe<number>>) => Maybe<number>),
+  ) => void;
   types: NonNullable<PersonalityInfo>;
 };
 
@@ -76,7 +78,9 @@ export const ColorButtons: React.FC<ColorButtonsProps> = ({
               cursor="pointer"
               height="auto"
               onClick={() =>
-                setMask((previous) => toggleBit({ base: previous, bit }))
+                setMask((previous) =>
+                  toggleBit({ base: previous ?? undefined, bit }),
+                )
               }
               ref={(input) => {
                 if (idx === 0 && !input?.getAttribute('focused-once')) {

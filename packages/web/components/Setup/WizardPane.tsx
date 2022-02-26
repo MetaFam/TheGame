@@ -12,8 +12,9 @@ import {
   Wrap,
   WrapItem,
 } from '@metafam/ds';
-import { Maybe } from '@metafam/utils';
+import { Maybe, Optional } from '@metafam/utils';
 import { FlexContainer } from 'components/Container';
+import { HeadComponent } from 'components/Seo';
 import { useSetupFlow } from 'contexts/SetupContext';
 import { CeramicError } from 'lib/hooks';
 import {
@@ -61,7 +62,7 @@ export type WizardPaneCallbackProps<T = string> = {
   errored: boolean;
   dirty: boolean;
   current: T;
-  setter: (arg: T | ((prev: T) => T)) => void;
+  setter: (arg: T | ((prev: Optional<Maybe<T>>) => Maybe<T>)) => void;
 };
 
 export const WizardPane = <T,>({
@@ -87,6 +88,7 @@ export const WizardPane = <T,>({
     formState: { errors, isValidating: validating },
   } = useForm();
   const current = watch(field, existing);
+  const dirty = current !== existing;
   const toast = useToast();
 
   useEffect(() => {
@@ -96,7 +98,7 @@ export const WizardPane = <T,>({
   const onSubmit = useCallback(
     async (values) => {
       try {
-        if (current === existing) {
+        if (!dirty) {
           setStatus('No Change. Skipping Save…');
           await new Promise((resolve) => {
             setTimeout(resolve, 10);
@@ -119,7 +121,7 @@ export const WizardPane = <T,>({
         setStatus(null);
       }
     },
-    [current, existing, onClose, onNextPress, onSave, toast],
+    [dirty, onClose, onNextPress, onSave, toast],
   );
 
   const setter = useCallback(
@@ -135,6 +137,7 @@ export const WizardPane = <T,>({
 
   return (
     <FlexContainer as="form" onSubmit={handleSubmit(onSubmit)} color="white">
+      <HeadComponent title={`MetaGame: Setting ${title}`} />
       {title && (
         <MetaHeading mb={5} textAlign="center">
           {title}
@@ -168,9 +171,9 @@ export const WizardPane = <T,>({
             ? children.call(null, {
                 register,
                 control,
-                loading: fetching,
+                loading: authenticating || fetching,
                 errored: !!errors[field],
-                dirty: current !== existing,
+                dirty,
                 current,
                 setter,
               })

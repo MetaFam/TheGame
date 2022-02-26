@@ -151,7 +151,7 @@ export const SetupRoles: React.FC<SetupRolesProps> = ({
       {fetching && <LoadingState />}
       {!fetching &&
         (roles.length === 0 ? (
-          <Box maxW="20rem">
+          <Box maxW="30rem">
             <Text mb={[6, 10]} textAlign="justify" style={{ textIndent: 25 }}>
               Unlike other role-playing games, in MetaGame, anyone is free to
               play multiple roles at the same time.
@@ -334,7 +334,7 @@ const Role: React.FC<RoleProps> = ({
           casing="uppercase"
           my={{ base: 0, md: 2 }}
           onClick={(evt) => {
-            if (selectionIndex != null) {
+            if (selected) {
               evt.stopPropagation();
               setShowDetails((show) => !show);
             }
