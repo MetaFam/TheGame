@@ -12,13 +12,13 @@ export const LandingFooter = ({ currentSection = '' }) => (
     justifyContent="center"
     bottom={20}
     left="33%"
-    opacity={currentSection === 'section-10' ? 1 : 0}
+    opacity={currentSection === 'join-us' ? 1 : 0}
     transition="opacity 0.3s 0.3s ease"
     zIndex={200}
   >
     <HStack spacing={8} alignItems="center">
       <MetaLink
-        href="#section-1"
+        href="#start"
         sx={{
           transition: 'all 0.3s ease',
           '&:hover': {
