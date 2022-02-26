@@ -24,13 +24,21 @@ export const getStaticProps = async () => ({
 });
 
 const Landing: React.FC = () => {
-  const [currentSection, setCurrentSection] = useState('section-1');
+  const [currentSection, setCurrentSection] = useState('start');
   const router = useRouter();
 
   const hash = router.asPath.split('#');
   useEffect(() => {
     setCurrentSection(hash[1]);
   }, [hash]);
+
+  // useEffect(() => {
+  //   if (typeof window !== 'undefined') {
+  //     const ele = document.querySelector('html');
+  //     ele?.classList.add('landing');
+
+  //   }
+  // }, []);
 
   return (
     <>
@@ -47,7 +55,7 @@ const Landing: React.FC = () => {
         <Who />
         <JustWatch />
       </PageContainer>
-      {currentSection === 'section-10' && (
+      {currentSection === 'join-us' && (
         <LandingFooter currentSection={currentSection} />
       )}
       <MetaLink
@@ -55,10 +63,10 @@ const Landing: React.FC = () => {
         position="fixed"
         bottom={{ base: 5, '2xl': 20 }}
         right={{ base: 0, '2xl': 8 }}
-        href="#section-1"
-        opacity={currentSection === 'section-1' ? 0 : 1}
+        href="#start"
+        opacity={currentSection === 'start' ? 0 : 1}
         transform={`translate3d(0,${
-          currentSection === 'section-1' ? '30px' : '0px'
+          currentSection === 'start' ? '30px' : '0px'
         },0)`}
         transition="transform 0.3s 0.3s ease-in-out, opacity 0.3s 0.3s ease-in-out"
       >

@@ -9,7 +9,7 @@ import { LandingNextButton } from './LandingNextButton';
 export const Build: React.FC = () => {
   const ref = useRef<HTMLDivElement>(null);
   const onScreen = useOnScreen(ref);
-  const section = 'section-3';
+  const section = 'build-the-future';
 
   return (
     <FullPageContainer
@@ -55,7 +55,7 @@ export const Build: React.FC = () => {
           </Text>
         </Box>
       </Container>
-      <LandingNextButton section="section-4" />
+      <LandingNextButton section="a-revolution" />
     </FullPageContainer>
   );
 };

@@ -59,7 +59,7 @@ export const IntroHero: React.FC = () => {
           className="border-grad"
           rounded="md"
           size="lg"
-          onClick={() => handleSectionNav('section-2')}
+          onClick={() => handleSectionNav('wtf-is-a-metagame')}
         >
           <Text as="span">Explore</Text>
         </Button>

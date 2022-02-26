@@ -9,7 +9,7 @@ import { LandingNextButton } from './LandingNextButton';
 export const WildWeb: React.FC = () => {
   const ref = useRef<HTMLDivElement>(null);
   const onScreen = useOnScreen(ref);
-  const section = 'section-5';
+  const section = 'the-wild-web';
 
   return (
     <FullPageContainer
@@ -62,7 +62,7 @@ export const WildWeb: React.FC = () => {
           </Text>
         </Box>
       </Container>
-      <LandingNextButton section="section-6" />
+      <LandingNextButton section="human-coordination" />
     </FullPageContainer>
   );
 };

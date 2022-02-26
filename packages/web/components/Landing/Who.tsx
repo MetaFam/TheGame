@@ -10,7 +10,7 @@ import { LandingNextButton } from './LandingNextButton';
 export const Who: React.FC = () => {
   const ref = useRef<HTMLDivElement>(null);
   const onScreen = useOnScreen(ref);
-  const section = 'section-9';
+  const section = 'for-who';
 
   return (
     <FullPageContainer
@@ -53,7 +53,7 @@ export const Who: React.FC = () => {
         </Box>
       </Container>
       <Cards />
-      <LandingNextButton section="section-10" />
+      <LandingNextButton section="join-us" />
     </FullPageContainer>
   );
 };
