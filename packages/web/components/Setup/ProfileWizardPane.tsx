@@ -38,6 +38,8 @@ export const ProfileWizardPane = <T extends ProfileValueType>({
   );
 
   return (
-    <WizardPane {...{ field, onSave, value, ...props }}>{children}</WizardPane>
+    <WizardPane authenticating={!user} {...{ field, onSave, value, ...props }}>
+      {children}
+    </WizardPane>
   );
 };

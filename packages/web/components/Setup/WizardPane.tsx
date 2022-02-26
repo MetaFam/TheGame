@@ -6,7 +6,6 @@ import {
   FormErrorMessage,
   MetaHeading,
   Spinner,
-  Stack,
   StatusedSubmitButton,
   Text,
   useToast,
@@ -42,6 +41,7 @@ export type WizardPaneProps = {
 export type PaneProps<T = string> = WizardPaneProps & {
   value: Maybe<T>;
   fetching?: boolean;
+  authenticating?: boolean;
   onSave?: ({
     values,
     setStatus,
@@ -72,6 +72,7 @@ export const WizardPane = <T,>({
   onClose,
   onSave,
   value: existing,
+  authenticating = false,
   fetching = false,
   children,
 }: PropsWithChildren<PaneProps<T>>) => {
@@ -146,18 +147,21 @@ export const WizardPane = <T,>({
       ) : (
         prompt
       )}
-      <FormControl isInvalid={!!errors[field]} isDisabled={fetching}>
-        {fetching && (
+      <FormControl
+        isInvalid={!!errors[field]}
+        isDisabled={authenticating || fetching}
+      >
+        {(authenticating || fetching || validating) && (
           <Flex justify="center" align="center" my={8}>
             <Spinner thickness="4px" speed="1.25s" size="lg" mr={4} />
-            <Text>Loading Current Value…</Text>
+            <Text>
+              {(() => {
+                if (authenticating) return 'Authenticating…';
+                if (validating) return 'Validating…';
+                return 'Loading Current Value…';
+              })()}
+            </Text>
           </Flex>
-        )}
-        {validating && (
-          <Stack align="center" mb={4}>
-            <Spinner thickness="4px" speed="1.25s" size="lg" />
-            <Text>Validating…</Text>
-          </Stack>
         )}
         <Box my={5}>
           {typeof children === 'function'

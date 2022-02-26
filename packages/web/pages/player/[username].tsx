@@ -4,11 +4,13 @@ import 'react-resizable/css/styles.css';
 import {
   Box,
   ButtonGroup,
-  DeleteIcon,
+  CloseIcon,
+  ConfirmModal,
   EditIcon,
   Flex,
   LoadingState,
   MetaButton,
+  RepeatClockIcon,
   ResponsiveText,
   useToast,
 } from '@metafam/ds';
@@ -17,6 +19,7 @@ import { PageContainer } from 'components/Container';
 import {
   ALL_BOXES,
   DEFAULT_LAYOUT_ITEMS,
+  DEFAULT_PLAYER_LAYOUT_DATA,
   DEFAULT_PLAYER_LAYOUTS,
   GRID_ROW_HEIGHT,
   gridConfig,
@@ -53,7 +56,14 @@ import {
   createBoxKey,
   getBoxKey,
 } from 'utils/boxTypes';
-import { addBoxToLayouts, updatedLayouts } from 'utils/layoutHelpers';
+import {
+  addBoxToLayouts,
+  enableAddBoxInLayoutData,
+  isSameLayouts,
+  makeLayouts,
+  onRemoveBoxFromLayouts,
+  updatedLayouts,
+} from 'utils/layoutHelpers';
 import {
   getPlayerBannerFull,
   getPlayerDescription,
@@ -115,24 +125,6 @@ export const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
 
 export default PlayerPage;
 
-const makeLayouts = (editing: boolean, layouts: Layouts): Layouts =>
-  Object.fromEntries(
-    Object.entries(layouts).map(([key, items]) => [
-      key,
-      items.map((item) =>
-        item.i === 'hero' ? { ...item, isResizable: editing } : item,
-      ),
-    ]),
-  );
-
-const onRemoveBoxFromLayouts = (key: string, layouts: Layouts): Layouts =>
-  Object.fromEntries(
-    Object.entries(layouts).map(([id, items]) => [
-      id,
-      items.filter((item) => item.i !== key),
-    ]),
-  );
-
 const useItemHeights = (items: Array<Maybe<HTMLElement>>) => {
   const [heights, setHeights] = useState<Record<string, number>>({});
 
@@ -178,6 +170,9 @@ export const Grid: React.FC<Props> = ({ player }): ReactElement => {
   const { user, fetching } = useUser();
   const { connected } = useWeb3();
   const [saving, setSaving] = useState(false);
+  const [exitAlertCancel, setExitAlertCancel] = useState<boolean>(false);
+  const [exitAlertReset, setExitAlertReset] = useState<boolean>(false);
+
   const toast = useToast();
 
   useEffect(() => {
@@ -228,10 +223,24 @@ export const Grid: React.FC<Props> = ({ player }): ReactElement => {
   const [changed, setChanged] = useState(false);
   const [editing, setEditing] = useState(false);
 
+  const handleReset = useCallback(() => {
+    setCurrentLayoutData(enableAddBoxInLayoutData(DEFAULT_PLAYER_LAYOUT_DATA));
+    setExitAlertReset(false);
+  }, []);
+
   const handleCancel = useCallback(() => {
     setCurrentLayoutData(savedLayoutData);
     setEditing(false);
   }, [savedLayoutData]);
+
+  const isDefaultLayout = useMemo(
+    () =>
+      isSameLayouts(DEFAULT_PLAYER_LAYOUT_DATA, {
+        layoutItems: currentLayoutItems,
+        layouts: currentLayouts,
+      }),
+    [currentLayoutItems, currentLayouts],
+  );
 
   const persistLayoutData = useCallback(
     async (layoutData: ProfileLayoutData) => {
@@ -364,9 +373,25 @@ export const Grid: React.FC<Props> = ({ player }): ReactElement => {
           h="3rem"
           mb="1rem"
         >
+          {changed && editing && !isDefaultLayout && (
+            <MetaButton
+              aria-label="Reset"
+              _hover={{ background: 'purple.600' }}
+              textTransform="uppercase"
+              px={12}
+              letterSpacing="0.1em"
+              size="lg"
+              fontSize="sm"
+              onClick={() => setExitAlertReset(true)}
+              leftIcon={<RepeatClockIcon />}
+              whiteSpace="pre-wrap"
+            >
+              Reset
+            </MetaButton>
+          )}
           {changed && editing && (
             <MetaButton
-              aria-label="Cancel edit layout"
+              aria-label="Cancel Layout Edit"
               colorScheme="purple"
               _hover={{ background: 'purple.600' }}
               textTransform="uppercase"
@@ -375,11 +400,23 @@ export const Grid: React.FC<Props> = ({ player }): ReactElement => {
               size="lg"
               fontSize="sm"
               onClick={handleCancel}
-              leftIcon={<DeleteIcon />}
+              leftIcon={<CloseIcon />}
             >
               Cancel
             </MetaButton>
           )}
+          <ConfirmModal
+            isOpen={exitAlertReset}
+            onNope={() => setExitAlertReset(false)}
+            onYep={handleReset}
+            header="Are you sure you want to reset the layout to its default?"
+          />
+          <ConfirmModal
+            isOpen={exitAlertCancel}
+            onNope={() => setExitAlertCancel(false)}
+            onYep={handleCancel}
+            header="Are you sure you want to cancel editing the layout?"
+          />
           <MetaButton
             aria-label="Edit layout"
             borderColor="transparent"
