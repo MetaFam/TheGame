@@ -9,7 +9,7 @@ import { BsArrowRight } from 'react-icons/bs';
 export const JustWatch: React.FC = () => {
   const ref = useRef<HTMLDivElement>(null);
   const onScreen = useOnScreen(ref);
-  const section = 'section-10';
+  const section = 'join-us';
 
   return (
     <FullPageContainer

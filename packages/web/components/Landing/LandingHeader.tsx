@@ -57,6 +57,7 @@ export const LandingHeader: React.FC = () => {
         pos="absolute"
         textAlign="center"
         w="100%"
+        py={2}
         top={0}
         zIndex={300}
         sx={{
@@ -185,9 +186,12 @@ export const LandingHeader: React.FC = () => {
           transform: toggle
             ? `translate3d(0, 0, 0)`
             : `translate3d(0, -120%, 0)`,
-          transition: `transform 0.3s 0.1s ease-in-out, opacity 0.3s 0.2s ease-in-out`,
+          transition: `transform 0.2s ease-in-out, opacity 0.2s 0.1s ease-in-out`,
           backgroundColor: 'landingDarkGlass',
           backdropFilter: 'blur(7px)',
+          '.waveA, .waveB': {
+            animationPlayState: 'paused',
+          },
         }}
       >
         <HStack
@@ -216,19 +220,19 @@ export const LandingHeader: React.FC = () => {
               },
             }}
           >
-            <NavLink target="section-1">
+            <NavLink target="start">
               <Text as="span">1.</Text> Start here
             </NavLink>
-            <NavLink target="section-2">
+            <NavLink target="wtf-is-a-metagame">
               <Text as="span">2.</Text> What is a Metagame?
             </NavLink>
-            <NavLink target="section-3">
+            <NavLink target="build-the-future">
               <Text as="span">3.</Text> Build the future!
             </NavLink>
-            <NavLink target="section-4">
+            <NavLink target="a-revolution">
               <Text as="span">4.</Text> A revolution!?
             </NavLink>
-            <NavLink target="section-5">
+            <NavLink target="the-wild-web">
               <Text as="span">5.</Text> The Wild Web
             </NavLink>
           </VStack>
@@ -242,24 +246,24 @@ export const LandingHeader: React.FC = () => {
             opacity={toggle ? 1 : 0}
             transition="opacity 0.3s 0.5s ease-in-out"
           >
-            <NavLink target="section-6">
+            <NavLink target="human-coordination">
               <Text as="span">6.</Text> Human Coordination
             </NavLink>
-            <NavLink target="section-7">
+            <NavLink target="what-we-do">
               <Text as="span">7.</Text> Wot do ser?
             </NavLink>
-            <NavLink target="section-8">
+            <NavLink target="play-life">
               <Text as="span">8.</Text> Play Life
             </NavLink>
-            <NavLink target="section-9">
+            <NavLink target="for-who">
               <Text as="span">9.</Text> For who?
             </NavLink>
-            <NavLink target="section-10">
+            <NavLink target="join-us">
               <Text as="span">10.</Text> Join us!
             </NavLink>
           </VStack>
         </HStack>
-        <AnimatedWaves animationName={upDownAnimation} />
+        <AnimatedWaves animationName={upDownAnimation} playing={toggle} />
       </Container>
     </>
   );

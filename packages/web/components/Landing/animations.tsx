@@ -29,6 +29,7 @@ const InnerWaveA = chakra('div', {
   baseStyle: {
     path: {
       animation: `${waveAnimation('5s')}`,
+      // animationPlayState: 'paused',
     },
   },
 });
@@ -38,6 +39,7 @@ const InnerWaveB = chakra('div', {
   baseStyle: {
     path: {
       animation: `${waveAnimation('10s')}`,
+      // animationPlayState: 'paused',
     },
   },
 });
@@ -46,6 +48,7 @@ const InnerWaveC = chakra('div', {
   baseStyle: {
     path: {
       animation: `${waveAnimation('8s')}`,
+      // animationPlayState: 'paused',
     },
   },
 });
@@ -54,6 +57,7 @@ export const upDownAnimation = `${upDown} 10s ease-in-out infinite alternate`;
 
 export const UpDown = styled.div`
   animation: ${upDownAnimation};
+  animation-play-state: paused;
   position: absolute;
   pointer-events: none;
   top: 0;
@@ -62,14 +66,13 @@ export const UpDown = styled.div`
   bottom: 0;
 `;
 
-// const ChakraInnerWaveA = chakra(InnerWaveA);
-// const ChakraInnerWaveB = chakra(InnerWaveB);
 const LandingSVG = chakra('svg');
 
-export const AnimatedWaves = ({ animationName = '' }) => (
+export const AnimatedWaves = ({ animationName = '', playing = false }) => (
   <Box
     sx={{
       animation: animationName,
+      animationPlayState: 'paused',
       position: 'absolute',
       width: '100%',
       height: '20vh',
@@ -83,6 +86,7 @@ export const AnimatedWaves = ({ animationName = '' }) => (
     }}
   >
     <InnerWaveA
+      className="waveA"
       sx={{
         position: `absolute`,
         width: `200%`,
@@ -97,7 +101,8 @@ export const AnimatedWaves = ({ animationName = '' }) => (
         },
         zIndex: 50,
         'svg > path': {
-          boxShadow: `0 0 35px rgba(0,0,0,1)`,
+          // boxShadow: `0 0 35px rgba(0,0,0,1)`,
+          animationPlayState: playing ? 'running' : 'paused',
         },
       }}
     >
@@ -118,6 +123,7 @@ export const AnimatedWaves = ({ animationName = '' }) => (
       </LandingSVG>
     </InnerWaveA>
     <InnerWaveB
+      className="waveB"
       sx={{
         position: `absolute`,
         width: `180%`,
@@ -132,7 +138,8 @@ export const AnimatedWaves = ({ animationName = '' }) => (
         transform: `scale(1, -1)`,
         zIndex: 300,
         'svg > path': {
-          boxShadow: `0 0 35px rgba(0,0,0,1)`,
+          // boxShadow: `0 0 35px rgba(0,0,0,1)`,
+          animationPlayState: playing ? 'running' : 'paused',
         },
       }}
     >
@@ -167,7 +174,8 @@ export const AnimatedWaves = ({ animationName = '' }) => (
         },
         zIndex: 50,
         'svg > path': {
-          boxShadow: `0 0 35px rgba(0,0,0,1)`,
+          // boxShadow: `0 0 35px rgba(0,0,0,1)`,
+          animationPlayState: playing ? 'running' : 'paused',
         },
       }}
     >

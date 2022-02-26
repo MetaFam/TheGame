@@ -9,7 +9,7 @@ import { LandingNextButton } from './LandingNextButton';
 export const Together: React.FC = () => {
   const ref = useRef<HTMLDivElement>(null);
   const onScreen = useOnScreen(ref);
-  const section = 'section-6';
+  const section = 'human-coordination';
 
   return (
     <FullPageContainer
@@ -56,7 +56,7 @@ export const Together: React.FC = () => {
           </Text>
         </Box>
       </Container>
-      <LandingNextButton section="section-7" />
+      <LandingNextButton section="what-we-do" />
     </FullPageContainer>
   );
 };

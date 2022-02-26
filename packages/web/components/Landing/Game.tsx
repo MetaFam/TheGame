@@ -10,7 +10,7 @@ import { LandingNextButton } from './LandingNextButton';
 export const Game: React.FC = () => {
   const ref = useRef<HTMLDivElement>(null);
   const onScreen = useOnScreen(ref);
-  const section = 'section-2';
+  const section = 'wtf-is-a-metagame';
 
   return (
     <FullPageContainer
@@ -58,7 +58,7 @@ export const Game: React.FC = () => {
           </Text>
         </Box>
       </Container>
-      <LandingNextButton section="section-3" />
+      <LandingNextButton section="build-the-future" />
     </FullPageContainer>
   );
 };
