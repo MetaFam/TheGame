@@ -10,44 +10,13 @@ import {
   VStack,
 } from '@metafam/ds';
 import MetaGameLogo from 'assets/logo-new.png';
-import { ReactNode, useState } from 'react';
+import { SetStateAction } from 'jotai';
+import { Dispatch, ReactNode, useState } from 'react';
 
 import { AnimatedWaves, upDownAnimation } from './animations';
 
 export const LandingHeader: React.FC = () => {
   const [toggle, setToggle] = useState(false);
-
-  const NavLink = ({
-    children,
-    target,
-  }: {
-    children: ReactNode;
-    target: string;
-  }) => (
-    <Link
-      px={2}
-      py={1}
-      _hover={{
-        textDecoration: 'none',
-      }}
-      href={`#${target}`}
-      onClick={() => setToggle(!toggle)}
-      sx={{
-        background: 'linear-gradient(90deg, #FFF -29.22%, #FFF 107.53%)',
-        backgroundClip: 'text',
-        WebkitTextFillColor: 'transparent',
-        transition: 'backgroundImage 0.3s ease-in',
-        '&.active, &:hover': {
-          background:
-            'linear-gradient(90deg, #FF61E6 -29.22%, #7C56FF 107.53%)',
-          backgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
-        },
-      }}
-    >
-      {children}
-    </Link>
-  );
 
   return (
     <>
@@ -79,7 +48,12 @@ export const LandingHeader: React.FC = () => {
             transition="opacity 0.3s 0.6s ease"
             zIndex={toggle ? 600 : 0}
           >
-            <NavLink key="link-home-logo" target="section-1">
+            <NavLink
+              key="link-home-logo"
+              target="start"
+              toggle={toggle}
+              setToggle={setToggle}
+            >
               <HStack
                 fontFamily="body"
                 fontSize="md"
@@ -220,19 +194,35 @@ export const LandingHeader: React.FC = () => {
               },
             }}
           >
-            <NavLink target="start">
+            <NavLink target="start" toggle={toggle} setToggle={setToggle}>
               <Text as="span">1.</Text> Start here
             </NavLink>
-            <NavLink target="wtf-is-a-metagame">
+            <NavLink
+              target="wtf-is-a-metagame"
+              toggle={toggle}
+              setToggle={setToggle}
+            >
               <Text as="span">2.</Text> What is a Metagame?
             </NavLink>
-            <NavLink target="build-the-future">
+            <NavLink
+              target="build-the-future"
+              toggle={toggle}
+              setToggle={setToggle}
+            >
               <Text as="span">3.</Text> Build the future!
             </NavLink>
-            <NavLink target="a-revolution">
+            <NavLink
+              target="a-revolution"
+              toggle={toggle}
+              setToggle={setToggle}
+            >
               <Text as="span">4.</Text> A revolution!?
             </NavLink>
-            <NavLink target="the-wild-web">
+            <NavLink
+              target="the-wild-web"
+              toggle={toggle}
+              setToggle={setToggle}
+            >
               <Text as="span">5.</Text> The Wild Web
             </NavLink>
           </VStack>
@@ -246,19 +236,23 @@ export const LandingHeader: React.FC = () => {
             opacity={toggle ? 1 : 0}
             transition="opacity 0.3s 0.5s ease-in-out"
           >
-            <NavLink target="human-coordination">
+            <NavLink
+              target="human-coordination"
+              toggle={toggle}
+              setToggle={setToggle}
+            >
               <Text as="span">6.</Text> Human Coordination
             </NavLink>
-            <NavLink target="what-we-do">
+            <NavLink target="what-we-do" toggle={toggle} setToggle={setToggle}>
               <Text as="span">7.</Text> Wot do ser?
             </NavLink>
-            <NavLink target="play-life">
+            <NavLink target="play-life" toggle={toggle} setToggle={setToggle}>
               <Text as="span">8.</Text> Play Life
             </NavLink>
-            <NavLink target="for-who">
+            <NavLink target="for-who" toggle={toggle} setToggle={setToggle}>
               <Text as="span">9.</Text> For who?
             </NavLink>
-            <NavLink target="join-us">
+            <NavLink target="join-us" toggle={toggle} setToggle={setToggle}>
               <Text as="span">10.</Text> Join us!
             </NavLink>
           </VStack>
@@ -268,6 +262,41 @@ export const LandingHeader: React.FC = () => {
     </>
   );
 };
+
+const NavLink = ({
+  children,
+  target,
+  toggle,
+  setToggle,
+}: {
+  children: ReactNode;
+  target: string;
+  toggle: boolean;
+  setToggle: Dispatch<SetStateAction<boolean>>;
+}) => (
+  <Link
+    px={2}
+    py={1}
+    _hover={{
+      textDecoration: 'none',
+    }}
+    href={`#${target}`}
+    onClick={() => setToggle(!toggle)}
+    sx={{
+      background: 'linear-gradient(90deg, #FFF -29.22%, #FFF 107.53%)',
+      backgroundClip: 'text',
+      WebkitTextFillColor: 'transparent',
+      transition: 'backgroundImage 0.3s ease-in',
+      '&.active, &:hover': {
+        background: 'linear-gradient(90deg, #FF61E6 -29.22%, #7C56FF 107.53%)',
+        backgroundClip: 'text',
+        WebkitTextFillColor: 'transparent',
+      },
+    }}
+  >
+    {children}
+  </Link>
+);
 
 // type IconType = 'navToggle';
 
