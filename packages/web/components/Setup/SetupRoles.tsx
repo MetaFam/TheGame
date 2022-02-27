@@ -17,7 +17,7 @@ import {
 import { Maybe, Optional } from '@metafam/utils';
 import {
   PlayerRole,
-  useUpdatePlayerRolesMutation,
+  useUpdatePlayerRolesMutation as useUpdateRoles,
 } from 'graphql/autogen/types';
 import { getPlayerRoles } from 'graphql/queries/enums/getRoles';
 import { useOverridableField, useUser } from 'lib/hooks';
@@ -45,7 +45,7 @@ export const SetupRoles: React.FC<SetupRolesProps> = ({
   const [choices, setChoices] = useState<Maybe<Array<PlayerRole>>>(
     inputChoices,
   );
-  const [, updateRoles] = useUpdatePlayerRolesMutation();
+  const [, updateRoles] = useUpdateRoles();
   const { value: roles, setter: setRoles } = useOverridableField<Array<string>>(
     {
       field,
@@ -66,10 +66,10 @@ export const SetupRoles: React.FC<SetupRolesProps> = ({
   }, [choices]);
 
   useEffect(() => {
-    if (user && setRoles) {
+    if (user && setRoles && !roles) {
       setRoles(user.roles.map(({ role }) => role));
     }
-  }, [user, setRoles]);
+  }, [user, setRoles, roles]);
 
   const onSave = async ({
     values,

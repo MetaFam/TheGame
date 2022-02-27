@@ -75,7 +75,7 @@ export type GuildMembership = {
   daoShares?: string;
   chain?: string;
   address?: string;
-  logoUrl?: string;
+  logoURL?: string;
   guildname?: string;
 };
 
@@ -91,22 +91,22 @@ export const getAllMemberships = async (player: Player) => {
       ),
   );
 
-  const memberships: GuildMembership[] = [
+  const memberships: Array<GuildMembership> = [
     ...(guildPlayers || []).map((gp) => ({
       memberId: `${gp.guild_id}:${player.id}`,
       title: gp.Guild.name,
       guildname: gp.Guild.guildname,
-      memberRank: gp.discordRoles[0].name || undefined,
+      memberRank: gp.discordRoles[0].name ?? undefined,
       memberXP: gp.Guild.guildname === 'metafam' ? player.totalXP : null,
-      logoUrl: gp.Guild.logo || undefined,
+      logoURL: gp.Guild.logo ?? undefined,
     })),
     ...(daohausMemberships || []).map((m) => ({
       memberId: m.id,
-      title: m.moloch.title || undefined,
+      title: m.moloch.title ?? undefined,
       memberShares: m.shares,
       daoShares: m.moloch.totalShares,
       chain: m.moloch.chain,
-      logoUrl: m.moloch.avatarURL || undefined,
+      logoURL: m.moloch.avatarURL ?? undefined,
       address: m.molochAddress,
     })),
   ];

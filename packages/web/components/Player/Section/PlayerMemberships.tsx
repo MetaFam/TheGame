@@ -1,6 +1,5 @@
 import {
   Box,
-  Center,
   ChainIcon,
   Flex,
   Heading,
@@ -14,6 +13,8 @@ import {
   SimpleGrid,
   Text,
   useDisclosure,
+  Wrap,
+  WrapItem,
 } from '@metafam/ds';
 import BackgroundImage from 'assets/main-background.jpg';
 import { LinkGuild } from 'components/Player/PlayerGuild';
@@ -28,8 +29,8 @@ type DAOListingProps = {
   membership: GuildMembership;
 };
 
-const DAOListing: React.FC<DAOListingProps> = ({ membership }) => {
-  const {
+const DAOListing: React.FC<DAOListingProps> = ({
+  membership: {
     title,
     memberShares,
     daoShares,
@@ -37,74 +38,168 @@ const DAOListing: React.FC<DAOListingProps> = ({ membership }) => {
     memberXP,
     chain,
     address,
-    logoUrl,
+    logoURL,
     guildname,
-  } = membership;
-
+  },
+}) => {
   const stake = useMemo(() => {
     if (memberXP != null) {
       return `XP: ${Math.floor(memberXP)}`;
     }
     if (daoShares != null) {
-      return `Shares: ${memberShares ?? 'Unknown'} / ${daoShares}`;
+      return (
+        <Text
+          as="span"
+          textAlign={['center', 'left']}
+          display={['flex', 'inline']}
+          flexDirection={['column', 'inherit']}
+        >
+          <Text as="span" _after={{ content: [undefined, '":"'] }} mr={[0, 1]}>
+            Shares
+          </Text>
+          <Text as="span" whiteSpace="nowrap" sx={{ clear: 'left' }}>
+            <Text as="sup">
+              {Number(memberShares).toLocaleString() ?? 'Unknown'}
+            </Text>{' '}
+            <Text as="span" fontSize="lg" pos="relative" top={0.5}>
+              ⁄
+            </Text>{' '}
+            <Text as="sub">{Number(daoShares).toLocaleString()}</Text>
+          </Text>
+        </Text>
+      );
     }
-    return '';
+    return null;
   }, [memberShares, memberXP, daoShares]);
 
   const daoURL = useMemo(() => getDAOLink(chain, address), [chain, address]);
 
   return (
     <LinkGuild {...{ daoURL, guildname }}>
-      <HStack alignItems="center" mb={6} p={2}>
-        <Flex bg="purpleBoxLight" minW={16} h={16} mr={2} borderRadius={8}>
-          {logoUrl ? (
-            <Image
-              src={logoUrl}
-              w="3.25rem"
-              h="3.25rem"
-              m="auto"
-              borderRadius={4}
-            />
-          ) : (
-            <ChainIcon chain={chain} boxSize={16} p={2} />
-          )}
+      <Flex align="center" mb={4} p={2} direction={['column', 'row']}>
+        <Flex w="full" align="center" justifyContent={['space-around', 'end']}>
+          <Box bg="purpleBoxLight" minW={16} h={16} borderRadius={8}>
+            {logoURL ? (
+              <Image
+                src={logoURL}
+                w={14}
+                h={14}
+                mx="auto"
+                my={1}
+                borderRadius={4}
+              />
+            ) : (
+              <ChainIcon {...{ chain }} boxSize={16} p={2} />
+            )}
+          </Box>
+          <ChainIcon {...{ chain }} mx={2} boxSize="1.5em" />
         </Flex>
-        <Box>
+        <Flex
+          w="full"
+          direction={['row', 'column']}
+          align={['center', 'start']}
+        >
           <Heading
             fontWeight="bold"
             style={{ fontVariant: 'small-caps' }}
             fontSize="xs"
             color={daoURL ? 'cyanText' : 'white'}
-            mb={1}
-            ml="1em"
-            sx={{ textIndent: '-1em' }}
+            ml={[0, '1em']}
+            sx={{ textIndent: [0, '-1em'] }}
+            textAlign={['center', 'left']}
+            flexGrow={1}
           >
-            <Center justifyContent="left">
-              {title ?? (
-                <Text>
-                  Unknown{' '}
-                  <Text as="span" textTransform="capitalize">
-                    {chain}
-                  </Text>{' '}
-                  DAO
-                </Text>
-              )}
-              <ChainIcon chain={chain} ml={2} boxSize="1.5em" />
-            </Center>
+            {title ?? (
+              <Text as="span">
+                Unknown{' '}
+                <Text as="span" textTransform="capitalize">
+                  {chain}
+                </Text>{' '}
+                DAO
+              </Text>
+            )}
           </Heading>
-          <HStack alignItems="center">
+          <Flex align="center" mt="0 !important">
             {memberRank && (
               <Text fontSize="xs" casing="capitalize" mr={3}>
                 {memberRank}
               </Text>
             )}
-            <Text fontSize="xs">{stake}</Text>
-          </HStack>
-        </Box>
-      </HStack>
+            <Text fontSize="xs" ml={[0.5, 0]}>
+              {stake}
+            </Text>
+          </Flex>
+        </Flex>
+      </Flex>
     </LinkGuild>
   );
 };
+
+type MembershipListProps = {
+  isOpen: boolean;
+  onClose: () => void;
+  memberships: Array<GuildMembership>;
+};
+
+const MembershipListModal: React.FC<MembershipListProps> = ({
+  isOpen,
+  onClose,
+  memberships,
+}) => (
+  <Modal {...{ isOpen, onClose }} isCentered scrollBehavior="inside">
+    <ModalOverlay />
+    <ModalContent
+      maxW="min(var(--chakra-sizes-6xl), calc(100vw - 4rem))"
+      bgImage={`url(${BackgroundImage})`}
+      bgSize="cover"
+      bgAttachment="fixed"
+      maxH="full"
+    >
+      <Box bg="purple.800" borderTopRadius="lg" p={4} w="full">
+        <HStack>
+          <Text fontSize="sm" fontWeight="bold" color="blueLight" mr="auto">
+            Memberships
+          </Text>
+          <ModalCloseButton color="blueLight" />
+        </HStack>
+      </Box>
+
+      <Flex p={2}>
+        <Box
+          overflowY="auto"
+          overflowX="hidden"
+          maxH="calc(100vh - 10rem)"
+          borderBottomRadius="lg"
+          w="full"
+          color="white"
+          sx={{
+            scrollbarColor: 'rgba(70, 20, 100, 0.8) #FFFFFF00',
+            '::-webkit-scrollbar': {
+              width: '0.5rem',
+              background: 'none',
+            },
+            '::-webkit-scrollbar-thumb': {
+              background: 'rgba(70, 20, 100, 0.8)',
+              borderRadius: '999px',
+            },
+          }}
+        >
+          <SimpleGrid
+            columns={{ base: 1, md: 2, lg: 3, '2xl': 4 }}
+            gap={2}
+            p={4}
+            boxShadow="md"
+            justify="center"
+          >
+            {memberships.map((membership) => (
+              <DAOListing key={membership.memberId} {...{ membership }} />
+            ))}
+          </SimpleGrid>
+        </Box>
+      </Flex>
+    </ModalContent>
+  </Modal>
+);
 
 type MembershipSectionProps = {
   player: Player;
@@ -138,90 +233,43 @@ export const PlayerMemberships: React.FC<MembershipSectionProps> = ({
       {loading && <LoadingState mb={6} />}
 
       {!loading && memberships.length === 0 && (
-        <Text fontStyle="italic" textAlign="center" mb="1rem">
+        <Text fontStyle="italic" textAlign="center" mb={4}>
           No DAO member&shy;ships found for{' '}
           {isOwnProfile ? 'you' : 'this player'}.
         </Text>
       )}
 
-      {memberships.slice(0, 4).map((membership) => (
-        <DAOListing key={membership.memberId} {...{ membership }} />
-      ))}
+      <Wrap justify="center">
+        {memberships.slice(0, 4).map((membership) => (
+          <WrapItem key={membership.memberId}>
+            <DAOListing {...{ membership }} />
+          </WrapItem>
+        ))}
+      </Wrap>
 
       {memberships.length > 4 && (
-        <Text
-          as="span"
-          fontSize="xs"
-          color="cyanText"
-          cursor="pointer"
-          onClick={onOpen}
-        >
-          View All ({memberships.length})
-        </Text>
-      )}
-
-      <Modal
-        isOpen={isOpen}
-        onClose={onClose}
-        isCentered
-        scrollBehavior="inside"
-      >
-        <ModalOverlay>
-          <ModalContent
-            maxW="6xl"
-            bgImage={`url(${BackgroundImage})`}
-            bgSize="cover"
-            bgAttachment="fixed"
+        <Box textAlign="end">
+          <MembershipListModal {...{ isOpen, onClose, memberships }} />
+          <Text
+            as="span"
+            p={1.5}
+            fontSize="xs"
+            color="cyanText"
+            cursor="pointer"
+            borderRadius="md"
+            border="2px solid transparent"
+            _hover={{
+              color: 'purple.800',
+              bg: '#FFFFFF66',
+              borderColor: 'purple.600',
+            }}
+            mr={[2, 0]}
+            onClick={onOpen}
           >
-            <Box bg="purple.100" borderTopRadius="lg" p={4} w="100%">
-              <HStack>
-                <Text
-                  fontSize="sm"
-                  fontWeight="bold"
-                  color="blueLight"
-                  mr="auto"
-                >
-                  Memberships
-                </Text>
-                <ModalCloseButton color="blueLight" />
-              </HStack>
-            </Box>
-
-            <Flex p={2}>
-              <Box
-                overflowY="auto"
-                overflowX="hidden"
-                maxH="80vh"
-                borderBottomRadius="lg"
-                w="full"
-                color="white"
-                sx={{
-                  scrollbarColor: 'rgba(70,20,100,0.8) rgba(255,255,255,0)',
-                  '::-webkit-scrollbar': {
-                    width: '8px',
-                    background: 'none',
-                  },
-                  '::-webkit-scrollbar-thumb': {
-                    background: 'rgba(70,20,100,0.8)',
-                    borderRadius: '999px',
-                  },
-                }}
-              >
-                <SimpleGrid
-                  columns={{ base: 1, md: 2 }}
-                  gap={6}
-                  p={6}
-                  boxShadow="md"
-                >
-                  {memberships.map((membership) => (
-                    <DAOListing key={membership.memberId} {...{ membership }} />
-                  ))}
-                </SimpleGrid>
-              </Box>
-            </Flex>
-          </ModalContent>
-        </ModalOverlay>
-      </Modal>
+            View All ({memberships.length})
+          </Text>
+        </Box>
+      )}
     </ProfileSection>
   );
 };

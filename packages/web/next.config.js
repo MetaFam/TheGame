@@ -25,6 +25,11 @@ module.exports = withTM(
           destination: '/community/guilds',
           permanent: false,
         },
+        {
+          source: '/profile/setup',
+          destination: '/profile/setup/username',
+          permanent: false,
+        },
       ];
     },
     async rewrites() {

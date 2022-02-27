@@ -85,8 +85,8 @@ export const PlayerHero: React.FC<HeroProps> = ({ player, editing }) => {
       )}
       <Box align="center" mb={8} mt={2}>
         <PlayerAvatar
-          w={{ base: 32, md: 56 }}
-          h={{ base: 32, md: 56 }}
+          w={{ base: 32, md: 'min(var(--chakra-sizes-56), 100%)' }}
+          h={{ base: 32, md: 'min(var(--chakra-sizes-56), 100%)' }}
           {...{ player }}
         />
       </Box>
