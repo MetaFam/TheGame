@@ -43,9 +43,14 @@ const CurrentUserPage: React.FC<Props> = () => {
 
   if (error) {
     return (
-      <Text textAlign="center" mt="25vh">
-        Error Loading User: <q>{error.message}</q>
-      </Text>
+      <Center h="100vh">
+        <Stack align="center">
+          <Text>
+            Error Loading User: <q>{error.message}</q>
+          </Text>
+          <MetaButton onClick={connect}>Try Again</MetaButton>
+        </Stack>
+      </Center>
     );
   }
 

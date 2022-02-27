@@ -85,8 +85,8 @@ export const PlayerHero: React.FC<HeroProps> = ({ player, editing }) => {
       )}
       <Box align="center" mb={8} mt={2}>
         <PlayerAvatar
-          w={{ base: 32, md: 'min(var(--chakra-sizes-56), 100%)' }}
-          h={{ base: 32, md: 'min(var(--chakra-sizes-56), 100%)' }}
+          w="min(var(--chakra-sizes-56), 100%)"
+          h="min(var(--chakra-sizes-56), 100%)"
           {...{ player }}
         />
       </Box>
@@ -331,7 +331,7 @@ const Availability: React.FC<DisplayComponentProps> = ({
             transition="opacity 0.4s"
             opacity={animation === 'fadeIn' ? 1 : 0}
           >
-            <Text fontSize={{ base: 'md', sm: 'lg' }} pr={2}>
+            <Text fontSize={['md', 'lg']} pr={2}>
               {hours == null ? (
                 <Text as="em">Unspecified</Text>
               ) : (
@@ -372,13 +372,15 @@ const TimeZone: React.FC<DisplayComponentProps> = ({
             <FaGlobe color="blueLight" />
           </Box>
           {timeZone === null ? (
-            <Text fontStyle="italic">Unspecified</Text>
+            <Text fontStyle="italic" fontSize={['md', 'lg']}>
+              Unspecified
+            </Text>
           ) : (
             <Tooltip label={tz?.name} hasArrow>
               <Wrap justify="center" align="center" userSelect="none">
                 <WrapItem my="0 !important">
                   <Text
-                    fontSize={{ base: 'md', sm: 'lg' }}
+                    fontSize={['md', 'lg']}
                     pr={1}
                     overflowX="hidden"
                     textOverflow="ellipsis"

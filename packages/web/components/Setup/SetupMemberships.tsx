@@ -68,8 +68,7 @@ export const SetupMemberships: React.FC<SetupMembershipsProps> = ({
           <Box maxW="50rem">
             <Text mb={10} maxW="40rem">
               We found the following guilds associated with your account and
-              automatically added them to your profile. You can edit them later
-              in your profile.
+              automatically added them to your profile.
             </Text>
             <Wrap columns={2} spacing={4} justify="center">
               {memberships?.map((member) => (

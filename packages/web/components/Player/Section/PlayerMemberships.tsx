@@ -67,7 +67,7 @@ const DAOListing: React.FC<DAOListingProps> = ({
             <chakra.span fontSize="lg" pos="relative" top={0.5}>
               ⁄
             </chakra.span>{' '}
-            <Text as="sub">{daoShares.toLocaleString()}</Text>
+            <Text as="sub">{dao.toLocaleString()}</Text>
           </chakra.span>
         </chakra.span>
       );
@@ -128,7 +128,7 @@ const DAOListing: React.FC<DAOListingProps> = ({
                 {memberRank}
               </Text>
             )}
-            <Text fontSize="xs" ml={[0.5, 0]}>
+            <Text fontSize="xs" ml={[1.5, 0]}>
               {stake}
             </Text>
           </Flex>
