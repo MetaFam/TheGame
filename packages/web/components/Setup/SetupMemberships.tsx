@@ -17,7 +17,7 @@ import { FlexContainer } from 'components/Container';
 import { useSetupFlow } from 'contexts/SetupContext';
 import { Membership } from 'graphql/types';
 import React, { useState } from 'react';
-import { getDaoLink } from 'utils/daoHelpers';
+import { getDAOLink } from 'utils/daoHelpers';
 
 import { useMounted, useWeb3 } from '../../lib/hooks';
 import { DaoHausLink } from '../Player/PlayerGuild';
@@ -99,10 +99,11 @@ type MembershipListingProps = {
   member: Membership;
 };
 
-const MembershipListing: React.FC<MembershipListingProps> = ({ member }) => {
-  const daoURL = getDaoLink(member.moloch.chain, member.moloch.id);
-
-  const { avatarURL, chain, title } = member.moloch;
+const MembershipListing: React.FC<MembershipListingProps> = ({
+  member: { moloch },
+}) => {
+  const { id: molochId, avatarURL, chain, title } = moloch;
+  const daoURL = getDAOLink(chain, molochId);
 
   return (
     <DaoHausLink
@@ -142,7 +143,7 @@ const MembershipListing: React.FC<MembershipListingProps> = ({ member }) => {
               DAO
             </Text>
           )}
-          <ChainIcon {...{ chain }} mx={2} boxSize="1rem" />
+          <ChainIcon {...{ chain }} mx={2} boxSize={4} />
         </Heading>
       </HStack>
     </DaoHausLink>

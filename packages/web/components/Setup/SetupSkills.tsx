@@ -15,7 +15,7 @@ import {
 import { getSkills } from 'graphql/queries/enums/getSkills';
 import { SkillColors } from 'graphql/types';
 import { useMounted, useOverridableField, useUser } from 'lib/hooks';
-import React, { CSSProperties, useEffect, useState } from 'react';
+import React, { CSSProperties, useEffect, useMemo, useState } from 'react';
 import { CategoryOption, parseSkills, SkillOption } from 'utils/skillHelpers';
 
 import {
@@ -33,11 +33,12 @@ const styles: typeof multiSelectStyles = {
   ...multiSelectStyles,
   container: (s: CSSProperties) => ({
     ...s,
-    width: 'min(90vw, 40rem)',
+    width: 'min(95vw, 40rem)',
   }),
   menuList: (s: CSSProperties) => ({
     ...s,
     minHeight: 'min(15rem, 60vh)',
+    maxWidth: 'calc(100% - 2rem)',
   }),
   multiValue: (s: CSSProperties, { data }: { data: Skill }) => ({
     ...s,
@@ -83,14 +84,32 @@ export const SetupSkills: React.FC<MaybeModalProps> = ({
   const mounted = useMounted();
   const [choices, setChoices] = useState<Array<CategoryOption>>();
   const { user } = useUser();
-  const { value, setter: setValue } = useOverridableField<Array<SkillOption>>({
+  const { value: strippedSkills, setter: setValue } = useOverridableField<
+    Array<SkillOption>
+  >({
     field: 'skills',
     loaded: !!user,
   });
   const [, updateSkills] = useUpdatePlayerSkillsMutation();
+  const skills = useMemo(
+    () =>
+      strippedSkills?.map(
+        (skill) =>
+          ({
+            ...skill,
+            get label() {
+              return this.name;
+            },
+            get value() {
+              return this.id;
+            },
+          } as SkillOption),
+      ),
+    [strippedSkills],
+  );
 
   useEffect(() => {
-    if (user && setValue && choices && !value) {
+    if (user && setValue && choices && !skills) {
       if (user.skills.length > 0) {
         const options = choices.map(({ options: opts }) => opts).flat();
         setValue(
@@ -100,19 +119,19 @@ export const SetupSkills: React.FC<MaybeModalProps> = ({
         );
       }
     }
-  }, [choices, setValue, user, value]);
+  }, [choices, setValue, user, skills]);
 
   useEffect(() => {
     const fetchSkills = async () => {
-      const skills = await getSkills();
-      setChoices(parseSkills(skills));
+      const skillChoices = await getSkills();
+      setChoices(parseSkills(skillChoices));
     };
 
     fetchSkills();
   }, []);
 
   const onSave = async ({
-    values: { skills },
+    values: { skills: skillList },
     setStatus,
   }: {
     values: Record<string, unknown>;
@@ -121,7 +140,7 @@ export const SetupSkills: React.FC<MaybeModalProps> = ({
     setStatus?.('Writing to Hasura…');
 
     const { error } = await updateSkills({
-      skills: (skills as Array<SkillOption>).map(({ id }) => ({
+      skills: (skillList as Array<SkillOption>).map(({ id }) => ({
         skill_id: id,
       })),
     });
@@ -132,16 +151,17 @@ export const SetupSkills: React.FC<MaybeModalProps> = ({
 
     if (setValue) {
       setStatus?.('Setting Local State…');
-      setValue(skills);
+      setValue(skillList);
     }
   };
 
   return (
     <WizardPane<Array<SkillOption>>
-      {...{ field, value, onClose, onSave, buttonLabel }}
+      {...{ field, onClose, onSave, buttonLabel }}
       title="Skills"
       prompt="What are your super&#xAD;powers?"
       fetching={!user}
+      value={skills}
     >
       {({
         register,

@@ -3,6 +3,7 @@ import {
   Flex,
   FlexProps,
   Input,
+  MetaTheme,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -50,9 +51,9 @@ export const PlayerAddSection = React.forwardRef<HTMLDivElement, Props>(
 
     return (
       <Flex
-        w="100%"
+        w="full"
+        h="full"
         direction="column"
-        h="100%"
         boxShadow="md"
         pos="relative"
         {...{ ref }}
@@ -111,15 +112,19 @@ export const PlayerAddSection = React.forwardRef<HTMLDivElement, Props>(
                     maxW="30rem"
                   >
                     <Select
-                      css={{
-                        '&>option': {
-                          backgroundColor: '#40347C',
-                          borderBottom: '2px solid #962d22',
+                      placeholder="Select a Type to Add…"
+                      borderColor={MetaTheme.colors.whiteAlpha[800]}
+                      onChange={selectBoxType}
+                      sx={{
+                        textTransform: 'capitalize',
+                        '& > option': {
+                          backgroundColor: MetaTheme.colors.purpleBoxLight,
+                        },
+                        '& > option[value=""]': {
+                          fontStyle: 'italic',
+                          opacity: 0.75,
                         },
                       }}
-                      placeholder="Select a section"
-                      borderColor="offwhite"
-                      onChange={selectBoxType}
                     >
                       {boxes.length === 0 ? (
                         <option value="nothing" disabled>
@@ -127,11 +132,7 @@ export const PlayerAddSection = React.forwardRef<HTMLDivElement, Props>(
                         </option>
                       ) : (
                         boxes.map((box) => (
-                          <option
-                            key={box}
-                            value={box}
-                            style={{ textTransform: 'capitalize' }}
-                          >
+                          <option key={box} value={box}>
                             {box.replace(/-/g, ' ')}
                           </option>
                         ))

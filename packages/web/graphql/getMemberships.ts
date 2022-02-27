@@ -70,7 +70,7 @@ export type GuildMembership = {
   memberId: string;
   memberShares?: string;
   memberRank?: string;
-  memberXp?: number;
+  memberXP?: number;
   title?: string;
   daoShares?: string;
   chain?: string;
@@ -97,7 +97,7 @@ export const getAllMemberships = async (player: Player) => {
       title: gp.Guild.name,
       guildname: gp.Guild.guildname,
       memberRank: gp.discordRoles[0].name || undefined,
-      memberXp: gp.Guild.guildname === 'metafam' ? player.totalXP : null,
+      memberXP: gp.Guild.guildname === 'metafam' ? player.totalXP : null,
       logoUrl: gp.Guild.logo || undefined,
     })),
     ...(daohausMemberships || []).map((m) => ({

@@ -54,9 +54,15 @@ export const PlayerHero: React.FC<HeroProps> = ({ player, editing }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
-    <ProfileSection {...{ editing }} type={BoxTypes.PLAYER_HERO} withoutBG>
+    <ProfileSection
+      {...{ editing }}
+      type={BoxTypes.PLAYER_HERO}
+      title={false}
+      withoutBG
+      p={[4, 2]}
+    >
       {isOwnProfile && !editing && (
-        <Box pos="absolute" right={5} top={5}>
+        <Box pos="absolute" right={[0, 4]} top={[0, 4]}>
           <IconButton
             _focus={{ boxShadow: 'none' }}
             variant="outline"
@@ -369,7 +375,7 @@ const TimeZone: React.FC<DisplayComponentProps> = ({
             <Text fontStyle="italic">Unspecified</Text>
           ) : (
             <Tooltip label={tz?.name} hasArrow>
-              <Wrap justify="center" align="center">
+              <Wrap justify="center" align="center" userSelect="none">
                 <WrapItem my="0 !important">
                   <Text
                     fontSize={{ base: 'md', sm: 'lg' }}

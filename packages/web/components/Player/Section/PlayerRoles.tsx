@@ -33,10 +33,10 @@ export const PlayerRoles: React.FC<Props> = ({
     >
       {roles?.length === 0 && (
         <Text fontStyle="italic" textAlign="center" mb="1rem">
-          No Roles found for {isOwnProfile ? 'you' : 'this player'}.
+          No roles assigned to {isOwnProfile ? 'you' : 'this player'}.
         </Text>
       )}
-      <Wrap mb={4}>
+      <Wrap mb={4} justify="center">
         {(roles ?? []).map((role, rank) => (
           <WrapItem key={role}>
             <MetaTag>

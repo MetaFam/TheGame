@@ -22,19 +22,19 @@ import { Player } from 'graphql/autogen/types';
 import { getAllMemberships, GuildMembership } from 'graphql/getMemberships';
 import React, { useEffect, useMemo, useState } from 'react';
 import { BoxTypes } from 'utils/boxTypes';
-import { getDaoLink } from 'utils/daoHelpers';
+import { getDAOLink } from 'utils/daoHelpers';
 
-type DaoListingProps = {
+type DAOListingProps = {
   membership: GuildMembership;
 };
 
-const DaoListing: React.FC<DaoListingProps> = ({ membership }) => {
+const DAOListing: React.FC<DAOListingProps> = ({ membership }) => {
   const {
     title,
     memberShares,
     daoShares,
     memberRank,
-    memberXp,
+    memberXP,
     chain,
     address,
     logoUrl,
@@ -42,21 +42,21 @@ const DaoListing: React.FC<DaoListingProps> = ({ membership }) => {
   } = membership;
 
   const stake = useMemo(() => {
-    if (memberXp != null) {
-      return `XP: ${Math.floor(memberXp)}`;
+    if (memberXP != null) {
+      return `XP: ${Math.floor(memberXP)}`;
     }
     if (daoShares != null) {
       return `Shares: ${memberShares ?? 'Unknown'} / ${daoShares}`;
     }
     return '';
-  }, [memberShares, memberXp, daoShares]);
+  }, [memberShares, memberXP, daoShares]);
 
-  const daoURL = useMemo(() => getDaoLink(chain, address), [chain, address]);
+  const daoURL = useMemo(() => getDAOLink(chain, address), [chain, address]);
 
   return (
     <LinkGuild {...{ daoURL, guildname }}>
-      <HStack alignItems="center" mb={6}>
-        <Flex bg="purpleBoxLight" minW={16} minH={16} mr={6} borderRadius={8}>
+      <HStack alignItems="center" mb={6} p={2}>
+        <Flex bg="purpleBoxLight" minW={16} h={16} mr={2} borderRadius={8}>
           {logoUrl ? (
             <Image
               src={logoUrl}
@@ -76,6 +76,8 @@ const DaoListing: React.FC<DaoListingProps> = ({ membership }) => {
             fontSize="xs"
             color={daoURL ? 'cyanText' : 'white'}
             mb={1}
+            ml="1em"
+            sx={{ textIndent: '-1em' }}
           >
             <Center justifyContent="left">
               {title ?? (
@@ -87,7 +89,7 @@ const DaoListing: React.FC<DaoListingProps> = ({ membership }) => {
                   DAO
                 </Text>
               )}
-              <ChainIcon chain={chain} ml={2} boxSize={3} />
+              <ChainIcon chain={chain} ml={2} boxSize="1.5em" />
             </Center>
           </Heading>
           <HStack alignItems="center">
@@ -143,7 +145,7 @@ export const PlayerMemberships: React.FC<MembershipSectionProps> = ({
       )}
 
       {memberships.slice(0, 4).map((membership) => (
-        <DaoListing key={membership.memberId} {...{ membership }} />
+        <DAOListing key={membership.memberId} {...{ membership }} />
       ))}
 
       {memberships.length > 4 && (
@@ -171,13 +173,12 @@ export const PlayerMemberships: React.FC<MembershipSectionProps> = ({
             bgSize="cover"
             bgAttachment="fixed"
           >
-            <Box bg="purple80" borderTopRadius="lg" p={4} w="100%">
+            <Box bg="purple.100" borderTopRadius="lg" p={4} w="100%">
               <HStack>
                 <Text
                   fontSize="sm"
                   fontWeight="bold"
                   color="blueLight"
-                  as="div"
                   mr="auto"
                 >
                   Memberships
@@ -188,13 +189,13 @@ export const PlayerMemberships: React.FC<MembershipSectionProps> = ({
 
             <Flex p={2}>
               <Box
-                overflowY="scroll"
+                overflowY="auto"
                 overflowX="hidden"
                 maxH="80vh"
                 borderBottomRadius="lg"
-                w="100%"
+                w="full"
                 color="white"
-                css={{
+                sx={{
                   scrollbarColor: 'rgba(70,20,100,0.8) rgba(255,255,255,0)',
                   '::-webkit-scrollbar': {
                     width: '8px',
@@ -209,11 +210,11 @@ export const PlayerMemberships: React.FC<MembershipSectionProps> = ({
                 <SimpleGrid
                   columns={{ base: 1, md: 2 }}
                   gap={6}
-                  padding={6}
+                  p={6}
                   boxShadow="md"
                 >
                   {memberships.map((membership) => (
-                    <DaoListing key={membership.memberId} {...{ membership }} />
+                    <DAOListing key={membership.memberId} {...{ membership }} />
                   ))}
                 </SimpleGrid>
               </Box>

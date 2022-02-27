@@ -12,6 +12,7 @@ import {
   MetaButton,
   RepeatClockIcon,
   ResponsiveText,
+  useBreakpointValue,
   useToast,
 } from '@metafam/ds';
 import { Maybe } from '@metafam/utils';
@@ -29,10 +30,11 @@ import {
 import { PlayerAddSection } from 'components/Player/Section/PlayerAddSection';
 import { PlayerSection } from 'components/Profile/PlayerSection';
 import { HeadComponent } from 'components/Seo';
+import deepEquals from 'deep-equal';
 import {
   Player,
-  useInsertCacheInvalidationMutation,
-  useUpdatePlayerProfileLayoutMutation,
+  useInsertCacheInvalidationMutation as useInvalidateCache,
+  useUpdatePlayerProfileLayoutMutation as useUpdateLayout,
 } from 'graphql/autogen/types';
 import { getPlayer } from 'graphql/getPlayer';
 import { getTopPlayerUsernames } from 'graphql/getPlayers';
@@ -58,10 +60,10 @@ import {
 } from 'utils/boxTypes';
 import {
   addBoxToLayouts,
-  enableAddBoxInLayoutData,
+  enableAddBox,
   isSameLayouts,
   makeLayouts,
-  onRemoveBoxFromLayouts,
+  removeBoxFromLayouts,
   updatedLayouts,
 } from 'utils/layoutHelpers';
 import {
@@ -85,7 +87,7 @@ export const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
     player,
     getter: getPlayerBannerFull,
   });
-  const [, invalidateCache] = useInsertCacheInvalidationMutation();
+  const [, invalidateCache] = useInvalidateCache();
 
   useEffect(() => {
     if (player?.id) {
@@ -116,7 +118,7 @@ export const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
         w="full"
         top={0}
       />
-      <Flex w="full" h="full" pt="3rem" direction="column" align="center">
+      <Flex w="full" h="full" pt={12} direction="column" align="center">
         <Grid {...{ player }} />
       </Flex>
     </PageContainer>
@@ -132,9 +134,9 @@ const useItemHeights = (items: Array<Maybe<HTMLElement>>) => {
     const observer = new ResizeObserver((entries) => {
       setHeights((oldHeights) => {
         const entryHeights = Object.fromEntries(
-          entries.map((entry) => [
-            getBoxKey(entry.target as HTMLElement),
-            entry.contentRect.height,
+          entries.map(({ target }) => [
+            getBoxKey(target as HTMLElement),
+            target.scrollHeight, // entry.contentRect.height,
           ]),
         );
         return { ...oldHeights, ...entryHeights };
@@ -172,19 +174,20 @@ export const Grid: React.FC<Props> = ({ player }): ReactElement => {
   const [saving, setSaving] = useState(false);
   const [exitAlertCancel, setExitAlertCancel] = useState<boolean>(false);
   const [exitAlertReset, setExitAlertReset] = useState<boolean>(false);
-
+  const [changed, setChanged] = useState(false);
+  const [editing, setEditing] = useState(false);
+  const itemsRef = useRef<Array<Maybe<HTMLElement>>>([]);
+  const heights = useItemHeights(itemsRef.current);
+  const mobile = useBreakpointValue({ base: true, sm: false });
   const toast = useToast();
+
+  const [{ fetching: updating }, saveLayoutData] = useUpdateLayout();
 
   useEffect(() => {
     if (!fetching && user && user.id === player.id && connected) {
       setIsOwnProfile(true);
     }
   }, [user, fetching, connected, player?.id]);
-
-  const [
-    { fetching: fetchingSaveRes },
-    saveLayoutData,
-  ] = useUpdatePlayerProfileLayoutMutation();
 
   const savedLayoutData = useMemo<ProfileLayoutData>(
     () =>
@@ -202,17 +205,13 @@ export const Grid: React.FC<Props> = ({ player }): ReactElement => {
     setCurrentLayoutData,
   ] = useState<ProfileLayoutData>(savedLayoutData);
 
-  const itemsRef = useRef<Array<Maybe<HTMLElement>>>([]);
-
   useEffect(() => {
     itemsRef.current = itemsRef.current.slice(0, currentLayoutItems.length);
   }, [currentLayoutItems]);
 
-  const heights = useItemHeights(itemsRef.current);
-
   useEffect(() => {
     const layouts = updatedLayouts(currentLayouts, heights);
-    if (JSON.stringify(layouts) !== JSON.stringify(currentLayouts)) {
+    if (!deepEquals(layouts, currentLayouts)) {
       setCurrentLayoutData(({ layoutItems }) => ({
         layouts,
         layoutItems,
@@ -220,17 +219,15 @@ export const Grid: React.FC<Props> = ({ player }): ReactElement => {
     }
   }, [currentLayouts, heights]);
 
-  const [changed, setChanged] = useState(false);
-  const [editing, setEditing] = useState(false);
-
   const handleReset = useCallback(() => {
-    setCurrentLayoutData(enableAddBoxInLayoutData(DEFAULT_PLAYER_LAYOUT_DATA));
+    setCurrentLayoutData(enableAddBox(DEFAULT_PLAYER_LAYOUT_DATA));
     setExitAlertReset(false);
   }, []);
 
   const handleCancel = useCallback(() => {
     setCurrentLayoutData(savedLayoutData);
     setEditing(false);
+    setExitAlertCancel(false);
   }, [savedLayoutData]);
 
   const isDefaultLayout = useMemo(
@@ -244,64 +241,77 @@ export const Grid: React.FC<Props> = ({ player }): ReactElement => {
 
   const persistLayoutData = useCallback(
     async (layoutData: ProfileLayoutData) => {
-      if (!user) return;
+      if (!user) throw new Error('User is not set.');
 
-      setSaving(true);
       const { error } = await saveLayoutData({
         playerId: user.id,
         layout: JSON.stringify(layoutData),
       });
 
-      if (error) {
-        toast({
-          title: 'Error',
-          description: `Unable to save layout. Error: ${error}`,
-          status: 'error',
-          isClosable: true,
-        });
-      } else {
-        setCurrentLayoutData(layoutData);
-      }
-      setSaving(false);
+      if (error) throw error;
     },
-    [saveLayoutData, toast, user],
+    [saveLayoutData, user],
   );
 
   const toggleEditLayout = useCallback(async () => {
-    if (editing) {
-      const layoutData = {
-        layouts: onRemoveBoxFromLayouts(
-          createBoxKey(BoxTypes.PLAYER_ADD_BOX),
-          currentLayouts,
-        ),
-        layoutItems: currentLayoutItems.filter(
-          (item) => item.type !== BoxTypes.PLAYER_ADD_BOX,
-        ),
-      };
-      await persistLayoutData(layoutData);
-    } else {
-      const layoutData = {
-        layouts: addBoxToLayouts(BoxTypes.PLAYER_ADD_BOX, {}, currentLayouts),
-        layoutItems: [
-          ...currentLayoutItems,
-          {
-            type: BoxTypes.PLAYER_ADD_BOX,
-            key: createBoxKey(BoxTypes.PLAYER_ADD_BOX),
-          },
-        ],
-      };
+    try {
+      let layoutData = DEFAULT_PLAYER_LAYOUT_DATA;
+      if (editing) {
+        setSaving(true);
+        layoutData = {
+          layouts: removeBoxFromLayouts(
+            currentLayouts,
+            createBoxKey(BoxTypes.PLAYER_ADD_BOX),
+          ),
+          layoutItems: currentLayoutItems.filter(
+            (item) => item.type !== BoxTypes.PLAYER_ADD_BOX,
+          ),
+        };
+        await persistLayoutData(layoutData);
+      } else {
+        layoutData = {
+          layouts: addBoxToLayouts(
+            currentLayouts,
+            BoxTypes.PLAYER_ADD_BOX,
+            {},
+            { x: 1, y: -1 },
+          ),
+          layoutItems: [
+            ...currentLayoutItems,
+            {
+              type: BoxTypes.PLAYER_ADD_BOX,
+              key: createBoxKey(BoxTypes.PLAYER_ADD_BOX),
+            },
+          ],
+        };
+      }
       setCurrentLayoutData(layoutData);
+      setEditing((e) => !e);
+      setChanged(false);
+    } catch (err) {
+      toast({
+        title: 'Error',
+        description: `Unable to save layout. Error: ${(err as Error).message}`,
+        status: 'error',
+        isClosable: true,
+      });
+    } finally {
+      setSaving(false);
     }
-    setEditing((e) => !e);
-    setChanged(false);
-  }, [editing, currentLayouts, currentLayoutItems, persistLayoutData]);
+  }, [editing, currentLayouts, currentLayoutItems, persistLayoutData, toast]);
 
   const handleLayoutChange = useCallback(
-    (_layoutItems: Layout[], layouts: Layouts) => {
-      setCurrentLayoutData({ layouts, layoutItems: currentLayoutItems });
-      setChanged(true);
+    (_items: Array<Layout>, layouts: Layouts) => {
+      const oldData = {
+        layouts: currentLayouts,
+        layoutItems: currentLayoutItems,
+      };
+      const newData = { layouts, layoutItems: currentLayoutItems };
+      // automatic height adjustments dirty `changed`
+      setChanged(changed || (editing && !isSameLayouts(oldData, newData)));
+      setCurrentLayoutData(newData);
     },
-    [currentLayoutItems],
+    [currentLayouts, currentLayoutItems, editing, changed],
   );
 
   const wrapperSX = useMemo(() => gridConfig.wrapper(editing), [editing]);
@@ -314,7 +324,7 @@ export const Grid: React.FC<Props> = ({ player }): ReactElement => {
   const onRemoveBox = useCallback(
     (boxKey: string): void => {
       const layoutData = {
-        layouts: onRemoveBoxFromLayouts(boxKey, currentLayouts),
+        layouts: removeBoxFromLayouts(currentLayouts, boxKey),
         layoutItems: currentLayoutItems.filter((item) => item.key !== boxKey),
       };
       setCurrentLayoutData(layoutData);
@@ -330,7 +340,7 @@ export const Grid: React.FC<Props> = ({ player }): ReactElement => {
         return;
       }
       const layoutData = {
-        layouts: addBoxToLayouts(type, metadata, currentLayouts),
+        layouts: addBoxToLayouts(currentLayouts, type, metadata),
         layoutItems: [...currentLayoutItems, { type, metadata, key }],
       };
 
@@ -364,43 +374,38 @@ export const Grid: React.FC<Props> = ({ player }): ReactElement => {
     >
       {isOwnProfile && (
         <ButtonGroup
-          w="100%"
-          px="2rem"
+          w="full"
+          mb={4}
+          px={8}
           justifyContent="end"
           variant="ghost"
           zIndex={10}
           isAttached
-          h="3rem"
-          mb="1rem"
+          size={mobile ? 'xs' : 'md'}
         >
           {changed && editing && !isDefaultLayout && (
             <MetaButton
-              aria-label="Reset"
+              aria-label="Reset Layout"
               _hover={{ background: 'purple.600' }}
               textTransform="uppercase"
-              px={12}
+              px={[8, 12]}
               letterSpacing="0.1em"
-              size="lg"
-              fontSize="sm"
               onClick={() => setExitAlertReset(true)}
-              leftIcon={<RepeatClockIcon />}
-              whiteSpace="pre-wrap"
+              leftIcon={mobile ? undefined : <RepeatClockIcon />}
             >
               Reset
             </MetaButton>
           )}
-          {changed && editing && (
+          {editing && (
             <MetaButton
               aria-label="Cancel Layout Edit"
               colorScheme="purple"
               _hover={{ background: 'purple.600' }}
               textTransform="uppercase"
-              px={12}
+              px={[9, 12]}
               letterSpacing="0.1em"
-              size="lg"
-              fontSize="sm"
-              onClick={handleCancel}
-              leftIcon={<CloseIcon />}
+              onClick={() => setExitAlertCancel(true)}
+              leftIcon={mobile ? undefined : <CloseIcon />}
             >
               Cancel
             </MetaButton>
@@ -417,38 +422,36 @@ export const Grid: React.FC<Props> = ({ player }): ReactElement => {
             onYep={handleCancel}
             header="Are you sure you want to cancel editing the layout?"
           />
-          <MetaButton
-            aria-label="Edit layout"
-            borderColor="transparent"
-            background="rgba(17, 17, 17, 0.9)"
-            _hover={{ color: 'white', borderColor: 'transparent' }}
-            variant="outline"
-            textTransform="uppercase"
-            px={12}
-            letterSpacing="0.1em"
-            size="lg"
-            fontSize="sm"
-            bg="transparent"
-            color={editing ? 'red.400' : 'pinkShadeOne'}
-            leftIcon={<EditIcon />}
-            transition="color 0.2s ease"
-            isLoading={saving || fetchingSaveRes}
-            onClick={toggleEditLayout}
-          >
-            <ResponsiveText
-              content={{
-                base: editing ? 'Save' : 'Edit',
-                md: `${editing ? 'Save' : 'Edit'} layout`,
-              }}
-            />
-          </MetaButton>
+          {(!editing || changed) && (
+            <MetaButton
+              aria-label="Edit Layout"
+              borderColor="transparent"
+              background="rgba(17, 17, 17, 0.9)"
+              _hover={{ color: 'white' }}
+              variant="outline"
+              textTransform="uppercase"
+              px={[5, 12]}
+              letterSpacing="0.1em"
+              bg="transparent"
+              color={editing ? 'red.400' : 'pinkShadeOne'}
+              leftIcon={mobile ? undefined : <EditIcon />}
+              transition="color 0.2s ease"
+              isLoading={saving || updating}
+              onClick={toggleEditLayout}
+            >
+              <ResponsiveText
+                content={{
+                  base: editing ? 'Save' : 'Edit Layout ',
+                  md: `${editing ? 'Save' : 'Edit'} Layout`,
+                }}
+              />
+            </MetaButton>
+          )}
         </ButtonGroup>
       )}
       <ResponsiveGridLayout
         className="gridItems"
-        onLayoutChange={(layoutItems, layouts) => {
-          handleLayoutChange(layoutItems, layouts);
-        }}
+        onLayoutChange={handleLayoutChange}
         layouts={displayLayouts}
         breakpoints={{ lg: 1180, md: 900, sm: 0 }}
         cols={{ lg: 3, md: 2, sm: 1 }}

@@ -24,9 +24,9 @@ export const makeLayouts = (editing: boolean, layouts: Layouts): Layouts =>
     ]),
   );
 
-export const onRemoveBoxFromLayouts = (
-  boxKey: string,
+export const removeBoxFromLayouts = (
   layouts: Layouts,
+  boxKey: string,
 ): Layouts =>
   Object.fromEntries(
     Object.entries(layouts).map(([key, items]) => [
@@ -36,9 +36,10 @@ export const onRemoveBoxFromLayouts = (
   );
 
 export const addBoxToLayouts = (
-  type: BoxType,
-  metadata: BoxMetadata,
   layouts: Layouts,
+  type: BoxType,
+  metadata: BoxMetadata = {},
+  opts: Partial<Layout> = {},
 ): Layouts =>
   Object.fromEntries(
     Object.entries(layouts).map(([key, items]) => {
@@ -54,6 +55,7 @@ export const addBoxToLayouts = (
             x: 0,
             y: heroItem ? heroItem.y + heroItem.h : 0,
             i: createBoxKey(type, metadata),
+            ...opts,
           },
         ],
       ];
@@ -81,24 +83,21 @@ export const updatedLayouts = (
     ]),
   );
 
-export const disableAddBoxInLayoutData = ({
+export const disableAddBox = ({
   layouts,
   layoutItems,
 }: ProfileLayoutData): ProfileLayoutData => ({
-  layouts: onRemoveBoxFromLayouts(
-    createBoxKey(BoxTypes.PLAYER_ADD_BOX),
-    layouts,
-  ),
+  layouts: removeBoxFromLayouts(layouts, createBoxKey(BoxTypes.PLAYER_ADD_BOX)),
   layoutItems: layoutItems.filter(
     (item) => item.type !== BoxTypes.PLAYER_ADD_BOX,
   ),
 });
 
-export const enableAddBoxInLayoutData = ({
+export const enableAddBox = ({
   layouts,
   layoutItems,
 }: ProfileLayoutData): ProfileLayoutData => ({
-  layouts: addBoxToLayouts(BoxTypes.PLAYER_ADD_BOX, {}, layouts),
+  layouts: addBoxToLayouts(layouts, BoxTypes.PLAYER_ADD_BOX),
   layoutItems: [
     ...layoutItems,
     {
@@ -123,8 +122,8 @@ export const isSameLayouts = (
   inputA: ProfileLayoutData,
   inputB: ProfileLayoutData,
 ) => {
-  const a = disableAddBoxInLayoutData(inputA);
-  const b = disableAddBoxInLayoutData(inputB);
+  const a = disableAddBox(inputA);
+  const b = disableAddBox(inputB);
   const itemsA = a.layoutItems.sort(layoutItemSorter);
   const itemsB = b.layoutItems.sort(layoutItemSorter);
   const isSameItems = itemsA.reduce(

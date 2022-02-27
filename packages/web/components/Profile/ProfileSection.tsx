@@ -29,7 +29,7 @@ export type ProfileSectionProps = {
   isOwnProfile?: Maybe<boolean>;
   editing?: boolean;
   type?: BoxType;
-  title?: string;
+  title?: string | false;
   withoutBG?: boolean;
   modalPrompt?: string;
   modalTitle?: string | false;
@@ -37,7 +37,9 @@ export type ProfileSectionProps = {
   subheader?: string;
 };
 
-export const ProfileSection: React.FC<FlexProps & ProfileSectionProps> = ({
+export const ProfileSection: React.FC<
+  ProfileSectionProps & Omit<FlexProps, 'title'>
+> = ({
   children,
   isOwnProfile,
   editing,
@@ -61,55 +63,56 @@ export const ProfileSection: React.FC<FlexProps & ProfileSectionProps> = ({
       direction="column"
       {...props}
     >
-      <Box bg="purpleProfileSection" borderTopRadius="lg" py={5}>
-        <Flex h={5} pr={4} pl={8} align="center">
-          {title && (
-            <Text
-              fontSize="md"
-              color="blueLight"
-              as="div"
-              mr="auto"
-              fontWeight={600}
-              casing="uppercase"
-            >
-              {title}
-            </Text>
-          )}
-          {isOwnProfile && !editing && isEditable(boxType) && (
-            <IconButton
-              aria-label={`Edit ${title}`}
-              size="lg"
-              background="transparent"
-              color="pinkShadeOne"
-              icon={<EditIcon />}
-              _hover={{ color: 'white' }}
-              onClick={onOpen}
-              _focus={{ boxShadow: 'none' }}
-              _active={{ transform: 'scale(0.8)' }}
-              isRound
-            />
-          )}
-          {modal && modalPrompt && (
-            <Button
-              color="pinkShadeOne"
-              background="transparent"
-              _hover={{ color: 'white' }}
-              onClick={onOpen}
-              _focus={{ boxShadow: 'none' }}
-              _active={{ transform: 'scale(0.8)' }}
-            >
-              {modalPrompt}
-            </Button>
-          )}
-        </Flex>
-      </Box>
+      {title !== false && (
+        <Box bg="purpleProfileSection" borderTopRadius="lg" py={5}>
+          <Flex h={5} pr={2} pl={6} align="center">
+            {title && (
+              <Text
+                fontSize="md"
+                color="blueLight"
+                mr="auto"
+                fontWeight={600}
+                casing="uppercase"
+              >
+                {title}
+              </Text>
+            )}
+            {isOwnProfile && !editing && isEditable(boxType) && (
+              <IconButton
+                aria-label={`Edit ${title}`}
+                size="lg"
+                background="transparent"
+                color="pinkShadeOne"
+                icon={<EditIcon />}
+                _hover={{ color: 'white' }}
+                _focus={{ boxShadow: 'none' }}
+                _active={{ transform: 'scale(0.8)' }}
+                isRound
+                onClick={onOpen}
+              />
+            )}
+            {modal && modalPrompt && (
+              <Button
+                color="pinkShadeOne"
+                background="transparent"
+                _hover={{ color: 'white' }}
+                _focus={{ boxShadow: 'none' }}
+                _active={{ transform: 'scale(0.8)' }}
+                onClick={onOpen}
+              >
+                {modalPrompt}
+              </Button>
+            )}
+          </Flex>
+        </Box>
+      )}
       <Box
         bg={withoutBG ? 'none' : 'blueProfileSection'}
         borderBottomRadius="lg"
         borderTopRadius={!title ? 'lg' : 0}
-        p={boxType === BoxTypes.EMBEDDED_URL ? 0 : 8}
-        boxShadow="md"
-        css={{ backdropFilter: 'blur(8px)' }}
+        px={boxType === BoxTypes.EMBEDDED_URL ? 0 : [1, 8]}
+        py={boxType === BoxTypes.EMBEDDED_URL ? 0 : 8}
+        sx={{ backdropFilter: 'blur(8px)' }}
         w="full"
         pos="relative"
         pointerEvents={editing ? 'none' : 'initial'}
@@ -156,8 +159,8 @@ export const ProfileSection: React.FC<FlexProps & ProfileSectionProps> = ({
               p={4}
               _focus={{ boxShadow: 'none' }}
             />
-            <ModalBody>
-              {!modal ? <EditSection {...{ boxType, onClose }} /> : modal}
+            <ModalBody p={[0, 6]}>
+              {modal ?? <EditSection {...{ boxType, onClose }} />}
             </ModalBody>
             {/* we should figure out how to unify modal footers (edit sections have their own,
               look into EditSectionBox components - they have footers with 'save' and 'cancel' buttons) */}

@@ -40,7 +40,7 @@ export type WizardPaneProps = {
 };
 
 export type PaneProps<T = string> = WizardPaneProps & {
-  value: Maybe<T>;
+  value: Optional<Maybe<T>>;
   fetching?: boolean;
   authenticating?: boolean;
   onSave?: ({
@@ -139,16 +139,20 @@ export const WizardPane = <T,>({
     <FlexContainer as="form" onSubmit={handleSubmit(onSubmit)} color="white">
       <HeadComponent title={`MetaGame: Setting ${title}`} />
       {title && (
-        <MetaHeading mb={5} textAlign="center">
+        <MetaHeading mt={8} mb={1} textAlign="center">
           {title}
         </MetaHeading>
       )}
-      {typeof prompt === 'string' ? (
-        <Text mb={0} textAlign="center">
-          {prompt}
-        </Text>
-      ) : (
-        prompt
+      {prompt && (
+        <Box maxW="25rem">
+          {typeof prompt === 'string' ? (
+            <Text mb={0} textAlign="center">
+              {prompt}
+            </Text>
+          ) : (
+            prompt
+          )}
+        </Box>
       )}
       <FormControl
         isInvalid={!!errors[field]}

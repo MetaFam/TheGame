@@ -50,7 +50,7 @@ const PlayerSectionInner: React.FC<Props> = ({
     case BoxTypes.PLAYER_COMPLETED_QUESTS:
       return <PlayerCompletedQuests {...{ player, isOwnProfile, editing }} />;
     case BoxTypes.EMBEDDED_URL: {
-      const url = metadata?.url as string;
+      const { url } = metadata ?? {};
       return url ? <EmbeddedUrl {...{ url, editing }} /> : null;
     }
     default:

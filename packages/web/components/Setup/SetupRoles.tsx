@@ -102,16 +102,10 @@ export const SetupRoles: React.FC<SetupRolesProps> = ({
       value={roles}
       title="Roles"
       prompt={
-        <>
-          <Text mb={[6, 10]} textAlign="justify" style={{ textIndent: 25 }}>
-            Unlike other role-playing games, in MetaGame, a player is free to
-            take multiple roles at the same time.
-          </Text>
-          <Text mb={[6, 10]} textAlign="justify" style={{ textIndent: 25 }}>
-            Players are required to specify their primary role, whereas any
-            secondary roles are optional.
-          </Text>
-        </>
+        <Text mb={[4, 6]} textAlign="justify" style={{ textIndent: 25 }}>
+          Unlike other role-playing games, in MetaGame, a player is free to take
+          multiple roles at the same time.
+        </Text>
       }
       fetching={!user}
     >
