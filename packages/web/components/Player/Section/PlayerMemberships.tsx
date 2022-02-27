@@ -1,6 +1,7 @@
 import {
   Box,
   ChainIcon,
+  chakra,
   Flex,
   Heading,
   HStack,
@@ -47,26 +48,28 @@ const DAOListing: React.FC<DAOListingProps> = ({
       return `XP: ${Math.floor(memberXP)}`;
     }
     if (daoShares != null) {
+      const member = memberShares ? Number(memberShares) : null;
+      const dao = Number(daoShares);
+      const percent = member != null ? ((member * 100) / dao).toFixed(3) : '?';
       return (
-        <Text
-          as="span"
+        <chakra.span
           textAlign={['center', 'left']}
           display={['flex', 'inline']}
           flexDirection={['column', 'inherit']}
         >
-          <Text as="span" _after={{ content: [undefined, '":"'] }} mr={[0, 1]}>
+          <chakra.span mr={[0, 1]} _after={{ content: [undefined, '":"'] }}>
             Shares
-          </Text>
-          <Text as="span" whiteSpace="nowrap" sx={{ clear: 'left' }}>
+          </chakra.span>
+          <chakra.span whiteSpace="nowrap" title={`${percent}%`}>
             <Text as="sup">
-              {Number(memberShares).toLocaleString() ?? 'Unknown'}
+              {member != null ? member.toLocaleString() : 'Unknown'}
             </Text>{' '}
-            <Text as="span" fontSize="lg" pos="relative" top={0.5}>
+            <chakra.span fontSize="lg" pos="relative" top={0.5}>
               ⁄
-            </Text>{' '}
-            <Text as="sub">{Number(daoShares).toLocaleString()}</Text>
-          </Text>
-        </Text>
+            </chakra.span>{' '}
+            <Text as="sub">{daoShares.toLocaleString()}</Text>
+          </chakra.span>
+        </chakra.span>
       );
     }
     return null;

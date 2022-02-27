@@ -34,7 +34,7 @@ const Logo = ({ link }: LogoProps) => {
   const h = useBreakpointValue({ base: 12, lg: 14 }) ?? 12;
 
   return (
-    <Box w={{ base: 'fit-content', lg: '20%' }}>
+    <Box>
       <MetaLink
         href={link}
         _focus={{ outline: 'none', bg: 'transparent' }}

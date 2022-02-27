@@ -52,7 +52,7 @@ export const SetupRoles: React.FC<SetupRolesProps> = ({
       loaded: !!user,
     },
   );
-  const isMobile = useBreakpointValue({ base: true, md: false }) ?? false;
+  const mobile = useBreakpointValue({ base: true, md: false }) ?? false;
 
   useEffect(() => {
     const fetchRoles = async () => {
@@ -154,19 +154,19 @@ export const SetupRoles: React.FC<SetupRolesProps> = ({
               primary={true}
               roles={current.slice(0, 1)}
               numSelectedRoles={current.length}
-              {...{ isMobile, choices, select, remove }}
+              {...{ mobile, choices, select, remove }}
             />
             <RoleGroup
               title="Secondary Role"
               active={true}
               roles={current.slice(1)}
               numSelectedRoles={current.length}
-              {...{ isMobile, choices, select, remove }}
+              {...{ mobile, choices, select, remove }}
             />
             <RoleGroup
               title="Available Role"
               roles={availableRoles}
-              {...{ isMobile, choices, select }}
+              {...{ mobile, choices, select }}
             />
           </Stack>
         );
@@ -184,7 +184,7 @@ export type RoleGroupProps = {
   numSelectedRoles?: number;
   select?: (role: PlayerRole, primary?: boolean) => void;
   remove?: (role: PlayerRole, primary?: boolean) => void;
-  isMobile: boolean;
+  mobile: boolean;
 };
 
 const RoleGroup: React.FC<RoleGroupProps> = ({
@@ -196,7 +196,7 @@ const RoleGroup: React.FC<RoleGroupProps> = ({
   numSelectedRoles,
   select,
   remove,
-  isMobile,
+  mobile,
 }) =>
   roles.length === 0 ? null : (
     <Box mr={{ base: 0, md: 4 }} my={{ base: 2, md: 4 }}>
@@ -218,7 +218,7 @@ const RoleGroup: React.FC<RoleGroupProps> = ({
           const choice = choices?.find(({ role }) => role === r);
 
           return (
-            <WrapItem key={r} w="full" maxW={isMobile ? 'full' : '20rem'}>
+            <WrapItem key={r} w="full" maxW={mobile ? 'full' : '20rem'}>
               {!choice ? (
                 <Text textStyle="error">Couldn't find role “{r}”.</Text>
               ) : (
@@ -227,7 +227,7 @@ const RoleGroup: React.FC<RoleGroupProps> = ({
                   selected={active}
                   onSelect={select}
                   onRemove={remove}
-                  {...{ primary, numSelectedRoles, isMobile }}
+                  {...{ primary, numSelectedRoles, mobile }}
                 />
               )}
             </WrapItem>
@@ -244,7 +244,7 @@ type RoleProps = {
   numSelectedRoles?: number;
   onSelect?: (role: PlayerRole, isPrimary?: boolean) => void;
   onRemove?: (role: PlayerRole) => void;
-  isMobile: boolean;
+  mobile: boolean;
 };
 
 const Role: React.FC<RoleProps> = ({
@@ -254,7 +254,7 @@ const Role: React.FC<RoleProps> = ({
   numSelectedRoles,
   onSelect,
   onRemove,
-  isMobile = false,
+  mobile = false,
 }) => {
   const onClick = () => {
     if (!selected && onSelect) {
@@ -301,9 +301,9 @@ const Role: React.FC<RoleProps> = ({
         >
           {role.label}
         </Text>
-        {!isMobile && <Text color="white">{role.description}</Text>}
+        {!mobile && <Text color="white">{role.description}</Text>}
         <Spacer />
-        {isMobile && (numSelectedRoles == null || numSelectedRoles <= 1) && (
+        {mobile && (numSelectedRoles == null || numSelectedRoles <= 1) && (
           <InfoIcon
             ml={1}
             cursor="pointer"
@@ -317,14 +317,13 @@ const Role: React.FC<RoleProps> = ({
         )}
         {selected && (
           <Flex
-            w="100%"
             justifyContent={{ base: 'end', md: 'space-between' }}
             mt={{ base: 0, md: 4 }}
             ml={2}
           >
             {numSelectedRoles != null &&
               numSelectedRoles > 1 &&
-              (isMobile ? (
+              (mobile ? (
                 <Button
                   variant="solid"
                   textTransform="uppercase"
@@ -359,7 +358,7 @@ const Role: React.FC<RoleProps> = ({
                   Make {primary ? 'Secondary' : 'Primary'}
                 </Button>
               ))}
-            {isMobile ? (
+            {mobile ? (
               <Button
                 variant="solid"
                 fontWeight="bold"

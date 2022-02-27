@@ -1,4 +1,4 @@
-import { Flex, Link, MetaButton, Spinner, Text, Tooltip } from '@metafam/ds';
+import { Center, Link, MetaButton, Spinner, Stack, Text } from '@metafam/ds';
 import { useMounted, useUser, useWeb3 } from 'lib/hooks';
 import { InferGetStaticPropsType } from 'next';
 import { PlayerPage } from 'pages/player/[username]';
@@ -24,13 +24,16 @@ const CurrentUserPage: React.FC<Props> = () => {
     );
   }
 
-  if (mounted && (connecting || fetching)) {
+  if (connecting || fetching) {
     return (
-      <Flex align="center" justify="center" h="100vh">
-        <Tooltip hasArrow label={connecting ? 'Connecting…' : 'Fetching User…'}>
+      <Center h="100vh">
+        <Stack align="center">
+          <Text fontSize="xl">
+            {connecting ? 'Connecting…' : 'Fetching User…'}
+          </Text>
           <Spinner thickness="6px" color="whiteAlpha" size="xl" />
-        </Tooltip>
-      </Flex>
+        </Stack>
+      </Center>
     );
   }
 
