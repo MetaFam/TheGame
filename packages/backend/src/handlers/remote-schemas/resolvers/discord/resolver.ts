@@ -32,8 +32,7 @@ export const getDiscordServerMemberRoles: QueryResolvers['getDiscordServerMember
     guildId,
     playerId,
   });
-  const guildDiscordId =
-    getGuildPlayerResponse.guild_player[0].Guild.discord_id;
+  const guildDiscordId = getGuildPlayerResponse.guild_player[0].Guild.discordId;
   const playerDiscordId =
     getGuildPlayerResponse.guild_player[0].Player.discordId;
 

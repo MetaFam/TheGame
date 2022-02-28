@@ -24,14 +24,14 @@ const daoMembershipsQuery = /* GraphQL */ `
 
 const guildMembershipsQuery = /* GraphQL */ `
   query GetPlayerGuilds($playerId: uuid!) {
-    guild_player(where: { player_id: { _eq: $playerId } }) {
-      guild_id
+    guild_player(where: { playerId: { _eq: $playerId } }) {
+      guildId
       Guild {
         id
         logo
         name
         guildname
-        membership_through_discord
+        membershipThroughDiscord
         daos {
           id
           contractAddress
@@ -93,13 +93,13 @@ export const getAllMemberships = async (player: Player) => {
         (gp) =>
           gp.Guild.daos.some(
             (dao) => dao.contractAddress === m.molochAddress,
-          ) && gp.Guild.membership_through_discord === true,
+          ) && gp.Guild.membershipThroughDiscord === true,
       ),
   );
 
   const memberships: Array<GuildMembership> = [
     ...(guildPlayers || []).map((gp) => ({
-      memberId: `${gp.guild_id}:${player.id}`,
+      memberId: `${gp.guildId}:${player.id}`,
       title: gp.Guild.name,
       guildname: gp.Guild.guildname,
       memberRank: gp.discordRoles[0].name ?? undefined,

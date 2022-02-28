@@ -40,7 +40,7 @@ export const syncAllGuildDiscordMembers = async (
 
     await Promise.all(
       guilds
-        .filter((guild) => guild.membership_through_discord === true)
+        .filter((guild) => guild.membershipThroughDiscord === true)
         .map((guild) => syncGuildMembers(guild)),
     );
 
@@ -55,7 +55,7 @@ export const syncAllGuildDiscordMembers = async (
 };
 
 const syncGuildMembers = async (guild: GuildFragment) => {
-  if (guild?.discord_id == null) return;
+  if (guild?.discordId == null) return;
 
   const getMetadataResponse = await client.GetGuildMetadataById({
     id: guild.id,
@@ -63,13 +63,13 @@ const syncGuildMembers = async (guild: GuildFragment) => {
   const guildMetadata = getMetadataResponse.guild_metadata[0];
   if (
     guildMetadata == null ||
-    guildMetadata.discord_metadata == null ||
-    guild.membership_through_discord === false
+    guildMetadata.discordMetadata == null ||
+    guild.membershipThroughDiscord === false
   )
     return;
 
   // at least one membership role must be defined
-  const discordServerMembershipRoles = (guildMetadata.discord_metadata as GuildDiscordMetadata)
+  const discordServerMembershipRoles = (guildMetadata.discordMetadata as GuildDiscordMetadata)
     .membershipRoleIds;
   if (
     discordServerMembershipRoles == null ||
@@ -91,10 +91,10 @@ const syncGuildMembers = async (guild: GuildFragment) => {
   }
 
   const discordClient = await createDiscordClient();
-  const discordGuild = await discordClient.guilds.fetch(guild.discord_id);
+  const discordGuild = await discordClient.guilds.fetch(guild.discordId);
 
   if (discordGuild == null)
-    throw new Error(`Discord server ${guild.discord_id} does not exist!`);
+    throw new Error(`Discord server ${guild.discordId} does not exist!`);
 
   const getGuildMembersResponse = await client.GetGuildMembers({
     id: guild.id,
@@ -135,8 +135,8 @@ const syncGuildMembers = async (guild: GuildFragment) => {
 
   const playersToAdd: Guild_Player_Insert_Input[] = getPlayerIdsResponse.player.map(
     (player) => ({
-      guild_id: guild.id,
-      player_id: player.id,
+      guildId: guild.id,
+      playerId: player.id,
     }),
   );
 

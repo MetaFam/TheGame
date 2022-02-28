@@ -3,13 +3,14 @@ import { Request, Response } from 'express';
 
 import {
   Guild_Set_Input,
-  GuildDao,
-  GuildInfo,
+  GuildDaoInput,
+  GuildInfoInput,
   GuildType_Enum,
 } from '../../../lib/autogen/hasura-sdk';
 import { client } from '../../../lib/hasuraClient';
 
-type ExistingGuildDao = GuildDao & { id: string };
+type GuildDao = GuildDaoInput & { guildId: string };
+type ExistingGuildDao = GuildDaoInput & { id: string };
 
 export const saveGuildHandler = async (
   req: Request,
@@ -20,7 +21,7 @@ export const saveGuildHandler = async (
 
   try {
     const { guildInformation } = input;
-    await saveGuild(playerId, guildInformation as GuildInfo);
+    await saveGuild(playerId, guildInformation as GuildInfoInput);
     res.json({ success: true });
   } catch (error) {
     console.error(error);
@@ -31,7 +32,7 @@ export const saveGuildHandler = async (
   }
 };
 
-const saveGuild = async (playerId: string, guildInfo: GuildInfo) => {
+const saveGuild = async (playerId: string, guildInfo: GuildInfoInput) => {
   const { guild_metadata: metadata } =
     (await client.GetGuildMetadataById({
       id: guildInfo.uuid,
@@ -39,9 +40,7 @@ const saveGuild = async (playerId: string, guildInfo: GuildInfo) => {
   if (metadata == null || metadata.length === 0) {
     throw new Error('No pending guild with that ID exists.');
   }
-  const [
-    { creator_id: creatorId, discord_metadata: discordMetadata },
-  ] = metadata;
+  const [{ creatorId, discordMetadata }] = metadata;
 
   if (creatorId !== playerId) {
     throw new Error(
@@ -64,12 +63,12 @@ const saveGuild = async (playerId: string, guildInfo: GuildInfo) => {
     name: guildInfo.name,
     type: (guildInfo.type as unknown) as GuildType_Enum,
     description: guildInfo.description,
-    discord_invite_url: guildInfo.discordInviteURL,
-    join_button_url: guildInfo.joinURL,
-    logo: guildInfo.logoURL,
-    website_url: guildInfo.websiteURL,
-    twitter_url: guildInfo.twitterURL,
-    github_url: guildInfo.githubURL,
+    discordInviteUrl: guildInfo.discordInviteUrl,
+    joinButtonUrl: guildInfo.joinUrl,
+    logo: guildInfo.logoUrl,
+    websiteUrl: guildInfo.websiteUrl,
+    twitterUrl: guildInfo.twitterUrl,
+    githubUrl: guildInfo.githubUrl,
   };
 
   await client.UpdateGuild({
@@ -77,9 +76,16 @@ const saveGuild = async (playerId: string, guildInfo: GuildInfo) => {
     object: updatedData,
   });
 
+  let submittedDaos: GuildDao[] = [];
+  if (guildInfo.daos) {
+    submittedDaos = guildInfo.daos.map((guildDaoInput) => ({
+      ...guildDaoInput,
+      guildId: guildInfo.uuid,
+    }));
+  }
+
   // If there are current DAOs not in the list of incoming DAOs, we want to detach those current DAOs with this guild.
   // We can't just delete them because there may be existing players associated with these detached DAOs
-  const submittedDaos = guildInfo.daos || [];
   const addressesToDetach = Object.keys(currentGuildDaos).reduce(
     (accumulation: string[], contractAddress) => {
       const daoMatch = submittedDaos.find(

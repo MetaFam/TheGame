@@ -89,8 +89,8 @@ custom_types:
   - name: CreateQuestInput
   - name: CreateQuestCompletionInput
   - name: UpdateQuestCompletionInput
-  - name: GuildInfo
-  - name: GuildDao
+  - name: GuildInfoInput
+  - name: GuildDaoInput
   objects:
   - name: UpdateIDXProfileResponse
   - name: CreateQuestOutput

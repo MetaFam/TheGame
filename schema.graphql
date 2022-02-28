@@ -1480,9 +1480,9 @@ type guild {
     where: dao_bool_exp
   ): dao_aggregate!
   description: String
-  discord_id: String
-  discord_invite_url: String
-  github_url: String
+  discordId: String
+  discordInviteUrl: String
+  githubUrl: String
 
   """An array relationship"""
   guild_players(
@@ -1523,9 +1523,9 @@ type guild {
   """Unique friendly identifier for the Guild (used in URL)"""
   guildname: String!
   id: uuid!
-  join_button_url: String
+  joinButtonUrl: String
   logo: String
-  membership_through_discord: Boolean!
+  membershipThroughDiscord: Boolean!
 
   """An object relationship"""
   metadata: guild_metadata
@@ -1568,11 +1568,11 @@ type guild {
     where: quest_bool_exp
   ): quest_aggregate!
   status: GuildStatus_enum!
-  twitter_url: String
+  twitterUrl: String
 
   """The area of focus for the guild (e.g. funding, project, etc)"""
   type: GuildType_enum!
-  website_url: String
+  websiteUrl: String
 }
 
 """
@@ -1619,23 +1619,23 @@ input guild_bool_exp {
   _or: [guild_bool_exp]
   daos: dao_bool_exp
   description: String_comparison_exp
-  discord_id: String_comparison_exp
-  discord_invite_url: String_comparison_exp
-  github_url: String_comparison_exp
+  discordId: String_comparison_exp
+  discordInviteUrl: String_comparison_exp
+  githubUrl: String_comparison_exp
   guild_players: guild_player_bool_exp
   guildname: String_comparison_exp
   id: uuid_comparison_exp
-  join_button_url: String_comparison_exp
+  joinButtonUrl: String_comparison_exp
   logo: String_comparison_exp
-  membership_through_discord: Boolean_comparison_exp
+  membershipThroughDiscord: Boolean_comparison_exp
   metadata: guild_metadata_bool_exp
   name: String_comparison_exp
   position: GuildPosition_enum_comparison_exp
   quests: quest_bool_exp
   status: GuildStatus_enum_comparison_exp
-  twitter_url: String_comparison_exp
+  twitterUrl: String_comparison_exp
   type: GuildType_enum_comparison_exp
-  website_url: String_comparison_exp
+  websiteUrl: String_comparison_exp
 }
 
 """
@@ -1659,38 +1659,38 @@ input guild_insert_input {
   GuildType: GuildType_obj_rel_insert_input
   daos: dao_arr_rel_insert_input
   description: String
-  discord_id: String
-  discord_invite_url: String
-  github_url: String
+  discordId: String
+  discordInviteUrl: String
+  githubUrl: String
   guild_players: guild_player_arr_rel_insert_input
   guildname: String
   id: uuid
-  join_button_url: String
+  joinButtonUrl: String
   logo: String
-  membership_through_discord: Boolean
+  membershipThroughDiscord: Boolean
   metadata: guild_metadata_obj_rel_insert_input
   name: String
   position: GuildPosition_enum
   quests: quest_arr_rel_insert_input
   status: GuildStatus_enum
-  twitter_url: String
+  twitterUrl: String
   type: GuildType_enum
-  website_url: String
+  websiteUrl: String
 }
 
 """aggregate max on columns"""
 type guild_max_fields {
   description: String
-  discord_id: String
-  discord_invite_url: String
-  github_url: String
+  discordId: String
+  discordInviteUrl: String
+  githubUrl: String
   guildname: String
   id: uuid
-  join_button_url: String
+  joinButtonUrl: String
   logo: String
   name: String
-  twitter_url: String
-  website_url: String
+  twitterUrl: String
+  websiteUrl: String
 }
 
 """
@@ -1698,16 +1698,16 @@ order by max() on columns of table "guild"
 """
 input guild_max_order_by {
   description: order_by
-  discord_id: order_by
-  discord_invite_url: order_by
-  github_url: order_by
+  discordId: order_by
+  discordInviteUrl: order_by
+  githubUrl: order_by
   guildname: order_by
   id: order_by
-  join_button_url: order_by
+  joinButtonUrl: order_by
   logo: order_by
   name: order_by
-  twitter_url: order_by
-  website_url: order_by
+  twitterUrl: order_by
+  websiteUrl: order_by
 }
 
 """
@@ -1718,19 +1718,19 @@ columns and relationships of "guild_metadata"
 
 """
 type guild_metadata {
-  creator_id: uuid
-
-  """Remote relationship field"""
-  discordRoles: [DiscordRole!]!
-  discord_id: String!
-  discord_metadata(
+  creatorId: uuid
+  discordId: String!
+  discordMetadata(
     """JSON select path"""
     path: String
   ): jsonb
 
+  """Remote relationship field"""
+  discordRoles: [DiscordRole!]!
+
   """An object relationship"""
   guild: guild!
-  guild_id: uuid!
+  guildId: uuid!
 
   """An object relationship"""
   player: player
@@ -1764,7 +1764,7 @@ input guild_metadata_aggregate_order_by {
 
 """append existing jsonb value of filtered columns with new jsonb value"""
 input guild_metadata_append_input {
-  discord_metadata: jsonb
+  discordMetadata: jsonb
 }
 
 """
@@ -1782,11 +1782,11 @@ input guild_metadata_bool_exp {
   _and: [guild_metadata_bool_exp]
   _not: guild_metadata_bool_exp
   _or: [guild_metadata_bool_exp]
-  creator_id: uuid_comparison_exp
-  discord_id: String_comparison_exp
-  discord_metadata: jsonb_comparison_exp
+  creatorId: uuid_comparison_exp
+  discordId: String_comparison_exp
+  discordMetadata: jsonb_comparison_exp
   guild: guild_bool_exp
-  guild_id: uuid_comparison_exp
+  guildId: uuid_comparison_exp
   player: player_bool_exp
 }
 
@@ -1802,7 +1802,7 @@ enum guild_metadata_constraint {
 delete the field or element with specified path (for JSON arrays, negative integers count from the end)
 """
 input guild_metadata_delete_at_path_input {
-  discord_metadata: [String]
+  discordMetadata: [String]
 }
 
 """
@@ -1810,58 +1810,58 @@ delete the array element with specified index (negative integers count from the
 end). throws an error if top level container is not an array
 """
 input guild_metadata_delete_elem_input {
-  discord_metadata: Int
+  discordMetadata: Int
 }
 
 """
 delete key/value pair or string element. key/value pairs are matched based on their key value
 """
 input guild_metadata_delete_key_input {
-  discord_metadata: String
+  discordMetadata: String
 }
 
 """
 input type for inserting data into table "guild_metadata"
 """
 input guild_metadata_insert_input {
-  creator_id: uuid
-  discord_id: String
-  discord_metadata: jsonb
+  creatorId: uuid
+  discordId: String
+  discordMetadata: jsonb
   guild: guild_obj_rel_insert_input
-  guild_id: uuid
+  guildId: uuid
   player: player_obj_rel_insert_input
 }
 
 """aggregate max on columns"""
 type guild_metadata_max_fields {
-  creator_id: uuid
-  discord_id: String
-  guild_id: uuid
+  creatorId: uuid
+  discordId: String
+  guildId: uuid
 }
 
 """
 order by max() on columns of table "guild_metadata"
 """
 input guild_metadata_max_order_by {
-  creator_id: order_by
-  discord_id: order_by
-  guild_id: order_by
+  creatorId: order_by
+  discordId: order_by
+  guildId: order_by
 }
 
 """aggregate min on columns"""
 type guild_metadata_min_fields {
-  creator_id: uuid
-  discord_id: String
-  guild_id: uuid
+  creatorId: uuid
+  discordId: String
+  guildId: uuid
 }
 
 """
 order by min() on columns of table "guild_metadata"
 """
 input guild_metadata_min_order_by {
-  creator_id: order_by
-  discord_id: order_by
-  guild_id: order_by
+  creatorId: order_by
+  discordId: order_by
+  guildId: order_by
 }
 
 """
@@ -1896,11 +1896,11 @@ input guild_metadata_on_conflict {
 ordering options when selecting data from "guild_metadata"
 """
 input guild_metadata_order_by {
-  creator_id: order_by
-  discord_id: order_by
-  discord_metadata: order_by
+  creatorId: order_by
+  discordId: order_by
+  discordMetadata: order_by
   guild: guild_order_by
-  guild_id: order_by
+  guildId: order_by
   player: player_order_by
 }
 
@@ -1908,12 +1908,12 @@ input guild_metadata_order_by {
 primary key columns input for table: "guild_metadata"
 """
 input guild_metadata_pk_columns_input {
-  guild_id: uuid!
+  guildId: uuid!
 }
 
 """prepend existing jsonb value of filtered columns with new jsonb value"""
 input guild_metadata_prepend_input {
-  discord_metadata: jsonb
+  discordMetadata: jsonb
 }
 
 """
@@ -1921,26 +1921,26 @@ select columns of table "guild_metadata"
 """
 enum guild_metadata_select_column {
   """column name"""
-  creator_id
+  creatorId
 
   """column name"""
-  discord_id
+  discordId
 
   """column name"""
-  discord_metadata
+  discordMetadata
 
   """column name"""
-  guild_id
+  guildId
 }
 
 """
 input type for updating data in table "guild_metadata"
 """
 input guild_metadata_set_input {
-  creator_id: uuid
-  discord_id: String
-  discord_metadata: jsonb
-  guild_id: uuid
+  creatorId: uuid
+  discordId: String
+  discordMetadata: jsonb
+  guildId: uuid
 }
 
 """
@@ -1948,31 +1948,31 @@ update columns of table "guild_metadata"
 """
 enum guild_metadata_update_column {
   """column name"""
-  creator_id
+  creatorId
 
   """column name"""
-  discord_id
+  discordId
 
   """column name"""
-  discord_metadata
+  discordMetadata
 
   """column name"""
-  guild_id
+  guildId
 }
 
 """aggregate min on columns"""
 type guild_min_fields {
   description: String
-  discord_id: String
-  discord_invite_url: String
-  github_url: String
+  discordId: String
+  discordInviteUrl: String
+  githubUrl: String
   guildname: String
   id: uuid
-  join_button_url: String
+  joinButtonUrl: String
   logo: String
   name: String
-  twitter_url: String
-  website_url: String
+  twitterUrl: String
+  websiteUrl: String
 }
 
 """
@@ -1980,16 +1980,16 @@ order by min() on columns of table "guild"
 """
 input guild_min_order_by {
   description: order_by
-  discord_id: order_by
-  discord_invite_url: order_by
-  github_url: order_by
+  discordId: order_by
+  discordInviteUrl: order_by
+  githubUrl: order_by
   guildname: order_by
   id: order_by
-  join_button_url: order_by
+  joinButtonUrl: order_by
   logo: order_by
   name: order_by
-  twitter_url: order_by
-  website_url: order_by
+  twitterUrl: order_by
+  websiteUrl: order_by
 }
 
 """
@@ -2027,23 +2027,23 @@ input guild_order_by {
   GuildType: GuildType_order_by
   daos_aggregate: dao_aggregate_order_by
   description: order_by
-  discord_id: order_by
-  discord_invite_url: order_by
-  github_url: order_by
+  discordId: order_by
+  discordInviteUrl: order_by
+  githubUrl: order_by
   guild_players_aggregate: guild_player_aggregate_order_by
   guildname: order_by
   id: order_by
-  join_button_url: order_by
+  joinButtonUrl: order_by
   logo: order_by
-  membership_through_discord: order_by
+  membershipThroughDiscord: order_by
   metadata: guild_metadata_order_by
   name: order_by
   position: order_by
   quests_aggregate: quest_aggregate_order_by
   status: order_by
-  twitter_url: order_by
+  twitterUrl: order_by
   type: order_by
-  website_url: order_by
+  websiteUrl: order_by
 }
 
 """
@@ -2065,8 +2065,8 @@ type guild_player {
 
   """Remote relationship field"""
   discordRoles: [DiscordRole!]!
-  guild_id: uuid!
-  player_id: uuid!
+  guildId: uuid!
+  playerId: uuid!
 }
 
 """
@@ -2112,8 +2112,8 @@ input guild_player_bool_exp {
   _and: [guild_player_bool_exp]
   _not: guild_player_bool_exp
   _or: [guild_player_bool_exp]
-  guild_id: uuid_comparison_exp
-  player_id: uuid_comparison_exp
+  guildId: uuid_comparison_exp
+  playerId: uuid_comparison_exp
 }
 
 """
@@ -2130,36 +2130,36 @@ input type for inserting data into table "guild_player"
 input guild_player_insert_input {
   Guild: guild_obj_rel_insert_input
   Player: player_obj_rel_insert_input
-  guild_id: uuid
-  player_id: uuid
+  guildId: uuid
+  playerId: uuid
 }
 
 """aggregate max on columns"""
 type guild_player_max_fields {
-  guild_id: uuid
-  player_id: uuid
+  guildId: uuid
+  playerId: uuid
 }
 
 """
 order by max() on columns of table "guild_player"
 """
 input guild_player_max_order_by {
-  guild_id: order_by
-  player_id: order_by
+  guildId: order_by
+  playerId: order_by
 }
 
 """aggregate min on columns"""
 type guild_player_min_fields {
-  guild_id: uuid
-  player_id: uuid
+  guildId: uuid
+  playerId: uuid
 }
 
 """
 order by min() on columns of table "guild_player"
 """
 input guild_player_min_order_by {
-  guild_id: order_by
-  player_id: order_by
+  guildId: order_by
+  playerId: order_by
 }
 
 """
@@ -2196,16 +2196,16 @@ ordering options when selecting data from "guild_player"
 input guild_player_order_by {
   Guild: guild_order_by
   Player: player_order_by
-  guild_id: order_by
-  player_id: order_by
+  guildId: order_by
+  playerId: order_by
 }
 
 """
 primary key columns input for table: "guild_player"
 """
 input guild_player_pk_columns_input {
-  guild_id: uuid!
-  player_id: uuid!
+  guildId: uuid!
+  playerId: uuid!
 }
 
 """
@@ -2213,18 +2213,18 @@ select columns of table "guild_player"
 """
 enum guild_player_select_column {
   """column name"""
-  guild_id
+  guildId
 
   """column name"""
-  player_id
+  playerId
 }
 
 """
 input type for updating data in table "guild_player"
 """
 input guild_player_set_input {
-  guild_id: uuid
-  player_id: uuid
+  guildId: uuid
+  playerId: uuid
 }
 
 """
@@ -2232,10 +2232,10 @@ update columns of table "guild_player"
 """
 enum guild_player_update_column {
   """column name"""
-  guild_id
+  guildId
 
   """column name"""
-  player_id
+  playerId
 }
 
 """
@@ -2246,13 +2246,13 @@ enum guild_select_column {
   description
 
   """column name"""
-  discord_id
+  discordId
 
   """column name"""
-  discord_invite_url
+  discordInviteUrl
 
   """column name"""
-  github_url
+  githubUrl
 
   """column name"""
   guildname
@@ -2261,13 +2261,13 @@ enum guild_select_column {
   id
 
   """column name"""
-  join_button_url
+  joinButtonUrl
 
   """column name"""
   logo
 
   """column name"""
-  membership_through_discord
+  membershipThroughDiscord
 
   """column name"""
   name
@@ -2279,13 +2279,13 @@ enum guild_select_column {
   status
 
   """column name"""
-  twitter_url
+  twitterUrl
 
   """column name"""
   type
 
   """column name"""
-  website_url
+  websiteUrl
 }
 
 """
@@ -2293,20 +2293,20 @@ input type for updating data in table "guild"
 """
 input guild_set_input {
   description: String
-  discord_id: String
-  discord_invite_url: String
-  github_url: String
+  discordId: String
+  discordInviteUrl: String
+  githubUrl: String
   guildname: String
   id: uuid
-  join_button_url: String
+  joinButtonUrl: String
   logo: String
-  membership_through_discord: Boolean
+  membershipThroughDiscord: Boolean
   name: String
   position: GuildPosition_enum
   status: GuildStatus_enum
-  twitter_url: String
+  twitterUrl: String
   type: GuildType_enum
-  website_url: String
+  websiteUrl: String
 }
 
 """
@@ -2317,13 +2317,13 @@ enum guild_update_column {
   description
 
   """column name"""
-  discord_id
+  discordId
 
   """column name"""
-  discord_invite_url
+  discordInviteUrl
 
   """column name"""
-  github_url
+  githubUrl
 
   """column name"""
   guildname
@@ -2332,13 +2332,13 @@ enum guild_update_column {
   id
 
   """column name"""
-  join_button_url
+  joinButtonUrl
 
   """column name"""
   logo
 
   """column name"""
-  membership_through_discord
+  membershipThroughDiscord
 
   """column name"""
   name
@@ -2350,38 +2350,38 @@ enum guild_update_column {
   status
 
   """column name"""
-  twitter_url
+  twitterUrl
 
   """column name"""
   type
 
   """column name"""
-  website_url
+  websiteUrl
 }
 
-input GuildDao {
+input GuildDaoInput {
   contractAddress: String!
   label: String
   network: String!
   url: String
 }
 
-input GuildInfo {
-  daos: [GuildDao!]
+input GuildInfoInput {
+  daos: [GuildDaoInput!]
   description: String
   discordAdminRoles: [String]!
-  discordInviteURL: String
+  discordInviteUrl: String
   discordMembershipRoles: [String]!
-  githubURL: String
+  githubUrl: String
   guildname: String!
-  joinURL: String
-  logoURL: String
+  joinUrl: String
+  logoUrl: String
   membershipThroughDiscord: Boolean
   name: String!
-  twitterURL: String
+  twitterUrl: String
   type: GuildType_ActionEnum!
   uuid: String!
-  websiteURL: String
+  websiteUrl: String
 }
 
 """
@@ -3364,7 +3364,7 @@ type mutation_root {
   """
   delete single row from the table: "guild_metadata"
   """
-  delete_guild_metadata_by_pk(guild_id: uuid!): guild_metadata
+  delete_guild_metadata_by_pk(guildId: uuid!): guild_metadata
 
   """
   delete data from the table: "guild_player"
@@ -3377,7 +3377,7 @@ type mutation_root {
   """
   delete single row from the table: "guild_player"
   """
-  delete_guild_player_by_pk(guild_id: uuid!, player_id: uuid!): guild_player
+  delete_guild_player_by_pk(guildId: uuid!, playerId: uuid!): guild_player
 
   """
   delete data from the table: "player"
@@ -4101,7 +4101,7 @@ type mutation_root {
   """
   perform the action: "saveGuildInformation"
   """
-  saveGuildInformation(guildInformation: GuildInfo!): SaveGuildResponse
+  saveGuildInformation(guildInformation: GuildInfoInput!): SaveGuildResponse
 
   """
   perform the action: "updateExpiredIDXProfiles"
@@ -7977,7 +7977,7 @@ type query_root {
   ): guild_metadata_aggregate!
 
   """fetch data from the table: "guild_metadata" using primary key columns"""
-  guild_metadata_by_pk(guild_id: uuid!): guild_metadata
+  guild_metadata_by_pk(guildId: uuid!): guild_metadata
 
   """
   fetch data from the table: "guild_player"
@@ -8020,7 +8020,7 @@ type query_root {
   ): guild_player_aggregate!
 
   """fetch data from the table: "guild_player" using primary key columns"""
-  guild_player_by_pk(guild_id: uuid!, player_id: uuid!): guild_player
+  guild_player_by_pk(guildId: uuid!, playerId: uuid!): guild_player
 
   """
   fetch data from the table: "me"
@@ -11594,7 +11594,7 @@ type subscription_root {
   ): guild_metadata_aggregate!
 
   """fetch data from the table: "guild_metadata" using primary key columns"""
-  guild_metadata_by_pk(guild_id: uuid!): guild_metadata
+  guild_metadata_by_pk(guildId: uuid!): guild_metadata
 
   """
   fetch data from the table: "guild_player"
@@ -11637,7 +11637,7 @@ type subscription_root {
   ): guild_player_aggregate!
 
   """fetch data from the table: "guild_player" using primary key columns"""
-  guild_player_by_pk(guild_id: uuid!, player_id: uuid!): guild_player
+  guild_player_by_pk(guildId: uuid!, playerId: uuid!): guild_player
 
   """
   fetch data from the table: "me"

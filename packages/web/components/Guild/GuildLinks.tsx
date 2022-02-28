@@ -11,9 +11,9 @@ type Props = {
 export const GuildLinks: React.FC<Props> = ({ guild }) => (
   <ProfileSection title="Links">
     <Wrap>
-      {guild.website_url ? (
+      {guild.websiteUrl ? (
         <WrapItem>
-          <a href={guild.website_url} target="_blank" rel="noreferrer">
+          <a href={guild.websiteUrl} target="_blank" rel="noreferrer">
             <IconButton
               variant="outline"
               aria-label="Discord Server"
@@ -24,9 +24,9 @@ export const GuildLinks: React.FC<Props> = ({ guild }) => (
           </a>
         </WrapItem>
       ) : null}
-      {guild.discord_invite_url ? (
+      {guild.discordInviteUrl ? (
         <WrapItem>
-          <a href={guild.discord_invite_url} target="_blank" rel="noreferrer">
+          <a href={guild.discordInviteUrl} target="_blank" rel="noreferrer">
             <IconButton
               variant="outline"
               aria-label="Discord Server"
@@ -37,9 +37,9 @@ export const GuildLinks: React.FC<Props> = ({ guild }) => (
           </a>
         </WrapItem>
       ) : null}
-      {guild.github_url ? (
+      {guild.githubUrl ? (
         <WrapItem>
-          <a href={guild.github_url} target="_blank" rel="noreferrer">
+          <a href={guild.githubUrl} target="_blank" rel="noreferrer">
             <IconButton
               variant="outline"
               aria-label="Github"
@@ -50,9 +50,9 @@ export const GuildLinks: React.FC<Props> = ({ guild }) => (
           </a>
         </WrapItem>
       ) : null}
-      {guild.twitter_url ? (
+      {guild.twitterUrl ? (
         <WrapItem>
-          <a href={guild.twitter_url} target="_blank" rel="noreferrer">
+          <a href={guild.twitterUrl} target="_blank" rel="noreferrer">
             <IconButton
               variant="outline"
               aria-label="Twitter"

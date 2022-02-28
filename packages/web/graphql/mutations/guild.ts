@@ -11,7 +11,7 @@ export {};
     }
   }
 
-  mutation UpdateGuild($guildInfo: GuildInfo!) {
+  mutation UpdateGuild($guildInfo: GuildInfoInput!) {
     saveGuildInformation(guildInformation: $guildInfo) {
       success
       error
