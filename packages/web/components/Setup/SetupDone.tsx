@@ -2,13 +2,10 @@ import { MetaButton, MetaHeading, Stack } from '@metafam/ds';
 import { FlexContainer } from 'components/Container';
 import { PlayerTile } from 'components/Player/PlayerTile';
 import { useUser } from 'lib/hooks';
-import { useRouter } from 'next/router';
-import React, { useState } from 'react';
+import React from 'react';
 
 export const SetupDone: React.FC = () => {
-  const router = useRouter();
   const { user } = useUser();
-  const [loading, setLoading] = useState(false);
   return (
     <FlexContainer flex={1} mb={8}>
       <MetaHeading mb={10}>Game On!</MetaHeading>
@@ -20,18 +17,31 @@ export const SetupDone: React.FC = () => {
         align="center"
       >
         {user && <PlayerTile player={user} />}
-        <MetaButton
-          onClick={() => {
-            setLoading(true);
-            router.push('/');
-          }}
-          px={20}
-          py={8}
-          fontSize="xl"
-          isLoading={loading}
-        >
-          Play
-        </MetaButton>
+        <Stack>
+          <MetaButton
+            as="a"
+            href="//discord.gg/metagame"
+            target="_blank"
+            px={20}
+            py={8}
+            fontSize="xl"
+          >
+            Play
+          </MetaButton>
+          <MetaButton
+            as="a"
+            href="/dashboard"
+            px={20}
+            py={8}
+            mt={{
+              base: '0.5rem !important',
+              md: '5rem !important',
+            }}
+            fontSize="xl"
+          >
+            Explore
+          </MetaButton>
+        </Stack>
       </Stack>
     </FlexContainer>
   );

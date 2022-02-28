@@ -1,6 +1,5 @@
 import {
   Box,
-  Center,
   ChainIcon,
   Flex,
   Heading,
@@ -8,61 +7,79 @@ import {
   Image,
   MetaButton,
   MetaHeading,
-  SimpleGrid,
+  Spinner,
   Text,
+  Wrap,
+  WrapItem,
 } from '@metafam/ds';
+import { Maybe, Optional } from '@metafam/utils';
 import { FlexContainer } from 'components/Container';
 import { useSetupFlow } from 'contexts/SetupContext';
 import { Membership } from 'graphql/types';
 import React, { useState } from 'react';
-import { getDaoLink } from 'utils/daoHelpers';
+import { getDAOLink } from 'utils/daoHelpers';
 
-import { useWeb3 } from '../../lib/hooks';
+import { useMounted, useWeb3 } from '../../lib/hooks';
 import { DaoHausLink } from '../Player/PlayerGuild';
 
 export type SetupMembershipsProps = {
   memberships: Array<Membership> | null | undefined;
   setMemberships: React.Dispatch<
-    React.SetStateAction<Array<Membership> | null | undefined>
+    React.SetStateAction<Optional<Maybe<Array<Membership>>>>
   >;
 };
 
 export const SetupMemberships: React.FC<SetupMembershipsProps> = ({
   memberships,
 }) => {
-  const { connected } = useWeb3();
+  const { connecting, connected } = useWeb3();
   const { onNextPress, nextButtonLabel } = useSetupFlow();
   const [loading, setLoading] = useState(false);
+  const mounted = useMounted();
 
   return (
     <FlexContainer mb={8}>
       <MetaHeading mb={5} textAlign="center">
-        Memberships
+        Member&shy;ships
       </MetaHeading>
-      {!memberships && (
-        <Text mb={10} maxW="50rem">
-          {connected ? 'Loading…' : 'Account Not Connected'}
-        </Text>
-      )}
-      {memberships &&
-        (memberships.length > 0 ? (
-          <Box maxW="50rem">
-            <Text mb={10}>
-              We found the following guilds associated with your account and
-              automatically added them to your profile. You can edit them later
-              in your profile.
+      {(() => {
+        if (!memberships) {
+          return (
+            <Flex>
+              <Spinner mr={4} />
+              <Text mb={10} maxW="50rem">
+                {!mounted || connecting || connected
+                  ? 'Loading…'
+                  : 'Account Not Connected'}
+              </Text>
+            </Flex>
+          );
+        }
+
+        if (memberships.length === 0) {
+          return (
+            <Text mb={10} maxW="50rem">
+              We did not find any guilds associated with your account.
             </Text>
-            <SimpleGrid columns={2} spacing={4}>
-              {memberships.map((member) => (
-                <MembershipListing key={member.id} member={member} />
+          );
+        }
+
+        return (
+          <Box maxW="50rem">
+            <Text mb={10} maxW="35rem" textAlign="center">
+              We found the following guilds associated with your account and
+              automatically added them to your profile.
+            </Text>
+            <Wrap columns={2} spacing={4} justify="center">
+              {memberships?.map((member) => (
+                <WrapItem key={member.id}>
+                  <MembershipListing {...{ member }} />
+                </WrapItem>
               ))}
-            </SimpleGrid>
+            </Wrap>
           </Box>
-        ) : (
-          <Text mb={10} maxW="50rem">
-            We did not find any guilds associated with your account.
-          </Text>
-        ))}
+        );
+      })()}
       <MetaButton
         onClick={() => {
           setLoading(true);
@@ -81,49 +98,52 @@ type MembershipListingProps = {
   member: Membership;
 };
 
-const MembershipListing: React.FC<MembershipListingProps> = ({ member }) => {
-  const daoUrl = getDaoLink(member.moloch.chain, member.moloch.id);
-
-  const { avatarUrl, chain, title } = member.moloch;
+const MembershipListing: React.FC<MembershipListingProps> = ({
+  member: { moloch },
+}) => {
+  const { id: molochId, avatarURL, chain, title } = moloch;
+  const daoURL = getDAOLink(chain, molochId);
 
   return (
-    <DaoHausLink daoUrl={daoUrl}>
-      <HStack alignItems="center" mb={4}>
-        <Flex bg="purpleBoxLight" width={16} height={16} mr={6}>
-          {avatarUrl ? (
+    <DaoHausLink
+      {...{ daoURL }}
+      bg="dark"
+      border="2px transparent solid"
+      _hover={{ borderColor: 'purpleBoxLight' }}
+    >
+      <HStack align="center">
+        <Flex bg="purpleBoxLight" width={16} height={16} mr={1}>
+          {avatarURL ? (
             <Image
-              src={avatarUrl}
+              src={avatarURL}
               w="3.25rem"
               h="3.25rem"
               m="auto"
               borderRadius={4}
             />
           ) : (
-            <ChainIcon chain={chain} boxSize={16} p={2} />
+            <ChainIcon {...{ chain }} boxSize={16} p={2} />
           )}
         </Flex>
-        <Box>
-          <Heading
-            fontWeight="bold"
-            textTransform="uppercase"
-            fontSize="xs"
-            color={daoUrl ? 'cyanText' : 'white'}
-            mb={1}
-          >
-            <Center justifyContent="left">
-              {title ?? (
-                <Text>
-                  Unknown{' '}
-                  <Text as="span" textTransform="capitalize">
-                    {chain}
-                  </Text>{' '}
-                  DAO
-                </Text>
-              )}
-              <ChainIcon chain={chain} ml={2} boxSize={3} />
-            </Center>
-          </Heading>
-        </Box>
+        <Heading
+          fontWeight="bold"
+          textTransform="uppercase"
+          fontSize="xs"
+          color={daoURL ? 'cyanText' : 'white'}
+          justify="center"
+          align="center"
+        >
+          {title ?? (
+            <Text as={React.Fragment}>
+              Unknown{' '}
+              <Text as="span" textTransform="capitalize">
+                {chain}
+              </Text>{' '}
+              DAO
+            </Text>
+          )}
+          <ChainIcon {...{ chain }} mx={2} boxSize={4} />
+        </Heading>
       </HStack>
     </DaoHausLink>
   );

@@ -18,7 +18,7 @@ export const PlayerContacts: React.FC<Props> = ({
 }) => {
   const [copied, handleCopy] = useCopyToClipboard();
   return (
-    <Wrap>
+    <Wrap justify="center">
       {player?.accounts?.map((acc) => {
         switch (acc.type) {
           case 'TWITTER': {

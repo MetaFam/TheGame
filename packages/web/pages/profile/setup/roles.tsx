@@ -9,7 +9,7 @@ export const getStaticProps = async () => {
 
   return {
     props: {
-      roleChoices: roleChoices.filter(({ basic }) => basic),
+      choices: roleChoices.filter(({ basic }) => basic),
       hideTopMenu: true,
     },
   };
@@ -17,10 +17,10 @@ export const getStaticProps = async () => {
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
-const PlayerRolesSetup: React.FC<Props> = ({ roleChoices }) => (
+const PlayerRolesSetup: React.FC<Props> = ({ choices }) => (
   <SetupContextProvider>
     <SetupProfile>
-      <SetupRoles {...{ roleChoices }} />
+      <SetupRoles {...{ choices }} />
     </SetupProfile>
   </SetupContextProvider>
 );

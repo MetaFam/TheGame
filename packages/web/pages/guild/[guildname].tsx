@@ -16,7 +16,7 @@ import {
 import { useRouter } from 'next/router';
 import Page404 from 'pages/404';
 import React from 'react';
-import { BoxType } from 'utils/boxTypes';
+import { BoxTypes } from 'utils/boxTypes';
 import { getGuildCoverImageFull } from 'utils/playerHelpers';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
@@ -31,8 +31,8 @@ const GuildPage: React.FC<Props> = ({ guild }) => {
   // BoxType.GUILD_GALLERY,
 
   const boxes = [
-    [BoxType.GUILD_PLAYERS],
-    [BoxType.GUILD_ANNOUNCEMENTS, BoxType.GUILD_LINKS],
+    [BoxTypes.GUILD_PLAYERS],
+    [BoxTypes.GUILD_ANNOUNCEMENTS, BoxTypes.GUILD_LINKS],
   ];
 
   if (router.isFallback) {
@@ -45,11 +45,11 @@ const GuildPage: React.FC<Props> = ({ guild }) => {
 
   const getBox = (name: string): React.ReactNode => {
     switch (name) {
-      case BoxType.GUILD_PLAYERS:
+      case BoxTypes.GUILD_PLAYERS:
         return <GuildPlayers guildId={guild.id} guildname={guild.guildname} />;
-      case BoxType.GUILD_LINKS:
+      case BoxTypes.GUILD_LINKS:
         return <GuildLinks guild={guild} />;
-      case BoxType.GUILD_ANNOUNCEMENTS:
+      case BoxTypes.GUILD_ANNOUNCEMENTS:
         return (
           <ProfileSection title="Announcements">
             <p>No announcements.</p>

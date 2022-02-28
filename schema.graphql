@@ -201,9 +201,7 @@ type BrightIdStatus {
 }
 
 type CacheProcessOutput {
-  error: String
-  queued: Boolean!
-  success: Boolean!
+  updateIDXProfile: uuid
 }
 
 type CollectiblesFavorites {
@@ -2640,7 +2638,7 @@ type Member {
 }
 
 type Moloch {
-  avatarUrl: String
+  avatarURL: String
   chain: String!
   id: ID!
   summoner: String!
@@ -3550,7 +3548,7 @@ type mutation_root {
   """
   perform the action: "updateIDXProfile"
   """
-  updateIDXProfile(playerId: uuid): CacheProcessOutput
+  updateIDXProfile(playerId: uuid): uuid!
 
   """
   perform the action: "updateQuestCompletion"
@@ -5305,6 +5303,9 @@ unique or primary key constraints on table "player_skill"
 enum player_skill_constraint {
   """unique or primary key constraint"""
   player_skill_pkey
+
+  """unique or primary key constraint"""
+  player_skill_player_id_skill_id_key
 }
 
 """
@@ -7761,6 +7762,16 @@ type query_root {
 
   """fetch data from the table: "skill" using primary key columns"""
   skill_by_pk(id: uuid!): skill
+
+  """
+  retrieve the result of action: "updateIDXProfile"
+  """
+  updateIDXProfile(
+    """
+    id of the action: "updateIDXProfile"
+    """
+    id: uuid!
+  ): updateIDXProfile
 }
 
 """
@@ -11282,6 +11293,16 @@ type subscription_root {
 
   """fetch data from the table: "skill" using primary key columns"""
   skill_by_pk(id: uuid!): skill
+
+  """
+  retrieve the result of action: "updateIDXProfile"
+  """
+  updateIDXProfile(
+    """
+    id of the action: "updateIDXProfile"
+    """
+    id: uuid!
+  ): updateIDXProfile
 }
 
 scalar timestamptz
@@ -11305,6 +11326,23 @@ type TokenBalances {
   id: ID!
   pSeedBalance: String!
   seedBalance: String!
+}
+
+"""
+fields of action: "updateIDXProfile"
+"""
+type updateIDXProfile {
+  """the time at which this action was created"""
+  created_at: timestamptz
+
+  """errors related to the invocation"""
+  errors: json
+
+  """the unique id of an action"""
+  id: uuid
+
+  """the output fields of this action"""
+  output: CacheProcessOutput
 }
 
 type UpdateIDXProfileResponse {

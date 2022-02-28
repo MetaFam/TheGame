@@ -40,7 +40,6 @@ export const useBrightIdStatus = ({
       const verified = isStatusVerified(player.brightid_status, contextId);
       const deeplink = `${DEEPLINK_ENDPOINT}/${contextId}`;
       const universalLink = `${UNIVERSAL_LINK_ENDPOINT}/${contextId}`;
-
       return { verified, deeplink, universalLink };
     }
     return undefined;
@@ -66,7 +65,7 @@ export const useBrightIdUpdated = ({
   player: Player;
   poll: boolean;
 }): void => {
-  const contextId = player.id;
+  const contextId = player?.id;
 
   useEffect(() => {
     if (!contextId || !poll) return () => undefined;

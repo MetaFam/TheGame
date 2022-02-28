@@ -1,23 +1,16 @@
-import { Flex, Link, MetaButton, Spinner, Text, Tooltip } from '@metafam/ds';
-import { getPersonalityInfo } from 'graphql/queries/enums/getPersonalityInfo';
+import { Center, Link, MetaButton, Spinner, Stack, Text } from '@metafam/ds';
 import { useMounted, useUser, useWeb3 } from 'lib/hooks';
 import { InferGetStaticPropsType } from 'next';
 import { PlayerPage } from 'pages/player/[username]';
 
-export const getStaticProps = async () => {
-  const personalityInfo = await getPersonalityInfo();
-
-  return {
-    props: {
-      personalityInfo,
-    },
-    revalidate: 1,
-  };
-};
+export const getStaticProps = async () => ({
+  props: {},
+  revalidate: 1,
+});
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
-const CurrentUserPage: React.FC<Props> = ({ personalityInfo }) => {
+const CurrentUserPage: React.FC<Props> = () => {
   const { connect, connecting, connected } = useWeb3();
   const { user, fetching, error } = useUser();
   const mounted = useMounted();
@@ -31,25 +24,33 @@ const CurrentUserPage: React.FC<Props> = ({ personalityInfo }) => {
     );
   }
 
-  if (mounted && (connecting || fetching)) {
+  if (connecting || fetching) {
     return (
-      <Flex align="center" justify="center" h="100vh">
-        <Tooltip hasArrow label={connecting ? 'Connecting…' : 'Fetching User…'}>
+      <Center h="100vh">
+        <Stack align="center">
+          <Text fontSize="xl">
+            {connecting ? 'Connecting…' : 'Fetching User…'}
+          </Text>
           <Spinner thickness="6px" color="whiteAlpha" size="xl" />
-        </Tooltip>
-      </Flex>
+        </Stack>
+      </Center>
     );
   }
 
   if (user) {
-    return <PlayerPage player={user} personalityInfo={personalityInfo} />;
+    return <PlayerPage player={user} />;
   }
 
   if (error) {
     return (
-      <Text textAlign="center" mt="25vh">
-        Error Loading User: <q>{error.message}</q>
-      </Text>
+      <Center h="100vh">
+        <Stack align="center">
+          <Text>
+            Error Loading User: <q>{error.message}</q>
+          </Text>
+          <MetaButton onClick={connect}>Try Again</MetaButton>
+        </Stack>
+      </Center>
     );
   }
 

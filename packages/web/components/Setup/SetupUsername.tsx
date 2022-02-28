@@ -1,78 +1,61 @@
-import { Input, MetaButton, MetaHeading, useToast } from '@metafam/ds';
-import { FlexContainer } from 'components/Container';
-import { useSetupFlow } from 'contexts/SetupContext';
-import { useUpdatePlayerUsernameMutation } from 'graphql/autogen/types';
-import { useUser } from 'lib/hooks';
-import React, { useState } from 'react';
+import { Flex, Input } from '@metafam/ds';
+import { getPlayer } from 'graphql/getPlayer';
+import React from 'react';
 
-export type SetupUsernameProps = {
-  username: string | undefined;
-  setUsername: React.Dispatch<React.SetStateAction<string | undefined>>;
-};
+import { ProfileWizardPane } from './ProfileWizardPane';
+import { WizardPaneCallbackProps } from './WizardPane';
 
-export const SetupUsername: React.FC<SetupUsernameProps> = ({
-  username,
-  setUsername,
-}) => {
-  const { onNextPress, nextButtonLabel } = useSetupFlow();
-  const { user } = useUser();
-  const toast = useToast();
-
-  const [updateUsernameRes, updateUsername] = useUpdatePlayerUsernameMutation();
-  const [loading, setLoading] = useState(false);
-
-  const handleNextPress = async () => {
-    if (!user) return;
-
-    setLoading(true);
-    const { error } = await updateUsername({
-      playerId: user.id,
-      username: username ?? '',
-    });
-
-    if (error) {
-      let errorDetail = 'The octo is sad 😢';
-      if (error.message.includes('Uniqueness violation')) {
-        errorDetail = 'This username is already taken 😢';
-      } else if (error.message.includes('username_is_valid')) {
-        errorDetail =
-          'A username can only contain lowercase letters, numbers, and dashes.';
-      }
-      toast({
-        title: 'Error',
-        description: `Unable to update Player Username. ${errorDetail}`,
-        status: 'error',
-        isClosable: true,
-      });
-      setLoading(false);
-      return;
-    }
-
-    onNextPress();
-  };
+export const SetupUsername: React.FC = () => {
+  const field = 'username';
 
   return (
-    <FlexContainer mb={8}>
-      <MetaHeading mb={10} textAlign="center">
-        What username would you like?
-      </MetaHeading>
-      <Input
-        background="dark"
-        placeholder="USERNAME"
-        value={username ?? ''}
-        onChange={({ target: { value } }) => setUsername(value)}
-        w="auto"
-      />
+    <ProfileWizardPane
+      {...{ field }}
+      title="Username"
+      prompt="What name would you like to use in your MyMeta profile URL?"
+    >
+      {({ register, dirty, errored }: WizardPaneCallbackProps) => {
+        const { ref: registerRef, ...props } = register(field, {
+          validate: async (value: string) => {
+            if (/^0x[0-9a-z]{40}$/i.test(value)) {
+              return `Username “${value}” has the same format as an Ethereum address.`;
+            }
+            if (dirty && (await getPlayer(value))) {
+              return `Username “${value}” is already in use.`;
+            }
+            return true;
+          },
+          pattern: {
+            value: /^[a-z0-9-_]+$/,
+            message:
+              'Only lowercase letters, digits, dashes, & underscores allowed.',
+          },
+          minLength: {
+            value: 3,
+            message: 'Must have at least three characters.',
+          },
+          maxLength: {
+            value: 150,
+            message: 'Maximum length is 150 characters.',
+          },
+        });
 
-      <MetaButton
-        disabled={!user}
-        onClick={handleNextPress}
-        mt={10}
-        isLoading={updateUsernameRes.fetching || loading}
-        loadingText="Saving"
-      >
-        {nextButtonLabel}
-      </MetaButton>
-    </FlexContainer>
+        return (
+          <Flex justify="center" mt={5}>
+            <Input
+              background="dark"
+              placeholder="ᴜsᴇʀɴᴀᴍᴇ"
+              w="auto"
+              _focus={errored ? { borderColor: 'red' } : undefined}
+              ref={(ref) => {
+                ref?.focus();
+                registerRef(ref);
+              }}
+              {...props}
+            />
+          </Flex>
+        );
+      }}
+    </ProfileWizardPane>
   );
 };

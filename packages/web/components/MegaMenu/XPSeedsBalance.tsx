@@ -1,4 +1,4 @@
-import { HStack, Image, Text, Tooltip } from '@metafam/ds';
+import { Flex, HStack, Image, MetaTheme, Text, Tooltip } from '@metafam/ds';
 import { numbers } from '@metafam/utils';
 import SeedMarket from 'assets/seed-icon.svg';
 import XPStar from 'assets/xp-star.svg';
@@ -13,19 +13,16 @@ type Props = {
   mobile?: boolean;
 };
 // Display player XP and Seed
-export const XPSeedsBalance: React.FC<Props> = ({
-  totalXP,
-  mobile = false,
-}) => {
+export const XPSeedsBalance: React.FC<Props> = ({ totalXP }) => {
   const { pSeedBalance } = usePSeedBalance();
 
   return (
-    <HStack flexDirection="row">
+    <Flex direction={['column', 'row']}>
       <Tooltip label="Total XP" hasArrow>
         <HStack
-          bg="rgba(0,0,0,0.25)"
-          border="1px solid #2B2244"
-          borderRadius="1rem"
+          bg="#00000044"
+          border={`1px solid ${MetaTheme.colors.purple[700]}`}
+          borderRadius="3xl"
           px={4}
           py={1}
           minW="fit-content"
@@ -34,12 +31,14 @@ export const XPSeedsBalance: React.FC<Props> = ({
             src={XPStar}
             alignSelf="center"
             alt="XP"
-            boxSize={mobile ? '1.5rem' : '1rem'}
+            boxSize={['1.5rem', '1rem']}
           />
           <Text
+            w="full"
+            textAlign="right"
             color="#FFF"
             lineHeight={2}
-            fontSize={mobile ? 'sm' : 'xs'}
+            fontSize={['sm', 'xs']}
             fontWeight="bold"
           >
             {Math.trunc(totalXP).toLocaleString()}
@@ -48,9 +47,9 @@ export const XPSeedsBalance: React.FC<Props> = ({
       </Tooltip>
       <Tooltip label="pSEEDs" hasArrow>
         <HStack
-          bg="rgba(0,0,0,0.25)"
-          border="1px solid #2B2244"
-          borderRadius="1rem"
+          bg="#00000044"
+          border={`1px solid ${MetaTheme.colors.purple[700]}`}
+          borderRadius="3xl"
           px={4}
           py={1}
           minW="fit-content"
@@ -59,12 +58,14 @@ export const XPSeedsBalance: React.FC<Props> = ({
             src={SeedMarket}
             alignSelf="center"
             alt="Seed"
-            boxSize={mobile ? '1.5rem' : '1rem'}
+            boxSize={['1.5rem', '1rem']}
           />
           <Text
+            w="full"
+            textAlign="right"
             color="#FFF"
             lineHeight={2}
-            fontSize={mobile ? 'sm' : 'xs'}
+            fontSize={['sm', 'xs']}
             fontWeight="bold"
           >
             {parseInt(
@@ -74,6 +75,6 @@ export const XPSeedsBalance: React.FC<Props> = ({
           </Text>
         </HStack>
       </Tooltip>
-    </HStack>
+    </Flex>
   );
 };

@@ -80,8 +80,6 @@ export default async (playerId: string): Promise<UpdateIdxProfileResponse> => {
       basicProfile = await store.get('basicProfile', did);
     }
 
-    // This isn't called if they haven't created a mainnet DID
-    // This should be checked even without a DID
     if (!basicProfile) {
       basicProfile = await getLegacy3BoxProfileAsBasicProfile(ethereumAddress);
     }

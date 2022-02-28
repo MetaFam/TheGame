@@ -3,17 +3,17 @@ import { ProfileSection } from 'components/Profile/ProfileSection';
 import { Player } from 'graphql/autogen/types';
 import React from 'react';
 import { FaMedal } from 'react-icons/fa';
-import { BoxType } from 'utils/boxTypes';
+import { BoxTypes } from 'utils/boxTypes';
 
 // TODO Fake data
 type Props = {
   player: Player;
   isOwnProfile?: boolean;
-  canEdit?: boolean;
+  editing?: boolean;
 };
 export const PlayerAchievements: React.FC<Props> = ({
   isOwnProfile,
-  canEdit,
+  editing,
 }) => {
   const [show, setShow] = React.useState(false);
   const fakeData = [
@@ -25,9 +25,8 @@ export const PlayerAchievements: React.FC<Props> = ({
   return (
     <ProfileSection
       title="Achievements"
-      isOwnProfile={isOwnProfile}
-      canEdit={canEdit}
-      boxType={BoxType.PLAYER_ACHIEVEMENTS}
+      {...{ isOwnProfile, editing }}
+      type={BoxTypes.PLAYER_ACHIEVEMENTS}
       withoutBG
     >
       {(fakeData || []).slice(0, show ? 999 : 3).map((title) => (

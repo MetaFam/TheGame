@@ -17,7 +17,7 @@ import LogoImage from 'assets/logo-new.png';
 import { MetaLink } from 'components/Link';
 import { DesktopNavLinks } from 'components/MegaMenu/DesktopNavLinks';
 import { DesktopPlayerStats } from 'components/MegaMenu/DesktopPlayerStats';
-import { useUser, useWeb3 } from 'lib/hooks';
+import { useMounted, useUser, useWeb3 } from 'lib/hooks';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { menuIcons } from 'utils/menuIcons';
@@ -34,7 +34,7 @@ const Logo = ({ link }: LogoProps) => {
   const h = useBreakpointValue({ base: 12, lg: 14 }) ?? 12;
 
   return (
-    <Box w={{ base: 'fit-content', lg: '20%' }}>
+    <Box>
       <MetaLink
         href={link}
         _focus={{ outline: 'none', bg: 'transparent' }}
@@ -56,6 +56,7 @@ export const MegaMenuHeader: React.FC = () => {
   const { connected, connect, connecting } = useWeb3();
   const router = useRouter();
   const { user, fetching } = useUser();
+  const mounted = useMounted();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const menuToggle = () => (isOpen ? onClose() : onOpen());
@@ -71,7 +72,7 @@ export const MegaMenuHeader: React.FC = () => {
     >
       <Flex
         borderBottom="1px"
-        bg="rgba(0,0,0,0.5)"
+        bg="rgba(0, 0, 0, 0.5)"
         borderColor="#2B2244"
         sx={{ backdropFilter: 'blur(10px)' }}
         px={4}
@@ -83,17 +84,17 @@ export const MegaMenuHeader: React.FC = () => {
           flexWrap="nowrap"
           alignItems="center"
           cursor="pointer"
-          h="2rem"
-          w="2rem"
+          h={8}
+          w={8}
           display={{ base: 'flex', lg: 'none' }}
           p={2}
           my="auto"
           grow={1}
         >
           {isOpen ? (
-            <CloseIcon fontSize="1.5rem" color="#FFF" ml={2} />
+            <CloseIcon fontSize="2xl" color="#FFF" ml={2} />
           ) : (
-            <HamburgerIcon fontSize="2rem" color="#FFF" ml={2} />
+            <HamburgerIcon fontSize="3xl" color="#FFF" ml={2} />
           )}
         </Flex>
         <Flex
@@ -104,22 +105,25 @@ export const MegaMenuHeader: React.FC = () => {
           <Logo link={user ? '/dashboard' : '/'} />
           <DesktopNavLinks />
           {/* <Search /> */}
-          <Box
-            w="20%"
-            textAlign="right"
-            display={{ base: 'none', lg: 'block' }}
-          >
+          <Box textAlign="right" display={{ base: 'none', lg: 'block' }}>
             {connected && !!user && !fetching && !connecting ? (
               <DesktopPlayerStats player={user} />
             ) : (
-              <MetaButton
-                h={10}
-                px={6}
-                onClick={connect}
-                isLoading={connecting || fetching}
+              <Stack
+                fontWeight="bold"
+                fontFamily="Exo 2, san-serif"
+                align="center"
               >
-                Connect
-              </MetaButton>
+                <MetaButton
+                  h={10}
+                  px={12}
+                  onClick={connect}
+                  isLoading={!mounted || connecting || fetching}
+                >
+                  Connect
+                </MetaButton>
+                <Text color="red"> Mainnet Required</Text>
+              </Stack>
             )}
           </Box>
         </Flex>

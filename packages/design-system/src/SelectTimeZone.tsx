@@ -1,6 +1,6 @@
 /* istanbul ignore file */
 
-import { Maybe } from '@metafam/utils';
+import { Maybe, Optional } from '@metafam/utils';
 import cityTimeZones from 'city-timezones';
 import React, { useCallback, useState } from 'react';
 import TimeZoneSelect, {
@@ -38,9 +38,9 @@ export interface TimeZoneSelectProps extends Record<string, unknown> {
 
 const timeZoneSelectStyles: typeof chakraesqueStyles = {
   ...chakraesqueStyles,
-  control: (styles, props) => ({
+  container: (styles, props) => ({
     ...styles,
-    ...chakraesqueStyles.control?.(styles, props),
+    ...chakraesqueStyles.container?.(styles, props),
     width: '100%',
     maxWidth: 'calc(100vw - 2rem)',
   }),
@@ -112,7 +112,7 @@ export const TimeZoneOptions: TimeZoneType[] = Object.entries(i18nTimeZones)
 
 export const timeZonesFilter = (
   search: string,
-  cityZones: string[] | undefined = undefined,
+  cityZones: Optional<Array<string>> = undefined,
 ) => (tz: TimeZoneType): boolean => {
   if (!cityZones) {
     // eslint-disable-next-line no-param-reassign

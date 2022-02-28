@@ -52,6 +52,7 @@ import { useRouter } from 'next/router';
 import React, {
   ReactElement,
   RefObject,
+  SyntheticEvent,
   useCallback,
   useEffect,
   useMemo,
@@ -65,7 +66,7 @@ import { isEmpty } from 'utils/objectHelpers';
 const MAX_DESC_LEN = 420; // characters
 
 export type ProfileEditorProps = {
-  player: Maybe<Player>;
+  player?: Maybe<Player>;
   onClose: () => void;
 };
 
@@ -80,25 +81,43 @@ const Label: React.FC<FormLabelProps> = React.forwardRef(
   },
 );
 
-const Input: React.FC<InputProps> = React.forwardRef(
-  ({ children, ...props }, reference) => {
+const Input = React.forwardRef<typeof ChakraInput, InputProps>(
+  ({ children, ...props }, fwdRef) => {
     const [width, setWidth] = useState('9em');
-    const ref = reference as RefObject<HTMLInputElement>;
-    const textRef = useRef<HTMLInputElement>(null);
+    const ref = fwdRef as RefObject<HTMLInputElement>;
+    const textRef = useRef<HTMLParagraphElement>(null);
     const isText = !props.type || props.type === 'text';
-    const calcWidth = (text: string) => {
-      const input = textRef.current;
-      if (text && input) {
-        input.textContent = text;
-        setWidth(
-          `min(calc(100vw - 2rem), calc(${input.scrollWidth}px + 2.25em))`,
-        );
+
+    const calcWidth = useCallback((text?: string) => {
+      const layout = textRef.current;
+      const modal = layout?.closest('form');
+      if (layout && modal && text) {
+        layout.textContent = text;
+        const widths = [
+          `calc(${modal.clientWidth}px - 2rem)`,
+          `calc(${layout.scrollWidth}px + 2.25em)`,
+        ];
+        setWidth(`min(${widths.join(',')})`);
+      }
+    }, []);
+
+    const recalcText = (event: SyntheticEvent<HTMLInputElement>) => {
+      if (isText) {
+        const {
+          currentTarget: { value },
+        } = event;
+        calcWidth(value);
       }
     };
 
     return (
       <Box>
-        <Text position="absolute" whiteSpace="pre" ref={textRef}></Text>
+        <Text
+          position="absolute"
+          visibility="hidden"
+          whiteSpace="pre"
+          ref={textRef}
+        ></Text>
         <ChakraInput
           color="white"
           bg="dark"
@@ -111,20 +130,10 @@ const Input: React.FC<InputProps> = React.forwardRef(
               caretColor: 'white',
             },
           }}
-          // event is supposed to have a type definition in
-          // @types/react if the DOM library is included,
-          // but VS doesn't think it does.
-          onInput={(event /* { target: { value } } */) => {
-            const {
-              target: { value },
-            } = (event as unknown) as { target: { value: string } };
-            if (isText) calcWidth(value);
-          }}
-          onFocus={(evt) => {
-            if (isText) calcWidth(evt.target.value);
-          }}
+          onInput={recalcText}
+          onFocus={recalcText}
+          {...{ width, ref }}
           {...props}
-          {...{ ref, width }}
         >
           {children}
         </ChakraInput>
@@ -182,7 +191,6 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
       const { value } = useProfileField({
         field: key,
         player,
-        owner: true,
       });
       return [key, value];
     }),
@@ -427,7 +435,7 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
   };
 
   return (
-    <Stack as="form" onSubmit={handleSubmit(onSubmit)}>
+    <Stack as="form" onSubmit={handleSubmit(onSubmit)} maxW="full">
       <Wrap>
         <WrapItem flex={1} px={5}>
           <FormControl isInvalid={errors.profileImageURL} align="center">
@@ -705,8 +713,8 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
                 type="number"
                 placeholder="23"
                 pl={9}
-                minW="5em"
-                maxW="7em"
+                minW={20}
+                maxW={22}
                 borderTopEndRadius={0}
                 borderBottomEndRadius={0}
                 borderRight={0}
@@ -734,7 +742,7 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
             </Box>
           </FormControl>
         </WrapItem>
-        <WrapItem flex={1} alignItems="center" px={5}>
+        <WrapItem flex={1} alignItems="center" px={5} minW="20rem">
           <FormControl isInvalid={errors.timeZone}>
             <Label htmlFor="name">Time Zone</Label>
             <Controller

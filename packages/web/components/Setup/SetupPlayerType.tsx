@@ -1,222 +1,108 @@
-import { ModelManager } from '@glazed/devtools';
-import { DIDDataStore } from '@glazed/did-datastore';
-import { TileLoader } from '@glazed/tile-loader';
 import {
   Button,
-  Flex,
-  MetaButton,
-  MetaHeading,
-  ModalBody,
-  ModalFooter,
+  Center,
+  Input,
+  InputGroup,
   SimpleGrid,
-  Spinner,
+  Stack,
   Text,
-  useToast,
-  Wrap,
-  WrapItem,
 } from '@metafam/ds';
-import { extendedProfileModel, Maybe } from '@metafam/utils';
-import { FlexContainer } from 'components/Container';
-import { useSetupFlow } from 'contexts/SetupContext';
+import { Maybe, Optional } from '@metafam/utils';
 import { ExplorerType } from 'graphql/autogen/types';
 import { getExplorerTypes } from 'graphql/queries/enums/getExplorerTypes';
-import { useUser, useWeb3 } from 'lib/hooks';
-import React, { ReactElement, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-export type Props = {
-  isEdit?: boolean;
-  onClose?: () => void;
+import { ProfileWizardPane } from './ProfileWizardPane';
+import { MaybeModalProps, WizardPaneCallbackProps } from './WizardPane';
+
+export type ExplorerTypesType = {
+  selectedType: Maybe<string>;
+  setSelectedType: (
+    arg: string | ((type: Optional<Maybe<string>>) => Maybe<string>),
+  ) => void;
+  disabled?: boolean;
 };
 
-export const SetupPlayerType: React.FC<Props> = ({ isEdit, onClose }) => {
-  const { onNextPress, nextButtonLabel } = useSetupFlow();
-  const { user } = useUser();
-  const { ceramic } = useWeb3();
-  const toast = useToast();
-  const [status, setStatus] = useState<Maybe<ReactElement | string>>(null);
-  const [explorerType, setExplorerType] = useState<ExplorerType>();
-  const [typeChoices, setTypeChoices] = useState<ExplorerType[]>([]);
-  const isWizard = !isEdit;
-
-  const load = () => {
-    if (user) {
-      if (explorerType === undefined && user.profile?.explorerType != null) {
-        setExplorerType(user.profile.explorerType);
-      }
-    }
-  };
-  useEffect(load, [explorerType, user, user?.profile?.explorerType]);
+export const ExplorerTypes: React.FC<ExplorerTypesType> = ({
+  selectedType,
+  setSelectedType,
+  disabled = false,
+}) => {
+  const [choices, setChoices] = useState<Array<ExplorerType>>([]);
 
   useEffect(() => {
     const fetchTypes = async () => {
-      const response = await getExplorerTypes();
-      setTypeChoices(response);
+      setChoices(await getExplorerTypes());
     };
 
     fetchTypes();
-  }, [setTypeChoices]);
+  }, [setChoices]);
 
-  const handleNextPress = async () => {
-    setStatus('Saving Type Selection…');
-    await save();
-    onNextPress();
-  };
+  return (
+    <InputGroup>
+      <SimpleGrid
+        maxW={{ base: '25rem', md: '60rem' }}
+        columns={{ base: 1, md: 3 }}
+        spacing={4}
+        margin="auto"
+      >
+        {choices.map((choice) => {
+          const selected = selectedType === choice.title;
 
-  const save = async () => {
-    if (!user) return;
-
-    if (!ceramic) {
-      toast({
-        title: 'Ceramic Error',
-        description: 'Ceramic is not defined. Cannot update.',
-        status: 'error',
-        isClosable: true,
-      });
-      return;
-    }
-
-    if (user?.profile?.explorerType?.id !== explorerType?.id) {
-      try {
-        if (!ceramic.did?.authenticated) {
-          setStatus('Authenticating DID…');
-          await ceramic.did?.authenticate();
-        }
-
-        setStatus('Loading Profile Configuration…');
-
-        const cache = new Map();
-        const loader = new TileLoader({ ceramic, cache });
-        const manager = new ModelManager(ceramic);
-        manager.addJSONModel(extendedProfileModel);
-
-        const store = new DIDDataStore({
-          ceramic,
-          loader,
-          model: await manager.toPublished(),
-        });
-
-        setStatus('Saving to Ceramic…');
-        await store.merge('extendedProfile', {
-          explorerType: explorerType?.title,
-        });
-      } catch (err) {
-        console.warn(err); // eslint-disable-line no-console
-        toast({
-          title: 'Error',
-          description: `Unable to update player type. Error: ${
-            (err as Error).message
-          }`,
-          status: 'error',
-          isClosable: true,
-        });
-        setStatus(null);
-      }
-    }
-  };
-
-  const setup = (
-    <FlexContainer mb={8}>
-      {isWizard && (
-        <MetaHeading mb={5} textAlign="center">
-          Player Type
-        </MetaHeading>
-      )}
-      <Text mb={10} color={isWizard ? 'current' : 'white'}>
-        Please read the features of each player type below, and select the one
-        that suits you best.
-      </Text>
-      <SimpleGrid columns={[1, null, 3, 3]} spacing={4}>
-        {typeChoices.map((choice) => (
-          <FlexContainer
-            key={choice.id}
-            p={[4, null, 6]}
-            bgColor={
-              explorerType?.id === choice.id
-                ? 'purpleBoxDark'
-                : 'purpleBoxLight'
-            }
-            borderRadius="0.5rem"
-            _hover={{ bgColor: 'purpleBoxDark' }}
-            transition="background 0.25s"
-            cursor="pointer"
-            onClick={() => setExplorerType(choice)}
-            align="stretch"
-            justify="flex-start"
-            border="2px"
-            borderColor={
-              explorerType?.id === choice.id ? 'purple.400' : 'transparent'
-            }
-          >
-            <Text color="white" fontWeight="bold" mb={4}>
-              {choice.title}
-            </Text>
-            <Text color="blueLight" textAlign="justify">
-              {choice.description}
-            </Text>
-          </FlexContainer>
-        ))}
+          return (
+            <Button
+              height="full"
+              whiteSpace="normal"
+              key={choice.id}
+              p={[4, null, 6]}
+              bgColor={selected ? 'purpleBoxDark' : 'purpleBoxLight'}
+              borderRadius="lg"
+              _hover={{ filter: 'hue-rotate(-10deg)' }}
+              cursor="pointer"
+              onClick={() => setSelectedType(choice.title)}
+              align="stretch"
+              justify="flex-start"
+              border="2px"
+              borderColor={selected ? 'purple.400' : 'transparent'}
+              isDisabled={disabled}
+            >
+              <Stack>
+                <Text color="white" fontWeight="bold" mb={4}>
+                  {choice.title}
+                </Text>
+                <Text color="blueLight" textAlign="justify" fontWeight="normal">
+                  {choice.description}
+                </Text>
+              </Stack>
+            </Button>
+          );
+        })}
       </SimpleGrid>
-      {isWizard && (
-        <MetaButton
-          onClick={handleNextPress}
-          mt={10}
-          isDisabled={!explorerType}
-          isLoading={!!status}
-          loadingText={status?.toString()}
-        >
-          {nextButtonLabel}
-        </MetaButton>
-      )}
-    </FlexContainer>
+    </InputGroup>
   );
-  return isWizard ? (
-    setup
-  ) : (
-    <>
-      <ModalBody>{setup}</ModalBody>
+};
+export const SetupPlayerType: React.FC<MaybeModalProps> = ({
+  onClose,
+  buttonLabel,
+}) => {
+  const field = 'explorerTypeTitle';
 
-      {isEdit && onClose && (
-        <FlexContainer>
-          <ModalFooter py={6}>
-            <Wrap justify="center" align="center" flex={1}>
-              <WrapItem>
-                <MetaButton
-                  isDisabled={!!status}
-                  onClick={async () => {
-                    await save();
-                    onClose();
-                  }}
-                >
-                  {!status ? (
-                    'Save Changes'
-                  ) : (
-                    <Flex align="center">
-                      <Spinner mr={3} />
-                      {typeof status === 'string' ? (
-                        <Text>{status}</Text>
-                      ) : (
-                        status
-                      )}
-                    </Flex>
-                  )}
-                </MetaButton>
-              </WrapItem>
-              <WrapItem>
-                <Button
-                  variant="ghost"
-                  onClick={onClose}
-                  color="white"
-                  _hover={{ bg: '#FFFFFF11' }}
-                  _active={{ bg: '#FF000011' }}
-                  disabled={!!status}
-                >
-                  Close
-                </Button>
-              </WrapItem>
-            </Wrap>
-          </ModalFooter>
-        </FlexContainer>
+  return (
+    <ProfileWizardPane
+      {...{ field, onClose, buttonLabel }}
+      title="Player Type"
+      prompt="Which one suits you best?"
+    >
+      {({ register, loading, current, setter }: WizardPaneCallbackProps) => (
+        <Center mt={5}>
+          <Input type="hidden" {...register(field, {})} />
+          <ExplorerTypes
+            selectedType={current}
+            setSelectedType={setter}
+            disabled={loading}
+          />
+        </Center>
       )}
-    </>
+    </ProfileWizardPane>
   );
 };

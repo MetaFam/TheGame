@@ -19,20 +19,17 @@ export function findHighLowPrice(
 
 export function volumeChange(
   vols: Array<Array<number>>,
-  todayVol: Record<string, number>,
+  { usd: today }: Record<string, number>,
 ): number {
-  const plots = [];
-  let element: Array<number> = [];
-
-  for (let i = 0; i < vols.length; i++) {
-    element = vols[i];
-    plots.push({ date: element[0], volume: element[1] });
+  const plots = vols.map(([date, volume]) => ({ date, volume }));
+  if (plots.length < 2) {
+    throw new Error('Insufficient Data');
   }
-  const lastVol = plots[plots.length - 2].volume;
-  const diff = +todayVol.usd - +lastVol;
-  const volPercent = Number((diff / todayVol.usd) * 100);
+  const [{ volume: previous }] = plots.slice(-2);
+  const Δ = today - previous;
+  const percent = Number((Δ / today) * 100);
 
-  return volPercent;
+  return percent;
 }
 
 type TickerProps = {

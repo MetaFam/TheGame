@@ -133,6 +133,7 @@ export const getPlayersWithCount = async (
 const playerUsernamesQuery = /* GraphQL */ `
   query GetPlayerUsernames($limit: Int) {
     player(order_by: { totalXP: desc }, limit: $limit) {
+      ethereumAddress
       profile {
         username
       }
@@ -140,7 +141,9 @@ const playerUsernamesQuery = /* GraphQL */ `
   }
 `;
 
-export const getPlayerUsernames = async (limit = 150): Promise<string[]> => {
+export const getPlayerUsernames = async (
+  limit = 150,
+): Promise<Array<{ address: string; username: Maybe<string> }>> => {
   const { data, error } = await defaultClient
     .query<GetPlayerUsernamesQuery, GetPlayerUsernamesQueryVariables>(
       playerUsernamesQuery,
@@ -148,15 +151,12 @@ export const getPlayerUsernames = async (limit = 150): Promise<string[]> => {
     )
     .toPromise();
 
-  if (!data) {
-    if (error) {
-      throw error;
-    }
-    return [];
-  }
-  return data.player
-    .map(({ profile }) => profile?.username ?? null)
-    .filter((u) => !!u) as Array<string>;
+  if (error) throw error;
+
+  return (data?.player ?? []).map(({ ethereumAddress: address, profile }) => ({
+    address,
+    username: profile?.username ?? null,
+  }));
 };
 
 export const getTopPlayerUsernames = getPlayerUsernames;

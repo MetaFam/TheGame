@@ -60,7 +60,6 @@ export const useSaveCeramicProfile = ({
         useProfileField({
           field: key,
           player: user,
-          owner: true,
         });
       return [key, setter];
     }),

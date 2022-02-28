@@ -1,5 +1,6 @@
 import { Maybe } from '@metafam/utils';
 import { Player, useGetMeQuery } from 'graphql/autogen/types';
+// eslint-disable-next-line import/no-cycle
 import { useWeb3 } from 'lib/hooks/useWeb3';
 import { useRouter } from 'next/router';
 import { useEffect, useMemo } from 'react';
@@ -16,13 +17,14 @@ export const useUser = ({
   redirectIfNotFound = false,
   requestPolicy = 'cache-first',
 }: UseUserOpts = {}): {
+  connecting: boolean;
+  connected: boolean;
   user: Maybe<Player>;
   fetching: boolean;
   error?: CombinedError;
 } => {
   const { authToken, connecting, connected } = useWeb3();
   const router = useRouter();
-
   const [{ data, error, fetching }] = useGetMeQuery({
     pause: connecting || !connected || !authToken,
     requestPolicy,
@@ -48,5 +50,11 @@ export const useUser = ({
     }
   }, [router, user, fetching, connecting, redirectIfNotFound, redirectTo]);
 
-  return { user, fetching, error };
+  return {
+    connecting,
+    connected,
+    user,
+    fetching,
+    error,
+  };
 };

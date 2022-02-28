@@ -3,102 +3,74 @@ import {
   InputGroup,
   InputLeftElement,
   InputRightAddon,
-  MetaButton,
-  MetaHeading,
   Text,
-  useToast,
 } from '@metafam/ds';
-import { FlexContainer } from 'components/Container';
-import { useSetupFlow } from 'contexts/SetupContext';
-import { useUpdateProfileMutation } from 'graphql/autogen/types';
-import { useUser } from 'lib/hooks';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
-export type SetupAvailabilityProps = {
-  available: number | null;
-  setAvailability: React.Dispatch<React.SetStateAction<number | null>>;
-};
+import { ProfileWizardPane } from './ProfileWizardPane';
+import { WizardPaneCallbackProps } from './WizardPane';
 
-export const SetupAvailability: React.FC<SetupAvailabilityProps> = ({
-  available,
-  setAvailability,
-}) => {
-  const { onNextPress, nextButtonLabel } = useSetupFlow();
-
-  const [invalid, setInvalid] = useState(false);
-  const { user } = useUser();
-  const toast = useToast();
-
-  useEffect(() => {
-    const value = Number(available);
-    setInvalid(value < 0 || value > 24 * 7);
-  }, [available]);
-
-  const [updateProfileRes, updateProfile] = useUpdateProfileMutation();
-  const [loading, setLoading] = useState(false);
-
-  const handleNextPress = async () => {
-    if (!user) return;
-    setLoading(true);
-
-    const { error } = await updateProfile({
-      playerId: user.id,
-      input: {
-        availableHours: Number(available),
-      },
-    });
-
-    if (error) {
-      toast({
-        title: 'Error',
-        description: `Unable to update availability: "${error}"`,
-        status: 'error',
-        isClosable: true,
-      });
-      setLoading(false);
-      return;
-    }
-
-    onNextPress();
-  };
+export const SetupAvailability: React.FC = () => {
+  const field = 'availableHours';
 
   return (
-    <FlexContainer mb={8}>
-      <MetaHeading mb={5} textAlign="center">
-        Avail&#xAD;ability
-      </MetaHeading>
-      <Text mb={10}>
-        What is your weekly availability for any kind of freelance work?
-      </Text>
-      <InputGroup borderColor="transparent" mb={10} maxW="20rem">
-        <InputLeftElement>
-          <span role="img" aria-label="clock">
-            🕛
-          </span>
-        </InputLeftElement>
-        <Input
-          background="dark"
-          placeholder="40"
-          type="number"
-          value={available ?? undefined}
-          onChange={({ target: { value } }) => {
-            setAvailability(parseFloat(value));
-          }}
-          isInvalid={invalid}
-        />
-        <InputRightAddon background="purpleBoxDark">hr ⁄ week</InputRightAddon>
-      </InputGroup>
+    <ProfileWizardPane
+      {...{ field }}
+      title="Avail&#xAD;ability"
+      prompt="What is your weekly availability for any kind of freelance work?"
+    >
+      {({ register, errored = false }: WizardPaneCallbackProps) => {
+        const { ref: registerRef, ...props } = register(field, {
+          valueAsNumber: true,
+          min: {
+            value: 0,
+            message: 'It’s not possible to be available for negative time.',
+          },
+          max: {
+            value: 24 * 7,
+            message: `There’s only ${24 * 7} hours in a week.`,
+          },
+        });
 
-      <MetaButton
-        disabled={!user}
-        onClick={handleNextPress}
-        mt={10}
-        isDisabled={invalid}
-        isLoading={updateProfileRes.fetching || loading}
-        loadingText="Saving…"
-      >
-        {nextButtonLabel}
-      </MetaButton>
-    </FlexContainer>
+        return (
+          <InputGroup
+            mb={10}
+            maxW="10rem"
+            margin="auto"
+            borderColor="purple.700"
+            sx={{
+              ':hover, :focus-within': {
+                borderColor: errored ? 'red' : 'white',
+              },
+            }}
+          >
+            <InputLeftElement>
+              <Text as="span" role="img" aria-label="clock">
+                🕛
+              </Text>
+            </InputLeftElement>
+            <Input
+              type="number"
+              placeholder="23…"
+              pl={9}
+              background="dark"
+              borderTopEndRadius={0}
+              borderBottomEndRadius={0}
+              borderRight={0}
+              _focus={errored ? { borderColor: 'red' } : undefined}
+              autoFocus
+              ref={(ref) => {
+                ref?.focus();
+                registerRef(ref);
+              }}
+              {...props}
+            />
+            <InputRightAddon bg="purpleBoxDark" color="white">
+              <Text as="sup">hr</Text> ⁄ <Text as="sub">week</Text>
+            </InputRightAddon>
+          </InputGroup>
+        );
+      }}
+    </ProfileWizardPane>
   );
 };

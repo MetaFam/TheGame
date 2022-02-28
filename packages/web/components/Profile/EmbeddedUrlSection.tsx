@@ -10,29 +10,29 @@ import { ProfileSection } from 'components/Profile/ProfileSection';
 import { Maybe } from 'graphql/autogen/types';
 import { useDelay } from 'lib/hooks/useDelay';
 import React, { useCallback, useEffect, useState } from 'react';
-import { BoxType } from 'utils/boxTypes';
+import { BoxTypes } from 'utils/boxTypes';
 
 const metadataLink = '/api/metadata?url=';
 
 type EmbeddedUrlProps = {
   url?: string;
-  canEdit?: boolean;
+  editing?: boolean;
 };
 
-export const EmbeddedUrl: React.FC<EmbeddedUrlProps> = ({ url, canEdit }) => (
+export const EmbeddedUrl: React.FC<EmbeddedUrlProps> = ({ url, editing }) => (
   <ProfileSection
-    canEdit={canEdit}
-    boxType={BoxType.EMBEDDED_URL}
+    {...{ editing }}
+    type={BoxTypes.EMBEDDED_URL}
     pb={0}
     withoutBG
   >
-    <LinkPreview {...{ url, canEdit }} />
+    <LinkPreview {...{ url, editing }} />
   </ProfileSection>
 );
 
 interface LinkPreviewProps {
   url?: string;
-  canEdit?: boolean;
+  editing?: boolean;
 }
 
 interface URIMetadata {
@@ -47,21 +47,22 @@ const LinkPreview: React.FC<LinkPreviewProps> = ({ url: inputUrl = '' }) => {
   const [metadata, setMetadata] = useState<Maybe<URIMetadata>>(null);
   const [loading, setLoading] = useState(true);
 
-  const updateMetadata = useCallback((uri: string) => {
+  const updateMetadata = useCallback(async (uri: string) => {
     setLoading(true);
-    fetch(metadataLink + uri)
-      .then((res) => res.json())
-      .then(({ error, response }) => {
-        if (error) throw error;
-        setMetadata((response.og as unknown) as URIMetadata);
-        setLoading(false);
-      })
-      .catch((err: Error) => {
-        // eslint-disable-next-line no-console
-        console.error('No metadata could be found for the given URL.', err);
-        setMetadata(null);
-        setLoading(false);
-      });
+    try {
+      const res = await fetch(metadataLink + uri);
+      const { error, response } = await res.json();
+
+      if (error) throw error;
+
+      setMetadata((response.og as unknown) as URIMetadata);
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.error(`No metadata found for the URL: ${uri}.`, err);
+      setMetadata(null);
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
   const delayedUpdate = useDelay(updateMetadata);
@@ -119,7 +120,7 @@ const LinkPreview: React.FC<LinkPreviewProps> = ({ url: inputUrl = '' }) => {
             </Box>
           )}
           <Box mt={1} color="cyanText" fontSize="sm">
-            {siteName && <span>{siteName} • </span>}
+            {siteName && <Text as="span">{siteName} • </Text>}
             <Text isTruncated>{url}</Text>
           </Box>
         </Box>

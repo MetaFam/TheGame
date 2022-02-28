@@ -1,65 +1,44 @@
 import { MetaTag, Text, Wrap, WrapItem } from '@metafam/ds';
 import { ProfileSection } from 'components/Profile/ProfileSection';
-import { Player, SkillCategory_Enum } from 'graphql/autogen/types';
+import { Player } from 'graphql/autogen/types';
 import { SkillColors } from 'graphql/types';
-import { useAnimateProfileChanges } from 'lib/hooks/players';
-import React, { useState } from 'react';
-import { BoxType } from 'utils/boxTypes';
+import { useOverridableField } from 'lib/hooks';
+import React from 'react';
+import { BoxTypes } from 'utils/boxTypes';
 
 type Props = {
   player: Player;
   isOwnProfile?: boolean;
-  canEdit?: boolean;
+  editing?: boolean;
 };
 
 export const PlayerSkills: React.FC<Props> = ({
   player,
-  isOwnProfile,
-  canEdit,
+  isOwnProfile = false,
+  editing = false,
 }) => {
-  const [playerSkills, setPlayerSkills] = useState<
-    Array<{ id: number; name: string; category: SkillCategory_Enum }>
-  >(
-    player.skills?.map((s) => ({
-      id: s.Skill.id,
-      name: s.Skill.name,
-      category: s.Skill.category,
-    })) ?? [],
-  );
-
-  const updateFN = () => {
-    if (player.skills) {
-      setPlayerSkills(
-        player.skills.map((s) => ({
-          id: s.Skill.id,
-          name: s.Skill.name,
-          category: s.Skill.category,
-        })),
-      );
-    }
-  };
-
-  const { animation } = useAnimateProfileChanges(player.skills, updateFN);
+  const field = 'skills';
+  const { value: skills } = useOverridableField({
+    field,
+    defaultValue: player.skills.map(({ Skill: skill }) => skill),
+  });
 
   return (
     <ProfileSection
       title="Skills"
-      {...{ isOwnProfile, canEdit }}
-      boxType={BoxType.PLAYER_SKILLS}
+      modalTitle={false}
+      {...{ isOwnProfile, editing }}
+      type={BoxTypes.PLAYER_SKILLS}
       withoutBG
     >
-      {!player?.skills?.length ? (
+      {!skills?.length ? (
         <Text fontStyle="italic" textAlign="center" mb={6}>
           {isOwnProfile ? 'You haven’t ' : 'This player hasn’t '}
           defined any skills.
         </Text>
       ) : (
-        <Wrap
-          transition="opacity 0.4s"
-          opacity={animation === 'fadeIn' ? 1 : 0}
-          justify="center"
-        >
-          {(playerSkills || []).map(({ id, name, category }) => (
+        <Wrap transition="opacity 0.4s" justify="center">
+          {(skills || []).map(({ id, name, category }) => (
             <WrapItem key={id}>
               <MetaTag
                 size="md"
