@@ -14,6 +14,7 @@ import {
   SimpleGrid,
   Text,
   useDisclosure,
+  ViewAllButton,
   Wrap,
   WrapItem,
 } from '@metafam/ds';
@@ -253,24 +254,7 @@ export const PlayerMemberships: React.FC<MembershipSectionProps> = ({
       {memberships.length > 4 && (
         <Box textAlign="end">
           <MembershipListModal {...{ isOpen, onClose, memberships }} />
-          <Text
-            as="span"
-            p={1.5}
-            fontSize="xs"
-            color="cyanText"
-            cursor="pointer"
-            borderRadius="md"
-            border="2px solid transparent"
-            _hover={{
-              color: 'purple.800',
-              bg: '#FFFFFF66',
-              borderColor: 'purple.600',
-            }}
-            mr={[2, 0]}
-            onClick={onOpen}
-          >
-            View All ({memberships.length})
-          </Text>
+          <ViewAllButton onClick={onOpen} size={memberships.length} />
         </Box>
       )}
     </ProfileSection>

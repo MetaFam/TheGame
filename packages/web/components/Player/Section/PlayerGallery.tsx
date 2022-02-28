@@ -11,6 +11,7 @@ import {
   SimpleGrid,
   Text,
   useDisclosure,
+  ViewAllButton,
 } from '@metafam/ds';
 import BackgroundImage from 'assets/main-background.jpg';
 import { MetaLink as Link } from 'components/Link';
@@ -51,13 +52,13 @@ const GalleryItem: React.FC<{ nft: Collectible; mb?: string }> = ({
 type GalleryModalProps = {
   isOpen: boolean;
   onClose: () => void;
-  data: Array<Collectible>;
+  nfts: Array<Collectible>;
 };
 
 const GalleryModal: React.FC<GalleryModalProps> = ({
   isOpen,
   onClose,
-  data,
+  nfts,
 }) => (
   <Modal {...{ isOpen, onClose }} isCentered scrollBehavior="inside">
     <ModalOverlay>
@@ -107,9 +108,9 @@ const GalleryModal: React.FC<GalleryModalProps> = ({
               p={6}
               boxShadow="md"
             >
-              {data?.map((nft) => (
+              {nfts?.map((nft) => (
                 <GalleryItem
-                  nft={nft}
+                  {...{ nft }}
                   key={`${nft.tokenId}-${nft.address}`}
                   mb="none"
                 />
@@ -134,7 +135,7 @@ export const PlayerGallery: React.FC<Props> = ({
   editing,
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { favorites, data, loading, error } = useOpenSeaCollectibles({
+  const { favorites, data: nfts, loading, error } = useOpenSeaCollectibles({
     player,
   });
 
@@ -156,7 +157,7 @@ export const PlayerGallery: React.FC<Props> = ({
             </Text>
           );
         }
-        if (data.length === 0) {
+        if (nfts.length === 0) {
           return (
             <Text textAlign="center" fontStyle="italic" mb={4}>
               No{' '}
@@ -176,19 +177,11 @@ export const PlayerGallery: React.FC<Props> = ({
             {favorites?.map((nft) => (
               <GalleryItem {...{ nft }} key={nft.tokenId} />
             ))}
-            {data?.length > 3 && (
-              <>
-                <GalleryModal {...{ isOpen, onClose, data }} />
-                <Text
-                  as="span"
-                  fontSize="xs"
-                  color="cyanText"
-                  cursor="pointer"
-                  onClick={onOpen}
-                >
-                  View All
-                </Text>
-              </>
+            {nfts.length > 3 && (
+              <Box textAlign="end">
+                <GalleryModal {...{ isOpen, onClose, nfts }} />
+                <ViewAllButton onClick={onOpen} size={nfts.length} />
+              </Box>
             )}
           </>
         );

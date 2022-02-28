@@ -7,12 +7,11 @@ import {
   Heading,
   InfoIcon,
   Input,
+  SimpleGrid,
   Spacer,
   Stack,
   Text,
   useBreakpointValue,
-  Wrap,
-  WrapItem,
 } from '@metafam/ds';
 import { Maybe, Optional } from '@metafam/utils';
 import {
@@ -52,7 +51,7 @@ export const SetupRoles: React.FC<SetupRolesProps> = ({
       loaded: !!user,
     },
   );
-  const mobile = useBreakpointValue({ base: true, md: false }) ?? false;
+  const mobile = useBreakpointValue({ base: true, sm: false }) ?? false;
 
   useEffect(() => {
     const fetchRoles = async () => {
@@ -146,7 +145,7 @@ export const SetupRoles: React.FC<SetupRolesProps> = ({
         };
 
         return (
-          <Stack mb={{ base: 4, md: 16 }} w="full">
+          <Stack mb={[4, 8]}>
             <Input type="hidden" {...register(field, {})} />
             <RoleGroup
               title="Primary Role"
@@ -199,7 +198,7 @@ const RoleGroup: React.FC<RoleGroupProps> = ({
   mobile,
 }) =>
   roles.length === 0 ? null : (
-    <Box mr={{ base: 0, md: 4 }} my={{ base: 2, md: 4 }}>
+    <Box mr={[0, 4]} my={[2, 4]}>
       {title && (
         <Heading
           flexDirection="column"
@@ -213,12 +212,17 @@ const RoleGroup: React.FC<RoleGroupProps> = ({
           {roles.length > 1 ? 's' : null}
         </Heading>
       )}
-      <Wrap>
+      <SimpleGrid
+        gap={[1.5, 5]}
+        mx="auto"
+        maxW={['16rem', '17rem', '35rem', '35rem', '55rem', '72rem']}
+        columns={[1, 1, 2, 2, 3, 4]}
+      >
         {roles.map((r) => {
           const choice = choices?.find(({ role }) => role === r);
 
           return (
-            <WrapItem key={r} w="full" maxW={mobile ? 'full' : '20rem'}>
+            <React.Fragment key={r}>
               {!choice ? (
                 <Text textStyle="error">Couldn't find role “{r}”.</Text>
               ) : (
@@ -230,10 +234,10 @@ const RoleGroup: React.FC<RoleGroupProps> = ({
                   {...{ primary, numSelectedRoles, mobile }}
                 />
               )}
-            </WrapItem>
+            </React.Fragment>
           );
         })}
-      </Wrap>
+      </SimpleGrid>
     </Box>
   );
 
@@ -279,19 +283,20 @@ const Role: React.FC<RoleProps> = ({
       w="full"
       {...{ onClick }}
     >
-      <Flex direction={{ base: 'row', md: 'column' }} align="center">
+      <Flex h="100%" direction={['row', 'column']} align="center">
         <BoxedNextImage
           src={`/assets/roles/${role.role.toLowerCase()}.svg`}
           alt={role.label}
-          h={{ base: 6, md: 14 }}
-          minW={{ base: selected ? 4 : 6, md: 14 }}
+          h={[6, 14]}
+          minW={[selected ? 4 : 6, 14]}
           mr={2}
         />
         <Text
           color="white"
           fontWeight="bold"
           casing="uppercase"
-          my={{ base: 0, md: 2 }}
+          my={[0, 2]}
+          letterSpacing="tight"
           onClick={(evt) => {
             if (selected) {
               evt.stopPropagation();
@@ -301,8 +306,12 @@ const Role: React.FC<RoleProps> = ({
         >
           {role.label}
         </Text>
-        {!mobile && <Text color="white">{role.description}</Text>}
-        <Spacer />
+        {!mobile && (
+          <Text color="white" textAlign="justify">
+            {role.description}
+          </Text>
+        )}
+        <Spacer direction="column" />
         {mobile && (numSelectedRoles == null || numSelectedRoles <= 1) && (
           <InfoIcon
             ml={1}
@@ -316,11 +325,7 @@ const Role: React.FC<RoleProps> = ({
           />
         )}
         {selected && (
-          <Flex
-            justifyContent={{ base: 'end', md: 'space-between' }}
-            mt={{ base: 0, md: 4 }}
-            ml={2}
-          >
+          <Flex justifyContent={['end', 'space-between']} mt={[0, 4]} ml={2}>
             {numSelectedRoles != null &&
               numSelectedRoles > 1 &&
               (mobile ? (
@@ -332,7 +337,7 @@ const Role: React.FC<RoleProps> = ({
                   borderColor="purple.200"
                   size="xs"
                   whiteSpace="pre-wrap"
-                  mr={2}
+                  mr={1}
                   px={1}
                   onClick={() => onSelect?.(role, !primary)}
                 >
@@ -349,7 +354,7 @@ const Role: React.FC<RoleProps> = ({
                     borderColor: 'purple.900',
                     bgColor: 'blackAlpha.300',
                   }}
-                  fontSize={{ md: '0.875rem', lg: '1rem' }}
+                  fontSize="sm"
                   borderWidth={2}
                   mr={3}
                   whiteSpace="pre-wrap"
@@ -379,7 +384,7 @@ const Role: React.FC<RoleProps> = ({
                 borderColor="red.500"
                 borderWidth={2}
                 _hover={{ color: 'white', bgColor: 'red.500' }}
-                fontSize={{ md: '0.875rem', lg: '1rem' }}
+                fontSize="sm"
                 onClick={() => onRemove?.(role)}
               >
                 Remove
@@ -389,7 +394,7 @@ const Role: React.FC<RoleProps> = ({
         )}
       </Flex>
       {showDetails && (
-        <Text color="white" mt={4}>
+        <Text color="white" mt={4} textAlign="justify">
           {role.description}
         </Text>
       )}

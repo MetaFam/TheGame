@@ -43,6 +43,7 @@ export {
   selectStyles,
 } from './theme';
 export { H1, P } from './typography';
+export * from './ViewAllButton';
 export {
   AddIcon,
   ArrowBackIcon,
