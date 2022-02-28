@@ -26,7 +26,6 @@ import { FlexContainer } from 'components/Container';
 import { EditProfileForm } from 'components/EditProfileForm';
 import { PlayerAvatar } from 'components/Player/PlayerAvatar';
 import { PlayerContacts as Contacts } from 'components/Player/PlayerContacts';
-import { PlayerBrightId as BrightId } from 'components/Player/Section/PlayerBrightId';
 import { PlayerHeroTile } from 'components/Player/Section/PlayerHeroTile';
 import { ProfileSection } from 'components/Profile/ProfileSection';
 import { Player } from 'graphql/autogen/types';
@@ -93,7 +92,6 @@ export const PlayerHero: React.FC<HeroProps> = ({ player, editing }) => {
       <VStack spacing={6}>
         <Box textAlign="center" maxW="full">
           <Name {...{ player }} />
-          <BrightId {...{ player }} />
         </Box>
 
         <Description {...{ player }} />
