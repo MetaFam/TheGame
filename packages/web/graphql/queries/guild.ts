@@ -79,7 +79,7 @@ const getAdministeredGuildsQuery = /* GraphQL */ `
 export const getAdministeredGuilds = async (playerId: string) => {
   const { data, error } = await client
     .query<GetAdministeredGuildsQuery, GetAdministeredGuildsQueryVariables>(
-      guildsQuery,
+      getAdministeredGuildsQuery,
       { id: playerId },
     )
     .toPromise();

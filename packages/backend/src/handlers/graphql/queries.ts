@@ -104,6 +104,10 @@ export const GuildFragment = /* GraphQL */ `
         network
         label
         url
+        players {
+          playerId
+          visible
+        }
       }
     }
   }
