@@ -104,8 +104,8 @@ const GuildPage: React.FC<Props> = ({ guild }) => {
       <Flex
         w="full"
         minH="100vh"
-        pl={[4, 8, 8]}
-        pr={[4, 8, 8]}
+        pl={[4, 8, 12]}
+        pr={[4, 8, 12]}
         pb={[4, 8, 12]}
         pt={200 - 72}
         direction="column"
