@@ -1,3 +1,6 @@
+import { Maybe } from '@metafam/utils';
+import { ReactElement } from 'react';
+
 export type SetupStep = {
   label: string;
   slug?: string;
@@ -7,7 +10,7 @@ export type SetupStep = {
 export type SetupSection = {
   label: string;
   title: {
-    [any: string]: string | undefined;
+    [any: string]: string | undefined | ReactElement;
   };
 };
 
@@ -21,8 +24,8 @@ export class SetupOptions {
       label: 'Professional Profile',
       title: {
         base: 'Pro',
-        sm: '2. Professional',
-        lg: '2. Professional Profile',
+        sm: <>2. Pro&shy;fess&shy;ional</>,
+        lg: <>2. Pro&shy;fess&shy;ional Profile</>,
       },
     },
     {
@@ -50,8 +53,8 @@ export class SetupOptions {
       sectionIndex: 0,
     },
     {
-      label: 'Personality Type',
-      slug: 'personalityType',
+      label: 'Color Disposition',
+      slug: 'colorDisposition',
       sectionIndex: 0,
     },
     {
@@ -96,7 +99,7 @@ export class SetupOptions {
     },
   ];
 
-  stepIndexMatchingSlug(slug: string | null): number {
+  stepIndexMatchingSlug(slug: Maybe<string>): number {
     return this.steps.findIndex((step) => step.slug === slug);
   }
 

@@ -2,43 +2,54 @@ import { Text } from '@metafam/ds';
 import { ColorBar } from 'components/Player/ColorBar';
 import { ProfileSection } from 'components/Profile/ProfileSection';
 import { Player } from 'graphql/autogen/types';
-import { PersonalityInfo } from 'graphql/queries/enums/getPersonalityInfo';
+import {
+  getPersonalityInfo,
+  PersonalityInfo,
+} from 'graphql/queries/enums/getPersonalityInfo';
 import { useProfileField } from 'lib/hooks';
-import React from 'react';
-import { BoxType } from 'utils/boxTypes';
+import React, { useEffect, useState } from 'react';
+import { BoxTypes } from 'utils/boxTypes';
 
 export type ColorDispositionProps = {
   player: Player;
-  types: PersonalityInfo;
-  isOwnProfile?: boolean;
-  canEdit?: boolean;
+  editing?: boolean;
 };
 
 export const PlayerColorDisposition: React.FC<ColorDispositionProps> = ({
   player,
-  types,
-  isOwnProfile,
-  canEdit,
+  editing = false,
 }) => {
-  const { value: mask } = useProfileField<number>({
+  const {
+    value: mask,
+    owner: isOwnProfile,
+    fetching,
+  } = useProfileField<number>({
     field: 'colorMask',
     player,
-    owner: isOwnProfile,
   });
+  const [types, setTypes] = useState<PersonalityInfo>(null);
+
+  useEffect(() => {
+    const getInfo = async () => {
+      setTypes(await getPersonalityInfo());
+    };
+    getInfo();
+  }, []);
 
   return (
     <ProfileSection
       title="Color Disposition"
-      boxType={BoxType.PLAYER_COLOR_DISPOSITION}
+      type={BoxTypes.PLAYER_COLOR_DISPOSITION}
       withoutBG
-      {...{ isOwnProfile, canEdit }}
+      modalTitle={false}
+      {...{ isOwnProfile, editing }}
     >
       {mask == null ? (
         <Text fontStyle="italic" textAlign="center" mb={6}>
           Unspecified
         </Text>
       ) : (
-        <ColorBar {...{ mask, types }} />
+        <ColorBar {...{ mask, types }} loading={fetching} />
       )}
     </ProfileSection>
   );

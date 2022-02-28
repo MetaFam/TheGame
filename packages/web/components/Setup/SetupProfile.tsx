@@ -9,7 +9,7 @@ export const SetupProfile: React.FC = ({ children }) => {
   return (
     <PageContainer>
       {options.numSteps - 1 > stepIndex && <SetupHeader />}
-      <FlexContainer flex={1} pt={{ base: 16, sm: 24 }}>
+      <FlexContainer flex={1} pt={[10, 12]}>
         {children}
       </FlexContainer>
     </PageContainer>

@@ -1,7 +1,7 @@
 {
   "org": "MetaFam",
   "repo": "TheGame",
-  "tokenAddress": "0x30cF203b48edaA42c3B4918E955fED26Cd012A3F",
+  "tokenAddress": "0xeaecc18198a475c921b24b8a6c1c1f0f5f3f7ea0",
   "labels": ["RoadMap"],
   "votingMethod": "QUADRATIC",
   "chainId": 1

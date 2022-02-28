@@ -1,41 +1,44 @@
+import { Maybe } from '@metafam/utils';
 import { Player } from 'graphql/autogen/types';
 import { useEffect, useState } from 'react';
 import { Collectible } from 'utils/openseaHelpers';
 
 export const useOpenSeaCollectibles = ({
-  player,
+  player: { ethereumAddress: owner },
 }: {
   player: Player;
 }): {
   favorites: Array<Collectible>;
   data: Array<Collectible>;
   loading: boolean;
+  error: Maybe<string>;
 } => {
   const [favorites, setFavorites] = useState<Array<Collectible>>([]);
   const [data, setData] = useState<Array<Collectible>>([]);
   const [loading, setLoading] = useState<boolean>(false);
-  const owner = player.ethereumAddress;
+  const [error, setError] = useState<Maybe<string>>(null);
 
   useEffect(() => {
-    async function load() {
+    const load = async () => {
       setLoading(true);
+      setError(null);
       try {
-        if (owner) {
-          const allData = await fetchAllOpenSeaData(owner);
-          setData(allData);
-          setFavorites(allData.slice(0, 3));
-        }
+        const allData = await fetchAllOpenSeaData(owner);
+        setData(allData);
+        setFavorites(allData.slice(0, 3));
+      } catch (err) {
+        setError((err as Error).message);
       } finally {
         setLoading(false);
       }
-    }
+    };
 
     if (owner) {
       load();
     }
   }, [owner]);
 
-  return { favorites, data, loading };
+  return { favorites, data, loading, error };
 };
 
 const fetchAllOpenSeaData = async (
@@ -59,17 +62,11 @@ const fetchOpenSeaData = async (
   offset: number,
   limit: number,
 ): Promise<Array<Collectible>> => {
-  try {
-    const res = await fetch(
-      `/api/opensea?owner=${owner}&offset=${offset}&limit=${limit}`,
-    );
-    const { assets, error } = await res.json();
-    if (error) throw new Error(error);
-    if (!assets) throw new Error('Received empty assets');
-    return assets;
-  } catch (err) {
-    // eslint-disable-next-line no-console
-    console.error(`Error Retrieving OpenSea Assets: ${(err as Error).message}`);
-    return Promise.resolve([]);
-  }
+  const res = await fetch(
+    `/api/opensea?owner=${owner}&offset=${offset}&limit=${limit}`,
+  );
+  const { assets, error } = await res.json();
+  if (error) throw new Error(error);
+  if (!assets) throw new Error(`Received ${assets} assets`);
+  return assets;
 };

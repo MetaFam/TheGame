@@ -3,6 +3,7 @@ import {
   Flex,
   FlexProps,
   Input,
+  MetaTheme,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -18,46 +19,44 @@ import { Maybe } from '@metafam/utils';
 import BackgroundImage from 'assets/main-background.jpg';
 import { PlayerSection } from 'components/Profile/PlayerSection';
 import { Player } from 'graphql/autogen/types';
-import { PersonalityInfo } from 'graphql/queries/enums/getPersonalityInfo';
 import React, { useCallback, useEffect, useState } from 'react';
-import { BoxMetadata, BoxType } from 'utils/boxTypes';
+import { BoxMetadata, BoxType, BoxTypes } from 'utils/boxTypes';
 
 type Props = FlexProps & {
   player: Player;
-  personalityInfo: PersonalityInfo;
-  boxList: BoxType[];
+  boxes: Array<BoxType>;
   onAddBox: (arg0: BoxType, arg1: BoxMetadata) => void;
 };
 
 export const PlayerAddSection = React.forwardRef<HTMLDivElement, Props>(
-  ({ player, personalityInfo, boxList = [], onAddBox, ...props }, ref) => {
+  ({ player, boxes = [], onAddBox, ...props }, ref) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
-    const [boxType, setBoxType] = useState<Maybe<BoxType>>(null);
-    const [boxMetadata, setBoxMetadata] = useState<BoxMetadata>({});
+    const [type, setType] = useState<Maybe<BoxType>>(null);
+    const [metadata, setMetadata] = useState<BoxMetadata>({});
     const selectBoxType = useCallback(
-      ({ target: { value: boxId } }) => setBoxType(boxId),
+      ({ target: { value: boxId } }) => setType(boxId),
       [],
     );
 
     const addSection = useCallback(() => {
-      if (!boxType) return;
-      onAddBox(boxType, boxMetadata);
+      if (!type) return;
+      onAddBox(type, metadata);
       onClose();
-    }, [boxType, boxMetadata, onAddBox, onClose]);
+    }, [type, metadata, onAddBox, onClose]);
 
     useEffect(() => {
-      setBoxMetadata({});
-      setBoxType(null);
+      setMetadata({});
+      setType(null);
     }, [isOpen]);
 
     return (
       <Flex
-        w="100%"
-        ref={ref}
+        w="full"
+        h="full"
         direction="column"
-        h="100%"
         boxShadow="md"
         pos="relative"
+        {...{ ref }}
       >
         <Flex
           bg="whiteAlpha.200"
@@ -76,13 +75,14 @@ export const PlayerAddSection = React.forwardRef<HTMLDivElement, Props>(
             m={0}
             bg="blue20"
             color="offwhite"
+            textTransform="uppercase"
             opacity={0.4}
             size="lg"
             _hover={{ bg: 'purpleBoxLight', opacity: '0.8' }}
           >
-            ADD NEW BLOCK
+            Add New Block
           </Button>
-          <Modal isOpen={isOpen} onClose={onClose} isCentered>
+          <Modal {...{ isOpen, onClose }}>
             <ModalOverlay />
             <ModalContent
               maxW="50rem"
@@ -99,9 +99,7 @@ export const PlayerAddSection = React.forwardRef<HTMLDivElement, Props>(
                   p={4}
                   top={0}
                   right={0}
-                  _focus={{
-                    boxShadow: 'none',
-                  }}
+                  _focus={{ boxShadow: 'none' }}
                 />
                 <ModalHeader color="white" fontSize="4xl" fontWeight="normal">
                   Add New Block
@@ -112,39 +110,42 @@ export const PlayerAddSection = React.forwardRef<HTMLDivElement, Props>(
                     color="white"
                     w={{ base: '100%', sm: '30rem' }}
                     maxW="30rem"
-                    minH="30rem"
                   >
                     <Select
-                      css={{
-                        '&>option': {
-                          backgroundColor: '#40347C',
-                          borderBottom: '2px solid #962d22',
+                      placeholder="Select a Type to Add…"
+                      borderColor={MetaTheme.colors.whiteAlpha[800]}
+                      onChange={selectBoxType}
+                      sx={{
+                        textTransform: 'capitalize',
+                        '& > option': {
+                          backgroundColor: MetaTheme.colors.purpleBoxLight,
+                        },
+                        '& > option[value=""]': {
+                          fontStyle: 'italic',
+                          opacity: 0.75,
                         },
                       }}
-                      placeholder="Select a section"
-                      borderColor="offwhite"
-                      onChange={selectBoxType}
                     >
-                      {boxList.length === 0 ? (
+                      {boxes.length === 0 ? (
                         <option value="nothing" disabled>
                           No choice :/
                         </option>
                       ) : (
-                        boxList.sort().map((box) => (
-                          <option value={box} key={box}>
-                            {box.toUpperCase()}
+                        boxes.map((box) => (
+                          <option key={box} value={box}>
+                            {box.replace(/-/g, ' ')}
                           </option>
                         ))
                       )}
                     </Select>
-                    {boxType === BoxType.EMBEDDED_URL && (
+                    {type === BoxTypes.EMBEDDED_URL && (
                       <Input
                         bg="dark"
                         w="100%"
-                        placeholder="Paste the URL of the content"
+                        placeholder="Provide the URL of the content"
                         _placeholder={{ color: 'whiteAlpha.500' }}
                         onChange={({ target: { value: url } }) =>
-                          setBoxMetadata({ url })
+                          setMetadata({ url })
                         }
                         size="lg"
                         borderRadius={0}
@@ -153,7 +154,7 @@ export const PlayerAddSection = React.forwardRef<HTMLDivElement, Props>(
                         borderWidth="2px"
                       />
                     )}
-                    {boxType && (
+                    {type && (
                       <Flex
                         w={{ base: '100%', sm: '30rem' }}
                         maxW="30rem"
@@ -162,12 +163,11 @@ export const PlayerAddSection = React.forwardRef<HTMLDivElement, Props>(
                       >
                         <PlayerSection
                           isOwnProfile={false}
-                          canEdit={false}
+                          editing={false}
                           {...{
-                            boxType,
-                            boxMetadata,
+                            type,
+                            metadata,
                             player,
-                            personalityInfo,
                           }}
                         />
                       </Flex>
@@ -179,7 +179,7 @@ export const PlayerAddSection = React.forwardRef<HTMLDivElement, Props>(
                     colorScheme="blue"
                     mr={3}
                     onClick={addSection}
-                    isDisabled={!boxType}
+                    isDisabled={!type}
                   >
                     Save Block
                   </Button>

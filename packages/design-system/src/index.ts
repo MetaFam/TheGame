@@ -43,6 +43,7 @@ export {
   selectStyles,
 } from './theme';
 export { H1, P } from './typography';
+export * from './ViewAllButton';
 export {
   AddIcon,
   ArrowBackIcon,
@@ -82,6 +83,7 @@ export {
   ButtonProps,
   Center,
   chakra,
+  ChakraComponent,
   ChakraProps,
   ChakraProvider,
   ComponentWithAs,
@@ -120,6 +122,7 @@ export {
   Link,
   LinkBox,
   LinkOverlay,
+  LinkProps,
   List,
   ListIcon,
   ListItem,

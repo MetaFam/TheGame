@@ -1,6 +1,6 @@
 {
   "name": "@metafam/the-game",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "license": "GPL-3.0",
   "engines": {
     "node": ">=12"
@@ -12,6 +12,7 @@
     "docker:build": "docker-compose up --build -d",
     "docker:stop": "docker-compose down",
     "docker:clean": "docker-compose down -v",
+    "docker:debug": "COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker-compose up --build",
     "build": "lerna run build",
     "web:dev": "lerna run dev --parallel --scope @metafam/web --include-dependencies",
     "web:build": "lerna run build --scope @metafam/web --include-dependencies --stream",
@@ -21,10 +22,11 @@
     "hasura:console": "yarn hasura console --no-browser",
     "hasura:migrate:init": "yarn hasura migrate create \"init\" --from-server",
     "hasura:seed-db": "node hasura/seed-db.mjs",
-    "test": "lerna run test --parallel --",
     "generate": "lerna run generate --parallel --",
+    "test": "lerna run test --parallel --",
     "test:full": "yarn lint && yarn typecheck && yarn test",
     "clean": "lerna clean",
+    "clean:full": "lerna clean && rm -rfv node_modules/ packages/*/node_modules/ packages/*/dist/ packages/web/.next/",
     "format": "prettier --write \"{*,**/*}.{ts,tsx,js,jsx,json,yml,yaml,md}\"",
     "lint": "eslint --ignore-path .gitignore \"./packages/**/*.{ts,tsx,js,jsx}\"",
     "typecheck": "lerna run typecheck",

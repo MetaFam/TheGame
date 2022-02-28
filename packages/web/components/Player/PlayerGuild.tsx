@@ -1,21 +1,21 @@
-import { Link } from '@metafam/ds';
+import { Link, LinkProps } from '@metafam/ds';
 import React from 'react';
 
 type LinkGuildProps = {
-  daoUrl: string | null;
+  daoURL: string | null;
   guildname: string | undefined | null;
 };
 
 export const LinkGuild: React.FC<LinkGuildProps> = ({
-  daoUrl,
+  daoURL,
   guildname,
   children,
 }) => {
   if (guildname != null) {
-    return <InternalGuildLink guildName={guildname} children={children} />;
+    return <InternalGuildLink guildName={guildname} {...{ children }} />;
   }
-  if (daoUrl != null) {
-    return <DaoHausLink daoUrl={daoUrl} children={children} />;
+  if (daoURL != null) {
+    return <DaoHausLink {...{ daoURL, children }} />;
   }
   return <>{children}</>;
 };
@@ -34,14 +34,24 @@ export const InternalGuildLink: React.FC<InternalGuildLinkProps> = ({
 );
 
 type DaoHausLinkProps = {
-  daoUrl: string | null;
+  daoURL: string | null;
 };
 
-export const DaoHausLink: React.FC<DaoHausLinkProps> = ({ daoUrl, children }) =>
-  daoUrl != null ? (
-    <Link _hover={{ textDecoration: 'none' }} href={daoUrl} isExternal>
-      {children}
-    </Link>
-  ) : (
-    <>{children}</>
-  );
+export const DaoHausLink: React.FC<DaoHausLinkProps & LinkProps> = ({
+  daoURL,
+  children,
+  _hover = {},
+  ...props
+}) => {
+  _hover.textDecoration = 'none'; // eslint-disable-line no-param-reassign
+
+  if (daoURL != null) {
+    return (
+      <Link href={daoURL} isExternal {...{ _hover, ...props }}>
+        {children}
+      </Link>
+    );
+  }
+
+  return <>{children}</>;
+};

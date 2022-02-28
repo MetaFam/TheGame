@@ -11,7 +11,6 @@ import {
 import { MetaLink } from 'components/Link';
 import { CompletionStatusTag } from 'components/Quest/QuestTags';
 import {
-  Player,
   Quest,
   QuestCompletionStatus_ActionEnum,
   QuestCompletionStatus_Enum,
@@ -92,8 +91,8 @@ export const QuestCompletions: React.FC<Props> = ({ quest }) => {
           }) => (
             <Box key={id} w="100%">
               <HStack px={4} py={4}>
-                <Avatar name={getPlayerName(player as Player)} />
-                <CompletionStatusTag status={status} />
+                <Avatar name={getPlayerName(player)} />
+                <CompletionStatusTag {...{ status }} />
                 <Text>
                   <i>
                     by{' '}
@@ -101,7 +100,7 @@ export const QuestCompletions: React.FC<Props> = ({ quest }) => {
                       as={getPlayerURL(player)}
                       href="/player/[username]"
                     >
-                      {getPlayerName(player as Player)}
+                      {getPlayerName(player)}
                     </MetaLink>
                   </i>
                 </Text>

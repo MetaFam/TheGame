@@ -3,7 +3,9 @@ import React from 'react';
 
 type Props = {
   title: string;
-  children: React.ReactNode;
+  // shim b/c I'm getting an error I don't understand
+  // when specifying `align` as an attribute
+  align?: string;
 };
 
 export const PlayerHeroTile: React.FC<Props & BoxProps> = ({
@@ -11,7 +13,7 @@ export const PlayerHeroTile: React.FC<Props & BoxProps> = ({
   title,
   ...props
 }) => (
-  <Box width="full" {...props}>
+  <Box w="full" {...props}>
     <Text fontSize="md" color="blueLight" mb={1} whiteSpace="nowrap">
       {title}
     </Text>

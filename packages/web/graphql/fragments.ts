@@ -44,12 +44,7 @@ export const PlayerFragment = /* GraphQL */ `
       availableHours
       timeZone
       colorMask
-      explorerType {
-        id
-        title
-        description
-        imageURL
-      }
+      explorerTypeTitle
     }
 
     daohausMemberships @skip(if: $forLoginDisplay) {
@@ -62,7 +57,7 @@ export const PlayerFragment = /* GraphQL */ `
         version
         totalShares
         chain
-        avatarUrl
+        avatarURL
       }
     }
 

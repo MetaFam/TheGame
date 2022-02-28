@@ -10,82 +10,62 @@ import { PlayerSkills } from 'components/Player/Section/PlayerSkills';
 import { PlayerType } from 'components/Player/Section/PlayerType';
 import { EmbeddedUrl } from 'components/Profile/EmbeddedUrlSection';
 import { Player } from 'graphql/autogen/types';
-import { PersonalityInfo } from 'graphql/queries/enums/getPersonalityInfo';
 import React from 'react';
 import { FaTimes } from 'react-icons/fa';
-import { BoxMetadata, BoxType, getBoxKey } from 'utils/boxTypes';
+import { BoxMetadata, BoxType, BoxTypes, createBoxKey } from 'utils/boxTypes';
 
 type Props = {
-  boxType: BoxType;
-  boxMetadata: BoxMetadata;
+  type: BoxType;
+  metadata?: BoxMetadata;
   player: Player;
-  personalityInfo: PersonalityInfo;
   isOwnProfile?: boolean;
-  canEdit?: boolean;
+  editing?: boolean;
   onRemoveBox?: (boxKey: string) => void;
 };
 
 const PlayerSectionInner: React.FC<Props> = ({
-  boxMetadata,
-  boxType,
+  metadata,
+  type,
   player,
   isOwnProfile,
-  personalityInfo,
-  canEdit,
+  editing,
 }) => {
-  switch (boxType) {
-    case BoxType.PLAYER_HERO:
-      return (
-        <PlayerHero {...{ player, personalityInfo, isOwnProfile, canEdit }} />
-      );
-    case BoxType.PLAYER_SKILLS:
-      return <PlayerSkills {...{ player, isOwnProfile, canEdit }} />;
-    case BoxType.PLAYER_NFT_GALLERY:
-      return <PlayerGallery {...{ player, isOwnProfile, canEdit }} />;
-    case BoxType.PLAYER_DAO_MEMBERSHIPS:
-      return <PlayerMemberships {...{ player, isOwnProfile, canEdit }} />;
-    case BoxType.PLAYER_COLOR_DISPOSITION:
-      return (
-        <PlayerColorDisposition
-          {...{ player, isOwnProfile, canEdit, types: personalityInfo }}
-        />
-      );
-    case BoxType.PLAYER_TYPE:
-      return <PlayerType {...{ player, isOwnProfile, canEdit }} />;
-    case BoxType.PLAYER_ROLES:
-      return <PlayerRoles {...{ player, isOwnProfile, canEdit }} />;
-    case BoxType.PLAYER_ACHIEVEMENTS:
-      return <PlayerAchievements {...{ player, isOwnProfile, canEdit }} />;
-    case BoxType.PLAYER_COMPLETED_QUESTS:
-      return <PlayerCompletedQuests {...{ player, isOwnProfile, canEdit }} />;
-    case BoxType.EMBEDDED_URL: {
-      const url = boxMetadata?.url as string;
-      return url ? <EmbeddedUrl {...{ url, canEdit }} /> : <></>;
+  switch (type) {
+    case BoxTypes.PLAYER_HERO:
+      return <PlayerHero {...{ player, editing }} />;
+    case BoxTypes.PLAYER_SKILLS:
+      return <PlayerSkills {...{ player, isOwnProfile, editing }} />;
+    case BoxTypes.PLAYER_NFT_GALLERY:
+      return <PlayerGallery {...{ player, isOwnProfile, editing }} />;
+    case BoxTypes.PLAYER_DAO_MEMBERSHIPS:
+      return <PlayerMemberships {...{ player, isOwnProfile, editing }} />;
+    case BoxTypes.PLAYER_COLOR_DISPOSITION:
+      return <PlayerColorDisposition {...{ player, editing }} />;
+    case BoxTypes.PLAYER_TYPE:
+      return <PlayerType {...{ player, editing }} />;
+    case BoxTypes.PLAYER_ROLES:
+      return <PlayerRoles {...{ player, isOwnProfile, editing }} />;
+    case BoxTypes.PLAYER_ACHIEVEMENTS:
+      return <PlayerAchievements {...{ player, isOwnProfile, editing }} />;
+    case BoxTypes.PLAYER_COMPLETED_QUESTS:
+      return <PlayerCompletedQuests {...{ player, isOwnProfile, editing }} />;
+    case BoxTypes.EMBEDDED_URL: {
+      const { url } = metadata ?? {};
+      return url ? <EmbeddedUrl {...{ url, editing }} /> : null;
     }
     default:
-      return <></>;
+      return null;
   }
 };
 
 export const PlayerSection = React.forwardRef<HTMLDivElement, Props>(
-  (
-    {
-      boxMetadata,
-      boxType,
-      player,
-      isOwnProfile,
-      canEdit,
-      onRemoveBox,
-      personalityInfo,
-    },
-    ref,
-  ) => {
-    const boxKey = getBoxKey(boxType, boxMetadata);
+  ({ metadata, type, player, isOwnProfile, editing, onRemoveBox }, ref) => {
+    const key = createBoxKey(type, metadata);
 
     return (
       <Flex
         w="100%"
-        ref={ref}
+        {...{ ref }}
         direction="column"
         h="auto"
         minH="100%"
@@ -94,15 +74,14 @@ export const PlayerSection = React.forwardRef<HTMLDivElement, Props>(
       >
         <PlayerSectionInner
           {...{
-            boxMetadata,
-            boxType,
+            metadata,
+            type,
             player,
             isOwnProfile,
-            canEdit,
-            personalityInfo,
+            editing,
           }}
         />
-        {canEdit && (
+        {editing && (
           <Flex
             className="gridItemOverlay"
             w="100%"
@@ -113,9 +92,9 @@ export const PlayerSection = React.forwardRef<HTMLDivElement, Props>(
             left={0}
           />
         )}
-        {canEdit && boxType && boxType !== BoxType.PLAYER_HERO && (
+        {editing && type && type !== BoxTypes.PLAYER_HERO && (
           <IconButton
-            aria-label="Edit Profile Info"
+            aria-label="Remove Profile Section"
             size="lg"
             pos="absolute"
             top={0}
@@ -124,7 +103,7 @@ export const PlayerSection = React.forwardRef<HTMLDivElement, Props>(
             color="pinkShadeOne"
             icon={<FaTimes />}
             _hover={{ color: 'white' }}
-            onClick={() => onRemoveBox?.(boxKey)}
+            onClick={() => onRemoveBox?.(key)}
             _focus={{
               boxShadow: 'none',
               backgroundColor: 'transparent',

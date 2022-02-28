@@ -10,7 +10,9 @@ import {
   ModalOverlay,
   SimpleGrid,
   Text,
+  Tooltip,
   useDisclosure,
+  ViewAllButton,
 } from '@metafam/ds';
 import BackgroundImage from 'assets/main-background.jpg';
 import { MetaLink as Link } from 'components/Link';
@@ -18,19 +20,11 @@ import { ProfileSection } from 'components/Profile/ProfileSection';
 import { Player } from 'graphql/autogen/types';
 import { useOpenSeaCollectibles } from 'lib/hooks/opensea';
 import React from 'react';
-import { BoxType } from 'utils/boxTypes';
+import { BoxTypes } from 'utils/boxTypes';
 import { Collectible } from 'utils/openseaHelpers';
 
-const GalleryItem: React.FC<{ nft: Collectible; noMargin?: boolean }> = ({
-  nft,
-  noMargin = false,
-}) => (
-  <Link
-    href={nft.openseaLink}
-    isExternal
-    mb={noMargin ? undefined : 6}
-    display="flex"
-  >
+const GalleryItem: React.FC<{ nft: Collectible }> = ({ nft }) => (
+  <Link href={nft.openseaLink} isExternal display="flex">
     <Box
       bgImage={`url(${nft.imageURL})`}
       backgroundSize="contain"
@@ -39,131 +33,174 @@ const GalleryItem: React.FC<{ nft: Collectible; noMargin?: boolean }> = ({
       minW={28}
       minH={28}
     />
-    <Flex direction="column" ml={3} justify="center">
-      <Heading
-        fontSize="xs"
-        my={3}
-        display="inline-block"
-        style={{ wordWrap: 'break-word', fontVariant: 'small-caps' }}
+    <Tooltip label={nft.title} hasArrow>
+      <Flex
+        display="inline-grid"
+        direction="column"
+        ml={3}
+        h="full"
+        alignContent="center"
       >
-        {nft.title}
-      </Heading>
-      <Text fontSize="sm">{nft.priceString}</Text>
-    </Flex>
+        <Heading
+          fontSize="xs"
+          ml="1em"
+          sx={{
+            textIndent: '-1em',
+            wordBreak: 'break-word',
+            fontVariant: 'small-caps',
+          }}
+
+          // ellipses look nice, but only allow one line, I think
+          // whiteSpace="nowrap"
+          // textOverflow="ellipsis"
+          // overflowX="hidden"
+        >
+          {nft.title}
+        </Heading>
+        <Text fontSize="sm">{nft.priceString}</Text>
+      </Flex>
+    </Tooltip>
   </Link>
+);
+
+type GalleryModalProps = {
+  isOpen: boolean;
+  onClose: () => void;
+  nfts: Array<Collectible>;
+};
+
+const GalleryModal: React.FC<GalleryModalProps> = ({
+  isOpen,
+  onClose,
+  nfts,
+}) => (
+  <Modal {...{ isOpen, onClose }} isCentered scrollBehavior="inside">
+    <ModalOverlay>
+      <ModalContent
+        mx={4}
+        maxW="6xl"
+        bgImage={`url(${BackgroundImage})`}
+        bgSize="cover"
+        bgAttachment="fixed"
+      >
+        <Box bg="purple80" borderTopRadius="lg" p={4} w="full">
+          <HStack>
+            <Text
+              fontSize="sm"
+              fontWeight="bold"
+              color="blueLight"
+              as="div"
+              mr="auto"
+            >
+              NFT Gallery
+            </Text>
+            <ModalCloseButton color="blueLight" />
+          </HStack>
+        </Box>
+        <Flex p={2}>
+          <Box
+            overflowY="auto"
+            overflowX="hidden"
+            maxH="calc(100vh - 12rem)"
+            borderBottomRadius="lg"
+            w="full"
+            sx={{
+              scrollbarColor: 'rgba(70, 20, 100, 0.8) #FFFFFF00',
+              '::-webkit-scrollbar': {
+                width: '0.5rem',
+                background: 'none',
+              },
+              '::-webkit-scrollbar-thumb': {
+                background: 'rgba(70, 20, 100, 0.8)',
+                borderRadius: '999px',
+              },
+            }}
+          >
+            <SimpleGrid
+              columns={{ base: 1, md: 2, lg: 3 }}
+              gap={6}
+              p={6}
+              boxShadow="md"
+            >
+              {nfts?.map((nft) => (
+                <GalleryItem
+                  {...{ nft }}
+                  key={`${nft.tokenId}-${nft.address}`}
+                />
+              ))}
+            </SimpleGrid>
+          </Box>
+        </Flex>
+      </ModalContent>
+    </ModalOverlay>
+  </Modal>
 );
 
 type Props = {
   player: Player;
   isOwnProfile?: boolean;
-  canEdit?: boolean;
+  editing?: boolean;
 };
 
 export const PlayerGallery: React.FC<Props> = ({
   player,
   isOwnProfile,
-  canEdit,
+  editing,
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { favorites, data, loading } = useOpenSeaCollectibles({ player });
+  const { favorites, data: nfts, loading, error } = useOpenSeaCollectibles({
+    player,
+  });
 
   return (
     <ProfileSection
       title="NFT Gallery"
-      isOwnProfile={isOwnProfile}
-      canEdit={canEdit}
-      boxType={BoxType.PLAYER_NFT_GALLERY}
+      {...{ isOwnProfile, editing }}
+      type={BoxTypes.PLAYER_NFT_GALLERY}
       withoutBG
     >
-      {loading && <LoadingState mb={6} />}
-      {!loading &&
-        favorites?.map((nft) => <GalleryItem nft={nft} key={nft.tokenId} />)}
-      {!loading && data.length === 0 && (
-        <Text textAlign="center" fontStyle="italic" mb="1rem">
-          No{' '}
-          <Text as="span" title="Non-Fungible Token" borderBottom="2px dotted">
-            NFT
-          </Text>
-          s found for {isOwnProfile ? 'you' : 'this player'}.
-        </Text>
-      )}
-      {!loading && data?.length > 3 && (
-        <Text
-          as="span"
-          fontSize="xs"
-          color="cyanText"
-          cursor="pointer"
-          onClick={onOpen}
-        >
-          View all
-        </Text>
-      )}
-      <Modal
-        isOpen={isOpen}
-        onClose={onClose}
-        isCentered
-        scrollBehavior="inside"
-      >
-        <ModalOverlay>
-          <ModalContent
-            mx="1rem"
-            maxW="6xl"
-            bgImage={`url(${BackgroundImage})`}
-            bgSize="cover"
-            bgAttachment="fixed"
-          >
-            <Box bg="purple80" borderTopRadius="lg" p={4} w="100%">
-              <HStack>
-                <Text
-                  fontSize="sm"
-                  fontWeight="bold"
-                  color="blueLight"
-                  as="div"
-                  mr="auto"
-                >
-                  NFT Gallery
-                </Text>
-                <ModalCloseButton color="blueLight" />
-              </HStack>
-            </Box>
-            <Flex p={2}>
-              <Box
-                overflowY="scroll"
-                overflowX="hidden"
-                maxH="80vh"
-                borderBottomRadius="lg"
-                w="100%"
-                css={{
-                  scrollbarColor: 'rgba(70,20,100,0.8) rgba(255,255,255,0)',
-                  '::-webkit-scrollbar': {
-                    width: '8px',
-                    background: 'none',
-                  },
-                  '::-webkit-scrollbar-thumb': {
-                    background: 'rgba(70,20,100,0.8)',
-                    borderRadius: '999px',
-                  },
-                }}
+      {(() => {
+        if (loading) {
+          return <LoadingState mb={6} />;
+        }
+        if (error) {
+          return (
+            <Text textAlign="center" fontStyle="italic" mb={4} color="red">
+              Error: {error}
+            </Text>
+          );
+        }
+        if (nfts.length === 0) {
+          return (
+            <Text textAlign="center" fontStyle="italic" mb={4}>
+              No{' '}
+              <Text
+                as="span"
+                title="Non-Fungible Token"
+                borderBottom="2px dotted"
               >
-                <SimpleGrid
-                  columns={{ base: 1, md: 2, lg: 3 }}
-                  gap={6}
-                  padding={6}
-                  boxShadow="md"
-                >
-                  {data?.map((nft) => (
-                    <GalleryItem
-                      nft={nft}
-                      key={`${nft.tokenId}-${nft.address}`}
-                      noMargin
-                    />
-                  ))}
-                </SimpleGrid>
+                NFT
+              </Text>
+              s found for {isOwnProfile ? 'you' : 'this player'}.
+            </Text>
+          );
+        }
+        return (
+          <>
+            <SimpleGrid columns={1}>
+              {favorites?.map((nft) => (
+                <GalleryItem {...{ nft }} key={nft.tokenId} />
+              ))}
+            </SimpleGrid>
+            {nfts.length > 3 && (
+              <Box textAlign="end">
+                <GalleryModal {...{ isOpen, onClose, nfts }} />
+                <ViewAllButton onClick={onOpen} size={nfts.length} />
               </Box>
-            </Flex>
-          </ModalContent>
-        </ModalOverlay>
-      </Modal>
+            )}
+          </>
+        );
+      })()}
     </ProfileSection>
   );
 };

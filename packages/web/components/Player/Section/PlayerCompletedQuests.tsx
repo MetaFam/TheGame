@@ -1,4 +1,12 @@
-import { Box, Button, ExternalLinkIcon, Link, Stack, Text } from '@metafam/ds';
+import {
+  Box,
+  BoxProps,
+  Button,
+  ExternalLinkIcon,
+  Link,
+  Stack,
+  Text,
+} from '@metafam/ds';
 import { ProfileSection } from 'components/Profile/ProfileSection';
 import {
   Player,
@@ -7,18 +15,18 @@ import {
 } from 'graphql/autogen/types';
 import { getAcceptedQuestsByPlayerQuery } from 'graphql/getQuests';
 import React, { useEffect, useState } from 'react';
-import { BoxType } from 'utils/boxTypes';
+import { BoxTypes } from 'utils/boxTypes';
 
 type Props = {
   player: Player;
   isOwnProfile?: boolean;
-  canEdit?: boolean;
+  editing?: boolean;
 };
 
 export const PlayerCompletedQuests: React.FC<Props> = ({
   player,
   isOwnProfile,
-  canEdit,
+  editing,
 }) => {
   const [quests, setQuests] = useState<Array<QuestCompletionFragment>>([]);
 
@@ -44,13 +52,12 @@ export const PlayerCompletedQuests: React.FC<Props> = ({
   return (
     <ProfileSection
       title="Completed Quests"
-      {...{ isOwnProfile, canEdit }}
-      boxType={BoxType.PLAYER_ACHIEVEMENTS}
+      {...{ isOwnProfile, editing }}
+      type={BoxTypes.PLAYER_ACHIEVEMENTS}
       modalTitle={`Completed Quests (${quests.length})`}
-      modalText={quests.length ? 'Show All' : ''}
-      modal={<AllQuests quests={quests} />}
-      subheader='A quest is considered "complete" when it is accepted by the
-      quest owner.'
+      modalPrompt={quests.length ? 'Show All' : undefined}
+      modal={<AllQuests {...{ quests }} />}
+      subheader="A quest is considered “complete” when it is accepted by the quest owner."
     >
       {quests.length ? (
         <Stack>
@@ -67,13 +74,16 @@ export const PlayerCompletedQuests: React.FC<Props> = ({
 
 interface QuestProps {
   quests: Array<QuestCompletionFragment>;
-  mb?: number;
 }
 
-const QuestList: React.FC<QuestProps> = ({ quests, mb = 2 }) => (
+const QuestList: React.FC<QuestProps & BoxProps> = ({
+  quests,
+  mb = 2,
+  ...props
+}) => (
   <>
     {quests.map((quest) => (
-      <Box mb={mb}>
+      <Box {...{ mb, ...props }}>
         <Link href={`/quest/${quest.questId}`} color="white">
           <Text fontSize="xl">{quest.completed?.title}</Text>
         </Link>

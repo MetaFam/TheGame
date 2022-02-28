@@ -12,8 +12,10 @@ import {
   MetaButton,
   RepeatClockIcon,
   ResponsiveText,
+  useBreakpointValue,
   useToast,
 } from '@metafam/ds';
+import { Maybe } from '@metafam/utils';
 import { PageContainer } from 'components/Container';
 import {
   ALL_BOXES,
@@ -26,22 +28,19 @@ import {
 import { PlayerAddSection } from 'components/Player/Section/PlayerAddSection';
 import { PlayerSection } from 'components/Profile/PlayerSection';
 import { HeadComponent } from 'components/Seo';
+import deepEquals from 'deep-equal';
 import {
   Player,
-  useInsertCacheInvalidationMutation,
-  useUpdatePlayerProfileLayoutMutation,
+  useInsertCacheInvalidationMutation as useInvalidateCache,
+  useUpdatePlayerProfileLayoutMutation as useUpdateLayout,
 } from 'graphql/autogen/types';
 import { getPlayer } from 'graphql/getPlayer';
 import { getTopPlayerUsernames } from 'graphql/getPlayers';
-import {
-  getPersonalityInfo,
-  PersonalityInfo,
-} from 'graphql/queries/enums/getPersonalityInfo';
-import { useUser, useWeb3 } from 'lib/hooks';
+import { useProfileField, useUser, useWeb3 } from 'lib/hooks';
 import { GetStaticPaths, GetStaticPropsContext } from 'next';
 import { useRouter } from 'next/router';
 import Page404 from 'pages/404';
-import {
+import React, {
   ReactElement,
   useCallback,
   useEffect,
@@ -50,14 +49,20 @@ import {
   useState,
 } from 'react';
 import { Layout, Layouts, Responsive, WidthProvider } from 'react-grid-layout';
-import { BoxMetadata, BoxType, getBoxKey } from 'utils/boxTypes';
+import {
+  BoxMetadata,
+  BoxType,
+  BoxTypes,
+  createBoxKey,
+  getBoxKey,
+} from 'utils/boxTypes';
 import {
   addBoxToLayouts,
-  disableAddBoxInLayoutData,
-  enableAddBoxInLayoutData,
+  disableAddBox,
+  enableAddBox,
   isSameLayouts,
-  onRemoveBoxFromLayouts,
-  updateHeightsInLayouts,
+  removeBoxFromLayouts,
+  updatedLayouts,
 } from 'utils/layoutHelpers';
 import {
   getPlayerBannerFull,
@@ -71,14 +76,22 @@ const ResponsiveGridLayout = WidthProvider(Responsive);
 
 type Props = {
   player: Player;
-  personalityInfo: PersonalityInfo;
 };
 
-export const PlayerPage: React.FC<Props> = ({
-  player,
-  personalityInfo,
-}): ReactElement => {
+export const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
   const router = useRouter();
+  const { value: banner } = useProfileField({
+    field: 'bannerImageURL',
+    player,
+    getter: getPlayerBannerFull,
+  });
+  const [, invalidateCache] = useInvalidateCache();
+
+  useEffect(() => {
+    if (player?.id) {
+      invalidateCache({ playerId: player.id });
+    }
+  }, [player?.id, invalidateCache]);
 
   if (router.isFallback) {
     return <LoadingState />;
@@ -87,23 +100,24 @@ export const PlayerPage: React.FC<Props> = ({
   if (!player) return <Page404 />;
 
   return (
-    <PageContainer p={0} px={[0, 4, 8]}>
+    <PageContainer pt={0} px={[0, 4, 8]}>
       <HeadComponent
-        title={`MetaGame Player Profile: ${getPlayerName(player)}`}
+        title={`MetaGame Profile: ${getPlayerName(player)}`}
         description={(getPlayerDescription(player) ?? '').replace('\n', ' ')}
         url={getPlayerURL(player, { rel: false })}
         img={getPlayerImage(player)}
       />
       <Box
-        bg={`url(${getPlayerBannerFull(player)}) no-repeat`}
+        bg={`url(${banner}) no-repeat`}
         bgSize="cover"
         bgPos="center"
         h={72}
         pos="absolute"
         w="full"
+        top={0}
       />
-      <Flex w="full" h="full" pt="3rem" direction="column" align="center">
-        <Grid {...{ player, personalityInfo }} />
+      <Flex w="full" h="full" pt={12} direction="column" align="center">
+        <Grid {...{ player }} />
       </Flex>
     </PageContainer>
   );
@@ -111,34 +125,38 @@ export const PlayerPage: React.FC<Props> = ({
 
 export default PlayerPage;
 
-const getBoxKeyFromTarget = (target: HTMLElement | null): string =>
-  (target?.offsetParent as HTMLElement)?.offsetParent?.id ?? '';
-
-const useItemHeights = (items: HTMLElement[]): { [boxKey: string]: number } => {
-  const [heights, setHeights] = useState<{ [boxKey: string]: number }>({});
+const useItemHeights = (items: Array<Maybe<HTMLElement>>) => {
+  const [heights, setHeights] = useState<Record<string, number>>({});
 
   useEffect(() => {
     const observer = new ResizeObserver((entries) => {
       setHeights((oldHeights) => {
-        const newHeights = { ...oldHeights };
-        entries.forEach((entry) => {
-          newHeights[getBoxKeyFromTarget(entry.target as HTMLElement)] =
-            entry.contentRect.height;
-        });
-        return newHeights;
+        const entryHeights = Object.fromEntries(
+          entries.map(({ target }) => [
+            getBoxKey(target as HTMLElement),
+            target.scrollHeight, // entry.contentRect.height,
+          ]),
+        );
+        return { ...oldHeights, ...entryHeights };
       });
     });
-    const newHeights: { [boxKey: string]: number } = {};
+
+    const newHeights: Record<string, number> = {};
     items.forEach((item) => {
-      const target = item.children[0] as HTMLElement;
-      if (target) {
-        newHeights[
-          getBoxKeyFromTarget(target)
-        ] = target.getBoundingClientRect().height;
-        observer.observe(target);
+      if (item) {
+        const target = item.children[0] as HTMLElement;
+        const key = getBoxKey(target);
+        if (key && target) {
+          newHeights[key] = target.scrollHeight;
+          observer.observe(target);
+        } else {
+          // eslint-disable-next-line no-console
+          console.warn(`Missing:`, target, key);
+        }
       }
     });
     setHeights(newHeights);
+
     return () => {
       observer.disconnect();
     };
@@ -147,40 +165,27 @@ const useItemHeights = (items: HTMLElement[]): { [boxKey: string]: number } => {
   return heights;
 };
 
-export const Grid: React.FC<Props> = ({
-  player: initPlayer,
-  personalityInfo,
-}): ReactElement => {
+export const Grid: React.FC<Props> = ({ player }): ReactElement => {
   const [isOwnProfile, setIsOwnProfile] = useState(false);
-  const [, invalidateCache] = useInsertCacheInvalidationMutation();
   const { user, fetching } = useUser();
   const { connected } = useWeb3();
-  const [player, setPlayer] = useState(initPlayer);
+  const [saving, setSaving] = useState(false);
   const [exitAlertCancel, setExitAlertCancel] = useState<boolean>(false);
   const [exitAlertReset, setExitAlertReset] = useState<boolean>(false);
-
-  useEffect(() => {
-    if (!fetching && user && user.id === player?.id) {
-      setPlayer(user);
-      if (connected) {
-        setIsOwnProfile(true);
-      }
-    }
-  }, [user, fetching, connected, player?.id]);
-
-  useEffect(() => {
-    if (player?.id) {
-      invalidateCache({ playerId: player.id });
-    }
-  }, [player?.id, invalidateCache]);
-
+  const [changed, setChanged] = useState(false);
+  const [editing, setEditing] = useState(false);
+  const itemsRef = useRef<Array<Maybe<HTMLElement>>>([]);
+  const heights = useItemHeights(itemsRef.current);
+  const mobile = useBreakpointValue({ base: true, sm: false });
   const toast = useToast();
 
-  const [
-    { fetching: fetchingSaveRes },
-    saveLayoutData,
-  ] = useUpdatePlayerProfileLayoutMutation();
-  const [saving, setSaving] = useState(false);
+  const [{ fetching: updating }, saveLayoutData] = useUpdateLayout();
+
+  useEffect(() => {
+    if (!fetching && user && user.id === player.id && connected) {
+      setIsOwnProfile(true);
+    }
+  }, [user, fetching, connected, player?.id]);
 
   const savedLayoutData = useMemo<ProfileLayoutData>(
     () =>
@@ -199,17 +204,13 @@ export const Grid: React.FC<Props> = ({
     layouts: currentLayouts,
   } = currentLayoutData;
 
-  const itemsRef = useRef<HTMLElement[]>([]);
-
   useEffect(() => {
     itemsRef.current = itemsRef.current.slice(0, currentLayoutItems.length);
   }, [currentLayoutItems]);
 
-  const heights = useItemHeights(itemsRef.current);
-
   useEffect(() => {
-    const layouts = updateHeightsInLayouts(currentLayouts, heights);
-    if (JSON.stringify(layouts) !== JSON.stringify(currentLayouts)) {
+    const layouts = updatedLayouts(currentLayouts, heights);
+    if (!deepEquals(layouts, currentLayouts)) {
       setCurrentLayoutData(({ layoutItems }) => ({
         layouts,
         layoutItems,
@@ -217,20 +218,16 @@ export const Grid: React.FC<Props> = ({
     }
   }, [currentLayouts, heights]);
 
-  const [changed, setChanged] = useState(false);
-
-  const [canEdit, setCanEdit] = useState(false);
+  const handleReset = useCallback(() => {
+    setCurrentLayoutData(enableAddBox(DEFAULT_PLAYER_LAYOUT_DATA));
+    setExitAlertReset(false);
+  }, []);
 
   const handleCancel = useCallback(() => {
     setCurrentLayoutData(savedLayoutData);
-    setCanEdit(false);
+    setEditing(false);
     setExitAlertCancel(false);
   }, [savedLayoutData]);
-
-  const handleReset = useCallback(() => {
-    setCurrentLayoutData(enableAddBoxInLayoutData(DEFAULT_PLAYER_LAYOUT_DATA));
-    setExitAlertReset(false);
-  }, []);
 
   const isDefaultLayout = useMemo(
     () => isSameLayouts(DEFAULT_PLAYER_LAYOUT_DATA, currentLayoutData),
@@ -239,57 +236,64 @@ export const Grid: React.FC<Props> = ({
 
   const persistLayoutData = useCallback(
     async (layoutData: ProfileLayoutData) => {
-      if (!user) return;
+      if (!user) throw new Error('User is not set.');
 
-      setSaving(true);
       const { error } = await saveLayoutData({
         playerId: user.id,
         layout: JSON.stringify(layoutData),
       });
 
-      if (error) {
-        toast({
-          title: 'Error',
-          description: `Unable to save layout. Error: ${error}`,
-          status: 'error',
-          isClosable: true,
-        });
-        handleCancel();
-      } else {
-        setCurrentLayoutData(layoutData);
-      }
-      setSaving(false);
+      if (error) throw error;
     },
-    [handleCancel, saveLayoutData, toast, user],
+    [saveLayoutData, user],
   );
 
   const toggleEditLayout = useCallback(async () => {
-    if (canEdit) {
-      await persistLayoutData(disableAddBoxInLayoutData(currentLayoutData));
-    } else {
-      setCurrentLayoutData(enableAddBoxInLayoutData(currentLayoutData));
+    try {
+      let layoutData = DEFAULT_PLAYER_LAYOUT_DATA;
+      if (editing) {
+        setSaving(true);
+        layoutData = disableAddBox(currentLayoutData);
+        await persistLayoutData(layoutData);
+      } else {
+        layoutData = enableAddBox(currentLayoutData);
+      }
+      setCurrentLayoutData(layoutData);
+      setEditing((e) => !e);
+      setChanged(false);
+    } catch (err) {
+      toast({
+        title: 'Error',
+        description: `Unable to save layout. Error: ${(err as Error).message}`,
+        status: 'error',
+        isClosable: true,
+      });
+    } finally {
+      setSaving(false);
     }
-    setCanEdit(!canEdit);
-    setChanged(false);
-  }, [canEdit, currentLayoutData, persistLayoutData]);
+  }, [editing, currentLayoutData, persistLayoutData, toast]);
 
   const handleLayoutChange = useCallback(
-    (_layoutItems: Layout[], layouts: Layouts) => {
-      setCurrentLayoutData({ layouts, layoutItems: currentLayoutItems });
-      setChanged(true);
+    (_items: Array<Layout>, layouts: Layouts) => {
+      const oldData = {
+        layouts: currentLayouts,
+        layoutItems: currentLayoutItems,
+      };
+      const newData = { layouts, layoutItems: currentLayoutItems };
+      // automatic height adjustments dirty `changed`
+      setChanged(changed || (editing && !isSameLayouts(oldData, newData)));
+      setCurrentLayoutData(newData);
     },
-    [currentLayoutItems],
+    [currentLayouts, currentLayoutItems, editing, changed],
   );
 
-  const wrapperSX = useMemo(() => gridConfig.wrapper(canEdit), [canEdit]);
+  const wrapperSX = useMemo(() => gridConfig.wrapper(editing), [editing]);
 
   const onRemoveBox = useCallback(
     (boxKey: string): void => {
       const layoutData = {
-        layouts: onRemoveBoxFromLayouts(boxKey, currentLayouts),
-        layoutItems: currentLayoutItems.filter(
-          (item) => item.boxKey !== boxKey,
-        ),
+        layouts: removeBoxFromLayouts(currentLayouts, boxKey),
+        layoutItems: currentLayoutItems.filter((item) => item.key !== boxKey),
       };
       setCurrentLayoutData(layoutData);
       setChanged(true);
@@ -298,17 +302,14 @@ export const Grid: React.FC<Props> = ({
   );
 
   const onAddBox = useCallback(
-    (boxType: BoxType, boxMetadata: BoxMetadata): void => {
-      const boxKey = getBoxKey(boxType, boxMetadata);
-      if (currentLayoutItems.find((item) => item.boxKey === boxKey)) {
+    (type: BoxType, metadata: BoxMetadata): void => {
+      const key = createBoxKey(type, metadata);
+      if (currentLayoutItems.find((item) => item.key === key)) {
         return;
       }
       const layoutData = {
-        layouts: addBoxToLayouts(boxType, boxMetadata, currentLayouts),
-        layoutItems: [
-          ...currentLayoutItems,
-          { boxType, boxMetadata, boxKey: getBoxKey(boxType, boxMetadata) },
-        ],
+        layouts: addBoxToLayouts(currentLayouts, type, metadata),
+        layoutItems: [...currentLayoutItems, { type, metadata, key }],
       };
 
       setCurrentLayoutData(layoutData);
@@ -317,11 +318,11 @@ export const Grid: React.FC<Props> = ({
     [currentLayouts, currentLayoutItems],
   );
 
-  const availableBoxList = useMemo(
+  const availableBoxes = useMemo(
     () =>
       ALL_BOXES.filter(
         (box) =>
-          !currentLayoutItems.map(({ boxType }) => boxType).includes(box) ||
+          !currentLayoutItems.map(({ type }) => type).includes(box) ||
           MULTIPLE_ALLOWED_BOXES.includes(box),
       ),
     [currentLayoutItems],
@@ -333,58 +334,55 @@ export const Grid: React.FC<Props> = ({
     <Box
       className="gridWrapper"
       width="100%"
+      height="100%"
       sx={wrapperSX}
       maxW="96rem"
-      pb="3rem"
+      mb="12rem"
       pt={isOwnProfile ? 0 : '4rem'}
     >
       {isOwnProfile && (
         <ButtonGroup
-          w="100%"
-          px="2rem"
+          w="full"
+          mb={4}
+          px={8}
           justifyContent="end"
           variant="ghost"
           zIndex={10}
-          h="3rem"
-          mb="1rem"
+          isAttached
+          size={mobile ? 'xs' : 'md'}
         >
-          {changed && canEdit && !isDefaultLayout && (
+          {changed && editing && !isDefaultLayout && (
             <MetaButton
-              aria-label="Reset"
+              aria-label="Reset Layout"
               _hover={{ background: 'purple.600' }}
               textTransform="uppercase"
-              px={12}
+              px={[8, 12]}
               letterSpacing="0.1em"
-              size="lg"
-              fontSize="sm"
               onClick={() => setExitAlertReset(true)}
-              leftIcon={<RepeatClockIcon />}
-              whiteSpace="pre-wrap"
+              leftIcon={mobile ? undefined : <RepeatClockIcon />}
             >
               Reset
             </MetaButton>
           )}
-          {changed && canEdit && (
+          {editing && (
             <MetaButton
-              aria-label="Cancel edit layout"
+              aria-label="Cancel Layout Edit"
+              colorScheme="purple"
               _hover={{ background: 'purple.600' }}
               textTransform="uppercase"
-              px={12}
+              px={[9, 12]}
               letterSpacing="0.1em"
-              size="lg"
-              fontSize="sm"
               onClick={() => setExitAlertCancel(true)}
-              leftIcon={<CloseIcon />}
+              leftIcon={mobile ? undefined : <CloseIcon />}
             >
               Cancel
             </MetaButton>
           )}
-
           <ConfirmModal
             isOpen={exitAlertReset}
             onNope={() => setExitAlertReset(false)}
             onYep={handleReset}
-            header="Are you sure you want to reset the layout to default?"
+            header="Are you sure you want to reset the layout to its default?"
           />
           <ConfirmModal
             isOpen={exitAlertCancel}
@@ -392,32 +390,31 @@ export const Grid: React.FC<Props> = ({
             onYep={handleCancel}
             header="Are you sure you want to cancel editing the layout?"
           />
-
-          <MetaButton
-            aria-label="Edit layout"
-            borderColor="transparent"
-            background="rgba(17, 17, 17, 0.9)"
-            _hover={{ color: 'white', borderColor: 'transparent' }}
-            variant="outline"
-            textTransform="uppercase"
-            px={12}
-            letterSpacing="0.1em"
-            size="lg"
-            fontSize="sm"
-            bg="transparent"
-            color={canEdit ? 'red.400' : 'pinkShadeOne'}
-            leftIcon={<EditIcon />}
-            transition="color 0.2s ease"
-            isLoading={saving || fetchingSaveRes}
-            onClick={toggleEditLayout}
-          >
-            <ResponsiveText
-              content={{
-                base: canEdit ? 'Save' : 'Edit',
-                md: `${canEdit ? 'Save' : 'Edit'} layout`,
-              }}
-            />
-          </MetaButton>
+          {(!editing || changed) && (
+            <MetaButton
+              aria-label="Edit Layout"
+              borderColor="transparent"
+              background="rgba(17, 17, 17, 0.9)"
+              _hover={{ color: 'white' }}
+              variant="outline"
+              textTransform="uppercase"
+              px={[5, 12]}
+              letterSpacing="0.1em"
+              bg="transparent"
+              color={editing ? 'red.400' : 'pinkShadeOne'}
+              leftIcon={mobile ? undefined : <EditIcon />}
+              transition="color 0.2s ease"
+              isLoading={saving || updating}
+              onClick={toggleEditLayout}
+            >
+              <ResponsiveText
+                content={{
+                  base: editing ? 'Save' : 'Edit Layout ',
+                  md: `${editing ? 'Save' : 'Edit'} Layout`,
+                }}
+              />
+            </MetaButton>
+          )}
         </ButtonGroup>
       )}
       <ResponsiveGridLayout
@@ -427,7 +424,7 @@ export const Grid: React.FC<Props> = ({
         breakpoints={{ lg: 1180, md: 900, sm: 0 }}
         cols={{ lg: 3, md: 2, sm: 1 }}
         rowHeight={GRID_ROW_HEIGHT}
-        isDraggable={!!canEdit}
+        isDraggable={!!editing}
         isResizable={false}
         margin={{
           lg: [30, 30],
@@ -440,29 +437,28 @@ export const Grid: React.FC<Props> = ({
           sm: [20, 20],
         }}
       >
-        {currentLayoutItems.map(({ boxKey, boxType, boxMetadata }, i) => (
-          <Flex key={boxKey} className="gridItem" id={boxKey}>
-            {boxType === BoxType.PLAYER_ADD_BOX ? (
+        {currentLayoutItems.map(({ key, type, metadata }, i) => (
+          <Flex {...{ key }} className="gridItem" id={key}>
+            {type === BoxTypes.PLAYER_ADD_BOX ? (
               <PlayerAddSection
-                boxList={availableBoxList}
-                {...{ player, onAddBox, personalityInfo }}
-                ref={(e) => {
-                  itemsRef.current[i] = e as HTMLElement;
+                boxes={availableBoxes}
+                {...{ player, onAddBox }}
+                ref={(e: Maybe<HTMLElement>) => {
+                  itemsRef.current[i] = e;
                 }}
               />
             ) : (
               <PlayerSection
                 {...{
-                  boxType,
-                  boxMetadata,
+                  type,
+                  metadata,
                   player,
                   isOwnProfile,
-                  personalityInfo,
-                  canEdit,
+                  editing,
                   onRemoveBox,
                 }}
-                ref={(e) => {
-                  itemsRef.current[i] = e as HTMLElement;
+                ref={(e: Maybe<HTMLElement>) => {
+                  itemsRef.current[i] = e;
                 }}
               />
             )}
@@ -476,12 +472,19 @@ export const Grid: React.FC<Props> = ({
 type QueryParams = { username: string };
 
 export const getStaticPaths: GetStaticPaths<QueryParams> = async () => {
-  const usernames = await getTopPlayerUsernames();
+  const names = await getTopPlayerUsernames();
 
   return {
-    paths: usernames.map((username) => ({
-      params: { username },
-    })),
+    paths: names
+      .map(({ username, address }) => {
+        const out = [];
+        if (username) {
+          out.push({ params: { username } });
+        }
+        out.push({ params: { username: address } });
+        return out;
+      })
+      .flat(),
     fallback: 'blocking',
   };
 };
@@ -500,11 +503,9 @@ export const getStaticProps = async (
   }
 
   const player = await getPlayer(username);
-  const personalityInfo = await getPersonalityInfo();
 
   return {
     props: {
-      personalityInfo,
       player: player ?? null, // must be serializable
       key: username.toLowerCase(),
       hideTopMenu: !player,

@@ -1,10 +1,9 @@
 import {
   Box,
-  BoxProps,
   Button,
   EditIcon,
   Flex,
-  HStack,
+  FlexProps,
   IconButton,
   Modal,
   ModalBody,
@@ -18,34 +17,36 @@ import {
 } from '@metafam/ds';
 import { Maybe } from '@metafam/utils';
 import BackgroundImage from 'assets/main-background.jpg';
-import { SetupPersonalityType } from 'components/Setup/SetupPersonalityType';
+import { SetupColorDisposition } from 'components/Setup/SetupColorDisposition';
 import { SetupPlayerType } from 'components/Setup/SetupPlayerType';
 import { SetupRoles } from 'components/Setup/SetupRoles';
 import { SetupSkills } from 'components/Setup/SetupSkills';
 import React from 'react';
-import { BoxType } from 'utils/boxTypes';
+import { BoxType, BoxTypes } from 'utils/boxTypes';
 
 export type ProfileSectionProps = {
   children?: React.ReactNode;
-  isOwnProfile?: boolean;
-  canEdit?: boolean;
-  boxType?: BoxType;
-  title?: string;
+  isOwnProfile?: Maybe<boolean>;
+  editing?: boolean;
+  type?: BoxType;
+  title?: string | false;
   withoutBG?: boolean;
-  modalText?: string;
-  modalTitle?: string;
+  modalPrompt?: string;
+  modalTitle?: string | false;
   modal?: React.ReactNode;
   subheader?: string;
-} & BoxProps;
+};
 
-export const ProfileSection: React.FC<ProfileSectionProps> = ({
+export const ProfileSection: React.FC<
+  ProfileSectionProps & Omit<FlexProps, 'title'>
+> = ({
   children,
   isOwnProfile,
-  canEdit,
-  boxType,
+  editing,
+  type: boxType,
   title,
   withoutBG = false,
-  modalText,
+  modalPrompt,
   modal,
   modalTitle,
   subheader,
@@ -55,129 +56,116 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
 
   return (
     <Flex
-      minW="min(var(--chakra-sizes-72), calc(100vw - 3rem))"
+      minW="min(var(--chakra-sizes-72), calc(100vw - 3rem), 100%)"
       pos="relative"
       w="100%"
       h="auto"
       direction="column"
+      {...props}
     >
-      {title && (
-        <Box bg="purpleProfileSection" borderTopRadius="lg" pt={5} pb={5}>
-          <HStack h={5} pr={4} pl={8}>
-            <Text
-              fontSize="md"
-              color="blueLight"
-              as="div"
-              mr="auto"
-              fontWeight={600}
-              casing="uppercase"
-            >
-              {title}
-            </Text>
-            {!modal && isOwnProfile && !canEdit && isBoxDataEditable(boxType) && (
+      {title !== false && (
+        <Box bg="purpleProfileSection" borderTopRadius="lg" py={5}>
+          <Flex h={5} pr={2} pl={6} align="center">
+            {title && (
+              <Text
+                fontSize="md"
+                color="blueLight"
+                mr="auto"
+                fontWeight={600}
+                casing="uppercase"
+              >
+                {title}
+              </Text>
+            )}
+            {isOwnProfile && !editing && isEditable(boxType) && (
               <IconButton
-                aria-label="Edit Profile Info"
+                aria-label={`Edit ${title}`}
                 size="lg"
                 background="transparent"
                 color="pinkShadeOne"
                 icon={<EditIcon />}
                 _hover={{ color: 'white' }}
-                onClick={onOpen}
-                _focus={{
-                  boxShadow: 'none',
-                  backgroundColor: 'transparent',
-                }}
-                _active={{
-                  transform: 'scale(0.8)',
-                  backgroundColor: 'transparent',
-                }}
+                _focus={{ boxShadow: 'none' }}
+                _active={{ transform: 'scale(0.8)' }}
                 isRound
+                onClick={onOpen}
               />
             )}
-            {modal && modalText && (
+            {modal && modalPrompt && (
               <Button
                 color="pinkShadeOne"
                 background="transparent"
                 _hover={{ color: 'white' }}
+                _focus={{ boxShadow: 'none' }}
+                _active={{ transform: 'scale(0.8)' }}
                 onClick={onOpen}
-                _focus={{
-                  boxShadow: 'none',
-                  backgroundColor: 'transparent',
-                }}
-                _active={{
-                  transform: 'scale(0.8)',
-                  backgroundColor: 'transparent',
-                }}
               >
-                {modalText}
+                {modalPrompt}
               </Button>
             )}
-          </HStack>
+          </Flex>
         </Box>
       )}
       <Box
         bg={withoutBG ? 'none' : 'blueProfileSection'}
         borderBottomRadius="lg"
         borderTopRadius={!title ? 'lg' : 0}
-        p={boxType === BoxType.EMBEDDED_URL ? 0 : 8}
-        boxShadow={withoutBG ? 'none' : 'md'}
-        css={{ backdropFilter: 'blur(8px)' }}
-        w="100%"
+        px={boxType === BoxTypes.EMBEDDED_URL ? 0 : [1, 8]}
+        py={boxType === BoxTypes.EMBEDDED_URL ? 0 : 8}
+        sx={{ backdropFilter: 'blur(8px)' }}
+        w="full"
         pos="relative"
-        pointerEvents={canEdit ? 'none' : 'initial'}
-        pb={8}
-        {...props}
+        pointerEvents={editing ? 'none' : 'initial'}
       >
         {children}
       </Box>
-      {boxType && (
-        <Modal isCentered scrollBehavior="inside" {...{ isOpen, onClose }}>
+      {(boxType || modal) && (
+        <Modal {...{ isOpen, onClose }}>
           <ModalOverlay />
           <ModalContent
-            maxW="80%"
-            maxH="80%"
+            maxW={['100%', '80%']}
             backgroundImage={`url(${BackgroundImage})`}
             bgSize="cover"
             bgAttachment="fixed"
             p={[4, 8, 12]}
           >
-            <ModalHeader
-              color="white"
-              fontSize="4xl"
-              alignSelf="center"
-              fontWeight="normal"
-              textAlign="center"
-            >
-              {modalTitle || title}
+            {modalTitle !== false && (
+              <ModalHeader
+                color="white"
+                fontSize="4xl"
+                alignSelf="center"
+                fontWeight="normal"
+                textAlign="center"
+              >
+                {modalTitle ?? title}
 
-              {subheader && (
-                <Text
-                  fontStyle="italic"
-                  color="gray.400"
-                  textAlign="center"
-                  fontSize="md"
-                  mt={3}
-                  mb={10}
-                >
-                  {subheader}
-                </Text>
-              )}
-            </ModalHeader>
+                {subheader && (
+                  <Text
+                    fontStyle="italic"
+                    color="gray.400"
+                    textAlign="center"
+                    fontSize="md"
+                    mt={3}
+                    mb={10}
+                  >
+                    {subheader}
+                  </Text>
+                )}
+              </ModalHeader>
+            )}
             <ModalCloseButton
               color="pinkShadeOne"
               size="xl"
               p={4}
               _focus={{ boxShadow: 'none' }}
             />
-            {!modal && !modalText && (
-              <EditSectionBox {...{ boxType, onClose }} />
-            )}
-            {modalText && modal && <ModalBody>{modalText && modal}</ModalBody>}
-
+            <ModalBody p={[0, 6]}>
+              {modal ?? <EditSection {...{ boxType, onClose }} />}
+            </ModalBody>
             {/* we should figure out how to unify modal footers (edit sections have their own,
               look into EditSectionBox components - they have footers with 'save' and 'cancel' buttons) */}
-            {modalText && modal && (
-              <ModalFooter mt={6} justifyContent="center">
+            {modal && (
+              <ModalFooter mt={6} justify="center">
                 <Button
                   variant="ghost"
                   onClick={onClose}
@@ -196,34 +184,36 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
   );
 };
 
-const isBoxDataEditable = (boxType?: Maybe<BoxType>) =>
-  !!boxType &&
-  [
-    BoxType.PLAYER_TYPE,
-    BoxType.PLAYER_COLOR_DISPOSITION,
-    BoxType.PLAYER_SKILLS,
-    BoxType.PLAYER_ROLES,
-  ].includes(boxType);
+const isEditable = (type?: Maybe<BoxType>) =>
+  !!type &&
+  ([
+    BoxTypes.PLAYER_TYPE,
+    BoxTypes.PLAYER_COLOR_DISPOSITION,
+    BoxTypes.PLAYER_SKILLS,
+    BoxTypes.PLAYER_ROLES,
+  ] as Array<BoxType>).includes(type);
 
-const EditSectionBox = ({
+const EditSection = ({
   boxType,
   onClose,
 }: {
-  boxType: string;
+  boxType?: string;
   onClose: () => void;
 }) => {
+  const buttonLabel = 'Save';
+
   switch (boxType) {
-    case BoxType.PLAYER_TYPE: {
-      return <SetupPlayerType isEdit {...{ onClose }} />;
+    case BoxTypes.PLAYER_TYPE: {
+      return <SetupPlayerType {...{ onClose, buttonLabel }} />;
     }
-    case BoxType.PLAYER_COLOR_DISPOSITION: {
-      return <SetupPersonalityType isEdit {...{ onClose }} />;
+    case BoxTypes.PLAYER_COLOR_DISPOSITION: {
+      return <SetupColorDisposition {...{ onClose, buttonLabel }} />;
     }
-    case BoxType.PLAYER_SKILLS: {
-      return <SetupSkills isEdit {...{ onClose }} />;
+    case BoxTypes.PLAYER_SKILLS: {
+      return <SetupSkills {...{ onClose, buttonLabel }} />;
     }
-    case BoxType.PLAYER_ROLES: {
-      return <SetupRoles isEdit {...{ onClose }} />;
+    case BoxTypes.PLAYER_ROLES: {
+      return <SetupRoles {...{ onClose, buttonLabel }} />;
     }
     default:
   }

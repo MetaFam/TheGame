@@ -22,42 +22,48 @@ const maskImageStyle = ({ url }: { url: string }): Record<string, string> => ({
   WebkitMaskRepeat: 'no-repeat',
 });
 
+export type ColorBarProps = ChakraProps & {
+  mask: Maybe<number>;
+  types: PersonalityInfo;
+  loading: boolean;
+};
+
 /* The color bar is below the attribute selection screen,
  * and shows an equally proportioned set of colors with
  * monochrome icons above them and a term for the
  * combination below.
  */
-export const ColorBar = ({
+export const ColorBar: React.FC<ColorBarProps> = ({
   mask = null,
   types = null,
+  loading = false,
   ...props
-}: ChakraProps & {
-  mask: Maybe<number>;
-  types: PersonalityInfo;
-}): JSX.Element => {
-  if (types == null) {
+}) => {
+  let status = null;
+
+  if (loading) {
+    status = 'Loading Settings…';
+  } else if (mask === null) {
+    status = 'Colors have not yet been chosen.';
+  } else if (types == null) {
+    status = 'Loading Personality Information…';
+  } else if (types[mask] == null) {
+    status = `Error Loading Information For Mask: “0b${mask
+      .toString(2)
+      .padStart(5, '0')}
+  ”.`;
+  }
+
+  if (status) {
     return (
-      <Text fontStyle="italic" textAlign="center">
-        Loading Personality Information…
+      <Text mt="3rem !important" fontStyle="italic" textAlign="center">
+        {status}
       </Text>
     );
   }
 
-  if (mask === null) {
-    return (
-      <Text fontStyle="italic" textAlign="center">
-        Colors have not yet been chosen.
-      </Text>
-    );
-  }
-
-  if (types[mask] == null) {
-    return (
-      <Text fontStyle="italic" textAlign="center">
-        Error Loading Information For Mask: “{mask.toString(2).padStart(5, '0')}
-        ”
-      </Text>
-    );
+  if (mask === null || types == null) {
+    return null; // unreachable; for typescript
   }
 
   type ImagesArgProps = {

@@ -3,6 +3,7 @@ import { utils } from 'ethers';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { OpenSeaAPI } from 'opensea-js';
 import { OpenSeaAssetQuery } from 'opensea-js/lib/types';
+import { isEmpty } from 'utils/objectHelpers';
 import { Collectible, parseOpenSeaAssets } from 'utils/openseaHelpers';
 
 const opensea = new OpenSeaAPI({ apiKey: CONFIG.openseaApiKey });
@@ -20,12 +21,23 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
       return res.json({ assets });
     } catch (err) {
-      return res.json({ error: (err as Error).message });
+      let status = 500;
+      let msg = (err as Error).message;
+      if (/403.*unauthorized/i.test(msg)) {
+        status = 403;
+        msg = 'Unauthorized';
+        if (CONFIG.openseaApiKey == null || isEmpty(CONFIG.openseaApiKey)) {
+          msg += ': Missing OPENSEA_API_KEY Environment Variable';
+        }
+      }
+      return res.status(status).json({ error: msg });
     }
   } else if (!utils.isAddress(owner as string)) {
-    return res.json({ error: `Invalid Owner Address` });
+    return res.status(400).json({ error: `Invalid Owner Address` });
   } else {
-    return res.json({ error: `Incorrect Method: ${req.method}` });
+    return res
+      .status(405)
+      .json({ error: `Incorrect Method: ${req.method} (GET Supported)` });
   }
 }
 
