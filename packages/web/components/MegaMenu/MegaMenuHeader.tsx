@@ -105,11 +105,7 @@ export const MegaMenuHeader: React.FC = () => {
           <Logo link={user ? '/dashboard' : '/'} />
           <DesktopNavLinks />
           {/* <Search /> */}
-          <Box
-            w={0.2}
-            textAlign="right"
-            display={{ base: 'none', lg: 'block' }}
-          >
+          <Box textAlign="right" display={{ base: 'none', lg: 'block' }}>
             {connected && !!user && !fetching && !connecting ? (
               <DesktopPlayerStats player={user} />
             ) : (
