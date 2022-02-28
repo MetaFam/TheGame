@@ -109,14 +109,21 @@ export const MegaMenuHeader: React.FC = () => {
             {connected && !!user && !fetching && !connecting ? (
               <DesktopPlayerStats player={user} />
             ) : (
-              <MetaButton
-                h={10}
-                px={6}
-                onClick={connect}
-                isLoading={!mounted || connecting || fetching}
+              <Stack
+                fontWeight="bold"
+                fontFamily="Exo 2, san-serif"
+                align="center"
               >
-                Connect
-              </MetaButton>
+                <MetaButton
+                  h={10}
+                  px={12}
+                  onClick={connect}
+                  isLoading={!mounted || connecting || fetching}
+                >
+                  Connect
+                </MetaButton>
+                <Text color="red"> Mainnet Required</Text>
+              </Stack>
             )}
           </Box>
         </Flex>
