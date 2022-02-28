@@ -2,6 +2,7 @@ import { GuildDiscordMetadata } from '@metafam/discord-bot';
 import { Request, Response } from 'express';
 
 import {
+  Dao_Player,
   Guild_Set_Input,
   GuildDaoInput,
   GuildInfoInput,
@@ -11,6 +12,9 @@ import { client } from '../../../lib/hasuraClient';
 
 type GuildDao = GuildDaoInput & { guildId: string };
 type ExistingGuildDao = GuildDaoInput & { id: string };
+type ExistingGuildDaoWithPlayers = ExistingGuildDao & {
+  readonly players: readonly Pick<Dao_Player, 'playerId' | 'visible'>[];
+};
 
 export const saveGuildHandler = async (
   req: Request,
@@ -50,7 +54,9 @@ const saveGuild = async (playerId: string, guildInfo: GuildInfoInput) => {
 
   // we have to sync existing DAOs with the DAOs passed in here.
   // If this guild already exists, fetch its current DAOs.
-  const currentGuildDaos: { [contractAddress: string]: ExistingGuildDao } = {};
+  const currentGuildDaos: {
+    [contractAddress: string]: ExistingGuildDaoWithPlayers;
+  } = {};
   const { guild: currentGuild } = await client.GetGuild({ id: guildInfo.uuid });
   if (currentGuild?.length > 0) {
     currentGuild[0].daos.forEach((dao) => {
@@ -85,21 +91,27 @@ const saveGuild = async (playerId: string, guildInfo: GuildInfoInput) => {
   }
 
   // If there are current DAOs not in the list of incoming DAOs, we want to detach those current DAOs with this guild.
-  // We can't just delete them because there may be existing players associated with these detached DAOs
-  const addressesToDetach = Object.keys(currentGuildDaos).reduce(
-    (accumulation: string[], contractAddress) => {
-      const daoMatch = submittedDaos.find(
-        (newDao) => newDao.contractAddress === contractAddress,
-      );
-      if (daoMatch == null) {
-        accumulation.push(contractAddress);
+  // If there are no existing players associated with these detached DAOs, we can just delete them
+  const daosToDetach: string[] = [];
+  const daosToDelete: string[] = [];
+  Object.keys(currentGuildDaos).forEach((contractAddress) => {
+    const daoMatch = submittedDaos.find(
+      (newDao) => newDao.contractAddress === contractAddress,
+    );
+    if (daoMatch == null) {
+      const currentDao = currentGuildDaos[contractAddress];
+      if (currentDao.players.length === 0) {
+        daosToDelete.push(currentDao.id);
+      } else {
+        daosToDetach.push(currentDao.id);
       }
-      return accumulation;
-    },
-    [],
-  );
-  if (addressesToDetach.length > 0) {
-    await client.DetachDaosFromGuild({ contractAddresses: addressesToDetach });
+    }
+  });
+  if (daosToDetach.length > 0) {
+    await client.DetachDaosFromGuild({ ids: daosToDetach });
+  }
+  if (daosToDelete.length > 0) {
+    await client.DeleteDaos({ ids: daosToDelete });
   }
 
   // If there are incoming DAOs not in the list of current DAOs, add and associate them with this guild

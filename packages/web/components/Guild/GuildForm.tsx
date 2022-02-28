@@ -101,7 +101,15 @@ const getDefaultFormValues = (
       ? []
       : roleOptions.filter((r) => discordMembershipRoleIds.includes(r.value));
 
-  const daos = guild.daos?.length > 0 ? guild.daos : [placeholderDaoInput];
+  const daos =
+    guild.daos?.length > 0
+      ? guild.daos.map((d) => ({
+          contractAddress: d.contractAddress,
+          network: d.network,
+          label: d.label,
+          url: d.url,
+        }))
+      : [placeholderDaoInput];
 
   return {
     guildname: guild.guildname,

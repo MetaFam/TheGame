@@ -201,11 +201,14 @@ export const CreateQuestCompletion = /* GraphQL */ `
     }
   }
 
-  mutation DetachDaosFromGuild($contractAddresses: [String!]!) {
-    update_dao(
-      where: { contractAddress: { _in: $contractAddresses } }
-      _set: { guildId: null }
-    ) {
+  mutation DetachDaosFromGuild($ids: [uuid!]!) {
+    update_dao(where: { id: { _in: $ids } }, _set: { guildId: null }) {
+      affected_rows
+    }
+  }
+
+  mutation DeleteDaos($ids: [uuid!]!) {
+    delete_dao(where: { id: { _in: $ids } }) {
       affected_rows
     }
   }
