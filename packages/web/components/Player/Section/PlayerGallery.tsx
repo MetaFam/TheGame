@@ -10,6 +10,7 @@ import {
   ModalOverlay,
   SimpleGrid,
   Text,
+  Tooltip,
   useDisclosure,
   ViewAllButton,
 } from '@metafam/ds';
@@ -22,11 +23,8 @@ import React from 'react';
 import { BoxTypes } from 'utils/boxTypes';
 import { Collectible } from 'utils/openseaHelpers';
 
-const GalleryItem: React.FC<{ nft: Collectible; mb?: string }> = ({
-  nft,
-  mb = 6,
-}) => (
-  <Link href={nft.openseaLink} isExternal display="flex" {...{ mb }}>
+const GalleryItem: React.FC<{ nft: Collectible }> = ({ nft }) => (
+  <Link href={nft.openseaLink} isExternal display="flex">
     <Box
       bgImage={`url(${nft.imageURL})`}
       backgroundSize="contain"
@@ -35,17 +33,33 @@ const GalleryItem: React.FC<{ nft: Collectible; mb?: string }> = ({
       minW={28}
       minH={28}
     />
-    <Flex direction="column" ml={3} justify="center">
-      <Heading
-        fontSize="xs"
-        my={3}
-        display="inline-block"
-        style={{ wordWrap: 'break-word', fontVariant: 'small-caps' }}
+    <Tooltip label={nft.title} hasArrow>
+      <Flex
+        display="inline-grid"
+        direction="column"
+        ml={3}
+        h="full"
+        alignContent="center"
       >
-        {nft.title}
-      </Heading>
-      <Text fontSize="sm">{nft.priceString}</Text>
-    </Flex>
+        <Heading
+          fontSize="xs"
+          ml="1em"
+          sx={{
+            textIndent: '-1em',
+            wordBreak: 'break-word',
+            fontVariant: 'small-caps',
+          }}
+
+          // ellipses look nice, but only allow one line, I think
+          // whiteSpace="nowrap"
+          // textOverflow="ellipsis"
+          // overflowX="hidden"
+        >
+          {nft.title}
+        </Heading>
+        <Text fontSize="sm">{nft.priceString}</Text>
+      </Flex>
+    </Tooltip>
   </Link>
 );
 
@@ -87,7 +101,7 @@ const GalleryModal: React.FC<GalleryModalProps> = ({
           <Box
             overflowY="auto"
             overflowX="hidden"
-            maxH="80vh"
+            maxH="calc(100vh - 12rem)"
             borderBottomRadius="lg"
             w="full"
             sx={{
@@ -112,7 +126,6 @@ const GalleryModal: React.FC<GalleryModalProps> = ({
                 <GalleryItem
                   {...{ nft }}
                   key={`${nft.tokenId}-${nft.address}`}
-                  mb="none"
                 />
               ))}
             </SimpleGrid>
@@ -174,9 +187,11 @@ export const PlayerGallery: React.FC<Props> = ({
         }
         return (
           <>
-            {favorites?.map((nft) => (
-              <GalleryItem {...{ nft }} key={nft.tokenId} />
-            ))}
+            <SimpleGrid columns={1}>
+              {favorites?.map((nft) => (
+                <GalleryItem {...{ nft }} key={nft.tokenId} />
+              ))}
+            </SimpleGrid>
             {nfts.length > 3 && (
               <Box textAlign="end">
                 <GalleryModal {...{ isOpen, onClose, nfts }} />
