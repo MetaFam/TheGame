@@ -71,11 +71,11 @@ export const Card: React.FC<CardProps> = ({ title, description, Content }) => {
           bgImage={[ModalCardBg, ModalCardBg, BackgroundImage]}
           bgPos="center"
           bgColor="purpleModalDark"
-          bgRepeat="no-repeat"
+          bgSize="cover"
           textColor="white"
           maxH={['full', 'full', '90%']}
           h={['full', 'full', 'auto']}
-          // w="auto"
+          w="full"
           maxW="3xl"
           alignItems="center"
         >

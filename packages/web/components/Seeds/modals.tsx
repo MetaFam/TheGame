@@ -61,9 +61,13 @@ export const WTFisXP = () => (
       a bunch of other granularly-adjustable parameters.
     </Text>
 
-    <Text mb={2}>
-      <em>Wait, you leave all the value allocation to an algorithm? 😱</em>
-    </Text>
+    <UnorderedList>
+      <ListItem>
+        <Text mb={2}>
+          Wait, you leave all the value allocation to an algorithm? 😱
+        </Text>
+      </ListItem>
+    </UnorderedList>
 
     <Text mb={2}>
       Of course not! Although it <em>does</em> do a pretty damn good job, we
@@ -71,9 +75,11 @@ export const WTFisXP = () => (
       properly accounted for.
     </Text>
 
-    <Text mb={2}>
-      <em>Can it be used by other DAOs?</em>
-    </Text>
+    <UnorderedList>
+      <ListItem>
+        <Text mb={2}>Can it be used by other DAOs?</Text>
+      </ListItem>
+    </UnorderedList>
 
     <Text mb={2}>
       Of course! We believe its a good DAO bootstrapping/accounting/rewarding
@@ -365,7 +371,7 @@ export const BuyingAndSelling = () => (
         <ul>
           <ListItem ml={4}>
             Seeds not showing up? Search by
-            0x30cf203b48edaa42c3b4918e955fed26cd012a3f
+            0xeaecc18198a475c921b24b8a6c1c1f0f5f3f7ea0
           </ListItem>
         </ul>
       </ListItem>
@@ -376,7 +382,7 @@ export const BuyingAndSelling = () => (
       <ListItem>
         That's it! Now go to your MetaMask, scroll down to “add custom token”
         &amp; paste the token address:
-        0x30cf203b48edaa42c3b4918e955fed26cd012a3f
+        0xeaecc18198a475c921b24b8a6c1c1f0f5f3f7ea0
       </ListItem>
     </UnorderedList>
     <Text>If you want to sell your Seeds:</Text>
@@ -484,7 +490,7 @@ export const PlantingAndWatering = () => (
     </Box>
     <UnorderedList>
       <ListItem>
-        Ideally, it would be WETH &amp;{' '}
+        Ideally, it would be WETH &amp;
         <Link
           ml={1}
           href="https://reflexer.finance/"
@@ -767,7 +773,7 @@ export const FAQ = () => {
       {isOpenCap && (
         <Text>
           At the time of writing this post (February 2022), the market cap was
-          $600k
+          ~$600k
         </Text>
       )}
     </div>
