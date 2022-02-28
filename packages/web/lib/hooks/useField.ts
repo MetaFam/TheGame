@@ -52,13 +52,13 @@ export const useProfileField = <T extends ProfileValueType = string>({
   const response = useAtom(
     (atom ?? nullAtom) as PrimitiveAtom<Maybe<typeof value>>,
   );
-  // console.debug({ field, player, value, response })
+  console.debug({ field, player, value, response });
   if (atom) {
     [value, setter] = response;
   }
 
   // to unset, set value = null
-  if (value === undefined) {
+  if (value == null) {
     value = getter?.(player);
   }
 
