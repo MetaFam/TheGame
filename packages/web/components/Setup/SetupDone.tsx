@@ -41,6 +41,19 @@ export const SetupDone: React.FC = () => {
           >
             Explore
           </MetaButton>
+          <MetaButton
+            as="a"
+            href="//my.metagame.wtf/players"
+            px={20}
+            py={8}
+            mt={{
+              base: '0.5rem !important',
+              md: '5rem !important',
+            }}
+            fontSize="xl"
+          >
+            Roster
+          </MetaButton>
         </Stack>
       </Stack>
     </FlexContainer>
