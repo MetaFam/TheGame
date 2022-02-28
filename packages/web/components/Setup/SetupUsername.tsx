@@ -12,7 +12,7 @@ export const SetupUsername: React.FC = () => {
     <ProfileWizardPane
       {...{ field }}
       title="Username"
-      prompt="What name would you like to use in your profile URL?"
+      prompt="What name would you like to use in your MyMeta profile URL?"
     >
       {({ register, dirty, errored }: WizardPaneCallbackProps) => {
         const { ref: registerRef, ...props } = register(field, {

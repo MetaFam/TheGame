@@ -1,19 +1,25 @@
 import {
   Box,
   Button,
+  chakra,
   Flex,
   FormControl,
   FormErrorMessage,
+  Image,
   MetaButton,
   MetaHeading,
   Spinner,
+  Stack,
   StatusedSubmitButton,
   Text,
+  Tooltip,
   useToast,
   Wrap,
   WrapItem,
 } from '@metafam/ds';
 import { Maybe, Optional } from '@metafam/utils';
+import cursiveTitle from 'assets/cursive-title-small.png';
+import discord from 'assets/discord.svg';
 import { FlexContainer } from 'components/Container';
 import { HeadComponent } from 'components/Seo';
 import { useSetupFlow } from 'contexts/SetupContext';
@@ -137,7 +143,41 @@ export const WizardPane = <T,>({
   );
 
   if (!connecting && !connected) {
-    return <MetaButton onClick={connect}>Connect To Progress</MetaButton>;
+    return (
+      <Stack mt={['-12rem', '-8rem']}>
+        <Image w="min(40rem, 100%)" maxW="130%" src={cursiveTitle} />
+        <Box align="center" mt="10vh ! important">
+          <MetaButton onClick={connect} px={[8, 12]}>
+            Connect To Progress
+          </MetaButton>
+        </Box>
+        <Flex justify="center" mt="2rem ! important">
+          <Tooltip label="Join Our Discord" hasArrow>
+            <MetaButton
+              as="a"
+              target="_blank"
+              href="//discord.gg/metagame"
+              p={3}
+              mr={5}
+              sx={{ filter: 'saturate(60%) hue-rotate(45deg)' }}
+            >
+              <Image src={discord} boxSize={6} mr={1.5} /> Get Help
+            </MetaButton>
+          </Tooltip>
+          <Tooltip label="Read Our Wiki" hasArrow>
+            <MetaButton
+              as="a"
+              target="_blank"
+              href="//wiki.metagame.wtf"
+              p={3}
+              sx={{ filter: 'saturate(60%) hue-rotate(45deg)' }}
+            >
+              <chakra.span fontSize="150%">📚</chakra.span> Learn More
+            </MetaButton>
+          </Tooltip>
+        </Flex>
+      </Stack>
+    );
   }
 
   return (
@@ -196,6 +236,7 @@ export const WizardPane = <T,>({
       <Wrap align="center">
         <WrapItem>
           <StatusedSubmitButton
+            px={[8, 12]}
             label={buttonLabel ?? nextButtonLabel}
             {...{ status }}
           />

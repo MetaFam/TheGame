@@ -35,7 +35,7 @@ export const SetupAvailability: React.FC = () => {
         return (
           <InputGroup
             mb={10}
-            maxW="15rem"
+            maxW="10rem"
             margin="auto"
             borderColor="purple.700"
             sx={{

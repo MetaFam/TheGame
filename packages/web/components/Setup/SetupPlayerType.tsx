@@ -41,9 +41,9 @@ export const ExplorerTypes: React.FC<ExplorerTypesType> = ({
   return (
     <InputGroup>
       <SimpleGrid
+        maxW={{ base: '25rem', md: '60rem' }}
         columns={{ base: 1, md: 3 }}
         spacing={4}
-        maxW="60rem"
         margin="auto"
       >
         {choices.map((choice) => {
