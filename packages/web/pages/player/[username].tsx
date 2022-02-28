@@ -19,9 +19,7 @@ import { Maybe } from '@metafam/utils';
 import { PageContainer } from 'components/Container';
 import {
   ALL_BOXES,
-  DEFAULT_LAYOUT_ITEMS,
   DEFAULT_PLAYER_LAYOUT_DATA,
-  DEFAULT_PLAYER_LAYOUTS,
   GRID_ROW_HEIGHT,
   gridConfig,
   MULTIPLE_ALLOWED_BOXES,
@@ -60,9 +58,9 @@ import {
 } from 'utils/boxTypes';
 import {
   addBoxToLayouts,
+  disableAddBox,
   enableAddBox,
   isSameLayouts,
-  makeLayouts,
   removeBoxFromLayouts,
   updatedLayouts,
 } from 'utils/layoutHelpers';
@@ -193,17 +191,18 @@ export const Grid: React.FC<Props> = ({ player }): ReactElement => {
     () =>
       player?.profileLayout
         ? JSON.parse(player.profileLayout)
-        : {
-            layouts: DEFAULT_PLAYER_LAYOUTS,
-            layoutItems: DEFAULT_LAYOUT_ITEMS,
-          },
+        : DEFAULT_PLAYER_LAYOUT_DATA,
     [player?.profileLayout],
   );
 
-  const [
-    { layoutItems: currentLayoutItems, layouts: currentLayouts },
-    setCurrentLayoutData,
-  ] = useState<ProfileLayoutData>(savedLayoutData);
+  const [currentLayoutData, setCurrentLayoutData] = useState<ProfileLayoutData>(
+    savedLayoutData,
+  );
+
+  const {
+    layoutItems: currentLayoutItems,
+    layouts: currentLayouts,
+  } = currentLayoutData;
 
   useEffect(() => {
     itemsRef.current = itemsRef.current.slice(0, currentLayoutItems.length);
@@ -231,12 +230,8 @@ export const Grid: React.FC<Props> = ({ player }): ReactElement => {
   }, [savedLayoutData]);
 
   const isDefaultLayout = useMemo(
-    () =>
-      isSameLayouts(DEFAULT_PLAYER_LAYOUT_DATA, {
-        layoutItems: currentLayoutItems,
-        layouts: currentLayouts,
-      }),
-    [currentLayoutItems, currentLayouts],
+    () => isSameLayouts(DEFAULT_PLAYER_LAYOUT_DATA, currentLayoutData),
+    [currentLayoutData],
   );
 
   const persistLayoutData = useCallback(
@@ -258,32 +253,10 @@ export const Grid: React.FC<Props> = ({ player }): ReactElement => {
       let layoutData = DEFAULT_PLAYER_LAYOUT_DATA;
       if (editing) {
         setSaving(true);
-        layoutData = {
-          layouts: removeBoxFromLayouts(
-            currentLayouts,
-            createBoxKey(BoxTypes.PLAYER_ADD_BOX),
-          ),
-          layoutItems: currentLayoutItems.filter(
-            (item) => item.type !== BoxTypes.PLAYER_ADD_BOX,
-          ),
-        };
+        layoutData = disableAddBox(currentLayoutData);
         await persistLayoutData(layoutData);
       } else {
-        layoutData = {
-          layouts: addBoxToLayouts(
-            currentLayouts,
-            BoxTypes.PLAYER_ADD_BOX,
-            {},
-            { x: 1, y: -1 },
-          ),
-          layoutItems: [
-            ...currentLayoutItems,
-            {
-              type: BoxTypes.PLAYER_ADD_BOX,
-              key: createBoxKey(BoxTypes.PLAYER_ADD_BOX),
-            },
-          ],
-        };
+        layoutData = enableAddBox(currentLayoutData);
       }
       setCurrentLayoutData(layoutData);
       setEditing((e) => !e);
@@ -298,7 +271,7 @@ export const Grid: React.FC<Props> = ({ player }): ReactElement => {
     } finally {
       setSaving(false);
     }
-  }, [editing, currentLayouts, currentLayoutItems, persistLayoutData, toast]);
+  }, [editing, currentLayoutData, persistLayoutData, toast]);
 
   const handleLayoutChange = useCallback(
     (_items: Array<Layout>, layouts: Layouts) => {
@@ -315,11 +288,6 @@ export const Grid: React.FC<Props> = ({ player }): ReactElement => {
   );
 
   const wrapperSX = useMemo(() => gridConfig.wrapper(editing), [editing]);
-
-  const displayLayouts = useMemo(() => makeLayouts(editing, currentLayouts), [
-    editing,
-    currentLayouts,
-  ]);
 
   const onRemoveBox = useCallback(
     (boxKey: string): void => {
@@ -452,7 +420,7 @@ export const Grid: React.FC<Props> = ({ player }): ReactElement => {
       <ResponsiveGridLayout
         className="gridItems"
         onLayoutChange={handleLayoutChange}
-        layouts={displayLayouts}
+        layouts={currentLayouts}
         breakpoints={{ lg: 1180, md: 900, sm: 0 }}
         cols={{ lg: 3, md: 2, sm: 1 }}
         rowHeight={GRID_ROW_HEIGHT}

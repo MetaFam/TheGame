@@ -49,7 +49,7 @@ export type PaneProps<T = string> = WizardPaneProps & {
   }: {
     values: Record<string, unknown>;
     setStatus?: (msg: string) => void;
-  }) => void;
+  }) => Promise<void>;
 };
 
 export type WizardPaneCallbackProps<T = string> = {

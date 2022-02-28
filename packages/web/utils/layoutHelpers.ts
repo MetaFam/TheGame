@@ -14,16 +14,6 @@ import {
   getBoxType,
 } from 'utils/boxTypes';
 
-export const makeLayouts = (editing: boolean, layouts: Layouts): Layouts =>
-  Object.fromEntries(
-    Object.entries(layouts).map(([key, items]) => [
-      key,
-      items.map((item) =>
-        item.i === 'hero' ? { ...item, isResizable: editing } : item,
-      ),
-    ]),
-  );
-
 export const removeBoxFromLayouts = (
   layouts: Layouts,
   boxKey: string,
@@ -97,7 +87,12 @@ export const enableAddBox = ({
   layouts,
   layoutItems,
 }: ProfileLayoutData): ProfileLayoutData => ({
-  layouts: addBoxToLayouts(layouts, BoxTypes.PLAYER_ADD_BOX),
+  layouts: addBoxToLayouts(
+    layouts,
+    BoxTypes.PLAYER_ADD_BOX,
+    {},
+    { x: 1, y: -1 },
+  ),
   layoutItems: [
     ...layoutItems,
     {
