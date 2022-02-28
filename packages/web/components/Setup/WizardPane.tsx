@@ -4,6 +4,7 @@ import {
   Flex,
   FormControl,
   FormErrorMessage,
+  MetaButton,
   MetaHeading,
   Spinner,
   StatusedSubmitButton,
@@ -16,7 +17,7 @@ import { Maybe, Optional } from '@metafam/utils';
 import { FlexContainer } from 'components/Container';
 import { HeadComponent } from 'components/Seo';
 import { useSetupFlow } from 'contexts/SetupContext';
-import { CeramicError } from 'lib/hooks';
+import { CeramicError, useWeb3 } from 'lib/hooks';
 import {
   PropsWithChildren,
   ReactElement,
@@ -73,7 +74,6 @@ export const WizardPane = <T,>({
   onClose,
   onSave,
   value: existing,
-  authenticating = false,
   fetching = false,
   children,
 }: PropsWithChildren<PaneProps<T>>) => {
@@ -89,6 +89,7 @@ export const WizardPane = <T,>({
   } = useForm();
   const current = watch(field, existing);
   const dirty = current !== existing || dirtyFields[field];
+  const { connecting, connected, connect } = useWeb3();
   const toast = useToast();
 
   useEffect(() => {
@@ -135,6 +136,10 @@ export const WizardPane = <T,>({
     [current, field, setValue],
   );
 
+  if (!connecting && !connected) {
+    return <MetaButton onClick={connect}>Connect To Progress</MetaButton>;
+  }
+
   return (
     <FlexContainer as="form" onSubmit={handleSubmit(onSubmit)} color="white">
       <HeadComponent title={`MetaGame: Setting ${title}`} />
@@ -156,14 +161,14 @@ export const WizardPane = <T,>({
       )}
       <FormControl
         isInvalid={!!errors[field]}
-        isDisabled={authenticating || fetching}
+        isDisabled={!connected || fetching}
       >
-        {(authenticating || fetching || validating) && (
+        {(!connected || fetching || validating) && (
           <Flex justify="center" align="center" my={8}>
             <Spinner thickness="4px" speed="1.25s" size="lg" mr={4} />
             <Text>
               {(() => {
-                if (authenticating) return 'Authenticating…';
+                if (!connected) return 'Authenticating…';
                 if (validating) return 'Validating…';
                 return 'Loading Current Value…';
               })()}
@@ -175,7 +180,7 @@ export const WizardPane = <T,>({
             ? children.call(null, {
                 register,
                 control,
-                loading: authenticating || fetching,
+                loading: !connected || fetching,
                 errored: !!errors[field],
                 dirty,
                 current,

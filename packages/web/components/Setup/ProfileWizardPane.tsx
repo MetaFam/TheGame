@@ -3,7 +3,6 @@ import {
   ProfileValueType,
   useProfileField,
   useSaveCeramicProfile,
-  useUser,
 } from 'lib/hooks';
 import { PropsWithChildren, useCallback } from 'react';
 
@@ -14,10 +13,8 @@ export const ProfileWizardPane = <T extends ProfileValueType>({
   children,
   ...props
 }: PropsWithChildren<WizardPaneProps>) => {
-  const { user } = useUser();
-  const { value } = useProfileField<T>({
+  const { value, user } = useProfileField<T>({
     field,
-    player: user,
   });
   const saveToCeramic = useSaveCeramicProfile({
     fields: [field],
@@ -38,8 +35,6 @@ export const ProfileWizardPane = <T extends ProfileValueType>({
   );
 
   return (
-    <WizardPane authenticating={!user} {...{ field, onSave, value, ...props }}>
-      {children}
-    </WizardPane>
+    <WizardPane {...{ field, onSave, value, ...props }}>{children}</WizardPane>
   );
 };

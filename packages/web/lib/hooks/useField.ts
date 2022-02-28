@@ -37,6 +37,7 @@ export const useProfileField = <T extends ProfileValueType = string>({
   getter?: Maybe<(player: Maybe<Player>) => Optional<Maybe<T>>>;
 }): ProfileFieldType<T> => {
   const { fetching, user } = useUser();
+  player ??= user; // eslint-disable-line no-param-reassign
   const owner = user ? user.id === player?.id : null;
   const key = field as keyof Profile;
   let value = player?.profile?.[key];
@@ -55,6 +56,11 @@ export const useProfileField = <T extends ProfileValueType = string>({
     [value, setter] = response;
   }
 
+  // to unset, set value = null
+  if (value === undefined) {
+    value = getter?.(player);
+  }
+
   if (typeof value === 'string' && /^\w{1,10}:\/\/./.test(value)) {
     if (field.endsWith('ImageURL')) {
       value = optimizedImage(field, value);
@@ -64,7 +70,7 @@ export const useProfileField = <T extends ProfileValueType = string>({
   }
 
   return {
-    value: value !== undefined ? value : getter?.(player),
+    value,
     setter,
     [field]: value,
     owner,

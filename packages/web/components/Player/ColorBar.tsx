@@ -56,7 +56,7 @@ export const ColorBar: React.FC<ColorBarProps> = ({
 
   if (status) {
     return (
-      <Text fontStyle="italic" textAlign="center">
+      <Text mt="3rem !important" fontStyle="italic" textAlign="center">
         {status}
       </Text>
     );

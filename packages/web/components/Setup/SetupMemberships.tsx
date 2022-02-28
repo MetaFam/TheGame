@@ -66,7 +66,7 @@ export const SetupMemberships: React.FC<SetupMembershipsProps> = ({
 
         return (
           <Box maxW="50rem">
-            <Text mb={10} maxW="40rem">
+            <Text mb={10} maxW="35rem" textAlign="center">
               We found the following guilds associated with your account and
               automatically added them to your profile.
             </Text>

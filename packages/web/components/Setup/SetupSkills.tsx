@@ -38,7 +38,6 @@ const styles: typeof multiSelectStyles = {
   menuList: (s: CSSProperties) => ({
     ...s,
     minHeight: 'min(15rem, 60vh)',
-    maxWidth: 'calc(100% - 2rem)',
   }),
   multiValue: (s: CSSProperties, { data }: { data: Skill }) => ({
     ...s,
@@ -90,6 +89,7 @@ export const SetupSkills: React.FC<MaybeModalProps> = ({
     field: 'skills',
     loaded: !!user,
   });
+  const modal = !!onClose;
   const [, updateSkills] = useUpdatePlayerSkillsMutation();
   const skills = useMemo(
     () =>
@@ -194,6 +194,7 @@ export const SetupSkills: React.FC<MaybeModalProps> = ({
               closeMenuOnSelect={false}
               placeholder="Add your skills…"
               menuShouldScrollIntoView={true}
+              menuPlacement={modal ? 'auto' : 'top'}
               {...props}
             />
           </Center>

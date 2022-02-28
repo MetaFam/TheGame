@@ -30,6 +30,11 @@ module.exports = withTM(
           destination: '/profile/setup/username',
           permanent: false,
         },
+        {
+          source: '/join',
+          destination: '/profile/setup',
+          permanent: false,
+        },
       ];
     },
     async rewrites() {
