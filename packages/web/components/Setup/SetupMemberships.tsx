@@ -20,7 +20,7 @@ import React, { useState } from 'react';
 import { getDAOLink } from 'utils/daoHelpers';
 
 import { useMounted, useWeb3 } from '../../lib/hooks';
-import { DaoHausLink } from '../Player/PlayerGuild';
+import { ExternalDaoLink } from '../Player/PlayerGuild';
 
 export type SetupMembershipsProps = {
   memberships: Array<Membership> | null | undefined;
@@ -105,14 +105,14 @@ const MembershipListing: React.FC<MembershipListingProps> = ({
   const daoURL = getDAOLink(chain, molochId);
 
   return (
-    <DaoHausLink
-      {...{ daoURL }}
+    <ExternalDaoLink
+      daoURL={daoURL}
       bg="dark"
       border="2px transparent solid"
       _hover={{ borderColor: 'purpleBoxLight' }}
     >
-      <HStack align="center">
-        <Flex bg="purpleBoxLight" width={16} height={16} mr={1}>
+      <HStack alignItems="center" mb={4}>
+        <Flex bg="purpleBoxLight" width={16} height={16} mr={6}>
           {avatarURL ? (
             <Image
               src={avatarURL}
@@ -145,6 +145,6 @@ const MembershipListing: React.FC<MembershipListingProps> = ({
           <ChainIcon {...{ chain }} mx={2} boxSize={4} />
         </Heading>
       </HStack>
-    </DaoHausLink>
+    </ExternalDaoLink>
   );
 };

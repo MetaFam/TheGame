@@ -15,7 +15,7 @@ export const LinkGuild: React.FC<LinkGuildProps> = ({
     return <InternalGuildLink guildName={guildname} {...{ children }} />;
   }
   if (daoURL != null) {
-    return <DaoHausLink {...{ daoURL, children }} />;
+    return <ExternalDaoLink daoURL={daoURL} children={children} />;
   }
   return <>{children}</>;
 };
@@ -37,7 +37,7 @@ type DaoHausLinkProps = {
   daoURL: string | null;
 };
 
-export const DaoHausLink: React.FC<DaoHausLinkProps & LinkProps> = ({
+export const ExternalDaoLink: React.FC<DaoHausLinkProps & LinkProps> = ({
   daoURL,
   children,
   _hover = {},
