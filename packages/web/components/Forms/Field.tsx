@@ -16,12 +16,12 @@ export const Field: React.FC<FieldProps> = ({ children, error, label }) => (
       </Text>
 
       <Text textStyle="caption" textAlign="left" color="red.400" mr={4}>
-        {error?.type === 'required' && 'Required'}
-        {error?.type === 'pattern' && 'Invalid URL'}
-        {error?.type === 'minLength' && 'Too short'}
-        {error?.type === 'maxLength' && 'Too long'}
-        {error?.type === 'min' && 'Too small'}
-        {error?.type === 'validate' && error.message}
+        {error?.type === 'required' && (error.message || 'Required')}
+        {error?.type === 'pattern' && (error.message || 'Invalid URL')}
+        {error?.type === 'minLength' && (error.message || 'Too short')}
+        {error?.type === 'maxLength' && (error.message || 'Too long')}
+        {error?.type === 'min' && (error.message || 'Too small')}
+        {error?.type === 'validate' && (error.message || 'Invalid')}
       </Text>
     </Flex>
 

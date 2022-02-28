@@ -230,6 +230,16 @@
 - table:
     schema: public
     name: guild
+  configuration:
+    custom_root_fields: {}
+    custom_column_names:
+      website_url: websiteUrl
+      join_button_url: joinButtonUrl
+      discord_id: discordId
+      twitter_url: twitterUrl
+      membership_through_discord: membershipThroughDiscord
+      discord_invite_url: discordInviteUrl
+      github_url: githubUrl
   object_relationships:
   - name: GuildType
     using:
@@ -320,6 +330,13 @@
 - table:
     schema: public
     name: guild_metadata
+  configuration:
+    custom_root_fields: {}
+    custom_column_names:
+      discord_metadata: discordMetadata
+      discord_id: discordId
+      creator_id: creatorId
+      guild_id: guildId
   object_relationships:
   - name: guild
     using:
@@ -351,6 +368,11 @@
 - table:
     schema: public
     name: guild_player
+  configuration:
+    custom_root_fields: {}
+    custom_column_names:
+      player_id: playerId
+      guild_id: guildId
   object_relationships:
   - name: Guild
     using:

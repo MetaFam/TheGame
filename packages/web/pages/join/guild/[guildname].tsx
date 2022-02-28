@@ -3,7 +3,7 @@ import { FlexContainer, PageContainer } from 'components/Container';
 import { EditGuildFormInputs, GuildForm } from 'components/Guild/GuildForm';
 import {
   GuildFragment,
-  GuildInfo,
+  GuildInfoInput,
   GuildType_ActionEnum,
   useUpdateGuildMutation,
 } from 'graphql/autogen/types';
@@ -41,7 +41,7 @@ const SetupGuild: React.FC = () => {
       ...otherInputs
     } = editGuildFormInputs;
 
-    const payload: GuildInfo = {
+    const payload: GuildInfoInput = {
       ...otherInputs,
       discordAdminRoles: adminRoles.map((o) => o.value),
       discordMembershipRoles: membershipRoles.map((o) => o.value),

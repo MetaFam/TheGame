@@ -82,14 +82,14 @@ export const GuildFragment = /* GraphQL */ `
     id
     guildname
     description
-    join_button_url
+    joinButtonUrl
     logo
     name
     type
-    website_url
-    discord_id
+    websiteUrl
+    discordId
     status
-    membership_through_discord
+    membershipThroughDiscord
   }
 `;
 
@@ -99,6 +99,7 @@ export const GuildFragment = /* GraphQL */ `
       ...GuildFragment,
       daos { 
         id
+        guildId
         contractAddress
         network
         label
@@ -109,14 +110,14 @@ export const GuildFragment = /* GraphQL */ `
   ${GuildFragment}
 
   query GetGuildMetadataByDiscordId($discordId: String!) {
-    guild(where: { discord_id: { _eq: $discordId } }) {
+    guild(where: { discordId: { _eq: $discordId } }) {
       id
-      discord_id
+      discordId
       guildname
       metadata {
-        guild_id
-        creator_id
-        discord_metadata
+        guildId
+        creatorId
+        discordMetadata
       }
     }
   }
@@ -128,11 +129,11 @@ export const GuildFragment = /* GraphQL */ `
   }
 
   query GetGuildMetadataById($id: uuid!) {
-    guild_metadata(where: { guild_id: { _eq: $id } }) {
-      guild_id
-      creator_id
-      discord_id
-      discord_metadata
+    guild_metadata(where: { guildId: { _eq: $id } }) {
+      guildId
+      creatorId
+      discordId
+      discordMetadata
     }
   }
 
@@ -151,7 +152,7 @@ export const GuildFragment = /* GraphQL */ `
   query GetGuildPlayerDiscordIds($guildId: uuid!, $playerId: uuid!) {
     guild_player(
       where: {
-        _and: { guild_id: { _eq: $guildId }, player_id: { _eq: $playerId } }
+        _and: { guildId: { _eq: $guildId }, playerId: { _eq: $playerId } }
       }
     ) {
       Player {
@@ -160,7 +161,7 @@ export const GuildFragment = /* GraphQL */ `
       }
       Guild {
         id
-        discord_id
+        discordId
       }
     }
   }

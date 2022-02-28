@@ -1,4 +1,6 @@
 import {
+  GetAdministeredGuildsQuery,
+  GetAdministeredGuildsQueryVariables,
   GetGuildMetadataQuery,
   GetGuildMetadataQueryVariables,
   GetGuildnamesQuery,
@@ -40,9 +42,9 @@ export const getGuild = async (
 
 const guildMetadataQuery = /* GraphQL */ `
   query GetGuildMetadata($id: uuid!) {
-    guild_metadata(where: { guild_id: { _eq: $id } }) {
-      guild_id
-      discord_metadata
+    guild_metadata(where: { guildId: { _eq: $id } }) {
+      guildId
+      discordMetadata
       discordRoles {
         id
         name
@@ -61,6 +63,35 @@ export const getGuildMetadata = async (id: string) => {
     )
     .toPromise();
   return data?.guild_metadata[0];
+};
+
+const getAdministeredGuildsQuery = /* GraphQL */ `
+  query GetAdministeredGuilds($id: uuid!) {
+    guild_metadata(where: { creatorId: { _eq: $id } }) {
+      guildId
+      guild {
+        guildname
+      }
+    }
+  }
+`;
+
+export const getAdministeredGuilds = async (playerId: string) => {
+  const { data, error } = await client
+    .query<GetAdministeredGuildsQuery, GetAdministeredGuildsQueryVariables>(
+      guildsQuery,
+      { id: playerId },
+    )
+    .toPromise();
+
+  if (!data) {
+    if (error) {
+      throw error;
+    }
+    return [];
+  }
+
+  return data.guild_metadata.map((gm) => gm.guild);
 };
 
 const guildsQuery = /* GraphQL */ `
@@ -119,7 +150,7 @@ export const getGuildnames = async (
 
 const getGuildPlayersQuery = /* GraphQL */ `
   query GetGuildPlayers($guildId: uuid!) {
-    guild_player(where: { guild_id: { _eq: $guildId } }) {
+    guild_player(where: { guildId: { _eq: $guildId } }) {
       Player {
         id
         totalXP

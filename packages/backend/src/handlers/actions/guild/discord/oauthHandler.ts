@@ -47,7 +47,7 @@ export const handleOAuthCallback = async (
       const existingGuild = getGuildMetadataResponse.guild[0];
 
       // if a guild with the same server ID already exists, see if a discord refresh token is set.
-      if (existingGuild.metadata?.discord_metadata?.refreshToken != null) {
+      if (existingGuild.metadata?.discordMetadata?.refreshToken != null) {
         // if so, it's already set up
         // might want to save the new refresh token if it's different...?
         const successResponse: DiscordGuildAuthResponse = {
@@ -60,10 +60,10 @@ export const handleOAuthCallback = async (
         // otherwise, create metadata for the existing guild with the provided info from discord
         await client.CreateGuildMetadata({
           object: {
-            guild_id: existingGuild.id,
-            creator_id: sessionVariables['x-hasura-user-id'],
-            discord_id: discordGuild.id,
-            discord_metadata: parseDiscordMetadata(response.oauthResponse),
+            guildId: existingGuild.id,
+            creatorId: sessionVariables['x-hasura-user-id'],
+            discordId: discordGuild.id,
+            discordMetadata: parseDiscordMetadata(response.oauthResponse),
           },
         });
 
@@ -136,10 +136,10 @@ const createNewGuild = async (
     type: GuildType_Enum.Project,
     name: discordGuild.name,
     guildname: discordGuild.name.toLowerCase().replace(/[^a-z0-9]/g, ''),
-    discord_id: discordGuild.id,
+    discordId: discordGuild.id,
     status: GuildStatus_Enum.Pending,
     position: GuildPosition_Enum.External,
-    membership_through_discord: true,
+    membershipThroughDiscord: true,
   };
 
   if (discordMetadata.logoHash != null) {
@@ -156,10 +156,10 @@ const createNewGuild = async (
     const newGuild = createGuildResponse.insert_guild_one;
 
     const newGuildMetadataPayload: Guild_Metadata_Insert_Input = {
-      creator_id: creatorId,
-      discord_id: discordGuild.id,
-      guild_id: newGuild.id,
-      discord_metadata: discordMetadata,
+      creatorId,
+      discordId: discordGuild.id,
+      guildId: newGuild.id,
+      discordMetadata,
     };
     const createGuildMetadataResponse = await client.CreateGuildMetadata({
       object: newGuildMetadataPayload,

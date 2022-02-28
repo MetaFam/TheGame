@@ -73,15 +73,15 @@ export const GuildFragment = /* GraphQL */ `
     id
     guildname
     description
-    discord_invite_url
-    join_button_url
+    discordInviteUrl
+    joinButtonUrl
     logo
     name
     type
     position
-    website_url
-    github_url
-    twitter_url
+    websiteUrl
+    githubUrl
+    twitterUrl
     daos {
       contractAddress
       network
@@ -129,6 +129,36 @@ export const QuestFragment = /* GraphQL */ `
   }
 `;
 
+export const QuestCompletionFragment = /* GraphQL */ `
+  fragment QuestCompletionFragment on quest_completion {
+    id
+    completedByPlayerId
+    status
+    submissionLink
+    submissionText
+    submittedAt
+    questId
+    completed {
+      title
+    }
+  }
+`;
+
+export const TokenBalancesFragment = /* GraphQL */ `
+  fragment TokenBalancesFragment on TokenBalances {
+    address: id
+    pSeedBalance
+  }
+`;
+
+export const PlayerSkillFragment = /* GraphQL */ `
+  fragment PlayerSkillFragment on skill {
+    id
+    name
+    category
+  }
+`;
+
 export const QuestWithCompletionFragment = /* GraphQL */ `
   fragment QuestWithCompletionFragment on quest {
     id
@@ -170,35 +200,5 @@ export const QuestWithCompletionFragment = /* GraphQL */ `
         }
       }
     }
-  }
-`;
-
-export const QuestCompletionFragment = /* GraphQL */ `
-  fragment QuestCompletionFragment on quest_completion {
-    id
-    completedByPlayerId
-    status
-    submissionLink
-    submissionText
-    submittedAt
-    questId
-    completed {
-      title
-    }
-  }
-`;
-
-export const TokenBalancesFragment = /* GraphQL */ `
-  fragment TokenBalancesFragment on TokenBalances {
-    address: id
-    pSeedBalance
-  }
-`;
-
-export const PlayerSkillFragment = /* GraphQL */ `
-  fragment PlayerSkillFragment on skill {
-    id
-    name
-    category
   }
 `;

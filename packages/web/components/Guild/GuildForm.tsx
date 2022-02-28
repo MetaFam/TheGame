@@ -15,9 +15,10 @@ import {
 import { SelectOption } from '@metafam/ds/src/MultiSelect';
 import { Field, FieldDescription } from 'components/Forms/Field';
 import { MetaLink } from 'components/Link';
+import { utils } from 'ethers';
 import {
   DiscordRole,
-  GuildDao,
+  GuildDaoInput,
   GuildFragment,
   GuildType_Enum,
   Maybe,
@@ -25,7 +26,12 @@ import {
 } from 'graphql/autogen/types';
 import { useRouter } from 'next/router';
 import React, { useEffect, useMemo } from 'react';
-import { Controller, useFieldArray, useForm } from 'react-hook-form';
+import {
+  Controller,
+  FieldError,
+  useFieldArray,
+  useForm,
+} from 'react-hook-form';
 
 const validations = {
   guildname: {
@@ -48,6 +54,7 @@ const validations = {
   },
   daoAddress: {
     required: true,
+    validate: (address: string) => utils.isAddress(address),
   },
   daoNetwork: {
     required: true,
@@ -67,48 +74,45 @@ export interface EditGuildFormInputs {
   type: GuildType_Enum;
   discordAdminRoles: SelectOption[];
   discordMembershipRoles: SelectOption[];
-  daos?: Maybe<GuildDao[]>;
+  daos?: Maybe<GuildDaoInput[]>;
 }
+
+const placeholderDaoInput = {
+  contractAddress: '',
+  network: 'mainnet',
+  label: null,
+  url: null,
+};
 
 const getDefaultFormValues = (
   guild: GuildFragment,
   metadata: GuildMetadata | undefined,
   roleOptions: SelectOption[],
 ): EditGuildFormInputs => {
-  const discordAdminRoleIds = metadata?.discord_metadata.administratorRoleIds;
+  const discordAdminRoleIds = metadata?.discordMetadata.administratorRoleIds;
   const discordAdminRoleOptions =
     metadata == null || discordAdminRoleIds == null
       ? []
       : roleOptions.filter((r) => discordAdminRoleIds.includes(r.value));
 
-  const discordMembershipRoleIds = metadata?.discord_metadata.membershipRoleIds;
+  const discordMembershipRoleIds = metadata?.discordMetadata.membershipRoleIds;
   const discordMembershipRoleOptions =
     metadata == null || discordMembershipRoleIds == null
       ? []
       : roleOptions.filter((r) => discordMembershipRoleIds.includes(r.value));
 
-  const daos =
-    guild.daos?.length > 0
-      ? guild.daos
-      : [
-          {
-            contractAddress: '',
-            network: 'mainnet',
-            label: '',
-            url: '',
-          },
-        ];
+  const daos = guild.daos?.length > 0 ? guild.daos : [placeholderDaoInput];
 
   return {
     guildname: guild.guildname,
     name: guild.name,
     description: guild.description || '',
-    discordInviteUrl: guild.discord_invite_url || '',
-    joinUrl: guild.join_button_url || '',
+    discordInviteUrl: guild.discordInviteUrl || '',
+    joinUrl: guild.joinButtonUrl || '',
     logoUrl: guild.logo || '',
-    websiteUrl: guild.website_url || '',
-    twitterUrl: guild.twitter_url || '',
-    githubUrl: guild.github_url || '',
+    websiteUrl: guild.websiteUrl || '',
+    twitterUrl: guild.twitterUrl || '',
+    githubUrl: guild.githubUrl || '',
     type: guild.type,
     discordAdminRoles: discordAdminRoleOptions,
     discordMembershipRoles: discordMembershipRoleOptions,
@@ -125,7 +129,7 @@ type Props = {
 
 type GuildMetadata = {
   discordRoles: DiscordRole[];
-  discord_metadata: {
+  discordMetadata: {
     membershipRoleIds: string[];
     administratorRoleIds: string[];
   };
@@ -182,7 +186,7 @@ export const GuildForm: React.FC<Props> = ({
       guildMetadata,
       roleOptions,
     );
-    // https://react-hook-form.com/v6/api#useForm
+    // https://react-hook-form.com/api#useForm
     reset(values);
   }, [workingGuild, guildMetadata, roleOptions, reset]);
 
@@ -386,10 +390,23 @@ export const GuildForm: React.FC<Props> = ({
                     </Field>
                   </Box>
                   <Box flex="1">
-                    <Field label="Address">
+                    <Field
+                      label="Address"
+                      error={
+                        (errors.daos as {
+                          contractAddress?: FieldError | undefined;
+                        }[])?.[index]?.contractAddress
+                      }
+                    >
                       <Input
                         placeholder="0x…"
-                        {...register(`daos.${index}.contractAddress`)}
+                        {...register(`daos.${index}.contractAddress`, {
+                          required: validations.daoAddress.required,
+                          pattern: {
+                            value: /^0x([a-zA-Z0-9-]{40})$/,
+                            message: 'Invalid contract address',
+                          },
+                        })}
                         background="dark"
                       />
                       <FieldDescription>
@@ -402,17 +419,7 @@ export const GuildForm: React.FC<Props> = ({
               </Box>
             </Box>
           ))}
-          <MetaButton
-            size="sm"
-            onClick={() =>
-              append({
-                contractAddress: '',
-                network: 'mainnet',
-                label: '',
-                url: '',
-              })
-            }
-          >
+          <MetaButton size="sm" onClick={() => append(placeholderDaoInput)}>
             Add another
           </MetaButton>
         </Box>
@@ -440,8 +447,8 @@ export const GuildForm: React.FC<Props> = ({
                   name="discordAdminRoles"
                   {...{ control }}
                   rules={validations.discordAdminRoles}
-                  render={(props) => (
-                    <MultiSelect isMulti options={roleOptions} {...props} />
+                  render={({ field }) => (
+                    <MultiSelect isMulti options={roleOptions} {...field} />
                   )}
                 />
                 <FieldDescription>
@@ -464,8 +471,8 @@ export const GuildForm: React.FC<Props> = ({
                   name="discordMembershipRoles"
                   {...{ control }}
                   rules={validations.discordMembershipRoles}
-                  render={(props) => (
-                    <MultiSelect isMulti options={roleOptions} {...props} />
+                  render={({ field }) => (
+                    <MultiSelect isMulti options={roleOptions} {...field} />
                   )}
                 />
                 <FieldDescription>

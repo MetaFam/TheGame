@@ -5,9 +5,14 @@ import { GuildLinks } from 'components/Guild/GuildLinks';
 import { GuildPlayers } from 'components/Guild/Section/GuildPlayers';
 import { ProfileSection } from 'components/Profile/ProfileSection';
 import { HeadComponent } from 'components/Seo';
-import { QuestFragment, QuestStatus_Enum } from 'graphql/autogen/types';
+import {
+  QuestFragment,
+  QuestStatus_Enum,
+  useGetAdministeredGuildsQuery,
+} from 'graphql/autogen/types';
 import { getQuests } from 'graphql/getQuests';
 import { getGuild, getGuildnames } from 'graphql/queries/guild';
+import { useUser } from 'lib/hooks';
 import {
   GetStaticPaths,
   GetStaticPropsContext,
@@ -15,7 +20,7 @@ import {
 } from 'next';
 import { useRouter } from 'next/router';
 import Page404 from 'pages/404';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { BoxTypes } from 'utils/boxTypes';
 import { getGuildCoverImageFull } from 'utils/playerHelpers';
 
@@ -23,6 +28,26 @@ type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
 const GuildPage: React.FC<Props> = ({ guild }) => {
   const router = useRouter();
+  const { user, fetching } = useUser();
+  const [getGuildsResult, getGuilds] = useGetAdministeredGuildsQuery();
+  const [canEdit, setCanEdit] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (!fetching && user) {
+      getGuilds({ id: user.id });
+    }
+  }, [fetching, user, getGuilds]);
+
+  useEffect(() => {
+    if (
+      user?.id ===
+      getGuildsResult?.data?.guild_metadata.some(
+        (gm) => gm.guildId === guild?.id,
+      )
+    ) {
+      setCanEdit(true);
+    }
+  }, [user, getGuildsResult, guild]);
 
   // Hidden until implemented
   // BoxType.GUILD_SKILLS,
@@ -79,8 +104,8 @@ const GuildPage: React.FC<Props> = ({ guild }) => {
       <Flex
         w="full"
         minH="100vh"
-        pl={[4, 8, 12]}
-        pr={[4, 8, 12]}
+        pl={[4, 8, 8]}
+        pr={[4, 8, 8]}
         pb={[4, 8, 12]}
         pt={200 - 72}
         direction="column"
@@ -91,14 +116,14 @@ const GuildPage: React.FC<Props> = ({ guild }) => {
           align="center"
           direction={{ base: 'column', md: 'row' }}
           alignItems="flex-start"
-          maxWidth="7xl"
+          maxW="96rem"
         >
           <Box
             width={{ base: '100%', md: '50%', lg: '33%' }}
             mr={{ base: 0, md: 4 }}
           >
             <Box mb="6">
-              <GuildHero guild={guild} />
+              <GuildHero guild={guild} canEdit={canEdit} />
             </Box>
           </Box>
           <Box

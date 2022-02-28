@@ -156,10 +156,10 @@ export const CreateQuestCompletion = /* GraphQL */ `
 
   mutation CreateGuildMetadata($object: guild_metadata_insert_input!) {
     insert_guild_metadata_one(object: $object) {
-      creator_id
-      discord_id
-      guild_id
-      discord_metadata
+      creatorId
+      discordId
+      guildId
+      discordMetadata
     }
   }
 
@@ -168,10 +168,10 @@ export const CreateQuestCompletion = /* GraphQL */ `
     $discordMetadata: jsonb
   ) {
     update_guild_metadata_by_pk(
-      pk_columns: { guild_id: $guildId }
-      _set: { discord_metadata: $discordMetadata }
+      pk_columns: { guildId: $guildId }
+      _set: { discordMetadata: $discordMetadata }
     ) {
-      guild_id
+      guildId
     }
   }
 
@@ -190,7 +190,7 @@ export const CreateQuestCompletion = /* GraphQL */ `
   }
 
   mutation RemoveAllGuildMembers($guildId: uuid!) {
-    delete_guild_player(where: { guild_id: { _eq: $guildId } }) {
+    delete_guild_player(where: { guildId: { _eq: $guildId } }) {
       affected_rows
     }
   }

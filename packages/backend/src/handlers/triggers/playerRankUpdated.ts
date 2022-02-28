@@ -55,7 +55,7 @@ export const playerRankUpdated = async (payload: TriggerPayload<Player>) => {
       discordId: Constants.METAFAM_DISCORD_GUILD_ID,
     });
     const rankDiscordRoleIds = getGuildResponse.guild[0].metadata
-      ?.discord_metadata?.rankRoleIds as RankRoleIds;
+      ?.discordMetadata?.rankRoleIds as RankRoleIds;
 
     const discordPlayer = await guild.members.fetch(playerDiscordId);
     if (discordPlayer == null) {
