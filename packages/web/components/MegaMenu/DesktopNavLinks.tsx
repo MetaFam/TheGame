@@ -4,6 +4,7 @@ import {
   ChevronDownIcon,
   ChevronUpIcon,
   Flex,
+  FlexProps,
   Icon,
   Menu,
   MenuButton,
@@ -14,8 +15,13 @@ import React from 'react';
 import { MenuLinkItem, MenuLinkSet, MenuSectionLinks } from 'utils/menuLinks';
 
 // Nav links on desktop -- text and links from utils/menuLinks.ts
-export const DesktopNavLinks = () => (
-  <Flex justify="center" h="100%" display={{ base: 'none', lg: 'flex' }}>
+export const DesktopNavLinks: React.FC<FlexProps> = (props) => (
+  <Flex
+    justify="center"
+    h="100%"
+    display={{ base: 'none', lg: 'flex' }}
+    {...props}
+  >
     {MenuSectionLinks.map((section: MenuLinkSet) => (
       <Menu key={section.label} offset={[0, 0]} preventOverflow placement="top">
         {({ isOpen }) => (

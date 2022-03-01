@@ -2,6 +2,7 @@ import {
   Avatar,
   Box,
   BoxedNextImage as Image,
+  BoxProps,
   CloseIcon,
   Flex,
   HamburgerIcon,
@@ -25,16 +26,14 @@ import { MenuSectionLinks } from 'utils/menuLinks';
 
 type LogoProps = {
   link: string;
-  iconSize?: number;
-};
+} & BoxProps;
 
-// Navbar logo
-const Logo = ({ link }: LogoProps) => {
+const Logo: React.FC<LogoProps> = ({ link, ...props }) => {
   const w = useBreakpointValue({ base: 9, lg: 10 }) ?? 9;
   const h = useBreakpointValue({ base: 12, lg: 14 }) ?? 12;
 
   return (
-    <Box>
+    <Box {...props}>
       <MetaLink
         href={link}
         _focus={{ outline: 'none', bg: 'transparent' }}
@@ -78,6 +77,8 @@ export const MegaMenuHeader: React.FC = () => {
         px={4}
         py={1.5}
         h={20}
+        justify="space-between"
+        w="100%"
       >
         <Flex
           onClick={menuToggle}
@@ -89,23 +90,36 @@ export const MegaMenuHeader: React.FC = () => {
           display={{ base: 'flex', lg: 'none' }}
           p={2}
           my="auto"
-          grow={1}
         >
           {isOpen ? (
-            <CloseIcon fontSize="2xl" color="#FFF" ml={2} />
+            <CloseIcon fontSize="2xl" color="#FFF" />
           ) : (
-            <HamburgerIcon fontSize="3xl" color="#FFF" ml={2} />
+            <HamburgerIcon fontSize="3xl" color="#FFF" />
           )}
         </Flex>
         <Flex
-          w={{ base: 'fit-content', lg: '100%' }}
-          justify="space-between"
+          w={{ base: 'auto', lg: '100%' }}
+          justify="center"
           align="center"
+          pos="relative"
         >
-          <Logo link={user ? '/dashboard' : '/'} />
+          <Logo
+            link={user ? '/dashboard' : '/'}
+            pos={{ base: 'initial', lg: 'absolute' }}
+            left={0}
+            top="auto"
+            bottom="auto"
+          />
           <DesktopNavLinks />
           {/* <Search /> */}
-          <Box textAlign="right" display={{ base: 'none', lg: 'block' }}>
+          <Box
+            textAlign="right"
+            display={{ base: 'none', lg: 'block' }}
+            pos="absolute"
+            right="0"
+            top="auto"
+            bottom="auto"
+          >
             {connected && !!user && !fetching && !connecting ? (
               <DesktopPlayerStats player={user} />
             ) : (
