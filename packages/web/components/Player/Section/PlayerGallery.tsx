@@ -187,7 +187,7 @@ export const PlayerGallery: React.FC<Props> = ({
         }
         return (
           <>
-            <SimpleGrid columns={1}>
+            <SimpleGrid columns={1} gap={4}>
               {favorites?.map((nft) => (
                 <GalleryItem {...{ nft }} key={nft.tokenId} />
               ))}
