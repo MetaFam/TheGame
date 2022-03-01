@@ -1,39 +1,57 @@
-import 'react-grid-layout/css/styles.css';
-import 'react-resizable/css/styles.css';
-
 import { Box, Heading } from '@metafam/ds';
-import classnames from 'classnames';
 import React from 'react';
-import { ContainerQuery } from 'react-container-query';
-
-import { containerQueries } from './Section';
-
-export interface Params {
-  [key: string]: boolean;
-}
 
 export type MetaBoxProps = {
   title: string;
   children: React.ReactNode;
-  sx: Record<string, unknown>;
+  editing?: boolean;
 };
 
 export const GridItem: React.FC<MetaBoxProps> = ({
   children,
   title,
-  ...props
+  editing = false,
 }) => (
-  <Box borderBottomRadius="lg" borderTopRadius="lg" p={6} boxShadow="md">
-    <ContainerQuery
-      query={containerQueries}
-      initialSize={{ width: 100, height: 100 }}
+  <Box
+    borderRadius="lg"
+    boxShadow="md"
+    bg="blackAlpha.300"
+    padding={6}
+    pos="relative"
+    overflow="hidden"
+    w="100%"
+    sx={{
+      p: {
+        fontSize: 'md',
+        pb: 2,
+        mr: 'auto',
+      },
+      ul: {
+        fontSize: 'sm',
+        pb: 2,
+        pl: 6,
+      },
+      h2: {
+        fontFamily: 'exo2',
+        fontSize: 'lg',
+        fontWeight: '700',
+        textAlign: 'left',
+        textTransform: 'uppercase',
+      },
+    }}
+  >
+    <Box
+      w="100%"
+      h="100%"
+      overflowY="auto"
+      overflowX="hidden"
+      pointerEvents={editing ? 'none' : 'initial'}
     >
-      {(params: Params) => (
-        <Box className={classnames('container', params)} {...props}>
-          <Heading size="md">{title}</Heading>
-          {children}
-        </Box>
-      )}
-    </ContainerQuery>
+      <Heading size="md">{title}</Heading>
+      {children}
+    </Box>
+    {editing && (
+      <Box w="100%" h="100%" bg="purpleTag50" pos="absolute" top={0} left={0} />
+    )}
   </Box>
 );

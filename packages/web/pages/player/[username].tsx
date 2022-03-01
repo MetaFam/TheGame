@@ -21,7 +21,7 @@ import {
   ALL_BOXES,
   DEFAULT_PLAYER_LAYOUT_DATA,
   GRID_ROW_HEIGHT,
-  gridConfig,
+  gridSX,
   MULTIPLE_ALLOWED_BOXES,
   ProfileLayoutData,
 } from 'components/Player/Section/config';
@@ -275,19 +275,15 @@ export const Grid: React.FC<Props> = ({ player }): ReactElement => {
 
   const handleLayoutChange = useCallback(
     (_items: Array<Layout>, layouts: Layouts) => {
-      const oldData = {
-        layouts: currentLayouts,
-        layoutItems: currentLayoutItems,
-      };
       const newData = { layouts, layoutItems: currentLayoutItems };
       // automatic height adjustments dirty `changed`
-      setChanged(changed || (editing && !isSameLayouts(oldData, newData)));
+      setChanged(
+        changed || (editing && !isSameLayouts(currentLayoutData, newData)),
+      );
       setCurrentLayoutData(newData);
     },
-    [currentLayouts, currentLayoutItems, editing, changed],
+    [currentLayoutData, currentLayoutItems, editing, changed],
   );
-
-  const wrapperSX = useMemo(() => gridConfig.wrapper(editing), [editing]);
 
   const onRemoveBox = useCallback(
     (boxKey: string): void => {
@@ -335,7 +331,7 @@ export const Grid: React.FC<Props> = ({ player }): ReactElement => {
       className="gridWrapper"
       width="100%"
       height="100%"
-      sx={wrapperSX}
+      sx={gridSX}
       maxW="96rem"
       mb="12rem"
       pt={isOwnProfile ? 0 : '4rem'}
@@ -351,7 +347,7 @@ export const Grid: React.FC<Props> = ({ player }): ReactElement => {
           isAttached
           size={mobile ? 'xs' : 'md'}
         >
-          {changed && editing && !isDefaultLayout && (
+          {editing && !isDefaultLayout && (
             <MetaButton
               aria-label="Reset Layout"
               _hover={{ background: 'purple.600' }}
@@ -418,7 +414,6 @@ export const Grid: React.FC<Props> = ({ player }): ReactElement => {
         </ButtonGroup>
       )}
       <ResponsiveGridLayout
-        className="gridItems"
         onLayoutChange={handleLayoutChange}
         layouts={currentLayouts}
         breakpoints={{ lg: 1180, md: 900, sm: 0 }}
@@ -438,7 +433,15 @@ export const Grid: React.FC<Props> = ({ player }): ReactElement => {
         }}
       >
         {currentLayoutItems.map(({ key, type, metadata }, i) => (
-          <Flex {...{ key }} className="gridItem" id={key}>
+          <Flex
+            bg="blueProfileSection"
+            boxShadow={editing ? 'lg' : 'md'}
+            overflow="hidden"
+            borderRadius="lg"
+            transition="boxShadow 0.2s 0.3s ease"
+            id={key}
+            {...{ key }}
+          >
             {type === BoxTypes.PLAYER_ADD_BOX ? (
               <PlayerAddSection
                 boxes={availableBoxes}

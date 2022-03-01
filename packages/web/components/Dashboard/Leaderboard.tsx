@@ -49,7 +49,6 @@ export const Leaderboard: React.FC = () => {
 
   return (
     <VStack
-      className="leaderboard"
       width="100%"
       mt={5}
       fontFamily="exo2"
@@ -102,25 +101,26 @@ export const Leaderboard: React.FC = () => {
             return (
               <LinkBox
                 key={`player-chip-${p.id}`}
-                className="player player__chip"
                 display="flex"
                 width="100%"
                 maxW="100%"
-                px={1}
+                px={3}
                 py={2}
+                fontSize={['sm', 'md']}
                 flexFlow="row nowrap"
                 alignItems="center"
                 justifyContent="flex-start"
                 backgroundColor="blackAlpha.500"
                 borderRadius="md"
-                overflowX="hidden"
-                overflowY="hidden"
+                overflow="hidden"
+                _hover={{
+                  boxShadow: 'md',
+                }}
               >
-                <Box className="player__position" flex={0} mr={1.5}>
+                <Box flex={0} mr={1.5}>
                   {position}
                 </Box>
                 <PlayerAvatar
-                  className="player__avatar"
                   bg="cyan.200"
                   border={0}
                   mr={1}
@@ -142,7 +142,7 @@ export const Leaderboard: React.FC = () => {
                     },
                   }}
                 />
-                <Box className="player__name">
+                <Box>
                   <NextLink
                     as={getPlayerURL(p)}
                     href="/player/[username]"
@@ -158,7 +158,7 @@ export const Leaderboard: React.FC = () => {
                     </LinkOverlay>
                   </NextLink>
                 </Box>
-                <Box className="player__score" textAlign="right" flex={1}>
+                <Box textAlign="right" flex={1}>
                   {Math.floor(
                     showSeasonalXP ? p.seasonXP : p.totalXP,
                   ).toLocaleString()}

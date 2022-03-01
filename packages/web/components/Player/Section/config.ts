@@ -120,7 +120,7 @@ const DEFAULT_BOX_POSITIONS: Record<ChakraSize, Positions> = {
   } as Positions,
 };
 
-export const DEFAULT_PLAYER_LAYOUTS: Layouts = Object.fromEntries(
+const DEFAULT_PLAYER_LAYOUTS: Layouts = Object.fromEntries(
   ['sm', 'md', 'lg'].map((size) => [
     size,
     DEFAULT_BOXES.map((boxType) => ({
@@ -130,7 +130,7 @@ export const DEFAULT_PLAYER_LAYOUTS: Layouts = Object.fromEntries(
   ]),
 );
 
-export const DEFAULT_LAYOUT_ITEMS = DEFAULT_BOXES.map((type: BoxType) => ({
+const DEFAULT_LAYOUT_ITEMS = DEFAULT_BOXES.map((type: BoxType) => ({
   type,
   key: createBoxKey(type),
 }));
@@ -140,32 +140,23 @@ export const DEFAULT_PLAYER_LAYOUT_DATA = {
   layoutItems: DEFAULT_LAYOUT_ITEMS,
 };
 
-export const gridConfig = {
-  wrapper: (editable: boolean): Record<string, unknown> => ({
-    '.gridItem': {
-      boxShadow: editable ? 'lg' : 'md',
-      bg: 'blueProfileSection',
-      overflow: 'hidden',
-      borderRadius: 'lg',
-      transition: 'boxShadow 0.2s 0.3s ease',
-    },
-    '.react-grid-placeholder': {
-      bg: 'purple',
-      boxShadow: '0 0 0 solid rgba(0, 0, 0, 0.8)',
-      borderRadius: 'lg',
-    },
-    '.react-resizable-handle': {
-      width: '1rem',
-      height: '1rem',
-      background: 'none',
-      borderStyle: 'solid',
-      borderColor: 'pinkShadeOne',
-      borderWidth: '0 2px 2px 0',
-      borderRadius: '0 0 6px 0',
-      margin: '2px',
-    },
-    '.react-resizable-handle::after': {
-      border: 'none',
-    },
-  }),
+export const gridSX = {
+  '.react-grid-placeholder': {
+    bg: 'purple',
+    boxShadow: '0 0 0 solid rgba(0, 0, 0, 0.8)',
+    borderRadius: 'lg',
+  },
+  '.react-resizable-handle': {
+    width: '1rem',
+    height: '1rem',
+    background: 'none',
+    borderStyle: 'solid',
+    borderColor: 'pinkShadeOne',
+    borderWidth: '0 2px 2px 0',
+    borderRadius: '0 0 6px 0',
+    margin: '2px',
+  },
+  '.react-resizable-handle::after': {
+    border: 'none',
+  },
 };
