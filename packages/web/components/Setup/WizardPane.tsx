@@ -95,7 +95,7 @@ export const WizardPane = <T,>({
   } = useForm();
   const current = watch(field, existing);
   const dirty = current !== existing || dirtyFields[field];
-  const { connecting, connected, connect } = useWeb3();
+  const { connecting, connected, connect, chainId } = useWeb3();
   const toast = useToast();
 
   useEffect(() => {
@@ -142,14 +142,18 @@ export const WizardPane = <T,>({
     [current, field, setValue],
   );
 
-  if (!connecting && !connected) {
+  if ((!connecting && !connected) || chainId !== '0x1') {
     return (
       <Stack mt={['-12rem', '-8rem']}>
         <Image w="min(40rem, 100%)" maxW="130%" src={cursiveTitle} />
         <Box align="center" mt="10vh ! important">
-          <MetaButton onClick={connect} px={[8, 12]}>
-            Connect To Progress
-          </MetaButton>
+          {connecting || !connected ? (
+            <MetaButton onClick={connect} px={[8, 12]} isLoading={connecting}>
+              Connect To Progress
+            </MetaButton>
+          ) : (
+            <Text fontSize="xl">Please switch to Mainnet to continue</Text>
+          )}
         </Box>
         <Flex justify="center" mt="2rem ! important">
           <Tooltip label="Join Our Discord" hasArrow>
