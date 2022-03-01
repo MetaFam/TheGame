@@ -15,6 +15,7 @@ import {
   Text,
   useDisclosure,
   ViewAllButton,
+  VStack,
   Wrap,
   WrapItem,
 } from '@metafam/ds';
@@ -80,8 +81,8 @@ const DAOListing: React.FC<DAOListingProps> = ({
 
   return (
     <LinkGuild {...{ daoURL, guildname }}>
-      <Flex align="center" mb={4} p={2} direction={['column', 'row']}>
-        <Flex w="full" align="center" justifyContent={['space-around', 'end']}>
+      <Flex align="center" mb={4} p={2}>
+        <Flex align="center">
           <Box bg="purpleBoxLight" minW={16} h={16} borderRadius={8}>
             {logoURL ? (
               <Image
@@ -98,11 +99,7 @@ const DAOListing: React.FC<DAOListingProps> = ({
           </Box>
           <ChainIcon {...{ chain }} mx={2} boxSize="1.5em" />
         </Flex>
-        <Flex
-          w="full"
-          direction={['row', 'column']}
-          align={['center', 'start']}
-        >
+        <Flex w="full" direction="column" align="start">
           <Heading
             fontWeight="bold"
             style={{ fontVariant: 'small-caps' }}
@@ -243,13 +240,11 @@ export const PlayerMemberships: React.FC<MembershipSectionProps> = ({
         </Text>
       )}
 
-      <Wrap justify="center">
+      <VStack align="stretch">
         {memberships.slice(0, 4).map((membership) => (
-          <WrapItem key={membership.memberId}>
-            <DAOListing {...{ membership }} />
-          </WrapItem>
+          <DAOListing {...{ membership }} key={membership.memberId} />
         ))}
-      </Wrap>
+      </VStack>
 
       {memberships.length > 4 && (
         <Box textAlign="end">

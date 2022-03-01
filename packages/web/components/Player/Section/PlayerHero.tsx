@@ -218,7 +218,7 @@ const Emoji: React.FC<DisplayComponentProps> = ({
   return (
     <Wrapper>
       <PlayerHeroTile title="Favorite Emoji">
-        <Text ml={10} mt={0} fontSize={45} lineHeight={0.75}>
+        <Text fontSize="xl" lineHeight={0.85}>
           {emoji}
         </Text>
       </PlayerHeroTile>

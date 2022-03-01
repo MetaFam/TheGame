@@ -44,7 +44,7 @@ export const ProfileSection: React.FC<
   isOwnProfile,
   editing,
   type: boxType,
-  title,
+  title = false,
   withoutBG = false,
   modalPrompt,
   modal,
@@ -110,7 +110,7 @@ export const ProfileSection: React.FC<
         bg={withoutBG ? 'none' : 'blueProfileSection'}
         borderBottomRadius="lg"
         borderTopRadius={!title ? 'lg' : 0}
-        px={boxType === BoxTypes.EMBEDDED_URL ? 0 : [1, 8]}
+        px={boxType === BoxTypes.EMBEDDED_URL ? 0 : [2, 8]}
         py={boxType === BoxTypes.EMBEDDED_URL ? 0 : 8}
         sx={{ backdropFilter: 'blur(8px)' }}
         w="full"
