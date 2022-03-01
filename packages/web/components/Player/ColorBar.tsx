@@ -56,7 +56,7 @@ export const ColorBar: React.FC<ColorBarProps> = ({
 
   if (status) {
     return (
-      <Text mt="3rem !important" fontStyle="italic" textAlign="center">
+      <Text my="3rem !important" fontStyle="italic" textAlign="center">
         {status}
       </Text>
     );
@@ -107,6 +107,7 @@ export const ColorBar: React.FC<ColorBarProps> = ({
         textDecoration: 'underline',
       }}
       tabIndex={1}
+      pb={2}
     >
       <Stack
         direction={['column-reverse', 'column']}

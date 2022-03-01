@@ -16,8 +16,6 @@ import {
   useDisclosure,
   ViewAllButton,
   VStack,
-  Wrap,
-  WrapItem,
 } from '@metafam/ds';
 import BackgroundImage from 'assets/main-background.jpg';
 import { LinkGuild } from 'components/Player/PlayerGuild';
