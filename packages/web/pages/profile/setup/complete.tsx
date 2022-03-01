@@ -1,3 +1,4 @@
+import { MegaMenu } from 'components/MegaMenu';
 import { SetupDone } from 'components/Setup/SetupDone';
 import { SetupProfile } from 'components/Setup/SetupProfile';
 import { SetupContextProvider } from 'contexts/SetupContext';
@@ -14,9 +15,11 @@ export type DefaultSetupProps = InferGetStaticPropsType<typeof getStaticProps>;
 
 const SetupComplete: React.FC<DefaultSetupProps> = () => (
   <SetupContextProvider>
-    <SetupProfile>
-      <SetupDone />
-    </SetupProfile>
+    <MegaMenu>
+      <SetupProfile>
+        <SetupDone />
+      </SetupProfile>
+    </MegaMenu>
   </SetupContextProvider>
 );
 export default SetupComplete;

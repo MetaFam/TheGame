@@ -35,6 +35,11 @@ module.exports = withTM(
           destination: '/profile/setup',
           permanent: false,
         },
+        {
+          source: '/done',
+          destination: '/profile/setup/complete',
+          permanent: false,
+        },
       ];
     },
     async rewrites() {
