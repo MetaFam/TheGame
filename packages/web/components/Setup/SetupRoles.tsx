@@ -201,6 +201,7 @@ const RoleGroup: React.FC<RoleGroupProps> = ({
     <Box mr={[0, 4]} my={[2, 4]}>
       {title && (
         <Heading
+          align="center"
           flexDirection="column"
           color={active ? 'cyan.500' : 'white'}
           fontWeight="bold"
