@@ -122,7 +122,6 @@ export const MegaMenuHeader: React.FC = () => {
                 >
                   Connect
                 </MetaButton>
-                <Text color="red"> Mainnet Required</Text>
               </Stack>
             )}
           </Box>

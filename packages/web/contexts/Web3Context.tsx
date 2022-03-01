@@ -28,7 +28,7 @@ export type Web3ContextType = {
   provider: Maybe<providers.Web3Provider>;
   ceramic: Maybe<CeramicApi>;
   address: Maybe<string>;
-  chainId: Maybe<number>;
+  chainId: Maybe<string>;
   authToken: Maybe<string>;
   connect: () => Promise<void>;
   disconnect: () => void;
@@ -102,7 +102,7 @@ type Web3State = {
   wallet: Maybe<Web3Modal>;
   provider: Maybe<providers.Web3Provider>;
   address: Maybe<string>;
-  chainId: Maybe<number>;
+  chainId: Maybe<string>;
   authToken: Maybe<string>;
 };
 
