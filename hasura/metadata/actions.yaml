@@ -36,6 +36,7 @@ actions:
   definition:
     kind: asynchronous
     handler: '{{ACTION_BASE_ENDPOINT}}/idxCache/updateSingle'
+    forward_client_headers: true
   permissions:
   - role: player
   - role: public

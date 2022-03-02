@@ -429,6 +429,7 @@
   - role: player
     permission:
       columns:
+      - created_at
       - ethereum_address
       - id
       - profile_layout

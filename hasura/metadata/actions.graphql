@@ -141,7 +141,9 @@ type DiscordGuildAuthResponse {
 }
 
 type CacheProcessOutput {
-  updateIDXProfile : uuid
+  success : Boolean!
+  queued : Boolean!
+  error : String
 }
 
 type ExpiredPlayerProfiles {
