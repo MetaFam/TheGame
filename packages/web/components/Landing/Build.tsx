@@ -3,8 +3,8 @@ import BackgroundImage from 'assets/landing/build-background.png';
 import { FullPageContainer } from 'components/Container';
 import { useOnScreen } from 'lib/hooks/useOnScreen';
 import { useRef } from 'react';
-
 import { LandingNextButton } from './LandingNextButton';
+
 
 export const Build: React.FC = () => {
   const ref = useRef<HTMLDivElement>(null);
