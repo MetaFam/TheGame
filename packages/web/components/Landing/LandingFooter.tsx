@@ -1,18 +1,16 @@
-import { Box, BoxedNextImage, HStack } from '@metafam/ds';
+import { BoxedNextImage, Flex, HStack } from '@metafam/ds';
 import MetaGameLogo from 'assets/logo-new.png';
 import { MetaLink } from 'components/Link';
 
-export const LandingFooter = ({ currentSection = '' }) => (
-  <Box
+export const LandingFooter: React.FC = () => (
+  <Flex
     as="footer"
-    d="flex"
     w="33%"
     flexFlow="row nowrap"
-    position="fixed"
-    justifyContent="center"
+    position="absolute"
+    justify="center"
     bottom={20}
     left="33%"
-    opacity={currentSection === 'join-us' ? 1 : 0}
     transition="opacity 0.3s 0.3s ease"
     zIndex={200}
   >
@@ -42,5 +40,5 @@ export const LandingFooter = ({ currentSection = '' }) => (
         </HStack>
       </MetaLink>
     </HStack>
-  </Box>
+  </Flex>
 );

@@ -3,8 +3,7 @@ import { PageContainer } from 'components/Container';
 import { Build } from 'components/Landing/Build';
 import { Game } from 'components/Landing/Game';
 import { Intro } from 'components/Landing/Intro';
-import { JustWatch } from 'components/Landing/JustWatch';
-import { LandingFooter } from 'components/Landing/LandingFooter';
+import { JoinUs } from 'components/Landing/JoinUs';
 import { LandingHeader } from 'components/Landing/LandingHeader';
 import { Optimal } from 'components/Landing/Optimal';
 import { Revolution } from 'components/Landing/Revolution';
@@ -13,8 +12,7 @@ import { WhatWeDo } from 'components/Landing/WhatWeDo';
 import { Who } from 'components/Landing/Who';
 import { WildWeb } from 'components/Landing/WildWeb';
 import { MetaLink } from 'components/Link';
-import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { BsArrowUp } from 'react-icons/bs';
 
 export const getStaticProps = async () => ({
@@ -24,57 +22,51 @@ export const getStaticProps = async () => ({
 });
 
 const Landing: React.FC = () => {
-  const [currentSection, setCurrentSection] = useState('start');
-  const router = useRouter();
+  const scrollContainer =
+    typeof document !== 'undefined'
+      ? document.getElementById('scroll-container')
+      : null;
 
-  const hash = router.asPath.split('#');
+  const [section, setSection] = useState(0);
+
+  const handleScroll = useCallback(() => {
+    const position = scrollContainer?.scrollTop ?? 0;
+    const height = typeof window !== 'undefined' ? window.innerHeight : 1;
+    setSection(Math.floor(position / height));
+  }, [scrollContainer]);
+
   useEffect(() => {
-    setCurrentSection(hash[1]);
-  }, [hash]);
-
-  // useEffect(() => {
-  //   if (typeof window !== 'undefined') {
-  //     const ele = document.querySelector('html');
-  //     ele?.classList.add('landing');
-
-  //   }
-  // }, []);
+    scrollContainer?.addEventListener('scroll', handleScroll);
+    return () => {
+      scrollContainer?.removeEventListener('scroll', handleScroll);
+    };
+  }, [handleScroll, scrollContainer]);
 
   return (
     <>
       <LandingHeader />
-      <PageContainer position="relative" className="landing" p={0}>
-        <Intro />
-        <Game />
-        <Build />
-        <Revolution />
-        <WildWeb />
-        <Together />
-        <WhatWeDo />
-        <Optimal />
-        <Who />
-        <JustWatch />
+      <PageContainer p={0}>
+        <Intro /> {/* section 0 */}
+        <Game /> {/* section 1 */}
+        <Build /> {/* section 2 */}
+        <Revolution /> {/* section 3 */}
+        <WildWeb /> {/* section 4 */}
+        <Together /> {/* section 5 */}
+        <WhatWeDo /> {/* section 6 */}
+        <Optimal /> {/* section 7 */}
+        <Who /> {/* section 8 */}
+        <JoinUs /> {/* section 9 */}
       </PageContainer>
-      {currentSection === 'join-us' && (
-        <LandingFooter currentSection={currentSection} />
-      )}
       <MetaLink
-        className="topLink"
         position="fixed"
-        bottom={{ base: 5, '2xl': 20 }}
-        right={{ base: 0, '2xl': 8 }}
+        bottom={{ base: 0, md: 4 }}
+        right={{ base: 0, md: 4 }}
         href="#start"
-        opacity={currentSection === 'start' ? 0 : 1}
-        transform={`translate3d(0,${
-          currentSection === 'start' ? '30px' : '0px'
-        },0)`}
+        display={section === 0 ? 'none' : 'block'}
+        transform={`translate3d(0,${section === 0 ? '30px' : '0px'},0)`}
         transition="transform 0.3s 0.3s ease-in-out, opacity 0.3s 0.3s ease-in-out"
       >
-        <Button
-          className="gradient-text"
-          colorScheme="white"
-          rightIcon={<BsArrowUp />}
-        >
+        <Button colorScheme="white" rightIcon={<BsArrowUp />}>
           Back to top
         </Button>
       </MetaLink>

@@ -43,7 +43,7 @@ export const Game: React.FC = () => {
             outside of the prescribed rules of the game, uses external factors
             to affect the game, or goes beyond the supposed limits or
             environment set by the game.”
-            <Text textAlign="right">
+            <Text textAlign="right" as="span">
               - From{' '}
               <MetaLink
                 color="#79F8FB"

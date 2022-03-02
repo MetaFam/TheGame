@@ -1,8 +1,9 @@
 import { Button, Heading, Stack, Text } from '@metafam/ds';
-// import { animated } from '@react-spring/web';
+import { MetaLink } from 'components/Link';
 import { useOnScreen } from 'lib/hooks/useOnScreen';
 import { useRouter } from 'next/router';
 import { useRef } from 'react';
+import { BsArrowDown } from 'react-icons/bs';
 
 export const IntroHero: React.FC = () => {
   const { push } = useRouter();
@@ -19,8 +20,8 @@ export const IntroHero: React.FC = () => {
       pos="relative"
       align="center"
       justify="left"
-      spacing={{ base: 8, xl: 4, '2xl': 10 }}
-      pb={{ base: 10, xl: 15, '2xl': 10 }}
+      spacing={8}
+      pb={10}
       direction={{ base: 'column', lg: 'column' }}
       maxW="lg"
       zIndex={100}
@@ -29,39 +30,48 @@ export const IntroHero: React.FC = () => {
       transition="transform 0.3s 0.1s ease-in-out, opacity 0.5s 0.2s ease-in"
     >
       <Heading
-        as="h1"
         fontFamily="body"
-        fontSize={{ base: '5xl', md: '7xl', xl: '5xl', '2xl': '7xl' }}
+        fontSize={{ base: '5xl', md: '7xl' }}
         fontWeight="300"
         color="white"
+        textAlign="center"
       >
-        <Text as="span">MetaGame</Text>
+        MetaGame
       </Heading>
 
       <Text
-        as="p"
         className="gradient"
-        fontSize={{ base: 'md', md: '2xl', xl: 'xl', '2xl': '3xl' }}
+        fontSize={{ base: 'md', md: '2xl' }}
+        textAlign="center"
       >
         A Massive Online Coordination Game
       </Text>
 
       <Stack
-        pt={{ base: 0, xl: 5, '2xl': 0 }}
-        spacing={{ base: 4, sm: 6 }}
+        spacing={{ base: 4, md: 8 }}
         justifyContent="space-evenly"
         direction={{ base: 'column', sm: 'row' }}
         transform={`translate3d(0, ${onScreen ? '0' : '50px'}, 0)`}
         opacity={onScreen ? 1 : 0}
-        transition="transform 0.3s 0.6s ease-in-out, opacity 0.5s 0.7s ease-in"
+        transition="transform 0.3s 0.1s ease-in-out, opacity 0.5s 0.2s ease-in"
       >
+        <MetaLink _hover={{}} href="/join">
+          <Button
+            className="border-grad"
+            colorScheme="white"
+            rounded="md"
+            size="lg"
+          >
+            Start Playing
+          </Button>
+        </MetaLink>
         <Button
-          className="border-grad"
-          rounded="md"
+          colorScheme="white"
           size="lg"
+          rightIcon={<BsArrowDown />}
           onClick={() => handleSectionNav('wtf-is-a-metagame')}
         >
-          <Text as="span">Explore</Text>
+          Explore
         </Button>
       </Stack>
     </Stack>
