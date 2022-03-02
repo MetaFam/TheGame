@@ -16,7 +16,6 @@ import { Maybe, Optional } from '@metafam/utils';
 import { ConnectToProgress } from 'components/ConnectToProgress';
 import { FlexContainer } from 'components/Container';
 import { HeadComponent } from 'components/Seo';
-import { SwitchNetworkButton } from 'components/SwitchNetworkButton';
 import { useSetupFlow } from 'contexts/SetupContext';
 import { CeramicError, useWeb3 } from 'lib/hooks';
 import {
