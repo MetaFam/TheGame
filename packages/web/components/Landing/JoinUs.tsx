@@ -56,8 +56,9 @@ export const JoinUs: React.FC = () => {
                 opacity={onScreen ? 1 : 0}
                 transition="opacity 0.5s 0.6s ease-in"
               >
-                don’t just watch.
+                don’t just watch
               </Text>
+              .
             </Text>
             <HStack
               opacity={onScreen ? 1 : 0}
@@ -67,7 +68,7 @@ export const JoinUs: React.FC = () => {
               <MetaLink
                 _hover={{}}
                 isExternal
-                href="https://wiki.metagame.wtf/docs/"
+                href="//wiki.metagame.wtf/docs/"
               >
                 <Button
                   colorScheme="white"
