@@ -14,6 +14,7 @@ import { HeadComponent } from 'components/Seo';
 // import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
 import { useRouter } from 'next/router';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { BsArrowUp } from 'react-icons/bs';
 import { FaDiscord, FaGithub, FaTwitter } from 'react-icons/fa';
 
 export const getStaticProps = async () => ({
@@ -21,35 +22,6 @@ export const getStaticProps = async () => ({
     hideTopMenu: true,
   },
 });
-
-const ArrowUp: React.FC = () => (
-  <svg
-    strokeWidth={0}
-    viewBox="0 0 16 16"
-    focusable="false"
-    width="16"
-    height="16"
-  >
-    <defs>
-      <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
-        <stop offset="0%" style={{ stopColor: '#FF61E6', stopOpacity: 1 }} />
-        <stop offset="100%" style={{ stopColor: '#7C56FF', stopOpacity: 1 }} />
-      </linearGradient>
-    </defs>
-    <path
-      fill="url(#grad1)"
-      fillRule="evenodd"
-      d="M8 3.5a.5.5 0 01.5.5v9a.5.5 0 01-1 0V4a.5.5 0 01.5-.5z"
-      clipRule="evenodd"
-    />
-    <path
-      fill="url(#grad1)"
-      fillRule="evenodd"
-      d="M7.646 2.646a.5.5 0 01.708 0l3 3a.5.5 0 01-.708.708L8 3.707 5.354 6.354a.5.5 0 11-.708-.708l3-3z"
-      clipRule="evenodd"
-    />
-  </svg>
-);
 
 const Landing: React.FC = () => {
   const scrollContainer =
@@ -124,19 +96,19 @@ const Landing: React.FC = () => {
       <SectionWayPoints currentWaypoint={section} />
       <Socials />
       <MetaLink
+        className="topLink"
         position="fixed"
         bottom={{ base: 20, md: 4 }}
         right={{ base: 0, md: 4 }}
         href="#start"
-        display={section === 0 ? 'none' : 'block'}
-        transform={`translate3d(0,${section === 0 ? '30px' : 0},0)`}
+        opacity={section === 0 ? 0 : 1}
+        transform={`translate3d(0,${section === 0 ? '30px' : '0px'},0)`}
         transition="transform 0.3s 0.3s ease-in-out, opacity 0.3s 0.3s ease-in-out"
-        _hover={{ textDecor: 'none' }}
       >
         <Button
           className="gradient-text"
           colorScheme="white"
-          rightIcon={<ArrowUp />}
+          rightIcon={<BsArrowUp />}
         >
           Back to top
         </Button>
