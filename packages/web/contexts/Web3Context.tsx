@@ -191,8 +191,7 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
         window.location.reload();
       });
       prov.on('chainChanged', () => {
-        disconnect();
-        window.location.reload();
+        updateWeb3State(prov);
       });
     } catch (error) {
       console.error('`connect` Error', error); // eslint-disable-line no-console

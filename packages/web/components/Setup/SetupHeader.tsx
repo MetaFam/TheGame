@@ -9,6 +9,7 @@ import {
 import LogoImage from 'assets/logo.png';
 import { FlexContainer } from 'components/Container';
 import { useSetupFlow } from 'contexts/SetupContext';
+import { useWeb3 } from 'lib/hooks';
 import React, { ReactElement } from 'react';
 
 export const SetupHeader: React.FC = () => {
@@ -24,6 +25,9 @@ export const SetupHeader: React.FC = () => {
   const templateColumns = [0, ...sections.map(() => 1), 0].map(
     (col) => `${col}fr`,
   );
+
+  const { connected, chainId } = useWeb3();
+  if (!connected || chainId !== '0x1') return null;
 
   return (
     <Grid templateColumns={templateColumns.join(' ')} gap={[1, 4]} w="full">

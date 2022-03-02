@@ -36,7 +36,7 @@ export const JoinUs: React.FC = () => {
           maxWidth={{ base: '100%', md: '2xl' }}
           pl={{ base: 0, md: 0 }}
           textAlign="center"
-          zIndex={100}
+          zIndex={1}
           transform={`translate3d(0, ${onScreen ? '0' : '50px'}, 0)`}
           opacity={onScreen ? 1 : 0}
           transition="transform 0.3s 0.1s ease-in-out, opacity 0.5s 0.2s ease-in"
@@ -63,7 +63,7 @@ export const JoinUs: React.FC = () => {
               opacity={onScreen ? 1 : 0}
               transition="transform 0.3s 0.1s ease-in-out, opacity 0.5s 1s ease-in"
             >
-              <JoinButton text="Enter Here" />
+              <JoinButton text="Join us here" />
               <MetaLink
                 _hover={{}}
                 isExternal

@@ -5,7 +5,7 @@ export const chartQuery =
   '/market_chart?vs_currency=usd&days=30&interval=daily';
 export const podcastRSSURL = 'https://anchor.fm/s/57a641c/podcast/rss';
 
-export const gridData = [
+export const gridDataLg = [
   { i: 'latest', x: 0, y: 0, w: 6, h: 6, minW: 3 },
   { i: 'xp', x: 6, y: 0, w: 3, h: 2, minH: 2, minW: 3 },
   { i: 'seed', x: 9, y: 0, w: 3, h: 2, minH: 2, minW: 3 },
@@ -17,8 +17,8 @@ export const gridDataMd = [
   { i: 'latest', x: 0, y: 0, w: 6, h: 4, minW: 3 },
   { i: 'xp', x: 6, y: 0, w: 6, h: 2, minH: 2, minW: 3 },
   { i: 'seed', x: 6, y: 2, w: 6, h: 2, minH: 2, minW: 3 },
-  { i: 'calendar', x: 0, y: 4, w: 6, h: 4, minW: 3 },
-  { i: 'leaderboard', x: 6, y: 4, w: 6, h: 4, minW: 3 },
+  { i: 'calendar', x: 6, y: 4, w: 6, h: 4, minW: 3 },
+  { i: 'leaderboard', x: 0, y: 4, w: 6, h: 4, minW: 3 },
 ];
 
 export const gridDataSm = [
@@ -30,7 +30,7 @@ export const gridDataSm = [
 ];
 
 export const initLayouts = {
-  lg: gridData,
+  lg: gridDataLg,
   md: gridDataMd,
   sm: gridDataSm,
 };

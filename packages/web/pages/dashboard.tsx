@@ -81,7 +81,7 @@ export const Grid: React.FC = () => {
     <Box width="100%" height="100%" sx={gridSX}>
       <ButtonGroup
         w="full"
-        mb={4}
+        mt={-8}
         px={8}
         justifyContent="end"
         variant="ghost"
