@@ -70,6 +70,15 @@ export const DesktopPlayerStats: React.FC<PlayerStatsProps> = ({ player }) => {
               Dashboard
             </MenuItem>
           </MetaLink>
+          <MetaLink
+            color="black"
+            href={'/profile/setup/username'}
+            _hover={{ textDecoration: 'none' }}
+          >
+            <MenuItem>
+              <Profile w={4} h={4} mr={4} /> Setup Profile
+            </MenuItem>
+          </MetaLink>
           <MenuItem onClick={disconnect}>
             <LogOut w={4} h={4} mr={4} />
             Disconnect
