@@ -1,6 +1,5 @@
 import {
   Box,
-  chakra,
   Flex,
   Image,
   MetaButton,
@@ -38,8 +37,9 @@ export const ConnectToProgress: React.FC = () => {
             p={3}
             mr={5}
             sx={{ filter: 'saturate(60%) hue-rotate(45deg)' }}
+            leftIcon={<Image src={discord} boxSize={6} mr={1.5} />}
           >
-            <Image src={discord} boxSize={6} mr={1.5} /> Get Help
+            Get Help
           </MetaButton>
         </Tooltip>
         <Tooltip label="Read Our Wiki" hasArrow>
@@ -49,8 +49,13 @@ export const ConnectToProgress: React.FC = () => {
             href="//wiki.metagame.wtf"
             p={3}
             sx={{ filter: 'saturate(60%) hue-rotate(45deg)' }}
+            leftIcon={
+              <Text as="span" fontSize="150%">
+                📚
+              </Text>
+            }
           >
-            <chakra.span fontSize="150%">📚</chakra.span> Learn More
+            Learn More
           </MetaButton>
         </Tooltip>
       </Flex>

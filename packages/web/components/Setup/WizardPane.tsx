@@ -1,29 +1,21 @@
 import {
   Box,
   Button,
-  chakra,
   Flex,
   FormControl,
   FormErrorMessage,
-  Image,
-  MetaButton,
   MetaHeading,
   Spinner,
-  Stack,
   StatusedSubmitButton,
   Text,
-  Tooltip,
   useToast,
   Wrap,
   WrapItem,
 } from '@metafam/ds';
 import { Maybe, Optional } from '@metafam/utils';
-import cursiveTitle from 'assets/cursive-title-small.png';
-import discord from 'assets/discord.svg';
 import { ConnectToProgress } from 'components/ConnectToProgress';
 import { FlexContainer } from 'components/Container';
 import { HeadComponent } from 'components/Seo';
-import { SwitchNetworkButton } from 'components/SwitchNetworkButton';
 import { useSetupFlow } from 'contexts/SetupContext';
 import { CeramicError, useWeb3 } from 'lib/hooks';
 import {
@@ -151,11 +143,7 @@ export const WizardPane = <T,>({
   return (
     <FlexContainer as="form" onSubmit={handleSubmit(onSubmit)} color="white">
       <HeadComponent title={`MetaGame: Setting ${title}`} />
-      {title && (
-        <MetaHeading mt={8} mb={1} textAlign="center">
-          {title}
-        </MetaHeading>
-      )}
+      {title && <MetaHeading textAlign="center">{title}</MetaHeading>}
       {prompt && (
         <Box maxW="25rem">
           {typeof prompt === 'string' ? (

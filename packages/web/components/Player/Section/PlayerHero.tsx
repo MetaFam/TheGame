@@ -11,7 +11,6 @@ import {
   ModalBody,
   ModalCloseButton,
   ModalContent,
-  ModalHeader,
   ModalOverlay,
   Text,
   Tooltip,
@@ -146,14 +145,6 @@ export const PlayerHero: React.FC<HeroProps> = ({ player, editing }) => {
             bgAttachment="fixed"
             p={[0, 8, 12]}
           >
-            <ModalHeader
-              color="white"
-              fontSize="4xl"
-              alignSelf="center"
-              fontWeight="normal"
-            >
-              Edit Profile
-            </ModalHeader>
             <ModalCloseButton
               color="pinkShadeOne"
               size="xl"

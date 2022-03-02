@@ -21,6 +21,7 @@ import {
   InputRightAddon,
   Link,
   MetaButton,
+  MetaHeading,
   ModalFooter,
   motion,
   SelectTimeZone,
@@ -41,7 +42,6 @@ import {
 } from '@metafam/utils';
 import FileOpenIcon from 'assets/file-open-icon.svg';
 import PlayerProfileIcon from 'assets/player-profile-icon.svg';
-import { SwitchNetworkButton } from 'components/SwitchNetworkButton';
 import {
   Maybe,
   Player,
@@ -443,6 +443,9 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
 
   return (
     <Stack as="form" onSubmit={handleSubmit(onSubmit)} maxW="full">
+      <MetaHeading mb={8} textAlign="center" color="white">
+        Profile
+      </MetaHeading>
       <Wrap>
         <WrapItem flex={1} px={5}>
           <FormControl isInvalid={errors.profileImageURL} align="center">
