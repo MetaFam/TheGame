@@ -20,11 +20,7 @@ export const switchChainOnMetaMask = async (
   try {
     await window.ethereum.request({
       method: 'wallet_switchEthereumChain',
-      params: [
-        {
-          chainId,
-        },
-      ],
+      params: [{ chainId }],
     });
     return true;
   } catch (switchError) {
