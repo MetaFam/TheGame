@@ -51,16 +51,16 @@ const topPlayersQuery = /* GraphQL */`
   query GetTopPlayers {
     player(
       limit: ${NUM_PLAYERS}
-      order_by: { total_xp: desc }
+      order_by: { totalXP: desc }
     ) {
       id
-      username
-      ethereum_address
-      availability_hours
-      timezone
-      color_mask
-      type {
-        title
+      ethereumAddress
+      profile {
+        username 
+        availableHours
+        timeZone
+        colorMask
+        explorerTypeTitle
       }
       skills {
         Skill {
@@ -248,24 +248,24 @@ async function startSeeding() {
   console.debug(result);
   console.debug(`Fetching players from: ${PRODUCTION_GRAPHQL_URL}`);
   const players = await fetchTopPlayers();
-  const addresses = players.map(({ ethereum_address }) => ethereum_address);
+  const addresses = players.map(({ ethereumAddress }) => ethereumAddress);
   console.debug(`Fetching player ids for players from ${SOURCE_GRAPHQL_URL} for ${addresses.length} addresses`);
   const { ids, skills } = await fetchPlayerIdsAndSkills(addresses);
   console.debug(`Fetched ${Object.keys(ids).length} player ids for players from addresses.`);
   const mutations = (
     players.map((player, idx) => {
-      const playerId = ids[player.ethereum_address];
+      const playerId = ids[player.ethereumAddress];
       if (!playerId) return undefined;
       return {
-        ethereumAddress: player.ethereum_address,
+        ethereumAddress: player.ethereumAddress,
         count: idx + 1,
         variables: {
           playerId,
-          availableHours: player.availability_hours,
-          timeZone: player.timezone,
-          explorerTypeTitle: player.type?.title,
-          colorMask: player.color_mask ?? null,
-          username: player.username,
+          username: player.profile?.username ?? null,
+          availableHours: player.profile?.availableHours ?? null,
+          timeZone: player.profile?.timeZone ?? null,
+          colorMask: player.profile?.colorMask ?? null,
+          explorerTypeTitle: player.profile?.explorerTypeTitle ?? null,
           skills: (
             player.skills.map((skill) => ({
               skill_id: getSkillId(skills, skill),
