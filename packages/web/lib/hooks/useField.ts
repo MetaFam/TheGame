@@ -1,10 +1,9 @@
 import { httpLink, Maybe, Optional } from '@metafam/utils';
 import { ExplorerType, Player, Profile } from 'graphql/autogen/types';
-import { Atom, atom as newAtom, PrimitiveAtom, useAtom } from 'jotai';
+import { atom as newAtom, PrimitiveAtom, useAtom } from 'jotai';
+import { useUser } from 'lib/hooks/useUser';
+import { getJotaiState, setJotaiState } from 'lib/jotaiState';
 import { optimizedImage } from 'utils/imageHelpers';
-
-// eslint-disable-next-line import/no-cycle
-import { useUser } from './useUser';
 
 export type ProfileFieldType<T> = {
   [field in keyof Profile]?: Maybe<T>;
@@ -18,14 +17,9 @@ export type ProfileFieldType<T> = {
 
 export type ProfileValueType = string | number | Array<string> | ExplorerType;
 
-let fields: Record<string, Atom<Maybe<unknown>>> = {};
 const nullAtom = newAtom(null, () => {
   throw new Error('Unimplemented');
 });
-
-export const clearJotaiState = () => {
-  fields = {};
-};
 
 export const useProfileField = <T extends ProfileValueType = string>({
   field,
@@ -42,10 +36,11 @@ export const useProfileField = <T extends ProfileValueType = string>({
   const key = field as keyof Profile;
   let value = player?.profile?.[key];
   let setter: Maybe<(val: unknown) => void> = null;
-  let atom = owner ? fields[field] : null;
+  let atom = owner ? getJotaiState(field) : null;
   if (!atom && owner) {
     // eslint-disable-next-line no-multi-assign
-    fields[field] = atom = newAtom<Maybe<T>>(value);
+    atom = newAtom<Maybe<T>>(value);
+    setJotaiState(field, atom);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-shadow
@@ -90,10 +85,10 @@ export const useOverridableField = <T = string>({
 }) => {
   let value: Maybe<T> = defaultValue ?? null;
   let setter: Maybe<(val: unknown) => void> = null;
-  let atom = fields[field] ?? null;
+  let atom = getJotaiState(field) ?? null;
   if (!atom && (loaded || !!value)) {
-    // eslint-disable-next-line no-multi-assign
-    fields[field] = atom = newAtom<Maybe<T>>(value);
+    atom = newAtom<Maybe<T>>(value);
+    setJotaiState(field, atom);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-shadow

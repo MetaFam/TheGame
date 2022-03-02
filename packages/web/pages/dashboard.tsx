@@ -77,8 +77,6 @@ export const Grid: React.FC = () => {
 
   const mobile = useBreakpointValue({ base: true, sm: false });
 
-  console.log({ isDefaultLayout, changed, editing });
-
   return (
     <Box width="100%" height="100%" sx={gridSX}>
       <ButtonGroup

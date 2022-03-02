@@ -2,19 +2,17 @@ import { EthereumAuthProvider, ThreeIdConnect } from '@3id/connect';
 import ThreeIdResolver from '@ceramicnetwork/3id-did-resolver';
 import type { CeramicApi } from '@ceramicnetwork/common';
 import { CeramicClient } from '@ceramicnetwork/http-client';
-import { did } from '@metafam/utils';
-import WalletConnectProvider from '@walletconnect/web3-provider';
+import { did, Maybe } from '@metafam/utils';
 import { CONFIG } from 'config';
 import { DID } from 'dids';
 import { providers } from 'ethers';
-import { Maybe } from 'graphql/autogen/types';
 import {
   clearToken,
   clearWalletConnect,
   getTokenFromStore,
   setTokenInStore,
 } from 'lib/auth';
-import { clearJotaiState } from 'lib/hooks/useField';
+import { clearJotaiState } from 'lib/jotaiState';
 import React, {
   createContext,
   useCallback,
@@ -22,6 +20,7 @@ import React, {
   useMemo,
   useState,
 } from 'react';
+import { providerOptions } from 'utils/walletOptions';
 import Web3Modal from 'web3modal';
 
 export type Web3ContextType = {
@@ -47,15 +46,6 @@ export const Web3Context = createContext<Web3ContextType>({
   connecting: false,
   connected: false,
 });
-
-const providerOptions = {
-  walletconnect: {
-    package: WalletConnectProvider,
-    options: {
-      infuraId: CONFIG.infuraId,
-    },
-  },
-};
 
 const [web3Modal, ceramic, threeIdConnect] =
   typeof window === 'undefined'
