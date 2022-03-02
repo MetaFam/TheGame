@@ -20,8 +20,10 @@ import {
 import { Maybe, Optional } from '@metafam/utils';
 import cursiveTitle from 'assets/cursive-title-small.png';
 import discord from 'assets/discord.svg';
+import { ConnectToProgress } from 'components/ConnectToProgress';
 import { FlexContainer } from 'components/Container';
 import { HeadComponent } from 'components/Seo';
+import { SwitchNetworkButton } from 'components/SwitchNetworkButton';
 import { useSetupFlow } from 'contexts/SetupContext';
 import { CeramicError, useWeb3 } from 'lib/hooks';
 import {
@@ -95,7 +97,7 @@ export const WizardPane = <T,>({
   } = useForm();
   const current = watch(field, existing);
   const dirty = current !== existing || dirtyFields[field];
-  const { connecting, connected, connect, chainId } = useWeb3();
+  const { connecting, connected, chainId } = useWeb3();
   const toast = useToast();
 
   useEffect(() => {
@@ -143,45 +145,7 @@ export const WizardPane = <T,>({
   );
 
   if ((!connecting && !connected) || chainId !== '0x1') {
-    return (
-      <Stack mt={['-12rem', '-8rem']}>
-        <Image w="min(40rem, 100%)" maxW="130%" src={cursiveTitle} />
-        <Box align="center" mt="10vh ! important">
-          {connecting || !connected ? (
-            <MetaButton onClick={connect} px={[8, 12]} isLoading={connecting}>
-              Connect To Progress
-            </MetaButton>
-          ) : (
-            <Text fontSize="xl">Please switch to Mainnet to continue</Text>
-          )}
-        </Box>
-        <Flex justify="center" mt="2rem ! important">
-          <Tooltip label="Join Our Discord" hasArrow>
-            <MetaButton
-              as="a"
-              target="_blank"
-              href="//discord.gg/metagame"
-              p={3}
-              mr={5}
-              sx={{ filter: 'saturate(60%) hue-rotate(45deg)' }}
-            >
-              <Image src={discord} boxSize={6} mr={1.5} /> Get Help
-            </MetaButton>
-          </Tooltip>
-          <Tooltip label="Read Our Wiki" hasArrow>
-            <MetaButton
-              as="a"
-              target="_blank"
-              href="//wiki.metagame.wtf"
-              p={3}
-              sx={{ filter: 'saturate(60%) hue-rotate(45deg)' }}
-            >
-              <chakra.span fontSize="150%">📚</chakra.span> Learn More
-            </MetaButton>
-          </Tooltip>
-        </Flex>
-      </Stack>
-    );
+    return <ConnectToProgress />;
   }
 
   return (

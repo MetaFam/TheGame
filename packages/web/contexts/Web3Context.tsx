@@ -33,6 +33,7 @@ export type Web3ContextType = {
   disconnect: () => void;
   connecting: boolean;
   connected: boolean;
+  isMetaMask: boolean;
 };
 
 export const Web3Context = createContext<Web3ContextType>({
@@ -45,6 +46,7 @@ export const Web3Context = createContext<Web3ContextType>({
   disconnect: () => undefined,
   connecting: false,
   connected: false,
+  isMetaMask: false,
 });
 
 const [web3Modal, ceramic, threeIdConnect] =
@@ -207,6 +209,14 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
     }
   }, [connect]);
 
+  const isMetaMask = useMemo(
+    () =>
+      typeof window !== 'undefined' &&
+      window.ethereum?.isMetaMask === true &&
+      provider?.connection?.url === 'metamask',
+    [provider],
+  );
+
   return (
     <Web3Context.Provider
       value={{
@@ -219,6 +229,7 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
         address,
         authToken,
         chainId,
+        isMetaMask,
       }}
     >
       {children}

@@ -41,6 +41,7 @@ import {
 } from '@metafam/utils';
 import FileOpenIcon from 'assets/file-open-icon.svg';
 import PlayerProfileIcon from 'assets/player-profile-icon.svg';
+import { SwitchNetworkButton } from 'components/SwitchNetworkButton';
 import {
   Maybe,
   Player,
@@ -62,6 +63,8 @@ import React, {
 import { Controller, useForm } from 'react-hook-form';
 import { optimizedImage } from 'utils/imageHelpers';
 import { isEmpty } from 'utils/objectHelpers';
+
+import { ConnectToProgress } from './ConnectToProgress';
 
 const MAX_DESC_LEN = 420; // characters
 
@@ -178,7 +181,7 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
     watch,
     formState: { errors, dirtyFields },
   } = useForm();
-  const { ceramic, address } = useWeb3();
+  const { ceramic, address, chainId } = useWeb3();
   const toast = useToast();
   const description = watch('description');
   const remaining = useMemo(() => MAX_DESC_LEN - (description?.length ?? 0), [
@@ -433,6 +436,10 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
       setStatus(null);
     }
   };
+
+  if (chainId !== '0x1') {
+    return <ConnectToProgress />;
+  }
 
   return (
     <Stack as="form" onSubmit={handleSubmit(onSubmit)} maxW="full">

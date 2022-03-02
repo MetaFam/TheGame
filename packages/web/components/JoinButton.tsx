@@ -34,16 +34,19 @@ export const JoinButton: React.FC<{ text: string }> = ({
     }
   }, [connected, connect, postConnect]);
 
+  const isLoading = connecting || fetching;
+
   return (
     <Button
       className="border-grad"
       colorScheme="white"
       rounded="md"
       size="lg"
-      isLoading={connecting || fetching}
-      onClick={onClick}
+      {...{ isLoading, onClick }}
     >
-      <Text as="span">{text}</Text>
+      <Text as="span" opacity={isLoading ? 0 : 1}>
+        {text}
+      </Text>
     </Button>
   );
 };
