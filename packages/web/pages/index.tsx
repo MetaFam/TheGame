@@ -96,7 +96,6 @@ const Landing: React.FC = () => {
       <SectionWayPoints currentWaypoint={section} />
       <Socials />
       <MetaLink
-        className="topLink"
         position="fixed"
         bottom={{ base: 20, md: 4 }}
         right={{ base: 0, md: 4 }}
@@ -105,11 +104,7 @@ const Landing: React.FC = () => {
         transform={`translate3d(0,${section === 0 ? '30px' : '0px'},0)`}
         transition="transform 0.3s 0.3s ease-in-out, opacity 0.3s 0.3s ease-in-out"
       >
-        <Button
-          className="gradient-text"
-          colorScheme="white"
-          rightIcon={<BsArrowUp />}
-        >
+        <Button colorScheme="white" rightIcon={<BsArrowUp />}>
           Back to top
         </Button>
       </MetaLink>
