@@ -1,8 +1,7 @@
 import { Container } from '@metafam/ds';
 import BackgroundImage from 'assets/landing/sections/section-1.jpg';
 import { FullPageContainer } from 'components/Container';
-
-import { IntroHero } from './IntroHero';
+import { IntroHero } from 'components/Landing/IntroHero';
 
 export const Intro: React.FC = () => (
   <FullPageContainer
