@@ -9,6 +9,7 @@ import { BsArrowRight } from 'react-icons/bs';
 
 import { LandingFooter } from './LandingFooter';
 
+
 export const JoinUs: React.FC = () => {
   const ref = useRef<HTMLDivElement>(null);
   const onScreen = useOnScreen(ref);
@@ -75,7 +76,7 @@ export const JoinUs: React.FC = () => {
                   size="lg"
                   rightIcon={<BsArrowRight />}
                 >
-                  Explore more
+                  Explore More
                 </Button>
               </MetaLink>
             </HStack>
