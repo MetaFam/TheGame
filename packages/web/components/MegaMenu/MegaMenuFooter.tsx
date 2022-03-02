@@ -102,17 +102,17 @@ export const MegaMenuFooter = () => {
                 _hover={{ textDecoration: 'none' }}
               >
                 <MenuItem>
-                  <Dashboard w={4} h={4} mr={4} color="red.500" />
-                  Dashboard
+                  <Profile w={4} h={4} mr={4} /> Profile Wizard
                 </MenuItem>
               </MetaLink>
               <MetaLink
                 color="black"
-                href={'/profile/setup/username'}
+                href={'/dashboard'}
                 _hover={{ textDecoration: 'none' }}
               >
                 <MenuItem>
-                  <Profile w={4} h={4} mr={4} /> Setup Profile
+                  <Dashboard w={4} h={4} mr={4} color="red.500" />
+                  Dashboard
                 </MenuItem>
               </MetaLink>
               <MenuItem onClick={disconnect}>

@@ -1,5 +1,4 @@
 export const CONFIG = {
-  defaultNetwork: '0x1', // mainnet, for ceramic integration
   graphqlURL: (() => {
     const {
       NEXT_PUBLIC_GRAPHQL_URL: url,

@@ -42,6 +42,7 @@ import {
 } from '@metafam/utils';
 import FileOpenIcon from 'assets/file-open-icon.svg';
 import PlayerProfileIcon from 'assets/player-profile-icon.svg';
+import { SwitchNetworkButton } from 'components/SwitchNetworkButton';
 import {
   Maybe,
   Player,
