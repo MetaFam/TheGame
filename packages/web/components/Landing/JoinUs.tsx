@@ -1,7 +1,7 @@
 import { Box, Button, Container, HStack, Text, VStack } from '@metafam/ds';
 import BackgroundImage from 'assets/landing/just-watch-background.png';
 import { FullPageContainer } from 'components/Container';
-import { JoinButton } from 'components/JoinButton';
+import { StartButton } from 'components/Landing/StartButton';
 import { MetaLink } from 'components/Link';
 import { useOnScreen } from 'lib/hooks/useOnScreen';
 import { useRef } from 'react';
@@ -63,7 +63,7 @@ export const JoinUs: React.FC = () => {
               opacity={onScreen ? 1 : 0}
               transition="transform 0.3s 0.1s ease-in-out, opacity 0.5s 1s ease-in"
             >
-              <JoinButton text="Join us here" />
+              <StartButton text="Join us here" />
               <MetaLink
                 _hover={{}}
                 isExternal
