@@ -1,5 +1,5 @@
 import { Button, Heading, Stack, Text } from '@metafam/ds';
-import { JoinButton } from 'components/JoinButton';
+import { StartButton } from 'components/Landing/StartButton';
 import { useOnScreen } from 'lib/hooks/useOnScreen';
 import { useRouter } from 'next/router';
 import { useRef } from 'react';
@@ -55,7 +55,7 @@ export const IntroHero: React.FC = () => {
         opacity={onScreen ? 1 : 0}
         transition="transform 0.3s 0.1s ease-in-out, opacity 0.5s 0.2s ease-in"
       >
-        <JoinButton text="Start Playing" />
+        <StartButton text="Play" />
         <Button
           colorScheme="white"
           size="lg"
