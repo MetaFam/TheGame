@@ -26,6 +26,7 @@ export const MegaMenu: React.FC<Props> = ({ hide = false, children }) => (
       overflowX="hidden"
       sx={{
         scrollSnapType: 'y mandatory',
+        scrollBehavior: 'smooth',
       }}
     >
       {children}

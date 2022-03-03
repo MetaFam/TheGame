@@ -12,6 +12,7 @@ export const StartButton: React.FC<{ text: string }> = ({
       colorScheme="white"
       rounded="md"
       size="lg"
+      minW="8rem"
       onClick={() => router.push('/start')}
     >
       <Text as="span">{text}</Text>
