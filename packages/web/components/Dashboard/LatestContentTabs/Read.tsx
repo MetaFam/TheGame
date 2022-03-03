@@ -8,7 +8,7 @@ export const Read: React.FC = () => {
   const { data, error } = useSWR('/api/feed', fetcher);
 
   return (
-    <Box pt={4}>
+    <Box p={2}>
       {data && data.response ? (
         data.response.items?.map(
           (item: { title: string; description: string; link: string }) => (

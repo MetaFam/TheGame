@@ -72,7 +72,7 @@ export const Watch: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [onScreen]);
   return (
-    <>
+    <Box p={2}>
       {loading ? (
         <LoadingState />
       ) : (
@@ -95,6 +95,6 @@ export const Watch: React.FC = () => {
       )}
       <span ref={moreRef} />
       {isFetchingMore && <LoadingState />}
-    </>
+    </Box>
   );
 };

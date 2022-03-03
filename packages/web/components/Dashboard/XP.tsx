@@ -32,7 +32,7 @@ export const XP = (): React.ReactElement => {
 
   if (xpStats == null) {
     return (
-      <Text fontStyle="italic" textAlign="center">
+      <Text fontStyle="italic" textAlign="center" p={4} w="100%">
         Unknown
       </Text>
     );
