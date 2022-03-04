@@ -6,7 +6,7 @@ import {
   ListItem,
   Text,
   UnorderedList,
-  useBoolean,
+  useBoolean
 } from '@metafam/ds';
 
 const CollapsableText: React.FC<{ title: string }> = ({ title, children }) => {
@@ -26,15 +26,15 @@ const CollapsableText: React.FC<{ title: string }> = ({ title, children }) => {
 export const WTFisXP = () => (
   <Flex direction="column">
     <Text mb={2}>
-      XP or “experience point” is a unit of contribution to MetaGame. In
-      essence, its an accounting system for value creation.
+      An XP or “experience point” is a unit of contribution to MetaGame. In
+      essence, it’s an accounting system for value creation.
     </Text>
 
     <Text mb={2}>
       Whether it’s completing quests, writing useful things on
       <Link
         ml={1}
-        href="https://forum.metagame.wtf/"
+        href="//forum.metagame.wtf"
         isExternal
         color="gray.500"
         textDecoration="underline"
@@ -45,7 +45,7 @@ export const WTFisXP = () => (
       , or laying down code on
       <Link
         ml={1}
-        href="https://github.com/metafam/"
+        href="//github.com/MetaFam/"
         isExternal
         color="gray.500"
         textDecoration="underline"
@@ -53,15 +53,15 @@ export const WTFisXP = () => (
       >
         GitHub
       </Link>
-      - your XP automagically accrues. Once a month, you are rewarded SEEDs for
+      — your XP automagically accrues. Once a month, you are rewarded SEEDs for
       your contributions, based on the amount of XP that you generated.
     </Text>
 
     <Text mb={2}>
-      Your XP is calculated by
+      Your XP is calculated by{' '}
       <Link
         ml={1}
-        href="https://sourcecred.io/"
+        href="//sourcecred.io"
         isExternal
         color="gray.500"
         textDecoration="underline"
@@ -69,9 +69,9 @@ export const WTFisXP = () => (
       >
         SourceCred
       </Link>
-      which is, in essence, an accounting system for value creation in
-      communities. It tracks whatever is happening on Discord, forums & Github,
-      then spits out numbers based on PRs, references, emojis, props given, and
+      {' '}which is, in essence, an accounting system for value creation in
+      communities. It tracks whatever is happening on Discord, forums &amp; Github,
+      then spits out numbers based on <Text as="span" borderBottom="1px dotted white" title="Pull Request">PR</Text>s, references, emojis, props given, and
       a bunch of other granularly-adjustable parameters.
     </Text>
 
@@ -149,13 +149,13 @@ export const UsefulnessOfSeeds = () => (
   <Flex direction="column">
     <Text>
       So far, the main thing SEEDs are used for is rewarding contributors as a
-      means of bootstrapping. Not a very promising use case in terms of token
+      means of bootstrapping.Not a very promising use case in terms of token
       value, we know!
-    </Text>
+    </Text >
     <Text>
       But, we're building an entire gamified socioeconomic system, so finding
       use cases for money shouldn't be much trouble. 😁
-    </Text>
+    </Text >
     <Text>
       So, let's look at some of the current &amp; potential ways of using SEEDs!
     </Text>
@@ -210,15 +210,15 @@ export const UsefulnessOfSeeds = () => (
           ask about it in our Discord channel
           <Link
             ml={1}
-            href="https://discord.gg/cBq5Md6KTU"
+            href="//discord.gg/cBq5Md6KTU"
             isExternal
             textColor="gray.500"
             textDecoration="underline"
             mr={1}
           >
-            #💸-spending-seeds
-          </Link>
-        </Box>
+            #💸-spending - seeds
+          </Link >
+        </Box >
         <Text fontSize={16} fontWeight="bold" my={2}>
           In the future:
         </Text>
@@ -301,10 +301,10 @@ export const UsefulnessOfSeeds = () => (
             href="https://polygon.balancer.fi/#/pool/0x8a8fcd351ed553fc75aecbc566a32f94471f302e000100000000000000000081"
           >
             <strong>
-              Balancer pool aka the <em>SEED plantation.</em>
-            </strong>
-          </Link>
-        </Text>
+              Balancer pool aka the < em > SEED plantation.</em >
+            </strong >
+          </Link >
+        </Text >
         <UnorderedList mb={4} listStyleType="'🌱 '">
           <ListItem>
             to be eligible for MetaFam-only limited edition merch
@@ -321,9 +321,9 @@ export const UsefulnessOfSeeds = () => (
             to appear higher on the Patrons leaderboard 🙃
           </ListItem>
         </UnorderedList>
-      </Box>
-    </CollapsableText>
-  </Flex>
+      </Box >
+    </CollapsableText >
+  </Flex >
 );
 
 export const BuyingAndSelling = () => (
@@ -339,7 +339,7 @@ export const BuyingAndSelling = () => (
         Then you can go to the
         <Link
           ml={1}
-          href="https://polygon.balancer.fi/#/pool/0x8a8fcd351ed553fc75aecbc566a32f94471f302e000100000000000000000081"
+          href="//polygon.balancer.fi/#/pool/0x8a8fcd351ed553fc75aecbc566a32f94471f302e000100000000000000000081"
           isExternal
           color="green.300"
           textDecoration="underline"
@@ -375,7 +375,7 @@ export const BuyingAndSelling = () => (
           color="gray.500"
           textDecoration="underline"
           mr={1}
-          href="https://googlethatforyou.com?q=how%20to%20buy%20matic%3F"
+          href="//googlethatforyou.com?q=how%20to%20buy%20matic%3F"
         >
           buy some
         </Link>
@@ -386,7 +386,7 @@ export const BuyingAndSelling = () => (
           color="gray.500"
           textDecoration="underline"
           mr={1}
-          href="https://discord.gg/8THHVwfd"
+          href="//discord.gg/8THHVwfd"
         >
           ask on Discord
         </Link>
@@ -416,7 +416,7 @@ export const BecomeAPatron = () => (
               color="gray.500"
               textDecoration="underline"
               mr={1}
-              href="https://wiki.metagame.wtf/docs/enter-metagame/why-patron"
+              href="//wiki.metagame.wtf/docs/enter-metagame/why-patron"
             >
               Reading about it made you go “this is everything I've ever wanted”
               or at least “fuck yeah, this is epic!”
@@ -439,7 +439,7 @@ export const BecomeAPatron = () => (
       <iframe
         width="100%"
         height="300px"
-        src="https://www.youtube.com/embed/CYuwpR8CLXY?feature=oembed"
+        src="//www.youtube.com/embed/CYuwpR8CLXY?feature=oembed"
       ></iframe>
     </Box>
     <Text>There are two ways to become a patron:</Text>
@@ -448,7 +448,7 @@ export const BecomeAPatron = () => (
         Join the
         <Link
           ml={1}
-          href="https://metagame.substack.com/p/calling-for-rain"
+          href="//metagame.substack.com/p/calling-for-rain"
           isExternal
           color="gray.500"
           textDecoration="underline"
@@ -488,13 +488,13 @@ export const PlantingAndWatering = () => (
         RAI.
       </ListItem>
       <ListItem>
-        If you don't have anything...
+        If you don't have anything…
         <ul>
           <ListItem ml={4}>
             Either
             <Link
               ml={1}
-              href="https://wallet.polygon.technology/bridge"
+              href="//wallet.polygon.technology/bridge"
               isExternal
               color="gray.500"
               textDecoration="underline"
@@ -510,7 +510,7 @@ export const PlantingAndWatering = () => (
             Or obtain Matic in
             <Link
               ml={1}
-              href="https://googlethatforyou.com?q=how%20to%20buy%20matic%3F"
+              href="//googlethatforyou.com?q=how%20to%20buy%20matic%3F"
               isExternal
               color="gray.500"
               textDecoration="underline"
@@ -526,7 +526,7 @@ export const PlantingAndWatering = () => (
       Then, you'll need to use WETH &amp; RAI to
       <Link
         ml={1}
-        href="https://polygon.balancer.fi/#/pool/0x8a8fcd351ed553fc75aecbc566a32f94471f302e000100000000000000000081"
+        href="//polygon.balancer.fi/#/pool/0x8a8fcd351ed553fc75aecbc566a32f94471f302e000100000000000000000081"
         isExternal
         color="gray.500"
         textDecoration="underline"
@@ -562,14 +562,14 @@ export const PlantingAndWatering = () => (
           color="gray.500"
           textDecoration="underline"
           mr={1}
-          href="https://metagame.substack.com/"
+          href="//metagame.substack.com"
         >
           the newsletter
         </Link>{' '}
         or we will do it for you, if you join the
         <Link
           ml={1}
-          href="https://polygon.balancer.fi/#/pool/0x8a8fcd351ed553fc75aecbc566a32f94471f302e000100000000000000000081"
+          href="//polygon.balancer.fi/#/pool/0x8a8fcd351ed553fc75aecbc566a32f94471f302e000100000000000000000081"
           isExternal
           color="green.300"
           textDecoration="underline"
@@ -587,7 +587,7 @@ export const PlantingAndWatering = () => (
               color="gray.500"
               textDecoration="underline"
               mr={1}
-              href="https://wiki.metagame.wtf/docs/how-does-it-work/phases-of-metagame"
+              href="//wiki.metagame.wtf/docs/how-does-it-work/phases-of-metagame"
               fontStyle="italic"
             >
               Phase I
@@ -601,10 +601,10 @@ export const PlantingAndWatering = () => (
               color="gray.500"
               textDecoration="underline"
               mr={1}
-              href="https://wiki.metagame.wtf/docs/how-does-it-work/phases-of-metagame"
+              href="//wiki.metagame.wtf/docs/how-does-it-work/phases-of-metagame"
               fontStyle="italic"
             >
-              Phase I
+              Phase Ⅰ
             </Link>
             (2023).
           </ListItem>
@@ -656,7 +656,7 @@ export const JoinTheFund = () => (
           isExternal
           color="gray.500"
           textDecoration="underline"
-          href="https://wiki.metagame.wtf/docs/wtf-is-metagame/the-300-of-metagame"
+          href="//wiki.metagame.wtf/docs/wtf-is-metagame/the-300-of-metagame"
         >
           Join here
         </Link>{' '}
@@ -670,7 +670,7 @@ export const FAQ = () => (
   <Flex direction="column" w="100%">
     <CollapsableText title="What have you accomplished so far?">
       <Text>
-        Many things! Go read the fundraise
+        Many things! Go read the fundraise{' '}
         <Link
           ml={1}
           isExternal
@@ -699,8 +699,8 @@ export const FAQ = () => (
         <em>The Growth Phase</em> before transitioning to Phase Ⅲ — where Trees
         bear the fruits of our labor &amp; we’re able to reward contributors
         with MetaGame’s incoming streams without having to mint new tokens.
-      </Text>
-    </CollapsableText>
+      </Text >
+    </CollapsableText >
     <CollapsableText title="Why should the price of SEEDs grow?">
       <>
         <Text>🌊 SEED Watering Streams</Text>
@@ -712,19 +712,19 @@ export const FAQ = () => (
           <ListItem>
             people subscribe to buying SEEDs for any of the above reasons or
             others.
-          </ListItem>
+          </ListItem >
           <ListItem>
             projects we helped incubate share a % of their tokens?
           </ListItem>
-        </UnorderedList>
+        </UnorderedList >
       </>
-    </CollapsableText>
+    </CollapsableText >
 
     <CollapsableText title="What’s market cap?">
       <Text>
         At the time of writing this post, February 2022, the market cap was
         ~$600k.
-      </Text>
-    </CollapsableText>
-  </Flex>
+      </Text >
+    </CollapsableText >
+  </Flex >
 );

@@ -10,7 +10,7 @@ import {
   LoadingState,
   Text,
   UnorderedList,
-  VStack,
+  VStack
 } from '@metafam/ds';
 import Octopus from 'assets/octopus.png';
 import SeedsFlowChart from 'assets/seeds-flowchart.png';
