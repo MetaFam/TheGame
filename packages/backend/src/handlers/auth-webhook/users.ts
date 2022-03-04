@@ -1,4 +1,5 @@
 import { client } from '../../lib/hasuraClient';
+import updateCachedProfile from '../actions/idxCache/updateSingle';
 
 async function createPlayer(ethAddress: string) {
   const { insert_profile: insert } = await client.CreatePlayerFromETH({
@@ -11,7 +12,10 @@ async function createPlayer(ethAddress: string) {
       } inserting ${ethAddress}.`,
     );
   }
-  return { id: insert?.returning[0].player.id };
+  const playerId = insert?.returning[0].player.id;
+  await updateCachedProfile(playerId);
+
+  return { id: playerId };
 }
 
 const status: Record<string, string> = {};
