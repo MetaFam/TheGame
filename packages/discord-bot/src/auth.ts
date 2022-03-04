@@ -37,7 +37,8 @@ export const exchangeCodeForAccessToken = async (
   };
 
   if (discordResponse.ok) {
-    const parsedBody = (await discordResponse.json()) as OAuth2CodeExchangeResponse;
+    const parsedBody =
+      (await discordResponse.json()) as OAuth2CodeExchangeResponse;
     response.oauthResponse = parsedBody;
   } else {
     response.error = discordResponse.statusText;

@@ -42,7 +42,6 @@ export const DesktopMenuItem = ({
       _focus={{ outline: 'none' }}
     >
       <Avatar
-        alt={title}
         src={menuIcons[icon]}
         w="3.75rem"
         h="3.75rem"

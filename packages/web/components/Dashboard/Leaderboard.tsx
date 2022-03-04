@@ -24,13 +24,8 @@ import React, { useMemo, useState } from 'react';
 import { getPlayerName, getPlayerURL } from 'utils/playerHelpers';
 
 export const Leaderboard: React.FC = () => {
-  const {
-    players,
-    fetching,
-    error,
-    queryVariables,
-    setQueryVariable,
-  } = usePlayerFilter();
+  const { players, fetching, error, queryVariables, setQueryVariable } =
+    usePlayerFilter();
 
   const showSeasonalXP = useMemo(
     () => Object.keys(queryVariables.orderBy).includes('seasonXP'),

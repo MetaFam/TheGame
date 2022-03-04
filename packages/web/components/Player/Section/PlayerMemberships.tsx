@@ -188,7 +188,7 @@ const MembershipListModal: React.FC<MembershipListProps> = ({
             gap={2}
             p={4}
             boxShadow="md"
-            justify="center"
+            justifyContent="center"
           >
             {memberships.map((membership) => (
               <DAOListing key={membership.memberId} {...{ membership }} />

@@ -15,16 +15,10 @@ export { MetaTag } from './MetaTag';
 export { MetaTile, MetaTileBody, MetaTileHeader } from './MetaTile';
 export { MultiSelect } from './MultiSelect';
 export { ResponsiveText } from './ResponsiveText';
+export { metaFilterSelectStyles, SelectSearch } from './SelectSearch';
 export {
-  metaFilterSelectStyles,
-  SelectComponents,
-  SelectSearch,
-} from './SelectSearch';
-export {
-  CombinedLabel,
   getCityZonesFor,
   getTimeZoneFor,
-  Labeled,
   LabeledOptions,
   LabeledValue,
   SelectTimeZone,

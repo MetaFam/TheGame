@@ -12,11 +12,10 @@ export async function updateCompletion(
   playerId: string,
   updateData: UpdateQuestCompletionInput,
 ): Promise<UpdateQuestCompletionOutput> {
-  const {
-    quest_completion_by_pk: questCompletion,
-  } = await client.GetQuestCompletionById({
-    quest_completion_id: updateData.questCompletionId,
-  });
+  const { quest_completion_by_pk: questCompletion } =
+    await client.GetQuestCompletionById({
+      quest_completion_id: updateData.questCompletionId,
+    });
   if (!questCompletion) {
     throw new Error('Quest completion not found');
   }

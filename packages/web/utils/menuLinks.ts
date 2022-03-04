@@ -100,8 +100,7 @@ export const MenuSectionLinks: MenuLinkSet[] = [
       {
         title: 'Welcome to MetaGame',
         explainerText: descriptions.welcome,
-        url:
-          'https://meta-game.notion.site/meta-game/Welcome-to-MetaGame-7e28e75f3c264c7b939eaaa2239b9c28',
+        url: 'https://meta-game.notion.site/meta-game/Welcome-to-MetaGame-7e28e75f3c264c7b939eaaa2239b9c28',
         icon: 'welcometometagame',
       },
       {
@@ -139,8 +138,7 @@ export const MenuSectionLinks: MenuLinkSet[] = [
         title: 'Roles',
         explainerText:
           'Find about all roles in MetaGame, see which ones are open & how to play them',
-        url:
-          'https://meta-game.notion.site/Internal-Roles-Guilds-bec3a0437f684322b650dbb7aca616e8',
+        url: 'https://meta-game.notion.site/Internal-Roles-Guilds-bec3a0437f684322b650dbb7aca616e8',
         icon: 'roles',
       },
       {

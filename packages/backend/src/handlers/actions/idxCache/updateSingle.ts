@@ -123,9 +123,9 @@ export default async (playerId: string): Promise<UpdateIdxProfileResponse> => {
             const fromKey = ceramicId as Values<typeof ExtendedProfileImages>;
             const toKey = hasuraId as keyof typeof ExtendedProfileImages;
             if (extendedProfile?.[fromKey] != null) {
-              values[toKey] = (extendedProfile[
-                fromKey
-              ] as ImageSources).original.src;
+              values[toKey] = (
+                extendedProfile[fromKey] as ImageSources
+              ).original.src;
             }
           },
         );
@@ -206,17 +206,16 @@ export default async (playerId: string): Promise<UpdateIdxProfileResponse> => {
             // ToDo: Examine the JWT to validate that it came from a
             // trusted source. Specifically, either the IdentityLink
             // service backing //self.id or one established by MetaGame
-            const {
-              insert_player_account: insert,
-            } = await client.UpsertAccount({
-              objects: [
-                {
-                  playerId,
-                  type: service,
-                  identifier: username,
-                },
-              ],
-            });
+            const { insert_player_account: insert } =
+              await client.UpsertAccount({
+                objects: [
+                  {
+                    playerId,
+                    type: service,
+                    identifier: username,
+                  },
+                ],
+              });
             if (insert?.affected_rows === undefined) {
               // eslint-disable-next-line no-console
               console.warn(

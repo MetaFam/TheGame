@@ -47,7 +47,7 @@ export const QuestTile: React.FC<Props> = ({ quest }) => (
     <MetaTileHeader>
       <VStack>
         <MetaLink as={`/quest/${quest.id}`} href="/quest/[id]">
-          <Heading size="sm" color="white" align="center">
+          <Heading size="sm" color="white" textAlign="center">
             {quest.title}
           </Heading>
         </MetaLink>

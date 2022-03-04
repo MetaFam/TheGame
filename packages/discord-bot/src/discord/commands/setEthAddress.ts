@@ -29,9 +29,8 @@ export abstract class SetEthAddress {
       return;
     }
 
-    const baseIdentityProposal = sc.plugins.discord.utils.identity.createIdentity(
-      message.member,
-    );
+    const baseIdentityProposal =
+      sc.plugins.discord.utils.identity.createIdentity(message.member);
     const baseIdentityId = sc.ledger.utils.ensureIdentityExists(
       manager.ledger,
       baseIdentityProposal,

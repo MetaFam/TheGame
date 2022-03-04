@@ -28,18 +28,20 @@ export const getPlayerBanner = (player: Maybe<Player>): string => {
   const key = 'bannerImageURL';
   return (
     optimizedImage(key, player?.profile?.[key], { height: 100 }) ??
-    PlayerCoverImageSmall
+    PlayerCoverImageSmall.src
   );
 };
 
 export const getPlayerBannerFull = (player?: Maybe<Player>): string => {
   const key = 'bannerImageURL';
-  return optimizedImage(key, player?.profile?.[key]) || PlayerCoverImageFull;
+  return (
+    optimizedImage(key, player?.profile?.[key]) || PlayerCoverImageFull.src
+  );
 };
 
-export const getGuildCoverImageFull = (): string => GuildCoverImageFull;
+export const getGuildCoverImageFull = (): string => GuildCoverImageFull.src;
 
-export const getGuildCoverImageSmall = (): string => GuildCoverImageSmall;
+export const getGuildCoverImageSmall = (): string => GuildCoverImageSmall.src;
 
 export const getPlayerName = (
   player?: Maybe<Player | GuildPlayer>,

@@ -22,26 +22,20 @@
     "react": ">=17"
   },
   "dependencies": {
-    "@chakra-ui/icons": "1.1.3",
-    "@chakra-ui/react": "1.6.5",
-    "@chakra-ui/theme-tools": "1.3.1",
-    "@emotion/styled": "11.3.0",
+    "@chakra-ui/icons": "1.1.7",
+    "@chakra-ui/react": "1.8.6",
+    "@chakra-ui/theme-tools": "1.3.6",
+    "@emotion/react": "11.8.1",
+    "@emotion/styled": "11.8.1",
     "@metafam/utils": "1.0.1",
-    "@types/react": "17.0.6",
-    "@types/react-dom": "17.0.5",
-    "@types/react-select": "3.0.22",
     "city-timezones": "1.2.0",
-    "framer-motion": "5.5.6",
+    "framer-motion": "6.2.8",
     "next": "10.2.3",
-    "react-select": "4.3.1",
+    "react-select": "5.2.2",
     "react-timezone-select": "1.0.3",
-    "spacetime": "6.16.1",
-    "spacetime-informal": "0.6.1"
-  },
-  "devDependencies": {
-    "@babel/core": "7.14.2",
-    "babel-loader": "8.2.2",
+    "spacetime": "7.1.2",
     "react-dom": "17.0.2",
-    "react-google-font-loader": "1.1.0"
+    "react-google-font-loader": "1.1.0",
+    "spacetime-informal": "0.6.1"
   }
 }

@@ -165,7 +165,7 @@ export const ProfileSection: React.FC<
             {/* we should figure out how to unify modal footers (edit sections have their own,
               look into EditSectionBox components - they have footers with 'save' and 'cancel' buttons) */}
             {modal && (
-              <ModalFooter mt={6} justify="center">
+              <ModalFooter mt={6} justifyContent="center">
                 <Button
                   variant="ghost"
                   onClick={onClose}
@@ -186,12 +186,14 @@ export const ProfileSection: React.FC<
 
 const isEditable = (type?: Maybe<BoxType>) =>
   !!type &&
-  ([
-    BoxTypes.PLAYER_TYPE,
-    BoxTypes.PLAYER_COLOR_DISPOSITION,
-    BoxTypes.PLAYER_SKILLS,
-    BoxTypes.PLAYER_ROLES,
-  ] as Array<BoxType>).includes(type);
+  (
+    [
+      BoxTypes.PLAYER_TYPE,
+      BoxTypes.PLAYER_COLOR_DISPOSITION,
+      BoxTypes.PLAYER_SKILLS,
+      BoxTypes.PLAYER_ROLES,
+    ] as Array<BoxType>
+  ).includes(type);
 
 const EditSection = ({
   boxType,

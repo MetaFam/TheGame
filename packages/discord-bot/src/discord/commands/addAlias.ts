@@ -82,9 +82,8 @@ export class AddAlias {
 
     try {
       // we need to make sure this discord user already exists in the ledger.
-      const baseIdentityProposal = sc.plugins.discord.utils.identity.createIdentity(
-        message.member,
-      );
+      const baseIdentityProposal =
+        sc.plugins.discord.utils.identity.createIdentity(message.member);
       const existingIdentity = manager.ledger.accountByAddress(
         baseIdentityProposal.alias.address,
       );

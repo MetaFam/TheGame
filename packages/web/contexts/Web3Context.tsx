@@ -102,16 +102,14 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
   resetUrqlClient,
   children,
 }) => {
-  const [
-    { wallet, provider, chainId, address, authToken },
-    setWeb3State,
-  ] = useState<Web3State>({
-    wallet: null,
-    provider: null,
-    address: null,
-    chainId: null,
-    authToken: null,
-  });
+  const [{ wallet, provider, chainId, address, authToken }, setWeb3State] =
+    useState<Web3State>({
+      wallet: null,
+      provider: null,
+      address: null,
+      chainId: null,
+      authToken: null,
+    });
   const [connecting, setConnecting] = useState(!!web3Modal?.cachedProvider);
 
   const connected = useMemo(

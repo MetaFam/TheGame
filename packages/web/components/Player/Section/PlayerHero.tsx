@@ -74,9 +74,9 @@ export const PlayerHero: React.FC<HeroProps> = ({ player, editing }) => {
           />
         </Box>
       )}
-      <Box align="center" mb={8} mt={2}>
+      <Flex mb={8} mt={2} justify="center">
         <PlayerAvatar size="3xl" {...{ player }} />
-      </Box>
+      </Flex>
       <VStack spacing={6}>
         <Box textAlign="center" maxW="full">
           <Name {...{ player }} />

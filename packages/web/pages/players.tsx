@@ -60,11 +60,10 @@ const Players: React.FC<Props> = () => {
     }
   }, [nextPage, onScreen, fetching, fetchingMore, moreAvailable]);
 
-  const isLoading = useMemo(() => fetching || fetchingMore || moreAvailable, [
-    fetching,
-    fetchingMore,
-    moreAvailable,
-  ]);
+  const isLoading = useMemo(
+    () => fetching || fetchingMore || moreAvailable,
+    [fetching, fetchingMore, moreAvailable],
+  );
 
   const showSeasonalXP = useMemo(
     () => Object.keys(queryVariables.orderBy).includes('seasonXP'),

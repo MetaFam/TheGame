@@ -64,15 +64,17 @@ export const getSsrClient = (): [Client, ReturnType<typeof ssrExchange>] => {
 
 // We do this to enable ssr cache on pages that are not directly wrapped in 'withUrqlClient' (but on _app)
 // https://github.com/FormidableLabs/urql/issues/1481
-const customWithUrqlClient = (
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  WithUrql: NextComponentType<NextUrqlContext, {}, WithUrqlProps>,
-): React.FC<WithUrqlProps> => ({ pageProps, urqlState, ...props }) =>
-  createElement(WithUrql, {
-    urqlState: pageProps.urqlState || urqlState,
-    pageProps,
-    ...props,
-  });
+const customWithUrqlClient =
+  (
+    // eslint-disable-next-line @typescript-eslint/ban-types
+    WithUrql: NextComponentType<NextUrqlContext, {}, WithUrqlProps>,
+  ): React.FC<WithUrqlProps> =>
+  ({ pageProps, urqlState, ...props }) =>
+    createElement(WithUrql, {
+      urqlState: pageProps.urqlState || urqlState,
+      pageProps,
+      ...props,
+    });
 
 export const wrapUrqlClient = (AppOrPage: React.FC<WithUrqlProps>) =>
   customWithUrqlClient(

@@ -1,8 +1,9 @@
 import {
+  LabeledOptions,
   MetaFilterSelectSearch,
   metaFilterSelectStyles,
+  TimeZoneOptions,
   TimeZoneType,
-  // TimeZoneOptions,
   Wrap,
   WrapItem,
   WrapProps,
@@ -20,11 +21,13 @@ const styles: typeof metaFilterSelectStyles = {
   ...metaFilterSelectStyles,
   multiValue: (s, { data }) => ({
     ...s,
-    background: SkillColors[data.category as SkillCategory_Enum],
+    background:
+      SkillColors[(data as SkillOption).category as SkillCategory_Enum],
   }),
   multiValueLabel: (s, { data }) => ({
     ...s,
-    background: SkillColors[data.category as SkillCategory_Enum],
+    background:
+      SkillColors[(data as SkillOption).category as SkillCategory_Enum],
   }),
   groupHeading: (s, { children }) => ({
     ...s,
@@ -119,7 +122,7 @@ export const DesktopFilters: React.FC<Props> = ({
           onChange={(values) => {
             setSkills(values as SkillOption[]);
           }}
-          options={aggregates.skillChoices}
+          options={aggregates.skillChoices as LabeledOptions<string>[]}
           showSearch
         />
       </WrapItem>
@@ -140,21 +143,21 @@ export const DesktopFilters: React.FC<Props> = ({
           }))}
         />
       </WrapItem>
-      {/* <WrapItem>
+      <WrapItem>
         <MetaFilterSelectSearch
           title="Time Zone"
           tagLabel={timeZones.length > 0 ? timeZones.length.toString() : ''}
-          {...{ styles }}
+          styles={styles}
           value={timeZones}
           hasValue={timeZones.length > 0}
           onChange={(values) => {
-            setTimeZones((values as TimeZone[]).slice(-1));
+            setTimeZones((values as TimeZoneType[]).slice(-1));
           }}
           options={TimeZoneOptions}
           showSearch
           isTimeZone
         />
-      </WrapItem> */}
+      </WrapItem>
     </Wrap>
   );
 };

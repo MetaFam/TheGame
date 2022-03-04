@@ -20,9 +20,8 @@ export const replyWithUnexpectedError = (
 ): Promise<Message> => {
   let reply = `The octo is sad 😢, as there was an unexpected error.`;
 
-  const feedbackChannel = message.guild?.channels?.cache.get(
-    '794214722639101992',
-  );
+  const feedbackChannel =
+    message.guild?.channels?.cache.get('794214722639101992');
   if (feedbackChannel) {
     reply += ` Let us know what happened in ${feedbackChannel.toString()}`;
   }
