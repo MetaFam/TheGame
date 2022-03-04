@@ -36,8 +36,7 @@ export const DesktopPlayerStats: React.FC<PlayerStatsProps> = ({ player }) => {
         >
           <PlayerAvatar
             {...{ player }}
-            w={14}
-            h={14}
+            size="md"
             ml={4}
             _hover={{ transform: 'scale(0.9)' }}
           />

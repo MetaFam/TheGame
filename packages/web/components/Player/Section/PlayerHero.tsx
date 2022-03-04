@@ -82,11 +82,7 @@ export const PlayerHero: React.FC<HeroProps> = ({ player, editing }) => {
         </Box>
       )}
       <Box align="center" mb={8} mt={2}>
-        <PlayerAvatar
-          w="min(var(--chakra-sizes-56), 100%)"
-          h="min(var(--chakra-sizes-56), 100%)"
-          {...{ player }}
-        />
+        <PlayerAvatar size="3xl" {...{ player }} />
       </Box>
       <VStack spacing={6}>
         <Box textAlign="center" maxW="full">

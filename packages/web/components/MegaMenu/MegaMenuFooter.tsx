@@ -58,7 +58,7 @@ export const MegaMenuFooter = () => {
               _active={{ filter: 'hue-rotate(30deg)' }}
             >
               <Flex>
-                <PlayerAvatar player={user} w={14} h={14} m={0} />
+                <PlayerAvatar player={user} size="md" />
                 <Stack my={2} ml={2} justify="center">
                   <Text
                     fontSize={user.rank ? 14 : 22}

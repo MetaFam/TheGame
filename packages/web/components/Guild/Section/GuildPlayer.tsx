@@ -17,7 +17,7 @@ export const GuildPlayerComponent: React.FC<GuildPlayerProps> = ({
     href={getPlayerURL(player)}
   >
     <HStack alignItems="center" mb={6}>
-      <PlayerAvatar w={16} h={16} mr={6} {...{ player }} />
+      <PlayerAvatar size="lg" mr={6} {...{ player }} />
       <Box>
         <Heading
           _groupHover={{ textDecoration: 'underline' }}

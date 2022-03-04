@@ -1,8 +1,9 @@
 import { Text } from '@metafam/ds';
 import { ProfileSection } from 'components/Profile/ProfileSection';
 import { ExplorerType, Player } from 'graphql/autogen/types';
+import { getExplorerTypes } from 'graphql/queries/enums/getExplorerTypes';
 import { useProfileField } from 'lib/hooks';
-import React from 'react';
+import { useEffect, useState } from 'react';
 import { BoxTypes } from 'utils/boxTypes';
 
 type Props = {
@@ -12,10 +13,27 @@ type Props = {
 };
 
 export const PlayerType: React.FC<Props> = ({ player, editing }) => {
-  const { explorerType, owner: isOwnProfile } = useProfileField<ExplorerType>({
-    field: 'explorerType',
+  const {
+    value: explorerTypeTitle,
+    owner: isOwnProfile,
+  } = useProfileField<string>({
+    field: 'explorerTypeTitle',
     player,
   });
+
+  const [choices, setChoices] = useState<Array<ExplorerType>>([]);
+
+  useEffect(() => {
+    const fetchTypes = async () => {
+      setChoices(await getExplorerTypes());
+    };
+
+    fetchTypes();
+  }, [setChoices]);
+
+  const explorerType = choices.find(
+    (choice) => choice.title === explorerTypeTitle,
+  );
 
   return (
     <ProfileSection
