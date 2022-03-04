@@ -6,8 +6,22 @@ import {
   ListItem,
   Text,
   UnorderedList,
+  useBoolean,
 } from '@metafam/ds';
-import React, { useState } from 'react';
+
+const CollapsableText: React.FC<{ title: string }> = ({ title, children }) => {
+  const [isOpen, { toggle }] = useBoolean(false);
+  return (
+    <>
+      <Box onClick={toggle} my={4} cursor="pointer">
+        <details>
+          <summary>{title}</summary>
+        </details>
+      </Box>
+      {isOpen && children}
+    </>
+  );
+};
 
 export const WTFisXP = () => (
   <Flex direction="column">
@@ -131,220 +145,186 @@ export const GetRanked = () => (
   </Flex>
 );
 
-export const UsefulnessOfSeeds = () => {
-  const [isOpenSpending, setIsOpenSpending] = useState(false);
-  const [isOpenStaking, setIsOpenStaking] = useState(false);
-  const [isOpenPlanting, setIsOpenPlanting] = useState(false);
-
-  return (
-    <Flex direction="column">
-      <Text>
-        So far, the main thing Seeds are used for is rewarding contributors as a
-        means of bootstrapping. Not a very promising use case in terms of token
-        value, we know!
-      </Text>
-      <Text>
-        But, we're building an entire gamified socioeconomic system, so finding
-        use cases for money shouldn't be much trouble 😁
-      </Text>
-      <Text>
-        So, lets look at some of the current &amp; potential ways of using
-        Seeds!
-      </Text>
-      <Box
-        onClick={() => setIsOpenSpending(!isOpenSpending)}
-        fontWeight="bold"
-        my={4}
-      >
-        <details>
-          <summary>💸 Spending Seeds</summary>
-        </details>
-      </Box>
-      {isOpenSpending && (
-        <Flex direction="column">
-          <Text fontSize={16} fontWeight="bold" my={2}>
-            Things you can spend on now:
-          </Text>
-          <Box p={2} bgColor="whiteAlpha.300" mb={2}>
-            💡 Note: You need to be a member to access any of these
-          </Box>
-          <UnorderedList>
-            <ListItem>💸 to get a shout-out in the podcast.</ListItem>
-            <ListItem>💸 to have MetaGame tweet for you.</ListItem>
-            <ListItem>💸 to get a shout-out in the newsletter.</ListItem>
-            <ListItem>💸 to buy some limited edition merchandise.</ListItem>
-            <ListItem>
-              💸 to get products &amp; services from other players &amp; guilds.
-            </ListItem>
-            <ListItem>
-              💸 to get access to the
-              <Link
-                ml={1}
-                href="https://tokenengineeringcommunity.github.io/website/"
-                isExternal
-                color="gray.500"
-                textDecoration="underline"
-                mr={1}
-              >
-                Token Engineering
-              </Link>
-              course.
-            </ListItem>
-            <ListItem>💸 to get some user testing sessions.</ListItem>
-            <ListItem>
-              💸 to
-              <Link
-                ml={1}
-                isExternal
-                color="gray.500"
-                textDecoration="underline"
-                mr={1}
-                href="https://www.effectivealtruism.org/"
-              >
-                give away to good causes
-              </Link>
-              . ☺️
-            </ListItem>
-          </UnorderedList>
-          <Box p={2} bgColor="whiteAlpha.300" my={2}>
-            💡 Note: If you're interested in spending your Seeds on any of this,
-            ask about it in our discord channel #ask about it; #
+export const UsefulnessOfSeeds = () => (
+  <Flex direction="column">
+    <Text>
+      So far, the main thing Seeds are used for is rewarding contributors as a
+      means of bootstrapping. Not a very promising use case in terms of token
+      value, we know!
+    </Text>
+    <Text>
+      But, we're building an entire gamified socioeconomic system, so finding
+      use cases for money shouldn't be much trouble 😁
+    </Text>
+    <Text>
+      So, lets look at some of the current &amp; potential ways of using Seeds!
+    </Text>
+    <CollapsableText title="💸 Spending Seeds">
+      <Flex direction="column">
+        <Text fontSize={16} fontWeight="bold" my={2}>
+          Things you can spend on now:
+        </Text>
+        <Box p={2} bgColor="whiteAlpha.300" mb={2}>
+          💡 Note: You need to be a member to access any of these
+        </Box>
+        <UnorderedList>
+          <ListItem>💸 to get a shout-out in the podcast.</ListItem>
+          <ListItem>💸 to have MetaGame tweet for you.</ListItem>
+          <ListItem>💸 to get a shout-out in the newsletter.</ListItem>
+          <ListItem>💸 to buy some limited edition merchandise.</ListItem>
+          <ListItem>
+            💸 to get products &amp; services from other players &amp; guilds.
+          </ListItem>
+          <ListItem>
+            💸 to get access to the
             <Link
               ml={1}
-              href="https://discord.gg/cBq5Md6KTU"
+              href="https://tokenengineeringcommunity.github.io/website/"
               isExternal
-              textColor="gray.500"
+              color="gray.500"
               textDecoration="underline"
               mr={1}
             >
-              💸-spending-seeds
+              Token Engineering
             </Link>
-          </Box>
-          <Text fontSize={16} fontWeight="bold" my={2}>
-            In the future:
-          </Text>
-          <UnorderedList mb={4}>
-            <ListItem>💸 for the subscription fee</ListItem>
-            <ListItem>
-              💸 for fees if buying/selling things with other tokens
-            </ListItem>
-            <ListItem>💸 to install an app in MetaGame</ListItem>
-            <ListItem>
-              💸 for posting quests &amp; raids - if in self-interest
-            </ListItem>
-            <ListItem>💸 for access to courses</ListItem>
-            <ListItem>💸 to pay for likes/upvotes</ListItem>
-            <ListItem>💸 to have your message displayed on the ticker</ListItem>
-            <ListItem>
-              💸 to buy themes, addons, in-game skins &amp; other cosmetics
-            </ListItem>
-            <ListItem>💸 to post role openings or boost them</ListItem>
-            <ListItem>💸 to boost your discovery position</ListItem>
-            <ListItem>
-              💸 to pay for other MetaFam services; like advising, building or
-              shilling
-            </ListItem>
-          </UnorderedList>
-          <Image src="https://cdn.substack.com/image/fetch/w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F3ae3bc90-a157-4057-9722-167f5645d6a4_500x281.png" />
-        </Flex>
-      )}
-      <Box
-        onClick={() => setIsOpenStaking(!isOpenStaking)}
-        fontWeight="bold"
-        my={4}
-      >
-        <details>
-          <summary>🥩 Staking Seeds</summary>
-        </details>
-      </Box>
-      {isOpenStaking && (
-        <Box>
-          <Text>
-            Here are some of the things people might be required to stake Seeds
-            for.
-          </Text>
-          <Text fontWeight="bold">
-            As you might already know; in MetaGame, we don't believe in rating
-            humans.
-          </Text>
-          <Text>
-            We're building a future we <em>want</em> to live in, and a future in
-            which humans rate each other on a 1-5 star system is definitely
-            <strong> not</strong> the kind of future we want to live in.
-          </Text>
-          <Text>
-            Instead, players of MetaGame will be required to stake some of their
-            skin in the game.
-          </Text>
-          <UnorderedList mb={4}>
-            <ListItem>🥩 to take quests</ListItem>
-            <ListItem>🥩 for your friend when onboarding them</ListItem>
-            <ListItem>🥩 for your guild to enter</ListItem>
-            <ListItem>🥩 as collateral for your personal token</ListItem>
-            <ListItem>🥩 to enter a contract with someone</ListItem>
-            <ListItem>🥩 when claiming the metafam.eth subdomain</ListItem>
-            <ListItem>🥩 when claiming the @metagame.wtf email</ListItem>
-            <ListItem>🥩 on your project or product reviews</ListItem>
-            <ListItem>
-              🥩 on content curation (ponzinomics)
-              <ul>
-                <ListItem ml={4}>
-                  writing reviews &amp; recommendations will require staking
-                </ListItem>
-              </ul>
-            </ListItem>
-          </UnorderedList>
-          <Image src="https://cdn.substack.com/image/fetch/w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F5a1c40a8-4983-4a95-81f1-3563b108de65_426x426.png" />
-        </Box>
-      )}
-      <Box
-        onClick={() => setIsOpenPlanting(!isOpenPlanting)}
-        fontWeight="bold"
-        my={4}
-      >
-        <details>
-          <summary>🌱 Planting Seeds</summary>
-        </details>
-      </Box>
-      {isOpenPlanting && (
-        <Box>
-          <Text>
-            If you're confused as to what “planting Seeds” means, it means using
-            your Seeds by putting them into the
+            course.
+          </ListItem>
+          <ListItem>💸 to get some user testing sessions.</ListItem>
+          <ListItem>
+            💸 to
             <Link
               ml={1}
               isExternal
               color="gray.500"
               textDecoration="underline"
               mr={1}
-              href="https://polygon.balancer.fi/#/pool/0x8a8fcd351ed553fc75aecbc566a32f94471f302e000100000000000000000081"
+              href="https://www.effectivealtruism.org/"
             >
-              <strong>
-                Balancer pool aka the <em>Seed plantation.</em>
-              </strong>
+              give away to good causes
             </Link>
-          </Text>
-          <UnorderedList mb={4}>
-            <ListItem>
-              🌱 to be eligible for MetaFam-only limited edition merch
-            </ListItem>
-            <ListItem>
-              🌱 to be eligible for random drops &amp; the Phase II token
-            </ListItem>
-            <ListItem>🌱 to stay in the game as a patron</ListItem>
-            <ListItem>🌱 to appear on the Patrons leaderboard</ListItem>
-            <ListItem>
-              🌱🌱 for guilds to appear higher on the leaderboard
-            </ListItem>
-            <ListItem>
-              🌱🌱🌱 to appear higher on the Patrons leaderboard 🙃
-            </ListItem>
-          </UnorderedList>
+            . ☺️
+          </ListItem>
+        </UnorderedList>
+        <Box p={2} bgColor="whiteAlpha.300" my={2}>
+          💡 Note: If you're interested in spending your Seeds on any of this,
+          ask about it in our discord channel #ask about it; #
+          <Link
+            ml={1}
+            href="https://discord.gg/cBq5Md6KTU"
+            isExternal
+            textColor="gray.500"
+            textDecoration="underline"
+            mr={1}
+          >
+            💸-spending-seeds
+          </Link>
         </Box>
-      )}
-    </Flex>
-  );
-};
+        <Text fontSize={16} fontWeight="bold" my={2}>
+          In the future:
+        </Text>
+        <UnorderedList mb={4}>
+          <ListItem>💸 for the subscription fee</ListItem>
+          <ListItem>
+            💸 for fees if buying/selling things with other tokens
+          </ListItem>
+          <ListItem>💸 to install an app in MetaGame</ListItem>
+          <ListItem>
+            💸 for posting quests &amp; raids - if in self-interest
+          </ListItem>
+          <ListItem>💸 for access to courses</ListItem>
+          <ListItem>💸 to pay for likes/upvotes</ListItem>
+          <ListItem>💸 to have your message displayed on the ticker</ListItem>
+          <ListItem>
+            💸 to buy themes, addons, in-game skins &amp; other cosmetics
+          </ListItem>
+          <ListItem>💸 to post role openings or boost them</ListItem>
+          <ListItem>💸 to boost your discovery position</ListItem>
+          <ListItem>
+            💸 to pay for other MetaFam services; like advising, building or
+            shilling
+          </ListItem>
+        </UnorderedList>
+        <Image src="https://cdn.substack.com/image/fetch/w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F3ae3bc90-a157-4057-9722-167f5645d6a4_500x281.png" />
+      </Flex>
+    </CollapsableText>
+    <CollapsableText title="🥩 Staking Seeds">
+      <Box>
+        <Text>
+          Here are some of the things people might be required to stake Seeds
+          for.
+        </Text>
+        <Text fontWeight="bold">
+          As you might already know; in MetaGame, we don't believe in rating
+          humans.
+        </Text>
+        <Text>
+          We're building a future we <em>want</em> to live in, and a future in
+          which humans rate each other on a 1-5 star system is definitely
+          <strong> not</strong> the kind of future we want to live in.
+        </Text>
+        <Text>
+          Instead, players of MetaGame will be required to stake some of their
+          skin in the game.
+        </Text>
+        <UnorderedList mb={4}>
+          <ListItem>🥩 to take quests</ListItem>
+          <ListItem>🥩 for your friend when onboarding them</ListItem>
+          <ListItem>🥩 for your guild to enter</ListItem>
+          <ListItem>🥩 as collateral for your personal token</ListItem>
+          <ListItem>🥩 to enter a contract with someone</ListItem>
+          <ListItem>🥩 when claiming the metafam.eth subdomain</ListItem>
+          <ListItem>🥩 when claiming the @metagame.wtf email</ListItem>
+          <ListItem>🥩 on your project or product reviews</ListItem>
+          <ListItem>
+            🥩 on content curation (ponzinomics)
+            <ul>
+              <ListItem ml={4}>
+                writing reviews &amp; recommendations will require staking
+              </ListItem>
+            </ul>
+          </ListItem>
+        </UnorderedList>
+        <Image src="https://cdn.substack.com/image/fetch/w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F5a1c40a8-4983-4a95-81f1-3563b108de65_426x426.png" />
+      </Box>
+    </CollapsableText>
+    <CollapsableText title="🌱 Planting Seeds">
+      <Box>
+        <Text>
+          If you're confused as to what “planting Seeds” means, it means using
+          your Seeds by putting them into the
+          <Link
+            ml={1}
+            isExternal
+            color="gray.500"
+            textDecoration="underline"
+            mr={1}
+            href="https://polygon.balancer.fi/#/pool/0x8a8fcd351ed553fc75aecbc566a32f94471f302e000100000000000000000081"
+          >
+            <strong>
+              Balancer pool aka the <em>Seed plantation.</em>
+            </strong>
+          </Link>
+        </Text>
+        <UnorderedList mb={4}>
+          <ListItem>
+            🌱 to be eligible for MetaFam-only limited edition merch
+          </ListItem>
+          <ListItem>
+            🌱 to be eligible for random drops &amp; the Phase II token
+          </ListItem>
+          <ListItem>🌱 to stay in the game as a patron</ListItem>
+          <ListItem>🌱 to appear on the Patrons leaderboard</ListItem>
+          <ListItem>
+            🌱🌱 for guilds to appear higher on the leaderboard
+          </ListItem>
+          <ListItem>
+            🌱🌱🌱 to appear higher on the Patrons leaderboard 🙃
+          </ListItem>
+        </UnorderedList>
+      </Box>
+    </CollapsableText>
+  </Flex>
+);
 
 export const BuyingAndSelling = () => (
   <Box>
@@ -687,95 +667,68 @@ export const JoinTheFund = () => (
   </Box>
 );
 
-export const FAQ = () => {
-  const [isOpenAccomplish, setIsOpenAccomplish] = useState(false);
-  const [isOpenInfinity, setIsOpenInfinity] = useState(false);
-  const [isOpenGrow, setIsOpenGrow] = useState(false);
-  const [isOpenCap, setIsOpenCap] = useState(false);
+export const FAQ = () => (
+  <Flex direction="column" w="100%">
+    <CollapsableText title="What have you accomplished so far?">
+      <Text>
+        Many things! Go read the fundraise
+        <Link
+          ml={1}
+          isExternal
+          color="gray.500"
+          textDecoration="underline"
+          mr={1}
+          href="https://metagame.substack.com/p/calling-for-rain"
+        >
+          announcement post
+        </Link>
+        , pitch video or dig through the website itself.
+      </Text>
+    </CollapsableText>
+    <CollapsableText title="Will you just keep on minting Seeds to infinity?">
+      <Text>
+        Not likely! The idea is that MetaGame will go
+        <Link
+          ml={1}
+          isExternal
+          color="gray.500"
+          textDecoration="underline"
+          mr={1}
+          href="https://wiki.metagame.wtf/docs/how-does-it-work/phases-of-metagame"
+        >
+          through 3 phases
+        </Link>
+        ; starting with Seeds, growing into Trees in
+        <em>Phase II</em> aka <em>The Growth Phase </em>before transitioning to
+        Phase III - where Trees bear the fruits of our labor &amp; we’re able to
+        reward contributors with MetaGame’s incoming streams without having to
+        mint new tokens.
+      </Text>
+    </CollapsableText>
+    <CollapsableText title="Why should the price of Seeds grow?">
+      <>
+        <Text>🌊 Seed Watering Streams</Text>
+        <UnorderedList mt={2}>
+          <ListItem>
+            all fees &amp; payments received by MetaGame go into sustaining the
+            price.
+          </ListItem>
+          <ListItem>
+            people subscribe to buying Seeds for any of the above reasons or
+            others.
+          </ListItem>
+          <ListItem>
+            projects we helped incubate share a % of their tokens?
+          </ListItem>
+        </UnorderedList>
+      </>
+    </CollapsableText>
 
-  return (
-    <div>
-      <Box onClick={() => setIsOpenAccomplish(!isOpenAccomplish)} my={4}>
-        <details>
-          <summary>What have you accomplished so far?</summary>
-        </details>
-      </Box>
-      {isOpenAccomplish && (
-        <Text>
-          Many things! Go read the fundraise
-          <Link
-            ml={1}
-            isExternal
-            color="gray.500"
-            textDecoration="underline"
-            mr={1}
-            href="https://metagame.substack.com/p/calling-for-rain"
-          >
-            announcement post
-          </Link>
-          , pitch video or dig through the website itself.
-        </Text>
-      )}
-      <Box onClick={() => setIsOpenInfinity(!isOpenInfinity)} my={4}>
-        <details>
-          <summary>Will you just keep on minting Seeds to infinity?</summary>
-        </details>
-      </Box>
-      {isOpenInfinity && (
-        <Text>
-          Not likely! The idea is that MetaGame will go
-          <Link
-            ml={1}
-            isExternal
-            color="gray.500"
-            textDecoration="underline"
-            mr={1}
-            href="https://wiki.metagame.wtf/docs/how-does-it-work/phases-of-metagame"
-          >
-            through 3 phases
-          </Link>
-          ; starting with Seeds, growing into Trees in
-          <em>Phase II</em> aka <em>The Growth Phase </em>before transitioning
-          to Phase III - where Trees bear the fruits of our labor &amp; we’re
-          able to reward contributors with MetaGame’s incoming streams without
-          having to mint new tokens.
-        </Text>
-      )}
-      <Box onClick={() => setIsOpenGrow(!isOpenGrow)} my={4}>
-        <details>
-          <summary>Why should the price of Seeds grow?</summary>
-        </details>
-      </Box>
-      {isOpenGrow && (
-        <>
-          <Text>🌊 Seed Watering Streams</Text>
-          <UnorderedList mt={2}>
-            <ListItem>
-              all fees &amp; payments received by MetaGame go into sustaining
-              the price.
-            </ListItem>
-            <ListItem>
-              people subscribe to buying Seeds for any of the above reasons or
-              others.
-            </ListItem>
-            <ListItem>
-              projects we helped incubate share a % of their tokens?
-            </ListItem>
-          </UnorderedList>
-        </>
-      )}
-
-      <Box onClick={() => setIsOpenCap(!isOpenCap)} my={4}>
-        <details>
-          <summary>What’s market cap?</summary>
-        </details>
-      </Box>
-      {isOpenCap && (
-        <Text>
-          At the time of writing this post (February 2022), the market cap was
-          ~$600k
-        </Text>
-      )}
-    </div>
-  );
-};
+    <CollapsableText title="What’s market cap?">
+      <Text>
+        At the time of writing this post (February 2022), the market cap was
+        ~$600k
+      </Text>
+    </CollapsableText>
+  </Flex>
+);
