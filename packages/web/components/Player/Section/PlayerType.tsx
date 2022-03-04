@@ -22,7 +22,6 @@ export const PlayerType: React.FC<Props> = ({ player, editing }) => {
     field: 'explorerTypeTitle',
     player,
   });
-
   const [choices, setChoices] = useState<Maybe<Array<ExplorerType>>>(null);
 
   useEffect(() => {
@@ -51,7 +50,7 @@ export const PlayerType: React.FC<Props> = ({ player, editing }) => {
       )}
       {!fetching && !!choices && !explorerType && (
         <Text fontStyle="italic" textAlign="center" mb={6}>
-          Unspecified
+          Unspecified.
         </Text>
       )}
       {!fetching && !!choices && explorerType && (
