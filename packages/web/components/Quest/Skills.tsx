@@ -1,4 +1,5 @@
 import {
+  LabeledOptions,
   MetaTag,
   MetaTheme,
   SelectSearch,
@@ -9,7 +10,7 @@ import {
 } from '@metafam/ds';
 import { Skill, SkillCategory_Enum } from 'graphql/autogen/types';
 import { SkillColors } from 'graphql/types';
-import React, { CSSProperties } from 'react';
+import React from 'react';
 import { CategoryOption, SkillOption } from 'utils/skillHelpers';
 
 export type SetupSkillsProps = {
@@ -29,23 +30,22 @@ export const SkillsSelect: React.FC<SetupSkillsProps> = ({
 }) => {
   const styles: typeof selectStyles = {
     ...selectStyles,
-    multiValue: (s: CSSProperties, { data }: { data: Skill }) => ({
+    multiValue: (s, { data }) => ({
       ...s,
-      background: SkillColors[data.category as SkillCategory_Enum],
+      background:
+        SkillColors[(data as SkillOption).category as SkillCategory_Enum],
       color: MetaTheme.colors.white,
     }),
-    multiValueLabel: (s: CSSProperties, { data }: { data: Skill }) => ({
+    multiValueLabel: (s, { data }) => ({
       ...s,
-      background: SkillColors[data.category as SkillCategory_Enum],
+      background:
+        SkillColors[(data as SkillOption).category as SkillCategory_Enum],
       color: MetaTheme.colors.white,
     }),
-    groupHeading: (
-      s: CSSProperties,
-      { children }: { children: SkillCategory_Enum },
-    ) => ({
+    groupHeading: (s, props) => ({
       ...s,
-      ...selectStyles.groupHeading?.(s, { children }),
-      background: SkillColors[children],
+      ...selectStyles.groupHeading?.(s, props),
+      background: SkillColors[props.children as SkillCategory_Enum],
     }),
   };
 
@@ -56,7 +56,7 @@ export const SkillsSelect: React.FC<SetupSkillsProps> = ({
       styles={styles}
       value={skills}
       onChange={(value) => setSkills(value as Array<SkillOption>)}
-      options={skillChoices}
+      options={skillChoices as LabeledOptions<string>[]}
       autoFocus
       closeMenuOnSelect={false}
       placeholder={placeHolder}

@@ -46,28 +46,26 @@ const addChain = (memberAddress: string) => async (chain: string) => {
   });
 };
 
-export const getDaoHausMemberships: QueryResolvers['getDaoHausMemberships'] = async (
-  _,
-  { memberAddress },
-) => {
-  if (!memberAddress) return [];
+export const getDaoHausMemberships: QueryResolvers['getDaoHausMemberships'] =
+  async (_, { memberAddress }) => {
+    if (!memberAddress) return [];
 
-  const membershipsOn = addChain(memberAddress);
+    const membershipsOn = addChain(memberAddress);
 
-  const memberships = await Promise.allSettled([
-    membershipsOn('ethereum'),
-    membershipsOn('polygon'),
-    membershipsOn('xdai'),
-  ]);
+    const memberships = await Promise.allSettled([
+      membershipsOn('ethereum'),
+      membershipsOn('polygon'),
+      membershipsOn('xdai'),
+    ]);
 
-  const members: Member[] = memberships.reduce((allMembers, chainMembers) => {
-    if (chainMembers.status === 'rejected') {
-      console.warn('Pulling memberships failed:', chainMembers.reason);
-      return allMembers;
-    }
+    const members: Member[] = memberships.reduce((allMembers, chainMembers) => {
+      if (chainMembers.status === 'rejected') {
+        console.warn('Pulling memberships failed:', chainMembers.reason);
+        return allMembers;
+      }
 
-    return [...allMembers, ...chainMembers.value];
-  }, <Member[]>[]);
+      return [...allMembers, ...chainMembers.value];
+    }, <Member[]>[]);
 
-  return members;
-};
+    return members;
+  };

@@ -1,16 +1,16 @@
 import Bottleneck from 'bottleneck';
 import cors from 'cors';
-import express from 'express';
+import express, { Express, RequestHandler } from 'express';
 
 import { CONFIG } from './config';
 import { router } from './handlers/routes';
 
 // import { errorMiddleware } from './lib/apiHelpers';
 
-const app = express();
+const app: Express = express();
 
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+app.use(express.urlencoded({ extended: true }) as RequestHandler);
+app.use(express.json() as RequestHandler);
 
 app.use(cors({ credentials: true, origin: true }));
 

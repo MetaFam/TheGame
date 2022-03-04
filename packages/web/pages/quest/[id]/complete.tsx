@@ -24,10 +24,8 @@ const SubmitQuestCompletionPage: React.FC<Props> = ({ quest }) => {
   useUser({ redirectTo: '/quests', redirectIfNotFound: true });
   const toast = useToast();
   const router = useRouter();
-  const [
-    createQuestCompletionState,
-    createQuestCompletion,
-  ] = useCreateQuestCompletionMutation();
+  const [createQuestCompletionState, createQuestCompletion] =
+    useCreateQuestCompletionMutation();
 
   if (router.isFallback) {
     return (

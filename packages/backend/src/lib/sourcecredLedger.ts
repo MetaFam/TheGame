@@ -9,11 +9,10 @@ const storage = new sourcecred.ledger.storage.GithubStorage({
   branch: CONFIG.sourceCredLedgerBranch,
 });
 
-export const ledgerManager: LedgerManager = new sourcecred.ledger.manager.LedgerManager(
-  {
+export const ledgerManager: LedgerManager =
+  new sourcecred.ledger.manager.LedgerManager({
     storage,
-  },
-);
+  });
 
 export async function loadCredGraph(): Promise<CredGraph | null> {
   const instance = sourcecred.instance.readInstance.getNetworkReadInstance(

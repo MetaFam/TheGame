@@ -60,11 +60,10 @@ export const AdjacentTimezonePlayers: React.FC<Props> = ({
     }
   }, [nextPage, onScreen, fetching, fetchingMore, moreAvailable]);
 
-  const isLoading = useMemo(() => fetching || fetchingMore || moreAvailable, [
-    fetching,
-    fetchingMore,
-    moreAvailable,
-  ]);
+  const isLoading = useMemo(
+    () => fetching || fetchingMore || moreAvailable,
+    [fetching, fetchingMore, moreAvailable],
+  );
 
   return (
     <VStack

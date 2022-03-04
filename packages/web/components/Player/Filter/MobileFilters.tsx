@@ -340,11 +340,11 @@ type FilterContentProps = {
 const scrollbarVisible = (element: HTMLDivElement): boolean =>
   element.scrollHeight > element.clientHeight;
 
-const searchFilter: (searchText: string) => (v: ValueType) => boolean = (
-  searchText,
-) => ({ value, label }) =>
-  label.toLowerCase().includes(searchText) ||
-  value.toLowerCase().includes(searchText);
+const searchFilter: (searchText: string) => (v: ValueType) => boolean =
+  (searchText) =>
+  ({ value, label }) =>
+    label.toLowerCase().includes(searchText) ||
+    value.toLowerCase().includes(searchText);
 
 const FilterContent: React.FC<FilterContentProps> = ({
   value: savedValue,
@@ -392,22 +392,21 @@ const FilterContent: React.FC<FilterContentProps> = ({
         filteredTimeZones = getCityZonesFor(searchText);
       }
       if (isCategoryFilter) {
-        const newOptions: CategoryValueType[] = (allOptions as CategoryValueType[]).reduce(
-          (t: CategoryValueType[], v: CategoryValueType) => {
-            const { label, options: categoryOptions } = v;
-            const filteredOptions = isTimeZone
-              ? (categoryOptions as TimeZoneType[]).filter(
-                  timeZonesFilter(searchText, filteredTimeZones),
-                )
-              : categoryOptions.filter(searchFilter(searchText));
-            const newValue: CategoryValueType = {
-              label,
-              options: filteredOptions,
-            };
-            return newOptions.length > 0 ? [...t, newValue] : t;
-          },
-          [],
-        );
+        const newOptions: CategoryValueType[] = (
+          allOptions as CategoryValueType[]
+        ).reduce((t: CategoryValueType[], v: CategoryValueType) => {
+          const { label, options: categoryOptions } = v;
+          const filteredOptions = isTimeZone
+            ? (categoryOptions as TimeZoneType[]).filter(
+                timeZonesFilter(searchText, filteredTimeZones),
+              )
+            : categoryOptions.filter(searchFilter(searchText));
+          const newValue: CategoryValueType = {
+            label,
+            options: filteredOptions,
+          };
+          return newOptions.length > 0 ? [...t, newValue] : t;
+        }, []);
         setOptions(newOptions);
       } else {
         const filteredOptions = isTimeZone

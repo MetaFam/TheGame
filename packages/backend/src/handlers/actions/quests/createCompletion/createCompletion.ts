@@ -31,12 +31,11 @@ export async function createCompletion(
     quest.repetition === QuestRepetition_Enum.Unique ||
     quest.repetition === QuestRepetition_Enum.Personal
   ) {
-    const {
-      quest_completion: existingQuestCompletions,
-    } = await client.GetQuestCompletions({
-      playerId,
-      questId: questCompletion.questId,
-    });
+    const { quest_completion: existingQuestCompletions } =
+      await client.GetQuestCompletions({
+        playerId,
+        questId: questCompletion.questId,
+      });
     if (existingQuestCompletions.length > 0) {
       throw new Error(
         'You already submitted a completion this personal/unique quest',
@@ -46,12 +45,11 @@ export async function createCompletion(
 
   // Recurring, check if not already done by player within cooldown
   if (quest.repetition === QuestRepetition_Enum.Recurring && quest.cooldown) {
-    const {
-      quest_completion: existingQuestCompletions,
-    } = await client.GetLastQuestCompletionForPlayer({
-      playerId,
-      questId: quest.id,
-    });
+    const { quest_completion: existingQuestCompletions } =
+      await client.GetLastQuestCompletionForPlayer({
+        playerId,
+        questId: quest.id,
+      });
     if (existingQuestCompletions.length > 0) {
       const existingQuestCompletion = existingQuestCompletions[0];
       const submittedAt = new Date(existingQuestCompletion.submittedAt);

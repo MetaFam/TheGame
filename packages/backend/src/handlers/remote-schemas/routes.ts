@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Application } from 'express';
 import { graphqlHTTP } from 'express-graphql';
 
 import { schema } from './schema';
@@ -10,5 +10,5 @@ remoteSchemaRoutes.use(
   graphqlHTTP({
     schema,
     graphiql: true,
-  }),
+  }) as Application,
 );

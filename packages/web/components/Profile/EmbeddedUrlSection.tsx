@@ -55,7 +55,7 @@ const LinkPreview: React.FC<LinkPreviewProps> = ({ url: inputUrl = '' }) => {
 
       if (error) throw error;
 
-      setMetadata((response.og as unknown) as URIMetadata);
+      setMetadata(response.og as unknown as URIMetadata);
     } catch (err) {
       // eslint-disable-next-line no-console
       console.error(`No metadata found for the URL: ${uri}.`, err);

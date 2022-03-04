@@ -148,7 +148,12 @@ export const PlayerGallery: React.FC<Props> = ({
   editing,
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { favorites, data: nfts, loading, error } = useOpenSeaCollectibles({
+  const {
+    favorites,
+    data: nfts,
+    loading,
+    error,
+  } = useOpenSeaCollectibles({
     player,
   });
 

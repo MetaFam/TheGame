@@ -139,7 +139,7 @@ export const Chart: FC<ChartType> = ({ data }) => {
           <Button
             key={s}
             aria-label="Toggle chart scale"
-            icon={<FaChartBar />}
+            leftIcon={<FaChartBar />}
             borderColor="pinkShadeOne"
             background="rgba(17, 17, 17, 0.9)"
             color="pinkShadeOne"

@@ -125,18 +125,19 @@ export const sortOptionsMap = {
 export const sortOptions = Object.values(sortOptionsMap) as Array<OptionType>;
 
 const getOrderByValue = (option: SortOption): Player_Order_By =>
-  (sortOptionsMap[option || SortOption.SEASON_XP] as {
-    value: SortOption;
-    label: string;
-    output: Player_Order_By;
-  }).output;
+  (
+    sortOptionsMap[option || SortOption.SEASON_XP] as {
+      value: SortOption;
+      label: string;
+      output: Player_Order_By;
+    }
+  ).output;
 
 export const usePlayerFilter = (
   defaultVariables: PlayersQueryVariables = defaultQueryVariables,
 ): PlayerFilter => {
-  const [queryVariables, setQueryVariables] = useState<PlayersQueryVariables>(
-    defaultVariables,
-  );
+  const [queryVariables, setQueryVariables] =
+    useState<PlayersQueryVariables>(defaultVariables);
   const aggregates = usePlayerAggregates();
   const shouldAppend = useRef(false);
 
@@ -165,14 +166,8 @@ export const usePlayerFilter = (
     [],
   );
 
-  const {
-    fetchedPlayers,
-    fetching,
-    error,
-    nextPage,
-    total,
-    moreAvailable,
-  } = usePaginatedPlayers(queryVariables, setQueryVariable);
+  const { fetchedPlayers, fetching, error, nextPage, total, moreAvailable } =
+    usePaginatedPlayers(queryVariables, setQueryVariable);
   const [players, setPlayers] = useState<Player[]>(fetchedPlayers);
 
   const resetFilter = () => {
@@ -217,9 +212,10 @@ export const useFiltersUsed = (
     () => (queryVariables.explorerTypeTitles as string[])?.length > 0,
     [queryVariables.explorerTypeTitles],
   );
-  const searchFilterUsed = useMemo(() => queryVariables.search !== '%%', [
-    queryVariables.search,
-  ]);
+  const searchFilterUsed = useMemo(
+    () => queryVariables.search !== '%%',
+    [queryVariables.search],
+  );
   const availabilityFilterUsed = useMemo(
     () => queryVariables.availability != null,
     [queryVariables.availability],
@@ -267,9 +263,10 @@ const usePaginatedPlayers = (
 
   const itemsPerPage = PLAYER_LIMIT;
   const maxPage = Math.ceil(total / itemsPerPage);
-  const currentOffset = useMemo(() => (queryVariables.offset as number) || 0, [
-    queryVariables.offset,
-  ]);
+  const currentOffset = useMemo(
+    () => (queryVariables.offset as number) || 0,
+    [queryVariables.offset],
+  );
   const currentPage = useMemo(
     () => Math.ceil(currentOffset / itemsPerPage) + 1,
     [currentOffset, itemsPerPage],

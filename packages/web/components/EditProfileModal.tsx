@@ -485,8 +485,8 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
             templateColumns={['auto', 'auto', '1fr 1fr', '1fr 1fr 1fr']}
             gap={6}
           >
-            <GridItem flex={1}>
-              <FormControl isInvalid={errors.profileImageURL} align="center">
+            <GridItem flex={1} alignItems="center">
+              <FormControl isInvalid={errors.profileImageURL}>
                 <Tooltip label="An image representing the user generally cropped to a circle for display. 1MiB maximum size.">
                   <Label htmlFor="profileImageURL" userSelect="none">
                     Profile Image
@@ -589,8 +589,8 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
                   'An image with an ~1:1 aspect ratio to be the page background. 1MiB maximum size.',
               },
             ].map(({ key, title, description: spec }) => (
-              <GridItem flex={1} {...{ key }}>
-                <FormControl isInvalid={errors[key]} align="center">
+              <GridItem flex={1} alignItems="center" {...{ key }}>
+                <FormControl isInvalid={errors[key]}>
                   <Tooltip label={spec}>
                     <Label htmlFor={key} userSelect="none" whiteSpace="nowrap">
                       {title}

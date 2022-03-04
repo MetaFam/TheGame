@@ -1,14 +1,10 @@
-import { extendTheme, Theme as ChakraTheme } from '@chakra-ui/react';
-import { Styles } from 'react-select';
+import { extendTheme } from '@chakra-ui/react';
+import { GroupBase, StylesConfig } from 'react-select';
 
-import { colors, MetaColors } from './colors';
+import { colors } from './colors';
 import { textStyles } from './texts';
 
-type Theme = ChakraTheme & {
-  colors: MetaColors;
-};
-
-export const theme: Theme = extendTheme({
+export const theme = extendTheme({
   components: {
     Avatar: {
       sizes: {
@@ -139,6 +135,13 @@ export const theme: Theme = extendTheme({
     '9xl': '5.16rem',
   },
 });
+
+type LabeledValue<T> = Required<{ label?: string; value?: T }>;
+type Styles = StylesConfig<
+  LabeledValue<string>,
+  boolean,
+  GroupBase<LabeledValue<string>>
+>;
 
 export const selectStyles: Styles = {
   menu: (styles) => ({
@@ -367,7 +370,7 @@ export const searchSelectStyles: Styles = {
   }),
 };
 
-export const dropdownStyles: typeof searchSelectStyles = {
+export const dropdownStyles: Styles = {
   ...searchSelectStyles,
   multiValue: (s) => ({
     ...s,
@@ -377,9 +380,14 @@ export const dropdownStyles: typeof searchSelectStyles = {
     ...s,
     color: theme.colors.white,
   }),
-  groupHeading: (s, { children }) => ({
+  groupHeading: (s) => ({
     ...s,
-    ...searchSelectStyles.groupHeading?.(s, { children }),
+    color: theme.colors.white,
+    background: theme.colors.purple[400],
+    paddingTop: theme.space['3'],
+    paddingBottom: theme.space['3'],
+    position: 'sticky',
+    top: 0,
     borderTop: `1px solid ${theme.colors.borderPurple}`,
     margin: 0,
   }),

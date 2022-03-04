@@ -148,10 +148,10 @@ export const QuestForm: React.FC<Props> = ({
   loadingLabel,
   editQuest,
 }) => {
-  const defaultValues = useMemo(() => getDefaultFormValues(editQuest, guilds), [
-    editQuest,
-    guilds,
-  ]);
+  const defaultValues = useMemo(
+    () => getDefaultFormValues(editQuest, guilds),
+    [editQuest, guilds],
+  );
 
   const {
     register,

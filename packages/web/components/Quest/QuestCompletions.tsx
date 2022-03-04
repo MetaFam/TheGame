@@ -35,14 +35,10 @@ type Props = {
 export const QuestCompletions: React.FC<Props> = ({ quest }) => {
   const { user } = useUser();
   const toast = useToast();
-  const [
-    alertSubmission,
-    setAlertSubmission,
-  ] = useState<AlertSubmission | null>(null);
-  const [
-    { fetching },
-    updateQuestCompletion,
-  ] = useUpdateQuestCompletionMutation();
+  const [alertSubmission, setAlertSubmission] =
+    useState<AlertSubmission | null>(null);
+  const [{ fetching }, updateQuestCompletion] =
+    useUpdateQuestCompletionMutation();
   const isMyQuest = user?.id === (quest as Quest).player.id;
   const { Accepted, Rejected } = QuestCompletionStatus_ActionEnum;
 

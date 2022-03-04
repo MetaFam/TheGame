@@ -51,9 +51,10 @@ const QuestsPage: React.FC<Props> = ({ roleChoices }) => {
   } = useQuestFilter();
   const { pSeedBalance, fetching: fetchingBalance } = usePSeedBalance();
   const toast = useToast();
-  const canCreateQuest = useMemo(() => isAllowedToCreateQuest(pSeedBalance), [
-    pSeedBalance,
-  ]);
+  const canCreateQuest = useMemo(
+    () => isAllowedToCreateQuest(pSeedBalance),
+    [pSeedBalance],
+  );
 
   return (
     <PageContainer>

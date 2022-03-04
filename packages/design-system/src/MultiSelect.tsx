@@ -1,14 +1,34 @@
-import React from 'react';
-import Select, { Props as SelectProps } from 'react-select';
+import React, { MutableRefObject } from 'react';
+import Select, {
+  GroupBase,
+  Props,
+  SelectInstance,
+  StylesConfig,
+} from 'react-select';
 
 import { multiSelectStyles } from './theme';
 
-export const MultiSelect: React.FC<SelectProps> = React.forwardRef<
-  Select,
-  SelectProps
->((props, ref) => (
-  <Select styles={multiSelectStyles} {...props} {...{ ref }} />
-));
+export const MultiSelect = React.forwardRef(
+  (
+    props: Props<unknown, boolean, GroupBase<unknown>>,
+    ref:
+      | ((
+          instance: SelectInstance<unknown, boolean, GroupBase<unknown>> | null,
+        ) => void)
+      | MutableRefObject<SelectInstance<
+          unknown,
+          boolean,
+          GroupBase<unknown>
+        > | null>
+      | null,
+  ) => (
+    <Select
+      styles={multiSelectStyles as StylesConfig}
+      {...props}
+      {...{ ref }}
+    />
+  ),
+);
 
 export type SelectOption = {
   value: string;

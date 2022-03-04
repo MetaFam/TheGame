@@ -48,7 +48,7 @@ const SetupGuild: React.FC = () => {
       ...otherInputs,
       discordAdminRoles: adminRoles.map((o) => o.value),
       discordMembershipRoles: membershipRoles.map((o) => o.value),
-      type: (type as unknown) as GuildType_ActionEnum,
+      type: type as unknown as GuildType_ActionEnum,
       uuid: guild.id,
     };
 
