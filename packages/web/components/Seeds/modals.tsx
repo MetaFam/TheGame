@@ -149,13 +149,13 @@ export const UsefulnessOfSeeds = () => (
   <Flex direction="column">
     <Text>
       So far, the main thing SEEDs are used for is rewarding contributors as a
-      means of bootstrapping.Not a very promising use case in terms of token
+      means of bootstrapping. Not a very promising use case in terms of token
       value, we know!
     </Text >
     <Text>
       But, we're building an entire gamified socioeconomic system, so finding
       use cases for money shouldn't be much trouble. 😁
-    </Text >
+    </Text>
     <Text>
       So, let's look at some of the current &amp; potential ways of using SEEDs!
     </Text>
@@ -244,7 +244,7 @@ export const UsefulnessOfSeeds = () => (
             shilling
           </ListItem>
         </UnorderedList>
-        <Image src="https://cdn.substack.com/image/fetch/w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F3ae3bc90-a157-4057-9722-167f5645d6a4_500x281.png" />
+        <Image src="//cdn.substack.com/image/fetch/w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F3ae3bc90-a157-4057-9722-167f5645d6a4_500x281.png" />
       </Flex>
     </CollapsableText>
     <CollapsableText title="🥩 Staking SEEDs">
@@ -298,10 +298,10 @@ export const UsefulnessOfSeeds = () => (
             color="gray.500"
             textDecoration="underline"
             mr={1}
-            href="https://polygon.balancer.fi/#/pool/0x8a8fcd351ed553fc75aecbc566a32f94471f302e000100000000000000000081"
+            href="//polygon.balancer.fi/#/pool/0x8a8fcd351ed553fc75aecbc566a32f94471f302e000100000000000000000081"
           >
             <strong>
-              Balancer pool aka the < em > SEED plantation.</em >
+              Balancer pool aka the <em>SEED plantation</em>.
             </strong >
           </Link >
         </Text >

@@ -14,7 +14,7 @@ async function createPlayer(ethAddress: string, limiter: Bottleneck) {
       } inserting ${ethAddress}.`,
     );
   }
-  const { id: playerId } = insert?.returning[0].player;
+  const playerId = insert?.returning[0].player.id;
   await queueRecache({ playerId, limiter, opts: { priority: 1 } });
 
   return { id: playerId };
