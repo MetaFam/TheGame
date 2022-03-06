@@ -5,7 +5,7 @@ import { ProfileSection } from 'components/Profile/ProfileSection';
 import { GuildFragment } from 'graphql/autogen/types';
 import React, { useMemo } from 'react';
 import { FaDiscord, FaGithub, FaGlobe, FaTwitter } from 'react-icons/fa';
-import { getDaoLink } from 'utils/daoHelpers';
+import { getDAOLink } from 'utils/daoHelpers';
 
 type Props = {
   guild: GuildFragment;
@@ -15,7 +15,7 @@ export const GuildLinks: React.FC<Props> = ({ guild }) => {
   const daoHrefs = useMemo(
     () =>
       guild.daos.map(
-        (dao) => dao.url || getDaoLink(dao.network, dao.contractAddress),
+        (dao) => dao.url || getDAOLink(dao.network, dao.contractAddress),
       ),
     [guild],
   );
@@ -89,8 +89,8 @@ export const GuildLinks: React.FC<Props> = ({ guild }) => {
           <WrapItem key={index}>
             <PlayerHeroTile title={dao.label || 'DAO'}>
               <ExternalDaoLink
-                daoUrl={daoHrefs[index]}
-                linkProps={{ _hover: { textDecoration: 'underline' } }}
+                daoURL={daoHrefs[index]}
+                _hover={{ textDecoration: 'underline' }}
               >
                 <Text fontSize="sm">{dao.contractAddress}</Text>
               </ExternalDaoLink>
