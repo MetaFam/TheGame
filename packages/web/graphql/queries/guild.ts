@@ -1,6 +1,4 @@
 import {
-  GetAdministeredGuildsQuery,
-  GetAdministeredGuildsQueryVariables,
   GetGuildMetadataQuery,
   GetGuildMetadataQueryVariables,
   GetGuildnamesQuery,
@@ -65,7 +63,7 @@ export const getGuildMetadata = async (id: string) => {
   return data?.guild_metadata[0];
 };
 
-const getAdministeredGuildsQuery = /* GraphQL */ `
+export const getAdministeredGuildsQuery = /* GraphQL */ `
   query GetAdministeredGuilds($id: uuid!) {
     guild_metadata(where: { creatorId: { _eq: $id } }) {
       guildId
@@ -75,24 +73,6 @@ const getAdministeredGuildsQuery = /* GraphQL */ `
     }
   }
 `;
-
-export const getAdministeredGuilds = async (playerId: string) => {
-  const { data, error } = await client
-    .query<GetAdministeredGuildsQuery, GetAdministeredGuildsQueryVariables>(
-      getAdministeredGuildsQuery,
-      { id: playerId },
-    )
-    .toPromise();
-
-  if (!data) {
-    if (error) {
-      throw error;
-    }
-    return [];
-  }
-
-  return data.guild_metadata.map((gm) => gm.guild);
-};
 
 const guildsQuery = /* GraphQL */ `
   query GetGuilds($limit: Int) {

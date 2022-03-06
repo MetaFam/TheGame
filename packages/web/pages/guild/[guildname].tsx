@@ -20,7 +20,7 @@ import {
 } from 'next';
 import { useRouter } from 'next/router';
 import Page404 from 'pages/404';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { BoxTypes } from 'utils/boxTypes';
 import { getGuildCoverImageFull } from 'utils/playerHelpers';
 
@@ -30,7 +30,6 @@ const GuildPage: React.FC<Props> = ({ guild }) => {
   const router = useRouter();
   const { user, fetching } = useUser();
   const [getGuildsResult, getGuilds] = useGetAdministeredGuildsQuery();
-  const [canEdit, setCanEdit] = useState<boolean>(false);
 
   useEffect(() => {
     if (!fetching && user) {
@@ -38,16 +37,14 @@ const GuildPage: React.FC<Props> = ({ guild }) => {
     }
   }, [fetching, user, getGuilds]);
 
-  useEffect(() => {
-    if (
+  const canEdit = useMemo(
+    () =>
       user?.id ===
       getGuildsResult?.data?.guild_metadata.some(
         (gm) => gm.guildId === guild?.id,
-      )
-    ) {
-      setCanEdit(true);
-    }
-  }, [user, getGuildsResult, guild]);
+      ),
+    [user, getGuildsResult, guild],
+  );
 
   // Hidden until implemented
   // BoxType.GUILD_SKILLS,
