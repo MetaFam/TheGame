@@ -38,7 +38,6 @@ export const useProfileField = <T extends ProfileValueType = string>({
   let setter: Maybe<(val: unknown) => void> = null;
   let atom = owner ? getJotaiState(field) : null;
   if (!atom && owner) {
-    // eslint-disable-next-line no-multi-assign
     atom = newAtom<Maybe<T>>(value);
     setJotaiState(field, atom);
   }

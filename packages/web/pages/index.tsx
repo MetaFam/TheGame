@@ -21,13 +21,7 @@ export const getStaticProps = async () => ({
 });
 
 const ArrowUp: React.FC = () => (
-  <svg
-    strokeWidth="0"
-    viewBox="0 0 16 16"
-    focusable="false"
-    height="1em"
-    width="1em"
-  >
+  <svg strokeWidth={0} viewBox="0 0 16 16" focusable="false">
     <defs>
       <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
         <stop offset="0%" style={{ stopColor: '#FF61E6', stopOpacity: 1 }} />
@@ -58,17 +52,41 @@ const Landing: React.FC = () => {
   const [section, setSection] = useState(0);
 
   const handleScroll = useCallback(() => {
-    const position = scrollContainer?.scrollTop ?? 0;
+    if (!scrollContainer) return;
+    const { scrollTop } = scrollContainer;
     const height = typeof window !== 'undefined' ? window.innerHeight : 1;
-    setSection(Math.floor(position / height));
+    setSection(Math.floor(scrollTop / height));
   }, [scrollContainer]);
+
+  const handleKeyDown = useCallback(
+    (e: KeyboardEvent) => {
+      if (!scrollContainer) return;
+      const { scrollTop } = scrollContainer;
+      const { scrollHeight } = scrollContainer;
+      const height = typeof window !== 'undefined' ? window.innerHeight : 1;
+      let newScrollTop = scrollTop;
+      if (e.key === 'ArrowLeft') {
+        newScrollTop -= height;
+        newScrollTop = newScrollTop <= 0 ? 0 : newScrollTop;
+      } else if (e.key === 'ArrowRight') {
+        newScrollTop += height;
+        newScrollTop =
+          newScrollTop >= scrollHeight ? scrollHeight : newScrollTop;
+      }
+      scrollContainer.scrollTop = newScrollTop;
+      setSection(Math.floor(newScrollTop / height));
+    },
+    [scrollContainer],
+  );
 
   useEffect(() => {
     scrollContainer?.addEventListener('scroll', handleScroll);
+    document.addEventListener('keydown', handleKeyDown);
     return () => {
       scrollContainer?.removeEventListener('scroll', handleScroll);
+      document.removeEventListener('keydown', handleKeyDown);
     };
-  }, [handleScroll, scrollContainer]);
+  }, [handleScroll, handleKeyDown, scrollContainer]);
 
   return (
     <>
@@ -91,7 +109,7 @@ const Landing: React.FC = () => {
         right={{ base: 0, md: 4 }}
         href="#start"
         display={section === 0 ? 'none' : 'block'}
-        transform={`translate3d(0,${section === 0 ? '30px' : '0px'},0)`}
+        transform={`translate3d(0,${section === 0 ? '30px' : 0},0)`}
         transition="transform 0.3s 0.3s ease-in-out, opacity 0.3s 0.3s ease-in-out"
         _hover={{ textDecor: 'none' }}
       >

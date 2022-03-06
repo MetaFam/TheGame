@@ -53,7 +53,7 @@ export const DesktopPlayerStats: React.FC<PlayerStatsProps> = ({ player }) => {
           </MetaLink>
           <MetaLink
             color="black"
-            href={'/profile/setup/username'}
+            href={'/profile/setup'}
             _hover={{ textDecoration: 'none' }}
           >
             <MenuItem>

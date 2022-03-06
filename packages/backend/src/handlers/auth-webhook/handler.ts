@@ -35,7 +35,8 @@ export const authHandler = async (
       throw new Error('Invalid token');
     }
 
-    const { id, created } = await getOrCreatePlayerId(claim.iss);
+    const { limiter } = req.app.locals;
+    const { id, created } = await getOrCreatePlayerId(claim.iss, limiter);
 
     if (created) {
       console.debug(

@@ -10,7 +10,7 @@ export const SwitchNetworkButton: React.FC<{ chainId?: string }> = ({
   const { connected, isMetaMask } = useWeb3();
   const networkInfo = NETWORK_INFO[chainId];
 
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setLoading] = useState(false);
 
   const onClick = useCallback(async () => {
     if (connected) {
@@ -29,10 +29,9 @@ export const SwitchNetworkButton: React.FC<{ chainId?: string }> = ({
       size="sm"
       fontSize="md"
       px={2}
-      isLoading={loading}
-      onClick={onClick}
       textTransform="initial"
       leftIcon={<MetaMaskIcon />}
+      {...{ isLoading, onClick }}
     >
       {name}
     </MetaButton>

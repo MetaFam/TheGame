@@ -56,8 +56,8 @@ export const HelpFooter = () => (
 
 export const ConnectToProgress: React.FC<{
   showNote?: boolean;
-  noSwitchButton?: boolean;
-}> = ({ showNote = false, noSwitchButton = false }) => {
+  showSwitchButton?: boolean;
+}> = ({ showNote = false, showSwitchButton = true }) => {
   const { connect, connecting, connected, chainId } = useWeb3();
   const [open, { toggle }] = useBoolean();
   const { fetching } = useUser();
@@ -67,7 +67,7 @@ export const ConnectToProgress: React.FC<{
   return (
     <Stack color="white" align="center" spacing={8}>
       <MetaGameLogo />
-      {connecting || fetching || !connected || noSwitchButton ? (
+      {fetching || !connected || !showSwitchButton ? (
         <Stack spacing={4} align="center">
           {showNote && (
             <Text>Connect your wallet on Ethereum Mainnet to start</Text>
@@ -97,9 +97,9 @@ export const ConnectToProgress: React.FC<{
                     You will need one to play the MetaGame.
                   </Text>
                   <Text>
-                    We recommend <MetaMaskIcon /> MetaMask, download it{' '}
+                    We recommend{' '}
                     <MetaLink isExternal href="https://metamask.io/download">
-                      here
+                      <MetaMaskIcon /> MetaMask
                     </MetaLink>
                     .
                   </Text>

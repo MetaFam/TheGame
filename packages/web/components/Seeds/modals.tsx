@@ -53,7 +53,7 @@ export const WTFisXP = () => (
       >
         GitHub
       </Link>
-      - your XP automagically accrues. Once a month, you are rewarded Seeds for
+      - your XP automagically accrues. Once a month, you are rewarded SEEDs for
       your contributions, based on the amount of XP that you generated.
     </Text>
 
@@ -148,18 +148,18 @@ export const GetRanked = () => (
 export const UsefulnessOfSeeds = () => (
   <Flex direction="column">
     <Text>
-      So far, the main thing Seeds are used for is rewarding contributors as a
+      So far, the main thing SEEDs are used for is rewarding contributors as a
       means of bootstrapping. Not a very promising use case in terms of token
       value, we know!
     </Text>
     <Text>
       But, we're building an entire gamified socioeconomic system, so finding
-      use cases for money shouldn't be much trouble 😁
+      use cases for money shouldn't be much trouble. 😁
     </Text>
     <Text>
-      So, lets look at some of the current &amp; potential ways of using Seeds!
+      So, let's look at some of the current &amp; potential ways of using SEEDs!
     </Text>
-    <CollapsableText title="💸 Spending Seeds">
+    <CollapsableText title="💸 Spending SEEDs">
       <Flex direction="column">
         <Text fontSize={16} fontWeight="bold" my={2}>
           Things you can spend on now:
@@ -167,16 +167,16 @@ export const UsefulnessOfSeeds = () => (
         <Box p={2} bgColor="whiteAlpha.300" mb={2}>
           💡 Note: You need to be a member to access any of these
         </Box>
-        <UnorderedList>
-          <ListItem>💸 to get a shout-out in the podcast.</ListItem>
-          <ListItem>💸 to have MetaGame tweet for you.</ListItem>
-          <ListItem>💸 to get a shout-out in the newsletter.</ListItem>
-          <ListItem>💸 to buy some limited edition merchandise.</ListItem>
+        <UnorderedList listStyleType="💸 ">
+          <ListItem>to get a shout-out in the podcast.</ListItem>
+          <ListItem>to have MetaGame tweet for you.</ListItem>
+          <ListItem>to get a shout-out in the newsletter.</ListItem>
+          <ListItem>to buy some limited edition merchandise.</ListItem>
           <ListItem>
-            💸 to get products &amp; services from other players &amp; guilds.
+            to get products &amp; services from other players &amp; guilds.
           </ListItem>
           <ListItem>
-            💸 to get access to the
+            to get access to the
             <Link
               ml={1}
               href="https://tokenengineeringcommunity.github.io/website/"
@@ -189,9 +189,9 @@ export const UsefulnessOfSeeds = () => (
             </Link>
             course.
           </ListItem>
-          <ListItem>💸 to get some user testing sessions.</ListItem>
+          <ListItem>to get some user testing sessions.</ListItem>
           <ListItem>
-            💸 to
+            to
             <Link
               ml={1}
               isExternal
@@ -206,8 +206,8 @@ export const UsefulnessOfSeeds = () => (
           </ListItem>
         </UnorderedList>
         <Box p={2} bgColor="whiteAlpha.300" my={2}>
-          💡 Note: If you're interested in spending your Seeds on any of this,
-          ask about it in our discord channel #ask about it; #
+          💡 Note: If you're interested in spending your SEEDs on any of this,
+          ask about it in our discord channel
           <Link
             ml={1}
             href="https://discord.gg/cBq5Md6KTU"
@@ -216,41 +216,41 @@ export const UsefulnessOfSeeds = () => (
             textDecoration="underline"
             mr={1}
           >
-            💸-spending-seeds
+            #💸-spending-seeds
           </Link>
         </Box>
         <Text fontSize={16} fontWeight="bold" my={2}>
           In the future:
         </Text>
-        <UnorderedList mb={4}>
-          <ListItem>💸 for the subscription fee</ListItem>
+        <UnorderedList mb={4} listStyleType="💸 ">
+          <ListItem>for the subscription fee</ListItem>
           <ListItem>
-            💸 for fees if buying/selling things with other tokens
+            for fees if buying/selling things with other tokens
           </ListItem>
-          <ListItem>💸 to install an app in MetaGame</ListItem>
+          <ListItem>to install an app in MetaGame</ListItem>
           <ListItem>
-            💸 for posting quests &amp; raids - if in self-interest
+            for posting quests &amp; raids - if in self-interest
           </ListItem>
-          <ListItem>💸 for access to courses</ListItem>
-          <ListItem>💸 to pay for likes/upvotes</ListItem>
-          <ListItem>💸 to have your message displayed on the ticker</ListItem>
+          <ListItem>for access to courses</ListItem>
+          <ListItem>to pay for likes/upvotes</ListItem>
+          <ListItem>to have your message displayed on the ticker</ListItem>
           <ListItem>
-            💸 to buy themes, addons, in-game skins &amp; other cosmetics
+            to buy themes, addons, in-game skins &amp; other cosmetics
           </ListItem>
-          <ListItem>💸 to post role openings or boost them</ListItem>
-          <ListItem>💸 to boost your discovery position</ListItem>
+          <ListItem>to post role openings or boost them</ListItem>
+          <ListItem>to boost your discovery position</ListItem>
           <ListItem>
-            💸 to pay for other MetaFam services; like advising, building or
+            to pay for other MetaFam services; like advising, building or
             shilling
           </ListItem>
         </UnorderedList>
         <Image src="https://cdn.substack.com/image/fetch/w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F3ae3bc90-a157-4057-9722-167f5645d6a4_500x281.png" />
       </Flex>
     </CollapsableText>
-    <CollapsableText title="🥩 Staking Seeds">
+    <CollapsableText title="🥩 Staking SEEDs">
       <Box>
         <Text>
-          Here are some of the things people might be required to stake Seeds
+          Here are some of the things people might be required to stake SEEDs
           for.
         </Text>
         <Text fontWeight="bold">
@@ -266,17 +266,17 @@ export const UsefulnessOfSeeds = () => (
           Instead, players of MetaGame will be required to stake some of their
           skin in the game.
         </Text>
-        <UnorderedList mb={4}>
-          <ListItem>🥩 to take quests</ListItem>
-          <ListItem>🥩 for your friend when onboarding them</ListItem>
-          <ListItem>🥩 for your guild to enter</ListItem>
-          <ListItem>🥩 as collateral for your personal token</ListItem>
-          <ListItem>🥩 to enter a contract with someone</ListItem>
-          <ListItem>🥩 when claiming the metafam.eth subdomain</ListItem>
-          <ListItem>🥩 when claiming the @metagame.wtf email</ListItem>
-          <ListItem>🥩 on your project or product reviews</ListItem>
+        <UnorderedList mb={4} listStyleType="🥩 ">
+          <ListItem>to take quests</ListItem>
+          <ListItem>for your friend when onboarding them</ListItem>
+          <ListItem>for your guild to enter</ListItem>
+          <ListItem>as collateral for your personal token</ListItem>
+          <ListItem>to enter a contract with someone</ListItem>
+          <ListItem>when claiming the metafam.eth subdomain</ListItem>
+          <ListItem>when claiming the @metagame.wtf email</ListItem>
+          <ListItem>on your project or product reviews</ListItem>
           <ListItem>
-            🥩 on content curation (ponzinomics)
+            on content curation (ponzinomics)
             <ul>
               <ListItem ml={4}>
                 writing reviews &amp; recommendations will require staking
@@ -287,11 +287,11 @@ export const UsefulnessOfSeeds = () => (
         <Image src="https://cdn.substack.com/image/fetch/w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F5a1c40a8-4983-4a95-81f1-3563b108de65_426x426.png" />
       </Box>
     </CollapsableText>
-    <CollapsableText title="🌱 Planting Seeds">
+    <CollapsableText title="🌱 Planting SEEDs">
       <Box>
         <Text>
-          If you're confused as to what “planting Seeds” means, it means using
-          your Seeds by putting them into the
+          If you're confused as to what “planting SEEDs” means, it means using
+          your SEEDs by putting them into the
           <Link
             ml={1}
             isExternal
@@ -301,24 +301,24 @@ export const UsefulnessOfSeeds = () => (
             href="https://polygon.balancer.fi/#/pool/0x8a8fcd351ed553fc75aecbc566a32f94471f302e000100000000000000000081"
           >
             <strong>
-              Balancer pool aka the <em>Seed plantation.</em>
+              Balancer pool aka the <em>SEED plantation.</em>
             </strong>
           </Link>
         </Text>
-        <UnorderedList mb={4}>
+        <UnorderedList mb={4} listStyleType="🌱 ">
           <ListItem>
-            🌱 to be eligible for MetaFam-only limited edition merch
+            to be eligible for MetaFam-only limited edition merch
           </ListItem>
           <ListItem>
-            🌱 to be eligible for random drops &amp; the Phase II token
+            to be eligible for random drops &amp; the Phase Ⅱ token
           </ListItem>
-          <ListItem>🌱 to stay in the game as a patron</ListItem>
-          <ListItem>🌱 to appear on the Patrons leaderboard</ListItem>
-          <ListItem>
-            🌱🌱 for guilds to appear higher on the leaderboard
+          <ListItem>to stay in the game as a patron</ListItem>
+          <ListItem>to appear on the Patrons leaderboard</ListItem>
+          <ListItem listStyleType="🌱🌱 ">
+            for guilds to appear higher on the leaderboard
           </ListItem>
-          <ListItem>
-            🌱🌱🌱 to appear higher on the Patrons leaderboard 🙃
+          <ListItem listStyleType="🌱🌱🌱 ">
+            to appear higher on the Patrons leaderboard 🙃
           </ListItem>
         </UnorderedList>
       </Box>
@@ -329,10 +329,10 @@ export const UsefulnessOfSeeds = () => (
 export const BuyingAndSelling = () => (
   <Box>
     <Box p={2} bgColor="whiteAlpha.300" mb={2}>
-      💡 Note: No need to buy Seeds to become a patron, you can just
+      💡 Note: No need to buy SEEDs to become a patron, you can just
       <em> water </em>them.
     </Box>
-    <Text>If you want to buy some Seeds:</Text>
+    <Text>If you want to buy some SEEDs:</Text>
     <UnorderedList>
       <ListItem>First, you'll need to have some tokens on Polygon</ListItem>
       <ListItem>
@@ -345,12 +345,12 @@ export const BuyingAndSelling = () => (
           textDecoration="underline"
           mr={1}
         >
-          Seeds plantation
+          SEEDs plantation
         </Link>
         &amp; click the “trade” tab middle top
         <ul>
           <ListItem ml={4}>
-            Seeds not showing up? Search by
+            SEEDs not showing up? Search by
             0xeaecc18198a475c921b24b8a6c1c1f0f5f3f7ea0
           </ListItem>
         </ul>
@@ -365,7 +365,7 @@ export const BuyingAndSelling = () => (
         0xeaecc18198a475c921b24b8a6c1c1f0f5f3f7ea0
       </ListItem>
     </UnorderedList>
-    <Text>If you want to sell your Seeds:</Text>
+    <Text>If you want to sell your SEEDs:</Text>
     <UnorderedList>
       <ListItem>
         You'll still need some Matic on Polygon first.. Either
@@ -454,10 +454,10 @@ export const BecomeAPatron = () => (
           textDecoration="underline"
           mr={1}
         >
-          Seed Fund raise
+          SEED Fund raise
         </Link>
       </ListItem>
-      <ListItem>Water the Seeds yourself 👇</ListItem>
+      <ListItem>Water the SEEDs yourself 👇</ListItem>
     </UnorderedList>
   </Box>
 );
@@ -532,7 +532,7 @@ export const PlantingAndWatering = () => (
         textDecoration="underline"
         mr={1}
       >
-        water the Seeds
+        water the SEEDs
       </Link>
       .
     </Box>
@@ -541,7 +541,7 @@ export const PlantingAndWatering = () => (
         How much should you water them?
         <ul>
           <ListItem ml={4}>
-            The minimal requirement to join as a patron is 8 pSeeds which is
+            The minimal requirement to join as a patron is 8 pSEEDs which is
             roughly $150.
           </ListItem>
         </ul>
@@ -575,7 +575,7 @@ export const PlantingAndWatering = () => (
           textDecoration="underline"
           mr={1}
         >
-          Seeds Fund
+          SEEDs Fund
         </Link>{' '}
         🙃
         <ul>
@@ -614,7 +614,7 @@ export const PlantingAndWatering = () => (
             Do note that even if you drop off the leaderboard, you will still
             get your single digit season achievement NFT for being an early
             patron &amp; etched in the lore as well as remain among the first
-            ones to get invited back in Phase II when MetaGame scales above
+            ones to get invited back in Phase Ⅱ when MetaGame scales above
             <Link
               ml={1}
               isExternal
@@ -636,10 +636,10 @@ export const PlantingAndWatering = () => (
 
 export const JoinTheFund = () => (
   <Box>
-    <Text>Wish to skip the hassle of watering Seeds on your own?</Text>
+    <Text>Wish to skip the hassle of watering SEEDs on your own?</Text>
     <Text>No worries, we got you covered!</Text>
     <Text>
-      We're making it easy for people to do just that by launching the Seed Fund
+      We're making it easy for people to do just that by launching the SEED Fund
       DAO.
     </Text>
     <Text>
@@ -650,13 +650,12 @@ export const JoinTheFund = () => (
     <UnorderedList>
       <ListItem>Add some mainnet Ether</ListItem>
       <ListItem>Approve our progress &amp; proposals</ListItem>
-      <ListItem>We water the Seed plantation for you</ListItem>
+      <ListItem>We water the SEED plantation for you</ListItem>
       <ListItem>
         <Link
           isExternal
           color="gray.500"
           textDecoration="underline"
-          mr={1}
           href="https://wiki.metagame.wtf/docs/wtf-is-metagame/the-300-of-metagame"
         >
           Join here
@@ -677,7 +676,6 @@ export const FAQ = () => (
           isExternal
           color="gray.500"
           textDecoration="underline"
-          mr={1}
           href="https://metagame.substack.com/p/calling-for-rain"
         >
           announcement post
@@ -685,7 +683,7 @@ export const FAQ = () => (
         , pitch video or dig through the website itself.
       </Text>
     </CollapsableText>
-    <CollapsableText title="Will you just keep on minting Seeds to infinity?">
+    <CollapsableText title="Will you just keep on minting SEEDs to infinity?">
       <Text>
         Not likely! The idea is that MetaGame will go
         <Link
@@ -693,28 +691,26 @@ export const FAQ = () => (
           isExternal
           color="gray.500"
           textDecoration="underline"
-          mr={1}
           href="https://wiki.metagame.wtf/docs/how-does-it-work/phases-of-metagame"
         >
           through 3 phases
         </Link>
-        ; starting with Seeds, growing into Trees in
-        <em>Phase II</em> aka <em>The Growth Phase </em>before transitioning to
-        Phase III - where Trees bear the fruits of our labor &amp; we’re able to
-        reward contributors with MetaGame’s incoming streams without having to
-        mint new tokens.
+        ; starting with SEEDs, growing into Trees in <em>Phase Ⅱ</em> aka{' '}
+        <em>The Growth Phase</em> before transitioning to Phase Ⅲ - where Trees
+        bear the fruits of our labor &amp; we’re able to reward contributors
+        with MetaGame’s incoming streams without having to mint new tokens.
       </Text>
     </CollapsableText>
-    <CollapsableText title="Why should the price of Seeds grow?">
+    <CollapsableText title="Why should the price of SEEDs grow?">
       <>
-        <Text>🌊 Seed Watering Streams</Text>
+        <Text>🌊 SEED Watering Streams</Text>
         <UnorderedList mt={2}>
           <ListItem>
             all fees &amp; payments received by MetaGame go into sustaining the
             price.
           </ListItem>
           <ListItem>
-            people subscribe to buying Seeds for any of the above reasons or
+            people subscribe to buying SEEDs for any of the above reasons or
             others.
           </ListItem>
           <ListItem>
@@ -726,7 +722,7 @@ export const FAQ = () => (
 
     <CollapsableText title="What’s market cap?">
       <Text>
-        At the time of writing this post (February 2022), the market cap was
+        At the time of writing this post, February 2022, the market cap was
         ~$600k
       </Text>
     </CollapsableText>

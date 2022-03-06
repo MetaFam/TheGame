@@ -3,19 +3,22 @@ import BackgroundImage from 'assets/landing/sections/section-1.jpg';
 import { FullPageContainer } from 'components/Container';
 import { StartButton } from 'components/Landing/StartButton';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { BsArrowDown } from 'react-icons/bs';
 
 export const Intro: React.FC<{ currentSection: number }> = ({
   currentSection,
 }) => {
-  const { push } = useRouter();
-
-  const handleSectionNav = (sectionId: string) => {
-    push(`#${sectionId}`);
-  };
-
+  const router = useRouter();
   const [onScreen, setOnScreen] = useState(false);
+
+  const handleSectionNav = useCallback(
+    (sectionId: string) => {
+      router.push(`#${sectionId}`);
+    },
+    [router],
+  );
+
   useEffect(() => {
     setTimeout(() => setOnScreen(currentSection === 0), 500);
   }, [currentSection]);
@@ -43,14 +46,14 @@ export const Intro: React.FC<{ currentSection: number }> = ({
           direction={{ base: 'column', lg: 'column' }}
           maxW="lg"
           zIndex={100}
-          transform={`translate3d(0, ${onScreen ? '0' : '3rem'}, 0)`}
+          transform={`translate3d(0, ${onScreen ? 0 : '3rem'}, 0)`}
           opacity={onScreen ? 1 : 0}
           transition="transform 0.3s 0.1s ease-in-out, opacity 0.5s 0.2s ease-in"
         >
           <Heading
             fontFamily="body"
             fontSize={{ base: '5xl', md: '7xl', lg: '8xl' }}
-            fontWeight="300"
+            fontWeight={300}
             color="white"
             textAlign="center"
           >

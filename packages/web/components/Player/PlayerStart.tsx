@@ -16,7 +16,9 @@ export const PlayerStart: React.FC = () => {
         new Date().getTime() - Date.parse(user.createdAt);
       // user is new if player was created less than 5 min ago
 
-      return Number.isNaN(timeSinceCreation) || timeSinceCreation < 300000;
+      return (
+        Number.isNaN(timeSinceCreation) || timeSinceCreation < 5 * 60 * 1000
+      );
     }
     return true;
   }, [connected, user, fetching]);
@@ -35,11 +37,7 @@ export const PlayerStart: React.FC = () => {
           <MetaHeading m={5}>Success!</MetaHeading>
           {newUser ? (
             <>
-              <MetaButton
-                mt={5}
-                mb={8}
-                onClick={() => router.push('/profile/setup')}
-              >
+              <MetaButton mt={5} mb={8} as="a" href="/profile/setup">
                 Set up your profile
               </MetaButton>
               <Text fontFamily="mono" color="offwhite">
@@ -50,12 +48,12 @@ export const PlayerStart: React.FC = () => {
               </Text>
             </>
           ) : (
-            <Text> Redirecting... </Text>
+            <Text> Redirecting… </Text>
           )}
           <HelpFooter />
         </>
       ) : (
-        <ConnectToProgress showNote noSwitchButton />
+        <ConnectToProgress showNote showSwitchButton={false} />
       )}
     </FlexContainer>
   );
