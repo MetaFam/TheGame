@@ -23,13 +23,7 @@ export const getStaticProps = async () => ({
 });
 
 const ArrowUp: React.FC = () => (
-  <svg
-    strokeWidth="0"
-    viewBox="0 0 16 16"
-    focusable="false"
-    height="1em"
-    width="1em"
-  >
+  <svg strokeWidth={0} viewBox="0 0 16 16" focusable="false">
     <defs>
       <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
         <stop offset="0%" style={{ stopColor: '#FF61E6', stopOpacity: 1 }} />
