@@ -22,13 +22,10 @@ export const handler: (
   busboy.on(
     'file',
     async (fieldname: string, file: Readable, filename: string) => {
-      console.log({ fieldname, filename }); // eslint-disable-line no-console
-
-      const ext = filename.replace(/^.*\./, '');
       const field = path.basename(fieldname);
       const name = path.join(
         await mkdtemp(path.join(os.tmpdir(), `${field}-`)),
-        `${field}.${ext}`,
+        filename,
       );
       files.push({ field, name });
       file.pipe(fs.createWriteStream(name));
@@ -41,13 +38,12 @@ export const handler: (
         throw new Error('No files uploaded.');
       }
 
-      const tmpFiles = files.map(({ name }) => ({
-        name: path.basename(name),
+      const tmpFiles = files.map(({ field, name }) => ({
+        name: `${field}/${path.basename(name)}`,
         stream: () =>
           (fs.createReadStream(name) as unknown) as ReadableStream<string>,
       }));
       const cid = await storage.put(tmpFiles);
-      console.log({ cid, files, tmpFiles }); // eslint-disable-line no-console
 
       await Promise.all(
         files.map(async ({ name }) => {
@@ -59,7 +55,7 @@ export const handler: (
       const uploadedFiles = Object.fromEntries(
         files.map(({ field, name }) => {
           const filename = path.basename(name);
-          return [field, `${cid}/${filename}`];
+          return [field, `${cid}/${field}/${filename}`];
         }),
       );
 

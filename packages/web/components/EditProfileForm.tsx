@@ -263,9 +263,20 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
       reader.addEventListener('load', () => {
         endpoints[key].setURL(reader.result as string);
       });
+      reader.addEventListener('error', ({ target }) => {
+        const { error } = target ?? {};
+        toast({
+          title: 'Image Loading Error',
+          description: `Loading Images Error: ${error?.message}`,
+          status: 'error',
+          isClosable: true,
+          duration: 10000,
+        });
+        endpoints[key].setLoading(false);
+      });
       reader.readAsDataURL(file);
     },
-    [endpoints],
+    [endpoints, toast],
   );
 
   if (!ceramic || !saveToCeramic) {
@@ -400,7 +411,11 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
         const key = hasuraId as keyof HasuraProfileProps;
         if (!dirtyFields[key]) {
           if (debug) {
-            console.info(`Removing Unchanged Value [${key}]: “${values[key]}”`);
+            let display = values[key];
+            if (typeof display === 'string' && display.length > 20) {
+              display = `${display.slice(0, 20)}…`;
+            }
+            console.info(`Removing Unchanged Value [${key}]: “${display}”`);
           }
           delete values[key];
         }
