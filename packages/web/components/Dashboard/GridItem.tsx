@@ -1,4 +1,4 @@
-import { Box, Heading } from '@metafam/ds';
+import { Box, Flex, Heading } from '@metafam/ds';
 import React from 'react';
 
 export type MetaBoxProps = {
@@ -40,16 +40,17 @@ export const GridItem: React.FC<MetaBoxProps> = ({
       },
     }}
   >
-    <Box
+    <Flex
       w="100%"
       h="100%"
+      direction="column"
       overflowY="auto"
       overflowX="hidden"
       pointerEvents={editing ? 'none' : 'initial'}
     >
       <Heading size="md">{title}</Heading>
       {children}
-    </Box>
+    </Flex>
     {editing && (
       <Box w="100%" h="100%" bg="purpleTag50" pos="absolute" top={0} left={0} />
     )}

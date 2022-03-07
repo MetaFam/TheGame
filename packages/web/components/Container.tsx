@@ -48,7 +48,7 @@ export const EmbedContainer: React.FC<EmbedProps> = ({
 
 export const FullPageContainer: React.FC<
   StackProps & { bgImageUrl?: string }
-> = ({ bgImageUrl, children, ...props }) => (
+> = ({ bgImageUrl, sx, children, ...props }) => (
   <FlexContainer
     minH="100vh"
     bg="dark"
@@ -58,6 +58,11 @@ export const FullPageContainer: React.FC<
     bgSize="cover"
     spacing={0}
     p={{ base: 4, md: 8, lg: 12 }}
+    sx={{
+      scrollSnapAlign: 'start',
+      scrollSnapStop: 'normal',
+      ...sx,
+    }}
     {...props}
   >
     {children}

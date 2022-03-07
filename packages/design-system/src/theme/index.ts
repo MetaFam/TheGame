@@ -1,5 +1,4 @@
 import { extendTheme, Theme as ChakraTheme } from '@chakra-ui/react';
-import { createBreakpoints } from '@chakra-ui/theme-tools';
 import { Styles } from 'react-select';
 
 import { colors, MetaColors } from './colors';
@@ -9,21 +8,30 @@ type Theme = ChakraTheme & {
   colors: MetaColors;
 };
 
-const breakpoints = createBreakpoints({
-  sm: '30em',
-  md: '48em',
-  lg: '62em',
-  xl: '80em',
-  '2xl': '96em',
-});
-
 export const theme: Theme = extendTheme({
-  breakpoints,
+  components: {
+    Avatar: {
+      sizes: {
+        '3xl': {
+          container: {
+            width: 56,
+            height: 56,
+            fontSize: 'calc(10rem / 2.5)',
+          },
+        },
+      },
+    },
+  },
+  breakpoints: {
+    base: '0em',
+    sm: '30em',
+    md: '48em',
+    lg: '62em',
+    xl: '80em',
+    '2xl': '96em',
+  },
   styles: {
     global: {
-      html: {
-        // scrollBehavior: 'smooth',
-      },
       body: {
         background: colors.dark,
         '&.dashboard-edit': {

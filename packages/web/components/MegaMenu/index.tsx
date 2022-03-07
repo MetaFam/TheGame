@@ -17,7 +17,18 @@ export const MegaMenu: React.FC<Props> = ({ hide = false, children }) => (
     backgroundImage={`url(${BackgroundImage})`}
   >
     {!hide && <MegaMenuHeader />}
-    <Stack w="100%" h="100%" spacing={0} overflowY="auto" overflowX="hidden">
+    <Stack
+      id="scroll-container" // needed for getting scroll position in landing page
+      w="100%"
+      h="100%"
+      spacing={0}
+      overflowY="auto"
+      overflowX="hidden"
+      sx={{
+        scrollSnapType: 'y mandatory',
+        scrollBehavior: 'smooth',
+      }}
+    >
       {children}
     </Stack>
     {!hide && <MegaMenuFooter />}

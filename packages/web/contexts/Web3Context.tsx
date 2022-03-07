@@ -2,19 +2,17 @@ import { EthereumAuthProvider, ThreeIdConnect } from '@3id/connect';
 import ThreeIdResolver from '@ceramicnetwork/3id-did-resolver';
 import type { CeramicApi } from '@ceramicnetwork/common';
 import { CeramicClient } from '@ceramicnetwork/http-client';
-import { did } from '@metafam/utils';
-import WalletConnectProvider from '@walletconnect/web3-provider';
+import { did, Maybe } from '@metafam/utils';
 import { CONFIG } from 'config';
 import { DID } from 'dids';
 import { providers } from 'ethers';
-import { Maybe } from 'graphql/autogen/types';
 import {
   clearToken,
   clearWalletConnect,
   getTokenFromStore,
   setTokenInStore,
 } from 'lib/auth';
-import { clearJotaiState } from 'lib/hooks/useField';
+import { clearJotaiState } from 'lib/jotaiState';
 import React, {
   createContext,
   useCallback,
@@ -22,6 +20,7 @@ import React, {
   useMemo,
   useState,
 } from 'react';
+import { providerOptions } from 'utils/walletOptions';
 import Web3Modal from 'web3modal';
 
 export type Web3ContextType = {
@@ -34,6 +33,7 @@ export type Web3ContextType = {
   disconnect: () => void;
   connecting: boolean;
   connected: boolean;
+  isMetaMask: boolean;
 };
 
 export const Web3Context = createContext<Web3ContextType>({
@@ -46,16 +46,8 @@ export const Web3Context = createContext<Web3ContextType>({
   disconnect: () => undefined,
   connecting: false,
   connected: false,
+  isMetaMask: false,
 });
-
-const providerOptions = {
-  walletconnect: {
-    package: WalletConnectProvider,
-    options: {
-      infuraId: CONFIG.infuraId,
-    },
-  },
-};
 
 const [web3Modal, ceramic, threeIdConnect] =
   typeof window === 'undefined'
@@ -201,8 +193,7 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
         window.location.reload();
       });
       prov.on('chainChanged', () => {
-        disconnect();
-        window.location.reload();
+        updateWeb3State(prov);
       });
     } catch (error) {
       console.error('`connect` Error', error); // eslint-disable-line no-console
@@ -218,6 +209,14 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
     }
   }, [connect]);
 
+  const isMetaMask = useMemo(
+    () =>
+      typeof window !== 'undefined' &&
+      window.ethereum?.isMetaMask === true &&
+      provider?.connection?.url === 'metamask',
+    [provider],
+  );
+
   return (
     <Web3Context.Provider
       value={{
@@ -230,6 +229,7 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
         address,
         authToken,
         chainId,
+        isMetaMask,
       }}
     >
       {children}

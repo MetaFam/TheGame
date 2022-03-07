@@ -36,8 +36,7 @@ export const DesktopPlayerStats: React.FC<PlayerStatsProps> = ({ player }) => {
         >
           <PlayerAvatar
             {...{ player }}
-            w={14}
-            h={14}
+            size="md"
             ml={4}
             _hover={{ transform: 'scale(0.9)' }}
           />
@@ -50,6 +49,15 @@ export const DesktopPlayerStats: React.FC<PlayerStatsProps> = ({ player }) => {
           >
             <MenuItem>
               <Profile w={4} h={4} mr={4} /> View Profile
+            </MenuItem>
+          </MetaLink>
+          <MetaLink
+            color="black"
+            href={'/profile/setup'}
+            _hover={{ textDecoration: 'none' }}
+          >
+            <MenuItem>
+              <Profile w={4} h={4} mr={4} /> Profile Wizard
             </MenuItem>
           </MetaLink>
           <MetaLink

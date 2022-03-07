@@ -58,7 +58,7 @@ export const Listen: React.FC = () => {
   };
 
   return (
-    <Box pt={4}>
+    <Box p={2}>
       {loading ? (
         <LoadingState />
       ) : (

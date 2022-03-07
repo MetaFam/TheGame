@@ -58,7 +58,7 @@ export const MegaMenuFooter = () => {
               _active={{ filter: 'hue-rotate(30deg)' }}
             >
               <Flex>
-                <PlayerAvatar player={user} w={14} h={14} m={0} />
+                <PlayerAvatar player={user} size="md" />
                 <Stack my={2} ml={2} justify="center">
                   <Text
                     fontSize={user.rank ? 14 : 22}
@@ -85,6 +85,15 @@ export const MegaMenuFooter = () => {
               >
                 <MenuItem>
                   <Profile w={4} h={4} mr={4} /> View Profile
+                </MenuItem>
+              </MetaLink>
+              <MetaLink
+                color="black"
+                href={'/profile/setup'}
+                _hover={{ textDecoration: 'none' }}
+              >
+                <MenuItem>
+                  <Profile w={4} h={4} mr={4} /> Profile Wizard
                 </MenuItem>
               </MetaLink>
               <MetaLink

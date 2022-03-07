@@ -1,8 +1,10 @@
 import { Text } from '@metafam/ds';
+import { Maybe } from '@metafam/utils';
 import { ProfileSection } from 'components/Profile/ProfileSection';
 import { ExplorerType, Player } from 'graphql/autogen/types';
+import { getExplorerTypes } from 'graphql/queries/enums/getExplorerTypes';
 import { useProfileField } from 'lib/hooks';
-import React from 'react';
+import { useEffect, useState } from 'react';
 import { BoxTypes } from 'utils/boxTypes';
 
 type Props = {
@@ -12,10 +14,28 @@ type Props = {
 };
 
 export const PlayerType: React.FC<Props> = ({ player, editing }) => {
-  const { explorerType, owner: isOwnProfile } = useProfileField<ExplorerType>({
-    field: 'explorerType',
+  const {
+    explorerTypeTitle,
+    owner: isOwnProfile,
+    fetching,
+  } = useProfileField<string>({
+    field: 'explorerTypeTitle',
     player,
   });
+
+  const [choices, setChoices] = useState<Maybe<Array<ExplorerType>>>(null);
+
+  useEffect(() => {
+    const fetchTypes = async () => {
+      setChoices(await getExplorerTypes());
+    };
+
+    fetchTypes();
+  }, [setChoices]);
+
+  const explorerType = choices?.find(
+    (choice) => choice.title === explorerTypeTitle,
+  );
 
   return (
     <ProfileSection
@@ -24,11 +44,17 @@ export const PlayerType: React.FC<Props> = ({ player, editing }) => {
       type={BoxTypes.PLAYER_TYPE}
       withoutBG
     >
-      {!explorerType ? (
+      {(fetching || !choices) && (
+        <Text fontStyle="italic" textAlign="center" mb={6}>
+          Loading Settings…
+        </Text>
+      )}
+      {!fetching && !!choices && !explorerType && (
         <Text fontStyle="italic" textAlign="center" mb={6}>
           Unspecified
         </Text>
-      ) : (
+      )}
+      {!fetching && !!choices && explorerType && (
         <>
           <Text
             color="white"

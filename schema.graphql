@@ -201,7 +201,9 @@ type BrightIdStatus {
 }
 
 type CacheProcessOutput {
-  updateIDXProfile: uuid
+  error: String
+  queued: Boolean!
+  success: Boolean!
 }
 
 type CollectiblesFavorites {

@@ -27,6 +27,7 @@ export const PlayerAvatar: React.FC<PlayerAvatarProps> = React.forwardRef<
   const attrs = {
     src: src ?? image ?? undefined,
     name: name ?? undefined,
+    color: 'white',
     ...props,
   };
 

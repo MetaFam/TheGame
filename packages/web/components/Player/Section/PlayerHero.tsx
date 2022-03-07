@@ -11,7 +11,6 @@ import {
   ModalBody,
   ModalCloseButton,
   ModalContent,
-  ModalHeader,
   ModalOverlay,
   Text,
   Tooltip,
@@ -83,11 +82,7 @@ export const PlayerHero: React.FC<HeroProps> = ({ player, editing }) => {
         </Box>
       )}
       <Box align="center" mb={8} mt={2}>
-        <PlayerAvatar
-          w="min(var(--chakra-sizes-56), 100%)"
-          h="min(var(--chakra-sizes-56), 100%)"
-          {...{ player }}
-        />
+        <PlayerAvatar size="3xl" {...{ player }} />
       </Box>
       <VStack spacing={6}>
         <Box textAlign="center" maxW="full">
@@ -146,14 +141,6 @@ export const PlayerHero: React.FC<HeroProps> = ({ player, editing }) => {
             bgAttachment="fixed"
             p={[0, 8, 12]}
           >
-            <ModalHeader
-              color="white"
-              fontSize="4xl"
-              alignSelf="center"
-              fontWeight="normal"
-            >
-              Edit Profile
-            </ModalHeader>
             <ModalCloseButton
               color="pinkShadeOne"
               size="xl"

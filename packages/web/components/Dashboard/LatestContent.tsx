@@ -1,4 +1,4 @@
-import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@metafam/ds';
+import { Flex, Tab, TabList, TabPanel, TabPanels, Tabs } from '@metafam/ds';
 import React from 'react';
 
 import { Listen } from './LatestContentTabs/Listen';
@@ -6,37 +6,43 @@ import { Read } from './LatestContentTabs/Read';
 import { Watch } from './LatestContentTabs/Watch';
 
 export const LatestContent: React.FC = () => (
-  <Tabs mt={5} size="lg" variant="line" colorScheme="gray.600" isFitted>
-    <TabList borderBottomWidth={0}>
-      {['Read', 'Listen', 'Watch'].map((title) => (
-        <Tab
-          key={title}
-          color="gray.600"
-          _selected={{ color: 'white', borderBottomColor: 'white' }}
-          _focus={{
-            boxShadow: 'none',
-            backgroundColor: 'transparent',
-          }}
-          _active={{
-            boxShadow: 'none',
-            backgroundColor: 'transparent',
-          }}
-        >
-          {title}
-        </Tab>
-      ))}
-    </TabList>
+  <Flex grow={1} w="100%" mt={4} overflowY="hidden">
+    <Tabs size="lg" variant="line" colorScheme="gray.600" isFitted w="100%">
+      <Flex direction="column" w="100%" h="100%">
+        <TabList borderBottomWidth={0}>
+          {['Read', 'Listen', 'Watch'].map((title) => (
+            <Tab
+              key={title}
+              color="gray.600"
+              _selected={{ color: 'white', borderBottomColor: 'white' }}
+              _focus={{
+                boxShadow: 'none',
+                backgroundColor: 'transparent',
+              }}
+              _active={{
+                boxShadow: 'none',
+                backgroundColor: 'transparent',
+              }}
+            >
+              {title}
+            </Tab>
+          ))}
+        </TabList>
 
-    <TabPanels>
-      <TabPanel className="chakra-tabs__tab-panel--read" p={0}>
-        <Read />
-      </TabPanel>
-      <TabPanel className="chakra-tabs__tab-panel--listen" p={0}>
-        <Listen />
-      </TabPanel>
-      <TabPanel className="chakra-tabs__tab-panel--watch" p={0}>
-        <Watch />
-      </TabPanel>
-    </TabPanels>
-  </Tabs>
+        <Flex grow={1} w="100%" overflowY="auto">
+          <TabPanels w="100%" h="100%">
+            <TabPanel p={0}>
+              <Read />
+            </TabPanel>
+            <TabPanel p={0}>
+              <Listen />
+            </TabPanel>
+            <TabPanel p={0}>
+              <Watch />
+            </TabPanel>
+          </TabPanels>
+        </Flex>
+      </Flex>
+    </Tabs>
+  </Flex>
 );

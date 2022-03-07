@@ -23,6 +23,6 @@
     recached.
 - name: syncAllGuildDiscordMembers
   webhook: '{{ACTION_BASE_ENDPOINT}}/syncAllGuildDiscordMembers'
-  schedule: 0 2 * * *
+  schedule: 31 5 * * *
   include_in_metadata: true
   payload: {}

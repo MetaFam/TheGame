@@ -1,6 +1,9 @@
+import Bottleneck from 'bottleneck';
+
+import { queueRecache } from '../../lib/cacheHelper';
 import { client } from '../../lib/hasuraClient';
 
-async function createPlayer(ethAddress: string) {
+async function createPlayer(ethAddress: string, limiter: Bottleneck) {
   const { insert_profile: insert } = await client.CreatePlayerFromETH({
     ethereumAddress: ethAddress,
   });
@@ -11,7 +14,10 @@ async function createPlayer(ethAddress: string) {
       } inserting ${ethAddress}.`,
     );
   }
-  return { id: insert?.returning[0].player.id };
+  const playerId = insert?.returning[0].player.id;
+  await queueRecache({ playerId, limiter, opts: { priority: 1 } });
+
+  return { id: playerId };
 }
 
 const status: Record<string, string> = {};
@@ -20,7 +26,10 @@ const status: Record<string, string> = {};
  * quickly enough that multiple processes enter createAccount, and
  * all but the fastest will fail the uniqueness check on ETH address.
  */
-export async function getOrCreatePlayerId(ethereumAddress: string) {
+export async function getOrCreatePlayerId(
+  ethereumAddress: string,
+  limiter: Bottleneck,
+) {
   const ethAddress = ethereumAddress.toLowerCase();
   let created = false;
   const {
@@ -46,7 +55,7 @@ export async function getOrCreatePlayerId(ethereumAddress: string) {
       try {
         status[ethAddress] = 'creating';
         console.info(`Account Creation: ${ethAddress}`);
-        ({ id } = await createPlayer(ethAddress));
+        ({ id } = await createPlayer(ethAddress, limiter));
         created = true;
         status[ethAddress] = 'created';
       } catch (err) {

@@ -1,13 +1,24 @@
 import { Image, MetaButton, MetaHeading, Stack } from '@metafam/ds';
 import discord from 'assets/discord.svg';
+import { ConnectToProgress } from 'components/ConnectToProgress';
 import { FlexContainer } from 'components/Container';
 import { MetaLink } from 'components/Link';
 import { PlayerTile } from 'components/Player/PlayerTile';
-import { useUser } from 'lib/hooks';
+import { useUser, useWeb3 } from 'lib/hooks';
 import React from 'react';
 
 export const SetupDone: React.FC = () => {
   const { user } = useUser();
+  const { connected } = useWeb3();
+
+  if (!user || !connected) {
+    return (
+      <FlexContainer my="auto">
+        <ConnectToProgress showSwitchButton={false} />
+      </FlexContainer>
+    );
+  }
+
   return (
     <FlexContainer flex={1} mb={8}>
       <MetaHeading mb={10}>Game On!</MetaHeading>

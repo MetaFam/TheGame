@@ -21,6 +21,7 @@ import {
   InputRightAddon,
   Link,
   MetaButton,
+  MetaHeading,
   ModalFooter,
   motion,
   SelectTimeZone,
@@ -62,6 +63,8 @@ import React, {
 import { Controller, useForm } from 'react-hook-form';
 import { optimizedImage } from 'utils/imageHelpers';
 import { isEmpty } from 'utils/objectHelpers';
+
+import { ConnectToProgress } from './ConnectToProgress';
 
 const MAX_DESC_LEN = 420; // characters
 
@@ -178,7 +181,7 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
     watch,
     formState: { errors, dirtyFields },
   } = useForm();
-  const { ceramic, address } = useWeb3();
+  const { ceramic, address, chainId } = useWeb3();
   const toast = useToast();
   const description = watch('description');
   const remaining = useMemo(() => MAX_DESC_LEN - (description?.length ?? 0), [
@@ -434,8 +437,15 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
     }
   };
 
+  if (chainId !== '0x1') {
+    return <ConnectToProgress />;
+  }
+
   return (
     <Stack as="form" onSubmit={handleSubmit(onSubmit)} maxW="full">
+      <MetaHeading mb={8} textAlign="center" color="white">
+        Profile
+      </MetaHeading>
       <Wrap>
         <WrapItem flex={1} px={5}>
           <FormControl isInvalid={errors.profileImageURL} align="center">

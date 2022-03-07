@@ -32,7 +32,7 @@ export const XP = (): React.ReactElement => {
 
   if (xpStats == null) {
     return (
-      <Text fontStyle="italic" textAlign="center">
+      <Text fontStyle="italic" textAlign="center" p={4} w="100%">
         Unknown
       </Text>
     );
@@ -87,7 +87,7 @@ export const XP = (): React.ReactElement => {
         height="100%"
         bottom={0}
         left={0}
-        zIndex={-1}
+        zIndex={0}
         sx={XPChartWrapperStyles}
       >
         {userWeeklyCred && <Chart data={userWeeklyCred} />}

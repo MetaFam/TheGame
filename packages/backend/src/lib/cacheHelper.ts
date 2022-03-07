@@ -1,15 +1,24 @@
+import { Maybe } from '@metafam/utils';
 import Bottleneck from 'bottleneck';
 
 import updateCachedProfile from '../handlers/actions/idxCache/updateSingle';
 
 let count = 0;
 
+type BottleneckOptions = {
+  priority?: number;
+  weight?: number;
+  expiration?: Maybe<number>;
+};
+
 export const queueRecache = async ({
   playerId,
   limiter,
+  opts = {},
 }: {
   playerId: string;
   limiter: Bottleneck;
+  opts?: BottleneckOptions;
 }) => {
   if (!playerId) {
     throw new Error('No playerId specified to update.');
@@ -23,7 +32,7 @@ export const queueRecache = async ({
   } else {
     const preRun = count++;
 
-    const result = await limiter.schedule({ id: playerId }, () =>
+    const result = await limiter.schedule({ id: playerId, ...opts }, () =>
       updateCachedProfile(playerId),
     );
     console.debug({

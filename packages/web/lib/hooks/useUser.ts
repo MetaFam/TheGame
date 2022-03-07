@@ -1,6 +1,5 @@
 import { Maybe } from '@metafam/utils';
 import { Player, useGetMeQuery } from 'graphql/autogen/types';
-// eslint-disable-next-line import/no-cycle
 import { useWeb3 } from 'lib/hooks/useWeb3';
 import { useRouter } from 'next/router';
 import { useEffect, useMemo } from 'react';
