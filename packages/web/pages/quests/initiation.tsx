@@ -148,7 +148,7 @@ const InitiationQuests: React.FC = () => (
           </Heading>
           <Text pb={4}>
             Completed:{' '}
-            {(quests as any[]).filter(
+            {(quests as never[]).filter(
               ({ completed }: { completed: boolean }) => completed,
             ).length / 100}
           </Text>
