@@ -1,6 +1,12 @@
 name: Deploy Preview to Cloud Run
 
 on:
+  workflow_dispatch:
+    inputs:
+      cache_key:
+        description: Optional cache key component to force invalidation of the build cache.
+        required: false
+        default: ""
   pull_request:
     types:
       - opened
@@ -32,7 +38,7 @@ jobs:
 
     steps:
       - name: Start Deployment
-        uses: bobheadxi/deployments@v0.6.2
+        uses: bobheadxi/deployments@v1
         id: create-message
         with:
           step: start
@@ -246,7 +252,7 @@ jobs:
             . -f docker/backend/Dockerfile \
               --tag ${{needs.env.outputs.BACKEND_TAG}} \
               --build-arg GRAPHQL_URL=${{needs.env.outputs.GRAPHQL_URL}}
-          cache_key: "${{hashFiles('packages/backend/**', 'packages/utils/**', 'package.json')}}"
+          cache_key: "${{github.event.inputs.cache_key}}-${{hashFiles('packages/backend/**', 'packages/utils/**', 'package.json')}}"
 
       - name: "Login to Registry: ${{needs.env.outputs.DOCKER_REGISTRY}}"
         uses: docker/login-action@v1
@@ -349,7 +355,7 @@ jobs:
               --tag ${{needs.env.outputs.HASURA_TAG}} \
               --build-arg BACKEND_HOST=${{needs.env.outputs.BACKEND_HOST}} \
               --build-arg BACKEND_PROTOCOL=https
-          cache_key: "${{hashFiles('hasura/**', 'package.json')}}"
+          cache_key: "${{github.event.inputs.cache_key}}-${{hashFiles('hasura/**', 'package.json')}}"
 
       - name: "Login to Registry: ${{needs.env.outputs.DOCKER_REGISTRY}}"
         uses: docker/login-action@v1
@@ -450,7 +456,7 @@ jobs:
             . -f docker/frontend/Dockerfile \
               --tag ${{needs.env.outputs.FRONTEND_TAG}} \
               --build-arg GRAPHQL_URL=${{needs.env.outputs.GRAPHQL_URL}}
-          cache_key: "${{hashFiles('packages/web/**', 'packages/design-system/**', 'packages/utils/**', 'package.json')}}"
+          cache_key: "${{github.event.inputs.cache_key}}-${{hashFiles('packages/web/**', 'packages/design-system/**', 'packages/utils/**', 'package.json')}}"
 
       - name: "Login to Registry: ${{needs.env.outputs.DOCKER_REGISTRY}}"
         uses: docker/login-action@v1
@@ -523,10 +529,11 @@ jobs:
 
     steps:
       - name: Finish Deployment
-        uses: bobheadxi/deployments@v0.6.2
+        uses: bobheadxi/deployments@v1
         with:
           step: finish
           token: ${{github.token}}
+          env: ${{env.DEPLOYMENT_ENV}}
           env_url: ${{needs.env.outputs.FRONTEND_URL}}
           status: ${{env.result == 'skipped' && 'cancelled' || env.result}}
           deployment_id: ${{needs.start-deployment.outputs.deployment_id}}
