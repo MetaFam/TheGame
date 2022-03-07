@@ -81,6 +81,7 @@ export {
   ChakraComponent,
   ChakraProps,
   ChakraProvider,
+  Checkbox,
   CloseButton,
   Code,
   Collapse,

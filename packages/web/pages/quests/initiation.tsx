@@ -1,4 +1,5 @@
-import { Box, Grid, Heading, Text } from '@metafam/ds';
+import { Box, Checkbox, Flex, Grid, Heading, Text } from '@metafam/ds';
+import { CollapsableText } from 'components/CollapsableText';
 import { PageContainer } from 'components/Container';
 import { HeadComponent } from 'components/Seo';
 import React from 'react';
@@ -9,29 +10,29 @@ const data = [
     quests: [
       {
         title: 'sub to substack',
-        link: 'Click here (sub button)',
+        task: 'Click here (sub button)',
         completed: false,
       },
       {
         title: 'sub to yt',
-        link:
+        task:
           'Click here (sub button) - [https://www.youtube.com/metamedia](https://www.youtube.com/metamedia)',
         completed: false,
       },
       {
         title: 'join discord',
-        link: 'Click here (link will need to be refreshed to mitigate botting)',
+        task: 'Click here (link will need to be refreshed to mitigate botting)',
         completed: false,
       },
       {
         title: 'join forum',
-        link:
+        task:
           'forum link opening in a new tab prompting a login with discord, github or web3wallet (when we upgrade discourse)',
         completed: false,
       },
       {
         title: 'follow on twitter',
-        link:
+        task:
           'Click here (follow button)  [https://twitter.com/MetaFam](https://twitter.com/MetaFam)',
         description:
           'Tweet @metafam xyz (the function that many dapps have for verifying twitter identities such as arweave)',
@@ -141,7 +142,8 @@ const InitiationQuests: React.FC = () => (
           px={8}
           py={12}
           textAlign="center"
-          backgroundColor="rgba(255,255,255, 0.08)"
+          bgColor="rgba(255,255,255, 0.08)"
+          key={category}
         >
           <Heading fontSize="xl" fontFamily="body" pb={2}>
             {category}
@@ -152,15 +154,36 @@ const InitiationQuests: React.FC = () => (
               ({ completed }: { completed: boolean }) => completed,
             ).length / 100}
           </Text>
-          {quests.map(({ title }) => (
-            <Text
-              py={4}
-              backgroundColor="rgba(255,255,255, 0.08)"
-              mb={4}
+          {quests.map(({ title, description, completed, task }) => (
+            <Flex
+              direction="row"
+              bgColor="rgba(255,255,255, 0.08)"
               px={4}
+              mb={4}
+              justifyContent="space-between"
+              key={title}
             >
-              {title}
-            </Text>
+              <Box textAlign="left">
+                <CollapsableText title={title}>
+                  <Text mb={2}>Description</Text>
+                  <Text fontStyle="italic" mb={4} fontSize="sm">
+                    "{description}"
+                  </Text>
+                  <Text mb={2}>Quest Objectives</Text>
+                  <Text
+                    wordBreak="break-all"
+                    fontStyle="italic"
+                    mb={4}
+                    fontSize="sm"
+                  >
+                    {task}
+                  </Text>
+                </CollapsableText>
+              </Box>
+              <Box mt={4}>
+                <Checkbox isChecked={completed} />
+              </Box>
+            </Flex>
           ))}
         </Box>
       ))}
