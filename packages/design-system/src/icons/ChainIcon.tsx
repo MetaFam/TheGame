@@ -19,10 +19,10 @@ export const ChainIcon: React.FC<Props & IconProps> = ({ chain, ...props }) => {
     if (lower?.includes('polygon')) {
       return { Icon: PolygonIcon, name: 'Polygon' };
     }
-    return { Icon: EthereumIcon, name: 'Ethereum' };
+    return { Icon: EthereumIcon, name: 'Mainnet' };
   })();
   return (
-    <Tooltip label={`on the ${info.name} network`} hasArrow>
+    <Tooltip label={`on ${info.name}`} hasArrow>
       <info.Icon {...props} />
     </Tooltip>
   );

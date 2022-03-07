@@ -3,7 +3,6 @@ import {
   ChainIcon,
   Flex,
   Heading,
-  HStack,
   Image,
   MetaButton,
   MetaHeading,
@@ -66,7 +65,7 @@ export const SetupMemberships: React.FC<SetupMembershipsProps> = ({
 
         return (
           <Box maxW="50rem">
-            <Text mb={10} maxW="35rem" textAlign="center">
+            <Text mb={10} textAlign="center">
               We found the following guilds associated with your account and
               automatically added them to your profile.
             </Text>
@@ -107,31 +106,37 @@ const MembershipListing: React.FC<MembershipListingProps> = ({
   return (
     <ExternalDaoLink
       daoURL={daoURL}
-      bg="dark"
+      bg="rgba(0, 0, 0, 0.2)"
       border="2px transparent solid"
       _hover={{ borderColor: 'purpleBoxLight' }}
     >
-      <HStack alignItems="center" mb={4}>
-        <Flex bg="purpleBoxLight" width={16} height={16} mr={6}>
-          {avatarURL ? (
-            <Image
-              src={avatarURL}
-              w="3.25rem"
-              h="3.25rem"
-              m="auto"
-              borderRadius={4}
-            />
-          ) : (
-            <ChainIcon {...{ chain }} boxSize={16} p={2} />
-          )}
+      <Flex align="center" p={2}>
+        <Flex align="center">
+          <Box bg="purpleBoxLight" minW={16} h={16} borderRadius={8}>
+            {avatarURL ? (
+              <Image
+                src={avatarURL}
+                w={14}
+                h={14}
+                mx="auto"
+                my={1}
+                borderRadius={4}
+              />
+            ) : (
+              <ChainIcon {...{ chain }} boxSize={16} p={2} />
+            )}
+          </Box>
+          <ChainIcon {...{ chain }} mx={2} boxSize="1.5em" />
         </Flex>
         <Heading
           fontWeight="bold"
-          textTransform="uppercase"
+          style={{ fontVariant: 'small-caps' }}
           fontSize="xs"
-          color={daoURL ? 'cyanText' : 'white'}
-          justify="center"
-          align="center"
+          color="cyanText"
+          ml={[0, '1em']}
+          sx={{ textIndent: [0, '-1em'] }}
+          textAlign={['center', 'left']}
+          flexGrow={1}
         >
           {title ?? (
             <Text as={React.Fragment}>
@@ -142,9 +147,8 @@ const MembershipListing: React.FC<MembershipListingProps> = ({
               DAO
             </Text>
           )}
-          <ChainIcon {...{ chain }} mx={2} boxSize={4} />
         </Heading>
-      </HStack>
+      </Flex>
     </ExternalDaoLink>
   );
 };
