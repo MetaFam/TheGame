@@ -11,7 +11,7 @@
     "dev-ts": "ts-node-dev --exit-child --respawn -- src/index.ts",
     "typecheck": "yarn build",
     "precommit": "yarn lint-staged",
-    "generate": "graphql-codegen --config=codegen.yml",
+    "generate": "DEBUG=1 graphql-codegen --config=codegen.yml",
     "lintfix": "eslint --fix",
     "test": "tsdx test --passWithNoTests"
   },
