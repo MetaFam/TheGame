@@ -28,22 +28,19 @@ generates:
       scalars:
         account_type: "'ETHEREUM' | 'DISCORD' | 'GITHUB' | 'TWITTER' | 'DISCOURSE'"
       dedupeOperationSuffix: true
-  #
-  # 2022/03/07: This graph is offline with an indexing error.
-  #
-  # src/lib/autogen/daohaus-sdk.ts:
-  #   schema: 'https://api.thegraph.com/subgraphs/name/odyssy-automaton/daohaus'
-  #   documents:
-  #     - src/handlers/remote-schemas/resolvers/daohaus/**/(!(*.d)).ts
-  #   plugins:
-  #     - typescript
-  #     - typescript-operations
-  #     - typescript-graphql-request
-  #     - add:
-  #         content: '/* eslint-disable */'
-  #   config:
-  #     avoidOptionals: true
-  #     dedupeOperationSuffix: true
+  src/lib/autogen/daohaus-sdk.ts:
+    schema: 'https://api.thegraph.com/subgraphs/name/odyssy-automaton/daohaus'
+    documents:
+      - src/handlers/remote-schemas/resolvers/daohaus/**/(!(*.d)).ts
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-graphql-request
+      - add:
+          content: '/* eslint-disable */'
+    config:
+      avoidOptionals: true
+      dedupeOperationSuffix: true
   src/lib/autogen/seedgraph-sdk.ts:
     schema: 'https://api.thegraph.com/subgraphs/name/dan13ram/seed-graph'
     documents:
