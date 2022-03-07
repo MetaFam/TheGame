@@ -9,7 +9,7 @@ export async function getSignature(
   const address = await signer.getAddress();
   if (!ethereum.request) throw new Error('No `request` On Ethereum Provider');
 
-  let params = [msg, address.toLowerCase()];
+  let params = [msg, address];
   const signature = await ethereum.request({
     method: 'personal_sign',
     params,
