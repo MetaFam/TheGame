@@ -4,8 +4,8 @@ import { FullPageContainer } from 'components/Container';
 import { MetaLink } from 'components/Link';
 import { useOnScreen } from 'lib/hooks/useOnScreen';
 import { useRef } from 'react';
-import { LandingNextButton } from './LandingNextButton';
 
+import { LandingNextButton } from './LandingNextButton';
 
 export const Game: React.FC = () => {
   const ref = useRef<HTMLDivElement>(null);
