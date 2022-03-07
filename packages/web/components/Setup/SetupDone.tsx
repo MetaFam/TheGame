@@ -14,7 +14,7 @@ export const SetupDone: React.FC = () => {
   if (!user || !connected) {
     return (
       <FlexContainer my="auto">
-        <ConnectToProgress />
+        <ConnectToProgress showSwitchButton={false} />
       </FlexContainer>
     );
   }

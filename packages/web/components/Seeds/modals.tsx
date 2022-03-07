@@ -167,7 +167,7 @@ export const UsefulnessOfSeeds = () => (
         <Box p={2} bgColor="whiteAlpha.300" mb={2}>
           💡 Note: You need to be a member to access any of these
         </Box>
-        <UnorderedList listStyleType="💸 ">
+        <UnorderedList listStyleType="'💸 '">
           <ListItem>to get a shout-out in the podcast.</ListItem>
           <ListItem>to have MetaGame tweet for you.</ListItem>
           <ListItem>to get a shout-out in the newsletter.</ListItem>
@@ -207,7 +207,7 @@ export const UsefulnessOfSeeds = () => (
         </UnorderedList>
         <Box p={2} bgColor="whiteAlpha.300" my={2}>
           💡 Note: If you're interested in spending your SEEDs on any of this,
-          ask about it in our discord channel
+          ask about it in our Discord channel
           <Link
             ml={1}
             href="https://discord.gg/cBq5Md6KTU"
@@ -222,7 +222,7 @@ export const UsefulnessOfSeeds = () => (
         <Text fontSize={16} fontWeight="bold" my={2}>
           In the future:
         </Text>
-        <UnorderedList mb={4} listStyleType="💸 ">
+        <UnorderedList mb={4} listStyleType="'💸 '">
           <ListItem>for the subscription fee</ListItem>
           <ListItem>
             for fees if buying/selling things with other tokens
@@ -266,7 +266,7 @@ export const UsefulnessOfSeeds = () => (
           Instead, players of MetaGame will be required to stake some of their
           skin in the game.
         </Text>
-        <UnorderedList mb={4} listStyleType="🥩 ">
+        <UnorderedList mb={4} listStyleType="'🥩 '">
           <ListItem>to take quests</ListItem>
           <ListItem>for your friend when onboarding them</ListItem>
           <ListItem>for your guild to enter</ListItem>
@@ -305,7 +305,7 @@ export const UsefulnessOfSeeds = () => (
             </strong>
           </Link>
         </Text>
-        <UnorderedList mb={4} listStyleType="🌱 ">
+        <UnorderedList mb={4} listStyleType="'🌱 '">
           <ListItem>
             to be eligible for MetaFam-only limited edition merch
           </ListItem>
@@ -314,10 +314,10 @@ export const UsefulnessOfSeeds = () => (
           </ListItem>
           <ListItem>to stay in the game as a patron</ListItem>
           <ListItem>to appear on the Patrons leaderboard</ListItem>
-          <ListItem listStyleType="🌱🌱 ">
+          <ListItem listStyleType="'🌱🌱 '">
             for guilds to appear higher on the leaderboard
           </ListItem>
-          <ListItem listStyleType="🌱🌱🌱 ">
+          <ListItem listStyleType="'🌱🌱🌱 '">
             to appear higher on the Patrons leaderboard 🙃
           </ListItem>
         </UnorderedList>
@@ -368,7 +368,7 @@ export const BuyingAndSelling = () => (
     <Text>If you want to sell your SEEDs:</Text>
     <UnorderedList>
       <ListItem>
-        You'll still need some Matic on Polygon first.. Either
+        You'll still need some Matic on Polygon first… Either
         <Link
           ml={1}
           isExternal
@@ -388,7 +388,7 @@ export const BuyingAndSelling = () => (
           mr={1}
           href="https://discord.gg/8THHVwfd"
         >
-          ask on discord
+          ask on Discord
         </Link>
         .
       </ListItem>
@@ -696,7 +696,7 @@ export const FAQ = () => (
           through 3 phases
         </Link>
         ; starting with SEEDs, growing into Trees in <em>Phase Ⅱ</em> aka{' '}
-        <em>The Growth Phase</em> before transitioning to Phase Ⅲ - where Trees
+        <em>The Growth Phase</em> before transitioning to Phase Ⅲ — where Trees
         bear the fruits of our labor &amp; we’re able to reward contributors
         with MetaGame’s incoming streams without having to mint new tokens.
       </Text>
@@ -723,7 +723,7 @@ export const FAQ = () => (
     <CollapsableText title="What’s market cap?">
       <Text>
         At the time of writing this post, February 2022, the market cap was
-        ~$600k
+        ~$600k.
       </Text>
     </CollapsableText>
   </Flex>

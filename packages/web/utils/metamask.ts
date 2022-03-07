@@ -50,12 +50,12 @@ export const switchChainOnMetaMask = async (
         return true;
       } catch (addError) {
         // eslint-disable-next-line no-console
-        console.error(`Unable to add chainId ${chainId} to metamask`, addError);
+        console.error(`Unable to add chainId ${chainId} to MetaMask`, addError);
       }
     } else {
       // eslint-disable-next-line no-console
       console.error(
-        `Unable to switch to chainId ${chainId} on metamask`,
+        `Unable to switch to chainId ${chainId} on MetaMask`,
         switchError,
       );
     }
@@ -88,7 +88,7 @@ export const addTokenToMetamask = async ({
     return true;
   } catch (addError) {
     // eslint-disable-next-line no-console
-    console.error(`Unable to add token ${symbol} to metamask`, addError);
+    console.error(`Unable to add token ${symbol} to MetaMask`, addError);
   }
   return false;
 };

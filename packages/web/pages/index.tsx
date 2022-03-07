@@ -61,17 +61,15 @@ const Landing: React.FC = () => {
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
       if (!scrollContainer) return;
-      const { scrollTop } = scrollContainer;
-      const { scrollHeight } = scrollContainer;
+      const { scrollTop, scrollHeight } = scrollContainer;
       const height = typeof window !== 'undefined' ? window.innerHeight : 1;
       let newScrollTop = scrollTop;
-      if (e.key === 'ArrowLeft') {
+      if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
         newScrollTop -= height;
-        newScrollTop = newScrollTop <= 0 ? 0 : newScrollTop;
-      } else if (e.key === 'ArrowRight') {
+        newScrollTop = Math.max(0, newScrollTop);
+      } else if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
         newScrollTop += height;
-        newScrollTop =
-          newScrollTop >= scrollHeight ? scrollHeight : newScrollTop;
+        newScrollTop = Math.min(scrollHeight, newScrollTop);
       }
       scrollContainer.scrollTop = newScrollTop;
       setSection(Math.floor(newScrollTop / height));
