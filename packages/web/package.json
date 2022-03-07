@@ -8,7 +8,7 @@
     "start": "next start",
     "typecheck": "tsc",
     "precommit": "yarn lint-staged",
-    "generate": "graphql-codegen --config=codegen.yml",
+    "generate": "DEBUG=1 graphql-codegen --config=codegen.yml",
     "prepare": "yarn generate"
   },
   "dependencies": {

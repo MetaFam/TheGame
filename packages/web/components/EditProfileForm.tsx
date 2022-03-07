@@ -267,7 +267,7 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
         const { error } = target ?? {};
         toast({
           title: 'Image Loading Error',
-          description: `Loading Images Error: ${error?.message}`,
+          description: `Loading Images Error: “${error?.message}”`,
           status: 'error',
           isClosable: true,
           duration: 10000,
