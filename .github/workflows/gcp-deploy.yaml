@@ -38,7 +38,7 @@ jobs:
 
     steps:
       - name: Start Deployment
-        uses: bobheadxi/deployments@v1.1.0
+        uses: bobheadxi/deployments@v1
         id: create-message
         with:
           step: start
@@ -529,7 +529,7 @@ jobs:
 
     steps:
       - name: Finish Deployment
-        uses: bobheadxi/deployments@v1.1.0
+        uses: bobheadxi/deployments@v1
         with:
           step: finish
           token: ${{github.token}}
