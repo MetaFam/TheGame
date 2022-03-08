@@ -1,13 +1,11 @@
 /* eslint-disable no-console */
 
-import { Caip10Link } from '@ceramicnetwork/stream-caip10-link';
 import { ImageSources } from '@datamodels/identity-profile-basic';
 import {
   Box,
   BoxProps,
   Button,
   Center,
-  Flex,
   FormControl,
   FormErrorMessage,
   FormLabel,
@@ -20,13 +18,17 @@ import {
   InputProps,
   InputRightAddon,
   Link,
-  MetaButton,
-  MetaHeading,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
   ModalFooter,
+  ModalHeader,
+  ModalOverlay,
   motion,
   SelectTimeZone,
   Spinner,
-  Stack,
+  StatusedSubmitButton,
   Text,
   Textarea,
   Tooltip,
@@ -41,6 +43,7 @@ import {
   Optional,
 } from '@metafam/utils';
 import FileOpenIcon from 'assets/file-open-icon.svg';
+import BackgroundImage from 'assets/main-background.jpg';
 import PlayerProfileIcon from 'assets/player-profile-icon.svg';
 import {
   Maybe,
@@ -70,6 +73,7 @@ const MAX_DESC_LEN = 420; // characters
 
 export type ProfileEditorProps = {
   player?: Maybe<Player>;
+  isOpen: boolean;
   onClose: () => void;
 };
 
@@ -77,7 +81,7 @@ const Label: React.FC<FormLabelProps> = React.forwardRef(
   ({ children, ...props }, container) => {
     const ref = container as RefObject<HTMLLabelElement>;
     return (
-      <FormLabel color="cyan" {...{ ref }} {...props}>
+      <FormLabel color="cyan" {...{ ref, ...props }}>
         {children}
       </FormLabel>
     );
@@ -162,8 +166,9 @@ export const PulseHoverBox: React.FC<{ duration?: number }> = ({
   </MotionBox>
 );
 
-export const EditProfileForm: React.FC<ProfileEditorProps> = ({
+export const EditProfileModal: React.FC<ProfileEditorProps> = ({
   player,
+  isOpen,
   onClose,
 }) => {
   const [status, setStatus] = useState<Maybe<ReactElement | string>>();
@@ -305,12 +310,6 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
       if (debug) {
         console.debug(`For ETH Address: ${address}`);
         console.debug(`Connected DID: ${ceramic.did?.id}`);
-
-        const caip10 = await Caip10Link.fromAccount(
-          ceramic,
-          `${address}@eip155:1`,
-        );
-        console.debug(`CAIP-10 DID: ${caip10.did}`);
       }
 
       setStatus(
@@ -457,420 +456,454 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
   }
 
   return (
-    <Stack as="form" onSubmit={handleSubmit(onSubmit)} maxW="full">
-      <MetaHeading mb={8} textAlign="center" color="white">
-        Profile
-      </MetaHeading>
-      <Wrap>
-        <WrapItem flex={1} px={5}>
-          <FormControl isInvalid={errors.profileImageURL} align="center">
-            <Tooltip label="An image representing the user generally cropped to a circle for display. 1MiB maximum size.">
-              <Label htmlFor="profileImageURL" userSelect="none">
-                Profile Image
-                <InfoIcon ml={2} />
-              </Label>
-            </Tooltip>
-            <Center position="relative">
-              <Box w="10em" h="10em" borderRadius="full" display="inline-flex">
-                <PulseHoverBox>
-                  <Image
-                    ref={endpoints.profileImageURL.ref ?? null}
-                    onLoad={() => {
-                      endpoints.profileImageURL.setLoading(false);
-                    }}
-                    display={
-                      endpoints.profileImageURL.loading ? 'none' : 'inherit'
-                    }
-                    src={endpoints.profileImageURL.val}
+    <Modal {...{ isOpen, onClose }}>
+      <ModalOverlay />
+      <ModalContent
+        maxW={['100%', 'min(80%, 60rem)']}
+        backgroundImage={`url(${BackgroundImage})`}
+        bgSize="cover"
+        bgAttachment="fixed"
+        p={[0, 8, 12]}
+        as="form"
+        onSubmit={handleSubmit(onSubmit)}
+      >
+        <ModalHeader>Profile</ModalHeader>
+        <ModalCloseButton
+          color="pinkShadeOne"
+          size="xl"
+          p={{ base: 1, sm: 4 }}
+          _focus={{ boxShadow: 'none' }}
+        />
+        <ModalBody p={[0, 2]}>
+          `{' '}
+          <Wrap>
+            <WrapItem flex={1} px={5}>
+              <FormControl isInvalid={errors.profileImageURL} align="center">
+                <Tooltip label="An image representing the user generally cropped to a circle for display. 1MiB maximum size.">
+                  <Label htmlFor="profileImageURL" userSelect="none">
+                    Profile Image
+                    <InfoIcon ml={2} />
+                  </Label>
+                </Tooltip>
+                <Center position="relative">
+                  <Box
+                    w="10em"
+                    h="10em"
                     borderRadius="full"
-                    objectFit="cover"
-                    h="full"
-                    w="full"
+                    display="inline-flex"
+                  >
+                    <PulseHoverBox>
+                      <Image
+                        ref={endpoints.profileImageURL.ref ?? null}
+                        onLoad={() => {
+                          endpoints.profileImageURL.setLoading(false);
+                        }}
+                        display={
+                          endpoints.profileImageURL.loading ? 'none' : 'inherit'
+                        }
+                        src={endpoints.profileImageURL.val}
+                        borderRadius="full"
+                        objectFit="cover"
+                        h="full"
+                        w="full"
+                        border="2px solid"
+                        borderColor={
+                          endpoints.profileImageURL.active
+                            ? 'blue.400'
+                            : 'transparent'
+                        }
+                      />
+                    </PulseHoverBox>
+                    <Center>
+                      {endpoints.profileImageURL.loading &&
+                        (endpoints.profileImageURL.val == null ? (
+                          <Image
+                            maxW="50%"
+                            src={PlayerProfileIcon}
+                            opacity={0.5}
+                          />
+                        ) : (
+                          <Spinner
+                            size="xl"
+                            color="purple.500"
+                            thickness="4px"
+                          />
+                        ))}
+                    </Center>
+                  </Box>
+                  <Controller
+                    {...{ control }}
+                    name="profileImageURL"
+                    defaultValue={[]}
+                    render={({ field: { onChange, value, ...props } }) => (
+                      <Input
+                        {...props}
+                        type="file"
+                        value={value?.filename ?? ''}
+                        onChange={async (evt) => {
+                          onChange(evt.target.files);
+                          onFileChange(evt);
+                        }}
+                        minW="100% !important"
+                        minH="100%"
+                        position="absolute"
+                        top={0}
+                        bottom={0}
+                        left={0}
+                        right={0}
+                        opacity={0}
+                        onFocus={() =>
+                          endpoints.profileImageURL.setActive(true)
+                        }
+                        onBlur={() =>
+                          endpoints.profileImageURL.setActive(false)
+                        }
+                      />
+                    )}
+                  />
+                </Center>
+                <FormErrorMessage>
+                  {errors.profileImageURL?.message}
+                </FormErrorMessage>
+              </FormControl>
+            </WrapItem>
+            {[
+              {
+                key: 'bannerImageURL',
+                title: 'Header Banner',
+                description:
+                  'An image with an ~3:1 aspect ratio to be displayed as a page or profile banner. 1MiB maximum size.',
+              },
+              {
+                key: 'backgroundImageURL',
+                title: 'Page Background',
+                description:
+                  'An image with an ~1:1 aspect ratio to be the page background. 1MiB maximum size.',
+              },
+            ].map(({ key, title, description: spec }) => (
+              <WrapItem flex={1} px={5} {...{ key }}>
+                <FormControl isInvalid={errors[key]} align="center">
+                  <Tooltip label={spec}>
+                    <Label htmlFor={key} userSelect="none" whiteSpace="nowrap">
+                      {title}
+                      <InfoIcon ml={2} />
+                    </Label>
+                  </Tooltip>
+                  <Center
+                    position="relative"
+                    maxW="12em"
+                    h="10em"
                     border="2px solid"
                     borderColor={
-                      endpoints.profileImageURL.active
-                        ? 'blue.400'
-                        : 'transparent'
+                      endpoints[key].active ? 'blue.400' : 'transparent'
                     }
-                  />
-                </PulseHoverBox>
-                <Center>
-                  {endpoints.profileImageURL.loading &&
-                    (endpoints.profileImageURL.val == null ? (
-                      <Image maxW="50%" src={PlayerProfileIcon} opacity={0.5} />
-                    ) : (
-                      <Spinner size="xl" color="purple.500" thickness="4px" />
-                    ))}
-                </Center>
-              </Box>
-              <Controller
-                {...{ control }}
-                name="profileImageURL"
-                defaultValue={[]}
-                render={({ field: { onChange, value, ...props } }) => (
-                  <Input
-                    {...props}
-                    type="file"
-                    value={value?.filename ?? ''}
-                    onChange={async (evt) => {
-                      onChange(evt.target.files);
-                      onFileChange(evt);
-                    }}
-                    minW="100% !important"
-                    minH="100%"
-                    position="absolute"
-                    top={0}
-                    bottom={0}
-                    left={0}
-                    right={0}
-                    opacity={0}
-                    onFocus={() => endpoints.profileImageURL.setActive(true)}
-                    onBlur={() => endpoints.profileImageURL.setActive(false)}
-                  />
-                )}
-              />
-            </Center>
-            <FormErrorMessage>
-              {errors.profileImageURL?.message}
-            </FormErrorMessage>
-          </FormControl>
-        </WrapItem>
-        {[
-          {
-            key: 'bannerImageURL',
-            title: 'Header Banner',
-            description:
-              'An image with an ~3:1 aspect ratio to be displayed as a page or profile banner. 1MiB maximum size.',
-          },
-          {
-            key: 'backgroundImageURL',
-            title: 'Page Background',
-            description:
-              'An image with an ~1:1 aspect ratio to be the page background. 1MiB maximum size.',
-          },
-        ].map(({ key, title, description: spec }) => (
-          <WrapItem flex={1} px={5} {...{ key }}>
-            <FormControl isInvalid={errors[key]} align="center">
-              <Tooltip label={spec}>
-                <Label htmlFor={key} userSelect="none" whiteSpace="nowrap">
-                  {title}
-                  <InfoIcon ml={2} />
-                </Label>
-              </Tooltip>
-              <Center
-                position="relative"
-                maxW="12em"
-                h="10em"
-                border="2px solid"
-                borderColor={endpoints[key].active ? 'blue.400' : 'transparent'}
-              >
-                <Image
-                  ref={endpoints[key].ref ?? null}
-                  onLoad={() => {
-                    endpoints[key].setLoading(false);
-                  }}
-                  display={endpoints[key].loading ? 'none' : 'inherit'}
-                  src={endpoints[key].val}
-                  h="full"
-                  w="full"
-                />
-                {endpoints[key].loading &&
-                  (endpoints[key].val == null ? (
-                    <Image maxW="50%" src={FileOpenIcon} opacity={0.5} />
-                  ) : (
-                    <Spinner size="xl" color="purple.500" thickness="4px" />
-                  ))}
-                <Controller
-                  control={control}
-                  name={key}
-                  defaultValue={[]}
-                  render={({ field: { onChange, value, ...props } }) => (
-                    <Input
-                      type="file"
-                      {...props}
-                      value={value?.filename}
-                      onChange={async (evt) => {
-                        onChange(evt.target.files);
-                        onFileChange(evt);
+                  >
+                    <Image
+                      ref={endpoints[key].ref ?? null}
+                      onLoad={() => {
+                        endpoints[key].setLoading(false);
                       }}
-                      maxW="100%"
-                      minH="100%"
-                      position="absolute"
-                      top={0}
-                      bottom={0}
-                      left={0}
-                      right={0}
-                      opacity={0}
-                      onFocus={() => endpoints[key].setActive(true)}
-                      onBlur={() => endpoints[key].setActive(false)}
+                      display={endpoints[key].loading ? 'none' : 'inherit'}
+                      src={endpoints[key].val}
+                      h="full"
+                      w="full"
+                    />
+                    {endpoints[key].loading &&
+                      (endpoints[key].val == null ? (
+                        <Image maxW="50%" src={FileOpenIcon} opacity={0.5} />
+                      ) : (
+                        <Spinner size="xl" color="purple.500" thickness="4px" />
+                      ))}
+                    <Controller
+                      control={control}
+                      name={key}
+                      defaultValue={[]}
+                      render={({ field: { onChange, value, ...props } }) => (
+                        <Input
+                          type="file"
+                          {...props}
+                          value={value?.filename}
+                          onChange={async (evt) => {
+                            onChange(evt.target.files);
+                            onFileChange(evt);
+                          }}
+                          maxW="100%"
+                          minH="100%"
+                          position="absolute"
+                          top={0}
+                          bottom={0}
+                          left={0}
+                          right={0}
+                          opacity={0}
+                          onFocus={() => endpoints[key].setActive(true)}
+                          onBlur={() => endpoints[key].setActive(false)}
+                        />
+                      )}
+                    />
+                  </Center>
+                  <FormErrorMessage>{errors[key]?.message}</FormErrorMessage>
+                </FormControl>
+              </WrapItem>
+            ))}
+            <WrapItem flex={1} px={5}>
+              <FormControl isInvalid={errors.description}>
+                <Tooltip label={`${MAX_DESC_LEN} characters max.`}>
+                  <Label htmlFor="description" userSelect="none">
+                    Description
+                    <Text as="sup" ml={2}>
+                      {remaining}
+                    </Text>
+                    ⁄<Text as="sub">{MAX_DESC_LEN}</Text>
+                    <InfoIcon ml={2} />
+                  </Label>
+                </Tooltip>
+                <Textarea
+                  placeholder="Describe yourself."
+                  minW="min(18em, calc(100vw - 2rem))"
+                  h="10em"
+                  color="white"
+                  bg="dark"
+                  {...register('description', {
+                    maxLength: {
+                      value: 420,
+                      message: 'Maximum length is 420 characters.',
+                    },
+                  })}
+                />
+                <FormErrorMessage>
+                  {errors.description?.message}
+                </FormErrorMessage>
+              </FormControl>
+            </WrapItem>
+            <WrapItem flex={1} alignItems="center" px={5}>
+              <FormControl isInvalid={errors.name}>
+                <Tooltip label="Arbitrary letters, spaces, & punctuation. Max 150 characters.">
+                  <Label htmlFor="name" userSelect="none">
+                    Display Name
+                    <InfoIcon ml={2} />
+                  </Label>
+                </Tooltip>
+                <Input
+                  placeholder="Imma User"
+                  {...register('name', {
+                    maxLength: {
+                      value: 150,
+                      message: 'Maximum length is 150 characters.',
+                    },
+                  })}
+                />
+                <Box minH="3em">
+                  <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
+                </Box>
+              </FormControl>
+            </WrapItem>
+            <WrapItem flex={1} alignItems="center" px={5}>
+              <FormControl isInvalid={errors.username}>
+                <Tooltip label="Lowercase alpha, digits, dashes, & underscores only.">
+                  <Label htmlFor="username" userSelect="none">
+                    Username
+                    <InfoIcon ml={2} />
+                  </Label>
+                </Tooltip>
+                <Input
+                  placeholder="i-am-a-user"
+                  {...register('username', {
+                    validate: async (value) => {
+                      if (/0x[0-9a-z]{40}/i.test(value)) {
+                        return `Username "${value}" has the same format as an Ethereum address.`;
+                      }
+                      if (value !== username && (await getPlayer(value))) {
+                        return `Username "${value}" is already in use.`;
+                      }
+                      return true;
+                    },
+                    pattern: {
+                      value: /^[a-z0-9-_]+$/,
+                      message:
+                        'Only lowercase letters, digits, dashes, & underscores allowed.',
+                    },
+                    minLength: {
+                      value: 3,
+                      message: 'Must have at least three characters.',
+                    },
+                    maxLength: {
+                      value: 150,
+                      message: 'Maximum length is 150 characters.',
+                    },
+                  })}
+                />
+                <Box minH="3em">
+                  <FormErrorMessage>
+                    {errors.username?.message}
+                  </FormErrorMessage>
+                </Box>
+              </FormControl>
+            </WrapItem>
+            <WrapItem flex={1} alignItems="center" px={5}>
+              <FormControl isInvalid={errors.pronouns}>
+                <Label htmlFor="pronouns">Pronouns</Label>
+                <Input
+                  id="pronouns"
+                  placeholder="He, she, it, they, them, etc."
+                  {...register('pronouns', {
+                    maxLength: {
+                      value: 150,
+                      message: 'Maximum length is 150 characters.',
+                    },
+                  })}
+                />
+                <Box minH="3em">
+                  <FormErrorMessage>
+                    {errors.pronouns?.message}
+                  </FormErrorMessage>
+                </Box>
+              </FormControl>
+            </WrapItem>
+            {/*
+            <Grid templateColumns="repeat(2, 1fr)" gap={6}>
+              <GridItem colSpan={HALF}>
+                <CountrySelectDropdown country={COUNTRIES_OPTIONS[0]} />
+              </GridItem>
+            */}
+            <WrapItem flex={1} alignItems="center" px={5}>
+              <FormControl isInvalid={errors.availableHours}>
+                <Label htmlFor="availableHours">Availability</Label>
+                <InputGroup borderColor="white">
+                  <InputLeftElement>
+                    <Text as="span" role="img" aria-label="clock">
+                      🕛
+                    </Text>
+                  </InputLeftElement>
+                  <Input
+                    type="number"
+                    placeholder="23"
+                    pl={9}
+                    minW={20}
+                    maxW={22}
+                    borderTopEndRadius={0}
+                    borderBottomEndRadius={0}
+                    borderRight={0}
+                    {...register('availableHours', {
+                      valueAsNumber: true,
+                      min: {
+                        value: 0,
+                        message:
+                          'It’s not possible to be available for negative time.',
+                      },
+                      max: {
+                        value: 24 * 7,
+                        message: `There’s only ${24 * 7} hours in a week.`,
+                      },
+                    })}
+                  />
+                  <InputRightAddon background="purpleBoxDark" color="white">
+                    <Text as="sup">hr</Text> ⁄ <Text as="sub">week</Text>
+                  </InputRightAddon>
+                </InputGroup>
+                <Box minH="3em">
+                  <FormErrorMessage>
+                    {errors.availableHours?.message}
+                  </FormErrorMessage>
+                </Box>
+              </FormControl>
+            </WrapItem>
+            <WrapItem flex={1} alignItems="center" px={5} minW="20rem">
+              <FormControl isInvalid={errors.timeZone}>
+                <Label htmlFor="name">Time Zone</Label>
+                <Controller
+                  {...{ control }}
+                  name="timeZone"
+                  defaultValue={
+                    Intl.DateTimeFormat().resolvedOptions().timeZone
+                  }
+                  render={({ field: { onChange, ref, ...props } }) => (
+                    <SelectTimeZone
+                      labelStyle="abbrev"
+                      onChange={(tz) => {
+                        onChange(tz.value);
+                      }}
+                      {...props}
                     />
                   )}
                 />
-              </Center>
-              <FormErrorMessage>{errors[key]?.message}</FormErrorMessage>
-            </FormControl>
-          </WrapItem>
-        ))}
-        <WrapItem flex={1} px={5}>
-          <FormControl isInvalid={errors.description}>
-            <Tooltip label={`${MAX_DESC_LEN} characters max.`}>
-              <Label htmlFor="description" userSelect="none">
-                Description
-                <Text as="sup" ml={2}>
-                  {remaining}
-                </Text>
-                ⁄<Text as="sub">{MAX_DESC_LEN}</Text>
-                <InfoIcon ml={2} />
-              </Label>
-            </Tooltip>
-            <Textarea
-              placeholder="Describe yourself."
-              minW="min(18em, calc(100vw - 2rem))"
-              h="10em"
-              color="white"
-              bg="dark"
-              {...register('description', {
-                maxLength: {
-                  value: 420,
-                  message: 'Maximum length is 420 characters.',
-                },
-              })}
-            />
-            <FormErrorMessage>{errors.description?.message}</FormErrorMessage>
-          </FormControl>
-        </WrapItem>
-        <WrapItem flex={1} alignItems="center" px={5}>
-          <FormControl isInvalid={errors.name}>
-            <Tooltip label="Arbitrary letters, spaces, & punctuation. Max 150 characters.">
-              <Label htmlFor="name" userSelect="none">
-                Display Name
-                <InfoIcon ml={2} />
-              </Label>
-            </Tooltip>
-            <Input
-              placeholder="Imma User"
-              {...register('name', {
-                maxLength: {
-                  value: 150,
-                  message: 'Maximum length is 150 characters.',
-                },
-              })}
-            />
-            <Box minH="3em">
-              <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
-            </Box>
-          </FormControl>
-        </WrapItem>
-        <WrapItem flex={1} alignItems="center" px={5}>
-          <FormControl isInvalid={errors.username}>
-            <Tooltip label="Lowercase alpha, digits, dashes, & underscores only.">
-              <Label htmlFor="username" userSelect="none">
-                Username
-                <InfoIcon ml={2} />
-              </Label>
-            </Tooltip>
-            <Input
-              placeholder="i-am-a-user"
-              {...register('username', {
-                validate: async (value) => {
-                  if (/0x[0-9a-z]{40}/i.test(value)) {
-                    return `Username "${value}" has the same format as an Ethereum address.`;
-                  }
-                  if (value !== username && (await getPlayer(value))) {
-                    return `Username "${value}" is already in use.`;
-                  }
-                  return true;
-                },
-                pattern: {
-                  value: /^[a-z0-9-_]+$/,
-                  message:
-                    'Only lowercase letters, digits, dashes, & underscores allowed.',
-                },
-                minLength: {
-                  value: 3,
-                  message: 'Must have at least three characters.',
-                },
-                maxLength: {
-                  value: 150,
-                  message: 'Maximum length is 150 characters.',
-                },
-              })}
-            />
-            <Box minH="3em">
-              <FormErrorMessage>{errors.username?.message}</FormErrorMessage>
-            </Box>
-          </FormControl>
-        </WrapItem>
-        <WrapItem flex={1} alignItems="center" px={5}>
-          <FormControl isInvalid={errors.pronouns}>
-            <Label htmlFor="pronouns">Pronouns</Label>
-            <Input
-              id="pronouns"
-              placeholder="He, she, it, they, them, etc."
-              {...register('pronouns', {
-                maxLength: {
-                  value: 150,
-                  message: 'Maximum length is 150 characters.',
-                },
-              })}
-            />
-            <Box minH="3em">
-              <FormErrorMessage>{errors.pronouns?.message}</FormErrorMessage>
-            </Box>
-          </FormControl>
-        </WrapItem>
-        {/*
-        <Grid templateColumns="repeat(2, 1fr)" gap={6}>
-          <GridItem colSpan={HALF}>
-            <CountrySelectDropdown country={COUNTRIES_OPTIONS[0]} />
-          </GridItem>
-        */}
-        <WrapItem flex={1} alignItems="center" px={5}>
-          <FormControl isInvalid={errors.availableHours}>
-            <Label htmlFor="availableHours">Availability</Label>
-            <InputGroup borderColor="white">
-              <InputLeftElement>
-                <Text as="span" role="img" aria-label="clock">
-                  🕛
-                </Text>
-              </InputLeftElement>
-              <Input
-                type="number"
-                placeholder="23"
-                pl={9}
-                minW={20}
-                maxW={22}
-                borderTopEndRadius={0}
-                borderBottomEndRadius={0}
-                borderRight={0}
-                {...register('availableHours', {
-                  valueAsNumber: true,
-                  min: {
-                    value: 0,
-                    message:
-                      'It’s not possible to be available for negative time.',
-                  },
-                  max: {
-                    value: 24 * 7,
-                    message: `There’s only ${24 * 7} hours in a week.`,
-                  },
-                })}
-              />
-              <InputRightAddon background="purpleBoxDark" color="white">
-                <Text as="sup">hr</Text> ⁄ <Text as="sub">week</Text>
-              </InputRightAddon>
-            </InputGroup>
-            <Box minH="3em">
-              <FormErrorMessage>
-                {errors.availableHours?.message}
-              </FormErrorMessage>
-            </Box>
-          </FormControl>
-        </WrapItem>
-        <WrapItem flex={1} alignItems="center" px={5} minW="20rem">
-          <FormControl isInvalid={errors.timeZone}>
-            <Label htmlFor="name">Time Zone</Label>
-            <Controller
-              {...{ control }}
-              name="timeZone"
-              defaultValue={Intl.DateTimeFormat().resolvedOptions().timeZone}
-              render={({ field: { onChange, ref, ...props } }) => (
-                <SelectTimeZone
-                  labelStyle="abbrev"
-                  onChange={(tz) => {
-                    onChange(tz.value);
-                  }}
-                  {...props}
+                <Box minH="3em">
+                  <FormErrorMessage>
+                    {errors.timeZone?.message}
+                  </FormErrorMessage>
+                </Box>
+              </FormControl>
+            </WrapItem>
+            <WrapItem flex={1} alignItems="center" px={5}>
+              <FormControl isInvalid={errors.website}>
+                <Label htmlFor="name">Website</Label>
+                <Input
+                  id="website"
+                  placeholder="https://github.com/jane-user"
+                  {...register('website', {
+                    pattern: {
+                      value: /^(ipfs|https?):(\/\/)?.+$/i,
+                      message: 'URL must be IPFS, HTTP or HTTPS.',
+                    },
+                    maxLength: {
+                      value: 240,
+                      message: 'Maximum length is 240 characters.',
+                    },
+                  })}
                 />
-              )}
-            />
-            <Box minH="3em">
-              <FormErrorMessage>{errors.timeZone?.message}</FormErrorMessage>
-            </Box>
-          </FormControl>
-        </WrapItem>
-        <WrapItem flex={1} alignItems="center" px={5}>
-          <FormControl isInvalid={errors.website}>
-            <Label htmlFor="name">Website</Label>
-            <Input
-              id="website"
-              placeholder="https://github.com/jane-user"
-              {...register('website', {
-                pattern: {
-                  value: /^(ipfs|https?):(\/\/)?.+$/i,
-                  message: 'URL must be IPFS, HTTP or HTTPS.',
-                },
-                maxLength: {
-                  value: 240,
-                  message: 'Maximum length is 240 characters.',
-                },
-              })}
-            />
-            <Box minH="3em">
-              <FormErrorMessage>{errors.website?.message}</FormErrorMessage>
-            </Box>
-          </FormControl>
-        </WrapItem>
-        <WrapItem flex={1} alignItems="center" px={5}>
-          <FormControl isInvalid={errors.location}>
-            <Label htmlFor="location">Location</Label>
-            <Input
-              id="location"
-              placeholder="Laniakea Supercluster"
-              {...register('location', {
-                maxLength: {
-                  value: 140,
-                  message: 'Maximum length is 140 characters.',
-                },
-              })}
-            />
-            <Box minH="3em">
-              <FormErrorMessage>{errors.location?.message}</FormErrorMessage>
-            </Box>
-          </FormControl>
-        </WrapItem>
-        <WrapItem flex={1} alignItems="center" px={5}>
-          <FormControl isInvalid={errors.emoji}>
-            <Label htmlFor="emoji">Spirit Emoji</Label>
-            <Input
-              id="emoji"
-              placeholder="🗽"
-              minW="inherit"
-              maxW="4em"
-              {...register('emoji', {
-                maxLength: {
-                  value: 2,
-                  message: 'Maximum length is 2 characters.',
-                },
-              })}
-            />
-            <Box minH="3em">
-              <FormErrorMessage>{errors.emoji?.message}</FormErrorMessage>
-            </Box>
-          </FormControl>
-        </WrapItem>
-      </Wrap>
-      {/*
-      <ProfileField title="working hours" placeholder="9am - 10pm" />
-      */}
-      {onClose && (
+                <Box minH="3em">
+                  <FormErrorMessage>{errors.website?.message}</FormErrorMessage>
+                </Box>
+              </FormControl>
+            </WrapItem>
+            <WrapItem flex={1} alignItems="center" px={5}>
+              <FormControl isInvalid={errors.location}>
+                <Label htmlFor="location">Location</Label>
+                <Input
+                  id="location"
+                  placeholder="Laniakea Supercluster"
+                  {...register('location', {
+                    maxLength: {
+                      value: 140,
+                      message: 'Maximum length is 140 characters.',
+                    },
+                  })}
+                />
+                <Box minH="3em">
+                  <FormErrorMessage>
+                    {errors.location?.message}
+                  </FormErrorMessage>
+                </Box>
+              </FormControl>
+            </WrapItem>
+            <WrapItem flex={1} alignItems="center" px={5}>
+              <FormControl isInvalid={errors.emoji}>
+                <Label htmlFor="emoji">Spirit Emoji</Label>
+                <Input
+                  id="emoji"
+                  placeholder="🗽"
+                  minW="inherit"
+                  maxW="4em"
+                  {...register('emoji', {
+                    maxLength: {
+                      value: 2,
+                      message: 'Maximum length is 2 characters.',
+                    },
+                  })}
+                />
+                <Box minH="3em">
+                  <FormErrorMessage>{errors.emoji?.message}</FormErrorMessage>
+                </Box>
+              </FormControl>
+            </WrapItem>
+          </Wrap>
+        </ModalBody>
+        {/*
+        <ProfileField title="working hours" placeholder="9am - 10pm" />
+        */}
         <ModalFooter mt={6} flex={1} justifyContent="center">
           <Wrap justify="center" align="center" flex={1}>
             <WrapItem>
-              <MetaButton isDisabled={!!status} type="submit">
-                {!status ? (
-                  'Save Changes'
-                ) : (
-                  <Flex align="center">
-                    <Spinner mr={3} />
-                    {typeof status === 'string' ? (
-                      <Text>{status}</Text>
-                    ) : (
-                      status
-                    )}
-                  </Flex>
-                )}
-              </MetaButton>
+              <StatusedSubmitButton label="Save Changes" {...{ status }} />
             </WrapItem>
             <WrapItem>
               <Button
@@ -886,7 +919,7 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
             </WrapItem>
           </Wrap>
         </ModalFooter>
-      )}
-    </Stack>
+      </ModalContent>
+    </Modal>
   );
 };
