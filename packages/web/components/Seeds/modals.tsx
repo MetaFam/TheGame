@@ -57,21 +57,25 @@ export const WTFisXP = () => (
     </Text>
 
     <Text mb={2}>
-      Your XP is calculated by{' '}
+      Your XP is calculated by
       <Link
-        ml={1}
+        mx={1}
         href="//sourcecred.io"
         isExternal
         color="gray.500"
         textDecoration="underline"
-        mr={1}
       >
         SourceCred
-      </Link>{' '}
+      </Link>
       which is, in essence, an accounting system for value creation in
       communities. It tracks whatever happens on Discord, the forums &amp;
-      GitHub, then spits out numbers based on{' '}
-      <Text as="span" borderBottom="1px dotted white" title="Pull Request">
+      GitHub, then spits out numbers based on
+      <Text
+        as="span"
+        ml={1}
+        borderBottom="1px dotted white"
+        title="Pull Request"
+      >
         PR
       </Text>
       s, references, emojis, props given, and a bunch of other
@@ -133,11 +137,11 @@ export const GetRanked = () => (
     </Text>
     <Text>
       <Text as="b">
-        But, before publishing a list, we'd love to hear from all of you —{' '}
+        But, before publishing a list, we'd love to hear from all of you —
       </Text>
-      <Text as="span" borderBottom="3px double">
+      <Text as="span" mx={1} borderBottom="3px double">
         what do you think the ranked league perks should be?
-      </Text>{' '}
+      </Text>
       🙃
     </Text>
   </Flex>
@@ -256,8 +260,11 @@ export const UsefulnessOfSEEDs = () => (
         </Text>
         <Text mb={2}>
           We're building a future we <em>want</em> to live in, and a future in
-          which humans rate each other on a 1–5 star system is definitely{' '}
-          <strong>not</strong> the kind of future we want to live in.
+          which humans rate each other on a 1–5 star system is definitely
+          <Text as="strong" mx={1}>
+            not
+          </Text>{' '}
+          the kind of future we want to live in.
         </Text>
         <Text mb={2}>
           Instead, players of MetaGame will be required to stake some of their
@@ -361,8 +368,8 @@ export const BuyingAndSelling = () => (
       </ListItem>
       <ListItem>Preview the trade, confirm &amp; swap. 🙂</ListItem>
       <ListItem>
-        That's it! Now go to your MetaMask, scroll down to{' '}
-        <Text as="q" mr={1}>
+        That's it! Now go to your MetaMask, scroll down to
+        <Text as="q" mx={1}>
           add custom token
         </Text>
         &amp; paste the token address:
@@ -712,9 +719,9 @@ export const FAQ = () => (
           through 3 phases
         </Link>
         ; starting with SEEDs, growing into Trees in <em>Phase Ⅱ</em> aka
-        <Text as="em" ml={1}>
+        <Text as="em" mx={1}>
           The Growth Phase
-        </Text>{' '}
+        </Text>
         before transitioning to Phase Ⅲ — where Trees bear the fruits of our
         labor &amp; we’re able to reward contributors with MetaGame’s incoming
         streams without having to mint new tokens.
