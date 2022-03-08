@@ -18,6 +18,7 @@ import {
   InputProps,
   InputRightAddon,
   Link,
+  MetaHeading,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -467,7 +468,9 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
         as="form"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <ModalHeader>Profile</ModalHeader>
+        <ModalHeader>
+          <MetaHeading color="white">Profile</MetaHeading>
+        </ModalHeader>
         <ModalCloseButton
           color="pinkShadeOne"
           size="xl"
