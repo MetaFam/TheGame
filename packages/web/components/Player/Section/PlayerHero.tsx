@@ -29,7 +29,6 @@ import { PlayerHeroTile } from 'components/Player/Section/PlayerHeroTile';
 import { ProfileSection } from 'components/Profile/ProfileSection';
 import { Player } from 'graphql/autogen/types';
 import { useProfileField, useUser } from 'lib/hooks';
-import { useAnimateProfileChanges } from 'lib/hooks/players';
 import React, { useEffect, useState } from 'react';
 import { FaClock, FaGlobe } from 'react-icons/fa';
 import { BoxTypes } from 'utils/boxTypes';
@@ -205,7 +204,7 @@ const Emoji: React.FC<DisplayComponentProps> = ({
   return (
     <Wrapper>
       <PlayerHeroTile title="Favorite Emoji">
-        <Text fontSize="xl" lineHeight={0.85}>
+        <Text fontSize="3xl" lineHeight={0.85}>
           {emoji}
         </Text>
       </PlayerHeroTile>
@@ -296,13 +295,10 @@ const Availability: React.FC<DisplayComponentProps> = ({
   player,
   Wrapper = React.Fragment,
 }) => {
-  const { value: current } = useProfileField<number>({
+  const { value: hours } = useProfileField<number>({
     field: 'availableHours',
     player,
   });
-  const [hours, setHours] = useState<Maybe<number>>(current);
-  const updateFN = () => setHours(current ?? null);
-  const { animation } = useAnimateProfileChanges(current, updateFN);
 
   return (
     <Wrapper>
@@ -311,11 +307,7 @@ const Availability: React.FC<DisplayComponentProps> = ({
           <Box pr={2}>
             <FaClock color="blueLight" />
           </Box>
-          <FlexContainer
-            align="stretch"
-            transition="opacity 0.4s"
-            opacity={animation === 'fadeIn' ? 1 : 0}
-          >
+          <FlexContainer align="stretch">
             <Text fontSize={['md', 'lg']} pr={2}>
               {hours == null ? (
                 <Text as="em">Unspecified</Text>

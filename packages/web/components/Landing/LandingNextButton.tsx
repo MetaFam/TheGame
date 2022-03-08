@@ -2,7 +2,7 @@ import { Box, Button } from '@metafam/ds';
 import { useRouter } from 'next/router';
 import { BsArrowDown } from 'react-icons/bs';
 
-export const LandingNextButton = ({ section = '' }) => {
+export const LandingNextButton = ({ section = '', ...props }) => {
   const { push } = useRouter();
 
   const handleSectionNav = (sectionId: string) => {
@@ -16,6 +16,7 @@ export const LandingNextButton = ({ section = '' }) => {
       py={{ base: 4, md: 20 }}
       maxW={{ base: '100%', md: '7xl', '2xl': '8xl' }}
       zIndex={150}
+      {...props}
     >
       <Button
         colorScheme="white"

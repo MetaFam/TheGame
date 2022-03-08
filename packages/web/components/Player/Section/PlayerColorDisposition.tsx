@@ -46,7 +46,7 @@ export const PlayerColorDisposition: React.FC<ColorDispositionProps> = ({
     >
       {mask == null ? (
         <Text fontStyle="italic" textAlign="center" mb={6}>
-          Unspecified
+          Unspecified.
         </Text>
       ) : (
         <ColorBar {...{ mask, types }} loading={fetching} />

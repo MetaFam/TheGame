@@ -75,9 +75,9 @@ export const WhatWeDo: React.FC = () => {
             <ListItem>
               <Text as="h3">Producing content</Text>
               <Text>
-                Educational content such as Playbooks & Great Houses as well as
-                something more fun, like our podcasts, news or recordings of the
-                below.
+                Educational content such as Playbooks &amp; Great Houses as well
+                as something more fun, like our podcasts, news or recordings of
+                the below.
               </Text>
             </ListItem>
             <ListItem>
@@ -85,14 +85,14 @@ export const WhatWeDo: React.FC = () => {
               <Text>
                 Regularly bringing awesome people to present at our community
                 calls or do workshops. Also organized a conference, a hackathon
-                & a festival.
+                &amp; a festival.
               </Text>
             </ListItem>
             <ListItem>
               <Text as="h3">Assembling the puzzle</Text>
               <Text>
-                Building things like MetaSys & MyMeta as well as the MetaOS - to
-                make it easy to integrate other people's building blocks
+                Building things like MetaSys &amp; MyMeta as well as the MetaOS
+                - to make it easy to integrate other people's building blocks
               </Text>
             </ListItem>
             <ListItem>
@@ -105,13 +105,13 @@ export const WhatWeDo: React.FC = () => {
             </ListItem>
           </UnorderedList>
 
-          <Text fontSize={{ base: '' }} fontWeight="700" width="100%">
-            In short, anything & everything related to DAOs & helping people
-            build the future they want to live in.
+          <Text fontWeight={700} width="100%">
+            In short, anything &amp; everything related to DAOs &amp; helping
+            people build the future they want to live in.
           </Text>
         </Box>
       </Container>
-      <LandingNextButton section="play-life" />
+      <LandingNextButton py={8} section="play-life" />
     </FullPageContainer>
   );
 };
