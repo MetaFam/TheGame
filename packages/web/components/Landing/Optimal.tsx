@@ -25,15 +25,15 @@ export const Optimal: React.FC = () => {
         justifyContent="center"
       >
         <Box
-          ref={ref}
+          {...{ ref }}
           display="flex"
           flexDirection="column"
           justifyContent="center"
           maxWidth={{ base: '95%', xl: '2xl', '2xl': '6xl' }}
           fontSize={{ base: 'lg', md: '3xl', '2xl': '6xl' }}
           lineHeight={{ base: '2rem', md: '2.4rem', '2xl': '3.5rem' }}
-          pt={{ base: 0, lg: 0 }}
-          pl={{ base: 0, md: 0 }}
+          pt={0}
+          pl={0}
           zIndex={100}
           transform={`translate3d(0, ${onScreen ? '0' : '50px'}, 0)`}
           opacity={onScreen ? 1 : 0}
@@ -48,22 +48,21 @@ export const Optimal: React.FC = () => {
           </Text>
           <Text as="p" textAlign="center">
             By coordinating with others on building a better world; doing things
-            that create a{' '}
+            that
             <Text as="span" fontWeight="bold" color="cyanText">
               {' '}
-              a positive impact
-              <br />{' '}
-            </Text>{' '}
-            make
-            <Text as="span" fontWeight="bold" color="cyanText">
-              {' '}
-              you happy{' '}
+              create a positive impact
             </Text>
-            AND
+            ,<br />
+            <Text as="span" fontWeight="bold" color="cyanText">
+              make you happy
+            </Text>
+            , AND
             <Text as="span" fontWeight="bold" color="cyanText">
               {' '}
-              earn you money.
+              earn you money
             </Text>
+            .
           </Text>
         </Box>
       </Container>

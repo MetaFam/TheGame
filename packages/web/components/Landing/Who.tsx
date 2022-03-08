@@ -53,7 +53,7 @@ export const Who: React.FC = () => {
         </Box>
       </Container>
       <Cards />
-      <LandingNextButton section="join-us" />
+      <LandingNextButton py={2} section="join-us" />
     </FullPageContainer>
   );
 };

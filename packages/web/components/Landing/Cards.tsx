@@ -40,12 +40,9 @@ const Card: React.FC<CardProps> = ({
       </Text>
 
       <Text>{listTitle}</Text>
-      <OrderedList
-        fontSize={{ base: 'sm', xl: 'md', '2xl': '1.25rem' }}
-        listStylePosition="inside"
-      >
-        {list.map((item) => (
-          <ListItem key={item}>{item}</ListItem>
+      <OrderedList fontSize={{ base: 'sm', xl: 'md', '2xl': '1.25rem' }} pl={6}>
+        {list.map((item, idx) => (
+          <ListItem key={idx}>{item}</ListItem>
         ))}
       </OrderedList>
     </VStack>
@@ -97,8 +94,8 @@ export const Cards: React.FC = () => {
         listTitle="Why?"
         list={[
           'They love builder onboarding & support systems.',
-          'Membership and other things, all paid in Seeds.',
-          'Understanding MetaGame made them go: Fuck yeah!',
+          'Membership and other things, all paid in SEEDs.',
+          'Understanding MetaGame made them go: “Fuck yeah!”',
         ]}
       />
     </Stack>

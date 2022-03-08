@@ -20,12 +20,12 @@ export const WildWeb: React.FC = () => {
       <Container
         d="flex"
         maxW={{ base: '100%', md: '7xl', '2xl': '8xl' }}
-        height="100%"
+        h="100%"
         alignItems="center"
         justifyContent="center"
       >
         <Box
-          ref={ref}
+          {...{ ref }}
           display="flex"
           flexDirection="column"
           justifyContent="center"
@@ -33,7 +33,7 @@ export const WildWeb: React.FC = () => {
           fontSize={{ base: 'md', md: '3xl', '2xl': '6xl' }}
           lineHeight={{ base: '1.5rem', md: '2.4rem', '2xl': '3.5rem' }}
           fontWeight="normal"
-          pl={{ base: 0, md: 0 }}
+          pl={0}
           zIndex={100}
           transform={`translate3d(0, ${onScreen ? '0' : '50px'}, 0)`}
           opacity={onScreen ? 1 : 0}
@@ -45,16 +45,16 @@ export const WildWeb: React.FC = () => {
             ground up.
           </Text>
           <Text pb={{ base: '1.188rem', '2xl': '2.188rem' }}>
-            A new world is being built but it's{' '}
-            <Text as="strong">hard to navigate.</Text>
+            A new world is being built, but it's{' '}
+            <Text as="strong">hard to navigate</Text>.
           </Text>
           <Text pb={{ base: '1.188rem', '2xl': '2.188rem' }}>
-            The resources, building blocks & tools are all over the place{' '}
-            <Text as="strong">but the maps are inexistent.</Text>
+            The resources, building blocks, &amp; tools are all over the place{' '}
+            <Text as="strong">but the maps are inexistent</Text>.
           </Text>
           <Text pb={{ base: '1.188rem', '2xl': '2.188rem' }}>
-            There are pitfalls, gold rushing cowboys & snake oil salesmen at
-            every corner.
+            There are pitfalls, gold rushing cowboys, &amp; snake oil salesmen
+            at every corner.
           </Text>
 
           <Text as="strong" textTransform="uppercase">
@@ -62,7 +62,7 @@ export const WildWeb: React.FC = () => {
           </Text>
         </Box>
       </Container>
-      <LandingNextButton section="human-coordination" />
+      <LandingNextButton py={8} right="35vw" section="human-coordination" />
     </FullPageContainer>
   );
 };

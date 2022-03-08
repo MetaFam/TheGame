@@ -6,7 +6,7 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
-  Profile
+  Profile,
 } from '@metafam/ds';
 import { MetaLink } from 'components/Link';
 import { XPSeedsBalance } from 'components/MegaMenu/XPSeedsBalance';
@@ -54,15 +54,6 @@ export const DesktopPlayerStats: React.FC<PlayerStatsProps> = ({ player }) => {
           <MetaLink
             color="black"
             href={'/profile/setup'}
-            _hover={{ textDecoration: 'none' }}
-          >
-            <MenuItem>
-              <Profile w={4} h={4} mr={4} /> Profile Wizard
-            </MenuItem>
-          </MetaLink>
-          <MetaLink
-            color="black"
-            href={'/dashboard'}
             _hover={{ textDecoration: 'none' }}
           >
             <MenuItem>
