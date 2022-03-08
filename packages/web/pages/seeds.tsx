@@ -10,10 +10,10 @@ import {
   LoadingState,
   Text,
   UnorderedList,
-  VStack
+  VStack,
 } from '@metafam/ds';
 import Octopus from 'assets/octopus.png';
-import SeedsFlowChart from 'assets/seeds-flowchart.png';
+import SEEDsFlowChart from 'assets/seeds-flowchart.png';
 import { PageContainer } from 'components/Container';
 import { Card } from 'components/Seeds/Card';
 import { cardsConfig } from 'components/Seeds/cardsConfig';
@@ -21,7 +21,7 @@ import { HeadComponent } from 'components/Seo';
 import { useRouter } from 'next/router';
 import React, { useRef } from 'react';
 
-const SeedsPage: React.FC = () => {
+const SEEDsPage: React.FC = () => {
   const router = useRouter();
   const topRef = useRef<HTMLDivElement>(null);
 
@@ -37,12 +37,12 @@ const SeedsPage: React.FC = () => {
     <PageContainer py={8} px={[6, 6, 20, 24]}>
       <VStack maxW="7xl" w="100%" spacing={{ base: 4, md: 8 }}>
         <HeadComponent
-          title="MetaGame Seeds Page"
-          description="seed description"
+          title="MetaGame SEEDs Page"
+          description="SEED description"
           url="https://my.metagame.wtf/seeds"
         />
         <Grid templateColumns={['auto', 'auto', 'auto', '1fr 1fr']} gap={6}>
-          <Flex fontSize={18} flexDirection="column">
+          <Flex fontSize="md" flexDirection="column">
             <Heading
               fontSize="6xl"
               fontWeight={600}
@@ -53,34 +53,32 @@ const SeedsPage: React.FC = () => {
               flexDir="row"
               ref={topRef}
             >
-              Seeds
+              SEEDs
               <Text pl={4} alignSelf="center" fontSize="4xl">
                 🌱
               </Text>
             </Heading>
-            <Text mb={4}>Seeds are MetaGame's labor token.</Text>
+            <Text mb={4}>SEEDs are MetaGame's labor token.</Text>
             <Text mb={4}>
               People contribute towards creation of MetaGame, meanwhile
-              generating XP & getting paid out in Seeds proportional to their
-              gained XP
+              generating XP &amp; getting paid out in SEEDs proportional to
+              their gained XP.
             </Text>
-            <Flex direction="column" ml={4}>
-              <UnorderedList spacing={2}>
-                <ListItem>
-                  All tokens are retroactive rewards for non-financial
-                  contributions.
-                </ListItem>
-                <ListItem>
-                  No tokens were minted for investment or speculation purposes.
-                </ListItem>
-                <ListItem>
-                  There was never any liquidity mining program, yet there is
-                  liquidity. 🙃
-                </ListItem>
-              </UnorderedList>
-            </Flex>
+            <UnorderedList spacing={2} pl={3}>
+              <ListItem>
+                All tokens are retroactive rewards for non-financial
+                contributions.
+              </ListItem>
+              <ListItem>
+                No tokens were minted for investment or speculation purposes.
+              </ListItem>
+              <ListItem>
+                There was never any liquidity mining program, yet there is
+                liquidity. 🙃
+              </ListItem>
+            </UnorderedList>
           </Flex>
-          <Image width="full" src={SeedsFlowChart} alignSelf="end" mt={4} />
+          <Image width="full" src={SEEDsFlowChart} alignSelf="end" mt={4} />
         </Grid>
 
         <Grid templateColumns={['auto', 'auto', '1fr 1fr']} gap={6}>
@@ -107,4 +105,4 @@ const SeedsPage: React.FC = () => {
   );
 };
 
-export default SeedsPage;
+export default SEEDsPage;

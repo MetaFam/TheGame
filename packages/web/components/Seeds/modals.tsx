@@ -99,7 +99,7 @@ export const WTFisXP = () => (
           We're calling it MetaSys &amp; you can
           <Link
             ml={1}
-            href="https://wiki.metagame.wtf/docs/what-we-do/metasys"
+            href="//wiki.metagame.wtf/docs/what-we-do/metasys"
             isExternal
             color="gray.500"
             textDecoration="underline"
@@ -143,7 +143,7 @@ export const GetRanked = () => (
   </Flex>
 );
 
-export const UsefulnessOfSeeds = () => (
+export const UsefulnessOfSEEDs = () => (
   <Flex direction="column">
     <Text mb={2}>
       So far, the main thing SEEDs are used for is rewarding contributors as a
@@ -477,7 +477,7 @@ export const PlantingAndWatering = () => (
         Ideally, it would be WETH &amp;
         <Link
           ml={1}
-          href="https://reflexer.finance/"
+          href="//reflexer.finance"
           isExternal
           color="gray.500"
           textDecoration="underline"
@@ -707,7 +707,7 @@ export const FAQ = () => (
           isExternal
           color="gray.500"
           textDecoration="underline"
-          href="https://wiki.metagame.wtf/docs/how-does-it-work/phases-of-metagame"
+          href="//wiki.metagame.wtf/docs/how-does-it-work/phases-of-metagame"
         >
           through 3 phases
         </Link>
