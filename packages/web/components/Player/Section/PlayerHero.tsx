@@ -7,11 +7,6 @@ import {
   HStack,
   IconButton,
   MetaTag,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalOverlay,
   Text,
   Tooltip,
   useDisclosure,
@@ -20,9 +15,8 @@ import {
   WrapItem,
 } from '@metafam/ds';
 import { Maybe } from '@metafam/utils';
-import BackgroundImage from 'assets/main-background.jpg';
 import { FlexContainer } from 'components/Container';
-import { EditProfileForm } from 'components/EditProfileForm';
+import { EditProfileModal } from 'components/EditProfileModal';
 import { PlayerAvatar } from 'components/Player/PlayerAvatar';
 import { PlayerContacts as Contacts } from 'components/Player/PlayerContacts';
 import { PlayerHeroTile } from 'components/Player/Section/PlayerHeroTile';
@@ -130,30 +124,7 @@ export const PlayerHero: React.FC<HeroProps> = ({ player, editing }) => {
         </SimpleGrid> */}
       </VStack>
 
-      {isOwnProfile && (
-        <Modal {...{ isOpen, onClose }}>
-          <ModalOverlay />
-          <ModalContent
-            maxW={['100%', 'min(80%, 60rem)']}
-            backgroundImage={`url(${BackgroundImage})`}
-            bgSize="cover"
-            bgAttachment="fixed"
-            p={[0, 8, 12]}
-          >
-            <ModalCloseButton
-              color="pinkShadeOne"
-              size="xl"
-              p={{ base: 1, sm: 4 }}
-              _focus={{
-                boxShadow: 'none',
-              }}
-            />
-            <ModalBody p={[0, 2]}>
-              <EditProfileForm {...{ player, onClose }} />
-            </ModalBody>
-          </ModalContent>
-        </Modal>
-      )}
+      {isOwnProfile && <EditProfileModal {...{ player, isOpen, onClose }} />}
     </ProfileSection>
   );
 };
