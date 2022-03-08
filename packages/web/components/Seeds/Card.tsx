@@ -60,7 +60,7 @@ export const Card: React.FC<CardProps> = ({ title, description, Content }) => {
           _active={{ bg: '#FF000011' }}
           onClick={onOpen}
         >
-          Learn more
+          Learn More
         </Button>
       </Box>
 
