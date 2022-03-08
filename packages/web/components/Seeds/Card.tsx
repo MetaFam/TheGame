@@ -14,7 +14,7 @@ import {
 } from '@metafam/ds';
 import BackgroundImage from 'assets/main-background.jpg';
 import ModalCardBg from 'assets/modal-bg.png';
-import SeedCardBg from 'assets/seed-card-bg.png';
+import SEEDCardBg from 'assets/seed-card-bg.png';
 
 type CardProps = {
   title: string;
@@ -33,7 +33,7 @@ export const Card: React.FC<CardProps> = ({ title, description, Content }) => {
       textColor="white"
       alignItems="center"
       textAlign="center"
-      bgImage={SeedCardBg}
+      bgImage={SEEDCardBg}
       placeContent="center"
       p={8}
       minH="3xs"
