@@ -1,5 +1,6 @@
 import { MetaTheme } from '@metafam/ds';
 import {
+  DiscordRole,
   Maybe,
   Me,
   Member,
@@ -52,4 +53,12 @@ export type GuildPlayer = {
   totalXP?: number;
   rank?: Maybe<PlayerRank_Enum>;
   profile?: Maybe<Pick<Profile, 'profileImageURL' | 'name' | 'username'>>;
+};
+
+export type GuildMetadata = {
+  discordRoles: DiscordRole[];
+  discordMetadata: {
+    membershipRoleIds: string[];
+    administratorRoleIds: string[];
+  };
 };

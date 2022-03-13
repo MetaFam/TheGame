@@ -20,7 +20,7 @@ import {
 } from 'next';
 import { useRouter } from 'next/router';
 import Page404 from 'pages/404';
-import React, { useEffect, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { BoxTypes } from 'utils/boxTypes';
 import { getGuildCoverImageFull } from 'utils/playerHelpers';
 
@@ -28,23 +28,28 @@ type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
 const GuildPage: React.FC<Props> = ({ guild }) => {
   const router = useRouter();
-  const { user, fetching } = useUser();
-  const [getGuildsResult, getGuilds] = useGetAdministeredGuildsQuery();
-
-  useEffect(() => {
-    if (!fetching && user) {
-      getGuilds({ id: user.id });
-    }
-  }, [fetching, user, getGuilds]);
+  const { user, fetching: loadingUser } = useUser();
+  const [getAdministeredGuildsResponse] = useGetAdministeredGuildsQuery({
+    variables: { id: user?.id },
+  });
+  const administeredGuilds = getAdministeredGuildsResponse.data?.guild_metadata;
 
   const canEdit = useMemo(
     () =>
+      !loadingUser &&
       user != null &&
-      user?.id ===
-        getGuildsResult?.data?.guild_metadata.some(
-          (gm) => gm.guildId === guild?.id,
-        ),
-    [user, getGuildsResult, guild],
+      getAdministeredGuildsResponse.fetching === false &&
+      administeredGuilds != null &&
+      administeredGuilds.some(
+        (guildMetadata) => guildMetadata.guildId === guild?.id,
+      ),
+    [
+      loadingUser,
+      user,
+      getAdministeredGuildsResponse,
+      administeredGuilds,
+      guild,
+    ],
   );
 
   // Hidden until implemented

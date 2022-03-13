@@ -13,7 +13,7 @@ import Page404 from 'pages/404';
 import React, { useEffect, useState } from 'react';
 import useSWR from 'swr';
 
-const SetupGuild: React.FC = () => {
+const EditGuild: React.FC = () => {
   const router = useRouter();
 
   const [guild, setGuild] = useState<GuildFragment | null>();
@@ -22,13 +22,17 @@ const SetupGuild: React.FC = () => {
 
   const guildName = router.query.guildname as string;
 
-  const { data, isValidating } = useSWR(guildName, getGuild);
+  const { data: fetchedGuild, isValidating } = useSWR(guildName, getGuild);
 
   useEffect(() => {
-    setGuild(data);
-  }, [data, guildName]);
+    setGuild(fetchedGuild);
+  }, [fetchedGuild, guildName]);
 
-  if (isValidating || data === undefined) {
+  if (
+    isValidating ||
+    fetchedGuild == null ||
+    (fetchedGuild != null && guild == null)
+  ) {
     return <LoadingState />;
   }
 
@@ -57,14 +61,13 @@ const SetupGuild: React.FC = () => {
     const saveGuildResponse = response.data?.saveGuildInformation;
     if (saveGuildResponse?.success) {
       toast({
-        title: 'Guild information submitted',
-        description: 'Please allow a few days to review your guild information',
+        title: 'Guild updated',
         status: 'success',
         isClosable: true,
-        duration: 5000,
+        duration: 2000,
       });
       setTimeout(() => {
-        router.push('/dashboard');
+        router.push(`/guild/${guildName}`);
       }, 5000);
     } else {
       toast({
@@ -84,7 +87,7 @@ const SetupGuild: React.FC = () => {
     <PageContainer>
       <FlexContainer flex="1" justify="start" mt={5}>
         <MetaHeading textAlign="center" mb={10} size="md">
-          Add guild information
+          Edit guild information
         </MetaHeading>
         <Flex
           direction="column"
@@ -109,4 +112,4 @@ const SetupGuild: React.FC = () => {
   );
 };
 
-export default SetupGuild;
+export default EditGuild;
