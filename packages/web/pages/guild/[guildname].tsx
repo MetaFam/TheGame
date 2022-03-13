@@ -39,10 +39,11 @@ const GuildPage: React.FC<Props> = ({ guild }) => {
 
   const canEdit = useMemo(
     () =>
+      user != null &&
       user?.id ===
-      getGuildsResult?.data?.guild_metadata.some(
-        (gm) => gm.guildId === guild?.id,
-      ),
+        getGuildsResult?.data?.guild_metadata.some(
+          (gm) => gm.guildId === guild?.id,
+        ),
     [user, getGuildsResult, guild],
   );
 
