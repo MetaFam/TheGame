@@ -12,9 +12,10 @@ import {
   GuildFragment as GuildFragmentType,
   GuildStatus_Enum,
 } from 'graphql/autogen/types';
-import { client } from 'graphql/client';
 import { GuildFragment, PlayerFragment } from 'graphql/fragments';
 import { GuildPlayer } from 'graphql/types';
+
+import { client } from '../client';
 
 const guildQuery = /* GraphQL */ `
   query GetGuild($guildname: String!) {
@@ -67,9 +68,6 @@ export const getAdministeredGuildsQuery = /* GraphQL */ `
   query GetAdministeredGuilds($id: uuid!) {
     guild_metadata(where: { creatorId: { _eq: $id } }) {
       guildId
-      guild {
-        guildname
-      }
     }
   }
 `;

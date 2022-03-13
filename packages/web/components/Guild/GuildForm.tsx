@@ -101,15 +101,18 @@ const getDefaultFormValues = (
       ? []
       : roleOptions.filter((r) => discordMembershipRoleIds.includes(r.value));
 
-  const daos =
-    guild.daos?.length > 0
-      ? guild.daos.map((d) => ({
-          contractAddress: d.contractAddress,
-          network: d.network,
-          label: d.label,
-          url: d.url,
-        }))
-      : [placeholderDaoInput];
+  let daos: GuildDaoInput[] = [];
+  if (guild.daos?.length > 0) {
+    daos = guild.daos.map((d) => ({
+      contractAddress: d.contractAddress,
+      network: d.network,
+      label: d.label,
+      url: d.url,
+    }));
+  } else if (metadata?.discordMetadata?.administratorRoleIds == null) {
+    // Only stub out a DAO if they are going through the guild setup process
+    daos = [placeholderDaoInput];
+  }
 
   return {
     guildname: guild.guildname,
@@ -156,7 +159,7 @@ export const GuildForm: React.FC<Props> = ({
       variables: { id: workingGuild.id },
     },
   );
-  const fetchingRoles =
+  const fetchingMetadata =
     getGuildMetadataResponse == null || getGuildMetadataResponse.fetching;
   const guildMetadata = getGuildMetadataResponse.data
     ?.guild_metadata[0] as GuildMetadata;
@@ -340,14 +343,12 @@ export const GuildForm: React.FC<Props> = ({
               p={2}
               mb={4}
             >
-              {daoFields.length > 1 && (
-                <HStack justifyContent="space-between">
-                  <Text size="lg" ml={2}>
-                    {index + 1}.
-                  </Text>
-                  <CloseButton size="sm" onClick={() => remove(index)} />
-                </HStack>
-              )}
+              <HStack justifyContent="space-between">
+                <Text size="lg" ml={2}>
+                  {index + 1}.
+                </Text>
+                <CloseButton size="sm" onClick={() => remove(index)} />
+              </HStack>
               <Box borderRadius="lg" p={2}>
                 <Flex direction="row">
                   <Box mr={4}>
@@ -433,7 +434,7 @@ export const GuildForm: React.FC<Props> = ({
         </Box>
 
         <Box py={5} w="100%">
-          {fetchingRoles ? (
+          {fetchingMetadata ? (
             <Box>
               Fetching roles from Discord…
               <LoadingState />
@@ -492,30 +493,37 @@ export const GuildForm: React.FC<Props> = ({
           )}
         </Box>
         <HStack justify="space-between" mt={10} w="100%">
-          <MetaButton
-            isLoading={submitting}
-            loadingText="Submitting information…"
-            onClick={handleSubmit(onSubmit)}
-            isDisabled={success}
-            bg="purple.500"
-          >
-            Submit Guild Information
-          </MetaButton>
-          <MetaButton
-            fontSize="xs"
-            bg="purple.300"
-            colorScheme="facebook"
-            isDisabled={fetchingRoles}
-            onClick={loadGuildMetadata}
-          >
-            Reload Roles
-          </MetaButton>
-          <MetaButton
-            onClick={() => router.push('/')}
-            isDisabled={submitting || success}
-          >
-            Cancel
-          </MetaButton>
+          {!fetchingMetadata && guildMetadata == null ? (
+            <Box>Only a guild administrator can add or modify a guild.</Box>
+          ) : (
+            <>
+              <MetaButton
+                isLoading={submitting}
+                loadingText="Submitting information…"
+                onClick={handleSubmit(onSubmit)}
+                isDisabled={success}
+                bg="purple.500"
+              >
+                Submit Guild Information
+              </MetaButton>
+              <MetaButton
+                fontSize="xs"
+                bg="purple.300"
+                colorScheme="facebook"
+                isDisabled={fetchingMetadata}
+                onClick={loadGuildMetadata}
+              >
+                Reload Roles
+              </MetaButton>
+
+              <MetaButton
+                onClick={() => router.push('/')}
+                isDisabled={submitting || success}
+              >
+                Cancel
+              </MetaButton>
+            </>
+          )}
         </HStack>
       </VStack>
     </Box>

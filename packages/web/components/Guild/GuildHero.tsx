@@ -23,7 +23,7 @@ export const GuildHero: React.FC<Props> = ({ guild, canEdit }) => (
       <Box pos="absolute" right={3} top={3}>
         <Link
           _hover={{ textDecoration: 'none' }}
-          href={`/join/guild/${guild.guildname}`}
+          href={`/guild/${guild.guildname}/edit`}
         >
           <IconButton
             _focus={{ boxShadow: 'none' }}
