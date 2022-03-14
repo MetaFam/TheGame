@@ -33,8 +33,20 @@ export const ConnectToProgress: React.FC<{
   const [open, { toggle }] = useBoolean();
   const { fetching } = useUser();
 
-  if (connected && !fetching && (chainId === '0x1' || !showSwitchButton))
+  if (connected && !fetching) {
+    if (chainId !== '0x1' && showSwitchButton) {
+      return (
+        <Stack color="white" spacing={8} w="100%" maxW="30rem">
+          <MetaGameLogo />
+          <MetaHeading> Welcome to MetaGame! </MetaHeading>
+          <Text fontSize="md" w="100%" textAlign="center">
+            Please switch to <SwitchNetworkButton chainId="0x1" /> to progress
+          </Text>
+        </Stack>
+      );
+    }
     return null;
+  }
 
   return (
     <Stack color="white" spacing={8} w="100%" maxW="28rem">
@@ -75,24 +87,18 @@ export const ConnectToProgress: React.FC<{
             Connect your wallet on Ethereum Mainnet to start
           </Text>
         )}
-        {!connecting && !fetching && connected ? (
-          <Text fontSize="md" w="100%" textAlign="center">
-            Please switch to <SwitchNetworkButton chainId="0x1" />
-          </Text>
-        ) : (
-          <Button
-            w="100%"
-            size="lg"
-            textTransform="uppercase"
-            fontWeight="600"
-            onClick={connect}
-            isLoading={connecting || fetching}
-            colorScheme="pink"
-            fontSize="1.25rem"
-          >
-            {showNote ? 'Connect Wallet' : 'Connect To Progress'}
-          </Button>
-        )}
+        <Button
+          w="100%"
+          size="lg"
+          textTransform="uppercase"
+          fontWeight="600"
+          onClick={connect}
+          isLoading={connecting || fetching}
+          colorScheme="pink"
+          fontSize="1.25rem"
+        >
+          {showNote ? 'Connect Wallet' : 'Connect To Progress'}
+        </Button>
         {showNote && (
           <Tooltip label="Read Our Wiki" hasArrow>
             <Link isExternal href="//wiki.metagame.wtf" _hover={{}} w="100%">

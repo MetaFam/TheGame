@@ -37,7 +37,7 @@ export const PlayerStart: React.FC = () => {
   return (
     <FlexContainer my="auto">
       {canRedirect ? (
-        <LoadingState />
+        <LoadingState color="white" />
       ) : (
         <ConnectToProgress showNote showSwitchButton />
       )}
