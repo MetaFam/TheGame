@@ -3,6 +3,7 @@ import { Theme as ChakraTheme, theme as baseTheme } from '@chakra-ui/react';
 type ColorHues = typeof baseTheme.colors.red;
 
 export type MetaColors = ChakraTheme['colors'] & {
+  pink: ColorHues;
   offwhite: string;
   blue20: string;
   blueProfileSection: string;
@@ -94,6 +95,18 @@ export const colors: MetaColors = {
     700: '#230d74',
     800: '#150747',
     900: '#07021d',
+  },
+  pink: {
+    50: '#ffe5fc',
+    100: '#fbb8e8',
+    200: '#f48cd6',
+    300: '#ed5ec5',
+    400: '#e731b4',
+    500: '#ce189b',
+    600: '#a11078',
+    700: '#730857',
+    800: '#480335',
+    900: '#1d0015',
   },
   brightIdOrange: {
     50: '#ffffff',
