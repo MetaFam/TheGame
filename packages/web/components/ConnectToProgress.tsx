@@ -4,13 +4,10 @@ import {
   Flex,
   Image,
   Link,
-  ListItem,
   MetaHeading,
   MetaMaskIcon,
   Stack,
   Text,
-  Tooltip,
-  UnorderedList,
   useBoolean,
 } from '@metafam/ds';
 import LogoImage from 'assets/logo-new.png';
@@ -20,8 +17,8 @@ import { useUser, useWeb3 } from 'lib/hooks';
 import { MetaLink } from './Link';
 
 export const MetaGameLogo = () => (
-  <Flex justify="center">
-    <Image w="fit-content" h="4rem" src={LogoImage} />
+  <Flex justify="center" align="center">
+    <Image w="3.5rem" h="4rem" src={LogoImage} />
   </Flex>
 );
 
@@ -53,35 +50,32 @@ export const ConnectToProgress: React.FC<{
       <MetaGameLogo />
       <MetaHeading> Welcome to MetaGame! </MetaHeading>
       {showNote && (
-        <Stack spacing={6} align="center" w="100%">
-          <UnorderedList spacing={4} pl={2} pr={4} listStyleType="none">
-            <ListItem>
-              First things first, you should make yourself a profile.
-            </ListItem>
-            <ListItem>
-              From your profile, you will be able to show other MetaGamers & the
-              rest of the world what you are about, what you are working on as
-              well as a bunch of other things.
-            </ListItem>
-            <ListItem>
-              Unlike profiles in the Web2 world, MyMeta profiles are hosted on a
-              decentralized service. They are customizable, controlled & owned
-              only by you. Read more about MyMeta profiles{' '}
-              <Link
-                href="//wiki.metagame.wtf/docs/what-we-do/mymeta"
-                isExternal
-                color="pink.400"
-                textDecor="underline"
-                fontWeight="bold"
-              >
-                here
-              </Link>
-              .
-            </ListItem>
-          </UnorderedList>
+        <Stack spacing={4} align="flex-start" w="100%" px={1}>
+          <Text>First things first, you should make yourself a profile.</Text>
+          <Text>
+            From there, you'll be able to show the world what you're about, what
+            you're working on & more.
+          </Text>
+          <Text>
+            Unlike profiles in the Web2 world, MyMeta profiles reside on a
+            decentralized service; they are controlled & owned by you alone.
+          </Text>
+          <Text>
+            Read more about MyMeta profiles{' '}
+            <Link
+              href="//wiki.metagame.wtf/docs/what-we-do/mymeta"
+              isExternal
+              color="pink.400"
+              textDecor="underline"
+              fontWeight="bold"
+            >
+              here
+            </Link>
+            .
+          </Text>
         </Stack>
       )}
-      <Stack w="100%" spacing={4} pt={4}>
+      <Stack w="100%" spacing={4} pt={2}>
         {showNote && (
           <Text textAlign="center">
             Connect your wallet on Ethereum Mainnet to start
@@ -100,21 +94,19 @@ export const ConnectToProgress: React.FC<{
           {showNote ? 'Connect Wallet' : 'Connect To Progress'}
         </Button>
         {showNote && (
-          <Tooltip label="Read Our Wiki" hasArrow>
-            <Link isExternal href="//wiki.metagame.wtf" _hover={{}} w="100%">
-              <Button
-                w="100%"
-                size="lg"
-                fontSize="1.25rem"
-                fontWeight="600"
-                textTransform="uppercase"
-                colorScheme="blackAlpha"
-                color="whiteAlpha.700"
-              >
-                Explore First
-              </Button>
-            </Link>
-          </Tooltip>
+          <Link href="/dashboard" _hover={{}} w="100%">
+            <Button
+              w="100%"
+              size="lg"
+              fontSize="1.25rem"
+              fontWeight="600"
+              textTransform="uppercase"
+              colorScheme="blackAlpha"
+              color="whiteAlpha.700"
+            >
+              Explore First
+            </Button>
+          </Link>
         )}
       </Stack>
       {showNote && (
