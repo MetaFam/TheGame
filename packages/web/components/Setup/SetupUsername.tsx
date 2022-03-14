@@ -44,7 +44,7 @@ export const SetupUsername: React.FC = () => {
           <Flex justify="center" mt={5}>
             <Input
               background="dark"
-              placeholder="ᴜsᴇʀɴᴀᴍᴇ"
+              placeholder="USERNAME"
               w="auto"
               _focus={errored ? { borderColor: 'red' } : undefined}
               ref={(ref) => {
