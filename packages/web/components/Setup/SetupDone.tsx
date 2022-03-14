@@ -75,7 +75,7 @@ export const SetupDone: React.FC = () => {
               <MetaLink
                 textDecor="underline"
                 color="pink.400"
-                href="//https://metagame.substack.com/?utm_source=discover_search"
+                href="//metagame.substack.com/?utm_source=discover_search"
                 fontWeight="bold"
                 isExternal
               >
