@@ -63,7 +63,7 @@ export const JoinUs: React.FC = () => {
               opacity={onScreen ? 1 : 0}
               transition="transform 0.3s 0.1s ease-in-out, opacity 0.5s 1s ease-in"
             >
-              <StartButton text="Join us here" />
+              <StartButton text="Enter here" />
               <MetaLink
                 _hover={{}}
                 isExternal

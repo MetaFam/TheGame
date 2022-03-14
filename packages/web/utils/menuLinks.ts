@@ -118,13 +118,13 @@ export const MenuSectionLinks: MenuLinkSet[] = [
       //   icon: 'asketh',
       // },
       {
-        title: 'Meta Radio',
+        title: 'MetaRadio',
         explainerText: descriptions.metaradio,
         url: '/learn/metaradio',
         icon: 'metaradio',
       },
       {
-        title: 'Meta Media YouTube',
+        title: 'MetaMedia',
         explainerText: descriptions.youtube,
         url: 'https://www.youtube.com/metamedia',
         icon: 'youtube',

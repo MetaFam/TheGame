@@ -1,11 +1,11 @@
-import { Image, MetaButton, MetaHeading, Stack } from '@metafam/ds';
-import discord from 'assets/discord.svg';
-import { ConnectToProgress } from 'components/ConnectToProgress';
+import { ListItem, MetaHeading, Stack, Text, UnorderedList } from '@metafam/ds';
+import { ConnectToProgress, MetaGameLogo } from 'components/ConnectToProgress';
 import { FlexContainer } from 'components/Container';
 import { MetaLink } from 'components/Link';
 import { PlayerTile } from 'components/Player/PlayerTile';
 import { useUser, useWeb3 } from 'lib/hooks';
 import React from 'react';
+import { getPlayerURL } from 'utils/playerHelpers';
 
 export const SetupDone: React.FC = () => {
   const { user } = useUser();
@@ -21,59 +21,71 @@ export const SetupDone: React.FC = () => {
 
   return (
     <FlexContainer flex={1} mb={8}>
+      <MetaGameLogo />
       <MetaHeading mb={10}>Game On!</MetaHeading>
       <Stack
         direction={{ base: 'column', md: 'row' }}
+        spacing={8}
         justify="center"
         align="center"
       >
         {user && <PlayerTile player={user} />}
-        <Stack p={[5, 8]}>
-          <MetaButton
-            as="a"
-            href="//discord.gg/metagame"
-            target="_blank"
-            px={20}
-            py={8}
-            fontSize="xl"
-          >
-            <Image mr={3} boxSize={9} src={discord} />
-            Play
-          </MetaButton>
-          <MetaButton
-            as="a"
-            href="/dashboard"
-            px={20}
-            py={8}
-            mt={{
-              base: '0.5rem !important',
-              md: '2rem !important',
-            }}
-            fontSize="xl"
-          >
-            Explore
-          </MetaButton>
-          <MetaButton
-            as="a"
-            href="//my.metagame.wtf/players"
-            px={20}
-            py={8}
-            mt={{
-              base: '0.5rem !important',
-              md: '2rem !important',
-            }}
-            fontSize="xl"
-          >
-            Roster
-          </MetaButton>
-          <MetaLink
-            mt="3rem !important"
-            fontSize={25}
-            align="center"
-            href="//https://metagame.substack.com/?utm_source=discover_search"
-          >
-            Substack
-          </MetaLink>
+        <Stack spacing={4} p={4} maxW="25rem" fontSize="md" h="100%">
+          <Text fontSize="lg">Here's what you could do next:</Text>
+          <UnorderedList spacing={2} pl={4}>
+            <ListItem>
+              Check out{' '}
+              <MetaLink
+                textDecor="underline"
+                color="pink.400"
+                as={getPlayerURL(user)}
+                href="/player/[username]"
+                fontWeight="bold"
+              >
+                your profile
+              </MetaLink>
+              , further customize it & share it with friends.
+            </ListItem>
+            <ListItem>
+              Proceed to the{' '}
+              <MetaLink
+                textDecor="underline"
+                color="pink.400"
+                href="/dashboard"
+                fontWeight="bold"
+              >
+                dashboard
+              </MetaLink>{' '}
+              & explore the rest of the MetaOS v0.1.
+            </ListItem>
+            <ListItem>
+              Go to{' '}
+              <MetaLink
+                textDecor="underline"
+                fontWeight="bold"
+                color="pink.400"
+                href="//discord.gg/metagame"
+                isExternal
+              >
+                discord
+              </MetaLink>
+              , the main place where MetaGame is currently played.
+            </ListItem>
+            <ListItem>
+              <MetaLink
+                textDecor="underline"
+                color="pink.400"
+                href="//https://metagame.substack.com/?utm_source=discover_search"
+                fontWeight="bold"
+                isExternal
+              >
+                Subscribe
+              </MetaLink>{' '}
+              to our newsletter stay in the loop on the latest happenings,
+              content & features.
+            </ListItem>
+          </UnorderedList>
+          <Text> Wish you a great journey & see you around!</Text>
         </Stack>
       </Stack>
     </FlexContainer>
