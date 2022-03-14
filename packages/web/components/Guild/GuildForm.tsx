@@ -509,7 +509,6 @@ export const GuildForm: React.FC<Props> = ({
               <MetaButton
                 fontSize="xs"
                 bg="purple.300"
-                colorScheme="facebook"
                 isDisabled={fetchingMetadata}
                 onClick={loadGuildMetadata}
               >
