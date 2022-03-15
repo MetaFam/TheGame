@@ -117,6 +117,9 @@
       filter: {}
 - table:
     schema: public
+    name: QuestCategory
+- table:
+    schema: public
     name: QuestCompletionStatus
   is_enum: true
   array_relationships:
@@ -151,6 +154,9 @@
         table:
           schema: public
           name: quest
+- table:
+    schema: public
+    name: QuestSubcategory
 - table:
     schema: public
     name: SkillCategory

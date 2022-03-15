@@ -3263,6 +3263,19 @@ type mutation_root {
   delete_PlayerRole_by_pk(role: String!): PlayerRole
 
   """
+  delete data from the table: "QuestCategory"
+  """
+  delete_QuestCategory(
+    """filter the rows which have to be deleted"""
+    where: QuestCategory_bool_exp!
+  ): QuestCategory_mutation_response
+
+  """
+  delete single row from the table: "QuestCategory"
+  """
+  delete_QuestCategory_by_pk(name: String!): QuestCategory
+
+  """
   delete data from the table: "QuestCompletionStatus"
   """
   delete_QuestCompletionStatus(
@@ -3300,6 +3313,19 @@ type mutation_root {
   delete single row from the table: "QuestStatus"
   """
   delete_QuestStatus_by_pk(status: String!): QuestStatus
+
+  """
+  delete data from the table: "QuestSubcategory"
+  """
+  delete_QuestSubcategory(
+    """filter the rows which have to be deleted"""
+    where: QuestSubcategory_bool_exp!
+  ): QuestSubcategory_mutation_response
+
+  """
+  delete single row from the table: "QuestSubcategory"
+  """
+  delete_QuestSubcategory_by_pk(id: uuid!): QuestSubcategory
 
   """
   delete data from the table: "SkillCategory"
@@ -3681,6 +3707,28 @@ type mutation_root {
   ): PlayerRole
 
   """
+  insert data into the table: "QuestCategory"
+  """
+  insert_QuestCategory(
+    """the rows to be inserted"""
+    objects: [QuestCategory_insert_input!]!
+
+    """on conflict condition"""
+    on_conflict: QuestCategory_on_conflict
+  ): QuestCategory_mutation_response
+
+  """
+  insert a single row into the table: "QuestCategory"
+  """
+  insert_QuestCategory_one(
+    """the row to be inserted"""
+    object: QuestCategory_insert_input!
+
+    """on conflict condition"""
+    on_conflict: QuestCategory_on_conflict
+  ): QuestCategory
+
+  """
   insert data into the table: "QuestCompletionStatus"
   """
   insert_QuestCompletionStatus(
@@ -3745,6 +3793,28 @@ type mutation_root {
     """on conflict condition"""
     on_conflict: QuestStatus_on_conflict
   ): QuestStatus
+
+  """
+  insert data into the table: "QuestSubcategory"
+  """
+  insert_QuestSubcategory(
+    """the rows to be inserted"""
+    objects: [QuestSubcategory_insert_input!]!
+
+    """on conflict condition"""
+    on_conflict: QuestSubcategory_on_conflict
+  ): QuestSubcategory_mutation_response
+
+  """
+  insert a single row into the table: "QuestSubcategory"
+  """
+  insert_QuestSubcategory_one(
+    """the row to be inserted"""
+    object: QuestSubcategory_insert_input!
+
+    """on conflict condition"""
+    on_conflict: QuestSubcategory_on_conflict
+  ): QuestSubcategory
 
   """
   insert data into the table: "SkillCategory"
@@ -4111,7 +4181,7 @@ type mutation_root {
   """
   perform the action: "updateIDXProfile"
   """
-  updateIDXProfile(playerId: uuid): uuid!
+  updateIDXProfile(playerId: uuid): CacheProcessOutput
 
   """
   perform the action: "updateQuestCompletion"
@@ -4291,6 +4361,26 @@ type mutation_root {
   ): PlayerRole
 
   """
+  update data of the table: "QuestCategory"
+  """
+  update_QuestCategory(
+    """sets the columns of the filtered rows to the given values"""
+    _set: QuestCategory_set_input
+
+    """filter the rows which have to be updated"""
+    where: QuestCategory_bool_exp!
+  ): QuestCategory_mutation_response
+
+  """
+  update single row of the table: "QuestCategory"
+  """
+  update_QuestCategory_by_pk(
+    """sets the columns of the filtered rows to the given values"""
+    _set: QuestCategory_set_input
+    pk_columns: QuestCategory_pk_columns_input!
+  ): QuestCategory
+
+  """
   update data of the table: "QuestCompletionStatus"
   """
   update_QuestCompletionStatus(
@@ -4349,6 +4439,26 @@ type mutation_root {
     _set: QuestStatus_set_input
     pk_columns: QuestStatus_pk_columns_input!
   ): QuestStatus
+
+  """
+  update data of the table: "QuestSubcategory"
+  """
+  update_QuestSubcategory(
+    """sets the columns of the filtered rows to the given values"""
+    _set: QuestSubcategory_set_input
+
+    """filter the rows which have to be updated"""
+    where: QuestSubcategory_bool_exp!
+  ): QuestSubcategory_mutation_response
+
+  """
+  update single row of the table: "QuestSubcategory"
+  """
+  update_QuestSubcategory_by_pk(
+    """sets the columns of the filtered rows to the given values"""
+    _set: QuestSubcategory_set_input
+    pk_columns: QuestSubcategory_pk_columns_input!
+  ): QuestSubcategory
 
   """
   update data of the table: "SkillCategory"
@@ -7628,6 +7738,49 @@ type query_root {
   PlayerRole_by_pk(role: String!): PlayerRole
 
   """
+  fetch data from the table: "QuestCategory"
+  """
+  QuestCategory(
+    """distinct select on columns"""
+    distinct_on: [QuestCategory_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [QuestCategory_order_by!]
+
+    """filter the rows returned"""
+    where: QuestCategory_bool_exp
+  ): [QuestCategory!]!
+
+  """
+  fetch aggregated fields from the table: "QuestCategory"
+  """
+  QuestCategory_aggregate(
+    """distinct select on columns"""
+    distinct_on: [QuestCategory_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [QuestCategory_order_by!]
+
+    """filter the rows returned"""
+    where: QuestCategory_bool_exp
+  ): QuestCategory_aggregate!
+
+  """fetch data from the table: "QuestCategory" using primary key columns"""
+  QuestCategory_by_pk(name: String!): QuestCategory
+
+  """
   fetch data from the table: "QuestCompletionStatus"
   """
   QuestCompletionStatus(
@@ -7757,6 +7910,51 @@ type query_root {
 
   """fetch data from the table: "QuestStatus" using primary key columns"""
   QuestStatus_by_pk(status: String!): QuestStatus
+
+  """
+  fetch data from the table: "QuestSubcategory"
+  """
+  QuestSubcategory(
+    """distinct select on columns"""
+    distinct_on: [QuestSubcategory_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [QuestSubcategory_order_by!]
+
+    """filter the rows returned"""
+    where: QuestSubcategory_bool_exp
+  ): [QuestSubcategory!]!
+
+  """
+  fetch aggregated fields from the table: "QuestSubcategory"
+  """
+  QuestSubcategory_aggregate(
+    """distinct select on columns"""
+    distinct_on: [QuestSubcategory_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [QuestSubcategory_order_by!]
+
+    """filter the rows returned"""
+    where: QuestSubcategory_bool_exp
+  ): QuestSubcategory_aggregate!
+
+  """
+  fetch data from the table: "QuestSubcategory" using primary key columns
+  """
+  QuestSubcategory_by_pk(id: uuid!): QuestSubcategory
 
   """
   fetch data from the table: "SkillCategory"
@@ -8490,16 +8688,6 @@ type query_root {
 
   """fetch data from the table: "skill" using primary key columns"""
   skill_by_pk(id: uuid!): skill
-
-  """
-  retrieve the result of action: "updateIDXProfile"
-  """
-  updateIDXProfile(
-    """
-    id of the action: "updateIDXProfile"
-    """
-    id: uuid!
-  ): updateIDXProfile
 }
 
 """
@@ -8511,9 +8699,10 @@ type quest {
 
   """An object relationship"""
   QuestStatus: QuestStatus!
+  category: String
   cooldown: Int
   createdAt: timestamptz!
-  createdByPlayerId: uuid!
+  createdByPlayerId: uuid
   description: String
   externalLink: String
 
@@ -8523,7 +8712,7 @@ type quest {
   id: uuid!
 
   """An object relationship"""
-  player: player!
+  player: player
 
   """An array relationship"""
   quest_completions(
@@ -8634,6 +8823,7 @@ type quest {
   ): quest_skill_aggregate!
   repetition: QuestRepetition_enum!
   status: QuestStatus_enum!
+  subcategory_id: uuid
   title: String!
 }
 
@@ -8708,6 +8898,7 @@ input quest_bool_exp {
   _and: [quest_bool_exp]
   _not: quest_bool_exp
   _or: [quest_bool_exp]
+  category: String_comparison_exp
   cooldown: Int_comparison_exp
   createdAt: timestamptz_comparison_exp
   createdByPlayerId: uuid_comparison_exp
@@ -8722,6 +8913,7 @@ input quest_bool_exp {
   quest_skills: quest_skill_bool_exp
   repetition: QuestRepetition_enum_comparison_exp
   status: QuestStatus_enum_comparison_exp
+  subcategory_id: uuid_comparison_exp
   title: String_comparison_exp
 }
 
@@ -9010,6 +9202,7 @@ input type for inserting data into table "quest"
 input quest_insert_input {
   QuestRepetition: QuestRepetition_obj_rel_insert_input
   QuestStatus: QuestStatus_obj_rel_insert_input
+  category: String
   cooldown: Int
   createdAt: timestamptz
   createdByPlayerId: uuid
@@ -9024,11 +9217,13 @@ input quest_insert_input {
   quest_skills: quest_skill_arr_rel_insert_input
   repetition: QuestRepetition_enum
   status: QuestStatus_enum
+  subcategory_id: uuid
   title: String
 }
 
 """aggregate max on columns"""
 type quest_max_fields {
+  category: String
   cooldown: Int
   createdAt: timestamptz
   createdByPlayerId: uuid
@@ -9036,6 +9231,7 @@ type quest_max_fields {
   externalLink: String
   guildId: uuid
   id: uuid
+  subcategory_id: uuid
   title: String
 }
 
@@ -9043,6 +9239,7 @@ type quest_max_fields {
 order by max() on columns of table "quest"
 """
 input quest_max_order_by {
+  category: order_by
   cooldown: order_by
   createdAt: order_by
   createdByPlayerId: order_by
@@ -9050,11 +9247,13 @@ input quest_max_order_by {
   externalLink: order_by
   guildId: order_by
   id: order_by
+  subcategory_id: order_by
   title: order_by
 }
 
 """aggregate min on columns"""
 type quest_min_fields {
+  category: String
   cooldown: Int
   createdAt: timestamptz
   createdByPlayerId: uuid
@@ -9062,6 +9261,7 @@ type quest_min_fields {
   externalLink: String
   guildId: uuid
   id: uuid
+  subcategory_id: uuid
   title: String
 }
 
@@ -9069,6 +9269,7 @@ type quest_min_fields {
 order by min() on columns of table "quest"
 """
 input quest_min_order_by {
+  category: order_by
   cooldown: order_by
   createdAt: order_by
   createdByPlayerId: order_by
@@ -9076,6 +9277,7 @@ input quest_min_order_by {
   externalLink: order_by
   guildId: order_by
   id: order_by
+  subcategory_id: order_by
   title: order_by
 }
 
@@ -9113,6 +9315,7 @@ ordering options when selecting data from "quest"
 input quest_order_by {
   QuestRepetition: QuestRepetition_order_by
   QuestStatus: QuestStatus_order_by
+  category: order_by
   cooldown: order_by
   createdAt: order_by
   createdByPlayerId: order_by
@@ -9127,6 +9330,7 @@ input quest_order_by {
   quest_skills_aggregate: quest_skill_aggregate_order_by
   repetition: order_by
   status: order_by
+  subcategory_id: order_by
   title: order_by
 }
 
@@ -9458,6 +9662,9 @@ select columns of table "quest"
 """
 enum quest_select_column {
   """column name"""
+  category
+
+  """column name"""
   cooldown
 
   """column name"""
@@ -9485,6 +9692,9 @@ enum quest_select_column {
   status
 
   """column name"""
+  subcategory_id
+
+  """column name"""
   title
 }
 
@@ -9492,6 +9702,7 @@ enum quest_select_column {
 input type for updating data in table "quest"
 """
 input quest_set_input {
+  category: String
   cooldown: Int
   createdAt: timestamptz
   createdByPlayerId: uuid
@@ -9501,6 +9712,7 @@ input quest_set_input {
   id: uuid
   repetition: QuestRepetition_enum
   status: QuestStatus_enum
+  subcategory_id: uuid
   title: String
 }
 
@@ -9739,6 +9951,9 @@ update columns of table "quest"
 """
 enum quest_update_column {
   """column name"""
+  category
+
+  """column name"""
   cooldown
 
   """column name"""
@@ -9764,6 +9979,9 @@ enum quest_update_column {
 
   """column name"""
   status
+
+  """column name"""
+  subcategory_id
 
   """column name"""
   title
@@ -9803,6 +10021,176 @@ order by variance() on columns of table "quest"
 """
 input quest_variance_order_by {
   cooldown: order_by
+}
+
+"""
+columns and relationships of "QuestCategory"
+"""
+type QuestCategory {
+  description: String!
+  name: String!
+}
+
+"""
+aggregated selection of "QuestCategory"
+"""
+type QuestCategory_aggregate {
+  aggregate: QuestCategory_aggregate_fields
+  nodes: [QuestCategory!]!
+}
+
+"""
+aggregate fields of "QuestCategory"
+"""
+type QuestCategory_aggregate_fields {
+  count(columns: [QuestCategory_select_column!], distinct: Boolean): Int
+  max: QuestCategory_max_fields
+  min: QuestCategory_min_fields
+}
+
+"""
+order by aggregate values of table "QuestCategory"
+"""
+input QuestCategory_aggregate_order_by {
+  count: order_by
+  max: QuestCategory_max_order_by
+  min: QuestCategory_min_order_by
+}
+
+"""
+input type for inserting array relation for remote table "QuestCategory"
+"""
+input QuestCategory_arr_rel_insert_input {
+  data: [QuestCategory_insert_input!]!
+  on_conflict: QuestCategory_on_conflict
+}
+
+"""
+Boolean expression to filter rows from the table "QuestCategory". All fields are combined with a logical 'AND'.
+"""
+input QuestCategory_bool_exp {
+  _and: [QuestCategory_bool_exp]
+  _not: QuestCategory_bool_exp
+  _or: [QuestCategory_bool_exp]
+  description: String_comparison_exp
+  name: String_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "QuestCategory"
+"""
+enum QuestCategory_constraint {
+  """unique or primary key constraint"""
+  QuestCategory_pkey
+}
+
+"""
+input type for inserting data into table "QuestCategory"
+"""
+input QuestCategory_insert_input {
+  description: String
+  name: String
+}
+
+"""aggregate max on columns"""
+type QuestCategory_max_fields {
+  description: String
+  name: String
+}
+
+"""
+order by max() on columns of table "QuestCategory"
+"""
+input QuestCategory_max_order_by {
+  description: order_by
+  name: order_by
+}
+
+"""aggregate min on columns"""
+type QuestCategory_min_fields {
+  description: String
+  name: String
+}
+
+"""
+order by min() on columns of table "QuestCategory"
+"""
+input QuestCategory_min_order_by {
+  description: order_by
+  name: order_by
+}
+
+"""
+response of any mutation on the table "QuestCategory"
+"""
+type QuestCategory_mutation_response {
+  """number of affected rows by the mutation"""
+  affected_rows: Int!
+
+  """data of the affected rows by the mutation"""
+  returning: [QuestCategory!]!
+}
+
+"""
+input type for inserting object relation for remote table "QuestCategory"
+"""
+input QuestCategory_obj_rel_insert_input {
+  data: QuestCategory_insert_input!
+  on_conflict: QuestCategory_on_conflict
+}
+
+"""
+on conflict condition type for table "QuestCategory"
+"""
+input QuestCategory_on_conflict {
+  constraint: QuestCategory_constraint!
+  update_columns: [QuestCategory_update_column!]!
+  where: QuestCategory_bool_exp
+}
+
+"""
+ordering options when selecting data from "QuestCategory"
+"""
+input QuestCategory_order_by {
+  description: order_by
+  name: order_by
+}
+
+"""
+primary key columns input for table: "QuestCategory"
+"""
+input QuestCategory_pk_columns_input {
+  name: String!
+}
+
+"""
+select columns of table "QuestCategory"
+"""
+enum QuestCategory_select_column {
+  """column name"""
+  description
+
+  """column name"""
+  name
+}
+
+"""
+input type for updating data in table "QuestCategory"
+"""
+input QuestCategory_set_input {
+  description: String
+  name: String
+}
+
+"""
+update columns of table "QuestCategory"
+"""
+enum QuestCategory_update_column {
+  """column name"""
+  description
+
+  """column name"""
+  name
 }
 
 """
@@ -10443,6 +10831,209 @@ update columns of table "QuestStatus"
 enum QuestStatus_update_column {
   """column name"""
   status
+}
+
+"""
+columns and relationships of "QuestSubcategory"
+"""
+type QuestSubcategory {
+  category: String!
+  description: String
+  id: uuid!
+  name: String!
+}
+
+"""
+aggregated selection of "QuestSubcategory"
+"""
+type QuestSubcategory_aggregate {
+  aggregate: QuestSubcategory_aggregate_fields
+  nodes: [QuestSubcategory!]!
+}
+
+"""
+aggregate fields of "QuestSubcategory"
+"""
+type QuestSubcategory_aggregate_fields {
+  count(columns: [QuestSubcategory_select_column!], distinct: Boolean): Int
+  max: QuestSubcategory_max_fields
+  min: QuestSubcategory_min_fields
+}
+
+"""
+order by aggregate values of table "QuestSubcategory"
+"""
+input QuestSubcategory_aggregate_order_by {
+  count: order_by
+  max: QuestSubcategory_max_order_by
+  min: QuestSubcategory_min_order_by
+}
+
+"""
+input type for inserting array relation for remote table "QuestSubcategory"
+"""
+input QuestSubcategory_arr_rel_insert_input {
+  data: [QuestSubcategory_insert_input!]!
+  on_conflict: QuestSubcategory_on_conflict
+}
+
+"""
+Boolean expression to filter rows from the table "QuestSubcategory". All fields are combined with a logical 'AND'.
+"""
+input QuestSubcategory_bool_exp {
+  _and: [QuestSubcategory_bool_exp]
+  _not: QuestSubcategory_bool_exp
+  _or: [QuestSubcategory_bool_exp]
+  category: String_comparison_exp
+  description: String_comparison_exp
+  id: uuid_comparison_exp
+  name: String_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "QuestSubcategory"
+"""
+enum QuestSubcategory_constraint {
+  """unique or primary key constraint"""
+  QuestSubcategory_category_name_key
+
+  """unique or primary key constraint"""
+  QuestSubcategory_pkey
+}
+
+"""
+input type for inserting data into table "QuestSubcategory"
+"""
+input QuestSubcategory_insert_input {
+  category: String
+  description: String
+  id: uuid
+  name: String
+}
+
+"""aggregate max on columns"""
+type QuestSubcategory_max_fields {
+  category: String
+  description: String
+  id: uuid
+  name: String
+}
+
+"""
+order by max() on columns of table "QuestSubcategory"
+"""
+input QuestSubcategory_max_order_by {
+  category: order_by
+  description: order_by
+  id: order_by
+  name: order_by
+}
+
+"""aggregate min on columns"""
+type QuestSubcategory_min_fields {
+  category: String
+  description: String
+  id: uuid
+  name: String
+}
+
+"""
+order by min() on columns of table "QuestSubcategory"
+"""
+input QuestSubcategory_min_order_by {
+  category: order_by
+  description: order_by
+  id: order_by
+  name: order_by
+}
+
+"""
+response of any mutation on the table "QuestSubcategory"
+"""
+type QuestSubcategory_mutation_response {
+  """number of affected rows by the mutation"""
+  affected_rows: Int!
+
+  """data of the affected rows by the mutation"""
+  returning: [QuestSubcategory!]!
+}
+
+"""
+input type for inserting object relation for remote table "QuestSubcategory"
+"""
+input QuestSubcategory_obj_rel_insert_input {
+  data: QuestSubcategory_insert_input!
+  on_conflict: QuestSubcategory_on_conflict
+}
+
+"""
+on conflict condition type for table "QuestSubcategory"
+"""
+input QuestSubcategory_on_conflict {
+  constraint: QuestSubcategory_constraint!
+  update_columns: [QuestSubcategory_update_column!]!
+  where: QuestSubcategory_bool_exp
+}
+
+"""
+ordering options when selecting data from "QuestSubcategory"
+"""
+input QuestSubcategory_order_by {
+  category: order_by
+  description: order_by
+  id: order_by
+  name: order_by
+}
+
+"""
+primary key columns input for table: "QuestSubcategory"
+"""
+input QuestSubcategory_pk_columns_input {
+  id: uuid!
+}
+
+"""
+select columns of table "QuestSubcategory"
+"""
+enum QuestSubcategory_select_column {
+  """column name"""
+  category
+
+  """column name"""
+  description
+
+  """column name"""
+  id
+
+  """column name"""
+  name
+}
+
+"""
+input type for updating data in table "QuestSubcategory"
+"""
+input QuestSubcategory_set_input {
+  category: String
+  description: String
+  id: uuid
+  name: String
+}
+
+"""
+update columns of table "QuestSubcategory"
+"""
+enum QuestSubcategory_update_column {
+  """column name"""
+  category
+
+  """column name"""
+  description
+
+  """column name"""
+  id
+
+  """column name"""
+  name
 }
 
 type SaveGuildResponse {
@@ -11251,6 +11842,49 @@ type subscription_root {
   PlayerRole_by_pk(role: String!): PlayerRole
 
   """
+  fetch data from the table: "QuestCategory"
+  """
+  QuestCategory(
+    """distinct select on columns"""
+    distinct_on: [QuestCategory_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [QuestCategory_order_by!]
+
+    """filter the rows returned"""
+    where: QuestCategory_bool_exp
+  ): [QuestCategory!]!
+
+  """
+  fetch aggregated fields from the table: "QuestCategory"
+  """
+  QuestCategory_aggregate(
+    """distinct select on columns"""
+    distinct_on: [QuestCategory_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [QuestCategory_order_by!]
+
+    """filter the rows returned"""
+    where: QuestCategory_bool_exp
+  ): QuestCategory_aggregate!
+
+  """fetch data from the table: "QuestCategory" using primary key columns"""
+  QuestCategory_by_pk(name: String!): QuestCategory
+
+  """
   fetch data from the table: "QuestCompletionStatus"
   """
   QuestCompletionStatus(
@@ -11380,6 +12014,51 @@ type subscription_root {
 
   """fetch data from the table: "QuestStatus" using primary key columns"""
   QuestStatus_by_pk(status: String!): QuestStatus
+
+  """
+  fetch data from the table: "QuestSubcategory"
+  """
+  QuestSubcategory(
+    """distinct select on columns"""
+    distinct_on: [QuestSubcategory_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [QuestSubcategory_order_by!]
+
+    """filter the rows returned"""
+    where: QuestSubcategory_bool_exp
+  ): [QuestSubcategory!]!
+
+  """
+  fetch aggregated fields from the table: "QuestSubcategory"
+  """
+  QuestSubcategory_aggregate(
+    """distinct select on columns"""
+    distinct_on: [QuestSubcategory_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [QuestSubcategory_order_by!]
+
+    """filter the rows returned"""
+    where: QuestSubcategory_bool_exp
+  ): QuestSubcategory_aggregate!
+
+  """
+  fetch data from the table: "QuestSubcategory" using primary key columns
+  """
+  QuestSubcategory_by_pk(id: uuid!): QuestSubcategory
 
   """
   fetch data from the table: "SkillCategory"
@@ -12107,16 +12786,6 @@ type subscription_root {
 
   """fetch data from the table: "skill" using primary key columns"""
   skill_by_pk(id: uuid!): skill
-
-  """
-  retrieve the result of action: "updateIDXProfile"
-  """
-  updateIDXProfile(
-    """
-    id of the action: "updateIDXProfile"
-    """
-    id: uuid!
-  ): updateIDXProfile
 }
 
 scalar timestamptz
@@ -12140,23 +12809,6 @@ type TokenBalances {
   id: ID!
   pSeedBalance: String!
   seedBalance: String!
-}
-
-"""
-fields of action: "updateIDXProfile"
-"""
-type updateIDXProfile {
-  """the time at which this action was created"""
-  created_at: timestamptz
-
-  """errors related to the invocation"""
-  errors: json
-
-  """the unique id of an action"""
-  id: uuid
-
-  """the output fields of this action"""
-  output: CacheProcessOutput
 }
 
 type UpdateIDXProfileResponse {
