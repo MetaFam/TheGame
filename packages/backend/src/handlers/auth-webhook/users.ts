@@ -1,6 +1,6 @@
 import Bottleneck from 'bottleneck';
 
-import { queueRecache } from '../../lib/cacheHelper';
+import { cacheProfile } from '../../lib/cacheHelper';
 import { client } from '../../lib/hasuraClient';
 
 async function createPlayer(ethAddress: string, limiter: Bottleneck) {
@@ -15,7 +15,7 @@ async function createPlayer(ethAddress: string, limiter: Bottleneck) {
     );
   }
   const playerId = insert?.returning[0].player.id;
-  await queueRecache({ playerId, limiter, opts: { priority: 1 } });
+  await cacheProfile({ playerId, limiter, opts: { priority: 1 } });
 
   return { id: playerId };
 }
