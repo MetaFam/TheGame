@@ -5,23 +5,23 @@ import React from 'react';
 import { ProfileWizardPane } from './ProfileWizardPane';
 import { WizardPaneCallbackProps } from './WizardPane';
 
-export const SetupUsername: React.FC = () => {
+export const SetupName: React.FC = () => {
   const field = 'username';
 
   return (
     <ProfileWizardPane
       {...{ field }}
-      title="Username"
-      prompt="What name would you like to use in your MyMeta profile URL?"
+      title="Name"
+      prompt="Hey! What's your name? 🙃"
     >
       {({ register, dirty, errored }: WizardPaneCallbackProps) => {
         const { ref: registerRef, ...props } = register(field, {
           validate: async (value: string) => {
             if (/^0x[0-9a-z]{40}$/i.test(value)) {
-              return `Username “${value}” has the same format as an Ethereum address.`;
+              return `Name “${value}” has the same format as an Ethereum address.`;
             }
             if (dirty && (await getPlayer(value))) {
-              return `Username “${value}” is already in use.`;
+              return `Name “${value}” is already in use.`;
             }
             return true;
           },
@@ -44,7 +44,7 @@ export const SetupUsername: React.FC = () => {
           <Flex justify="center" mt={5}>
             <Input
               background="dark"
-              placeholder="USERNAME"
+              placeholder="NAME"
               w="auto"
               _focus={errored ? { borderColor: 'red' } : undefined}
               ref={(ref) => {

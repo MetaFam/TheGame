@@ -1,5 +1,5 @@
 import { BoxedNextImage, Flex, HStack } from '@metafam/ds';
-import MetaGameLogo from 'assets/logo-new.png';
+import MetaGameLogo from 'assets/logo.png';
 import { MetaLink } from 'components/Link';
 
 export const LandingFooter: React.FC = () => (

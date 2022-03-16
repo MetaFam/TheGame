@@ -899,6 +899,114 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
               </FormControl>
             </WrapItem>
           </Wrap>
+          <WrapItem flex={1} px={5}>
+            <FormControl isInvalid={errors.description}>
+              <Tooltip label={`${MAX_DESC_LEN} characters max.`}>
+                <Label htmlFor="description" userSelect="none">
+                  Description
+                  <Text as="sup" ml={2}>
+                    {remaining}
+                  </Text>
+                  ⁄<Text as="sub">{MAX_DESC_LEN}</Text>
+                  <InfoIcon ml={2} />
+                </Label>
+              </Tooltip>
+              <Textarea
+                placeholder="Describe yourself."
+                minW="min(18em, calc(100vw - 2rem))"
+                h="10em"
+                color="white"
+                bg="dark"
+                {...register('description', {
+                  maxLength: {
+                    value: 420,
+                    message: 'Maximum length is 420 characters.',
+                  },
+                })}
+              />
+              <FormErrorMessage>{errors.description?.message}</FormErrorMessage>
+            </FormControl>
+          </WrapItem>
+          <WrapItem flex={1} alignItems="center" px={5}>
+            <FormControl isInvalid={errors.name}>
+              <Tooltip label="Arbitrary letters, spaces, & punctuation. Max 150 characters.">
+                <Label htmlFor="name" userSelect="none">
+                  Display Name
+                  <InfoIcon ml={2} />
+                </Label>
+              </Tooltip>
+              <Input
+                placeholder="Imma User"
+                {...register('name', {
+                  maxLength: {
+                    value: 150,
+                    message: 'Maximum length is 150 characters.',
+                  },
+                })}
+              />
+              <Box minH="3em">
+                <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
+              </Box>
+            </FormControl>
+          </WrapItem>
+          <WrapItem flex={1} alignItems="center" px={5}>
+            <FormControl isInvalid={errors.username}>
+              <Tooltip label="Lowercase alpha, digits, dashes, & underscores only.">
+                <Label htmlFor="username" userSelect="none">
+                  Name
+                  <InfoIcon ml={2} />
+                </Label>
+              </Tooltip>
+              <Input
+                placeholder="i-am-a-user"
+                {...register('username', {
+                  validate: async (value) => {
+                    if (/0x[0-9a-z]{40}/i.test(value)) {
+                      return `Name "${value}" has the same format as an Ethereum address.`;
+                    }
+                    if (value !== username && (await getPlayer(value))) {
+                      return `Name "${value}" is already in use.`;
+                    }
+                    return true;
+                  },
+                  pattern: {
+                    value: /^[a-z0-9-_]+$/,
+                    message:
+                      'Only lowercase letters, digits, dashes, & underscores allowed.',
+                  },
+                  minLength: {
+                    value: 3,
+                    message: 'Must have at least three characters.',
+                  },
+                  maxLength: {
+                    value: 150,
+                    message: 'Maximum length is 150 characters.',
+                  },
+                })}
+              />
+              <Box minH="3em">
+                <FormErrorMessage>{errors.username?.message}</FormErrorMessage>
+              </Box>
+            </FormControl>
+          </WrapItem>
+          <WrapItem flex={1} alignItems="center" px={5}>
+            <FormControl isInvalid={errors.pronouns}>
+              <Label htmlFor="pronouns">Pronouns</Label>
+              <Input
+                id="pronouns"
+                placeholder="He, she, it, they, them, etc."
+                {...register('pronouns', {
+                  maxLength: {
+                    value: 150,
+                    message: 'Maximum length is 150 characters.',
+                  },
+                })}
+              />
+              <Box minH="3em">
+                <FormErrorMessage>{errors.pronouns?.message}</FormErrorMessage>
+              </Box>
+            </FormControl>
+          </WrapItem>
         </ModalBody>
         {/*
         <ProfileField title="working hours" placeholder="9am - 10pm" />
