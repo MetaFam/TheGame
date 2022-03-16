@@ -26,6 +26,11 @@ module.exports = withTM(
           permanent: false,
         },
         {
+          source: '/profile/setup/username',
+          destination: '/profile/setup/name',
+          permanent: false,
+        },
+        {
           source: '/join',
           destination: '/profile/setup',
           permanent: false,

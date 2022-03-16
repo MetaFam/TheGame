@@ -10,7 +10,7 @@ import {
   Text,
   useBoolean,
 } from '@metafam/ds';
-import LogoImage from 'assets/logo-new.png';
+import LogoImage from 'assets/logo.png';
 import { SwitchNetworkButton } from 'components/SwitchNetworkButton';
 import { useUser, useWeb3 } from 'lib/hooks';
 
@@ -91,7 +91,7 @@ export const ConnectToProgress: React.FC<{
           colorScheme="pink"
           fontSize="1.25rem"
         >
-          {showNote ? 'Connect Wallet' : 'Connect To Progress'}
+          {showNote ? 'Connect Wallet' : 'Connect to continue'}
         </Button>
         {showNote && (
           <Link href="/dashboard" _hover={{}} w="100%">

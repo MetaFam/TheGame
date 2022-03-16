@@ -14,7 +14,7 @@ import {
   useBreakpointValue,
   useDisclosure,
 } from '@metafam/ds';
-import LogoImage from 'assets/logo-new.png';
+import LogoImage from 'assets/logo.png';
 import { MetaLink } from 'components/Link';
 import { DesktopNavLinks } from 'components/MegaMenu/DesktopNavLinks';
 import { DesktopPlayerStats } from 'components/MegaMenu/DesktopPlayerStats';

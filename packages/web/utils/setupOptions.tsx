@@ -48,8 +48,8 @@ export class SetupOptions {
 
   steps: SetupStep[] = [
     {
-      label: 'Username',
-      slug: 'username',
+      label: 'Name',
+      slug: 'name',
       sectionIndex: 0,
     },
     {
@@ -134,6 +134,6 @@ export class SetupOptions {
       },
       0,
     );
-    return Math.floor((stepsCompletedInSection + 1) * 100.0) / stepsInSection;
+    return Math.floor(stepsCompletedInSection * 100.0) / stepsInSection;
   }
 }

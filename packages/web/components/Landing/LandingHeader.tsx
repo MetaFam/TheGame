@@ -8,7 +8,7 @@ import {
   Stack,
   VStack,
 } from '@metafam/ds';
-import MetaGameLogo from 'assets/logo-new.png';
+import MetaGameLogo from 'assets/logo.png';
 import { SetStateAction } from 'jotai';
 import { Dispatch, ReactNode, useState } from 'react';
 

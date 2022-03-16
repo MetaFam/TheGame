@@ -1,5 +1,5 @@
+import { SetupName } from 'components/Setup/SetupName';
 import { SetupProfile } from 'components/Setup/SetupProfile';
-import { SetupUsername } from 'components/Setup/SetupUsername';
 import { SetupContextProvider } from 'contexts/SetupContext';
 import { InferGetStaticPropsType } from 'next';
 import React from 'react';
@@ -15,7 +15,7 @@ export type DefaultSetupProps = InferGetStaticPropsType<typeof getStaticProps>;
 const UsernameSetup: React.FC<DefaultSetupProps> = () => (
   <SetupContextProvider>
     <SetupProfile>
-      <SetupUsername />
+      <SetupName />
     </SetupProfile>
   </SetupContextProvider>
 );
