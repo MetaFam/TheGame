@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   Flex,
   Image,
@@ -74,8 +75,10 @@ export const ColorButtons: React.FC<ColorButtonsProps> = ({
         return (
           <WrapItem key={bit}>
             <Button
-              p={4}
-              w={{ base: '100%', md: 'auto' }}
+              justifyContent="space-between"
+              w={{ base: '100%', md: 'sm' }}
+              py={4}
+              px={10}
               borderRadius="lg"
               cursor="pointer"
               height="auto"
@@ -105,29 +108,30 @@ export const ColorButtons: React.FC<ColorButtonsProps> = ({
               borderColor={selected ? 'purple.400' : 'transparent'}
               isDisabled={disabled}
             >
-              <Flex>
+              {/* <Flex > */}
+              <Box w="30%">
                 <Image
-                  w="100%"
-                  maxW={16}
+                  w={16}
                   h={16}
                   mr={2}
                   src={image}
                   alt={name}
                   filter="drop-shadow(0px 0px 3px black)"
                 />
-                <Stack>
-                  <Text color="white" casing="uppercase">
-                    {name}
-                  </Text>
-                  <Text
-                    color="blueLight"
-                    fontWeight="normal"
-                    whiteSpace="initial"
-                  >
-                    {description}
-                  </Text>
-                </Stack>
-              </Flex>
+              </Box>
+              <Stack w="70%">
+                <Text color="white" casing="uppercase">
+                  {name}
+                </Text>
+                <Text
+                  color="blueLight"
+                  fontWeight="normal"
+                  whiteSpace="initial"
+                >
+                  {description}
+                </Text>
+              </Stack>
+              {/* </Flex> */}
             </Button>
           </WrapItem>
         );
@@ -158,9 +162,14 @@ export const SetupColorDisposition: React.FC<MaybeModalProps> = ({
       title="Color Dis&#xAD;po&#xAD;sit&#xAD;ion"
       prompt={
         <Text textAlign="center" maxW="30rem">
-          Please select your personality components below. Not sure what type
-          you are?
-          <Text as="span"> Take </Text>
+          <Text as="span">Please select what defines you. </Text>
+          <MetaLink
+            href="//humanparts.medium.com/the-mtg-color-wheel-c9700a7cf36d"
+            isExternal
+          >
+            Wtf is this?
+          </MetaLink>
+          <Text as="span"> Not sure what type you are? Take </Text>
           <MetaLink
             href="//dysbulic.github.io/5-color-radar/#/explore/"
             isExternal

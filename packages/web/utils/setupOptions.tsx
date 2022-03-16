@@ -53,7 +53,7 @@ export class SetupOptions {
       sectionIndex: 0,
     },
     {
-      label: 'Color Disposition',
+      label: 'Personality Type',
       slug: 'colorDisposition',
       sectionIndex: 0,
     },

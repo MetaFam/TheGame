@@ -38,7 +38,7 @@ export const PlayerColorDisposition: React.FC<ColorDispositionProps> = ({
 
   return (
     <ProfileSection
-      title="Color Disposition"
+      title="Personality Type"
       type={BoxTypes.PLAYER_COLOR_DISPOSITION}
       withoutBG
       modalTitle={false}
