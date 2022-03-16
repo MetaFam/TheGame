@@ -44,10 +44,7 @@ export const SetupContextProvider: React.FC = ({ children }) => {
       setNextButtonLabel(currentStep.label);
     } else {
       const nextStep = options.steps[stepIndex + 1];
-      let nextStepLabel = nextStep.label;
-      if (options.isFinalStepOfSection(stepIndex)) {
-        nextStepLabel = options.sections[nextStep.sectionIndex].label;
-      }
+      const nextStepLabel = nextStep.label;
       setNextButtonLabel(`Next: ${nextStepLabel}`);
     }
   }, [options, stepIndex, setNextButtonLabel, currentStep]);
