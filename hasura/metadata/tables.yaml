@@ -118,6 +118,19 @@
 - table:
     schema: public
     name: QuestCategory
+  select_permissions:
+  - role: player
+    permission:
+      columns:
+      - description
+      - name
+      filter: {}
+  - role: public
+    permission:
+      columns:
+      - description
+      - name
+      filter: {}
 - table:
     schema: public
     name: QuestCompletionStatus
@@ -157,6 +170,23 @@
 - table:
     schema: public
     name: QuestSubcategory
+  select_permissions:
+  - role: player
+    permission:
+      columns:
+      - name
+      - description
+      - category
+      - id
+      filter: {}
+  - role: public
+    permission:
+      columns:
+      - category
+      - description
+      - name
+      - id
+      filter: {}
 - table:
     schema: public
     name: SkillCategory
@@ -871,43 +901,49 @@
   - role: player
     permission:
       columns:
-      - created_at
+      - category
       - cooldown
+      - created_at
+      - created_by_player_id
       - description
       - external_link
-      - repetition
-      - status
-      - title
-      - created_by_player_id
       - guild_id
       - id
+      - repetition
+      - status
+      - subcategory_id
+      - title
       filter: {}
       allow_aggregations: true
   - role: public
     permission:
       columns:
-      - id
+      - category
+      - cooldown
       - created_at
-      - guild_id
       - created_by_player_id
-      - title
       - description
       - external_link
-      - cooldown
-      - status
+      - guild_id
+      - id
       - repetition
+      - status
+      - subcategory_id
+      - title
       filter: {}
       allow_aggregations: true
   update_permissions:
   - role: player
     permission:
       columns:
+      - category
       - cooldown
       - description
       - external_link
       - guild_id
       - repetition
       - status
+      - subcategory_id
       - title
       filter:
         _and:
