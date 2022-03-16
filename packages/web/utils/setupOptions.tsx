@@ -45,6 +45,11 @@ export class SetupOptions {
       sectionIndex: 0,
     },
     {
+      label: 'Description',
+      slug: 'description',
+      sectionIndex: 0,
+    },
+    {
       label: 'Personality Type',
       slug: 'colorDisposition',
       sectionIndex: 0,
