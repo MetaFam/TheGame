@@ -83,11 +83,6 @@ export class SetupOptions {
       sectionIndex: 2,
     },
     {
-      label: 'Pronouns',
-      slug: 'pronouns',
-      sectionIndex: 2,
-    },
-    {
       label: 'Memberships',
       slug: 'memberships',
       sectionIndex: 2,
