@@ -1,7 +1,6 @@
 import {
   Box,
   Button,
-  Flex,
   Image,
   Input,
   Stack,
