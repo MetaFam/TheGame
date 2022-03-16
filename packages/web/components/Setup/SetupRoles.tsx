@@ -218,6 +218,7 @@ const RoleGroup: React.FC<RoleGroupProps> = ({
         mx="auto"
         maxW={['16rem', '17rem', '35rem', '35rem', '55rem', '72rem']}
         columns={[1, 1, 2, 2, 3, 4]}
+        gridAutoRows="1fr"
       >
         {roles.map((r) => {
           const choice = choices?.find(({ role }) => role === r);
@@ -326,7 +327,7 @@ const Role: React.FC<RoleProps> = ({
           />
         )}
         {selected && (
-          <Flex justifyContent={['end', 'space-between']} mt={[0, 4]} ml={2}>
+          <Flex justifyContent={['end', 'space-between']} mt={[0, 4]} w="100%">
             {numSelectedRoles != null &&
               numSelectedRoles > 1 &&
               (mobile ? (
@@ -338,8 +339,6 @@ const Role: React.FC<RoleProps> = ({
                   borderColor="purple.200"
                   size="xs"
                   whiteSpace="pre-wrap"
-                  mr={1}
-                  px={1}
                   onClick={() => onSelect?.(role, !primary)}
                 >
                   Make {primary ? 'Secondary' : 'Primary'}
