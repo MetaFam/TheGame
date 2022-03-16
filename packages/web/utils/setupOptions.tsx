@@ -36,14 +36,6 @@ export class SetupOptions {
         lg: '3. Player Profile',
       },
     },
-    {
-      label: 'Start Playing',
-      title: {
-        base: 'Play',
-        sm: '4. Play',
-        md: '4. Start Playing',
-      },
-    },
   ];
 
   steps: SetupStep[] = [
@@ -71,11 +63,6 @@ export class SetupOptions {
       label: 'Availability',
       slug: 'availability',
       sectionIndex: 1,
-    },
-    {
-      label: 'Player Type',
-      slug: 'playerType',
-      sectionIndex: 2,
     },
     {
       label: 'Roles',
