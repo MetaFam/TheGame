@@ -12,6 +12,7 @@ import { WhatWeDo } from 'components/Landing/WhatWeDo';
 import { Who } from 'components/Landing/Who';
 import { WildWeb } from 'components/Landing/WildWeb';
 import { MetaLink } from 'components/Link';
+import { HeadComponent } from 'components/Seo';
 import React, { useCallback, useEffect, useState } from 'react';
 
 export const getStaticProps = async () => ({
@@ -86,6 +87,7 @@ const Landing: React.FC = () => {
   useEffect(() => {
     scrollContainer?.addEventListener('scroll', handleScroll);
     document.addEventListener('keydown', handleKeyDown);
+    document.querySelector('body')?.classList.add('landing');
     return () => {
       scrollContainer?.removeEventListener('scroll', handleScroll);
       document.removeEventListener('keydown', handleKeyDown);
@@ -94,6 +96,12 @@ const Landing: React.FC = () => {
 
   return (
     <>
+      <HeadComponent
+        title="MetaGame"
+        description="To find your metagame means to play life in the optimal way. Coordinating with others on building a better world; doing things that create a a positive impact make you happy AND earn you money."
+        url="https://metagame.wtf"
+        img="https://metagame.wtf/_next/image?url=%2Fassets%2Fmanifesto.jpg&amp;w=1080&amp;q=75"
+      />
       <LandingHeader />
       <PageContainer p={0}>
         <Intro currentSection={section} /> {/* section 0 */}
