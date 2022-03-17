@@ -50,7 +50,7 @@ export const ConnectToProgress: React.FC<{
       <MetaGameLogo />
       <MetaHeading> Welcome to MetaGame! </MetaHeading>
       {showNote && (
-        <Stack spacing={4} align="flex-start" w="100%" px={1}>
+        <Stack spacing={4} align="flex-start" w="100%" px={2}>
           <Text>First things first, you should make yourself a profile.</Text>
           <Text>
             From there, you'll be able to show the world what you're about, what
@@ -128,8 +128,18 @@ export const ConnectToProgress: React.FC<{
               align="center"
             >
               <Text>
-                Your Ethereum Wallet is your digital ID and bank account. You
-                will need one to play the MetaGame.
+                With an{' '}
+                <MetaLink
+                  isExternal
+                  href="https://wiki.metagame.wtf/docs/great-houses/house-of-ethereum"
+                  color="pink.400"
+                  textDecor="underline"
+                >
+                  Ethereum
+                </MetaLink>{' '}
+                wallet you can be your own bank and control your digital assets
+                & ID. You will need one to play MetaGame as well as engage in
+                the wider ecosystem.
               </Text>
               <Text>
                 We recommend{' '}
@@ -137,6 +147,7 @@ export const ConnectToProgress: React.FC<{
                   isExternal
                   href="https://metamask.io/download"
                   color="pink.400"
+                  textDecor="underline"
                 >
                   <MetaMaskIcon /> MetaMask
                 </MetaLink>

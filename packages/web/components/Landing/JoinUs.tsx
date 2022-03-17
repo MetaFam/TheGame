@@ -9,7 +9,6 @@ import { BsArrowRight } from 'react-icons/bs';
 
 import { LandingFooter } from './LandingFooter';
 
-
 export const JoinUs: React.FC = () => {
   const ref = useRef<HTMLDivElement>(null);
   const onScreen = useOnScreen(ref);
@@ -65,12 +64,8 @@ export const JoinUs: React.FC = () => {
               opacity={onScreen ? 1 : 0}
               transition="transform 0.3s 0.1s ease-in-out, opacity 0.5s 1s ease-in"
             >
-              <StartButton text="Enter here" />
-              <MetaLink
-                _hover={{}}
-                isExternal
-                href="//wiki.metagame.wtf/docs/"
-              >
+              <StartButton text="Enter" />
+              <MetaLink _hover={{}} href="/dashboard">
                 <Button
                   colorScheme="white"
                   size="lg"
