@@ -8,7 +8,7 @@
     "start": "next start",
     "typecheck": "tsc",
     "precommit": "yarn lint-staged",
-    "generate": "graphql-codegen --config=codegen.yml",
+    "generate": "DEBUG=1 graphql-codegen --config=codegen.yml",
     "prepare": "yarn generate"
   },
   "dependencies": {
@@ -30,7 +30,7 @@
     "@types/react-grid-layout": "1.1.3",
     "@urql/exchange-retry": "0.2.1",
     "@walletconnect/web3-provider": "1.5.2",
-    "busboy": "0.3.1",
+    "busboy": "1.5.0",
     "cids": "1.1.9",
     "copy-to-clipboard": "3.3.1",
     "deep-equal": "2.0.5",
