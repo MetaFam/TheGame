@@ -45,7 +45,7 @@ export class SetupOptions {
       sectionIndex: 0,
     },
     {
-      label: 'Description',
+      label: 'Bio',
       slug: 'description',
       sectionIndex: 0,
     },

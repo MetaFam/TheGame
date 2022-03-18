@@ -6,7 +6,7 @@ import { ProfileWizardPane } from './ProfileWizardPane';
 import { WizardPaneCallbackProps } from './WizardPane';
 
 export const SetupName: React.FC = () => {
-  const field = 'username';
+  const field = 'name';
 
   return (
     <ProfileWizardPane

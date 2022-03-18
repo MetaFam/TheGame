@@ -10,7 +10,7 @@ export const SetupDescription: React.FC = () => {
   return (
     <ProfileWizardPane
       {...{ field }}
-      title="Description"
+      title="Bio"
       prompt="This is where you get to tell the world who you are! What interests you? What are you up to these days? What are your goals & aspirations?? Why are you here???"
     >
       {({ register, errored }: WizardPaneCallbackProps) => {
@@ -31,7 +31,6 @@ export const SetupDescription: React.FC = () => {
               _focus={errored ? { borderColor: 'red' } : undefined}
               bg="dark"
               ref={(ref) => {
-                console.log('ref', ref);
                 ref?.focus();
                 registerRef(ref);
               }}

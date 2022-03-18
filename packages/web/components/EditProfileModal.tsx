@@ -606,7 +606,7 @@ export const EditProfileForm: React.FC<ProfileEditorProps> = ({
           <FormControl isInvalid={errors.description}>
             <Tooltip label={`${MAX_DESC_LEN} characters max.`}>
               <Label htmlFor="description" userSelect="none">
-                Description
+                Bio
                 <Text as="sup" ml={2}>
                   {remaining}
                 </Text>
