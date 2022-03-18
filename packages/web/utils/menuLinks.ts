@@ -22,7 +22,7 @@ export const descriptions = {
     "MetaGame's podcasting network; plug knowledge straight into your ears",
   youtube:
     "MetaMedia is MetaGame's video hub, talks, workshops, memes & other shizzle",
-  welcome: 'New to MetaGame? This is the first thing you should dive deep into',
+  welcome: 'On your path to becoming a player? Go through here',
   thegreathouses:
     'The Great Houses are here to give people a meta view of different areas of interest',
   wiki: 'New to MetaGame? This is the first thing you should dive deep into',
