@@ -148,7 +148,7 @@ export const PlayerFilter: React.FC<Props> = ({
                 md: 'lg',
                 lg: 'xl',
               }}
-              placeholder="SEARCH PLAYERS BY NAME OR ETHEREUM ADDRESS"
+              placeholder="SEARCH PLAYERS BY USERNAME OR ETHEREUM ADDRESS"
               _placeholder={{ color: 'whiteAlpha.500' }}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
