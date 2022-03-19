@@ -80,8 +80,8 @@ export const LandingHeader: React.FC = () => {
               position: 'relative',
               flexDirection: 'column',
               justifyContent: 'space-around',
-              width: ['1.5rem', '1.5rem', '2rem'],
-              height: ['1.5rem', '1.5rem', '2rem'],
+              width: ['1.5rem', '1.5rem', '2.5rem'],
+              height: ['1.5rem', '1.5rem', '2.5rem'],
               background: 'transparent',
               border: 'none',
               cursor: 'pointer',
@@ -95,32 +95,15 @@ export const LandingHeader: React.FC = () => {
                 boxShadow: 'none',
               },
               div: {
-                width: ['1.5rem', '1.5rem', '2rem'],
+                width: ['1.5rem', '1.5rem', '2.5rem'],
                 // height: ['0.08rem', '0.1rem', '0.2rem'],
                 borderRadius: ['5px', '5px', '10px'],
                 transition: 'all 0.3s linear',
                 position: 'relative',
                 transformOrigin: '1px',
-                // opacity: toggle ? 0.7 : 0.8,
-                // '&:first-of-type': {
-                //   transform: toggle
-                //     ? 'rotate(45deg) translate3d(2px, -1px, 0)'
-                //     : 'rotate(0)',
-                // },
-                // '&:nth-of-type(2)': {
-                //   opacity: toggle ? '0' : '0.6',
-                //   transform: toggle
-                //     ? 'translate3d(-20px, 0, 0)'
-                //     : 'translate3d(0, 0, 0)',
-                // },
-                // '&:nth-of-type(3)': {
-                //   transform: toggle
-                //     ? 'rotate(-45deg) translate3d(-1px, -1px, 0)'
-                //     : 'rotate(0)',
-                // },
               },
               'path, circle': {
-                // fill: toggle ? 'landing600' : 'landing250',
+                fill: toggle ? 'landing600' : 'transparent',
                 transition: 'all 0.2s 0.2s ease',
               },
             }}
@@ -288,7 +271,7 @@ export const MenuIcon2SVG: React.FC = () => (
   <Box>
     <Box
       as="svg"
-      width={['1.5rem', '1.5rem', '2rem']}
+      width={['1.5rem', '1.5rem', '2.5rem']}
       left={0}
       bottom={0}
       top={0}

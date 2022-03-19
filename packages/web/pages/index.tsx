@@ -5,14 +5,11 @@ import { Game } from 'components/Landing/Game';
 import { Intro } from 'components/Landing/Intro';
 import { JoinUs } from 'components/Landing/JoinUs';
 import { LandingHeader } from 'components/Landing/LandingHeader';
-import { Optimal } from 'components/Landing/Optimal';
-import { Revolution } from 'components/Landing/Revolution';
-import { Together } from 'components/Landing/Together';
-import { WhatWeDo } from 'components/Landing/WhatWeDo';
-import { Who } from 'components/Landing/Who';
+import { WhatDo } from 'components/Landing/WhatDo';
 import { WildWeb } from 'components/Landing/WildWeb';
 import { MetaLink } from 'components/Link';
 import { HeadComponent } from 'components/Seo';
+import { useRouter } from 'next/router';
 import React, { useCallback, useEffect, useState } from 'react';
 import { FaDiscord, FaGithub, FaTwitter } from 'react-icons/fa';
 
@@ -93,7 +90,7 @@ const Landing: React.FC = () => {
       scrollContainer?.removeEventListener('scroll', handleScroll);
       document.removeEventListener('keydown', handleKeyDown);
     };
-  }, [handleScroll, handleKeyDown, scrollContainer]);
+  }, [handleScroll, handleKeyDown, scrollContainer, section]);
 
   return (
     <>
@@ -108,15 +105,11 @@ const Landing: React.FC = () => {
         <Intro currentSection={section} /> {/* section 0 */}
         <Game /> {/* section 1 */}
         <Build /> {/* section 2 */}
-        <Revolution /> {/* section 3 */}
-        <WildWeb /> {/* section 4 */}
-        <Together /> {/* section 5 */}
-        <WhatWeDo /> {/* section 6 */}
-        <Optimal /> {/* section 7 */}
-        <Who /> {/* section 8 */}
-        <JoinUs /> {/* section 9 */}
+        <WildWeb /> {/* section 3 */}
+        <WhatDo /> {/* section 4 */}
+        <JoinUs /> {/* section 5 */}
       </PageContainer>
-      <SectionWayPoints />
+      <SectionWayPoints currentWaypoint={section} />
       <Socials />
       <MetaLink
         position="fixed"
@@ -187,84 +180,122 @@ export const Socials: React.FC = () => (
   </VStack>
 );
 
-export const SectionWayPoints: React.FC = () => {
-  // const sections = 6
-  // const Waypoint = <MetaLink href="#">dot</MetaLink>
-  // const waypoints = []
-  const active = true;
-  const activeSection = '01';
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+export const SectionWayPoints = ({
+  currentWaypoint,
+}: {
+  currentWaypoint: number;
+}) => {
+  const { push } = useRouter();
+
+  const handleSectionNav = (sectionId: string) => {
+    push(`#${sectionId}`);
+  };
 
   return (
-    <VStack
+    <Box
       className="section-waypoints"
       position="fixed"
-      top="66%"
       left={5}
-      spacing={2}
       minW={5}
+      height="100vh"
+      minH="100vh"
       zIndex={400}
-      sx={{
-        button: {
-          background: 'transparent',
-          borderRadius: '50%',
-          width: '20px',
-          height: '20px',
-          minW: '20px',
-          maxH: '20px',
-          p: 0,
-          '& > span': {
-            border: `1px solid ${'transparent'}`,
-            borderRadius: '50%',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            width: '10px',
-            height: '10px',
-            maxW: '10px',
-            maxH: '10px',
-            p: '10px',
-            overflow: 'clip',
-            textIndent: '-9999rem',
-            '&::after': {
-              content: '""',
-              display: 'block',
-              background: 'white',
-              borderRadius: '50%',
-              width: '5px',
-              height: '5px',
-              minW: '5px',
-              minH: '5px',
-            },
-          },
-          '&.active': {
-            '& > span': {
-              border: `1px solid ${'white'}`,
-            },
-          },
-        },
-      }}
     >
-      <Box fontSize="xs" fontWeight={100}>
-        {activeSection}
+      <Box position="relative" display="flex" alignItems="center" height="100%">
+        <VStack
+          spacing={2}
+          minW={5}
+          zIndex={400}
+          sx={{
+            button: {
+              background: 'transparent',
+              borderRadius: '50%',
+              width: '20px',
+              height: '20px',
+              minW: '20px',
+              maxH: '20px',
+              p: 0,
+              '& > span': {
+                border: `1px solid rgba(255,255,255,0.0)`,
+                borderRadius: '50%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: '10px',
+                height: '10px',
+                maxW: '10px',
+                maxH: '10px',
+                p: '10px',
+                overflow: 'clip',
+                textIndent: '-9999rem',
+                transition: 'all 0.3s 0.2s ease-in-out',
+                '&::after': {
+                  content: '""',
+                  display: 'block',
+                  background: 'white',
+                  borderRadius: '50%',
+                  width: '5px',
+                  height: '5px',
+                  minW: '5px',
+                  minH: '5px',
+                },
+              },
+              '&.active': {
+                '& > span': {
+                  border: `1px solid  rgba(255,255,255,1)`,
+                },
+              },
+            },
+          }}
+        >
+          <Box fontSize="xs" fontWeight={200}>
+            {`0${currentWaypoint + 1}`}
+          </Box>
+          <Button
+            className={currentWaypoint === 0 ? 'active' : ''}
+            colorScheme="ghost"
+            onClick={() => handleSectionNav('start')}
+          >
+            <Text as="span">01</Text>
+          </Button>
+          <Button
+            className={currentWaypoint === 1 ? 'active' : ''}
+            colorScheme="ghost"
+            onClick={() => handleSectionNav('wtf-is-a-metagame')}
+          >
+            <Text as="span">02</Text>
+          </Button>
+          <Button
+            className={currentWaypoint === 2 ? 'active' : ''}
+            colorScheme="ghost"
+            onClick={() => handleSectionNav('build-the-future')}
+          >
+            <Text as="span">03</Text>
+          </Button>
+          <Button
+            className={currentWaypoint === 3 ? 'active' : ''}
+            colorScheme="ghost"
+            onClick={() => handleSectionNav('the-wild-web')}
+          >
+            <Text as="span">04</Text>
+          </Button>
+          <Button
+            className={currentWaypoint === 4 ? 'active' : ''}
+            colorScheme="ghost"
+            onClick={() => handleSectionNav('what-do')}
+          >
+            <Text as="span">05</Text>
+          </Button>
+          <Button
+            className={currentWaypoint === 5 ? 'active' : ''}
+            colorScheme="ghost"
+            onClick={() => handleSectionNav('join-us')}
+          >
+            <Text as="span">06</Text>
+          </Button>
+        </VStack>
       </Box>
-      <Button className={active && 'active'} colorScheme="ghost">
-        <Text as="span">01</Text>
-      </Button>
-      <Button colorScheme="ghost">
-        <Text as="span">02</Text>
-      </Button>
-      <Button colorScheme="ghost">
-        <Text as="span">03</Text>
-      </Button>
-      <Button colorScheme="ghost">
-        <Text as="span">04</Text>
-      </Button>
-      <Button colorScheme="ghost">
-        <Text as="span">05</Text>
-      </Button>
-      <Button colorScheme="ghost">
-        <Text as="span">06</Text>
-      </Button>
-    </VStack>
+    </Box>
   );
 };
