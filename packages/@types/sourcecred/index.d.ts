@@ -4,10 +4,24 @@ declare module 'sourcecred' {
   declare const sourcecred: {
     sourcecred: {
       api: {
+        analysis: {
+          analysis: any;
+        };
+        contributions: {
+          contributions: any;
+        };
+        credequate: {
+          credequate: any;
+        };
         credrank: {
           credrank: any;
         };
         grain: {
+          configureIntegrationCurrency: any;
+          configureIntegrationTracking: any;
+          configureLedger: any;
+          configureLedgerAccounting: any;
+          executeGrainIntegrationsFromGrainInput: any;
           grain: any;
         };
         graph: {
@@ -38,10 +52,12 @@ declare module 'sourcecred' {
         credGraph: {
           CredGraph: any;
           jsonParser: {
+            fmap: any;
             parse: any;
             parseOrThrow: any;
           };
           parser: {
+            fmap: any;
             parse: any;
             parseOrThrow: any;
           };
@@ -61,6 +77,7 @@ declare module 'sourcecred' {
             fromRaw: any;
             hasPrefix: any;
             parser: {
+              fmap: any;
               parse: any;
               parseOrThrow: any;
             };
@@ -77,6 +94,7 @@ declare module 'sourcecred' {
             fromRaw: any;
             hasPrefix: any;
             parser: {
+              fmap: any;
               parse: any;
               parseOrThrow: any;
             };
@@ -99,21 +117,81 @@ declare module 'sourcecred' {
         weights: {
           compareWeights: any;
           copy: any;
+          edgeWeightParser: {
+            fmap: any;
+            parse: any;
+            parseOrThrow: any;
+          };
           empty: any;
           fromJSON: any;
           merge: any;
           parser: {
+            fmap: any;
             parse: any;
             parseOrThrow: any;
           };
           toJSON: any;
         };
       };
+      credequate: {
+        config: {
+          configsByTargetParser: {
+            fmap: any;
+            parse: any;
+            parseOrThrow: any;
+          };
+          getEarliestStartForConfigs: any;
+          getOperator: any;
+        };
+        contribution: {
+          contributionParser: {
+            fmap: any;
+            parse: any;
+            parseOrThrow: any;
+          };
+          contributionsByTargetParser: {
+            fmap: any;
+            parse: any;
+            parseOrThrow: any;
+          };
+          expressionParser: {
+            fmap: any;
+            parse: any;
+            parseOrThrow: any;
+          };
+          weightOperandParser: {
+            fmap: any;
+            parse: any;
+            parseOrThrow: any;
+          };
+        };
+        operator: {
+          OPERATORS: string[];
+          OPERATOR_KEY_PREFIX: string;
+          applyOperator: any;
+          operatorKeyParser: {
+            fmap: any;
+            parse: any;
+            parseOrThrow: any;
+          };
+          operatorParser: {
+            fmap: any;
+            parse: any;
+            parseOrThrow: any;
+          };
+        };
+        scoredContribution: {
+          scoreContribution: any;
+          scoreContributions: any;
+        };
+      };
       instance: {
+        LocalInstance: any;
         readInstance: {
           ReadInstance: any;
           getNetworkReadInstance: any;
           getOriginReadInstance: any;
+          getRawGithubReadInstance: any;
         };
       };
       ledger: {
@@ -138,6 +216,7 @@ declare module 'sourcecred' {
           mul: any;
           multiplyFloat: any;
           parser: {
+            fmap: any;
             parse: any;
             parseOrThrow: any;
           };
@@ -145,29 +224,40 @@ declare module 'sourcecred' {
           sub: any;
           sum: any;
           toFloatRatio: any;
+          toFloatString: any;
         };
         identity: {
           IDENTITY_PREFIX: string;
           aliasParser: {
+            fmap: any;
             parse: any;
             parseOrThrow: any;
           };
           contractions: any;
+          delimitedIdentityIdParser: {
+            fmap: any;
+            parse: any;
+            parseOrThrow: any;
+          };
           graphNode: any;
           identityIdParser: {
+            fmap: any;
             parse: any;
             parseOrThrow: any;
           };
           identityParser: {
+            fmap: any;
             parse: any;
             parseOrThrow: any;
           };
           identityTypeParser: {
+            fmap: any;
             parse: any;
             parseOrThrow: any;
           };
           nameFromString: any;
           nameParser: {
+            fmap: any;
             parse: any;
             parseOrThrow: any;
           };
@@ -181,6 +271,7 @@ declare module 'sourcecred' {
         };
         storage: {
           GithubStorage: any;
+          WritableGithubStorage: any;
         };
         utils: {
           diffLedger: any;
@@ -193,7 +284,15 @@ declare module 'sourcecred' {
         };
       };
       plugins: {
+        ConstructorPlugin: any;
+        coerceNameFromString: any;
+        declarationParser: {
+          fmap: any;
+          parse: any;
+          parseOrThrow: any;
+        };
         discord: {
+          DiscordPlugin: any;
           declaration: {
             addsReactionEdgeType: {
               backwardName: string;
@@ -227,6 +326,11 @@ declare module 'sourcecred' {
                 forwardName: string;
                 prefix: string;
               }[];
+              keys: {
+                operatorKeys: string[];
+                shareKeys: string[];
+                weightKeys: string[];
+              };
               name: string;
               nodePrefix: string;
               nodeTypes: {
@@ -245,6 +349,16 @@ declare module 'sourcecred' {
               }[];
             };
             edgePrefix: string;
+            keys: {
+              AUTHOR: string;
+              CATEGORY: string;
+              CHANNEL: string;
+              EMOJI: string;
+              MENTION: string;
+              REACTIONS_ACROSS_PARTICIPANTS: string;
+              REACTIONS_OF_SINGLE_PARTICIPANT: string;
+              ROLE: string;
+            };
             memberNodeType: {
               defaultWeight: number;
               description: string;
@@ -306,6 +420,7 @@ declare module 'sourcecred' {
           };
         };
         discourse: {
+          DiscoursePlugin: any;
           address: {
             likeAddress: any;
             postAddress: any;
@@ -355,6 +470,11 @@ declare module 'sourcecred' {
                 forwardName: string;
                 prefix: string;
               }[];
+              keys: {
+                operatorKeys: any[];
+                shareKeys: any[];
+                weightKeys: any[];
+              };
               name: string;
               nodePrefix: string;
               nodeTypes: {
@@ -479,6 +599,11 @@ declare module 'sourcecred' {
             declaration: {
               edgePrefix: string;
               edgeTypes: any[];
+              keys: {
+                operatorKeys: any[];
+                shareKeys: any[];
+                weightKeys: any[];
+              };
               name: string;
               nodePrefix: string;
               nodeTypes: {
@@ -519,6 +644,7 @@ declare module 'sourcecred' {
           };
         };
         github: {
+          GithubPlugin: any;
           declaration: {
             declaration: {
               edgePrefix: string;
@@ -532,6 +658,11 @@ declare module 'sourcecred' {
                 forwardName: string;
                 prefix: string;
               }[];
+              keys: {
+                operatorKeys: any[];
+                shareKeys: any[];
+                weightKeys: any[];
+              };
               name: string;
               nodePrefix: string;
               nodeTypes: {
@@ -625,7 +756,13 @@ declare module 'sourcecred' {
             toRaw: any;
           };
         };
+        identityProposalsParser: {
+          fmap: any;
+          parse: any;
+          parseOrThrow: any;
+        };
         initiatives: {
+          InitiativesPlugin: any;
           declaration: {
             championsEdgeType: {
               backwardName: string;
@@ -676,6 +813,11 @@ declare module 'sourcecred' {
                 forwardName: string;
                 prefix: string;
               }[];
+              keys: {
+                operatorKeys: any[];
+                shareKeys: any[];
+                weightKeys: any[];
+              };
               name: string;
               nodePrefix: string;
               nodeTypes: {
