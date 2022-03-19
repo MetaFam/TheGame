@@ -6,7 +6,6 @@ import {
   Heading,
   Image,
   Stack,
-  SVG,
   Text,
 } from '@metafam/ds';
 // import { animated, config, useSpring } from '@react-spring/web';
@@ -54,9 +53,6 @@ export const Intro: React.FC<{ currentSection: number }> = ({
       id="start"
       bgImageUrl={BackgroundImage}
       backgroundPosition="top"
-      // backgroundSize="cover"
-      // backgroundBlendMode="screen"
-      // mixBlendMode="screen"
       spacing={{ base: 8, xl: 20 }}
       justify="flex-end"
     >
@@ -180,6 +176,7 @@ export const QuoteLayer = ({
     position="fixed"
     bottom={0}
     width="100vw"
+    // height={300}
     textAlign="center"
     onMouseEnter={handleScrollHover}
     onMouseLeave={handleScrollHover}
@@ -192,9 +189,9 @@ export const QuoteLayer = ({
       left={0}
       minW="100vw"
       height="100%"
-      pointerEvents="none"
       transition="transform 0.3s 0.3s ease-in-out"
       transform={`translate3d(0, ${showQuote ? -50 : 300}px, 0)`}
+      zIndex={0}
       sx={{
         img: {
           position: 'absolute',
@@ -226,8 +223,9 @@ export const QuoteLayer = ({
       maxW="4xl"
       opacity={showQuote ? 1 : 0}
       textAlign="left"
-      transition="transform 0.3s 0.2s ease-in-out, opacity 0.2s 0.4s ease-in"
+      transition="transform 0.3s 0.2s ease-in-out, opacity 0.3s 0.4s ease-in"
       transform={`translate3d(0, ${showQuote ? -50 : 300}px, 0)`}
+      zIndex={2}
       sx={{
         '&::before': {
           content: '""',

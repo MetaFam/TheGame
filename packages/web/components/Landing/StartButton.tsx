@@ -8,11 +8,12 @@ export const StartButton: React.FC<{ text: string }> = ({
 
   return (
     <Button
-      className="border-grad"
+      className="screen-esque"
+      background="landing150"
       colorScheme="white"
       rounded="md"
       size="lg"
-      minW="8rem"
+      minW="7rem"
       onClick={() => router.push('/start')}
     >
       <Text as="span">{text}</Text>

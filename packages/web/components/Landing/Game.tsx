@@ -1,5 +1,5 @@
 import { Box, Container, Text } from '@metafam/ds';
-import BackgroundImage from 'assets/landing/game-background.png';
+import BackgroundImage from 'assets/landing/sections/section-2.jpg';
 import { FullPageContainer } from 'components/Container';
 import { MetaLink } from 'components/Link';
 import { useOnScreen } from 'lib/hooks/useOnScreen';
@@ -20,7 +20,8 @@ export const Game: React.FC = () => {
     >
       <Container
         d="flex"
-        maxW={{ base: '100%', xl: '7xl', '2xl': '8xl' }}
+        maxW={{ base: '100%', xl: '7xl', '2xl': 'full' }}
+        px={14}
         height="100%"
         alignItems="center"
       >
@@ -29,9 +30,9 @@ export const Game: React.FC = () => {
           display="flex"
           flexDirection="column"
           justifyContent="center"
-          maxWidth={{ base: 'unset', md: 'lg', lg: 'xl', '2xl': '3xl' }}
-          fontSize={{ base: '1.5rem', '2xl': '2.375rem' }}
-          lineHeight={{ base: '2.35rem', '2xl': '3.5rem' }}
+          maxWidth={{ base: 'unset', md: 'lg', lg: 'xl', '2xl': 'xl' }}
+          fontSize={{ base: '1.5rem', '2xl': '2xl' }}
+          lineHeight={{ base: '2.35rem', '2xl': '2xl' }}
           pl={{ base: 0, md: 0 }}
           zIndex={100}
           transform={`translate3d(0, ${onScreen ? '0' : '50px'}, 0)`}
@@ -49,6 +50,7 @@ export const Game: React.FC = () => {
           <Text textAlign="right">
             - From{' '}
             <MetaLink
+              className="gradient"
               href="https://en.wikipedia.org/wiki/Metagaming"
               fontWeight="normal"
               textDecoration="none"

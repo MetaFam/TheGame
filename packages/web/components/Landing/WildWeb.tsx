@@ -1,5 +1,5 @@
 import { Box, Container, Text } from '@metafam/ds';
-import BackgroundImage from 'assets/landing/wildweb-background.png';
+import BackgroundImage from 'assets/landing/sections/section-4.jpg';
 import { FullPageContainer } from 'components/Container';
 import { useOnScreen } from 'lib/hooks/useOnScreen';
 import { useRef } from 'react';
@@ -19,19 +19,20 @@ export const WildWeb: React.FC = () => {
     >
       <Container
         d="flex"
-        maxW={{ base: '100%', md: '7xl', '2xl': '8xl' }}
-        h="100%"
+        maxW={{ base: '100%', md: '7xl', '2xl': 'full' }}
+        height="100%"
         alignItems="center"
-        justifyContent="center"
+        justifyContent="flex-start"
+        px={14}
       >
         <Box
           {...{ ref }}
           display="flex"
           flexDirection="column"
           justifyContent="center"
-          maxWidth={{ base: '95%', md: 'md', xl: '2xl', '2xl': '5xl' }}
-          fontSize={{ base: 'md', md: '3xl', '2xl': '6xl' }}
-          lineHeight={{ base: '1.5rem', md: '2.4rem', '2xl': '3.5rem' }}
+          maxWidth={{ base: '95%', md: 'md', xl: '2xl', '2xl': 'xl' }}
+          fontSize={{ base: 'md', md: '3xl', '2xl': '2xl' }}
+          lineHeight={{ base: '1.5rem', md: '2.4rem', '2xl': '2xl' }}
           fontWeight="normal"
           pl={0}
           zIndex={100}
@@ -39,14 +40,12 @@ export const WildWeb: React.FC = () => {
           opacity={onScreen ? 1 : 0}
           transition="transform 0.3s 0.1s ease-in-out, opacity 0.5s 0.2s ease-in"
         >
-          <Text pb={{ base: '1.188rem', '2xl': '2.188rem' }}>
-            Web3 technologies are allowing us to{' '}
-            <Text as="strong">reimagine socioeconomic systems</Text> from the
-            ground up.
-          </Text>
-          <Text pb={{ base: '1.188rem', '2xl': '2.188rem' }}>
-            A new world is being built, but it's{' '}
-            <Text as="strong">hard to navigate</Text>.
+          <Text
+            pb={{ base: '1.188rem', '2xl': '2.188rem' }}
+            fontSize={{ base: 'md', md: '3xl', '2xl': '4xl' }}
+          >
+            A new world is being built but it's{' '}
+            <Text as="strong">hard to navigate.</Text>
           </Text>
           <Text pb={{ base: '1.188rem', '2xl': '2.188rem' }}>
             The resources, building blocks, &amp; tools are all over the place{' '}
@@ -62,7 +61,7 @@ export const WildWeb: React.FC = () => {
           </Text>
         </Box>
       </Container>
-      <LandingNextButton py={8} right="35vw" section="human-coordination" />
+      <LandingNextButton section="join-us" />
     </FullPageContainer>
   );
 };
