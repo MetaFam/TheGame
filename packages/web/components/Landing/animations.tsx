@@ -54,7 +54,7 @@ const InnerWaveC = chakra('div', {
 });
 
 export const upDownAnimation = `${upDown} 10s ease-in-out infinite alternate`;
-
+export const upDownAnimationLong = `${upDown} 20s cubic-bezier(.29,.25,.38,.69) infinite alternate`;
 export const UpDown = styled.div`
   animation: ${upDownAnimation};
   animation-play-state: paused;
