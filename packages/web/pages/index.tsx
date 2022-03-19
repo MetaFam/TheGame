@@ -1,4 +1,4 @@
-import { Button } from '@metafam/ds';
+import { Box, Button, Text, VStack } from '@metafam/ds';
 import { PageContainer } from 'components/Container';
 import { Build } from 'components/Landing/Build';
 import { Game } from 'components/Landing/Game';
@@ -14,6 +14,7 @@ import { WildWeb } from 'components/Landing/WildWeb';
 import { MetaLink } from 'components/Link';
 import { HeadComponent } from 'components/Seo';
 import React, { useCallback, useEffect, useState } from 'react';
+import { FaDiscord, FaGithub, FaTwitter } from 'react-icons/fa';
 
 export const getStaticProps = async () => ({
   props: {
@@ -115,6 +116,8 @@ const Landing: React.FC = () => {
         <Who /> {/* section 8 */}
         <JoinUs /> {/* section 9 */}
       </PageContainer>
+      <SectionWayPoints />
+      <Socials />
       <MetaLink
         position="fixed"
         bottom={{ base: 0, md: 4 }}
@@ -137,3 +140,131 @@ const Landing: React.FC = () => {
   );
 };
 export default Landing;
+
+export const Socials: React.FC = () => (
+  <VStack
+    position="fixed"
+    top="33%"
+    right={5}
+    spacing={3}
+    minW={5}
+    zIndex={400}
+    flexFlow="column-reverse"
+    sx={{
+      opacity: 0.7,
+      transition: 'opacity 0.2s 0.2s ease',
+      '&:hover': {
+        opacity: 1,
+      },
+      a: {
+        color: 'white',
+        fontSize: '2xl',
+        transition: 'transform 0.2s ease',
+        '&:hover': {
+          transform: 'scale(1.1)',
+        },
+      },
+    }}
+  >
+    <Text
+      as="span"
+      sx={{
+        flex: 1,
+        transform: ' translateY(40px) rotate(-90deg)',
+      }}
+    >
+      Follow us
+    </Text>
+    <MetaLink href="https://twitter.com">
+      <FaGithub />
+    </MetaLink>
+    <MetaLink href="https://twitter.com">
+      <FaDiscord />
+    </MetaLink>
+    <MetaLink href="https://twitter.com">
+      <FaTwitter />
+    </MetaLink>
+  </VStack>
+);
+
+export const SectionWayPoints: React.FC = () => {
+  // const sections = 6
+  // const Waypoint = <MetaLink href="#">dot</MetaLink>
+  // const waypoints = []
+  const active = true;
+  const activeSection = '01';
+
+  return (
+    <VStack
+      className="section-waypoints"
+      position="fixed"
+      top="66%"
+      left={5}
+      spacing={2}
+      minW={5}
+      zIndex={400}
+      sx={{
+        button: {
+          background: 'transparent',
+          borderRadius: '50%',
+          width: '20px',
+          height: '20px',
+          minW: '20px',
+          maxH: '20px',
+          p: 0,
+          '& > span': {
+            border: `1px solid ${'transparent'}`,
+            borderRadius: '50%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: '10px',
+            height: '10px',
+            maxW: '10px',
+            maxH: '10px',
+            p: '10px',
+            overflow: 'clip',
+            textIndent: '-9999rem',
+            '&::after': {
+              content: '""',
+              display: 'block',
+              background: 'white',
+              borderRadius: '50%',
+              width: '5px',
+              height: '5px',
+              minW: '5px',
+              minH: '5px',
+            },
+          },
+          '&.active': {
+            '& > span': {
+              border: `1px solid ${'white'}`,
+            },
+          },
+        },
+      }}
+    >
+      <Box fontSize="xs" fontWeight={100}>
+        {activeSection}
+      </Box>
+      <Button className={active && 'active'} colorScheme="ghost">
+        <Text as="span">01</Text>
+      </Button>
+      <Button colorScheme="ghost">
+        <Text as="span">02</Text>
+      </Button>
+      <Button colorScheme="ghost">
+        <Text as="span">03</Text>
+      </Button>
+      <Button colorScheme="ghost">
+        <Text as="span">04</Text>
+      </Button>
+      <Button colorScheme="ghost">
+        <Text as="span">05</Text>
+      </Button>
+      <Button colorScheme="ghost">
+        <Text as="span">06</Text>
+      </Button>
+    </VStack>
+  );
+};
