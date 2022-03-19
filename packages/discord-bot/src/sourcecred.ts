@@ -2,7 +2,7 @@ import { LedgerManager, ReloadResult, sourcecred } from 'sourcecred';
 
 import { CONFIG } from './config';
 
-const storage = new sourcecred.ledger.storage.WritableGithubStorage({
+const storage = new sourcecred.ledger.storage.GithubStorage({
   apiToken: CONFIG.githubApiToken,
   repo: 'MetaFam/XP',
   branch: CONFIG.sourceCredLedgerBranch,
