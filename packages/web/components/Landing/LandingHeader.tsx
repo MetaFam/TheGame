@@ -9,6 +9,7 @@ import {
   VStack,
 } from '@metafam/ds';
 import MetaGameLogo from 'assets/logo.png';
+import { MetaLink } from 'components/Link';
 import { SetStateAction } from 'jotai';
 import { Dispatch, ReactNode, useState } from 'react';
 
@@ -47,11 +48,12 @@ export const LandingHeader: React.FC = () => {
             transition="opacity 0.3s 0.6s ease"
             // zIndex={toggle ? 600 : 0}
           >
-            <NavLink
+            <MetaLink
               key="link-home-logo"
-              target="start"
-              toggle={toggle}
-              setToggle={setToggle}
+              href="#start"
+              color="white"
+              // toggle={toggle}
+              // setToggle={setToggle}
             >
               <HStack
                 fontFamily="body"
@@ -69,7 +71,7 @@ export const LandingHeader: React.FC = () => {
                 />
                 <Box as="span">MetaGame</Box>
               </HStack>
-            </NavLink>
+            </MetaLink>
           </HStack>
 
           <Button

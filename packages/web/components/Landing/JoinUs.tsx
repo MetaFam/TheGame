@@ -118,7 +118,7 @@ export const JoinUs: React.FC = () => {
           maxW={{ base: '100%', md: '3xl' }}
           transform={`translate3d(0, ${onScreen ? '0' : '50px'}, 0)`}
           opacity={onScreen ? 1 : 0}
-          transition="transform 0.3s 1s ease-in-out, opacity 0.5s 1.1s ease-in"
+          transition="transform 0.3s 0.9s ease-in-out, opacity 0.5s 1.1s ease-in"
           sx={{
             svg: {
               color: 'landing500',
