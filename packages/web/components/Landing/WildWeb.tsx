@@ -32,9 +32,9 @@ export const WildWeb: React.FC = () => {
           display="flex"
           flexDirection="column"
           justifyContent="center"
-          maxWidth={{ base: '95%', md: 'md', xl: '2xl', '2xl': 'xl' }}
-          fontSize={{ base: 'lg', md: '3xl', '2xl': '2xl' }}
-          lineHeight={{ base: 'lg', md: '2.4rem', '2xl': '2xl' }}
+          maxWidth={{ base: '95%', md: 'md', '2xl': 'xl' }}
+          fontSize={{ base: 'lg', '2xl': '2xl' }}
+          lineHeight={{ base: 'lg', '2xl': '2xl' }}
           fontWeight="normal"
           pl={0}
           zIndex={100}
@@ -44,7 +44,7 @@ export const WildWeb: React.FC = () => {
         >
           <Text
             pb={{ base: '1.188rem', '2xl': '3xl' }}
-            fontSize={{ base: 'lg', md: '3xl', '2xl': '3xl' }}
+            fontSize={{ base: 'xl', '2xl': '3xl' }}
           >
             A new world is being built but it's{' '}
             <Text as="strong">hard to navigate.</Text>

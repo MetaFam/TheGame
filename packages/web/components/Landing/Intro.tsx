@@ -47,9 +47,9 @@ export const Intro: React.FC<{ currentSection: number }> = ({
   useEffect(() => {
     setTimeout(() => setOnScreen(currentSection === 0), 500);
 
-    if (showQuote) {
-      setTimeout(() => setShowQuote(!showQuote), 10000);
-    }
+    // if (showQuote) {
+    //   setTimeout(() => setShowQuote(!showQuote), 10000);
+    // }
   }, [currentSection, showQuote]);
 
   return (
@@ -74,7 +74,7 @@ export const Intro: React.FC<{ currentSection: number }> = ({
           align="flex-start"
           justify="center"
           spacing={0}
-          mt={{ base: 16, lg: 0 }}
+          mt={{ base: 16, lg: -10, '2xl': 0 }}
           pr={20}
           pb={10}
           direction={{ base: 'column', lg: 'column' }}

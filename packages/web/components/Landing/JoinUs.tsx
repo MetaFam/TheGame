@@ -41,7 +41,7 @@ export const JoinUs: React.FC = () => {
           textShadow="0 0 5px var(--chakra-colors-landing450)"
           flexDirection="column"
           justifyContent="center"
-          maxWidth={{ base: '66%', md: '2xl' }}
+          maxWidth={{ base: '66%', md: 'md', '2xl': '2xl' }}
           pl={{ base: 0, md: 0 }}
           textAlign="center"
           zIndex={1}
@@ -65,12 +65,13 @@ export const JoinUs: React.FC = () => {
         >
           <VStack flex={1}>
             <Text
-              fontSize={{ base: 'xl', md: '6xl' }}
-              lineHeight={{ base: 'xl', md: '6xl' }}
+              fontSize={{ base: 'xl', md: '3xl', '2xl': '4xl' }}
+              lineHeight={{ base: 'xl', md: '3xl', '2xl': '4xl' }}
               fontWeight="700"
               mb={{ base: 3, lg: 8 }}
             >
-              The revolution will be televized, but{' '}
+              The revolution will be televized, <br />
+              but{' '}
               <Text
                 as="span"
                 opacity={onScreen ? 1 : 0}
@@ -127,11 +128,11 @@ export const JoinUs: React.FC = () => {
           alignItems="center"
           justifyContent="space-between"
           position={{ base: 'fixed', lg: 'absolute' }}
-          bottom={0}
+          bottom={{ base: 0, xl: 5, '2xl': 0 }}
           height="75px"
           maxH="75px"
           width="100%"
-          maxW={{ base: '90%', md: '3xl' }}
+          maxW={{ base: '90%', md: 'md', '2xl': '2xl' }}
           transform={`translate3d(0, ${onScreen ? '0' : '50px'}, 0)`}
           opacity={onScreen ? 1 : 0}
           transition="transform 0.3s 2.1s ease-in-out, opacity 0.5s 2.3s ease-in"

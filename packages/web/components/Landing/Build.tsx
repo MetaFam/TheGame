@@ -32,16 +32,16 @@ export const Build: React.FC = () => {
           ref={ref}
           direction="column"
           justify="center"
-          fontSize={{ base: 'lg', lg: '2xl' }}
-          lineHeight={{ base: 'lg', lg: '2xl' }}
-          maxWidth={{ base: 'unset', md: 'md', lg: '2xl' }}
+          fontSize={{ base: 'lg', '2xl': '2xl' }}
+          lineHeight={{ base: 'lg', '2xl': '2xl' }}
+          maxWidth={{ base: 'unset', md: 'md', '2xl': '2xl' }}
           pl={0}
           zIndex={100}
           transform={`translate3d(0, ${onScreen ? 0 : '50px'}, 0)`}
           opacity={onScreen ? 1 : 0}
           transition="transform 0.3s 0.1s ease-in-out, opacity 0.5s 0.2s ease-in"
         >
-          <Text fontSize={{ base: 'xl', lg: '3xl' }}>
+          <Text fontSize={{ base: 'xl', '2xl': '3xl' }}>
             People are waking up to the{' '}
             <strong>world-shaping potential of Web3 technologies</strong>.
           </Text>
