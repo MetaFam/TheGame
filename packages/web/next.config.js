@@ -22,7 +22,7 @@ module.exports = withTM(
         },
         {
           source: '/profile/setup',
-          destination: '/profile/setup/username',
+          destination: '/profile/setup/name',
           permanent: false,
         },
         {

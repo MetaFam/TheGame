@@ -12,7 +12,7 @@ export const getStaticProps = async () => ({
 
 export type DefaultSetupProps = InferGetStaticPropsType<typeof getStaticProps>;
 
-const UsernameSetup: React.FC<DefaultSetupProps> = () => (
+const DescriptionSetup: React.FC<DefaultSetupProps> = () => (
   <SetupContextProvider>
     <SetupProfile>
       <SetupDescription />
@@ -20,4 +20,4 @@ const UsernameSetup: React.FC<DefaultSetupProps> = () => (
   </SetupContextProvider>
 );
 
-export default UsernameSetup;
+export default DescriptionSetup;

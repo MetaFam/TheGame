@@ -17,7 +17,7 @@ import {
 } from '@metafam/ds';
 import { Maybe } from '@metafam/utils';
 import BackgroundImage from 'assets/main-background.jpg';
-import { SetupColorDisposition } from 'components/Setup/SetupColorDisposition';
+import { SetupPersonalityType } from 'components/Setup/SetupPersonalityType';
 import { SetupPlayerType } from 'components/Setup/SetupPlayerType';
 import { SetupRoles } from 'components/Setup/SetupRoles';
 import { SetupSkills } from 'components/Setup/SetupSkills';
@@ -207,7 +207,7 @@ const EditSection = ({
       return <SetupPlayerType {...{ onClose, buttonLabel }} />;
     }
     case BoxTypes.PLAYER_COLOR_DISPOSITION: {
-      return <SetupColorDisposition {...{ onClose, buttonLabel }} />;
+      return <SetupPersonalityType {...{ onClose, buttonLabel }} />;
     }
     case BoxTypes.PLAYER_SKILLS: {
       return <SetupSkills {...{ onClose, buttonLabel }} />;

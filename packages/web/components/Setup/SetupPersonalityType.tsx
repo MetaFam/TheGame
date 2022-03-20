@@ -109,14 +109,7 @@ export const ColorButtons: React.FC<ColorButtonsProps> = ({
             >
               {/* <Flex > */}
               <Box w="30%">
-                <Image
-                  w={16}
-                  h={16}
-                  mr={2}
-                  src={image}
-                  alt={name}
-                  filter="drop-shadow(0px 0px 3px black)"
-                />
+                <Image w={16} h={16} mr={2} src={image} alt={name} />
               </Box>
               <Stack w="70%">
                 <Text color="white" casing="uppercase">
@@ -138,7 +131,7 @@ export const ColorButtons: React.FC<ColorButtonsProps> = ({
   </Wrap>
 );
 
-export const SetupColorDisposition: React.FC<MaybeModalProps> = ({
+export const SetupPersonalityType: React.FC<MaybeModalProps> = ({
   buttonLabel,
   onClose,
 }) => {
@@ -158,7 +151,7 @@ export const SetupColorDisposition: React.FC<MaybeModalProps> = ({
   return (
     <ProfileWizardPane
       {...{ field, buttonLabel, onClose }}
-      title="Color Dis&#xAD;po&#xAD;sit&#xAD;ion"
+      title="Personality Type"
       prompt={
         <Text textAlign="center" maxW="30rem">
           <Text as="span">Please select what defines you. </Text>

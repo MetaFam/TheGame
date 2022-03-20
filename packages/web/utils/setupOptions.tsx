@@ -51,7 +51,7 @@ export class SetupOptions {
     },
     {
       label: 'Personality Type',
-      slug: 'colorDisposition',
+      slug: 'personalityType',
       sectionIndex: 0,
     },
     {
@@ -72,11 +72,6 @@ export class SetupOptions {
     {
       label: 'Roles',
       slug: 'roles',
-      sectionIndex: 2,
-    },
-    {
-      label: 'Memberships',
-      slug: 'memberships',
       sectionIndex: 2,
     },
     {

@@ -1,10 +1,10 @@
 import { Flex, IconButton } from '@metafam/ds';
 import { PlayerAchievements } from 'components/Player/Section/PlayerAchievements';
-import { PlayerColorDisposition } from 'components/Player/Section/PlayerColorDisposition';
 import { PlayerCompletedQuests } from 'components/Player/Section/PlayerCompletedQuests';
 import { PlayerGallery } from 'components/Player/Section/PlayerGallery';
 import { PlayerHero } from 'components/Player/Section/PlayerHero';
 import { PlayerMemberships } from 'components/Player/Section/PlayerMemberships';
+import { PlayerPersonalityType } from 'components/Player/Section/PlayerPersonalityType';
 import { PlayerRoles } from 'components/Player/Section/PlayerRoles';
 import { PlayerSkills } from 'components/Player/Section/PlayerSkills';
 import { PlayerType } from 'components/Player/Section/PlayerType';
@@ -40,7 +40,7 @@ const PlayerSectionInner: React.FC<Props> = ({
     case BoxTypes.PLAYER_DAO_MEMBERSHIPS:
       return <PlayerMemberships {...{ player, isOwnProfile, editing }} />;
     case BoxTypes.PLAYER_COLOR_DISPOSITION:
-      return <PlayerColorDisposition {...{ player, editing }} />;
+      return <PlayerPersonalityType {...{ player, editing }} />;
     case BoxTypes.PLAYER_TYPE:
       return <PlayerType {...{ player, editing }} />;
     case BoxTypes.PLAYER_ROLES:
