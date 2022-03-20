@@ -8,7 +8,6 @@ import {
   InfoIcon,
   Input,
   SimpleGrid,
-  Spacer,
   Stack,
   Text,
   useBreakpointValue,
@@ -349,10 +348,7 @@ const Role: React.FC<RoleProps> = ({
                   textTransform="uppercase"
                   color="purple.200"
                   borderColor="purple.200"
-                  _hover={{
-                    borderColor: 'purple.900',
-                    bgColor: 'blackAlpha.300',
-                  }}
+                  _hover={{ color: 'white', bgColor: 'purple.200' }}
                   fontSize="sm"
                   borderWidth={2}
                   mr={3}
