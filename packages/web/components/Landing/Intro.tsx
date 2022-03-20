@@ -48,7 +48,7 @@ export const Intro: React.FC<{ currentSection: number }> = ({
     setTimeout(() => setOnScreen(currentSection === 0), 500);
 
     if (showQuote) {
-      setTimeout(() => setShowQuote(false), 10000);
+      setTimeout(() => setShowQuote(!showQuote), 10000);
     }
   }, [currentSection, showQuote]);
 
