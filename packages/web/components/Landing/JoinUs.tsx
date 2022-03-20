@@ -48,7 +48,7 @@ export const JoinUs: React.FC = () => {
           zIndex={1}
           transform={`translate3d(0, ${onScreen ? '0' : '50px'}, 0)`}
           opacity={onScreen ? 1 : 0}
-          transition="transform 0.3s 0.3s ease-in-out, opacity 0.5s 0.5s ease-in"
+          transition="transform 0.3s 0.5s ease-in-out, opacity 0.5s 0.7s ease-in"
           sx={{
             '.screen-esque': {
               background: 'landing150',
@@ -77,15 +77,29 @@ export const JoinUs: React.FC = () => {
               <Text
                 as="span"
                 opacity={onScreen ? 1 : 0}
-                transition="opacity 0.5s 0.6s ease-in"
+                transition="opacity 0.5s 0.9s ease-in"
               >
-                don’t just watch
+                don’t{' '}
+              </Text>
+              <Text
+                as="span"
+                opacity={onScreen ? 1 : 0}
+                transition="opacity 0.5s 1.2s ease-in"
+              >
+                just{' '}
+              </Text>
+              <Text
+                as="span"
+                opacity={onScreen ? 1 : 0}
+                transition="opacity 0.5s 1.5s ease-in"
+              >
+                watch.
               </Text>
               .
             </Text>
             <HStack
               opacity={onScreen ? 1 : 0}
-              transition="transform 0.3s 0.1s ease-in-out, opacity 0.5s 1s ease-in"
+              transition="transform 0.3s 1.8s ease-in-out, opacity 0.5s 2s ease-in"
             >
               <MetaLink _hover={{}} href="/dashboard">
                 <Button
@@ -118,7 +132,7 @@ export const JoinUs: React.FC = () => {
           maxW={{ base: '100%', md: '3xl' }}
           transform={`translate3d(0, ${onScreen ? '0' : '50px'}, 0)`}
           opacity={onScreen ? 1 : 0}
-          transition="transform 0.3s 0.9s ease-in-out, opacity 0.5s 1.1s ease-in"
+          transition="transform 0.3s 2.1s ease-in-out, opacity 0.5s 2.3s ease-in"
           sx={{
             svg: {
               color: 'landing500',

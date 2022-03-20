@@ -144,10 +144,10 @@ export const Socials: React.FC = () => (
     zIndex={400}
     flexFlow="column-reverse"
     sx={{
-      opacity: 0.7,
+      opacity: 0.3,
       transition: 'opacity 0.2s 0.2s ease',
       '&:hover': {
-        opacity: 1,
+        opacity: 0.8,
       },
       a: {
         color: 'white',
