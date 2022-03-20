@@ -98,7 +98,7 @@ const Landing: React.FC = () => {
         title="MetaGame: A Massive Online Coordination Game!"
         description="MetaGame is is any approach to a game that transcends or operates outside of the prescribed rules of the game, uses external factors to affect the game, or goes beyond the supposed limits or environment set by the game."
         url="https://metagame.wtf"
-        img="/landing-social.jpg"
+        img="/assets/landing-social.jpg"
       />
       <LandingHeader />
       <PageContainer p={0}>
