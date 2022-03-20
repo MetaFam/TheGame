@@ -206,7 +206,8 @@ const RoleGroup: React.FC<RoleGroupProps> = ({
           color={active ? 'cyan.500' : 'white'}
           fontWeight="bold"
           casing="uppercase"
-          my={2}
+          mt={2}
+          mb={4}
           fontSize={['xs', 'sm']}
         >
           {title}
@@ -216,7 +217,7 @@ const RoleGroup: React.FC<RoleGroupProps> = ({
       <SimpleGrid
         gap={[1.5, 5]}
         mx="auto"
-        maxW={['16rem', '17rem', '35rem', '35rem', '55rem', '72rem']}
+        maxW={['16rem', '17rem', '35rem', '45rem', '65rem', '90rem']}
         columns={[1, 1, 2, 2, 3, 4]}
         gridAutoRows="1fr"
       >
@@ -272,48 +273,46 @@ const Role: React.FC<RoleProps> = ({
 
   return (
     <Box
-      py={{ base: selected ? 1.5 : 2, lg: 6 }}
-      bgColor="purpleBoxLight"
+      py={{ base: selected ? 1.5 : 2, lg: 4 }}
+      px={[selected ? 1.5 : 3, 5]}
+      bgColor="purpleBoxDark"
       borderRadius="0.5rem"
-      _hover={!selected ? { bgColor: 'purpleBoxDark' } : undefined}
+      _hover={!selected ? { bgColor: 'purpleBoxLight' } : undefined}
       cursor={!selected ? 'pointer' : 'default'}
       transition="background 0.25s"
-      border="2px"
+      border="1px"
       borderColor="purple.400"
-      px={[selected ? 1.5 : 3, 4]}
       h={selected ? 'auto' : '100%'}
       w="full"
       {...{ onClick }}
     >
-      <Flex h="100%" direction={['row', 'column']} align="center">
-        <BoxedNextImage
-          src={`/assets/roles/${role.role.toLowerCase()}.svg`}
-          alt={role.label}
-          h={[6, 14]}
-          minW={[selected ? 4 : 6, 14]}
-          mr={2}
-        />
-        <Text
-          color="white"
-          fontWeight="bold"
-          casing="uppercase"
-          my={[0, 2]}
-          letterSpacing="tight"
-          onClick={(evt) => {
-            if (selected) {
-              evt.stopPropagation();
-              setShowDetails((show) => !show);
-            }
-          }}
-        >
-          {role.label}
-        </Text>
-        {!mobile && (
-          <Text color="white" textAlign="justify">
-            {role.description}
+      <Flex h="100%" direction={['row', 'column']}>
+        <Flex mb={2} alignItems="center">
+          <BoxedNextImage
+            src={`/assets/roles/${role.role.toLowerCase()}.svg`}
+            alt={role.label}
+            h={5}
+            w={5}
+            // minW={[selected ? 4 : 6, 14]}
+            mr={3}
+          />
+          <Text
+            color="white"
+            fontWeight={600}
+            fontSize={{ base: 'sm', md: 'xl' }}
+            casing="uppercase"
+            onClick={(evt) => {
+              if (selected) {
+                evt.stopPropagation();
+                setShowDetails((show) => !show);
+              }
+            }}
+          >
+            {role.label}
           </Text>
-        )}
-        <Spacer direction="column" />
+        </Flex>
+        {!mobile && <Text color="white">{role.description}</Text>}
+        {/* <Spacer direction="column" /> */}
         {mobile && (numSelectedRoles == null || numSelectedRoles <= 1) && (
           <InfoIcon
             ml={1}
