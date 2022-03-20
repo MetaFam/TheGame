@@ -31,7 +31,7 @@ export const Game: React.FC = () => {
           display="flex"
           flexDirection="column"
           justifyContent="center"
-          maxWidth={{ base: 'unset', md: 'lg', lg: 'xl', '2xl': 'xl' }}
+          maxWidth={{ base: 'unset', md: 'sm', '2xl': 'xl' }}
           fontSize={{ base: 'lg', '2xl': '2xl' }}
           lineHeight={{ base: 'lg', '2xl': '2xl' }}
           pl={{ base: 0, md: 0 }}

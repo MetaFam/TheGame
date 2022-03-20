@@ -26,7 +26,7 @@ export const LandingHeader: React.FC = () => {
         textAlign="center"
         px={{ base: 1, lg: 14 }}
         w="100%"
-        top={{ base: 5, lg: 10 }}
+        top={{ base: 5, '2xl': 10 }}
         left={0}
         zIndex={300}
       >
