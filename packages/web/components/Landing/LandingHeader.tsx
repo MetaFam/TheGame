@@ -165,39 +165,18 @@ export const LandingHeader: React.FC = () => {
               3. Build the future!
             </NavLink>
             <NavLink
-              target="a-revolution"
-              toggle={toggle}
-              setToggle={setToggle}
-            >
-              4. A revolution!?
-            </NavLink>
-            <NavLink
               target="the-wild-web"
               toggle={toggle}
               setToggle={setToggle}
             >
-              5. The Wild Web
+              4. The Wild Web
             </NavLink>
-          </VStack>
-          <VStack spacing={4} alignItems="flex-start">
-            <NavLink
-              target="human-coordination"
-              toggle={toggle}
-              setToggle={setToggle}
-            >
-              6. Human Coordination
+            <NavLink target="what-do" toggle={toggle} setToggle={setToggle}>
+              5. What do?
             </NavLink>
-            <NavLink target="what-we-do" toggle={toggle} setToggle={setToggle}>
-              7. Wot do ser?
-            </NavLink>
-            <NavLink target="play-life" toggle={toggle} setToggle={setToggle}>
-              8. Play Life
-            </NavLink>
-            <NavLink target="for-who" toggle={toggle} setToggle={setToggle}>
-              9. For who?
-            </NavLink>
+
             <NavLink target="join-us" toggle={toggle} setToggle={setToggle}>
-              10. Join us!
+              6. Join us!
             </NavLink>
           </VStack>
         </Stack>
