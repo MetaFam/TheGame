@@ -9,7 +9,7 @@
     "start": "node ./dist/start.js",
     "build": "yarn generate && tsc -b",
     "dev": "concurrently \"yarn dev-ts\" \"yarn generate --watch\"",
-    "dev-ts": "ts-node-dev --exit-child --respawn -- src/start.ts",
+    "dev-ts": "ts-node-dev --exit-child --inspect=4321 --respawn -- src/start.ts",
     "typecheck": "yarn build",
     "precommit": "yarn lint-staged",
     "generate": "graphql-codegen --config=codegen.yml",
@@ -31,7 +31,7 @@
     "graphql-request": "3.4.0",
     "graphql-tag": "2.12.4",
     "node-fetch": "2.6.1",
-    "sourcecred": "0.9.0"
+    "sourcecred": "0.11"
   },
   "devDependencies": {
     "concurrently": "6.1.0",

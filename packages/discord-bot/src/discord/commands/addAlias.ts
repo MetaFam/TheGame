@@ -84,7 +84,7 @@ export class AddAlias {
       // Fail if no account exists yet for this discord user
       if (!existingIdentity) {
         await message.reply(
-          'Could not find an identity linked to your user. Please use the !setAddress command first.',
+          'Could not find an identity linked to your user. Please use the !mg setAddress command first.',
         );
         return;
       }

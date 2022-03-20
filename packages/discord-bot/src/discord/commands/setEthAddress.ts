@@ -66,7 +66,7 @@ export abstract class SetEthAddress {
       await message.reply(
         `You already have linked the following ETH Address: \`${latestEthAlias.description}\`. Are you sure you want to update it? Warning: This cannot be undone and you will have to recreate your MyMeta profile!
 
-To force update your address, type \`!setAddress ${ethAddress} force\`.
+To force update your address, type \`!mg setAddress ${ethAddress} force\`.
         `,
       );
       return;
