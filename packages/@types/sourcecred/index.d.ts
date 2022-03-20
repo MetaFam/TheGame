@@ -12,6 +12,7 @@ declare module 'sourcecred' {
         };
         credequate: {
           credequate: any;
+          dependencies: any;
         };
         credrank: {
           credrank: any;
@@ -142,6 +143,11 @@ declare module 'sourcecred' {
           };
           getEarliestStartForConfigs: any;
           getOperator: any;
+          rawConfigsByTargetParser: {
+            fmap: any;
+            parse: any;
+            parseOrThrow: any;
+          };
         };
         contribution: {
           contributionParser: {
@@ -181,6 +187,8 @@ declare module 'sourcecred' {
           };
         };
         scoredContribution: {
+          expressionHasSubkey: any;
+          findContributionsBySubkey: any;
           scoreContribution: any;
           scoreContributions: any;
         };
@@ -192,6 +200,11 @@ declare module 'sourcecred' {
           getNetworkReadInstance: any;
           getOriginReadInstance: any;
           getRawGithubReadInstance: any;
+        };
+        writeInstance: {
+          WriteInstance: any;
+          getGithubWriteInstance: any;
+          getOriginWriteInstance: any;
         };
       };
       ledger: {
@@ -646,6 +659,15 @@ declare module 'sourcecred' {
         github: {
           GithubPlugin: any;
           declaration: {
+            KEYS: {
+              COMMIT_AUTHOR: string;
+              PULL: string;
+              PULL_AUTHOR: string;
+              REACTION: string;
+              REACTIONS_OPERATOR: string;
+              REVIEW: string;
+              REVIEW_AUTHOR: string;
+            };
             declaration: {
               edgePrefix: string;
               edgeTypes: {
@@ -659,9 +681,9 @@ declare module 'sourcecred' {
                 prefix: string;
               }[];
               keys: {
-                operatorKeys: any[];
-                shareKeys: any[];
-                weightKeys: any[];
+                operatorKeys: string[];
+                shareKeys: string[];
+                weightKeys: string[];
               };
               name: string;
               nodePrefix: string;

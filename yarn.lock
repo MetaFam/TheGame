@@ -22338,10 +22338,10 @@ source-map@^0.6.0, source-map@^0.6.1, source-map@~0.6.1:
   resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.6.1.tgz#74722af32e9614e9c287a8d0bbde48b5e2f1a263"
   integrity sha512-UjgapumWlbMhkBgzT7Ykc5YXUT46F0iKu8SGXq0bcwP5dz/h0Plj6enJqjz1Zbq2l5WaqYnrVbwWOWMyF3F47g==
 
-sourcecred@0.10.3:
-  version "0.10.3"
-  resolved "https://registry.yarnpkg.com/sourcecred/-/sourcecred-0.10.3.tgz#dfd7ef087d204b2aa84a42e9cb029e44cf9ad790"
-  integrity sha512-ZdTKw9piR/viyQYlTdPCr2/pgBv3zb/VkJUaOtFfh5Sy4d7KNb+jihoDYBSoBqagnEtkjFicF2GQMPrXOGv6Yw==
+sourcecred@0.11:
+  version "0.11.0"
+  resolved "https://registry.yarnpkg.com/sourcecred/-/sourcecred-0.11.0.tgz#700c21098981c84d629b24fee5be8daaa096135c"
+  integrity sha512-K5DkdniVlFqLSLFJtSf3vsmTaZLyZ5yVvtAScCfvfPeog1gNfUm2Ns5ZiYBruLcBBy9VV+ZFMnEChVlAliLQlg==
   dependencies:
     "@aws-sdk/util-base64-browser" "^3.37.0"
     "@date-io/date-fns" "1.3.11"
