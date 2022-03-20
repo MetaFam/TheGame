@@ -95,10 +95,10 @@ const Landing: React.FC = () => {
   return (
     <>
       <HeadComponent
-        title="MetaGame"
-        description="To find your metagame means to play life in the optimal way. Coordinating with others on building a better world; doing things that create a a positive impact make you happy AND earn you money."
+        title="MetaGame: A Massive Online Coordination Game!"
+        description="MetaGame is is any approach to a game that transcends or operates outside of the prescribed rules of the game, uses external factors to affect the game, or goes beyond the supposed limits or environment set by the game."
         url="https://metagame.wtf"
-        img="https://metagame.wtf/_next/image?url=%2Fassets%2Fmanifesto.jpg&amp;w=1080&amp;q=75"
+        img="/landing-social.jpg"
       />
       <LandingHeader />
       <PageContainer p={0}>
