@@ -168,13 +168,13 @@ export const Socials: React.FC = () => (
     >
       Follow us
     </Text>
-    <MetaLink href="https://twitter.com">
+    <MetaLink href="https://github.com/metafam" isExternal>
       <FaGithub />
     </MetaLink>
-    <MetaLink href="https://twitter.com">
+    <MetaLink href="https://discord.com/invite/metagame" isExternal>
       <FaDiscord />
     </MetaLink>
-    <MetaLink href="https://twitter.com">
+    <MetaLink href="https://twitter.com/metafam" isExternal>
       <FaTwitter />
     </MetaLink>
   </VStack>

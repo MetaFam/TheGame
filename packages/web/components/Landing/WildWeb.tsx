@@ -41,8 +41,8 @@ export const WildWeb: React.FC = () => {
           transition="transform 0.3s 0.1s ease-in-out, opacity 0.5s 0.2s ease-in"
         >
           <Text
-            pb={{ base: '1.188rem', '2xl': '2.188rem' }}
-            fontSize={{ base: 'md', md: '3xl', '2xl': '4xl' }}
+            pb={{ base: '1.188rem', '2xl': '3xl' }}
+            fontSize={{ base: 'md', md: '3xl', '2xl': '3xl' }}
           >
             A new world is being built but it's{' '}
             <Text as="strong">hard to navigate.</Text>
@@ -61,7 +61,7 @@ export const WildWeb: React.FC = () => {
           </Text>
         </Box>
       </Container>
-      <LandingNextButton section="join-us" />
+      <LandingNextButton section="what-do" />
     </FullPageContainer>
   );
 };
