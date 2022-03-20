@@ -15,6 +15,7 @@ export const Game: React.FC = () => {
   return (
     <FullPageContainer
       bgImageUrl={BackgroundImage}
+      backgroundBlendMode={{ base: 'soft-light', lg: 'normal' }}
       id={section}
       position="relative"
     >
@@ -31,8 +32,8 @@ export const Game: React.FC = () => {
           flexDirection="column"
           justifyContent="center"
           maxWidth={{ base: 'unset', md: 'lg', lg: 'xl', '2xl': 'xl' }}
-          fontSize={{ base: '1.5rem', '2xl': '2xl' }}
-          lineHeight={{ base: '2.35rem', '2xl': '2xl' }}
+          fontSize={{ base: 'lg', '2xl': '2xl' }}
+          lineHeight={{ base: 'lg', '2xl': '2xl' }}
           pl={{ base: 0, md: 0 }}
           zIndex={100}
           transform={`translate3d(0, ${onScreen ? '0' : '50px'}, 0)`}

@@ -18,7 +18,7 @@ export const JoinUs: React.FC = () => {
     <FullPageContainer
       bgImageUrl={BackgroundImage}
       backgroundRepeat="no-repeat"
-      backgroundSize="contain"
+      backgroundSize={{ base: '170%', lg: 'contain' }}
       backgroundPosition="center"
       id={section}
       position="relative"
@@ -41,7 +41,7 @@ export const JoinUs: React.FC = () => {
           textShadow="0 0 5px var(--chakra-colors-landing450)"
           flexDirection="column"
           justifyContent="center"
-          maxWidth={{ base: '100%', md: '2xl' }}
+          maxWidth={{ base: '66%', md: '2xl' }}
           pl={{ base: 0, md: 0 }}
           textAlign="center"
           zIndex={1}
@@ -65,10 +65,10 @@ export const JoinUs: React.FC = () => {
         >
           <VStack flex={1}>
             <Text
-              fontSize={{ base: '4xl', md: '6xl' }}
-              lineHeight={{ base: '2.5rem', md: '3rem' }}
+              fontSize={{ base: 'xl', md: '6xl' }}
+              lineHeight={{ base: 'xl', md: '6xl' }}
               fontWeight="700"
-              mb="2.188rem"
+              mb={{ base: 3, lg: 8 }}
             >
               The revolution will be televized, but{' '}
               <Text
@@ -126,12 +126,12 @@ export const JoinUs: React.FC = () => {
           d="flex"
           alignItems="center"
           justifyContent="space-between"
-          position="absolute"
+          position={{ base: 'fixed', lg: 'absolute' }}
           bottom={0}
           height="75px"
           maxH="75px"
           width="100%"
-          maxW={{ base: '100%', md: '3xl' }}
+          maxW={{ base: '90%', md: '3xl' }}
           transform={`translate3d(0, ${onScreen ? '0' : '50px'}, 0)`}
           opacity={onScreen ? 1 : 0}
           transition="transform 0.3s 2.1s ease-in-out, opacity 0.5s 2.3s ease-in"
