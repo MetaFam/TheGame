@@ -44,7 +44,7 @@ export const WhatDo: React.FC = () => {
           transition="transform 0.3s 0.1s ease-in-out, opacity 0.5s 0.2s ease-in"
         ></Box>
       </Container>
-      <LandingNextButton section="play-life" />
+      <LandingNextButton section="join-us" />
     </FullPageContainer>
   );
 };

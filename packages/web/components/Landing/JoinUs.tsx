@@ -5,6 +5,7 @@ import { StartButton } from 'components/Landing/StartButton';
 import { MetaLink } from 'components/Link';
 import { useOnScreen } from 'lib/hooks/useOnScreen';
 import { useRef } from 'react';
+import { FaDiscord, FaGithub, FaTwitter } from 'react-icons/fa';
 
 import { LandingFooter } from './LandingFooter';
 
@@ -16,15 +17,20 @@ export const JoinUs: React.FC = () => {
   return (
     <FullPageContainer
       bgImageUrl={BackgroundImage}
+      backgroundRepeat="no-repeat"
+      backgroundSize="contain"
+      backgroundPosition="center"
       id={section}
       position="relative"
-      justify={{ base: 'center', md: 'flex-end' }}
+      justify={{ base: 'center' }}
     >
       <Container
+        position="relative"
         d="flex"
         maxW={{ base: '100%', md: '7xl' }}
         flexFlow="column"
-        height="100%"
+        maxH="60%"
+        height="55%"
         alignItems="center"
         justifyContent="center"
       >
@@ -42,7 +48,7 @@ export const JoinUs: React.FC = () => {
           zIndex={1}
           transform={`translate3d(0, ${onScreen ? '0' : '50px'}, 0)`}
           opacity={onScreen ? 1 : 0}
-          transition="transform 0.3s 0.1s ease-in-out, opacity 0.5s 0.2s ease-in"
+          transition="transform 0.3s 0.3s ease-in-out, opacity 0.5s 0.5s ease-in"
           sx={{
             '.screen-esque': {
               background: 'landing150',
@@ -60,7 +66,7 @@ export const JoinUs: React.FC = () => {
             },
           }}
         >
-          <VStack maxH="30vh" flex={0}>
+          <VStack flex={1}>
             <Text
               fontSize={{ base: '4xl', md: '6xl' }}
               lineHeight={{ base: '2.5rem', md: '3rem' }}
@@ -95,8 +101,45 @@ export const JoinUs: React.FC = () => {
             </HStack>
           </VStack>
         </Box>
-        <Box className="footer-content">
-          <Text>Text</Text>
+        <Box
+          className="footer-content"
+          color="landing500"
+          fontSize={{ base: 'lg', lg: '2xl' }}
+          textShadow="0 0 5px"
+          textShadowColor="landing500"
+          d="flex"
+          alignItems="center"
+          justifyContent="space-between"
+          position="absolute"
+          bottom={0}
+          height="75px"
+          maxH="75px"
+          width="100%"
+          maxW={{ base: '100%', md: '3xl' }}
+          transform={`translate3d(0, ${onScreen ? '0' : '50px'}, 0)`}
+          opacity={onScreen ? 1 : 0}
+          transition="transform 0.3s 1s ease-in-out, opacity 0.5s 1.1s ease-in"
+          sx={{
+            svg: {
+              color: 'landing500',
+              textShadow: '0 0 5px',
+              textShadowColor: 'landing500',
+              filter: 'drop-shadow(0 0 5px #FF00FF80)',
+            },
+          }}
+        >
+          <Text>&copy; 2022 MetaGame</Text>
+          <HStack>
+            <MetaLink href="https://github.com/metafam" isExternal>
+              <FaGithub />
+            </MetaLink>
+            <MetaLink href="https://discord.com/invite/metagame" isExternal>
+              <FaDiscord />
+            </MetaLink>
+            <MetaLink href="https://twitter.com/metafam" isExternal>
+              <FaTwitter />
+            </MetaLink>
+          </HStack>
         </Box>
       </Container>
       <LandingFooter />
