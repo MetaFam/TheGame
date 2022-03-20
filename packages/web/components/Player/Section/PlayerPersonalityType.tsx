@@ -10,12 +10,12 @@ import { useProfileField } from 'lib/hooks';
 import React, { useEffect, useState } from 'react';
 import { BoxTypes } from 'utils/boxTypes';
 
-export type ColorDispositionProps = {
+export type PersonalityTypeProps = {
   player: Player;
   editing?: boolean;
 };
 
-export const PlayerColorDisposition: React.FC<ColorDispositionProps> = ({
+export const PlayerPersonalityType: React.FC<PersonalityTypeProps> = ({
   player,
   editing = false,
 }) => {
