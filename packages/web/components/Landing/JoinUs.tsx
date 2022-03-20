@@ -38,8 +38,7 @@ export const JoinUs: React.FC = () => {
           ref={ref}
           display="flex"
           color="landing500"
-          textShadow="0 0 5px"
-          textShadowColor="landing500"
+          textShadow="0 0 5px var(--chakra-colors-landing450)"
           flexDirection="column"
           justifyContent="center"
           maxWidth={{ base: '100%', md: '2xl' }}
@@ -54,14 +53,12 @@ export const JoinUs: React.FC = () => {
               background: 'landing150',
               border: '1px solid #6916DA',
               color: 'landing500',
-              textShadow: '0 0 5px',
-              textShadowColor: 'landing500',
+              textShadow: '0 0 5px var(--chakra-colors-landing450)',
               '&--alt': {
                 background: 'rgba(66, 4, 150, 0.29)',
                 border: '1px solid #6916DA',
                 color: 'landing500',
-                textShadow: '0 0 5px',
-                textShadowColor: 'landing500',
+                textShadow: '0 0 5px var(--chakra-colors-landing450)',
               },
             },
           }}
@@ -119,8 +116,7 @@ export const JoinUs: React.FC = () => {
           className="footer-content"
           color="landing500"
           fontSize={{ base: 'lg', lg: '2xl' }}
-          textShadow="0 0 5px"
-          textShadowColor="landing500"
+          textShadow="0 0 5px var(--chakra-colors-landing450)"
           d="flex"
           alignItems="center"
           justifyContent="space-between"
@@ -136,9 +132,7 @@ export const JoinUs: React.FC = () => {
           sx={{
             svg: {
               color: 'landing500',
-              textShadow: '0 0 5px',
-              textShadowColor: 'landing500',
-              filter: 'drop-shadow(0 0 5px #FF00FF80)',
+              filter: 'drop-shadow(0 0 5px var(--chakra-colors-landing450))',
             },
           }}
         >
