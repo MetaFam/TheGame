@@ -9,7 +9,7 @@ export const LandingFooter: React.FC = () => (
     flexFlow="row nowrap"
     position="absolute"
     justify="center"
-    bottom={40}
+    bottom={{ base: 20, lg: 40 }}
     left="33%"
     transition="opacity 0.3s 0.3s ease"
     zIndex={200}

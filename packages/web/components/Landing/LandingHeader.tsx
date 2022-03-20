@@ -24,9 +24,9 @@ export const LandingHeader: React.FC = () => {
         as="header"
         pos="fixed"
         textAlign="center"
-        px={14}
+        px={{ base: 1, lg: 14 }}
         w="100%"
-        top={10}
+        top={{ base: 5, lg: 10 }}
         left={0}
         zIndex={300}
       >
@@ -82,8 +82,8 @@ export const LandingHeader: React.FC = () => {
               position: 'relative',
               flexDirection: 'column',
               justifyContent: 'space-around',
-              width: ['1.5rem', '1.5rem', '2.5rem'],
-              height: ['1.5rem', '1.5rem', '2.5rem'],
+              width: ['2.5rem', '1.5rem', '2.5rem'],
+              height: ['2.5rem', '1.5rem', '2.5rem'],
               background: 'transparent',
               border: 'none',
               cursor: 'pointer',
@@ -97,7 +97,7 @@ export const LandingHeader: React.FC = () => {
                 boxShadow: 'none',
               },
               div: {
-                width: ['1.5rem', '1.5rem', '2.5rem'],
+                width: ['2.5rem', '1.5rem', '2.5rem'],
                 // height: ['0.08rem', '0.1rem', '0.2rem'],
                 borderRadius: ['5px', '5px', '10px'],
                 transition: 'all 0.3s linear',
@@ -105,7 +105,7 @@ export const LandingHeader: React.FC = () => {
                 transformOrigin: '1px',
               },
               'path, circle': {
-                fill: toggle ? 'landing600' : 'transparent',
+                fill: toggle ? 'landing150' : 'transparent',
                 transition: 'all 0.2s 0.2s ease',
               },
             }}
@@ -252,7 +252,7 @@ export const MenuIcon2SVG: React.FC = () => (
   <Box>
     <Box
       as="svg"
-      width={['1.5rem', '1.5rem', '2.5rem']}
+      width={['2.5rem', '1.5rem', '2.5rem']}
       left={0}
       bottom={0}
       top={0}

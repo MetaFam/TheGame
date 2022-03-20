@@ -113,7 +113,7 @@ const Landing: React.FC = () => {
       <Socials />
       <MetaLink
         position="fixed"
-        bottom={{ base: 0, md: 4 }}
+        bottom={{ base: 20, md: 4 }}
         right={{ base: 0, md: 4 }}
         href="#start"
         display={section === 0 ? 'none' : 'block'}
@@ -138,7 +138,7 @@ export const Socials: React.FC = () => (
   <VStack
     position="fixed"
     top="33%"
-    right={5}
+    right={{ base: -1, lg: 5 }}
     spacing={3}
     minW={5}
     zIndex={400}
@@ -151,7 +151,7 @@ export const Socials: React.FC = () => (
       },
       a: {
         color: 'white',
-        fontSize: '2xl',
+        fontSize: { base: 'md', lg: '2xl' },
         transition: 'transform 0.2s ease',
         '&:hover': {
           transform: 'scale(1.1)',
@@ -196,7 +196,7 @@ export const SectionWayPoints = ({
     <Box
       className="section-waypoints"
       position="fixed"
-      left={5}
+      left={{ base: 5, lg: 5 }}
       minW={5}
       height="100vh"
       minH="100vh"

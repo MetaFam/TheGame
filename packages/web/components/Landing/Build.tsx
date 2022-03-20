@@ -14,6 +14,8 @@ export const Build: React.FC = () => {
   return (
     <FullPageContainer
       bgImageUrl={BackgroundImage}
+      backgroundBlendMode={{ base: 'exclusion', lg: 'normal' }}
+      backgroundPosition={{ base: '8%', lg: 'center' }}
       id={section}
       position="relative"
       color="white"
@@ -30,8 +32,8 @@ export const Build: React.FC = () => {
           ref={ref}
           direction="column"
           justify="center"
-          fontSize={{ base: '1.5rem', lg: '2xl' }}
-          lineHeight={{ base: '2.35rem', lg: '2xl' }}
+          fontSize={{ base: 'lg', lg: '2xl' }}
+          lineHeight={{ base: 'lg', lg: '2xl' }}
           maxWidth={{ base: 'unset', md: 'md', lg: '2xl' }}
           pl={0}
           zIndex={100}
@@ -39,7 +41,7 @@ export const Build: React.FC = () => {
           opacity={onScreen ? 1 : 0}
           transition="transform 0.3s 0.1s ease-in-out, opacity 0.5s 0.2s ease-in"
         >
-          <Text fontSize={{ base: 'lg', lg: '3xl' }}>
+          <Text fontSize={{ base: 'xl', lg: '3xl' }}>
             People are waking up to the{' '}
             <strong>world-shaping potential of Web3 technologies</strong>.
           </Text>

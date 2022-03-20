@@ -39,20 +39,25 @@ export const Intro: React.FC<{ currentSection: number }> = ({
   //   [router],
   // );
 
-  const handleScrollHover = () => {
+  const toggleQuote = () => {
     setShowQuote(!showQuote);
     return null;
   };
 
   useEffect(() => {
     setTimeout(() => setOnScreen(currentSection === 0), 500);
-  }, [currentSection]);
+
+    if (showQuote) {
+      setTimeout(() => setShowQuote(false), 10000);
+    }
+  }, [currentSection, showQuote]);
 
   return (
     <FullPageContainer
       id="start"
       bgImageUrl={BackgroundImage}
-      backgroundPosition="top"
+      backgroundPosition={{ base: '32% 50%', lg: 'top' }}
+      backgroundSize="cover"
       spacing={{ base: 8, xl: 20 }}
       justify="flex-end"
     >
@@ -61,7 +66,7 @@ export const Intro: React.FC<{ currentSection: number }> = ({
         maxW={{ base: '100%', xl: '7xl', '2xl': 'full' }}
         height="100%"
         alignItems="flex-start"
-        justifyContent="center"
+        justifyContent={{ base: 'flex-start', lg: 'center' }}
         pt={{ base: 0, xl: 14 }}
       >
         <Stack
@@ -69,9 +74,11 @@ export const Intro: React.FC<{ currentSection: number }> = ({
           align="flex-start"
           justify="center"
           spacing={0}
+          mt={{ base: 16, lg: 0 }}
+          pr={20}
           pb={10}
           direction={{ base: 'column', lg: 'column' }}
-          maxW={{ base: 'full', xl: '2xl' }}
+          maxW={{ base: '2xs', xl: '2xl' }}
           zIndex={100}
           transform={`translate3d(0, ${onScreen ? 0 : '3rem'}, 0)`}
           opacity={onScreen ? 1 : 0}
@@ -82,10 +89,10 @@ export const Intro: React.FC<{ currentSection: number }> = ({
             fontFamily="landingHeading"
             textTransform="uppercase"
             className="gradient"
-            fontSize={{ base: 'md', lg: 'lg' }}
+            fontSize={{ base: 'lg', lg: 'lg' }}
             fontWeight={100}
             my={0}
-            textAlign="center"
+            textAlign={{ base: 'left', lg: 'center' }}
             sx={{
               strong: {
                 fontWeight: 300,
@@ -96,35 +103,46 @@ export const Intro: React.FC<{ currentSection: number }> = ({
             <Text as="strong">Online Coordination</Text> Game
           </Heading>
         </Stack>
-        <ScrollLink showQuote={showQuote} />
+        <ScrollLink showQuote={showQuote} toggleQuote={toggleQuote} />
         <QuoteLayer
           quote="You never change things by fighting the existing reality. To change something, build a new model that  makes the existing model obsolete."
           attr="Buckminster Fuller"
           showQuote={showQuote}
-          handleScrollHover={handleScrollHover}
+          toggleQuote={toggleQuote}
         />
       </Container>
     </FullPageContainer>
   );
 };
 
-export const ScrollLink = ({ showQuote }: { showQuote: boolean }) => (
+export const ScrollLink = ({
+  showQuote,
+  toggleQuote,
+}: {
+  showQuote: boolean;
+  toggleQuote: () => null;
+}) => (
   <Box
     fontFamily="landingHeading"
     position="absolute"
     bottom={0}
+    left={0}
     width="100%"
     textAlign="center"
     fontWeight={300}
+    zIndex={100}
     sx={{
       transition: 'all 0.3s 0.2s ease-in-out',
-      transform: `translate3d(0, ${showQuote ? -235 : 0}px, 0)`,
-      opacity: showQuote ? 0.3 : 1,
+      transform: {
+        base: `translate3d(0, ${showQuote ? -265 : 0}px, 0)`,
+        lg: `translate3d(0, ${showQuote ? -235 : 0}px, 0)`,
+      },
     }}
   >
     <Box
       d="flex"
       flexFlow="column wrap"
+      // border="1px solid"
       sx={{
         button: {
           border: `1px solid ${'white'}`,
@@ -132,28 +150,61 @@ export const ScrollLink = ({ showQuote }: { showQuote: boolean }) => (
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          width: '35px',
-          height: '35px',
+          minW: '35px',
           maxW: '35px',
           maxH: '35px',
           mx: 'auto',
         },
       }}
     >
-      <Text as="span" fontSize="xs" pb={3}>
-        Scroll Down
+      <Text
+        as="span"
+        fontSize="xs"
+        mx="auto"
+        pb={3}
+        maxW={{ base: '3xs', lg: 'unset' }}
+        opacity={showQuote ? 1 : 0}
+        textAlign={{ base: 'left', lg: 'center' }}
+        transform={`translate3d(${showQuote ? 0 : 400}px, 35px, 0)`}
+        sx={{
+          transition: 'all 0.3s 0.2s ease-in-out',
+        }}
+      >
+        {`Scroll, not click 😄. But as you're here, 🐙...here's a word or two from a great man 👇`}
       </Text>
-      <Button colorScheme="ghost">
+      <Text
+        as="span"
+        fontSize="xs"
+        mx="auto"
+        pb={3}
+        maxW={{ base: '3xs', lg: 'unset' }}
+        opacity={showQuote ? 0 : 1}
+        textAlign={{ base: 'left', lg: 'center' }}
+        transform={`translate3d(${showQuote ? -400 : 0}px, 0, 0)`}
+        sx={{
+          transition: 'all 0.3s 0.2s ease-in-out',
+        }}
+      >
+        {'Scroll down'}
+      </Text>
+      <Button
+        colorScheme="ghost"
+        opacity={showQuote ? 0.5 : 1}
+        onClick={toggleQuote}
+        onMouseEnter={toggleQuote}
+      >
         <ChevronDownIcon />
       </Button>
       <Box
         as="span"
+        opacity={showQuote ? 0.5 : 1}
         sx={{
           display: 'block',
           backgroundColor: 'white',
           width: '1px',
           height: '50px',
           mx: 'auto',
+          transition: 'all 0.3s 0.2s ease-in-out',
         }}
       ></Box>
     </Box>
@@ -164,34 +215,35 @@ export const QuoteLayer = ({
   quote,
   attr,
   showQuote,
-  handleScrollHover,
+  toggleQuote,
 }: {
   quote: string;
   attr: string;
   showQuote: boolean;
-  handleScrollHover: () => null;
+  toggleQuote: () => null;
 }) => (
   <Box
     className="quote-layer"
-    position="fixed"
+    position="absolute"
     bottom={0}
-    width="100vw"
-    // height={300}
+    left="5vw"
+    width="90vw"
     textAlign="center"
-    onMouseEnter={handleScrollHover}
-    onMouseLeave={handleScrollHover}
     transition="all 0.3s 0.2s ease-in-out"
+    zIndex={showQuote ? 101 : 99}
   >
     <Box
       className="bubbles"
-      position="absolute"
+      position="static"
       bottom={0}
       left={0}
       minW="100vw"
       height="100%"
+      onMouseEnter={toggleQuote}
+      onMouseLeave={toggleQuote}
       transition="transform 0.3s 0.3s ease-in-out"
       transform={`translate3d(0, ${showQuote ? -50 : 300}px, 0)`}
-      zIndex={0}
+      zIndex={101}
       sx={{
         img: {
           position: 'absolute',
@@ -253,7 +305,7 @@ export const QuoteLayer = ({
         as="blockquote"
         position="relative"
         fontFamily="body"
-        fontSize="3xl"
+        fontSize={{ base: 'lg', lg: '3xl' }}
         fontStyle="italic"
         fontWeight={100}
         textAlign="left"
