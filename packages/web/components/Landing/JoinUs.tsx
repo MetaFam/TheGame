@@ -90,9 +90,15 @@ export const JoinUs: React.FC = () => {
                 opacity={onScreen ? 1 : 0}
                 transition="opacity 0.5s 1.5s ease-in"
               >
-                watch.
+                watch
               </Text>
-              .
+              <Text
+                as="span"
+                opacity={onScreen ? 1 : 0}
+                transition="opacity 0.5s 1.8s ease-in"
+              >
+                .
+              </Text>
             </Text>
             <HStack
               opacity={onScreen ? 1 : 0}
