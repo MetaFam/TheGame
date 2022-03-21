@@ -2,7 +2,9 @@ FROM node:16-slim as base
 WORKDIR /usr/src/app
 
 # Install dependencies not included in the slim image
-RUN apt-get update && apt-get install -y --no-install-recommends g++ make python
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends g++ make python git openssl && \
+    apt-get install -y --no-install-recommends --reinstall ca-certificates
 
 # Install dependencies for dev and prod
 COPY package.json .
