@@ -40,6 +40,7 @@ export const WhatDo: React.FC = () => {
   return (
     <FullPageContainer
       bgImageUrl={BackgroundImage}
+      backgroundBlendMode={{ base: 'soft-light', lg: 'normal' }}
       id={section}
       position="relative"
       overflow="clip"
@@ -63,7 +64,7 @@ export const WhatDo: React.FC = () => {
             xl: '2rem',
             '2xl': '3.5rem',
           }}
-          maxWidth={{ base: '95%', md: '3xl', xl: '2xl', '2xl': '8xl' }}
+          maxWidth={{ base: '90%', md: '3xl', xl: '6xl', '2xl': '8xl' }}
           pl={{ base: 0, md: 0 }}
           zIndex={100}
           transform={`translate3d(0, ${onScreen ? '0' : '50px'}, 0)`}
@@ -72,6 +73,7 @@ export const WhatDo: React.FC = () => {
           sx={{
             h2: {
               color: 'landing500',
+              fontSize: { base: 'xl', md: '3xl', xl: '3xl', '2xl': '4xl' },
               textAlign: 'center',
               textShadow: '0 0 5px var(--chakra-colors-landing500)',
             },
@@ -81,37 +83,47 @@ export const WhatDo: React.FC = () => {
             What are we doing?
           </Text>
           <UnorderedList
-            d="grid"
-            // alignContent="flex-start"
-            // justifyContent="space-between"
-            // flexFlow={{ base: 'column wrap', md: 'row wrap' }}
-            maxH="50%"
-            pb={{ base: 2, md: '2.188rem', xl: 3, '2xl': '2.188rem' }}
+            d={{ base: 'flex', lg: 'grid' }}
+            flexFlow={{ base: 'column wrap', md: 'unset' }}
+            // maxH="50%"
+            pb={{ base: 2, xl: 3, '2xl': '2.188rem' }}
             listStyleType="none"
-            mt={-14}
+            mt={{ base: 0, '2xl': -14 }}
             ml={0}
-            opacity="0.8"
+            // opacity="0.8"
             sx={{
-              gridTemplateAreas: '"first . third" "second . fourth"',
+              gridTemplateAreas: {
+                base: 'unset',
+                lg: '"first . third" "second . fourth"',
+              },
               gridTemplateColumns: '3fr 5fr 3fr',
               gridTemplateRows: 'repeat(2, 1fr)',
               li: {
                 flex: { base: '0 0 100%', md: '0 0 100%' },
                 width: { base: '100%', md: '100%' },
-                mb: { base: 4, md: 3 },
+                mb: { base: 4, '2xl': 20 },
                 h3: {
-                  fontSize: { base: 'xl', md: '4xl', xl: '3xl', '2xl': '4xl' },
+                  fontSize: { base: 'lg', '2xl': '2xl' },
+                  lineHeight: { base: 'lg', '2xl': '1.7rem' },
                   mb: { base: 2, md: 2 },
+                  span: {
+                    color: 'landing300',
+                    display: 'block',
+                    fontSize: { base: 'md', md: 'lg', '2xl': 'xl' },
+                    pb: { base: 1, lg: 3, '2xl': 0 },
+                  },
                 },
                 p: {
-                  fontSize: { base: 'sm', md: 'lg', xl: 'md', '2xl': 'lg' },
-                  lineHeight: { base: '1.25rem', md: '1.75rem' },
+                  fontSize: { base: 'sm', md: 'lg', xl: 'md', '2xl': 'md' },
+                  lineHeight: { base: '1.25rem', md: 'md' },
                 },
               },
             }}
           >
             <ListItem gridArea="first">
-              <Text as="h3">Producing content</Text>
+              <Text as="h3">
+                <Text as="span">01</Text>Producing content
+              </Text>
               <Text>
                 Educational content such as Playbooks &amp; Great Houses as well
                 as something more fun, like our podcasts, news or recordings of
@@ -119,7 +131,9 @@ export const WhatDo: React.FC = () => {
               </Text>
             </ListItem>
             <ListItem gridArea="second">
-              <Text as="h3">Organizing events</Text>
+              <Text as="h3">
+                <Text as="span">02</Text>Organizing events
+              </Text>
               <Text>
                 Regularly bringing awesome people to present at our community
                 calls or do workshops. Also organized a conference, a hackathon
@@ -127,14 +141,18 @@ export const WhatDo: React.FC = () => {
               </Text>
             </ListItem>
             <ListItem gridArea="third" justifySelf="end">
-              <Text as="h3">Assembling the puzzle</Text>
+              <Text as="h3">
+                <Text as="span">03</Text>Assembling the puzzle
+              </Text>
               <Text>
                 Building things like MetaSys &amp; MyMeta as well as the MetaOS
                 - to make it easy to integrate other people's building blocks
               </Text>
             </ListItem>
             <ListItem gridArea="fourth" justifySelf="end">
-              <Text as="h3">Uniting aligned peoples</Text>
+              <Text as="h3">
+                <Text as="span">04</Text>Uniting aligned peoples
+              </Text>
               <Text>
                 Bringing together anyone aligned on the idea of building a new
                 kind of society; individuals joining MetaFam as well as projects
@@ -143,7 +161,12 @@ export const WhatDo: React.FC = () => {
             </ListItem>
           </UnorderedList>
 
-          <Text fontWeight={700} width="50%" align="center" mx="auto">
+          <Text
+            fontWeight={700}
+            width={{ base: '95%', xl: '70%', '2xl': '50%' }}
+            align="center"
+            mx="auto"
+          >
             In short, anything &amp; everything related to DAOs &amp; helping
             people build the future they want to live in.
           </Text>
