@@ -9,6 +9,9 @@ import { WhatDo } from 'components/Landing/WhatDo';
 import { WildWeb } from 'components/Landing/WildWeb';
 import { MetaLink } from 'components/Link';
 import { HeadComponent } from 'components/Seo';
+// import { gsap } from "gsap";
+// import { ScrollToPlugin } from 'gsap/dist/ScrollToPlugin';
+// import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
 import { useRouter } from 'next/router';
 import React, { useCallback, useEffect, useState } from 'react';
 import { FaDiscord, FaGithub, FaTwitter } from 'react-icons/fa';
@@ -53,7 +56,6 @@ const Landing: React.FC = () => {
     typeof document !== 'undefined'
       ? document.getElementById('scroll-container')
       : null;
-
   const [section, setSection] = useState(0);
 
   const handleScroll = useCallback(() => {
@@ -86,6 +88,7 @@ const Landing: React.FC = () => {
     scrollContainer?.addEventListener('scroll', handleScroll);
     document.addEventListener('keydown', handleKeyDown);
     document.querySelector('body')?.classList.add('landing');
+
     return () => {
       scrollContainer?.removeEventListener('scroll', handleScroll);
       document.removeEventListener('keydown', handleKeyDown);
@@ -202,7 +205,16 @@ export const SectionWayPoints = ({
       minH="100vh"
       zIndex={400}
     >
-      <Box position="relative" display="flex" alignItems="center" height="100%">
+      {/* {currentWaypoint !== 6 && ( */}
+      <Box
+        position="relative"
+        display="flex"
+        alignItems="center"
+        height="100%"
+        // opacity={currentWaypoint === 4 ? 0 : 1}
+        transition="transform 0.3s 0.1s ease, opacity 0.3s 0.3s ease"
+        // transform={`translate3d(${currentWaypoint === 4 ? -200 : 0}px, 0, 0)`}
+      >
         <VStack
           spacing={2}
           minW={5}
@@ -296,6 +308,106 @@ export const SectionWayPoints = ({
           </Button>
         </VStack>
       </Box>
+      {/* )}
+      {currentWaypoint === 6 && (
+      <Box
+        position="relative"
+        display="flex"
+        alignItems="center"
+        height="100%"
+        opacity={currentWaypoint === 6 ? 1 : 0}
+        transition="transform 0.3s 0.1s ease, opacity 0.3s 0.3s ease"
+        transform={`translate3d(${currentWaypoint === 6 ? 0 : -200}px, 0, 0)`}
+      >
+        <VStack
+          spacing={2}
+          minW={5}
+          zIndex={400}
+          sx={{
+            button: {
+              background: 'transparent',
+              borderRadius: '50%',
+              width: '20px',
+              height: '20px',
+              minW: '20px',
+              maxH: '20px',
+              p: 0,
+              '& > span': {
+                border: `1px solid rgba(255,255,255,0.0)`,
+                borderRadius: '50%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: '10px',
+                height: '10px',
+                maxW: '10px',
+                maxH: '10px',
+                p: '10px',
+                overflow: 'clip',
+                textIndent: '-9999rem',
+                transition: 'all 0.3s 0.2s ease-in-out',
+                '&::after': {
+                  content: '""',
+                  display: 'block',
+                  background: 'landing300',
+                  borderRadius: '50%',
+                  width: '5px',
+                  height: '5px',
+                  minW: '5px',
+                  minH: '5px',
+                },
+              },
+              '&.active': {
+                '& > span': {
+                  border: `1px solid  var(--landing300)`,
+                },
+              },
+            },
+          }}
+        >
+          <Box fontSize="xs" fontWeight={200}>
+            {`0${currentWaypoint + 1}`}
+          </Box>
+          <Button
+            colorScheme="ghost"
+            onClick={() => handleSectionNav('slide-1')}
+          >
+            <Text as="span">01</Text>
+          </Button>
+          <Button
+            colorScheme="ghost"
+            onClick={() => handleSectionNav('slide-2')}
+          >
+            <Text as="span">02</Text>
+          </Button>
+          <Button
+            colorScheme="ghost"
+            onClick={() => handleSectionNav('slide-3')}
+          >
+            <Text as="span">03</Text>
+          </Button>
+          <Button
+            colorScheme="ghost"
+            onClick={() => handleSectionNav('slide-4')}
+          >
+            <Text as="span">04</Text>
+          </Button>
+          <Button
+            colorScheme="ghost"
+            onClick={() => handleSectionNav('slide-5')}
+          >
+            <Text as="span">05</Text>
+          </Button>
+          <Button
+            colorScheme="ghost"
+            onClick={() => handleSectionNav('slide-6')}
+          >
+            <Text as="span">06</Text>
+          </Button>
+        </VStack>
+      </Box>
+
+      )} */}
     </Box>
   );
 };

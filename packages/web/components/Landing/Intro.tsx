@@ -191,7 +191,6 @@ export const ScrollLink = ({
         colorScheme="ghost"
         opacity={showQuote ? 0.5 : 1}
         onClick={toggleQuote}
-        onMouseEnter={toggleQuote}
       >
         <ChevronDownIcon />
       </Button>
@@ -239,8 +238,7 @@ export const QuoteLayer = ({
       left={0}
       minW="100vw"
       height="100%"
-      onMouseEnter={toggleQuote}
-      onMouseLeave={toggleQuote}
+      onClick={toggleQuote}
       transition="transform 0.3s 0.3s ease-in-out"
       transform={`translate3d(0, ${showQuote ? -50 : 300}px, 0)`}
       zIndex={101}

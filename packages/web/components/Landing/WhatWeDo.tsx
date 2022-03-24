@@ -42,6 +42,12 @@ export const WhatWeDo: React.FC = () => {
           transform={`translate3d(0, ${onScreen ? '0' : '50px'}, 0)`}
           opacity={onScreen ? 1 : 0}
           transition="transform 0.3s 0.1s ease-in-out, opacity 0.5s 0.2s ease-in"
+          sx={{
+            h2: {
+              color: 'landing500',
+              textShadow: '0 0 5px var(--chakra-colors-landing500)',
+            },
+          }}
         >
           <Text as="h2" fontWeight="700">
             What are we doing?

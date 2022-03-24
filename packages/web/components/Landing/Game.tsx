@@ -17,6 +17,7 @@ export const Game: React.FC = () => {
       bgImageUrl={BackgroundImage}
       backgroundBlendMode={{ base: 'soft-light', lg: 'normal' }}
       id={section}
+      className="section"
       position="relative"
     >
       <Container
