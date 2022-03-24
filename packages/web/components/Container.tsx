@@ -105,8 +105,8 @@ export const FullPageContainer: React.FC<
     spacing={0}
     p={{ base: 4, md: 8, lg: 12 }}
     sx={{
-      // scrollSnapAlign: 'start',
-      // scrollSnapStop: 'normal',
+      scrollSnapAlign: 'start',
+      scrollSnapStop: 'normal',
       ...sx,
     }}
     {...props}
