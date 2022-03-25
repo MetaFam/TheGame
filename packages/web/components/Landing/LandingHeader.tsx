@@ -8,7 +8,7 @@ import {
   Stack,
   VStack,
 } from '@metafam/ds';
-import OctoBg from 'assets/baby_octo.png';
+// import OctoBg from 'assets/baby_octo.png';
 import MetaGameLogo from 'assets/logo.png';
 import { MetaLink } from 'components/Link';
 import { SetStateAction } from 'jotai';
@@ -198,7 +198,7 @@ export const LandingHeader: React.FC = () => {
           </VStack>
         </Stack>
         <AnimatedWaves animationName={upDownAnimation} playing={toggle} />
-        <Box
+        {/* <Box
           position="absolute"
           top="0%"
           left={-2}
@@ -222,7 +222,7 @@ export const LandingHeader: React.FC = () => {
             transition:
               'transform 0.5s 0.1s ease-in-out, opacity 0.3s 0.2s ease-in-out',
           }}
-        />
+        /> */}
       </Flex>
     </>
   );
