@@ -1,4 +1,5 @@
-import { Box, Container, Text } from '@metafam/ds';
+import { Box, Container, Image, Text } from '@metafam/ds';
+import MetaGame3DImage from 'assets/landing/metagame-3d.png';
 import BackgroundImage from 'assets/landing/sections/section-2.jpg';
 import { FullPageContainer } from 'components/Container';
 import { MetaLink } from 'components/Link';
@@ -44,11 +45,12 @@ export const Game: React.FC = () => {
           fontWeight="normal"
           color="white"
         >
+          <Image src={MetaGame3DImage} width="100%" />
           <Text>
-            “Metagame is any approach to a game that transcends or operates
-            outside of the prescribed rules of the game, uses external factors
-            to affect the game, or goes beyond the supposed limits or
-            environment set by the game.”
+            “It is any approach to a game that transcends or operates outside of
+            the prescribed rules of the game, uses external factors to affect
+            the game, or goes beyond the supposed limits or environment set by
+            the game.”
           </Text>
           <Text textAlign="right">
             - From{' '}
