@@ -57,12 +57,12 @@ export const WhatDo: React.FC = () => {
           display="flex"
           flexDirection="column"
           justifyContent="center"
-          fontSize={{ base: 'md', md: '3xl', xl: '3xl', '2xl': '4xl' }}
+          fontSize={{ base: 'md', md: '3xl', xl: '3xl', '2xl': '3xl' }}
           lineHeight={{
             base: '1.25rem',
             md: '2.4rem',
             xl: '2rem',
-            '2xl': '3.5rem',
+            '2xl': '2.5rem',
           }}
           maxWidth={{ base: '90%', md: '3xl', xl: '6xl', '2xl': '8xl' }}
           pl={{ base: 0, md: 0 }}
@@ -76,6 +76,7 @@ export const WhatDo: React.FC = () => {
               fontSize: { base: 'xl', md: '3xl', xl: '3xl', '2xl': '4xl' },
               textAlign: 'center',
               textShadow: '0 0 5px var(--chakra-colors-landing500)',
+              transform: { base: 'none', xl: 'translate3d(0, 10px, 0)' },
             },
           }}
         >
@@ -109,7 +110,8 @@ export const WhatDo: React.FC = () => {
                   span: {
                     color: 'landing300',
                     display: 'block',
-                    fontSize: { base: 'md', md: 'lg', '2xl': 'xl' },
+                    fontSize: { base: 'md', md: 'lg', '2xl': 'md' },
+                    pl: { base: 2 },
                     pb: { base: 1, lg: 3, '2xl': 0 },
                   },
                 },
