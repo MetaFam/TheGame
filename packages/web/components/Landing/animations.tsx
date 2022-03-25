@@ -53,6 +53,7 @@ const InnerWaveC = chakra('div', {
   },
 });
 
+export const wavesAnimation = `${wave} 10s ease-in-out infinite alternate`;
 export const upDownAnimation = `${upDown} 10s ease-in-out infinite alternate`;
 export const upDownAnimationLong = `${upDown} 20s cubic-bezier(.29,.25,.38,.69) infinite alternate`;
 export const UpDown = styled.div`
@@ -160,11 +161,12 @@ export const AnimatedWaves = ({ animationName = '', playing = false }) => (
       </LandingSVG>
     </InnerWaveB>
     <InnerWaveC
+      className="waveC"
       sx={{
         position: `absolute`,
         width: `160%`,
         left: 0,
-        top: { base: -3, '2xl': `50px` },
+        top: { base: 3, '2xl': `50px` },
         height: `full`,
         svg: {
           width: `100%`,
