@@ -14,7 +14,7 @@ import { MetaLink } from 'components/Link';
 import { SetStateAction } from 'jotai';
 import { Dispatch, ReactNode, useState } from 'react';
 
-import { AnimatedWaves, upDownAnimation, wavesAnimation } from './animations';
+import { AnimatedWaves, upDownAnimation } from './animations';
 
 export const LandingHeader: React.FC = () => {
   const [toggle, setToggle] = useState(false);
