@@ -26,7 +26,7 @@ export const Game: React.FC = () => {
         px={{ base: 'inherit', lg: 14 }}
         height="100%"
         alignItems="center"
-        justifyContent="center"
+        justifyContent={{ base: 'center', xl: 'flex-start' }}
       >
         <Box
           ref={ref}
