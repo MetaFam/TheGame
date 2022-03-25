@@ -56,7 +56,7 @@ export const WhatDo: React.FC = () => {
           ref={ref}
           display="flex"
           flexDirection="column"
-          justifyContent="center"
+          justifyContent={{ base: 'flex-start', xl: 'center' }}
           fontSize={{ base: 'md', md: '3xl', xl: '3xl', '2xl': '3xl' }}
           lineHeight={{
             base: '1.25rem',
@@ -65,6 +65,8 @@ export const WhatDo: React.FC = () => {
             '2xl': '2.5rem',
           }}
           maxWidth={{ base: '90%', md: '3xl', xl: '6xl', '2xl': '8xl' }}
+          maxH={{ base: '70%', xl: 'initial' }}
+          overflowY={{ base: 'auto', xl: 'visible' }}
           pl={{ base: 0, md: 0 }}
           zIndex={100}
           transform={`translate3d(0, ${onScreen ? '0' : '50px'}, 0)`}
@@ -89,7 +91,7 @@ export const WhatDo: React.FC = () => {
             // maxH="50%"
             pb={{ base: 2, xl: 3, '2xl': '2.188rem' }}
             listStyleType="none"
-            mt={{ base: 0, '2xl': -14 }}
+            mt={{ base: 3, '2xl': -14 }}
             ml={0}
             // opacity="0.8"
             sx={{
@@ -109,10 +111,11 @@ export const WhatDo: React.FC = () => {
                   mb: { base: 2, md: 2 },
                   span: {
                     color: 'landing300',
-                    display: 'block',
+                    display: { base: 'inline', xl: 'block' },
                     fontSize: { base: 'md', md: 'lg', '2xl': 'md' },
-                    pl: { base: 2 },
-                    pb: { base: 1, lg: 3, '2xl': 0 },
+                    pr: { base: 2, xl: 0 },
+                    pl: { base: 0, xl: 2 },
+                    pb: { base: 0, lg: 3, '2xl': 0 },
                   },
                 },
                 p: {

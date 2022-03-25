@@ -8,7 +8,7 @@ import {
   Stack,
   VStack,
 } from '@metafam/ds';
-// import OctoBg from 'assets/baby_octo.png';
+import OctoBg from 'assets/baby_octo.png';
 import MetaGameLogo from 'assets/logo.png';
 import { MetaLink } from 'components/Link';
 import { SetStateAction } from 'jotai';
@@ -134,11 +134,12 @@ export const LandingHeader: React.FC = () => {
         flexFlow="column wrap"
         position="fixed"
         top={0}
-        left={0}
+        right={{ base: 0 }}
+        left={{ base: 0, xl: 'unset' }}
         align="center"
         justify="center"
         height="100%"
-        width="100%"
+        width={{ base: '100vw', xl: '100%' }}
         overflow="hidden"
         zIndex={200}
         sx={{
@@ -198,14 +199,14 @@ export const LandingHeader: React.FC = () => {
           </VStack>
         </Stack>
         <AnimatedWaves animationName={upDownAnimation} playing={toggle} />
-        {/* <Box
+        <Box
           position="absolute"
-          top="0%"
+          bottom={{ base: 3, xl: '0%' }}
           left={-2}
-          width="100vw"
-          height="100vh"
+          width="100%"
+          height="25%"
           bgImage={OctoBg}
-          backgroundSize={{ base: '70%', xl: '20%' }}
+          backgroundSize={{ base: '30%', xl: '10%' }}
           backgroundPosition="bottom center"
           backgroundRepeat="no-repeat"
           opacity={0.5}
@@ -214,15 +215,12 @@ export const LandingHeader: React.FC = () => {
           sx={{
             animation: upDownAnimation,
             animationPlayState: toggle ? 'playing' : 'paused',
+            animationDuration: '5s',
             filter: 'drop-shadow(0 0 20px #000)',
             opacity: toggle ? 1 : 0,
-            transform: toggle
-              ? 'translate3d(0, 50%, 0)'
-              : 'translate3d(0, 80%, 0)',
-            transition:
-              'transform 0.5s 0.1s ease-in-out, opacity 0.3s 0.2s ease-in-out',
+            transition: 'opacity 0.3s 0.2s ease-in-out',
           }}
-        /> */}
+        />
       </Flex>
     </>
   );
