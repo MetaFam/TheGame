@@ -23,10 +23,10 @@ export const Build: React.FC = () => {
       <Container
         d="flex"
         maxW={{ base: '100%', xl: '7xl', '2xl': 'full' }}
-        px={14}
+        px={{ base: 'inherit', lg: 14 }}
         height="100%"
         alignItems="center"
-        justifyContent="flex-end"
+        justifyContent={{ base: 'center', lg: 'flex-end' }}
       >
         <Flex
           ref={ref}
@@ -34,7 +34,7 @@ export const Build: React.FC = () => {
           justify="center"
           fontSize={{ base: 'lg', '2xl': '2xl' }}
           lineHeight={{ base: 'lg', '2xl': '2xl' }}
-          maxWidth={{ base: 'unset', md: 'md', '2xl': '2xl' }}
+          maxWidth={{ base: '90%', md: 'md', '2xl': '2xl' }}
           pl={0}
           zIndex={100}
           transform={`translate3d(0, ${onScreen ? 0 : '50px'}, 0)`}

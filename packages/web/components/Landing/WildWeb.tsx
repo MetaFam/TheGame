@@ -22,17 +22,17 @@ export const WildWeb: React.FC = () => {
       <Container
         d="flex"
         maxW={{ base: '100%', md: '7xl', '2xl': 'full' }}
+        px={{ base: 'inherit', lg: 14 }}
         height="100%"
         alignItems="center"
-        justifyContent="flex-start"
-        px={14}
+        justifyContent={{ base: 'center', lg: 'flex-start' }}
       >
         <Box
           {...{ ref }}
           display="flex"
           flexDirection="column"
           justifyContent="center"
-          maxWidth={{ base: '95%', md: 'md', '2xl': 'xl' }}
+          maxWidth={{ base: '90%', md: 'md', '2xl': 'xl' }}
           fontSize={{ base: 'lg', '2xl': '2xl' }}
           lineHeight={{ base: 'lg', '2xl': '2xl' }}
           fontWeight="normal"

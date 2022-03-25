@@ -12,7 +12,7 @@ export const LandingFooter: React.FC = () => (
     bottom={{ base: 20, md: 20, '2xl': 40 }}
     left="33%"
     transition="opacity 0.3s 0.3s ease"
-    zIndex={200}
+    zIndex={100}
   >
     <HStack spacing={8} alignItems="center">
       <MetaLink

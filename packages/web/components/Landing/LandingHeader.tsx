@@ -8,8 +8,8 @@ import {
   Stack,
   VStack,
 } from '@metafam/ds';
+import OctoBg from 'assets/baby_octo.png';
 import MetaGameLogo from 'assets/logo.png';
-import OctoBg from 'assets/octopus.png';
 import { MetaLink } from 'components/Link';
 import { SetStateAction } from 'jotai';
 import { Dispatch, ReactNode, useState } from 'react';
@@ -200,7 +200,7 @@ export const LandingHeader: React.FC = () => {
         <AnimatedWaves animationName={upDownAnimation} playing={toggle} />
         <Box
           position="absolute"
-          top="20%"
+          top="0%"
           left={-2}
           width="100vw"
           height="100vh"
@@ -220,7 +220,7 @@ export const LandingHeader: React.FC = () => {
               ? 'translate3d(0, 50%, 0)'
               : 'translate3d(0, 80%, 0)',
             transition:
-              'transform 0.5s 0.3s ease-in-out, opacity 0.3s 0.4s ease-in-out',
+              'transform 0.5s 0.1s ease-in-out, opacity 0.3s 0.2s ease-in-out',
           }}
         />
       </Flex>

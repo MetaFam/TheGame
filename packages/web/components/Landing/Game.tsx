@@ -23,16 +23,17 @@ export const Game: React.FC = () => {
       <Container
         d="flex"
         maxW={{ base: '100%', xl: '7xl', '2xl': 'full' }}
-        px={14}
+        px={{ base: 'inherit', lg: 14 }}
         height="100%"
         alignItems="center"
+        justifyContent="center"
       >
         <Box
           ref={ref}
           display="flex"
           flexDirection="column"
           justifyContent="center"
-          maxWidth={{ base: 'unset', md: 'sm', '2xl': 'xl' }}
+          maxWidth={{ base: '90%', md: 'sm', '2xl': 'xl' }}
           fontSize={{ base: 'lg', '2xl': '2xl' }}
           lineHeight={{ base: 'lg', '2xl': '2xl' }}
           pl={{ base: 0, md: 0 }}

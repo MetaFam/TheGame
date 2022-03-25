@@ -128,7 +128,7 @@ export const JoinUs: React.FC = () => {
           alignItems="center"
           justifyContent="space-between"
           position={{ base: 'fixed', lg: 'absolute' }}
-          bottom={{ base: 0, xl: 5, '2xl': 0 }}
+          bottom={{ base: 0, lg: 0, xl: 0, '2xl': 0 }}
           height="75px"
           maxH="75px"
           width="100%"
