@@ -26,16 +26,19 @@ export const WhatDo: React.FC = () => {
   return (
     <FullPageContainer
       bgImageUrl={responsiveBg}
-      backgroundBlendMode={{ base: 'normal', lg: 'normal' }}
+      backgroundBlendMode="normal"
+      backgroundPosition={{ base: 'top', xl: 'center' }}
+      backgroundSize={{ base: 'contain', xl: 'cover' }}
+      backgroundRepeat="no-repeat"
       id={section}
       position="relative"
       overflow="clip"
     >
       <Container
         d="flex"
-        maxW={{ base: '100%', md: 'xl', lg: '7xl', '2xl': '8xl' }}
+        maxW={{ base: '100%', md: 'xl', lg: '7xl', '2xl': '8xl', '4xl': '70%' }}
         height="100%"
-        alignItems="center"
+        alignItems={{ base: 'flex-start', xl: 'center' }}
         justifyContent="center"
       >
         <Box
@@ -43,15 +46,22 @@ export const WhatDo: React.FC = () => {
           display="flex"
           flexDirection="column"
           justifyContent={{ base: 'flex-start', xl: 'center' }}
-          fontSize={{ base: 'md', md: 'xl', xl: '3xl', '2xl': '3xl' }}
+          fontSize={{ base: 'md', md: 'xl', xl: 'xl', '2xl': '3xl' }}
           lineHeight={{
             base: '1.25rem',
             md: '2.4rem',
             xl: '2rem',
             '2xl': '2.5rem',
           }}
-          maxWidth={{ base: '90%', md: '3xl', xl: '6xl', '2xl': '8xl' }}
-          maxH={{ base: '70%', md: '90%', xl: 'initial' }}
+          maxWidth={{
+            base: '90%',
+            md: '3xl',
+            xl: '5xl',
+            '2xl': '8xl',
+            '4xl': '100%',
+          }}
+          maxH={{ base: '60%', md: '90%', lg: 'initial' }}
+          mt={{ base: '50%', xl: 'unset' }}
           overflowY={{ base: 'auto', xl: 'visible' }}
           pl={{ base: 0, md: 0 }}
           zIndex={100}
@@ -64,7 +74,11 @@ export const WhatDo: React.FC = () => {
               fontSize: { base: 'xl', md: '3xl', xl: '3xl', '2xl': '4xl' },
               textAlign: 'center',
               textShadow: '0 0 5px var(--chakra-colors-landing500)',
-              transform: { base: 'none', xl: 'translate3d(0, 10px, 0)' },
+              transform: {
+                base: 'none',
+                xl: 'translate3d(0, 15px, 0)',
+                '4xl': 'translate3d(0, -60px, 0)',
+              },
             },
           }}
         >
@@ -74,12 +88,10 @@ export const WhatDo: React.FC = () => {
           <UnorderedList
             d={{ base: 'flex', lg: 'grid' }}
             flexFlow={{ base: 'column wrap', lg: 'unset' }}
-            // maxH="50%"
-            pb={{ base: 2, xl: 3, '2xl': '2.188rem' }}
+            pb={{ base: 2, xl: 0, '2xl': '2.188rem' }}
             listStyleType="none"
-            mt={{ base: 3, '2xl': -14 }}
+            mt={{ base: 8, xl: 0, '2xl': -14 }}
             ml={0}
-            // opacity="0.8"
             sx={{
               gridTemplateAreas: {
                 base: 'unset',
@@ -90,23 +102,23 @@ export const WhatDo: React.FC = () => {
               li: {
                 flex: { base: '0 0 100%' },
                 width: { base: '100%' },
-                mb: { base: 4, '2xl': 20 },
+                mb: { base: 4, xl: 8, '2xl': 14 },
                 h3: {
-                  fontSize: { base: 'lg', '2xl': '2xl' },
-                  lineHeight: { base: 'lg', '2xl': '1.7rem' },
-                  mb: { base: 2, md: 2 },
+                  fontSize: { base: 'lg', xl: 'xl', '2xl': '2xl' },
+                  lineHeight: { base: '1.25rem', '2xl': '1.75rem' },
+                  mb: { base: 0, '2xl': 2 },
                   span: {
                     color: 'landing300',
                     display: { base: 'inline', xl: 'block' },
-                    fontSize: { base: 'md', md: 'lg', '2xl': 'md' },
+                    fontSize: 'md',
                     pr: { base: 2, xl: 0 },
                     pl: { base: 0, xl: 2 },
-                    pb: { base: 0, md: 0, lg: 3, '2xl': 0 },
+                    pb: { base: 0, md: 0, '2xl': 0 },
                   },
                 },
                 p: {
                   fontSize: { base: 'sm', md: 'lg', xl: 'md', '2xl': 'md' },
-                  lineHeight: { base: '1.25rem', md: '1.75rem', lg: 'md' },
+                  lineHeight: { base: '1.25rem', '2xl': '1.75rem' },
                 },
               },
             }}
@@ -154,7 +166,7 @@ export const WhatDo: React.FC = () => {
 
           <Text
             fontWeight={700}
-            width={{ base: '95%', xl: '70%', '2xl': '50%' }}
+            width={{ base: '95%', xl: '100%', '2xl': '50%' }}
             align="center"
             mx="auto"
           >

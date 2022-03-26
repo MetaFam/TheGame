@@ -206,7 +206,7 @@ export const LandingHeader: React.FC = () => {
           width="100%"
           height="25%"
           bgImage={OctoBg}
-          backgroundSize={{ base: '30%', md: '20%', xl: '10%' }}
+          backgroundSize={{ base: '30%', md: '20%', xl: '10%', '4xl': '8%' }}
           backgroundPosition="bottom center"
           backgroundRepeat="no-repeat"
           opacity={0.5}

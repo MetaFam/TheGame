@@ -27,7 +27,13 @@ export const Game: React.FC = () => {
     >
       <Container
         d="flex"
-        maxW={{ base: '100%', md: 'xl', lg: '7xl', '2xl': 'full' }}
+        maxW={{
+          base: '100%',
+          md: 'xl',
+          lg: '7xl',
+          '2xl': 'full',
+          '4xl': '90%',
+        }}
         px={{ base: 'inherit', lg: 14 }}
         height="100%"
         alignItems="center"
