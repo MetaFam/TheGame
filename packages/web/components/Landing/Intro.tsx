@@ -42,7 +42,7 @@ export const Intro: React.FC<{ currentSection: number }> = ({
     <FullPageContainer
       id="start"
       bgImageUrl={responsiveBg}
-      backgroundPosition={{ base: 'top', lg: 'top' }}
+      backgroundPosition="top"
       backgroundSize="cover"
       spacing={{ base: 8, xl: 20 }}
       justify="flex-end"

@@ -32,9 +32,9 @@ export const Build: React.FC = () => {
           md: 'xl',
           lg: '7xl',
           '2xl': 'full',
-          '3xl': '8xl',
+          '4xl': '80%',
         }}
-        px={{ base: 'inherit', lg: 20, '3xl': 0 }}
+        px={{ base: 'inherit', lg: 20, '4xl': 0 }}
         height="100%"
         alignItems="center"
         justifyContent={{ base: 'center', lg: 'flex-end' }}
@@ -45,7 +45,7 @@ export const Build: React.FC = () => {
           justify="center"
           fontSize={{ base: 'lg', '2xl': '2xl' }}
           lineHeight={{ base: 'lg', '2xl': '2xl' }}
-          maxWidth={{ base: '90%', md: '3xl', xl: '6xl', '2xl': 'xl' }}
+          maxWidth={{ base: '90%', md: 'sm', '2xl': 'xl' }}
           pl={0}
           zIndex={100}
           transform={`translate3d(0, ${onScreen ? 0 : '50px'}, 0)`}
