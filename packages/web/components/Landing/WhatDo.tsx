@@ -117,7 +117,13 @@ export const WhatDo: React.FC = () => {
                   },
                 },
                 p: {
-                  fontSize: { base: 'sm', md: 'lg', xl: 'md', '2xl': 'md' },
+                  fontSize: {
+                    base: 'sm',
+                    md: 'lg',
+                    xl: 'md',
+                    '2xl': 'md',
+                    '4xl': 'lg',
+                  },
                   lineHeight: { base: '1.25rem', '2xl': '1.75rem' },
                 },
               },
