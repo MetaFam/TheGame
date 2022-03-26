@@ -7,11 +7,13 @@ import {
   Image,
   Stack,
   Text,
+  useBreakpointValue,
 } from '@metafam/ds';
 // import { animated, config, useSpring } from '@react-spring/web';
 import BubbleLg from 'assets/landing/pretty/bubble-large.svg';
 import BubbleSm from 'assets/landing/pretty/bubble-small.svg';
-import BackgroundImage from 'assets/landing/sections/section-1.jpg';
+import BackgroundImageDesktop from 'assets/landing/sections/section-1.jpg';
+import BackgroundImageMobile from 'assets/landing/sections/section-1.sm.jpg';
 import { FullPageContainer } from 'components/Container';
 import { useEffect, useState } from 'react';
 
@@ -20,24 +22,12 @@ import { upDownAnimation, upDownAnimationLong } from './animations';
 export const Intro: React.FC<{ currentSection: number }> = ({
   currentSection,
 }) => {
-  // const router = useRouter();
   const [onScreen, setOnScreen] = useState(false);
   const [showQuote, setShowQuote] = useState(false);
-
-  // const slideStyles = useSpring({
-  //   config: config.stiff,
-  //   from: { transform: `translate3d(0, ${300}px, 0)` },
-  //   to: {
-  //     transform: `translate3d(0, ${showQuote ? -50 : 300}px, 0)`
-  //   }
-  // })
-
-  // const handleSectionNav = useCallback(
-  //   (sectionId: string) => {
-  //     router.push(`#${sectionId}`);
-  //   },
-  //   [router],
-  // );
+  const responsiveBg = useBreakpointValue({
+    base: BackgroundImageMobile,
+    md: BackgroundImageDesktop,
+  });
 
   const toggleQuote = () => {
     setShowQuote(!showQuote);
@@ -46,17 +36,13 @@ export const Intro: React.FC<{ currentSection: number }> = ({
 
   useEffect(() => {
     setTimeout(() => setOnScreen(currentSection === 0), 500);
-
-    // if (showQuote) {
-    //   setTimeout(() => setShowQuote(!showQuote), 10000);
-    // }
   }, [currentSection, showQuote]);
 
   return (
     <FullPageContainer
       id="start"
-      bgImageUrl={BackgroundImage}
-      backgroundPosition={{ base: '32% 50%', lg: 'top' }}
+      bgImageUrl={responsiveBg}
+      backgroundPosition={{ base: 'top', lg: 'top' }}
       backgroundSize="cover"
       spacing={{ base: 8, xl: 20 }}
       justify="flex-end"
@@ -105,7 +91,7 @@ export const Intro: React.FC<{ currentSection: number }> = ({
         </Stack>
         <ScrollLink showQuote={showQuote} toggleQuote={toggleQuote} />
         <QuoteLayer
-          quote="You never change things by fighting the existing reality. To change something, build a new model that  makes the existing model obsolete."
+          quote="You never change things by fighting the existing reality. To change something, build a new model that makes the existing model obsolete."
           attr="Buckminster Fuller"
           showQuote={showQuote}
           toggleQuote={toggleQuote}

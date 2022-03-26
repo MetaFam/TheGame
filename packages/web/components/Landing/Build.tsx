@@ -1,5 +1,6 @@
-import { Container, Flex, Text } from '@metafam/ds';
-import BackgroundImage from 'assets/landing/sections/section-3.jpg';
+import { Container, Flex, Text, useBreakpointValue } from '@metafam/ds';
+import BackgroundImageDesktop from 'assets/landing/sections/section-3.jpg';
+import BackgroundImageMobile from 'assets/landing/sections/section-3.sm.jpg';
 import { FullPageContainer } from 'components/Container';
 import { useOnScreen } from 'lib/hooks/useOnScreen';
 import { useRef } from 'react';
@@ -10,11 +11,15 @@ export const Build: React.FC = () => {
   const ref = useRef<HTMLDivElement>(null);
   const onScreen = useOnScreen(ref);
   const section = 'build-the-future';
+  const responsiveBg = useBreakpointValue({
+    base: BackgroundImageMobile,
+    md: BackgroundImageDesktop,
+  });
 
   return (
     <FullPageContainer
-      bgImageUrl={BackgroundImage}
-      backgroundBlendMode={{ base: 'exclusion', lg: 'normal' }}
+      bgImageUrl={responsiveBg}
+      backgroundBlendMode={{ base: 'normal', lg: 'normal' }}
       backgroundPosition={{ base: '8%', lg: 'center' }}
       id={section}
       position="relative"
@@ -22,8 +27,14 @@ export const Build: React.FC = () => {
     >
       <Container
         d="flex"
-        maxW={{ base: '100%', xl: '7xl', '2xl': 'full' }}
-        px={{ base: 'inherit', lg: 20 }}
+        maxW={{
+          base: '100%',
+          md: 'xl',
+          lg: '7xl',
+          '2xl': 'full',
+          '3xl': '8xl',
+        }}
+        px={{ base: 'inherit', lg: 20, '3xl': 0 }}
         height="100%"
         alignItems="center"
         justifyContent={{ base: 'center', lg: 'flex-end' }}
@@ -34,7 +45,7 @@ export const Build: React.FC = () => {
           justify="center"
           fontSize={{ base: 'lg', '2xl': '2xl' }}
           lineHeight={{ base: 'lg', '2xl': '2xl' }}
-          maxWidth={{ base: '90%', md: 'md', '2xl': 'xl' }}
+          maxWidth={{ base: '90%', md: '3xl', xl: '6xl', '2xl': 'xl' }}
           pl={0}
           zIndex={100}
           transform={`translate3d(0, ${onScreen ? 0 : '50px'}, 0)`}

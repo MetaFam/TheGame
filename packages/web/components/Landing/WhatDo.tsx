@@ -1,53 +1,39 @@
-import { Box, Container, ListItem, Text, UnorderedList } from '@metafam/ds';
-import BackgroundImage from 'assets/landing/whatdo/computer.png';
+import {
+  Box,
+  Container,
+  ListItem,
+  Text,
+  UnorderedList,
+  useBreakpointValue,
+} from '@metafam/ds';
+import BackgroundImageMobile from 'assets/landing/sections/section-5.sm.png';
+import BackgroundImageDesktop from 'assets/landing/whatdo/computer.png';
 import { FullPageContainer } from 'components/Container';
-// import { gsap } from "gsap";
 import { useOnScreen } from 'lib/hooks/useOnScreen';
 import { useRef } from 'react';
 
 import { LandingNextButton } from './LandingNextButton';
-// import { LandingNextButton } from './LandingNextButton';
 
 export const WhatDo: React.FC = () => {
   const ref = useRef<HTMLDivElement>(null);
-  // const slidesContainer = useRef<HTMLDivElement>(null);
-  // const slides = useRef<Array<HTMLDivElement>>([]);
   const onScreen = useOnScreen(ref);
   const section = 'what-do';
-
-  // const createSlidesRefs = (slide: HTMLDivElement, index: number) => {
-  //   slides.current[index] = slide
-  //   console.log('slides', slides);
-
-  // }
-
-  // useEffect(() => {
-  //   const totalSlides = slides.current.length
-
-  //   gsap.to(slides.current, {
-  //     xPercent: 0 * (totalSlides - 1),
-  //     ease: 'none',
-  //     scrollTrigger: {
-  //       trigger: slidesContainer.current,
-  //       pin: true,
-  //       scrub: 1,
-  //       snap: 1 / (totalSlides - 1),
-  //       end: () => `+=${slidesContainer.current?.offsetWidth}`
-  //     }
-  //   })
-  // }, []);
+  const responsiveBg = useBreakpointValue({
+    base: BackgroundImageMobile,
+    md: BackgroundImageDesktop,
+  });
 
   return (
     <FullPageContainer
-      bgImageUrl={BackgroundImage}
-      backgroundBlendMode={{ base: 'soft-light', lg: 'normal' }}
+      bgImageUrl={responsiveBg}
+      backgroundBlendMode={{ base: 'normal', lg: 'normal' }}
       id={section}
       position="relative"
       overflow="clip"
     >
       <Container
         d="flex"
-        maxW={{ base: '100%', md: '7xl', '2xl': '8xl' }}
+        maxW={{ base: '100%', md: 'xl', lg: '7xl', '2xl': '8xl' }}
         height="100%"
         alignItems="center"
         justifyContent="center"
@@ -57,7 +43,7 @@ export const WhatDo: React.FC = () => {
           display="flex"
           flexDirection="column"
           justifyContent={{ base: 'flex-start', xl: 'center' }}
-          fontSize={{ base: 'md', md: '3xl', xl: '3xl', '2xl': '3xl' }}
+          fontSize={{ base: 'md', md: 'xl', xl: '3xl', '2xl': '3xl' }}
           lineHeight={{
             base: '1.25rem',
             md: '2.4rem',
@@ -65,7 +51,7 @@ export const WhatDo: React.FC = () => {
             '2xl': '2.5rem',
           }}
           maxWidth={{ base: '90%', md: '3xl', xl: '6xl', '2xl': '8xl' }}
-          maxH={{ base: '70%', xl: 'initial' }}
+          maxH={{ base: '70%', md: '90%', xl: 'initial' }}
           overflowY={{ base: 'auto', xl: 'visible' }}
           pl={{ base: 0, md: 0 }}
           zIndex={100}
@@ -87,7 +73,7 @@ export const WhatDo: React.FC = () => {
           </Text>
           <UnorderedList
             d={{ base: 'flex', lg: 'grid' }}
-            flexFlow={{ base: 'column wrap', md: 'unset' }}
+            flexFlow={{ base: 'column wrap', lg: 'unset' }}
             // maxH="50%"
             pb={{ base: 2, xl: 3, '2xl': '2.188rem' }}
             listStyleType="none"
@@ -99,11 +85,11 @@ export const WhatDo: React.FC = () => {
                 base: 'unset',
                 lg: '"first . third" "second . fourth"',
               },
-              gridTemplateColumns: '3fr 5fr 3fr',
+              gridTemplateColumns: '3fr 6fr 3fr',
               gridTemplateRows: 'repeat(2, 1fr)',
               li: {
-                flex: { base: '0 0 100%', md: '0 0 100%' },
-                width: { base: '100%', md: '100%' },
+                flex: { base: '0 0 100%' },
+                width: { base: '100%' },
                 mb: { base: 4, '2xl': 20 },
                 h3: {
                   fontSize: { base: 'lg', '2xl': '2xl' },
@@ -115,12 +101,12 @@ export const WhatDo: React.FC = () => {
                     fontSize: { base: 'md', md: 'lg', '2xl': 'md' },
                     pr: { base: 2, xl: 0 },
                     pl: { base: 0, xl: 2 },
-                    pb: { base: 0, lg: 3, '2xl': 0 },
+                    pb: { base: 0, md: 0, lg: 3, '2xl': 0 },
                   },
                 },
                 p: {
                   fontSize: { base: 'sm', md: 'lg', xl: 'md', '2xl': 'md' },
-                  lineHeight: { base: '1.25rem', md: 'md' },
+                  lineHeight: { base: '1.25rem', md: '1.75rem', lg: 'md' },
                 },
               },
             }}
