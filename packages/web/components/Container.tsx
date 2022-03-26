@@ -15,52 +15,6 @@ export const PageContainer: React.FC<FlexProps> = ({ children, ...props }) => (
   </Flex>
 );
 
-// export const ScrollContainer: React.FC<FlexProps> = ({ children, ...props }) => {
-//   let panels: gsap = gsap.utils.toArray('.section');
-//   console.log(panels);
-
-//   let scrollTween: GSAPTween;
-//   gsap.registerPlugin(ScrollTrigger);
-
-//   function goToSection(i) {
-//     scrollTween = gsap.to(window, {
-//       scrollTo: {y: i * innerHeight, autoKill: false},
-//       duration: 1,
-//       onComplete: () => scrollTween = null,
-//       overwrite: true
-//     });
-//   }
-
-//   panels.forEach((panel, i) => {
-//     ScrollTrigger.create({
-//       trigger: panel,
-//       start: "top bottom",
-//       end: "+=200%",
-//       onToggle: self => self.isActive && !scrollTween && goToSection(i)
-//     });
-//   });
-
-//   ScrollTrigger.create({
-//     start: 0,
-//     end: "max",
-//     snap: 1 / (panels.length - 1)
-//   })
-
-//   return (
-//     <Flex
-//       w="100%"
-//       h="100%"
-//       p={{ base: 3, sm: 8, lg: 12 }}
-//       direction="column"
-//       align="center"
-//       pos="relative"
-//       {...props}
-//     >
-//       {children}
-//     </Flex>
-//   );
-// }
-
 export const FlexContainer: React.FC<StackProps> = ({ children, ...props }) => (
   <Stack w="full" align="center" justify="center" spacing={[6, 8]} {...props}>
     {children}

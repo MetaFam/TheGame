@@ -1,6 +1,6 @@
-import { Box, Container, Image, Text } from '@metafam/ds';
-import MetaGame3DImage from 'assets/landing/metagame-3d.png';
-import BackgroundImage from 'assets/landing/sections/section-2.jpg';
+import { Box, Container, Text, useBreakpointValue } from '@metafam/ds';
+import BackgroundImageDesktop from 'assets/landing/sections/section-2.jpg';
+import BackgroundImageMobile from 'assets/landing/sections/section-2.sm.jpg';
 import { FullPageContainer } from 'components/Container';
 import { MetaLink } from 'components/Link';
 import { useOnScreen } from 'lib/hooks/useOnScreen';
@@ -12,10 +12,14 @@ export const Game: React.FC = () => {
   const ref = useRef<HTMLDivElement>(null);
   const onScreen = useOnScreen(ref);
   const section = 'wtf-is-a-metagame';
+  const responsiveBg = useBreakpointValue({
+    base: BackgroundImageMobile,
+    md: BackgroundImageDesktop,
+  });
 
   return (
     <FullPageContainer
-      bgImageUrl={BackgroundImage}
+      bgImageUrl={responsiveBg}
       backgroundBlendMode={{ base: 'soft-light', lg: 'normal' }}
       id={section}
       className="section"
@@ -23,11 +27,11 @@ export const Game: React.FC = () => {
     >
       <Container
         d="flex"
-        maxW={{ base: '100%', xl: '7xl', '2xl': 'full' }}
+        maxW={{ base: '100%', md: 'xl', lg: '7xl', '2xl': 'full' }}
         px={{ base: 'inherit', lg: 14 }}
         height="100%"
         alignItems="center"
-        justifyContent={{ base: 'center', xl: 'flex-start' }}
+        justifyContent={{ base: 'center', md: 'flex-start' }}
       >
         <Box
           ref={ref}
@@ -45,12 +49,11 @@ export const Game: React.FC = () => {
           fontWeight="normal"
           color="white"
         >
-          <Image src={MetaGame3DImage} width="100%" />
           <Text>
-            “It is any approach to a game that transcends or operates outside of
-            the prescribed rules of the game, uses external factors to affect
-            the game, or goes beyond the supposed limits or environment set by
-            the game.”
+            “Metagame is any approach to a game that transcends or operates
+            outside of the prescribed rules of the game, uses external factors
+            to affect the game, or goes beyond the supposed limits or
+            environment set by the game.”
           </Text>
           <Text textAlign="right">
             - From{' '}

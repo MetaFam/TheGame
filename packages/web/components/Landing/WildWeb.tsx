@@ -1,5 +1,6 @@
-import { Box, Container, Text } from '@metafam/ds';
-import BackgroundImage from 'assets/landing/sections/section-4.jpg';
+import { Box, Container, Text, useBreakpointValue } from '@metafam/ds';
+import BackgroundImageDesktop from 'assets/landing/sections/section-4.jpg';
+import BackgroundImageMobile from 'assets/landing/sections/section-4.sm.jpg';
 import { FullPageContainer } from 'components/Container';
 import { useOnScreen } from 'lib/hooks/useOnScreen';
 import { useRef } from 'react';
@@ -10,18 +11,23 @@ export const WildWeb: React.FC = () => {
   const ref = useRef<HTMLDivElement>(null);
   const onScreen = useOnScreen(ref);
   const section = 'the-wild-web';
+  const responsiveBg = useBreakpointValue({
+    base: BackgroundImageMobile,
+    md: BackgroundImageDesktop,
+  });
 
   return (
     <FullPageContainer
-      bgImageUrl={BackgroundImage}
-      backgroundBlendMode={{ base: 'exclusion', lg: 'normal' }}
-      backgroundPosition={{ base: '83%', lg: 'center' }}
+      bgImageUrl={responsiveBg}
+      backgroundBlendMode={{ base: 'normal', lg: 'normal' }}
+      backgroundColor="#120030"
+      backgroundPosition="center"
       id={section}
       position="relative"
     >
       <Container
         d="flex"
-        maxW={{ base: '100%', md: '7xl', '2xl': 'full' }}
+        maxW={{ base: '100%', md: 'xl', lg: '7xl', '2xl': 'full' }}
         px={{ base: 'inherit', lg: 14 }}
         height="100%"
         alignItems="center"
@@ -32,7 +38,7 @@ export const WildWeb: React.FC = () => {
           display="flex"
           flexDirection="column"
           justifyContent="center"
-          maxWidth={{ base: '90%', md: 'md', '2xl': 'xl' }}
+          maxWidth={{ base: '90%', md: '3xl', xl: '6xl', '2xl': 'xl' }}
           fontSize={{ base: 'lg', '2xl': '2xl' }}
           lineHeight={{ base: 'lg', '2xl': '2xl' }}
           fontWeight="normal"

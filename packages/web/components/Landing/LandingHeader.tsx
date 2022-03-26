@@ -25,7 +25,7 @@ export const LandingHeader: React.FC = () => {
         as="header"
         pos="fixed"
         textAlign="center"
-        px={{ base: 1, lg: 14 }}
+        px={{ base: 1, md: 8, lg: 14 }}
         w="100%"
         top={{ base: 5, '2xl': 10 }}
         left={0}
@@ -206,7 +206,7 @@ export const LandingHeader: React.FC = () => {
           width="100%"
           height="25%"
           bgImage={OctoBg}
-          backgroundSize={{ base: '30%', xl: '10%' }}
+          backgroundSize={{ base: '30%', md: '20%', xl: '10%' }}
           backgroundPosition="bottom center"
           backgroundRepeat="no-repeat"
           opacity={0.5}

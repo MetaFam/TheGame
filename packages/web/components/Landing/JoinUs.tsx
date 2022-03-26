@@ -127,12 +127,12 @@ export const JoinUs: React.FC = () => {
           d="flex"
           alignItems="center"
           justifyContent="space-between"
-          position={{ base: 'fixed', lg: 'absolute' }}
-          bottom={{ base: 0, lg: 0, xl: 0, '2xl': 0 }}
+          position={{ base: 'fixed', md: 'absolute' }}
+          bottom={{ base: 0, md: 16, xl: 0, '2xl': 0 }}
           height="75px"
           maxH="75px"
           width="100%"
-          maxW={{ base: '90%', md: 'md', '2xl': '2xl' }}
+          maxW={{ base: '90%', md: 'lg', lg: 'md', '2xl': '2xl' }}
           transform={`translate3d(0, ${onScreen ? '0' : '50px'}, 0)`}
           opacity={onScreen ? 1 : 0}
           transition="transform 0.3s 2.1s ease-in-out, opacity 0.5s 2.3s ease-in"
