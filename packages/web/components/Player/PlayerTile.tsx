@@ -104,7 +104,7 @@ export const PlayerTile: React.FC<Props> = ({
                 {showSeasonalXP && (
                   <WrapItem>
                     <MetaTag size="md">
-                      SEASON Ⅴ XP:{' '}
+                      SEASON Ⅵ XP:{' '}
                       {Math.floor(player.seasonXP).toLocaleString()}
                     </MetaTag>
                   </WrapItem>
