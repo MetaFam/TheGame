@@ -57,6 +57,10 @@ const Landing: React.FC = () => {
       ? document.getElementById('scroll-container')
       : null;
   const [section, setSection] = useState(0);
+  const hostName =
+    typeof window !== 'undefined'
+      ? window.location.origin
+      : 'https://metagame.wtf';
 
   const handleScroll = useCallback(() => {
     if (!scrollContainer) return;
@@ -99,9 +103,9 @@ const Landing: React.FC = () => {
     <>
       <HeadComponent
         title="MetaGame: A Massive Online Coordination Game!"
-        description="To find your metagame means to play life in the optimal way. Coordinating with others on building a better world; doing things that create a a positive impact make you happy AND earn you money."
+        description="To find your metagame means to play life in the optimal way. Coordinating with others to build a better world; make a positive impact, make you happy AND earn you money."
         url="https://metagame.wtf"
-        img="/assets/landing-social.jpg"
+        img={`${hostName}/assets/landing-social.jpg`}
       />
       <LandingHeader />
       <PageContainer p={0}>
