@@ -34,7 +34,7 @@ actions:
     handler: '{{ACTION_BASE_ENDPOINT}}/idxCache/checkExpired'
 - name: updateIDXProfile
   definition:
-    kind: synchronous
+    kind: asynchronous
     handler: '{{ACTION_BASE_ENDPOINT}}/idxCache/updateSingle'
     forward_client_headers: true
   permissions:
