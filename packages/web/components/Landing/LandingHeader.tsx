@@ -40,25 +40,25 @@ export const LandingHeader: React.FC = () => {
           justify="space-between"
           w="100%"
           maxW={{ base: 'full' }}
-          // border="1px solid red"
         >
           <HStack
             spacing={8}
             align="center"
-            // opacity={toggle ? 1 : 0}
             transition="opacity 0.3s 0.6s ease"
-            // zIndex={toggle ? 600 : 0}
           >
             <MetaLink
               key="link-home-logo"
               href="#start"
               color="white"
-              // toggle={toggle}
-              // setToggle={setToggle}
+              sx={{
+                '&.active, &:hover': {
+                  textDecoration: 'none',
+                },
+              }}
             >
               <HStack
                 fontFamily="body"
-                fontSize="lg"
+                fontSize={{ base: 'md', xl: 'lg', '4xl': '2xl' }}
                 fontWeight={400}
                 spacing={2}
                 alignItems="center"
@@ -67,8 +67,8 @@ export const LandingHeader: React.FC = () => {
                 <BoxedNextImage
                   src={MetaGameLogo}
                   alt="MetaGame Logo"
-                  width="2.25rem"
-                  height="2.5rem"
+                  width={{ base: '2rem', xl: '2.25rem', '4xl': '2.5rem' }}
+                  height={{ base: '2.25rem', xl: '2.5rem', '4xl': '2.75rem' }}
                 />
                 <Box as="span">MetaGame</Box>
               </HStack>
@@ -83,24 +83,26 @@ export const LandingHeader: React.FC = () => {
               position: 'relative',
               flexDirection: 'column',
               justifyContent: 'space-around',
-              width: ['2.5rem'],
-              height: ['2.5rem'],
+              width: { base: '2.25rem', xl: '2.5rem', '4xl': '3.1rem' },
+              height: { base: '2.25rem', xl: '2.5rem', '4xl': '3.1rem' },
+              borderRadius: { base: '5px', xl: '15px', '4xl': '20px' },
               background: 'transparent',
               border: 'none',
               cursor: 'pointer',
               padding: 0,
               marginRight: 0,
               zIndex: 401,
-              overflow: 'hidden',
+              // overflow: 'clip',
               '&:hover, &:focus,  &[data-hover]': {
                 outline: 'none',
                 background: 'transparent',
                 boxShadow: 'none',
               },
               div: {
-                width: ['2.5rem'],
-                // height: ['0.08rem', '0.1rem', '0.2rem'],
-                borderRadius: ['5px', '5px', '10px'],
+                width: { base: '100%' },
+                height: { base: '100%' },
+                borderRadius: { base: '5px', xl: '15px', '4xl': '20px' },
+                // overflow: 'clip',
                 transition: 'all 0.3s linear',
                 position: 'relative',
                 transformOrigin: '1px',
@@ -260,39 +262,14 @@ const NavLink = ({
   </Link>
 );
 
-export const MenuIconSVG: React.FC = () => (
-  <Box>
-    <Box
-      as="svg"
-      width={['1.5rem', '1.5rem', '2rem']}
-      left={0}
-      bottom={0}
-      top={0}
-      transform="rotate(90deg)"
-      preserveAspectRatio="xMidYMid meet"
-      viewBox="0 0 59 64"
-    >
-      <path
-        d="M3.42182 56.6965C5.3095 56.6965 6.84131 58.2283 6.84131 60.116C6.84131 62.0059 5.3095 63.5355 3.42182 63.5355C1.53414 63.5355 0.00232906 62.0059 0.00232899 60.116C0.00232893 58.2283 1.53414 56.6965 3.42182 56.6965Z"
-        fill="white"
-      />
-      <path
-        d="M3.42182 28.5828C5.3095 28.5828 6.84131 30.1124 6.84131 32.0023C6.84131 33.8899 5.3095 35.4218 3.42182 35.4218C1.53414 35.4218 0.00232906 33.8899 0.00232899 32.0023C0.00232893 30.1124 1.53414 28.5828 3.42182 28.5828Z"
-        fill="white"
-      />
-      <path
-        d="M3.41961 0.468262C5.3095 0.468262 6.84131 2.00007 6.84131 3.88776C6.84131 5.77544 5.3095 7.30726 3.41961 7.30726C1.53193 7.30726 0.00011749 5.77545 0.000117423 3.88776C0.000117356 2.00007 1.53193 0.468262 3.41961 0.468262Z"
-        fill="white"
-      />
-    </Box>
-  </Box>
-);
-
 export const MenuIcon2SVG = ({ toggle }: { toggle: boolean }) => (
   <Box>
     <Box
       as="svg"
-      width={['2.5rem']}
+      width={{ base: '2.25rem', xl: '2.5rem', '4xl': '2.9em' }}
+      position="absolute"
+      ml="2px"
+      mt="2px"
       left={0}
       bottom={0}
       top={0}
@@ -305,7 +282,7 @@ export const MenuIcon2SVG = ({ toggle }: { toggle: boolean }) => (
         d="M46.8937 23.64C46.8937 36.4827 36.4827 46.8937 23.64 46.8937C10.7973 46.8937 0.386262 36.4827 0.386262 23.64C0.386262 10.7973 10.7973 0.386262 23.64 0.386262C36.4827 0.386262 46.8937 10.7973 46.8937 23.64Z"
         stroke="white"
         strokeOpacity="0.9"
-        strokeWidth="0.772524"
+        strokeWidth="1"
       />
       <path
         d="M32.6262 20.7609L13.8833 20.7612"
