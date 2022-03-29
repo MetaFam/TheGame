@@ -38,7 +38,7 @@ export const MenuSectionLinks: MenuLinkSet[] = [
         title: 'Players',
         explainerText:
           'Find players of MetaGame; their NFTs, their skills & whatever else they put on there',
-        url: '/community/players',
+        url: '/players',
         icon: 'players',
       },
       {
