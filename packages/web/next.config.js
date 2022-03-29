@@ -6,8 +6,8 @@ module.exports = withTM(
     async redirects() {
       return [
         {
-          source: '/players',
-          destination: '/community/players',
+          source: '/community/players',
+          destination: '/players',
           permanent: false,
         },
         {
