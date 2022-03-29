@@ -73,7 +73,7 @@ const Players: React.FC<Props> = () => {
 
   return (
     <PageContainer>
-      <HeadComponent url="https://my.metagame.wtf/community/players" />
+      <HeadComponent url="https://my.metagame.wtf/players" />
       <VStack w="100%" spacing={{ base: 4, md: 8 }} pb={8}>
         <PlayerFilter
           {...{
