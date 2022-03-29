@@ -13,7 +13,7 @@ import { HeadComponent } from 'components/Seo';
 // import { ScrollToPlugin } from 'gsap/dist/ScrollToPlugin';
 // import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
 import { useRouter } from 'next/router';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { FaDiscord, FaGithub, FaTwitter } from 'react-icons/fa';
 
 export const getStaticProps = async () => ({
@@ -57,10 +57,11 @@ const Landing: React.FC = () => {
       ? document.getElementById('scroll-container')
       : null;
   const [section, setSection] = useState(0);
-  const hostName =
-    typeof window !== 'undefined'
-      ? window.location.origin
-      : 'https://metagame.wtf';
+  const hostName = useRef(null);
+  const setHostName = useCallback((host) => {
+    hostName.current =
+      typeof window !== 'undefined' ? host : 'https://metagame.wtf';
+  }, []);
 
   const handleScroll = useCallback(() => {
     if (!scrollContainer) return;
@@ -92,12 +93,13 @@ const Landing: React.FC = () => {
     scrollContainer?.addEventListener('scroll', handleScroll);
     document.addEventListener('keydown', handleKeyDown);
     document.querySelector('body')?.classList.add('landing');
+    setHostName(window.location.origin);
 
     return () => {
       scrollContainer?.removeEventListener('scroll', handleScroll);
       document.removeEventListener('keydown', handleKeyDown);
     };
-  }, [handleScroll, handleKeyDown, scrollContainer, section]);
+  }, [handleScroll, handleKeyDown, scrollContainer, section, setHostName]);
 
   return (
     <>
@@ -105,7 +107,7 @@ const Landing: React.FC = () => {
         title="MetaGame: A Massive Online Coordination Game!"
         description="To play metagame is to play life in the optimal way. Coordinating with others to build a better world; make a positive impact, make you happy &amp; earn you money."
         url="https://metagame.wtf"
-        img={`${hostName}/assets/landing-social.jpg`}
+        img={`${hostName.current}/assets/landing-social.jpg`}
       />
       <LandingHeader />
       <PageContainer p={0}>
