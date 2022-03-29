@@ -57,10 +57,9 @@ const Landing: React.FC = () => {
       ? document.getElementById('scroll-container')
       : null;
   const [section, setSection] = useState(0);
-  const hostName = useRef('');
+  const hostName = useRef('https://metagame.wtf');
   const setHostName = useCallback((host) => {
-    hostName.current =
-      typeof window !== 'undefined' ? host : 'https://metagame.wtf';
+    hostName.current = host;
   }, []);
 
   const handleScroll = useCallback(() => {
@@ -93,7 +92,10 @@ const Landing: React.FC = () => {
     scrollContainer?.addEventListener('scroll', handleScroll);
     document.addEventListener('keydown', handleKeyDown);
     document.querySelector('body')?.classList.add('landing');
-    setHostName(window.location.origin);
+
+    if (typeof window !== 'undefined') {
+      setHostName(window.location.origin);
+    }
 
     return () => {
       scrollContainer?.removeEventListener('scroll', handleScroll);
