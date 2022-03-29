@@ -57,7 +57,7 @@ const Landing: React.FC = () => {
       ? document.getElementById('scroll-container')
       : null;
   const [section, setSection] = useState(0);
-  const hostName = useRef(null);
+  const hostName = useRef('');
   const setHostName = useCallback((host) => {
     hostName.current =
       typeof window !== 'undefined' ? host : 'https://metagame.wtf';
@@ -106,7 +106,7 @@ const Landing: React.FC = () => {
       <HeadComponent
         title="MetaGame: A Massive Online Coordination Game!"
         description="To play metagame is to play life in the optimal way. Coordinating with others to build a better world; make a positive impact, make you happy, &amp; earn you money."
-        url={`${hostName.current}`}
+        url={hostName.current}
         img={`${hostName.current}/assets/landing-social.jpg`}
       />
       <LandingHeader />
