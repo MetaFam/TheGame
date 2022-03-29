@@ -67,8 +67,8 @@ export const LandingHeader: React.FC = () => {
                 <BoxedNextImage
                   src={MetaGameLogo}
                   alt="MetaGame Logo"
-                  width={{ base: '2rem', xl: '2.25rem', '4xl': '2.5rem' }}
-                  height={{ base: '2.25rem', xl: '2.5rem', '4xl': '2.75rem' }}
+                  w={{ base: '2rem', xl: '2.25rem', '4xl': '2.5rem' }}
+                  h={{ base: '2.25rem', xl: '2.5rem', '4xl': '2.75rem' }}
                 />
                 <Box as="span">MetaGame</Box>
               </HStack>
@@ -83,26 +83,24 @@ export const LandingHeader: React.FC = () => {
               position: 'relative',
               flexDirection: 'column',
               justifyContent: 'space-around',
-              width: { base: '2.25rem', xl: '2.5rem', '4xl': '3.1rem' },
-              height: { base: '2.25rem', xl: '2.5rem', '4xl': '3.1rem' },
-              borderRadius: { base: '5px', xl: '15px', '4xl': '20px' },
+              w: { base: '2.25rem', xl: '2.5rem', '4xl': '3.1rem' },
+              h: { base: '2.25rem', xl: '2.5rem', '4xl': '3.1rem' },
+              borderRadius: { base: '0.25rem', xl: '1rem', '4xl': '1.25rem' },
               background: 'transparent',
               border: 'none',
               cursor: 'pointer',
               padding: 0,
               marginRight: 0,
               zIndex: 401,
-              // overflow: 'clip',
               '&:hover, &:focus,  &[data-hover]': {
                 outline: 'none',
                 background: 'transparent',
                 boxShadow: 'none',
               },
               div: {
-                width: { base: '100%' },
-                height: { base: '100%' },
-                borderRadius: { base: '5px', xl: '15px', '4xl': '20px' },
-                // overflow: 'clip',
+                w: 'full',
+                h: 'full',
+                borderRadius: { base: '0.25rem', xl: '1rem', '4xl': '1.25rem' },
                 transition: 'all 0.3s linear',
                 position: 'relative',
                 transformOrigin: '1px',
@@ -140,8 +138,8 @@ export const LandingHeader: React.FC = () => {
         left={{ base: 0, xl: 'unset' }}
         align="center"
         justify="center"
-        height="100%"
-        width={{ base: '100vw', xl: '100%' }}
+        w={{ base: '100vw', xl: '100%' }}
+        h="100%"
         overflow="hidden"
         zIndex={200}
         sx={{
@@ -205,8 +203,8 @@ export const LandingHeader: React.FC = () => {
           position="absolute"
           bottom={{ base: 3, xl: '0%' }}
           left={-2}
-          width="100%"
-          height="25%"
+          w="100%"
+          h="25%"
           bgImage={OctoBg}
           backgroundSize={{ base: '30%', md: '20%', xl: '10%', '4xl': '8%' }}
           backgroundPosition="bottom center"
@@ -266,10 +264,10 @@ export const MenuIcon2SVG = ({ toggle }: { toggle: boolean }) => (
   <Box>
     <Box
       as="svg"
-      width={{ base: '2.25rem', xl: '2.5rem', '4xl': '2.9em' }}
+      w={{ base: '2.25rem', xl: '2.5rem', '4xl': '2.9rem' }}
       position="absolute"
-      ml="2px"
-      mt="2px"
+      ml={0.5}
+      mt={0.5}
       left={0}
       bottom={0}
       top={0}
@@ -281,14 +279,14 @@ export const MenuIcon2SVG = ({ toggle }: { toggle: boolean }) => (
       <path
         d="M46.8937 23.64C46.8937 36.4827 36.4827 46.8937 23.64 46.8937C10.7973 46.8937 0.386262 36.4827 0.386262 23.64C0.386262 10.7973 10.7973 0.386262 23.64 0.386262C36.4827 0.386262 46.8937 10.7973 46.8937 23.64Z"
         stroke="white"
-        strokeOpacity="0.9"
-        strokeWidth="1"
+        strokeOpacity={0.9}
+        strokeWidth={1}
       />
       <path
         d="M32.6262 20.7609L13.8833 20.7612"
         className="top-line"
         stroke="white"
-        strokeWidth="1"
+        strokeWidth={1}
         strokeLinecap="round"
         strokeLinejoin="round"
       />
@@ -300,7 +298,7 @@ export const MenuIcon2SVG = ({ toggle }: { toggle: boolean }) => (
         }
         className="bottom-line"
         stroke="white"
-        strokeWidth="1"
+        strokeWidth={1}
         strokeLinecap="round"
         strokeLinejoin="round"
       />

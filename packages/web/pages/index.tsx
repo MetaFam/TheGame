@@ -105,8 +105,8 @@ const Landing: React.FC = () => {
     <>
       <HeadComponent
         title="MetaGame: A Massive Online Coordination Game!"
-        description="To play metagame is to play life in the optimal way. Coordinating with others to build a better world; make a positive impact, make you happy &amp; earn you money."
-        url="https://metagame.wtf"
+        description="To play metagame is to play life in the optimal way. Coordinating with others to build a better world; make a positive impact, make you happy, &amp; earn you money."
+        url={`${hostName.current}`}
         img={`${hostName.current}/assets/landing-social.jpg`}
       />
       <LandingHeader />
