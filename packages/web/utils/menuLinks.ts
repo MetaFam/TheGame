@@ -107,7 +107,8 @@ export const MenuSectionLinks: MenuLinkSet[] = [
       {
         title: 'Playbooks',
         explainerText: descriptions.playbooks,
-        url: '/learn/playbooks',
+        url:
+          'https://wiki.metagame.wtf/docs/playbooks/how-to-make-it-without-technical-skills',
         icon: 'playbooks',
       },
       // {
