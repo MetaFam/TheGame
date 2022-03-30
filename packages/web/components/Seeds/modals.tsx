@@ -623,7 +623,7 @@ export const PlantingAndWatering = () => (
               isExternal
               color="gray.500"
               textDecoration="underline"
-              href="//wiki.metagame.wtf/docs/wtf-is-metagame/the-300-of-metagame"
+              href="https://yeet.daohaus.club/dao/0x1/0x8b9280f30f386c4b8fc363d5984845d946a936c3/1"
               fontStyle="italic"
             >
               The 300 of MetaGame

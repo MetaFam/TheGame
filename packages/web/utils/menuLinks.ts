@@ -38,7 +38,7 @@ export const MenuSectionLinks: MenuLinkSet[] = [
         title: 'Players',
         explainerText:
           'Find players of MetaGame; their NFTs, their skills & whatever else they put on there',
-        url: '/community/players',
+        url: '/players',
         icon: 'players',
       },
       {
@@ -107,7 +107,8 @@ export const MenuSectionLinks: MenuLinkSet[] = [
       {
         title: 'Playbooks',
         explainerText: descriptions.playbooks,
-        url: '/learn/playbooks',
+        url:
+          'https://wiki.metagame.wtf/docs/playbooks/how-to-make-it-without-technical-skills',
         icon: 'playbooks',
       },
       // {
