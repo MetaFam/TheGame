@@ -454,10 +454,6 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
     }
   };
 
-  if (chainId !== '0x1') {
-    return <ConnectToProgress />;
-  }
-
   return (
     <Modal {...{ isOpen, onClose }}>
       <ModalOverlay />

@@ -22,7 +22,7 @@ import { PlayerContacts as Contacts } from 'components/Player/PlayerContacts';
 import { PlayerHeroTile } from 'components/Player/Section/PlayerHeroTile';
 import { ProfileSection } from 'components/Profile/ProfileSection';
 import { Player } from 'graphql/autogen/types';
-import { useProfileField, useUser } from 'lib/hooks';
+import { useProfileField, useUser, useWeb3 } from 'lib/hooks';
 import React, { useEffect, useState } from 'react';
 import { FaClock, FaGlobe } from 'react-icons/fa';
 import { BoxTypes } from 'utils/boxTypes';
@@ -41,7 +41,10 @@ type DisplayComponentProps = {
 
 export const PlayerHero: React.FC<HeroProps> = ({ player, editing }) => {
   const { user } = useUser();
+  const { chainId } = useWeb3();
+
   const isOwnProfile = user ? user.id === player?.id : null;
+  const isMainNet = chainId === '0x1';
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -52,7 +55,7 @@ export const PlayerHero: React.FC<HeroProps> = ({ player, editing }) => {
       withoutBG
       p={[4, 2]}
     >
-      {isOwnProfile && !editing && (
+      {isOwnProfile && isMainNet && !editing && (
         <Box pos="absolute" right={[0, 4]} top={[0, 4]}>
           <IconButton
             _focus={{ boxShadow: 'none' }}
@@ -124,7 +127,9 @@ export const PlayerHero: React.FC<HeroProps> = ({ player, editing }) => {
         </SimpleGrid> */}
       </VStack>
 
-      {isOwnProfile && <EditProfileModal {...{ player, isOpen, onClose }} />}
+      {isOwnProfile && isMainNet && (
+        <EditProfileModal {...{ player, isOpen, onClose }} />
+      )}
     </ProfileSection>
   );
 };
