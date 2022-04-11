@@ -10,7 +10,8 @@
     "build": "tsc -b",
     "dev": "yarn build --watch",
     "typecheck": "yarn build",
-    "precommit": "yarn lint-staged"
+    "precommit": "yarn lint-staged",
+    "test": "tsdx test --passWithNoTests"
   },
   "dependencies": {
     "@datamodels/identity-profile-basic": "0.1.2",
