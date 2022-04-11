@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   ButtonGroup,
+  Link,
   MetaTag,
   Stat,
   StatArrow,
@@ -33,7 +34,14 @@ export const XP = (): React.ReactElement => {
   if (xpStats == null) {
     return (
       <Text fontStyle="italic" textAlign="center" p={4} w="100%">
-        Unknown
+        If you want your XP stats to appear, you gotta earn some XP first! Go{' '}
+        <Link
+          href="https://meta-game.notion.site/Welcome-to-MetaGame-349d9b6434d543b48539bccabf10b60a"
+          target="_tab"
+        >
+          here
+        </Link>{' '}
+        & join the onboarding call
       </Text>
     );
   }
