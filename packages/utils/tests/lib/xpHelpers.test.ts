@@ -26,3 +26,15 @@ describe('getNumWeeksInSeason', () => {
     expect(getNumWeeksInSeason(Jun21st)).toBe(1);
   });
 });
+
+describe('getSeasonNum', () => {
+  it('Dec 22 should be season 1', () => {
+    const Dec22nd = new Date(Date.parse(`2020-12-22T00:01:00+00:00`));
+    expect(getSeasonNum(Dec22nd)).toBe(1);
+  });
+
+  it('April 1st 2022 should be season 6', () => {
+    const Apr1st = new Date(Date.parse(`2022-04-01T00:01:00+00:00`));
+    expect(getSeasonNum(Apr1st)).toBe(6);
+  });
+});
