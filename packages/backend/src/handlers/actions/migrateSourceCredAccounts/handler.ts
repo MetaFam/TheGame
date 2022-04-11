@@ -2,6 +2,7 @@ import {
   Constants,
   fetch,
   getLatestEthAddress,
+  getNumWeeksInSeason,
   isNotNullOrUndefined,
 } from '@metafam/utils';
 import bluebird from 'bluebird';
@@ -15,7 +16,6 @@ import {
 import { client } from '../../../lib/hasuraClient';
 import { computeRank } from '../../../lib/rankHelpers';
 import { ledgerManager } from '../../../lib/sourcecredLedger';
-import { getNumWeeksInSeason } from '../../../lib/xpHelpers';
 
 const VALID_ACCOUNT_TYPES: Array<AccountType_Enum> = [
   AccountType_Enum.Ethereum,

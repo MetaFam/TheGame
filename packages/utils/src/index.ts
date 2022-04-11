@@ -15,6 +15,7 @@ export * as numbers from './numbers';
 export * from './promiseHelpers';
 export * from './rankHelpers';
 export * from './sourceCredHelpers';
+export * from './xpHelpers';
 
 export { uuidv4 as generateUUID };
 export { extendedProfileModel };

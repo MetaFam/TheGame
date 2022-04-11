@@ -1,4 +1,4 @@
-import { getNumWeeksInSeason } from '../../src/lib/xpHelpers';
+import { getNumWeeksInSeason, getSeasonNum } from '../../src/xpHelpers';
 
 describe('getNumWeeksInSeason', () => {
   const currentDate = new Date();
