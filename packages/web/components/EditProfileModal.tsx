@@ -70,8 +70,6 @@ import { Controller, useForm } from 'react-hook-form';
 import { optimizedImage } from 'utils/imageHelpers';
 import { isEmpty } from 'utils/objectHelpers';
 
-import { ConnectToProgress } from './ConnectToProgress';
-
 const MAX_DESC_LEN = 420; // characters
 
 export type ProfileEditorProps = {
@@ -189,7 +187,7 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
     watch,
     formState: { errors, dirtyFields },
   } = useForm();
-  const { ceramic, address, chainId } = useWeb3();
+  const { ceramic, address } = useWeb3();
   const toast = useToast();
   const description = watch('description');
   const remaining = useMemo(() => MAX_DESC_LEN - (description?.length ?? 0), [
