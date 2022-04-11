@@ -16,7 +16,7 @@ import {
   Wrap,
   WrapItem,
 } from '@metafam/ds';
-import { Maybe } from '@metafam/utils';
+import { getSeasonNum, Maybe } from '@metafam/utils';
 import { PlayerAvatar } from 'components/Player/PlayerAvatar';
 import { PlayerContacts } from 'components/Player/PlayerContacts';
 import { PlayerTileMemberships } from 'components/Player/PlayerTileMemberships';
@@ -25,6 +25,7 @@ import { Player, Skill } from 'graphql/autogen/types';
 import NextLink from 'next/link';
 import React, { useMemo } from 'react';
 import { FaGlobe } from 'react-icons/fa';
+import { convertToRoman } from 'utils/formatHelpers';
 import {
   getPlayerBanner,
   getPlayerDescription,
@@ -104,7 +105,7 @@ export const PlayerTile: React.FC<Props> = ({
                 {showSeasonalXP && (
                   <WrapItem>
                     <MetaTag size="md">
-                      SEASON Ⅵ XP:{' '}
+                      SEASON {convertToRoman(getSeasonNum())} XP:{' '}
                       {Math.floor(player.seasonXP).toLocaleString()}
                     </MetaTag>
                   </WrapItem>
