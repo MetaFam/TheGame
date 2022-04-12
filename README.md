@@ -130,12 +130,6 @@ yarn docker:stop
 
 - Stops all the containers
 
-If you want to locally start the backend server (not in Docker) for debugging purposes:
-
-```shell script
-yarn backend:dev
-```
-
 **Troubleshooting**
 
 Rebuild and run the containers (in attach mode):
@@ -236,3 +230,7 @@ git push -u origin <branch> [--no-verify]
 ```
 
 Please use this only when absolutely necessary!
+
+### Debugging with Visual Studio Code
+
+When running the backend stack locally using docker-compose, you can still debug the backend container using VS Code. Just add [this configuration](https://gist.github.com/alalonde/75e4d4237aacd9e45ac38e5b5faf479b) to your `.vscode/launch.json`.
