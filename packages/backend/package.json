@@ -8,7 +8,7 @@
     "start": "node ./dist/index.js",
     "build": "yarn generate && tsc -b",
     "dev": "concurrently \"yarn dev-ts\" \"yarn generate --watch\"",
-    "dev-ts": "ts-node-dev --exit-child --respawn -- src/index.ts",
+    "dev-ts": "ts-node-dev --exit-child --inspect=0.0.0.0:4322 --respawn -- src/index.ts",
     "typecheck": "yarn build",
     "precommit": "yarn lint-staged",
     "generate": "DEBUG=1 graphql-codegen --config=codegen.yml",
