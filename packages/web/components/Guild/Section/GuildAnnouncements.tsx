@@ -15,21 +15,14 @@ export const GuildAnnouncements: React.FC<Props> = ({ guildId }) => {
   const announcements =
     getGuildAnnouncementsResponse.data?.guild[0].discordAnnouncements;
 
-  if (announcements == null) {
-    return (
-      <ProfileSection title="Announcements">
-        {getGuildAnnouncementsResponse.fetching && <LoadingState />}
-        {getGuildAnnouncementsResponse.error && (
-          <Text>Could not fetch announcements. 😥</Text>
-        )}
-      </ProfileSection>
-    );
-  }
-
   return (
     <ProfileSection title="Announcements">
-      {announcements.length === 0 && <Text>No announcements.</Text>}
-      {announcements.map((item, index) => (
+      {getGuildAnnouncementsResponse.fetching && <LoadingState />}
+      {getGuildAnnouncementsResponse.error && (
+        <Text>Could not fetch announcements. 😥</Text>
+      )}
+      {announcements?.length === 0 && <Text>No announcements.</Text>}
+      {announcements?.map((item, index) => (
         <Box
           key={index}
           mb={4}
