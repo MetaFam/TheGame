@@ -110,11 +110,25 @@ export default async (playerId: string): Promise<UpdateIdxProfileResponse> => {
         console.debug(`No Extended Profile For: ${ethereumAddress} (${did})`);
       } else {
         Object.entries(ExtendedProfileStrings).forEach(
-          ([hasuraId, ceramicId]) => {
+          async ([hasuraId, ceramicId]) => {
             const fromKey = ceramicId as Values<typeof ExtendedProfileStrings>;
             const toKey = hasuraId as keyof typeof ExtendedProfileStrings;
             if (extendedProfile?.[fromKey] != null) {
-              values[toKey] = (extendedProfile[fromKey] as string) ?? null;
+              if (fromKey !== 'meetWithWalletDomain') {
+                values[toKey] = (extendedProfile[fromKey] as string) ?? null;
+              } else if (extendedProfile[fromKey] === 'mww_remove') {
+                // TODO:remove MWW account
+              } else {
+                await client.UpsertAccount({
+                  objects: [
+                    {
+                      playerId,
+                      type: AccountType_Enum.Meetwithwallet,
+                      identifier: extendedProfile[fromKey] as string,
+                    },
+                  ],
+                });
+              }
             }
           },
         );
@@ -189,7 +203,9 @@ export default async (playerId: string): Promise<UpdateIdxProfileResponse> => {
     if (did) {
       const alsoKnownAs = ((await store.get('alsoKnownAs', did)) ??
         {}) as AlsoKnownAs;
-      const { accounts = [] } = alsoKnownAs;
+      let { accounts = [] } = alsoKnownAs;
+
+      accounts = [...accounts, extendedProfile?.accounts ?? []];
 
       await Promise.all(
         accounts?.map(async ({ host, id: username }: Account) => {

@@ -3,13 +3,19 @@ import { Contract, providers, utils } from 'ethers';
 export async function getSignature(
   provider: providers.Web3Provider,
   msg: string,
+  extraParams?: string[] | undefined,
 ): Promise<string> {
   const ethereum = provider.provider;
   const signer = provider.getSigner();
   const address = await signer.getAddress();
   if (!ethereum.request) throw new Error('No `request` On Ethereum Provider');
 
-  const params = [msg, address];
+  let params = [msg, address];
+
+  if (extraParams) {
+    params = [...params, ...extraParams];
+  }
+
   const signature = await ethereum.request({
     method: 'personal_sign',
     params,

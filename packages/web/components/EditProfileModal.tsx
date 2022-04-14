@@ -71,6 +71,7 @@ import { optimizedImage } from 'utils/imageHelpers';
 import { isEmpty } from 'utils/objectHelpers';
 
 import { ConnectToProgress } from './ConnectToProgress';
+import MeetWithWalletProfileEdition from './Player/MeetWithWalletProfileEdition';
 
 const MAX_DESC_LEN = 420; // characters
 
@@ -902,6 +903,15 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
                 <Box minH="3em">
                   <FormErrorMessage>{errors.emoji?.message}</FormErrorMessage>
                 </Box>
+              </FormControl>
+            </GridItem>
+            <GridItem gridColumn={'1/-1'} alignItems="center">
+              <FormControl>
+                <Label>Meeting calendar</Label>
+                <MeetWithWalletProfileEdition
+                  setValue={setValue}
+                  player={player!}
+                />
               </FormControl>
             </GridItem>
           </Grid>

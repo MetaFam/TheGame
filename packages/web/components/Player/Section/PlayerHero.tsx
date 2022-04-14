@@ -6,7 +6,9 @@ import {
   Grid,
   HStack,
   IconButton,
+  MetaButton,
   MetaTag,
+  MWWIcon,
   Text,
   Tooltip,
   useDisclosure,
@@ -21,7 +23,7 @@ import { PlayerAvatar } from 'components/Player/PlayerAvatar';
 import { PlayerContacts as Contacts } from 'components/Player/PlayerContacts';
 import { PlayerHeroTile } from 'components/Player/Section/PlayerHeroTile';
 import { ProfileSection } from 'components/Profile/ProfileSection';
-import { Player } from 'graphql/autogen/types';
+import { AccountType_Enum, Player } from 'graphql/autogen/types';
 import { useProfileField, useUser } from 'lib/hooks';
 import React, { useEffect, useState } from 'react';
 import { FaClock, FaGlobe } from 'react-icons/fa';
@@ -43,6 +45,10 @@ export const PlayerHero: React.FC<HeroProps> = ({ player, editing }) => {
   const { user } = useUser();
   const isOwnProfile = user ? user.id === player?.id : null;
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const mwwAccount = player.accounts?.find(
+    (acc) => acc.type === AccountType_Enum.Meetwithwallet,
+  );
 
   return (
     <ProfileSection
@@ -122,6 +128,18 @@ export const PlayerHero: React.FC<HeroProps> = ({ player, editing }) => {
             </Flex>
           </PlayerHeroTile>
         </SimpleGrid> */}
+
+        {mwwAccount && (
+          <MetaButton
+            as={'a'}
+            target="_blank"
+            isFullWidth
+            href={mwwAccount.identifier}
+            leftIcon={<MWWIcon />}
+          >
+            Meet with me
+          </MetaButton>
+        )}
       </VStack>
 
       {isOwnProfile && <EditProfileModal {...{ player, isOpen, onClose }} />}
