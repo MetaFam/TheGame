@@ -7,6 +7,7 @@ export * from './chainHelpers';
 export * as Constants from './constants';
 export * as did from './did';
 export * as DiscordUtil from './discordHelpers';
+export * as ethereumHelper from './ethereumHelper';
 export * from './extendedProfileTypes';
 export * from './imageHelpers';
 export * from './linkHelpers';

@@ -23,7 +23,7 @@ export const PlayerFragment = /* GraphQL */ `
       }
     }
 
-    accounts(where: { type: { _in: [TWITTER, GITHUB] } })
+    accounts(where: { type: { _in: [TWITTER, GITHUB, MEETWITHWALLET] } })
       @skip(if: $forLoginDisplay) {
       identifier
       type

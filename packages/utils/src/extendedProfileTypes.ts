@@ -49,6 +49,7 @@ export const ExtendedProfileStrings = {
   // a library.
   timeZone: 'timeZone',
   explorerTypeTitle: 'explorerType',
+  meetWithWalletDomain: 'meetWithWalletDomain',
 } as const;
 // Objects are handled specially in the save function.
 // There is a switch on the key and specific code for
@@ -98,6 +99,7 @@ export interface TitledDescription {
 export type EPObjects = {
   availableHours?: Maybe<number>;
   playerType?: Maybe<TitledDescription>;
+  accounts?: Maybe<any>;
 };
 
 export type HasuraEPObjects = EPObjects & {
