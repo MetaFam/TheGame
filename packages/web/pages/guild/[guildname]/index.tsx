@@ -1,9 +1,9 @@
 import { Box, Flex, LoadingState } from '@metafam/ds';
 import { PageContainer } from 'components/Container';
 import { GuildHero } from 'components/Guild/GuildHero';
-import { GuildLinks } from 'components/Guild/GuildLinks';
+import { GuildAnnouncements } from 'components/Guild/Section/GuildAnnouncements';
+import { GuildLinks } from 'components/Guild/Section/GuildLinks';
 import { GuildPlayers } from 'components/Guild/Section/GuildPlayers';
-import { ProfileSection } from 'components/Profile/ProfileSection';
 import { HeadComponent } from 'components/Seo';
 import {
   QuestFragment,
@@ -78,11 +78,7 @@ const GuildPage: React.FC<Props> = ({ guild }) => {
       case BoxTypes.GUILD_LINKS:
         return <GuildLinks guild={guild} />;
       case BoxTypes.GUILD_ANNOUNCEMENTS:
-        return (
-          <ProfileSection title="Announcements">
-            <p>No announcements.</p>
-          </ProfileSection>
-        );
+        return <GuildAnnouncements guildId={guild.id} />;
       default:
         return <></>;
     }

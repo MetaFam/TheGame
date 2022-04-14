@@ -13,6 +13,7 @@ export const typeDefs = gql`
       guildId: uuid!
       playerId: uuid!
     ): [DiscordRole!]!
+    getGuildDiscordAnnouncements(guildDiscordId: String): [String!]
   }
 
   type BrightIdStatus {

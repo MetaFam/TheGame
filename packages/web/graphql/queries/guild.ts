@@ -1,4 +1,6 @@
 import {
+  GetGuildAnnouncementsQuery,
+  GetGuildAnnouncementsQueryVariables,
   GetGuildMetadataQuery,
   GetGuildMetadataQueryVariables,
   GetGuildnamesQuery,
@@ -11,6 +13,7 @@ import {
   GetGuildsQueryVariables,
   GuildFragment as GuildFragmentType,
   GuildStatus_Enum,
+  Maybe,
 } from 'graphql/autogen/types';
 import { GuildFragment, PlayerFragment } from 'graphql/fragments';
 import { GuildPlayer } from 'graphql/types';
@@ -168,4 +171,29 @@ export const getGuildPlayers = async (
   }
 
   return guildPlayers;
+};
+
+const getGuildAnnouncementsQuery = /* GraphQL */ `
+  query GetGuildAnnouncements($guildId: uuid!) {
+    guild(where: { id: { _eq: $guildId } }) {
+      id
+      discordAnnouncements
+    }
+  }
+  ${PlayerFragment}
+`;
+
+export const getGuildAnnouncements = async (
+  guildId: string,
+): Promise<Maybe<string[]> | undefined> => {
+  if (!guildId) return [];
+  const { data } = await client
+    .query<GetGuildAnnouncementsQuery, GetGuildAnnouncementsQueryVariables>(
+      getGuildAnnouncementsQuery,
+      { guildId },
+    )
+    .toPromise();
+
+  if (!data) return [];
+  return data.guild[0].discordAnnouncements;
 };

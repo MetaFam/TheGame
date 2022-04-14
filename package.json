@@ -19,7 +19,7 @@
     "backend:dev": "lerna run dev --parallel --scope @metafam/backend",
     "backend:build": "lerna run build --scope @metafam/backend --include-dependencies --stream",
     "hasura": "hasura --project ./hasura",
-    "hasura:console": "yarn hasura console --no-browser",
+    "hasura:console": "yarn hasura console --no-browser --skip-update-check",
     "hasura:migrate:init": "yarn hasura migrate create \"init\" --from-server",
     "hasura:seed-db": "node hasura/seed-db.mjs",
     "generate": "lerna run generate --parallel --",

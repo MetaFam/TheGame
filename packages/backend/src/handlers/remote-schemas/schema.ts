@@ -4,6 +4,7 @@ import { getBrightIdStatus } from './resolvers/brightId/resolver';
 import { getDaoHausMemberships } from './resolvers/daohaus/resolver';
 import {
   getDiscordServerMemberRoles,
+  getGuildDiscordAnnouncements,
   getGuildDiscordRoles,
 } from './resolvers/discord/resolver';
 import {
@@ -21,6 +22,7 @@ const resolvers = {
     getTopPSeedHolders,
     getGuildDiscordRoles,
     getDiscordServerMemberRoles,
+    getGuildDiscordAnnouncements,
   },
   uuid,
 };
