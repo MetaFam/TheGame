@@ -110,7 +110,7 @@ export const playerRankUpdated = async (payload: TriggerPayload<PlayerRow>) => {
       if (isRankHigher(oldPlayer?.rank, newPlayer?.rank)) {
         try {
           const propsChannel = (await discordClient.channels.fetch(
-            Constants.DISCORD_PROPS_CHANNEL_ID,
+            Constants.METAFAM_DISCORD_PROPS_CHANNEL_ID,
           )) as TextChannel;
           propsChannel.send(
             `Props to ${discordPlayer} for becoming ${newRank}, congrats!`,

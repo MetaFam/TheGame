@@ -2,11 +2,11 @@
 export const WEB_PATH_JOIN_GUILD = 'join/guild';
 
 export const DISCORD_BOT_CLIENT_ID = '804609082308034560';
-export const DISCORD_BOT_PERMISSIONS = '268435456';
-export const DISCORD_OAUTH_SCOPES = 'bot identify guilds';
+export const JOIN_GUILD_DISCORD_BOT_PERMISSIONS = '66560'; // Read Messages/View Channels, View Message History
+export const JOIN_GUILD_DISCORD_OAUTH_SCOPES = 'bot identify';
 export const DISCORD_OAUTH_CALLBACK_PATH = `${WEB_PATH_JOIN_GUILD}/auth`;
 export const METAFAM_DISCORD_GUILD_ID = '629411177947987986';
-export const DISCORD_PROPS_CHANNEL_ID = '718557002221224037';
+export const METAFAM_DISCORD_PROPS_CHANNEL_ID = '718557002221224037';
 
 export const SC_OUTPUT_BASE =
   'https://raw.githubusercontent.com/MetaFam/XP/gh-pages/';
