@@ -117,7 +117,10 @@ export default async (playerId: string): Promise<UpdateIdxProfileResponse> => {
               if (fromKey !== 'meetWithWalletDomain') {
                 values[toKey] = (extendedProfile[fromKey] as string) ?? null;
               } else if (extendedProfile[fromKey] === 'mww_remove') {
-                // TODO:remove MWW account
+                await client.RemovePlayerAccount({
+                  playerId,
+                  accountType: AccountType_Enum.Meetwithwallet,
+                });
               } else {
                 await client.UpsertAccount({
                   objects: [
