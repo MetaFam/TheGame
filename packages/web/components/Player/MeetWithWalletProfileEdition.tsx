@@ -1,9 +1,10 @@
 import { Link, MetaButton, MWWIcon, Text, VStack } from '@metafam/ds';
 import { ethereumHelper } from '@metafam/utils';
-import { AccountType_Enum, Player } from 'graphql/autogen/types';
-import { useWeb3 } from 'lib/hooks';
+import { Player } from 'graphql/autogen/types';
+import { useProfileField, useWeb3 } from 'lib/hooks';
 import React, { useEffect, useMemo, useState } from 'react';
 import { FieldValues, UseFormSetValue } from 'react-hook-form';
+import { getPlayerMeetwithWalletCalendarUrl } from 'utils/playerHelpers';
 
 interface MeetWithWalletProps {
   player: Player;
@@ -22,6 +23,7 @@ const MeetWithWalletProfileEdition: React.FC<MeetWithWalletProps> = ({
 }) => {
   const [loading, setLoading] = useState(true);
   const [connecting, setConnecting] = useState(false);
+  const [pleaseSave, setPleaseSave] = useState(false);
   const [accountStatus, setAccountStatus] = useState(AccountStatus.NotCreated);
   const [calendarUrl, setCalendarUrl] = useState('');
 
@@ -34,12 +36,21 @@ const MeetWithWalletProfileEdition: React.FC<MeetWithWalletProps> = ({
   let information: JSX.Element;
   let buttonCopy: string;
 
-  const checkAccount = async () => {
-    const mwwDomain = player.accounts?.filter(
-      (acc) => acc.type === AccountType_Enum.Meetwithwallet,
-    )[0].identifier;
+  // 9tails.eth: As there is no current way of editing Profile Accounts,
+  // and the MWW integratino happens on the EditProfileModal, to avoid
+  // adding a new column to the table just to do the followig, I decided
+  // to this this cast as any to use the information from the form and
+  // don't do bigger changes on the data structure just because of it
+  const profileFields = useProfileField({
+    field: 'meetWithWalletDomain',
+    player,
+    getter: getPlayerMeetwithWalletCalendarUrl,
+  });
 
-    if (mwwDomain) {
+  const mwwDomain = (profileFields as any).meetWithWalletDomain || null;
+
+  const checkAccount = async () => {
+    if (mwwDomain && mwwDomain !== 'mww_remove') {
       setAccountStatus(AccountStatus.Linked);
       setLoading(false);
       return;
@@ -106,10 +117,13 @@ const MeetWithWalletProfileEdition: React.FC<MeetWithWalletProps> = ({
     setValue('meetWithWalletDomain', calURl, { shouldDirty: true });
 
     setConnecting(false);
+    setPleaseSave(true);
+    setAccountStatus(AccountStatus.Linked);
   };
 
   const disconnect = async () => {
     setValue('meetWithWalletDomain', 'mww_remove', { shouldDirty: true });
+    setPleaseSave(true);
     setAccountStatus(AccountStatus.NotLinked);
   };
 
@@ -169,6 +183,11 @@ const MeetWithWalletProfileEdition: React.FC<MeetWithWalletProps> = ({
       >
         {buttonCopy}
       </MetaButton>
+      {pleaseSave && (
+        <Text pb={4} color="white">
+          Please save to apply Meet with wallet changes
+        </Text>
+      )}
     </VStack>
   );
 };

@@ -5,7 +5,7 @@ import GuildCoverImageSmall from 'assets/guild-background-small.jpeg';
 import PlayerCoverImageFull from 'assets/player-background-full.jpg';
 import PlayerCoverImageSmall from 'assets/player-background-small.jpg';
 import { ethers } from 'ethers';
-import { Player } from 'graphql/autogen/types';
+import { AccountType_Enum, Player } from 'graphql/autogen/types';
 import { GuildPlayer } from 'graphql/types';
 
 import { optimizedImage } from './imageHelpers';
@@ -56,6 +56,12 @@ export const getPlayerUsername = (player?: Maybe<Player>): string | undefined =>
 export const getPlayerDescription = (
   player?: Maybe<Player>,
 ): string | undefined => player?.profile?.description ?? undefined;
+
+export const getPlayerMeetwithWalletCalendarUrl = (
+  player?: Maybe<Player>,
+): string | undefined =>
+  player?.accounts?.find((acc) => acc.type === AccountType_Enum.Meetwithwallet)
+    ?.identifier || undefined;
 
 export const formatAddress = (address = ''): string =>
   `${address.slice(0, 6)}…${address.slice(-4)}`;

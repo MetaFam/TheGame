@@ -23,12 +23,15 @@ import { PlayerAvatar } from 'components/Player/PlayerAvatar';
 import { PlayerContacts as Contacts } from 'components/Player/PlayerContacts';
 import { PlayerHeroTile } from 'components/Player/Section/PlayerHeroTile';
 import { ProfileSection } from 'components/Profile/ProfileSection';
-import { AccountType_Enum, Player } from 'graphql/autogen/types';
+import { Player } from 'graphql/autogen/types';
 import { useProfileField, useUser } from 'lib/hooks';
 import React, { useEffect, useState } from 'react';
 import { FaClock, FaGlobe } from 'react-icons/fa';
 import { BoxTypes } from 'utils/boxTypes';
-import { getPlayerName } from 'utils/playerHelpers';
+import {
+  getPlayerMeetwithWalletCalendarUrl,
+  getPlayerName,
+} from 'utils/playerHelpers';
 
 const MAX_BIO_LENGTH = 240;
 
@@ -46,9 +49,18 @@ export const PlayerHero: React.FC<HeroProps> = ({ player, editing }) => {
   const isOwnProfile = user ? user.id === player?.id : null;
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const mwwAccount = player.accounts?.find(
-    (acc) => acc.type === AccountType_Enum.Meetwithwallet,
-  );
+  // 9tails.eth: As there is no current way of editing Profile Accounts,
+  // and the MWW integratino happens on the EditProfileModal, to avoid
+  // adding a new column to the table just to do the followig, I decided
+  // to this this cast as any to use the information from the form and
+  // don't do bigger changes on the data structure just because of it
+  const profileFields = useProfileField({
+    field: 'meetWithWalletDomain',
+    player,
+    getter: getPlayerMeetwithWalletCalendarUrl,
+  });
+
+  const mwwDomain = (profileFields as any).meetWithWalletDomain || null;
 
   return (
     <ProfileSection
@@ -129,12 +141,14 @@ export const PlayerHero: React.FC<HeroProps> = ({ player, editing }) => {
           </PlayerHeroTile>
         </SimpleGrid> */}
 
-        {mwwAccount && (
+        {mwwDomain && mwwDomain !== 'mww_remove' && (
           <MetaButton
             as={'a'}
             target="_blank"
             isFullWidth
-            href={mwwAccount.identifier}
+            href={`${
+              (profileFields as any).meetWithWalletDomain
+            }?utm_source=metafam&utm_medium=site`}
             leftIcon={<MWWIcon />}
           >
             Meet with me
