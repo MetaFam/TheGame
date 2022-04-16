@@ -17,6 +17,27 @@ export const theme = extendTheme({
         },
       },
     },
+    Button: {
+      variants: {
+        outline: {
+          borderColor: 'blue.300',
+          color: 'blue.300',
+          _hover: {
+            bg: 'rgba(0, 0, 0, 0.24)',
+            borderColor: 'blue.200',
+            color: 'blue.200',
+          },
+          _active: {
+            bg: 'rgba(0, 0, 0, 0.48)',
+            borderColor: 'blue.800',
+            color: 'blue.800',
+          },
+          _disabled: {
+            opacity: 0.5,
+          },
+        },
+      },
+    },
   },
   breakpoints: {
     base: '0em',

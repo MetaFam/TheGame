@@ -1,4 +1,4 @@
-import { Link, MetaButton, MWWIcon, Text, VStack } from '@metafam/ds';
+import { Button, Link, MWWIcon, Text, VStack } from '@metafam/ds';
 import { ethereumHelper } from '@metafam/utils';
 import { Player } from 'graphql/autogen/types';
 import { useProfileField, useWeb3 } from 'lib/hooks';
@@ -173,7 +173,7 @@ const MeetWithWalletProfileEdition: React.FC<MeetWithWalletProps> = ({
   return (
     <VStack alignItems="flex-start">
       {information}
-      <MetaButton
+      <Button
         onClick={() =>
           accountStatus === AccountStatus.Linked ? disconnect() : linkAccount()
         }
@@ -182,7 +182,7 @@ const MeetWithWalletProfileEdition: React.FC<MeetWithWalletProps> = ({
         variant="outline"
       >
         {buttonCopy}
-      </MetaButton>
+      </Button>
       {pleaseSave && (
         <Text pb={4} color="white">
           Please save to apply Meet with wallet changes
