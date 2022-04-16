@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
-const baseMWWUrl = 'https://meet-with-wallet-git-develop-appcalipse.vercel.app';
+const baseMWWUrl = 'https://meetwithwallet.xyz';
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 async function handler(req: NextApiRequest, res: NextApiResponse) {
