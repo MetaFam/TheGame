@@ -1,0 +1,1 @@
+INSERT INTO "AccountType" (type) VALUES ('MEETWITHWALLET');
