@@ -66,6 +66,7 @@ jobs:
       CLOUDRUN_SUFFIX: ${{env.CLOUDRUN_SUFFIX}}
       FRONTEND_SERVICE: ${{env.FRONTEND_SERVICE}}
       FRONTEND_PORT: ${{env.FRONTEND_PORT}}
+      GRAPHQL_URL: ${{env.GRAPHQL_URL}}
       CLOUDRUN_REGION: ${{steps.first.outputs.CLOUDRUN_REGION}}
       DOCKER_REGISTRY: ${{steps.first.outputs.DOCKER_REGISTRY}}
       FRONTEND_URL: ${{steps.first.outputs.FRONTEND_URL}}
