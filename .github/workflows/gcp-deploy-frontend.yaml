@@ -9,7 +9,8 @@ on:
         default: ""
   push:
     branches:
-      - alec-develop
+      - develop
+      - master
 
 env:
   PROJECT_ID: metagame-thegame
