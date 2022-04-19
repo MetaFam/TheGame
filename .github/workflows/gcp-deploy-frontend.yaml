@@ -20,7 +20,6 @@ env:
   DEPLOYMENT_ENV: ${{github.ref_name}}
   FRONTEND_SERVICE: frontend-${{github.ref_name}}
   FRONTEND_PORT: 3000
-  GRAPHQL_URL: https://api-staging.metagame.wtf/v1/graphql
 
 jobs:
   start-deployment:
@@ -66,11 +65,11 @@ jobs:
       CLOUDRUN_SUFFIX: ${{env.CLOUDRUN_SUFFIX}}
       FRONTEND_SERVICE: ${{env.FRONTEND_SERVICE}}
       FRONTEND_PORT: ${{env.FRONTEND_PORT}}
-      GRAPHQL_URL: ${{env.GRAPHQL_URL}}
       CLOUDRUN_REGION: ${{steps.first.outputs.CLOUDRUN_REGION}}
       DOCKER_REGISTRY: ${{steps.first.outputs.DOCKER_REGISTRY}}
       FRONTEND_URL: ${{steps.first.outputs.FRONTEND_URL}}
       DOCKER_PATH: ${{steps.second.outputs.DOCKER_PATH}}
+      GRAPHQL_URL: ${{steps.second.outputs.GRAPHQL_URL}}
       FRONTEND_TAG: ${{steps.third.outputs.FRONTEND_TAG}}
 
     steps:
@@ -81,12 +80,18 @@ jobs:
           echo "::set-output name=DOCKER_REGISTRY::${{env.REGISTRY_REGION}}-docker.pkg.dev"
           echo "::set-output name=FRONTEND_URL::\
           https://${{env.FRONTEND_SERVICE}}-${{env.CLOUDRUN_SUFFIX}}.${{env.DEPLOYMENT_DOMAIN}}"
-
+          if [[ ${{github.ref_name}} == 'master' ]]; then
+              echo ::set-output name=HASURA_HOST::api.metagame.wtf
+          else
+              echo ::set-output name=HASURA_HOST::api-staging.metagame.wtf
+          fi
       - name: Those Variables May Now Be Interpolated
         id: second
         run: |
           echo "::set-output name=DOCKER_PATH::\
           ${{steps.first.outputs.DOCKER_REGISTRY}}/${{env.PROJECT_ID}}/${{env.REGISTRY_REPO}}"
+          echo "::set-output name=GRAPHQL_URL::\
+          https://${{steps.first.outputs.HASURA_HOST}}/v1/graphql"
 
       - name: And That Result Again In Another Step
         id: third
