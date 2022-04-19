@@ -59,7 +59,7 @@ jobs:
     needs: [cancel-previous]
 
     outputs:
-      PROJECT_ID: ${{env.PROJECT_ID}}                   keep
+      PROJECT_ID: ${{env.PROJECT_ID}}
       REGISTRY_REGION: ${{env.REGISTRY_REGION}}
       REGISTRY_REPO: ${{env.REGISTRY_REPO}}
       DEPLOYMENT_DOMAIN: ${{env.DEPLOYMENT_DOMAIN}}
