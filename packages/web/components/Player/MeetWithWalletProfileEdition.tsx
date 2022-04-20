@@ -7,7 +7,7 @@ import { FieldValues, UseFormSetValue } from 'react-hook-form';
 import { getPlayerMeetwithWalletCalendarUrl } from 'utils/playerHelpers';
 
 interface MeetWithWalletProps {
-  player: Maybe<Player>;
+  player?: Maybe<Player>;
   setValue: UseFormSetValue<FieldValues>;
 }
 
