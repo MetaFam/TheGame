@@ -188,7 +188,7 @@ jobs:
             --cpu 1 \
             --memory 512Mi \
             --ingress all \
-            --max-instances 1 \
+            --min-instances 1 \
             --allow-unauthenticated \
             --set-env-vars WEB3_STORAGE_TOKEN=${{secrets.WEB3_STORAGE_TOKEN}} \
             --set-env-vars OPENSEA_API_KEY=${{secrets.OPENSEA_API_KEY}} \
