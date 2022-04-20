@@ -6,6 +6,7 @@ export type HeadMetaProps = {
   description?: string;
   url?: string;
   img?: string;
+  cardStyle?: string;
 };
 
 export const HeadComponent: React.FC<HeadMetaProps> = ({
@@ -13,6 +14,7 @@ export const HeadComponent: React.FC<HeadMetaProps> = ({
   description = 'MetaGame is a Massive Online Coordination Game! MetaGame is any approach to a game that transcends or operates outside of the prescribed rules of the game, uses external factors to affect the game, or goes beyond the supposed limits or environment set by the game.',
   url = 'https://my.metagame.wtf/',
   img = 'https://my.metagame.wtf/_next/image?url=%2Fassets%2Flogo.png&w=1920&q=75',
+  cardStyle = 'summary',
 }) => (
   <Head>
     <title>{title}</title>
@@ -38,7 +40,7 @@ export const HeadComponent: React.FC<HeadMetaProps> = ({
     <meta name="og:url" property="og:url" content={url} />
     <meta name="og:image" property="og:image" content={img} />
 
-    <meta name="twitter:card" property="twitter:card" content="summary" />
+    <meta name="twitter:card" property="twitter:card" content={cardStyle} />
     <meta name="twitter:url" property="twitter:url" content={url} />
     <meta name="twitter:site" property="twitter:site" content="@MetaFam" />
     <meta name="twitter:title" property="twitter:title" content={title} />
