@@ -199,9 +199,7 @@ export default async (playerId: string): Promise<UpdateIdxProfileResponse> => {
     if (did) {
       const alsoKnownAs = ((await store.get('alsoKnownAs', did)) ??
         {}) as AlsoKnownAs;
-      let { accounts = [] } = alsoKnownAs;
-
-      accounts = [...accounts, extendedProfile?.accounts ?? []];
+      const { accounts = [] } = alsoKnownAs;
 
       await Promise.all(
         accounts?.map(async ({ host, id: username }: Account) => {
