@@ -1,5 +1,5 @@
-import { Button, Link, MWWIcon, Text, VStack } from '@metafam/ds';
-import { ethereumHelper } from '@metafam/utils';
+import { Button, Link, MeetWithWalletIcon, Text, VStack } from '@metafam/ds';
+import { ethereumHelper, Maybe } from '@metafam/utils';
 import { Player } from 'graphql/autogen/types';
 import { useProfileField, useWeb3 } from 'lib/hooks';
 import React, { useEffect, useMemo, useState } from 'react';
@@ -7,7 +7,7 @@ import { FieldValues, UseFormSetValue } from 'react-hook-form';
 import { getPlayerMeetwithWalletCalendarUrl } from 'utils/playerHelpers';
 
 interface MeetWithWalletProps {
-  player: Player;
+  player: Maybe<Player>;
   setValue: UseFormSetValue<FieldValues>;
 }
 
@@ -47,6 +47,7 @@ const MeetWithWalletProfileEdition: React.FC<MeetWithWalletProps> = ({
     getter: getPlayerMeetwithWalletCalendarUrl,
   });
 
+  // eslint-disable-next-line
   const mwwDomain = (profileFields as any).meetWithWalletDomain || null;
 
   const checkAccount = async () => {
@@ -76,7 +77,7 @@ const MeetWithWalletProfileEdition: React.FC<MeetWithWalletProps> = ({
 
     let calURl = calendarUrl;
 
-    if (accountStatus === AccountStatus.NotCreated) {
+    if (accountStatus === AccountStatus.NotCreated && provider != null) {
       try {
         const sigMessageResult = await (
           await fetch(`/api/integrations/meetwithwallet/${address}`, {
@@ -86,7 +87,7 @@ const MeetWithWalletProfileEdition: React.FC<MeetWithWalletProps> = ({
 
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         const signature = await ethereumHelper.getSignature(
-          provider!,
+          provider,
           sigMessageResult.message,
           ['meetwithwallet.xyz'],
         );
@@ -178,7 +179,7 @@ const MeetWithWalletProfileEdition: React.FC<MeetWithWalletProps> = ({
           accountStatus === AccountStatus.Linked ? disconnect() : linkAccount()
         }
         isLoading={loading || connecting}
-        leftIcon={<MWWIcon />}
+        leftIcon={<MeetWithWalletIcon />}
         variant="outline"
       >
         {buttonCopy}

@@ -14,7 +14,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
       return res.json(result);
     } catch (err) {
-      console.log(err);
       return res.status(404).send(404);
     }
   } else if (req.method === 'PUT') {
