@@ -6,9 +6,9 @@ import {
   Grid,
   HStack,
   IconButton,
+  MeetWithWalletIcon,
   MetaButton,
   MetaTag,
-  MWWIcon,
   Text,
   Tooltip,
   useDisclosure,
@@ -60,6 +60,7 @@ export const PlayerHero: React.FC<HeroProps> = ({ player, editing }) => {
     getter: getPlayerMeetwithWalletCalendarUrl,
   });
 
+  // eslint-disable-next-line
   const mwwDomain = (profileFields as any).meetWithWalletDomain || null;
 
   return (
@@ -146,10 +147,8 @@ export const PlayerHero: React.FC<HeroProps> = ({ player, editing }) => {
             as={'a'}
             target="_blank"
             isFullWidth
-            href={`${
-              (profileFields as any).meetWithWalletDomain
-            }?utm_source=metafam&utm_medium=site`}
-            leftIcon={<MWWIcon />}
+            href={`${mwwDomain}?utm_source=metafam&utm_medium=site`}
+            leftIcon={<MeetWithWalletIcon />}
           >
             Meet with me
           </MetaButton>

@@ -35,6 +35,7 @@ import {
 } from '../../../lib/autogen/hasura-sdk';
 import { maskFor } from '../../../lib/colorHelpers';
 import { client } from '../../../lib/hasuraClient';
+import { handledMeetWithWalletIntegration } from '../meetwithwallet';
 
 export default async (playerId: string): Promise<UpdateIdxProfileResponse> => {
   const accountLinks: string[] = [];
@@ -113,24 +114,16 @@ export default async (playerId: string): Promise<UpdateIdxProfileResponse> => {
           async ([hasuraId, ceramicId]) => {
             const fromKey = ceramicId as Values<typeof ExtendedProfileStrings>;
             const toKey = hasuraId as keyof typeof ExtendedProfileStrings;
+
             if (extendedProfile?.[fromKey] != null) {
-              if (fromKey !== 'meetWithWalletDomain') {
-                values[toKey] = (extendedProfile[fromKey] as string) ?? null;
-              } else if (extendedProfile[fromKey] === 'mww_remove') {
-                await client.RemovePlayerAccount({
+              if (
+                !(await handledMeetWithWalletIntegration(
                   playerId,
-                  accountType: AccountType_Enum.Meetwithwallet,
-                });
-              } else {
-                await client.UpsertAccount({
-                  objects: [
-                    {
-                      playerId,
-                      type: AccountType_Enum.Meetwithwallet,
-                      identifier: extendedProfile[fromKey] as string,
-                    },
-                  ],
-                });
+                  fromKey,
+                  extendedProfile,
+                ))
+              ) {
+                values[toKey] = (extendedProfile[fromKey] as string) ?? null;
               }
             }
           },

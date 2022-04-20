@@ -910,7 +910,7 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
                 <Label>Meeting calendar</Label>
                 <MeetWithWalletProfileEdition
                   setValue={setValue}
-                  player={player!}
+                  player={player}
                 />
               </FormControl>
             </GridItem>

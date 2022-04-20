@@ -1,0 +1,1 @@
+DELETE FROM "AccountType" WHERE type = 'MEETWITHWALLET';

@@ -96,10 +96,17 @@ export interface TitledDescription {
   title: string;
   description?: string;
 }
+
+export type PlayerAccount = {
+  identifier: string;
+  playerId: string;
+  type: string;
+};
+
 export type EPObjects = {
   availableHours?: Maybe<number>;
   playerType?: Maybe<TitledDescription>;
-  accounts?: Maybe<any>;
+  accounts?: Maybe<PlayerAccount>;
 };
 
 export type HasuraEPObjects = EPObjects & {
