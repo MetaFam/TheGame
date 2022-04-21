@@ -103,7 +103,7 @@ const syncGuildMembers = async (guild: GuildFragment) => {
     .map((p) => p.Player.discordId) as string[];
 
   await discordGuild.members.fetch();
-  console.log(discordGuild.members.cache);
+
   // gather all discord server members who have at least one of the "membership" roles
   // as defined by this guild
   const discordGuildMembers = discordGuild.members.cache.filter(
