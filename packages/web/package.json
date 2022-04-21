@@ -64,7 +64,7 @@
     "react-resizable": "3.0.4",
     "react-vis": "1.11.7",
     "rss-to-json": "2.0.2",
-    "sourcecred": "0.11",
+    "sourcecred": "0.11.0",
     "swr": "1.0.1",
     "urql": "2.0.2",
     "web3.storage": "3.5.0",
