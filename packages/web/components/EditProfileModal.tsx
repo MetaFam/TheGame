@@ -19,6 +19,7 @@ import {
   InputLeftElement,
   InputProps,
   InputRightAddon,
+  ITimezoneOption,
   Link,
   MetaHeading,
   Modal,
@@ -192,9 +193,10 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
   const { ceramic, address, chainId } = useWeb3();
   const toast = useToast();
   const description = watch('description');
-  const remaining = useMemo(() => MAX_DESC_LEN - (description?.length ?? 0), [
-    description,
-  ]);
+  const remaining = useMemo(
+    () => MAX_DESC_LEN - (description?.length ?? 0),
+    [description],
+  );
 
   const fields = Object.fromEntries(
     Object.keys(AllProfileFields).map((key) => {
@@ -760,7 +762,7 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
                   render={({ field: { onChange, ref, ...props } }) => (
                     <SelectTimeZone
                       labelStyle="abbrev"
-                      onChange={(tz) => {
+                      onChange={(tz: ITimezoneOption) => {
                         onChange(tz.value);
                       }}
                       {...props}
