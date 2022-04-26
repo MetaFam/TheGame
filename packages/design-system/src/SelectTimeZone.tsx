@@ -3,7 +3,7 @@
 import { Maybe } from '@metafam/utils';
 import cityTimeZones from 'city-timezones';
 import React, { useCallback, useState } from 'react';
-import { GroupBase, StylesConfig } from 'react-select';
+import { CSSObjectWithLabel, GroupBase, StylesConfig } from 'react-select';
 import TimeZoneSelect, {
   i18nTimezones as allTimezones,
   ITimezone,
@@ -26,17 +26,18 @@ export type TimeZoneType = {
   name: string;
   value: string; // for compatibility w/ select option
 };
+export { ITimezoneOption };
 
 export interface TimeZoneSelectProps extends Record<string, unknown> {
   value?: ITimezone;
   onBlur?: () => void;
-  onChange?: (timeZone: unknown) => void;
+  onChange?: (timeZone: ITimezoneOption) => void;
   labelStyle: 'original' | 'altName' | 'abbrev';
 }
 
 const timeZoneSelectStyles: typeof chakraesqueStyles = {
   ...chakraesqueStyles,
-  container: (styles, props) => ({
+  container: (styles: CSSObjectWithLabel, props) => ({
     ...styles,
     ...chakraesqueStyles.container?.(styles, props),
     width: '100%',
@@ -150,7 +151,7 @@ export const SelectTimeZone: React.FC<TimeZoneSelectProps> = ({
       timezones={Object.fromEntries(
         options.map(({ location, title }) => [location, title ?? '']),
       )}
-      onChange={(tz) => onChange?.((tz as ITimezoneOption).value)}
+      onChange={(tz) => onChange?.(tz as ITimezoneOption)}
       {...{ onInputChange }}
       {...props}
     />

@@ -19,6 +19,7 @@ export { metaFilterSelectStyles, SelectSearch } from './SelectSearch';
 export {
   getCityZonesFor,
   getTimeZoneFor,
+  ITimezoneOption,
   LabeledOptions,
   LabeledValue,
   SelectTimeZone,
