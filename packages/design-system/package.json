@@ -32,7 +32,7 @@
     "@types/react-select": "3.0.22",
     "city-timezones": "1.2.0",
     "framer-motion": "5.5.6",
-    "next": "10.2.3",
+    "next": "12.1.5",
     "react-select": "4.3.1",
     "react-timezone-select": "1.0.3",
     "spacetime": "6.16.1",
