@@ -71,7 +71,7 @@
     "web3modal": "1.9.4"
   },
   "devDependencies": {
-    "@types/busboy": "0.3.1",
+    "@types/busboy": "1.5.0",
     "@types/deep-equal": "1.0.1",
     "@types/react": "17.0.6",
     "@types/react-grid-layout": "1.1.3",
