@@ -42,7 +42,7 @@
     "jotai": "1.6.0",
     "jsdom": "19.0.0",
     "moment": "2.29.1",
-    "next": "10.2.3",
+    "next": "12.1.6",
     "next-images": "1.8.4",
     "next-transpile-modules": "9.0.0",
     "next-urql": "3.3.2",
