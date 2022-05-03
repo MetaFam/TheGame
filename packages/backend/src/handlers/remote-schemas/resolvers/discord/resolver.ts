@@ -66,14 +66,18 @@ export const getGuildDiscordAnnouncements: QueryResolvers['getGuildDiscordAnnoun
     try {
       const discordClient = await createDiscordClient();
       const discordGuild = await discordClient.guilds.fetch(guildDiscordId);
-      await discordGuild.members.fetch();
-      const viewChannelPerm = discordGuild.me?.permissions.has('VIEW_CHANNEL');
-      if (!viewChannelPerm) {
-        console.warn(
-          `Guild (id=${guildDiscordId}) does not have the VIEW_CHANNEL permission, skipping announcement fetching...`,
-        );
-      }
       if (discordGuild != null) {
+        // This is necessary to populate 'me' to get our own permissions in this server.
+        // It also seems to be necessary to populate the "channels" cache used below
+        await discordGuild.members.fetch();
+        const viewChannelPerm =
+          discordGuild.me?.permissions.has('VIEW_CHANNEL');
+        if (!viewChannelPerm) {
+          console.warn(
+            `Guild (id=${guildDiscordId}) does not have the VIEW_CHANNEL permission, skipping announcement fetching...`,
+          );
+          return [];
+        }
         const newsChannels = discordGuild.channels.cache.filter(
           (channel: GuildBasedChannel) => channel.type === 'GUILD_NEWS',
         );
