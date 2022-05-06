@@ -217,7 +217,7 @@ jobs:
 
     steps:
       - name: "Login to Registry: ${{needs.env.outputs.DOCKER_REGISTRY}}"
-        uses: docker/login-action@v1
+        uses: docker/login-action@v2
         with:
           registry: ${{needs.env.outputs.DOCKER_REGISTRY}}
           username: _json_key
@@ -255,7 +255,7 @@ jobs:
           cache_key: "${{github.event.inputs.cache_key}}-${{hashFiles('packages/backend/**', 'packages/utils/**', 'package.json')}}"
 
       - name: "Login to Registry: ${{needs.env.outputs.DOCKER_REGISTRY}}"
-        uses: docker/login-action@v1
+        uses: docker/login-action@v2
         with:
           registry: ${{needs.env.outputs.DOCKER_REGISTRY}}
           username: _json_key
@@ -319,7 +319,7 @@ jobs:
 
     steps:
       - name: "Login to Registry: ${{needs.env.outputs.DOCKER_REGISTRY}}"
-        uses: docker/login-action@v1
+        uses: docker/login-action@v2
         with:
           registry: ${{needs.env.outputs.DOCKER_REGISTRY}}
           username: _json_key
@@ -358,7 +358,7 @@ jobs:
           cache_key: "${{github.event.inputs.cache_key}}-${{hashFiles('hasura/**', 'package.json')}}"
 
       - name: "Login to Registry: ${{needs.env.outputs.DOCKER_REGISTRY}}"
-        uses: docker/login-action@v1
+        uses: docker/login-action@v2
         with:
           registry: ${{needs.env.outputs.DOCKER_REGISTRY}}
           username: _json_key
@@ -459,7 +459,7 @@ jobs:
           cache_key: "${{github.event.inputs.cache_key}}-${{hashFiles('packages/web/**', 'packages/design-system/**', 'packages/utils/**', 'package.json')}}"
 
       - name: "Login to Registry: ${{needs.env.outputs.DOCKER_REGISTRY}}"
-        uses: docker/login-action@v1
+        uses: docker/login-action@v2
         with:
           registry: ${{needs.env.outputs.DOCKER_REGISTRY}}
           username: _json_key
