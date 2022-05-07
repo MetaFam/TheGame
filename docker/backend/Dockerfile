@@ -51,7 +51,9 @@ COPY --from=build /usr/src/app/package.json ./package.json
 COPY --from=build /usr/src/app/node_modules ./node_modules
 
 COPY --from=build /usr/src/app/packages/backend/package.json ./packages/backend/package.json
+COPY --from=build /usr/src/app/packages/backend/tsconfig-paths-bootstrap.js ./packages/backend/tsconfig-paths-bootstrap.js
 COPY --from=build /usr/src/app/packages/backend/dist ./packages/backend/dist
+COPY --from=build /usr/src/app/packages/backend/node_modules ./packages/backend/node_modules
 
 COPY --from=build /usr/src/app/packages/utils/package.json ./packages/utils/package.json
 COPY --from=build /usr/src/app/packages/utils/dist ./packages/utils/dist
