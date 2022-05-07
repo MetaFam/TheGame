@@ -1,8 +1,8 @@
 import { createDiscordClient } from '@metafam/discord-bot';
 import { GuildBasedChannel, Role, TextChannel } from 'discord.js';
-import { client } from 'lib/hasuraClient';
 import { Converter } from 'showdown';
 
+import { client } from '../../../../lib/hasuraClient';
 import { QueryResolvers } from '../../autogen/types';
 
 export const getGuildDiscordRoles: QueryResolvers['getGuildDiscordRoles'] =
