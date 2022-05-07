@@ -8,6 +8,7 @@
     "target": "ES2021",
     "outDir": "dist",
     "rootDir": "src",
+    "baseUrl": "src",
     "composite": true,
     "tsBuildInfoFile": "dist/.tsbuildinfo"
   },
