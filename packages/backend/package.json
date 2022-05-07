@@ -5,10 +5,10 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "start": "node ./dist/index.js",
+    "start": "node -r ./tsconfig-paths-bootstrap.js ./dist/index.js",
     "build": "yarn generate && tsc -b",
     "dev": "concurrently \"yarn dev-ts\" \"yarn generate --watch\"",
-    "dev-ts": "ts-node-dev --exit-child --respawn -r tsconfig-paths/register -- src/index.ts",
+    "dev-ts": "ts-node-dev --exit-child --respawn -r tsconfig-paths/register  --inspect=0.0.0.0:4322 -- src/index.ts",
     "typecheck": "yarn build",
     "precommit": "yarn lint-staged",
     "generate": "graphql-codegen --config=codegen.yml",
@@ -46,6 +46,7 @@
     "node-fetch": "3.2.1",
     "reflect-metadata": "0.1.13",
     "sourcecred": "0.11.0",
+    "tsconfig-paths": "^4.0.0",
     "uuid": "8.3.2",
     "web3.storage": "3.5.6"
   },
@@ -54,7 +55,6 @@
     "@types/body-parser": "1.19.2",
     "@types/cors": "2.8.12",
     "nock": "13.2.4",
-    "ts-node-dev": "1.1.8",
-    "tsconfig-paths": "^4.0.0"
+    "ts-node-dev": "1.1.8"
   }
 }
