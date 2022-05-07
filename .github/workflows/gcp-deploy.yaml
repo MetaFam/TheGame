@@ -291,7 +291,8 @@ jobs:
             --set-env-vars HASURA_GRAPHQL_ADMIN_SECRET=${{needs.env.outputs.HASURA_SECRET}} \
             --set-env-vars GITHUB_API_TOKEN=${{secrets.GH_API_TOKEN}} \
             --set-env-vars SOURCECRED_LEDGER_BRANCH=master \
-            --set-env-vars GRAPHQL_URL=${{needs.env.outputs.GRAPHQL_URL}}
+            --set-env-vars GRAPHQL_URL=${{needs.env.outputs.GRAPHQL_URL}} \
+            --set-env-vars DISCORD_BOT_TOKEN=${{secrets.DISCORD_BOT_TOKEN}}
 
   undeploy-hasura:
     name: Undeploy Hasura
