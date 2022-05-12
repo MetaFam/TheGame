@@ -191,7 +191,7 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
     watch,
     formState: { errors, dirtyFields },
   } = useForm();
-  const { ceramic, address } = useWeb3();
+  const { ceramic, address, chainId } = useWeb3();
   const toast = useToast();
   const description = watch('description');
   const remaining = useMemo(
@@ -455,7 +455,15 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
     } finally {
       setStatus(null);
     }
+
+    if (chainId !== '0x1') {
+    return <ConnectToProgress />;
+  }
   };
+
+  if (chainId !== '0x1') {
+    return <ConnectToProgress />;
+  }
 
   return (
     <Modal {...{ isOpen, onClose }}>
