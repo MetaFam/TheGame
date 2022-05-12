@@ -75,7 +75,7 @@ export const Intro: React.FC<{ currentSection: number }> = ({
             fontFamily="landingHeading"
             textTransform="uppercase"
             className="gradient"
-            fontSize={{ base: 'lg', lg: 'lg' }}
+            fontSize={{ base: 'lg', lg: 'md', '3xl': 'lg', '4xl': '3xl' }}
             fontWeight={100}
             my={0}
             textAlign={{ base: 'left', lg: 'center' }}
@@ -136,16 +136,17 @@ export const ScrollLink = ({
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          minW: '35px',
-          maxW: '35px',
-          maxH: '35px',
+          minW: { base: '2.25rem', '4xl': '3.5rem' },
+          maxW: { base: '2.25rem', '4xl': '3.5rem' },
+          maxH: { base: '2.25rem', '4xl': '3.5rem' },
+          height: { base: '2.25rem', '4xl': '3.5rem' },
           mx: 'auto',
         },
       }}
     >
       <Text
         as="span"
-        fontSize="xs"
+        fontSize={{ base: 'xs', '4xl': 'md' }}
         mx="auto"
         pb={3}
         maxW={{ base: '3xs', lg: 'unset' }}
@@ -160,7 +161,7 @@ export const ScrollLink = ({
       </Text>
       <Text
         as="span"
-        fontSize="xs"
+        fontSize={{ base: 'xs', '4xl': 'md' }}
         mx="auto"
         pb={3}
         maxW={{ base: '3xs', lg: 'unset' }}

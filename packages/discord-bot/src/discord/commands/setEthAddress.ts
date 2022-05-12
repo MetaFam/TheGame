@@ -1,29 +1,36 @@
-import { Command, CommandMessage } from '@typeit/discord';
+import {
+  Discord,
+  SimpleCommand,
+  SimpleCommandMessage,
+  SimpleCommandOption,
+} from 'discordx';
 import { sourcecred as sc } from 'sourcecred';
 
 import { loadSourceCredLedger } from '../../sourcecred';
 
 const addressUtils = sc.plugins.ethereum.utils.address;
 
-type SetEthAddressArgs = {
-  ethAddress: string;
-  force: string;
-};
-
+@Discord()
 export abstract class SetEthAddress {
-  @Command('!mg setAddress :ethAddress :force')
-  async setAddress(message: CommandMessage<SetEthAddressArgs>) {
+  @SimpleCommand('setAddress')
+  async setAddress(
+    @SimpleCommandOption('eth_address', { type: 'STRING' })
+    ethAddressInput: string,
+    @SimpleCommandOption('force', { type: 'STRING' })
+    force: string | undefined,
+    command: SimpleCommandMessage,
+  ) {
     const res = await loadSourceCredLedger();
     const { result: reloadResult, manager } = res;
+    const { message } = command;
 
     if (reloadResult.error) {
       await message.reply(`Error Loading Ledger: ${reloadResult.error}`);
       return;
     }
 
-    const baseIdentityProposal = sc.plugins.discord.utils.identity.createIdentity(
-      message.member,
-    );
+    const baseIdentityProposal =
+      sc.plugins.discord.utils.identity.createIdentity(message.member);
     const baseIdentityId = sc.ledger.utils.ensureIdentityExists(
       manager.ledger,
       baseIdentityProposal,
@@ -31,7 +38,7 @@ export abstract class SetEthAddress {
 
     let ethAddress: string;
     try {
-      ethAddress = addressUtils.parseAddress(message.args.ethAddress);
+      ethAddress = addressUtils.parseAddress(ethAddressInput);
     } catch (e) {
       await message.reply(`Invalid ETH Address.`);
       return;
@@ -60,7 +67,7 @@ export abstract class SetEthAddress {
 
     const latestEthAlias = existingEthAliases[existingEthAliases.length - 1];
 
-    const shouldForceUpdate = message.args.force === 'force';
+    const shouldForceUpdate = force === 'force';
 
     if (latestEthAlias && !shouldForceUpdate) {
       await message.reply(
@@ -94,6 +101,7 @@ To force update your address, type \`!mg setAddress ${ethAddress} force\`.
         'Successfully linked ETH Address and activated account',
       );
     } catch (e) {
+      console.error(e);
       await message.reply(`Unable to link address: ${(e as Error).message}`);
     }
   }

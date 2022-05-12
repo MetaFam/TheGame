@@ -39,8 +39,6 @@ export const playerRoleChanged = async (
 
     const guild = await discordClient.guilds.fetch(
       Constants.METAFAM_DISCORD_GUILD_ID,
-      true,
-      true,
     );
     if (guild == null) {
       return;

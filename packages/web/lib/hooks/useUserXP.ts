@@ -1,5 +1,5 @@
 import { Constants } from '@metafam/utils';
-import { ethers } from 'ethers';
+import { utils } from 'ethers';
 import { useEffect, useState } from 'react';
 import { SCAccount, SCAccountsData } from 'sourcecred';
 
@@ -15,7 +15,7 @@ interface XPProps {
 export const useUserXP = (userAddress: string): XPProps | null => {
   const [xpDataObj, setXPDataObj] = useState<XPProps | null>(null);
   useEffect(() => {
-    if (ethers.utils.isAddress(userAddress))
+    if (utils.isAddress(userAddress))
       getXP(userAddress).then((res) => {
         if (res) setXPDataObj(res);
       });

@@ -68,6 +68,7 @@ enum AccountType_enum {
   DISCOURSE
   ETHEREUM
   GITHUB
+  MEETWITHWALLET
   TWITTER
 }
 

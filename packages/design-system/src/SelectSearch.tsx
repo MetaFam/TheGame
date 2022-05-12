@@ -1,20 +1,32 @@
 import React from 'react';
 import Select, {
-  components,
+  GroupBase,
   mergeStyles,
   Props as SelectProps,
+  StylesConfig,
 } from 'react-select';
 
+import { LabeledValue } from './SelectTimeZone';
 import { searchSelectStyles, selectStyles, theme } from './theme';
 
-export const SelectComponents = components;
-
-export const SelectSearch: React.FC<SelectProps> = ({
+export const SelectSearch = <T extends LabeledValue<string>>({
   styles = {},
   ...props
-}) => <Select styles={mergeStyles(searchSelectStyles, styles)} {...props} />;
+}: SelectProps<T, boolean, GroupBase<T>>) => (
+  <Select
+    styles={mergeStyles<T, boolean, GroupBase<T>>(
+      searchSelectStyles as StylesConfig<T, boolean, GroupBase<T>>,
+      styles,
+    )}
+    {...props}
+  />
+);
 
-export const metaFilterSelectStyles: typeof selectStyles = {
+export const metaFilterSelectStyles: StylesConfig<
+  LabeledValue<string>,
+  boolean,
+  GroupBase<LabeledValue<string>>
+> = {
   ...selectStyles,
   multiValue: (s) => ({
     ...s,
@@ -24,9 +36,8 @@ export const metaFilterSelectStyles: typeof selectStyles = {
     ...s,
     color: theme.colors.white,
   }),
-  groupHeading: (s, { children }) => ({
+  groupHeading: (s) => ({
     ...s,
-    ...selectStyles.groupHeading?.(s, { children }),
     borderTop: `1px solid ${theme.colors.borderPurple}`,
     margin: 0,
   }),

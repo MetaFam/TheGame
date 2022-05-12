@@ -43,6 +43,7 @@ services:
     command: yarn backend:dev
     ports:
       - 4000:4000
+      - 4322:4322
     volumes:
       - ./packages/@types:/usr/src/app/packages/@types
       - ./packages/backend:/usr/src/app/packages/backend

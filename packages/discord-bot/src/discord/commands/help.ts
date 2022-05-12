@@ -1,4 +1,4 @@
-import { Command, CommandMessage } from '@typeit/discord';
+import { Discord, SimpleCommand, SimpleCommandMessage } from 'discordx';
 
 const helpContent = `
 Available MetaGameBot commands:
@@ -12,9 +12,10 @@ Available MetaGameBot commands:
 - !mg help → This command.
 `;
 
+@Discord()
 export class HelpCommand {
-  @Command('!mg help')
-  async getHelp(message: CommandMessage) {
-    await message.reply(helpContent);
+  @SimpleCommand('help')
+  async getXp(command: SimpleCommandMessage) {
+    await command.message.reply(helpContent);
   }
 }

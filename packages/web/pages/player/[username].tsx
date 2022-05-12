@@ -195,14 +195,11 @@ export const Grid: React.FC<Props> = ({ player }): ReactElement => {
     [player?.profileLayout],
   );
 
-  const [currentLayoutData, setCurrentLayoutData] = useState<ProfileLayoutData>(
-    savedLayoutData,
-  );
+  const [currentLayoutData, setCurrentLayoutData] =
+    useState<ProfileLayoutData>(savedLayoutData);
 
-  const {
-    layoutItems: currentLayoutItems,
-    layouts: currentLayouts,
-  } = currentLayoutData;
+  const { layoutItems: currentLayoutItems, layouts: currentLayouts } =
+    currentLayoutData;
 
   useEffect(() => {
     itemsRef.current = itemsRef.current.slice(0, currentLayoutItems.length);

@@ -35,6 +35,7 @@ import {
 } from '../../../lib/autogen/hasura-sdk';
 import { maskFor } from '../../../lib/colorHelpers';
 import { client } from '../../../lib/hasuraClient';
+import { handledMeetWithWalletIntegration } from '../meetwithwallet';
 
 export default async (playerId: string): Promise<UpdateIdxProfileResponse> => {
   const accountLinks: string[] = [];
@@ -110,11 +111,20 @@ export default async (playerId: string): Promise<UpdateIdxProfileResponse> => {
         console.debug(`No Extended Profile For: ${ethereumAddress} (${did})`);
       } else {
         Object.entries(ExtendedProfileStrings).forEach(
-          ([hasuraId, ceramicId]) => {
+          async ([hasuraId, ceramicId]) => {
             const fromKey = ceramicId as Values<typeof ExtendedProfileStrings>;
             const toKey = hasuraId as keyof typeof ExtendedProfileStrings;
+
             if (extendedProfile?.[fromKey] != null) {
-              values[toKey] = (extendedProfile[fromKey] as string) ?? null;
+              if (
+                !(await handledMeetWithWalletIntegration(
+                  playerId,
+                  fromKey,
+                  extendedProfile,
+                ))
+              ) {
+                values[toKey] = (extendedProfile[fromKey] as string) ?? null;
+              }
             }
           },
         );
@@ -123,9 +133,9 @@ export default async (playerId: string): Promise<UpdateIdxProfileResponse> => {
             const fromKey = ceramicId as Values<typeof ExtendedProfileImages>;
             const toKey = hasuraId as keyof typeof ExtendedProfileImages;
             if (extendedProfile?.[fromKey] != null) {
-              values[toKey] = (extendedProfile[
-                fromKey
-              ] as ImageSources).original.src;
+              values[toKey] = (
+                extendedProfile[fromKey] as ImageSources
+              ).original.src;
             }
           },
         );
@@ -206,17 +216,16 @@ export default async (playerId: string): Promise<UpdateIdxProfileResponse> => {
             // ToDo: Examine the JWT to validate that it came from a
             // trusted source. Specifically, either the IdentityLink
             // service backing //self.id or one established by MetaGame
-            const {
-              insert_player_account: insert,
-            } = await client.UpsertAccount({
-              objects: [
-                {
-                  playerId,
-                  type: service,
-                  identifier: username,
-                },
-              ],
-            });
+            const { insert_player_account: insert } =
+              await client.UpsertAccount({
+                objects: [
+                  {
+                    playerId,
+                    type: service,
+                    identifier: username,
+                  },
+                ],
+              });
             if (insert?.affected_rows === undefined) {
               // eslint-disable-next-line no-console
               console.warn(

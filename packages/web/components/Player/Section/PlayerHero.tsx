@@ -6,6 +6,8 @@ import {
   Grid,
   HStack,
   IconButton,
+  MeetWithWalletIcon,
+  MetaButton,
   MetaTag,
   Text,
   Tooltip,
@@ -26,7 +28,10 @@ import { useProfileField, useUser, useWeb3 } from 'lib/hooks';
 import React, { useEffect, useState } from 'react';
 import { FaClock, FaGlobe } from 'react-icons/fa';
 import { BoxTypes } from 'utils/boxTypes';
-import { getPlayerName } from 'utils/playerHelpers';
+import {
+  getPlayerMeetwithWalletCalendarUrl,
+  getPlayerName,
+} from 'utils/playerHelpers';
 
 const MAX_BIO_LENGTH = 240;
 
@@ -46,6 +51,20 @@ export const PlayerHero: React.FC<HeroProps> = ({ player, editing }) => {
   const isOwnProfile = user ? user.id === player?.id : null;
   const isMainNet = chainId === '0x1';
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  // 9tails.eth: As there is no current way of editing Profile Accounts,
+  // and the MWW integratino happens on the EditProfileModal, to avoid
+  // adding a new column to the table just to do the followig, I decided
+  // to this this cast as any to use the information from the form and
+  // don't do bigger changes on the data structure just because of it
+  const profileFields = useProfileField({
+    field: 'meetWithWalletDomain',
+    player,
+    getter: getPlayerMeetwithWalletCalendarUrl,
+  });
+
+  // eslint-disable-next-line
+  const mwwDomain = (profileFields as any).meetWithWalletDomain || null;
 
   return (
     <ProfileSection
@@ -77,9 +96,9 @@ export const PlayerHero: React.FC<HeroProps> = ({ player, editing }) => {
           />
         </Box>
       )}
-      <Box align="center" mb={8} mt={2}>
+      <Flex mb={8} mt={2} justify="center">
         <PlayerAvatar size="3xl" {...{ player }} />
-      </Box>
+      </Flex>
       <VStack spacing={6}>
         <Box textAlign="center" maxW="full">
           <Name {...{ player }} />
@@ -125,6 +144,18 @@ export const PlayerHero: React.FC<HeroProps> = ({ player, editing }) => {
             </Flex>
           </PlayerHeroTile>
         </SimpleGrid> */}
+
+        {mwwDomain && mwwDomain !== 'mww_remove' && (
+          <MetaButton
+            as={'a'}
+            target="_blank"
+            isFullWidth
+            href={`${mwwDomain}?utm_source=metafam&utm_medium=site`}
+            leftIcon={<MeetWithWalletIcon />}
+          >
+            Meet with me
+          </MetaButton>
+        )}
       </VStack>
 
       {isOwnProfile && isMainNet && (

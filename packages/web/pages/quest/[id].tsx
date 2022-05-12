@@ -45,10 +45,10 @@ const QuestPage: React.FC<Props> = ({ quest_id }) => {
     },
   });
   const quest = res.data?.quest_by_pk;
-  const canSubmit = useMemo<boolean>(() => canCompleteQuest(quest, user), [
-    quest,
-    user,
-  ]);
+  const canSubmit = useMemo<boolean>(
+    () => canCompleteQuest(quest, user),
+    [quest, user],
+  );
 
   if (router.isFallback || !quest) {
     return (

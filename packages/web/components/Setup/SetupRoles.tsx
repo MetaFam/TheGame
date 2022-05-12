@@ -144,7 +144,7 @@ export const SetupRoles: React.FC<SetupRolesProps> = ({
         };
 
         return (
-          <Stack mb={[4, 8]}>
+          <Stack mb={[4, 8]} align="center" w="100%">
             <Input type="hidden" {...register(field, {})} />
             <RoleGroup
               title="Primary Role"
@@ -197,14 +197,17 @@ const RoleGroup: React.FC<RoleGroupProps> = ({
   mobile,
 }) =>
   roles.length === 0 ? null : (
-    <Box mr={[0, 4]} my={[2, 4]}>
+    <Flex
+      mr={[0, 4]}
+      my={[2, 4]}
+      maxW="fit-content"
+      direction="column"
+      align={['center', 'stretch']}
+    >
       {title && (
         <Heading
-          align="center"
-          flexDirection="column"
           color={active ? 'cyan.500' : 'white'}
           fontWeight="bold"
-          casing="uppercase"
           mt={2}
           mb={4}
           fontSize={['xs', 'sm']}
@@ -240,7 +243,7 @@ const RoleGroup: React.FC<RoleGroupProps> = ({
           );
         })}
       </SimpleGrid>
-    </Box>
+    </Flex>
   );
 
 type RoleProps = {

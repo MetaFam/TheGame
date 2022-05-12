@@ -11,11 +11,20 @@ import {
   useBreakpointValue,
 } from '@chakra-ui/react';
 import React, { useCallback, useRef, useState } from 'react';
-import { Props as ReactSelectProps } from 'react-select';
+import {
+  components,
+  ContainerProps,
+  ControlProps,
+  GroupBase,
+  MenuProps,
+  OptionProps,
+  Props as ReactSelectProps,
+  ValueContainerProps,
+} from 'react-select';
 
 import { DropDownIcon } from './icons/DropDownIcon';
 import { MetaTag } from './MetaTag';
-import { SelectComponents, SelectSearch } from './SelectSearch';
+import { SelectSearch } from './SelectSearch';
 import { LabeledValue, timeZonesFilter, TimeZoneType } from './SelectTimeZone';
 
 export const MetaSelect: React.FC<SelectProps> = (props) => (
@@ -81,28 +90,33 @@ const SelectedTag: React.FC<FlexProps> = (props) => (
   />
 );
 
-const SelectOption: React.FC<
-  React.ComponentProps<typeof SelectComponents.Option>
-> = (props) => {
+const SelectOption = <T extends LabeledValue<string>>(
+  props: OptionProps<T>,
+) => {
   const {
     isSelected,
-    data: { value: optionValue },
-    selectProps: { onChange, value: selectValue, disableEmpty },
+    data: { value: optionValue, label: optionLabel },
+    selectProps,
   } = props;
+  const {
+    onChange,
+    value: selectValue,
+    disableEmpty,
+  } = selectProps as ReactSelectProps<T, true> & ExtendedSelectProps;
 
   const clearValue = useCallback(() => {
     if (onChange) {
       const newSelectValue = selectValue
-        ? selectValue.filter(
+        ? (selectValue as T[]).filter(
             ({ value }: { value: string }) => !(value === optionValue),
           )
         : [];
       onChange(newSelectValue, {
         action: 'remove-value',
-        removedValue: { optionValue },
+        removedValue: { value: optionValue, label: optionLabel } as T,
       });
     }
-  }, [optionValue, selectValue, onChange]);
+  }, [optionValue, optionLabel, selectValue, onChange]);
 
   return (
     <Flex
@@ -118,16 +132,16 @@ const SelectOption: React.FC<
       onClick={isSelected && !disableEmpty ? clearValue : undefined}
       css={{ div: { cursor: 'pointer' } }}
     >
-      <SelectComponents.Option {...props} />
+      <components.Option {...props} />
       {isSelected && <CheckIcon color="white" mx="2" />}
     </Flex>
   );
 };
 
 const ValueDisplay: React.FC<{
-  menuIsOpen: boolean | undefined;
-  title: string;
-  tagLabel: string;
+  menuIsOpen?: boolean;
+  title?: string | JSX.Element;
+  tagLabel?: string;
 }> = ({ menuIsOpen, tagLabel, title }) => (
   <>
     <Text ml="2" textTransform="uppercase">
@@ -144,27 +158,30 @@ const ValueDisplay: React.FC<{
   </>
 );
 
-const SelectValueContainer: React.FC<
-  React.ComponentProps<typeof SelectComponents.ValueContainer>
-> = (props) => {
-  const {
-    selectProps: { title, tagLabel, menuIsOpen },
-  } = props;
+const SelectValueContainer = <T extends LabeledValue<string>>(
+  props: ValueContainerProps<T>,
+) => {
+  const { selectProps } = props;
+  const { title, tagLabel, menuIsOpen } = selectProps as ReactSelectProps<
+    T,
+    true
+  > &
+    ExtendedSelectProps;
 
   return (
     <Flex mr="-1rem" py={1} align="center" cursor="pointer">
       <ValueDisplay {...{ title, menuIsOpen, tagLabel }} />
-      <SelectComponents.ValueContainer {...props} />
+      <components.ValueContainer {...props} />
     </Flex>
   );
 };
 
-const SelectControl: React.FC<
-  React.ComponentProps<typeof SelectComponents.Control>
-> = (props) => {
-  const {
-    selectProps: { menuIsOpen, hasValue, onMenuClose, onMenuOpen, showSearch },
-  } = props;
+const SelectControl = <T extends LabeledValue<string>>(
+  props: ControlProps<T>,
+) => {
+  const { selectProps } = props;
+  const { menuIsOpen, hasValue, onMenuClose, onMenuOpen, showSearch } =
+    selectProps as ReactSelectProps<T, true> & ExtendedSelectProps;
 
   const buttonRef = useRef<HTMLButtonElement>(null);
 
@@ -188,7 +205,7 @@ const SelectControl: React.FC<
       ref={buttonRef}
       onClick={onClick}
       onTouchEnd={onClick}
-      align="center"
+      alignItems="center"
       borderTopRadius="4px"
       borderBottomRadius={menuIsOpen ? 0 : '4px'}
       borderColor="borderPurple"
@@ -203,24 +220,15 @@ const SelectControl: React.FC<
       transform={menuIsOpen ? 'translateY(-1px)' : undefined}
       transition="transform 0s"
     >
-      <SelectComponents.Control {...props} />
+      <components.Control {...props} />
     </Button>
   );
 };
 
-const SelectMenu: React.FC<
-  React.ComponentProps<typeof SelectComponents.Menu>
-> = (props) => {
-  const {
-    selectProps: {
-      onInputChange,
-      title,
-      tagLabel,
-      placement,
-      showSearch,
-      inputValue,
-    },
-  } = props;
+const SelectMenu = <T extends LabeledValue<string>>(props: MenuProps<T>) => {
+  const { selectProps } = props;
+  const { onInputChange, title, tagLabel, placement, showSearch, inputValue } =
+    selectProps as ReactSelectProps<T, true> & ExtendedSelectProps;
   const [input, setInput] = useState(inputValue || '');
   const placeRight = placement === 'right';
   return (
@@ -291,28 +299,31 @@ const SelectMenu: React.FC<
               borderColor="borderPurple"
               onChange={({ target: { value } }) => {
                 setInput(value);
-                onInputChange?.(value, { action: 'input-change' });
+                onInputChange?.(value, {
+                  action: 'input-change',
+                  prevInputValue: value,
+                });
               }}
               value={input}
             />
           </Flex>
         )}
-        <SelectComponents.Menu {...props} />
+        <components.Menu {...props} />
       </Flex>
     </Flex>
   );
 };
 
-const SelectContainer: React.FC<
-  React.ComponentProps<typeof SelectComponents.SelectContainer>
-> = (props) => {
+const SelectContainer = <T extends LabeledValue<string>>(
+  props: ContainerProps<T>,
+) => {
   const {
     selectProps: { onMenuClose },
   } = props;
 
   return (
     <Flex position="relative" onBlur={onMenuClose}>
-      <SelectComponents.SelectContainer
+      <components.SelectContainer
         {...props}
         innerProps={{ onKeyDown: () => undefined }}
       />
@@ -323,26 +334,25 @@ const SelectContainer: React.FC<
 export const zonesToOptions = (zones: TimeZoneType[] = []) =>
   zones.map(({ location, label }) => ({ value: location, label }));
 
-export function MetaFilterSelectSearch<
-  T extends Required<LabeledValue<string>>
->({
+type ExtendedSelectProps = {
+  title?: string | JSX.Element;
+  showSearch?: boolean;
+  isTimeZone?: boolean;
+  hasValue?: boolean;
+  tagLabel?: string;
+  disableEmpty?: boolean;
+  placement?: string;
+};
+
+export const MetaFilterSelectSearch = <T extends LabeledValue<string>>({
   options: defaults,
   showSearch = false,
   isTimeZone = false,
   tagLabel = '',
   hasValue = false,
-  onInputChange = () => {},
   ...props
-}:
-  | ReactSelectProps<Required<LabeledValue<string>>>
-  | {
-      options?: Array<T | TimeZoneType>;
-      showSearch?: boolean;
-      isTimeZone?: boolean;
-      hasValue?: boolean;
-      tagLabel?: string;
-      onInputChange?: (...subProps: Array<unknown>) => void;
-    }) {
+}: ReactSelectProps<T | TimeZoneType, boolean, GroupBase<T | TimeZoneType>> &
+  ExtendedSelectProps) => {
   const [options, setOptions] = useState(
     isTimeZone
       ? (zonesToOptions(defaults as TimeZoneType[]) as Array<T>)
@@ -354,19 +364,13 @@ export function MetaFilterSelectSearch<
       const search = val.length > 0 ? val.toLowerCase().trim() : null;
       let opts = defaults ?? [];
       if (search) {
-        if (isTimeZone) {
-          opts = zonesToOptions(
-            (opts as Array<TimeZoneType>).filter(timeZonesFilter(search)),
-          ) as Array<T>;
-        } else if (opts) {
-          opts = (opts as Array<
-            Required<LabeledValue<string>>
-          >).filter(({ value }) => value?.toLowerCase().includes(search));
-        }
+        opts = zonesToOptions(
+          (opts as Array<TimeZoneType>).filter(timeZonesFilter(search)),
+        ) as Array<T>;
       }
       setOptions(opts as Array<T>);
     },
-    [defaults, isTimeZone],
+    [defaults],
   );
 
   return (
@@ -390,7 +394,7 @@ export function MetaFilterSelectSearch<
       isClearable={false}
       hideSelectedOptions={false}
       filterOption={isTimeZone ? null : undefined}
-      onInputChange={isTimeZone ? onZoneInputChange : onInputChange}
+      onInputChange={isTimeZone ? onZoneInputChange : undefined}
       {...{
         showSearch,
         options,
@@ -400,4 +404,4 @@ export function MetaFilterSelectSearch<
       }}
     />
   );
-}
+};

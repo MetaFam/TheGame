@@ -79,8 +79,9 @@ export const migrateSourceCredAccounts = async (
         .map((alias) => parseAlias(alias))
         .filter(isNotNullOrUndefined);
 
-      const discordId = linkedAccounts.find(({ type }) => type === 'DISCORD')
-        ?.identifier;
+      const discordId = linkedAccounts.find(
+        ({ type }) => type === 'DISCORD',
+      )?.identifier;
 
       const ethAddress = getLatestEthAddress(a.account.identity);
 

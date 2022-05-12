@@ -6,23 +6,22 @@ import {
 import { Request, Response } from 'express';
 
 import {
-  Guild,
   Guild_Player_Insert_Input,
   GuildFragment,
   GuildStatus_Enum,
   SyncGuildMembersMutation,
 } from '../../lib/autogen/hasura-sdk';
 import { client } from '../../lib/hasuraClient';
-import { TriggerPayload } from './types';
+import { GuildRow, toGuild, TriggerPayload } from './types';
 
 export const syncDiscordGuildMembers = async (
-  payload: TriggerPayload<Guild>,
+  payload: TriggerPayload<GuildRow>,
 ) => {
   const { new: guild } = payload.event.data;
 
   try {
     if (guild != null) {
-      await syncGuildMembers(guild);
+      await syncGuildMembers(toGuild(guild));
     }
   } catch (e) {
     console.error(e);

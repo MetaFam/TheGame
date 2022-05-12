@@ -1,6 +1,7 @@
 import {
   Center,
   Flex,
+  LabeledOptions,
   MetaTheme,
   multiSelectStyles,
   SelectSearch,
@@ -8,14 +9,13 @@ import {
   Text,
 } from '@metafam/ds';
 import {
-  Skill,
   SkillCategory_Enum,
   useUpdatePlayerSkillsMutation,
 } from 'graphql/autogen/types';
 import { getSkills } from 'graphql/queries/enums/getSkills';
 import { SkillColors } from 'graphql/types';
 import { useMounted, useOverridableField, useUser } from 'lib/hooks';
-import React, { CSSProperties, useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { CategoryOption, parseSkills, SkillOption } from 'utils/skillHelpers';
 
 import {
@@ -31,36 +31,32 @@ export type SetupSkillsProps = {
 
 const styles: typeof multiSelectStyles = {
   ...multiSelectStyles,
-  container: (s: CSSProperties) => ({
+  container: (s) => ({
     ...s,
     width: 'min(95vw, 40rem)',
   }),
-  menuList: (s: CSSProperties) => ({
+  menuList: (s) => ({
     ...s,
     minHeight: 'min(15rem, 60vh)',
   }),
-  multiValue: (s: CSSProperties, { data }: { data: Skill }) => ({
+  multiValue: (s, { data }) => ({
     ...s,
-    background: SkillColors[data.category as SkillCategory_Enum],
+    background:
+      SkillColors[(data as SkillOption).category as SkillCategory_Enum],
     color: MetaTheme.colors.white,
   }),
-  multiValueLabel: (s: CSSProperties, { data }: { data: Skill }) => ({
+  multiValueLabel: (s, { data }) => ({
     ...s,
-    background: SkillColors[data.category as SkillCategory_Enum],
+    background:
+      SkillColors[(data as SkillOption).category as SkillCategory_Enum],
     color: MetaTheme.colors.white,
   }),
-  groupHeading: (
-    s: CSSProperties,
-    { children }: { children: SkillCategory_Enum },
-  ) => ({
+  groupHeading: (s, props) => ({
     ...s,
-    ...multiSelectStyles.groupHeading?.(s, { children }),
-    background: SkillColors[children],
+    ...multiSelectStyles.groupHeading?.(s, props),
+    background: SkillColors[props.children as SkillCategory_Enum],
   }),
-  option: (
-    s: CSSProperties,
-    { isSelected, isFocused }: { isSelected: boolean; isFocused: boolean },
-  ) => ({
+  option: (s, { isSelected, isFocused }) => ({
     ...s,
     color:
       isSelected || isFocused ? MetaTheme.colors.black : MetaTheme.colors.white,
@@ -180,15 +176,15 @@ export const SetupSkills: React.FC<MaybeModalProps> = ({
         }
 
         return (
-          <Center w="full" align="stretch">
+          <Center w="full" alignItems="stretch">
             <SelectSearch
               isMulti
               {...{ styles }}
               onChange={(newValue) => {
-                const values = (newValue as unknown) as Array<SkillOption>;
+                const values = newValue as unknown as Array<SkillOption>;
                 setter(values);
               }}
-              options={choices}
+              options={choices as LabeledOptions<string>[]}
               value={current}
               autoFocus
               closeMenuOnSelect={false}

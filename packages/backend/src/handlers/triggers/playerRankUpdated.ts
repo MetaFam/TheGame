@@ -4,10 +4,10 @@ import { Constants } from '@metafam/utils';
 import { TextChannel } from 'discord.js';
 
 import { CONFIG } from '../../config';
-import { Player, PlayerRank_Enum } from '../../lib/autogen/hasura-sdk';
+import { PlayerRank_Enum } from '../../lib/autogen/hasura-sdk';
 import { client } from '../../lib/hasuraClient';
 import { isRankHigher } from '../../lib/rankHelpers';
-import { TriggerPayload } from './types';
+import { PlayerRow, TriggerPayload } from './types';
 
 type RankRoleIds = { [rank in PlayerRank_Enum]: string };
 
@@ -17,13 +17,13 @@ export interface UpdateRole {
   newRole: string;
 }
 
-export const playerRankUpdated = async (payload: TriggerPayload<Player>) => {
+export const playerRankUpdated = async (payload: TriggerPayload<PlayerRow>) => {
   if (CONFIG.nodeEnv !== 'production') return;
 
   const { old: oldPlayer, new: newPlayer } = payload.event.data;
 
   console.log(
-    `updateDiscordRole action triggered for player (username=${newPlayer?.profile?.username})`,
+    `updateDiscordRole action triggered for player (${newPlayer?.ethereum_address})`,
   );
 
   try {
@@ -35,6 +35,7 @@ export const playerRankUpdated = async (payload: TriggerPayload<Player>) => {
     const playerDiscordId = getPlayerResponse.player_by_pk?.discordId;
     if (playerDiscordId == null) return;
 
+    const username = getPlayerResponse.player_by_pk?.profile?.username;
     const newRank = newPlayer?.rank;
 
     if (newRank == null) return;
@@ -44,8 +45,6 @@ export const playerRankUpdated = async (payload: TriggerPayload<Player>) => {
 
     const guild = await discordClient.guilds.fetch(
       Constants.METAFAM_DISCORD_GUILD_ID,
-      true,
-      true,
     );
     if (guild == null) {
       return;
@@ -97,9 +96,7 @@ export const playerRankUpdated = async (payload: TriggerPayload<Player>) => {
     }
 
     if (removedRole) {
-      console.log(
-        `${newPlayer?.profile?.username}: removed role ${removedRole}`,
-      );
+      console.log(`${username}: removed role ${removedRole}`);
     }
 
     // Add the new rank.
@@ -111,14 +108,19 @@ export const playerRankUpdated = async (payload: TriggerPayload<Player>) => {
 
       // We should check whether this role is higher than the previous
       if (isRankHigher(oldPlayer?.rank, newPlayer?.rank)) {
-        const propsChannel = discordClient.channels.cache.get(
-          Constants.DISCORD_PROPS_CHANNEL_ID,
-        ) as TextChannel;
-        propsChannel.send(
-          `Props to ${discordPlayer} for becoming ${newRank}, congrats!`,
-        );
+        try {
+          const propsChannel = (await discordClient.channels.fetch(
+            Constants.DISCORD_PROPS_CHANNEL_ID,
+          )) as TextChannel;
+          propsChannel.send(
+            `Props to ${discordPlayer} for becoming ${newRank}, congrats!`,
+          );
+        } catch (discordError) {
+          console.error('Could not send message to Props channel');
+          console.error(discordError);
+        }
       }
-      console.log(`${newPlayer?.profile?.username}: added role ${newRank}`);
+      console.log(`${username}: added role ${newRank}`);
     }
   } catch (e) {
     console.error(e);

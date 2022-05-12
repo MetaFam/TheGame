@@ -67,7 +67,7 @@ const saveGuild = async (playerId: string, guildInfo: GuildInfoInput) => {
   const updatedData: Guild_Set_Input = {
     guildname: guildInfo.guildname,
     name: guildInfo.name,
-    type: (guildInfo.type as unknown) as GuildType_Enum,
+    type: guildInfo.type as unknown as GuildType_Enum,
     description: guildInfo.description,
     discordInviteUrl: guildInfo.discordInviteUrl,
     joinButtonUrl: guildInfo.joinUrl,

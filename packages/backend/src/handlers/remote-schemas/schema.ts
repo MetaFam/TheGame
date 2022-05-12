@@ -1,4 +1,4 @@
-import { makeExecutableSchema } from 'graphql-tools';
+import { makeExecutableSchema } from '@graphql-tools/schema';
 
 import { getBrightIdStatus } from './resolvers/brightId/resolver';
 import { getDaoHausMemberships } from './resolvers/daohaus/resolver';

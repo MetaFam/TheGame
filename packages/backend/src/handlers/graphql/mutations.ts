@@ -218,4 +218,15 @@ export const CreateQuestCompletion = /* GraphQL */ `
       affected_rows
     }
   }
+
+  mutation RemovePlayerAccount(
+    $playerId: uuid!
+    $accountType: AccountType_enum
+  ) {
+    delete_player_account(
+      where: { playerId: { _eq: $playerId }, type: { _eq: $accountType } }
+    ) {
+      affected_rows
+    }
+  }
 `;

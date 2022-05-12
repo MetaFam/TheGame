@@ -1,4 +1,4 @@
-import Busboy, { BusboyHeaders } from 'busboy';
+import Busboy from 'busboy';
 import { CONFIG } from 'config';
 import * as fs from 'fs';
 import { mkdtemp, rmdir, unlink } from 'fs/promises';
@@ -16,7 +16,7 @@ export const handler: (
   res: NextApiResponse<Record<string, string>>,
 ) => {
   const storage = new Web3Storage({ token: CONFIG.web3StorageToken });
-  const busboy = new Busboy({ headers: req.headers as BusboyHeaders });
+  const busboy = Busboy({ headers: req.headers });
   const files: { field: string; name: string }[] = [];
 
   busboy.on(

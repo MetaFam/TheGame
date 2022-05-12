@@ -4,8 +4,8 @@ import GuildCoverImageFull from 'assets/guild-background-full.jpeg';
 import GuildCoverImageSmall from 'assets/guild-background-small.jpeg';
 import PlayerCoverImageFull from 'assets/player-background-full.jpg';
 import PlayerCoverImageSmall from 'assets/player-background-small.jpg';
-import { ethers } from 'ethers';
-import { Player } from 'graphql/autogen/types';
+import { utils } from 'ethers';
+import { AccountType_Enum, Player } from 'graphql/autogen/types';
 import { GuildPlayer } from 'graphql/types';
 
 import { optimizedImage } from './imageHelpers';
@@ -28,18 +28,20 @@ export const getPlayerBanner = (player: Maybe<Player>): string => {
   const key = 'bannerImageURL';
   return (
     optimizedImage(key, player?.profile?.[key], { height: 100 }) ??
-    PlayerCoverImageSmall
+    PlayerCoverImageSmall.src
   );
 };
 
 export const getPlayerBannerFull = (player?: Maybe<Player>): string => {
   const key = 'bannerImageURL';
-  return optimizedImage(key, player?.profile?.[key]) || PlayerCoverImageFull;
+  return (
+    optimizedImage(key, player?.profile?.[key]) || PlayerCoverImageFull.src
+  );
 };
 
-export const getGuildCoverImageFull = (): string => GuildCoverImageFull;
+export const getGuildCoverImageFull = (): string => GuildCoverImageFull.src;
 
-export const getGuildCoverImageSmall = (): string => GuildCoverImageSmall;
+export const getGuildCoverImageSmall = (): string => GuildCoverImageSmall.src;
 
 export const getPlayerName = (
   player?: Maybe<Player | GuildPlayer>,
@@ -55,11 +57,17 @@ export const getPlayerDescription = (
   player?: Maybe<Player>,
 ): string | undefined => player?.profile?.description ?? undefined;
 
+export const getPlayerMeetwithWalletCalendarUrl = (
+  player?: Maybe<Player>,
+): string | undefined =>
+  player?.accounts?.find((acc) => acc.type === AccountType_Enum.Meetwithwallet)
+    ?.identifier || undefined;
+
 export const formatAddress = (address = ''): string =>
   `${address.slice(0, 6)}…${address.slice(-4)}`;
 
 export const formatIfAddress = (username = ''): string =>
-  ethers.utils.isAddress(username) ? formatAddress(username) : username;
+  utils.isAddress(username) ? formatAddress(username) : username;
 
 export const getPlayerURL = (
   player?: Maybe<Player | GuildPlayer>,

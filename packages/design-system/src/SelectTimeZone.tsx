@@ -1,10 +1,11 @@
 /* istanbul ignore file */
 
-import { Maybe, Optional } from '@metafam/utils';
+import { Maybe } from '@metafam/utils';
 import cityTimeZones from 'city-timezones';
 import React, { useCallback, useState } from 'react';
+import { CSSObjectWithLabel, GroupBase, StylesConfig } from 'react-select';
 import TimeZoneSelect, {
-  i18nTimezones as i18nTimeZones,
+  i18nTimezones as allTimezones,
   ITimezone,
   ITimezoneOption,
 } from 'react-timezone-select';
@@ -13,11 +14,8 @@ import informal from 'spacetime-informal';
 
 import { chakraesqueStyles } from './theme';
 
-export type Labeled = { label?: string };
-export type LabeledValue<T> = Labeled & { value?: T };
-export type LabeledOptions<T> = Labeled & { options?: Array<T> };
-export type CombinedLabel<T> = LabeledValue<T> & LabeledOptions<T>;
-
+export type LabeledValue<T> = Required<{ label?: string; value?: T }>;
+export type LabeledOptions<T> = GroupBase<LabeledValue<T>>;
 export type TimeZoneType = {
   utc: string;
   location: string;
@@ -28,6 +26,7 @@ export type TimeZoneType = {
   name: string;
   value: string; // for compatibility w/ select option
 };
+export { ITimezoneOption };
 
 export interface TimeZoneSelectProps extends Record<string, unknown> {
   value?: ITimezone;
@@ -38,7 +37,7 @@ export interface TimeZoneSelectProps extends Record<string, unknown> {
 
 const timeZoneSelectStyles: typeof chakraesqueStyles = {
   ...chakraesqueStyles,
-  container: (styles, props) => ({
+  container: (styles: CSSObjectWithLabel, props) => ({
     ...styles,
     ...chakraesqueStyles.container?.(styles, props),
     width: '100%',
@@ -104,36 +103,33 @@ export const getTimeZoneFor = ({
   };
 };
 
-export const TimeZoneOptions: TimeZoneType[] = Object.entries(i18nTimeZones)
+export const TimeZoneOptions: TimeZoneType[] = Object.entries(allTimezones)
   .map(
     ([location, title]) => getTimeZoneFor({ location, title }) as TimeZoneType,
   )
   .sort((a, b) => (a.offset < b.offset ? -1 : 1));
 
-export const timeZonesFilter = (
-  search: string,
-  cityZones: Optional<Array<string>> = undefined,
-) => (tz: TimeZoneType): boolean => {
-  if (!cityZones) {
+export const timeZonesFilter =
+  (search: string, cityZones: Array<string> = []) =>
+  (tz: TimeZoneType): boolean => {
     // eslint-disable-next-line no-param-reassign
     cityZones = getCityZonesFor(search);
-  }
-  return (
-    Object.values(tz).reduce((acc: boolean, val: number | Maybe<string>) => {
-      const match =
-        val != null &&
-        val !== '' &&
-        val.toString().toLowerCase().includes(search);
-      return acc || match;
-    }, false) || cityZones.length > 0
-  );
-};
+    return (
+      cityZones.includes(tz.location) ||
+      Object.values(tz).reduce(
+        (acc: boolean, val: number | Maybe<string>) =>
+          acc || (val?.toString().toLowerCase() ?? '').includes(search),
+        false,
+      )
+    );
+  };
 
 export const getCityZonesFor = (search: string): string[] =>
   cityTimeZones.findFromCityStateProvince(search).map(({ timezone: tz }) => tz);
 
 export const SelectTimeZone: React.FC<TimeZoneSelectProps> = ({
   value,
+  onChange,
   ...props
 }) => {
   const [options, setOptions] = useState(TimeZoneOptions);
@@ -150,11 +146,12 @@ export const SelectTimeZone: React.FC<TimeZoneSelectProps> = ({
   return (
     <TimeZoneSelect
       value={value ?? ''}
-      styles={timeZoneSelectStyles}
+      styles={timeZoneSelectStyles as StylesConfig}
       filterOption={null}
-      timeZones={Object.fromEntries(
-        options.map(({ location, title }) => [location, title]),
+      timezones={Object.fromEntries(
+        options.map(({ location, title }) => [location, title ?? '']),
       )}
+      onChange={(tz) => onChange?.(tz as ITimezoneOption)}
       {...{ onInputChange }}
       {...props}
     />

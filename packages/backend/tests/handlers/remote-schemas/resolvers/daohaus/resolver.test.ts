@@ -1,7 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import nock from 'nock';
 
-import { Resolver } from '../../../../../src/handlers/remote-schemas/autogen/types';
+import {
+  Resolver,
+  ResolverFn,
+} from '../../../../../src/handlers/remote-schemas/autogen/types';
 import { getDaoHausMemberships } from '../../../../../src/handlers/remote-schemas/resolvers/daohaus/resolver';
 
 type MockResolver<TResult, TParent, TContext, TArgs> = (
@@ -15,7 +18,12 @@ function mockResolver<TResult, TParent, TContext, TArgs>(
   resolver: Resolver<TResult, TParent, TContext, TArgs>,
 ): MockResolver<TResult, TParent, TContext, TArgs> {
   return (parent: TParent, args: TArgs, context: TContext, info) =>
-    resolver(parent, args, context, info);
+    (resolver as ResolverFn<TResult, TParent, TContext, TArgs>)(
+      parent,
+      args,
+      context,
+      info,
+    );
 }
 
 // NOTE for integration tests, this address always needs to be part of at least one dao

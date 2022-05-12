@@ -1,4 +1,3 @@
-import { CommandMessage } from '@typeit/discord';
 import { Message, Snowflake } from 'discord.js';
 
 export const getDiscordId = (targetParameter: string): Snowflake => {
@@ -17,14 +16,12 @@ export const getDiscordId = (targetParameter: string): Snowflake => {
 };
 
 export const replyWithUnexpectedError = (
-  message: CommandMessage,
-  error: string,
+  message: Message,
 ): Promise<Message> => {
-  let reply = `The octo is sad 😢, as there was an unexpected error: "${error}"`;
+  let reply = `The octo is sad 😢, as there was an unexpected error.`;
 
-  const feedbackChannel = message.guild?.channels?.cache.get(
-    '794214722639101992',
-  );
+  const feedbackChannel =
+    message.guild?.channels?.cache.get('794214722639101992');
   if (feedbackChannel) {
     reply += ` Let us know what happened in ${feedbackChannel.toString()}`;
   }

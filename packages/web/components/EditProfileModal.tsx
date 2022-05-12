@@ -19,6 +19,7 @@ import {
   InputLeftElement,
   InputProps,
   InputRightAddon,
+  ITimezoneOption,
   Link,
   MetaHeading,
   Modal,
@@ -69,6 +70,9 @@ import React, {
 import { Controller, useForm } from 'react-hook-form';
 import { optimizedImage } from 'utils/imageHelpers';
 import { isEmpty } from 'utils/objectHelpers';
+
+import { ConnectToProgress } from './ConnectToProgress';
+import MeetWithWalletProfileEdition from './Player/MeetWithWalletProfileEdition';
 
 const MAX_DESC_LEN = 420; // characters
 
@@ -190,9 +194,10 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
   const { ceramic, address } = useWeb3();
   const toast = useToast();
   const description = watch('description');
-  const remaining = useMemo(() => MAX_DESC_LEN - (description?.length ?? 0), [
-    description,
-  ]);
+  const remaining = useMemo(
+    () => MAX_DESC_LEN - (description?.length ?? 0),
+    [description],
+  );
 
   const fields = Object.fromEntries(
     Object.keys(AllProfileFields).map((key) => {
@@ -479,8 +484,8 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
             templateColumns={['auto', 'auto', '1fr 1fr', '1fr 1fr 1fr']}
             gap={6}
           >
-            <GridItem flex={1}>
-              <FormControl isInvalid={errors.profileImageURL} align="center">
+            <GridItem flex={1} alignItems="center">
+              <FormControl isInvalid={errors.profileImageURL}>
                 <Tooltip label="An image representing the user generally cropped to a circle for display. 1MiB maximum size.">
                   <Label htmlFor="profileImageURL" userSelect="none">
                     Profile Image
@@ -583,8 +588,8 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
                   'An image with an ~1:1 aspect ratio to be the page background. 1MiB maximum size.',
               },
             ].map(({ key, title, description: spec }) => (
-              <GridItem flex={1} {...{ key }}>
-                <FormControl isInvalid={errors[key]} align="center">
+              <GridItem flex={1} alignItems="center" {...{ key }}>
+                <FormControl isInvalid={errors[key]}>
                   <Tooltip label={spec}>
                     <Label htmlFor={key} userSelect="none" whiteSpace="nowrap">
                       {title}
@@ -754,7 +759,7 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
                   render={({ field: { onChange, ref, ...props } }) => (
                     <SelectTimeZone
                       labelStyle="abbrev"
-                      onChange={(tz) => {
+                      onChange={(tz: ITimezoneOption) => {
                         onChange(tz.value);
                       }}
                       {...props}
@@ -896,6 +901,15 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
                 <Box minH="3em">
                   <FormErrorMessage>{errors.emoji?.message}</FormErrorMessage>
                 </Box>
+              </FormControl>
+            </GridItem>
+            <GridItem gridColumn={'1/-1'} alignItems="center">
+              <FormControl>
+                <Label>Meeting calendar</Label>
+                <MeetWithWalletProfileEdition
+                  setValue={setValue}
+                  player={player}
+                />
               </FormControl>
             </GridItem>
           </Grid>

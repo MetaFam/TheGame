@@ -13,7 +13,7 @@ import { HeadComponent } from 'components/Seo';
 // import { ScrollToPlugin } from 'gsap/dist/ScrollToPlugin';
 // import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
 import { useRouter } from 'next/router';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { FaDiscord, FaGithub, FaTwitter } from 'react-icons/fa';
 
 export const getStaticProps = async () => ({
@@ -23,13 +23,7 @@ export const getStaticProps = async () => ({
 });
 
 const ArrowUp: React.FC = () => (
-  <svg
-    strokeWidth={0}
-    viewBox="0 0 16 16"
-    focusable="false"
-    width="16"
-    height="16"
-  >
+  <svg strokeWidth={0} viewBox="0 0 16 16" focusable="false">
     <defs>
       <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
         <stop offset="0%" style={{ stopColor: '#FF61E6', stopOpacity: 1 }} />
@@ -57,6 +51,10 @@ const Landing: React.FC = () => {
       ? document.getElementById('scroll-container')
       : null;
   const [section, setSection] = useState(0);
+  const hostName = useRef('https://metagame.wtf');
+  const setHostName = useCallback((host) => {
+    hostName.current = host;
+  }, []);
 
   const handleScroll = useCallback(() => {
     if (!scrollContainer) return;
@@ -89,19 +87,24 @@ const Landing: React.FC = () => {
     document.addEventListener('keydown', handleKeyDown);
     document.querySelector('body')?.classList.add('landing');
 
+    if (typeof window !== 'undefined') {
+      setHostName(window.location.origin);
+    }
+
     return () => {
       scrollContainer?.removeEventListener('scroll', handleScroll);
       document.removeEventListener('keydown', handleKeyDown);
     };
-  }, [handleScroll, handleKeyDown, scrollContainer, section]);
+  }, [handleScroll, handleKeyDown, scrollContainer, section, setHostName]);
 
   return (
     <>
       <HeadComponent
         title="MetaGame: A Massive Online Coordination Game!"
-        description="To find your metagame means to play life in the optimal way. Coordinating with others on building a better world; doing things that create a a positive impact make you happy AND earn you money."
-        url="https://metagame.wtf"
-        img="/assets/landing-social.jpg"
+        description="To play metagame is to play life in the optimal way. Coordinating with others to build a better world; make a positive impact, make you happy, &amp; earn you money."
+        url={hostName.current}
+        img={`${hostName.current}/assets/social.png`}
+        cardStyle="summary_large_image"
       />
       <LandingHeader />
       <PageContainer p={0}>
@@ -119,8 +122,8 @@ const Landing: React.FC = () => {
         bottom={{ base: 20, md: 4 }}
         right={{ base: 0, md: 4 }}
         href="#start"
-        display={section === 0 ? 'none' : 'block'}
-        transform={`translate3d(0,${section === 0 ? '30px' : 0},0)`}
+        opacity={section === 0 ? 0 : 1}
+        transform={`translate3d(0,${section === 0 ? '30px' : '0px'},0)`}
         transition="transform 0.3s 0.3s ease-in-out, opacity 0.3s 0.3s ease-in-out"
         _hover={{ textDecor: 'none' }}
       >

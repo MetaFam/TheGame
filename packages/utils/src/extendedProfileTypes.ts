@@ -49,6 +49,7 @@ export const ExtendedProfileStrings = {
   // a library.
   timeZone: 'timeZone',
   explorerTypeTitle: 'explorerType',
+  meetWithWalletDomain: 'meetWithWalletDomain',
 } as const;
 // Objects are handled specially in the save function.
 // There is a switch on the key and specific code for
@@ -95,9 +96,17 @@ export interface TitledDescription {
   title: string;
   description?: string;
 }
+
+export type PlayerAccount = {
+  identifier: string;
+  playerId: string;
+  type: string;
+};
+
 export type EPObjects = {
   availableHours?: Maybe<number>;
   playerType?: Maybe<TitledDescription>;
+  accounts?: Maybe<PlayerAccount>;
 };
 
 export type HasuraEPObjects = EPObjects & {
@@ -110,10 +119,9 @@ export type CeramicEPObjects = EPObjects & {
 export type HasuraStringProps = HasuraBPStrings & HasuraEPStrings;
 export type HasuraImageSourcedProps = {
   -readonly [key in keyof typeof BasicProfileImages]?: ImageSources;
-} &
-  {
-    -readonly [key in keyof typeof ExtendedProfileImages]?: ImageSources;
-  };
+} & {
+  -readonly [key in keyof typeof ExtendedProfileImages]?: ImageSources;
+};
 
 export type HasuraProfileProps = HasuraBPImages &
   HasuraBPStrings &

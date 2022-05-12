@@ -60,8 +60,9 @@ export const ExplorerTypes: React.FC<ExplorerTypesType> = ({
               _hover={{ filter: 'hue-rotate(-10deg)' }}
               cursor="pointer"
               onClick={() => setSelectedType(choice.title)}
-              align="stretch"
-              justify="flex-start"
+              display="flex"
+              alignItems="stretch"
+              justifyContent="flex-start"
               border="2px"
               borderColor={selected ? 'purple.400' : 'transparent'}
               isDisabled={disabled}

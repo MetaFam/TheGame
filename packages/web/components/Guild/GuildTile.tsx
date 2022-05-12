@@ -1,6 +1,5 @@
 import {
   Avatar,
-  Box,
   Heading,
   LinkBox,
   LinkOverlay,
@@ -30,7 +29,7 @@ export const GuildTile: React.FC<Props> = ({ guild }) => (
       >
         <LinkOverlay>
           <MetaTileHeader>
-            <VStack>
+            <VStack align="center">
               {guild.logo ? (
                 <Avatar size="xl" src={guild.logo} name={guild.name} />
               ) : null}
@@ -38,15 +37,13 @@ export const GuildTile: React.FC<Props> = ({ guild }) => (
               <Heading size="sm" color="white">
                 {guild.name}
               </Heading>
-            </VStack>
-            {guild.type ? (
-              <Box align="center">
-                <MetaTag size="md">
+              {guild.type ? (
+                <MetaTag size="md" w="fit-content">
                   {guild.type}
                   GUILD
                 </MetaTag>
-              </Box>
-            ) : null}
+              ) : null}
+            </VStack>
             {guild.description ? (
               <VStack spacing={2} align="stretch">
                 <Text textStyle="caption">ABOUT</Text>
