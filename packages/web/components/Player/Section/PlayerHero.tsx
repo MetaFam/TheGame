@@ -74,7 +74,7 @@ export const PlayerHero: React.FC<HeroProps> = ({ player, editing }) => {
       withoutBG
       p={[4, 2]}
     >
-      {isOwnProfile && isMainNet && !editing && (
+      {isOwnProfile  && !editing && (
         <Box pos="absolute" right={[0, 4]} top={[0, 4]}>
           <IconButton
             _focus={{ boxShadow: 'none' }}
