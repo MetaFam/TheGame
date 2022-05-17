@@ -24,7 +24,7 @@ import { PlayerContacts as Contacts } from 'components/Player/PlayerContacts';
 import { PlayerHeroTile } from 'components/Player/Section/PlayerHeroTile';
 import { ProfileSection } from 'components/Profile/ProfileSection';
 import { Player } from 'graphql/autogen/types';
-import { useProfileField, useUser, useWeb3 } from 'lib/hooks';
+import { useProfileField, useUser } from 'lib/hooks';
 import React, { useEffect, useState } from 'react';
 import { FaClock, FaGlobe } from 'react-icons/fa';
 import { BoxTypes } from 'utils/boxTypes';
@@ -46,15 +46,13 @@ type DisplayComponentProps = {
 
 export const PlayerHero: React.FC<HeroProps> = ({ player, editing }) => {
   const { user } = useUser();
-  const { chainId } = useWeb3();
 
   const isOwnProfile = user ? user.id === player?.id : null;
-  const isMainNet = chainId === '0x1';
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   // 9tails.eth: As there is no current way of editing Profile Accounts,
   // and the MWW integratino happens on the EditProfileModal, to avoid
-  // adding a new column to the table just to do the followig, I decided
+  // adding a new column to the table just to do the following, I decided
   // to this this cast as any to use the information from the form and
   // don't do bigger changes on the data structure just because of it
   const profileFields = useProfileField({
@@ -74,7 +72,7 @@ export const PlayerHero: React.FC<HeroProps> = ({ player, editing }) => {
       withoutBG
       p={[4, 2]}
     >
-      {isOwnProfile  && !editing && (
+      {isOwnProfile && !editing && (
         <Box pos="absolute" right={[0, 4]} top={[0, 4]}>
           <IconButton
             _focus={{ boxShadow: 'none' }}
@@ -158,9 +156,7 @@ export const PlayerHero: React.FC<HeroProps> = ({ player, editing }) => {
         )}
       </VStack>
 
-      {isOwnProfile && isMainNet && (
-        <EditProfileModal {...{ player, isOpen, onClose }} />
-      )}
+      {isOwnProfile && <EditProfileModal {...{ player, isOpen, onClose }} />}
     </ProfileSection>
   );
 };

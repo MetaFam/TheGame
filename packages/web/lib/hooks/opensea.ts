@@ -65,8 +65,13 @@ const fetchOpenSeaData = async (
   const res = await fetch(
     `/api/opensea?owner=${owner}&offset=${offset}&limit=${limit}`,
   );
-  const { assets, error } = await res.json();
-  if (error) throw new Error(error);
+  const body = await res.text();
+  const { assets, error } = JSON.parse(body);
+  if (error) {
+    // eslint-disable-next-line no-console
+    console.error({ error, body });
+    throw new Error(error);
+  }
   if (!assets) throw new Error(`Received ${assets} assets`);
   return assets;
 };

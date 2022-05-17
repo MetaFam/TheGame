@@ -455,14 +455,34 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
     } finally {
       setStatus(null);
     }
-
-    if (chainId !== '0x1') {
-    return <ConnectToProgress />;
-  }
   };
 
   if (chainId !== '0x1') {
-    return <ConnectToProgress />;
+    return (
+      <Modal {...{ isOpen, onClose }}>
+        <ModalOverlay />
+        <ModalContent
+          maxW={['100%', 'min(80%, 60rem)']}
+          backgroundImage={`url(${BackgroundImage})`}
+          bgSize="cover"
+          bgAttachment="fixed"
+          p={[0, 8, 12]}
+        >
+          <ModalHeader>
+            <MetaHeading color="white">Wrong Chain</MetaHeading>
+          </ModalHeader>
+          <ModalCloseButton
+            color="pinkShadeOne"
+            size="xl"
+            p={{ base: 1, sm: 4 }}
+            _focus={{ boxShadow: 'none' }}
+          />
+          <ModalBody p={[0, 2]} alignSelf="center">
+            <ConnectToProgress header="" />
+          </ModalBody>
+        </ModalContent>
+      </Modal>
+    );
   }
 
   return (
