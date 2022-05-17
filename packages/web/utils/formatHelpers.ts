@@ -6,8 +6,12 @@ export const convertToRoman = (_num: number): string => {
   };
 
   const romans: RomanOptions = {
-    ↀ: 1000,
-    Ⅽↀ: 900,
+    ↈ: 100_000,
+    ↇ: 50_000,
+    ↂ: 10_000,
+    ↁ: 5_000,
+    Ⅿ: 1_000,
+    ⅭⅯ: 900,
     Ⅾ: 500,
     ⅭⅮ: 400,
     Ⅽ: 100,

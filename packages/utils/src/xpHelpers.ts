@@ -30,23 +30,19 @@ export const getSeasonNum = (currentDate: Date = new Date()): number => {
   let activeDate = new Date(GAME_STARTED);
   let activeIndex = 4;
 
-
   const boundaries = [
     { month: 3, day: 19 },
     { month: 6, day: 20 },
     { month: 9, day: 22 },
     { month: 12, day: 20 },
-  ]
+  ];
 
-  const leapYear = activeDate.getFullYear() % 4 === 0 
+  const leapYear = activeDate.getFullYear() % 4 === 0;
 
-  const SEASON_START = (
-    boundaries.map(({ month, day }) => (
-      new Date(activeDate.getFullYear(), month - 1, day + (leapYear ? 0 : 1))
-    )
-  )
-  )
-
+  const SEASON_START = boundaries.map(
+    ({ month, day }) =>
+      new Date(activeDate.getFullYear(), month - 1, day + (leapYear ? 0 : 1)),
+  );
 
   while (currentDate > activeDate) {
     seasons.push(activeDate);
