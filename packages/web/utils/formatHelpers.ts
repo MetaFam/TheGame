@@ -5,27 +5,53 @@ export const convertToRoman = (_num: number): string => {
     [key: string]: number;
   };
 
-  const roman: RomanOptions = {
-    M: 1000,
-    CM: 900,
-    D: 500,
-    CD: 400,
-    C: 100,
-    XC: 90,
-    L: 50,
-    XL: 40,
-    X: 10,
-    IX: 9,
-    V: 5,
-    IV: 4,
-    I: 1,
+  const romans: RomanOptions = {
+    ↀ: 1000,
+    Ⅽↀ: 900,
+    Ⅾ: 500,
+    ⅭⅮ: 400,
+    Ⅽ: 100,
+    ⅩⅭ: 90,
+    Ⅼ: 50,
+    ⅩⅬ: 40,
+    Ⅹ: 10,
+    Ⅸ: 9,
+    Ⅴ: 5,
+    Ⅳ: 4,
+    Ⅰ: 1,
   };
+  const smallRomans = [
+    'Ⅰ',
+    'Ⅱ',
+    'Ⅲ',
+    'Ⅳ',
+    'Ⅴ',
+    'Ⅵ',
+    'Ⅶ',
+    'Ⅷ',
+    'Ⅸ',
+    'Ⅹ',
+    'Ⅺ',
+    'Ⅻ',
+    'ⅩⅢ',
+    'ⅩⅣ',
+    'ⅩⅤ',
+    'ⅩⅥ',
+    'ⅩⅦ',
+    'ⅩⅡⅩ',
+    'ⅩⅠⅩ',
+  ];
+
+  if (num < smallRomans.length) {
+    return smallRomans[num - 1];
+  }
+
   let str = '';
 
   // eslint-disable-next-line no-restricted-syntax
-  for (const i of Object.keys(roman)) {
-    const q = Math.floor(num / roman[i]);
-    num -= q * roman[i];
+  for (const i of Object.keys(romans)) {
+    const q = Math.floor(num / romans[i]);
+    num -= q * romans[i];
     str += i.repeat(q);
   }
 
