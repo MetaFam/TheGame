@@ -25,7 +25,12 @@ export const MetaGameLogo = () => (
 export const ConnectToProgress: React.FC<{
   showNote?: boolean;
   showSwitchButton?: boolean;
-}> = ({ showNote = false, showSwitchButton = true }) => {
+  header?: string;
+}> = ({
+  showNote = false,
+  showSwitchButton = true,
+  header = 'Welcome to MetaGame!',
+}) => {
   const { connect, connecting, connected, chainId } = useWeb3();
   const [open, { toggle }] = useBoolean();
   const { fetching } = useUser();
@@ -35,7 +40,7 @@ export const ConnectToProgress: React.FC<{
       return (
         <Stack color="white" spacing={8} w="100%" maxW="30rem">
           <MetaGameLogo />
-          <MetaHeading> Welcome to MetaGame! </MetaHeading>
+          {header && header !== '' && <MetaHeading>{header}</MetaHeading>}
           <Text fontSize="md" w="100%" textAlign="center">
             Please switch to <SwitchNetworkButton chainId="0x1" /> to progress
           </Text>
