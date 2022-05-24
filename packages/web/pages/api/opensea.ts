@@ -1,5 +1,5 @@
+import { isAddress } from '@ethersproject/address';
 import { CONFIG } from 'config';
-import { utils } from 'ethers';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { OpenSeaAPI } from 'opensea-js';
 import { OpenSeaAssetQuery } from 'opensea-js/lib/types';
@@ -11,7 +11,7 @@ const opensea = new OpenSeaAPI({ apiKey: CONFIG.openseaApiKey });
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { owner, offset = 0, limit = 50 } = req.query;
-  if (req.method === 'GET' && utils.isAddress(owner as string)) {
+  if (req.method === 'GET' && isAddress(owner as string)) {
     try {
       const assets = await fetchOpenSeaData({
         owner: owner as string,
@@ -32,7 +32,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       }
       return res.status(status).json({ error: msg });
     }
-  } else if (!utils.isAddress(owner as string)) {
+  } else if (!isAddress(owner as string)) {
     return res.status(400).json({ error: `Invalid Owner Address` });
   } else {
     return res

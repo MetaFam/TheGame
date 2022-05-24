@@ -1,3 +1,4 @@
+import { isAddress } from '@ethersproject/address';
 import {
   Box,
   CloseButton,
@@ -15,7 +16,6 @@ import {
 import { SelectOption } from '@metafam/ds/src/MultiSelect';
 import { Field, FieldDescription } from 'components/Forms/Field';
 import { MetaLink } from 'components/Link';
-import { utils } from 'ethers';
 import {
   DiscordRole,
   GuildDaoInput,
@@ -54,7 +54,7 @@ const validations = {
   },
   daoAddress: {
     required: true,
-    validate: (address: string) => utils.isAddress(address),
+    validate: (address: string) => isAddress(address),
   },
   daoNetwork: {
     required: true,

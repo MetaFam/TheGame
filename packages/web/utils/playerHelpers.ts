@@ -1,10 +1,10 @@
+import { isAddress } from '@ethersproject/address';
 import { Maybe } from '@metafam/utils';
 import ProfileIcon from 'assets/generic-user-icon.svg';
 import GuildCoverImageFull from 'assets/guild-background-full.jpeg';
 import GuildCoverImageSmall from 'assets/guild-background-small.jpeg';
 import PlayerCoverImageFull from 'assets/player-background-full.jpg';
 import PlayerCoverImageSmall from 'assets/player-background-small.jpg';
-import { utils } from 'ethers';
 import { AccountType_Enum, Player } from 'graphql/autogen/types';
 import { GuildPlayer } from 'graphql/types';
 
@@ -67,7 +67,7 @@ export const formatAddress = (address = ''): string =>
   `${address.slice(0, 6)}…${address.slice(-4)}`;
 
 export const formatIfAddress = (username = ''): string =>
-  utils.isAddress(username) ? formatAddress(username) : username;
+  isAddress(username) ? formatAddress(username) : username;
 
 export const getPlayerURL = (
   player?: Maybe<Player | GuildPlayer>,

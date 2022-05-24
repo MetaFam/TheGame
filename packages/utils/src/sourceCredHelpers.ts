@@ -1,10 +1,10 @@
-import { utils } from 'ethers';
+import { isAddress } from '@ethersproject/address';
 import { SCIdentity, sourcecred as sc } from 'sourcecred';
 
 export const getLatestEthAddress = (identity: SCIdentity): string | null => {
   const ethAddresses = identity.aliases.filter((alias) => {
     const parts = sc.core.graph.NodeAddress.toParts(alias.address);
-    return parts.indexOf('ethereum') > 0 && utils.isAddress(alias.description);
+    return parts.indexOf('ethereum') > 0 && isAddress(alias.description);
   });
   if (ethAddresses.length > 0) {
     // this assumes that the fetched data is in chronological order, which should
