@@ -33,7 +33,7 @@
     "dids": "2.4.3",
     "draft-js": "0.11.7",
     "draftjs-to-html": "0.9.1",
-    "ethers": "5.6.7",
+    "ethers": "5.6.8",
     "fake-tag": "3.0.0",
     "graphql": "16.3.0",
     "gsap": "3.9.1",
