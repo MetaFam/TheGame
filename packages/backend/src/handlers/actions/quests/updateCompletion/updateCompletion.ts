@@ -1,3 +1,8 @@
+import { createDiscordClient } from '@metafam/discord-bot';
+import { Constants } from '@metafam/utils';
+import { CONFIG } from 'config';
+import { TextChannel } from 'discord.js';
+
 import {
   QuestCompletionStatus_ActionEnum,
   QuestCompletionStatus_Enum,
@@ -72,8 +77,52 @@ export async function updateCompletion(
     });
   }
 
+  if (newQuestCompletionStatus === QuestCompletionStatus_Enum.Accepted) {
+    sendDiscordProps(
+      questCompletion.completedByPlayerId,
+      quest.id,
+      quest.title,
+    );
+  }
+
   return {
     success: true,
     quest_completion_id: questCompletion.id,
   };
+}
+
+async function sendDiscordProps(
+  playerId: string,
+  questId: string,
+  questName: string,
+): Promise<void> {
+  const getPlayerResponse = await client.GetPlayer({
+    playerId,
+  });
+  const playerDiscordId = getPlayerResponse.player_by_pk?.discordId;
+
+  const discordClient = await createDiscordClient();
+
+  const guild = await discordClient.guilds.fetch(
+    Constants.METAFAM_DISCORD_GUILD_ID,
+  );
+  if (guild == null || playerDiscordId == null) {
+    return;
+  }
+  const discordPlayer = await guild.members.fetch(playerDiscordId);
+  if (discordPlayer == null) {
+    const player = getPlayerResponse.player_by_pk?.profile?.username;
+    console.warn(
+      `Player ${player} was not found in the MetaGame discord server, so we couldn't give props!`,
+    );
+    return;
+  }
+
+  const propsChannel = (await discordClient.channels.fetch(
+    Constants.DISCORD_PROPS_CHANNEL_ID,
+  )) as TextChannel;
+  const link = `${CONFIG.frontendURL}/quest/${questId}`;
+  propsChannel.send(
+    `Props to ${discordPlayer} for completing ${questName}! Check it out here: ${link}`,
+  );
 }

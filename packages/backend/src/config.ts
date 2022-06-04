@@ -6,6 +6,7 @@ interface IConfig {
   port: number;
   nodeEnv: string;
   graphqlURL: string;
+  frontendURL: string;
   daoHausGraphqlURL: string;
   daoHausPolygonGraphqlURL: string;
   daoHausXdaiGraphqlURL: string;
@@ -44,6 +45,7 @@ export const CONFIG: IConfig = {
     }
     return 'http://localhost:8080/v1/graphql';
   })(),
+  frontendURL: parseEnv(process.env.FRONTEND_URL, 'http://localhost:3000'),
   seedGraphqlURL: parseEnv(
     process.env.SEED_GRAPHQL_URL,
     'https://api.thegraph.com/subgraphs/name/tenfinney/polygon-seeds',
