@@ -155,7 +155,7 @@ export const QuestFilter: React.FC<Props> = ({
           options={statusOptions}
           disableEmpty
         />
-        {aggregates.guilds.length && (
+        {aggregates.guilds.length ? (
           <MetaFilterSelectSearch
             title={`Guild: ${guild.label}`}
             styles={metaFilterSelectStyles}
@@ -172,7 +172,7 @@ export const QuestFilter: React.FC<Props> = ({
             options={guildOptions}
             disableEmpty
           />
-        )}
+        ) : null}
         {roleChoices.length && (
           <MetaFilterSelectSearch
             title="Roles"

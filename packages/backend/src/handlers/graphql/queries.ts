@@ -35,6 +35,7 @@
       status
       repetition
       createdByPlayerId
+      title
     }
   }
 
