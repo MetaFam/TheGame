@@ -1,6 +1,6 @@
 import {
-  Flex,
-  MetaButton,
+  FormControl,
+  FormLabel,
   MetaFilterSelectSearch,
   metaFilterSelectStyles,
   Switch,
@@ -200,29 +200,32 @@ export const QuestFilter: React.FC<Props> = ({
         )}
 
         {myId && (
-          <WrapItem>
-            <Flex align="center">
-              <MetaButton
-                size="md"
-                colorScheme="cyan"
-                variant="outline"
-                borderWidth="2px"
-                borderRadius="4px"
-                color="cyan.500"
-                px={4}
-                onClick={() =>
+          <WrapItem
+            alignItems="center"
+            borderRadius="4px"
+            borderColor="borderPurple"
+            borderWidth="2px"
+            bg="dark"
+          >
+            <FormControl display="flex" alignItems="center" mx={3}>
+              <FormLabel
+                htmlFor="createdByMe"
+                mb={0}
+                style={{ cursor: 'pointer', textTransform: 'uppercase' }}
+              >
+                Created By Me
+              </FormLabel>
+              <Switch
+                id="createdByMe"
+                isChecked={myId && queryVariables.createdByPlayerId === myId}
+                onChange={() =>
                   setQueryVariable(
-                    'created_by_player_id',
+                    'createdByPlayerId',
                     queryVariables.createdByPlayerId ? '' : myId,
                   )
                 }
-              >
-                <Text mr={2}>Created By Me</Text>
-                <Switch
-                  isChecked={myId && queryVariables.createdByPlayerId === myId}
-                />
-              </MetaButton>
-            </Flex>
+              />
+            </FormControl>
           </WrapItem>
         )}
       </Wrap>
