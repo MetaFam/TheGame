@@ -1,4 +1,4 @@
-import { Box, Button, Text, VStack } from '@metafam/ds';
+import { Box, Button, Text, Tooltip, VStack } from '@metafam/ds';
 import { PageContainer } from 'components/Container';
 import { Build } from 'components/Landing/Build';
 import { Game } from 'components/Landing/Game';
@@ -14,7 +14,14 @@ import { HeadComponent } from 'components/Seo';
 // import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
 import { useRouter } from 'next/router';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { FaDiscord, FaGithub, FaTwitter } from 'react-icons/fa';
+import {
+  FaDiscord,
+  FaGithub,
+  FaHome,
+  FaTrophy,
+  FaTwitter,
+  FaUserCircle,
+} from 'react-icons/fa';
 
 export const getStaticProps = async () => ({
   props: {
@@ -165,15 +172,6 @@ export const Socials: React.FC = () => (
       },
     }}
   >
-    <Text
-      as="span"
-      sx={{
-        flex: 1,
-        transform: ' translateY(40px) rotate(-90deg)',
-      }}
-    >
-      Follow us
-    </Text>
     <MetaLink href="https://github.com/metafam" isExternal>
       <FaGithub />
     </MetaLink>
@@ -182,6 +180,30 @@ export const Socials: React.FC = () => (
     </MetaLink>
     <MetaLink href="https://twitter.com/metafam" isExternal>
       <FaTwitter />
+    </MetaLink>
+    <MetaLink href="/players">
+      <Tooltip label="Leaderboard" hasArrow placement="right">
+        <span>
+          {' '}
+          <FaTrophy />{' '}
+        </span>
+      </Tooltip>
+    </MetaLink>
+    <MetaLink href="/dashboard">
+      <Tooltip label="Dashboard" hasArrow placement="right">
+        <span>
+          {' '}
+          <FaHome />{' '}
+        </span>
+      </Tooltip>
+    </MetaLink>
+    <MetaLink href="/me">
+      <Tooltip label="Player Profile" hasArrow placement="right">
+        <span>
+          {' '}
+          <FaUserCircle />{' '}
+        </span>
+      </Tooltip>
     </MetaLink>
   </VStack>
 );
