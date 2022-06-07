@@ -19,18 +19,15 @@ export const handler: (
   const busboy = Busboy({ headers: req.headers });
   const files: { field: string; name: string }[] = [];
 
-  busboy.on(
-    'file',
-    async (fieldname: string, file: Readable, filename: string) => {
-      const field = path.basename(fieldname);
-      const name = path.join(
-        await mkdtemp(path.join(os.tmpdir(), `${field}-`)),
-        filename,
-      );
-      files.push({ field, name });
-      file.pipe(fs.createWriteStream(name));
-    },
-  );
+  busboy.on('file', async (fieldname: string, file: Readable, { filename }) => {
+    const field = path.basename(fieldname);
+    const name = path.join(
+      await mkdtemp(path.join(os.tmpdir(), `${field}-`)),
+      filename,
+    );
+    files.push({ field, name });
+    file.pipe(fs.createWriteStream(name));
+  });
 
   busboy.on('finish', async () => {
     try {
@@ -41,7 +38,7 @@ export const handler: (
       const tmpFiles = files.map(({ field, name }) => ({
         name: `${field}/${path.basename(name)}`,
         stream: () =>
-          (fs.createReadStream(name) as unknown) as ReadableStream<string>,
+          fs.createReadStream(name) as unknown as ReadableStream<string>,
       }));
       const cid = await storage.put(tmpFiles);
 
