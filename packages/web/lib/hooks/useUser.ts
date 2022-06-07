@@ -38,6 +38,10 @@ export const useUser = ({
     // eslint-disable-next-line no-console
     console.error(`useUser Error: ${error.message}`);
   }
+  if (!authToken && connected) {
+    // eslint-disable-next-line no-console
+    console.warn('`authToken` unset when connected');
+  }
 
   useEffect(() => {
     if (!redirectTo || fetching || connecting) return;
