@@ -46,7 +46,7 @@ export const CONFIG: IConfig = {
   })(),
   seedGraphqlURL: parseEnv(
     process.env.SEED_GRAPHQL_URL,
-    'https://api.thegraph.com/subgraphs/name/dan13ram/seed-graph',
+    'https://api.thegraph.com/subgraphs/name/tenfinney/polygon-seeds',
   ),
   daoHausGraphqlURL: parseEnv(
     process.env.DAOHAUS_GRAPHQL_URL,
@@ -71,11 +71,11 @@ export const CONFIG: IConfig = {
   githubApiToken: parseEnv(process.env.GITHUB_API_TOKEN, ''),
   pSEEDAddress: parseEnv(
     process.env.PSEED_ADDRESS,
-    '0x34a01c0a95b0592cc818cd846c3cf285d6c85a31',
+    '0x8a8fcd351ed553fc75aecbc566a32f94471f302e',
   ),
   infuraId: parseEnv(
     process.env.NEXT_PUBLIC_INFURA_ID,
-    '781d8466252d47508e177b8637b1c2fd',
+    '8db5dad32a3f490dac7aaf6cb2b23b82',
   ),
   brightIdAppURL: parseEnv(
     process.env.NEXT_BRIGHTID_APP_URL,

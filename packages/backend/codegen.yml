@@ -42,7 +42,7 @@ generates:
       avoidOptionals: true
       dedupeOperationSuffix: true
   src/lib/autogen/seedgraph-sdk.ts:
-    schema: 'https://api.thegraph.com/subgraphs/name/dan13ram/seed-graph'
+    schema: 'https://api.thegraph.com/subgraphs/name/tenfinney/polygon-seeds'
     documents:
       - src/handlers/remote-schemas/resolvers/seedGraph/**/(!(*.d)).ts
     plugins:
