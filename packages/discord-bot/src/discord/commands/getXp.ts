@@ -146,9 +146,9 @@ const scAliasMatchesDiscordId = (
   discordAccount: SCAlias,
   targetUserDiscordID: Snowflake,
 ) => {
-  const [, , , , discordId] = sc.core.graph.NodeAddress.toParts(
+  const [discordId] = sc.core.graph.NodeAddress.toParts(
     discordAccount.address,
-  );
+  ).slice(-1);
   if (discordId === targetUserDiscordID) {
     return discordId;
   }
