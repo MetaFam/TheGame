@@ -5,9 +5,13 @@ import ERC20_ABI from './abis/ERC20.json';
 
 const { infuraId } = CONFIG;
 
-export const defaultProvider = new ethers.providers.InfuraProvider(1, infuraId);
+export const mainnetProvider = new ethers.providers.InfuraProvider(1, infuraId);
+export const polygonProvider = new ethers.providers.InfuraProvider(
+  137,
+  infuraId,
+);
 
 export const getERC20Contract = (
   contractAddress: string,
-  provider: ethers.providers.BaseProvider = defaultProvider,
+  provider: ethers.providers.BaseProvider = mainnetProvider,
 ): ethers.Contract => new ethers.Contract(contractAddress, ERC20_ABI, provider);

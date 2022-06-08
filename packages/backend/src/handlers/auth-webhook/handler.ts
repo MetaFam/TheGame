@@ -1,7 +1,7 @@
 import { did, Maybe } from '@metafam/utils';
 import { Request, Response } from 'express';
 
-import { defaultProvider } from '../../lib/ethereum';
+import { mainnetProvider } from '../../lib/ethereum';
 import { getOrCreatePlayerId } from './users';
 
 const unauthorizedVariables = {
@@ -30,7 +30,7 @@ export const authHandler = async (
       res.json(unauthorizedVariables);
       return;
     }
-    const claim = await did.verifyToken(token, defaultProvider);
+    const claim = await did.verifyToken(token, mainnetProvider);
     if (!claim) {
       throw new Error('Invalid token');
     }
