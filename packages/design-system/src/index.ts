@@ -33,6 +33,7 @@ export {
   chakraesqueStyles,
   dropdownStyles,
   theme as MetaTheme,
+  modalContentStyles,
   multiSelectStyles,
   searchSelectStyles,
   selectStyles,

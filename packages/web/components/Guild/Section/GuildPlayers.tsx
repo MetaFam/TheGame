@@ -6,6 +6,7 @@ import {
   Modal,
   ModalCloseButton,
   ModalContent,
+  modalContentStyles,
   ModalOverlay,
   SimpleGrid,
   Text,
@@ -15,7 +16,6 @@ import { ProfileSection } from 'components/Profile/ProfileSection';
 import { getGuildPlayers } from 'graphql/queries/guild';
 import { GuildPlayer } from 'graphql/types';
 import React, { useEffect, useState } from 'react';
-import { isBackdropFilterSupported } from 'utils/compatibilityHelpers';
 
 import { GuildPlayerComponent } from './GuildPlayer';
 
@@ -35,15 +35,6 @@ export const GuildPlayers: React.FC<Props> = ({ guildId, guildname }) => {
       setGuildPlayers(players);
     });
   }, [guildId, guildname]);
-
-  const modalContentStyles = isBackdropFilterSupported()
-    ? {
-        backgroundColor: 'rgba(255,255,255,0.08)',
-        backdropFilter: 'blur(8px)',
-      }
-    : {
-        backgroundColor: 'rgba(7, 2, 29, 0.91)',
-      };
 
   const GuildMembers = () =>
     guildPlayers == null || guildPlayers.length === 0 ? (

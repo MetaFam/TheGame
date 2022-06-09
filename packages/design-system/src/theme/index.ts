@@ -1,6 +1,7 @@
 import { extendTheme } from '@chakra-ui/react';
 import { GroupBase, StylesConfig } from 'react-select';
 
+import { isBackdropFilterSupported } from '../compatibilityHelpers';
 import { colors } from './colors';
 import { textStyles } from './texts';
 
@@ -480,3 +481,12 @@ export const chakraesqueStyles: Styles = {
     color: theme.colors.white,
   }),
 };
+
+export const modalContentStyles = isBackdropFilterSupported()
+  ? {
+      backgroundColor: 'rgba(255,255,255,0.08)',
+      backdropFilter: 'blur(8px)',
+    }
+  : {
+      backgroundColor: 'rgba(7, 2, 29, 0.91)',
+    };
