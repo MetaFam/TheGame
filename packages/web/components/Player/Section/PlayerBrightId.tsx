@@ -8,6 +8,7 @@ import {
   Modal,
   ModalCloseButton,
   ModalContent,
+  modalContentStyles,
   ModalOverlay,
   Text,
   Tooltip,
@@ -19,7 +20,6 @@ import { useUser, useWeb3 } from 'lib/hooks';
 import { useBrightIdStatus, useBrightIdUpdated } from 'lib/hooks/brightId';
 import React, { useEffect, useState } from 'react';
 import { QRCode } from 'react-qr-svg';
-import { isBackdropFilterSupported } from 'utils/compatibilityHelpers';
 
 type Props = { player: Player };
 
@@ -38,15 +38,6 @@ export const PlayerBrightId: React.FC<Props> = ({ player }) => {
   }, [user, fetching, connected, player?.id]);
 
   useBrightIdUpdated({ player, poll: !verified && isOpen && isLoggedInUser });
-
-  const modalContentStyles = isBackdropFilterSupported()
-    ? {
-        backgroundColor: 'rgba(255,255,255,0.08)',
-        backdropFilter: 'blur(8px)',
-      }
-    : {
-        backgroundColor: 'rgba(7, 2, 29, 0.91)',
-      };
 
   if (!isLoggedInUser && !verified) return null;
 
