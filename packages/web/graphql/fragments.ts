@@ -82,6 +82,7 @@ export const GuildFragment = /* GraphQL */ `
     websiteUrl
     githubUrl
     twitterUrl
+    showDiscordAnnouncements
     daos {
       contractAddress
       network

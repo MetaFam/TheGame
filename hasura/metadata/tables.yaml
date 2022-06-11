@@ -235,6 +235,7 @@
     custom_column_names:
       website_url: websiteUrl
       join_button_url: joinButtonUrl
+      show_discord_announcements: showDiscordAnnouncements
       discord_id: discordId
       twitter_url: twitterUrl
       membership_through_discord: membershipThroughDiscord
@@ -299,6 +300,7 @@
       - membership_through_discord
       - name
       - position
+      - show_discord_announcements
       - status
       - twitter_url
       - type
@@ -307,21 +309,22 @@
   - role: public
     permission:
       columns:
-      - id
-      - type
-      - name
-      - logo
       - description
-      - join_button_url
-      - website_url
-      - guildname
       - discord_id
-      - status
       - discord_invite_url
-      - twitter_url
       - github_url
-      - position
+      - guildname
+      - id
+      - join_button_url
+      - logo
       - membership_through_discord
+      - name
+      - position
+      - show_discord_announcements
+      - status
+      - twitter_url
+      - type
+      - website_url
       filter: {}
   event_triggers:
   - name: syncDiscordGuildMembers

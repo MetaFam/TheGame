@@ -82,12 +82,19 @@ export const GuildJoin: React.FC = () => {
               <Text pt={4}>
                 Clicking the link below will redirect to a Discord page asking
                 for your permission to collect certain relevant information
-                about your guild.
+                about your guild:
+                <UnorderedList>
+                  <ListItem fontSize="small">
+                    Read messages / history. Optional, but this allows us to
+                    display announcements from your Discord announcements
+                    channel(s) to display on your guild's page.
+                  </ListItem>
+                </UnorderedList>
               </Text>
               <MetaButton
                 size="lg"
                 maxW="15rem"
-                mt={4}
+                mt={6}
                 as="a"
                 href={discordAuthURL}
               >
