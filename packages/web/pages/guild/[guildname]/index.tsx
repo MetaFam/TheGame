@@ -58,10 +58,10 @@ const GuildPage: React.FC<Props> = ({ guild }) => {
   // BoxType.GUILD_QUESTS,
   // BoxType.GUILD_GALLERY,
 
-  const boxes = [
-    [BoxTypes.GUILD_PLAYERS],
-    [BoxTypes.GUILD_ANNOUNCEMENTS, BoxTypes.GUILD_LINKS],
-  ];
+  const boxes: string[][] = [[BoxTypes.GUILD_PLAYERS], [BoxTypes.GUILD_LINKS]];
+  if (guild != null && guild.showDiscordAnnouncements !== false) {
+    boxes[1].unshift(BoxTypes.GUILD_ANNOUNCEMENTS);
+  }
 
   if (router.isFallback) {
     return <LoadingState />;

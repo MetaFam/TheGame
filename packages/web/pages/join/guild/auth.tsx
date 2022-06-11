@@ -1,3 +1,4 @@
+import { Box, Link } from '@metafam/ds';
 import { PageContainer } from 'components/Container';
 import { discordAuthStateGuidKey } from 'components/Guild/GuildJoin';
 import { useAuthenticateDiscordGuildMutation } from 'graphql/autogen/types';
@@ -48,7 +49,16 @@ const GuildSetupAuthCallback: React.FC = () => {
 
   return (
     <PageContainer>
-      {error && `Could not load your guild information from Discord. ${error}`}
+      {error && (
+        <div style={{ textAlign: 'center' }}>
+          Could not load your guild information from Discord: {error}
+          <Box mt={2}>
+            <Link href="/join/guild" color="blue.400">
+              Try again
+            </Link>
+          </Box>
+        </div>
+      )}
       {authGuildRes.fetching &&
         'Loading your guild information from Discord...'}
     </PageContainer>
