@@ -37,6 +37,7 @@ export interface PartialGuild {
 export interface PartialRole {
   id: Snowflake;
   name: string;
+  permissions: string;
 }
 
 export interface GuildDiscordMetadata {

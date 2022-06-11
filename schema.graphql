@@ -1049,9 +1049,6 @@ enum dao_update_column {
   url
 }
 
-"""
-e.g. https://data.daohaus.club/dao/0xb152b115c94275b54a3f0b08c1aa1d21f32a659a
-"""
 type DaoMetadata {
   avatarImg: String
   contractAddress: String!
@@ -1571,6 +1568,7 @@ type guild {
     """filter the rows returned"""
     where: quest_bool_exp
   ): quest_aggregate!
+  showDiscordAnnouncements: Boolean!
   status: GuildStatus_enum!
   twitterUrl: String
 
@@ -1636,6 +1634,7 @@ input guild_bool_exp {
   name: String_comparison_exp
   position: GuildPosition_enum_comparison_exp
   quests: quest_bool_exp
+  showDiscordAnnouncements: Boolean_comparison_exp
   status: GuildStatus_enum_comparison_exp
   twitterUrl: String_comparison_exp
   type: GuildType_enum_comparison_exp
@@ -1676,6 +1675,7 @@ input guild_insert_input {
   name: String
   position: GuildPosition_enum
   quests: quest_arr_rel_insert_input
+  showDiscordAnnouncements: Boolean
   status: GuildStatus_enum
   twitterUrl: String
   type: GuildType_enum
@@ -2044,6 +2044,7 @@ input guild_order_by {
   name: order_by
   position: order_by
   quests_aggregate: quest_aggregate_order_by
+  showDiscordAnnouncements: order_by
   status: order_by
   twitterUrl: order_by
   type: order_by
@@ -2280,6 +2281,9 @@ enum guild_select_column {
   position
 
   """column name"""
+  showDiscordAnnouncements
+
+  """column name"""
   status
 
   """column name"""
@@ -2307,6 +2311,7 @@ input guild_set_input {
   membershipThroughDiscord: Boolean
   name: String
   position: GuildPosition_enum
+  showDiscordAnnouncements: Boolean
   status: GuildStatus_enum
   twitterUrl: String
   type: GuildType_enum
@@ -2349,6 +2354,9 @@ enum guild_update_column {
 
   """column name"""
   position
+
+  """column name"""
+  showDiscordAnnouncements
 
   """column name"""
   status

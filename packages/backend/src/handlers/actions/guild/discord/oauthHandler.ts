@@ -4,7 +4,7 @@ import {
   OAuth2CodeExchangeResponse,
   PartialGuild,
 } from '@metafam/discord-bot';
-import { DiscordUtil } from '@metafam/utils';
+import { Constants, DiscordUtil } from '@metafam/utils';
 import { Request, Response } from 'express';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -49,6 +49,16 @@ export const handleOAuthCallback = async (
       // if a guild with the same server ID already exists, see if a discord refresh token is set.
       if (existingGuild.metadata?.discordMetadata?.refreshToken != null) {
         // if so, it's already set up
+
+        // However, new permissions may have been granted, let's check and save those.
+        const canFetchAnnouncements =
+          discordGuild.roles.find((role) => role.name === 'MetaGame')
+            ?.permissions === Constants.JOIN_GUILD_DISCORD_BOT_PERMISSIONS;
+        await client.UpdateGuild({
+          guildId: existingGuild.id,
+          object: { showDiscordAnnouncements: canFetchAnnouncements },
+        });
+
         // might want to save the new refresh token if it's different...?
         const successResponse: DiscordGuildAuthResponse = {
           success: true,
@@ -140,6 +150,9 @@ const createNewGuild = async (
     status: GuildStatus_Enum.Pending,
     position: GuildPosition_Enum.External,
     membershipThroughDiscord: true,
+    showDiscordAnnouncements:
+      discordGuild.roles.find((role) => role.name === 'MetaGame')
+        ?.permissions === Constants.JOIN_GUILD_DISCORD_BOT_PERMISSIONS,
   };
 
   if (discordMetadata.logoHash != null) {
