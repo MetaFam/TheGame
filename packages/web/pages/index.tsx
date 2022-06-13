@@ -1,4 +1,4 @@
-import { Box, Button, Text, Tooltip, VStack } from '@metafam/ds';
+import { Box, Button, Icon, Text, Tooltip, VStack } from '@metafam/ds';
 import { PageContainer } from 'components/Container';
 import { Build } from 'components/Landing/Build';
 import { Game } from 'components/Landing/Game';
@@ -172,37 +172,46 @@ export const Socials: React.FC = () => (
       },
     }}
   >
-    <MetaLink href="https://github.com/metafam" isExternal>
-      <FaGithub />
+    <MetaLink href="https://github.com/metafam" my={3} isExternal>
+      <Tooltip label="Github" hasArrow placement="right">
+        <Box as="span">
+          <FaGithub />
+        </Box>
+      </Tooltip>
     </MetaLink>
     <MetaLink href="https://discord.com/invite/metagame" isExternal>
-      <FaDiscord />
+      <Tooltip label="Discord" hasArrow placement="right">
+        <Box as="span">
+          <FaDiscord />
+        </Box>
+      </Tooltip>
     </MetaLink>
     <MetaLink href="https://twitter.com/metafam" isExternal>
-      <FaTwitter />
+      <Tooltip label="Twitter" hasArrow placement="right">
+        <Box as="span">
+          <FaTwitter />
+        </Box>
+      </Tooltip>
     </MetaLink>
     <MetaLink href="/players">
       <Tooltip label="Leaderboard" hasArrow placement="right">
-        <span>
-          {' '}
-          <FaTrophy />{' '}
-        </span>
+        <Box as="span">
+          <FaTrophy />
+        </Box>
       </Tooltip>
     </MetaLink>
     <MetaLink href="/dashboard">
       <Tooltip label="Dashboard" hasArrow placement="right">
-        <span>
-          {' '}
-          <FaHome />{' '}
-        </span>
+        <Box as="span">
+          <FaHome />
+        </Box>
       </Tooltip>
     </MetaLink>
     <MetaLink href="/me">
       <Tooltip label="Player Profile" hasArrow placement="right">
-        <span>
-          {' '}
-          <FaUserCircle />{' '}
-        </span>
+        <Box as="span">
+          <FaUserCircle />
+        </Box>
       </Tooltip>
     </MetaLink>
   </VStack>
