@@ -29,6 +29,7 @@ export const getStaticProps = async () => ({
   },
 });
 
+
 const ArrowUp: React.FC = () => (
   <svg strokeWidth={0} viewBox="0 0 16 16" focusable="false">
     <defs>
