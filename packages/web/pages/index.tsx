@@ -1,4 +1,4 @@
-import { Box, Button, Icon, Text, Tooltip, VStack } from '@metafam/ds';
+import { Box, Button, Text, Tooltip, VStack } from '@metafam/ds';
 import { PageContainer } from 'components/Container';
 import { Build } from 'components/Landing/Build';
 import { Game } from 'components/Landing/Game';
