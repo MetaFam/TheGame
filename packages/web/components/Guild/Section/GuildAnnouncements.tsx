@@ -23,8 +23,8 @@ export const GuildAnnouncements: React.FC<Props> = ({ guildId }) => {
   const [getGuildAnnouncementsResponse] = useGetGuildAnnouncementsQuery({
     variables: { guildId },
   });
-  const { isOpen, onOpen, onClose } = useDisclosure();
 
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const announcements =
     getGuildAnnouncementsResponse.data?.guild[0].discordAnnouncements;
 
@@ -49,74 +49,95 @@ export const GuildAnnouncements: React.FC<Props> = ({ guildId }) => {
           View all ({announcements.length})
         </Text>
       )}
-
-      <Modal
+      <GuildAnnouncementsModal
+        announcements={announcements}
         isOpen={isOpen}
         onClose={onClose}
-        isCentered
-        scrollBehavior="inside"
-      >
-        <ModalOverlay>
-          <ModalContent maxW="6xl" bg="none">
-            <Box bg="purple80" borderTopRadius="lg" p={4} w="100%">
-              <HStack>
-                <Text
-                  fontSize="md"
-                  fontWeight="bold"
-                  color="blueLight"
-                  as="div"
-                  mr="auto"
-                >
-                  Announcements
-                </Text>
-                <ModalCloseButton color="blueLight" />
-              </HStack>
-            </Box>
-
-            <Flex p={2} css={modalContentStyles}>
-              {/* TODO extract this into design-system */}
-              <Box
-                overflowY="scroll"
-                overflowX="hidden"
-                maxH="80vh"
-                borderBottomRadius="lg"
-                w="100%"
-                color="white"
-                p={4}
-                css={{
-                  scrollbarColor: 'rgba(70,20,100,0.8) rgba(255,255,255,0)',
-                  '::-webkit-scrollbar': {
-                    width: '8px',
-                    background: 'none',
-                  },
-                  '::-webkit-scrollbar-thumb': {
-                    background: 'rgba(70,20,100,0.8)',
-                    borderRadius: '999px',
-                  },
-                }}
-              >
-                {announcements?.map((item, index) => (
-                  <Box
-                    key={index}
-                    mb={4}
-                    p={6}
-                    backgroundColor="whiteAlpha.200"
-                    borderRadius="md"
-                  >
-                    <Text
-                      dangerouslySetInnerHTML={{
-                        __html: item,
-                      }}
-                      mb={5}
-                    />
-                  </Box>
-                ))}
-              </Box>
-            </Flex>
-          </ModalContent>
-        </ModalOverlay>
-      </Modal>
+      />
     </ProfileSection>
+  );
+};
+
+type GuildAnnouncementModalProps = {
+  announcements: string[] | null | undefined;
+  isOpen: boolean;
+  onClose: () => void;
+};
+
+const GuildAnnouncementsModal: React.FC<GuildAnnouncementModalProps> = ({
+  announcements,
+  isOpen,
+  onClose,
+}) => {
+  const css = {
+    ul: {
+      marginLeft: 4,
+    },
+  };
+
+  return (
+    <Modal isOpen={isOpen} onClose={onClose} isCentered scrollBehavior="inside">
+      <ModalOverlay>
+        <ModalContent maxW="6xl" bg="none">
+          <Box bg="purple80" borderTopRadius="lg" p={4} w="100%">
+            <HStack>
+              <Text
+                fontSize="md"
+                fontWeight="bold"
+                color="blueLight"
+                as="div"
+                mr="auto"
+              >
+                Announcements
+              </Text>
+              <ModalCloseButton color="blueLight" />
+            </HStack>
+          </Box>
+
+          <Flex p={2} css={modalContentStyles}>
+            {/* TODO extract this into design-system */}
+            <Box
+              overflowY="scroll"
+              overflowX="hidden"
+              maxH="80vh"
+              borderBottomRadius="lg"
+              w="100%"
+              color="white"
+              p={4}
+              css={{
+                scrollbarColor: 'rgba(70,20,100,0.8) rgba(255,255,255,0)',
+                '::-webkit-scrollbar': {
+                  width: '8px',
+                  background: 'none',
+                },
+                '::-webkit-scrollbar-thumb': {
+                  background: 'rgba(70,20,100,0.8)',
+                  borderRadius: '999px',
+                },
+              }}
+            >
+              {announcements?.map((item, index) => (
+                <Box
+                  key={index}
+                  mb={4}
+                  p={6}
+                  backgroundColor="whiteAlpha.200"
+                  borderRadius="md"
+                >
+                  <Text
+                    sx={css}
+                    dangerouslySetInnerHTML={{
+                      __html: item,
+                    }}
+                    mb={5}
+                  />
+                </Box>
+              ))}
+            </Box>
+          </Flex>
+        </ModalContent>
+      </ModalOverlay>
+    </Modal>
   );
 };
 
