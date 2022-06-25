@@ -15,7 +15,7 @@ export const CONFIG = {
     process.env.NEXT_BRIGHTID_APP_URL || 'https://app.brightid.org',
   brightIdNodeURL:
     process.env.NEXT_BRIGHTID_NODE_URL || 'http:%2f%2fnode.brightid.org',
-  publicURL: process.env.NEXT_PUBLIC_VERCEL_URL || 'http://localhost:3000',
+  publicURL: process.env.NEXT_PUBLIC_FRONTEND_URL,
   gaId: process.env.NEXT_PUBLIC_GA4_ID,
   clarityId: process.env.NEXT_CLARITY_ID,
   discordApiBaseUrl:
@@ -27,7 +27,6 @@ export const CONFIG = {
     'https://d12-a-ceramic.3boxlabs.com', // mainnet by 3Box
   ceramicNetwork:
     process.env.NEXT_PUBLIC_CERAMIC_NETWORK || 'mainnet' || 'testnet-clay',
-  actionsURL: process.env.NEXT_ACTIONS_URL || 'http://localhost:4000',
   calendarId: 'nih59ktgafmm64ed4qk6ue8vv4@group.calendar.google.com',
   googleDataApiKey: process.env.NEXT_PUBLIC_YOUTUBE_API_KEY,
   web3StorageToken: process.env.WEB3_STORAGE_TOKEN || '',
