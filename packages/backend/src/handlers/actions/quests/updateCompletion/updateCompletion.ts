@@ -119,7 +119,7 @@ async function sendDiscordProps(
   }
 
   const propsChannel = (await discordClient.channels.fetch(
-    Constants.DISCORD_PROPS_CHANNEL_ID,
+    Constants.METAFAM_DISCORD_PROPS_CHANNEL_ID,
   )) as TextChannel;
   const link = `${CONFIG.frontendURL}/quest/${questId}`;
   propsChannel.send(
