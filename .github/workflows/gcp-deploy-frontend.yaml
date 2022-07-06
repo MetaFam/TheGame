@@ -73,6 +73,7 @@ jobs:
       CLOUDRUN_REGION: ${{steps.first.outputs.CLOUDRUN_REGION}}
       DOCKER_REGISTRY: ${{steps.first.outputs.DOCKER_REGISTRY}}
       FRONTEND_URL: ${{steps.first.outputs.FRONTEND_URL}}
+      GA4_ID: ${{steps.first.outputs.GA4_ID}}
       DOCKER_PATH: ${{steps.second.outputs.DOCKER_PATH}}
       GRAPHQL_URL: ${{steps.second.outputs.GRAPHQL_URL}}
       FRONTEND_TAG: ${{steps.third.outputs.FRONTEND_TAG}}
@@ -86,7 +87,7 @@ jobs:
           if [[ ${{github.ref_name}} == 'master' ]]; then
               echo ::set-output name=HASURA_HOST::api.metagame.wtf
               echo ::set-output name=FRONTEND_URL::https://metagame.wtf
-              echo ::set-output name=GA4_ID::G-B1NKK3Q1BP # only for the prod env
+              echo ::set-output name=GA4_ID::G-B1NKK3Q1BP
           else
               echo ::set-output name=HASURA_HOST::api-staging.metagame.wtf
               echo ::set-output name=FRONTEND_URL::https://test.metagame.wtf
