@@ -18,17 +18,17 @@
     "@ethersproject/address": "5.6.0",
     "bignumber.js": "9.0.2",
     "cids": "1.1.9",
-    "ethers": "5.5.4",
+    "ethers": "5.6.9",
     "imgix-core-js": "2.3.2",
     "js-base64": "3.7.2",
     "key-did-provider-ed25519": "1.1.0",
-    "key-did-resolver": "1.4.4",
     "node-fetch": "3.2.1",
     "sourcecred": "0.11.0",
     "uuid": "8.3.2"
   },
   "devDependencies": {
     "@ceramicnetwork/http-client": "1.5.7",
-    "@datamodels/identity-accounts-crypto": "0.1.2"
+    "@datamodels/identity-accounts-crypto": "0.2.0",
+    "key-did-resolver": "2.0.4"
   }
 }
