@@ -79,12 +79,12 @@ jobs:
         run: |
           echo "::set-output name=CLOUDRUN_REGION::${{env.REGISTRY_REGION}}"
           echo "::set-output name=DOCKER_REGISTRY::${{env.REGISTRY_REGION}}-docker.pkg.dev"
-          echo "::set-output name=FRONTEND_URL::\
-          https://${{env.FRONTEND_SERVICE}}-${{env.CLOUDRUN_SUFFIX}}.${{env.DEPLOYMENT_DOMAIN}}"
           if [[ ${{github.ref_name}} == 'master' ]]; then
               echo ::set-output name=HASURA_HOST::api.metagame.wtf
+              echo ::set-output name=FRONTEND_URL::metagame.wtf
           else
               echo ::set-output name=HASURA_HOST::api-staging.metagame.wtf
+              echo ::set-output name=FRONTEND_URL::test.metagame.wtf
           fi
       - name: Those Variables May Now Be Interpolated
         id: second
