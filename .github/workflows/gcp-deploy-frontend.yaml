@@ -25,7 +25,6 @@ env:
   DEPLOYMENT_ENV: ${{github.ref_name}}
   FRONTEND_SERVICE: frontend-${{github.ref_name}}
   FRONTEND_PORT: 3000
-  GA4_ID: G-B1NKK3Q1BP
 
 jobs:
   start-deployment:
@@ -71,7 +70,6 @@ jobs:
       CLOUDRUN_SUFFIX: ${{env.CLOUDRUN_SUFFIX}}
       FRONTEND_SERVICE: ${{env.FRONTEND_SERVICE}}
       FRONTEND_PORT: ${{env.FRONTEND_PORT}}
-      GA4_ID: ${{env.GA4_ID}}
       CLOUDRUN_REGION: ${{steps.first.outputs.CLOUDRUN_REGION}}
       DOCKER_REGISTRY: ${{steps.first.outputs.DOCKER_REGISTRY}}
       FRONTEND_URL: ${{steps.first.outputs.FRONTEND_URL}}
@@ -88,6 +86,7 @@ jobs:
           if [[ ${{github.ref_name}} == 'master' ]]; then
               echo ::set-output name=HASURA_HOST::api.metagame.wtf
               echo ::set-output name=FRONTEND_URL::https://metagame.wtf
+              echo ::set-output name=GA4_ID::G-B1NKK3Q1BP # only for the prod env
           else
               echo ::set-output name=HASURA_HOST::api-staging.metagame.wtf
               echo ::set-output name=FRONTEND_URL::https://test.metagame.wtf
