@@ -1,3 +1,7 @@
+# This is used to deploy the frontend at metagame.wtf and test.metagame.wtf
+# Eventually we will switch the associated backend deployments over to Google Cloud
+# as well, at which time we can just use the single gcp_deploy.yaml file
+# for both PR deployments AND our stage/prod environments
 name: Update Frontend Deployment on Cloud Run
 
 on:
@@ -21,6 +25,7 @@ env:
   DEPLOYMENT_ENV: ${{github.ref_name}}
   FRONTEND_SERVICE: frontend-${{github.ref_name}}
   FRONTEND_PORT: 3000
+  GA4_ID: G-B1NKK3Q1BP
 
 jobs:
   start-deployment:
@@ -66,6 +71,7 @@ jobs:
       CLOUDRUN_SUFFIX: ${{env.CLOUDRUN_SUFFIX}}
       FRONTEND_SERVICE: ${{env.FRONTEND_SERVICE}}
       FRONTEND_PORT: ${{env.FRONTEND_PORT}}
+      GA4_ID: ${{env.GA4_ID}}
       CLOUDRUN_REGION: ${{steps.first.outputs.CLOUDRUN_REGION}}
       DOCKER_REGISTRY: ${{steps.first.outputs.DOCKER_REGISTRY}}
       FRONTEND_URL: ${{steps.first.outputs.FRONTEND_URL}}
@@ -81,10 +87,10 @@ jobs:
           echo "::set-output name=DOCKER_REGISTRY::${{env.REGISTRY_REGION}}-docker.pkg.dev"
           if [[ ${{github.ref_name}} == 'master' ]]; then
               echo ::set-output name=HASURA_HOST::api.metagame.wtf
-              echo ::set-output name=FRONTEND_URL::metagame.wtf
+              echo ::set-output name=FRONTEND_URL::https://metagame.wtf
           else
               echo ::set-output name=HASURA_HOST::api-staging.metagame.wtf
-              echo ::set-output name=FRONTEND_URL::test.metagame.wtf
+              echo ::set-output name=FRONTEND_URL::https://test.metagame.wtf
           fi
       - name: Those Variables May Now Be Interpolated
         id: second
@@ -155,7 +161,8 @@ jobs:
               --tag ${{needs.env.outputs.FRONTEND_TAG}} \
               --build-arg GRAPHQL_URL=${{needs.env.outputs.GRAPHQL_URL}} \
               --build-arg NEXT_PUBLIC_FRONTEND_URL=${{needs.env.outputs.FRONTEND_URL}} \
-              --build-arg NEXT_PUBLIC_YOUTUBE_API_KEY=${{secrets.YOUTUBE_API_KEY}}
+              --build-arg NEXT_PUBLIC_YOUTUBE_API_KEY=${{secrets.YOUTUBE_API_KEY}} \
+              --build-arg NEXT_PUBLIC_GA4_ID=${{needs.env.outputs.GA4_ID}}
           cache_key: "${{github.event.inputs.cache_key}}-${{hashFiles('packages/web/**', 'packages/design-system/**', 'packages/utils/**', 'package.json')}}"
 
       - name: "Login to Registry: ${{needs.env.outputs.DOCKER_REGISTRY}}"
@@ -197,7 +204,8 @@ jobs:
             --set-env-vars NEXT_PUBLIC_IMGIX_TOKEN=${{secrets.IMGIX_TOKEN}} \
             --set-env-vars NEXT_PUBLIC_YOUTUBE_API_KEY=${{secrets.YOUTUBE_API_KEY}} \
             --set-env-vars NEXT_PUBLIC_GRAPHQL_URL=${{needs.env.outputs.GRAPHQL_URL}} \
-            --set-env-vars NEXT_PUBLIC_FRONTEND_URL=${{needs.env.outputs.FRONTEND_URL}}
+            --set-env-vars NEXT_PUBLIC_FRONTEND_URL=${{needs.env.outputs.FRONTEND_URL}} \
+            --set-env-vars NEXT_PUBLIC_GA4_ID=${{needs.env.outputs.GA4_ID}}
 
   finish-deployment:
     name: Finish Deployment
