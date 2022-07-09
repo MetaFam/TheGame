@@ -36,11 +36,13 @@ generates:
       - typescript
       - typescript-operations
       - typescript-graphql-request
+      - typescript-resolvers
       - add:
           content: '/* eslint-disable */'
     config:
       avoidOptionals: true
       dedupeOperationSuffix: true
+      typesPrefix: DaoHaus
   src/lib/autogen/seedgraph-sdk.ts:
     schema: 'https://api.thegraph.com/subgraphs/name/tenfinney/polygon-seeds'
     documents:
