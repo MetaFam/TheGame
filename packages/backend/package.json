@@ -20,7 +20,7 @@
   "dependencies": {
     "@ceramicnetwork/http-client": "1.5.7",
     "@ceramicnetwork/stream-caip10-link": "1.2.9",
-    "@datamodels/identity-accounts-web": "0.2.0",
+    "@datamodels/identity-accounts-web": "0.1.2",
     "@datamodels/identity-profile-basic": "0.1.2",
     "@glazed/datamodel": "0.2.0",
     "@glazed/devtools": "0.1.5",
@@ -29,7 +29,7 @@
     "@graphql-tools/schema": "8.3.2",
     "@metafam/discord-bot": "0.1.0",
     "@metafam/utils": "1.0.1",
-    "@self.id/3box-legacy": "0.3.0",
+    "@self.id/3box-legacy": "0.2.0",
     "bluebird": "3.7.2",
     "body-parser": "1.19.2",
     "bottleneck": "2.19.5",
