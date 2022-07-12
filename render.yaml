@@ -23,7 +23,7 @@ services:
           type: web
           property: host
       - key: FRONTEND_URL
-        value: https://my.metagame.wtf
+        value: https://metagame.wtf
 
   # Backend staging
   - type: pserv
@@ -113,7 +113,7 @@ services:
       - key: PORT
         value: 5000
       - key: FRONTEND_URL
-        value: https://my.metagame.wtf
+        value: https://metagame.wtf
       - key: SOURCECRED_LEDGER_BRANCH
         value: master
       - key: GRAPHQL_HOST
