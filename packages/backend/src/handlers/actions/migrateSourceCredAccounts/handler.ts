@@ -3,6 +3,7 @@ import {
   fetch,
   getLatestEthAddress,
   getNumWeeksInSeason,
+  isNewSeason,
   isNotNullOrUndefined,
 } from '@metafam/utils';
 import bluebird from 'bluebird';
@@ -70,6 +71,11 @@ export const migrateSourceCredAccounts = async (
   };
 
   const numWeeksInSeason = getNumWeeksInSeason();
+
+  // Explicitly reset everybody's seasonal XP at the beginning of a season
+  if (isNewSeason()) {
+    await client.ResetAllPlayersSeasonXp();
+  }
 
   const accountList = accountsData.accounts
     .filter((a) => a.account.identity.subtype === 'USER')

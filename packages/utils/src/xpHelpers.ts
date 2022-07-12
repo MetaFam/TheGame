@@ -1,4 +1,4 @@
-export const getNumWeeksInSeason = (currentDate: Date = new Date()): number => {
+export const getCurrentSeasonStart = (currentDate: Date = new Date()): Date => {
   const currentYear = currentDate.getFullYear();
 
   const lastYear = currentDate.getFullYear() - 1;
@@ -11,13 +11,19 @@ export const getNumWeeksInSeason = (currentDate: Date = new Date()): number => {
     new Date(Date.parse(`${currentYear}-12-21T00:00:00+00:00`)), // 21 Dec this year
   ];
 
-  const currentSeason = seasons.reduce(
+  const currentSeasonStart = seasons.reduce(
     (t, a) => (a.getTime() < currentDate.getTime() ? a : t),
     new Date('1970-01-01T00:00:00+00:00'),
   );
 
+  return currentSeasonStart;
+};
+
+export const getNumWeeksInSeason = (currentDate: Date = new Date()): number => {
+  const currentSeasonStart = getCurrentSeasonStart(currentDate);
+
   return Math.ceil(
-    (currentDate.getTime() - currentSeason.getTime()) /
+    (currentDate.getTime() - currentSeasonStart.getTime()) /
       (1000 * 60 * 60 * 24 * 7),
   );
 };
@@ -31,10 +37,10 @@ export const getSeasonNum = (currentDate: Date = new Date()): number => {
   let activeIndex = 4;
 
   const boundaries = [
-    { month: 3, day: 19 },
-    { month: 6, day: 20 },
+    { month: 3, day: 20 },
+    { month: 6, day: 21 },
     { month: 9, day: 22 },
-    { month: 12, day: 20 },
+    { month: 12, day: 21 },
   ];
 
   const leapYear = activeDate.getFullYear() % 4 === 0;
@@ -62,4 +68,12 @@ export const getSeasonNum = (currentDate: Date = new Date()): number => {
   }
 
   return seasons.length;
+};
+
+export const isNewSeason = (currentDate: Date = new Date()): boolean => {
+  const currentSeasonStart = getCurrentSeasonStart(currentDate);
+
+  currentDate.setUTCHours(0, 0, 0, 0);
+
+  return currentDate.getTime() === currentSeasonStart.getTime();
 };

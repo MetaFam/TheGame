@@ -72,6 +72,17 @@
     }
   }
 
+  mutation ResetAllPlayersSeasonXp {
+    update_player(
+      where: {seasonXP: { _gt: 0}}
+      _set: {
+        seasonXP: 0
+      }
+    ) {
+      affected_rows
+    }
+  }
+
   mutation InsertPlayers($objects: [player_insert_input!]!) {
     insert_player(objects: $objects) {
       affected_rows
