@@ -28,7 +28,7 @@
   },
   "devDependencies": {
     "@ceramicnetwork/http-client": "1.5.7",
-    "@datamodels/identity-accounts-crypto": "0.1.2",
+    "@datamodels/identity-accounts-crypto": "0.2.0",
     "key-did-resolver": "2.0.4"
   }
 }
