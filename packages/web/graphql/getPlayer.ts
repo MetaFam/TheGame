@@ -10,10 +10,7 @@ import { client } from './client';
 import { PlayerFragment } from './fragments';
 
 const usernameQuery = /* GraphQL */ `
-  query GetPlayerForUsername(
-    $username: String!
-    $forLoginDisplay: Boolean! = false
-  ) {
+  query GetPlayerForUsername($username: String!) {
     player(where: { profile: { username: { _ilike: $username } } }) {
       ...PlayerFragment
     }
@@ -22,10 +19,7 @@ const usernameQuery = /* GraphQL */ `
 `;
 
 const addressQuery = /* GraphQL */ `
-  query GetPlayerForAddress(
-    $address: String!
-    $forLoginDisplay: Boolean! = false
-  ) {
+  query GetPlayerForAddress($address: String!) {
     player(where: { ethereumAddress: { _ilike: $address } }) {
       ...PlayerFragment
     }

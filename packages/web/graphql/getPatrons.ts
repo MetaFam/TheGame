@@ -21,11 +21,7 @@ import { Patron } from 'graphql/types';
 `;
 
 const patronsQuery = /* GraphQL */ `
-  query GetPatrons(
-    $addresses: [String!]
-    $limit: Int
-    $forLoginDisplay: Boolean! = false
-  ) {
+  query GetPatrons($addresses: [String!], $limit: Int) {
     player(where: { ethereumAddress: { _in: $addresses } }, limit: $limit) {
       ...PlayerFragment
     }
