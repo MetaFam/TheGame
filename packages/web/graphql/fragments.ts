@@ -1,13 +1,13 @@
 export const PlayerFragment = /* GraphQL */ `
   fragment PlayerFragment on player {
-    id @skip(if: $forLoginDisplay)
-    totalXP @skip(if: $forLoginDisplay)
-    seasonXP @skip(if: $forLoginDisplay)
-    rank @skip(if: $forLoginDisplay)
+    id
+    totalXP
+    seasonXP
+    rank
     ethereumAddress
-    profileLayout @skip(if: $forLoginDisplay)
+    profileLayout
 
-    skills @skip(if: $forLoginDisplay) {
+    skills {
       Skill {
         category
         id
@@ -15,7 +15,7 @@ export const PlayerFragment = /* GraphQL */ `
       }
     }
 
-    roles(order_by: { rank: asc }) @skip(if: $forLoginDisplay) {
+    roles(order_by: { rank: asc }) {
       role
       rank
       PlayerRole {
@@ -23,8 +23,7 @@ export const PlayerFragment = /* GraphQL */ `
       }
     }
 
-    accounts(where: { type: { _in: [TWITTER, GITHUB, MEETWITHWALLET] } })
-      @skip(if: $forLoginDisplay) {
+    accounts(where: { type: { _in: [TWITTER, GITHUB, MEETWITHWALLET] } }) {
       identifier
       type
     }
@@ -47,7 +46,7 @@ export const PlayerFragment = /* GraphQL */ `
       explorerTypeTitle
     }
 
-    daohausMemberships @skip(if: $forLoginDisplay) {
+    daohausMemberships {
       id
       shares
       molochAddress
@@ -61,7 +60,7 @@ export const PlayerFragment = /* GraphQL */ `
       }
     }
 
-    brightid_status @skip(if: $forLoginDisplay) {
+    brightid_status {
       unique
       contextIds
     }
