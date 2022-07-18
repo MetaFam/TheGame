@@ -28,7 +28,6 @@ import { Client } from 'urql';
 /* GraphQL */ `
   query GetQuestWithCompletions(
     $id: uuid!
-    $forLoginDisplay: Boolean! = false
   ) {
     quest_by_pk(id: $id) {
       ...QuestWithCompletionFragment

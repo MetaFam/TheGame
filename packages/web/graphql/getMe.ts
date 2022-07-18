@@ -1,7 +1,7 @@
 import { PlayerFragment } from 'graphql/fragments';
 
 export const GetMeQuery = /* GraphQL */ `
-  query GetMe($forLoginDisplay: Boolean! = false) {
+  query GetMe {
     me {
       record: player {
         ...PlayerFragment
