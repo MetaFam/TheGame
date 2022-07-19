@@ -1,13 +1,14 @@
 import { fetch, imageLink } from '@metafam/utils';
+import { client } from 'lib/hasuraClient';
 
 import { CONFIG } from '../../../../config';
 import { getClient } from '../../../../lib/daoHausClient';
 import { DaoMetadata, Member, QueryResolvers } from '../../autogen/types';
 
 const addChain = (memberAddress: string) => async (chain: string) => {
-  const client = getClient(chain);
+  const daohausClient = getClient(chain);
   const members = <Member[]>(
-    (await client.GetDaoHausMemberships({ memberAddress })).members
+    (await daohausClient.GetDaoHausMemberships({ memberAddress })).members
   );
 
   const metadataForDaos = await Promise.all(
@@ -45,6 +46,34 @@ const addChain = (memberAddress: string) => async (chain: string) => {
   });
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const syncDaoMemberships = async (ethAddress: string, members: Member[]) => {
+  // First, find all Members that don't have an associated Dao (by contract address) in our database.
+  // Insert that dao metadata plus a dao_player record for the current player
+  const { dao: existingDaos } = await client.GetDaosByAddress({
+    contractAddress: members.map((m) => m.memberAddress),
+  });
+  const daosToAdd = members.filter(
+    (m) =>
+      !existingDaos.some(
+        (dao) =>
+          dao.contractAddress === m.memberAddress &&
+          dao.network === m.moloch.chain,
+      ),
+  );
+  console.log(daosToAdd);
+
+  // Then, find all DAOs that the player with the given eth address belongs to.
+  // Gather a list of dao addresses NOT in the members list. This means they're no longer a member and must be removed.
+  const { dao_player: currentMemberDaos } = await client.GetPlayerDaos({
+    ethereumAddress: ethAddress,
+  });
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  console.log(currentMemberDaos);
+
+  // Finally, insert dao_player records for the remaining DAOs that the given player does not already belong to
+};
+
 export const getDaoHausMemberships: QueryResolvers['getDaoHausMemberships'] =
   async (_, { memberAddress }) => {
     if (!memberAddress) return [];
@@ -67,6 +96,7 @@ export const getDaoHausMemberships: QueryResolvers['getDaoHausMemberships'] =
     }, <Member[]>[]);
 
     // cache results in dao_player table
+    syncDaoMemberships(memberAddress, members);
 
     return members;
   };

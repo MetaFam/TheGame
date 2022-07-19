@@ -22,4 +22,18 @@ export const DaoMutations = /* GraphQL */ `
       affected_rows
     }
   }
+
+  mutation SyncDaoMembers(
+    $memberEthIdsToRemove: [String!]!
+    $membersToAdd: [dao_player_insert_input!]!
+  ) {
+    delete_dao_player(
+      where: { Player: { ethereumAddress: { _in: $memberEthIdsToRemove } } }
+    ) {
+      affected_rows
+    }
+    insert_dao_player(objects: $membersToAdd) {
+      affected_rows
+    }
+  }
 `;
