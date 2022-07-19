@@ -7,6 +7,24 @@ export const PlayerFragment = /* GraphQL */ `
     ethereumAddress
     profileLayout
 
+    profile {
+      name
+      username
+      description
+      emoji
+      profileImageURL
+      bannerImageURL
+      backgroundImageURL
+      location
+      countryCode
+      website
+      pronouns
+      availableHours
+      timeZone
+      colorMask
+      explorerTypeTitle
+    }
+
     skills {
       Skill {
         category
@@ -28,37 +46,31 @@ export const PlayerFragment = /* GraphQL */ `
       type
     }
 
-    profile {
-      name
-      username
-      description
-      emoji
-      profileImageURL
-      bannerImageURL
-      backgroundImageURL
-      location
-      countryCode
-      website
-      pronouns
-      availableHours
-      timeZone
-      colorMask
-      explorerTypeTitle
-    }
-
-    daohausMemberships {
-      id
-      shares
-      molochAddress
-      moloch {
-        id
-        title
-        version
-        totalShares
-        chain
-        avatarURL
+    guilds {
+      Guild {
+        name
       }
     }
+
+    daos {
+      Dao {
+        label
+      }
+    }
+
+    # daohausMemberships {
+    #   id
+    #   shares
+    #   molochAddress
+    #   moloch {
+    #     id
+    #     title
+    #     version
+    #     totalShares
+    #     chain
+    #     avatarURL
+    #   }
+    # }
 
     brightid_status {
       unique

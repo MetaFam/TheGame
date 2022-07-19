@@ -813,6 +813,11 @@ input dao_pk_columns_input {
 columns and relationships of "dao_player"
 """
 type dao_player {
+  """An object relationship"""
+  Dao: dao!
+
+  """An object relationship"""
+  Player: player!
   daoId: uuid!
   playerId: uuid!
   visible: Boolean
@@ -856,6 +861,8 @@ input dao_player_arr_rel_insert_input {
 Boolean expression to filter rows from the table "dao_player". All fields are combined with a logical 'AND'.
 """
 input dao_player_bool_exp {
+  Dao: dao_bool_exp
+  Player: player_bool_exp
   _and: [dao_player_bool_exp]
   _not: dao_player_bool_exp
   _or: [dao_player_bool_exp]
@@ -876,6 +883,8 @@ enum dao_player_constraint {
 input type for inserting data into table "dao_player"
 """
 input dao_player_insert_input {
+  Dao: dao_obj_rel_insert_input
+  Player: player_obj_rel_insert_input
   daoId: uuid
   playerId: uuid
   visible: Boolean
@@ -941,6 +950,8 @@ input dao_player_on_conflict {
 ordering options when selecting data from "dao_player"
 """
 input dao_player_order_by {
+  Dao: dao_order_by
+  Player: player_order_by
   daoId: order_by
   playerId: order_by
   visible: order_by
