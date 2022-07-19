@@ -12,7 +12,6 @@ const addChain = (memberAddress: string) => async (chain: string) => {
 
   const metadataForDaos = await Promise.all(
     members.map(async ({ moloch: { id } }) => {
-      console.log(`Fetching DAO Metadata For: ${id}`);
       const response = await fetch(`${CONFIG.daoHausMetadataUrl}/${id}`);
       const metadataArr = response.ok
         ? ((await response.json()) as DaoMetadata[])
@@ -66,6 +65,8 @@ export const getDaoHausMemberships: QueryResolvers['getDaoHausMemberships'] =
 
       return [...allMembers, ...chainMembers.value];
     }, <Member[]>[]);
+
+    // cache results in dao_player table
 
     return members;
   };
