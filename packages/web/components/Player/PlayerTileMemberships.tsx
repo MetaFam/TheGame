@@ -10,19 +10,17 @@ const SHOW_MEMBERSHIPS = 4;
 
 export const PlayerTileMemberships: React.FC<Props> = ({ player }) => {
   const displayMemberships = useMemo(
-    () =>
-      player.daohausMemberships?.filter(({ moloch: { title } }) => !!title) ??
-      [],
-    [player.daohausMemberships],
+    () => player.guilds?.filter(({ Guild: { name } }) => !!name) ?? [],
+    [player.guilds],
   );
   return displayMemberships.length > 0 ? (
     <VStack spacing={2} align="stretch">
       <Text textStyle="caption">MEMBER OF</Text>
       <Wrap>
         {displayMemberships.slice(0, SHOW_MEMBERSHIPS).map((member) => (
-          <WrapItem key={member.id}>
+          <WrapItem key={member.guildId}>
             <MetaTag size="md" fontWeight="normal">
-              {member.moloch.title}
+              {member.Guild.name}
             </MetaTag>
           </WrapItem>
         ))}

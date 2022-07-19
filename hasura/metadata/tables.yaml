@@ -218,6 +218,30 @@
     custom_column_names:
       player_id: playerId
       dao_id: daoId
+  object_relationships:
+  - name: Dao
+    using:
+      foreign_key_constraint_on: dao_id
+  - name: Player
+    using:
+      foreign_key_constraint_on: player_id
+  select_permissions:
+  - role: player
+    permission:
+      columns:
+      - dao_id
+      - player_id
+      filter:
+        visible:
+          _eq: true
+  - role: public
+    permission:
+      columns:
+      - dao_id
+      - player_id
+      filter:
+        visible:
+          _eq: true
   update_permissions:
   - role: player
     permission:
