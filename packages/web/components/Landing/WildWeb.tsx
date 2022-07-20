@@ -58,15 +58,15 @@ export const WildWeb: React.FC = () => {
             fontSize={{ base: 'xl', '2xl': '3xl' }}
           >
             A new world is being built but it's{' '}
-            <Text as="strong">hard to navigate.</Text>
+            <Text as="strong">hard to&nbsp;navigate.</Text>
           </Text>
           <Text pb={{ base: '1.188rem', '2xl': '2.188rem' }}>
             The resources, building blocks, &amp; tools are all over the place{' '}
             <Text as="strong">but the maps are inexistent</Text>.
           </Text>
           <Text pb={{ base: '1.188rem', '2xl': '2.188rem' }}>
-            There are pitfalls, gold rushing cowboys, &amp; snake oil salesmen
-            at every corner.
+            There are pitfalls, gold rushing cowboys &amp; snake oil salesmen at
+            every corner.
           </Text>
 
           <Text as="strong" textTransform="uppercase">
