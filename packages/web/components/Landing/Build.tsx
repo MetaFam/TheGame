@@ -54,16 +54,25 @@ export const Build: React.FC = () => {
         >
           <Text fontSize={{ base: 'xl', '2xl': '3xl' }}>
             People are waking up to the{' '}
-            <strong>world-shaping potential of Web3 technologies</strong>.
+            <Text as="strong" className="gradient-text">
+              world-shaping potential of Web3 technologies
+            </Text>
+            .
           </Text>
 
           <Text pt={{ base: 4, md: 8 }}>
             They are grabbing the opportunity to{' '}
-            <strong>build the future</strong> they want to live in.
+            <Text as="strong" className="gradient-text">
+              build the future
+            </Text>{' '}
+            they want to live in.
           </Text>
           <Text pt={{ base: 4, md: 8 }}>
             Web3 technologies are allowing us to{' '}
-            <strong>reimagine socioeconomic systems</strong> from the ground up.
+            <Text as="strong" className="gradient-text">
+              reimagine socioeconomic systems
+            </Text>{' '}
+            from the ground up.
           </Text>
         </Flex>
       </Container>
