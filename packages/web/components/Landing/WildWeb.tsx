@@ -54,10 +54,19 @@ export const WildWeb: React.FC = () => {
           transition="transform 0.3s 0.1s ease-in-out, opacity 0.5s 0.2s ease-in"
         >
           <Text
+            as="h2"
+            pb={{ base: '1.188rem', '2xl': '3xl' }}
+            fontSize={{ base: '3xl', '2xl': '5xl' }}
+            fontWeight="bold"
+            className="gradient-text"
+          >
+            The problem?
+          </Text>
+          <Text
             pb={{ base: '1.188rem', '2xl': '3xl' }}
             fontSize={{ base: 'xl', '2xl': '3xl' }}
           >
-            A new world is being built but it's{' '}
+            A new world is being built but it’s{' '}
             <Text as="strong" className="gradient-text">
               hard to&nbsp;navigate.
             </Text>
