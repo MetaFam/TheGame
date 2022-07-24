@@ -180,21 +180,28 @@ export const LandingHeader: React.FC = () => {
               toggle={toggle}
               setToggle={setToggle}
             >
-              3. Build the future!
+              3. While you’re sleeping&hellip;
             </NavLink>
             <NavLink
               target="the-wild-web"
               toggle={toggle}
               setToggle={setToggle}
             >
-              4. The Wild Web
+              4. The problem?
+            </NavLink>
+            <NavLink
+              target="why-are-we-here"
+              toggle={toggle}
+              setToggle={setToggle}
+            >
+              5. Why are we here?
             </NavLink>
             <NavLink target="what-do" toggle={toggle} setToggle={setToggle}>
-              5. What do?
+              6. What do?
             </NavLink>
 
             <NavLink target="join-us" toggle={toggle} setToggle={setToggle}>
-              6. Join us!
+              7. Join us!
             </NavLink>
           </VStack>
         </Stack>
