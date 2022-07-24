@@ -6,6 +6,7 @@ import { Intro } from 'components/Landing/Intro';
 import { JoinUs } from 'components/Landing/JoinUs';
 import { LandingHeader } from 'components/Landing/LandingHeader';
 import { WhatDo } from 'components/Landing/WhatDo';
+import { WhyAreWeHere } from 'components/Landing/WhyAreWeHere';
 import { WildWeb } from 'components/Landing/WildWeb';
 import { MetaLink } from 'components/Link';
 import { HeadComponent } from 'components/Seo';
@@ -125,8 +126,9 @@ const Landing: React.FC = () => {
         <Game /> {/* section 1 */}
         <Build /> {/* section 2 */}
         <WildWeb /> {/* section 3 */}
-        <WhatDo /> {/* section 4 */}
-        <JoinUs /> {/* section 5 */}
+        <WhyAreWeHere /> {/* section 4 */}
+        <WhatDo /> {/* section 5 */}
+        <JoinUs /> {/* section 6 */}
       </PageContainer>
       <SectionWayPoints currentWaypoint={section} />
       <Socials />
@@ -335,16 +337,23 @@ export const SectionWayPoints = ({
           <Button
             className={currentWaypoint === 4 ? 'active' : ''}
             colorScheme="ghost"
-            onClick={() => handleSectionNav('what-do')}
+            onClick={() => handleSectionNav('why-are-we-here')}
           >
             <Text as="span">05</Text>
           </Button>
           <Button
             className={currentWaypoint === 5 ? 'active' : ''}
             colorScheme="ghost"
-            onClick={() => handleSectionNav('join-us')}
+            onClick={() => handleSectionNav('what-do')}
           >
             <Text as="span">06</Text>
+          </Button>
+          <Button
+            className={currentWaypoint === 6 ? 'active' : ''}
+            colorScheme="ghost"
+            onClick={() => handleSectionNav('join-us')}
+          >
+            <Text as="span">07</Text>
           </Button>
         </VStack>
       </Box>

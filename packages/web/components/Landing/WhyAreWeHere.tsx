@@ -7,10 +7,10 @@ import { useRef } from 'react';
 
 import { LandingNextButton } from './LandingNextButton';
 
-export const WildWeb: React.FC = () => {
+export const WhyAreWeHere: React.FC = () => {
   const ref = useRef<HTMLDivElement>(null);
   const onScreen = useOnScreen(ref);
-  const section = 'the-wild-web';
+  const section = 'why-are-we-here';
   const responsiveBg = useBreakpointValue({
     base: BackgroundImageMobile,
     md: BackgroundImageDesktop,
@@ -60,36 +60,50 @@ export const WildWeb: React.FC = () => {
             fontWeight="bold"
             className="gradient-text"
           >
-            The problem?
+            Why are we here?
           </Text>
           <Text
             pb={{ base: '1.188rem', '2xl': '3xl' }}
             fontSize={{ base: 'xl', '2xl': '3xl' }}
           >
-            A new world is being built but it’s{' '}
+            To help{' '}
             <Text as="strong" className="gradient-text">
-              hard to&nbsp;navigate
+              you
+            </Text>{' '}
+            tame it.
+          </Text>
+          <Text pb={{ base: '1.188rem', '2xl': '2.188rem' }}>
+            We are here to help transform{' '}
+            <Text as="strong" className="gradient-text">
+              the wild web
+            </Text>{' '}
+            into a{' '}
+            <Text as="strong" className="gradient-text">
+              web of opportunity
             </Text>
             .
           </Text>
           <Text pb={{ base: '1.188rem', '2xl': '2.188rem' }}>
-            The resources, building blocks, &amp; tools are all over the place{' '}
+            To help you break into this brave new world, avoid traps,{' '}
             <Text as="strong" className="gradient-text">
-              but the maps are inexistent
+              level up
+            </Text>{' '}
+            &amp;{' '}
+            <Text as="strong" className="gradient-text">
+              make an impact
             </Text>
             .
           </Text>
           <Text pb={{ base: '1.188rem', '2xl': '2.188rem' }}>
-            There are pitfalls, gold-rushing cowboys &amp; snake oil salesmen at
-            every corner.
-          </Text>
-
-          <Text as="strong" className="gradient-text" textTransform="uppercase">
-            It’s a Wild Web.
+            To build a new kind of socioeconomic system, optimized for{' '}
+            <Text as="strong" className="gradient-text">
+              wellbeing over profit
+            </Text>
+            .
           </Text>
         </Box>
       </Container>
-      <LandingNextButton section="why-are-we-here" />
+      <LandingNextButton section="what-do" />
     </FullPageContainer>
   );
 };
