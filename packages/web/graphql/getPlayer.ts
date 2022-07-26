@@ -7,24 +7,28 @@ import {
   Player,
 } from './autogen/types';
 import { client } from './client';
-import { PlayerFragment } from './fragments';
+import { PlayerDaoMembershipFragment, PlayerFragment } from './fragments';
 
 const usernameQuery = /* GraphQL */ `
   query GetPlayerForUsername($username: String!) {
     player(where: { profile: { username: { _ilike: $username } } }) {
       ...PlayerFragment
+      ...PlayerDaoMembershipFragment
     }
   }
   ${PlayerFragment}
+  ${PlayerDaoMembershipFragment}
 `;
 
 const addressQuery = /* GraphQL */ `
   query GetPlayerForAddress($address: String!) {
     player(where: { ethereumAddress: { _ilike: $address } }) {
       ...PlayerFragment
+      ...PlayerDaoMembershipFragment
     }
   }
   ${PlayerFragment}
+  ${PlayerDaoMembershipFragment}
 `;
 
 export const getPlayer = async (username?: string): Promise<Maybe<Player>> => {

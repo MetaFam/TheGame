@@ -696,7 +696,7 @@ unique or primary key constraints on table "dao"
 """
 enum dao_constraint {
   """unique or primary key constraint"""
-  dao_contract_address_key
+  dao_contract_address_network_key
 
   """unique or primary key constraint"""
   dao_pkey
