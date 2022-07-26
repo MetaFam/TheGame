@@ -19,7 +19,9 @@ export const DaoMutations = /* GraphQL */ `
 
   mutation InsertDaos($objects: [dao_insert_input!]!) {
     insert_dao(objects: $objects) {
-      affected_rows
+      returning {
+        id
+      }
     }
   }
 
@@ -33,6 +35,26 @@ export const DaoMutations = /* GraphQL */ `
       affected_rows
     }
     insert_dao_player(objects: $membersToAdd) {
+      affected_rows
+    }
+  }
+
+  mutation RemovePlayerFromDaos($playerEthAdress: String!, $daoIds: [uuid!]!) {
+    delete_dao_player(
+      where: {
+        Player: { ethereumAddress: { _eq: $playerEthAdress } }
+        _and: { daoId: { _in: $daoIds } }
+      }
+    ) {
+      affected_rows
+    }
+  }
+
+  mutation UpsertDaoMembers($objects: [dao_player_insert_input!]!) {
+    insert_dao_player(
+      objects: $objects
+      on_conflict: { constraint: dao_player_pkey, update_columns: [] }
+    ) {
       affected_rows
     }
   }

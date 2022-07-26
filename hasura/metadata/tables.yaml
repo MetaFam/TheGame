@@ -231,17 +231,15 @@
       columns:
       - dao_id
       - player_id
-      filter:
-        visible:
-          _eq: true
+      - visible
+      filter: {}
   - role: public
     permission:
       columns:
+      - visible
       - dao_id
       - player_id
-      filter:
-        visible:
-          _eq: true
+      filter: {}
   update_permissions:
   - role: player
     permission:

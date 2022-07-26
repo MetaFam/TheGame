@@ -58,20 +58,6 @@ export const PlayerFragment = /* GraphQL */ `
       }
     }
 
-    # daohausMemberships {
-    #   id
-    #   shares
-    #   molochAddress
-    #   moloch {
-    #     id
-    #     title
-    #     version
-    #     totalShares
-    #     chain
-    #     avatarURL
-    #   }
-    # }
-
     brightid_status {
       unique
       contextIds
@@ -210,6 +196,24 @@ export const QuestWithCompletionFragment = /* GraphQL */ `
         profile {
           username
         }
+      }
+    }
+  }
+`;
+
+export const PlayerDaoMembershipFragment = /* GraphQL */ `
+  fragment PlayerDaoMembershipFragment on player {
+    daohausMemberships {
+      id
+      shares
+      molochAddress
+      moloch {
+        id
+        title
+        version
+        totalShares
+        chain
+        avatarURL
       }
     }
   }
