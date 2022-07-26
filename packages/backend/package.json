@@ -13,7 +13,7 @@
     "precommit": "yarn lint-staged",
     "generate": "DEBUG=1 graphql-codegen --config=codegen.yml",
     "lintfix": "eslint --fix",
-    "test": "tsdx test --passWithNoTests"
+    "test": "jest --passWithNoTests"
   },
   "author": "MetaFam",
   "license": "ISC",

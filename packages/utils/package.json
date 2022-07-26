@@ -11,7 +11,7 @@
     "dev": "yarn build --watch",
     "typecheck": "yarn build",
     "precommit": "yarn lint-staged",
-    "test": "tsdx test --passWithNoTests"
+    "test": "jest --passWithNoTests"
   },
   "dependencies": {
     "@datamodels/identity-profile-basic": "0.1.2",
