@@ -102,7 +102,7 @@ export const getAllMemberships = async (player: Player) => {
       memberId: `${gp.guildId}:${player.id}`,
       title: gp.Guild.name,
       guildname: gp.Guild.guildname,
-      memberRank: gp.discordRoles[0].name ?? undefined,
+      memberRank: gp.discordRoles[0]?.name ?? undefined,
       memberXP: gp.Guild.guildname === 'metafam' ? player.totalXP : null,
       logoURL: gp.Guild.logo ?? undefined,
     })),
