@@ -46,7 +46,10 @@ const addChain = (memberAddress: string) => async (chain: string) => {
   });
 };
 
-const syncDaoMemberships = async (ethAddress: string, members: Member[]) => {
+export const syncDaoMemberships = async (
+  ethAddress: string,
+  members: Member[],
+) => {
   // First, find all Members that don't have an associated Dao (by contract address) in our database.
   // Insert that dao metadata
   let { dao: existingDaos } = await client.GetDaosByAddress({
@@ -147,7 +150,9 @@ export const getDaoHausMemberships: QueryResolvers['getDaoHausMemberships'] =
     }, <Member[]>[]);
 
     // cache results in dao_player table. Don't block
-    syncDaoMemberships(memberAddress, members);
+    if (process.env.NODE_ENV !== 'test') {
+      syncDaoMemberships(memberAddress, members);
+    }
 
     return members;
   };
