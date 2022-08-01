@@ -72,7 +72,7 @@ export const WildWeb: React.FC = () => {
             </Text>
           </Text>
           <Text pb={{ base: '1.188rem', '2xl': '2.188rem' }}>
-            The resources, building blocks, &amp; tools are all over the place{' '}
+            The resources, building blocks &amp; tools are all over the place{' '}
             <Text as="strong" className="gradient-text">
               but the maps are inexistent.
             </Text>
