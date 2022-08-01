@@ -64,9 +64,8 @@ export const Build: React.FC = () => {
           <Text fontSize={{ base: 'xl', '2xl': '3xl' }}>
             People are waking up to the{' '}
             <Text as="strong" className="gradient-text">
-              world-shaping potential of Web3 technologies
+              world-shaping potential of Web3 technologies.
             </Text>
-            .
           </Text>
 
           <Text pt={{ base: 4, md: 8 }}>
