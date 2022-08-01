@@ -68,16 +68,14 @@ export const WildWeb: React.FC = () => {
           >
             A new world is being built but it’s{' '}
             <Text as="strong" className="gradient-text">
-              hard to&nbsp;navigate
+              hard to&nbsp;navigate.
             </Text>
-            .
           </Text>
           <Text pb={{ base: '1.188rem', '2xl': '2.188rem' }}>
             The resources, building blocks, &amp; tools are all over the place{' '}
             <Text as="strong" className="gradient-text">
-              but the maps are inexistent
+              but the maps are inexistent.
             </Text>
-            .
           </Text>
           <Text pb={{ base: '1.188rem', '2xl': '2.188rem' }}>
             There are pitfalls, gold-rushing cowboys &amp; snake oil salesmen at

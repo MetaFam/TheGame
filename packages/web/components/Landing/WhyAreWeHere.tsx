@@ -79,9 +79,8 @@ export const WhyAreWeHere: React.FC = () => {
             </Text>{' '}
             into a{' '}
             <Text as="strong" className="gradient-text">
-              web of opportunity
+              web of opportunity.
             </Text>
-            .
           </Text>
           <Text pb={{ base: '1.188rem', '2xl': '2.188rem' }}>
             To help you break into this brave new world, avoid traps,{' '}
@@ -90,16 +89,14 @@ export const WhyAreWeHere: React.FC = () => {
             </Text>{' '}
             &amp;{' '}
             <Text as="strong" className="gradient-text">
-              make an impact
+              make an impact.
             </Text>
-            .
           </Text>
           <Text pb={{ base: '1.188rem', '2xl': '2.188rem' }}>
             To build a new kind of socioeconomic system, optimized for{' '}
             <Text as="strong" className="gradient-text">
-              wellbeing over profit
+              wellbeing over profit.
             </Text>
-            .
           </Text>
         </Box>
       </Container>
