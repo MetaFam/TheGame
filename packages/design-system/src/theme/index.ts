@@ -138,6 +138,7 @@ export const theme = extendTheme({
     exo: '"Exo 2", sans-serif',
     exo2: '"Exo 2", sans-serif',
     landingHeading: '"Poppins", sans-serif',
+    onboarding: '"Courier Prime", serif',
   },
   // reference scale
   // https://type-scale.com/?size=16&scale=1.200&text=A%20Visual%20Type%20Scale&font=Exo%202&fontweight=400&bodyfont=body_font_default&bodyfontweight=400&lineheight=1.6&backgroundcolor=%23330964&fontcolor=%23ffffff&preview=false

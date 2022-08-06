@@ -5,6 +5,7 @@ import { Game } from 'components/Landing/Game';
 import { Intro } from 'components/Landing/Intro';
 import { JoinUs } from 'components/Landing/JoinUs';
 import { LandingHeader } from 'components/Landing/LandingHeader';
+import { Onboard } from 'components/Landing/Onboard';
 import { WhatDo } from 'components/Landing/WhatDo';
 import { WhyAreWeHere } from 'components/Landing/WhyAreWeHere';
 import { WildWeb } from 'components/Landing/WildWeb';
@@ -126,8 +127,8 @@ const Landing: React.FC = () => {
         <Game /> {/* section 1 */}
         <Build /> {/* section 2 */}
         <WildWeb /> {/* section 3 */}
-        <WhyAreWeHere /> {/* section 4 */}
-        <WhatDo /> {/* section 5 */}
+        <WhatDo /> {/* section 4 */}
+        <Onboard /> {/* section 5 */}
         <JoinUs /> {/* section 6 */}
       </PageContainer>
       <SectionWayPoints currentWaypoint={section} />
@@ -344,7 +345,7 @@ export const SectionWayPoints = ({
           <Button
             className={currentWaypoint === 5 ? 'active' : ''}
             colorScheme="ghost"
-            onClick={() => handleSectionNav('what-do')}
+            onClick={() => handleSectionNav('onboard')}
           >
             <Text as="span">06</Text>
           </Button>
