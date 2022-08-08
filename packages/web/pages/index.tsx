@@ -127,9 +127,10 @@ const Landing: React.FC = () => {
         <Game /> {/* section 1 */}
         <Build /> {/* section 2 */}
         <WildWeb /> {/* section 3 */}
-        <WhatDo /> {/* section 4 */}
-        <Onboard /> {/* section 5 */}
-        <JoinUs /> {/* section 6 */}
+        <WhyAreWeHere /> {/* section 4 */}
+        <WhatDo /> {/* section 5 */}
+        <Onboard /> {/* section 6 */}
+        <JoinUs /> {/* section 7 */}
       </PageContainer>
       <SectionWayPoints currentWaypoint={section} />
       <Socials />
@@ -345,16 +346,23 @@ export const SectionWayPoints = ({
           <Button
             className={currentWaypoint === 5 ? 'active' : ''}
             colorScheme="ghost"
-            onClick={() => handleSectionNav('onboard')}
+            onClick={() => handleSectionNav('what-do')}
           >
             <Text as="span">06</Text>
           </Button>
           <Button
             className={currentWaypoint === 6 ? 'active' : ''}
             colorScheme="ghost"
-            onClick={() => handleSectionNav('join-us')}
+            onClick={() => handleSectionNav('onboard')}
           >
             <Text as="span">07</Text>
+          </Button>
+          <Button
+            className={currentWaypoint === 7 ? 'active' : ''}
+            colorScheme="ghost"
+            onClick={() => handleSectionNav('join-us')}
+          >
+            <Text as="span">08</Text>
           </Button>
         </VStack>
       </Box>
