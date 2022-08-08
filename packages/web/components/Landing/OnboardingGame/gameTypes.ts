@@ -1,5 +1,3 @@
-import { NextRouter } from 'next/router';
-
 export interface GameProperties {
   name: string;
   startingElement: string;
