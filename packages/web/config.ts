@@ -31,4 +31,6 @@ export const CONFIG = {
   googleDataApiKey: process.env.NEXT_PUBLIC_YOUTUBE_API_KEY,
   web3StorageToken: process.env.WEB3_STORAGE_TOKEN || '',
   openseaApiKey: process.env.OPENSEA_API_KEY || '',
+  onboardingGameDataURL:
+    'https://ipfs.io/ipfs/QmVHCqsNZ6hnApni3KEHBrhfsoiyakVAE3vFj3yqbbhsLR?filename=metagame-onboarding-game.json',
 };

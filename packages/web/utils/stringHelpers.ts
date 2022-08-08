@@ -1,5 +1,12 @@
+/* eslint-disable no-param-reassign */
 import DOMPurify from 'dompurify';
-import parse from 'html-react-parser';
+import parse, {
+  DOMNode,
+  domToReact,
+  Element,
+  HTMLReactParserOptions,
+  htmlToDOM,
+} from 'html-react-parser';
 
 export const hashCode = (str: string): string => {
   let hash = 0;
@@ -16,5 +23,17 @@ export const hashCode = (str: string): string => {
  * */
 export const safelyParseContent = (content: string) => {
   const clean = DOMPurify.sanitize(content);
-  return parse(clean);
+  console.log('parse:', { domToReact, htmlToDOM });
+
+  const options = {
+    replace: (domNode: any) => {
+      if (domNode.attribs?.href) {
+        console.log('nodes', domNode.attribs.href);
+        domNode.attribs.target = '_blank';
+        domNode.attribs.title = `Opens new tab to ${domNode.attribs.href}`;
+        domNode.attribs.class = 'external-link';
+      }
+    },
+  };
+  return parse(clean, options);
 };

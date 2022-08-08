@@ -1,10 +1,14 @@
 import type {
+  GameProperties,
+  GamePropertiesType,
   IElementsObject,
   IGameContext,
   IGameState,
 } from 'components/Landing/OnboardingGame/gameTypes';
-import { NextRouter, useRouter } from 'next/router';
-import { type } from 'os';
+import { CONFIG } from 'config';
+import gsap from 'gsap';
+import { TextPlugin } from 'gsap/dist/TextPlugin';
+import { useRouter } from 'next/router';
 import React, {
   useCallback,
   useContext,
@@ -13,7 +17,7 @@ import React, {
   useState,
 } from 'react';
 
-import gameJson from '../components/Landing/OnboardingGame/game.json';
+// import gameJson from '../components/Landing/OnboardingGame/metagame-onboarding-game.json';
 import { get, remove, set } from '../lib/store';
 
 export const GameContext = React.createContext<IGameContext>({
@@ -28,18 +32,84 @@ export const GameContext = React.createContext<IGameContext>({
   gameState: () => null,
   handleChoice: async () => undefined,
   resetGame: () => false,
+  typeText: () => '',
+  fetchGameData: async () => {},
+  loading: true,
 });
 
 export const GameContextProvider: React.FC = ({ children }) => {
-  const game = useMemo(() => {
-    const { name, startingElement, elements, connections } = gameJson;
-    return {
-      name,
-      startingElement,
-      elements,
-      connections,
-    };
+  const [isLoading, setIsLoading] = useState(true);
+  const [gameDataState, setGameDataState] = useState<GamePropertiesType>();
+
+  /** Function to async fetch `CONFIG.onboardingGameDataURL` as json and return the data */
+  const fetchGameData = useCallback(async () => {
+    try {
+      setIsLoading(true);
+      console.log('fetchGameData');
+
+      const response = await fetch(CONFIG.onboardingGameDataURL);
+      const data = (await response.json()) as GameProperties;
+      console.log('fetchGameData', data);
+
+      if (data) {
+        setGameDataState(data);
+      }
+      setIsLoading(false);
+    } catch (error) {
+      console.error(error);
+      setIsLoading(false);
+    }
   }, []);
+
+  // useEffect(() => {
+  //   if (gameDataState === undefined) {
+  //     fetchGameData();
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
+
+  const game = useMemo((): GameProperties => {
+    try {
+      if (!isLoading && gameDataState) {
+        console.log('gameDataState', gameDataState);
+
+        const {
+          assets,
+          name,
+          startingElement,
+          elements,
+          connections,
+          components,
+        } = gameDataState;
+        return {
+          name,
+          assets,
+          startingElement,
+          elements,
+          connections,
+          components,
+        } as GameProperties;
+      }
+      return {
+        name: '',
+        assets: {},
+        startingElement: '',
+        elements: {},
+        connections: {},
+        components: {},
+      } as GameProperties;
+    } catch (error) {
+      console.log('fetchGameData error: ', { error });
+      return {
+        name: '',
+        startingElement: '',
+        assets: {},
+        elements: {},
+        connections: {},
+        components: {},
+      } as GameProperties;
+    }
+  }, [gameDataState, isLoading]);
 
   /** Function to get, set or clear game state
    *
@@ -81,7 +151,7 @@ export const GameContextProvider: React.FC = ({ children }) => {
   const handleChoice = useCallback(
     async (target: string): Promise<string | undefined> => {
       try {
-        await fakeLoading(3000);
+        await fakeLoading(1000);
 
         if (target) gameState(target);
         const success = gameState() === target;
@@ -108,6 +178,31 @@ export const GameContextProvider: React.FC = ({ children }) => {
     return false;
   }, []);
 
+  const typeText = (name: string): string => {
+    if (typeof window !== 'undefined') {
+      const textElement = document.querySelector(`[data-typeout="${name}"]`);
+      gsap.registerPlugin(TextPlugin);
+      const text = textElement?.textContent ?? '';
+      console.log('typeText', textElement?.textContent);
+      const tl = gsap.timeline({
+        paused: true,
+        reversed: true,
+        opacity: 0,
+        defaults: { duration: 0.5 },
+      });
+      if (textElement !== null) {
+        tl.to(textElement, {
+          text,
+          ease: 'power1.inOut',
+        });
+        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+        tl.reversed() ? tl.play() : tl.reverse();
+        return text;
+      }
+    }
+    return '';
+  };
+
   return (
     <GameContext.Provider
       value={{
@@ -115,6 +210,9 @@ export const GameContextProvider: React.FC = ({ children }) => {
         gameState,
         handleChoice,
         resetGame,
+        typeText,
+        fetchGameData,
+        loading: isLoading,
       }}
     >
       {children}
