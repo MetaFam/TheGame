@@ -1,18 +1,26 @@
 import {
   Box,
   Button,
+  ExternalLinkIcon,
   Heading,
   ListItem,
   Spinner,
   Text,
   UnorderedList,
 } from '@metafam/ds';
+import externalLinkIcon from 'assets/landing/external-link-icon.png';
+import { CONFIG } from 'config';
 import { useGame } from 'contexts/GameContext';
 import { useOnScreen } from 'lib/hooks/useOnScreen';
-import { useEffect, useRef, useState } from 'react';
+import { ReactElement, useCallback, useEffect, useRef, useState } from 'react';
 import { safelyParseContent } from 'utils/stringHelpers';
 
-import type { IConnection, IElement } from './gameTypes';
+import type {
+  GameProperties,
+  GamePropertiesType,
+  IConnection,
+  IElement,
+} from './gameTypes';
 
 export type CurrentElementState = IElement & {
   elementId: string;
@@ -21,41 +29,110 @@ export type ConnectionStateItem = IConnection & {
   connectionId: string;
 };
 
-export const OnboardingGame: React.FC = () => {
+export const OnboardingGame: React.FC = (): JSX.Element => {
   const ref = useRef<HTMLDivElement>(null);
   const onScreen = useOnScreen(ref);
-  const { game, gameState, handleChoice, resetGame } = useGame();
-  const { name, startingElement, elements, connections } = game;
+  const { gameState, handleChoice, resetGame, loading } = useGame();
   const [currentElement, setCurrentElement] = useState<CurrentElementState>();
   const [currentConnections, setCurrentConnections] =
     useState<ConnectionStateItem[]>();
   const [isLoading, setIsLoading] = useState(false);
+  const [gameDataState, setGameDataState] = useState<GamePropertiesType | null>(
+    null,
+  );
+  /** Function to async fetch `CONFIG.onboardingGameDataURL` as json and return the data */
+  const fetchGameData = useCallback(async () => {
+    try {
+      // setIsLoading(true);
+      console.log('fetchGameData');
 
+      const response = await fetch(CONFIG.onboardingGameDataURL);
+      const data = (await response.json()) as GameProperties;
+      console.log('fetchGameData', data);
+      const {
+        assets,
+        name,
+        startingElement,
+        elements,
+        connections,
+        components,
+      } = data;
+      // setGameDataState(data);
+      // setIsLoading(false);
+      return {
+        name,
+        assets,
+        startingElement,
+        elements,
+        connections,
+        components,
+      } as GameProperties;
+    } catch (error) {
+      console.error(error);
+
+      // setIsLoading(false);
+      return {
+        name: '',
+        assets: {},
+        startingElement: '',
+        elements: {},
+        connections: {},
+        components: {},
+      } as GameProperties;
+    }
+  }, []);
   /** Sets the starting point for the game (startingElement or saved state) */
   const initGame = () => {
-    const state = gameState();
-    const element =
-      state !== null ? elements[state] : elements[startingElement];
-
-    if (state === null) {
-      console.log('FreshGame', element);
-      gameState(startingElement);
-    }
-    // console.log('from game state', { state, element }, elements[startingElement]);
-    const elementData = { ...element, elementId: state ?? startingElement };
-    setCurrentElement(elementData);
+    setIsLoading(true);
+    // if (gameDataState === null) {
     // return element;
+    fetchGameData()
+      .then((data) => {
+        if (data) {
+          setGameDataState(data);
+          const state = gameState();
+          const element =
+            state !== null
+              ? data.elements[state]
+              : data.elements[data.startingElement];
+          console.log('gameDataState', data);
+          const elementData = {
+            ...element,
+            elementId: state ?? data.startingElement,
+          };
+          console.log('elementData', elementData);
+
+          setCurrentElement(elementData);
+        }
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.error(error);
+        setIsLoading(false);
+      });
+    // }
+    // const state = gameState();
+    // const element =
+    //   state !== null ? elements[state] : elements[startingElement];
+
+    // if (state === null) {
+    //   console.log('FreshGame', element);
+    //   gameState(startingElement);
+    // }
+    // // console.log('from game state', { state, element }, elements[startingElement]);
+    // const elementData = { ...element, elementId: state ?? startingElement };
+    // setCurrentElement(elementData);
   };
 
   const handleProgress = (elementId: string) => {
     setIsLoading(true);
-    console.log('handleProgress', currentElement);
+    // console.log('handleProgress', currentElement);
     handleChoice(elementId)
       .then((data) => {
-        console.log('handleChoice', data);
+        // console.log('handleChoice', data);
         const nextElement =
           data !== undefined
-            ? { ...elements[data], elementId: data }
+            ? { ...gameDataState?.elements[data], elementId: data }
             : undefined;
         if (nextElement !== undefined) {
           setCurrentElement(nextElement);
@@ -63,7 +140,7 @@ export const OnboardingGame: React.FC = () => {
         setIsLoading(false);
       })
       .catch((err) => {
-        console.log('handleProgress error: ', { err });
+        // console.log('handleProgress error: ', { err });
         setIsLoading(false);
       });
   };
@@ -80,29 +157,32 @@ export const OnboardingGame: React.FC = () => {
     try {
       if (connectionIds.length > 0) {
         const elementConnections = connectionIds.map((id: string) => {
-          const connectionData = { ...connections[id], connectionId: id };
+          const connectionData = {
+            ...gameDataState?.connections[id],
+            connectionId: id,
+          };
           return connectionData;
         });
 
-        console.log('getConnections', { connectionIds, elementConnections });
+        // console.log('getConnections', { connectionIds, elementConnections });
         setCurrentConnections(elementConnections);
         return elementConnections;
       }
       throw new Error('No connections found');
     } catch (error) {
-      console.log('getConnections ', { error });
+      // console.log('getConnections ', { error });
       return undefined;
     }
   };
 
   useEffect(() => {
     console.log('OnboardingGame: useEffect');
-    console.log('OnboardingGame: game', { game });
-    console.log('OnboardingGame: gameState', {
-      name,
-      startingElement,
-      elements,
-    });
+    // console.log('OnboardingGame: game', { game });
+    // console.log('OnboardingGame: gameState', {
+    //   name,
+    //   startingElement,
+    //   elements,
+    // });
     initGame();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -110,10 +190,10 @@ export const OnboardingGame: React.FC = () => {
   useEffect(() => {
     if (currentElement !== undefined && currentElement.outputs !== null) {
       const { outputs } = currentElement;
-      console.log('OnboardingGame: get connections useEffect', {
-        currentElement,
-        outputs,
-      });
+      // console.log('OnboardingGame: get connections useEffect', {
+      //   currentElement,
+      //   outputs,
+      // });
 
       getConnections(currentElement.outputs);
     }
@@ -132,28 +212,30 @@ export const OnboardingGame: React.FC = () => {
       alignItems="center"
       py={32}
     >
-      <Box
-        ref={ref}
-        display="flex"
-        flexDirection="column"
-        justifyContent="center"
-        color="var(--chakra-colors-landing550)"
-        textShadow={`0 0 10px var(--chakra-colors-landing500)`}
-        maxWidth="2xl"
-        fontSize={{ base: '1.5rem', md: '5xl', xl: '4xl', '2xl': '3rem' }}
-        lineHeight={{
-          base: '2.25rem',
-          md: '2rem',
-          xl: '2rem',
-          '2xl': '4rem',
-        }}
-        pl={{ base: 0, md: 0 }}
-        zIndex={100}
-        transform={`translate3d(0, ${onScreen ? '0' : '50px'}, 0)`}
-        opacity={onScreen ? 1 : 0}
-        transition="transform 0.3s 0.1s ease-in-out, opacity 0.5s 0.2s ease-in"
-      >
-        {currentElement !== undefined ? (
+      {!isLoading && gameDataState !== null ? (
+        <Box
+          ref={ref}
+          display="flex"
+          flexDirection="column"
+          justifyContent="center"
+          color="var(--chakra-colors-landing550)"
+          textShadow={`0 0 10px var(--chakra-colors-landing500)`}
+          maxW="2xl"
+          width="100%"
+          fontSize={{ base: '1.5rem', md: '5xl', xl: '4xl', '2xl': '3rem' }}
+          lineHeight={{
+            base: '2.25rem',
+            md: '2rem',
+            xl: '2rem',
+            '2xl': '4rem',
+          }}
+          pl={{ base: 0, md: 0 }}
+          zIndex={100}
+          transform={`translate3d(0, ${'0'}, 0)`}
+          opacity={1}
+          transition="transform 0.3s 0.1s ease-in-out, opacity 0.5s 0.2s ease-in"
+        >
+          {/* {currentElement !== undefined ? ( */}
           <Box className="step">
             <Box
               className="question"
@@ -166,14 +248,39 @@ export const OnboardingGame: React.FC = () => {
                 p: {
                   fontSize: 'lg',
                   marginBottom: '1rem',
+                  opacity: isLoading ? 0.2 : 1,
+                  transform: isLoading
+                    ? 'translate3d(0, -10px, 0)'
+                    : 'translate3d(0, 0, 0)',
+                  transition:
+                    'transform 0.3s 0.1s ease-in-out, opacity 0.5s 0.2s ease-in',
+                },
+                a: {
+                  position: 'relative',
+                  color: 'var(--chakra-colors-landing550)',
+                  '&::after': {
+                    content: '" "',
+                    display: 'block',
+                    position: 'absolute',
+                    right: -10,
+                    top: 0,
+                    width: '1rem',
+                    height: '1rem',
+                    backgroundImage: `url(${externalLinkIcon})`,
+                    backgroundRepeat: 'no-repeat',
+                    backgroundSize: '1rem',
+                    backgroundPosition: 'center',
+                    filter:
+                      'drop-shadow(0 0 0.5rem var(--chakra-colors-landing500))',
+                  },
                 },
               }}
             >
-              {currentElement.title
-                ? safelyParseContent(currentElement.title)
+              {currentElement?.title
+                ? safelyParseContent(currentElement?.title)
                 : null}
-              {currentElement.content
-                ? safelyParseContent(currentElement.content)
+              {currentElement?.content
+                ? safelyParseContent(currentElement?.content)
                 : null}
             </Box>
             <Box
@@ -193,12 +300,15 @@ export const OnboardingGame: React.FC = () => {
               >
                 {currentConnections && currentConnections.length > 0 ? (
                   currentConnections.map((connection: ConnectionStateItem) => {
-                    console.log('connection', { connection });
+                    const { label } = connection as ConnectionStateItem;
+                    const btnText = safelyParseContent(label) as ReactElement;
+                    // console.log('btnText', btnText.props.children);
 
                     return (
                       <ListItem
                         key={connection.connectionId}
                         className="response"
+                        maxW={'md'}
                         ml={0}
                         mb={3}
                       >
@@ -207,11 +317,15 @@ export const OnboardingGame: React.FC = () => {
                           variant="ghost"
                           px={0}
                           py={0}
-                          lineHeight={1}
+                          display="inline-block"
                           fontWeight="normal"
                           textShadow={`0 0 8px var(--chakra-colors-landing500)`}
                           borderBottom="2px solid var(--chakra-colors-landing550)"
                           borderRadius="inherit inherit 0 0"
+                          wordBreak="break-word"
+                          textAlign="left"
+                          maxW="md"
+                          width={'100%'}
                           _hover={{
                             backgroundColor: 'transparent',
                             color: 'var(--chakra-colors-landing500)',
@@ -219,9 +333,14 @@ export const OnboardingGame: React.FC = () => {
                               '2px solid var(--chakra-colors-landing500)',
                           }}
                           fontSize="lg"
+                          sx={{
+                            '& > p': {
+                              display: 'inline-block',
+                            },
+                          }}
                         >
                           {connection.label
-                            ? safelyParseContent(connection.label)
+                            ? btnText.props.children
                             : 'What else?'}
                         </Button>
                       </ListItem>
@@ -236,17 +355,20 @@ export const OnboardingGame: React.FC = () => {
               <Button variant="ghost" onClick={handleReset}>
                 Start again
               </Button>
-              {isLoading ? (
-                <Spinner position="absolute" top={0} right={0} />
-              ) : null}
             </Box>
           </Box>
-        ) : (
-          <Heading as="h2" fontFamily="onboarding">
-            Wake up, Anon...
-          </Heading>
-        )}
-      </Box>
+          {/* ) : (
+            <Heading as="h2" fontFamily="onboarding">
+              Wake up, Anon...
+            </Heading>
+          )} */}
+        </Box>
+      ) : (
+        <Spinner
+          color="landing550"
+          textShadow={`0 0 8px var(--chakra-colors-landing500)`}
+        />
+      )}
     </Box>
   );
 };

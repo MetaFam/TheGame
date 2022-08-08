@@ -1,0 +1,1628 @@
+{
+  "startingElement": "4ad5d428-b162-4cf2-9e59-c85a5a85dd7b",
+  "boards": {
+    "630fdb8a-48d6-473e-9974-2460f7eb2b41": {
+      "name": "Main Board",
+      "notes": [],
+      "jumpers": [
+        "de4bd2f0-1803-41d4-a90f-247e075e529b",
+        "5c3bc9a1-e591-4a06-b1ac-a2cb5d5617aa",
+        "db2fab2c-e572-437e-aeab-c4b3dae8ba18",
+        "2f7441a6-d114-40f4-8e87-5a1f8b9b276e",
+        "a179223b-b413-41f4-afbb-f34cff889d92",
+        "c36a7f66-5437-4900-a3c9-2362e0b0cbe2",
+        "fa866ddf-5f9a-44b3-9c03-2eebeaa10e99",
+        "4e54ea03-41c2-4860-886f-06a1e421661b",
+        "ba34c929-ab3d-4ac4-82ef-63d97cb105d2",
+        "081f8754-a03e-4e6c-a00c-c90473602d67"
+      ],
+      "branches": [],
+      "comments": [],
+      "elements": [
+        "6578ad28-76f9-4127-a73b-0bb46cfe133c",
+        "153e1544-bb42-45a5-964a-d70f14b9153e",
+        "ab803315-f0f9-438e-9c9d-917a1668bada",
+        "f909f4c3-bb75-4b9b-970c-7219449bda31",
+        "4ad5d428-b162-4cf2-9e59-c85a5a85dd7b",
+        "d17edddc-d5ec-4abd-b731-f2e8a00b442d",
+        "037e19f6-f523-4fe1-8840-212a2ef3bb50",
+        "9278fec9-e330-460e-949b-e87d759ead56",
+        "f1b3e47b-05fa-439b-bea6-addd81817bff",
+        "12db5b51-7760-4c4e-bfe4-0c0739b1f5b0",
+        "a4abbf5d-8374-435d-bd3f-aa3959432860",
+        "6eed6188-2d2b-4156-af2f-41a4022c18ee",
+        "3e8ce557-399b-4e6c-b761-408fabafc04a",
+        "35f9f4f4-abcd-48a4-ab00-65ddfa8d6762",
+        "d883fb13-eb1a-4ab3-bd75-40f1cd9cd014",
+        "b9dc8ed7-54e3-44f5-802c-1d201b6eb33f",
+        "c68e8397-0b6d-463f-bcf5-039a457b1e53",
+        "da1e6b0d-1532-4dcb-b425-c1bf2ea66b38",
+        "9f4aa047-e083-4ece-a3f8-170c8ba0820f",
+        "d2628d69-a82f-4073-b35d-200fdec46ee1",
+        "dde46710-2118-4387-9b07-cfd2eccbd807",
+        "15a9c0b5-8515-4525-8ce0-f97eea322616",
+        "c38ae9e1-9e95-4387-9d41-abc716aa031e",
+        "7571f6be-5146-421e-bd0c-0be32866b2fb",
+        "9ab6f4f5-d47b-4b2f-b918-870ec3572c19",
+        "064a8adc-d8c4-4989-99d7-e1372fcffb33",
+        "81a81756-28d1-4136-a292-ed9c235a63c5",
+        "98432826-6245-4192-aad9-77ff69c9586d",
+        "e7b5111c-f8de-4c74-b235-741be4fc14cf",
+        "d960dcfc-2564-46fc-80cc-d959d1096cda",
+        "bdb2fa64-6f05-4093-a123-56d27aaf47ad",
+        "2c71bb8e-b8c9-4638-9112-375d38913c9e",
+        "1d42dd49-7252-4178-9bad-c122609841b2",
+        "545a1c80-f5c7-4eb0-bfd9-0b4685a474ac",
+        "2f550b9f-3a10-4da7-9149-55da53f659c6",
+        "fcd3ea7c-8268-4c48-aaea-3e4759595e88",
+        "da62963b-5623-4fd5-bc25-ddc773745c9b",
+        "db7ed296-b801-4869-82f5-cc7419b39420",
+        "3b293b56-5753-4366-b795-843fcdecdea6",
+        "835cbd34-6571-4a51-a5a8-5d5ded7a1f9b",
+        "7e7db576-8b73-4696-977a-82bcb139c2b1",
+        "d384abce-77bb-4248-8c0f-eb502d7c5677",
+        "e40e5989-9942-403d-ba00-9908c0a9540d",
+        "26406db9-60ca-4e90-ba92-d5dc10fe33e5",
+        "33dc2106-4d21-4715-a493-240942470c84",
+        "eac937db-a8ea-4902-9700-53811bf472d2",
+        "53e701fb-2aa4-4c90-984a-02837a1e2ccd",
+        "eb5bd783-5593-4339-891c-4f953e476016",
+        "c314c322-3e63-453a-bcde-e69bbc1dcbf4",
+        "29b03614-6388-4614-bf0a-ede5f24b0798",
+        "33cae89b-bd03-43dd-81d5-5e302c2f21ed",
+        "7819dc21-92ed-431d-b8ff-2e62181bb619",
+        "75a268b3-5937-4012-9690-d3a7b2a91250",
+        "95887413-852d-47d9-8f3c-464c01b5cbad",
+        "293b591f-9984-4d0d-bf22-eef96da29d2d",
+        "a5a55be0-f55d-4d9b-9d02-3ba7b2dcaa87",
+        "d13b3aff-1c48-4fca-9c41-438e6d752827",
+        "8b93f9a9-e0e7-4473-82e4-f786048c9f64",
+        "05252fed-d61e-42e7-a7e2-e237987d2f68"
+      ],
+      "connections": [
+        "41b6f5d9-a47f-4c5c-8c09-021f35aabe2b",
+        "875918ad-b1d9-45a8-966b-7b8b612332fb",
+        "b79d3daf-6f27-49ff-9e45-2ac76a1de649",
+        "5b3d6604-0c89-4d59-ab1d-fcb82b9f27b9",
+        "a9cc5c0f-9c5b-4616-8d88-9ef0f9b4cc9e",
+        "fd50e0c3-6e6d-41ca-9dd3-6c8f35e5a50a",
+        "8f557319-0354-4efc-b98e-f9c952f9ec1d",
+        "3c5922bb-ecd5-4103-a798-a10fa924ea22",
+        "b654c900-7456-407d-978f-48d3612c2d18",
+        "d1caf994-44f5-47e6-9522-377f56be4739",
+        "c11da408-09f4-4561-a0c2-a43b65597720",
+        "757ba874-57a3-40dd-8bf2-8683a14505db",
+        "84de97ef-dfb3-4adc-8fa7-7f03b75c19e5",
+        "484f7067-ae26-44d2-ab5d-3ddedf450144",
+        "7cc153b0-088e-48e2-80c6-ff1b1bc5ac65",
+        "7a320dca-4e5d-4ba0-94b7-9be4cc3543e8",
+        "cc942cb2-a211-4252-8d9f-7188dce90cff",
+        "9d9a7eea-8c19-4145-a6e2-0a783ae64d5d",
+        "b1851dae-27e9-45eb-8bac-b8d4b146784f",
+        "b7a0e6f7-43f0-4552-9c1b-578556e7bb41",
+        "b478c513-087a-4153-9994-ed3f8eacf6a1",
+        "774bd792-6394-4e55-9971-52fb4b8ac3a6",
+        "34ba6dc3-0120-4fbe-bfc8-db2dc2e4e6b0",
+        "349e87fe-756a-47b5-85d2-966a9dde39e7",
+        "513a1096-346b-400a-a252-e37fd6ec6ff9",
+        "15e1db3e-416f-4def-a46d-b686e1da0773",
+        "52fb77f8-299c-48c6-a57b-24eb65c0a4c6",
+        "489797da-6e73-4bb5-bfd0-51b0fbd251d6",
+        "ae94829e-9716-4fe5-a0af-abfc03bc880a",
+        "cc8f6aed-7031-45cb-ac5b-42576a152a34",
+        "51aa808d-6188-49e3-9d3d-dfa8c846a9db",
+        "70dddf80-1e5f-46d8-bf60-c1ae36854b63",
+        "bd52d6e2-a22c-4afc-8c1b-fab303e5be60",
+        "4b5e1604-c550-430d-a7ab-93e1792f2517",
+        "b57cf218-5b27-46ac-909f-868b7f86ba2c",
+        "fbe00297-8917-4705-844f-27982d647307",
+        "1d1398a8-e6b0-4ade-850a-feaad70fb772",
+        "9c792661-95c1-4bcc-8d6b-8ea3840708d8",
+        "50e5cb56-0061-4d90-bc4c-c211e67a5434",
+        "116a4820-9da5-44db-8eee-d648716f67d9",
+        "fd8cd392-b31b-419e-9075-ca2ceae0acb0",
+        "e0dc38d6-0e4a-46e7-9fef-73d02d5e93ae",
+        "2ce4c322-b2a2-4049-90fb-b0cbdcfc4281",
+        "8e153a17-7c1d-498e-8ce8-8457bd14efa3",
+        "ad283c75-0aeb-4918-9229-50f43f8f13c8",
+        "ec35ff59-529a-44ba-8637-444b43c1afae",
+        "780c9d38-c742-4764-a788-dcaa81d39f8d",
+        "153c6d6e-0820-4973-943b-62a01fb50b67",
+        "b1abecac-b71c-4c88-92eb-cce700533141",
+        "9b0b93f0-72c9-4617-9663-672766bdf786",
+        "6aba62bc-203e-48e2-9787-193254ac8d6d",
+        "e8588a81-b954-4dc0-84a3-fcb9257bad8b",
+        "a9294089-ffd5-49b5-bc06-3627e0294905",
+        "38a1369e-5d98-4634-ac95-0078194da1a8",
+        "3b50b47f-5de0-4c8d-b8bd-3d5f9777b100",
+        "c96fa670-684c-424d-bcce-700e5ab3866f",
+        "1871f32e-d661-4c6c-bf54-01c8ad521dd2",
+        "0f055612-d0eb-4143-b0ca-3ff24fb5782e",
+        "9fcd768d-9d10-4686-9bc0-1cbc0d63b038",
+        "0924876b-84d6-4ca9-a7e9-061875ceae91",
+        "f6d16efc-029a-4876-b735-b8ca1bb631fd",
+        "eb6b63f2-d31c-4c1c-bef4-b39bad405150",
+        "d77ded0f-bcf4-44a4-817d-2bb94021fbc5",
+        "8f1e3641-62eb-44d9-bcf9-6bc640db9f99",
+        "01be71b1-f305-4329-aeb2-514dd1ad8f2b",
+        "3147ef34-6f24-470a-a87a-782dc24c1513",
+        "589df566-b530-4d2d-adab-f3742194ff94",
+        "c1385708-8dab-4f29-a4ea-856e490b785c",
+        "0cc79b1e-9aa5-4327-a09c-5ace88c6c547",
+        "987dc4f0-bfe6-437b-a301-1658be081b47",
+        "c2889dfb-a959-440f-8c73-b466912fe12a",
+        "3dd33e10-2c6a-4ca6-b629-7fbbf04c8547",
+        "5eb0ff19-7478-4fde-a2e0-2193d40316a7",
+        "da7ff834-afbd-445b-8519-58a02c7f0ad6",
+        "f5e0bb3f-018b-458f-8532-fd5bd5ebf22e",
+        "12cd515c-9578-40d8-b235-fbf5d98a609a",
+        "9199cc6f-03bf-484c-99db-8b8f142d537c",
+        "23abab08-8bfe-42b9-b0ef-65c1d78a8306",
+        "5fb208f2-bff8-40c3-b594-f6bd9b956a68",
+        "370610d2-bb0f-4084-a133-ed8aae430c34",
+        "7d47d1f7-6d85-42e1-af56-e63fd5f153c3",
+        "68d6b978-3fac-4ab8-b386-2a0cd53c56a9",
+        "8b0c6238-9e39-4ae5-ad2b-1e5aa732414e",
+        "a9ab3157-72d1-48a7-a3b2-33edb1f771b5",
+        "319fe369-17e3-4a1a-bf5c-7d29fc503a13",
+        "3ac8de96-1631-4424-a174-bae9e41c8082",
+        "b8bfcbe9-bd98-4bb4-b04d-36144081f6bb",
+        "253680a5-032f-4031-9807-9b4ce522c6ea",
+        "74538ccd-5898-47ab-81ac-8ab92f39b9c7",
+        "d164db18-4f47-4920-97a1-6ba91c2aceca"
+      ]
+    }
+  },
+  "notes": {},
+  "elements": {
+    "6578ad28-76f9-4127-a73b-0bb46cfe133c": {
+      "theme": "default",
+      "title": null,
+      "content": "<p>Of course there are!</p><p>Wherever there's value, there are scammers &amp; big amounts of money attracts the worst kinds of people.</p>",
+      "outputs": ["38a1369e-5d98-4634-ac95-0078194da1a8"],
+      "components": []
+    },
+    "153e1544-bb42-45a5-964a-d70f14b9153e": {
+      "theme": "moss",
+      "title": null,
+      "content": "<p>There are a few ways to get money around here, mainly depends on what kind of project you're building &amp; what stage you're in.</p><p>The most basic ones would be to create a grant page on Gitcoin &amp; Giveth.</p><p>If you're doing something useful for the Ethereum ecosystem, you can also request funding in the form of a grant from MetaCartel, Moloch DAO &amp; many more.</p><p>If you're already well on your way in building a great project, you might want to request financing from MetaCartel Ventures or other funding DAOs &amp; VCs in the space.</p><p></p><p><a href=\"https://gitcoin.co/\" target=\"__blank\" rel=\"noopener noreferrer nofollow\" title=\"https://gitcoin.co/\">I'll create a grant on Gitcoin.</a></p><p><a href=\"https://giveth.io/\" target=\"__blank\" rel=\"noopener noreferrer nofollow\" title=\"https://giveth.io/\">I'll create a grant on Giveth.</a></p><p><a href=\"https://metacartel.org/\" target=\"__blank\" rel=\"noopener noreferrer nofollow\" title=\"https://metacartel.org/\">I'll request a grant from MetaCartel.</a></p><p><a href=\"https://forum.daohaus.club/c/moloch-rises/\" target=\"__blank\" rel=\"noopener noreferrer nofollow\" title=\"https://forum.daohaus.club/c/moloch-rises/\">I'll request a grant from Moloch DAO.</a></p><p><a href=\"https://grantr.app/\" target=\"__blank\" rel=\"noopener noreferrer nofollow\" title=\"https://grantr.app/\">I'll check out other grant programs.</a></p><p><a href=\"https://metacartel.xyz/\" target=\"__blank\" rel=\"noopener noreferrer nofollow\" title=\"https://metacartel.xyz/\">I'll request an investment from MetaCartel Ventures.</a></p>",
+      "outputs": ["8e153a17-7c1d-498e-8ce8-8457bd14efa3"],
+      "components": []
+    },
+    "ab803315-f0f9-438e-9c9d-917a1668bada": {
+      "theme": "default",
+      "title": "<p></p>",
+      "content": "<p>In essence (&amp; theory) blockchains are accounting systems that nobody can burn, steal or forge.</p><p>Bitcoin is the first currency that isn't issued by any nation state, emperor or even a real human for that matter.</p><p>As opposed to all currencies that preceded it, there was no way for an individual or a group to conspire &amp; secretly print more of it.</p><p>That's a big deal.</p><p>...and that's only the most basic usecase.</p>",
+      "outputs": [
+        "349e87fe-756a-47b5-85d2-966a9dde39e7",
+        "513a1096-346b-400a-a252-e37fd6ec6ff9",
+        "1d1398a8-e6b0-4ade-850a-feaad70fb772"
+      ],
+      "components": []
+    },
+    "f909f4c3-bb75-4b9b-970c-7219449bda31": {
+      "theme": "default",
+      "title": null,
+      "content": "<p>You think the world's richest people would be pouring in billions of dollars into these assets if there was nothing to it than scams?</p><p>Dumb rich people get duped but top Silicon Valley investment funds, not so easily.</p>",
+      "outputs": ["a9294089-ffd5-49b5-bc06-3627e0294905"],
+      "components": []
+    },
+    "4ad5d428-b162-4cf2-9e59-c85a5a85dd7b": {
+      "theme": "moss",
+      "title": "<p></p>",
+      "content": "<p>Wake up, Anon.</p><p>The matrix has you...</p><p>Follow the purple octo.</p>",
+      "outputs": [
+        "b654c900-7456-407d-978f-48d3612c2d18",
+        "15e1db3e-416f-4def-a46d-b686e1da0773",
+        "0924876b-84d6-4ca9-a7e9-061875ceae91",
+        "3147ef34-6f24-470a-a87a-782dc24c1513"
+      ],
+      "components": []
+    },
+    "d17edddc-d5ec-4abd-b731-f2e8a00b442d": {
+      "theme": "moss",
+      "title": "<p>The New Web</p>",
+      "content": "<p>You're at the edge of The New Web.</p><p>There are dark forests &amp; fertile plains, gold mines &amp; minefields.</p><p>Its a Wild Web still. </p><p>Full of great opportunities but also great dangers...</p>",
+      "outputs": [
+        "b79d3daf-6f27-49ff-9e45-2ac76a1de649",
+        "eb6b63f2-d31c-4c1c-bef4-b39bad405150",
+        "c1385708-8dab-4f29-a4ea-856e490b785c",
+        "0cc79b1e-9aa5-4327-a09c-5ace88c6c547"
+      ],
+      "components": []
+    },
+    "037e19f6-f523-4fe1-8840-212a2ef3bb50": {
+      "theme": "moss",
+      "title": "<p>Dangers</p>",
+      "content": "<p>There are all kinds of ways to leave these lands empty handed &amp; worse off than when you came here in hopes of riches.</p><p>Some people even go as far as taking out loans to invest in this new space, don't be that person m'kay?</p><p>From being fished in the most blatant ways to elaborate schemes of robbing or pulling the proverbial rug from under your feet to... <em>You</em>.</p><p>In fact, you are your own greatest danger.</p><p>Failure to safely store your secret phrase or not being careful enough has cost many people fortunes...</p>",
+      "outputs": [
+        "41b6f5d9-a47f-4c5c-8c09-021f35aabe2b",
+        "875918ad-b1d9-45a8-966b-7b8b612332fb"
+      ],
+      "components": []
+    },
+    "9278fec9-e330-460e-949b-e87d759ead56": {
+      "theme": "default",
+      "title": null,
+      "content": "<p>The most common ways to lose your shit are these...</p><p>- Simply forgetting where you \"safely stored\" your private key.</p><p>- Being</p><p></p><p>Wallet &amp; phrase security playbook</p><p>Types of scams &amp; how to avoid them</p><p>All related playbooks</p><p>Not investing in shitcoins &amp; hodling too long</p>",
+      "outputs": ["b57cf218-5b27-46ac-909f-868b7f86ba2c"],
+      "components": []
+    },
+    "f1b3e47b-05fa-439b-bea6-addd81817bff": {
+      "theme": "moss",
+      "title": null,
+      "content": "<p>People out there are building a whole new matrix with these crazy new technologies &amp; tools we got.</p><p>If you're willing to take risks &amp; put in effort, there are many ways to benefit.</p><p>What kind of opportunities are you looking for?</p>",
+      "outputs": [
+        "5b3d6604-0c89-4d59-ab1d-fcb82b9f27b9",
+        "a9cc5c0f-9c5b-4616-8d88-9ef0f9b4cc9e",
+        "ae94829e-9716-4fe5-a0af-abfc03bc880a",
+        "cc8f6aed-7031-45cb-ac5b-42576a152a34"
+      ],
+      "components": []
+    },
+    "12db5b51-7760-4c4e-bfe4-0c0739b1f5b0": {
+      "theme": "default",
+      "title": null,
+      "content": "<p>There's no lack of places to invest time!</p><p>The question is, what is your skill level &amp; how much do you value your time? </p><p>Are you here to work for passion &amp; promise-tokens or are you looking for well paid gigs.</p>",
+      "outputs": [
+        "b1851dae-27e9-45eb-8bac-b8d4b146784f",
+        "153c6d6e-0820-4973-943b-62a01fb50b67",
+        "c96fa670-684c-424d-bcce-700e5ab3866f"
+      ],
+      "components": []
+    },
+    "a4abbf5d-8374-435d-bd3f-aa3959432860": {
+      "theme": "moss",
+      "title": null,
+      "content": "<p>Well, if you benefited &amp; built a good life for yourself, maybe its time to support others?</p><p>Feels good too, you know!</p><p></p><p><a href=\"https://metagame.wtf/seeds\" target=\"__blank\" rel=\"noopener noreferrer nofollow\" title=\"https://metagame.wtf/seeds\">Ok, I'll buy some Seeds of MetaGame</a></p><p><a href=\"https://gitcoin.co/grants/\" target=\"__blank\" rel=\"noopener noreferrer nofollow\" title=\"https://gitcoin.co/grants/\">I'll support the wider ecosystem &amp; donate on Gitcoin</a></p><p><a href=\"https://giveth.io/projects\" target=\"__blank\" rel=\"noopener noreferrer nofollow\" title=\"https://giveth.io/projects\">I'll zoom out of crypto &amp; donate on Giveth</a></p><p><a href=\"https://dovu.earth/en/solution/#carbon_calculator\" target=\"__blank\" rel=\"noopener noreferrer nofollow\" title=\"https://dovu.earth/en/solution/#carbon_calculator\">I'll just offset my carbon footprint...</a></p>",
+      "outputs": ["3dd33e10-2c6a-4ca6-b629-7fbbf04c8547"],
+      "components": []
+    },
+    "6eed6188-2d2b-4156-af2f-41a4022c18ee": {
+      "theme": "default",
+      "title": null,
+      "content": "<p>Don't you get it?</p><p>These technologies are allowing us to rewrite or at least influence how societies operate &amp; the world functions. A whole new socioeconomic fabric is being built.</p><p></p>",
+      "outputs": [
+        "fd50e0c3-6e6d-41ca-9dd3-6c8f35e5a50a",
+        "b7a0e6f7-43f0-4552-9c1b-578556e7bb41"
+      ],
+      "components": []
+    },
+    "3e8ce557-399b-4e6c-b761-408fabafc04a": {
+      "theme": "default",
+      "title": null,
+      "content": "<p>The real question is why not?</p><p>What do you like most about the old matrix?</p><p>The centralized services that spy on you, milk &amp; sell your attention &amp; data? Your boss, bossing you around like a brainless modern slave? Or your government, that sanctions such &amp; worse exploitation? Bails out big businesses &amp; inflates your currency that isn't backed by anything but force?</p><p>They have taken open protocols &amp; turned them into a machine for profit extraction</p><p>They have studied your behavior &amp; collected your data to sell you shit.</p><p>- What do you mean milk &amp; sell my attention lol?</p>",
+      "outputs": ["b1abecac-b71c-4c88-92eb-cce700533141"],
+      "components": []
+    },
+    "35f9f4f4-abcd-48a4-ab00-65ddfa8d6762": {
+      "theme": "moss",
+      "title": null,
+      "content": "<p>Oh yeah? So you're aware of what's going on?</p>",
+      "outputs": [
+        "589df566-b530-4d2d-adab-f3742194ff94",
+        "987dc4f0-bfe6-437b-a301-1658be081b47",
+        "c2889dfb-a959-440f-8c73-b466912fe12a"
+      ],
+      "components": []
+    },
+    "d883fb13-eb1a-4ab3-bd75-40f1cd9cd014": {
+      "theme": "moss",
+      "title": null,
+      "content": "<p>Did you at least do well financially?</p>",
+      "outputs": [
+        "8f557319-0354-4efc-b98e-f9c952f9ec1d",
+        "9199cc6f-03bf-484c-99db-8b8f142d537c"
+      ],
+      "components": []
+    },
+    "b9dc8ed7-54e3-44f5-802c-1d201b6eb33f": {
+      "theme": "moss",
+      "title": null,
+      "content": "<p>Good!</p><p>Have you done anything useful or at least enriched yourself without losing it all? 🙃</p><p></p>",
+      "outputs": [
+        "3c5922bb-ecd5-4103-a798-a10fa924ea22",
+        "5eb0ff19-7478-4fde-a2e0-2193d40316a7",
+        "da7ff834-afbd-445b-8519-58a02c7f0ad6"
+      ],
+      "components": []
+    },
+    "c68e8397-0b6d-463f-bcf5-039a457b1e53": {
+      "theme": "moss",
+      "title": null,
+      "content": "<p>Oh, a veteran?! What brings you back?</p>",
+      "outputs": [
+        "d1caf994-44f5-47e6-9522-377f56be4739",
+        "c11da408-09f4-4561-a0c2-a43b65597720"
+      ],
+      "components": []
+    },
+    "da1e6b0d-1532-4dcb-b425-c1bf2ea66b38": {
+      "theme": "moss",
+      "title": "<p>Support?</p>",
+      "content": "<p>What kind of support do you need?</p><p></p>",
+      "outputs": [
+        "2ce4c322-b2a2-4049-90fb-b0cbdcfc4281",
+        "ad283c75-0aeb-4918-9229-50f43f8f13c8",
+        "b8bfcbe9-bd98-4bb4-b04d-36144081f6bb",
+        "d164db18-4f47-4920-97a1-6ba91c2aceca"
+      ],
+      "components": []
+    },
+    "9f4aa047-e083-4ece-a3f8-170c8ba0820f": {
+      "theme": "default",
+      "title": "<p>Explore</p>",
+      "content": "<p>What do you want to explore?</p><p></p><p></p><p><a href=\"https://metagame.wtf/guilds\" target=\"__blank\" rel=\"noopener noreferrer nofollow\" title=\"https://metagame.wtf/guilds\">Guild of MetaGame</a></p>",
+      "outputs": [
+        "757ba874-57a3-40dd-8bf2-8683a14505db",
+        "a9ab3157-72d1-48a7-a3b2-33edb1f771b5"
+      ],
+      "components": []
+    },
+    "d2628d69-a82f-4073-b35d-200fdec46ee1": {
+      "theme": "default",
+      "title": "<p>The Great Houses</p>",
+      "content": "<p>It started with tokens. Rather than \"currencies\", tokens can represent anything. You might have heard of non-funginble tokens or NFTs. Rather than just pretty pictures, these tokens can be made to represent anything from real gold &amp; real estate to your diploma or keys to your virtual house - or office.</p><p>Decentralized finance (DeFi), which is basically about building a whole new financial system - one that doesn't allow shadow banking &amp; bank borrowing people's money without them knowing or at least while taking a cut - allowing people to lend &amp; borrow money while avoiding a bank.</p><p>ReFi</p><p>Finally, there are DAOs....</p><p></p>",
+      "outputs": ["cc942cb2-a211-4252-8d9f-7188dce90cff"],
+      "components": []
+    },
+    "dde46710-2118-4387-9b07-cfd2eccbd807": {
+      "theme": "default",
+      "title": "<p>About MetaGame</p>",
+      "content": "<p>You're already exploring it!</p><p>Want to join MetaGame?</p><p></p><p>- Not quite sure yet...</p>",
+      "outputs": ["84de97ef-dfb3-4adc-8fa7-7f03b75c19e5"],
+      "components": []
+    },
+    "15a9c0b5-8515-4525-8ce0-f97eea322616": {
+      "theme": "default",
+      "title": null,
+      "content": "<p>You play it by finding something work that feels meaningful, with people you enjoy working it.</p><p>To play metagame means to find the most optimal way to play life...</p>",
+      "outputs": ["484f7067-ae26-44d2-ab5d-3ddedf450144"],
+      "components": []
+    },
+    "c38ae9e1-9e95-4387-9d41-abc716aa031e": {
+      "theme": "default",
+      "title": null,
+      "content": "<p>You play it by building it.</p><p>You could say its \"play to earn\" but the play is actually productive work, which just doesn't feel like work. Or at least isn't supposed to.</p>",
+      "outputs": [
+        "7cc153b0-088e-48e2-80c6-ff1b1bc5ac65",
+        "780c9d38-c742-4764-a788-dcaa81d39f8d"
+      ],
+      "components": []
+    },
+    "7571f6be-5146-421e-bd0c-0be32866b2fb": {
+      "theme": "default",
+      "title": null,
+      "content": "<p>Gonna have to talk to the gate keeper...</p>",
+      "outputs": ["fbe00297-8917-4705-844f-27982d647307"],
+      "components": []
+    },
+    "9ab6f4f5-d47b-4b2f-b918-870ec3572c19": {
+      "theme": "default",
+      "title": "<p>Next step?</p>",
+      "content": "<p>What do you want to do next?</p><p></p><p></p>",
+      "outputs": [
+        "7a320dca-4e5d-4ba0-94b7-9be4cc3543e8",
+        "9d9a7eea-8c19-4145-a6e2-0a783ae64d5d",
+        "e0dc38d6-0e4a-46e7-9fef-73d02d5e93ae"
+      ],
+      "components": []
+    },
+    "064a8adc-d8c4-4989-99d7-e1372fcffb33": {
+      "theme": "default",
+      "title": "<span class=\"mention mention-component\" data-id=\"07b05823-be77-4d96-a1fc-af1639b54b46\" data-type=\"component\">Troll</span>",
+      "content": "<p>Sorry, you can't just enter &amp; thats it...</p>",
+      "outputs": ["fd8cd392-b31b-419e-9075-ca2ceae0acb0"],
+      "components": ["07b05823-be77-4d96-a1fc-af1639b54b46"]
+    },
+    "81a81756-28d1-4136-a292-ed9c235a63c5": {
+      "theme": "default",
+      "title": "<p></p>",
+      "content": "<p>There are a few projects in our network with proper funding but we are not one of them.</p><p>If you want to get paid properly, you'll have better luck working for Raid Guild, DAOhaus &amp; <a href=\"https://metagame.wtf/guilds\" target=\"__blank\" rel=\"noopener noreferrer nofollow\" title=\"https://metagame.wtf/guilds\">a bunch of other guilds</a>.</p>",
+      "outputs": ["1871f32e-d661-4c6c-bf54-01c8ad521dd2"],
+      "components": []
+    },
+    "98432826-6245-4192-aad9-77ff69c9586d": {
+      "theme": "default",
+      "title": null,
+      "content": "<p>What do you mean how? Ever heard of this blockchain thing? Web3?</p>",
+      "outputs": [
+        "b478c513-087a-4153-9994-ed3f8eacf6a1",
+        "34ba6dc3-0120-4fbe-bfc8-db2dc2e4e6b0",
+        "489797da-6e73-4bb5-bfd0-51b0fbd251d6"
+      ],
+      "components": []
+    },
+    "e7b5111c-f8de-4c74-b235-741be4fc14cf": {
+      "theme": "default",
+      "title": null,
+      "content": "<p>Then what do you mean how?</p>",
+      "outputs": ["774bd792-6394-4e55-9971-52fb4b8ac3a6"],
+      "components": []
+    },
+    "d960dcfc-2564-46fc-80cc-d959d1096cda": {
+      "theme": "default",
+      "title": null,
+      "content": "<p>Yeah, yeah, but why does it matter? What's the point?</p>",
+      "outputs": ["51aa808d-6188-49e3-9d3d-dfa8c846a9db"],
+      "components": []
+    },
+    "bdb2fa64-6f05-4093-a123-56d27aaf47ad": {
+      "theme": "default",
+      "title": null,
+      "content": "<p>Go talk to the Web3 Prophet</p>",
+      "outputs": [
+        "50e5cb56-0061-4d90-bc4c-c211e67a5434",
+        "116a4820-9da5-44db-8eee-d648716f67d9"
+      ],
+      "components": []
+    },
+    "2c71bb8e-b8c9-4638-9112-375d38913c9e": {
+      "theme": "default",
+      "title": null,
+      "content": "<p>The next big thing was Ethereum.</p><p>A <em>programmable</em> decentralized accounting system.</p><p>This opened a world of opportunities.</p><p>It allowed people to start building applications using the blockchain, make it perform anything you can program a computer to do.</p><p>This all sounds a bit abstract but here's the huge difference between the applications built on a blockchain &amp; applications built on a centralized database...</p><p>With an application built on Ethereum, you can be sure that it does what it says it does because you can read the code that its running.</p><p>If you deposit your money in a contract, it wont get loaned</p><p>Another huge piece is that all applications built on Ethereum are, at least in theory, interoperable.</p><p>Meaning the same data &amp; functionality is available across different interfaces, can be composed into bigger applications or just used across different platforms.</p><p>If you want to learn more about why this is significant, <a href=\"https://media.consensys.net/programmable-blockchains-in-context-ethereum-s-future-cd8451eb421e?gi=bd9408d88957\" target=\"__blank\" rel=\"noopener noreferrer nofollow\" title=\"https://media.consensys.net/programmable-blockchains-in-context-ethereum-s-future-cd8451eb421e?gi=bd9408d88957\">go read about programmable blockchains in context</a>.</p><p></p><p>Get it? Big deal.</p><p>There are a few big domains that cropped up over time...</p>",
+      "outputs": [
+        "52fb77f8-299c-48c6-a57b-24eb65c0a4c6",
+        "4b5e1604-c550-430d-a7ab-93e1792f2517",
+        "9c792661-95c1-4bcc-8d6b-8ea3840708d8"
+      ],
+      "components": []
+    },
+    "1d42dd49-7252-4178-9bad-c122609841b2": {
+      "theme": "default",
+      "title": null,
+      "content": "<p>Web3 or the next version of internet is basically internet as it was always supposed to be - decentralized &amp; open, not owned &amp; controlled.</p><p>They say Web3 is a combination of three technologies: decentralized file storage, decentralized &amp; encrypted messaging &amp; a blockchain (decentralized ledger)</p>",
+      "outputs": ["70dddf80-1e5f-46d8-bf60-c1ae36854b63"],
+      "components": []
+    },
+    "545a1c80-f5c7-4eb0-bfd9-0b4685a474ac": {
+      "theme": "default",
+      "title": null,
+      "content": "<p>Of course, not everyone can read computer code &amp; there a</p><p>But just the fact this is possible, makes people less likely to even attempt because there is alwasy <em>someone</em> who <em>can</em> read code &amp; blow the whistle.</p><p>There are smart contract security auditors, there are review websites &amp; people you can ask.</p><p>All you need to do is be careful <em>enough</em>.</p>",
+      "outputs": [
+        "6aba62bc-203e-48e2-9787-193254ac8d6d",
+        "e8588a81-b954-4dc0-84a3-fcb9257bad8b"
+      ],
+      "components": []
+    },
+    "2f550b9f-3a10-4da7-9149-55da53f659c6": {
+      "theme": "default",
+      "title": "<p></p>",
+      "content": "<p>Well then you've come to the right place!</p><p>What do you want to learn?</p><p>How much do you know?</p>",
+      "outputs": ["bd52d6e2-a22c-4afc-8c1b-fab303e5be60"],
+      "components": []
+    },
+    "fcd3ea7c-8268-4c48-aaea-3e4759595e88": {
+      "theme": "default",
+      "title": null,
+      "content": "<p>MetaManifesto</p><p></p><p>- Sign it</p><p>- Wtf is this shit?</p>",
+      "outputs": [],
+      "components": []
+    },
+    "da62963b-5623-4fd5-bc25-ddc773745c9b": {
+      "theme": "default",
+      "title": null,
+      "content": "<p>How much do you know about DAOs?</p><p>Do you want to go straight to summoning a DAO or learn about other things you'll need first?</p><p></p><p><a href=\"https://wiki.metagame.wtf/docs/great-houses/house-of-daos\" target=\"__blank\" rel=\"noopener noreferrer nofollow\" title=\"https://wiki.metagame.wtf/docs/great-houses/house-of-daos\">Learn more about DAOs</a></p><p><a href=\"https://app.daohaus.club/\" target=\"__blank\" rel=\"noopener noreferrer nofollow\" title=\"https://app.daohaus.club/\">Summon a DAO</a></p>",
+      "outputs": ["9b0b93f0-72c9-4617-9663-672766bdf786"],
+      "components": []
+    },
+    "db7ed296-b801-4869-82f5-cc7419b39420": {
+      "theme": "moss",
+      "title": null,
+      "content": "<p>We're always open to hearing more about your troubles &amp; offer you anything from advice or review to a virtual hug &amp; emotional support.</p><p>You could start by letting us know what you're working on or just joining MetaFam.</p><p></p><p><a href=\"https://forum.metagame.wtf/t/whatre-you-workin-on/960\" target=\"__blank\" rel=\"noopener noreferrer nofollow\" title=\"https://forum.metagame.wtf/t/whatre-you-workin-on/960\">I'll write about what I'm working on.</a></p>",
+      "outputs": ["ec35ff59-529a-44ba-8637-444b43c1afae"],
+      "components": []
+    },
+    "3b293b56-5753-4366-b795-843fcdecdea6": {
+      "theme": "default",
+      "title": null,
+      "content": "<p>Ethereum is moving to proof-of-stake soon &amp; we won't be wasting any more energy mining.</p>",
+      "outputs": ["3b50b47f-5de0-4c8d-b8bd-3d5f9777b100"],
+      "components": []
+    },
+    "835cbd34-6571-4a51-a5a8-5d5ded7a1f9b": {
+      "theme": "default",
+      "title": null,
+      "content": "<p>Then you should probably join MetaGame first.</p><p>Go talk to the gate keeper.</p>",
+      "outputs": ["0f055612-d0eb-4143-b0ca-3ff24fb5782e"],
+      "components": []
+    },
+    "7e7db576-8b73-4696-977a-82bcb139c2b1": {
+      "theme": "default",
+      "title": null,
+      "content": "<p>MetaGame is chaootic</p><p>Things dont work &amp; are broken</p><p>Some things are of dubious quality</p>",
+      "outputs": [],
+      "components": []
+    },
+    "d384abce-77bb-4248-8c0f-eb502d7c5677": {
+      "theme": "moss",
+      "title": null,
+      "content": "<p>You have power and money, but you are mortal.</p><p>You know you cannot escape death, but immortality <em>can</em> be obtained…</p>",
+      "outputs": ["23abab08-8bfe-42b9-b0ef-65c1d78a8306"],
+      "components": []
+    },
+    "e40e5989-9942-403d-ba00-9908c0a9540d": {
+      "theme": "moss",
+      "title": null,
+      "content": "<p>What do you mean, never watched <em>The Matrix</em>?</p>",
+      "outputs": [
+        "9fcd768d-9d10-4686-9bc0-1cbc0d63b038",
+        "f6d16efc-029a-4876-b735-b8ca1bb631fd"
+      ],
+      "components": []
+    },
+    "26406db9-60ca-4e90-ba92-d5dc10fe33e5": {
+      "theme": "moss",
+      "title": null,
+      "content": "<p>Wow, you really should.</p>",
+      "outputs": ["01be71b1-f305-4329-aeb2-514dd1ad8f2b"],
+      "components": []
+    },
+    "33dc2106-4d21-4715-a493-240942470c84": {
+      "theme": "moss",
+      "title": null,
+      "content": "<p>Look, I'm trying to be as illustrous as possible bc otherwise people don't seem to get it!</p><p>This Web3 space really <em>is</em> full of potential &amp; opportunities but also pretty damn dangerous.</p><p>You may not get shot but you <em>may</em> come out of it a lot worse off than you got in.</p>",
+      "outputs": [
+        "d77ded0f-bcf4-44a4-817d-2bb94021fbc5",
+        "8f1e3641-62eb-44d9-bcf9-6bc640db9f99"
+      ],
+      "components": []
+    },
+    "eac937db-a8ea-4902-9700-53811bf472d2": {
+      "theme": "default",
+      "title": null,
+      "content": "<p>As the company grows, you get no upside.</p><p>Maybe your pay goes up a little bit, eaten up by inflation.</p>",
+      "outputs": [],
+      "components": []
+    },
+    "53e701fb-2aa4-4c90-984a-02837a1e2ccd": {
+      "theme": "default",
+      "title": null,
+      "content": "<p>ostly built by hobbyists &amp; newcomers, everything is considered “under construction” if you see anything of low quality, see it as a challenge to you to make it better or at least report it</p>",
+      "outputs": [],
+      "components": []
+    },
+    "eb5bd783-5593-4339-891c-4f953e476016": {
+      "theme": "default",
+      "title": null,
+      "content": "<p>mpowering people with tools but also making sure they use that power wisely</p>",
+      "outputs": [],
+      "components": []
+    },
+    "c314c322-3e63-453a-bcde-e69bbc1dcbf4": {
+      "theme": "default",
+      "title": null,
+      "content": "<p>n essence, MetaGame is a game of life for those who are opposite of NPCs. Interested in finding the most optimal way to play life</p>",
+      "outputs": [],
+      "components": []
+    },
+    "29b03614-6388-4614-bf0a-ede5f24b0798": {
+      "theme": "default",
+      "title": null,
+      "content": "<p>Player</p><p>Guild</p><p>Patron</p>",
+      "outputs": [],
+      "components": []
+    },
+    "33cae89b-bd03-43dd-81d5-5e302c2f21ed": {
+      "theme": "moss",
+      "title": null,
+      "content": "<p>Great to hear!</p><p>Are you currently building anything? Anything you need support with?</p><p><a href=\"https://forum.metagame.wtf/t/whatre-you-workin-on/960\" target=\"__blank\" rel=\"noopener noreferrer nofollow\" title=\"https://forum.metagame.wtf/t/whatre-you-workin-on/960\">Happy to share more about what I'm working on.</a></p><p></p>",
+      "outputs": [
+        "f5e0bb3f-018b-458f-8532-fd5bd5ebf22e",
+        "12cd515c-9578-40d8-b235-fbf5d98a609a"
+      ],
+      "components": []
+    },
+    "7819dc21-92ed-431d-b8ff-2e62181bb619": {
+      "theme": "moss",
+      "title": null,
+      "content": "<p>Don't mind the movie quote!</p><p>All I'm trying to say is that if you're rich as fuck, maybe you'd like to be remembered as generous &amp; supportive of the ecosystem? 🤷‍♂️</p>",
+      "outputs": [
+        "5fb208f2-bff8-40c3-b594-f6bd9b956a68",
+        "370610d2-bb0f-4084-a133-ed8aae430c34"
+      ],
+      "components": []
+    },
+    "75a268b3-5937-4012-9690-d3a7b2a91250": {
+      "theme": "moss",
+      "title": null,
+      "content": "<p>Oh, a value extractooor, are you?</p>",
+      "outputs": [
+        "68d6b978-3fac-4ab8-b386-2a0cd53c56a9",
+        "8b0c6238-9e39-4ae5-ad2b-1e5aa732414e"
+      ],
+      "components": []
+    },
+    "95887413-852d-47d9-8f3c-464c01b5cbad": {
+      "theme": "gold",
+      "title": null,
+      "content": "<p>We can't build a new world with people like you, sorry.</p><p>Let us know when you grow out of being an individualism maxi,</p><p>goodbye.</p>",
+      "outputs": ["7d47d1f7-6d85-42e1-af56-e63fd5f153c3"],
+      "components": []
+    },
+    "293b591f-9984-4d0d-bf22-eef96da29d2d": {
+      "theme": "default",
+      "title": null,
+      "content": "<p>Just to confirm, you already have the basic understanding of Web3?</p>",
+      "outputs": [
+        "319fe369-17e3-4a1a-bf5c-7d29fc503a13",
+        "3ac8de96-1631-4424-a174-bae9e41c8082"
+      ],
+      "components": []
+    },
+    "a5a55be0-f55d-4d9b-9d02-3ba7b2dcaa87": {
+      "theme": "moss",
+      "title": null,
+      "content": "<p>If you're seeking other adventurers, you might want to write about what you're working on or scroll the list of players in MetaGame &amp; reach out.</p><p>Other than that, you could apply to join the next Kernel or stay on the lookout for hackathons.</p><p></p><p><a href=\"https://forum.metagame.wtf/t/whatre-you-workin-on/960\" target=\"__blank\" rel=\"noopener noreferrer nofollow\" title=\"https://forum.metagame.wtf/t/whatre-you-workin-on/960\">Going to post what I'm working on</a>.</p><p><a href=\"https://metagame.wtf/players\" target=\"__blank\" rel=\"noopener noreferrer nofollow\" title=\"https://metagame.wtf/players\">Going to scroll the list of players</a>.</p><p><a href=\"https://kernel.community/\" target=\"__blank\" rel=\"noopener noreferrer nofollow\" title=\"https://kernel.community/\">Going to apply to join the next Kernel</a>.</p>",
+      "outputs": ["253680a5-032f-4031-9807-9b4ce522c6ea"],
+      "components": []
+    },
+    "d13b3aff-1c48-4fca-9c41-438e6d752827": {
+      "theme": "moss",
+      "title": null,
+      "content": "<p>How many? What kind?</p><p>If you're seeking professional services, you might want to look through our guild pages &amp; reach out to those such as Raid Guild or d0rg, depending on what you need.</p><p>If you're looking for individuals, you might want to try in places like Gitcoin or Crypto Jobs List depending on whether you're looking for freelancers or employees.</p><p></p><p><a href=\"https://metagame.wtf/guilds\" target=\"__blank\" rel=\"noopener noreferrer nofollow\" title=\"https://metagame.wtf/guilds\">Service Guilds</a></p><p><a href=\"https://gitcoin.co/\" target=\"__blank\" rel=\"noopener noreferrer nofollow\" title=\"https://gitcoin.co/\">Gitcoin</a></p><p><a href=\"https://cryptojobslist.com/\" target=\"__blank\" rel=\"noopener noreferrer nofollow\" title=\"https://cryptojobslist.com/\">Crypto Jobs List</a></p>",
+      "outputs": ["74538ccd-5898-47ab-81ac-8ab92f39b9c7"],
+      "components": []
+    },
+    "8b93f9a9-e0e7-4473-82e4-f786048c9f64": {
+      "theme": "moss",
+      "title": null,
+      "content": "<p>How much can I earn in MetaGaame?</p><p></p><p>Give first</p>",
+      "outputs": [],
+      "components": []
+    },
+    "05252fed-d61e-42e7-a7e2-e237987d2f68": {
+      "theme": "default",
+      "title": null,
+      "content": "<p>To learn building, go to buidl guidl or ethernaut</p>",
+      "outputs": [],
+      "components": []
+    }
+  },
+  "connections": {
+    "41b6f5d9-a47f-4c5c-8c09-021f35aabe2b": {
+      "type": "Bezier",
+      "label": "<p>Uhh.. Sounds really dangerous, tell me more...</p>",
+      "theme": "default",
+      "sourceid": "037e19f6-f523-4fe1-8840-212a2ef3bb50",
+      "targetid": "9278fec9-e330-460e-949b-e87d759ead56",
+      "sourceType": "elements",
+      "targetType": "elements"
+    },
+    "875918ad-b1d9-45a8-966b-7b8b612332fb": {
+      "type": "Bezier",
+      "label": "<p>Gotcha, now tell me about the opportunities.</p>",
+      "theme": "default",
+      "sourceid": "037e19f6-f523-4fe1-8840-212a2ef3bb50",
+      "targetid": "f1b3e47b-05fa-439b-bea6-addd81817bff",
+      "sourceType": "elements",
+      "targetType": "elements"
+    },
+    "b79d3daf-6f27-49ff-9e45-2ac76a1de649": {
+      "type": "Bezier",
+      "label": "<p>Tell me about the opportunities.</p>",
+      "theme": "default",
+      "sourceid": "d17edddc-d5ec-4abd-b731-f2e8a00b442d",
+      "targetid": "f1b3e47b-05fa-439b-bea6-addd81817bff",
+      "sourceType": "elements",
+      "targetType": "elements"
+    },
+    "5b3d6604-0c89-4d59-ab1d-fcb82b9f27b9": {
+      "type": "Bezier",
+      "label": "<p>I'm looking for places to invest my time</p>",
+      "theme": "default",
+      "sourceid": "f1b3e47b-05fa-439b-bea6-addd81817bff",
+      "targetid": "12db5b51-7760-4c4e-bfe4-0c0739b1f5b0",
+      "sourceType": "elements",
+      "targetFace": "top",
+      "targetType": "elements"
+    },
+    "a9cc5c0f-9c5b-4616-8d88-9ef0f9b4cc9e": {
+      "type": "Bezier",
+      "label": "<p>Places to invest my money</p>",
+      "theme": "default",
+      "sourceid": "f1b3e47b-05fa-439b-bea6-addd81817bff",
+      "targetid": "a4abbf5d-8374-435d-bd3f-aa3959432860",
+      "sourceType": "elements",
+      "targetType": "elements"
+    },
+    "fd50e0c3-6e6d-41ca-9dd3-6c8f35e5a50a": {
+      "type": "Bezier",
+      "label": "<p>Why?</p>",
+      "theme": "default",
+      "sourceid": "6eed6188-2d2b-4156-af2f-41a4022c18ee",
+      "targetid": "3e8ce557-399b-4e6c-b761-408fabafc04a",
+      "sourceType": "elements",
+      "targetFace": "left",
+      "targetType": "elements"
+    },
+    "8f557319-0354-4efc-b98e-f9c952f9ec1d": {
+      "type": "Bezier",
+      "label": "<p>Why do you ask?</p>",
+      "theme": "default",
+      "sourceid": "d883fb13-eb1a-4ab3-bd75-40f1cd9cd014",
+      "targetid": "a4abbf5d-8374-435d-bd3f-aa3959432860",
+      "sourceType": "elements",
+      "targetType": "elements"
+    },
+    "3c5922bb-ecd5-4103-a798-a10fa924ea22": {
+      "type": "Bezier",
+      "label": "<p>You could say I did well...</p>",
+      "theme": "default",
+      "sourceid": "b9dc8ed7-54e3-44f5-802c-1d201b6eb33f",
+      "targetid": "a4abbf5d-8374-435d-bd3f-aa3959432860",
+      "sourceType": "elements",
+      "targetType": "elements"
+    },
+    "b654c900-7456-407d-978f-48d3612c2d18": {
+      "type": "Bezier",
+      "label": "<p>Been there, done that.</p>",
+      "theme": "default",
+      "sourceid": "4ad5d428-b162-4cf2-9e59-c85a5a85dd7b",
+      "targetid": "c68e8397-0b6d-463f-bcf5-039a457b1e53",
+      "sourceType": "elements",
+      "targetType": "elements"
+    },
+    "d1caf994-44f5-47e6-9522-377f56be4739": {
+      "type": "Bezier",
+      "label": "<p>I am here to get support for a project.</p>",
+      "theme": "default",
+      "sourceid": "c68e8397-0b6d-463f-bcf5-039a457b1e53",
+      "targetid": "da1e6b0d-1532-4dcb-b425-c1bf2ea66b38",
+      "sourceType": "elements",
+      "targetType": "elements"
+    },
+    "c11da408-09f4-4561-a0c2-a43b65597720": {
+      "type": "Bezier",
+      "label": "<p>I am here to explore &amp; learn.</p>",
+      "theme": "default",
+      "sourceid": "c68e8397-0b6d-463f-bcf5-039a457b1e53",
+      "targetid": "9f4aa047-e083-4ece-a3f8-170c8ba0820f",
+      "sourceType": "elements",
+      "targetType": "elements"
+    },
+    "757ba874-57a3-40dd-8bf2-8683a14505db": {
+      "type": "Bezier",
+      "label": "<p>MetaGame itself</p>",
+      "theme": "default",
+      "sourceid": "9f4aa047-e083-4ece-a3f8-170c8ba0820f",
+      "targetid": "dde46710-2118-4387-9b07-cfd2eccbd807",
+      "sourceType": "elements",
+      "targetType": "elements"
+    },
+    "84de97ef-dfb3-4adc-8fa7-7f03b75c19e5": {
+      "type": "Bezier",
+      "label": "<p>Yes, how do I play MetaGame?</p>",
+      "theme": "default",
+      "sourceid": "dde46710-2118-4387-9b07-cfd2eccbd807",
+      "targetid": "15a9c0b5-8515-4525-8ce0-f97eea322616",
+      "sourceType": "elements",
+      "targetType": "elements"
+    },
+    "484f7067-ae26-44d2-ab5d-3ddedf450144": {
+      "type": "Bezier",
+      "label": "<p>Umm... Something less philosophical?</p>",
+      "theme": "default",
+      "sourceid": "15a9c0b5-8515-4525-8ce0-f97eea322616",
+      "targetid": "c38ae9e1-9e95-4387-9d41-abc716aa031e",
+      "sourceType": "elements",
+      "targetType": "elements"
+    },
+    "7cc153b0-088e-48e2-80c6-ff1b1bc5ac65": {
+      "type": "Bezier",
+      "label": "<p>Ok, so how do I join?</p>",
+      "theme": "default",
+      "sourceid": "c38ae9e1-9e95-4387-9d41-abc716aa031e",
+      "targetid": "7571f6be-5146-421e-bd0c-0be32866b2fb",
+      "sourceType": "elements",
+      "targetType": "elements"
+    },
+    "7a320dca-4e5d-4ba0-94b7-9be4cc3543e8": {
+      "type": "Bezier",
+      "label": "<p>Get support for a project</p>",
+      "theme": "default",
+      "sourceid": "9ab6f4f5-d47b-4b2f-b918-870ec3572c19",
+      "targetid": "da1e6b0d-1532-4dcb-b425-c1bf2ea66b38",
+      "sourceType": "elements",
+      "targetType": "elements"
+    },
+    "cc942cb2-a211-4252-8d9f-7188dce90cff": {
+      "type": "Bezier",
+      "label": null,
+      "theme": "default",
+      "sourceid": "d2628d69-a82f-4073-b35d-200fdec46ee1",
+      "targetid": "9ab6f4f5-d47b-4b2f-b918-870ec3572c19",
+      "sourceType": "elements",
+      "targetType": "elements"
+    },
+    "9d9a7eea-8c19-4145-a6e2-0a783ae64d5d": {
+      "type": "Bezier",
+      "label": "<p>Join a guild</p>",
+      "theme": "default",
+      "sourceid": "9ab6f4f5-d47b-4b2f-b918-870ec3572c19",
+      "targetid": "9f4aa047-e083-4ece-a3f8-170c8ba0820f",
+      "sourceType": "elements",
+      "targetType": "elements"
+    },
+    "b1851dae-27e9-45eb-8bac-b8d4b146784f": {
+      "type": "Bezier",
+      "label": "<p>I'm a professional &amp; I'm looking for well paid work</p>",
+      "theme": "default",
+      "sourceid": "12db5b51-7760-4c4e-bfe4-0c0739b1f5b0",
+      "targetid": "81a81756-28d1-4136-a292-ed9c235a63c5",
+      "sourceType": "elements",
+      "targetFace": "top",
+      "targetType": "elements"
+    },
+    "b7a0e6f7-43f0-4552-9c1b-578556e7bb41": {
+      "type": "Bezier",
+      "label": "<p>How?</p>",
+      "theme": "default",
+      "sourceid": "6eed6188-2d2b-4156-af2f-41a4022c18ee",
+      "targetid": "98432826-6245-4192-aad9-77ff69c9586d",
+      "sourceType": "elements",
+      "targetType": "elements"
+    },
+    "b478c513-087a-4153-9994-ed3f8eacf6a1": {
+      "type": "Bezier",
+      "label": "<p>I know all about it!</p>",
+      "theme": "default",
+      "sourceid": "98432826-6245-4192-aad9-77ff69c9586d",
+      "targetid": "e7b5111c-f8de-4c74-b235-741be4fc14cf",
+      "sourceType": "elements",
+      "targetType": "elements"
+    },
+    "774bd792-6394-4e55-9971-52fb4b8ac3a6": {
+      "type": "Bezier",
+      "label": "<p>I think its a scam</p>",
+      "theme": "default",
+      "sourceid": "e7b5111c-f8de-4c74-b235-741be4fc14cf",
+      "targetid": "f909f4c3-bb75-4b9b-970c-7219449bda31",
+      "sourceType": "elements",
+      "targetType": "elements"
+    },
+    "34ba6dc3-0120-4fbe-bfc8-db2dc2e4e6b0": {
+      "type": "Bezier",
+      "label": "<p>I know there are these miners and...</p>",
+      "theme": "default",
+      "sourceid": "98432826-6245-4192-aad9-77ff69c9586d",
+      "targetid": "d960dcfc-2564-46fc-80cc-d959d1096cda",
+      "sourceType": "elements",
+      "targetType": "elements"
+    },
+    "349e87fe-756a-47b5-85d2-966a9dde39e7": {
+      "type": "Bezier",
+      "label": "<p>Why is that a big deal?</p>",
+      "theme": "default",
+      "sourceid": "ab803315-f0f9-438e-9c9d-917a1668bada",
+      "targetid": "bdb2fa64-6f05-4093-a123-56d27aaf47ad",
+      "sourceType": "elements",
+      "targetType": "elements"
+    },
+    "513a1096-346b-400a-a252-e37fd6ec6ff9": {
+      "type": "Bezier",
+      "label": "<p>Tell me more!</p>",
+      "theme": "default",
+      "sourceid": "ab803315-f0f9-438e-9c9d-917a1668bada",
+      "targetid": "2c71bb8e-b8c9-4638-9112-375d38913c9e",
+      "sourceType": "elements",
+      "targetType": "elements"
+    },
+    "15e1db3e-416f-4def-a46d-b686e1da0773": {
+      "type": "Bezier",
+      "label": "<p>Am wide awake ser!</p>",
+      "theme": "default",
+      "sourceid": "4ad5d428-b162-4cf2-9e59-c85a5a85dd7b",
+      "targetid": "35f9f4f4-abcd-48a4-ab00-65ddfa8d6762",
+      "sourceType": "elements",
+      "targetType": "elements"
+    },
+    "52fb77f8-299c-48c6-a57b-24eb65c0a4c6": {
+      "type": "Bezier",
+      "label": "<p>I can't read code...</p>",
+      "theme": "default",
+      "sourceid": "2c71bb8e-b8c9-4638-9112-375d38913c9e",
+      "targetid": "545a1c80-f5c7-4eb0-bfd9-0b4685a474ac",
+      "sourceType": "elements",
+      "targetType": "elements"
+    },
+    "489797da-6e73-4bb5-bfd0-51b0fbd251d6": {
+      "type": "Bezier",
+      "label": "<p>Remind me pls</p>",
+      "theme": "default",
+      "sourceid": "98432826-6245-4192-aad9-77ff69c9586d",
+      "targetid": "1d42dd49-7252-4178-9bad-c122609841b2",
+      "sourceType": "elements",
+      "targetType": "elements"
+    },
+    "ae94829e-9716-4fe5-a0af-abfc03bc880a": {
+      "type": "Bezier",
+      "label": "<p>I'm looking for places to learn</p>",
+      "theme": "default",
+      "sourceid": "f1b3e47b-05fa-439b-bea6-addd81817bff",
+      "targetid": "2f550b9f-3a10-4da7-9149-55da53f659c6",
+      "sourceType": "elements",
+      "targetType": "elements"
+    },
+    "cc8f6aed-7031-45cb-ac5b-42576a152a34": {
+      "type": "Bezier",
+      "label": "<p>What do you mean a whole new matrix lol?</p>",
+      "theme": "default",
+      "sourceid": "f1b3e47b-05fa-439b-bea6-addd81817bff",
+      "targetid": "6eed6188-2d2b-4156-af2f-41a4022c18ee",
+      "sourceType": "elements",
+      "targetType": "elements"
+    },
+    "51aa808d-6188-49e3-9d3d-dfa8c846a9db": {
+      "type": "Bezier",
+      "label": null,
+      "theme": "default",
+      "sourceid": "d960dcfc-2564-46fc-80cc-d959d1096cda",
+      "targetid": "1d42dd49-7252-4178-9bad-c122609841b2",
+      "sourceType": "elements",
+      "targetType": "elements"
+    },
+    "70dddf80-1e5f-46d8-bf60-c1ae36854b63": {
+      "type": "Bezier",
+      "label": "<p>Go on...</p>",
+      "theme": "default",
+      "sourceid": "1d42dd49-7252-4178-9bad-c122609841b2",
+      "targetid": "ab803315-f0f9-438e-9c9d-917a1668bada",
+      "sourceType": "elements",
+      "targetType": "elements"
+    },
+    "bd52d6e2-a22c-4afc-8c1b-fab303e5be60": {
+      "type": "Bezier",
+      "label": "<p>First of all, what is this \"New Web\" you speak of?</p>",
+      "theme": "default",
+      "sourceid": "2f550b9f-3a10-4da7-9149-55da53f659c6",
+      "targetid": "1d42dd49-7252-4178-9bad-c122609841b2",
+      "sourceType": "elements",
+      "targetType": "elements"
+    },
+    "4b5e1604-c550-430d-a7ab-93e1792f2517": {
+      "type": "Bezier",
+      "label": "<p>Explore domains</p>",
+      "theme": "default",
+      "sourceid": "2c71bb8e-b8c9-4638-9112-375d38913c9e",
+      "targetid": "d2628d69-a82f-4073-b35d-200fdec46ee1",
+      "sourceType": "elements",
+      "targetType": "elements"
+    },
+    "b57cf218-5b27-46ac-909f-868b7f86ba2c": {
+      "type": "Bezier",
+      "label": "<p>Coolio, now tell me about the opportunities</p>",
+      "theme": "default",
+      "sourceid": "9278fec9-e330-460e-949b-e87d759ead56",
+      "targetid": "f1b3e47b-05fa-439b-bea6-addd81817bff",
+      "sourceType": "elements",
+      "targetType": "elements"
+    },
+    "fbe00297-8917-4705-844f-27982d647307": {
+      "type": "Bezier",
+      "label": null,
+      "theme": "default",
+      "sourceid": "7571f6be-5146-421e-bd0c-0be32866b2fb",
+      "targetid": "2f7441a6-d114-40f4-8e87-5a1f8b9b276e",
+      "sourceType": "elements",
+      "targetType": "jumpers"
+    },
+    "1d1398a8-e6b0-4ade-850a-feaad70fb772": {
+      "type": "Bezier",
+      "label": "<p>Gotcha, now tell me about the dangers...</p>",
+      "theme": "default",
+      "sourceid": "ab803315-f0f9-438e-9c9d-917a1668bada",
+      "targetid": "a179223b-b413-41f4-afbb-f34cff889d92",
+      "sourceType": "elements",
+      "targetType": "jumpers"
+    },
+    "9c792661-95c1-4bcc-8d6b-8ea3840708d8": {
+      "type": "Bezier",
+      "label": "<p>Ok, now tell me about the dangers...</p>",
+      "theme": "default",
+      "sourceid": "2c71bb8e-b8c9-4638-9112-375d38913c9e",
+      "targetid": "a179223b-b413-41f4-afbb-f34cff889d92",
+      "sourceType": "elements",
+      "targetType": "jumpers"
+    },
+    "50e5cb56-0061-4d90-bc4c-c211e67a5434": {
+      "type": "Bezier",
+      "label": "<p>Nevermind, tell me more</p>",
+      "theme": "default",
+      "sourceid": "bdb2fa64-6f05-4093-a123-56d27aaf47ad",
+      "targetid": "2c71bb8e-b8c9-4638-9112-375d38913c9e",
+      "sourceType": "elements",
+      "targetType": "elements"
+    },
+    "116a4820-9da5-44db-8eee-d648716f67d9": {
+      "type": "Bezier",
+      "label": "<p>Ok, so tell me about those dangers</p>",
+      "theme": "default",
+      "sourceid": "bdb2fa64-6f05-4093-a123-56d27aaf47ad",
+      "targetid": "db2fab2c-e572-437e-aeab-c4b3dae8ba18",
+      "sourceType": "elements",
+      "targetType": "jumpers"
+    },
+    "fd8cd392-b31b-419e-9075-ca2ceae0acb0": {
+      "type": "Bezier",
+      "label": null,
+      "theme": "default",
+      "sourceid": "064a8adc-d8c4-4989-99d7-e1372fcffb33",
+      "targetid": "fcd3ea7c-8268-4c48-aaea-3e4759595e88",
+      "sourceType": "elements",
+      "targetType": "elements"
+    },
+    "e0dc38d6-0e4a-46e7-9fef-73d02d5e93ae": {
+      "type": "Bezier",
+      "label": "<p>Start a DAO</p>",
+      "theme": "default",
+      "sourceid": "9ab6f4f5-d47b-4b2f-b918-870ec3572c19",
+      "targetid": "da62963b-5623-4fd5-bc25-ddc773745c9b",
+      "sourceType": "elements",
+      "targetType": "elements"
+    },
+    "2ce4c322-b2a2-4049-90fb-b0cbdcfc4281": {
+      "type": "Bezier",
+      "label": "<p>I seek money</p>",
+      "theme": "default",
+      "sourceid": "da1e6b0d-1532-4dcb-b425-c1bf2ea66b38",
+      "targetid": "153e1544-bb42-45a5-964a-d70f14b9153e",
+      "sourceType": "elements",
+      "targetType": "elements"
+    },
+    "8e153a17-7c1d-498e-8ce8-8457bd14efa3": {
+      "type": "Bezier",
+      "label": "<p>I need something else</p>",
+      "theme": "default",
+      "sourceid": "153e1544-bb42-45a5-964a-d70f14b9153e",
+      "targetid": "da1e6b0d-1532-4dcb-b425-c1bf2ea66b38",
+      "sourceType": "elements",
+      "targetType": "elements"
+    },
+    "ad283c75-0aeb-4918-9229-50f43f8f13c8": {
+      "type": "Bezier",
+      "label": "<p>Other...</p>",
+      "theme": "default",
+      "sourceid": "da1e6b0d-1532-4dcb-b425-c1bf2ea66b38",
+      "targetid": "db7ed296-b801-4869-82f5-cc7419b39420",
+      "sourceType": "elements",
+      "targetType": "elements"
+    },
+    "ec35ff59-529a-44ba-8637-444b43c1afae": {
+      "type": "Bezier",
+      "label": "<p>I want to join</p>",
+      "theme": "default",
+      "sourceid": "db7ed296-b801-4869-82f5-cc7419b39420",
+      "targetid": "5c3bc9a1-e591-4a06-b1ac-a2cb5d5617aa",
+      "sourceType": "elements",
+      "targetType": "jumpers"
+    },
+    "780c9d38-c742-4764-a788-dcaa81d39f8d": {
+      "type": "Bezier",
+      "label": "<p>Nevermind, I'm here to get support</p>",
+      "theme": "default",
+      "sourceid": "c38ae9e1-9e95-4387-9d41-abc716aa031e",
+      "targetid": "c36a7f66-5437-4900-a3c9-2362e0b0cbe2",
+      "sourceType": "elements",
+      "targetType": "jumpers"
+    },
+    "153c6d6e-0820-4973-943b-62a01fb50b67": {
+      "type": "Bezier",
+      "label": "<p>Nevermind, I'd like to invest money instead</p>",
+      "theme": "default",
+      "sourceid": "12db5b51-7760-4c4e-bfe4-0c0739b1f5b0",
+      "targetid": "a4abbf5d-8374-435d-bd3f-aa3959432860",
+      "sourceType": "elements",
+      "targetType": "elements"
+    },
+    "b1abecac-b71c-4c88-92eb-cce700533141": {
+      "type": "Bezier",
+      "label": "<p>Ok, and how?</p>",
+      "theme": "default",
+      "sourceid": "3e8ce557-399b-4e6c-b761-408fabafc04a",
+      "targetid": "98432826-6245-4192-aad9-77ff69c9586d",
+      "sourceType": "elements",
+      "targetType": "elements"
+    },
+    "9b0b93f0-72c9-4617-9663-672766bdf786": {
+      "type": "Bezier",
+      "label": "<p>I'd like to explore some more first</p>",
+      "theme": "default",
+      "sourceid": "da62963b-5623-4fd5-bc25-ddc773745c9b",
+      "targetid": "fa866ddf-5f9a-44b3-9c03-2eebeaa10e99",
+      "sourceType": "elements",
+      "targetType": "jumpers"
+    },
+    "6aba62bc-203e-48e2-9787-193254ac8d6d": {
+      "type": "Bezier",
+      "label": "<p>Ok, so tell me about the domains...</p>",
+      "theme": "default",
+      "sourceid": "545a1c80-f5c7-4eb0-bfd9-0b4685a474ac",
+      "targetid": "d2628d69-a82f-4073-b35d-200fdec46ee1",
+      "sourceType": "elements",
+      "targetType": "elements"
+    },
+    "e8588a81-b954-4dc0-84a3-fcb9257bad8b": {
+      "type": "Bezier",
+      "label": "<p>Tell me about the dangers.</p>",
+      "theme": "default",
+      "sourceid": "545a1c80-f5c7-4eb0-bfd9-0b4685a474ac",
+      "targetid": "a179223b-b413-41f4-afbb-f34cff889d92",
+      "sourceType": "elements",
+      "targetType": "jumpers"
+    },
+    "a9294089-ffd5-49b5-bc06-3627e0294905": {
+      "type": "Bezier",
+      "label": "<p>There are lots of scams tho...</p>",
+      "theme": "default",
+      "sourceid": "f909f4c3-bb75-4b9b-970c-7219449bda31",
+      "targetid": "6578ad28-76f9-4127-a73b-0bb46cfe133c",
+      "sourceType": "elements",
+      "targetType": "elements"
+    },
+    "38a1369e-5d98-4634-ac95-0078194da1a8": {
+      "type": "Bezier",
+      "label": "<p>What about pollution tho?</p>",
+      "theme": "default",
+      "sourceid": "6578ad28-76f9-4127-a73b-0bb46cfe133c",
+      "targetid": "3b293b56-5753-4366-b795-843fcdecdea6",
+      "sourceType": "elements",
+      "targetType": "elements"
+    },
+    "3b50b47f-5de0-4c8d-b8bd-3d5f9777b100": {
+      "type": "Bezier",
+      "label": "<p>Ok, so tell me more about what it is..</p>",
+      "theme": "default",
+      "sourceid": "3b293b56-5753-4366-b795-843fcdecdea6",
+      "targetid": "1d42dd49-7252-4178-9bad-c122609841b2",
+      "sourceType": "elements",
+      "targetType": "elements"
+    },
+    "c96fa670-684c-424d-bcce-700e5ab3866f": {
+      "type": "Bezier",
+      "label": "<p>I'm an apprentice, I'm looking for some entry level work to prove myself &amp; sharpen my skills!</p>",
+      "theme": "default",
+      "sourceid": "12db5b51-7760-4c4e-bfe4-0c0739b1f5b0",
+      "targetid": "835cbd34-6571-4a51-a5a8-5d5ded7a1f9b",
+      "sourceType": "elements",
+      "targetType": "elements"
+    },
+    "1871f32e-d661-4c6c-bf54-01c8ad521dd2": {
+      "type": "Bezier",
+      "label": "<p>I don't really care much about getting paid a lot, I just want to get involved, learn more &amp; start contributing.</p>",
+      "theme": "default",
+      "sourceid": "81a81756-28d1-4136-a292-ed9c235a63c5",
+      "targetid": "835cbd34-6571-4a51-a5a8-5d5ded7a1f9b",
+      "sourceFace": "right",
+      "sourceType": "elements",
+      "targetType": "elements"
+    },
+    "0f055612-d0eb-4143-b0ca-3ff24fb5782e": {
+      "type": "Bezier",
+      "label": null,
+      "theme": "default",
+      "sourceid": "835cbd34-6571-4a51-a5a8-5d5ded7a1f9b",
+      "targetid": "064a8adc-d8c4-4989-99d7-e1372fcffb33",
+      "sourceType": "elements",
+      "targetType": "elements"
+    },
+    "9fcd768d-9d10-4686-9bc0-1cbc0d63b038": {
+      "type": "Bezier",
+      "label": "<p>I have, but are you talking about?</p>",
+      "theme": "default",
+      "sourceid": "e40e5989-9942-403d-ba00-9908c0a9540d",
+      "targetid": "d17edddc-d5ec-4abd-b731-f2e8a00b442d",
+      "sourceType": "elements",
+      "targetType": "elements"
+    },
+    "0924876b-84d6-4ca9-a7e9-061875ceae91": {
+      "type": "Bezier",
+      "label": "<p>Ok...</p>",
+      "theme": "default",
+      "sourceid": "4ad5d428-b162-4cf2-9e59-c85a5a85dd7b",
+      "targetid": "d17edddc-d5ec-4abd-b731-f2e8a00b442d",
+      "sourceType": "elements",
+      "targetType": "elements"
+    },
+    "f6d16efc-029a-4876-b735-b8ca1bb631fd": {
+      "type": "Bezier",
+      "label": "<p>No...</p>",
+      "theme": "default",
+      "sourceid": "e40e5989-9942-403d-ba00-9908c0a9540d",
+      "targetid": "26406db9-60ca-4e90-ba92-d5dc10fe33e5",
+      "sourceType": "elements",
+      "targetType": "elements"
+    },
+    "eb6b63f2-d31c-4c1c-bef4-b39bad405150": {
+      "type": "Bezier",
+      "label": "<p>What's with the metaphors?</p>",
+      "theme": "default",
+      "sourceid": "d17edddc-d5ec-4abd-b731-f2e8a00b442d",
+      "targetid": "33dc2106-4d21-4715-a493-240942470c84",
+      "sourceType": "elements",
+      "targetType": "elements"
+    },
+    "d77ded0f-bcf4-44a4-817d-2bb94021fbc5": {
+      "type": "Bezier",
+      "label": "<p>Ok, now tell me about the opportunities!</p>",
+      "theme": "default",
+      "sourceid": "33dc2106-4d21-4715-a493-240942470c84",
+      "targetid": "f1b3e47b-05fa-439b-bea6-addd81817bff",
+      "sourceType": "elements",
+      "targetType": "elements"
+    },
+    "8f1e3641-62eb-44d9-bcf9-6bc640db9f99": {
+      "type": "Bezier",
+      "label": "<p>Ok, so tell me about the dangers.</p>",
+      "theme": "default",
+      "sourceid": "33dc2106-4d21-4715-a493-240942470c84",
+      "targetid": "037e19f6-f523-4fe1-8840-212a2ef3bb50",
+      "sourceType": "elements",
+      "targetType": "elements"
+    },
+    "01be71b1-f305-4329-aeb2-514dd1ad8f2b": {
+      "type": "Bezier",
+      "label": "<p>Ok ok, now go on...</p>",
+      "theme": "default",
+      "sourceid": "26406db9-60ca-4e90-ba92-d5dc10fe33e5",
+      "targetid": "d17edddc-d5ec-4abd-b731-f2e8a00b442d",
+      "sourceType": "elements",
+      "targetType": "elements"
+    },
+    "3147ef34-6f24-470a-a87a-782dc24c1513": {
+      "type": "Bezier",
+      "label": "<p>What the actual fuck?</p>",
+      "theme": "default",
+      "sourceid": "4ad5d428-b162-4cf2-9e59-c85a5a85dd7b",
+      "targetid": "e40e5989-9942-403d-ba00-9908c0a9540d",
+      "sourceType": "elements",
+      "targetType": "elements"
+    },
+    "589df566-b530-4d2d-adab-f3742194ff94": {
+      "type": "Bezier",
+      "label": "<p>Umm, kind of...</p>",
+      "theme": "default",
+      "sourceid": "35f9f4f4-abcd-48a4-ab00-65ddfa8d6762",
+      "targetid": "d17edddc-d5ec-4abd-b731-f2e8a00b442d",
+      "sourceType": "elements",
+      "targetType": "elements"
+    },
+    "c1385708-8dab-4f29-a4ea-856e490b785c": {
+      "type": "Bezier",
+      "label": "<p>Tell me about the dangers.</p>",
+      "theme": "default",
+      "sourceid": "d17edddc-d5ec-4abd-b731-f2e8a00b442d",
+      "targetid": "037e19f6-f523-4fe1-8840-212a2ef3bb50",
+      "sourceType": "elements",
+      "targetType": "elements"
+    },
+    "0cc79b1e-9aa5-4327-a09c-5ace88c6c547": {
+      "type": "Bezier",
+      "label": "<p>I know about Web3, I'm here to learn about MetaGame.</p>",
+      "theme": "default",
+      "sourceid": "d17edddc-d5ec-4abd-b731-f2e8a00b442d",
+      "targetid": "4e54ea03-41c2-4860-886f-06a1e421661b",
+      "sourceType": "elements",
+      "targetType": "jumpers"
+    },
+    "987dc4f0-bfe6-437b-a301-1658be081b47": {
+      "type": "Bezier",
+      "label": "<p>Yeah, I've been in this space for many years.</p>",
+      "theme": "default",
+      "sourceid": "35f9f4f4-abcd-48a4-ab00-65ddfa8d6762",
+      "targetid": "b9dc8ed7-54e3-44f5-802c-1d201b6eb33f",
+      "sourceFace": "right",
+      "sourceType": "elements",
+      "targetFace": "right",
+      "targetType": "elements"
+    },
+    "c2889dfb-a959-440f-8c73-b466912fe12a": {
+      "type": "Bezier",
+      "label": "<p>I know about the dangers &amp; opportunities.</p>",
+      "theme": "default",
+      "sourceid": "35f9f4f4-abcd-48a4-ab00-65ddfa8d6762",
+      "targetid": "b9dc8ed7-54e3-44f5-802c-1d201b6eb33f",
+      "sourceType": "elements",
+      "targetFace": "left",
+      "targetType": "elements"
+    },
+    "3dd33e10-2c6a-4ca6-b629-7fbbf04c8547": {
+      "type": "Bezier",
+      "label": "<p>No thanks, I want to explore some more first.</p>",
+      "theme": "default",
+      "sourceid": "a4abbf5d-8374-435d-bd3f-aa3959432860",
+      "targetid": "de4bd2f0-1803-41d4-a90f-247e075e529b",
+      "sourceType": "elements",
+      "targetFace": "bottom",
+      "targetType": "jumpers"
+    },
+    "5eb0ff19-7478-4fde-a2e0-2193d40316a7": {
+      "type": "Bezier",
+      "label": "<p>Kind of been on the sidelines most of the time...</p>",
+      "theme": "default",
+      "sourceid": "b9dc8ed7-54e3-44f5-802c-1d201b6eb33f",
+      "targetid": "d883fb13-eb1a-4ab3-bd75-40f1cd9cd014",
+      "sourceType": "elements",
+      "targetFace": "top",
+      "targetType": "elements"
+    },
+    "da7ff834-afbd-445b-8519-58a02c7f0ad6": {
+      "type": "Bezier",
+      "label": "<p>Yep, I've been buildin'!</p>",
+      "theme": "default",
+      "sourceid": "b9dc8ed7-54e3-44f5-802c-1d201b6eb33f",
+      "targetid": "33cae89b-bd03-43dd-81d5-5e302c2f21ed",
+      "sourceType": "elements",
+      "targetType": "elements"
+    },
+    "f5e0bb3f-018b-458f-8532-fd5bd5ebf22e": {
+      "type": "Bezier",
+      "label": "<p>Got a few projects behind me...</p>",
+      "theme": "default",
+      "sourceid": "33cae89b-bd03-43dd-81d5-5e302c2f21ed",
+      "targetid": "d883fb13-eb1a-4ab3-bd75-40f1cd9cd014",
+      "sourceType": "elements",
+      "targetType": "elements"
+    },
+    "12cd515c-9578-40d8-b235-fbf5d98a609a": {
+      "type": "Bezier",
+      "label": "<p>Actually yeah, could use some help.</p>",
+      "theme": "default",
+      "sourceid": "33cae89b-bd03-43dd-81d5-5e302c2f21ed",
+      "targetid": "ba34c929-ab3d-4ac4-82ef-63d97cb105d2",
+      "sourceType": "elements",
+      "targetType": "jumpers"
+    },
+    "9199cc6f-03bf-484c-99db-8b8f142d537c": {
+      "type": "Bezier",
+      "label": "<p>Yeah, got rich AF.</p>",
+      "theme": "default",
+      "sourceid": "d883fb13-eb1a-4ab3-bd75-40f1cd9cd014",
+      "targetid": "d384abce-77bb-4248-8c0f-eb502d7c5677",
+      "sourceType": "elements",
+      "targetType": "elements"
+    },
+    "23abab08-8bfe-42b9-b0ef-65c1d78a8306": {
+      "type": "Bezier",
+      "label": "<p>Dafuq are you talking about?</p>",
+      "theme": "default",
+      "sourceid": "d384abce-77bb-4248-8c0f-eb502d7c5677",
+      "targetid": "7819dc21-92ed-431d-b8ff-2e62181bb619",
+      "sourceType": "elements",
+      "targetType": "elements"
+    },
+    "5fb208f2-bff8-40c3-b594-f6bd9b956a68": {
+      "type": "Bezier",
+      "label": "<p>Maybe. So?</p>",
+      "theme": "default",
+      "sourceid": "7819dc21-92ed-431d-b8ff-2e62181bb619",
+      "targetid": "a4abbf5d-8374-435d-bd3f-aa3959432860",
+      "sourceType": "elements",
+      "targetType": "elements"
+    },
+    "370610d2-bb0f-4084-a133-ed8aae430c34": {
+      "type": "Bezier",
+      "label": "<p>Naaah.</p>",
+      "theme": "default",
+      "sourceid": "7819dc21-92ed-431d-b8ff-2e62181bb619",
+      "targetid": "75a268b3-5937-4012-9690-d3a7b2a91250",
+      "sourceType": "elements",
+      "targetType": "elements"
+    },
+    "7d47d1f7-6d85-42e1-af56-e63fd5f153c3": {
+      "type": "Bezier",
+      "label": "<p>Wait! I changed my mind, tell me more.</p>",
+      "theme": "default",
+      "sourceid": "95887413-852d-47d9-8f3c-464c01b5cbad",
+      "targetid": "a4abbf5d-8374-435d-bd3f-aa3959432860",
+      "sourceType": "elements",
+      "targetType": "elements"
+    },
+    "68d6b978-3fac-4ab8-b386-2a0cd53c56a9": {
+      "type": "Bezier",
+      "label": "<p>Yep!</p>",
+      "theme": "default",
+      "sourceid": "75a268b3-5937-4012-9690-d3a7b2a91250",
+      "targetid": "95887413-852d-47d9-8f3c-464c01b5cbad",
+      "sourceType": "elements",
+      "targetType": "elements"
+    },
+    "8b0c6238-9e39-4ae5-ad2b-1e5aa732414e": {
+      "type": "Bezier",
+      "label": "<p>I don't think so...</p>",
+      "theme": "default",
+      "sourceid": "75a268b3-5937-4012-9690-d3a7b2a91250",
+      "targetid": "a4abbf5d-8374-435d-bd3f-aa3959432860",
+      "sourceType": "elements",
+      "targetType": "elements"
+    },
+    "a9ab3157-72d1-48a7-a3b2-33edb1f771b5": {
+      "type": "Bezier",
+      "label": "<p>Knowledge</p>",
+      "theme": "default",
+      "sourceid": "9f4aa047-e083-4ece-a3f8-170c8ba0820f",
+      "targetid": "293b591f-9984-4d0d-bf22-eef96da29d2d",
+      "sourceType": "elements",
+      "targetType": "elements"
+    },
+    "319fe369-17e3-4a1a-bf5c-7d29fc503a13": {
+      "type": "Bezier",
+      "label": "<p>Yeah</p>",
+      "theme": "default",
+      "sourceid": "293b591f-9984-4d0d-bf22-eef96da29d2d",
+      "targetid": "d2628d69-a82f-4073-b35d-200fdec46ee1",
+      "sourceType": "elements",
+      "targetType": "elements"
+    },
+    "3ac8de96-1631-4424-a174-bae9e41c8082": {
+      "type": "Bezier",
+      "label": "<p>Not really..</p>",
+      "theme": "default",
+      "sourceid": "293b591f-9984-4d0d-bf22-eef96da29d2d",
+      "targetid": "081f8754-a03e-4e6c-a00c-c90473602d67",
+      "sourceType": "elements",
+      "targetType": "jumpers"
+    },
+    "b8bfcbe9-bd98-4bb4-b04d-36144081f6bb": {
+      "type": "Bezier",
+      "label": "<p>I seek other adventurers to join me on a project.</p>",
+      "theme": "default",
+      "sourceid": "da1e6b0d-1532-4dcb-b425-c1bf2ea66b38",
+      "targetid": "a5a55be0-f55d-4d9b-9d02-3ba7b2dcaa87",
+      "sourceType": "elements",
+      "targetType": "elements"
+    },
+    "253680a5-032f-4031-9807-9b4ce522c6ea": {
+      "type": "Bezier",
+      "label": "<p>What about mercenaries?</p>",
+      "theme": "default",
+      "sourceid": "a5a55be0-f55d-4d9b-9d02-3ba7b2dcaa87",
+      "targetid": "d13b3aff-1c48-4fca-9c41-438e6d752827",
+      "sourceType": "elements",
+      "targetType": "elements"
+    },
+    "74538ccd-5898-47ab-81ac-8ab92f39b9c7": {
+      "type": "Bezier",
+      "label": "<p>What about adventurers?</p>",
+      "theme": "default",
+      "sourceid": "d13b3aff-1c48-4fca-9c41-438e6d752827",
+      "targetid": "a5a55be0-f55d-4d9b-9d02-3ba7b2dcaa87",
+      "sourceType": "elements",
+      "targetType": "elements"
+    },
+    "d164db18-4f47-4920-97a1-6ba91c2aceca": {
+      "type": "Bezier",
+      "label": "<p>I seek mercenaries to join me</p>",
+      "theme": "default",
+      "sourceid": "da1e6b0d-1532-4dcb-b425-c1bf2ea66b38",
+      "targetid": "d13b3aff-1c48-4fca-9c41-438e6d752827",
+      "sourceType": "elements",
+      "targetType": "elements"
+    }
+  },
+  "jumpers": {
+    "de4bd2f0-1803-41d4-a90f-247e075e529b": {
+      "elementId": "9f4aa047-e083-4ece-a3f8-170c8ba0820f"
+    },
+    "5c3bc9a1-e591-4a06-b1ac-a2cb5d5617aa": {
+      "elementId": "064a8adc-d8c4-4989-99d7-e1372fcffb33"
+    },
+    "db2fab2c-e572-437e-aeab-c4b3dae8ba18": {
+      "elementId": "037e19f6-f523-4fe1-8840-212a2ef3bb50"
+    },
+    "2f7441a6-d114-40f4-8e87-5a1f8b9b276e": {
+      "elementId": "064a8adc-d8c4-4989-99d7-e1372fcffb33"
+    },
+    "a179223b-b413-41f4-afbb-f34cff889d92": {
+      "elementId": "037e19f6-f523-4fe1-8840-212a2ef3bb50"
+    },
+    "c36a7f66-5437-4900-a3c9-2362e0b0cbe2": {
+      "elementId": "da1e6b0d-1532-4dcb-b425-c1bf2ea66b38"
+    },
+    "fa866ddf-5f9a-44b3-9c03-2eebeaa10e99": {
+      "elementId": "9f4aa047-e083-4ece-a3f8-170c8ba0820f"
+    },
+    "4e54ea03-41c2-4860-886f-06a1e421661b": {
+      "elementId": "dde46710-2118-4387-9b07-cfd2eccbd807"
+    },
+    "ba34c929-ab3d-4ac4-82ef-63d97cb105d2": {
+      "elementId": "da1e6b0d-1532-4dcb-b425-c1bf2ea66b38"
+    },
+    "081f8754-a03e-4e6c-a00c-c90473602d67": {
+      "elementId": "d17edddc-d5ec-4abd-b731-f2e8a00b442d"
+    }
+  },
+  "assets": {
+    "0d68911c-580d-4800-aba5-895f82f8951b": {
+      "name": "troll.png",
+      "type": "image"
+    },
+    "647d0495-341f-42b2-8788-b47dace22bf8": {
+      "root": true,
+      "children": ["0d68911c-580d-4800-aba5-895f82f8951b"]
+    }
+  },
+  "branches": {},
+  "conditions": {},
+  "variables": {
+    "747d0495-341f-42b2-8788-b47dace22bf8": {
+      "root": true,
+      "children": ["c4c35a40-eecb-4e76-b4f0-03fd49f5806c"]
+    },
+    "c4c35a40-eecb-4e76-b4f0-03fd49f5806c": {
+      "name": "variable_1",
+      "type": "string",
+      "value": null
+    }
+  },
+  "components": {
+    "07b05823-be77-4d96-a1fc-af1639b54b46": {
+      "name": "Troll",
+      "assets": {
+        "cover": {
+          "id": "0d68911c-580d-4800-aba5-895f82f8951b"
+        }
+      },
+      "attributes": []
+    },
+    "64e88183-7aaf-4bf3-9f98-eb821e36afab": {
+      "name": "Web3 Prophet",
+      "attributes": []
+    },
+    "65005bda-15d0-41c5-867f-68c118829f08": {
+      "name": "Root",
+      "root": true,
+      "children": [
+        "f3858ad5-898b-4b89-95bb-b87de66c47ff",
+        "c6845d7b-700c-491f-855d-8913e229e563",
+        "07b05823-be77-4d96-a1fc-af1639b54b46",
+        "64e88183-7aaf-4bf3-9f98-eb821e36afab"
+      ]
+    },
+    "c6845d7b-700c-491f-855d-8913e229e563": {
+      "name": "Characters",
+      "children": []
+    },
+    "f3858ad5-898b-4b89-95bb-b87de66c47ff": {
+      "name": "The Great Houses",
+      "attributes": [
+        "37b4afc6-461b-4b82-9de2-71486497b63e",
+        "fda44d23-2a8f-4bad-a2b4-24b7d6371406",
+        "15a92c0f-7e7e-4e5b-b62f-51b2ab918181",
+        "7d8ddfe4-49ff-47b5-92fd-cee22371154b"
+      ]
+    }
+  },
+  "attributes": {
+    "15a92c0f-7e7e-4e5b-b62f-51b2ab918181": {
+      "name": null,
+      "value": {
+        "data": [],
+        "type": "component-list"
+      }
+    },
+    "37b4afc6-461b-4b82-9de2-71486497b63e": {
+      "name": "House of Ethereum",
+      "value": {
+        "data": "<p></p>",
+        "type": "string"
+      }
+    },
+    "7d8ddfe4-49ff-47b5-92fd-cee22371154b": {
+      "name": null,
+      "value": {
+        "data": [],
+        "type": "component-list"
+      }
+    },
+    "fda44d23-2a8f-4bad-a2b4-24b7d6371406": {
+      "name": "House of DAOs",
+      "value": {
+        "data": null,
+        "type": "string"
+      }
+    }
+  },
+  "name": "The Onboarding Game",
+  "cover": null
+}

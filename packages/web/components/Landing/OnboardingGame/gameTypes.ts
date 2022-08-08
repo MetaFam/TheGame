@@ -16,6 +16,9 @@ export interface IGameContext {
   gameState: (place?: string, reset?: boolean) => IGameState['state'];
   handleChoice: (choice: string) => Promise<string | undefined>;
   resetGame: () => boolean;
+  typeText: (name: string) => string;
+  fetchGameData: () => Promise<void | GameProperties>;
+  loading: boolean;
 }
 
 export interface IComponentsObject {
