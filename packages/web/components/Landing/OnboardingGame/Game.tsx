@@ -1,8 +1,6 @@
 import {
   Box,
   Button,
-  ExternalLinkIcon,
-  Heading,
   ListItem,
   Spinner,
   Text,
@@ -11,7 +9,7 @@ import {
 import externalLinkIcon from 'assets/landing/external-link-icon.png';
 import { CONFIG } from 'config';
 import { useGame } from 'contexts/GameContext';
-import { useOnScreen } from 'lib/hooks/useOnScreen';
+// import { useOnScreen } from 'lib/hooks/useOnScreen';
 import { ReactElement, useCallback, useEffect, useRef, useState } from 'react';
 import { safelyParseContent } from 'utils/stringHelpers';
 
@@ -31,8 +29,8 @@ export type ConnectionStateItem = IConnection & {
 
 export const OnboardingGame: React.FC = (): JSX.Element => {
   const ref = useRef<HTMLDivElement>(null);
-  const onScreen = useOnScreen(ref);
-  const { gameState, handleChoice, resetGame, loading } = useGame();
+  // const onScreen = useOnScreen(ref);
+  const { gameState, handleChoice, resetGame } = useGame();
   const [currentElement, setCurrentElement] = useState<CurrentElementState>();
   const [currentConnections, setCurrentConnections] =
     useState<ConnectionStateItem[]>();
@@ -95,12 +93,12 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
             state !== null
               ? data.elements[state]
               : data.elements[data.startingElement];
-          console.log('gameDataState', data);
+          // console.log('gameDataState', data);
           const elementData = {
             ...element,
             elementId: state ?? data.startingElement,
           };
-          console.log('elementData', elementData);
+          // console.log('elementData', elementData);
 
           setCurrentElement(elementData);
         }
@@ -140,7 +138,7 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
         setIsLoading(false);
       })
       .catch((err) => {
-        // console.log('handleProgress error: ', { err });
+        console.log('handleProgress error: ', { err });
         setIsLoading(false);
       });
   };
@@ -176,25 +174,12 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
   };
 
   useEffect(() => {
-    console.log('OnboardingGame: useEffect');
-    // console.log('OnboardingGame: game', { game });
-    // console.log('OnboardingGame: gameState', {
-    //   name,
-    //   startingElement,
-    //   elements,
-    // });
     initGame();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     if (currentElement !== undefined && currentElement.outputs !== null) {
-      const { outputs } = currentElement;
-      // console.log('OnboardingGame: get connections useEffect', {
-      //   currentElement,
-      //   outputs,
-      // });
-
       getConnections(currentElement.outputs);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -247,6 +232,7 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
                 mb: 5,
                 p: {
                   fontSize: 'lg',
+                  lineHeight: '1.7rem',
                   marginBottom: '1rem',
                   opacity: isLoading ? 0.2 : 1,
                   transform: isLoading
@@ -257,7 +243,8 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
                 },
                 a: {
                   position: 'relative',
-                  color: 'var(--chakra-colors-landing550)',
+                  color: 'var(--chakra-colors-landing350)',
+                  borderBottom: '1px solid var(--chakra-colors-landing350)',
                   '&::after': {
                     content: '" "',
                     display: 'block',
