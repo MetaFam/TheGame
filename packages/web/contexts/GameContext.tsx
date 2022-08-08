@@ -1,21 +1,13 @@
 import type {
   GameProperties,
   GamePropertiesType,
-  IElementsObject,
   IGameContext,
   IGameState,
 } from 'components/Landing/OnboardingGame/gameTypes';
 import { CONFIG } from 'config';
 import gsap from 'gsap';
 import { TextPlugin } from 'gsap/dist/TextPlugin';
-import { useRouter } from 'next/router';
-import React, {
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
+import React, { useCallback, useContext, useMemo, useState } from 'react';
 
 // import gameJson from '../components/Landing/OnboardingGame/metagame-onboarding-game.json';
 import { get, remove, set } from '../lib/store';
@@ -141,8 +133,6 @@ export const GameContextProvider: React.FC = ({ children }) => {
     new Promise((resolve) => {
       setTimeout(resolve, delay);
     });
-
-  const router = useRouter();
 
   /** Callback function to handle the users choices.
    *
