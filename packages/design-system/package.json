@@ -30,7 +30,7 @@
     "@metafam/utils": "1.0.1",
     "city-timezones": "1.2.0",
     "framer-motion": "6.2.8",
-    "next": "10.2.3",
+    "next": "12.2.4",
     "react-select": "5.2.2",
     "react-timezone-select": "1.0.3",
     "spacetime": "7.1.2",
