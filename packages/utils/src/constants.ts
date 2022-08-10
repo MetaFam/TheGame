@@ -23,5 +23,5 @@ export const {
 } = process.env;
 export const IPFS_LINK_PATTERN =
   process.env.IPFS_LINK_PATTERN ||
-  'https://ipfs.infura.io/ipfs/{cid}/{path}' ||
+  'https://gateway.ipfs.io/ipfs/{cid}/{path}' ||
   'https://{v1cid}.ipfs.dweb.link/{path}';
