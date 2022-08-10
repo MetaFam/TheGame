@@ -22,6 +22,6 @@ export const {
   NEXT_PUBLIC_IMGIX_DOMAIN: IMGIX_DOMAIN = 'metafam.imgix.net',
 } = process.env;
 export const IPFS_LINK_PATTERN =
-  process.env.IPFS_LINK_PATTERN ||
+  process.env.NEXT_PUBLIC_IPFS_LINK_PATTERN ||
   'https://gateway.ipfs.io/ipfs/{cid}/{path}' ||
   'https://{v1cid}.ipfs.dweb.link/{path}';
