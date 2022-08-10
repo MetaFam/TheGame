@@ -38,6 +38,7 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
   const [gameDataState, setGameDataState] = useState<GamePropertiesType | null>(
     null,
   );
+  const [welcomeBack, setWelcomeBack] = useState(false);
   /** Function to async fetch `CONFIG.onboardingGameDataURL` as json and return the data */
   const fetchGameData = useCallback(async () => {
     try {
@@ -89,10 +90,12 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
         if (data) {
           setGameDataState(data);
           const state = gameState();
+
           const element =
             state !== null
               ? data.elements[state]
               : data.elements[data.startingElement];
+
           // console.log('gameDataState', data);
           const elementData = {
             ...element,
@@ -102,12 +105,18 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
 
           setCurrentElement(elementData);
         }
-        setIsLoading(false);
+        return data;
+      })
+      .then((data) => {
+        if (data) {
+          setIsLoading(false);
+        }
       })
       .catch((error) => {
         console.error(error);
         setIsLoading(false);
-      });
+      })
+      .finally(() => {});
     // }
     // const state = gameState();
     // const element =
@@ -174,6 +183,19 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
   };
 
   useEffect(() => {
+    const state = gameState();
+    if (state && gameDataState !== null) {
+      const isReturning = state !== gameDataState.startingElement;
+      setWelcomeBack(isReturning);
+      setTimeout(() => {
+        setWelcomeBack(false);
+      }, 6000);
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [gameDataState]);
+
+  useEffect(() => {
     initGame();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -192,7 +214,7 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
       height="100vh"
       width="100%"
       fontFamily="onboarding"
-      justifyContent="center"
+      justifyContent={isLoading ? 'center' : 'flex-start'}
       alignContent="center"
       alignItems="center"
       py={32}
@@ -215,6 +237,7 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
             '2xl': '4rem',
           }}
           pl={{ base: 0, md: 0 }}
+          pt={{ base: 10, md: 20 }}
           zIndex={100}
           transform={`translate3d(0, ${'0'}, 0)`}
           opacity={1}
@@ -231,7 +254,7 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
                 lineHeight: 1,
                 mb: 5,
                 p: {
-                  fontSize: 'lg',
+                  fontSize: 'large',
                   lineHeight: '1.7rem',
                   marginBottom: '1rem',
                   opacity: isLoading ? 0.2 : 1,
@@ -263,6 +286,16 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
                 },
               }}
             >
+              <Box
+                opacity={welcomeBack ? 1 : 0}
+                transition="all 0.3s ease"
+                fontSize="3xl"
+                aria-hidden={welcomeBack ? 'false' : 'true'}
+                mb={6}
+                textAlign="center"
+              >
+                Welcome back Anon!
+              </Box>
               {currentElement?.title
                 ? safelyParseContent(currentElement?.title)
                 : null}
@@ -272,7 +305,7 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
             </Box>
             <Box
               className="responses"
-              fontSize="lg"
+              fontSize="large"
               opacity={isLoading ? 0 : 1}
               transform={`translate3d(0, ${isLoading ? 1 : 0}, 0)`}
               lineHeight={1}
@@ -319,7 +352,7 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
                             borderBottom:
                               '2px solid var(--chakra-colors-landing500)',
                           }}
-                          fontSize="lg"
+                          fontSize="large"
                           sx={{
                             '& > p': {
                               display: 'inline-block',
@@ -339,7 +372,19 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
                   </Box>
                 )}
               </UnorderedList>
-              <Button variant="ghost" onClick={handleReset}>
+              <Button
+                variant="ghost"
+                display="inline-block"
+                fontWeight="normal"
+                textShadow={`0 0 8px var(--chakra-colors-landing500)`}
+                borderBottom="2px solid var(--chakra-colors-landing550)"
+                borderRadius="inherit inherit 0 0"
+                wordBreak="break-word"
+                px={0}
+                textAlign="left"
+                fontSize="large"
+                onClick={handleReset}
+              >
                 Start again
               </Button>
             </Box>
