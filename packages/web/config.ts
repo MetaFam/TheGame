@@ -32,5 +32,5 @@ export const CONFIG = {
   web3StorageToken: process.env.WEB3_STORAGE_TOKEN || '',
   openseaApiKey: process.env.OPENSEA_API_KEY || '',
   onboardingGameDataURL:
-    'https://ipfs.io/ipfs/QmVHCqsNZ6hnApni3KEHBrhfsoiyakVAE3vFj3yqbbhsLR?filename=metagame-onboarding-game.json',
+    'https://ipfs.fleek.co/ipfs/bafybeidysjcfocrgyww66v4kvxg5ooollmatz7eebgwzxa4dqnek4l32t4',
 };
