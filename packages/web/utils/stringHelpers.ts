@@ -17,7 +17,6 @@ export const hashCode = (str: string): string => {
  * */
 export const safelyParseContent = (content: string) => {
   const clean = DOMPurify.sanitize(content);
-
   const options = {
     replace: (domNode: any) => {
       if (domNode.attribs?.href) {
@@ -27,5 +26,33 @@ export const safelyParseContent = (content: string) => {
       }
     },
   };
-  return parse(clean, options);
+
+  const parsed = parse(clean, options);
+  return parsed;
+};
+
+/**
+ * Takes a string of HTML elements, sanitizes it,
+ * applies classNames to the elements & returns parsed HTML as
+ * `JSX.Element | JSX.Element[] | string` */
+export const safelyParseTextForTyping = (content: string) => {
+  const clean = DOMPurify.sanitize(content);
+  const options = {
+    replace: (domNode: any) => {
+      if (domNode.type === 'tag' && domNode.children.length > 0) {
+        if (domNode.parent === null) {
+          domNode.attribs.class = 'typing-text';
+        }
+        if (domNode.attribs?.href) {
+          domNode.parent.attribs.class = 'dont-type';
+          domNode.attribs.target = '_blank';
+          domNode.attribs.title = `Opens new tab to ${domNode.attribs.href}`;
+          domNode.attribs.class = 'external-link';
+        }
+      }
+    },
+  };
+
+  const parsed = parse(clean, options);
+  return parsed;
 };
