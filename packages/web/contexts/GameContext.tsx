@@ -53,6 +53,8 @@ export const GameContextProvider: React.FC = ({ children }) => {
     }
   }, []);
 
+  // const typingText = useCallback((text: string) => { });
+
   // useEffect(() => {
   //   if (gameDataState === undefined) {
   //     fetchGameData();
@@ -141,7 +143,7 @@ export const GameContextProvider: React.FC = ({ children }) => {
   const handleChoice = useCallback(
     async (target: string): Promise<string | undefined> => {
       try {
-        await fakeLoading(1000);
+        await fakeLoading(500);
 
         if (target) gameState(target);
         const success = gameState() === target;
