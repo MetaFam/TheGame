@@ -4,7 +4,6 @@ import {
   Button,
   keyframes,
   ListItem,
-  Spinner,
   Text,
   UnorderedList,
 } from '@metafam/ds';
@@ -12,8 +11,7 @@ import externalLinkIcon from 'assets/landing/external-link-icon.png';
 import octoImg from 'assets/octopus.png';
 import { CONFIG } from 'config';
 import { useGame } from 'contexts/GameContext';
-import { parse } from 'node:path/win32';
-// import { useOnScreen } from 'lib/hooks/useOnScreen';
+import { useOnScreen } from 'lib/hooks/useOnScreen';
 import { ReactElement, useCallback, useEffect, useRef, useState } from 'react';
 import {
   safelyParseContent,
@@ -24,7 +22,10 @@ import type {
   GameProperties,
   GamePropertiesType,
   IConnection,
+  IConnectionsObject,
   IElement,
+  IJumper,
+  IJumpersObject,
 } from './gameTypes';
 
 export type CurrentElementState = IElement & {
@@ -34,13 +35,20 @@ export type ConnectionStateItem = IConnection & {
   connectionId: string;
 };
 
+export type CurrentJumperState = IJumper & {
+  jumperId: string;
+};
+
 export const OnboardingGame: React.FC = (): JSX.Element => {
   const ref = useRef<HTMLDivElement>(null);
-  // const onScreen = useOnScreen(ref);
+  const scrollContentRef = useRef<HTMLDivElement>(null);
+  const scrollerRef = useRef<HTMLDivElement>(null);
+  const onScreen = useOnScreen(ref);
   const { gameState, handleChoice, resetGame } = useGame();
   const [currentElement, setCurrentElement] = useState<CurrentElementState>();
   const [currentConnections, setCurrentConnections] =
     useState<ConnectionStateItem[]>();
+  const [currentJumpers, setCurrentJumpers] = useState<CurrentJumperState[]>();
   const [currentDialogue, setCurrentDialogue] =
     useState<CurrentSectionDialogueChoices['currentDialogue']>();
   const [currentChoices, setCurrentChoices] =
@@ -83,6 +91,8 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
         startingElement,
         elements,
         connections,
+        jumpers,
+        attributes,
         components,
       } = data;
       // setGameDataState(data);
@@ -93,6 +103,8 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
         startingElement,
         elements,
         connections,
+        jumpers,
+        attributes,
         components,
       } as GameProperties;
     } catch (error) {
@@ -105,6 +117,8 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
         startingElement: '',
         elements: {},
         connections: {},
+        jumpers: {},
+        attributes: {},
         components: {},
       } as GameProperties;
     }
@@ -127,19 +141,28 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
               : data.elements[data.startingElement];
 
           // console.log('gameDataState', data);
-          const elementData = {
+          const elementData: CurrentElementState = {
             ...element,
             elementId: state ?? data.startingElement,
           };
-          // console.log('elementData', elementData);
+          console.log('elementData', elementData);
 
           setCurrentElement(elementData);
-          makeCurrentSectionDialogue(elementData);
+          // setCurrentConnections(
+          //   data.connections[elementData.elementId] || [],
+          // );
+          // setCurrentJumpers(data.jumpers[elementData.elementId] || []);
+          // setCurrentDialogue(elementData.dialogue);
+          // setCurrentChoices(elementData.choices);
+          // setIsLoading(false);
+          return elementData;
         }
-        return data;
+        throw new Error('No data found');
       })
       .then((data) => {
         if (data) {
+          makeCurrentSectionDialogue(data);
+          console.log('currentElement', currentElement, data);
           setIsLoading(false);
         }
       })
@@ -148,18 +171,6 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
         setIsLoading(false);
       })
       .finally(() => {});
-    // }
-    // const state = gameState();
-    // const element =
-    //   state !== null ? elements[state] : elements[startingElement];
-
-    // if (state === null) {
-    //   console.log('FreshGame', element);
-    //   gameState(startingElement);
-    // }
-    // // console.log('from game state', { state, element }, elements[startingElement]);
-    // const elementData = { ...element, elementId: state ?? startingElement };
-    // setCurrentElement(elementData);
   };
 
   const handleReset = () => {
@@ -192,7 +203,63 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
     }
   };
 
-  /** for returning players */
+  /** Get the jumpers, if any, for the current element */
+  const getJumpers = (jumperIds: string[]) => {
+    try {
+      if (jumperIds.length > 0) {
+        // console.log('getJumpers', { jumperIds });
+
+        const elementJumpers = jumperIds.map((id: string) => {
+          console.log('elementJumpers', { id });
+
+          const jumperData = {
+            ...gameDataState?.jumpers[id],
+            jumperId: id,
+            // elementId: jumpers[id].elementId,
+          };
+          console.log('jumperData', jumperData);
+
+          return jumperData;
+        });
+
+        // console.log('getJumpers returns', { elementJumpers });
+
+        setCurrentJumpers(elementJumpers);
+        console.log('set jumpers', { elementJumpers });
+
+        return elementJumpers;
+      }
+      throw new Error('No jumpers found');
+    } catch (error) {
+      // console.log('getJumpers ', { error });
+      return undefined;
+    }
+  };
+
+  /** Effect to make `scrollerRef` the same height as `scrollContentRef`
+   *  so we get a scrollbar for the overflowing content */
+  // useEffect(() => {
+  //   if (typeof window !== 'undefined') {
+  //     if (scrollContentRef.current !== null && scrollerRef.current !== null) {
+  //       console.log('scrollContentRef', scrollContentRef.current, scrollerRef.current);
+
+  //       document.addEventListener('load', () => {
+  //         console.log('listening', scrollContentRef.current, scrollerRef.current);
+  //         if (scrollContentRef.current !== null && scrollerRef.current !== null) {
+
+  //           scrollerRef.current.style.height = `${scrollContentRef.current.offsetHeight}px`;
+  //         }
+  //       })
+  //     }
+  //   }
+  //     return (): void => {
+
+  //         // scrollContentRef.current.removeEventListener('onchange')
+  //     }
+
+  // }, []);
+
+  /** Welcome back for returning players */
   useEffect(() => {
     const state = gameState();
     if (state && gameDataState !== null) {
@@ -206,14 +273,43 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gameDataState]);
 
+  /** Call the init() function on mount */
   useEffect(() => {
     initGame();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  /** Call to get connections when the current element changes */
   useEffect(() => {
     if (currentElement !== undefined && currentElement.outputs !== null) {
+      // setCurrentConnections([])
       getConnections(currentElement.outputs);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentElement]);
+
+  /** Call to get jumpers when the current element changes */
+  useEffect(() => {
+    if (currentConnections !== undefined && currentConnections.length > 0) {
+      // setCurrentJumpers([])
+      const jumpers: any[] = currentConnections.filter(
+        (
+          connection: ConnectionStateItem,
+        ): IConnection['targetid'] | undefined => {
+          if (connection.targetType === 'jumpers') {
+            // console.log('We found a jumper', connection);
+            return connection.targetid;
+          }
+          return undefined;
+        },
+      );
+      if (jumpers !== undefined && jumpers.length > 0) {
+        console.log('Mapping jumpers...', jumpers);
+
+        const jumperIds = jumpers.map((jumper: IConnection) => jumper.targetid);
+        console.log('jumperIds', jumperIds);
+        getJumpers(jumperIds);
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentElement]);
@@ -228,25 +324,11 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
   const makeCurrentSectionDialogue = (
     section: CurrentElementState,
   ): CurrentSectionDialogueChoices => {
-    // if (typeof window === 'undefined') return;
     const { content, title } = section;
-    let parsedContent: any;
+    const string = `${title ?? '<p></p>'}${content ?? '<p></p>'}`;
+    const parsedContent: any = safelyParseTextForTyping(string);
     const dialogue: any[] = [];
     const choices: any[] = [];
-    if (content !== null || title !== null) {
-      console.log('makeCurrentSectionDialogue', { content, title });
-
-      if (title !== null && content !== null) {
-        const string = `${title}${content}`;
-        console.log('string', string);
-
-        parsedContent = safelyParseTextForTyping(string);
-      } else {
-        parsedContent = safelyParseTextForTyping(content ?? title);
-      }
-    }
-
-    console.log('parsedContent', parsedContent);
 
     /**
      * if it is set, take the parsedContent, find & push paragraphs that contain *no* links as child elements
@@ -254,31 +336,40 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
      * if the paragraph has a link, push it into the `choices` array.
      */
     if (parsedContent.length > 0) {
+      console.log('parsedContent', parsedContent);
       parsedContent.forEach((paragraph: JSX.Element) => {
         const { children } = paragraph.props;
+        console.log('children', children);
 
         if (children) {
           const hasLink = children.type === 'a';
           if (!hasLink) {
+            console.log('no link', paragraph);
+
             dialogue.push(paragraph);
           } else {
+            console.log('has link', children);
             choices.push(children);
           }
         }
+        return paragraph;
       });
-      console.log('makeCurrentSectionDialog', { dialogue, choices });
     }
     setCurrentDialogue(dialogue);
     setCurrentChoices(choices);
+    console.log('makeCurrentSectionDialogue', { dialogue, choices });
     return {
       currentDialogue: dialogue,
       currentChoices: choices,
     };
   };
 
+  /** Handles the typing effect.
+   * TODO: probs should be extracteed to a separate component/function */
   useEffect(() => {
     if (typeof window !== 'undefined' && currentDialogue !== undefined) {
       // makeCurrentSectionDialogue(currentElement);
+      setIsTyping(true);
       const elementsToType = document.querySelectorAll('.typing-text');
       // console.log('elementsToType', elementsToType);
 
@@ -295,10 +386,10 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
       let j = 0;
       let currentPhrase: string[] = [];
       let hasEnded = false;
-      setIsTyping(true);
       const loop = () => {
         if (i < elementsToType.length) {
           if (j <= phrases[i].length) {
+            elementsToType[i].classList.remove('typed');
             elementsToType[i].classList.add('typing');
 
             currentPhrase.push(phrases[i][j]);
@@ -311,6 +402,7 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
           if (j === phrases[i].length) {
             if (i < elementsToType.length - 1) {
               elementsToType[i].classList.remove('typing');
+              elementsToType[i].classList.add('typed');
             }
             currentPhrase = [];
             j = 0;
@@ -318,6 +410,7 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
           }
           if (i === phrases.length) {
             hasEnded = true;
+
             setIsTyping(false);
           }
         }
@@ -331,29 +424,61 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
   }, [isLoading, currentElement]);
 
   const handleProgress = (elementId: string) => {
+    let hasRun = false;
+    let elId: string = elementId;
     setIsLoading(true);
-    // console.log('handleProgress', currentElement);
-    handleChoice(elementId)
-      .then((data) => {
-        // console.log('handleChoice', data);
-        const nextElement =
-          data !== undefined
-            ? { ...gameDataState?.elements[data], elementId: data }
-            : undefined;
-        if (nextElement !== undefined) {
-          setCurrentElement(nextElement);
-          makeCurrentSectionDialogue(nextElement);
+    console.log('handleProgress', { elementId, currentJumpers });
+    const jumperOrElement = (id: string) => {
+      console.log('jumperOrElement', { id, currentJumpers });
+
+      if (currentJumpers !== undefined && currentJumpers.length > 0) {
+        for (let i = 0; i < currentJumpers.length; i++) {
+          console.log('currentJumpers[i]', currentJumpers[i]);
+
+          const jumper = currentJumpers[i];
+          if (jumper.jumperId === id) {
+            console.log('jumper translate', jumper.elementId);
+
+            elId = jumper.elementId;
+          }
+          console.log('jumperOrElement', { id, jumper, elId });
         }
-        setIsLoading(false);
-      })
-      .catch((err) => {
-        console.log('handleProgress error: ', { err });
-        setIsLoading(false);
-      });
+      }
+      hasRun = true;
+      return elId;
+    };
+
+    if (hasRun) {
+      console.log('hasRun', elId);
+
+      handleChoice(elId)
+        .then((data) => {
+          console.log('handleChoice returned', { data });
+
+          const nextElement =
+            data !== undefined
+              ? { ...gameDataState?.elements[data], elementId: data }
+              : undefined;
+          if (nextElement !== undefined) {
+            console.log('nextElement', nextElement);
+
+            setCurrentElement(nextElement);
+            makeCurrentSectionDialogue(nextElement);
+          }
+          setIsLoading(false);
+        })
+        .catch((err) => {
+          console.log('handleProgress error: ', { err });
+          setIsLoading(false);
+        });
+      hasRun = false;
+    }
+    jumperOrElement(elId);
   };
 
   return (
     <Box
+      position="relative"
       display="flex"
       flexDirection="column"
       height="100vh"
@@ -364,16 +489,31 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
       alignItems="center"
       py={32}
     >
+      <Box
+        ref={ref}
+        position="absolute"
+        // border="1px solid"
+        top="25vh"
+        right={0}
+        width={1}
+        height="50vh"
+        pointerEvents="none"
+        zIndex={0}
+      />
       {!isLoading && gameDataState !== null ? (
         <Box
-          ref={ref}
-          display="flex"
+          position="fixed"
+          bottom="22%"
           flexDirection="column"
-          justifyContent="center"
+          justifyContent="flex-start"
           color="var(--chakra-colors-landing550)"
           textShadow={`0 0 10px var(--chakra-colors-landing500)`}
-          maxW="2xl"
+          maxW="3xl"
+          height="100vh"
+          maxH="66vh"
+          overflowY="auto"
           width="100%"
+          // border="1px solid var(--chakra-colors-landing550)"
           fontSize={{ base: '1.5rem', md: '5xl', xl: '4xl', '2xl': '3rem' }}
           lineHeight={{
             base: '2.25rem',
@@ -382,41 +522,60 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
             '2xl': '4rem',
           }}
           pl={{ base: 0, md: 0 }}
-          pt={{ base: 10, md: 20 }}
-          zIndex={100}
+          py={{ base: 10, md: 10 }}
+          zIndex={onScreen ? 0 : -20}
           transform={`translate3d(0, ${'0'}, 0)`}
-          opacity={1}
           transition="transform 0.3s 0.1s ease-in-out, opacity 0.5s 0.2s ease-in"
         >
+          {/* <Box ref={scrollerRef} position="relative" width="100%" overflowY="visible"> */}
           {/* {currentElement !== undefined ? ( */}
-          <Box className="step">
+          <Box
+            ref={scrollContentRef}
+            className="step"
+            // height="auto" minH="fit-content" width="full" opacity={onScreen ? 1 : 0} zIndex={onScreen ? 0 : -20} position="absolute" bottom="0"
+            display="flex"
+            flexDirection="column"
+            justifyContent="space-between"
+            alignItems="flex-start"
+            flexGrow={1}
+            height="full"
+            opacity={onScreen ? 1 : 0}
+            transition="opacity 0.5s 0.2s ease-in"
+          >
             <Box
               className="question"
               sx={{
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'flex-start',
+                justifySelf: 'flex-start',
+                // border: '1px solid var(--chakra-colors-landing550)',
                 lineHeight: 1,
                 mb: 2,
                 p: {
                   fontSize: 'large',
                   lineHeight: '1.7rem',
                   marginBottom: '1rem',
-                  opacity: isLoading ? 0 : 1,
-                  transform: isLoading
-                    ? 'translate3d(0, -10px, 0)'
-                    : 'translate3d(0, 0, 0)',
-                  transition:
-                    'transform 0.3s 0.1s ease-in-out, opacity 0.5s 0.2s ease-in',
+                  // opacity: isLoading ? 0 : 1,
+                  // transform: isLoading
+                  //   ? 'translate3d(0, -10px, 0)'
+                  //   : 'translate3d(0, 0, 0)',
+                  // transition:
+                  //   'transform 0.3s 0.1s ease-in-out, opacity 0.5s 0.2s ease-in',
                 },
 
                 '.typing-text': {
+                  '&.typed': {
+                    display: 'block',
+                  },
+                  display: 'none',
                   '&.typing': {
+                    display: 'block',
                     span: {
                       display: 'inline-block',
                       right: 0,
                       bottom: 0,
-                      transform: 'translate3d(-2px, 1px, 0)',
+                      transform: 'translate3d(0, 1px, 0)',
                       height: '1rem',
                       width: 0,
                       borderLeft: '2px solid var(--chakra-colors-landing550)',
@@ -432,9 +591,12 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
                 opacity={welcomeBack ? 1 : 0}
                 transition="all 0.3s ease"
                 fontSize="3xl"
+                width="100%"
+                visibility={welcomeBack ? 'visible' : 'hidden'}
                 aria-hidden={welcomeBack ? 'false' : 'true'}
-                mb={6}
-                textAlign="center"
+                height={welcomeBack ? 'auto' : '0'}
+                mb={welcomeBack ? 6 : 0}
+                textAlign="left"
               >
                 Welcome back Anon!
               </Box>
@@ -446,18 +608,22 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
             <Box
               className="responses"
               fontSize="large"
+              justifySelf="flex-end"
+              flexGrow={0}
+              width="full"
+              flexShrink={0}
               lineHeight={1}
               sx={{
                 p: {
                   fontSize: 'large',
                   lineHeight: '1.7rem',
                   marginBottom: '1rem',
-                  opacity: isLoading ? 0 : 1,
-                  transform: isLoading
-                    ? 'translate3d(0, -10px, 0)'
-                    : 'translate3d(0, 0, 0)',
-                  transition:
-                    'transform 0.3s 0.1s ease-in-out, opacity 0.5s 0.2s ease-in',
+                  // opacity: isLoading ? 0 : 1,
+                  // transform: isLoading
+                  //   ? 'translate3d(0, -10px, 0)'
+                  //   : 'translate3d(0, 0, 0)',
+                  // transition:
+                  //   'transform 0.3s 0.1s ease-in-out, opacity 0.5s 0.2s ease-in',
                 },
                 a: {
                   position: 'relative',
@@ -469,13 +635,13 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
                     content: '" "',
                     display: 'block',
                     position: 'absolute',
-                    right: -10,
+                    right: -5,
                     top: 0,
-                    width: '1rem',
-                    height: '1rem',
+                    width: '0.75rem',
+                    height: '0.75rem',
                     backgroundImage: `url(${externalLinkIcon})`,
                     backgroundRepeat: 'no-repeat',
-                    backgroundSize: '1rem',
+                    backgroundSize: '0.75rem',
                     backgroundPosition: 'center',
                     filter:
                       'drop-shadow(0 0 0.5rem var(--chakra-colors-landing500))',
@@ -488,8 +654,11 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
                 display="flex"
                 flexFlow="column wrap"
                 alignItems="flex-start"
+                width="full"
                 ml={0}
                 opacity={isTyping ? 0 : 1}
+                height={isTyping ? '0' : 'auto'}
+                overflowX="hidden"
                 transition="all 0.3s ease"
               >
                 {currentElement &&
@@ -544,8 +713,7 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
                             borderRadius="inherit inherit 0 0"
                             wordBreak="break-word"
                             textAlign="left"
-                            maxW="md"
-                            width={'100%'}
+                            width={'auto'}
                             _hover={{
                               backgroundColor: 'transparent',
                               color: 'var(--chakra-colors-landing500)',
@@ -598,6 +766,7 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
           </Box>
         </Box>
       ) : (
+        // </Box>
         <BoxedNextImage
           src={octoImg}
           animation={pulseAnimation}
