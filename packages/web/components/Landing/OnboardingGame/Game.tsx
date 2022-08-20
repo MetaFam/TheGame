@@ -22,10 +22,10 @@ import type {
   GameProperties,
   GamePropertiesType,
   IConnection,
-  IConnectionsObject,
+  // IConnectionsObject,
   IElement,
   IJumper,
-  IJumpersObject,
+  // IJumpersObject,
 } from './gameTypes';
 
 export type CurrentElementState = IElement & {
@@ -42,7 +42,7 @@ export type CurrentJumperState = IJumper & {
 export const OnboardingGame: React.FC = (): JSX.Element => {
   const ref = useRef<HTMLDivElement>(null);
   const scrollContentRef = useRef<HTMLDivElement>(null);
-  const scrollerRef = useRef<HTMLDivElement>(null);
+  // const scrollerRef = useRef<HTMLDivElement>(null);
   const onScreen = useOnScreen(ref);
   const { gameState, handleChoice, resetGame } = useGame();
   const [currentElement, setCurrentElement] = useState<CurrentElementState>();
@@ -410,6 +410,7 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
           }
           if (i === phrases.length) {
             hasEnded = true;
+            console.log('hasEnded', hasEnded);
 
             setIsTyping(false);
           }
@@ -427,6 +428,8 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
     let hasRun = false;
     let elId: string = elementId;
     setIsLoading(true);
+    console.log('hasrun', hasRun);
+
     console.log('handleProgress', { elementId, currentJumpers });
     const jumperOrElement = (id: string) => {
       console.log('jumperOrElement', { id, currentJumpers });
@@ -441,12 +444,16 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
 
             elId = jumper.elementId;
           }
-          console.log('jumperOrElement', { id, jumper, elId });
+          console.log('jumper', { id, jumper, elId });
         }
       }
+      console.log('element', { id, elId });
+
+      elId = id;
       hasRun = true;
-      return elId;
     };
+
+    jumperOrElement(elId);
 
     if (hasRun) {
       console.log('hasRun', elId);
@@ -473,7 +480,6 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
         });
       hasRun = false;
     }
-    jumperOrElement(elId);
   };
 
   return (
@@ -603,7 +609,7 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
 
               {currentElement &&
                 currentDialogue !== undefined &&
-                currentDialogue.map((dialogue, index) => dialogue)}
+                currentDialogue.map((dialogue) => dialogue)}
             </Box>
             <Box
               className="responses"

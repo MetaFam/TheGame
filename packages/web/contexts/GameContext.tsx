@@ -18,6 +18,8 @@ export const GameContext = React.createContext<IGameContext>({
     startingElement: '',
     assets: {},
     elements: {},
+    jumpers: {},
+    attributes: {},
     connections: {},
     components: {},
   },
