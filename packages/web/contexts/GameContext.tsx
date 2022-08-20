@@ -33,7 +33,10 @@ export const GameContextProvider: React.FC = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [gameDataState, setGameDataState] = useState<GamePropertiesType>();
 
-  /** Function to async fetch `CONFIG.onboardingGameDataURL` as json and return the data */
+  /** Function to async fetch `CONFIG.onboardingGameDataURL` as json and return the data
+   * TODO: this needs the func from the main Game.tsx file to be moved here to replace
+   * this function
+   */
   const fetchGameData = useCallback(async () => {
     try {
       setIsLoading(true);
@@ -122,7 +125,7 @@ export const GameContextProvider: React.FC = ({ children }) => {
     }
     if (reset) {
       remove('OnboardingGameState');
-      console.log('reset game state');
+      // console.log('reset game state');
       // return state;
     }
 
@@ -143,6 +146,8 @@ export const GameContextProvider: React.FC = ({ children }) => {
   const handleChoice = useCallback(
     async (target: string): Promise<string | undefined> => {
       try {
+        console.log('handleChoice', target);
+
         await fakeLoading(500);
 
         if (target) gameState(target);

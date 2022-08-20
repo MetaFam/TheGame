@@ -13,6 +13,7 @@ import { useOnScreen } from 'lib/hooks/useOnScreen';
 import { useRef } from 'react';
 
 import { LandingNextButton } from './LandingNextButton';
+import { Rain } from './OnboardingGame/Rain';
 
 export const WhatDo: React.FC = () => {
   const ref = useRef<HTMLDivElement>(null);
@@ -24,16 +25,7 @@ export const WhatDo: React.FC = () => {
   });
 
   return (
-    <FullPageContainer
-      bgImageUrl={responsiveBg}
-      backgroundBlendMode="normal"
-      backgroundPosition={{ base: 'top', xl: 'center' }}
-      backgroundSize={{ base: 'contain', xl: 'cover' }}
-      backgroundRepeat="no-repeat"
-      id={section}
-      position="relative"
-      overflow="clip"
-    >
+    <FullPageContainer id={section} position="relative" overflow="clip">
       <Container
         d="flex"
         maxW={{ base: '100%', md: 'xl', lg: '7xl', '2xl': '8xl', '4xl': '70%' }}
@@ -232,7 +224,23 @@ export const WhatDo: React.FC = () => {
           </Box>
         </Flex>
       </Box> */}
-      <LandingNextButton section="join-us" />
+      <Rain effectOpacity={0.3} />
+      <Box
+        backgroundImage={responsiveBg}
+        backgroundBlendMode="normal"
+        backgroundPosition={{ base: 'top', xl: 'center' }}
+        backgroundSize={{ base: 'contain', xl: 'cover' }}
+        backgroundRepeat="no-repeat"
+        minH="100vh"
+        minW="100vw"
+        position="absolute"
+        top={0}
+        left={0}
+        right={0}
+        bottom={0}
+        zIndex={1}
+      />
+      <LandingNextButton section="onboard" />
     </FullPageContainer>
   );
 };

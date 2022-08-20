@@ -44,7 +44,6 @@ export const safelyParseTextForTyping = (content: string) => {
           domNode.attribs.class = 'typing-text';
         }
         if (domNode.attribs?.href) {
-          domNode.parent.attribs.class = 'dont-type';
           domNode.attribs.target = '_blank';
           domNode.attribs.title = `Opens new tab to ${domNode.attribs.href}`;
           domNode.attribs.class = 'external-link';

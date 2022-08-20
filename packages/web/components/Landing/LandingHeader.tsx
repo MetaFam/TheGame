@@ -200,8 +200,12 @@ export const LandingHeader: React.FC = () => {
               6. What do?
             </NavLink>
 
+            <NavLink target="onboard" toggle={toggle} setToggle={setToggle}>
+              8. Wake up, Anon...
+            </NavLink>
+
             <NavLink target="join-us" toggle={toggle} setToggle={setToggle}>
-              7. Join us!
+              8. Join us!
             </NavLink>
           </VStack>
         </Stack>
