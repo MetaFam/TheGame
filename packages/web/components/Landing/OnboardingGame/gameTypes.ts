@@ -3,6 +3,8 @@ export interface GameProperties {
   startingElement: string;
   assets?: any;
   elements: any;
+  jumpers: any;
+  attributes: any;
   connections?: any;
   components?: any;
 }
@@ -26,10 +28,23 @@ export interface IComponentsObject {
 export interface IComponent {
   name: string;
   assets: IAsset[] | null;
-  attributes: string[];
+  root?: boolean;
+  attributes: IAttributesObject[];
   children: string[];
 }
 
+export interface IAttributesObject {
+  [key: string]: IAttribute;
+}
+export interface IAttribute {
+  name: string | null;
+  value: IAttributeValue;
+}
+
+export interface IAttributeValue {
+  data: string | number | [] | null;
+  type: string;
+}
 export interface IElementsObject {
   [key: string]: IElement;
 }
@@ -54,6 +69,13 @@ export interface IConnection {
   targetid: string;
   theme: string;
   type: string;
+}
+
+export interface IJumpersObject {
+  [key: string]: IJumper;
+}
+export interface IJumper {
+  elementId: string;
 }
 
 export interface IAssetsObject {

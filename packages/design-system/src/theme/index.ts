@@ -113,6 +113,23 @@ export const theme = extendTheme({
           },
         },
       },
+      '::-webkit-scrollbar': {
+        width: '12px',
+      },
+      '::-webkit-scrollbar-track': {
+        backgroundColor: colors.dark,
+        borderRadius: '2px',
+        boxShadow: 'inset 0 0 5px rgb(0 0 0 / 70%)',
+      },
+      '::-webkit-scrollbar-thumb': {
+        backgroundColor: colors.pink[400],
+        borderRadius: '2px',
+        boxShadow: '0 0 5px rgb(0 0 0 / 70%)',
+        transition: 'background 0.3s ease',
+      },
+      '::-webkit-scrollbar-thumb:hover': {
+        backgroundColor: colors.pink[600],
+      },
       '#__next': {
         background: colors.dark,
         color: colors.white,
