@@ -224,7 +224,7 @@ export const WhatDo: React.FC = () => {
           </Box>
         </Flex>
       </Box> */}
-      <Rain effectOpacity={0.3} />
+      <Rain effectOpacity={0.2} />
       <Box
         backgroundImage={responsiveBg}
         backgroundBlendMode="normal"
