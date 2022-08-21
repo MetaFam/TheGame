@@ -201,7 +201,7 @@ export const LandingHeader: React.FC = () => {
             </NavLink>
 
             <NavLink target="onboard" toggle={toggle} setToggle={setToggle}>
-              8. Wake up, Anon...
+              7. Wake up, Anon...
             </NavLink>
 
             <NavLink target="join-us" toggle={toggle} setToggle={setToggle}>
