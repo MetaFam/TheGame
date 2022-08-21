@@ -63,7 +63,7 @@ export function Rain({
           height="100%"
           zIndex={z ? z + 2 : 2}
           backgroundColor="purpleTag30"
-          backdropFilter="blur(5px)"
+          backdropFilter="blur(7px)"
           pointerEvents="none"
         />
       ) : undefined}

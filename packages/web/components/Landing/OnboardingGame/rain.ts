@@ -26,9 +26,19 @@ class RainSymbol {
       'ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿ';
     const futhark = 'ÆÐENØÞÞØÆ';
     const nums = '0123456789';
-    // const emojis = '🌞🌝🌚🌑🌒🌓🌔🌕🌖🌗🌘🌙🌛🌜🌚🌙🌘🌗🌖🌕🌔🌓🌒🌑🌐🌒🌓🌔🌕🌖🌗🌘🌙🌚🌛🌜🌝🌞';
+    const emojis = '🐙';
+    const symbols = '!@#$%^&*()_+-=[]{}|;:,.<>/?`~';
+
     this.characters =
-      katakana + latin + nums + ukranian + greek + futhark + germanAndFrench;
+      katakana +
+      latin +
+      nums +
+      ukranian +
+      greek +
+      futhark +
+      germanAndFrench +
+      emojis +
+      symbols;
     this.x = x;
     this.y = y;
     this.fontSize = fontSize;

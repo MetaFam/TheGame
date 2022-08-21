@@ -42,7 +42,7 @@ export const GameContextProvider: React.FC = ({ children }) => {
   const fetchGameData = useCallback(async () => {
     try {
       setIsLoading(true);
-      console.log('fetchGameData');
+      console.log('Fetchng GameData...');
 
       const response = await fetch(CONFIG.onboardingGameDataURL);
       const data = (await response.json()) as GameProperties;
@@ -132,14 +132,9 @@ export const GameContextProvider: React.FC = ({ children }) => {
     }
 
     const state = get('OnboardingGameState');
-    console.log('get game state', state);
+    console.log('Saved position', state);
     return state;
   };
-
-  const fakeLoading = (delay: number) =>
-    new Promise((resolve) => {
-      setTimeout(resolve, delay);
-    });
 
   /** Callback function to handle the users choices.
    *
@@ -150,7 +145,7 @@ export const GameContextProvider: React.FC = ({ children }) => {
       try {
         console.log('handleChoice', target);
 
-        await fakeLoading(500);
+        // await fakeLoading(500);
 
         if (target) gameState(target);
         const success = gameState() === target;
