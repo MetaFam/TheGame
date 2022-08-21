@@ -1,5 +1,4 @@
-import { Box, Container } from '@metafam/ds';
-import BackgroundImage from 'assets/landing/sections/section-6-rerender-001.png';
+import { Container } from '@metafam/ds';
 import { FullPageContainer } from 'components/Container';
 import { GameContextProvider } from 'contexts/GameContext';
 import React from 'react';
@@ -19,7 +18,7 @@ export const Onboard: React.FC = () => {
       fontSize={{ base: 'xl', md: '5xl' }}
       spacing={12}
       px={{ base: 3, lg: 12 }}
-      py="8rem"
+      py="6rem"
       minH={{ base: 'unset', md: '100vh' }}
     >
       <Container
@@ -34,8 +33,8 @@ export const Onboard: React.FC = () => {
           <OnboardingGame />
         </GameContextProvider>
       </Container>
-      <Rain top={-12} />
-      <Box
+      <Rain top={-12} effectOpacity={0.3} />
+      {/* <Box
         backgroundImage={BackgroundImage}
         backgroundBlendMode="normal"
         backgroundSize={{ base: '170%', lg: 'contain' }}
@@ -50,7 +49,7 @@ export const Onboard: React.FC = () => {
         right={0}
         bottom={0}
         zIndex={1}
-      />
+      /> */}
       <LandingNextButton py={2} section="join-us" />
     </FullPageContainer>
   );
