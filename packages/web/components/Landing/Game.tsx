@@ -1,6 +1,9 @@
 import { Box, Container, Text, useBreakpointValue } from '@metafam/ds';
-import BackgroundImageDesktop from 'assets/landing/sections/section-2.jpg';
+import BackgroundImage5xl from 'assets/landing/sections/section-2.jpg';
 import BackgroundImageMobile from 'assets/landing/sections/section-2.sm.jpg';
+import BackgroundImage2xl from 'assets/landing/sections/section-2-2xl.jpg';
+import BackgroundImage4xl from 'assets/landing/sections/section-2-4xl.jpg';
+import BackgroundImageLg from 'assets/landing/sections/section-2-lg.jpg';
 import { FullPageContainer } from 'components/Container';
 import { MetaLink } from 'components/Link';
 import { useOnScreen } from 'lib/hooks/useOnScreen';
@@ -14,7 +17,10 @@ export const Game: React.FC = () => {
   const section = 'wtf-is-a-metagame';
   const responsiveBg = useBreakpointValue({
     base: BackgroundImageMobile,
-    md: BackgroundImageDesktop,
+    xl: BackgroundImageLg,
+    '2xl': BackgroundImage2xl,
+    '3xl': BackgroundImage4xl,
+    '5xl': BackgroundImage5xl,
   });
 
   return (
