@@ -114,7 +114,7 @@ export const theme = extendTheme({
         },
       },
       '::-webkit-scrollbar': {
-        width: '12px',
+        width: { base: '5px', lg: '12px' },
       },
       '::-webkit-scrollbar-track': {
         backgroundColor: colors.dark,
