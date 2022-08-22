@@ -161,7 +161,7 @@ export const Socials: React.FC = () => (
   <VStack
     position="fixed"
     top="33%"
-    right={{ base: -1, md: 5 }}
+    right={{ base: 2, md: 5 }}
     spacing={3}
     minW={5}
     zIndex={400}
