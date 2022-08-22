@@ -9,7 +9,7 @@ export const LandingFooter: React.FC = () => (
     flexFlow="row nowrap"
     position="absolute"
     justify="center"
-    bottom={{ base: 20, md: 20, '2xl': 40 }}
+    bottom={{ base: 20, md: '10vh', xl: '15vh', '2xl': '18vh', '3xl': '12vh' }}
     left="33%"
     transition="opacity 0.3s 0.3s ease"
     zIndex={100}
@@ -26,7 +26,7 @@ export const LandingFooter: React.FC = () => (
       >
         <HStack
           fontFamily="body"
-          fontSize="md"
+          fontSize={{ base: 'sm', lg: 'md' }}
           spacing={2}
           alignItems="center"
           justifyContent="flex-start"
