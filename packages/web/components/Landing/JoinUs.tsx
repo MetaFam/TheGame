@@ -16,6 +16,7 @@ import { useRef } from 'react';
 import { FaDiscord, FaGithub, FaTwitter } from 'react-icons/fa';
 
 import { LandingFooter } from './LandingFooter';
+import { Rain } from './OnboardingGame/Rain';
 
 export const JoinUs: React.FC = () => {
   const ref = useRef<HTMLDivElement>(null);
@@ -25,10 +26,10 @@ export const JoinUs: React.FC = () => {
 
   return (
     <FullPageContainer
-      bgImageUrl={BackgroundImage}
-      backgroundRepeat="no-repeat"
-      backgroundSize={{ base: '170%', lg: 'contain' }}
-      backgroundPosition="center"
+      // bgImageUrl={BackgroundImage}
+      // backgroundRepeat="no-repeat"
+      // backgroundSize={{ base: '170%', lg: 'contain' }}
+      // backgroundPosition="center"
       id={section}
       position="relative"
       justify={{ base: 'center' }}
@@ -53,7 +54,7 @@ export const JoinUs: React.FC = () => {
           maxWidth={{ base: '66%', md: 'md', '2xl': '2xl' }}
           pl={{ base: 0, md: 0 }}
           textAlign="center"
-          zIndex={1}
+          zIndex={100}
           transform={`translate3d(0, ${onScreen ? '0' : '50px'}, 0)`}
           opacity={onScreen ? 1 : 0}
           transition="transform 0.3s 0.5s ease-in-out, opacity 0.5s 0.7s ease-in"
@@ -167,6 +168,22 @@ export const JoinUs: React.FC = () => {
         </Box>
       </Container>
       <LandingFooter />
+      <Box
+        backgroundImage={BackgroundImage}
+        backgroundBlendMode="normal"
+        backgroundPosition={{ base: 'top', xl: 'center' }}
+        backgroundSize={{ base: 'contain', xl: 'cover' }}
+        backgroundRepeat="no-repeat"
+        minH="100vh"
+        minW="100vw"
+        position="absolute"
+        top={0}
+        left={0}
+        right={0}
+        bottom={0}
+        zIndex={1}
+      />
+      <Rain effectOpacity={0.2} />
     </FullPageContainer>
   );
 };

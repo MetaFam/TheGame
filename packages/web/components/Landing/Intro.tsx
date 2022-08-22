@@ -12,8 +12,11 @@ import {
 // import { animated, config, useSpring } from '@react-spring/web';
 import BubbleLg from 'assets/landing/pretty/bubble-large.svg';
 import BubbleSm from 'assets/landing/pretty/bubble-small.svg';
-import BackgroundImageDesktop from 'assets/landing/sections/section-1.jpg';
+import BackgroundImage5xl from 'assets/landing/sections/section-1.jpg';
 import BackgroundImageMobile from 'assets/landing/sections/section-1.sm.jpg';
+import BackgroundImage2xl from 'assets/landing/sections/section-1-2xl.jpg';
+import BackgroundImage4xl from 'assets/landing/sections/section-1-4xl.jpg';
+import BackgroundImageLg from 'assets/landing/sections/section-1-lg.jpg';
 import { FullPageContainer } from 'components/Container';
 import { useEffect, useState } from 'react';
 
@@ -26,7 +29,10 @@ export const Intro: React.FC<{ currentSection: number }> = ({
   const [showQuote, setShowQuote] = useState(false);
   const responsiveBg = useBreakpointValue({
     base: BackgroundImageMobile,
-    md: BackgroundImageDesktop,
+    xl: BackgroundImageLg,
+    '2xl': BackgroundImage2xl,
+    '3xl': BackgroundImage4xl,
+    '5xl': BackgroundImage5xl,
   });
 
   const toggleQuote = () => {

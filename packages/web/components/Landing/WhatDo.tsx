@@ -6,8 +6,8 @@ import {
   UnorderedList,
   useBreakpointValue,
 } from '@metafam/ds';
+import BackgroundImageDesktop from 'assets/landing/sections/section-5.png';
 import BackgroundImageMobile from 'assets/landing/sections/section-5.sm.png';
-import BackgroundImageDesktop from 'assets/landing/whatdo/computer.png';
 import { FullPageContainer } from 'components/Container';
 import { useOnScreen } from 'lib/hooks/useOnScreen';
 import { useRef } from 'react';
