@@ -429,7 +429,7 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
           }
         }
 
-        const randomiseSpeed = Math.random() * (40 - 2) + 2;
+        const randomiseSpeed = Math.random() * (10 - 2) + 2;
         setTimeout(loop, randomiseSpeed);
       };
       loop();
@@ -498,7 +498,7 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
             overflowY="auto"
             width="100%"
             pl={{ base: 6, md: 10, xl: 0 }}
-            pr={{ base: 2, md: 10, xl: 0 }}
+            pr={{ base: 3, md: 10, xl: 0 }}
             pb={{ base: 5, xl: 10 }}
             zIndex={onScreen ? 0 : -20}
             transform={`translate3d(0, ${'0'}, 0)`}
