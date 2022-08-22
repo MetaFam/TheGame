@@ -497,16 +497,9 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
             maxH="66vh"
             overflowY="auto"
             width="100%"
-            // border="1px solid var(--chakra-colors-landing550)"
-            fontSize={{ base: '1.5rem', md: '5xl', xl: '4xl', '2xl': '3rem' }}
-            lineHeight={{
-              base: '2.25rem',
-              md: '2rem',
-              xl: '2rem',
-              '2xl': '4rem',
-            }}
-            pl={{ base: 6, md: 0 }}
-            py={{ base: 10, md: 10 }}
+            pl={{ base: 6, md: 10, xl: 0 }}
+            pr={{ base: 2, md: 10, xl: 0 }}
+            pb={{ base: 5, xl: 10 }}
             zIndex={onScreen ? 0 : -20}
             transform={`translate3d(0, ${'0'}, 0)`}
             transition="transform 0.3s 0.1s ease-in-out, opacity 0.5s 0.2s ease-in"
@@ -529,7 +522,7 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
                 a: {
                   position: 'relative',
                   display: 'inline-flex',
-                  lineHeight: { base: '1.2rem', md: '1.7rem' },
+                  lineHeight: { base: '1.2rem', xl: '1.7rem' },
                   color: 'var(--chakra-colors-landing550)',
                   borderBottom: '2px solid var(--chakra-colors-landing550)',
                   pr: { base: 3, md: 0 },
@@ -567,17 +560,16 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
                   justifyContent: 'flex-start',
                   justifySelf: 'flex-start',
                   // border: '1px solid var(--chakra-colors-landing550)',
-                  lineHeight: 1,
+                  lineHeight: { base: '1.2rem', '2xl': '1.7rem' },
                   mb: 2,
                   p: {
-                    fontSize: { base: 'sm', md: 'large' },
-                    lineHeight: { base: '1.2rem', md: '1.7rem' },
-                    marginBottom: { base: 2, md: 5 },
+                    display: 'block',
+                    fontSize: { base: 'sm', md: 'sm', '2xl': 'lg' },
+                    marginBottom: { base: 2, '2xl': 5 },
                   },
                   blockquote: {
                     position: 'relative',
-                    fontSize: { base: 'sm', md: 'large' },
-                    lineHeight: { base: '1.2rem', md: '1.7rem' },
+                    fontSize: { base: 'sm', md: 'sm', '2xl': 'lg' },
                     marginBottom: '1rem',
                     pl: 10,
                     // borderLeft: '5px solid var(--chakra-colors-landing550)',
@@ -608,7 +600,7 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
                         right: 0,
                         bottom: 0,
                         transform: 'translate3d(0, 1px, 0)',
-                        height: '1rem',
+                        height: { base: '0.7rem', '2xl': '1rem' },
                         width: 0,
                         borderLeft: '2px solid var(--chakra-colors-landing550)',
                         filter:
@@ -622,7 +614,7 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
                 <Box
                   opacity={welcomeBack ? 1 : 0}
                   transition="all 0.3s ease"
-                  fontSize="2xl"
+                  fontSize={{ base: 'lg', '2xl': '2xl' }}
                   width="100%"
                   visibility={welcomeBack ? 'visible' : 'hidden'}
                   aria-hidden={welcomeBack ? 'false' : 'true'}
@@ -639,7 +631,7 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
               </Box>
               <Box
                 className="responses"
-                fontSize={{ base: 'sm', lg: 'large' }}
+                fontSize={{ base: 'sm', md: 'sm', '2xl': 'lg' }}
                 justifySelf="flex-end"
                 flexGrow={0}
                 width="full"
@@ -647,9 +639,8 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
                 lineHeight={1}
                 sx={{
                   p: {
-                    fontSize: { base: 'sm', md: 'large' },
-                    lineHeight: { base: 1.2, md: '1.7rem' },
-                    marginBottom: '1rem',
+                    fontSize: { base: 'sm', md: 'sm', '2xl': 'lg' },
+                    marginBottom: { base: 2, '2xl': 5 },
                   },
                 }}
               >
@@ -711,12 +702,11 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
                             className="response"
                             width="100%"
                             ml={0}
-                            mb={{ base: 1, md: 3 }}
+                            mb={{ base: 1, md: 2, '2xl': 3 }}
                             opacity={isTyping ? 0 : 1}
                             transform={`translate3d(0, ${
                               isTyping ? -10 : 0
                             }, 0)`}
-                            lineHeight={1}
                             transition={`opacity 0.3s 0.${
                               i * 3
                             }s ease-in, transform 0.2s 0.${i * 3}s ease-in-out`}
@@ -740,7 +730,7 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
                                 borderBottom:
                                   '2px solid var(--chakra-colors-landing500)',
                               }}
-                              fontSize={{ base: 'sm', md: 'large' }}
+                              fontSize={{ base: 'sm', md: 'sm', '2xl': 'lg' }}
                               sx={{
                                 '& > p': {
                                   display: 'inline-block',

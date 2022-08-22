@@ -29,7 +29,7 @@ export const LandingHeader: React.FC = () => {
         w="100%"
         top={{ base: 5, '2xl': 10 }}
         left={0}
-        zIndex={300}
+        zIndex={401}
       >
         <Flex
           h={10}

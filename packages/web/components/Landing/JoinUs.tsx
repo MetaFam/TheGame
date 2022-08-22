@@ -1,4 +1,12 @@
-import { Box, Button, Container, HStack, Text, VStack } from '@metafam/ds';
+import {
+  Box,
+  Button,
+  Container,
+  HStack,
+  Text,
+  useBreakpointValue,
+  VStack,
+} from '@metafam/ds';
 import BackgroundImage from 'assets/landing/sections/section-7.png';
 import { FullPageContainer } from 'components/Container';
 import { StartButton } from 'components/Landing/StartButton';
@@ -12,6 +20,7 @@ import { LandingFooter } from './LandingFooter';
 export const JoinUs: React.FC = () => {
   const ref = useRef<HTMLDivElement>(null);
   const onScreen = useOnScreen(ref);
+  const buttonSize = useBreakpointValue({ base: 'sm', xl: 'lg' });
   const section = 'join-us';
 
   return (
@@ -109,7 +118,7 @@ export const JoinUs: React.FC = () => {
                 <Button
                   className="screen-esque--alt"
                   colorScheme="white"
-                  size="lg"
+                  size={buttonSize}
                   minW="7rem"
                 >
                   Watch
@@ -122,13 +131,13 @@ export const JoinUs: React.FC = () => {
         <Box
           className="footer-content"
           color="landing500"
-          fontSize={{ base: 'lg', lg: '2xl' }}
+          fontSize={{ base: 'sm', '2xl': '2xl' }}
           textShadow="0 0 5px var(--chakra-colors-landing500)"
           d="flex"
           alignItems="center"
           justifyContent="space-between"
           position={{ base: 'fixed', md: 'absolute' }}
-          bottom={{ base: 0, md: 16, xl: 0, '2xl': 0, '4xl': 5 }}
+          bottom={{ base: 0, md: 16, xl: 5, '2xl': 0, '4xl': 5 }}
           height="75px"
           maxH="75px"
           width="100%"
@@ -144,7 +153,7 @@ export const JoinUs: React.FC = () => {
           }}
         >
           <Text>&copy; 2022 MetaGame</Text>
-          <HStack>
+          <HStack fontSize={{ base: 'lg', lg: '2xl' }} spacing={5}>
             <MetaLink href="https://github.com/metafam" isExternal>
               <FaGithub />
             </MetaLink>
