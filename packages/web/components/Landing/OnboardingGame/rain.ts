@@ -96,8 +96,9 @@ class RainEffect {
   }
 }
 
-export function rain(ref: RefObject<HTMLDivElement>): void {
+export function rain(ref: RefObject<HTMLDivElement>, isPaused: boolean): void {
   if (typeof window !== 'undefined') {
+    console.log('rain', isPaused);
     if (ref.current === null) return;
     const canvas = ref.current.querySelector(
       '[data-id="rain-canvas"]',

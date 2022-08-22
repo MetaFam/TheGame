@@ -1,9 +1,11 @@
 import {
   Box,
   Button,
+  Icon,
   keyframes,
   ListItem,
   Text,
+  Tooltip,
   UnorderedList,
 } from '@metafam/ds';
 import externalLinkIcon from 'assets/landing/external-link-icon.png';
@@ -11,7 +13,7 @@ import { CONFIG } from 'config';
 import { useGame } from 'contexts/GameContext';
 import { useOnScreen } from 'lib/hooks/useOnScreen';
 import { ReactElement, useCallback, useEffect, useRef, useState } from 'react';
-import { MdRestartAlt } from 'react-icons/md';
+import { MdDownloading, MdRestartAlt } from 'react-icons/md';
 import {
   safelyParseContent,
   safelyParseTextForTyping,
@@ -482,258 +484,274 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
         zIndex={0}
       />
       {!isLoading && gameDataState !== null ? (
-        <Box
-          position="fixed"
-          bottom="18%"
-          flexDirection="column"
-          justifyContent="flex-start"
-          color="var(--chakra-colors-landing550)"
-          textShadow={`0 0 10px var(--chakra-colors-landing500)`}
-          maxW="4xl"
-          height="100vh"
-          maxH="66vh"
-          overflowY="auto"
-          width="100%"
-          // border="1px solid var(--chakra-colors-landing550)"
-          fontSize={{ base: '1.5rem', md: '5xl', xl: '4xl', '2xl': '3rem' }}
-          lineHeight={{
-            base: '2.25rem',
-            md: '2rem',
-            xl: '2rem',
-            '2xl': '4rem',
-          }}
-          pl={{ base: 0, md: 0 }}
-          py={{ base: 10, md: 10 }}
-          zIndex={onScreen ? 0 : -20}
-          transform={`translate3d(0, ${'0'}, 0)`}
-          transition="transform 0.3s 0.1s ease-in-out, opacity 0.5s 0.2s ease-in"
-        >
-          {/* <Box ref={scrollerRef} position="relative" width="100%" overflowY="visible"> */}
-          {/* {currentElement !== undefined ? ( */}
+        <>
           <Box
-            ref={scrollContentRef}
-            className="step"
-            // height="auto" minH="fit-content" width="full" opacity={onScreen ? 1 : 0} zIndex={onScreen ? 0 : -20} position="absolute" bottom="0"
-            display="flex"
+            position="absolute"
+            bottom="18%"
             flexDirection="column"
-            justifyContent="space-between"
-            alignItems="flex-start"
-            flexGrow={1}
-            height="full"
-            opacity={onScreen ? 1 : 0}
-            transition="opacity 0.5s 0.2s ease-in"
-            sx={{
-              a: {
-                position: 'relative',
-                display: 'inline-flex',
-                lineHeight: '1.7rem',
-                color: 'var(--chakra-colors-landing550)',
-                borderBottom: '2px solid var(--chakra-colors-landing550)',
-                '&::after': {
-                  content: '" "',
-                  display: 'inline-block',
-                  mx: 1,
-                  width: '0.5rem',
-                  height: '0.5rem',
-                  backgroundImage: `url(${externalLinkIcon})`,
-                  backgroundRepeat: 'no-repeat',
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center',
-                  filter:
-                    'drop-shadow(0 0 0.5rem var(--chakra-colors-landing500))',
-                },
-              },
+            justifyContent="flex-start"
+            color="var(--chakra-colors-landing550)"
+            textShadow={`0 0 10px var(--chakra-colors-landing500)`}
+            maxW={{ base: 'full', md: '4xl' }}
+            height="100vh"
+            maxH="66vh"
+            overflowY="auto"
+            width="100%"
+            // border="1px solid var(--chakra-colors-landing550)"
+            fontSize={{ base: '1.5rem', md: '5xl', xl: '4xl', '2xl': '3rem' }}
+            lineHeight={{
+              base: '2.25rem',
+              md: '2rem',
+              xl: '2rem',
+              '2xl': '4rem',
             }}
+            pl={{ base: 6, md: 0 }}
+            py={{ base: 10, md: 10 }}
+            zIndex={onScreen ? 0 : -20}
+            transform={`translate3d(0, ${'0'}, 0)`}
+            transition="transform 0.3s 0.1s ease-in-out, opacity 0.5s 0.2s ease-in"
           >
+            {/* <Box ref={scrollerRef} position="relative" width="100%" overflowY="visible"> */}
+            {/* {currentElement !== undefined ? ( */}
             <Box
-              className="question"
+              ref={scrollContentRef}
+              className="step"
+              // height="auto" minH="fit-content" width="full" opacity={onScreen ? 1 : 0} zIndex={onScreen ? 0 : -20} position="absolute" bottom="0"
+              display="flex"
+              flexDirection="column"
+              justifyContent="space-between"
+              alignItems="flex-start"
+              flexGrow={1}
+              height="full"
+              opacity={onScreen ? 1 : 0}
+              transition="opacity 0.5s 0.2s ease-in"
               sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'flex-start',
-                justifySelf: 'flex-start',
-                // border: '1px solid var(--chakra-colors-landing550)',
-                lineHeight: 1,
-                mb: 2,
-                p: {
-                  fontSize: 'large',
-                  lineHeight: '1.7rem',
-                  marginBottom: '1rem',
-                },
-                blockquote: {
-                  position: 'relative',
-                  fontSize: 'large',
-                  lineHeight: '1.7rem',
-                  marginBottom: '1rem',
-                  pl: 10,
-                  // borderLeft: '5px solid var(--chakra-colors-landing550)',
-                  '&::before': {
-                    content: '"\u275D"',
-                    display: 'block',
-                    position: 'absolute',
-                    top: 3,
-                    left: 2,
-                    fontSize: '6xl',
-                  },
-                },
                 a: {
+                  position: 'relative',
+                  display: 'inline-flex',
+                  lineHeight: { base: '1.2rem', md: '1.7rem' },
+                  color: 'var(--chakra-colors-landing550)',
+                  borderBottom: '2px solid var(--chakra-colors-landing550)',
+                  pr: { base: 3, md: 0 },
+                  '&:hover': {
+                    color: 'var(--chakra-colors-landing500)',
+                    borderBottom: '2px solid var(--chakra-colors-landing500)',
+                  },
                   '&::after': {
                     content: '" "',
-                    right: -10,
+                    display: 'inline-flex',
+                    p: { base: 1, md: 0 },
+                    mx: 1,
+                    width: '0.5rem',
+                    height: '0.5rem',
+                    backgroundImage: `url(${externalLinkIcon})`,
+                    backgroundRepeat: 'no-repeat',
+                    backgroundSize: '100%',
+                    backgroundPosition: 'center',
+                    filter:
+                      'drop-shadow(0 0 0.5rem var(--chakra-colors-landing500))',
                   },
                 },
-                '.typing-text': {
-                  '&.typed': {
-                    display: 'block',
-                  },
-                  display: 'none',
-                  '&.typing': {
-                    display: 'block',
-                    span: {
-                      display: 'inline-block',
-                      right: 0,
-                      bottom: 0,
-                      transform: 'translate3d(0, 1px, 0)',
-                      height: '1rem',
-                      width: 0,
-                      borderLeft: '2px solid var(--chakra-colors-landing550)',
-                      filter:
-                        'drop-shadow(0 0 0.5rem var(--chakra-colors-landing500))',
-                      animation: typingAnimation,
-                    },
+                button: {
+                  _focus: {
+                    background: 'transparent',
                   },
                 },
               }}
             >
               <Box
-                opacity={welcomeBack ? 1 : 0}
-                transition="all 0.3s ease"
-                fontSize="2xl"
-                width="100%"
-                visibility={welcomeBack ? 'visible' : 'hidden'}
-                aria-hidden={welcomeBack ? 'false' : 'true'}
-                height={welcomeBack ? 'auto' : '0'}
-                mb={welcomeBack ? 6 : 0}
-                textAlign="left"
+                className="question"
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'flex-start',
+                  justifySelf: 'flex-start',
+                  // border: '1px solid var(--chakra-colors-landing550)',
+                  lineHeight: 1,
+                  mb: 2,
+                  p: {
+                    fontSize: { base: 'sm', md: 'large' },
+                    lineHeight: { base: '1.2rem', md: '1.7rem' },
+                    marginBottom: { base: 2, md: 5 },
+                  },
+                  blockquote: {
+                    position: 'relative',
+                    fontSize: { base: 'sm', md: 'large' },
+                    lineHeight: { base: '1.2rem', md: '1.7rem' },
+                    marginBottom: '1rem',
+                    pl: 10,
+                    // borderLeft: '5px solid var(--chakra-colors-landing550)',
+                    '&::before': {
+                      content: '"\u275D"',
+                      display: 'block',
+                      position: 'absolute',
+                      top: 3,
+                      left: 2,
+                      fontSize: '6xl',
+                    },
+                  },
+                  a: {
+                    '&::after': {
+                      content: '" "',
+                      right: -10,
+                    },
+                  },
+                  '.typing-text': {
+                    '&.typed': {
+                      display: 'block',
+                    },
+                    display: 'none',
+                    '&.typing': {
+                      display: 'block',
+                      span: {
+                        display: 'inline-block',
+                        right: 0,
+                        bottom: 0,
+                        transform: 'translate3d(0, 1px, 0)',
+                        height: '1rem',
+                        width: 0,
+                        borderLeft: '2px solid var(--chakra-colors-landing550)',
+                        filter:
+                          'drop-shadow(0 0 0.5rem var(--chakra-colors-landing500))',
+                        animation: typingAnimation,
+                      },
+                    },
+                  },
+                }}
               >
-                Welcome back Anon!
-              </Box>
-              {/* {currentElement?.elementId && <p>Current element { currentElement.elementId}</p>} */}
-              {currentElement &&
-                currentDialogue !== undefined &&
-                currentDialogue.map((dialogue) => dialogue)}
-            </Box>
-            <Box
-              className="responses"
-              fontSize="large"
-              justifySelf="flex-end"
-              flexGrow={0}
-              width="full"
-              flexShrink={0}
-              lineHeight={1}
-              sx={{
-                p: {
-                  fontSize: 'large',
-                  lineHeight: '1.7rem',
-                  marginBottom: '1rem',
-                },
-              }}
-            >
-              <UnorderedList
-                listStyleType="none"
-                display="flex"
-                flexFlow="column wrap"
-                alignItems="flex-start"
-                width="full"
-                ml={0}
-                opacity={isTyping ? 0 : 1}
-                height={isTyping ? '0' : 'auto'}
-                overflowX="hidden"
-                transition="all 0.3s ease"
-              >
+                <Box
+                  opacity={welcomeBack ? 1 : 0}
+                  transition="all 0.3s ease"
+                  fontSize="2xl"
+                  width="100%"
+                  visibility={welcomeBack ? 'visible' : 'hidden'}
+                  aria-hidden={welcomeBack ? 'false' : 'true'}
+                  height={welcomeBack ? 'auto' : '0'}
+                  mb={welcomeBack ? 6 : 0}
+                  textAlign="left"
+                >
+                  Welcome back Anon!
+                </Box>
+                {/* {currentElement?.elementId && <Box as="p" fontSize="sm">Current element { currentElement.elementId}</Box>} */}
                 {currentElement &&
-                  currentChoices &&
-                  currentChoices.map((choice, i) => (
-                    <ListItem
-                      key={`${choice.props.href}-${i}`}
-                      className="response"
-                      width="100%"
-                      ml={0}
-                      mb={3}
-                      opacity={isTyping ? 0 : 1}
-                      transform={`translate3d(0, ${isTyping ? -10 : 0}, 0)`}
-                      lineHeight={1}
-                      transition={`opacity 0.3s 0.${
-                        i * 3
-                      }s ease-in, transform 0.2s 0.${i * 3}s ease-in-out`}
-                    >
-                      {choice}
-                    </ListItem>
-                  ))}
-                {currentConnections && currentConnections.length > 0 ? (
-                  currentConnections.map(
-                    (connection: ConnectionStateItem, i: number) => {
-                      const { label, targetid } =
-                        connection as ConnectionStateItem;
-                      const btnText = safelyParseContent(label) as ReactElement;
+                  currentDialogue !== undefined &&
+                  currentDialogue.map((dialogue) => dialogue)}
+              </Box>
+              <Box
+                className="responses"
+                fontSize={{ base: 'sm', lg: 'large' }}
+                justifySelf="flex-end"
+                flexGrow={0}
+                width="full"
+                flexShrink={0}
+                lineHeight={1}
+                sx={{
+                  p: {
+                    fontSize: { base: 'sm', md: 'large' },
+                    lineHeight: { base: 1.2, md: '1.7rem' },
+                    marginBottom: '1rem',
+                  },
+                }}
+              >
+                <UnorderedList
+                  listStyleType="none"
+                  display="flex"
+                  flexFlow="column wrap"
+                  alignItems="flex-start"
+                  width="full"
+                  ml={0}
+                  opacity={isTyping ? 0 : 1}
+                  height={isTyping ? '0' : 'auto'}
+                  overflowX="hidden"
+                  transition="all 0.3s ease"
+                >
+                  {currentElement &&
+                    currentChoices &&
+                    currentChoices.map((choice, i) => (
+                      <ListItem
+                        key={`${choice.props.href}-${i}`}
+                        className="response"
+                        width="100%"
+                        ml={0}
+                        mb={3}
+                        opacity={isTyping ? 0 : 1}
+                        transform={`translate3d(0, ${isTyping ? -10 : 0}, 0)`}
+                        lineHeight={1}
+                        transition={`opacity 0.3s 0.${
+                          i * 3
+                        }s ease-in, transform 0.2s 0.${i * 3}s ease-in-out`}
+                      >
+                        {choice}
+                      </ListItem>
+                    ))}
+                  {currentConnections && currentConnections.length > 0 ? (
+                    currentConnections.map(
+                      (connection: ConnectionStateItem, i: number) => {
+                        const { label, targetid } =
+                          connection as ConnectionStateItem;
+                        const btnText = safelyParseContent(
+                          label,
+                        ) as ReactElement;
 
-                      const target = () => {
-                        if (currentJumpers && currentJumpers.length > 0) {
-                          for (let j = 0; j < currentJumpers.length; j++) {
-                            if (currentJumpers[j].jumperId === targetid) {
-                              return currentJumpers[j].elementId;
+                        const target = () => {
+                          if (currentJumpers && currentJumpers.length > 0) {
+                            for (let j = 0; j < currentJumpers.length; j++) {
+                              if (currentJumpers[j].jumperId === targetid) {
+                                return currentJumpers[j].elementId;
+                              }
                             }
                           }
-                        }
-                        return targetid;
-                      };
-                      const targetId = target();
+                          return targetid;
+                        };
+                        const targetId = target();
 
-                      return (
-                        <ListItem
-                          key={connection.connectionId}
-                          className="response"
-                          width="100%"
-                          ml={0}
-                          mb={3}
-                          opacity={isTyping ? 0 : 1}
-                          transform={`translate3d(0, ${isTyping ? -10 : 0}, 0)`}
-                          lineHeight={1}
-                          transition={`opacity 0.3s 0.${
-                            i * 3
-                          }s ease-in, transform 0.2s 0.${i * 3}s ease-in-out`}
-                        >
-                          <Button
-                            onClick={() => handleProgress(targetId)}
-                            variant="ghost"
-                            px={0}
-                            py={0}
-                            display="inline-block"
-                            fontWeight="normal"
-                            textShadow={`0 0 8px var(--chakra-colors-landing500)`}
-                            borderBottom="2px solid var(--chakra-colors-landing550)"
-                            borderRadius="inherit inherit 0 0"
-                            wordBreak="break-word"
-                            textAlign="left"
-                            width={'auto'}
-                            _hover={{
-                              backgroundColor: 'transparent',
-                              color: 'var(--chakra-colors-landing500)',
-                              borderBottom:
-                                '2px solid var(--chakra-colors-landing500)',
-                            }}
-                            fontSize="large"
-                            sx={{
-                              '& > p': {
-                                display: 'inline-block',
-                              },
-                            }}
+                        return (
+                          <ListItem
+                            key={connection.connectionId}
+                            className="response"
+                            width="100%"
+                            ml={0}
+                            mb={{ base: 1, md: 3 }}
+                            opacity={isTyping ? 0 : 1}
+                            transform={`translate3d(0, ${
+                              isTyping ? -10 : 0
+                            }, 0)`}
+                            lineHeight={1}
+                            transition={`opacity 0.3s 0.${
+                              i * 3
+                            }s ease-in, transform 0.2s 0.${i * 3}s ease-in-out`}
                           >
-                            {connection.label
-                              ? btnText.props.children
-                              : 'What else?'}
-                          </Button>
-                          {/* {connection.targetType === 'jumpers' ? <Box as="p"
+                            <Button
+                              onClick={() => handleProgress(targetId)}
+                              variant="ghost"
+                              px={0}
+                              py={0}
+                              display="inline-block"
+                              fontWeight="normal"
+                              textShadow={`0 0 8px var(--chakra-colors-landing500)`}
+                              borderBottom="2px solid var(--chakra-colors-landing550)"
+                              borderRadius="inherit inherit 0 0"
+                              wordBreak="break-word"
+                              textAlign="left"
+                              width={'auto'}
+                              _hover={{
+                                backgroundColor: 'transparent',
+                                color: 'var(--chakra-colors-landing500)',
+                                borderBottom:
+                                  '2px solid var(--chakra-colors-landing500)',
+                              }}
+                              fontSize={{ base: 'sm', md: 'large' }}
+                              sx={{
+                                '& > p': {
+                                  display: 'inline-block',
+                                },
+                              }}
+                            >
+                              {connection.label
+                                ? btnText.props.children
+                                : 'What else?'}
+                            </Button>
+                            {/* {connection.targetType === 'jumpers' ? <Box as="p"
                             sx={{
                             fontSize: 'sm',
                             color: 'cyan',
@@ -745,53 +763,60 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
                             color: 'white',
                             }}>ConnectionId: {connection.connectionId} <br />
                             Target Element: {targetId}</Box>} */}
-                        </ListItem>
-                      );
-                    },
-                  )
-                ) : (
-                  <Box>
-                    <Text mb={5}>The End...</Text>
-                  </Box>
-                )}
-              </UnorderedList>
-              <Button
-                position="fixed"
-                bottom={10}
-                right={0}
-                variant="ghost"
-                display="inline-flex"
-                alignItems={'center'}
-                fontWeight="normal"
-                transition="all 0.3s ease"
-                textShadow={`0 0 8px var(--chakra-colors-landing400)`}
-                border="2px solid transparent"
-                color={'var(--chakra-colors-landing350)'}
-                _hover={{
+                          </ListItem>
+                        );
+                      },
+                    )
+                  ) : (
+                    <Box>
+                      <Text mb={5}>The End...</Text>
+                    </Box>
+                  )}
+                </UnorderedList>
+              </Box>
+            </Box>
+          </Box>
+          <Tooltip label="Reset system">
+            <Button
+              position="absolute"
+              bottom={{ base: 4, md: '22%' }}
+              left={{ base: 9, md: 'auto' }}
+              right={{ base: 'auto', md: 9 }}
+              variant="ghost"
+              display="inline-flex"
+              alignItems={'center'}
+              fontWeight="normal"
+              transition="all 0.3s ease"
+              textShadow={`0 0 8px var(--chakra-colors-landing400)`}
+              border="2px solid transparent"
+              color={'var(--chakra-colors-diamond)'}
+              borderRadius="inherit inherit 0 0"
+              wordBreak="break-word"
+              px={3}
+              opacity={0.5}
+              textAlign="left"
+              fontSize={{ base: 'sm', md: 'large' }}
+              onClick={handleReset}
+              sx={{
+                svg: {
+                  filter: 'drop-shadow(0 0 10px var(--chakra-colors-diamond))',
+                },
+                '&:hover': {
                   backgroundColor: 'transparent',
                   color: 'var(--chakra-colors-landing300)',
-                  // border: '2px solid var(--chakra-colors-landing300)',
+                  opacity: 1,
                   svg: {
                     filter:
                       'drop-shadow(0 0 10px var(--chakra-colors-landing300))',
                   },
-                }}
-                borderRadius="inherit inherit 0 0"
-                wordBreak="break-word"
-                px={3}
-                textAlign="left"
-                fontSize="large"
-                onClick={handleReset}
-              >
-                <MdRestartAlt
-                  size="lg"
-                  filter="drop-shadow(0 0 10px var(--chakra-colors-diamond)"
-                />
-                {/* Reboot system */}
-              </Button>
-            </Box>
-          </Box>
-        </Box>
+                },
+              }}
+            >
+              <Icon as={MdRestartAlt} w={10} h={10} />
+              {/* Reboot system */}
+            </Button>
+          </Tooltip>
+        </>
       ) : (
         <Box
           position="relative"
@@ -806,14 +831,19 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
         >
           <Box
             as="p"
-            fontSize="xl"
+            fontSize={{ base: 'sm', md: 'xl' }}
             mt={6}
             color="var(--chakra-colors-landing550)"
             textShadow={`0 0 8px var(--chakra-colors-landing500)`}
           >
-            {hasError
-              ? 'Fatal exception. System shutting down...'
-              : 'Incoming communication...'}
+            {hasError ? (
+              'Fatal exception. System shutting down...'
+            ) : (
+              <Box display="inline-flex" alignItems="center">
+                <Icon as={MdDownloading} w={10} h={10} mr={3} />{' '}
+                <span>Incoming communication...</span>
+              </Box>
+            )}
           </Box>
         </Box>
       )}
