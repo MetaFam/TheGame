@@ -28,6 +28,7 @@ export const GameContext = React.createContext<IGameContext>({
   resetGame: () => false,
   typeText: () => '',
   fetchGameData: async () => {},
+  visitedElements: () => '0',
   loading: true,
 });
 
@@ -127,6 +128,7 @@ export const GameContextProvider: React.FC = ({ children }) => {
     }
     if (reset) {
       remove('OnboardingGameState');
+      remove('OnboardingGameVisitedElements');
       // console.log('reset game state');
       // return state;
     }
@@ -161,6 +163,22 @@ export const GameContextProvider: React.FC = ({ children }) => {
     },
     [],
   );
+
+  /** Increment number of elements a user has visited & store in localStorage */
+  const visitedElements = (increment?: boolean): string => {
+    const visited: string | null = get('OnboardingGameVisitedElements');
+
+    if (increment) {
+      const incrementVisits = parseInt(visited ?? '0', 10) + 1;
+      set(
+        'OnboardingGameVisitedElements',
+        visited ? incrementVisits.toString() : `1`,
+      );
+      return incrementVisits.toLocaleString();
+    }
+
+    return visited ?? '0';
+  };
 
   const resetGame = useCallback((): boolean => {
     gameState(undefined, true);
@@ -206,6 +224,7 @@ export const GameContextProvider: React.FC = ({ children }) => {
         resetGame,
         typeText,
         fetchGameData,
+        visitedElements,
         loading: isLoading,
       }}
     >

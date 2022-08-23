@@ -19,6 +19,7 @@ import {
   safelyParseTextForTyping,
 } from 'utils/stringHelpers';
 
+import { AnimatedChiev, Chiev } from './Chiev';
 import type {
   GameProperties,
   GamePropertiesType,
@@ -45,7 +46,7 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
   const scrollContentRef = useRef<HTMLDivElement>(null);
   // const scrollerRef = useRef<HTMLDivElement>(null);
   const onScreen = useOnScreen(ref);
-  const { gameState, handleChoice, resetGame } = useGame();
+  const { gameState, handleChoice, resetGame, visitedElements } = useGame();
   const [currentElement, setCurrentElement] = useState<CurrentElementState>();
   const [currentConnections, setCurrentConnections] =
     useState<ConnectionStateItem[]>();
@@ -77,6 +78,8 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
   `;
   const typingAnimation = `${blink} 1s steps(10, start) infinite`;
   // const pulseAnimation = `${blink} 2s infinite`;
+  const visits = visitedElements();
+  const [chievFound, setChievFound] = useState(false);
 
   /** Function to async fetch `CONFIG.onboardingGameDataURL` as json and return the data */
   const fetchGameData = useCallback(async () => {
@@ -152,7 +155,10 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
 
           setCurrentElement(elementData);
           console.log('currentElement set', currentElement);
-
+          const visited = parseInt(visits, 10);
+          if (visited === 0 || visited === null) {
+            visitedElements(true);
+          }
           return elementData;
         }
         throw new Error('No game data found');
@@ -177,8 +183,13 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
     const isReset = resetGame();
     if (isReset) {
       initGame();
+      setChievFound(false);
     }
   };
+
+  const triggerChiev = useCallback(() => {
+    setChievFound(true);
+  }, []);
 
   /** Get the connections for the current element */
   const getConnections = (connectionIds: string[]) => {
@@ -428,8 +439,9 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
             setIsTyping(false);
           }
         }
-
-        const randomiseSpeed = Math.random() * (10 - 2) + 2;
+        const speedMax = 10;
+        const speedMin = 1;
+        const randomiseSpeed = Math.random() * (speedMax - speedMin) + speedMin;
         setTimeout(loop, randomiseSpeed);
       };
       loop();
@@ -450,6 +462,7 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
 
           setCurrentElement(nextElement);
           makeCurrentSectionDialogue(nextElement);
+          visitedElements(true);
         }
         setIsLoading(false);
       })
@@ -458,6 +471,16 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
         setIsLoading(false);
       });
   };
+
+  useEffect(() => {
+    const number = parseInt(visits, 10);
+
+    if (number === 2) {
+      // eslint-disable-next-line no-alert
+      triggerChiev();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentElement]);
 
   return (
     <Box
@@ -837,6 +860,7 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
           </Box>
         </Box>
       )}
+      <Chiev won={chievFound} setWon={setChievFound} />
     </Box>
   );
 };
