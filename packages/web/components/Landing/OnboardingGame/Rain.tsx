@@ -56,7 +56,7 @@ export function Rain({
         position="absolute"
         bottom={4}
         left={4}
-        zIndex={50}
+        zIndex={401}
         pointerEvents="auto"
       >
         <Tooltip label="Effects toggle">
