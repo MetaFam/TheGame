@@ -18,6 +18,7 @@ export interface IGameContext {
   resetGame: () => boolean;
   typeText: (name: string) => string;
   fetchGameData: () => Promise<void | GameProperties>;
+  visitedElements: (increment?: boolean) => string;
   loading: boolean;
 }
 
