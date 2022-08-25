@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import {
   Box,
   Container,
@@ -10,7 +11,7 @@ import BackgroundImageDesktop from 'assets/landing/sections/section-5.png';
 import BackgroundImageMobile from 'assets/landing/sections/section-5.sm.png';
 import { FullPageContainer } from 'components/Container';
 import { useOnScreen } from 'lib/hooks/useOnScreen';
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { LandingNextButton } from './LandingNextButton';
 import { Rain } from './OnboardingGame/Rain';
@@ -18,11 +19,36 @@ import { Rain } from './OnboardingGame/Rain';
 export const WhatDo: React.FC = () => {
   const ref = useRef<HTMLDivElement>(null);
   const onScreen = useOnScreen(ref);
+  const root = typeof window !== 'undefined' ? document.body : null;
+  const [noMotion, setNoMotion] = useState(false);
+  const displayElement = noMotion ? true : !!onScreen;
   const section = 'what-do';
   const responsiveBg = useBreakpointValue({
     base: BackgroundImageMobile,
     md: BackgroundImageDesktop,
   });
+
+  useEffect(() => {
+    const mut = new MutationObserver(() => {
+      if (root && root.classList.contains('no-motion')) {
+        setNoMotion(true);
+      } else {
+        setNoMotion(false);
+      }
+    });
+    if (typeof window !== 'undefined' && window.matchMedia !== undefined) {
+      if (root) {
+        mut.observe(root, {
+          attributes: true,
+        });
+      }
+    }
+
+    return () => {
+      mut.disconnect();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <FullPageContainer id={section} position="relative" overflow="clip">
@@ -57,9 +83,11 @@ export const WhatDo: React.FC = () => {
           overflowY={{ base: 'auto', xl: 'visible' }}
           pl={{ base: 0, md: 0 }}
           zIndex={100}
-          transform={`translate3d(0, ${onScreen ? '0' : '50px'}, 0)`}
-          opacity={onScreen ? 1 : 0}
-          transition="transform 0.3s 0.1s ease-in-out, opacity 0.5s 0.2s ease-in"
+          transform={`translate3d(0, ${displayElement ? '0' : '50px'}, 0)`}
+          opacity={displayElement ? 1 : 0}
+          transition={
+            'transform 0.3s 0.1s ease-in-out, opacity 0.5s 0.2s ease-in'
+          }
           sx={{
             h2: {
               color: 'landing500',
@@ -173,57 +201,6 @@ export const WhatDo: React.FC = () => {
           </Text>
         </Box>
       </Container>
-      {/* <Box
-        position="absolute"
-        top="25vh"
-        left="0"
-        width="100vw"
-        height="50vh"
-        overflow="clip"
-      >
-        <Flex
-          width="100vw"
-          height="100%"
-          minH="100%"
-          // overflow="hidden"
-        >
-          <Box
-            ref={slidesContainer}
-            className="slideContainer"
-            width="400%"
-            height="100%"
-            border="1px solid"
-            overflowX="auto"
-            display="flex"
-            flexFlow="row nowrap"
-            sx={{
-              '.slide': {
-                flex: '0 0 100vw',
-                width: '100vw',
-                border: '1px solid pink',
-                minH: '100%'
-              }
-            }}
-          >
-            <Box
-              className="slide"
-              ref={(e: HTMLDivElement) => createSlidesRefs(e, 0)}
-            >One</Box>
-            <Box
-              className="slide"
-              ref={(e: HTMLDivElement) => createSlidesRefs(e, 2)}
-            >Two</Box>
-            <Box
-              className="slide"
-              ref={(e: HTMLDivElement) => createSlidesRefs(e, 3)}
-            >Three</Box>
-            <Box
-              className="slide"
-              ref={(e: HTMLDivElement) => createSlidesRefs(e, 4)}
-            >Four</Box>
-          </Box>
-        </Flex>
-      </Box> */}
       <Rain effectOpacity={0.2} />
       <Box
         backgroundImage={responsiveBg}

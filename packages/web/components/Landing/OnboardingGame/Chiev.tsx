@@ -1,7 +1,14 @@
-import { Box, Button, ButtonGroup, Text, VStack } from '@metafam/ds';
-import { animated, easings, useSpring } from '@react-spring/web';
+import {
+  Box,
+  Button,
+  ButtonGroup,
+  Text,
+  usePrefersReducedMotion,
+  VStack,
+} from '@metafam/ds';
+import { animated, useSpring } from '@react-spring/web';
 import OctoBg from 'assets/baby_octo.png';
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
 export const Chiev = ({
   won,
@@ -10,17 +17,9 @@ export const Chiev = ({
   won: boolean;
   setWon: Dispatch<SetStateAction<boolean>>;
 }) => {
-  const calc = (x: any, y: any) => [
-    -(y - window.innerHeight / 2) / 20,
-    (x - window.innerWidth / 2) / 20,
-    1.1,
-  ];
-  const trans = (x: any, y: any, s: any) =>
-    `perspective(600px) rotateX(${x}deg) rotateY(${y}deg) scale(${s})})`;
-  const [props, set] = useSpring(() => ({
-    xys: [0, 0, 1],
-    config: { mass: 5, tension: 350, friction: 40 },
-  }));
+  const prefersReducedMotion = usePrefersReducedMotion();
+  const [noMotion, setNoMotion] = useState(false);
+  const root = typeof window !== 'undefined' ? document.body : null;
 
   const springProps = useSpring({
     config: {
@@ -33,13 +32,14 @@ export const Chiev = ({
     scale: won ? 1 : 0.5,
     display: won ? 'flex' : 'none',
     loop: false,
+    immediate: noMotion,
   });
 
   const octoSpringProps = useSpring({
     config: {
-      tension: 150,
+      tension: 50,
       friction: 10,
-      mass: 2,
+      mass: 1,
       delay: 750,
     },
     scale: won ? 1 : 0.7,
@@ -47,7 +47,44 @@ export const Chiev = ({
     transform: won
       ? 'translate3d(0, 0, 0) rotate(45deg)'
       : 'translate3d(-100%, 100%, 0) rotate(40deg)',
+    immediate: noMotion,
   });
+
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.matchMedia !== undefined) {
+      if (prefersReducedMotion && !root?.classList.contains('no-motion')) {
+        setNoMotion(true);
+      } else if (
+        !prefersReducedMotion &&
+        root?.classList.contains('no-motion')
+      ) {
+        setNoMotion(true);
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [prefersReducedMotion]);
+
+  useEffect(() => {
+    const mut = new MutationObserver(() => {
+      if (root && root.classList.contains('no-motion')) {
+        setNoMotion(true);
+      } else {
+        setNoMotion(false);
+      }
+    });
+    if (typeof window !== 'undefined' && window.matchMedia !== undefined) {
+      if (root) {
+        mut.observe(root, {
+          attributes: true,
+        });
+      }
+    }
+
+    return () => {
+      mut.disconnect();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <animated.div
@@ -100,10 +137,12 @@ export const Chiev = ({
             as="h3"
             fontSize="xl"
             fontWeight="black"
-            className="gradient-text"
+            textTransform="uppercase"
+            color="var(--chakra-colors-landing600)"
           >
-            🎉 You've won the deep burrower Chievmint! 🎉
+            Wow, you burrowed deep!
           </Text>
+          <Text>🎉 You've won the deep burrower ChieveMint! 🎉</Text>
           <Text className="gradient-text" fontSize="3xl">
             Nice work Anon.
           </Text>
@@ -143,10 +182,10 @@ export const Chiev = ({
           zIndex={1}
         />
         <animated.div
-          onMouseMove={({ clientX: x, clientY: y }) => set({ xys: calc(x, y) })}
-          onMouseLeave={() => set({ xys: [0, 0, 1] })}
+          // onMouseMove={({ clientX: x, clientY: y }) => set({ xys: calc(x, y) })}
+          // onMouseLeave={() => set({ xys: [0, 0, 1] })}
           // eslint-disable-next-line no-param-reassign
-          onMouseOver={(event) => console.log(props.xys)}
+          // onMouseOver={(event) => console.log(props.xys)}
           style={{
             ...octoSpringProps,
             backgroundImage: `url(${OctoBg})`,
@@ -164,21 +203,6 @@ export const Chiev = ({
             // transform: props.xys.to(trans)
           }}
         />
-        {/* <Box
-          position="absolute"
-          bottom={{ base: 3, xl: '-10%' }}
-          left={'-12%'}
-          w="50%"
-          h="50%"
-          bgImage={OctoBg}
-          backgroundSize="cover"
-          backgroundPosition="bottom center"
-          backgroundRepeat="no-repeat"
-          opacity={0.5}
-          pointerEvents="none"
-          zIndex={4}
-          transform="rotate(45deg)"
-        /> */}
         <Box
           position="absolute"
           bottom={{ base: 3, xl: '-10%' }}
@@ -244,5 +268,3 @@ export const Chiev = ({
     </animated.div>
   );
 };
-
-export const AnimatedChiev = animated(Chiev);

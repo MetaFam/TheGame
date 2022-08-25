@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import { Box, Container, Text, useBreakpointValue } from '@metafam/ds';
 import BackgroundImage5xl from 'assets/landing/sections/section-2.jpg';
 import BackgroundImageMobile from 'assets/landing/sections/section-2.sm.jpg';
@@ -7,13 +8,16 @@ import BackgroundImageLg from 'assets/landing/sections/section-2-lg.jpg';
 import { FullPageContainer } from 'components/Container';
 import { MetaLink } from 'components/Link';
 import { useOnScreen } from 'lib/hooks/useOnScreen';
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { LandingNextButton } from './LandingNextButton';
 
 export const Game: React.FC = () => {
   const ref = useRef<HTMLDivElement>(null);
   const onScreen = useOnScreen(ref);
+  const [noMotion, setNoMotion] = useState(false);
+  const displayElement = noMotion ? true : !!onScreen;
+  const root = typeof window !== 'undefined' ? document.body : null;
   const section = 'wtf-is-a-metagame';
   const responsiveBg = useBreakpointValue({
     base: BackgroundImageMobile,
@@ -22,6 +26,28 @@ export const Game: React.FC = () => {
     '3xl': BackgroundImage4xl,
     '5xl': BackgroundImage5xl,
   });
+
+  useEffect(() => {
+    const mut = new MutationObserver(() => {
+      if (root && root.classList.contains('no-motion')) {
+        setNoMotion(true);
+      } else {
+        setNoMotion(false);
+      }
+    });
+    if (typeof window !== 'undefined' && window.matchMedia !== undefined) {
+      if (root) {
+        mut.observe(root, {
+          attributes: true,
+        });
+      }
+    }
+
+    return () => {
+      mut.disconnect();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <FullPageContainer
@@ -55,9 +81,11 @@ export const Game: React.FC = () => {
           lineHeight={{ base: 'lg', '2xl': '2xl' }}
           pl={{ base: 0, md: 0 }}
           zIndex={100}
-          transform={`translate3d(0, ${onScreen ? '0' : '50px'}, 0)`}
-          opacity={onScreen ? 1 : 0}
-          transition="transform 0.3s 0.1s ease-in-out, opacity 0.5s 0.2s ease-in"
+          transform={`translate3d(0, ${displayElement ? '0' : '50px'}, 0)`}
+          opacity={displayElement ? 1 : 0}
+          transition={
+            'transform 0.3s 0.1s ease-in-out, opacity 0.5s 0.2s ease-in'
+          }
           fontWeight="normal"
           color="white"
         >

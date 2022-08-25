@@ -54,6 +54,12 @@ export const theme = extendTheme({
     global: {
       body: {
         background: colors.dark,
+        '&.no-motion': {
+          '*': {
+            transition: 'none !important',
+            animation: 'none !important',
+          },
+        },
         '&.dashboard-edit': {
           overflow: { base: 'hidden', xl: 'initial' }, // Locks scrolling on the body when resizing or dragging the grid on mobile devices
         },

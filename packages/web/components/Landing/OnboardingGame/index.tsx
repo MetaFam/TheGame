@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import {
   Box,
   Button,
@@ -7,19 +8,20 @@ import {
   Text,
   Tooltip,
   UnorderedList,
+  usePrefersReducedMotion,
 } from '@metafam/ds';
 import externalLinkIcon from 'assets/landing/external-link-icon.png';
 import { CONFIG } from 'config';
 import { useGame } from 'contexts/GameContext';
 import { useOnScreen } from 'lib/hooks/useOnScreen';
 import { ReactElement, useCallback, useEffect, useRef, useState } from 'react';
-import { MdDownloading, MdRestartAlt } from 'react-icons/md';
+import { MdDownloading, MdRestartAlt, MdWarning } from 'react-icons/md';
 import {
   safelyParseContent,
   safelyParseTextForTyping,
 } from 'utils/stringHelpers';
 
-import { AnimatedChiev, Chiev } from './Chiev';
+import { Chiev } from './Chiev';
 import type {
   GameProperties,
   GamePropertiesType,
@@ -44,7 +46,7 @@ export type CurrentJumperState = IJumper & {
 export const OnboardingGame: React.FC = (): JSX.Element => {
   const ref = useRef<HTMLDivElement>(null);
   const scrollContentRef = useRef<HTMLDivElement>(null);
-  // const scrollerRef = useRef<HTMLDivElement>(null);
+  const noMotion = usePrefersReducedMotion();
   const onScreen = useOnScreen(ref);
   const { gameState, handleChoice, resetGame, visitedElements } = useGame();
   const [currentElement, setCurrentElement] = useState<CurrentElementState>();
@@ -89,9 +91,9 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
       console.log('fetchGameData...');
 
       const response = await fetch(CONFIG.onboardingGameDataURL);
-      console.log('fetchGameData RES', response.status);
+      // console.log('fetchGameData RES', response.status);
       const data = (await response.json()) as GameProperties;
-      console.log('fetchGameData', data);
+      // console.log('fetchGameData', data);
       const {
         assets,
         name,
@@ -136,11 +138,7 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
       .then((data) => {
         if (data.name.length > 0) {
           setGameDataState(data);
-
-          console.log('fetched data', data);
-
           const state = gameState();
-
           const element =
             state !== null
               ? data.elements[state]
@@ -151,10 +149,9 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
             ...element,
             elementId: state ?? data.startingElement,
           };
-          console.log('elementData', elementData);
+          // console.log('elementData', elementData);
 
           setCurrentElement(elementData);
-          console.log('currentElement set', currentElement);
           const visited = parseInt(visits, 10);
           if (visited === 0 || visited === null) {
             visitedElements(true);
@@ -165,10 +162,7 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
       })
       .then((data) => {
         if (data) {
-          console.log('data', data);
-
           makeCurrentSectionDialogue(data);
-          console.log('section data', { currentElement, data });
           setIsLoading(false);
         }
       })
@@ -495,6 +489,7 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
       alignItems="center"
       py={32}
     >
+      {/* this enables finer control of when `'onScreen` is updated */}
       <Box
         ref={ref}
         position="absolute"
@@ -523,7 +518,7 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
             pl={{ base: 6, md: 10, xl: 0 }}
             pr={{ base: 3, md: 10, xl: 0 }}
             pb={{ base: 5, xl: 10 }}
-            zIndex={onScreen ? 0 : -20}
+            zIndex={onScreen ? 0 : noMotion ? 0 : -20}
             transform={`translate3d(0, ${'0'}, 0)`}
             transition="transform 0.3s 0.1s ease-in-out, opacity 0.5s 0.2s ease-in"
           >
@@ -539,7 +534,7 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
               alignItems="flex-start"
               flexGrow={1}
               height="full"
-              opacity={onScreen ? 1 : 0}
+              opacity={onScreen ? 1 : noMotion ? 1 : 0}
               transition="opacity 0.5s 0.2s ease-in"
               sx={{
                 a: {
@@ -628,7 +623,7 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
                         borderLeft: '2px solid var(--chakra-colors-landing550)',
                         filter:
                           'drop-shadow(0 0 0.5rem var(--chakra-colors-landing500))',
-                        animation: typingAnimation,
+                        animation: noMotion ? 'none' : typingAnimation,
                       },
                     },
                   },
@@ -645,7 +640,7 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
                   mb={welcomeBack ? 6 : 0}
                   textAlign="left"
                 >
-                  Welcome back Anon!
+                  <span>Welcome back Anon!</span>
                 </Box>
                 {/* {currentElement?.elementId && <Box as="p" fontSize="sm">Current element { currentElement.elementId}</Box>} */}
                 {currentElement &&
@@ -689,11 +684,21 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
                         ml={0}
                         mb={3}
                         opacity={isTyping ? 0 : 1}
-                        transform={`translate3d(0, ${isTyping ? -10 : 0}, 0)`}
+                        transform={
+                          noMotion
+                            ? 'none'
+                            : `translate3d(0, ${isTyping ? -10 : 0}, 0)`
+                        }
                         lineHeight={1}
-                        transition={`opacity 0.3s 0.${
-                          i * 3
-                        }s ease-in, transform 0.2s 0.${i * 3}s ease-in-out`}
+                        transition={
+                          noMotion
+                            ? 'none'
+                            : `opacity 0.3s 0.${
+                                i * 3
+                              }s ease-in, transform 0.2s 0.${
+                                i * 3
+                              }s ease-in-out`
+                        }
                       >
                         {choice}
                       </ListItem>
@@ -727,12 +732,20 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
                             ml={0}
                             mb={{ base: 1, md: 2, '2xl': 3 }}
                             opacity={isTyping ? 0 : 1}
-                            transform={`translate3d(0, ${
-                              isTyping ? -10 : 0
-                            }, 0)`}
-                            transition={`opacity 0.3s 0.${
-                              i * 3
-                            }s ease-in, transform 0.2s 0.${i * 3}s ease-in-out`}
+                            transform={
+                              noMotion
+                                ? 'none'
+                                : `translate3d(0, ${isTyping ? -10 : 0}, 0)`
+                            }
+                            transition={
+                              noMotion
+                                ? 'none'
+                                : `opacity 0.3s 0.${
+                                    i * 3
+                                  }s ease-in, transform 0.2s 0.${
+                                    i * 3
+                                  }s ease-in-out`
+                            }
                           >
                             <Button
                               onClick={() => handleProgress(targetId)}
@@ -850,11 +863,14 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
             textShadow={`0 0 8px var(--chakra-colors-landing500)`}
           >
             {hasError ? (
-              'Fatal exception. System shutting down...'
+              <Box display="inline-flex" alignItems="center">
+                <Icon as={MdWarning} w={10} h={10} mr={3} />{' '}
+                <span>Fatal exception. System shutting down&hellip;</span>
+              </Box>
             ) : (
               <Box display="inline-flex" alignItems="center">
                 <Icon as={MdDownloading} w={10} h={10} mr={3} />{' '}
-                <span>Incoming communication...</span>
+                <span>Incoming communication&hellip;</span>
               </Box>
             )}
           </Box>

@@ -1,6 +1,5 @@
-import { Box, Button, Icon, Tooltip } from '@metafam/ds';
+import { Box } from '@metafam/ds';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { FaToggleOff, FaToggleOn } from 'react-icons/fa';
 
 import { rain } from './rain';
 
@@ -26,19 +25,15 @@ export function Rain({
   z?: number;
 }): JSX.Element {
   const rainRef = useRef<HTMLDivElement>(null);
-  const [isPaused, setIsPaused] = useState(false);
-  // const canvasRef = useRef<HTMLCanvasElement>(null)
+  // const prefersReducedMotion = usePrefersReducedMotion();
+  const [noMotion, setNoMotion] = useState(false);
+  const root = typeof window !== 'undefined' ? document.body : null;
+
   const initCallback = useCallback(() => {
     if (rainRef.current) {
-      rain(rainRef, isPaused);
+      rain(rainRef, noMotion);
     }
-  }, [isPaused]);
-
-  const onHandlePause = () => {
-    console.log('handlePause');
-
-    setIsPaused(!isPaused);
-  };
+  }, [noMotion]);
 
   useEffect(() => {
     initCallback();
@@ -48,47 +43,33 @@ export function Rain({
   useEffect(() => {
     initCallback();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isPaused]);
+  }, [noMotion]);
+
+  useEffect(() => {
+    const mut = new MutationObserver(() => {
+      if (root && root.classList.contains('no-motion')) {
+        setNoMotion(true);
+      } else {
+        setNoMotion(false);
+      }
+    });
+    if (typeof window !== 'undefined' && window.matchMedia !== undefined) {
+      if (root) {
+        mut.observe(root, {
+          attributes: true,
+        });
+      }
+    }
+
+    return () => {
+      mut.disconnect();
+    };
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>
-      <Box
-        position="absolute"
-        bottom={4}
-        left={4}
-        zIndex={401}
-        pointerEvents="auto"
-      >
-        <Tooltip label="Effects toggle">
-          <Button
-            onClick={onHandlePause}
-            variant="ghost"
-            display="inline-block"
-            fontWeight="normal"
-            color="var(--chakra-colors-diamond)"
-            textShadow={`0 0 8px var(--chakra-colors-landing500)`}
-            borderRadius="inherit inherit 0 0"
-            opacity={0.5}
-            px={2}
-            sx={{
-              svg: {
-                filter: 'drop-shadow(0 0 10px var(--chakra-colors-diamond))',
-              },
-              '&:hover': {
-                backgroundColor: 'transparent',
-                color: 'var(--chakra-colors-landing300)',
-                opacity: 1,
-                svg: {
-                  filter:
-                    'drop-shadow(0 0 10px var(--chakra-colors-landing300))',
-                },
-              },
-            }}
-          >
-            <Icon as={isPaused ? FaToggleOff : FaToggleOn} h={10} w="auto" />
-          </Button>
-        </Tooltip>
-      </Box>
       <Box
         ref={rainRef}
         data-id="rain"
@@ -136,7 +117,7 @@ export function Rain({
           className="rain-canvas"
           position="absolute"
           zIndex={z ?? !masked ? 0 : 10}
-          opacity={isPaused ? 0 : 1}
+          opacity={noMotion ? 0 : 1}
           transition="opacity 1s ease-in-out"
           pointerEvents="none"
           minH="100%"
