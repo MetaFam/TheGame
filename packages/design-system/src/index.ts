@@ -174,6 +174,7 @@ export {
   useBreakpointValue,
   useDisclosure,
   useMediaQuery,
+  usePrefersReducedMotion,
   useTheme,
   useToast,
   VStack,

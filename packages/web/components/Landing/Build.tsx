@@ -1,20 +1,48 @@
+/* eslint-disable no-nested-ternary */
 import { Container, Flex, Text, useBreakpointValue } from '@metafam/ds';
 import BackgroundImageDesktop from 'assets/landing/sections/section-3.jpg';
 import BackgroundImageMobile from 'assets/landing/sections/section-3.sm.jpg';
 import { FullPageContainer } from 'components/Container';
 import { useOnScreen } from 'lib/hooks/useOnScreen';
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { LandingNextButton } from './LandingNextButton';
 
 export const Build: React.FC = () => {
   const ref = useRef<HTMLDivElement>(null);
   const onScreen = useOnScreen(ref);
+  const root = typeof window !== 'undefined' ? document.body : null;
+  const [noMotion, setNoMotion] = useState(false);
+  const displayElement = noMotion ? true : !!onScreen;
   const section = 'build-the-future';
   const responsiveBg = useBreakpointValue({
     base: BackgroundImageMobile,
     md: BackgroundImageDesktop,
   });
+
+  useEffect(() => {
+    const mut = new MutationObserver(() => {
+      if (root && root.classList.contains('no-motion')) {
+        console.log('Build no motion');
+        setNoMotion(true);
+      } else {
+        console.log('Build motion');
+        setNoMotion(false);
+      }
+    });
+    if (typeof window !== 'undefined' && window.matchMedia !== undefined) {
+      if (root) {
+        mut.observe(root, {
+          attributes: true,
+        });
+      }
+    }
+
+    return () => {
+      mut.disconnect();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <FullPageContainer
@@ -48,9 +76,13 @@ export const Build: React.FC = () => {
           maxWidth={{ base: '90%', md: 'sm', '2xl': 'xl' }}
           pl={0}
           zIndex={100}
-          transform={`translate3d(0, ${onScreen ? 0 : '50px'}, 0)`}
-          opacity={onScreen ? 1 : 0}
-          transition="transform 0.3s 0.1s ease-in-out, opacity 0.5s 0.2s ease-in"
+          transform={`translate3d(0, ${displayElement ? 0 : '50px'}, 0)`}
+          opacity={displayElement ? 1 : 0}
+          transition={
+            noMotion
+              ? 'none'
+              : 'transform 0.3s 0.1s ease-in-out, opacity 0.5s 0.2s ease-in'
+          }
         >
           <Text
             as="h2"
