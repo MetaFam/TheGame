@@ -1,4 +1,14 @@
-import { Box, Button, Text, Tooltip, VStack } from '@metafam/ds';
+/* eslint-disable no-nested-ternary */
+import {
+  Box,
+  Button,
+  Icon,
+  IconButton,
+  Text,
+  Tooltip,
+  usePrefersReducedMotion,
+  VStack,
+} from '@metafam/ds';
 import { PageContainer } from 'components/Container';
 import { Build } from 'components/Landing/Build';
 import { Game } from 'components/Landing/Game';
@@ -11,6 +21,7 @@ import { WhyAreWeHere } from 'components/Landing/WhyAreWeHere';
 import { WildWeb } from 'components/Landing/WildWeb';
 import { MetaLink } from 'components/Link';
 import { HeadComponent } from 'components/Seo';
+import { get, set } from 'lib/store';
 // import { gsap } from "gsap";
 // import { ScrollToPlugin } from 'gsap/dist/ScrollToPlugin';
 // import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
@@ -20,10 +31,13 @@ import {
   FaDiscord,
   FaGithub,
   FaHome,
+  FaToggleOff,
+  FaToggleOn,
   FaTrophy,
   FaTwitter,
   FaUserCircle,
 } from 'react-icons/fa';
+import { MdClose } from 'react-icons/md';
 
 export const getStaticProps = async () => ({
   props: {
@@ -61,6 +75,31 @@ const ArrowUp: React.FC = () => (
 );
 
 const Landing: React.FC = () => {
+  const prefersReducedMotion = usePrefersReducedMotion();
+  const savedMotionPreference = get('MotionPreference');
+  const [noMotion, setNoMotion] = useState(
+    savedMotionPreference === 'off'
+      ? true
+      : savedMotionPreference === 'on'
+      ? false
+      : prefersReducedMotion,
+  );
+  console.log('Landing: noMotion state:', {
+    noMotion,
+    prefersReducedMotion,
+    savedMotionPreference,
+  });
+
+  const reducedNoticeDismissed = get('ReducedMotionNotice') === 'dismissed';
+  const root = typeof window !== 'undefined' ? document.body : null;
+  const [effectsToggle, setEffectsToggle] = useState(noMotion);
+  console.log('Landing: effectsToggle state:', {
+    effectsToggle,
+    noMotion,
+    reducedNoticeDismissed,
+  });
+  const toggleIcon = effectsToggle ? FaToggleOff : FaToggleOn;
+  const [noticeOpen, setNoticeOpen] = useState(false);
   const scrollContainer =
     typeof document !== 'undefined'
       ? document.getElementById('scroll-container')
@@ -69,6 +108,11 @@ const Landing: React.FC = () => {
   const hostName = useRef('https://metagame.wtf');
   const setHostName = useCallback((host) => {
     hostName.current = host;
+  }, []);
+
+  const handleCloseNotice = useCallback(() => {
+    setNoticeOpen(false);
+    set('ReducedMotionNotice', 'dismissed');
   }, []);
 
   const handleScroll = useCallback(() => {
@@ -97,6 +141,58 @@ const Landing: React.FC = () => {
     [scrollContainer],
   );
 
+  const handleToggleEffects = useCallback(() => {
+    console.log('handleToggleEffects', {
+      savedMotionPreference,
+      prefersReducedMotion,
+      noMotion,
+      reducedNoticeDismissed,
+    });
+    set('MotionPreference', !noMotion ? 'off' : 'on');
+    setNoMotion(!noMotion);
+    setEffectsToggle(!effectsToggle);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    effectsToggle,
+    noMotion,
+    prefersReducedMotion,
+    reducedNoticeDismissed,
+    savedMotionPreference,
+  ]);
+
+  /** Initially set the motion pref if it's not already set */
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.matchMedia !== undefined) {
+      if (savedMotionPreference === null) {
+        console.log('No state for motion, so setting it...');
+        set('MotionPreference', prefersReducedMotion ? 'off' : 'on');
+      } else {
+        console.log('Got state for motion, so not setting it...', {
+          savedMotionPreference,
+          prefersReducedMotion,
+          noMotion,
+          reducedNoticeDismissed,
+        });
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  /** set noMotion so we can turn off animations if preferred
+   * Check for window to make sure we know window.matchMedia is availabe if supported
+   */
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      // setNoMotion(prefersReducedMotion);
+      if (noMotion && !reducedNoticeDismissed) {
+        setNoticeOpen(true);
+      } else {
+        setNoticeOpen(false);
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   useEffect(() => {
     scrollContainer?.addEventListener('scroll', handleScroll);
     document.addEventListener('keydown', handleKeyDown);
@@ -111,6 +207,25 @@ const Landing: React.FC = () => {
       document.removeEventListener('keydown', handleKeyDown);
     };
   }, [handleScroll, handleKeyDown, scrollContainer, section, setHostName]);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.matchMedia !== undefined) {
+      if (noMotion) {
+        root?.classList.add('no-motion');
+        setNoMotion(true);
+        console.log('Added no-motion class', { noMotion });
+        if (!reducedNoticeDismissed) {
+          setNoticeOpen(true);
+        }
+      } else {
+        root?.classList.remove('no-motion');
+        setNoMotion(false);
+        setNoticeOpen(false);
+        console.log('Removed no-motion class', { noMotion });
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [effectsToggle, prefersReducedMotion]);
 
   return (
     <>
@@ -143,6 +258,7 @@ const Landing: React.FC = () => {
         transform={`translate3d(0,${section === 0 ? '30px' : '0px'},0)`}
         transition="transform 0.3s 0.3s ease-in-out, opacity 0.3s 0.3s ease-in-out"
         _hover={{ textDecor: 'none' }}
+        zIndex={10}
       >
         <Button
           className="gradient-text"
@@ -152,6 +268,107 @@ const Landing: React.FC = () => {
           Back to top
         </Button>
       </MetaLink>
+      <Box
+        position="absolute"
+        bottom={4}
+        left={4}
+        zIndex={401}
+        pointerEvents="auto"
+      >
+        <Tooltip label="Effects toggle">
+          <Button
+            onClick={handleToggleEffects}
+            variant="ghost"
+            display="inline-block"
+            fontWeight="normal"
+            color="var(--chakra-colors-diamond)"
+            textShadow={`0 0 8px var(--chakra-colors-landing500)`}
+            borderRadius="inherit inherit 0 0"
+            opacity={0.5}
+            px={2}
+            sx={{
+              svg: {
+                filter: 'drop-shadow(0 0 10px var(--chakra-colors-diamond))',
+              },
+              '&:hover': {
+                backgroundColor: 'transparent',
+                color: 'var(--chakra-colors-landing300)',
+                opacity: 1,
+                svg: {
+                  filter:
+                    'drop-shadow(0 0 10px var(--chakra-colors-landing300))',
+                },
+              },
+            }}
+          >
+            <Icon as={toggleIcon} h={10} w="auto" />
+          </Button>
+        </Tooltip>
+      </Box>
+      <Box
+        position="fixed"
+        top={0}
+        left={0}
+        width="full"
+        alignItems="center"
+        justifyContent="center"
+        flexFlow="row nowrap"
+        py={1}
+        textAlign="center"
+        display={!noticeOpen ? 'none' : 'flex'}
+        backgroundColor="silver"
+        dropShadow={`0 0 10px black`}
+        color="dark"
+        zIndex={100}
+      >
+        <Text fontSize="md">
+          Anon, I noticed that you prefer reduced motion on websites &amp; apps,
+          so disabled all unnecessary effects / animations for you. Hover on
+          links &amp; buttons remain. Love, Nova{' '}
+          <span
+            title="Nova. See The Lore of MetaGame"
+            role="img"
+            className="gradient-text"
+          >
+            🐙
+          </span>{' '}
+        </Text>
+        <IconButton
+          icon={<MdClose />}
+          onClick={handleCloseNotice}
+          aria-label="close motion notice"
+          variant="ghost"
+          width={6}
+          height={6}
+          sx={{
+            '&:hover': {
+              color: 'var(--chakra-colors-landing500)',
+              backgroundColor: 'transparent',
+            },
+          }}
+        />
+      </Box>
+      {noMotion && (
+        <Box
+          position="fixed"
+          bottom={0}
+          left={0}
+          width="full"
+          alignItems="center"
+          justifyContent="center"
+          flexFlow="row nowrap"
+          py={1}
+          textAlign="center"
+          display={'flex'}
+          backgroundColor="landingDarkGlass"
+          color="landing500"
+          zIndex={100}
+        >
+          <Text fontSize="md">
+            {noMotion ? '⚠️ User dislikes motion' : '👍 User happy with motion'}
+          </Text>
+        </Box>
+      )}
     </>
   );
 };

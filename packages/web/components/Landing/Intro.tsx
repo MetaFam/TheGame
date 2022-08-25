@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import {
   Box,
   Button,
@@ -27,6 +28,9 @@ export const Intro: React.FC<{ currentSection: number }> = ({
 }) => {
   const [onScreen, setOnScreen] = useState(false);
   const [showQuote, setShowQuote] = useState(false);
+  const root = typeof window !== 'undefined' ? document.body : null;
+  const [noMotion, setNoMotion] = useState(false);
+  const displayElement = noMotion ? true : !!onScreen;
   const responsiveBg = useBreakpointValue({
     base: BackgroundImageMobile,
     xl: BackgroundImageLg,
@@ -43,6 +47,28 @@ export const Intro: React.FC<{ currentSection: number }> = ({
   useEffect(() => {
     setTimeout(() => setOnScreen(currentSection === 0), 500);
   }, [currentSection, showQuote]);
+
+  useEffect(() => {
+    const mut = new MutationObserver(() => {
+      if (root && root.classList.contains('no-motion')) {
+        setNoMotion(true);
+      } else {
+        setNoMotion(false);
+      }
+    });
+    if (typeof window !== 'undefined' && window.matchMedia !== undefined) {
+      if (root) {
+        mut.observe(root, {
+          attributes: true,
+        });
+      }
+    }
+
+    return () => {
+      mut.disconnect();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <FullPageContainer
@@ -72,9 +98,11 @@ export const Intro: React.FC<{ currentSection: number }> = ({
           direction={{ base: 'column', lg: 'column' }}
           maxW={{ base: '2xs', xl: '2xl' }}
           zIndex={100}
-          transform={`translate3d(0, ${onScreen ? 0 : '3rem'}, 0)`}
-          opacity={onScreen ? 1 : 0}
-          transition="transform 0.3s 0.1s ease-in-out, opacity 0.5s 0.2s ease-in"
+          transform={`translate3d(0, ${displayElement ? 0 : '3rem'}, 0)`}
+          opacity={displayElement ? 1 : 0}
+          transition={
+            'transform 0.3s 0.1s ease-in-out, opacity 0.5s 0.2s ease-in'
+          }
         >
           <Heading
             as="h1"
@@ -221,7 +249,7 @@ export const QuoteLayer = ({
     left="5vw"
     width="90vw"
     textAlign="center"
-    transition="all 0.3s 0.2s ease-in-out"
+    transition={'all 0.3s 0.2s ease-in-out'}
     zIndex={showQuote ? 101 : 99}
   >
     <Box
@@ -232,7 +260,7 @@ export const QuoteLayer = ({
       minW="100vw"
       height="100%"
       onClick={toggleQuote}
-      transition="transform 0.3s 0.3s ease-in-out"
+      transition={'transform 0.3s 0.3s ease-in-out'}
       transform={`translate3d(0, ${showQuote ? -50 : 300}px, 0)`}
       zIndex={101}
       sx={{
@@ -266,7 +294,7 @@ export const QuoteLayer = ({
       maxW="4xl"
       opacity={showQuote ? 1 : 0}
       textAlign="left"
-      transition="transform 0.3s 0.2s ease-in-out, opacity 0.3s 0.4s ease-in"
+      transition={'transform 0.3s 0.2s ease-in-out, opacity 0.3s 0.4s ease-in'}
       transform={`translate3d(0, ${showQuote ? -50 : 300}px, 0)`}
       zIndex={2}
       sx={{

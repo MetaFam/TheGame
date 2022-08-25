@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import {
   Box,
   Button,
@@ -12,7 +13,7 @@ import { FullPageContainer } from 'components/Container';
 import { StartButton } from 'components/Landing/StartButton';
 import { MetaLink } from 'components/Link';
 import { useOnScreen } from 'lib/hooks/useOnScreen';
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { FaDiscord, FaGithub, FaTwitter } from 'react-icons/fa';
 
 import { LandingFooter } from './LandingFooter';
@@ -21,15 +22,36 @@ import { Rain } from './OnboardingGame/Rain';
 export const JoinUs: React.FC = () => {
   const ref = useRef<HTMLDivElement>(null);
   const onScreen = useOnScreen(ref);
+  const root = typeof window !== 'undefined' ? document.body : null;
+  const [noMotion, setNoMotion] = useState(true);
+  const displayElement = noMotion ? true : !!onScreen;
   const buttonSize = useBreakpointValue({ base: 'sm', xl: 'lg' });
   const section = 'join-us';
 
+  useEffect(() => {
+    const mut = new MutationObserver(() => {
+      if (root && root.classList.contains('no-motion')) {
+        setNoMotion(true);
+      } else {
+        setNoMotion(false);
+      }
+    });
+    if (typeof window !== 'undefined' && window.matchMedia !== undefined) {
+      if (root) {
+        mut.observe(root, {
+          attributes: true,
+        });
+      }
+    }
+
+    return () => {
+      mut.disconnect();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <FullPageContainer
-      // bgImageUrl={BackgroundImage}
-      // backgroundRepeat="no-repeat"
-      // backgroundSize={{ base: '170%', lg: 'contain' }}
-      // backgroundPosition="center"
       id={section}
       position="relative"
       justify={{ base: 'center' }}
@@ -55,9 +77,11 @@ export const JoinUs: React.FC = () => {
           pl={{ base: 0, md: 0 }}
           textAlign="center"
           zIndex={100}
-          transform={`translate3d(0, ${onScreen ? '0' : '50px'}, 0)`}
-          opacity={onScreen ? 1 : 0}
-          transition="transform 0.3s 0.5s ease-in-out, opacity 0.5s 0.7s ease-in"
+          transform={`translate3d(0, ${displayElement ? '0' : '50px'}, 0)`}
+          opacity={displayElement ? 1 : 0}
+          transition={
+            'transform 0.3s 0.5s ease-in-out, opacity 0.5s 0.7s ease-in'
+          }
           sx={{
             '.screen-esque': {
               background: 'landing150',
@@ -84,36 +108,40 @@ export const JoinUs: React.FC = () => {
               but{' '}
               <Text
                 as="span"
-                opacity={onScreen ? 1 : 0}
-                transition="opacity 0.5s 0.9s ease-in"
+                opacity={displayElement ? 1 : 0}
+                transition={noMotion ? 'none' : 'opacity 0.5s 0.9s ease-in'}
               >
                 don’t{' '}
               </Text>
               <Text
                 as="span"
-                opacity={onScreen ? 1 : 0}
-                transition="opacity 0.5s 1.2s ease-in"
+                opacity={displayElement ? 1 : 0}
+                transition={noMotion ? 'none' : 'opacity 0.5s 1.2s ease-in'}
               >
                 just{' '}
               </Text>
               <Text
                 as="span"
-                opacity={onScreen ? 1 : 0}
-                transition="opacity 0.5s 1.5s ease-in"
+                opacity={displayElement ? 1 : 0}
+                transition={noMotion ? 'none' : 'opacity 0.5s 1.5s ease-in'}
               >
                 watch
               </Text>
               <Text
                 as="span"
-                opacity={onScreen ? 1 : 0}
-                transition="opacity 0.5s 1.8s ease-in"
+                opacity={displayElement ? 1 : 0}
+                transition={noMotion ? 'none' : 'opacity 0.5s 1.8s ease-in'}
               >
                 .
               </Text>
             </Text>
             <HStack
-              opacity={onScreen ? 1 : 0}
-              transition="transform 0.3s 1.8s ease-in-out, opacity 0.5s 2s ease-in"
+              opacity={displayElement ? 1 : 0}
+              transition={
+                noMotion
+                  ? 'none'
+                  : 'transform 0.3s 1.8s ease-in-out, opacity 0.5s 2s ease-in'
+              }
             >
               <MetaLink _hover={{}} href="/dashboard">
                 <Button
@@ -143,9 +171,12 @@ export const JoinUs: React.FC = () => {
           maxH="75px"
           width="100%"
           maxW={{ base: '90%', md: 'lg', lg: 'md', '2xl': '2xl', '4xl': '4xl' }}
-          transform={`translate3d(0, ${onScreen ? '0' : '50px'}, 0)`}
-          opacity={onScreen ? 1 : 0}
-          transition="transform 0.3s 2.1s ease-in-out, opacity 0.5s 2.3s ease-in"
+          transform={`translate3d(0, ${displayElement ? '0' : '50px'}, 0)`}
+          opacity={displayElement ? 1 : 0}
+          transition={
+            'transform 0.3s 2.1s ease-in-out, opacity 0.5s 2.3s ease-in'
+          }
+          zIndex={100}
           sx={{
             svg: {
               color: 'landing500',

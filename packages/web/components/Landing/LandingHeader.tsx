@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import {
   Box,
   BoxedNextImage,
@@ -6,6 +7,7 @@ import {
   HStack,
   Link,
   Stack,
+  usePrefersReducedMotion,
   VStack,
 } from '@metafam/ds';
 import OctoBg from 'assets/baby_octo.png';
@@ -18,6 +20,7 @@ import { AnimatedWaves, upDownAnimation } from './animations';
 
 export const LandingHeader: React.FC = () => {
   const [toggle, setToggle] = useState(false);
+  const noMotion = usePrefersReducedMotion();
 
   return (
     <>
@@ -48,7 +51,7 @@ export const LandingHeader: React.FC = () => {
           >
             <MetaLink
               key="link-home-logo"
-              href="#start"
+              href="/#start"
               color="white"
               sx={{
                 '&.active, &:hover': {
@@ -107,20 +110,22 @@ export const LandingHeader: React.FC = () => {
               },
               'path, circle': {
                 fill: toggle ? 'transparent' : 'transparent',
-                transition: 'all 0.2s 0.2s ease',
+                transition: noMotion ? 'none' : 'all 0.2s 0.2s ease',
                 stroke: toggle ? 'landing600' : 'white',
               },
               '.top-line': {
-                transition: 'all 0.6s ease',
+                transition: noMotion ? 'none' : 'all 0.6s ease',
                 transform: toggle
                   ? 'rotate(-405deg) translate3d(1px, 3px, 0)'
                   : 'rotate(0)',
                 transformOrigin: 'center',
               },
               '.bottom-line': {
-                transition: 'all 0.6s ease',
+                transition: noMotion ? 'none' : 'all 0.6s ease',
                 transform: toggle
                   ? 'rotate(405deg) translate3d(0px, -4px, 0)'
+                  : noMotion
+                  ? 'none'
                   : 'rotate(0)',
                 transformOrigin: 'center',
               },
@@ -147,8 +152,9 @@ export const LandingHeader: React.FC = () => {
           transform: toggle
             ? 'translate3d(0, 0, 0)'
             : 'translate3d(0, -120%, 0)',
-          transition:
-            'transform 0.2s ease-in-out, opacity 0.2s 0.1s ease-in-out',
+          transition: noMotion
+            ? 'none'
+            : 'transform 0.2s ease-in-out, opacity 0.2s 0.1s ease-in-out',
           backgroundColor: 'landingDarkGlass',
           backdropFilter: 'blur(7px)',
           '.waveA, .waveB': {
@@ -160,7 +166,7 @@ export const LandingHeader: React.FC = () => {
           spacing={4}
           direction={{ base: 'column', md: 'row' }}
           opacity={toggle ? 1 : 0}
-          transition="opacity 0.3s 0.5s ease-in-out"
+          transition={noMotion ? 'none' : 'opacity 0.3s 0.5s ease-in-out'}
           fontSize={{ base: 'md', md: 'lg', lg: '2xl' }}
           zIndex={2}
         >
@@ -209,7 +215,10 @@ export const LandingHeader: React.FC = () => {
             </NavLink>
           </VStack>
         </Stack>
-        <AnimatedWaves animationName={upDownAnimation} playing={toggle} />
+        <AnimatedWaves
+          animationName={upDownAnimation}
+          playing={noMotion ? false : toggle}
+        />
         <Box
           position="absolute"
           bottom={{ base: 3, xl: '0%' }}
@@ -224,11 +233,11 @@ export const LandingHeader: React.FC = () => {
           pointerEvents="none"
           zIndex={200}
           sx={{
-            animation: upDownAnimation,
+            animation: noMotion ? 'none' : upDownAnimation,
             animationPlayState: toggle ? 'playing' : 'paused',
             animationDuration: '5s',
             filter: 'drop-shadow(0 0 20px #000)',
-            opacity: toggle ? 1 : 0,
+            opacity: toggle ? 1 : noMotion ? 1 : 0,
             transition: 'opacity 0.3s 0.2s ease-in-out',
           }}
         />
@@ -251,7 +260,7 @@ const NavLink = ({
   <Link
     px={2}
     py={1}
-    href={`#${target}`}
+    href={`/#${target}`}
     onClick={() => setToggle(!toggle)}
     textAlign="center"
     sx={{

@@ -4,7 +4,7 @@ import { GameContextProvider } from 'contexts/GameContext';
 import React from 'react';
 
 import { LandingNextButton } from './LandingNextButton';
-import { OnboardingGame } from './OnboardingGame/Game';
+import { OnboardingGame } from './OnboardingGame';
 import { Rain } from './OnboardingGame/Rain';
 
 export const Onboard: React.FC = () => {
@@ -34,22 +34,6 @@ export const Onboard: React.FC = () => {
         </GameContextProvider>
       </Container>
       <Rain top={-12} effectOpacity={0.3} />
-      {/* <Box
-        backgroundImage={BackgroundImage}
-        backgroundBlendMode="normal"
-        backgroundSize={{ base: '170%', lg: 'contain' }}
-        backgroundColor="transparent"
-        backgroundRepeat="no-repeat"
-        backgroundPosition="center"
-        minH="100vh"
-        minW="100vw"
-        position="absolute"
-        top={-12}
-        left={0}
-        right={0}
-        bottom={0}
-        zIndex={1}
-      /> */}
       <LandingNextButton py={2} section="join-us" />
     </FullPageContainer>
   );
