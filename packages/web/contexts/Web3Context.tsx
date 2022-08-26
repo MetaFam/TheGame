@@ -163,6 +163,7 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
           resolver: ThreeIdResolver.getResolver(ceramic),
         });
       }
+      console.log('updateWeb3State', { prov, addr, token, networkId });
 
       setWeb3State({
         wallet: prov,
@@ -188,10 +189,12 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
 
       prov.on('accountsChanged', () => {
         disconnect();
+        console.log('changed accounts...', { prov });
         window.location.reload();
       });
       prov.on('chainChanged', () => {
         updateWeb3State(prov);
+        console.log('network changed...', { prov });
       });
     } catch (error) {
       console.error('`connect` Error', error); // eslint-disable-line no-console

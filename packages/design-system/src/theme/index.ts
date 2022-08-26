@@ -145,6 +145,70 @@ export const theme = extendTheme({
           color: colors.white,
         },
       },
+      '#WEB3_CONNECT_MODAL_ID': {
+        position: 'relative',
+        zIndex: '500',
+        '.web3modal-modal-card': {
+          position: 'relative',
+          background: colors.dark,
+          boxShadow: '0 0 20px rgba(0 0 0 / 80%)',
+          border: '1px solid var(--chakra-colors-landing600)',
+          minHeight: '33vh',
+          '&::before': {
+            content: '""',
+            position: 'absolute',
+            inset: 0,
+            backgroundImage: 'url(assets/logo.png)',
+            backgroundRepeat: 'no-repeat',
+            backgroundSize: '50%',
+            backgroundPosition: '-50% 50%',
+            backgroundClip: 'border-box',
+            opacity: 0.3,
+            zIndex: 0,
+          },
+          '&::after': {
+            content: '""',
+            position: 'absolute',
+            inset: 0,
+            backgroundImage: 'url(assets/octopus.png)',
+            backgroundRepeat: 'no-repeat',
+            backgroundSize: '66%',
+            backgroundPosition: '195% 50%',
+            backgroundClip: 'border-box',
+            opacity: 0.5,
+            zIndex: 0,
+          },
+        },
+        '.web3modal-provider-wrapper': {
+          border: 'none',
+          padding: 0,
+          zIndex: 1,
+        },
+        '.web3modal-provider-container': {
+          background: colors.transparent,
+          flexGrow: '1',
+          border: '3px solid transparent',
+          transition: 'border 0.2s ease',
+          '&:hover': {
+            border: '3px solid var(--chakra-colors-landing600)',
+          },
+        },
+        '.web3modal-provider-icon': {
+          img: {
+            filter: 'drop-shadow(0 0 0.5rem var(--chakra-colors-landing600))',
+          },
+        },
+        '.web3modal-provider-name': {
+          color: colors.landing600,
+          background:
+            'linear-gradient(90deg, #FF61E6 -29.22%, #7C56FF 107.53%)',
+          backgroundClip: 'text',
+          WebkitTextFillColor: 'transparent',
+        },
+        '.web3modal-provider-description': {
+          color: colors.landing600,
+        },
+      },
     },
   },
   sizes: {
