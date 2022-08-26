@@ -26,10 +26,8 @@ import type {
   GameProperties,
   GamePropertiesType,
   IConnection,
-  // IConnectionsObject,
   IElement,
   IJumper,
-  // IJumpersObject,
 } from './gameTypes';
 
 export type CurrentElementState = IElement & {
@@ -254,6 +252,7 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
         setWelcomeBack(false);
       }, 6000);
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gameDataState]);
 

@@ -36,4 +36,12 @@ export const NETWORK_INFO: NetworkInfo = {
     explorer: 'https://polygonscan.com',
     rpc: 'https://polygon-rpc.com',
   },
+  '0x013881': {
+    chainId: '0x013881',
+    name: 'Mumbai',
+    label: 'Mumbai',
+    symbol: 'MATIC',
+    explorer: 'https://mumbai.polygonscan.com',
+    rpc: 'https://matic-mumbai.chainstacklabs.com',
+  },
 };

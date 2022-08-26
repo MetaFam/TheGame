@@ -2,8 +2,10 @@
 import {
   Box,
   Button,
+  HStack,
   Icon,
   IconButton,
+  Spinner,
   Text,
   Tooltip,
   usePrefersReducedMotion,
@@ -21,6 +23,7 @@ import { WhyAreWeHere } from 'components/Landing/WhyAreWeHere';
 import { WildWeb } from 'components/Landing/WildWeb';
 import { MetaLink } from 'components/Link';
 import { HeadComponent } from 'components/Seo';
+import { useWeb3 } from 'lib/hooks';
 import { get, set } from 'lib/store';
 // import { gsap } from "gsap";
 // import { ScrollToPlugin } from 'gsap/dist/ScrollToPlugin';
@@ -37,6 +40,7 @@ import {
   FaTwitter,
   FaUserCircle,
 } from 'react-icons/fa';
+import { GoSignIn, GoSignOut } from 'react-icons/go';
 import { MdClose } from 'react-icons/md';
 
 export const getStaticProps = async () => ({
@@ -84,22 +88,14 @@ const Landing: React.FC = () => {
       ? false
       : prefersReducedMotion,
   );
-  console.log('Landing: noMotion state:', {
-    noMotion,
-    prefersReducedMotion,
-    savedMotionPreference,
-  });
-
   const reducedNoticeDismissed = get('ReducedMotionNotice') === 'dismissed';
   const root = typeof window !== 'undefined' ? document.body : null;
   const [effectsToggle, setEffectsToggle] = useState(noMotion);
-  console.log('Landing: effectsToggle state:', {
-    effectsToggle,
-    noMotion,
-    reducedNoticeDismissed,
-  });
   const toggleIcon = effectsToggle ? FaToggleOff : FaToggleOn;
   const [noticeOpen, setNoticeOpen] = useState(false);
+  const { connect, disconnect, connected, connecting, address } = useWeb3();
+  console.log('Landing', { connected, connecting, address });
+
   const scrollContainer =
     typeof document !== 'undefined'
       ? document.getElementById('scroll-container')
@@ -141,38 +137,20 @@ const Landing: React.FC = () => {
     [scrollContainer],
   );
 
+  /** TODO: Toggle works 100% except on first load when
+   * the switch renders as 'on' but is actually 'off' if no motion pref is saved */
   const handleToggleEffects = useCallback(() => {
-    console.log('handleToggleEffects', {
-      savedMotionPreference,
-      prefersReducedMotion,
-      noMotion,
-      reducedNoticeDismissed,
-    });
     set('MotionPreference', !noMotion ? 'off' : 'on');
     setNoMotion(!noMotion);
     setEffectsToggle(!effectsToggle);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    effectsToggle,
-    noMotion,
-    prefersReducedMotion,
-    reducedNoticeDismissed,
-    savedMotionPreference,
-  ]);
+  }, [effectsToggle, noMotion]);
 
   /** Initially set the motion pref if it's not already set */
   useEffect(() => {
     if (typeof window !== 'undefined' && window.matchMedia !== undefined) {
       if (savedMotionPreference === null) {
-        console.log('No state for motion, so setting it...');
         set('MotionPreference', prefersReducedMotion ? 'off' : 'on');
-      } else {
-        console.log('Got state for motion, so not setting it...', {
-          savedMotionPreference,
-          prefersReducedMotion,
-          noMotion,
-          reducedNoticeDismissed,
-        });
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -213,7 +191,6 @@ const Landing: React.FC = () => {
       if (noMotion) {
         root?.classList.add('no-motion');
         setNoMotion(true);
-        console.log('Added no-motion class', { noMotion });
         if (!reducedNoticeDismissed) {
           setNoticeOpen(true);
         }
@@ -221,11 +198,12 @@ const Landing: React.FC = () => {
         root?.classList.remove('no-motion');
         setNoMotion(false);
         setNoticeOpen(false);
-        console.log('Removed no-motion class', { noMotion });
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [effectsToggle, prefersReducedMotion]);
+
+  // useEffect(() => {
 
   return (
     <>
@@ -268,14 +246,16 @@ const Landing: React.FC = () => {
           Back to top
         </Button>
       </MetaLink>
-      <Box
+      <HStack
+        alignItems="center"
+        alignContent="center"
         position="absolute"
         bottom={4}
         left={4}
         zIndex={401}
         pointerEvents="auto"
       >
-        <Tooltip label="Effects toggle">
+        <Tooltip label={`Turn effects ${noMotion ? 'On' : 'Off'}`}>
           <Button
             onClick={handleToggleEffects}
             variant="ghost"
@@ -304,7 +284,42 @@ const Landing: React.FC = () => {
             <Icon as={toggleIcon} h={10} w="auto" />
           </Button>
         </Tooltip>
-      </Box>
+
+        <Tooltip label={`${connected ? 'Disconnect' : 'Connect'} wallet`}>
+          <Button
+            onClick={connected ? disconnect : connect}
+            variant="ghost"
+            display="inline-flex"
+            alignItems="center"
+            fontWeight="normal"
+            color="var(--chakra-colors-diamond)"
+            textShadow={`0 0 8px var(--chakra-colors-landing500)`}
+            borderRadius="inherit inherit 0 0"
+            opacity={0.5}
+            px={2}
+            sx={{
+              svg: {
+                filter: 'drop-shadow(0 0 10px var(--chakra-colors-diamond))',
+              },
+              '&:hover': {
+                backgroundColor: 'transparent',
+                color: 'var(--chakra-colors-landing300)',
+                opacity: 1,
+                svg: {
+                  filter:
+                    'drop-shadow(0 0 10px var(--chakra-colors-landing300))',
+                },
+              },
+            }}
+          >
+            {connecting ? (
+              <Spinner size="md" />
+            ) : (
+              <Icon as={connected ? GoSignOut : GoSignIn} h={8} w={8} />
+            )}
+          </Button>
+        </Tooltip>
+      </HStack>
       <Box
         position="fixed"
         top={0}
