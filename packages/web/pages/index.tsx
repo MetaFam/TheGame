@@ -8,7 +8,9 @@ import {
   Spinner,
   Text,
   Tooltip,
+  useBreakpointValue,
   usePrefersReducedMotion,
+  useToast,
   VStack,
 } from '@metafam/ds';
 import { PageContainer } from 'components/Container';
@@ -93,9 +95,9 @@ const Landing: React.FC = () => {
   const [effectsToggle, setEffectsToggle] = useState(noMotion);
   const toggleIcon = effectsToggle ? FaToggleOff : FaToggleOn;
   const [noticeOpen, setNoticeOpen] = useState(false);
-  const { connect, disconnect, connected, connecting, address } = useWeb3();
-  console.log('Landing', { connected, connecting, address });
-
+  const { connect, disconnect, connected, connecting } = useWeb3();
+  const spinnerSize = useBreakpointValue({ base: 'sm', '2xl': 'md' });
+  const toast = useToast();
   const scrollContainer =
     typeof document !== 'undefined'
       ? document.getElementById('scroll-container')
@@ -143,8 +145,48 @@ const Landing: React.FC = () => {
     set('MotionPreference', !noMotion ? 'off' : 'on');
     setNoMotion(!noMotion);
     setEffectsToggle(!effectsToggle);
+    toast({
+      title: `Motion ${noMotion ? 'enabled' : 'disabled'}`,
+      description: `Toggle to turn effects & animations ${
+        noMotion ? 'off' : 'on'
+      }.`,
+      status: 'info',
+      duration: 5000,
+      isClosable: true,
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [effectsToggle, noMotion]);
+
+  // eslint-disable-next-line no-promise-executor-return
+  // const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
+
+  // const handleDisconnect = () => {
+  //   disconnect();
+
+  //   sleep(1000).then(() => {
+  //     console.log('disconnected?');
+
+  //     if (!connected) {
+  //       toast({
+  //         title: 'Wallet disconnected',
+  //         description: 'Any local data has been removed. See you soon, Anon! 🐙',
+  //         status: 'success',
+  //         duration: 5000,
+  //         isClosable: true,
+  //       });
+  //       console.log('disconnected');
+  //     }
+
+  //   }).catch(() => {
+  //     toast({
+  //       title: 'Wallet disconnect',
+  //       description: 'We couldn\'t disconnect your wallet. Please try again.',
+  //       status: 'error',
+  //       duration: 5000,
+  //       isClosable: true,
+  //     });
+  //   });
+  // }
 
   /** Initially set the motion pref if it's not already set */
   useEffect(() => {
@@ -202,8 +244,6 @@ const Landing: React.FC = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [effectsToggle, prefersReducedMotion]);
-
-  // useEffect(() => {
 
   return (
     <>
@@ -313,7 +353,7 @@ const Landing: React.FC = () => {
             }}
           >
             {connecting ? (
-              <Spinner size={{ base: 'sm', '2xl': 'md' }} />
+              <Spinner size={spinnerSize} />
             ) : (
               <Icon
                 as={connected ? GoSignOut : GoSignIn}
