@@ -137,22 +137,23 @@ export const Chiev = ({
       <Box
         position="relative"
         display="flex"
-        height="50vh"
-        width="33vw"
+        height={{ base: '50vh', xl: '50vh' }}
+        width={{ base: '95%', xl: '33vw' }}
         border="2px solid var(--chakra-colors-landing600)"
         boxShadow="0 0 50px black"
         overflow="hidden"
         borderRadius="2xl"
         pointerEvents="auto"
-        fontSize="lg"
+        fontSize={{ base: 'sm', xl: 'lg' }}
         fontFamily="body"
+        textAlign="center"
         p={10}
       >
         <VStack
           spacing={8}
           width="full"
           backdropFilter="none"
-          zIndex={5}
+          zIndex={25}
           sx={{
             button: {
               px: 4,
@@ -166,7 +167,7 @@ export const Chiev = ({
         >
           <Text
             as="h3"
-            fontSize="xl"
+            fontSize={{ base: 'md', xl: 'xl' }}
             fontWeight="black"
             textTransform="uppercase"
             color="var(--chakra-colors-landing600)"
@@ -174,7 +175,7 @@ export const Chiev = ({
             Wow, you burrowed deep!
           </Text>
           <Text>🎉 You've won the deep burrower ChieveMint! 🎉</Text>
-          <Text className="gradient-text" fontSize="3xl">
+          <Text className="gradient-text" fontSize={{ base: 'lg', xl: '3xl' }}>
             Nice work Anon.
           </Text>
           <Text>Mint your free NFT here...</Text>

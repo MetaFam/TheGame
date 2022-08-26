@@ -538,11 +538,12 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
               sx={{
                 a: {
                   position: 'relative',
-                  display: 'inline-flex',
+                  display: 'inline',
                   lineHeight: { base: '1.2rem', xl: '1.7rem' },
                   color: 'var(--chakra-colors-landing550)',
-                  borderBottom: '2px solid var(--chakra-colors-landing550)',
-                  pr: { base: 3, md: 0 },
+                  // borderBottom: '2px solid var(--chakra-colors-landing550)',
+                  textDecoration: 'underline',
+                  pr: { base: 1, md: 0 },
                   '&:hover': {
                     color: 'var(--chakra-colors-landing500)',
                     borderBottom: '2px solid var(--chakra-colors-landing500)',
@@ -551,9 +552,9 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
                     content: '" "',
                     display: 'inline-flex',
                     p: { base: 1, md: 0 },
-                    mx: 1,
-                    width: '0.5rem',
-                    height: '0.5rem',
+                    ml: 1,
+                    width: { base: '0.6rem' },
+                    height: { base: '0.6rem' },
                     backgroundImage: `url(${externalLinkIcon})`,
                     backgroundRepeat: 'no-repeat',
                     backgroundSize: '100%',
@@ -804,8 +805,8 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
           <Tooltip label="Reset system">
             <Button
               position="absolute"
-              bottom={{ base: 4, md: '22%' }}
-              left={{ base: 9, md: 'auto' }}
+              bottom={{ base: 20, md: '22%' }}
+              left={{ base: 20, md: 'auto' }}
               right={{ base: 'auto', md: 9 }}
               variant="ghost"
               display="inline-flex"
@@ -820,7 +821,6 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
               px={3}
               opacity={0.5}
               textAlign="left"
-              fontSize={{ base: 'sm', md: 'large' }}
               onClick={handleReset}
               sx={{
                 svg: {
@@ -837,7 +837,11 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
                 },
               }}
             >
-              <Icon as={MdRestartAlt} w={10} h={10} />
+              <Icon
+                as={MdRestartAlt}
+                w={{ base: 8, xl: 10 }}
+                h={{ base: 8, xl: 10 }}
+              />
               {/* Reboot system */}
             </Button>
           </Tooltip>
