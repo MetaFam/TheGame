@@ -2,12 +2,17 @@ import {
   Box,
   Button,
   ButtonGroup,
+  Spinner,
   Text,
+  Tooltip,
   usePrefersReducedMotion,
   VStack,
 } from '@metafam/ds';
 import { animated, useSpring } from '@react-spring/web';
 import OctoBg from 'assets/baby_octo.png';
+import { useGame } from 'contexts/GameContext';
+import { BigNumber } from 'ethers';
+import { useWeb3 } from 'lib/hooks';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
 export const Chiev = ({
@@ -20,7 +25,10 @@ export const Chiev = ({
   const prefersReducedMotion = usePrefersReducedMotion();
   const [noMotion, setNoMotion] = useState(false);
   const root = typeof window !== 'undefined' ? document.body : null;
-
+  const { mintChiev, txLoading } = useGame();
+  const { address: account, connect, connecting, chainId } = useWeb3();
+  // const [claimed, setClaimed] = useState(false);
+  // const toast = useToast();
   const springProps = useSpring({
     config: {
       tension: 200,
@@ -49,6 +57,29 @@ export const Chiev = ({
       : 'translate3d(-100%, 100%, 0) rotate(40deg)',
     immediate: noMotion,
   });
+
+  const handleMinting = async () => {
+    try {
+      const chievId = BigNumber.from(0);
+      console.log('Minting chiev', { chievId, chainId });
+
+      const tx = await mintChiev(chievId);
+      if (tx) {
+        // setClaimed(true);
+        console.log('receipt', tx);
+      }
+    } catch (e: any) {
+      console.log('handleMintingError', e);
+      // const msg = e?.message as string || 'unknown error';
+      // toast({
+      //   title: 'Claim failed',
+      //   description: msg,
+      //   status: 'success',
+      //   isClosable: true,
+      //   duration: 5000,
+      // });
+    }
+  };
 
   useEffect(() => {
     if (typeof window !== 'undefined' && window.matchMedia !== undefined) {
@@ -148,15 +179,40 @@ export const Chiev = ({
           </Text>
           <Text>Mint your free NFT here...</Text>
           <ButtonGroup spacing={5}>
-            <Button
-              onClick={() => setWon(false)}
+            {!account ? (
+              <Button
+                onClick={connect}
+                variant="ghost"
+                color={'var(--chakra-colors-landing550)'}
+                textShadow="var(--chakra-colors-landing500)"
+                size={'xl'}
+              >
+                {connecting ? <Spinner size="sm" /> : 'Connect'}
+              </Button>
+            ) : (
+              <Tooltip
+                label={`Connected wallet: ${account ?? 'No account connected'}`}
+              >
+                <Button
+                  onClick={handleMinting}
+                  variant="white"
+                  color={account ? 'green' : 'var(--chakra-colors-landing550)'}
+                  textShadow="var(--chakra-colors-landing500)"
+                  size={'xl'}
+                >
+                  {txLoading ? 'Claiming...' : 'Claim'}
+                </Button>
+              </Tooltip>
+            )}
+            {/* <Button
+              onClick={handleMinting}
               variant="ghost"
               color={'var(--chakra-colors-landing550)'}
               textShadow="var(--chakra-colors-landing500)"
               size={'xl'}
             >
-              Mint
-            </Button>
+              {txLoading ? 'Claiming...' : 'Claim'}
+            </Button> */}
             <Button
               onClick={() => setWon(false)}
               variant="ghost"

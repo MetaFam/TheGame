@@ -1,3 +1,4 @@
+import { useToast } from '@metafam/ds';
 import type {
   GameProperties,
   GamePropertiesType,
@@ -5,10 +6,19 @@ import type {
   IGameState,
 } from 'components/Landing/OnboardingGame/gameTypes';
 import { CONFIG } from 'config';
-import gsap from 'gsap';
-import { TextPlugin } from 'gsap/dist/TextPlugin';
-import React, { useCallback, useContext, useMemo, useState } from 'react';
+import { BigNumber, Contract, providers, utils } from 'ethers';
+import { useWeb3 } from 'lib/hooks';
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
+import { providerOptions } from 'utils/walletOptions';
+import Web3Modal from 'web3modal';
 
+import ABI from '../components/Landing/OnboardingGame/chiev.abi.json';
 // import gameJson from '../components/Landing/OnboardingGame/metagame-onboarding-game.json';
 import { get, remove, set } from '../lib/store';
 
@@ -26,16 +36,38 @@ export const GameContext = React.createContext<IGameContext>({
   gameState: () => null,
   handleChoice: async () => undefined,
   resetGame: () => false,
-  typeText: () => '',
+  // typeText: () => '',
   fetchGameData: async () => {},
   visitedElements: () => '0',
+  mintChiev: async () => '',
+  connect: async () => undefined,
+  disconnect: async () => undefined,
   loading: true,
+  txLoading: false,
+  account: '',
+  network: '0x013881',
+  connected: false,
+  connecting: false,
 });
 
 export const GameContextProvider: React.FC = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
+  const [txLoading, setTxLoading] = useState(false);
+  // const [walletConnected, setWalletConnected] = useState(false);
   const [gameDataState, setGameDataState] = useState<GamePropertiesType>();
-
+  const {
+    address,
+    provider,
+    connect,
+    connecting,
+    connected,
+    chainId,
+    disconnect,
+  } = useWeb3();
+  console.log('Web3Context', { connected, connecting, address });
+  // const [library, setLibrary] = useState<any>();
+  const [account, setAccount] = useState<any>(address ?? '');
+  const toast = useToast();
   /** Function to async fetch `CONFIG.onboardingGameDataURL` as json and return the data
    * TODO: this needs the func from the main Game.tsx file to be moved here to replace
    * this function
@@ -59,20 +91,16 @@ export const GameContextProvider: React.FC = ({ children }) => {
     }
   }, []);
 
-  // const typingText = useCallback((text: string) => { });
-
-  // useEffect(() => {
-  //   if (gameDataState === undefined) {
-  //     fetchGameData();
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
+  useEffect(() => {
+    if (address) {
+      setAccount(address);
+      console.log('hexValue', utils.hexlify(80001));
+    }
+  }, [address]);
 
   const game = useMemo((): GameProperties => {
     try {
       if (!isLoading && gameDataState) {
-        console.log('gameDataState', gameDataState);
-
         const {
           assets,
           name,
@@ -123,14 +151,10 @@ export const GameContextProvider: React.FC = ({ children }) => {
   ): IGameState['state'] => {
     if (currentPlace !== undefined) {
       set('OnboardingGameState', currentPlace);
-      console.log('set game state', currentPlace);
-      // return state
     }
     if (reset) {
       remove('OnboardingGameState');
       remove('OnboardingGameVisitedElements');
-      // console.log('reset game state');
-      // return state;
     }
 
     const state = get('OnboardingGameState');
@@ -145,7 +169,7 @@ export const GameContextProvider: React.FC = ({ children }) => {
   const handleChoice = useCallback(
     async (target: string): Promise<string | undefined> => {
       try {
-        console.log('handleChoice', target);
+        // console.log('handleChoice', target);
 
         // await fakeLoading(500);
 
@@ -164,7 +188,9 @@ export const GameContextProvider: React.FC = ({ children }) => {
     [],
   );
 
-  /** Increment number of elements a user has visited & store in localStorage */
+  /** Increment number of elements a user has visited & store in localStorage
+   * This is used to trigger an achievement after so many elements have been visited
+   */
   const visitedElements = (increment?: boolean): string => {
     const visited: string | null = get('OnboardingGameVisitedElements');
 
@@ -190,30 +216,131 @@ export const GameContextProvider: React.FC = ({ children }) => {
     return false;
   }, []);
 
-  const typeText = (name: string): string => {
-    if (typeof window !== 'undefined') {
-      const textElement = document.querySelector(`[data-typeout="${name}"]`);
-      gsap.registerPlugin(TextPlugin);
-      const text = textElement?.textContent ?? '';
-      console.log('typeText', textElement?.textContent);
-      const tl = gsap.timeline({
-        paused: true,
-        reversed: true,
-        opacity: 0,
-        defaults: { duration: 0.5 },
-      });
-      if (textElement !== null) {
-        tl.to(textElement, {
-          text,
-          ease: 'power1.inOut',
+  const getProviderOrSigner = useCallback(
+    async (needSigner = false) => {
+      try {
+        // Connect to Metamask
+        // Since we store `web3Modal` as a reference, we need to access the `current` value to get access to the underlying object
+        const web3Modal = new Web3Modal({
+          network: 'mumbai',
+          cacheProvider: true,
+          providerOptions,
         });
-        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-        tl.reversed() ? tl.play() : tl.reverse();
-        return text;
+
+        const prov = await web3Modal.connect();
+        const web3Provider = new providers.Web3Provider(prov);
+        console.log('get provider/signer', { web3Provider, provider, prov });
+        // If user is not connected to the Rinkeby network, let them know and throw an error
+
+        if (chainId !== '0x013881') {
+          throw new Error('Change network to Polygon Mumbai');
+        }
+
+        if (needSigner) {
+          const signer = web3Provider.getSigner();
+          return signer;
+        }
+        return web3Provider;
+      } catch (error: any) {
+        console.log('getProviderOrSigner error', { error });
+        const msg = (error?.message as string) || 'unknown error';
+        toast({
+          title: 'Wrong network',
+          description: msg,
+          status: 'warning',
+          isClosable: true,
+          duration: 5000,
+        });
+        return undefined;
       }
-    }
-    return '';
-  };
+    },
+    [chainId, provider, toast],
+  );
+
+  const mintChiev = useCallback(
+    async (tokenId: BigNumber): Promise<string | undefined> => {
+      try {
+        console.log('mintChiev', tokenId);
+
+        if (address === undefined) await connect();
+        const signerProvider = await getProviderOrSigner();
+        console.log('signerProvider', signerProvider);
+
+        if (signerProvider === undefined) return undefined;
+
+        console.log('mintChiev', { account, provider });
+        const contractAddress = '0xa7787c91B35940AcC143E10C261A264f42F1e239';
+        const currency = '0x0000000000000000000000000000000000001010';
+        const quantity = BigNumber.from(1);
+        // const web3Modal = new Web3Modal({
+        //   network: 'mumbai',
+        //   cacheProvider: true,
+        //   providerOptions
+        // });
+        toast({
+          title: 'Claim in progress',
+          description: 'Please sign the transaction in your wallet.',
+          status: 'info',
+          isClosable: true,
+        });
+        console.log('Wallet connected', { account, provider });
+        const signer = provider?.getSigner();
+        const contract = new Contract(contractAddress, ABI, signer);
+        const confirmations = 3;
+        console.log('Contract', { contract, signer });
+
+        const claimOptions = {
+          payableAmount: utils.parseEther('0'),
+          receiver: account,
+          // eslint-disable-next-line no-underscore-dangle
+          tokenId: tokenId._hex,
+          // eslint-disable-next-line no-underscore-dangle
+          quantity: quantity._hex,
+          currency,
+          pricePerToken: utils.parseEther('0'),
+          proofs: [''],
+        };
+        const tx = await contract.claim(
+          claimOptions.payableAmount,
+          claimOptions.receiver,
+          claimOptions.tokenId,
+          claimOptions.quantity,
+          claimOptions.currency,
+          claimOptions.pricePerToken,
+          claimOptions.proofs,
+        );
+
+        setTxLoading(true);
+        await tx.wait(confirmations);
+
+        toast({
+          title: 'Chiev claimed',
+          description: `Your receipt: ${tx.hash}`,
+          status: 'success',
+          isClosable: true,
+          duration: 5000,
+        });
+        setTxLoading(false);
+        return tx.hash;
+
+        // throw new Error('No account');
+      } catch (error: any) {
+        console.log('mintChiev error', { error });
+        const msg = (error?.message as string) || 'unknown error';
+        toast({
+          title: 'Claim failed',
+          description: msg,
+          status: 'error',
+          isClosable: true,
+          duration: 5000,
+        });
+        // disconnect();
+        return msg;
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    },
+    [account, address, connect, getProviderOrSigner, provider, toast],
+  );
 
   return (
     <GameContext.Provider
@@ -222,10 +349,17 @@ export const GameContextProvider: React.FC = ({ children }) => {
         gameState,
         handleChoice,
         resetGame,
-        typeText,
         fetchGameData,
         visitedElements,
+        mintChiev,
+        connect,
+        disconnect,
         loading: isLoading,
+        txLoading,
+        account,
+        network: chainId,
+        connected,
+        connecting,
       }}
     >
       {children}

@@ -1,3 +1,7 @@
+import { Maybe } from '@metafam/utils';
+import { Web3ContextType } from 'contexts/Web3Context';
+import { BigNumber } from 'ethers';
+
 export interface GameProperties {
   name: string;
   startingElement: string;
@@ -16,10 +20,18 @@ export interface IGameContext {
   gameState: (place?: string, reset?: boolean) => IGameState['state'];
   handleChoice: (choice: string) => Promise<string | undefined>;
   resetGame: () => boolean;
-  typeText: (name: string) => string;
+  // typeText: (name: string) => string;
   fetchGameData: () => Promise<void | GameProperties>;
   visitedElements: (increment?: boolean) => string;
+  mintChiev: (tokenId: BigNumber) => Promise<string | undefined>;
+  connect: Web3ContextType['connect'];
+  disconnect: Web3ContextType['disconnect'];
   loading: boolean;
+  txLoading: boolean;
+  account: string;
+  network: Maybe<string>;
+  connected: Web3ContextType['connected'];
+  connecting: Web3ContextType['connecting'];
 }
 
 export interface IComponentsObject {
