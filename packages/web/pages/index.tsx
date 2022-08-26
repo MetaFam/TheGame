@@ -250,9 +250,9 @@ const Landing: React.FC = () => {
         alignItems="center"
         alignContent="center"
         position="absolute"
-        bottom={4}
+        bottom={{ base: 20, xl: 4 }}
         left={4}
-        zIndex={401}
+        zIndex={199}
         pointerEvents="auto"
       >
         <Tooltip label={`Turn effects ${noMotion ? 'On' : 'Off'}`}>
@@ -281,7 +281,7 @@ const Landing: React.FC = () => {
               },
             }}
           >
-            <Icon as={toggleIcon} h={10} w="auto" />
+            <Icon as={toggleIcon} h={{ base: 8, '2xl': 10 }} w="auto" />
           </Button>
         </Tooltip>
 
@@ -313,9 +313,13 @@ const Landing: React.FC = () => {
             }}
           >
             {connecting ? (
-              <Spinner size="md" />
+              <Spinner size={{ base: 'sm', '2xl': 'md' }} />
             ) : (
-              <Icon as={connected ? GoSignOut : GoSignIn} h={8} w={8} />
+              <Icon
+                as={connected ? GoSignOut : GoSignIn}
+                h={{ base: 6, '2xl': 8 }}
+                w={{ base: 6, '2xl': 8 }}
+              />
             )}
           </Button>
         </Tooltip>
@@ -363,27 +367,6 @@ const Landing: React.FC = () => {
           }}
         />
       </Box>
-      {noMotion && (
-        <Box
-          position="fixed"
-          bottom={0}
-          left={0}
-          width="full"
-          alignItems="center"
-          justifyContent="center"
-          flexFlow="row nowrap"
-          py={1}
-          textAlign="center"
-          display={'flex'}
-          backgroundColor="landingDarkGlass"
-          color="landing500"
-          zIndex={100}
-        >
-          <Text fontSize="md">
-            {noMotion ? '⚠️ User dislikes motion' : '👍 User happy with motion'}
-          </Text>
-        </Box>
-      )}
     </>
   );
 };

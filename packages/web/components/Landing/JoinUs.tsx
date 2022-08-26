@@ -202,8 +202,8 @@ export const JoinUs: React.FC = () => {
       <Box
         backgroundImage={BackgroundImage}
         backgroundBlendMode="normal"
-        backgroundPosition={{ base: 'top', xl: 'center' }}
-        backgroundSize={{ base: 'contain', xl: 'cover' }}
+        backgroundPosition={{ base: 'center', xl: 'center' }}
+        backgroundSize={{ base: '170%', xl: 'cover' }}
         backgroundRepeat="no-repeat"
         minH="100vh"
         minW="100vw"
