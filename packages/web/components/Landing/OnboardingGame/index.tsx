@@ -546,7 +546,7 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
                   pr: { base: 1, md: 0 },
                   '&:hover': {
                     color: 'var(--chakra-colors-landing500)',
-                    borderBottom: '2px solid var(--chakra-colors-landing500)',
+                    // borderBottom: '2px solid var(--chakra-colors-landing500)',
                   },
                   '&::after': {
                     content: '" "',
@@ -755,7 +755,8 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
                               display="inline-block"
                               fontWeight="normal"
                               textShadow={`0 0 8px var(--chakra-colors-landing500)`}
-                              borderBottom="2px solid var(--chakra-colors-landing550)"
+                              // borderBottom="2px solid var(--chakra-colors-landing550)"
+                              textDecoration="underline"
                               borderRadius="inherit inherit 0 0"
                               wordBreak="break-word"
                               textAlign="left"
@@ -763,8 +764,8 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
                               _hover={{
                                 backgroundColor: 'transparent',
                                 color: 'var(--chakra-colors-landing500)',
-                                borderBottom:
-                                  '2px solid var(--chakra-colors-landing500)',
+                                // borderBottom:
+                                //   '2px solid var(--chakra-colors-landing500)',
                               }}
                               fontSize={{ base: 'sm', md: 'sm', '2xl': 'lg' }}
                               sx={{
