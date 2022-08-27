@@ -62,7 +62,7 @@
     "@types/uuid": "8.3.4",
     "@typescript-eslint/eslint-plugin": "5.13.0",
     "@typescript-eslint/parser": "5.13.0",
-    "caniuse-lite": "1.0.30001313",
+    "caniuse-lite": "^1.0.30001383",
     "concurrently": "7.0.0",
     "env-cmd": "10.1.0",
     "eslint": "8.10.0",
