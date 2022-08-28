@@ -204,9 +204,6 @@ export const LandingHeader: React.FC = () => {
           <HStack
             alignItems="center"
             alignContent="center"
-            // position="absolute"
-            // bottom={{ base: 20, xl: 4 }}
-            // right={4}
             zIndex={401}
             pointerEvents="auto"
           >
