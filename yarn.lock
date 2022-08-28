@@ -9057,14 +9057,9 @@ camelize@^1.0.0:
   resolved "https://registry.yarnpkg.com/camelize/-/camelize-1.0.0.tgz#164a5483e630fa4321e5af07020e531831b2609b"
   integrity sha1-FkpUg+Yw+kMh5a8HAg5TGDGyYJs=
 
-caniuse-lite@^1.0.30001202, caniuse-lite@^1.0.30001219, caniuse-lite@^1.0.30001228, caniuse-lite@^1.0.30001286, caniuse-lite@^1.0.30001359:
+caniuse-lite@^1.0.30001202, caniuse-lite@^1.0.30001219, caniuse-lite@^1.0.30001228, caniuse-lite@^1.0.30001286, caniuse-lite@^1.0.30001359, caniuse-lite@^1.0.30001383:
   version "1.0.30001383"
   resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001383.tgz"
-  integrity sha512-swMpEoTp5vDoGBZsYZX7L7nXHe6dsHxi9o6/LKf/f0LukVtnrxly5GVb/fWdCDTqi/yw6Km6tiJ0pmBacm0gbg==
-
-caniuse-lite@^1.0.30001383:
-  version "1.0.30001383"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001383.tgz#aecf317ccd940690725ae3ae4f28293c5fb8050e"
   integrity sha512-swMpEoTp5vDoGBZsYZX7L7nXHe6dsHxi9o6/LKf/f0LukVtnrxly5GVb/fWdCDTqi/yw6Km6tiJ0pmBacm0gbg==
 
 canonicalize@^1.0.5:

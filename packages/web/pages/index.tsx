@@ -1,32 +1,16 @@
 /* eslint-disable no-nested-ternary */
-import {
-  Box,
-  Button,
-  HStack,
-  Icon,
-  IconButton,
-  Spinner,
-  Text,
-  Tooltip,
-  useBreakpointValue,
-  usePrefersReducedMotion,
-  useToast,
-  VStack,
-} from '@metafam/ds';
+import { Box, Button, Text, Tooltip, VStack } from '@metafam/ds';
 import { PageContainer } from 'components/Container';
 import { Build } from 'components/Landing/Build';
 import { Game } from 'components/Landing/Game';
 import { Intro } from 'components/Landing/Intro';
 import { JoinUs } from 'components/Landing/JoinUs';
 import { LandingHeader } from 'components/Landing/LandingHeader';
-import { Onboard } from 'components/Landing/Onboard';
 import { WhatDo } from 'components/Landing/WhatDo';
 import { WhyAreWeHere } from 'components/Landing/WhyAreWeHere';
 import { WildWeb } from 'components/Landing/WildWeb';
 import { MetaLink } from 'components/Link';
 import { HeadComponent } from 'components/Seo';
-import { useWeb3 } from 'lib/hooks';
-import { get, set } from 'lib/store';
 // import { gsap } from "gsap";
 // import { ScrollToPlugin } from 'gsap/dist/ScrollToPlugin';
 // import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
@@ -36,14 +20,10 @@ import {
   FaDiscord,
   FaGithub,
   FaHome,
-  FaToggleOff,
-  FaToggleOn,
   FaTrophy,
   FaTwitter,
   FaUserCircle,
 } from 'react-icons/fa';
-import { GoSignIn, GoSignOut } from 'react-icons/go';
-import { MdClose } from 'react-icons/md';
 
 export const getStaticProps = async () => ({
   props: {
@@ -81,23 +61,6 @@ const ArrowUp: React.FC = () => (
 );
 
 const Landing: React.FC = () => {
-  const prefersReducedMotion = usePrefersReducedMotion();
-  const savedMotionPreference = get('MotionPreference');
-  const [noMotion, setNoMotion] = useState(
-    savedMotionPreference === 'off'
-      ? true
-      : savedMotionPreference === 'on'
-      ? false
-      : prefersReducedMotion,
-  );
-  const reducedNoticeDismissed = get('ReducedMotionNotice') === 'dismissed';
-  const root = typeof window !== 'undefined' ? document.body : null;
-  const [effectsToggle, setEffectsToggle] = useState(noMotion);
-  const toggleIcon = effectsToggle ? FaToggleOff : FaToggleOn;
-  const [noticeOpen, setNoticeOpen] = useState(false);
-  const { connect, disconnect, connected, connecting } = useWeb3();
-  const spinnerSize = useBreakpointValue({ base: 'sm', '2xl': 'md' });
-  const toast = useToast();
   const scrollContainer =
     typeof document !== 'undefined'
       ? document.getElementById('scroll-container')
@@ -106,11 +69,6 @@ const Landing: React.FC = () => {
   const hostName = useRef('https://metagame.wtf');
   const setHostName = useCallback((host) => {
     hostName.current = host;
-  }, []);
-
-  const handleCloseNotice = useCallback(() => {
-    setNoticeOpen(false);
-    set('ReducedMotionNotice', 'dismissed');
   }, []);
 
   const handleScroll = useCallback(() => {
@@ -139,80 +97,6 @@ const Landing: React.FC = () => {
     [scrollContainer],
   );
 
-  /** TODO: Toggle works 100% except on first load when
-   * the switch renders as 'on' but is actually 'off' if no motion pref is saved */
-  const handleToggleEffects = useCallback(() => {
-    set('MotionPreference', !noMotion ? 'off' : 'on');
-    setNoMotion(!noMotion);
-    setEffectsToggle(!effectsToggle);
-    toast({
-      title: `Motion ${noMotion ? 'enabled' : 'disabled'}`,
-      description: `Toggle to turn effects & animations ${
-        noMotion ? 'off' : 'on'
-      }.`,
-      status: 'info',
-      duration: 5000,
-      isClosable: true,
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [effectsToggle, noMotion]);
-
-  // eslint-disable-next-line no-promise-executor-return
-  // const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
-
-  // const handleDisconnect = () => {
-  //   disconnect();
-
-  //   sleep(1000).then(() => {
-  //     console.log('disconnected?');
-
-  //     if (!connected) {
-  //       toast({
-  //         title: 'Wallet disconnected',
-  //         description: 'Any local data has been removed. See you soon, Anon! 🐙',
-  //         status: 'success',
-  //         duration: 5000,
-  //         isClosable: true,
-  //       });
-  //       console.log('disconnected');
-  //     }
-
-  //   }).catch(() => {
-  //     toast({
-  //       title: 'Wallet disconnect',
-  //       description: 'We couldn\'t disconnect your wallet. Please try again.',
-  //       status: 'error',
-  //       duration: 5000,
-  //       isClosable: true,
-  //     });
-  //   });
-  // }
-
-  /** Initially set the motion pref if it's not already set */
-  useEffect(() => {
-    if (typeof window !== 'undefined' && window.matchMedia !== undefined) {
-      if (savedMotionPreference === null) {
-        set('MotionPreference', prefersReducedMotion ? 'off' : 'on');
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  /** set noMotion so we can turn off animations if preferred
-   * Check for window to make sure we know window.matchMedia is availabe if supported
-   */
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      // setNoMotion(prefersReducedMotion);
-      if (noMotion && !reducedNoticeDismissed) {
-        setNoticeOpen(true);
-      } else {
-        setNoticeOpen(false);
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   useEffect(() => {
     scrollContainer?.addEventListener('scroll', handleScroll);
     document.addEventListener('keydown', handleKeyDown);
@@ -227,23 +111,6 @@ const Landing: React.FC = () => {
       document.removeEventListener('keydown', handleKeyDown);
     };
   }, [handleScroll, handleKeyDown, scrollContainer, section, setHostName]);
-
-  useEffect(() => {
-    if (typeof window !== 'undefined' && window.matchMedia !== undefined) {
-      if (noMotion) {
-        root?.classList.add('no-motion');
-        setNoMotion(true);
-        if (!reducedNoticeDismissed) {
-          setNoticeOpen(true);
-        }
-      } else {
-        root?.classList.remove('no-motion');
-        setNoMotion(false);
-        setNoticeOpen(false);
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [effectsToggle, prefersReducedMotion]);
 
   return (
     <>
@@ -262,8 +129,7 @@ const Landing: React.FC = () => {
         <WildWeb /> {/* section 3 */}
         <WhyAreWeHere /> {/* section 4 */}
         <WhatDo /> {/* section 5 */}
-        <Onboard /> {/* section 6 */}
-        <JoinUs /> {/* section 7 */}
+        <JoinUs /> {/* section 6 */}
       </PageContainer>
       <SectionWayPoints currentWaypoint={section} />
       <Socials />
@@ -286,127 +152,6 @@ const Landing: React.FC = () => {
           Back to top
         </Button>
       </MetaLink>
-      <HStack
-        alignItems="center"
-        alignContent="center"
-        position="absolute"
-        bottom={{ base: 20, xl: 4 }}
-        left={4}
-        zIndex={199}
-        pointerEvents="auto"
-      >
-        <Tooltip label={`Turn effects ${noMotion ? 'On' : 'Off'}`}>
-          <Button
-            onClick={handleToggleEffects}
-            variant="ghost"
-            display="inline-block"
-            fontWeight="normal"
-            color="var(--chakra-colors-diamond)"
-            textShadow={`0 0 8px var(--chakra-colors-landing500)`}
-            borderRadius="inherit inherit 0 0"
-            opacity={0.5}
-            px={2}
-            sx={{
-              svg: {
-                filter: 'drop-shadow(0 0 10px var(--chakra-colors-diamond))',
-              },
-              '&:hover': {
-                backgroundColor: 'transparent',
-                color: 'var(--chakra-colors-landing300)',
-                opacity: 1,
-                svg: {
-                  filter:
-                    'drop-shadow(0 0 10px var(--chakra-colors-landing300))',
-                },
-              },
-            }}
-          >
-            <Icon as={toggleIcon} h={{ base: 8, '2xl': 10 }} w="auto" />
-          </Button>
-        </Tooltip>
-
-        <Tooltip label={`${connected ? 'Disconnect' : 'Connect'} wallet`}>
-          <Button
-            onClick={connected ? disconnect : connect}
-            variant="ghost"
-            display="inline-flex"
-            alignItems="center"
-            fontWeight="normal"
-            color="var(--chakra-colors-diamond)"
-            textShadow={`0 0 8px var(--chakra-colors-landing500)`}
-            borderRadius="inherit inherit 0 0"
-            opacity={0.5}
-            px={2}
-            sx={{
-              svg: {
-                filter: 'drop-shadow(0 0 10px var(--chakra-colors-diamond))',
-              },
-              '&:hover': {
-                backgroundColor: 'transparent',
-                color: 'var(--chakra-colors-landing300)',
-                opacity: 1,
-                svg: {
-                  filter:
-                    'drop-shadow(0 0 10px var(--chakra-colors-landing300))',
-                },
-              },
-            }}
-          >
-            {connecting ? (
-              <Spinner size={spinnerSize} />
-            ) : (
-              <Icon
-                as={connected ? GoSignOut : GoSignIn}
-                h={{ base: 6, '2xl': 8 }}
-                w={{ base: 6, '2xl': 8 }}
-              />
-            )}
-          </Button>
-        </Tooltip>
-      </HStack>
-      <Box
-        position="fixed"
-        top={0}
-        left={0}
-        width="full"
-        alignItems="center"
-        justifyContent="center"
-        flexFlow="row nowrap"
-        py={1}
-        textAlign="center"
-        display={!noticeOpen ? 'none' : 'flex'}
-        backgroundColor="silver"
-        dropShadow={`0 0 10px black`}
-        color="dark"
-        zIndex={100}
-      >
-        <Text fontSize="md">
-          Anon, I noticed that you prefer reduced motion on websites &amp; apps,
-          so disabled all unnecessary effects / animations for you. Hover on
-          links &amp; buttons remain. Love, Nova{' '}
-          <span
-            title="Nova. See The Lore of MetaGame"
-            role="img"
-            className="gradient-text"
-          >
-            🐙
-          </span>{' '}
-        </Text>
-        <IconButton
-          icon={<MdClose />}
-          onClick={handleCloseNotice}
-          aria-label="close motion notice"
-          variant="ghost"
-          width={6}
-          height={6}
-          sx={{
-            '&:hover': {
-              color: 'var(--chakra-colors-landing500)',
-              backgroundColor: 'transparent',
-            },
-          }}
-        />
-      </Box>
     </>
   );
 };
@@ -626,16 +371,9 @@ export const SectionWayPoints = ({
           <Button
             className={currentWaypoint === 6 ? 'active' : ''}
             colorScheme="ghost"
-            onClick={() => handleSectionNav('onboard')}
-          >
-            <Text as="span">07</Text>
-          </Button>
-          <Button
-            className={currentWaypoint === 7 ? 'active' : ''}
-            colorScheme="ghost"
             onClick={() => handleSectionNav('join-us')}
           >
-            <Text as="span">08</Text>
+            <Text as="span">07</Text>
           </Button>
         </VStack>
       </Box>
