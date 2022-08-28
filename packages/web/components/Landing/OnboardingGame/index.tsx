@@ -759,6 +759,7 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
                               textDecoration="underline"
                               borderRadius="inherit inherit 0 0"
                               wordBreak="break-word"
+                              whiteSpace="pre-wrap"
                               textAlign="left"
                               width={'auto'}
                               _hover={{
@@ -803,12 +804,13 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
               </Box>
             </Box>
           </Box>
-          <Tooltip label="Reset system">
+          <Tooltip label="Reset system" hasArrow placement="bottom">
             <Button
               position="absolute"
+              aria-label="reset system"
               bottom={{ base: 20, md: '22%' }}
-              left={{ base: 20, md: 'auto' }}
-              right={{ base: 'auto', md: 9 }}
+              left={{ base: '45%', md: 'auto' }}
+              right={{ base: '45%', md: 9 }}
               variant="ghost"
               display="inline-flex"
               alignItems={'center'}

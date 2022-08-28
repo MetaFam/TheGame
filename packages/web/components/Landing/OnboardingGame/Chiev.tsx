@@ -186,6 +186,7 @@ export const Chiev = ({
                 variant="ghost"
                 color={'var(--chakra-colors-landing550)'}
                 textShadow="var(--chakra-colors-landing500)"
+                isDisabled={connecting}
                 size={'xl'}
               >
                 {connecting ? <Spinner size="sm" /> : 'Connect'}
@@ -196,6 +197,7 @@ export const Chiev = ({
               >
                 <Button
                   onClick={handleMinting}
+                  isDisabled={txLoading}
                   variant="white"
                   color={account ? 'green' : 'var(--chakra-colors-landing550)'}
                   textShadow="var(--chakra-colors-landing500)"

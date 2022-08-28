@@ -1,11 +1,13 @@
 /* eslint-disable no-underscore-dangle */
-import { useToast } from '@metafam/ds';
+import { Text, useToast, VStack } from '@metafam/ds';
 import type {
   GameProperties,
   GamePropertiesType,
   IGameContext,
   IGameState,
 } from 'components/Landing/OnboardingGame/gameTypes';
+import { MetaLink } from 'components/Link';
+import { CONFIG } from 'config';
 import { BigNumber, Contract, providers, utils } from 'ethers';
 import { useWeb3 } from 'lib/hooks';
 import React, {
@@ -285,33 +287,26 @@ export const GameContextProvider: React.FC = ({ children }) => {
   const mintChiev = useCallback(
     async (tokenId: BigNumber): Promise<any> => {
       try {
-        console.log('mintChiev', tokenId);
-
         if (address === undefined) await connect();
         const signerProvider = await getProviderOrSigner();
         console.log('signerProvider', signerProvider);
 
         if (signerProvider === undefined) return undefined;
 
-        console.log('mintChiev account', { account, provider });
         const contractAddress = '0xa7787c91B35940AcC143E10C261A264f42F1e239';
-        const currency = '0x0000000000000000000000000000000000001010';
-        const quantity = BigNumber.from(1);
-        // const web3Modal = new Web3Modal({
-        //   network: 'mumbai',
-        //   cacheProvider: true,
-        //   providerOptions
-        // });
+        const currency = '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee';
+        const quantity = BigNumber.from(1)._hex;
+        const viewNFTUrl = `${CONFIG.openseaBaseURL}/assets/mumbai/${contractAddress}/${tokenId}`;
+
         toast({
           title: 'Claim in progress',
           description: 'Please sign the transaction in your wallet.',
           status: 'info',
           isClosable: true,
         });
-        console.log('Wallet connected', { account, provider });
         const signer = provider?.getSigner() as providers.JsonRpcSigner;
         const contract = new Contract(contractAddress, ABI, signer);
-        const confirmations = 3;
+        const confirmations = 1;
         console.log('Contract', { contract, ABI, signer });
         const nonce = await getNonce(signer);
         const gasFee = await getGasPrice();
@@ -319,13 +314,12 @@ export const GameContextProvider: React.FC = ({ children }) => {
           receiver: account,
           tokenId,
           quantity,
-          pricePerToken: utils.parseEther('0'),
+          pricePerToken: utils.parseEther('0')._hex,
           currency,
           proofs: [utils.formatBytes32String('')],
-          proofMax: BigNumber.from('1'),
+          proofMax: BigNumber.from('1')._hex,
           value: utils.parseEther('0')._hex,
         };
-        console.log('claim func', claimOptions, contract, gasFee, nonce);
 
         const tx = await contract.functions.claim(
           claimOptions.receiver,
@@ -343,7 +337,8 @@ export const GameContextProvider: React.FC = ({ children }) => {
           },
         );
         if (tx) {
-          console.log('tx', { claimOptions, tx });
+          setTxLoading(true);
+          const receiptUrl = `${CONFIG.polygonscanBaseURL}/tx/${tx.hash}`;
           toast({
             title: 'Chiev claim',
             description: `Claim in progress: ${tx.hash}`,
@@ -351,12 +346,27 @@ export const GameContextProvider: React.FC = ({ children }) => {
             isClosable: true,
             duration: 5000,
           });
-          setTxLoading(true);
           await tx.wait(confirmations);
 
           toast({
-            title: 'Chiev claimed',
-            description: `Your receipt: ${tx.hash}`,
+            title: 'Chiev claimed 🎉',
+            description: (
+              <VStack spacing={2} textAlign="left">
+                <Text textAlign="left">
+                  <MetaLink href={receiptUrl} isExternal>
+                    View your receipt
+                  </MetaLink>{' '}
+                  👀
+                </Text>
+                <Text textAlign="left">
+                  Check it out on{' '}
+                  <MetaLink href={viewNFTUrl} isExternal>
+                    OpenSea
+                  </MetaLink>{' '}
+                  🐙
+                </Text>
+              </VStack>
+            ),
             status: 'success',
             isClosable: true,
             duration: 5000,
@@ -364,8 +374,6 @@ export const GameContextProvider: React.FC = ({ children }) => {
           setTxLoading(false);
           return tx.hash;
         }
-        console.log('tx failed?', { claimOptions, tx });
-
         return tx;
         // throw new Error('No account');
       } catch (error: any) {
@@ -381,7 +389,6 @@ export const GameContextProvider: React.FC = ({ children }) => {
         setTxLoading(false);
         return msg;
       }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
     },
     [
       account,

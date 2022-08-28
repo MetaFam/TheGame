@@ -3,7 +3,6 @@ import { FullPageContainer } from 'components/Container';
 import { GameContextProvider } from 'contexts/GameContext';
 import React from 'react';
 
-import { LandingNextButton } from './LandingNextButton';
 import { OnboardingGame } from './OnboardingGame';
 import { Rain } from './OnboardingGame/Rain';
 
@@ -34,7 +33,6 @@ export const Onboard: React.FC = () => {
         </GameContextProvider>
       </Container>
       <Rain top={-12} effectOpacity={0.3} />
-      <LandingNextButton py={2} section="join-us" />
     </FullPageContainer>
   );
 };
