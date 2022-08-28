@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import { useToast } from '@metafam/ds';
 import type {
   GameProperties,
@@ -5,7 +6,6 @@ import type {
   IGameContext,
   IGameState,
 } from 'components/Landing/OnboardingGame/gameTypes';
-import { CONFIG } from 'config';
 import { BigNumber, Contract, providers, utils } from 'ethers';
 import { useWeb3 } from 'lib/hooks';
 import React, {
@@ -19,7 +19,7 @@ import { providerOptions } from 'utils/walletOptions';
 import Web3Modal from 'web3modal';
 
 import ABI from '../components/Landing/OnboardingGame/chiev.abi.json';
-// import gameJson from '../components/Landing/OnboardingGame/metagame-onboarding-game.json';
+import gameJson from '../components/Landing/OnboardingGame/metagame-onboarding-game.json';
 import { get, remove, set } from '../lib/store';
 
 export const GameContext = React.createContext<IGameContext>({
@@ -77,8 +77,9 @@ export const GameContextProvider: React.FC = ({ children }) => {
       setIsLoading(true);
       console.log('Fetchng GameData...');
 
-      const response = await fetch(CONFIG.onboardingGameDataURL);
-      const data = (await response.json()) as GameProperties;
+      // const response = await fetch(gameJson);
+      // const data = (await response.json()) as GameProperties;
+      const data = gameJson as GameProperties;
       console.log('fetchGameData', data);
 
       if (data) {
@@ -229,11 +230,16 @@ export const GameContextProvider: React.FC = ({ children }) => {
 
         const prov = await web3Modal.connect();
         const web3Provider = new providers.Web3Provider(prov);
-        console.log('get provider/signer', { web3Provider, provider, prov });
+        console.log(
+          'get provider/signer',
+          { web3Provider, provider, prov },
+          provider?.network.chainId,
+        );
         // If user is not connected to the Rinkeby network, let them know and throw an error
-
-        if (chainId !== '0x013881') {
-          throw new Error('Change network to Polygon Mumbai');
+        if (provider && provider.network.chainId !== 80001) {
+          throw new Error(
+            `Change network to Polygon Mumbai. Current: ${chainId}/${provider.network.chainId}`,
+          );
         }
 
         if (needSigner) {
@@ -257,8 +263,27 @@ export const GameContextProvider: React.FC = ({ children }) => {
     [chainId, provider, toast],
   );
 
+  async function getNonce(signer: providers.JsonRpcSigner) {
+    return (await signer).getTransactionCount();
+  }
+
+  const getGasPrice = useCallback(async (): Promise<BigNumber | null> => {
+    try {
+      if (provider) {
+        const feeData = await provider.getFeeData();
+        console.log('getGasPrice', feeData);
+
+        return feeData.gasPrice;
+      }
+      return null;
+    } catch (error) {
+      console.log('getGasPrice error', { error });
+      return null;
+    }
+  }, [provider]);
+
   const mintChiev = useCallback(
-    async (tokenId: BigNumber): Promise<string | undefined> => {
+    async (tokenId: BigNumber): Promise<any> => {
       try {
         console.log('mintChiev', tokenId);
 
@@ -268,7 +293,7 @@ export const GameContextProvider: React.FC = ({ children }) => {
 
         if (signerProvider === undefined) return undefined;
 
-        console.log('mintChiev', { account, provider });
+        console.log('mintChiev account', { account, provider });
         const contractAddress = '0xa7787c91B35940AcC143E10C261A264f42F1e239';
         const currency = '0x0000000000000000000000000000000000001010';
         const quantity = BigNumber.from(1);
@@ -284,45 +309,64 @@ export const GameContextProvider: React.FC = ({ children }) => {
           isClosable: true,
         });
         console.log('Wallet connected', { account, provider });
-        const signer = provider?.getSigner();
+        const signer = provider?.getSigner() as providers.JsonRpcSigner;
         const contract = new Contract(contractAddress, ABI, signer);
         const confirmations = 3;
-        console.log('Contract', { contract, signer });
-
+        console.log('Contract', { contract, ABI, signer });
+        const nonce = await getNonce(signer);
+        const gasFee = await getGasPrice();
         const claimOptions = {
-          payableAmount: utils.parseEther('0'),
           receiver: account,
-          // eslint-disable-next-line no-underscore-dangle
-          tokenId: tokenId._hex,
-          // eslint-disable-next-line no-underscore-dangle
-          quantity: quantity._hex,
-          currency,
+          tokenId,
+          quantity,
           pricePerToken: utils.parseEther('0'),
-          proofs: [''],
+          currency,
+          proofs: [utils.formatBytes32String('')],
+          proofMax: BigNumber.from('1'),
+          value: utils.parseEther('0')._hex,
         };
-        const tx = await contract.claim(
-          claimOptions.payableAmount,
+        console.log('claim func', claimOptions, contract, gasFee, nonce);
+
+        const tx = await contract.functions.claim(
           claimOptions.receiver,
           claimOptions.tokenId,
           claimOptions.quantity,
           claimOptions.currency,
-          claimOptions.pricePerToken,
+          claimOptions.value,
           claimOptions.proofs,
+          claimOptions.proofMax,
+          {
+            value: claimOptions.value,
+            gasPrice: gasFee,
+            gasLimit: BigNumber.from('9000000')._hex,
+            nonce,
+          },
         );
+        if (tx) {
+          console.log('tx', { claimOptions, tx });
+          toast({
+            title: 'Chiev claim',
+            description: `Claim in progress: ${tx.hash}`,
+            status: 'info',
+            isClosable: true,
+            duration: 5000,
+          });
+          setTxLoading(true);
+          await tx.wait(confirmations);
 
-        setTxLoading(true);
-        await tx.wait(confirmations);
+          toast({
+            title: 'Chiev claimed',
+            description: `Your receipt: ${tx.hash}`,
+            status: 'success',
+            isClosable: true,
+            duration: 5000,
+          });
+          setTxLoading(false);
+          return tx.hash;
+        }
+        console.log('tx failed?', { claimOptions, tx });
 
-        toast({
-          title: 'Chiev claimed',
-          description: `Your receipt: ${tx.hash}`,
-          status: 'success',
-          isClosable: true,
-          duration: 5000,
-        });
-        setTxLoading(false);
-        return tx.hash;
-
+        return tx;
         // throw new Error('No account');
       } catch (error: any) {
         console.log('mintChiev error', { error });
@@ -334,12 +378,20 @@ export const GameContextProvider: React.FC = ({ children }) => {
           isClosable: true,
           duration: 5000,
         });
-        // disconnect();
+        setTxLoading(false);
         return msg;
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
     },
-    [account, address, connect, getProviderOrSigner, provider, toast],
+    [
+      account,
+      address,
+      connect,
+      getGasPrice,
+      getProviderOrSigner,
+      provider,
+      toast,
+    ],
   );
 
   return (

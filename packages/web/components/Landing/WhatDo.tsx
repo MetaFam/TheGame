@@ -217,7 +217,7 @@ export const WhatDo: React.FC = () => {
         bottom={0}
         zIndex={1}
       />
-      <LandingNextButton section="onboard" />
+      <LandingNextButton section="join-us" />
     </FullPageContainer>
   );
 };

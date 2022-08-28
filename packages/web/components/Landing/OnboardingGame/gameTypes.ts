@@ -20,10 +20,9 @@ export interface IGameContext {
   gameState: (place?: string, reset?: boolean) => IGameState['state'];
   handleChoice: (choice: string) => Promise<string | undefined>;
   resetGame: () => boolean;
-  // typeText: (name: string) => string;
   fetchGameData: () => Promise<void | GameProperties>;
   visitedElements: (increment?: boolean) => string;
-  mintChiev: (tokenId: BigNumber) => Promise<string | undefined>;
+  mintChiev: (tokenId: BigNumber) => Promise<any>;
   connect: Web3ContextType['connect'];
   disconnect: Web3ContextType['disconnect'];
   loading: boolean;

@@ -5,22 +5,146 @@ import {
   Button,
   Flex,
   HStack,
+  Icon,
+  IconButton,
   Link,
+  Spinner,
   Stack,
+  Text,
+  Tooltip,
+  useBreakpointValue,
   usePrefersReducedMotion,
+  useToast,
   VStack,
 } from '@metafam/ds';
 import OctoBg from 'assets/baby_octo.png';
 import MetaGameLogo from 'assets/logo.png';
 import { MetaLink } from 'components/Link';
 import { SetStateAction } from 'jotai';
-import { Dispatch, ReactNode, useState } from 'react';
+import { useWeb3 } from 'lib/hooks';
+import { get, set } from 'lib/store';
+import { Dispatch, ReactNode, useCallback, useEffect, useState } from 'react';
+import { FaToggleOff, FaToggleOn } from 'react-icons/fa';
+import { GoSignIn, GoSignOut } from 'react-icons/go';
+import { MdClose } from 'react-icons/md';
 
 import { AnimatedWaves, upDownAnimation } from './animations';
 
 export const LandingHeader: React.FC = () => {
   const [toggle, setToggle] = useState(false);
-  const noMotion = usePrefersReducedMotion();
+  const prefersReducedMotion = usePrefersReducedMotion();
+  const savedMotionPreference = get('MotionPreference');
+  const [noMotion, setNoMotion] = useState(
+    savedMotionPreference === 'off'
+      ? true
+      : savedMotionPreference === 'on'
+      ? false
+      : prefersReducedMotion,
+  );
+  const reducedNoticeDismissed = get('ReducedMotionNotice') === 'dismissed';
+  const root = typeof window !== 'undefined' ? document.body : null;
+  const [effectsToggle, setEffectsToggle] = useState(noMotion);
+  const toggleIcon = effectsToggle ? FaToggleOff : FaToggleOn;
+  const [noticeOpen, setNoticeOpen] = useState(false);
+  const { connect, disconnect, connected, connecting } = useWeb3();
+  const spinnerSize = useBreakpointValue({ base: 'sm', '2xl': 'md' });
+  const toast = useToast();
+
+  const handleCloseNotice = useCallback(() => {
+    setNoticeOpen(false);
+    set('ReducedMotionNotice', 'dismissed');
+  }, []);
+
+  /** TODO: Toggle works 100% except on first load when
+   * the switch renders as 'on' but is actually 'off' if no motion pref is saved */
+  const handleToggleEffects = useCallback(() => {
+    set('MotionPreference', !noMotion ? 'off' : 'on');
+    setNoMotion(!noMotion);
+    setEffectsToggle(!effectsToggle);
+    toast({
+      title: `Motion ${noMotion ? 'enabled' : 'disabled'}`,
+      description: `Toggle to turn effects & animations ${
+        noMotion ? 'off' : 'on'
+      }.`,
+      status: 'info',
+      duration: 5000,
+      isClosable: true,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [effectsToggle, noMotion]);
+
+  // eslint-disable-next-line no-promise-executor-return
+  // const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
+
+  // const handleDisconnect = () => {
+  //   disconnect();
+
+  //   sleep(1000).then(() => {
+  //     console.log('disconnected?');
+
+  //     if (!connected) {
+  //       toast({
+  //         title: 'Wallet disconnected',
+  //         description: 'Any local data has been removed. See you soon, Anon! 🐙',
+  //         status: 'success',
+  //         duration: 5000,
+  //         isClosable: true,
+  //       });
+  //       console.log('disconnected');
+  //     }
+
+  //   }).catch(() => {
+  //     toast({
+  //       title: 'Wallet disconnect',
+  //       description: 'We couldn\'t disconnect your wallet. Please try again.',
+  //       status: 'error',
+  //       duration: 5000,
+  //       isClosable: true,
+  //     });
+  //   });
+  // }
+
+  /** Initially set the motion pref if it's not already set */
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.matchMedia !== undefined) {
+      if (savedMotionPreference === null) {
+        set('MotionPreference', prefersReducedMotion ? 'off' : 'on');
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  /** set noMotion so we can turn off animations if preferred
+   * Check for window to make sure we know window.matchMedia is availabe if supported
+   */
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      // setNoMotion(prefersReducedMotion);
+      if (noMotion && !reducedNoticeDismissed) {
+        setNoticeOpen(true);
+      } else {
+        setNoticeOpen(false);
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.matchMedia !== undefined) {
+      if (noMotion) {
+        root?.classList.add('no-motion');
+        setNoMotion(true);
+        if (!reducedNoticeDismissed) {
+          setNoticeOpen(true);
+        }
+      } else {
+        root?.classList.remove('no-motion');
+        setNoMotion(false);
+        setNoticeOpen(false);
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [effectsToggle, prefersReducedMotion]);
 
   return (
     <>
@@ -77,62 +201,157 @@ export const LandingHeader: React.FC = () => {
               </HStack>
             </MetaLink>
           </HStack>
-
-          <Button
-            onClick={() => setToggle(!toggle)}
-            sx={{
-              alignSelf: 'center',
-              justifySelf: 'right',
-              position: 'relative',
-              flexDirection: 'column',
-              justifyContent: 'space-around',
-              w: { base: '2.25rem', xl: '2.5rem', '4xl': '3.1rem' },
-              h: { base: '2.25rem', xl: '2.5rem', '4xl': '3.1rem' },
-              borderRadius: { base: '0.25rem', xl: '1rem', '4xl': '1.25rem' },
-              background: 'transparent',
-              border: 'none',
-              cursor: 'pointer',
-              padding: 0,
-              marginRight: 0,
-              zIndex: 401,
-              '&:hover, &:focus,  &[data-hover]': {
-                outline: 'none',
-                background: 'transparent',
-                boxShadow: 'none',
-              },
-              div: {
-                w: 'full',
-                h: 'full',
-                borderRadius: { base: '0.25rem', xl: '1rem', '4xl': '1.25rem' },
-                transition: 'all 0.3s linear',
-                position: 'relative',
-                transformOrigin: '1px',
-              },
-              'path, circle': {
-                fill: toggle ? 'transparent' : 'transparent',
-                transition: noMotion ? 'none' : 'all 0.2s 0.2s ease',
-                stroke: toggle ? 'landing600' : 'white',
-              },
-              '.top-line': {
-                transition: noMotion ? 'none' : 'all 0.6s ease',
-                transform: toggle
-                  ? 'rotate(-405deg) translate3d(1px, 3px, 0)'
-                  : 'rotate(0)',
-                transformOrigin: 'center',
-              },
-              '.bottom-line': {
-                transition: noMotion ? 'none' : 'all 0.6s ease',
-                transform: toggle
-                  ? 'rotate(405deg) translate3d(0px, -4px, 0)'
-                  : noMotion
-                  ? 'none'
-                  : 'rotate(0)',
-                transformOrigin: 'center',
-              },
-            }}
+          <HStack
+            alignItems="center"
+            alignContent="center"
+            // position="absolute"
+            // bottom={{ base: 20, xl: 4 }}
+            // right={4}
+            zIndex={401}
+            pointerEvents="auto"
           >
-            <MenuIcon2SVG toggle={toggle} />
-          </Button>
+            <Tooltip
+              label={`Turn effects ${noMotion ? 'On' : 'Off'}`}
+              hasArrow
+              placement="bottom"
+            >
+              <Button
+                onClick={handleToggleEffects}
+                variant="ghost"
+                display="inline-block"
+                fontWeight="normal"
+                color="white"
+                // textShadow={`0 0 8px var(--chakra-colors-landing500)`}
+                borderRadius="inherit inherit 0 0"
+                opacity={0.3}
+                px={{ base: 1, xl: 2 }}
+                sx={{
+                  // svg: {
+                  //   filter: 'drop-shadow(0 0 10px var(--chakra-colors-diamond))',
+                  // },
+                  '&:hover': {
+                    backgroundColor: 'transparent',
+                    color: 'var(--chakra-colors-landing300)',
+                    opacity: 1,
+                    svg: {
+                      filter:
+                        'drop-shadow(0 0 10px var(--chakra-colors-landing300))',
+                    },
+                  },
+                }}
+              >
+                <Icon as={toggleIcon} h={{ base: 8, '2xl': 10 }} w="auto" />
+              </Button>
+            </Tooltip>
+
+            <Tooltip
+              label={`${connected ? 'Disconnect' : 'Connect'} wallet`}
+              hasArrow
+              placement="bottom"
+            >
+              <Button
+                onClick={connected ? disconnect : connect}
+                variant="ghost"
+                display="inline-flex"
+                alignItems="center"
+                fontWeight="normal"
+                color="white"
+                // textShadow={`0 0 8px var(--chakra-colors-landing500)`}
+                borderRadius="inherit inherit 0 0"
+                opacity={0.3}
+                px={{ base: 1, xl: 2 }}
+                sx={{
+                  // svg: {
+                  //   filter: 'drop-shadow(0 0 10px var(--chakra-colors-diamond))',
+                  // },
+                  '&:hover': {
+                    backgroundColor: 'transparent',
+                    color: 'var(--chakra-colors-landing300)',
+                    opacity: 1,
+                    svg: {
+                      filter:
+                        'drop-shadow(0 0 10px var(--chakra-colors-landing300))',
+                    },
+                  },
+                }}
+              >
+                {connecting ? (
+                  <Spinner size={spinnerSize} />
+                ) : (
+                  <Icon
+                    as={connected ? GoSignOut : GoSignIn}
+                    h={{ base: 6, '2xl': 8 }}
+                    w={{ base: 6, '2xl': 8 }}
+                  />
+                )}
+              </Button>
+            </Tooltip>
+            <Button
+              onClick={() => setToggle(!toggle)}
+              sx={{
+                alignSelf: 'center',
+                justifySelf: 'right',
+                position: 'relative',
+                flexDirection: 'column',
+                justifyContent: 'space-around',
+                w: { base: '2.25rem', xl: '2.5rem', '4xl': '3.1rem' },
+                h: { base: '2.25rem', xl: '2.5rem', '4xl': '3.1rem' },
+                borderRadius: { base: '0.25rem', xl: '1rem', '4xl': 'full' },
+                background: 'transparent',
+                border: 'none',
+                cursor: 'pointer',
+                padding: 0,
+                marginRight: 0,
+                zIndex: 401,
+                '&:hover, &:focus, &[data-hover]': {
+                  outline: 'none',
+                  background: 'transparent',
+                  boxShadow: 'none',
+                },
+                '&:hover, &[data-hover]': {
+                  svg: {
+                    filter:
+                      'drop-shadow(0 0 10px var(--chakra-colors-landing300))',
+                  },
+                  'path, circle': {
+                    // fill: 'var(--chakra-colors-landing300)',
+                    stroke: 'var(--chakra-colors-landing300)',
+                  },
+                },
+                div: {
+                  w: '99%',
+                  h: '99%',
+                  borderRadius: { base: '0.25rem', xl: '1rem', '4xl': 'full' },
+                  transition: 'all 0.2s linear',
+                  position: 'relative',
+                  transformOrigin: '1px',
+                },
+                'path, circle': {
+                  fill: toggle ? 'transparent' : 'transparent',
+                  transition: noMotion ? 'none' : 'all 0.2s ease',
+                  stroke: toggle ? 'landing600' : 'white',
+                },
+                '.top-line': {
+                  transition: noMotion ? 'none' : 'all 0.6s ease',
+                  transform: toggle
+                    ? 'rotate(-405deg) translate3d(1px, 3px, 0)'
+                    : 'rotate(0)',
+                  transformOrigin: 'center',
+                },
+                '.bottom-line': {
+                  transition: noMotion ? 'none' : 'all 0.6s ease',
+                  transform: toggle
+                    ? 'rotate(405deg) translate3d(0px, -4px, 0)'
+                    : noMotion
+                    ? 'none'
+                    : 'rotate(0)',
+                  transformOrigin: 'center',
+                },
+              }}
+            >
+              <MenuIcon2SVG toggle={toggle} />
+            </Button>
+          </HStack>
         </Flex>
       </Box>
       <Flex
@@ -206,12 +425,8 @@ export const LandingHeader: React.FC = () => {
               6. What do?
             </NavLink>
 
-            <NavLink target="onboard" toggle={toggle} setToggle={setToggle}>
-              7. Wake up, Anon...
-            </NavLink>
-
             <NavLink target="join-us" toggle={toggle} setToggle={setToggle}>
-              8. Join us!
+              7. Join us!
             </NavLink>
           </VStack>
         </Stack>
@@ -242,6 +457,50 @@ export const LandingHeader: React.FC = () => {
           }}
         />
       </Flex>
+
+      <Box
+        position="fixed"
+        top={0}
+        left={0}
+        width="full"
+        alignItems="center"
+        justifyContent="center"
+        flexFlow="row nowrap"
+        py={1}
+        textAlign="center"
+        display={!noticeOpen ? 'none' : 'flex'}
+        backgroundColor="silver"
+        dropShadow={`0 0 10px black`}
+        color="dark"
+        zIndex={500}
+      >
+        <Text fontSize={{ base: 'xs', '2xl': 'sm' }}>
+          Anon, I noticed that you prefer reduced motion on websites &amp; apps,
+          so disabled all unnecessary effects / animations for you. Hover on
+          links &amp; buttons remain. Love, Nova{' '}
+          <span
+            title="Nova. See The Lore of MetaGame"
+            role="img"
+            className="gradient-text"
+          >
+            🐙
+          </span>{' '}
+        </Text>
+        <IconButton
+          icon={<MdClose />}
+          onClick={handleCloseNotice}
+          aria-label="close motion notice"
+          variant="ghost"
+          width={6}
+          height={6}
+          sx={{
+            '&:hover': {
+              color: 'var(--chakra-colors-landing500)',
+              backgroundColor: 'transparent',
+            },
+          }}
+        />
+      </Box>
     </>
   );
 };
@@ -286,8 +545,8 @@ export const MenuIcon2SVG = ({ toggle }: { toggle: boolean }) => (
       as="svg"
       w={{ base: '2.25rem', xl: '2.5rem', '4xl': '2.9rem' }}
       position="absolute"
-      ml={0.5}
-      mt={0.5}
+      ml={0}
+      mt={0}
       left={0}
       bottom={0}
       top={0}
