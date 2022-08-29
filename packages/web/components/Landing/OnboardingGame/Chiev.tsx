@@ -82,6 +82,7 @@ export const Chiev = ({
         //   setClaimed(true);
         // }
       }
+      setClaiming(false);
     } catch (error: any) {
       console.log('handleMintingError', error);
     }
