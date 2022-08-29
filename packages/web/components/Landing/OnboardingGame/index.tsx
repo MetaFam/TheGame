@@ -14,6 +14,7 @@ import externalLinkIcon from 'assets/landing/external-link-icon.png';
 import { CONFIG } from 'config';
 import { useGame } from 'contexts/GameContext';
 import { useOnScreen } from 'lib/hooks/useOnScreen';
+import { get } from 'lib/store';
 import { ReactElement, useCallback, useEffect, useRef, useState } from 'react';
 import { MdDownloading, MdRestartAlt, MdWarning } from 'react-icons/md';
 import {
@@ -467,8 +468,8 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
 
   useEffect(() => {
     const number = parseInt(visits, 10);
-
-    if (number === 2) {
+    const claimed = get('ChievClaimed');
+    if (number === 2 && claimed !== 'true') {
       // eslint-disable-next-line no-alert
       triggerChiev();
     }
@@ -513,20 +514,17 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
             height="100vh"
             maxH="66vh"
             overflowY="auto"
-            width="100%"
-            pl={{ base: 6, md: 10, xl: 0 }}
-            pr={{ base: 3, md: 10, xl: 0 }}
+            width={{ base: '90%', xl: '100%' }}
+            pl={{ base: 0, md: 10, xl: 0 }}
+            pr={{ base: 2, md: 10, xl: 0 }}
             pb={{ base: 5, xl: 10 }}
             zIndex={onScreen ? 0 : noMotion ? 0 : -20}
             transform={`translate3d(0, ${'0'}, 0)`}
             transition="transform 0.3s 0.1s ease-in-out, opacity 0.5s 0.2s ease-in"
           >
-            {/* <Box ref={scrollerRef} position="relative" width="100%" overflowY="visible"> */}
-            {/* {currentElement !== undefined ? ( */}
             <Box
               ref={scrollContentRef}
               className="step"
-              // height="auto" minH="fit-content" width="full" opacity={onScreen ? 1 : 0} zIndex={onScreen ? 0 : -20} position="absolute" bottom="0"
               display="flex"
               flexDirection="column"
               justifyContent="space-between"
