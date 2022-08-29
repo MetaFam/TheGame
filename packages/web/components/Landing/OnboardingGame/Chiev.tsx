@@ -1,10 +1,10 @@
+/* eslint-disable no-nested-ternary */
 import {
   Box,
   Button,
   ButtonGroup,
   Spinner,
   Text,
-  Tooltip,
   usePrefersReducedMotion,
   VStack,
 } from '@metafam/ds';
@@ -13,7 +13,14 @@ import OctoBg from 'assets/baby_octo.png';
 import { useGame } from 'contexts/GameContext';
 import { BigNumber } from 'ethers';
 import { useWeb3 } from 'lib/hooks';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { get } from 'lib/store';
+import {
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
 
 export const Chiev = ({
   won,
@@ -26,12 +33,14 @@ export const Chiev = ({
   const [noMotion, setNoMotion] = useState(false);
   const root = typeof window !== 'undefined' ? document.body : null;
   const { mintChiev, txLoading } = useGame();
-  const { address: account, connect, connecting, chainId } = useWeb3();
+  const [claiming, setClaiming] = useState(false);
+  const { address: account, connect, connecting } = useWeb3();
+  const claimed = get('ChievClaimed') === 'true' ?? false;
   // const [claimed, setClaimed] = useState(false);
   // const toast = useToast();
   const springProps = useSpring({
     config: {
-      tension: 200,
+      tension: 150,
       friction: 10,
       mass: 1,
     },
@@ -58,28 +67,25 @@ export const Chiev = ({
     immediate: noMotion,
   });
 
-  const handleMinting = async () => {
+  const handleMinting = useCallback(async () => {
     try {
+      setClaiming(true);
       const chievId = BigNumber.from(0);
-      console.log('Minting chiev', { chievId, chainId });
 
       const tx = await mintChiev(chievId);
       if (tx) {
         // setClaimed(true);
         console.log('receipt', tx);
+        setClaiming(false);
+
+        // if (tx.hash) {
+        //   setClaimed(true);
+        // }
       }
-    } catch (e: any) {
-      console.log('handleMintingError', e);
-      // const msg = e?.message as string || 'unknown error';
-      // toast({
-      //   title: 'Claim failed',
-      //   description: msg,
-      //   status: 'success',
-      //   isClosable: true,
-      //   duration: 5000,
-      // });
+    } catch (error: any) {
+      console.log('handleMintingError', error);
     }
-  };
+  }, [mintChiev]);
 
   useEffect(() => {
     if (typeof window !== 'undefined' && window.matchMedia !== undefined) {
@@ -184,6 +190,7 @@ export const Chiev = ({
               <Button
                 onClick={connect}
                 variant="ghost"
+                aria-label="Connect to Web3 wallet"
                 color={'var(--chakra-colors-landing550)'}
                 textShadow="var(--chakra-colors-landing500)"
                 isDisabled={connecting}
@@ -192,20 +199,20 @@ export const Chiev = ({
                 {connecting ? <Spinner size="sm" /> : 'Connect'}
               </Button>
             ) : (
-              <Tooltip
-                label={`Connected wallet: ${account ?? 'No account connected'}`}
+              <Button
+                onClick={handleMinting}
+                isDisabled={txLoading || claiming || claimed}
+                variant="white"
+                color={account ? 'green' : 'var(--chakra-colors-landing550)'}
+                textShadow="var(--chakra-colors-landing500)"
+                size={'xl'}
               >
-                <Button
-                  onClick={handleMinting}
-                  isDisabled={txLoading}
-                  variant="white"
-                  color={account ? 'green' : 'var(--chakra-colors-landing550)'}
-                  textShadow="var(--chakra-colors-landing500)"
-                  size={'xl'}
-                >
-                  {txLoading ? 'Claiming...' : 'Claim'}
-                </Button>
-              </Tooltip>
+                {txLoading || claiming
+                  ? 'Claiming...'
+                  : claimed
+                  ? 'Claimed'
+                  : 'Claim'}
+              </Button>
             )}
             {/* <Button
               onClick={handleMinting}
