@@ -250,6 +250,7 @@ export const GameContextProvider: React.FC = ({ children }) => {
       } catch (error: any) {
         console.log('getProviderOrSigner error', { error });
         const msg = (error?.message as string) || 'unknown error';
+        setTxLoading(false);
         toast({
           title: 'Wrong network',
           description: msg,
@@ -289,7 +290,10 @@ export const GameContextProvider: React.FC = ({ children }) => {
         const signerProvider = await getProviderOrSigner();
         console.log('signerProvider', signerProvider);
 
-        if (signerProvider === undefined) return undefined;
+        if (signerProvider === undefined) {
+          setTxLoading(false);
+          return undefined;
+        }
 
         const contractAddress = '0xa7787c91B35940AcC143E10C261A264f42F1e239';
         const currency = '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee';
@@ -330,7 +334,6 @@ export const GameContextProvider: React.FC = ({ children }) => {
           {
             value: claimOptions.value,
             gasPrice: gasFee,
-            gasLimit: BigNumber.from('9000000')._hex,
             nonce,
           },
         );
@@ -384,7 +387,7 @@ export const GameContextProvider: React.FC = ({ children }) => {
           isClosable: true,
           duration: 5000,
         });
-        setTxLoading(false);
+        // setTxLoading(false);
         return msg;
       }
     },
