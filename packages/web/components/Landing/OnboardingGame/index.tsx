@@ -11,7 +11,6 @@ import {
   usePrefersReducedMotion,
 } from '@metafam/ds';
 import externalLinkIcon from 'assets/landing/external-link-icon.png';
-import { CONFIG } from 'config';
 import { useGame } from 'contexts/GameContext';
 import { useOnScreen } from 'lib/hooks/useOnScreen';
 import { get } from 'lib/store';
@@ -30,6 +29,7 @@ import type {
   IElement,
   IJumper,
 } from './gameTypes';
+import gameJson from './metagame-onboarding-game.json';
 
 export type CurrentElementState = IElement & {
   elementId: string;
@@ -89,9 +89,9 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
       // setIsLoading(true);
       console.log('fetchGameData...');
 
-      const response = await fetch(CONFIG.onboardingGameDataURL);
+      // const response = await fetch(CONFIG.onboardingGameDataURL);
       // console.log('fetchGameData RES', response.status);
-      const data = (await response.json()) as GameProperties;
+      const data = gameJson as GameProperties;
       // console.log('fetchGameData', data);
       const {
         assets,
@@ -469,7 +469,7 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
   useEffect(() => {
     const number = parseInt(visits, 10);
     const claimed = get('ChievClaimed');
-    if (number === 2 && claimed !== 'true') {
+    if (number === 10 && claimed !== 'true') {
       // eslint-disable-next-line no-alert
       triggerChiev();
     }
