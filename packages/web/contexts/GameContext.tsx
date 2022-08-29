@@ -55,7 +55,6 @@ export const GameContext = React.createContext<IGameContext>({
 export const GameContextProvider: React.FC = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [txLoading, setTxLoading] = useState(false);
-  // const [walletConnected, setWalletConnected] = useState(false);
   const [gameDataState, setGameDataState] = useState<GamePropertiesType>();
   const {
     address,
@@ -66,10 +65,9 @@ export const GameContextProvider: React.FC = ({ children }) => {
     chainId,
     disconnect,
   } = useWeb3();
-  console.log('Web3Context', { connected, connecting, address });
-  // const [library, setLibrary] = useState<any>();
   const [account, setAccount] = useState<any>(address ?? '');
   const toast = useToast();
+
   /** Function to async fetch `CONFIG.onboardingGameDataURL` as json and return the data
    * TODO: this needs the func from the main Game.tsx file to be moved here to replace
    * this function
@@ -306,7 +304,7 @@ export const GameContextProvider: React.FC = ({ children }) => {
         });
         const signer = provider?.getSigner() as providers.JsonRpcSigner;
         const contract = new Contract(contractAddress, ABI, signer);
-        const confirmations = 1;
+        const confirmations = 2;
         console.log('Contract', { contract, ABI, signer });
         const nonce = await getNonce(signer);
         const gasFee = await getGasPrice();
@@ -336,7 +334,7 @@ export const GameContextProvider: React.FC = ({ children }) => {
             nonce,
           },
         );
-        if (tx) {
+        if (tx.hash) {
           setTxLoading(true);
           const receiptUrl = `${CONFIG.polygonscanBaseURL}/tx/${tx.hash}`;
           toast({
@@ -347,6 +345,7 @@ export const GameContextProvider: React.FC = ({ children }) => {
             duration: 5000,
           });
           await tx.wait(confirmations);
+          set('ChievClaimed', 'true');
 
           toast({
             title: 'Chiev claimed 🎉',
@@ -372,7 +371,6 @@ export const GameContextProvider: React.FC = ({ children }) => {
             duration: 5000,
           });
           setTxLoading(false);
-          return tx.hash;
         }
         return tx;
         // throw new Error('No account');
