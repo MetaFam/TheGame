@@ -397,7 +397,7 @@ export const GuildForm: React.FC<Props> = ({
                           Polygon
                         </option>
                         <option key="xdai" value="xdai">
-                          xDai
+                          Gnosis
                         </option>
                       </Select>
                     </Field>
