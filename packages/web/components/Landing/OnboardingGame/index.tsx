@@ -469,7 +469,7 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
   useEffect(() => {
     const number = parseInt(visits, 10);
     const claimed = get('ChievClaimed');
-    if (number === 10 && claimed !== 'true') {
+    if (number === 2 && claimed !== 'true') {
       // eslint-disable-next-line no-alert
       triggerChiev();
     }

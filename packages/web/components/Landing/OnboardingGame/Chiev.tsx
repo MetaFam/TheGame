@@ -11,7 +11,6 @@ import {
 import { animated, useSpring } from '@react-spring/web';
 import OctoBg from 'assets/baby_octo.png';
 import { useGame } from 'contexts/GameContext';
-import { BigNumber } from 'ethers';
 import { useWeb3 } from 'lib/hooks';
 import { get } from 'lib/store';
 import {
@@ -70,7 +69,9 @@ export const Chiev = ({
   const handleMinting = useCallback(async () => {
     try {
       setClaiming(true);
-      const chievId = BigNumber.from(0);
+      const chievId = BigInt(
+        '0x480000000000000000000000000000000000000000000000000000000002',
+      );
 
       const tx = await mintChiev(chievId);
       if (tx) {
