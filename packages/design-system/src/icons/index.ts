@@ -9,4 +9,5 @@ export { MeetWithWalletIcon } from './MeetWithWalletIcon';
 export { MetaMaskIcon } from './MetaMaskIcon';
 export { PolygonIcon } from './PolygonIcon';
 export { Profile } from './Profile';
-export { XDaiIcon } from './XDaiIcon';
+// export { XDaiIcon } from './XDaiIcon'; // Replaced by Gnosis icon
+export { GnosisIcon } from './GnosisIcon';
