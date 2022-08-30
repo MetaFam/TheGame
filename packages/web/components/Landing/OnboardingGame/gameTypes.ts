@@ -1,6 +1,5 @@
 import { Maybe } from '@metafam/utils';
 import { Web3ContextType } from 'contexts/Web3Context';
-import { BigNumber } from 'ethers';
 
 export interface GameProperties {
   name: string;
@@ -22,7 +21,7 @@ export interface IGameContext {
   resetGame: () => boolean;
   fetchGameData: () => Promise<void | GameProperties>;
   visitedElements: (increment?: boolean) => string;
-  mintChiev: (tokenId: BigNumber) => Promise<any>;
+  mintChiev: (tokenId: bigint) => Promise<any>;
   connect: Web3ContextType['connect'];
   disconnect: Web3ContextType['disconnect'];
   loading: boolean;
