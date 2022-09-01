@@ -3,13 +3,14 @@ import {
   Box,
   Button,
   ButtonGroup,
-  Spinner,
   Text,
+  Tooltip,
   usePrefersReducedMotion,
   VStack,
 } from '@metafam/ds';
 import { animated, useSpring } from '@react-spring/web';
 import OctoBg from 'assets/baby_octo.png';
+import { LandingConnectButton } from 'components/Landing/LandingConnectButton';
 import { useGame } from 'contexts/GameContext';
 import { useWeb3 } from 'lib/hooks';
 import { get } from 'lib/store';
@@ -20,6 +21,7 @@ import {
   useEffect,
   useState,
 } from 'react';
+import { shortenAddress } from 'utils/stringHelpers';
 
 export const Chiev = ({
   won,
@@ -33,8 +35,12 @@ export const Chiev = ({
   const root = typeof window !== 'undefined' ? document.body : null;
   const { mintChiev, txLoading } = useGame();
   const [claiming, setClaiming] = useState(false);
-  const { address: account, connect, connecting } = useWeb3();
+  const { address: account, chainId, connected } = useWeb3();
+  const [wrongNetwork, setWrongNetwork] = useState(false);
   const claimed = get('ChievClaimed') === 'true' ?? false;
+  const chievId = BigInt(
+    '0x480000000000000000000000000000000000000000000000000000000002',
+  );
   // const [claimed, setClaimed] = useState(false);
   // const toast = useToast();
   const springProps = useSpring({
@@ -69,25 +75,26 @@ export const Chiev = ({
   const handleMinting = useCallback(async () => {
     try {
       setClaiming(true);
-      const chievId = BigInt(
-        '0x480000000000000000000000000000000000000000000000000000000002',
-      );
-
       const tx = await mintChiev(chievId);
       if (tx) {
-        // setClaimed(true);
         console.log('receipt', tx);
-        setClaiming(false);
-
-        // if (tx.hash) {
-        //   setClaimed(true);
-        // }
       }
       setClaiming(false);
     } catch (error: any) {
       console.log('handleMintingError', error);
     }
-  }, [mintChiev]);
+  }, [chievId, mintChiev]);
+
+  useEffect(() => {
+    if (connected && chainId !== '0x89') {
+      console.log('wrong network');
+      setWrongNetwork(true);
+      // throw new Error('Wrong network');
+    } else if (connected && chainId === '0x89') {
+      setWrongNetwork(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [connected, chainId]);
 
   useEffect(() => {
     if (typeof window !== 'undefined' && window.matchMedia !== undefined) {
@@ -189,42 +196,41 @@ export const Chiev = ({
           <Text>Mint your free NFT here...</Text>
           <ButtonGroup spacing={5}>
             {!account ? (
-              <Button
-                onClick={connect}
-                variant="ghost"
-                aria-label="Connect to Web3 wallet"
-                color={'var(--chakra-colors-landing550)'}
-                textShadow="var(--chakra-colors-landing500)"
-                isDisabled={connecting}
-                size={'xl'}
-              >
-                {connecting ? <Spinner size="sm" /> : 'Connect'}
-              </Button>
+              <LandingConnectButton />
             ) : (
-              <Button
-                onClick={handleMinting}
-                isDisabled={txLoading || claiming || claimed}
-                variant="white"
-                color={account ? 'green' : 'var(--chakra-colors-landing550)'}
-                textShadow="var(--chakra-colors-landing500)"
-                size={'xl'}
+              <Tooltip
+                label={
+                  wrongNetwork
+                    ? `Change to Polygon network`
+                    : `Wallet: ${shortenAddress(account)}`
+                }
+                hasArrow
+                isOpen={wrongNetwork}
+                bg={wrongNetwork ? 'brightIdOrange.600' : 'initial'}
               >
-                {txLoading || claiming
-                  ? 'Claiming...'
-                  : claimed
-                  ? 'Claimed'
-                  : 'Claim'}
-              </Button>
+                <Button
+                  onClick={handleMinting}
+                  isDisabled={txLoading || claiming || claimed || wrongNetwork}
+                  variant="white"
+                  color={
+                    account
+                      ? wrongNetwork
+                        ? 'brightIdOrange.600'
+                        : 'green'
+                      : 'var(--chakra-colors-landing550)'
+                  }
+                  textShadow="var(--chakra-colors-landing500)"
+                  size={'xl'}
+                >
+                  {txLoading || claiming
+                    ? 'Claiming...'
+                    : claimed
+                    ? 'Claimed'
+                    : 'Claim'}
+                </Button>
+              </Tooltip>
             )}
-            {/* <Button
-              onClick={handleMinting}
-              variant="ghost"
-              color={'var(--chakra-colors-landing550)'}
-              textShadow="var(--chakra-colors-landing500)"
-              size={'xl'}
-            >
-              {txLoading ? 'Claiming...' : 'Claim'}
-            </Button> */}
+
             <Button
               onClick={() => setWon(false)}
               variant="ghost"

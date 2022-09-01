@@ -8,11 +8,9 @@ import {
   Icon,
   IconButton,
   Link,
-  Spinner,
   Stack,
   Text,
   Tooltip,
-  useBreakpointValue,
   usePrefersReducedMotion,
   useToast,
   VStack,
@@ -21,14 +19,13 @@ import OctoBg from 'assets/baby_octo.png';
 import MetaGameLogo from 'assets/logo.png';
 import { MetaLink } from 'components/Link';
 import { SetStateAction } from 'jotai';
-import { useWeb3 } from 'lib/hooks';
 import { get, set } from 'lib/store';
 import { Dispatch, ReactNode, useCallback, useEffect, useState } from 'react';
 import { FaToggleOff, FaToggleOn } from 'react-icons/fa';
-import { GoSignIn, GoSignOut } from 'react-icons/go';
 import { MdClose } from 'react-icons/md';
 
 import { AnimatedWaves, upDownAnimation } from './animations';
+import { LandingConnectButton } from './LandingConnectButton';
 
 export const LandingHeader: React.FC = () => {
   const [toggle, setToggle] = useState(false);
@@ -46,8 +43,6 @@ export const LandingHeader: React.FC = () => {
   const [effectsToggle, setEffectsToggle] = useState(noMotion);
   const toggleIcon = effectsToggle ? FaToggleOff : FaToggleOn;
   const [noticeOpen, setNoticeOpen] = useState(false);
-  const { connect, disconnect, connected, connecting } = useWeb3();
-  const spinnerSize = useBreakpointValue({ base: 'sm', '2xl': 'md' });
   const toast = useToast();
 
   const handleCloseNotice = useCallback(() => {
@@ -72,37 +67,6 @@ export const LandingHeader: React.FC = () => {
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [effectsToggle, noMotion]);
-
-  // eslint-disable-next-line no-promise-executor-return
-  // const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
-
-  // const handleDisconnect = () => {
-  //   disconnect();
-
-  //   sleep(1000).then(() => {
-  //     console.log('disconnected?');
-
-  //     if (!connected) {
-  //       toast({
-  //         title: 'Wallet disconnected',
-  //         description: 'Any local data has been removed. See you soon, Anon! 🐙',
-  //         status: 'success',
-  //         duration: 5000,
-  //         isClosable: true,
-  //       });
-  //       console.log('disconnected');
-  //     }
-
-  //   }).catch(() => {
-  //     toast({
-  //       title: 'Wallet disconnect',
-  //       description: 'We couldn\'t disconnect your wallet. Please try again.',
-  //       status: 'error',
-  //       duration: 5000,
-  //       isClosable: true,
-  //     });
-  //   });
-  // }
 
   /** Initially set the motion pref if it's not already set */
   useEffect(() => {
@@ -218,14 +182,10 @@ export const LandingHeader: React.FC = () => {
                 display="inline-block"
                 fontWeight="normal"
                 color="white"
-                // textShadow={`0 0 8px var(--chakra-colors-landing500)`}
                 borderRadius="inherit inherit 0 0"
                 opacity={0.3}
                 px={{ base: 1, xl: 2 }}
                 sx={{
-                  // svg: {
-                  //   filter: 'drop-shadow(0 0 10px var(--chakra-colors-diamond))',
-                  // },
                   '&:hover': {
                     backgroundColor: 'transparent',
                     color: 'var(--chakra-colors-landing300)',
@@ -241,48 +201,7 @@ export const LandingHeader: React.FC = () => {
               </Button>
             </Tooltip>
 
-            <Tooltip
-              label={`${connected ? 'Disconnect' : 'Connect'} wallet`}
-              hasArrow
-              placement="bottom"
-            >
-              <Button
-                onClick={connected ? disconnect : connect}
-                variant="ghost"
-                display="inline-flex"
-                alignItems="center"
-                fontWeight="normal"
-                color="white"
-                // textShadow={`0 0 8px var(--chakra-colors-landing500)`}
-                borderRadius="inherit inherit 0 0"
-                opacity={0.3}
-                px={{ base: 1, xl: 2 }}
-                sx={{
-                  // svg: {
-                  //   filter: 'drop-shadow(0 0 10px var(--chakra-colors-diamond))',
-                  // },
-                  '&:hover': {
-                    backgroundColor: 'transparent',
-                    color: 'var(--chakra-colors-landing300)',
-                    opacity: 1,
-                    svg: {
-                      filter:
-                        'drop-shadow(0 0 10px var(--chakra-colors-landing300))',
-                    },
-                  },
-                }}
-              >
-                {connecting ? (
-                  <Spinner size={spinnerSize} />
-                ) : (
-                  <Icon
-                    as={connected ? GoSignOut : GoSignIn}
-                    h={{ base: 6, '2xl': 8 }}
-                    w={{ base: 6, '2xl': 8 }}
-                  />
-                )}
-              </Button>
-            </Tooltip>
+            <LandingConnectButton isIconStyle />
             <Button
               onClick={() => setToggle(!toggle)}
               sx={{
