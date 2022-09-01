@@ -286,7 +286,7 @@ export const GameContextProvider: React.FC = ({ children }) => {
         return receipt;
       } catch (error: any) {
         console.log('mintChiev error', { error });
-        const msg = (error?.message as string) || 'unknown error';
+        const msg = (error?.reason as string) || 'unknown error';
         toast({
           title: 'Claim failed',
           description: msg,
