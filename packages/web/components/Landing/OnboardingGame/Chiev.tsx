@@ -198,16 +198,7 @@ export const Chiev = ({
             {!account ? (
               <LandingConnectButton />
             ) : (
-              <Tooltip
-                label={
-                  wrongNetwork
-                    ? `Change to Polygon network`
-                    : `Wallet: ${shortenAddress(account)}`
-                }
-                hasArrow
-                isOpen={wrongNetwork}
-                bg={wrongNetwork ? 'brightIdOrange.600' : 'initial'}
-              >
+              <Tooltip label={`Wallet: ${shortenAddress(account)}`} hasArrow>
                 <Button
                   onClick={handleMinting}
                   isDisabled={txLoading || claiming || claimed || wrongNetwork}
@@ -240,6 +231,14 @@ export const Chiev = ({
               Close
             </Button>
           </ButtonGroup>
+          {wrongNetwork && (
+            <Text
+              fontSize={{ base: 'sm', xl: 'md' }}
+              color="brightIdOrange.600"
+            >
+              Change network to <strong>Polygon (0x89)</strong>
+            </Text>
+          )}
         </VStack>
         <Box
           position="absolute"
