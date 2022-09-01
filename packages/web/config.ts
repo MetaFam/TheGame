@@ -33,6 +33,7 @@ export const CONFIG = {
   openseaApiKey: process.env.OPENSEA_API_KEY || '',
   onboardingGameDataURL:
     'https://ipfs.fleek.co/ipfs/bafybeig5n6md7kemfjgdbguiepzisrt2y6icxhsj65kyrirs3kqgpv56eu',
-  openseaBaseURL: 'https://testnets.opensea.io',
-  polygonscanBaseURL: 'https://mumbai.polygonscan.com',
+  openseaBaseURL: 'https://opensea.io',
+  polygonscanBaseURL: 'https://polygonscan.com',
+  chievContractAddress: '0x85fCaAFc0dA050FCE685DcB8965F0C1Aa1Ba466b',
 };

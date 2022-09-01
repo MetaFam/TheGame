@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import { useToast } from '@metafam/ds';
+import { Text, useToast, VStack } from '@metafam/ds';
 import { httpLink } from '@metafam/utils';
 import type {
   GameProperties,
@@ -7,8 +7,9 @@ import type {
   IGameContext,
   IGameState,
 } from 'components/Landing/OnboardingGame/gameTypes';
-// import { BigNumber, Contract, providers, utils } from 'ethers';
-import { Contract, utils } from 'ethers';
+import { MetaLink } from 'components/Link';
+import { CONFIG } from 'config';
+import { Contract } from 'ethers';
 import { useWeb3 } from 'lib/hooks';
 import React, {
   useCallback,
@@ -19,8 +20,6 @@ import React, {
 } from 'react';
 
 import gameJson from '../components/Landing/OnboardingGame/metagame-onboarding-game.json';
-// import { providerOptions } from 'utils/walletOptions';
-// import Web3Modal from 'web3modal';
 import ABI from '../contracts/BulkDisbursableNFTs.abi';
 import { get, remove, set } from '../lib/store';
 
@@ -54,8 +53,7 @@ export const GameContext = React.createContext<IGameContext>({
 
 export const GameContextProvider: React.FC = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
-  // const [txLoading, setTxLoading] = useState(false);
-  const [txLoading] = useState(false);
+  const [txLoading, setTxLoading] = useState(false);
   const [gameDataState, setGameDataState] = useState<GamePropertiesType>();
   const {
     address,
@@ -96,7 +94,6 @@ export const GameContextProvider: React.FC = ({ children }) => {
   useEffect(() => {
     if (address) {
       setAccount(address);
-      console.log('hexValue', utils.hexlify(80001));
     }
   }, [address]);
 
@@ -160,7 +157,6 @@ export const GameContextProvider: React.FC = ({ children }) => {
     }
 
     const state = get('OnboardingGameState');
-    console.log('Saved position', state);
     return state;
   };
 
@@ -171,10 +167,6 @@ export const GameContextProvider: React.FC = ({ children }) => {
   const handleChoice = useCallback(
     async (target: string): Promise<string | undefined> => {
       try {
-        // console.log('handleChoice', target);
-
-        // await fakeLoading(500);
-
         if (target) gameState(target);
         const success = gameState() === target;
         if (success) {
@@ -218,84 +210,25 @@ export const GameContextProvider: React.FC = ({ children }) => {
     return false;
   }, []);
 
-  // const getProviderOrSigner = useCallback(
-  //   async (needSigner = false) => {
-  //     try {
-  //       // Connect to Metamask
-  //       // Since we store `web3Modal` as a reference, we need to access the `current` value to get access to the underlying object
-  //       const web3Modal = new Web3Modal({
-  //         network: 'mumbai',
-  //         cacheProvider: true,
-  //         providerOptions,
-  //       });
-
-  //       const prov = await web3Modal.connect();
-  //       const web3Provider = new providers.Web3Provider(prov);
-  //       console.log(
-  //         'get provider/signer',
-  //         { web3Provider, provider, prov },
-  //         provider?.network.chainId,
-  //       );
-  //       // If user is not connected to the Rinkeby network, let them know and throw an error
-  //       if (provider && provider.network.chainId !== 80001) {
-  //         throw new Error(
-  //           `Change network to Polygon Mumbai. Current: ${chainId}/${provider.network.chainId}`,
-  //         );
-  //       }
-
-  //       if (needSigner) {
-  //         const signer = web3Provider.getSigner();
-  //         return signer;
-  //       }
-  //       return web3Provider;
-  //     } catch (error: any) {
-  //       console.log('getProviderOrSigner error', { error });
-  //       const msg = (error?.message as string) || 'unknown error';
-  //       setTxLoading(false);
-  //       toast({
-  //         title: 'Wrong network',
-  //         description: msg,
-  //         status: 'warning',
-  //         isClosable: true,
-  //         duration: 5000,
-  //       });
-  //       return undefined;
-  //     }
-  //   },
-  //   [chainId, provider, toast],
-  // );
-
-  // async function getNonce(signer: providers.JsonRpcSigner) {
-  //   return (await signer).getTransactionCount();
-  // }
-
-  // const getGasPrice = useCallback(async (): Promise<BigNumber | null> => {
-  //   try {
-  //     if (provider) {
-  //       const feeData = await provider.getFeeData();
-  //       console.log('getGasPrice', feeData);
-
-  //       return feeData.gasPrice;
-  //     }
-  //     return null;
-  //   } catch (error) {
-  //     console.log('getGasPrice error', { error });
-  //     return null;
-  //   }
-  // }, [provider]);
-
   const mintChiev = useCallback(
     async (tokenId: bigint): Promise<any> => {
       try {
         if (address === undefined) await connect();
         if (provider == null) throw new Error('Provider not set.');
-        const contractAddress = '0x85fCaAFc0dA050FCE685DcB8965F0C1Aa1Ba466b';
+
+        const contractAddress = CONFIG.chievContractAddress;
         const token = new Contract(contractAddress, ABI, provider.getSigner());
+        const confirmationsWait = 2;
         const metadataURI = await token.uri(tokenId);
         if (!metadataURI || metadataURI === '') {
           throw new Error(`No metadata for token ${tokenId}.`);
         }
-        console.log({ metadataURI, h: httpLink(metadataURI) });
+        toast({
+          title: 'Claim in progress',
+          description: 'Please sign the transaction in your wallet.',
+          status: 'info',
+          isClosable: true,
+        });
         const response = await fetch(httpLink(metadataURI)!);
         const metadata = await response.json();
         const tx = await token['mint(address[],uint256,bytes)'](
@@ -303,86 +236,54 @@ export const GameContextProvider: React.FC = ({ children }) => {
           tokenId,
           [],
         );
-        const receipt = await tx.wait();
-        const nftURL = httpLink(metadata.external_url);
-        console.log({ nftURL, receipt });
+
         toast({
-          title: 'Claim in progress',
-          description: 'Please sign the transaction in your wallet.',
+          title: 'Chiev claim',
+          description: (
+            <>
+              <Text>Transaction hash: {tx.hash}</Text>
+              <Text>Waiting for {confirmationsWait} confirmations&hellip;</Text>
+            </>
+          ),
           status: 'info',
           isClosable: true,
+          duration: 5000,
         });
-        // const signer = provider?.getSigner() as providers.JsonRpcSigner;
-        // const contract = new Contract(contractAddress, ABI, signer);
-        // const confirmations = 2;
-        // console.log('Contract', { contract, ABI, signer });
-        // const nonce = await getNonce(signer);
-        // const gasFee = await getGasPrice();
-        // const claimOptions = {
-        //   receiver: account,
-        //   tokenId,
-        //   quantity,
-        //   pricePerToken: utils.parseEther('0')._hex,
-        //   currency,
-        //   proofs: [utils.formatBytes32String('')],
-        //   proofMax: BigNumber.from('1')._hex,
-        //   value: utils.parseEther('0')._hex,
-        // };
 
-        // const tx = await contract.functions.claim(
-        //   claimOptions.receiver,
-        //   claimOptions.tokenId,
-        //   claimOptions.quantity,
-        //   claimOptions.currency,
-        //   claimOptions.value,
-        //   claimOptions.proofs,
-        //   claimOptions.proofMax,
-        //   {
-        //     value: claimOptions.value,
-        //     gasPrice: gasFee,
-        //     nonce,
-        //   },
-        // );
-        // if (tx.hash) {
-        //   setTxLoading(true);
-        //   const receiptUrl = `${CONFIG.polygonscanBaseURL}/tx/${tx.hash}`;
-        //   toast({
-        //     title: 'Chiev claim',
-        //     description: `Claim in progress: ${tx.hash}`,
-        //     status: 'info',
-        //     isClosable: true,
-        //     duration: 5000,
-        //   });
-        //   await tx.wait(confirmations);
-        //   set('ChievClaimed', 'true');
+        const receipt = await tx.wait(confirmationsWait);
+        const receiptUrl = `${CONFIG.polygonscanBaseURL}/tx/${tx.hash}`;
+        const nftURL = httpLink(metadata.external_url);
 
-        //   toast({
-        //     title: 'Chiev claimed 🎉',
-        //     description: (
-        //       <VStack spacing={2} textAlign="left">
-        //         <Text textAlign="left">
-        //           <MetaLink href={receiptUrl} isExternal>
-        //             View your receipt
-        //           </MetaLink>{' '}
-        //           👀
-        //         </Text>
-        //         <Text textAlign="left">
-        //           Check it out on{' '}
-        //           <MetaLink href={viewNFTUrl} isExternal>
-        //             OpenSea
-        //           </MetaLink>{' '}
-        //           🐙
-        //         </Text>
-        //       </VStack>
-        //     ),
-        //     status: 'success',
-        //     isClosable: true,
-        //     duration: 5000,
-        //   });
-        //   setTxLoading(false);
-        // }
-        return tx;
-        // throw new Error('No account');
+        set('ChievClaimed', 'true');
+
+        toast({
+          title: 'Chiev claimed 🎉',
+          description: (
+            <VStack spacing={2} textAlign="left" justifyItems="start">
+              <Text textAlign="left">
+                <MetaLink href={receiptUrl} isExternal>
+                  View your receipt
+                </MetaLink>{' '}
+                👀
+              </Text>
+              {nftURL !== undefined && (
+                <Text textAlign="left">
+                  Check it out on{' '}
+                  <MetaLink href={nftURL} isExternal>
+                    chiev.es
+                  </MetaLink>{' '}
+                  🐙
+                </Text>
+              )}
+            </VStack>
+          ),
+          status: 'success',
+          isClosable: true,
+          duration: 5000,
+        });
+        setTxLoading(false);
+
+        return receipt;
       } catch (error: any) {
         console.log('mintChiev error', { error });
         const msg = (error?.message as string) || 'unknown error';
@@ -393,7 +294,6 @@ export const GameContextProvider: React.FC = ({ children }) => {
           isClosable: true,
           duration: 5000,
         });
-        // setTxLoading(false);
         return msg;
       }
     },
