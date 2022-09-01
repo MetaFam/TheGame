@@ -37,9 +37,9 @@ export const LandingConnectButton = ({ isIconStyle = false, ...props }) => {
       const shortAddress = shortenAddress(address);
       console.log('Connected to', networkName, 'with address', shortAddress);
 
-      if (toastRef.current && chainId !== '0x89') {
+      if (chainId !== '0x89') {
         setWrongNetwork(true);
-        toastRef.current = toast({
+        toast({
           title: `Wallet Connection`,
           description: (
             <VStack spacing={2} justifyItems="start">
@@ -66,7 +66,7 @@ export const LandingConnectButton = ({ isIconStyle = false, ...props }) => {
         });
       } else {
         setWrongNetwork(false);
-        toastRef.current = toast({
+        toast({
           title: 'Wallet Connection',
           description: `Successfully connected to ${networkName} with ${shortAddress}. 🥳`,
           status: 'success',
