@@ -86,8 +86,6 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
   const fetchGameData = useCallback(async () => {
     try {
       setHasError(false);
-      // setIsLoading(true);
-      console.log('fetchGameData...');
 
       // const response = await fetch(CONFIG.onboardingGameDataURL);
       // console.log('fetchGameData RES', response.status);
@@ -143,12 +141,10 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
               ? data.elements[state]
               : data.elements[data.startingElement];
 
-          // console.log('gameDataState', data);
           const elementData: CurrentElementState = {
             ...element,
             elementId: state ?? data.startingElement,
           };
-          // console.log('elementData', elementData);
 
           setCurrentElement(elementData);
           const visited = parseInt(visits, 10);
@@ -196,8 +192,6 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
           return connectionData;
         });
 
-        console.log('got connections', { connectionIds, elementConnections });
-
         setCurrentConnections(elementConnections);
         return elementConnections;
       }
@@ -214,25 +208,16 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
   const getJumpers = (jumperIds: string[]) => {
     try {
       if (jumperIds.length > 0) {
-        // console.log('getJumpers', { jumperIds });
-
         const elementJumpers = jumperIds.map((id: string) => {
-          console.log('elementJumpers', { id });
-
           const jumperData = {
             ...gameDataState?.jumpers[id],
             jumperId: id,
-            // elementId: jumpers[id].elementId,
           };
-          console.log('jumperData', jumperData);
 
           return jumperData;
         });
 
-        // console.log('getJumpers returns', { elementJumpers });
-
         setCurrentJumpers(elementJumpers);
-        console.log('set jumpers', { elementJumpers });
 
         return elementJumpers;
       }
@@ -266,7 +251,6 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
   /** Call to get connections when the currentElement changes */
   useEffect(() => {
     if (currentElement !== undefined && currentElement.outputs !== null) {
-      // setCurrentConnections([])
       getConnections(currentElement.outputs);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -275,26 +259,18 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
   /** Call to get jumpers when the currentConnections change */
   useEffect(() => {
     if (currentConnections !== undefined && currentConnections.length > 0) {
-      // setCurrentJumpers([])
-
-      console.log('jumpers uef: Current connections', currentConnections);
-
       const jumpers: any[] = currentConnections.filter(
         (
           connection: ConnectionStateItem,
         ): IConnection['targetid'] | undefined => {
           if (connection.targetType === 'jumpers') {
-            // console.log('We found a jumper', connection);
             return connection.targetid;
           }
           return undefined;
         },
       );
       if (jumpers !== undefined && jumpers.length > 0) {
-        console.log('Mapping jumpers...', jumpers);
-
         const jumperIds = jumpers.map((jumper: IConnection) => jumper.targetid);
-        console.log('jumperIds', jumperIds);
         getJumpers(jumperIds);
       }
     }
@@ -323,16 +299,13 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
        * if the paragraph has a link, push it into the `choices` array.
        */
       if (parsedContent.length > 0) {
-        console.log('parsedContent', parsedContent);
         parsedContent.forEach((paragraph: JSX.Element) => {
           const { children } = paragraph.props;
           if (children) {
             const hasLink = children.type === 'a';
             if (!hasLink) {
-              // console.log('no link', paragraph);
               dialogue.push(paragraph);
             } else {
-              // console.log('has link', children);
               choices.push(children);
             }
           }
@@ -340,7 +313,6 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
         });
         setCurrentDialogue(dialogue);
         setCurrentChoices(choices);
-        console.log('makeCurrentSectionDialogue', { dialogue, choices });
         return {
           currentDialogue: dialogue,
           currentChoices: choices,
@@ -368,7 +340,6 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
    */
   useEffect(() => {
     if (typeof window !== 'undefined' && currentDialogue !== undefined) {
-      // makeCurrentSectionDialogue(currentElement);
       setIsTyping(true);
       const elementsToType = document.querySelectorAll('.typing-text');
       const phrases: string[] = [];

@@ -55,3 +55,13 @@ export const safelyParseTextForTyping = (content: string) => {
   const parsed = parse(clean, options);
   return parsed;
 };
+
+export const shortenAddress = (address: string, sliceSize?: number): string => {
+  const sliceNumber = sliceSize ?? 4;
+  const start: string = address.toLowerCase().slice(0, sliceNumber);
+  const end: string = address
+    .toLowerCase()
+    .slice(Math.max(0, address.length - sliceNumber));
+  const shortAddress = `${start}...${end}`;
+  return shortAddress;
+};
