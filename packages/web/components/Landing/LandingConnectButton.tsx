@@ -12,7 +12,7 @@ import {
 } from '@metafam/ds';
 import { MetaLink } from 'components/Link';
 import { useWeb3 } from 'lib/hooks';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { GoSignIn, GoSignOut } from 'react-icons/go';
 import { shortenAddress } from 'utils/stringHelpers';
 
@@ -29,7 +29,6 @@ export const LandingConnectButton = ({ isIconStyle = false, ...props }) => {
   const [wrongNetwork, setWrongNetwork] = useState(false);
   const spinnerSize = useBreakpointValue({ base: 'sm', '2xl': 'md' });
   const toast = useToast();
-  const toastRef = useRef<string | number | undefined>();
 
   useEffect(() => {
     if (connected && address && provider) {
