@@ -439,8 +439,16 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
 
   useEffect(() => {
     const number = parseInt(visits, 10);
+    const triggerOn = 20;
+    const triggerElements = ['1357573e-5f79-420e-9e61-6da47f341546'];
+    const currentElementId: string = currentElement?.elementId ?? '';
     const claimed = get('ChievClaimed');
-    if (number === 2 && claimed !== 'true') {
+    if (
+      (number === triggerOn ||
+        (currentElementId &&
+          triggerElements.find((el) => el === currentElementId))) &&
+      claimed !== 'true'
+    ) {
       // eslint-disable-next-line no-alert
       triggerChiev();
     }
