@@ -8,10 +8,14 @@ import {
   usePrefersReducedMotion,
   VStack,
 } from '@metafam/ds';
+import { httpLink } from '@metafam/utils';
 import { animated, useSpring } from '@react-spring/web';
 import OctoBg from 'assets/baby_octo.png';
 import { LandingConnectButton } from 'components/Landing/LandingConnectButton';
+import { MetaLink } from 'components/Link';
+import { CONFIG } from 'config';
 import { useGame } from 'contexts/GameContext';
+import { Contract, providers } from 'ethers';
 import { useWeb3 } from 'lib/hooks';
 import { get } from 'lib/store';
 import {
@@ -22,6 +26,15 @@ import {
   useState,
 } from 'react';
 import { shortenAddress } from 'utils/stringHelpers';
+
+import ABI from '../../../contracts/BulkDisbursableNFTs.abi';
+
+export interface IChievMetadata {
+  name: string;
+  description: string;
+  image: string;
+  animation_url?: string;
+}
 
 export const Chiev = ({
   won,
@@ -37,10 +50,12 @@ export const Chiev = ({
   const [claiming, setClaiming] = useState(false);
   const { address: account, chainId, connected } = useWeb3();
   const [wrongNetwork, setWrongNetwork] = useState(false);
+  const { alchemyApiKey, chievContractAddress: contractAddress } = CONFIG;
   const claimed = get('ChievClaimed') === 'true' ?? false;
   const chievId = BigInt(
     '0x480000000000000000000000000000000000000000000000000000000002',
   );
+  const [chievData, setChievData] = useState<IChievMetadata>();
   // const [claimed, setClaimed] = useState(false);
   // const toast = useToast();
   const springProps = useSpring({
@@ -84,6 +99,49 @@ export const Chiev = ({
       console.log('handleMintingError', error);
     }
   }, [chievId, mintChiev]);
+
+  /** function to get the token image url from the nft metadata */
+  const getTokenImage =
+    useCallback(async (): Promise<IChievMetadata | void> => {
+      try {
+        const provider = new providers.AlchemyProvider('matic', alchemyApiKey);
+        const token = new Contract(contractAddress, ABI, provider);
+        console.log('token', token, provider, alchemyApiKey);
+        const metadataURI = await token.uri(chievId);
+        console.log('metadataURI', metadataURI);
+        if (!metadataURI || metadataURI === '') {
+          throw new Error(`No metadata for token ${chievId}.`);
+        }
+        const response = await fetch(httpLink(metadataURI)!);
+        const metadata = await response.json();
+        return metadata as IChievMetadata;
+      } catch (error: any) {
+        console.log('getTokenImageError', error);
+        return undefined;
+      }
+    }, [chievId, contractAddress, alchemyApiKey]);
+
+  useEffect(() => {
+    getTokenImage().then((res) => {
+      console.log('res', res);
+      if (res) {
+        const metadata = {
+          name: res.name ?? '',
+          description: res.description ?? '',
+          image: httpLink(res.image) ?? '',
+          animation_url: httpLink(res.animation_url) ?? '',
+        };
+        setChievData(metadata);
+      }
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (chievData) {
+      console.log('chievData', chievData);
+    }
+  }, [chievData]);
 
   useEffect(() => {
     if (connected && chainId !== '0x89') {
@@ -159,13 +217,13 @@ export const Chiev = ({
         overflow="hidden"
         borderRadius="2xl"
         pointerEvents="auto"
-        fontSize={{ base: 'sm', xl: 'lg' }}
+        fontSize={{ base: 'sm', '2xl': 'md' }}
         fontFamily="body"
         textAlign="center"
         p={10}
       >
         <VStack
-          spacing={8}
+          spacing={{ base: 3, '2xl': 5 }}
           width="full"
           backdropFilter="none"
           zIndex={25}
@@ -182,18 +240,40 @@ export const Chiev = ({
         >
           <Text
             as="h3"
-            fontSize={{ base: 'md', xl: 'xl' }}
+            fontSize={{ base: 'md', '2xl': 'xl' }}
             fontWeight="black"
             textTransform="uppercase"
             color="var(--chakra-colors-landing600)"
           >
-            Wow, you burrowed deep!
+            Onboarding Progress
           </Text>
-          <Text>🎉 You've won the deep burrower ChieveMint! 🎉</Text>
-          <Text className="gradient-text" fontSize={{ base: 'lg', xl: '3xl' }}>
+          <Text>🎉 You've won a ’Chievemint! 🎉</Text>
+          <Text
+            className="gradient-text"
+            fontSize={{ base: 'lg', '2xl': '3xl' }}
+          >
             Nice work Anon.
           </Text>
-          <Text>Mint your free NFT here...</Text>
+          <Text>
+            You&apos;re now able to claim a free NFT by clicking the{' '}
+            {connected ? 'Claim' : 'Connect'} button below.{' '}
+            {!connected
+              ? "You will need a Web3 wallet if you don't already have one"
+              : undefined}
+          </Text>
+          {!connected ? (
+            <Text>
+              If you don&apos;t already have a wallet, a good place to start is{' '}
+              <MetaLink href="https://metamask.io/" isExternal>
+                MetaMask
+              </MetaLink>
+              . Here's a helpful video to lead you through the process of{' '}
+              <MetaLink href="https://youtu.be/-HTubEJ61zU" isExternal>
+                setting up MetaMask
+              </MetaLink>
+              .
+            </Text>
+          ) : undefined}
           <ButtonGroup spacing={5}>
             {!account ? (
               <LandingConnectButton />
@@ -255,17 +335,13 @@ export const Chiev = ({
           zIndex={1}
         />
         <animated.div
-          // onMouseMove={({ clientX: x, clientY: y }) => set({ xys: calc(x, y) })}
-          // onMouseLeave={() => set({ xys: [0, 0, 1] })}
-          // eslint-disable-next-line no-param-reassign
-          // onMouseOver={(event) => console.log(props.xys)}
           style={{
             ...octoSpringProps,
             backgroundImage: `url(${OctoBg})`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             backgroundRepeat: 'no-repeat',
-            opacity: 0.5,
+            opacity: 0.8,
             position: 'absolute',
             left: '-12%',
             bottom: '-10%',
@@ -276,6 +352,18 @@ export const Chiev = ({
             // transform: props.xys.to(trans)
           }}
         />
+        <Box
+          position="absolute"
+          inset={0}
+          opacity={0.3}
+          backgroundImage={chievData?.image}
+          backgroundSize="cover"
+          backgroundRepeat="no-repeat"
+          width="100%"
+          height="100%"
+          zIndex={1}
+        />
+
         <Box
           position="absolute"
           bottom={{ base: 3, xl: '-10%' }}
@@ -320,7 +408,7 @@ export const Chiev = ({
           width={'50px'}
           height={'50px'}
           borderRadius="full"
-          backgroundColor="rgba(255 255 255 / 1%)"
+          backgroundColor="rgba(255 255 255 / 3%)"
           opacity={0.7}
           pointerEvents="none"
           zIndex={10}
@@ -332,7 +420,7 @@ export const Chiev = ({
           width={'75px'}
           height={'75px'}
           borderRadius="full"
-          backgroundColor="rgba(255 255 255 / 1%)"
+          backgroundColor="rgba(255 255 255 / 3%)"
           opacity={0.4}
           zIndex={10}
           pointerEvents="none"

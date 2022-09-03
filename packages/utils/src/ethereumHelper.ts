@@ -9,7 +9,7 @@ export async function getSignature(
   const signer = provider.getSigner();
   const address = await signer.getAddress();
   if (!ethereum.request) throw new Error('No `request` On Ethereum Provider');
-  const signMsg = `Welcome to MetaGame 🐙 \n Please sign the message below so we know you're legit.\n We care about privacy and assure you, we don't harvest your data. Unless you create an account, we simply store a token in your browser's local storage. This can be removed by using the disconnect button.\n ${msg}`;
+  const signMsg = `Welcome to MetaGame Anon 🐙 \n Please sign this message so we know it is you.\n We care about privacy and assure you, we don't harvest your data. Unless you create a Player account, we simply store a token in your browser's local storage. This can be removed by using the disconnect button.\n ${msg}`;
   let params = [signMsg, address];
 
   if (extraParams) {
