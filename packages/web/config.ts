@@ -36,4 +36,7 @@ export const CONFIG = {
   openseaBaseURL: 'https://opensea.io',
   polygonscanBaseURL: 'https://polygonscan.com',
   chievContractAddress: '0x85fCaAFc0dA050FCE685DcB8965F0C1Aa1Ba466b',
+  alchemyRpcUrl: process.env.NEXT_ALCHEMY_ENDPOINT || '',
+  alchemyApiKey:
+    process.env.NEXT_ALCHEMY_API_KEY || 'eoEduI_LCCxfMPe9MKrpvly-qWtBBY7I',
 };
