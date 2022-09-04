@@ -3,7 +3,6 @@ import { Tooltip } from '@chakra-ui/react';
 import React from 'react';
 
 import { EthereumIcon } from './EthereumIcon';
-// import { XDaiIcon } from './XDaiIcon'; // Replaced by GnosisIcon
 import { GnosisIcon } from './GnosisIcon';
 import { PolygonIcon } from './PolygonIcon';
 
@@ -14,13 +13,18 @@ type Props = {
 export const ChainIcon: React.FC<Props & IconProps> = ({ chain, ...props }) => {
   const lower = chain?.toLowerCase();
   const info = (() => {
-    // Figure out this part later
-    // if (lower?.includes('gnosis')) {
-    //  return { Icon: GnosisIcon, name: 'Gnosis' };
-    // }
+    if (lower?.includes('gnosis')) {
+      return { Icon: GnosisIcon, name: 'Gnosis' };
+    }
     if (lower?.includes('xdai')) {
-      // return { Icon: XDaiIcon, name: 'xDAI' }; // Just replace it with the Gnosis icon
-      return { Icon: GnosisIcon, name: 'Gnosis' }; // testing to see if this is enough to do it
+      // Prior to 2022/09 an xDai icon was used, with the chain identified by 'xdai'
+      // Now using a Gnosis Chain icon, with the chain identified by 'gnosis'
+      // Guilds added before we switched icons/values from xDai to Gnosis will
+      // still have 'xdai' values for their chain in the database.
+      // This conditional can be removed after/if the database is patched to change
+      // all those from 'xdai' to 'gnosis'
+      // See issue #1170 / PR 31336 for more
+      return { Icon: GnosisIcon, name: 'Gnosis' };
     }
     if (lower?.includes('polygon')) {
       return { Icon: PolygonIcon, name: 'Polygon' };
