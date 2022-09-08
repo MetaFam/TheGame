@@ -1,194 +1,330 @@
-import { Box, Checkbox, Flex, Grid, Heading, Text } from '@metafam/ds';
-import { CollapsableText } from 'components/CollapsableText';
+import { Accordion, Box, Flex, Spinner, Text, VStack } from '@metafam/ds';
+import { graphql } from '@quest-chains/sdk';
 import { PageContainer } from 'components/Container';
+import { Quest } from 'components/Quest/InitiationQuestTile';
 import { HeadComponent } from 'components/Seo';
-import React from 'react';
+import { useLatestQuestChainData } from 'lib/hooks/useLatestQuestChainData';
+import { useLatestQuestStatusesForUserAndChainData } from 'lib/hooks/useLatestQuestStatusesForUserAndChainData';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
-const data = [
-  {
-    category: 'Starter quests',
-    quests: [
-      {
-        title: 'sub to substack',
-        task: 'Click here (sub button)',
-        completed: false,
-      },
-      {
-        title: 'sub to yt',
-        task:
-          'Click here (sub button) - [https://www.youtube.com/metamedia](https://www.youtube.com/metamedia)',
-        completed: false,
-      },
-      {
-        title: 'join discord',
-        task: 'Click here (link will need to be refreshed to mitigate botting)',
-        completed: false,
-      },
-      {
-        title: 'join forum',
-        task:
-          'forum link opening in a new tab prompting a login with discord, github or web3wallet (when we upgrade discourse)',
-        completed: false,
-      },
-      {
-        title: 'follow on twitter',
-        task:
-          'Click here (follow button)  [https://twitter.com/MetaFam](https://twitter.com/MetaFam)',
-        description:
-          'Tweet @metafam xyz (the function that many dapps have for verifying twitter identities such as arweave)',
-        completed: false,
-      },
-    ],
-  },
-  {
-    category: 'Warm up quests',
-    quests: [
-      {
-        title: 'pick a role',
-        description:
-          '*You are now at the character creation menu!*  Do you buidl? Do you hodl? Do you cook a good noodl?    Do you edit? Do you reddit? Do you have a lot of credit?*“The thing you waste a ridiculous amount of time and energy in vain doing, is what truly defines you”* -Friedrich Knee-chain',
-        task: 'pick your main role',
-        completed: false,
-      },
-      {
-        title: 'reg your eth address',
-        task:
-          'Register your eth address in the **[#set-eth-address](https://discord.com/channels/629411177947987986/726119055328804864/893962540898476083)** channel on Discord (maybe in dapp itself in the future?)',
-        command:
-          'The bot command is: `!mg setAddress 0xYourAddress`  | **DO NOT USE AN EXCHANGE WALLET**',
-        completed: false,
-      },
-      {
-        title: 'reg your forum username',
-        description:
-          'We would ideally not like to be bamboozled by your multiple personalities...at least the algorithm does... and we do what it wants in order to not get whipped you know.',
-        task:
-          'Register your forum identity in **[#set-eth-address](https://discord.com/channels/629411177947987986/726119055328804864/893962540898476083)**',
-        command:
-          'The bot command is: `!mg addAlias discourse YourForumUsername`',
-        completed: false,
-      },
-      {
-        title: 'ask anything',
-        description:
-          'Socrates once said, “*I only know one thing, that I know nothing*”. Be like Socrates, but let us know so you can be... less like Socrates?!🤷',
-        task: "Ask about something you don't understand in #ask-anything",
-        completed: false,
-      },
-    ],
-  },
-  {
-    category: 'First touches',
-    quests: [
-      {
-        title: 'introduce yourself',
-        description:
-          "Become an open book and don't be afraid to let others read it. You never know... you might even become a best seller (or a short seller)!>",
-        task:
-          "Introduce yourself in your role's internal guild channel on discord",
-        completed: false,
-      },
-      {
-        title: 'join align/cohort',
-        description:
-          'Join the Cult Propaganda Sessions each Friday! Hoods are optional.*>*',
-        task:
-          "Join and participate in the Cohort Onboarding call or your guild's align call",
-        completed: false,
-      },
-      {
-        title: 'issues n ideas',
-        description:
-          'When you give feedback you get fed back. Tis how it goes.>',
-        task: 'Post an issue or an improvement idea in #issues-n-ideas',
-        completed: false,
-      },
-      {
-        title: 'brain exchange',
-        description:
-          "Hey there! Metagame would like to borrow your brain for a while and see what's in there. Would you kindly....>",
-        task:
-          'Post a brain exchange post requesting or offering a certain skill related activity',
-        completed: false,
-      },
-      {
-        title:
-          'pick a path chain (pick one and others gray out until complete/abandoned)',
-        description:
-          '*”Two roads diverged in the woods and I, I took the one I most sincerely VIBETH with.”* -The cold guy>',
-        task: 'Available Paths listed',
-        completed: false,
-      },
-    ],
-  },
-];
+const { getQuestChainInfo } = graphql;
 
-const InitiationQuests: React.FC = () => (
-  <PageContainer>
-    <HeadComponent
-      title="MetaGame Quests"
-      description="MetaGame is a Massive Online Coordination Game! MetaGame has some epic quests going on!"
-      url="https://my.metagame.wtf/quests/initiation"
-    />
-    <Heading mb={8}>Initiation</Heading>
-    <Grid
-      templateColumns={['auto', 'auto', '1fr 1fr', '1fr 1fr 1fr']}
-      gap={6}
-      pb={10}
-    >
-      {data.map(({ category, quests }) => (
-        <Box
-          mb={6}
-          px={8}
-          py={12}
-          textAlign="center"
-          bgColor="rgba(255,255,255, 0.08)"
-          key={category}
-        >
-          <Heading fontSize="xl" fontFamily="body" pb={2}>
-            {category}
-          </Heading>
-          <Text pb={4}>
-            Completed:{' '}
-            {(quests as never[]).filter(
-              ({ completed }: { completed: boolean }) => completed,
-            ).length / 100}
-          </Text>
-          {quests.map(({ title, description, completed, task }) => (
-            <Flex
-              direction="row"
-              bgColor="rgba(255,255,255, 0.08)"
-              px={4}
-              mb={4}
-              justifyContent="space-between"
-              key={title}
-            >
-              <Box textAlign="left">
-                <CollapsableText title={title}>
-                  <Text mb={2}>Description</Text>
-                  <Text fontStyle="italic" mb={4} fontSize="sm">
-                    "{description}"
-                  </Text>
-                  <Text mb={2}>Quest Objectives</Text>
-                  <Text
-                    wordBreak="break-all"
-                    fontStyle="italic"
-                    mb={4}
-                    fontSize="sm"
-                  >
-                    {task}
-                  </Text>
-                </CollapsableText>
-              </Box>
-              <Box mt={4}>
-                <Checkbox isChecked={completed} />
-              </Box>
+export type UserStatusType = {
+  [questId: string]: {
+    submissions: {
+      description: string | undefined | null;
+      externalUrl: string | undefined | null;
+      timestamp: string;
+    }[];
+    reviews: {
+      description: string | undefined | null;
+      externalUrl: string | undefined | null;
+      timestamp: string;
+      reviewer: string;
+      accepted: boolean;
+    }[];
+    status: graphql.Status;
+  };
+};
+
+type Props = {
+  questChain: graphql.QuestChainInfoFragment;
+};
+
+const InitiationQuests: React.FC<Props> = ({ questChain: inputQuestChain }) => {
+  const address = '0x5Eb0f799F92C827a2da423d13415dfcCe0d8676F';
+  const [progress, setProgress] = useState({
+    total: 0,
+    inReviewCount: 0,
+    completeCount: 0,
+  });
+
+  const {
+    questChain,
+    fetching: fetchingQuests,
+    refresh: refreshQuests,
+  } = useLatestQuestChainData(inputQuestChain);
+
+  const {
+    questStatuses,
+    fetching: fetchingStatus,
+    refresh: refreshStatus,
+  } = useLatestQuestStatusesForUserAndChainData(
+    questChain?.chainId,
+    questChain?.address,
+    address,
+  );
+
+  const fetching = fetchingStatus || fetchingQuests;
+
+  const refresh = useCallback(() => {
+    refreshStatus();
+    refreshQuests();
+  }, [refreshQuests, refreshStatus]);
+
+  const userStatus: UserStatusType = useMemo(() => {
+    const userStat: UserStatusType = {};
+    questStatuses.forEach((item) => {
+      userStat[item.quest.questId] = {
+        status: item.status,
+        submissions: item.submissions.map((sub) => ({
+          description: sub.description,
+          externalUrl: sub.externalUrl,
+          timestamp: sub.timestamp,
+        })),
+        reviews: item.reviews.map((sub) => ({
+          description: sub.description,
+          externalUrl: sub.externalUrl,
+          timestamp: sub.timestamp,
+          accepted: sub.accepted,
+          reviewer: sub.reviewer.id,
+        })),
+      };
+    });
+    return userStat;
+  }, [questStatuses]);
+
+  useEffect(() => {
+    if (questChain) {
+      if (questChain?.quests) {
+        const inReviewCount = questChain.quests.filter(
+          (quest) => userStatus[quest.questId]?.status === 'review',
+        ).length;
+        const completeCount = questChain.quests.filter(
+          (quest) => userStatus[quest.questId]?.status === 'pass',
+        ).length;
+
+        setProgress({
+          inReviewCount: inReviewCount || 0,
+          completeCount: completeCount || 0,
+          total: questChain.quests.length || 0,
+        });
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [questChain, userStatus]);
+
+  const canMint = useMemo(
+    () =>
+      !!address &&
+      questChain?.token &&
+      !questChain.token.owners.find((o) => o.id === address.toLowerCase()) &&
+      Object.values(userStatus).length === questChain.quests.length &&
+      Object.values(userStatus).reduce(
+        (t, v) => t && v.status === graphql.Status.Pass,
+        true,
+      ),
+    [questChain, address, userStatus],
+  );
+
+  if (!questChain) {
+    return (
+      <PageContainer>
+        <Text> Quest Chain not found! </Text>
+      </PageContainer>
+    );
+  }
+
+  return (
+    <PageContainer>
+      <HeadComponent
+        title="MetaGame Quests"
+        description="MetaGame is a Massive Online Coordination Game! MetaGame has some epic quests going on!"
+        url="https://my.metagame.wtf/quests/initiation"
+      />
+
+      <Flex
+        gap={10}
+        justifyContent="space-between"
+        direction={{ base: 'column', md: 'row' }}
+      >
+        {/* Left */}
+        <Flex flexDirection="column" w="full">
+          {/* Quest Chain Title */}
+          <Flex justifyContent="space-between" w="full">
+            <Flex flexDirection="column" mb={8}>
+              <Text
+                fontSize="5xl"
+                fontWeight="bold"
+                lineHeight="3.5rem"
+                fontFamily="heading"
+                mb={3}
+              >
+                {questChain.name}
+              </Text>
+              <Box>{questChain.chainId}</Box>
             </Flex>
-          ))}
-        </Box>
-      ))}
-    </Grid>
-  </PageContainer>
-);
+          </Flex>
+
+          {/* Quest Chain Description */}
+          <Flex mb={8}>{questChain.description}</Flex>
+
+          {/* Quest Chain Metadata */}
+          <Flex mb={8} justifyContent="space-between" gap={1}>
+            <Box>
+              <Text color="whiteAlpha.600" fontSize="xs">
+                TOTAL PLAYERS
+              </Text>
+              <Text>{questChain.numQuesters}</Text>
+            </Box>
+            <Box>
+              <Text color="whiteAlpha.600" fontSize="xs">
+                PLAYERS FINISHED
+              </Text>
+              <Text>{questChain.numCompletedQuesters}</Text>
+            </Box>
+            <Box>
+              <Text color="whiteAlpha.600" fontSize="xs">
+                QUESTS
+              </Text>
+              <Text>{questChain.quests.length}</Text>
+            </Box>
+            <Box>
+              <Text color="whiteAlpha.600" fontSize="xs">
+                DATE CREATED
+              </Text>
+              <Text>
+                {new Date(questChain.createdAt * 1000).toLocaleDateString(
+                  'en-US',
+                )}
+              </Text>
+            </Box>
+            <Box>
+              <Text color="whiteAlpha.600" fontSize="xs">
+                CREATED BY
+              </Text>
+              {questChain.createdBy.id}
+            </Box>
+          </Flex>
+
+          {/* Actions */}
+          <Flex
+            w="full"
+            justifyContent="space-between"
+            h={6}
+            alignItems="center"
+            mb={6}
+          >
+            <Flex
+              w="90%"
+              borderColor="whiteAlpha.200"
+              border="1px solid"
+              borderRadius={3}
+            >
+              <Box
+                bg="main"
+                w={`${
+                  (progress.total
+                    ? progress.completeCount / progress.total
+                    : 0) * 100
+                }%`}
+              />
+              <Box
+                bgColor="pending"
+                w={`${
+                  (progress.total
+                    ? progress.inReviewCount / progress.total
+                    : 0) * 100
+                }%`}
+              />
+              <Box bgColor="grey" h={2} />
+            </Flex>
+            <Text>
+              {`${Math.round(
+                (progress.total ? progress.completeCount / progress.total : 0) *
+                  100,
+              )}%`}
+            </Text>
+          </Flex>
+          <Flex>
+            {/* Mint Tile */}
+            {canMint && (
+              <Flex pt={6} w="100%">
+                NFT MINT TILE - TO BE IMPLEMENTED
+                {/* <MintNFTTile
+                  {...{
+                    questChain,
+                    onSuccess: refresh,
+                    completed: questChain.quests.filter((q) => !q.paused)
+                      .length,
+                  }}
+                /> */}
+              </Flex>
+            )}
+          </Flex>
+
+          {/* Quests */}
+          <VStack spacing={6} w="100%" pt={8}>
+            {fetching ? (
+              <Spinner />
+            ) : (
+              <>
+                <Flex
+                  justifyContent="space-between"
+                  w="full"
+                  alignItems="center"
+                >
+                  <Text fontSize={40} fontFamily="heading">
+                    QUESTS
+                  </Text>
+                </Flex>
+
+                {/* would be really nice if this was refactored by 
+                  separating the whole quest actions logic into its own component, so:
+                  - edit quest
+                  - upload proof */}
+                <Accordion allowMultiple w="full">
+                  {questChain.quests.map(
+                    ({ name, description, questId }, index) =>
+                      name &&
+                      description && (
+                        <Quest
+                          key={questId}
+                          name={`${index + 1}. ${name}`}
+                          description={description}
+                          bgColor={
+                            // eslint-disable-next-line no-nested-ternary
+                            userStatus[questId]?.status === 'pass'
+                              ? 'main.300'
+                              : userStatus[questId]?.status === 'review'
+                              ? '#EFFF8F30'
+                              : 'whiteAlpha.100'
+                          }
+                          questId={questId}
+                          questChain={questChain}
+                          userStatus={userStatus}
+                          refresh={refresh}
+                        />
+                      ),
+                  )}
+                </Accordion>
+              </>
+            )}
+          </VStack>
+        </Flex>
+      </Flex>
+    </PageContainer>
+  );
+};
+
+export const getStaticProps = async () => {
+  const chainId = '0x4';
+  const address = '0x5Eb0f799F92C827a2da423d13415dfcCe0d8676F';
+
+  let questChain;
+  try {
+    questChain = await getQuestChainInfo(chainId, address);
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error(`Could not fetch Quest Chain for address ${address}`, error);
+  }
+
+  return {
+    props: {
+      questChain,
+    },
+    revalidate: 1,
+  };
+};
 
 export default InitiationQuests;

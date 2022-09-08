@@ -61,6 +61,11 @@ export {
   SettingsIcon,
 } from '@chakra-ui/icons';
 export {
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
   AlertDialog,
   AlertDialogBody,
   AlertDialogContent,
