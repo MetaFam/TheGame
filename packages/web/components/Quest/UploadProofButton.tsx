@@ -15,9 +15,9 @@ type UploadProofButtonProps = {
 export const UploadProofButton: React.FC<UploadProofButtonProps> = ({
   userStatus,
   questId,
-  name,
-  questChain,
-  refresh,
+  // name,
+  // questChain,
+  // refresh,
 }) => (
   <Flex mt={5}>
     {
