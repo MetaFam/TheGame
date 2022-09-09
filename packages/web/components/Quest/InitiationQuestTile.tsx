@@ -4,12 +4,13 @@ import {
   AccordionItem,
   AccordionPanel,
   Box,
-  Button,
   Flex,
 } from '@metafam/ds';
 import { graphql } from '@quest-chains/sdk';
 
-export type UserStatusType = {
+import { UploadProofButton } from './UploadProofButton';
+
+type UserStatusType = {
   [questId: string]: {
     submissions: {
       description: string | undefined | null;
@@ -56,14 +57,13 @@ export const Quest: React.FC<{
     <AccordionPanel>
       <Box>{description}</Box>
       {questId && userStatus && questChain && refresh && (
-        // <UploadProofButton
-        //   questId={questId}
-        //   name={name}
-        //   questChain={questChain}
-        //   userStatus={userStatus}
-        //   refresh={refresh}
-        // />
-        <Button>Upload Proof</Button>
+        <UploadProofButton
+          questId={questId}
+          name={name}
+          questChain={questChain}
+          userStatus={userStatus}
+          refresh={refresh}
+        />
       )}
     </AccordionPanel>
   </AccordionItem>

@@ -1,4 +1,5 @@
 import { Accordion, Box, Flex, Spinner, Text, VStack } from '@metafam/ds';
+import { INITIATION_QUESTS_INFO } from '@metafam/utils/src/constants';
 import { graphql } from '@quest-chains/sdk';
 import { PageContainer } from 'components/Container';
 import { Quest } from 'components/Quest/InitiationQuestTile';
@@ -32,7 +33,7 @@ type Props = {
 };
 
 const InitiationQuests: React.FC<Props> = ({ questChain: inputQuestChain }) => {
-  const address = '0x5Eb0f799F92C827a2da423d13415dfcCe0d8676F';
+  const { address } = INITIATION_QUESTS_INFO;
   const [progress, setProgress] = useState({
     total: 0,
     inReviewCount: 0,
@@ -308,15 +309,18 @@ const InitiationQuests: React.FC<Props> = ({ questChain: inputQuestChain }) => {
 };
 
 export const getStaticProps = async () => {
-  const chainId = '0x4';
-  const address = '0x5Eb0f799F92C827a2da423d13415dfcCe0d8676F';
-
   let questChain;
   try {
-    questChain = await getQuestChainInfo(chainId, address);
+    questChain = await getQuestChainInfo(
+      INITIATION_QUESTS_INFO.chainId,
+      INITIATION_QUESTS_INFO.address,
+    );
   } catch (error) {
     // eslint-disable-next-line no-console
-    console.error(`Could not fetch Quest Chain for address ${address}`, error);
+    console.error(
+      `Could not fetch Quest Chain for address ${INITIATION_QUESTS_INFO.address}`,
+      error,
+    );
   }
 
   return {

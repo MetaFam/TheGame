@@ -1,8 +1,25 @@
-import { Box, Button, Flex } from '@metafam/ds';
+import { Box, Flex } from '@metafam/ds';
 import { graphql } from '@quest-chains/sdk';
-import { UserStatusType } from 'pages/quests/initiation';
 
-// import { UploadProof } from './UploadProof';
+import { UploadProof } from './UploadProof';
+
+type UserStatusType = {
+  [questId: string]: {
+    submissions: {
+      description: string | undefined | null;
+      externalUrl: string | undefined | null;
+      timestamp: string;
+    }[];
+    reviews: {
+      description: string | undefined | null;
+      externalUrl: string | undefined | null;
+      timestamp: string;
+      reviewer: string;
+      accepted: boolean;
+    }[];
+    status: graphql.Status;
+  };
+};
 
 type UploadProofButtonProps = {
   userStatus: UserStatusType;
@@ -15,9 +32,9 @@ type UploadProofButtonProps = {
 export const UploadProofButton: React.FC<UploadProofButtonProps> = ({
   userStatus,
   questId,
-  // name,
-  // questChain,
-  // refresh,
+  name,
+  questChain,
+  refresh,
 }) => (
   <Flex mt={5}>
     {
@@ -25,14 +42,13 @@ export const UploadProofButton: React.FC<UploadProofButtonProps> = ({
       !userStatus[questId]?.status ||
       userStatus[questId]?.status === 'init' ||
       userStatus[questId]?.status === 'fail' ? (
-        // <UploadProof
-        //   // TODO: move the modal inside this outside so that we don't render a new Modal for each quest
-        //   questId={questId}
-        //   name={name}
-        //   questChain={questChain}
-        //   refresh={refresh}
-        // />
-        <Button>Upload Proof</Button>
+        <UploadProof
+          // TODO: move the modal inside this outside so that we don't render a new Modal for each quest
+          questId={questId}
+          name={name}
+          questChain={questChain}
+          refresh={refresh}
+        />
       ) : (
         <Box>
           <Box
