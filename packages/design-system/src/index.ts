@@ -180,6 +180,7 @@ export {
   Textarea,
   Th,
   Thead,
+  ToastId,
   Tooltip,
   Tr,
   UnorderedList,
