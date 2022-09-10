@@ -4,6 +4,7 @@ import { graphql } from '@quest-chains/sdk';
 import { PageContainer } from 'components/Container';
 import { Quest } from 'components/Quest/InitiationQuestTile';
 import { HeadComponent } from 'components/Seo';
+import { useWeb3 } from 'lib/hooks';
 import { useLatestQuestChainData } from 'lib/hooks/useLatestQuestChainData';
 import { useLatestQuestStatusesForUserAndChainData } from 'lib/hooks/useLatestQuestStatusesForUserAndChainData';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
@@ -33,7 +34,8 @@ type Props = {
 };
 
 const InitiationQuests: React.FC<Props> = ({ questChain: inputQuestChain }) => {
-  const { address } = INITIATION_QUESTS_INFO;
+  const { address } = useWeb3();
+
   const [progress, setProgress] = useState({
     total: 0,
     inReviewCount: 0,
@@ -51,8 +53,8 @@ const InitiationQuests: React.FC<Props> = ({ questChain: inputQuestChain }) => {
     fetching: fetchingStatus,
     refresh: refreshStatus,
   } = useLatestQuestStatusesForUserAndChainData(
-    questChain?.chainId,
-    questChain?.address,
+    INITIATION_QUESTS_INFO.chainId,
+    INITIATION_QUESTS_INFO.address,
     address,
   );
 
@@ -129,7 +131,7 @@ const InitiationQuests: React.FC<Props> = ({ questChain: inputQuestChain }) => {
   return (
     <PageContainer>
       <HeadComponent
-        title="MetaGame Quests"
+        title="Metagame's Initiation Quests"
         description="MetaGame is a Massive Online Coordination Game! MetaGame has some epic quests going on!"
         url="https://my.metagame.wtf/quests/initiation"
       />
@@ -317,10 +319,6 @@ export const getStaticProps = async () => {
     );
   } catch (error) {
     // eslint-disable-next-line no-console
-    console.error(
-      `Could not fetch Quest Chain for address ${INITIATION_QUESTS_INFO.address}`,
-      error,
-    );
   }
 
   return {
