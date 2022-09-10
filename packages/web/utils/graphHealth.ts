@@ -22,7 +22,7 @@ export const getLatestBlock = async (subgraph: string): Promise<number> => {
       subgraph,
     },
   );
-  return data.status.chains[0].latestBlock.number;
+  return data.status?.chains[0].latestBlock.number;
 };
 
 const UPDATE_INTERVAL = 10000;

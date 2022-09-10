@@ -156,12 +156,12 @@ export const UploadProof: React.FC<{
       <Tooltip
         shouldWrapChildren
         label="Please connect or switch to the correct chain"
-        isDisabled={chainId !== questChain.chainId}
+        isDisabled={chainId === questChain.chainId}
       >
         {!profile && (
           <Button
             onClick={onOpen}
-            isDisabled={chainId === questChain.chainId || !address}
+            isDisabled={chainId !== questChain.chainId || !address}
             borderWidth={1}
             borderColor="white"
             px={5}
