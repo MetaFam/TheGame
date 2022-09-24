@@ -144,7 +144,7 @@ export const MenuSectionLinks: MenuLinkSet[] = [
         title: 'Raids',
         explainerText:
           'See which raids are currently ongoing, learn more about them & get involved',
-        url: 'https://wiki.metagame.wtf/docs/enter-metagame/navigation-board',
+        url: '/raids',
         icon: 'raids',
       },
       {
