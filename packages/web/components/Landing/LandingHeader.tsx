@@ -26,18 +26,24 @@ import { MdClose } from 'react-icons/md';
 
 import { AnimatedWaves, upDownAnimation } from './animations';
 import { LandingConnectButton } from './LandingConnectButton';
+import { sections } from './landingSection';
 
 export const LandingHeader: React.FC = () => {
-  const [toggle, setToggle] = useState(false);
+  const [menuToggle, setMenuToggle] = useState(false);
   const prefersReducedMotion = usePrefersReducedMotion();
   const savedMotionPreference = get('MotionPreference');
-  const [noMotion, setNoMotion] = useState(
-    savedMotionPreference === 'off'
-      ? true
-      : savedMotionPreference === 'on'
-      ? false
-      : prefersReducedMotion,
-  );
+  const [noMotion, setNoMotion] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (savedMotionPreference === 'off') {
+      setNoMotion(true);
+    } else if (savedMotionPreference === 'on') {
+      setNoMotion(false);
+    } else {
+      setNoMotion(prefersReducedMotion);
+    }
+  }, [savedMotionPreference, prefersReducedMotion]);
+
   const reducedNoticeDismissed = get('ReducedMotionNotice') === 'dismissed';
   const root = typeof window !== 'undefined' ? document.body : null;
   const [effectsToggle, setEffectsToggle] = useState(noMotion);
@@ -50,8 +56,6 @@ export const LandingHeader: React.FC = () => {
     set('ReducedMotionNotice', 'dismissed');
   }, []);
 
-  /** TODO: Toggle works 100% except on first load when
-   * the switch renders as 'on' but is actually 'off' if no motion pref is saved */
   const handleToggleEffects = useCallback(() => {
     set('MotionPreference', !noMotion ? 'off' : 'on');
     setNoMotion(!noMotion);
@@ -65,50 +69,35 @@ export const LandingHeader: React.FC = () => {
       duration: 5000,
       isClosable: true,
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [effectsToggle, noMotion]);
-
-  /** Initially set the motion pref if it's not already set */
-  useEffect(() => {
-    if (typeof window !== 'undefined' && window.matchMedia !== undefined) {
-      if (savedMotionPreference === null) {
-        set('MotionPreference', prefersReducedMotion ? 'off' : 'on');
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [effectsToggle, noMotion, toast]);
 
   /** set noMotion so we can turn off animations if preferred
    * Check for window to make sure we know window.matchMedia is availabe if supported
    */
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      // setNoMotion(prefersReducedMotion);
-      if (noMotion && !reducedNoticeDismissed) {
-        setNoticeOpen(true);
-      } else {
-        setNoticeOpen(false);
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // useEffect(() => {
+  //   if (typeof window !== 'undefined') {
+  //     if (noMotion && !reducedNoticeDismissed) {
+  //       setNoticeOpen(true);
+  //     } else {
+  //       setNoticeOpen(false);
+  //     }
+  //   }
+  // }, [noMotion, reducedNoticeDismissed]);
 
   useEffect(() => {
     if (typeof window !== 'undefined' && window.matchMedia !== undefined) {
       if (noMotion) {
         root?.classList.add('no-motion');
-        setNoMotion(true);
         if (!reducedNoticeDismissed) {
           setNoticeOpen(true);
         }
       } else {
         root?.classList.remove('no-motion');
-        setNoMotion(false);
         setNoticeOpen(false);
       }
+      setEffectsToggle(noMotion);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [effectsToggle, prefersReducedMotion]);
+  }, [noMotion, prefersReducedMotion, reducedNoticeDismissed, root]);
 
   return (
     <>
@@ -203,7 +192,7 @@ export const LandingHeader: React.FC = () => {
 
             <LandingConnectButton isIconStyle />
             <Button
-              onClick={() => setToggle(!toggle)}
+              onClick={() => setMenuToggle(!menuToggle)}
               sx={{
                 alignSelf: 'center',
                 justifySelf: 'right',
@@ -243,20 +232,20 @@ export const LandingHeader: React.FC = () => {
                   transformOrigin: '1px',
                 },
                 'path, circle': {
-                  fill: toggle ? 'transparent' : 'transparent',
+                  fill: menuToggle ? 'transparent' : 'transparent',
                   transition: noMotion ? 'none' : 'all 0.2s ease',
-                  stroke: toggle ? 'landing600' : 'white',
+                  stroke: menuToggle ? 'landing600' : 'white',
                 },
                 '.top-line': {
                   transition: noMotion ? 'none' : 'all 0.6s ease',
-                  transform: toggle
+                  transform: menuToggle
                     ? 'rotate(-405deg) translate3d(1px, 3px, 0)'
                     : 'rotate(0)',
                   transformOrigin: 'center',
                 },
                 '.bottom-line': {
                   transition: noMotion ? 'none' : 'all 0.6s ease',
-                  transform: toggle
+                  transform: menuToggle
                     ? 'rotate(405deg) translate3d(0px, -4px, 0)'
                     : noMotion
                     ? 'none'
@@ -265,7 +254,7 @@ export const LandingHeader: React.FC = () => {
                 },
               }}
             >
-              <MenuIcon2SVG toggle={toggle} />
+              <MenuIcon2SVG toggle={menuToggle} />
             </Button>
           </HStack>
         </Flex>
@@ -283,8 +272,8 @@ export const LandingHeader: React.FC = () => {
         overflow="hidden"
         zIndex={200}
         sx={{
-          opacity: toggle ? 1 : 0,
-          transform: toggle
+          opacity: menuToggle ? 1 : 0,
+          transform: menuToggle
             ? 'translate3d(0, 0, 0)'
             : 'translate3d(0, -120%, 0)',
           transition: noMotion
@@ -300,55 +289,27 @@ export const LandingHeader: React.FC = () => {
         <Stack
           spacing={4}
           direction={{ base: 'column', md: 'row' }}
-          opacity={toggle ? 1 : 0}
+          opacity={menuToggle ? 1 : 0}
           transition={noMotion ? 'none' : 'opacity 0.3s 0.5s ease-in-out'}
           fontSize={{ base: 'md', md: 'lg', lg: '2xl' }}
           zIndex={2}
         >
           <VStack spacing={4} alignItems="flex-start">
-            <NavLink target="start" toggle={toggle} setToggle={setToggle}>
-              1. Start here
-            </NavLink>
-            <NavLink
-              target="wtf-is-a-metagame"
-              toggle={toggle}
-              setToggle={setToggle}
-            >
-              2. What is a Metagame?
-            </NavLink>
-            <NavLink
-              target="build-the-future"
-              toggle={toggle}
-              setToggle={setToggle}
-            >
-              3. While you’re sleeping&hellip;
-            </NavLink>
-            <NavLink
-              target="the-wild-web"
-              toggle={toggle}
-              setToggle={setToggle}
-            >
-              4. The problem?
-            </NavLink>
-            <NavLink
-              target="why-are-we-here"
-              toggle={toggle}
-              setToggle={setToggle}
-            >
-              5. Why are we here?
-            </NavLink>
-            <NavLink target="what-do" toggle={toggle} setToggle={setToggle}>
-              6. What do?
-            </NavLink>
-
-            <NavLink target="join-us" toggle={toggle} setToggle={setToggle}>
-              7. Join us!
-            </NavLink>
+            {sections.map((section, index) => (
+              <NavLink
+                key={index}
+                target={section.internalLinkId}
+                toggle={menuToggle}
+                setToggle={setMenuToggle}
+              >
+                {section.title}
+              </NavLink>
+            ))}
           </VStack>
         </Stack>
         <AnimatedWaves
           animationName={upDownAnimation}
-          playing={noMotion ? false : toggle}
+          playing={noMotion ? false : menuToggle}
         />
         <Box
           position="absolute"
@@ -365,10 +326,10 @@ export const LandingHeader: React.FC = () => {
           zIndex={200}
           sx={{
             animation: noMotion ? 'none' : upDownAnimation,
-            animationPlayState: toggle ? 'playing' : 'paused',
+            animationPlayState: menuToggle ? 'playing' : 'paused',
             animationDuration: '5s',
             filter: 'drop-shadow(0 0 20px #000)',
-            opacity: toggle ? 1 : noMotion ? 1 : 0,
+            opacity: menuToggle ? 1 : noMotion ? 1 : 0,
             transition: 'opacity 0.3s 0.2s ease-in-out',
           }}
         />

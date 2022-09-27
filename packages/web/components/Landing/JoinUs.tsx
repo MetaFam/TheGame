@@ -1,4 +1,3 @@
-/* eslint-disable no-nested-ternary */
 import {
   Box,
   Button,
@@ -12,47 +11,26 @@ import BackgroundImage from 'assets/landing/sections/section-7.png';
 import { FullPageContainer } from 'components/Container';
 import { StartButton } from 'components/Landing/StartButton';
 import { MetaLink } from 'components/Link';
+import { useMotionDetector } from 'lib/hooks/useMotionDetector';
 import { useOnScreen } from 'lib/hooks/useOnScreen';
-import { useEffect, useRef, useState } from 'react';
+import { useRef } from 'react';
 import { FaDiscord, FaGithub, FaTwitter } from 'react-icons/fa';
 
 import { LandingFooter } from './LandingFooter';
+import { LandingPageSectionProps } from './landingSection';
 import { Rain } from './OnboardingGame/Rain';
 
-export const JoinUs: React.FC = () => {
+export const JoinUs: React.FC<LandingPageSectionProps> = ({ section }) => {
   const ref = useRef<HTMLDivElement>(null);
   const onScreen = useOnScreen(ref);
   const root = typeof window !== 'undefined' ? document.body : null;
-  const [noMotion, setNoMotion] = useState(true);
+  const noMotion = useMotionDetector(root);
   const displayElement = noMotion ? true : !!onScreen;
   const buttonSize = useBreakpointValue({ base: 'sm', xl: 'lg' });
-  const section = 'join-us';
-
-  useEffect(() => {
-    const mut = new MutationObserver(() => {
-      if (root && root.classList.contains('no-motion')) {
-        setNoMotion(true);
-      } else {
-        setNoMotion(false);
-      }
-    });
-    if (typeof window !== 'undefined' && window.matchMedia !== undefined) {
-      if (root) {
-        mut.observe(root, {
-          attributes: true,
-        });
-      }
-    }
-
-    return () => {
-      mut.disconnect();
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <FullPageContainer
-      id={section}
+      id={section.internalLinkId}
       position="relative"
       justify={{ base: 'center' }}
     >

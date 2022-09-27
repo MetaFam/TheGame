@@ -1,4 +1,3 @@
-/* eslint-disable no-nested-ternary */
 import {
   Box,
   Container,
@@ -10,48 +9,34 @@ import {
 import BackgroundImageDesktop from 'assets/landing/sections/section-5.png';
 import BackgroundImageMobile from 'assets/landing/sections/section-5.sm.png';
 import { FullPageContainer } from 'components/Container';
+import { useMotionDetector } from 'lib/hooks/useMotionDetector';
 import { useOnScreen } from 'lib/hooks/useOnScreen';
-import { useEffect, useRef, useState } from 'react';
+import { useRef } from 'react';
 
 import { LandingNextButton } from './LandingNextButton';
+import { LandingPageSectionProps } from './landingSection';
 import { Rain } from './OnboardingGame/Rain';
 
-export const WhatDo: React.FC = () => {
+export const WhatDo: React.FC<LandingPageSectionProps> = ({
+  section,
+  nextSection,
+}) => {
   const ref = useRef<HTMLDivElement>(null);
   const onScreen = useOnScreen(ref);
   const root = typeof window !== 'undefined' ? document.body : null;
-  const [noMotion, setNoMotion] = useState(false);
+  const noMotion = useMotionDetector(root);
   const displayElement = noMotion ? true : !!onScreen;
-  const section = 'what-do';
   const responsiveBg = useBreakpointValue({
     base: BackgroundImageMobile,
     md: BackgroundImageDesktop,
   });
 
-  useEffect(() => {
-    const mut = new MutationObserver(() => {
-      if (root && root.classList.contains('no-motion')) {
-        setNoMotion(true);
-      } else {
-        setNoMotion(false);
-      }
-    });
-    if (typeof window !== 'undefined' && window.matchMedia !== undefined) {
-      if (root) {
-        mut.observe(root, {
-          attributes: true,
-        });
-      }
-    }
-
-    return () => {
-      mut.disconnect();
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   return (
-    <FullPageContainer id={section} position="relative" overflow="clip">
+    <FullPageContainer
+      id={section.internalLinkId}
+      position="relative"
+      overflow="clip"
+    >
       <Container
         d="flex"
         maxW={{ base: '100%', md: 'xl', lg: '7xl', '2xl': '8xl', '4xl': '70%' }}
@@ -217,7 +202,7 @@ export const WhatDo: React.FC = () => {
         bottom={0}
         zIndex={1}
       />
-      <LandingNextButton section="join-us" />
+      <LandingNextButton section={nextSection?.internalLinkId} />
     </FullPageContainer>
   );
 };

@@ -1,4 +1,3 @@
-/* eslint-disable no-nested-ternary */
 import {
   Box,
   Button,
@@ -10,7 +9,6 @@ import {
   Text,
   useBreakpointValue,
 } from '@metafam/ds';
-// import { animated, config, useSpring } from '@react-spring/web';
 import BubbleLg from 'assets/landing/pretty/bubble-large.svg';
 import BubbleSm from 'assets/landing/pretty/bubble-small.svg';
 import BackgroundImage5xl from 'assets/landing/sections/section-1.jpg';
@@ -19,17 +17,20 @@ import BackgroundImage2xl from 'assets/landing/sections/section-1-2xl.jpg';
 import BackgroundImage4xl from 'assets/landing/sections/section-1-4xl.jpg';
 import BackgroundImageLg from 'assets/landing/sections/section-1-lg.jpg';
 import { FullPageContainer } from 'components/Container';
+import { useMotionDetector } from 'lib/hooks/useMotionDetector';
 import { useEffect, useState } from 'react';
 
 import { upDownAnimation, upDownAnimationLong } from './animations';
+import { LandingPageSectionProps } from './landingSection';
 
-export const Intro: React.FC<{ currentSection: number }> = ({
-  currentSection,
+export const Intro: React.FC<LandingPageSectionProps> = ({
+  section,
+  activeSectionIndex,
 }) => {
   const [onScreen, setOnScreen] = useState(false);
   const [showQuote, setShowQuote] = useState(false);
   const root = typeof window !== 'undefined' ? document.body : null;
-  const [noMotion, setNoMotion] = useState(false);
+  const noMotion = useMotionDetector(root);
   const displayElement = noMotion ? true : !!onScreen;
   const responsiveBg = useBreakpointValue({
     base: BackgroundImageMobile,
@@ -45,34 +46,12 @@ export const Intro: React.FC<{ currentSection: number }> = ({
   };
 
   useEffect(() => {
-    setTimeout(() => setOnScreen(currentSection === 0), 500);
-  }, [currentSection, showQuote]);
-
-  useEffect(() => {
-    const mut = new MutationObserver(() => {
-      if (root && root.classList.contains('no-motion')) {
-        setNoMotion(true);
-      } else {
-        setNoMotion(false);
-      }
-    });
-    if (typeof window !== 'undefined' && window.matchMedia !== undefined) {
-      if (root) {
-        mut.observe(root, {
-          attributes: true,
-        });
-      }
-    }
-
-    return () => {
-      mut.disconnect();
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    setTimeout(() => setOnScreen(activeSectionIndex === 0), 500);
+  }, [activeSectionIndex]);
 
   return (
     <FullPageContainer
-      id="start"
+      id={section.internalLinkId}
       bgImageUrl={responsiveBg}
       backgroundPosition="top"
       backgroundSize="cover"
