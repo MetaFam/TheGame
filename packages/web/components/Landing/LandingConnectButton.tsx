@@ -1,4 +1,3 @@
-/* eslint-disable no-nested-ternary */
 import {
   Box,
   Button,
@@ -11,10 +10,12 @@ import {
   VStack,
 } from '@metafam/ds';
 import { MetaLink } from 'components/Link';
+import { SwitchNetworkButton } from 'components/SwitchNetworkButton';
 import { useWeb3 } from 'lib/hooks';
 import { useEffect, useState } from 'react';
 import { GoSignIn, GoSignOut } from 'react-icons/go';
-import { shortenAddress } from 'utils/stringHelpers';
+import { polygon } from 'utils/networks';
+import { formatAddress } from 'utils/playerHelpers';
 
 export const LandingConnectButton = ({ isIconStyle = false, ...props }) => {
   const {
@@ -33,22 +34,20 @@ export const LandingConnectButton = ({ isIconStyle = false, ...props }) => {
   useEffect(() => {
     if (connected && address && provider) {
       const networkName = provider.network.name;
-      const shortAddress = shortenAddress(address);
-      console.log('Connected to', networkName, 'with address', shortAddress);
+      const shortAddress = formatAddress(address);
 
-      if (chainId !== '0x89') {
+      if (chainId !== polygon) {
         setWrongNetwork(true);
         toast({
           title: `Wallet Connection`,
           description: (
-            <VStack spacing={2} justifyItems="start">
+            <VStack spacing={2} alignItems="baseline" justifyItems="start">
               <Text>
                 <Box as="strong" textTransform="capitalize">
                   {networkName ?? ''} ({chainId})
                 </Box>{' '}
                 network is not supported. This area of the website requires{' '}
-                <strong>Polygon (id: 0x89)</strong> network. Please switch
-                networks.
+                <strong>Polygon</strong> network. Please switch networks.
               </Text>
               <Text>
                 You can visit{' '}
@@ -74,15 +73,13 @@ export const LandingConnectButton = ({ isIconStyle = false, ...props }) => {
         });
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [connected, chainId]);
+  }, [connected, chainId, address, provider, toast]);
 
   useEffect(() => {
     if (!connected) {
       setWrongNetwork(false);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [connected, provider]);
+  }, [connected]);
 
   // useEffect(() => {
   //   if (!connected) {
@@ -125,13 +122,8 @@ export const LandingConnectButton = ({ isIconStyle = false, ...props }) => {
           isDisabled={connecting}
           size={'xl'}
         >
-          {connecting ? (
-            <Spinner size="sm" />
-          ) : connected ? (
-            'Connected'
-          ) : (
-            'Connect'
-          )}
+          {connecting && <Spinner size="sm" />}
+          {!connecting && connected ? 'Connected' : 'Connect'}
         </Button>
       ) : (
         <Button
