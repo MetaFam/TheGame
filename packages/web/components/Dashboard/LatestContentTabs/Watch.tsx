@@ -27,8 +27,7 @@ export const Watch: React.FC = () => {
         signal: abortController.signal,
       }).then((r) => r.json());
       const videosList = res.items
-        ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          res.items.map((video: any) => ({
+        ? res.items.map((video: GoogleApiYouTubePlaylistItemResource) => ({
             id: video.id,
             videoId: video.snippet.resourceId.videoId,
             title: video.snippet.title,
@@ -55,12 +54,13 @@ export const Watch: React.FC = () => {
       fetch(fetchMoreURL)
         .then((r) => r.json())
         .then((res) => {
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          const newItems = res.items.map((video: any) => ({
-            id: video.id,
-            videoId: video.snippet.resourceId.videoId,
-            title: video.snippet.title,
-          }));
+          const newItems = res.items.map(
+            (video: GoogleApiYouTubePlaylistItemResource) => ({
+              id: video.id,
+              videoId: video.snippet.resourceId.videoId,
+              title: video.snippet.title,
+            }),
+          );
 
           setVideos((prevVideos) => [...prevVideos, ...newItems]);
           setPage((prevPage) => prevPage + 1);
@@ -69,8 +69,7 @@ export const Watch: React.FC = () => {
 
       setIsFetchingMore(false);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [onScreen]);
+  }, [loading, maxPages, nextPageToken, onScreen, page]);
   return (
     <Box p={2}>
       {loading ? (

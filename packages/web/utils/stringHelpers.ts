@@ -39,7 +39,9 @@ export const safelyParseContent = (content: string) => {
  * Takes a string of HTML elements, sanitizes it,
  * applies classNames to the elements & returns parsed HTML as
  * `JSX.Element | JSX.Element[] | string` */
-export const safelyParseTextForTyping = (content: string) => {
+export const safelyParseTextForTyping = (
+  content: string,
+): JSX.Element | JSX.Element[] | string => {
   const clean = DOMPurify.sanitize(content);
   const options = {
     replace: (domNode: DOMNode) => {

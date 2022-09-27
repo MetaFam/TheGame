@@ -1,4 +1,3 @@
-/* eslint-disable no-nested-ternary */
 import { Box, Button, Text, Tooltip, VStack } from '@metafam/ds';
 import { PageContainer } from 'components/Container';
 import { Build } from 'components/Landing/Build';
@@ -6,6 +5,7 @@ import { Game } from 'components/Landing/Game';
 import { Intro } from 'components/Landing/Intro';
 import { JoinUs } from 'components/Landing/JoinUs';
 import { LandingHeader } from 'components/Landing/LandingHeader';
+import { sections } from 'components/Landing/landingSection';
 import { WhatDo } from 'components/Landing/WhatDo';
 import { WhyAreWeHere } from 'components/Landing/WhyAreWeHere';
 import { WildWeb } from 'components/Landing/WildWeb';
@@ -123,13 +123,37 @@ const Landing: React.FC = () => {
       />
       <LandingHeader />
       <PageContainer p={0}>
-        <Intro currentSection={section} /> {/* section 0 */}
-        <Game /> {/* section 1 */}
-        <Build /> {/* section 2 */}
-        <WildWeb /> {/* section 3 */}
-        <WhyAreWeHere /> {/* section 4 */}
-        <WhatDo /> {/* section 5 */}
-        <JoinUs /> {/* section 6 */}
+        <Intro
+          section={sections[0]}
+          nextSection={sections[1]}
+          activeSectionIndex={section}
+        />
+        <Game
+          section={sections[1]}
+          nextSection={sections[2]}
+          activeSectionIndex={section}
+        />
+        <Build
+          section={sections[2]}
+          nextSection={sections[3]}
+          activeSectionIndex={section}
+        />
+        <WildWeb
+          section={sections[3]}
+          nextSection={sections[4]}
+          activeSectionIndex={section}
+        />
+        <WhyAreWeHere
+          section={sections[4]}
+          nextSection={sections[5]}
+          activeSectionIndex={section}
+        />
+        <WhatDo
+          section={sections[5]}
+          nextSection={sections[6]}
+          activeSectionIndex={section}
+        />
+        <JoinUs section={sections[6]} activeSectionIndex={section} />
       </PageContainer>
       <SectionWayPoints currentWaypoint={section} />
       <Socials />
@@ -245,8 +269,11 @@ export const Socials: React.FC = () => (
   </Box>
 );
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export const SectionWayPoints = ({
+type SectionWayPointsProps = {
+  currentWaypoint: number;
+};
+
+const SectionWayPoints: React.FC<SectionWayPointsProps> = ({
   currentWaypoint,
 }: {
   currentWaypoint: number;
@@ -326,157 +353,18 @@ export const SectionWayPoints = ({
           <Box fontSize="xs" fontWeight={200}>
             {`0${currentWaypoint + 1}`}
           </Box>
-          <Button
-            className={currentWaypoint === 0 ? 'active' : ''}
-            colorScheme="ghost"
-            onClick={() => handleSectionNav('start')}
-          >
-            <Text as="span">01</Text>
-          </Button>
-          <Button
-            className={currentWaypoint === 1 ? 'active' : ''}
-            colorScheme="ghost"
-            onClick={() => handleSectionNav('wtf-is-a-metagame')}
-          >
-            <Text as="span">02</Text>
-          </Button>
-          <Button
-            className={currentWaypoint === 2 ? 'active' : ''}
-            colorScheme="ghost"
-            onClick={() => handleSectionNav('build-the-future')}
-          >
-            <Text as="span">03</Text>
-          </Button>
-          <Button
-            className={currentWaypoint === 3 ? 'active' : ''}
-            colorScheme="ghost"
-            onClick={() => handleSectionNav('the-wild-web')}
-          >
-            <Text as="span">04</Text>
-          </Button>
-          <Button
-            className={currentWaypoint === 4 ? 'active' : ''}
-            colorScheme="ghost"
-            onClick={() => handleSectionNav('why-are-we-here')}
-          >
-            <Text as="span">05</Text>
-          </Button>
-          <Button
-            className={currentWaypoint === 5 ? 'active' : ''}
-            colorScheme="ghost"
-            onClick={() => handleSectionNav('what-do')}
-          >
-            <Text as="span">06</Text>
-          </Button>
-          <Button
-            className={currentWaypoint === 6 ? 'active' : ''}
-            colorScheme="ghost"
-            onClick={() => handleSectionNav('join-us')}
-          >
-            <Text as="span">07</Text>
-          </Button>
+          {sections.map((section, index) => (
+            <Button
+              key={index}
+              className={currentWaypoint === index ? 'active' : ''}
+              colorScheme="ghost"
+              onClick={() => handleSectionNav(section.internalLinkId)}
+            >
+              <Text as="span">{section.label}</Text>
+            </Button>
+          ))}
         </VStack>
       </Box>
-      {/* )}
-      {currentWaypoint === 6 && (
-      <Box
-        position="relative"
-        display="flex"
-        alignItems="center"
-        height="100%"
-        opacity={currentWaypoint === 6 ? 1 : 0}
-        transition="transform 0.3s 0.1s ease, opacity 0.3s 0.3s ease"
-        transform={`translate3d(${currentWaypoint === 6 ? 0 : -200}px, 0, 0)`}
-      >
-        <VStack
-          spacing={2}
-          minW={5}
-          zIndex={400}
-          sx={{
-            button: {
-              background: 'transparent',
-              borderRadius: '50%',
-              width: '20px',
-              height: '20px',
-              minW: '20px',
-              maxH: '20px',
-              p: 0,
-              '& > span': {
-                border: `1px solid rgba(255,255,255,0.0)`,
-                borderRadius: '50%',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: '10px',
-                height: '10px',
-                maxW: '10px',
-                maxH: '10px',
-                p: '10px',
-                overflow: 'clip',
-                textIndent: '-9999rem',
-                transition: 'all 0.3s 0.2s ease-in-out',
-                '&::after': {
-                  content: '""',
-                  display: 'block',
-                  background: 'landing300',
-                  borderRadius: '50%',
-                  width: '5px',
-                  height: '5px',
-                  minW: '5px',
-                  minH: '5px',
-                },
-              },
-              '&.active': {
-                '& > span': {
-                  border: `1px solid  var(--landing300)`,
-                },
-              },
-            },
-          }}
-        >
-          <Box fontSize="xs" fontWeight={200}>
-            {`0${currentWaypoint + 1}`}
-          </Box>
-          <Button
-            colorScheme="ghost"
-            onClick={() => handleSectionNav('slide-1')}
-          >
-            <Text as="span">01</Text>
-          </Button>
-          <Button
-            colorScheme="ghost"
-            onClick={() => handleSectionNav('slide-2')}
-          >
-            <Text as="span">02</Text>
-          </Button>
-          <Button
-            colorScheme="ghost"
-            onClick={() => handleSectionNav('slide-3')}
-          >
-            <Text as="span">03</Text>
-          </Button>
-          <Button
-            colorScheme="ghost"
-            onClick={() => handleSectionNav('slide-4')}
-          >
-            <Text as="span">04</Text>
-          </Button>
-          <Button
-            colorScheme="ghost"
-            onClick={() => handleSectionNav('slide-5')}
-          >
-            <Text as="span">05</Text>
-          </Button>
-          <Button
-            colorScheme="ghost"
-            onClick={() => handleSectionNav('slide-6')}
-          >
-            <Text as="span">06</Text>
-          </Button>
-        </VStack>
-      </Box>
-
-      )} */}
     </Box>
   );
 };

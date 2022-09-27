@@ -1,4 +1,3 @@
-/* eslint-disable no-nested-ternary */
 import { Box, Container, Text, useBreakpointValue } from '@metafam/ds';
 import BackgroundImage5xl from 'assets/landing/sections/section-2.jpg';
 import BackgroundImageMobile from 'assets/landing/sections/section-2.sm.jpg';
@@ -7,18 +6,22 @@ import BackgroundImage4xl from 'assets/landing/sections/section-2-4xl.jpg';
 import BackgroundImageLg from 'assets/landing/sections/section-2-lg.jpg';
 import { FullPageContainer } from 'components/Container';
 import { MetaLink } from 'components/Link';
+import { useMotionDetector } from 'lib/hooks/useMotionDetector';
 import { useOnScreen } from 'lib/hooks/useOnScreen';
-import { useEffect, useRef, useState } from 'react';
+import { useRef } from 'react';
 
 import { LandingNextButton } from './LandingNextButton';
+import { LandingPageSectionProps } from './landingSection';
 
-export const Game: React.FC = () => {
+export const Game: React.FC<LandingPageSectionProps> = ({
+  section,
+  nextSection,
+}) => {
   const ref = useRef<HTMLDivElement>(null);
   const onScreen = useOnScreen(ref);
-  const [noMotion, setNoMotion] = useState(false);
-  const displayElement = noMotion ? true : !!onScreen;
   const root = typeof window !== 'undefined' ? document.body : null;
-  const section = 'wtf-is-a-metagame';
+  const noMotion = useMotionDetector(root);
+  const displayElement = noMotion ? true : !!onScreen;
   const responsiveBg = useBreakpointValue({
     base: BackgroundImageMobile,
     xl: BackgroundImageLg,
@@ -27,33 +30,11 @@ export const Game: React.FC = () => {
     '5xl': BackgroundImage5xl,
   });
 
-  useEffect(() => {
-    const mut = new MutationObserver(() => {
-      if (root && root.classList.contains('no-motion')) {
-        setNoMotion(true);
-      } else {
-        setNoMotion(false);
-      }
-    });
-    if (typeof window !== 'undefined' && window.matchMedia !== undefined) {
-      if (root) {
-        mut.observe(root, {
-          attributes: true,
-        });
-      }
-    }
-
-    return () => {
-      mut.disconnect();
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   return (
     <FullPageContainer
       bgImageUrl={responsiveBg}
       backgroundBlendMode={{ base: 'soft-light', lg: 'normal' }}
-      id={section}
+      id={section.internalLinkId}
       className="section"
       position="relative"
     >
@@ -109,7 +90,7 @@ export const Game: React.FC = () => {
           </Text>
         </Box>
       </Container>
-      <LandingNextButton section="build-the-future" />
+      <LandingNextButton section={nextSection?.internalLinkId} />
     </FullPageContainer>
   );
 };

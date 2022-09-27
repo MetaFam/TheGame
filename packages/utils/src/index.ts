@@ -3,7 +3,6 @@ import { v4 as uuidv4 } from 'uuid';
 import extendedProfileModel from './ExtendedProfileModel.json';
 
 export * from './arrayHelpers';
-export * from './chainHelpers';
 export * as Constants from './constants';
 export * as did from './did';
 export * as DiscordUtil from './discordHelpers';
