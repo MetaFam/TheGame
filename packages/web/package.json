@@ -72,6 +72,7 @@
     "@types/dompurify": "^2.3.3",
     "@types/draft-js": "0.11.9",
     "@types/draftjs-to-html": "0.8.1",
+    "@types/gapi.youtube": "3.0.35",
     "@types/react-draft-wysiwyg": "1.13.4",
     "@types/react-grid-layout": "1.3.2",
     "@types/react-vis": "1.11.10"

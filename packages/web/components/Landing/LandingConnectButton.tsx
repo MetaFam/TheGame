@@ -10,7 +10,6 @@ import {
   VStack,
 } from '@metafam/ds';
 import { MetaLink } from 'components/Link';
-import { SwitchNetworkButton } from 'components/SwitchNetworkButton';
 import { useWeb3 } from 'lib/hooks';
 import { useEffect, useState } from 'react';
 import { GoSignIn, GoSignOut } from 'react-icons/go';
@@ -80,19 +79,6 @@ export const LandingConnectButton = ({ isIconStyle = false, ...props }) => {
       setWrongNetwork(false);
     }
   }, [connected]);
-
-  // useEffect(() => {
-  //   if (!connected) {
-  //     toast({
-  //       title: 'Wallet Connection',
-  //       description: 'You are disconnected from the app. See you soon, Anon',
-  //       status: 'success',
-  //       isClosable: true,
-  //       duration: 5000,
-  //     });
-  //   }
-  // // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [connected]);
 
   return (
     <Tooltip

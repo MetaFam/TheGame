@@ -127,8 +127,63 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
     }
   }, []);
 
+  /**
+   * Sanitizes & splits the element content into dialogue and
+   * choices, adds them to state & returns the values if you want to use it that way */
+  const makeCurrentSectionDialogue = useCallback(
+    (section): CurrentSectionDialogueChoices => {
+      const { content, title } = section;
+      const string = `${title ? '<p></p>' : '<p></p>'}${content ?? '<p></p>'}`;
+      const parsedContent = safelyParseTextForTyping(string);
+      const dialogue: JSX.Element[] = [];
+      const choices: JSX.Element[] = [];
+      try {
+        /**
+         * if it is set, take the parsedContent, find & push paragraphs that contain *no* links as child elements
+         * into the `dialogue` array.
+         * if the paragraph has a link, push it into the `choices` array.
+         */
+        if (Array.isArray(parsedContent) && parsedContent.length > 0) {
+          parsedContent.forEach((paragraph: JSX.Element) => {
+            const { children } = paragraph.props;
+            if (children) {
+              const hasLink = children.type === 'a';
+              if (!hasLink) {
+                dialogue.push(paragraph);
+              } else {
+                choices.push(children);
+              }
+            }
+            return paragraph;
+          });
+          setCurrentDialogue(dialogue);
+          setCurrentChoices(choices);
+          return {
+            currentDialogue: dialogue,
+            currentChoices: choices,
+          };
+        }
+        if (dialogue.length === 0 && choices.length === 0) {
+          throw new Error('No dialogue or choices found');
+        }
+
+        return {
+          currentDialogue: [],
+          currentChoices: [],
+        };
+      } catch (error) {
+        console.log('makeCurrentSectionDialogue error', { error });
+        return {
+          currentDialogue: [],
+          currentChoices: [],
+        };
+      }
+    },
+    [],
+  );
+
   /** Sets the starting point for the game (startingElement or saved state) */
-  const initGame = () => {
+  const initGame = useCallback(() => {
     setIsLoading(true);
 
     fetchGameData()
@@ -164,9 +219,14 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
       .catch((error) => {
         console.log('initGame error: ', { error });
         setIsLoading(false);
-      })
-      .finally(() => {});
-  };
+      });
+  }, [
+    fetchGameData,
+    gameState,
+    makeCurrentSectionDialogue,
+    visitedElements,
+    visits,
+  ]);
 
   const handleReset = () => {
     const isReset = resetGame();
@@ -180,54 +240,6 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
     setChievFound(true);
   }, []);
 
-  /** Get the connections for the current element */
-  const getConnections = (connectionIds: string[]) => {
-    try {
-      if (connectionIds.length > 0) {
-        const elementConnections = connectionIds.map((id: string) => {
-          const connectionData = {
-            ...gameDataState?.connections[id],
-            connectionId: id,
-          };
-          return connectionData;
-        });
-
-        setCurrentConnections(elementConnections);
-        return elementConnections;
-      }
-
-      throw new Error('No connections found');
-    } catch (error) {
-      setCurrentConnections([]);
-      // console.log('getConnections ', { error });
-      return undefined;
-    }
-  };
-
-  /** Get the jumpers, if any, for the current element */
-  const getJumpers = (jumperIds: string[]) => {
-    try {
-      if (jumperIds.length > 0) {
-        const elementJumpers = jumperIds.map((id: string) => {
-          const jumperData = {
-            ...gameDataState?.jumpers[id],
-            jumperId: id,
-          };
-
-          return jumperData;
-        });
-
-        setCurrentJumpers(elementJumpers);
-
-        return elementJumpers;
-      }
-      throw new Error('No jumpers found');
-    } catch (error) {
-      // console.log('getJumpers ', { error });
-      return undefined;
-    }
-  };
-
   /** Welcome back for returning players */
   useEffect(() => {
     const state = gameState();
@@ -238,28 +250,70 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
         setWelcomeBack(false);
       }, 6000);
     }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [gameDataState]);
+  }, [gameDataState, gameState]);
 
   /** Call the init() function on mount */
   useEffect(() => {
     initGame();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [initGame]);
 
   /** Call to get connections when the currentElement changes */
   useEffect(() => {
+    /** Get the connections for the current element */
+    const getConnections = (connectionIds: string[]) => {
+      try {
+        if (connectionIds.length > 0) {
+          const elementConnections = connectionIds.map((id: string) => {
+            const connectionData = {
+              ...gameDataState?.connections[id],
+              connectionId: id,
+            };
+            return connectionData;
+          });
+
+          setCurrentConnections(elementConnections);
+          return elementConnections;
+        }
+
+        throw new Error('No connections found');
+      } catch (error) {
+        setCurrentConnections([]);
+        // console.log('getConnections ', { error });
+        return undefined;
+      }
+    };
     if (currentElement !== undefined && currentElement.outputs !== null) {
       getConnections(currentElement.outputs);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentElement]);
+  }, [currentElement, gameDataState?.connections]);
 
   /** Call to get jumpers when the currentConnections change */
   useEffect(() => {
+    /** Get the jumpers, if any, for the current element */
+    const getJumpers = (jumperIds: string[]) => {
+      try {
+        if (jumperIds.length > 0) {
+          const elementJumpers = jumperIds.map((id: string) => {
+            const jumperData = {
+              ...gameDataState?.jumpers[id],
+              jumperId: id,
+            };
+
+            return jumperData;
+          });
+
+          setCurrentJumpers(elementJumpers);
+
+          return elementJumpers;
+        }
+        throw new Error('No jumpers found');
+      } catch (error) {
+        // console.log('getJumpers ', { error });
+        return undefined;
+      }
+    };
     if (currentConnections !== undefined && currentConnections.length > 0) {
-      const jumpers: any[] = currentConnections.filter(
+      const jumpers = currentConnections.filter(
         (
           connection: ConnectionStateItem,
         ): IConnection['targetid'] | undefined => {
@@ -274,66 +328,12 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
         getJumpers(jumperIds);
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentConnections]);
+  }, [currentConnections, gameDataState?.jumpers]);
 
   interface CurrentSectionDialogueChoices {
     currentDialogue: JSX.Element[];
     currentChoices: JSX.Element[];
   }
-  /**
-   * Sanitizes & splits the element content into dialogue and
-   * choices, adds them to state & returns the values if you want to use it that way */
-  const makeCurrentSectionDialogue = (
-    section: CurrentElementState,
-  ): CurrentSectionDialogueChoices => {
-    const { content, title } = section;
-    const string = `${title ? '<p></p>' : '<p></p>'}${content ?? '<p></p>'}`;
-    const parsedContent: any = safelyParseTextForTyping(string);
-    const dialogue: any[] = [];
-    const choices: any[] = [];
-    try {
-      /**
-       * if it is set, take the parsedContent, find & push paragraphs that contain *no* links as child elements
-       * into the `dialogue` array.
-       * if the paragraph has a link, push it into the `choices` array.
-       */
-      if (parsedContent.length > 0) {
-        parsedContent.forEach((paragraph: JSX.Element) => {
-          const { children } = paragraph.props;
-          if (children) {
-            const hasLink = children.type === 'a';
-            if (!hasLink) {
-              dialogue.push(paragraph);
-            } else {
-              choices.push(children);
-            }
-          }
-          return paragraph;
-        });
-        setCurrentDialogue(dialogue);
-        setCurrentChoices(choices);
-        return {
-          currentDialogue: dialogue,
-          currentChoices: choices,
-        };
-      }
-      if (dialogue.length === 0 && choices.length === 0) {
-        throw new Error('No dialogue or choices found');
-      }
-
-      return {
-        currentDialogue: [],
-        currentChoices: [],
-      };
-    } catch (error) {
-      console.log('makeCurrentSectionDialogue error', { error });
-      return {
-        currentDialogue: [],
-        currentChoices: [],
-      };
-    }
-  };
 
   /** Handles the typing effect.
    * TODO: probs should be extracted to a separate component/function
@@ -411,8 +411,7 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
       };
       loop();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isLoading, currentElement]);
+  }, [isLoading, currentElement, currentDialogue]);
 
   const handleProgress = (elementId: string) => {
     setIsLoading(true);
@@ -449,11 +448,9 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
           triggerElements.find((el) => el === currentElementId))) &&
       claimed !== 'true'
     ) {
-      // eslint-disable-next-line no-alert
       triggerChiev();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentElement]);
+  }, [currentElement, triggerChiev, visits]);
 
   return (
     <Box

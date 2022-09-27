@@ -1,53 +1,34 @@
-/* eslint-disable no-nested-ternary */
 import { Box, Container, Text, useBreakpointValue } from '@metafam/ds';
 import BackgroundImageDesktop from 'assets/landing/sections/section-4.jpg';
 import BackgroundImageMobile from 'assets/landing/sections/section-4.sm.jpg';
 import { FullPageContainer } from 'components/Container';
+import { useMotionDetector } from 'lib/hooks/useMotionDetector';
 import { useOnScreen } from 'lib/hooks/useOnScreen';
-import { useEffect, useRef, useState } from 'react';
+import { useRef } from 'react';
 
 import { LandingNextButton } from './LandingNextButton';
+import { LandingPageSectionProps } from './landingSection';
 
-export const WildWeb: React.FC = () => {
+export const WildWeb: React.FC<LandingPageSectionProps> = ({
+  section,
+  nextSection,
+}) => {
   const ref = useRef<HTMLDivElement>(null);
   const onScreen = useOnScreen(ref);
   const root = typeof window !== 'undefined' ? document.body : null;
-  const [noMotion, setNoMotion] = useState(false);
+  const noMotion = useMotionDetector(root);
   const displayElement = noMotion ? true : !!onScreen;
-  const section = 'the-wild-web';
   const responsiveBg = useBreakpointValue({
     base: BackgroundImageMobile,
     md: BackgroundImageDesktop,
   });
-
-  useEffect(() => {
-    const mut = new MutationObserver(() => {
-      if (root && root.classList.contains('no-motion')) {
-        setNoMotion(true);
-      } else {
-        setNoMotion(false);
-      }
-    });
-    if (typeof window !== 'undefined' && window.matchMedia !== undefined) {
-      if (root) {
-        mut.observe(root, {
-          attributes: true,
-        });
-      }
-    }
-
-    return () => {
-      mut.disconnect();
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <FullPageContainer
       bgImageUrl={responsiveBg}
       backgroundBlendMode="normal"
       backgroundPosition="center"
-      id={section}
+      id={section.internalLinkId}
       position="relative"
     >
       <Container
@@ -115,7 +96,7 @@ export const WildWeb: React.FC = () => {
           </Text>
         </Box>
       </Container>
-      <LandingNextButton section="why-are-we-here" />
+      <LandingNextButton section={nextSection?.internalLinkId} />
     </FullPageContainer>
   );
 };

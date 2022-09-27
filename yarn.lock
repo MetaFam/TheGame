@@ -6386,6 +6386,18 @@
     "@types/qs" "*"
     "@types/serve-static" "*"
 
+"@types/gapi.youtube@3.0.35":
+  version "3.0.35"
+  resolved "https://registry.yarnpkg.com/@types/gapi.youtube/-/gapi.youtube-3.0.35.tgz#87fdc482d948cf1f52fced0c39a641fa4e28eba4"
+  integrity sha512-U17CuGgwn+EiA5EWRFN3IST1s69TIDeUmvilwKmWUqoVBSfKju2bWJcaSQbxEyC05b/9F15zAd41pkfOCmhUWA==
+  dependencies:
+    "@types/gapi" "*"
+
+"@types/gapi@*":
+  version "0.0.42"
+  resolved "https://registry.yarnpkg.com/@types/gapi/-/gapi-0.0.42.tgz#772aa461660de09e7a78258064e075818373493c"
+  integrity sha512-kskWpouTGqutaIVRo/swiGnMVoRxOYdRwvaDrh0yavfR9vQoHvJJ7Enp4KE9MEGS8qF7F5KiP6bRNOYcCgRXCA==
+
 "@types/graceful-fs@^4.1.2", "@types/graceful-fs@^4.1.3":
   version "4.1.5"
   resolved "https://registry.yarnpkg.com/@types/graceful-fs/-/graceful-fs-4.1.5.tgz#21ffba0d98da4350db64891f92a9e5db3cdb4e15"
