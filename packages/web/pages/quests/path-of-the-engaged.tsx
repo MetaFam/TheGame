@@ -1,5 +1,5 @@
 import { Accordion, Box, Flex, Spinner, Text, VStack } from '@metafam/ds';
-import { INITIATION_QUESTS_INFO } from '@metafam/utils/src/constants';
+import { QUESTS } from '@metafam/utils/src/constants';
 import { graphql } from '@quest-chains/sdk';
 import { PageContainer } from 'components/Container';
 import { Quest } from 'components/Quest/InitiationQuestTile';
@@ -33,7 +33,7 @@ type Props = {
   questChain: graphql.QuestChainInfoFragment;
 };
 
-const InitiationQuests: React.FC<Props> = ({ questChain: inputQuestChain }) => {
+const EngagedQuests: React.FC<Props> = ({ questChain: inputQuestChain }) => {
   const { address } = useWeb3();
 
   const [progress, setProgress] = useState({
@@ -53,8 +53,8 @@ const InitiationQuests: React.FC<Props> = ({ questChain: inputQuestChain }) => {
     fetching: fetchingStatus,
     refresh: refreshStatus,
   } = useLatestQuestStatusesForUserAndChainData(
-    INITIATION_QUESTS_INFO.chainId,
-    INITIATION_QUESTS_INFO.address,
+    QUESTS.ENGAGED.chainId,
+    QUESTS.ENGAGED.address,
     address,
   );
 
@@ -131,11 +131,10 @@ const InitiationQuests: React.FC<Props> = ({ questChain: inputQuestChain }) => {
   return (
     <PageContainer>
       <HeadComponent
-        title="Metagame's Initiation Quests"
+        title="MetaGame Quests"
         description="MetaGame is a Massive Online Coordination Game! MetaGame has some epic quests going on!"
-        url="https://my.metagame.wtf/quests/initiation"
+        url="https://my.metagame.wtf/quests/path-of-the-engaged"
       />
-
       <Flex
         gap={10}
         justifyContent="space-between"
@@ -245,13 +244,13 @@ const InitiationQuests: React.FC<Props> = ({ questChain: inputQuestChain }) => {
               <Flex pt={6} w="100%">
                 NFT MINT TILE - TO BE IMPLEMENTED
                 {/* <MintNFTTile
-                  {...{
-                    questChain,
-                    onSuccess: refresh,
-                    completed: questChain.quests.filter((q) => !q.paused)
-                      .length,
-                  }}
-                /> */}
+            {...{
+              questChain,
+              onSuccess: refresh,
+              completed: questChain.quests.filter((q) => !q.paused)
+                .length,
+            }}
+          /> */}
               </Flex>
             )}
           </Flex>
@@ -271,11 +270,6 @@ const InitiationQuests: React.FC<Props> = ({ questChain: inputQuestChain }) => {
                     QUESTS
                   </Text>
                 </Flex>
-
-                {/* would be really nice if this was refactored by 
-                  separating the whole quest actions logic into its own component, so:
-                  - edit quest
-                  - upload proof */}
                 <Accordion allowMultiple w="full">
                   {questChain.quests.map(
                     ({ name, description, questId }, index) =>
@@ -314,11 +308,12 @@ export const getStaticProps = async () => {
   let questChain;
   try {
     questChain = await getQuestChainInfo(
-      INITIATION_QUESTS_INFO.chainId,
-      INITIATION_QUESTS_INFO.address,
+      QUESTS.ENGAGED.chainId,
+      QUESTS.ENGAGED.address,
     );
   } catch (error) {
     // eslint-disable-next-line no-console
+    console.error('error', error);
   }
 
   return {
@@ -329,4 +324,4 @@ export const getStaticProps = async () => {
   };
 };
 
-export default InitiationQuests;
+export default EngagedQuests;

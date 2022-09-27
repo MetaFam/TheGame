@@ -1,5 +1,5 @@
 /* eslint-disable no-console, no-await-in-loop */
-import { INITIATION_QUESTS_INFO } from '@metafam/utils/src/constants';
+import { QUESTS } from '@metafam/utils/src/constants';
 import { gql, request } from 'graphql-request';
 
 const statusQuery = gql`
@@ -15,13 +15,9 @@ const statusQuery = gql`
 `;
 
 export const getLatestBlock = async (subgraph: string): Promise<number> => {
-  const data = await request(
-    INITIATION_QUESTS_INFO.graphHealthEndpoint,
-    statusQuery,
-    {
-      subgraph,
-    },
-  );
+  const data = await request(QUESTS.ENGAGED.graphHealthEndpoint, statusQuery, {
+    subgraph,
+  });
   return data.status?.chains[0].latestBlock.number;
 };
 
@@ -35,8 +31,8 @@ class GraphHealthStore {
   }
 
   public async updateGraphHealth() {
-    this.graphHealth[INITIATION_QUESTS_INFO.chainId] = await getLatestBlock(
-      INITIATION_QUESTS_INFO.graphHealthEndpoint,
+    this.graphHealth[QUESTS.ENGAGED.chainId] = await getLatestBlock(
+      QUESTS.ENGAGED.graphHealthEndpoint,
     );
     console.log('Updated Graph Health', this.graphHealth);
     setTimeout(() => this.updateGraphHealth(), UPDATE_INTERVAL);
