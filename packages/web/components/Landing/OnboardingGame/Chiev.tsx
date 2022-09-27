@@ -25,7 +25,7 @@ import {
   useEffect,
   useState,
 } from 'react';
-import { shortenAddress } from 'utils/stringHelpers';
+import { formatAddress } from 'utils/playerHelpers';
 
 import ABI from '../../../contracts/BulkDisbursableNFTs.abi';
 
@@ -278,7 +278,7 @@ export const Chiev = ({
             {!account ? (
               <LandingConnectButton />
             ) : (
-              <Tooltip label={`Wallet: ${shortenAddress(account)}`} hasArrow>
+              <Tooltip label={`Wallet: ${formatAddress(account)}`} hasArrow>
                 <Button
                   onClick={handleMinting}
                   isDisabled={txLoading || claiming || claimed || wrongNetwork}
