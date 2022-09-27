@@ -11,33 +11,38 @@ export type NetworkInfo = {
   };
 };
 
+export const mainnet = '0x1';
+export const gnosis = '0x64';
+export const polygon = '0x89';
+export const mumbai = '0x013881';
+
 export const NETWORK_INFO: NetworkInfo = {
-  '0x1': {
-    chainId: '0x1',
+  [mainnet]: {
+    chainId: mainnet,
     name: 'Ethereum Mainnet',
     label: 'Ethereum',
     symbol: 'ETH',
     explorer: 'https://etherscan.io',
     rpc: `https://mainnet.infura.io/v3/${CONFIG.infuraId}`,
   },
-  '0x64': {
-    chainId: '0x64',
+  [gnosis]: {
+    chainId: gnosis,
     name: 'Gnosis Chain',
     label: 'Gnosis',
     symbol: 'xDAI',
     explorer: 'https://blockscout.com/xdai/mainnet',
     rpc: 'https://rpc.gnosischain.com/',
   },
-  '0x89': {
-    chainId: '0x89',
+  [polygon]: {
+    chainId: polygon,
     name: 'Polygon',
     label: 'Polygon',
     symbol: 'MATIC',
     explorer: 'https://polygonscan.com',
     rpc: 'https://polygon-rpc.com',
   },
-  '0x013881': {
-    chainId: '0x013881',
+  [mumbai]: {
+    chainId: mumbai,
     name: 'Mumbai',
     label: 'Mumbai',
     symbol: 'MATIC',
@@ -45,3 +50,15 @@ export const NETWORK_INFO: NetworkInfo = {
     rpc: 'https://matic-mumbai.chainstacklabs.com',
   },
 };
+
+export function getHexChainId(chain?: string): string {
+  switch (chain?.toLowerCase()) {
+    case 'xdai':
+      return gnosis;
+    case 'polygon':
+      return polygon;
+    case 'ethereum':
+    default:
+      return mainnet;
+  }
+}

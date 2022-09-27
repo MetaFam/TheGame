@@ -1,4 +1,4 @@
-import { getHexChainId } from '@metafam/utils';
+import { getHexChainId } from './networks';
 
 export const getDAOLink = (chain?: string, address?: string): string | null => {
   if (address && chain) {

@@ -1,6 +1,10 @@
 /* eslint-disable no-param-reassign */
 import DOMPurify from 'dompurify';
-import parse from 'html-react-parser';
+import parse, {
+  DOMNode,
+  Element,
+  HTMLReactParserOptions,
+} from 'html-react-parser';
 
 export const hashCode = (str: string): string => {
   let hash = 0;
@@ -17,9 +21,9 @@ export const hashCode = (str: string): string => {
  * */
 export const safelyParseContent = (content: string) => {
   const clean = DOMPurify.sanitize(content);
-  const options = {
-    replace: (domNode: any) => {
-      if (domNode.attribs?.href) {
+  const options: HTMLReactParserOptions = {
+    replace: (domNode: DOMNode) => {
+      if (domNode instanceof Element && domNode.attribs?.href) {
         domNode.attribs.target = '_blank';
         domNode.attribs.title = `Opens new tab to ${domNode.attribs.href}`;
         domNode.attribs.class = 'external-link';
@@ -38,8 +42,8 @@ export const safelyParseContent = (content: string) => {
 export const safelyParseTextForTyping = (content: string) => {
   const clean = DOMPurify.sanitize(content);
   const options = {
-    replace: (domNode: any) => {
-      if (domNode.type === 'tag' && domNode.children.length > 0) {
+    replace: (domNode: DOMNode) => {
+      if (domNode instanceof Element && domNode.children.length > 0) {
         if (domNode.parent === null) {
           domNode.attribs.class = 'typing-text';
         }
@@ -54,14 +58,4 @@ export const safelyParseTextForTyping = (content: string) => {
 
   const parsed = parse(clean, options);
   return parsed;
-};
-
-export const shortenAddress = (address: string, sliceSize?: number): string => {
-  const sliceNumber = sliceSize ?? 4;
-  const start: string = address.toLowerCase().slice(0, sliceNumber);
-  const end: string = address
-    .toLowerCase()
-    .slice(Math.max(0, address.length - sliceNumber));
-  const shortAddress = `${start}...${end}`;
-  return shortAddress;
 };
