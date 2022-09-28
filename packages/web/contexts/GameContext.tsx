@@ -7,8 +7,8 @@ import type {
   IGameContext,
   IGameState,
 } from 'components/Landing/OnboardingGame/gameTypes';
+import { chievContractAddress } from 'components/Landing/OnboardingGame/nft';
 import { MetaLink } from 'components/Link';
-import { CONFIG } from 'config';
 import { Contract } from 'ethers';
 import { useWeb3 } from 'lib/hooks';
 import React, {
@@ -18,6 +18,7 @@ import React, {
   useMemo,
   useState,
 } from 'react';
+import { NETWORK_INFO, POLYGON } from 'utils/networks';
 
 import gameJson from '../components/Landing/OnboardingGame/metagame-onboarding-game.json';
 import ABI from '../contracts/BulkDisbursableNFTs.abi';
@@ -37,13 +38,10 @@ export const GameContext = React.createContext<IGameContext>({
   gameState: () => null,
   handleChoice: async () => undefined,
   resetGame: () => false,
-  // typeText: () => '',
-  fetchGameData: async () => {},
   visitedElements: () => '0',
   mintChiev: async () => '',
   connect: async () => undefined,
   disconnect: async () => undefined,
-  loading: true,
   txLoading: false,
   account: '',
   network: '0x013881',
@@ -52,9 +50,8 @@ export const GameContext = React.createContext<IGameContext>({
 });
 
 export const GameContextProvider: React.FC = ({ children }) => {
-  const [isLoading, setIsLoading] = useState(true);
   const [txLoading, setTxLoading] = useState(false);
-  const [gameDataState, setGameDataState] = useState<GamePropertiesType>();
+  const gameDataState = gameJson as GameProperties;
   const {
     address,
     provider,
@@ -64,32 +61,8 @@ export const GameContextProvider: React.FC = ({ children }) => {
     chainId,
     disconnect,
   } = useWeb3();
-  const [account, setAccount] = useState<any>(address ?? '');
+  const [account, setAccount] = useState(address ?? '');
   const toast = useToast();
-
-  /** Function to async fetch `CONFIG.onboardingGameDataURL` as json and return the data
-   * TODO: this needs the func from the main Game.tsx file to be moved here to replace
-   * this function
-   */
-  const fetchGameData = useCallback(async () => {
-    try {
-      setIsLoading(true);
-      console.log('Fetchng GameData...');
-
-      // const response = await fetch(gameJson);
-      // const data = (await response.json()) as GameProperties;
-      const data = gameJson as GameProperties;
-      console.log('fetchGameData', data);
-
-      if (data) {
-        setGameDataState(data);
-      }
-      setIsLoading(false);
-    } catch (error) {
-      console.error(error);
-      setIsLoading(false);
-    }
-  }, []);
 
   useEffect(() => {
     if (address) {
@@ -98,45 +71,17 @@ export const GameContextProvider: React.FC = ({ children }) => {
   }, [address]);
 
   const game = useMemo((): GameProperties => {
-    try {
-      if (!isLoading && gameDataState) {
-        const {
-          assets,
-          name,
-          startingElement,
-          elements,
-          connections,
-          components,
-        } = gameDataState;
-        return {
-          name,
-          assets,
-          startingElement,
-          elements,
-          connections,
-          components,
-        } as GameProperties;
-      }
-      return {
-        name: '',
-        assets: {},
-        startingElement: '',
-        elements: {},
-        connections: {},
-        components: {},
-      } as GameProperties;
-    } catch (error) {
-      console.log('fetchGameData error: ', { error });
-      return {
-        name: '',
-        startingElement: '',
-        assets: {},
-        elements: {},
-        connections: {},
-        components: {},
-      } as GameProperties;
-    }
-  }, [gameDataState, isLoading]);
+    const { assets, name, startingElement, elements, connections, components } =
+      gameDataState;
+    return {
+      name,
+      assets,
+      startingElement,
+      elements,
+      connections,
+      components,
+    } as GameProperties;
+  }, [gameDataState]);
 
   /** Function to get, set or clear game state
    *
@@ -216,8 +161,11 @@ export const GameContextProvider: React.FC = ({ children }) => {
         if (address === undefined) await connect();
         if (provider == null) throw new Error('Provider not set.');
 
-        const contractAddress = CONFIG.chievContractAddress;
-        const token = new Contract(contractAddress, ABI, provider.getSigner());
+        const token = new Contract(
+          chievContractAddress,
+          ABI,
+          provider.getSigner(),
+        );
         const confirmationsWait = 2;
         const metadataURI = await token.uri(tokenId);
         if (!metadataURI || metadataURI === '') {
@@ -251,7 +199,7 @@ export const GameContextProvider: React.FC = ({ children }) => {
         });
 
         const receipt = await tx.wait(confirmationsWait);
-        const receiptUrl = `${CONFIG.polygonscanBaseURL}/tx/${tx.hash}`;
+        const receiptUrl = `${NETWORK_INFO[POLYGON].explorer}/tx/${tx.hash}`;
         const nftURL = httpLink(metadata.external_url);
 
         set('ChievClaimed', 'true');
@@ -307,12 +255,10 @@ export const GameContextProvider: React.FC = ({ children }) => {
         gameState,
         handleChoice,
         resetGame,
-        fetchGameData,
         visitedElements,
         mintChiev,
         connect,
         disconnect,
-        loading: isLoading,
         txLoading,
         account,
         network: chainId,
