@@ -71,7 +71,7 @@ const RaidsPage: React.FC = () => {
             <Box
               as="iframe"
               title="MetaGame Raids on Miro"
-              src="https://miro.com/app/live-embed/uXjVOmrCvsw=/?moveToViewport=-28488,-18198,37431,29871&embedId=657796986982"
+              src="https://miro.com/app/live-embed/uXjVOmrCvsw=/?moveToViewport=-27371,-18004,13656,9967&embedId=580966028043"
               allowFullScreen
             />
           </AspectRatio>
