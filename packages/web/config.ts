@@ -31,11 +31,6 @@ export const CONFIG = {
   googleDataApiKey: process.env.NEXT_PUBLIC_YOUTUBE_API_KEY,
   web3StorageToken: process.env.WEB3_STORAGE_TOKEN || '',
   openseaApiKey: process.env.OPENSEA_API_KEY || '',
-  onboardingGameDataURL:
-    'https://ipfs.fleek.co/ipfs/bafybeig5n6md7kemfjgdbguiepzisrt2y6icxhsj65kyrirs3kqgpv56eu',
-  openseaBaseURL: 'https://opensea.io',
-  polygonscanBaseURL: 'https://polygonscan.com',
-  chievContractAddress: '0x85fCaAFc0dA050FCE685DcB8965F0C1Aa1Ba466b',
   alchemyRpcUrl: process.env.NEXT_ALCHEMY_ENDPOINT || '',
   alchemyApiKey:
     process.env.NEXT_ALCHEMY_API_KEY || 'eoEduI_LCCxfMPe9MKrpvly-qWtBBY7I',

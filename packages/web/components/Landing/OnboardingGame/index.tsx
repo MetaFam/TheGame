@@ -57,12 +57,12 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
   const [currentChoices, setCurrentChoices] =
     useState<CurrentSectionDialogueChoices['currentChoices']>();
   const [isLoading, setIsLoading] = useState(true);
-  const [isTyping, setIsTyping] = useState(true);
+  const [isTyping, setIsTyping] = useState<boolean | number>(1);
   const [hasError, setHasError] = useState(false);
   const [gameDataState, setGameDataState] = useState<GamePropertiesType | null>(
     null,
   );
-  const [welcomeBack, setWelcomeBack] = useState(false);
+  const [welcomeBack, setWelcomeBack] = useState<boolean | undefined>();
   const blink = keyframes`
     0% {
       opacity: 0;
@@ -243,14 +243,14 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
   /** Welcome back for returning players */
   useEffect(() => {
     const state = gameState();
-    if (state && gameDataState !== null) {
+    if (welcomeBack !== false && state && gameDataState !== null) {
       const isReturning = state !== gameDataState.startingElement;
       setWelcomeBack(isReturning);
       setTimeout(() => {
         setWelcomeBack(false);
       }, 6000);
     }
-  }, [gameDataState, gameState]);
+  }, [gameDataState, gameState, welcomeBack]);
 
   /** Call the init() function on mount */
   useEffect(() => {
@@ -362,6 +362,7 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
       let currentPhrase: string[] = [];
       let hasEnded = false;
       const loop = () => {
+        console.log('loop');
         if (i < elementsToType.length) {
           if (j <= phrases[i].length) {
             elementsToType[i].classList.remove('typed');
@@ -404,14 +405,20 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
             setIsTyping(false);
           }
         }
-        const speedMax = 10;
-        const speedMin = 1;
-        const randomiseSpeed = Math.random() * (speedMax - speedMin) + speedMin;
-        setTimeout(loop, randomiseSpeed);
+
+        if (!hasEnded) {
+          const speedMax = 10;
+          const speedMin = 1;
+          const randomiseSpeed =
+            Math.random() * (speedMax - speedMin) + speedMin;
+          setTimeout(loop, randomiseSpeed);
+        }
       };
-      loop();
+      if (phrases.length > 0) {
+        loop();
+      }
     }
-  }, [isLoading, currentElement, currentDialogue]);
+  }, [isLoading, currentDialogue]);
 
   const handleProgress = (elementId: string) => {
     setIsLoading(true);
