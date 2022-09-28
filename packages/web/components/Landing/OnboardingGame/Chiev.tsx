@@ -13,10 +13,9 @@ import { animated, useSpring } from '@react-spring/web';
 import OctoBg from 'assets/baby_octo.png';
 import { LandingConnectButton } from 'components/Landing/LandingConnectButton';
 import { MetaLink } from 'components/Link';
-import { CONFIG } from 'config';
 import { useGame } from 'contexts/GameContext';
-import { Contract, providers } from 'ethers';
 import { useWeb3 } from 'lib/hooks';
+import { useMotionDetector } from 'lib/hooks/useMotionDetector';
 import { get } from 'lib/store';
 import {
   Dispatch,
@@ -25,16 +24,10 @@ import {
   useEffect,
   useState,
 } from 'react';
+import { POLYGON } from 'utils/networks';
 import { formatAddress } from 'utils/playerHelpers';
 
-import ABI from '../../../contracts/BulkDisbursableNFTs.abi';
-
-export interface IChievMetadata {
-  name: string;
-  description: string;
-  image: string;
-  animation_url?: string;
-}
+import { chievId, getTokenImage, IChievMetadata } from './nft';
 
 export const Chiev = ({
   won,
@@ -44,27 +37,22 @@ export const Chiev = ({
   setWon: Dispatch<SetStateAction<boolean>>;
 }) => {
   const prefersReducedMotion = usePrefersReducedMotion();
-  const [noMotion, setNoMotion] = useState(false);
   const root = typeof window !== 'undefined' ? document.body : null;
+  const motionDisabled = useMotionDetector(root);
+  const [noMotion, setNoMotion] = useState(motionDisabled);
   const { mintChiev, txLoading } = useGame();
   const [claiming, setClaiming] = useState(false);
   const { address: account, chainId, connected } = useWeb3();
   const [wrongNetwork, setWrongNetwork] = useState(false);
-  const { alchemyApiKey, chievContractAddress: contractAddress } = CONFIG;
   const claimed = get('ChievClaimed') === 'true' ?? false;
-  const chievId = BigInt(
-    '0x480000000000000000000000000000000000000000000000000000000002',
-  );
   const [chievData, setChievData] = useState<IChievMetadata>();
-  // const [claimed, setClaimed] = useState(false);
-  // const toast = useToast();
+
   const springProps = useSpring({
     config: {
       tension: 150,
       friction: 10,
       mass: 1,
     },
-    // opacity: won ? 1 : 0,
     transform: won ? 'translateY(0)' : 'translateY(-100%)',
     scale: won ? 1 : 0.5,
     display: won ? 'flex' : 'none',
@@ -95,35 +83,13 @@ export const Chiev = ({
         console.log('receipt', tx);
       }
       setClaiming(false);
-    } catch (error: any) {
-      console.log('handleMintingError', error);
+    } catch (error) {
+      console.error('handleMintingError', error);
     }
-  }, [chievId, mintChiev]);
-
-  /** function to get the token image url from the nft metadata */
-  const getTokenImage =
-    useCallback(async (): Promise<IChievMetadata | void> => {
-      try {
-        const provider = new providers.AlchemyProvider('matic', alchemyApiKey);
-        const token = new Contract(contractAddress, ABI, provider);
-        console.log('token', token, provider, alchemyApiKey);
-        const metadataURI = await token.uri(chievId);
-        console.log('metadataURI', metadataURI);
-        if (!metadataURI || metadataURI === '') {
-          throw new Error(`No metadata for token ${chievId}.`);
-        }
-        const response = await fetch(httpLink(metadataURI)!);
-        const metadata = await response.json();
-        return metadata as IChievMetadata;
-      } catch (error: any) {
-        console.log('getTokenImageError', error);
-        return undefined;
-      }
-    }, [chievId, contractAddress, alchemyApiKey]);
+  }, [mintChiev]);
 
   useEffect(() => {
     getTokenImage().then((res) => {
-      console.log('res', res);
       if (res) {
         const metadata = {
           name: res.name ?? '',
@@ -134,24 +100,14 @@ export const Chiev = ({
         setChievData(metadata);
       }
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    if (chievData) {
-      console.log('chievData', chievData);
-    }
-  }, [chievData]);
-
-  useEffect(() => {
-    if (connected && chainId !== '0x89') {
-      console.log('wrong network');
+    if (connected && chainId !== POLYGON) {
       setWrongNetwork(true);
-      // throw new Error('Wrong network');
-    } else if (connected && chainId === '0x89') {
+    } else if (connected && chainId === POLYGON) {
       setWrongNetwork(false);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [connected, chainId]);
 
   useEffect(() => {
@@ -165,30 +121,7 @@ export const Chiev = ({
         setNoMotion(true);
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [prefersReducedMotion]);
-
-  useEffect(() => {
-    const mut = new MutationObserver(() => {
-      if (root && root.classList.contains('no-motion')) {
-        setNoMotion(true);
-      } else {
-        setNoMotion(false);
-      }
-    });
-    if (typeof window !== 'undefined' && window.matchMedia !== undefined) {
-      if (root) {
-        mut.observe(root, {
-          attributes: true,
-        });
-      }
-    }
-
-    return () => {
-      mut.disconnect();
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [prefersReducedMotion, root?.classList]);
 
   return (
     <animated.div
@@ -212,7 +145,9 @@ export const Chiev = ({
         display="flex"
         height={{ base: '50vh', xl: '50vh' }}
         width={{ base: '95%', xl: '33vw' }}
-        border="2px solid var(--chakra-colors-landing600)"
+        borderWidth={2}
+        borderStyle="solid"
+        borderColor="landing600"
         boxShadow="0 0 50px black"
         overflow="hidden"
         borderRadius="2xl"
@@ -232,7 +167,7 @@ export const Chiev = ({
               px: 4,
               py: 2,
               '&:hover': {
-                color: 'var(--chakra-colors-landing300)',
+                color: 'landing300',
                 backgroundColor: 'transparent',
               },
             },
@@ -243,7 +178,7 @@ export const Chiev = ({
             fontSize={{ base: 'md', '2xl': 'xl' }}
             fontWeight="black"
             textTransform="uppercase"
-            color="var(--chakra-colors-landing600)"
+            color="landing600"
           >
             Onboarding Progress
           </Text>
@@ -288,9 +223,9 @@ export const Chiev = ({
                       ? wrongNetwork
                         ? 'brightIdOrange.600'
                         : 'green'
-                      : 'var(--chakra-colors-landing550)'
+                      : 'landing550'
                   }
-                  textShadow="var(--chakra-colors-landing500)"
+                  textShadow="landing500"
                   size={'xl'}
                 >
                   {txLoading || claiming
@@ -371,7 +306,7 @@ export const Chiev = ({
           width={'350px'}
           height={'350px'}
           borderRadius="full"
-          backgroundColor="var(--chakra-colors-landing200)"
+          backgroundColor="landing200"
           filter={`blur(100px)`}
           pointerEvents="none"
           zIndex={0}
@@ -383,7 +318,7 @@ export const Chiev = ({
           width={'500px'}
           height={'500px'}
           borderRadius="full"
-          backgroundColor="var(--chakra-colors-landing500)"
+          backgroundColor="landing500"
           filter={`blur(100px)`}
           opacity={0.7}
           pointerEvents="none"

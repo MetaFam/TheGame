@@ -23,10 +23,11 @@ export const safelyParseContent = (content: string) => {
   const clean = DOMPurify.sanitize(content);
   const options: HTMLReactParserOptions = {
     replace: (domNode: DOMNode) => {
-      if (domNode instanceof Element && domNode.attribs?.href) {
-        domNode.attribs.target = '_blank';
-        domNode.attribs.title = `Opens new tab to ${domNode.attribs.href}`;
-        domNode.attribs.class = 'external-link';
+      const element = domNode as Element;
+      if (element.attribs?.href) {
+        element.attribs.target = '_blank';
+        element.attribs.title = `Opens new tab to ${element.attribs.href}`;
+        element.attribs.class = 'external-link';
       }
     },
   };
@@ -45,14 +46,15 @@ export const safelyParseTextForTyping = (
   const clean = DOMPurify.sanitize(content);
   const options = {
     replace: (domNode: DOMNode) => {
-      if (domNode instanceof Element && domNode.children.length > 0) {
-        if (domNode.parent === null) {
-          domNode.attribs.class = 'typing-text';
+      const element = domNode as Element;
+      if (element.type === 'tag' && element.children.length > 0) {
+        if (element.parent === null) {
+          element.attribs.class = 'typing-text';
         }
-        if (domNode.attribs?.href) {
-          domNode.attribs.target = '_blank';
-          domNode.attribs.title = `Opens new tab to ${domNode.attribs.href}`;
-          domNode.attribs.class = 'external-link';
+        if (element.attribs?.href) {
+          element.attribs.target = '_blank';
+          element.attribs.title = `Opens new tab to ${element.attribs.href}`;
+          element.attribs.class = 'external-link';
         }
       }
     },
