@@ -31,7 +31,7 @@
     "graphql": "16.3.0",
     "graphql-request": "4.0.0",
     "graphql-tag": "2.12.6",
-    "node-fetch": "3.2.1",
+    "node-fetch": "3.2.10",
     "reflect-metadata": "0.1.13",
     "sourcecred": "0.11.0"
   },
