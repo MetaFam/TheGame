@@ -75,7 +75,7 @@ const RaidsPage: React.FC = () => {
             <Box
               as="iframe"
               title="MetaGame Raids on Miro"
-              src="https://miro.com/app/live-embed/uXjVOmrCvsw=/?moveToViewport=-27371,-18004,13656,9967&embedId=580966028043"
+              src="https://miro.com/app/live-embed/uXjVOmrCvsw=/?moveToViewport=-23399,-15417,32264,27285&embedId=17519047502"
               allowFullScreen
             />
           </AspectRatio>
@@ -342,7 +342,7 @@ const RaidsPage: React.FC = () => {
                 Want to help? Need help?
               </Text>
               <Text mb={2}>
-                Check who are the people conntected to the raid &amp; contact
+                Check who are the people connected to the raid &amp; contact
                 them on Discord or ask in{' '}
                 <Link
                   className="gradient"
