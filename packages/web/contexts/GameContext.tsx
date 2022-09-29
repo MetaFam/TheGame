@@ -1,9 +1,7 @@
-/* eslint-disable no-underscore-dangle */
 import { Text, useToast, VStack } from '@metafam/ds';
 import { httpLink } from '@metafam/utils';
 import type {
   GameProperties,
-  GamePropertiesType,
   IGameContext,
   IGameState,
 } from 'components/Landing/OnboardingGame/gameTypes';
