@@ -57,7 +57,7 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
   const [currentChoices, setCurrentChoices] =
     useState<CurrentSectionDialogueChoices['currentChoices']>();
   const [isLoading, setIsLoading] = useState(true);
-  const [isTyping, setIsTyping] = useState<boolean | number>(1);
+  const [isTyping, setIsTyping] = useState(true);
   const [hasError, setHasError] = useState(false);
   const [gameDataState, setGameDataState] = useState<GamePropertiesType | null>(
     null,
@@ -81,51 +81,6 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
   // const pulseAnimation = `${blink} 2s infinite`;
   const visits = visitedElements();
   const [chievFound, setChievFound] = useState(false);
-
-  /** Function to async fetch `CONFIG.onboardingGameDataURL` as json and return the data */
-  const fetchGameData = useCallback(async () => {
-    try {
-      setHasError(false);
-
-      // const response = await fetch(CONFIG.onboardingGameDataURL);
-      // console.log('fetchGameData RES', response.status);
-      const data = gameJson as GameProperties;
-      // console.log('fetchGameData', data);
-      const {
-        assets,
-        name,
-        startingElement,
-        elements,
-        connections,
-        jumpers,
-        attributes,
-        components,
-      } = data;
-      return {
-        name,
-        assets,
-        startingElement,
-        elements,
-        connections,
-        jumpers,
-        attributes,
-        components,
-      } as GameProperties;
-    } catch (error) {
-      console.log('fetch error: ', { error });
-      setHasError(true);
-      return {
-        name: '',
-        assets: {},
-        startingElement: '',
-        elements: {},
-        connections: {},
-        jumpers: {},
-        attributes: {},
-        components: {},
-      } as GameProperties;
-    }
-  }, []);
 
   /**
    * Sanitizes & splits the element content into dialogue and
@@ -186,47 +141,31 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
   const initGame = useCallback(() => {
     setIsLoading(true);
 
-    fetchGameData()
-      .then((data) => {
-        if (data.name.length > 0) {
-          setGameDataState(data);
-          const state = gameState();
-          const element =
-            state !== null
-              ? data.elements[state]
-              : data.elements[data.startingElement];
+    const data = gameJson as GameProperties;
+    if (data.name.length > 0) {
+      setGameDataState(data);
+      const state = gameState();
+      const element =
+        state !== null
+          ? data.elements[state]
+          : data.elements[data.startingElement];
 
-          const elementData: CurrentElementState = {
-            ...element,
-            elementId: state ?? data.startingElement,
-          };
+      const elementData: CurrentElementState = {
+        ...element,
+        elementId: state ?? data.startingElement,
+      };
 
-          setCurrentElement(elementData);
-          const visited = parseInt(visits, 10);
-          if (visited === 0 || visited === null) {
-            visitedElements(true);
-          }
-          return elementData;
-        }
-        throw new Error('No game data found');
-      })
-      .then((data) => {
-        if (data) {
-          makeCurrentSectionDialogue(data);
-          setIsLoading(false);
-        }
-      })
-      .catch((error) => {
-        console.log('initGame error: ', { error });
-        setIsLoading(false);
-      });
-  }, [
-    fetchGameData,
-    gameState,
-    makeCurrentSectionDialogue,
-    visitedElements,
-    visits,
-  ]);
+      setCurrentElement(elementData);
+      const visited = parseInt(visits, 10);
+      if (visited === 0 || visited === null) {
+        visitedElements(true);
+      }
+      makeCurrentSectionDialogue(elementData);
+      setIsLoading(false);
+    } else {
+      setHasError(true);
+    }
+  }, [gameState, makeCurrentSectionDialogue, visitedElements, visits]);
 
   const handleReset = () => {
     const isReset = resetGame();
@@ -340,7 +279,6 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
    */
   useEffect(() => {
     if (typeof window !== 'undefined' && currentDialogue !== undefined) {
-      setIsTyping(true);
       const elementsToType = document.querySelectorAll('.typing-text');
       const phrases: string[] = [];
       const links: Element[] = [];
@@ -362,7 +300,6 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
       let currentPhrase: string[] = [];
       let hasEnded = false;
       const loop = () => {
-        console.log('loop');
         if (i < elementsToType.length) {
           if (j <= phrases[i].length) {
             elementsToType[i].classList.remove('typed');
@@ -400,8 +337,6 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
           }
           if (i === phrases.length) {
             hasEnded = true;
-            console.log('hasEnded', hasEnded);
-
             setIsTyping(false);
           }
         }
@@ -414,11 +349,23 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
           setTimeout(loop, randomiseSpeed);
         }
       };
-      if (phrases.length > 0) {
-        loop();
+
+      // this can get called in many different states, so we need to prevent
+      // simultaneous concurrent "typing"
+      if (phrases.length > 0 && elementsToType.length > 0) {
+        // if the first line has at least one span as a child, we've started typing
+        // already, and don't want to enter the loop another time
+        if (
+          !Array.from(elementsToType[0].children).some(
+            (el) => el.tagName.toLowerCase() === 'span',
+          )
+        ) {
+          setIsTyping(true);
+          loop();
+        }
       }
     }
-  }, [isLoading, currentDialogue]);
+  }, [currentDialogue]);
 
   const handleProgress = (elementId: string) => {
     setIsLoading(true);
