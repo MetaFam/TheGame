@@ -474,6 +474,7 @@
     custom_column_names:
       ethereum_address: ethereumAddress
       discord_id: discordId
+      dashboard_layout: dashboardLayout
       updated_at: updatedAt
       season_xp: seasonXP
       created_at: createdAt
@@ -571,6 +572,7 @@
     permission:
       columns:
       - created_at
+      - dashboard_layout
       - ethereum_address
       - id
       - profile_layout
@@ -596,6 +598,7 @@
   - role: player
     permission:
       columns:
+      - dashboard_layout
       - profile_layout
       - role
       filter:

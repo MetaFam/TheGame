@@ -4134,7 +4134,7 @@ type mutation_root {
   """
   perform the action: "updateIDXProfile"
   """
-  updateIDXProfile(playerId: uuid): CacheProcessOutput
+  updateIDXProfile(playerId: uuid): uuid!
 
   """
   perform the action: "updateQuestCompletion"
@@ -4885,6 +4885,7 @@ type player {
     """filter the rows returned"""
     where: dao_player_bool_exp
   ): dao_player_aggregate!
+  dashboardLayout: String
   discordId: String
   ethereumAddress: String!
 
@@ -5335,6 +5336,7 @@ input player_bool_exp {
   accounts: player_account_bool_exp
   createdAt: timestamptz_comparison_exp
   daos: dao_player_bool_exp
+  dashboardLayout: String_comparison_exp
   discordId: String_comparison_exp
   ethereumAddress: String_comparison_exp
   guilds: guild_player_bool_exp
@@ -5381,6 +5383,7 @@ input player_insert_input {
   accounts: player_account_arr_rel_insert_input
   createdAt: timestamptz
   daos: dao_player_arr_rel_insert_input
+  dashboardLayout: String
   discordId: String
   ethereumAddress: String
   guilds: guild_player_arr_rel_insert_input
@@ -5401,6 +5404,7 @@ input player_insert_input {
 """aggregate max on columns"""
 type player_max_fields {
   createdAt: timestamptz
+  dashboardLayout: String
   discordId: String
   ethereumAddress: String
   id: uuid
@@ -5416,6 +5420,7 @@ order by max() on columns of table "player"
 """
 input player_max_order_by {
   createdAt: order_by
+  dashboardLayout: order_by
   discordId: order_by
   ethereumAddress: order_by
   id: order_by
@@ -5429,6 +5434,7 @@ input player_max_order_by {
 """aggregate min on columns"""
 type player_min_fields {
   createdAt: timestamptz
+  dashboardLayout: String
   discordId: String
   ethereumAddress: String
   id: uuid
@@ -5444,6 +5450,7 @@ order by min() on columns of table "player"
 """
 input player_min_order_by {
   createdAt: order_by
+  dashboardLayout: order_by
   discordId: order_by
   ethereumAddress: order_by
   id: order_by
@@ -5489,6 +5496,7 @@ input player_order_by {
   accounts_aggregate: player_account_aggregate_order_by
   createdAt: order_by
   daos_aggregate: dao_player_aggregate_order_by
+  dashboardLayout: order_by
   discordId: order_by
   ethereumAddress: order_by
   guilds_aggregate: guild_player_aggregate_order_by
@@ -5831,6 +5839,9 @@ enum player_select_column {
   createdAt
 
   """column name"""
+  dashboardLayout
+
+  """column name"""
   discordId
 
   """column name"""
@@ -5863,6 +5874,7 @@ input type for updating data in table "player"
 """
 input player_set_input {
   createdAt: timestamptz
+  dashboardLayout: String
   discordId: String
   ethereumAddress: String
   id: uuid
@@ -6263,6 +6275,9 @@ update columns of table "player"
 enum player_update_column {
   """column name"""
   createdAt
+
+  """column name"""
+  dashboardLayout
 
   """column name"""
   discordId
@@ -8515,6 +8530,16 @@ type query_root {
 
   """fetch data from the table: "skill" using primary key columns"""
   skill_by_pk(id: uuid!): skill
+
+  """
+  retrieve the result of action: "updateIDXProfile"
+  """
+  updateIDXProfile(
+    """
+    id of the action: "updateIDXProfile"
+    """
+    id: uuid!
+  ): updateIDXProfile
 }
 
 """
@@ -12122,6 +12147,16 @@ type subscription_root {
 
   """fetch data from the table: "skill" using primary key columns"""
   skill_by_pk(id: uuid!): skill
+
+  """
+  retrieve the result of action: "updateIDXProfile"
+  """
+  updateIDXProfile(
+    """
+    id of the action: "updateIDXProfile"
+    """
+    id: uuid!
+  ): updateIDXProfile
 }
 
 scalar timestamptz
@@ -12145,6 +12180,23 @@ type TokenBalances {
   id: ID!
   pSeedBalance: String!
   seedBalance: String!
+}
+
+"""
+fields of action: "updateIDXProfile"
+"""
+type updateIDXProfile {
+  """the time at which this action was created"""
+  created_at: timestamptz
+
+  """errors related to the invocation"""
+  errors: json
+
+  """the unique id of an action"""
+  id: uuid
+
+  """the output fields of this action"""
+  output: CacheProcessOutput
 }
 
 type UpdateIDXProfileResponse {
