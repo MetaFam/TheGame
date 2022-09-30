@@ -1,6 +1,6 @@
 /* eslint-disable no-console, no-await-in-loop */
-import { QUESTS } from '@metafam/utils/src/constants';
 import { gql, request } from 'graphql-request';
+import { QUESTS } from 'utils/questChains';
 
 const statusQuery = gql`
   query getGraphStatus($subgraph: String!) {

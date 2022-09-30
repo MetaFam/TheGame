@@ -1,4 +1,4 @@
-import { API_URL } from '@metafam/utils/src/constants';
+import { Constants } from '@metafam/utils';
 import axios, { AxiosError } from 'axios';
 
 import { Metadata as MetadataType, validateSchema } from './validate';
@@ -21,7 +21,11 @@ export const uploadMetadata = async (
   };
 
   try {
-    const res = await axios.post(`${API_URL}/upload/json`, metadata, config);
+    const res = await axios.post(
+      `${Constants.API_URL}/upload/json`,
+      metadata,
+      config,
+    );
     return res.data.response;
   } catch (error) {
     throw new Error(
@@ -53,7 +57,11 @@ export const uploadFiles = async (
   };
 
   try {
-    const res = await axios.post(`${API_URL}/upload/files`, formData, config);
+    const res = await axios.post(
+      `${Constants.API_URL}/upload/files`,
+      formData,
+      config,
+    );
     return res.data.response;
   } catch (error) {
     throw new Error(

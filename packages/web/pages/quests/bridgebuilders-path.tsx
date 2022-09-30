@@ -1,5 +1,4 @@
 import { Accordion, Box, Flex, Spinner, Text, VStack } from '@metafam/ds';
-import { QUESTS } from '@metafam/utils/src/constants';
 import { graphql } from '@quest-chains/sdk';
 import { PageContainer } from 'components/Container';
 import { Quest } from 'components/Quest/InitiationQuestTile';
@@ -8,6 +7,7 @@ import { useWeb3 } from 'lib/hooks';
 import { useLatestQuestChainData } from 'lib/hooks/useLatestQuestChainData';
 import { useLatestQuestStatusesForUserAndChainData } from 'lib/hooks/useLatestQuestStatusesForUserAndChainData';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { QUESTS } from 'utils/questChains';
 
 const { getQuestChainInfo } = graphql;
 
