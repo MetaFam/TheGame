@@ -7,6 +7,8 @@ import { Maybe } from '../extendedProfileTypes';
 
 const tokenDuration = 1000 * 60 * 60 * 24 * 7; // 7 days
 
+const WELCOME_MESSAGE = `Welcome to MetaGame Anon 🐙 \n Please sign this message so we know it is you.\n We care about privacy and assure you, we don't harvest your data. Unless you create a Player account, we simply store a token in your browser's local storage. This can be removed by using the disconnect button.\n `;
+
 type Claim = {
   iat: Date;
   exp: Date;
@@ -31,7 +33,8 @@ export async function createToken(
   };
 
   const serializedClaim = JSON.stringify(claim);
-  const proof = await getSignature(provider, serializedClaim);
+  const msgToSign = `${WELCOME_MESSAGE}${serializedClaim}`;
+  const proof = await getSignature(provider, msgToSign);
 
   return Base64.encode(JSON.stringify([proof, serializedClaim]));
 }
@@ -52,7 +55,8 @@ export async function verifyToken(
     );
   }
 
-  const valid = await verifySignature(claimant, rawClaim, proof, provider);
+  const msgToVerify = `${WELCOME_MESSAGE}${rawClaim}`;
+  const valid = await verifySignature(claimant, msgToVerify, proof, provider);
 
   if (!valid) {
     throw new Error('Invalid Signature');

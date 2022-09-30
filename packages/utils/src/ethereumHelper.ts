@@ -1,7 +1,5 @@
 import { Contract, providers, utils } from 'ethers';
 
-const WELCOME_MESSAGE = `Welcome to MetaGame Anon 🐙 \n Please sign this message so we know it is you.\n We care about privacy and assure you, we don't harvest your data. Unless you create a Player account, we simply store a token in your browser's local storage. This can be removed by using the disconnect button.\n `;
-
 export async function getSignature(
   provider: providers.Web3Provider,
   msg: string,
@@ -11,8 +9,7 @@ export async function getSignature(
   const signer = provider.getSigner();
   const address = await signer.getAddress();
   if (!ethereum.request) throw new Error('No `request` On Ethereum Provider');
-  const signMsg = `${WELCOME_MESSAGE}${msg}`;
-  let params = [signMsg, address];
+  let params = [msg, address];
 
   if (extraParams) {
     params = [...params, ...extraParams];
@@ -65,9 +62,6 @@ export async function verifySignature(
   provider: providers.BaseProvider,
 ): Promise<boolean> {
   const walletType = await getWalletType(address, provider);
-
-  // eslint-disable-next-line no-param-reassign
-  message = `${WELCOME_MESSAGE}${message}`;
 
   if (walletType === WalletType.EOA) {
     const recoveredAddress = utils.verifyMessage(message, signature);
