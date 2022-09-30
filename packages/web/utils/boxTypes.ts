@@ -1,4 +1,5 @@
 import { Maybe, Values } from '@metafam/utils';
+import { Layouts } from 'react-grid-layout';
 import { hashCode } from 'utils/stringHelpers';
 
 export const BoxTypes = {
@@ -12,7 +13,6 @@ export const BoxTypes = {
   PLAYER_COLOR_DISPOSITION: 'color-disposition',
   PLAYER_ROLES: 'player-roles',
   PLAYER_COMPLETED_QUESTS: 'completed-quests',
-  PLAYER_ADD_BOX: 'player-add-box',
   // Guild Profile Boxes
   GUILD_SKILLS: 'guild-skills',
   GUILD_GALLERY: 'guild-gallery',
@@ -21,7 +21,14 @@ export const BoxTypes = {
   GUILD_QUESTS: 'quild-quests',
   GUILD_STATS: 'guild-stats',
   GUILD_LINKS: 'guild-links',
-  // Common Profile Boxes
+  // Dashboard Boxes
+  DASHBOARD_LASTEST_CONTENT: 'dashboard-latest-content',
+  DASHBOARD_XP_INFO: 'dashboard-xp-info',
+  DASHBOARD_SEEDS_INFO: 'dashboard-seeds-info',
+  DASHBOARD_CALENDER: 'dashboard-calendar',
+  DASHBOARD_LEADERBOARD: 'dashboard-leaderboard',
+  // Common Boxes
+  ADD_NEW_BOX: 'add-new-box',
   EMBEDDED_URL: 'embedded-url',
 } as const;
 
@@ -41,3 +48,51 @@ export const getBoxKey = (target: Maybe<HTMLElement>) =>
 
 export const getBoxType = (boxKey: string): BoxType =>
   boxKey.split('-').slice(0, -1).join('-') as BoxType;
+
+export type ChakraSize = 'sm' | 'md' | 'lg';
+
+export type Coordinates = {
+  x: number;
+  y: number;
+};
+
+export type Positions = Partial<Record<BoxType, Coordinates>>;
+
+export type LayoutItem = {
+  key: string;
+  type: BoxType;
+  metadata?: BoxMetadata;
+};
+
+export type LayoutData = {
+  layoutItems: Array<LayoutItem>;
+  layouts: Layouts;
+};
+
+export type LayoutMetadata = {
+  [key: string]: {
+    type: BoxType;
+    metadata: BoxMetadata;
+  };
+};
+
+export const gridSX = {
+  '.react-grid-placeholder': {
+    bg: 'purple',
+    boxShadow: '0 0 0 solid rgba(0, 0, 0, 0.8)',
+    borderRadius: 'lg',
+  },
+  '.react-resizable-handle': {
+    width: '1rem',
+    height: '1rem',
+    background: 'none',
+    borderStyle: 'solid',
+    borderColor: 'pinkShadeOne',
+    borderWidth: '0 2px 2px 0',
+    borderRadius: '0 0 6px 0',
+    margin: '2px',
+  },
+  '.react-resizable-handle::after': {
+    border: 'none',
+  },
+};

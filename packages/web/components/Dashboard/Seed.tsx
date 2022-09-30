@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention */
 import {
   Box,
   Button,
@@ -11,8 +10,10 @@ import {
   StatHelpText,
   StatLabel,
   StatNumber,
+  VStack,
 } from '@metafam/ds';
 import { animated, useSpring } from '@react-spring/web';
+import CoinGeckoLogo from 'assets/attribution/coingecko-logo-text.png';
 import React, { FC, ReactElement, ReactNode, useEffect, useState } from 'react';
 import { FaChartBar } from 'react-icons/fa';
 import {
@@ -21,8 +22,6 @@ import {
   GradientDefs,
   LineSeries,
 } from 'react-vis';
-
-import CoinGeckoLogo from '../../assets/attribution/coingecko-logo-text.png';
 import {
   findHighLowPrice,
   HighLowType,
@@ -30,14 +29,12 @@ import {
   ticker,
   volIncreased,
   volumeChange,
-} from '../../utils/dashboardHelpers';
-import {
-  apiUrl,
-  chartQuery,
-  SEEDChartWrapperStyles,
-  tokenId,
-  tokenQuery,
-} from './config';
+} from 'utils/dashboardHelpers';
+
+const SEED_TOKEN_ID = 'metagame';
+const COINGECKO_API_URL = 'https://api.coingecko.com/api/v3/coins/';
+const TOKEN_QUERY = '?localization=false&tickers=true&market_data=true';
+const CHART_QUERY = '/market_chart?vs_currency=usd&days=30&interval=daily';
 
 type TokenDataProps = {
   market: MarketDataProps;
@@ -72,24 +69,24 @@ export const Seed = (): ReactElement => {
     (async () => {
       try {
         const tokenResponse = await fetch(
-          `${apiUrl}coins/${tokenId + tokenQuery}`,
+          `${COINGECKO_API_URL}${SEED_TOKEN_ID}${TOKEN_QUERY}`,
         );
         const tokenJson = await tokenResponse.json();
         const chartResponse = await fetch(
-          `${apiUrl}coins/${tokenId + chartQuery}`,
+          `${COINGECKO_API_URL}${SEED_TOKEN_ID}${CHART_QUERY}`,
         );
         const chartJson = await chartResponse.json();
-        const { market_data, tickers } = tokenJson;
-        const { prices, total_volumes } = chartJson;
-        const market = market_data;
+        const { market_data: marketData, tickers } = tokenJson;
+        const { prices, total_volumes: totalVolumes } = chartJson;
+        const market = marketData;
         const poolTicker = ticker(tickers, 'balancer_v1');
         const priceUp =
-          priceIncreased(market_data.price_change_percentage_24h) > 0;
+          priceIncreased(marketData.price_change_percentage_24h) > 0;
         const volumeUp =
-          volIncreased(total_volumes, market_data.total_volume) > 0;
+          volIncreased(totalVolumes, marketData.total_volume) > 0;
         const volumePercent = volumeChange(
-          total_volumes,
-          market_data.total_volume,
+          totalVolumes,
+          marketData.total_volume,
         ).toFixed(2);
         const highLow7d = findHighLowPrice(prices, 7);
         const tokenData: TokenDataProps = {
@@ -112,8 +109,8 @@ export const Seed = (): ReactElement => {
   });
 
   return (
-    <>
-      <Box position="relative" zIndex="20">
+    <VStack spacing={2} align="stretch">
+      <Box position="relative" zIndex="20" h="16rem">
         <StatGroup position="relative" my={5} zIndex={10}>
           <Stat mb={3}>
             <StatLabel>Market Price</StatLabel>
@@ -144,14 +141,12 @@ export const Seed = (): ReactElement => {
         </StatGroup>
       </Box>
       <Box
-        className="chartWrapper"
         position="absolute"
         width="100%"
         height="100%"
         bottom={0}
         left={0}
         zIndex={0}
-        sx={SEEDChartWrapperStyles}
       >
         {token?.prices ? (
           <Chart data={token.prices} />
@@ -172,7 +167,6 @@ export const Seed = (): ReactElement => {
           position="absolute"
           bottom={6}
           left={6}
-          className="infoLink"
           href={token?.poolTicker.token_info_url}
           isExternal
           zIndex={20}
@@ -180,7 +174,7 @@ export const Seed = (): ReactElement => {
           Pool Info
         </Link>
       )}
-    </>
+    </VStack>
   );
 };
 
@@ -191,8 +185,8 @@ type ChartType = {
 
 const ChartRange = ({ value = {} }): React.ReactElement => (
   <Box
-    opacity={value < 12 || value > 25 ? 1 : 0.3}
-    color={value < 12 || value > 25 ? 'white' : 'pinkShadeOne'}
+    opacity={1}
+    color={'white'}
     fontSize="md"
     fontWeight={700}
     transition="all 0.1s ease-in-out"
@@ -252,7 +246,13 @@ export const Chart: FC<ChartType> = ({ data }) => {
         ))}
       </ButtonGroup>
       <FlexibleXYPlot
-        className="seed-chart"
+        style={{
+          position: 'absolute',
+          bottom: 0,
+          left: 0,
+          right: 0,
+          maxW: '100%',
+        }}
         height={175}
         margin={{
           right: -2,
@@ -261,13 +261,17 @@ export const Chart: FC<ChartType> = ({ data }) => {
         }}
       >
         <LineSeries
-          className="seed-chart-path"
           curve="linear"
           strokeStyle="solid"
           animation={{ damping: 80, stiffness: 800 }}
           stroke="#A426A4"
           opacity={0.5}
           data={plots}
+          style={{
+            bottom: 0,
+            strokeWidth: 2,
+            fillOpacity: 0,
+          }}
         />
         <GradientDefs>
           <linearGradient id="MetaGradient" x1="0" x2="0" y1="0" y2="1">
@@ -276,12 +280,16 @@ export const Chart: FC<ChartType> = ({ data }) => {
           </linearGradient>
         </GradientDefs>
         <AreaSeries
-          className="seed-chart-path--fill"
           curve="linear"
           color="url(#MetaGradient)"
           animation={{ damping: 80, stiffness: 800 }}
           opacity={0.2}
           data={plots}
+          style={{
+            bottom: 0,
+            fillOpacity: 0.5,
+            strokeWidth: 0,
+          }}
         />
       </FlexibleXYPlot>
       <Box
@@ -303,7 +311,7 @@ export const Chart: FC<ChartType> = ({ data }) => {
       >
         <Link
           d="inline-flex"
-          href={`https://www.coingecko.com/en/coins/${tokenId}`}
+          href={`https://www.coingecko.com/en/coins/${SEED_TOKEN_ID}`}
           isExternal
           width="25%"
           // title="CoinGecko"

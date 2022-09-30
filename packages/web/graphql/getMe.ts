@@ -5,6 +5,7 @@ export const GetMeQuery = /* GraphQL */ `
     me {
       record: player {
         ...PlayerFragment
+        dashboardLayout
         createdAt
       }
     }

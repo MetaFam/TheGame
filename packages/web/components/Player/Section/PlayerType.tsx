@@ -1,6 +1,6 @@
 import { Text } from '@metafam/ds';
 import { Maybe } from '@metafam/utils';
-import { ProfileSection } from 'components/Profile/ProfileSection';
+import { ProfileSection } from 'components/Section/ProfileSection';
 import { ExplorerType, Player } from 'graphql/autogen/types';
 import { getExplorerTypes } from 'graphql/queries/enums/getExplorerTypes';
 import { useProfileField } from 'lib/hooks';
@@ -9,7 +9,6 @@ import { BoxTypes } from 'utils/boxTypes';
 
 type Props = {
   player: Player;
-  isOwnProfile?: boolean;
   editing?: boolean;
 };
 

@@ -16,7 +16,7 @@ import {
 } from '@metafam/ds';
 import BackgroundImage from 'assets/main-background.jpg';
 import { MetaLink as Link } from 'components/Link';
-import { ProfileSection } from 'components/Profile/ProfileSection';
+import { ProfileSection } from 'components/Section/ProfileSection';
 import { Player } from 'graphql/autogen/types';
 import { useOpenSeaCollectibles } from 'lib/hooks/opensea';
 import React from 'react';

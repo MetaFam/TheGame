@@ -11,7 +11,7 @@ import {
   Text,
   useDisclosure,
 } from '@metafam/ds';
-import { ProfileSection } from 'components/Profile/ProfileSection';
+import { ProfileSection } from 'components/Section/ProfileSection';
 import { useGetGuildAnnouncementsQuery } from 'graphql/autogen/types';
 import React, { useState } from 'react';
 

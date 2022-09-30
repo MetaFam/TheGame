@@ -1,96 +1,74 @@
-export const tokenId = 'metagame';
-export const apiUrl = 'https://api.coingecko.com/api/v3/';
-export const tokenQuery = '?localization=false&tickers=true&market_data=true';
-export const chartQuery =
-  '/market_chart?vs_currency=usd&days=30&interval=daily';
+import { Layouts } from 'react-grid-layout';
+import {
+  BoxType,
+  BoxTypes,
+  ChakraSize,
+  createBoxKey,
+  Positions,
+} from 'utils/boxTypes';
+import { getBoxLayoutItemDefaults } from 'utils/layoutHelpers';
+
 export const podcastRSSURL = 'https://anchor.fm/s/57a641c/podcast/rss';
 
-export const gridDataLg = [
-  { i: 'latest', x: 0, y: 0, w: 6, h: 6, minW: 3 },
-  { i: 'xp', x: 6, y: 0, w: 3, h: 2, minH: 2, minW: 3 },
-  { i: 'seed', x: 9, y: 0, w: 3, h: 2, minH: 2, minW: 3 },
-  { i: 'calendar', x: 6, y: 2, w: 3, h: 4, minW: 3 },
-  { i: 'leaderboard', x: 9, y: 2, w: 3, h: 4, minW: 3 },
-];
-
-export const gridDataMd = [
-  { i: 'latest', x: 0, y: 0, w: 6, h: 4, minW: 3 },
-  { i: 'xp', x: 6, y: 0, w: 6, h: 2, minH: 2, minW: 3 },
-  { i: 'seed', x: 6, y: 2, w: 6, h: 2, minH: 2, minW: 3 },
-  { i: 'calendar', x: 6, y: 4, w: 6, h: 4, minW: 3 },
-  { i: 'leaderboard', x: 0, y: 4, w: 6, h: 4, minW: 3 },
-];
-
-export const gridDataSm = [
-  { i: 'latest', x: 0, y: 4, w: 4, h: 3, minW: 3 },
-  { i: 'xp', x: 0, y: 0, w: 4, h: 2, minW: 3 },
-  { i: 'seed', x: 0, y: 2, w: 4, h: 2, minW: 3 },
-  { i: 'calendar', x: 0, y: 7, w: 4, h: 4, minW: 3 },
-  { i: 'leaderboard', x: 0, y: 11, w: 4, h: 4, minW: 3 },
-];
-
-export const initLayouts = {
-  lg: gridDataLg,
-  md: gridDataMd,
-  sm: gridDataSm,
-};
-
-export const gridSX = {
-  '.react-grid-placeholder': {
-    bg: 'purple',
-    boxShadow: '0 0 0 solid rgba(0, 0, 0, 0.8)',
-    borderRadius: 'lg',
+const DEFAULT_BOX_POSITIONS: Record<ChakraSize, Positions> = {
+  lg: {
+    [BoxTypes.DASHBOARD_LASTEST_CONTENT]: { x: 0, y: 0 },
+    [BoxTypes.DASHBOARD_XP_INFO]: { x: 1, y: 0 },
+    [BoxTypes.DASHBOARD_SEEDS_INFO]: { x: 2, y: 0 },
+    [BoxTypes.DASHBOARD_CALENDER]: { x: 1, y: 2 },
+    [BoxTypes.DASHBOARD_LEADERBOARD]: { x: 9, y: 2 },
   },
-  '.react-resizable-handle': {
-    width: '1rem',
-    height: '1rem',
-    background: 'none',
-    borderStyle: 'solid',
-    borderColor: 'pinkShadeOne',
-    borderWidth: '0 2px 2px 0',
-    borderRadius: '0 0 6px 0',
-    margin: '2px',
-    zIndex: 11,
+  md: {
+    [BoxTypes.DASHBOARD_LASTEST_CONTENT]: { x: 0, y: 0 },
+    [BoxTypes.DASHBOARD_XP_INFO]: { x: 1, y: 0 },
+    [BoxTypes.DASHBOARD_SEEDS_INFO]: { x: 1, y: 2 },
+    [BoxTypes.DASHBOARD_CALENDER]: { x: 1, y: 4 },
+    [BoxTypes.DASHBOARD_LEADERBOARD]: { x: 0, y: 4 },
   },
-  '.react-resizable-handle::after': {
-    border: 'none',
+  sm: {
+    [BoxTypes.DASHBOARD_LASTEST_CONTENT]: { x: 0, y: 4 },
+    [BoxTypes.DASHBOARD_XP_INFO]: { x: 0, y: 0 },
+    [BoxTypes.DASHBOARD_SEEDS_INFO]: { x: 0, y: 2 },
+    [BoxTypes.DASHBOARD_CALENDER]: { x: 0, y: 7 },
+    [BoxTypes.DASHBOARD_LEADERBOARD]: { x: 0, y: 11 },
   },
 };
 
-export const SEEDChartWrapperStyles = {
-  '.seed-chart': {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    maxW: '100%',
-    '.seed-chart-path': {
-      bottom: 0,
-      strokeWidth: 2,
-      fillOpacity: 0,
-      '&--fill': {
-        fillOpacity: 0.5,
-        strokeWidth: 0,
-      },
-    },
-  },
-};
+export const ALL_BOXES = [
+  BoxTypes.DASHBOARD_LASTEST_CONTENT,
+  BoxTypes.DASHBOARD_XP_INFO,
+  BoxTypes.DASHBOARD_SEEDS_INFO,
+  BoxTypes.DASHBOARD_CALENDER,
+  BoxTypes.DASHBOARD_LEADERBOARD,
+  BoxTypes.EMBEDDED_URL,
+  // TODO: Add more types of sections
+];
 
-export const XPChartWrapperStyles = {
-  '.xp-chart': {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    maxW: '100%',
-    '.xp-chart-path': {
-      bottom: 0,
-      strokeWidth: 2,
-      fillOpacity: 0,
-      '&--fill': {
-        fillOpacity: 0.5,
-        strokeWidth: 0,
-      },
-    },
-  },
+export const DEFAULT_BOXES = [
+  BoxTypes.DASHBOARD_LASTEST_CONTENT,
+  BoxTypes.DASHBOARD_XP_INFO,
+  BoxTypes.DASHBOARD_SEEDS_INFO,
+  BoxTypes.DASHBOARD_CALENDER,
+  BoxTypes.DASHBOARD_LEADERBOARD,
+  // Adding default boxes MUST be accompanied by adding default box positions as well
+];
+
+const DEFAULT_DASHBOARD_LAYOUTS: Layouts = Object.fromEntries(
+  ['sm', 'md', 'lg'].map((size) => [
+    size,
+    DEFAULT_BOXES.map((boxType) => ({
+      ...getBoxLayoutItemDefaults(boxType),
+      ...DEFAULT_BOX_POSITIONS[size as ChakraSize][boxType],
+    })),
+  ]),
+);
+
+const DEFAULT_LAYOUT_ITEMS = DEFAULT_BOXES.map((type: BoxType) => ({
+  type,
+  key: createBoxKey(type),
+}));
+
+export const DEFAULT_DASHBOARD_LAYOUT_DATA = {
+  layouts: DEFAULT_DASHBOARD_LAYOUTS,
+  layoutItems: DEFAULT_LAYOUT_ITEMS,
 };

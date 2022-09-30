@@ -55,13 +55,23 @@
     }
   }
 
-  mutation UpdatePlayerProfileLayout($playerId: uuid!, $layout: String!) {
+  mutation UpdatePlayerProfileLayout($playerId: uuid!, $profileLayout: String!) {
     update_player_by_pk(
       pk_columns: { id: $playerId }
-      _set: { profileLayout: $layout }
+      _set: { profileLayout: $profileLayout }
     ) {
       id
       profileLayout
+    }
+  }
+
+  mutation UpdatePlayerDashboardLayout($playerId: uuid!, $dashboardLayout: String!) {
+    update_player_by_pk(
+      pk_columns: { id: $playerId }
+      _set: { dashboardLayout: $dashboardLayout }
+    ) {
+      id
+      dashboardLayout
     }
   }
 `;

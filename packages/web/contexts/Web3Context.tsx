@@ -145,6 +145,7 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
   const updateWeb3State = useCallback(
     async (prov) => {
       const web3Provider = new providers.Web3Provider(prov);
+      const network = (await web3Provider.getNetwork()).chainId;
       const addr = await web3Provider.getSigner().getAddress();
 
       let token = await getExistingAuth(web3Provider, addr);
@@ -153,7 +154,7 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
         token = await authenticateWallet(web3Provider);
       }
 
-      const { chainId: networkId } = prov;
+      const networkId = `0x${network.toString(16)}`;
 
       if (ceramic && threeIdConnect) {
         const authProvider = new EthereumAuthProvider(prov, addr);
@@ -163,7 +164,6 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
           resolver: ThreeIdResolver.getResolver(ceramic),
         });
       }
-      console.log('updateWeb3State', { prov, addr, token, networkId });
 
       setWeb3State({
         wallet: prov,
@@ -189,12 +189,10 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
 
       prov.on('accountsChanged', () => {
         disconnect();
-        console.log('changed accounts...', { prov });
         window.location.reload();
       });
       prov.on('chainChanged', () => {
         updateWeb3State(prov);
-        console.log('network changed...', { prov });
       });
     } catch (error) {
       console.error('`connect` Error', error); // eslint-disable-line no-console

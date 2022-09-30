@@ -137,11 +137,20 @@ export const WizardPane = <T,>({
   );
 
   if ((!connecting && !connected) || chainId !== '0x1') {
-    return <ConnectToProgress />;
+    return (
+      <FlexContainer>
+        <ConnectToProgress />
+      </FlexContainer>
+    );
   }
 
   return (
-    <FlexContainer as="form" onSubmit={handleSubmit(onSubmit)} color="white">
+    <FlexContainer
+      as="form"
+      onSubmit={handleSubmit(onSubmit)}
+      color="white"
+      align="center"
+    >
       <HeadComponent title={`MetaGame: Setting ${title}`} />
       {title && <MetaHeading textAlign="center">{title}</MetaHeading>}
       {prompt && (

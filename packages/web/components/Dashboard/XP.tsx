@@ -11,6 +11,7 @@ import {
   StatLabel,
   StatNumber,
   Text,
+  VStack,
 } from '@metafam/ds';
 import { animated, useSpring } from '@react-spring/web';
 import { useUser } from 'lib/hooks';
@@ -24,8 +25,6 @@ import {
   LineSeries,
 } from 'react-vis';
 
-import { XPChartWrapperStyles } from './config';
-
 export const XP = (): React.ReactElement => {
   const { user } = useUser();
 
@@ -33,16 +32,18 @@ export const XP = (): React.ReactElement => {
 
   if (xpStats == null) {
     return (
-      <Text fontStyle="italic" textAlign="center" p={4} w="100%">
-        If you want your XP stats to appear, you gotta earn some XP first! Go{' '}
-        <Link
-          href="https://meta-game.notion.site/Welcome-to-MetaGame-349d9b6434d543b48539bccabf10b60a"
-          target="_tab"
-        >
-          here
-        </Link>{' '}
-        & join the onboarding call
-      </Text>
+      <VStack minH="11rem">
+        <Text fontStyle="italic" textAlign="center" p={4} w="100%">
+          If you want your XP stats to appear, you gotta earn some XP first! Go{' '}
+          <Link
+            href="https://meta-game.notion.site/Welcome-to-MetaGame-349d9b6434d543b48539bccabf10b60a"
+            target="_tab"
+          >
+            here
+          </Link>{' '}
+          & join the onboarding call
+        </Text>
+      </VStack>
     );
   }
   const {
@@ -54,7 +55,7 @@ export const XP = (): React.ReactElement => {
     userWeeklyCred,
   } = xpStats;
   return (
-    <>
+    <VStack spacing={2} minH="17rem" align="stretch">
       <StatGroup mt={5} flex="0 0 50%">
         <Stat mb={3}>
           <StatLabel>This Week</StatLabel>
@@ -89,18 +90,16 @@ export const XP = (): React.ReactElement => {
         </Stat>
       </StatGroup>
       <Box
-        className="chartWrapper"
         position="absolute"
         width="100%"
         height="100%"
         bottom={0}
         left={0}
         zIndex={0}
-        sx={XPChartWrapperStyles}
       >
         {userWeeklyCred && <Chart data={userWeeklyCred} />}
       </Box>
-    </>
+    </VStack>
   );
 };
 
@@ -110,7 +109,13 @@ type ChartType = {
 };
 
 const ChartRange = ({ value = {} }): React.ReactElement => (
-  <Box>{`${value}d`}</Box>
+  <Box
+    opacity={1}
+    color={'white'}
+    fontSize="md"
+    fontWeight={700}
+    transition="all 0.1s ease-in-out"
+  >{`${value}d`}</Box>
 );
 const AnimatedChartRange = animated(ChartRange);
 
@@ -166,8 +171,14 @@ export const Chart: FC<ChartType> = ({ data }) => {
         ))}
       </ButtonGroup>
       <FlexibleXYPlot
-        className="xp-chart"
         height={200}
+        style={{
+          position: 'absolute',
+          bottom: 0,
+          left: 0,
+          right: 0,
+          maxW: '100%',
+        }}
         margin={{
           right: -2,
           left: -2,
@@ -175,13 +186,17 @@ export const Chart: FC<ChartType> = ({ data }) => {
         }}
       >
         <LineSeries
-          className="xp-chart-path"
           curve="linear"
           strokeStyle="solid"
           animation={{ damping: 80, stiffness: 800 }}
           stroke="#A426A4"
           opacity={0.5}
           data={plots}
+          style={{
+            bottom: 0,
+            strokeWidth: 2,
+            fillOpacity: 0,
+          }}
         />
         <GradientDefs>
           <linearGradient id="MetaGradient" x1="0" x2="0" y1="0" y2="1">
@@ -190,23 +205,19 @@ export const Chart: FC<ChartType> = ({ data }) => {
           </linearGradient>
         </GradientDefs>
         <AreaSeries
-          className="xp-chart-path--fill"
           curve="linear"
           color="url(#MetaGradient)"
           animation={{ damping: 80, stiffness: 800 }}
           opacity={0.2}
           data={plots}
+          style={{
+            bottom: 0,
+            fillOpacity: 0.5,
+            strokeWidth: 0,
+          }}
         />
       </FlexibleXYPlot>
-      <Box
-        aria-label="XP Graph scale"
-        position="absolute"
-        bottom={5}
-        right={5}
-        opacity={0.25}
-        fontSize="xl"
-        fontWeight={700}
-      >
+      <Box aria-label="XP Graph scale" position="absolute" bottom={6} right={6}>
         <AnimatedChartRange value={props.range.to((x) => x.toFixed(0))} />
       </Box>
     </Box>

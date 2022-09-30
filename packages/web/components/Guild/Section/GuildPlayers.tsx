@@ -12,7 +12,7 @@ import {
   Text,
   useDisclosure,
 } from '@metafam/ds';
-import { ProfileSection } from 'components/Profile/ProfileSection';
+import { ProfileSection } from 'components/Section/ProfileSection';
 import { getGuildPlayers } from 'graphql/queries/guild';
 import { GuildPlayer } from 'graphql/types';
 import React, { useEffect, useState } from 'react';

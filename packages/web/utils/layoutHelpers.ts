@@ -1,10 +1,3 @@
-import {
-  getBoxLayoutItemDefaults,
-  GRID_ROW_HEIGHT,
-  HEIGHT_MODIFIER,
-  LayoutItem,
-  ProfileLayoutData,
-} from 'components/Player/Section/config';
 import { Layout, Layouts } from 'react-grid-layout';
 import {
   BoxMetadata,
@@ -12,7 +5,13 @@ import {
   BoxTypes,
   createBoxKey,
   getBoxType,
+  LayoutData,
+  LayoutItem,
 } from 'utils/boxTypes';
+
+export const GRID_ROW_HEIGHT = 32;
+export const HEIGHT_MODIFIER = 1.8;
+export const MULTIPLE_ALLOWED_BOXES = [BoxTypes.EMBEDDED_URL] as Array<BoxType>;
 
 export const removeBoxFromLayouts = (
   layouts: Layouts,
@@ -55,6 +54,7 @@ export const addBoxToLayouts = (
 export const updatedLayouts = (
   layouts: Layouts,
   heights: Record<string, number>,
+  editing: boolean,
 ): Layouts =>
   Object.fromEntries(
     Object.entries(layouts).map(([key, items]) => [
@@ -63,12 +63,15 @@ export const updatedLayouts = (
         const itemHeight =
           (heights[item.i] ?? 0) / (GRID_ROW_HEIGHT * HEIGHT_MODIFIER);
         const type = getBoxType(item.i);
-        return type === BoxTypes.PLAYER_ADD_BOX
-          ? item
-          : {
-              ...item,
-              h: Math.max(itemHeight, 1),
-            };
+        return {
+          ...item,
+          h:
+            !isBoxResizable(type) && !isBoxFixedHeight(type)
+              ? Math.max(itemHeight, 1)
+              : item.h,
+          isResizable: editing && isBoxResizable(type),
+          isDraggable: editing && isBoxDraggable(type),
+        };
       }),
     ]),
   );
@@ -76,28 +79,21 @@ export const updatedLayouts = (
 export const disableAddBox = ({
   layouts,
   layoutItems,
-}: ProfileLayoutData): ProfileLayoutData => ({
-  layouts: removeBoxFromLayouts(layouts, createBoxKey(BoxTypes.PLAYER_ADD_BOX)),
-  layoutItems: layoutItems.filter(
-    (item) => item.type !== BoxTypes.PLAYER_ADD_BOX,
-  ),
+}: LayoutData): LayoutData => ({
+  layouts: removeBoxFromLayouts(layouts, createBoxKey(BoxTypes.ADD_NEW_BOX)),
+  layoutItems: layoutItems.filter((item) => item.type !== BoxTypes.ADD_NEW_BOX),
 });
 
 export const enableAddBox = ({
   layouts,
   layoutItems,
-}: ProfileLayoutData): ProfileLayoutData => ({
-  layouts: addBoxToLayouts(
-    layouts,
-    BoxTypes.PLAYER_ADD_BOX,
-    {},
-    { x: 1, y: -1 },
-  ),
+}: LayoutData): LayoutData => ({
+  layouts: addBoxToLayouts(layouts, BoxTypes.ADD_NEW_BOX, {}, { x: 1, y: -1 }),
   layoutItems: [
     ...layoutItems,
     {
-      type: BoxTypes.PLAYER_ADD_BOX,
-      key: createBoxKey(BoxTypes.PLAYER_ADD_BOX),
+      type: BoxTypes.ADD_NEW_BOX,
+      key: createBoxKey(BoxTypes.ADD_NEW_BOX),
     },
   ],
 });
@@ -113,10 +109,7 @@ const layoutSorter = (i: Layout, j: Layout) => {
   return diff;
 };
 
-export const isSameLayouts = (
-  inputA: ProfileLayoutData,
-  inputB: ProfileLayoutData,
-) => {
+export const isSameLayouts = (inputA: LayoutData, inputB: LayoutData) => {
   const a = disableAddBox(inputA);
   const b = disableAddBox(inputB);
   const itemsA = a.layoutItems.sort(layoutItemSorter);
@@ -132,7 +125,10 @@ export const isSameLayouts = (
         const layoutB = b.layouts[key].sort(layoutSorter);
         return layoutA.reduce(
           (t, item, i) =>
-            t && item.x === layoutB[i].x && item.i === layoutB[i].i,
+            t &&
+            item.x === layoutB[i].x &&
+            item.i === layoutB[i].i &&
+            (!isBoxResizable(getBoxType(item.i)) || item.h === layoutB[i].h),
           true,
         );
       })
@@ -140,3 +136,63 @@ export const isSameLayouts = (
   }
   return false;
 };
+
+export const isBoxResizable = (type: BoxType): boolean => {
+  switch (type) {
+    case BoxTypes.DASHBOARD_LASTEST_CONTENT:
+    case BoxTypes.DASHBOARD_CALENDER:
+      return true;
+    default:
+      return false;
+  }
+};
+
+export const isBoxFixedHeight = (type: BoxType): boolean => {
+  switch (type) {
+    case BoxTypes.ADD_NEW_BOX:
+      return true;
+    default:
+      return false;
+  }
+};
+
+export const isBoxDraggable = (type: BoxType): boolean => {
+  switch (type) {
+    case BoxTypes.ADD_NEW_BOX:
+      return false;
+    default:
+      return true;
+  }
+};
+
+const DEFAULT_BOX_HEIGHTS: Partial<Record<BoxType, number>> = {
+  // player profile boxes
+  [BoxTypes.PLAYER_HERO]: 22,
+  [BoxTypes.PLAYER_SKILLS]: 7,
+  [BoxTypes.PLAYER_NFT_GALLERY]: 14,
+  [BoxTypes.PLAYER_DAO_MEMBERSHIPS]: 9,
+  [BoxTypes.PLAYER_ACHIEVEMENTS]: 4,
+  [BoxTypes.PLAYER_TYPE]: 7,
+  [BoxTypes.PLAYER_COLOR_DISPOSITION]: 5.5,
+  [BoxTypes.PLAYER_ROLES]: 3,
+  // dashboard boxes
+  [BoxTypes.DASHBOARD_LASTEST_CONTENT]: 12,
+  [BoxTypes.DASHBOARD_XP_INFO]: 6,
+  [BoxTypes.DASHBOARD_SEEDS_INFO]: 4,
+  [BoxTypes.DASHBOARD_CALENDER]: 10,
+  [BoxTypes.DASHBOARD_LEADERBOARD]: 15,
+  // common boxes
+  [BoxTypes.ADD_NEW_BOX]: 3,
+  [BoxTypes.EMBEDDED_URL]: 7,
+};
+
+export const getBoxLayoutItemDefaults = (type: BoxType): Layout => ({
+  i: createBoxKey(type, type === BoxTypes.EMBEDDED_URL ? {} : undefined),
+  x: 0,
+  y: 0,
+  w: 1,
+  h: DEFAULT_BOX_HEIGHTS[type] ?? 3,
+  maxW: 1,
+  isResizable: isBoxResizable(type),
+  isDraggable: isBoxDraggable(type),
+});
