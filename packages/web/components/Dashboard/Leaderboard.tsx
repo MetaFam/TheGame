@@ -3,8 +3,6 @@ import {
   FlexProps,
   HStack,
   LabeledValue,
-  LinkBox,
-  LinkOverlay,
   LoadingState,
   MetaFilterSelectSearch,
   metaFilterSelectStyles,
@@ -12,6 +10,7 @@ import {
   Text,
   VStack,
 } from '@metafam/ds';
+import { MetaLink } from 'components/Link';
 import { PlayerAvatar } from 'components/Player/PlayerAvatar';
 import {
   OptionType,
@@ -19,7 +18,6 @@ import {
   sortOptionsMap,
   usePlayerFilter,
 } from 'lib/hooks/players';
-import NextLink from 'next/link';
 import React, { useMemo, useState } from 'react';
 import { getPlayerName, getPlayerURL } from 'utils/playerHelpers';
 
@@ -49,6 +47,7 @@ export const Leaderboard: React.FC = () => {
       fontFamily="exo2"
       fontWeight={700}
       alignItems="baseline"
+      minH="31rem"
     >
       <Box mb={4}>
         <MetaFilterSelectSearch
@@ -86,79 +85,79 @@ export const Leaderboard: React.FC = () => {
         <LoadingState />
       ) : (
         !error &&
-        players.map((p, i) => {
+        players.slice(0, 7).map((p, i) => {
           const position = i + 1;
           if (
-            position <= 7 &&
-            ((showSeasonalXP && p.seasonXP >= 1) ||
-              (!showSeasonalXP && p.totalXP >= 50))
+            (showSeasonalXP && p.seasonXP >= 1) ||
+            (!showSeasonalXP && p.totalXP >= 50)
           ) {
             return (
-              <LinkBox
+              <MetaLink
                 key={`player-chip-${p.id}`}
-                display="flex"
-                width="100%"
-                maxW="100%"
-                px={3}
-                py={2}
-                fontSize={['sm', 'md']}
-                flexFlow="row nowrap"
-                alignItems="center"
-                justifyContent="flex-start"
-                backgroundColor="blackAlpha.500"
-                borderRadius="md"
-                overflow="hidden"
-                _hover={{
-                  boxShadow: 'md',
-                }}
+                as={getPlayerURL(p)}
+                href="/player/[username]"
+                w="100%"
+                color="white"
+                _hover={{}}
               >
-                <Box flex={0} mr={1.5}>
-                  {position}
-                </Box>
-                <PlayerAvatar
-                  bg="cyan.200"
-                  border={0}
-                  mr={1}
-                  size="sm"
-                  player={p}
-                  sx={{
-                    '&::after': {
-                      content: '""',
-                      position: 'absolute',
-                      top: 0,
-                      left: 0,
-                      width: '100%',
-                      height: '100%',
-                      borderRadius: '50%',
-                      border: '1px solid white',
-                      borderColor: p.rank
-                        ? p.rank.toLocaleLowerCase()
-                        : 'red.400',
-                    },
+                <Box
+                  display="flex"
+                  width="100%"
+                  maxW="100%"
+                  px={3}
+                  py={2}
+                  fontSize={['sm', 'md']}
+                  flexFlow="row nowrap"
+                  alignItems="center"
+                  justifyContent="flex-start"
+                  backgroundColor="blackAlpha.500"
+                  borderRadius="md"
+                  overflow="hidden"
+                  _hover={{
+                    boxShadow: 'md',
+                    backgroundColor: 'blackAlpha.600',
                   }}
-                />
-                <Box>
-                  <NextLink
-                    as={getPlayerURL(p)}
-                    href="/player/[username]"
-                    passHref
+                >
+                  <Box flex={0} mr={1.5}>
+                    {position}
+                  </Box>
+                  <PlayerAvatar
+                    bg="cyan.200"
+                    border={0}
+                    mr={1}
+                    size="sm"
+                    player={p}
+                    sx={{
+                      '&::after': {
+                        content: '""',
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        width: '100%',
+                        height: '100%',
+                        borderRadius: '50%',
+                        border: '1px solid white',
+                        borderColor: p.rank
+                          ? p.rank.toLocaleLowerCase()
+                          : 'red.400',
+                      },
+                    }}
+                  />
+                  <Box
+                    overflowX="hidden"
+                    whiteSpace="pre"
+                    textOverflow="ellipsis"
+                    mr={2}
                   >
-                    <LinkOverlay
-                      overflowX="hidden"
-                      whiteSpace="pre"
-                      textOverflow="ellipsis"
-                      mr={2}
-                    >
-                      {getPlayerName(p)}
-                    </LinkOverlay>
-                  </NextLink>
+                    {getPlayerName(p)}
+                  </Box>
+                  <Box textAlign="right" flex={1}>
+                    {Math.floor(
+                      showSeasonalXP ? p.seasonXP : p.totalXP,
+                    ).toLocaleString()}
+                  </Box>
                 </Box>
-                <Box textAlign="right" flex={1}>
-                  {Math.floor(
-                    showSeasonalXP ? p.seasonXP : p.totalXP,
-                  ).toLocaleString()}
-                </Box>
-              </LinkBox>
+              </MetaLink>
             );
           }
           return null;

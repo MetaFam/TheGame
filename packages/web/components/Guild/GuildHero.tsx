@@ -8,7 +8,7 @@ import {
   Text,
   VStack,
 } from '@metafam/ds';
-import { ProfileSection } from 'components/Profile/ProfileSection';
+import { ProfileSection } from 'components/Section/ProfileSection';
 import { GuildFragment } from 'graphql/autogen/types';
 import React from 'react';
 

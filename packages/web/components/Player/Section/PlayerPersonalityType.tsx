@@ -1,6 +1,6 @@
 import { Text } from '@metafam/ds';
 import { ColorBar } from 'components/Player/ColorBar';
-import { ProfileSection } from 'components/Profile/ProfileSection';
+import { ProfileSection } from 'components/Section/ProfileSection';
 import { Player } from 'graphql/autogen/types';
 import {
   getPersonalityInfo,

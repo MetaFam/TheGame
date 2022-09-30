@@ -1,5 +1,5 @@
 import { BoxedNextImage, MetaTag, Text, Wrap, WrapItem } from '@metafam/ds';
-import { ProfileSection } from 'components/Profile/ProfileSection';
+import { ProfileSection } from 'components/Section/ProfileSection';
 import { Player } from 'graphql/autogen/types';
 import { useOverridableField } from 'lib/hooks';
 import React from 'react';

@@ -7,7 +7,7 @@ import {
   Stack,
   Text,
 } from '@metafam/ds';
-import { ProfileSection } from 'components/Profile/ProfileSection';
+import { ProfileSection } from 'components/Section/ProfileSection';
 import {
   Player,
   QuestCompletionFragment,

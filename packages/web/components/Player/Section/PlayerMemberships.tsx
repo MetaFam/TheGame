@@ -19,7 +19,7 @@ import {
 } from '@metafam/ds';
 import BackgroundImage from 'assets/main-background.jpg';
 import { LinkGuild } from 'components/Player/PlayerGuild';
-import { ProfileSection } from 'components/Profile/ProfileSection';
+import { ProfileSection } from 'components/Section/ProfileSection';
 import { Player } from 'graphql/autogen/types';
 import { getAllMemberships, GuildMembership } from 'graphql/getMemberships';
 import React, { useEffect, useMemo, useState } from 'react';

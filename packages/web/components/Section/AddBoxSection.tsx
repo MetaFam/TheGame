@@ -2,7 +2,6 @@ import {
   Button,
   Flex,
   FlexProps,
-  Input,
   MetaTheme,
   Modal,
   ModalBody,
@@ -17,19 +16,28 @@ import {
 } from '@metafam/ds';
 import { Maybe } from '@metafam/utils';
 import BackgroundImage from 'assets/main-background.jpg';
-import { PlayerSection } from 'components/Profile/PlayerSection';
 import { Player } from 'graphql/autogen/types';
 import React, { useCallback, useEffect, useState } from 'react';
 import { BoxMetadata, BoxType, BoxTypes } from 'utils/boxTypes';
+
+import { EmbeddedUrlMetadata } from './EmbeddedUrlSection';
 
 type Props = FlexProps & {
   player: Player;
   boxes: Array<BoxType>;
   onAddBox: (arg0: BoxType, arg1: BoxMetadata) => void;
+  previewComponent: (props: {
+    metadata: BoxMetadata;
+    type: BoxType;
+    player: Player;
+  }) => JSX.Element | null;
 };
 
-export const PlayerAddSection = React.forwardRef<HTMLDivElement, Props>(
-  ({ player, boxes = [], onAddBox, ...props }, ref) => {
+export const AddBoxSection = React.forwardRef<HTMLDivElement, Props>(
+  (
+    { player, boxes = [], onAddBox, previewComponent: Preview, ...props },
+    ref,
+  ) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [type, setType] = useState<Maybe<BoxType>>(null);
     const [metadata, setMetadata] = useState<BoxMetadata>({});
@@ -138,21 +146,8 @@ export const PlayerAddSection = React.forwardRef<HTMLDivElement, Props>(
                         ))
                       )}
                     </Select>
-                    {type === BoxTypes.EMBEDDED_URL && (
-                      <Input
-                        bg="dark"
-                        w="100%"
-                        placeholder="Provide the URL of the content"
-                        _placeholder={{ color: 'whiteAlpha.500' }}
-                        onChange={({ target: { value: url } }) =>
-                          setMetadata({ url })
-                        }
-                        size="lg"
-                        borderRadius={0}
-                        borderColor="borderPurple"
-                        fontSize="md"
-                        borderWidth="2px"
-                      />
+                    {type && (
+                      <EditMetadata {...{ type, metadata, setMetadata }} />
                     )}
                     {type && (
                       <Flex
@@ -161,9 +156,7 @@ export const PlayerAddSection = React.forwardRef<HTMLDivElement, Props>(
                         bg="blueProfileSection"
                         borderRadius="lg"
                       >
-                        <PlayerSection
-                          isOwnProfile={false}
-                          editing={false}
+                        <Preview
                           {...{
                             type,
                             metadata,
@@ -200,3 +193,16 @@ export const PlayerAddSection = React.forwardRef<HTMLDivElement, Props>(
     );
   },
 );
+
+export const EditMetadata: React.FC<{
+  type: BoxType;
+  metadata: BoxMetadata;
+  setMetadata: (d: BoxMetadata) => void;
+}> = ({ type, ...props }) => {
+  switch (type) {
+    case BoxTypes.EMBEDDED_URL:
+      return <EmbeddedUrlMetadata {...props} />;
+    default:
+      return null;
+  }
+};

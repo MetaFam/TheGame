@@ -8,28 +8,26 @@ import { PlayerPersonalityType } from 'components/Player/Section/PlayerPersonali
 import { PlayerRoles } from 'components/Player/Section/PlayerRoles';
 import { PlayerSkills } from 'components/Player/Section/PlayerSkills';
 import { PlayerType } from 'components/Player/Section/PlayerType';
-import { EmbeddedUrl } from 'components/Profile/EmbeddedUrlSection';
+import { EmbeddedUrl } from 'components/Section/EmbeddedUrlSection';
 import { Player } from 'graphql/autogen/types';
-import React from 'react';
+import { useUser, useWeb3 } from 'lib/hooks';
+import { forwardRef, useMemo } from 'react';
 import { FaTimes } from 'react-icons/fa';
 import { BoxMetadata, BoxType, BoxTypes, createBoxKey } from 'utils/boxTypes';
 
 type Props = {
   type: BoxType;
-  metadata?: BoxMetadata;
   player: Player;
-  isOwnProfile?: boolean;
+  metadata?: BoxMetadata;
   editing?: boolean;
   onRemoveBox?: (boxKey: string) => void;
 };
 
-const PlayerSectionInner: React.FC<Props> = ({
-  metadata,
-  type,
-  player,
-  isOwnProfile,
-  editing,
-}) => {
+const PlayerSectionInner: React.FC<
+  Props & {
+    isOwnProfile?: boolean;
+  }
+> = ({ metadata, type, player, isOwnProfile, editing }) => {
   switch (type) {
     case BoxTypes.PLAYER_HERO:
       return <PlayerHero {...{ player, editing }} />;
@@ -58,9 +56,16 @@ const PlayerSectionInner: React.FC<Props> = ({
   }
 };
 
-export const PlayerSection = React.forwardRef<HTMLDivElement, Props>(
-  ({ metadata, type, player, isOwnProfile, editing, onRemoveBox }, ref) => {
+export const PlayerSection = forwardRef<HTMLDivElement, Props>(
+  ({ metadata, type, player, editing = false, onRemoveBox }, ref) => {
     const key = createBoxKey(type, metadata);
+    const { user, fetching } = useUser();
+    const { connected } = useWeb3();
+
+    const isOwnProfile = useMemo(
+      () => !fetching && !!user && user.id === player.id && !!connected,
+      [user, fetching, connected, player.id],
+    );
 
     return (
       <Flex
