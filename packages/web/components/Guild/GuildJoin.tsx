@@ -21,6 +21,7 @@ import {
 } from '@metafam/ds';
 import { Constants, generateUUID } from '@metafam/utils';
 import DecentralizedFactoryImg from 'assets/decentralized-factory_1105x1098.png';
+import GuildsImg from 'assets/guilds-sun_800x800.png';
 import GuildsSunlessImg from 'assets/guilds-sunless_384x449.png';
 import CommonTierNFTImg from 'assets/nft-common-tier_600x600.jpg';
 import EpicTierNFTImg from 'assets/nft-epic-tier_600x600.jpg';
@@ -30,9 +31,9 @@ import Octopus from 'assets/octopus.png'; // in the footer
 import PatronsImg from 'assets/patrons-sun_800x820.png';
 import PlayersImg from 'assets/players-sun_800x822.png';
 import ThinkingEmojiImg from 'assets/thinking-emoji_400x400.png';
-import { HeadComponent } from 'components/Seo';
 // import { FlexContainer } from 'components/Container';
-// import { MetaLink } from 'components/Link';
+import { MetaLink } from 'components/Link';
+import { HeadComponent } from 'components/Seo';
 import { CONFIG } from 'config';
 import { useUser } from 'lib/hooks';
 import { get, set } from 'lib/store';
@@ -374,7 +375,7 @@ export const GuildJoin: React.FC = () => {
                 mb={{ base: 8, md: 0 }}
               />
 
-              <Box ml={{ base: 0, md: 8 }}>
+              <Box ml={{ base: 0, md: 8 }} flex="auto">
                 <Text mb={4}>You need to tick at least 2 of these boxes!</Text>
 
                 <List mb={4}>
@@ -460,7 +461,7 @@ export const GuildJoin: React.FC = () => {
         </Heading>
 
         {/*
-          The three items in SimpleGrid are stacked cards until the md breakpoint, then go to rows at md, then to proper cards in 3 columns at lg
+          The three items in SimpleGrid are stacked cards until the md breakpoint, go to full-width rows at md, then to proper cards in 3 columns at lg
         */}
 
         <SimpleGrid
@@ -632,11 +633,79 @@ export const GuildJoin: React.FC = () => {
           Decided to join?
         </Heading>
 
-        <Container bg="whiteAlpha.50" maxW="2xl" p={8}>
-          <Text>
-            Flag type component that stacks, with the button and conditional
-            text depending on if logged in or not
-          </Text>
+        {/*
+          The two flex items are stacked until the md breakpoint, then go to columns
+        */}
+        <Container
+          bg="whiteAlpha.50"
+          borderRadius={8}
+          maxW="2xl"
+          py={8}
+          px={12}
+        >
+          <Flex
+            direction={{ base: 'column', md: 'row' }}
+            alignItems="center"
+            justifyContent="center"
+          >
+            <Image
+              src={GuildsImg}
+              alt="Three cloaked figures"
+              mx="auto"
+              maxW="10rem"
+              mb={{ base: 8, md: 0 }}
+            />
+
+            <Box ml={{ base: 0, md: 16 }} flex="auto">
+              {/* 
+                If they have connected their wallet, they get the sign up button
+                If they have not connected their wallet, they get a prompt to sign up
+              */}
+              {stateGuid?.length && user ? (
+                <>
+                  <Text as="p" mb={4}>
+                    Ready to join the Decentralized Factory &amp; become one of
+                    the Founding Guilds of MetaGame? Apply now 👇
+                  </Text>
+
+                  <MetaButton
+                    as="a"
+                    bg="#E839B7"
+                    borderRadius={0}
+                    color="white"
+                    href={discordAuthURL}
+                    my={8}
+                    minW="10rem"
+                    text-decoration="underline"
+                    w="10rem"
+                    _hover={{
+                      bg: '#E839B7',
+                      opacity: 0.6,
+                    }}
+                    _active={{
+                      bg: '#E839B7',
+                      opacity: 0.6,
+                    }}
+                  >
+                    APPLY
+                  </MetaButton>
+                </>
+              ) : (
+                <Text as="p" fontStyle="italic" mb={4}>
+                  Please log in or create a player profile by pressing the
+                  "Connect" button to start the guild application process.
+                </Text>
+              )}
+
+              <Text mb={4}>
+                To apply, your guild must have a{' '}
+                <MetaLink isExternal href="https://discord.com/">
+                  Discord
+                </MetaLink>{' '}
+                server.
+              </Text>
+            </Box>
+          </Flex>
         </Container>
       </Container>
 
