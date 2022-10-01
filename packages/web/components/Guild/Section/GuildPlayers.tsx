@@ -1,12 +1,10 @@
 import {
-  Box,
-  Flex,
-  HStack,
   LoadingState,
   Modal,
+  ModalBody,
   ModalCloseButton,
   ModalContent,
-  modalContentStyles,
+  ModalHeader,
   ModalOverlay,
   SimpleGrid,
   Text,
@@ -57,64 +55,27 @@ export const GuildPlayers: React.FC<Props> = ({ guildId, guildname }) => {
           </Text>
         )}
 
-        <Modal
-          isOpen={isOpen}
-          onClose={onClose}
-          isCentered
-          scrollBehavior="inside"
-        >
+        <Modal isOpen={isOpen} onClose={onClose}>
           <ModalOverlay>
-            <ModalContent maxW="6xl" bg="none">
-              <Box bg="purple80" borderTopRadius="lg" p={4} w="100%">
-                <HStack>
-                  <Text
-                    fontSize="sm"
-                    fontWeight="bold"
-                    color="blueLight"
-                    as="div"
-                    mr="auto"
-                  >
-                    Players
-                  </Text>
-                  <ModalCloseButton color="blueLight" />
-                </HStack>
-              </Box>
+            <ModalContent>
+              <ModalHeader>Players</ModalHeader>
+              <ModalCloseButton />
 
-              <Flex p={2} css={modalContentStyles}>
-                <Box
-                  overflowY="scroll"
-                  overflowX="hidden"
-                  maxH="80vh"
-                  borderBottomRadius="lg"
-                  w="100%"
-                  color="white"
-                  css={{
-                    scrollbarColor: 'rgba(70,20,100,0.8) rgba(255,255,255,0)',
-                    '::-webkit-scrollbar': {
-                      width: '8px',
-                      background: 'none',
-                    },
-                    '::-webkit-scrollbar-thumb': {
-                      background: 'rgba(70,20,100,0.8)',
-                      borderRadius: '999px',
-                    },
-                  }}
+              <ModalBody>
+                <SimpleGrid
+                  columns={{ base: 1, md: 2 }}
+                  gap={6}
+                  padding={6}
+                  boxShadow="md"
                 >
-                  <SimpleGrid
-                    columns={{ base: 1, md: 2 }}
-                    gap={6}
-                    padding={6}
-                    boxShadow="md"
-                  >
-                    {guildPlayers.map((player) => (
-                      <GuildPlayerComponent
-                        key={player.ethereumAddress}
-                        {...{ player }}
-                      />
-                    ))}
-                  </SimpleGrid>
-                </Box>
-              </Flex>
+                  {guildPlayers.map((player) => (
+                    <GuildPlayerComponent
+                      key={player.ethereumAddress}
+                      {...{ player }}
+                    />
+                  ))}
+                </SimpleGrid>
+              </ModalBody>
             </ModalContent>
           </ModalOverlay>
         </Modal>

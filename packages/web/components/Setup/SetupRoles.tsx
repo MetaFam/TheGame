@@ -31,18 +31,19 @@ export type SetupRolesProps = {
   isEdit?: boolean;
   onClose?: () => void;
   buttonLabel?: Optional<string | ReactElement>;
+  title?: string;
 };
 
 export const SetupRoles: React.FC<SetupRolesProps> = ({
   choices: inputChoices = null,
   onClose,
   buttonLabel,
+  title = 'Roles',
 }) => {
   const field = 'roles';
   const { user } = useUser();
-  const [choices, setChoices] = useState<Maybe<Array<PlayerRole>>>(
-    inputChoices,
-  );
+  const [choices, setChoices] =
+    useState<Maybe<Array<PlayerRole>>>(inputChoices);
   const [, updateRoles] = useUpdateRoles();
   const { value: roles, setter: setRoles } = useOverridableField<Array<string>>(
     {
@@ -98,7 +99,7 @@ export const SetupRoles: React.FC<SetupRolesProps> = ({
     <WizardPane<Array<string>>
       {...{ field, onClose, onSave, buttonLabel }}
       value={roles}
-      title="Roles"
+      title={title}
       prompt={
         <Text mb={[4, 6]} textAlign="center">
           Unlike other role-playing games, in MetaGame a player is free to take
@@ -219,8 +220,8 @@ const RoleGroup: React.FC<RoleGroupProps> = ({
       <SimpleGrid
         gap={[1.5, 5]}
         mx="auto"
-        maxW={['16rem', '17rem', '35rem', '45rem', '65rem', '90rem']}
-        columns={[1, 1, 2, 2, 3, 4]}
+        maxW={['16rem', '17rem', '35rem', '45rem', '60rem', '65rem']}
+        columns={[1, 1, 2, 2, 2, 3]}
         gridAutoRows="1fr"
       >
         {roles.map((r) => {

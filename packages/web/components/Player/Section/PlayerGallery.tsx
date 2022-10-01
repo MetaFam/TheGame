@@ -2,11 +2,12 @@ import {
   Box,
   Flex,
   Heading,
-  HStack,
   LoadingState,
   Modal,
+  ModalBody,
   ModalCloseButton,
   ModalContent,
+  ModalHeader,
   ModalOverlay,
   SimpleGrid,
   Text,
@@ -14,7 +15,6 @@ import {
   useDisclosure,
   ViewAllButton,
 } from '@metafam/ds';
-import BackgroundImage from 'assets/main-background.jpg';
 import { MetaLink as Link } from 'components/Link';
 import { ProfileSection } from 'components/Section/ProfileSection';
 import { Player } from 'graphql/autogen/types';
@@ -74,63 +74,18 @@ const GalleryModal: React.FC<GalleryModalProps> = ({
   onClose,
   nfts,
 }) => (
-  <Modal {...{ isOpen, onClose }} isCentered scrollBehavior="inside">
+  <Modal {...{ isOpen, onClose }}>
     <ModalOverlay>
-      <ModalContent
-        mx={4}
-        maxW="6xl"
-        bgImage={`url(${BackgroundImage})`}
-        bgSize="cover"
-        bgAttachment="fixed"
-      >
-        <Box bg="purple80" borderTopRadius="lg" p={4} w="full">
-          <HStack>
-            <Text
-              fontSize="sm"
-              fontWeight="bold"
-              color="blueLight"
-              as="div"
-              mr="auto"
-            >
-              NFT Gallery
-            </Text>
-            <ModalCloseButton color="blueLight" />
-          </HStack>
-        </Box>
-        <Flex p={2}>
-          <Box
-            overflowY="auto"
-            overflowX="hidden"
-            maxH="calc(100vh - 12rem)"
-            borderBottomRadius="lg"
-            w="full"
-            sx={{
-              scrollbarColor: 'rgba(70, 20, 100, 0.8) #FFFFFF00',
-              '::-webkit-scrollbar': {
-                width: '0.5rem',
-                background: 'none',
-              },
-              '::-webkit-scrollbar-thumb': {
-                background: 'rgba(70, 20, 100, 0.8)',
-                borderRadius: '999px',
-              },
-            }}
-          >
-            <SimpleGrid
-              columns={{ base: 1, md: 2, lg: 3 }}
-              gap={6}
-              p={6}
-              boxShadow="md"
-            >
-              {nfts?.map((nft) => (
-                <GalleryItem
-                  {...{ nft }}
-                  key={`${nft.tokenId}-${nft.address}`}
-                />
-              ))}
-            </SimpleGrid>
-          </Box>
-        </Flex>
+      <ModalContent>
+        <ModalHeader>NFT Gallery</ModalHeader>
+        <ModalCloseButton />
+        <ModalBody>
+          <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} gap={4} p={4}>
+            {nfts?.map((nft) => (
+              <GalleryItem {...{ nft }} key={`${nft.tokenId}-${nft.address}`} />
+            ))}
+          </SimpleGrid>
+        </ModalBody>
       </ModalContent>
     </ModalOverlay>
   </Modal>
@@ -166,7 +121,7 @@ export const PlayerGallery: React.FC<Props> = ({
     >
       {(() => {
         if (loading) {
-          return <LoadingState mb={6} />;
+          return <LoadingState pb={6} />;
         }
         if (error) {
           return (
@@ -178,21 +133,13 @@ export const PlayerGallery: React.FC<Props> = ({
         if (nfts.length === 0) {
           return (
             <Text textAlign="center" fontStyle="italic" mb={4}>
-              No{' '}
-              <Text
-                as="span"
-                title="Non-Fungible Token"
-                borderBottom="2px dotted"
-              >
-                NFT
-              </Text>
-              s found for {isOwnProfile ? 'you' : 'this player'}.
+              No NFTs found for {isOwnProfile ? 'you' : 'this player'}.
             </Text>
           );
         }
         return (
           <>
-            <SimpleGrid columns={1} gap={4}>
+            <SimpleGrid columns={1} gap={4} px={2}>
               {favorites?.map((nft) => (
                 <GalleryItem {...{ nft }} key={nft.tokenId} />
               ))}

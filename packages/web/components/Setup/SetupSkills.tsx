@@ -74,6 +74,7 @@ const styles: typeof multiSelectStyles = {
 export const SetupSkills: React.FC<MaybeModalProps> = ({
   onClose,
   buttonLabel,
+  title = 'Skills',
 }) => {
   const field = 'skills';
   const mounted = useMounted();
@@ -154,7 +155,7 @@ export const SetupSkills: React.FC<MaybeModalProps> = ({
   return (
     <WizardPane<Array<SkillOption>>
       {...{ field, onClose, onSave, buttonLabel }}
-      title="Skills"
+      title={title}
       prompt="What are your super&#xAD;powers?"
       fetching={!user}
       value={skills}

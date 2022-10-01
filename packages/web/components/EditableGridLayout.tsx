@@ -3,6 +3,7 @@ import 'react-resizable/css/styles.css';
 
 import {
   Box,
+  BoxProps,
   ButtonGroup,
   CloseIcon,
   ConfirmModal,
@@ -65,7 +66,7 @@ type Props = {
     type: BoxType;
     player: Player;
   }) => JSX.Element | null;
-};
+} & BoxProps;
 
 export const EditableGridLayout: React.FC<Props> = ({
   player,
@@ -76,6 +77,7 @@ export const EditableGridLayout: React.FC<Props> = ({
   persistLayoutData,
   allBoxOptions,
   displayComponent: DisplaySection,
+  ...props
 }): ReactElement => {
   const [saving, setSaving] = useState(false);
   const [exitAlertCancel, setExitAlertCancel] = useState<boolean>(false);
@@ -201,20 +203,11 @@ export const EditableGridLayout: React.FC<Props> = ({
   );
 
   return (
-    <Box
-      className="gridWrapper"
-      width="100%"
-      height="100%"
-      sx={gridSX}
-      maxW="96rem"
-      mb="12rem"
-      pt={showEditButton ? 0 : '4rem'}
-    >
+    <Box width="100%" height="100%" sx={gridSX} maxW="96rem" px={4} {...props}>
       {showEditButton && (
         <ButtonGroup
           w="full"
           mb={4}
-          px={8}
           justifyContent="end"
           variant="ghost"
           zIndex={10}
@@ -287,62 +280,64 @@ export const EditableGridLayout: React.FC<Props> = ({
           )}
         </ButtonGroup>
       )}
-      <ResponsiveGridLayout
-        onLayoutChange={handleLayoutChange}
-        layouts={currentLayouts}
-        breakpoints={{ lg: 1180, md: 900, sm: 0 }}
-        cols={{ lg: 3, md: 2, sm: 1 }}
-        rowHeight={GRID_ROW_HEIGHT}
-        isDraggable={!!editing}
-        isResizable={!!editing}
-        margin={{
-          lg: [30, 30],
-          md: [30, 30],
-          sm: [30, 30],
-        }}
-        containerPadding={{
-          lg: [30, 30],
-          md: [20, 20],
-          sm: [20, 20],
-        }}
-      >
-        {currentLayoutItems.map(({ key, type, metadata }, i) => (
-          <Flex
-            boxShadow={editing ? 'lg' : 'md'}
-            bg="whiteAlpha.200"
-            style={{ backdropFilter: 'blur(7px)' }}
-            overflow="hidden"
-            borderRadius="lg"
-            transition="boxShadow 0.2s 0.3s ease"
-            id={key}
-            {...{ key }}
-          >
-            {type === BoxTypes.ADD_NEW_BOX ? (
-              <AddBoxSection
-                boxes={availableBoxes}
-                previewComponent={DisplaySection}
-                {...{ player, onAddBox }}
-                ref={(e: Maybe<HTMLElement>) => {
-                  itemsRef.current[i] = e;
-                }}
-              />
-            ) : (
-              <DisplaySection
-                {...{
-                  type,
-                  metadata,
-                  player,
-                  editing,
-                  onRemoveBox,
-                }}
-                ref={(e: Maybe<HTMLElement>) => {
-                  itemsRef.current[i] = e;
-                }}
-              />
-            )}
-          </Flex>
-        ))}
-      </ResponsiveGridLayout>
+      <Box w="100%" pb="1rem">
+        <ResponsiveGridLayout
+          onLayoutChange={handleLayoutChange}
+          layouts={currentLayouts}
+          breakpoints={{ lg: 1180, md: 900, sm: 0 }}
+          cols={{ lg: 3, md: 2, sm: 1 }}
+          rowHeight={GRID_ROW_HEIGHT}
+          isDraggable={!!editing}
+          isResizable={!!editing}
+          margin={{
+            lg: [30, 30],
+            md: [30, 30],
+            sm: [30, 30],
+          }}
+          containerPadding={{
+            lg: [0, 30],
+            md: [0, 20],
+            sm: [0, 20],
+          }}
+        >
+          {currentLayoutItems.map(({ key, type, metadata }, i) => (
+            <Flex
+              boxShadow={editing ? 'lg' : 'md'}
+              bg="whiteAlpha.200"
+              style={{ backdropFilter: 'blur(7px)' }}
+              overflow="hidden"
+              borderRadius="lg"
+              transition="boxShadow 0.2s 0.3s ease"
+              id={key}
+              {...{ key }}
+            >
+              {type === BoxTypes.ADD_NEW_BOX ? (
+                <AddBoxSection
+                  boxes={availableBoxes}
+                  previewComponent={DisplaySection}
+                  {...{ player, onAddBox }}
+                  ref={(e: Maybe<HTMLElement>) => {
+                    itemsRef.current[i] = e;
+                  }}
+                />
+              ) : (
+                <DisplaySection
+                  {...{
+                    type,
+                    metadata,
+                    player,
+                    editing,
+                    onRemoveBox,
+                  }}
+                  ref={(e: Maybe<HTMLElement>) => {
+                    itemsRef.current[i] = e;
+                  }}
+                />
+              )}
+            </Flex>
+          ))}
+        </ResponsiveGridLayout>
+      </Box>
     </Box>
   );
 };

@@ -73,6 +73,7 @@ export const useSaveCeramicProfile = ({
       values?: HasuraStringProps & HasuraEPObjects;
       images?: HasuraImageSourcedProps;
     }) => {
+      console.log('here');
       if (!ceramic) {
         throw new CeramicError(
           'Unable to connect to the Ceramic API to save changes.',

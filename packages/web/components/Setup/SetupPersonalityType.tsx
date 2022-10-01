@@ -53,7 +53,7 @@ export const ColorButtons: React.FC<ColorButtonsProps> = ({
   types,
   disabled = false,
 }) => (
-  <Wrap spacing={[3, 7]} maxW="70rem" justify="center">
+  <Wrap spacing={[3, 7]} maxW="60rem" w="100%" justify="center">
     {Object.entries(MaskImages)
       .reverse()
       .map(([bitString, image], idx) => {
@@ -134,6 +134,7 @@ export const ColorButtons: React.FC<ColorButtonsProps> = ({
 export const SetupPersonalityType: React.FC<MaybeModalProps> = ({
   buttonLabel,
   onClose,
+  title = 'Personality Type',
 }) => {
   const field = 'colorMask';
 
@@ -150,7 +151,7 @@ export const SetupPersonalityType: React.FC<MaybeModalProps> = ({
   return (
     <ProfileWizardPane
       {...{ field, buttonLabel, onClose }}
-      title="Personality Type"
+      title={title}
       prompt={
         <Text textAlign="center" maxW="30rem">
           <Text as="span">Please select what defines you. </Text>

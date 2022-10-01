@@ -71,7 +71,7 @@ export const Watch: React.FC = () => {
     }
   }, [loading, maxPages, nextPageToken, onScreen, page]);
   return (
-    <Box pr={2}>
+    <Box px={2}>
       {loading ? (
         <LoadingState />
       ) : (

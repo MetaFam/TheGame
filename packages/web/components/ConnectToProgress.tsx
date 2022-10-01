@@ -40,7 +40,7 @@ export const ConnectToProgress: React.FC<{
       return (
         <Stack color="white" spacing={8} w="100%" maxW="30rem">
           <MetaGameLogo />
-          {header && header !== '' && <MetaHeading>{header}</MetaHeading>}
+          {header && <MetaHeading>{header}</MetaHeading>}
           <Text fontSize="md" w="100%" textAlign="center">
             Please switch to <SwitchNetworkButton chainId="0x1" /> to progress
           </Text>
@@ -53,7 +53,7 @@ export const ConnectToProgress: React.FC<{
   return (
     <Stack color="white" spacing={8} w="100%" maxW="28rem">
       <MetaGameLogo />
-      <MetaHeading> Welcome to MetaGame! </MetaHeading>
+      {header && <MetaHeading> {header} </MetaHeading>}
       {showNote && (
         <Stack spacing={4} align="flex-start" w="100%" px={2}>
           <Text>First things first, you should make yourself a profile.</Text>

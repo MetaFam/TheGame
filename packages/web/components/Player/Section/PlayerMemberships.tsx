@@ -4,12 +4,13 @@ import {
   chakra,
   Flex,
   Heading,
-  HStack,
   Image,
   LoadingState,
   Modal,
+  ModalBody,
   ModalCloseButton,
   ModalContent,
+  ModalHeader,
   ModalOverlay,
   SimpleGrid,
   Text,
@@ -17,7 +18,6 @@ import {
   ViewAllButton,
   VStack,
 } from '@metafam/ds';
-import BackgroundImage from 'assets/main-background.jpg';
 import { LinkGuild } from 'components/Player/PlayerGuild';
 import { ProfileSection } from 'components/Section/ProfileSection';
 import { Player } from 'graphql/autogen/types';
@@ -145,57 +145,23 @@ const MembershipListModal: React.FC<MembershipListProps> = ({
   onClose,
   memberships,
 }) => (
-  <Modal {...{ isOpen, onClose }} isCentered scrollBehavior="inside">
+  <Modal {...{ isOpen, onClose }}>
     <ModalOverlay />
-    <ModalContent
-      maxW="min(var(--chakra-sizes-6xl), calc(100vw - 4rem))"
-      bgImage={`url(${BackgroundImage})`}
-      bgSize="cover"
-      bgAttachment="fixed"
-      maxH="full"
-    >
-      <Box bg="purple.800" borderTopRadius="lg" p={4} w="full">
-        <HStack>
-          <Text fontSize="sm" fontWeight="bold" color="blueLight" mr="auto">
-            Memberships
-          </Text>
-          <ModalCloseButton color="blueLight" />
-        </HStack>
-      </Box>
-
-      <Flex p={2}>
-        <Box
-          overflowY="auto"
-          overflowX="hidden"
-          maxH="calc(100vh - 10rem)"
-          borderBottomRadius="lg"
-          w="full"
-          color="white"
-          sx={{
-            scrollbarColor: 'rgba(70, 20, 100, 0.8) #FFFFFF00',
-            '::-webkit-scrollbar': {
-              width: '0.5rem',
-              background: 'none',
-            },
-            '::-webkit-scrollbar-thumb': {
-              background: 'rgba(70, 20, 100, 0.8)',
-              borderRadius: '999px',
-            },
-          }}
+    <ModalContent>
+      <ModalHeader>DAO Memberships</ModalHeader>
+      <ModalCloseButton />
+      <ModalBody>
+        <SimpleGrid
+          columns={{ base: 1, md: 2, lg: 3 }}
+          gap={2}
+          p={4}
+          justifyContent="center"
         >
-          <SimpleGrid
-            columns={{ base: 1, md: 2, lg: 3, '2xl': 4 }}
-            gap={2}
-            p={4}
-            boxShadow="md"
-            justifyContent="center"
-          >
-            {memberships.map((membership) => (
-              <DAOListing key={membership.memberId} {...{ membership }} />
-            ))}
-          </SimpleGrid>
-        </Box>
-      </Flex>
+          {memberships.map((membership) => (
+            <DAOListing key={membership.memberId} {...{ membership }} />
+          ))}
+        </SimpleGrid>
+      </ModalBody>
     </ModalContent>
   </Modal>
 );

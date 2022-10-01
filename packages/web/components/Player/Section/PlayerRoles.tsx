@@ -26,7 +26,6 @@ export const PlayerRoles: React.FC<Props> = ({
   return (
     <ProfileSection
       title="Roles"
-      modalTitle={false}
       type={BoxTypes.PLAYER_ROLES}
       withoutBG
       {...{ isOwnProfile, editing }}

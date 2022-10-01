@@ -41,7 +41,6 @@ export const PlayerPersonalityType: React.FC<PersonalityTypeProps> = ({
       title="Personality Type"
       type={BoxTypes.PLAYER_COLOR_DISPOSITION}
       withoutBG
-      modalTitle={false}
       {...{ isOwnProfile, editing }}
     >
       {mask == null ? (

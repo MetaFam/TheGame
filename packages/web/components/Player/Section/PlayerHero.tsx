@@ -72,26 +72,21 @@ export const PlayerHero: React.FC<HeroProps> = ({ player, editing }) => {
       withoutBG
     >
       {isOwnProfile && !editing && (
-        <Box pos="absolute" right={[0, 4]} top={[0, 4]}>
-          <IconButton
-            _focus={{ boxShadow: 'none' }}
-            variant="outline"
-            borderWidth={2}
-            aria-label="Edit Profile Info"
-            size="lg"
-            borderColor="pinkShadeOne"
-            bg="rgba(17, 17, 17, 0.9)"
-            color="pinkShadeOne"
-            _hover={{ color: 'white', borderColor: 'white' }}
-            onClick={onOpen}
-            icon={<EditIcon />}
-            isRound
-            _active={{
-              transform: 'scale(0.8)',
-              bg: 'transparent',
-            }}
-          />
-        </Box>
+        <IconButton
+          pos="absolute"
+          right={2}
+          top={2}
+          aria-label="Edit Profile Info"
+          size="lg"
+          background="transparent"
+          color="pinkShadeOne"
+          icon={<EditIcon />}
+          _hover={{ color: 'white' }}
+          _focus={{ boxShadow: 'none' }}
+          _active={{ transform: 'scale(0.8)' }}
+          isRound
+          onClick={onOpen}
+        />
       )}
       <Flex mb={8} mt={2} justify="center">
         <PlayerAvatar size="3xl" {...{ player }} />
