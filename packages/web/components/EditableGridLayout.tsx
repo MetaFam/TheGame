@@ -109,6 +109,7 @@ export const EditableGridLayout: React.FC<Props> = ({
 
   const handleReset = useCallback(() => {
     setCurrentLayoutData(enableAddBox(defaultLayoutData));
+    setChanged(true);
     setExitAlertReset(false);
   }, [defaultLayoutData]);
 
@@ -307,8 +308,9 @@ export const EditableGridLayout: React.FC<Props> = ({
       >
         {currentLayoutItems.map(({ key, type, metadata }, i) => (
           <Flex
-            bg="blueProfileSection"
             boxShadow={editing ? 'lg' : 'md'}
+            bg="whiteAlpha.200"
+            style={{ backdropFilter: 'blur(7px)' }}
             overflow="hidden"
             borderRadius="lg"
             transition="boxShadow 0.2s 0.3s ease"

@@ -63,60 +63,60 @@ export const ProfileSection: React.FC<
       direction="column"
       {...props}
     >
-      {title !== false && (
-        <Box bg="purpleProfileSection" borderTopRadius="lg" py={5}>
-          <Flex h={5} pr={2} pl={6} align="center">
-            {title && (
-              <Text
-                fontSize="md"
-                color="blueLight"
-                mr="auto"
-                fontWeight={600}
-                casing="uppercase"
-              >
-                {title}
-              </Text>
-            )}
-            {isOwnProfile && !editing && isEditable(boxType) && (
-              <IconButton
-                aria-label={`Edit ${title}`}
-                size="lg"
-                background="transparent"
-                color="pinkShadeOne"
-                icon={<EditIcon />}
-                _hover={{ color: 'white' }}
-                _focus={{ boxShadow: 'none' }}
-                _active={{ transform: 'scale(0.8)' }}
-                isRound
-                onClick={onOpen}
-              />
-            )}
-            {modal && modalPrompt && (
-              <Button
-                color="pinkShadeOne"
-                background="transparent"
-                _hover={{ color: 'white' }}
-                _focus={{ boxShadow: 'none' }}
-                _active={{ transform: 'scale(0.8)' }}
-                onClick={onOpen}
-              >
-                {modalPrompt}
-              </Button>
-            )}
-          </Flex>
-        </Box>
-      )}
       <Box
-        bg={withoutBG ? 'none' : 'blueProfileSection'}
+        bg={withoutBG ? 'none' : 'whiteAlpha.200'}
+        style={withoutBG ? {} : { backdropFilter: 'blur(7px)' }}
         borderBottomRadius="lg"
-        borderTopRadius={!title ? 'lg' : 0}
-        px={boxType === BoxTypes.EMBEDDED_URL ? 0 : [2, 8]}
-        py={boxType === BoxTypes.EMBEDDED_URL ? 0 : 8}
-        sx={{ backdropFilter: 'blur(8px)' }}
+        borderRadius="lg"
+        p={6}
         w="full"
         pos="relative"
         pointerEvents={editing ? 'none' : 'initial'}
       >
+        {title !== false && (
+          <Box pb={5} w="100%">
+            <Flex h={5} align="center" w="100%">
+              {title && (
+                <Text
+                  fontSize="lg"
+                  fontWeight="700"
+                  textTransform="uppercase"
+                  mr="auto"
+                >
+                  {title}
+                </Text>
+              )}
+              {isOwnProfile && !editing && isEditable(boxType) && (
+                <IconButton
+                  aria-label={`Edit ${title}`}
+                  size="lg"
+                  background="transparent"
+                  color="pinkShadeOne"
+                  icon={<EditIcon />}
+                  _hover={{ color: 'white' }}
+                  _focus={{ boxShadow: 'none' }}
+                  _active={{ transform: 'scale(0.8)' }}
+                  isRound
+                  mr={-4}
+                  onClick={onOpen}
+                />
+              )}
+              {modal && modalPrompt && (
+                <Button
+                  color="pinkShadeOne"
+                  background="transparent"
+                  _hover={{ color: 'white' }}
+                  _focus={{ boxShadow: 'none' }}
+                  _active={{ transform: 'scale(0.8)' }}
+                  onClick={onOpen}
+                  mr={-4}
+                >
+                  {modalPrompt}
+                </Button>
+              )}
+            </Flex>
+          </Box>
+        )}
         {children}
       </Box>
       {(boxType || modal) && (
