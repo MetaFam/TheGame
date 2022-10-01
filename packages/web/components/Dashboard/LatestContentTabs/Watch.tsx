@@ -71,7 +71,7 @@ export const Watch: React.FC = () => {
     }
   }, [loading, maxPages, nextPageToken, onScreen, page]);
   return (
-    <Box pr={3}>
+    <Box pr={2}>
       {loading ? (
         <LoadingState />
       ) : (
@@ -79,13 +79,18 @@ export const Watch: React.FC = () => {
           {videos.map((video: Video) => {
             const url = `https://www.youtube.com/embed/${video?.videoId}`;
             return (
-              <AspectRatio key={video.id} ratio={2 / 1}>
+              <AspectRatio
+                key={video.id}
+                ratio={16 / 9}
+                borderRadius="md"
+                overflow="hidden"
+                mt={4}
+              >
                 <Box
                   as="iframe"
                   title={video?.title}
                   src={url}
                   allowFullScreen
-                  pt={4}
                 />
               </AspectRatio>
             );
