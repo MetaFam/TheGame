@@ -2,21 +2,29 @@ import {
   ArrowUpIcon,
   Box,
   Button,
-  // Center,
+  Center,
   Container,
-  // Flex,
+  Flex,
   Heading,
   Image,
+  List,
+  ListIcon,
   ListItem,
   LoadingState,
-  // MetaButton,
+  MetaButton,
   // MetaHeading,
   Text,
   UnorderedList,
   VStack,
 } from '@metafam/ds';
 import { Constants, generateUUID } from '@metafam/utils';
-import Octopus from 'assets/octopus.png';
+import DecentralizedFactoryImg from 'assets/decentralized-factory_1105x1098.png';
+import GuildsSunlessImg from 'assets/guilds-sunless_384x449.png';
+// Images to use in the page
+import Octopus from 'assets/octopus.png'; // in the footer
+import PatronsImg from 'assets/patrons-sun_800x820.png';
+import PlayersImg from 'assets/players-sun_800x822.png';
+import ThinkingEmojiImg from 'assets/thinking-emoji_400x400.png';
 import { HeadComponent } from 'components/Seo';
 // import { FlexContainer } from 'components/Container';
 // import { MetaLink } from 'components/Link';
@@ -25,6 +33,7 @@ import { useUser } from 'lib/hooks';
 import { get, set } from 'lib/store';
 import { useRouter } from 'next/router';
 import React, { useEffect, useRef, useState } from 'react';
+import { MdCheckBoxOutlineBlank } from 'react-icons/md';
 
 export const discordAuthStateGuidKey = 'metagame-add-guild';
 
@@ -82,7 +91,7 @@ export const GuildJoin: React.FC = () => {
   };
 
   return (
-    <VStack maxW="6xl" w="100%" spacing={{ base: 16, md: 24 }} sx={css}>
+    <VStack maxW="6xl" w="100%" spacing={{ base: 8, md: 20 }} sx={css}>
       <HeadComponent
         title="Join MetaGame as a Guild"
         description="We are looking for projects that are either building pieces of the infrastructure for the society of the future, offering tools &amp; services to those that are, or just doing something cool."
@@ -117,9 +126,10 @@ export const GuildJoin: React.FC = () => {
           What are Guilds?
         </Heading>
 
-        <Container bg="whiteAlpha.50" maxW="lg" centerContent>
+        <Container bg="whiteAlpha.50" borderRadius={8} maxW="lg" centerContent>
           <VStack spacing={8} py={8} px={4}>
-            <Box bg="tomato">picture</Box>
+            <Image src={GuildsSunlessImg} alt="Cloaked figure" mx="auto" />
+
             <Box>
               <Text as="h3" fontWeight={700} mb={4}>
                 Guilds make up the Decentralized Factory
@@ -149,9 +159,11 @@ export const GuildJoin: React.FC = () => {
           A Decentralized Factory
         </Heading>
 
-        <Container centerContent>
-          <Text>(factory image here)</Text>
-        </Container>
+        <Image
+          src={DecentralizedFactoryImg}
+          alt="Diagram of the decentralized factory concept"
+          mx="auto"
+        />
       </Container>
 
       {/* Section: Why Join */}
@@ -163,17 +175,38 @@ export const GuildJoin: React.FC = () => {
           fontWeight={700}
           mb={[4, 4, 4, 12]}
         >
-          Why have your Guild join MetaGame?
+          Why have your guild join MetaGame?
         </Heading>
 
-        <Container bg="whiteAlpha.50" maxW="2xl" p={8}>
-          <Text>A few reasons</Text>
-          <Text>Firstly</Text>
-          <Text>You may also</Text>
+        <Container bg="whiteAlpha.50" borderRadius={8} maxW="3xl" p={8}>
+          <Text mb={4}>A few reasons, actually!</Text>
+          <Text mb={4}>
+            <Text as="strong">Firstly</Text>, because you feel aligned with the
+            vision &amp; want to be a part of this “new world” puzzle.
+          </Text>
+          <Text>You may also want to become a part of MetaGame if you:</Text>
           <UnorderedList>
-            <ListItem>One</ListItem>
-            <ListItem>Two</ListItem>
-            <ListItem>Three</ListItem>
+            <ListItem>
+              Want access to a network of pioneers, helpers, stress testers
+              &amp; early adopters.
+            </ListItem>
+            <ListItem>
+              Need access or connections to knowledge &amp; resources you need
+              for your guild.
+            </ListItem>
+            <ListItem>
+              Want a place to offer your service or tools to other DAOs or
+              integrate it into MetaOS.
+            </ListItem>
+            <ListItem>
+              Are interested in using MetaGame as a platform or deploying MetaOS
+              on your own.
+            </ListItem>
+            <ListItem>
+              Need a little help spreading the word &amp; getting your project
+              out there.
+            </ListItem>
+            <ListItem>Want help onboarding people into your DAO.</ListItem>
           </UnorderedList>
         </Container>
       </Container>
@@ -190,14 +223,223 @@ export const GuildJoin: React.FC = () => {
           Requirements
         </Heading>
 
-        <Container>
-          <Text>Before trying to join</Text>
-          <Text>Cards HStack</Text>
-          <Text>Then think</Text>
-          <Text>Flag type component with the smiley</Text>
-          <Text>Finally</Text>
-          <Text>Regular box with text</Text>
-        </Container>
+        <VStack spacing={6}>
+          <Center>
+            <Text>
+              Before trying to join as a guild, it is recommended you join as a
+              player or a patron first&hellip;
+            </Text>
+          </Center>
+          {/* 
+            The cards (VStacks) are stacked until the lg breakpoint is reached
+            Then they are displayed in a row             
+          */}
+          <Flex
+            direction={{ base: 'column', lg: 'row' }}
+            alignItems="center"
+            justifyContent="center"
+          >
+            <Box
+              bg="whiteAlpha.50"
+              borderRadius={8}
+              maxW={{ base: 'md', lg: '21rem' }}
+              p={8}
+            >
+              <VStack spacing={2}>
+                <Image
+                  src={PlayersImg}
+                  alt="Cloaked player facing sun"
+                  mx="auto"
+                  maxH={{ md: '20rem', lg: '12rem' }}
+                />
+                <Text
+                  color="white"
+                  fontFamily="mono"
+                  fontSize="lg"
+                  fontWeight={200}
+                >
+                  Become a Player
+                </Text>
+                <Text color="#A5B9F6" fontWeight={200}>
+                  Players are the ones <Text as="em">actively</Text>{' '}
+                  contributing towards the realization of MetaGame.
+                </Text>
+                <Box>
+                  <MetaButton
+                    as="a"
+                    bg="#E839B7"
+                    borderRadius={0}
+                    color="white"
+                    href="https://wiki.metagame.wtf/docs/enter-metagame/join-metagame"
+                    mt={2}
+                    minW="10rem"
+                    w="10rem"
+                    _hover={{
+                      bg: '#E839B7',
+                      opacity: 0.6,
+                    }}
+                    _active={{
+                      bg: '#E839B7',
+                      opacity: 0.6,
+                    }}
+                  >
+                    LFG!
+                  </MetaButton>
+                </Box>
+              </VStack>
+            </Box>
+
+            <Box textAlign="center" p={9}>
+              <Text color="white" fontFamily="mono" fontSize="lg">
+                OR
+              </Text>
+            </Box>
+
+            <Box
+              bg="whiteAlpha.50"
+              borderRadius={8}
+              maxW={{ base: 'md', lg: '21rem' }}
+              p={8}
+            >
+              <VStack spacing={2}>
+                <Image
+                  src={PatronsImg}
+                  alt="Cloaked patron facing sun"
+                  mx="auto"
+                  maxH={{ md: '20rem', lg: '12rem' }}
+                />
+                <Text
+                  color="white"
+                  fontFamily="mono"
+                  fontSize="lg"
+                  fontWeight={200}
+                >
+                  Become a Patron
+                </Text>
+                <Text color="#A5B9F6" fontWeight={200}>
+                  Patrons are the ones <Text as="em">passively</Text>{' '}
+                  contributing towards the realization of MetaGame.
+                </Text>
+                <Box>
+                  <MetaButton
+                    as="a"
+                    bg="#E839B7"
+                    borderRadius={0}
+                    color="white"
+                    href="https://wiki.metagame.wtf/docs/enter-metagame/join-metagame"
+                    mt={2}
+                    minW="10rem"
+                    w="10rem"
+                    _hover={{
+                      bg: '#E839B7',
+                      opacity: 0.6,
+                    }}
+                    _active={{
+                      bg: '#E839B7',
+                      opacity: 0.6,
+                    }}
+                  >
+                    LFG!
+                  </MetaButton>
+                </Box>
+              </VStack>
+            </Box>
+          </Flex>
+
+          <Center>
+            <Text fontSize="lg">
+              Then think: is your guild a good fit for MetaGame?
+            </Text>
+          </Center>
+
+          {/*
+            The two flex items are stacked until the md breakpoint, then go to columns
+          */}
+          <Container bg="whiteAlpha.50" borderRadius={8} maxW="3xl" p={8}>
+            <Flex
+              direction={{ base: 'column', md: 'row' }}
+              alignItems="center"
+              justifyContent="center"
+            >
+              <Image
+                src={ThinkingEmojiImg}
+                alt="🤔"
+                mx="auto"
+                maxW="10rem"
+                mb={{ base: 8, md: 0 }}
+              />
+
+              <Box ml={{ base: 0, md: 8 }}>
+                <Text mb={4}>You need to tick at least 2 of these boxes!</Text>
+
+                <List mb={4}>
+                  <ListItem>
+                    <ListIcon as={MdCheckBoxOutlineBlank} />
+                    At least one of your members is a member of MetaGame
+                  </ListItem>
+                  <ListItem>
+                    <ListIcon as={MdCheckBoxOutlineBlank} />
+                    You’re doing something useful for the DAO ecosystem
+                    <Box ml="1.5em">
+                      👉 Building a DAO, a dApp, a protocol or a tool?
+                      <br />
+                      👉 Providing a service to other DAOs?
+                    </Box>
+                  </ListItem>
+                  <ListItem>
+                    <ListIcon as={MdCheckBoxOutlineBlank} />
+                    You’re doing something good for the world
+                    <Box ml="1.5em">
+                      👉 Should be outside or vaguely related to crypto (Regens
+                      FTW!)
+                    </Box>
+                  </ListItem>
+                </List>
+              </Box>
+            </Flex>
+          </Container>
+
+          <Center>
+            <Text fontSize="lg">Finally&hellip;</Text>
+          </Center>
+
+          <Container bg="whiteAlpha.50" borderRadius={8} maxW="3xl" p={8}>
+            <Text mb={4}>
+              After making sure you’re a good fit, there is essentially one
+              requirement&hellip;
+            </Text>
+            <Text>
+              You’ll need to signal your alignment with the MetaManifesto
+            </Text>
+            <UnorderedList mb={4}>
+              <ListItem>
+                By donating to a humanitarian or ecological initiative of your
+                choosing.
+              </ListItem>
+              <ListItem>
+                By buying a MetaManifesto NFT and/or some Seeds.
+              </ListItem>
+              <ListItem>
+                Want a place to offer your service or tools to other DAOs or
+                integrate it into MetaOS.
+              </ListItem>
+              <ListItem>
+                Are interested in using MetaGame as a platform or deploying
+                MetaOS on your own.
+              </ListItem>
+              <ListItem>
+                Need a little help spreading the word &amp; getting your project
+                out there.
+              </ListItem>
+              <ListItem>Want help onboarding people into your DAO.</ListItem>
+            </UnorderedList>
+            <Text>
+              <Text as="em">Note:</Text> Long term, all guilds will be expected
+              to periodically offset their carbon footprint &amp;/or donate to
+              other good (non-crypto) causes.
+            </Text>
+          </Container>
+        </VStack>
       </Container>
 
       {/* Section: Tiers and Perks */}
