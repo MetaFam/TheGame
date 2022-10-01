@@ -15,7 +15,6 @@ import {
   VStack,
 } from '@metafam/ds';
 import { Maybe } from '@metafam/utils';
-import BackgroundImage from 'assets/main-background.jpg';
 import { Player } from 'graphql/autogen/types';
 import React, { useCallback, useEffect, useState } from 'react';
 import { BoxMetadata, BoxType, BoxTypes } from 'utils/boxTypes';
@@ -92,100 +91,85 @@ export const AddBoxSection = React.forwardRef<HTMLDivElement, Props>(
           </Button>
           <Modal {...{ isOpen, onClose }}>
             <ModalOverlay />
-            <ModalContent
-              maxW="50rem"
-              bgImage={`url(${BackgroundImage})`}
-              bgSize="cover"
-              bgAttachment="fixed"
-              px={[4, 8, 12]}
-              py={8}
-            >
-              <VStack spacing={0} align="center">
-                <ModalCloseButton
-                  color="pinkShadeOne"
-                  size="xl"
-                  p={4}
-                  top={0}
-                  right={0}
-                  _focus={{ boxShadow: 'none' }}
-                />
-                <ModalHeader color="white" fontSize="4xl" fontWeight="normal">
-                  Add New Block
-                </ModalHeader>
-                <ModalBody>
-                  <VStack
-                    spacing={6}
-                    color="white"
-                    w={{ base: '100%', sm: '30rem' }}
-                    maxW="30rem"
+            <ModalContent>
+              <ModalHeader>Add New Block</ModalHeader>
+              <ModalCloseButton />
+              <ModalBody>
+                <VStack
+                  spacing={6}
+                  color="white"
+                  w="100%"
+                  maxW="30rem"
+                  align="center"
+                  mx="auto"
+                >
+                  <Select
+                    placeholder="Select a Type to Add…"
+                    borderColor={MetaTheme.colors.whiteAlpha[800]}
+                    onChange={selectBoxType}
+                    sx={{
+                      textTransform: 'capitalize',
+                      '& > option': {
+                        backgroundColor: MetaTheme.colors.purpleBoxLight,
+                      },
+                      '& > option[value=""]': {
+                        fontStyle: 'italic',
+                        opacity: 0.75,
+                      },
+                    }}
                   >
-                    <Select
-                      placeholder="Select a Type to Add…"
-                      borderColor={MetaTheme.colors.whiteAlpha[800]}
-                      onChange={selectBoxType}
-                      sx={{
-                        textTransform: 'capitalize',
-                        '& > option': {
-                          backgroundColor: MetaTheme.colors.purpleBoxLight,
-                        },
-                        '& > option[value=""]': {
-                          fontStyle: 'italic',
-                          opacity: 0.75,
-                        },
-                      }}
-                    >
-                      {boxes.length === 0 ? (
-                        <option value="nothing" disabled>
-                          No choice :/
+                    {boxes.length === 0 ? (
+                      <option value="nothing" disabled>
+                        No choice :/
+                      </option>
+                    ) : (
+                      boxes.map((box) => (
+                        <option key={box} value={box}>
+                          {box.replace(/-/g, ' ')}
                         </option>
-                      ) : (
-                        boxes.map((box) => (
-                          <option key={box} value={box}>
-                            {box.replace(/-/g, ' ')}
-                          </option>
-                        ))
-                      )}
-                    </Select>
-                    {type && (
-                      <EditMetadata {...{ type, metadata, setMetadata }} />
+                      ))
                     )}
-                    {type && (
-                      <Flex
-                        w={{ base: '100%', sm: '30rem' }}
-                        maxW="30rem"
-                        bg="blueProfileSection"
-                        borderRadius="lg"
-                      >
-                        <Preview
-                          {...{
-                            type,
-                            metadata,
-                            player,
-                          }}
-                        />
-                      </Flex>
-                    )}
-                  </VStack>
-                </ModalBody>
-                <ModalFooter>
-                  <Button
-                    colorScheme="blue"
-                    mr={3}
-                    onClick={addSection}
-                    isDisabled={!type}
-                  >
-                    Save Block
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    onClick={onClose}
-                    color="white"
-                    _hover={{ bg: 'none' }}
-                  >
-                    Close
-                  </Button>
-                </ModalFooter>
-              </VStack>
+                  </Select>
+                  {type && (
+                    <EditMetadata {...{ type, metadata, setMetadata }} />
+                  )}
+                  {type && (
+                    <Flex
+                      w={{ base: '100%', sm: '30rem' }}
+                      maxW="30rem"
+                      bg={'whiteAlpha.200'}
+                      style={{ backdropFilter: 'blur(7px)' }}
+                      borderRadius="lg"
+                    >
+                      <Preview
+                        {...{
+                          type,
+                          metadata,
+                          player,
+                        }}
+                      />
+                    </Flex>
+                  )}
+                </VStack>
+              </ModalBody>
+              <ModalFooter>
+                <Button
+                  colorScheme="blue"
+                  mr={3}
+                  onClick={addSection}
+                  isDisabled={!type}
+                >
+                  Save Block
+                </Button>
+                <Button
+                  variant="ghost"
+                  onClick={onClose}
+                  color="white"
+                  _hover={{ bg: 'none' }}
+                >
+                  Close
+                </Button>
+              </ModalFooter>
             </ModalContent>
           </Modal>
         </Flex>

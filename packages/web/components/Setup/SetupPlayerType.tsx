@@ -85,13 +85,14 @@ export const ExplorerTypes: React.FC<ExplorerTypesType> = ({
 export const SetupPlayerType: React.FC<MaybeModalProps> = ({
   onClose,
   buttonLabel,
+  title = 'Player Type',
 }) => {
   const field = 'explorerTypeTitle';
 
   return (
     <ProfileWizardPane
       {...{ field, onClose, buttonLabel }}
-      title="Player Type"
+      title={title}
       prompt="Which one suits you best?"
     >
       {({ register, loading, current, setter }: WizardPaneCallbackProps) => (

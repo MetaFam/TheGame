@@ -37,7 +37,8 @@ export const PlayerType: React.FC<Props> = ({ player, editing }) => {
 
   return (
     <ProfileSection
-      title="Player Type"
+      title={explorerType?.title ?? 'Player Type'}
+      modalTitle={'Player Type'}
       {...{ isOwnProfile, editing }}
       type={BoxTypes.PLAYER_TYPE}
       withoutBG
@@ -53,23 +54,13 @@ export const PlayerType: React.FC<Props> = ({ player, editing }) => {
         </Text>
       )}
       {!fetching && !!choices && explorerType && (
-        <>
-          <Text
-            color="white"
-            fontWeight={600}
-            casing="uppercase"
-            fontSize={{ base: 'md', sm: 'lg' }}
-          >
-            {explorerType.title}
-          </Text>
-          <Text
-            fontSize={{ base: 'sm', sm: 'md' }}
-            color="blueLight"
-            textAlign="justify"
-          >
-            {explorerType.description}
-          </Text>
-        </>
+        <Text
+          fontSize={{ base: 'sm', sm: 'md' }}
+          color="blueLight"
+          textAlign="justify"
+        >
+          {explorerType.description}
+        </Text>
       )}
     </ProfileSection>
   );

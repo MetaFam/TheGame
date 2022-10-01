@@ -30,6 +30,7 @@ import { Control, useForm, UseFormRegisterReturn } from 'react-hook-form';
 export type MaybeModalProps = {
   buttonLabel?: string | ReactElement;
   onClose?: () => void;
+  title?: string | ReactElement;
 };
 
 export type WizardPaneProps = {
@@ -96,6 +97,8 @@ export const WizardPane = <T,>({
     setValue(field, existing);
   }, [existing, field, setValue]);
 
+  console.log({ status });
+
   const onSubmit = useCallback(
     async (values) => {
       try {
@@ -139,7 +142,8 @@ export const WizardPane = <T,>({
   if ((!connecting && !connected) || chainId !== '0x1') {
     return (
       <FlexContainer>
-        <ConnectToProgress />
+        <MetaHeading color="white">Wrong Chain</MetaHeading>
+        <ConnectToProgress header="" />
       </FlexContainer>
     );
   }
@@ -150,11 +154,12 @@ export const WizardPane = <T,>({
       onSubmit={handleSubmit(onSubmit)}
       color="white"
       align="center"
+      pb={8}
     >
       <HeadComponent title={`MetaGame: Setting ${title}`} />
       {title && <MetaHeading textAlign="center">{title}</MetaHeading>}
       {prompt && (
-        <Box maxW="25rem">
+        <Box maxW="25rem" {...(title ? {} : { mt: [0, -4] })}>
           {typeof prompt === 'string' ? (
             <Text mb={0} textAlign="center">
               {prompt}

@@ -5,6 +5,15 @@ import { isBackdropFilterSupported } from '../compatibilityHelpers';
 import { colors } from './colors';
 import { textStyles } from './texts';
 
+const modalContentStyles = isBackdropFilterSupported()
+  ? {
+      backgroundColor: 'whiteAlpha.200',
+      backdropFilter: 'blur(7px)',
+    }
+  : {
+      backgroundColor: 'dark',
+    };
+
 export const theme = extendTheme({
   components: {
     Avatar: {
@@ -36,6 +45,45 @@ export const theme = extendTheme({
           _disabled: {
             opacity: 0.5,
           },
+        },
+      },
+    },
+    Modal: {
+      defaultProps: {
+        isCentered: true,
+        scrollBehavior: 'inside',
+        size: '5xl',
+      },
+      baseStyle: {
+        dialogContainer: {
+          alignItems: 'center',
+          overflow: 'hidden',
+        },
+        header: {
+          fontSize: ['2rem', '2rem', '2.5rem'],
+          textAlign: 'center',
+          fontWeight: '600',
+          fontFamily: 'body',
+        },
+        closeButton: {
+          fontSize: '1.25rem',
+          color: 'pinkShadeOne',
+          m: 2,
+          _focus: { boxShadow: 'none' },
+          _hover: { color: 'white' },
+        },
+        dialog: {
+          color: 'white',
+          ml: 4,
+          mr: 4,
+          maxW: 'xl',
+          maxH: 'calc(100% - 10rem)',
+          p: [2, 2, 4, 8],
+          ...modalContentStyles,
+        },
+        body: {
+          px: 2,
+          overflow: 'auto',
         },
       },
     },
@@ -569,12 +617,3 @@ export const chakraesqueStyles: Styles = {
     color: theme.colors.white,
   }),
 };
-
-export const modalContentStyles = isBackdropFilterSupported()
-  ? {
-      backgroundColor: 'rgba(255,255,255,0.08)',
-      backdropFilter: 'blur(8px)',
-    }
-  : {
-      backgroundColor: 'rgba(7, 2, 29, 0.91)',
-    };

@@ -3,12 +3,11 @@ import {
   BrightIdIcon,
   Button,
   Flex,
-  HStack,
   Link,
   Modal,
-  ModalCloseButton,
+  ModalBody,
   ModalContent,
-  modalContentStyles,
+  ModalHeader,
   ModalOverlay,
   Text,
   Tooltip,
@@ -72,22 +71,9 @@ export const PlayerBrightId: React.FC<Props> = ({ player }) => {
         scrollBehavior="inside"
       >
         <ModalOverlay>
-          <ModalContent bg="none" borderRadius="lg" overflow="hidden">
-            <Box bg="purple80" p={4} w="100%">
-              <HStack>
-                <Text
-                  fontSize="sm"
-                  fontWeight="bold"
-                  color="blueLight"
-                  as="div"
-                  mr="auto"
-                >
-                  Verify on BrightID
-                </Text>
-                <ModalCloseButton color="blueLight" />
-              </HStack>
-            </Box>
-            <VStack p={4} css={modalContentStyles} w="100%" color="blueLight">
+          <ModalContent>
+            <ModalHeader>Verify on BrightID</ModalHeader>
+            <ModalBody>
               <VStack p={4} w="100%" maxW="20rem">
                 {deeplink ? (
                   <Box>
@@ -115,7 +101,7 @@ export const PlayerBrightId: React.FC<Props> = ({ player }) => {
                   Get started here.
                 </Link>
               </Text>
-            </VStack>
+            </ModalBody>
           </ModalContent>
         </ModalOverlay>
       </Modal>

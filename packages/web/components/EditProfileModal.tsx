@@ -21,7 +21,6 @@ import {
   InputRightAddon,
   ITimezoneOption,
   Link,
-  MetaHeading,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -47,7 +46,6 @@ import {
   Optional,
 } from '@metafam/utils';
 import FileOpenIcon from 'assets/file-open-icon.svg';
-import BackgroundImage from 'assets/main-background.jpg';
 import PlayerProfileIcon from 'assets/player-profile-icon.svg';
 import {
   Maybe,
@@ -461,23 +459,10 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
     return (
       <Modal {...{ isOpen, onClose }}>
         <ModalOverlay />
-        <ModalContent
-          maxW={['100%', 'min(80%, 60rem)']}
-          backgroundImage={`url(${BackgroundImage})`}
-          bgSize="cover"
-          bgAttachment="fixed"
-          p={[0, 8, 12]}
-        >
-          <ModalHeader>
-            <MetaHeading color="white">Wrong Chain</MetaHeading>
-          </ModalHeader>
-          <ModalCloseButton
-            color="pinkShadeOne"
-            size="xl"
-            p={{ base: 1, sm: 4 }}
-            _focus={{ boxShadow: 'none' }}
-          />
-          <ModalBody p={[0, 2]} alignSelf="center">
+        <ModalContent>
+          <ModalHeader>Wrong Chain</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
             <ConnectToProgress header="" />
           </ModalBody>
         </ModalContent>
@@ -488,26 +473,10 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
   return (
     <Modal {...{ isOpen, onClose }}>
       <ModalOverlay />
-      <ModalContent
-        maxW={['100%', 'min(80%, 60rem)']}
-        backgroundImage={`url(${BackgroundImage})`}
-        bgSize="cover"
-        bgAttachment="fixed"
-        p={[0, 8, 12]}
-        as="form"
-        onSubmit={handleSubmit(onSubmit)}
-      >
-        <ModalHeader>
-          <MetaHeading color="white">Profile</MetaHeading>
-        </ModalHeader>
-        <ModalCloseButton
-          color="pinkShadeOne"
-          size="xl"
-          p={{ base: 1, sm: 4 }}
-          _focus={{ boxShadow: 'none' }}
-        />
-        <ModalBody p={[0, 2]}>
-          `{' '}
+      <ModalContent as="form" onSubmit={handleSubmit(onSubmit)}>
+        <ModalHeader>Profile</ModalHeader>
+        <ModalCloseButton />
+        <ModalBody p={[0, 2, 4]}>
           <Grid
             templateColumns={['auto', 'auto', '1fr 1fr', '1fr 1fr 1fr']}
             gap={6}

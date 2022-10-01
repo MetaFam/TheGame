@@ -26,7 +26,6 @@ export const PlayerSkills: React.FC<Props> = ({
   return (
     <ProfileSection
       title="Skills"
-      modalTitle={false}
       {...{ isOwnProfile, editing }}
       type={BoxTypes.PLAYER_SKILLS}
       withoutBG

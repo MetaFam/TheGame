@@ -123,6 +123,7 @@ export const Grid: React.FC<Props> = ({ player }): ReactElement => {
         persisting,
         allBoxOptions: ALL_BOXES,
         displayComponent: PlayerSection,
+        pt: isOwnProfile ? 0 : '4rem',
       }}
     />
   );

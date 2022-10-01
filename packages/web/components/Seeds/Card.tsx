@@ -79,11 +79,10 @@ export const Card: React.FC<CardProps> = ({ title, description, Content }) => {
           maxW="3xl"
           alignItems="center"
           my={{ base: 0, md: 20 }}
+          mx={{ base: 0, md: 4 }}
         >
-          <ModalHeader fontSize={24} fontWeight="bold">
-            {title.toUpperCase()}
-            <ModalCloseButton color="purple" size="lg" top={4} />
-          </ModalHeader>
+          <ModalHeader>{title.toUpperCase()}</ModalHeader>
+          <ModalCloseButton />
           <ModalBody w="100%">{Content && <Content />}</ModalBody>
           <ModalFooter justifyContent="center">
             <Button

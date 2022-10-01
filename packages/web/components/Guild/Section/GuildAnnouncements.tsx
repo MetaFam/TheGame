@@ -1,15 +1,15 @@
 import {
   Box,
-  Flex,
-  HStack,
   LoadingState,
   Modal,
+  ModalBody,
   ModalCloseButton,
   ModalContent,
-  modalContentStyles,
+  ModalHeader,
   ModalOverlay,
   Text,
   useDisclosure,
+  VStack,
 } from '@metafam/ds';
 import { ProfileSection } from 'components/Section/ProfileSection';
 import { useGetGuildAnnouncementsQuery } from 'graphql/autogen/types';
@@ -25,6 +25,7 @@ export const GuildAnnouncements: React.FC<Props> = ({ guildId }) => {
   });
 
   const { isOpen, onOpen, onClose } = useDisclosure();
+
   const announcements =
     getGuildAnnouncementsResponse.data?.guild[0].discordAnnouncements;
 
@@ -34,10 +35,15 @@ export const GuildAnnouncements: React.FC<Props> = ({ guildId }) => {
       {getGuildAnnouncementsResponse.error && (
         <Text>Could not fetch announcements. 😥</Text>
       )}
-      {announcements?.length === 0 && <Text>No announcements.</Text>}
-      {announcements?.slice(0, 2).map((item, index) => (
-        <GuildAnnouncement key={index} announcementHtml={item} />
-      ))}
+      {!announcements?.length ? (
+        <Text>No announcements.</Text>
+      ) : (
+        <VStack w="100%" align="stretch" spacing={4}>
+          {announcements?.slice(0, 2).map((item, index) => (
+            <GuildAnnouncement key={index} announcementHtml={item} />
+          ))}
+        </VStack>
+      )}
       {announcements != null && announcements.length > 2 && (
         <Text
           as="span"
@@ -76,65 +82,33 @@ const GuildAnnouncementsModal: React.FC<GuildAnnouncementModalProps> = ({
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} isCentered scrollBehavior="inside">
+    <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay>
-        <ModalContent maxW="6xl" bg="none">
-          <Box bg="purple80" borderTopRadius="lg" p={4} w="100%">
-            <HStack>
-              <Text
-                fontSize="md"
-                fontWeight="bold"
-                color="blueLight"
-                as="div"
-                mr="auto"
-              >
-                Announcements
-              </Text>
-              <ModalCloseButton color="blueLight" />
-            </HStack>
-          </Box>
+        <ModalContent>
+          <ModalHeader>Announcements</ModalHeader>
+          <ModalCloseButton />
 
-          <Flex p={2} css={modalContentStyles}>
-            {/* TODO extract this into design-system */}
-            <Box
-              overflowY="scroll"
-              overflowX="hidden"
-              maxH="80vh"
-              borderBottomRadius="lg"
-              w="100%"
-              color="white"
-              p={4}
-              css={{
-                scrollbarColor: 'rgba(70,20,100,0.8) rgba(255,255,255,0)',
-                '::-webkit-scrollbar': {
-                  width: '8px',
-                  background: 'none',
-                },
-                '::-webkit-scrollbar-thumb': {
-                  background: 'rgba(70,20,100,0.8)',
-                  borderRadius: '999px',
-                },
-              }}
-            >
+          <ModalBody px={2}>
+            <VStack w="100%" align="stretch" spacing={4}>
               {announcements?.map((item, index) => (
                 <Box
                   key={index}
-                  mb={4}
                   p={6}
                   backgroundColor="whiteAlpha.200"
+                  sx={{ backdropFilter: 'blur(7px)' }}
                   borderRadius="md"
+                  color="white"
                 >
                   <Text
                     sx={css}
                     dangerouslySetInnerHTML={{
                       __html: item,
                     }}
-                    mb={5}
                   />
                 </Box>
               ))}
-            </Box>
-          </Flex>
+            </VStack>
+          </ModalBody>
         </ModalContent>
       </ModalOverlay>
     </Modal>
@@ -158,12 +132,11 @@ const GuildAnnouncement: React.FC<GuildAnnouncementProps> = ({
     : announcementHtml;
 
   return (
-    <Box mb={4} p={6} backgroundColor="blackAlpha.300" borderRadius="md">
+    <Box p={6} backgroundColor="blackAlpha.300" borderRadius="md">
       <Text
         dangerouslySetInnerHTML={{
           __html: expanded ? announcementHtml : displayAnnouncement,
         }}
-        mb={5}
       />
       {doTruncate && (
         <Text

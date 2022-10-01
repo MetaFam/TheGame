@@ -32,8 +32,8 @@ export const XP = (): React.ReactElement => {
 
   if (xpStats == null) {
     return (
-      <VStack minH="11rem">
-        <Text fontStyle="italic" textAlign="center" p={4} w="100%">
+      <VStack minH="17rem" pt="5rem" spacing={0}>
+        <Text fontStyle="italic" textAlign="center" px={4} w="100%">
           If you want your XP stats to appear, you gotta earn some XP first! Go{' '}
           <Link
             href="https://meta-game.notion.site/Welcome-to-MetaGame-349d9b6434d543b48539bccabf10b60a"

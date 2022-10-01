@@ -19,10 +19,15 @@ export const LatestContent: React.FC = () => (
           pb: 2,
           mr: 'auto',
         },
+        ul: {
+          fontSize: 'sm',
+          pb: 2,
+          pl: 6,
+        },
       }}
     >
       <Flex direction="column" w="100%" h="100%">
-        <TabList borderBottomWidth={0}>
+        <TabList borderBottomWidth={0} pr={4} pl={2}>
           {['Read', 'Listen', 'Watch'].map((title) => (
             <Tab
               key={title}
@@ -42,7 +47,7 @@ export const LatestContent: React.FC = () => (
           ))}
         </TabList>
 
-        <Flex grow={1} w="100%" overflowY="auto">
+        <Flex grow={1} w="100%" overflowY="auto" mt={1}>
           <TabPanels w="100%" h="100%">
             <TabPanel p={0}>
               <Read />

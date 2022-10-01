@@ -16,7 +16,6 @@ import {
   useDisclosure,
 } from '@metafam/ds';
 import { Maybe } from '@metafam/utils';
-import BackgroundImage from 'assets/main-background.jpg';
 import { SetupPersonalityType } from 'components/Setup/SetupPersonalityType';
 import { SetupPlayerType } from 'components/Setup/SetupPlayerType';
 import { SetupRoles } from 'components/Setup/SetupRoles';
@@ -69,6 +68,7 @@ export const ProfileSection: React.FC<
         borderBottomRadius="lg"
         borderRadius="lg"
         p={6}
+        pb={8}
         w="full"
         pos="relative"
         pointerEvents={editing ? 'none' : 'initial'}
@@ -122,21 +122,9 @@ export const ProfileSection: React.FC<
       {(boxType || modal) && (
         <Modal {...{ isOpen, onClose }}>
           <ModalOverlay />
-          <ModalContent
-            maxW={['100%', '80%']}
-            backgroundImage={`url(${BackgroundImage})`}
-            bgSize="cover"
-            bgAttachment="fixed"
-            p={[4, 8, 12]}
-          >
+          <ModalContent>
             {modalTitle !== false && (
-              <ModalHeader
-                color="white"
-                fontSize="4xl"
-                alignSelf="center"
-                fontWeight="normal"
-                textAlign="center"
-              >
+              <ModalHeader>
                 {modalTitle ?? title}
 
                 {subheader && (
@@ -153,12 +141,7 @@ export const ProfileSection: React.FC<
                 )}
               </ModalHeader>
             )}
-            <ModalCloseButton
-              color="pinkShadeOne"
-              size="xl"
-              p={4}
-              _focus={{ boxShadow: 'none' }}
-            />
+            <ModalCloseButton />
             <ModalBody p={[0, 6]}>
               {modal ?? <EditSection {...{ boxType, onClose }} />}
             </ModalBody>
@@ -206,16 +189,16 @@ const EditSection = ({
 
   switch (boxType) {
     case BoxTypes.PLAYER_TYPE: {
-      return <SetupPlayerType {...{ onClose, buttonLabel }} />;
+      return <SetupPlayerType {...{ onClose, buttonLabel, title: '' }} />;
     }
     case BoxTypes.PLAYER_COLOR_DISPOSITION: {
-      return <SetupPersonalityType {...{ onClose, buttonLabel }} />;
+      return <SetupPersonalityType {...{ onClose, buttonLabel, title: '' }} />;
     }
     case BoxTypes.PLAYER_SKILLS: {
-      return <SetupSkills {...{ onClose, buttonLabel }} />;
+      return <SetupSkills {...{ onClose, buttonLabel, title: '' }} />;
     }
     case BoxTypes.PLAYER_ROLES: {
-      return <SetupRoles {...{ onClose, buttonLabel }} />;
+      return <SetupRoles {...{ onClose, buttonLabel, title: '' }} />;
     }
     default:
   }

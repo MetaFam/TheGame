@@ -80,13 +80,6 @@ export const DashboardSection = forwardRef<HTMLDivElement, Props>(
         paddingRight={
           type === BoxTypes.DASHBOARD_LASTEST_CONTENT ? 4 : undefined
         }
-        sx={{
-          ul: {
-            fontSize: 'sm',
-            pb: 2,
-            pl: 6,
-          },
-        }}
       >
         <Flex
           w="100%"
