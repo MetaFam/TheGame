@@ -58,7 +58,6 @@ export const GuildJoinLanding: React.FC<Props> = ({ guilds }) => {
   /* 
     Some styles that are reused 
     .mg-section         The page sections
-    .mg-section--title  The main title of each section
   */
   const css = {
     '.mg-section': {
@@ -69,7 +68,7 @@ export const GuildJoinLanding: React.FC<Props> = ({ guilds }) => {
 
   return (
     <PageContainer sx={css}>
-      <VStack maxW="6xl" w="100%" spacing={{ base: 8, md: 20 }} sx={css}>
+      <VStack maxW="6xl" w="100%" spacing={{ base: 8, md: 20 }}>
         <HeadComponent
           title="Join MetaGame as a Guild"
           description="We are looking for projects that are either building pieces of the infrastructure for the society of the future, offering tools &amp; services to those that are, or just doing something cool."
