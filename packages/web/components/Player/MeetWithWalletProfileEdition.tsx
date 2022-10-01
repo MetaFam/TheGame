@@ -29,9 +29,10 @@ const MeetWithWalletProfileEdition: React.FC<MeetWithWalletProps> = ({
 
   const { provider } = useWeb3();
 
-  const address = useMemo(() => player?.ethereumAddress, [
-    player?.ethereumAddress,
-  ]);
+  const address = useMemo(
+    () => player?.ethereumAddress,
+    [player?.ethereumAddress],
+  );
 
   let information: JSX.Element;
   let buttonCopy: string;
@@ -66,7 +67,6 @@ const MeetWithWalletProfileEdition: React.FC<MeetWithWalletProps> = ({
         setCalendarUrl(result.calendar_url);
       }
     } catch (e) {
-      // eslint-disable-next-line no-console
       console.error('Failed to verify Meet with wallet account', e);
     }
     setLoading(false);
@@ -110,7 +110,6 @@ const MeetWithWalletProfileEdition: React.FC<MeetWithWalletProps> = ({
           ).json()
         ).calendar_url;
       } catch (e) {
-        // eslint-disable-next-line no-console
         console.error('Meet with wallet account creation failed', e);
       }
     }

@@ -97,8 +97,6 @@ export const WizardPane = <T,>({
     setValue(field, existing);
   }, [existing, field, setValue]);
 
-  console.log({ status });
-
   const onSubmit = useCallback(
     async (values) => {
       try {

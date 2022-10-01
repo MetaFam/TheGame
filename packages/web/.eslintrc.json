@@ -1,4 +1,12 @@
 {
+  "rules": {
+    "no-console": [
+      "error",
+      {
+        "allow": ["error"]
+      }
+    ]
+  },
   "overrides": [
     {
       "files": ["./graphql/**/*.ts", "./lib/hooks.ts"],

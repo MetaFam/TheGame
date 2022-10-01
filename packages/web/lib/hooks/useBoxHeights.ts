@@ -28,7 +28,7 @@ export const useBoxHeights = (items: Array<Maybe<HTMLElement>>) => {
           observer.observe(target);
         } else {
           // eslint-disable-next-line no-console
-          console.warn(`Missing:`, target, key);
+          console.warn(`Invalid box data, missing:`, target, key);
         }
       }
     });

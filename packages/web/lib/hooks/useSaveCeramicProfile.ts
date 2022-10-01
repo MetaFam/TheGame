@@ -1,5 +1,4 @@
 /* eslint-disable no-console */
-
 import {
   BasicProfile,
   model as basicProfileModel,
@@ -73,7 +72,6 @@ export const useSaveCeramicProfile = ({
       values?: HasuraStringProps & HasuraEPObjects;
       images?: HasuraImageSourcedProps;
     }) => {
-      console.log('here');
       if (!ceramic) {
         throw new CeramicError(
           'Unable to connect to the Ceramic API to save changes.',
