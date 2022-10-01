@@ -58,7 +58,7 @@ export const handler: (
 
       res.status(201).json(uploadedFiles);
     } catch (err) {
-      console.error(err); // eslint-disable-line no-console
+      console.error('error uploading to web3.storage', err);
       res.status(500).json({ error: (err as Error).message });
     }
   });

@@ -35,9 +35,9 @@ export const useUser = ({
   );
 
   if (error) {
-    // eslint-disable-next-line no-console
-    console.error(`useUser Error: ${error.message}`);
+    console.error('useUser error', error);
   }
+
   if (!authToken && connected) {
     // eslint-disable-next-line no-console
     console.warn('`authToken` unset when connected');

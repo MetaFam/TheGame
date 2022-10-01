@@ -127,7 +127,7 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
           currentChoices: [],
         };
       } catch (error) {
-        console.log('makeCurrentSectionDialogue error', { error });
+        console.error('makeCurrentSectionDialogue error', error);
         return {
           currentDialogue: [],
           currentChoices: [],
@@ -217,7 +217,6 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
         throw new Error('No connections found');
       } catch (error) {
         setCurrentConnections([]);
-        // console.log('getConnections ', { error });
         return undefined;
       }
     };
@@ -247,7 +246,6 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
         }
         throw new Error('No jumpers found');
       } catch (error) {
-        // console.log('getJumpers ', { error });
         return undefined;
       }
     };
@@ -376,8 +374,6 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
             ? { ...gameDataState?.elements[data], elementId: data }
             : undefined;
         if (nextElement !== undefined) {
-          // console.log('NewElement', nextElement);
-
           setCurrentElement(nextElement);
           makeCurrentSectionDialogue(nextElement);
           visitedElements(true);
@@ -385,7 +381,7 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
         setIsLoading(false);
       })
       .catch((err) => {
-        console.log('handleProgress error: ', { err });
+        console.error('handleProgress error', err);
         setIsLoading(false);
       });
   };

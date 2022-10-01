@@ -43,8 +43,7 @@ export const EmbeddedUrl: React.FC<EmbeddedUrlProps> = ({
 
       setMetadata(response.og as unknown as URIMetadata);
     } catch (err) {
-      // eslint-disable-next-line no-console
-      console.error(`No metadata found for the URL: ${uri}.`, err);
+      console.error(`No metadata found for the URL "${uri}"`, err);
       setMetadata(null);
     } finally {
       setLoading(false);

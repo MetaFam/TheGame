@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Text, useToast, VStack } from '@metafam/ds';
 import { httpLink } from '@metafam/utils';
 import type {
@@ -117,8 +118,8 @@ export const GameContextProvider: React.FC = ({ children }) => {
         }
         throw new Error('Game progression failed');
       } catch (error) {
-        // add toast here
-        console.log(error);
+        // eslint-disable-next-line no-console
+        console.error(error);
         return undefined;
       }
     },
@@ -158,6 +159,7 @@ export const GameContextProvider: React.FC = ({ children }) => {
       try {
         if (address === undefined) await connect();
         if (provider == null) throw new Error('Provider not set.');
+        setTxLoading(true);
 
         const token = new Contract(
           chievContractAddress,
@@ -175,7 +177,7 @@ export const GameContextProvider: React.FC = ({ children }) => {
           status: 'info',
           isClosable: true,
         });
-        const response = await fetch(httpLink(metadataURI)!);
+        const response = await fetch(httpLink(metadataURI) ?? '');
         const metadata = await response.json();
         const tx = await token['mint(address[],uint256,bytes)'](
           [address],
@@ -227,11 +229,11 @@ export const GameContextProvider: React.FC = ({ children }) => {
           isClosable: true,
           duration: 5000,
         });
-        setTxLoading(false);
 
         return receipt;
       } catch (error: any) {
-        console.log('mintChiev error', { error });
+        // eslint-disable-next-line no-console
+        console.error('mintChiev error', { error });
         const msg = (error?.reason as string) || 'unknown error';
         toast({
           title: 'Claim failed',
@@ -241,6 +243,8 @@ export const GameContextProvider: React.FC = ({ children }) => {
           duration: 5000,
         });
         return msg;
+      } finally {
+        setTxLoading(false);
       }
     },
     [address, connect, provider, toast],

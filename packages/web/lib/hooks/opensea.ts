@@ -68,8 +68,7 @@ const fetchOpenSeaData = async (
   const body = await res.text();
   const { assets, error } = JSON.parse(body);
   if (error) {
-    // eslint-disable-next-line no-console
-    console.error({ error, body });
+    console.error('error parsing opensea response', error);
     throw new Error(error);
   }
   if (!assets) throw new Error(`Received ${assets} assets`);

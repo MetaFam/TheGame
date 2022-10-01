@@ -78,13 +78,11 @@ export const Chiev = ({
   const handleMinting = useCallback(async () => {
     try {
       setClaiming(true);
-      const tx = await mintChiev(chievId);
-      if (tx) {
-        console.log('receipt', tx);
-      }
-      setClaiming(false);
+      await mintChiev(chievId);
     } catch (error) {
       console.error('handleMintingError', error);
+    } finally {
+      setClaiming(false);
     }
   }, [mintChiev]);
 

@@ -101,8 +101,7 @@ export const Seed = (): ReactElement => {
 
         return setToken(tokenData);
       } catch (error) {
-        // eslint-disable-next-line no-console
-        console.log('getTokenData: ', error);
+        console.error('error fetching tokenData', error);
         return null;
       }
     })();
