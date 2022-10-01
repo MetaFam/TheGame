@@ -22,11 +22,11 @@ import {
 import { Constants, generateUUID } from '@metafam/utils';
 import DecentralizedFactoryImg from 'assets/decentralized-factory_1105x1098.png';
 import GuildsImg from 'assets/guilds-sun_800x800.png';
+// Images to use in the page
 import GuildsSunlessImg from 'assets/guilds-sunless_384x449.png';
 import CommonTierNFTImg from 'assets/nft-common-tier_600x600.jpg';
 import EpicTierNFTImg from 'assets/nft-epic-tier_600x600.jpg';
 import RareTierNFTImg from 'assets/nft-rare-tier_600x600.jpg';
-// Images to use in the page
 import Octopus from 'assets/octopus.png'; // in the footer
 import PatronsImg from 'assets/patrons-sun_800x820.png';
 import PlayersImg from 'assets/players-sun_800x822.png';
@@ -615,10 +615,12 @@ export const GuildJoin: React.FC = () => {
           Other guilds include &hellip;
         </Heading>
 
-        <Container>
-          <Text>Guild component from the other page</Text>
-          <Text>LOAD MORE or VIEW MORE button</Text>
-        </Container>
+        {/*  
+          Ref. packages/web/pages/community/guilds.tsx
+          <GuildList {...{ guilds }} />
+        */}
+
+        <Text>To do</Text>
       </Container>
 
       {/* Section: Decided to join */}
