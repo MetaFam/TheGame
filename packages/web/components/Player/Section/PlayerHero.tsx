@@ -70,7 +70,6 @@ export const PlayerHero: React.FC<HeroProps> = ({ player, editing }) => {
       type={BoxTypes.PLAYER_HERO}
       title={false}
       withoutBG
-      p={[4, 2]}
     >
       {isOwnProfile && !editing && (
         <Box pos="absolute" right={[0, 4]} top={[0, 4]}>

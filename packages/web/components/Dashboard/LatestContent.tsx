@@ -7,7 +7,20 @@ import { Watch } from './LatestContentTabs/Watch';
 
 export const LatestContent: React.FC = () => (
   <Flex grow={1} w="100%" mt={4} overflowY="hidden">
-    <Tabs size="lg" variant="line" colorScheme="gray.600" isFitted w="100%">
+    <Tabs
+      size="lg"
+      variant="line"
+      colorScheme="gray.600"
+      isFitted
+      w="100%"
+      sx={{
+        p: {
+          fontSize: 'md',
+          pb: 2,
+          mr: 'auto',
+        },
+      }}
+    >
       <Flex direction="column" w="100%" h="100%">
         <TabList borderBottomWidth={0}>
           {['Read', 'Listen', 'Watch'].map((title) => (

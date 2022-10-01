@@ -1,4 +1,4 @@
-import { Flex, Heading, IconButton } from '@metafam/ds';
+import { Flex, IconButton, Text } from '@metafam/ds';
 import { Calendar } from 'components/Dashboard/Calendar';
 import { LatestContent } from 'components/Dashboard/LatestContent';
 import { Leaderboard } from 'components/Dashboard/Leaderboard';
@@ -81,22 +81,10 @@ export const DashboardSection = forwardRef<HTMLDivElement, Props>(
           type === BoxTypes.DASHBOARD_LASTEST_CONTENT ? 4 : undefined
         }
         sx={{
-          p: {
-            fontSize: 'md',
-            pb: 2,
-            mr: 'auto',
-          },
           ul: {
             fontSize: 'sm',
             pb: 2,
             pl: 6,
-          },
-          h2: {
-            fontFamily: 'exo2',
-            fontSize: 'lg',
-            fontWeight: '700',
-            textAlign: 'left',
-            textTransform: 'uppercase',
           },
         }}
       >
@@ -112,7 +100,11 @@ export const DashboardSection = forwardRef<HTMLDivElement, Props>(
           overflowX="hidden"
           pointerEvents={editing ? 'none' : 'initial'}
         >
-          {title && <Heading size="md">{title}</Heading>}
+          {title && (
+            <Text fontSize="lg" fontWeight="bold" textTransform="uppercase">
+              {title}
+            </Text>
+          )}
           <DashboardSectionInner
             {...{
               metadata,
