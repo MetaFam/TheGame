@@ -15,6 +15,7 @@ type Props = {
 
 const LEAGUES = [
   {
+    id: 0,
     title: '',
     count: 0,
     amount: 0,
@@ -34,6 +35,7 @@ const LEAGUES = [
     list: [],
   },
   {
+    id: 1,
     title: 'All Patrons',
     count: 94,
     amount: 160,
@@ -54,6 +56,7 @@ const LEAGUES = [
     ],
   },
   {
+    id: 2,
     title: 'Bronze League',
     count: 21,
     amount: 925.68,
@@ -71,6 +74,7 @@ const LEAGUES = [
     ],
   },
   {
+    id: 3,
     title: 'Silver League',
     count: 14,
     amount: 3600.64,
@@ -86,6 +90,7 @@ const LEAGUES = [
     ],
   },
   {
+    id: 4,
     title: 'Golden League',
     count: 7,
     amount: 54616.16,
@@ -100,6 +105,7 @@ const LEAGUES = [
     ],
   },
   {
+    id: 5,
     title: 'Platinum League',
     count: 7,
     amount: 7201.28,
@@ -114,6 +120,7 @@ const LEAGUES = [
     ],
   },
   {
+    id: 6,
     title: 'Diamond League',
     count: 7,
     amount: 10807,
@@ -134,9 +141,9 @@ const LEAGUES = [
 ];
 
 const No1Patron = {
+  id: 7,
   title: "No.1 Patron of MetaGame' Seed Phase",
   count: 94,
-  amount: 160,
   header: true,
   arrow: 'left',
   body: null,
@@ -157,6 +164,7 @@ type LeagueProps = {
   body: Element;
   list: string[];
   id: number;
+  style: any;
 };
 
 type ItemProps = {
@@ -171,14 +179,48 @@ const LeagueCardItem: React.FC<ItemProps> = (props: ItemProps) => (
     <Image src={CheckMark} width="1rem" m={1} />
   </Flex>
 );
+
+const getLeagueCardStyling = (id: number) => {
+  console.log('card id: ', id);
+  const getTopPos: any = {
+    0: '60px',
+    1: '280px',
+    2: '160px',
+    3: '180px',
+    4: '80px',
+    5: '160px',
+    6: '130px',
+  };
+  let style: any = {
+    backdropFilter: 'blur(7px)',
+  };
+  if (id && id !== 7) {
+    style = {
+      ...style,
+      _after: {
+        content: '""',
+        background: `url(${BlueArrow})`,
+        height: '28px',
+        width: '26px',
+        position: 'absolute',
+        top: getTopPos[id],
+        [id % 2 === 1 ? 'left' : 'right']: '-25px',
+        transform: id % 2 === 1 ? 'rotate(180deg)' : 'rotate(0)',
+      },
+    };
+  }
+  return style;
+};
+
 const LeagueCard: React.FC<LeagueProps> = (props: LeagueProps) => (
   <Flex
     direction="column"
     mx="4"
     my="5"
     bg="whiteAlpha.200"
-    style={{ backdropFilter: 'blur(7px)' }}
     rounded="lg"
+    {...getLeagueCardStyling(props.id)}
+    {...props.style}
   >
     {props.header ? (
       <Flex
@@ -195,7 +237,7 @@ const LeagueCard: React.FC<LeagueProps> = (props: LeagueProps) => (
           total of {props.count}
         </Text>
         <Text color="white" fontSize="md">
-          ${Number(props.amount).toLocaleString()}
+          {props.amount ? `$${Number(props.amount).toLocaleString()}` : '     '}
         </Text>
       </Flex>
     ) : (
@@ -285,6 +327,7 @@ export const PatronJoin: React.FC<Props> = ({ patrons }) => (
           style={{ backdropFilter: 'blur(7px)' }}
           rounded="lg"
           maxW="45rem"
+          mr={5}
         >
           There are a few, actually, along with various monetization &
           sustainability strategies. If you want to dig deeper, it might be best
@@ -306,6 +349,7 @@ export const PatronJoin: React.FC<Props> = ({ patrons }) => (
           style={{ backdropFilter: 'blur(7px)' }}
           rounded="lg"
           maxW="45rem"
+          mr={5}
         >
           We prefer our patrons inrinsically motivated, so the main reason you'd
           want to become a patron is just the fact you love this whole idea of
@@ -320,17 +364,50 @@ export const PatronJoin: React.FC<Props> = ({ patrons }) => (
       <Text my="12" fontSize="lg" fontWeight="bold" as="h3">
         Ranked Leagues & Perks
       </Text>
-      <Flex flexDirection="row">
-        <Flex width="50%" flexDirection="column" flexWrap="wrap">
-          {LEAGUES.filter((_, i) => i % 2 === 0).map((league, i) => (
-            <LeagueCard {...league} id={i} />
+      <Flex flexDirection="row" alignItems="stretch">
+        <Flex
+          width="50%"
+          flexDirection="column"
+          flexWrap="wrap"
+          alignItems="space-between"
+          justifyContent="space-between"
+        >
+          {LEAGUES.filter((_, i) => i % 2 === 0).map((league) => (
+            <LeagueCard {...league} key={league.id} />
           ))}
         </Flex>
-        <Flex width="50%" flexDirection="column" flexWrap="wrap">
-          {LEAGUES.filter((_, i) => i % 2 === 1).map((league, i) => (
-            <LeagueCard {...league} id={i} />
+        <Flex
+          width="50%"
+          flexDirection="column"
+          flexWrap="wrap"
+          alignItems="space-between"
+          justifyContent="space-between"
+        >
+          {LEAGUES.filter((_, i) => i % 2 === 1).map((league) => (
+            <LeagueCard {...league} key={league.id} />
           ))}
         </Flex>
+      </Flex>
+      <Flex
+        width="100%"
+        justifyContent="center"
+        flexDirection="column"
+        alignItems="center"
+        justifyItems="center"
+      >
+        <LeagueCard {...No1Patron} />
+        <Box
+          bg="whiteAlpha.200"
+          style={{ backdropFilter: 'blur(7px)' }}
+          rounded="lg"
+          m="8"
+          p="4"
+        >
+          <Text fontSize="sm">
+            Note: Yes, you get what the previous league gets + your own league
+            perks!
+          </Text>
+        </Box>
       </Flex>
 
       {/* Other patrons include... */}
