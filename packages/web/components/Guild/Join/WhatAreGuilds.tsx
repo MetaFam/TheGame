@@ -2,7 +2,10 @@ import { Box, Container, Heading, Image, Text, VStack } from '@metafam/ds';
 import GuildsSunlessImg from 'assets/guilds-sunless_384x449.png';
 
 export const WhatAreGuilds: React.FC = () => (
-  <Container as="section" className="mg-section">
+  <Container
+    as="section"
+    className="mg-guild-join-section" // CSS class defined in packages/web/pages/Guild/Join/index.tsx
+  >
     <Heading
       as="h2"
       color="white"
@@ -13,7 +16,11 @@ export const WhatAreGuilds: React.FC = () => (
       What are Guilds?
     </Heading>
 
-    <Container bg="whiteAlpha.50" borderRadius={8} maxW="lg" centerContent>
+    <Container
+      className="mg-guild-join-card-bg" // CSS class defined in packages/web/pages/Guild/Join/index.tsx
+      maxW="lg"
+      centerContent
+    >
       <VStack spacing={8} py={8} px={4}>
         <Image src={GuildsSunlessImg} alt="Cloaked figure" mx="auto" />
 

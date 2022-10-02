@@ -1,7 +1,10 @@
 import { Container, Heading, ListItem, Text, UnorderedList } from '@metafam/ds';
 
 export const WhyJoin: React.FC = () => (
-  <Container as="section" className="mg-section">
+  <Container
+    as="section"
+    className="mg-guild-join-section" // CSS class defined in packages/web/pages/Guild/Join/index.tsx
+  >
     <Heading
       as="h2"
       color="white"
@@ -12,7 +15,11 @@ export const WhyJoin: React.FC = () => (
       Why have your guild join MetaGame?
     </Heading>
 
-    <Container bg="whiteAlpha.50" borderRadius={8} maxW="3xl" p={8}>
+    <Container
+      className="mg-guild-join-card-bg" // CSS class defined in packages/web/pages/Guild/Join/index.tsx
+      maxW="3xl"
+      p={8}
+    >
       <Text mb={4}>A few reasons, actually!</Text>
       <Text mb={4}>
         <Text as="strong">Firstly</Text>, because you feel aligned with the
