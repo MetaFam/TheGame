@@ -138,6 +138,7 @@ export const GuildJoinLanding: React.FC<Props> = ({ guilds }) => {
             w="100%"
             maxW={{ base: '25rem', md: '100%' }}
             mx="auto"
+            px={0}
             centerContent
           >
             <GuildList {...{ guilds }} />
