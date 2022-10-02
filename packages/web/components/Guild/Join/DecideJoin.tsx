@@ -109,18 +109,18 @@ export const DecideJoin: React.FC = () => {
                   href={discordAuthURL}
                   mb={8}
                   minW="10rem"
-                  text-decoration="underline"
-                  w="10rem"
+                  px={6}
+                  textDecoration="underline"
+                  textTransform="uppercase"
                   _hover={{
-                    bg: '#E839B7',
-                    opacity: 0.6,
+                    backgroundColor: 'rgba(232, 57, 183, 0.6)',
                   }}
                   _active={{
-                    bg: '#E839B7',
-                    opacity: 0.6,
+                    backgroundColor: 'rgba(232, 57, 183, 0.6)',
+                    transform: 'scale(0.8)',
                   }}
                 >
-                  APPLY
+                  Apply
                 </MetaButton>
               </>
             ) : (
