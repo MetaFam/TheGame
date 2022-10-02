@@ -17,12 +17,15 @@ export const getStaticProps = async () => {
 };
 
 /**
- * This isn't working, have inlined it in pages/join/guild/index.tsx
+ * This isn't working, have inlined it in packages/web/pages/Guild/Join/index.tsx
  * TypeError: Cannot read properties of undefined (reading 'map')
  */
 
-export const OtherGuilds: React.FC<Props> = ({ guilds }) => (
-  <Container as="section" className="mg-section">
+const OtherGuilds: React.FC<Props> = ({ guilds }) => (
+  <Container
+    as="section"
+    className="mg-guild-join-section" // CSS class defined in packages/web/pages/Guild/Join/index.tsx
+  >
     <Heading
       as="h2"
       color="white"

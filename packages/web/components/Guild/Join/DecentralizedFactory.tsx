@@ -2,7 +2,10 @@ import { Container, Heading, Image } from '@metafam/ds';
 import DecentralizedFactoryImg from 'assets/decentralized-factory_1105x1098.png';
 
 export const DecentralizedFactory: React.FC = () => (
-  <Container as="section" className="mg-section">
+  <Container
+    as="section"
+    className="mg-guild-join-section" // CSS class defined in packages/web/pages/Guild/Join/index.tsx
+  >
     <Heading
       as="h2"
       color="white"

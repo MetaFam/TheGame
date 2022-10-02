@@ -53,7 +53,10 @@ export const DecideJoin: React.FC = () => {
   }/oauth2/authorize?${discordAuthParams.toString()}`;
 
   return (
-    <Container as="section" className="mg-section">
+    <Container
+      as="section"
+      className="mg-guild-join-section" // CSS class defined in packages/web/pages/Guild/Join/index.tsx
+    >
       <Heading
         as="h2"
         color="white"
@@ -65,9 +68,14 @@ export const DecideJoin: React.FC = () => {
       </Heading>
 
       {/*
-          The two flex items are stacked until the md breakpoint, then go to columns
-        */}
-      <Container bg="whiteAlpha.50" borderRadius={8} maxW="2xl" py={8} px={12}>
+        The two flex items are stacked until the md breakpoint, then go to columns
+      */}
+      <Container
+        className="mg-guild-join-card-bg" // CSS class defined in packages/web/pages/Guild/Join/index.tsx
+        maxW="2xl"
+        py={8}
+        px={12}
+      >
         <Flex
           direction={{ base: 'column', md: 'row' }}
           alignItems="center"

@@ -19,7 +19,10 @@ import ThinkingEmojiImg from 'assets/thinking-emoji_400x400.png';
 import { MdCheckBoxOutlineBlank } from 'react-icons/md';
 
 export const Requirements: React.FC = () => (
-  <Container as="section" className="mg-section">
+  <Container
+    as="section"
+    className="mg-guild-join-section" // CSS class defined in packages/web/pages/Guild/Join/index.tsx
+  >
     <Heading
       as="h2"
       color="white"
@@ -39,17 +42,16 @@ export const Requirements: React.FC = () => (
       </Center>
 
       {/* 
-                    The cards (VStacks) are stacked until the lg breakpoint is reached
-                    Then they are displayed in a row             
-                */}
+        The cards (VStacks) are stacked until the lg breakpoint is reached
+        Then they are displayed in a row             
+      */}
       <Flex
         direction={{ base: 'column', lg: 'row' }}
         alignItems="center"
         justifyContent="center"
       >
         <Box
-          bg="whiteAlpha.50"
-          borderRadius={8}
+          className="mg-guild-join-card-bg" // CSS class defined in packages/web/pages/Guild/Join/index.tsx
           maxW={{ base: 'md', lg: '21rem' }}
           p={8}
         >
@@ -104,8 +106,7 @@ export const Requirements: React.FC = () => (
         </Box>
 
         <Box
-          bg="whiteAlpha.50"
-          borderRadius={8}
+          className="mg-guild-join-card-bg"
           maxW={{ base: 'md', lg: '21rem' }}
           p={8}
         >
@@ -161,9 +162,9 @@ export const Requirements: React.FC = () => (
       </Center>
 
       {/*
-                    The two flex items are stacked until the md breakpoint, then go to columns
-                */}
-      <Container bg="whiteAlpha.50" borderRadius={8} maxW="3xl" p={8}>
+          The two flex items are stacked until the md breakpoint, then go to columns
+      */}
+      <Container className="mg-guild-join-card-bg" maxW="3xl" p={8}>
         <Flex
           direction={{ base: 'column', md: 'row' }}
           alignItems="center"
@@ -211,7 +212,7 @@ export const Requirements: React.FC = () => (
         <Text fontSize="lg">Finally&hellip;</Text>
       </Center>
 
-      <Container bg="whiteAlpha.50" borderRadius={8} maxW="3xl" p={8}>
+      <Container className="mg-guild-join-card-bg" maxW="3xl" p={8}>
         <Text mb={4}>
           After making sure you’re a good fit, there is essentially one
           requirement&hellip;

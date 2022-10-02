@@ -14,7 +14,10 @@ import EpicTierNFTImg from 'assets/nft-epic-tier_600x600.jpg';
 import RareTierNFTImg from 'assets/nft-rare-tier_600x600.jpg';
 
 export const TiersPerks: React.FC = () => (
-  <Container as="section" className="mg-section">
+  <Container
+    as="section"
+    className="mg-guild-join-section" // CSS class defined in packages/web/pages/Guild/Join/index.tsx
+  >
     <Heading
       as="h2"
       color="white"
@@ -26,9 +29,10 @@ export const TiersPerks: React.FC = () => (
     </Heading>
 
     {/*
-          The three items in SimpleGrid are stacked cards until the md breakpoint, go to full-width rows at md, then to proper cards in 3 columns at lg
-        */}
-
+      The three items in SimpleGrid are stacked cards until the md breakpoint, 
+      go to full-width rows [image|text text text] at md, 
+      then to proper cards in 3 columns at lg
+    */}
     <SimpleGrid
       columns={{ base: 1, md: 1, lg: 3 }}
       spacing={8}
@@ -36,8 +40,7 @@ export const TiersPerks: React.FC = () => (
       width="100%"
     >
       <Box
-        bg="whiteAlpha.50"
-        borderRadius={8}
+        className="mg-guild-join-card-bg" // CSS class defined in packages/web/pages/Guild/Join/index.tsx
         maxWidth={{ base: 'md', md: '100%' }}
         mx="auto"
         width="100%"
@@ -53,7 +56,7 @@ export const TiersPerks: React.FC = () => (
           />
           <Box flex="auto">
             <Text
-              bg="#168c72"
+              backgroundColor="rgba(6, 255, 161, 0.5)"
               borderTopRightRadius={{ base: 0, md: 8, lg: 0 }}
               color="white"
               fontFamily="mono"
@@ -74,8 +77,7 @@ export const TiersPerks: React.FC = () => (
       </Box>
 
       <Box
-        bg="whiteAlpha.50"
-        borderRadius={8}
+        className="mg-guild-join-card-bg"
         maxWidth={{ base: 'md', md: '100%' }}
         mx="auto"
         width="100%"
@@ -91,7 +93,7 @@ export const TiersPerks: React.FC = () => (
           />
           <Box flex="auto">
             <Text
-              bg="#2a4c98"
+              backgroundColor="rgba(47, 128, 237, 0.5)"
               borderTopRightRadius={{ base: 0, md: 8, lg: 0 }}
               color="white"
               fontFamily="mono"
@@ -113,8 +115,7 @@ export const TiersPerks: React.FC = () => (
       </Box>
 
       <Box
-        bg="whiteAlpha.50"
-        borderRadius={8}
+        className="mg-guild-join-card-bg"
         maxWidth={{ base: 'md', md: '100%' }}
         mx="auto"
         width="100%"
@@ -130,7 +131,7 @@ export const TiersPerks: React.FC = () => (
           />
           <Box flex="auto">
             <Text
-              bg="#402594"
+              backgroundColor="rgba(90, 50, 230, 0.5)"
               borderTopRightRadius={{ base: 0, md: 8, lg: 0 }}
               color="white"
               fontFamily="mono"
@@ -156,8 +157,7 @@ export const TiersPerks: React.FC = () => (
     <Container>
       <Box
         as="p"
-        bg="whiteAlpha.50"
-        borderRadius={8}
+        className="mg-guild-join-card-bg"
         maxW="md"
         mx="auto"
         p={2}

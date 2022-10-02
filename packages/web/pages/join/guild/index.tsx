@@ -14,9 +14,9 @@ import { PageContainer } from 'components/Container';
 // For the Guilds list
 import { GuildList } from 'components/Guild/GuildList';
 import { DecentralizedFactory } from 'components/Guild/Join/DecentralizedFactory';
-// import { OtherGuilds } from 'components/Guild/Join/OtherGuilds';
 import { DecideJoin } from 'components/Guild/Join/DecideJoin';
 import { Requirements } from 'components/Guild/Join/Requirements';
+// import { OtherGuilds } from 'components/Guild/Join/OtherGuilds';
 import { TiersPerks } from 'components/Guild/Join/TiersPerks';
 // The page sections
 import { WhatAreGuilds } from 'components/Guild/Join/WhatAreGuilds';
@@ -57,12 +57,20 @@ export const GuildJoinLanding: React.FC<Props> = ({ guilds }) => {
 
   /* 
     Some styles that are reused 
-    .mg-section         The page sections
+    .mg-guild-join-section        The page sections
+    .mg-guild-join-card-bg        The background color etc for cards
+                                  in the sections
   */
   const css = {
-    '.mg-section': {
+    '.mg-guild-join-section': {
       w: '100%',
       maxW: '6xl',
+    },
+    '.mg-guild-join-card-bg': {
+      backgroundColor: 'whiteAlpha.200',
+      backdropFilter: 'blur(7px)',
+      boxShadow: 'md',
+      borderRadius: 'lg',
     },
   };
 
@@ -116,7 +124,7 @@ export const GuildJoinLanding: React.FC<Props> = ({ guilds }) => {
             <OtherGuilds /> 
         */}
 
-        <Container as="section" className="mg-section">
+        <Container as="section" className="mg-guild-join-section">
           <Heading
             as="h2"
             color="white"
