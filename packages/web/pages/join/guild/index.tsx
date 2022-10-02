@@ -6,6 +6,7 @@ import {
   Heading,
   Image,
   LoadingState,
+  MetaButton,
   VStack,
 } from '@metafam/ds';
 // Images to use in the page
@@ -30,7 +31,8 @@ import React, { useRef } from 'react';
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
 export const getStaticProps = async () => {
-  const guilds = await getGuilds();
+  const guildsLimit = 6; // How many guilds to show on the page?
+  const guilds = await getGuilds(guildsLimit);
   return {
     props: {
       guilds,
@@ -114,14 +116,12 @@ export const GuildJoinLanding: React.FC<Props> = ({ guilds }) => {
         {/* Section: Tiers and Perks */}
         <TiersPerks />
 
-        {/* Section: Decided to join? */}
-        <DecideJoin />
-
         {/* Section: Other guilds include... 
-            Can't get it working in a component: TypeError: Cannot read properties of undefined (reading 'map') 
-            So it is inlined
-            Also supposed to be limited to 6 guilds with a LOAD MORE button :(
-            <OtherGuilds /> 
+          Can't get this working in a component: TypeError: Cannot read properties of undefined (reading 'map') 
+          <OtherGuilds /> 
+          So it is inlined
+          Supposed to be limited to 6 guilds with a LOAD MORE button :(
+          Is actually limited to first 6 guilds with VIEW ALL GUILDS button that links to https://metagame.wtf/community/guilds 
         */}
 
         <Container as="section" className="mg-guild-join-section">
@@ -141,8 +141,32 @@ export const GuildJoinLanding: React.FC<Props> = ({ guilds }) => {
             centerContent
           >
             <GuildList {...{ guilds }} />
+
+            <MetaButton
+              as="a"
+              bg="#E839B7"
+              borderRadius={0}
+              color="white"
+              href="https://metagame.wtf/community/guilds"
+              minW="10rem"
+              mt={12}
+              px={6}
+              textTransform="uppercase"
+              _hover={{
+                backgroundColor: 'rgba(232, 57, 183, 0.6)',
+              }}
+              _active={{
+                backgroundColor: 'rgba(232, 57, 183, 0.6)',
+                transform: 'scale(0.8)',
+              }}
+            >
+              View all guilds
+            </MetaButton>
           </Container>
         </Container>
+
+        {/* Section: Decided to join? */}
+        <DecideJoin />
 
         <Image src={Octopus} pt={8} />
         <Box pb={4}>
