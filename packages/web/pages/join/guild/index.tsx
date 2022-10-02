@@ -150,7 +150,7 @@ export const GuildJoinLanding: React.FC<Props> = ({ guilds }) => {
               color="white"
               href="https://metagame.wtf/community/guilds"
               minW="10rem"
-              mt={12}
+              mt={{ base: 8, md: 12 }}
               px={6}
               textTransform="uppercase"
               _hover={{
