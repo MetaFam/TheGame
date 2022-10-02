@@ -81,16 +81,15 @@ export const Requirements: React.FC = () => (
                 borderRadius={0}
                 color="white"
                 href="https://wiki.metagame.wtf/docs/enter-metagame/join-metagame"
-                mt={2}
                 minW="10rem"
-                w="10rem"
+                mt={2}
+                px={6}
                 _hover={{
-                  bg: '#E839B7',
-                  opacity: 0.6,
+                  backgroundColor: 'rgba(232, 57, 183, 0.6)',
                 }}
                 _active={{
-                  bg: '#E839B7',
-                  opacity: 0.6,
+                  backgroundColor: 'rgba(232, 57, 183, 0.6)',
+                  transform: 'scale(0.8)',
                 }}
               >
                 LFG!
@@ -136,16 +135,15 @@ export const Requirements: React.FC = () => (
                 borderRadius={0}
                 color="white"
                 href="https://wiki.metagame.wtf/docs/enter-metagame/join-metagame"
-                mt={2}
                 minW="10rem"
-                w="10rem"
+                mt={2}
+                px={6}
                 _hover={{
-                  bg: '#E839B7',
-                  opacity: 0.6,
+                  backgroundColor: 'rgba(232, 57, 183, 0.6)',
                 }}
                 _active={{
-                  bg: '#E839B7',
-                  opacity: 0.6,
+                  backgroundColor: 'rgba(232, 57, 183, 0.6)',
+                  transform: 'scale(0.8)',
                 }}
               >
                 LFG!
