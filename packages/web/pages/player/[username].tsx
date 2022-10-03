@@ -63,13 +63,14 @@ export const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
 
   return (
     <PageContainer
-      pt={0}
-      px={[0, 4, 8]}
+      p={0}
+      h="100%"
       {...(background
         ? {
-            background: `url(${background}) no-repeat`,
+            bg: `url(${background}) no-repeat`,
             bgSize: 'cover',
             bgPos: 'center',
+            bgAttachment: 'fixed',
           }
         : {})}
     >
@@ -90,7 +91,23 @@ export const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
           top={0}
         />
       )}
-      <Flex w="full" h="full" direction="column" align="center" pt={12}>
+
+      <Flex
+        w="full"
+        h="min-content"
+        direction="column"
+        align="center"
+        pt={12}
+        {...(background
+          ? {
+              bg: `url(${background}) no-repeat`,
+              bgSize: 'cover',
+              bgPos: 'center',
+              bgAttachment: 'fixed',
+            }
+          : {})}
+        px={[0, 4, 8]}
+      >
         <Grid {...{ player }} />
       </Flex>
     </PageContainer>

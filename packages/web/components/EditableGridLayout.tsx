@@ -203,7 +203,14 @@ export const EditableGridLayout: React.FC<Props> = ({
   );
 
   return (
-    <Box width="100%" height="100%" sx={gridSX} maxW="96rem" px={4} {...props}>
+    <Box
+      width="100%"
+      height="min-content"
+      sx={gridSX}
+      maxW="96rem"
+      px={4}
+      {...props}
+    >
       {showEditButton && (
         <ButtonGroup
           w="full"
@@ -280,7 +287,7 @@ export const EditableGridLayout: React.FC<Props> = ({
           )}
         </ButtonGroup>
       )}
-      <Box w="100%" pb="1rem">
+      <Box w="100%" pb="1rem" h="min-content">
         <ResponsiveGridLayout
           onLayoutChange={handleLayoutChange}
           layouts={currentLayouts}
