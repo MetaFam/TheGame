@@ -175,8 +175,10 @@ export const useSaveCeramicProfile = ({
       Object.entries(ExtendedProfileImages).forEach(([hasuraId, ceramicId]) => {
         const fromKey = ceramicId as Values<typeof ExtendedProfileImages>;
         const toKey = hasuraId as keyof typeof ExtendedProfileImages;
-        extended[fromKey] = images[toKey];
-        vals[toKey] = images[toKey]?.original.src ?? '';
+        if (images[toKey] !== undefined) {
+          extended[fromKey] = images[toKey] ?? undefined;
+          vals[toKey] = images[toKey]?.original.src;
+        }
       });
 
       Object.entries(ExtendedProfileObjects).forEach(
