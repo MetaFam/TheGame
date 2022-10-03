@@ -32,11 +32,12 @@
     "city-timezones": "1.2.0",
     "framer-motion": "6.2.8",
     "next": "10.2.3",
+    "react-dom": "17.0.2",
+    "react-google-font-loader": "1.1.0",
+    "react-icons": "4.4.0",
     "react-select": "5.2.2",
     "react-timezone-select": "1.0.3",
     "spacetime": "7.1.2",
-    "react-dom": "17.0.2",
-    "react-google-font-loader": "1.1.0",
     "spacetime-informal": "0.6.1"
   }
 }
