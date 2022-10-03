@@ -3,7 +3,6 @@ import { Maybe } from '@metafam/utils';
 import ProfileIcon from 'assets/generic-user-icon.svg';
 import GuildCoverImageFull from 'assets/guild-background-full.jpeg';
 import GuildCoverImageSmall from 'assets/guild-background-small.jpeg';
-import PlayerCoverImageFull from 'assets/player-background-full.jpg';
 import PlayerCoverImageSmall from 'assets/player-background-small.jpg';
 import { AccountType_Enum, Player } from 'graphql/autogen/types';
 import { GuildPlayer } from 'graphql/types';
@@ -34,9 +33,12 @@ export const getPlayerBanner = (player: Maybe<Player>): string => {
 
 export const getPlayerBannerFull = (player?: Maybe<Player>): string => {
   const key = 'bannerImageURL';
-  return (
-    optimizedImage(key, player?.profile?.[key]) || PlayerCoverImageFull.src
-  );
+  return optimizedImage(key, player?.profile?.[key]) || '';
+};
+
+export const getPlayerBackgroundFull = (player?: Maybe<Player>): string => {
+  const key = 'backgroundImageURL';
+  return optimizedImage(key, player?.profile?.[key]) || '';
 };
 
 export const getGuildCoverImageFull = (): string => GuildCoverImageFull.src;
