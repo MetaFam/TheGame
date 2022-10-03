@@ -1,4 +1,5 @@
 import { Box, Flex, LoadingState } from '@metafam/ds';
+import { imageLink } from '@metafam/utils';
 import { PageContainer } from 'components/Container';
 import { EditableGridLayout } from 'components/EditableGridLayout';
 import { PlayerSection } from 'components/Player/PlayerSection';
@@ -65,9 +66,10 @@ export const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
     <PageContainer
       p={0}
       h="100%"
+      position="relative"
       {...(background
         ? {
-            bg: `url(${background}) no-repeat`,
+            bg: `url('${imageLink(background)}') no-repeat`,
             bgSize: 'cover',
             bgPos: 'center',
             bgAttachment: 'fixed',
@@ -82,7 +84,7 @@ export const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
       />
       {banner && (
         <Box
-          bg={`url(${banner}) no-repeat`}
+          bg={`url('${imageLink(banner)}') no-repeat`}
           bgSize="cover"
           bgPos="center"
           h={72}
@@ -98,15 +100,15 @@ export const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
         direction="column"
         align="center"
         pt={12}
+        px={[0, 4, 8]}
         {...(background
           ? {
-              bg: `url(${background}) no-repeat`,
+              bg: `url('${imageLink(background)}') no-repeat`,
               bgSize: 'cover',
               bgPos: 'center',
               bgAttachment: 'fixed',
             }
           : {})}
-        px={[0, 4, 8]}
       >
         <Grid {...{ player }} />
       </Flex>

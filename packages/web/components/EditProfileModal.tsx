@@ -193,13 +193,17 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  useEffect(() => {
+  const resetData = useCallback(() => {
     Object.entries(fields).forEach(([key, value]) => {
       if (!key.startsWith('_')) {
         setValue(key, value ?? undefined);
       }
     });
   }, [setValue]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    resetData();
+  }, [resetData]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const onFileChange = useCallback(
     ({ target: input }: { target: HTMLInputElement }) => {
@@ -918,7 +922,10 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
             <WrapItem>
               <Button
                 variant="ghost"
-                onClick={onClose}
+                onClick={() => {
+                  onClose();
+                  resetData();
+                }}
                 color="white"
                 _hover={{ bg: '#FFFFFF11' }}
                 _active={{ bg: '#FF000011' }}
