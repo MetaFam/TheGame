@@ -168,17 +168,17 @@ const No1Patron = {
   ],
 };
 
-type LeagueProps = {
-  title: string;
-  count: number;
-  amount: number;
-  header: boolean;
-  arrow: string;
-  body: Element;
-  list: string[];
-  id: number;
-  style: any;
-};
+// type LeagueProps = {
+//   title: string;
+//   count: number;
+//   amount?: number;
+//   header: boolean;
+//   arrow: string;
+//   body?: Element | React.ReactElement;
+//   list: string[];
+//   id: number;
+//   style: any;
+// };
 
 type ItemProps = {
   item: string;
