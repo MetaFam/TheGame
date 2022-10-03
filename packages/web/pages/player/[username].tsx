@@ -1,4 +1,4 @@
-import { Box, Flex, LoadingState } from '@metafam/ds';
+import { Flex, LoadingState } from '@metafam/ds';
 import { PageContainer } from 'components/Container';
 import { EditableGridLayout } from 'components/EditableGridLayout';
 import { PlayerSection } from 'components/Player/PlayerSection';
@@ -34,8 +34,8 @@ type Props = {
 
 export const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
   const router = useRouter();
-  const { value: banner } = useProfileField({
-    field: 'bannerImageURL',
+  const { value: background } = useProfileField({
+    field: 'backgroundImageURL',
     player,
     getter: getPlayerBannerFull,
   });
@@ -54,23 +54,24 @@ export const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
   if (!player) return <Page404 />;
 
   return (
-    <PageContainer pt={0} px={[0, 4, 8]}>
+    <PageContainer
+      pt={0}
+      px={[0, 4, 8]}
+      {...(background
+        ? {
+            background: `url(${background}) no-repeat`,
+            bgSize: 'cover',
+            bgPos: 'center',
+          }
+        : {})}
+    >
       <HeadComponent
         title={`MetaGame Profile: ${getPlayerName(player)}`}
         description={(getPlayerDescription(player) ?? '').replace('\n', ' ')}
         url={getPlayerURL(player, { rel: false })}
         img={getPlayerImage(player)}
       />
-      <Box
-        bg={`url(${banner}) no-repeat`}
-        bgSize="cover"
-        bgPos="center"
-        h={72}
-        pos="absolute"
-        w="full"
-        top={0}
-      />
-      <Flex w="full" h="full" pt={12} direction="column" align="center">
+      <Flex w="full" h="full" direction="column" align="center">
         <Grid {...{ player }} />
       </Flex>
     </PageContainer>
