@@ -3,7 +3,7 @@ import { graphql } from '@quest-chains/sdk';
 
 import { UploadProof } from './UploadProof';
 
-type UserStatusType = {
+export type UserStatusType = {
   [questId: string]: {
     submissions: {
       description: string | undefined | null;

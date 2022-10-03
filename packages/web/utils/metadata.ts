@@ -1,6 +1,6 @@
-import { Constants } from '@metafam/utils';
 import axios, { AxiosError } from 'axios';
 
+import { QUESTS } from './questChains';
 import { Metadata as MetadataType, validateSchema } from './validate';
 
 export type Metadata = MetadataType;
@@ -22,7 +22,7 @@ export const uploadMetadata = async (
 
   try {
     const res = await axios.post(
-      `${Constants.API_URL}/upload/json`,
+      `${QUESTS.API_URL}/upload/json`,
       metadata,
       config,
     );
@@ -58,7 +58,7 @@ export const uploadFiles = async (
 
   try {
     const res = await axios.post(
-      `${Constants.API_URL}/upload/files`,
+      `${QUESTS.API_URL}/upload/files`,
       formData,
       config,
     );

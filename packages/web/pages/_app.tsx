@@ -1,3 +1,5 @@
+import 'components/Quest/QuestChain/styles.css';
+
 import { ChakraProvider, CSSReset, MetaTheme } from '@metafam/ds';
 import { MegaMenu } from 'components/MegaMenu/index';
 import { CONFIG } from 'config';

@@ -162,11 +162,13 @@ export const UploadProof: React.FC<{
           <Button
             onClick={onOpen}
             isDisabled={chainId !== questChain.chainId || !address}
-            borderWidth={1}
-            borderColor="white"
             px={5}
+            bgColor="purple.500"
             py={2}
-            borderRadius="full"
+            borderRadius={6}
+            _hover={{
+              bgColor: 'purple.300',
+            }}
           >
             Submit Proof
           </Button>
