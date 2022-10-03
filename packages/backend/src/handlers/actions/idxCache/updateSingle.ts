@@ -98,9 +98,8 @@ export default async (playerId: string): Promise<UpdateIdxProfileResponse> => {
       Object.entries(BasicProfileImages).forEach(([hasuraId, ceramicId]) => {
         const fromKey = ceramicId as Values<typeof BasicProfileImages>;
         const toKey = hasuraId as keyof typeof BasicProfileImages;
-        if (basicProfile?.[fromKey] != null) {
-          values[toKey] = (basicProfile[fromKey] as ImageSources).original.src;
-        }
+        values[toKey] =
+          (basicProfile?.[fromKey] as ImageSources)?.original.src ?? null;
       });
     }
 
@@ -132,11 +131,9 @@ export default async (playerId: string): Promise<UpdateIdxProfileResponse> => {
           ([hasuraId, ceramicId]) => {
             const fromKey = ceramicId as Values<typeof ExtendedProfileImages>;
             const toKey = hasuraId as keyof typeof ExtendedProfileImages;
-            if (extendedProfile?.[fromKey] != null) {
-              values[toKey] = (
-                extendedProfile[fromKey] as ImageSources
-              ).original.src;
-            }
+            values[toKey] =
+              (extendedProfile?.[fromKey] as ImageSources)?.original.src ??
+              null;
           },
         );
         Object.entries(ExtendedProfileObjects).forEach(
