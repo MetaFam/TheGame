@@ -118,9 +118,9 @@ export type CeramicEPObjects = EPObjects & {
 
 export type HasuraStringProps = HasuraBPStrings & HasuraEPStrings;
 export type HasuraImageSourcedProps = {
-  -readonly [key in keyof typeof BasicProfileImages]?: ImageSources;
+  -readonly [key in keyof typeof BasicProfileImages]?: ImageSources | null;
 } & {
-  -readonly [key in keyof typeof ExtendedProfileImages]?: ImageSources;
+  -readonly [key in keyof typeof ExtendedProfileImages]?: ImageSources | null;
 };
 
 export type HasuraProfileProps = HasuraBPImages &
