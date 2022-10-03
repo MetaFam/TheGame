@@ -461,11 +461,13 @@ export const PatronJoin: React.FC<Props> = ({ patrons }) => (
               in.
             </Text>
             <Text>Want a more detailed guide?</Text>
-            <Box mb={4} px={2}>
-              <MetaButton as="a" variant="link" href="/seeds" maxW="" p="4">
-                YES PLS!
-              </MetaButton>
-            </Box>
+            <Flex mt="6" justifyContent="center">
+              <Box mb={4} px={2}>
+                <MetaButton as="a" variant="link" href="/seeds" maxW="" p="4">
+                  YES PLS!
+                </MetaButton>
+              </Box>
+            </Flex>
           </Flex>
         </Flex>
 
@@ -504,11 +506,13 @@ export const PatronJoin: React.FC<Props> = ({ patrons }) => (
               We got you covered! You can buy a chunk directly from MetaFam,
               just ask.
             </Text>
-            <Box mb={4} px={2}>
-              <MetaButton as="a" variant="link" href="/seeds" maxW="" p="4">
-                PERFECT!
-              </MetaButton>
-            </Box>
+            <Flex mt="6" justifyContent="center">
+              <Box mb={4} px={2}>
+                <MetaButton as="a" variant="link" href="/seeds" maxW="" p="4">
+                  PERFECT!
+                </MetaButton>
+              </Box>
+            </Flex>
           </Flex>
         </Flex>
       </Flex>
