@@ -1,5 +1,5 @@
 import { Container, Heading, Image } from '@metafam/ds';
-import DecentralizedFactoryImg from 'assets/decentralized-factory_1105x1098.png';
+import DecentralizedFactoryImg from 'assets/decentralized-factory_1100x1071.png';
 
 export const DecentralizedFactory: React.FC = () => (
   <Container
