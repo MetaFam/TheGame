@@ -222,24 +222,11 @@ export const Requirements: React.FC = () => (
             choosing.
           </ListItem>
           <ListItem>By buying a MetaManifesto NFT and/or some Seeds.</ListItem>
-          <ListItem>
-            Want a place to offer your service or tools to other DAOs or
-            integrate it into MetaOS.
-          </ListItem>
-          <ListItem>
-            Are interested in using MetaGame as a platform or deploying MetaOS
-            on your own.
-          </ListItem>
-          <ListItem>
-            Need a little help spreading the word &amp; getting your project out
-            there.
-          </ListItem>
-          <ListItem>Want help onboarding people into your DAO.</ListItem>
         </UnorderedList>
-        <Text>
-          <Text as="em">Note:</Text> Long term, all guilds will be expected to
-          periodically offset their carbon footprint &amp;/or donate to other
-          good (non-crypto) causes.
+        <Text as="em">
+          Note: Long term, all guilds will be expected to periodically offset
+          their carbon footprint &amp;/or donate to other good (non-crypto)
+          causes.
         </Text>
       </Container>
     </VStack>
