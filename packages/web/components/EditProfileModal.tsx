@@ -572,12 +572,12 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
               </FormControl>
             </GridItem>
             {[
-              {
-                key: 'bannerImageURL',
-                title: 'Header Banner',
-                description:
-                  'An image with an ~3:1 aspect ratio to be displayed as a page or profile banner. 1MiB maximum size.',
-              },
+              /* {
+                 key: 'bannerImageURL',
+                 title: 'Header Banner',
+                 description:
+                   'An image with an ~3:1 aspect ratio to be displayed as a page or profile banner. 1MiB maximum size.',
+               }, */
               {
                 key: 'backgroundImageURL',
                 title: 'Page Background',
