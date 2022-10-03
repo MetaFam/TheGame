@@ -90,13 +90,7 @@ export const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
           top={0}
         />
       )}
-      <Flex
-        w="full"
-        h="full"
-        direction="column"
-        align="center"
-        pt={banner ? 12 : 0}
-      >
+      <Flex w="full" h="full" direction="column" align="center" pt={12}>
         <Grid {...{ player }} />
       </Flex>
     </PageContainer>
