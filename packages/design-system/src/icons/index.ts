@@ -10,4 +10,5 @@ export { MetaMaskIcon } from './MetaMaskIcon';
 export { PolygonIcon } from './PolygonIcon';
 export { Profile } from './Profile';
 // export { XDaiIcon } from './XDaiIcon'; // Replaced by Gnosis icon
+export * from './ExternalLinkIcon';
 export { GnosisIcon } from './GnosisIcon';

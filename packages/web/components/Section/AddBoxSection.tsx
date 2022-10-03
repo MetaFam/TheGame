@@ -1,7 +1,10 @@
 import {
+  Box,
   Button,
+  ExternalLinkIcon,
   Flex,
   FlexProps,
+  MetaButton,
   MetaTheme,
   Modal,
   ModalBody,
@@ -153,22 +156,35 @@ export const AddBoxSection = React.forwardRef<HTMLDivElement, Props>(
                 </VStack>
               </ModalBody>
               <ModalFooter>
-                <Button
-                  colorScheme="blue"
-                  mr={3}
-                  onClick={addSection}
-                  isDisabled={!type}
-                >
-                  Save Block
-                </Button>
-                <Button
-                  variant="ghost"
-                  onClick={onClose}
-                  color="white"
-                  _hover={{ bg: 'none' }}
-                >
-                  Close
-                </Button>
+                <Box mx="auto">
+                  <Flex justify="center">
+                    <Button
+                      colorScheme="blue"
+                      mr={3}
+                      onClick={addSection}
+                      isDisabled={!type}
+                    >
+                      Save Block
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      onClick={onClose}
+                      color="white"
+                      _hover={{ bg: 'none' }}
+                    >
+                      Close
+                    </Button>
+                  </Flex>
+                  <MetaButton
+                    href="//metagame.wtf/quest/6524b99a-df7e-4c10-838d-c441a8417e77"
+                    mx="auto"
+                    mt="3rem"
+                    target="_blank"
+                  >
+                    Create a Custom Block
+                    <ExternalLinkIcon ml={3} />
+                  </MetaButton>
+                </Box>
               </ModalFooter>
             </ModalContent>
           </Modal>
