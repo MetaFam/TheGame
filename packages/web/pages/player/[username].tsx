@@ -21,6 +21,7 @@ import Page404 from 'pages/404';
 import React, { ReactElement, useCallback, useEffect, useMemo } from 'react';
 import { LayoutData } from 'utils/boxTypes';
 import {
+  getPlayerBackgroundFull,
   getPlayerBannerFull,
   getPlayerDescription,
   getPlayerImage,
@@ -42,7 +43,7 @@ export const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
   const { value: background } = useProfileField({
     field: 'backgroundImageURL',
     player,
-    getter: getPlayerBannerFull,
+    getter: getPlayerBackgroundFull,
   });
   const [, invalidateCache] = useInvalidateCache();
 
