@@ -169,7 +169,7 @@ export const SetupSkills: React.FC<MaybeModalProps> = ({
 
         if (choices == null || !mounted) {
           return (
-            <Flex>
+            <Flex w="full" align="center" justify="center">
               <Spinner />
               <Text>Loading Options…</Text>
             </Flex>

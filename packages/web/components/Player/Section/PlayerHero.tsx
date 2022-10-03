@@ -176,7 +176,7 @@ export const Pronouns: React.FC<DisplayComponentProps> = ({
 
   return (
     <Wrapper>
-      <PlayerHeroTile title="Personal Pronouns">
+      <PlayerHeroTile title="Pronouns">
         <MetaTag size="md" fontWeight="normal" backgroundColor="gray.600">
           {pronouns}
         </MetaTag>

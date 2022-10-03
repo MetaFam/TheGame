@@ -18,7 +18,7 @@ export const StatusedSubmitButton: React.FC<
     transition="0.25s"
     _hover={{ filter: 'hue-rotate(-10deg)', border: '2px solid green' }}
     _focus={{ filter: 'brightness(1.75)' }}
-    disabled={!!status}
+    disabled={!!status || props.isDisabled}
     {...props}
   >
     {status == null ? (

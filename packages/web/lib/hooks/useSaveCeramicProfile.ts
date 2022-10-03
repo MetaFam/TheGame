@@ -89,8 +89,15 @@ export const useSaveCeramicProfile = ({
           ) {
             throw new CeramicError('User canceled authentication.');
           }
+          if ((err as Error).message === '"undefined" is not valid JSON') {
+            throw new CeramicError('Could not authenticate with Ceramic API');
+          }
           throw err;
         }
+      }
+
+      if (debug) {
+        console.debug(`Connected DID: ${ceramic.did?.id}`);
       }
 
       const vals: HasuraProfileProps = { ...values };
@@ -168,10 +175,8 @@ export const useSaveCeramicProfile = ({
       Object.entries(ExtendedProfileImages).forEach(([hasuraId, ceramicId]) => {
         const fromKey = ceramicId as Values<typeof ExtendedProfileImages>;
         const toKey = hasuraId as keyof typeof ExtendedProfileImages;
-        if (images[toKey] !== undefined) {
-          extended[fromKey] = images[toKey];
-          vals[toKey] = images[toKey]?.original.src;
-        }
+        extended[fromKey] = images[toKey];
+        vals[toKey] = images[toKey]?.original.src ?? '';
       });
 
       Object.entries(ExtendedProfileObjects).forEach(

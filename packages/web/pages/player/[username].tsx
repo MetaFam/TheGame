@@ -1,4 +1,4 @@
-import { Flex, LoadingState } from '@metafam/ds';
+import { Box, Flex, LoadingState } from '@metafam/ds';
 import { PageContainer } from 'components/Container';
 import { EditableGridLayout } from 'components/EditableGridLayout';
 import { PlayerSection } from 'components/Player/PlayerSection';
@@ -34,6 +34,11 @@ type Props = {
 
 export const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
   const router = useRouter();
+  const { value: bannerURL } = useProfileField({
+    field: 'bannerImageURL',
+    player,
+    getter: getPlayerBannerFull,
+  });
   const { value: background } = useProfileField({
     field: 'backgroundImageURL',
     player,
@@ -53,6 +58,8 @@ export const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
 
   if (!player) return <Page404 />;
 
+  const banner = background ? '' : bannerURL;
+
   return (
     <PageContainer
       pt={0}
@@ -71,7 +78,24 @@ export const PlayerPage: React.FC<Props> = ({ player }): ReactElement => {
         url={getPlayerURL(player, { rel: false })}
         img={getPlayerImage(player)}
       />
-      <Flex w="full" h="full" direction="column" align="center">
+      {banner && (
+        <Box
+          bg={`url(${banner}) no-repeat`}
+          bgSize="cover"
+          bgPos="center"
+          h={72}
+          pos="absolute"
+          w="full"
+          top={0}
+        />
+      )}
+      <Flex
+        w="full"
+        h="full"
+        direction="column"
+        align="center"
+        pt={banner ? 12 : 0}
+      >
         <Grid {...{ player }} />
       </Flex>
     </PageContainer>
