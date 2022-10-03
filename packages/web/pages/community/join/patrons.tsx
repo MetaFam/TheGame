@@ -1,5 +1,5 @@
 import { PageContainer } from 'components/Container';
-import { PatronJoin } from 'components/Patron/PatronJoin';
+import { PatronJoin } from 'components/Patron/Join/PatronJoin';
 import { HeadComponent } from 'components/Seo';
 import { getPatrons } from 'graphql/getPatrons';
 import { InferGetStaticPropsType } from 'next';
