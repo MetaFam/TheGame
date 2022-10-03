@@ -6,18 +6,19 @@ import {
   BoxProps,
   Button,
   Center,
+  CloseIcon,
   FormControl,
   FormErrorMessage,
   FormLabel,
   FormLabelProps,
   Grid,
   GridItem,
+  IconButton,
   Image,
   InfoIcon,
-  Input as ChakraInput,
+  Input,
   InputGroup,
   InputLeftElement,
-  InputProps,
   InputRightAddon,
   ITimezoneOption,
   Link,
@@ -58,7 +59,6 @@ import { useRouter } from 'next/router';
 import React, {
   ReactElement,
   RefObject,
-  SyntheticEvent,
   useCallback,
   useEffect,
   useMemo,
@@ -91,67 +91,6 @@ const Label: React.FC<FormLabelProps> = React.forwardRef(
   },
 );
 
-const Input = React.forwardRef<typeof ChakraInput, InputProps>(
-  ({ children, ...props }, fwdRef) => {
-    const [width, setWidth] = useState('9em');
-    const ref = fwdRef as RefObject<HTMLInputElement>;
-    const textRef = useRef<HTMLParagraphElement>(null);
-    const isText = !props.type || props.type === 'text';
-
-    const calcWidth = useCallback((text?: string) => {
-      const layout = textRef.current;
-      const modal = layout?.closest('form');
-      if (layout && modal && text) {
-        layout.textContent = text;
-        const widths = [
-          `calc(${modal.clientWidth}px - 2rem)`,
-          `calc(${layout.scrollWidth}px + 2.25em)`,
-        ];
-        setWidth(`min(${widths.join(',')})`);
-      }
-    }, []);
-
-    const recalcText = (event: SyntheticEvent<HTMLInputElement>) => {
-      if (isText) {
-        const {
-          currentTarget: { value },
-        } = event;
-        calcWidth(value);
-      }
-    };
-
-    return (
-      <Box>
-        <Text
-          position="absolute"
-          visibility="hidden"
-          whiteSpace="pre"
-          ref={textRef}
-        ></Text>
-        <ChakraInput
-          color="white"
-          bg="dark"
-          minW="9rem"
-          _autofill={{
-            '&, &:hover, &:focus, &:active': {
-              WebkitBoxShadow:
-                '0 0 0 2em var(--chakra-colors-dark) inset !important',
-              WebkitTextFillColor: 'white !important',
-              caretColor: 'white',
-            },
-          }}
-          onInput={recalcText}
-          onFocus={recalcText}
-          {...{ width, ref }}
-          {...props}
-        >
-          {children}
-        </ChakraInput>
-      </Box>
-    );
-  },
-);
-
 export type Merge<P, T> = Omit<P, keyof T> & T;
 export const MotionBox = motion<BoxProps>(Box);
 export const PulseHoverBox: React.FC<{ duration?: number }> = ({
@@ -175,6 +114,7 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
   onClose,
 }) => {
   const [status, setStatus] = useState<Maybe<ReactElement | string>>();
+
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const username = useMemo(() => player?.profile?.username, []);
   const params = useRouter();
@@ -242,7 +182,7 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
   );
 
   if (debug) {
-    console.debug({ fields, endpoints });
+    console.debug({ fields, endpoints, dirtyFields });
   }
 
   useEffect(() => {
@@ -288,6 +228,16 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
     [endpoints, toast],
   );
 
+  const onFileRemove = useCallback(
+    (key: string) => {
+      endpoints[key].setFile(null);
+      endpoints[key].setURL(undefined);
+      endpoints[key].setLoading(true);
+      endpoints[key].setActive(false);
+    },
+    [endpoints],
+  );
+
   if (!ceramic || !saveToCeramic) {
     toast({
       title: 'Ceramic Connection Error',
@@ -302,18 +252,8 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
 
   const onSubmit = async (inputs: HasuraProfileProps) => {
     try {
-      if (isEmpty(dirtyFields)) {
-        return onClose();
-      }
-
-      if (!ceramic.did?.authenticated) {
-        setStatus(<Text>Authenticating DID…</Text>);
-        await ceramic.did?.authenticate();
-      }
-
       if (debug) {
         console.debug(`For ETH Address: ${address}`);
-        console.debug(`Connected DID: ${ceramic.did?.id}`);
       }
 
       setStatus(
@@ -476,7 +416,7 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
       <ModalContent as="form" onSubmit={handleSubmit(onSubmit)}>
         <ModalHeader>Profile</ModalHeader>
         <ModalCloseButton />
-        <ModalBody p={[0, 2, 4]}>
+        <ModalBody>
           <Grid
             templateColumns={['auto', 'auto', '1fr 1fr', '1fr 1fr 1fr']}
             gap={6}
@@ -489,7 +429,17 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
                     <InfoIcon ml={2} />
                   </Label>
                 </Tooltip>
-                <Center position="relative" justifyContent="left">
+                <Center
+                  position="relative"
+                  justifyContent="left"
+                  border="2px solid"
+                  borderColor={
+                    endpoints.profileImageURL.active &&
+                    !endpoints.profileImageURL.val
+                      ? 'blue.400'
+                      : 'transparent'
+                  }
+                >
                   <Box
                     w="10em"
                     h="10em"
@@ -512,7 +462,8 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
                         w="full"
                         border="2px solid"
                         borderColor={
-                          endpoints.profileImageURL.active
+                          endpoints.profileImageURL.active &&
+                          endpoints.profileImageURL.val
                             ? 'blue.400'
                             : 'transparent'
                         }
@@ -550,6 +501,7 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
                         }}
                         minW="100% !important"
                         minH="100%"
+                        accept="image/*"
                         position="absolute"
                         top={0}
                         bottom={0}
@@ -572,12 +524,12 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
               </FormControl>
             </GridItem>
             {[
-              /* {
-                 key: 'bannerImageURL',
-                 title: 'Header Banner',
-                 description:
-                   'An image with an ~3:1 aspect ratio to be displayed as a page or profile banner. 1MiB maximum size.',
-               }, */
+              {
+                key: 'bannerImageURL',
+                title: 'Header Banner',
+                description:
+                  'An image with an ~3:1 aspect ratio to be displayed as a page or profile banner. 1MiB maximum size.',
+              },
               {
                 key: 'backgroundImageURL',
                 title: 'Page Background',
@@ -595,7 +547,7 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
                   </Tooltip>
                   <Center
                     position="relative"
-                    maxW="12em"
+                    maxW={endpoints[key].val == null ? '100%' : 'max-content'}
                     h="10em"
                     border="2px solid"
                     borderColor={
@@ -608,41 +560,73 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
                       onLoad={() => {
                         endpoints[key].setLoading(false);
                       }}
+                      onError={() => {
+                        endpoints[key].setLoading(false);
+                      }}
                       display={endpoints[key].loading ? 'none' : 'inherit'}
                       src={endpoints[key].val}
                       h="full"
-                      w="full"
+                      w="auto"
                     />
                     {endpoints[key].loading &&
                       (endpoints[key].val == null ? (
-                        <Image maxW="50%" src={FileOpenIcon} opacity={0.5} />
+                        <Image
+                          w="5em"
+                          mx="2.5em"
+                          src={FileOpenIcon}
+                          opacity={0.5}
+                        />
                       ) : (
                         <Spinner size="xl" color="purple.500" thickness="4px" />
                       ))}
+
                     <Controller
                       control={control}
                       name={key}
                       defaultValue={[]}
                       render={({ field: { onChange, value, ...props } }) => (
-                        <Input
-                          type="file"
-                          {...props}
-                          value={value?.filename}
-                          onChange={async (evt) => {
-                            onChange(evt.target.files);
-                            onFileChange(evt);
-                          }}
-                          maxW="100%"
-                          minH="100%"
-                          position="absolute"
-                          top={0}
-                          bottom={0}
-                          left={0}
-                          right={0}
-                          opacity={0}
-                          onFocus={() => endpoints[key].setActive(true)}
-                          onBlur={() => endpoints[key].setActive(false)}
-                        />
+                        <>
+                          <Input
+                            type="file"
+                            {...props}
+                            value={value?.filename}
+                            onChange={async (evt) => {
+                              onChange(evt.target.files);
+                              onFileChange(evt);
+                            }}
+                            maxW="100%"
+                            minH="100%"
+                            position="absolute"
+                            accept="image/*"
+                            top={0}
+                            bottom={0}
+                            left={0}
+                            right={0}
+                            opacity={0}
+                            onFocus={() => endpoints[key].setActive(true)}
+                            onBlur={() => endpoints[key].setActive(false)}
+                          />
+                          {endpoints[key].val && !endpoints[key].loading && (
+                            <IconButton
+                              zIndex="10"
+                              position="absolute"
+                              top={2}
+                              right={2}
+                              bg="purple.400"
+                              borderRadius="50%"
+                              aria-label={`remove ${key}`}
+                              size="xs"
+                              _hover={{ bg: 'purple.500' }}
+                              icon={<CloseIcon boxSize="0.5rem" />}
+                              onClick={() => {
+                                onChange([]);
+                                onFileRemove(key);
+                              }}
+                              onFocus={() => endpoints[key].setActive(true)}
+                              onBlur={() => endpoints[key].setActive(false)}
+                            />
+                          )}
+                        </>
                       )}
                     />
                   </Center>
@@ -665,7 +649,6 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
                 <Textarea
                   placeholder="Describe yourself."
                   minW="min(18em, calc(100vw - 2rem))"
-                  h="10em"
                   color="white"
                   bg="dark"
                   {...register('description', {
@@ -689,6 +672,7 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
                   </Label>
                 </Tooltip>
                 <Input
+                  w="100%"
                   placeholder="Imma User"
                   {...register('name', {
                     maxLength: {
@@ -711,6 +695,7 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
                   </Label>
                 </Tooltip>
                 <Input
+                  w="100%"
                   placeholder="i-am-a-user"
                   {...register('username', {
                     validate: async (value) => {
@@ -773,18 +758,20 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
             <GridItem flex={1} alignItems="center">
               <FormControl isInvalid={errors.availableHours}>
                 <Label htmlFor="availableHours">Availability</Label>
-                <InputGroup borderColor="white">
+                <InputGroup w="100%">
                   <InputLeftElement>
                     <Text as="span" role="img" aria-label="clock">
                       🕛
                     </Text>
                   </InputLeftElement>
                   <Input
+                    flex={1}
+                    w="100%"
                     type="number"
                     placeholder="23"
-                    pl={9}
+                    pl={10}
                     minW={20}
-                    maxW={22}
+                    maxW="100%"
                     borderTopEndRadius={0}
                     borderBottomEndRadius={0}
                     borderRight={0}
@@ -816,6 +803,7 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
               <FormControl isInvalid={errors.pronouns}>
                 <Label htmlFor="pronouns">Pronouns</Label>
                 <Input
+                  w="100%"
                   id="pronouns"
                   placeholder="He, she, it, they, them, etc."
                   {...register('pronouns', {
@@ -842,6 +830,7 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
               <FormControl isInvalid={errors.website}>
                 <Label htmlFor="name">Website</Label>
                 <Input
+                  w="100%"
                   id="website"
                   placeholder="https://github.com/jane-user"
                   {...register('website', {
@@ -865,6 +854,7 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
                 <Label htmlFor="location">Location</Label>
                 <Input
                   id="location"
+                  w="100%"
                   placeholder="Laniakea Supercluster"
                   {...register('location', {
                     maxLength: {
@@ -887,7 +877,7 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
                   id="emoji"
                   placeholder="🗽"
                   minW="inherit"
-                  maxW="4em"
+                  w="100%"
                   {...register('emoji', {
                     maxLength: {
                       value: 2,
@@ -917,7 +907,11 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
         <ModalFooter mt={6} flex={1} justifyContent="center">
           <Wrap justify="center" align="center" flex={1}>
             <WrapItem>
-              <StatusedSubmitButton label="Save Changes" {...{ status }} />
+              <StatusedSubmitButton
+                isDisabled={isEmpty(dirtyFields)}
+                label="Save Changes"
+                {...{ status }}
+              />
             </WrapItem>
             <WrapItem>
               <Button

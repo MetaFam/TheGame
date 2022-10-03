@@ -48,6 +48,15 @@ export const theme = extendTheme({
         },
       },
     },
+    Input: {
+      variants: {
+        outline: {
+          field: {
+            backgroundColor: 'dark',
+          },
+        },
+      },
+    },
     Modal: {
       defaultProps: {
         isCentered: true,
