@@ -1,5 +1,4 @@
-import { LoadingState } from '@metafam/ds';
-import { ConnectToProgress } from 'components/ConnectToProgress';
+import { ConnectedPage } from 'components/ConnectedPage';
 import { PageContainer } from 'components/Container';
 import {
   ALL_BOXES,
@@ -7,34 +6,22 @@ import {
 } from 'components/Dashboard/config';
 import { DashboardSection } from 'components/Dashboard/DashboardSection';
 import { EditableGridLayout } from 'components/EditableGridLayout';
-import { HeadComponent } from 'components/Seo';
 import {
   Player,
   useUpdatePlayerDashboardLayoutMutation as useUpdateLayout,
 } from 'graphql/autogen/types';
-import { useUser, useWeb3 } from 'lib/hooks';
 import { useCallback, useMemo } from 'react';
 import { LayoutData } from 'utils/boxTypes';
 
-const DashboardPage: React.FC = () => {
-  const { user: player, fetching } = useUser();
-  const { connected } = useWeb3();
+const ConnectedDashboardPage: React.FC<Props> = () => (
+  <ConnectedPage page={DashboardPage} pageLabel="your dashboard" />
+);
 
-  return (
-    <PageContainer>
-      <HeadComponent title="MetaGame Dashboard" />
-      {connected && fetching && <LoadingState />}
-      {!connected && !fetching && !player && <ConnectToProgress />}
-      {connected && !fetching && player && <Grid player={player} />}
-    </PageContainer>
-  );
-};
-
-export default DashboardPage;
+export default ConnectedDashboardPage;
 
 type Props = { player: Player };
 
-export const Grid: React.FC<Props> = ({ player }) => {
+export const DashboardPage: React.FC<Props> = ({ player }) => {
   const [{ fetching: persisting }, saveLayoutData] = useUpdateLayout();
 
   const savedLayoutData = useMemo<LayoutData>(
@@ -58,17 +45,19 @@ export const Grid: React.FC<Props> = ({ player }) => {
   );
 
   return (
-    <EditableGridLayout
-      {...{
-        player,
-        defaultLayoutData: DEFAULT_DASHBOARD_LAYOUT_DATA,
-        savedLayoutData,
-        showEditButton: true,
-        persistLayoutData,
-        persisting,
-        allBoxOptions: ALL_BOXES,
-        displayComponent: DashboardSection,
-      }}
-    />
+    <PageContainer>
+      <EditableGridLayout
+        {...{
+          player,
+          defaultLayoutData: DEFAULT_DASHBOARD_LAYOUT_DATA,
+          savedLayoutData,
+          showEditButton: true,
+          persistLayoutData,
+          persisting,
+          allBoxOptions: ALL_BOXES,
+          displayComponent: DashboardSection,
+        }}
+      />
+    </PageContainer>
   );
 };
