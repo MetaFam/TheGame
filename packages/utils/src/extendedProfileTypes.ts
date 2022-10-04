@@ -120,7 +120,7 @@ export type HasuraStringProps = HasuraBPStrings & HasuraEPStrings;
 export type HasuraImageSourcedProps = {
   -readonly [key in keyof typeof BasicProfileImages]?: Maybe<ImageSources>;
 } & {
-  -readonly [key in keyof typeof ExtendedProfileImages]?: ImageSources | null;
+  -readonly [key in keyof typeof ExtendedProfileImages]?: Maybe<ImageSources>;
 };
 
 export type HasuraProfileProps = HasuraBPImages &
