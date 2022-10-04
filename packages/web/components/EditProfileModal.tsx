@@ -269,7 +269,7 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
 
       const formData = new FormData();
       const files: Record<string, File> = {};
-      const images: Record<string, ImageSources | null> = {};
+      const images: Record<string, Maybe<ImageSources>> = {};
       const values = { ...inputs };
       Object.keys(Images).forEach((hasuraId) => {
         const key = hasuraId as keyof typeof Images;
