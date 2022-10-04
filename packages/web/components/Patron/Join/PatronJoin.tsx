@@ -272,7 +272,7 @@ export const PatronJoin: React.FC<Props> = ({ patrons }) => {
   }
 
   return (
-    <Container maxW="75rem">
+    <Container maxW="75rem" my={[4, 4, 4, 12]}>
       <Flex direction="column">
         <Heading
           as="h1"

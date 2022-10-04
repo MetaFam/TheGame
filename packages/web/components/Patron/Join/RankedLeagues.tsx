@@ -1,4 +1,4 @@
-import { Box, Flex, Text } from '@metafam/ds';
+import { Box, Container, Flex, Heading, Text } from '@metafam/ds';
 
 import { LeagueCard } from './LeagueCard';
 
@@ -138,10 +138,17 @@ const No1Patron = {
 };
 
 export const RankedLeagues = () => (
-  <Flex>
-    <Text my="12" fontSize="lg" fontWeight="bold" as="h3">
-      Ranked Leagues & Perks
-    </Text>
+  <Container as="section" className="mg-patron-join-section">
+    <Heading
+      as="h2"
+      color="white"
+      fontFamily="mono"
+      fontWeight={700}
+      mb={[4, 4, 4, 12]}
+    >
+      Ranked Leagues &amp; Perks
+    </Heading>
+
     <Flex flexDirection="row" alignItems="stretch">
       <Flex
         width="50%"
@@ -188,5 +195,5 @@ export const RankedLeagues = () => (
         </Text>
       </Box>
     </Flex>
-  </Flex>
+  </Container>
 );

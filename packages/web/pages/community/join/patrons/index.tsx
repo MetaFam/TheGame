@@ -2,20 +2,23 @@ import {
   ArrowUpIcon,
   Box,
   Button,
+  Container,
   Flex,
+  Heading,
   Image,
   MetaButton,
   Text,
   VStack,
 } from '@metafam/ds';
-import Octopus from 'assets/octopus.png';
 // images
-import BlueArrow from 'assets/patron/blue-arrow.png';
+import Octopus from 'assets/octopus.png';
+// components
 import { PageContainer } from 'components/Container';
 import { BecomePatron } from 'components/Patron/Join/BecomePatron';
-import { PatronJoin } from 'components/Patron/Join/PatronJoin';
 import { RankedLeagues } from 'components/Patron/Join/RankedLeagues';
-import { WhyPatron } from 'components/Patron/Join/WhyPatron';
+import { WateringSeeds } from 'components/Patron/Join/WateringSeeds';
+import { WhatsTheProduct } from 'components/Patron/Join/WhatsTheProduct';
+import { WhoArePatrons } from 'components/Patron/Join/WhoArePatrons';
 import { PatronList } from 'components/Patron/PatronList';
 import { HeadComponent } from 'components/Seo';
 import { getPatrons } from 'graphql/getPatrons';
@@ -42,47 +45,116 @@ const PatronsJoinLanding: React.FC<Props> = ({ patrons }) => {
     topRef?.current?.scrollIntoView({ behavior: 'smooth' });
   }
 
+  /* 
+    Some styles that are reused 
+    .mg-patron-join-section        The page sections
+    .mg-patron-join-card-bg        The background color etc for cards
+                                  in the sections
+  */
+  const css = {
+    '.mg-patron-join-section': {
+      w: '100%',
+      maxW: '6xl',
+    },
+    '.mg-patron-join-card-bg': {
+      backgroundColor: 'whiteAlpha.200',
+      backdropFilter: 'blur(7px)',
+      boxShadow: 'md',
+      borderRadius: 'lg',
+    },
+  };
+
   return (
-    <PageContainer>
+    <PageContainer sx={css}>
       <HeadComponent
         title="MetaGame Patrons Join"
         description="MetaGame is a Massive Online Coordination Game! MetaGame’s Patrons enable us to succeed by helping us with funds."
         url="https://my.metagame.wtf/community/join/patrons"
       />
-      <PatronJoin patrons={patrons} />
+      <Container w="100%" maxW="6xl">
+        <Heading
+          as="h1"
+          color="white"
+          fontFamily="mono"
+          fontSize="6xl"
+          fontWeight={700}
+          mb={[4, 4, 4, 12]}
+          textAlign="center"
+          ref={topRef}
+        >
+          Join as a Patron!
+        </Heading>
+      </Container>
 
-      {/* Why be a Patron? */}
-      <WhyPatron />
+      {/* Section: Who are Patrons? */}
 
-      {/* Ranked Leagues & Perks */}
+      <WhoArePatrons />
+
+      {/* Section: Watering Seeds */}
+
+      <WateringSeeds />
+
+      {/* Section: What is the product */}
+
+      <WhatsTheProduct />
+
+      {/* Section: Ranked Leagues & Perks */}
 
       <RankedLeagues />
 
-      {/* Other patrons include... */}
+      {/* Section: Other patrons include... */}
 
-      <Text my="12" fontSize="lg" fontWeight="bold" as="h3">
-        Other patrons include...
-      </Text>
+      <Container as="section" className="mg-patron-join-section">
+        <Heading
+          as="h2"
+          color="white"
+          fontFamily="mono"
+          fontWeight={700}
+          my={[4, 4, 4, 12]}
+        >
+          Other patrons include...
+        </Heading>
 
-      <Flex direction="column" width="100%" align="center">
-        <PatronList patrons={patrons} />
-        <Box mt={12} mb={4} px={2}>
-          <MetaButton
-            as="a"
-            variant="link"
-            href="community/patrons"
-            maxW=""
-            p="4"
-          >
-            LOAD MORE
-          </MetaButton>
-        </Box>
-      </Flex>
+        <Container
+          w="100%"
+          maxW={{ base: '25rem', md: '100%' }}
+          mx="auto"
+          px={0}
+          centerContent
+        >
+          <PatronList patrons={patrons} />
+          <Box mt={12} mb={4} px={2}>
+            <MetaButton
+              maxW=""
+              as="a"
+              bg="#E839B7"
+              borderRadius={0}
+              color="white"
+              href="https://metagame.wtf/community/patrons"
+              minW="10rem"
+              mt={{ base: 8, md: 12 }}
+              px={6}
+              textTransform="uppercase"
+              _hover={{
+                backgroundColor: 'rgba(232, 57, 183, 0.6)',
+              }}
+              _active={{
+                backgroundColor: 'rgba(232, 57, 183, 0.6)',
+                transform: 'scale(0.8)',
+              }}
+            >
+              LOAD MORE
+            </MetaButton>
+          </Box>
+        </Container>
+      </Container>
 
       {/* Section: How to become a patron? */}
+
       <BecomePatron />
 
       {/* Back to Top button */}
+
       <VStack>
         <Image src={Octopus} pt={8} />
         <Box pb={4}>

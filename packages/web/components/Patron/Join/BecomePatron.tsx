@@ -1,14 +1,32 @@
-import { Box, Flex, Image, MetaButton, Text } from '@metafam/ds';
+import {
+  Box,
+  Container,
+  Flex,
+  Heading,
+  Image,
+  MetaButton,
+  Text,
+} from '@metafam/ds';
 import PatronCircle from 'assets/patron/patron-circle.png';
 import Seed from 'assets/patron/seed.png';
 
 export const BecomePatron: React.FC = () => (
-  <Flex flexDirection="column" justifyContent="center">
-    <Text my="12" fontSize="lg" fontWeight="bold" as="h3">
+  <Container as="section" className="mg-patron-join-section" my={[4, 4, 4, 12]}>
+    <Heading
+      as="h2"
+      color="white"
+      fontFamily="mono"
+      fontWeight={700}
+      mb={[8, 8, 8, 12]}
+    >
       How to become a patron?
-    </Text>
+    </Heading>
 
-    <Flex flexDirection="row" justifyContent="center" alignItems="center">
+    <Flex
+      direction={{ base: 'column', md: 'row' }}
+      justifyContent="center"
+      alignItems="center"
+    >
       <Flex direction="column" width="100%" align="center">
         <Flex
           direction="column"
@@ -92,5 +110,5 @@ export const BecomePatron: React.FC = () => (
         </Flex>
       </Flex>
     </Flex>
-  </Flex>
+  </Container>
 );
