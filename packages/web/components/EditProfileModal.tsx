@@ -115,8 +115,7 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
 }) => {
   const [status, setStatus] = useState<Maybe<ReactElement | string>>();
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const username = useMemo(() => player?.profile?.username, []);
+  const username = player?.profile?.username;
   const params = useRouter();
   const debug = !!params.query.debug;
   const saveToCeramic = useSaveCeramicProfile({ debug, setStatus });
