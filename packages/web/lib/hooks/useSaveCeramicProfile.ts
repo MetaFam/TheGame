@@ -149,7 +149,7 @@ export const useSaveCeramicProfile = ({
         const toKey = hasuraId as keyof typeof BasicProfileImages;
         if (images[toKey] !== undefined) {
           basic[fromKey] = images[toKey] ?? undefined;
-          vals[toKey] = images[toKey]?.original.src;
+          vals[toKey] = images[toKey]?.original.src ?? '';
         }
       });
 
@@ -177,7 +177,7 @@ export const useSaveCeramicProfile = ({
         const toKey = hasuraId as keyof typeof ExtendedProfileImages;
         if (images[toKey] !== undefined) {
           extended[fromKey] = images[toKey] ?? undefined;
-          vals[toKey] = images[toKey]?.original.src;
+          vals[toKey] = images[toKey]?.original.src ?? '';
         }
       });
 
