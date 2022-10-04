@@ -14,7 +14,7 @@ import { useCallback, useMemo } from 'react';
 import { LayoutData } from 'utils/boxTypes';
 
 const ConnectedDashboardPage: React.FC<Props> = () => (
-  <ConnectedPage page={DashboardPage} pageLabel="your dashboard" />
+  <ConnectedPage page={DashboardPage} pageLabel="Your Dashboard" />
 );
 
 export default ConnectedDashboardPage;
