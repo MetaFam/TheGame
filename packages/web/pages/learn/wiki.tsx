@@ -5,7 +5,7 @@ const WikiEmbedPage: React.FC = () => (
   <EmbedContainer
     title="MetaGame Wiki"
     description={descriptions.wiki}
-    url="https://wiki.metagame.wtf/docs/wtf-is-metagame/wtf-is-metagame"
+    url="https://wiki.metagame.wtf?metaos=true"
   />
 );
 
