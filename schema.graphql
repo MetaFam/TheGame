@@ -7310,12 +7310,17 @@ input profile_variance_order_by {
   colorMask: order_by
 }
 
+type PSeedInfo {
+  priceUsd: String
+}
+
 type Query {
   getBrightIdStatus(contextId: uuid): BrightIdStatus
   getDaoHausMemberships(memberAddress: String): [Member!]!
   getDiscordServerMemberRoles(guildId: uuid!, playerId: uuid!): [DiscordRole!]!
   getGuildDiscordAnnouncements(guildDiscordId: String): [String!]
   getGuildDiscordRoles(guildDiscordId: String): [DiscordRole!]!
+  getPSeedInfo: PSeedInfo
   getTokenBalances(address: String): TokenBalances
   getTopPSeedHolders(limit: Int): [TokenBalances!]
 }
@@ -7930,6 +7935,7 @@ type query_root {
   getDiscordServerMemberRoles(guildId: uuid!, playerId: uuid!): [DiscordRole!]!
   getGuildDiscordAnnouncements(guildDiscordId: String): [String!]
   getGuildDiscordRoles(guildDiscordId: String): [DiscordRole!]!
+  getPSeedInfo: PSeedInfo
   getTokenBalances(address: String): TokenBalances
   getTopPSeedHolders(limit: Int): [TokenBalances!]
 

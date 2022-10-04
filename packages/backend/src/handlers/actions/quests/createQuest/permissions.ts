@@ -1,6 +1,5 @@
-import { numbers } from '@metafam/utils';
+import { Constants, numbers } from '@metafam/utils';
 
-import { CONFIG } from '../../../../config';
 import { getERC20Contract, polygonProvider } from '../../../../lib/ethereum';
 
 const { BN, amountToDecimal } = numbers;
@@ -12,9 +11,10 @@ const { BN, amountToDecimal } = numbers;
 export async function isAllowedToCreateQuest(
   playerAddress: string,
 ): Promise<boolean> {
-  console.log(CONFIG.pSEEDAddress);
-  const pSEEDContractAddress = CONFIG.pSEEDAddress;
-  const pSEEDContract = getERC20Contract(pSEEDContractAddress, polygonProvider);
+  const pSEEDContract = getERC20Contract(
+    Constants.PSEED_ADDRESS,
+    polygonProvider,
+  );
   const pSEEDBalance = await pSEEDContract.balanceOf(playerAddress);
   const pSEEDDecimals = await pSEEDContract.decimals();
   const minimumPooledSeedBalance = new BN(100);

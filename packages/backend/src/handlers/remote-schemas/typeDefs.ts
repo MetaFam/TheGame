@@ -14,6 +14,7 @@ export const typeDefs = gql`
       playerId: uuid!
     ): [DiscordRole!]!
     getGuildDiscordAnnouncements(guildDiscordId: String): [String!]
+    getPSeedInfo: PSeedInfo
   }
 
   type BrightIdStatus {
@@ -56,6 +57,10 @@ export const typeDefs = gql`
     id: ID!
     seedBalance: String!
     pSeedBalance: String!
+  }
+
+  type PSeedInfo {
+    priceUsd: String
   }
 
   type DiscordRole {

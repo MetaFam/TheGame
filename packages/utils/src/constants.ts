@@ -12,11 +12,6 @@ export const SC_OUTPUT_BASE =
   'https://raw.githubusercontent.com/MetaFam/XP/gh-pages/';
 export const SC_ACCOUNTS_FILE = `${SC_OUTPUT_BASE}output/accounts.json`;
 
-export const CERAMIC_URL =
-  process.env.CERAMIC_URL ||
-  'https://ceramic.metagame.wtf' ||
-  'https://d12-a-ceramic.3boxlabs.com';
-
 export const {
   NEXT_PUBLIC_IMGIX_TOKEN: IMGIX_TOKEN,
   NEXT_PUBLIC_IMGIX_DOMAIN: IMGIX_DOMAIN = 'metafam.imgix.net',
@@ -25,3 +20,5 @@ export const IPFS_LINK_PATTERN =
   process.env.NEXT_PUBLIC_IPFS_LINK_PATTERN ||
   'https://gateway.ipfs.io/ipfs/{cid}/{path}' ||
   'https://{v1cid}.ipfs.dweb.link/{path}';
+
+export const PSEED_ADDRESS = '0x8a8fcd351ed553fc75aecbc566a32f94471f302e';
