@@ -200,9 +200,7 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
     });
   }, [setValue]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  useEffect(() => {
-    resetData();
-  }, [resetData]); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(resetData, [resetData]);
 
   const onFileChange = useCallback(
     ({ target: input }: { target: HTMLInputElement }) => {
