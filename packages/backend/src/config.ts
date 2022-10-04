@@ -15,7 +15,6 @@ interface IConfig {
   githubApiToken: string;
   adminKey: string;
   infuraId: string;
-  pSEEDAddress: string;
   brightIdAppURL: string;
   sourceCredLedgerBranch: string;
   ceramicURL: string;
@@ -46,10 +45,6 @@ export const CONFIG: IConfig = {
     return 'http://localhost:8080/v1/graphql';
   })(),
   frontendURL: parseEnv(process.env.FRONTEND_URL, 'http://localhost:3000'),
-  seedGraphqlURL: parseEnv(
-    process.env.SEED_GRAPHQL_URL,
-    'https://api.thegraph.com/subgraphs/name/tenfinney/polygon-seeds',
-  ),
   daoHausGraphqlURL: parseEnv(
     process.env.DAOHAUS_GRAPHQL_URL,
     'https://api.thegraph.com/subgraphs/name/odyssy-automaton/daohaus',
@@ -66,14 +61,15 @@ export const CONFIG: IConfig = {
     process.env.DAOHAUS_METADATA_URL,
     'https://data.daohaus.club/dao',
   ),
+  // See https://thegraph.com/hosted-service/subgraph/tenfinney/polygon-seeds
+  seedGraphqlURL: parseEnv(
+    process.env.SEED_GRAPHQL_URL,
+    'https://api.thegraph.com/subgraphs/name/tenfinney/polygon-seeds',
+  ),
+  githubApiToken: parseEnv(process.env.GITHUB_API_TOKEN, ''),
   adminKey: parseEnv(
     process.env.HASURA_GRAPHQL_ADMIN_SECRET,
     'metagame_secret',
-  ),
-  githubApiToken: parseEnv(process.env.GITHUB_API_TOKEN, ''),
-  pSEEDAddress: parseEnv(
-    process.env.PSEED_ADDRESS,
-    '0x8a8fcd351ed553fc75aecbc566a32f94471f302e',
   ),
   infuraId: parseEnv(
     process.env.NEXT_PUBLIC_INFURA_ID,

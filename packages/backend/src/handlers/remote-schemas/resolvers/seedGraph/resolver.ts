@@ -17,9 +17,9 @@ export const getTopPSeedHolders: QueryResolvers['getTopPSeedHolders'] = async (
   _,
   { limit },
 ) => {
-  const res = await seedGraphClient.GetTopPSeedHolders({
+  const holdersResult = await seedGraphClient.GetTopPSeedHolders({
     limit: limit || 50,
   });
 
-  return res.userTokens as Array<TokenBalances>;
+  return holdersResult.userTokens as Array<TokenBalances>;
 };

@@ -1,5 +1,6 @@
 import { makeExecutableSchema } from '@graphql-tools/schema';
 
+import { getPSeedInfo } from './resolvers/balancerPolygon/resolver';
 import { getBrightIdStatus } from './resolvers/brightId/resolver';
 import { getDaoHausMemberships } from './resolvers/daohaus/resolver';
 import {
@@ -23,6 +24,7 @@ const resolvers = {
     getGuildDiscordRoles,
     getDiscordServerMemberRoles,
     getGuildDiscordAnnouncements,
+    getPSeedInfo,
   },
   uuid,
 };
