@@ -1,4 +1,12 @@
-import { Box, Container, Flex, Heading, Text } from '@metafam/ds';
+import {
+  Box,
+  Container,
+  Flex,
+  Heading,
+  Text,
+  useMediaQuery,
+  VStack,
+} from '@metafam/ds';
 
 import { LeagueCard } from './LeagueCard';
 
@@ -137,63 +145,91 @@ const No1Patron = {
   ],
 };
 
-export const RankedLeagues = () => (
-  <Container as="section" className="mg-patron-join-section">
-    <Heading
-      as="h2"
-      color="white"
-      fontFamily="mono"
-      fontWeight={700}
-      mb={[4, 4, 4, 12]}
-    >
-      Ranked Leagues &amp; Perks
-    </Heading>
+export const RankedLeagues = () => {
+  const [isLargerThanLg] = useMediaQuery('(min-width: 62em)');
 
-    <Flex flexDirection="row" alignItems="stretch">
-      <Flex
-        width="50%"
-        flexDirection="column"
-        flexWrap="wrap"
-        alignItems="space-between"
-        justifyContent="space-between"
-      >
-        {LEAGUES.filter((_, i) => i % 2 === 0).map((league) => {
-          console.log('league -> ', league);
-          return <LeagueCard {...league} key={league.id} />;
-        })}
+  const renderHorizontal = () => (
+    <VStack>
+      <Flex flexDirection="row" alignItems="stretch">
+        <Flex
+          width="50%"
+          flexDirection="column"
+          flexWrap="wrap"
+          alignItems="space-between"
+          justifyContent="space-between"
+        >
+          {LEAGUES.filter((_, i) => i % 2 === 0).map((league) => (
+            <LeagueCard {...league} key={league.id} isVertical={false} />
+          ))}
+        </Flex>
+        <Flex
+          width="50%"
+          flexDirection="column"
+          flexWrap="wrap"
+          alignItems="space-between"
+          justifyContent="space-between"
+        >
+          {LEAGUES.filter((_, i) => i % 2 === 1).map((league) => (
+            <LeagueCard {...league} key={league.id} isVertical={false} />
+          ))}
+        </Flex>
       </Flex>
-      <Flex
-        width="50%"
-        flexDirection="column"
-        flexWrap="wrap"
-        alignItems="space-between"
-        justifyContent="space-between"
-      >
-        {LEAGUES.filter((_, i) => i % 2 === 1).map((league) => (
-          <LeagueCard {...league} key={league.id} />
-        ))}
-      </Flex>
-    </Flex>
+    </VStack>
+  );
+
+  const renderVertical = () => (
     <Flex
-      width="100%"
-      justifyContent="center"
       flexDirection="column"
-      alignItems="center"
-      justifyItems="center"
+      alignItems="space-between"
+      justifyContent="space-between"
     >
-      <LeagueCard {...No1Patron} key={No1Patron.id} />
-      <Box
-        bg="whiteAlpha.200"
-        style={{ backdropFilter: 'blur(7px)' }}
-        rounded="lg"
-        m="8"
-        p="4"
-      >
-        <Text fontSize="sm">
-          Note: Yes, you get what the previous league gets + your own league
-          perks!
-        </Text>
-      </Box>
+      {LEAGUES.map((league) => (
+        <LeagueCard {...league} key={league.id} isVertical={true} />
+      ))}
     </Flex>
-  </Container>
-);
+  );
+  console.log('isLargerThanLg ', isLargerThanLg);
+  return (
+    <Container
+      as="section"
+      className="mg-patron-join-section"
+      my={[8, 8, 8, 12]}
+    >
+      <Heading
+        as="h2"
+        color="white"
+        fontFamily="mono"
+        fontWeight={700}
+        mb={[4, 4, 4, 12]}
+      >
+        Ranked Leagues &amp; Perks
+      </Heading>
+
+      {isLargerThanLg ? renderHorizontal() : renderVertical()}
+
+      <VStack>
+        <Flex
+          width="100%"
+          justifyContent="center"
+          flexDirection="column"
+          alignItems="center"
+          justifyItems="center"
+        >
+          <LeagueCard {...No1Patron} key={No1Patron.id} isVertical={false} />
+          <Box
+            bg="whiteAlpha.200"
+            style={{ backdropFilter: 'blur(7px)' }}
+            rounded="lg"
+            m="8"
+            p="4"
+          >
+            <Text fontSize="sm">
+              Note: Yes, you get what the previous league gets + your own league
+              perks!
+            </Text>
+          </Box>
+        </Flex>
+      </VStack>
+    </Container>
+  );
+};

@@ -3,11 +3,9 @@ import {
   Box,
   Button,
   Container,
-  Flex,
   Heading,
   Image,
   MetaButton,
-  Text,
   VStack,
 } from '@metafam/ds';
 // images
@@ -45,12 +43,6 @@ const PatronsJoinLanding: React.FC<Props> = ({ patrons }) => {
     topRef?.current?.scrollIntoView({ behavior: 'smooth' });
   }
 
-  /* 
-    Some styles that are reused 
-    .mg-patron-join-section        The page sections
-    .mg-patron-join-card-bg        The background color etc for cards
-                                  in the sections
-  */
   const css = {
     '.mg-patron-join-section': {
       w: '100%',

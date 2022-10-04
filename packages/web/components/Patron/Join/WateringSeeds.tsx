@@ -1,12 +1,4 @@
-import {
-  Box,
-  Container,
-  Flex,
-  Heading,
-  Image,
-  MetaButton,
-  Text,
-} from '@metafam/ds';
+import { Box, Container, Flex, Heading, Image, MetaButton } from '@metafam/ds';
 import SeedsEconomy from 'assets/patron/seed-economy.png';
 import React from 'react';
 
