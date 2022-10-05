@@ -17,9 +17,7 @@ export const getPSeedInfo: QueryResolvers['getPSeedInfo'] = async () => {
   } as PSeedInfo;
 };
 
-const computePSeedPrice = (
-  poolData: GetPoolTokenDataQuery,
-): number | undefined => {
+const computePSeedPrice = (poolData: GetPoolTokenDataQuery): number | null => {
   if (poolData?.pools?.length === 1) {
     const poolTotalValueUSD = poolData.pools[0].tokens?.reduce(
       (sum, poolToken) =>
@@ -32,5 +30,5 @@ const computePSeedPrice = (
       return poolTotalValueUSD / parseFloat(poolData.pools[0].totalShares);
     }
   }
-  return undefined;
+  return null;
 };
