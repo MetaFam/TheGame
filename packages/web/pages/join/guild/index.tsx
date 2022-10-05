@@ -9,22 +9,27 @@ import {
   MetaButton,
   VStack,
 } from '@metafam/ds';
-// Images to use in the page
 import Octopus from 'assets/octopus.png'; // in the footer
 import { PageContainer } from 'components/Container';
-// For the Guilds list
 import { GuildList } from 'components/Guild/GuildList';
 import { DecentralizedFactory } from 'components/Guild/Join/DecentralizedFactory';
 import { DecideJoin } from 'components/Guild/Join/DecideJoin';
 import { Requirements } from 'components/Guild/Join/Requirements';
-// import { OtherGuilds } from 'components/Guild/Join/OtherGuilds';
 import { TiersPerks } from 'components/Guild/Join/TiersPerks';
-// The page sections
+/*
+  The page sections
+*/
 import { WhatAreGuilds } from 'components/Guild/Join/WhatAreGuilds';
 import { WhyJoin } from 'components/Guild/Join/WhyJoin';
 import { HeadComponent } from 'components/Seo';
+/*
+  For listing out the guilds
+*/
 import { getGuilds } from 'graphql/queries/guild';
 import { InferGetStaticPropsType } from 'next';
+/*
+  For the back to top button at the bottom of the page
+*/
 import { useRouter } from 'next/router';
 import React, { useRef } from 'react';
 
@@ -41,7 +46,6 @@ export const getStaticProps = async () => {
   };
 };
 
-// export const GuildJoinLanding: React.FC = () => {
 export const GuildJoinLanding: React.FC<Props> = ({ guilds }) => {
   /* 
     The back to top link at the bottom of the page
@@ -117,8 +121,8 @@ export const GuildJoinLanding: React.FC<Props> = ({ guilds }) => {
         <TiersPerks />
 
         {/* Section: Other guilds include... 
-          Can't get this working in a component: TypeError: Cannot read properties of undefined (reading 'map') 
-          <OtherGuilds /> 
+          Can't get this section working in a component: TypeError: Cannot read properties of undefined (reading 'map') 
+          Because getStaticProps only works in a page (not in a component)?
           So it is inlined
           Supposed to be limited to 6 guilds with a LOAD MORE button :(
           Is actually limited to first 6 guilds with VIEW ALL GUILDS button that links to https://metagame.wtf/community/guilds 
