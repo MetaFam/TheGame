@@ -28,14 +28,13 @@ export const GuildAnnouncements: React.FC<Props> = ({
   guild: { id: guildId },
   editing,
 }) => {
-  const [getGuildAnnouncementsResponse] = useGetGuildAnnouncementsQuery({
+  const [{ fetching, data, error }] = useGetGuildAnnouncementsQuery({
     variables: { guildId },
   });
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const announcements =
-    getGuildAnnouncementsResponse.data?.guild[0].discordAnnouncements;
+  const announcements = data?.guild[0].discordAnnouncements;
 
   return (
     <ProfileSection
@@ -43,36 +42,40 @@ export const GuildAnnouncements: React.FC<Props> = ({
       type={BoxTypes.GUILD_ANNOUNCEMENTS}
       editing={editing}
     >
-      {getGuildAnnouncementsResponse.fetching && <LoadingState />}
-      {getGuildAnnouncementsResponse.error && (
+      {fetching && <LoadingState />}
+      {error && !fetching && (
         <Text mb={4}>Could not fetch announcements. 😥</Text>
       )}
-      {!announcements?.length ? (
-        <Text mb={4}>No announcements.</Text>
-      ) : (
-        <VStack w="100%" align="stretch" spacing={4}>
-          {announcements?.slice(0, 2).map((item, index) => (
-            <GuildAnnouncement key={index} announcementHtml={item} />
-          ))}
-        </VStack>
+      {!fetching && !error && (
+        <>
+          {!announcements?.length ? (
+            <Text mb={4}>No announcements.</Text>
+          ) : (
+            <VStack w="100%" align="stretch" spacing={4}>
+              {announcements?.slice(0, 2).map((item, index) => (
+                <GuildAnnouncement key={index} announcementHtml={item} />
+              ))}
+            </VStack>
+          )}
+          {announcements != null && announcements.length > 2 && (
+            <Text
+              as="span"
+              fontSize="xs"
+              color="cyanText"
+              cursor="pointer"
+              onClick={onOpen}
+              mb={4}
+            >
+              View all ({announcements.length})
+            </Text>
+          )}
+          <GuildAnnouncementsModal
+            announcements={announcements}
+            isOpen={isOpen}
+            onClose={onClose}
+          />
+        </>
       )}
-      {announcements != null && announcements.length > 2 && (
-        <Text
-          as="span"
-          fontSize="xs"
-          color="cyanText"
-          cursor="pointer"
-          onClick={onOpen}
-          mb={4}
-        >
-          View all ({announcements.length})
-        </Text>
-      )}
-      <GuildAnnouncementsModal
-        announcements={announcements}
-        isOpen={isOpen}
-        onClose={onClose}
-      />
     </ProfileSection>
   );
 };
