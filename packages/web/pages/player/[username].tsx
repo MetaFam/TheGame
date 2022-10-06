@@ -14,7 +14,7 @@ import {
 } from 'graphql/autogen/types';
 import { getPlayer } from 'graphql/getPlayer';
 import { getTopPlayerUsernames } from 'graphql/getPlayers';
-import { useProfileField, useUser, useWeb3 } from 'lib/hooks';
+import { useProfileField, useUser } from 'lib/hooks';
 import { GetStaticPaths, GetStaticPropsContext } from 'next';
 import { useRouter } from 'next/router';
 import Page404 from 'pages/404';

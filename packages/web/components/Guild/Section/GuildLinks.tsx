@@ -8,11 +8,10 @@ import {
   Wrap,
   WrapItem,
 } from '@metafam/ds';
-import { ExternalDaoLink, LinkGuild } from 'components/Player/PlayerGuild';
-import { PlayerHeroTile } from 'components/Player/Section/PlayerHeroTile';
+import { LinkGuild } from 'components/Player/PlayerGuild';
 import { ProfileSection } from 'components/Section/ProfileSection';
 import { GuildFragment } from 'graphql/autogen/types';
-import React, { useMemo } from 'react';
+import React from 'react';
 import { FaDiscord, FaGithub, FaGlobe, FaTwitter } from 'react-icons/fa';
 import { BoxTypes } from 'utils/boxTypes';
 import { getDAOLink } from 'utils/daoHelpers';

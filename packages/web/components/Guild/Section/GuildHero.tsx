@@ -45,27 +45,21 @@ export const GuildHero: React.FC<Props> = ({ guild, editing }) => {
   return (
     <ProfileSection editing={editing} type={BoxTypes.GUILD_HERO}>
       {canAdministerGuild && !editing && (
-        <Box pos="absolute" right={3} top={3}>
+        <Box pos="absolute" right={2} top={2}>
           <Link
             _hover={{ textDecoration: 'none' }}
             href={`/guild/${guild.guildname}/edit`}
           >
             <IconButton
-              _focus={{ boxShadow: 'none' }}
-              variant="outline"
-              borderWidth={2}
               aria-label="Edit Profile Info"
               size="lg"
-              borderColor="pinkShadeOne"
-              bg="rgba(17, 17, 17, 0.9)"
+              background="transparent"
               color="pinkShadeOne"
-              _hover={{ color: 'white', borderColor: 'white' }}
               icon={<EditIcon />}
+              _hover={{ color: 'white' }}
+              _focus={{ boxShadow: 'none' }}
+              _active={{ transform: 'scale(0.8)' }}
               isRound
-              _active={{
-                transform: 'scale(0.8)',
-                backgroundColor: 'transparent',
-              }}
             />
           </Link>
         </Box>
