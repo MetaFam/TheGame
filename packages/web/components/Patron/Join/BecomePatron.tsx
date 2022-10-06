@@ -43,21 +43,40 @@ export const BecomePatron: React.FC = () => (
           justify="space-between"
           my={12}
         >
-          <Flex justify="center" align="center">
+          <Flex justify="center" align="center" height="100%">
             <Image src={Seed} height="auto" maxW="16rem" my="6" mb="12" />
           </Flex>
-          <Text fontSize="md" as="p" fontWeight="bold" marginBottom="2">
+          <Text textAlign="center" fontSize="xl" as="p" marginBottom="8">
             Water Seeds yourself
           </Text>
-          <Text>
+          <Text mb={4}>
             Watering Seeds means adding Ether & Rai to the Seed pool aka
             plantation. You’ll need to have some Ether on Polygon, add it to the
             pool, join discord & talk to the collab land bot to let you in.
           </Text>
           <Text>Want a more detailed guide?</Text>
+
           <Flex mt="6" justifyContent="center">
-            <Box mb={4} px={2}>
-              <MetaButton as="a" variant="link" href="/seeds" maxW="" p="4">
+            <Box mt={6} mb={4} px={2}>
+              <MetaButton
+                maxW=""
+                as="a"
+                bg="#E839B7"
+                borderRadius={0}
+                color="white"
+                href="https://metagame.wtf/community/patrons"
+                minW="10rem"
+                mt={8}
+                px={6}
+                textTransform="uppercase"
+                _hover={{
+                  backgroundColor: 'rgba(232, 57, 183, 0.6)',
+                }}
+                _active={{
+                  backgroundColor: 'rgba(232, 57, 183, 0.6)',
+                  transform: 'scale(0.8)',
+                }}
+              >
                 YES PLS!
               </MetaButton>
             </Box>
@@ -65,9 +84,11 @@ export const BecomePatron: React.FC = () => (
         </Flex>
       </Flex>
 
-      <Text my="12" fontSize="lg" fontWeight="bold" as="h3">
-        OR
-      </Text>
+      <Flex height="100%" justifyContent="center">
+        <Text my="12" fontSize="lg" fontWeight="bold" as="h3">
+          OR
+        </Text>
+      </Flex>
 
       <Flex direction="column" width="100%" align="center">
         <Flex
@@ -88,10 +109,10 @@ export const BecomePatron: React.FC = () => (
           <Flex justify="center" align="center">
             <Image src={PatronCircle} height="auto" maxW="16rem" my="6" />
           </Flex>
-          <Text fontSize="md" as="p" fontWeight="bold" marginBottom="2">
+          <Text textAlign="center" fontSize="xl" as="p" marginBottom="8">
             Buy & forget about it
           </Text>
-          <Text>
+          <Text mb={4}>
             Too busy for buying the esoteric Rai, bridging over to Polygon &
             patiently watering Seeds over a long period of time so as to not
             overwater & slip?
@@ -101,8 +122,26 @@ export const BecomePatron: React.FC = () => (
             ask.
           </Text>
           <Flex mt="6" justifyContent="center">
-            <Box mb={4} px={2}>
-              <MetaButton as="a" variant="link" href="/seeds" maxW="" p="4">
+            <Box mt={12} mb={4} px={2}>
+              <MetaButton
+                maxW=""
+                as="a"
+                bg="#E839B7"
+                borderRadius={0}
+                color="white"
+                href="https://metagame.wtf/community/patrons"
+                minW="10rem"
+                mt={8}
+                px={6}
+                textTransform="uppercase"
+                _hover={{
+                  backgroundColor: 'rgba(232, 57, 183, 0.6)',
+                }}
+                _active={{
+                  backgroundColor: 'rgba(232, 57, 183, 0.6)',
+                  transform: 'scale(0.8)',
+                }}
+              >
                 PERFECT!
               </MetaButton>
             </Box>

@@ -167,7 +167,7 @@ const PerksGrid = () => (
         minH="10rem"
         mb={{ base: 0, md: '1em' }} // the arrow on the next Box arrow makes the margin at base breakpoint
       >
-        <PerksHeader title={'Bronze League'} count={94} amount={160} />
+        <PerksHeader title={'Bronze League'} count={21} amount={925.68} />
         <Box px={8} py={4} width="100%" color="white">
           <Flex p={8} py={4} width="100%" flexDirection="row" flexWrap="wrap">
             {BronzeLeagueList.map((text: string) => (
@@ -190,7 +190,7 @@ const PerksGrid = () => (
         bg="whiteAlpha.200"
         mb={{ base: 0, md: '1em' }} // the arrow on the next Box arrow makes the margin at base breakpoint
       >
-        <PerksHeader title={'Silver League'} count={94} amount={160} />
+        <PerksHeader title={'Silver League'} count={14} amount={3600.64} />
 
         <Box px={8} py={4} width="100%" color="white">
           <List textAlign="left">
@@ -216,7 +216,7 @@ const PerksGrid = () => (
         bg="whiteAlpha.200"
         mb={{ base: 0, md: '1em' }} // the arrow on the next Box arrow makes the margin at base breakpoint
       >
-        <PerksHeader title={'Gold League'} count={94} amount={160} />
+        <PerksHeader title={'Gold League'} count={7} amount={4616.16} />
 
         <Box px={8} py={4} width="100%" color="white">
           <Flex p={8} py={4} width="100%" flexDirection="row" flexWrap="wrap">
@@ -240,7 +240,7 @@ const PerksGrid = () => (
         bg="whiteAlpha.200"
         mb={{ base: 0, md: '1em' }} // the arrow on the next Box arrow makes the margin at base breakpoint
       >
-        <PerksHeader title={'Platinum League'} count={94} amount={160} />
+        <PerksHeader title={'Platinum League'} count={7} amount={7201.28} />
 
         <Box px={8} py={4} width="100%" color="white">
           <Flex p={8} py={4} width="100%" flexDirection="row" flexWrap="wrap">
@@ -264,7 +264,7 @@ const PerksGrid = () => (
         bg="whiteAlpha.200"
         mb={{ base: 0, md: '1em' }} // the arrow on the next Box arrow makes the margin at base breakpoint
       >
-        <PerksHeader title={'Diamond League'} count={94} amount={160} />
+        <PerksHeader title={'Diamond League'} count={94} amount={10807} />
 
         <Box px={8} py={4} width="100%" color="white">
           <Flex p={8} py={4} width="100%" flexDirection="row" flexWrap="wrap">
