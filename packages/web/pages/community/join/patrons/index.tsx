@@ -92,7 +92,7 @@ const PatronsJoinLanding: React.FC<Props> = ({ patrons }) => {
 
       {/* Section: Ranked Leagues & Perks */}
 
-      <RankedLeagues />
+      {<RankedLeagues />}
 
       {/* Section: Other patrons include... */}
 
