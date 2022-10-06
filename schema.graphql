@@ -1543,6 +1543,7 @@ type guild {
   metadata: guild_metadata
   name: String!
   position: GuildPosition_enum
+  profileLayout: String
 
   """An array relationship"""
   quests(
@@ -1644,6 +1645,7 @@ input guild_bool_exp {
   metadata: guild_metadata_bool_exp
   name: String_comparison_exp
   position: GuildPosition_enum_comparison_exp
+  profileLayout: String_comparison_exp
   quests: quest_bool_exp
   showDiscordAnnouncements: Boolean_comparison_exp
   status: GuildStatus_enum_comparison_exp
@@ -1685,6 +1687,7 @@ input guild_insert_input {
   metadata: guild_metadata_obj_rel_insert_input
   name: String
   position: GuildPosition_enum
+  profileLayout: String
   quests: quest_arr_rel_insert_input
   showDiscordAnnouncements: Boolean
   status: GuildStatus_enum
@@ -1704,6 +1707,7 @@ type guild_max_fields {
   joinButtonUrl: String
   logo: String
   name: String
+  profileLayout: String
   twitterUrl: String
   websiteUrl: String
 }
@@ -1721,6 +1725,7 @@ input guild_max_order_by {
   joinButtonUrl: order_by
   logo: order_by
   name: order_by
+  profileLayout: order_by
   twitterUrl: order_by
   websiteUrl: order_by
 }
@@ -1986,6 +1991,7 @@ type guild_min_fields {
   joinButtonUrl: String
   logo: String
   name: String
+  profileLayout: String
   twitterUrl: String
   websiteUrl: String
 }
@@ -2003,6 +2009,7 @@ input guild_min_order_by {
   joinButtonUrl: order_by
   logo: order_by
   name: order_by
+  profileLayout: order_by
   twitterUrl: order_by
   websiteUrl: order_by
 }
@@ -2054,6 +2061,7 @@ input guild_order_by {
   metadata: guild_metadata_order_by
   name: order_by
   position: order_by
+  profileLayout: order_by
   quests_aggregate: quest_aggregate_order_by
   showDiscordAnnouncements: order_by
   status: order_by
@@ -2292,6 +2300,9 @@ enum guild_select_column {
   position
 
   """column name"""
+  profileLayout
+
+  """column name"""
   showDiscordAnnouncements
 
   """column name"""
@@ -2322,6 +2333,7 @@ input guild_set_input {
   membershipThroughDiscord: Boolean
   name: String
   position: GuildPosition_enum
+  profileLayout: String
   showDiscordAnnouncements: Boolean
   status: GuildStatus_enum
   twitterUrl: String
@@ -2365,6 +2377,9 @@ enum guild_update_column {
 
   """column name"""
   position
+
+  """column name"""
+  profileLayout
 
   """column name"""
   showDiscordAnnouncements
