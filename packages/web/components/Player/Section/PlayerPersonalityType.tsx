@@ -40,7 +40,6 @@ export const PlayerPersonalityType: React.FC<PersonalityTypeProps> = ({
     <ProfileSection
       title="Personality Type"
       type={BoxTypes.PLAYER_COLOR_DISPOSITION}
-      withoutBG
       {...{ isOwnProfile, editing }}
     >
       {mask == null ? (

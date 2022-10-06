@@ -17,7 +17,7 @@ import { BoxMetadata, BoxType, BoxTypes, createBoxKey } from 'utils/boxTypes';
 
 type Props = {
   type: BoxType;
-  player: Player;
+  player?: Player;
   metadata?: BoxMetadata;
   editing?: boolean;
   onRemoveBox?: (boxKey: string) => void;
@@ -25,6 +25,7 @@ type Props = {
 
 const PlayerSectionInner: React.FC<
   Props & {
+    player: Player;
     isOwnProfile?: boolean;
   }
 > = ({ metadata, type, player, isOwnProfile, editing }) => {
@@ -59,13 +60,14 @@ const PlayerSectionInner: React.FC<
 export const PlayerSection = forwardRef<HTMLDivElement, Props>(
   ({ metadata, type, player, editing = false, onRemoveBox }, ref) => {
     const key = createBoxKey(type, metadata);
-    const { user, fetching } = useUser();
-    const { connected } = useWeb3();
+    const { user } = useUser();
 
     const isOwnProfile = useMemo(
-      () => !fetching && !!user && user.id === player.id && !!connected,
-      [user, fetching, connected, player.id],
+      () => !!user && user.id === player?.id,
+      [user, player?.id],
     );
+
+    if (!player) return null;
 
     return (
       <Flex

@@ -29,9 +29,13 @@ export const useUser = ({
     requestPolicy,
   });
   const [me] = data?.me ?? [];
+
   const user = useMemo(
-    () => (!error && authToken && me ? (me.record as Player) : null),
-    [error, authToken, me],
+    () =>
+      !error && !fetching && authToken && me && connected
+        ? (me.record as Player)
+        : null,
+    [error, authToken, me, connected, fetching],
   );
 
   if (error) {

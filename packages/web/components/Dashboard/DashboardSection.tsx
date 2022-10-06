@@ -13,7 +13,7 @@ import { isBoxResizable } from 'utils/layoutHelpers';
 
 type Props = {
   type: BoxType;
-  player: Player;
+  player?: Player;
   metadata?: BoxMetadata;
   editing?: boolean;
   onRemoveBox?: (boxKey: string) => void;
@@ -66,6 +66,7 @@ export const DashboardSection = forwardRef<HTMLDivElement, Props>(
   ({ metadata, type, player, editing = false, onRemoveBox }, ref) => {
     const key = createBoxKey(type, metadata);
     const title = getTitle(type, metadata);
+    if (!player) return null;
 
     return (
       <Flex

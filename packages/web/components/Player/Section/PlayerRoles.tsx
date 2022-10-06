@@ -27,7 +27,6 @@ export const PlayerRoles: React.FC<Props> = ({
     <ProfileSection
       title="Roles"
       type={BoxTypes.PLAYER_ROLES}
-      withoutBG
       {...{ isOwnProfile, editing }}
     >
       {roles?.length === 0 && (

@@ -12,14 +12,22 @@ import {
   VStack,
 } from '@metafam/ds';
 import { ProfileSection } from 'components/Section/ProfileSection';
-import { useGetGuildAnnouncementsQuery } from 'graphql/autogen/types';
+import {
+  GuildFragment,
+  useGetGuildAnnouncementsQuery,
+} from 'graphql/autogen/types';
 import React, { useState } from 'react';
+import { BoxTypes } from 'utils/boxTypes';
 
 type Props = {
-  guildId: string;
+  guild: GuildFragment;
+  editing: boolean;
 };
 
-export const GuildAnnouncements: React.FC<Props> = ({ guildId }) => {
+export const GuildAnnouncements: React.FC<Props> = ({
+  guild: { id: guildId },
+  editing,
+}) => {
   const [getGuildAnnouncementsResponse] = useGetGuildAnnouncementsQuery({
     variables: { guildId },
   });
@@ -30,13 +38,17 @@ export const GuildAnnouncements: React.FC<Props> = ({ guildId }) => {
     getGuildAnnouncementsResponse.data?.guild[0].discordAnnouncements;
 
   return (
-    <ProfileSection title="Announcements">
+    <ProfileSection
+      title="Announcements"
+      type={BoxTypes.GUILD_ANNOUNCEMENTS}
+      editing={editing}
+    >
       {getGuildAnnouncementsResponse.fetching && <LoadingState />}
       {getGuildAnnouncementsResponse.error && (
-        <Text>Could not fetch announcements. 😥</Text>
+        <Text mb={4}>Could not fetch announcements. 😥</Text>
       )}
       {!announcements?.length ? (
-        <Text>No announcements.</Text>
+        <Text mb={4}>No announcements.</Text>
       ) : (
         <VStack w="100%" align="stretch" spacing={4}>
           {announcements?.slice(0, 2).map((item, index) => (
@@ -51,6 +63,7 @@ export const GuildAnnouncements: React.FC<Props> = ({ guildId }) => {
           color="cyanText"
           cursor="pointer"
           onClick={onOpen}
+          mb={4}
         >
           View all ({announcements.length})
         </Text>

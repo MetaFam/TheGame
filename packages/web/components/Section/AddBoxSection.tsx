@@ -18,26 +18,35 @@ import {
   VStack,
 } from '@metafam/ds';
 import { Maybe } from '@metafam/utils';
-import { Player } from 'graphql/autogen/types';
+import { GuildFragment, Player } from 'graphql/autogen/types';
 import React, { useCallback, useEffect, useState } from 'react';
 import { BoxMetadata, BoxType, BoxTypes } from 'utils/boxTypes';
 
 import { EmbeddedUrlMetadata } from './EmbeddedUrlSection';
 
 type Props = FlexProps & {
-  player: Player;
+  player?: Player;
+  guild?: GuildFragment;
   boxes: Array<BoxType>;
   onAddBox: (arg0: BoxType, arg1: BoxMetadata) => void;
   previewComponent: (props: {
     metadata: BoxMetadata;
     type: BoxType;
-    player: Player;
+    player?: Player;
+    guild?: GuildFragment;
   }) => JSX.Element | null;
 };
 
 export const AddBoxSection = React.forwardRef<HTMLDivElement, Props>(
   (
-    { player, boxes = [], onAddBox, previewComponent: Preview, ...props },
+    {
+      player,
+      guild,
+      boxes = [],
+      onAddBox,
+      previewComponent: Preview,
+      ...props
+    },
     ref,
   ) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
@@ -149,6 +158,7 @@ export const AddBoxSection = React.forwardRef<HTMLDivElement, Props>(
                           type,
                           metadata,
                           player,
+                          guild,
                         }}
                       />
                     </Flex>

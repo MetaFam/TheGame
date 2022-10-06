@@ -1,11 +1,14 @@
 import { Box, Flex, LoadingState } from '@metafam/ds';
 import { PageContainer } from 'components/Container';
-import { GuildHero } from 'components/Guild/GuildHero';
-import { GuildAnnouncements } from 'components/Guild/Section/GuildAnnouncements';
-import { GuildLinks } from 'components/Guild/Section/GuildLinks';
-import { GuildPlayers } from 'components/Guild/Section/GuildPlayers';
+import { EditableGridLayout } from 'components/EditableGridLayout';
+import { GuildSection } from 'components/Guild/GuildSection';
+import {
+  ALL_BOXES,
+  DEFAULT_GUILD_LAYOUT_DATA,
+} from 'components/Guild/Section/config';
 import { HeadComponent } from 'components/Seo';
 import {
+  GuildFragment,
   QuestFragment,
   QuestStatus_Enum,
   useGetAdministeredGuildsQuery,
@@ -13,55 +16,17 @@ import {
 import { getQuests } from 'graphql/getQuests';
 import { getGuild, getGuildnames } from 'graphql/queries/guild';
 import { useUser } from 'lib/hooks';
-import {
-  GetStaticPaths,
-  GetStaticPropsContext,
-  InferGetStaticPropsType,
-} from 'next';
+import { GetStaticPaths, GetStaticPropsContext } from 'next';
 import { useRouter } from 'next/router';
 import Page404 from 'pages/404';
-import React, { useMemo } from 'react';
-import { BoxTypes } from 'utils/boxTypes';
+import React, { ReactElement, useCallback, useMemo } from 'react';
+import { BoxTypes, LayoutData } from 'utils/boxTypes';
 import { getGuildCoverImageFull } from 'utils/playerHelpers';
 
-type Props = InferGetStaticPropsType<typeof getStaticProps>;
+type Props = { guild: GuildFragment };
 
 const GuildPage: React.FC<Props> = ({ guild }) => {
   const router = useRouter();
-  const { user, fetching: loadingUser } = useUser();
-  const [getAdministeredGuildsResponse] = useGetAdministeredGuildsQuery({
-    variables: { id: user?.id },
-  });
-  const administeredGuilds = getAdministeredGuildsResponse.data?.guild_metadata;
-
-  const canEdit = useMemo(
-    () =>
-      !loadingUser &&
-      user != null &&
-      getAdministeredGuildsResponse.fetching === false &&
-      administeredGuilds != null &&
-      administeredGuilds.some(
-        (guildMetadata) => guildMetadata.guildId === guild?.id,
-      ),
-    [
-      loadingUser,
-      user,
-      getAdministeredGuildsResponse,
-      administeredGuilds,
-      guild,
-    ],
-  );
-
-  // Hidden until implemented
-  // BoxType.GUILD_SKILLS,
-  // BoxType.GUILD_STATS,
-  // BoxType.GUILD_QUESTS,
-  // BoxType.GUILD_GALLERY,
-
-  const boxes: string[][] = [[BoxTypes.GUILD_PLAYERS], [BoxTypes.GUILD_LINKS]];
-  if (guild != null && guild.showDiscordAnnouncements !== false) {
-    boxes[1].unshift(BoxTypes.GUILD_ANNOUNCEMENTS);
-  }
 
   if (router.isFallback) {
     return <LoadingState />;
@@ -70,19 +35,6 @@ const GuildPage: React.FC<Props> = ({ guild }) => {
   if (!guild) {
     return <Page404 />;
   }
-
-  const getBox = (name: string): React.ReactNode => {
-    switch (name) {
-      case BoxTypes.GUILD_PLAYERS:
-        return <GuildPlayers guildId={guild.id} guildname={guild.guildname} />;
-      case BoxTypes.GUILD_LINKS:
-        return <GuildLinks guild={guild} />;
-      case BoxTypes.GUILD_ANNOUNCEMENTS:
-        return <GuildAnnouncements guildId={guild.id} />;
-      default:
-        return <></>;
-    }
-  };
 
   return (
     <PageContainer p={0}>
@@ -102,82 +54,103 @@ const GuildPage: React.FC<Props> = ({ guild }) => {
       />
       <Flex
         w="full"
-        minH="100vh"
-        pl={[4, 8, 12]}
-        pr={[4, 8, 12]}
-        pb={[4, 8, 12]}
-        pt={200 - 72}
+        h="min-content"
         direction="column"
         align="center"
-        zIndex={1}
+        pt={12}
+        px={[0, 4, 8]}
       >
-        <Flex
-          align="center"
-          direction={{ base: 'column', md: 'row' }}
-          alignItems="flex-start"
-          maxW="96rem"
-        >
-          <Box
-            width={{ base: '100%', md: '50%', lg: '33%' }}
-            mr={{ base: 0, md: 4 }}
-          >
-            <Box mb="6">
-              <GuildHero guild={guild} canEdit={canEdit} />
-            </Box>
-          </Box>
-          <Box
-            width={{ base: '100%', md: '50%', lg: '66%' }}
-            ml={{ base: 0, md: 4 }}
-            mt={[0, 0, 100]}
-            mb={[100, 100, 0]}
-          >
-            <Box width="100%">
-              <Flex
-                align="center"
-                direction={{ base: 'column', lg: 'row' }}
-                alignItems="flex-start"
-              >
-                <Box
-                  width={{ base: '100%', lg: '50%' }}
-                  mr={{ base: 0, lg: 4 }}
-                >
-                  {boxes[0].map((name) => (
-                    <Box mb="6" key={name}>
-                      {getBox(name)}
-                    </Box>
-                  ))}
-                </Box>
-                <Box
-                  width={{ base: '100%', lg: '50%' }}
-                  ml={{ base: 0, lg: 4 }}
-                >
-                  {boxes[1].map((name) => (
-                    <Box mb="6" key={name}>
-                      {getBox(name)}
-                    </Box>
-                  ))}
-                </Box>
-              </Flex>
-            </Box>
-          </Box>
-        </Flex>
+        <Grid {...{ guild }} />
       </Flex>
-      {/* to be implemented  */}
-      {/* <ProfileSection title="Skills" />
-      <ProfileSection title="Stats" />
-      <ProfileSection title="Quests">
-        {quests?.length ? (
-          <p>Available quests</p>
-        ) : (
-          <p>Currently no available quests</p>
-        )}
-      </ProfileSection>
-      <ProfileSection title="Gallery" /> */}
     </PageContainer>
   );
 };
 
 export default GuildPage;
+
+export const Grid: React.FC<Props> = ({ guild }): ReactElement => {
+  const { user } = useUser();
+  const [
+    { data: administeredGuildsData, fetching: loadingAdministeredGuilds },
+  ] = useGetAdministeredGuildsQuery({
+    variables: { id: user?.id },
+  });
+  const administeredGuilds = administeredGuildsData?.guild_metadata;
+
+  const canAdministerGuild = useMemo(
+    () =>
+      !!user &&
+      !loadingAdministeredGuilds &&
+      !!administeredGuilds &&
+      administeredGuilds.some(
+        (guildMetadata) => guildMetadata.guildId === guild?.id,
+      ),
+    [user, loadingAdministeredGuilds, administeredGuilds, guild],
+  );
+
+  const savedLayoutData = useMemo<LayoutData>(
+    () =>
+      guild.profileLayout
+        ? JSON.parse(guild.profileLayout)
+        : DEFAULT_GUILD_LAYOUT_DATA,
+    [guild.profileLayout],
+  );
+
+  const persistLayoutData = useCallback(
+    async (layoutData: LayoutData) => {
+      if (!user || !layoutData) throw new Error('User is not set.');
+
+      // const { error } = await saveLayoutData({
+      //   playerId: user.id,
+      //   profileLayout: JSON.stringify(layoutData),
+      // });
+
+      // if (error) throw error;
+    },
+    [user],
+    // [saveLayoutData, user],
+  );
+
+  const showAnnouncements = useMemo(
+    () => !!guild && guild.showDiscordAnnouncements !== false,
+    [guild],
+  );
+
+  const allBoxOptions = useMemo(
+    () =>
+      ALL_BOXES.filter(
+        (b) => showAnnouncements || b !== BoxTypes.GUILD_ANNOUNCEMENTS,
+      ),
+    [showAnnouncements],
+  );
+
+  const defaultLayoutData = useMemo(
+    () => ({
+      ...DEFAULT_GUILD_LAYOUT_DATA,
+      layoutItems: DEFAULT_GUILD_LAYOUT_DATA.layoutItems.filter(
+        (item) =>
+          showAnnouncements || item.type !== BoxTypes.GUILD_ANNOUNCEMENTS,
+      ),
+    }),
+    [showAnnouncements],
+  );
+
+  return (
+    <EditableGridLayout
+      {...{
+        guild,
+        defaultLayoutData,
+        savedLayoutData,
+        showEditButton: canAdministerGuild,
+        persistLayoutData,
+        persisting: false,
+        allBoxOptions,
+        displayComponent: GuildSection,
+        pt: canAdministerGuild ? 0 : '4rem',
+      }}
+    />
+  );
+};
 
 type QueryParams = { guildname: string };
 

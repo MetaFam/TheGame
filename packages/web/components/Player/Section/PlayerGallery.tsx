@@ -117,7 +117,6 @@ export const PlayerGallery: React.FC<Props> = ({
       title="NFT Gallery"
       {...{ isOwnProfile, editing }}
       type={BoxTypes.PLAYER_NFT_GALLERY}
-      withoutBG
     >
       {(() => {
         if (loading) {

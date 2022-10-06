@@ -18,7 +18,7 @@ import {
 import { Maybe } from '@metafam/utils';
 import { AddBoxSection } from 'components/Section/AddBoxSection';
 import deepEquals from 'deep-equal';
-import { Player } from 'graphql/autogen/types';
+import { GuildFragment, Player } from 'graphql/autogen/types';
 import { useBoxHeights } from 'lib/hooks/useBoxHeights';
 import React, {
   ReactElement,
@@ -51,7 +51,8 @@ import {
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
 type Props = {
-  player: Player;
+  player?: Player;
+  guild?: GuildFragment;
   savedLayoutData: LayoutData;
   defaultLayoutData: LayoutData;
   persisting: boolean;
@@ -64,12 +65,14 @@ type Props = {
     onRemoveBox?: (boxKey: string) => void;
     metadata?: BoxMetadata;
     type: BoxType;
-    player: Player;
+    player?: Player;
+    guild?: GuildFragment;
   }) => JSX.Element | null;
 } & BoxProps;
 
 export const EditableGridLayout: React.FC<Props> = ({
   player,
+  guild,
   persisting,
   defaultLayoutData,
   savedLayoutData,
@@ -322,7 +325,7 @@ export const EditableGridLayout: React.FC<Props> = ({
                 <AddBoxSection
                   boxes={availableBoxes}
                   previewComponent={DisplaySection}
-                  {...{ player, onAddBox }}
+                  {...{ player, guild, onAddBox }}
                   ref={(e: Maybe<HTMLElement>) => {
                     itemsRef.current[i] = e;
                   }}
@@ -333,6 +336,7 @@ export const EditableGridLayout: React.FC<Props> = ({
                     type,
                     metadata,
                     player,
+                    guild,
                     editing,
                     onRemoveBox,
                   }}
