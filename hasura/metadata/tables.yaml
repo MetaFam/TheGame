@@ -261,6 +261,7 @@
       discord_id: discordId
       twitter_url: twitterUrl
       membership_through_discord: membershipThroughDiscord
+      profile_layout: profileLayout
       discord_invite_url: discordInviteUrl
       github_url: githubUrl
   object_relationships:
@@ -322,6 +323,7 @@
       - membership_through_discord
       - name
       - position
+      - profile_layout
       - show_discord_announcements
       - status
       - twitter_url
@@ -342,6 +344,7 @@
       - membership_through_discord
       - name
       - position
+      - profile_layout
       - show_discord_announcements
       - status
       - twitter_url
