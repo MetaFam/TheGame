@@ -8,12 +8,15 @@ import {
   GetQuestsDocument,
   GetQuestsQuery,
   GetQuestsQueryVariables,
+  GetQuestsWithCompletionsDocument,
+  GetQuestsWithCompletionsQuery,
+  GetQuestsWithCompletionsQueryVariables,
   Order_By,
   QuestStatus_Enum,
   Scalars,
 } from 'graphql/autogen/types';
 import { client as defaultClient } from 'graphql/client';
-import { QuestFragment } from 'graphql/fragments';
+import { QuestCompletionFragment, QuestFragment } from 'graphql/fragments';
 import { Client } from 'urql';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-expressions
@@ -23,10 +26,7 @@ import { Client } from 'urql';
       id
     }
   }
-`;
 
-// eslint-disable-next-line @typescript-eslint/no-unused-expressions
-/* GraphQL */ `
   query GetQuests(
     $limit: Int
     $status: QuestStatus_enum
@@ -49,11 +49,6 @@ import { Client } from 'urql';
     }
   }
 
-  ${QuestFragment}
-`;
-
-// eslint-disable-next-line @typescript-eslint/no-unused-expressions
-/* GraphQL */ `
   query GetAcceptedQuestsByPlayer(
     $completedByPlayerId: uuid
     $order: order_by
@@ -65,10 +60,7 @@ import { Client } from 'urql';
       ...QuestCompletionFragment
     }
   }
-`;
 
-// eslint-disable-next-line @typescript-eslint/no-unused-expressions
-/* GraphQL */ `
   query GetQuestGuilds {
     quest_aggregate(distinct_on: guildId) {
       nodes {
@@ -79,6 +71,33 @@ import { Client } from 'urql';
       }
     }
   }
+
+  query GetQuestsWithCompletions($createdByPlayerId: uuid) {
+    quest(
+      order_by: { createdAt: desc }
+      where: {
+        status: { _eq: OPEN }
+        createdByPlayerId: { _eq: $createdByPlayerId }
+      }
+    ) {
+      title
+      quest_completions {
+        player {
+          profile {
+            name
+            username
+          }
+          ethereumAddress
+        }
+        submittedAt
+        submissionLink
+        submissionText
+      }
+    }
+  }
+
+  ${QuestFragment}
+  ${QuestCompletionFragment}
 `;
 
 export const defaultQueryVariables: GetQuestsQueryVariables = {
@@ -123,9 +142,32 @@ export const getQuests = async (
   return data.quest;
 };
 
-export const getAcceptedQuestsByPlayerQuery = async (
+export const getQuestsWithCompletionsByPlayerQuery = async (
+  createdByPlayerId: Scalars['uuid'],
+  client: Client = defaultClient,
+) => {
+  const { data, error } = await client
+    .query<
+      GetQuestsWithCompletionsQuery,
+      GetQuestsWithCompletionsQueryVariables
+    >(GetQuestsWithCompletionsDocument, {
+      createdByPlayerId,
+    })
+    .toPromise();
+
+  if (!data) {
+    if (error) {
+      throw error;
+    }
+
+    return [];
+  }
+
+  return data.quest;
+};
+
+export const getQuestsByPlayerWithCompletionsQuery = async (
   playerId: Scalars['uuid'],
-  order: Order_By = Order_By.Desc,
   client: Client = defaultClient,
 ) => {
   const { data, error } = await client

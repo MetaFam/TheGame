@@ -110,17 +110,18 @@ export const QuestCompletions: React.FC<Props> = ({ quest }) => {
                 <Text>{submissionText}</Text>
 
                 {submissionLink && (
-                  <MetaLink href={submissionLink} isExternal>
-                    <MetaButton
-                      variant="link"
-                      colorScheme="cyan"
-                      leftIcon={<FaExternalLinkAlt />}
-                      size="md"
-                      mt={4}
-                    >
+                  <Box mt={2}>
+                    <MetaLink href={submissionLink} isExternal>
                       Open Link
-                    </MetaButton>
-                  </MetaLink>
+                      <FaExternalLinkAlt
+                        fontSize="0.875rem"
+                        style={{
+                          display: 'inline-block',
+                          marginLeft: '0.5rem',
+                        }}
+                      />
+                    </MetaLink>
+                  </Box>
                 )}
               </Box>
 

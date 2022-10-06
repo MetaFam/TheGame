@@ -5,6 +5,7 @@ import {
   HStack,
   LoadingState,
   MetaButton,
+  Text,
   Wrap,
   WrapItem,
 } from '@metafam/ds';
@@ -67,14 +68,13 @@ const QuestPage: React.FC<Props> = ({ quest_id }) => {
       />
       <Box w="100%" maxW="80rem">
         <Box mb={4} px={2}>
-          <MetaButton
-            as="a"
-            variant="link"
-            href="/quests"
-            leftIcon={<FaArrowLeft />}
-          >
+          <MetaLink href="/quests">
+            <FaArrowLeft
+              fontSize="0.875rem"
+              style={{ display: 'inline-block', marginRight: '0.5rem' }}
+            />
             Back to quest explorer
-          </MetaButton>
+          </MetaLink>
         </Box>
 
         <Wrap w="100%" justify="center" spacing={8}>
@@ -107,7 +107,7 @@ const QuestPage: React.FC<Props> = ({ quest_id }) => {
             </Flex>
           </WrapItem>
         </Wrap>
-        <Flex w="100%" direction="column" mt={8}>
+        <Flex w="100%" direction="column" mt={8} mb={8}>
           <HStack mb={4} justify="space-between">
             <Heading>Proposals</Heading>
 

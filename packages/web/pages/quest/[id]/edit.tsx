@@ -103,8 +103,8 @@ const EditQuestPage: React.FC<Props> = ({
         onSubmit={onSubmit}
         success={!!updateQuestResult.data}
         fetching={updateQuestResult.fetching}
-        submitLabel="Edit Quest"
-        loadingLabel="Editing quest…"
+        submitLabel="Update Quest"
+        loadingLabel="Saving Quest…"
         editQuest={quest}
       />
     </PageContainer>
