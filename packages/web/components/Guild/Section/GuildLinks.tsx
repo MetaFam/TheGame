@@ -1,5 +1,14 @@
-import { IconButton, Text, Wrap, WrapItem } from '@metafam/ds';
-import { ExternalDaoLink } from 'components/Player/PlayerGuild';
+import {
+  Box,
+  ChainIcon,
+  Flex,
+  Heading,
+  IconButton,
+  Text,
+  Wrap,
+  WrapItem,
+} from '@metafam/ds';
+import { ExternalDaoLink, LinkGuild } from 'components/Player/PlayerGuild';
 import { PlayerHeroTile } from 'components/Player/Section/PlayerHeroTile';
 import { ProfileSection } from 'components/Section/ProfileSection';
 import { GuildFragment } from 'graphql/autogen/types';
@@ -24,14 +33,6 @@ const iconButtonProps = {
 };
 
 export const GuildLinks: React.FC<Props> = ({ guild, editing }) => {
-  const daoHrefs = useMemo(
-    () =>
-      guild.daos.map(
-        (dao) => dao.url || getDAOLink(dao.network, dao.contractAddress),
-      ),
-    [guild],
-  );
-
   const hasIconLink =
     guild.websiteUrl ||
     guild.discordInviteUrl ||
@@ -88,19 +89,43 @@ export const GuildLinks: React.FC<Props> = ({ guild, editing }) => {
           ) : null}
         </Wrap>
       )}
-      <Wrap justify="space-between" w="full">
-        {guild.daos?.map((dao, index) => (
-          <WrapItem key={index}>
-            <PlayerHeroTile title={dao.label || 'DAO'}>
-              <ExternalDaoLink
-                daoURL={daoHrefs[index]}
-                _hover={{ textDecoration: 'underline' }}
-              >
-                <Text fontSize="sm">{dao.contractAddress}</Text>
-              </ExternalDaoLink>
-            </PlayerHeroTile>
-          </WrapItem>
-        ))}
+      <Wrap justify="space-between" w="full" spacing={4} mb={2}>
+        {guild.daos?.map((dao, index) => {
+          const daoURL =
+            dao.url || getDAOLink(dao.network, dao.contractAddress);
+
+          return (
+            <WrapItem key={index}>
+              <LinkGuild daoURL={daoURL} guildname={null}>
+                <Flex align="center" py={2} gap={2}>
+                  <Box bg="purpleBoxLight" minW={12} h={12} borderRadius={8}>
+                    <ChainIcon chain={dao.network} boxSize={12} p={2} />
+                  </Box>
+                  <Heading
+                    fontWeight="bold"
+                    style={{ fontVariant: 'small-caps' }}
+                    fontSize="xs"
+                    color={daoURL ? 'cyanText' : 'white'}
+                    ml={[0, '1em']}
+                    sx={{ textIndent: [0, '-1em'] }}
+                    textAlign={['center', 'left']}
+                    flexGrow={1}
+                  >
+                    {dao.label ?? (
+                      <Text as="span">
+                        Unknown{' '}
+                        <Text as="span" textTransform="capitalize">
+                          {dao.network}
+                        </Text>{' '}
+                        DAO
+                      </Text>
+                    )}
+                  </Heading>
+                </Flex>
+              </LinkGuild>
+            </WrapItem>
+          );
+        })}
       </Wrap>
     </ProfileSection>
   );
