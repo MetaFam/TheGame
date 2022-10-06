@@ -41,7 +41,6 @@ export const PlayerType: React.FC<Props> = ({ player, editing }) => {
       modalTitle={'Player Type'}
       {...{ isOwnProfile, editing }}
       type={BoxTypes.PLAYER_TYPE}
-      withoutBG
     >
       {(fetching || !choices) && (
         <Text fontStyle="italic" textAlign="center" mb={6}>

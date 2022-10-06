@@ -10,7 +10,7 @@ import { PlayerSkills } from 'components/Player/Section/PlayerSkills';
 import { PlayerType } from 'components/Player/Section/PlayerType';
 import { EmbeddedUrl } from 'components/Section/EmbeddedUrlSection';
 import { Player } from 'graphql/autogen/types';
-import { useUser, useWeb3 } from 'lib/hooks';
+import { useUser } from 'lib/hooks';
 import { forwardRef, useMemo } from 'react';
 import { FaTimes } from 'react-icons/fa';
 import { BoxMetadata, BoxType, BoxTypes, createBoxKey } from 'utils/boxTypes';
