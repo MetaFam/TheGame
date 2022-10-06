@@ -2422,6 +2422,11 @@ input GuildInfoInput {
   websiteUrl: String
 }
 
+input GuildLayoutInfoInput {
+  profileLayout: String!
+  uuid: String!
+}
+
 """
 columns and relationships of "GuildPosition"
 """
@@ -4140,6 +4145,11 @@ type mutation_root {
   perform the action: "saveGuildInformation"
   """
   saveGuildInformation(guildInformation: GuildInfoInput!): SaveGuildResponse
+
+  """
+  perform the action: "saveGuildLayout"
+  """
+  saveGuildLayout(guildLayoutInfo: GuildLayoutInfoInput!): SaveGuildLayoutResponse
 
   """
   perform the action: "updateExpiredIDXProfiles"
@@ -10504,6 +10514,11 @@ update columns of table "QuestStatus"
 enum QuestStatus_update_column {
   """column name"""
   status
+}
+
+type SaveGuildLayoutResponse {
+  error: String
+  success: Boolean
 }
 
 type SaveGuildResponse {

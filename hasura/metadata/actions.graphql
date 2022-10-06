@@ -27,6 +27,13 @@ type Mutation {
 
 
 type Mutation {
+  saveGuildLayout (
+    guildLayoutInfo: GuildLayoutInfoInput!
+  ): SaveGuildLayoutResponse
+}
+
+
+type Mutation {
   updateExpiredIDXProfiles : ExpiredPlayerProfiles
 }
 
@@ -113,6 +120,11 @@ input GuildDaoInput {
   url : String
 }
 
+input GuildLayoutInfoInput {
+  uuid : String!
+  profileLayout : String!
+}
+
 type UpdateIDXProfileResponse {
   success : Boolean!
   ceramic : String!
@@ -158,6 +170,11 @@ type ExpiredPlayerProfiles {
 }
 
 type SaveGuildResponse {
+  success : Boolean
+  error : String
+}
+
+type SaveGuildLayoutResponse {
   success : Boolean
   error : String
 }
