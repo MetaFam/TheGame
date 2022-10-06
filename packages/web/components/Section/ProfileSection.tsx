@@ -29,7 +29,6 @@ export type ProfileSectionProps = {
   editing?: boolean;
   type?: BoxType;
   title?: string | false;
-  withoutBG?: boolean;
   modalPrompt?: string;
   modalTitle?: string | false;
   modal?: React.ReactNode;
@@ -44,7 +43,6 @@ export const ProfileSection: React.FC<
   editing,
   type: boxType,
   title = false,
-  withoutBG = false,
   modalPrompt,
   modal,
   modalTitle,
@@ -63,8 +61,6 @@ export const ProfileSection: React.FC<
       {...props}
     >
       <Box
-        bg={withoutBG ? 'none' : 'whiteAlpha.200'}
-        style={withoutBG ? {} : { backdropFilter: 'blur(7px)' }}
         borderBottomRadius="lg"
         borderRadius="lg"
         p={6}

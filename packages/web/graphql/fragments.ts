@@ -69,6 +69,7 @@ export const GuildFragment = /* GraphQL */ `
   fragment GuildFragment on guild {
     id
     guildname
+    profileLayout
     description
     discordInviteUrl
     joinButtonUrl

@@ -65,12 +65,7 @@ export const PlayerHero: React.FC<HeroProps> = ({ player, editing }) => {
   const mwwDomain = (profileFields as any).meetWithWalletDomain || null;
 
   return (
-    <ProfileSection
-      {...{ editing }}
-      type={BoxTypes.PLAYER_HERO}
-      title={false}
-      withoutBG
-    >
+    <ProfileSection {...{ editing }} type={BoxTypes.PLAYER_HERO} title={false}>
       {isOwnProfile && !editing && (
         <IconButton
           pos="absolute"

@@ -11,18 +11,23 @@ import {
   useDisclosure,
 } from '@metafam/ds';
 import { ProfileSection } from 'components/Section/ProfileSection';
+import { GuildFragment } from 'graphql/autogen/types';
 import { getGuildPlayers } from 'graphql/queries/guild';
 import { GuildPlayer } from 'graphql/types';
 import React, { useEffect, useState } from 'react';
+import { BoxTypes } from 'utils/boxTypes';
 
 import { GuildPlayerComponent } from './GuildPlayer';
 
 type Props = {
-  guildId: string;
-  guildname: string;
+  guild: GuildFragment;
+  editing: boolean;
 };
 
-export const GuildPlayers: React.FC<Props> = ({ guildId, guildname }) => {
+export const GuildPlayers: React.FC<Props> = ({
+  guild: { id: guildId, name: guildname },
+  editing,
+}) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [guildPlayers, setGuildPlayers] = useState<GuildPlayer[]>([]);
   const [loading, setLoading] = useState(true);
@@ -36,7 +41,7 @@ export const GuildPlayers: React.FC<Props> = ({ guildId, guildname }) => {
 
   const GuildMembers = () =>
     guildPlayers == null || guildPlayers.length === 0 ? (
-      <p>No known players yet.</p>
+      <Text mb={4}>No known players yet.</Text>
     ) : (
       <>
         {guildPlayers.slice(0, 4).map((player) => (
@@ -50,6 +55,7 @@ export const GuildPlayers: React.FC<Props> = ({ guildId, guildname }) => {
             color="cyanText"
             cursor="pointer"
             onClick={onOpen}
+            mb={4}
           >
             View all ({guildPlayers.length})
           </Text>
@@ -83,7 +89,11 @@ export const GuildPlayers: React.FC<Props> = ({ guildId, guildname }) => {
     );
 
   return (
-    <ProfileSection title="Players">
+    <ProfileSection
+      title="Players"
+      type={BoxTypes.GUILD_PLAYERS}
+      editing={editing}
+    >
       {loading ? <LoadingState /> : <GuildMembers />}
     </ProfileSection>
   );

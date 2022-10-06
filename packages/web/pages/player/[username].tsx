@@ -119,13 +119,12 @@ export default PlayerPage;
 
 export const Grid: React.FC<Props> = ({ player }): ReactElement => {
   const { user, fetching } = useUser();
-  const { connected } = useWeb3();
 
   const [{ fetching: persisting }, saveLayoutData] = useUpdateLayout();
 
   const isOwnProfile = useMemo(
-    () => !fetching && !!user && user.id === player.id && !!connected,
-    [user, fetching, connected, player.id],
+    () => !fetching && !!user && user.id === player.id,
+    [user, fetching, player.id],
   );
 
   const savedLayoutData = useMemo<LayoutData>(

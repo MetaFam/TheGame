@@ -192,7 +192,6 @@ export const PlayerMemberships: React.FC<MembershipSectionProps> = ({
     <ProfileSection
       title="DAO Memberships"
       type={BoxTypes.PLAYER_DAO_MEMBERSHIPS}
-      withoutBG
       {...{ isOwnProfile, editing }}
     >
       {loading && <LoadingState mb={6} />}

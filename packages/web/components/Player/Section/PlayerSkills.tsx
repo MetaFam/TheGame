@@ -28,7 +28,6 @@ export const PlayerSkills: React.FC<Props> = ({
       title="Skills"
       {...{ isOwnProfile, editing }}
       type={BoxTypes.PLAYER_SKILLS}
-      withoutBG
     >
       {!skills?.length ? (
         <Text fontStyle="italic" textAlign="center" mb={6}>

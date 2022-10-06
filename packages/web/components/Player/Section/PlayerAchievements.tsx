@@ -27,7 +27,6 @@ export const PlayerAchievements: React.FC<Props> = ({
       title="Achievements"
       {...{ isOwnProfile, editing }}
       type={BoxTypes.PLAYER_ACHIEVEMENTS}
-      withoutBG
     >
       {(fakeData || []).slice(0, show ? 999 : 3).map((title) => (
         <HStack alignItems="baseline" mb={3} key={title}>

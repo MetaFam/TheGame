@@ -5,13 +5,25 @@ import { ProfileSection } from 'components/Section/ProfileSection';
 import { GuildFragment } from 'graphql/autogen/types';
 import React, { useMemo } from 'react';
 import { FaDiscord, FaGithub, FaGlobe, FaTwitter } from 'react-icons/fa';
+import { BoxTypes } from 'utils/boxTypes';
 import { getDAOLink } from 'utils/daoHelpers';
 
 type Props = {
   guild: GuildFragment;
+  editing: boolean;
 };
 
-export const GuildLinks: React.FC<Props> = ({ guild }) => {
+const iconButtonProps = {
+  variant: 'outline',
+  size: 'lg',
+  colorScheme: 'blackAlpha',
+  _hover: {
+    color: 'white',
+    bgColor: 'blackAlpha.500',
+  },
+};
+
+export const GuildLinks: React.FC<Props> = ({ guild, editing }) => {
   const daoHrefs = useMemo(
     () =>
       guild.daos.map(
@@ -27,18 +39,16 @@ export const GuildLinks: React.FC<Props> = ({ guild }) => {
     guild.twitterUrl;
 
   return (
-    <ProfileSection title="Links">
+    <ProfileSection title="Links" type={BoxTypes.GUILD_LINKS} editing={editing}>
       {hasIconLink && (
         <Wrap mb={4}>
           {guild.websiteUrl ? (
             <WrapItem>
               <a href={guild.websiteUrl} target="_blank" rel="noreferrer">
                 <IconButton
-                  variant="outline"
                   aria-label="Discord Server"
-                  size="lg"
-                  colorScheme="blackAlpha"
                   icon={<FaGlobe />}
+                  {...iconButtonProps}
                 />
               </a>
             </WrapItem>
@@ -47,11 +57,9 @@ export const GuildLinks: React.FC<Props> = ({ guild }) => {
             <WrapItem>
               <a href={guild.discordInviteUrl} target="_blank" rel="noreferrer">
                 <IconButton
-                  variant="outline"
                   aria-label="Discord Server"
-                  size="lg"
-                  bgColor="discord"
                   icon={<FaDiscord />}
+                  {...iconButtonProps}
                 />
               </a>
             </WrapItem>
@@ -60,11 +68,9 @@ export const GuildLinks: React.FC<Props> = ({ guild }) => {
             <WrapItem>
               <a href={guild.githubUrl} target="_blank" rel="noreferrer">
                 <IconButton
-                  variant="outline"
                   aria-label="Github"
-                  size="lg"
-                  colorScheme="github"
                   icon={<FaGithub />}
+                  {...iconButtonProps}
                 />
               </a>
             </WrapItem>
@@ -73,11 +79,9 @@ export const GuildLinks: React.FC<Props> = ({ guild }) => {
             <WrapItem>
               <a href={guild.twitterUrl} target="_blank" rel="noreferrer">
                 <IconButton
-                  variant="outline"
                   aria-label="Twitter"
-                  size="lg"
-                  colorScheme="twitter"
                   icon={<FaTwitter />}
+                  {...iconButtonProps}
                 />
               </a>
             </WrapItem>

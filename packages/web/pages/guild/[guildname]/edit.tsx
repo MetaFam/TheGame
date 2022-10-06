@@ -52,7 +52,7 @@ const EditGuild: React.FC = () => {
       ...otherInputs,
       discordAdminRoles: adminRoles.map((o) => o.value),
       discordMembershipRoles: membershipRoles.map((o) => o.value),
-      type: (type as unknown) as GuildType_ActionEnum,
+      type: type as unknown as GuildType_ActionEnum,
       uuid: guild.id,
     };
 
@@ -84,9 +84,9 @@ const EditGuild: React.FC = () => {
   };
 
   return (
-    <PageContainer>
-      <FlexContainer flex="1" justify="start" mt={5}>
-        <MetaHeading textAlign="center" mb={10} size="md">
+    <PageContainer align="center">
+      <FlexContainer justify="start" mt={5} pb={16} gap={8}>
+        <MetaHeading textAlign="center" size="md">
           Edit guild information
         </MetaHeading>
         <Flex
@@ -95,9 +95,8 @@ const EditGuild: React.FC = () => {
           style={{ backdropFilter: 'blur(7px)' }}
           rounded="lg"
           p="6"
-          my="6"
-          w="100%"
-          align="stretch"
+          w="max-content"
+          align="center"
           justify="space-between"
         >
           <GuildForm
