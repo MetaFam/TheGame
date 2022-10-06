@@ -12,6 +12,7 @@ import {
   QuestFragment,
   QuestStatus_Enum,
   useGetAdministeredGuildsQuery,
+  useUpdateGuildLayoutMutation,
 } from 'graphql/autogen/types';
 import { getQuests } from 'graphql/getQuests';
 import { getGuild, getGuildnames } from 'graphql/queries/guild';
@@ -88,27 +89,27 @@ export const Grid: React.FC<Props> = ({ guild }): ReactElement => {
     [user, loadingAdministeredGuilds, administeredGuilds, guild],
   );
 
-  const savedLayoutData = useMemo<LayoutData>(
-    () =>
-      guild.profileLayout
-        ? JSON.parse(guild.profileLayout)
-        : DEFAULT_GUILD_LAYOUT_DATA,
-    [guild.profileLayout],
-  );
+  const [{ fetching: persisting }, saveLayoutData] =
+    useUpdateGuildLayoutMutation();
 
   const persistLayoutData = useCallback(
     async (layoutData: LayoutData) => {
-      if (!user || !layoutData) throw new Error('User is not set.');
+      if (!user) throw new Error('User is not set.');
 
-      // const { error } = await saveLayoutData({
-      //   playerId: user.id,
-      //   profileLayout: JSON.stringify(layoutData),
-      // });
+      const { data, error } = await saveLayoutData({
+        guildLayoutInfo: {
+          uuid: guild.id,
+          profileLayout: JSON.stringify(layoutData),
+        },
+      });
 
-      // if (error) throw error;
+      const responseError = data?.saveGuildLayout?.error;
+
+      if (error) throw error;
+
+      if (responseError) throw new Error(responseError);
     },
-    [user],
-    // [saveLayoutData, user],
+    [saveLayoutData, user, guild.id],
   );
 
   const showAnnouncements = useMemo(
@@ -135,6 +136,12 @@ export const Grid: React.FC<Props> = ({ guild }): ReactElement => {
     [showAnnouncements],
   );
 
+  const savedLayoutData = useMemo<LayoutData>(
+    () =>
+      guild.profileLayout ? JSON.parse(guild.profileLayout) : defaultLayoutData,
+    [guild.profileLayout, defaultLayoutData],
+  );
+
   return (
     <EditableGridLayout
       {...{
@@ -143,7 +150,7 @@ export const Grid: React.FC<Props> = ({ guild }): ReactElement => {
         savedLayoutData,
         showEditButton: canAdministerGuild,
         persistLayoutData,
-        persisting: false,
+        persisting,
         allBoxOptions,
         displayComponent: GuildSection,
         pt: canAdministerGuild ? 0 : '4rem',

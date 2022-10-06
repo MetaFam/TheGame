@@ -17,4 +17,11 @@ export {};
       error
     }
   }
+
+  mutation UpdateGuildLayout($guildLayoutInfo: GuildLayoutInfoInput!) {
+    saveGuildLayout(guildLayoutInfo: $guildLayoutInfo) {
+      success
+      error
+    }
+  }
 `;
