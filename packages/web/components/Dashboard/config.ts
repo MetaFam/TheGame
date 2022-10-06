@@ -40,6 +40,7 @@ export const ALL_BOXES = [
   BoxTypes.DASHBOARD_SEEDS_INFO,
   BoxTypes.DASHBOARD_CALENDER,
   BoxTypes.DASHBOARD_LEADERBOARD,
+  BoxTypes.DASHBOARD_QUESTS,
   BoxTypes.EMBEDDED_URL,
   // TODO: Add more types of sections
 ];
