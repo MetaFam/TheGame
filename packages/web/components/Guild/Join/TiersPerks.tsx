@@ -4,6 +4,9 @@ import {
   Flex,
   Heading,
   Image,
+  Link,
+  LinkBox,
+  LinkOverlay,
   ListItem,
   SimpleGrid,
   Text,
@@ -12,6 +15,16 @@ import {
 import CommonTierNFTImg from 'assets/nft-common-tier_600x600.jpg';
 import EpicTierNFTImg from 'assets/nft-epic-tier_600x600.jpg';
 import RareTierNFTImg from 'assets/nft-rare-tier_600x600.jpg';
+
+/*
+  Links to view/purchase MetaManifesto NFTs
+*/
+const CommonTierNFTLink =
+  'https://rarible.com/token/0xc8137071edb6fa4ad31addd3d8a33a764d6632a1:59326192270149874852904822880970320523432047447669756248509216615709326442507?tab=overview';
+const EpicTierNFTLink =
+  'https://rarible.com/token/0xc8137071edb6fa4ad31addd3d8a33a764d6632a1:59326192270149874852904822880970320523432047447669756248509216615709326442501?tab=overview';
+const RareTierNFTLink =
+  'https://rarible.com/token/0xc8137071edb6fa4ad31addd3d8a33a764d6632a1:59326192270149874852904822880970320523432047447669756248509216615709326442497?tab=overview';
 
 export const TiersPerks: React.FC = () => (
   <Container
@@ -39,21 +52,30 @@ export const TiersPerks: React.FC = () => (
       mb={6}
       width="100%"
     >
-      <Box
+      {/*
+        Common Tier NFT card/tile
+      */}
+      <LinkBox
         className="mg-guild-join-card-bg" // CSS class defined in packages/web/pages/Guild/Join/index.tsx
         maxWidth={{ base: 'md', md: '100%' }}
         mx="auto"
         width="100%"
       >
         <Flex direction={{ base: 'column', md: 'row', lg: 'column' }}>
-          <Image
-            alt="The MetaManifesto on a pedestal, illuminated by pink light"
-            borderTopLeftRadius={8}
-            borderTopRightRadius={{ base: 8, md: 0, lg: 8 }}
-            borderBottomLeftRadius={{ base: 0, md: 8, lg: 0 }}
-            src={CommonTierNFTImg}
-            width={{ base: 'md', md: '16rem', lg: '100%' }}
-          />
+          <LinkOverlay
+            href={CommonTierNFTLink}
+            title="See the Common Tier NFT on Rarible"
+            isExternal
+          >
+            <Image
+              alt="The MetaManifesto on a pedestal, illuminated by pink light"
+              borderTopLeftRadius={8}
+              borderTopRightRadius={{ base: 8, md: 0, lg: 8 }}
+              borderBottomLeftRadius={{ base: 0, md: 8, lg: 0 }}
+              src={CommonTierNFTImg}
+              width={{ base: 'md', md: '16rem', lg: '100%' }}
+            />
+          </LinkOverlay>
           <Box flex="auto">
             <Text
               backgroundColor="rgba(6, 255, 161, 0.5)"
@@ -71,26 +93,45 @@ export const TiersPerks: React.FC = () => (
               <ListItem>A guild2guild meetup</ListItem>
               <ListItem>Collaboration opportunities</ListItem>
               <ListItem>Discord bot (optional)</ListItem>
+              <ListItem>
+                <Link
+                  className="gradient"
+                  href={CommonTierNFTLink}
+                  title="See the Common Tier NFT on Rarible"
+                  isExternal
+                >
+                  See the Common Tier NFT on Rarible
+                </Link>
+              </ListItem>
             </UnorderedList>
           </Box>
         </Flex>
-      </Box>
+      </LinkBox>
 
-      <Box
+      {/*
+        Rare Tier NFT card/tile
+      */}
+      <LinkBox
         className="mg-guild-join-card-bg"
         maxWidth={{ base: 'md', md: '100%' }}
         mx="auto"
         width="100%"
       >
         <Flex direction={{ base: 'column', md: 'row', lg: 'column' }}>
-          <Image
-            alt="The MetaManifesto on a glowing pedestal"
-            borderTopLeftRadius={8}
-            borderTopRightRadius={{ base: 8, md: 0, lg: 8 }}
-            borderBottomLeftRadius={{ base: 0, md: 8, lg: 0 }}
-            src={RareTierNFTImg}
-            width={{ base: 'md', md: '16rem', lg: '100%' }}
-          />
+          <LinkOverlay
+            href={RareTierNFTLink}
+            title="See the Rare Tier NFT on Rarible"
+            isExternal
+          >
+            <Image
+              alt="The MetaManifesto on a glowing pedestal"
+              borderTopLeftRadius={8}
+              borderTopRightRadius={{ base: 8, md: 0, lg: 8 }}
+              borderBottomLeftRadius={{ base: 0, md: 8, lg: 0 }}
+              src={RareTierNFTImg}
+              width={{ base: 'md', md: '16rem', lg: '100%' }}
+            />
+          </LinkOverlay>
           <Box flex="auto">
             <Text
               backgroundColor="rgba(47, 128, 237, 0.5)"
@@ -109,26 +150,45 @@ export const TiersPerks: React.FC = () => (
               <ListItem>Your news in our newsletter</ListItem>
               <ListItem>Your announcements inside MetaGame</ListItem>
               <ListItem>Among the Founding Guilds of MetaGame</ListItem>
+              <ListItem>
+                <Link
+                  className="gradient"
+                  href={RareTierNFTLink}
+                  title="See the Rare Tier NFT on Rarible"
+                  isExternal
+                >
+                  See the Rare Tier NFT on Rarible
+                </Link>
+              </ListItem>
             </UnorderedList>
           </Box>
         </Flex>
-      </Box>
+      </LinkBox>
 
-      <Box
+      {/*
+        Epic Tier NFT card/tile
+      */}
+      <LinkBox
         className="mg-guild-join-card-bg"
         maxWidth={{ base: 'md', md: '100%' }}
         mx="auto"
         width="100%"
       >
         <Flex direction={{ base: 'column', md: 'row', lg: 'column' }}>
-          <Image
-            alt="The MetaManifesto on a pedestal that is glowing with a pink light"
-            borderTopLeftRadius={8}
-            borderTopRightRadius={{ base: 8, md: 0, lg: 8 }}
-            borderBottomLeftRadius={{ base: 0, md: 8, lg: 0 }}
-            src={EpicTierNFTImg}
-            width={{ base: 'md', md: '16rem', lg: '100%' }}
-          />
+          <LinkOverlay
+            href={EpicTierNFTLink}
+            title="See the Epic Tier NFT on Rarible"
+            isExternal
+          >
+            <Image
+              alt="The MetaManifesto on a pedestal that is glowing with a pink light"
+              borderTopLeftRadius={8}
+              borderTopRightRadius={{ base: 8, md: 0, lg: 8 }}
+              borderBottomLeftRadius={{ base: 0, md: 8, lg: 0 }}
+              src={EpicTierNFTImg}
+              width={{ base: 'md', md: '16rem', lg: '100%' }}
+            />
+          </LinkOverlay>
           <Box flex="auto">
             <Text
               backgroundColor="rgba(90, 50, 230, 0.5)"
@@ -148,10 +208,20 @@ export const TiersPerks: React.FC = () => (
               <ListItem>Your promo in MetaGame shillpack</ListItem>
               <ListItem>Branch in The Onboarding Game</ListItem>
               <ListItem>Support for your instance of MetaOS</ListItem>
+              <ListItem>
+                <Link
+                  className="gradient"
+                  href={EpicTierNFTLink}
+                  title="See the Epic Tier NFT on Rarible"
+                  isExternal
+                >
+                  See the Epic Tier NFT on Rarible
+                </Link>
+              </ListItem>
             </UnorderedList>
           </Box>
         </Flex>
-      </Box>
+      </LinkBox>
     </SimpleGrid>
 
     <Container>
