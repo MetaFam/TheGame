@@ -1,3 +1,5 @@
+import { metadata } from '@quest-chains/sdk';
+
 export const QUESTS = {
   ENGAGED: {
     chainId: '0x89',
@@ -21,5 +23,8 @@ export const QUESTS = {
     address: '0xea512722cc047bfdbe90a1a2750491e89a818ca7',
     graphHealthEndpoint: 'https://api.thegraph.com/index-node/graphql',
   },
-  API_URL: process.env.NEXT_PUBLIC_API_URL || 'https://api.questchains.xyz',
 };
+
+export const metadataUploader = new metadata.MetadataUploader();
+
+export type Metadata = metadata.Metadata;

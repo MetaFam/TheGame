@@ -23,7 +23,7 @@ export const QuestTile: React.FC<{
   userStatus?: UserStatusType;
   questChain?: graphql.QuestChainInfoFragment;
   refresh?: () => void;
-  onClick: (visibility: any) => void;
+  onClick: (visibility: React.ContextType<typeof VisibilityContext>) => void;
 }> = ({
   name,
   number,

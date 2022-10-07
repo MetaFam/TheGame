@@ -27,7 +27,7 @@ import { useCallback, useRef, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { getQuestChainContract } from 'utils/contract';
 import { waitUntilBlock } from 'utils/graphHelpers';
-import { Metadata, uploadFiles, uploadMetadata } from 'utils/metadata';
+import { Metadata, metadataUploader } from 'utils/questChains';
 
 export const UploadProof: React.FC<{
   refresh: () => void;
@@ -85,14 +85,16 @@ export const UploadProof: React.FC<{
       addToast('Uploading metadata to IPFS via web3.storage');
 
       try {
-        let hash = myFiles.length ? await uploadFiles(myFiles) : '';
+        let hash = myFiles.length
+          ? await metadataUploader.uploadFiles(myFiles)
+          : '';
         const metadata: Metadata = {
           name: `Submission - QuestChain - ${questChain.name} - Quest - ${questId}. ${name} User - ${address}`,
           description: proofDescription,
           external_url: hash ? `ipfs://${hash}` : undefined,
         };
 
-        hash = await uploadMetadata(metadata);
+        hash = await metadataUploader.uploadMetadata(metadata);
         const details = `ipfs://${hash}`;
         close();
         addToast(

@@ -1,11 +1,10 @@
 import 'react-markdown-editor-lite/lib/index.css';
 
-import MarkdownIt from 'markdown-it';
 import dynamic from 'next/dynamic';
 
-const mdParser = new MarkdownIt(/* Markdown-it options */);
+import { MarkdownViewer } from '../MarkdownViewer';
 
-const Editor = dynamic(() => import('react-markdown-editor-lite'), {
+const Editor = dynamic(() => import('./MarkdownEditor'), {
   ssr: false,
 });
 
@@ -16,13 +15,19 @@ export const MarkdownEditor: React.FC<{
   onChange: (newValue: string) => void;
 }> = ({ value, placeholder, height, onChange }) => (
   <Editor
-    value={value}
-    placeholder={placeholder}
     style={{
       height: height ?? '20rem',
       width: '100%',
     }}
-    renderHTML={(text) => mdParser.render(text)}
+    defaultValue={value}
+    placeholder={placeholder}
+    renderHTML={(text) => <MarkdownViewer markdown={text} />}
     onChange={({ text }) => onChange(text)}
+    // htmlClass="nonexistant-class"
+    view={{
+      menu: true,
+      md: true,
+      html: false,
+    }}
   />
 );
