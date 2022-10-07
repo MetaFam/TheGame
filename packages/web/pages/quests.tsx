@@ -8,6 +8,7 @@ import {
   Tooltip,
   useToast,
 } from '@metafam/ds';
+import { Constants } from '@metafam/utils';
 import { PageContainer } from 'components/Container';
 import { QuestFilter } from 'components/Quest/QuestFilter';
 import { QuestList } from 'components/Quest/QuestList';
@@ -69,7 +70,7 @@ const QuestsPage: React.FC<Props> = ({ roleChoices }) => {
           <Tooltip
             label={
               !canCreateQuest &&
-              'You need to hold at least 100 pSEED to create a quest.'
+              `You need to hold at least ${Constants.PSEED_FOR_QUEST} pSEED to create a quest.`
             }
           >
             <MetaButton
@@ -79,8 +80,7 @@ const QuestsPage: React.FC<Props> = ({ roleChoices }) => {
                 if (!canCreateQuest) {
                   toast({
                     title: 'Error',
-                    description:
-                      'Insufficient pSEED Balance. Must have ≥ 100pSEED.',
+                    description: `Insufficient pSEED Balance. Must have ≥ ${Constants.PSEED_FOR_QUEST} pSEED.`,
                     status: 'error',
                     isClosable: true,
                   });

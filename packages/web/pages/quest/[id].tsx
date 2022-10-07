@@ -85,9 +85,9 @@ const QuestPage: React.FC<Props> = ({ quest_id }) => {
               direction="column"
             >
               <Heading mb={4} ml={2}>
-                Quest details
+                Quest: {quest.title}
               </Heading>
-              <QuestDetails quest={quest} />
+              <QuestDetails {...{ quest }} />
             </Flex>
           </WrapItem>
           <WrapItem

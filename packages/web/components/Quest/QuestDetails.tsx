@@ -24,7 +24,6 @@ import {
   QuestWithCompletionFragment,
   Skill,
 } from 'graphql/autogen/types';
-import parse from 'html-react-parser';
 import { useUser } from 'lib/hooks';
 import moment from 'moment';
 import { optimizedImage } from 'utils/imageHelpers';
@@ -96,7 +95,7 @@ export const QuestDetails: React.FC<Props> = ({ quest }) => {
             <Text textStyle="caption" pb={1}>
               DESCRIPTION
             </Text>
-            <Text>{parse(quest.description || '')}</Text>
+            <Text>{quest.description ?? ''}</Text>
           </Box>
 
           {quest.repetition === QuestRepetition_Enum.Recurring && (
