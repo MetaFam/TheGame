@@ -13,7 +13,7 @@ import {
   QuestCompletionFragment,
   QuestCompletionStatus_Enum,
 } from 'graphql/autogen/types';
-import { getAcceptedQuestsByPlayerQuery } from 'graphql/getQuests';
+import { getCompletedQuestsByPlayerQuery } from 'graphql/getQuests';
 import React, { useEffect, useState } from 'react';
 import { BoxTypes } from 'utils/boxTypes';
 
@@ -33,7 +33,7 @@ export const PlayerCompletedQuests: React.FC<Props> = ({
   useEffect(() => {
     const loadQuests = async () => {
       try {
-        const response = await getAcceptedQuestsByPlayerQuery(player?.id);
+        const response = await getCompletedQuestsByPlayerQuery(player?.id);
         if (response.length) {
           setQuests(
             response.filter(

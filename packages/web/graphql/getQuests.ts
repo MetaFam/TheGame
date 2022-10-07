@@ -1,7 +1,7 @@
 import {
-  GetAcceptedQuestsByPlayerDocument,
-  GetAcceptedQuestsByPlayerQuery,
-  GetAcceptedQuestsByPlayerQueryVariables,
+  GetCompletedQuestsByPlayerDocument,
+  GetCompletedQuestsByPlayerQuery,
+  GetCompletedQuestsByPlayerQueryVariables,
   GetQuestIdsDocument,
   GetQuestIdsQuery,
   GetQuestIdsQueryVariables,
@@ -49,7 +49,7 @@ import { Client } from 'urql';
     }
   }
 
-  query GetAcceptedQuestsByPlayer(
+  query GetCompletedQuestsByPlayer(
     $completedByPlayerId: uuid
     $order: order_by
   ) {
@@ -80,8 +80,10 @@ import { Client } from 'urql';
         createdByPlayerId: { _eq: $createdByPlayerId }
       }
     ) {
+      id
       title
       quest_completions {
+        id
         player {
           profile {
             name
@@ -142,7 +144,31 @@ export const getQuests = async (
   return data.quest;
 };
 
-export const getQuestsWithCompletionsByPlayerQuery = async (
+export const getCompletedQuestsByPlayerQuery = async (
+  completedByPlayerId: Scalars['uuid'],
+  client: Client = defaultClient,
+) => {
+  const { data, error } = await client
+    .query<
+      GetCompletedQuestsByPlayerQuery,
+      GetCompletedQuestsByPlayerQueryVariables
+    >(GetCompletedQuestsByPlayerDocument, {
+      completedByPlayerId,
+    })
+    .toPromise();
+
+  if (!data) {
+    if (error) {
+      throw error;
+    }
+
+    return [];
+  }
+
+  return data.quest_completion;
+};
+
+export const getQuestsByPlayerWithCompletionsQuery = async (
   createdByPlayerId: Scalars['uuid'],
   client: Client = defaultClient,
 ) => {
@@ -164,29 +190,4 @@ export const getQuestsWithCompletionsByPlayerQuery = async (
   }
 
   return data.quest;
-};
-
-export const getQuestsByPlayerWithCompletionsQuery = async (
-  playerId: Scalars['uuid'],
-  client: Client = defaultClient,
-) => {
-  const { data, error } = await client
-    .query<
-      GetAcceptedQuestsByPlayerQuery,
-      GetAcceptedQuestsByPlayerQueryVariables
-    >(GetAcceptedQuestsByPlayerDocument, {
-      order,
-      completedByPlayerId: playerId,
-    })
-    .toPromise();
-
-  if (!data) {
-    if (error) {
-      throw error;
-    }
-
-    return [];
-  }
-
-  return data.quest_completion;
 };
