@@ -65,10 +65,7 @@ All notable changes to this project will be documented in this file. See [standa
 - persisting profile layout changes in hasura ([b00fc2a](https://github.com/MetaFam/TheGame/commit/b00fc2a7e807388d5c733f484d479e59719bcaeb))
 - player profile in react-grid-layout ([f0d7ad6](https://github.com/MetaFam/TheGame/commit/f0d7ad61fe2d346e3d7d16f433c567e5420ac8d3))
 - podcast player + title + description ([b3a99c3](https://github.com/MetaFam/TheGame/commit/b3a99c35621119f4b3d57d2ab1cc6858b438c209))
-  <<<<<<< develop
-  =======
 - prepare containers for path-of-the-engaged and initiation quests ([240706d](https://github.com/MetaFam/TheGame/commit/240706db89db82cbc88cf1e15b492e7c6e1f4e11))
-  > > > > > > > chore(release): 0.2.0
 - profile layout edit + section add/remove ([c76839f](https://github.com/MetaFam/TheGame/commit/c76839f05636914fc0edf844cecb51f3ad985017))
 - remove old hacky calendar, use default google iframe calendar ([fb6ebf4](https://github.com/MetaFam/TheGame/commit/fb6ebf4691b7d828176215251b2ea0bfadc1f44f))
 - remove old seeds pages, set up new page ([006087b](https://github.com/MetaFam/TheGame/commit/006087bf9d59097ff4b09256c7ffba06407d96f3))
@@ -77,10 +74,7 @@ All notable changes to this project will be documented in this file. See [standa
 - set default cover image for guild ([afb54fb](https://github.com/MetaFam/TheGame/commit/afb54fb31a4bcbef0ca01cf8d1a7a3bc0d85b4ba))
 - set real calendar data + slight refactor ([aedb9c9](https://github.com/MetaFam/TheGame/commit/aedb9c9d381648785db9f0eebb45d87c08c66a0f))
 - set up dashboard page ([690bad1](https://github.com/MetaFam/TheGame/commit/690bad19a04e2359f72404e9ccf1c1b01447c718))
-  <<<<<<< develop
-  =======
 - set up quests dashboard ([ebd7390](https://github.com/MetaFam/TheGame/commit/ebd7390b26880e7679bc3382b7e0df9cfa4958c3))
-  > > > > > > > chore(release): 0.2.0
 - set up tabs components ([616a865](https://github.com/MetaFam/TheGame/commit/616a865eb0eb86bb0cc1776c4d387e3275be053b))
 - show DAOs in a modal and match NFT gallery styling ([62376d0](https://github.com/MetaFam/TheGame/commit/62376d0f9b647a57ce9715ac03abd954d6bca737))
 - show reset to default button only when changed ([84c707c](https://github.com/MetaFam/TheGame/commit/84c707c4c03e3ebc4917704eb25cb445d61b7189))
@@ -111,9 +105,7 @@ All notable changes to this project will be documented in this file. See [standa
 - capitalisation and disabling button when no user ([ff8929b](https://github.com/MetaFam/TheGame/commit/ff8929b4746f38ad23650c9ff30896c082448d2e))
 - catch opensea errors + disable player achievements section ([63579d8](https://github.com/MetaFam/TheGame/commit/63579d849523a89a8ae659499c33bdf22a5adf31))
 - change the metagame logo navigation to /dashboard ([685fc91](https://github.com/MetaFam/TheGame/commit/685fc91115fa40b5dfb8847705aac635a4a9e864))
-  <<<<<<< develop
-- # clean up username page ([54222f3](https://github.com/MetaFam/TheGame/commit/54222f36675ce9be58bcb50fc28a677c035c108d))
-  > > > > > > > chore(release): 0.2.0
+- clean up username page ([54222f3](https://github.com/MetaFam/TheGame/commit/54222f36675ce9be58bcb50fc28a677c035c108d))
 - create clients once ([8cfd347](https://github.com/MetaFam/TheGame/commit/8cfd347a48c8fc9897109564f23e8ea769737328))
 - create clients once ([3dda8aa](https://github.com/MetaFam/TheGame/commit/3dda8aa7ca9eac6676fe4accf275c6edfef10253))
 - dao memberships without title are also displayed ([bd453ba](https://github.com/MetaFam/TheGame/commit/bd453ba39cc7cfa8cb2475a5dea3a7f74ed90b2b))
@@ -151,10 +143,7 @@ All notable changes to this project will be documented in this file. See [standa
 - minor ui bugs ([4f70351](https://github.com/MetaFam/TheGame/commit/4f703515759614da5276d50f49bc809e995a9661))
 - missing roles ([5b61955](https://github.com/MetaFam/TheGame/commit/5b619553d478741d5ded02b752ce9a49cbdd98b5))
 - mistakes were made ([fc4e30f](https://github.com/MetaFam/TheGame/commit/fc4e30f07469b82ed385b1c352c510b97eaf1ea7))
-  <<<<<<< develop
-  =======
 - mobile second ([50629dd](https://github.com/MetaFam/TheGame/commit/50629dd54a51361d48ab83a5e6acd71128da00a1))
-  > > > > > > > chore(release): 0.2.0
 - more lint ([6f7915e](https://github.com/MetaFam/TheGame/commit/6f7915e55c8028f6bb0ea379de613c4ab35b158a))
 - move discord-bot RUNTIME_ENV to the last stage ([4f1e475](https://github.com/MetaFam/TheGame/commit/4f1e47562ccf2b65d2d24aa80002e19abf5cd5de))
 - moved opensea to api & fixed env var ([c36c675](https://github.com/MetaFam/TheGame/commit/c36c67504f008fed67ffb28af3a3f118f69fc0d5))
@@ -168,9 +157,7 @@ All notable changes to this project will be documented in this file. See [standa
 - reduced profile padding top ([8dcfd16](https://github.com/MetaFam/TheGame/commit/8dcfd1678658a5d81aff051af8569b3dcaddff54))
 - remove jstz, get timezone with Intl ([4f7d0ef](https://github.com/MetaFam/TheGame/commit/4f7d0ef770368ccb4f38c5602cff98c9f2640e32))
 - remove nextjs-cors package ([5fef811](https://github.com/MetaFam/TheGame/commit/5fef8118f1e9e47d9674a683124cd2dafad2375b))
-  <<<<<<< develop
-- # removed verify on brightId button ([52372f9](https://github.com/MetaFam/TheGame/commit/52372f9deef043cc62feed5da82c2245262d7593))
-  > > > > > > > chore(release): 0.2.0
+- removed verify on brightId button ([52372f9](https://github.com/MetaFam/TheGame/commit/52372f9deef043cc62feed5da82c2245262d7593))
 - removing unnecessary dropdown options ([cc41fb7](https://github.com/MetaFam/TheGame/commit/cc41fb77eee757a00ac37eb60c31039cee8623ee))
 - replace next/image with BoxedNextImage ([a7ab1ea](https://github.com/MetaFam/TheGame/commit/a7ab1ea5b09a6c541042292b82212e5523fc7dd0))
 - revert formatting changes ([42aba14](https://github.com/MetaFam/TheGame/commit/42aba14546cb183d5a50c33e4a718ed82c42af25))
