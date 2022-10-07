@@ -5,7 +5,7 @@ const EventsPage: React.FC = () => (
   <EmbedContainer
     title="MetaGame Events"
     description={descriptions.events}
-    url="//wiki.metagame.wtf/docs/resources/calendar"
+    url="//wiki.metagame.wtf/docs/resources/calendar?metaos=true"
   />
 );
 
