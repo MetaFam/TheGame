@@ -8,13 +8,13 @@ import {
   MetaTag,
   Select,
   Text,
+  Textarea,
   VStack,
 } from '@metafam/ds';
 import { FlexContainer } from 'components/Container';
 import { RepetitionColors } from 'components/Quest/QuestTags';
 import { RolesSelect } from 'components/Quest/Roles';
 import { SkillsSelect } from 'components/Quest/Skills';
-import { WYSIWYGEditor } from 'components/Quest/WYSIWYGEditor';
 import {
   GuildFragment,
   PlayerRole,
@@ -208,7 +208,7 @@ export const QuestForm: React.FC<Props> = ({
             }}
             defaultValue={defaultValues.description}
             render={({ field: { onChange, value } }) => (
-              <WYSIWYGEditor {...{ value, onChange }} />
+              <Textarea {...{ value, onChange }} />
             )}
           />
         </Field>

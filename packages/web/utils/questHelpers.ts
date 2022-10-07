@@ -1,4 +1,4 @@
-import { Maybe, numbers } from '@metafam/utils';
+import { Constants, Maybe, numbers } from '@metafam/utils';
 import {
   Player,
   QuestRepetition_Enum,
@@ -21,13 +21,13 @@ export function transformCooldownForBackend(
 }
 
 export function isAllowedToCreateQuest(balance?: string | null): boolean {
-  if (!balance) return false;
+  if (balance == null) return false;
 
   const pSEEDDecimals = 18;
-  const minimumPooledSeedBalance = new BN(100);
+  const minimumPooledSeedBalance = new BN(Constants.PSEED_FOR_QUEST);
   const pSEEDBalanceInDecimal = amountToDecimal(balance, pSEEDDecimals);
 
-  const allowed = new BN(pSEEDBalanceInDecimal).gt(minimumPooledSeedBalance);
+  const allowed = new BN(pSEEDBalanceInDecimal).gte(minimumPooledSeedBalance);
 
   return allowed;
 }
