@@ -5,7 +5,7 @@ const PlaybooksPage: React.FC = () => (
   <EmbedContainer
     title="MetaGame Playbooks"
     description={descriptions.playbooks}
-    url="https://wiki.metagame.wtf/docs/playbooks/browse"
+    url="https://wiki.metagame.wtf/playbooks/how-to-make-it-without-technical-skills/?metaos=true"
   />
 );
 
