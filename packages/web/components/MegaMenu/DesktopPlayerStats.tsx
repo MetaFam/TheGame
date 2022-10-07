@@ -4,6 +4,7 @@ import {
   Icon,
   LogOut,
   Menu,
+  MenuArrow,
   MenuButton,
   MenuItem,
   MenuList,
@@ -54,20 +55,17 @@ export const DesktopPlayerStats: React.FC<PlayerStatsProps> = ({ player }) => {
           position="relative"
         >
           <Icon
+            as={MenuArrow}
+            color="rgba(42, 31, 71, 0.9)"
             position="absolute"
             left="calc(92% - 1.25rem)"
             top={-3}
             w={6}
-            h={'auto'}
+            h="auto"
             opacity={1}
             transition="opacity 0.2s"
             zIndex={2}
-          >
-            <path
-              d="M12 0L24 12C14.6274 12 9.37258 12 0 12L12 0Z"
-              fill="rgba(42, 31, 71, 0.9)"
-            />
-          </Icon>
+          />
           <MetaLink
             color="white"
             href={getPlayerURL(player) ?? '/'}
