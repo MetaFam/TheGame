@@ -42,9 +42,10 @@ export const BecomePatron: React.FC = () => (
           overflow="hidden"
           justify="space-between"
           my={12}
+          height="40em"
         >
-          <Flex justify="center" align="center" height="100%">
-            <Image src={Seed} height="auto" maxW="16rem" my="6" mb="12" />
+          <Flex justify="center" align="center">
+            <Image src={Seed} height="auto" maxW="16rem" my="6" />
           </Flex>
           <Text textAlign="center" fontSize="xl" as="p" marginBottom="8">
             Water Seeds yourself
@@ -64,7 +65,7 @@ export const BecomePatron: React.FC = () => (
                 bg="#E839B7"
                 borderRadius={0}
                 color="white"
-                href="https://metagame.wtf/community/patrons"
+                href="https://metagame.wtf/seeds"
                 minW="10rem"
                 mt={8}
                 px={6}
@@ -105,6 +106,7 @@ export const BecomePatron: React.FC = () => (
           overflow="hidden"
           justify="space-between"
           my={12}
+          height="40em"
         >
           <Flex justify="center" align="center">
             <Image src={PatronCircle} height="auto" maxW="16rem" my="6" />
@@ -129,7 +131,7 @@ export const BecomePatron: React.FC = () => (
                 bg="#E839B7"
                 borderRadius={0}
                 color="white"
-                href="https://metagame.wtf/community/patrons"
+                href="https%3A%2F%2Fform.typeform.com%2Fto%2FmAmXKSAc"
                 minW="10rem"
                 mt={8}
                 px={6}

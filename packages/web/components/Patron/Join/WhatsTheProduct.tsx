@@ -1,4 +1,12 @@
-import { Container, Flex, Heading, Text } from '@metafam/ds';
+import {
+  Box,
+  Container,
+  Flex,
+  Heading,
+  ListItem,
+  Text,
+  UnorderedList,
+} from '@metafam/ds';
 
 export const WhatsTheProduct: React.FC = () => (
   <Container as="section" className="mg-patron-join-section" my={[4, 4, 4, 12]}>
@@ -13,14 +21,7 @@ export const WhatsTheProduct: React.FC = () => (
     </Heading>
 
     <Flex justify="end">
-      <Text
-        p="4"
-        textAlign="right"
-        maxW="45rem"
-        mr={5}
-        className="mg-patron-join-card-bg"
-        mb={6}
-      >
+      <Text p="4" maxW="45rem" mr={5} className="mg-patron-join-card-bg" mb={6}>
         There are a few, actually, along with various monetization &
         sustainability strategies. If you want to dig deeper, it might be best
         to dig down the raids section & ask some questions or read the
@@ -39,19 +40,20 @@ export const WhatsTheProduct: React.FC = () => (
     </Heading>
 
     <Flex justify="end">
-      <Text
-        p="4"
-        textAlign="right"
-        maxW="45rem"
-        mr={5}
-        className="mg-patron-join-card-bg"
-      >
-        We prefer our patrons inrinsically motivated, so the main reason you'd
-        want to become a patron is just the fact you love this whole idea of
-        MetaGame & want to see it succeed. If you weren’t so damn busy, you’d
-        probably join in on building it, but at this point, its easier for you
-        to just pitch in a bucket of water & support the movement passively.
-      </Text>
+      <Box p="4" maxW="45rem" mr={5} className="mg-patron-join-card-bg">
+        <Text>
+          We prefer our patrons inrinsically motivated, so the main reason you'd
+          want to become a patron is just the fact you love this whole idea of
+          MetaGame & want to see it succeed.
+        </Text>
+        <UnorderedList>
+          <ListItem>
+            If you weren’t so damn busy, you’d probably join in on building it,
+            but at this point, its easier for you to just pitch in a bucket of
+            water & support the movement passively.
+          </ListItem>
+        </UnorderedList>
+      </Box>
     </Flex>
   </Container>
 );
