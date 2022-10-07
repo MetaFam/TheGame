@@ -4,16 +4,20 @@ import {
   CloseButton,
   Flex,
   HStack,
+  Image,
   Input,
   LoadingState,
   MetaButton,
   MultiSelect,
   Select,
+  Spinner,
   Text,
   Textarea,
+  useToast,
   VStack,
 } from '@metafam/ds';
 import { SelectOption } from '@metafam/ds/src/MultiSelect';
+import FileOpenIcon from 'assets/file-open-icon.svg';
 import { Field, FieldDescription } from 'components/Forms/Field';
 import { MetaLink } from 'components/Link';
 import {
@@ -25,13 +29,14 @@ import {
   useGetGuildMetadataQuery,
 } from 'graphql/autogen/types';
 import { useRouter } from 'next/router';
-import React, { useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   Controller,
   FieldError,
   useFieldArray,
   useForm,
 } from 'react-hook-form';
+import { optimizedImage } from 'utils/imageHelpers';
 
 const validations = {
   guildname: {
@@ -68,6 +73,7 @@ export interface EditGuildFormInputs {
   discordInviteUrl?: Maybe<string>;
   joinUrl?: Maybe<string>;
   logoUrl?: Maybe<string>;
+  logoFile?: Maybe<FileList>;
   websiteUrl?: Maybe<string>;
   twitterUrl?: Maybe<string>;
   githubUrl?: Maybe<string>;
@@ -120,7 +126,7 @@ const getDefaultFormValues = (
     description: guild.description || '',
     discordInviteUrl: guild.discordInviteUrl || '',
     joinUrl: guild.joinButtonUrl || '',
-    logoUrl: guild.logo || '',
+    logoUrl: optimizedImage('logoURL', guild.logo) || '',
     websiteUrl: guild.websiteUrl || '',
     twitterUrl: guild.twitterUrl || '',
     githubUrl: guild.githubUrl || '',
@@ -205,9 +211,104 @@ export const GuildForm: React.FC<Props> = ({
     reset(values);
   }, [workingGuild, guildMetadata, roleOptions, reset]);
 
+  const [logoURI, setLogoURI] = useState<string | undefined>(
+    workingGuild.logo ?? undefined,
+  );
+  const [active, setActive] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [errored, setErrored] = useState(false);
+  const toast = useToast();
+
+  const onFileChange = useCallback(
+    (file: File | undefined) => {
+      if (!file) return;
+      setLoading(true);
+      setErrored(false);
+      const reader = new FileReader();
+      reader.addEventListener('load', () => {
+        setLogoURI(reader.result as string);
+      });
+      reader.addEventListener('error', ({ target }) => {
+        const { error } = target ?? {};
+        toast({
+          title: 'Image Loading Error',
+          description: `Loading Images Error: “${error?.message}”`,
+          status: 'error',
+          isClosable: true,
+          duration: 10000,
+        });
+        setLoading(false);
+        setErrored(true);
+      });
+      reader.readAsDataURL(file);
+    },
+    [toast],
+  );
+
   return (
     <Box w="100%" maxW="40rem">
       <VStack>
+        <Field label="Logo" error={errors.logoUrl}>
+          <Flex
+            w="10em"
+            h="10em"
+            borderRadius="full"
+            display="inline-flex"
+            overflow="hidden"
+            align="center"
+            justify="center"
+            position="relative"
+            border="2px solid"
+            borderColor={active ? 'blue.400' : 'transparent'}
+          >
+            <Image
+              onLoad={() => setLoading(false)}
+              onError={() => setErrored(true)}
+              display={loading ? 'none' : 'inherit'}
+              src={logoURI}
+              borderRadius="full"
+              objectFit="cover"
+              h="full"
+              w="full"
+            />
+            {loading &&
+              (!logoURI || errored ? (
+                <Image w="5em" mx="2.5em" src={FileOpenIcon} opacity={0.5} />
+              ) : (
+                <Spinner size="xl" color="purple.500" thickness="4px" />
+              ))}
+            <Controller
+              {...{ control }}
+              name="logoFile"
+              render={({ field: { onChange, value, ...props } }) => (
+                <Input
+                  {...props}
+                  type="file"
+                  onChange={(evt) => {
+                    onChange(evt.target.files);
+                    const file = evt.target.files?.[0];
+                    onFileChange(file);
+                  }}
+                  accept="image/png,image/gif,image/jpeg,image/svg+xml"
+                  position="absolute"
+                  top={0}
+                  bottom={0}
+                  left={0}
+                  right={0}
+                  opacity={0}
+                  w="100%"
+                  h="100%"
+                  onFocus={() => setActive(true)}
+                  onBlur={() => setActive(false)}
+                />
+              )}
+            />
+          </Flex>
+          <FieldDescription>
+            Logos should be square (same width and height) and reasonably
+            high-resolution.
+          </FieldDescription>
+        </Field>
         <Field label="Guildname" error={errors.guildname}>
           <Input
             {...register('guildname', {
@@ -256,13 +357,6 @@ export const GuildForm: React.FC<Props> = ({
             {...register('description')}
             background="dark"
           />
-        </Field>
-        <Field label="Logo URL" error={errors.logoUrl}>
-          <Input {...register('logoUrl')} background="dark" />
-          <FieldDescription>
-            Logos should be square (same width and height) and reasonably
-            high-resolution.
-          </FieldDescription>
         </Field>
         <Field label="Website URL" error={errors.websiteUrl}>
           <Input {...register('websiteUrl')} background="dark" />

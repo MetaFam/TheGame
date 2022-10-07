@@ -14,6 +14,7 @@ import {
 import { GuildFragment } from 'graphql/autogen/types';
 import NextLink from 'next/link';
 import React from 'react';
+import { optimizedImage } from 'utils/imageHelpers';
 
 type Props = {
   guild: GuildFragment;
@@ -31,7 +32,11 @@ export const GuildTile: React.FC<Props> = ({ guild }) => (
           <MetaTileHeader>
             <VStack align="center">
               {guild.logo ? (
-                <Avatar size="xl" src={guild.logo} name={guild.name} />
+                <Avatar
+                  size="xl"
+                  src={optimizedImage('logoURL', guild.logo)}
+                  name={guild.name}
+                />
               ) : null}
 
               <Heading size="sm" color="white">

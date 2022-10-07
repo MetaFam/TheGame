@@ -27,7 +27,7 @@ import {
 import parse from 'html-react-parser';
 import { useUser } from 'lib/hooks';
 import moment from 'moment';
-import React from 'react';
+import { optimizedImage } from 'utils/imageHelpers';
 
 type Props = {
   quest: QuestWithCompletionFragment;
@@ -52,7 +52,7 @@ export const QuestDetails: React.FC<Props> = ({ quest }) => {
       <Flex justify="center" mb={4}>
         <Avatar
           size="lg"
-          src={quest.guild.logo || undefined}
+          src={optimizedImage('logoURL', quest.guild.logo)}
           name={quest.guild.name}
         />
       </Flex>
