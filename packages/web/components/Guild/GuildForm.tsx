@@ -288,7 +288,7 @@ export const GuildForm: React.FC<Props> = ({
                     const file = evt.target.files?.[0];
                     onFileChange(file);
                   }}
-                  accept="image/x-png,image/gif,image/jpeg"
+                  accept="image/png,image/gif,image/jpeg,image/svg+xml"
                   position="absolute"
                   top={0}
                   bottom={0}
