@@ -1,6 +1,7 @@
 import {
   Dashboard,
   Flex,
+  Icon,
   LogOut,
   Menu,
   MenuButton,
@@ -26,6 +27,7 @@ export const DesktopPlayerStats: React.FC<PlayerStatsProps> = ({ player }) => {
   return (
     <Flex align="center" justifyContent="flex-end">
       <XPSeedsBalance totalXP={player.totalXP} />
+
       <Menu>
         <MenuButton
           bg="transparent"
@@ -41,37 +43,94 @@ export const DesktopPlayerStats: React.FC<PlayerStatsProps> = ({ player }) => {
             _hover={{ transform: 'scale(0.9)' }}
           />
         </MenuButton>
-        <MenuList mt="8px" color="black">
+        <MenuList
+          mt="8px"
+          color="white"
+          boxShadow="2xl"
+          bg="linear-gradient(180deg, rgba(42, 31, 71, 0.9) 6.18%, rgba(17, 3, 32, 0.86) 140%)"
+          borderRadius="md"
+          border={0}
+          px={2}
+          position="relative"
+        >
+          <Icon
+            position="absolute"
+            left="calc(92% - 1.25rem)"
+            top={-3}
+            w={6}
+            h={'auto'}
+            opacity={1}
+            transition="opacity 0.2s"
+            zIndex={2}
+          >
+            <path
+              d="M12 0L24 12C14.6274 12 9.37258 12 0 12L12 0Z"
+              fill="rgba(42, 31, 71, 0.9)"
+            />
+          </Icon>
           <MetaLink
-            color="black"
+            color="white"
             href={getPlayerURL(player) ?? '/'}
             _hover={{ textDecoration: 'none' }}
           >
-            <MenuItem>
+            <MenuItem
+              sx={{
+                '&:hover, &:active, &:focus': {
+                  bg: 'rgba(0,0,0,0.56)',
+                  color: 'white',
+                  borderRadius: 'md',
+                },
+              }}
+            >
               <Profile w={4} h={4} mr={4} /> View Profile
             </MenuItem>
           </MetaLink>
           <MetaLink
-            color="black"
+            color="white"
             href={'/profile/setup'}
             _hover={{ textDecoration: 'none' }}
           >
-            <MenuItem>
+            <MenuItem
+              sx={{
+                '&:hover, &:active, &:focus': {
+                  bg: 'rgba(0,0,0,0.56)',
+                  color: 'white',
+                  borderRadius: 'md',
+                },
+              }}
+            >
               <Profile w={4} h={4} mr={4} /> Profile Wizard
             </MenuItem>
           </MetaLink>
           <MetaLink
-            color="black"
+            color="white"
             href={'/dashboard'}
             _hover={{ textDecoration: 'none' }}
           >
-            <MenuItem>
-              <Dashboard w={4} h={4} mr={4} color="red.500" />
+            <MenuItem
+              sx={{
+                '&:hover, &:active, &:focus': {
+                  bg: 'rgba(0,0,0,0.56)',
+                  color: 'white',
+                  borderRadius: 'md',
+                },
+              }}
+            >
+              <Dashboard w={4} h={4} mr={4} fill="white" />
               Dashboard
             </MenuItem>
           </MetaLink>
-          <MenuItem onClick={disconnect}>
-            <LogOut w={4} h={4} mr={4} />
+          <MenuItem
+            onClick={disconnect}
+            sx={{
+              '&:hover, &:active, &:focus': {
+                bg: 'rgba(0,0,0,0.56)',
+                color: 'white',
+                borderRadius: 'md',
+              },
+            }}
+          >
+            <LogOut w={4} h={4} mr={4} fill="white" />
             Disconnect
           </MenuItem>
         </MenuList>
