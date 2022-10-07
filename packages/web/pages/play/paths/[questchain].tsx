@@ -70,33 +70,39 @@ const QuestChainPathPage: React.FC<Props> = ({
   }
 
   return (
-    <PageContainer>
+    <PageContainer p={0}>
       <HeadComponent
         title={`MetaGame ${inputQuestChain.name}`}
         description="MetaGame is a Massive Online Coordination Game! MetaGame has some epic quests going on!"
         url="https://my.metagame.wtf/quests/path-of-the-engaged"
       />
-      <VStack spacing={20} maxW="96rem" align="stretch">
+      <VStack
+        spacing={20}
+        w="100%"
+        maxW="96rem"
+        align="stretch"
+        p={{ base: 3, sm: 8, lg: 12 }}
+      >
         <Heading
           questChain={questChain}
           progress={progress}
           canMint={canMint}
         />
+        <Text fontSize={40} fontFamily="heading" w="100%">
+          QUESTS
+        </Text>
+      </VStack>
 
-        <VStack>
-          <Text fontSize={40} fontFamily="heading" w="100%">
-            QUESTS
-          </Text>
-          {fetching ? (
-            <Spinner />
-          ) : (
-            <Chain
-              questChain={questChain}
-              userStatus={userStatus}
-              refresh={refresh}
-            />
-          )}
-        </VStack>
+      <VStack w="100%">
+        {fetching ? (
+          <Spinner />
+        ) : (
+          <Chain
+            questChain={questChain}
+            userStatus={userStatus}
+            refresh={refresh}
+          />
+        )}
       </VStack>
     </PageContainer>
   );

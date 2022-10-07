@@ -50,8 +50,10 @@ export const Chain: React.FC<PlayerStatsProps> = ({
     [dragging],
   );
 
+  const quests = questChain.quests.filter((q) => !q.paused);
+
   return (
-    <Box w="100%" pb="10rem">
+    <Box w="100%" maxW="96rem" overflow="visible" pb="10rem">
       <ScrollMenu
         onMouseDown={() => dragStart}
         onMouseUp={({
@@ -68,33 +70,32 @@ export const Chain: React.FC<PlayerStatsProps> = ({
         options={{ throttle: 0 }} // NOTE: for center items
         onMouseMove={handleDrag}
       >
-        {questChain.quests
-          .filter((q) => !q.paused)
-          .map(({ name, description, questId }, index) => (
-            <QuestTile
-              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-              // @ts-ignore
-              itemId={questId}
-              key={questId + index}
-              number={index + 1}
-              name={name ?? ''}
-              description={description ?? ''}
-              onClick={handleItemClick(questId)}
-              isSelected={selected === questId}
-              bgColor={
-                // eslint-disable-next-line no-nested-ternary
-                userStatus[questId]?.status === 'pass'
-                  ? 'main.300'
-                  : userStatus[questId]?.status === 'review'
-                  ? '#EFFF8F30'
-                  : 'whiteAlpha.100'
-              }
-              questId={questId}
-              questChain={questChain}
-              userStatus={userStatus}
-              refresh={refresh}
-            />
-          ))}
+        {quests.map(({ name, description, questId }, index) => (
+          <QuestTile
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            itemId={questId}
+            key={questId + index}
+            number={index + 1}
+            name={name ?? ''}
+            description={description ?? ''}
+            onClick={handleItemClick(questId)}
+            isSelected={selected === questId}
+            bgColor={
+              // eslint-disable-next-line no-nested-ternary
+              userStatus[questId]?.status === 'pass'
+                ? 'main.300'
+                : userStatus[questId]?.status === 'review'
+                ? '#EFFF8F30'
+                : 'whiteAlpha.100'
+            }
+            questId={questId}
+            questChain={questChain}
+            questStatus={userStatus[questId]?.status ?? null}
+            refresh={refresh}
+            isLast={index === quests.length - 1}
+          />
+        ))}
       </ScrollMenu>
     </Box>
   );
