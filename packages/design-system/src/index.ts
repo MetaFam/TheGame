@@ -59,6 +59,7 @@ export {
   InfoIcon,
   RepeatClockIcon,
   SettingsIcon,
+  SmallCloseIcon,
 } from '@chakra-ui/icons';
 export {
   Accordion,
@@ -104,6 +105,7 @@ export {
   Flex,
   FlexProps,
   FormControl,
+  FormControlProps,
   FormErrorMessage,
   FormHelperText,
   FormLabel,

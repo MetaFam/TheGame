@@ -8,9 +8,9 @@ type Props = { hide?: boolean };
 
 export const MegaMenu: React.FC<Props> = ({ hide = false, children }) => {
   const [noMotion, setNoMotion] = useState(false);
-  const root = typeof window !== 'undefined' ? document.body : null;
 
   useEffect(() => {
+    const root = typeof window !== 'undefined' ? document.body : null;
     const mut = new MutationObserver(() => {
       if (root && root.classList.contains('no-motion')) {
         setNoMotion(true);
@@ -29,8 +29,6 @@ export const MegaMenu: React.FC<Props> = ({ hide = false, children }) => {
     return () => {
       mut.disconnect();
     };
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

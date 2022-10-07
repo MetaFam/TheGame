@@ -1,39 +1,33 @@
-import React from 'react';
+import { useContext, useEffect, useState } from 'react';
 import {
   getItemsPos,
   slidingWindow,
   VisibilityContext,
 } from 'react-horizontal-scrolling-menu';
 
-function Arrow({
+const Arrow: React.FC<{ disabled: boolean; onClick: () => void }> = ({
   children,
   disabled,
   onClick,
-}: {
-  children: React.ReactNode;
-  disabled: boolean;
-  onClick: VoidFunction;
-}) {
-  return (
-    <button
-      disabled={disabled}
-      onClick={onClick}
-      style={{
-        cursor: 'pointer',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        right: '1%',
-        opacity: disabled ? '0' : '1',
-        userSelect: 'none',
-      }}
-    >
-      {children}
-    </button>
-  );
-}
+}) => (
+  <button
+    disabled={disabled}
+    onClick={onClick}
+    style={{
+      cursor: 'pointer',
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      right: '1%',
+      opacity: disabled ? '0' : '1',
+      userSelect: 'none',
+    }}
+  >
+    {children}
+  </button>
+);
 
-export function RightArrow() {
+export const RightArrow = () => {
   const {
     getItemById,
     isLastItemVisible,
@@ -41,12 +35,12 @@ export function RightArrow() {
     scrollToItem,
     visibleItems,
     visibleItemsWithoutSeparators,
-  } = React.useContext(VisibilityContext);
+  } = useContext(VisibilityContext);
 
-  const [disabled, setDisabled] = React.useState(
+  const [disabled, setDisabled] = useState(
     !visibleItemsWithoutSeparators.length && isLastItemVisible,
   );
-  React.useEffect(() => {
+  useEffect(() => {
     if (visibleItemsWithoutSeparators.length) {
       setDisabled(isLastItemVisible);
     }
@@ -66,4 +60,4 @@ export function RightArrow() {
       Right
     </Arrow>
   );
-}
+};

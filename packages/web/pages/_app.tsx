@@ -1,4 +1,5 @@
-import 'components/Quest/QuestChain/styles.css';
+import 'react-markdown-editor-lite/lib/index.css';
+import 'assets/custom-horizontal-scroll-styles.css';
 
 import { ChakraProvider, CSSReset, MetaTheme } from '@metafam/ds';
 import { MegaMenu } from 'components/MegaMenu/index';

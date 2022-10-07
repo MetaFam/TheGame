@@ -1,25 +1,8 @@
 import { Box, Flex } from '@metafam/ds';
 import { graphql } from '@quest-chains/sdk';
+import { UserStatusType } from 'lib/hooks/questChains';
 
 import { UploadProof } from './UploadProof';
-
-export type UserStatusType = {
-  [questId: string]: {
-    submissions: {
-      description: string | undefined | null;
-      externalUrl: string | undefined | null;
-      timestamp: string;
-    }[];
-    reviews: {
-      description: string | undefined | null;
-      externalUrl: string | undefined | null;
-      timestamp: string;
-      reviewer: string;
-      accepted: boolean;
-    }[];
-    status: graphql.Status;
-  };
-};
 
 type UploadProofButtonProps = {
   userStatus: UserStatusType;

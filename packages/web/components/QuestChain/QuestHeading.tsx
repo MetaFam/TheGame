@@ -1,9 +1,7 @@
 import { Box, Flex, HStack, Image, Text, VStack } from '@metafam/ds';
 import { graphql } from '@quest-chains/sdk';
-import React from 'react';
-import { QUESTS } from 'utils/questChains';
-
-const { getQuestChainInfo } = graphql;
+import { MarkdownViewer } from 'components/MarkdownViewer';
+import { formatAddress } from 'utils/playerHelpers';
 
 type Progress = {
   total: number;
@@ -14,15 +12,27 @@ type Progress = {
 type Props = {
   questChain: graphql.QuestChainInfoFragment;
   progress: Progress;
-  canMint: boolean | undefined;
+  canMint: boolean;
 };
+
+const ChainStat: React.FC<{ label: string; value: string | JSX.Element }> = ({
+  label,
+  value,
+}) => (
+  <Flex direction="column" justify="space-between">
+    <Text color="whiteAlpha.600" fontSize="xs" textTransform="uppercase">
+      {label}
+    </Text>
+    <Text>{value}</Text>
+  </Flex>
+);
 
 const Heading: React.FC<Props> = ({ questChain, progress, canMint }) => (
   <Flex minW="80%" flexDirection="column">
     {/* Quest Chain Title */}
 
     <HStack>
-      <VStack alignItems="start">
+      <VStack alignItems="start" spacing={8}>
         <Flex justifyContent="space-between" w="full">
           <Text
             fontSize="5xl"
@@ -36,41 +46,60 @@ const Heading: React.FC<Props> = ({ questChain, progress, canMint }) => (
         </Flex>
 
         {/* Quest Chain Metadata */}
-        <Flex mb={8} justifyContent="space-between" gap={2}>
-          <Box>
-            <Text color="whiteAlpha.600" fontSize="xs">
-              TOTAL PLAYERS
-            </Text>
-            <Text>{questChain.numQuesters}</Text>
-          </Box>
-          <Box>
-            <Text color="whiteAlpha.600" fontSize="xs">
-              PLAYERS FINISHED
-            </Text>
-            <Text>{questChain.numCompletedQuesters}</Text>
-          </Box>
-          <Box>
-            <Text color="whiteAlpha.600" fontSize="xs">
-              QUESTS
-            </Text>
-            <Text>{questChain.quests.length}</Text>
-          </Box>
-          <Box>
-            <Text color="whiteAlpha.600" fontSize="xs">
-              DATE CREATED
-            </Text>
-            <Text>
-              {new Date(questChain.createdAt * 1000).toLocaleDateString(
-                'en-US',
-              )}
-            </Text>
-          </Box>
-          <Box>
-            <Text color="whiteAlpha.600" fontSize="xs">
-              CREATED BY
-            </Text>
-            {questChain.createdBy.id}
-          </Box>
+        <Flex justifyContent="space-between" gap={2} w="full">
+          <ChainStat
+            label="Total Players"
+            value={questChain.numQuesters.toString()}
+          />
+          <ChainStat
+            label="Players Finished"
+            value={questChain.numCompletedQuesters.toString()}
+          />
+          <ChainStat
+            label="Quests"
+            value={questChain.quests.filter((q) => !q.paused).length.toString()}
+          />
+          <ChainStat
+            label="Date Created"
+            value={new Date(questChain.createdAt * 1000).toLocaleDateString(
+              'en-US',
+            )}
+          />
+          <ChainStat
+            label="Created by"
+            value={formatAddress(questChain.createdBy.id)}
+          />
+        </Flex>
+
+        <Flex w="full" justifyContent="space-between" h={6} alignItems="center">
+          <Flex
+            flex={1}
+            borderColor="whiteAlpha.200"
+            border="1px solid"
+            borderRadius={3}
+          >
+            <Box
+              bg="main"
+              w={`${
+                (progress.total ? progress.completeCount / progress.total : 0) *
+                100
+              }%`}
+            />
+            <Box
+              bgColor="pending"
+              w={`${
+                (progress.total ? progress.inReviewCount / progress.total : 0) *
+                100
+              }%`}
+            />
+            <Box bgColor="grey" h={2} />
+          </Flex>
+          <Text pl={4}>
+            {`${Math.round(
+              (progress.total ? progress.completeCount / progress.total : 0) *
+                100,
+            )}%`}
+          </Text>
         </Flex>
       </VStack>
 
@@ -84,41 +113,8 @@ const Heading: React.FC<Props> = ({ questChain, progress, canMint }) => (
     </HStack>
 
     {/* Quest Chain Description */}
-    <Flex mb={8}>{questChain.description}</Flex>
+    <MarkdownViewer markdown={questChain.description ?? ''} />
 
-    <Flex
-      w="full"
-      justifyContent="space-between"
-      h={6}
-      alignItems="center"
-      mb={6}
-    >
-      <Flex
-        w="90%"
-        borderColor="whiteAlpha.200"
-        border="1px solid"
-        borderRadius={3}
-      >
-        <Box
-          bg="main"
-          w={`${
-            (progress.total ? progress.completeCount / progress.total : 0) * 100
-          }%`}
-        />
-        <Box
-          bgColor="pending"
-          w={`${
-            (progress.total ? progress.inReviewCount / progress.total : 0) * 100
-          }%`}
-        />
-        <Box bgColor="grey" h={2} />
-      </Flex>
-      <Text>
-        {`${Math.round(
-          (progress.total ? progress.completeCount / progress.total : 0) * 100,
-        )}%`}
-      </Text>
-    </Flex>
     <Flex>
       {/* Mint Tile */}
       {canMint && (
@@ -137,26 +133,6 @@ const Heading: React.FC<Props> = ({ questChain, progress, canMint }) => (
     </Flex>
   </Flex>
 );
-
-export const getStaticProps = async () => {
-  let questChain;
-  try {
-    questChain = await getQuestChainInfo(
-      QUESTS.ENGAGED.chainId,
-      QUESTS.ENGAGED.address,
-    );
-  } catch (error) {
-    // eslint-disable-next-line no-console
-    console.error('error', error);
-  }
-
-  return {
-    props: {
-      questChain,
-    },
-    revalidate: 1,
-  };
-};
 
 const IPFS_URL_ADDON = `ipfs/`;
 const IPNS_URL_ADDON = `ipns/`;

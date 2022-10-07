@@ -1,7 +1,7 @@
 import { graphql } from '@quest-chains/sdk';
 import { useEffect, useState } from 'react';
 
-import { useRefresh } from './useRefresh';
+import { useRefresh } from '../useRefresh';
 
 export const useLatestQuestChainData = (
   inputQuestChain: graphql.QuestChainInfoFragment | null,

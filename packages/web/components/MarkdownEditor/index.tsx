@@ -1,5 +1,3 @@
-import 'react-markdown-editor-lite/lib/index.css';
-
 import dynamic from 'next/dynamic';
 
 import { MarkdownViewer } from '../MarkdownViewer';
