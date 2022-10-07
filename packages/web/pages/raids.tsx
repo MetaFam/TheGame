@@ -7,6 +7,7 @@ import {
   Heading,
   Image,
   Link,
+  List,
   ListItem,
   LoadingState,
   Stack,
@@ -84,7 +85,7 @@ const RaidsPage: React.FC = () => {
         <Container maxW="7xl" w="100%">
           <Heading
             as="h1"
-            color="#a6b7f3"
+            color="white"
             fontSize="4xl"
             fontWeight={600}
             fontFamily="mono"
@@ -100,273 +101,426 @@ const RaidsPage: React.FC = () => {
             w="100%"
           >
             <Box w={{ base: '100%', lg: '50%' }} maxW="2xl">
-              <Text
-                as="h2"
-                color="#a6b7f3"
-                fontSize="2xl"
-                fontWeight={400}
-                fontFamily="mono"
-              >
-                MyMeta Profiles
-              </Text>
-              <Text mb={2}>
-                MyMeta Profiles are decentralized profiles built on Ceramic.
-                Think LinkedIn profiles for DAOists.{' '}
-                <Link
-                  className="gradient"
-                  href="https://wiki.metagame.wtf/docs/what-we-do/mymeta"
-                  title="Read more about MyMeta Profiles"
-                  isExternal
+              {/* 
+                MetaOS section
+              */}
+              <Box mb={[4, 4, 4, 6]}>
+                <Text
+                  as="h2"
+                  color="white"
+                  fontSize="2xl"
+                  fontWeight={700}
+                  fontFamily="mono"
+                  mb={2}
+                  textTransform="uppercase"
                 >
-                  Read more here
-                </Link>
-                .
-              </Text>
+                  MetaOS
+                </Text>
+                <Text mb={2}>
+                  <Link
+                    className="gradient"
+                    href="https://wiki.metagame.wtf/docs/what-we-do/metaos"
+                    title="Read more about MetaOS"
+                    isExternal
+                  >
+                    MetaOS
+                  </Link>{' '}
+                  is an operating system for interoperable communities,
+                  decentralized societies &amp; coordination games. A mosaic of
+                  web3 building blocks put together into a coherent platform.
+                </Text>
 
-              <Text
-                as="h2"
-                color="#a6b7f3"
-                fontSize="2xl"
-                fontWeight={400}
-                fontFamily="mono"
-              >
-                MetaOS
-              </Text>
-              <Text mb={2}>
-                MetaOS is an open-source platform for building &amp; running
-                composable communities.{' '}
-                <Link
-                  className="gradient"
-                  href="https://wiki.metagame.wtf/docs/what-we-do/metaos"
-                  title="Read more about MetaOS"
-                  isExternal
-                >
-                  Read more here
-                </Link>
-                .
-              </Text>
-              {/* Quests &amp; QuestChains needs a description and link
-              <Text 
-                as="h2"
-                color="#a6b7f3"
-                fontSize="2xl"
-                fontWeight={400}
-                fontFamily="mono"
-              >
-                Quests &amp; QuestChains
-              </Text>
-              <Text mb={2}>
-                Text text{' '}
-                <Link
-                  className="gradient"
-                  href="https://metagame.wtf"
-                  title="title"
-                  isExternal
-                >
-                  Link text
-                </Link>
-              </Text> */}
+                <Text fontWeight={700}>Ways to help:</Text>
 
-              <Text
-                as="h2"
-                color="#a6b7f3"
-                fontSize="2xl"
-                fontWeight={400}
-                fontFamily="mono"
-              >
-                The Onboarding Game
-              </Text>
-              <Text mb={2}>
-                The Onboarding Game is a branching dialogue exploration game
-                used for helping people understand Web3 &amp; join the space.
-              </Text>
+                <UnorderedList>
+                  <ListItem>
+                    Always need builders. Know someone good with TypeScript?
+                    You? DM peth.
+                  </ListItem>
+                  <ListItem>
+                    Want to integrate some critical piece of DAO tool stacks? A
+                    bounties system or a social or data feed? Any other{' '}
+                    <Link
+                      className="gradient"
+                      href="https://metagame.wtf/quest/99047a66-533a-43a0-abc2-c9a9de85de46"
+                      title="Read the ‘Build a Dashboard Module’ quest"
+                    >
+                      custom block into the dashboard
+                    </Link>
+                    ?
+                  </ListItem>
+                </UnorderedList>
+              </Box>
 
-              <Text
-                as="h2"
-                color="#a6b7f3"
-                fontSize="2xl"
-                fontWeight={400}
-                fontFamily="mono"
-              >
-                Buildin’ Bridges &amp; Integrations
-              </Text>
-              <Text mb={2}>
-                Highlighting &amp;{' '}
-                <Link
-                  className="gradient"
-                  href="https://meta-game.notion.site/Bridgebuilding-Questline-b98fc335c33f49f7ae86d2524d7d8e8c"
-                  title="Read the Bridgebuilding Questline"
-                  isExternal
+              {/*
+                Bridgebuildin section
+              */}
+              <Box mb={[4, 4, 4, 6]}>
+                <Text
+                  as="h2"
+                  color="white"
+                  fontSize="2xl"
+                  fontWeight={700}
+                  fontFamily="mono"
+                  mb={2}
+                  textTransform="uppercase"
                 >
-                  onboarding DAOs
-                </Link>{' '}
-                that want to become a part of MetaGame, integrating{' '}
-                <Link
-                  className="gradient"
-                  href="https://metagame.wtf/quest/6524b99a-df7e-4c10-838d-c441a8417e77"
-                  title="Custom Integration Quest description"
-                  isExternal
-                >
-                  more blocks into MyMeta
-                </Link>{' '}
-                &amp;{' '}
-                <Link
-                  className="gradient"
-                  href="https://metagame.wtf/quest/99047a66-533a-43a0-abc2-c9a9de85de46"
-                  title="Dashboard Quest description"
-                  isExternal
-                >
-                  dashboard
-                </Link>
-                , etc.
-              </Text>
+                  Bridgebuildin’
+                </Text>
+                <Text mb={2}>
+                  Making connections with other DAOs,{' '}
+                  <Link
+                    className="gradient"
+                    href="https://metagame.wtf/join/guild"
+                    title="How to join MetaGame as a Guild"
+                  >
+                    onboarding them into MetaGame
+                  </Link>
+                  , helping them &amp; integrating their tools into MetaOS or
+                  services into MetaGame.
+                </Text>
 
-              <Text
-                as="h2"
-                color="#a6b7f3"
-                fontSize="2xl"
-                fontWeight={400}
-                fontFamily="mono"
-              >
-                Realizing MetaGame
-              </Text>
-              <Text mb={2}>
-                <Link
-                  className="gradient"
-                  href="https://metagame.substack.com/"
-                  title="Visit metagame.substack.com"
-                  isExternal
+                <Text fontWeight={700}>Ways to help:</Text>
+
+                <UnorderedList>
+                  <ListItem>
+                    Know any cool DAO that may want to join this cool network?
+                    Suggest them in the{' '}
+                    <Link
+                      className="gradient"
+                      href="https://discord.com/channels/629411177947987986/930160867562115193"
+                      title="Visit the Bridgebuilders Guild channel in MetaGame Discord"
+                      isExternal
+                    >
+                      #bridgebuilders-guild
+                    </Link>{' '}
+                    or maybe even{' '}
+                    <Link
+                      className="gradient"
+                      href="https://questchains.xyz/chain/0x89/0xf7fbc471cbae68bf3833ff820c926ffe3c5bf0f7"
+                      title="Complete the Bridgebuilder’s Path Quest on Quest Chains"
+                      isExternal
+                    >
+                      build the bridge yourself
+                    </Link>
+                    .
+                  </ListItem>
+                  <ListItem>
+                    Know any cool web3 building block or tool that could be{' '}
+                    <Link
+                      className="gradient"
+                      href="https://metagame.wtf/quest/6524b99a-df7e-4c10-838d-c441a8417e77"
+                      title="Read the ‘Custom Integration into MyMeta’ Quest"
+                    >
+                      integrated into MyMeta
+                    </Link>
+                    , MetaOS, the dashboard or the megamenu? Let us know.
+                  </ListItem>
+                </UnorderedList>
+              </Box>
+
+              {/*
+                Great Houses section
+              */}
+              <Box mb={[4, 4, 4, 6]}>
+                <Text
+                  as="h2"
+                  color="white"
+                  fontSize="2xl"
+                  fontWeight={700}
+                  fontFamily="mono"
+                  mb={2}
+                  textTransform="uppercase"
+                >
+                  Great Houses &amp; Playbooks
+                </Text>
+                <Text mb={2}>
+                  These are curated resources for different fields of interests
+                  &amp; how-to guides.
+                </Text>
+
+                <Text fontWeight={700}>Ways to help:</Text>
+
+                <UnorderedList>
+                  <ListItem>
+                    <Link
+                      className="gradient"
+                      href="https://wiki.metagame.wtf/docs/great-houses/how-to-house"
+                      title="Visit the Build a New House page in the MetaGame wiki"
+                      isExternal
+                    >
+                      Great Houses
+                    </Link>{' '}
+                    are always open for more links. Its also always possible to
+                    build your own house – in fact, House of Wellbeing is
+                    half-written &amp; waiting for somebody to publish it. Other
+                    ones could be House of Coordination.
+                  </ListItem>
+                  <ListItem>
+                    Interested in writing a new playbook to help newcomers join
+                    the web3 space or learn any useful new skill? You’re more
+                    than welcome to write one.
+                  </ListItem>
+                  <ListItem>
+                    <Text as="strong">
+                      Who Playbooks need the most is, in fact, someone to
+                      resurrect them &amp; become their new champion 👀. If
+                      you’re new, this could make you one of the founders.
+                    </Text>
+                  </ListItem>
+                </UnorderedList>
+              </Box>
+
+              {/*
+                The Onboarding Game section
+              */}
+              <Box mb={[4, 4, 4, 6]}>
+                <Text
+                  as="h2"
+                  color="white"
+                  fontSize="2xl"
+                  fontWeight={700}
+                  fontFamily="mono"
+                  mb={2}
+                  textTransform="uppercase"
+                >
+                  The Onboarding Game
+                </Text>
+                <Text mb={2}>
+                  <Link
+                    className="gradient"
+                    href="https://metagame.wtf/onboarding"
+                    title="Go to MetaGame’s Onboarding Adventure"
+                  >
+                    The Onboarding Game
+                  </Link>{' '}
+                  is a text based choose-your-own-adventure game used for
+                  helping people understand Web3 &amp; join the space &amp;/or
+                  MetaGame.
+                </Text>
+
+                <Text fontWeight={700}>Ways to help:</Text>
+
+                <UnorderedList>
+                  <ListItem>
+                    The Onboarding Game mainly needs people to use it, give more
+                    feedback &amp; suggest more branches or endings
+                  </ListItem>
+                  <ListItem>
+                    Interested in writing more branches yourself? Also more than
+                    welcome. DM peth.
+                  </ListItem>
+                </UnorderedList>
+              </Box>
+
+              {/*
+                Realizing MetaGame section
+              */}
+              <Box mb={[4, 4, 4, 6]}>
+                <Text
+                  as="h2"
+                  color="white"
+                  fontSize="2xl"
+                  fontWeight={700}
+                  fontFamily="mono"
+                  mb={2}
+                  textTransform="uppercase"
                 >
                   Realizing MetaGame
-                </Link>{' '}
-                is MetaGame’s first publication, a newsletter. Used to educate
-                &amp; share news about MetaGame &amp; MetaAlliance.
-              </Text>
+                </Text>
+                <Text mb={2}>
+                  <Link
+                    className="gradient"
+                    href="https://metagame.substack.com/"
+                    title="Visit metagame.substack.com"
+                    isExternal
+                  >
+                    Realizing MetaGame
+                  </Link>{' '}
+                  is MetaGame’s first publication, a newsletter. Used to educate
+                  &amp; share news about MetaGame &amp; the MetaAlliance.
+                </Text>
 
-              <Text
-                as="h2"
-                color="#a6b7f3"
-                fontSize="2xl"
-                fontWeight={400}
-                fontFamily="mono"
-              >
-                MetaRadio
-              </Text>
-              <Text mb={2}>
-                MetaRadio is metaGame’s podcast network, comprised of 4
-                different podcasts.{' '}
-                <Link
-                  className="gradient"
-                  href="https://anchor.fm/MetaGame/"
-                  title="Visit anchor.fm/MetaGame"
-                  isExternal
+                <Text fontWeight={700}>Ways to help:</Text>
+
+                <UnorderedList>
+                  <ListItem>
+                    Biggest help would be finding or suggesting a sponsor tbh.
+                    The newsletter has been growing decently &amp; is ready to
+                    become self-sustainable.
+                  </ListItem>
+                  <ListItem>
+                    Interested in writing or submitting one of your posts to the
+                    newsletter? Please do!
+                  </ListItem>
+                  <ListItem>
+                    Interested in recording short{' '}
+                    <Link
+                      className="gradient"
+                      href="https://metagame.wtf/quest/0ef2d595-6aaf-4969-91c8-ce63712413ae"
+                      title="See the ‘Record MetaNews’ Quest"
+                      isExternal
+                    >
+                      5 minute clips of reading &amp; commentary on the
+                      newsletter
+                    </Link>
+                    ? Would be dope, just sayin’.
+                  </ListItem>
+                </UnorderedList>
+              </Box>
+
+              {/*
+                MetaRadio section
+              */}
+              <Box mb={[4, 4, 4, 6]}>
+                <Text
+                  as="h2"
+                  color="white"
+                  fontSize="2xl"
+                  fontWeight={700}
+                  fontFamily="mono"
+                  mb={2}
+                  textTransform="uppercase"
                 >
-                  Listen to it here
-                </Link>
-                .
-              </Text>
+                  MetaRadio
+                </Text>
+                <Text mb={2}>
+                  <Link
+                    className="gradient"
+                    href="https://anchor.fm/MetaGame/"
+                    title="Visit anchor.fm/MetaGame"
+                    isExternal
+                  >
+                    MetaRadio
+                  </Link>{' '}
+                  is a podcasting network, comprised of 4 different podcasts.{' '}
+                  <Link
+                    className="gradient"
+                    href="https://anchor.fm/MetaGame/"
+                    title="Visit anchor.fm/MetaGame"
+                    isExternal
+                  >
+                    Listen here
+                  </Link>
+                  .
+                </Text>
 
-              <Text
-                as="h2"
-                color="#a6b7f3"
-                fontSize="2xl"
-                fontWeight={400}
-                fontFamily="mono"
-              >
-                Great Houses &amp; Playbooks
-              </Text>
-              <Text mb={2}>
-                Great Houses are about curating resources about different fields
-                of interests &amp; playbooks are how-to guides.
-              </Text>
+                <Text fontWeight={700}>Ways to help:</Text>
+
+                <UnorderedList>
+                  <ListItem>
+                    Now grown to a decent amount of listeners, the main way you
+                    could help MetaRadio is by suggesting or finding an aligned
+                    sponsor.
+                  </ListItem>
+                  <ListItem>
+                    Other ways include suggesting or bringing new guests or even
+                    recording your own podcast series if you’re so inclined.
+                  </ListItem>
+                </UnorderedList>
+              </Box>
+
+              {/*
+                Join a raid? section
+              */}
+              <Box mb={[4, 4, 4, 6]}>
+                <List>
+                  <ListItem>
+                    Note: Joining any of the above raids &amp; contributing
+                    could make you one of the founders.
+                  </ListItem>
+                  <ListItem>
+                    Lazy? You could just water some Seeds &amp; become one of
+                    the founding patrons 🤷‍♂️
+                  </ListItem>
+                </List>
+              </Box>
             </Box>
 
             <Box w={{ base: '100%', lg: '50%' }} maxW="2xl">
-              <Heading
-                as="h1"
-                color="#a6b7f3"
-                fontSize="4xl"
-                fontWeight={600}
-                fontFamily="mono"
-                mb={[4, 4, 4, 8]}
-              >
-                Phase I
-              </Heading>
-
-              <Text
-                as="h2"
-                color="#a6b7f3"
-                fontSize="2xl"
-                fontWeight={400}
-                fontFamily="mono"
-              >
-                Memes
-              </Text>
-              <UnorderedList mb={2}>
-                <ListItem>An Onboarding Machine</ListItem>
-                <ListItem>A Decentralized Factory</ListItem>
-              </UnorderedList>
-
-              <Text
-                as="h2"
-                color="#a6b7f3"
-                fontSize="2xl"
-                fontWeight={400}
-                fontFamily="mono"
-              >
-                Goals
-              </Text>
-              <UnorderedList mb={2}>
-                <ListItem>
-                  Create a hub for people interested in decentralized
-                  organizations &amp; applications.
-                </ListItem>
-                <ListItem>
-                  Build the flow for onboarding people to Web3 and/or MetaGame
-                </ListItem>
-                <ListItem>
-                  Establish a place where anyone interested in building things
-                  or providing services in the DAO ecosystem can find their
-                  place.
-                </ListItem>
-              </UnorderedList>
-
-              <Text
-                as="h2"
-                color="#a6b7f3"
-                fontSize="2xl"
-                fontWeight={400}
-                fontFamily="mono"
-                mt={8}
-              >
-                Want to help? Need help?
-              </Text>
-              <Text mb={2}>
-                Check who are the people connected to the raid &amp; contact
-                them on Discord or ask in{' '}
-                <Link
-                  className="gradient"
-                  href="https://discord.com/channels/629411177947987986/713513935789097102"
-                  title="Go to the ⁉-ask-anything channel in MetaGame Discord"
-                  isExternal
+              <Box mb={[4, 4, 4, 6]}>
+                <Heading
+                  as="h1"
+                  color="white"
+                  fontSize="4xl"
+                  fontWeight={700}
+                  fontFamily="mono"
+                  mb={[4, 4, 4, 8]}
+                  textTransform="uppercase"
                 >
-                  ⁉-ask-anything
-                </Link>
-              </Text>
+                  Phase I
+                </Heading>
 
-              <Link
-                as="h2"
-                color="#a6b7f3"
-                fontSize="4xl"
-                fontWeight={400}
-                fontFamily="mono"
-                href="https://meta-game.notion.site/Season-VII-1e7c8aef9dbd4d10a8ef91f21366bb27"
-                title="See the Season VII Roadmap"
-                mt={8}
-                isExternal
-              >
-                Full Season VII Roadmap
-              </Link>
+                <Text
+                  as="h2"
+                  color="white"
+                  fontSize="2xl"
+                  fontWeight={700}
+                  fontFamily="mono"
+                  mb={2}
+                >
+                  Memes
+                </Text>
+                <UnorderedList mb={4}>
+                  <ListItem>An Onboarding Machine</ListItem>
+                  <ListItem>A Decentralized Factory</ListItem>
+                </UnorderedList>
+
+                <Text
+                  as="h2"
+                  color="white"
+                  fontSize="2xl"
+                  fontWeight={700}
+                  fontFamily="mono"
+                  mb={2}
+                >
+                  Goals
+                </Text>
+                <UnorderedList mb={4}>
+                  <ListItem>
+                    Create a hub for people interested in decentralized
+                    organizations &amp; applications.
+                  </ListItem>
+                  <ListItem>
+                    Build the flow for onboarding people to Web3 and MetaGame
+                  </ListItem>
+                  <ListItem>
+                    Establish a place where anyone interested in building things
+                    or providing services in the DAO ecosystem can find their
+                    place.
+                  </ListItem>
+                </UnorderedList>
+
+                <Text mb={4}>Want to help? Need help?</Text>
+                <Text mb={4}>
+                  Check who’s connected to the raid &amp; contact them on
+                  Discord or ask in{' '}
+                  <Link
+                    className="gradient"
+                    href="https://discord.com/channels/629411177947987986/713513935789097102"
+                    title="Go to the ⁉-ask-anything channel in MetaGame Discord"
+                    isExternal
+                  >
+                    ⁉-ask-anything
+                  </Link>
+                </Text>
+
+                <Text mt={8}>
+                  <Link
+                    color="white"
+                    fontSize="4xl"
+                    fontWeight={600}
+                    fontFamily="mono"
+                    textDecoration="underline"
+                    textTransform="uppercase"
+                    href="https://meta-game.notion.site/Season-VIII-1e7c8aef9dbd4d10a8ef91f21366bb27"
+                    title="See the Season VIII Roadmap"
+                    isExternal
+                  >
+                    Full Season VIII Roadmap
+                  </Link>
+                </Text>
+              </Box>
             </Box>
           </Stack>
         </Container>
