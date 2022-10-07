@@ -18,7 +18,7 @@ import { SkillsTags } from 'components/Quest/Skills';
 import { PlayerRole, QuestFragment, Skill } from 'graphql/autogen/types';
 import parse from 'html-react-parser';
 import moment from 'moment';
-import React from 'react';
+import { optimizedImage } from 'utils/imageHelpers';
 
 type Props = {
   quest: QuestFragment;
@@ -39,7 +39,7 @@ export const QuestTile: React.FC<Props> = ({ quest }) => (
     <Flex justify="center" mb={4}>
       <Avatar
         size="lg"
-        src={quest.guild.logo || undefined}
+        src={optimizedImage('logoURL', quest.guild.logo)}
         name={quest.guild.name}
       />
     </Flex>

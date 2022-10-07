@@ -16,6 +16,7 @@ import {
 import { useUser } from 'lib/hooks';
 import React, { useMemo } from 'react';
 import { BoxTypes } from 'utils/boxTypes';
+import { optimizedImage } from 'utils/imageHelpers';
 
 type Props = {
   guild: GuildFragment;
@@ -69,7 +70,7 @@ export const GuildHero: React.FC<Props> = ({ guild, editing }) => {
           <Avatar
             w={{ base: '32', md: '56' }}
             h={{ base: '32', md: '56' }}
-            src={guild.logo}
+            src={optimizedImage('logoURL', guild.logo)}
             name={guild.name}
           />
         ) : null}

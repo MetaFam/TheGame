@@ -36,6 +36,7 @@ import {
   useFieldArray,
   useForm,
 } from 'react-hook-form';
+import { optimizedImage } from 'utils/imageHelpers';
 
 const validations = {
   guildname: {
@@ -125,7 +126,7 @@ const getDefaultFormValues = (
     description: guild.description || '',
     discordInviteUrl: guild.discordInviteUrl || '',
     joinUrl: guild.joinButtonUrl || '',
-    logoUrl: guild.logo || '',
+    logoUrl: optimizedImage('logoURL', guild.logo) || '',
     websiteUrl: guild.websiteUrl || '',
     twitterUrl: guild.twitterUrl || '',
     githubUrl: guild.githubUrl || '',
@@ -275,8 +276,7 @@ export const GuildForm: React.FC<Props> = ({
                 <Image w="5em" mx="2.5em" src={FileOpenIcon} opacity={0.5} />
               ) : (
                 <Spinner size="xl" color="purple.500" thickness="4px" />
-              ))
-            }
+              ))}
             <Controller
               {...{ control }}
               name="logoFile"
@@ -284,7 +284,7 @@ export const GuildForm: React.FC<Props> = ({
                 <Input
                   {...props}
                   type="file"
-                  onChange={async (evt) => {
+                  onChange={(evt) => {
                     onChange(evt.target.files);
                     const file = evt.target.files?.[0];
                     onFileChange(file);

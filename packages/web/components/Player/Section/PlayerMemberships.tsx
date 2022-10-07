@@ -25,6 +25,7 @@ import { getAllMemberships, GuildMembership } from 'graphql/getMemberships';
 import React, { useEffect, useMemo, useState } from 'react';
 import { BoxTypes } from 'utils/boxTypes';
 import { getDAOLink } from 'utils/daoHelpers';
+import { optimizedImage } from 'utils/imageHelpers';
 
 type DAOListingProps = {
   membership: GuildMembership;
@@ -84,7 +85,7 @@ const DAOListing: React.FC<DAOListingProps> = ({
           <Box bg="purpleBoxLight" minW={16} h={16} borderRadius={8}>
             {logoURL ? (
               <Image
-                src={logoURL}
+                src={optimizedImage('logoURL', logoURL)}
                 w={14}
                 h={14}
                 mx="auto"

@@ -12,7 +12,7 @@ import { useRouter } from 'next/router';
 import Page404 from 'pages/404';
 import React, { useCallback, useEffect, useState } from 'react';
 import useSWR from 'swr';
-import { optimizedImage } from 'utils/imageHelpers';
+import { uploadFile } from 'utils/uploadHelpers';
 
 const EditGuild: React.FC = () => {
   const router = useRouter();
@@ -47,35 +47,19 @@ const EditGuild: React.FC = () => {
       let newLogoUrl = logoUrl;
 
       if (logoFile?.[0]) {
-        const formData = new FormData();
-        formData.append('logo', logoFile[0]);
-
-        const result = await fetch(`/api/storage`, {
-          method: 'POST',
-          body: formData,
-          credentials: 'include',
-        });
-
-        const response = await result.json();
-        const { error, logo } = response;
-
-        if (result.status >= 400 || error || !logo) {
-          const description =
-            result.status >= 400 || error
-              ? `web3.storage ${result.status} response: "${
-                  error ?? result.statusText
-                }"`
-              : `Uploaded logo but didn't get a response back.`;
+        try {
+          const ipfsHash = await uploadFile(logoFile[0]);
+          newLogoUrl = `ipfs://${ipfsHash}`;
+        } catch (error) {
           toast({
             title: 'Error Saving Logo',
-            description,
+            description: (error as Error).message,
             status: 'warning',
             isClosable: true,
             duration: 8000,
           });
           return;
         }
-        newLogoUrl = optimizedImage('logoURL', `ipfs://${logo}`);
       }
 
       const payload: GuildInfoInput = {
@@ -95,7 +79,7 @@ const EditGuild: React.FC = () => {
           title: 'Guild updated',
           status: 'success',
           isClosable: true,
-          duration: 2000,
+          duration: 5000,
         });
         setTimeout(() => {
           router.push(`/guild/${guildName}`);
