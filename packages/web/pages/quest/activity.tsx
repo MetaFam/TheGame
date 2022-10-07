@@ -59,8 +59,8 @@ export const QuestActivityPage: React.FC<Props> = ({ player }) => {
                 <Thead>
                   <Tr>
                     <Th>Quest</Th>
-                    <Th>Proposal by</Th>
-                    <Th>Proposed on</Th>
+                    <Th>Submitted by</Th>
+                    <Th>Submitted on</Th>
                   </Tr>
                 </Thead>
                 <Tbody>
