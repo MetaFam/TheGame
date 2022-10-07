@@ -1,10 +1,25 @@
-import { Box, Heading, HStack, LoadingState, Text } from '@metafam/ds';
+import {
+  Box,
+  Heading,
+  HStack,
+  LoadingState,
+  Table,
+  TableContainer,
+  Tbody,
+  Td,
+  Text,
+  Th,
+  Thead,
+  Tr,
+} from '@metafam/ds';
 import { ConnectedPage } from 'components/ConnectedPage';
 import { PageContainer } from 'components/Container';
+import { MetaLink } from 'components/Link';
 import {
   Player,
   useGetQuestsWithCompletionsQuery,
 } from 'graphql/autogen/types';
+import moment from 'moment';
 import React from 'react';
 import { getPlayerName } from 'utils/playerHelpers';
 
@@ -29,7 +44,7 @@ export const QuestActivityPage: React.FC<Props> = ({ player }) => {
     <PageContainer>
       <Box w="100%" maxW="80rem">
         <HStack justify="space-between" w="100%">
-          <Heading>Quest Activity</Heading>
+          <Heading size="xl">Quest Activity</Heading>
         </HStack>
       </Box>
 
@@ -37,28 +52,47 @@ export const QuestActivityPage: React.FC<Props> = ({ player }) => {
         {fetching && <LoadingState />}
         {error && <Text>{`Error: ${error.message}`}</Text>}
         {createdQuests != null && createdQuests.length > 0 && (
-          <Box>
-            <HStack spacing={8}>
-              <h4>Quest</h4>
-              <h4>Proposal by</h4>
-              <h4>Proposedon</h4>
-            </HStack>
-            {createdQuests.map((quest) =>
-              quest.quest_completions?.length > 0 ? (
-                quest.quest_completions.map((questCompletion) => (
-                  <HStack spacing={8}>
-                    <Box>{quest.title}</Box>
-                    <Box>{getPlayerName(questCompletion.player as Player)}</Box>
-                    <Box>{questCompletion.submittedAt}</Box>
-                  </HStack>
-                ))
-              ) : (
-                <HStack spacing={8}>
-                  <Box>{quest.title}</Box>
-                </HStack>
-              ),
-            )}
-          </Box>
+          <>
+            <Heading size="sm">Your Quests</Heading>
+            <TableContainer>
+              <Table>
+                <Thead>
+                  <Tr>
+                    <Th>Quest</Th>
+                    <Th>Proposal by</Th>
+                    <Th>Proposed on</Th>
+                  </Tr>
+                </Thead>
+                <Tbody>
+                  {createdQuests.map((quest) =>
+                    quest.quest_completions?.length > 0 ? (
+                      quest.quest_completions.map((questCompletion) => (
+                        <Tr>
+                          <Td>
+                            <MetaLink href={`/quest/${quest.id}`}>
+                              {quest.title}
+                            </MetaLink>
+                          </Td>
+                          <Td>
+                            {getPlayerName(questCompletion.player as Player)}
+                          </Td>
+                          <Td>
+                            {moment(questCompletion.submittedAt).format(
+                              'MMM D h:mma',
+                            )}
+                          </Td>
+                        </Tr>
+                      ))
+                    ) : (
+                      <Tr>
+                        <Td colSpan={3}>{quest.title}</Td>
+                      </Tr>
+                    ),
+                  )}
+                </Tbody>
+              </Table>
+            </TableContainer>
+          </>
         )}
       </Box>
     </PageContainer>

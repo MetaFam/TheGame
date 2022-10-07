@@ -5,7 +5,6 @@ import {
   HStack,
   LoadingState,
   MetaButton,
-  Text,
   Wrap,
   WrapItem,
 } from '@metafam/ds';
