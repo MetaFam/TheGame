@@ -4,13 +4,14 @@ import {
   Box,
   Button,
   Container,
+  Flex,
   Heading,
   Image,
   Link,
   List,
   ListItem,
   LoadingState,
-  Stack,
+  Spacer,
   Text,
   UnorderedList,
   VStack,
@@ -83,24 +84,33 @@ const RaidsPage: React.FC = () => {
         </Container>
 
         <Container maxW="7xl" w="100%">
-          <Heading
-            as="h1"
-            color="white"
-            fontSize="4xl"
-            fontWeight={600}
-            fontFamily="mono"
-            mb={[4, 4, 4, 8]}
-          >
-            Main Raids
-          </Heading>
-
-          <Stack
-            direction={{ base: 'column', lg: 'row' }}
+          {/*
+            The flex is used to make two columns/sections
+            - Main Raids
+            - Phase 1
+            When the screen is narrower than the lg breakpoint, the columns are stacked up to make rows instead, with the Phase 1 column/section at the top            
+          */}
+          <Flex
+            direction={{ base: 'column-reverse', lg: 'row' }}
             maxW={{ base: '100%', lg: '5xl' }}
-            spacing={{ base: 8, lg: 24 }}
             w="100%"
           >
-            <Box w={{ base: '100%', lg: '50%' }} maxW="2xl">
+            {/*
+              Main Raids column
+              Columns are 45% wide above the lg breakpoint Chakra Flex <Spacer/> is used to make a gap between the columns
+            */}
+            <Box w={{ base: '100%', lg: '45%' }} maxW="2xl">
+              <Heading
+                as="h1"
+                color="white"
+                fontSize="4xl"
+                fontWeight={600}
+                fontFamily="mono"
+                mb={[4, 4, 4, 8]}
+              >
+                Main Raids
+              </Heading>
+
               {/* 
                 MetaOS section
               */}
@@ -437,7 +447,13 @@ const RaidsPage: React.FC = () => {
               </Box>
             </Box>
 
-            <Box w={{ base: '100%', lg: '50%' }} maxW="2xl">
+            <Spacer />
+
+            {/*
+              PHASE 1 column
+              Columns are 45% wide above the lg breakpoint Chakra Flex <Spacer/> is used to make a gap between the columns
+            */}
+            <Box w={{ base: '100%', lg: '45%' }} maxW="2xl">
               <Box mb={[4, 4, 4, 6]}>
                 <Heading
                   as="h1"
@@ -505,10 +521,10 @@ const RaidsPage: React.FC = () => {
                   </Link>
                 </Text>
 
-                <Text mt={8}>
+                <Text mt={8} mb={{ base: 12, lg: 8 }}>
                   <Link
                     color="white"
-                    fontSize="4xl"
+                    fontSize="3xl"
                     fontWeight={600}
                     fontFamily="mono"
                     textDecoration="underline"
@@ -522,7 +538,7 @@ const RaidsPage: React.FC = () => {
                 </Text>
               </Box>
             </Box>
-          </Stack>
+          </Flex>
         </Container>
 
         <Image src={Octopus} pt={8} />
