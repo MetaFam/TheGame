@@ -16,25 +16,19 @@ import { DecentralizedFactory } from 'components/Guild/Join/DecentralizedFactory
 import { DecideJoin } from 'components/Guild/Join/DecideJoin';
 import { Requirements } from 'components/Guild/Join/Requirements';
 import { TiersPerks } from 'components/Guild/Join/TiersPerks';
-/*
-  The page sections
-*/
 import { WhatAreGuilds } from 'components/Guild/Join/WhatAreGuilds';
 import { WhyJoin } from 'components/Guild/Join/WhyJoin';
 import { HeadComponent } from 'components/Seo';
-/*
-  For listing out the guilds
-*/
 import { getGuilds } from 'graphql/queries/guild';
 import { InferGetStaticPropsType } from 'next';
-/*
-  For the back to top button at the bottom of the page
-*/
 import { useRouter } from 'next/router';
 import React, { useRef } from 'react';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
+/* 
+  Get a list of guilds to show in the Other guilds include... section
+*/
 export const getStaticProps = async () => {
   const guildsLimit = 6; // How many guilds to show on the page?
   const guilds = await getGuilds(guildsLimit);
@@ -48,7 +42,7 @@ export const getStaticProps = async () => {
 
 export const GuildJoinLanding: React.FC<Props> = ({ guilds }) => {
   /* 
-    The back to top link at the bottom of the page
+    For the back to top link at the bottom of the page
   */
   const router = useRouter();
   const topRef = useRef<HTMLDivElement>(null);
@@ -121,11 +115,11 @@ export const GuildJoinLanding: React.FC<Props> = ({ guilds }) => {
         <TiersPerks />
 
         {/* Section: Other guilds include... 
-          Can't get this section working in a component: TypeError: Cannot read properties of undefined (reading 'map') 
-          Because getStaticProps only works in a page (not in a component)?
-          So it is inlined
-          Supposed to be limited to 6 guilds with a LOAD MORE button :(
-          Is actually limited to first 6 guilds with VIEW ALL GUILDS button that links to https://metagame.wtf/community/guilds 
+          NOTES
+          - Was supposed to be limited to 6 guilds with a LOAD MORE button :(
+          - Is actually limited to first 6 guilds with VIEW ALL GUILDS button that links to https://metagame.wtf/community/guilds 
+          - This section is not imported as a component because getStaticProps is used to get the list of guilds and it's not possible
+            to use getStaticProps in a component that is imported to a static page
         */}
 
         <Container as="section" className="mg-guild-join-section">
@@ -142,7 +136,7 @@ export const GuildJoinLanding: React.FC<Props> = ({ guilds }) => {
             w="100%"
             maxW={{ base: '25rem', md: '100%' }}
             mx="auto"
-            px={0}
+            px={0} // Don't double up the padding that comes with Container
             centerContent
           >
             <GuildList {...{ guilds }} />
