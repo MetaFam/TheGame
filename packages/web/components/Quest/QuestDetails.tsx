@@ -13,6 +13,7 @@ import {
 } from '@metafam/ds';
 import BackgroundImage from 'assets/main-background.jpg';
 import { MetaLink } from 'components/Link';
+import { MarkdownViewer as Markdown } from 'components/MarkdownViewer';
 import { RepetitionTag, StatusTag } from 'components/Quest/QuestTags';
 import { RolesTags } from 'components/Quest/Roles';
 import { SkillsTags } from 'components/Quest/Skills';
@@ -95,7 +96,7 @@ export const QuestDetails: React.FC<Props> = ({ quest }) => {
             <Text textStyle="caption" pb={1}>
               DESCRIPTION
             </Text>
-            <Text>{quest.description ?? ''}</Text>
+            <Markdown>{quest.description}</Markdown>
           </Box>
 
           {quest.repetition === QuestRepetition_Enum.Recurring && (
