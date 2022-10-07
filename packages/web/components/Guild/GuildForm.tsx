@@ -275,7 +275,8 @@ export const GuildForm: React.FC<Props> = ({
                 <Image w="5em" mx="2.5em" src={FileOpenIcon} opacity={0.5} />
               ) : (
                 <Spinner size="xl" color="purple.500" thickness="4px" />
-              ))}
+              ))
+            }
             <Controller
               {...{ control }}
               name="logoFile"
