@@ -113,7 +113,7 @@ const Heading: React.FC<Props> = ({ questChain, progress, canMint }) => (
     </HStack>
 
     {/* Quest Chain Description */}
-    <MarkdownViewer markdown={questChain.description ?? ''} />
+    <MarkdownViewer>{questChain.description}</MarkdownViewer>
 
     <Flex>
       {/* Mint Tile */}

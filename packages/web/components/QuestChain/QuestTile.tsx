@@ -65,7 +65,7 @@ export const QuestTile: React.FC<{
         {isSelected && (
           <>
             <Box w="100%" flex={1} overflow="auto">
-              <MarkdownViewer markdown={description ?? ''} />
+              <MarkdownViewer>{description}</MarkdownViewer>
             </Box>
             <Box w="100%">
               <UploadProofButton

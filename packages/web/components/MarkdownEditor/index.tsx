@@ -19,7 +19,7 @@ export const MarkdownEditor: React.FC<{
     }}
     defaultValue={value}
     placeholder={placeholder}
-    renderHTML={(text) => <MarkdownViewer markdown={text} />}
+    renderHTML={(text) => <MarkdownViewer>{text}</MarkdownViewer>}
     onChange={({ text }) => onChange(text)}
     // htmlClass="nonexistant-class"
     view={{
