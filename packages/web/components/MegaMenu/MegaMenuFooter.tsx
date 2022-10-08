@@ -77,37 +77,79 @@ export const MegaMenuFooter = () => {
                 </Stack>
               </Flex>
             </MenuButton>
-            <MenuList color="black">
+            <MenuList
+              color="white"
+              boxShadow="2xl"
+              bg="rgba(0, 0, 0, 0.75)"
+              borderRadius="md"
+              border={0}
+              px={2}
+              position="relative"
+              transform="translateY(-7px)!important"
+            >
               <MetaLink
-                color="black"
+                color="white"
                 href={getPlayerURL(user) ?? '/'}
                 _hover={{ textDecoration: 'none' }}
               >
-                <MenuItem>
+                <MenuItem
+                  sx={{
+                    '&:hover, &:active, &:focus': {
+                      bg: 'rgba(0,0,0,0.56)',
+                      color: 'white',
+                      borderRadius: 'md',
+                    },
+                  }}
+                >
                   <Profile w={4} h={4} mr={4} /> View Profile
                 </MenuItem>
               </MetaLink>
               <MetaLink
-                color="black"
+                color="white"
                 href={'/profile/setup'}
                 _hover={{ textDecoration: 'none' }}
               >
-                <MenuItem>
+                <MenuItem
+                  sx={{
+                    '&:hover, &:active, &:focus': {
+                      bg: 'rgba(0,0,0,0.56)',
+                      color: 'white',
+                      borderRadius: 'md',
+                    },
+                  }}
+                >
                   <Profile w={4} h={4} mr={4} /> Profile Wizard
                 </MenuItem>
               </MetaLink>
               <MetaLink
-                color="black"
+                color="white"
                 href={'/dashboard'}
                 _hover={{ textDecoration: 'none' }}
               >
-                <MenuItem>
-                  <Dashboard w={4} h={4} mr={4} color="red.500" />
+                <MenuItem
+                  sx={{
+                    '&:hover, &:active, &:focus': {
+                      bg: 'rgba(0,0,0,0.56)',
+                      color: 'white',
+                      borderRadius: 'md',
+                    },
+                  }}
+                >
+                  <Dashboard w={4} h={4} mr={4} fill="white" color="red.500" />
                   Dashboard
                 </MenuItem>
               </MetaLink>
-              <MenuItem onClick={disconnect}>
-                <LogOut w={4} h={4} mr={4} />
+              <MenuItem
+                onClick={disconnect}
+                sx={{
+                  '&:hover, &:active, &:focus': {
+                    bg: 'rgba(0,0,0,0.56)',
+                    color: 'white',
+                    borderRadius: 'md',
+                  },
+                }}
+              >
+                <LogOut w={4} h={4} mr={4} fill="white" />
                 Disconnect
               </MenuItem>
             </MenuList>

@@ -7,6 +7,7 @@ export { GnosisIcon } from './GnosisIcon';
 export { Icon3box } from './Icon3box';
 export { LogOut } from './LogOut';
 export { MeetWithWalletIcon } from './MeetWithWalletIcon';
+export { MenuArrow } from './MenuArrow';
 export { MetaMaskIcon } from './MetaMaskIcon';
 export { PolygonIcon } from './PolygonIcon';
 export { Profile } from './Profile';
