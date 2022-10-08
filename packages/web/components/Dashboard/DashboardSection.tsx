@@ -132,6 +132,7 @@ export const DashboardSection = forwardRef<HTMLDivElement, Props>(
             icon={<FaTimes />}
             _hover={{ color: 'white' }}
             onClick={() => onRemoveBox?.(key)}
+            onTouchStart={() => onRemoveBox?.(key)}
             _focus={{
               boxShadow: 'none',
               backgroundColor: 'transparent',
