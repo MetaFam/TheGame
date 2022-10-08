@@ -83,7 +83,7 @@ export const TiersPerks: React.FC = () => (
               color="white"
               fontFamily="mono"
               fontSize="lg"
-              fontWeight={200}
+              fontWeight={600}
               textAlign="center"
             >
               Common
@@ -93,16 +93,6 @@ export const TiersPerks: React.FC = () => (
               <ListItem>A guild2guild meetup</ListItem>
               <ListItem>Collaboration opportunities</ListItem>
               <ListItem>Discord bot (optional)</ListItem>
-              <ListItem>
-                <Link
-                  className="gradient"
-                  href={CommonTierNFTLink}
-                  title="See the Common Tier NFT on Rarible"
-                  isExternal
-                >
-                  See the Common Tier NFT on Rarible
-                </Link>
-              </ListItem>
             </UnorderedList>
           </Box>
         </Flex>
@@ -139,7 +129,7 @@ export const TiersPerks: React.FC = () => (
               color="white"
               fontFamily="mono"
               fontSize="lg"
-              fontWeight={200}
+              fontWeight={600}
               textAlign="center"
             >
               Rare
@@ -150,16 +140,6 @@ export const TiersPerks: React.FC = () => (
               <ListItem>Your news in our newsletter</ListItem>
               <ListItem>Your announcements inside MetaGame</ListItem>
               <ListItem>Among the Founding Guilds of MetaGame</ListItem>
-              <ListItem>
-                <Link
-                  className="gradient"
-                  href={RareTierNFTLink}
-                  title="See the Rare Tier NFT on Rarible"
-                  isExternal
-                >
-                  See the Rare Tier NFT on Rarible
-                </Link>
-              </ListItem>
             </UnorderedList>
           </Box>
         </Flex>
@@ -196,7 +176,7 @@ export const TiersPerks: React.FC = () => (
               color="white"
               fontFamily="mono"
               fontSize="lg"
-              fontWeight={200}
+              fontWeight={600}
               textAlign="center"
             >
               Epic
@@ -207,15 +187,14 @@ export const TiersPerks: React.FC = () => (
               <ListItem>Special newsletter</ListItem>
               <ListItem>Your promo in MetaGame shillpack</ListItem>
               <ListItem>Branch in The Onboarding Game</ListItem>
-              <ListItem>Support for your instance of MetaOS</ListItem>
               <ListItem>
+                Support for your instance of{' '}
                 <Link
                   className="gradient"
-                  href={EpicTierNFTLink}
-                  title="See the Epic Tier NFT on Rarible"
-                  isExternal
+                  href="https://wiki.metagame.wtf/docs/what-we-do/metaos"
+                  title="Read about MetaOS"
                 >
-                  See the Epic Tier NFT on Rarible
+                  MetaOS
                 </Link>
               </ListItem>
             </UnorderedList>
