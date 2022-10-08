@@ -1,7 +1,11 @@
-import { Box, Flex, HStack, Image, Text, VStack } from '@metafam/ds';
+import { Box, Flex, Image, Stack, Text, VStack } from '@metafam/ds';
+import { imageLink } from '@metafam/utils';
 import { graphql } from '@quest-chains/sdk';
 import { MarkdownViewer } from 'components/MarkdownViewer';
 import { formatAddress } from 'utils/playerHelpers';
+import { QuestChainType } from 'utils/questChains';
+
+import { MintNFTTile } from './MintNFTTile';
 
 type Progress = {
   total: number;
@@ -10,9 +14,11 @@ type Progress = {
 };
 
 type Props = {
+  path: QuestChainType;
   questChain: graphql.QuestChainInfoFragment;
   progress: Progress;
   canMint: boolean;
+  refresh: () => void;
 };
 
 const ChainStat: React.FC<{ label: string; value: string | JSX.Element }> = ({
@@ -27,12 +33,23 @@ const ChainStat: React.FC<{ label: string; value: string | JSX.Element }> = ({
   </Flex>
 );
 
-const Heading: React.FC<Props> = ({ questChain, progress, canMint }) => (
+const Heading: React.FC<Props> = ({
+  path,
+  questChain,
+  progress,
+  canMint,
+  refresh,
+}) => (
   <Flex minW="80%" flexDirection="column">
     {/* Quest Chain Title */}
 
-    <HStack spacing={8}>
-      <VStack alignItems="start" spacing={8}>
+    <Stack
+      spacing={8}
+      direction={{ base: 'column', md: 'row' }}
+      w="100%"
+      alignItems="center"
+    >
+      <VStack alignItems="start" spacing={8} w="100%" maxW="48rem">
         <Flex justifyContent="space-between" w="full">
           <Text
             fontSize="5xl"
@@ -105,12 +122,12 @@ const Heading: React.FC<Props> = ({ questChain, progress, canMint }) => (
 
       {questChain.token.imageUrl && (
         <Image
-          src={ipfsUriToHttp(questChain.token.imageUrl)}
+          src={imageLink(questChain.token.imageUrl)}
           alt="Quest Chain NFT badge"
           maxW={300}
         />
       )}
-    </HStack>
+    </Stack>
 
     {/* Quest Chain Description */}
     <Box w="100%" fontSize="lg">
@@ -118,93 +135,20 @@ const Heading: React.FC<Props> = ({ questChain, progress, canMint }) => (
     </Box>
 
     <Flex>
-      {/* Mint Tile */}
       {canMint && (
         <Flex pt={6} w="100%">
-          NFT MINT TILE - TO BE IMPLEMENTED
-          {/* <MintNFTTile
-          {...{
-            questChain,
-            onSuccess: refresh,
-            completed: questChain.quests.filter((q) => !q.paused)
-              .length,
-          }}
-        /> */}
+          <MintNFTTile
+            {...{
+              questChain,
+              path,
+              onSuccess: refresh,
+              completed: questChain.quests.filter((q) => !q.paused).length,
+            }}
+          />
         </Flex>
       )}
     </Flex>
   </Flex>
 );
-
-const IPFS_URL_ADDON = `ipfs/`;
-const IPNS_URL_ADDON = `ipns/`;
-const URL_ADDON_LENGTH = 5;
-
-const parseUri = (
-  uri: string,
-): { protocol: string; hash: string; name: string } => {
-  let protocol = uri.split(':')[0].toLowerCase();
-  let hash = uri.match(/^ipfs:(\/\/)?(.*)$/i)?.[2] ?? '';
-  let name = uri.match(/^ipns:(\/\/)?(.*)$/i)?.[2] ?? '';
-
-  if (uri.includes(IPFS_URL_ADDON)) {
-    protocol = 'ipfs';
-    const hashIndex = uri.indexOf(IPFS_URL_ADDON) + URL_ADDON_LENGTH;
-    hash = uri.substring(hashIndex);
-  } else if (uri.includes(IPNS_URL_ADDON)) {
-    protocol = 'ipns';
-    const hashIndex = uri.indexOf(IPNS_URL_ADDON) + URL_ADDON_LENGTH;
-    name = uri.substring(hashIndex);
-  } else if (uri.startsWith('Qm') && uri.length === 46) {
-    protocol = 'ipfs';
-    hash = uri;
-  } else if (uri.includes('ipfs') && uri.includes('Qm')) {
-    protocol = 'ipfs';
-    const hashIndex = uri.indexOf('Qm');
-    hash = uri.substring(hashIndex);
-  }
-  return { protocol, hash, name };
-};
-
-export const uriToHttpAsArray = (uri: string): string[] => {
-  if (!uri) return [];
-  if (uri.startsWith('data')) return [uri];
-  const { protocol, hash, name } = parseUri(uri);
-
-  switch (protocol) {
-    case 'https':
-      return [uri];
-    case 'http':
-      return [`https${uri.slice(4)}`, uri];
-    case 'ipfs':
-      if (hash.startsWith('ipfs')) {
-        const newHash = hash.split('/')[1];
-        return [
-          `https://gateway.ipfs.io/ipfs/${newHash}/`,
-          `https://gateway.pinata.cloud/ipfs/${newHash}/`,
-          `https://ipfs.io/ipfs/${newHash}/`,
-        ];
-      }
-      return [
-        `https://gateway.ipfs.io/ipfs/${hash}/`,
-        `https://gateway.pinata.cloud/ipfs/${hash}/`,
-        `https://ipfs.io/ipfs/${hash}/`,
-      ];
-    case 'ipns':
-      return [
-        `https://gateway.ipfs.io/ipns/${name}/`,
-        `https://gateway.pinata.cloud/ipns/${name}/`,
-        `https://ipfs.io/ipns/${name}/`,
-      ];
-    default:
-      return [];
-  }
-};
-
-export const ipfsUriToHttp = (uri: string | null | undefined): string => {
-  if (!uri) return '';
-  const array = uriToHttpAsArray(uri);
-  return array[0] ?? '';
-};
 
 export default Heading;

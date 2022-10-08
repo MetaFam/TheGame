@@ -23,10 +23,12 @@ const { getQuestChainInfo } = graphql;
 
 type Props = {
   questChain: graphql.QuestChainInfoFragment;
+  path: QuestChainType;
 };
 
 const QuestChainPathPage: React.FC<Props> = ({
   questChain: inputQuestChain,
+  path,
 }) => {
   const { address } = useWeb3();
 
@@ -78,9 +80,13 @@ const QuestChainPathPage: React.FC<Props> = ({
       />
       <VStack spacing={20} w="100%" maxW="96rem" align="stretch">
         <Heading
-          questChain={questChain}
-          progress={progress}
-          canMint={canMint}
+          {...{
+            questChain,
+            progress,
+            canMint,
+            refresh,
+            path,
+          }}
         />
         <Text fontSize={40} fontFamily="heading" w="100%">
           Quests
@@ -90,9 +96,11 @@ const QuestChainPathPage: React.FC<Props> = ({
           <Spinner my={20} />
         ) : (
           <Chain
-            questChain={questChain}
-            userStatus={userStatus}
-            refresh={refresh}
+            {...{
+              questChain,
+              userStatus,
+              refresh,
+            }}
           />
         )}
       </VStack>
@@ -136,6 +144,7 @@ export const getStaticProps = async (
   return {
     props: {
       questChain,
+      path: questchain,
     },
     revalidate: 1,
   };

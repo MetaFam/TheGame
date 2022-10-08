@@ -35,8 +35,27 @@ export const QuestTile: React.FC<{
     }
   };
 
-  const bgColor = useMemo(() => 'whiteAlpha.200', []);
-  const bgHoverColor = useMemo(() => 'whiteAlpha.400', []);
+  const bgColor = useMemo(() => {
+    switch (questStatus) {
+      case graphql.Status.Pass:
+        return '#2DF8C720';
+      case graphql.Status.Review:
+        return '#EFFF8F20';
+      default:
+        return 'whiteAlpha.200';
+    }
+  }, [questStatus]);
+
+  const bgHoverColor = useMemo(() => {
+    switch (questStatus) {
+      case graphql.Status.Pass:
+        return '#2DF8C740';
+      case graphql.Status.Review:
+        return '#EFFF8F40';
+      default:
+        return 'whiteAlpha.400';
+    }
+  }, [questStatus]);
 
   return (
     <Flex

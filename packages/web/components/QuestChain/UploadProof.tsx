@@ -16,6 +16,7 @@ import {
   Tooltip,
   useDisclosure,
   useToast,
+  UseToastOptions,
 } from '@metafam/ds';
 import { contracts, graphql, helpers } from '@quest-chains/sdk';
 import { useWeb3 } from 'lib/hooks';
@@ -46,11 +47,11 @@ export const UploadProof: React.FC<{
   const toastIdRef = useRef<ToastId | undefined>(undefined);
 
   const addToast = useCallback(
-    (description: string) => {
+    (options: UseToastOptions) => {
       if (toastIdRef.current) {
         toast.close(toastIdRef.current);
       }
-      toastIdRef.current = toast({ description });
+      toastIdRef.current = toast(options);
     },
     [toast, toastIdRef],
   );
@@ -84,7 +85,11 @@ export const UploadProof: React.FC<{
       return;
 
     setSubmitting(true);
-    addToast('Uploading metadata to IPFS via web3.storage');
+    addToast({
+      description: 'Uploading metadata to IPFS via web3.storage',
+      duration: null,
+      isClosable: true,
+    });
     try {
       const [filesHash, imageHash] = await Promise.all([
         files.length ? await metadataUploader.uploadFiles(files) : '',
@@ -99,9 +104,12 @@ export const UploadProof: React.FC<{
 
       const hash = await metadataUploader.uploadMetadata(metadata);
       const details = `ipfs://${hash}`;
-      addToast(
-        'Waiting for Confirmation - Confirm the transaction in your Wallet',
-      );
+      addToast({
+        description:
+          'Waiting for Confirmation - Confirm the transaction in your Wallet',
+        duration: null,
+        isClosable: true,
+      });
 
       const contract = getQuestChainContract(
         questChain.address,
@@ -115,19 +123,34 @@ export const UploadProof: React.FC<{
             [details],
           )
         : (contract as contracts.V0.QuestChain).submitProof(questId, details));
-      addToast('Transaction submitted. Waiting for 1 block confirmation');
+      addToast({
+        description: 'Transaction submitted. Waiting for 1 block confirmation',
+        duration: null,
+        isClosable: true,
+      });
       const receipt = await tx.wait(1);
-      addToast(
-        'Transaction confirmed. Waiting for The Graph to index the transaction data.',
-      );
+      addToast({
+        description:
+          'Transaction confirmed. Waiting for The Graph to index the transaction data.',
+        duration: null,
+        isClosable: true,
+      });
       await helpers.waitUntilSubgraphIndexed(chainId, receipt.blockNumber);
-      addToast('Successfully submitted proof');
+      addToast({
+        description: `Successfully submitted proof`,
+        duration: 5000,
+        isClosable: true,
+      });
       onModalClose();
       refresh();
     } catch (error) {
-      addToast(
-        (error as { error?: Error }).error?.message ?? (error as Error).message,
-      );
+      addToast({
+        description:
+          (error as { error?: Error }).error?.message ??
+          (error as Error).message,
+        duration: 2000,
+        isClosable: true,
+      });
     }
 
     setSubmitting(false);
