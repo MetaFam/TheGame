@@ -131,7 +131,6 @@ const RaidsPage: React.FC = () => {
                     className="gradient"
                     href="https://wiki.metagame.wtf/docs/what-we-do/metaos"
                     title="Read more about MetaOS"
-                    isExternal
                   >
                     MetaOS
                   </Link>{' '}
@@ -225,6 +224,18 @@ const RaidsPage: React.FC = () => {
                       integrated into MyMeta
                     </Link>
                     , MetaOS, the dashboard or the megamenu? Let us know.
+                  </ListItem>
+                  <ListItem>
+                    Know any community that could benefit from using{' '}
+                    <Link
+                      className="gradient"
+                      href="https://wiki.metagame.wtf/docs/what-we-do/metaos"
+                      title="Read more about MetaOS"
+                    >
+                      MetaOS
+                    </Link>
+                    ? Shill MetaOS in other communities &amp; build bridges in
+                    that way.
                   </ListItem>
                 </UnorderedList>
               </Box>
@@ -440,8 +451,23 @@ const RaidsPage: React.FC = () => {
                     could make you one of the founders.
                   </ListItem>
                   <ListItem>
-                    Lazy? You could just water some Seeds &amp; become one of
-                    the founding patrons 🤷‍♂️
+                    Lazy? You could just{' '}
+                    <Link
+                      className="gradient"
+                      href="https://metagame.wtf/seeds"
+                      title="Read about Seeds and how to water them"
+                    >
+                      water some Seeds
+                    </Link>{' '}
+                    &amp;{' '}
+                    <Link
+                      className="gradient"
+                      href="https://metagame.wtf/community/join/patrons"
+                      title="Read about becoming a patron of MetaGame"
+                    >
+                      become one of the founding patrons
+                    </Link>{' '}
+                    🤷‍♂️
                   </ListItem>
                 </List>
               </Box>
@@ -509,15 +535,15 @@ const RaidsPage: React.FC = () => {
 
                 <Text mb={4}>Want to help? Need help?</Text>
                 <Text mb={4}>
-                  Check who’s connected to the raid &amp; contact them on
-                  Discord or ask in{' '}
+                   Check who’s connected to the raid &amp; contact them on
+                  Discord or ask about it in{' '}
                   <Link
                     className="gradient"
-                    href="https://discord.com/channels/629411177947987986/713513935789097102"
-                    title="Go to the ⁉-ask-anything channel in MetaGame Discord"
+                    href="https://discord.com/channels/629411177947987986/629411178837442601 "
+                    title="Go to the 🏟-metasquare channel in MetaGame Discord"
                     isExternal
                   >
-                    ⁉-ask-anything
+                    🏟-metasquare
                   </Link>
                 </Text>
 
