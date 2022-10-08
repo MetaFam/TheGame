@@ -1,6 +1,7 @@
-import { Spinner, Text, VStack } from '@metafam/ds';
+import { Box, Spinner, Text, VStack } from '@metafam/ds';
 import { graphql } from '@quest-chains/sdk';
 import { PageContainer } from 'components/Container';
+import { MetaLink } from 'components/Link';
 import { Chain } from 'components/QuestChain/Chain';
 import Heading from 'components/QuestChain/QuestHeading';
 import { HeadComponent } from 'components/Seo';
@@ -13,6 +14,7 @@ import {
 } from 'lib/hooks/questChains';
 import { GetStaticPaths, GetStaticPropsContext } from 'next';
 import React, { useCallback } from 'react';
+import { FaArrowLeft } from 'react-icons/fa';
 import {
   QuestChainDetails,
   QuestChains,
@@ -79,6 +81,15 @@ const QuestChainPathPage: React.FC<Props> = ({
         url="https://my.metagame.wtf/quests/path-of-the-engaged"
       />
       <VStack spacing={20} w="100%" maxW="96rem" align="stretch">
+        <Box mb={4} w="100%">
+          <MetaLink href="/roles">
+            <FaArrowLeft
+              fontSize="0.875rem"
+              style={{ display: 'inline-block', marginRight: '0.5rem' }}
+            />
+            Back to onboarding paths
+          </MetaLink>
+        </Box>
         <Heading
           {...{
             questChain,
