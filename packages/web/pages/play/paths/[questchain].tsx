@@ -80,8 +80,8 @@ const QuestChainPathPage: React.FC<Props> = ({
         description="MetaGame is a Massive Online Coordination Game! MetaGame has some epic quests going on!"
         url="https://my.metagame.wtf/quests/path-of-the-engaged"
       />
-      <VStack spacing={20} w="100%" maxW="96rem" align="stretch">
-        <Box mb={4} w="100%">
+      <VStack spacing={8} w="100%" maxW="96rem" align="stretch">
+        <Box w="100%">
           <MetaLink href="/roles">
             <FaArrowLeft
               fontSize="0.875rem"

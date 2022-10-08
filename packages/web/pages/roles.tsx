@@ -1,4 +1,4 @@
-import { Box, Grid, Heading, Image, keyframes, Text } from '@metafam/ds';
+import { Box, Flex, Grid, Heading, Image, keyframes, Text } from '@metafam/ds';
 import { PageContainer } from 'components/Container';
 import { MetaLink } from 'components/Link';
 import { HeadComponent } from 'components/Seo';
@@ -16,7 +16,7 @@ const QuestsDashboard: React.FC = () => (
     </Heading>
     <Grid
       templateColumns={['1fr', '1fr', '1fr 1fr', '1fr 1fr 1fr']}
-      gap={[4, 4, 8]}
+      gap={{ base: 4, lg: 6, xl: 8 }}
       pb={24}
     >
       {Object.entries(QuestChainDetails).map(
@@ -93,7 +93,7 @@ const Card: React.FC<CardProps> = ({
       <Box
         borderRadius="lg"
         position="relative"
-        p={8}
+        p={{ base: 4, xl: 8 }}
         sx={{
           '&::after': comingSoon
             ? {
@@ -143,9 +143,9 @@ const Card: React.FC<CardProps> = ({
         <Text fontSize="xl" fontWeight="bold" mt={1} my={4}>
           {title.toUpperCase()}
         </Text>
-        <Box p={12}>
-          <Image src={icon} h="13.75rem" />
-        </Box>
+        <Flex py={{ base: 4, md: 6, lg: 8 }} justify="center" align="center">
+          <Image src={icon} h={{ base: '8rem', md: '10rem', xl: '12rem' }} />
+        </Flex>
         <Text mb={2} h="3rem">
           {description}
         </Text>

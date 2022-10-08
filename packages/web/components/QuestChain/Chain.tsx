@@ -1,4 +1,4 @@
-import { Box } from '@metafam/ds';
+import { Box, useBreakpointValue } from '@metafam/ds';
 import { graphql } from '@quest-chains/sdk';
 import { Carousel } from 'components/Carousel';
 import { UserStatusType } from 'lib/hooks/questChains';
@@ -18,6 +18,8 @@ export const Chain: React.FC<PlayerStatsProps> = ({
 }) => {
   const quests = questChain.quests.filter((q) => !q.paused);
 
+  const gap = useBreakpointValue({ base: 8, md: 16, lg: 32 }) || 8;
+
   return (
     <Box
       w={{
@@ -30,7 +32,7 @@ export const Chain: React.FC<PlayerStatsProps> = ({
       pb="10rem"
       alignSelf="flex-start"
     >
-      <Carousel gap={32}>
+      <Carousel gap={gap}>
         {quests.map(({ name, description, questId }, index) => (
           <QuestTile
             key={questId + index}

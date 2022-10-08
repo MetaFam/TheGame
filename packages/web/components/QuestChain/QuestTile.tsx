@@ -73,7 +73,7 @@ export const QuestTile: React.FC<{
     >
       <VStack
         spacing={4}
-        p={{ base: 12, md: isSelected ? 16 : 12 }}
+        p={{ base: 8, md: isSelected ? 16 : 12 }}
         bg={bgColor}
         style={{ backdropFilter: 'blur(7px)' }}
         borderRadius="1.5rem"
