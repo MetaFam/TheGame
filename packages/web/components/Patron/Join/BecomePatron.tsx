@@ -65,7 +65,7 @@ export const BecomePatron: React.FC = () => (
                 bg="#E839B7"
                 borderRadius={0}
                 color="white"
-                href="/seeds"
+                href="/play/paths/patrons-path"
                 minW="10rem"
                 mt={8}
                 px={6}
