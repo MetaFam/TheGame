@@ -29,7 +29,6 @@ const QuestsDashboard: React.FC = () => (
               link: `/play/paths/${path}`,
               icon,
               color: '#AB7C94',
-              comingSoon: false,
             }}
           />
         ),
@@ -46,7 +45,7 @@ type CardProps = {
   progress?: number;
   completed?: number;
   color: string;
-  comingSoon: boolean;
+  comingSoon?: boolean;
 };
 
 const Card: React.FC<CardProps> = ({
@@ -145,7 +144,7 @@ const Card: React.FC<CardProps> = ({
           {title.toUpperCase()}
         </Text>
         <Box p={12}>
-          <Image src={icon} fill="white" h="13.75rem" />
+          <Image src={icon} h="13.75rem" />
         </Box>
         <Text mb={2} h="3rem">
           {description}

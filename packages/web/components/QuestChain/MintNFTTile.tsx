@@ -109,7 +109,7 @@ export const MintNFTTile: React.FC<MintNFTTileProps> = ({
       textAlign="center"
       spacing={4}
     >
-      <Image src={QuestChainDetails[path].icon} alt="Success" />
+      <Image src={QuestChainDetails[path].icon} alt="Success" h="13.75rem" />
       <Text>
         {`You have successfully finished ${
           completed > 1 ? `all ${completed} quests` : 'all quests'
