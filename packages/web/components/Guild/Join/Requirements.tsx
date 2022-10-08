@@ -5,6 +5,7 @@ import {
   Flex,
   Heading,
   Image,
+  Link,
   List,
   ListIcon,
   ListItem,
@@ -70,7 +71,7 @@ export const Requirements: React.FC = () => (
             >
               Become a Player
             </Text>
-            <Text color="#A5B9F6" fontWeight={200}>
+            <Text color="white" fontWeight={200}>
               Players are the ones <Text as="em">actively</Text> contributing
               towards the realization of MetaGame.
             </Text>
@@ -124,7 +125,7 @@ export const Requirements: React.FC = () => (
             >
               Become a Patron
             </Text>
-            <Text color="#A5B9F6" fontWeight={200}>
+            <Text color="white" fontWeight={200}>
               Patrons are the ones <Text as="em">passively</Text> contributing
               towards the realization of MetaGame.
             </Text>
@@ -134,7 +135,7 @@ export const Requirements: React.FC = () => (
                 bg="#E839B7"
                 borderRadius={0}
                 color="white"
-                href="https://wiki.metagame.wtf/docs/enter-metagame/join-metagame"
+                href="https://metagame.wtf/community/join/patrons"
                 minW="10rem"
                 mt={2}
                 px={6}
@@ -221,7 +222,17 @@ export const Requirements: React.FC = () => (
             By donating to a humanitarian or ecological initiative of your
             choosing.
           </ListItem>
-          <ListItem>By buying a MetaManifesto NFT and/or some Seeds.</ListItem>
+          <ListItem>
+            By buying a MetaManifesto NFT and/or{' '}
+            <Link
+              className="gradient"
+              href="https://metagame.wtf/seeds"
+              title="Read about Seeds and how you can water them"
+            >
+              watering Seeds
+            </Link>
+            .
+          </ListItem>
         </UnorderedList>
         <Text as="em">
           Note: Long term, all guilds will be expected to periodically offset

@@ -34,8 +34,7 @@ export const DecideJoin: React.FC = () => {
       <Container
         className="mg-guild-join-card-bg" // CSS class defined in packages/web/pages/Guild/Join/index.tsx
         maxW="2xl"
-        py={8}
-        px={12}
+        p={8}
       >
         <Flex
           direction={{ base: 'column', md: 'row' }}
@@ -50,7 +49,7 @@ export const DecideJoin: React.FC = () => {
             mb={{ base: 8, md: 0 }}
           />
 
-          <Box ml={{ base: 0, md: 16 }} flex="auto">
+          <Box ml={{ base: 0, md: 8 }} flex="auto">
             <Text as="p" mb={6} textAlign="center">
               Ready to join the Decentralized Factory &amp; become one of the
               Founding Guilds of MetaGame? Apply now 👇
