@@ -12,6 +12,7 @@ export type NetworkInfo = {
 };
 
 export const MAINNET = '0x1';
+export const GOERLI = '0x5';
 export const GNOSIS = '0x64';
 export const POLYGON = '0x89';
 export const MUMBAI = '0x013881';
@@ -24,6 +25,14 @@ export const NETWORK_INFO: NetworkInfo = {
     symbol: 'ETH',
     explorer: 'https://etherscan.io',
     rpc: `https://mainnet.infura.io/v3/${CONFIG.infuraId}`,
+  },
+  [GOERLI]: {
+    chainId: GOERLI,
+    name: 'Goerli Testnet',
+    label: 'Goerli',
+    symbol: 'ETH',
+    explorer: 'https://goerli.etherscan.io',
+    rpc: `https://goerli.infura.io/v3/${CONFIG.infuraId}`,
   },
   [GNOSIS]: {
     chainId: GNOSIS,

@@ -1,0 +1,125 @@
+import {
+  Image,
+  StatusedSubmitButton,
+  Text,
+  ToastId,
+  useToast,
+  UseToastOptions,
+  VStack,
+} from '@metafam/ds';
+import { contracts, graphql, helpers } from '@quest-chains/sdk';
+import { useWeb3 } from 'lib/hooks';
+import { useCallback, useRef, useState } from 'react';
+import {
+  getQuestChainContract,
+  QuestChainDetails,
+  QuestChainType,
+} from 'utils/questChains';
+
+type MintNFTTileProps = {
+  path: QuestChainType;
+  questChain: graphql.QuestChainInfoFragment;
+  completed: number;
+  onSuccess?: () => void;
+};
+
+export const MintNFTTile: React.FC<MintNFTTileProps> = ({
+  path,
+  questChain,
+  completed,
+  onSuccess,
+}) => {
+  const { provider, chainId, address } = useWeb3();
+
+  const toast = useToast();
+  const toastIdRef = useRef<ToastId | undefined>(undefined);
+
+  const addToast = useCallback(
+    (options: UseToastOptions) => {
+      if (toastIdRef.current) {
+        toast.close(toastIdRef.current);
+      }
+      toastIdRef.current = toast(options);
+    },
+    [toast, toastIdRef],
+  );
+
+  const [isMinting, setMinting] = useState(false);
+  const onMint = useCallback(async () => {
+    if (!chainId || questChain.chainId !== chainId || !address || !provider)
+      return;
+    setMinting(true);
+    addToast({
+      description:
+        'Waiting for Confirmation - Confirm the transaction in your Wallet',
+      duration: null,
+      isClosable: true,
+    });
+    try {
+      const contract = getQuestChainContract(
+        questChain.address,
+        questChain.version,
+        provider.getSigner(),
+      );
+
+      const tx = await (questChain.version === '1'
+        ? (contract as contracts.V1.QuestChain).mintToken()
+        : (contract as contracts.V0.QuestChain).mintToken(address));
+      addToast({
+        description: 'Transaction submitted. Waiting for 1 block confirmation',
+        duration: null,
+        isClosable: true,
+      });
+      const receipt = await tx.wait(1);
+      addToast({
+        description:
+          'Transaction confirmed. Waiting for The Graph to index the transaction data.',
+        duration: null,
+        isClosable: true,
+      });
+      await helpers.waitUntilSubgraphIndexed(chainId, receipt.blockNumber);
+      addToast({
+        description: `Successfully minted your NFT`,
+        duration: 5000,
+        isClosable: true,
+      });
+      onSuccess?.();
+    } catch (error) {
+      addToast({
+        description:
+          (error as { error?: Error }).error?.message ??
+          (error as Error).message,
+        duration: 2000,
+        isClosable: true,
+      });
+    } finally {
+      setMinting(false);
+    }
+  }, [onSuccess, questChain, address, chainId, provider, addToast]);
+
+  return (
+    <VStack
+      w="100%"
+      maxW="48rem"
+      p={8}
+      borderRadius={8}
+      bg="whiteAlpha.200"
+      style={{ backdropFilter: 'blur(7px)' }}
+      color="white"
+      textAlign="center"
+      spacing={4}
+    >
+      <Image src={QuestChainDetails[path].icon} alt="Success" h="13.75rem" />
+      <Text>
+        {`You have successfully finished ${
+          completed > 1 ? `all ${completed} quests` : 'all quests'
+        } from ${questChain.name ?? 'this path'}.`}
+      </Text>
+      <StatusedSubmitButton
+        isLoading={isMinting}
+        onClick={onMint}
+        label="MINT YOUR NFT"
+      />
+    </VStack>
+  );
+};

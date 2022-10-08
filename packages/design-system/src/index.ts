@@ -59,8 +59,14 @@ export {
   InfoIcon,
   RepeatClockIcon,
   SettingsIcon,
+  SmallCloseIcon,
 } from '@chakra-ui/icons';
 export {
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
   AlertDialog,
   AlertDialogBody,
   AlertDialogContent,
@@ -81,6 +87,7 @@ export {
   ChakraComponent,
   ChakraProps,
   ChakraProvider,
+  Checkbox,
   CloseButton,
   Code,
   Collapse,
@@ -98,6 +105,7 @@ export {
   Flex,
   FlexProps,
   FormControl,
+  FormControlProps,
   FormErrorMessage,
   FormHelperText,
   FormLabel,
@@ -174,6 +182,7 @@ export {
   Textarea,
   Th,
   Thead,
+  ToastId,
   Tooltip,
   Tr,
   UnorderedList,
@@ -184,10 +193,17 @@ export {
   usePrefersReducedMotion,
   useTheme,
   useToast,
+  UseToastOptions,
   VStack,
   Wrap,
   WrapItem,
   WrapProps,
 } from '@chakra-ui/react';
 export { default as styled } from '@emotion/styled';
-export { HTMLMotionProps, motion } from 'framer-motion';
+export {
+  HTMLMotionProps,
+  motion,
+  useAnimation,
+  useMotionValue,
+} from 'framer-motion';
+export { DragHandler } from 'framer-motion/types/gestures/drag/types';

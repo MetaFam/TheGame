@@ -137,7 +137,8 @@ export const MenuSectionLinks: MenuLinkSet[] = [
         title: 'Roles',
         explainerText:
           'Find about all roles in MetaGame, see which ones are open & how to play them',
-        url: 'https://meta-game.notion.site/Internal-Roles-Guilds-bec3a0437f684322b650dbb7aca616e8',
+        // url: 'https://meta-game.notion.site/Internal-Roles-Guilds-bec3a0437f684322b650dbb7aca616e8',
+        url: '/roles',
         icon: 'roles',
       },
       {

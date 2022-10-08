@@ -1,3 +1,6 @@
+import 'react-markdown-editor-lite/lib/index.css';
+import 'assets/custom-markdown-editor.scss';
+
 import { ChakraProvider, CSSReset, MetaTheme } from '@metafam/ds';
 import { MegaMenu } from 'components/MegaMenu/index';
 import { CONFIG } from 'config';
