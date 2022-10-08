@@ -115,7 +115,8 @@ export const isSameLayouts = (inputA: LayoutData, inputB: LayoutData) => {
   const itemsA = a.layoutItems.sort(layoutItemSorter);
   const itemsB = b.layoutItems.sort(layoutItemSorter);
   const isSameItems = itemsA.reduce(
-    (t, item, i) => t && item.key === itemsB[i].key,
+    (t, item, i) =>
+      t && !!item?.key && !!itemsB[i]?.key && item.key === itemsB[i].key,
     true,
   );
   if (isSameItems) {
