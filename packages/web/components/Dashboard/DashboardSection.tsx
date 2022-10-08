@@ -84,7 +84,8 @@ export const DashboardSection = forwardRef<HTMLDivElement, Props>(
       >
         <Flex
           w="100%"
-          h="100%"
+          minH="100%"
+          h="auto"
           direction="column"
           overflowY={
             isBoxResizable(type) && type !== BoxTypes.EMBEDDED_URL

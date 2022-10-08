@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   ButtonGroup,
+  Flex,
   Link,
   MetaTag,
   Stat,
@@ -32,17 +33,20 @@ export const XP = (): React.ReactElement => {
 
   if (xpStats == null) {
     return (
-      <VStack minH="17rem" pt="5rem" spacing={0}>
-        <Text fontStyle="italic" textAlign="center" px={4} w="100%">
-          If you want your XP stats to appear, you gotta earn some XP first! Go{' '}
-          <Link
-            href="https://meta-game.notion.site/Welcome-to-MetaGame-349d9b6434d543b48539bccabf10b60a"
-            target="_tab"
-          >
-            here
-          </Link>{' '}
-          & join the onboarding call
-        </Text>
+      <VStack spacing={0}>
+        <Flex align="center" justify="center" h="17rem">
+          <Text fontStyle="italic" textAlign="center" px={4} w="100%" pb="5rem">
+            If you want your XP stats to appear, you gotta earn some XP first!
+            Go{' '}
+            <Link
+              href="https://meta-game.notion.site/Welcome-to-MetaGame-349d9b6434d543b48539bccabf10b60a"
+              target="_tab"
+            >
+              here
+            </Link>{' '}
+            & join the onboarding call
+          </Text>
+        </Flex>
       </VStack>
     );
   }
@@ -55,40 +59,46 @@ export const XP = (): React.ReactElement => {
     userWeeklyCred,
   } = xpStats;
   return (
-    <VStack spacing={2} minH="17rem" align="stretch">
-      <StatGroup mt={5} flex="0 0 50%">
-        <Stat mb={3}>
-          <StatLabel>This Week</StatLabel>
-          <StatNumber>{thisWeekXP}</StatNumber>
-          <StatHelpText>
-            <StatArrow type={variationThisWeek < 0 ? 'decrease' : 'increase'} />
-            {variationThisWeek}%
-          </StatHelpText>
-        </Stat>
+    <VStack spacing={2} align="stretch">
+      <Box position="relative" zIndex="20" h="17rem">
+        <StatGroup mt={5} flex="0 0 50%">
+          <Stat mb={3}>
+            <StatLabel>This Week</StatLabel>
+            <StatNumber>{thisWeekXP}</StatNumber>
+            <StatHelpText>
+              <StatArrow
+                type={variationThisWeek < 0 ? 'decrease' : 'increase'}
+              />
+              {variationThisWeek}%
+            </StatHelpText>
+          </Stat>
 
-        <Stat mb={3} flex="0 0 50%">
-          <StatLabel>Last Week</StatLabel>
-          <StatNumber>{lastWeekXP}</StatNumber>
-          <StatHelpText>
-            <StatArrow type={variationLastWeek < 0 ? 'decrease' : 'increase'} />
-            {lastWeekXP}%
-          </StatHelpText>
-        </Stat>
+          <Stat mb={3} flex="0 0 50%">
+            <StatLabel>Last Week</StatLabel>
+            <StatNumber>{lastWeekXP}</StatNumber>
+            <StatHelpText>
+              <StatArrow
+                type={variationLastWeek < 0 ? 'decrease' : 'increase'}
+              />
+              {lastWeekXP}%
+            </StatHelpText>
+          </Stat>
 
-        <Stat alignSelf="flex-start" justifySelf="flex-end" flex="0 0 100%">
-          <StatLabel>All Time</StatLabel>
-          <StatNumber>{userTotalXP.toLocaleString()}</StatNumber>
-          {user?.rank && (
-            <MetaTag
-              backgroundColor={user.rank.toLowerCase()}
-              size="md"
-              color="blackAlpha.600"
-            >
-              {user.rank}
-            </MetaTag>
-          )}
-        </Stat>
-      </StatGroup>
+          <Stat alignSelf="flex-start" justifySelf="flex-end" flex="0 0 100%">
+            <StatLabel>All Time</StatLabel>
+            <StatNumber>{userTotalXP.toLocaleString()}</StatNumber>
+            {user?.rank && (
+              <MetaTag
+                backgroundColor={user.rank.toLowerCase()}
+                size="md"
+                color="blackAlpha.600"
+              >
+                {user.rank}
+              </MetaTag>
+            )}
+          </Stat>
+        </StatGroup>
+      </Box>
       <Box
         position="absolute"
         width="100%"

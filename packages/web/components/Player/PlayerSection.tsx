@@ -78,6 +78,7 @@ export const PlayerSection = forwardRef<HTMLDivElement, Props>(
         minH="100%"
         boxShadow="md"
         pos="relative"
+        pointerEvents={editing ? 'none' : 'initial'}
       >
         <PlayerSectionInner
           {...{
