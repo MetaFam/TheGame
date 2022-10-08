@@ -59,7 +59,7 @@ export const Listen: React.FC = () => {
   };
 
   return (
-    <Box px={2}>
+    <Box px={2} pl={0}>
       {loading ? (
         <LoadingState />
       ) : (
@@ -71,7 +71,7 @@ export const Listen: React.FC = () => {
             backgroundColor="blackAlpha.500"
             borderRadius="md"
           >
-            <Heading size="xs" color="white" pb={4}>
+            <Heading size="xs" color="white" pb={4} fontWeight="normal">
               {podcast.title}
             </Heading>
             {podcast.showMore ? (
