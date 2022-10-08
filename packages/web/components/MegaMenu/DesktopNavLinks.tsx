@@ -7,6 +7,7 @@ import {
   FlexProps,
   Icon,
   Menu,
+  MenuArrow,
   MenuButton,
   MenuList,
 } from '@metafam/ds';
@@ -47,20 +48,17 @@ export const DesktopNavLinks: React.FC<FlexProps> = (props) => (
             >
               {section.label}
               <Icon
+                as={MenuArrow}
                 position="absolute"
                 left="calc(50% - 1.25rem)"
                 top={14}
                 w={6}
                 h={isOpen ? 'auto' : 0}
                 opacity={isOpen ? 1 : 0}
+                fill="rgba(42, 31, 71, 0.9)"
                 transition="opacity 0.2s"
                 zIndex={2}
-              >
-                <path
-                  d="M12 0L24 12C14.6274 12 9.37258 12 0 12L12 0Z"
-                  fill="rgba(42, 31, 71, 0.99)"
-                />
-              </Icon>
+              />
             </MenuButton>
             {isOpen && (
               <Box

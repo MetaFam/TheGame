@@ -56,7 +56,7 @@ export const DesktopPlayerStats: React.FC<PlayerStatsProps> = ({ player }) => {
         >
           <Icon
             as={MenuArrow}
-            color="rgba(42, 31, 71, 0.9)"
+            fill="rgba(42, 31, 71, 0.9)"
             position="absolute"
             left="calc(92% - 1.25rem)"
             top={-3}
