@@ -83,7 +83,7 @@ const LeftArrowStyle = {
 
 type PerksProps = {
   title: string;
-  count: number;
+  count: number | string;
   amount: number;
 };
 
@@ -100,7 +100,9 @@ const PerksHeader = ({ title, count, amount }: PerksProps) => (
       {title}
     </Text>
     <Text color="landing450" fontSize="sm" fontWeight="bold">
-      total of {Number(count).toLocaleString()}
+      {typeof count === 'number'
+        ? `(total of ${Number(count).toLocaleString()})`
+        : `(${count})`}
     </Text>
     <Text color="white" fontSize="md">
       {`$${Number(amount).toLocaleString()}`}
@@ -147,7 +149,7 @@ const PerksGrid = () => (
         bg="whiteAlpha.200"
         mb={{ base: 0, md: '1em' }} // the arrow on the next Box arrow makes the margin at base breakpoint
       >
-        <PerksHeader title={'All Patrons'} count={94} amount={160} />
+        <PerksHeader title={'All Patrons'} count={150} amount={78} />
         <Flex p={8} py={4} width="100%" flexDirection="row" flexWrap="wrap">
           {AllPatronsList.map((text: string) => (
             <LeagueCardItem text={text} />
@@ -168,7 +170,7 @@ const PerksGrid = () => (
         minH="10rem"
         mb={{ base: 0, md: '1em' }} // the arrow on the next Box arrow makes the margin at base breakpoint
       >
-        <PerksHeader title={'Bronze League'} count={21} amount={925.68} />
+        <PerksHeader title={'Bronze League'} count={21} amount={101} />
         <Box px={8} py={4} width="100%" color="white">
           <Flex p={8} py={4} width="100%" flexDirection="row" flexWrap="wrap">
             {BronzeLeagueList.map((text: string) => (
@@ -191,7 +193,7 @@ const PerksGrid = () => (
         bg="whiteAlpha.200"
         mb={{ base: 0, md: '1em' }} // the arrow on the next Box arrow makes the margin at base breakpoint
       >
-        <PerksHeader title={'Silver League'} count={14} amount={3600.64} />
+        <PerksHeader title={'Silver League'} count={14} amount={136} />
 
         <Box px={8} py={4} width="100%" color="white">
           <List textAlign="left">
@@ -217,7 +219,7 @@ const PerksGrid = () => (
         bg="whiteAlpha.200"
         mb={{ base: 0, md: '1em' }} // the arrow on the next Box arrow makes the margin at base breakpoint
       >
-        <PerksHeader title={'Gold League'} count={7} amount={4616.16} />
+        <PerksHeader title={'Gold League'} count={7} amount={476} />
 
         <Box px={8} py={4} width="100%" color="white">
           <Flex p={8} py={4} width="100%" flexDirection="row" flexWrap="wrap">
@@ -241,7 +243,7 @@ const PerksGrid = () => (
         bg="whiteAlpha.200"
         mb={{ base: 0, md: '1em' }} // the arrow on the next Box arrow makes the margin at base breakpoint
       >
-        <PerksHeader title={'Platinum League'} count={7} amount={7201.28} />
+        <PerksHeader title={'Platinum League'} count={7} amount={2793} />
 
         <Box px={8} py={4} width="100%" color="white">
           <Flex p={8} py={4} width="100%" flexDirection="row" flexWrap="wrap">
@@ -265,7 +267,7 @@ const PerksGrid = () => (
         bg="whiteAlpha.200"
         mb={{ base: 0, md: '1em' }} // the arrow on the next Box arrow makes the margin at base breakpoint
       >
-        <PerksHeader title={'Diamond League'} count={94} amount={10807} />
+        <PerksHeader title={'Diamond League'} count={7} amount={10807} />
 
         <Box px={8} py={4} width="100%" color="white">
           <Flex p={8} py={4} width="100%" flexDirection="row" flexWrap="wrap">
@@ -321,11 +323,16 @@ const PerksGrid = () => (
       sx={{ clear: 'both' }}
     >
       <VStack spacing={0} borderRadius={8} minH="6rem" bg="whiteAlpha.200">
-        <Flex bg="purpleBoxLight" p="4" roundedTop="lg" width={'100%'}>
+        {/* <Flex bg="purpleBoxLight" p="4" roundedTop="lg" width={'100%'}>
           <Text color="white" fontWeight="bold">
             No. 1 Patron of MetaGame’s Seed Phase
           </Text>
-        </Flex>
+        </Flex> */}
+        <PerksHeader
+          title={'No. 1 Patron of MetaGame’s Seed Phase'}
+          count={'unique'}
+          amount={16312}
+        />
 
         <Box px={8} py={4} width="100%" color="white">
           <Flex p={8} py={4} width="100%" flexDirection="row" flexWrap="wrap">
