@@ -66,7 +66,7 @@ const Heading: React.FC<Props> = ({
           href={`${QUEST_CHAINS_URL}/${questChain.chainId}/${questChain.address}`}
         >
           <Tooltip label="View on Quest Chains">
-            <Flex w="full" gap={4} role="group">
+            <Flex w="full" gap={4} role="group" position="relative">
               <Text
                 fontSize="5xl"
                 fontWeight="bold"
@@ -77,6 +77,10 @@ const Heading: React.FC<Props> = ({
                 {questChain.name}
               </Text>
               <ExternalLinkIcon
+                position="absolute"
+                top="0"
+                right="0"
+                transform="translateX(110%)"
                 _groupHover={{ display: 'block' }}
                 display="none"
               />
