@@ -16,12 +16,13 @@ export const MarkdownEditor: React.FC<{
     style={{
       height: height ?? '20rem',
       width: '100%',
+      background: '#1B0D2A',
     }}
     defaultValue={value}
     placeholder={placeholder}
     renderHTML={(text) => <MarkdownViewer>{text}</MarkdownViewer>}
     onChange={({ text }) => onChange(text)}
-    // htmlClass="nonexistant-class"
+    htmlClass="nonexistant-class"
     view={{
       menu: true,
       md: true,

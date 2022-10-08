@@ -199,4 +199,10 @@ export {
   WrapProps,
 } from '@chakra-ui/react';
 export { default as styled } from '@emotion/styled';
-export { HTMLMotionProps, motion } from 'framer-motion';
+export {
+  HTMLMotionProps,
+  motion,
+  useAnimation,
+  useMotionValue,
+} from 'framer-motion';
+export { DragHandler } from 'framer-motion/types/gestures/drag/types';

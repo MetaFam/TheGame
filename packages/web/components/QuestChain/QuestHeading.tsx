@@ -31,7 +31,7 @@ const Heading: React.FC<Props> = ({ questChain, progress, canMint }) => (
   <Flex minW="80%" flexDirection="column">
     {/* Quest Chain Title */}
 
-    <HStack>
+    <HStack spacing={8}>
       <VStack alignItems="start" spacing={8}>
         <Flex justifyContent="space-between" w="full">
           <Text

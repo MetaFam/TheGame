@@ -1,76 +1,64 @@
 import { Box, Flex, Text, VStack } from '@metafam/ds';
 import { graphql } from '@quest-chains/sdk';
+import { useCarouselContext } from 'components/Carousel/CarouselContext';
 import { MarkdownViewer } from 'components/MarkdownViewer';
-import { useContext } from 'react';
-import { VisibilityContext } from 'react-horizontal-scrolling-menu';
+import { useMemo } from 'react';
 
 import { UploadProofButton } from './UploadProofButton';
 
 export const QuestTile: React.FC<{
   name: string;
-  number: number;
+  index: number;
   description: string;
-  isSelected?: boolean;
-  bgColor?: string;
   questId: string;
   questStatus: graphql.Status | null;
   questChain: graphql.QuestChainInfoFragment;
   refresh: () => void;
-  onClick: (visibility: React.ContextType<typeof VisibilityContext>) => void;
-  isLast?: boolean;
 }> = ({
   name,
-  number,
+  index,
   description,
-  bgColor = 'gray.900',
-  isSelected = false,
   questId,
   questStatus,
   questChain,
   refresh,
-  onClick,
-  isLast = false,
 }) => {
-  const visibility = useContext(VisibilityContext);
+  const { activeItem, setActiveItem, isDragging, setTrackIsActive } =
+    useCarouselContext();
+
+  const isSelected = activeItem === index;
+
+  const onClick = () => {
+    if (!isDragging) {
+      setTrackIsActive(true);
+      setActiveItem(index);
+    }
+  };
+
+  const bgColor = useMemo(() => 'whiteAlpha.200', []);
+  const bgHoverColor = useMemo(() => 'whiteAlpha.400', []);
 
   return (
     <Flex
       alignItems="stretch"
       justifyContent="center"
       flexDir="column"
-      w={isSelected ? '37.5rem' : '18rem'}
-      h="50rem"
-      py={4}
-      px={2}
+      w="100%"
+      h="calc(100vh - 15rem)"
+      maxH="50rem"
     >
       <VStack
         spacing={4}
-        p={isSelected ? 12 : 8}
+        p={{ base: 12, md: isSelected ? 16 : 12 }}
         bg={bgColor}
-        borderWidth="1rem"
-        borderColor="#B99BCB"
-        borderRadius="3rem"
+        style={{ backdropFilter: 'blur(7px)' }}
+        borderRadius="1.5rem"
         h={isSelected ? '100%' : '14rem'}
         justifyContent={isSelected ? 'flex-start' : 'center'}
-        onClick={() => onClick(visibility)}
-        cursor={isSelected ? 'initial' : 'pointer'}
+        onClick={onClick}
+        cursor={isSelected || isDragging ? 'unset' : 'pointer'}
         position="relative"
-        _after={
-          isLast
-            ? {}
-            : {
-                content: '""',
-                h: '1rem',
-                w: '3.75rem',
-                borderRadius: 'full',
-                bg: '#DBD1DB',
-                zIndex: 1,
-                position: 'absolute',
-                top: '50%',
-                left: '100%',
-                transform: 'translate(-6px, -50%)',
-              }
-        }
+        _hover={isSelected || isDragging ? {} : { bgColor: bgHoverColor }}
       >
         <Flex
           textAlign="left"
@@ -78,14 +66,20 @@ export const QuestTile: React.FC<{
           w="full"
           flexDir={isSelected ? 'row' : 'column'}
           gap={isSelected ? 2 : 0}
-          fontSize={isSelected ? 'xl' : 'md'}
+          fontSize={isSelected ? { base: 'lg', md: 'xl' } : 'md'}
         >
-          <Text textAlign="center">{number}.</Text>
+          <Text textAlign="center">{index + 1}.</Text>
           <Text textAlign="center">{name}</Text>
         </Flex>
         {isSelected && (
           <>
-            <Box w="100%" flex={1} overflow="auto" fontSize="lg" px={2}>
+            <Box
+              w="100%"
+              flex={1}
+              overflow="auto"
+              fontSize={{ base: 'md', md: 'lg' }}
+              px={2}
+            >
               <MarkdownViewer>{description}</MarkdownViewer>
             </Box>
             <Box w="100%">

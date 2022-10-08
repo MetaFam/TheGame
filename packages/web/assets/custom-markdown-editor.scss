@@ -1,0 +1,64 @@
+.rc-md-editor {
+  border-radius: 0.375rem;
+  border-color: inherit;
+  background: none;
+  &.full {
+    background: #1b0d2a;
+    border-radius: 0;
+    z-index: 2000;
+  }
+  .rc-md-navigation {
+    background: none;
+    border-bottom-color: inherit;
+    .button-wrap {
+      .button {
+        color: white;
+        &:hover {
+          color: var(--chakra-colors-pink-500);
+        }
+        &.disabled {
+          color: var(--chakra-colors-whiteAlpha-300);
+        }
+      }
+    }
+    .drop-wrap {
+      &.show {
+        background: #1b0d2a;
+        border-radius: 0.375rem;
+        border-color: inherit;
+        color: white;
+        .list-item {
+          &:hover {
+            background: var(--chakra-colors-whiteAlpha-100);
+            color: var(--chakra-colors-pink-500);
+          }
+        }
+      }
+    }
+  }
+
+  .editor-container {
+    color: white;
+    background: none;
+    .sec-md {
+      .input {
+        color: white;
+        font-size: var(--chakra-fontSizes-md);
+        background: none;
+        overflow-y: auto;
+        border-bottom-left-radius: 0.375rem;
+        border-bottom-right-radius: 0.375rem;
+        &:focus {
+          box-shadow: var(--chakra-shadows-outline);
+        }
+      }
+    }
+    .sec-html {
+      border-left: 1px solid;
+      border-left-color: inherit;
+    }
+    .sec-md.in-visible + .sec-html {
+      border-left: none;
+    }
+  }
+}

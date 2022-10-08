@@ -38,8 +38,7 @@ export const UploadProof: React.FC<{
   questId: string;
   name: string;
   questChain: graphql.QuestChainInfoFragment;
-  profile?: boolean;
-}> = ({ refresh, questId, name, questChain, profile }) => {
+}> = ({ refresh, questId, name, questChain }) => {
   const { chainId, provider, address } = useWeb3();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -156,27 +155,15 @@ export const UploadProof: React.FC<{
         }`}
         isDisabled={chainId === questChain.chainId}
       >
-        {!profile && (
-          <Button
-            onClick={onOpen}
-            // isDisabled={chainId !== questChain.chainId || !address}
-            borderWidth={1}
-            px={5}
-            py={2}
-          >
-            Submit Proof
-          </Button>
-        )}
-        {profile && (
-          <Button
-            w="full"
-            onClick={onOpen}
-            isDisabled={chainId !== questChain.chainId || !address}
-            variant="outline"
-          >
-            Re-submit Proof
-          </Button>
-        )}
+        <StatusedSubmitButton
+          onClick={onOpen}
+          status={null}
+          isDisabled={chainId !== questChain.chainId || !address}
+          borderWidth={1}
+          px={5}
+          py={2}
+          label="Submit Proof"
+        />
       </Tooltip>
 
       <Modal isOpen={isOpen} onClose={onModalClose} size="xl">
@@ -217,7 +204,7 @@ export const UploadProof: React.FC<{
             </Button>
             <StatusedSubmitButton
               px={[8, 12]}
-              label="Submit"
+              label="Submit Proof"
               onClick={() => {
                 if (!chainId || chainId !== questChain.chainId || !provider) {
                   addToast(
