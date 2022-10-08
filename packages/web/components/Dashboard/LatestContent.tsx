@@ -27,7 +27,7 @@ export const LatestContent: React.FC = () => (
       }}
     >
       <Flex direction="column" w="100%" h="100%">
-        <TabList borderBottomWidth={0} pr={4} pl={2}>
+        <TabList borderBottomWidth={0} pr={4} pl={0}>
           {['Read', 'Listen', 'Watch'].map((title) => (
             <Tab
               key={title}
