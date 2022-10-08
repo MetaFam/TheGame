@@ -23,6 +23,7 @@ const heading: Components['h1'] = (props) => {
       my={4}
       as={`h${level}` as 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'}
       size={sizes[level - 1]}
+      fontFamily="body"
       {...props}
     />
   );

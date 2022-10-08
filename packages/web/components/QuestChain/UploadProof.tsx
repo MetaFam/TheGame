@@ -230,15 +230,21 @@ export const UploadProof: React.FC<{
               label="Submit Proof"
               onClick={() => {
                 if (!chainId || chainId !== questChain.chainId || !provider) {
-                  addToast(
-                    `Wrong Chain, please switch to ${
+                  addToast({
+                    description: `Wrong Chain, please switch to ${
                       NETWORK_INFO[questChain.chainId].label
                     }`,
-                  );
+                    duration: 2000,
+                    isClosable: true,
+                  });
                   return;
                 }
                 if (!proofDescRef.current) {
-                  addToast('Proof description cannot be empty');
+                  addToast({
+                    description: 'Proof description cannot be empty',
+                    duration: 2000,
+                    isClosable: true,
+                  });
                   return;
                 }
 

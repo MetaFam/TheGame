@@ -57,6 +57,11 @@ export const QuestTile: React.FC<{
     }
   }, [questStatus]);
 
+  const cursor = useMemo(() => {
+    if (isDragging) return 'unset';
+    return isSelected ? 'initial' : 'pointer';
+  }, [isSelected, isDragging]);
+
   return (
     <Flex
       alignItems="stretch"
@@ -75,7 +80,7 @@ export const QuestTile: React.FC<{
         h={isSelected ? '100%' : '14rem'}
         justifyContent={isSelected ? 'flex-start' : 'center'}
         onClick={onClick}
-        cursor={isSelected || isDragging ? 'unset' : 'pointer'}
+        cursor={cursor}
         position="relative"
         _hover={isSelected || isDragging ? {} : { bgColor: bgHoverColor }}
       >

@@ -28,8 +28,6 @@ const QuestsDashboard: React.FC = () => (
               description,
               link: `/play/paths/${path}`,
               icon,
-              progress: 1,
-              completed: 0,
               color: '#AB7C94',
               comingSoon: false,
             }}
@@ -149,7 +147,9 @@ const Card: React.FC<CardProps> = ({
         <Box p={12}>
           <Image src={icon} fill="white" h="13.75rem" />
         </Box>
-        <Text mb={2}>{description}</Text>
+        <Text mb={2} h="3rem">
+          {description}
+        </Text>
       </Box>
     </MetaLink>
   );

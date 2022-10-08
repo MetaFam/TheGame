@@ -1,10 +1,20 @@
-import { Box, Flex, Image, Stack, Text, VStack } from '@metafam/ds';
+import {
+  Box,
+  ExternalLinkIcon,
+  Flex,
+  Image,
+  Stack,
+  Text,
+  Tooltip,
+  VStack,
+} from '@metafam/ds';
 import { imageLink } from '@metafam/utils';
 import { graphql } from '@quest-chains/sdk';
 import { MarkdownViewer } from 'components/MarkdownViewer';
 import { formatAddress } from 'utils/playerHelpers';
 import { QuestChainType } from 'utils/questChains';
 
+import { MetaLink } from '../Link';
 import { MintNFTTile } from './MintNFTTile';
 
 type Progress = {
@@ -20,6 +30,8 @@ type Props = {
   canMint: boolean;
   refresh: () => void;
 };
+
+const QUEST_CHAINS_URL = `https://www.questchains.xyz/chain/`;
 
 const ChainStat: React.FC<{ label: string; value: string | JSX.Element }> = ({
   label,
@@ -41,8 +53,6 @@ const Heading: React.FC<Props> = ({
   refresh,
 }) => (
   <Flex minW="80%" flexDirection="column">
-    {/* Quest Chain Title */}
-
     <Stack
       spacing={8}
       direction={{ base: 'column', md: 'row' }}
@@ -50,19 +60,30 @@ const Heading: React.FC<Props> = ({
       alignItems="center"
     >
       <VStack alignItems="start" spacing={8} w="100%" maxW="48rem">
-        <Flex justifyContent="space-between" w="full">
-          <Text
-            fontSize="5xl"
-            fontWeight="bold"
-            lineHeight="3.5rem"
-            fontFamily="heading"
-            mb={3}
-          >
-            {questChain.name}
-          </Text>
-        </Flex>
+        <MetaLink
+          isExternal
+          color="white"
+          href={`${QUEST_CHAINS_URL}/${questChain.chainId}/${questChain.address}`}
+        >
+          <Tooltip label="View on Quest Chains">
+            <Flex w="full" gap={4} role="group">
+              <Text
+                fontSize="5xl"
+                fontWeight="bold"
+                lineHeight="3.5rem"
+                fontFamily="heading"
+                mb={3}
+              >
+                {questChain.name}
+              </Text>
+              <ExternalLinkIcon
+                _groupHover={{ display: 'block' }}
+                display="none"
+              />
+            </Flex>
+          </Tooltip>
+        </MetaLink>
 
-        {/* Quest Chain Metadata */}
         <Flex justifyContent="space-between" gap={2} w="full">
           <ChainStat
             label="Total Players"
@@ -96,20 +117,20 @@ const Heading: React.FC<Props> = ({
             borderRadius={3}
           >
             <Box
-              bg="main"
+              bg="#2DF8C7"
               w={`${
                 (progress.total ? progress.completeCount / progress.total : 0) *
                 100
               }%`}
             />
             <Box
-              bgColor="pending"
+              bgColor="#EFFF8F"
               w={`${
                 (progress.total ? progress.inReviewCount / progress.total : 0) *
                 100
               }%`}
             />
-            <Box bgColor="grey" h={2} />
+            <Box h={2} />
           </Flex>
           <Text pl={4}>
             {`${Math.round(
