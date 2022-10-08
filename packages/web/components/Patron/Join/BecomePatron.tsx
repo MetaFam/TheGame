@@ -65,7 +65,7 @@ export const BecomePatron: React.FC = () => (
                 bg="#E839B7"
                 borderRadius={0}
                 color="white"
-                href="https://metagame.wtf/seeds"
+                href="/seeds"
                 minW="10rem"
                 mt={8}
                 px={6}
@@ -131,7 +131,7 @@ export const BecomePatron: React.FC = () => (
                 bg="#E839B7"
                 borderRadius={0}
                 color="white"
-                href="https%3A%2F%2Fform.typeform.com%2Fto%2FmAmXKSAc"
+                href="https://form.typeform.com/to/mAmXKSAc"
                 minW="10rem"
                 mt={8}
                 px={6}

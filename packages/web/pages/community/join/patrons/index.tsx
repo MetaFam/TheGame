@@ -121,7 +121,7 @@ const PatronsJoinLanding: React.FC<Props> = ({ patrons }) => {
               bg="#E839B7"
               borderRadius={0}
               color="white"
-              href="https://metagame.wtf/community/patrons"
+              href="/community/patrons"
               minW="10rem"
               mt={{ base: 8, md: 12 }}
               px={6}

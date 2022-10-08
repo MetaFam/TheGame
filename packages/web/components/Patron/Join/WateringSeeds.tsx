@@ -1,5 +1,5 @@
 import { Box, Container, Flex, Heading, Image, MetaButton } from '@metafam/ds';
-import SeedsEconomy from 'assets/patron/seed-economy.png';
+import SeedsDiagram from 'assets/patron/seed-diagram.png';
 import React from 'react';
 
 export const WateringSeeds: React.FC = () => (
@@ -18,14 +18,32 @@ export const WateringSeeds: React.FC = () => (
 
     <Flex direction="column" width="100%" align="center">
       <Image
-        src={SeedsEconomy}
+        src={SeedsDiagram}
         height="auto"
         width="80vw"
         my="6"
         maxW="50rem"
       />
       <Box mb={4} px={2}>
-        <MetaButton as="a" variant="link" href="/seeds" maxW="" p="4">
+        <MetaButton
+          maxW=""
+          as="a"
+          bg="#E839B7"
+          borderRadius={0}
+          color="white"
+          href="/seeds"
+          minW="10rem"
+          mt={{ base: 8, md: 12 }}
+          px={6}
+          textTransform="uppercase"
+          _hover={{
+            backgroundColor: 'rgba(232, 57, 183, 0.6)',
+          }}
+          _active={{
+            backgroundColor: 'rgba(232, 57, 183, 0.6)',
+            transform: 'scale(0.8)',
+          }}
+        >
           MORE ABOUT SEEDS
         </MetaButton>
       </Box>
