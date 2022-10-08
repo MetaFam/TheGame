@@ -26,11 +26,10 @@ import React, { useRef } from 'react';
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
 export const getStaticProps = async () => {
-  const patronsLimit = 6;
-  const patrons = await getPatrons(patronsLimit);
+  const patrons = await getPatrons();
   return {
     props: {
-      patrons,
+      patrons: patrons || [],
     },
     revalidate: 1,
   };
@@ -114,7 +113,7 @@ const PatronsJoinLanding: React.FC<Props> = ({ patrons }) => {
           px={0}
           centerContent
         >
-          <PatronList patrons={patrons} />
+          <PatronList patrons={patrons.slice(0, 6)} />
           <Box mt={12} mb={4} px={2}>
             <MetaButton
               maxW=""
