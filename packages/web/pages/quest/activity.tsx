@@ -21,6 +21,7 @@ import {
 } from 'graphql/autogen/types';
 import moment from 'moment';
 import React from 'react';
+import { FaArrowLeft } from 'react-icons/fa';
 import { getPlayerName } from 'utils/playerHelpers';
 
 const ConnectedDashboardPage: React.FC<Props> = () => (
@@ -42,7 +43,16 @@ export const QuestActivityPage: React.FC<Props> = ({ player }) => {
 
   return (
     <PageContainer>
-      <Box w="100%" maxW="80rem">
+      <Box w="100%">
+        <Box mb={4}>
+          <MetaLink href="/quests">
+            <FaArrowLeft
+              fontSize="0.875rem"
+              style={{ display: 'inline-block', marginRight: '0.5rem' }}
+            />
+            Back to quest explorer
+          </MetaLink>
+        </Box>
         <HStack justify="space-between" w="100%">
           <Heading size="xl">Quest Activity</Heading>
         </HStack>
@@ -94,6 +104,7 @@ export const QuestActivityPage: React.FC<Props> = ({ player }) => {
             </TableContainer>
           </>
         )}
+        {createdQuests?.length === 0 && <Box>You have no active quests.</Box>}
       </Box>
     </PageContainer>
   );

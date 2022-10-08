@@ -4,12 +4,14 @@ import {
   HStack,
   LoadingState,
   MetaButton,
+  MetaSecondaryButton,
   Text,
   Tooltip,
   useToast,
 } from '@metafam/ds';
 import { Constants } from '@metafam/utils';
 import { PageContainer } from 'components/Container';
+import { MetaLink } from 'components/Link';
 import { QuestFilter } from 'components/Quest/QuestFilter';
 import { QuestList } from 'components/Quest/QuestList';
 import { HeadComponent } from 'components/Seo';
@@ -67,31 +69,35 @@ const QuestsPage: React.FC<Props> = ({ roleChoices }) => {
       <Box w="100%" maxW="80rem">
         <HStack justify="space-between" w="100%">
           <Heading>Quest Explorer</Heading>
-          <Tooltip
-            label={
-              !canCreateQuest &&
-              `You need to hold at least ${Constants.PSEED_FOR_QUEST} pSEED to create a quest.`
-            }
-          >
-            <MetaButton
-              // disabled={!canCreateQuest} // if disabled, tooltip doesn't show...
-              isLoading={fetchingBalance}
-              onClick={() => {
-                if (!canCreateQuest) {
-                  toast({
-                    title: 'Error',
-                    description: `Insufficient pSEED Balance. Must have ≥ ${Constants.PSEED_FOR_QUEST} pSEED.`,
-                    status: 'error',
-                    isClosable: true,
-                  });
-                } else {
-                  router.push('/quest/create');
-                }
-              }}
+          <Box>
+            <Tooltip
+              label={
+                !canCreateQuest &&
+                `You need to hold at least ${Constants.PSEED_FOR_QUEST} pSEED to create a quest.`
+              }
             >
-              New Quest
-            </MetaButton>
-          </Tooltip>
+              <MetaButton
+                isLoading={fetchingBalance}
+                onClick={() => {
+                  if (!canCreateQuest) {
+                    toast({
+                      title: 'Error',
+                      description: `Insufficient pSEED Balance. Must have ≥ ${Constants.PSEED_FOR_QUEST} pSEED.`,
+                      status: 'error',
+                      isClosable: true,
+                    });
+                  } else {
+                    router.push('/quest/create');
+                  }
+                }}
+              >
+                New Quest
+              </MetaButton>
+            </Tooltip>
+            <MetaLink href="/quest/activity" ml={4}>
+              <MetaSecondaryButton>Your Activity</MetaSecondaryButton>
+            </MetaLink>
+          </Box>
         </HStack>
         <Box mt={8} w="100%">
           <QuestFilter
