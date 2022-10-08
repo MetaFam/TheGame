@@ -1,11 +1,10 @@
-import { ListItem, MetaHeading, Stack, Text, UnorderedList } from '@metafam/ds';
+import { MetaHeading, Stack, Text } from '@metafam/ds';
 import { ConnectToProgress, MetaGameLogo } from 'components/ConnectToProgress';
 import { FlexContainer } from 'components/Container';
 import { MetaLink } from 'components/Link';
 import { PlayerTile } from 'components/Player/PlayerTile';
 import { useUser, useWeb3 } from 'lib/hooks';
 import React from 'react';
-import { getPlayerURL } from 'utils/playerHelpers';
 
 export const SetupDone: React.FC = () => {
   const { user } = useUser();
@@ -31,19 +30,30 @@ export const SetupDone: React.FC = () => {
       >
         {user && <PlayerTile player={user} />}
         <Stack spacing={4} p={4} maxW="25rem" fontSize="md" h="100%">
-          <Text fontSize="lg">Here's what you could do next:</Text>
-          <UnorderedList spacing={2} pl={4}>
+          <Text fontSize="lg">Congrats on making yourself a profile! 🎉</Text>
+          <Text fontSize="md">
+            It should come in handy for you to present yourself to the rest of
+            the DAO ecosystem & collaborate with others 🙃{' '}
+          </Text>
+          <Text fontSize="md">
+            Next, you should take the {''}
+            <MetaLink
+              textDecor="underline"
+              color="pink.400"
+              href="/play/paths/engaged-octos-path"
+              fontWeight="bold"
+            >
+              Path of The Engaged Octopi {''}
+            </MetaLink>{' '}
+            to get yourself properly onboarded into MetaGame.
+          </Text>
+          <Text fontSize="md">We're excited to have you! 🐙</Text>
+          {/* <UnorderedList spacing={2} pl={4}>
             <ListItem>
-              Check out{' '}
-              <MetaLink
-                textDecor="underline"
-                color="pink.400"
-                as={getPlayerURL(user)}
-                href="/player/[username]"
-                fontWeight="bold"
-              >
-                your profile
-              </MetaLink>
+
+
+
+
               , further customize it & share it with friends.
             </ListItem>
             <ListItem>
@@ -85,7 +95,7 @@ export const SetupDone: React.FC = () => {
               content & features.
             </ListItem>
           </UnorderedList>
-          <Text> Wish you a great journey & see you around!</Text>
+          <Text> Wish you a great journey & see you around!</Text> */}
         </Stack>
       </Stack>
     </FlexContainer>
