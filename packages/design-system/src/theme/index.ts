@@ -266,6 +266,12 @@ export const theme = extendTheme({
           color: colors.landing600,
         },
       },
+      'pre > .chakra-code, code.chakra-code': {
+        bg: 'purpleBoxDark',
+        color: 'white',
+        borderRadius: 'md',
+        boxShadow: '0 0 10px rgba(0, 0, 0, 0.65) inset',
+      },
     },
   },
   sizes: {
