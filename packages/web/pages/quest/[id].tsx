@@ -83,7 +83,7 @@ const QuestPage: React.FC<Props> = ({ quest_id }) => {
               align={{ base: 'center', lg: 'start' }}
               direction="column"
             >
-              <Heading mb={4} ml={2}>
+              <Heading as="h2" size="lg" mb={4} ml={2}>
                 Quest: {quest.title}
               </Heading>
               <QuestDetails {...{ quest }} />
@@ -99,7 +99,7 @@ const QuestPage: React.FC<Props> = ({ quest_id }) => {
               align={{ base: 'center', lg: 'start' }}
               direction="column"
             >
-              <Heading mb={4} ml={2}>
+              <Heading as="h3" size="lg" mb={4} ml={2}>
                 Created by
               </Heading>
               <PlayerTile player={quest.player as Player} />
