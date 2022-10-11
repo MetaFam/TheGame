@@ -200,7 +200,7 @@ export {
   WrapProps,
 } from '@chakra-ui/react';
 export { default as styled } from '@emotion/styled';
-export { Prose } from '@nikolovlazar/chakra-ui-prose';
+export { Prose, withProse } from '@nikolovlazar/chakra-ui-prose';
 export {
   HTMLMotionProps,
   motion,
