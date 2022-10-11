@@ -7,6 +7,7 @@ import {
   MetaTile,
   MetaTileBody,
   MetaTileHeader,
+  Prose,
   Text,
   VStack,
 } from '@metafam/ds';
@@ -19,6 +20,7 @@ import { SkillsTags } from 'components/Quest/Skills';
 import { PlayerRole, QuestFragment, Skill } from 'graphql/autogen/types';
 import moment from 'moment';
 import { optimizedImage } from 'utils/imageHelpers';
+import { safelyParseNChakrifyHtml } from 'utils/stringHelpers';
 
 type Props = {
   quest: QuestFragment;
@@ -28,6 +30,11 @@ export const QuestTile: React.FC<Props> = ({ quest }) => {
   const descriptionSummary = quest.description
     ? `${quest.description.substring(0, 180)} ...`
     : 'No description available';
+
+  const descIsHtml = /<\/?[a-z][\s\S]*>/i.test(descriptionSummary ?? '');
+  const parsedDescription = descIsHtml
+    ? safelyParseNChakrifyHtml(descriptionSummary ?? '')
+    : '';
 
   return (
     <MetaTile>
@@ -79,7 +86,11 @@ export const QuestTile: React.FC<Props> = ({ quest }) => {
             <Text textStyle="caption" pb={1}>
               DESCRIPTION
             </Text>
-            <Markdown>{descriptionSummary}</Markdown>
+            {descIsHtml ? (
+              <Prose>{parsedDescription}</Prose>
+            ) : (
+              <Markdown>{descriptionSummary}</Markdown>
+            )}
             <MetaLink as={`/quest/${quest.id}`} href="/quest/[id]">
               Read more
             </MetaLink>
