@@ -52,11 +52,16 @@ export const QuestTile: React.FC<Props> = ({ quest }) => {
       <MetaTileHeader>
         <VStack>
           <MetaLink as={`/quest/${quest.id}`} href="/quest/[id]">
-            <Heading size="sm" color="white" textAlign="center">
+            <Heading
+              size="md"
+              color="white"
+              fontFamily="body"
+              textAlign="center"
+            >
               {quest.title}
             </Heading>
           </MetaLink>
-          <HStack mt={2}>
+          <HStack mt={3}>
             <RepetitionTag
               repetition={quest.repetition}
               cooldown={quest.cooldown}

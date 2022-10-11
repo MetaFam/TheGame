@@ -73,7 +73,7 @@ export const PlayerTile: React.FC<Props> = ({
             <MetaTileHeader>
               <VStack>
                 <PlayerAvatar {...{ player }} size="xl" />
-                <Heading size="xs" color="white">
+                <Heading size="lg" color="white" fontFamily="body">
                   {getPlayerName(player)}
                 </Heading>
               </VStack>

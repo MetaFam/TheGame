@@ -68,7 +68,9 @@ const QuestsPage: React.FC<Props> = ({ roleChoices }) => {
       />
       <Box w="100%" maxW="80rem">
         <HStack justify="space-between" w="100%">
-          <Heading>Quest Explorer</Heading>
+          <Heading as="h1" fontFamily="body" size="2xl">
+            Quest Explorer
+          </Heading>
           <Box>
             <Tooltip
               label={
