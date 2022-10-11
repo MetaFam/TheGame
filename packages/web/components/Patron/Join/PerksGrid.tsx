@@ -1,4 +1,4 @@
-import { Box, Container, Flex, List, Text, VStack } from '@metafam/ds';
+import { Box, Container, Flex, Heading, List, Text, VStack } from '@metafam/ds';
 import BlueArrow from 'assets/patron/blue-arrow.png';
 
 import { LeagueCardItem } from './LeagueCardItem';
@@ -122,7 +122,17 @@ const PerksGrid = () => (
         borderRadius={8}
         mb={{ base: 0, md: '1em' }} // the arrow on the next Box arrow makes the margin at base breakpoint
       >
-        <Box bg="whiteAlpha.200" borderRadius={8} px={8} py={4}>
+        <Box bg="whiteAlpha.200" borderRadius={8} px={8} py={8}>
+          <Heading
+            as="h2"
+            color="white"
+            fontFamily="mono"
+            fontWeight={700}
+            mb={[4, 4, 4, 12]}
+          >
+            Ranked Leagues &amp; Perks
+          </Heading>
+
           <Text as="p" fontWeight="700" color="white" mb={4}>
             Becoming a patron also comes with some perks!
           </Text>
@@ -149,8 +159,9 @@ const PerksGrid = () => (
         bg="whiteAlpha.200"
         mb={{ base: 0, md: '1em' }} // the arrow on the next Box arrow makes the margin at base breakpoint
       >
-        <PerksHeader title={'All Patrons'} count={150} amount={78} />
-        <Flex p={8} py={4} width="100%" flexDirection="row" flexWrap="wrap">
+        <PerksHeader title={'All Patrons'} count={150} amount={101} />
+
+        <Flex p={8} width="100%" flexDirection="row" flexWrap="wrap">
           {AllPatronsList.map((text: string) => (
             <LeagueCardItem text={text} />
           ))}
@@ -170,9 +181,9 @@ const PerksGrid = () => (
         minH="10rem"
         mb={{ base: 0, md: '1em' }} // the arrow on the next Box arrow makes the margin at base breakpoint
       >
-        <PerksHeader title={'Bronze League'} count={21} amount={101} />
-        <Box px={8} py={4} width="100%" color="white">
-          <Flex p={8} py={4} width="100%" flexDirection="row" flexWrap="wrap">
+        <PerksHeader title={'Bronze League'} count={21} amount={131} />
+        <Box p={8} width="100%" color="white">
+          <Flex width="100%" flexDirection="row" flexWrap="wrap">
             {BronzeLeagueList.map((text: string) => (
               <LeagueCardItem text={text} />
             ))}
@@ -193,11 +204,11 @@ const PerksGrid = () => (
         bg="whiteAlpha.200"
         mb={{ base: 0, md: '1em' }} // the arrow on the next Box arrow makes the margin at base breakpoint
       >
-        <PerksHeader title={'Silver League'} count={14} amount={136} />
+        <PerksHeader title={'Silver League'} count={14} amount={177} />
 
-        <Box px={8} py={4} width="100%" color="white">
+        <Box p={8} width="100%" color="white">
           <List textAlign="left">
-            <Flex p={8} py={4} width="100%" flexDirection="row" flexWrap="wrap">
+            <Flex width="100%" flexDirection="row" flexWrap="wrap">
               {SilverLeagueList.map((text: string) => (
                 <LeagueCardItem text={text} />
               ))}
@@ -219,10 +230,10 @@ const PerksGrid = () => (
         bg="whiteAlpha.200"
         mb={{ base: 0, md: '1em' }} // the arrow on the next Box arrow makes the margin at base breakpoint
       >
-        <PerksHeader title={'Gold League'} count={7} amount={476} />
+        <PerksHeader title={'Gold League'} count={7} amount={519} />
 
-        <Box px={8} py={4} width="100%" color="white">
-          <Flex p={8} py={4} width="100%" flexDirection="row" flexWrap="wrap">
+        <Box p={8} width="100%" color="white">
+          <Flex width="100%" flexDirection="row" flexWrap="wrap">
             {GoldenLeagueList.map((text: string) => (
               <LeagueCardItem text={text} />
             ))}
@@ -243,10 +254,10 @@ const PerksGrid = () => (
         bg="whiteAlpha.200"
         mb={{ base: 0, md: '1em' }} // the arrow on the next Box arrow makes the margin at base breakpoint
       >
-        <PerksHeader title={'Platinum League'} count={7} amount={2793} />
+        <PerksHeader title={'Platinum League'} count={7} amount={3631} />
 
-        <Box px={8} py={4} width="100%" color="white">
-          <Flex p={8} py={4} width="100%" flexDirection="row" flexWrap="wrap">
+        <Box p={8} width="100%" color="white">
+          <Flex width="100%" flexDirection="row" flexWrap="wrap">
             {PlatinumLeagueList.map((text: string) => (
               <LeagueCardItem text={text} />
             ))}
@@ -267,10 +278,10 @@ const PerksGrid = () => (
         bg="whiteAlpha.200"
         mb={{ base: 0, md: '1em' }} // the arrow on the next Box arrow makes the margin at base breakpoint
       >
-        <PerksHeader title={'Diamond League'} count={7} amount={10807} />
+        <PerksHeader title={'Diamond League'} count={7} amount={14049} />
 
-        <Box px={8} py={4} width="100%" color="white">
-          <Flex p={8} py={4} width="100%" flexDirection="row" flexWrap="wrap">
+        <Box p={8} width="100%" color="white">
+          <Flex width="100%" flexDirection="row" flexWrap="wrap">
             {DiamondLeagueList.map((text: string) => (
               <LeagueCardItem text={text} />
             ))}
@@ -323,19 +334,14 @@ const PerksGrid = () => (
       sx={{ clear: 'both' }}
     >
       <VStack spacing={0} borderRadius={8} minH="6rem" bg="whiteAlpha.200">
-        {/* <Flex bg="purpleBoxLight" p="4" roundedTop="lg" width={'100%'}>
-          <Text color="white" fontWeight="bold">
-            No. 1 Patron of MetaGame’s Seed Phase
-          </Text>
-        </Flex> */}
         <PerksHeader
           title={'No. 1 Patron of MetaGame’s Seed Phase'}
           count={'unique'}
-          amount={16312}
+          amount={21206}
         />
 
-        <Box px={8} py={4} width="100%" color="white">
-          <Flex p={8} py={4} width="100%" flexDirection="row" flexWrap="wrap">
+        <Box p={8} width="100%" color="white">
+          <Flex width="100%" flexDirection="row" flexWrap="wrap">
             {No1PatronList.map((text: string) => (
               <LeagueCardItem text={text} />
             ))}

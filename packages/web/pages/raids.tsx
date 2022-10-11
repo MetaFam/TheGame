@@ -462,7 +462,7 @@ const RaidsPage: React.FC = () => {
                     &amp;{' '}
                     <Link
                       className="gradient"
-                      href="https://metagame.wtf/community/join/patrons"
+                      href="https://metagame.wtf/join/patron"
                       title="Read about becoming a patron of MetaGame"
                     >
                       become one of the founding patrons
