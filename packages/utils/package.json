@@ -27,7 +27,7 @@
     "uuid": "8.3.2"
   },
   "devDependencies": {
-    "@ceramicnetwork/http-client": "1.5.7",
+    "@ceramicnetwork/http-client": "2.5.0",
     "@datamodels/identity-accounts-crypto": "0.1.2",
     "key-did-resolver": "2.0.4"
   }

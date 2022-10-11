@@ -14,7 +14,7 @@
   "dependencies": {
     "@3id/connect": "0.2.5",
     "@ceramicnetwork/3id-did-resolver": "1.4.16",
-    "@ceramicnetwork/http-client": "1.5.7",
+    "@ceramicnetwork/http-client": "2.5.0",
     "@ceramicnetwork/stream-caip10-link": "1.2.9",
     "@datamodels/identity-profile-basic": "0.1.2",
     "@ethersproject/address": "5.6.0",
@@ -43,6 +43,7 @@
     "gsap": "3.9.1",
     "html-metadata-parser": "2.0.4",
     "html-react-parser": "2.0.0",
+    "isomorphic-dompurify": "^0.19.0",
     "isomorphic-unfetch": "3.1.0",
     "jotai": "1.6.0",
     "jsdom": "19.0.0",
