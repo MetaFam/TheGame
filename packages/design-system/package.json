@@ -29,6 +29,7 @@
     "@emotion/react": "11.8.1",
     "@emotion/styled": "11.8.1",
     "@metafam/utils": "1.0.1",
+    "@nikolovlazar/chakra-ui-prose": "^1.2.1",
     "city-timezones": "1.2.0",
     "framer-motion": "6.2.8",
     "next": "10.2.3",

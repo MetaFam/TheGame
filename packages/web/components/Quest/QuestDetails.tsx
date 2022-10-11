@@ -11,6 +11,7 @@ import {
   Text,
   VStack,
 } from '@metafam/ds';
+import { Prose } from '@nikolovlazar/chakra-ui-prose';
 import BackgroundImage from 'assets/main-background.jpg';
 import { MetaLink } from 'components/Link';
 import { MarkdownViewer as Markdown } from 'components/MarkdownViewer';
@@ -28,6 +29,7 @@ import {
 import { useUser } from 'lib/hooks';
 import moment from 'moment';
 import { optimizedImage } from 'utils/imageHelpers';
+import { safelyParseNChakrifyHtml } from 'utils/stringHelpers';
 
 type Props = {
   quest: QuestWithCompletionFragment;
@@ -36,6 +38,9 @@ type Props = {
 export const QuestDetails: React.FC<Props> = ({ quest }) => {
   const { user } = useUser();
   const isMyQuest = user?.id === (quest as Quest).player.id;
+  const descIsHtml = /<\/?[a-z][\s\S]*>/i.test(quest.description ?? '');
+  const parsedDescription =
+    descIsHtml && safelyParseNChakrifyHtml(quest.description ?? '');
 
   return (
     <MetaTile maxW={undefined}>
@@ -60,7 +65,12 @@ export const QuestDetails: React.FC<Props> = ({ quest }) => {
       <MetaTileHeader>
         <VStack>
           <MetaLink as={`/quest/${quest.id}`} href="/quest/[id]">
-            <Heading size="sm" color="white" textAlign="center">
+            <Heading
+              size="lg"
+              color="white"
+              fontFamily="body"
+              textAlign="center"
+            >
               {quest.title}
             </Heading>
           </MetaLink>
@@ -96,7 +106,11 @@ export const QuestDetails: React.FC<Props> = ({ quest }) => {
             <Text textStyle="caption" pb={1}>
               DESCRIPTION
             </Text>
-            <Markdown>{quest.description}</Markdown>
+            {descIsHtml ? (
+              <Prose>{parsedDescription && parsedDescription}</Prose>
+            ) : (
+              <Markdown>{quest.description}</Markdown>
+            )}
           </Box>
 
           {quest.repetition === QuestRepetition_Enum.Recurring && (
