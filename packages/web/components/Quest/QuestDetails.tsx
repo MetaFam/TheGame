@@ -8,10 +8,10 @@ import {
   MetaTile,
   MetaTileBody,
   MetaTileHeader,
+  Prose,
   Text,
   VStack,
 } from '@metafam/ds';
-import { Prose } from '@nikolovlazar/chakra-ui-prose';
 import BackgroundImage from 'assets/main-background.jpg';
 import { MetaLink } from 'components/Link';
 import { MarkdownViewer as Markdown } from 'components/MarkdownViewer';
@@ -39,8 +39,9 @@ export const QuestDetails: React.FC<Props> = ({ quest }) => {
   const { user } = useUser();
   const isMyQuest = user?.id === (quest as Quest).player.id;
   const descIsHtml = /<\/?[a-z][\s\S]*>/i.test(quest.description ?? '');
-  const parsedDescription =
-    descIsHtml && safelyParseNChakrifyHtml(quest.description ?? '');
+  const parsedDescription = descIsHtml
+    ? safelyParseNChakrifyHtml(quest.description ?? '')
+    : '';
 
   return (
     <MetaTile maxW={undefined}>
@@ -107,7 +108,7 @@ export const QuestDetails: React.FC<Props> = ({ quest }) => {
               DESCRIPTION
             </Text>
             {descIsHtml ? (
-              <Prose>{parsedDescription && parsedDescription}</Prose>
+              <Prose>{parsedDescription}</Prose>
             ) : (
               <Markdown>{quest.description}</Markdown>
             )}
