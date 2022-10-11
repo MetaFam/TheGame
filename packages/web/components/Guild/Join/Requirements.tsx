@@ -135,7 +135,7 @@ export const Requirements: React.FC = () => (
                 bg="#E839B7"
                 borderRadius={0}
                 color="white"
-                href="https://metagame.wtf/community/join/patrons"
+                href="https://metagame.wtf/join/patron"
                 minW="10rem"
                 mt={2}
                 px={6}

@@ -19,9 +19,8 @@ export const WhatsTheProduct: React.FC = () => (
     >
       So what’s the product, what’s the revenue model???
     </Heading>
-
-    <Flex justify="end">
-      <Text p="4" maxW="45rem" mr={5} className="mg-patron-join-card-bg" mb={6}>
+    <Flex justify="center" mb={24}>
+      <Text p="4" maxW="45rem" className="mg-patron-join-card-bg">
         There are a few, actually, along with various monetization &
         sustainability strategies. If you want to dig deeper, it might be best
         to dig down the raids section & ask some questions or read the
@@ -39,8 +38,8 @@ export const WhatsTheProduct: React.FC = () => (
       Why you should become a Patron of MetaGame?
     </Heading>
 
-    <Flex justify="end">
-      <Box p="4" maxW="45rem" mr={5} className="mg-patron-join-card-bg">
+    <Flex justify="center">
+      <Box p="4" maxW="45rem" className="mg-patron-join-card-bg">
         <Text>
           We prefer our patrons inrinsically motivated, so the main reason you'd
           want to become a patron is just the fact you love this whole idea of

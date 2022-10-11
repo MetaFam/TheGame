@@ -6,6 +6,11 @@ module.exports = withTM(
     async redirects() {
       return [
         {
+          source: '/community/join/patrons',
+          destination: '/join/patron',
+          permanent: false,
+        },
+        {
           source: '/community/players',
           destination: '/players',
           permanent: false,

@@ -60,7 +60,7 @@ const PatronsJoinLanding: React.FC<Props> = ({ patrons }) => {
       <HeadComponent
         title="Join as a Patron!"
         description="MetaGame is a Massive Online Coordination Game! Join as a Patron to help us grow it."
-        url="https://my.metagame.wtf/community/join/patrons"
+        url="https://my.metagame.wtf/join/patron"
       />
       <Container w="100%" maxW="6xl">
         <Heading
