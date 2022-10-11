@@ -47,6 +47,7 @@
     "isomorphic-unfetch": "3.1.0",
     "jotai": "1.6.0",
     "jsdom": "19.0.0",
+    "logrocket": "^3.0.1",
     "markdown-it": "13.0.1",
     "moment": "2.29.4",
     "next": "10.2.3",

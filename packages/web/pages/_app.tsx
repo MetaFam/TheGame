@@ -6,9 +6,12 @@ import { MegaMenu } from 'components/MegaMenu/index';
 import { CONFIG } from 'config';
 import { Web3ContextProvider } from 'contexts/Web3Context';
 import { wrapUrqlClient } from 'graphql/client';
+import LogRocket from 'logrocket';
 import Head from 'next/head';
 import { WithUrqlProps } from 'next-urql';
 import React from 'react';
+
+LogRocket.init('metafam/metagame');
 
 const App: React.FC<WithUrqlProps> = ({
   pageProps,
