@@ -85,7 +85,6 @@
 
 "@0x/utils@https://github.com/ProjectOpensea/0x-tools/raw/provider-patch/utils/0x-utils-6.5.0.tgz":
   version "6.5.0"
-  uid "49cc5308ac0a5a7d5e3ae25288971c3bf0f9ee16"
   resolved "https://github.com/ProjectOpensea/0x-tools/raw/provider-patch/utils/0x-utils-6.5.0.tgz#49cc5308ac0a5a7d5e3ae25288971c3bf0f9ee16"
   dependencies:
     abortcontroller-polyfill "^1.1.9"
@@ -5876,6 +5875,11 @@
   resolved "https://registry.yarnpkg.com/@next/react-refresh-utils/-/react-refresh-utils-10.2.3.tgz#2f3e42fe6680798f276e3621345c2886b231348b"
   integrity sha512-qtBF56vPC6d6a8p7LYd0iRjW89fhY80kAIzmj+VonvIGjK/nymBjcFUhbKiMFqlhsarCksnhwX+Zmn95Dw9qvA==
 
+"@nikolovlazar/chakra-ui-prose@^1.2.1":
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/@nikolovlazar/chakra-ui-prose/-/chakra-ui-prose-1.2.1.tgz#1271da3b35ada4a2b4346f38604ff30136ee94ee"
+  integrity sha512-I8EZiKDGkOnzBOkPquLWir1gvHoKpo7x23O+VusK2WhPcWtgR7p56On+e/QPMCitMbV4xW997ecivCohOxGk9Q==
+
 "@noble/ed25519@^1.5.1":
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/@noble/ed25519/-/ed25519-1.6.0.tgz#b55f7c9e532b478bf1d7c4f609e1f3a37850b583"
@@ -7475,15 +7479,7 @@
     "@typescript-eslint/types" "5.13.0"
     eslint-visitor-keys "^3.0.0"
 
-"@urql/core@>=2.3.6", "@urql/core@^2.4.3":
-  version "2.4.3"
-  resolved "https://registry.yarnpkg.com/@urql/core/-/core-2.4.3.tgz#af35355cd2e3eeef4657f91616098e7cba8154dc"
-  integrity sha512-FpapxUKF0nLdzRLoB1QsudDjeLXJhBwzkzl8bSOJ6Cnj7LRRKJ+dYdqHfqGykswB/ILrkZks2Isp4a4BhqyUow==
-  dependencies:
-    "@graphql-typed-document-node/core" "^3.1.1"
-    wonka "^4.0.14"
-
-"@urql/core@^3.0.3":
+"@urql/core@>=2.3.6", "@urql/core@^3.0.3":
   version "3.0.3"
   resolved "https://registry.yarnpkg.com/@urql/core/-/core-3.0.3.tgz#da054babb4d4aed26dc4503806b310ba6dd6eea1"
   integrity sha512-raQP51ERNtg5BvlN8x8mHVRvk4K0ugWQ69n53BdkjKpXVV5kuWp7trnwriGv1fQKa8HuiGNSCfyslUucc0OVQg==
@@ -11745,6 +11741,11 @@ dompurify@^2.3.10:
   version "2.3.10"
   resolved "https://registry.yarnpkg.com/dompurify/-/dompurify-2.3.10.tgz#901f7390ffe16a91a5a556b94043314cd4850385"
   integrity sha512-o7Fg/AgC7p/XpKjf/+RC3Ok6k4St5F7Q6q6+Nnm3p2zGWioAY6dh0CbbuwOhH2UcSzKsdniE/YnE2/92JcsA+g==
+
+dompurify@^2.3.8:
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/dompurify/-/dompurify-2.4.0.tgz#c9c88390f024c2823332615c9e20a453cf3825dd"
+  integrity sha512-Be9tbQMZds4a3C6xTmz68NlMfeONA//4dOavl/1rNw50E+/QO0KVpbcU0PcaW0nsQxurXls9ZocqFxk8R2mWEA==
 
 domutils@^2.4.2, domutils@^2.5.2:
   version "2.6.0"
@@ -16164,6 +16165,15 @@ isobject@^3.0.0, isobject@^3.0.1:
   resolved "https://registry.yarnpkg.com/isobject/-/isobject-3.0.1.tgz#4e431e92b11a9731636aa1f9c8d1ccbcfdab78df"
   integrity sha1-TkMekrEalzFjaqH5yNHMvP2reN8=
 
+isomorphic-dompurify@^0.19.0:
+  version "0.19.0"
+  resolved "https://registry.yarnpkg.com/isomorphic-dompurify/-/isomorphic-dompurify-0.19.0.tgz#bb0d1dbf86e9d83cb8b34c4abb5257c3cf34c3a1"
+  integrity sha512-2kn8JO6twdp2LcJ54Ys2EhhAg2nqi+UjSk+TvLUhcBltqV96PxGiVc9dcDpOtgqfxwmKRmXx9n2CqrFyflonKQ==
+  dependencies:
+    "@types/dompurify" "^2.3.3"
+    dompurify "^2.3.8"
+    jsdom "^19.0.0"
+
 isomorphic-fetch@2.2.1, isomorphic-fetch@^2.1.1:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/isomorphic-fetch/-/isomorphic-fetch-2.2.1.tgz#611ae1acf14f5e81f729507472819fe9733558a9"
@@ -17197,7 +17207,7 @@ jsbn@~0.1.0:
   resolved "https://registry.yarnpkg.com/jsbn/-/jsbn-0.1.1.tgz#a5e654c2e5a2deb5f201d96cefbca80c0ef2f513"
   integrity sha1-peZUwuWi3rXyAdls77yoDA7y9RM=
 
-jsdom@19.0.0:
+jsdom@19.0.0, jsdom@^19.0.0:
   version "19.0.0"
   resolved "https://registry.yarnpkg.com/jsdom/-/jsdom-19.0.0.tgz#93e67c149fe26816d38a849ea30ac93677e16b6a"
   integrity sha512-RYAyjCbxy/vri/CfnjUWJQQtZ3LKlLnDqj+9XLNnJPgEGeirZs3hllKR20re8LUZ6o1b1X4Jat+Qd26zmP41+A==
@@ -25335,15 +25345,7 @@ url@^0.11.0:
     punycode "1.3.2"
     querystring "0.2.0"
 
-urql@2.2.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/urql/-/urql-2.2.0.tgz#5eade2813f5b61497086a5038ecc7c6e7cbd7153"
-  integrity sha512-36wnWqDrpXqhwT5r2/qRSZXhb7Y4sXA0nLlYEd3uLgvfIdOA8kUaPdfTujzfrvfCcfiVVFxhzqVAhc8r17NMwQ==
-  dependencies:
-    "@urql/core" "^2.4.3"
-    wonka "^4.0.14"
-
-urql@^3.0.3:
+urql@3.0.3, urql@^3.0.3:
   version "3.0.3"
   resolved "https://registry.yarnpkg.com/urql/-/urql-3.0.3.tgz#275631f487558354e090d9ffc4ea2030bd56c34a"
   integrity sha512-aVUAMRLdc5AOk239DxgXt6ZxTl/fEmjr7oyU5OGo8uvpqu42FkeJErzd2qBzhAQ3DyusoZIbqbBLPlnKo/yy2A==

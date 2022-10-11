@@ -43,6 +43,7 @@
     "gsap": "3.9.1",
     "html-metadata-parser": "2.0.4",
     "html-react-parser": "2.0.0",
+    "isomorphic-dompurify": "^0.19.0",
     "isomorphic-unfetch": "3.1.0",
     "jotai": "1.6.0",
     "jsdom": "19.0.0",
@@ -71,7 +72,7 @@
     "sass": "^1.54.8",
     "sourcecred": "0.11.0",
     "swr": "1.2.2",
-    "urql": "2.2.0",
+    "urql": "3.0.3",
     "web3.storage": "3.5.6",
     "web3modal": "1.9.5"
   },
