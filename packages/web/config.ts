@@ -17,7 +17,8 @@ export const CONFIG = {
     process.env.NEXT_BRIGHTID_NODE_URL || 'http:%2f%2fnode.brightid.org',
   publicURL: process.env.NEXT_PUBLIC_FRONTEND_URL,
   gaId: process.env.NEXT_PUBLIC_GA4_ID,
-  clarityId: process.env.NEXT_CLARITY_ID,
+  clarityId: process.env.NEXT_PUBLIC_CLARITY_ID,
+  hotjarId: process.env.NEXT_PUBLIC_HOTJAR_ID,
   discordApiBaseUrl:
     process.env.DISCORD_API_BASE_URL || 'https://discord.com/api/v8',
   ceramicURL:
