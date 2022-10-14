@@ -4,7 +4,6 @@ import express, { Express, RequestHandler } from 'express';
 
 import { CONFIG } from './config';
 import { router } from './handlers/routes';
-
 // import { errorMiddleware } from './lib/apiHelpers';
 
 const app: Express = express();
@@ -25,6 +24,8 @@ app.locals.limiter = new Bottleneck({
 app.locals.limiter.on(
   'failed',
   (error: string, jobInfo: Record<string, unknown>) => {
+    // Honeybadger.notify(error);
+
     console.warn({
       msg: `JOB FAILED ERROR: "${error}"`,
       etime: error.includes('connect ETIMEDOUT'),

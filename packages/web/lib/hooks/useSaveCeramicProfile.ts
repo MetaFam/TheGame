@@ -6,6 +6,7 @@ import {
 import { ModelManager } from '@glazed/devtools';
 import { DIDDataStore } from '@glazed/did-datastore';
 import { TileLoader } from '@glazed/tile-loader';
+import Honeybadger from '@honeybadger-io/js';
 import {
   AllProfileFields,
   BasicProfileImages,
@@ -92,6 +93,7 @@ export const useSaveCeramicProfile = ({
           if ((err as Error).message === '"undefined" is not valid JSON') {
             throw new CeramicError('Could not authenticate with Ceramic API');
           }
+          Honeybadger.notify(err as Error);
           throw err;
         }
       }

@@ -1,3 +1,4 @@
+import Honeybadger from '@honeybadger-io/js';
 import {
   Image,
   StatusedSubmitButton,
@@ -92,6 +93,7 @@ export const MintNFTTile: React.FC<MintNFTTileProps> = ({
         duration: 2000,
         isClosable: true,
       });
+      Honeybadger.notify(error as Error);
     } finally {
       setMinting(false);
     }

@@ -1,3 +1,4 @@
+import Honeybadger from '@honeybadger-io/js';
 import {
   Box,
   Flex,
@@ -44,6 +45,7 @@ export const EmbeddedUrl: React.FC<EmbeddedUrlProps> = ({
       setMetadata(response.og as unknown as URIMetadata);
     } catch (err) {
       console.error(`No metadata found for the URL "${uri}"`, err);
+      Honeybadger.notify(err as Error);
       setMetadata(null);
     } finally {
       setLoading(false);

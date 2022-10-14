@@ -2,6 +2,7 @@ import { EthereumAuthProvider, ThreeIdConnect } from '@3id/connect';
 import ThreeIdResolver from '@ceramicnetwork/3id-did-resolver';
 import type { CeramicApi } from '@ceramicnetwork/common';
 import { CeramicClient } from '@ceramicnetwork/http-client';
+import Honeybadger from '@honeybadger-io/js';
 import { did, Maybe } from '@metafam/utils';
 import { CONFIG } from 'config';
 import { DID } from 'dids';
@@ -73,6 +74,7 @@ export async function getExistingAuth(
     await did.verifyToken(token, ethersProvider, connectedAddress);
     return token;
   } catch (e) {
+    Honeybadger.notify(e as Error);
     clearToken();
     return null;
   }
@@ -196,6 +198,7 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
       });
     } catch (error) {
       console.error('`connect` Error', error); // eslint-disable-line no-console
+      Honeybadger.notify(error as Error);
       disconnect();
     } finally {
       setConnecting(false);

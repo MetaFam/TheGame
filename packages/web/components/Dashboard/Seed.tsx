@@ -1,3 +1,4 @@
+import Honeybadger from '@honeybadger-io/js';
 import {
   Box,
   Button,
@@ -102,6 +103,7 @@ export const Seed = (): ReactElement => {
         return setToken(tokenData);
       } catch (error) {
         console.error('error fetching tokenData', error);
+        Honeybadger.notify(error as Error);
         return null;
       }
     })();

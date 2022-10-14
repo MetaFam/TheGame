@@ -1,3 +1,4 @@
+import Honeybadger from '@honeybadger-io/js';
 import { NETWORK_INFO } from 'utils/networks';
 
 export const switchChainOnMetaMask = async (
@@ -47,6 +48,7 @@ export const switchChainOnMetaMask = async (
       } catch (addError) {
         // eslint-disable-next-line no-console
         console.error(`Unable to add chainId ${chainId} to MetaMask`, addError);
+        Honeybadger.notify(addError as Error);
       }
     } else {
       // eslint-disable-next-line no-console
@@ -54,6 +56,7 @@ export const switchChainOnMetaMask = async (
         `Unable to switch to chainId ${chainId} on MetaMask`,
         switchError,
       );
+      Honeybadger.notify(switchError as Error);
     }
   }
   return false;
@@ -85,6 +88,7 @@ export const addTokenToMetamask = async ({
   } catch (addError) {
     // eslint-disable-next-line no-console
     console.error(`Unable to add token ${symbol} to MetaMask`, addError);
+    Honeybadger.notify(addError as Error);
   }
   return false;
 };

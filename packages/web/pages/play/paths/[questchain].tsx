@@ -1,3 +1,4 @@
+import Honeybadger from '@honeybadger-io/js';
 import { Box, Spinner, Text, VStack } from '@metafam/ds';
 import { graphql } from '@quest-chains/sdk';
 import { PageContainer } from 'components/Container';
@@ -150,6 +151,7 @@ export const getStaticProps = async (
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error('error', error);
+    Honeybadger.notify(error as Error);
   }
 
   return {

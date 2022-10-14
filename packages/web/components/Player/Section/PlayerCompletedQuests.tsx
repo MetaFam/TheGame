@@ -1,3 +1,4 @@
+import Honeybadger from '@honeybadger-io/js';
 import {
   Box,
   BoxProps,
@@ -43,6 +44,7 @@ export const PlayerCompletedQuests: React.FC<Props> = ({
         }
       } catch (error) {
         console.error("Couldn't fetch quests", error);
+        Honeybadger.notify(error as Error);
       }
     };
     loadQuests();
