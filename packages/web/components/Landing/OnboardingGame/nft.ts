@@ -1,3 +1,4 @@
+import Honeybadger from '@honeybadger-io/js';
 import { httpLink } from '@metafam/utils';
 import { CONFIG } from 'config';
 import { Contract, providers } from 'ethers';
@@ -35,6 +36,7 @@ export const getTokenImage = async (): Promise<IChievMetadata | void> => {
       return metadata as IChievMetadata;
     }
   } catch (error) {
+    Honeybadger.notify(error as Error);
     console.error('getTokenImageError', error);
   }
   return undefined;

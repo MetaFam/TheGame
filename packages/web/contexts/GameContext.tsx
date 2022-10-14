@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import Honeybadger from '@honeybadger-io/js';
 import { Text, useToast, VStack } from '@metafam/ds';
 import { httpLink } from '@metafam/utils';
 import type {
@@ -119,6 +120,7 @@ export const GameContextProvider: React.FC = ({ children }) => {
         throw new Error('Game progression failed');
       } catch (error) {
         // eslint-disable-next-line no-console
+        Honeybadger.notify(error as Error);
         console.error(error);
         return undefined;
       }
@@ -242,6 +244,7 @@ export const GameContextProvider: React.FC = ({ children }) => {
           isClosable: true,
           duration: 5000,
         });
+        Honeybadger.notify(error as Error);
         return msg;
       } finally {
         setTxLoading(false);

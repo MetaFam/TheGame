@@ -19,6 +19,9 @@ export const CONFIG = {
   gaId: process.env.NEXT_PUBLIC_GA4_ID,
   clarityId: process.env.NEXT_PUBLIC_CLARITY_ID,
   hotjarId: process.env.NEXT_PUBLIC_HOTJAR_ID,
+  honeybadgerApiKey: process.env.NEXT_PUBLIC_HONEYBADGER_API_KEY,
+  honeybadgerReportData:
+    process.env.NEXT_PUBLIC_HONEYBADGER_REPORT_DATA || false,
   discordApiBaseUrl:
     process.env.DISCORD_API_BASE_URL || 'https://discord.com/api/v8',
   ceramicURL:

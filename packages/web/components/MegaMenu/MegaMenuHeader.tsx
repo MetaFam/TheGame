@@ -119,20 +119,7 @@ export const MegaMenuHeader: React.FC = () => {
             bottom="auto"
           >
             {connected && !!user && !fetching && !connecting ? (
-              <>
-                <DesktopPlayerStats player={user} />
-                <MetaButton
-                  type="button"
-                  position="fixed"
-                  top={24}
-                  right={6}
-                  onClick={() => {
-                    throw new Error('Sentry Frontend Error');
-                  }}
-                >
-                  Throw error
-                </MetaButton>
-              </>
+              <DesktopPlayerStats player={user} />
             ) : (
               <Stack
                 fontWeight="bold"

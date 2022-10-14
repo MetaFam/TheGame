@@ -1,4 +1,5 @@
 /* eslint-disable no-nested-ternary */
+import Honeybadger from '@honeybadger-io/js';
 import {
   Box,
   Button,
@@ -80,6 +81,7 @@ export const Chiev = ({
       setClaiming(true);
       await mintChiev(chievId);
     } catch (error) {
+      Honeybadger.notify(error as Error);
       console.error('handleMintingError', error);
     } finally {
       setClaiming(false);

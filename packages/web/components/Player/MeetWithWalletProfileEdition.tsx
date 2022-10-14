@@ -1,3 +1,4 @@
+import Honeybadger from '@honeybadger-io/js';
 import { Button, Link, MeetWithWalletIcon, Text, VStack } from '@metafam/ds';
 import { ethereumHelper, Maybe } from '@metafam/utils';
 import { Player } from 'graphql/autogen/types';
@@ -68,6 +69,7 @@ const MeetWithWalletProfileEdition: React.FC<MeetWithWalletProps> = ({
       }
     } catch (e) {
       console.error('Failed to verify Meet with wallet account', e);
+      Honeybadger.notify(e as Error);
     }
     setLoading(false);
   };
@@ -111,6 +113,7 @@ const MeetWithWalletProfileEdition: React.FC<MeetWithWalletProps> = ({
         ).calendar_url;
       } catch (e) {
         console.error('Meet with wallet account creation failed', e);
+        Honeybadger.notify(e as Error);
       }
     }
 

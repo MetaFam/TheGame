@@ -1,3 +1,4 @@
+import Honeybadger from '@honeybadger-io/js';
 import {
   Box,
   Button,
@@ -120,6 +121,7 @@ export const WizardPane = <T,>({
           isClosable: true,
           duration: 12000,
         });
+        Honeybadger.notify(err as Error);
         setStatus(null);
       }
     },

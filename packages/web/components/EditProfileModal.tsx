@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 
 import { ImageSources } from '@datamodels/identity-profile-basic';
+import Honeybadger from '@honeybadger-io/js';
 import {
   Box,
   BoxProps,
@@ -308,6 +309,7 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
               error ?? result.statusText
             }"`,
           );
+          Honeybadger.notify(error);
         }
 
         Object.keys(files).forEach((key: string) => {
@@ -392,6 +394,7 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
         isClosable: true,
         duration: 15000,
       });
+      Honeybadger.notify(err as Error);
       return null;
     } finally {
       setStatus(null);

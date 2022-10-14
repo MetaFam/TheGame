@@ -1,3 +1,4 @@
+import Honeybadger from '@honeybadger-io/js';
 import {
   Box,
   Button,
@@ -151,6 +152,7 @@ export const UploadProof: React.FC<{
         duration: 2000,
         isClosable: true,
       });
+      Honeybadger.notify(error as Error);
     }
 
     setSubmitting(false);

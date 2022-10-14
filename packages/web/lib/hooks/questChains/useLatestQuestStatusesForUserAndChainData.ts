@@ -1,3 +1,4 @@
+import Honeybadger from '@honeybadger-io/js';
 import { graphql } from '@quest-chains/sdk';
 import { useEffect, useState } from 'react';
 
@@ -37,6 +38,7 @@ export const useLatestQuestStatusesForUserAndChainData = (
       } catch (err) {
         setError(err);
         setQuestStatuses([]);
+        Honeybadger.notify(err as Error);
       } finally {
         setFetching(false);
       }

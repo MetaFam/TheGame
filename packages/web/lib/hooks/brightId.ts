@@ -1,3 +1,4 @@
+import Honeybadger from '@honeybadger-io/js';
 import { Optional } from '@metafam/utils';
 import { CONFIG } from 'config';
 import { Player } from 'graphql/autogen/types';
@@ -54,6 +55,7 @@ const fetchVerificationData = async (
     const responseData = await response.json();
     return responseData.data;
   } catch (err) {
+    Honeybadger.notify(err as Error);
     return null;
   }
 };
