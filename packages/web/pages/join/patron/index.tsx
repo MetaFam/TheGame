@@ -27,7 +27,7 @@ import { PATRONS_PER_RANK } from 'utils/patronHelpers';
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
 export const getStaticProps = async () => {
-  const patrons = await getPatrons(6);
+  const patrons = await getPatrons();
 
   const rankedPatronCount = PATRONS_PER_RANK.reduce(
     (total, current) => total + current,

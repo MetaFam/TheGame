@@ -14,7 +14,7 @@ import {
   Wrap,
   WrapItem,
 } from '@metafam/ds';
-import { computeRank } from '@metafam/utils';
+import { computeRank, Constants } from '@metafam/utils';
 import { PlayerAvatar } from 'components/Player/PlayerAvatar';
 import { PlayerContacts } from 'components/Player/PlayerContacts';
 import { PlayerTileMemberships } from 'components/Player/PlayerTileMemberships';
@@ -84,8 +84,12 @@ export const PatronTile: React.FC<Props> = ({ index, patron, pSeedPrice }) => {
                   <WrapItem>
                     <MetaTag size="md">
                       {`$${(
-                        Number(utils.formatEther(patron.pSeedBalance)) *
-                        pSeedPrice
+                        parseFloat(
+                          utils.formatUnits(
+                            patron.pSeedBalance,
+                            Constants.PSEED_DECIMALS,
+                          ),
+                        ) * pSeedPrice
                       ).toLocaleString(undefined, {
                         maximumFractionDigits: 0,
                       })}`}
