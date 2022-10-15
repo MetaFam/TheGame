@@ -22,5 +22,5 @@ export const IPFS_LINK_PATTERN =
   'https://{v1cid}.ipfs.dweb.link/{path}';
 
 export const PSEED_ADDRESS = '0x8a8fcd351ed553fc75aecbc566a32f94471f302e';
-export const PSEED_CONTRACT_DIVISOR = 1000000000000000000.0;
+export const PSEED_DECIMALS = 18;
 export const PSEED_FOR_QUEST = 100;

@@ -1,5 +1,5 @@
 import { Flex, HStack, Image, MetaTheme, Text, Tooltip } from '@metafam/ds';
-import { numbers } from '@metafam/utils';
+import { Constants, numbers } from '@metafam/utils';
 import SeedMarket from 'assets/seed-icon.svg';
 import XPStar from 'assets/xp-star.svg';
 import { usePSeedBalance } from 'lib/hooks/balances';
@@ -69,7 +69,7 @@ export const XPSeedsBalance: React.FC<Props> = ({ totalXP }) => {
             fontWeight="bold"
           >
             {parseInt(
-              amountToDecimal(pSeedBalance || '0', 18),
+              amountToDecimal(pSeedBalance || '0', Constants.PSEED_DECIMALS),
               10,
             ).toLocaleString()}
           </Text>
