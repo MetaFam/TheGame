@@ -114,17 +114,17 @@ export const getPatrons = async (limit = 50): Promise<Array<Patron>> => {
   return patrons;
 };
 
-export const getPSeedPrice = async (): Promise<string | null | undefined> => {
+export const getPSeedPrice = async (): Promise<number> => {
   const { data, error } = await client
     .query<GetPSeedPriceQuery, GetPSeedPriceQueryVariables>(getPSeedPriceQuery)
     .toPromise();
 
-  if (data?.getPSeedInfo == null) {
+  if (data?.getPSeedInfo?.priceUsd == null) {
     if (error) {
       throw error;
     }
-    return null;
+    return 3.5;
   }
 
-  return data.getPSeedInfo.priceUsd;
+  return parseFloat(data.getPSeedInfo.priceUsd);
 };

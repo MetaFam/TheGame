@@ -34,9 +34,7 @@ export const getStaticProps = async () => {
     0,
   );
   const pSeedHolders = await getPSeedHolders(rankedPatronCount);
-  const pSeedPriceResult = await getPSeedPrice();
-  const pSeedPrice =
-    pSeedPriceResult != null ? parseFloat(pSeedPriceResult) : 3.5;
+  const pSeedPrice = await getPSeedPrice();
 
   return {
     props: {
@@ -130,7 +128,7 @@ const PatronsJoinLanding: React.FC<Props> = ({
           px={0}
           centerContent
         >
-          <PatronList patrons={patrons.slice(0, 6)} />
+          <PatronList patrons={patrons.slice(0, 6)} pSeedPrice={pSeedPrice} />
           <Box mt={12} mb={4} px={2}>
             <MetaButton
               maxW=""
