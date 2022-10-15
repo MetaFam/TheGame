@@ -19,23 +19,40 @@ import { WhatsTheProduct } from 'components/Patron/Join/WhatsTheProduct';
 import { WhoArePatrons } from 'components/Patron/Join/WhoArePatrons';
 import { PatronList } from 'components/Patron/PatronList';
 import { HeadComponent } from 'components/Seo';
-import { getPatrons } from 'graphql/getPatrons';
+import { getPatrons, getPSeedHolders, getPSeedPrice } from 'graphql/getPatrons';
 import { InferGetStaticPropsType } from 'next';
 import React, { useRef } from 'react';
+import { PATRONS_PER_RANK } from 'utils/patronHelpers';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
 export const getStaticProps = async () => {
   const patrons = await getPatrons();
+
+  const rankedPatronCount = PATRONS_PER_RANK.reduce(
+    (total, current) => total + current,
+    0,
+  );
+  const pSeedHolders = await getPSeedHolders(rankedPatronCount);
+  const pSeedPriceResult = await getPSeedPrice();
+  const pSeedPrice =
+    pSeedPriceResult != null ? parseFloat(pSeedPriceResult) : 3.5;
+
   return {
     props: {
       patrons: patrons || [],
+      pSeedHolders,
+      pSeedPrice,
     },
     revalidate: 1,
   };
 };
 
-const PatronsJoinLanding: React.FC<Props> = ({ patrons }) => {
+const PatronsJoinLanding: React.FC<Props> = ({
+  patrons,
+  pSeedHolders,
+  pSeedPrice,
+}) => {
   const topRef = useRef<HTMLDivElement>(null);
 
   function handleBackClick() {
@@ -91,7 +108,7 @@ const PatronsJoinLanding: React.FC<Props> = ({ patrons }) => {
 
       {/* Section: Ranked Leagues & Perks */}
 
-      {<RankedLeagues />}
+      {<RankedLeagues pSeedPrice={pSeedPrice} pSeedHolders={pSeedHolders} />}
 
       {/* Section: Other patrons include... */}
 

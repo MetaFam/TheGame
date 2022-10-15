@@ -1,5 +1,13 @@
 import { Box, Container, Flex, Heading, List, Text, VStack } from '@metafam/ds';
 import BlueArrow from 'assets/patron/blue-arrow.png';
+import { PlayerRank_Enum, TokenBalancesFragment } from 'graphql/autogen/types';
+import {
+  getLeagueCount,
+  getLeagueCutoff,
+  getPatronHoldingsUsd,
+  MIN_PATRON_PSEEDS,
+  NUM_PATRONS,
+} from 'utils/patronHelpers';
 
 import { LeagueCardItem } from './LeagueCardItem';
 
@@ -105,12 +113,19 @@ const PerksHeader = ({ title, count, amount }: PerksProps) => (
         : `(${count})`}
     </Text>
     <Text color="white" fontSize="md">
-      {`$${Number(amount).toLocaleString()}`}
+      {`$${Number(amount).toLocaleString(undefined, {
+        maximumFractionDigits: 2,
+      })}`}
     </Text>
   </Flex>
 );
 
-const PerksGrid = () => (
+type Props = {
+  pSeedPrice: number;
+  pSeedHolders: TokenBalancesFragment[];
+};
+
+const PerksGrid: React.FC<Props> = ({ pSeedPrice, pSeedHolders }) => (
   <Container w="100%" maxW="6xl" my={12}>
     <Box
       width={{ base: '100%', md: '50%' }}
@@ -159,7 +174,11 @@ const PerksGrid = () => (
         bg="whiteAlpha.200"
         mb={{ base: 0, md: '1em' }} // the arrow on the next Box arrow makes the margin at base breakpoint
       >
-        <PerksHeader title={'All Patrons'} count={150} amount={101} />
+        <PerksHeader
+          title={'All Patrons'}
+          count={NUM_PATRONS}
+          amount={MIN_PATRON_PSEEDS * pSeedPrice}
+        />
 
         <Flex p={8} width="100%" flexDirection="row" flexWrap="wrap">
           {AllPatronsList.map((text: string) => (
@@ -181,7 +200,15 @@ const PerksGrid = () => (
         minH="10rem"
         mb={{ base: 0, md: '1em' }} // the arrow on the next Box arrow makes the margin at base breakpoint
       >
-        <PerksHeader title={'Bronze League'} count={21} amount={131} />
+        <PerksHeader
+          title={'Bronze League'}
+          count={getLeagueCount(PlayerRank_Enum.Bronze)}
+          amount={getLeagueCutoff(
+            PlayerRank_Enum.Bronze,
+            pSeedHolders,
+            pSeedPrice,
+          )}
+        />
         <Box p={8} width="100%" color="white">
           <Flex width="100%" flexDirection="row" flexWrap="wrap">
             {BronzeLeagueList.map((text: string) => (
@@ -204,7 +231,15 @@ const PerksGrid = () => (
         bg="whiteAlpha.200"
         mb={{ base: 0, md: '1em' }} // the arrow on the next Box arrow makes the margin at base breakpoint
       >
-        <PerksHeader title={'Silver League'} count={14} amount={177} />
+        <PerksHeader
+          title={'Silver League'}
+          count={getLeagueCount(PlayerRank_Enum.Silver)}
+          amount={getLeagueCutoff(
+            PlayerRank_Enum.Silver,
+            pSeedHolders,
+            pSeedPrice,
+          )}
+        />
 
         <Box p={8} width="100%" color="white">
           <List textAlign="left">
@@ -230,7 +265,15 @@ const PerksGrid = () => (
         bg="whiteAlpha.200"
         mb={{ base: 0, md: '1em' }} // the arrow on the next Box arrow makes the margin at base breakpoint
       >
-        <PerksHeader title={'Gold League'} count={7} amount={519} />
+        <PerksHeader
+          title={'Gold League'}
+          count={getLeagueCount(PlayerRank_Enum.Gold)}
+          amount={getLeagueCutoff(
+            PlayerRank_Enum.Gold,
+            pSeedHolders,
+            pSeedPrice,
+          )}
+        />
 
         <Box p={8} width="100%" color="white">
           <Flex width="100%" flexDirection="row" flexWrap="wrap">
@@ -254,7 +297,16 @@ const PerksGrid = () => (
         bg="whiteAlpha.200"
         mb={{ base: 0, md: '1em' }} // the arrow on the next Box arrow makes the margin at base breakpoint
       >
-        <PerksHeader title={'Platinum League'} count={7} amount={3631} />
+        <PerksHeader
+          title={'Platinum League'}
+          count={getLeagueCount(PlayerRank_Enum.Platinum)}
+          amount={getLeagueCutoff(
+            PlayerRank_Enum.Platinum,
+            pSeedHolders,
+            pSeedPrice,
+          )}
+          // amount={3631}
+        />
 
         <Box p={8} width="100%" color="white">
           <Flex width="100%" flexDirection="row" flexWrap="wrap">
@@ -278,7 +330,16 @@ const PerksGrid = () => (
         bg="whiteAlpha.200"
         mb={{ base: 0, md: '1em' }} // the arrow on the next Box arrow makes the margin at base breakpoint
       >
-        <PerksHeader title={'Diamond League'} count={7} amount={14049} />
+        <PerksHeader
+          title={'Diamond League'}
+          count={getLeagueCount(PlayerRank_Enum.Diamond)}
+          amount={getLeagueCutoff(
+            PlayerRank_Enum.Diamond,
+            pSeedHolders,
+            pSeedPrice,
+          )}
+          // amount={14049}
+        />
 
         <Box p={8} width="100%" color="white">
           <Flex width="100%" flexDirection="row" flexWrap="wrap">
@@ -337,7 +398,7 @@ const PerksGrid = () => (
         <PerksHeader
           title={'No. 1 Patron of MetaGame’s Seed Phase'}
           count={'unique'}
-          amount={21206}
+          amount={getPatronHoldingsUsd(pSeedHolders[0], pSeedPrice)}
         />
 
         <Box p={8} width="100%" color="white">

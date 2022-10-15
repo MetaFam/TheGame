@@ -1,8 +1,11 @@
 import {
   GetPatronsQuery,
   GetPatronsQueryVariables,
+  GetpSeedBalanceQueryVariables,
   GetpSeedHoldersQuery,
   GetpSeedHoldersQueryVariables,
+  GetPSeedPriceQuery,
+  GetPSeedPriceQueryVariables,
   Player,
   TokenBalancesFragment as TokenBalancesFragmentType,
 } from 'graphql/autogen/types';
@@ -38,6 +41,14 @@ const pSeedHoldersQuery = /* GraphQL */ `
   ${TokenBalancesFragment}
 `;
 
+const getPSeedPriceQuery = /* GraphQL */ `
+  query GetPSeedPrice {
+    getPSeedInfo {
+      priceUsd
+    }
+  }
+`;
+
 const getPlayersFromAddresses = async (
   addresses: Array<string>,
   limit: number,
@@ -59,7 +70,7 @@ const getPlayersFromAddresses = async (
   return data.player as Array<Player>;
 };
 
-const getpSeedHolders = async (
+export const getPSeedHolders = async (
   limit: number,
 ): Promise<Array<TokenBalancesFragmentType>> => {
   const { data, error } = await client
@@ -80,7 +91,7 @@ const getpSeedHolders = async (
 };
 
 export const getPatrons = async (limit = 50): Promise<Array<Patron>> => {
-  const tokenBalances: Array<TokenBalancesFragmentType> = await getpSeedHolders(
+  const tokenBalances: Array<TokenBalancesFragmentType> = await getPSeedHolders(
     limit,
   );
 
@@ -102,4 +113,19 @@ export const getPatrons = async (limit = 50): Promise<Array<Patron>> => {
   );
 
   return patrons;
+};
+
+export const getPSeedPrice = async (): Promise<string | null | undefined> => {
+  const { data, error } = await client
+    .query<GetPSeedPriceQuery, GetPSeedPriceQueryVariables>(getPSeedPriceQuery)
+    .toPromise();
+
+  if (data?.getPSeedInfo == null) {
+    if (error) {
+      throw error;
+    }
+    return null;
+  }
+
+  return data.getPSeedInfo.priceUsd;
 };
