@@ -151,7 +151,7 @@ const PatronsJoinLanding: React.FC<Props> = ({
                 transform: 'scale(0.8)',
               }}
             >
-              LOAD MORE
+              VIEW ALL PATRONS
             </MetaButton>
           </Box>
         </Container>

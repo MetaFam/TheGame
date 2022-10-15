@@ -1,7 +1,6 @@
 import {
   GetPatronsQuery,
   GetPatronsQueryVariables,
-  GetpSeedBalanceQueryVariables,
   GetpSeedHoldersQuery,
   GetpSeedHoldersQueryVariables,
   GetPSeedPriceQuery,
