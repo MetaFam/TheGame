@@ -338,7 +338,6 @@ const PerksGrid: React.FC<Props> = ({ pSeedPrice, pSeedHolders }) => (
             pSeedHolders,
             pSeedPrice,
           )}
-          // amount={14049}
         />
 
         <Box p={8} width="100%" color="white">
@@ -398,7 +397,7 @@ const PerksGrid: React.FC<Props> = ({ pSeedPrice, pSeedHolders }) => (
         <PerksHeader
           title={'No. 1 Patron of MetaGame’s Seed Phase'}
           count={'unique'}
-          amount={getPatronHoldingsUsd(pSeedHolders[0], pSeedPrice)}
+          amount={getPatronHoldingsUsd(pSeedHolders?.[0], pSeedPrice)}
         />
 
         <Box p={8} width="100%" color="white">

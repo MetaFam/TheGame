@@ -1,6 +1,5 @@
-import { Constants } from '@metafam/utils';
+import { Constants, Maybe } from '@metafam/utils';
 import { PlayerRank_Enum, TokenBalancesFragment } from 'graphql/autogen/types';
-import { Patron } from 'graphql/types';
 
 export const PATRON_RANKS = [
   PlayerRank_Enum.Diamond,
@@ -48,9 +47,12 @@ export const getLeagueCutoff = (
 };
 
 export const getPatronHoldingsUsd = (
-  pSeedHolder: TokenBalancesFragment,
+  pSeedHolder: Maybe<TokenBalancesFragment>,
   pSeedPrice: number,
 ) => {
+  if (pSeedHolder == null) {
+    return MIN_PATRON_PSEEDS * pSeedPrice;
+  }
   const pSeedBalance =
     parseFloat(pSeedHolder.pSeedBalance) / Constants.PSEED_CONTRACT_DIVISOR;
   return pSeedBalance * pSeedPrice;
