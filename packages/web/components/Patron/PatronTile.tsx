@@ -20,27 +20,18 @@ import { PlayerContacts } from 'components/Player/PlayerContacts';
 import { PlayerTileMemberships } from 'components/Player/PlayerTileMemberships';
 import { SkillsTags } from 'components/Quest/Skills';
 import { utils } from 'ethers';
-import { Player, PlayerRank_Enum, Skill } from 'graphql/autogen/types';
+import { Player, Skill } from 'graphql/autogen/types';
 import { Patron } from 'graphql/types';
 import NextLink from 'next/link';
 import React, { useMemo } from 'react';
 import { FaGlobe } from 'react-icons/fa';
+import { PATRON_RANKS, PATRONS_PER_RANK } from 'utils/patronHelpers';
 import {
   getPlayerBanner,
   getPlayerDescription,
   getPlayerName,
   getPlayerURL,
 } from 'utils/playerHelpers';
-
-const PATRON_RANKS = [
-  PlayerRank_Enum.Diamond,
-  PlayerRank_Enum.Platinum,
-  PlayerRank_Enum.Gold,
-  PlayerRank_Enum.Silver,
-  PlayerRank_Enum.Bronze,
-];
-
-const PATRONS_PER_RANK = [7, 7, 7, 14, 21];
 
 type Props = {
   patron: Patron;
