@@ -36,11 +36,12 @@ import {
 type Props = {
   patron: Patron;
   index: number;
+  pSeedPrice: number;
 };
 
 const MAX_BIO_LENGTH = 240;
 
-export const PatronTile: React.FC<Props> = ({ index, patron }) => {
+export const PatronTile: React.FC<Props> = ({ index, patron, pSeedPrice }) => {
   const player = patron as Player;
   const patronRank = computeRank(index, PATRONS_PER_RANK, PATRON_RANKS);
   const { label: timeZone = null, offset = null } = useMemo(
@@ -82,9 +83,12 @@ export const PatronTile: React.FC<Props> = ({ index, patron }) => {
                 {patron.pSeedBalance != null && (
                   <WrapItem>
                     <MetaTag size="md">
-                      {`pSEED: ${Math.floor(
-                        Number(utils.formatEther(patron.pSeedBalance)),
-                      )}`}
+                      {`$${(
+                        Number(utils.formatEther(patron.pSeedBalance)) *
+                        pSeedPrice
+                      ).toLocaleString(undefined, {
+                        maximumFractionDigits: 0,
+                      })}`}
                     </MetaTag>
                   </WrapItem>
                 )}
