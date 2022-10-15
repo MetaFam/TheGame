@@ -181,8 +181,8 @@ const PerksGrid: React.FC<Props> = ({ pSeedPrice, pSeedHolders }) => (
         />
 
         <Flex p={8} width="100%" flexDirection="row" flexWrap="wrap">
-          {AllPatronsList.map((text: string) => (
-            <LeagueCardItem text={text} />
+          {AllPatronsList.map((text: string, index) => (
+            <LeagueCardItem key={index} text={text} />
           ))}
         </Flex>
       </VStack>
@@ -211,8 +211,8 @@ const PerksGrid: React.FC<Props> = ({ pSeedPrice, pSeedHolders }) => (
         />
         <Box p={8} width="100%" color="white">
           <Flex width="100%" flexDirection="row" flexWrap="wrap">
-            {BronzeLeagueList.map((text: string) => (
-              <LeagueCardItem text={text} />
+            {BronzeLeagueList.map((text: string, index) => (
+              <LeagueCardItem key={index} text={text} />
             ))}
           </Flex>
         </Box>
@@ -244,8 +244,8 @@ const PerksGrid: React.FC<Props> = ({ pSeedPrice, pSeedHolders }) => (
         <Box p={8} width="100%" color="white">
           <List textAlign="left">
             <Flex width="100%" flexDirection="row" flexWrap="wrap">
-              {SilverLeagueList.map((text: string) => (
-                <LeagueCardItem text={text} />
+              {SilverLeagueList.map((text: string, index) => (
+                <LeagueCardItem key={index} text={text} />
               ))}
             </Flex>
           </List>
@@ -277,8 +277,8 @@ const PerksGrid: React.FC<Props> = ({ pSeedPrice, pSeedHolders }) => (
 
         <Box p={8} width="100%" color="white">
           <Flex width="100%" flexDirection="row" flexWrap="wrap">
-            {GoldenLeagueList.map((text: string) => (
-              <LeagueCardItem text={text} />
+            {GoldenLeagueList.map((text: string, index) => (
+              <LeagueCardItem key={index} text={text} />
             ))}
           </Flex>
         </Box>
@@ -310,8 +310,8 @@ const PerksGrid: React.FC<Props> = ({ pSeedPrice, pSeedHolders }) => (
 
         <Box p={8} width="100%" color="white">
           <Flex width="100%" flexDirection="row" flexWrap="wrap">
-            {PlatinumLeagueList.map((text: string) => (
-              <LeagueCardItem text={text} />
+            {PlatinumLeagueList.map((text: string, index) => (
+              <LeagueCardItem key={index} text={text} />
             ))}
           </Flex>
         </Box>
@@ -342,8 +342,8 @@ const PerksGrid: React.FC<Props> = ({ pSeedPrice, pSeedHolders }) => (
 
         <Box p={8} width="100%" color="white">
           <Flex width="100%" flexDirection="row" flexWrap="wrap">
-            {DiamondLeagueList.map((text: string) => (
-              <LeagueCardItem text={text} />
+            {DiamondLeagueList.map((text: string, index) => (
+              <LeagueCardItem key={index} text={text} />
             ))}
           </Flex>
         </Box>
@@ -402,8 +402,8 @@ const PerksGrid: React.FC<Props> = ({ pSeedPrice, pSeedHolders }) => (
 
         <Box p={8} width="100%" color="white">
           <Flex width="100%" flexDirection="row" flexWrap="wrap">
-            {No1PatronList.map((text: string) => (
-              <LeagueCardItem text={text} />
+            {No1PatronList.map((text: string, index) => (
+              <LeagueCardItem key={index} text={text} />
             ))}
           </Flex>
         </Box>
