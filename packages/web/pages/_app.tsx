@@ -21,6 +21,7 @@ const {
 const honeybadgerConfig = {
   apiKey: honeybadgerApiKey,
   environment: process.env.NODE_ENV || 'production',
+  enableUncaught: true,
   reportData: honeybadgerReportData,
   debug: honeybadgerDebug,
 };
