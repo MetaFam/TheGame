@@ -4,10 +4,6 @@ import { LandingHeader } from 'components/Landing/LandingHeader';
 import { Onboard } from 'components/Landing/Onboard';
 import { MetaLink } from 'components/Link';
 import { HeadComponent } from 'components/Seo';
-// import { gsap } from "gsap";
-// import { ScrollToPlugin } from 'gsap/dist/ScrollToPlugin';
-// import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
-// import { useRouter } from 'next/router';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
   FaDiscord,
@@ -79,8 +75,8 @@ const Onboarding: React.FC = () => {
   return (
     <>
       <HeadComponent
-        title="MetaGame: A Massive Online Coordination Game!"
-        description="To play metagame is to play life in the optimal way. Coordinating with others to build a better world; make a positive impact, make you happy, &amp; earn you money."
+        title="MetaGame: Onboarding Game 🐙"
+        description="Start your journey into MetaGame here! Play the Onboarding Game and follow the purple octo..."
         url={hostName.current}
         img={`${hostName.current}/assets/social.png`}
         cardStyle="summary_large_image"

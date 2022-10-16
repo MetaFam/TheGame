@@ -3,37 +3,37 @@ import 'assets/custom-markdown-editor.scss';
 
 import { Honeybadger, HoneybadgerErrorBoundary } from '@honeybadger-io/react';
 import { ChakraProvider, CSSReset, MetaTheme } from '@metafam/ds';
+import { UserbackProvider } from '@userback/react';
 import { MegaMenu } from 'components/MegaMenu/index';
 import { CONFIG } from 'config';
 import { Web3ContextProvider } from 'contexts/Web3Context';
 import { wrapUrqlClient } from 'graphql/client';
 import Head from 'next/head';
 import { WithUrqlProps } from 'next-urql';
-import React, { useEffect } from 'react';
-import { hotjar } from 'react-hotjar';
+import React from 'react';
 
-const config = {
-  apiKey: CONFIG.honeybadgerApiKey,
+const {
+  userbackToken,
+  honeybadgerReportData,
+  honeybadgerApiKey,
+  honeybadgerDebug,
+} = CONFIG;
+const honeybadgerConfig = {
+  apiKey: honeybadgerApiKey,
   environment: process.env.NODE_ENV || 'production',
-  reportData: CONFIG.honeybadgerReportData as unknown as boolean,
+  reportData: honeybadgerReportData,
+  debug: honeybadgerDebug,
 };
 
-const honeybadger = Honeybadger.configure(config);
+const honeybadger = Honeybadger.configure(honeybadgerConfig);
 
 const App: React.FC<WithUrqlProps> = ({
   pageProps,
   resetUrqlClient,
   Component,
-}) => {
-  useEffect(() => {
-    if (CONFIG.hotjarId != null) {
-      const hotjarId = +CONFIG.hotjarId;
-      hotjar.initialize(hotjarId, 1);
-    }
-  }, []);
-
-  return (
-    <HoneybadgerErrorBoundary honeybadger={honeybadger}>
+}) => (
+  <HoneybadgerErrorBoundary honeybadger={honeybadger}>
+    <UserbackProvider token={userbackToken}>
       <ChakraProvider theme={MetaTheme}>
         <CSSReset />
         <Head>
@@ -61,20 +61,6 @@ const App: React.FC<WithUrqlProps> = ({
               />
             </>
           )}
-          {!!CONFIG.clarityId && (
-            <script
-              type="text/javascript"
-              dangerouslySetInnerHTML={{
-                __html: `
-              (function(c,l,a,r,i,t,y){
-                c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-                t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-                y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-              })(window, document, "clarity", "script", '${CONFIG.clarityId}');
-            `,
-              }}
-            />
-          )}
         </Head>
         <Web3ContextProvider {...{ resetUrqlClient }}>
           <MegaMenu hide={pageProps.hideTopMenu}>
@@ -82,8 +68,8 @@ const App: React.FC<WithUrqlProps> = ({
           </MegaMenu>
         </Web3ContextProvider>
       </ChakraProvider>
-    </HoneybadgerErrorBoundary>
-  );
-};
+    </UserbackProvider>
+  </HoneybadgerErrorBoundary>
+);
 
 export default wrapUrqlClient(App);
