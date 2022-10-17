@@ -31,6 +31,7 @@ import {
   volIncreased,
   volumeChange,
 } from 'utils/dashboardHelpers';
+import { errorHandler } from 'utils/errorHandler';
 
 const SEED_TOKEN_ID = 'metagame';
 const COINGECKO_API_URL = 'https://api.coingecko.com/api/v3/coins/';
@@ -103,7 +104,7 @@ export const Seed = (): ReactElement => {
         return setToken(tokenData);
       } catch (error) {
         console.error('error fetching tokenData', error);
-        Honeybadger.notify(error as Error);
+        errorHandler(error as Error);
         return null;
       }
     })();

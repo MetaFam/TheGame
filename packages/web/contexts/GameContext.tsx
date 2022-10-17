@@ -18,6 +18,7 @@ import React, {
   useMemo,
   useState,
 } from 'react';
+import { errorHandler } from 'utils/errorHandler';
 import { NETWORK_INFO, POLYGON } from 'utils/networks';
 
 import gameJson from '../components/Landing/OnboardingGame/metagame-onboarding-game.json';
@@ -120,7 +121,7 @@ export const GameContextProvider: React.FC = ({ children }) => {
         throw new Error('Game progression failed');
       } catch (error) {
         // eslint-disable-next-line no-console
-        Honeybadger.notify(error as Error);
+        errorHandler(error as Error);
         console.error(error);
         return undefined;
       }
@@ -244,7 +245,7 @@ export const GameContextProvider: React.FC = ({ children }) => {
           isClosable: true,
           duration: 5000,
         });
-        Honeybadger.notify(error as Error);
+        errorHandler(error as Error);
         return msg;
       } finally {
         setTxLoading(false);

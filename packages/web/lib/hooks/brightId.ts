@@ -3,6 +3,7 @@ import { Optional } from '@metafam/utils';
 import { CONFIG } from 'config';
 import { Player } from 'graphql/autogen/types';
 import { useEffect, useMemo } from 'react';
+import { errorHandler } from 'utils/errorHandler';
 
 const BRIGHTID_CONTEXT = 'MetaGame';
 const DEEPLINK_ENDPOINT = `brightid://link-verification/${CONFIG.brightIdNodeURL}/${BRIGHTID_CONTEXT}`;
@@ -55,7 +56,7 @@ const fetchVerificationData = async (
     const responseData = await response.json();
     return responseData.data;
   } catch (err) {
-    Honeybadger.notify(err as Error);
+    errorHandler(err as Error);
     return null;
   }
 };

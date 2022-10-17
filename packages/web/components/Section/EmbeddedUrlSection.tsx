@@ -13,6 +13,7 @@ import { Maybe } from 'graphql/autogen/types';
 import { useDelay } from 'lib/hooks/useDelay';
 import React, { useCallback, useEffect, useState } from 'react';
 import { BoxMetadata } from 'utils/boxTypes';
+import { errorHandler } from 'utils/errorHandler';
 
 const metadataLink = '/api/metadata?url=';
 
@@ -45,7 +46,7 @@ export const EmbeddedUrl: React.FC<EmbeddedUrlProps> = ({
       setMetadata(response.og as unknown as URIMetadata);
     } catch (err) {
       console.error(`No metadata found for the URL "${uri}"`, err);
-      Honeybadger.notify(err as Error);
+      errorHandler(err as Error);
       setMetadata(null);
     } finally {
       setLoading(false);

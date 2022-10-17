@@ -3,6 +3,7 @@ import Honeybadger from '@honeybadger-io/js';
 import { Constants } from '@metafam/utils';
 import { useEffect, useState } from 'react';
 import { SCAccount, SCAccountsData } from 'sourcecred';
+import { errorHandler } from 'utils/errorHandler';
 
 interface XPProps {
   userTotalXP: number;
@@ -63,8 +64,7 @@ const getXP = async (userAddress: string): Promise<XPProps | null> => {
       userWeeklyCred,
     };
   } catch (err: unknown) {
-    // throw new Error(err);
-    Honeybadger.notify(err as Error);
+    errorHandler(err as Error);
     return null;
   }
 };

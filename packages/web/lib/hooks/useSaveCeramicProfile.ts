@@ -28,6 +28,7 @@ import { useUser } from 'lib/hooks/useUser';
 import { useWeb3 } from 'lib/hooks/useWeb3';
 import { useRouter } from 'next/router';
 import { ReactElement, useCallback } from 'react';
+import { errorHandler } from 'utils/errorHandler';
 import { isEmpty } from 'utils/objectHelpers';
 import { dispositionFor } from 'utils/playerHelpers';
 
@@ -93,7 +94,7 @@ export const useSaveCeramicProfile = ({
           if ((err as Error).message === '"undefined" is not valid JSON') {
             throw new CeramicError('Could not authenticate with Ceramic API');
           }
-          Honeybadger.notify(err as Error);
+          errorHandler(err as Error);
           throw err;
         }
       }

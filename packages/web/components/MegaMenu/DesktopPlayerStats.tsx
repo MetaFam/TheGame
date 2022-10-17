@@ -8,6 +8,7 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
+  MetaButton,
   Profile,
 } from '@metafam/ds';
 import { MetaLink } from 'components/Link';
@@ -16,6 +17,7 @@ import { PlayerAvatar } from 'components/Player/PlayerAvatar';
 import { Player } from 'graphql/autogen/types';
 import { useWeb3 } from 'lib/hooks';
 import React from 'react';
+import { errorHandler } from 'utils/errorHandler';
 import { getPlayerURL } from 'utils/playerHelpers';
 
 type PlayerStatsProps = {
@@ -44,6 +46,15 @@ export const DesktopPlayerStats: React.FC<PlayerStatsProps> = ({ player }) => {
             _hover={{ transform: 'scale(0.9)' }}
           />
         </MenuButton>
+
+        <MetaButton
+          onClick={(): void => {
+            throw new Error('Honeybadger test from dev');
+          }}
+        >
+          Test error
+        </MetaButton>
+
         <MenuList
           mt="8px"
           color="white"

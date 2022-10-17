@@ -24,6 +24,7 @@ import { useWeb3 } from 'lib/hooks';
 import { useDropFiles, useDropImage } from 'lib/hooks/useDropFiles';
 import { useInputText } from 'lib/hooks/useInputText';
 import { useCallback, useRef, useState } from 'react';
+import { errorHandler } from 'utils/errorHandler';
 import { NETWORK_INFO } from 'utils/networks';
 import {
   getQuestChainContract,
@@ -152,7 +153,7 @@ export const UploadProof: React.FC<{
         duration: 2000,
         isClosable: true,
       });
-      Honeybadger.notify(error as Error);
+      errorHandler(error as Error);
     }
 
     setSubmitting(false);
