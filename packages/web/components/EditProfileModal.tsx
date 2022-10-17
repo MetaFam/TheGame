@@ -1,7 +1,6 @@
 /* eslint-disable no-console */
 
 import { ImageSources } from '@datamodels/identity-profile-basic';
-import Honeybadger from '@honeybadger-io/js';
 import {
   Box,
   BoxProps,

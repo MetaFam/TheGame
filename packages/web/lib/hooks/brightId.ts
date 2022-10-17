@@ -1,4 +1,3 @@
-import Honeybadger from '@honeybadger-io/js';
 import { Optional } from '@metafam/utils';
 import { CONFIG } from 'config';
 import { Player } from 'graphql/autogen/types';

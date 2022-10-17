@@ -1,4 +1,3 @@
-import Honeybadger from '@honeybadger-io/js';
 import {
   Box,
   Flex,

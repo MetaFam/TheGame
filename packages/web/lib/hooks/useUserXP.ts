@@ -1,5 +1,4 @@
 import { isAddress } from '@ethersproject/address';
-import Honeybadger from '@honeybadger-io/js';
 import { Constants } from '@metafam/utils';
 import { useEffect, useState } from 'react';
 import { SCAccount, SCAccountsData } from 'sourcecred';

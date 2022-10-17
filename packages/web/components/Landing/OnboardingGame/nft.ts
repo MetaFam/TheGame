@@ -1,4 +1,3 @@
-import Honeybadger from '@honeybadger-io/js';
 import { httpLink } from '@metafam/utils';
 import { CONFIG } from 'config';
 import { Contract, providers } from 'ethers';

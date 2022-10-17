@@ -1,4 +1,3 @@
-import Honeybadger from '@honeybadger-io/js';
 import { graphql } from '@quest-chains/sdk';
 import { useEffect, useState } from 'react';
 import { errorHandler } from 'utils/errorHandler';

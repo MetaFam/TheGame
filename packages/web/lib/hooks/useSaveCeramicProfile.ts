@@ -6,7 +6,6 @@ import {
 import { ModelManager } from '@glazed/devtools';
 import { DIDDataStore } from '@glazed/did-datastore';
 import { TileLoader } from '@glazed/tile-loader';
-import Honeybadger from '@honeybadger-io/js';
 import {
   AllProfileFields,
   BasicProfileImages,

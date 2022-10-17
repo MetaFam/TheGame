@@ -1,4 +1,3 @@
-import Honeybadger from '@honeybadger-io/js';
 import {
   Image,
   StatusedSubmitButton,
