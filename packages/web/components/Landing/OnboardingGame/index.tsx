@@ -17,6 +17,7 @@ import { useOnScreen } from 'lib/hooks/useOnScreen';
 import { get } from 'lib/store';
 import { ReactElement, useCallback, useEffect, useRef, useState } from 'react';
 import { MdDownloading, MdRestartAlt, MdWarning } from 'react-icons/md';
+import { errorHandler } from 'utils/errorHandler';
 import {
   safelyParseContent,
   safelyParseTextForTyping,
@@ -129,7 +130,7 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
         };
       } catch (error) {
         console.error('makeCurrentSectionDialogue error', error);
-        Honeybadger.notify(error as Error);
+        errorHandler(error as Error);
         return {
           currentDialogue: [],
           currentChoices: [],
@@ -219,7 +220,7 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
         throw new Error('No connections found');
       } catch (error) {
         setCurrentConnections([]);
-        Honeybadger.notify(error as Error);
+        errorHandler(error as Error);
         return undefined;
       }
     };
@@ -249,7 +250,7 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
         }
         throw new Error('No jumpers found');
       } catch (error) {
-        Honeybadger.notify(error as Error);
+        errorHandler(error as Error);
         return undefined;
       }
     };
@@ -386,7 +387,7 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
       })
       .catch((err) => {
         console.error('handleProgress error', err);
-        Honeybadger.notify(err as Error);
+        errorHandler(err as Error);
         setIsLoading(false);
       });
   };

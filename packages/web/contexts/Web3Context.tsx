@@ -21,6 +21,7 @@ import React, {
   useMemo,
   useState,
 } from 'react';
+import { errorHandler } from 'utils/errorHandler';
 import { providerOptions } from 'utils/walletOptions';
 import Web3Modal from 'web3modal';
 
@@ -74,7 +75,7 @@ export async function getExistingAuth(
     await did.verifyToken(token, ethersProvider, connectedAddress);
     return token;
   } catch (e) {
-    Honeybadger.notify(e as Error);
+    errorHandler(e as Error);
     clearToken();
     return null;
   }
@@ -198,7 +199,7 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
       });
     } catch (error) {
       console.error('`connect` Error', error); // eslint-disable-line no-console
-      Honeybadger.notify(error as Error);
+      errorHandler(error as Error);
       disconnect();
     } finally {
       setConnecting(false);

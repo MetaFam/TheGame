@@ -5,6 +5,7 @@ import { Player } from 'graphql/autogen/types';
 import { useProfileField, useWeb3 } from 'lib/hooks';
 import React, { useEffect, useMemo, useState } from 'react';
 import { FieldValues, UseFormSetValue } from 'react-hook-form';
+import { errorHandler } from 'utils/errorHandler';
 import { getPlayerMeetwithWalletCalendarUrl } from 'utils/playerHelpers';
 
 interface MeetWithWalletProps {
@@ -69,7 +70,7 @@ const MeetWithWalletProfileEdition: React.FC<MeetWithWalletProps> = ({
       }
     } catch (e) {
       console.error('Failed to verify Meet with wallet account', e);
-      Honeybadger.notify(e as Error);
+      errorHandler(e as Error);
     }
     setLoading(false);
   };
@@ -113,7 +114,7 @@ const MeetWithWalletProfileEdition: React.FC<MeetWithWalletProps> = ({
         ).calendar_url;
       } catch (e) {
         console.error('Meet with wallet account creation failed', e);
-        Honeybadger.notify(e as Error);
+        errorHandler(e as Error);
       }
     }
 

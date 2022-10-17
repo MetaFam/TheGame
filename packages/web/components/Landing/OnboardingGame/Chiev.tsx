@@ -25,6 +25,7 @@ import {
   useEffect,
   useState,
 } from 'react';
+import { errorHandler } from 'utils/errorHandler';
 import { POLYGON } from 'utils/networks';
 import { formatAddress } from 'utils/playerHelpers';
 
@@ -81,7 +82,7 @@ export const Chiev = ({
       setClaiming(true);
       await mintChiev(chievId);
     } catch (error) {
-      Honeybadger.notify(error as Error);
+      errorHandler(error as Error);
       console.error('handleMintingError', error);
     } finally {
       setClaiming(false);

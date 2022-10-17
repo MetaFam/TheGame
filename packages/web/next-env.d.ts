@@ -4,5 +4,3 @@ declare module '*.png';
 declare module '*.jpg';
 declare module '*.jpeg';
 declare module '*.svg';
-declare module '@honeybadger-io/webpack';
-declare module '@honeybadger-io/js';
