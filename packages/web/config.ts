@@ -17,7 +17,9 @@ export const CONFIG = {
     process.env.NEXT_BRIGHTID_NODE_URL || 'http:%2f%2fnode.brightid.org',
   publicURL: process.env.NEXT_PUBLIC_FRONTEND_URL,
   gaId: process.env.NEXT_PUBLIC_GA4_ID,
-  honeybadgerApiKey: process.env.NEXT_PUBLIC_HONEYBADGER_API_KEY,
+  honeybadgerApiKey:
+    process.env.NEXT_PUBLIC_HONEYBADGER_API_KEY ||
+    'hbp_Z4027J7qYTktQkqvUHcOHJqIbpjpWD30A1kd',
   honeybadgerReportData:
     process.env.NEXT_PUBLIC_HONEYBADGER_REPORT_DATA === 'true',
   honeybadgerDebug: process.env.NEXT_PUBLIC_HONEYBADGER_DEBUG === 'true',
