@@ -1,5 +1,5 @@
 /* eslint-disable no-nested-ternary */
-import Honeybadger from '@honeybadger-io/js';
+
 import {
   Box,
   Button,

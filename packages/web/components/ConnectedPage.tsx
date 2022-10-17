@@ -1,4 +1,3 @@
-import Honeybadger from '@honeybadger-io/js';
 import { Center, Link, MetaButton, Spinner, Stack, Text } from '@metafam/ds';
 import { Player } from 'graphql/autogen/types';
 import { useMounted, useUser, useWeb3 } from 'lib/hooks';

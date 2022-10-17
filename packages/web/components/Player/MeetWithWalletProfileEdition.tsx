@@ -1,4 +1,3 @@
-import Honeybadger from '@honeybadger-io/js';
 import { Button, Link, MeetWithWalletIcon, Text, VStack } from '@metafam/ds';
 import { ethereumHelper, Maybe } from '@metafam/utils';
 import { Player } from 'graphql/autogen/types';

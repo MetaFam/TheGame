@@ -1,4 +1,3 @@
-import Honeybadger from '@honeybadger-io/js';
 import { NETWORK_INFO } from 'utils/networks';
 
 import { errorHandler } from './errorHandler';

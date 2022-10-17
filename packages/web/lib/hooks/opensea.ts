@@ -1,4 +1,3 @@
-import Honeybadger from '@honeybadger-io/js';
 import { Maybe } from '@metafam/utils';
 import { Player } from 'graphql/autogen/types';
 import { useEffect, useState } from 'react';

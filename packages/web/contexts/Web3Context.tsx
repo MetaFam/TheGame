@@ -2,7 +2,6 @@ import { EthereumAuthProvider, ThreeIdConnect } from '@3id/connect';
 import ThreeIdResolver from '@ceramicnetwork/3id-did-resolver';
 import type { CeramicApi } from '@ceramicnetwork/common';
 import { CeramicClient } from '@ceramicnetwork/http-client';
-import Honeybadger from '@honeybadger-io/js';
 import { did, Maybe } from '@metafam/utils';
 import { CONFIG } from 'config';
 import { DID } from 'dids';

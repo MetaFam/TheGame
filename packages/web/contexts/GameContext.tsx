@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import Honeybadger from '@honeybadger-io/js';
+
 import { Text, useToast, VStack } from '@metafam/ds';
 import { httpLink } from '@metafam/utils';
 import type {

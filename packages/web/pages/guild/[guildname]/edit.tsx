@@ -1,4 +1,3 @@
-import Honeybadger from '@honeybadger-io/js';
 import { Flex, LoadingState, MetaHeading, useToast } from '@metafam/ds';
 import { FlexContainer, PageContainer } from 'components/Container';
 import { EditGuildFormInputs, GuildForm } from 'components/Guild/GuildForm';
