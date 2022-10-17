@@ -1,3 +1,6 @@
+// export { default as styled } from '@emotion/styled';
+import * as styled from '@emotion/styled';
+
 export { BoxedNextImage } from './BoxedNextImage';
 export { ConfirmModal } from './ConfirmModal';
 export * from './icons';
@@ -199,7 +202,7 @@ export {
   WrapItem,
   WrapProps,
 } from '@chakra-ui/react';
-export { default as styled } from '@emotion/styled';
+export { styled }; // imported at top
 export { Prose, withProse } from '@nikolovlazar/chakra-ui-prose';
 export {
   HTMLMotionProps,

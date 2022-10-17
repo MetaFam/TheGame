@@ -1,7 +1,8 @@
 {
   "name": "@metafam/ds",
-  "version": "0.1.0",
-  "main": "dist/index.js",
+  "version": "0.2.0",
+  "type": "module",
+  "main": "dist/ds.esm.js",
   "typings": "dist/index.d.ts",
   "files": [
     "dist",
@@ -12,8 +13,8 @@
   "scripts": {
     "typecheck": "tsc -b tsconfig.build.json tsconfig.json",
     "dev": "yarn start",
-    "start": "tsdx watch --tsconfig tsconfig.build.json --verbose --noClean",
-    "build": "tsdx build --tsconfig tsconfig.build.json",
+    "start": "tsdx watch --tsconfig tsconfig.build.json --verbose --noClean --format esm",
+    "build": "tsdx build --tsconfig tsconfig.build.json --format esm",
     "test": "tsdx test --passWithNoTests",
     "prepublish": "yarn build",
     "precommit": "yarn lint-staged"
@@ -38,6 +39,7 @@
     "react-select": "5.2.2",
     "react-timezone-select": "1.0.3",
     "spacetime": "7.1.2",
-    "spacetime-informal": "0.6.1"
+    "spacetime-informal": "0.6.1",
+    "tsdx": "^0.14.1"
   }
 }

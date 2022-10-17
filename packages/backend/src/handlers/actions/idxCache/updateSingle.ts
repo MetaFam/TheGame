@@ -54,7 +54,7 @@ export default async (playerId: string): Promise<UpdateIdxProfileResponse> => {
     const cache = new Map();
     const ceramic = new CeramicClient(CONFIG.ceramicURL);
     const loader = new TileLoader({ ceramic, cache });
-    const manager = new ModelManager(ceramic);
+    const manager = new ModelManager({ ceramic });
     manager.addJSONModel(basicProfileModel);
     manager.addJSONModel(alsoKnownAsModel);
     manager.addJSONModel(extendedProfileModel);
@@ -62,7 +62,7 @@ export default async (playerId: string): Promise<UpdateIdxProfileResponse> => {
     const store = new DIDDataStore({
       ceramic,
       loader,
-      model: await manager.toPublished(),
+      model: await manager.deploy(),
     });
     ({ did } = await Caip10Link.fromAccount(
       ceramic,
