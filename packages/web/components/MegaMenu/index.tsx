@@ -40,7 +40,7 @@ export const MegaMenu: React.FC<Props> = ({ hide = false, children }) => {
       pb={{ base: hide ? 0 : '5rem', lg: 0 }}
       bgSize="cover"
       bgAttachment="fixed"
-      backgroundImage={`url(${BackgroundImage})`}
+      bgImage={BackgroundImage.src}
     >
       {!hide && <MegaMenuHeader />}
       <Stack

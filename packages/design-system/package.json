@@ -23,23 +23,27 @@
     "react": ">=17"
   },
   "dependencies": {
-    "@chakra-ui/icons": "1.1.7",
-    "@chakra-ui/media-query": "^3.2.4",
-    "@chakra-ui/react": "1.8.6",
-    "@chakra-ui/theme-tools": "1.3.6",
-    "@emotion/react": "11.8.1",
-    "@emotion/styled": "11.8.1",
+    "@chakra-ui/icons": "^2.0.11",
+    "@chakra-ui/media-query": "^3.2.7",
+    "@chakra-ui/react": "^2.3.6",
+    "@chakra-ui/theme-tools": "^2.0.12",
+    "@emotion/react": "^11.10.4",
+    "@emotion/styled": "^11.10.4",
     "@metafam/utils": "1.0.1",
     "@nikolovlazar/chakra-ui-prose": "^1.2.1",
     "city-timezones": "1.2.0",
-    "framer-motion": "6.2.8",
+    "framer-motion": "^7.5.4",
     "next": "10.2.3",
-    "react-dom": "17.0.2",
-    "react-google-font-loader": "1.1.0",
-    "react-select": "5.2.2",
-    "react-timezone-select": "1.0.3",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-google-font-loader": "^1.1.0",
+    "react-select": "^5.5.1",
+    "react-timezone-select": "^1.3.2",
     "spacetime": "7.1.2",
     "spacetime-informal": "0.6.1",
     "tsdx": "^0.14.1"
+  },
+  "devDependencies": {
+    "@types/react-select": "^5.0.1"
   }
 }

@@ -489,7 +489,7 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
                     ml: 1,
                     width: { base: '0.6rem' },
                     height: { base: '0.6rem' },
-                    backgroundImage: `url(${externalLinkIcon})`,
+                    backgroundImage: `url(${externalLinkIcon.src})`,
                     backgroundRepeat: 'no-repeat',
                     backgroundSize: '100%',
                     backgroundPosition: 'center',

@@ -67,7 +67,7 @@ export const Cards: React.FC = () => {
     >
       <Card
         title="PLAYERS"
-        image={PlayersImage}
+        image={PlayersImage.src}
         description="MetaGame is for those who want to play an active role in building the future."
         listTitle="For those who want to:"
         list={[
@@ -78,7 +78,7 @@ export const Cards: React.FC = () => {
       />
       <Card
         title="GUILDS"
-        image={GuildsImage}
+        image={GuildsImage.src}
         description="It's also for groups of people, those building tools & services for a decentralized future."
         listTitle="For those who want"
         list={[
@@ -89,7 +89,7 @@ export const Cards: React.FC = () => {
       />
       <Card
         title="PATRONS"
-        image={PatronsImage}
+        image={PatronsImage.src}
         description="Those who really want to see MetaGame succeed, but prefer to help with funds."
         listTitle="Why?"
         list={[

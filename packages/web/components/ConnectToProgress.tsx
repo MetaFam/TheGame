@@ -18,7 +18,7 @@ import { MetaLink } from './Link';
 
 export const MetaGameLogo = () => (
   <Flex justify="center" align="center">
-    <Image w="3.5rem" h="4rem" src={LogoImage} />
+    <Image w="3.5rem" h="4rem" src={LogoImage.src} />
   </Flex>
 );
 

@@ -38,14 +38,14 @@ export const WhatDo: React.FC<LandingPageSectionProps> = ({
       overflow="clip"
     >
       <Container
-        d="flex"
+        display="flex"
         maxW={{ base: '100%', md: 'xl', lg: '7xl', '2xl': '8xl', '4xl': '70%' }}
         height="100%"
         alignItems={{ base: 'flex-start', xl: 'center' }}
         justifyContent="center"
       >
         <Box
-          ref={ref}
+          {...{ ref }}
           display="flex"
           flexDirection="column"
           justifyContent={{ base: 'flex-start', xl: 'center' }}
@@ -91,7 +91,7 @@ export const WhatDo: React.FC<LandingPageSectionProps> = ({
             What are we doing?
           </Text>
           <UnorderedList
-            d={{ base: 'flex', lg: 'grid' }}
+            display={{ base: 'flex', lg: 'grid' }}
             flexFlow={{ base: 'column wrap', lg: 'unset' }}
             pb={{ base: 2, xl: 0, '2xl': '2.188rem' }}
             listStyleType="none"
@@ -188,7 +188,7 @@ export const WhatDo: React.FC<LandingPageSectionProps> = ({
       </Container>
       <Rain effectOpacity={0.2} />
       <Box
-        backgroundImage={responsiveBg}
+        backgroundImage={responsiveBg?.src}
         backgroundBlendMode="normal"
         backgroundPosition={{ base: 'top', xl: 'center' }}
         backgroundSize={{ base: 'contain', xl: 'cover' }}

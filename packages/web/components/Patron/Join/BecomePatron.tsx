@@ -45,7 +45,7 @@ export const BecomePatron: React.FC = () => (
           height="40em"
         >
           <Flex justify="center" align="center">
-            <Image src={Seed} height="auto" maxW="16rem" my="6" />
+            <Image src={Seed.src} height="auto" maxW="16rem" my="6" />
           </Flex>
           <Text textAlign="center" fontSize="xl" as="p" marginBottom="8">
             Water Seeds yourself
@@ -109,7 +109,7 @@ export const BecomePatron: React.FC = () => (
           height="40em"
         >
           <Flex justify="center" align="center">
-            <Image src={PatronCircle} height="auto" maxW="16rem" my="6" />
+            <Image src={PatronCircle.src} height="auto" maxW="16rem" my="6" />
           </Flex>
           <Text textAlign="center" fontSize="xl" as="p" marginBottom="8">
             Buy & forget about it

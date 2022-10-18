@@ -210,4 +210,4 @@ export {
   useAnimation,
   useMotionValue,
 } from 'framer-motion';
-export { DragHandler } from 'framer-motion/types/gestures/drag/types';
+// export { DragHandler } from 'framer-motion/types/gestures/drag/types';

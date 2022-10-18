@@ -58,7 +58,7 @@ export const Requirements: React.FC = () => (
         >
           <VStack spacing={2}>
             <Image
-              src={PlayersImg}
+              src={PlayersImg.src}
               alt="Cloaked player facing sun"
               mx="auto"
               maxH={{ md: '20rem', lg: '12rem' }}
@@ -112,7 +112,7 @@ export const Requirements: React.FC = () => (
         >
           <VStack spacing={2}>
             <Image
-              src={PatronsImg}
+              src={PatronsImg.src}
               alt="Cloaked patron facing sun"
               mx="auto"
               maxH={{ md: '20rem', lg: '12rem' }}
@@ -170,7 +170,7 @@ export const Requirements: React.FC = () => (
           justifyContent="center"
         >
           <Image
-            src={ThinkingEmojiImg}
+            src={ThinkingEmojiImg.src}
             alt="🤔"
             mx="auto"
             maxW="10rem"

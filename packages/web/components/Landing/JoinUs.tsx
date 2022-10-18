@@ -32,11 +32,11 @@ export const JoinUs: React.FC<LandingPageSectionProps> = ({ section }) => {
     <FullPageContainer
       id={section.internalLinkId}
       position="relative"
-      justify={{ base: 'center' }}
+      justify="center"
     >
       <Container
         position="relative"
-        d="flex"
+        display="flex"
         maxW={{ base: '100%', md: '7xl' }}
         flexFlow="column"
         maxH="60%"
@@ -140,7 +140,7 @@ export const JoinUs: React.FC<LandingPageSectionProps> = ({ section }) => {
           color="landing500"
           fontSize={{ base: 'sm', '2xl': '2xl' }}
           textShadow="0 0 5px var(--chakra-colors-landing500)"
-          d="flex"
+          display="flex"
           alignItems="center"
           justifyContent="space-between"
           position={{ base: 'fixed', md: 'absolute' }}
@@ -178,7 +178,7 @@ export const JoinUs: React.FC<LandingPageSectionProps> = ({ section }) => {
       </Container>
       <LandingFooter />
       <Box
-        backgroundImage={BackgroundImage}
+        backgroundImage={BackgroundImage.src}
         backgroundBlendMode="normal"
         backgroundPosition={{ base: 'center', xl: 'center' }}
         backgroundSize={{ base: '170%', xl: 'cover' }}

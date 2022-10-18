@@ -72,7 +72,7 @@ export const TiersPerks: React.FC = () => (
               borderTopLeftRadius={8}
               borderTopRightRadius={{ base: 8, md: 0, lg: 8 }}
               borderBottomLeftRadius={{ base: 0, md: 8, lg: 0 }}
-              src={CommonTierNFTImg}
+              src={CommonTierNFTImg.src}
               width={{ base: 'md', md: '16rem', lg: '100%' }}
             />
           </LinkOverlay>
@@ -118,7 +118,7 @@ export const TiersPerks: React.FC = () => (
               borderTopLeftRadius={8}
               borderTopRightRadius={{ base: 8, md: 0, lg: 8 }}
               borderBottomLeftRadius={{ base: 0, md: 8, lg: 0 }}
-              src={RareTierNFTImg}
+              src={RareTierNFTImg.src}
               width={{ base: 'md', md: '16rem', lg: '100%' }}
             />
           </LinkOverlay>
@@ -165,7 +165,7 @@ export const TiersPerks: React.FC = () => (
               borderTopLeftRadius={8}
               borderTopRightRadius={{ base: 8, md: 0, lg: 8 }}
               borderBottomLeftRadius={{ base: 0, md: 8, lg: 0 }}
-              src={EpicTierNFTImg}
+              src={EpicTierNFTImg.src}
               width={{ base: 'md', md: '16rem', lg: '100%' }}
             />
           </LinkOverlay>

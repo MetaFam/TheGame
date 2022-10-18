@@ -3,12 +3,12 @@
   "display": "MyMeta's Backend",
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "lib": ["ES2021"],
-    "module": "CommonJS",
+    "module": "ESNext",
     "target": "ES2021",
-    "outDir": "dist",
-    "rootDir": "src",
-    "baseUrl": "src",
+    "lib": ["ES2021"],
+    "outDir": "dist/",
+    "rootDir": "src/",
+    "baseUrl": "src/",
     "composite": true,
     "tsBuildInfoFile": "dist/.tsbuildinfo"
   },

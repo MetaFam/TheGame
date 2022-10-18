@@ -52,14 +52,14 @@ export const Intro: React.FC<LandingPageSectionProps> = ({
   return (
     <FullPageContainer
       id={section.internalLinkId}
-      bgImageUrl={responsiveBg}
+      bgImageUrl={responsiveBg?.src}
       backgroundPosition="top"
       backgroundSize="cover"
       spacing={{ base: 8, xl: 20 }}
       justify="flex-end"
     >
       <Container
-        d="flex"
+        display="flex"
         maxW={{ base: '100%', xl: '7xl', '2xl': 'full' }}
         height="100%"
         alignItems="flex-start"
@@ -139,7 +139,7 @@ export const ScrollLink = ({
     }}
   >
     <Box
-      d="flex"
+      display="flex"
       flexFlow="column wrap"
       // border="1px solid"
       sx={{

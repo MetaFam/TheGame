@@ -24,13 +24,13 @@ module.exports = withTM({
         permanent: false,
       },
       {
-        source: '/patrons',
-        destination: '/community/patrons',
+        source: '/community/patrons',
+        destination: '/patrons',
         permanent: false,
       },
       {
-        source: '/guilds',
-        destination: '/community/guilds',
+        source: '/community/guilds',
+        destination: '/guilds',
         permanent: false,
       },
       {

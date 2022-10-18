@@ -17,7 +17,7 @@ export const DecentralizedFactory: React.FC = () => (
     </Heading>
 
     <Image
-      src={DecentralizedFactoryImg}
+      src={DecentralizedFactoryImg.src}
       alt="Diagram of the decentralized factory concept"
       mx="auto"
     />

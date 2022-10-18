@@ -13,12 +13,12 @@ export const WhatWeDo: React.FC = () => {
 
   return (
     <FullPageContainer
-      bgImageUrl={BackgroundImage}
+      bgImageUrl={BackgroundImage.src}
       id={section}
       position="relative"
     >
       <Container
-        d="flex"
+        display="flex"
         maxW={{ base: '100%', md: '7xl', '2xl': '8xl' }}
         height="100%"
         alignItems="center"
@@ -53,7 +53,7 @@ export const WhatWeDo: React.FC = () => {
             What are we doing?
           </Text>
           <UnorderedList
-            d="flex"
+            display="flex"
             alignContent="flex-start"
             justifyContent="space-between"
             flexFlow={{ base: 'column wrap', md: 'row wrap' }}

@@ -22,7 +22,7 @@ export const WhatAreGuilds: React.FC = () => (
       centerContent
     >
       <VStack spacing={8} py={8} px={4}>
-        <Image src={GuildsSunlessImg} alt="Cloaked figure" mx="auto" />
+        <Image src={GuildsSunlessImg.src} alt="Cloaked figure" mx="auto" />
 
         <Box>
           <Text as="h3" fontWeight={700} mb={4}>

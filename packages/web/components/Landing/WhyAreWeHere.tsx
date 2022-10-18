@@ -25,14 +25,14 @@ export const WhyAreWeHere: React.FC<LandingPageSectionProps> = ({
 
   return (
     <FullPageContainer
-      bgImageUrl={responsiveBg}
+      bgImageUrl={responsiveBg?.src}
       backgroundBlendMode="normal"
       backgroundPosition="center"
       id={section.internalLinkId}
       position="relative"
     >
       <Container
-        d="flex"
+        display="flex"
         maxW={{
           base: '100%',
           md: 'xl',

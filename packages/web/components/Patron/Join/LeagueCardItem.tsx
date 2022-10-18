@@ -10,6 +10,6 @@ export const LeagueCardItem: React.FC<ItemProps> = ({ text }: ItemProps) => (
     <Text color="white" fontSize="lg" fontWeight="light">
       {text}
     </Text>
-    <Image src={CheckMark} width="1.75rem" height="1.75rem" m={1} />
+    <Image src={CheckMark.src} width="1.75rem" height="1.75rem" m={1} />
   </Flex>
 );

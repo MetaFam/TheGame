@@ -32,14 +32,14 @@ export const Game: React.FC<LandingPageSectionProps> = ({
 
   return (
     <FullPageContainer
-      bgImageUrl={responsiveBg}
+      bgImageUrl={responsiveBg?.src}
       backgroundBlendMode={{ base: 'soft-light', lg: 'normal' }}
       id={section.internalLinkId}
       className="section"
       position="relative"
     >
       <Container
-        d="flex"
+        display="flex"
         maxW={{
           base: '100%',
           md: 'xl',

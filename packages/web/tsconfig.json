@@ -12,12 +12,8 @@
     "incremental": true
   },
   "references": [
-    {
-      "path": "../utils/tsconfig.json"
-    },
-    {
-      "path": "../design-system/tsconfig.build.json"
-    }
+    { "path": "../utils/tsconfig.json" },
+    { "path": "../design-system/tsconfig.build.json" }
   ],
   "include": ["**/*.ts", "**/*.tsx", "next-env.d.ts"],
   "exclude": ["out", ".next", "node_modules"]

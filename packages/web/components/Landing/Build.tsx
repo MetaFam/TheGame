@@ -25,7 +25,7 @@ export const Build: React.FC<LandingPageSectionProps> = ({
 
   return (
     <FullPageContainer
-      bgImageUrl={responsiveBg}
+      bgImageUrl={responsiveBg?.src}
       backgroundBlendMode={{ base: 'normal', lg: 'normal' }}
       backgroundPosition={{ base: '8%', lg: 'center' }}
       id={section.internalLinkId}
@@ -33,7 +33,7 @@ export const Build: React.FC<LandingPageSectionProps> = ({
       color="white"
     >
       <Container
-        d="flex"
+        display="flex"
         maxW={{
           base: '100%',
           md: 'xl',

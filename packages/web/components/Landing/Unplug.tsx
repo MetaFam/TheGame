@@ -3,7 +3,7 @@ import BackgroundImage from 'assets/landing/unplug-background.png';
 import { FullPageContainer } from 'components/Container';
 
 export const Unplug: React.FC = () => (
-  <FullPageContainer bgImageUrl={BackgroundImage}>
+  <FullPageContainer bgImageUrl={BackgroundImage.src}>
     <VStack
       fontSize={{ base: 'xl', md: '5xl' }}
       color="white"

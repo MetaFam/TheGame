@@ -5,7 +5,7 @@ import cityTimeZones from 'city-timezones';
 import React, { useCallback, useState } from 'react';
 import { CSSObjectWithLabel, GroupBase, StylesConfig } from 'react-select';
 import TimeZoneSelect, {
-  i18nTimezones as allTimezones,
+  allTimezones,
   ITimezone,
   ITimezoneOption,
 } from 'react-timezone-select';

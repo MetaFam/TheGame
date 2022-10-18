@@ -311,7 +311,7 @@ export const Chart: FC<ChartType> = ({ data }) => {
         textAlign="center"
       >
         <Link
-          d="inline-flex"
+          display="inline-flex"
           href={`https://www.coingecko.com/en/coins/${SEED_TOKEN_ID}`}
           isExternal
           width="25%"
@@ -325,7 +325,7 @@ export const Chart: FC<ChartType> = ({ data }) => {
             },
           }}
         >
-          <Image src={CoinGeckoLogo} height="auto" width="100%" mx="auto" />
+          <Image src={CoinGeckoLogo.src} height="auto" width="100%" mx="auto" />
         </Link>
       </Box>
     </Box>
