@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
-
-import { queueRecache } from '../../../../lib/cacheHelper';
+import { queueRecache } from 'lib/cacheHelper.js';
 
 export default async (req: Request, res: Response): Promise<void> => {
   const role = req.body.session_variables['x-hasura-role'];

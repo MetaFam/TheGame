@@ -6,8 +6,7 @@ running in Docker since at that point we're just running the transpiled
 javascript in the dist directory.
 */
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const tsConfigPaths = require('tsconfig-paths');
+import tsConfigPaths from 'tsconfig-paths';
 
 tsConfigPaths.register({
   baseUrl: 'dist',

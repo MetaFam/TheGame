@@ -1,14 +1,13 @@
 import { GuildDiscordMetadata } from '@metafam/discord-bot';
 import { Request, Response } from 'express';
-
 import {
   Dao_Player,
   Guild_Set_Input,
   GuildDaoInput,
   GuildInfoInput,
   GuildType_Enum,
-} from '../../../lib/autogen/hasura-sdk';
-import { client } from '../../../lib/hasuraClient';
+} from 'lib/autogen/hasura-sdk.js';
+import { client } from 'lib/hasuraClient.js';
 
 type GuildDao = GuildDaoInput & { guildId: string };
 type ExistingGuildDao = GuildDaoInput & { id: string };

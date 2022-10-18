@@ -1,7 +1,7 @@
 {
   "name": "@metafam/backend",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "",
   "type": "module",
   "main": "dist/index.js",
@@ -9,7 +9,7 @@
     "start": "node -r ./tsconfig-paths-bootstrap.js ./dist/index.js",
     "build": "yarn generate && tsc -b",
     "dev": "concurrently \"yarn dev-ts\" \"yarn generate --watch\"",
-    "dev-ts": "ts-node-dev --exit-child --respawn -r tsconfig-paths/register --inspect=0.0.0.0:4322 --loader ts-node/esm -- src/index.ts",
+    "dev-ts": "ts-node-esm -r tsconfig-paths/register -- src/index.ts",
     "typecheck": "yarn build",
     "precommit": "yarn lint-staged",
     "generate": "DEBUG=1 graphql-codegen --config=codegen.yml",
@@ -48,7 +48,7 @@
     "reflect-metadata": "0.1.13",
     "showdown": "^2.0.3",
     "sourcecred": "0.11.0",
-    "tsconfig-paths": "^4.0.0",
+    "tsconfig-paths": "^4.1.0",
     "uuid": "8.3.2",
     "web3.storage": "3.5.6"
   },
@@ -61,6 +61,9 @@
     "@types/showdown": "^2.0.0",
     "@types/uuid": "8.3.0",
     "nock": "13.2.4",
-    "ts-node-dev": "^2.0.0"
+    "ts-node": "^10.9.1"
+  },
+  "resolutions": {
+    "typescript": "4.8.4"
   }
 }

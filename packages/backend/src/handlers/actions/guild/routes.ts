@@ -1,9 +1,9 @@
 import express from 'express';
+import { asyncHandlerWrapper } from 'lib/apiHelpers.js';
 
-import { asyncHandlerWrapper } from '../../../lib/apiHelpers';
-import { handleOAuthCallback } from './discord/oauthHandler';
-import { saveGuildHandler } from './saveGuildHandler';
-import { saveGuildLayoutHandler } from './saveGuildLayoutHandler';
+import { handleOAuthCallback } from './discord/oauthHandler.js';
+import { saveGuildHandler } from './saveGuildHandler.js';
+import { saveGuildLayoutHandler } from './saveGuildLayoutHandler.js';
 
 export const guildRoutes = express.Router();
 

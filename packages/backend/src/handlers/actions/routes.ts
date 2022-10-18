@@ -1,11 +1,11 @@
 import express from 'express';
+import { asyncHandlerWrapper } from 'lib/apiHelpers.js';
 
-import { asyncHandlerWrapper } from '../../lib/apiHelpers';
-import { syncAllGuildDiscordMembers } from '../triggers/syncDiscordGuildMembers';
-import { guildRoutes } from './guild/routes';
-import { cacheRoutes } from './idxCache/routes';
-import { migrateSourceCredAccounts } from './migrateSourceCredAccounts/handler';
-import { questsRoutes } from './quests/routes';
+import { syncAllGuildDiscordMembers } from '../triggers/syncDiscordGuildMembers.js';
+import { guildRoutes } from './guild/routes.js';
+import { cacheRoutes } from './idxCache/routes.js';
+import { migrateSourceCredAccounts } from './migrateSourceCredAccounts/handler.js';
+import { questsRoutes } from './quests/routes.js';
 
 export const actionRoutes = express.Router();
 

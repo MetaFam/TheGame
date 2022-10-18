@@ -1,27 +1,48 @@
 {
   "compilerOptions": {
-    "module": "ESNext",
     "target": "ES6",
+    "module": "ESNext",
     "lib": ["ES2019", "ES2020", "ESNext"],
+
     "moduleResolution": "Node",
     "jsx": "react",
-    "skipLibCheck": true,
+
     "strict": true,
+    "skipLibCheck": false,
+
+    "sourceMap": true,
     "declaration": true,
     "declarationMap": true,
-    "sourceMap": true,
+
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noImplicitReturns": true,
+    "noImplicitReturns": false,
     "noFallthroughCasesInSwitch": true,
+
     "forceConsistentCasingInFileNames": true,
-    "esModuleInterop": true,
+
+    "esModuleInterop": false,
     "resolveJsonModule": true,
+
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+
     "allowSyntheticDefaultImports": true,
     "importHelpers": true,
-    "typeRoots": ["./packages/@types", "./node_modules/@types"]
+    "noEmitOnError": true,
+    "downlevelIteration": true,
+
+    "outDir": "dist/",
+    "tsBuildInfoFile": "dist/.tsbuildinfo",
+
+    "typeRoots": [
+      "./packages/@types",
+      "./node_modules/@types",
+      "./packages/backend/node_modules/@types",
+      "./packages/discord-bot/node_modules/@types",
+      "./packages/web/node_modules/@types",
+      "./node_modules/@glazed/types/node_modules/ajv/dist/types",
+    ]
   },
   "exclude": ["**/node_modules", "**/dist"]
 }

@@ -6,16 +6,15 @@ import {
 } from '@metafam/discord-bot';
 import { Constants, DiscordUtil } from '@metafam/utils';
 import { Request, Response } from 'express';
-import { v4 as uuidv4 } from 'uuid';
-
 import {
   DiscordGuildAuthResponse,
   Guild_Insert_Input,
   Guild_Metadata_Insert_Input,
   GuildStatus_Enum,
   GuildType_Enum,
-} from '../../../../lib/autogen/hasura-sdk';
-import { client } from '../../../../lib/hasuraClient';
+} from 'lib/autogen/hasura-sdk.js';
+import { client } from 'lib/hasuraClient.js';
+import { v4 as uuidv4 } from 'uuid';
 
 export const handleOAuthCallback = async (
   req: Request,

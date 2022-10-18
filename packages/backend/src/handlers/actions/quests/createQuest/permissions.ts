@@ -1,6 +1,5 @@
 import { Constants, numbers } from '@metafam/utils';
-
-import { getERC20Contract, polygonProvider } from '../../../../lib/ethereum';
+import { getERC20Contract, polygonProvider } from 'lib/ethereum.js';
 
 const { BN, amountToDecimal } = numbers;
 
