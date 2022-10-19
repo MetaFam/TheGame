@@ -5,7 +5,11 @@ const { execSync } = require('child_process');
 
 const { HONEYBADGER_API_KEY, HONEYBADGER_ASSETS_URL } = process.env;
 
-const HONEYBADGER_REVISION = execSync('git rev-parse HEAD').toString().trim();
+/**
+ * TODO: needs to get revision from the build but is currently breaking the build.
+ * I don't wanna delay the release of #1414 so perhaps an improvement idea?
+ */
+// const HONEYBADGER_REVISION = execSync('git rev-parse HEAD').toString().trim();
 
 module.exports = withTM(
   withImages({
@@ -67,7 +71,6 @@ module.exports = withTM(
     productionSourceMaps: true,
     env: {
       HONEYBADGER_API_KEY,
-      HONEYBADGER_REVISION,
     },
     webpack: (config, { isServer, webpack }) => {
       if (!isServer) {
@@ -91,17 +94,20 @@ module.exports = withTM(
           tls: false,
         };
 
-        if (HONEYBADGER_API_KEY && HONEYBADGER_ASSETS_URL) {
-          config.devtool = 'hidden-source-map';
+        /**
+         * For uploading sourcemaps for Honeybadger.
+         */
+        // if (HONEYBADGER_API_KEY && HONEYBADGER_ASSETS_URL) {
+        //   config.devtool = 'hidden-source-map';
 
-          config.plugins.push(
-            new HoneybadgerSourceMapPlugin({
-              apiKey: HONEYBADGER_API_KEY,
-              assetsUrl: HONEYBADGER_ASSETS_URL,
-              revision: HONEYBADGER_REVISION,
-            }),
-          );
-        }
+        //   config.plugins.push(
+        //     new HoneybadgerSourceMapPlugin({
+        //       apiKey: HONEYBADGER_API_KEY,
+        //       assetsUrl: HONEYBADGER_ASSETS_URL,
+        //       revision: HONEYBADGER_REVISION,
+        //     }),
+        //   );
+        // }
       }
 
       config.plugins.push(
