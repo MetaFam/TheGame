@@ -1,4 +1,4 @@
-import { Constants, Maybe } from '@metafam/utils';
+import { Constants } from '@metafam/utils';
 import { utils } from 'ethers';
 import { PlayerRank_Enum, TokenBalancesFragment } from 'graphql/autogen/types';
 
@@ -23,7 +23,6 @@ export const getLeagueCount = (rank: PlayerRank_Enum) => {
 export const getLeagueCutoff = (
   rank: PlayerRank_Enum,
   pSeedHolders: TokenBalancesFragment[],
-  pSeedPrice: number,
 ) => {
   if (pSeedHolders == null || pSeedHolders.length === 0) {
     return 0;
@@ -48,18 +47,12 @@ export const getLeagueCutoff = (
           ),
         );
 
-  return pSeedCutoff * pSeedPrice;
+  return pSeedCutoff;
 };
 
-export const getPatronHoldingsUsd = (
-  pSeedHolder: Maybe<TokenBalancesFragment>,
-  pSeedPrice: number,
-) => {
-  if (pSeedHolder == null) {
-    return MIN_PATRON_PSEEDS * pSeedPrice;
-  }
+export const getPatronPSeedHoldings = (pSeedHolder: TokenBalancesFragment) => {
   const pSeedBalance = parseFloat(
     utils.formatUnits(pSeedHolder.pSeedBalance, Constants.PSEED_DECIMALS),
   );
-  return pSeedBalance * pSeedPrice;
+  return pSeedBalance;
 };

@@ -34,7 +34,10 @@ export const getStaticProps = async () => {
     0,
   );
   const pSeedHolders = await getPSeedHolders(rankedPatronCount);
-  const pSeedPrice = await getPSeedPrice();
+  const pSeedPrice = await getPSeedPrice().catch((error) => {
+    console.error('Error fetching pSeed price', error);
+    return null;
+  });
 
   return {
     props: {
@@ -106,7 +109,7 @@ const PatronsJoinLanding: React.FC<Props> = ({
 
       {/* Section: Ranked Leagues & Perks */}
 
-      {<RankedLeagues pSeedPrice={pSeedPrice} pSeedHolders={pSeedHolders} />}
+      {<RankedLeagues {...{ pSeedPrice, pSeedHolders }} />}
 
       {/* Section: Other patrons include... */}
 

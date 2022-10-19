@@ -123,7 +123,7 @@ export const getPSeedPrice = async (): Promise<number> => {
     if (error) {
       throw error;
     }
-    return 3.5;
+    throw new Error('Could not determine pSeed USD value.');
   }
 
   return parseFloat(data.getPSeedInfo.priceUsd);

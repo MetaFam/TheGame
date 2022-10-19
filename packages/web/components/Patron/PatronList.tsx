@@ -1,11 +1,12 @@
 import { SimpleGrid } from '@metafam/ds';
+import { Maybe } from '@metafam/utils';
 import { PatronTile } from 'components/Patron/PatronTile';
 import { Patron } from 'graphql/types';
 import React from 'react';
 
 type Props = {
   patrons: Array<Patron>;
-  pSeedPrice: number;
+  pSeedPrice: Maybe<number>;
 };
 
 export const PatronList: React.FC<Props> = ({ patrons, pSeedPrice }) => (
@@ -14,8 +15,8 @@ export const PatronList: React.FC<Props> = ({ patrons, pSeedPrice }) => (
     spacing="8"
     autoRows="minmax(35rem, auto)"
   >
-    {patrons.map((p, i) => (
-      <PatronTile key={p.id} patron={p} index={i} pSeedPrice={pSeedPrice} />
+    {patrons.map((patron, index) => (
+      <PatronTile key={patron.id} {...{ patron, index, pSeedPrice }} />
     ))}
   </SimpleGrid>
 );
