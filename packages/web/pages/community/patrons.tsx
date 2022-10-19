@@ -9,7 +9,10 @@ type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
 export const getStaticProps = async () => {
   const patrons = await getPatrons();
-  const pSeedPrice = await getPSeedPrice();
+  const pSeedPrice = await getPSeedPrice().catch((error) => {
+    console.error('Error fetching pSeed price', error);
+    return null;
+  });
   return {
     props: {
       patrons,
@@ -26,7 +29,7 @@ const PatronsPage: React.FC<Props> = ({ patrons, pSeedPrice }) => (
       description="MetaGame is a Massive Online Coordination Game! MetaGame’s Patrons enable us to succeed by helping us with funds."
       url="https://my.metagame.wtf/community/patrons"
     />
-    <PatronList patrons={patrons} pSeedPrice={pSeedPrice} />
+    <PatronList {...{ patrons, pSeedPrice }} />
   </PageContainer>
 );
 

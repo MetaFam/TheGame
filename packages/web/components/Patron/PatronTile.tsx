@@ -14,7 +14,7 @@ import {
   Wrap,
   WrapItem,
 } from '@metafam/ds';
-import { computeRank, Constants } from '@metafam/utils';
+import { computeRank, Constants, Maybe } from '@metafam/utils';
 import { PlayerAvatar } from 'components/Player/PlayerAvatar';
 import { PlayerContacts } from 'components/Player/PlayerContacts';
 import { PlayerTileMemberships } from 'components/Player/PlayerTileMemberships';
@@ -36,14 +36,19 @@ import {
 type Props = {
   patron: Patron;
   index: number;
-  pSeedPrice: number;
+  pSeedPrice: Maybe<number>;
 };
 
 const MAX_BIO_LENGTH = 240;
 
 export const PatronTile: React.FC<Props> = ({ index, patron, pSeedPrice }) => {
   const player = patron as Player;
-  const patronRank = computeRank(index, PATRONS_PER_RANK, PATRON_RANKS);
+
+  const patronRank = useMemo(
+    () => computeRank(index, PATRONS_PER_RANK, PATRON_RANKS),
+    [index],
+  );
+
   const { label: timeZone = null, offset = null } = useMemo(
     () =>
       getTimeZoneFor({ location: player.profile?.timeZone ?? undefined }) ?? {
@@ -52,11 +57,26 @@ export const PatronTile: React.FC<Props> = ({ index, patron, pSeedPrice }) => {
       },
     [player.profile?.timeZone],
   );
-  const description = getPlayerDescription(player);
-  const displayDescription =
-    description && description.length > MAX_BIO_LENGTH
+
+  const displayDescription = useMemo(() => {
+    const description = getPlayerDescription(player);
+    return description && description.length > MAX_BIO_LENGTH
       ? `${description.substring(0, MAX_BIO_LENGTH - 9)}…`
       : description;
+  }, [player]);
+
+  const displayBalance = useMemo(() => {
+    const pSeedAmount = parseFloat(
+      utils.formatUnits(patron.pSeedBalance, Constants.PSEED_DECIMALS),
+    );
+    const pSeedBalance = `${Math.floor(pSeedAmount).toLocaleString()} pSEED`;
+    return pSeedPrice == null
+      ? pSeedBalance
+      : `$${(pSeedAmount * pSeedPrice).toLocaleString(undefined, {
+          maximumFractionDigits: 0,
+        })}`;
+  }, [patron, pSeedPrice]);
+
   return (
     <LinkBox>
       <MetaTile>
@@ -82,18 +102,7 @@ export const PatronTile: React.FC<Props> = ({ index, patron, pSeedPrice }) => {
               <Wrap w="100%" justify="center">
                 {patron.pSeedBalance != null && (
                   <WrapItem>
-                    <MetaTag size="md">
-                      {`$${(
-                        parseFloat(
-                          utils.formatUnits(
-                            patron.pSeedBalance,
-                            Constants.PSEED_DECIMALS,
-                          ),
-                        ) * pSeedPrice
-                      ).toLocaleString(undefined, {
-                        maximumFractionDigits: 0,
-                      })}`}
-                    </MetaTag>
+                    <MetaTag size="md">{displayBalance}</MetaTag>
                   </WrapItem>
                 )}
                 {patronRank && (
