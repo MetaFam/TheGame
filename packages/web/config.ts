@@ -17,15 +17,11 @@ export const CONFIG = {
     process.env.NEXT_BRIGHTID_NODE_URL || 'http:%2f%2fnode.brightid.org',
   publicURL: process.env.NEXT_PUBLIC_FRONTEND_URL,
   gaId: process.env.NEXT_PUBLIC_GA4_ID,
-  honeybadgerApiKey:
-    process.env.NEXT_PUBLIC_HONEYBADGER_API_KEY ||
-    'hbp_Z4027J7qYTktQkqvUHcOHJqIbpjpWD30A1kd',
+  honeybadgerApiKey: process.env.NEXT_PUBLIC_HONEYBADGER_API_KEY,
   honeybadgerReportData:
     process.env.NEXT_PUBLIC_HONEYBADGER_REPORT_DATA === 'true',
   honeybadgerDebug: process.env.NEXT_PUBLIC_HONEYBADGER_DEBUG === 'true',
-  userbackToken:
-    process.env.NEXT_PUBLIC_USERBACK_TOKEN ||
-    '37882|74240|mjn1zXGiYaozZR6qmqFfjl9Sk',
+  userbackToken: process.env.NEXT_PUBLIC_USERBACK_TOKEN,
   discordApiBaseUrl:
     process.env.DISCORD_API_BASE_URL || 'https://discord.com/api/v8',
   ceramicURL:
