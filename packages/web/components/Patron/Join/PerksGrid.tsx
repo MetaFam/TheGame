@@ -1,4 +1,13 @@
-import { Box, Container, Flex, Heading, List, Text, VStack } from '@metafam/ds';
+import {
+  Box,
+  Container,
+  Flex,
+  Heading,
+  List,
+  Text,
+  Tooltip,
+  VStack,
+} from '@metafam/ds';
 import { Maybe } from '@metafam/utils';
 import BlueArrow from 'assets/patron/blue-arrow.png';
 import { PlayerRank_Enum, TokenBalancesFragment } from 'graphql/autogen/types';
@@ -99,11 +108,23 @@ type PerksProps = {
 };
 
 const PerksHeader = ({ title, count, pSeeds, amountUsd }: PerksProps) => {
-  const amountDisplay = amountUsd
+  const pSeedLabel = `${pSeeds.toLocaleString(undefined, {
+    maximumFractionDigits: 1,
+  })} pSEED`;
+  const amountLabel = amountUsd
     ? `$${Number(amountUsd).toLocaleString(undefined, {
+        minimumFractionDigits: 2,
         maximumFractionDigits: 2,
       })}`
-    : `${pSeeds} pSEEDs`;
+    : pSeedLabel;
+  let amountDisplay = (
+    <Text color="white" fontSize="md">
+      {amountLabel}
+    </Text>
+  );
+  if (amountUsd != null) {
+    amountDisplay = <Tooltip label={pSeedLabel}>{amountDisplay}</Tooltip>;
+  }
   return (
     <Flex
       direction="row"
@@ -111,19 +132,17 @@ const PerksHeader = ({ title, count, pSeeds, amountUsd }: PerksProps) => {
       bg="purpleBoxLight"
       p="4"
       roundedTop="lg"
-      width={'100%'}
+      width="100%"
     >
       <Text color="white" fontWeight="bold">
         {title}
       </Text>
       <Text color="landing450" fontSize="sm" fontWeight="bold">
         {typeof count === 'number'
-          ? `(total of ${Number(count).toLocaleString()})`
+          ? `(total of ${count.toLocaleString()})`
           : `(${count})`}
       </Text>
-      <Text color="white" fontSize="md">
-        {amountDisplay}
-      </Text>
+      {amountDisplay}
     </Flex>
   );
 };
@@ -136,7 +155,7 @@ type Props = {
 const PerksGrid: React.FC<Props> = ({ pSeedPrice, pSeedHolders }) => {
   const leaguePSeedsByRank: { [rank: string]: number } = {};
   PATRON_RANKS.forEach((rankEnum) => {
-    leaguePSeedsByRank[`${rankEnum}`] = getLeagueCutoff(rankEnum, pSeedHolders);
+    leaguePSeedsByRank[rankEnum] = getLeagueCutoff(rankEnum, pSeedHolders);
   });
   const topHodlerPSeeds = getPatronPSeedHoldings(pSeedHolders[0]);
 
@@ -167,10 +186,10 @@ const PerksGrid: React.FC<Props> = ({ pSeedPrice, pSeedHolders }) => {
               Becoming a patron also comes with some perks!
             </Text>
             <Text as="p" color="white">
-              Do note the total number of Patrons in Phase I is limited to 150;
-              the rank requirements are subject to change based on top 150 pSeed
-              hodlors &amp; most perks (besides seasonal) will only be unlocked
-              in the transition to Phase II - set for Q3 2023.
+              The total number of Patrons in Phase I is limited to 150. The rank
+              requirements are subject to change based on top 150 pSeed hodlors
+              &amp; most perks (besides seasonal) will only be unlocked in the
+              transition to Phase II — set for Q3 2023.
             </Text>
           </Box>
         </VStack>
@@ -180,7 +199,7 @@ const PerksGrid: React.FC<Props> = ({ pSeedPrice, pSeedHolders }) => {
         width={{ base: '100%', md: '50%' }}
         float={{ base: 'none', md: 'right' }}
         _before={RightArrowStyle}
-        mt={{ base: '0', md: '4.5em' }}
+        mt={{ base: 0, md: '4.5em' }}
       >
         <VStack
           spacing={0}
@@ -382,7 +401,7 @@ const PerksGrid: React.FC<Props> = ({ pSeedPrice, pSeedHolders }) => {
           transform: 'rotate(90deg)',
           display: 'block',
           left: { base: 'calc(50% - 0.8125em)', md: '10.625em' },
-          top: '0px',
+          top: 0,
           position: 'relative',
         }}
       >
