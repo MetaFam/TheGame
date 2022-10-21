@@ -21,7 +21,7 @@ export const CONFIG = {
   honeybadgerReportData:
     process.env.NEXT_PUBLIC_HONEYBADGER_REPORT_DATA === 'true',
   honeybadgerDebug: process.env.NEXT_PUBLIC_HONEYBADGER_DEBUG === 'true',
-  userbackToken: process.env.NEXT_PUBLIC_USERBACK_TOKEN,
+  userbackToken: process.env.NEXT_PUBLIC_USERBACK_TOKEN || '',
   discordApiBaseUrl:
     process.env.DISCORD_API_BASE_URL || 'https://discord.com/api/v8',
   ceramicURL:

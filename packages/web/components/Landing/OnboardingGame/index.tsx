@@ -17,7 +17,7 @@ import { useOnScreen } from 'lib/hooks/useOnScreen';
 import { get } from 'lib/store';
 import { ReactElement, useCallback, useEffect, useRef, useState } from 'react';
 import { MdDownloading, MdRestartAlt, MdWarning } from 'react-icons/md';
-import { errorHandler } from 'utils/errorHandler';
+import { errorHandler, useDebugErrorReports } from 'utils/errorHandler';
 import {
   safelyParseContent,
   safelyParseTextForTyping,
@@ -83,7 +83,7 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
   // const pulseAnimation = `${blink} 2s infinite`;
   const visits = visitedElements();
   const [chievFound, setChievFound] = useState(false);
-
+  const { debugErrorReports } = useDebugErrorReports();
   /**
    * Sanitizes & splits the element content into dialogue and
    * choices, adds them to state & returns the values if you want to use it that way */
@@ -128,9 +128,9 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
           currentDialogue: [],
           currentChoices: [],
         };
-      } catch (error) {
-        console.error('makeCurrentSectionDialogue error', error);
-        errorHandler(error as Error);
+      } catch (err) {
+        console.error('makeCurrentSectionDialogue error', err);
+        errorHandler(err as Error);
         return {
           currentDialogue: [],
           currentChoices: [],
@@ -249,8 +249,8 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
           return elementJumpers;
         }
         throw new Error('No jumpers found');
-      } catch (error) {
-        errorHandler(error as Error);
+      } catch (err) {
+        errorHandler(err as Error);
         return undefined;
       }
     };
@@ -407,6 +407,10 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
       triggerChiev();
     }
   }, [currentElement, triggerChiev, visits]);
+
+  useEffect(() => {
+    debugErrorReports();
+  }, [debugErrorReports]);
 
   return (
     <Box
