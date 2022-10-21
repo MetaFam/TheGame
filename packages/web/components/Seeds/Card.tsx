@@ -14,8 +14,6 @@ import {
 } from '@metafam/ds';
 import BackgroundImage from 'assets/main-background.jpg';
 import ModalCardBg from 'assets/modal-bg.png';
-import SEEDCardBg from 'assets/seed-card-bg.png';
-import React from 'react';
 
 type CardProps = {
   title: string;
@@ -29,36 +27,34 @@ export const Card: React.FC<CardProps> = ({ title, description, Content }) => {
   return (
     <Flex
       direction="column"
+      bg="whiteAlpha.200"
       borderRadius="lg"
-      borderWidth="1px"
+      boxShadow="md"
       textColor="white"
       alignItems="center"
       textAlign="center"
-      bgImage={SEEDCardBg.src}
       placeContent="center"
-      p={8}
+      p={6}
+      maxW="md"
       minH="3xs"
       key={title}
       w={['full', 'auto']}
       cursor="pointer"
       onClick={onOpen}
-      sx={{
-        bgColor: '#110035',
-        borderColor: 'whiteAlpha.400',
-        transition: 'all 0.1s ease-in-out',
-        _hover: { bgColor: '#150042', borderColor: 'whiteAlpha.700' },
-      }}
+      style={{ backdropFilter: 'blur(7px)' }}
+      rounded="lg"
     >
       <Box borderTopRadius="lg">
         <Text fontSize="xl" fontWeight="bold" mt={1} mb={4}>
           {title.toUpperCase()}
         </Text>
-        <Text mb={2}>{description}</Text>
+        <Text mb={4}>{description}</Text>
         <Button
           variant="ghost"
           color="magenta"
-          _hover={{ bg: '#FFFFFF11' }}
-          _active={{ bg: '#FF000011' }}
+          bgColor="whiteAlpha.50"
+          _hover={{ bg: 'whiteAlpha.200' }}
+          _active={{ bg: 'whiteAlpha.200' }}
           onClick={onOpen}
         >
           Learn More
