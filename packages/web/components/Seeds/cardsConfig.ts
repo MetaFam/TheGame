@@ -1,9 +1,7 @@
 import {
   BecomeAPatron,
   BuyingAndSelling,
-  FAQ,
   GetRanked,
-  JoinTheFund,
   PlantingAndWatering,
   UsefulnessOfSEEDs,
   WTFisXP,
@@ -17,7 +15,7 @@ export const cardsConfig = [
     Content: WTFisXP,
   },
   {
-    title: 'Usefulness of SEEDs',
+    title: 'Usefulness of Seeds',
     description:
       'A reward for those actively contributing to the creation of MetaGame — or much more?',
     Content: UsefulnessOfSEEDs,
@@ -29,32 +27,21 @@ export const cardsConfig = [
     Content: BecomeAPatron,
   },
   {
-    title: 'Buying & Selling SEEDs',
+    title: 'Buying & Selling Seeds',
     description:
-      'Looking to buy some SEEDs? Want to sell some SEEDs? Just follow these few simple steps.',
+      'Looking to buy some Seeds? Want to sell some Seeds? Just follow these few simple steps.',
     Content: BuyingAndSelling,
   },
   {
-    title: 'PLANTING & WATERING SEEDS',
+    title: 'Planting & Watering Seeds',
     description:
-      'Being a good player means planting SEEDs & being a good patron means watering them.',
+      'Being a good player means planting Seeds & being a good patron means watering them.',
     Content: PlantingAndWatering,
   },
   {
-    title: 'JOIN THE SEED FUND',
-    description:
-      'Don’t feel like watering SEEDs yourself? Worry not & let us carry the buckets. 🙂',
-    Content: JoinTheFund,
-  },
-  {
-    title: 'GET RANKED!',
+    title: 'Get Ranked!',
     description:
       'Leaderboards are a thing! The higher you reach, the more fame, glory, and perks await you!',
     Content: GetRanked,
-  },
-  {
-    title: 'FAQ',
-    description: 'Here are the most frequent questions about SEEDs — answered.',
-    Content: FAQ,
   },
 ];
