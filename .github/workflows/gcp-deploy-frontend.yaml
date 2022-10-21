@@ -73,10 +73,10 @@ jobs:
       CLOUDRUN_REGION: ${{steps.first.outputs.CLOUDRUN_REGION}}
       DOCKER_REGISTRY: ${{steps.first.outputs.DOCKER_REGISTRY}}
       FRONTEND_URL: ${{steps.first.outputs.FRONTEND_URL}}
-      GA4_ID: ${{steps.first.outputs.GA4_ID}}
       DOCKER_PATH: ${{steps.second.outputs.DOCKER_PATH}}
       GRAPHQL_URL: ${{steps.second.outputs.GRAPHQL_URL}}
       FRONTEND_TAG: ${{steps.third.outputs.FRONTEND_TAG}}
+      NODE_ENV: ${{steps.first.outputs.NODE_ENV}}
 
     steps:
       - name: First Interpolation of Variables
@@ -85,10 +85,11 @@ jobs:
           echo "::set-output name=CLOUDRUN_REGION::${{env.REGISTRY_REGION}}"
           echo "::set-output name=DOCKER_REGISTRY::${{env.REGISTRY_REGION}}-docker.pkg.dev"
           if [[ ${{github.ref_name}} == 'master' ]]; then
+              echo ::set-output name=NODE_ENV::production
               echo ::set-output name=HASURA_HOST::api.metagame.wtf
               echo ::set-output name=FRONTEND_URL::https://metagame.wtf
-              echo ::set-output name=GA4_ID::G-B1NKK3Q1BP
           else
+              echo ::set-output name=NODE_ENV::test
               echo ::set-output name=HASURA_HOST::api-staging.metagame.wtf
               echo ::set-output name=FRONTEND_URL::https://test.metagame.wtf
           fi
@@ -124,9 +125,9 @@ jobs:
             . -f docker/frontend/Dockerfile \
               --tag ${{needs.env.outputs.FRONTEND_TAG}} \
               --build-arg GRAPHQL_URL=${{needs.env.outputs.GRAPHQL_URL}} \
+              --build-arg NODE_ENV=${{needs.env.outputs.NODE_ENV}} \
               --build-arg NEXT_PUBLIC_FRONTEND_URL=${{needs.env.outputs.FRONTEND_URL}} \
-              --build-arg NEXT_PUBLIC_YOUTUBE_API_KEY=${{secrets.YOUTUBE_API_KEY}} \
-              --build-arg NEXT_PUBLIC_GA4_ID=${{needs.env.outputs.GA4_ID}}
+              --build-arg NEXT_PUBLIC_YOUTUBE_API_KEY=${{secrets.YOUTUBE_API_KEY}}
           cache_key: "${{github.event.inputs.cache_key}}-${{hashFiles('packages/web/**', 'packages/design-system/**', 'packages/utils/**', 'package.json')}}"
 
       - name: "Login to Registry: ${{needs.env.outputs.DOCKER_REGISTRY}}"
@@ -163,13 +164,13 @@ jobs:
             --ingress all \
             --min-instances 1 \
             --allow-unauthenticated \
+            --set-env-vars NODE_ENV=${{needs.env.outputs.NODE_ENV}} \
             --set-env-vars WEB3_STORAGE_TOKEN=${{secrets.WEB3_STORAGE_TOKEN}} \
             --set-env-vars OPENSEA_API_KEY=${{secrets.OPENSEA_API_KEY}} \
             --set-env-vars NEXT_PUBLIC_IMGIX_TOKEN=${{secrets.IMGIX_TOKEN}} \
             --set-env-vars NEXT_PUBLIC_YOUTUBE_API_KEY=${{secrets.YOUTUBE_API_KEY}} \
             --set-env-vars NEXT_PUBLIC_GRAPHQL_URL=${{needs.env.outputs.GRAPHQL_URL}} \
-            --set-env-vars NEXT_PUBLIC_FRONTEND_URL=${{needs.env.outputs.FRONTEND_URL}} \
-            --set-env-vars NEXT_PUBLIC_GA4_ID=${{needs.env.outputs.GA4_ID}}
+            --set-env-vars NEXT_PUBLIC_FRONTEND_URL=${{needs.env.outputs.FRONTEND_URL}}
 
   finish-deployment:
     name: Finish Deployment
