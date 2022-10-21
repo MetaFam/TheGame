@@ -37,9 +37,9 @@ const SEEDsPage: React.FC = () => {
     <PageContainer py={8} px={[6, 6, 20, 24]}>
       <VStack maxW="7xl" w="100%" spacing={{ base: 4, md: 8 }}>
         <HeadComponent
-          title="MetaGame SEEDs Page"
-          description="SEED description"
-          url="https://my.metagame.wtf/seeds"
+          title="MetaGame Seeds Page"
+          description="Seeds are MetaGame’s labor token. People contribute towards creation of MetaGame, meanwhile generating XP &amp; getting paid out in Seeds proportional to their gained XP. Find out more."
+          url="https://metagame.wtf/seeds"
         />
         <Grid templateColumns={['auto', 'auto', 'auto', '1fr 1fr']} gap={6}>
           <Flex fontSize="md" flexDirection="column">
@@ -53,15 +53,15 @@ const SEEDsPage: React.FC = () => {
               flexDir="row"
               ref={topRef}
             >
-              SEEDs
+              Seeds
               <Text pl={4} alignSelf="center" fontSize="4xl">
                 🌱
               </Text>
             </Heading>
-            <Text mb={4}>SEEDs are MetaGame's labor token.</Text>
+            <Text mb={4}>Seeds are MetaGame's labor token.</Text>
             <Text mb={4}>
               People contribute towards creation of MetaGame, meanwhile
-              generating XP &amp; getting paid out in SEEDs proportional to
+              generating XP &amp; getting paid out in Seeds proportional to
               their gained XP.
             </Text>
             <UnorderedList spacing={2} pl={3}>
