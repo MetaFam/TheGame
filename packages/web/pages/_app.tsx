@@ -12,65 +12,69 @@ import Head from 'next/head';
 import { WithUrqlProps } from 'next-urql';
 import React from 'react';
 
-const {
-  userbackToken,
-  honeybadgerReportData,
-  honeybadgerApiKey,
-  honeybadgerDebug,
-} = CONFIG;
+const { environment, userbackToken, honeybadgerApiKey } = CONFIG;
 const honeybadgerConfig = {
   apiKey: honeybadgerApiKey,
-  environment: process.env.NODE_ENV || 'production',
+  environment,
   enableUncaught: true,
-  reportData: honeybadgerReportData,
-  debug: honeybadgerDebug,
+  reportData: environment !== 'development',
+  // TODO include git SHA in github action deployment
+  // revision: 'git SHA/project version'
 };
 
 const honeybadger = Honeybadger.configure(honeybadgerConfig);
+
+const Analytics: React.FC = () => (
+  <>
+    <script
+      async
+      src={`https://www.googletagmanager.com/gtag/js?id=${CONFIG.gaId}`}
+    />
+    <script
+      type="text/javascript"
+      dangerouslySetInnerHTML={{
+        __html: `
+                window.dataLayer = window.dataLayer || [];
+                function gtag() { dataLayer.push(arguments) }
+                gtag('js', new Date());
+                gtag('config', '${CONFIG.gaId}');
+              `,
+      }}
+    />
+  </>
+);
 
 const App: React.FC<WithUrqlProps> = ({
   pageProps,
   resetUrqlClient,
   Component,
 }) => (
+  <ChakraProvider theme={MetaTheme}>
+    <CSSReset />
+    <Head>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>MetaGame</title>
+      {environment === 'production' && <Analytics />}
+    </Head>
+    <Web3ContextProvider {...{ resetUrqlClient }}>
+      <MegaMenu hide={pageProps.hideTopMenu}>
+        <Component {...pageProps} />
+      </MegaMenu>
+    </Web3ContextProvider>
+  </ChakraProvider>
+);
+
+const DeployedApp: React.FC<WithUrqlProps> = ({
+  pageProps,
+  resetUrqlClient,
+  Component,
+}) => (
   <HoneybadgerErrorBoundary honeybadger={honeybadger}>
-    <UserbackProvider token={userbackToken}>
-      <ChakraProvider theme={MetaTheme}>
-        <CSSReset />
-        <Head>
-          <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1.0"
-          />
-          <title>MetaGame</title>
-          {CONFIG.gaId != null && (
-            <>
-              <script
-                async
-                src={`https://www.googletagmanager.com/gtag/js?id=${CONFIG.gaId}`}
-              />
-              <script
-                type="text/javascript"
-                dangerouslySetInnerHTML={{
-                  __html: `
-                window.dataLayer = window.dataLayer || [];
-                function gtag() { dataLayer.push(arguments) }
-                gtag('js', new Date());
-                gtag('config', '${CONFIG.gaId}');
-              `,
-                }}
-              />
-            </>
-          )}
-        </Head>
-        <Web3ContextProvider {...{ resetUrqlClient }}>
-          <MegaMenu hide={pageProps.hideTopMenu}>
-            <Component {...pageProps} />
-          </MegaMenu>
-        </Web3ContextProvider>
-      </ChakraProvider>
-    </UserbackProvider>
+    <UserbackProvider token={userbackToken}></UserbackProvider>
+    <App {...{ pageProps, resetUrqlClient, Component }} />
   </HoneybadgerErrorBoundary>
 );
 
-export default wrapUrqlClient(App);
+export default environment === 'development'
+  ? wrapUrqlClient(App)
+  : wrapUrqlClient(DeployedApp);
