@@ -50,7 +50,7 @@ const SilverLeagueList = [
   'Access to the ancient MG Notion archive',
   'A digitphysical MetaGame shirt',
 ];
-const GoldenLeagueList = [
+const GoldLeagueList = [
   'You as an NPC in MetaGame',
   'Hall of fame in all MG metaverse embassies',
   'Access to the ancient MetaGame Roam archive',
@@ -100,6 +100,34 @@ const LeftArrowStyle = {
   left: '0.6em',
 };
 
+const PerksList = [
+  {
+    title: 'Bronze League',
+    list: BronzeLeagueList,
+    rank: PlayerRank_Enum.Bronze,
+  },
+  {
+    title: 'Silver League',
+    list: SilverLeagueList,
+    rank: PlayerRank_Enum.Silver,
+  },
+  {
+    title: 'Gold League',
+    list: GoldLeagueList,
+    rank: PlayerRank_Enum.Gold,
+  },
+  {
+    title: 'Platinum League',
+    list: PlatinumLeagueList,
+    rank: PlayerRank_Enum.Platinum,
+  },
+  {
+    title: 'Diamond League',
+    list: DiamondLeagueList,
+    rank: PlayerRank_Enum.Diamond,
+  },
+];
+
 type PerksProps = {
   title: string;
   count: number | string;
@@ -129,19 +157,20 @@ const PerksHeader = ({ title, count, pSeeds, amountUsd }: PerksProps) => {
     <Flex
       direction="row"
       justify="space-between"
-      bg="purpleBoxLight"
       p="4"
       roundedTop="lg"
       width="100%"
     >
-      <Text color="white" fontWeight="bold">
-        {title}
-      </Text>
-      <Text color="landing450" fontSize="sm" fontWeight="bold">
-        {typeof count === 'number'
-          ? `(total of ${count.toLocaleString()})`
-          : `(${count})`}
-      </Text>
+      <Flex align="center">
+        <Text color="white" fontWeight="bold" mr={8}>
+          {title}
+        </Text>
+        <Text color="landing450" fontSize="sm" fontWeight="bold">
+          {typeof count === 'number'
+            ? `(total of ${count.toLocaleString()})`
+            : `(${count})`}
+        </Text>
+      </Flex>
       {amountDisplay}
     </Flex>
   );
@@ -152,6 +181,30 @@ type Props = {
   pSeedHolders: TokenBalancesFragment[];
 };
 
+const PerksCard: React.FC<Props> = ({
+  title,
+  list,
+  count,
+  pSeeds,
+  amountUsd,
+}: any) => (
+  <Box bg={'purpleTag'} borderRadius={8} maxW="lg" my={6}>
+    <PerksHeader
+      title={title}
+      count={count}
+      pSeeds={pSeeds}
+      amountUsd={amountUsd}
+    />
+    <Box p={4} width="100%" color="white">
+      <Flex width="100%" flexDirection="row" flexWrap="wrap">
+        {list.map((text: string, index: number) => (
+          <LeagueCardItem key={index} text={text} />
+        ))}
+      </Flex>
+    </Box>
+  </Box>
+);
+
 const PerksGrid: React.FC<Props> = ({ pSeedPrice, pSeedHolders }) => {
   const leaguePSeedsByRank: { [rank: string]: number } = {};
   PATRON_RANKS.forEach((rankEnum) => {
@@ -161,39 +214,83 @@ const PerksGrid: React.FC<Props> = ({ pSeedPrice, pSeedHolders }) => {
 
   return (
     <Container w="100%" maxW="6xl" my={12}>
-      <Box
-        width={{ base: '100%', md: '50%' }}
-        float={{ base: 'none', md: 'left' }}
+      <Heading
+        as="h2"
+        color="white"
+        fontFamily="mono"
+        fontWeight={700}
+        mb={[4, 4, 4, 12]}
       >
-        <VStack
-          spacing={0}
-          minH="5rem"
-          borderRadius={8}
-          mb={{ base: 0, md: '1em' }} // the arrow on the next Box arrow makes the margin at base breakpoint
-        >
-          <Box bg="whiteAlpha.200" borderRadius={8} px={8} py={8}>
-            <Heading
-              as="h2"
-              color="white"
-              fontFamily="mono"
-              fontWeight={700}
-              mb={[4, 4, 4, 12]}
-            >
-              Ranked Leagues &amp; Perks
-            </Heading>
+        Ranked Leagues &amp; Perks
+      </Heading>
 
-            <Text as="p" fontWeight="700" color="white" mb={4}>
-              Becoming a patron also comes with some perks!
-            </Text>
-            <Text as="p" color="white">
+      <VStack>
+        <Flex justify="center">
+          <Box p="4" maxW="45rem" className="mg-patron-join-card-bg">
+            <Text>
               The total number of Patrons in Phase I is limited to 150. The rank
               requirements are subject to change based on top 150 pSeed hodlors
               &amp; most perks (besides seasonal) will only be unlocked in the
               transition to Phase II — set for Q3 2023.
             </Text>
           </Box>
-        </VStack>
-      </Box>
+        </Flex>
+        <Text fontSize={'xl'} m={'6'}>
+          👇
+        </Text>
+      </VStack>
+
+      <VStack m={'6'}>
+        {/* count={NUM_PATRONS}
+      pSeeds={MIN_PATRON_PSEEDS}
+      amountUsd={pSeedPrice ? MIN_PATRON_PSEEDS * pSeedPrice : null} */}
+
+        <PerksCard
+          title={'All Patrons'}
+          list={AllPatronsList}
+          count={NUM_PATRONS}
+          pSeeds={MIN_PATRON_PSEEDS}
+          amountUsd={pSeedPrice ? MIN_PATRON_PSEEDS * pSeedPrice : null}
+        />
+        {PerksList.map((perk: any) => (
+          <PerksCard
+            {...perk}
+            count={getLeagueCount(perk.rank)}
+            pSeeds={leaguePSeedsByRank[perk.rank]}
+            amountUsd={
+              pSeedPrice ? leaguePSeedsByRank[perk.rank] * pSeedPrice : null
+            }
+          />
+        ))}
+        <Box bg={'purpleTag'} borderRadius={8} maxW="lg" my={6} p={4}>
+          <Text fontWeight="bold" fontSize="lg" textAlign="center">
+            ...aaand for the one &amp; only 👇
+          </Text>
+        </Box>
+
+        <Box bg={'purpleTag'} borderRadius={8} maxW="2xl" my={6}>
+          <PerksHeader
+            title={'No. 1 Patron of MetaGame’s Seed Phase'}
+            count={'unique'}
+            pSeeds={topHodlerPSeeds}
+            amountUsd={pSeedPrice != null ? topHodlerPSeeds * pSeedPrice : null}
+          />
+          <Box p={4} width="100%" color="white">
+            <Flex width="100%" flexDirection="row" flexWrap="wrap">
+              {No1PatronList.map((text: string, index: number) => (
+                <LeagueCardItem key={index} text={text} />
+              ))}
+            </Flex>
+          </Box>
+        </Box>
+
+        <Box bg={'purpleTag'} borderRadius={8} maxW="2xl" my={6} p={4}>
+          <Text fontWeight="light" fontSize="lg" textAlign="center">
+            Note: Yes, you get what the previous league gets + your own league
+            perks!
+          </Text>
+        </Box>
+      </VStack>
 
       <Box
         width={{ base: '100%', md: '50%' }}
@@ -315,7 +412,7 @@ const PerksGrid: React.FC<Props> = ({ pSeedPrice, pSeedHolders }) => {
 
           <Box p={8} width="100%" color="white">
             <Flex width="100%" flexDirection="row" flexWrap="wrap">
-              {GoldenLeagueList.map((text: string, index) => (
+              {GoldLeagueList.map((text: string, index) => (
                 <LeagueCardItem key={index} text={text} />
               ))}
             </Flex>
