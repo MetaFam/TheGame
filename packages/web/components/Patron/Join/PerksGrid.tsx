@@ -181,13 +181,13 @@ type Props = {
   pSeedHolders: TokenBalancesFragment[];
 };
 
-const PerksCard: React.FC<Props> = ({
+const PerksCard: React.FC<any> = ({
   title,
   list,
   count,
   pSeeds,
   amountUsd,
-}: any) => (
+}) => (
   <Box bg={'purpleTag'} borderRadius={8} maxW="lg" my={6}>
     <PerksHeader
       title={title}
