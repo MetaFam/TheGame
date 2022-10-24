@@ -12,10 +12,9 @@ import {
   UnorderedList,
   VStack,
 } from '@metafam/ds';
-import BackgroundImage from 'assets/main-background.jpg';
 import Octopus from 'assets/octopus.png';
-import SEEDsFlowChart from 'assets/seed-diagram.png';
-import SeedsImg from 'assets/seed-icon.svg';
+import SEEDsFlowChart from 'assets/seed-diagram.svg';
+import SeedsIcon from 'assets/seeds-icon-green-blue_352x352.png';
 import { PageContainer } from 'components/Container';
 import { Card } from 'components/Seeds/Card';
 import { cardsConfig } from 'components/Seeds/cardsConfig';
@@ -84,18 +83,7 @@ const SEEDsPage: React.FC = () => {
             borderRadius="lg"
           >
             <VStack spacing={8} py={8} px={4}>
-              <Image
-                alt="Seeds image"
-                backgroundColor="purpleModalDark"
-                bgImage={BackgroundImage.src}
-                backgroundSize="cover"
-                boxSize="16rem"
-                borderRadius="full"
-                maxW="80%"
-                mx="auto"
-                objectFit="scale-down"
-                src={SeedsImg}
-              />
+              <Image src={SeedsIcon.src} alt="Cloaked figure" mx="auto" />
 
               <Box>
                 <Text as="h3" fontWeight={700} mb={4}>

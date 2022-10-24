@@ -526,17 +526,7 @@ export const PlantingAndWatering = () => (
         >
           the newsletter
         </Link>
-        or we will do it for you, if you join the
-        <Link
-          ml={1}
-          href="//polygon.balancer.fi/#/pool/0x8a8fcd351ed553fc75aecbc566a32f94471f302e000100000000000000000081"
-          isExternal
-          color="green.300"
-          textDecoration="underline"
-        >
-          Seeds Fund
-        </Link>
-        . 🙃
+        or we can do it for you, just ask. 🙃
         <UnorderedList>
           <ListItem ml={4}>
             The number of patrons in
