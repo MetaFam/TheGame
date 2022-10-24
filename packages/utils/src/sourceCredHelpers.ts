@@ -3,7 +3,7 @@ import { Alias, SCIdentity, sourcecred as sc } from 'sourcecred';
 
 export const getLatestEthAddress = (identity: SCIdentity): string | null => {
   const ethAddresses = identity.aliases.filter((alias: Alias) => {
-    const parts = sc.core.graph.NodeAddress.toParts(alias.address);
+    const parts = sc.sourcecred.core.graph.NodeAddress.toParts(alias.address);
     return parts.indexOf('ethereum') > 0 && isAddress(alias.description);
   });
   if (ethAddresses.length > 0) {
