@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
 
 import { initDiscordBot } from './bot';
 import { CONFIG } from './config';
@@ -7,7 +7,7 @@ const discordClientPromise = initDiscordBot();
 
 const app = express();
 
-app.get('/healthz', (_, res) => {
+app.get('/healthz', (_: Request, res: Response) => {
   res.send('ok');
 });
 

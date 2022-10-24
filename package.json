@@ -53,8 +53,6 @@
     "@graphql-codegen/typescript-react-apollo": "3.2.8",
     "@graphql-codegen/typescript-resolvers": "2.5.2",
     "@graphql-codegen/typescript-urql": "3.5.3",
-    "@types/jsdom": "16.2.14",
-    "@types/node": "^18.11.4",
     "@types/node-fetch": "^2.6.2",
     "@types/react": "^18.0.21",
     "@types/react-dom": "^18.0.6",
@@ -90,7 +88,8 @@
   },
   "resolutions": {
     "typescript": "4.8.4",
-    "@types/react": "18.0.21"
+    "@types/react": "18.0.21",
+    "@types/node": "18.11.4"
   },
   "browserslist": [
     "defaults",

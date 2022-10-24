@@ -32,9 +32,6 @@
     "noEmitOnError": true,
     "downlevelIteration": true,
 
-    "outDir": "dist/",
-    "tsBuildInfoFile": "dist/.tsbuildinfo",
-
     "typeRoots": [
       "./packages/@types",
       "./node_modules/@types",
