@@ -12,8 +12,6 @@ import {
   Text,
   useDisclosure,
 } from '@metafam/ds';
-import BackgroundImage from 'assets/main-background.jpg';
-import ModalCardBg from 'assets/modal-bg.png';
 
 type CardProps = {
   title: string;
@@ -26,23 +24,22 @@ export const Card: React.FC<CardProps> = ({ title, description, Content }) => {
 
   return (
     <Flex
-      direction="column"
+      alignItems="center"
       bg="whiteAlpha.200"
       borderRadius="lg"
       boxShadow="md"
-      textColor="white"
-      alignItems="center"
-      textAlign="center"
-      placeContent="center"
+      cursor="pointer"
+      direction="column"
+      key={title}
       p={6}
+      placeContent="center"
       maxW="md"
       minH="3xs"
-      key={title}
-      w={['full', 'auto']}
-      cursor="pointer"
       onClick={onOpen}
       style={{ backdropFilter: 'blur(7px)' }}
-      rounded="lg"
+      textAlign="center"
+      textColor="white"
+      w={['full', 'auto']}
     >
       <Box borderTopRadius="lg">
         <Text fontSize="xl" fontWeight="bold" mt={1} mb={4}>
@@ -64,19 +61,18 @@ export const Card: React.FC<CardProps> = ({ title, description, Content }) => {
       <Modal onClose={onClose} isOpen={isOpen} scrollBehavior="inside">
         <ModalOverlay />
         <ModalContent
-          borderRadius={['0', '0', 'xl']}
-          bgImage={[ModalCardBg.src, ModalCardBg.src, BackgroundImage.src]}
-          bgPos="center"
-          bgColor="purpleModalDark"
-          bgSize="cover"
-          textColor="white"
-          maxH={['full', 'full', '90%']}
-          h={['full', 'full', 'auto']}
-          w="full"
-          maxW="3xl"
           alignItems="center"
+          bg="whiteAlpha.200"
+          borderRadius="lg"
+          boxShadow="md"
+          h={['full', 'full', 'auto']}
+          maxH={['full', 'full', '90%']}
+          maxW="3xl"
           my={{ base: 0, md: 20 }}
           mx={{ base: 0, md: 4 }}
+          textColor="white"
+          w="full"
+          style={{ backdropFilter: 'blur(7px)' }}
         >
           <ModalHeader>{title.toUpperCase()}</ModalHeader>
           <ModalCloseButton />
