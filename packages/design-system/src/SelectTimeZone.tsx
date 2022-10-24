@@ -4,11 +4,8 @@ import { Maybe } from '@metafam/utils';
 import cityTimeZones from 'city-timezones';
 import React, { useCallback, useState } from 'react';
 import { CSSObjectWithLabel, GroupBase, StylesConfig } from 'react-select';
-import TimeZoneSelect, {
-  allTimezones,
-  ITimezone,
-  ITimezoneOption,
-} from 'react-timezone-select';
+import type { ITimezone, ITimezoneOption } from 'react-timezone-select';
+import TimeZoneSelect, { allTimezones } from 'react-timezone-select';
 import spacetime from 'spacetime';
 import informal from 'spacetime-informal';
 
@@ -26,7 +23,7 @@ export type TimeZoneType = {
   name: string;
   value: string; // for compatibility w/ select option
 };
-export { ITimezoneOption };
+export type { ITimezoneOption };
 
 export interface TimeZoneSelectProps extends Record<string, unknown> {
   value?: ITimezone;

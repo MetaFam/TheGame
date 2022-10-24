@@ -25,7 +25,7 @@ import {
   Values,
 } from '@metafam/utils';
 import { getLegacy3BoxProfileAsBasicProfile } from '@self.id/3box-legacy';
-import { CONFIG } from 'config.js';
+import { CONFIG } from 'config';
 import {
   AccountType_Enum,
   Maybe,

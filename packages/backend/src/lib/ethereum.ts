@@ -1,7 +1,7 @@
+import { CONFIG } from 'config';
 import { ethers } from 'ethers';
 
-import { CONFIG } from '../config';
-import ERC20_ABI from './abis/ERC20.json';
+import ERC20_ABI from './abis/ERC20.json' assert { type: 'json' };
 
 const { infuraId } = CONFIG;
 

@@ -1,7 +1,7 @@
 import express, { Request, Response } from 'express';
 
-import { initDiscordBot } from './bot';
-import { CONFIG } from './config';
+import { initDiscordBot } from './bot.js';
+import { CONFIG } from './config.js';
 
 const discordClientPromise = initDiscordBot();
 

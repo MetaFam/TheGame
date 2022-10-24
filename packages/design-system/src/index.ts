@@ -19,19 +19,21 @@ export { MetaTile, MetaTileBody, MetaTileHeader } from './MetaTile';
 export { MultiSelect } from './MultiSelect';
 export { ResponsiveText } from './ResponsiveText';
 export { metaFilterSelectStyles, SelectSearch } from './SelectSearch';
-export {
-  getCityZonesFor,
-  getTimeZoneFor,
+export type {
   ITimezoneOption,
   LabeledOptions,
   LabeledValue,
+  TimeZoneType,
+} from './SelectTimeZone';
+export {
+  getCityZonesFor,
+  getTimeZoneFor,
   SelectTimeZone,
   TimeZoneOptions,
   timeZonesFilter,
-  TimeZoneType,
 } from './SelectTimeZone';
 export * from './StatusedSubmitButton';
-export { SVG } from './SVG';
+export * from './SVG';
 export {
   chakraesqueStyles,
   dropdownStyles,
@@ -40,7 +42,7 @@ export {
   searchSelectStyles,
   selectStyles,
 } from './theme';
-export { H1, P } from './typography';
+export * from './typography';
 export * from './ViewAllButton';
 export {
   AddIcon,
@@ -64,6 +66,25 @@ export {
   SettingsIcon,
   SmallCloseIcon,
 } from '@chakra-ui/icons';
+export type {
+  AvatarProps,
+  BoxProps,
+  ButtonProps,
+  ChakraComponent,
+  ChakraProps,
+  ComponentWithAs,
+  DrawerProps,
+  FlexProps,
+  FormControlProps,
+  FormLabelProps,
+  HTMLChakraProps,
+  InputProps,
+  LinkProps,
+  StackProps,
+  ToastId,
+  UseToastOptions,
+  WrapProps,
+} from '@chakra-ui/react';
 export {
   Accordion,
   AccordionButton,
@@ -78,23 +99,17 @@ export {
   AlertDialogOverlay,
   AspectRatio,
   Avatar,
-  AvatarProps,
   Badge,
   Box,
-  BoxProps,
   Button,
   ButtonGroup,
-  ButtonProps,
   Center,
   chakra,
-  ChakraComponent,
-  ChakraProps,
   ChakraProvider,
   Checkbox,
   CloseButton,
   Code,
   Collapse,
-  ComponentWithAs,
   Container,
   CSSReset,
   Divider,
@@ -103,35 +118,28 @@ export {
   DrawerContent,
   DrawerFooter,
   DrawerHeader,
-  DrawerProps,
   Fade,
   Flex,
-  FlexProps,
   FormControl,
-  FormControlProps,
   FormErrorMessage,
   FormHelperText,
   FormLabel,
-  FormLabelProps,
   Grid,
   GridItem,
   Heading,
   HStack,
-  HTMLChakraProps,
   Icon,
   IconButton,
   Image,
   Input,
   InputGroup,
   InputLeftElement,
-  InputProps,
   InputRightAddon,
   InputRightElement,
   keyframes,
   Link,
   LinkBox,
   LinkOverlay,
-  LinkProps,
   List,
   ListIcon,
   ListItem,
@@ -164,7 +172,6 @@ export {
   Spacer,
   Spinner,
   Stack,
-  StackProps,
   Stat,
   StatArrow,
   StatGroup,
@@ -185,7 +192,6 @@ export {
   Textarea,
   Th,
   Thead,
-  ToastId,
   Tooltip,
   Tr,
   UnorderedList,
@@ -196,18 +202,12 @@ export {
   usePrefersReducedMotion,
   useTheme,
   useToast,
-  UseToastOptions,
   VStack,
   Wrap,
   WrapItem,
-  WrapProps,
 } from '@chakra-ui/react';
 export { styled }; // imported at top
 export { Prose, withProse } from '@nikolovlazar/chakra-ui-prose';
-export {
-  HTMLMotionProps,
-  motion,
-  useAnimation,
-  useMotionValue,
-} from 'framer-motion';
+export type { HTMLMotionProps } from 'framer-motion';
+export { motion, useAnimation, useMotionValue } from 'framer-motion';
 // export { DragHandler } from 'framer-motion/types/gestures/drag/types';

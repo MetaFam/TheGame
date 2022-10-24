@@ -1,7 +1,6 @@
 import { Maybe } from '@metafam/utils';
 import Bottleneck from 'bottleneck';
-
-import updateCachedProfile from '../handlers/actions/idxCache/updateSingle';
+import updateCachedProfile from 'handlers/actions/idxCache/updateSingle';
 
 let count = 0;
 

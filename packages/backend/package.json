@@ -3,10 +3,12 @@
   "private": true,
   "version": "0.2.0",
   "description": "",
+  "author": "MetaFam",
+  "license": "ISC",
   "type": "module",
   "main": "dist/index.js",
   "scripts": {
-    "start": "node -r ./tsconfig-paths-bootstrap.js ./dist/index.js",
+    "start": "node --loader=./tsconfig-paths-resolver.mjs dist/index.js",
     "build": "yarn generate && tsc -b",
     "dev": "concurrently \"yarn dev-ts\" \"yarn generate --watch\"",
     "dev-ts": "ts-node-esm -r tsconfig-paths/register -- src/index.ts",
@@ -16,8 +18,6 @@
     "lintfix": "eslint --fix",
     "test": "jest --passWithNoTests"
   },
-  "author": "MetaFam",
-  "license": "ISC",
   "dependencies": {
     "@ceramicnetwork/http-client": "^2.5.0",
     "@ceramicnetwork/stream-caip10-link": "^2.3.0",
@@ -47,7 +47,7 @@
     "imgix-core-js": "2.3.2",
     "node-fetch": "3.2.1",
     "reflect-metadata": "0.1.13",
-    "showdown": "^2.0.3",
+    "showdown": "^2.1.0",
     "sourcecred": "0.11.0",
     "tsconfig-paths": "^4.1.0",
     "uuid": "8.3.2",

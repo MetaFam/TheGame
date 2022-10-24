@@ -1,7 +1,6 @@
 import dotenv from 'dotenv';
-import * as Path from 'path';
 
-dotenv.config({ path: Path.join(__dirname, '../.env') });
+dotenv.config({ path: new URL('../.env', import.meta.url).pathname });
 
 interface IConfig {
   port: number;

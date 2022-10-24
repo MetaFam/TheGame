@@ -4,15 +4,15 @@ import {
   GuildDiscordMetadata,
 } from '@metafam/discord-bot';
 import { Request, Response } from 'express';
-
 import {
   Guild_Player_Insert_Input,
   GuildFragment,
   GuildStatus_Enum,
   SyncGuildMembersMutation,
-} from '../../lib/autogen/hasura-sdk';
-import { client } from '../../lib/hasuraClient';
-import { GuildRow, toGuild, TriggerPayload } from './types';
+} from 'lib/autogen/hasura-sdk';
+import { client } from 'lib/hasuraClient';
+
+import { GuildRow, toGuild, TriggerPayload } from './types.js';
 
 export const syncDiscordGuildMembers = async (
   payload: TriggerPayload<GuildRow>,

@@ -3,19 +3,20 @@
   "display": "MyMeta's Backend",
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "module": "ESNext",
-    "target": "ES2021",
-    "lib": ["ES2021"],
     "outDir": "dist/",
     "rootDir": "src/",
-    "baseUrl": "src/",
-    "composite": true,
-    "tsBuildInfoFile": "dist/.tsbuildinfo"
+    "baseUrl": "./src",
+    "tsBuildInfoFile": "dist/.tsbuildinfo",
+    "paths": {
+      "lib/*": ["./lib/*"],
+      "handlers/*": ["./handlers/*"],
+      "config": ["./config"]
+    }
   },
   "references": [{ "path": "../utils" }, { "path": "../discord-bot" }],
-  "paths": {
-    "*": ["./*"]
-  },
   "include": ["src/**/*.ts", "src/**/*.json"],
-  "exclude": ["./tests"]
+  "exclude": ["tests/"],
+  "ts-node": {
+    "require": ["tsconfig-paths/register"]
+  }
 }

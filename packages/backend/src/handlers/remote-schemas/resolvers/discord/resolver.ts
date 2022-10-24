@@ -1,9 +1,8 @@
 import { createDiscordClient } from '@metafam/discord-bot';
 import { GuildBasedChannel, Role, TextChannel } from 'discord.js';
-import { Converter } from 'showdown';
+import { client } from 'lib/hasuraClient';
 
-import { client } from '../../../../lib/hasuraClient';
-import { QueryResolvers } from '../../autogen/types';
+import { QueryResolvers } from '../../autogen/types.js';
 
 export const getGuildDiscordRoles: QueryResolvers['getGuildDiscordRoles'] =
   async (_, { guildDiscordId }) => {
@@ -103,6 +102,8 @@ export const getGuildDiscordAnnouncements: QueryResolvers['getGuildDiscordAnnoun
           combinedMessages.sort(
             (m1, m2) => m2.createdTimestamp - m1.createdTimestamp,
           );
+
+          const { Converter } = await import('showdown'); // CommonJS only
 
           const markdownConverter = new Converter({ simpleLineBreaks: true });
 

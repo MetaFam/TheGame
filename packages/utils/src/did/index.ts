@@ -2,12 +2,12 @@ import { providers } from 'ethers';
 import { Base64 } from 'js-base64';
 import { v4 as uuidv4 } from 'uuid';
 
-import { getSignature, verifySignature } from '../ethereumHelper';
-import { Maybe } from '../extendedProfileTypes';
+import { getSignature, verifySignature } from '../ethereumHelper.js';
+import { Maybe } from '../extendedProfileTypes.js';
 
 const tokenDuration = 1000 * 60 * 60 * 24 * 7; // 7 days
 
-const WELCOME_MESSAGE = `Welcome to MetaGame Anon 🐙 \n Please sign this message so we know it is you.\n We care about privacy and assure you, we don't harvest your data. Unless you create a Player account, we simply store a token in your browser's local storage. This can be removed by using the disconnect button.\n `;
+const WELCOME_MESSAGE = `Welcome to MetaGame Anon 🐙\n\nPlease sign this message so we know it is you.\n\nWe care about privacy and assure you, we don't harvest your data.\n\nUnless you create a Player account, we simply store a token in your browser that can be removed using the “disconnect” button.`;
 
 type Claim = {
   iat: Date;

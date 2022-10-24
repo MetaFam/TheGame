@@ -1,7 +1,6 @@
 import { Constants } from '@metafam/utils';
+import { CONFIG } from 'config';
 import { CredGraph, LedgerManager, sourcecred } from 'sourcecred';
-
-import { CONFIG } from '../config';
 
 const storage = new sourcecred.ledger.storage.GithubStorage({
   apiToken: CONFIG.githubApiToken,

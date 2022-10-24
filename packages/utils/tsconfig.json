@@ -2,7 +2,7 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "rootDir": "src/",
-    "outDir": "./dist/",
+    "outDir": "dist/",
     "tsBuildInfoFile": "./dist/.tsbuildinfo",
     "composite": true
   },

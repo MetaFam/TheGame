@@ -1,6 +1,6 @@
 import { computeRank as computeRankUtil, computeRankCap } from '@metafam/utils';
 
-import { PlayerRank_Enum } from './autogen/hasura-sdk';
+import { PlayerRank_Enum } from './autogen/hasura-sdk.js';
 
 export const RANKS = [
   PlayerRank_Enum.Diamond,

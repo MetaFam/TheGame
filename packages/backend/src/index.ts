@@ -1,9 +1,8 @@
 import Bottleneck from 'bottleneck';
+import { CONFIG } from 'config';
 import cors from 'cors';
 import express, { Express, RequestHandler } from 'express';
-
-import { CONFIG } from './config.js';
-import { router } from './handlers/routes.js';
+import { router } from 'handlers/routes';
 
 // import { errorMiddleware } from './lib/apiHelpers';
 

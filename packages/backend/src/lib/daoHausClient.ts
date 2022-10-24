@@ -1,7 +1,7 @@
+import { CONFIG } from 'config';
 import { GraphQLClient } from 'graphql-request';
 
-import { CONFIG } from '../config';
-import { getSdk, Sdk } from './autogen/daohaus-sdk';
+import { getSdk, Sdk } from './autogen/daohaus-sdk.js';
 
 const clients = new Map([
   ['polygon', new GraphQLClient(CONFIG.daoHausPolygonGraphqlURL)],

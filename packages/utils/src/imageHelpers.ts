@@ -1,8 +1,8 @@
 import ImgixClient from 'imgix-core-js';
 
-import { IMGIX_DOMAIN, IMGIX_TOKEN } from './constants';
-import { Maybe } from './extendedProfileTypes';
-import { httpLink } from './linkHelpers';
+import { IMGIX_DOMAIN, IMGIX_TOKEN } from './constants.js';
+import { Maybe } from './extendedProfileTypes.js';
+import { httpLink } from './linkHelpers.js';
 
 export type OptimizeImageParams = {
   ar?: string;
