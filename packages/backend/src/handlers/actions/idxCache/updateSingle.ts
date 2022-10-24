@@ -31,9 +31,9 @@ import {
   Maybe,
   Profile_Update_Column,
   UpdateIdxProfileResponse,
-} from 'lib/autogen/hasura-sdk.js';
-import { maskFor } from 'lib/colorHelpers.js';
-import { client } from 'lib/hasuraClient.js';
+} from 'lib/autogen/hasura-sdk';
+import { maskFor } from 'lib/colorHelpers';
+import { client } from 'lib/hasuraClient';
 
 import { handledMeetWithWalletIntegration } from '../meetwithwallet/index.js';
 

@@ -1,4 +1,4 @@
-import { Box, chakra, keyframes, styled } from '@metafam/ds';
+import { Box, chakra, keyframes } from '@metafam/ds';
 
 const wave = keyframes`
   0% {

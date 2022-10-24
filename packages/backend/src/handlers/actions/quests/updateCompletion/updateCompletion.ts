@@ -9,8 +9,8 @@ import {
   QuestStatus_Enum,
   UpdateQuestCompletionInput,
   UpdateQuestCompletionOutput,
-} from 'lib/autogen/hasura-sdk.js';
-import { client } from 'lib/hasuraClient.js';
+} from 'lib/autogen/hasura-sdk';
+import { client } from 'lib/hasuraClient';
 
 export async function updateCompletion(
   playerId: string,

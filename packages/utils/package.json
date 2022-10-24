@@ -15,6 +15,7 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
+    "@datamodels/identity-profile-basic": "^0.2.0",
     "@ethersproject/address": "5.6.0",
     "bignumber.js": "9.0.2",
     "cids": "1.1.9",
@@ -28,7 +29,6 @@
   "devDependencies": {
     "@ceramicnetwork/http-client": "^2.5.0",
     "@datamodels/identity-accounts-crypto": "^0.2.0",
-    "@datamodels/identity-profile-basic": "^0.2.0",
     "key-did-provider-ed25519": "^2.0.1",
     "key-did-resolver": "^2.1.3"
   }

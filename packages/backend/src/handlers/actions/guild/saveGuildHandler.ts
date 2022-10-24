@@ -6,8 +6,8 @@ import {
   GuildDaoInput,
   GuildInfoInput,
   GuildType_Enum,
-} from 'lib/autogen/hasura-sdk.js';
-import { client } from 'lib/hasuraClient.js';
+} from 'lib/autogen/hasura-sdk';
+import { client } from 'lib/hasuraClient';
 
 type GuildDao = GuildDaoInput & { guildId: string };
 type ExistingGuildDao = GuildDaoInput & { id: string };

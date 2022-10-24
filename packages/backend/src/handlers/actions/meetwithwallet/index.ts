@@ -1,6 +1,6 @@
 import { ExtendedProfile } from '@metafam/utils';
-import { AccountType_Enum } from 'lib/autogen/hasura-sdk.js';
-import { client } from 'lib/hasuraClient.js';
+import { AccountType_Enum } from 'lib/autogen/hasura-sdk';
+import { client } from 'lib/hasuraClient';
 
 export const handledMeetWithWalletIntegration = async (
   playerId: string,

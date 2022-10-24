@@ -1,5 +1,5 @@
 import express from 'express';
-import { asyncHandlerWrapper } from 'lib/apiHelpers.js';
+import { asyncHandlerWrapper } from 'lib/apiHelpers';
 
 import updateExpiredProfilesHandler from './updateExpiredProfiles/handler.js';
 import updateSingleProfileHandler from './updateSingleProfile/handler.js';

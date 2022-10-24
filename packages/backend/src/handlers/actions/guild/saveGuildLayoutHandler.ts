@@ -1,9 +1,6 @@
 import { Request, Response } from 'express';
-import {
-  Guild_Set_Input,
-  GuildLayoutInfoInput,
-} from 'lib/autogen/hasura-sdk.js';
-import { client } from 'lib/hasuraClient.js';
+import { Guild_Set_Input, GuildLayoutInfoInput } from 'lib/autogen/hasura-sdk';
+import { client } from 'lib/hasuraClient';
 
 export const saveGuildLayoutHandler = async (
   req: Request,

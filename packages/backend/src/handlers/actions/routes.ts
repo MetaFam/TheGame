@@ -1,5 +1,5 @@
 import express from 'express';
-import { asyncHandlerWrapper } from 'lib/apiHelpers.js';
+import { asyncHandlerWrapper } from 'lib/apiHelpers';
 
 import { syncAllGuildDiscordMembers } from '../triggers/syncDiscordGuildMembers.js';
 import { guildRoutes } from './guild/routes.js';
