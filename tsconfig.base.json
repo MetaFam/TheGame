@@ -40,8 +40,7 @@
       "./node_modules/@types",
       "./packages/backend/node_modules/@types",
       "./packages/discord-bot/node_modules/@types",
-      "./packages/web/node_modules/@types",
-      "./node_modules/@glazed/types/node_modules/ajv/dist/types",
+      "./packages/web/node_modules/@types"
     ]
   },
   "exclude": ["**/node_modules", "**/dist"]
