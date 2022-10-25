@@ -1,10 +1,11 @@
 import { Box, Link } from '@metafam/ds';
 import { PageContainer } from 'components/Container';
-import { discordAuthStateGuidKey } from 'components/Guild/Join/DecideJoin';
 import { useAuthenticateDiscordGuildMutation } from 'graphql/autogen/types';
 import { get, remove } from 'lib/store';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
+
+import { discordAuthStateGuidKey } from './start';
 
 const GuildSetupAuthCallback: React.FC = () => {
   const router = useRouter();
