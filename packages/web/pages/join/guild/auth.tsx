@@ -1,6 +1,6 @@
 import { Box, Link } from '@metafam/ds';
 import { PageContainer } from 'components/Container';
-import { discordAuthStateGuidKey } from 'components/Guild/GuildJoin';
+import { discordAuthStateGuidKey } from 'components/Guild/Join/DecideJoin';
 import { useAuthenticateDiscordGuildMutation } from 'graphql/autogen/types';
 import { get, remove } from 'lib/store';
 import { useRouter } from 'next/router';
