@@ -22,7 +22,7 @@ export const WTFisXP = () => (
       Whether it’s completing quests, writing useful things on
       <Link
         ml={1}
-        href="//forum.metagame.wtf"
+        href="https://forum.metagame.wtf/"
         isExternal
         color="gray.500"
         textDecoration="underline"
@@ -31,7 +31,7 @@ export const WTFisXP = () => (
       </Link>
       , or laying down code on
       <Link
-        href="//github.com/MetaFam/"
+        href="https://github.com/MetaFam/"
         isExternal
         color="gray.500"
         textDecoration="underline"
@@ -47,7 +47,7 @@ export const WTFisXP = () => (
       Your XP is calculated by
       <Link
         mx={1}
-        href="//sourcecred.io"
+        href="https://sourcecred.io/"
         isExternal
         color="gray.500"
         textDecoration="underline"
@@ -90,7 +90,7 @@ export const WTFisXP = () => (
           We're calling it MetaSys &amp; you can
           <Link
             ml={1}
-            href="//wiki.metagame.wtf/docs/what-we-do/metasys"
+            href="https://wiki.metagame.wtf/what-we-do/metasys"
             isExternal
             color="gray.500"
             textDecoration="underline"
@@ -122,7 +122,7 @@ export const GetRanked = () => (
       You may check the full list of{' '}
       <Link
         color="gray.500"
-        href="https://metagame.wtf/join/patron"
+        href="/join/patron"
         textDecoration="underline"
         title="See the perks available to MetaGame Patrons"
       >
@@ -167,7 +167,7 @@ export const UsefulnessOfSEEDs = () => (
             to get access to the
             <Link
               mx={1}
-              href="//tokenengineeringcommunity.github.io/website/"
+              href="https://tokenengineeringcommunity.github.io/website/"
               isExternal
               color="gray.500"
               textDecoration="underline"
@@ -184,8 +184,7 @@ export const UsefulnessOfSEEDs = () => (
               isExternal
               color="gray.500"
               textDecoration="underline"
-              mr={1}
-              href="//www.effectivealtruism.org"
+              href="https://www.effectivealtruism.org/"
             >
               give away to good causes
             </Link>
@@ -197,7 +196,7 @@ export const UsefulnessOfSEEDs = () => (
           about it in our Discord channel
           <Link
             ml={1}
-            href="//discord.gg/cBq5Md6KTU"
+            href="https://discord.gg/cBq5Md6KTU"
             isExternal
             textColor="gray.500"
             textDecoration="underline"
@@ -289,7 +288,7 @@ export const UsefulnessOfSEEDs = () => (
             isExternal
             color="gray.500"
             textDecoration="underline"
-            href="//polygon.balancer.fi/#/pool/0x8a8fcd351ed553fc75aecbc566a32f94471f302e000100000000000000000081"
+            href="https://polygon.balancer.fi/#/pool/0x8a8fcd351ed553fc75aecbc566a32f94471f302e000100000000000000000081"
           >
             <strong>
               Balancer pool aka the <em>Seed plantation</em>
@@ -331,7 +330,7 @@ export const BuyingAndSelling = () => (
         Then you can go to the
         <Link
           mx={1}
-          href="//polygon.balancer.fi/#/pool/0x8a8fcd351ed553fc75aecbc566a32f94471f302e000100000000000000000081"
+          href="https://polygon.balancer.fi/#/pool/0x8a8fcd351ed553fc75aecbc566a32f94471f302e000100000000000000000081"
           isExternal
           color="green.300"
           textDecoration="underline"
@@ -374,7 +373,7 @@ export const BuyingAndSelling = () => (
           isExternal
           color="gray.500"
           textDecoration="underline"
-          href="//googlethatforyou.com?q=how%20to%20buy%20matic%3F"
+          href="https://googlethatforyou.com?q=how%20to%20buy%20matic%3F"
         >
           buy some
         </Link>
@@ -384,7 +383,7 @@ export const BuyingAndSelling = () => (
           isExternal
           color="gray.500"
           textDecoration="underline"
-          href="//discord.gg/8THHVwfd"
+          href="https://discord.com/invite/metagame"
         >
           ask on Discord
         </Link>
@@ -416,7 +415,7 @@ export const BecomeAPatron = () => (
         Interested? Go{' '}
         <Link
           color="gray.500"
-          href="https://metagame.wtf/join/patron"
+          href="/join/patron"
           textDecoration="underline"
           title="Read about joining MetaGame as a Patron"
         >
@@ -429,7 +428,17 @@ export const BecomeAPatron = () => (
 
 export const PlantingAndWatering = () => (
   <Box>
-    <Text>So you've decided to become a patron?</Text>
+    <Text>
+      So you've decided to{' '}
+      <Link
+        color="gray.500"
+        href="/join/patron"
+        textDecoration="underline"
+        title="Read about joining MetaGame as a Patron"
+      >
+        become a patron?
+      </Link>
+    </Text>
     <Box fontWeight="bold" my={4}>
       First, you'll need some tokens on Polygon.
     </Box>
@@ -438,7 +447,7 @@ export const PlantingAndWatering = () => (
         Ideally, it would be WETH &amp;
         <Link
           ml={1}
-          href="//reflexer.finance"
+          href="https://reflexer.finance"
           isExternal
           color="gray.500"
           textDecoration="underline"
@@ -458,7 +467,7 @@ export const PlantingAndWatering = () => (
             Either
             <Link
               ml={1}
-              href="//wallet.polygon.technology/bridge"
+              href="https://wallet.polygon.technology/bridge/"
               isExternal
               color="gray.500"
               textDecoration="underline"
@@ -474,7 +483,7 @@ export const PlantingAndWatering = () => (
             Or obtain MATIC in
             <Link
               ml={1}
-              href="//googlethatforyou.com?q=how%20to%20buy%20matic%3F"
+              href="https://googlethatforyou.com?q=how%20to%20buy%20matic%3F"
               isExternal
               color="gray.500"
               textDecoration="underline"
@@ -490,7 +499,7 @@ export const PlantingAndWatering = () => (
       Then, you'll need to use WETH &amp; RAI to
       <Link
         ml={1}
-        href="//polygon.balancer.fi/#/pool/0x8a8fcd351ed553fc75aecbc566a32f94471f302e000100000000000000000081"
+        href="https://polygon.balancer.fi/#/pool/0x8a8fcd351ed553fc75aecbc566a32f94471f302e000100000000000000000081"
         isExternal
         color="gray.500"
         textDecoration="underline"
@@ -522,7 +531,7 @@ export const PlantingAndWatering = () => (
           isExternal
           color="gray.500"
           textDecoration="underline"
-          href="//metagame.substack.com"
+          href="https://metagame.substack.com"
         >
           the newsletter
         </Link>
@@ -536,7 +545,7 @@ export const PlantingAndWatering = () => (
               color="gray.500"
               textDecoration="underline"
               mr={1}
-              href="//wiki.metagame.wtf/docs/how-does-it-work/phases-of-metagame"
+              href="https://wiki.metagame.wtf/docs/how-does-it-work/phases-of-metagame"
               fontStyle="italic"
             >
               Phase Ⅰ
@@ -550,7 +559,7 @@ export const PlantingAndWatering = () => (
               color="gray.500"
               textDecoration="underline"
               mr={1}
-              href="//wiki.metagame.wtf/docs/how-does-it-work/phases-of-metagame"
+              href="https://wiki.metagame.wtf/docs/how-does-it-work/phases-of-metagame"
               fontStyle="italic"
             >
               Phase Ⅰ
