@@ -95,6 +95,12 @@ const PerksList = [
   },
 ];
 
+type PerkType = {
+  title: string;
+  list: string[];
+  rank: PlayerRank_Enum;
+};
+
 type Props = {
   pSeedPrice: Maybe<number>;
   pSeedHolders: TokenBalancesFragment[];
@@ -136,9 +142,9 @@ export const RankedLeagues: React.FC<Props> = ({
             </Text>
           </Box>
         </Flex>
-        <Text fontSize={'xl'} mt={'6'}>
-          👇
-        </Text>
+        <Flex pt={'2'}>
+          <Text fontSize={'4xl'}>👇</Text>
+        </Flex>
       </VStack>
 
       <Flex mb={'6'} direction={'column'} align={'center'}>
@@ -149,8 +155,9 @@ export const RankedLeagues: React.FC<Props> = ({
           pSeeds={MIN_PATRON_PSEEDS}
           amountUsd={pSeedPrice ? MIN_PATRON_PSEEDS * pSeedPrice : null}
         />
-        {PerksList.map((perk: any) => (
+        {PerksList.map((perk: PerkType) => (
           <PerksCard
+            key={perk.title}
             {...perk}
             count={getLeagueCount(perk.rank)}
             pSeeds={leaguePSeedsByRank[perk.rank]}
@@ -163,7 +170,7 @@ export const RankedLeagues: React.FC<Props> = ({
           className={'mg-patron-join-card-bg'}
           borderRadius={8}
           maxW="lg"
-          my={6}
+          my={2}
           p={4}
         >
           <Text fontWeight="bold" fontSize="lg" textAlign="center">
@@ -175,7 +182,7 @@ export const RankedLeagues: React.FC<Props> = ({
           className={'mg-patron-join-card-bg'}
           borderRadius={8}
           maxW="2xl"
-          my={6}
+          my={4}
         >
           <PerksHeader
             title={'No. 1 Patron of MetaGame’s Seed Phase'}
@@ -196,7 +203,7 @@ export const RankedLeagues: React.FC<Props> = ({
           className={'mg-patron-join-card-bg'}
           borderRadius={8}
           maxW="2xl"
-          my={6}
+          my={2}
           p={4}
         >
           <Text fontWeight="light" fontSize="lg" textAlign="center">
