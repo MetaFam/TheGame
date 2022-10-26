@@ -76,7 +76,6 @@ export const GuildFragment = /* GraphQL */ `
     logo
     name
     type
-    position
     websiteUrl
     githubUrl
     twitterUrl
