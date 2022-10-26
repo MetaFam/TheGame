@@ -17,13 +17,15 @@ export const PlayerTileMemberships: React.FC<Props> = ({ player }) => {
     <VStack spacing={2} align="stretch">
       <Text textStyle="caption">MEMBER OF</Text>
       <Wrap>
-        {displayMemberships.slice(0, SHOW_MEMBERSHIPS).map((member) => (
-          <WrapItem key={member.guildId}>
-            <MetaTag size="md" fontWeight="normal">
-              {member.Guild.name}
-            </MetaTag>
-          </WrapItem>
-        ))}
+        {displayMemberships
+          .slice(0, SHOW_MEMBERSHIPS)
+          .map((member, i: number) => (
+            <WrapItem key={member.guildId || i}>
+              <MetaTag size="md" fontWeight="normal">
+                {member.Guild.name}
+              </MetaTag>
+            </WrapItem>
+          ))}
         {displayMemberships.length > SHOW_MEMBERSHIPS && (
           <WrapItem>
             <MetaTag size="md" fontWeight="normal">
