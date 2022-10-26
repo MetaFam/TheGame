@@ -62,10 +62,6 @@
       filter: {}
 - table:
     schema: public
-    name: GuildPosition
-  is_enum: true
-- table:
-    schema: public
     name: GuildStatus
   is_enum: true
 - table:
@@ -322,7 +318,6 @@
       - logo
       - membership_through_discord
       - name
-      - position
       - profile_layout
       - show_discord_announcements
       - status
@@ -343,7 +338,6 @@
       - logo
       - membership_through_discord
       - name
-      - position
       - profile_layout
       - show_discord_announcements
       - status
