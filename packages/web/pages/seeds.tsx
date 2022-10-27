@@ -13,7 +13,7 @@ import {
   VStack,
 } from '@metafam/ds';
 import Octopus from 'assets/octopus.png';
-import SEEDsFlowChart from 'assets/seed-diagram.svg';
+import SEEDsFlowChart from 'assets/seed-diagram_1280x1024.png';
 import SeedsIcon from 'assets/seeds-icon-green-blue_352x352.png';
 import { PageContainer } from 'components/Container';
 import { Card } from 'components/Seeds/Card';
