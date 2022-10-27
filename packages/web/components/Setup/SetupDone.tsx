@@ -43,7 +43,7 @@ export const SetupDone: React.FC = () => {
               href="/play/paths/engaged-octos-path"
               fontWeight="bold"
             >
-              Path of The Engaged Octopi {''}
+              Path of The Engaged Octopi
             </MetaLink>{' '}
             to get yourself properly onboarded into MetaGame.
           </Text>
