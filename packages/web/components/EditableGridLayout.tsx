@@ -37,6 +37,7 @@ import {
   gridSX,
   LayoutData,
 } from 'utils/boxTypes';
+import { errorHandler } from 'utils/errorHandler';
 import {
   addBoxToLayouts,
   disableAddBox,
@@ -149,6 +150,7 @@ export const EditableGridLayout: React.FC<Props> = ({
         status: 'error',
         isClosable: true,
       });
+      errorHandler(err as Error);
     } finally {
       setSaving(false);
     }

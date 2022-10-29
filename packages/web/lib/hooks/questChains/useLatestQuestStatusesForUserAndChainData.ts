@@ -1,5 +1,6 @@
 import { graphql } from '@quest-chains/sdk';
 import { useEffect, useState } from 'react';
+import { errorHandler } from 'utils/errorHandler';
 
 import { useRefresh } from '../useRefresh';
 
@@ -37,6 +38,7 @@ export const useLatestQuestStatusesForUserAndChainData = (
       } catch (err) {
         setError(err);
         setQuestStatuses([]);
+        errorHandler(err as Error);
       } finally {
         setFetching(false);
       }

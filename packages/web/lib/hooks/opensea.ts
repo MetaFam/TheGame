@@ -1,6 +1,7 @@
 import { Maybe } from '@metafam/utils';
 import { Player } from 'graphql/autogen/types';
 import { useEffect, useState } from 'react';
+import { errorHandler } from 'utils/errorHandler';
 import { Collectible } from 'utils/openseaHelpers';
 
 export const useOpenSeaCollectibles = ({
@@ -27,6 +28,7 @@ export const useOpenSeaCollectibles = ({
         setData(allData);
         setFavorites(allData.slice(0, 3));
       } catch (err) {
+        errorHandler(err as Error);
         setError((err as Error).message);
       } finally {
         setLoading(false);

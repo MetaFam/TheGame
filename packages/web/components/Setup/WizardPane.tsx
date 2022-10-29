@@ -26,6 +26,7 @@ import {
   useState,
 } from 'react';
 import { Control, useForm, UseFormRegisterReturn } from 'react-hook-form';
+import { errorHandler } from 'utils/errorHandler';
 
 export type MaybeModalProps = {
   buttonLabel?: string | ReactElement;
@@ -120,6 +121,7 @@ export const WizardPane = <T,>({
           isClosable: true,
           duration: 12000,
         });
+        errorHandler(err as Error);
         setStatus(null);
       }
     },

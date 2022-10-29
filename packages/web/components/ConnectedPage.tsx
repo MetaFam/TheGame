@@ -1,6 +1,7 @@
 import { Center, Link, MetaButton, Spinner, Stack, Text } from '@metafam/ds';
 import { Player } from 'graphql/autogen/types';
 import { useMounted, useUser, useWeb3 } from 'lib/hooks';
+import { errorHandler } from 'utils/errorHandler';
 
 type PlayerPageType = React.FC<{ player: Player }>;
 
@@ -39,6 +40,7 @@ export const ConnectedPage: React.FC<{
   }
 
   if (error) {
+    errorHandler(error);
     return (
       <Center h="100vh">
         <Stack align="center">

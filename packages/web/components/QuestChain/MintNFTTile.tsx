@@ -10,6 +10,7 @@ import {
 import { contracts, graphql, helpers } from '@quest-chains/sdk';
 import { useWeb3 } from 'lib/hooks';
 import { useCallback, useRef, useState } from 'react';
+import { errorHandler } from 'utils/errorHandler';
 import {
   getQuestChainContract,
   QuestChainDetails,
@@ -92,6 +93,7 @@ export const MintNFTTile: React.FC<MintNFTTileProps> = ({
         duration: 2000,
         isClosable: true,
       });
+      errorHandler(error as Error);
     } finally {
       setMinting(false);
     }

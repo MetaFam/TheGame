@@ -66,6 +66,7 @@ import React, {
   useState,
 } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import { errorHandler } from 'utils/errorHandler';
 import { optimizedImage } from 'utils/imageHelpers';
 import { isEmpty } from 'utils/objectHelpers';
 
@@ -392,6 +393,7 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
         isClosable: true,
         duration: 15000,
       });
+      errorHandler(err as Error);
       return null;
     } finally {
       setStatus(null);

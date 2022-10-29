@@ -1,4 +1,5 @@
 /* eslint-disable no-nested-ternary */
+
 import {
   Box,
   Button,
@@ -24,6 +25,7 @@ import {
   useEffect,
   useState,
 } from 'react';
+import { errorHandler } from 'utils/errorHandler';
 import { POLYGON } from 'utils/networks';
 import { formatAddress } from 'utils/playerHelpers';
 
@@ -80,6 +82,7 @@ export const Chiev = ({
       setClaiming(true);
       await mintChiev(chievId);
     } catch (error) {
+      errorHandler(error as Error);
       console.error('handleMintingError', error);
     } finally {
       setClaiming(false);

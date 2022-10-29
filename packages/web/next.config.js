@@ -1,5 +1,15 @@
 const withImages = require('next-images');
 const withTM = require('next-transpile-modules')(['react-timezone-select']);
+const HoneybadgerSourceMapPlugin = require('@honeybadger-io/webpack');
+const { execSync } = require('child_process');
+
+const { HONEYBADGER_API_KEY, HONEYBADGER_ASSETS_URL } = process.env;
+
+/**
+ * TODO: needs to get revision from the build but is currently breaking the build.
+ * I don't wanna delay the release of #1414 so perhaps an improvement idea?
+ */
+// const HONEYBADGER_REVISION = execSync('git rev-parse HEAD').toString().trim();
 
 module.exports = withTM(
   withImages({
@@ -58,6 +68,10 @@ module.exports = withTM(
     future: {
       webpack5: true,
     },
+    productionSourceMaps: true,
+    env: {
+      HONEYBADGER_API_KEY,
+    },
     webpack: (config, { isServer, webpack }) => {
       if (!isServer) {
         config.plugins.push(
@@ -79,6 +93,21 @@ module.exports = withTM(
           path: false,
           tls: false,
         };
+
+        /**
+         * For uploading sourcemaps for Honeybadger.
+         */
+        // if (HONEYBADGER_API_KEY && HONEYBADGER_ASSETS_URL) {
+        //   config.devtool = 'hidden-source-map';
+
+        //   config.plugins.push(
+        //     new HoneybadgerSourceMapPlugin({
+        //       apiKey: HONEYBADGER_API_KEY,
+        //       assetsUrl: HONEYBADGER_ASSETS_URL,
+        //       revision: HONEYBADGER_REVISION,
+        //     }),
+        //   );
+        // }
       }
 
       config.plugins.push(

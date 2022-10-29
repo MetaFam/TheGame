@@ -2,6 +2,7 @@ import { isAddress } from '@ethersproject/address';
 import { Constants } from '@metafam/utils';
 import { useEffect, useState } from 'react';
 import { SCAccount, SCAccountsData } from 'sourcecred';
+import { errorHandler } from 'utils/errorHandler';
 
 interface XPProps {
   userTotalXP: number;
@@ -62,7 +63,7 @@ const getXP = async (userAddress: string): Promise<XPProps | null> => {
       userWeeklyCred,
     };
   } catch (err: unknown) {
-    // throw new Error(err);
+    errorHandler(err as Error);
     return null;
   }
 };

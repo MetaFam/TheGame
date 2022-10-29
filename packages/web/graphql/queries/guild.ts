@@ -77,7 +77,11 @@ export const getAdministeredGuildsQuery = /* GraphQL */ `
 
 const guildsQuery = /* GraphQL */ `
   query GetGuilds($limit: Int) {
-    guild(where: { status: { _eq: ACTIVE } }, limit: $limit) {
+    guild(
+      where: { status: { _eq: ACTIVE } }
+      limit: $limit
+      order_by: { sortPosition: asc_nulls_last }
+    ) {
       ...GuildFragment
     }
   }

@@ -1,5 +1,7 @@
 import { NETWORK_INFO } from 'utils/networks';
 
+import { errorHandler } from './errorHandler';
+
 export const switchChainOnMetaMask = async (
   chainId: string,
 ): Promise<boolean> => {
@@ -47,6 +49,7 @@ export const switchChainOnMetaMask = async (
       } catch (addError) {
         // eslint-disable-next-line no-console
         console.error(`Unable to add chainId ${chainId} to MetaMask`, addError);
+        errorHandler(addError as Error);
       }
     } else {
       // eslint-disable-next-line no-console
@@ -54,6 +57,7 @@ export const switchChainOnMetaMask = async (
         `Unable to switch to chainId ${chainId} on MetaMask`,
         switchError,
       );
+      errorHandler(switchError as Error);
     }
   }
   return false;
@@ -85,6 +89,7 @@ export const addTokenToMetamask = async ({
   } catch (addError) {
     // eslint-disable-next-line no-console
     console.error(`Unable to add token ${symbol} to MetaMask`, addError);
+    errorHandler(addError as Error);
   }
   return false;
 };

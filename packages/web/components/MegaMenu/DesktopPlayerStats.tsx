@@ -44,6 +44,7 @@ export const DesktopPlayerStats: React.FC<PlayerStatsProps> = ({ player }) => {
             _hover={{ transform: 'scale(0.9)' }}
           />
         </MenuButton>
+
         <MenuList
           mt="8px"
           color="white"

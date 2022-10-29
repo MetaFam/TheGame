@@ -1,4 +1,5 @@
 export const CONFIG = {
+  environment: process.env.NODE_ENV || 'development',
   graphqlURL: (() => {
     const { NEXT_PUBLIC_GRAPHQL_URL: url, NEXT_PUBLIC_GRAPHQL_HOST: host } =
       process.env;
@@ -16,8 +17,13 @@ export const CONFIG = {
   brightIdNodeURL:
     process.env.NEXT_BRIGHTID_NODE_URL || 'http:%2f%2fnode.brightid.org',
   publicURL: process.env.NEXT_PUBLIC_FRONTEND_URL,
-  gaId: process.env.NEXT_PUBLIC_GA4_ID,
-  clarityId: process.env.NEXT_CLARITY_ID,
+  gaId: process.env.NEXT_PUBLIC_GA4_ID || 'G-B1NKK3Q1BP',
+  honeybadgerApiKey:
+    process.env.NEXT_PUBLIC_HONEYBADGER_API_KEY ||
+    'hbp_Z4027J7qYTktQkqvUHcOHJqIbpjpWD30A1kd',
+  userbackToken:
+    process.env.NEXT_PUBLIC_USERBACK_TOKEN ||
+    '37882|74240|mjn1zXGiYaozZR6qmqFfjl9Sk',
   discordApiBaseUrl:
     process.env.DISCORD_API_BASE_URL || 'https://discord.com/api/v8',
   ceramicURL:

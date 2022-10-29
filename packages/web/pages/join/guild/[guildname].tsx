@@ -12,6 +12,7 @@ import { useRouter } from 'next/router';
 import Page404 from 'pages/404';
 import React, { useCallback, useEffect, useState } from 'react';
 import useSWR from 'swr';
+import { errorHandler } from 'utils/errorHandler';
 import { uploadFile } from 'utils/uploadHelpers';
 
 const SetupGuild: React.FC = () => {
@@ -58,6 +59,7 @@ const SetupGuild: React.FC = () => {
             isClosable: true,
             duration: 8000,
           });
+          errorHandler(error as Error);
           return;
         }
       }

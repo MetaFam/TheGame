@@ -177,6 +177,32 @@ export const theme = extendTheme(
               },
             },
           },
+
+          // 'ubdiv#userback_button_container': {
+          //   '.userback-controls[wstyle]': {
+          //     background: 'var(--chakra-colors-whiteAlpha-200)',
+          //     backdropFilter: 'blur(7px)',
+          //     color: 'white !important',
+
+          //     '.userback-controls-step': {
+
+          //       '.userback-controls-options': {
+          //         'ubroutemenu.userback-feedback-type-form': {
+          //           color: 'white !important',
+          //           transition: 'all 0.3s ease',
+          //           '&:hover': {
+          //             background: 'var(--chakra-colors-whiteAlpha-600) !important',
+          //           },
+          //           'ubdiv': {
+          //             color: 'white !important',
+          //           }
+          //         },
+          //         '.userback-controls-form': {
+          //         }
+          //       }
+          //     }
+          //   }
+          // }
         },
         '::-webkit-scrollbar': {
           width: { base: '5px', lg: '12px' },

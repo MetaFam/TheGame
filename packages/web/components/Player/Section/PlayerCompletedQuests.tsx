@@ -16,6 +16,7 @@ import {
 import { getCompletedQuestsByPlayerQuery } from 'graphql/getQuests';
 import React, { useEffect, useState } from 'react';
 import { BoxTypes } from 'utils/boxTypes';
+import { errorHandler } from 'utils/errorHandler';
 
 type Props = {
   player: Player;
@@ -43,6 +44,7 @@ export const PlayerCompletedQuests: React.FC<Props> = ({
         }
       } catch (error) {
         console.error("Couldn't fetch quests", error);
+        errorHandler(error as Error);
       }
     };
     loadQuests();

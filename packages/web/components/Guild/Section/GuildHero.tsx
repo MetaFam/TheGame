@@ -81,7 +81,6 @@ export const GuildHero: React.FC<Props> = ({ guild, editing }) => {
           <Text fontSize="md" color="blueLight">
             {`${guild.type} GUILD`}
           </Text>
-          <Text fontSize="md">{`${guild.position} GUILD`}</Text>
         </Box>
         <Box>
           <Text>{guild.description}</Text>

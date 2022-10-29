@@ -15,6 +15,7 @@ import {
 import { GetStaticPaths, GetStaticPropsContext } from 'next';
 import React, { useCallback } from 'react';
 import { FaArrowLeft } from 'react-icons/fa';
+import { errorHandler } from 'utils/errorHandler';
 import {
   QuestChainDetails,
   QuestChains,
@@ -150,6 +151,7 @@ export const getStaticProps = async (
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error('error', error);
+    errorHandler(error as Error);
   }
 
   return {

@@ -1,6 +1,7 @@
 import { httpLink } from '@metafam/utils';
 import { CONFIG } from 'config';
 import { Contract, providers } from 'ethers';
+import { errorHandler } from 'utils/errorHandler';
 
 import ABI from '../../../contracts/BulkDisbursableNFTs.abi';
 
@@ -35,6 +36,7 @@ export const getTokenImage = async (): Promise<IChievMetadata | void> => {
       return metadata as IChievMetadata;
     }
   } catch (error) {
+    errorHandler(error as Error);
     console.error('getTokenImageError', error);
   }
   return undefined;
