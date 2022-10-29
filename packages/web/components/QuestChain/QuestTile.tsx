@@ -1,4 +1,12 @@
-import { Box, Flex, Text, VStack } from '@metafam/ds';
+import {
+  Box,
+  Flex,
+  HStack,
+  MetaButton,
+  Text,
+  useBreakpointValue,
+  VStack,
+} from '@metafam/ds';
 import { graphql } from '@quest-chains/sdk';
 import { useCarouselContext } from 'components/Carousel/CarouselContext';
 import { MarkdownViewer } from 'components/MarkdownViewer';
@@ -28,10 +36,23 @@ export const QuestTile: React.FC<{
 
   const isSelected = activeItem === index;
 
+  const isMobile = useBreakpointValue({ base: true, lg: false });
   const onClick = () => {
     if (!isDragging) {
       setTrackIsActive(true);
       setActiveItem(index);
+    }
+  };
+
+  const onNextStep = () => {
+    if (activeItem < questChain.quests.length - 1) {
+      setActiveItem(activeItem + 1);
+    }
+  };
+
+  const onPrevStep = () => {
+    if (activeItem > 0) {
+      setActiveItem(activeItem - 1);
     }
   };
 
@@ -73,13 +94,14 @@ export const QuestTile: React.FC<{
     >
       <VStack
         spacing={4}
-        p={{ base: 8, md: isSelected ? 16 : 12 }}
+        p={{ base: 4, md: isSelected ? 16 : 12 }}
         bg={bgColor}
         style={{ backdropFilter: 'blur(7px)' }}
         borderRadius="1.5rem"
         h={isSelected ? '100%' : '14rem'}
+        transition="all 0.2s"
         justifyContent={isSelected ? 'flex-start' : 'center'}
-        onClick={onClick}
+        onClick={!isMobile ? onClick : undefined}
         cursor={cursor}
         position="relative"
         _hover={isSelected || isDragging ? {} : { bgColor: bgHoverColor }}
@@ -101,12 +123,12 @@ export const QuestTile: React.FC<{
               w="100%"
               flex={1}
               overflow="auto"
-              fontSize={{ base: 'md', md: 'lg' }}
+              fontSize={{ base: 'sm', md: 'lg' }}
               px={2}
             >
               <MarkdownViewer>{description}</MarkdownViewer>
             </Box>
-            <Box w="100%">
+            <Box w="100%" border="1px solid">
               <UploadProofButton
                 questId={questId}
                 name={name}
@@ -114,6 +136,32 @@ export const QuestTile: React.FC<{
                 questStatus={questStatus}
                 refresh={refresh}
               />
+              {isMobile && (
+                <HStack
+                  justifyContent="space-between"
+                  mt={3}
+                  overflowX="hidden"
+                >
+                  <MetaButton
+                    onClick={onPrevStep}
+                    size="sm"
+                    borderRadius="full"
+                    aria-label="Previous step"
+                    p={2}
+                  >
+                    👈
+                  </MetaButton>
+                  <MetaButton
+                    onClick={onNextStep}
+                    size="sm"
+                    borderRadius="full"
+                    aria-label="Next step"
+                    p={2}
+                  >
+                    👉
+                  </MetaButton>
+                </HStack>
+              )}
             </Box>
           </>
         )}

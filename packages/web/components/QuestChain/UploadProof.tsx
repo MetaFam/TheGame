@@ -14,6 +14,7 @@ import {
   StatusedSubmitButton,
   ToastId,
   Tooltip,
+  useBreakpointValue,
   useDisclosure,
   useToast,
   UseToastOptions,
@@ -70,7 +71,9 @@ export const UploadProof: React.FC<{
 
   const dropImageProps = useDropImage();
 
-  const { imageFile } = dropImageProps;
+  const buttonSize = useBreakpointValue({ base: 'sm', lg: 'md' });
+
+  const { imageFile, onResetImage } = dropImageProps;
 
   const onModalClose = useCallback(() => {
     onClose();
@@ -192,8 +195,10 @@ export const UploadProof: React.FC<{
           status={null}
           isDisabled={chainId !== questChain.chainId || !address}
           borderWidth={1}
-          px={5}
-          py={2}
+          border="1px solid green"
+          px={{ base: 3, lg: 5 }}
+          py={{ base: 3, lg: 2 }}
+          size={buttonSize}
           label="Submit Proof"
         />
       </Tooltip>
