@@ -1,19 +1,14 @@
 import { Flex, Text, Tooltip } from '@metafam/ds';
 import { Maybe } from '@metafam/utils';
 
-type PerksProps = {
+type Props = {
   title: string;
   count: number | string;
   pSeeds: number;
   amountUsd: Maybe<number>;
 };
 
-export const PerksHeader = ({
-  title,
-  count,
-  pSeeds,
-  amountUsd,
-}: PerksProps) => {
+export const PerksHeader = ({ title, count, pSeeds, amountUsd }: Props) => {
   const pSeedLabel = `${pSeeds.toLocaleString(undefined, {
     maximumFractionDigits: 1,
   })} pSEED`;

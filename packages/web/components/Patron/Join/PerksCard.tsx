@@ -10,6 +10,7 @@ type Props = {
   pSeeds: number;
   amountUsd: Maybe<number>;
 };
+
 export const PerksCard: React.FC<Props> = ({
   title,
   list,
@@ -22,7 +23,7 @@ export const PerksCard: React.FC<Props> = ({
     className={'mg-patron-join-card-bg'}
     borderRadius={8}
     maxW="lg"
-    m={4}
+    my={4}
   >
     <PerksHeader
       title={title}
