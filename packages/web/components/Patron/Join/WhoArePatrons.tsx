@@ -15,7 +15,7 @@ export const WhoArePatrons: React.FC = () => (
 
     <Container className="mg-patron-join-card-bg" maxW="lg" centerContent>
       <VStack spacing={8} py={8} px={4}>
-        <Image src={PatronMage} alt="cloaked figure" mx="auto" />
+        <Image src={PatronMage.src} alt="cloaked figure" mx="auto" />
 
         <Box>
           <Text as="h3" fontWeight={700} mb={4}>

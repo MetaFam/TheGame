@@ -208,6 +208,5 @@ export {
 } from '@chakra-ui/react';
 export { styled }; // imported at top
 export { Prose, withProse } from '@nikolovlazar/chakra-ui-prose';
-export type { HTMLMotionProps } from 'framer-motion';
+export type { HTMLMotionProps, PanInfo } from 'framer-motion';
 export { motion, useAnimation, useMotionValue } from 'framer-motion';
-// export { DragHandler } from 'framer-motion/types/gestures/drag/types';

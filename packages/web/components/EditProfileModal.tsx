@@ -56,6 +56,7 @@ import {
 import { getPlayer } from 'graphql/getPlayer';
 import { useProfileField, useSaveCeramicProfile, useWeb3 } from 'lib/hooks';
 import { useRouter } from 'next/router';
+import type { PropsWithChildren } from 'react';
 import React, {
   ReactElement,
   RefObject,
@@ -94,7 +95,8 @@ const Label: React.FC<FormLabelProps> = React.forwardRef(
 
 export type Merge<P, T> = Omit<P, keyof T> & T;
 export const MotionBox = motion<BoxProps>(Box);
-export const PulseHoverBox: React.FC<{ duration?: number }> = ({
+type PulseHoverBoxProps = PropsWithChildren<{ duration?: number }>;
+export const PulseHoverBox: React.FC<PulseHoverBoxProps> = ({
   // duration = 2,
   children,
 }) => (

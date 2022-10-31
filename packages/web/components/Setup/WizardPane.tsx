@@ -12,19 +12,14 @@ import {
   Wrap,
   WrapItem,
 } from '@metafam/ds';
-import { Maybe, Optional } from '@metafam/utils';
+import type { HasuraProfileProps, Maybe, Optional } from '@metafam/utils';
 import { ConnectToProgress } from 'components/ConnectToProgress';
 import { FlexContainer } from 'components/Container';
 import { HeadComponent } from 'components/Seo';
 import { useSetupFlow } from 'contexts/SetupContext';
 import { CeramicError, useWeb3 } from 'lib/hooks';
-import {
-  PropsWithChildren,
-  ReactElement,
-  useCallback,
-  useEffect,
-  useState,
-} from 'react';
+import type { ReactNode } from 'react';
+import { ReactElement, useCallback, useEffect, useState } from 'react';
 import { Control, useForm, UseFormRegisterReturn } from 'react-hook-form';
 import { errorHandler } from 'utils/errorHandler';
 
@@ -34,25 +29,13 @@ export type MaybeModalProps = {
   title?: string | ReactElement;
 };
 
-export type WizardPaneProps = {
-  field: string;
+export type WizardPaneProps<T = string> = {
+  field: keyof HasuraProfileProps | 'roles' | 'skills';
   title?: string | ReactElement;
   prompt?: string | ReactElement;
   buttonLabel?: string | ReactElement;
   onClose?: () => void;
-};
-
-export type PaneProps<T = string> = WizardPaneProps & {
-  value: Optional<Maybe<T>>;
-  fetching?: boolean;
-  authenticating?: boolean;
-  onSave?: ({
-    values,
-    setStatus,
-  }: {
-    values: Record<string, unknown>;
-    setStatus?: (msg: string) => void;
-  }) => Promise<void>;
+  children: ReactNode | ((props: WizardPaneCallbackProps<T>) => ReactNode);
 };
 
 export type WizardPaneCallbackProps<T = string> = {
@@ -68,6 +51,20 @@ export type WizardPaneCallbackProps<T = string> = {
   setter: (arg: T | ((prev: Optional<Maybe<T>>) => Maybe<T>)) => void;
 };
 
+export type PaneProps<T = string> = WizardPaneProps<T> & {
+  value: Optional<Maybe<T>>;
+  fetching?: boolean;
+  authenticating?: boolean;
+  onSave?: ({
+    values,
+    setStatus,
+  }: {
+    values: Record<string, unknown>;
+    setStatus: (msg: string) => void;
+  }) => Promise<void>;
+  children: ReactNode | ((props: WizardPaneCallbackProps<T>) => ReactNode);
+};
+
 export const WizardPane = <T,>({
   field,
   title,
@@ -78,7 +75,7 @@ export const WizardPane = <T,>({
   value: existing,
   fetching = false,
   children,
-}: PropsWithChildren<PaneProps<T>>) => {
+}: PaneProps<T>) => {
   const { onNextPress, nextButtonLabel } = useSetupFlow();
   const [status, setStatus] = useState<Maybe<string | ReactElement>>();
   const {
@@ -88,7 +85,9 @@ export const WizardPane = <T,>({
     setValue,
     watch,
     formState: { errors, isValidating: validating, dirtyFields },
-  } = useForm();
+    // This is set to any because HasuraProfileProps wasn't working
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } = useForm<any>();
   const current = watch(field, existing);
   const dirty = current !== existing || dirtyFields[field];
   const { connecting, connected, chainId } = useWeb3();
@@ -99,7 +98,8 @@ export const WizardPane = <T,>({
   }, [existing, field, setValue]);
 
   const onSubmit = useCallback(
-    async (values) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    async (values: any) => {
       try {
         if (!dirty) {
           setStatus('No Change. Skipping Save…');

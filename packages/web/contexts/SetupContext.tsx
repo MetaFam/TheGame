@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
 import React, {
+  PropsWithChildren,
   useCallback,
   useContext,
   useEffect,
@@ -26,7 +27,9 @@ export const SetupContext = React.createContext<SetupContextType>({
   nextButtonLabel: 'Next Step',
 });
 
-export const SetupContextProvider: React.FC = ({ children }) => {
+export const SetupContextProvider: React.FC<PropsWithChildren> = ({
+  children,
+}) => {
   const options = useMemo(() => new SetupOptions(), []);
 
   const router = useRouter();

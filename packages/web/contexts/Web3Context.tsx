@@ -15,6 +15,7 @@ import {
 import { clearJotaiState } from 'lib/jotaiState';
 import React, {
   createContext,
+  PropsWithChildren,
   useCallback,
   useEffect,
   useMemo,
@@ -88,9 +89,9 @@ export async function authenticateWallet(
   return token;
 }
 
-interface Web3ContextProviderOptions {
+type Web3ContextProviderOptions = PropsWithChildren<{
   resetUrqlClient?: () => void;
-}
+}>;
 
 type Web3State = {
   wallet: Maybe<Web3Modal>;
@@ -145,7 +146,7 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
   }, [resetUrqlClient]);
 
   const updateWeb3State = useCallback(
-    async (prov) => {
+    async (prov: providers.ExternalProvider) => {
       const web3Provider = new providers.Web3Provider(prov);
       const network = (await web3Provider.getNetwork()).chainId;
       const addr = await web3Provider.getSigner().getAddress();
@@ -168,7 +169,7 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
       }
 
       setWeb3State({
-        wallet: prov,
+        wallet: prov as Web3Modal,
         provider: web3Provider,
         chainId: networkId,
         address: addr,

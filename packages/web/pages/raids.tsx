@@ -567,7 +567,7 @@ const RaidsPage: React.FC = () => {
           </Flex>
         </Container>
 
-        <Image src={Octopus} pt={8} />
+        <Image src={Octopus.src} pt={8} />
         <Box pb={4}>
           <Button
             leftIcon={<ArrowUpIcon />}

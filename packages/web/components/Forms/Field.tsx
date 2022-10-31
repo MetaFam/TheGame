@@ -1,12 +1,12 @@
 import { Flex, Text } from '@metafam/ds';
+import type { PropsWithChildren } from 'react';
 import React from 'react';
 import { FieldError } from 'react-hook-form';
 
-type FieldProps = {
-  children: React.ReactNode;
+type FieldProps = PropsWithChildren<{
   label: string;
   error?: FieldError;
-};
+}>;
 
 export const Field: React.FC<FieldProps> = ({ children, error, label }) => (
   <Flex pb={3} w="100%" direction="column">
@@ -29,7 +29,7 @@ export const Field: React.FC<FieldProps> = ({ children, error, label }) => (
   </Flex>
 );
 
-export const FieldDescription: React.FC = ({ children }) => (
+export const FieldDescription: React.FC<PropsWithChildren> = ({ children }) => (
   <Text ml={4} mt={1} fontSize="sm">
     {children}
   </Text>

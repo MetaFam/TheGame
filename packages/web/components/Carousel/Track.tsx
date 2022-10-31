@@ -1,11 +1,12 @@
+import type { PanInfo } from '@metafam/ds';
 import {
-  DragHandler,
   Flex,
   motion,
   useAnimation,
   useMotionValue,
   VStack,
 } from '@metafam/ds';
+import type { PropsWithChildren } from 'react';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { useCarouselContext } from './CarouselContext';
@@ -19,7 +20,7 @@ const transitionProps = {
   mass: 3,
 };
 
-export const Track: React.FC = ({ children }) => {
+export const Track: React.FC<PropsWithChildren> = ({ children }) => {
   const {
     setDragging,
     setTrackIsActive,
@@ -36,12 +37,14 @@ export const Track: React.FC = ({ children }) => {
   const x = useMotionValue(0);
   const node = useRef<HTMLDivElement>(null);
 
-  const handleDragStart: DragHandler = () => {
+  const handleDragStart = () => {
     setDragging(true);
     setDragStartPosition(positions[activeItem]);
   };
 
-  const handleDragEnd: DragHandler = (_any, info) => {
+  // 2022-10-25: This method relied on on a type imported from
+  // Framer that no longer exists.
+  const handleDragEnd = (_evt: DragEvent, info: PanInfo) => {
     const distance = info.offset.x;
     const velocity = info.velocity.x * multiplier;
     const direction = velocity < 0 || distance < 0 ? 1 : -1;

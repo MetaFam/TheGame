@@ -81,7 +81,7 @@ const SubmitQuestCompletionPage: React.FC<Props> = ({ quest }) => {
         alignItems="flex-start"
         maxWidth="7xl"
       >
-        <Flex flex={1} d="column">
+        <Flex flex={1} direction="column">
           <MetaLink as={`/quest/${quest.id}`} href="/quest/[id]">
             Back to Quest
           </MetaLink>

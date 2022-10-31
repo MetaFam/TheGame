@@ -18,7 +18,7 @@ export const WateringSeeds: React.FC = () => (
 
     <Flex direction="column" width="100%" align="center">
       <Image
-        src={SeedsDiagram}
+        src={SeedsDiagram.src}
         height="auto"
         width="80vw"
         my="6"

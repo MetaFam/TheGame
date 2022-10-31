@@ -20,6 +20,6 @@
       "path": "../design-system/tsconfig.build.json"
     }
   ],
-  "include": ["**/*.ts", "**/*.tsx", "next-env.d.ts"],
+  "include": ["**/*.ts", "**/*.tsx", "**/*.json", "next-env.d.ts"],
   "exclude": ["out", ".next", "node_modules"]
 }

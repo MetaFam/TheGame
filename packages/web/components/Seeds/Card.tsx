@@ -33,7 +33,7 @@ export const Card: React.FC<CardProps> = ({ title, description, Content }) => {
       textColor="white"
       alignItems="center"
       textAlign="center"
-      bgImage={SEEDCardBg}
+      bgImage={SEEDCardBg.src}
       placeContent="center"
       p={8}
       minH="3xs"
@@ -68,7 +68,7 @@ export const Card: React.FC<CardProps> = ({ title, description, Content }) => {
         <ModalOverlay />
         <ModalContent
           borderRadius={['0', '0', 'xl']}
-          bgImage={[ModalCardBg, ModalCardBg, BackgroundImage]}
+          bgImage={[ModalCardBg.src, ModalCardBg.src, BackgroundImage.src]}
           bgPos="center"
           bgColor="purpleModalDark"
           bgSize="cover"

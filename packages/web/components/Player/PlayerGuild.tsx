@@ -1,10 +1,11 @@
 import { Link, LinkProps } from '@metafam/ds';
+import type { PropsWithChildren } from 'react';
 import React from 'react';
 
-type LinkGuildProps = {
+type LinkGuildProps = PropsWithChildren<{
   daoURL: string | null;
   guildname: string | undefined | null;
-};
+}>;
 
 export const LinkGuild: React.FC<LinkGuildProps> = ({
   daoURL,
@@ -20,9 +21,9 @@ export const LinkGuild: React.FC<LinkGuildProps> = ({
   return <>{children}</>;
 };
 
-type InternalGuildLinkProps = {
+type InternalGuildLinkProps = PropsWithChildren<{
   guildName: string;
-};
+}>;
 
 export const InternalGuildLink: React.FC<InternalGuildLinkProps> = ({
   guildName,

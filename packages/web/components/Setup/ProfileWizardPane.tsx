@@ -4,7 +4,7 @@ import {
   useProfileField,
   useSaveCeramicProfile,
 } from 'lib/hooks';
-import { PropsWithChildren, useCallback } from 'react';
+import { useCallback } from 'react';
 
 import { WizardPane, WizardPaneProps } from './WizardPane';
 
@@ -12,7 +12,7 @@ export const ProfileWizardPane = <T extends ProfileValueType>({
   field,
   children,
   ...props
-}: PropsWithChildren<WizardPaneProps>) => {
+}: WizardPaneProps<T>) => {
   const { value, user } = useProfileField<T>({
     field,
   });
@@ -22,7 +22,13 @@ export const ProfileWizardPane = <T extends ProfileValueType>({
   const [, invalidateCache] = useInsertCacheInvalidationMutation();
 
   const onSave = useCallback(
-    async ({ values, setStatus }) => {
+    async ({
+      values,
+      setStatus,
+    }: {
+      values: Record<string, unknown>;
+      setStatus: (msg: string) => void;
+    }) => {
       setStatus('Saving to Ceramic…');
       await saveToCeramic({ values });
 
@@ -35,6 +41,8 @@ export const ProfileWizardPane = <T extends ProfileValueType>({
   );
 
   return (
-    <WizardPane {...{ field, onSave, value, ...props }}>{children}</WizardPane>
+    <WizardPane<T> {...{ field, onSave, value, ...props }}>
+      {children}
+    </WizardPane>
   );
 };

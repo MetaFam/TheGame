@@ -1,5 +1,6 @@
 import {
   Button,
+  chakra,
   CloseIcon,
   FilterTag,
   Flex,
@@ -10,7 +11,6 @@ import {
   MetaButton,
   Skeleton,
   Stack,
-  styled,
   Text,
   TimeZoneType,
   useBreakpointValue,
@@ -31,12 +31,7 @@ import {
 import React, { useCallback, useEffect, useState } from 'react';
 import { SkillOption } from 'utils/skillHelpers';
 
-const Form = styled.form({
-  width: '100%',
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-});
+const Form = chakra.form;
 
 type ValueType = { value: string; label: string };
 
@@ -129,7 +124,13 @@ export const PlayerFilter: React.FC<Props> = ({
 
   return (
     <>
-      <Form onSubmit={onSearch}>
+      <Form
+        width="fill"
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        onSubmit={onSearch}
+      >
         <Stack
           spacing="4"
           w="100%"

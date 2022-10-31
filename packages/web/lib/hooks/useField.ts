@@ -1,9 +1,10 @@
 import { httpLink, Maybe, Optional } from '@metafam/utils';
-import { ExplorerType, Player, Profile } from 'graphql/autogen/types';
+import { Player, Profile } from 'graphql/autogen/types';
 import { atom as newAtom, PrimitiveAtom, useAtom } from 'jotai';
 import { useUser } from 'lib/hooks/useUser';
 import { getJotaiState, setJotaiState } from 'lib/jotaiState';
 import { optimizedImage } from 'utils/imageHelpers';
+import { SkillOption } from 'utils/skillHelpers';
 
 export type ProfileFieldType<T> = {
   [field in keyof Profile]?: Maybe<T>;
@@ -15,7 +16,11 @@ export type ProfileFieldType<T> = {
   fetching: boolean;
 };
 
-export type ProfileValueType = string | number | Array<string> | ExplorerType;
+export type ProfileValueType =
+  | string
+  | number
+  | Array<string>
+  | Array<SkillOption>;
 
 const nullAtom = newAtom(null, () => {
   throw new Error('Unimplemented');

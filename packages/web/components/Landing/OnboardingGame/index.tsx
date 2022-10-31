@@ -88,7 +88,7 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
    * Sanitizes & splits the element content into dialogue and
    * choices, adds them to state & returns the values if you want to use it that way */
   const makeCurrentSectionDialogue = useCallback(
-    (section): CurrentSectionDialogueChoices => {
+    (section: CurrentElementState): CurrentSectionDialogueChoices => {
       const { content, title } = section;
       const string = `${title ? '<p></p>' : '<p></p>'}${content ?? '<p></p>'}`;
       const parsedContent = safelyParseTextForTyping(string);
