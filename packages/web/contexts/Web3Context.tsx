@@ -1,10 +1,9 @@
-import { EthereumAuthProvider, ThreeIdConnect } from '@3id/connect';
-import ThreeIdResolver from '@ceramicnetwork/3id-did-resolver';
 import type { CeramicApi } from '@ceramicnetwork/common';
 import { CeramicClient } from '@ceramicnetwork/http-client';
+import { EthereumWebAuth, getAccountId } from '@didtools/pkh-ethereum';
 import { did, Maybe } from '@metafam/utils';
 import { CONFIG } from 'config';
-import { DID } from 'dids';
+import { DIDSession } from 'did-session';
 import { providers } from 'ethers';
 import {
   clearToken,
@@ -51,9 +50,9 @@ export const Web3Context = createContext<Web3ContextType>({
   isMetaMask: false,
 });
 
-const [web3Modal, ceramic, threeIdConnect] =
+const [web3Modal, ceramic] =
   typeof window === 'undefined'
-    ? [null, null, null]
+    ? [null, null]
     : [
         new Web3Modal({
           network: 'mainnet',
@@ -61,7 +60,6 @@ const [web3Modal, ceramic, threeIdConnect] =
           providerOptions,
         }),
         new CeramicClient(CONFIG.ceramicURL),
-        new ThreeIdConnect(CONFIG.ceramicNetwork),
       ];
 
 export async function getExistingAuth(
@@ -159,13 +157,13 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
 
       const networkId = `0x${network.toString(16)}`;
 
-      if (ceramic && threeIdConnect) {
-        const authProvider = new EthereumAuthProvider(prov, addr);
-        await threeIdConnect.connect(authProvider);
-        ceramic.did = new DID({
-          provider: threeIdConnect.getDidProvider(),
-          resolver: ThreeIdResolver.getResolver(ceramic),
+      if (ceramic) {
+        const accountId = await getAccountId(prov, addr);
+        const authMethod = await EthereumWebAuth.getAuthMethod(prov, accountId);
+        const session = await DIDSession.authorize(authMethod, {
+          resources: ['ceramic://*'],
         });
+        ceramic.did = session.did;
       }
 
       setWeb3State({

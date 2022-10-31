@@ -26,7 +26,7 @@
     "test": "lerna run test --parallel --",
     "test:full": "yarn lint && yarn typecheck && yarn test",
     "clean": "lerna clean",
-    "clean:full": "CMD='rm -rf node_modules/ packages/*/dist/ packages/web/.next/' && echo \"$CMD\" && eval $CMD",
+    "clean:full": "CMD='rm -rf node_modules/ packages/*/node_modules/ packages/*/dist/ packages/web/.next/' && echo \"$CMD\" && eval $CMD",
     "format": "prettier --write \"{*,**/*}.{ts,tsx,js,jsx,json,yml,yaml,md}\"",
     "lint": "eslint --ignore-path .gitignore \"./packages/**/*.{ts,tsx,js,jsx}\"",
     "typecheck": "lerna run typecheck",
