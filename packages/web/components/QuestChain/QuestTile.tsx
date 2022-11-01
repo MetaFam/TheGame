@@ -2,7 +2,7 @@ import { Box, Flex, Text, VStack } from '@metafam/ds';
 import { graphql } from '@quest-chains/sdk';
 import { useCarouselContext } from 'components/Carousel/CarouselContext';
 import { MarkdownViewer } from 'components/MarkdownViewer';
-import { useMemo } from 'react';
+import React, { useMemo } from 'react';
 
 import { UploadProofButton } from './UploadProofButton';
 

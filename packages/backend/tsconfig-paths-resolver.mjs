@@ -2,7 +2,9 @@ import { existsSync } from 'node:fs'
 
 import tsConfig from './tsconfig.json' assert { type: 'json' }
 
-const basePath = "dist/"
+const isTS = process.argv.includes('ts-node')
+const ext = `.${isTS ? 't' : 'j'}s`
+const basePath = `${isTS ? 'src' : 'dist'}/`
 
 const { paths } = tsConfig.compilerOptions
 const matches = Object.fromEntries(
@@ -11,7 +13,10 @@ const matches = Object.fromEntries(
   ]))
 )
 
+console.log({ process })
+
 export const resolve = async (specifier, context, nextResolve) => {
+  console.info({ specifier, context })
   const { parentURL = null } = context;
   const [match, comps] = Object.entries(matches).find(
     ([m]) => (new RegExp(m)).test(specifier)
@@ -21,14 +26,15 @@ export const resolve = async (specifier, context, nextResolve) => {
     try {
       comps.forEach((comp) => {
         let rel = `${basePath}${comp.replace(/\*/g, rest)}`
-        if (!rel.endsWith('.js')) rel += '.js'
+        if (!/\.(t|j)s$/.test(rel)) rel += ext
         const test = new URL(rel, import.meta.url)
-        console.debug({ p: test.pathname })
+        console.info({ test})
         if (existsSync(test.pathname)) {
           // eslint-disable-next-line @typescript-eslint/no-throw-literal
           throw test
         }
       })
+      console.error(`Couldn't Resolve: ${specifier}`)
     } catch (thrown) {
       return {
         shortCircuit: true,

@@ -15,7 +15,13 @@ import externalLinkIcon from 'assets/landing/external-link-icon.png';
 import { useGame } from 'contexts/GameContext';
 import { useOnScreen } from 'lib/hooks/useOnScreen';
 import { get } from 'lib/store';
-import { ReactElement, useCallback, useEffect, useRef, useState } from 'react';
+import React, {
+  ReactElement,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { MdDownloading, MdRestartAlt, MdWarning } from 'react-icons/md';
 import { errorHandler, useDebugErrorReports } from 'utils/errorHandler';
 import {

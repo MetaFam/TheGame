@@ -15,6 +15,7 @@ import {
 import BackgroundImage from 'assets/main-background.jpg';
 import ModalCardBg from 'assets/modal-bg.png';
 import SEEDCardBg from 'assets/seed-card-bg.png';
+import React from 'react';
 
 type CardProps = {
   title: string;

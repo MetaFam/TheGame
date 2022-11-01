@@ -62,4 +62,4 @@ COPY --from=build /usr/src/app/packages/utils/node_modules ./packages/utils/node
 COPY --from=build /usr/src/app/packages/discord-bot/package.json ./packages/discord-bot/package.json
 COPY --from=build /usr/src/app/packages/discord-bot/dist ./packages/discord-bot/dist
 
-CMD [ "yarn", "backend", "start" ]
+CMD ["yarn", "backend", "start"]

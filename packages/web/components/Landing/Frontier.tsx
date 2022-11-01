@@ -3,7 +3,7 @@ import BackgroundImage from 'assets/landing/frontier-background.png';
 import { FullPageContainer } from 'components/Container';
 import { useOnScreen } from 'lib/hooks/useOnScreen';
 import { useRouter } from 'next/router';
-import { useRef } from 'react';
+import React, { useRef } from 'react';
 import { BsArrowDown } from 'react-icons/bs';
 
 export const Frontier: React.FC = () => {

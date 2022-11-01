@@ -1,6 +1,12 @@
 /* eslint-disable max-classes-per-file */
 import { Box } from '@metafam/ds';
-import { RefObject, useCallback, useEffect, useRef, useState } from 'react';
+import React, {
+  RefObject,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 
 /** Rain - Matrix rain effect
  * Used for the onboarding game but can be used for other things

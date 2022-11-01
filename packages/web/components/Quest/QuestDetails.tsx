@@ -28,6 +28,7 @@ import {
 } from 'graphql/autogen/types';
 import { useUser } from 'lib/hooks';
 import moment from 'moment';
+import React from 'react';
 import { optimizedImage } from 'utils/imageHelpers';
 import { safelyParseNChakrifyHtml } from 'utils/stringHelpers';
 

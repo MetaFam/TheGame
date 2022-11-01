@@ -17,6 +17,7 @@ import {
 import PatronsImg from 'assets/patrons-sun_800x820.png';
 import PlayersImg from 'assets/players-sun_800x822.png';
 import ThinkingEmojiImg from 'assets/thinking-emoji_400x400.png';
+import React from 'react';
 import { MdCheckBoxOutlineBlank } from 'react-icons/md';
 
 export const Requirements: React.FC = () => (

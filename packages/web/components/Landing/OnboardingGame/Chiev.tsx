@@ -18,7 +18,7 @@ import { useGame } from 'contexts/GameContext';
 import { useWeb3 } from 'lib/hooks';
 import { useMotionDetector } from 'lib/hooks/useMotionDetector';
 import { get } from 'lib/store';
-import {
+import React, {
   Dispatch,
   SetStateAction,
   useCallback,

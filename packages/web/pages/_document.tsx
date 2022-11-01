@@ -6,6 +6,7 @@ import Document, {
   Main,
   NextScript,
 } from 'next/document';
+import React from 'react';
 
 class MetaDocument extends Document {
   static async getInitialProps(

@@ -4,7 +4,7 @@ import { ProfileSection } from 'components/Section/ProfileSection';
 import { ExplorerType, Player } from 'graphql/autogen/types';
 import { getExplorerTypes } from 'graphql/queries/enums/getExplorerTypes';
 import { useProfileField } from 'lib/hooks';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BoxTypes } from 'utils/boxTypes';
 
 type Props = {

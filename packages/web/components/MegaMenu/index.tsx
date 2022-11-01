@@ -3,7 +3,7 @@ import BackgroundImage from 'assets/main-background.jpg';
 import { MegaMenuFooter } from 'components/MegaMenu/MegaMenuFooter';
 import { MegaMenuHeader } from 'components/MegaMenu/MegaMenuHeader';
 import type { PropsWithChildren } from 'react';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 type Props = PropsWithChildren<{ hide?: boolean }>;
 

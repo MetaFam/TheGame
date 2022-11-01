@@ -18,7 +18,7 @@ import BackgroundImage4xl from 'assets/landing/sections/section-1-4xl.jpg';
 import BackgroundImageLg from 'assets/landing/sections/section-1-lg.jpg';
 import { FullPageContainer } from 'components/Container';
 import { useMotionDetector } from 'lib/hooks/useMotionDetector';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { upDownAnimation, upDownAnimationLong } from './animations';
 import { LandingPageSectionProps } from './landingSection';

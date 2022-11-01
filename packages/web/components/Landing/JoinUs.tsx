@@ -13,7 +13,7 @@ import { StartButton } from 'components/Landing/StartButton';
 import { MetaLink } from 'components/Link';
 import { useMotionDetector } from 'lib/hooks/useMotionDetector';
 import { useOnScreen } from 'lib/hooks/useOnScreen';
-import { useRef } from 'react';
+import React, { useRef } from 'react';
 import { FaDiscord, FaGithub, FaTwitter } from 'react-icons/fa';
 
 import { LandingFooter } from './LandingFooter';

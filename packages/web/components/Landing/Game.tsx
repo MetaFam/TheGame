@@ -8,7 +8,7 @@ import { FullPageContainer } from 'components/Container';
 import { MetaLink } from 'components/Link';
 import { useMotionDetector } from 'lib/hooks/useMotionDetector';
 import { useOnScreen } from 'lib/hooks/useOnScreen';
-import { useRef } from 'react';
+import React, { useRef } from 'react';
 
 import { LandingNextButton } from './LandingNextButton';
 import { LandingPageSectionProps } from './landingSection';

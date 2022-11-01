@@ -15,6 +15,7 @@ import {
 import CommonTierNFTImg from 'assets/nft-common-tier_600x600.jpg';
 import EpicTierNFTImg from 'assets/nft-epic-tier_600x600.jpg';
 import RareTierNFTImg from 'assets/nft-rare-tier_600x600.jpg';
+import React from 'react';
 
 /*
   Links to view/purchase MetaManifesto NFTs

@@ -2,7 +2,7 @@ import { Box, Container, ListItem, Text, UnorderedList } from '@metafam/ds';
 import BackgroundImage from 'assets/landing/whatWeDo-background.png';
 import { FullPageContainer } from 'components/Container';
 import { useOnScreen } from 'lib/hooks/useOnScreen';
-import { useRef } from 'react';
+import React, { useRef } from 'react';
 
 import { LandingNextButton } from './LandingNextButton';
 

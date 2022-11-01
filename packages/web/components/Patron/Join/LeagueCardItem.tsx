@@ -1,5 +1,6 @@
 import { Flex, Image, Text } from '@metafam/ds';
 import CheckMark from 'assets/patron/checkmark.png';
+import React from 'react';
 
 type ItemProps = {
   text: string;

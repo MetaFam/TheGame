@@ -11,7 +11,7 @@ import {
 } from '@metafam/ds';
 import { MetaLink } from 'components/Link';
 import { useWeb3 } from 'lib/hooks';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { GoSignIn, GoSignOut } from 'react-icons/go';
 import { POLYGON } from 'utils/networks';
 import { formatAddress } from 'utils/playerHelpers';

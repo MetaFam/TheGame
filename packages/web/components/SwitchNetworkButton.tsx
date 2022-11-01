@@ -1,6 +1,6 @@
 import { Button, MetaMaskIcon, Text, Tooltip } from '@metafam/ds';
 import { useWeb3 } from 'lib/hooks';
-import { useCallback, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { switchChainOnMetaMask } from 'utils/metamask';
 import { NETWORK_INFO } from 'utils/networks';
 

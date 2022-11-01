@@ -3,7 +3,7 @@ import BackgroundImage from 'assets/landing/revolution-background.png';
 import { FullPageContainer } from 'components/Container';
 import { MetaLink } from 'components/Link';
 import { useOnScreen } from 'lib/hooks/useOnScreen';
-import { useRef } from 'react';
+import React, { useRef } from 'react';
 
 import { LandingNextButton } from './LandingNextButton';
 

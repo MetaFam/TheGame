@@ -8,9 +8,10 @@ import {
   Tooltip,
   VStack,
 } from '@metafam/ds';
-import { Maybe } from '@metafam/utils';
+import type { Maybe } from '@metafam/utils';
 import BlueArrow from 'assets/patron/blue-arrow.png';
 import { PlayerRank_Enum, TokenBalancesFragment } from 'graphql/autogen/types';
+import React from 'react';
 import {
   getLeagueCount,
   getLeagueCutoff,
@@ -182,18 +183,18 @@ const PerksGrid: React.FC<Props> = ({ pSeedPrice, pSeedHolders }) => {
               Ranked Leagues &amp; Perks
             </Heading>
 
-          <Text fontWeight="700" color="white" mb={4}>
-            Becoming a patron also comes with some perks!
-          </Text>
-          <Text color="white">
-            The total number of Patrons in Phase Ⅰ is limited to 150. The rank
-            requirements are subject to change based on top 150 pSeed hodlors
-            &amp; most perks (besides seasonal) will only be unlocked in the
-            transition to Phase Ⅱ — set for Q3 2023.
-          </Text>
-        </Box>
-      </VStack>
-    </Box>
+            <Text fontWeight="700" color="white" mb={4}>
+              Becoming a patron also comes with some perks!
+            </Text>
+            <Text color="white">
+              The total number of Patrons in Phase Ⅰ is limited to 150. The rank
+              requirements are subject to change based on top 150 pSeed hodlors
+              &amp; most perks (besides seasonal) will only be unlocked in the
+              transition to Phase Ⅱ — set for Q3 2023.
+            </Text>
+          </Box>
+        </VStack>
+      </Box>
 
       <Box
         width={{ base: '100%', md: '50%' }}

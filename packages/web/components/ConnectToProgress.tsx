@@ -13,6 +13,7 @@ import {
 import LogoImage from 'assets/logo.png';
 import { SwitchNetworkButton } from 'components/SwitchNetworkButton';
 import { useUser, useWeb3 } from 'lib/hooks';
+import React from 'react';
 
 import { MetaLink } from './Link';
 

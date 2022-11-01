@@ -5,7 +5,7 @@
   "compilerOptions": {
     "outDir": "dist/",
     "rootDir": "src/",
-    "baseUrl": "./src",
+    "baseUrl": "./src/",
     "tsBuildInfoFile": "dist/.tsbuildinfo",
     "paths": {
       "lib/*": ["./lib/*"],
@@ -15,8 +15,6 @@
   },
   "references": [{ "path": "../utils" }, { "path": "../discord-bot" }],
   "include": ["src/**/*.ts", "src/**/*.json"],
-  "exclude": ["tests/"],
-  "ts-node": {
-    "require": ["tsconfig-paths/register"]
-  }
+  "exclude": ["tests/", "dist/", "coverage/", "node_modules/"],
+  "ts-node": {}
 }

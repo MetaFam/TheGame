@@ -1,6 +1,7 @@
 import { Text, VStack } from '@metafam/ds';
 import BackgroundImage from 'assets/landing/unplug-background.png';
 import { FullPageContainer } from 'components/Container';
+import React from 'react';
 
 export const Unplug: React.FC = () => (
   <FullPageContainer bgImageUrl={BackgroundImage.src}>

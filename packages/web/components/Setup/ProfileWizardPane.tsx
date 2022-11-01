@@ -4,7 +4,7 @@ import {
   useProfileField,
   useSaveCeramicProfile,
 } from 'lib/hooks';
-import { useCallback } from 'react';
+import React, { useCallback } from 'react';
 
 import { WizardPane, WizardPaneProps } from './WizardPane';
 

@@ -19,7 +19,7 @@ import { HeadComponent } from 'components/Seo';
 import { useSetupFlow } from 'contexts/SetupContext';
 import { CeramicError, useWeb3 } from 'lib/hooks';
 import type { ReactNode } from 'react';
-import { ReactElement, useCallback, useEffect, useState } from 'react';
+import React, { ReactElement, useCallback, useEffect, useState } from 'react';
 import { Control, useForm, UseFormRegisterReturn } from 'react-hook-form';
 import { errorHandler } from 'utils/errorHandler';
 

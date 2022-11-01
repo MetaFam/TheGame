@@ -9,6 +9,7 @@ import {
 } from '@metafam/ds';
 import PatronCircle from 'assets/patron/patron-circle.png';
 import Seed from 'assets/patron/seed.png';
+import React from 'react';
 
 export const BecomePatron: React.FC = () => (
   <Container as="section" className="mg-patron-join-section" my={[4, 4, 4, 12]}>

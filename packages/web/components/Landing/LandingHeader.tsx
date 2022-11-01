@@ -20,7 +20,13 @@ import MetaGameLogo from 'assets/logo.png';
 import { MetaLink } from 'components/Link';
 import { SetStateAction } from 'jotai';
 import { get, set } from 'lib/store';
-import { Dispatch, ReactNode, useCallback, useEffect, useState } from 'react';
+import React, {
+  Dispatch,
+  ReactNode,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
 import { FaToggleOff, FaToggleOn } from 'react-icons/fa';
 import { MdClose } from 'react-icons/md';
 

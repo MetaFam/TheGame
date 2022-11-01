@@ -19,6 +19,7 @@ import { RolesTags } from 'components/Quest/Roles';
 import { SkillsTags } from 'components/Quest/Skills';
 import { PlayerRole, QuestFragment, Skill } from 'graphql/autogen/types';
 import moment from 'moment';
+import React from 'react';
 import { optimizedImage } from 'utils/imageHelpers';
 import { safelyParseNChakrifyHtml } from 'utils/stringHelpers';
 

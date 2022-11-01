@@ -3,7 +3,7 @@ import GuildsImage from 'assets/landing/guilds.png';
 import PatronsImage from 'assets/landing/patrons.png';
 import PlayersImage from 'assets/landing/players.png';
 import { useOnScreen } from 'lib/hooks/useOnScreen';
-import { useRef } from 'react';
+import React, { useRef } from 'react';
 
 type CardProps = {
   title: string;

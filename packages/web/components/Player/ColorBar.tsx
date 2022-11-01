@@ -1,6 +1,6 @@
 import { Box, ChakraProps, Flex, Link, Stack, Text } from '@metafam/ds';
 import { FlexContainer } from 'components/Container';
-import { Maybe } from 'graphql/autogen/types';
+import type { Maybe } from 'graphql/autogen/types';
 import {
   colors,
   ColorStops,

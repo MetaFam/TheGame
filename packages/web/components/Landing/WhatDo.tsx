@@ -11,7 +11,7 @@ import BackgroundImageMobile from 'assets/landing/sections/section-5.sm.png';
 import { FullPageContainer } from 'components/Container';
 import { useMotionDetector } from 'lib/hooks/useMotionDetector';
 import { useOnScreen } from 'lib/hooks/useOnScreen';
-import { useRef } from 'react';
+import React, { useRef } from 'react';
 
 import { LandingNextButton } from './LandingNextButton';
 import { LandingPageSectionProps } from './landingSection';
