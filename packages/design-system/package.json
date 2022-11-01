@@ -21,7 +21,7 @@
     "dev": "vite",
     "start": "yarn dev",
     "build": "vite build && tsc",
-    "test": "tsdx test --passWithNoTests",
+    "test": "jest --passWithNoTests",
     "prepublish": "yarn build",
     "precommit": "yarn lint-staged",
     "serve": "vite preview"

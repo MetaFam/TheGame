@@ -17,7 +17,7 @@
     "precommit": "yarn lint-staged",
     "generate": "graphql-codegen --config=codegen.yml",
     "lintfix": "eslint --fix",
-    "test": "tsdx test --passWithNoTests"
+    "test": "jest --passWithNoTests"
   },
   "dependencies": {
     "@discordx/importer": "1.1.2",
