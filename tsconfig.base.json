@@ -36,7 +36,6 @@
 
     "composite": true,
 
-    "types": ["node", "jest"],
     "typeRoots": [
       "./packages/@types",
       "./node_modules/@types",

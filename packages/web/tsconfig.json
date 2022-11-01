@@ -3,13 +3,23 @@
   "compilerOptions": {
     "baseUrl": ".",
     "noEmit": true,
-    "incremental": true
+    "incremental": true,
+    "esModuleInterop": true,
+    "jsx": "preserve"
   },
   "references": [
-    { "path": "../utils/tsconfig.json" },
-    { "path": "../design-system/tsconfig.build.json" }
+    {
+      "path": "../utils/tsconfig.json"
+    },
+    {
+      "path": "../design-system/tsconfig.build.json"
+    }
   ],
   "include": ["**/*.ts", "**/*.tsx", "**/*.json", "next-env.d.ts"],
   "exclude": ["out", ".next", "node_modules"],
-  "plugins": [{ "name": "next" }]
+  "plugins": [
+    {
+      "name": "next"
+    }
+  ]
 }
