@@ -51,7 +51,7 @@ COPY --from=build /usr/src/app/package.json ./package.json
 COPY --from=build /usr/src/app/node_modules ./node_modules
 
 COPY --from=build /usr/src/app/packages/backend/package.json ./packages/backend/package.json
-COPY --from=build /usr/src/app/packages/backend/tsconfig-paths-resolve.mjs ./packages/backend/tsconfig-paths-resolver.mjs
+COPY --from=build /usr/src/app/packages/backend/tsconfig-paths-resolver.mjs ./packages/backend/tsconfig-paths-resolver.mjs
 COPY --from=build /usr/src/app/packages/backend/dist ./packages/backend/dist
 COPY --from=build /usr/src/app/packages/backend/node_modules ./packages/backend/node_modules
 
