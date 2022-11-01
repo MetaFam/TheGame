@@ -1,6 +1,6 @@
 import express from 'express';
-import { asyncHandlerWrapper } from 'lib/apiHelpers';
 
+import { asyncHandlerWrapper } from '../../../lib/apiHelpers.js';
 import { createCompletionHandler } from './createCompletion/handler.js';
 import { createQuestHandler } from './createQuest/handler.js';
 import { updateCompletionHandler } from './updateCompletion/handler.js';

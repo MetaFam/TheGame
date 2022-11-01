@@ -1,6 +1,6 @@
 import express from 'express';
-import { asyncHandlerWrapper } from 'lib/apiHelpers';
 
+import { asyncHandlerWrapper } from '../../lib/apiHelpers.js';
 import { syncAllGuildDiscordMembers } from '../triggers/syncDiscordGuildMembers.js';
 import { guildRoutes } from './guild/routes.js';
 import { cacheRoutes } from './idxCache/routes.js';

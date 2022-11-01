@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
-import { queueRecache } from 'lib/cacheHelper';
-import { client } from 'lib/hasuraClient';
+
+import { queueRecache } from '../../../../lib/cacheHelper.js';
+import { client } from '../../../../lib/hasuraClient.js';
 
 const INVALIDATE_AFTER_DAYS = 4; // number of days after which to recache
 

@@ -1,8 +1,8 @@
 import { createDiscordClient } from '@metafam/discord-bot';
 import { GuildBasedChannel, Role, TextChannel } from 'discord.js';
-import { client } from 'lib/hasuraClient';
 import showdown from 'showdown';
 
+import { client } from '../../../../lib/hasuraClient.js';
 import { QueryResolvers } from '../../autogen/types.js';
 
 const { Converter } = showdown;

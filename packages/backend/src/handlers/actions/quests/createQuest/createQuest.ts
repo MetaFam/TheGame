@@ -3,9 +3,8 @@ import {
   CreateQuestOutput,
   Quest_Insert_Input,
   QuestRepetition_Enum,
-} from 'lib/autogen/hasura-sdk';
-import { client } from 'lib/hasuraClient';
-
+} from '../../../../lib/autogen/hasura-sdk.js';
+import { client } from '../../../../lib/hasuraClient.js';
 import { isAllowedToCreateQuest } from './permissions.js';
 
 export async function createQuest(

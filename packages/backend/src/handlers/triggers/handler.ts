@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { ParamsDictionary } from 'express-serve-static-core';
-import { Guild, Player, Player_Role } from 'lib/autogen/hasura-sdk';
 
+import { Guild, Player, Player_Role } from '../../lib/autogen/hasura-sdk.js';
 import { cacheIDXProfile } from './cacheIDXProfile.js';
 import { playerRankUpdated } from './playerRankUpdated.js';
 import { playerRoleChanged } from './playerRoleChanged.js';

@@ -1,8 +1,8 @@
 import { fetch, imageLink } from '@metafam/utils';
-import { CONFIG } from 'config';
-import { getClient } from 'lib/daoHausClient';
-import { client } from 'lib/hasuraClient';
 
+import { CONFIG } from '../../../../config.js';
+import { getClient } from '../../../../lib/daoHausClient.js';
+import { client } from '../../../../lib/hasuraClient.js';
 import { DaoMetadata, Member, QueryResolvers } from '../../autogen/types.js';
 
 const addChain = (memberAddress: string) => async (chain: string) => {

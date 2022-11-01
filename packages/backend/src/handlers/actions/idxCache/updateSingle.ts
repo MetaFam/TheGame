@@ -25,16 +25,16 @@ import {
   Values,
 } from '@metafam/utils';
 import { getLegacy3BoxProfileAsBasicProfile } from '@self.id/3box-legacy';
-import { CONFIG } from 'config';
+
+import { CONFIG } from '../../../config.js';
 import {
   AccountType_Enum,
   Maybe,
   Profile_Update_Column,
   UpdateIdxProfileResponse,
-} from 'lib/autogen/hasura-sdk';
-import { maskFor } from 'lib/colorHelpers';
-import { client } from 'lib/hasuraClient';
-
+} from '../../../lib/autogen/hasura-sdk.js';
+import { maskFor } from '../../../lib/colorHelpers.js';
+import { client } from '../../../lib/hasuraClient.js';
 import { handledMeetWithWalletIntegration } from '../meetwithwallet/index.js';
 
 export default async (playerId: string): Promise<UpdateIdxProfileResponse> => {

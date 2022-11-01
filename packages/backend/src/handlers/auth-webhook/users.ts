@@ -1,6 +1,7 @@
 import Bottleneck from 'bottleneck';
-import { cacheProfile } from 'lib/cacheHelper';
-import { client } from 'lib/hasuraClient';
+
+import { cacheProfile } from '../../lib/cacheHelper.js';
+import { client } from '../../lib/hasuraClient.js';
 
 async function createPlayer(ethAddress: string, limiter: Bottleneck) {
   const { insert_profile: insert } = await client.CreatePlayerFromETH({
