@@ -49,7 +49,7 @@ export const PatronTile: React.FC<Props> = ({ index, patron, pSeedPrice }) => {
     [index],
   );
 
-  const { label: timeZone = null, offset = null } = useMemo(
+  const { label: timeZone = null } = useMemo(
     () =>
       getTimeZoneFor({ location: player.profile?.timeZone ?? undefined }) ?? {
         label: null,
@@ -123,10 +123,9 @@ export const PatronTile: React.FC<Props> = ({ index, patron, pSeedPrice }) => {
                 </WrapItem>
               </Wrap>
               {timeZone && (
-                <HStack alignItems="baseline" w="auto" justify="center">
+                <HStack alignItems="center" w="auto" justify="center">
                   <FaGlobe color="blueLight" fontSize="0.875rem" />
-                  <Text fontSize="lg">{timeZone || '―'}</Text>
-                  {offset != null && <Text fontSize="sm">{offset}</Text>}
+                  <Text fontSize="sm">{timeZone || '―'}</Text>
                 </HStack>
               )}
               {displayDescription && (
