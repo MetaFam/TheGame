@@ -8,10 +8,10 @@
   "type": "module",
   "main": "dist/index.js",
   "scripts": {
-    "start": "node --loader=./tsconfig-paths-resolver.mjs dist/index.js",
+    "start": "node dist/index.js",
     "build": "yarn generate && tsc -b",
     "dev": "concurrently \"yarn dev-ts\" \"yarn generate --watch\"",
-    "dev-ts": "ts-node --esm --require=tsconfig-paths/register -- src/index.ts",
+    "dev-ts": "ts-node --esm -- src/index.ts",
     "typecheck": "yarn build",
     "precommit": "yarn lint-staged",
     "generate": "DEBUG=1 graphql-codegen --config=codegen.yml",
@@ -61,6 +61,7 @@
     "@types/node-fetch": "2.5.10",
     "@types/showdown": "^2.0.0",
     "@types/uuid": "8.3.0",
+    "esm-loader-typescript": "^1.0.3",
     "nock": "13.2.4",
     "ts-node": "^10.9.1"
   },

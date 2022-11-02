@@ -1,6 +1,6 @@
-import { CONFIG } from 'config';
 import { GraphQLClient } from 'graphql-request';
 
+import { CONFIG } from '../config.js';
 import { getSdk, Sdk } from './autogen/daohaus-sdk.js';
 
 const clients = new Map([
