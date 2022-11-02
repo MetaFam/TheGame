@@ -169,7 +169,7 @@ export const RankedLeagues: React.FC<Props> = ({
         <Box
           className={'mg-patron-join-card-bg'}
           borderRadius={8}
-          maxW="lg"
+          width={{ base: '100%', md: 'lg' }}
           my={2}
           p={4}
         >

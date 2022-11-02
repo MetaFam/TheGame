@@ -20,7 +20,7 @@ export const PerksHeader = ({ title, count, pSeeds, amountUsd }: Props) => {
     : pSeedLabel;
   let amountDisplay = (
     <Text color="white" fontSize="md">
-      {amountLabel}
+      current req: {amountLabel}
     </Text>
   );
   if (amountUsd != null) {
@@ -28,7 +28,7 @@ export const PerksHeader = ({ title, count, pSeeds, amountUsd }: Props) => {
   }
   return (
     <Flex
-      direction="row"
+      direction={{ base: 'column', sm: 'row' }}
       justify="space-between"
       p="4"
       roundedTop="lg"
