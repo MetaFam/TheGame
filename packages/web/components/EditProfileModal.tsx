@@ -481,7 +481,7 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
                         (endpoints.profileImageURL.val == null ? (
                           <Image
                             maxW="50%"
-                            src={PlayerProfileIcon}
+                            src={PlayerProfileIcon.src}
                             opacity={0.5}
                           />
                         ) : (
@@ -580,7 +580,7 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
                         <Image
                           w="5em"
                           mx="2.5em"
-                          src={FileOpenIcon}
+                          src={FileOpenIcon.src}
                           opacity={0.5}
                         />
                       ) : (

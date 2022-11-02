@@ -13,10 +13,8 @@ const matches = Object.fromEntries(
   ]))
 )
 
-console.log({ process })
 
 export const resolve = async (specifier, context, nextResolve) => {
-  console.info({ specifier, context })
   const { parentURL = null } = context;
   const [match, comps] = Object.entries(matches).find(
     ([m]) => (new RegExp(m)).test(specifier)
@@ -28,7 +26,6 @@ export const resolve = async (specifier, context, nextResolve) => {
         let rel = `${basePath}${comp.replace(/\*/g, rest)}`
         if (!/\.(t|j)s$/.test(rel)) rel += ext
         const test = new URL(rel, import.meta.url)
-        console.info({ test})
         if (existsSync(test.pathname)) {
           // eslint-disable-next-line @typescript-eslint/no-throw-literal
           throw test

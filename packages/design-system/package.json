@@ -2,12 +2,11 @@
   "name": "@metafam/ds",
   "version": "0.2.0",
   "type": "module",
-  "main": "dist/ds.js",
+  "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/ds.js",
-      "require": "./dist/ds.umd.cjs"
+      "import": "./dist/index.js"
     }
   },
   "files": [
@@ -18,9 +17,7 @@
   "license": "MIT",
   "scripts": {
     "typecheck": "tsc -b",
-    "dev": "vite",
-    "start": "yarn dev",
-    "build": "vite build && tsc",
+    "build": "tsc --build",
     "test": "jest --passWithNoTests",
     "prepublish": "yarn build",
     "precommit": "yarn lint-staged",
