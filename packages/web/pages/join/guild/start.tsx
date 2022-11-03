@@ -49,7 +49,7 @@ const GuildSetupAuthCallback: React.FC = () => {
   return (
     <PageContainer>
       <MetaHeading>Join as a Guild</MetaHeading>
-      <Box maxW="xl" mt={10}>
+      <Box maxW="xl" mt={8}>
         {stateGuid?.length && user ? (
           <>
             <Text>

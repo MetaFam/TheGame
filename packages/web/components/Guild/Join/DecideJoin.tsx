@@ -41,7 +41,7 @@ export const DecideJoin: React.FC = () => (
         justifyContent="center"
       >
         <Image
-          src={GuildsImg}
+          src={GuildsImg.src}
           alt="Three cloaked figures"
           mx="auto"
           maxW="10rem"
