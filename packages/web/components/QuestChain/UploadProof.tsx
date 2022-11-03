@@ -73,18 +73,11 @@ export const UploadProof: React.FC<{
   const { imageFile, onResetImage } = dropImageProps;
 
   const onModalClose = useCallback(() => {
-    setProofDescription('');
     onResetFiles();
     onResetImage();
     onClose();
     setIsSubmittingProof(false);
-  }, [
-    onClose,
-    onResetFiles,
-    onResetImage,
-    setIsSubmittingProof,
-    setProofDescription,
-  ]);
+  }, [onClose, onResetFiles, onResetImage, setIsSubmittingProof]);
 
   const onSubmit = useCallback(async () => {
     if (
