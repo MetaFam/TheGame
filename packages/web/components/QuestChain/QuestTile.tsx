@@ -101,7 +101,7 @@ export const QuestTile: React.FC<{
         h={isSelected ? '100%' : '14rem'}
         transition="all 0.2s"
         justifyContent={isSelected ? 'flex-start' : 'center'}
-        onClick={!isMobile ? onClick : undefined}
+        onClick={onClick}
         cursor={cursor}
         position="relative"
         _hover={isSelected || isDragging ? {} : { bgColor: bgHoverColor }}
@@ -143,7 +143,10 @@ export const QuestTile: React.FC<{
                   overflowX="hidden"
                 >
                   <MetaButton
-                    onClick={onPrevStep}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onPrevStep();
+                    }}
                     size="sm"
                     borderRadius="full"
                     aria-label="Previous step"
@@ -152,7 +155,10 @@ export const QuestTile: React.FC<{
                     👈
                   </MetaButton>
                   <MetaButton
-                    onClick={onNextStep}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onNextStep();
+                    }}
                     size="sm"
                     borderRadius="full"
                     aria-label="Next step"

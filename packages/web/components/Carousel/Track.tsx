@@ -3,6 +3,7 @@ import {
   Flex,
   motion,
   useAnimation,
+  useBreakpointValue,
   useMotionValue,
   VStack,
 } from '@metafam/ds';
@@ -37,6 +38,7 @@ export const Track: React.FC = ({ children }) => {
   const controls = useAnimation();
   const x = useMotionValue(0);
   const node = useRef<HTMLDivElement>(null);
+  const isMobile = useBreakpointValue({ base: true, lg: false });
 
   const handleDragStart: DragHandler = () => {
     setDragging(true);
@@ -148,8 +150,8 @@ export const Track: React.FC = ({ children }) => {
         <VStack ref={node} spacing={5} alignItems="stretch">
           <MotionFlex
             dragConstraints={node}
-            onDragStart={handleDragStart}
-            onDragEnd={handleDragEnd}
+            onDragStart={isMobile ? undefined : handleDragStart}
+            onDragEnd={isMobile ? undefined : handleDragEnd}
             animate={controls}
             style={{ x }}
             drag="x"
