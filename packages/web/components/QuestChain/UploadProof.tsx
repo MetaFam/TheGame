@@ -66,18 +66,16 @@ export const UploadProof: React.FC<{
 
   const dropFilesProps = useDropFiles();
 
-  const { files, onResetFiles } = dropFilesProps;
+  const { files } = dropFilesProps;
 
   const dropImageProps = useDropImage();
 
-  const { imageFile, onResetImage } = dropImageProps;
+  const { imageFile } = dropImageProps;
 
   const onModalClose = useCallback(() => {
-    onResetFiles();
-    onResetImage();
     onClose();
     setIsSubmittingProof(false);
-  }, [onClose, onResetFiles, onResetImage, setIsSubmittingProof]);
+  }, [onClose, setIsSubmittingProof]);
 
   const onSubmit = useCallback(async () => {
     if (
@@ -161,17 +159,20 @@ export const UploadProof: React.FC<{
     setSubmitting(false);
   }, [
     chainId,
-    questChain,
+    questChain.chainId,
+    questChain.name,
+    questChain.address,
+    questChain.version,
+    provider,
     proofDescRef,
+    addToast,
     files,
     imageFile,
     questId,
     name,
+    address,
     onModalClose,
     refresh,
-    address,
-    provider,
-    addToast,
   ]);
 
   return (
