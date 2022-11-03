@@ -128,7 +128,7 @@ export const QuestTile: React.FC<{
             >
               <MarkdownViewer>{description}</MarkdownViewer>
             </Box>
-            <Box w="100%" border="1px solid">
+            <Box w="100%">
               <UploadProofButton
                 questId={questId}
                 name={name}
