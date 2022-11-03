@@ -11,6 +11,7 @@ export const Carousel: React.FC<{ gap: number; children: JSX.Element[] }> = ({
   gap,
 }) => {
   const [trackIsActive, setTrackIsActive] = useState(false);
+  const [isSubmittingProof, setIsSubmittingProof] = useState(false);
   const [activeItem, setActiveItem] = useState(0);
   const [isDragging, setDragging] = useState(false);
   const [multiplier, setMultiplier] = useState(0.35);
@@ -50,6 +51,8 @@ export const Carousel: React.FC<{ gap: number; children: JSX.Element[] }> = ({
         trackIsActive,
         setTrackIsActive,
         activeItem,
+        isSubmittingProof,
+        setIsSubmittingProof,
         setActiveItem,
         isDragging,
         setDragging,

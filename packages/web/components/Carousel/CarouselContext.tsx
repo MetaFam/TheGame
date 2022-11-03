@@ -9,6 +9,9 @@ type CarouselContextType = {
   isDragging: boolean;
   setDragging: React.Dispatch<React.SetStateAction<boolean>>;
 
+  isSubmittingProof: boolean;
+  setIsSubmittingProof: React.Dispatch<React.SetStateAction<boolean>>;
+
   positions: number[];
   itemWidth: number;
   constraint: number;
@@ -25,6 +28,8 @@ export const CarouselContext = createContext<CarouselContextType>({
   setTrackIsActive: () => undefined,
   activeItem: 0,
   setActiveItem: () => undefined,
+  isSubmittingProof: false,
+  setIsSubmittingProof: () => undefined,
   isDragging: false,
   setDragging: () => undefined,
   sliderWidth: 0,
