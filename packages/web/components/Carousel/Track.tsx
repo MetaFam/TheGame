@@ -24,6 +24,7 @@ export const Track: React.FC = ({ children }) => {
     setDragging,
     setTrackIsActive,
     trackIsActive,
+    isSubmittingProof,
     setActiveItem,
     activeItem,
     constraint,
@@ -31,6 +32,7 @@ export const Track: React.FC = ({ children }) => {
     itemWidth,
     positions,
   } = useCarouselContext();
+
   const [dragStartPosition, setDragStartPosition] = useState(0);
   const controls = useAnimation();
   const x = useMotionValue(0);
@@ -104,7 +106,7 @@ export const Track: React.FC = ({ children }) => {
 
   const handleKeyDown = useCallback(
     (event: KeyboardEvent) => {
-      if (trackIsActive) {
+      if (trackIsActive && !isSubmittingProof) {
         if (activeItem < positions.length - constraint) {
           if (event.key === 'ArrowRight' || event.key === 'ArrowUp') {
             event.preventDefault();
@@ -119,7 +121,14 @@ export const Track: React.FC = ({ children }) => {
         }
       }
     },
-    [trackIsActive, setActiveItem, activeItem, constraint, positions.length],
+    [
+      trackIsActive,
+      isSubmittingProof,
+      activeItem,
+      positions.length,
+      constraint,
+      setActiveItem,
+    ],
   );
 
   useEffect(() => {

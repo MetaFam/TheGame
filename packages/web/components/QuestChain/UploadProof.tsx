@@ -19,6 +19,7 @@ import {
   UseToastOptions,
 } from '@metafam/ds';
 import { contracts, graphql, helpers } from '@quest-chains/sdk';
+import { useCarouselContext } from 'components/Carousel/CarouselContext';
 import { useWeb3 } from 'lib/hooks';
 import { useDropFiles, useDropImage } from 'lib/hooks/useDropFiles';
 import { useInputText } from 'lib/hooks/useInputText';
@@ -43,6 +44,8 @@ export const UploadProof: React.FC<{
 }> = ({ refresh, questId, name, questChain }) => {
   const { chainId, provider, address } = useWeb3();
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const { setIsSubmittingProof } = useCarouselContext();
 
   const toast = useToast();
   const toastIdRef = useRef<ToastId | undefined>(undefined);
@@ -74,7 +77,14 @@ export const UploadProof: React.FC<{
     onResetFiles();
     onResetImage();
     onClose();
-  }, [onClose, onResetFiles, onResetImage, setProofDescription]);
+    setIsSubmittingProof(false);
+  }, [
+    onClose,
+    onResetFiles,
+    onResetImage,
+    setIsSubmittingProof,
+    setProofDescription,
+  ]);
 
   const onSubmit = useCallback(async () => {
     if (
@@ -181,7 +191,10 @@ export const UploadProof: React.FC<{
         isDisabled={chainId === questChain.chainId}
       >
         <StatusedSubmitButton
-          onClick={onOpen}
+          onClick={() => {
+            setIsSubmittingProof(true);
+            onOpen();
+          }}
           status={null}
           isDisabled={chainId !== questChain.chainId || !address}
           borderWidth={1}
