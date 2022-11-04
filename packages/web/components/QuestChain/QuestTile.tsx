@@ -35,6 +35,8 @@ export const QuestTile: React.FC<{
     useCarouselContext();
 
   const isSelected = activeItem === index;
+  const isFirst = activeItem === 0;
+  const isLast = activeItem === questChain.quests.length - 1;
 
   const isMobile = useBreakpointValue({ base: true, lg: false });
   const onClick = () => {
@@ -142,30 +144,36 @@ export const QuestTile: React.FC<{
                   mt={3}
                   overflowX="hidden"
                 >
-                  <MetaButton
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onPrevStep();
-                    }}
-                    size="sm"
-                    borderRadius="full"
-                    aria-label="Previous step"
-                    p={2}
-                  >
-                    👈
-                  </MetaButton>
-                  <MetaButton
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onNextStep();
-                    }}
-                    size="sm"
-                    borderRadius="full"
-                    aria-label="Next step"
-                    p={2}
-                  >
-                    👉
-                  </MetaButton>
+                  <Box>
+                    <MetaButton
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onPrevStep();
+                      }}
+                      size="sm"
+                      borderRadius="full"
+                      aria-label="Previous step"
+                      p={2}
+                      display={isFirst ? 'none' : 'initial'}
+                    >
+                      👈
+                    </MetaButton>
+                  </Box>
+                  <Box>
+                    <MetaButton
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onNextStep();
+                      }}
+                      size="sm"
+                      borderRadius="full"
+                      aria-label="Next step"
+                      p={2}
+                      display={isLast ? 'none' : 'initial'}
+                    >
+                      👉
+                    </MetaButton>
+                  </Box>
                 </HStack>
               )}
             </Box>

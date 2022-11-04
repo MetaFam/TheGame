@@ -73,7 +73,7 @@ export const UploadProof: React.FC<{
 
   const buttonSize = useBreakpointValue({ base: 'sm', lg: 'md' });
 
-  const { imageFile, onResetImage } = dropImageProps;
+  const { imageFile } = dropImageProps;
 
   const onModalClose = useCallback(() => {
     onClose();
