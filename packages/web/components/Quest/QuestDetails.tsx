@@ -12,7 +12,7 @@ import {
   Text,
   VStack,
 } from '@metafam/ds';
-import BackgroundImage from 'assets/main-background.jpg';
+import BackgroundImage from 'assets/main-background.png';
 import { MetaLink } from 'components/Link';
 import { MarkdownViewer as Markdown } from 'components/MarkdownViewer';
 import { RepetitionTag, StatusTag } from 'components/Quest/QuestTags';
