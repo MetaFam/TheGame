@@ -16,7 +16,6 @@ import { RolesTags } from 'components/Quest/Roles';
 import { SkillsTags } from 'components/Quest/Skills';
 import { SquareImage } from 'components/SquareImage';
 import { PlayerRole, QuestFragment, Skill } from 'graphql/autogen/types';
-import moment from 'moment';
 import React from 'react';
 import { safelyParseNChakrifyHtml } from 'utils/stringHelpers';
 
@@ -66,7 +65,7 @@ export const QuestTile: React.FC<Props> = ({ quest }) => {
           <Flex flexDir="column">
             <Box pb={2}>
               <Text textStyle="caption" pb={1}>
-                DESCRIPTION
+                Description
               </Text>
               {descIsHtml ? (
                 <Prose>{parsedDescription}</Prose>
@@ -79,7 +78,7 @@ export const QuestTile: React.FC<Props> = ({ quest }) => {
             </Box>
             <Box pb={2}>
               <Text textStyle="caption" pb={1}>
-                SKILLS
+                Skills
               </Text>
               <SkillsTags
                 skills={quest.quest_skills.map(({ skill }) => skill) as Skill[]}
@@ -87,7 +86,7 @@ export const QuestTile: React.FC<Props> = ({ quest }) => {
             </Box>
             <Box pb={2}>
               <Text textStyle="caption" pb={1}>
-                ROLES
+                Roles
               </Text>
               {quest.quest_roles.length ? (
                 <RolesTags

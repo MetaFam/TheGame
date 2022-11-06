@@ -10,15 +10,15 @@ import {
   Text,
   VStack,
 } from '@metafam/ds';
-import { Maybe } from '@metafam/utils';
+import type { Maybe } from '@metafam/utils';
 import { PatronRank } from 'components/Patron/PatronRank';
 import { PlayerContacts } from 'components/Player/PlayerContacts';
 import { PlayerProfilePicture } from 'components/Player/PlayerProfilePicture';
 import { PlayerTileMemberships } from 'components/Player/PlayerTileMemberships';
 import { SkillsTags } from 'components/Quest/Skills';
-import { Player, Skill } from 'graphql/autogen/types';
+import type { Player, Skill } from 'graphql/autogen/types';
 import { getAllMemberships, GuildMembership } from 'graphql/getMemberships';
-import { Patron } from 'graphql/types';
+import type { Patron } from 'graphql/types';
 import React, { useEffect, useState } from 'react';
 import {
   getPlayerDescription,
@@ -47,11 +47,16 @@ export const PlayerTile: React.FC<Props> = ({
   index,
 }) => {
   const description = getPlayerDescription(player);
-  const displayDescription =
-    (description?.length ?? 0) > MAX_BIO_LENGTH
-      ? // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        `${description!.substring(0, MAX_BIO_LENGTH - 9)}…`
-      : description;
+  const displayDescription = (
+    (
+      typeof description == 'string'
+      && description.length > MAX_BIO_LENGTH
+    ) ? (
+      `${description!.substring(0, MAX_BIO_LENGTH - 9)}…`
+    ) : (
+      description
+    )
+  );
 
   const [memberships, setMemberships] = useState<GuildMembership[]>([]);
 
@@ -75,19 +80,18 @@ export const PlayerTile: React.FC<Props> = ({
           {isPatron && typeof index === 'number' && pSeedPrice ? (
             <PatronRank
               patron={player as Patron}
-              pSeedPrice={pSeedPrice}
-              index={index}
+              {...{ pSeedPrice, index }}
             />
           ) : (
-            <PlayerRank player={player} showSeasonalXP={showSeasonalXP} />
+            <PlayerRank {...{ player, showSeasonalXP }} />
           )}
           <PlayerProfilePicture {...{ player }} size="xl" />
           <Flex px={3} w="full" pos="absolute" bottom={-6} zIndex={1}>
             <Heading
               size="lg"
               color="white"
-              bgColor="rgba(255, 255, 255, 0.06)"
-              style={{ backdropFilter: 'blur(10px)' }}
+              bgColor="whiteAlpha.100"
+              sx={{ backdropFilter: 'blur(10px)' }}
               lineHeight={1.8}
               justifyContent="center"
               px={3}
@@ -105,16 +109,16 @@ export const PlayerTile: React.FC<Props> = ({
           <Flex flexDir="column" mb="auto">
             {displayDescription && (
               <VStack spacing={2} align="stretch">
-                <Text textStyle="caption">ABOUT</Text>
+                <Text textStyle="caption">About</Text>
                 <Text fontSize="sm">{displayDescription}</Text>
               </VStack>
             )}
             {!!player.skills?.length && (
               <VStack spacing={2} align="stretch">
-                <Text textStyle="caption">SKILLS</Text>
+                <Text textStyle="caption">Skills</Text>
                 <SkillsTags
                   skills={
-                    player.skills.map(({ Skill: skill }) => skill) as Skill[]
+                    player.skills.map(({ Skill: s }) => s) as Skill[]
                   }
                 />
               </VStack>
@@ -126,25 +130,27 @@ export const PlayerTile: React.FC<Props> = ({
           <Flex justifyContent="space-between" pointerEvents="none">
             {!!memberships.length && (
               <VStack spacing={2} align="stretch">
-                <Text textStyle="caption">MEMBER OF</Text>
+                <Text textStyle="caption">Member of</Text>
                 <HStack mt={2} position="relative" zIndex={1}>
-                  {loading && <LoadingState mb={6} />}
-                  {!loading &&
+                  {loading ? (
+                    <LoadingState mb={6} />
+                  ) : (
                     memberships
-                      .slice(0, 3)
-                      .map((membership) => (
-                        <DAOMembershipSmall
-                          {...{ membership }}
-                          key={membership.address}
-                        />
-                      ))}
+                    .slice(0, 3)
+                    .map((membership) => (
+                      <DAOMembershipSmall
+                        {...{ membership }}
+                        key={membership.address}
+                      />
+                    ))
+                  )}
                 </HStack>
               </VStack>
             )}
 
             {!!player.accounts?.length && (
               <VStack spacing={2} align="stretch">
-                <Text textStyle="caption">CONTACT</Text>
+                <Text textStyle="caption">Contact</Text>
                 <HStack mt={2} pointerEvents="all">
                   <PlayerContacts {...{ player }} disableBrightId />
                 </HStack>
