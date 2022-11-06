@@ -23023,6 +23023,11 @@ value-or-promise@1.0.11, value-or-promise@^1.0.11:
   resolved "https://registry.yarnpkg.com/value-or-promise/-/value-or-promise-1.0.11.tgz#3e90299af31dd014fe843fe309cefa7c1d94b140"
   integrity sha512-41BrgH+dIbCFXClcSapVs5M6GkENd3gQOJpEfPDNa71LsUGMXDL0jMWpI/Rh7WhX+Aalfz2TTS3Zt5pUsbnhLg==
 
+vanilla-tilt@1.7.3:
+  version "1.7.3"
+  resolved "https://registry.yarnpkg.com/vanilla-tilt/-/vanilla-tilt-1.7.3.tgz#1c6a15c1c627e949571167e5421ee82cf465026a"
+  integrity sha512-tdNVZ1JyDNsByplVCS1H3/i/zcGOIrFW5BQp7u9SyXKjNypZw7s89x+GA8kOhUxWOggF4A1E9N55jEF0ttpLjw==
+
 varint@^5.0.0, varint@^5.0.2:
   version "5.0.2"
   resolved "https://registry.yarnpkg.com/varint/-/varint-5.0.2.tgz#5b47f8a947eb668b848e034dcfa87d0ff8a7f7a4"
