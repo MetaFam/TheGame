@@ -13,7 +13,11 @@ import {
   Prose,
   Text,
 } from '@metafam/ds';
+<<<<<<< HEAD
 import BackgroundImage from 'assets/quests/quest.png';
+=======
+import BackgroundImage from 'assets/main-background.png';
+>>>>>>> 1e938dce (redesign of the cards #1)
 import { MetaLink } from 'components/Link';
 import { MarkdownViewer as Markdown } from 'components/MarkdownViewer';
 import { RolesTags } from 'components/Quest/Roles';

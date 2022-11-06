@@ -10,6 +10,11 @@ import {
   Text,
   VStack,
 } from '@metafam/ds';
+<<<<<<< HEAD
+=======
+import BackgroundImage from 'assets/main-background.png';
+import { MetaLink } from 'components/Link';
+>>>>>>> 1e938dce (redesign of the cards #1)
 import { MarkdownViewer as Markdown } from 'components/MarkdownViewer';
 import { RepetitionTag, StatusTag } from 'components/Quest/QuestTags';
 import { RolesTags } from 'components/Quest/Roles';

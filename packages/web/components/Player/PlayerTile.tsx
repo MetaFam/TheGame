@@ -9,13 +9,19 @@ import {
   MetaTileHeader,
   Text,
   VStack,
+<<<<<<< HEAD
 } from '@metafam/ds';
 import type { Maybe } from '@metafam/utils';
 import { PatronRank } from 'components/Patron/PatronRank';
+=======
+  WrapItem,
+} from '@metafam/ds';
+>>>>>>> 1e938dce (redesign of the cards #1)
 import { PlayerContacts } from 'components/Player/PlayerContacts';
 import { PlayerProfilePicture } from 'components/Player/PlayerProfilePicture';
 import { PlayerTileMemberships } from 'components/Player/PlayerTileMemberships';
 import { SkillsTags } from 'components/Quest/Skills';
+<<<<<<< HEAD
 import type { Player, Skill } from 'graphql/autogen/types';
 import { getAllMemberships, GuildMembership } from 'graphql/getMemberships';
 <<<<<<< HEAD
@@ -24,6 +30,11 @@ import type { Patron } from 'graphql/types';
 import { Patron } from 'graphql/types';
 >>>>>>> 86629af0 (make all card images square & clickable)
 import React, { useEffect, useState } from 'react';
+=======
+import { Player, Skill } from 'graphql/autogen/types';
+import NextLink from 'next/link';
+import React from 'react';
+>>>>>>> 1e938dce (redesign of the cards #1)
 import {
   getPlayerDescription,
   getPlayerName,
@@ -43,6 +54,7 @@ type Props = {
 
 const MAX_BIO_LENGTH = 240;
 
+<<<<<<< HEAD
 export const PlayerTile: React.FC<Props> = ({
   player,
   isPatron = false,
@@ -50,6 +62,9 @@ export const PlayerTile: React.FC<Props> = ({
   showSeasonalXP,
   index,
 }) => {
+=======
+export const PlayerTile: React.FC<Props> = ({ player }) => {
+>>>>>>> 1e938dce (redesign of the cards #1)
   const description = getPlayerDescription(player);
   const displayDescription = (
     (
@@ -74,6 +89,7 @@ export const PlayerTile: React.FC<Props> = ({
   }, [player]);
 
   return (
+<<<<<<< HEAD
     <Link
       role="group"
       _hover={{ textDecoration: 'none' }}
@@ -205,6 +221,98 @@ export const PlayerTile: React.FC<Props> = ({
             )}
           </Flex>
         </MetaTileBody>
+=======
+    <LinkBox>
+      <MetaTile>
+        <NextLink as={getPlayerURL(player)} href="/player/[username]" passHref>
+          <LinkOverlay display="flex" flexDirection="column" height="100%">
+            <MetaTileHeader>
+              <VStack pos="relative">
+                <Flex
+                  flexDir="column"
+                  gap={1}
+                  pos="absolute"
+                  left={-8}
+                  p={3}
+                  top={-8}
+                  background="rgba(255, 255, 255, 0.1)"
+                  backdropFilter="blur(10.5px)"
+                  borderRadius="8px"
+                >
+                  {player.rank && (
+                    <WrapItem>
+                      <MetaTag
+                        backgroundColor={player.rank.toLowerCase()}
+                        size="md"
+                        color="blackAlpha.600"
+                      >
+                        {player.rank}
+                      </MetaTag>
+                    </WrapItem>
+                  )}
+                  <Text fontSize="sm" color="blueLight">
+                    XP: {Math.floor(player.totalXP).toLocaleString()}
+                  </Text>
+                </Flex>
+                <PlayerProfilePicture {...{ player }} size="xl" />
+                <Flex px={3} w="full" pos="absolute" bottom={-6} zIndex={1}>
+                  <Heading
+                    size="lg"
+                    color="white"
+                    bgColor="rgba(255, 255, 255, 0.06)"
+                    style={{ backdropFilter: 'blur(10px)' }}
+                    lineHeight={1.8}
+                    justifyContent="center"
+                    px={3}
+                    width="full"
+                    textAlign="center"
+                    borderRadius={10}
+                    fontFamily="body"
+                    fontWeight={400}
+                  >
+                    {getPlayerName(player)}
+                  </Heading>
+                </Flex>
+              </VStack>
+            </MetaTileHeader>
+            <MetaTileBody pos="relative" height="full">
+              {displayDescription && (
+                <VStack spacing={2} align="stretch">
+                  <Text textStyle="caption" textTransform="uppercase">
+                    About
+                  </Text>
+                  <Text fontSize="sm">{displayDescription}</Text>
+                </VStack>
+              )}
+              {player.skills?.length && (
+                <VStack spacing={2} align="stretch">
+                  <Text textStyle="caption" textTransform="uppercase">
+                    Skills
+                  </Text>
+                  <SkillsTags
+                    skills={
+                      player.skills.map(({ Skill: skill }) => skill) as Skill[]
+                    }
+                  />
+                </VStack>
+              )}
+
+              <PlayerTileMemberships {...{ player }} />
+
+              {player.accounts?.length && (
+                <VStack spacing={2} align="stretch">
+                  <Text textStyle="caption" textTransform="uppercase">
+                    Contact
+                  </Text>
+                  <HStack mt={2}>
+                    <PlayerContacts {...{ player }} disableBrightId />
+                  </HStack>
+                </VStack>
+              )}
+            </MetaTileBody>
+          </LinkOverlay>
+        </NextLink>
+>>>>>>> 1e938dce (redesign of the cards #1)
       </MetaTile>
     </Link>
   );
