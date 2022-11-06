@@ -62,8 +62,6 @@ const PatronsPage: React.FC<Props> = ({ patrons, pSeedPrice }) => {
           color="white"
           fontFamily="body"
           mb={[4, 4, 4, 12]}
-          display="flex"
-          flexDir="row"
           ref={topRef}
         >
           Patrons of MetaGame
@@ -76,6 +74,7 @@ const PatronsPage: React.FC<Props> = ({ patrons, pSeedPrice }) => {
 
         {/* Back to top link */}
         <Image src={Octopus.src} pt={8} />
+
         <Box pb={4}>
           <Button
             leftIcon={<ArrowUpIcon />}
