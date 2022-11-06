@@ -194,6 +194,7 @@ export {
   useTheme,
   useToast,
   UseToastOptions,
+  VisuallyHidden,
   VStack,
   Wrap,
   WrapItem,
