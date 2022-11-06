@@ -8,7 +8,10 @@ import React from 'react';
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
 export const getStaticProps = async () => {
-  const patrons = await getPatrons();
+  const patronsLimit = 150; // Get all the Patrons (MetaGame rules say there can be 150 max)
+  // Weird - with no limit, we get 33 patrons (using staging db I guess)
+  // With limit of 150 we get 42 patrons
+  const patrons = await getPatrons(patronsLimit);
   const pSeedPrice = await getPSeedPrice().catch((error) => {
     console.error('Error fetching pSeed price', error);
     return null;
