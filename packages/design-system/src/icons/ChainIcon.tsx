@@ -8,9 +8,14 @@ import { PolygonIcon } from './PolygonIcon';
 
 type Props = {
   chain?: string;
+  tooltip?: boolean;
 };
 
-export const ChainIcon: React.FC<Props & IconProps> = ({ chain, ...props }) => {
+export const ChainIcon: React.FC<Props & IconProps> = ({
+  chain,
+  tooltip = true,
+  ...props
+}) => {
   const lower = chain?.toLowerCase();
   const info = (() => {
     if (lower?.includes('gnosis')) {
@@ -31,9 +36,13 @@ export const ChainIcon: React.FC<Props & IconProps> = ({ chain, ...props }) => {
     }
     return { Icon: EthereumIcon, name: 'Mainnet' };
   })();
-  return (
-    <Tooltip label={`on ${info.name}`} hasArrow>
-      <info.Icon {...props} />
-    </Tooltip>
-  );
+
+  if (tooltip)
+    return (
+      <Tooltip label={`on ${info.name}`} hasArrow>
+        <info.Icon {...props} />
+      </Tooltip>
+    );
+
+  return <info.Icon {...props} />;
 };
