@@ -1,6 +1,6 @@
-const withTM = require('next-transpile-modules')(['react-timezone-select']);
-const HoneybadgerSourceMapPlugin = require('@honeybadger-io/webpack');
-const { execSync } = require('child_process');
+// const withTM = require('next-transpile-modules')(['react-timezone-select']);
+import HoneybadgerSourceMapPlugin from '@honeybadger-io/webpack';
+import { execSync } from 'child_process';
 
 const { HONEYBADGER_API_KEY, HONEYBADGER_ASSETS_URL } = process.env;
 
@@ -10,7 +10,7 @@ const { HONEYBADGER_API_KEY, HONEYBADGER_ASSETS_URL } = process.env;
  */
 // const HONEYBADGER_REVISION = execSync('git rev-parse HEAD').toString().trim();
 
-module.exports = withTM({
+export default {
   async redirects() {
     return [
       {
@@ -63,7 +63,7 @@ module.exports = withTM({
       },
     ];
   },
-  productionSourceMaps: true,
+  productionBrowserSourceMaps: true,
   env: {
     HONEYBADGER_API_KEY,
   },
@@ -71,47 +71,46 @@ module.exports = withTM({
     if (!isServer) {
       config.plugins.push(
         // jsdom is required for draft-js SSR only
-        new webpack.IgnorePlugin(
-          { resourceRegExp: /jsdom$/ }
-        ),
+        new webpack.IgnorePlugin({ resourceRegExp: /jsdom$/ }),
       );
 
-      config.resolve.fallback = {
-        fs: false,
-        net: false,
-        http: require.resolve('stream-http'),
-        os: require.resolve('os-browserify/browser'),
-        https: require.resolve('https-browserify'),
-        child_process: false,
-        stream: require.resolve('stream-browserify'),
-        'browserify-zlib': false,
-        zlib: false,
-        crypto: require.resolve('crypto-browserify'),
-        path: false,
-        tls: false,
-      };
+      // console.debug({ crf: config.resolve.fallback })
 
+      // config.resolve.fallback = {
+      //   fs: false,
+      //   net: false,
+      //   http: require.resolve('stream-http'),
+      //   os: require.resolve('os-browserify/browser'),
+      //   https: require.resolve('https-browserify'),
+      //   child_process: false,
+      //   stream: require.resolve('stream-browserify'),
+      //   'browserify-zlib': false,
+      //   zlib: false,
+      //   crypto: require.resolve('crypto-browserify'),
+      //   path: false,
+      //   tls: false,
+      // };
 
-        /**
-         * For uploading sourcemaps for Honeybadger.
-         */
-        // if (HONEYBADGER_API_KEY && HONEYBADGER_ASSETS_URL) {
-        //   config.devtool = 'hidden-source-map';
+      /**
+       * For uploading sourcemaps for Honeybadger.
+       */
+      // if (HONEYBADGER_API_KEY && HONEYBADGER_ASSETS_URL) {
+      //   config.devtool = 'hidden-source-map';
 
-        //   config.plugins.push(
-        //     new HoneybadgerSourceMapPlugin({
-        //       apiKey: HONEYBADGER_API_KEY,
-        //       assetsUrl: HONEYBADGER_ASSETS_URL,
-        //       revision: HONEYBADGER_REVISION,
-        //     }),
-        //   );
-        // }      
+      //   config.plugins.push(
+      //     new HoneybadgerSourceMapPlugin({
+      //       apiKey: HONEYBADGER_API_KEY,
+      //       assetsUrl: HONEYBADGER_ASSETS_URL,
+      //       revision: HONEYBADGER_REVISION,
+      //     }),
+      //   );
+      // }
     }
 
-    config.plugins.push(
-      new webpack.ProvidePlugin({ Buffer: ['buffer', 'Buffer'] }),
-    );
+    // config.plugins.push(
+    //   new webpack.ProvidePlugin({ Buffer: ['buffer', 'Buffer'] }),
+    // );
 
     return config;
   },
-});
+};

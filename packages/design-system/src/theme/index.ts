@@ -437,7 +437,7 @@ export const selectStyles: Styles = {
   control: (styles) => ({
     ...styles,
     background: theme.colors.dark,
-    border: `1px soild ${theme.colors.white}`,
+    border: `1px solid ${theme.colors.white}`,
     padding: '0.25em 0.5em',
     borderRadius: 10,
     minWidth: '17em',

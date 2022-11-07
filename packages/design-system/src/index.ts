@@ -1,39 +1,36 @@
-// export { default as styled } from '@emotion/styled';
-import * as styled from '@emotion/styled';
-
-export { BoxedNextImage } from './BoxedNextImage';
-export { ConfirmModal } from './ConfirmModal';
-export * from './icons';
-export { LoadingState } from './LoadingState';
-export { MetaBox } from './MetaBox';
-export { MetaButton } from './MetaButton';
+export { BoxedNextImage } from './BoxedNextImage.js';
+export { ConfirmModal } from './ConfirmModal.js';
+export * from './icons/index.js';
+export { LoadingState } from './LoadingState.js';
+export { MetaBox } from './MetaBox.js';
+export { MetaButton } from './MetaButton.js';
 export {
   FilterTag,
   MetaFilterSelectSearch,
   MetaSelect,
-} from './MetaFilterSelect';
-export { MetaHeading } from './MetaHeading';
-export { MetaSecondaryButton } from './MetaSecondaryButton';
-export { MetaTag } from './MetaTag';
-export { MetaTile, MetaTileBody, MetaTileHeader } from './MetaTile';
-export { MultiSelect } from './MultiSelect';
-export { ResponsiveText } from './ResponsiveText';
-export { metaFilterSelectStyles, SelectSearch } from './SelectSearch';
+} from './MetaFilterSelect.js';
+export { MetaHeading } from './MetaHeading.js';
+export { MetaSecondaryButton } from './MetaSecondaryButton.js';
+export { MetaTag } from './MetaTag.js';
+export { MetaTile, MetaTileBody, MetaTileHeader } from './MetaTile.js';
+export { MultiSelect } from './MultiSelect.js';
+export { ResponsiveText } from './ResponsiveText.js';
+export { metaFilterSelectStyles, SelectSearch } from './SelectSearch.js';
 export type {
   ITimezoneOption,
   LabeledOptions,
   LabeledValue,
   TimeZoneType,
-} from './SelectTimeZone';
+} from './SelectTimeZone.js';
 export {
   getCityZonesFor,
   getTimeZoneFor,
   SelectTimeZone,
   TimeZoneOptions,
   timeZonesFilter,
-} from './SelectTimeZone';
-export * from './StatusedSubmitButton';
-export * from './SVG';
+} from './SelectTimeZone.js';
+export * from './StatusedSubmitButton.js';
+export * from './SVG.js';
 export {
   chakraesqueStyles,
   dropdownStyles,
@@ -41,9 +38,9 @@ export {
   multiSelectStyles,
   searchSelectStyles,
   selectStyles,
-} from './theme';
-export * from './typography';
-export * from './ViewAllButton';
+} from './theme/index.js';
+export * from './typography.js';
+export * from './ViewAllButton.js';
 export {
   AddIcon,
   ArrowBackIcon,
@@ -206,7 +203,7 @@ export {
   Wrap,
   WrapItem,
 } from '@chakra-ui/react';
-export { styled }; // imported at top
+// export { default as styled } from '@emotion/styled';
 export { Prose, withProse } from '@nikolovlazar/chakra-ui-prose';
 export type { HTMLMotionProps, PanInfo } from 'framer-motion';
 export { motion, useAnimation, useMotionValue } from 'framer-motion';

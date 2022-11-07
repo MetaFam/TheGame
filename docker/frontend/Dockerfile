@@ -67,4 +67,4 @@ COPY --from=build /usr/src/app/packages/utils/node_modules ./packages/utils/node
 COPY --from=build /usr/src/app/packages/design-system/package.json ./packages/design-system/package.json
 COPY --from=build /usr/src/app/packages/design-system/dist ./packages/design-system/dist
 
-CMD [ "yarn", "web", "start" ]
+CMD ["yarn", "web", "start"]

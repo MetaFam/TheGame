@@ -250,16 +250,26 @@ export const QuoteLayer = ({
         },
       }}
     >
-      <Image src={BubbleSm} top="60%" left="10%" animation={upDownAnimation} />
       <Image
-        src={BubbleLg}
+        src={BubbleSm.src}
+        top="60%"
+        left="10%"
+        animation={upDownAnimation}
+      />
+      <Image
+        src={BubbleLg.src}
         top="3%"
         left="20%"
         animation={upDownAnimationLong}
       />
-      <Image src={BubbleSm} top="30%" right="25%" animation={upDownAnimation} />
       <Image
-        src={BubbleLg}
+        src={BubbleSm.src}
+        top="30%"
+        right="25%"
+        animation={upDownAnimation}
+      />
+      <Image
+        src={BubbleLg.src}
         top="60%"
         right="15%"
         animation={upDownAnimationLong}

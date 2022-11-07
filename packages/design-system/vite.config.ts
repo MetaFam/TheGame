@@ -10,6 +10,7 @@ export default defineConfig({
       name: 'ds',
       fileName: 'ds',
     },
+    minify: false,
     rollupOptions: {
       external: ['react'],
       output: {

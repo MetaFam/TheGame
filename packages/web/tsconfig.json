@@ -5,7 +5,9 @@
     "noEmit": true,
     "incremental": true,
     "esModuleInterop": true,
-    "jsx": "preserve"
+    "jsx": "preserve",
+    "noUnusedLocals": false,
+    "noUnusedParameters": false
   },
   "references": [
     {

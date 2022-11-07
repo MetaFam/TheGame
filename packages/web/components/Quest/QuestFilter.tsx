@@ -94,7 +94,6 @@ export const QuestFilter: React.FC<Props> = ({
     <Wrap justifyContent="center">
       <Wrap
         transition="all 0.25s"
-        py={6}
         style={{ backdropFilter: 'blur(7px)' }}
         position="sticky"
         top="-1px"
@@ -105,6 +104,7 @@ export const QuestFilter: React.FC<Props> = ({
         maxW="79rem"
         bg="whiteAlpha.200"
         px="1.5rem"
+        py={6}
         borderRadius="6px"
       >
         <MetaFilterSelectSearch
@@ -198,7 +198,6 @@ export const QuestFilter: React.FC<Props> = ({
             disableEmpty
           />
         )}
-
         {myId && (
           <WrapItem
             alignItems="center"
