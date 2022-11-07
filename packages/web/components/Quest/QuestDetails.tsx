@@ -131,7 +131,6 @@ export const QuestDetails: React.FC<Props> = ({ quest }) => {
             </Text>
             <SkillsTags
               skills={quest.quest_skills.map(({ skill }) => skill) as Skill[]}
-              maxSkills={4}
             />
           </Box>
           <Box pb={2}>
