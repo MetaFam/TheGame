@@ -11,6 +11,8 @@ import { FaTimes } from 'react-icons/fa';
 import { BoxMetadata, BoxType, BoxTypes, createBoxKey } from 'utils/boxTypes';
 import { isBoxResizable } from 'utils/layoutHelpers';
 
+import { DashboardQuestsCompleted } from './QuestsCompleted';
+
 type Props = {
   type: BoxType;
   player?: Player;
@@ -35,6 +37,8 @@ const DashboardSectionInner: React.FC<Props> = ({
       return <Calendar />;
     case BoxTypes.DASHBOARD_LEADERBOARD:
       return <Leaderboard />;
+    case BoxTypes.DASHBOARD_COMPLETED_QUESTS:
+      return <DashboardQuestsCompleted />;
     case BoxTypes.EMBEDDED_URL: {
       const { url } = metadata ?? {};
       return url ? <EmbeddedUrl {...{ url, editing }} /> : null;
@@ -57,6 +61,10 @@ const getTitle = (type: BoxType, metadata?: BoxMetadata) => {
       return 'Calendar';
     case BoxTypes.DASHBOARD_LEADERBOARD:
       return 'Leaderboard';
+    case BoxTypes.DASHBOARD_CREATED_QUESTS:
+      return 'Posted Quests';
+    case BoxTypes.DASHBOARD_COMPLETED_QUESTS:
+      return 'Quests';
     default:
       return '';
   }
