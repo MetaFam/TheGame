@@ -14,6 +14,7 @@ import {
   ModalOverlay,
   SimpleGrid,
   Text,
+  Tooltip,
   useDisclosure,
   ViewAllButton,
   VStack,
@@ -31,7 +32,7 @@ type DAOListingProps = {
   membership: GuildMembership;
 };
 
-const DAOListing: React.FC<DAOListingProps> = ({
+export const DAOListing: React.FC<DAOListingProps> = ({
   membership: {
     title,
     memberShares,
@@ -131,6 +132,35 @@ const DAOListing: React.FC<DAOListingProps> = ({
           </Flex>
         </Flex>
       </Flex>
+    </LinkGuild>
+  );
+};
+
+export const DAOListingSmall: React.FC<DAOListingProps> = ({
+  membership: { title, chain, address, logoURL, guildname },
+}) => {
+  const daoURL = useMemo(() => getDAOLink(chain, address), [chain, address]);
+
+  return (
+    <LinkGuild {...{ daoURL, guildname }}>
+      <Tooltip label={title ?? `Unknown ${chain} DAO`}>
+        <Flex align="center">
+          <Box bg="purpleBoxLight" minW={8} h={8} borderRadius={8}>
+            {logoURL ? (
+              <Image
+                src={optimizedImage('logoURL', logoURL)}
+                w={6}
+                h={6}
+                mx="auto"
+                my={1}
+                borderRadius={4}
+              />
+            ) : (
+              <ChainIcon {...{ chain, tooltip: false }} boxSize={9} p={2} />
+            )}
+          </Box>
+        </Flex>
+      </Tooltip>
     </LinkGuild>
   );
 };

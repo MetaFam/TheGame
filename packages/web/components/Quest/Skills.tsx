@@ -79,7 +79,7 @@ export const SkillsTags: React.FC<SkillsProps> = ({
       <WrapItem key={skill.id}>
         <Tooltip label={skill.category}>
           <MetaTag
-            size="md"
+            size="sm"
             fontWeight="normal"
             backgroundColor={SkillColors[skill.category]}
           >
@@ -90,7 +90,7 @@ export const SkillsTags: React.FC<SkillsProps> = ({
     ))}
     {skills.length > maxSkills && (
       <WrapItem>
-        <MetaTag size="md" fontWeight="normal">
+        <MetaTag size="sm" fontWeight="normal">
           {`+${skills.length - maxSkills}`}
         </MetaTag>
       </WrapItem>

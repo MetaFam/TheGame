@@ -13,7 +13,11 @@ import {
   Player_Bool_Exp,
 } from 'graphql/autogen/types';
 import { client as defaultClient } from 'graphql/client';
-import { PlayerFragment, PlayerSkillFragment } from 'graphql/fragments';
+import {
+  PlayerDaoMembershipFragment,
+  PlayerFragment,
+  PlayerSkillFragment,
+} from 'graphql/fragments';
 import { Client } from 'urql';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-expressions
@@ -33,6 +37,7 @@ import { Client } from 'urql';
       where: $where
     ) {
       ...PlayerFragment
+      ...PlayerDaoMembershipFragment
     }
     player_aggregate(where: $where) {
       aggregate {
@@ -41,6 +46,7 @@ import { Client } from 'urql';
     }
   }
   ${PlayerFragment}
+  ${PlayerDaoMembershipFragment}
 `;
 
 export const PLAYER_LIMIT = 9;

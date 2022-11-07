@@ -2,8 +2,9 @@ import {
   Flex,
   Heading,
   HStack,
+  Link,
   LinkBox,
-  LinkOverlay,
+  LoadingState,
   MetaTag,
   MetaTile,
   MetaTileBody,
@@ -17,14 +18,17 @@ import { PlayerProfilePicture } from 'components/Player/PlayerProfilePicture';
 import { PlayerTileMemberships } from 'components/Player/PlayerTileMemberships';
 import { SkillsTags } from 'components/Quest/Skills';
 import { Player, Skill } from 'graphql/autogen/types';
+import { getAllMemberships, GuildMembership } from 'graphql/getMemberships';
 import NextLink from 'next/link';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   getPlayerDescription,
   getPlayerName,
   getPlayerURL,
 } from 'utils/playerHelpers';
 import VanillaTilt from 'vanilla-tilt';
+
+import { DAOListingSmall } from './Section/PlayerMemberships';
 
 type Props = {
   player: Player;
@@ -54,6 +58,17 @@ export const PlayerTile: React.FC<Props> = ({ player }) => {
         `${description!.substring(0, MAX_BIO_LENGTH - 9)}…`
       : description;
 
+  const [memberships, setMemberships] = useState<GuildMembership[]>([]);
+
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    getAllMemberships(player).then((all) => {
+      setLoading(false);
+      setMemberships(all);
+    });
+  }, [player]);
+
   return (
     <div
       className="js-tilt"
@@ -72,7 +87,14 @@ export const PlayerTile: React.FC<Props> = ({ player }) => {
             href="/player/[username]"
             passHref
           >
-            <LinkOverlay display="flex" flexDirection="column" height="100%">
+            <Link
+              display="flex"
+              flexDirection="column"
+              height="100%"
+              _hover={{
+                textUnderline: 'none',
+              }}
+            >
               <MetaTileHeader>
                 <VStack pos="relative">
                   <Flex
@@ -125,17 +147,13 @@ export const PlayerTile: React.FC<Props> = ({ player }) => {
               <MetaTileBody pos="relative" height="full">
                 {displayDescription && (
                   <VStack spacing={2} align="stretch">
-                    <Text textStyle="caption" textTransform="uppercase">
-                      About
-                    </Text>
+                    <Text textStyle="caption">ABOUT</Text>
                     <Text fontSize="sm">{displayDescription}</Text>
                   </VStack>
                 )}
                 {player.skills?.length && (
                   <VStack spacing={2} align="stretch">
-                    <Text textStyle="caption" textTransform="uppercase">
-                      Skills
-                    </Text>
+                    <Text textStyle="caption">SKILLS</Text>
                     <SkillsTags
                       skills={
                         player.skills.map(
@@ -148,18 +166,36 @@ export const PlayerTile: React.FC<Props> = ({ player }) => {
 
                 <PlayerTileMemberships {...{ player }} />
 
-                {player.accounts?.length && (
-                  <VStack spacing={2} align="stretch">
-                    <Text textStyle="caption" textTransform="uppercase">
-                      Contact
-                    </Text>
-                    <HStack mt={2}>
-                      <PlayerContacts {...{ player }} disableBrightId />
-                    </HStack>
-                  </VStack>
-                )}
+                <Flex justifyContent="space-between">
+                  {!!memberships.length && (
+                    <VStack spacing={2} align="stretch">
+                      <Text textStyle="caption">MEMBER OF</Text>
+                      <HStack mt={2}>
+                        {loading && <LoadingState mb={6} />}
+                        {!loading &&
+                          memberships
+                            .slice(0, 3)
+                            .map((membership) => (
+                              <DAOListingSmall
+                                {...{ membership }}
+                                key={membership.memberId}
+                              />
+                            ))}
+                      </HStack>
+                    </VStack>
+                  )}
+
+                  {!!player.accounts?.length && (
+                    <VStack spacing={2} align="stretch">
+                      <Text textStyle="caption">CONTACT</Text>
+                      <HStack mt={2}>
+                        <PlayerContacts {...{ player }} disableBrightId />
+                      </HStack>
+                    </VStack>
+                  )}
+                </Flex>
               </MetaTileBody>
-            </LinkOverlay>
+            </Link>
           </NextLink>
         </MetaTile>
       </LinkBox>
