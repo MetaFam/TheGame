@@ -136,32 +136,44 @@ export const DAOListing: React.FC<DAOListingProps> = ({
   );
 };
 
-export const DAOListingSmall: React.FC<DAOListingProps> = ({
+export const DAOMembershipSmall: React.FC<DAOListingProps> = ({
   membership: { title, chain, address, logoURL, guildname },
 }) => {
   const daoURL = useMemo(() => getDAOLink(chain, address), [chain, address]);
 
   return (
-    <LinkGuild {...{ daoURL, guildname }}>
-      <Tooltip label={title ?? `Unknown ${chain} DAO`}>
-        <Flex align="center">
-          <Box bg="purpleBoxLight" minW={8} h={8} borderRadius={8}>
-            {logoURL ? (
-              <Image
-                src={optimizedImage('logoURL', logoURL)}
-                w={6}
-                h={6}
-                mx="auto"
-                my={1}
-                borderRadius={4}
-              />
-            ) : (
-              <ChainIcon {...{ chain, tooltip: false }} boxSize={9} p={2} />
-            )}
-          </Box>
+    <Tooltip label={title ?? `Unknown ${chain} DAO`}>
+      <LinkGuild {...{ daoURL, guildname }}>
+        <Flex
+          align="center"
+          justifyContent="center"
+          bgColor="rgba(255, 255, 255, 0.06)"
+          minW={8}
+          h={8}
+          onClick={(e) => {
+            e.preventDefault();
+            if (guildname != null) {
+              window.location.href = guildname;
+            } else if (daoURL != null) {
+              window?.open(daoURL, '_blank')?.focus();
+            }
+          }}
+          borderRadius={8}
+          pointerEvents="all"
+        >
+          {logoURL ? (
+            <Image
+              src={optimizedImage('logoURL', logoURL)}
+              w={6}
+              h={6}
+              borderRadius="full"
+            />
+          ) : (
+            <ChainIcon {...{ chain, tooltip: false }} boxSize={9} p={2} />
+          )}
         </Flex>
-      </Tooltip>
-    </LinkGuild>
+      </LinkGuild>
+    </Tooltip>
   );
 };
 
