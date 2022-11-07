@@ -28,7 +28,7 @@ import {
 } from 'utils/playerHelpers';
 import VanillaTilt from 'vanilla-tilt';
 
-import { DAOListingSmall } from './Section/PlayerMemberships';
+import { DAOMembershipSmall } from './Section/PlayerMemberships';
 
 type Props = {
   player: Player;
@@ -166,19 +166,19 @@ export const PlayerTile: React.FC<Props> = ({ player }) => {
 
                 <PlayerTileMemberships {...{ player }} />
 
-                <Flex justifyContent="space-between">
+                <Flex justifyContent="space-between" pointerEvents="none">
                   {!!memberships.length && (
                     <VStack spacing={2} align="stretch">
                       <Text textStyle="caption">MEMBER OF</Text>
-                      <HStack mt={2}>
+                      <HStack mt={2} position="relative" zIndex={1}>
                         {loading && <LoadingState mb={6} />}
                         {!loading &&
                           memberships
                             .slice(0, 3)
                             .map((membership) => (
-                              <DAOListingSmall
+                              <DAOMembershipSmall
                                 {...{ membership }}
-                                key={membership.memberId}
+                                key={membership.address}
                               />
                             ))}
                       </HStack>
