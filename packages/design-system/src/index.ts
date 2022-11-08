@@ -12,7 +12,12 @@ export {
 export { MetaHeading } from './MetaHeading.js';
 export { MetaSecondaryButton } from './MetaSecondaryButton.js';
 export { MetaTag } from './MetaTag.js';
-export { MetaTile, MetaTileBody, MetaTileHeader } from './MetaTile.js';
+export {
+  MetaTile,
+  MetaTileBody,
+  MetaTileHeader,
+  MetaTileLinkWrapper,
+} from './MetaTile.js';
 export { MultiSelect } from './MultiSelect.js';
 export { ResponsiveText } from './ResponsiveText.js';
 export { metaFilterSelectStyles, SelectSearch } from './SelectSearch.js';
