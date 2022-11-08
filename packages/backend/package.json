@@ -19,6 +19,7 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
+    "@ceramicnetwork/common": "^2.10.0",
     "@ceramicnetwork/http-client": "^2.5.0",
     "@ceramicnetwork/stream-caip10-link": "^2.3.0",
     "@datamodels/identity-accounts-web": "^0.2.0",

@@ -454,29 +454,27 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
                     borderRadius="full"
                     display="inline-flex"
                   >
-                    <PulseHoverBox>
-                      <Image
-                        ref={endpoints.profileImageURL.ref ?? null}
-                        onLoad={() => {
-                          endpoints.profileImageURL.setLoading(false);
-                        }}
-                        display={
-                          endpoints.profileImageURL.loading ? 'none' : 'inherit'
-                        }
-                        src={endpoints.profileImageURL.val}
-                        borderRadius="full"
-                        objectFit="cover"
-                        h="full"
-                        w="full"
-                        border="2px solid"
-                        borderColor={
-                          endpoints.profileImageURL.active &&
-                          endpoints.profileImageURL.val
-                            ? 'blue.400'
-                            : 'transparent'
-                        }
-                      />
-                    </PulseHoverBox>
+                    <Image
+                      ref={endpoints.profileImageURL.ref ?? null}
+                      onLoad={() => {
+                        endpoints.profileImageURL.setLoading(false);
+                      }}
+                      display={
+                        endpoints.profileImageURL.loading ? 'none' : 'inherit'
+                      }
+                      src={endpoints.profileImageURL.val}
+                      borderRadius="full"
+                      objectFit="cover"
+                      h="full"
+                      w="full"
+                      border="2px solid"
+                      borderColor={
+                        endpoints.profileImageURL.active &&
+                        endpoints.profileImageURL.val
+                          ? 'blue.400'
+                          : 'transparent'
+                      }
+                    />
                     <Center>
                       {endpoints.profileImageURL.loading &&
                         (endpoints.profileImageURL.val == null ? (

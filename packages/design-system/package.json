@@ -18,7 +18,9 @@
   "scripts": {
     "typecheck": "tsc -b",
     "build": "vite build && tsc --emitDeclarationOnly",
-    "dev": "vite dev",
+    "dev": "vite build --watch",
+    "dev:serve": "vite dev",
+    "prod:serve": "vite preview",
     "test": "jest --passWithNoTests",
     "prepublish": "yarn build",
     "precommit": "yarn lint-staged"
