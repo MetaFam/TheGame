@@ -12,6 +12,7 @@ import { BoxMetadata, BoxType, BoxTypes, createBoxKey } from 'utils/boxTypes';
 import { isBoxResizable } from 'utils/layoutHelpers';
 
 import { DashboardQuestsCompleted } from './QuestsCompleted';
+import { DashboardQuestsCreated } from './QuestsCreated';
 
 type Props = {
   type: BoxType;
@@ -39,6 +40,8 @@ const DashboardSectionInner: React.FC<Props> = ({
       return <Leaderboard />;
     case BoxTypes.DASHBOARD_COMPLETED_QUESTS:
       return <DashboardQuestsCompleted />;
+    case BoxTypes.DASHBOARD_CREATED_QUESTS:
+      return <DashboardQuestsCreated />;
     case BoxTypes.EMBEDDED_URL: {
       const { url } = metadata ?? {};
       return url ? <EmbeddedUrl {...{ url, editing }} /> : null;
@@ -61,10 +64,10 @@ const getTitle = (type: BoxType, metadata?: BoxMetadata) => {
       return 'Calendar';
     case BoxTypes.DASHBOARD_LEADERBOARD:
       return 'Leaderboard';
-    case BoxTypes.DASHBOARD_CREATED_QUESTS:
-      return 'Posted Quests';
     case BoxTypes.DASHBOARD_COMPLETED_QUESTS:
-      return 'Quests';
+      return 'Submitted Quests';
+    case BoxTypes.DASHBOARD_CREATED_QUESTS:
+      return 'Posted Quest Submissions';
     default:
       return '';
   }
