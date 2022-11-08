@@ -80,20 +80,20 @@ export const AnimatedWaves = ({ animationName = '', playing = false }) => (
     <InnerWaveA
       className="waveA"
       sx={{
-        position: `absolute`,
-        width: `200%`,
+        position: 'absolute',
+        width: '200%',
         left: 0,
-        top: { base: 0, '2xl': `50px` },
-        height: `full`,
+        top: { base: 0, '2xl': '50px' },
+        height: 'full',
         svg: {
-          width: `100%`,
-          height: [`150px`, `150px`, `200px`],
-          transform: `scale(-1, -1)`,
+          width: '100%',
+          height: ['150px', '150px', '200px'],
+          transform: 'scale(-1, -1)',
           zIndex: 50,
         },
         zIndex: 50,
         'svg > path': {
-          // boxShadow: `0 0 35px rgba(0,0,0,1)`,
+          // boxShadow: '0 0 35px rgba(0,0,0,1)',
           animationPlayState: playing ? 'running' : 'paused',
         },
       }}
@@ -117,20 +117,20 @@ export const AnimatedWaves = ({ animationName = '', playing = false }) => (
     <InnerWaveB
       className="waveB"
       sx={{
-        position: `absolute`,
-        width: `180%`,
+        position: 'absolute',
+        width: '180%',
         right: 0,
-        top: { base: '40px', '2xl': `30px` },
-        height: `full`,
+        top: { base: '40px', '2xl': '30px' },
+        height: 'full',
         svg: {
-          width: `100%`,
-          height: [`150px`, `150px`, `150px`, `200px`],
+          width: '100%',
+          height: ['150px', '150px', '150px', '200px'],
           zIndex: 30,
         },
-        transform: `scale(1, -1)`,
+        transform: 'scale(1, -1)',
         zIndex: 300,
         'svg > path': {
-          // boxShadow: `0 0 35px rgba(0,0,0,1)`,
+          // boxShadow: '0 0 35px rgba(0,0,0,1)',
           animationPlayState: playing ? 'running' : 'paused',
         },
       }}
@@ -154,20 +154,20 @@ export const AnimatedWaves = ({ animationName = '', playing = false }) => (
     <InnerWaveC
       className="waveC"
       sx={{
-        position: `absolute`,
-        width: `160%`,
+        position: 'absolute',
+        width: '160%',
         left: 0,
-        top: { base: 3, '2xl': `50px` },
-        height: `full`,
+        top: { base: 3, '2xl': '50px' },
+        height: 'full',
         svg: {
-          width: `100%`,
-          height: [`150px`, `150px`, `200px`],
-          transform: `scale(-1, -1)`,
+          width: '100%',
+          height: ['150px', '150px', '200px'],
+          transform: 'scale(-1, -1)',
           zIndex: 50,
         },
         zIndex: 50,
         'svg > path': {
-          // boxShadow: `0 0 35px rgba(0,0,0,1)`,
+          // boxShadow: '0 0 35px rgba(0,0,0,1)',
           animationPlayState: playing ? 'running' : 'paused',
         },
       }}

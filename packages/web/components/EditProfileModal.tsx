@@ -207,6 +207,7 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
 
   const onFileChange = useCallback(
     ({ target: input }: { target: HTMLInputElement }) => {
+      console.info({ files: input.files });
       const file = input.files?.[0];
       if (!file) return;
       const key = input.name as keyof typeof endpoints;
@@ -437,8 +438,8 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
                   </Label>
                 </Tooltip>
                 <Center
+                  w="full"
                   position="relative"
-                  justifyContent="left"
                   border="2px solid"
                   borderColor={
                     endpoints.profileImageURL.active &&
@@ -560,7 +561,6 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
                     borderColor={
                       endpoints[key].active ? 'blue.400' : 'transparent'
                     }
-                    justifyContent="left"
                   >
                     <Image
                       ref={endpoints[key].ref ?? null}

@@ -55,7 +55,7 @@ export const QuestChainDetails: Record<QuestChainType, QuestChainInfo> = {
     title: `The Engaged Octo's Path`,
     description:
       'The gates lead to a road. Walk it to the end and your efforts will be rewarded',
-    icon: engagedIcon,
+    icon: engagedIcon.src,
   },
   // Builder's path: https://questchains.xyz/chain/0x89/0x8d23ef86e502b4c24d1ae4bf96249721903cbc71
   [QuestChains.BUILDERS_PATH]: {
@@ -63,7 +63,7 @@ export const QuestChainDetails: Record<QuestChainType, QuestChainInfo> = {
     address: '0x8d23ef86e502b4c24d1ae4bf96249721903cbc71',
     title: "Builder's path",
     description: 'Become a builder',
-    icon: hammerIcon,
+    icon: hammerIcon.src,
   },
   // Designer's path: https://questchains.xyz/chain/0x89/0x32079721deef91dae71fc8ebcfabc73702f7b137
   [QuestChains.DESIGNERS_PATH]: {
@@ -71,7 +71,7 @@ export const QuestChainDetails: Record<QuestChainType, QuestChainInfo> = {
     address: '0x32079721deef91dae71fc8ebcfabc73702f7b137',
     title: "Designer's path",
     description: 'Become a designer',
-    icon: designIcon,
+    icon: designIcon.src,
   },
   // Patron's path: https://questchains.xyz/chain/0x89/0x372C28C97fcb2600d025Bf536C9738A08fF8022b
   [QuestChains.PATRONS_PATH]: {
@@ -79,7 +79,7 @@ export const QuestChainDetails: Record<QuestChainType, QuestChainInfo> = {
     address: '0x372C28C97fcb2600d025Bf536C9738A08fF8022b',
     title: "Patron's path",
     description: 'Become a patron',
-    icon: sproutIcon,
+    icon: sproutIcon.src,
   },
   // Bridgebuilder's path: https://questchains.xyz/chain/0x89/0xf7fbc471cbae68bf3833ff820c926ffe3c5bf0f7
   [QuestChains.BRIDGEBUILDERS_PATH]: {
@@ -87,7 +87,7 @@ export const QuestChainDetails: Record<QuestChainType, QuestChainInfo> = {
     address: '0xf7fbc471cbae68bf3833ff820c926ffe3c5bf0f7',
     title: "Bridgebuilder's path",
     description: 'Become a bridgebuilder',
-    icon: bridgeIcon,
+    icon: bridgeIcon.src,
   },
   // Rogue's path: https://questchains.xyz/chain/0x89/0xF0a2E8e05555F187E1d2b5ACabA925598477F173
   [QuestChains.ROGUES_PATH]: {
@@ -95,7 +95,7 @@ export const QuestChainDetails: Record<QuestChainType, QuestChainInfo> = {
     address: '0xF0a2E8e05555F187E1d2b5ACabA925598477F173',
     title: "Rogue's path",
     description: 'Become a rogue',
-    icon: rogueIcon,
+    icon: rogueIcon.src,
   },
 };
 
