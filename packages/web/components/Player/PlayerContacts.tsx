@@ -1,4 +1,5 @@
-import { Flex, Icon, Link, Tooltip, Wrap, WrapItem } from '@metafam/ds';
+import { IconButton, MetaTileLinkWrapper, Wrap, WrapItem } from '@metafam/ds';
+import { linkButtonProps } from 'components/Guild/Section/GuildLinks';
 import { Player } from 'graphql/autogen/types';
 import React from 'react';
 import { FaGithub, FaTwitter } from 'react-icons/fa';
@@ -20,47 +21,41 @@ export const PlayerContacts: React.FC<Props> = ({
         case 'TWITTER': {
           const link = `https://twitter.com/${acc.identifier}`;
           return (
-            <Tooltip key={link} label={acc.identifier}>
-              <Link href={link} isExternal>
-                <Flex
-                  align="center"
-                  justifyContent="center"
-                  bgColor="rgba(255, 255, 255, 0.06)"
-                  minW={8}
-                  h={8}
-                  borderRadius={8}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    if (link) window?.open(link, '_blank')?.focus();
-                  }}
-                >
-                  <Icon as={FaTwitter} w={4} h={4} m={0} />
-                </Flex>
-              </Link>
-            </Tooltip>
+            <MetaTileLinkWrapper>
+              <IconButton
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (link) window?.open(link, '_blank')?.focus();
+                }}
+                aria-label="Twitter"
+                icon={<FaTwitter />}
+                minW={6}
+                w={6}
+                h={6}
+                borderRadius="full"
+                {...linkButtonProps}
+              />
+            </MetaTileLinkWrapper>
           );
         }
         case 'GITHUB': {
           const link = `https://github.com/${acc.identifier}`;
           return (
-            <Tooltip key={link} label={acc.identifier}>
-              <Link href={link} isExternal>
-                <Flex
-                  align="center"
-                  justifyContent="center"
-                  bgColor="rgba(255, 255, 255, 0.06)"
-                  minW={8}
-                  h={8}
-                  borderRadius={8}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    if (link) window?.open(link, '_blank')?.focus();
-                  }}
-                >
-                  <Icon as={FaGithub} w={4} h={4} m={0} />
-                </Flex>
-              </Link>
-            </Tooltip>
+            <MetaTileLinkWrapper>
+              <IconButton
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (link) window?.open(link, '_blank')?.focus();
+                }}
+                aria-label="Github"
+                icon={<FaGithub />}
+                minW={6}
+                w={6}
+                h={6}
+                borderRadius="full"
+                {...linkButtonProps}
+              />
+            </MetaTileLinkWrapper>
           );
         }
         default: {

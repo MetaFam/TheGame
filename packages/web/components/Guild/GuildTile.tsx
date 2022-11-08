@@ -1,8 +1,9 @@
 import {
-  Avatar,
+  Flex,
   Heading,
+  Image,
+  Link,
   LinkBox,
-  LinkOverlay,
   MetaButton,
   MetaTag,
   MetaTile,
@@ -16,6 +17,8 @@ import NextLink from 'next/link';
 import React from 'react';
 import { optimizedImage } from 'utils/imageHelpers';
 
+import { GuildLinksSmall } from './Section/GuildLinks';
+
 type Props = {
   guild: GuildFragment;
 };
@@ -28,43 +31,72 @@ export const GuildTile: React.FC<Props> = ({ guild }) => (
         href="/guild/[guildname]"
         passHref
       >
-        <LinkOverlay>
+        <Link
+          _hover={{
+            textUnderline: 'none',
+          }}
+          display="flex"
+          flexDirection="column"
+          height="100%"
+        >
           <MetaTileHeader>
-            <VStack align="center">
+            <VStack pos="relative" h="full">
               {guild.logo ? (
-                <Avatar
-                  size="xl"
+                <Image
                   src={optimizedImage('logoURL', guild.logo)}
-                  name={guild.name}
+                  borderTopRadius={10}
                 />
               ) : null}
 
-              <Heading size="sm" color="white">
-                {guild.name}
-              </Heading>
+              <Flex px={3} w="full" pos="absolute" bottom={-6} zIndex={1}>
+                <Heading
+                  size="lg"
+                  color="white"
+                  bgColor="rgba(255, 255, 255, 0.06)"
+                  style={{ backdropFilter: 'blur(10px)' }}
+                  lineHeight={1.8}
+                  justifyContent="center"
+                  px={3}
+                  width="full"
+                  textAlign="center"
+                  borderRadius={10}
+                  fontFamily="body"
+                  fontWeight={400}
+                >
+                  {guild.name}
+                </Heading>
+              </Flex>
+            </VStack>
+          </MetaTileHeader>
+          <MetaTileBody justifyContent="space-between">
+            <Flex flexDir="column" gap={2}>
+              {guild.description ? (
+                <VStack spacing={2} align="stretch">
+                  <Text textStyle="caption">ABOUT</Text>
+                  <Text fontSize="sm">{guild.description}</Text>
+                </VStack>
+              ) : null}
               {guild.type ? (
                 <MetaTag size="md" w="fit-content">
                   {guild.type}
                   GUILD
                 </MetaTag>
               ) : null}
-            </VStack>
-            {guild.description ? (
-              <VStack spacing={2} align="stretch">
-                <Text textStyle="caption">ABOUT</Text>
-                <Text fontSize="sm">{guild.description}</Text>
-              </VStack>
+            </Flex>
+            <GuildLinksSmall {...{ guild }} />
+            {guild.joinButtonUrl ? (
+              <MetaButton
+                as="a"
+                href={guild.joinButtonUrl}
+                target="_blank"
+                bottom={0}
+              >
+                Join
+              </MetaButton>
             ) : null}
-          </MetaTileHeader>
-        </LinkOverlay>
+          </MetaTileBody>
+        </Link>
       </NextLink>
-      <MetaTileBody>
-        {guild.joinButtonUrl ? (
-          <MetaButton as="a" href={guild.joinButtonUrl} target="_blank">
-            Join
-          </MetaButton>
-        ) : null}
-      </MetaTileBody>
     </MetaTile>
   </LinkBox>
 );

@@ -1,5 +1,5 @@
 import { Flex, FlexProps, StackProps, VStack } from '@chakra-ui/react';
-import React from 'react';
+import React, { ReactNode } from 'react';
 import VanillaTilt from 'vanilla-tilt';
 
 export const MetaTileHeader: React.FC<StackProps> = ({
@@ -11,6 +11,7 @@ export const MetaTileHeader: React.FC<StackProps> = ({
     spacing="6"
     align="stretch"
     position="relative"
+    height="full"
     {...props}
     borderTopRadius={10}
     bgColor="rgba(255, 255, 255, 0.2)"
@@ -24,6 +25,8 @@ export const MetaTileBody: React.FC<StackProps> = ({ children, ...props }) => (
     w="full"
     spacing={3}
     align="stretch"
+    position="relative"
+    height="full"
     p={3}
     pt={8}
     borderBottomRadius={10}
@@ -79,3 +82,18 @@ export const MetaTile: React.FC<FlexProps> = ({ children, ...props }) => {
     </div>
   );
 };
+
+export const MetaTileLinkWrapper: React.FC<{ children: ReactNode }> = ({
+  children,
+}) => (
+  <Flex
+    align="center"
+    justifyContent="center"
+    bgColor="rgba(255, 255, 255, 0.06)"
+    minW={8}
+    h={8}
+    borderRadius={8}
+  >
+    {children}
+  </Flex>
+);

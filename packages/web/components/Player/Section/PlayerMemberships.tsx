@@ -144,11 +144,6 @@ export const DAOMembershipSmall: React.FC<DAOListingProps> = ({
   return (
     <Tooltip label={title ?? `Unknown ${chain} DAO`}>
       <Flex
-        align="center"
-        justifyContent="center"
-        bgColor="rgba(255, 255, 255, 0.06)"
-        minW={8}
-        h={8}
         onClick={(e) => {
           e.preventDefault();
           if (guildname != null) {
@@ -157,6 +152,11 @@ export const DAOMembershipSmall: React.FC<DAOListingProps> = ({
             window?.open(daoURL, '_blank')?.focus();
           }
         }}
+        align="center"
+        justifyContent="center"
+        bgColor="rgba(255, 255, 255, 0.06)"
+        minW={8}
+        h={8}
         borderRadius={8}
         pointerEvents="all"
       >
