@@ -24,6 +24,7 @@ export const PlayerContacts: React.FC<Props> = ({
               <Link href={link} isExternal>
                 <Flex
                   align="center"
+                  justifyContent="center"
                   bgColor="rgba(255, 255, 255, 0.06)"
                   minW={8}
                   h={8}
