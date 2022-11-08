@@ -11,12 +11,15 @@ import {
   Text,
   VStack,
 } from '@metafam/ds';
+import { Maybe } from '@metafam/utils';
+import { PatronRank } from 'components/Patron/PatronRank';
 import { PlayerContacts } from 'components/Player/PlayerContacts';
 import { PlayerProfilePicture } from 'components/Player/PlayerProfilePicture';
 import { PlayerTileMemberships } from 'components/Player/PlayerTileMemberships';
 import { SkillsTags } from 'components/Quest/Skills';
 import { Player, Skill } from 'graphql/autogen/types';
 import { getAllMemberships, GuildMembership } from 'graphql/getMemberships';
+import { Patron } from 'graphql/types';
 import NextLink from 'next/link';
 import React, { useEffect, useState } from 'react';
 import {
@@ -30,12 +33,19 @@ import { DAOMembershipSmall } from './Section/PlayerMemberships';
 
 type Props = {
   player: Player;
-  showSeasonalXP?: boolean;
+  isPatron?: boolean;
+  pSeedPrice?: Maybe<number>;
+  index?: number;
 };
 
 const MAX_BIO_LENGTH = 240;
 
-export const PlayerTile: React.FC<Props> = ({ player }) => {
+export const PlayerTile: React.FC<Props> = ({
+  player,
+  isPatron = false,
+  pSeedPrice,
+  index,
+}) => {
   const description = getPlayerDescription(player);
   const displayDescription =
     (description?.length ?? 0) > MAX_BIO_LENGTH
@@ -68,7 +78,15 @@ export const PlayerTile: React.FC<Props> = ({ player }) => {
           >
             <MetaTileHeader>
               <VStack pos="relative" h="full">
-                <PlayerRank {...{ player }} />
+                {isPatron && typeof index === 'number' && pSeedPrice ? (
+                  <PatronRank
+                    patron={player as Patron}
+                    pSeedPrice={pSeedPrice}
+                    index={index}
+                  />
+                ) : (
+                  <PlayerRank player={player} />
+                )}
                 <PlayerProfilePicture {...{ player }} size="xl" />
                 <Flex px={3} w="full" pos="absolute" bottom={-6} zIndex={1}>
                   <Heading
