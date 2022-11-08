@@ -5,13 +5,11 @@ import {
   Link,
   LinkBox,
   LoadingState,
-  MetaTag,
   MetaTile,
   MetaTileBody,
   MetaTileHeader,
   Text,
   VStack,
-  WrapItem,
 } from '@metafam/ds';
 import { PlayerContacts } from 'components/Player/PlayerContacts';
 import { PlayerProfilePicture } from 'components/Player/PlayerProfilePicture';
@@ -27,6 +25,7 @@ import {
   getPlayerURL,
 } from 'utils/playerHelpers';
 
+import { PlayerRank } from './PlayerRank';
 import { DAOMembershipSmall } from './Section/PlayerMemberships';
 
 type Props = {
@@ -69,32 +68,7 @@ export const PlayerTile: React.FC<Props> = ({ player }) => {
           >
             <MetaTileHeader>
               <VStack pos="relative">
-                <Flex
-                  flexDir="column"
-                  gap={1}
-                  pos="absolute"
-                  left={-8}
-                  p={3}
-                  top={-8}
-                  background="rgba(255, 255, 255, 0.1)"
-                  backdropFilter="blur(10.5px)"
-                  borderRadius="8px"
-                >
-                  {player.rank && (
-                    <WrapItem>
-                      <MetaTag
-                        backgroundColor={player.rank.toLowerCase()}
-                        size="md"
-                        color="blackAlpha.600"
-                      >
-                        {player.rank}
-                      </MetaTag>
-                    </WrapItem>
-                  )}
-                  <Text fontSize="sm" color="blueLight">
-                    XP: {Math.floor(player.totalXP).toLocaleString()}
-                  </Text>
-                </Flex>
+                <PlayerRank {...{ player }} />
                 <PlayerProfilePicture {...{ player }} size="xl" />
                 <Flex px={3} w="full" pos="absolute" bottom={-6} zIndex={1}>
                   <Heading
