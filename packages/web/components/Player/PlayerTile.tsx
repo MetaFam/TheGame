@@ -42,14 +42,7 @@ export const PlayerTile: React.FC<Props> = ({ player }) => {
     const element = document.querySelectorAll('.js-tilt');
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    VanillaTilt.init(element, {
-      scale: 1.03,
-      max: 6,
-      glare: true,
-      'max-glare': 0.3,
-      speed: 800,
-      easing: 'cubic-bezier(.03,.98,.52,.99)',
-    });
+    VanillaTilt.init(element);
   }
   const description = getPlayerDescription(player);
   const displayDescription =
@@ -73,6 +66,12 @@ export const PlayerTile: React.FC<Props> = ({ player }) => {
     <div
       className="js-tilt"
       data-tilt
+      data-tilt-scale="1.03"
+      data-tilt-max="6"
+      data-tilt-glare="true"
+      data-tilt-max-glare="0.3"
+      data-tilt-speed="800"
+      data-tilt-easing="cubic-bezier(.03,.98,.52,.99)"
       style={{
         display: 'flex',
         height: '100%',
@@ -188,7 +187,7 @@ export const PlayerTile: React.FC<Props> = ({ player }) => {
                   {!!player.accounts?.length && (
                     <VStack spacing={2} align="stretch">
                       <Text textStyle="caption">CONTACT</Text>
-                      <HStack mt={2}>
+                      <HStack mt={2} pointerEvents="all">
                         <PlayerContacts {...{ player }} disableBrightId />
                       </HStack>
                     </VStack>
