@@ -8,9 +8,6 @@ import {
   GetQuestsDocument,
   GetQuestsQuery,
   GetQuestsQueryVariables,
-  GetQuestsWithCompletionsDocument,
-  GetQuestsWithCompletionsQuery,
-  GetQuestsWithCompletionsQueryVariables,
   Order_By,
   QuestStatus_Enum,
   Scalars,
@@ -72,12 +69,18 @@ import { Client } from 'urql';
     }
   }
 
-  query GetQuestsWithCompletions($createdByPlayerId: uuid) {
+  query GetQuestsWithCompletions(
+    $createdByPlayerId: uuid!
+    $completionStatus: QuestCompletionStatus_enum
+  ) {
     quest(
       order_by: { createdAt: desc }
       where: {
         status: { _eq: OPEN }
         createdByPlayerId: { _eq: $createdByPlayerId }
+        quest_completions: {
+          status: { _eq: $completionStatus}
+        }
       }
     ) {
       id
@@ -166,28 +169,4 @@ export const getCompletedQuestsByPlayerQuery = async (
   }
 
   return data.quest_completion;
-};
-
-export const getQuestsByPlayerWithCompletionsQuery = async (
-  createdByPlayerId: Scalars['uuid'],
-  client: Client = defaultClient,
-) => {
-  const { data, error } = await client
-    .query<
-      GetQuestsWithCompletionsQuery,
-      GetQuestsWithCompletionsQueryVariables
-    >(GetQuestsWithCompletionsDocument, {
-      createdByPlayerId,
-    })
-    .toPromise();
-
-  if (!data) {
-    if (error) {
-      throw error;
-    }
-
-    return [];
-  }
-
-  return data.quest;
 };
