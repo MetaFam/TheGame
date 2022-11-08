@@ -55,9 +55,9 @@ export const MetaTile: React.FC<FlexProps & MetaTileProps> = ({
   return (
     <div
       className={props.noTilt ? '' : 'js-tilt'}
-      data-tilt-scale="1.03"
-      data-tilt-max="6"
-      data-tilt-speed="800"
+      data-tilt-scale={1.03}
+      data-tilt-max={6}
+      data-tilt-speed={800}
       data-tilt-easing="cubic-bezier(.03,.98,.52,.99)"
       style={{
         display: 'flex',
