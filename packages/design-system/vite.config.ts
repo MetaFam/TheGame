@@ -12,10 +12,11 @@ export default defineConfig({
     },
     minify: false,
     rollupOptions: {
-      external: ['react'],
+      external: ['react', '@emotion/react'],
       output: {
         globals: {
           react: 'React',
+          '@emotion/react': '@emotion/react',
         },
       },
     },
