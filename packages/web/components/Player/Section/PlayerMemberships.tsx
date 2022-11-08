@@ -143,36 +143,34 @@ export const DAOMembershipSmall: React.FC<DAOListingProps> = ({
 
   return (
     <Tooltip label={title ?? `Unknown ${chain} DAO`}>
-      <LinkGuild {...{ daoURL, guildname }}>
-        <Flex
-          align="center"
-          justifyContent="center"
-          bgColor="rgba(255, 255, 255, 0.06)"
-          minW={8}
-          h={8}
-          onClick={(e) => {
-            e.preventDefault();
-            if (guildname != null) {
-              window.location.href = guildname;
-            } else if (daoURL != null) {
-              window?.open(daoURL, '_blank')?.focus();
-            }
-          }}
-          borderRadius={8}
-          pointerEvents="all"
-        >
-          {logoURL ? (
-            <Image
-              src={optimizedImage('logoURL', logoURL)}
-              w={6}
-              h={6}
-              borderRadius="full"
-            />
-          ) : (
-            <ChainIcon {...{ chain, tooltip: false }} boxSize={9} p={2} />
-          )}
-        </Flex>
-      </LinkGuild>
+      <Flex
+        align="center"
+        justifyContent="center"
+        bgColor="rgba(255, 255, 255, 0.06)"
+        minW={8}
+        h={8}
+        onClick={(e) => {
+          e.preventDefault();
+          if (guildname != null) {
+            window.location.href = guildname;
+          } else if (daoURL != null) {
+            window?.open(daoURL, '_blank')?.focus();
+          }
+        }}
+        borderRadius={8}
+        pointerEvents="all"
+      >
+        {logoURL ? (
+          <Image
+            src={optimizedImage('logoURL', logoURL)}
+            w={6}
+            h={6}
+            borderRadius="full"
+          />
+        ) : (
+          <ChainIcon {...{ chain, tooltip: false }} boxSize={9} p={2} />
+        )}
+      </Flex>
     </Tooltip>
   );
 };
