@@ -1,15 +1,15 @@
 import {
-  Avatar,
   Box,
   Flex,
   Heading,
   HStack,
+  Image,
+  Link,
   MetaTile,
   MetaTileBody,
   MetaTileHeader,
   Prose,
   Text,
-  VStack,
 } from '@metafam/ds';
 import BackgroundImage from 'assets/main-background.png';
 import { MetaLink } from 'components/Link';
@@ -20,7 +20,6 @@ import { SkillsTags } from 'components/Quest/Skills';
 import { PlayerRole, QuestFragment, Skill } from 'graphql/autogen/types';
 import moment from 'moment';
 import React from 'react';
-import { optimizedImage } from 'utils/imageHelpers';
 import { safelyParseNChakrifyHtml } from 'utils/stringHelpers';
 
 type Props = {
@@ -38,90 +37,98 @@ export const QuestTile: React.FC<Props> = ({ quest }) => {
     : '';
 
   return (
-    <MetaTile>
-      <Box
-        bgImage={`url(${BackgroundImage})`}
-        bgSize="cover"
-        bgPosition="center"
-        position="absolute"
-        top={0}
-        left={0}
-        w="100%"
-        h="3.5rem"
-      />
-      <Flex justify="center" mb={4}>
-        <Avatar
-          size="lg"
-          src={optimizedImage('logoURL', quest.guild.logo)}
-          name={quest.guild.name}
-        />
-      </Flex>
-
-      <MetaTileHeader>
-        <VStack>
-          <MetaLink as={`/quest/${quest.id}`} href="/quest/[id]">
-            <Heading
-              size="md"
-              color="white"
-              fontFamily="body"
-              textAlign="center"
-            >
-              {quest.title}
-            </Heading>
-          </MetaLink>
-          <HStack mt={3}>
-            <RepetitionTag
-              repetition={quest.repetition}
-              cooldown={quest.cooldown}
-            />
-            <StatusTag status={quest.status} />
-            <Text>
-              <i>{moment(quest.createdAt).fromNow()}</i>
-            </Text>
-          </HStack>
-        </VStack>
-      </MetaTileHeader>
-      <MetaTileBody flex={1}>
-        <VStack spacing={2} align="stretch">
-          <Box pb={2}>
-            <Text textStyle="caption" pb={1}>
-              DESCRIPTION
-            </Text>
-            {descIsHtml ? (
-              <Prose>{parsedDescription}</Prose>
-            ) : (
-              <Markdown>{descriptionSummary}</Markdown>
-            )}
-            <MetaLink as={`/quest/${quest.id}`} href="/quest/[id]">
-              Read more
-            </MetaLink>
-          </Box>
-          <Box pb={2}>
-            <Text textStyle="caption" pb={1}>
-              SKILLS
-            </Text>
-            <SkillsTags
-              skills={quest.quest_skills.map(({ skill }) => skill) as Skill[]}
-            />
-          </Box>
-          <Box pb={2}>
-            <Text textStyle="caption" pb={1}>
-              ROLES
-            </Text>
-            {quest.quest_roles.length ? (
-              <RolesTags
-                roles={
-                  quest.quest_roles.map(
-                    ({ PlayerRole: r }) => r,
-                  ) as PlayerRole[]
-                }
+    <MetaLink
+      display="flex"
+      color="white"
+      as={`/quest/${quest.id}`}
+      href="/quest/[id]"
+      _hover={{ borderColor: 'transparent' }}
+    >
+      <MetaTile height="full" width="full">
+        <Link
+          display="flex"
+          flexDirection="column"
+          height="100%"
+          _hover={{
+            textUnderline: 'none',
+          }}
+        >
+          <MetaTileHeader>
+            <Image src={BackgroundImage} mt="0 !important" />
+            <Flex px={3} w="full" pos="absolute" bottom={-6} zIndex={1}>
+              <Heading
+                size="lg"
+                color="white"
+                bgColor="rgba(255, 255, 255, 0.06)"
+                style={{ backdropFilter: 'blur(10px)' }}
+                lineHeight={1.8}
+                justifyContent="center"
+                px={3}
+                width="full"
+                textAlign="center"
+                borderRadius={10}
+                fontFamily="body"
+                fontWeight={400}
+              >
+                {quest.title}
+              </Heading>
+            </Flex>
+          </MetaTileHeader>
+          <MetaTileBody>
+            <HStack mt={3}>
+              <RepetitionTag
+                repetition={quest.repetition}
+                cooldown={quest.cooldown}
               />
-            ) : (
-              <Text>/</Text>
-            )}
-          </Box>
-        </VStack>
-      </MetaTileBody>
-    </MetaTile>
+              <StatusTag status={quest.status} />
+              <Text>
+                <i>{moment(quest.createdAt).fromNow()}</i>
+              </Text>
+            </HStack>
+            <Flex flexDir="column">
+              <Box pb={2}>
+                <Text textStyle="caption" pb={1}>
+                  DESCRIPTION
+                </Text>
+                {descIsHtml ? (
+                  <Prose>{parsedDescription}</Prose>
+                ) : (
+                  <Markdown>{descriptionSummary}</Markdown>
+                )}
+                <MetaLink as={`/quest/${quest.id}`} href="/quest/[id]">
+                  Read more
+                </MetaLink>
+              </Box>
+              <Box pb={2}>
+                <Text textStyle="caption" pb={1}>
+                  SKILLS
+                </Text>
+                <SkillsTags
+                  skills={
+                    quest.quest_skills.map(({ skill }) => skill) as Skill[]
+                  }
+                />
+              </Box>
+              <Box pb={2}>
+                <Text textStyle="caption" pb={1}>
+                  ROLES
+                </Text>
+                {quest.quest_roles.length ? (
+                  <RolesTags
+                    roles={
+                      quest.quest_roles.map(
+                        ({ PlayerRole: r }) => r,
+                      ) as PlayerRole[]
+                    }
+                  />
+                ) : (
+                  <Text>/</Text>
+                )}
+              </Box>
+            </Flex>
+          </MetaTileBody>
+        </Link>
+      </MetaTile>
+    </MetaLink>
   );
 };
