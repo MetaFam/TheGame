@@ -873,6 +873,7 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
                 <Input
                   id="emoji"
                   placeholder="🗽"
+                  _placeholder={{ opacity: 0.75 }}
                   minW="inherit"
                   w="100%"
                   {...register('emoji', {

@@ -1,4 +1,3 @@
-// const withTM = require('next-transpile-modules')(['react-timezone-select']);
 import HoneybadgerSourceMapPlugin from '@honeybadger-io/webpack';
 import { execSync } from 'child_process';
 
@@ -73,8 +72,6 @@ export default {
         // jsdom is required for draft-js SSR only
         new webpack.IgnorePlugin({ resourceRegExp: /jsdom$/ }),
       );
-
-      // console.debug({ crf: config.resolve.fallback })
 
       // config.resolve.fallback = {
       //   fs: false,
