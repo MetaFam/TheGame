@@ -11,7 +11,6 @@ export const MetaTileHeader: React.FC<StackProps> = ({
     spacing="6"
     align="stretch"
     position="relative"
-    height="full"
     {...props}
     borderTopRadius={10}
     bgColor="rgba(255, 255, 255, 0.2)"

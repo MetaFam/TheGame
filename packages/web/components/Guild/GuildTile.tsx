@@ -4,8 +4,6 @@ import {
   Image,
   Link,
   LinkBox,
-  MetaButton,
-  MetaTag,
   MetaTile,
   MetaTileBody,
   MetaTileHeader,
@@ -40,7 +38,7 @@ export const GuildTile: React.FC<Props> = ({ guild }) => (
           height="100%"
         >
           <MetaTileHeader>
-            <VStack pos="relative" h="full">
+            <VStack pos="relative" h="22rem" justifyContent="center" p={4}>
               {guild.logo ? (
                 <Image
                   src={optimizedImage('logoURL', guild.logo)}
@@ -76,24 +74,21 @@ export const GuildTile: React.FC<Props> = ({ guild }) => (
                   <Text fontSize="sm">{guild.description}</Text>
                 </VStack>
               ) : null}
-              {guild.type ? (
-                <MetaTag size="md" w="fit-content">
-                  {guild.type}
-                  GUILD
-                </MetaTag>
-              ) : null}
+              <VStack spacing={2} align="stretch">
+                <Text textStyle="caption">Skills</Text>
+                <Text fontStyle="italic">Coming soon...</Text>
+              </VStack>
+              <Flex justifyContent="space-between">
+                <VStack spacing={2} align="stretch">
+                  <Text textStyle="caption">BARRIER OF ENTRY</Text>
+                  <Text fontStyle="italic">Coming soon...</Text>
+                </VStack>
+                <VStack spacing={2} align="stretch">
+                  <Text textStyle="caption">CONTACT</Text>
+                  <GuildLinksSmall {...{ guild }} />
+                </VStack>
+              </Flex>
             </Flex>
-            <GuildLinksSmall {...{ guild }} />
-            {guild.joinButtonUrl ? (
-              <MetaButton
-                as="a"
-                href={guild.joinButtonUrl}
-                target="_blank"
-                bottom={0}
-              >
-                Join
-              </MetaButton>
-            ) : null}
           </MetaTileBody>
         </Link>
       </NextLink>
