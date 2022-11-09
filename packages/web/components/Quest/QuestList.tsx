@@ -14,9 +14,9 @@ export const QuestList: React.FC<Props> = ({ quests }) => (
   <Box>
     {quests.length > 0 ? (
       <SimpleGrid
-        columns={[1, null, 2, 3]}
-        spacing="8"
-        autoRows="minmax(30rem, auto)"
+        templateColumns={['1fr', '1fr', '1fr 1fr', '1fr 1fr 1fr']}
+        gap={{ base: 4, lg: 6, xl: 8 }}
+        pb={24}
       >
         {quests.map((q) => (
           <QuestTile key={q.id} quest={q} />
