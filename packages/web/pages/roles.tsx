@@ -1,8 +1,22 @@
-import { Box, Flex, Grid, Heading, Image, keyframes, Text } from '@metafam/ds';
+import {
+  Box,
+  Flex,
+  Grid,
+  Heading,
+  Image,
+  Link,
+  MetaTag,
+  MetaTile,
+  MetaTileBody,
+  MetaTileHeader,
+  Text,
+  VStack,
+} from '@metafam/ds';
+import LogoImage from 'assets/logo.png';
 import { PageContainer } from 'components/Container';
 import { MetaLink } from 'components/Link';
 import { HeadComponent } from 'components/Seo';
-import { QuestChainDetails } from 'utils/questChains';
+import { Difficulty, QuestChainDetails, Time } from 'utils/questChains';
 
 const QuestsDashboard: React.FC = () => (
   <PageContainer>
@@ -20,12 +34,14 @@ const QuestsDashboard: React.FC = () => (
       pb={24}
     >
       {Object.entries(QuestChainDetails).map(
-        ([path, { title, description, icon }]) => (
+        ([path, { title, description, icon, difficulty, time }]) => (
           <Card
             key={title}
             {...{
               title,
               description,
+              difficulty,
+              time,
               link: `/play/paths/${path}`,
               icon,
               color: '#AB7C94',
@@ -42,10 +58,8 @@ type CardProps = {
   description: string;
   link: string;
   icon: string;
-  progress?: number;
-  completed?: number;
-  color: string;
-  comingSoon?: boolean;
+  difficulty: string;
+  time: string;
 };
 
 const Card: React.FC<CardProps> = ({
@@ -53,103 +67,120 @@ const Card: React.FC<CardProps> = ({
   description,
   link,
   icon,
-  progress,
-  completed,
-  color,
-  comingSoon,
+  difficulty,
+  time,
 }) => {
-  const spin = keyframes`
-    from { width: 0; }
-    to { width: ${progress}%; }
-  `;
+  let difficultyBgColor;
+  switch (difficulty) {
+    case Difficulty.HARD:
+      difficultyBgColor = '#e53e3e87';
+      break;
+    case Difficulty.MEDIUM:
+      difficultyBgColor = '#d69e2e8a';
+      break;
+    default:
+      difficultyBgColor = '#38a16987';
+  }
+
+  let timeBgColor;
+  switch (time) {
+    case Time.LONG:
+      timeBgColor = '#e53e3e87';
+      break;
+    case Time.MEDIUM:
+      timeBgColor = '#d69e2e8a';
+      break;
+    default:
+      timeBgColor = '#38a16987';
+  }
 
   return (
     <MetaLink
       display="flex"
-      borderRadius="lg"
-      borderWidth="1px"
-      textColor="white"
-      alignItems="center"
-      textAlign="center"
-      placeContent="center"
-      maxW="sm"
-      minH="3xs"
-      w={['full', 'auto']}
-      pointerEvents={comingSoon ? 'none' : 'auto'}
-      cursor={comingSoon ? 'default' : 'pointer'}
-      href={comingSoon ? '' : link}
-      sx={{
-        bgColor: '#110035',
-        borderColor: 'whiteAlpha.400',
-        transition: 'all 0.1s ease-in-out',
-        _hover: { bgColor: '#150042', borderColor: 'whiteAlpha.700' },
-      }}
+      color="white"
+      href={link}
+      _hover={{ borderColor: 'transparent' }}
     >
-      {comingSoon && (
-        <Box position="absolute" zIndex={2}>
-          <Heading fontSize="lg">COMING SOON</Heading>
-        </Box>
-      )}
-      <Box
-        borderRadius="lg"
-        position="relative"
-        p={{ base: 4, xl: 8 }}
-        sx={{
-          '&::after': comingSoon
-            ? {
-                content: '" "',
-                position: 'absolute',
-                zIndex: 1,
-                borderRadius: 6,
-                display: 'flex',
-                height: 'full',
-                width: 'full',
-                top: 0,
-                left: 0,
-                right: 0,
-                background: 'rgba(63, 68, 94, 0.7)',
-              }
-            : {},
-        }}
-      >
-        {typeof completed === 'number' && (
-          <Box>
-            <Text fontFamily="heading" textColor={color}>
-              Completed: {completed}
-            </Text>
-          </Box>
-        )}
-        {progress && (
-          <Box
-            background="rgba(255,255,255,0.1)"
-            justifyContent="flex-start"
-            borderRadius="100px"
-            alignItems="center"
-            position="relative"
-            padding="0 5px"
-            display="flex"
-            height={8}
-          >
-            <Box
-              animation={`${spin} 3s normal forwards`}
-              boxShadow="0 10px 40px -10px #fff"
-              borderRadius="100px"
-              background={color}
-              height={6}
-              width="0"
-            ></Box>
-          </Box>
-        )}
-        <Text fontSize="xl" fontWeight="bold" mt={1} my={4}>
-          {title.toUpperCase()}
-        </Text>
-        <Flex py={{ base: 4, md: 6, lg: 8 }} justify="center" align="center">
-          <Image src={icon} h={{ base: '8rem', md: '10rem', xl: '12rem' }} />
-        </Flex>
-        <Text mb={2} h="3rem">
-          {description}
-        </Text>
-      </Box>
+      <MetaTile height="full" width="full">
+        <Link
+          display="flex"
+          flexDirection="column"
+          height="100%"
+          _hover={{
+            textUnderline: 'none',
+          }}
+        >
+          <MetaTileHeader>
+            <Flex
+              flexDir="column"
+              gap={1}
+              pos="absolute"
+              left={-8}
+              py={3}
+              px={4}
+              top={-8}
+              background="rgba(255, 255, 255, 0.1)"
+              backdropFilter="blur(10.5px)"
+              borderRadius="8px"
+              alignItems="center"
+            >
+              <Image w="2.5rem" src={LogoImage} />
+              <Text
+                fontFamily="Exo 2"
+                fontSize="xs"
+                color="blueLight"
+                fontWeight="bold"
+              >
+                MetaGame
+              </Text>
+            </Flex>
+            <Image p={6} src={icon} mt="0 !important" />
+            <Flex px={3} w="full" pos="absolute" bottom={-6} zIndex={1}>
+              <Heading
+                size="lg"
+                color="white"
+                bgColor="rgba(255, 255, 255, 0.06)"
+                style={{ backdropFilter: 'blur(10px)' }}
+                lineHeight={1.8}
+                justifyContent="center"
+                px={3}
+                width="full"
+                textAlign="center"
+                borderRadius={10}
+                fontFamily="body"
+                fontWeight={400}
+              >
+                {title}
+              </Heading>
+            </Flex>
+          </MetaTileHeader>
+          <MetaTileBody pos="relative" height="full">
+            <Flex flexDir="column">
+              <Text textStyle="caption">ABOUT</Text>
+
+              <Text mb={2} h="3rem">
+                {description}
+              </Text>
+            </Flex>
+            <Flex justifyContent="space-between">
+              <VStack spacing={2} align="stretch">
+                <Text textStyle="caption">Difficulty</Text>
+                <Box>
+                  <MetaTag size="md" fontSize="sm" bgColor={difficultyBgColor}>
+                    <Text>{difficulty}</Text>
+                  </MetaTag>
+                </Box>
+              </VStack>
+              <VStack spacing={2} align="stretch">
+                <Text textStyle="caption">Time</Text>
+                <MetaTag size="md" fontSize="sm" bgColor={timeBgColor}>
+                  <Text>{time}</Text>
+                </MetaTag>
+              </VStack>
+            </Flex>
+          </MetaTileBody>
+        </Link>
+      </MetaTile>
     </MetaLink>
   );
 };

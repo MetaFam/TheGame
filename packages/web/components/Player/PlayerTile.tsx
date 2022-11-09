@@ -35,6 +35,7 @@ type Props = {
   player: Player;
   isPatron?: boolean;
   pSeedPrice?: Maybe<number>;
+  showSeasonalXP?: boolean;
   index?: number;
 };
 
@@ -44,6 +45,7 @@ export const PlayerTile: React.FC<Props> = ({
   player,
   isPatron = false,
   pSeedPrice,
+  showSeasonalXP,
   index,
 }) => {
   const description = getPlayerDescription(player);
@@ -84,7 +86,7 @@ export const PlayerTile: React.FC<Props> = ({
                   index={index}
                 />
               ) : (
-                <PlayerRank player={player} />
+                <PlayerRank player={player} showSeasonalXP={showSeasonalXP} />
               )}
               <PlayerProfilePicture {...{ player }} size="xl" />
               <Flex px={3} w="full" pos="absolute" bottom={-6} zIndex={1}>

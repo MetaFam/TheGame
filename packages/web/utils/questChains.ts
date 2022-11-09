@@ -37,6 +37,17 @@ export const QuestChains = {
   ROGUES_PATH: 'rogues-path',
 };
 
+export const Difficulty = {
+  EASY: 'Easy',
+  MEDIUM: 'Medium',
+  HARD: 'Hard',
+};
+export const Time = {
+  SHORT: 'Short',
+  MEDIUM: 'Medium',
+  LONG: 'Long',
+};
+
 export type QuestChainType = Values<typeof QuestChains>;
 
 type QuestChainInfo = {
@@ -45,6 +56,8 @@ type QuestChainInfo = {
   title: string;
   description: string;
   icon: string;
+  difficulty: string;
+  time: string;
 };
 
 export const QuestChainDetails: Record<QuestChainType, QuestChainInfo> = {
@@ -52,10 +65,12 @@ export const QuestChainDetails: Record<QuestChainType, QuestChainInfo> = {
   [QuestChains.ENGAGED_OCTOS_PATH]: {
     chainId: '0x89',
     address: '0xea512722cc047bfdbe90a1a2750491e89a818ca7',
-    title: `The Engaged Octo's Path`,
+    title: `Engaged Octo's Path`,
     description:
       'The gates lead to a road. Walk it to the end and your efforts will be rewarded',
     icon: engagedIcon,
+    difficulty: Difficulty.EASY,
+    time: Time.LONG,
   },
   // Builder's path: https://questchains.xyz/chain/0x89/0x8d23ef86e502b4c24d1ae4bf96249721903cbc71
   [QuestChains.BUILDERS_PATH]: {
@@ -64,6 +79,8 @@ export const QuestChainDetails: Record<QuestChainType, QuestChainInfo> = {
     title: "Builder's path",
     description: 'Become a builder',
     icon: hammerIcon,
+    difficulty: Difficulty.EASY,
+    time: Time.LONG,
   },
   // Designer's path: https://questchains.xyz/chain/0x89/0x32079721deef91dae71fc8ebcfabc73702f7b137
   [QuestChains.DESIGNERS_PATH]: {
@@ -72,6 +89,8 @@ export const QuestChainDetails: Record<QuestChainType, QuestChainInfo> = {
     title: "Designer's path",
     description: 'Become a designer',
     icon: designIcon,
+    difficulty: Difficulty.EASY,
+    time: Time.MEDIUM,
   },
   // Patron's path: https://questchains.xyz/chain/0x89/0x372C28C97fcb2600d025Bf536C9738A08fF8022b
   [QuestChains.PATRONS_PATH]: {
@@ -80,6 +99,8 @@ export const QuestChainDetails: Record<QuestChainType, QuestChainInfo> = {
     title: "Patron's path",
     description: 'Become a patron',
     icon: sproutIcon,
+    difficulty: Difficulty.EASY,
+    time: Time.SHORT,
   },
   // Bridgebuilder's path: https://questchains.xyz/chain/0x89/0xf7fbc471cbae68bf3833ff820c926ffe3c5bf0f7
   [QuestChains.BRIDGEBUILDERS_PATH]: {
@@ -88,6 +109,8 @@ export const QuestChainDetails: Record<QuestChainType, QuestChainInfo> = {
     title: "Bridgebuilder's path",
     description: 'Become a bridgebuilder',
     icon: bridgeIcon,
+    difficulty: Difficulty.HARD,
+    time: Time.LONG,
   },
   // Rogue's path: https://questchains.xyz/chain/0x89/0xF0a2E8e05555F187E1d2b5ACabA925598477F173
   [QuestChains.ROGUES_PATH]: {
@@ -96,6 +119,8 @@ export const QuestChainDetails: Record<QuestChainType, QuestChainInfo> = {
     title: "Rogue's path",
     description: 'Become a rogue',
     icon: rogueIcon,
+    difficulty: Difficulty.EASY,
+    time: Time.MEDIUM,
   },
 };
 
