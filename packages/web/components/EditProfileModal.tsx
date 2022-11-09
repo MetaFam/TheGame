@@ -187,14 +187,6 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
     console.debug({ fields, endpoints, dirtyFields });
   }
 
-  useEffect(() => {
-    if (!endpoints.profileImageURL.ref.current) {
-      console.warn('Unable to initially focus the profile image.');
-    } else {
-      endpoints.profileImageURL.ref.current.focus();
-    }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
   const resetData = useCallback(() => {
     Object.entries(fields).forEach(([key, value]) => {
       if (!key.startsWith('_')) {
