@@ -153,7 +153,7 @@ export const PlayerFilter: React.FC<Props> = ({
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               size="lg"
-              borderRadius="0"
+              borderRadius={10}
               borderColor="borderPurple"
               fontSize="md"
               borderWidth="2px"

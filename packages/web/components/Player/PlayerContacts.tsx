@@ -1,9 +1,8 @@
-import { Button, Tooltip, Wrap, WrapItem } from '@metafam/ds';
+import { IconButton, MetaTileLinkWrapper, Wrap, WrapItem } from '@metafam/ds';
+import { linkButtonProps } from 'components/Guild/Section/GuildLinks';
 import { Player } from 'graphql/autogen/types';
-import { useCopyToClipboard } from 'lib/hooks/useCopyToClipboard';
 import React from 'react';
-import { FaEthereum, FaGithub, FaTwitter } from 'react-icons/fa';
-import { formatAddress } from 'utils/playerHelpers';
+import { FaGithub, FaTwitter } from 'react-icons/fa';
 
 import { PlayerBrightId } from './Section/PlayerBrightId';
 
@@ -15,83 +14,59 @@ type Props = {
 export const PlayerContacts: React.FC<Props> = ({
   player,
   disableBrightId = true, // TODO: enable after fixing issue #1068
-}) => {
-  const [copied, handleCopy] = useCopyToClipboard();
-  return (
-    <Wrap justify="center">
-      {player?.accounts?.map((acc) => {
-        switch (acc.type) {
-          case 'TWITTER': {
-            const link = `https://twitter.com/${acc.identifier}`;
-            return (
-              <WrapItem key={link}>
-                <Button
-                  as="a"
-                  href={link}
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  size="xs"
-                  colorScheme="twitter"
-                  color="white"
-                  leftIcon={<FaTwitter />}
-                >
-                  {acc.identifier}
-                </Button>
-              </WrapItem>
-            );
-          }
-          case 'GITHUB': {
-            const link = `https://github.com/${acc.identifier}`;
-            return (
-              <WrapItem key={link}>
-                <Button
-                  as="a"
-                  href={link}
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  size="xs"
-                  colorScheme="blackAlpha"
-                  backgroundColor="black"
-                  color="white"
-                  leftIcon={<FaGithub />}
-                >
-                  {acc.identifier}
-                </Button>
-              </WrapItem>
-            );
-          }
-          default: {
-            return null;
-          }
+}) => (
+  <Wrap justify="center" pointerEvents="all" zIndex={1000}>
+    {player?.accounts?.map((acc) => {
+      switch (acc.type) {
+        case 'TWITTER': {
+          const link = `https://twitter.com/${acc.identifier}`;
+          return (
+            <MetaTileLinkWrapper>
+              <IconButton
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (link) window?.open(link, '_blank')?.focus();
+                }}
+                aria-label="Twitter"
+                icon={<FaTwitter />}
+                minW={6}
+                w={6}
+                h={6}
+                borderRadius="full"
+                {...linkButtonProps}
+              />
+            </MetaTileLinkWrapper>
+          );
         }
-      })}
-      {player?.ethereumAddress && (
-        <WrapItem>
-          <Tooltip
-            label={copied ? 'Copied!' : 'Copy to clipboard'}
-            closeOnClick={false}
-            hasArrow
-          >
-            <Button
-              onClick={(evt) => {
-                evt.preventDefault();
-                handleCopy(player.ethereumAddress);
-              }}
-              size="xs"
-              colorScheme="blackAlpha"
-              leftIcon={<FaEthereum />}
-              color="white"
-            >
-              {formatAddress(player.ethereumAddress)}
-            </Button>
-          </Tooltip>
-        </WrapItem>
-      )}
-      {!disableBrightId && (
-        <WrapItem>
-          <PlayerBrightId {...{ player }} />
-        </WrapItem>
-      )}
-    </Wrap>
-  );
-};
+        case 'GITHUB': {
+          const link = `https://github.com/${acc.identifier}`;
+          return (
+            <MetaTileLinkWrapper>
+              <IconButton
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (link) window?.open(link, '_blank')?.focus();
+                }}
+                aria-label="Github"
+                icon={<FaGithub />}
+                minW={6}
+                w={6}
+                h={6}
+                borderRadius="full"
+                {...linkButtonProps}
+              />
+            </MetaTileLinkWrapper>
+          );
+        }
+        default: {
+          return null;
+        }
+      }
+    })}
+    {!disableBrightId && (
+      <WrapItem>
+        <PlayerBrightId {...{ player }} />
+      </WrapItem>
+    )}
+  </Wrap>
+);

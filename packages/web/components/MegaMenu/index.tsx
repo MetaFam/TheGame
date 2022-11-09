@@ -1,5 +1,5 @@
 import { Stack } from '@metafam/ds';
-import BackgroundImage from 'assets/main-background.jpg';
+import BackgroundImage from 'assets/main-background.png';
 import { MegaMenuFooter } from 'components/MegaMenu/MegaMenuFooter';
 import { MegaMenuHeader } from 'components/MegaMenu/MegaMenuHeader';
 import { useEffect, useState } from 'react';
