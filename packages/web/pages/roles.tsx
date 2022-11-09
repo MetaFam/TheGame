@@ -14,8 +14,8 @@ import {
 } from '@metafam/ds';
 import LogoImage from 'assets/logo.png';
 import { PageContainer } from 'components/Container';
-import { MetaLink } from 'components/Link';
 import { HeadComponent } from 'components/Seo';
+import { SquareImage } from 'components/SquareImage';
 import React from 'react';
 import { Difficulty, QuestChainDetails, Time } from 'utils/questChains';
 
@@ -96,93 +96,79 @@ const Card: React.FC<CardProps> = ({
   }
 
   return (
-    <MetaLink
-      display="flex"
-      color="white"
-      href={link}
-      _hover={{ borderColor: 'transparent' }}
-    >
+    <Link role="group" _hover={{ textDecoration: 'none' }} href={link}>
       <MetaTile height="full" width="full">
-        <Link
-          display="flex"
-          flexDirection="column"
-          height="100%"
-          _hover={{
-            textUnderline: 'none',
-          }}
-        >
-          <MetaTileHeader>
-            <Flex
-              flexDir="column"
-              gap={1}
-              pos="absolute"
-              left={-8}
-              py={3}
-              px={4}
-              top={-8}
-              background="rgba(255, 255, 255, 0.1)"
-              backdropFilter="blur(10.5px)"
-              borderRadius="8px"
-              alignItems="center"
+        <MetaTileHeader>
+          <Flex
+            flexDir="column"
+            gap={1}
+            pos="absolute"
+            left={-8}
+            py={3}
+            px={4}
+            top={-8}
+            background="rgba(255, 255, 255, 0.1)"
+            backdropFilter="blur(10.5px)"
+            borderRadius="8px"
+            alignItems="center"
+          >
+            <Image w="2.5rem" src={LogoImage} />
+            <Text
+              fontFamily="Exo 2"
+              fontSize="xs"
+              color="blueLight"
+              fontWeight="bold"
             >
-              <Image w="2.5rem" src={LogoImage} />
-              <Text
-                fontFamily="Exo 2"
-                fontSize="xs"
-                color="blueLight"
-                fontWeight="bold"
-              >
-                MetaGame
-              </Text>
-            </Flex>
-            <Image p={6} src={icon} mt="0 !important" />
-            <Flex px={3} w="full" pos="absolute" bottom={-6} zIndex={1}>
-              <Heading
-                size="lg"
-                color="white"
-                bgColor="rgba(255, 255, 255, 0.06)"
-                style={{ backdropFilter: 'blur(10px)' }}
-                lineHeight={1.8}
-                justifyContent="center"
-                px={3}
-                width="full"
-                textAlign="center"
-                borderRadius={10}
-                fontFamily="body"
-                fontWeight={400}
-              >
-                {title}
-              </Heading>
-            </Flex>
-          </MetaTileHeader>
-          <MetaTileBody pos="relative" height="full">
-            <Flex flexDir="column">
-              <Text textStyle="caption">ABOUT</Text>
+              MetaGame
+            </Text>
+          </Flex>
+          <SquareImage p={6} src={icon} mt="0 !important" />
+          <Flex px={3} w="full" pos="absolute" bottom={-6} zIndex={1}>
+            <Heading
+              size="lg"
+              color="white"
+              bgColor="rgba(255, 255, 255, 0.06)"
+              style={{ backdropFilter: 'blur(10px)' }}
+              lineHeight={1.8}
+              justifyContent="center"
+              px={3}
+              width="full"
+              textAlign="center"
+              borderRadius={10}
+              fontFamily="body"
+              fontWeight={400}
+            >
+              {title}
+            </Heading>
+          </Flex>
+        </MetaTileHeader>
+        <MetaTileBody pos="relative" height="full">
+          <Flex flexDir="column">
+            <Text textStyle="caption">ABOUT</Text>
 
-              <Text mb={2} h="3rem">
-                {description}
-              </Text>
-            </Flex>
-            <Flex justifyContent="space-between">
-              <VStack spacing={2} align="stretch">
-                <Text textStyle="caption">Difficulty</Text>
-                <Box>
-                  <MetaTag size="md" fontSize="sm" bgColor={difficultyBgColor}>
-                    <Text>{difficulty}</Text>
-                  </MetaTag>
-                </Box>
-              </VStack>
-              <VStack spacing={2} align="stretch">
-                <Text textStyle="caption">Time</Text>
-                <MetaTag size="md" fontSize="sm" bgColor={timeBgColor}>
-                  <Text>{time}</Text>
+            <Text mb={2} h="3rem">
+              {description}
+            </Text>
+          </Flex>
+          <Flex justifyContent="space-between">
+            <VStack spacing={2} align="stretch">
+              <Text textStyle="caption">Difficulty</Text>
+              <Box>
+                <MetaTag size="md" fontSize="sm" bgColor={difficultyBgColor}>
+                  <Text>{difficulty}</Text>
                 </MetaTag>
-              </VStack>
-            </Flex>
-          </MetaTileBody>
-        </Link>
+              </Box>
+            </VStack>
+            <VStack spacing={2} align="stretch">
+              <Text textStyle="caption">Time</Text>
+              <MetaTag size="md" fontSize="sm" bgColor={timeBgColor}>
+                <Text>{time}</Text>
+              </MetaTag>
+            </VStack>
+          </Flex>
+        </MetaTileBody>
       </MetaTile>
-    </MetaLink>
+    </Link>
   );
 };
 
