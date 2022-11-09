@@ -37,17 +37,24 @@ export const MetaTileBody: React.FC<StackProps> = ({ children, ...props }) => (
   </VStack>
 );
 
-export const MetaTile: React.FC<FlexProps> = ({ children, ...props }) => {
-  if (typeof window !== 'undefined') {
+type MetaTileProps = {
+  noTilt?: boolean;
+};
+
+export const MetaTile: React.FC<FlexProps & MetaTileProps> = ({
+  children,
+  ...props
+}) => {
+  if (typeof window !== 'undefined' && !props.noTilt) {
     const element = document.querySelectorAll('.js-tilt');
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     VanillaTilt.init(element);
   }
+  console.log('props.noTilt', props.noTilt);
   return (
     <div
-      className="js-tilt"
-      data-tilt
+      className={props.noTilt ? '' : 'js-tilt'}
       data-tilt-scale="1.03"
       data-tilt-max="6"
       data-tilt-glare="true"

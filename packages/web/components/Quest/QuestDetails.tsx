@@ -1,7 +1,5 @@
 import {
-  Avatar,
   Box,
-  Flex,
   Heading,
   HStack,
   MetaButton,
@@ -12,7 +10,6 @@ import {
   Text,
   VStack,
 } from '@metafam/ds';
-import BackgroundImage from 'assets/main-background.png';
 import { MetaLink } from 'components/Link';
 import { MarkdownViewer as Markdown } from 'components/MarkdownViewer';
 import { RepetitionTag, StatusTag } from 'components/Quest/QuestTags';
@@ -29,7 +26,6 @@ import {
 import { useUser } from 'lib/hooks';
 import moment from 'moment';
 import React from 'react';
-import { optimizedImage } from 'utils/imageHelpers';
 import { safelyParseNChakrifyHtml } from 'utils/stringHelpers';
 
 type Props = {
@@ -45,62 +41,35 @@ export const QuestDetails: React.FC<Props> = ({ quest }) => {
     : '';
 
   return (
-    <MetaTile maxW={undefined}>
-      <Box
-        bgImage={`url(${BackgroundImage})`}
-        bgSize="cover"
-        bgPosition="center"
-        position="absolute"
-        top="0"
-        left="0"
-        w="100%"
-        h="3.5rem"
-      />
-      <Flex justify="center" mb={4}>
-        <Avatar
-          size="lg"
-          src={optimizedImage('logoURL', quest.guild.logo)}
-          name={quest.guild.name}
-        />
-      </Flex>
-
-      <MetaTileHeader>
-        <VStack>
-          <MetaLink as={`/quest/${quest.id}`} href="/quest/[id]">
-            <Heading
-              size="lg"
-              color="white"
-              fontFamily="body"
-              textAlign="center"
-            >
-              {quest.title}
-            </Heading>
-          </MetaLink>
-          <HStack mt={2}>
-            <RepetitionTag
-              repetition={quest.repetition}
-              cooldown={quest.cooldown}
-            />
-            <StatusTag status={quest.status} />
-            <Text>
-              <i>{moment(quest.createdAt).fromNow()}</i>
-            </Text>
-          </HStack>
-          <HStack w="100%" mt={2}>
-            {isMyQuest && quest.status === QuestStatus_Enum.Open && (
-              <MetaLink as={`/quest/${quest.id}/edit`} href="/quest/[id]/edit">
-                <MetaButton size="md">Edit Quest</MetaButton>
-              </MetaLink>
-            )}
-            {quest.externalLink && (
-              <MetaLink href={quest.externalLink} isExternal>
-                <MetaButton variant="outline" colorScheme="cyan" size="md">
-                  Open link
-                </MetaButton>
-              </MetaLink>
-            )}
-          </HStack>
-        </VStack>
+    <MetaTile maxW={undefined} noTilt>
+      <MetaTileHeader py={6} px={3}>
+        <Heading size="lg" color="white" fontFamily="body" textAlign="center">
+          {quest.title}
+        </Heading>
+        <HStack mt={2}>
+          <RepetitionTag
+            repetition={quest.repetition}
+            cooldown={quest.cooldown}
+          />
+          <StatusTag status={quest.status} />
+          <Text>
+            <i>{moment(quest.createdAt).fromNow()}</i>
+          </Text>
+        </HStack>
+        <HStack w="100%" mt={2}>
+          {isMyQuest && quest.status === QuestStatus_Enum.Open && (
+            <MetaLink as={`/quest/${quest.id}/edit`} href="/quest/[id]/edit">
+              <MetaButton size="md">Edit Quest</MetaButton>
+            </MetaLink>
+          )}
+          {quest.externalLink && (
+            <MetaLink href={quest.externalLink} isExternal>
+              <MetaButton variant="outline" colorScheme="cyan" size="md">
+                Open link
+              </MetaButton>
+            </MetaLink>
+          )}
+        </HStack>
       </MetaTileHeader>
       <MetaTileBody>
         <VStack spacing={2} align="stretch">
