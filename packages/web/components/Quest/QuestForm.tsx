@@ -25,8 +25,18 @@ import {
   QuestStatus_Enum,
 } from 'graphql/autogen/types';
 import { useRouter } from 'next/router';
+<<<<<<< HEAD
 import React, { ChangeEvent, useMemo, useState } from 'react';
 import { Controller, FieldError, useForm } from 'react-hook-form';
+=======
+import React, { useMemo, useState } from 'react';
+import {
+  ChangeHandler,
+  Controller,
+  FieldError,
+  useForm,
+} from 'react-hook-form';
+>>>>>>> 25631510 (feat: :sparkles: Add UI for adding image when creating a quest)
 import { QuestRepetitionHint, URIRegexp } from 'utils/questHelpers';
 import { RoleOption } from 'utils/roleHelpers';
 import { CategoryOption, SkillOption } from 'utils/skillHelpers';
@@ -170,6 +180,7 @@ export const QuestForm: React.FC<Props> = ({
   const [previewImg, setPreviewImage] = useState<string>('');
   const createQuestInput = watch();
 
+<<<<<<< HEAD
   function showImagePreview(e: ChangeEvent<HTMLInputElement>) {
     if (!e.target || !e.target.files || !e.target.files[0]) {
       setPreviewImage('');
@@ -181,6 +192,20 @@ export const QuestForm: React.FC<Props> = ({
       };
       reader.readAsDataURL(file);
     }
+=======
+  // TODO: Figure out the type for 'e'
+  function handleImageChange(e) {
+    if (!e.target.files[0]) {
+      setPreviewImage('');
+      return;
+    }
+    const reader = new FileReader();
+    const file = e.target.files[0];
+    reader.onloadend = () => {
+      if (reader.result) setPreviewImage(reader.result as string);
+    };
+    reader.readAsDataURL(file);
+>>>>>>> 25631510 (feat: :sparkles: Add UI for adding image when creating a quest)
   }
 
   return (
@@ -373,6 +398,7 @@ export const QuestForm: React.FC<Props> = ({
           </FlexContainer>
         </Field>
 
+<<<<<<< HEAD
         <Field label="Quest Image" error={errors.image}>
           <Input
             {...register('image', {
@@ -386,6 +412,19 @@ export const QuestForm: React.FC<Props> = ({
           <Center
             boxSize="sm"
             rounded={'md'}
+=======
+        <Field label="Quest Image">
+          <Input
+            type={'file'}
+            paddingTop={1}
+            accept="image/*"
+            id="quest-img"
+            onChange={handleImageChange}
+          />
+          <Center
+            boxSize="sm"
+            rounded={'sm'}
+>>>>>>> 25631510 (feat: :sparkles: Add UI for adding image when creating a quest)
             border={'dashed'}
             borderWidth={6}
             borderColor={'whiteAlpha.500'}
@@ -394,9 +433,12 @@ export const QuestForm: React.FC<Props> = ({
             width={'full'}
             padding={2}
             overflow="clip"
+<<<<<<< HEAD
             backgroundColor={'blackAlpha.600'}
             backdropFilter={'auto'}
             backdropBlur={'sm'}
+=======
+>>>>>>> 25631510 (feat: :sparkles: Add UI for adding image when creating a quest)
           >
             {previewImg ? (
               <Image
@@ -407,7 +449,11 @@ export const QuestForm: React.FC<Props> = ({
                 alt="Quest image"
               />
             ) : (
+<<<<<<< HEAD
               <Text color={'whiteAlpha.800'}>
+=======
+              <Text color={'whiteAlpha.700'}>
+>>>>>>> 25631510 (feat: :sparkles: Add UI for adding image when creating a quest)
                 Your image preview will show up here
               </Text>
             )}
