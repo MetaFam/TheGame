@@ -4,6 +4,7 @@ import {
   Image,
   Link,
   LinkBox,
+  MetaTag,
   MetaTile,
   MetaTileBody,
   MetaTileHeader,
@@ -74,9 +75,13 @@ export const GuildTile: React.FC<Props> = ({ guild }) => (
                   <Text fontSize="sm">{guild.description}</Text>
                 </VStack>
               ) : null}
-              <VStack spacing={2} align="stretch">
-                <Text textStyle="caption">Skills</Text>
-                <Text fontStyle="italic">Coming soon...</Text>
+              <VStack spacing={2} align="stretch" mb={1}>
+                <Text textStyle="caption">Type</Text>
+                {guild.type ? (
+                  <MetaTag size="sm" fontWeight="normal" w="fit-content">
+                    {guild.type} GUILD
+                  </MetaTag>
+                ) : null}
               </VStack>
               <Flex justifyContent="space-between">
                 <VStack spacing={2} align="stretch">
