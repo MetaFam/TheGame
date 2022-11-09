@@ -69,7 +69,7 @@ const Custom404: FC = () => {
         />
         <Heading
           as="h1"
-          fontFamily={'Exo 2'}
+          fontFamily="Exo 2"
           pb={2}
           fontSize={{ base: '39px', md: '67px' }}
         >
@@ -77,7 +77,7 @@ const Custom404: FC = () => {
         </Heading>
         <Heading
           as="h2"
-          fontFamily={'Exo 2'}
+          fontFamily="Exo 2"
           pb={6}
           fontSize={{ base: '20px', md: '31px' }}
         >
