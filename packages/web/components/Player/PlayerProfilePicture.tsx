@@ -30,7 +30,9 @@ export const PlayerProfilePicture: React.FC<PlayerProfilePictureProps> = ({
     name: name ?? undefined,
     color: 'white',
     borderTopRadius: 10,
-    marginTop: '0 !important',
+    margin: '0 !important',
+    width: '100%',
+    // height: '100%',
     ...props,
   };
 
