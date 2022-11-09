@@ -4,9 +4,13 @@ import React from 'react';
 
 type PlayerRankProps = {
   player: Player;
+  showSeasonalXP?: boolean;
 };
 
-export const PlayerRank: React.FC<PlayerRankProps> = ({ player }) => (
+export const PlayerRank: React.FC<PlayerRankProps> = ({
+  player,
+  showSeasonalXP,
+}) => (
   <Flex
     flexDir="column"
     gap={1}
@@ -18,6 +22,11 @@ export const PlayerRank: React.FC<PlayerRankProps> = ({ player }) => (
     backdropFilter="blur(10.5px)"
     borderRadius="8px"
   >
+    {showSeasonalXP && (
+      <Text fontSize="sm" color="blueLight">
+        SEASON XP: {player.seasonXP}
+      </Text>
+    )}
     {player.rank && (
       <WrapItem>
         <MetaTag
