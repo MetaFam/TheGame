@@ -18,7 +18,11 @@ import { PlayerTileMemberships } from 'components/Player/PlayerTileMemberships';
 import { SkillsTags } from 'components/Quest/Skills';
 import type { Player, Skill } from 'graphql/autogen/types';
 import { getAllMemberships, GuildMembership } from 'graphql/getMemberships';
+<<<<<<< HEAD
 import type { Patron } from 'graphql/types';
+=======
+import { Patron } from 'graphql/types';
+>>>>>>> 86629af0 (make all card images square & clickable)
 import React, { useEffect, useState } from 'react';
 import {
   getPlayerDescription,
@@ -80,18 +84,31 @@ export const PlayerTile: React.FC<Props> = ({
           {isPatron && typeof index === 'number' && pSeedPrice ? (
             <PatronRank
               patron={player as Patron}
+<<<<<<< HEAD
               {...{ pSeedPrice, index }}
             />
           ) : (
             <PlayerRank {...{ player, showSeasonalXP }} />
+=======
+              pSeedPrice={pSeedPrice}
+              index={index}
+            />
+          ) : (
+            <PlayerRank player={player} showSeasonalXP={showSeasonalXP} />
+>>>>>>> 86629af0 (make all card images square & clickable)
           )}
           <PlayerProfilePicture {...{ player }} size="xl" />
           <Flex px={3} w="full" pos="absolute" bottom={-6} zIndex={1}>
             <Heading
               size="lg"
               color="white"
+<<<<<<< HEAD
               bgColor="whiteAlpha.100"
               sx={{ backdropFilter: 'blur(10px)' }}
+=======
+              bgColor="rgba(255, 255, 255, 0.06)"
+              style={{ backdropFilter: 'blur(10px)' }}
+>>>>>>> 86629af0 (make all card images square & clickable)
               lineHeight={1.8}
               justifyContent="center"
               px={3}
@@ -109,16 +126,27 @@ export const PlayerTile: React.FC<Props> = ({
           <Flex flexDir="column" mb="auto">
             {displayDescription && (
               <VStack spacing={2} align="stretch">
+<<<<<<< HEAD
                 <Text textStyle="caption">About</Text>
+=======
+                <Text textStyle="caption">ABOUT</Text>
+>>>>>>> 86629af0 (make all card images square & clickable)
                 <Text fontSize="sm">{displayDescription}</Text>
               </VStack>
             )}
             {!!player.skills?.length && (
               <VStack spacing={2} align="stretch">
+<<<<<<< HEAD
                 <Text textStyle="caption">Skills</Text>
                 <SkillsTags
                   skills={
                     player.skills.map(({ Skill: s }) => s) as Skill[]
+=======
+                <Text textStyle="caption">SKILLS</Text>
+                <SkillsTags
+                  skills={
+                    player.skills.map(({ Skill: skill }) => skill) as Skill[]
+>>>>>>> 86629af0 (make all card images square & clickable)
                   }
                 />
               </VStack>
@@ -130,6 +158,7 @@ export const PlayerTile: React.FC<Props> = ({
           <Flex justifyContent="space-between" pointerEvents="none">
             {!!memberships.length && (
               <VStack spacing={2} align="stretch">
+<<<<<<< HEAD
                 <Text textStyle="caption">Member of</Text>
                 <HStack mt={2} position="relative" zIndex={1}>
                   {loading ? (
@@ -144,13 +173,31 @@ export const PlayerTile: React.FC<Props> = ({
                       />
                     ))
                   )}
+=======
+                <Text textStyle="caption">MEMBER OF</Text>
+                <HStack mt={2} position="relative" zIndex={1}>
+                  {loading && <LoadingState mb={6} />}
+                  {!loading &&
+                    memberships
+                      .slice(0, 3)
+                      .map((membership) => (
+                        <DAOMembershipSmall
+                          {...{ membership }}
+                          key={membership.address}
+                        />
+                      ))}
+>>>>>>> 86629af0 (make all card images square & clickable)
                 </HStack>
               </VStack>
             )}
 
             {!!player.accounts?.length && (
               <VStack spacing={2} align="stretch">
+<<<<<<< HEAD
                 <Text textStyle="caption">Contact</Text>
+=======
+                <Text textStyle="caption">CONTACT</Text>
+>>>>>>> 86629af0 (make all card images square & clickable)
                 <HStack mt={2} pointerEvents="all">
                   <PlayerContacts {...{ player }} disableBrightId />
                 </HStack>

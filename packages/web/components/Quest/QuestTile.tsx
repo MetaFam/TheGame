@@ -2,6 +2,10 @@ import {
   Box,
   Flex,
   Heading,
+<<<<<<< HEAD
+=======
+  HStack,
+>>>>>>> 86629af0 (make all card images square & clickable)
   Link,
   MetaTile,
   MetaTileBody,
@@ -41,12 +45,20 @@ export const QuestTile: React.FC<Props> = ({ quest }) => {
     >
       <MetaTile height="full" width="full">
         <MetaTileHeader>
+<<<<<<< HEAD
           <SquareImage src={BackgroundImage.src} />
+=======
+          <SquareImage src={BackgroundImage} />
+>>>>>>> 86629af0 (make all card images square & clickable)
           <Flex px={3} w="full" pos="absolute" bottom={-6} zIndex={1}>
             <Heading
               size="lg"
               color="white"
+<<<<<<< HEAD
               bgColor="whiteAlpha.100"
+=======
+              bgColor="rgba(255, 255, 255, 0.06)"
+>>>>>>> 86629af0 (make all card images square & clickable)
               style={{ backdropFilter: 'blur(10px)' }}
               lineHeight={1.8}
               justifyContent="center"
@@ -62,10 +74,27 @@ export const QuestTile: React.FC<Props> = ({ quest }) => {
           </Flex>
         </MetaTileHeader>
         <MetaTileBody>
+<<<<<<< HEAD
           <Flex flexDir="column">
             <Box pb={2}>
               <Text textStyle="caption" pb={1}>
                 Description
+=======
+          <HStack mt={3}>
+            <RepetitionTag
+              repetition={quest.repetition}
+              cooldown={quest.cooldown}
+            />
+            <StatusTag status={quest.status} />
+            <Text>
+              <i>{moment(quest.createdAt).fromNow()}</i>
+            </Text>
+          </HStack>
+          <Flex flexDir="column">
+            <Box pb={2}>
+              <Text textStyle="caption" pb={1}>
+                DESCRIPTION
+>>>>>>> 86629af0 (make all card images square & clickable)
               </Text>
               {descIsHtml ? (
                 <Prose>{parsedDescription}</Prose>
@@ -78,7 +107,11 @@ export const QuestTile: React.FC<Props> = ({ quest }) => {
             </Box>
             <Box pb={2}>
               <Text textStyle="caption" pb={1}>
+<<<<<<< HEAD
                 Skills
+=======
+                SKILLS
+>>>>>>> 86629af0 (make all card images square & clickable)
               </Text>
               <SkillsTags
                 skills={quest.quest_skills.map(({ skill }) => skill) as Skill[]}
@@ -86,7 +119,11 @@ export const QuestTile: React.FC<Props> = ({ quest }) => {
             </Box>
             <Box pb={2}>
               <Text textStyle="caption" pb={1}>
+<<<<<<< HEAD
                 Roles
+=======
+                ROLES
+>>>>>>> 86629af0 (make all card images square & clickable)
               </Text>
               {quest.quest_roles.length ? (
                 <RolesTags

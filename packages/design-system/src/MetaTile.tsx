@@ -55,9 +55,15 @@ export const MetaTile: React.FC<FlexProps & MetaTileProps> = ({
   return (
     <div
       className={props.noTilt ? '' : 'js-tilt'}
+<<<<<<< HEAD
       data-tilt-scale={1.03}
       data-tilt-max={6}
       data-tilt-speed={800}
+=======
+      data-tilt-scale="1.03"
+      data-tilt-max="6"
+      data-tilt-speed="800"
+>>>>>>> 86629af0 (make all card images square & clickable)
       data-tilt-easing="cubic-bezier(.03,.98,.52,.99)"
       style={{
         display: 'flex',

@@ -14,7 +14,10 @@ import {
 import { PageContainer } from 'components/Container';
 import { HeadComponent } from 'components/Seo';
 import { SquareImage } from 'components/SquareImage';
+<<<<<<< HEAD
 import React from 'react';
+=======
+>>>>>>> 86629af0 (make all card images square & clickable)
 import { Difficulty, QuestChainDetails, Time } from 'utils/questChains';
 
 const QuestsDashboard: React.FC = () => (
@@ -97,6 +100,7 @@ const Card: React.FC<CardProps> = ({
     <Link role="group" _hover={{ textDecoration: 'none' }} href={link}>
       <MetaTile height="full" width="full">
         <MetaTileHeader>
+<<<<<<< HEAD
           <SquareImage src={icon} />
           <Flex px={3} w="full" pos="absolute" bottom={-6} zIndex={1}>
             <Heading
@@ -113,15 +117,62 @@ const Card: React.FC<CardProps> = ({
               fontFamily="body"
               fontWeight={400}
             >
+=======
+          <Flex
+            flexDir="column"
+            gap={1}
+            pos="absolute"
+            left={-8}
+            py={3}
+            px={4}
+            top={-8}
+            background="rgba(255, 255, 255, 0.1)"
+            backdropFilter="blur(10.5px)"
+            borderRadius="8px"
+            alignItems="center"
+          >
+            <Image w="2.5rem" src={LogoImage} />
+            <Text
+              fontFamily="Exo 2"
+              fontSize="xs"
+              color="blueLight"
+              fontWeight="bold"
+            >
+              MetaGame
+            </Text>
+          </Flex>
+          <SquareImage p={6} src={icon} mt="0 !important" />
+          <Flex px={3} w="full" pos="absolute" bottom={-6} zIndex={1}>
+            <Heading
+              size="lg"
+              color="white"
+              bgColor="rgba(255, 255, 255, 0.06)"
+              style={{ backdropFilter: 'blur(10px)' }}
+              lineHeight={1.8}
+              justifyContent="center"
+              px={3}
+              width="full"
+              textAlign="center"
+              borderRadius={10}
+              fontFamily="body"
+              fontWeight={400}
+            >
+>>>>>>> 86629af0 (make all card images square & clickable)
               {title}
             </Heading>
           </Flex>
         </MetaTileHeader>
         <MetaTileBody pos="relative" height="full">
           <Flex flexDir="column">
+<<<<<<< HEAD
             <Text textStyle="caption">About</Text>
 
             <Text mb={2} h="3rem" fontSize="sm">
+=======
+            <Text textStyle="caption">ABOUT</Text>
+
+            <Text mb={2} h="3rem">
+>>>>>>> 86629af0 (make all card images square & clickable)
               {description}
             </Text>
           </Flex>
