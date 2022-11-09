@@ -24,7 +24,7 @@ export const PlayerRank: React.FC<PlayerRankProps> = ({
   >
     {showSeasonalXP && (
       <Text fontSize="sm" color="blueLight">
-        SEASON XP: {player.seasonXP}
+        SEASON XP: {Math.floor(player.seasonXP).toLocaleString()}
       </Text>
     )}
     {player.rank && (
