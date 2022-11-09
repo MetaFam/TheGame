@@ -5,7 +5,7 @@
   "compilerOptions": {
     "outDir": "dist/",
     "rootDir": "src/",
-    "baseUrl": "./src/",
+    "baseUrl": "src/",
     "tsBuildInfoFile": "dist/.tsbuildinfo"
   },
   "references": [{ "path": "../utils" }, { "path": "../discord-bot" }],
