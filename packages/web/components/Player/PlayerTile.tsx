@@ -77,36 +77,34 @@ export const PlayerTile: React.FC<Props> = ({
             }}
           >
             <MetaTileHeader>
-              <VStack pos="relative" h="full">
-                {isPatron && typeof index === 'number' && pSeedPrice ? (
-                  <PatronRank
-                    patron={player as Patron}
-                    pSeedPrice={pSeedPrice}
-                    index={index}
-                  />
-                ) : (
-                  <PlayerRank player={player} />
-                )}
-                <PlayerProfilePicture {...{ player }} size="xl" />
-                <Flex px={3} w="full" pos="absolute" bottom={-6} zIndex={1}>
-                  <Heading
-                    size="lg"
-                    color="white"
-                    bgColor="rgba(255, 255, 255, 0.06)"
-                    style={{ backdropFilter: 'blur(10px)' }}
-                    lineHeight={1.8}
-                    justifyContent="center"
-                    px={3}
-                    width="full"
-                    textAlign="center"
-                    borderRadius={10}
-                    fontFamily="body"
-                    fontWeight={400}
-                  >
-                    {getPlayerName(player)}
-                  </Heading>
-                </Flex>
-              </VStack>
+              {isPatron && typeof index === 'number' && pSeedPrice ? (
+                <PatronRank
+                  patron={player as Patron}
+                  pSeedPrice={pSeedPrice}
+                  index={index}
+                />
+              ) : (
+                <PlayerRank player={player} />
+              )}
+              <PlayerProfilePicture {...{ player }} size="xl" />
+              <Flex px={3} w="full" pos="absolute" bottom={-6} zIndex={1}>
+                <Heading
+                  size="lg"
+                  color="white"
+                  bgColor="rgba(255, 255, 255, 0.06)"
+                  style={{ backdropFilter: 'blur(10px)' }}
+                  lineHeight={1.8}
+                  justifyContent="center"
+                  px={3}
+                  width="full"
+                  textAlign="center"
+                  borderRadius={10}
+                  fontFamily="body"
+                  fontWeight={400}
+                >
+                  {getPlayerName(player)}
+                </Heading>
+              </Flex>
             </MetaTileHeader>
             <MetaTileBody pos="relative" height="full">
               {displayDescription && (
