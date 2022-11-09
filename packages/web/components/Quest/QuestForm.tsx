@@ -1,8 +1,10 @@
 import {
   Box,
   Button,
+  Center,
   ConfirmModal,
   Flex,
+  Image,
   Input,
   MetaButton,
   MetaTag,
@@ -24,7 +26,12 @@ import {
 } from 'graphql/autogen/types';
 import { useRouter } from 'next/router';
 import React, { useMemo, useState } from 'react';
-import { Controller, FieldError, useForm } from 'react-hook-form';
+import {
+  ChangeHandler,
+  Controller,
+  FieldError,
+  useForm,
+} from 'react-hook-form';
 import { QuestRepetitionHint, URIRegexp } from 'utils/questHelpers';
 import { RoleOption } from 'utils/roleHelpers';
 import { CategoryOption, SkillOption } from 'utils/skillHelpers';
@@ -164,11 +171,26 @@ export const QuestForm: React.FC<Props> = ({
   });
   const router = useRouter();
   const [exitAlert, setExitAlert] = useState<boolean>(false);
+  const [previewImg, setPreviewImage] = useState<string>('');
   const createQuestInput = watch();
+
+  // TODO: Figure out the type for 'e'
+  function handleImageChange(e) {
+    if (!e.target.files[0]) {
+      setPreviewImage('');
+      return;
+    }
+    const reader = new FileReader();
+    const file = e.target.files[0];
+    reader.onloadend = () => {
+      if (reader.result) setPreviewImage(reader.result as string);
+    };
+    reader.readAsDataURL(file);
+  }
 
   return (
     <Box w="100%" maxW="30rem">
-      <VStack>
+      <VStack spacing={8} paddingY={6}>
         <Field label="Title" error={errors.title}>
           <Input
             placeholder="Buidl stuff…"
@@ -251,6 +273,7 @@ export const QuestForm: React.FC<Props> = ({
             p={2}
             mt={2}
             backgroundColor={RepetitionColors[createQuestInput.repetition]}
+            alignSelf="start"
           >
             {QuestRepetitionHint[createQuestInput.repetition]}
           </MetaTag>
@@ -353,6 +376,42 @@ export const QuestForm: React.FC<Props> = ({
               )}
             />
           </FlexContainer>
+        </Field>
+
+        <Field label="Quest Image">
+          <Input
+            type={'file'}
+            paddingTop={1}
+            accept="image/*"
+            id="quest-img"
+            onChange={handleImageChange}
+          />
+          <Center
+            boxSize="sm"
+            rounded={'sm'}
+            border={'dashed'}
+            borderWidth={6}
+            borderColor={'whiteAlpha.500'}
+            marginTop={2}
+            height={'xs'}
+            width={'full'}
+            padding={2}
+            overflow="clip"
+          >
+            {previewImg ? (
+              <Image
+                transition={'ease-in'}
+                transitionDuration={'600'}
+                src={previewImg}
+                height={'full'}
+                alt="Quest image"
+              />
+            ) : (
+              <Text color={'whiteAlpha.700'}>
+                Your image preview will show up here
+              </Text>
+            )}
+          </Center>
         </Field>
 
         <Flex justify="space-between" mt={4} w="100%">
