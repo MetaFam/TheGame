@@ -59,7 +59,12 @@ const Heading: React.FC<Props> = ({
       w="100%"
       alignItems="center"
     >
-      <VStack alignItems="start" spacing={8} w="100%" maxW="48rem">
+      <VStack
+        alignItems="start"
+        spacing={{ base: 4, lg: 8 }}
+        w="100%"
+        maxW="48rem"
+      >
         <MetaLink
           isExternal
           color="white"
@@ -68,10 +73,10 @@ const Heading: React.FC<Props> = ({
           <Tooltip label="View on Quest Chains">
             <Flex w="full" gap={4} role="group" position="relative">
               <Text
-                fontSize="5xl"
+                fontSize={{ base: '3xl', lg: '7xl' }}
                 fontWeight="bold"
                 lineHeight="3.5rem"
-                fontFamily="heading"
+                fontFamily="exo2"
                 mb={3}
               >
                 {questChain.name}
@@ -155,7 +160,7 @@ const Heading: React.FC<Props> = ({
     </Stack>
 
     {/* Quest Chain Description */}
-    <Box w="100%" fontSize="lg">
+    <Box w="100%" fontSize={{ base: 'normal', lg: 'lg' }}>
       <MarkdownViewer>{questChain.description}</MarkdownViewer>
     </Box>
 

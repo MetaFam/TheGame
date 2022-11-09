@@ -100,7 +100,7 @@ const QuestChainPathPage: React.FC<Props> = ({
             path,
           }}
         />
-        <Text fontSize={40} fontFamily="heading" w="100%">
+        <Text fontSize={{ base: 30, lg: 40 }} fontFamily="exo2" w="100%">
           Quests
         </Text>
 
