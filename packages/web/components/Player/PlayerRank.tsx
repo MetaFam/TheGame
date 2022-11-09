@@ -21,6 +21,7 @@ export const PlayerRank: React.FC<PlayerRankProps> = ({
     background="rgba(255, 255, 255, 0.1)"
     backdropFilter="blur(10.5px)"
     borderRadius="8px"
+    zIndex={1}
   >
     {showSeasonalXP && (
       <Text fontSize="sm" color="blueLight">
