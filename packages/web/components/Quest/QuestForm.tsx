@@ -81,7 +81,6 @@ export interface DefaultableFormValues {
   cooldown?: number | null;
   skills: SkillOption[];
   roles: RoleOption[];
-  image: string;
 }
 export interface CreateQuestFormInputs extends DefaultableFormValues {
   image: FileList;
@@ -93,7 +92,6 @@ const getDefaultFormValues = (
   guilds: GuildFragment[],
 ): DefaultableFormValues => ({
   title: base?.title || '',
-  image: '',
   repetition: base?.repetition ?? QuestRepetition_Enum.Unique,
   description: base?.description ?? '',
   externalLink: base?.externalLink ?? '',
@@ -189,6 +187,9 @@ export const QuestForm: React.FC<Props> = ({
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> a3e12178 (refactor: :zap: Make image input play better with `react-hook-forms`)
   function showImagePreview(e: ChangeEvent<HTMLInputElement>) {
     if (!e.target || !e.target.files || !e.target.files[0]) {
       setPreviewImage('');
@@ -420,6 +421,7 @@ export const QuestForm: React.FC<Props> = ({
         </Field>
 
 <<<<<<< HEAD
+<<<<<<< HEAD
         <Field label="Quest Image" error={errors.image}>
           <Input
             {...register('image', {
@@ -435,12 +437,17 @@ export const QuestForm: React.FC<Props> = ({
             rounded={'md'}
 =======
         <Field label="Quest Image">
+=======
+        <Field label="Quest Image" error={errors.image}>
+>>>>>>> a3e12178 (refactor: :zap: Make image input play better with `react-hook-forms`)
           <Input
-            {...register('image')}
+            {...register('image', {
+              required: true,
+            })}
             type={'file'}
             paddingTop={1}
             accept="image/*"
-            onChange={(e) => handleImageChange(e)}
+            onChange={(e) => showImagePreview(e)}
           />
           <Center
             boxSize="sm"
