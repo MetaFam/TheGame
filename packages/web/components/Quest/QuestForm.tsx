@@ -56,7 +56,7 @@ const validations = {
   },
 };
 
-export interface CreateQuestFormInputs {
+export interface DefaultableFormValues {
   title: string;
   description: string;
   repetition: QuestRepetition_Enum;
@@ -66,17 +66,17 @@ export interface CreateQuestFormInputs {
   cooldown?: number | null;
   skills: SkillOption[];
   roles: RoleOption[];
-  image: string;
 }
-
+export interface CreateQuestFormInputs extends DefaultableFormValues {
+  image: FileList;
+}
 const MetaFamGuildId = 'f94b7cd4-cf29-4251-baa5-eaacab98a719';
 
 const getDefaultFormValues = (
   base: QuestFragment | undefined,
   guilds: GuildFragment[],
-): CreateQuestFormInputs => ({
+): DefaultableFormValues => ({
   title: base?.title || '',
-  image: '',
   repetition: base?.repetition ?? QuestRepetition_Enum.Unique,
   description: base?.description ?? '',
   externalLink: base?.externalLink ?? '',
@@ -115,7 +115,6 @@ const Field: React.FC<FieldProps> = ({ children, error, label }) => (
       <Text textStyle="caption" textAlign="left" ml={4}>
         {label}
       </Text>
-
       <Text textStyle="caption" textAlign="left" color="red.400" mr={4}>
         {error?.type === 'required' && 'Required'}
         {error?.type === 'pattern' && 'Invalid URL'}
@@ -171,7 +170,7 @@ export const QuestForm: React.FC<Props> = ({
   const [previewImg, setPreviewImage] = useState<string>('');
   const createQuestInput = watch();
 
-  function handleImageChange(e: ChangeEvent<HTMLInputElement>) {
+  function showImagePreview(e: ChangeEvent<HTMLInputElement>) {
     if (!e.target || !e.target.files || !e.target.files[0]) {
       setPreviewImage('');
     } else {
@@ -226,7 +225,7 @@ export const QuestForm: React.FC<Props> = ({
             }}
             defaultValue={defaultValues.description}
             render={({ field: { onChange, value } }) => (
-              <Textarea {...{ value, onChange }} />
+              <Textarea background={'dark'} {...{ value, onChange }} />
             )}
           />
         </Field>
@@ -374,13 +373,15 @@ export const QuestForm: React.FC<Props> = ({
           </FlexContainer>
         </Field>
 
-        <Field label="Quest Image">
+        <Field label="Quest Image" error={errors.image}>
           <Input
-            {...register('image')}
+            {...register('image', {
+              required: true,
+            })}
             type={'file'}
             paddingTop={1}
             accept="image/*"
-            onChange={(e) => handleImageChange(e)}
+            onChange={(e) => showImagePreview(e)}
           />
           <Center
             boxSize="sm"
