@@ -25,13 +25,8 @@ import {
   QuestStatus_Enum,
 } from 'graphql/autogen/types';
 import { useRouter } from 'next/router';
-import React, { useMemo, useState } from 'react';
-import {
-  ChangeHandler,
-  Controller,
-  FieldError,
-  useForm,
-} from 'react-hook-form';
+import React, { ChangeEvent, useMemo, useState } from 'react';
+import { Controller, FieldError, useForm } from 'react-hook-form';
 import { QuestRepetitionHint, URIRegexp } from 'utils/questHelpers';
 import { RoleOption } from 'utils/roleHelpers';
 import { CategoryOption, SkillOption } from 'utils/skillHelpers';
@@ -71,6 +66,7 @@ export interface CreateQuestFormInputs {
   cooldown?: number | null;
   skills: SkillOption[];
   roles: RoleOption[];
+  image: string;
 }
 
 const MetaFamGuildId = 'f94b7cd4-cf29-4251-baa5-eaacab98a719';
@@ -80,6 +76,7 @@ const getDefaultFormValues = (
   guilds: GuildFragment[],
 ): CreateQuestFormInputs => ({
   title: base?.title || '',
+  image: '',
   repetition: base?.repetition ?? QuestRepetition_Enum.Unique,
   description: base?.description ?? '',
   externalLink: base?.externalLink ?? '',
@@ -174,18 +171,17 @@ export const QuestForm: React.FC<Props> = ({
   const [previewImg, setPreviewImage] = useState<string>('');
   const createQuestInput = watch();
 
-  // TODO: Figure out the type for 'e'
-  function handleImageChange(e) {
-    if (!e.target.files[0]) {
+  function handleImageChange(e: ChangeEvent<HTMLInputElement>) {
+    if (!e.target || !e.target.files || !e.target.files[0]) {
       setPreviewImage('');
-      return;
+    } else {
+      const reader = new FileReader();
+      const file = e.target.files[0];
+      reader.onloadend = () => {
+        if (reader.result) setPreviewImage(reader.result as string);
+      };
+      reader.readAsDataURL(file);
     }
-    const reader = new FileReader();
-    const file = e.target.files[0];
-    reader.onloadend = () => {
-      if (reader.result) setPreviewImage(reader.result as string);
-    };
-    reader.readAsDataURL(file);
   }
 
   return (
@@ -380,15 +376,15 @@ export const QuestForm: React.FC<Props> = ({
 
         <Field label="Quest Image">
           <Input
+            {...register('image')}
             type={'file'}
             paddingTop={1}
             accept="image/*"
-            id="quest-img"
-            onChange={handleImageChange}
+            onChange={(e) => handleImageChange(e)}
           />
           <Center
             boxSize="sm"
-            rounded={'sm'}
+            rounded={'md'}
             border={'dashed'}
             borderWidth={6}
             borderColor={'whiteAlpha.500'}
@@ -397,6 +393,9 @@ export const QuestForm: React.FC<Props> = ({
             width={'full'}
             padding={2}
             overflow="clip"
+            backgroundColor={'blackAlpha.600'}
+            backdropFilter={'auto'}
+            backdropBlur={'sm'}
           >
             {previewImg ? (
               <Image
@@ -407,7 +406,7 @@ export const QuestForm: React.FC<Props> = ({
                 alt="Quest image"
               />
             ) : (
-              <Text color={'whiteAlpha.700'}>
+              <Text color={'whiteAlpha.800'}>
                 Your image preview will show up here
               </Text>
             )}
