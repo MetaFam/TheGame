@@ -27,7 +27,6 @@ export const RolesSelect: React.FC<SetupRolesProps> = ({
       label: roleChoice.label,
       value: roleChoice.role,
     }))}
-    autoFocus
     closeMenuOnSelect={false}
     placeholder={placeHolder}
     id={`roles-select-container-${id || ''}`}
