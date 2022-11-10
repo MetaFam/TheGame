@@ -26,6 +26,7 @@ import {
 } from 'graphql/autogen/types';
 import { useRouter } from 'next/router';
 <<<<<<< HEAD
+<<<<<<< HEAD
 import React, { ChangeEvent, useMemo, useState } from 'react';
 import { Controller, FieldError, useForm } from 'react-hook-form';
 =======
@@ -37,6 +38,10 @@ import {
   useForm,
 } from 'react-hook-form';
 >>>>>>> 25631510 (feat: :sparkles: Add UI for adding image when creating a quest)
+=======
+import React, { ChangeEvent, useMemo, useState } from 'react';
+import { Controller, FieldError, useForm } from 'react-hook-form';
+>>>>>>> 10768102 (refactor: :sparkles: Connect image input to `react-hook-form` and update styles)
 import { QuestRepetitionHint, URIRegexp } from 'utils/questHelpers';
 import { RoleOption } from 'utils/roleHelpers';
 import { CategoryOption, SkillOption } from 'utils/skillHelpers';
@@ -76,6 +81,7 @@ export interface DefaultableFormValues {
   cooldown?: number | null;
   skills: SkillOption[];
   roles: RoleOption[];
+  image: string;
 }
 export interface CreateQuestFormInputs extends DefaultableFormValues {
   image: FileList;
@@ -87,6 +93,7 @@ const getDefaultFormValues = (
   guilds: GuildFragment[],
 ): DefaultableFormValues => ({
   title: base?.title || '',
+  image: '',
   repetition: base?.repetition ?? QuestRepetition_Enum.Unique,
   description: base?.description ?? '',
   externalLink: base?.externalLink ?? '',
@@ -181,6 +188,7 @@ export const QuestForm: React.FC<Props> = ({
   const createQuestInput = watch();
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   function showImagePreview(e: ChangeEvent<HTMLInputElement>) {
     if (!e.target || !e.target.files || !e.target.files[0]) {
       setPreviewImage('');
@@ -196,9 +204,20 @@ export const QuestForm: React.FC<Props> = ({
   // TODO: Figure out the type for 'e'
   function handleImageChange(e) {
     if (!e.target.files[0]) {
+=======
+  function handleImageChange(e: ChangeEvent<HTMLInputElement>) {
+    if (!e.target || !e.target.files || !e.target.files[0]) {
+>>>>>>> 10768102 (refactor: :sparkles: Connect image input to `react-hook-form` and update styles)
       setPreviewImage('');
-      return;
+    } else {
+      const reader = new FileReader();
+      const file = e.target.files[0];
+      reader.onloadend = () => {
+        if (reader.result) setPreviewImage(reader.result as string);
+      };
+      reader.readAsDataURL(file);
     }
+<<<<<<< HEAD
     const reader = new FileReader();
     const file = e.target.files[0];
     reader.onloadend = () => {
@@ -206,6 +225,8 @@ export const QuestForm: React.FC<Props> = ({
     };
     reader.readAsDataURL(file);
 >>>>>>> 25631510 (feat: :sparkles: Add UI for adding image when creating a quest)
+=======
+>>>>>>> 10768102 (refactor: :sparkles: Connect image input to `react-hook-form` and update styles)
   }
 
   return (
@@ -415,16 +436,20 @@ export const QuestForm: React.FC<Props> = ({
 =======
         <Field label="Quest Image">
           <Input
+            {...register('image')}
             type={'file'}
             paddingTop={1}
             accept="image/*"
-            id="quest-img"
-            onChange={handleImageChange}
+            onChange={(e) => handleImageChange(e)}
           />
           <Center
             boxSize="sm"
+<<<<<<< HEAD
             rounded={'sm'}
 >>>>>>> 25631510 (feat: :sparkles: Add UI for adding image when creating a quest)
+=======
+            rounded={'md'}
+>>>>>>> 10768102 (refactor: :sparkles: Connect image input to `react-hook-form` and update styles)
             border={'dashed'}
             borderWidth={6}
             borderColor={'whiteAlpha.500'}
@@ -434,11 +459,17 @@ export const QuestForm: React.FC<Props> = ({
             padding={2}
             overflow="clip"
 <<<<<<< HEAD
+<<<<<<< HEAD
             backgroundColor={'blackAlpha.600'}
             backdropFilter={'auto'}
             backdropBlur={'sm'}
 =======
 >>>>>>> 25631510 (feat: :sparkles: Add UI for adding image when creating a quest)
+=======
+            backgroundColor={'blackAlpha.600'}
+            backdropFilter={'auto'}
+            backdropBlur={'sm'}
+>>>>>>> 10768102 (refactor: :sparkles: Connect image input to `react-hook-form` and update styles)
           >
             {previewImg ? (
               <Image
@@ -450,10 +481,14 @@ export const QuestForm: React.FC<Props> = ({
               />
             ) : (
 <<<<<<< HEAD
+<<<<<<< HEAD
               <Text color={'whiteAlpha.800'}>
 =======
               <Text color={'whiteAlpha.700'}>
 >>>>>>> 25631510 (feat: :sparkles: Add UI for adding image when creating a quest)
+=======
+              <Text color={'whiteAlpha.800'}>
+>>>>>>> 10768102 (refactor: :sparkles: Connect image input to `react-hook-form` and update styles)
                 Your image preview will show up here
               </Text>
             )}
