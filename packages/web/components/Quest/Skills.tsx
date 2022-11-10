@@ -57,7 +57,6 @@ export const SkillsSelect: React.FC<SetupSkillsProps> = ({
       value={skills}
       onChange={(value) => setSkills(value as Array<SkillOption>)}
       options={skillChoices as LabeledOptions<string>[]}
-      autoFocus
       closeMenuOnSelect={false}
       placeholder={placeHolder}
       id={`skills-select-container-${id || ''}`}
