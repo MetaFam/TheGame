@@ -8,7 +8,7 @@ type SquareImageProps = AvatarProps & {
 export const SquareImage: React.FC<SquareImageProps> = ({ src }) => (
   <Flex
     position="relative"
-    // marginTop="0 !important"
+    marginTop="0 !important"
     _after={{
       content: '""',
       display: 'block',
