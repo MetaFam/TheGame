@@ -13,7 +13,10 @@ import { useUser } from 'lib/hooks';
 import { InferGetStaticPropsType } from 'next';
 import { useRouter } from 'next/router';
 import React from 'react';
-import { transformCooldownForBackend } from 'utils/questHelpers';
+import {
+  transformCooldownForBackend,
+  uploadQuestImage,
+} from 'utils/questHelpers';
 import { parseSkills } from 'utils/skillHelpers';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
@@ -28,7 +31,7 @@ const CreateQuestPage: React.FC<Props> = ({
   const toast = useToast();
   const [createQuestState, createQuest] = useCreateQuestMutation();
 
-  const onSubmit = (data: CreateQuestFormInputs) => {
+  const onSubmit = async (data: CreateQuestFormInputs) => {
     const {
       skills,
       roles,
@@ -38,8 +41,10 @@ const CreateQuestPage: React.FC<Props> = ({
       ...createQuestInputs
     } = data;
 
+    const transformedImage = await uploadQuestImage(data.image[0]);
     const input = {
       ...createQuestInputs,
+      image: transformedImage,
       repetition: data.repetition as unknown as QuestRepetition_ActionEnum,
       cooldown: transformCooldownForBackend(cooldown, repetition),
       skillIds: skills.map(({ id }) => id),
