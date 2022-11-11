@@ -26,8 +26,7 @@ export async function uploadQuestImage(file: File) {
       `web3.storage ${result.status} response: "${error ?? result.statusText}"`,
     );
   }
-  // TODO: Figure out how to save this
-  return `https://ipfs.io/ipfs/${response.image}`;
+  return `ipfs://${response.image}`;
 }
 
 // Hours to seconds
