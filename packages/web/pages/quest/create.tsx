@@ -13,11 +13,9 @@ import { useUser } from 'lib/hooks';
 import { InferGetStaticPropsType } from 'next';
 import { useRouter } from 'next/router';
 import React from 'react';
-import {
-  transformCooldownForBackend,
-  uploadQuestImage,
-} from 'utils/questHelpers';
+import { transformCooldownForBackend } from 'utils/questHelpers';
 import { parseSkills } from 'utils/skillHelpers';
+import { uploadFile } from 'utils/uploadHelpers';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
@@ -41,10 +39,12 @@ const CreateQuestPage: React.FC<Props> = ({
       ...createQuestInputs
     } = data;
 
-    const transformedImage = await uploadQuestImage(data.image[0]);
+    const ipfsHash = await uploadFile(data.image[0]);
+    const imageURL = `ipfs://${ipfsHash}`;
+
     const input = {
       ...createQuestInputs,
-      image: transformedImage,
+      image: imageURL,
       repetition: data.repetition as unknown as QuestRepetition_ActionEnum,
       cooldown: transformCooldownForBackend(cooldown, repetition),
       skillIds: skills.map(({ id }) => id),
