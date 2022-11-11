@@ -13,10 +13,7 @@ import { useUser } from 'lib/hooks';
 import { InferGetStaticPropsType } from 'next';
 import { useRouter } from 'next/router';
 import React from 'react';
-import {
-  transformCooldownForBackend,
-  uploadQuestImage,
-} from 'utils/questHelpers';
+import { transformCooldownForBackend } from 'utils/questHelpers';
 import { parseSkills } from 'utils/skillHelpers';
 import { uploadFile } from 'utils/uploadHelpers';
 
@@ -42,19 +39,12 @@ const CreateQuestPage: React.FC<Props> = ({
       ...createQuestInputs
     } = data;
 
-<<<<<<< HEAD
     const ipfsHash = await uploadFile(data.image[0]);
     const imageURL = `ipfs://${ipfsHash}`;
 
     const input = {
       ...createQuestInputs,
       image: imageURL,
-=======
-    const transformedImage = await uploadQuestImage(data.image[0]);
-    const input = {
-      ...createQuestInputs,
-      image: transformedImage,
->>>>>>> 3bc331df (feat: :sparkles: Place image upload before quest creation)
       repetition: data.repetition as unknown as QuestRepetition_ActionEnum,
       cooldown: transformCooldownForBackend(cooldown, repetition),
       skillIds: skills.map(({ id }) => id),
