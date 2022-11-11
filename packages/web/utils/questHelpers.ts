@@ -10,25 +10,6 @@ const { BN, amountToDecimal } = numbers;
 
 export const URIRegexp = /\w+:(\/\/)?[^\s]+/;
 
-export async function uploadQuestImage(file: File) {
-  const formData = new FormData();
-  formData.append('image', file);
-  const result = await fetch(`/api/storage`, {
-    method: 'POST',
-    body: formData,
-    credentials: 'include',
-  });
-
-  const response = await result.json();
-  const { error } = response;
-  if (result.status >= 400 || error) {
-    throw new Error(
-      `web3.storage ${result.status} response: "${error ?? result.statusText}"`,
-    );
-  }
-  return `ipfs://${response.image}`;
-}
-
 // Hours to seconds
 export function transformCooldownForBackend(
   cooldown?: number | null,
