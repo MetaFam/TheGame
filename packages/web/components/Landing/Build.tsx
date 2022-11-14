@@ -4,7 +4,7 @@ import BackgroundImageMobile from 'assets/landing/sections/section-3.sm.jpg';
 import { FullPageContainer } from 'components/Container';
 import { useMotionDetector } from 'lib/hooks/useMotionDetector';
 import { useOnScreen } from 'lib/hooks/useOnScreen';
-import { useRef } from 'react';
+import React, { useRef } from 'react';
 
 import { LandingNextButton } from './LandingNextButton';
 import { LandingPageSectionProps } from './landingSection';
@@ -25,7 +25,7 @@ export const Build: React.FC<LandingPageSectionProps> = ({
 
   return (
     <FullPageContainer
-      bgImageUrl={responsiveBg}
+      bgImageUrl={responsiveBg?.src}
       backgroundBlendMode={{ base: 'normal', lg: 'normal' }}
       backgroundPosition={{ base: '8%', lg: 'center' }}
       id={section.internalLinkId}
@@ -33,7 +33,7 @@ export const Build: React.FC<LandingPageSectionProps> = ({
       color="white"
     >
       <Container
-        d="flex"
+        display="flex"
         maxW={{
           base: '100%',
           md: 'xl',

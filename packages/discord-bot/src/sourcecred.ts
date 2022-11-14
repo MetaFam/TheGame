@@ -1,6 +1,6 @@
 import { LedgerManager, ReloadResult, sourcecred } from 'sourcecred';
 
-import { CONFIG } from './config';
+import { CONFIG } from './config.js';
 
 const storage = new sourcecred.ledger.storage.WritableGithubStorage({
   apiToken: CONFIG.githubApiToken,

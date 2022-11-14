@@ -1,8 +1,8 @@
 /* eslint-disable no-empty */
 import CID from 'cids';
 
-import { IPFS_LINK_PATTERN } from './constants';
-import { Maybe } from './extendedProfileTypes';
+import { IPFS_LINK_PATTERN } from './constants.js';
+import { Maybe } from './extendedProfileTypes.js';
 
 export const httpLink = (uri?: Maybe<string>) => {
   const [, origCID, path] =

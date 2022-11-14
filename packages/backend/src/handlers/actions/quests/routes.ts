@@ -1,9 +1,9 @@
 import express from 'express';
 
-import { asyncHandlerWrapper } from '../../../lib/apiHelpers';
-import { createCompletionHandler } from './createCompletion/handler';
-import { createQuestHandler } from './createQuest/handler';
-import { updateCompletionHandler } from './updateCompletion/handler';
+import { asyncHandlerWrapper } from '../../../lib/apiHelpers.js';
+import { createCompletionHandler } from './createCompletion/handler.js';
+import { createQuestHandler } from './createQuest/handler.js';
+import { updateCompletionHandler } from './updateCompletion/handler.js';
 
 export const questsRoutes = express.Router();
 

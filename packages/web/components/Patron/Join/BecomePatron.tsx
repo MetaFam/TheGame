@@ -9,6 +9,7 @@ import {
 } from '@metafam/ds';
 import PatronCircle from 'assets/patron/patron-circle.png';
 import Seed from 'assets/patron/seed.png';
+import React from 'react';
 
 export const BecomePatron: React.FC = () => (
   <Container as="section" className="mg-patron-join-section" my={[4, 4, 4, 12]}>
@@ -45,7 +46,7 @@ export const BecomePatron: React.FC = () => (
           height="40em"
         >
           <Flex justify="center" align="center">
-            <Image src={Seed} height="auto" maxW="16rem" my="6" />
+            <Image src={Seed.src} height="auto" maxW="16rem" my="6" />
           </Flex>
           <Text textAlign="center" fontSize="xl" as="p" marginBottom="8">
             Water Seeds yourself
@@ -109,7 +110,7 @@ export const BecomePatron: React.FC = () => (
           height="40em"
         >
           <Flex justify="center" align="center">
-            <Image src={PatronCircle} height="auto" maxW="16rem" my="6" />
+            <Image src={PatronCircle.src} height="auto" maxW="16rem" my="6" />
           </Flex>
           <Text textAlign="center" fontSize="xl" as="p" marginBottom="8">
             Buy & forget about it

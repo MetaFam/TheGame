@@ -1,4 +1,4 @@
-import { gql } from 'graphql-request/dist';
+import { gql } from 'graphql-request';
 
 export const typeDefs = gql`
   scalar uuid

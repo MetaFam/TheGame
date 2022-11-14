@@ -15,7 +15,13 @@ import externalLinkIcon from 'assets/landing/external-link-icon.png';
 import { useGame } from 'contexts/GameContext';
 import { useOnScreen } from 'lib/hooks/useOnScreen';
 import { get } from 'lib/store';
-import { ReactElement, useCallback, useEffect, useRef, useState } from 'react';
+import React, {
+  ReactElement,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { MdDownloading, MdRestartAlt, MdWarning } from 'react-icons/md';
 import { errorHandler, useDebugErrorReports } from 'utils/errorHandler';
 import {
@@ -88,7 +94,7 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
    * Sanitizes & splits the element content into dialogue and
    * choices, adds them to state & returns the values if you want to use it that way */
   const makeCurrentSectionDialogue = useCallback(
-    (section): CurrentSectionDialogueChoices => {
+    (section: CurrentElementState): CurrentSectionDialogueChoices => {
       const { content, title } = section;
       const string = `${title ? '<p></p>' : '<p></p>'}${content ?? '<p></p>'}`;
       const parsedContent = safelyParseTextForTyping(string);
@@ -489,7 +495,7 @@ export const OnboardingGame: React.FC = (): JSX.Element => {
                     ml: 1,
                     width: { base: '0.6rem' },
                     height: { base: '0.6rem' },
-                    backgroundImage: `url(${externalLinkIcon})`,
+                    backgroundImage: `url(${externalLinkIcon.src})`,
                     backgroundRepeat: 'no-repeat',
                     backgroundSize: '100%',
                     backgroundPosition: 'center',

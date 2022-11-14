@@ -51,7 +51,6 @@ COPY --from=build /usr/src/app/package.json ./package.json
 COPY --from=build /usr/src/app/node_modules ./node_modules
 
 COPY --from=build /usr/src/app/packages/backend/package.json ./packages/backend/package.json
-COPY --from=build /usr/src/app/packages/backend/tsconfig-paths-bootstrap.js ./packages/backend/tsconfig-paths-bootstrap.js
 COPY --from=build /usr/src/app/packages/backend/dist ./packages/backend/dist
 COPY --from=build /usr/src/app/packages/backend/node_modules ./packages/backend/node_modules
 
@@ -62,4 +61,4 @@ COPY --from=build /usr/src/app/packages/utils/node_modules ./packages/utils/node
 COPY --from=build /usr/src/app/packages/discord-bot/package.json ./packages/discord-bot/package.json
 COPY --from=build /usr/src/app/packages/discord-bot/dist ./packages/discord-bot/dist
 
-CMD [ "yarn", "backend", "start" ]
+CMD ["yarn", "backend", "start"]

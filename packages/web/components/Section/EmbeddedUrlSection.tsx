@@ -147,7 +147,7 @@ export const EmbeddedUrl: React.FC<EmbeddedUrlProps> = ({
                 {siteName} •
               </Text>
             )}
-            <Text as="span" isTruncated fontSize="sm" pb={0}>
+            <Text as="span" noOfLines={1} fontSize="sm" pb={0}>
               {url ?? inputUrl}
             </Text>
           </HStack>

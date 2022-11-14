@@ -6,7 +6,7 @@ import { Seed } from 'components/Dashboard/Seed';
 import { XP } from 'components/Dashboard/XP';
 import { EmbeddedUrl } from 'components/Section/EmbeddedUrlSection';
 import { Player } from 'graphql/autogen/types';
-import { forwardRef } from 'react';
+import React, { forwardRef } from 'react';
 import { FaTimes } from 'react-icons/fa';
 import { BoxMetadata, BoxType, BoxTypes, createBoxKey } from 'utils/boxTypes';
 import { isBoxResizable } from 'utils/layoutHelpers';

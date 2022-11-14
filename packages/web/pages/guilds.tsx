@@ -23,7 +23,7 @@ const GuildsPage: React.FC<Props> = ({ guilds }) => (
     <HeadComponent
       title="MetaGame Guilds"
       description="MetaGame is a Massive Online Coordination Game! Guilds participating in MetaGame…."
-      url="https://my.metagame.wtf/community/guilds"
+      url="https://my.metagame.wtf/guilds"
     />
     <GuildList {...{ guilds }} />
   </PageContainer>

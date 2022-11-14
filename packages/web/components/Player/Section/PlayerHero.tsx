@@ -51,7 +51,7 @@ export const PlayerHero: React.FC<HeroProps> = ({ player, editing }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   // 9tails.eth: As there is no current way of editing Profile Accounts,
-  // and the MWW integratino happens on the EditProfileModal, to avoid
+  // and the MWW integration happens on the EditProfileModal, to avoid
   // adding a new column to the table just to do the following, I decided
   // to this this cast as any to use the information from the form and
   // don't do bigger changes on the data structure just because of it
@@ -97,12 +97,6 @@ export const PlayerHero: React.FC<HeroProps> = ({ player, editing }) => {
           <Contacts {...{ player }} />
         </HStack>
 
-        {/*
-        <PlayerHeroTile title="Website">
-          <Text>www.mycoolportfolio.com</Text>
-        </PlayerHeroTile>
-        */}
-
         <Grid
           templateColumns="repeat(auto-fill, minmax(9rem, 1fr))"
           w="full"
@@ -114,33 +108,13 @@ export const PlayerHero: React.FC<HeroProps> = ({ player, editing }) => {
           <Emoji {...{ player }} />
         </Grid>
 
-        {/* <SimpleGrid columns={2} gap={6} width="full">
-          <PlayerHeroTile title="Country">
-              <Text>United Kingdom</Text>
-            </PlayerHeroTile>
-          <PlayerHeroTile title="Office hours">
-            <Flex dir="row" alignItems="center">
-              9:00
-              <Text fontSize="md" mr={1} ml={1}>
-                AM
-              </Text>
-              - 5:00
-              <Text fontSize="md" mr={1} ml={1}>
-                PM
-              </Text>
-            </Flex>
-          </PlayerHeroTile>
-        </SimpleGrid> */}
-
         {mwwDomain && mwwDomain !== 'mww_remove' && (
           <MetaButton
-            as={'a'}
             target="_blank"
-            isFullWidth
             href={`${mwwDomain}?utm_source=metafam&utm_medium=site`}
             leftIcon={<MeetWithWalletIcon />}
           >
-            Meet with me
+            Meet With Me
           </MetaButton>
         )}
       </VStack>

@@ -10,7 +10,7 @@ import {
 import { graphql } from '@quest-chains/sdk';
 import { useCarouselContext } from 'components/Carousel/CarouselContext';
 import { MarkdownViewer } from 'components/MarkdownViewer';
-import { useMemo } from 'react';
+import React, { useMemo } from 'react';
 
 import { UploadProofButton } from './UploadProofButton';
 

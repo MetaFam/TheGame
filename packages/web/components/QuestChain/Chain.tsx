@@ -2,6 +2,7 @@ import { Box, useBreakpointValue } from '@metafam/ds';
 import { graphql } from '@quest-chains/sdk';
 import { Carousel } from 'components/Carousel';
 import { UserStatusType } from 'lib/hooks/questChains';
+import React from 'react';
 
 import { QuestTile } from './QuestTile';
 

@@ -1,5 +1,5 @@
-import { seedGraphClient } from '../../../../lib/seedGraphClient';
-import { QueryResolvers, TokenBalances } from '../../autogen/types';
+import { seedGraphClient } from '../../../../lib/seedGraphClient.js';
+import { QueryResolvers, TokenBalances } from '../../autogen/types.js';
 
 export const getTokenBalances: QueryResolvers['getTokenBalances'] = async (
   _,

@@ -3,7 +3,7 @@ import BackgroundImage from 'assets/landing/frontier-background.png';
 import { FullPageContainer } from 'components/Container';
 import { useOnScreen } from 'lib/hooks/useOnScreen';
 import { useRouter } from 'next/router';
-import { useRef } from 'react';
+import React, { useRef } from 'react';
 import { BsArrowDown } from 'react-icons/bs';
 
 export const Frontier: React.FC = () => {
@@ -17,13 +17,13 @@ export const Frontier: React.FC = () => {
 
   return (
     <FullPageContainer
-      bgImageUrl={BackgroundImage}
+      bgImageUrl={BackgroundImage.src}
       id="section-6"
       position="relative"
       pl={{ base: '0', md: '8.563rem' }}
     >
       <Container
-        d="flex"
+        display="flex"
         maxW={{ base: '100%', md: '7xl', '2xl': '8xl' }}
         height="100%"
         alignItems="center"

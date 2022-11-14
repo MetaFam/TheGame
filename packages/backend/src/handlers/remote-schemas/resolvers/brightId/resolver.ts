@@ -1,7 +1,7 @@
 import { fetch } from '@metafam/utils';
 
-import { CONFIG } from '../../../../config';
-import { BrightIdStatus, QueryResolvers } from '../../autogen/types';
+import { CONFIG } from '../../../../config.js';
+import { BrightIdStatus, QueryResolvers } from '../../autogen/types.js';
 
 const CONTEXT = 'MetaGame';
 

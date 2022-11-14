@@ -3,16 +3,12 @@
   "display": "MyMeta's Backend",
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "lib": ["ES2021"],
-    "module": "CommonJS",
-    "target": "ES2021",
-    "outDir": "dist",
-    "rootDir": "src",
-    "baseUrl": "src",
-    "composite": true,
+    "outDir": "dist/",
+    "rootDir": "src/",
+    "baseUrl": "src/",
     "tsBuildInfoFile": "dist/.tsbuildinfo"
   },
   "references": [{ "path": "../utils" }, { "path": "../discord-bot" }],
   "include": ["src/**/*.ts", "src/**/*.json"],
-  "exclude": ["./tests"]
+  "exclude": ["tests/", "dist/", "coverage/", "node_modules/"]
 }

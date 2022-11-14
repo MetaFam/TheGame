@@ -7,10 +7,14 @@ import type {
   IGameContext,
   IGameState,
 } from 'components/Landing/OnboardingGame/gameTypes';
+import gameJson from 'components/Landing/OnboardingGame/metagame-onboarding-game.json';
 import { chievContractAddress } from 'components/Landing/OnboardingGame/nft';
 import { MetaLink } from 'components/Link';
+import ABI from 'contracts/BulkDisbursableNFTs.abi';
 import { Contract } from 'ethers';
 import { useWeb3 } from 'lib/hooks';
+import { get, remove, set } from 'lib/store';
+import type { PropsWithChildren } from 'react';
 import React, {
   useCallback,
   useContext,
@@ -20,10 +24,6 @@ import React, {
 } from 'react';
 import { errorHandler } from 'utils/errorHandler';
 import { NETWORK_INFO, POLYGON } from 'utils/networks';
-
-import gameJson from '../components/Landing/OnboardingGame/metagame-onboarding-game.json';
-import ABI from '../contracts/BulkDisbursableNFTs.abi';
-import { get, remove, set } from '../lib/store';
 
 export const GameContext = React.createContext<IGameContext>({
   game: {
@@ -50,7 +50,9 @@ export const GameContext = React.createContext<IGameContext>({
   connecting: false,
 });
 
-export const GameContextProvider: React.FC = ({ children }) => {
+export const GameContextProvider: React.FC<PropsWithChildren> = ({
+  children,
+}) => {
   const [txLoading, setTxLoading] = useState(false);
   const gameDataState = gameJson as GameProperties;
   const {

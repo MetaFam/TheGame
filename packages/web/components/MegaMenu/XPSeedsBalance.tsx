@@ -28,7 +28,7 @@ export const XPSeedsBalance: React.FC<Props> = ({ totalXP }) => {
           minW="fit-content"
         >
           <Image
-            src={XPStar}
+            src={XPStar.src}
             alignSelf="center"
             alt="XP"
             boxSize={['1.5rem', '1rem']}
@@ -55,7 +55,7 @@ export const XPSeedsBalance: React.FC<Props> = ({ totalXP }) => {
           minW="fit-content"
         >
           <Image
-            src={SeedMarket}
+            src={SeedMarket.src}
             alignSelf="center"
             alt="Seed"
             boxSize={['1.5rem', '1rem']}

@@ -1,10 +1,8 @@
 import { Constants } from '@metafam/utils';
-import {
-  PSeedInfo,
-  QueryResolvers,
-} from 'handlers/remote-schemas/autogen/types';
-import { GetPoolTokenDataQuery } from 'lib/autogen/balancerpolygon-sdk';
-import { balancerPolygonGraphClient } from 'lib/balancerPolygonClient';
+
+import { GetPoolTokenDataQuery } from '../../../../lib/autogen/balancerpolygon-sdk.js';
+import { balancerPolygonGraphClient } from '../../../../lib/balancerPolygonClient.js';
+import { PSeedInfo, QueryResolvers } from '../../autogen/types.js';
 
 export const getPSeedInfo: QueryResolvers['getPSeedInfo'] = async () => {
   const poolData = await balancerPolygonGraphClient.GetPoolTokenData({

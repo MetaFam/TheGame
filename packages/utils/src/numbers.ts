@@ -1,24 +1,24 @@
-import BN from 'bignumber.js';
+import BigNumber from 'bignumber.js';
 
-export { BN };
+export { BigNumber as BN };
 
 export function amountToInt(amount: string, decimals: number): string {
-  return new BN(amount)
+  return new BigNumber(amount)
     .times(10 ** decimals)
     .dp(0)
     .toFixed();
 }
 
 export function amountToDecimal(amount: string, decimals: number): string {
-  return new BN(amount).div(10 ** decimals).toFixed();
+  return new BigNumber(amount).div(10 ** decimals).toFixed();
 }
 
 export function truncateNumber(
   n: string,
-  roundingMode?: BN.RoundingMode,
+  roundingMode?: BigNumber.RoundingMode,
   sd: number = SIGNIFICANT_DIGITS,
 ): string {
-  return new BN(n).sd(sd, roundingMode).toFixed();
+  return new BigNumber(n).sd(sd, roundingMode).toFixed();
 }
 
 export const SIGNIFICANT_DIGITS = 7;

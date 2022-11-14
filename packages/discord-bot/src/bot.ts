@@ -5,7 +5,7 @@ import { importx } from '@discordx/importer';
 import { Intents, Message } from 'discord.js';
 import { Client } from 'discordx';
 
-import { CONFIG } from './config';
+import { CONFIG } from './config.js';
 
 async function initDiscordBot(): Promise<Client> {
   await importx(

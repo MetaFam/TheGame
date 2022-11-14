@@ -4,7 +4,7 @@ export type Maybe<T> = T | null;
 export type Values<T> = T[keyof T];
 export type Optional<T> = T | undefined;
 
-export { BasicProfile };
+export type { BasicProfile };
 
 // The format of these object literals is:
 // <hasura key>: <ceramic key>

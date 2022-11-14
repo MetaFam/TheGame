@@ -2,6 +2,7 @@ import { Box, Flex, Grid, Heading, Image, keyframes, Text } from '@metafam/ds';
 import { PageContainer } from 'components/Container';
 import { MetaLink } from 'components/Link';
 import { HeadComponent } from 'components/Seo';
+import React from 'react';
 import { QuestChainDetails } from 'utils/questChains';
 
 const QuestsDashboard: React.FC = () => (

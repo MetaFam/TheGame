@@ -3,7 +3,7 @@ import BackgroundImage from 'assets/landing/revolution-background.png';
 import { FullPageContainer } from 'components/Container';
 import { MetaLink } from 'components/Link';
 import { useOnScreen } from 'lib/hooks/useOnScreen';
-import { useRef } from 'react';
+import React, { useRef } from 'react';
 
 import { LandingNextButton } from './LandingNextButton';
 
@@ -14,13 +14,13 @@ export const Revolution: React.FC = () => {
 
   return (
     <FullPageContainer
-      bgImageUrl={BackgroundImage}
+      bgImageUrl={BackgroundImage.src}
       id={section}
       position="relative"
       justify={{ base: 'flex-end', xl: 'flex-end' }}
     >
       <Container
-        d="flex"
+        display="flex"
         maxW={{ base: '100%', xl: '7xl', '2xl': '8xl' }}
         height="100%"
         alignItems="center"

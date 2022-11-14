@@ -8,7 +8,7 @@ import {
 } from '@chakra-ui/react';
 import React, { useRef } from 'react';
 
-import { MetaButton } from './MetaButton';
+import { MetaButton } from './MetaButton.js';
 
 type Props = {
   isOpen: boolean;

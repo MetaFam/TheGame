@@ -10,7 +10,7 @@ import {
   Player,
   useUpdatePlayerDashboardLayoutMutation as useUpdateLayout,
 } from 'graphql/autogen/types';
-import { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { LayoutData } from 'utils/boxTypes';
 
 const ConnectedDashboardPage: React.FC<Props> = () => (

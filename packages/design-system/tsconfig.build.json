@@ -1,7 +1,7 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "target": "ES6",
+    "target": "ES2020",
     "module": "ES6",
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "allowJs": true,

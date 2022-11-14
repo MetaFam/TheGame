@@ -1,5 +1,5 @@
 import { Maybe } from '@metafam/utils';
-import { ReactElement } from 'react';
+import React, { ReactElement } from 'react';
 
 export type SetupStep = {
   label: string;

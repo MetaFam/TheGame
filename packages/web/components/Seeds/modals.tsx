@@ -9,6 +9,7 @@ import {
   UnorderedList,
 } from '@metafam/ds';
 import { CollapsableText } from 'components/CollapsableText';
+import React from 'react';
 
 export const WTFisXP = () => (
   <Flex direction="column">

@@ -13,12 +13,13 @@ import {
 import LogoImage from 'assets/logo.png';
 import { SwitchNetworkButton } from 'components/SwitchNetworkButton';
 import { useUser, useWeb3 } from 'lib/hooks';
+import React from 'react';
 
 import { MetaLink } from './Link';
 
 export const MetaGameLogo = () => (
   <Flex justify="center" align="center">
-    <Image w="3.5rem" h="4rem" src={LogoImage} />
+    <Image w="3.5rem" h="4rem" src={LogoImage.src} />
   </Flex>
 );
 

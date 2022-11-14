@@ -56,6 +56,7 @@ import {
 import { getPlayer } from 'graphql/getPlayer';
 import { useProfileField, useSaveCeramicProfile, useWeb3 } from 'lib/hooks';
 import { useRouter } from 'next/router';
+import type { PropsWithChildren } from 'react';
 import React, {
   ReactElement,
   RefObject,
@@ -94,7 +95,8 @@ const Label: React.FC<FormLabelProps> = React.forwardRef(
 
 export type Merge<P, T> = Omit<P, keyof T> & T;
 export const MotionBox = motion<BoxProps>(Box);
-export const PulseHoverBox: React.FC<{ duration?: number }> = ({
+type PulseHoverBoxProps = PropsWithChildren<{ duration?: number }>;
+export const PulseHoverBox: React.FC<PulseHoverBoxProps> = ({
   // duration = 2,
   children,
 }) => (
@@ -185,14 +187,6 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
     console.debug({ fields, endpoints, dirtyFields });
   }
 
-  useEffect(() => {
-    if (!endpoints.profileImageURL.ref.current) {
-      console.warn('Unable to initially focus the profile image.');
-    } else {
-      endpoints.profileImageURL.ref.current.focus();
-    }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
   const resetData = useCallback(() => {
     Object.entries(fields).forEach(([key, value]) => {
       if (!key.startsWith('_')) {
@@ -205,6 +199,7 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
 
   const onFileChange = useCallback(
     ({ target: input }: { target: HTMLInputElement }) => {
+      console.info({ files: input.files });
       const file = input.files?.[0];
       if (!file) return;
       const key = input.name as keyof typeof endpoints;
@@ -435,8 +430,8 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
                   </Label>
                 </Tooltip>
                 <Center
+                  w="full"
                   position="relative"
-                  justifyContent="left"
                   border="2px solid"
                   borderColor={
                     endpoints.profileImageURL.active &&
@@ -451,35 +446,33 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
                     borderRadius="full"
                     display="inline-flex"
                   >
-                    <PulseHoverBox>
-                      <Image
-                        ref={endpoints.profileImageURL.ref ?? null}
-                        onLoad={() => {
-                          endpoints.profileImageURL.setLoading(false);
-                        }}
-                        display={
-                          endpoints.profileImageURL.loading ? 'none' : 'inherit'
-                        }
-                        src={endpoints.profileImageURL.val}
-                        borderRadius="full"
-                        objectFit="cover"
-                        h="full"
-                        w="full"
-                        border="2px solid"
-                        borderColor={
-                          endpoints.profileImageURL.active &&
-                          endpoints.profileImageURL.val
-                            ? 'blue.400'
-                            : 'transparent'
-                        }
-                      />
-                    </PulseHoverBox>
+                    <Image
+                      ref={endpoints.profileImageURL.ref ?? null}
+                      onLoad={() => {
+                        endpoints.profileImageURL.setLoading(false);
+                      }}
+                      display={
+                        endpoints.profileImageURL.loading ? 'none' : 'inherit'
+                      }
+                      src={endpoints.profileImageURL.val}
+                      borderRadius="full"
+                      objectFit="cover"
+                      h="full"
+                      w="full"
+                      border="2px solid"
+                      borderColor={
+                        endpoints.profileImageURL.active &&
+                        endpoints.profileImageURL.val
+                          ? 'blue.400'
+                          : 'transparent'
+                      }
+                    />
                     <Center>
                       {endpoints.profileImageURL.loading &&
                         (endpoints.profileImageURL.val == null ? (
                           <Image
                             maxW="50%"
-                            src={PlayerProfileIcon}
+                            src={PlayerProfileIcon.src}
                             opacity={0.5}
                           />
                         ) : (
@@ -558,7 +551,6 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
                     borderColor={
                       endpoints[key].active ? 'blue.400' : 'transparent'
                     }
-                    justifyContent="left"
                   >
                     <Image
                       ref={endpoints[key].ref ?? null}
@@ -578,7 +570,7 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
                         <Image
                           w="5em"
                           mx="2.5em"
-                          src={FileOpenIcon}
+                          src={FileOpenIcon.src}
                           opacity={0.5}
                         />
                       ) : (
@@ -881,6 +873,7 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
                 <Input
                   id="emoji"
                   placeholder="🗽"
+                  _placeholder={{ opacity: 0.75 }}
                   minW="inherit"
                   w="100%"
                   {...register('emoji', {
