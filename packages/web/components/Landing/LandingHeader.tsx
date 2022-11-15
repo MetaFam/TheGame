@@ -20,7 +20,13 @@ import MetaGameLogo from 'assets/logo.png';
 import { MetaLink } from 'components/Link';
 import { SetStateAction } from 'jotai';
 import { get, set } from 'lib/store';
-import { Dispatch, ReactNode, useCallback, useEffect, useState } from 'react';
+import React, {
+  Dispatch,
+  ReactNode,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
 import { FaToggleOff, FaToggleOn } from 'react-icons/fa';
 import { MdClose } from 'react-icons/md';
 
@@ -317,7 +323,7 @@ export const LandingHeader: React.FC = () => {
           left={-2}
           w="100%"
           h="25%"
-          bgImage={OctoBg}
+          bgImage={OctoBg.src}
           backgroundSize={{ base: '30%', md: '20%', xl: '10%', '4xl': '8%' }}
           backgroundPosition="bottom center"
           backgroundRepeat="no-repeat"

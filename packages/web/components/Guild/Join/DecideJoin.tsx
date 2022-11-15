@@ -9,6 +9,7 @@ import {
   Text,
 } from '@metafam/ds';
 import GuildsImg from 'assets/guilds-sun_800x800.png';
+import React from 'react';
 
 export const DecideJoin: React.FC = () => {
   const guildApplicationLink = 'https://form.typeform.com/to/V5YNcdMQ';
@@ -42,7 +43,7 @@ export const DecideJoin: React.FC = () => {
           justifyContent="center"
         >
           <Image
-            src={GuildsImg}
+            src={GuildsImg.src}
             alt="Three cloaked figures"
             mx="auto"
             maxW="10rem"

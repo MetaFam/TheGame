@@ -2,7 +2,6 @@ import {
   Box,
   Flex,
   Heading,
-  HStack,
   Link,
   MetaTile,
   MetaTileBody,
@@ -13,12 +12,12 @@ import {
 import BackgroundImage from 'assets/main-background.png';
 import { MetaLink } from 'components/Link';
 import { MarkdownViewer as Markdown } from 'components/MarkdownViewer';
-import { RepetitionTag, StatusTag } from 'components/Quest/QuestTags';
 import { RolesTags } from 'components/Quest/Roles';
 import { SkillsTags } from 'components/Quest/Skills';
 import { SquareImage } from 'components/SquareImage';
 import { PlayerRole, QuestFragment, Skill } from 'graphql/autogen/types';
 import moment from 'moment';
+import React from 'react';
 import { safelyParseNChakrifyHtml } from 'utils/stringHelpers';
 
 type Props = {
@@ -43,7 +42,7 @@ export const QuestTile: React.FC<Props> = ({ quest }) => {
     >
       <MetaTile height="full" width="full">
         <MetaTileHeader>
-          <SquareImage src={BackgroundImage} />
+          <SquareImage src={BackgroundImage.src} />
           <Flex px={3} w="full" pos="absolute" bottom={-6} zIndex={1}>
             <Heading
               size="lg"
@@ -64,16 +63,6 @@ export const QuestTile: React.FC<Props> = ({ quest }) => {
           </Flex>
         </MetaTileHeader>
         <MetaTileBody>
-          <HStack mt={3}>
-            <RepetitionTag
-              repetition={quest.repetition}
-              cooldown={quest.cooldown}
-            />
-            <StatusTag status={quest.status} />
-            <Text>
-              <i>{moment(quest.createdAt).fromNow()}</i>
-            </Text>
-          </HStack>
           <Flex flexDir="column">
             <Box pb={2}>
               <Text textStyle="caption" pb={1}>

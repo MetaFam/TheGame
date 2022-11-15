@@ -334,7 +334,7 @@ const SelectContainer = <T extends LabeledValue<string>>(
 export const zonesToOptions = (zones: TimeZoneType[] = []) =>
   zones.map(({ location, label }) => ({ value: location, label }));
 
-type ExtendedSelectProps = {
+export type ExtendedSelectProps = {
   title?: string | JSX.Element;
   showSearch?: boolean;
   isTimeZone?: boolean;

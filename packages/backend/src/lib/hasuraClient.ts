@@ -1,7 +1,7 @@
 import { GraphQLClient } from 'graphql-request';
 
-import { CONFIG } from '../config';
-import { getSdk, Sdk } from './autogen/hasura-sdk';
+import { CONFIG } from '../config.js';
+import { getSdk, Sdk } from './autogen/hasura-sdk.js';
 
 interface GetClientParams {
   role?: string;

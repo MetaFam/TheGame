@@ -1,6 +1,6 @@
 import { Box, ChakraProps, Flex, Link, Stack, Text } from '@metafam/ds';
 import { FlexContainer } from 'components/Container';
-import { Maybe } from 'graphql/autogen/types';
+import type { Maybe } from 'graphql/autogen/types';
 import {
   colors,
   ColorStops,
@@ -71,8 +71,9 @@ export const ColorBar: React.FC<ColorBarProps> = ({
     set: boolean;
     image: string;
   } & Pick<ColorStops, 'start' | 'end'>;
+  type ChildProc = (props: ImagesArgProps) => ReactElement;
 
-  const Images: React.FC = ({ children }) => (
+  const Images: React.FC<{ children: ChildProc }> = ({ children }) => (
     <>
       {Object.entries(MaskImages)
         .reverse()
@@ -83,7 +84,7 @@ export const ColorBar: React.FC<ColorBarProps> = ({
 
           return !set
             ? null
-            : (children as (props: ImagesArgProps) => ReactElement)({
+            : children({
                 bit,
                 set,
                 start,

@@ -25,11 +25,11 @@ export type ColorStops = {
 export const images: {
   [x: number]: string;
 } = {
-  0b10000: JusticeAltImg,
-  0b01000: WisdomAltImg,
-  0b00100: AmbitionAltImg,
-  0b00010: ChaosAltImg,
-  0b00001: BalanceAltImg,
+  0b10000: JusticeAltImg.src,
+  0b01000: WisdomAltImg.src,
+  0b00100: AmbitionAltImg.src,
+  0b00010: ChaosAltImg.src,
+  0b00001: BalanceAltImg.src,
 };
 
 export const colors: {

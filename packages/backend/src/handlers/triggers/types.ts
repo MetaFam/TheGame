@@ -1,4 +1,4 @@
-import { Guild, Maybe, Player, Scalars } from '../../lib/autogen/hasura-sdk';
+import { Guild, Maybe, Player, Scalars } from '../../lib/autogen/hasura-sdk.js';
 
 export interface TriggerPayload<T> {
   event: {

@@ -2,9 +2,10 @@ import { Stack } from '@metafam/ds';
 import BackgroundImage from 'assets/main-background.png';
 import { MegaMenuFooter } from 'components/MegaMenu/MegaMenuFooter';
 import { MegaMenuHeader } from 'components/MegaMenu/MegaMenuHeader';
-import { useEffect, useState } from 'react';
+import type { PropsWithChildren } from 'react';
+import React, { useEffect, useState } from 'react';
 
-type Props = { hide?: boolean };
+type Props = PropsWithChildren<{ hide?: boolean }>;
 
 export const MegaMenu: React.FC<Props> = ({ hide = false, children }) => {
   const [noMotion, setNoMotion] = useState(false);
@@ -40,7 +41,7 @@ export const MegaMenu: React.FC<Props> = ({ hide = false, children }) => {
       pb={{ base: hide ? 0 : '5rem', lg: 0 }}
       bgSize="cover"
       bgAttachment="fixed"
-      backgroundImage={`url(${BackgroundImage})`}
+      bgImage={BackgroundImage.src}
     >
       {!hide && <MegaMenuHeader />}
       <Stack

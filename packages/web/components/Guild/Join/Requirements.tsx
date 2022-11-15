@@ -17,6 +17,7 @@ import {
 import PatronsImg from 'assets/patrons-sun_800x820.png';
 import PlayersImg from 'assets/players-sun_800x822.png';
 import ThinkingEmojiImg from 'assets/thinking-emoji_400x400.png';
+import React from 'react';
 import { MdCheckBoxOutlineBlank } from 'react-icons/md';
 
 export const Requirements: React.FC = () => (
@@ -58,7 +59,7 @@ export const Requirements: React.FC = () => (
         >
           <VStack spacing={2}>
             <Image
-              src={PlayersImg}
+              src={PlayersImg.src}
               alt="Cloaked player facing sun"
               mx="auto"
               maxH={{ md: '20rem', lg: '12rem' }}
@@ -112,7 +113,7 @@ export const Requirements: React.FC = () => (
         >
           <VStack spacing={2}>
             <Image
-              src={PatronsImg}
+              src={PatronsImg.src}
               alt="Cloaked patron facing sun"
               mx="auto"
               maxH={{ md: '20rem', lg: '12rem' }}
@@ -170,7 +171,7 @@ export const Requirements: React.FC = () => (
           justifyContent="center"
         >
           <Image
-            src={ThinkingEmojiImg}
+            src={ThinkingEmojiImg.src}
             alt="🤔"
             mx="auto"
             maxW="10rem"

@@ -21,7 +21,7 @@ export const PlayerContacts: React.FC<Props> = ({
         case 'TWITTER': {
           const link = `https://twitter.com/${acc.identifier}`;
           return (
-            <MetaTileLinkWrapper>
+            <MetaTileLinkWrapper key={`${acc.identifier}_${acc.type}`}>
               <IconButton
                 onClick={(e) => {
                   e.preventDefault();
@@ -41,7 +41,7 @@ export const PlayerContacts: React.FC<Props> = ({
         case 'GITHUB': {
           const link = `https://github.com/${acc.identifier}`;
           return (
-            <MetaTileLinkWrapper>
+            <MetaTileLinkWrapper key={`${acc.identifier}_${acc.type}`}>
               <IconButton
                 onClick={(e) => {
                   e.preventDefault();

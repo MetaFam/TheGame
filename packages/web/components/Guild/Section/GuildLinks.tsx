@@ -96,7 +96,7 @@ export const GuildLinks: React.FC<Props> = ({ guild, editing }) => {
 
           return (
             <WrapItem key={index}>
-              <LinkGuild daoURL={daoURL} guildname={null}>
+              <LinkGuild {...{ daoURL }} guildname={null}>
                 <Flex align="center" py={2} gap={2}>
                   <Box bg="purpleBoxLight" minW={12} h={12} borderRadius={8}>
                     <ChainIcon chain={dao.network} boxSize={12} p={2} />

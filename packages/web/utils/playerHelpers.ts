@@ -20,7 +20,7 @@ export const getPlayerImage = (
   const { ethereumAddress } = player ?? {};
   return ethereumAddress
     ? `https://avatars.dicebear.com/api/jdenticon/${ethereumAddress}.svg`
-    : ProfileIcon;
+    : ProfileIcon.src;
 };
 
 export const getPlayerBanner = (player: Maybe<Player>): string => {

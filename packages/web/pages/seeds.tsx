@@ -78,7 +78,7 @@ const SEEDsPage: React.FC = () => {
               </ListItem>
             </UnorderedList>
           </Flex>
-          <Image width="full" src={SEEDsFlowChart} alignSelf="end" mt={4} />
+          <Image width="full" src={SEEDsFlowChart.src} alignSelf="end" mt={4} />
         </Grid>
 
         <Grid templateColumns={['auto', 'auto', '1fr 1fr']} gap={6}>
@@ -86,7 +86,7 @@ const SEEDsPage: React.FC = () => {
             <Card {...{ title, description, Content }} key={title} />
           ))}
         </Grid>
-        <Image src={Octopus} pt={8} />
+        <Image src={Octopus.src} pt={8} />
         <Box pb={4}>
           <Button
             leftIcon={<ArrowUpIcon />}

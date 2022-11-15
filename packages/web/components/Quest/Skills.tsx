@@ -11,7 +11,7 @@ import {
 import { Skill, SkillCategory_Enum } from 'graphql/autogen/types';
 import { SkillColors } from 'graphql/types';
 import React from 'react';
-import { CategoryOption, SkillOption } from 'utils/skillHelpers';
+import type { CategoryOption, SkillOption } from 'utils/skillHelpers';
 
 export type SetupSkillsProps = {
   skillChoices: Array<CategoryOption>;
@@ -53,7 +53,7 @@ export const SkillsSelect: React.FC<SetupSkillsProps> = ({
     <SelectSearch
       menuPlacement="top"
       isMulti
-      styles={styles}
+      {...{ styles }}
       value={skills}
       onChange={(value) => setSkills(value as Array<SkillOption>)}
       options={skillChoices as LabeledOptions<string>[]}

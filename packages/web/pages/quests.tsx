@@ -103,11 +103,13 @@ const QuestsPage: React.FC<Props> = ({ roleChoices }) => {
         </HStack>
         <Box mt={8} w="100%">
           <QuestFilter
-            aggregates={aggregates}
-            queryVariables={queryVariables}
-            setQueryVariable={setQueryVariable}
             quests={quests || []}
-            {...{ roleChoices }}
+            {...{
+              roleChoices,
+              aggregates,
+              queryVariables,
+              setQueryVariable,
+            }}
           />
         </Box>
         <Box mt={8} w="100%">

@@ -11,6 +11,7 @@ import {
 import { imageLink } from '@metafam/utils';
 import { graphql } from '@quest-chains/sdk';
 import { MarkdownViewer } from 'components/MarkdownViewer';
+import React from 'react';
 import { formatAddress } from 'utils/playerHelpers';
 import { QuestChainType } from 'utils/questChains';
 

@@ -3,25 +3,26 @@
   "private": true,
   "version": "0.1.0",
   "description": "",
+  "author": "",
+  "license": "ISC",
+  "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "start": "node ./dist/start.js",
     "build": "yarn generate && tsc -b",
     "dev": "concurrently \"yarn dev-ts\" \"yarn generate --watch\"",
-    "dev-ts": "ts-node-dev --exit-child --inspect=4321 --respawn -- src/start.ts",
+    "dev-ts": "nodemon",
     "typecheck": "yarn build",
     "precommit": "yarn lint-staged",
     "generate": "graphql-codegen --config=codegen.yml",
     "lintfix": "eslint --fix",
-    "test": "tsdx test --passWithNoTests"
+    "test": "jest --passWithNoTests"
   },
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "@discordx/importer": "1.1.2",
     "@metafam/utils": "1.0.1",
-    "@types/express": "4.17.11",
+    "@types/node": "18",
     "@types/node-fetch": "2.5.10",
     "discord.js": "13.6.0",
     "discordx": "9.1.12",
@@ -36,6 +37,15 @@
     "sourcecred": "0.11.0"
   },
   "devDependencies": {
-    "ts-node-dev": "1.1.8"
+    "@types/express": "^4.17.14",
+    "nodemon": "^2.0.20"
+  },
+  "nodemonConfig": {
+    "exec": "node --inspect=0.0.0.0:4323 --loader ts-node/esm src/start.ts",
+    "watch": [
+      ".",
+      "../utils"
+    ],
+    "ext": "ts"
   }
 }

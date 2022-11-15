@@ -5,7 +5,7 @@ export const useDelay = (fn: Function, ms = 500): Function => {
   const timer = useRef<ReturnType<typeof setTimeout>>();
 
   const delayCallBack = useCallback(
-    (...args) => {
+    (...args: Array<unknown>) => {
       if (timer.current) {
         clearTimeout(timer.current);
       }

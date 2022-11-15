@@ -1,11 +1,11 @@
 import { Constants, fetch } from '@metafam/utils';
 import { URLSearchParams } from 'url';
 
-import { CONFIG } from './config';
+import { CONFIG } from './config.js';
 import {
   DiscordAccessTokenResponse,
   OAuth2CodeExchangeResponse,
-} from './types';
+} from './types.js';
 
 export const tokenRequestData = {
   client_id: Constants.DISCORD_BOT_CLIENT_ID,

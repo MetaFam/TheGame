@@ -75,11 +75,11 @@ export const SetupRoles: React.FC<SetupRolesProps> = ({
     setStatus,
   }: {
     values: Record<string, unknown>;
-    setStatus?: (msg: string) => void;
+    setStatus: (msg: string) => void;
   }) => {
     const { roles: toSet } = values as { ['roles']: Array<string> };
 
-    setStatus?.('Writing to Hasura…');
+    setStatus('Writing to Hasura…');
 
     const { error } = await updateRoles({
       [field]: toSet.map((role, rank) => ({ rank, role })),
@@ -90,7 +90,7 @@ export const SetupRoles: React.FC<SetupRolesProps> = ({
     }
 
     if (setRoles) {
-      setStatus?.('Setting Local State…');
+      setStatus('Setting Local State…');
       setRoles(toSet);
     }
   };

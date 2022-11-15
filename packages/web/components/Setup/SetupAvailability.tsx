@@ -19,7 +19,7 @@ export const SetupAvailability: React.FC = () => {
       title="Avail&#xAD;ability"
       prompt="What is your weekly availability for any kind of freelance work?"
     >
-      {({ register, errored = false }: WizardPaneCallbackProps) => {
+      {({ register, errored = false }: WizardPaneCallbackProps<number>) => {
         const { ref: registerRef, ...props } = register(field, {
           valueAsNumber: true,
           min: {

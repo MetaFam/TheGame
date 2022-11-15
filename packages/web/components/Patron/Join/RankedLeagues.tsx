@@ -4,6 +4,7 @@ import { LeagueCardItem } from 'components/Patron/Join/LeagueCardItem';
 import { PerksCard } from 'components/Patron/Join/PerksCard';
 import { PerksHeader } from 'components/Patron/Join/PerksHeader';
 import { PlayerRank_Enum, TokenBalancesFragment } from 'graphql/autogen/types';
+import React from 'react';
 import {
   getLeagueCount,
   getLeagueCutoff,

@@ -3,7 +3,7 @@ import { ConnectToProgress } from 'components/ConnectToProgress';
 import { FlexContainer } from 'components/Container';
 import { useUser, useWeb3 } from 'lib/hooks';
 import { useRouter } from 'next/router';
-import { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 
 export const PlayerStart: React.FC = () => {
   const router = useRouter();

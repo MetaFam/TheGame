@@ -1,15 +1,13 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "target": "ES6",
-    "module": "ESNext",
-    "allowJs": true,
-    "isolatedModules": true,
-    "jsx": "preserve",
-    "lib": ["DOM", "ES2017", "ESNext"],
     "baseUrl": ".",
     "noEmit": true,
-    "incremental": true
+    "incremental": true,
+    "esModuleInterop": true,
+    "jsx": "preserve",
+    "noUnusedLocals": false,
+    "noUnusedParameters": false
   },
   "references": [
     {
@@ -19,6 +17,11 @@
       "path": "../design-system/tsconfig.build.json"
     }
   ],
-  "include": ["**/*.ts", "**/*.tsx", "next-env.d.ts"],
-  "exclude": ["out", ".next", "node_modules"]
+  "include": ["**/*.ts", "**/*.tsx", "**/*.json", "next-env.d.ts"],
+  "exclude": ["out", ".next", "node_modules"],
+  "plugins": [
+    {
+      "name": "next"
+    }
+  ]
 }

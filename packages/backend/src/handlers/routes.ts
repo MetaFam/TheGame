@@ -1,10 +1,10 @@
 import express from 'express';
 
-import { asyncHandlerWrapper } from '../lib/apiHelpers';
-import { actionRoutes } from './actions/routes';
-import { authHandler } from './auth-webhook/handler';
-import { remoteSchemaRoutes } from './remote-schemas/routes';
-import { triggerHandler } from './triggers/handler';
+import { asyncHandlerWrapper } from '../lib/apiHelpers.js';
+import { actionRoutes } from './actions/routes.js';
+import { authHandler } from './auth-webhook/handler.js';
+import { remoteSchemaRoutes } from './remote-schemas/routes.js';
+import { triggerHandler } from './triggers/handler.js';
 
 export const router = express.Router();
 

@@ -10,17 +10,15 @@ import { LabeledValue } from './SelectTimeZone';
 import { searchSelectStyles, selectStyles, theme } from './theme';
 
 export const SelectSearch = <T extends LabeledValue<string>>({
-  styles = {},
+  styles: incomingStyles = {},
   ...props
-}: SelectProps<T, boolean, GroupBase<T>>) => (
-  <Select
-    styles={mergeStyles<T, boolean, GroupBase<T>>(
-      searchSelectStyles as StylesConfig<T, boolean, GroupBase<T>>,
-      styles,
-    )}
-    {...props}
-  />
-);
+}: SelectProps<T, boolean, GroupBase<T>>) => {
+  const styles = mergeStyles<T, boolean, GroupBase<T>>(
+    searchSelectStyles as StylesConfig<T, boolean, GroupBase<T>>,
+    incomingStyles,
+  );
+  return <Select {...{ styles, ...props }} />;
+};
 
 export const metaFilterSelectStyles: StylesConfig<
   LabeledValue<string>,

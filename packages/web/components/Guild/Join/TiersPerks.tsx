@@ -15,6 +15,7 @@ import {
 import CommonTierNFTImg from 'assets/nft-common-tier_600x600.jpg';
 import EpicTierNFTImg from 'assets/nft-epic-tier_600x600.jpg';
 import RareTierNFTImg from 'assets/nft-rare-tier_600x600.jpg';
+import React from 'react';
 
 /*
   Links to view/purchase MetaManifesto NFTs
@@ -72,7 +73,7 @@ export const TiersPerks: React.FC = () => (
               borderTopLeftRadius={8}
               borderTopRightRadius={{ base: 8, md: 0, lg: 8 }}
               borderBottomLeftRadius={{ base: 0, md: 8, lg: 0 }}
-              src={CommonTierNFTImg}
+              src={CommonTierNFTImg.src}
               width={{ base: 'md', md: '16rem', lg: '100%' }}
             />
           </LinkOverlay>
@@ -118,7 +119,7 @@ export const TiersPerks: React.FC = () => (
               borderTopLeftRadius={8}
               borderTopRightRadius={{ base: 8, md: 0, lg: 8 }}
               borderBottomLeftRadius={{ base: 0, md: 8, lg: 0 }}
-              src={RareTierNFTImg}
+              src={RareTierNFTImg.src}
               width={{ base: 'md', md: '16rem', lg: '100%' }}
             />
           </LinkOverlay>
@@ -165,7 +166,7 @@ export const TiersPerks: React.FC = () => (
               borderTopLeftRadius={8}
               borderTopRightRadius={{ base: 8, md: 0, lg: 8 }}
               borderBottomLeftRadius={{ base: 0, md: 8, lg: 0 }}
-              src={EpicTierNFTImg}
+              src={EpicTierNFTImg.src}
               width={{ base: 'md', md: '16rem', lg: '100%' }}
             />
           </LinkOverlay>

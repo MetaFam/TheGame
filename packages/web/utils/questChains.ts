@@ -1,11 +1,11 @@
 import { Values } from '@metafam/utils';
 import { contracts, metadata } from '@quest-chains/sdk';
-import bridgeIcon from 'assets/quests/bridge.svg';
-import designIcon from 'assets/quests/design.svg';
-import hammerIcon from 'assets/quests/hammer_wrench.svg';
-import engagedIcon from 'assets/quests/octopus.svg';
-import rogueIcon from 'assets/quests/rogue.svg';
-import sproutIcon from 'assets/quests/sprout.svg';
+import bridge from 'assets/quests/bridge.png';
+import builders from 'assets/quests/builders.png';
+import design from 'assets/quests/design.png';
+import octopus from 'assets/quests/octopus.png';
+import patron from 'assets/quests/patron.png';
+import rogue from 'assets/quests/rogue.png';
 import { Signer } from 'ethers';
 
 export const getQuestChainContract = (
@@ -67,8 +67,8 @@ export const QuestChainDetails: Record<QuestChainType, QuestChainInfo> = {
     address: '0xea512722cc047bfdbe90a1a2750491e89a818ca7',
     title: `Engaged Octo's Path`,
     description:
-      'The gates lead to a road. Walk it to the end and your efforts will be rewarded',
-    icon: engagedIcon,
+      'This is a general questline for anyone who is interested in joining & contributing to MetaGame.',
+    icon: octopus.src,
     difficulty: Difficulty.EASY,
     time: Time.LONG,
   },
@@ -77,8 +77,9 @@ export const QuestChainDetails: Record<QuestChainType, QuestChainInfo> = {
     chainId: '0x89',
     address: '0x8d23ef86e502b4c24d1ae4bf96249721903cbc71',
     title: "Builder's path",
-    description: 'Become a builder',
-    icon: hammerIcon,
+    description:
+      'This is a questline for getting onboarded to MetaGame as a builder, it requires knowledge of TypeScript.',
+    icon: builders.src,
     difficulty: Difficulty.EASY,
     time: Time.LONG,
   },
@@ -87,40 +88,44 @@ export const QuestChainDetails: Record<QuestChainType, QuestChainInfo> = {
     chainId: '0x89',
     address: '0x32079721deef91dae71fc8ebcfabc73702f7b137',
     title: "Designer's path",
-    description: 'Become a designer',
-    icon: designIcon,
+    description:
+      'This is a questline for getting onboarded into MetaGame as a designer of experiences & interfaces.',
+    icon: design.src,
     difficulty: Difficulty.EASY,
     time: Time.MEDIUM,
-  },
-  // Patron's path: https://questchains.xyz/chain/0x89/0x372C28C97fcb2600d025Bf536C9738A08fF8022b
-  [QuestChains.PATRONS_PATH]: {
-    chainId: '0x89',
-    address: '0x372C28C97fcb2600d025Bf536C9738A08fF8022b',
-    title: "Patron's path",
-    description: 'Become a patron',
-    icon: sproutIcon,
-    difficulty: Difficulty.EASY,
-    time: Time.SHORT,
-  },
-  // Bridgebuilder's path: https://questchains.xyz/chain/0x89/0xf7fbc471cbae68bf3833ff820c926ffe3c5bf0f7
-  [QuestChains.BRIDGEBUILDERS_PATH]: {
-    chainId: '0x89',
-    address: '0xf7fbc471cbae68bf3833ff820c926ffe3c5bf0f7',
-    title: "Bridgebuilder's path",
-    description: 'Become a bridgebuilder',
-    icon: bridgeIcon,
-    difficulty: Difficulty.HARD,
-    time: Time.LONG,
   },
   // Rogue's path: https://questchains.xyz/chain/0x89/0xF0a2E8e05555F187E1d2b5ACabA925598477F173
   [QuestChains.ROGUES_PATH]: {
     chainId: '0x89',
     address: '0xF0a2E8e05555F187E1d2b5ACabA925598477F173',
     title: "Rogue's path",
-    description: 'Become a rogue',
-    icon: rogueIcon,
+    description:
+      'This is a questline for those who like to chart their own path or just aren’t sure how to contribute.',
+    icon: rogue.src,
     difficulty: Difficulty.EASY,
     time: Time.MEDIUM,
+  },
+  // Bridgebuilder's path: https://questchains.xyz/chain/0x89/0xf7fbc471cbae68bf3833ff820c926ffe3c5bf0f7
+  [QuestChains.BRIDGEBUILDERS_PATH]: {
+    chainId: '0x89',
+    address: '0xf7fbc471cbae68bf3833ff820c926ffe3c5bf0f7',
+    title: "Bridgebuilder's path",
+    description:
+      'This is a questline for those who are interested in building bridges between MetaGame & other communities.',
+    icon: bridge.src,
+    difficulty: Difficulty.HARD,
+    time: Time.LONG,
+  },
+  // Patron's path: https://questchains.xyz/chain/0x89/0x372C28C97fcb2600d025Bf536C9738A08fF8022b
+  [QuestChains.PATRONS_PATH]: {
+    chainId: '0x89',
+    address: '0x372C28C97fcb2600d025Bf536C9738A08fF8022b',
+    title: "Patron's path",
+    description:
+      'This is a questline for those too busy to actively contribute to MetaGame; those interested in watering Trees.',
+    icon: patron.src,
+    difficulty: Difficulty.EASY,
+    time: Time.SHORT,
   },
 };
 

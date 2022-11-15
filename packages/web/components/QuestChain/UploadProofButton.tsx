@@ -1,6 +1,6 @@
 import { Box, Flex } from '@metafam/ds';
 import { graphql } from '@quest-chains/sdk';
-import { useMemo } from 'react';
+import React, { useMemo } from 'react';
 
 import { UploadProof } from './UploadProof';
 

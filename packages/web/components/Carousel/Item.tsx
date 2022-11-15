@@ -1,9 +1,12 @@
 import { Flex } from '@metafam/ds';
+import type { PropsWithChildren } from 'react';
 import React, { KeyboardEventHandler, useState } from 'react';
 
 import { useCarouselContext } from './CarouselContext';
 
-export const Item: React.FC<{ index: number }> = ({ children, index }) => {
+type ItemProps = PropsWithChildren<{ index: number }>;
+
+export const Item: React.FC<ItemProps> = ({ children, index }) => {
   const {
     setTrackIsActive,
     setActiveItem,

@@ -3,13 +3,10 @@
   "display": "MetaGame's Discord Bot",
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "lib": ["ES2021"],
-    "module": "CommonJS",
-    "target": "ES2021",
-    "outDir": "dist",
-    "rootDir": "src",
-    "composite": true,
-    "tsBuildInfoFile": "dist/.tsbuildinfo"
+    "outDir": "dist/",
+    "tsBuildInfoFile": "dist/.tsbuildinfo",
+    "rootDir": "src/",
+    "composite": true
   },
   "references": [{ "path": "../utils" }],
   "include": ["./src"]

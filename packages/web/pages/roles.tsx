@@ -3,7 +3,6 @@ import {
   Flex,
   Grid,
   Heading,
-  Image,
   Link,
   MetaTag,
   MetaTile,
@@ -12,10 +11,10 @@ import {
   Text,
   VStack,
 } from '@metafam/ds';
-import LogoImage from 'assets/logo.png';
 import { PageContainer } from 'components/Container';
 import { HeadComponent } from 'components/Seo';
 import { SquareImage } from 'components/SquareImage';
+import React from 'react';
 import { Difficulty, QuestChainDetails, Time } from 'utils/questChains';
 
 const QuestsDashboard: React.FC = () => (
@@ -98,30 +97,7 @@ const Card: React.FC<CardProps> = ({
     <Link role="group" _hover={{ textDecoration: 'none' }} href={link}>
       <MetaTile height="full" width="full">
         <MetaTileHeader>
-          <Flex
-            flexDir="column"
-            gap={1}
-            pos="absolute"
-            left={-8}
-            py={3}
-            px={4}
-            top={-8}
-            background="rgba(255, 255, 255, 0.1)"
-            backdropFilter="blur(10.5px)"
-            borderRadius="8px"
-            alignItems="center"
-          >
-            <Image w="2.5rem" src={LogoImage} />
-            <Text
-              fontFamily="Exo 2"
-              fontSize="xs"
-              color="blueLight"
-              fontWeight="bold"
-            >
-              MetaGame
-            </Text>
-          </Flex>
-          <SquareImage p={6} src={icon} mt="0 !important" />
+          <SquareImage src={icon} />
           <Flex px={3} w="full" pos="absolute" bottom={-6} zIndex={1}>
             <Heading
               size="lg"
@@ -145,7 +121,7 @@ const Card: React.FC<CardProps> = ({
           <Flex flexDir="column">
             <Text textStyle="caption">ABOUT</Text>
 
-            <Text mb={2} h="3rem">
+            <Text mb={2} h="3rem" fontSize="sm">
               {description}
             </Text>
           </Flex>

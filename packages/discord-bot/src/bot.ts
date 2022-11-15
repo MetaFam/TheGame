@@ -5,7 +5,7 @@ import { importx } from '@discordx/importer';
 import { Intents, Message } from 'discord.js';
 import { Client } from 'discordx';
 
-import { CONFIG } from './config';
+import { CONFIG } from './config.js';
 
 async function initDiscordBot(): Promise<Client> {
   await importx(
@@ -13,7 +13,7 @@ async function initDiscordBot(): Promise<Client> {
     // For local dev, we are transpiling: Load the .ts files.
     process.env.RUNTIME_ENV === 'docker'
       ? `${__dirname}/discord/**/*.js`
-      : `${__dirname}/discord/**/!(*.d).ts`,
+      : `./discord/**/!(*.d).ts`,
   );
 
   const client = new Client({
