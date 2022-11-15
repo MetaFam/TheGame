@@ -37,11 +37,11 @@ export const DashboardQuestsCreated: React.FC = () => {
   const createdQuests = data?.quest || null;
 
   return (
-    <Box mt={4} w="100%">
+    <Box mt={4} w="100%" overflowY="hidden">
       {fetching && <LoadingState />}
       {error && <Text>{`Error: ${error.message}`}</Text>}
       {createdQuests != null && createdQuests.length > 0 && (
-        <>
+        <Box h="100%" overflowY="auto">
           <FormControl display="flex" alignItems="center">
             <FormLabel
               htmlFor="pendingOnly"
@@ -76,7 +76,7 @@ export const DashboardQuestsCreated: React.FC = () => {
               )}
             </Box>
           ))}
-        </>
+        </Box>
       )}
       {createdQuests?.length === 0 && <Box>You have no active quests.</Box>}
     </Box>
