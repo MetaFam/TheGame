@@ -25,11 +25,6 @@ export const PlayerRank: React.FC<PlayerRankProps> = ({
       zIndex={1}
     />
     <Flex flexDir="column" gap={2} zIndex={2}>
-      {showSeasonalXP && (
-        <Text fontSize="sm" color="blueLight">
-          SEASON XP: {Math.floor(player.seasonXP).toLocaleString()}
-        </Text>
-      )}
       {player.rank && (
         <WrapItem>
           <MetaTag
@@ -44,6 +39,12 @@ export const PlayerRank: React.FC<PlayerRankProps> = ({
       <Text fontSize="sm" color="blueLight">
         XP: {Math.floor(player.totalXP).toLocaleString()}
       </Text>
+      {showSeasonalXP && (
+        <Text fontSize="sm" color="blueLight">
+          {/* hardcoded Season #, will have to be changed every season */}
+          S8: {Math.floor(player.seasonXP).toLocaleString()}
+        </Text>
+      )}
     </Flex>
   </Flex>
 );
