@@ -47,11 +47,6 @@ export const PatronRank: React.FC<Props> = ({ index, patron, pSeedPrice }) => {
         zIndex={1}
       />
       <Flex flexDir="column" gap={2} zIndex={2}>
-        {patron.pSeedBalance != null && (
-          <Text fontSize="sm" color="blueLight">
-            {displayBalance}
-          </Text>
-        )}
         {patronRank && (
           <MetaTag
             backgroundColor={patronRank?.toLowerCase()}
@@ -61,6 +56,11 @@ export const PatronRank: React.FC<Props> = ({ index, patron, pSeedPrice }) => {
           >
             {patronRank}
           </MetaTag>
+        )}
+        {patron.pSeedBalance != null && (
+          <Text fontSize="sm" color="blueLight">
+            {displayBalance}
+          </Text>
         )}
         <Text fontSize="sm" color="blueLight">{`XP: ${Math.floor(
           player.totalXP,
