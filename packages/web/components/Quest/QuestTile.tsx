@@ -42,7 +42,7 @@ export const QuestTile: React.FC<Props> = ({ quest }) => {
     >
       <MetaTile height="full" width="full">
         <MetaTileHeader>
-          <SquareImage src={BackgroundImage} />
+          <SquareImage src={BackgroundImage.src} />
           <Flex px={3} w="full" pos="absolute" bottom={-6} zIndex={1}>
             <Heading
               size="lg"
