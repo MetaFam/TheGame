@@ -4,8 +4,7 @@ import express, { Express, RequestHandler } from 'express';
 
 import { CONFIG } from './config.js';
 import { router } from './handlers/routes.js';
-
-// import { errorMiddleware } from './lib/apiHelpers';
+import { errorMiddleware } from './lib/apiHelpers.js';
 
 const app: Express = express();
 
@@ -54,7 +53,7 @@ app.locals.limiter.on(
 
 app.use(router);
 
-// app.use(errorMiddleware);
+app.use(errorMiddleware);
 
 app.listen(CONFIG.port, () => {
   // eslint-disable-next-line no-console

@@ -16,6 +16,7 @@
     {
       "files": ["./src/**/*.ts"],
       "rules": {
+        "import/extensions": ["error", { "json": "always" }],
         "no-console": "off"
       }
     }

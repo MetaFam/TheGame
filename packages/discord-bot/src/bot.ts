@@ -13,7 +13,7 @@ async function initDiscordBot(): Promise<Client> {
     // For local dev, we are transpiling: Load the .ts files.
     process.env.RUNTIME_ENV === 'docker'
       ? `${__dirname}/discord/**/*.js`
-      : `${__dirname}/discord/**/!(*.d).ts`,
+      : `./discord/**/!(*.d).ts`,
   );
 
   const client = new Client({
