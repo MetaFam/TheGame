@@ -56,7 +56,7 @@ import {
 import { getPlayer } from 'graphql/getPlayer';
 import { useProfileField, useSaveCeramicProfile, useWeb3 } from 'lib/hooks';
 import { useRouter } from 'next/router';
-import type { PropsWithChildren } from 'react';
+import type { ChangeEvent, PropsWithChildren } from 'react';
 import React, {
   ReactElement,
   RefObject,
@@ -504,7 +504,9 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
                         {...props}
                         type="file"
                         value={value?.filename ?? ''}
-                        onChange={async (evt) => {
+                        onChange={async (
+                          evt: ChangeEvent<HTMLInputElement>,
+                        ) => {
                           onChange(evt.target.files);
                           onFileChange(evt);
                         }}
@@ -597,7 +599,9 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
                             type="file"
                             {...props}
                             value={value?.filename}
-                            onChange={async (evt) => {
+                            onChange={async (
+                              evt: ChangeEvent<HTMLInputElement>,
+                            ) => {
                               onChange(evt.target.files);
                               onFileChange(evt);
                             }}

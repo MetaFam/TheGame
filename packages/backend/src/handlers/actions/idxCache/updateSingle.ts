@@ -11,6 +11,7 @@ import {
   ImageSources,
   model as basicProfileModel,
 } from '@datamodels/identity-profile-basic';
+import { DataModel } from '@glazed/datamodel';
 import { ModelManager } from '@glazed/devtools';
 import { DIDDataStore } from '@glazed/did-datastore';
 import { TileLoader } from '@glazed/tile-loader';
@@ -23,6 +24,7 @@ import {
   ExtendedProfileObjects,
   ExtendedProfileStrings,
   HasuraProfileProps,
+  simplifyAliases,
   Values,
 } from '@metafam/utils';
 import { getLegacy3BoxProfileAsBasicProfile } from '@self.id/3box-legacy';
@@ -52,24 +54,18 @@ export default async (playerId: string): Promise<UpdateIdxProfileResponse> => {
   }
 
   try {
-    const cache = new Map();
     const ceramic = new CeramicClient(CONFIG.ceramicURL) as CeramicApi;
-    const loader = new TileLoader({ ceramic, cache });
-    const manager = new ModelManager({ ceramic });
-    manager.addJSONModel(basicProfileModel);
-    manager.addJSONModel(alsoKnownAsModel);
-    manager.addJSONModel(extendedProfileModel);
+    const aliases = simplifyAliases([
+      basicProfileModel,
+      extendedProfileModel,
+      alsoKnownAsModel,
+    ]);
+    const model = new DataModel({ ceramic, aliases });
+    const store = new DIDDataStore({ ceramic, model });
 
-    const store = new DIDDataStore({
-      ceramic,
-      loader,
-      model: await manager.deploy(),
-    });
     ({ did } = await Caip10Link.fromAccount(
       ceramic,
-      // Defaulting to mainnet. This may cause data irregularities
-      // if their wallet is connected to a different DID on a
-      // different chain.
+      // mainnet; the site prompts them to switch if necessary
       `${ethereumAddress.toLowerCase()}@eip155:1`,
     ));
     const values: HasuraProfileProps = {};
