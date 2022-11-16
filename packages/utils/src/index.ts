@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import extendedProfileModel from './ExtendedProfileModel.json' assert { type: 'json' };
 
 export * from './arrayHelpers.js';
+export * from './ceramic.js';
 export * as Constants from './constants.js';
 export * as did from './did/index.js';
 export * as DiscordUtil from './discordHelpers.js';

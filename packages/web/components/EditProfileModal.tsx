@@ -199,28 +199,38 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
 
   const onFileChange = useCallback(
     ({ target: input }: { target: HTMLInputElement }) => {
-      console.info({ files: input.files });
       const file = input.files?.[0];
       if (!file) return;
-      const key = input.name as keyof typeof endpoints;
-      endpoints[key].setLoading(true);
-      endpoints[key].setFile(file);
-      const reader = new FileReader();
-      reader.addEventListener('load', () => {
-        endpoints[key].setURL(reader.result as string);
-      });
-      reader.addEventListener('error', ({ target }) => {
-        const { error } = target ?? {};
+      if (file.size === 0) {
         toast({
-          title: 'Image Loading Error',
-          description: `Loading Images Error: “${error?.message}”`,
+          title: 'Empty Image Error',
+          description:
+            'The selected image has a size of 0. Is it a smybolic link?',
           status: 'error',
           isClosable: true,
           duration: 10000,
         });
-        endpoints[key].setLoading(false);
-      });
-      reader.readAsDataURL(file);
+      } else {
+        const key = input.name as keyof typeof endpoints;
+        endpoints[key].setLoading(true);
+        endpoints[key].setFile(file);
+        const reader = new FileReader();
+        reader.addEventListener('load', () => {
+          endpoints[key].setURL(reader.result as string);
+        });
+        reader.addEventListener('error', ({ target }) => {
+          const { error } = target ?? {};
+          toast({
+            title: 'Image Loading Error',
+            description: `Loading Images Error: “${error?.message}”`,
+            status: 'error',
+            isClosable: true,
+            duration: 10000,
+          });
+          endpoints[key].setLoading(false);
+        });
+        reader.readAsDataURL(file);
+      }
     },
     [endpoints, toast],
   );
@@ -421,7 +431,7 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
             templateColumns={['auto', 'auto', '1fr 1fr', '1fr 1fr 1fr']}
             gap={6}
           >
-            <GridItem flex={1} alignItems="center">
+            <GridItem flex={1} alignItems="center" h="10em">
               <FormControl isInvalid={errors.profileImageURL}>
                 <Tooltip label="An image representing the user generally cropped to a circle for display. 1MiB maximum size.">
                   <Label htmlFor="profileImageURL" userSelect="none">
@@ -441,12 +451,13 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
                   }
                 >
                   <Box
-                    w="10em"
                     h="10em"
+                    w="10em"
                     borderRadius="full"
                     display="inline-flex"
                   >
                     <Image
+                      id="profile-image-preview"
                       ref={endpoints.profileImageURL.ref ?? null}
                       onLoad={() => {
                         endpoints.profileImageURL.setLoading(false);
@@ -535,8 +546,8 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
                   'An image with an ~1:1 aspect ratio to be the page background. 1MiB maximum size.',
               },
             ].map(({ key, title, description: spec }) => (
-              <GridItem flex={1} alignItems="center" {...{ key }}>
-                <FormControl isInvalid={errors[key]}>
+              <GridItem flex={1} alignItems="center" h="10em" {...{ key }}>
+                <FormControl isInvalid={errors[key]} h="full">
                   <Tooltip label={spec}>
                     <Label htmlFor={key} userSelect="none" whiteSpace="nowrap">
                       {title}
@@ -545,8 +556,8 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
                   </Tooltip>
                   <Center
                     position="relative"
-                    maxW={endpoints[key].val == null ? '100%' : 'max-content'}
-                    h="10em"
+                    w="full"
+                    h="full"
                     border="2px solid"
                     borderColor={
                       endpoints[key].active ? 'blue.400' : 'transparent'
@@ -563,7 +574,7 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
                       display={endpoints[key].loading ? 'none' : 'inherit'}
                       src={endpoints[key].val}
                       h="full"
-                      w="auto"
+                      w="full"
                     />
                     {endpoints[key].loading &&
                       (endpoints[key].val == null ? (
@@ -576,7 +587,6 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
                       ) : (
                         <Spinner size="xl" color="purple.500" thickness="4px" />
                       ))}
-
                     <Controller
                       control={control}
                       name={key}
