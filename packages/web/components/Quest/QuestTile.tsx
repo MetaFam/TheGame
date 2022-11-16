@@ -9,7 +9,7 @@ import {
   Prose,
   Text,
 } from '@metafam/ds';
-import BackgroundImage from 'assets/main-background.jpg';
+import BackgroundImage from 'assets/quests/quest.png';
 import { MetaLink } from 'components/Link';
 import { MarkdownViewer as Markdown } from 'components/MarkdownViewer';
 import { RolesTags } from 'components/Quest/Roles';
