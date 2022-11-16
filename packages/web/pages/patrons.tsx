@@ -153,7 +153,7 @@ const PatronsPage: React.FC<Props> = ({ patrons, pSeedPrice }) => {
         {renderShowingXOfYItems()}
 
         {/* Back to top link */}
-        <Image src={Octopus} pt={8} />
+        <Image src={Octopus.src} pt={8} />
 
         <Box pb={4}>
           <Button
