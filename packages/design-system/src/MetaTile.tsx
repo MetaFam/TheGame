@@ -68,7 +68,7 @@ export const MetaTile: React.FC<FlexProps & MetaTileProps> = ({
     >
       <Flex
         direction="column"
-        bgColor="#120a2fc4"
+        bgColor="hsl(253deg 65% 11% / 55%)"
         style={{ backdropFilter: 'blur(7px)' }}
         rounded="lg"
         p={6}
