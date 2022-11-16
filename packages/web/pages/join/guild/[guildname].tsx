@@ -2,35 +2,25 @@ import { Flex, LoadingState, MetaHeading, useToast } from '@metafam/ds';
 import { FlexContainer, PageContainer } from 'components/Container';
 import { EditGuildFormInputs, GuildForm } from 'components/Guild/GuildForm';
 import {
-  GuildFragment,
   GuildInfoInput,
   GuildType_ActionEnum,
+  useGetGuildQuery,
   useUpdateGuildMutation,
 } from 'graphql/autogen/types';
-import { getGuild } from 'graphql/queries/guild';
 import { useRouter } from 'next/router';
 import Page404 from 'pages/404';
-import React, { useCallback, useEffect, useState } from 'react';
-import useSWR from 'swr';
+import React, { useCallback } from 'react';
 import { errorHandler } from 'utils/errorHandler';
 import { uploadFile } from 'utils/uploadHelpers';
 
 const SetupGuild: React.FC = () => {
   const router = useRouter();
-
-  const [guild, setGuild] = useState<GuildFragment | null>();
-  const [updateGuildState, updateGuild] = useUpdateGuildMutation();
+  const guildname = router.query.guildname as string;
   const toast = useToast();
 
-  const guildName = router.query.guildname as string;
-
-  const { data, isValidating } = useSWR(guildName, getGuild, {
-    revalidateOnFocus: false,
-  });
-
-  useEffect(() => {
-    setGuild(data);
-  }, [data, guildName]);
+  const [updateGuildState, updateGuild] = useUpdateGuildMutation();
+  const [res] = useGetGuildQuery({ variables: { guildname } });
+  const guild = res.data?.guild[0];
 
   const onSubmit = useCallback(
     async (editGuildFormInputs: EditGuildFormInputs) => {
@@ -104,11 +94,11 @@ const SetupGuild: React.FC = () => {
     [guild, router, toast, updateGuild],
   );
 
-  if (isValidating || data === undefined) {
+  if (res.fetching || res.data == null) {
     return <LoadingState />;
   }
 
-  if (guild == null) {
+  if (res.data.guild.length === 0 || guild == null) {
     return <Page404 />;
   }
 

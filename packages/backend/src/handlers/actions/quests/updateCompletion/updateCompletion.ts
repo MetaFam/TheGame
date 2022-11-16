@@ -77,7 +77,10 @@ export async function updateCompletion(
     });
   }
 
-  if (newQuestCompletionStatus === QuestCompletionStatus_Enum.Accepted) {
+  if (
+    CONFIG.nodeEnv === 'production' &&
+    newQuestCompletionStatus === QuestCompletionStatus_Enum.Accepted
+  ) {
     sendDiscordProps(
       questCompletion.completedByPlayerId,
       quest.id,
