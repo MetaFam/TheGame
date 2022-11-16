@@ -27,7 +27,7 @@ const Onboarding: React.FC = () => {
       : null;
   const [section, setSection] = useState(0);
   const hostName = useRef('https://metagame.wtf');
-  const setHostName = useCallback((host) => {
+  const setHostName = useCallback((host: string) => {
     hostName.current = host;
   }, []);
 

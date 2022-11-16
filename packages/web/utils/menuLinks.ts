@@ -26,7 +26,7 @@ export const descriptions = {
   thegreathouses:
     'The Great Houses are here to give people a meta view of different areas of interest',
   wiki: 'New to MetaGame? This is the first thing you should dive deep into',
-  seeds: 'Find out about SEEDs -- why, where & how you should buy them',
+  seeds: 'Find out about SEEDs — why, where & how you should buy them',
   grants: 'Find cool projects & people you could support financially',
 };
 
@@ -45,7 +45,7 @@ export const MenuSectionLinks: MenuLinkSet[] = [
         title: 'Patrons',
         explainerText:
           'Check the patrons of MetaGame; the ones supporting MetaGame by buying Seeds',
-        url: '/community/patrons',
+        url: '/patrons',
         icon: 'patrons',
       },
       {
@@ -58,7 +58,7 @@ export const MenuSectionLinks: MenuLinkSet[] = [
         title: 'Guilds',
         explainerText:
           'Discover the guilds of MetaGame; groups of players set around more specific goals',
-        url: '/community/guilds',
+        url: '/guilds',
         icon: 'guilds',
       },
       {

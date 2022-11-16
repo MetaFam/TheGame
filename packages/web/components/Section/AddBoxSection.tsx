@@ -19,7 +19,7 @@ import {
 } from '@metafam/ds';
 import { Maybe } from '@metafam/utils';
 import { GuildFragment, Player } from 'graphql/autogen/types';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { BoxMetadata, BoxType, BoxTypes } from 'utils/boxTypes';
 
 import { EmbeddedUrlMetadata } from './EmbeddedUrlSection';
@@ -53,7 +53,8 @@ export const AddBoxSection = React.forwardRef<HTMLDivElement, Props>(
     const [type, setType] = useState<Maybe<BoxType>>(null);
     const [metadata, setMetadata] = useState<BoxMetadata>({});
     const selectBoxType = useCallback(
-      ({ target: { value: boxId } }) => setType(boxId),
+      ({ target: { value: boxId } }: ChangeEvent<HTMLSelectElement>) =>
+        setType(boxId as BoxType),
       [],
     );
 

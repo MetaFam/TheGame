@@ -106,14 +106,14 @@ export const useSaveCeramicProfile = ({
 
       const cache = new Map();
       const loader = new TileLoader({ ceramic, cache });
-      const manager = new ModelManager(ceramic);
+      const manager = new ModelManager({ ceramic });
       manager.addJSONModel(basicProfileModel);
       manager.addJSONModel(extendedProfileModel);
 
       const store = new DIDDataStore({
         ceramic,
         loader,
-        model: await manager.toPublished(),
+        model: await manager.deploy(),
       });
 
       // empty string fails validation

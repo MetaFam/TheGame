@@ -4,7 +4,7 @@ import BackgroundImageMobile from 'assets/landing/sections/section-4.sm.jpg';
 import { FullPageContainer } from 'components/Container';
 import { useMotionDetector } from 'lib/hooks/useMotionDetector';
 import { useOnScreen } from 'lib/hooks/useOnScreen';
-import { useRef } from 'react';
+import React, { useRef } from 'react';
 
 import { LandingNextButton } from './LandingNextButton';
 import { LandingPageSectionProps } from './landingSection';
@@ -25,14 +25,14 @@ export const WildWeb: React.FC<LandingPageSectionProps> = ({
 
   return (
     <FullPageContainer
-      bgImageUrl={responsiveBg}
+      bgImageUrl={responsiveBg?.src}
       backgroundBlendMode="normal"
       backgroundPosition="center"
       id={section.internalLinkId}
       position="relative"
     >
       <Container
-        d="flex"
+        display="flex"
         maxW={{
           base: '100%',
           md: 'xl',

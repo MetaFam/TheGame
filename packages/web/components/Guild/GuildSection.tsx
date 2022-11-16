@@ -5,7 +5,7 @@ import { GuildLinks } from 'components/Guild/Section/GuildLinks';
 import { GuildPlayers } from 'components/Guild/Section/GuildPlayers';
 import { EmbeddedUrl } from 'components/Section/EmbeddedUrlSection';
 import { GuildFragment } from 'graphql/autogen/types';
-import { forwardRef } from 'react';
+import React, { forwardRef } from 'react';
 import { FaTimes } from 'react-icons/fa';
 import { BoxMetadata, BoxType, BoxTypes, createBoxKey } from 'utils/boxTypes';
 

@@ -1,12 +1,12 @@
 import { Request, Response } from 'express';
 import { ParamsDictionary } from 'express-serve-static-core';
 
-import { Guild, Player, Player_Role } from '../../lib/autogen/hasura-sdk';
-import { cacheIDXProfile } from './cacheIDXProfile';
-import { playerRankUpdated } from './playerRankUpdated';
-import { playerRoleChanged } from './playerRoleChanged';
-import { syncDiscordGuildMembers } from './syncDiscordGuildMembers';
-import { TriggerPayload } from './types';
+import { Guild, Player, Player_Role } from '../../lib/autogen/hasura-sdk.js';
+import { cacheIDXProfile } from './cacheIDXProfile.js';
+import { playerRankUpdated } from './playerRankUpdated.js';
+import { playerRoleChanged } from './playerRoleChanged.js';
+import { syncDiscordGuildMembers } from './syncDiscordGuildMembers.js';
+import { TriggerPayload } from './types.js';
 
 const TRIGGERS = {
   cacheIDXProfile,

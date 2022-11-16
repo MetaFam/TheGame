@@ -139,7 +139,7 @@ const PatronsJoinLanding: React.FC<Props> = ({
               bg="#E839B7"
               borderRadius={0}
               color="white"
-              href="/community/patrons"
+              href="/patrons"
               minW="10rem"
               mt={{ base: 8, md: 12 }}
               px={6}
@@ -165,7 +165,7 @@ const PatronsJoinLanding: React.FC<Props> = ({
       {/* Back to Top button */}
 
       <VStack>
-        <Image src={Octopus} pt={8} />
+        <Image src={Octopus.src} pt={8} />
         <Box pb={4}>
           <Button
             leftIcon={<ArrowUpIcon />}

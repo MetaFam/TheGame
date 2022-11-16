@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 
-import { createCompletion } from './createCompletion';
+import { createCompletion } from './createCompletion.js';
 
 export const createCompletionHandler = async (
   req: Request,

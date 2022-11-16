@@ -1,4 +1,5 @@
 import { EmbedContainer } from 'components/Container';
+import React from 'react';
 import { descriptions } from 'utils/menuLinks';
 
 const PlaybooksPage: React.FC = () => (

@@ -1,11 +1,14 @@
 import { EthereumAuthProvider, ThreeIdConnect } from '@3id/connect';
-import ThreeIdResolver from '@ceramicnetwork/3id-did-resolver';
+import { getResolver as get3IDResolver } from '@ceramicnetwork/3id-did-resolver';
 import type { CeramicApi } from '@ceramicnetwork/common';
 import { CeramicClient } from '@ceramicnetwork/http-client';
+import { EthereumWebAuth, getAccountId } from '@didtools/pkh-ethereum';
+import { ExternalProvider, Web3Provider } from '@ethersproject/providers';
 import { did, Maybe } from '@metafam/utils';
 import { CONFIG } from 'config';
+import { DIDSession } from 'did-session';
 import { DID } from 'dids';
-import { providers } from 'ethers';
+import { getResolver as getKeyResolver } from 'key-did-resolver';
 import {
   clearToken,
   clearWalletConnect,
@@ -15,6 +18,7 @@ import {
 import { clearJotaiState } from 'lib/jotaiState';
 import React, {
   createContext,
+  PropsWithChildren,
   useCallback,
   useEffect,
   useMemo,
@@ -25,7 +29,7 @@ import { providerOptions } from 'utils/walletOptions';
 import Web3Modal from 'web3modal';
 
 export type Web3ContextType = {
-  provider: Maybe<providers.Web3Provider>;
+  provider: Maybe<Web3Provider>;
   ceramic: Maybe<CeramicApi>;
   address: Maybe<string>;
   chainId: Maybe<string>;
@@ -50,21 +54,20 @@ export const Web3Context = createContext<Web3ContextType>({
   isMetaMask: false,
 });
 
-const [web3Modal, ceramic, threeIdConnect] =
+const [web3Modal, ceramic] =
   typeof window === 'undefined'
-    ? [null, null, null]
+    ? [null, null]
     : [
         new Web3Modal({
           network: 'mainnet',
           cacheProvider: true,
           providerOptions,
         }),
-        new CeramicClient(CONFIG.ceramicURL),
-        new ThreeIdConnect(CONFIG.ceramicNetwork),
+        new CeramicClient(CONFIG.ceramicURL) as CeramicApi,
       ];
 
 export async function getExistingAuth(
-  ethersProvider: providers.Web3Provider,
+  ethersProvider: Web3Provider,
   connectedAddress: string,
 ): Promise<Maybe<string>> {
   const token = getTokenFromStore();
@@ -81,24 +84,26 @@ export async function getExistingAuth(
 }
 
 export async function authenticateWallet(
-  ethersProvider: providers.Web3Provider,
+  ethersProvider: Web3Provider,
 ): Promise<string> {
   const token = await did.createToken(ethersProvider);
   setTokenInStore(token);
   return token;
 }
 
-interface Web3ContextProviderOptions {
+type Web3ContextProviderOptions = PropsWithChildren<{
   resetUrqlClient?: () => void;
-}
+}>;
 
 type Web3State = {
   wallet: Maybe<Web3Modal>;
-  provider: Maybe<providers.Web3Provider>;
+  provider: Maybe<Web3Provider>;
   address: Maybe<string>;
   chainId: Maybe<string>;
   authToken: Maybe<string>;
 };
+
+const DID_METHOD = '3ID' as string; // 'PKH'
 
 export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
   resetUrqlClient,
@@ -145,8 +150,8 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
   }, [resetUrqlClient]);
 
   const updateWeb3State = useCallback(
-    async (prov) => {
-      const web3Provider = new providers.Web3Provider(prov);
+    async (prov: ExternalProvider) => {
+      const web3Provider = new Web3Provider(prov);
       const network = (await web3Provider.getNetwork()).chainId;
       const addr = await web3Provider.getSigner().getAddress();
 
@@ -158,17 +163,41 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
 
       const networkId = `0x${network.toString(16)}`;
 
-      if (ceramic && threeIdConnect) {
-        const authProvider = new EthereumAuthProvider(prov, addr);
-        await threeIdConnect.connect(authProvider);
-        ceramic.did = new DID({
-          provider: threeIdConnect.getDidProvider(),
-          resolver: ThreeIdResolver.getResolver(ceramic),
-        });
+      if (ceramic) {
+        switch (DID_METHOD) {
+          case 'PKH': {
+            const accountId = await getAccountId(prov, addr);
+            const authMethod = await EthereumWebAuth.getAuthMethod(
+              prov,
+              accountId,
+            );
+            const session = await DIDSession.authorize(authMethod, {
+              resources: ['ceramic://*'],
+            });
+            ceramic.did = session.did;
+            break;
+          }
+          case '3ID': {
+            const authProvider = new EthereumAuthProvider(prov, addr);
+            const threeID = new ThreeIdConnect();
+            await threeID.connect(authProvider);
+            ceramic.did = new DID({
+              provider: threeID.getDidProvider(),
+              resolver: {
+                ...get3IDResolver(ceramic),
+                ...getKeyResolver(),
+              },
+            });
+            break;
+          }
+          default: {
+            console.error(`Unknown DID_METHOD: ${DID_METHOD}`);
+          }
+        }
       }
 
       setWeb3State({
-        wallet: prov,
+        wallet: prov as Web3Modal,
         provider: web3Provider,
         chainId: networkId,
         address: addr,

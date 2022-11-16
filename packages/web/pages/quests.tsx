@@ -2,6 +2,7 @@ import {
   Box,
   Heading,
   HStack,
+  InfoIcon,
   LoadingState,
   MetaButton,
   MetaSecondaryButton,
@@ -68,9 +69,14 @@ const QuestsPage: React.FC<Props> = ({ roleChoices }) => {
       />
       <Box w="100%" maxW="80rem">
         <HStack justify="space-between" w="100%">
-          <Heading as="h1" fontFamily="body" size="2xl">
-            Quest Explorer
-          </Heading>
+          <HStack>
+            <Heading as="h1" fontFamily="body" size="2xl">
+              Quest Explorer
+            </Heading>
+            <Tooltip label='Note that there are two quest-related dashboard widgets as well. One for managing submissions for quests you created, and another for viewing your own submissions. Click on "Edit Layout" on the dashboard page to check them out.'>
+              <InfoIcon />
+            </Tooltip>
+          </HStack>
           <Box>
             <Tooltip
               label={
@@ -96,18 +102,17 @@ const QuestsPage: React.FC<Props> = ({ roleChoices }) => {
                 New Quest
               </MetaButton>
             </Tooltip>
-            <MetaLink href="/quest/activity" ml={4}>
-              <MetaSecondaryButton>Your Activity</MetaSecondaryButton>
-            </MetaLink>
           </Box>
         </HStack>
         <Box mt={8} w="100%">
           <QuestFilter
-            aggregates={aggregates}
-            queryVariables={queryVariables}
-            setQueryVariable={setQueryVariable}
             quests={quests || []}
-            {...{ roleChoices }}
+            {...{
+              roleChoices,
+              aggregates,
+              queryVariables,
+              setQueryVariable,
+            }}
           />
         </Box>
         <Box mt={8} w="100%">

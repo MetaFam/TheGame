@@ -69,9 +69,11 @@ const DeployedApp: React.FC<WithUrqlProps> = ({
   resetUrqlClient,
   Component,
 }) => (
-  <HoneybadgerErrorBoundary honeybadger={honeybadger}>
-    <UserbackProvider token={userbackToken}></UserbackProvider>
-    <App {...{ pageProps, resetUrqlClient, Component }} />
+  <HoneybadgerErrorBoundary {...{ honeybadger }}>
+    <>
+      <UserbackProvider token={userbackToken}></UserbackProvider>
+      <App {...{ pageProps, resetUrqlClient, Component }} />
+    </>
   </HoneybadgerErrorBoundary>
 );
 

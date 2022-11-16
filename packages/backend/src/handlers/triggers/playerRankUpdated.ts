@@ -3,11 +3,11 @@ import { createDiscordClient } from '@metafam/discord-bot';
 import { Constants } from '@metafam/utils';
 import { TextChannel } from 'discord.js';
 
-import { CONFIG } from '../../config';
-import { PlayerRank_Enum } from '../../lib/autogen/hasura-sdk';
-import { client } from '../../lib/hasuraClient';
-import { isRankHigher } from '../../lib/rankHelpers';
-import { PlayerRow, TriggerPayload } from './types';
+import { CONFIG } from '../../config.js';
+import { PlayerRank_Enum } from '../../lib/autogen/hasura-sdk.js';
+import { client } from '../../lib/hasuraClient.js';
+import { isRankHigher } from '../../lib/rankHelpers.js';
+import { PlayerRow, TriggerPayload } from './types.js';
 
 type RankRoleIds = { [rank in PlayerRank_Enum]: string };
 

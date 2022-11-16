@@ -1,5 +1,6 @@
 import { Box, Container, Heading, Image, Text, VStack } from '@metafam/ds';
 import PatronMage from 'assets/patron/patron-mage.png';
+import React from 'react';
 
 export const WhoArePatrons: React.FC = () => (
   <Container as="section" className="mg-patron-join-section" my={[4, 4, 4, 12]}>
@@ -15,7 +16,7 @@ export const WhoArePatrons: React.FC = () => (
 
     <Container className="mg-patron-join-card-bg" maxW="lg" centerContent>
       <VStack spacing={8} py={8} px={4}>
-        <Image src={PatronMage} alt="cloaked figure" mx="auto" />
+        <Image src={PatronMage.src} alt="cloaked figure" mx="auto" />
 
         <Box>
           <Text as="h3" fontWeight={700} mb={4}>

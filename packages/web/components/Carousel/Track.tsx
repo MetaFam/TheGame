@@ -1,11 +1,13 @@
+import type { PanInfo } from '@metafam/ds';
 import {
-  DragHandler,
   Flex,
   motion,
   useAnimation,
+  useBreakpointValue,
   useMotionValue,
   VStack,
 } from '@metafam/ds';
+import type { PropsWithChildren } from 'react';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { useCarouselContext } from './CarouselContext';
@@ -19,7 +21,7 @@ const transitionProps = {
   mass: 3,
 };
 
-export const Track: React.FC = ({ children }) => {
+export const Track: React.FC<PropsWithChildren> = ({ children }) => {
   const {
     setDragging,
     setTrackIsActive,
@@ -37,13 +39,16 @@ export const Track: React.FC = ({ children }) => {
   const controls = useAnimation();
   const x = useMotionValue(0);
   const node = useRef<HTMLDivElement>(null);
+  const isMobile = useBreakpointValue({ base: true, lg: false });
 
-  const handleDragStart: DragHandler = () => {
+  const handleDragStart = () => {
     setDragging(true);
     setDragStartPosition(positions[activeItem]);
   };
 
-  const handleDragEnd: DragHandler = (_any, info) => {
+  // 2022-10-25: This method relied on on a type imported from
+  // Framer that no longer exists.
+  const handleDragEnd = (_evt: DragEvent, info: PanInfo) => {
     const distance = info.offset.x;
     const velocity = info.velocity.x * multiplier;
     const direction = velocity < 0 || distance < 0 ? 1 : -1;
@@ -148,8 +153,8 @@ export const Track: React.FC = ({ children }) => {
         <VStack ref={node} spacing={5} alignItems="stretch">
           <MotionFlex
             dragConstraints={node}
-            onDragStart={handleDragStart}
-            onDragEnd={handleDragEnd}
+            onDragStart={isMobile ? undefined : handleDragStart}
+            onDragEnd={isMobile ? undefined : handleDragEnd}
             animate={controls}
             style={{ x }}
             drag="x"

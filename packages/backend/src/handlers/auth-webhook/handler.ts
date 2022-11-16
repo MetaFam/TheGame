@@ -1,8 +1,8 @@
 import { did, Maybe } from '@metafam/utils';
 import { Request, Response } from 'express';
 
-import { mainnetProvider } from '../../lib/ethereum';
-import { getOrCreatePlayerId } from './users';
+import { mainnetProvider } from '../../lib/ethereum.js';
+import { getOrCreatePlayerId } from './users.js';
 
 const unauthorizedVariables = {
   'X-Hasura-Role': 'public',

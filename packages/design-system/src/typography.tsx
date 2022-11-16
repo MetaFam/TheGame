@@ -1,16 +1,14 @@
-import { Text } from '@chakra-ui/react';
+import { Heading, Text } from '@chakra-ui/react';
 import React from 'react';
 
 export type TextProps = {
   children: React.ReactNode;
 };
 
-const H1: React.FC<TextProps> = ({ children }) => (
-  <Text fontSize="2xl" fontWeight="bold" mb={4}>
+export const H1: React.FC<TextProps> = ({ children }) => (
+  <Heading as="h1" fontSize="2xl" fontWeight="bold" mb={4}>
     {children}
-  </Text>
+  </Heading>
 );
 
-const P: React.FC<TextProps> = ({ children }) => <Text>{children}</Text>;
-
-export { H1, P };
+export const P: React.FC<TextProps> = ({ children }) => <Text>{children}</Text>;

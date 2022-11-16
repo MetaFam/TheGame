@@ -13,10 +13,10 @@ import { SCAccountsData, SCAlias, sourcecred as sc } from 'sourcecred';
 import {
   AccountType_Enum,
   Player_Account_Constraint,
-} from '../../../lib/autogen/hasura-sdk';
-import { client } from '../../../lib/hasuraClient';
-import { computeRank } from '../../../lib/rankHelpers';
-import { ledgerManager } from '../../../lib/sourcecredLedger';
+} from '../../../lib/autogen/hasura-sdk.js';
+import { client } from '../../../lib/hasuraClient.js';
+import { computeRank } from '../../../lib/rankHelpers.js';
+import { ledgerManager } from '../../../lib/sourcecredLedger.js';
 
 const VALID_ACCOUNT_TYPES: Array<AccountType_Enum> = [
   AccountType_Enum.Ethereum,

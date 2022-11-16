@@ -28,7 +28,8 @@ export const BoxTypes = {
   DASHBOARD_SEEDS_INFO: 'dashboard-seeds-info',
   DASHBOARD_CALENDER: 'dashboard-calendar',
   DASHBOARD_LEADERBOARD: 'dashboard-leaderboard',
-  DASHBOARD_QUESTS: 'dashboard-quests',
+  DASHBOARD_COMPLETED_QUESTS: 'dashboard-completed-quests',
+  DASHBOARD_CREATED_QUESTS: 'dashboard-created-quests',
   // Common Boxes
   ADD_NEW_BOX: 'add-new-box',
   EMBEDDED_URL: 'embedded-url',

@@ -17,7 +17,6 @@ services:
       - ${HASURA_PORT}:8080
     environment:
       WAIT_HOSTS: database:5432, ${BACKEND_HOST:-backend:4000}
-      # Backend can take more than 30 seconds to start completely, bump the timeout
       WAIT_TIMEOUT: 60
       HASURA_GRAPHQL_SERVER_PORT: ${HASURA_PORT:-8080}
       HASURA_GRAPHQL_DATABASE_URL: postgres://${DATABASE_USER}:${DATABASE_PASSWORD}@database:5432/${DATABASE_NAME}

@@ -12,9 +12,6 @@ import {
   Text,
   useDisclosure,
 } from '@metafam/ds';
-import BackgroundImage from 'assets/main-background.jpg';
-import ModalCardBg from 'assets/modal-bg.png';
-import SEEDCardBg from 'assets/seed-card-bg.png';
 
 type CardProps = {
   title: string;
@@ -27,37 +24,34 @@ export const Card: React.FC<CardProps> = ({ title, description, Content }) => {
 
   return (
     <Flex
-      direction="column"
-      borderRadius="lg"
-      borderWidth="1px"
-      textColor="white"
       alignItems="center"
-      textAlign="center"
-      bgImage={SEEDCardBg}
-      placeContent="center"
-      p={8}
-      minH="3xs"
-      key={title}
-      w={['full', 'auto']}
+      bg="whiteAlpha.200"
+      borderRadius="lg"
+      boxShadow="md"
       cursor="pointer"
+      direction="column"
+      key={title}
+      p={6}
+      placeContent="center"
+      maxW="md"
+      minH="3xs"
       onClick={onOpen}
-      sx={{
-        bgColor: '#110035',
-        borderColor: 'whiteAlpha.400',
-        transition: 'all 0.1s ease-in-out',
-        _hover: { bgColor: '#150042', borderColor: 'whiteAlpha.700' },
-      }}
+      style={{ backdropFilter: 'blur(7px)' }}
+      textAlign="center"
+      textColor="white"
+      w={['full', 'auto']}
     >
       <Box borderTopRadius="lg">
         <Text fontSize="xl" fontWeight="bold" mt={1} mb={4}>
           {title.toUpperCase()}
         </Text>
-        <Text mb={2}>{description}</Text>
+        <Text mb={4}>{description}</Text>
         <Button
           variant="ghost"
           color="magenta"
-          _hover={{ bg: '#FFFFFF11' }}
-          _active={{ bg: '#FF000011' }}
+          bgColor="whiteAlpha.50"
+          _hover={{ bg: 'whiteAlpha.200' }}
+          _active={{ bg: 'whiteAlpha.200' }}
           onClick={onOpen}
         >
           Learn More
@@ -67,19 +61,18 @@ export const Card: React.FC<CardProps> = ({ title, description, Content }) => {
       <Modal onClose={onClose} isOpen={isOpen} scrollBehavior="inside">
         <ModalOverlay />
         <ModalContent
-          borderRadius={['0', '0', 'xl']}
-          bgImage={[ModalCardBg, ModalCardBg, BackgroundImage]}
-          bgPos="center"
-          bgColor="purpleModalDark"
-          bgSize="cover"
-          textColor="white"
-          maxH={['full', 'full', '90%']}
-          h={['full', 'full', 'auto']}
-          w="full"
-          maxW="3xl"
           alignItems="center"
+          bg="whiteAlpha.200"
+          borderRadius="lg"
+          boxShadow="md"
+          h={['full', 'full', 'auto']}
+          maxH={['full', 'full', '90%']}
+          maxW="3xl"
           my={{ base: 0, md: 20 }}
           mx={{ base: 0, md: 4 }}
+          textColor="white"
+          w="full"
+          style={{ backdropFilter: 'blur(7px)' }}
         >
           <ModalHeader>{title.toUpperCase()}</ModalHeader>
           <ModalCloseButton />

@@ -9,6 +9,7 @@ import {
   UnorderedList,
 } from '@metafam/ds';
 import { CollapsableText } from 'components/CollapsableText';
+import React from 'react';
 
 export const WTFisXP = () => (
   <Flex direction="column">
@@ -21,7 +22,7 @@ export const WTFisXP = () => (
       Whether it’s completing quests, writing useful things on
       <Link
         ml={1}
-        href="//forum.metagame.wtf"
+        href="https://forum.metagame.wtf/"
         isExternal
         color="gray.500"
         textDecoration="underline"
@@ -30,7 +31,7 @@ export const WTFisXP = () => (
       </Link>
       , or laying down code on
       <Link
-        href="//github.com/MetaFam/"
+        href="https://github.com/MetaFam/"
         isExternal
         color="gray.500"
         textDecoration="underline"
@@ -38,7 +39,7 @@ export const WTFisXP = () => (
       >
         GitHub
       </Link>
-      — your XP automagically accrues. Once a month, you’re rewarded SEEDs for
+      — your XP automagically accrues. Once a month, you’re rewarded Seeds for
       your contributions, based on the amount of XP you’ve generated.
     </Text>
 
@@ -46,7 +47,7 @@ export const WTFisXP = () => (
       Your XP is calculated by
       <Link
         mx={1}
-        href="//sourcecred.io"
+        href="https://sourcecred.io/"
         isExternal
         color="gray.500"
         textDecoration="underline"
@@ -89,7 +90,7 @@ export const WTFisXP = () => (
           We're calling it MetaSys &amp; you can
           <Link
             ml={1}
-            href="//wiki.metagame.wtf/docs/what-we-do/metasys"
+            href="https://wiki.metagame.wtf/what-we-do/metasys"
             isExternal
             color="gray.500"
             textDecoration="underline"
@@ -106,29 +107,28 @@ export const WTFisXP = () => (
 export const GetRanked = () => (
   <Flex direction="column">
     <Text mb={2}>
-      As you might know already, the top ~56 of each — players &amp; patrons —
-      will be ranked in leagues. Well, leagues come with their perks!
+      As you might know already both players &amp; patrons have leaderboards
+      &amp; ranked leagues as well as perks (which will all be finalized at the
+      end of <Text as="em">Phase I</Text>, ~June 2023):
     </Text>
     <UnorderedList fontWeight="bold" mb={3}>
-      <ListItem>🥉 Bronze Founder</ListItem>
-      <ListItem>🥈 Silver Founder</ListItem>
-      <ListItem>🥇 Golden Founder</ListItem>
-      <ListItem>🔘 Platinum Founder</ListItem>
-      <ListItem>💎 Diamond Founder</ListItem>
+      <ListItem>🥉 Bronze Founder or Funder</ListItem>
+      <ListItem>🥈 Silver Founder or Funder</ListItem>
+      <ListItem>🥇 Golden Founder or Funder</ListItem>
+      <ListItem>🔘 Platinum Founder or Funder</ListItem>
+      <ListItem>💎 Diamond Founder or Funder</ListItem>
     </UnorderedList>
     <Text mb={2}>
-      We have a bunch of ideas on what these ranked league perks could be: from
-      access to special channels &amp; private AMAs, to interviews, unique NFTs
-      &amp; utmost respect.
-    </Text>
-    <Text>
-      <Text as="b">
-        But, before publishing a list, we'd love to hear from all of you —
-      </Text>
-      <Text as="span" mx={1} borderBottom="3px double">
-        what do you think the ranked league perks should be?
-      </Text>
-      🙃
+      You may check the full list of{' '}
+      <Link
+        color="gray.500"
+        href="/join/patron"
+        textDecoration="underline"
+        title="See the perks available to MetaGame Patrons"
+      >
+        patron perks
+      </Link>{' '}
+      here &amp; know the one for players will be similar. All feedback welcome.
     </Text>
   </Flex>
 );
@@ -136,7 +136,7 @@ export const GetRanked = () => (
 export const UsefulnessOfSEEDs = () => (
   <Flex direction="column">
     <Text mb={2}>
-      So far, the main thing SEEDs are used for is rewarding contributors as a
+      So far, the main thing Seeds are used for is rewarding contributors as a
       means of bootstrapping. Not a very promising use case in terms of token
       value, we know!
     </Text>
@@ -145,9 +145,9 @@ export const UsefulnessOfSEEDs = () => (
       use cases for money shouldn't be much trouble. 😁
     </Text>
     <Text mb={2}>
-      So, let's look at some of the current &amp; potential ways of using SEEDs!
+      So, let's look at some of the current &amp; potential ways of using Seeds!
     </Text>
-    <CollapsableText title="💸 Spending SEEDs">
+    <CollapsableText title="💸 Spending Seeds">
       <Flex direction="column">
         <Text fontSize="xs" fontWeight="bold" my={2}>
           Things you can spend on now:
@@ -167,7 +167,7 @@ export const UsefulnessOfSEEDs = () => (
             to get access to the
             <Link
               mx={1}
-              href="//tokenengineeringcommunity.github.io/website/"
+              href="https://tokenengineeringcommunity.github.io/website/"
               isExternal
               color="gray.500"
               textDecoration="underline"
@@ -184,8 +184,7 @@ export const UsefulnessOfSEEDs = () => (
               isExternal
               color="gray.500"
               textDecoration="underline"
-              mr={1}
-              href="//www.effectivealtruism.org"
+              href="https://www.effectivealtruism.org/"
             >
               give away to good causes
             </Link>
@@ -193,11 +192,11 @@ export const UsefulnessOfSEEDs = () => (
           </ListItem>
         </UnorderedList>
         <Box p={2} bgColor="whiteAlpha.300" my={2}>
-          💡 If you're interested in spending your SEEDs on any of this, ask
+          💡 If you're interested in spending your Seeds on any of this, ask
           about it in our Discord channel
           <Link
             ml={1}
-            href="//discord.gg/cBq5Md6KTU"
+            href="https://discord.gg/cBq5Md6KTU"
             isExternal
             textColor="gray.500"
             textDecoration="underline"
@@ -234,10 +233,10 @@ export const UsefulnessOfSEEDs = () => (
         <Image src="//bucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com/public/images/3ae3bc90-a157-4057-9722-167f5645d6a4_500x281.png" />
       </Flex>
     </CollapsableText>
-    <CollapsableText title="🥩 Staking SEEDs">
+    <CollapsableText title="🥩 Staking Seeds">
       <Box>
         <Text mb={2}>
-          Here are some of the things people might be required to stake SEEDs
+          Here are some of the things people might be required to stake Seeds
           for.
         </Text>
         <Text fontWeight="bold" mb={2}>
@@ -279,20 +278,20 @@ export const UsefulnessOfSEEDs = () => (
         </Center>
       </Box>
     </CollapsableText>
-    <CollapsableText title="🌱 Planting SEEDs">
+    <CollapsableText title="🌱 Planting Seeds">
       <Box>
         <Text mb={3}>
-          If you're confused as to what “planting SEEDs” means, it means using
-          your SEEDs by putting them into the
+          If you're confused as to what “planting Seeds” means, it means using
+          your Seeds by putting them into the
           <Link
             ml={1}
             isExternal
             color="gray.500"
             textDecoration="underline"
-            href="//polygon.balancer.fi/#/pool/0x8a8fcd351ed553fc75aecbc566a32f94471f302e000100000000000000000081"
+            href="https://polygon.balancer.fi/#/pool/0x8a8fcd351ed553fc75aecbc566a32f94471f302e000100000000000000000081"
           >
             <strong>
-              Balancer pool aka the <em>SEED plantation</em>
+              Balancer pool aka the <em>Seed plantation</em>
             </strong>
           </Link>
           .
@@ -321,27 +320,27 @@ export const UsefulnessOfSEEDs = () => (
 export const BuyingAndSelling = () => (
   <Box>
     <Box p={2} bgColor="whiteAlpha.300" mb={2}>
-      💡 Note: No need to buy SEEDs to become a patron, you can just
+      💡 Note: No need to buy Seeds to become a patron, you can just
       <em> water </em>them.
     </Box>
-    <Text>If you want to buy some SEEDs:</Text>
+    <Text>If you want to buy some Seeds:</Text>
     <UnorderedList pl={4}>
       <ListItem>First, you'll need to have some tokens on Polygon.</ListItem>
       <ListItem>
         Then you can go to the
         <Link
           mx={1}
-          href="//polygon.balancer.fi/#/pool/0x8a8fcd351ed553fc75aecbc566a32f94471f302e000100000000000000000081"
+          href="https://polygon.balancer.fi/#/pool/0x8a8fcd351ed553fc75aecbc566a32f94471f302e000100000000000000000081"
           isExternal
           color="green.300"
           textDecoration="underline"
         >
-          SEEDs plantation
+          Seeds plantation
         </Link>
         &amp; click the <q>trade</q> tab middle top.
         <UnorderedList>
           <ListItem ml={4}>
-            SEEDs not showing up? Search for
+            Seeds not showing up? Search for
             <Text as="code" ml={1}>
               0xeaecc18198a475c921b24b8a6c1c1f0f5f3f7ea0
             </Text>
@@ -365,7 +364,7 @@ export const BuyingAndSelling = () => (
         .
       </ListItem>
     </UnorderedList>
-    <Text>If you want to sell your SEEDs:</Text>
+    <Text>If you want to sell your Seeds:</Text>
     <UnorderedList pl={4}>
       <ListItem>
         You'll still need some Matic on Polygon first… Either
@@ -374,7 +373,7 @@ export const BuyingAndSelling = () => (
           isExternal
           color="gray.500"
           textDecoration="underline"
-          href="//googlethatforyou.com?q=how%20to%20buy%20matic%3F"
+          href="https://googlethatforyou.com?q=how%20to%20buy%20matic%3F"
         >
           buy some
         </Link>
@@ -384,7 +383,7 @@ export const BuyingAndSelling = () => (
           isExternal
           color="gray.500"
           textDecoration="underline"
-          href="//discord.gg/8THHVwfd"
+          href="https://discord.com/invite/metagame"
         >
           ask on Discord
         </Link>
@@ -398,8 +397,8 @@ export const BuyingAndSelling = () => (
 export const BecomeAPatron = () => (
   <Box>
     <Text mb={2}>
-      Though some use cases exist, they're not meaningfully contributing to the
-      treasury yet &amp; the rest are just ideas. Main reasons you'd want to
+      Though some use cases exist, they’re not meaningfully contributing to the
+      treasury yet &amp; the rest are just ideas. Main reasons you’d want to
       become a patron right now:
     </Text>
     <UnorderedList pl={4}>
@@ -407,61 +406,39 @@ export const BecomeAPatron = () => (
         <Text fontWeight="bold">
           Because you love the idea of MetaGame &amp; want to see it succeed.
         </Text>
-        <UnorderedList>
-          <ListItem>
-            <Link
-              isExternal
-              color="gray.500"
-              textDecoration="underline"
-              mr={1}
-              href="//wiki.metagame.wtf/docs/enter-metagame/why-patron"
-            >
-              Reading about it made you go, “this is everything I've ever
-              wanted” or at least “fuck yeah, this is epic!”
-            </Link>
-          </ListItem>
-        </UnorderedList>
       </ListItem>
       <ListItem>
-        You want to become a part of MetaGame but you don't have time to
+        You want to become a part of MetaGame but you don’t have time to
         actively contribute.
       </ListItem>
       <ListItem>
-        Not convinced?
-        <UnorderedList>
-          <ListItem ml={4}>Maybe watch this video.</ListItem>
-        </UnorderedList>
-      </ListItem>
-    </UnorderedList>
-    <Box my={2}>
-      <iframe
-        style={{ width: '100%', height: '40vh' }}
-        src="//www.youtube.com/embed/CYuwpR8CLXY?feature=oembed"
-      ></iframe>
-    </Box>
-    <Text mb={2}>There are two ways to become a patron:</Text>
-    <UnorderedList pl={4}>
-      <ListItem>
-        Join the
+        Interested? Go{' '}
         <Link
-          ml={1}
-          href="//metagame.substack.com/p/calling-for-rain"
-          isExternal
           color="gray.500"
+          href="/join/patron"
           textDecoration="underline"
+          title="Read about joining MetaGame as a Patron"
         >
-          SEED Fund raise
+          through here
         </Link>
-        .
       </ListItem>
-      <ListItem>Water the SEEDs yourself. 👇</ListItem>
     </UnorderedList>
   </Box>
 );
 
 export const PlantingAndWatering = () => (
   <Box>
-    <Text>So you've decided to become a patron?</Text>
+    <Text>
+      So you've decided to{' '}
+      <Link
+        color="gray.500"
+        href="/join/patron"
+        textDecoration="underline"
+        title="Read about joining MetaGame as a Patron"
+      >
+        become a patron?
+      </Link>
+    </Text>
     <Box fontWeight="bold" my={4}>
       First, you'll need some tokens on Polygon.
     </Box>
@@ -470,7 +447,7 @@ export const PlantingAndWatering = () => (
         Ideally, it would be WETH &amp;
         <Link
           ml={1}
-          href="//reflexer.finance"
+          href="https://reflexer.finance"
           isExternal
           color="gray.500"
           textDecoration="underline"
@@ -490,7 +467,7 @@ export const PlantingAndWatering = () => (
             Either
             <Link
               ml={1}
-              href="//wallet.polygon.technology/bridge"
+              href="https://wallet.polygon.technology/bridge/"
               isExternal
               color="gray.500"
               textDecoration="underline"
@@ -506,7 +483,7 @@ export const PlantingAndWatering = () => (
             Or obtain MATIC in
             <Link
               ml={1}
-              href="//googlethatforyou.com?q=how%20to%20buy%20matic%3F"
+              href="https://googlethatforyou.com?q=how%20to%20buy%20matic%3F"
               isExternal
               color="gray.500"
               textDecoration="underline"
@@ -522,12 +499,12 @@ export const PlantingAndWatering = () => (
       Then, you'll need to use WETH &amp; RAI to
       <Link
         ml={1}
-        href="//polygon.balancer.fi/#/pool/0x8a8fcd351ed553fc75aecbc566a32f94471f302e000100000000000000000081"
+        href="https://polygon.balancer.fi/#/pool/0x8a8fcd351ed553fc75aecbc566a32f94471f302e000100000000000000000081"
         isExternal
         color="gray.500"
         textDecoration="underline"
       >
-        water the SEEDs
+        water the Seeds
       </Link>
       .
     </Box>
@@ -536,7 +513,7 @@ export const PlantingAndWatering = () => (
         How much should you water them?
         <UnorderedList>
           <ListItem ml={4}>
-            The minimal requirement to join as a patron is 8 pSEEDs which is
+            The minimal requirement to join as a patron is 8 pSeeds which is
             roughly $150.
           </ListItem>
           <ListItem ml={4}>
@@ -554,21 +531,11 @@ export const PlantingAndWatering = () => (
           isExternal
           color="gray.500"
           textDecoration="underline"
-          href="//metagame.substack.com"
+          href="https://metagame.substack.com"
         >
           the newsletter
         </Link>
-        or we will do it for you, if you join the
-        <Link
-          ml={1}
-          href="//polygon.balancer.fi/#/pool/0x8a8fcd351ed553fc75aecbc566a32f94471f302e000100000000000000000081"
-          isExternal
-          color="green.300"
-          textDecoration="underline"
-        >
-          SEEDs Fund
-        </Link>
-        . 🙃
+        or we can do it for you, just ask. 🙃
         <UnorderedList>
           <ListItem ml={4}>
             The number of patrons in
@@ -578,7 +545,7 @@ export const PlantingAndWatering = () => (
               color="gray.500"
               textDecoration="underline"
               mr={1}
-              href="//wiki.metagame.wtf/docs/how-does-it-work/phases-of-metagame"
+              href="https://wiki.metagame.wtf/docs/how-does-it-work/phases-of-metagame"
               fontStyle="italic"
             >
               Phase Ⅰ
@@ -592,7 +559,7 @@ export const PlantingAndWatering = () => (
               color="gray.500"
               textDecoration="underline"
               mr={1}
-              href="//wiki.metagame.wtf/docs/how-does-it-work/phases-of-metagame"
+              href="https://wiki.metagame.wtf/docs/how-does-it-work/phases-of-metagame"
               fontStyle="italic"
             >
               Phase Ⅰ
@@ -620,122 +587,4 @@ export const PlantingAndWatering = () => (
       </ListItem>
     </UnorderedList>
   </Box>
-);
-
-export const JoinTheFund = () => (
-  <Box>
-    <Text mb={2}>Wish to skip the hassle of watering SEEDs on your own?</Text>
-    <Text mb={2}>No worries, we got you covered!</Text>
-    <Text mb={2}>
-      We're making it easy for people to do just that by launching the SEED Fund
-      DAO.
-    </Text>
-    <Text mb={2}>
-      You will only need to approve of MetaGame's monthly progress reports &amp;
-      we'll be taking care of the rest. No more carrying the buckets from the
-      well to the fields!
-    </Text>
-    <UnorderedList pl={4}>
-      <ListItem>Add some mainnet Ether.</ListItem>
-      <ListItem>Approve our progress &amp; proposals.</ListItem>
-      <ListItem>We water the SEED plantation for you.</ListItem>
-      <ListItem>
-        <Link
-          mr={1}
-          isExternal
-          color="gray.500"
-          textDecoration="underline"
-          href="//wiki.metagame.wtf/docs/wtf-is-metagame/the-300-of-metagame"
-        >
-          Join here
-        </Link>
-        if interested. 👀
-      </ListItem>
-    </UnorderedList>
-  </Box>
-);
-
-export const FAQ = () => (
-  <Flex direction="column" w="100%">
-    <CollapsableText title="What have you accomplished so far?">
-      <Text ml={6}>
-        Many things! Go read the fundraise
-        <Link
-          ml={1}
-          isExternal
-          color="gray.500"
-          textDecoration="underline"
-          href="//metagame.substack.com/p/calling-for-rain"
-        >
-          announcement post
-        </Link>
-        ,
-        <Link
-          ml={1}
-          isExternal
-          color="gray.500"
-          textDecoration="underline"
-          href="//youtube.com/CYuwpR8CLXY"
-        >
-          watch the pitch video
-        </Link>
-        , or dig through
-        <Link
-          mx={1}
-          isExternal
-          color="gray.500"
-          textDecoration="underline"
-          href="//metagame.wtf"
-        >
-          the website
-        </Link>
-        itself.
-      </Text>
-    </CollapsableText>
-    <CollapsableText title="Will you just keep on minting SEEDs to infinity?">
-      <Text ml={6}>
-        Not likely! The idea is that MetaGame will go
-        <Link
-          ml={1}
-          isExternal
-          color="gray.500"
-          textDecoration="underline"
-          href="//wiki.metagame.wtf/docs/how-does-it-work/phases-of-metagame"
-        >
-          through 3 phases
-        </Link>
-        ; starting with SEEDs, growing into Trees in <em>Phase Ⅱ</em> aka
-        <Text as="em" mx={1}>
-          The Growth Phase
-        </Text>
-        before transitioning to Phase Ⅲ — where Trees bear the fruits of our
-        labor &amp; we’re able to reward contributors with MetaGame’s incoming
-        streams without having to mint new tokens.
-      </Text>
-    </CollapsableText>
-    <CollapsableText title="Why should the price of SEEDs grow?">
-      <>
-        <Text ml={6}>🌊 SEED Watering Streams 🌊</Text>
-        <UnorderedList mt={2} ml={10}>
-          <ListItem>
-            all fees &amp; payments received by MetaGame go into sustaining the
-            price.
-          </ListItem>
-          <ListItem>
-            people subscribe to buying SEEDs for any of the above reasons or
-            others.
-          </ListItem>
-          <ListItem>
-            projects we help incubate share a % of their tokens.
-          </ListItem>
-        </UnorderedList>
-      </>
-    </CollapsableText>
-    <CollapsableText title="What’s market cap?">
-      <Text ml={6}>
-        At the time of writing this post, February 2022, the market cap was
-        ~$600k.
-      </Text>
-    </CollapsableText>
-  </Flex>
 );

@@ -14,6 +14,7 @@ import {
   StatusedSubmitButton,
   ToastId,
   Tooltip,
+  useBreakpointValue,
   useDisclosure,
   useToast,
   UseToastOptions,
@@ -23,7 +24,7 @@ import { useCarouselContext } from 'components/Carousel/CarouselContext';
 import { useWeb3 } from 'lib/hooks';
 import { useDropFiles, useDropImage } from 'lib/hooks/useDropFiles';
 import { useInputText } from 'lib/hooks/useInputText';
-import { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { errorHandler } from 'utils/errorHandler';
 import { NETWORK_INFO } from 'utils/networks';
 import {
@@ -69,6 +70,8 @@ export const UploadProof: React.FC<{
   const { files } = dropFilesProps;
 
   const dropImageProps = useDropImage();
+
+  const buttonSize = useBreakpointValue({ base: 'sm', lg: 'md' });
 
   const { imageFile } = dropImageProps;
 
@@ -192,8 +195,10 @@ export const UploadProof: React.FC<{
           status={null}
           isDisabled={chainId !== questChain.chainId || !address}
           borderWidth={1}
-          px={5}
-          py={2}
+          border="1px solid green"
+          px={{ base: 3, lg: 5 }}
+          py={{ base: 3, lg: 2 }}
+          size={buttonSize}
           label="Submit Proof"
         />
       </Tooltip>

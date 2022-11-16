@@ -1,8 +1,16 @@
-import { Box, Flex, Text, VStack } from '@metafam/ds';
+import {
+  Box,
+  Flex,
+  HStack,
+  MetaButton,
+  Text,
+  useBreakpointValue,
+  VStack,
+} from '@metafam/ds';
 import { graphql } from '@quest-chains/sdk';
 import { useCarouselContext } from 'components/Carousel/CarouselContext';
 import { MarkdownViewer } from 'components/MarkdownViewer';
-import { useMemo } from 'react';
+import React, { useMemo } from 'react';
 
 import { UploadProofButton } from './UploadProofButton';
 
@@ -27,11 +35,26 @@ export const QuestTile: React.FC<{
     useCarouselContext();
 
   const isSelected = activeItem === index;
+  const isFirst = activeItem === 0;
+  const isLast = activeItem === questChain.quests.length - 1;
 
+  const isMobile = useBreakpointValue({ base: true, lg: false });
   const onClick = () => {
     if (!isDragging) {
       setTrackIsActive(true);
       setActiveItem(index);
+    }
+  };
+
+  const onNextStep = () => {
+    if (activeItem < questChain.quests.length - 1) {
+      setActiveItem(activeItem + 1);
+    }
+  };
+
+  const onPrevStep = () => {
+    if (activeItem > 0) {
+      setActiveItem(activeItem - 1);
     }
   };
 
@@ -73,11 +96,12 @@ export const QuestTile: React.FC<{
     >
       <VStack
         spacing={4}
-        p={{ base: 8, md: isSelected ? 16 : 12 }}
+        p={{ base: 4, md: isSelected ? 16 : 12 }}
         bg={bgColor}
         style={{ backdropFilter: 'blur(7px)' }}
         borderRadius="1.5rem"
         h={isSelected ? '100%' : '14rem'}
+        transition="all 0.2s"
         justifyContent={isSelected ? 'flex-start' : 'center'}
         onClick={onClick}
         cursor={cursor}
@@ -101,7 +125,7 @@ export const QuestTile: React.FC<{
               w="100%"
               flex={1}
               overflow="auto"
-              fontSize={{ base: 'md', md: 'lg' }}
+              fontSize={{ base: 'sm', md: 'lg' }}
               px={2}
             >
               <MarkdownViewer>{description}</MarkdownViewer>
@@ -114,6 +138,44 @@ export const QuestTile: React.FC<{
                 questStatus={questStatus}
                 refresh={refresh}
               />
+              {isMobile && (
+                <HStack
+                  justifyContent="space-between"
+                  mt={3}
+                  overflowX="hidden"
+                >
+                  <Box>
+                    <MetaButton
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onPrevStep();
+                      }}
+                      size="sm"
+                      borderRadius="full"
+                      aria-label="Previous step"
+                      p={2}
+                      display={isFirst ? 'none' : 'initial'}
+                    >
+                      👈
+                    </MetaButton>
+                  </Box>
+                  <Box>
+                    <MetaButton
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onNextStep();
+                      }}
+                      size="sm"
+                      borderRadius="full"
+                      aria-label="Next step"
+                      p={2}
+                      display={isLast ? 'none' : 'initial'}
+                    >
+                      👉
+                    </MetaButton>
+                  </Box>
+                </HStack>
+              )}
             </Box>
           </>
         )}

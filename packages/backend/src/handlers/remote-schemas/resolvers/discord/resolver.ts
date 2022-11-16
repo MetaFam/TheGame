@@ -1,9 +1,11 @@
 import { createDiscordClient } from '@metafam/discord-bot';
 import { GuildBasedChannel, Role, TextChannel } from 'discord.js';
-import { Converter } from 'showdown';
+import showdown from 'showdown';
 
-import { client } from '../../../../lib/hasuraClient';
-import { QueryResolvers } from '../../autogen/types';
+import { client } from '../../../../lib/hasuraClient.js';
+import { QueryResolvers } from '../../autogen/types.js';
+
+const { Converter } = showdown;
 
 export const getGuildDiscordRoles: QueryResolvers['getGuildDiscordRoles'] =
   async (_, { guildDiscordId }) => {
