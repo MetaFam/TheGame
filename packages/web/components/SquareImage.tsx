@@ -8,11 +8,7 @@ type SquareImageProps = AvatarProps & {
 export const SquareImage: React.FC<SquareImageProps> = ({ src }) => (
   <Flex
     position="relative"
-<<<<<<< HEAD
-    marginTop="0 !important"
-=======
-    // marginTop="0 !important"
->>>>>>> 86629af0 (make all card images square & clickable)
+    mt="0 !important"
     _after={{
       content: '""',
       display: 'block',
@@ -22,10 +18,7 @@ export const SquareImage: React.FC<SquareImageProps> = ({ src }) => (
     <img
       style={{
         position: 'absolute',
-<<<<<<< HEAD
         borderRadius: '10px 10px 0 0',
-=======
->>>>>>> 86629af0 (make all card images square & clickable)
         width: '100%',
         height: '100%',
         objectFit: 'cover',

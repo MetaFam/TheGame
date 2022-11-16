@@ -10,16 +10,11 @@ import {
   Text,
   VStack,
 } from '@metafam/ds';
-<<<<<<< HEAD
-=======
-import BackgroundImage from 'assets/main-background.png';
-import { MetaLink } from 'components/Link';
->>>>>>> 1e938dce (redesign of the cards #1)
 import { MarkdownViewer as Markdown } from 'components/MarkdownViewer';
 import { RepetitionTag, StatusTag } from 'components/Quest/QuestTags';
 import { RolesTags } from 'components/Quest/Roles';
 import { SkillsTags } from 'components/Quest/Skills';
-import type {
+import {
   PlayerRole,
   Quest,
   QuestRepetition_Enum,
@@ -56,16 +51,11 @@ export const QuestDetails: React.FC<Props> = ({ quest }) => {
             cooldown={quest.cooldown}
           />
           <StatusTag status={quest.status} />
-          <Text fontStyle="italic">
-            {moment(quest.createdAt).fromNow()}
-          </Text>
+          <Text fontStyle="italic">{moment(quest.createdAt).fromNow()}</Text>
         </HStack>
         <HStack w="full" mt={2}>
           {isMyQuest && quest.status === QuestStatus_Enum.Open && (
-            <MetaButton
-              href={`/quest/${quest.id}/edit`}
-              size="md"
-            >
+            <MetaButton href={`/quest/${quest.id}/edit`} size="md">
               Edit Quest
             </MetaButton>
           )}

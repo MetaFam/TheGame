@@ -25,23 +25,8 @@ import {
   QuestStatus_Enum,
 } from 'graphql/autogen/types';
 import { useRouter } from 'next/router';
-<<<<<<< HEAD
-<<<<<<< HEAD
 import React, { ChangeEvent, useMemo, useState } from 'react';
 import { Controller, FieldError, useForm } from 'react-hook-form';
-=======
-import React, { useMemo, useState } from 'react';
-import {
-  ChangeHandler,
-  Controller,
-  FieldError,
-  useForm,
-} from 'react-hook-form';
->>>>>>> 25631510 (feat: :sparkles: Add UI for adding image when creating a quest)
-=======
-import React, { ChangeEvent, useMemo, useState } from 'react';
-import { Controller, FieldError, useForm } from 'react-hook-form';
->>>>>>> 10768102 (refactor: :sparkles: Connect image input to `react-hook-form` and update styles)
 import { QuestRepetitionHint, URIRegexp } from 'utils/questHelpers';
 import { RoleOption } from 'utils/roleHelpers';
 import { CategoryOption, SkillOption } from 'utils/skillHelpers';
@@ -125,8 +110,8 @@ type FieldProps = {
 };
 
 const Field: React.FC<FieldProps> = ({ children, error, label }) => (
-  <Flex mb={2} w="100%" align="center" direction="column">
-    <Flex justify="space-between" w="100%" mb={2}>
+  <Flex mb={2} w="full" align="center" direction="column">
+    <Flex justify="space-between" w="full" mb={2}>
       <Text textStyle="caption" textAlign="left" ml={4}>
         {label}
       </Text>
@@ -138,7 +123,6 @@ const Field: React.FC<FieldProps> = ({ children, error, label }) => (
         {error?.type === 'min' && 'Too small'}
       </Text>
     </Flex>
-
     {children}
   </Flex>
 );
@@ -185,49 +169,17 @@ export const QuestForm: React.FC<Props> = ({
   const [previewImg, setPreviewImage] = useState<string>('');
   const createQuestInput = watch();
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> a3e12178 (refactor: :zap: Make image input play better with `react-hook-forms`)
   function showImagePreview(e: ChangeEvent<HTMLInputElement>) {
-    if (!e.target || !e.target.files || !e.target.files[0]) {
+    const file = e?.target?.files?.[0];
+    if (!file) {
       setPreviewImage('');
     } else {
       const reader = new FileReader();
-      const file = e.target.files[0];
       reader.onloadend = () => {
         if (reader.result) setPreviewImage(reader.result as string);
       };
       reader.readAsDataURL(file);
     }
-=======
-  // TODO: Figure out the type for 'e'
-  function handleImageChange(e) {
-    if (!e.target.files[0]) {
-=======
-  function handleImageChange(e: ChangeEvent<HTMLInputElement>) {
-    if (!e.target || !e.target.files || !e.target.files[0]) {
->>>>>>> 10768102 (refactor: :sparkles: Connect image input to `react-hook-form` and update styles)
-      setPreviewImage('');
-    } else {
-      const reader = new FileReader();
-      const file = e.target.files[0];
-      reader.onloadend = () => {
-        if (reader.result) setPreviewImage(reader.result as string);
-      };
-      reader.readAsDataURL(file);
-    }
-<<<<<<< HEAD
-    const reader = new FileReader();
-    const file = e.target.files[0];
-    reader.onloadend = () => {
-      if (reader.result) setPreviewImage(reader.result as string);
-    };
-    reader.readAsDataURL(file);
->>>>>>> 25631510 (feat: :sparkles: Add UI for adding image when creating a quest)
-=======
->>>>>>> 10768102 (refactor: :sparkles: Connect image input to `react-hook-form` and update styles)
   }
 
   return (
@@ -420,63 +372,30 @@ export const QuestForm: React.FC<Props> = ({
           </FlexContainer>
         </Field>
 
-<<<<<<< HEAD
-<<<<<<< HEAD
         <Field label="Quest Image" error={errors.image}>
           <Input
             {...register('image', {
               required: true,
             })}
-            type={'file'}
+            type="file"
             paddingTop={1}
             accept="image/*"
             onChange={(e) => showImagePreview(e)}
           />
           <Center
             boxSize="sm"
-            rounded={'md'}
-=======
-        <Field label="Quest Image">
-=======
-        <Field label="Quest Image" error={errors.image}>
->>>>>>> a3e12178 (refactor: :zap: Make image input play better with `react-hook-forms`)
-          <Input
-            {...register('image', {
-              required: true,
-            })}
-            type={'file'}
-            paddingTop={1}
-            accept="image/*"
-            onChange={(e) => showImagePreview(e)}
-          />
-          <Center
-            boxSize="sm"
-<<<<<<< HEAD
-            rounded={'sm'}
->>>>>>> 25631510 (feat: :sparkles: Add UI for adding image when creating a quest)
-=======
-            rounded={'md'}
->>>>>>> 10768102 (refactor: :sparkles: Connect image input to `react-hook-form` and update styles)
-            border={'dashed'}
+            rounded="md"
+            border="dashed"
             borderWidth={6}
-            borderColor={'whiteAlpha.500'}
+            borderColor="whiteAlpha.500"
             marginTop={2}
-            height={'xs'}
-            width={'full'}
+            height="xs"
+            width="full"
             padding={2}
             overflow="clip"
-<<<<<<< HEAD
-<<<<<<< HEAD
-            backgroundColor={'blackAlpha.600'}
-            backdropFilter={'auto'}
-            backdropBlur={'sm'}
-=======
->>>>>>> 25631510 (feat: :sparkles: Add UI for adding image when creating a quest)
-=======
-            backgroundColor={'blackAlpha.600'}
-            backdropFilter={'auto'}
-            backdropBlur={'sm'}
->>>>>>> 10768102 (refactor: :sparkles: Connect image input to `react-hook-form` and update styles)
+            bgColor="blackAlpha.600"
+            backdropFilter="auto"
+            backdropBlur="sm"
           >
             {previewImg ? (
               <Image
@@ -487,15 +406,7 @@ export const QuestForm: React.FC<Props> = ({
                 alt="Quest image"
               />
             ) : (
-<<<<<<< HEAD
-<<<<<<< HEAD
               <Text color={'whiteAlpha.800'}>
-=======
-              <Text color={'whiteAlpha.700'}>
->>>>>>> 25631510 (feat: :sparkles: Add UI for adding image when creating a quest)
-=======
-              <Text color={'whiteAlpha.800'}>
->>>>>>> 10768102 (refactor: :sparkles: Connect image input to `react-hook-form` and update styles)
                 Your image preview will show up here
               </Text>
             )}

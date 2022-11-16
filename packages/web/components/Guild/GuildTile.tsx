@@ -28,27 +28,16 @@ export const GuildTile: React.FC<Props> = ({ guild }) => (
   >
     <MetaTile>
       <MetaTileHeader>
-<<<<<<< HEAD
         {guild.logo && (
           <SquareImage src={optimizedImage('logoURL', guild.logo)} />
         )}
-=======
-        {guild.logo ? (
-          <SquareImage src={optimizedImage('logoURL', guild.logo)} />
-        ) : null}
->>>>>>> 86629af0 (make all card images square & clickable)
 
         <Flex px={3} w="full" pos="absolute" bottom={-6} zIndex={1}>
           <Heading
             size="lg"
             color="white"
-<<<<<<< HEAD
             bgColor="whiteAlpha.100"
             sx={{ backdropFilter: 'blur(10px)' }}
-=======
-            bgColor="rgba(255, 255, 255, 0.06)"
-            style={{ backdropFilter: 'blur(10px)' }}
->>>>>>> 86629af0 (make all card images square & clickable)
             lineHeight={1.8}
             justifyContent="center"
             px={3}
@@ -66,11 +55,7 @@ export const GuildTile: React.FC<Props> = ({ guild }) => (
         <Flex flexDir="column" gap={2}>
           {guild.description ? (
             <VStack spacing={2} align="stretch">
-<<<<<<< HEAD
               <Text textStyle="caption">About</Text>
-=======
-              <Text textStyle="caption">ABOUT</Text>
->>>>>>> 86629af0 (make all card images square & clickable)
               <Text fontSize="sm">{guild.description}</Text>
             </VStack>
           ) : null}
@@ -84,19 +69,11 @@ export const GuildTile: React.FC<Props> = ({ guild }) => (
           </VStack>
           <Flex justifyContent="space-between">
             <VStack spacing={2} align="stretch">
-<<<<<<< HEAD
               <Text textStyle="caption">Barrier of Entry</Text>
               <Text fontStyle="italic">Coming soon…</Text>
             </VStack>
             <VStack spacing={2} align="stretch">
               <Text textStyle="caption">Contact</Text>
-=======
-              <Text textStyle="caption">BARRIER OF ENTRY</Text>
-              <Text fontStyle="italic">Coming soon...</Text>
-            </VStack>
-            <VStack spacing={2} align="stretch">
-              <Text textStyle="caption">CONTACT</Text>
->>>>>>> 86629af0 (make all card images square & clickable)
               <GuildLinksSmall {...{ guild }} />
             </VStack>
           </Flex>
