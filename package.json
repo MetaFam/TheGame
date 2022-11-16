@@ -1,6 +1,6 @@
 {
   "name": "@metafam/the-game",
-  "version": "0.2.0",
+  "version": "1.22.19",
   "license": "GPL-3.0",
   "engines": {
     "node": ">=16"
