@@ -12,18 +12,18 @@ export const PlayerRank: React.FC<PlayerRankProps> = ({
   player,
   showSeasonalXP,
 }) => (
-  <Flex pos="absolute" left={-8} top={-8} p={3} borderRadius="8px">
-    <Box
-      bgImage={Triangle.src}
-      backgroundSize="contain"
-      position="absolute"
-      h={171}
-      w={170}
-      left={0}
-      top={0}
-      opacity={0.5}
-      zIndex={1}
-    />
+  <Flex
+    flexDir="column"
+    gap={1}
+    pos="absolute"
+    left={-8}
+    p={3}
+    top={-8}
+    background="hsl(253deg 65% 11% / 55%)"
+    backdropFilter="blur(10.5px)"
+    borderRadius="8px"
+    zIndex={1}
+  >
     <Flex flexDir="column" gap={2} zIndex={2}>
       {player.rank && (
         <WrapItem>
