@@ -12,9 +12,6 @@ import {
   Text,
   useDisclosure,
 } from '@metafam/ds';
-import BackgroundImage from 'assets/main-background.png';
-import ModalCardBg from 'assets/modal-bg.png';
-import SEEDCardBg from 'assets/seed-card-bg.png';
 import React from 'react';
 
 type CardProps = {
