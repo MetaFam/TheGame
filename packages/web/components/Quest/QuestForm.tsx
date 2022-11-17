@@ -110,8 +110,8 @@ type FieldProps = {
 };
 
 const Field: React.FC<FieldProps> = ({ children, error, label }) => (
-  <Flex mb={2} w="100%" align="center" direction="column">
-    <Flex justify="space-between" w="100%" mb={2}>
+  <Flex mb={2} w="full" align="center" direction="column">
+    <Flex justify="space-between" w="full" mb={2}>
       <Text textStyle="caption" textAlign="left" ml={4}>
         {label}
       </Text>
@@ -123,7 +123,6 @@ const Field: React.FC<FieldProps> = ({ children, error, label }) => (
         {error?.type === 'min' && 'Too small'}
       </Text>
     </Flex>
-
     {children}
   </Flex>
 );
@@ -171,11 +170,11 @@ export const QuestForm: React.FC<Props> = ({
   const createQuestInput = watch();
 
   function showImagePreview(e: ChangeEvent<HTMLInputElement>) {
-    if (!e.target || !e.target.files || !e.target.files[0]) {
+    const file = e?.target?.files?.[0];
+    if (!file) {
       setPreviewImage('');
     } else {
       const reader = new FileReader();
-      const file = e.target.files[0];
       reader.onloadend = () => {
         if (reader.result) setPreviewImage(reader.result as string);
       };
@@ -378,36 +377,36 @@ export const QuestForm: React.FC<Props> = ({
             {...register('image', {
               required: true,
             })}
-            type={'file'}
+            type="file"
             paddingTop={1}
             accept="image/*"
             onChange={(e) => showImagePreview(e)}
           />
           <Center
             boxSize="sm"
-            rounded={'md'}
-            border={'dashed'}
+            rounded="md"
+            border="dashed"
             borderWidth={6}
-            borderColor={'whiteAlpha.500'}
+            borderColor="whiteAlpha.500"
             marginTop={2}
-            height={'xs'}
-            width={'full'}
+            height="xs"
+            width="full"
             padding={2}
             overflow="clip"
-            backgroundColor={'blackAlpha.600'}
-            backdropFilter={'auto'}
-            backdropBlur={'sm'}
+            bgColor="blackAlpha.600"
+            backdropFilter="auto"
+            backdropBlur="sm"
           >
             {previewImg ? (
               <Image
-                transition={'ease-in'}
-                transitionDuration={'600'}
+                transition="ease-in"
+                transitionDuration="0.6s"
                 src={previewImg}
-                height={'full'}
+                height="full"
                 alt="Quest image"
               />
             ) : (
-              <Text color={'whiteAlpha.800'}>
+              <Text color="whiteAlpha.800">
                 Your image preview will show up here
               </Text>
             )}

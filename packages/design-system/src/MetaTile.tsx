@@ -1,5 +1,5 @@
 import { Flex, FlexProps, StackProps, VStack } from '@chakra-ui/react';
-import React, { ReactNode } from 'react';
+import React, { PropsWithChildren } from 'react';
 import VanillaTilt from 'vanilla-tilt';
 
 export const MetaTileHeader: React.FC<StackProps> = ({
@@ -8,12 +8,12 @@ export const MetaTileHeader: React.FC<StackProps> = ({
 }) => (
   <VStack
     w="full"
-    spacing="6"
+    spacing={6}
     align="stretch"
     position="relative"
-    {...props}
     borderTopRadius={10}
-    bgColor="rgba(255, 255, 255, 0.2)"
+    bgColor="whiteAlpha.50"
+    {...props}
   >
     {children}
   </VStack>
@@ -29,8 +29,8 @@ export const MetaTileBody: React.FC<StackProps> = ({ children, ...props }) => (
     p={3}
     pt={8}
     borderBottomRadius={10}
-    bgColor="rgba(255, 255, 255, 0.06)"
-    style={{ backdropFilter: 'blur(10px)' }}
+    bgColor="whiteAlpha.100"
+    sx={{ backdropFilter: 'blur(10px)' }}
     {...props}
   >
     {children}
@@ -55,9 +55,9 @@ export const MetaTile: React.FC<FlexProps & MetaTileProps> = ({
   return (
     <div
       className={props.noTilt ? '' : 'js-tilt'}
-      data-tilt-scale="1.03"
-      data-tilt-max="6"
-      data-tilt-speed="800"
+      data-tilt-scale={1.03}
+      data-tilt-max={6}
+      data-tilt-speed={800}
       data-tilt-easing="cubic-bezier(.03,.98,.52,.99)"
       style={{
         display: 'flex',
@@ -68,8 +68,8 @@ export const MetaTile: React.FC<FlexProps & MetaTileProps> = ({
     >
       <Flex
         direction="column"
-        bgColor="#120a2fc4"
-        style={{ backdropFilter: 'blur(7px)' }}
+        bgColor="whiteAlpha.200"
+        sx={{ backdropFilter: 'blur(7px)' }}
         rounded="lg"
         p={6}
         maxW="26rem" // (2 / 3.5) = ~0.571 aspect ratio desired
@@ -77,7 +77,6 @@ export const MetaTile: React.FC<FlexProps & MetaTileProps> = ({
         h="full"
         align="stretch"
         position="relative"
-        // overflow="hidden"
         justify="space-between"
         {...props}
       >
@@ -87,13 +86,13 @@ export const MetaTile: React.FC<FlexProps & MetaTileProps> = ({
   );
 };
 
-export const MetaTileLinkWrapper: React.FC<{ children: ReactNode }> = ({
+export const MetaTileLinkWrapper: React.FC<PropsWithChildren> = ({
   children,
 }) => (
   <Flex
     align="center"
     justifyContent="center"
-    bgColor="rgba(255, 255, 255, 0.06)"
+    bgColor="whiteAlpha.100"
     minW={8}
     h={8}
     borderRadius={8}

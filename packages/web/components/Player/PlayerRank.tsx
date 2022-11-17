@@ -1,7 +1,8 @@
-import { Box, Flex, Image, MetaTag, Text, WrapItem } from '@metafam/ds';
-import Triangle from 'assets/triangle.svg';
+import { Flex, MetaTag, Text, WrapItem } from '@metafam/ds';
+import { getSeasonNum } from '@metafam/utils';
 import { Player } from 'graphql/autogen/types';
 import React from 'react';
+import { convertToRoman } from 'utils/formatHelpers';
 
 type PlayerRankProps = {
   player: Player;
@@ -12,24 +13,19 @@ export const PlayerRank: React.FC<PlayerRankProps> = ({
   player,
   showSeasonalXP,
 }) => (
-  <Flex pos="absolute" left={-8} top={-8} p={3} borderRadius="8px">
-    <Box
-      bgImage={Triangle.src}
-      backgroundSize="contain"
-      position="absolute"
-      h={171}
-      w={170}
-      left={0}
-      top={0}
-      opacity={0.5}
-      zIndex={1}
-    />
+  <Flex
+    direction="column"
+    gap={1}
+    pos="absolute"
+    left={-8}
+    p={3}
+    top={-8}
+    background="hsl(253deg 65% 11% / 55%)"
+    sx={{ backdropFilter: 'blur(10.5px)' }}
+    borderRadius="8px"
+    zIndex={1}
+  >
     <Flex flexDir="column" gap={2} zIndex={2}>
-      {showSeasonalXP && (
-        <Text fontSize="sm" color="blueLight">
-          SEASON XP: {Math.floor(player.seasonXP).toLocaleString()}
-        </Text>
-      )}
       {player.rank && (
         <WrapItem>
           <MetaTag
@@ -44,6 +40,14 @@ export const PlayerRank: React.FC<PlayerRankProps> = ({
       <Text fontSize="sm" color="blueLight">
         XP: {Math.floor(player.totalXP).toLocaleString()}
       </Text>
+      {showSeasonalXP && (
+        <Text fontSize="sm" color="blueLight">
+          {/* hardcoded Season #, will have to be changed every season */}
+          {convertToRoman(getSeasonNum())}:{' '}
+          {Math.floor(player.seasonXP).toLocaleString()}:{' '}
+          {Math.floor(player.seasonXP).toLocaleString()}
+        </Text>
+      )}
     </Flex>
   </Flex>
 );

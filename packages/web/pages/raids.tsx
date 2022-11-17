@@ -40,7 +40,7 @@ const RaidsPage: React.FC = () => {
         <HeadComponent
           title="MetaGame Raids Page"
           description="See which raids are currently ongoing, learn more about them &amp; get involved"
-          url="https://my.metagame.wtf/raids"
+          url="https://metagame.wtf/raids"
         />
 
         <Container maxW="7xl" w="100%">
@@ -52,7 +52,6 @@ const RaidsPage: React.FC = () => {
             fontFamily="mono"
             mb={[4, 4, 4, 12]}
             display="flex"
-            flexDir="row"
             ref={topRef}
           >
             State of Raids
@@ -67,8 +66,8 @@ const RaidsPage: React.FC = () => {
             fontSize={{ base: 'lg', md: '2xl' }}
           >
             This is a map of all the current raids going on inside MetaGame. As
-            such, they represent a chance for you to earn reputation, money
-            &amp; stake in MetaGame.
+            such, they represent a chance for you to earn reputation, money &
+            stake in MetaGame.
           </Text>
         </Container>
 

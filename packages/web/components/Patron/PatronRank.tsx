@@ -1,6 +1,5 @@
-import { Box, Flex, MetaTag, Text } from '@metafam/ds';
+import { Flex, MetaTag, Text } from '@metafam/ds';
 import { computeRank, Constants, Maybe } from '@metafam/utils';
-import Triangle from 'assets/triangle.svg';
 import { utils } from 'ethers';
 import { Player } from 'graphql/autogen/types';
 import { Patron } from 'graphql/types';
@@ -34,24 +33,19 @@ export const PatronRank: React.FC<Props> = ({ index, patron, pSeedPrice }) => {
   }, [patron, pSeedPrice]);
 
   return (
-    <Flex pos="absolute" left={-8} top={-8} p={3} borderRadius="8px">
-      <Box
-        bgImage={Triangle.src}
-        backgroundSize="contain"
-        position="absolute"
-        h={171}
-        w={170}
-        left={0}
-        top={0}
-        opacity={0.5}
-        zIndex={1}
-      />
-      <Flex flexDir="column" gap={2} zIndex={2}>
-        {patron.pSeedBalance != null && (
-          <Text fontSize="sm" color="blueLight">
-            {displayBalance}
-          </Text>
-        )}
+    <Flex
+      direction="column"
+      gap={1}
+      pos="absolute"
+      left={-8}
+      p={3}
+      top={-8}
+      background="hsl(253deg 65% 11% / 55%)"
+      backdropFilter="blur(10.5px)"
+      borderRadius="8px"
+      zIndex={1}
+    >
+      <Flex direction="column" gap={2} zIndex={2}>
         {patronRank && (
           <MetaTag
             backgroundColor={patronRank?.toLowerCase()}
@@ -62,9 +56,14 @@ export const PatronRank: React.FC<Props> = ({ index, patron, pSeedPrice }) => {
             {patronRank}
           </MetaTag>
         )}
-        <Text fontSize="sm" color="blueLight">{`XP: ${Math.floor(
-          player.totalXP,
-        ).toLocaleString()}`}</Text>
+        {patron.pSeedBalance != null && (
+          <Text fontSize="sm" color="blueLight">
+            {displayBalance}
+          </Text>
+        )}
+        <Text fontSize="sm" color="blueLight">
+          {`XP: ${Math.floor(player.totalXP).toLocaleString()}`}
+        </Text>
       </Flex>
     </Flex>
   );

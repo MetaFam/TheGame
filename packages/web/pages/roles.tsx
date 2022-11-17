@@ -22,7 +22,7 @@ const QuestsDashboard: React.FC = () => (
     <HeadComponent
       title="MetaGame Roles Onboarding"
       description="MetaGame is a Massive Online Coordination Game! MetaGame has some epic quests going on!"
-      url="https://my.metagame.wtf/quests"
+      url="https://metagame.wtf/quests"
     />
     <Heading mt={8} mb={16}>
       Onboarding Paths
@@ -102,8 +102,8 @@ const Card: React.FC<CardProps> = ({
             <Heading
               size="lg"
               color="white"
-              bgColor="rgba(255, 255, 255, 0.06)"
-              style={{ backdropFilter: 'blur(10px)' }}
+              bgColor="alphaWhite.100"
+              sx={{ backdropFilter: 'blur(10px)' }}
               lineHeight={1.8}
               justifyContent="center"
               px={3}
@@ -118,8 +118,8 @@ const Card: React.FC<CardProps> = ({
           </Flex>
         </MetaTileHeader>
         <MetaTileBody pos="relative" height="full">
-          <Flex flexDir="column">
-            <Text textStyle="caption">ABOUT</Text>
+          <Flex direction="column">
+            <Text textStyle="caption">About</Text>
 
             <Text mb={2} h="3rem" fontSize="sm">
               {description}

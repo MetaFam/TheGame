@@ -9,14 +9,13 @@ import {
   Prose,
   Text,
 } from '@metafam/ds';
-import BackgroundImage from 'assets/main-background.png';
+import BackgroundImage from 'assets/quests/quest.png';
 import { MetaLink } from 'components/Link';
 import { MarkdownViewer as Markdown } from 'components/MarkdownViewer';
 import { RolesTags } from 'components/Quest/Roles';
 import { SkillsTags } from 'components/Quest/Skills';
 import { SquareImage } from 'components/SquareImage';
 import { PlayerRole, QuestFragment, Skill } from 'graphql/autogen/types';
-import moment from 'moment';
 import React from 'react';
 import { safelyParseNChakrifyHtml } from 'utils/stringHelpers';
 
@@ -47,8 +46,8 @@ export const QuestTile: React.FC<Props> = ({ quest }) => {
             <Heading
               size="lg"
               color="white"
-              bgColor="rgba(255, 255, 255, 0.06)"
-              style={{ backdropFilter: 'blur(10px)' }}
+              bgColor="whiteAlpha.100"
+              sx={{ backdropFilter: 'blur(10px)' }}
               lineHeight={1.8}
               justifyContent="center"
               px={3}
@@ -63,10 +62,10 @@ export const QuestTile: React.FC<Props> = ({ quest }) => {
           </Flex>
         </MetaTileHeader>
         <MetaTileBody>
-          <Flex flexDir="column">
+          <Flex direction="column">
             <Box pb={2}>
               <Text textStyle="caption" pb={1}>
-                DESCRIPTION
+                Description
               </Text>
               {descIsHtml ? (
                 <Prose>{parsedDescription}</Prose>
@@ -79,7 +78,7 @@ export const QuestTile: React.FC<Props> = ({ quest }) => {
             </Box>
             <Box pb={2}>
               <Text textStyle="caption" pb={1}>
-                SKILLS
+                Skills
               </Text>
               <SkillsTags
                 skills={quest.quest_skills.map(({ skill }) => skill) as Skill[]}
@@ -87,7 +86,7 @@ export const QuestTile: React.FC<Props> = ({ quest }) => {
             </Box>
             <Box pb={2}>
               <Text textStyle="caption" pb={1}>
-                ROLES
+                Roles
               </Text>
               {quest.quest_roles.length ? (
                 <RolesTags
