@@ -399,14 +399,14 @@ export const QuestForm: React.FC<Props> = ({
           >
             {previewImg ? (
               <Image
-                transition={'ease-in'}
-                transitionDuration={'600'}
+                transition="ease-in"
+                transitionDuration="0.6s"
                 src={previewImg}
-                height={'full'}
+                height="full"
                 alt="Quest image"
               />
             ) : (
-              <Text color={'whiteAlpha.800'}>
+              <Text color="whiteAlpha.800">
                 Your image preview will show up here
               </Text>
             )}

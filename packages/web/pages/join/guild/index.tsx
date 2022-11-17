@@ -80,10 +80,10 @@ export const GuildJoinLanding: React.FC<Props> = ({ guilds }) => {
         <HeadComponent
           title="Join MetaGame as a Guild"
           description="We are looking for projects that are either building pieces of the infrastructure for the society of the future, offering tools &amp; services to those that are, or just doing something cool."
-          url="https://my.metagame.wtf/join/guild"
+          url="https://metagame.wtf/join/guild"
         />
 
-        <Container w="100%" maxW="6xl">
+        <Container w="full" maxW="6xl">
           {/* Needs to be a <Heading> instead of <MetaHeading> or ref won't work for the scroll to top */}
           <Heading
             as="h1"

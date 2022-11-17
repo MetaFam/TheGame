@@ -118,7 +118,7 @@ const Card: React.FC<CardProps> = ({
           </Flex>
         </MetaTileHeader>
         <MetaTileBody pos="relative" height="full">
-          <Flex flexDir="column">
+          <Flex direction="column">
             <Text textStyle="caption">About</Text>
 
             <Text mb={2} h="3rem" fontSize="sm">

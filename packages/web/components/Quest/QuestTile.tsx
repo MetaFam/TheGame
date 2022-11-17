@@ -47,7 +47,7 @@ export const QuestTile: React.FC<Props> = ({ quest }) => {
               size="lg"
               color="white"
               bgColor="whiteAlpha.100"
-              style={{ backdropFilter: 'blur(10px)' }}
+              sx={{ backdropFilter: 'blur(10px)' }}
               lineHeight={1.8}
               justifyContent="center"
               px={3}
@@ -62,7 +62,7 @@ export const QuestTile: React.FC<Props> = ({ quest }) => {
           </Flex>
         </MetaTileHeader>
         <MetaTileBody>
-          <Flex flexDir="column">
+          <Flex direction="column">
             <Box pb={2}>
               <Text textStyle="caption" pb={1}>
                 Description

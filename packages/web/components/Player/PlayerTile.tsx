@@ -97,7 +97,7 @@ export const PlayerTile: React.FC<Props> = ({
           </Flex>
         </MetaTileHeader>
         <MetaTileBody pos="relative" height="full">
-          <Flex flexDir="column" mb="auto">
+          <Flex direction="column" mb="auto">
             {displayDescription && (
               <VStack spacing={2} align="stretch">
                 <Text textStyle="caption">About</Text>

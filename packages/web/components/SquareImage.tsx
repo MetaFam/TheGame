@@ -1,4 +1,4 @@
-import { AvatarProps, Flex } from '@metafam/ds';
+import { AvatarProps, Flex, Image } from '@metafam/ds';
 import React from 'react';
 
 type SquareImageProps = AvatarProps & {
@@ -15,15 +15,13 @@ export const SquareImage: React.FC<SquareImageProps> = ({ src }) => (
       paddingBottom: '100%',
     }}
   >
-    <img
-      style={{
-        position: 'absolute',
-        borderRadius: '10px 10px 0 0',
-        width: '100%',
-        height: '100%',
-        objectFit: 'cover',
-      }}
-      src={src}
+    <Image
+      position="absolute"
+      borderRadius="10px 10px 0 0"
+      width="full"
+      height="full"
+      objectFit="cover"
+      {...{ src }}
     />
   </Flex>
 );
