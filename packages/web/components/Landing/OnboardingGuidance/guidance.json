@@ -1,0 +1,26 @@
+{
+  "roles": [
+    {
+      "role": "Curious Octo",
+      "list": [
+        "You start your journey as a Curious Octo.",
+        "It means your curiosity has led you to look down the MetaGame rabbit  hole & wonder what's in there."
+      ]
+    },
+    {
+      "role": "Engaged Octo",
+      "list": [
+        "To become an Engaged Octo you need to complete at least one quest & check into discord.",
+        "A transitory stage with temporary access to the community while you test MetaGame & it tests you."
+      ]
+    },
+    {
+      "role": "Space Octo",
+      "list": [
+        "Space Octopi aka Players & Patrons are fully grown Octopi with full membership in MetaGame.",
+        "Members of MetaFam and The 300 of MetaGame.",
+        "On their way to become the founders of MetaGame."
+      ]
+    }
+  ]
+}
