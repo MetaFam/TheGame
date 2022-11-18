@@ -1,6 +1,5 @@
-import { useBreakpointValue } from '@metafam/ds';
 import BackgroundImage from 'assets/login-background.jpg';
-import { FullPageContainer } from 'components/Container';
+import { PageContainer } from 'components/Container';
 import { LandingHeader } from 'components/Landing/LandingHeader';
 import OnboardingGuidance from 'components/Landing/OnboardingGuidance';
 import { HeadComponent } from 'components/Seo';
@@ -14,9 +13,6 @@ export const getStaticProps = async () => ({
 });
 
 const OnboardingGuide: React.FC = () => {
-  const responsiveBg = useBreakpointValue({
-    base: BackgroundImage,
-  });
   const [hostName, setHostName] = useState('https://metagame.wtf');
   return (
     <>
@@ -28,16 +24,19 @@ const OnboardingGuide: React.FC = () => {
         cardStyle="summary_large_image"
       />
       <LandingHeader />
-      <FullPageContainer
-        id="onboarding-guide"
-        position="relative"
-        bgSize="cover"
-        bgImageUrl={responsiveBg?.src}
-        overflow="auto"
-        minH="100vh"
+      <PageContainer
+        p={0}
+        h="screen"
+        w="100%"
+        {...{
+          bg: `url('${BackgroundImage.src}') no-repeat`,
+          bgSize: 'cover',
+          bgPos: 'center',
+          bgAttachment: 'fixed',
+        }}
       >
         <OnboardingGuidance />
-      </FullPageContainer>
+      </PageContainer>
       <Socials />
     </>
   );
