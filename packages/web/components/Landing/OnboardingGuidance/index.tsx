@@ -1,5 +1,6 @@
 import {
   Box,
+  Container,
   Flex,
   Heading,
   MetaButton,
@@ -10,7 +11,6 @@ import {
   Text,
   VStack,
 } from '@metafam/ds';
-import { PageContainer } from 'components/Container';
 import { MarkdownViewer } from 'components/MarkdownViewer';
 import { SquareImage } from 'components/SquareImage';
 import { useRouter } from 'next/router';
@@ -24,7 +24,15 @@ const OnboardingGuidance: React.FC = () => {
   };
 
   return (
-    <PageContainer w="100%" px={8}>
+    <Container
+      w="100%"
+      maxW={{ base: '25rem', md: '100%' }}
+      mx="auto"
+      px={0}
+      pt={24}
+      pb={12}
+      centerContent
+    >
       <VStack
         pos="relative"
         align="center"
@@ -44,8 +52,8 @@ const OnboardingGuidance: React.FC = () => {
         </Text>
       </VStack>
       <SimpleGrid
-        p={12}
-        mb={24}
+        p={{ base: 12, lg: 8 }}
+        mb={{ base: 12, lg: 24 }}
         columns={[1, null, 2, 3]}
         spacing={{ base: 20, lg: 8 }}
         autoRows="minmax(35rem, auto)"
@@ -85,8 +93,8 @@ const OnboardingGuidance: React.FC = () => {
             </Box>
             <Flex
               pos="absolute"
-              bottom={-32}
-              right={32}
+              bottom={{ base: -24, lg: -32 }}
+              right={{ base: 16, md: 28, lg: 32 }}
               direction="column"
               alignItems="center"
               justifyContent="start"
@@ -181,7 +189,7 @@ const OnboardingGuidance: React.FC = () => {
       >
         I Understand
       </MetaButton>
-    </PageContainer>
+    </Container>
   );
 };
 export default OnboardingGuidance;
