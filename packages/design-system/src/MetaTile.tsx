@@ -1,5 +1,6 @@
 import { Flex, FlexProps, StackProps, VStack } from '@chakra-ui/react';
-import React, { PropsWithChildren } from 'react';
+import { Maybe } from '@metafam/utils';
+import React, { ReactNode, useEffect, useRef } from 'react';
 import VanillaTilt from 'vanilla-tilt';
 
 export const MetaTileHeader: React.FC<StackProps> = ({
@@ -45,26 +46,25 @@ export const MetaTile: React.FC<FlexProps & MetaTileProps> = ({
   children,
   ...props
 }) => {
-  if (typeof window !== 'undefined' && !props.noTilt) {
-    const element = document.querySelectorAll('.js-tilt');
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    VanillaTilt.init(element);
-  }
+  const tilt = useRef<Maybe<HTMLDivElement>>(null);
+
+  useEffect(() => {
+    if (!props.noTilt && tilt.current) {
+      VanillaTilt.init(tilt.current);
+    }
+  }, [props.noTilt]);
 
   return (
-    <div
+    <Flex
       className={props.noTilt ? '' : 'js-tilt'}
-      data-tilt-scale={1.03}
-      data-tilt-max={6}
-      data-tilt-speed={800}
+      data-tilt-scale="1.03"
+      data-tilt-max="6"
+      data-tilt-speed="800"
       data-tilt-easing="cubic-bezier(.03,.98,.52,.99)"
-      style={{
-        display: 'flex',
-        height: '100%',
-        width: '100%',
-        borderRadius: '8px',
-      }}
+      h="full"
+      w="full"
+      borderRadius="8px"
+      ref={tilt}
     >
       <Flex
         direction="column"
@@ -82,11 +82,11 @@ export const MetaTile: React.FC<FlexProps & MetaTileProps> = ({
       >
         {children}
       </Flex>
-    </div>
+    </Flex>
   );
 };
 
-export const MetaTileLinkWrapper: React.FC<PropsWithChildren> = ({
+export const MetaTileLinkWrapper: React.FC<{ children: ReactNode }> = ({
   children,
 }) => (
   <Flex
