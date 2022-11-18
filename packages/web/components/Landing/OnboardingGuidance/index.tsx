@@ -45,6 +45,7 @@ const OnboardingGuidance: React.FC = () => {
       </VStack>
       <SimpleGrid
         p={12}
+        mb={24}
         columns={[1, null, 2, 3]}
         spacing={{ base: 20, lg: 8 }}
         autoRows="minmax(35rem, auto)"
@@ -82,6 +83,17 @@ const OnboardingGuidance: React.FC = () => {
                 ),
               )}
             </Box>
+            <Flex
+              pos="absolute"
+              bottom={-32}
+              right={32}
+              direction="column"
+              alignItems="center"
+              justifyContent="start"
+            >
+              <Text fontSize={{ base: '2xl', lg: '4xl' }}>☝️</Text>
+              <Text fontSize="md">You are here</Text>
+            </Flex>
           </MetaTileBody>
         </MetaTile>
         <MetaTile height="full" width="full" noTilt>
@@ -155,17 +167,6 @@ const OnboardingGuidance: React.FC = () => {
           </MetaTileBody>
         </MetaTile>
       </SimpleGrid>
-      <Flex w="4xl" alignItems="center" justifyContent="start">
-        <Flex
-          mt={{ base: 2, lg: 4 }}
-          direction="column"
-          alignItems="center"
-          justifyContent="start"
-        >
-          <Text fontSize={{ base: '2xl', lg: '4xl' }}>☝️</Text>
-          <Text fontSize="md">You are here</Text>
-        </Flex>
-      </Flex>
 
       <MetaButton
         onClick={handleClick}
