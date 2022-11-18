@@ -2,39 +2,56 @@ import {
   Box,
   Flex,
   Heading,
-  ListItem,
+  MetaButton,
   MetaTile,
   MetaTileBody,
   MetaTileHeader,
   SimpleGrid,
   Text,
-  UnorderedList,
-  useBreakpointValue,
   VStack,
 } from '@metafam/ds';
+import BabyOctopus from 'assets/quests/baby_octo.png';
 import Octopus from 'assets/quests/octopus.png';
-import { SquareImage } from 'components/SquareImage';
+import SpaceOctopi from 'assets/quests/space_octo.png';
+import { PageContainer } from 'components/Container';
+import { MarkdownViewer } from 'components/MarkdownViewer';
+import { useRouter } from 'next/router';
+import { useEffect, useRef } from 'react';
 
 import roleJson from './guidance.json';
+import { RolePicture } from './RolePicture';
+
+type GuidanceRole = {
+  role: string;
+  details: string[];
+  image: string;
+};
+
+enum Role {
+  CuriousOcto = 'Curious Octo',
+  EngagedOcto = 'Engaged Octo',
+  SpaceOcto = 'Space Octo',
+}
 
 const OnboardingGuidance: React.FC = () => {
-  const CardImage = useBreakpointValue({
-    base: Octopus,
-  });
+  const router = useRouter();
+  const guidanceRoles = useRef<GuidanceRole[]>([]);
+  useEffect(() => {
+    guidanceRoles.current = roleJson.roles.map(({ role, list }) => {
+      const guidance: GuidanceRole = { role, details: list, image: '' };
+      if (role === Role.CuriousOcto) guidance.image = BabyOctopus.src;
+      if (role === Role.EngagedOcto) guidance.image = Octopus.src;
+      if (role === Role.SpaceOcto) guidance.image = SpaceOctopi.src;
+      return guidance;
+    });
+  }, []);
+
+  const handleClick = () => {
+    router.push('/profile/setup/name');
+  };
 
   return (
-    <Box
-      w="100%"
-      position="relative"
-      display="flex"
-      flexDirection="column"
-      height="100vh"
-      width="100%"
-      alignContent="center"
-      alignItems="center"
-      py={32}
-      px={8}
-    >
+    <PageContainer w="100%" mt={24} px={8}>
       <VStack
         pos="relative"
         align="center"
@@ -43,55 +60,90 @@ const OnboardingGuidance: React.FC = () => {
         spacing={0}
         maxW="full"
       >
-        <Text fontWeight={600} fontSize={{ base: '3xl', lg: '4xl', xl: '5xl' }}>
+        <Text fontWeight={600} fontSize={{ base: '2xl', lg: '3xl', xl: '4xl' }}>
           Joining MetaGame
         </Text>
-        <Text fontWeight={400} fontSize={{ base: 'lg' }}>
+        <Text
+          fontWeight={400}
+          fontSize="lg"
+          textAlign={{ base: 'center', lg: 'start' }}
+        >
           Your journey into MetaGame has just begun. Here's how it works:
         </Text>
       </VStack>
-      <SimpleGrid
-        columns={[1, null, 2, 3]}
-        spacing={8}
-        autoRows="minmax(35rem, auto)"
-      >
-        {roleJson.roles.map(({ role, list }) => (
-          <MetaTile height="full" width="full" cursor="pointer">
-            <MetaTileHeader>
-              <SquareImage src={CardImage?.src} size="xl" />
-              <Flex px={3} w="full" pos="absolute" bottom={-6} zIndex={1}>
-                <Heading
-                  size="lg"
-                  color="white"
-                  bgColor="rgba(255, 255, 255, 0.06)"
-                  style={{ backdropFilter: 'blur(10px)' }}
-                  lineHeight={1.8}
-                  justifyContent="center"
-                  px={3}
-                  width="full"
-                  textAlign="center"
-                  borderRadius={10}
-                  fontFamily="body"
-                  fontWeight={400}
+      {!!guidanceRoles.current?.length && (
+        <SimpleGrid
+          columns={[1, null, 2, 3]}
+          spacing={{ base: 20, lg: 8 }}
+          autoRows="minmax(35rem, auto)"
+        >
+          {guidanceRoles.current?.map(({ role, details, image }) => (
+            <Box key={role}>
+              <MetaTile height="full" width="full" noTilt>
+                <MetaTileHeader>
+                  <RolePicture src={image} size="xl" />
+                  <Flex px={3} w="full" pos="absolute" bottom={-6} zIndex={1}>
+                    {role && (
+                      <Heading
+                        size="lg"
+                        color="white"
+                        bgColor="rgba(255, 255, 255, 0.06)"
+                        style={{ backdropFilter: 'blur(10px)' }}
+                        lineHeight={1.8}
+                        justifyContent="center"
+                        px={3}
+                        width="full"
+                        textAlign="center"
+                        borderRadius={10}
+                        fontFamily="body"
+                        fontWeight={400}
+                      >
+                        {role}
+                      </Heading>
+                    )}
+                  </Flex>
+                </MetaTileHeader>
+                <MetaTileBody pos="relative" height="full">
+                  {!!details?.length && (
+                    <Box pt={4}>
+                      {details.map((item, index) => (
+                        <MarkdownViewer key={index}>{item}</MarkdownViewer>
+                      ))}
+                    </Box>
+                  )}
+                </MetaTileBody>
+              </MetaTile>
+              {role === Role.CuriousOcto && (
+                <Flex
+                  mt={{ base: 2, lg: 4 }}
+                  direction="column"
+                  alignItems="center"
+                  justifyContent="start"
                 >
-                  {role}
-                </Heading>
-              </Flex>
-            </MetaTileHeader>
-            <MetaTileBody pos="relative" height="full">
-              <UnorderedList pt={4}>
-                {list.map((item) => (
-                  <ListItem fontSize={{ base: 'sm', md: 'md' }}>
-                    {item}
-                  </ListItem>
-                ))}
-              </UnorderedList>
-            </MetaTileBody>
-          </MetaTile>
-        ))}
-      </SimpleGrid>
-    </Box>
+                  <Text fontSize={{ base: '2xl', lg: '4xl' }}>☝️</Text>
+                  <Text fontSize="md">You are here</Text>
+                </Flex>
+              )}
+            </Box>
+          ))}
+        </SimpleGrid>
+      )}
+      <Box pt={{ base: 16, lg: 32 }} pb={16}>
+        <MetaButton
+          onClick={handleClick}
+          colorScheme="purple"
+          textTransform="uppercase"
+          letterSpacing="0.1em"
+          p={4}
+          size="lg"
+          fontSize="md"
+          color="white"
+          _hover={{ background: 'purple.600' }}
+        >
+          I Understand
+        </MetaButton>
+      </Box>
+    </PageContainer>
   );
 };
-
 export default OnboardingGuidance;
