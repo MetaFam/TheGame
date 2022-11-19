@@ -144,7 +144,7 @@ export const Chiev = ({
       <Box
         position="relative"
         display="flex"
-        height={{ base: '50vh', xl: '50vh' }}
+        height={{ base: '66vh', '2xl': '50vh' }}
         width={{ base: '95%', xl: '33vw' }}
         borderWidth={2}
         borderStyle="solid"
@@ -156,7 +156,7 @@ export const Chiev = ({
         fontSize={{ base: 'sm', '2xl': 'md' }}
         fontFamily="body"
         textAlign="center"
-        p={10}
+        p={{ base: 6, xl: 10 }}
       >
         <VStack
           spacing={{ base: 3, '2xl': 5 }}
@@ -184,43 +184,41 @@ export const Chiev = ({
             Onboarding Progress
           </Text>
           <Text>🎉 You've won a ’Chievemint! 🎉</Text>
-          <Text
-            className="gradient-text"
-            fontSize={{ base: 'lg', '2xl': '3xl' }}
-          >
-            Nice work Anon.
-          </Text>
-          <Text>
-            You&apos;re now able to claim a free NFT by clicking the{' '}
-            {connected ? 'Claim' : 'Connect'} button below.{' '}
-            {!connected
-              ? "You will need a Web3 wallet if you don't already have one"
-              : undefined}
-          </Text>
-          {!connected ? (
+          <Box textAlign="left" display="flex" flexFlow="column" gap={3}>
             <Text>
-              If you don&apos;t already have a wallet, a good place to start is{' '}
-              <MetaLink href="https://metamask.io/" isExternal>
-                MetaMask
-              </MetaLink>
-              . Here's a helpful video to lead you through the process of{' '}
-              <MetaLink href="https://youtu.be/-HTubEJ61zU" isExternal>
-                setting up MetaMask
-              </MetaLink>
-              .
+              You&apos;re now able to claim a free NFT by clicking the{' '}
+              {connected ? 'Claim' : 'Connect'} button below.{' '}
+              {!connected
+                ? "You will need a Web3 wallet if you don't already have one."
+                : undefined}
             </Text>
-          ) : undefined}
-          <Text>
-            You will need a tiny amount of MATIC to claim your NFT. If you don't
-            have any, you can claim a small amount using{' '}
-            <MetaLink
-              href="https://stakely.io/en/faucet/polygon-matic"
-              isExternal
-            >
-              this faucet
-            </MetaLink>{' '}
-            and return here later.
-          </Text>
+
+            {!connected ? (
+              <Text>
+                If you don&apos;t already have a wallet, a good place to start
+                is{' '}
+                <MetaLink href="https://metamask.io/" isExternal>
+                  MetaMask
+                </MetaLink>
+                . Here's a helpful video to lead you through the process of{' '}
+                <MetaLink href="https://youtu.be/-HTubEJ61zU" isExternal>
+                  setting up MetaMask
+                </MetaLink>
+                .
+              </Text>
+            ) : undefined}
+            <Text fontStyle="italic">
+              Note: You will need a tiny amount of MATIC to claim your NFT. If
+              you don't have any, you can claim a small amount using{' '}
+              <MetaLink
+                href="https://stakely.io/en/faucet/polygon-matic"
+                isExternal
+              >
+                this faucet
+              </MetaLink>{' '}
+              and return here afterwards.
+            </Text>
+          </Box>
           <ButtonGroup spacing={5}>
             {!account ? (
               <LandingConnectButton />
