@@ -210,6 +210,17 @@ export const Chiev = ({
               .
             </Text>
           ) : undefined}
+          <Text>
+            You will need a tiny amount of MATIC to claim your NFT. If you don't
+            have any, you can claim a small amount using{' '}
+            <MetaLink
+              href="https://stakely.io/en/faucet/polygon-matic"
+              isExternal
+            >
+              this faucet
+            </MetaLink>{' '}
+            and return here later.
+          </Text>
           <ButtonGroup spacing={5}>
             {!account ? (
               <LandingConnectButton />
