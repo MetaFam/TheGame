@@ -6,6 +6,7 @@ import {
   ButtonGroup,
   Text,
   Tooltip,
+  useBreakpointValue,
   usePrefersReducedMotion,
   VStack,
 } from '@metafam/ds';
@@ -48,6 +49,7 @@ export const Chiev = ({
   const [wrongNetwork, setWrongNetwork] = useState(false);
   const claimed = get('ChievClaimed') === 'true' ?? false;
   const [chievData, setChievData] = useState<IChievMetadata>();
+  const babyOctoSize = useBreakpointValue({ base: '33%', '2xl': '50%' });
 
   const springProps = useSpring({
     config: {
@@ -144,8 +146,8 @@ export const Chiev = ({
       <Box
         position="relative"
         display="flex"
-        height={{ base: '66vh', '2xl': '50vh' }}
-        width={{ base: '95%', xl: '33vw' }}
+        height={{ base: '66vh', sm: '50vh', md: '66vh', '3xl': '50vh' }}
+        width={{ base: '95%', sm: '66vw', lg: '50vw', '2xl': '33vw' }}
         borderWidth={2}
         borderStyle="solid"
         borderColor="landing600"
@@ -153,7 +155,8 @@ export const Chiev = ({
         overflow="hidden"
         borderRadius="2xl"
         pointerEvents="auto"
-        fontSize={{ base: 'sm', '2xl': 'md' }}
+        alignItems="center"
+        fontSize={{ base: 'sm', md: 'md' }}
         fontFamily="body"
         textAlign="center"
         p={{ base: 6, xl: 10 }}
@@ -186,28 +189,35 @@ export const Chiev = ({
           <Text>🎉 You've won a ’Chievemint! 🎉</Text>
           <Box textAlign="left" display="flex" flexFlow="column" gap={3}>
             <Text>
-              You&apos;re now able to claim a free NFT by clicking the{' '}
-              {connected ? 'Claim' : 'Connect'} button below.{' '}
+              You&apos;re now able to claim an NFT by clicking the{' '}
+              {connected ? 'Claim' : 'Connect'} button below.
+              <br />{' '}
               {!connected
-                ? "You will need a Web3 wallet if you don't already have one."
+                ? 'You will need a Web3 wallet & some MATIC for gas.'
                 : undefined}
             </Text>
 
             {!connected ? (
-              <Text>
-                If you don&apos;t already have a wallet, a good place to start
-                is{' '}
-                <MetaLink href="https://metamask.io/" isExternal>
-                  MetaMask
-                </MetaLink>
-                . Here's a helpful video to lead you through the process of{' '}
-                <MetaLink href="https://youtu.be/-HTubEJ61zU" isExternal>
-                  setting up MetaMask
-                </MetaLink>
-                .
-              </Text>
+              <>
+                <Text>
+                  If you don&apos;t already have a wallet or any gas, a good
+                  place to start is the{' '}
+                  <MetaLink
+                    href="https://wiki.metagame.wtf/playbooks/how-to-install-wallet-get-gas"
+                    isExternal
+                  >
+                    Install MetaMask &amp; get Gas Playbook
+                  </MetaLink>{' '}
+                  which will guide you safely through the process of installing
+                  a wallet and claiming some gas to get you started.
+                </Text>
+                <Text>
+                  Once you have a wallet &amp; some gas, return here to connect
+                  &amp; claim.
+                </Text>
+              </>
             ) : undefined}
-            <Text fontStyle="italic">
+            {/* <Text fontStyle="italic">
               Note: You will need a tiny amount of MATIC to claim your NFT. If
               you don't have any, you can claim a small amount using{' '}
               <MetaLink
@@ -217,7 +227,7 @@ export const Chiev = ({
                 this faucet
               </MetaLink>{' '}
               and return here afterwards.
-            </Text>
+            </Text> */}
           </Box>
           <ButtonGroup spacing={5}>
             {!account ? (
@@ -290,8 +300,8 @@ export const Chiev = ({
             position: 'absolute',
             left: '-12%',
             bottom: '-10%',
-            width: '50%',
-            height: '50%',
+            width: babyOctoSize,
+            height: babyOctoSize,
             zIndex: 20,
             pointerEvents: 'auto',
             // transform: props.xys.to(trans)
@@ -304,6 +314,7 @@ export const Chiev = ({
           backgroundImage={chievData?.image}
           backgroundSize="cover"
           backgroundRepeat="no-repeat"
+          backgroundPosition="center"
           width="100%"
           height="100%"
           zIndex={1}
