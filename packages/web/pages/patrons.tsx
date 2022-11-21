@@ -2,7 +2,6 @@ import {
   ArrowUpIcon,
   Box,
   Button,
-  Heading,
   Image,
   MetaButton,
   Text,
@@ -21,12 +20,10 @@ import React, { useRef, useState } from 'react';
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
 export const getStaticProps = async () => {
-  /* 
-   Get all the Patrons (MetaGame rules say there can be 150 max)
-   Weird - with no limit, we get 33 patrons (using staging db I guess)
-   With limit of 150 we get 42 patrons
-   TODO(HHH-GH): remove most of this comment after testing it on on a deploy
-  */
+  /**
+   * Get all the Patrons
+   * (MetaGame rules say there can be 150 max, so we'll limit the query to that many)
+   */
   const patronsLimit = 150;
   const patrons = await getPatrons(patronsLimit);
   const pSeedPrice = await getPSeedPrice().catch((error) => {
@@ -43,63 +40,65 @@ export const getStaticProps = async () => {
 };
 
 const PatronsPage: React.FC<Props> = ({ patrons, pSeedPrice }) => {
-  /* 
-    For the back to top link
-  */
-  const topRef = useRef<HTMLDivElement>(null);
-
+  /**
+   * For the back to top link
+   */
+  const topRef = useRef<HTMLHeadingElement>(null);
   function handleBackClick() {
     topRef?.current?.scrollIntoView({ behavior: 'smooth' });
   }
 
-  /*
-    For the Load More patrons button
-  */
-  /* How many patrons are there in total? */
+  /**
+   * Settings for the Load More patrons button
+   */
+  /* How many patrons were found, in total? */
   const totalItems = patrons.length;
 
-  /* How many patrons to show initially, and how many more to load each time the Load More button is clicked */
+  /* How many patrons to show initially, and how many more to load each time the Load More button is clicked? */
   const showHowMany = 30;
 
-  /* How many patrons are visible right now */
+  /* How many Patrons are visible right now? */
   const [visible, setVisible] = useState(showHowMany);
 
-  /* What to do when the Load More button is clicked (i.e. increment the number visible by showHowMany) */
+  /* Increment the number visible by `showHowMany` when the Load More button is clicked */
   const handleShowMoreItems = () => {
     setVisible((prevValue) => prevValue + showHowMany);
   };
 
-  /* 
-    Print out the Load More button
-    If there are no more patrons to load, disable the button and add a tooltip that says 'no more to load'
-  */
+  /**
+   * Print out the Load More button
+   * If there are no more patrons to load, disable the button and add a tooltip that says 'no more to load'
+   */
   function renderLoadMoreButton() {
     const buttonStyles = {
-      minW: '12rem',
+      minW: '10rem',
     };
 
-    if (visible >= totalItems) {
+    if (visible < totalItems) {
+      /* When there are more items to show */
       return (
-        <Tooltip label="No more to load" aria-label="A tooltip">
-          <MetaButton as="span" isDisabled {...buttonStyles}>
-            Load more
-          </MetaButton>
-        </Tooltip>
+        <MetaButton onClick={handleShowMoreItems} {...buttonStyles}>
+          Load more
+        </MetaButton>
       );
     }
+
+    /* When there are no more items to show */
     return (
-      <MetaButton onClick={handleShowMoreItems} {...buttonStyles}>
-        Load more
-      </MetaButton>
+      <Tooltip label="No more to load" aria-label="A tooltip">
+        <MetaButton as="span" isDisabled {...buttonStyles}>
+          Load more
+        </MetaButton>
+      </Tooltip>
     );
   }
 
+  /**
+   * Print text 'Showing X of Y items'
+   * if X (visible items) is greater than Y (total items), then just print Y of Y
+   * (or X could overflow and print 60 of 43)
+   */
   function renderShowingXOfYItems() {
-    /* 
-      Show X of Y items
-      if X (visible items) is greater than Y (total items), then just print Y of Y
-      (or X could overflow and print 60 of 43)
-    */
     const showingXOf = visible >= totalItems ? totalItems : visible;
     const showingYOf = totalItems;
 
@@ -118,29 +117,15 @@ const PatronsPage: React.FC<Props> = ({ patrons, pSeedPrice }) => {
         url="https://my.metagame.wtf/community/patrons"
       />
 
-      {/* This is mostly here as a placeholder for the back to top link but screenreaders will read out the heading */}
-      <VisuallyHidden>
-        <Heading
-          fontSize="6xl"
-          fontWeight={600}
-          color="white"
-          fontFamily="body"
-          mb={[4, 4, 4, 12]}
-          ref={topRef}
-        >
-          Patrons of MetaGame
-        </Heading>
+      {/* This is mostly here as a placeholder for the back to top link, but screenreaders will read out the heading
+       * It is set as="h1" b/c the Chakra library VisuallyHidden component is a span by default
+       */}
+      <VisuallyHidden as="h1" ref={topRef}>
+        Patrons of MetaGame
       </VisuallyHidden>
 
-      {/* Make a consistent gap between the list, button, octo image, back to top link */}
+      {/* VStack is used to make a consistent gap between the Patrons list, the Load More button, the X of Y patrons text, and the Octo image and back to top link */}
       <VStack maxW="7xl" w="100%" spacing={{ base: 4, md: 8 }}>
-        {/*
-          Does it matter that I'm not using the spread operator anymore with this?
-          If the ... was being used to make a copy to send in to PatronList, slice makes a copy, too
-          Originally it was like this, printing all the Patrons at once
-          <PatronList {...{patrons, pSeedPrice }} />
-        */}
-
         <PatronList
           patrons={patrons.slice(0, visible)}
           pSeedPrice={pSeedPrice}
