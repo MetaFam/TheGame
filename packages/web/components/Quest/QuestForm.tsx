@@ -13,6 +13,7 @@ import {
   Textarea,
   VStack,
 } from '@metafam/ds';
+import { Maybe } from '@metafam/utils';
 import { FlexContainer } from 'components/Container';
 import { RepetitionColors } from 'components/Quest/QuestTags';
 import { RolesSelect } from 'components/Quest/Roles';
@@ -56,7 +57,9 @@ const validations = {
   },
 };
 
-export interface DefaultableFormValues {
+// export interface DefaultableFormValues {
+// }
+export interface CreateQuestFormInputs {
   title: string;
   description: string;
   repetition: QuestRepetition_Enum;
@@ -66,16 +69,14 @@ export interface DefaultableFormValues {
   cooldown?: number | null;
   skills: SkillOption[];
   roles: RoleOption[];
-}
-export interface CreateQuestFormInputs extends DefaultableFormValues {
-  image: FileList;
+  image: Maybe<FileList>;
 }
 const MetaFamGuildId = 'f94b7cd4-cf29-4251-baa5-eaacab98a719';
 
 const getDefaultFormValues = (
   base: QuestFragment | undefined,
   guilds: GuildFragment[],
-): DefaultableFormValues => ({
+): CreateQuestFormInputs => ({
   title: base?.title || '',
   repetition: base?.repetition ?? QuestRepetition_Enum.Unique,
   description: base?.description ?? '',
@@ -101,6 +102,7 @@ const getDefaultFormValues = (
           value: role,
         }))
     : [],
+  image: null,
 });
 
 type FieldProps = {
@@ -166,13 +168,14 @@ export const QuestForm: React.FC<Props> = ({
   });
   const router = useRouter();
   const [exitAlert, setExitAlert] = useState<boolean>(false);
-  const [previewImg, setPreviewImage] = useState<string>('');
+  const prevImage = editQuest?.image ?? null;
+  const [previewImg, setPreviewImage] = useState<Maybe<string>>(prevImage);
   const createQuestInput = watch();
 
   function showImagePreview(e: ChangeEvent<HTMLInputElement>) {
     const file = e?.target?.files?.[0];
     if (!file) {
-      setPreviewImage('');
+      setPreviewImage(prevImage);
     } else {
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -372,11 +375,9 @@ export const QuestForm: React.FC<Props> = ({
           </FlexContainer>
         </Field>
 
-        <Field label="Quest Image" error={errors.image}>
+        <Field label="Image" error={errors.image}>
           <Input
-            {...register('image', {
-              required: true,
-            })}
+            {...register('image')}
             type="file"
             paddingTop={1}
             accept="image/*"

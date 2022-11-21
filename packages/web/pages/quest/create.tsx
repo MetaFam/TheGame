@@ -1,4 +1,5 @@
 import { MetaHeading, useToast } from '@metafam/ds';
+import DefaultQuestImage from 'assets/quests/quest.png';
 import { PageContainer } from 'components/Container';
 import { CreateQuestFormInputs, QuestForm } from 'components/Quest/QuestForm';
 import { HeadComponent } from 'components/Seo';
@@ -39,8 +40,12 @@ const CreateQuestPage: React.FC<Props> = ({
       ...createQuestInputs
     } = data;
 
-    const ipfsHash = await uploadFile(data.image[0]);
-    const imageURL = `ipfs://${ipfsHash}`;
+    let imageURL = DefaultQuestImage.src;
+
+    if (data?.image?.[0]) {
+      const ipfsHash = await uploadFile(data.image[0]);
+      imageURL = `ipfs://${ipfsHash}`;
+    }
 
     const input = {
       ...createQuestInputs,
@@ -83,10 +88,10 @@ const CreateQuestPage: React.FC<Props> = ({
     <PageContainer>
       <HeadComponent
         title="New Quest | MetaGame"
-        description="Create a Quest for MetaGame."
+        description="Create a quest for MetaGame."
         url="https://metagame.wtf/quest/create"
       />
-      <MetaHeading mb={4}>Create a Quest</MetaHeading>
+      <MetaHeading mb={4}>New Quest</MetaHeading>
 
       <QuestForm
         {...{ guilds, skillChoices, onSubmit, roleChoices }}
