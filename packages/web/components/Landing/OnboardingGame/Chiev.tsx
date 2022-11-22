@@ -49,7 +49,21 @@ export const Chiev = ({
   const [wrongNetwork, setWrongNetwork] = useState(false);
   const claimed = get('ChievClaimed') === 'true' ?? false;
   const [chievData, setChievData] = useState<IChievMetadata>();
-  const babyOctoSize = useBreakpointValue({ base: '33%', '2xl': '50%' });
+  const babyOctoSize = useBreakpointValue({
+    base: '33%',
+    xl: '40%',
+    '3xl': '50%',
+  });
+  const babyOctoPositionX = useBreakpointValue({
+    base: '-10%',
+    xl: '-12%',
+    '3xl': '-12%',
+  });
+  const babyOctoPositionY = useBreakpointValue({
+    base: '-10%',
+    xl: '-10%',
+    '3xl': '-10%',
+  });
 
   const springProps = useSpring({
     config: {
@@ -287,8 +301,8 @@ export const Chiev = ({
             backgroundRepeat: 'no-repeat',
             opacity: 0.8,
             position: 'absolute',
-            left: '-12%',
-            bottom: '-10%',
+            left: babyOctoPositionX,
+            bottom: babyOctoPositionY,
             width: babyOctoSize,
             height: babyOctoSize,
             zIndex: 20,
