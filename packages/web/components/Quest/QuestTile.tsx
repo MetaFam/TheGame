@@ -9,6 +9,7 @@ import {
   Prose,
   Text,
 } from '@metafam/ds';
+import { httpLink } from '@metafam/utils';
 import BackgroundImage from 'assets/quests/quest.png';
 import { MetaLink } from 'components/Link';
 import { MarkdownViewer as Markdown } from 'components/MarkdownViewer';
@@ -41,7 +42,7 @@ export const QuestTile: React.FC<Props> = ({ quest }) => {
     >
       <MetaTile height="full" width="full">
         <MetaTileHeader>
-          <SquareImage src={BackgroundImage.src} />
+          <SquareImage src={httpLink(quest.image) || BackgroundImage.src} />
           <Flex px={3} w="full" pos="absolute" bottom={-6} zIndex={1}>
             <Heading
               size="lg"
