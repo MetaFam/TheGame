@@ -58,11 +58,11 @@ export const PatronRank: React.FC<Props> = ({ index, patron, pSeedPrice }) => {
           </MetaTag>
         )}
         {patron.pSeedBalance != null && (
-          <Text fontSize="sm" color="blueLight">
+          <Text fontSize="sm" color="white">
             {displayBalance}
           </Text>
         )}
-        <Text fontSize="sm" color="blueLight">{`XP: ${Math.floor(
+        <Text fontSize="sm" color="white">{`XP: ${Math.floor(
           player.totalXP,
         ).toLocaleString()}`}</Text>
       </Flex>

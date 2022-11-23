@@ -86,7 +86,7 @@ export const PlayerTile: React.FC<Props> = ({
             <Heading
               size="lg"
               color="white"
-              bgColor="rgba(255, 255, 255, 0.06)"
+              bgColor="landingGlassDark"
               style={{ backdropFilter: 'blur(10px)' }}
               lineHeight={1.8}
               justifyContent="center"

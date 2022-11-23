@@ -36,11 +36,11 @@ export const PlayerRank: React.FC<PlayerRankProps> = ({
           </MetaTag>
         </WrapItem>
       )}
-      <Text fontSize="sm" color="blueLight">
+      <Text fontSize="sm" color="white">
         XP: {Math.floor(player.totalXP).toLocaleString()}
       </Text>
       {showSeasonalXP && (
-        <Text fontSize="sm" color="blueLight">
+        <Text fontSize="sm" color="white">
           {/* hardcoded Season #, will have to be changed every season */}
           S8: {Math.floor(player.seasonXP).toLocaleString()}
         </Text>

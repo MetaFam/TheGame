@@ -43,9 +43,10 @@ type MetaTileProps = {
 
 export const MetaTile: React.FC<FlexProps & MetaTileProps> = ({
   children,
+  noTilt = false,
   ...props
 }) => {
-  if (typeof window !== 'undefined' && !props.noTilt) {
+  if (typeof window !== 'undefined' && !noTilt) {
     const element = document.querySelectorAll('.js-tilt');
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
@@ -54,7 +55,7 @@ export const MetaTile: React.FC<FlexProps & MetaTileProps> = ({
 
   return (
     <div
-      className={props.noTilt ? '' : 'js-tilt'}
+      className={noTilt ? '' : 'js-tilt'}
       data-tilt-scale="1.03"
       data-tilt-max="6"
       data-tilt-speed="800"
