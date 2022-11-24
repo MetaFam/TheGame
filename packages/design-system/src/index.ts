@@ -166,6 +166,7 @@ export {
   PopoverHeader,
   PopoverTrigger,
   Portal,
+  Progress,
   Select,
   SimpleGrid,
   Skeleton,
