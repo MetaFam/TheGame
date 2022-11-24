@@ -1,24 +1,26 @@
 import {
-  ArrowUpIcon,
-  AspectRatio,
   Box,
-  Button,
   Divider,
   Flex,
   Heading,
-  Image,
   LoadingState,
   MetaTag,
   MetaTile,
   MetaTileBody,
   MetaTileHeader,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalOverlay,
   Progress,
   Text,
+  useDisclosure,
   VStack,
   Wrap,
   WrapItem,
 } from '@metafam/ds';
-import Octopus from 'assets/octopus.png';
+import Loader from 'assets/Loader.svg';
 import Inkeeping from 'assets/raids/Inkeeping.png';
 import MetaMedia from 'assets/raids/MetaMedia.png';
 import MetaOS from 'assets/raids/MetaOS.png';
@@ -35,18 +37,16 @@ import { convertToRoman } from 'utils/formatHelpers';
 const RaidsPage: React.FC = () => {
   const router = useRouter();
   const topRef = useRef<HTMLDivElement>(null);
-
-  function handleBackClick() {
-    topRef?.current?.scrollIntoView({ behavior: 'smooth' });
-  }
-
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const [choices, setChoices] = useState<Array<PlayerSkillFragment>>();
+  const [titleModal, setTitle] = useState('');
+  const [deworkURLModal, setDeworkURL] = useState('');
+
   useEffect(() => {
     const fetchSkills = async () => {
       const skillChoices = await getSkills();
       setChoices(skillChoices);
     };
-
     fetchSkills();
   }, []);
 
@@ -100,6 +100,7 @@ const RaidsPage: React.FC = () => {
             category: SkillCategory_Enum.Technologies,
           },
       ),
+      deworkURL: 'https://app.dework.xyz/i/3pzC2MA26cQgQPPvXHBBhx',
     },
     {
       image: MetaMedia.src,
@@ -126,6 +127,7 @@ const RaidsPage: React.FC = () => {
             category: SkillCategory_Enum.Technologies,
           },
       ),
+      deworkURL: 'https://app.dework.xyz/i/3i6qYuZldmidkjejmWAeFh',
     },
     {
       image: MetaOS.src,
@@ -155,6 +157,7 @@ const RaidsPage: React.FC = () => {
             category: SkillCategory_Enum.Technologies,
           },
       ),
+      deworkURL: 'https://app.dework.xyz/i/1rvHsAPorh2IsdaQAwYdpC',
     },
   ];
 
@@ -246,9 +249,16 @@ const RaidsPage: React.FC = () => {
           </Box>
         </Flex>
 
-        <Flex gap={6}>
-          {cards.map(({ image, title, about, skills }) => (
-            <MetaTile>
+        <Flex gap={6} pb={16}>
+          {cards.map(({ image, title, about, skills, deworkURL }) => (
+            <MetaTile
+              onClick={() => {
+                setTitle(title);
+                setDeworkURL(deworkURL);
+                onOpen();
+              }}
+              cursor="pointer"
+            >
               <MetaTileHeader>
                 <SquareImage src={image} />
 
@@ -300,30 +310,32 @@ const RaidsPage: React.FC = () => {
             </MetaTile>
           ))}
         </Flex>
-
-        <AspectRatio mb={4} ratio={{ base: 3 / 4, md: 9 / 6 }}>
-          <Box
-            as="iframe"
-            title="MetaGame Raids on Miro"
-            src="https://miro.com/app/live-embed/uXjVOmrCvsw=/?moveToViewport=-23399,-15417,32264,27285&embedId=17519047502"
-            allowFullScreen
-          />
-        </AspectRatio>
-
-        <Image src={Octopus.src} pt={8} />
-        <Box pb={4}>
-          <Button
-            leftIcon={<ArrowUpIcon />}
-            variant="ghost"
-            color="whiteAlpha.700"
-            bgColor="whiteAlpha.50"
-            _hover={{ bg: 'whiteAlpha.200' }}
-            _active={{ bg: 'whiteAlpha.200' }}
-            onClick={handleBackClick}
-          >
-            Back to top
-          </Button>
-        </Box>
+        <Modal isOpen={isOpen} onClose={onClose} size="full">
+          <ModalOverlay />
+          <ModalContent>
+            <ModalCloseButton />
+            <ModalBody
+              display="flex"
+              width="100%"
+              height="100%"
+              flexDirection="column"
+              background={`url(${Loader.src})`}
+              backgroundPosition="center center"
+              backgroundRepeat="no-repeat"
+            >
+              <Box
+                as="iframe"
+                title={titleModal}
+                src={deworkURLModal}
+                allowFullScreen
+                flexGrow="1"
+                border="none"
+                margin="0"
+                padding="0"
+              />
+            </ModalBody>
+          </ModalContent>
+        </Modal>
       </VStack>
     </PageContainer>
   );
