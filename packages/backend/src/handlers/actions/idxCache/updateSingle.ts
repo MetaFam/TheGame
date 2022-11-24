@@ -12,9 +12,7 @@ import {
   model as basicProfileModel,
 } from '@datamodels/identity-profile-basic';
 import { DataModel } from '@glazed/datamodel';
-import { ModelManager } from '@glazed/devtools';
 import { DIDDataStore } from '@glazed/did-datastore';
-import { TileLoader } from '@glazed/tile-loader';
 import {
   BasicProfileImages,
   BasicProfileStrings,
@@ -68,6 +66,7 @@ export default async (playerId: string): Promise<UpdateIdxProfileResponse> => {
       // mainnet; the site prompts them to switch if necessary
       `${ethereumAddress.toLowerCase()}@eip155:1`,
     ));
+
     const values: HasuraProfileProps = {};
     let basicProfile: Maybe<BasicProfile> = null;
     let extendedProfile: Maybe<ExtendedProfile> = null;
