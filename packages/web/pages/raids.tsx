@@ -15,6 +15,7 @@ import {
   ModalOverlay,
   Progress,
   Text,
+  useBreakpointValue,
   useDisclosure,
   VStack,
   Wrap,
@@ -41,6 +42,7 @@ const RaidsPage: React.FC = () => {
   const [choices, setChoices] = useState<Array<PlayerSkillFragment>>();
   const [titleModal, setTitle] = useState('');
   const [deworkURLModal, setDeworkURL] = useState('');
+  const mobile = useBreakpointValue({ base: true, md: false });
 
   useEffect(() => {
     const fetchSkills = async () => {
@@ -188,14 +190,21 @@ const RaidsPage: React.FC = () => {
           background="whiteAlpha.50"
           borderRadius={10}
           p={7}
-          gap={6}
-          flexDir="column"
+          gap={{ base: 10, md: 6 }}
+          flexDir={{ base: 'row', md: 'column' }}
+          pos="relative"
         >
-          <Flex gap={6}>
+          <Flex
+            gap={6}
+            flexDir={{
+              base: 'column',
+              md: 'row',
+            }}
+          >
             {phases.map(({ title, subtitle, description }, index) => (
               <Box key={title}>
                 <Flex alignItems="baseline" justifyContent="center">
-                  <Text fontWeight={700} fontSize={36}>
+                  <Text fontWeight={700} fontSize={36} textAlign="center">
                     Phase {convertToRoman(index + 1)} -{' '}
                     <Text
                       as="span"
@@ -223,33 +232,18 @@ const RaidsPage: React.FC = () => {
               </Box>
             ))}
           </Flex>
-          <Box w="full" pos="relative">
-            <Progress
-              value={28}
-              borderRadius={10}
-              colorScheme="teal"
-              background="blackAlpha.400"
-              position="absolute"
-              w="full"
-            />
-            <Divider
-              pos="absolute"
-              left="33%"
-              orientation="vertical"
-              h={3}
-              borderColor="blueLight"
-            />
-            <Divider
-              pos="absolute"
-              left="66%"
-              orientation="vertical"
-              h={3}
-              borderColor="blueLight"
-            />
-          </Box>
+          {mobile && <MobileProgressBar />}
+          {!mobile && <ProgressBar />}
         </Flex>
 
-        <Flex gap={6} pb={16}>
+        <Flex
+          gap={6}
+          pb={16}
+          flexDir={{
+            base: 'column',
+            lg: 'row',
+          }}
+        >
           {cards.map(({ image, title, about, skills, deworkURL }) => (
             <MetaTile
               onClick={() => {
@@ -342,3 +336,53 @@ const RaidsPage: React.FC = () => {
 };
 
 export default RaidsPage;
+
+const currentProgress = 28;
+
+const ProgressBar = () => (
+  <Box w="full" pos="relative">
+    <Progress
+      isAnimated
+      value={currentProgress}
+      borderRadius={10}
+      colorScheme="teal"
+      background="blackAlpha.400"
+      position="absolute"
+      w="full"
+    />
+    <Divider
+      pos="absolute"
+      left="33%"
+      orientation="vertical"
+      h={3}
+      borderColor="blueLight"
+    />
+    <Divider
+      pos="absolute"
+      left="66%"
+      orientation="vertical"
+      h={3}
+      borderColor="blueLight"
+    />
+  </Box>
+);
+
+const MobileProgressBar = () => (
+  <Box w={5} borderRadius={10} background="blackAlpha.400">
+    <Box backgroundColor="teal" borderRadius={10} h={`${currentProgress}%`} />
+    <Divider
+      pos="absolute"
+      top="33%"
+      orientation="horizontal"
+      w={3}
+      borderColor="blueLight"
+    />
+    <Divider
+      pos="absolute"
+      top="66%"
+      orientation="horizontal"
+      w={3}
+      borderColor="blueLight"
+    />
+  </Box>
+);
