@@ -3,24 +3,34 @@ import {
   AspectRatio,
   Box,
   Button,
-  Container,
+  Divider,
   Flex,
   Heading,
   Image,
-  Link,
-  List,
-  ListItem,
   LoadingState,
-  Spacer,
+  MetaTag,
+  MetaTile,
+  MetaTileBody,
+  MetaTileHeader,
+  Progress,
   Text,
-  UnorderedList,
   VStack,
+  Wrap,
+  WrapItem,
 } from '@metafam/ds';
 import Octopus from 'assets/octopus.png';
+import Inkeeping from 'assets/raids/Inkeeping.png';
+import MetaMedia from 'assets/raids/MetaMedia.png';
+import MetaOS from 'assets/raids/MetaOS.png';
 import { PageContainer } from 'components/Container';
 import { HeadComponent } from 'components/Seo';
+import { SquareImage } from 'components/SquareImage';
+import { PlayerSkillFragment, SkillCategory_Enum } from 'graphql/autogen/types';
+import { getSkills } from 'graphql/queries/enums/getSkills';
+import { SkillColors } from 'graphql/types';
 import { useRouter } from 'next/router';
-import React, { useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { convertToRoman } from 'utils/formatHelpers';
 
 const RaidsPage: React.FC = () => {
   const router = useRouter();
@@ -30,9 +40,123 @@ const RaidsPage: React.FC = () => {
     topRef?.current?.scrollIntoView({ behavior: 'smooth' });
   }
 
+  const [choices, setChoices] = useState<Array<PlayerSkillFragment>>();
+  useEffect(() => {
+    const fetchSkills = async () => {
+      const skillChoices = await getSkills();
+      setChoices(skillChoices);
+    };
+
+    fetchSkills();
+  }, []);
+
   if (router.isFallback) {
     return <LoadingState />;
   }
+
+  const phases = [
+    {
+      title: 'Seed',
+      subtitle: 'A Decentralized Factory',
+      description:
+        'Build onboarding flows, a resource base and a network of project & service DAOs for anyone interested in decentralized applications & organizations.',
+    },
+    {
+      title: 'Growth',
+      subtitle: 'A Web of Opportunity',
+      description:
+        'Expand resources & knowledge, build a network of networks where anyone can level up, find meaningful projects to contribute to & start earning.',
+    },
+    {
+      title: 'Equilibrium',
+      subtitle: 'A Web of Life',
+      description:
+        'Expand resources & knowledge, build a network of networks where anyone can level up, find meaningful projects to contribute to & start earning.',
+    },
+  ];
+
+  // needs to be migrated to hasura by someone who can use the hasura console
+  // i have the m1 situation going on, still can't run the console, pls help
+  const cards = [
+    {
+      image: Inkeeping.src,
+      title: 'Innkeeping',
+      about:
+        'MetaFam is the founding guild of MetaGame. The goal is to make it a desirable community to be a part of by organizing events, making sure contributors are rewarded & more.',
+      skills: [
+        'Community Cultivation',
+        'Learning & Education',
+        'Ops / Coordination',
+        'Moderation',
+        'Project Management',
+        'Customer Service',
+        'Recruiting',
+        'Operations',
+        'Accounting',
+      ].map(
+        (skill) =>
+          choices?.find((choice) => choice.name === skill) || {
+            name: skill,
+            category: SkillCategory_Enum.Technologies,
+          },
+      ),
+    },
+    {
+      image: MetaMedia.src,
+      title: 'MetaMedia',
+      about:
+        'MetaMedia is MetaGame’s content production tentacle, all about producing educational & promotional content of all formats, from the audio podcast to video recordings of events.',
+      skills: [
+        'Content Creation',
+        'Learning & Education',
+        'Memes',
+        'Social Media',
+        'Marketing / Sales',
+        'Web Design',
+        'Graphics Design',
+        'Art / Illustration',
+        'Video Production',
+        'Photography',
+        'Audiovisual',
+        'Fashion Design',
+      ].map(
+        (skill) =>
+          choices?.find((choice) => choice.name === skill) || {
+            name: skill,
+            category: SkillCategory_Enum.Technologies,
+          },
+      ),
+    },
+    {
+      image: MetaOS.src,
+      title: 'MetaOS',
+      about:
+        'MetaOS is an operating system for interoperable communities, decentralized societies & coordination games. A mosaic of web3 building blocks put together into a coherent platform.',
+      skills: [
+        'React',
+        'Node.js',
+        'Solidity',
+        'TypeScript',
+        'NextJS',
+        'CSS',
+        'Chakra UI',
+        'Ceramic',
+        'UI/UX',
+        'Hasura',
+        'Project Management',
+        'DevOps',
+        'Game Development',
+        'Web Design',
+        'Token Engineering',
+      ].map(
+        (skill) =>
+          choices?.find((choice) => choice.name === skill) || {
+            name: skill,
+            category: SkillCategory_Enum.Technologies,
+          },
+      ),
+    },
+  ];
 
   return (
     <PageContainer py={8} px={[6, 6, 20, 24]}>
@@ -43,529 +167,148 @@ const RaidsPage: React.FC = () => {
           url="https://my.metagame.wtf/raids"
         />
 
-        <Container maxW="7xl" w="100%">
-          <Heading
-            as="h1"
-            fontSize="6xl"
-            fontWeight={600}
-            color="white"
-            fontFamily="mono"
-            mb={[4, 4, 4, 12]}
-            display="flex"
-            flexDir="row"
-            ref={topRef}
-          >
-            State of Raids
-            <Text pl={4} alignSelf="center" fontSize="4xl">
-              🗺️
-            </Text>
-          </Heading>
+        <Heading
+          as="h1"
+          fontSize="5xl"
+          fontWeight="bold"
+          color="white"
+          fontFamily="mono"
+          mb={[4, 4, 4, 12]}
+          display="flex"
+          flexDir="row"
+          ref={topRef}
+        >
+          Raids
+        </Heading>
 
-          <Text
-            mb={4}
-            maxW={{ base: '100%', lg: '3xl' }}
-            fontSize={{ base: 'lg', md: '2xl' }}
-          >
-            This is a map of all the current raids going on inside MetaGame. As
-            such, they represent a chance for you to earn reputation, money
-            &amp; stake in MetaGame.
-          </Text>
-        </Container>
-
-        <Container maxW="7xl" w="100%">
-          <AspectRatio mb={4} ratio={{ base: 3 / 4, md: 9 / 6 }}>
-            <Box
-              as="iframe"
-              title="MetaGame Raids on Miro"
-              src="https://miro.com/app/live-embed/uXjVOmrCvsw=/?moveToViewport=-23399,-15417,32264,27285&embedId=17519047502"
-              allowFullScreen
-            />
-          </AspectRatio>
-        </Container>
-
-        <Container maxW="7xl" w="100%">
-          {/*
-            The flex is used to make two columns/sections
-            - Main Raids
-            - Phase 1
-            When the screen is narrower than the lg breakpoint, the columns are stacked up to make rows instead, with the Phase 1 column/section at the top            
-          */}
-          <Flex
-            direction={{ base: 'column-reverse', lg: 'row' }}
-            maxW={{ base: '100%', lg: '5xl' }}
-            w="100%"
-          >
-            {/*
-              Main Raids column
-              Columns are 45% wide above the lg breakpoint Chakra Flex <Spacer/> is used to make a gap between the columns
-            */}
-            <Box w={{ base: '100%', lg: '45%' }} maxW="2xl">
-              <Heading
-                as="h1"
-                color="white"
-                fontSize="4xl"
-                fontWeight={600}
-                fontFamily="mono"
-                mb={[4, 4, 4, 8]}
-              >
-                Main Raids
-              </Heading>
-
-              {/* 
-                MetaOS section
-              */}
-              <Box mb={[4, 4, 4, 6]}>
-                <Text
-                  as="h2"
-                  color="white"
-                  fontSize="2xl"
-                  fontWeight={700}
-                  fontFamily="mono"
-                  mb={2}
-                  textTransform="uppercase"
-                >
-                  MetaOS
-                </Text>
-                <Text mb={2}>
-                  <Link
-                    className="gradient"
-                    href="https://wiki.metagame.wtf/docs/what-we-do/metaos"
-                    title="Read more about MetaOS"
-                  >
-                    MetaOS
-                  </Link>{' '}
-                  is an operating system for interoperable communities,
-                  decentralized societies &amp; coordination games. A mosaic of
-                  web3 building blocks put together into a coherent platform.
-                </Text>
-
-                <Text fontWeight={700}>Ways to help:</Text>
-
-                <UnorderedList>
-                  <ListItem>
-                    Always need builders. Know someone good with TypeScript?
-                    You? DM peth.
-                  </ListItem>
-                  <ListItem>
-                    Want to integrate some critical piece of DAO tool stacks? A
-                    bounties system or a social or data feed? Any other{' '}
-                    <Link
-                      className="gradient"
-                      href="https://metagame.wtf/quest/99047a66-533a-43a0-abc2-c9a9de85de46"
-                      title="Read the ‘Build a Dashboard Module’ quest"
+        <Flex
+          background="whiteAlpha.50"
+          borderRadius={10}
+          p={7}
+          gap={6}
+          flexDir="column"
+        >
+          <Flex gap={6}>
+            {phases.map(({ title, subtitle, description }, index) => (
+              <Box key={title}>
+                <Flex alignItems="baseline" justifyContent="center">
+                  <Text fontWeight={700} fontSize={36}>
+                    Phase {convertToRoman(index + 1)} -{' '}
+                    <Text
+                      as="span"
+                      fontStyle="italic"
+                      fontWeight={400}
+                      fontSize={32}
                     >
-                      custom block into the dashboard
-                    </Link>
-                    ?
-                  </ListItem>
-                </UnorderedList>
-              </Box>
-
-              {/*
-                Bridgebuildin section
-              */}
-              <Box mb={[4, 4, 4, 6]}>
-                <Text
-                  as="h2"
-                  color="white"
-                  fontSize="2xl"
-                  fontWeight={700}
-                  fontFamily="mono"
-                  mb={2}
-                  textTransform="uppercase"
-                >
-                  Bridgebuildin’
-                </Text>
-                <Text mb={2}>
-                  Making connections with other DAOs,{' '}
-                  <Link
-                    className="gradient"
-                    href="https://metagame.wtf/join/guild"
-                    title="How to join MetaGame as a Guild"
-                  >
-                    onboarding them into MetaGame
-                  </Link>
-                  , helping them &amp; integrating their tools into MetaOS or
-                  services into MetaGame.
-                </Text>
-
-                <Text fontWeight={700}>Ways to help:</Text>
-
-                <UnorderedList>
-                  <ListItem>
-                    Know any cool DAO that may want to join this cool network?
-                    Suggest them in the{' '}
-                    <Link
-                      className="gradient"
-                      href="https://discord.com/channels/629411177947987986/930160867562115193"
-                      title="Visit the Bridgebuilders Guild channel in MetaGame Discord"
-                      isExternal
-                    >
-                      #bridgebuilders-guild
-                    </Link>{' '}
-                    or maybe even{' '}
-                    <Link
-                      className="gradient"
-                      href="https://questchains.xyz/chain/0x89/0xf7fbc471cbae68bf3833ff820c926ffe3c5bf0f7"
-                      title="Complete the Bridgebuilder’s Path Quest on Quest Chains"
-                      isExternal
-                    >
-                      build the bridge yourself
-                    </Link>
-                    .
-                  </ListItem>
-                  <ListItem>
-                    Know any cool web3 building block or tool that could be{' '}
-                    <Link
-                      className="gradient"
-                      href="https://metagame.wtf/quest/6524b99a-df7e-4c10-838d-c441a8417e77"
-                      title="Read the ‘Custom Integration into MyMeta’ Quest"
-                    >
-                      integrated into MyMeta
-                    </Link>
-                    , MetaOS, the dashboard or the megamenu? Let us know.
-                  </ListItem>
-                  <ListItem>
-                    Know any community that could benefit from using{' '}
-                    <Link
-                      className="gradient"
-                      href="https://wiki.metagame.wtf/docs/what-we-do/metaos"
-                      title="Read more about MetaOS"
-                    >
-                      MetaOS
-                    </Link>
-                    ? Shill MetaOS in other communities &amp; build bridges in
-                    that way.
-                  </ListItem>
-                </UnorderedList>
-              </Box>
-
-              {/*
-                Great Houses section
-              */}
-              <Box mb={[4, 4, 4, 6]}>
-                <Text
-                  as="h2"
-                  color="white"
-                  fontSize="2xl"
-                  fontWeight={700}
-                  fontFamily="mono"
-                  mb={2}
-                  textTransform="uppercase"
-                >
-                  Great Houses &amp; Playbooks
-                </Text>
-                <Text mb={2}>
-                  These are curated resources for different fields of interests
-                  &amp; how-to guides.
-                </Text>
-
-                <Text fontWeight={700}>Ways to help:</Text>
-
-                <UnorderedList>
-                  <ListItem>
-                    <Link
-                      className="gradient"
-                      href="https://wiki.metagame.wtf/docs/great-houses/how-to-house"
-                      title="Visit the Build a New House page in the MetaGame wiki"
-                      isExternal
-                    >
-                      Great Houses
-                    </Link>{' '}
-                    are always open for more links. Its also always possible to
-                    build your own house – in fact, House of Wellbeing is
-                    half-written &amp; waiting for somebody to publish it. Other
-                    ones could be House of Coordination.
-                  </ListItem>
-                  <ListItem>
-                    Interested in writing a new playbook to help newcomers join
-                    the web3 space or learn any useful new skill? You’re more
-                    than welcome to write one.
-                  </ListItem>
-                  <ListItem>
-                    <Text as="strong">
-                      Who Playbooks need the most is, in fact, someone to
-                      resurrect them &amp; become their new champion 👀. If
-                      you’re new, this could make you one of the founders.
+                      {title}
                     </Text>
-                  </ListItem>
-                </UnorderedList>
-              </Box>
-
-              {/*
-                The Onboarding Game section
-              */}
-              <Box mb={[4, 4, 4, 6]}>
-                <Text
-                  as="h2"
-                  color="white"
-                  fontSize="2xl"
-                  fontWeight={700}
-                  fontFamily="mono"
-                  mb={2}
-                  textTransform="uppercase"
-                >
-                  The Onboarding Game
-                </Text>
-                <Text mb={2}>
-                  <Link
-                    className="gradient"
-                    href="https://metagame.wtf/onboarding"
-                    title="Go to MetaGame’s Onboarding Adventure"
-                  >
-                    The Onboarding Game
-                  </Link>{' '}
-                  is a text based choose-your-own-adventure game used for
-                  helping people understand Web3 &amp; join the space &amp;/or
-                  MetaGame.
-                </Text>
-
-                <Text fontWeight={700}>Ways to help:</Text>
-
-                <UnorderedList>
-                  <ListItem>
-                    The Onboarding Game mainly needs people to use it, give more
-                    feedback &amp; suggest more branches or endings
-                  </ListItem>
-                  <ListItem>
-                    Interested in writing more branches yourself? Also more than
-                    welcome. DM peth.
-                  </ListItem>
-                </UnorderedList>
-              </Box>
-
-              {/*
-                Realizing MetaGame section
-              */}
-              <Box mb={[4, 4, 4, 6]}>
-                <Text
-                  as="h2"
-                  color="white"
-                  fontSize="2xl"
-                  fontWeight={700}
-                  fontFamily="mono"
-                  mb={2}
-                  textTransform="uppercase"
-                >
-                  Realizing MetaGame
-                </Text>
-                <Text mb={2}>
-                  <Link
-                    className="gradient"
-                    href="https://metagame.substack.com/"
-                    title="Visit metagame.substack.com"
-                    isExternal
-                  >
-                    Realizing MetaGame
-                  </Link>{' '}
-                  is MetaGame’s first publication, a newsletter. Used to educate
-                  &amp; share news about MetaGame &amp; the MetaAlliance.
-                </Text>
-
-                <Text fontWeight={700}>Ways to help:</Text>
-
-                <UnorderedList>
-                  <ListItem>
-                    Biggest help would be finding or suggesting a sponsor tbh.
-                    The newsletter has been growing decently &amp; is ready to
-                    become self-sustainable.
-                  </ListItem>
-                  <ListItem>
-                    Interested in writing or submitting one of your posts to the
-                    newsletter? Please do!
-                  </ListItem>
-                  <ListItem>
-                    Interested in recording short{' '}
-                    <Link
-                      className="gradient"
-                      href="https://metagame.wtf/quest/0ef2d595-6aaf-4969-91c8-ce63712413ae"
-                      title="See the ‘Record MetaNews’ Quest"
-                      isExternal
-                    >
-                      5 minute clips of reading &amp; commentary on the
-                      newsletter
-                    </Link>
-                    ? Would be dope, just sayin’.
-                  </ListItem>
-                </UnorderedList>
-              </Box>
-
-              {/*
-                MetaRadio section
-              */}
-              <Box mb={[4, 4, 4, 6]}>
-                <Text
-                  as="h2"
-                  color="white"
-                  fontSize="2xl"
-                  fontWeight={700}
-                  fontFamily="mono"
-                  mb={2}
-                  textTransform="uppercase"
-                >
-                  MetaRadio
-                </Text>
-                <Text mb={2}>
-                  <Link
-                    className="gradient"
-                    href="https://anchor.fm/MetaGame/"
-                    title="Visit anchor.fm/MetaGame"
-                    isExternal
-                  >
-                    MetaRadio
-                  </Link>{' '}
-                  is a podcasting network, comprised of 4 different podcasts.{' '}
-                  <Link
-                    className="gradient"
-                    href="https://anchor.fm/MetaGame/"
-                    title="Visit anchor.fm/MetaGame"
-                    isExternal
-                  >
-                    Listen here
-                  </Link>
-                  .
-                </Text>
-
-                <Text fontWeight={700}>Ways to help:</Text>
-
-                <UnorderedList>
-                  <ListItem>
-                    Now grown to a decent amount of listeners, the main way you
-                    could help MetaRadio is by suggesting or finding an aligned
-                    sponsor.
-                  </ListItem>
-                  <ListItem>
-                    Other ways include suggesting or bringing new guests or even
-                    recording your own podcast series if you’re so inclined.
-                  </ListItem>
-                </UnorderedList>
-              </Box>
-
-              {/*
-                Join a raid? section
-              */}
-              <Box mb={[4, 4, 4, 6]}>
-                <List>
-                  <ListItem>
-                    Note: Joining any of the above raids &amp; contributing
-                    could make you one of the founders.
-                  </ListItem>
-                  <ListItem>
-                    Lazy? You could just{' '}
-                    <Link
-                      className="gradient"
-                      href="https://metagame.wtf/seeds"
-                      title="Read about Seeds and how to water them"
-                    >
-                      water some Seeds
-                    </Link>{' '}
-                    &amp;{' '}
-                    <Link
-                      className="gradient"
-                      href="https://metagame.wtf/join/patron"
-                      title="Read about becoming a patron of MetaGame"
-                    >
-                      become one of the founding patrons
-                    </Link>{' '}
-                    🤷‍♂️
-                  </ListItem>
-                </List>
-              </Box>
-            </Box>
-
-            <Spacer />
-
-            {/*
-              PHASE 1 column
-              Columns are 45% wide above the lg breakpoint Chakra Flex <Spacer/> is used to make a gap between the columns
-            */}
-            <Box w={{ base: '100%', lg: '45%' }} maxW="2xl">
-              <Box mb={[4, 4, 4, 6]}>
-                <Heading
-                  as="h1"
-                  color="white"
-                  fontSize="4xl"
-                  fontWeight={700}
-                  fontFamily="mono"
-                  mb={[4, 4, 4, 8]}
-                  textTransform="uppercase"
-                >
-                  Phase I
-                </Heading>
+                  </Text>
+                </Flex>
 
                 <Text
-                  as="h2"
-                  color="white"
-                  fontSize="2xl"
-                  fontWeight={700}
-                  fontFamily="mono"
-                  mb={2}
+                  color="blueLight"
+                  fontStyle="italic"
+                  fontSize={20}
+                  textAlign="center"
+                  mb={3}
                 >
-                  Memes
+                  {subtitle}
                 </Text>
-                <UnorderedList mb={4}>
-                  <ListItem>An Onboarding Machine</ListItem>
-                  <ListItem>A Decentralized Factory</ListItem>
-                </UnorderedList>
-
-                <Text
-                  as="h2"
-                  color="white"
-                  fontSize="2xl"
-                  fontWeight={700}
-                  fontFamily="mono"
-                  mb={2}
-                >
-                  Goals
-                </Text>
-                <UnorderedList mb={4}>
-                  <ListItem>
-                    Create a hub for people interested in decentralized
-                    organizations &amp; applications.
-                  </ListItem>
-                  <ListItem>
-                    Build the flow for onboarding people to Web3 and MetaGame
-                  </ListItem>
-                  <ListItem>
-                    Establish a place where anyone interested in building things
-                    or providing services in the DAO ecosystem can find their
-                    place.
-                  </ListItem>
-                </UnorderedList>
-
-                <Text mb={4}>Want to help? Need help?</Text>
-                <Text mb={4}>
-                   Check who’s connected to the raid &amp; contact them on
-                  Discord or ask about it in{' '}
-                  <Link
-                    className="gradient"
-                    href="https://discord.com/channels/629411177947987986/629411178837442601 "
-                    title="Go to the 🏟-metasquare channel in MetaGame Discord"
-                    isExternal
-                  >
-                    🏟-metasquare
-                  </Link>
-                </Text>
-
-                <Text mt={8} mb={{ base: 12, lg: 8 }}>
-                  <Link
-                    color="white"
-                    fontSize="3xl"
-                    fontWeight={600}
-                    fontFamily="mono"
-                    textDecoration="underline"
-                    textTransform="uppercase"
-                    href="https://meta-game.notion.site/Season-VIII-1e7c8aef9dbd4d10a8ef91f21366bb27"
-                    title="See the Season VIII Roadmap"
-                    isExternal
-                  >
-                    Full Season VIII Roadmap
-                  </Link>
+                <Text fontWeight={400} fontSize={14}>
+                  {description}
                 </Text>
               </Box>
-            </Box>
+            ))}
           </Flex>
-        </Container>
+          <Box w="full" pos="relative">
+            <Progress
+              value={28}
+              borderRadius={10}
+              colorScheme="teal"
+              background="blackAlpha.400"
+              position="absolute"
+              w="full"
+            />
+            <Divider
+              pos="absolute"
+              left="33%"
+              orientation="vertical"
+              h={3}
+              borderColor="blueLight"
+            />
+            <Divider
+              pos="absolute"
+              left="66%"
+              orientation="vertical"
+              h={3}
+              borderColor="blueLight"
+            />
+          </Box>
+        </Flex>
+
+        <Flex gap={6}>
+          {cards.map(({ image, title, about, skills }) => (
+            <MetaTile>
+              <MetaTileHeader>
+                <SquareImage src={image} />
+
+                <Flex px={3} w="full" pos="absolute" bottom={-6} zIndex={1}>
+                  <Heading
+                    size="lg"
+                    color="white"
+                    bgColor="rgba(255, 255, 255, 0.06)"
+                    style={{ backdropFilter: 'blur(10px)' }}
+                    lineHeight={1.8}
+                    justifyContent="center"
+                    px={3}
+                    width="full"
+                    textAlign="center"
+                    borderRadius={10}
+                    fontFamily="body"
+                    fontWeight={400}
+                  >
+                    {title}
+                  </Heading>
+                </Flex>
+              </MetaTileHeader>
+              <MetaTileBody justifyContent="space-between">
+                <Flex flexDir="column" gap={2}>
+                  <VStack spacing={2} align="stretch">
+                    <Text textStyle="caption">ABOUT</Text>
+                    <Text fontSize="sm">{about}</Text>
+                  </VStack>
+                  <Flex align="stretch" flexDir="column" gap={3}>
+                    <Text textStyle="caption">Skills</Text>
+                    <Wrap transition="opacity 0.4s">
+                      {skills.map(({ name, category }, index) => (
+                        <WrapItem key={name + index}>
+                          <MetaTag
+                            size="sm"
+                            fontWeight="normal"
+                            backgroundColor={
+                              SkillColors[category as SkillCategory_Enum]
+                            }
+                          >
+                            {name}
+                          </MetaTag>
+                        </WrapItem>
+                      ))}
+                    </Wrap>
+                  </Flex>
+                </Flex>
+              </MetaTileBody>
+            </MetaTile>
+          ))}
+        </Flex>
+
+        <AspectRatio mb={4} ratio={{ base: 3 / 4, md: 9 / 6 }}>
+          <Box
+            as="iframe"
+            title="MetaGame Raids on Miro"
+            src="https://miro.com/app/live-embed/uXjVOmrCvsw=/?moveToViewport=-23399,-15417,32264,27285&embedId=17519047502"
+            allowFullScreen
+          />
+        </AspectRatio>
 
         <Image src={Octopus.src} pt={8} />
         <Box pb={4}>
