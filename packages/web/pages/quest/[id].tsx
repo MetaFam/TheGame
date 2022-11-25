@@ -63,23 +63,23 @@ const QuestPage: React.FC<Props> = ({ quest_id }) => {
       <HeadComponent
         title="MetaGame Quests"
         description={quest.title}
-        url={`https://my.metagame.wtf/quest/${quest_id}`}
+        url={`https://metagame.wtf/quest/${quest_id}`}
       />
-      <Box w="100%" maxW="80rem">
+      <Box w="full" maxW="80rem">
         <Box mb={4} px={2}>
           <MetaLink href="/quests">
             <FaArrowLeft
               fontSize="0.875rem"
               style={{ display: 'inline-block', marginRight: '0.5rem' }}
             />
-            Back to quest explorer
+            Back to Quest Explorer
           </MetaLink>
         </Box>
 
         <Wrap w="100%" justify="center" spacing={8}>
           <WrapItem flexGrow={3} flexShrink={1} flexBasis={0}>
             <Flex
-              w="100%"
+              w="full"
               align={{ base: 'center', lg: 'start' }}
               direction="column"
             >
@@ -95,12 +95,12 @@ const QuestPage: React.FC<Props> = ({ quest_id }) => {
             flexBasis={{ base: '100%', lg: 0 }}
           >
             <Flex
-              w="100%"
+              w="full"
               align={{ base: 'center', lg: 'start' }}
               direction="column"
             >
               <Heading as="h3" fontFamily="body" size="xl" mb={4} ml={2}>
-                Created by
+                Created By
               </Heading>
               <PlayerTile player={quest.player as Player} />
             </Flex>
@@ -116,7 +116,7 @@ const QuestPage: React.FC<Props> = ({ quest_id }) => {
                 href="/quest/[id]/complete"
               >
                 <MetaButton variant="outline" colorScheme="cyan">
-                  Claim quest
+                  Claim Quest
                 </MetaButton>
               </MetaLink>
             )}

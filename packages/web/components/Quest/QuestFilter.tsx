@@ -94,7 +94,7 @@ export const QuestFilter: React.FC<Props> = ({
     <Wrap justifyContent="center">
       <Wrap
         transition="all 0.25s"
-        style={{ backdropFilter: 'blur(7px)' }}
+        backdropFilter="blur(7px)"
         position="sticky"
         top="-1px"
         borderTop="1px solid transparent"

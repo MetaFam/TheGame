@@ -3,12 +3,15 @@ import {
   Flex,
   Heading,
   Link,
+  LinkBox,
+  MetaButton,
   MetaTile,
   MetaTileBody,
   MetaTileHeader,
   Prose,
   Text,
 } from '@metafam/ds';
+import { Maybe } from '@metafam/utils';
 import BackgroundImage from 'assets/quests/quest.png';
 import { MetaLink } from 'components/Link';
 import { MarkdownViewer as Markdown } from 'components/MarkdownViewer';
@@ -16,8 +19,7 @@ import { RolesTags } from 'components/Quest/Roles';
 import { SkillsTags } from 'components/Quest/Skills';
 import { SquareImage } from 'components/SquareImage';
 import { PlayerRole, QuestFragment, Skill } from 'graphql/autogen/types';
-import moment from 'moment';
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { safelyParseNChakrifyHtml } from 'utils/stringHelpers';
 
 type Props = {
@@ -25,21 +27,30 @@ type Props = {
 };
 
 export const QuestTile: React.FC<Props> = ({ quest }) => {
-  const descriptionSummary = quest.description
-    ? `${quest.description.substring(0, 180)} ...`
-    : 'No description available';
-
-  const descIsHtml = /<\/?[a-z][\s\S]*>/i.test(descriptionSummary ?? '');
+  const description = quest.description ?? '*No Description Available*';
+  const descIsHtml = /<([a-z]+).*(\/>|[^/]>.*<\/\1>)/is.test(description);
   const parsedDescription = descIsHtml
-    ? safelyParseNChakrifyHtml(descriptionSummary ?? '')
-    : '';
+    ? safelyParseNChakrifyHtml(description)
+    : null;
+  const descriptionRef = useRef<Maybe<HTMLDivElement>>(null);
+  const [clamped, setClamped] = React.useState(false);
+  const descriptionContent = descriptionRef.current?.textContent;
+
+  useEffect(() => {
+    const handleResize = () => {
+      const desc = descriptionRef.current;
+      if (desc) {
+        setClamped(desc.scrollHeight > desc.clientHeight);
+      }
+    };
+    window.addEventListener('resize', handleResize);
+    handleResize();
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, [descriptionContent]);
 
   return (
-    <Link
-      role="group"
-      _hover={{ textDecoration: 'none' }}
-      href={`/quest/${quest.id}`}
-    >
+    <LinkBox role="group">
       <MetaTile height="full" width="full">
         <MetaTileHeader>
           <SquareImage src={BackgroundImage.src} />
@@ -47,8 +58,8 @@ export const QuestTile: React.FC<Props> = ({ quest }) => {
             <Heading
               size="lg"
               color="white"
-              bgColor="rgba(255, 255, 255, 0.06)"
-              style={{ backdropFilter: 'blur(10px)' }}
+              bgColor="whiteAlpha.100"
+              sx={{ backdropFilter: 'blur(10px)' }}
               lineHeight={1.8}
               justifyContent="center"
               px={3}
@@ -56,30 +67,42 @@ export const QuestTile: React.FC<Props> = ({ quest }) => {
               textAlign="center"
               borderRadius={10}
               fontFamily="body"
-              fontWeight={400}
+              fontWeight="normal"
             >
               {quest.title}
             </Heading>
           </Flex>
         </MetaTileHeader>
         <MetaTileBody>
-          <Flex flexDir="column">
+          <Flex direction="column">
             <Box pb={2}>
               <Text textStyle="caption" pb={1}>
-                DESCRIPTION
+                Description
               </Text>
-              {descIsHtml ? (
-                <Prose>{parsedDescription}</Prose>
-              ) : (
-                <Markdown>{descriptionSummary}</Markdown>
+              <Box noOfLines={3} ref={descriptionRef}>
+                {descIsHtml ? (
+                  <Prose>{parsedDescription}</Prose>
+                ) : (
+                  <Markdown>{description}</Markdown>
+                )}
+              </Box>
+              {clamped && (
+                <Flex justifyContent="end" mr={5}>
+                  <MetaButton
+                    href={`/quest/${quest.id}`}
+                    h="auto"
+                    size="sm"
+                    px={3}
+                    py={1}
+                  >
+                    Read More
+                  </MetaButton>
+                </Flex>
               )}
-              <MetaLink as={`/quest/${quest.id}`} href="/quest/[id]">
-                Read more
-              </MetaLink>
             </Box>
             <Box pb={2}>
               <Text textStyle="caption" pb={1}>
-                SKILLS
+                Skills
               </Text>
               <SkillsTags
                 skills={quest.quest_skills.map(({ skill }) => skill) as Skill[]}
@@ -87,7 +110,7 @@ export const QuestTile: React.FC<Props> = ({ quest }) => {
             </Box>
             <Box pb={2}>
               <Text textStyle="caption" pb={1}>
-                ROLES
+                Roles
               </Text>
               {quest.quest_roles.length ? (
                 <RolesTags
@@ -104,6 +127,6 @@ export const QuestTile: React.FC<Props> = ({ quest }) => {
           </Flex>
         </MetaTileBody>
       </MetaTile>
-    </Link>
+    </LinkBox>
   );
 };

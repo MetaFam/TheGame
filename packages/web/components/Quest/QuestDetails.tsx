@@ -10,7 +10,6 @@ import {
   Text,
   VStack,
 } from '@metafam/ds';
-import { MetaLink } from 'components/Link';
 import { MarkdownViewer as Markdown } from 'components/MarkdownViewer';
 import { RepetitionTag, StatusTag } from 'components/Quest/QuestTags';
 import { RolesTags } from 'components/Quest/Roles';
@@ -52,22 +51,24 @@ export const QuestDetails: React.FC<Props> = ({ quest }) => {
             cooldown={quest.cooldown}
           />
           <StatusTag status={quest.status} />
-          <Text>
-            <i>{moment(quest.createdAt).fromNow()}</i>
-          </Text>
+          <Text fontStyle="italic">{moment(quest.createdAt).fromNow()}</Text>
         </HStack>
-        <HStack w="100%" mt={2}>
+        <HStack w="full" mt={2}>
           {isMyQuest && quest.status === QuestStatus_Enum.Open && (
-            <MetaLink as={`/quest/${quest.id}/edit`} href="/quest/[id]/edit">
-              <MetaButton size="md">Edit Quest</MetaButton>
-            </MetaLink>
+            <MetaButton href={`/quest/${quest.id}/edit`} size="md">
+              Edit Quest
+            </MetaButton>
           )}
           {quest.externalLink && (
-            <MetaLink href={quest.externalLink} isExternal>
-              <MetaButton variant="outline" colorScheme="cyan" size="md">
-                Open link
-              </MetaButton>
-            </MetaLink>
+            <MetaButton
+              href={quest.externalLink}
+              target="_blank"
+              variant="outline"
+              colorScheme="cyan"
+              size="md"
+            >
+              Open Link
+            </MetaButton>
           )}
         </HStack>
       </MetaTileHeader>
@@ -75,7 +76,7 @@ export const QuestDetails: React.FC<Props> = ({ quest }) => {
         <VStack spacing={2} align="stretch">
           <Box pb={2}>
             <Text textStyle="caption" pb={1}>
-              DESCRIPTION
+              Description
             </Text>
             {descIsHtml ? (
               <Prose>{parsedDescription}</Prose>
@@ -96,7 +97,7 @@ export const QuestDetails: React.FC<Props> = ({ quest }) => {
 
           <Box pb={2}>
             <Text textStyle="caption" pb={1}>
-              SKILLS
+              Skills
             </Text>
             <SkillsTags
               skills={quest.quest_skills.map(({ skill }) => skill) as Skill[]}
@@ -104,11 +105,13 @@ export const QuestDetails: React.FC<Props> = ({ quest }) => {
           </Box>
           <Box pb={2}>
             <Text textStyle="caption" pb={1}>
-              ROLES
+              Roles
             </Text>
             <RolesTags
               roles={
-                quest.quest_roles.map(({ PlayerRole: r }) => r) as PlayerRole[]
+                quest.quest_roles.map(
+                  ({ PlayerRole: role }) => role,
+                ) as PlayerRole[]
               }
             />
           </Box>

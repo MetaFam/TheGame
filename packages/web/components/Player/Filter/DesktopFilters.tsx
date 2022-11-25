@@ -70,7 +70,7 @@ export const DesktopFilters: React.FC<Props> = ({
     <Wrap
       transition="all 0.25s"
       py={6}
-      style={{ backdropFilter: 'blur(7px)' }}
+      backdropFilter="blur(7px)"
       ref={filterRef}
       position="sticky"
       top="-1px"

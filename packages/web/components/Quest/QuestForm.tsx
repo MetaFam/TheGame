@@ -1,8 +1,10 @@
 import {
   Box,
   Button,
+  Center,
   ConfirmModal,
   Flex,
+  Image,
   Input,
   MetaButton,
   MetaTag,
@@ -11,6 +13,7 @@ import {
   Textarea,
   VStack,
 } from '@metafam/ds';
+import { Maybe } from '@metafam/utils';
 import { FlexContainer } from 'components/Container';
 import { RepetitionColors } from 'components/Quest/QuestTags';
 import { RolesSelect } from 'components/Quest/Roles';
@@ -23,7 +26,7 @@ import {
   QuestStatus_Enum,
 } from 'graphql/autogen/types';
 import { useRouter } from 'next/router';
-import React, { useMemo, useState } from 'react';
+import React, { ChangeEvent, useMemo, useState } from 'react';
 import { Controller, FieldError, useForm } from 'react-hook-form';
 import { QuestRepetitionHint, URIRegexp } from 'utils/questHelpers';
 import { RoleOption } from 'utils/roleHelpers';
@@ -54,6 +57,8 @@ const validations = {
   },
 };
 
+// export interface DefaultableFormValues {
+// }
 export interface CreateQuestFormInputs {
   title: string;
   description: string;
@@ -64,8 +69,8 @@ export interface CreateQuestFormInputs {
   cooldown?: number | null;
   skills: SkillOption[];
   roles: RoleOption[];
+  image: Maybe<FileList>;
 }
-
 const MetaFamGuildId = 'f94b7cd4-cf29-4251-baa5-eaacab98a719';
 
 const getDefaultFormValues = (
@@ -97,6 +102,7 @@ const getDefaultFormValues = (
           value: role,
         }))
     : [],
+  image: null,
 });
 
 type FieldProps = {
@@ -106,12 +112,11 @@ type FieldProps = {
 };
 
 const Field: React.FC<FieldProps> = ({ children, error, label }) => (
-  <Flex mb={2} w="100%" align="center" direction="column">
-    <Flex justify="space-between" w="100%" mb={2}>
+  <Flex mb={2} w="full" align="center" direction="column">
+    <Flex justify="space-between" w="full" mb={2}>
       <Text textStyle="caption" textAlign="left" ml={4}>
         {label}
       </Text>
-
       <Text textStyle="caption" textAlign="left" color="red.400" mr={4}>
         {error?.type === 'required' && 'Required'}
         {error?.type === 'pattern' && 'Invalid URL'}
@@ -120,7 +125,6 @@ const Field: React.FC<FieldProps> = ({ children, error, label }) => (
         {error?.type === 'min' && 'Too small'}
       </Text>
     </Flex>
-
     {children}
   </Flex>
 );
@@ -164,11 +168,26 @@ export const QuestForm: React.FC<Props> = ({
   });
   const router = useRouter();
   const [exitAlert, setExitAlert] = useState<boolean>(false);
+  const prevImage = editQuest?.image ?? null;
+  const [previewImg, setPreviewImage] = useState<Maybe<string>>(prevImage);
   const createQuestInput = watch();
+
+  function showImagePreview(e: ChangeEvent<HTMLInputElement>) {
+    const file = e?.target?.files?.[0];
+    if (!file) {
+      setPreviewImage(prevImage);
+    } else {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        if (reader.result) setPreviewImage(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  }
 
   return (
     <Box w="100%" maxW="30rem">
-      <VStack>
+      <VStack spacing={8} paddingY={6}>
         <Field label="Title" error={errors.title}>
           <Input
             placeholder="Buidl stuff…"
@@ -208,7 +227,7 @@ export const QuestForm: React.FC<Props> = ({
             }}
             defaultValue={defaultValues.description}
             render={({ field: { onChange, value } }) => (
-              <Textarea {...{ value, onChange }} />
+              <Textarea background={'dark'} {...{ value, onChange }} />
             )}
           />
         </Field>
@@ -251,6 +270,7 @@ export const QuestForm: React.FC<Props> = ({
             p={2}
             mt={2}
             backgroundColor={RepetitionColors[createQuestInput.repetition]}
+            alignSelf="start"
           >
             {QuestRepetitionHint[createQuestInput.repetition]}
           </MetaTag>
@@ -353,6 +373,45 @@ export const QuestForm: React.FC<Props> = ({
               )}
             />
           </FlexContainer>
+        </Field>
+
+        <Field label="Image" error={errors.image}>
+          <Input
+            {...register('image')}
+            type="file"
+            paddingTop={1}
+            accept="image/*"
+            onChange={(e) => showImagePreview(e)}
+          />
+          <Center
+            boxSize="sm"
+            rounded="md"
+            border="dashed"
+            borderWidth={6}
+            borderColor="whiteAlpha.500"
+            marginTop={2}
+            height="xs"
+            width="full"
+            padding={2}
+            overflow="clip"
+            bgColor="blackAlpha.600"
+            backdropFilter="auto"
+            backdropBlur="sm"
+          >
+            {previewImg ? (
+              <Image
+                transition="ease-in"
+                transitionDuration="0.6s"
+                src={previewImg}
+                height="full"
+                alt="Quest image"
+              />
+            ) : (
+              <Text color="whiteAlpha.800">
+                Your image preview will show up here
+              </Text>
+            )}
+          </Center>
         </Field>
 
         <Flex justify="space-between" mt={4} w="100%">

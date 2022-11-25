@@ -83,15 +83,15 @@ export const AddBoxSection = React.forwardRef<HTMLDivElement, Props>(
           border="dashed 1px rgba(255, 255, 255, 0.3)"
           borderRadius="lg"
           boxShadow="md"
-          w="100%"
-          h="100%"
-          css={{ backdropFilter: 'blur(8px)' }}
+          w="full"
+          h="full"
+          backdropFilter="blur(8px)"
           {...props}
         >
           <Button
             onClick={onOpen}
-            w="100%"
-            h="100%"
+            w="full"
+            h="full"
             m={0}
             bg="blue20"
             color="offwhite"
@@ -111,7 +111,7 @@ export const AddBoxSection = React.forwardRef<HTMLDivElement, Props>(
                 <VStack
                   spacing={6}
                   color="white"
-                  w="100%"
+                  w="full"
                   maxW="30rem"
                   align="center"
                   mx="auto"
@@ -150,8 +150,8 @@ export const AddBoxSection = React.forwardRef<HTMLDivElement, Props>(
                     <Flex
                       w={{ base: '100%', sm: '30rem' }}
                       maxW="30rem"
-                      bg={'whiteAlpha.200'}
-                      style={{ backdropFilter: 'blur(7px)' }}
+                      bg="whiteAlpha.200"
+                      backdropFilter="blur(7px)"
                       borderRadius="lg"
                     >
                       <Preview

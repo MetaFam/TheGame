@@ -100,6 +100,7 @@ export const QuestFragment = /* GraphQL */ `
     status
     title
     repetition
+    image
 
     guild {
       name
@@ -168,6 +169,7 @@ export const QuestWithCompletionFragment = /* GraphQL */ `
     status
     title
     repetition
+    image
 
     guild {
       name

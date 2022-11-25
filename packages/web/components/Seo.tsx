@@ -12,8 +12,8 @@ export type HeadMetaProps = {
 export const HeadComponent: React.FC<HeadMetaProps> = ({
   title = 'MetaGame',
   description = 'MetaGame is a Massive Online Coordination Game! MetaGame is any approach to a game that transcends or operates outside of the prescribed rules of the game, uses external factors to affect the game, or goes beyond the supposed limits or environment set by the game.',
-  url = 'https://my.metagame.wtf/',
-  img = 'https://my.metagame.wtf/_next/image?url=%2Fassets%2Flogo.png&w=1920&q=75',
+  url = 'https://metagame.wtf/',
+  img = 'https://metagame.wtf/_next/image?url=%2Fassets%2Flogo.png&w=1920&q=75',
   cardStyle = 'summary',
 }) => (
   <Head>
