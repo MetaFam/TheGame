@@ -10,6 +10,7 @@ import {
   Text,
   VStack,
 } from '@metafam/ds';
+import { isSGML } from '@metafam/utils';
 import { MarkdownViewer as Markdown } from 'components/MarkdownViewer';
 import { RepetitionTag, StatusTag } from 'components/Quest/QuestTags';
 import { RolesTags } from 'components/Quest/Roles';
@@ -34,10 +35,10 @@ type Props = {
 export const QuestDetails: React.FC<Props> = ({ quest }) => {
   const { user } = useUser();
   const isMyQuest = user?.id === (quest as Quest).player.id;
-  const descIsHtml = /<\/?[a-z][\s\S]*>/i.test(quest.description ?? '');
+  const descIsHtml = isSGML(quest.description ?? '');
   const parsedDescription = descIsHtml
     ? safelyParseNChakrifyHtml(quest.description ?? '')
-    : '';
+    : null;
 
   return (
     <MetaTile maxW={undefined} noTilt>

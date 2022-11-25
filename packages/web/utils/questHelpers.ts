@@ -20,17 +20,17 @@ export function transformCooldownForBackend(
   return cooldown * 60 * 60;
 }
 
-export function isAllowedToCreateQuest(balance?: string | null): boolean {
-  if (balance == null) return false;
+export const isAllowedToCreateQuest = (balance?: string | null): boolean => {
+  let bal = balance;
+  bal ??= '0';
 
-  const pSEEDDecimals = 18;
-  const minimumPooledSeedBalance = new BN(Constants.PSEED_FOR_QUEST);
-  const pSEEDBalanceInDecimal = amountToDecimal(balance, pSEEDDecimals);
+  const { PSEED_DECIMALS: pSEEDDecimals, PSEED_FOR_QUEST: pSEEDForQuest } =
+    Constants;
+  const minPSEEDBalance = new BN(pSEEDForQuest);
+  const decimalPSEEDBalance = amountToDecimal(bal, pSEEDDecimals);
 
-  const allowed = new BN(pSEEDBalanceInDecimal).gte(minimumPooledSeedBalance);
-
-  return allowed;
-}
+  return new BN(decimalPSEEDBalance).gte(minPSEEDBalance);
+};
 
 // TODO factorize this with backend
 export function canCompleteQuest(
@@ -39,25 +39,31 @@ export function canCompleteQuest(
 ): boolean {
   if (!user || !quest) return false;
 
-  if (quest.status !== QuestStatus_Enum.Open) {
+  const {
+    status,
+    repetition,
+    quest_completions: completions,
+    cooldown,
+  } = quest;
+
+  if (status !== QuestStatus_Enum.Open) {
     return false;
   }
   // Personal or unique, check if not already done by player
   if (
-    quest.repetition === QuestRepetition_Enum.Unique ||
-    quest.repetition === QuestRepetition_Enum.Personal
+    repetition === QuestRepetition_Enum.Unique ||
+    repetition === QuestRepetition_Enum.Personal
   ) {
-    return !quest.quest_completions.some((qc) => qc.player.id === user.id);
+    return !completions.some((qc) => qc.player.id === user.id);
   }
-  if (quest.repetition === QuestRepetition_Enum.Recurring && quest.cooldown) {
-    const myLastCompletion = quest.quest_completions.find(
-      (qc) => qc.player.id === user.id,
-    );
+  if (repetition === QuestRepetition_Enum.Recurring && cooldown) {
+    const myLastCompletion = completions.find((qc) => qc.player.id === user.id);
     if (myLastCompletion) {
       const submittedAt = new Date(myLastCompletion.submittedAt);
       const now = new Date();
-      const diff = +now - +submittedAt;
-      if (diff < quest.cooldown * 1000) {
+      const Δ = Number(now) - Number(submittedAt);
+      // Δ is in milliseconds, cooldown in hours
+      if (Δ < cooldown * 60 * 60 * 1000) {
         return false;
       }
     }

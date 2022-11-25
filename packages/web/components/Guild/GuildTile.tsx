@@ -37,7 +37,7 @@ export const GuildTile: React.FC<Props> = ({ guild }) => (
             size="lg"
             color="white"
             bgColor="whiteAlpha.100"
-            sx={{ backdropFilter: 'blur(10px)' }}
+            backdropFilter="blur(10px)"
             lineHeight={1.8}
             justifyContent="center"
             px={3}

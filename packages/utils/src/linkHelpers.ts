@@ -33,3 +33,6 @@ export const httpLink = (uri?: Maybe<string>) => {
 
   return uri ?? undefined; // Image.src won't take null
 };
+
+export const isSGML = (str: string) =>
+  /<([a-z]+).*(\/>|[^/]>.*<\/\1>)/is.test(str);

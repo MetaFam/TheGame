@@ -179,7 +179,9 @@ export const QuestForm: React.FC<Props> = ({
     } else {
       const reader = new FileReader();
       reader.onloadend = () => {
-        if (reader.result) setPreviewImage(reader.result as string);
+        if (reader.result) {
+          setPreviewImage(reader.result as string);
+        }
       };
       reader.readAsDataURL(file);
     }
@@ -187,7 +189,7 @@ export const QuestForm: React.FC<Props> = ({
 
   return (
     <Box w="100%" maxW="30rem">
-      <VStack spacing={8} paddingY={6}>
+      <VStack spacing={8} py={6} as="form" onSubmit={handleSubmit(onSubmit)}>
         <Field label="Title" error={errors.title}>
           <Input
             placeholder="Buidl stuff…"
@@ -206,7 +208,7 @@ export const QuestForm: React.FC<Props> = ({
               },
             })}
             isInvalid={!!errors.title}
-            background="dark"
+            bg="dark"
             autoFocus
           />
         </Field>
@@ -221,13 +223,13 @@ export const QuestForm: React.FC<Props> = ({
                 message: 'A description is required.',
               },
               minLength: {
-                value: 13,
+                value: 7,
                 message: 'Too short…',
               },
             }}
             defaultValue={defaultValues.description}
             render={({ field: { onChange, value } }) => (
-              <Textarea background={'dark'} {...{ value, onChange }} />
+              <Textarea bg="dark" {...{ value, onChange }} />
             )}
           />
         </Field>
@@ -242,7 +244,7 @@ export const QuestForm: React.FC<Props> = ({
               },
             })}
             isInvalid={!!errors.externalLink}
-            background="dark"
+            bg="dark"
           />
         </Field>
 
@@ -259,7 +261,7 @@ export const QuestForm: React.FC<Props> = ({
             color="white"
           >
             {Object.entries(QuestRepetition_Enum).map(([key, value]) => (
-              <option key={value} value={value}>
+              <option key={value} {...{ value }}>
                 {key}
               </option>
             ))}
@@ -269,7 +271,7 @@ export const QuestForm: React.FC<Props> = ({
             fontWeight="normal"
             p={2}
             mt={2}
-            backgroundColor={RepetitionColors[createQuestInput.repetition]}
+            bgColor={RepetitionColors[createQuestInput.repetition]}
             alignSelf="start"
           >
             {QuestRepetitionHint[createQuestInput.repetition]}
@@ -292,7 +294,7 @@ export const QuestForm: React.FC<Props> = ({
                 },
               })}
               isInvalid={!!errors.cooldown}
-              background="dark"
+              bg="dark"
             />
           </Field>
         )}
@@ -358,7 +360,7 @@ export const QuestForm: React.FC<Props> = ({
         </Field>
 
         <Field label="Roles">
-          <FlexContainer w="100%" align="stretch" maxW="50rem">
+          <FlexContainer w="full" align="stretch" maxW="50rem">
             <Controller
               name="roles"
               {...{ control }}
@@ -368,7 +370,7 @@ export const QuestForm: React.FC<Props> = ({
                   {...{ roleChoices }}
                   roles={value}
                   setRoles={onChange}
-                  placeHolder="Select required roles"
+                  placeHolder="Select Required Roles…"
                 />
               )}
             />
@@ -416,10 +418,10 @@ export const QuestForm: React.FC<Props> = ({
 
         <Flex justify="space-between" mt={4} w="100%">
           <MetaButton
+            type="submit"
             disabled={guilds.length === 0}
             isLoading={fetching}
             loadingText={loadingLabel}
-            onClick={handleSubmit(onSubmit)}
             isDisabled={success}
           >
             {submitLabel}
@@ -427,8 +429,7 @@ export const QuestForm: React.FC<Props> = ({
           <Button
             variant="ghost"
             onClick={() => setExitAlert(true)}
-            isDisabled={fetching || success}
-            _hover={{ bg: '#FFFFFF11' }}
+            _hover={{ bg: 'alphaWhite.400' }}
             _active={{ bg: '#FF000008' }}
             ml={5}
           >

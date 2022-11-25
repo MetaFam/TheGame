@@ -2,8 +2,8 @@ import {
   Box,
   Flex,
   Heading,
-  Link,
   LinkBox,
+  LinkOverlay,
   MetaButton,
   MetaTile,
   MetaTileBody,
@@ -11,9 +11,8 @@ import {
   Prose,
   Text,
 } from '@metafam/ds';
-import { Maybe } from '@metafam/utils';
+import { isSGML, Maybe } from '@metafam/utils';
 import BackgroundImage from 'assets/quests/quest.png';
-import { MetaLink } from 'components/Link';
 import { MarkdownViewer as Markdown } from 'components/MarkdownViewer';
 import { RolesTags } from 'components/Quest/Roles';
 import { SkillsTags } from 'components/Quest/Skills';
@@ -28,7 +27,7 @@ type Props = {
 
 export const QuestTile: React.FC<Props> = ({ quest }) => {
   const description = quest.description ?? '*No Description Available*';
-  const descIsHtml = /<([a-z]+).*(\/>|[^/]>.*<\/\1>)/is.test(description);
+  const descIsHtml = isSGML(description);
   const parsedDescription = descIsHtml
     ? safelyParseNChakrifyHtml(description)
     : null;
@@ -55,22 +54,24 @@ export const QuestTile: React.FC<Props> = ({ quest }) => {
         <MetaTileHeader>
           <SquareImage src={BackgroundImage.src} />
           <Flex px={3} w="full" pos="absolute" bottom={-6} zIndex={1}>
-            <Heading
-              size="lg"
-              color="white"
-              bgColor="whiteAlpha.100"
-              sx={{ backdropFilter: 'blur(10px)' }}
-              lineHeight={1.8}
-              justifyContent="center"
-              px={3}
-              width="full"
-              textAlign="center"
-              borderRadius={10}
-              fontFamily="body"
-              fontWeight="normal"
-            >
-              {quest.title}
-            </Heading>
+            <LinkOverlay href={`/quests/${quest.id}`}>
+              <Heading
+                size="lg"
+                color="white"
+                bgColor="whiteAlpha.100"
+                backdropFilter="blur(10px)"
+                lineHeight={1.8}
+                justifyContent="center"
+                px={3}
+                width="full"
+                textAlign="center"
+                borderRadius={10}
+                fontFamily="body"
+                fontWeight="normal"
+              >
+                {quest.title}
+              </Heading>
+            </LinkOverlay>
           </Flex>
         </MetaTileHeader>
         <MetaTileBody>
@@ -95,7 +96,7 @@ export const QuestTile: React.FC<Props> = ({ quest }) => {
                     px={3}
                     py={1}
                   >
-                    Read More
+                    Read More…
                   </MetaButton>
                 </Flex>
               )}
