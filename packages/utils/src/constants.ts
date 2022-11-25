@@ -18,10 +18,10 @@ export const {
 } = process.env;
 export const IPFS_LINK_PATTERN =
   process.env.NEXT_PUBLIC_IPFS_LINK_PATTERN ||
-  'https://ipfs.io/ipfs/{cid}/{path}' ||
   'https://w3s.link/ipfs/{cid}/{path}' || // returns svg as application/xml
+  'https://ipfs.io/ipfs/{cid}/{path}' ||
   'https://{v1cid}.ipfs.dweb.link/{path}';
 
 export const PSEED_ADDRESS = '0x8a8fcd351ed553fc75aecbc566a32f94471f302e';
 export const PSEED_DECIMALS = 18;
-export const PSEED_FOR_QUEST = 100;
+export const PSEED_FOR_QUEST = process.env.NODE_ENV === 'production' ? 100 : 0;

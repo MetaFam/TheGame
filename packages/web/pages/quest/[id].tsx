@@ -35,7 +35,7 @@ import { canCompleteQuest } from 'utils/questHelpers';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
-const QuestPage: React.FC<Props> = ({ quest_id }) => {
+export const QuestPage: React.FC<Props> = ({ quest_id }) => {
   const router = useRouter();
   const { user } = useUser();
 

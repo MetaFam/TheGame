@@ -76,7 +76,7 @@ export const CompletionForm: React.FC<Props> = ({
           type="submit"
           isLoading={fetching}
           loadingText="Submitting…"
-          isDisabled={success}
+          isDisabled={success || submitting}
         >
           {submitting ? <Spinner /> : 'Submit'}
         </MetaButton>
