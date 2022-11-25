@@ -3,17 +3,19 @@ import {
   Button,
   Center,
   ConfirmModal,
+  Field,
   Flex,
   Image,
   Input,
   MetaButton,
   MetaTag,
   Select,
+  Spinner,
   Text,
   Textarea,
   VStack,
 } from '@metafam/ds';
-import { Maybe } from '@metafam/utils';
+import { httpLink, Maybe } from '@metafam/utils';
 import { FlexContainer } from 'components/Container';
 import { RepetitionColors } from 'components/Quest/QuestTags';
 import { RolesSelect } from 'components/Quest/Roles';
@@ -27,7 +29,7 @@ import {
 } from 'graphql/autogen/types';
 import { useRouter } from 'next/router';
 import React, { ChangeEvent, useMemo, useState } from 'react';
-import { Controller, FieldError, useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { QuestRepetitionHint, URIRegexp } from 'utils/questHelpers';
 import { RoleOption } from 'utils/roleHelpers';
 import { CategoryOption, SkillOption } from 'utils/skillHelpers';
@@ -55,20 +57,18 @@ const validations = {
     valueAsNumber: true,
     min: 1,
   },
-};
+} as const;
 
-// export interface DefaultableFormValues {
-// }
 export interface CreateQuestFormInputs {
   title: string;
   description: string;
   repetition: QuestRepetition_Enum;
   status: QuestStatus_Enum;
-  guildId: string | null;
-  externalLink?: string | null;
-  cooldown?: number | null;
-  skills: SkillOption[];
-  roles: RoleOption[];
+  guildId: Maybe<string>;
+  externalLink?: Maybe<string>;
+  cooldown?: Maybe<number>;
+  skills: Array<SkillOption>;
+  roles: Array<RoleOption>;
   image: Maybe<FileList>;
 }
 const MetaFamGuildId = 'f94b7cd4-cf29-4251-baa5-eaacab98a719';
@@ -84,11 +84,12 @@ const getDefaultFormValues = (
   guildId:
     base?.guildId ??
     guilds.find((g) => g.id === MetaFamGuildId)?.id ??
-    guilds[0].id,
+    guilds[0].id ??
+    null,
   status: base?.status || QuestStatus_Enum.Open,
-  cooldown: base?.cooldown || null,
+  cooldown: base?.cooldown ?? null,
   skills: (base?.quest_skills ?? [])
-    .map((s) => s.skill)
+    .map(({ skill }) => skill)
     .map((s) => ({
       value: s.id,
       label: s.name,
@@ -96,41 +97,17 @@ const getDefaultFormValues = (
     })),
   roles: base
     ? base.quest_roles
-        .map((s) => s.PlayerRole)
-        .map(({ role, label }) => ({
+        .map(({ PlayerRole: role }) => role)
+        .map(({ role: value, label }) => ({
           label,
-          value: role,
+          value,
         }))
     : [],
   image: null,
 });
 
-type FieldProps = {
-  children: React.ReactNode;
-  label: string;
-  error?: FieldError;
-};
-
-const Field: React.FC<FieldProps> = ({ children, error, label }) => (
-  <Flex mb={2} w="full" align="center" direction="column">
-    <Flex justify="space-between" w="full" mb={2}>
-      <Text textStyle="caption" textAlign="left" ml={4}>
-        {label}
-      </Text>
-      <Text textStyle="caption" textAlign="left" color="red.400" mr={4}>
-        {error?.type === 'required' && 'Required'}
-        {error?.type === 'pattern' && 'Invalid URL'}
-        {error?.type === 'minLength' && 'Too short'}
-        {error?.type === 'maxLength' && 'Too long'}
-        {error?.type === 'min' && 'Too small'}
-      </Text>
-    </Flex>
-    {children}
-  </Flex>
-);
-
 type Props = {
-  guilds: GuildFragment[];
+  guilds: Array<GuildFragment>;
   editQuest?: QuestFragment;
   skillChoices: Array<CategoryOption>;
   roleChoices: Array<PlayerRole>;
@@ -160,7 +137,7 @@ export const QuestForm: React.FC<Props> = ({
   const {
     register,
     control,
-    formState: { errors },
+    formState: { errors, isSubmitting: submitting },
     watch,
     handleSubmit,
   } = useForm<CreateQuestFormInputs>({
@@ -168,7 +145,7 @@ export const QuestForm: React.FC<Props> = ({
   });
   const router = useRouter();
   const [exitAlert, setExitAlert] = useState<boolean>(false);
-  const prevImage = editQuest?.image ?? null;
+  const prevImage = httpLink(editQuest?.image) ?? null;
   const [previewImg, setPreviewImage] = useState<Maybe<string>>(prevImage);
   const createQuestInput = watch();
 
@@ -248,7 +225,7 @@ export const QuestForm: React.FC<Props> = ({
           />
         </Field>
 
-        <Field label="Repetition">
+        <Field label="Repetition" error={errors.repetition}>
           <Select
             {...register('repetition', {
               required: {
@@ -280,7 +257,7 @@ export const QuestForm: React.FC<Props> = ({
         {createQuestInput.repetition === QuestRepetition_Enum.Recurring && (
           <Field label="Cooldown (hours)" error={errors.cooldown}>
             <Input
-              placeholder="3600"
+              placeholder="168 = 24 ⨯ 7"
               type="number"
               {...register('cooldown', {
                 valueAsNumber: true,
@@ -299,7 +276,7 @@ export const QuestForm: React.FC<Props> = ({
           </Field>
         )}
 
-        <Field label="Guild">
+        <Field label="Guild" error={errors.guildId}>
           <Select
             {...register('guildId', {
               required: {
@@ -320,7 +297,7 @@ export const QuestForm: React.FC<Props> = ({
         </Field>
 
         {editQuest && (
-          <Field label="Status">
+          <Field label="Status" error={errors.status}>
             <Select
               {...register('status', {
                 required: {
@@ -342,7 +319,7 @@ export const QuestForm: React.FC<Props> = ({
         )}
 
         <Field label="Skills">
-          <FlexContainer w="100%" align="stretch" maxW="50rem">
+          <FlexContainer w="full" align="stretch" maxW="50rem">
             <Controller
               name="skills"
               {...{ control }}
@@ -416,7 +393,7 @@ export const QuestForm: React.FC<Props> = ({
           </Center>
         </Field>
 
-        <Flex justify="space-between" mt={4} w="100%">
+        <Flex justify="space-around" mt={4} w="full">
           <MetaButton
             type="submit"
             disabled={guilds.length === 0}
@@ -424,7 +401,7 @@ export const QuestForm: React.FC<Props> = ({
             loadingText={loadingLabel}
             isDisabled={success}
           >
-            {submitLabel}
+            {submitting ? <Spinner /> : submitLabel}
           </MetaButton>
           <Button
             variant="ghost"

@@ -8,22 +8,25 @@ import {
 
 const { BN, amountToDecimal } = numbers;
 
-export const URIRegexp = /\w+:(\/\/)?[^\s]+/;
+export const URIRegexp = /^(\w{1,12}:)?(\/\/)\S+/;
 
 // Hours to seconds
 export function transformCooldownForBackend(
-  cooldown?: number | null,
-  repetition?: QuestRepetition_Enum | null,
+  cooldown?: Maybe<number>,
+  repetition?: Maybe<QuestRepetition_Enum>,
 ): number | null {
-  if (!cooldown || !repetition || repetition !== QuestRepetition_Enum.Recurring)
+  if (
+    !cooldown ||
+    !repetition ||
+    repetition !== QuestRepetition_Enum.Recurring
+  ) {
     return null;
+  }
   return cooldown * 60 * 60;
 }
 
-export const isAllowedToCreateQuest = (balance?: string | null): boolean => {
-  let bal = balance;
-  bal ??= '0';
-
+export const isAllowedToCreateQuest = (balance?: Maybe<string>): boolean => {
+  const bal = balance ?? '0';
   const { PSEED_DECIMALS: pSEEDDecimals, PSEED_FOR_QUEST: pSEEDForQuest } =
     Constants;
   const minPSEEDBalance = new BN(pSEEDForQuest);
@@ -62,10 +65,8 @@ export function canCompleteQuest(
       const submittedAt = new Date(myLastCompletion.submittedAt);
       const now = new Date();
       const Δ = Number(now) - Number(submittedAt);
-      // Δ is in milliseconds, cooldown in hours
-      if (Δ < cooldown * 60 * 60 * 1000) {
-        return false;
-      }
+      // Δ is in milliseconds, cooldown stored in seconds
+      return Δ >= cooldown * 1000;
     }
   }
 

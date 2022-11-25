@@ -11,7 +11,7 @@ import {
   Prose,
   Text,
 } from '@metafam/ds';
-import { isSGML, Maybe } from '@metafam/utils';
+import { httpLink, isSGML, Maybe } from '@metafam/utils';
 import BackgroundImage from 'assets/quests/quest.png';
 import { MarkdownViewer as Markdown } from 'components/MarkdownViewer';
 import { RolesTags } from 'components/Quest/Roles';
@@ -49,12 +49,16 @@ export const QuestTile: React.FC<Props> = ({ quest }) => {
   }, [descriptionContent]);
 
   return (
-    <LinkBox role="group">
+    <LinkBox>
       <MetaTile height="full" width="full">
         <MetaTileHeader>
-          <SquareImage src={BackgroundImage.src} />
-          <Flex px={3} w="full" pos="absolute" bottom={-6} zIndex={1}>
-            <LinkOverlay href={`/quests/${quest.id}`}>
+          <SquareImage src={httpLink(quest.image) ?? BackgroundImage.src} />
+          <Flex px={3} bottom={-6} w="full" pos="absolute" zIndex={1}>
+            <LinkOverlay
+              href={`/quest/${quest.id}`}
+              w="full"
+              justifyContent="center"
+            >
               <Heading
                 size="lg"
                 color="white"

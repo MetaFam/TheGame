@@ -90,11 +90,10 @@ const SubmitQuestCompletionPage: React.FC<Props> = ({ quest }) => {
             />
             Back to Quest
           </MetaLink>
-          <Heading>Claim quest</Heading>
+          <Heading my={5}>Claim Quest</Heading>
 
           <CompletionForm
-            onSubmit={onSubmit}
-            quest={quest}
+            {...{ onSubmit, quest }}
             success={
               !!createQuestCompletionState.data?.createQuestCompletion
                 ?.quest_completion_id

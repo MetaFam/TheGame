@@ -78,16 +78,7 @@ const QuestPage: React.FC<Props> = ({ quest_id }) => {
 
         <Wrap w="100%" justify="center" spacing={8}>
           <WrapItem flexGrow={3} flexShrink={1} flexBasis={0}>
-            <Flex
-              w="full"
-              align={{ base: 'center', lg: 'start' }}
-              direction="column"
-            >
-              <Heading as="h2" fontFamily="body" size="xl" mb={4} ml={2}>
-                Quest: {quest.title}
-              </Heading>
-              <QuestDetails {...{ quest }} />
-            </Flex>
+            <QuestDetails {...{ quest }} />
           </WrapItem>
           <WrapItem
             flexGrow={1}
