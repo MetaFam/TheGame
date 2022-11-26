@@ -37,6 +37,21 @@ const COINGECKO_API_URL = 'https://api.coingecko.com/api/v3/coins/';
 const TOKEN_QUERY = '?localization=false&tickers=true&market_data=true';
 const CHART_QUERY = '/market_chart?vs_currency=usd&days=30&interval=daily';
 
+/**
+ * Temporary link to the Seed Pool on Balancer
+ * Ref: #1407 https://github.com/MetaFam/TheGame/issues/1407
+ * On the Dashboard we provide a link to Seed Pool Info so Players/Patrons can check their investments in the Seed Pool
+ * The link is supposed to be provided by the CoinGecko API (`ticker.token_info_url`)
+ * As at 2022/11/26 the link provided by the API is to the (outdated) Mainnet Seed Pool instead of the (new, awesome) Polygon Seed Pool
+ * (UPDATE: As at 2022/11/26 17:47 the API isn't providing any of the ticker info)
+ * Until the CoinGecko API is updated, we're doing to hard-code the link to the Polygon Seed Pool.
+ * - TEMP_SEED_POOL_LINK_FIX_LATER, see below
+ * After the CoinGecko API is updated, we are going to remember to revert this change. (Previous code has been kept but commented out)
+ */
+
+const TEMP_SEED_POOL_LINK_FIX_LATER =
+  'https://app.balancer.fi/#/polygon/pool/0x8a8fcd351ed553fc75aecbc566a32f94471f302e000100000000000000000081';
+
 type TokenDataProps = {
   market: MarketDataProps;
   poolTicker: TickerProps;
@@ -163,6 +178,24 @@ export const Seed = (): ReactElement => {
           </Box>
         )}
       </Box>
+      {/**
+       * Delete this component after the CoinGecko API is updated with the Polygon Seed Pool info
+       * (and uncomment the following bit to start using the API again for the link)
+       */}
+      <Link
+        position="absolute"
+        bottom={6}
+        left={6}
+        href={TEMP_SEED_POOL_LINK_FIX_LATER}
+        isExternal
+        zIndex={20}
+      >
+        Pool Info
+      </Link>
+
+      {/**
+         * Uncomment this after the CoinGecko API is updated with the Polygon Seed Pool info
+        
       {token?.poolTicker && (
         <Link
           position="absolute"
@@ -175,6 +208,8 @@ export const Seed = (): ReactElement => {
           Pool Info
         </Link>
       )}
+
+        */}
     </VStack>
   );
 };
