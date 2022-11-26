@@ -72,7 +72,7 @@ export const MetaTile: React.FC<FlexProps & MetaTileProps> = ({
         bg="rgba(255, 255, 255, 0.08)"
         style={{ backdropFilter: 'blur(7px)' }}
         rounded="lg"
-        p={6}
+        p={{ base: 3, md: 6 }}
         maxW="26rem" // (2 / 3.5) = ~0.571 aspect ratio desired
         w="full"
         h="full"
