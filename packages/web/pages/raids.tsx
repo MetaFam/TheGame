@@ -177,7 +177,7 @@ const RaidsPage: React.FC = () => {
           fontSize="5xl"
           fontWeight="bold"
           color="white"
-          fontFamily="mono"
+          fontFamily="exo2"
           mb={[4, 4, 4, 12]}
           display="flex"
           flexDir="row"
@@ -191,12 +191,12 @@ const RaidsPage: React.FC = () => {
           borderRadius={10}
           p={7}
           gap={{ base: 10, md: 6 }}
-          flexDir={{ base: 'row', md: 'column' }}
+          direction={{ base: 'row', md: 'column' }}
           pos="relative"
         >
           <Flex
             gap={6}
-            flexDir={{
+            direction={{
               base: 'column',
               md: 'row',
             }}
@@ -204,12 +204,16 @@ const RaidsPage: React.FC = () => {
             {phases.map(({ title, subtitle, description }, index) => (
               <Box key={title}>
                 <Flex alignItems="baseline" justifyContent="center">
-                  <Text fontWeight={700} fontSize={36} textAlign="center">
+                  <Text
+                    fontWeight="bold"
+                    fontSize={{ base: 30, md: 36 }}
+                    textAlign="center"
+                  >
                     Phase {convertToRoman(index + 1)} -{' '}
                     <Text
                       as="span"
                       fontStyle="italic"
-                      fontWeight={400}
+                      fontWeight="normal"
                       fontSize={32}
                     >
                       {title}
@@ -226,7 +230,7 @@ const RaidsPage: React.FC = () => {
                 >
                   {subtitle}
                 </Text>
-                <Text fontWeight={400} fontSize={14}>
+                <Text fontWeight="normal" fontSize={14}>
                   {description}
                 </Text>
               </Box>
@@ -239,7 +243,7 @@ const RaidsPage: React.FC = () => {
         <Flex
           gap={6}
           pb={16}
-          flexDir={{
+          direction={{
             base: 'column',
             lg: 'row',
           }}
@@ -260,8 +264,8 @@ const RaidsPage: React.FC = () => {
                   <Heading
                     size="lg"
                     color="white"
-                    bgColor="rgba(255, 255, 255, 0.06)"
-                    style={{ backdropFilter: 'blur(10px)' }}
+                    bgColor="alphaWhite.100"
+                    backdropFilter="blur(10px)"
                     lineHeight={1.8}
                     justifyContent="center"
                     px={3}
@@ -269,19 +273,19 @@ const RaidsPage: React.FC = () => {
                     textAlign="center"
                     borderRadius={10}
                     fontFamily="body"
-                    fontWeight={400}
+                    fontWeight="normal"
                   >
                     {title}
                   </Heading>
                 </Flex>
               </MetaTileHeader>
               <MetaTileBody justifyContent="space-between">
-                <Flex flexDir="column" gap={2}>
+                <Flex direction="column" gap={2}>
                   <VStack spacing={2} align="stretch">
-                    <Text textStyle="caption">ABOUT</Text>
+                    <Text textStyle="caption">About</Text>
                     <Text fontSize="sm">{about}</Text>
                   </VStack>
-                  <Flex align="stretch" flexDir="column" gap={3}>
+                  <Flex align="stretch" direction="column" gap={3}>
                     <Text textStyle="caption">Skills</Text>
                     <Wrap transition="opacity 0.4s">
                       {skills.map(({ name, category }, index) => (
@@ -304,7 +308,7 @@ const RaidsPage: React.FC = () => {
             </MetaTile>
           ))}
         </Flex>
-        <Modal isOpen={isOpen} onClose={onClose} size="full">
+        <Modal {...{ isOpen, onClose }} size="full">
           <ModalOverlay />
           <ModalContent>
             <ModalCloseButton />
@@ -312,7 +316,7 @@ const RaidsPage: React.FC = () => {
               display="flex"
               width="100%"
               height="100%"
-              flexDirection="column"
+              flexDir="column"
               background={`url(${Loader.src})`}
               backgroundPosition="center center"
               backgroundRepeat="no-repeat"
@@ -322,10 +326,10 @@ const RaidsPage: React.FC = () => {
                 title={titleModal}
                 src={deworkURLModal}
                 allowFullScreen
-                flexGrow="1"
+                flexGrow={1}
                 border="none"
-                margin="0"
-                padding="0"
+                margin={0}
+                padding={0}
               />
             </ModalBody>
           </ModalContent>
