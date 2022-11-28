@@ -50,15 +50,11 @@ export const QuestTile: React.FC<Props> = ({ quest }) => {
 
   return (
     <LinkBox>
-      <MetaTile height="full" width="full">
-        <MetaTileHeader>
-          <SquareImage src={httpLink(quest.image) ?? BackgroundImage.src} />
-          <Flex px={3} bottom={-6} w="full" pos="absolute" zIndex={1}>
-            <LinkOverlay
-              href={`/quest/${quest.id}`}
-              w="full"
-              justifyContent="center"
-            >
+      <LinkOverlay href={`/quest/${quest.id}`} w="full" justifyContent="center">
+        <MetaTile height="full" width="full">
+          <MetaTileHeader>
+            <SquareImage src={httpLink(quest.image) ?? BackgroundImage.src} />
+            <Flex px={3} bottom={-6} w="full" pos="absolute" zIndex={1}>
               <Heading
                 size="lg"
                 color="white"
@@ -75,63 +71,65 @@ export const QuestTile: React.FC<Props> = ({ quest }) => {
               >
                 {quest.title}
               </Heading>
-            </LinkOverlay>
-          </Flex>
-        </MetaTileHeader>
-        <MetaTileBody>
-          <Flex direction="column">
-            <Box pb={2}>
-              <Text textStyle="caption" pb={1}>
-                Description
-              </Text>
-              <Box noOfLines={3} ref={descriptionRef}>
-                {descIsHtml ? (
-                  <Prose>{parsedDescription}</Prose>
-                ) : (
-                  <Markdown>{description}</Markdown>
+            </Flex>
+          </MetaTileHeader>
+          <MetaTileBody>
+            <Flex direction="column">
+              <Box pb={2}>
+                <Text textStyle="caption" pb={1}>
+                  Description
+                </Text>
+                <Box noOfLines={3} ref={descriptionRef}>
+                  {descIsHtml ? (
+                    <Prose>{parsedDescription}</Prose>
+                  ) : (
+                    <Markdown>{description}</Markdown>
+                  )}
+                </Box>
+                {clamped && (
+                  <Flex justifyContent="end" mr={5}>
+                    <MetaButton
+                      href={`/quest/${quest.id}`}
+                      h="auto"
+                      size="sm"
+                      px={3}
+                      py={1}
+                    >
+                      Read More…
+                    </MetaButton>
+                  </Flex>
                 )}
               </Box>
-              {clamped && (
-                <Flex justifyContent="end" mr={5}>
-                  <MetaButton
-                    href={`/quest/${quest.id}`}
-                    h="auto"
-                    size="sm"
-                    px={3}
-                    py={1}
-                  >
-                    Read More…
-                  </MetaButton>
-                </Flex>
-              )}
-            </Box>
-            <Box pb={2}>
-              <Text textStyle="caption" pb={1}>
-                Skills
-              </Text>
-              <SkillsTags
-                skills={quest.quest_skills.map(({ skill }) => skill) as Skill[]}
-              />
-            </Box>
-            <Box pb={2}>
-              <Text textStyle="caption" pb={1}>
-                Roles
-              </Text>
-              {quest.quest_roles.length ? (
-                <RolesTags
-                  roles={
-                    quest.quest_roles.map(
-                      ({ PlayerRole: r }) => r,
-                    ) as PlayerRole[]
+              <Box pb={2}>
+                <Text textStyle="caption" pb={1}>
+                  Skills
+                </Text>
+                <SkillsTags
+                  skills={
+                    quest.quest_skills.map(({ skill }) => skill) as Skill[]
                   }
                 />
-              ) : (
-                <Text>/</Text>
-              )}
-            </Box>
-          </Flex>
-        </MetaTileBody>
-      </MetaTile>
+              </Box>
+              <Box pb={2}>
+                <Text textStyle="caption" pb={1}>
+                  Roles
+                </Text>
+                {quest.quest_roles.length ? (
+                  <RolesTags
+                    roles={
+                      quest.quest_roles.map(
+                        ({ PlayerRole: r }) => r,
+                      ) as PlayerRole[]
+                    }
+                  />
+                ) : (
+                  <Text>/</Text>
+                )}
+              </Box>
+            </Flex>
+          </MetaTileBody>
+        </MetaTile>
+      </LinkOverlay>
     </LinkBox>
   );
 };
