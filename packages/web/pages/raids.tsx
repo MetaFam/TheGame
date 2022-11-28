@@ -256,6 +256,7 @@ const RaidsPage: React.FC = () => {
         >
           {cards.map(({ image, title, about, skills, deworkURL }) => (
             <MetaTile
+              key={title}
               onClick={() => {
                 setTitle(title);
                 setDeworkURL(deworkURL);

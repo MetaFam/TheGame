@@ -28,7 +28,7 @@ env:
   FRONTEND_PORT: 3000
   HASURA_SECRET: metagame_secret
   GA4_ID: G-B1NKK3Q1BP
-  NODE_ENV: development
+  APP_ENV: development
 
 jobs:
   start-deployment:
@@ -67,7 +67,7 @@ jobs:
     needs: [cancel-previous]
 
     outputs:
-      NODE_ENV: ${{env.NODE_ENV}}
+      APP_ENV: ${{env.APP_ENV}}
       PROJECT_ID: ${{env.PROJECT_ID}}
       REGISTRY_REGION: ${{env.REGISTRY_REGION}}
       REGISTRY_REPO: ${{env.REGISTRY_REPO}}
@@ -459,7 +459,7 @@ jobs:
           args: |
             . -f docker/frontend/Dockerfile \
               --tag ${{needs.env.outputs.FRONTEND_TAG}} \
-              --build-arg NODE_ENV=${{needs.env.outputs.NODE_ENV}} \
+              --build-arg APP_ENV=${{needs.env.outputs.APP_ENV}} \
               --build-arg GRAPHQL_URL=${{needs.env.outputs.GRAPHQL_URL}} \
               --build-arg NEXT_PUBLIC_FRONTEND_URL=${{needs.env.outputs.FRONTEND_URL}} \
               --build-arg NEXT_PUBLIC_YOUTUBE_API_KEY=${{secrets.YOUTUBE_API_KEY}}
@@ -499,7 +499,7 @@ jobs:
             --ingress all \
             --max-instances 1 \
             --allow-unauthenticated \
-            --set-env-vars NODE_ENV=${{secrets.NODE_ENV}} \
+            --set-env-vars NEXT_PUBLIC_APP_ENV=${{secrets.APP_ENV}} \
             --set-env-vars WEB3_STORAGE_TOKEN=${{secrets.WEB3_STORAGE_TOKEN}} \
             --set-env-vars OPENSEA_API_KEY=${{secrets.OPENSEA_API_KEY}} \
             --set-env-vars NEXT_PUBLIC_IMGIX_TOKEN=${{secrets.IMGIX_TOKEN}} \
