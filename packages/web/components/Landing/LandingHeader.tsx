@@ -156,7 +156,7 @@ export const LandingHeader: React.FC = () => {
                   w={{ base: '2rem', xl: '2.25rem', '4xl': '2.5rem' }}
                   h={{ base: '2.25rem', xl: '2.5rem', '4xl': '2.75rem' }}
                 />
-                <Box as="span">MetaGame {process.env.NEXT_PUBLIC_APP_ENV}</Box>
+                <Box as="span">MetaGame</Box>
               </HStack>
             </MetaLink>
           </HStack>
