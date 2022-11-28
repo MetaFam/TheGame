@@ -31,6 +31,7 @@ COPY packages/design-system ./packages/design-system/
 COPY packages/@types ./packages/@types/
 
 # Set env vars
+ARG NODE_ENV=production
 ARG GRAPHQL_HOST=hasura
 ARG GRAPHQL_DOMAIN=onrender.com
 ARG GRAPHQL_URL=https://$GRAPHQL_HOST.$GRAPHQL_DOMAIN/v1/graphql
