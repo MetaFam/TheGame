@@ -28,7 +28,7 @@ env:
   FRONTEND_PORT: 3000
   HASURA_SECRET: metagame_secret
   GA4_ID: G-B1NKK3Q1BP
-  NODE_ENV: test
+  NODE_ENV: development
 
 jobs:
   start-deployment:
