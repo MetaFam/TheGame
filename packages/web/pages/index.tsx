@@ -219,32 +219,44 @@ export const Socials: React.FC = () => (
       >
         <MetaLink href="https://github.com/metafam" my={3} isExternal>
           <Tooltip label="Github" hasArrow placement="right">
-            <FaGithub />
+            <Box as="span">
+              <FaGithub />
+            </Box>
           </Tooltip>
         </MetaLink>
         <MetaLink href="https://discord.com/invite/metagame" isExternal>
           <Tooltip label="Discord" hasArrow placement="right">
-            <FaDiscord />
+            <Box as="span">
+              <FaDiscord />
+            </Box>
           </Tooltip>
         </MetaLink>
         <MetaLink href="https://twitter.com/metafam" isExternal>
           <Tooltip label="Twitter" hasArrow placement="right">
-            <FaTwitter />
+            <Box as="span">
+              <FaTwitter />
+            </Box>
           </Tooltip>
         </MetaLink>
         <MetaLink href="/players">
           <Tooltip label="Leaderboard" hasArrow placement="right">
-            <FaTrophy />
+            <Box as="span">
+              <FaTrophy />
+            </Box>
           </Tooltip>
         </MetaLink>
         <MetaLink href="/dashboard">
           <Tooltip label="Dashboard" hasArrow placement="right">
-            <FaHome />
+            <Box as="span">
+              <FaHome />
+            </Box>
           </Tooltip>
         </MetaLink>
         <MetaLink href="/me">
           <Tooltip label="Player Profile" hasArrow placement="right">
-            <FaUserCircle />
+            <Box as="span">
+              <FaUserCircle />
+            </Box>
           </Tooltip>
         </MetaLink>
       </VStack>

@@ -78,7 +78,7 @@ export const LandingHeader: React.FC = () => {
   }, [effectsToggle, noMotion, toast]);
 
   /** set noMotion so we can turn off animations if preferred
-   * Check for window to make sure we know window.matchMedia is availabe if supported
+   * Check for window to make sure we know window.matchMedia is available if supported
    */
   // useEffect(() => {
   //   if (typeof window !== 'undefined') {
