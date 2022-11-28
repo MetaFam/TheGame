@@ -181,71 +181,70 @@ const RaidsPage: React.FC = () => {
           Raids
         </Heading>
 
-        <Link
-          href="https://wiki.metagame.wtf/how-does-it-work/phases-of-metagame"
-          isExternal
-          _hover={{
-            underline: 'none',
-          }}
-        >
-          <Flex
-            bgColor="whiteAlpha.200"
-            transition="background 0.2s ease"
+        <MetaTile maxW="full" p={0} maxTilt={2}>
+          <Link
+            href="https://wiki.metagame.wtf/how-does-it-work/phases-of-metagame"
+            isExternal
             _hover={{
-              bgColor: 'whiteAlpha.300',
+              underline: 'none',
             }}
-            borderRadius={10}
-            p={7}
-            gap={{ base: 10, md: 6 }}
-            direction={{ base: 'row', md: 'column' }}
-            pos="relative"
           >
             <Flex
-              gap={6}
-              direction={{
-                base: 'column',
-                md: 'row',
-              }}
+              // bgColor="whiteAlpha.100"
+              transition="background 0.2s ease"
+              borderRadius={10}
+              p={7}
+              gap={{ base: 10, md: 6 }}
+              direction={{ base: 'row', md: 'column' }}
+              pos="relative"
             >
-              {phases.map(({ title, subtitle, description }, index) => (
-                <Box key={title}>
-                  <Flex alignItems="baseline" justifyContent="center">
-                    <Text
-                      fontWeight="bold"
-                      fontSize={{ base: 30, md: 36 }}
-                      textAlign="center"
-                    >
-                      Phase {convertToRoman(index + 1)} -{' '}
+              <Flex
+                gap={6}
+                direction={{
+                  base: 'column',
+                  md: 'row',
+                }}
+              >
+                {phases.map(({ title, subtitle, description }, index) => (
+                  <Box key={title}>
+                    <Flex alignItems="baseline" justifyContent="center">
                       <Text
-                        as="span"
-                        fontStyle="italic"
-                        fontWeight="normal"
-                        fontSize={32}
+                        fontWeight="bold"
+                        fontSize={{ base: 30, md: 36 }}
+                        textAlign="center"
                       >
-                        {title}
+                        Phase {convertToRoman(index + 1)} -{' '}
+                        <Text
+                          as="span"
+                          fontStyle="italic"
+                          fontWeight="normal"
+                          fontSize={32}
+                        >
+                          {title}
+                        </Text>
                       </Text>
-                    </Text>
-                  </Flex>
+                    </Flex>
 
-                  <Text
-                    color="blueLight"
-                    fontStyle="italic"
-                    fontSize={20}
-                    textAlign="center"
-                    mb={3}
-                  >
-                    {subtitle}
-                  </Text>
-                  <Text fontWeight="normal" fontSize={14}>
-                    {description}
-                  </Text>
-                </Box>
-              ))}
+                    <Text
+                      color="blueLight"
+                      fontStyle="italic"
+                      fontSize={20}
+                      textAlign="center"
+                      mb={3}
+                    >
+                      {subtitle}
+                    </Text>
+                    <Text fontWeight="normal" fontSize={14}>
+                      {description}
+                    </Text>
+                  </Box>
+                ))}
+              </Flex>
+              {mobile && <MobileProgressBar />}
+              {!mobile && <ProgressBar />}
             </Flex>
-            {mobile && <MobileProgressBar />}
-            {!mobile && <ProgressBar />}
-          </Flex>
-        </Link>
+          </Link>
+        </MetaTile>
 
         <Flex
           gap={6}
@@ -363,14 +362,14 @@ const ProgressBar = () => (
     />
     <Divider
       pos="absolute"
-      left="calc(100%/3)"
+      left="calc(100%/3 - 1%)"
       orientation="vertical"
       h={3}
       borderColor="blueLight"
     />
     <Divider
       pos="absolute"
-      left="calc(100%/3 * 2)"
+      left="calc(100%/3 * 2 + 1%)"
       orientation="vertical"
       h={3}
       borderColor="blueLight"
