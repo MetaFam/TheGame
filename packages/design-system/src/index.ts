@@ -190,6 +190,7 @@ export {
   TabPanel,
   TabPanels,
   Tabs,
+  TagLabel,
   Tbody,
   Td,
   Text,

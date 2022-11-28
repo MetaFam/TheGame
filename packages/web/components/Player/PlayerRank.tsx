@@ -1,4 +1,4 @@
-import { Flex, MetaTag, Text, WrapItem } from '@metafam/ds';
+import { Flex, MetaTag, TagLabel, Text, Wrap, WrapItem } from '@metafam/ds';
 import { getSeasonNum } from '@metafam/utils';
 import { Player } from 'graphql/autogen/types';
 import React from 'react';
@@ -27,15 +27,14 @@ export const PlayerRank: React.FC<PlayerRankProps> = ({
   >
     <Flex flexDir="column" gap={2} zIndex={2}>
       {player.rank && (
-        <WrapItem>
-          <MetaTag
-            backgroundColor={player.rank.toLowerCase()}
-            size="md"
-            color="blackAlpha.600"
-          >
-            {player.rank}
-          </MetaTag>
-        </WrapItem>
+        <MetaTag
+          backgroundColor={player.rank.toLowerCase()}
+          size="md"
+          color="blackAlpha.600"
+          justifyContent="center"
+        >
+          <TagLabel>{player.rank}</TagLabel>
+        </MetaTag>
       )}
       <Text fontSize="sm" color="blueLight">
         XP: {Math.floor(player.totalXP).toLocaleString()}
