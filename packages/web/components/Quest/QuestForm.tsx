@@ -5,7 +5,6 @@ import {
   ConfirmModal,
   Field,
   Flex,
-  Image,
   Input,
   MetaButton,
   MetaTag,
@@ -20,6 +19,7 @@ import { FlexContainer } from 'components/Container';
 import { RepetitionColors } from 'components/Quest/QuestTags';
 import { RolesSelect } from 'components/Quest/Roles';
 import { SkillsSelect } from 'components/Quest/Skills';
+import { SquareImage } from 'components/SquareImage';
 import {
   GuildFragment,
   PlayerRole,
@@ -363,31 +363,26 @@ export const QuestForm: React.FC<Props> = ({
             onChange={(e) => showImagePreview(e)}
           />
           <Center
+            as="div"
             boxSize="sm"
             rounded="md"
             border="dashed"
             borderWidth={6}
             borderColor="whiteAlpha.500"
             marginTop={2}
-            height="xs"
-            width="full"
-            padding={2}
+            width={'full'}
             overflow="clip"
             bgColor="blackAlpha.600"
             backdropFilter="auto"
             backdropBlur="sm"
           >
             {previewImg ? (
-              <Image
-                transition="ease-in"
-                transitionDuration="0.6s"
-                src={previewImg}
-                height="full"
-                alt="Quest image"
-              />
+              <Box width={350} padding={2}>
+                <SquareImage src={previewImg} overflow="hidden" />
+              </Box>
             ) : (
               <Text color="whiteAlpha.800">
-                Your image preview will show up here
+                See how your image will look on a quest
               </Text>
             )}
           </Center>
