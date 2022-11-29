@@ -10,11 +10,13 @@ import {
   Text,
   VStack,
 } from '@metafam/ds';
-import { isSGML } from '@metafam/utils';
+import { httpLink, isSGML } from '@metafam/utils';
+import BackgroundImage from 'assets/quests/quest.png';
 import { MarkdownViewer as Markdown } from 'components/MarkdownViewer';
 import { RepetitionTag, StatusTag } from 'components/Quest/QuestTags';
 import { RolesTags } from 'components/Quest/Roles';
 import { SkillsTags } from 'components/Quest/Skills';
+import { SquareImage } from 'components/SquareImage';
 import {
   PlayerRole,
   Quest,
@@ -43,7 +45,13 @@ export const QuestDetails: React.FC<Props> = ({ quest }) => {
   return (
     <MetaTile maxW={undefined} noTilt>
       <MetaTileHeader py={6} px={3}>
-        <Heading size="lg" color="white" fontFamily="body" textAlign="center">
+        <Box width={300}>
+          <SquareImage
+            src={httpLink(quest.image) ?? BackgroundImage.src}
+            overflow="hidden"
+          />
+        </Box>
+        <Heading size="lg" color="white" fontFamily="body">
           {quest.title}
         </Heading>
         <HStack mt={2}>
