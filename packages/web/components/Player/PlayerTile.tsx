@@ -69,7 +69,7 @@ export const PlayerTile: React.FC<Props> = ({
       _hover={{ textDecoration: 'none' }}
       href={getPlayerURL(player)}
     >
-      <MetaTile height="full" width="full" cursor="pointer">
+      <MetaTile minW={'300px'} height="full" width="full" cursor="pointer">
         <MetaTileHeader>
           {isPatron && typeof index === 'number' && pSeedPrice ? (
             <PatronRank patron={player as Patron} {...{ pSeedPrice, index }} />
