@@ -6,9 +6,9 @@ import {
 } from 'discordx';
 import { Alias, sourcecred as sc } from 'sourcecred';
 
-import { CONFIG } from '../../config';
-import { loadSourceCredLedger, resetLedger } from '../../sourcecred';
-import { replyWithUnexpectedError } from '../../utils';
+import { CONFIG } from '../../config.js';
+import { loadSourceCredLedger, resetLedger } from '../../sourcecred.js';
+import { replyWithUnexpectedError } from '../../utils.js';
 
 const supportedPlatforms = ['github', 'discourse'];
 const errorSupportedPlatforms = `Supported platforms: ${supportedPlatforms.join(

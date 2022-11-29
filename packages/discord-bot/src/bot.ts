@@ -1,19 +1,21 @@
 import 'reflect-metadata';
 
-import { importx } from '@discordx/importer';
+import { dirname, importx, isESM } from '@discordx/importer';
 // Use the Client that is provided by discordx NOT discord.js
 import { Intents, Message } from 'discord.js';
 import { Client } from 'discordx';
 
 import { CONFIG } from './config.js';
 
+const thisDir = isESM ? dirname(import.meta.url) : __dirname;
+
 async function initDiscordBot(): Promise<Client> {
   await importx(
     // Within a docker container: We are using tsc, so we want to load the compiled files.
     // For local dev, we are transpiling: Load the .ts files.
     process.env.RUNTIME_ENV === 'docker'
-      ? `${__dirname}/discord/**/*.js`
-      : `./discord/**/!(*.d).ts`,
+      ? `${thisDir}/discord/**/*.js`
+      : `${thisDir}/discord/**/!(*.d).ts`,
   );
 
   const client = new Client({
