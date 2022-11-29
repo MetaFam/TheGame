@@ -3,9 +3,8 @@ import {
   BasicProfile,
   model as basicProfileModel,
 } from '@datamodels/identity-profile-basic';
-import { ModelManager } from '@glazed/devtools';
+import { DataModel } from '@glazed/datamodel';
 import { DIDDataStore } from '@glazed/did-datastore';
-import { TileLoader } from '@glazed/tile-loader';
 import {
   AllProfileFields,
   BasicProfileImages,
@@ -20,6 +19,7 @@ import {
   HasuraProfileProps,
   HasuraStringProps,
   Maybe,
+  simplifyAliases,
   Values,
 } from '@metafam/utils';
 import { useProfileField } from 'lib/hooks/useField';
@@ -104,17 +104,12 @@ export const useSaveCeramicProfile = ({
 
       const vals: HasuraProfileProps = { ...values };
 
-      const cache = new Map();
-      const loader = new TileLoader({ ceramic, cache });
-      const manager = new ModelManager({ ceramic });
-      manager.addJSONModel(basicProfileModel);
-      manager.addJSONModel(extendedProfileModel);
-
-      const store = new DIDDataStore({
-        ceramic,
-        loader,
-        model: await manager.deploy(),
-      });
+      const aliases = simplifyAliases([
+        basicProfileModel,
+        extendedProfileModel,
+      ]);
+      const model = new DataModel({ ceramic, aliases });
+      const store = new DIDDataStore({ ceramic, model });
 
       // empty string fails validation
       ['countryCode', 'birthDate'].forEach((prop) => {

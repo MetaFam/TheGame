@@ -1620,7 +1620,7 @@
     near-api-js "^0.44.2"
     uint8arrays "^3.0.0"
 
-"@ceramicnetwork/common@2.10.0", "@ceramicnetwork/common@^2.0.0", "@ceramicnetwork/common@^2.10.0", "@ceramicnetwork/common@^2.8.0":
+"@ceramicnetwork/common@2.10.0", "@ceramicnetwork/common@^2.0.0", "@ceramicnetwork/common@^2.10.0", "@ceramicnetwork/common@^2.13.0", "@ceramicnetwork/common@^2.8.0":
   version "2.10.0"
   resolved "https://registry.yarnpkg.com/@ceramicnetwork/common/-/common-2.10.0.tgz#f63531cbe72e2533975ced3705d48451e0a83588"
   integrity sha512-acXcV3OtEQZMqW/vfxjWr80He4ifw5Q0Bq25jzOMrRqn7QryIjEr/SG4W807UObd51+DtYhC7keeKsjMFmkFPw==
@@ -1720,6 +1720,17 @@
     did-resolver "^3.1.5"
     lodash.clonedeep "^4.5.0"
 
+"@ceramicnetwork/stream-caip10-link@^2.8.0":
+  version "2.8.0"
+  resolved "https://registry.yarnpkg.com/@ceramicnetwork/stream-caip10-link/-/stream-caip10-link-2.8.0.tgz#ef1ba2b4a7ba4ceb2cd72243ab745f7975bfa6c5"
+  integrity sha512-5rZOF+cQEmTxhNA6hBltlBHq0vNNkAUqW2qZ69q5497X+bGGHXzG2fLus68T3o5SXpW2EayuDkPrH4K2/PbUPg==
+  dependencies:
+    "@ceramicnetwork/common" "^2.13.0"
+    "@ceramicnetwork/streamid" "^2.7.0"
+    caip "~1.1.0"
+    did-resolver "^3.1.5"
+    lodash.clonedeep "^4.5.0"
+
 "@ceramicnetwork/stream-model-instance@^0.4.3":
   version "0.4.3"
   resolved "https://registry.yarnpkg.com/@ceramicnetwork/stream-model-instance/-/stream-model-instance-0.4.3.tgz#8251d9bda46a4abf718b673ef8b96ba818a67fa6"
@@ -1815,6 +1826,17 @@
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/@ceramicnetwork/streamid/-/streamid-2.4.0.tgz#3a39b6935690081f6437e31d22b8c50de9faa747"
   integrity sha512-qMcahljI8HI45z9GNYgdOXQBQTvs6oJEUnejxOsdcaCYi5vCC0Yu2TNpKm7a5vWw3KLJffSd6hY2fSPo1XU7SA==
+  dependencies:
+    "@ipld/dag-cbor" "^7.0.0"
+    multiformats "^9.5.8"
+    typescript-memoize "^1.1.0"
+    uint8arrays "^3.0.0"
+    varint "^6.0.0"
+
+"@ceramicnetwork/streamid@^2.7.0":
+  version "2.7.0"
+  resolved "https://registry.yarnpkg.com/@ceramicnetwork/streamid/-/streamid-2.7.0.tgz#f5024873ecd3e1e0cc98853c61a9382efe8a8d17"
+  integrity sha512-gRPA5UAYPAPN7KdKMp/hNnAlSp7yeIzWnzKhPYZNo3QbUbZriWQC0IvD8naNV2tzy02z6fwdOxRcLyFP9uPYeg==
   dependencies:
     "@ipld/dag-cbor" "^7.0.0"
     multiformats "^9.5.8"
@@ -3636,7 +3658,7 @@
     bech32 "1.1.4"
     ws "7.4.6"
 
-"@ethersproject/providers@5.7.2", "@ethersproject/providers@^5.5.1":
+"@ethersproject/providers@5.7.2", "@ethersproject/providers@^5.5.1", "@ethersproject/providers@^5.7.2":
   version "5.7.2"
   resolved "https://registry.yarnpkg.com/@ethersproject/providers/-/providers-5.7.2.tgz#f8b1a4f275d7ce58cf0a2eec222269a08beb18cb"
   integrity sha512-g34EWZ1WWAVgr4aptGlVBF8mhl3VWjv+8hoAnzStu8Ah22VHBsuGzP17eb6xDVRzw895G4W7vvx60lFFur/1Rg==
