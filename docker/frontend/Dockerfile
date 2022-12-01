@@ -50,7 +50,7 @@ RUN yarn web:build
 RUN yarn install --pure-lockfile --production --ignore-scripts --prefer-offline
 
 # Create completely new stage including only necessary files
-FROM node:16-alpine as app
+FROM node:16-slim as app
 WORKDIR /app
 
 # Copy necessary files into the stage
