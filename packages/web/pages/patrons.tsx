@@ -133,7 +133,7 @@ const PatronsPage: React.FC<Props> = ({ patrons, pSeedPrice }) => {
             Want to get on this leaderboard and rank high? Why not{' '}
             <Link
               href="/community/join/patrons"
-              color="pink.300"
+              color="pink.200"
               textDecoration="underline"
             >
               become a patron
