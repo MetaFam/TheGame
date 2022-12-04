@@ -32,7 +32,7 @@ const GuildsPage: React.FC<Props> = ({ guilds }) => (
       <Center fontWeight="700" w="100%" maxW="4xl">
         <Text as="p" textAlign="center">
           Want your project to appear here? Consider{' '}
-          <Link href="/join/guild" color="pink.200" textDecoration="underline">
+          <Link href="/join/guild" color="pink.300" textDecoration="underline">
             joining as a guild
           </Link>
           .
