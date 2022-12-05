@@ -61,7 +61,7 @@ jobs:
           gcloud -q sql users delete hasura-pr-${{ github.event.number }} -i ${CLOUDSQL_INSTANCE_NAME}
 
       - name: Comment on Pull Request
-        uses: thollander/actions-comment-pull-request@v1
+        uses: thollander/actions-comment-pull-request@v2
         with:
           message: Successfully undeployed the Preview of this Pull Request
           GITHUB_TOKEN: ${{github.token}}
