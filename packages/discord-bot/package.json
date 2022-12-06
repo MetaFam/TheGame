@@ -8,6 +8,9 @@
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "engines": {
+    "node": ">=16.18.0"
+  },
   "scripts": {
     "start": "node ./dist/start.js",
     "build": "yarn generate && tsc -b",

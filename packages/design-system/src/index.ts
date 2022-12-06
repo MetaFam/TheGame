@@ -207,6 +207,7 @@ export {
   usePrefersReducedMotion,
   useTheme,
   useToast,
+  VisuallyHidden,
   VStack,
   Wrap,
   WrapItem,

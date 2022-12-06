@@ -1,4 +1,5 @@
 import {
+  Flex,
   FormControl,
   FormLabel,
   MetaFilterSelectSearch,
@@ -91,7 +92,7 @@ export const QuestFilter: React.FC<Props> = ({
   const [roles, setRoles] = useState<FilterString[]>([]);
 
   return (
-    <Wrap justifyContent="center">
+    <Flex direction="column">
       <Wrap
         transition="all 0.25s"
         backdropFilter="blur(7px)"
@@ -100,103 +101,113 @@ export const QuestFilter: React.FC<Props> = ({
         borderTop="1px solid transparent"
         zIndex={1}
         justifyContent="center"
-        w="100%"
         maxW="79rem"
         bg="whiteAlpha.200"
         px="1.5rem"
         py={6}
         borderRadius="6px"
+        overflow="visible"
       >
-        <MetaFilterSelectSearch
-          title={`Limit: ${limit.label}`}
-          styles={metaFilterSelectStyles}
-          hasValue={false}
-          value={limit}
-          onChange={(value) => {
-            const values = value as FilterString[];
-            const [v] = values.slice(-1);
-            if (v) {
-              setLimit(v);
-              setQueryVariable('limit', Number(v.value));
-            }
-          }}
-          options={limitOptions}
-          disableEmpty
-        />
-        <MetaFilterSelectSearch
-          title={`Order: ${order.label}`}
-          styles={metaFilterSelectStyles}
-          hasValue={false}
-          value={order}
-          onChange={(value) => {
-            const values = value as FilterString[];
-            const [o] = values.slice(-1);
-            if (o) {
-              setOrder(o);
-              setQueryVariable('order', o.value);
-            }
-          }}
-          options={orderOptions}
-          disableEmpty
-        />
-        <MetaFilterSelectSearch
-          title={`Status: ${status.label}`}
-          styles={metaFilterSelectStyles}
-          hasValue={false}
-          value={status}
-          onChange={(value) => {
-            const values = value as FilterString[];
-            const [s] = values.slice(-1);
-            if (s) {
-              setStatus(s);
-              setQueryVariable('status', s.value);
-            }
-          }}
-          options={statusOptions}
-          disableEmpty
-        />
-        {aggregates.guilds.length ? (
+        <WrapItem>
           <MetaFilterSelectSearch
-            title={`Guild: ${guild.label}`}
+            title={`Limit: ${limit.label}`}
             styles={metaFilterSelectStyles}
             hasValue={false}
-            value={guild}
+            value={limit}
             onChange={(value) => {
               const values = value as FilterString[];
-              const [g] = values.slice(-1);
-              if (g) {
-                setGuild(g);
-                setQueryVariable('guildId', g.value);
+              const [v] = values.slice(-1);
+              if (v) {
+                setLimit(v);
+                setQueryVariable('limit', Number(v.value));
               }
             }}
-            options={guildOptions}
+            options={limitOptions}
             disableEmpty
           />
-        ) : null}
-        {roleChoices.length && (
+        </WrapItem>
+        <WrapItem>
           <MetaFilterSelectSearch
-            title="Roles"
+            title={`Order: ${order.label}`}
             styles={metaFilterSelectStyles}
             hasValue={false}
-            value={roles}
+            value={order}
             onChange={(value) => {
               const values = value as FilterString[];
-              const selectedRoles = values;
+              const [o] = values.slice(-1);
+              if (o) {
+                setOrder(o);
+                setQueryVariable('order', o.value);
+              }
+            }}
+            options={orderOptions}
+            disableEmpty
+          />
+        </WrapItem>
+        <WrapItem>
+          <MetaFilterSelectSearch
+            title={`Status: ${status.label}`}
+            styles={metaFilterSelectStyles}
+            hasValue={false}
+            value={status}
+            onChange={(value) => {
+              const values = value as FilterString[];
+              const [s] = values.slice(-1);
+              if (s) {
+                setStatus(s);
+                setQueryVariable('status', s.value);
+              }
+            }}
+            options={statusOptions}
+            disableEmpty
+          />
+        </WrapItem>
+        {aggregates.guilds.length > 0 && (
+          <WrapItem>
+            <MetaFilterSelectSearch
+              title={`Guild: ${guild.label}`}
+              styles={metaFilterSelectStyles}
+              hasValue={false}
+              value={guild}
+              onChange={(value) => {
+                const values = value as FilterString[];
+                const [g] = values.slice(-1);
+                if (g) {
+                  setGuild(g);
+                  setQueryVariable('guildId', g.value);
+                }
+              }}
+              options={guildOptions}
+              disableEmpty
+            />
+          </WrapItem>
+        )}
+        {roleChoices.length > 0 && (
+          <WrapItem>
+            <MetaFilterSelectSearch
+              title="Roles"
+              styles={metaFilterSelectStyles}
+              hasValue={false}
+              value={roles}
+              onChange={(value) => {
+                const values = value as FilterString[];
+                const selectedRoles = values;
 
-              if (selectedRoles.length) {
-                setRoles(selectedRoles);
-                setQueryVariable(
-                  'questRoles',
-                  selectedRoles.map((x) => x.value),
-                );
-              } else {
-                setRoles([]);
-                setQueryVariable('questRoles', '');
-              }
-            }}
-            options={roleOptions}
-            disableEmpty
-          />
+                if (selectedRoles.length) {
+                  setRoles(selectedRoles);
+                  setQueryVariable(
+                    'questRoles',
+                    selectedRoles.map((x) => x.value),
+                  );
+                } else {
+                  setRoles([]);
+                  setQueryVariable('questRoles', '');
+                }
+              }}
+              options={roleOptions}
+              disableEmpty
+            />
+          </WrapItem>
         )}
         {myId && (
           <WrapItem
@@ -228,13 +239,7 @@ export const QuestFilter: React.FC<Props> = ({
           </WrapItem>
         )}
       </Wrap>
-      {quests && (
-        <WrapItem>
-          <Text align="center" fontWeight="bold">
-            {quests.length} quests
-          </Text>
-        </WrapItem>
-      )}
-    </Wrap>
+      {quests && <Text fontWeight="bold">{quests.length} quests</Text>}
+    </Flex>
   );
 };

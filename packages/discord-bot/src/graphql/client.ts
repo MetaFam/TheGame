@@ -1,7 +1,7 @@
 import { GraphQLClient } from 'graphql-request';
 
 import { getSdk } from '../__generated__/hasura-sdk';
-import { CONFIG } from '../config';
+import { CONFIG } from '../config.js';
 
 export const client = getSdk(
   new GraphQLClient(CONFIG.graphqlURL, {

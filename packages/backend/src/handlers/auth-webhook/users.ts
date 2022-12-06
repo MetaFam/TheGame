@@ -15,7 +15,7 @@ async function createPlayer(ethAddress: string, limiter: Bottleneck) {
     );
   }
   const playerId = insert?.returning[0].player.id;
-  await cacheProfile({ playerId, limiter, opts: { priority: 1 } });
+  cacheProfile({ playerId, limiter, opts: { priority: 1 } });
 
   return { id: playerId };
 }
@@ -39,14 +39,18 @@ export async function getOrCreatePlayerId(
   });
   let { id } = existing ?? {};
 
-  if (!id) {
+  const maxLoops = 10;
+  let loops = 0;
+
+  while (!id && ++loops <= maxLoops) {
     if (status[ethAddress] != null) {
       let count = 0;
-      while (!['created', 'failed'].includes(status[ethAddress])) {
+      // ToDo: rather than a wait loop, this could be accomplished by awaiting a promise.
+      while (['creating'].includes(status[ethAddress]) && ++count <= maxLoops) {
         // eslint-disable-next-line no-await-in-loop, @typescript-eslint/no-loop-func
         await new Promise((resolve) => {
-          const wait = Math.random() * 20 * ++count;
-          console.info(`Waiting ${wait} on ${ethAddress} account creation.`);
+          const wait = Math.random() * 100 * count;
+          console.debug(`Waiting ${wait}ms on ${ethAddress} account creation.`);
           setTimeout(resolve, wait);
         });
       }
@@ -54,7 +58,8 @@ export async function getOrCreatePlayerId(
     if ([undefined, 'failed'].includes(status[ethAddress])) {
       try {
         status[ethAddress] = 'creating';
-        console.info(`Account Creation: ${ethAddress}`);
+        console.debug(`Account Creation: ${ethAddress}`);
+        // eslint-disable-next-line no-await-in-loop
         ({ id } = await createPlayer(ethAddress, limiter));
         created = true;
         status[ethAddress] = 'created';
@@ -69,6 +74,7 @@ export async function getOrCreatePlayerId(
     if (!id) {
       const {
         player: [newPlayer],
+        // eslint-disable-next-line no-await-in-loop
       } = await client.GetPlayerFromETH({
         ethereumAddress: ethAddress,
       });

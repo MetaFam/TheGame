@@ -13,7 +13,7 @@ import {
   sourcecred as sc,
 } from 'sourcecred';
 
-import { getDiscordId, replyWithUnexpectedError } from '../../utils';
+import { getDiscordId, replyWithUnexpectedError } from '../../utils.js';
 
 @Discord()
 export class GetXpCommand {

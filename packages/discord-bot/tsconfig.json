@@ -9,5 +9,5 @@
     "composite": true
   },
   "references": [{ "path": "../utils" }],
-  "include": ["./src"]
+  "include": ["./src/**/*.ts"]
 }

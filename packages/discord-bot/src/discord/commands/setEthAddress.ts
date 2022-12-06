@@ -6,7 +6,7 @@ import {
 } from 'discordx';
 import { sourcecred as sc } from 'sourcecred';
 
-import { loadSourceCredLedger } from '../../sourcecred';
+import { loadSourceCredLedger } from '../../sourcecred.js';
 
 const addressUtils = sc.plugins.ethereum.utils.address;
 

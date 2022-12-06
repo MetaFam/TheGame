@@ -179,7 +179,7 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
           }
           case '3ID': {
             const authProvider = new EthereumAuthProvider(prov, addr);
-            const threeID = new ThreeIdConnect();
+            const threeID = new ThreeIdConnect(CONFIG.ceramicNetwork);
             await threeID.connect(authProvider);
             ceramic.did = new DID({
               provider: threeID.getDidProvider(),
