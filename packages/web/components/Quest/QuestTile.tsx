@@ -60,7 +60,7 @@ export const QuestTile: React.FC<Props> = ({ quest }) => {
         <MetaTile height="full" width="full">
           <MetaTileHeader>
             <SquareImage src={httpLink(quest.image) ?? BackgroundImage.src} />
-            <Flex justify="center" position="absolute" bottom="-15%" zIndex={1}>
+            <Flex justify="center" position="absolute" bottom="-15%" w="full">
               <Heading
                 size="lg"
                 color="white"
