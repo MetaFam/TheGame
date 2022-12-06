@@ -60,16 +60,16 @@ export const QuestTile: React.FC<Props> = ({ quest }) => {
         <MetaTile height="full" width="full">
           <MetaTileHeader>
             <SquareImage src={httpLink(quest.image) ?? BackgroundImage.src} />
-            <Flex px={3} bottom={-6} w="full" pos="absolute" zIndex={1}>
+            <Flex justify="center" position="absolute" bottom="-15%" zIndex={1}>
               <Heading
                 size="lg"
                 color="white"
-                bgColor="whiteAlpha.100"
+                bgColor="whiteAlpha.300"
                 backdropFilter="blur(10px)"
                 lineHeight={1.1}
                 px={3}
                 py={1}
-                width="full"
+                mb={8}
                 textAlign="center"
                 borderRadius={10}
                 fontFamily="body"
