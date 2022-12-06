@@ -74,7 +74,7 @@ const RaidsPage: React.FC = () => {
       title: 'Equilibrium',
       subtitle: 'A Web of Life',
       description:
-        'Expand resources & knowledge, build a network of networks where anyone can level up, find meaningful projects to contribute to & start earning.',
+        'Zoom out of Web3, include other high impact technologies & focus more on regenerative projects in the real world as well as helping people live optimally.',
     },
   ];
 
@@ -256,6 +256,7 @@ const RaidsPage: React.FC = () => {
         >
           {cards.map(({ image, title, about, skills, deworkURL }) => (
             <MetaTile
+              key={title}
               onClick={() => {
                 setTitle(title);
                 setDeworkURL(deworkURL);

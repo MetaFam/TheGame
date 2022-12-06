@@ -316,7 +316,7 @@ export const EditableGridLayout: React.FC<Props> = ({
             <Flex
               boxShadow={editing ? 'lg' : 'md'}
               bg="whiteAlpha.200"
-              style={{ backdropFilter: 'blur(7px)' }}
+              backdropFilter="blur(7px)"
               overflow="hidden"
               borderRadius="lg"
               transition="boxShadow 0.2s 0.3s ease"

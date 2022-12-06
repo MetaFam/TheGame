@@ -12,7 +12,7 @@ export const PlayersNotFound: React.FC = () => (
     borderRadius="0.5rem"
     bg="blackAlpha.500"
   >
-    <Image src={PlayersNotFoundImage} />
+    <Image src={PlayersNotFoundImage.src} />
     <Text fontWeight="bold" fontSize="xl" textAlign="center">
       No Players Found
     </Text>

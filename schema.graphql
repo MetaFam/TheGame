@@ -576,6 +576,7 @@ input CreateQuestInput {
   description: String
   externalLink: String
   guildId: uuid!
+  image: String
   repetition: QuestRepetition_ActionEnum
   roleIds: [uuid]!
   skillIds: [uuid]!
@@ -8455,6 +8456,7 @@ type quest {
   guild: guild!
   guildId: uuid!
   id: uuid!
+  image: String
 
   """An object relationship"""
   player: player!
@@ -8650,6 +8652,7 @@ input quest_bool_exp {
   guild: guild_bool_exp
   guildId: uuid_comparison_exp
   id: uuid_comparison_exp
+  image: String_comparison_exp
   player: player_bool_exp
   quest_completions: quest_completion_bool_exp
   quest_roles: quest_role_bool_exp
@@ -8952,6 +8955,7 @@ input quest_insert_input {
   guild: guild_obj_rel_insert_input
   guildId: uuid
   id: uuid
+  image: String
   player: player_obj_rel_insert_input
   quest_completions: quest_completion_arr_rel_insert_input
   quest_roles: quest_role_arr_rel_insert_input
@@ -8970,6 +8974,7 @@ type quest_max_fields {
   externalLink: String
   guildId: uuid
   id: uuid
+  image: String
   title: String
 }
 
@@ -8984,6 +8989,7 @@ input quest_max_order_by {
   externalLink: order_by
   guildId: order_by
   id: order_by
+  image: order_by
   title: order_by
 }
 
@@ -8996,6 +9002,7 @@ type quest_min_fields {
   externalLink: String
   guildId: uuid
   id: uuid
+  image: String
   title: String
 }
 
@@ -9010,6 +9017,7 @@ input quest_min_order_by {
   externalLink: order_by
   guildId: order_by
   id: order_by
+  image: order_by
   title: order_by
 }
 
@@ -9055,6 +9063,7 @@ input quest_order_by {
   guild: guild_order_by
   guildId: order_by
   id: order_by
+  image: order_by
   player: player_order_by
   quest_completions_aggregate: quest_completion_aggregate_order_by
   quest_roles_aggregate: quest_role_aggregate_order_by
@@ -9413,6 +9422,9 @@ enum quest_select_column {
   id
 
   """column name"""
+  image
+
+  """column name"""
   repetition
 
   """column name"""
@@ -9433,6 +9445,7 @@ input quest_set_input {
   externalLink: String
   guildId: uuid
   id: uuid
+  image: String
   repetition: QuestRepetition_enum
   status: QuestStatus_enum
   title: String
@@ -9692,6 +9705,9 @@ enum quest_update_column {
 
   """column name"""
   id
+
+  """column name"""
+  image
 
   """column name"""
   repetition

@@ -22,7 +22,7 @@ const QuestsDashboard: React.FC = () => (
     <HeadComponent
       title="MetaGame Roles Onboarding"
       description="MetaGame is a Massive Online Coordination Game! MetaGame has some epic quests going on!"
-      url="https://my.metagame.wtf/quests"
+      url="https://metagame.wtf/quests"
     />
     <Heading mt={8} mb={16}>
       Onboarding Paths
@@ -71,26 +71,32 @@ const Card: React.FC<CardProps> = ({
 }) => {
   let difficultyBgColor;
   switch (difficulty) {
-    case Difficulty.HARD:
+    case Difficulty.HARD: {
       difficultyBgColor = '#e53e3e87';
       break;
-    case Difficulty.MEDIUM:
+    }
+    case Difficulty.MEDIUM: {
       difficultyBgColor = '#d69e2e8a';
       break;
-    default:
+    }
+    default: {
       difficultyBgColor = '#38a16987';
+    }
   }
 
   let timeBgColor;
   switch (time) {
-    case Time.LONG:
+    case Time.LONG: {
       timeBgColor = '#e53e3e87';
       break;
-    case Time.MEDIUM:
+    }
+    case Time.MEDIUM: {
       timeBgColor = '#d69e2e8a';
       break;
-    default:
+    }
+    default: {
       timeBgColor = '#38a16987';
+    }
   }
 
   return (
@@ -102,8 +108,8 @@ const Card: React.FC<CardProps> = ({
             <Heading
               size="lg"
               color="white"
-              bgColor="rgba(255, 255, 255, 0.06)"
-              style={{ backdropFilter: 'blur(10px)' }}
+              bgColor="alphaWhite.100"
+              backdropFilter="blur(10px)"
               lineHeight={1.8}
               justifyContent="center"
               px={3}
@@ -111,15 +117,15 @@ const Card: React.FC<CardProps> = ({
               textAlign="center"
               borderRadius={10}
               fontFamily="body"
-              fontWeight={400}
+              fontWeight="normal"
             >
               {title}
             </Heading>
           </Flex>
         </MetaTileHeader>
         <MetaTileBody pos="relative" height="full">
-          <Flex flexDir="column">
-            <Text textStyle="caption">ABOUT</Text>
+          <Flex direction="column">
+            <Text textStyle="caption">About</Text>
 
             <Text mb={2} h="3rem" fontSize="sm">
               {description}

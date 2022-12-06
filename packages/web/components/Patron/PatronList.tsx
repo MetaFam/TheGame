@@ -13,16 +13,11 @@ type Props = {
 export const PatronList: React.FC<Props> = ({ patrons, pSeedPrice }) => (
   <SimpleGrid
     columns={[1, null, 2, 3]}
-    spacing="8"
+    spacing={8}
     autoRows="minmax(35rem, auto)"
   >
-    {patrons.map((player, index) => (
-      <PlayerTile
-        player={player as Player}
-        pSeedPrice={pSeedPrice}
-        index={index}
-        isPatron
-      />
+    {patrons.map((player: Player, index) => (
+      <PlayerTile key={index} {...{ player, pSeedPrice, index }} isPatron />
     ))}
   </SimpleGrid>
 );

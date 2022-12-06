@@ -117,7 +117,7 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
       chainId: null,
       authToken: null,
     });
-  const [connecting, setConnecting] = useState(!!web3Modal?.cachedProvider);
+  const [connecting, setConnecting] = useState(false);
 
   const connected = useMemo(
     () =>

@@ -69,7 +69,7 @@ const OnboardingGuidance: React.FC = () => {
                 size="lg"
                 color="white"
                 bgColor="aplhaWhite.100"
-                style={{ backdropFilter: 'blur(10px)' }}
+                backdropFilter="blur(10px)"
                 lineHeight={1.8}
                 justifyContent="center"
                 px={3}
@@ -115,7 +115,7 @@ const OnboardingGuidance: React.FC = () => {
                 size="lg"
                 color="white"
                 bgColor="aplhaWhite.100"
-                style={{ backdropFilter: 'blur(10px)' }}
+                backdropFilter="blur(10px)"
                 lineHeight={1.8}
                 justifyContent="center"
                 px={3}
@@ -150,7 +150,7 @@ const OnboardingGuidance: React.FC = () => {
                 size="lg"
                 color="white"
                 bgColor="aplhaWhite.100"
-                style={{ backdropFilter: 'blur(10px)' }}
+                backdropFilter="blur(10px)"
                 lineHeight={1.8}
                 justifyContent="center"
                 px={3}
