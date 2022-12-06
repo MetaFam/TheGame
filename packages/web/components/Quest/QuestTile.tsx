@@ -18,8 +18,14 @@ import { RolesTags } from 'components/Quest/Roles';
 import { SkillsTags } from 'components/Quest/Skills';
 import { SquareImage } from 'components/SquareImage';
 import { PlayerRole, QuestFragment, Skill } from 'graphql/autogen/types';
-import React, { useEffect, useRef } from 'react';
+import React, { PropsWithChildren, useEffect, useRef } from 'react';
 import { safelyParseNChakrifyHtml } from 'utils/stringHelpers';
+
+export const TileHeading: React.FC<PropsWithChildren> = ({ children }) => (
+  <Text as="h3" textStyle="caption" pb={1}>
+    {children}
+  </Text>
+);
 
 type Props = {
   quest: QuestFragment;
@@ -60,14 +66,15 @@ export const QuestTile: React.FC<Props> = ({ quest }) => {
                 color="white"
                 bgColor="whiteAlpha.100"
                 backdropFilter="blur(10px)"
-                lineHeight={1.8}
-                justifyContent="center"
+                lineHeight={1.1}
                 px={3}
+                py={1}
                 width="full"
                 textAlign="center"
                 borderRadius={10}
                 fontFamily="body"
                 fontWeight="normal"
+                noOfLines={3}
               >
                 {quest.title}
               </Heading>
@@ -76,9 +83,7 @@ export const QuestTile: React.FC<Props> = ({ quest }) => {
           <MetaTileBody>
             <Flex direction="column">
               <Box pb={2}>
-                <Text textStyle="caption" pb={1}>
-                  Description
-                </Text>
+                <TileHeading>Description</TileHeading>
                 <Box noOfLines={3} ref={descriptionRef}>
                   {descIsHtml ? (
                     <Prose>{parsedDescription}</Prose>
@@ -101,9 +106,7 @@ export const QuestTile: React.FC<Props> = ({ quest }) => {
                 )}
               </Box>
               <Box pb={2}>
-                <Text textStyle="caption" pb={1}>
-                  Skills
-                </Text>
+                <TileHeading>Skills</TileHeading>
                 <SkillsTags
                   skills={
                     quest.quest_skills.map(({ skill }) => skill) as Skill[]
@@ -111,10 +114,8 @@ export const QuestTile: React.FC<Props> = ({ quest }) => {
                 />
               </Box>
               <Box pb={2}>
-                <Text textStyle="caption" pb={1}>
-                  Roles
-                </Text>
-                {quest.quest_roles.length ? (
+                <TileHeading>Roles</TileHeading>
+                {quest.quest_roles.length > 0 ? (
                   <RolesTags
                     roles={
                       quest.quest_roles.map(
@@ -123,7 +124,7 @@ export const QuestTile: React.FC<Props> = ({ quest }) => {
                     }
                   />
                 ) : (
-                  <Text>/</Text>
+                  <Text>None</Text>
                 )}
               </Box>
             </Flex>
