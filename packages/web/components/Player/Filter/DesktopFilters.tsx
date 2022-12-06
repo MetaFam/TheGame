@@ -68,10 +68,10 @@ export const DesktopFilters: React.FC<Props> = ({
 
   return (
     <Wrap
+      ref={filterRef}
       transition="all 0.25s"
       py={6}
-      style={{ backdropFilter: 'blur(7px)' }}
-      ref={filterRef}
+      backdropFilter="blur(7px)"
       position="sticky"
       top="-1px"
       borderTop="1px solid transparent"
@@ -81,7 +81,8 @@ export const DesktopFilters: React.FC<Props> = ({
       maxW={isSticky ? 'auto' : '79rem'}
       bg={isSticky ? 'purpleTag70' : 'whiteAlpha.200'}
       px={isSticky ? '4.5rem' : '1.5rem'}
-      borderRadius={isSticky ? '0px' : '6px'}
+      borderRadius={isSticky ? 0 : '6px'}
+      overflow="visible" // Wrap defaults to hidden
       {...props}
     >
       <WrapItem>
