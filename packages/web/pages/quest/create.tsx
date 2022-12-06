@@ -1,4 +1,5 @@
 import { MetaHeading, useToast } from '@metafam/ds';
+import DefaultQuestImage from 'assets/quests/quest.png';
 import { PageContainer } from 'components/Container';
 import { CreateQuestFormInputs, QuestForm } from 'components/Quest/QuestForm';
 import { HeadComponent } from 'components/Seo';
@@ -15,6 +16,7 @@ import { useRouter } from 'next/router';
 import React from 'react';
 import { transformCooldownForBackend } from 'utils/questHelpers';
 import { parseSkills } from 'utils/skillHelpers';
+import { uploadFile } from 'utils/uploadHelpers';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
@@ -28,7 +30,7 @@ const CreateQuestPage: React.FC<Props> = ({
   const toast = useToast();
   const [createQuestState, createQuest] = useCreateQuestMutation();
 
-  const onSubmit = (data: CreateQuestFormInputs) => {
+  const onSubmit = async (data: CreateQuestFormInputs) => {
     const {
       skills,
       roles,
@@ -38,8 +40,16 @@ const CreateQuestPage: React.FC<Props> = ({
       ...createQuestInputs
     } = data;
 
+    let imageURL = DefaultQuestImage.src;
+
+    if (data?.image?.[0]) {
+      const ipfsHash = await uploadFile(data.image[0]);
+      imageURL = `ipfs://${ipfsHash}`;
+    }
+
     const input = {
       ...createQuestInputs,
+      image: imageURL,
       repetition: data.repetition as unknown as QuestRepetition_ActionEnum,
       cooldown: transformCooldownForBackend(cooldown, repetition),
       skillIds: skills.map(({ id }) => id),
@@ -77,10 +87,11 @@ const CreateQuestPage: React.FC<Props> = ({
   return (
     <PageContainer>
       <HeadComponent
-        description="Create a Quest for MetaGame."
-        url="https://my.metagame.wtf/quest/create"
+        title="New Quest | MetaGame"
+        description="Create a quest for MetaGame."
+        url="https://metagame.wtf/quest/create"
       />
-      <MetaHeading mb={4}>Create a Quest</MetaHeading>
+      <MetaHeading mb={4}>New Quest</MetaHeading>
 
       <QuestForm
         {...{ guilds, skillChoices, onSubmit, roleChoices }}

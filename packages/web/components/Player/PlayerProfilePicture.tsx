@@ -1,7 +1,7 @@
-import { AvatarProps } from '@metafam/ds';
+import type { AvatarProps } from '@metafam/ds';
 import { SquareImage } from 'components/SquareImage';
-import { Player } from 'graphql/autogen/types';
-import { GuildPlayer } from 'graphql/types';
+import type { Player } from 'graphql/autogen/types';
+import type { GuildPlayer } from 'graphql/types';
 import { useProfileField } from 'lib/hooks';
 import React from 'react';
 import { getPlayerImage } from 'utils/playerHelpers';
@@ -12,7 +12,7 @@ type PlayerProfilePictureProps = AvatarProps & {
 
 export const PlayerProfilePicture: React.FC<PlayerProfilePictureProps> = ({
   player: user,
-  src,
+  src: source,
 }) => {
   const player = user as Player;
   const { value: image } = useProfileField({
@@ -21,7 +21,7 @@ export const PlayerProfilePicture: React.FC<PlayerProfilePictureProps> = ({
     getter: getPlayerImage,
   });
 
-  const pic = src ?? image ?? undefined;
+  const src = source ?? image ?? undefined;
 
-  return <SquareImage src={pic} />;
+  return <SquareImage {...{ src }} />;
 };

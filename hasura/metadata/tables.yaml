@@ -899,35 +899,43 @@
         table:
           schema: public
           name: quest_skill
+  insert_permissions:
+  - role: player
+    permission:
+      check: {}
+      columns: []
+      backend_only: true
   select_permissions:
   - role: player
     permission:
       columns:
-      - created_at
       - cooldown
+      - created_at
+      - created_by_player_id
       - description
       - external_link
+      - guild_id
+      - id
+      - image
       - repetition
       - status
       - title
-      - created_by_player_id
-      - guild_id
-      - id
       filter: {}
       allow_aggregations: true
   - role: public
     permission:
       columns:
-      - id
+      - cooldown
       - created_at
-      - guild_id
       - created_by_player_id
-      - title
       - description
       - external_link
-      - cooldown
-      - status
+      - guild_id
+      - id
+      - image
       - repetition
+      - status
+      - title
       filter: {}
       allow_aggregations: true
   update_permissions:
@@ -938,6 +946,7 @@
       - description
       - external_link
       - guild_id
+      - image
       - repetition
       - status
       - title

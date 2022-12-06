@@ -82,6 +82,7 @@ input CreateQuestInput {
   cooldown : Int
   roleIds : [uuid]!
   skillIds : [uuid]!
+  image : String
 }
 
 input CreateQuestCompletionInput {

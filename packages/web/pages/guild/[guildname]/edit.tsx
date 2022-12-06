@@ -123,7 +123,7 @@ const EditGuild: React.FC = () => {
         <Flex
           direction="column"
           bg="whiteAlpha.200"
-          style={{ backdropFilter: 'blur(7px)' }}
+          backdropFilter="blur(7px)"
           rounded="lg"
           p="6"
           w="max-content"

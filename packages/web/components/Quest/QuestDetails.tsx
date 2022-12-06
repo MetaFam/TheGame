@@ -1,5 +1,6 @@
 import {
   Box,
+  Flex,
   Heading,
   HStack,
   MetaButton,
@@ -10,11 +11,10 @@ import {
   Text,
   VStack,
 } from '@metafam/ds';
-import { MetaLink } from 'components/Link';
+import { httpLink, isSGML } from '@metafam/utils';
+import BackgroundImage from 'assets/quests/quest.png';
 import { MarkdownViewer as Markdown } from 'components/MarkdownViewer';
-import { RepetitionTag, StatusTag } from 'components/Quest/QuestTags';
-import { RolesTags } from 'components/Quest/Roles';
-import { SkillsTags } from 'components/Quest/Skills';
+import { SquareImage } from 'components/SquareImage';
 import {
   PlayerRole,
   Quest,
@@ -28,6 +28,11 @@ import moment from 'moment';
 import React from 'react';
 import { safelyParseNChakrifyHtml } from 'utils/stringHelpers';
 
+import { RepetitionTag, StatusTag } from './QuestTags';
+import { TileHeading } from './QuestTile';
+import { RolesTags } from './Roles';
+import { SkillsTags } from './Skills';
+
 type Props = {
   quest: QuestWithCompletionFragment;
 };
@@ -35,48 +40,64 @@ type Props = {
 export const QuestDetails: React.FC<Props> = ({ quest }) => {
   const { user } = useUser();
   const isMyQuest = user?.id === (quest as Quest).player.id;
-  const descIsHtml = /<\/?[a-z][\s\S]*>/i.test(quest.description ?? '');
+  const descIsHtml = isSGML(quest.description ?? '');
   const parsedDescription = descIsHtml
     ? safelyParseNChakrifyHtml(quest.description ?? '')
-    : '';
+    : null;
+  const {
+    repetition,
+    cooldown,
+    image,
+    createdAt,
+    externalLink: link,
+    title,
+    status,
+  } = quest;
 
   return (
     <MetaTile maxW={undefined} noTilt>
       <MetaTileHeader py={6} px={3}>
-        <Heading size="lg" color="white" fontFamily="body" textAlign="center">
-          {quest.title}
-        </Heading>
+        <Flex direction="column" align="center">
+          <Box width={300} mb={5}>
+            <SquareImage
+              src={httpLink(image) ?? BackgroundImage.src}
+              overflow="hidden"
+            />
+          </Box>
+          <Heading size="xl" color="white" fontFamily="body">
+            {title}
+          </Heading>
+        </Flex>
         <HStack mt={2}>
-          <RepetitionTag
-            repetition={quest.repetition}
-            cooldown={quest.cooldown}
-          />
+          <RepetitionTag {...{ repetition, cooldown }} />
           <StatusTag status={quest.status} />
-          <Text>
-            <i>{moment(quest.createdAt).fromNow()}</i>
+          <Text fontStyle="italic" title={new Date(createdAt).toLocaleString()}>
+            {moment(createdAt).fromNow()}
           </Text>
         </HStack>
-        <HStack w="100%" mt={2}>
-          {isMyQuest && quest.status === QuestStatus_Enum.Open && (
-            <MetaLink as={`/quest/${quest.id}/edit`} href="/quest/[id]/edit">
-              <MetaButton size="md">Edit Quest</MetaButton>
-            </MetaLink>
+        <HStack w="full" mt={0.5}>
+          {isMyQuest && status === QuestStatus_Enum.Open && (
+            <MetaButton href={`/quest/${quest.id}/edit`} size="md">
+              Edit Quest
+            </MetaButton>
           )}
-          {quest.externalLink && (
-            <MetaLink href={quest.externalLink} isExternal>
-              <MetaButton variant="outline" colorScheme="cyan" size="md">
-                Open link
-              </MetaButton>
-            </MetaLink>
+          {link && (
+            <MetaButton
+              href={link}
+              target="_blank"
+              variant="outline"
+              colorScheme="cyan"
+              size="md"
+            >
+              Open Link
+            </MetaButton>
           )}
         </HStack>
       </MetaTileHeader>
-      <MetaTileBody>
+      <MetaTileBody pt={0}>
         <VStack spacing={2} align="stretch">
-          <Box pb={2}>
-            <Text textStyle="caption" pb={1}>
-              DESCRIPTION
-            </Text>
+          <Box py={2}>
+            <TileHeading>Description</TileHeading>
             {descIsHtml ? (
               <Prose>{parsedDescription}</Prose>
             ) : (
@@ -84,31 +105,28 @@ export const QuestDetails: React.FC<Props> = ({ quest }) => {
             )}
           </Box>
 
-          {quest.repetition === QuestRepetition_Enum.Recurring && (
+          {repetition === QuestRepetition_Enum.Recurring && (
             <>
-              <Text textStyle="caption">Cooldown</Text>
+              <TileHeading>Cooldown</TileHeading>
               <Text>
-                Doable every{' '}
-                {moment.duration(quest.cooldown, 'second').humanize()}
+                Doable every ~{moment.duration(cooldown, 'second').humanize()}
               </Text>
             </>
           )}
 
           <Box pb={2}>
-            <Text textStyle="caption" pb={1}>
-              SKILLS
-            </Text>
+            <TileHeading>Skills</TileHeading>
             <SkillsTags
               skills={quest.quest_skills.map(({ skill }) => skill) as Skill[]}
             />
           </Box>
           <Box pb={2}>
-            <Text textStyle="caption" pb={1}>
-              ROLES
-            </Text>
+            <TileHeading>Roles</TileHeading>
             <RolesTags
               roles={
-                quest.quest_roles.map(({ PlayerRole: r }) => r) as PlayerRole[]
+                quest.quest_roles.map(
+                  ({ PlayerRole: role }) => role,
+                ) as PlayerRole[]
               }
             />
           </Box>

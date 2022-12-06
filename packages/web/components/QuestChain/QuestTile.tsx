@@ -98,7 +98,7 @@ export const QuestTile: React.FC<{
         spacing={4}
         p={{ base: 4, md: isSelected ? 16 : 12 }}
         bg={bgColor}
-        style={{ backdropFilter: 'blur(7px)' }}
+        backdropFilter="blur(7px)"
         borderRadius="1.5rem"
         h={isSelected ? '100%' : '14rem'}
         transition="all 0.2s"

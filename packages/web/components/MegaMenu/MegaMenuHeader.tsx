@@ -71,7 +71,7 @@ export const MegaMenuHeader: React.FC = () => {
         borderBottom="1px"
         bg="rgba(0, 0, 0, 0.5)"
         borderColor="#2B2244"
-        sx={{ backdropFilter: 'blur(10px)' }}
+        backdropFilter="blur(10px)"
         px={4}
         py={1.5}
         h={20}
@@ -146,9 +146,9 @@ export const MegaMenuHeader: React.FC = () => {
         zIndex={1}
         overflowX="hidden"
         w="100vw"
-        bg="rgba(0, 0, 0, 0.8)"
+        bg="alphaBlack.200"
         h="calc(100vh - 10rem)"
-        sx={{ backdropFilter: 'blur(10px)' }}
+        backdropFilter="blur(10px)"
         p="1rem"
         border="none"
       >
@@ -168,11 +168,11 @@ export const MegaMenuHeader: React.FC = () => {
                   _odd={{ marginRight: '-1px' }}
                   marginBottom="-1px"
                   borderColor="purple.400"
-                  bg="rgba(0, 0, 0, 0.35)"
+                  bg="alphaBlack.50"
                   px={2}
                   py={1.5}
                   _hover={{
-                    bg: 'rgba(255, 255, 255, 0.1)',
+                    bg: 'alphaWhite.50',
                   }}
                   isExternal={/^https?:\/\//.test(url)}
                 >

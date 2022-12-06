@@ -32,12 +32,12 @@ export const BecomePatron: React.FC = () => (
         <Flex
           direction="column"
           bg="whiteAlpha.200"
-          style={{ backdropFilter: 'blur(7px)' }}
+          backdropFilter="blur(7px)"
           rounded="lg"
           p={6}
           maxW="25rem" // (2 / 3.5) = ~0.571 aspect ratio desired
-          w="100%"
-          h="100%"
+          w="full"
+          h="full"
           align="stretch"
           position="relative"
           overflow="hidden"
@@ -52,9 +52,9 @@ export const BecomePatron: React.FC = () => (
             Water Seeds yourself
           </Text>
           <Text mb={4}>
-            Watering Seeds means adding Ether & Rai to the Seed pool aka
+            Watering Seeds means adding Ether & RAI to the Seed pool aka
             plantation. You’ll need to have some Ether on Polygon, add it to the
-            pool, join discord & talk to the collab land bot to let you in.
+            pool, join Discord & talk to the CollabLand bot to let you in.
           </Text>
           <Text>Want a more detailed guide?</Text>
 
@@ -96,12 +96,12 @@ export const BecomePatron: React.FC = () => (
         <Flex
           direction="column"
           bg="whiteAlpha.200"
-          style={{ backdropFilter: 'blur(7px)' }}
+          backdropFilter="blur(7px)"
           rounded="lg"
           p={6}
           maxW="25rem" // (2 / 3.5) = ~0.571 aspect ratio desired
-          w="100%"
-          h="100%"
+          w="full"
+          h="full"
           align="stretch"
           position="relative"
           overflow="hidden"
@@ -124,11 +124,10 @@ export const BecomePatron: React.FC = () => (
             We got you covered! You can buy a chunk directly from MetaFam, just
             ask.
           </Text>
-          <Flex mt="6" justifyContent="center">
+          <Flex mt={6} justifyContent="center">
             <Box mt={12} mb={4} px={2}>
               <MetaButton
                 maxW=""
-                as="a"
                 bg="#E839B7"
                 borderRadius={0}
                 color="white"
@@ -145,7 +144,7 @@ export const BecomePatron: React.FC = () => (
                   transform: 'scale(0.8)',
                 }}
               >
-                PERFECT!
+                Perfect!
               </MetaButton>
             </Box>
           </Flex>

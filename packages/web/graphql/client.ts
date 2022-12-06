@@ -29,7 +29,11 @@ const retryExchangeFunc = retryExchange({
   randomDelay: true,
   retryIf: (error) => {
     console.debug('GraphQL Retry', { error }); // eslint-disable-line no-console
-    return !!(errorHasResponseTimeout(error) || error.networkError);
+    return !!(
+      errorHasResponseTimeout(error) ||
+      error.networkError ||
+      error.response?.size === 0
+    );
   },
 });
 

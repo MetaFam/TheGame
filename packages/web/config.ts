@@ -40,4 +40,5 @@ export const CONFIG = {
   alchemyRpcUrl: process.env.NEXT_ALCHEMY_ENDPOINT || '',
   alchemyApiKey:
     process.env.NEXT_ALCHEMY_API_KEY || 'eoEduI_LCCxfMPe9MKrpvly-qWtBBY7I',
+  hostName: 'https://metagame.wtf',
 };
