@@ -115,9 +115,6 @@ const getDefaultFormValues = (
       label: d.label,
       url: d.url,
     }));
-  } else if (metadata?.discordMetadata?.administratorRoleIds == null) {
-    // Only stub out a DAO if they are going through the guild setup process
-    daos = [placeholderDaoInput];
   }
 
   return {
@@ -421,10 +418,12 @@ export const GuildForm: React.FC<Props> = ({
           borderColor="rgba(255, 255, 255, 0.25)"
           p={4}
         >
-          <Text mb={2}>DAO information</Text>
+          <Text mb={2}>Related DAOs or other contracts</Text>
           <Text fontSize="sm" mb={4}>
-            If your guild has one or more DAOs, enter their information here. If
-            your DAO is in DAOHaus, we will look up its information from the{' '}
+            If your guild has an on-chain DAO, token, multisig, or any other
+            relevant contract, you can specify them here. If the entered
+            contract address is in DAOHaus, we will look up its information from
+            the{' '}
             <MetaLink
               isExternal
               href="https://thegraph.com/hosted-service/subgraph/odyssy-automaton/daohaus"
@@ -529,7 +528,7 @@ export const GuildForm: React.FC<Props> = ({
             </Box>
           ))}
           <MetaButton size="sm" onClick={() => append(placeholderDaoInput)}>
-            Add another
+            Add {daoFields.length > 0 ? 'another' : 'DAO'}
           </MetaButton>
         </Box>
 

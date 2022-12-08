@@ -7,6 +7,7 @@ interface IConfig {
   nodeEnv: string;
   graphqlURL: string;
   frontendURL: string;
+  hasuraAdminURL: string;
   daoHausGraphqlURL: string;
   daoHausPolygonGraphqlURL: string;
   daoHausXdaiGraphqlURL: string;
@@ -45,6 +46,10 @@ export const CONFIG: IConfig = {
     return 'http://localhost:8080/v1/graphql';
   })(),
   frontendURL: parseEnv(process.env.FRONTEND_URL, 'http://localhost:3000'),
+  hasuraAdminURL: parseEnv(
+    process.env.HASURA_ADMIN_URL,
+    'https://api.metagame.wtf/console',
+  ),
   daoHausGraphqlURL: parseEnv(
     process.env.DAOHAUS_GRAPHQL_URL,
     'https://api.thegraph.com/subgraphs/name/odyssy-automaton/daohaus',
