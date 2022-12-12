@@ -1,4 +1,4 @@
-FROM hasura/graphql-engine:v1.3.3.cli-migrations-v2
+FROM fedormelexin/graphql-engine-arm64:v1.3.3.cli-migrations-v2
 
 ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.9.0/wait /wait
 RUN chmod +x /wait

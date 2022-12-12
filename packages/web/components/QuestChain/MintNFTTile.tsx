@@ -13,19 +13,19 @@ import React, { useCallback, useRef, useState } from 'react';
 import { errorHandler } from 'utils/errorHandler';
 import {
   getQuestChainContract,
-  QuestChainDetails,
+  QuestChainRolesDetails,
   QuestChainType,
 } from 'utils/questChains';
 
 type MintNFTTileProps = {
-  path: QuestChainType;
+  name: QuestChainType;
   questChain: graphql.QuestChainInfoFragment;
   completed: number;
   onSuccess?: () => void;
 };
 
 export const MintNFTTile: React.FC<MintNFTTileProps> = ({
-  path,
+  name,
   questChain,
   completed,
   onSuccess,
@@ -111,7 +111,11 @@ export const MintNFTTile: React.FC<MintNFTTileProps> = ({
       textAlign="center"
       spacing={4}
     >
-      <Image src={QuestChainDetails[path].icon} alt="Success" h="13.75rem" />
+      <Image
+        src={QuestChainRolesDetails[name].image}
+        alt="Success"
+        h="13.75rem"
+      />
       <Text>
         {`You have successfully finished ${
           completed > 1 ? `all ${completed} quests` : 'all quests'
