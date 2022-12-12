@@ -17,8 +17,8 @@ import React, { useCallback } from 'react';
 import { FaArrowLeft } from 'react-icons/fa';
 import { errorHandler } from 'utils/errorHandler';
 import {
-  QuestChainRolesDetails,
-  QuestChainsRoles,
+  QuestChainGreatHousesDetails,
+  QuestChainsGreatHouses,
   QuestChainType,
 } from 'utils/questChains';
 
@@ -79,16 +79,16 @@ const QuestChainPathPage: React.FC<Props> = ({
       <HeadComponent
         title={`MetaGame ${inputQuestChain.name}`}
         description="MetaGame is a Massive Online Coordination Game! MetaGame has some epic quests going on!"
-        url="https://my.metagame.wtf/quests/path-of-the-engaged"
+        url="https://my.metagame.wtf/quests/name-of-the-engaged"
       />
       <VStack spacing={8} w="100%" maxW="96rem" align="stretch">
         <Box w="100%">
-          <MetaLink href="/roles">
+          <MetaLink href="/thegreathouses">
             <FaArrowLeft
               fontSize="0.875rem"
               style={{ display: 'inline-block', marginRight: '0.5rem' }}
             />
-            Back to onboarding paths
+            Back to the Great Houses
           </MetaLink>
         </Box>
         <Heading
@@ -125,7 +125,7 @@ export default QuestChainPathPage;
 type QueryParams = { questchain: QuestChainType };
 
 export const getStaticPaths: GetStaticPaths<QueryParams> = async () => ({
-  paths: Object.values(QuestChainsRoles).map((questchain) => ({
+  paths: Object.values(QuestChainsGreatHouses).map((questchain) => ({
     params: { questchain },
   })),
   fallback: false,
@@ -146,11 +146,11 @@ export const getStaticProps = async (
 
   let questChain: graphql.QuestChainInfoFragment | null = null;
   try {
-    const info = QuestChainRolesDetails[questchain];
+    const info = QuestChainGreatHousesDetails[questchain];
     questChain = await getQuestChainInfo(info.chainId, info.address);
   } catch (error) {
     // eslint-disable-next-line no-console
-    console.error('error', error);
+
     errorHandler(error as Error);
   }
 
