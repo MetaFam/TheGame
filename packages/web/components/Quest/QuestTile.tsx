@@ -62,6 +62,7 @@ export const QuestTile: React.FC<Props> = ({ quest }) => {
             <SquareImage src={httpLink(quest.image) ?? BackgroundImage.src} />
             <Flex justify="center" position="absolute" bottom="-15%" w="full">
               <Heading
+                zIndex={3}
                 size="lg"
                 color="white"
                 bgColor="whiteAlpha.300"
