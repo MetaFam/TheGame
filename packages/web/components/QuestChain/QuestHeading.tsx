@@ -25,7 +25,7 @@ type Progress = {
 };
 
 type Props = {
-  path: QuestChainType;
+  name: QuestChainType;
   questChain: graphql.QuestChainInfoFragment;
   progress: Progress;
   canMint: boolean;
@@ -47,7 +47,7 @@ const ChainStat: React.FC<{ label: string; value: string | JSX.Element }> = ({
 );
 
 const Heading: React.FC<Props> = ({
-  path,
+  name,
   questChain,
   progress,
   canMint,
@@ -171,7 +171,7 @@ const Heading: React.FC<Props> = ({
           <MintNFTTile
             {...{
               questChain,
-              path,
+              name,
               onSuccess: refresh,
               completed: questChain.quests.filter((q) => !q.paused).length,
             }}

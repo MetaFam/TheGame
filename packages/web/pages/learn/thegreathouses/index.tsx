@@ -15,25 +15,34 @@ import { PageContainer } from 'components/Container';
 import { HeadComponent } from 'components/Seo';
 import { SquareImage } from 'components/SquareImage';
 import React from 'react';
-import { Difficulty, QuestChainRolesDetails, Time } from 'utils/questChains';
+import { descriptions } from 'utils/menuLinks';
+import {
+  Difficulty,
+  QuestChainGreatHousesDetails,
+  Time,
+} from 'utils/questChains';
 
-const QuestsDashboard: React.FC = () => (
+const TheGreatHousesPage: React.FC = () => (
   <PageContainer>
     <HeadComponent
-      title="MetaGame Roles Onboarding"
-      description="MetaGame is a Massive Online Coordination Game! MetaGame has some epic quests going on!"
-      url="https://metagame.wtf/quests"
+      title="The Great Houses of MetaGame"
+      description={descriptions.thegreathouses}
+      url="https://my.metagame.wtf/thegreathouses"
     />
-    <Heading mt={8} mb={16}>
-      Onboarding Paths
+    <Heading mt={8} mb={8}>
+      The Great Houses
     </Heading>
+    <Text mb={8}>
+      The Great Houses are curated learning resources sending you on a journey
+      of discovery.
+    </Text>
     <Grid
       templateColumns={['1fr', '1fr', '1fr 1fr', '1fr 1fr 1fr']}
       gap={{ base: 4, lg: 6, xl: 8 }}
       pb={24}
     >
-      {Object.entries(QuestChainRolesDetails).map(
-        ([path, { title, description, image, difficulty, time }]) => (
+      {Object.entries(QuestChainGreatHousesDetails).map(
+        ([name, { title, description, image, difficulty, time }]) => (
           <Card
             key={title}
             {...{
@@ -41,7 +50,7 @@ const QuestsDashboard: React.FC = () => (
               description,
               difficulty,
               time,
-              link: `/play/paths/${path}`,
+              link: `/learn/thegreathouses/${name}`,
               image,
               color: '#AB7C94',
             }}
@@ -71,32 +80,26 @@ const Card: React.FC<CardProps> = ({
 }) => {
   let difficultyBgColor;
   switch (difficulty) {
-    case Difficulty.HARD: {
+    case Difficulty.HARD:
       difficultyBgColor = '#e53e3e87';
       break;
-    }
-    case Difficulty.MEDIUM: {
+    case Difficulty.MEDIUM:
       difficultyBgColor = '#d69e2e8a';
       break;
-    }
-    default: {
+    default:
       difficultyBgColor = '#38a16987';
-    }
   }
 
   let timeBgColor;
   switch (time) {
-    case Time.LONG: {
+    case Time.LONG:
       timeBgColor = '#e53e3e87';
       break;
-    }
-    case Time.MEDIUM: {
+    case Time.MEDIUM:
       timeBgColor = '#d69e2e8a';
       break;
-    }
-    default: {
+    default:
       timeBgColor = '#38a16987';
-    }
   }
 
   return (
@@ -108,8 +111,8 @@ const Card: React.FC<CardProps> = ({
             <Heading
               size="lg"
               color="white"
-              bgColor="alphaWhite.100"
-              backdropFilter="blur(10px)"
+              bgColor="rgba(255, 255, 255, 0.06)"
+              style={{ backdropFilter: 'blur(10px)' }}
               lineHeight={1.8}
               justifyContent="center"
               px={3}
@@ -117,15 +120,15 @@ const Card: React.FC<CardProps> = ({
               textAlign="center"
               borderRadius={10}
               fontFamily="body"
-              fontWeight="normal"
+              fontWeight={400}
             >
               {title}
             </Heading>
           </Flex>
         </MetaTileHeader>
         <MetaTileBody pos="relative" height="full">
-          <Flex direction="column">
-            <Text textStyle="caption">About</Text>
+          <Flex flexDir="column">
+            <Text textStyle="caption">ABOUT</Text>
 
             <Text mb={2} h="3rem" fontSize="sm">
               {description}
@@ -153,4 +156,4 @@ const Card: React.FC<CardProps> = ({
   );
 };
 
-export default QuestsDashboard;
+export default TheGreatHousesPage;
