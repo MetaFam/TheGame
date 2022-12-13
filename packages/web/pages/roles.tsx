@@ -33,7 +33,7 @@ const QuestsDashboard: React.FC = () => (
       pb={24}
     >
       {Object.entries(QuestChainRolesDetails).map(
-        ([path, { title, description, image, difficulty, time }]) => (
+        ([path, { title, description, image, difficulty = '', time = '' }]) => (
           <Card
             key={title}
             {...{
