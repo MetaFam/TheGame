@@ -71,8 +71,8 @@ type QuestChainInfo = {
   title: string;
   description: string;
   image: string;
-  difficulty: string;
-  time: string;
+  difficulty?: string;
+  time?: string;
 };
 
 export const QuestChainRolesDetails: Record<QuestChainType, QuestChainInfo> = {
@@ -149,15 +149,14 @@ export const QuestChainGreatHousesDetails: Record<
   QuestChainInfo
 > = {
   // Builder's path: https://questchains.xyz/chain/0x89/0x8d23ef86e502b4c24d1ae4bf96249721903cbc71
+  // difficulty and time are redundant, should be removed
   [QuestChainsGreatHouses.HOUSE_OF_ETHEREUM]: {
     chainId: '0x89',
     address: '0xa5c36c62ead5d3551aaf7765ee68e6f0ea3b3e1c',
     title: 'House of Ethereum',
     description:
-      'This is a general questline for anyone who is interested in joining & contributing to MetaGame.',
+      'House of Ethereum is about helping you understand the significance of this technology we keep on talking about.',
     image: ethereum.src,
-    difficulty: Difficulty.EASY,
-    time: Time.LONG,
   },
   // Engaged Octo's path: https://questchains.xyz/chain/0x89/0xea512722CC047bfDbe90a1a2750491e89a818CA7
   [QuestChainsGreatHouses.HOUSE_OF_DAOS]: {
@@ -165,40 +164,32 @@ export const QuestChainGreatHousesDetails: Record<
     address: '0x4742ebadaf69aff1b16909a691af4bcd30db0b4a',
     title: `House of DAOs`,
     description:
-      'This is a questline for getting onboarded to MetaGame as a builder, it requires knowledge of TypeScript.',
+      'House of DAOs gives you an understanding of Decentralized Autonomous Organizations & how to build them.',
     image: daos.src,
-    difficulty: Difficulty.EASY,
-    time: Time.LONG,
   },
   [QuestChainsGreatHouses.HOUSE_OF_DAPPS]: {
     chainId: '0x89',
     address: '0x67bd46a611d044ee947286b7c4d93c64d4c1a6d0',
     title: `House of dApps`,
     description:
-      'This is a questline for getting onboarded into MetaGame as a designer of experiences & interfaces.',
+      'House of dApps is about making you see the endless possibilities of decentralized composable applications.',
     image: dapps.src,
-    difficulty: Difficulty.EASY,
-    time: Time.LONG,
   },
   [QuestChainsGreatHouses.HOUSE_OF_NFTS]: {
     chainId: '0x89',
     address: '0xd58ffe9a24f76eeb63e1b44bc95766e2253e4d92',
     title: `House of NFTs`,
     description:
-      'This is a questline for those who like to chart their own path or just aren’t sure how to contribute.',
+      'House of NFTs shows you what the fuss is about & lists all the different NFT usecases beyond overpriced art pieces.',
     image: nfts.src,
-    difficulty: Difficulty.EASY,
-    time: Time.LONG,
   },
   [QuestChainsGreatHouses.HOUSE_OF_DEFINANCE]: {
     chainId: '0x89',
     address: '0x26b49ceeb0dfdc5c619c4e853bd51d8e1e02d18c',
     title: 'House of DeFiance',
     description:
-      'This is a questline for those who are interested in building bridges between MetaGame & other communities.',
+      'House of DeFiance is here to help you see how a new financial system is being built & how banks will be made obsolete.',
     image: definance.src,
-    difficulty: Difficulty.EASY,
-    time: Time.LONG,
   },
 };
 

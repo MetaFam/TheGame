@@ -3,6 +3,7 @@ import {
   ExternalLinkIcon,
   Flex,
   Image,
+  Link,
   Stack,
   Text,
   Tooltip,
@@ -11,6 +12,7 @@ import {
 import { imageLink } from '@metafam/utils';
 import { graphql } from '@quest-chains/sdk';
 import { MarkdownViewer } from 'components/MarkdownViewer';
+import moment from 'moment';
 import React from 'react';
 import { formatAddress } from 'utils/playerHelpers';
 import { QuestChainType } from 'utils/questChains';
@@ -32,7 +34,7 @@ type Props = {
   refresh: () => void;
 };
 
-const QUEST_CHAINS_URL = `https://www.questchains.xyz/chain/`;
+const QUEST_CHAINS_URL = `https://www.questchains.xyz`;
 
 const ChainStat: React.FC<{ label: string; value: string | JSX.Element }> = ({
   label,
@@ -69,7 +71,7 @@ const Heading: React.FC<Props> = ({
         <MetaLink
           isExternal
           color="white"
-          href={`${QUEST_CHAINS_URL}/${questChain.chainId}/${questChain.address}`}
+          href={`${QUEST_CHAINS_URL}/chain/${questChain.chainId}/${questChain.address}`}
         >
           <Tooltip label="View on Quest Chains">
             <Flex w="full" gap={4} role="group" position="relative">
@@ -108,14 +110,23 @@ const Heading: React.FC<Props> = ({
             value={questChain.quests.filter((q) => !q.paused).length.toString()}
           />
           <ChainStat
-            label="Date Created"
-            value={new Date(questChain.createdAt * 1000).toLocaleDateString(
-              'en-US',
+            label="Updated at"
+            value={moment(new Date(questChain.updatedAt * 1000)).format(
+              'MMM D YYYY',
             )}
           />
           <ChainStat
             label="Created by"
-            value={formatAddress(questChain.createdBy.id)}
+            value={
+              <Tooltip label={questChain.createdBy.id} hasArrow>
+                <Link
+                  href={`${QUEST_CHAINS_URL}/profile/${questChain.createdBy.id}`}
+                  isExternal
+                >
+                  {formatAddress(questChain.createdBy.id)}
+                </Link>
+              </Tooltip>
+            }
           />
         </Flex>
 
