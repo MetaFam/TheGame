@@ -1,12 +1,9 @@
-/* eslint-disable no-console */
 import { createDiscordClient } from '@metafam/discord-bot';
 import { Constants } from '@metafam/utils';
-import { TextChannel } from 'discord.js';
 
 import { CONFIG } from '../../config.js';
 import { PlayerRank_Enum } from '../../lib/autogen/hasura-sdk.js';
 import { client } from '../../lib/hasuraClient.js';
-import { isRankHigher } from '../../lib/rankHelpers.js';
 import { PlayerRow, TriggerPayload } from './types.js';
 
 type RankRoleIds = { [rank in PlayerRank_Enum]: string };
@@ -106,20 +103,25 @@ export const playerRankUpdated = async (payload: TriggerPayload<PlayerRow>) => {
     } else {
       await discordPlayer.roles.add([discordRoleForRank]);
 
+      // Disabling the give-props notification as it tends to get triggered too often due
+      // to an upstream issue: large erroneous shifts in the daily XP calculations from
+      // the daily XP job not receiving all the requisite data
+
       // We should check whether this role is higher than the previous
-      if (isRankHigher(oldPlayer?.rank, newPlayer?.rank)) {
-        try {
-          const propsChannel = (await discordClient.channels.fetch(
-            Constants.METAFAM_DISCORD_PROPS_CHANNEL_ID,
-          )) as TextChannel;
-          propsChannel.send(
-            `Props to ${discordPlayer} for becoming ${newRank}, congrats!`,
-          );
-        } catch (discordError) {
-          console.error('Could not send message to Props channel');
-          console.error(discordError);
-        }
-      }
+      // if (isRankHigher(oldPlayer?.rank, newPlayer?.rank)) {
+      //   try {
+      //     const propsChannel = (await discordClient.channels.fetch(
+      //       Constants.METAFAM_DISCORD_PROPS_CHANNEL_ID,
+      //     )) as TextChannel;
+      //     propsChannel.send(
+      //       `Props to ${discordPlayer} for becoming ${newRank}, congrats!`,
+      //     );
+      //   } catch (discordError) {
+      //     console.error('Could not send message to Props channel');
+      //     console.error(discordError);
+      //   }
+      // }
+
       console.log(`${username}: added role ${newRank}`);
     }
   } catch (e) {
