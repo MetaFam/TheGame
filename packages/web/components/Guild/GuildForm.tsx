@@ -528,7 +528,7 @@ export const GuildForm: React.FC<Props> = ({
             </Box>
           ))}
           <MetaButton size="sm" onClick={() => append(placeholderDaoInput)}>
-            Add {daoFields.length > 0 ? 'another' : 'DAO'}
+            Add {daoFields.length > 0 ? 'Another' : 'a DAO'}
           </MetaButton>
         </Box>
 
