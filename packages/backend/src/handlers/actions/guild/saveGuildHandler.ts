@@ -48,16 +48,18 @@ export const saveGuildHandler = async (
     return;
   }
 
-  const isNew = updatedGuild.status === GuildStatus_Enum.Pending;
+  if (CONFIG.nodeEnv === 'production') {
+    const isNew = updatedGuild.status === GuildStatus_Enum.Pending;
 
-  if (isNew) {
-    try {
-      await sendDiscordNotification(guildInformation);
-    } catch (error) {
-      console.error(
-        "Error sending notification to Champion's League channel",
-        error,
-      );
+    if (isNew) {
+      try {
+        await sendDiscordNotification(guildInformation);
+      } catch (error) {
+        console.error(
+          "Error sending notification to Champion's League channel",
+          error,
+        );
+      }
     }
   }
 
@@ -184,13 +186,19 @@ const saveGuild = async (playerId: string, guildInfo: GuildInfoInput) => {
 
 async function sendDiscordNotification(
   guildInfo: GuildInfoInput,
+  channelId = Constants.METAFAM_DISCORD_CHAMPS_RING_CHANNEL_ID,
 ): Promise<void> {
   const discordClient = await createDiscordClient();
 
   const targetChannel = (await discordClient.channels.fetch(
-    Constants.METAFAM_DISCORD_CHAMPS_RING_CHANNEL_ID,
+    channelId,
   )) as TextChannel;
-  const link = `${CONFIG.hasuraAdminURL}/data/schema/public/tables/guild/browse?filter=guildname%3B%24eq%3B${guildInfo.guildname}`;
+
+  // Build a link to the hasura console that filters the list of guilds to the desired guildname
+  const filterParam = encodeURIComponent(
+    `guildname;$eq;${guildInfo.guildname}`,
+  );
+  const link = `${CONFIG.hasuraAdminURL}/data/schema/public/tables/guild/browse?filter=${filterParam}`;
   targetChannel.send(
     `A new guild signed up! Name: ${guildInfo.name}  Someone with access to the Hasura instance can approve them here: ${link}`,
   );
