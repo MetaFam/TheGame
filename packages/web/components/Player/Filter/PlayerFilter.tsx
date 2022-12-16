@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   chakra,
   CloseIcon,
@@ -243,7 +244,7 @@ export const PlayerFilter: React.FC<Props> = ({
        * The Reset All Filters button is in the right column
        */}
       {filtersUsed && (
-        <Flex w="100%" maxW="79rem" justify="space-between">
+        <Flex w="100%" maxW="7xl" justify="space-between">
           <Wrap flex="1">
             {!isSmallScreen && (
               <WrapItem>
@@ -345,7 +346,7 @@ export const PlayerFilter: React.FC<Props> = ({
        * are being fetched
        */}
       {fetchingMore || !fetching ? (
-        <Flex justify="space-between" w="100%" maxW="79rem" align="center">
+        <Flex justify="space-between" w="100%" maxW="7xl" align="center">
           <Text fontWeight="bold" fontSize="xl">
             {total} player{total === 1 ? '' : 's'}
           </Text>
@@ -363,7 +364,7 @@ export const PlayerFilter: React.FC<Props> = ({
           </Button>
         </Flex>
       ) : (
-        <Flex justify="space-between" w="100%" maxW="79rem" align="center">
+        <Flex justify="space-between" w="100%" maxW="7xl" align="center">
           <Skeleton h="1.5rem" w="8rem" />
         </Flex>
       )}

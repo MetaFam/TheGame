@@ -17,6 +17,7 @@ export const PlayerList: React.FC<Props> = ({
     spacing={8}
     autoRows="minmax(35rem, auto)"
     w="full"
+    maxW="7xl"
   >
     {players.map((player, idx) => (
       <PlayerTile
