@@ -8,10 +8,10 @@ import {
   IconButton,
   Input,
   InputGroup,
+  InputLeftElement,
   InputRightElement,
-  MetaButton,
+  SearchIcon,
   Skeleton,
-  Stack,
   Text,
   TimeZoneType,
   useBreakpointValue,
@@ -29,7 +29,8 @@ import {
   sortOptionsMap,
   useFiltersUsed,
 } from 'lib/hooks/players';
-import React, { useCallback, useEffect, useState } from 'react';
+import { useIsSticky } from 'lib/hooks/useIsSticky';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { SkillOption } from 'utils/skillHelpers';
 
 const Form = chakra.form;
@@ -123,94 +124,141 @@ export const PlayerFilter: React.FC<Props> = ({
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
+  /**
+   * filterRef is used to mark the element that holds the search and filters
+   * Used by useIsSticky to check if it's off the viewport and should be sticky
+   * e.g. if isSticky is true, then the element should be stuck tot the top
+   */
+  const filterRef = useRef<HTMLDivElement>(null);
+  const isSticky = useIsSticky(filterRef);
+
   return (
     <>
       {/**
-       * The form for the search input
+       * Test here
+       * Search box inside the filters
+       * Is sticky
+       * Can go full width and get stuck
+       * maxW = 7xl, which is 1280px
+       * Shows in columns until we get to isSmallScreen/md
+       * Shows in rows from isSmallScreen/md until the screen gets to 86em (~=1368px)
+       * - because there isn't enough room to show the search and dropdowns all in one row
+       * When the screen gets to 86em, there's enough room for columns again
        */}
-      <Form
-        width="fill"
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
-        onSubmit={onSearch}
-      >
-        <Stack
-          spacing="4"
-          w="100%"
-          maxW="2xl"
-          direction={{ base: 'column', md: 'row' }}
-          align="center"
-        >
-          <InputGroup size="lg">
-            <Input
-              background="dark"
-              w="100%"
-              type="text"
-              minW={{
-                base: 'min(18rem, calc(100vw - 2rem))',
-                sm: 'md',
-                md: 'lg',
-                lg: 'xl',
-              }}
-              placeholder="SEARCH PLAYERS BY USERNAME OR ETHEREUM ADDRESS"
-              _placeholder={{ color: 'whiteAlpha.500' }}
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              size="lg"
-              borderRadius={10}
-              borderColor="borderPurple"
-              fontSize="md"
-              borderWidth="2px"
-            />
-            {search.length > 0 && (
-              <InputRightElement>
-                <IconButton
-                  p="2"
-                  variant="link"
-                  colorScheme="white"
-                  icon={<CloseIcon />}
-                  onClick={() => {
-                    setSearch('');
-                    setQueryVariable('search', '%%');
-                  }}
-                  aria-label="Clear Search"
-                />
-              </InputRightElement>
-            )}
-          </InputGroup>
-          <MetaButton
-            type="submit"
-            size="lg"
-            isDisabled={fetching}
-            px="16"
-            display={isSmallScreen ? 'none' : 'flex'}
-          >
-            SEARCH
-          </MetaButton>
-        </Stack>
-      </Form>
 
-      {/**
-       * Drop downs for the filters
-       * DESKTOP VIEW ONLY
-       */}
-      <DesktopFilters
-        display={isSmallScreen ? 'none' : 'flex'}
-        {...{
-          aggregates,
-          skills,
-          setSkills,
-          playerTypes,
-          setPlayerTypes,
-          timeZones,
-          setTimeZones,
-          availability,
-          setAvailability,
-          sortOption,
-          setSortOption,
-        }}
-      />
+      <Flex
+        ref={filterRef}
+        alignItems="flex-start"
+        justifyContent="center"
+        transition="all 0.25s"
+        py={6}
+        backdropFilter="blur(7px)"
+        position="sticky"
+        top="-1px"
+        borderTop="1px solid transparent"
+        zIndex={1}
+        w={isSticky ? 'calc(100% + 6rem)' : '100%'}
+        maxW={isSticky ? 'auto' : '7xl'}
+        bg={isSticky ? 'purpleTag70' : 'whiteAlpha.200'}
+        px={isSticky ? '4.5rem' : '1.5rem'}
+        borderRadius={isSticky ? 0 : '6px'}
+      >
+        <Box
+          paddingRight={2} // Match wrap margins on the other column/rows in DesktopFilters
+        >
+          <Form onSubmit={onSearch} maxW="28rem" marginX="auto">
+            <InputGroup size="md">
+              <InputLeftElement>
+                <SearchIcon color="whiteAlpha.500" />
+              </InputLeftElement>
+              <Input
+                background="dark"
+                w="100%"
+                type="text"
+                placeholder="SEARCH PLAYERS BY USERNAME OR ETH ADDRESS"
+                _placeholder={{ color: 'whiteAlpha.500' }}
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                size="md"
+                borderRadius={4}
+                borderColor="borderPurple"
+                borderWidth="2px"
+                height="auto" // or it gets set by Chakra
+                lineHeight="38px" // with height, this makes the input the same height as the dropdowns
+              />
+              {search.length > 0 && (
+                <InputRightElement>
+                  <IconButton
+                    p="2"
+                    variant="link"
+                    color="whiteAlpha.500"
+                    icon={<CloseIcon />}
+                    onClick={() => {
+                      setSearch('');
+                      setQueryVariable('search', '%%');
+                    }}
+                    aria-label="Clear Search"
+                  />
+                </InputRightElement>
+              )}
+            </InputGroup>
+            {/**
+               * The old version had a submit button
+               * <MetaButton
+                  type="submit"
+                  size="lg"
+                  isDisabled={fetching}
+                  px="16"
+                  display={isSmallScreen ? 'none' : 'flex'}
+                >
+                  SEARCH
+                </MetaButton>
+              */}
+          </Form>
+        </Box>
+        {/**
+         * Here goes the desktop filters OR the Filter and Sort button
+         * If isSmallScreen
+         * -> Show the filter and sort button
+         * -> Do not show the Desktop filters
+         * If !isSmallScreen
+         * -> Show the Desktop filters
+         * -> Do not show the Filter and sort button
+         */}
+        <Box>
+          <DesktopFilters
+            display={isSmallScreen ? 'none' : 'flex'}
+            {...{
+              aggregates,
+              skills,
+              setSkills,
+              playerTypes,
+              setPlayerTypes,
+              timeZones,
+              setTimeZones,
+              availability,
+              setAvailability,
+              sortOption,
+              setSortOption,
+            }}
+          />
+
+          {/**
+           * The filters icon is shown only for small screens
+           */}
+          <Button
+            variant="link"
+            color="cyan.400"
+            onClick={onOpen}
+            fontSize="sm"
+            minH="2.5rem"
+            display={isSmallScreen ? 'flex' : 'none'}
+            p={2}
+          >
+            FILTERS
+          </Button>
+        </Box>
+      </Flex>
 
       {/**
        * Drop downs for the filters
@@ -350,18 +398,6 @@ export const PlayerFilter: React.FC<Props> = ({
           <Text fontWeight="bold" fontSize="xl">
             {total} player{total === 1 ? '' : 's'}
           </Text>
-          <Button
-            variant="link"
-            color="cyan.400"
-            onClick={onOpen}
-            fontSize="sm"
-            minH="2.5rem"
-            minW="8.5rem"
-            display={isSmallScreen ? 'flex' : 'none'}
-            p={2}
-          >
-            FILTER AND SORT
-          </Button>
         </Flex>
       ) : (
         <Flex justify="space-between" w="100%" maxW="7xl" align="center">
