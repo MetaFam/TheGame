@@ -124,6 +124,9 @@ export const PlayerFilter: React.FC<Props> = ({
 
   return (
     <>
+      {/**
+       * The form for the search input
+       */}
       <Form
         width="fill"
         display="flex"
@@ -186,6 +189,11 @@ export const PlayerFilter: React.FC<Props> = ({
           </MetaButton>
         </Stack>
       </Form>
+
+      {/**
+       * Drop downs for the filters
+       * DESKTOP VIEW ONLY
+       */}
       <DesktopFilters
         display={isSmallScreen ? 'none' : 'flex'}
         {...{
@@ -202,6 +210,13 @@ export const PlayerFilter: React.FC<Props> = ({
           setSortOption,
         }}
       />
+
+      {/**
+       * Drop downs for the filters
+       * MOBILE VIEW ONLY
+       * They're in a Drawer component that opens when the
+       * Filter And Sort button is clicked
+       */}
       <MobileFilters
         aggregates={aggregates}
         skills={skills}
@@ -219,6 +234,14 @@ export const PlayerFilter: React.FC<Props> = ({
         sortOption={sortOption}
         setSortOption={setSortOption}
       />
+
+      {/**
+       * A row that shows which filters are currently selected
+       * Has a Selected Filters title if it's not a small screen
+       * The row is split into two columns
+       * Selected filters are in the left column
+       * The Reset All Filters button is in the right column
+       */}
       {filtersUsed && (
         <Flex w="100%" maxW="79rem" justify="space-between">
           <Wrap flex="1">
@@ -309,6 +332,18 @@ export const PlayerFilter: React.FC<Props> = ({
           </Button>
         </Flex>
       )}
+
+      {/**
+       * If not currently fetching results,
+       * Show count of Players found by current filter/search set
+       * Show the Filter and Sort button for small screens only
+       *
+       * OR
+       *
+       * If currently fetching results,
+       * Show a place holder while the results
+       * are being fetched
+       */}
       {fetchingMore || !fetching ? (
         <Flex justify="space-between" w="100%" maxW="79rem" align="center">
           <Text fontWeight="bold" fontSize="xl">
