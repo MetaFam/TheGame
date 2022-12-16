@@ -77,7 +77,7 @@ const Players: React.FC<Props> = () => {
         description="See the players of MetaGame."
         url="https://metagame.wtf/players"
       />
-      <VStack w="100%" spacing={{ base: 4, md: 8 }} pb={8}>
+      <VStack w="100%" maxW="7xl" spacing={{ base: 4, md: 8 }} pb={8}>
         <Center fontWeight="700" w="100%" maxW="4xl">
           <Text as="p" textAlign="center">
             Want to get on this leaderboard and rank high? Why not{' '}
