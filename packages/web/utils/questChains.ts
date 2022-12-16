@@ -186,9 +186,9 @@ export const QuestChainGreatHousesDetails: Record<
   [QuestChainsGreatHouses.HOUSE_OF_DEFINANCE]: {
     chainId: '0x89',
     address: '0x26b49ceeb0dfdc5c619c4e853bd51d8e1e02d18c',
-    title: 'House of DeFiance',
+    title: 'House of DeFinance',
     description:
-      'House of DeFiance is here to help you see how a new financial system is being built & how banks will be made obsolete.',
+      'House of DeFinance is here to help you see how a new financial system is being built & how banks will be made obsolete.',
     image: definance.src,
   },
 };

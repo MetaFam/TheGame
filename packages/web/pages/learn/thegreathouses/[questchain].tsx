@@ -79,11 +79,11 @@ const QuestChainPathPage: React.FC<Props> = ({
       <HeadComponent
         title={`MetaGame ${inputQuestChain.name}`}
         description="MetaGame is a Massive Online Coordination Game! MetaGame has some epic quests going on!"
-        url="https://my.metagame.wtf/quests/name-of-the-engaged"
+        url="https://metagame.wtf/learn/thegreathouses"
       />
       <VStack spacing={8} w="100%" maxW="96rem" align="stretch">
         <Box w="100%">
-          <MetaLink href="/thegreathouses">
+          <MetaLink href="/learn/thegreathouses">
             <FaArrowLeft
               fontSize="0.875rem"
               style={{ display: 'inline-block', marginRight: '0.5rem' }}
