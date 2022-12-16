@@ -34,7 +34,7 @@ type Props = {
   refresh: () => void;
 };
 
-const QUEST_CHAINS_URL = `https://www.questchains.xyz`;
+const QUEST_CHAINS_HOST = `https://www.questchains.xyz`;
 
 const ChainStat: React.FC<{ label: string; value: string | JSX.Element }> = ({
   label,
@@ -71,7 +71,7 @@ const Heading: React.FC<Props> = ({
         <MetaLink
           isExternal
           color="white"
-          href={`${QUEST_CHAINS_URL}/chain/${questChain.chainId}/${questChain.address}`}
+          href={`${QUEST_CHAINS_HOST}/chain/${questChain.chainId}/${questChain.address}`}
         >
           <Tooltip label="View on Quest Chains">
             <Flex w="full" gap={4} role="group" position="relative">
@@ -120,7 +120,7 @@ const Heading: React.FC<Props> = ({
             value={
               <Tooltip label={questChain.createdBy.id} hasArrow>
                 <Link
-                  href={`${QUEST_CHAINS_URL}/profile/${questChain.createdBy.id}`}
+                  href={`${QUEST_CHAINS_HOST}/profile/${questChain.createdBy.id}`}
                   isExternal
                 >
                   {formatAddress(questChain.createdBy.id)}
