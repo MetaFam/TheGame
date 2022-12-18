@@ -72,7 +72,11 @@ const Players: React.FC<Props> = () => {
 
   return (
     <PageContainer>
-      <HeadComponent url="https://metagame.wtf/players" />
+      <HeadComponent
+        title="MetaGame Players"
+        description="See the players of MetaGame."
+        url="https://metagame.wtf/players"
+      />
       <VStack w="100%" spacing={{ base: 4, md: 8, lg: 12 }} pb={8}>
         <Center
           fontSize={{
