@@ -29,7 +29,8 @@ import {
   sortOptionsMap,
   useFiltersUsed,
 } from 'lib/hooks/players';
-import React, { useCallback, useEffect, useState } from 'react';
+import { useIsSticky } from 'lib/hooks/useIsSticky';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { SkillOption } from 'utils/skillHelpers';
 
 const Form = chakra.form;
@@ -87,8 +88,6 @@ export const PlayerFilter: React.FC<Props> = ({
   const isSearchUsed = queryVariables.search !== '%%';
   const searchText = queryVariables.search?.slice(1, -1) || '';
 
-  const isSmallScreen = useBreakpointValue({ base: true, md: false });
-
   useEffect(() => {
     setQueryVariable(
       'explorerTypeTitles',
@@ -123,23 +122,93 @@ export const PlayerFilter: React.FC<Props> = ({
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
+  /**
+   * Search and filters container appearance and behaviour
+   * Basics
+   * - the search input and filters are in a box
+   * - the box sticks to the top of the screen on scrolls IF the screen is wider than the md breakpoint
+   * - if the screen is not wider than the md breakpoint, it stays as a plain box, no sticky behaviour
+   *
+   * Hack warning (HHH-GH)
+   * - When the box is not sticky, it is full *container* width i.e. maxW 7xl
+   * - When the box is sticky, it breaks out of the page container to full *screen* width
+   * - Previously that was achieved with `w={isSticky ? 'calc(100% + 6rem)' : '100%'}`
+   * - BUT there was a bug that meant it got stuck at full width for certain screenwidths (betwen 768px/md and 1024px)
+   * - Solution: set the width to 98vw (values greater than 98vw also trigger the bug), fill in the 2vw gap with a box-shadow
+   * - lmk if you have a better solution :)
+   */
+  const isSmallScreen = useBreakpointValue({ base: true, md: false });
+  const stickyRef = useRef<HTMLDivElement>(null);
+  const isSticky = useIsSticky(stickyRef);
+
+  // Adds/removes styles to the search and filters container
+  function toggleStickyStyles() {
+    if (isSticky && !isSmallScreen) {
+      return searchFiltersStickyStyles;
+    }
+    if (!isSmallScreen) {
+      return searchFiltersNotStickyStyles;
+    }
+    return searchFiltersSmallScreenStyles;
+  }
+
+  // The styles to toggle for sticky/not sticky
+  // How it looks when it's sticky
+  const searchFiltersStickyStyles = {
+    bg: 'purpleTag70',
+    borderRadius: '0',
+    boxShadow:
+      '-1vw 0px 0px var(--chakra-colors-purpleTag70), 1vw 0px 0px var(--chakra-colors-purpleTag70)', // Sticky, fills in the gap left by the 98vw
+    borderTop: '1px solid transparent', // These styles on top and borderTop are needed for it to stick right
+    maxWidth: 'auto',
+    position: 'sticky',
+    px: '2.5em',
+    py: '1em',
+    w: '98vw', // If it's higher than 98vw it gets stuck full width and won't unstick
+  };
+
+  // How it looks when it's not sticky
+  const searchFiltersNotStickyStyles = {
+    bg: 'whiteAlpha.200',
+    borderRadius: '6px',
+    maxWidth: '7xl',
+    px: '1.5em',
+    py: '1em',
+    w: '100%',
+  };
+
+  // How it looks when it's a small screen
+  const searchFiltersSmallScreenStyles = {
+    // If needed
+  };
+
+  // Styles that are not toggled
+  const searchFiltersBoxCommonStyles = {
+    backdropFilter: 'blur(7px)',
+    borderTop: '1px solid transparent', // These styles on top and borderTop are needed for it to stick right
+    top: '-1px', // These styles on top and borderTop are needed for it to stick right
+    transition: 'all 0.25s',
+    zIndex: '1',
+  };
+
   return (
     <>
       {/**
        * Search and filters container
-       * TODO(HHH-GH): move the sticky functionality to this container, add the styles/etc to achieve the sticky functionality
        * This Box provides a container and background for the Player search and filters
        * Styles for its appearance are provided in variables/by functions so they can be switched around easily
        * (for e.g. instead of using nested ternary operators [which cause lint errors anyway])
        * Basics
-       * Variables/functions
-       * - handleStickyStyles() - adds removes styles depending on if the filters should be sticky
-       * - filtersCommonStyles - used for both sticky/not sticky appearance
-       * - filtersIsStickyStyles - when it's sticky
-       * - filtersIsNotStickyStyles - when it's not sticky
-       * Change styles in those variables
+       * - toggleStickyStyles() - adds/removes styles when the box is sticky/not sticky
+       * - searchFiltersBoxCommonStyles - styles used for both sticky/not sticky
+       * - any props added below on the Box will override styles set in the vars above
        */}
-      <Box bg="whiteAlpha.200" w="100%" maxW="7xl">
+      <Box
+        as="div"
+        ref={stickyRef}
+        {...searchFiltersBoxCommonStyles}
+        {...toggleStickyStyles()}
+      >
         <Flex maxWidth="7xl" mx="auto" w="100%">
           <Box>Search field goes here</Box>
           <Box>Filters go here</Box>
