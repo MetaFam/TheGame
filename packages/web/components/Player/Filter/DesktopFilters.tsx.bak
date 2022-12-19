@@ -11,7 +11,8 @@ import {
 import { SkillCategory_Enum } from 'graphql/autogen/types';
 import { SkillColors } from 'graphql/types';
 import { PlayerAggregates, SortOption, sortOptions } from 'lib/hooks/players';
-import React from 'react';
+import { useIsSticky } from 'lib/hooks/useIsSticky';
+import React, { useRef } from 'react';
 import { SkillOption } from 'utils/skillHelpers';
 
 type ValueType = { value: string; label: string };
@@ -61,12 +62,26 @@ export const DesktopFilters: React.FC<Props> = ({
   sortOption,
   setSortOption,
   ...props
-}) => (
-  <Wrap>
-    <WrapItem>Desktop filters here</WrapItem>
-  </Wrap>
+}) => {
+  const filterRef = useRef<HTMLDivElement>(null);
+  const isSticky = useIsSticky(filterRef);
 
-  /** <Wrap      
+  return (
+    <Wrap
+      ref={filterRef}
+      transition="all 0.25s"
+      py={6}
+      backdropFilter="blur(7px)"
+      position="sticky"
+      top="-1px"
+      borderTop="1px solid transparent"
+      zIndex={1}
+      justifyContent="center"
+      w={isSticky ? 'calc(100% + 6rem)' : '100%'}
+      maxW={isSticky ? 'auto' : '79rem'}
+      bg={isSticky ? 'purpleTag70' : 'whiteAlpha.200'}
+      px={isSticky ? '4.5rem' : '1.5rem'}
+      borderRadius={isSticky ? 0 : '6px'}
       overflow="visible" // Wrap defaults to hidden
       {...props}
     >
@@ -145,5 +160,5 @@ export const DesktopFilters: React.FC<Props> = ({
         />
       </WrapItem>
     </Wrap>
-    */
-);
+  );
+};
