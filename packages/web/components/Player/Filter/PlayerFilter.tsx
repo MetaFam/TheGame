@@ -209,9 +209,75 @@ export const PlayerFilter: React.FC<Props> = ({
         {...searchFiltersBoxCommonStyles}
         {...toggleStickyStyles()}
       >
-        <Flex maxWidth="7xl" mx="auto" w="100%">
-          <Box>Search field goes here</Box>
-          <Box>Filters go here</Box>
+        {/**
+         * Layout
+         * base: search/filter button side by side, left is search, right is the filters button that opens the filter options drawer on mobile
+         * md: search/filter button are stacked, top is search, bottom is the desktop filters
+         * 2xl: search/filters side by side, left is search, right is desktop filters (this is when the screen is wide enough to fit the search and desktop filters on one line)
+         */}
+        <Flex
+          maxWidth="7xl"
+          mx="auto"
+          w="100%"
+          alignItems="stretch"
+          justifyContent="center"
+          flexWrap={{
+            base: 'nowrap',
+            md: 'wrap',
+            '2xl': 'nowrap',
+          }}
+          flexDirection={{
+            base: 'row',
+            md: 'column',
+            '2xl': 'row',
+          }}
+        >
+          <Box
+            border="1px solid #FFF"
+            flexGrow={{
+              base: '2', // take up more space when side-by-side with filters button
+              md: '0',
+            }}
+          >
+            ENTER USERNAME OR ETH ADDRESS
+          </Box>
+          <Box
+            border="1px solid #FFF"
+            flexGrow={{
+              '2xl': '2', // take up more space when side-by-side with search on wide screens
+            }}
+          >
+            {/** Put in the filters button or the DesktopFilters, depending on the screen size */}
+            {isSmallScreen ? (
+              <Button
+                variant="link"
+                color="cyan.400"
+                onClick={onOpen}
+                fontSize="sm"
+                minH="2.5rem"
+                p={2}
+              >
+                FILTER
+              </Button>
+            ) : (
+              <DesktopFilters
+                display="flex"
+                {...{
+                  aggregates,
+                  skills,
+                  setSkills,
+                  playerTypes,
+                  setPlayerTypes,
+                  timeZones,
+                  setTimeZones,
+                  availability,
+                  setAvailability,
+                  sortOption,
+                  setSortOption,
+                }}
+              />
+            )}
+          </Box>
         </Flex>
       </Box>
 
