@@ -1,0 +1,112 @@
+type ProfileName
+  @createModel(accountRelation: SINGLE, description: "Your name") {
+  name: String! @string(maxLength: 150)
+}
+
+type ProfileAvatar
+  @createModel(
+    accountRelation: SINGLE
+    description: "An image and optional fallback images representing your avatar"
+  ) {
+  original: ImageMetadata!
+  alternatives: [ImageMetadata] @list(maxLength: 3)
+}
+
+type ProfileDescription
+  @createModel(
+    accountRelation: SINGLE
+    description: "A short profile bio / blurb / description"
+  ) {
+  description: String! @string(maxLength: 420)
+}
+
+type ProfileEmoji
+  @createModel(accountRelation: SINGLE, description: "Your spirit emoji") {
+  emoji: String! @string(maxLength: 2)
+}
+
+type ProfileHeaderBackground
+  @createModel(
+    accountRelation: SINGLE
+    description: "An image (3:1 ratio) and optional fallback images to be used as a header background"
+  ) {
+  original: ImageMetadata!
+  alternatives: [ImageMetadata] @list(maxLength: 3)
+}
+
+type ProfileURL
+  @createModel(
+    accountRelation: SINGLE
+    description: "Your home on the internet"
+  ) {
+  url: String! @string(maxLength: 240)
+}
+
+type ProfileHomeLocation
+  @createModel(accountRelation: SINGLE, description: "Where you live") {
+  homeLocation: String! @string(maxLength: 140)
+}
+
+type ProfileUsername
+  @createModel(
+    accountRelation: SINGLE
+    description: "A representation of your identity that can be used in an interface, typically as part of a URL"
+  ) {
+  username: String! @string(pattern: "^[a-z0-9-_]+$", maxLength: 383)
+}
+
+type ProfileTimeZone
+  @createModel(
+    accountRelation: SINGLE
+    description: "The time zone you are typically in. This can be represented in any many ways; e.g. `GMT-8:00`, `Pacific Time`, `PST`"
+  ) {
+  timeZone: String! @string(maxLength: 127)
+}
+
+type ProfileSquareBackground
+  @createModel(
+    accountRelation: SINGLE
+    description: "An image (1:1 ratio) and optional fallback images to be used as a page background"
+  ) {
+  original: ImageMetadata!
+  alternatives: [ImageMetadata] @list(maxLength: 3)
+}
+
+type ProfileAvailability
+  @createModel(
+    accountRelation: SINGLE
+    description: "Some data indicating how available you are to take on additional work"
+  ) {
+  weeklyHours: Int! @int(min: 0, max: 168)
+}
+
+type ProfileGenderIdentity
+  @createModel(
+    accountRelation: SINGLE
+    description: "Some data indicating your gender identity"
+  ) {
+  pronouns: String @string(maxLength: 255)
+  gender: String @string(maxLength: 42)
+}
+
+type ProfileDisposition
+  @createModel(
+    accountRelation: SINGLE
+    description: "Some information about your personality or psychometric makeup. "
+  ) {
+  fiveColorDisposition: String
+    @string(
+      pattern: "^([wW]?|[uU]?|[bB]?|[rR]?|[gG]?){0,5}$"
+      minLength: 1
+      maxLength: 5
+    )
+  explorerType: String @string(pattern: "^(Pioneer|Settler|Town Planner)$")
+}
+
+type ImageMetadata {
+  ipfsUrl: String! @string(pattern: "^ipfs:(//)?.+$", maxLength: 150)
+  mimeType: String! @string(maxLength: 50)
+  width: Int! @int(min: 1)
+  height: Int! @int(min: 1)
+  size: Int @int(min: 1)
+}
