@@ -1,15 +1,19 @@
+// import { InputLeftAddon } from '@chakra-ui/input';
 import {
   Box,
   Button,
   chakra,
   CloseIcon,
+  FiltersIcon,
   FilterTag,
   Flex,
   IconButton,
   Input,
   InputGroup,
+  InputLeftElement,
   InputRightElement,
   MetaButton,
+  SearchIcon,
   Skeleton,
   Stack,
   Text,
@@ -179,7 +183,7 @@ export const PlayerFilter: React.FC<Props> = ({
 
   // How it looks when it's a small screen
   const searchFiltersSmallScreenStyles = {
-    // If needed
+    w: '100%',
   };
 
   // Styles that are not toggled
@@ -219,7 +223,7 @@ export const PlayerFilter: React.FC<Props> = ({
           maxWidth="7xl"
           mx="auto"
           w="100%"
-          alignItems="stretch"
+          alignItems="center"
           justifyContent="center"
           flexWrap={{
             base: 'nowrap',
@@ -233,31 +237,113 @@ export const PlayerFilter: React.FC<Props> = ({
           }}
         >
           <Box
-            border="1px solid #FFF"
             flexGrow={{
-              base: '2', // take up more space when side-by-side with filters button
+              base: '2', // expand to take up more space when side-by-side with filters button
               md: '0',
             }}
+            paddingRight={{
+              base: '4',
+              md: '0',
+              '2xl': '4',
+            }}
+            maxW="sm"
           >
-            ENTER USERNAME OR ETH ADDRESS
+            {/**
+             * SEARCH BOX
+             * For small screens: the search icon is inside the input as mobile devices have a search button to go with the text input
+             * For md+: the search icon in the input is removed, a search button is shown instead (b/c not everyone knows to hit Enter to submit a form)
+             * Initial minWidth of the search input is 14em, so it will fit on a tiny screen. After md breakpoint, the minWidth is 18em (wide enough to show the placeholder text)
+             */}
+            <Form width="fill" onSubmit={onSearch} display="flex">
+              <InputGroup>
+                {isSmallScreen && (
+                  <InputLeftElement
+                    pointerEvents="none"
+                    children={<SearchIcon />}
+                  />
+                )}
+                <Input
+                  background="dark"
+                  borderColor="borderPurple"
+                  borderRadius={4}
+                  borderWidth="1px"
+                  fontSize="sm"
+                  minW={{
+                    base: '14em',
+                    md: '18em',
+                  }}
+                  onChange={(e) => setSearch(e.target.value)}
+                  placeholder="SEARCH NAME OR ETH ADDRESS"
+                  _placeholder={{ color: 'whiteAlpha.500' }}
+                  size="md"
+                  type="text"
+                  value={search}
+                  w="100%"
+                />
+                {search.length > 0 && (
+                  <InputRightElement>
+                    <IconButton
+                      p="2"
+                      variant="link"
+                      colorScheme="white"
+                      icon={<CloseIcon />}
+                      onClick={() => {
+                        setSearch('');
+                        setQueryVariable('search', '%%');
+                      }}
+                      aria-label="Clear Search"
+                    />
+                  </InputRightElement>
+                )}
+              </InputGroup>
+              {!isSmallScreen && (
+                <MetaButton
+                  aria-label="SEARCH"
+                  fontSize="sm"
+                  size="md"
+                  type="submit"
+                  p={0}
+                >
+                  <SearchIcon />
+                </MetaButton>
+              )}
+            </Form>
           </Box>
           <Box
-            border="1px solid #FFF"
             flexGrow={{
               '2xl': '2', // take up more space when side-by-side with search on wide screens
             }}
           >
-            {/** Put in the filters button or the DesktopFilters, depending on the screen size */}
+            {/**
+             * Put in the filters button or the DesktopFilters, depending on the screen size
+             * The button has a label 'Filters' if the screen is wide enough to fit it
+             * The FiltersIcon has a marginTop to align it in the middle
+             */}
             {isSmallScreen ? (
               <Button
-                variant="link"
-                color="cyan.400"
+                variant="outline"
+                borderColor="blueLight"
+                borderRadius={4}
+                borderWidth="1px"
+                color="white"
                 onClick={onOpen}
                 fontSize="sm"
+                fontWeight="400"
+                px={3}
                 minH="2.5rem"
-                p={2}
+                size="md"
               >
-                FILTER
+                <FiltersIcon marginTop="1px" />
+                <Text
+                  as="span"
+                  display={{
+                    base: 'none',
+                    sm: 'inline',
+                  }}
+                  paddingLeft={2}
+                >
+                  FILTERS
+                </Text>
               </Button>
             ) : (
               <DesktopFilters
@@ -508,7 +594,8 @@ export const PlayerFilter: React.FC<Props> = ({
           <Text fontWeight="bold" fontSize="xl">
             {total} player{total === 1 ? '' : 's'}
           </Text>
-          <Button
+          {/**
+           * <Button
             variant="link"
             color="cyan.400"
             onClick={onOpen}
@@ -520,6 +607,7 @@ export const PlayerFilter: React.FC<Props> = ({
           >
             FILTER AND SORT
           </Button>
+      */}
         </Flex>
       ) : (
         <Flex justify="space-between" w="100%" maxW="79rem" align="center">
