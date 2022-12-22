@@ -62,88 +62,84 @@ export const DesktopFilters: React.FC<Props> = ({
   setSortOption,
   ...props
 }) => (
-  <Wrap>
-    <WrapItem>Desktop filters here</WrapItem>
+  <Wrap
+    justify="center"
+    overflow="visible" // Wrap defaults to hidden
+    {...props}
+  >
+    <WrapItem>
+      <MetaFilterSelectSearch
+        title={`Sorted By: ${sortOption.label}`}
+        hasValue={sortOption.value !== SortOption.SEASON_XP}
+        {...{ styles }}
+        value={[sortOption]}
+        onChange={(value) => {
+          const values = value as ValueType[];
+          if (values[values.length - 1]) {
+            setSortOption(values[values.length - 1]);
+          }
+        }}
+        options={sortOptions}
+      />
+    </WrapItem>
+    <WrapItem>
+      <MetaFilterSelectSearch
+        title="Type Of Player"
+        tagLabel={playerTypes.length > 0 ? playerTypes.length.toString() : ''}
+        styles={styles}
+        value={playerTypes}
+        hasValue={playerTypes.length > 0}
+        onChange={(values) => {
+          setPlayerTypes(values as ValueType[]);
+        }}
+        options={aggregates.playerTypes}
+      />
+    </WrapItem>
+    <WrapItem>
+      <MetaFilterSelectSearch
+        title="Skills"
+        tagLabel={skills.length > 0 ? skills.length.toString() : ''}
+        styles={styles}
+        value={skills}
+        hasValue={skills.length > 0}
+        onChange={(values) => {
+          setSkills(values as SkillOption[]);
+        }}
+        options={aggregates.skillChoices as LabeledOptions<string>[]}
+        showSearch
+      />
+    </WrapItem>
+    <WrapItem>
+      <MetaFilterSelectSearch
+        title="Availability"
+        tagLabel={availability ? `≥${availability.value}` : ''}
+        styles={styles}
+        value={availability ? [availability] : []}
+        hasValue={!!availability}
+        onChange={(value) => {
+          const values = value as ValueType[];
+          setAvailability(values[values.length - 1]);
+        }}
+        options={[1, 5, 10, 20, 30, 40].map((value) => ({
+          value: value.toString(),
+          label: `≥ ${value.toString()} hr ⁄ week`,
+        }))}
+      />
+    </WrapItem>
+    <WrapItem>
+      <MetaFilterSelectSearch
+        title="Time Zone"
+        tagLabel={timeZones.length > 0 ? timeZones.length.toString() : ''}
+        styles={styles}
+        value={timeZones}
+        hasValue={timeZones.length > 0}
+        onChange={(values) => {
+          setTimeZones((values as TimeZoneType[]).slice(-1));
+        }}
+        options={TimeZoneOptions}
+        showSearch
+        isTimeZone
+      />
+    </WrapItem>
   </Wrap>
-
-  /** <Wrap      
-      overflow="visible" // Wrap defaults to hidden
-      {...props}
-    >
-      <WrapItem>
-        <MetaFilterSelectSearch
-          title={`Sorted By: ${sortOption.label}`}
-          hasValue={sortOption.value !== SortOption.SEASON_XP}
-          {...{ styles }}
-          value={[sortOption]}
-          onChange={(value) => {
-            const values = value as ValueType[];
-            if (values[values.length - 1]) {
-              setSortOption(values[values.length - 1]);
-            }
-          }}
-          options={sortOptions}
-        />
-      </WrapItem>
-      <WrapItem>
-        <MetaFilterSelectSearch
-          title="Type Of Player"
-          tagLabel={playerTypes.length > 0 ? playerTypes.length.toString() : ''}
-          styles={styles}
-          value={playerTypes}
-          hasValue={playerTypes.length > 0}
-          onChange={(values) => {
-            setPlayerTypes(values as ValueType[]);
-          }}
-          options={aggregates.playerTypes}
-        />
-      </WrapItem>
-      <WrapItem>
-        <MetaFilterSelectSearch
-          title="Skills"
-          tagLabel={skills.length > 0 ? skills.length.toString() : ''}
-          styles={styles}
-          value={skills}
-          hasValue={skills.length > 0}
-          onChange={(values) => {
-            setSkills(values as SkillOption[]);
-          }}
-          options={aggregates.skillChoices as LabeledOptions<string>[]}
-          showSearch
-        />
-      </WrapItem>
-      <WrapItem>
-        <MetaFilterSelectSearch
-          title="Availability"
-          tagLabel={availability ? `≥${availability.value}` : ''}
-          styles={styles}
-          value={availability ? [availability] : []}
-          hasValue={!!availability}
-          onChange={(value) => {
-            const values = value as ValueType[];
-            setAvailability(values[values.length - 1]);
-          }}
-          options={[1, 5, 10, 20, 30, 40].map((value) => ({
-            value: value.toString(),
-            label: `≥ ${value.toString()} hr ⁄ week`,
-          }))}
-        />
-      </WrapItem>
-      <WrapItem>
-        <MetaFilterSelectSearch
-          title="Time Zone"
-          tagLabel={timeZones.length > 0 ? timeZones.length.toString() : ''}
-          styles={styles}
-          value={timeZones}
-          hasValue={timeZones.length > 0}
-          onChange={(values) => {
-            setTimeZones((values as TimeZoneType[]).slice(-1));
-          }}
-          options={TimeZoneOptions}
-          showSearch
-          isTimeZone
-        />
-      </WrapItem>
-    </Wrap>
-    */
 );
