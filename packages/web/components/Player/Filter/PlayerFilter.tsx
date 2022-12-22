@@ -163,7 +163,6 @@ export const PlayerFilter: React.FC<Props> = ({
     borderRadius: '0',
     boxShadow:
       '-1vw 0px 0px var(--chakra-colors-purpleTag70), 1vw 0px 0px var(--chakra-colors-purpleTag70)', // Sticky, fills in the gap left by the 98vw
-    borderTop: '1px solid transparent', // These styles on top and borderTop are needed for it to stick right
     maxWidth: 'auto',
     position: 'sticky',
     px: '2.5em',
@@ -241,12 +240,21 @@ export const PlayerFilter: React.FC<Props> = ({
               base: '2', // expand to take up more space when side-by-side with filters button
               md: '0',
             }}
-            paddingRight={{
+            marginRight={{
               base: '4',
               md: '0',
-              '2xl': '4',
+              '2xl': '6',
             }}
-            maxW="sm"
+            marginBottom={{
+              base: '0',
+              md: '4',
+              '2xl': '0',
+            }}
+            maxW={{
+              base: 'sm',
+              md: '100%',
+              '2xl': 'sm',
+            }}
           >
             {/**
              * SEARCH BOX
@@ -265,12 +273,24 @@ export const PlayerFilter: React.FC<Props> = ({
                 <Input
                   background="dark"
                   borderColor="borderPurple"
-                  borderRadius={4}
-                  borderWidth="1px"
-                  fontSize="sm"
+                  borderLeftRadius={4}
+                  borderRightRadius={{
+                    base: '4',
+                    md: '0',
+                  }}
+                  borderWidth={{
+                    base: '1px',
+                    md: '2px',
+                  }}
+                  fontSize={{
+                    base: 'sm',
+                    md: '1em',
+                  }}
+                  height="40px"
                   minW={{
                     base: '14em',
-                    md: '18em',
+                    md: '30em',
+                    '2xl': '20em',
                   }}
                   onChange={(e) => setSearch(e.target.value)}
                   placeholder="SEARCH NAME OR ETH ADDRESS"
@@ -299,7 +319,13 @@ export const PlayerFilter: React.FC<Props> = ({
               {!isSmallScreen && (
                 <MetaButton
                   aria-label="SEARCH"
+                  borderLeftRadius={{
+                    base: '4',
+                    md: '0',
+                  }}
+                  borderRightRadius={4}
                   fontSize="sm"
+                  isDisabled={fetching}
                   size="md"
                   type="submit"
                   p={0}
@@ -346,6 +372,11 @@ export const PlayerFilter: React.FC<Props> = ({
                 </Text>
               </Button>
             ) : (
+              /**
+               * Drop downs for the filters
+               * DESKTOP VERSION
+               */
+
               <DesktopFilters
                 display="flex"
                 {...{
@@ -368,97 +399,8 @@ export const PlayerFilter: React.FC<Props> = ({
       </Box>
 
       {/**
-       * The form for the search input
-       */}
-      {/** <Form
-        width="fill"
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
-        onSubmit={onSearch}
-      >
-        <Stack
-          spacing="4"
-          w="100%"
-          maxW="2xl"
-          direction={{ base: 'column', md: 'row' }}
-          align="center"
-        >
-          <InputGroup size="lg">
-            <Input
-              background="dark"
-              w="100%"
-              type="text"
-              minW={{
-                base: 'min(18rem, calc(100vw - 2rem))',
-                sm: 'md',
-                md: 'lg',
-                lg: 'xl',
-              }}
-              placeholder="SEARCH PLAYERS BY USERNAME OR ETHEREUM ADDRESS"
-              _placeholder={{ color: 'whiteAlpha.500' }}
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              size="lg"
-              borderRadius={10}
-              borderColor="borderPurple"
-              fontSize="md"
-              borderWidth="2px"
-            />
-            {search.length > 0 && (
-              <InputRightElement>
-                <IconButton
-                  p="2"
-                  variant="link"
-                  colorScheme="white"
-                  icon={<CloseIcon />}
-                  onClick={() => {
-                    setSearch('');
-                    setQueryVariable('search', '%%');
-                  }}
-                  aria-label="Clear Search"
-                />
-              </InputRightElement>
-            )}
-          </InputGroup>
-          <MetaButton
-            type="submit"
-            size="lg"
-            isDisabled={fetching}
-            px="16"
-            display={isSmallScreen ? 'none' : 'flex'}
-          >
-            SEARCH
-          </MetaButton>
-        </Stack>
-      </Form>
-      */}
-
-      {/**
        * Drop downs for the filters
-       * DESKTOP VIEW ONLY
-       */}
-      {/** <DesktopFilters
-        display={isSmallScreen ? 'none' : 'flex'}
-        {...{
-          aggregates,
-          skills,
-          setSkills,
-          playerTypes,
-          setPlayerTypes,
-          timeZones,
-          setTimeZones,
-          availability,
-          setAvailability,
-          sortOption,
-          setSortOption,
-        }}
-      />
-      */}
-
-      {/**
-       * Drop downs for the filters
-       * MOBILE VIEW ONLY
+       * MOBILE VERSION
        * They're in a Drawer component that opens when the
        * Filter And Sort button is clicked
        */}
