@@ -100,6 +100,7 @@ const Players: React.FC<Props> = () => {
               href="/play/paths/engaged-octos-path"
               color="pink.300"
               textDecoration="underline"
+              whiteSpace="nowrap"
             >
               become a player
             </Link>{' '}
