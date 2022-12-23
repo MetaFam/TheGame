@@ -1,4 +1,3 @@
-// import { InputLeftAddon } from '@chakra-ui/input';
 import {
   Box,
   Button,
@@ -15,7 +14,6 @@ import {
   MetaButton,
   SearchIcon,
   Skeleton,
-  Stack,
   Text,
   TimeZoneType,
   useBreakpointValue,
@@ -167,7 +165,7 @@ export const PlayerFilter: React.FC<Props> = ({
     position: 'sticky',
     px: '2.5em',
     py: '1em',
-    w: '98vw', // If it's higher than 98vw it gets stuck full width and won't unstick
+    w: '98vw', // If it's higher than 98vw it gets stuck full width and won't unstick, see above 'Hack warning'
   };
 
   // How it looks when it's not sticky
@@ -260,7 +258,9 @@ export const PlayerFilter: React.FC<Props> = ({
              * SEARCH BOX
              * For small screens: the search icon is inside the input as mobile devices have a search button to go with the text input
              * For md+: the search icon in the input is removed, a search button is shown instead (b/c not everyone knows to hit Enter to submit a form)
-             * Initial minWidth of the search input is 14em, so it will fit on a tiny screen. After md breakpoint, the minWidth is 18em (wide enough to show the placeholder text)
+             * Initial minWidth of the search input is 14em, so it will fit on a tiny screen.
+             * After md breakpoint, the minwidth is 30em. (Closer match to the dropdowns while in a stacked layout)
+             * After 2xl breakpoint, the minWidth is 18em so it will fit in a single row with the filter dropdowns.
              */}
             <Form width="fill" onSubmit={onSearch} display="flex">
               <InputGroup>
@@ -346,6 +346,7 @@ export const PlayerFilter: React.FC<Props> = ({
              * The FiltersIcon has a marginTop to align it in the middle
              */}
             {isSmallScreen ? (
+              // Filters button to open the menu on small screens
               <Button
                 variant="outline"
                 borderColor="blueLight"
@@ -376,7 +377,6 @@ export const PlayerFilter: React.FC<Props> = ({
                * Drop downs for the filters
                * DESKTOP VERSION
                */
-
               <DesktopFilters
                 display="flex"
                 {...{
@@ -536,20 +536,6 @@ export const PlayerFilter: React.FC<Props> = ({
           <Text fontWeight="bold" fontSize="xl">
             {total} player{total === 1 ? '' : 's'}
           </Text>
-          {/**
-           * <Button
-            variant="link"
-            color="cyan.400"
-            onClick={onOpen}
-            fontSize="sm"
-            minH="2.5rem"
-            minW="8.5rem"
-            display={isSmallScreen ? 'flex' : 'none'}
-            p={2}
-          >
-            FILTER AND SORT
-          </Button>
-      */}
         </Flex>
       ) : (
         <Flex justify="space-between" w="100%" maxW="79rem" align="center">
