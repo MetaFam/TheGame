@@ -77,7 +77,7 @@ const Players: React.FC<Props> = () => {
         description="See the players of MetaGame."
         url="https://metagame.wtf/players"
       />
-      <VStack w="100%" spacing={{ base: 4, md: 8, lg: 12 }} pb={8}>
+      <VStack w="100%" spacing={{ base: 6, md: 8, lg: 12 }} pb={8}>
         <Center
           fontSize={{
             base: 'sm',
@@ -86,6 +86,10 @@ const Players: React.FC<Props> = () => {
           fontWeight={{
             base: '400',
             md: '700',
+          }}
+          marginTop={{
+            base: 3, // Consistent gap between top and Players list on small screens
+            md: 0,
           }}
           w="100%"
           maxW="4xl"
