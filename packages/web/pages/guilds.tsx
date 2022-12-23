@@ -40,7 +40,7 @@ const GuildsPage: React.FC<Props> = ({ guilds }) => (
         }}
         marginTop={{
           base: 3, // Consistent gap between top and Players list on small screens
-          md: 0,
+          sm: 0,
         }}
         w="100%"
         maxW="4xl"
