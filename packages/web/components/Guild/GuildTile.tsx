@@ -37,7 +37,7 @@ export const GuildTile: React.FC<Props> = ({ guild }) => (
           <Heading
             size="lg"
             color="white"
-            bgColor="whiteAlpha.100"
+            // bgColor="landingGlassDark" // This colour doesn't exist in the design system, should be landingDarkGlass
             backdropFilter="blur(10px)"
             lineHeight={1.8}
             justifyContent="center"
