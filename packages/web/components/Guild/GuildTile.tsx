@@ -56,7 +56,9 @@ export const GuildTile: React.FC<Props> = ({ guild }) => (
           {guild.description && (
             <VStack spacing={2} align="stretch">
               <Text textStyle="caption">About</Text>
-              <Text fontSize="sm">{guild.description}</Text>
+              <Text fontSize="sm" noOfLines={4}>
+                {guild.description}
+              </Text>
             </VStack>
           )}
           <VStack spacing={2} align="stretch" mb={1}>
