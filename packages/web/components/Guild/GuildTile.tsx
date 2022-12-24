@@ -1,4 +1,5 @@
 import {
+  Box,
   Flex,
   Heading,
   Link,
@@ -26,7 +27,7 @@ export const GuildTile: React.FC<Props> = ({ guild }) => (
     _hover={{ textDecoration: 'none' }}
     href={`/guild/${guild.guildname}`}
   >
-    <MetaTile>
+    <MetaTile minW={'300px'} height="full" width="full" cursor="pointer">
       <MetaTileHeader>
         {guild.logo && (
           <SquareImage src={optimizedImage('logoURL', guild.logo)} />
@@ -36,7 +37,7 @@ export const GuildTile: React.FC<Props> = ({ guild }) => (
           <Heading
             size="lg"
             color="white"
-            bgColor="whiteAlpha.100"
+            // bgColor="landingGlassDark" // This colour doesn't exist in the design system, should be landingDarkGlass
             backdropFilter="blur(10px)"
             lineHeight={1.8}
             justifyContent="center"
@@ -46,22 +47,26 @@ export const GuildTile: React.FC<Props> = ({ guild }) => (
             borderRadius={10}
             fontFamily="body"
             fontWeight={400}
+            textShadow="0 0 8px var(--chakra-colors-blackAlpha-400)" // v. light shadow makes the text readable if the logo/avatar is white
           >
             {guild.name}
           </Heading>
         </Flex>
       </MetaTileHeader>
       <MetaTileBody justifyContent="space-between">
-        <Flex direction="column" gap={2}>
+        {/**
+         * The mb="auto" pushes the last block (Barriers/Contact) down to the bottom of the tile
+         */}
+        <Flex direction="column" gap={2} mb="auto">
           {guild.description && (
-            <VStack spacing={2} align="stretch">
+            <VStack spacing={1} align="stretch">
               <Text textStyle="caption">About</Text>
               <Text fontSize="sm" noOfLines={4}>
                 {guild.description}
               </Text>
             </VStack>
           )}
-          <VStack spacing={2} align="stretch" mb={1}>
+          <VStack spacing={1} align="stretch" mb={1}>
             <Text textStyle="caption">Type</Text>
             {guild.type && (
               <MetaTag size="sm" fontWeight="normal" w="fit-content">
@@ -69,17 +74,20 @@ export const GuildTile: React.FC<Props> = ({ guild }) => (
               </MetaTag>
             )}
           </VStack>
+        </Flex>
+
+        <Box>
           <Flex justifyContent="space-between">
-            <VStack spacing={2} align="stretch">
+            <VStack spacing={1} align="stretch">
               <Text textStyle="caption">Barrier of Entry</Text>
               <Text fontStyle="italic">Coming soon…</Text>
             </VStack>
-            <VStack spacing={2} align="stretch">
+            <VStack spacing={1} align="stretch">
               <Text textStyle="caption">Contact</Text>
               <GuildLinksSmall {...{ guild }} />
             </VStack>
           </Flex>
-        </Flex>
+        </Box>
       </MetaTileBody>
     </MetaTile>
   </Link>
