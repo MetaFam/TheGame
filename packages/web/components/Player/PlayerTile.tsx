@@ -37,7 +37,7 @@ type Props = {
   index?: number;
 };
 
-const MAX_BIO_LENGTH = 240;
+// const MAX_BIO_LENGTH = 240; // Going to use line-clamp instead
 
 export const PlayerTile: React.FC<Props> = ({
   player,
@@ -47,10 +47,13 @@ export const PlayerTile: React.FC<Props> = ({
   index,
 }) => {
   const description = getPlayerDescription(player);
+  /** 
   const displayDescription =
     typeof description === 'string' && description.length > MAX_BIO_LENGTH
       ? `${description?.substring(0, MAX_BIO_LENGTH - 9)}…`
       : description;
+  */
+  const displayDescription = typeof description === 'string' ? description : '';
 
   const [memberships, setMemberships] = useState<GuildMembership[]>([]);
 
@@ -101,7 +104,9 @@ export const PlayerTile: React.FC<Props> = ({
             {displayDescription && (
               <VStack spacing={2} align="stretch">
                 <Text textStyle="caption">About</Text>
-                <Text fontSize="sm">{displayDescription}</Text>
+                <Text fontSize="sm" noOfLines={4}>
+                  {displayDescription}
+                </Text>
               </VStack>
             )}
             {!!player.skills?.length && (
