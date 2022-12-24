@@ -37,6 +37,11 @@ type Props = {
   index?: number;
 };
 
+<<<<<<< HEAD
+=======
+// const MAX_BIO_LENGTH = 240; // Going to use line-clamp instead
+
+>>>>>>> Use Chakra noOfLines to limit the length of Player/Patron/
 export const PlayerTile: React.FC<Props> = ({
   player,
   isPatron = false,
@@ -45,6 +50,16 @@ export const PlayerTile: React.FC<Props> = ({
   index,
 }) => {
   const description = getPlayerDescription(player);
+<<<<<<< HEAD
+=======
+  /** 
+  const displayDescription =
+    typeof description === 'string' && description.length > MAX_BIO_LENGTH
+      ? `${description?.substring(0, MAX_BIO_LENGTH - 9)}…`
+      : description;
+  */
+  const displayDescription = typeof description === 'string' ? description : '';
+>>>>>>> Use Chakra noOfLines to limit the length of Player/Patron/
 
   const [memberships, setMemberships] = useState<GuildMembership[]>([]);
 
