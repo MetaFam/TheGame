@@ -84,7 +84,7 @@ export const PlayerTile: React.FC<Props> = ({
             <Heading
               size="lg"
               color="white"
-              bgColor="landingGlassDark"
+              // bgColor="landingGlassDark" // This colour doesn't exist in the design system, should be landingDarkGlass
               backdropFilter="blur(10px)"
               lineHeight={1.8}
               justifyContent="center"
@@ -94,15 +94,19 @@ export const PlayerTile: React.FC<Props> = ({
               borderRadius={10}
               fontFamily="body"
               fontWeight={400}
+              textShadow="0 0 8px var(--chakra-colors-blackAlpha-400)" // v. light shadow makes the text readable if the logo/avatar is white
             >
               {getPlayerName(player)}
             </Heading>
           </Flex>
         </MetaTileHeader>
         <MetaTileBody pos="relative" height="full">
-          <Flex direction="column" mb="auto">
+          {/**
+           * The mb="auto" pushes the last block (DAO memberships/Contact) down to the bottom of the tile
+           */}
+          <Flex direction="column" gap={2} mb="auto">
             {displayDescription && (
-              <VStack spacing={2} align="stretch">
+              <VStack spacing={1} align="stretch">
                 <Text textStyle="caption">About</Text>
                 <Text fontSize="sm" noOfLines={4}>
                   {displayDescription}
@@ -110,7 +114,7 @@ export const PlayerTile: React.FC<Props> = ({
               </VStack>
             )}
             {!!player.skills?.length && (
-              <VStack spacing={2} align="stretch">
+              <VStack spacing={1} align="stretch">
                 <Text textStyle="caption">Skills</Text>
                 <SkillsTags
                   skills={player.skills.map(({ Skill: s }) => s) as Skill[]}
@@ -123,9 +127,9 @@ export const PlayerTile: React.FC<Props> = ({
 
           <Flex justifyContent="space-between" pointerEvents="none">
             {!!memberships.length && (
-              <VStack spacing={2} align="stretch">
+              <VStack spacing={1} align="stretch">
                 <Text textStyle="caption">Member of</Text>
-                <HStack mt={2} position="relative" zIndex={1}>
+                <HStack mt={0} position="relative" zIndex={1}>
                   {loading ? (
                     <LoadingState mb={6} />
                   ) : (
@@ -143,9 +147,9 @@ export const PlayerTile: React.FC<Props> = ({
             )}
 
             {!!player.accounts?.length && (
-              <VStack spacing={2} align="stretch">
+              <VStack spacing={1} align="stretch">
                 <Text textStyle="caption">Contact</Text>
-                <HStack mt={2} pointerEvents="all">
+                <HStack mt={1} pointerEvents="all">
                   <PlayerContacts {...{ player }} disableBrightId />
                 </HStack>
               </VStack>

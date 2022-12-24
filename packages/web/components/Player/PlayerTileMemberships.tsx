@@ -14,7 +14,7 @@ export const PlayerTileMemberships: React.FC<Props> = ({ player }) => {
     [player.guilds],
   );
   return displayMemberships.length > 0 ? (
-    <VStack spacing={2} align="stretch">
+    <VStack spacing={1} align="stretch">
       <Text textStyle="caption">MEMBER OF</Text>
       <Wrap>
         {displayMemberships
