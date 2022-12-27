@@ -37,8 +37,6 @@ type Props = {
   index?: number;
 };
 
-// const MAX_BIO_LENGTH = 240; // Going to use line-clamp instead
-
 export const PlayerTile: React.FC<Props> = ({
   player,
   isPatron = false,
@@ -47,13 +45,6 @@ export const PlayerTile: React.FC<Props> = ({
   index,
 }) => {
   const description = getPlayerDescription(player);
-  /** 
-  const displayDescription =
-    typeof description === 'string' && description.length > MAX_BIO_LENGTH
-      ? `${description?.substring(0, MAX_BIO_LENGTH - 9)}…`
-      : description;
-  */
-  const displayDescription = typeof description === 'string' ? description : '';
 
   const [memberships, setMemberships] = useState<GuildMembership[]>([]);
 
@@ -84,7 +75,7 @@ export const PlayerTile: React.FC<Props> = ({
             <Heading
               size="lg"
               color="white"
-              // bgColor="landingGlassDark" // This colour doesn't exist in the design system, should be landingDarkGlass
+              bgColor="whiteAlpha.100"
               backdropFilter="blur(10px)"
               lineHeight={1.8}
               justifyContent="center"
@@ -105,11 +96,11 @@ export const PlayerTile: React.FC<Props> = ({
            * The mb="auto" pushes the last block (DAO memberships/Contact) down to the bottom of the tile
            */}
           <Flex direction="column" gap={2} mb="auto">
-            {displayDescription && (
+            {description && (
               <VStack spacing={1} align="stretch">
                 <Text textStyle="caption">About</Text>
                 <Text fontSize="sm" noOfLines={4}>
-                  {displayDescription}
+                  {description}
                 </Text>
               </VStack>
             )}
