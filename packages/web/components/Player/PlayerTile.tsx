@@ -75,11 +75,7 @@ export const PlayerTile: React.FC<Props> = ({
             <Heading
               size="lg"
               color="white"
-<<<<<<< HEAD
               bgColor="whiteAlpha.100"
-=======
-              // bgColor="landingGlassDark" // This colour doesn't exist in the design system, should be landingDarkGlass
->>>>>>> Make the appearance of Player tiles and Guild tiles match better
               backdropFilter="blur(10px)"
               lineHeight={1.8}
               justifyContent="center"
@@ -100,11 +96,7 @@ export const PlayerTile: React.FC<Props> = ({
            * The mb="auto" pushes the last block (DAO memberships/Contact) down to the bottom of the tile
            */}
           <Flex direction="column" gap={2} mb="auto">
-<<<<<<< HEAD
             {description && (
-=======
-            {displayDescription && (
->>>>>>> Make the appearance of Player tiles and Guild tiles match better
               <VStack spacing={1} align="stretch">
                 <Text textStyle="caption">About</Text>
                 <Text fontSize="sm" noOfLines={4}>

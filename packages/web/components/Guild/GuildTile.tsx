@@ -37,7 +37,7 @@ export const GuildTile: React.FC<Props> = ({ guild }) => (
           <Heading
             size="lg"
             color="white"
-            // bgColor="landingGlassDark" // This colour doesn't exist in the design system, should be landingDarkGlass
+            bgColor="whiteAlpha.100"
             backdropFilter="blur(10px)"
             lineHeight={1.8}
             justifyContent="center"
@@ -67,7 +67,6 @@ export const GuildTile: React.FC<Props> = ({ guild }) => (
             </VStack>
           )}
           <VStack spacing={1} align="stretch" mb={1}>
-            <Text textStyle="caption">Type</Text>
             {guild.type && (
               <>
                 <Text textStyle="caption">Type</Text>
