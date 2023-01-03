@@ -28,7 +28,7 @@ const GuildsPage: React.FC<Props> = ({ guilds }) => (
     />
 
     {/* VStack is used to make a consistent gap between the Join CTA and the Guilds list */}
-    <VStack maxW="7xl" w="100%" spacing={{ base: 6, md: 8, lg: 12 }} pb={8}>
+    <VStack maxW="7xl" w="100%" spacing={{ base: 6, md: 8 }} pb={8}>
       <Center
         fontSize={{
           base: 'sm',
