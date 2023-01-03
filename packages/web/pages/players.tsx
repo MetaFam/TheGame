@@ -77,7 +77,7 @@ const Players: React.FC<Props> = () => {
         description="See the players of MetaGame."
         url="https://metagame.wtf/players"
       />
-      <VStack w="100%" spacing={{ base: 6, md: 8, lg: 12 }} pb={8}>
+      <VStack w="100%" spacing={{ base: 6, md: 8 }} pb={8}>
         <Center
           fontSize={{
             base: 'sm',
