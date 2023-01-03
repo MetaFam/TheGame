@@ -127,7 +127,7 @@ const PatronsPage: React.FC<Props> = ({ patrons, pSeedPrice }) => {
       </VisuallyHidden>
 
       {/* VStack is used to make a consistent gap between the Join CTA, the Patrons list, the Load More button, the X of Y patrons text, and the Octo image and back to top link */}
-      <VStack maxW="7xl" w="100%" spacing={{ base: 6, md: 8, lg: 12 }}>
+      <VStack maxW="7xl" w="100%" spacing={{ base: 6, md: 8 }}>
         <Center
           fontSize={{
             base: 'sm',
