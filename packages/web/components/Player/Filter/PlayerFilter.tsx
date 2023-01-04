@@ -523,13 +523,13 @@ export const PlayerFilter: React.FC<Props> = ({
        * are being fetched
        */}
       {fetchingMore || !fetching ? (
-        <Flex justify="space-between" w="100%" maxW="79rem" align="center">
+        <Flex justify="space-between" w="100%" maxW="7xl" align="center">
           <Text fontWeight="bold" fontSize="xl">
             {total} player{total === 1 ? '' : 's'}
           </Text>
         </Flex>
       ) : (
-        <Flex justify="space-between" w="100%" maxW="79rem" align="center">
+        <Flex justify="space-between" w="100%" maxW="7xl" align="center">
           <Skeleton h="1.5rem" w="8rem" />
         </Flex>
       )}
