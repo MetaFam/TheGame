@@ -11,7 +11,6 @@ import {
   InputGroup,
   InputLeftElement,
   InputRightElement,
-  MetaButton,
   SearchIcon,
   Skeleton,
   Text,
@@ -68,9 +67,11 @@ export const PlayerFilter: React.FC<Props> = ({
     sortOptionsMap[SortOption.SEASON_XP],
   );
 
+  const SEARCH_STR_MIN_LENGTH = 2; // The text in the search box should be at least this long before the search is triggered
+
   const onSearch = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (search.length >= 2) {
+    if (search.length >= SEARCH_STR_MIN_LENGTH) {
       setQueryVariable('search', `%${search}%`);
     } else {
       setSearch('');
@@ -292,7 +293,14 @@ export const PlayerFilter: React.FC<Props> = ({
                     md: '30em',
                     '2xl': '20em',
                   }}
-                  onChange={(e) => setSearch(e.target.value)}
+                  onChange={(e) => {
+                    setSearch(e.target.value);
+                    if (e.target.value.length >= SEARCH_STR_MIN_LENGTH) {
+                      setQueryVariable('search', `%${e.target.value}%`); // If using setQueryVariable('search', `%${search}%`) and/or search.length, it misses the last character entered i.e. `vid` comes out as `vi`
+                    } else {
+                      setQueryVariable('search', `%%`);
+                    }
+                  }}
                   placeholder="SEARCH NAME OR ETH ADDRESS"
                   _placeholder={{ color: 'whiteAlpha.500' }}
                   size="md"
@@ -316,23 +324,6 @@ export const PlayerFilter: React.FC<Props> = ({
                   </InputRightElement>
                 )}
               </InputGroup>
-              {!isSmallScreen && (
-                <MetaButton
-                  aria-label="SEARCH"
-                  borderLeftRadius={{
-                    base: '4',
-                    md: '0',
-                  }}
-                  borderRightRadius={4}
-                  fontSize="sm"
-                  isDisabled={fetching}
-                  size="md"
-                  type="submit"
-                  p={0}
-                >
-                  <SearchIcon />
-                </MetaButton>
-              )}
             </Form>
           </Box>
           <Box
