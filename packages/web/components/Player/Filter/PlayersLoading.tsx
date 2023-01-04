@@ -8,7 +8,7 @@ export const PlayersLoading: React.FC = () => (
     spacing="8"
     autoRows="minmax(35rem, auto)"
     w="100%"
-    maxW="79rem"
+    maxW="7xl"
   >
     <Flex w="100%" align="center" justify="center">
       <PlayerTileSkeleton />
