@@ -184,7 +184,7 @@ export const GuildLinksSmall: React.FC<GuildLinkSmall> = ({ guild }) => {
   return (
     <Wrap>
       {hasIconLink && (
-        <VStack mb={4}>
+        <Wrap mb={4}>
           {guild.websiteUrl ? (
             <MetaTileLinkWrapper>
               <IconButton
@@ -258,7 +258,7 @@ export const GuildLinksSmall: React.FC<GuildLinkSmall> = ({ guild }) => {
               />
             </MetaTileLinkWrapper>
           ) : null}
-        </VStack>
+        </Wrap>
       )}
     </Wrap>
   );
