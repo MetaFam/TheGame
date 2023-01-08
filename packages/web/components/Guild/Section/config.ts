@@ -31,7 +31,7 @@ const DEFAULT_BOX_POSITIONS: Record<ChakraSize, Positions> = {
     [BoxTypes.GUILD_HERO]: { x: 0, y: 0 },
     [BoxTypes.GUILD_PLAYERS]: { x: 1, y: 0 },
     [BoxTypes.GUILD_ANNOUNCEMENTS]: { x: 2, y: 0 },
-    [BoxTypes.GUILD_LINKS]: { x: 2, y: 2 },
+    [BoxTypes.GUILD_LINKS]: { x: 1, y: 2 },
   },
   md: {
     [BoxTypes.GUILD_HERO]: { x: 0, y: 0 },
