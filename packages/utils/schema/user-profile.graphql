@@ -52,7 +52,8 @@ type ProfileUsername
     accountRelation: SINGLE
     description: "A representation of your identity that can be used in an interface, typically as part of a URL"
   ) {
-  username: String! @string(pattern: "^[a-z0-9-_]+$", maxLength: 383)
+  # pattern: "^[a-z0-9-_]+$"
+  username: String! @string(maxLength: 383)
 }
 
 type ProfileTimeZone
@@ -94,17 +95,15 @@ type ProfileDisposition
     accountRelation: SINGLE
     description: "Some information about your personality or psychometric makeup. "
   ) {
-  fiveColorDisposition: String
-    @string(
-      pattern: "^([wW]?|[uU]?|[bB]?|[rR]?|[gG]?){0,5}$"
-      minLength: 1
-      maxLength: 5
-    )
-  explorerType: String @string(pattern: "^(Pioneer|Settler|Town Planner)$")
+  # pattern: "^([wW]?|[uU]?|[bB]?|[rR]?|[gG]?){0,5}$"
+  fiveColorDisposition: String @string(minLength: 1, maxLength: 5)
+  # pattern: "^(Pioneer|Settler|Town Planner)$"
+  explorerType: String @string(maxLength: 12)
 }
 
 type ImageMetadata {
-  ipfsUrl: String! @string(pattern: "^ipfs:(//)?.+$", maxLength: 150)
+  # pattern: "^ipfs:(//)?.+$"
+  ipfsUrl: String! @string(maxLength: 150)
   mimeType: String! @string(maxLength: 50)
   width: Int! @int(min: 1)
   height: Int! @int(min: 1)
