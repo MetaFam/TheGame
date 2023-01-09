@@ -67,7 +67,6 @@ export const GuildTile: React.FC<Props> = ({ guild }) => (
             </VStack>
           )}
           <VStack spacing={1} align="stretch" mb={1}>
-            <Text textStyle="caption">Type</Text>
             {guild.type && (
               <>
                 <Text textStyle="caption">Type</Text>
