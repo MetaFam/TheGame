@@ -257,20 +257,17 @@ export const PlayerFilter: React.FC<Props> = ({
           >
             {/**
              * SEARCH BOX
-             * For small screens: the search icon is inside the input as mobile devices have a search button to go with the text input
-             * For md+: the search icon in the input is removed, a search button is shown instead (b/c not everyone knows to hit Enter to submit a form)
              * Initial minWidth of the search input is 14em, so it will fit on a tiny screen.
              * After md breakpoint, the minwidth is 30em. (Closer match to the dropdowns while in a stacked layout)
-             * After 2xl breakpoint, the minWidth is 18em so it will fit in a single row with the filter dropdowns.
+             * After 2xl breakpoint, the minWidth is 20em so it will fit in a single row with the filter dropdowns.
+             * There's no search button any more; it's set up to search onChange once the search string is longer than 2 chars.
              */}
             <Form width="fill" onSubmit={onSearch} display="flex">
               <InputGroup>
-                {isSmallScreen && (
-                  <InputLeftElement
-                    pointerEvents="none"
-                    children={<SearchIcon />}
-                  />
-                )}
+                <InputLeftElement
+                  pointerEvents="none"
+                  children={<SearchIcon />}
+                />
                 <Input
                   background="dark"
                   borderColor="borderPurple"
