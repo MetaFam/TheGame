@@ -16,11 +16,13 @@ import { SquareImage } from 'components/SquareImage';
 import { useRouter } from 'next/router';
 import { guidanceDetails, Role } from 'utils/guidanceData';
 
+import { upDownShortAnimation } from '../animations';
+
 const OnboardingGuidance: React.FC = () => {
   const router = useRouter();
 
   const handleClick = () => {
-    router.push('/profile/setup/name');
+    router.push('/start');
   };
 
   return (
@@ -52,13 +54,13 @@ const OnboardingGuidance: React.FC = () => {
         </Text>
       </VStack>
       <SimpleGrid
-        p={{ base: 12, lg: 8 }}
+        py={{ base: 12, lg: 8 }}
         mb={{ base: 12, lg: 24 }}
         columns={[1, null, 2, 3]}
         spacing={{ base: 20, lg: 8 }}
         autoRows="minmax(35rem, auto)"
       >
-        <MetaTile height="full" width="full" noTilt>
+        <MetaTile height="full" width="full">
           <MetaTileHeader>
             <SquareImage
               src={guidanceDetails[Role.CuriousOcto].image}
@@ -99,12 +101,21 @@ const OnboardingGuidance: React.FC = () => {
               alignItems="center"
               justifyContent="start"
             >
-              <Text fontSize={{ base: '2xl', lg: '4xl' }}>☝️</Text>
+              <Text
+                fontSize={{ base: '2xl', lg: '4xl' }}
+                sx={{
+                  animation: upDownShortAnimation,
+                  animationPlayState: 'playing',
+                  animationDuration: '.6s',
+                }}
+              >
+                ☝️
+              </Text>
               <Text fontSize="md">You are here</Text>
             </Flex>
           </MetaTileBody>
         </MetaTile>
-        <MetaTile height="full" width="full" noTilt>
+        <MetaTile height="full" width="full">
           <MetaTileHeader>
             <SquareImage
               src={guidanceDetails[Role.EngagedOcto].image}
@@ -139,7 +150,7 @@ const OnboardingGuidance: React.FC = () => {
             </Box>
           </MetaTileBody>
         </MetaTile>
-        <MetaTile height="full" width="full" noTilt>
+        <MetaTile height="full" width="full">
           <MetaTileHeader>
             <SquareImage
               src={guidanceDetails[Role.SpaceOcto].image}
