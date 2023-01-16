@@ -31,8 +31,8 @@ export const PerksCard: React.FC<Props> = ({
       pSeeds={pSeeds}
       amountUsd={amountUsd}
     />
-    <Box p={4} width="100%" color="white">
-      <Flex width="100%" flexDirection="row" flexWrap="wrap">
+    <Box px={6} paddingBottom={6} paddingTop={4} width="100%" color="white">
+      <Flex width="100%" flexDirection="row" flexWrap="wrap" gap={2}>
         {list.map((text: string, index: number) => (
           <LeagueCardItem key={index} text={text} />
         ))}

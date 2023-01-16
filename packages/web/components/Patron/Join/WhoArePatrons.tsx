@@ -3,7 +3,7 @@ import PatronMage from 'assets/patron/patron-mage.png';
 import React from 'react';
 
 export const WhoArePatrons: React.FC = () => (
-  <Container as="section" className="mg-patron-join-section" my={[4, 4, 4, 12]}>
+  <Container as="section" className="mg-patron-join-section">
     <Heading
       as="h2"
       color="white"
