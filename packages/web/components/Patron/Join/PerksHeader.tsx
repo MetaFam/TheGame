@@ -20,7 +20,7 @@ export const PerksHeader = ({ title, count, pSeeds, amountUsd }: Props) => {
     : pSeedLabel;
   let amountDisplay = (
     <Text color="white" fontSize="md">
-      current req: {amountLabel}
+      Current req: {amountLabel}
     </Text>
   );
   if (amountUsd != null) {
@@ -28,17 +28,27 @@ export const PerksHeader = ({ title, count, pSeeds, amountUsd }: Props) => {
   }
   return (
     <Flex
+      alignItems="baseline"
       direction={{ base: 'column', sm: 'row' }}
       justify="space-between"
-      p="4"
-      roundedTop="lg"
+      px={6}
+      paddingTop={6}
       width="100%"
     >
-      <Flex align="center">
-        <Text color="white" fontWeight="bold" mr={8}>
+      <Flex alignItems="baseline">
+        <Text
+          color="white"
+          fontSize="md"
+          fontWeight="bold"
+          mr={{
+            base: '2',
+            md: '4',
+          }}
+          textTransform="uppercase"
+        >
           {title}
         </Text>
-        <Text color="landing450" fontSize="sm" fontWeight="bold">
+        <Text color="landing450" fontSize="sm" whiteSpace="nowrap">
           {typeof count === 'number'
             ? `(total of ${count.toLocaleString()})`
             : `(${count})`}
