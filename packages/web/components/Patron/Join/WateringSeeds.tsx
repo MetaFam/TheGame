@@ -17,16 +17,9 @@ export const WateringSeeds: React.FC = () => (
     </Heading>
 
     <Flex direction="column" width="100%" align="center">
-      <Image
-        src={SeedsDiagram.src}
-        height="auto"
-        width="80vw"
-        my="6"
-        maxW="50rem"
-      />
+      <Image alt="Diagram of the Seeds concept" src={SeedsDiagram.src} my="6" />
       <Box mb={4} px={2}>
         <MetaButton
-          maxW=""
           as="a"
           bg="#E839B7"
           borderRadius={0}
