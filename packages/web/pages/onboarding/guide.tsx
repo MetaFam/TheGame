@@ -27,7 +27,7 @@ const OnboardingGuide: React.FC = () => {
       <LandingHeader />
       <PageContainer
         p={0}
-        h="screen"
+        h="100vh"
         w="full"
         bg={`url('${BackgroundImage.src}') no-repeat`}
         bgSize="cover"
