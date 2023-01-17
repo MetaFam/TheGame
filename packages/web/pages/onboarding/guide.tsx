@@ -1,5 +1,5 @@
 import BackgroundImage from 'assets/login-background.jpg';
-import { PageContainer } from 'components/Container';
+import { FullPageContainer } from 'components/Container';
 import { LandingHeader } from 'components/Landing/LandingHeader';
 import OnboardingGuidance from 'components/Landing/OnboardingGuidance';
 import { HeadComponent } from 'components/Seo';
@@ -25,17 +25,13 @@ const OnboardingGuide: React.FC = () => {
         cardStyle="summary_large_image"
       />
       <LandingHeader />
-      <PageContainer
-        p={0}
-        h="100vh"
-        w="full"
-        bg={`url('${BackgroundImage.src}') no-repeat`}
-        bgSize="cover"
-        bgPos="center"
+      <FullPageContainer
+        bgImageUrl={BackgroundImage.src}
+        bgPos="cover"
         bgAttachment="fixed"
       >
         <OnboardingGuidance />
-      </PageContainer>
+      </FullPageContainer>
       <Socials />
     </>
   );

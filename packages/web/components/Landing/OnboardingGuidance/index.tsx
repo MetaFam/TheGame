@@ -1,20 +1,23 @@
 import {
-  Box,
   Container,
   Flex,
   Heading,
+  Link,
+  ListItem,
   MetaButton,
   MetaTile,
   MetaTileBody,
   MetaTileHeader,
   SimpleGrid,
   Text,
+  UnorderedList,
   VStack,
 } from '@metafam/ds';
-import { MarkdownViewer } from 'components/MarkdownViewer';
+import BabyOctopus from 'assets/quests/baby_octo.png';
+import Octopus from 'assets/quests/octopus.png';
+import SpaceOctopi from 'assets/quests/space_octo.png';
 import { SquareImage } from 'components/SquareImage';
 import { useRouter } from 'next/router';
-import { guidanceDetails, Role } from 'utils/guidanceData';
 
 import { upDownShortAnimation } from '../animations';
 
@@ -27,12 +30,21 @@ const OnboardingGuidance: React.FC = () => {
 
   return (
     <Container
-      w="100%"
-      maxW={{ base: '25rem', md: '100%' }}
-      mx="auto"
-      px={0}
-      pt={24}
-      pb={12}
+      overflow={{ base: 'auto', lg: 'visible' }}
+      display="flex"
+      maxW={{
+        base: '100%',
+        md: 'xl',
+        lg: '7xl',
+        '2xl': 'full',
+        '4xl': '90%',
+      }}
+      pt={{ base: 24, lg: 0 }}
+      height="100%"
+      sx={{
+        scrollSnapAlign: 'start',
+        scrollSnapStop: 'normal',
+      }}
       centerContent
     >
       <VStack
@@ -55,17 +67,14 @@ const OnboardingGuidance: React.FC = () => {
       </VStack>
       <SimpleGrid
         py={{ base: 12, lg: 8 }}
-        mb={{ base: 12, lg: 24 }}
+        mb={{ base: 4, lg: 24 }}
         columns={[1, null, 2, 3]}
-        spacing={{ base: 20, lg: 8 }}
+        spacing={{ base: 20, md: 8 }}
         autoRows="minmax(35rem, auto)"
       >
-        <MetaTile height="full" width="full">
+        <MetaTile>
           <MetaTileHeader>
-            <SquareImage
-              src={guidanceDetails[Role.CuriousOcto].image}
-              size="xl"
-            />
+            <SquareImage src={BabyOctopus.src} size="xl" />
             <Flex px={3} w="full" pos="absolute" bottom={-6} zIndex={1}>
               <Heading
                 size="lg"
@@ -81,24 +90,22 @@ const OnboardingGuidance: React.FC = () => {
                 fontFamily="body"
                 fontWeight={400}
               >
-                {guidanceDetails[Role.CuriousOcto].role}
+                Curious Octo
               </Heading>
             </Flex>
           </MetaTileHeader>
-          <MetaTileBody pos="relative" height="full">
-            <Box pt={4}>
-              {guidanceDetails[Role.CuriousOcto].details.map(
-                (item: string, index: number) => (
-                  <Box key={index} sx={{ ul: { m: 0, fontWeight: 300 } }}>
-                    <MarkdownViewer>{item}</MarkdownViewer>
-                  </Box>
-                ),
-              )}
-            </Box>
+          <MetaTileBody>
+            <UnorderedList pt={4} pl={4} fontWeight={300}>
+              <ListItem>You start your journey as a Curious Octo.</ListItem>
+              <ListItem>
+                It means your curiosity has led you to look down the MetaGame
+                rabbit hole & wonder what's in&nbsp;there.
+              </ListItem>
+            </UnorderedList>
             <Flex
               pos="absolute"
               bottom={{ base: -24, lg: -32 }}
-              right={{ base: 16, md: 28, lg: 32 }}
+              right={{ base: 20, md: 28, lg: 32 }}
               direction="column"
               alignItems="center"
               justifyContent="start"
@@ -117,12 +124,9 @@ const OnboardingGuidance: React.FC = () => {
             </Flex>
           </MetaTileBody>
         </MetaTile>
-        <MetaTile height="full" width="full">
+        <MetaTile>
           <MetaTileHeader>
-            <SquareImage
-              src={guidanceDetails[Role.EngagedOcto].image}
-              size="xl"
-            />
+            <SquareImage src={Octopus.src} size="xl" />
             <Flex px={3} w="full" pos="absolute" bottom={-6} zIndex={1}>
               <Heading
                 size="lg"
@@ -138,28 +142,27 @@ const OnboardingGuidance: React.FC = () => {
                 fontFamily="body"
                 fontWeight={400}
               >
-                {guidanceDetails[Role.EngagedOcto].role}
+                Engaged Octo
               </Heading>
             </Flex>
           </MetaTileHeader>
-          <MetaTileBody pos="relative" height="full">
-            <Box pt={4}>
-              {guidanceDetails[Role.EngagedOcto].details.map(
-                (item: string, index: number) => (
-                  <Box key={index} sx={{ ul: { m: 0, fontWeight: 300 } }}>
-                    <MarkdownViewer>{item}</MarkdownViewer>
-                  </Box>
-                ),
-              )}
-            </Box>
+          <MetaTileBody>
+            <UnorderedList pt={4} pl={4} fontWeight={300}>
+              <ListItem>
+                To become an Engaged Octo you need to complete at least one
+                quest & check into&nbsp;Discord.
+              </ListItem>
+              <ListItem>
+                A transitory stage with{' '}
+                <Text as="strong">temporary access</Text> to the community while
+                you test MetaGame & it tests you.
+              </ListItem>
+            </UnorderedList>
           </MetaTileBody>
         </MetaTile>
-        <MetaTile height="full" width="full">
+        <MetaTile>
           <MetaTileHeader>
-            <SquareImage
-              src={guidanceDetails[Role.SpaceOcto].image}
-              size="xl"
-            />
+            <SquareImage src={SpaceOctopi.src} size="xl" />
             <Flex px={3} w="full" pos="absolute" bottom={-6} zIndex={1}>
               <Heading
                 size="lg"
@@ -175,25 +178,31 @@ const OnboardingGuidance: React.FC = () => {
                 fontFamily="body"
                 fontWeight={400}
               >
-                {guidanceDetails[Role.SpaceOcto].role}
+                Space Octo
               </Heading>
             </Flex>
           </MetaTileHeader>
-          <MetaTileBody pos="relative" height="full">
-            <Box pt={4}>
-              {guidanceDetails[Role.SpaceOcto].details.map(
-                (item: string, index: number) => (
-                  <Box
-                    key={index}
-                    sx={{
-                      ul: { m: 0, fontWeight: 300, a: { fontWeight: 600 } },
-                    }}
-                  >
-                    <MarkdownViewer>{item}</MarkdownViewer>
-                  </Box>
-                ),
-              )}
-            </Box>
+          <MetaTileBody>
+            <UnorderedList pt={4} pl={4} fontWeight={300}>
+              <ListItem>
+                Space Octopi aka Players & Patrons are fully grown Octopi with
+                full membership in&nbsp;MetaGame.
+              </ListItem>
+              <ListItem>
+                Members of MetaFam and{' '}
+                <Link
+                  textDecoration="underline"
+                  href="https://wiki.metagame.wtf/wtf-is-metagame/the-300-of-metagame"
+                  isExternal
+                >
+                  The 300 of&nbsp;MetaGame
+                </Link>
+                .
+              </ListItem>
+              <ListItem>
+                On their way to become the founders of&nbsp;MetaGame.
+              </ListItem>
+            </UnorderedList>
           </MetaTileBody>
         </MetaTile>
       </SimpleGrid>
