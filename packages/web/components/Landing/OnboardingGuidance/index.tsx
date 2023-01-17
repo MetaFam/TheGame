@@ -89,7 +89,9 @@ const OnboardingGuidance: React.FC = () => {
             <Box pt={4}>
               {guidanceDetails[Role.CuriousOcto].details.map(
                 (item: string, index: number) => (
-                  <MarkdownViewer key={index}>{item}</MarkdownViewer>
+                  <Box key={index} sx={{ ul: { m: 0, fontWeight: 300 } }}>
+                    <MarkdownViewer>{item}</MarkdownViewer>
+                  </Box>
                 ),
               )}
             </Box>
@@ -144,7 +146,9 @@ const OnboardingGuidance: React.FC = () => {
             <Box pt={4}>
               {guidanceDetails[Role.EngagedOcto].details.map(
                 (item: string, index: number) => (
-                  <MarkdownViewer key={index}>{item}</MarkdownViewer>
+                  <Box key={index} sx={{ ul: { m: 0, fontWeight: 300 } }}>
+                    <MarkdownViewer>{item}</MarkdownViewer>
+                  </Box>
                 ),
               )}
             </Box>
@@ -179,7 +183,14 @@ const OnboardingGuidance: React.FC = () => {
             <Box pt={4}>
               {guidanceDetails[Role.SpaceOcto].details.map(
                 (item: string, index: number) => (
-                  <MarkdownViewer key={index}>{item}</MarkdownViewer>
+                  <Box
+                    key={index}
+                    sx={{
+                      ul: { m: 0, fontWeight: 300, a: { fontWeight: 600 } },
+                    }}
+                  >
+                    <MarkdownViewer>{item}</MarkdownViewer>
+                  </Box>
                 ),
               )}
             </Box>
