@@ -8,6 +8,7 @@ import { PlayerPersonalityType } from 'components/Player/Section/PlayerPersonali
 import { PlayerRoles } from 'components/Player/Section/PlayerRoles';
 import { PlayerSkills } from 'components/Player/Section/PlayerSkills';
 import { PlayerType } from 'components/Player/Section/PlayerType';
+import { CustomTextSection } from 'components/Section/CustomTextSection';
 import { EmbeddedUrl } from 'components/Section/EmbeddedUrlSection';
 import { Player } from 'graphql/autogen/types';
 import { useUser } from 'lib/hooks';
@@ -51,6 +52,12 @@ const PlayerSectionInner: React.FC<
     case BoxTypes.EMBEDDED_URL: {
       const { url } = metadata ?? {};
       return url ? <EmbeddedUrl {...{ url, editing }} /> : null;
+    }
+    case BoxTypes.CUSTOM_TEXT: {
+      const { title, content } = metadata ?? {};
+      return title && content ? (
+        <CustomTextSection {...{ title, content }} />
+      ) : null;
     }
     default:
       return null;
