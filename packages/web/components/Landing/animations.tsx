@@ -22,12 +22,8 @@ const upDown = keyframes`
 `;
 
 const upDownShort = keyframes`
-  from {
-    transform: translateY(-15px);
-  }
-  to {
-    transform: translateY(5px);
-  }
+  from { transform: translateY(-15px) }
+  to { transform: translateY(5px) }
 `;
 
 const waveAnimation = (length: string) =>
