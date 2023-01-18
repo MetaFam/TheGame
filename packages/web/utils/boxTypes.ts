@@ -33,6 +33,7 @@ export const BoxTypes = {
   // Common Boxes
   ADD_NEW_BOX: 'add-new-box',
   EMBEDDED_URL: 'embedded-url',
+  CUSTOM_TEXT: 'custom-text',
 } as const;
 
 export type BoxType = Values<typeof BoxTypes>;
