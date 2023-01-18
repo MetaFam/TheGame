@@ -192,7 +192,7 @@ const DEFAULT_BOX_HEIGHTS: Partial<Record<BoxType, number>> = {
 };
 
 export const getBoxLayoutItemDefaults = (type: BoxType): Layout => ({
-  i: createBoxKey(type, type === BoxTypes.EMBEDDED_URL ? {} : undefined),
+  i: createBoxKey(type, undefined),
   x: 0,
   y: 0,
   w: 1,

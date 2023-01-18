@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   ButtonGroup,
+  Flex,
   Image,
   Link,
   Stat,
@@ -10,6 +11,7 @@ import {
   StatHelpText,
   StatLabel,
   StatNumber,
+  Text,
   VStack,
 } from '@metafam/ds';
 import { animated, useSpring } from '@react-spring/web';
@@ -125,75 +127,79 @@ export const Seed = (): ReactElement => {
   });
 
   return (
-    <VStack spacing={2} align="stretch">
-      <Box position="relative" zIndex="20" h="16rem">
-        <StatGroup position="relative" my={5} zIndex={10}>
-          <Stat mb={3}>
-            <StatLabel>Market Price</StatLabel>
-            <StatNumber>${token?.market.current_price.usd}</StatNumber>
-            <StatHelpText>
-              <StatArrow type={token?.priceUp ? 'increase' : 'decrease'} />
-              {token?.market.price_change_percentage_24h
-                ? `${token?.market.price_change_percentage_24h?.toFixed(2)}%`
-                : `No data 😞`}
-            </StatHelpText>
-          </Stat>
+    <Flex direction="column" p={6} w="100%">
+      <Text fontSize="lg" fontWeight="bold" textTransform="uppercase">
+        Seed
+      </Text>
+      <VStack spacing={2} align="stretch">
+        <Box position="relative" zIndex="20" h="15rem">
+          <StatGroup position="relative" my={5} zIndex={10}>
+            <Stat mb={3}>
+              <StatLabel>Market Price</StatLabel>
+              <StatNumber>${token?.market.current_price.usd}</StatNumber>
+              <StatHelpText>
+                <StatArrow type={token?.priceUp ? 'increase' : 'decrease'} />
+                {token?.market.price_change_percentage_24h
+                  ? `${token?.market.price_change_percentage_24h?.toFixed(2)}%`
+                  : `No data 😞`}
+              </StatHelpText>
+            </Stat>
 
-          <Stat mb={3}>
-            <StatLabel>24h Trading Volume</StatLabel>
-            <StatNumber>${token?.market.total_volume.usd}</StatNumber>
-            <StatHelpText>
-              <StatArrow type={token?.volumeUp ? 'increase' : 'decrease'} />
-              {token?.volumePercent}%
-            </StatHelpText>
-          </Stat>
+            <Stat mb={3}>
+              <StatLabel>24h Trading Volume</StatLabel>
+              <StatNumber>${token?.market.total_volume.usd}</StatNumber>
+              <StatHelpText>
+                <StatArrow type={token?.volumeUp ? 'increase' : 'decrease'} />
+                {token?.volumePercent}%
+              </StatHelpText>
+            </Stat>
 
-          <Stat alignSelf="flex-start" flex="0 0 100%">
-            <StatLabel>7d Low / High</StatLabel>
-            <StatNumber>
-              ${token?.highLow7d.low} / ${token?.highLow7d.high}
-            </StatNumber>
-          </Stat>
-        </StatGroup>
-      </Box>
-      <Box
-        position="absolute"
-        width="100%"
-        height="100%"
-        bottom={0}
-        left={0}
-        zIndex={0}
-      >
-        {token?.prices ? (
-          <Chart data={token.prices} />
-        ) : (
-          <Box
-            position="absolute"
-            bottom={5}
-            right={5}
-            opacity={0.5}
-            fontSize="lg"
-          >
-            Loading chart...
-          </Box>
-        )}
-      </Box>
-      {/**
-       * Delete this component after the CoinGecko API is updated with the Polygon Seed Pool info
-       * (and uncomment the following bit to start using the API again for the link)
-       */}
-      <Link
-        position="absolute"
-        bottom={6}
-        left={6}
-        href={TEMP_SEED_POOL_LINK_FIX_LATER}
-        isExternal
-        zIndex={20}
-      >
-        Pool Info
-      </Link>
+            <Stat alignSelf="flex-start" flex="0 0 100%">
+              <StatLabel>7d Low / High</StatLabel>
+              <StatNumber>
+                ${token?.highLow7d.low} / ${token?.highLow7d.high}
+              </StatNumber>
+            </Stat>
+          </StatGroup>
+        </Box>
+        <Box
+          position="absolute"
+          width="100%"
+          height="100%"
+          bottom={0}
+          left={0}
+          zIndex={0}
+        >
+          {token?.prices ? (
+            <Chart data={token.prices} />
+          ) : (
+            <Box
+              position="absolute"
+              bottom={5}
+              right={5}
+              opacity={0.5}
+              fontSize="lg"
+            >
+              Loading chart...
+            </Box>
+          )}
+        </Box>
+        {/**
+         * Delete this component after the CoinGecko API is updated with the Polygon Seed Pool info
+         * (and uncomment the following bit to start using the API again for the link)
+         */}
+        <Link
+          position="absolute"
+          bottom={6}
+          left={6}
+          href={TEMP_SEED_POOL_LINK_FIX_LATER}
+          isExternal
+          zIndex={20}
+        >
+          Pool Info
+        </Link>
 
-      {/**
+        {/**
          * Uncomment this after the CoinGecko API is updated with the Polygon Seed Pool info
         
       {token?.poolTicker && (
@@ -210,7 +216,8 @@ export const Seed = (): ReactElement => {
       )}
 
         */}
-    </VStack>
+      </VStack>
+    </Flex>
   );
 };
 

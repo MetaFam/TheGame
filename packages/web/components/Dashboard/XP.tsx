@@ -33,9 +33,9 @@ export const XP = (): React.ReactElement => {
 
   if (xpStats == null) {
     return (
-      <VStack spacing={0}>
+      <VStack spacing={0} w="100%" p={6}>
         <Flex align="center" justify="center" h="17rem">
-          <Text fontStyle="italic" textAlign="center" px={4} w="100%" pb="5rem">
+          <Text fontStyle="italic" textAlign="center" px={4} w="100%">
             If you want your XP stats to appear, you gotta earn some XP first!
             Go{' '}
             <Link
@@ -58,58 +58,64 @@ export const XP = (): React.ReactElement => {
     lastWeekXP,
     userWeeklyCred,
   } = xpStats;
+
   return (
-    <VStack spacing={2} align="stretch">
-      <Box position="relative" zIndex="20" h="17rem">
-        <StatGroup mt={5} flex="0 0 50%">
-          <Stat mb={3}>
-            <StatLabel>This Week</StatLabel>
-            <StatNumber>{thisWeekXP}</StatNumber>
-            <StatHelpText>
-              <StatArrow
-                type={variationThisWeek < 0 ? 'decrease' : 'increase'}
-              />
-              {variationThisWeek}%
-            </StatHelpText>
-          </Stat>
+    <Flex direction="column" p={6} w="100%">
+      <Text fontSize="lg" fontWeight="bold" textTransform="uppercase">
+        XP
+      </Text>
+      <VStack spacing={2} align="stretch">
+        <Box position="relative" zIndex="20" h="15rem">
+          <StatGroup mt={5} flex="0 0 50%">
+            <Stat mb={3}>
+              <StatLabel>This Week</StatLabel>
+              <StatNumber>{thisWeekXP}</StatNumber>
+              <StatHelpText>
+                <StatArrow
+                  type={variationThisWeek < 0 ? 'decrease' : 'increase'}
+                />
+                {variationThisWeek}%
+              </StatHelpText>
+            </Stat>
 
-          <Stat mb={3} flex="0 0 50%">
-            <StatLabel>Last Week</StatLabel>
-            <StatNumber>{lastWeekXP}</StatNumber>
-            <StatHelpText>
-              <StatArrow
-                type={variationLastWeek < 0 ? 'decrease' : 'increase'}
-              />
-              {lastWeekXP}%
-            </StatHelpText>
-          </Stat>
+            <Stat mb={3} flex="0 0 50%">
+              <StatLabel>Last Week</StatLabel>
+              <StatNumber>{lastWeekXP}</StatNumber>
+              <StatHelpText>
+                <StatArrow
+                  type={variationLastWeek < 0 ? 'decrease' : 'increase'}
+                />
+                {lastWeekXP}%
+              </StatHelpText>
+            </Stat>
 
-          <Stat alignSelf="flex-start" justifySelf="flex-end" flex="0 0 100%">
-            <StatLabel>All Time</StatLabel>
-            <StatNumber>{userTotalXP.toLocaleString()}</StatNumber>
-            {user?.rank && (
-              <MetaTag
-                backgroundColor={user.rank.toLowerCase()}
-                size="md"
-                color="blackAlpha.600"
-              >
-                {user.rank}
-              </MetaTag>
-            )}
-          </Stat>
-        </StatGroup>
-      </Box>
-      <Box
-        position="absolute"
-        width="100%"
-        height="100%"
-        bottom={0}
-        left={0}
-        zIndex={0}
-      >
-        {userWeeklyCred && <Chart data={userWeeklyCred} />}
-      </Box>
-    </VStack>
+            <Stat alignSelf="flex-start" justifySelf="flex-end" flex="0 0 100%">
+              <StatLabel>All Time</StatLabel>
+              <StatNumber>{userTotalXP.toLocaleString()}</StatNumber>
+              {user?.rank && (
+                <MetaTag
+                  backgroundColor={user.rank.toLowerCase()}
+                  size="md"
+                  color="blackAlpha.600"
+                >
+                  {user.rank}
+                </MetaTag>
+              )}
+            </Stat>
+          </StatGroup>
+        </Box>
+        <Box
+          position="absolute"
+          width="100%"
+          height="100%"
+          bottom={0}
+          left={0}
+          zIndex={0}
+        >
+          {userWeeklyCred && <Chart data={userWeeklyCred} />}
+        </Box>
+      </VStack>
+    </Flex>
   );
 };
 

@@ -1,5 +1,6 @@
 import {
   Box,
+  Flex,
   FormControl,
   FormLabel,
   ListItem,
@@ -37,48 +38,53 @@ export const DashboardQuestsCreated: React.FC = () => {
   const createdQuests = data?.quest || null;
 
   return (
-    <Box mt={4} w="100%" overflowY="hidden">
-      {fetching && <LoadingState />}
-      {error && <Text>{`Error: ${error.message}`}</Text>}
-      {createdQuests != null && createdQuests.length > 0 && (
-        <Box h="100%" overflowY="auto">
-          <FormControl display="flex" alignItems="center">
-            <FormLabel
-              htmlFor="pendingOnly"
-              mb={0}
-              fontSize="md"
-              style={{ cursor: 'pointer' }}
-            >
-              Pending submissions only
-            </FormLabel>
-            <Switch
-              id="pendingOnly"
-              isChecked={pendingOnly}
-              onChange={() => setPendingOnly(!pendingOnly)}
-            />
-          </FormControl>
-          {createdQuests.map((quest) => (
-            <Box mt={2}>
-              <MetaLink href={`/quest/${quest.id}`}>{quest.title}</MetaLink>
-              {quest.quest_completions?.length > 0 && (
-                <UnorderedList>
-                  {quest.quest_completions.map((questCompletion) => (
-                    <ListItem pb={1}>
-                      {getPlayerName(questCompletion.player as Player)}
-                      <MetaTag ml={2}>
-                        {moment(questCompletion.submittedAt).format(
-                          'MMM D h:mma',
-                        )}
-                      </MetaTag>
-                    </ListItem>
-                  ))}
-                </UnorderedList>
-              )}
-            </Box>
-          ))}
-        </Box>
-      )}
-      {createdQuests?.length === 0 && <Box>You have no active quests.</Box>}
-    </Box>
+    <Flex direction="column" p={6} w="100%">
+      <Text fontSize="lg" fontWeight="bold" textTransform="uppercase">
+        Posted Quest Submissions
+      </Text>
+      <Box mt={4} w="100%" overflowY="hidden">
+        {fetching && <LoadingState />}
+        {error && <Text>{`Error: ${error.message}`}</Text>}
+        {createdQuests != null && createdQuests.length > 0 && (
+          <Box h="100%" overflowY="auto">
+            <FormControl display="flex" alignItems="center">
+              <FormLabel
+                htmlFor="pendingOnly"
+                mb={0}
+                fontSize="md"
+                style={{ cursor: 'pointer' }}
+              >
+                Pending submissions only
+              </FormLabel>
+              <Switch
+                id="pendingOnly"
+                isChecked={pendingOnly}
+                onChange={() => setPendingOnly(!pendingOnly)}
+              />
+            </FormControl>
+            {createdQuests.map((quest) => (
+              <Box mt={2}>
+                <MetaLink href={`/quest/${quest.id}`}>{quest.title}</MetaLink>
+                {quest.quest_completions?.length > 0 && (
+                  <UnorderedList>
+                    {quest.quest_completions.map((questCompletion) => (
+                      <ListItem pb={1}>
+                        {getPlayerName(questCompletion.player as Player)}
+                        <MetaTag ml={2}>
+                          {moment(questCompletion.submittedAt).format(
+                            'MMM D h:mma',
+                          )}
+                        </MetaTag>
+                      </ListItem>
+                    ))}
+                  </UnorderedList>
+                )}
+              </Box>
+            ))}
+          </Box>
+        )}
+        {createdQuests?.length === 0 && <Box>You have no active quests.</Box>}
+      </Box>
+    </Flex>
   );
 };
