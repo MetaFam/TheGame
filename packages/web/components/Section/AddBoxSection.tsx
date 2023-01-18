@@ -22,6 +22,7 @@ import { GuildFragment, Player } from 'graphql/autogen/types';
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { BoxMetadata, BoxType, BoxTypes } from 'utils/boxTypes';
 
+import { CustomTextSectionMetadata } from './CustomTextSection';
 import { EmbeddedUrlMetadata } from './EmbeddedUrlSection';
 
 type Props = FlexProps & {
@@ -208,11 +209,13 @@ export const AddBoxSection = React.forwardRef<HTMLDivElement, Props>(
 export const EditMetadata: React.FC<{
   type: BoxType;
   metadata: BoxMetadata;
-  setMetadata: (d: BoxMetadata) => void;
+  setMetadata: React.Dispatch<React.SetStateAction<BoxMetadata>>;
 }> = ({ type, ...props }) => {
   switch (type) {
     case BoxTypes.EMBEDDED_URL:
       return <EmbeddedUrlMetadata {...props} />;
+    case BoxTypes.CUSTOM_TEXT:
+      return <CustomTextSectionMetadata {...props} />;
     default:
       return null;
   }
