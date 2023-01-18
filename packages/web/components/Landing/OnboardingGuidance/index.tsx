@@ -31,13 +31,7 @@ const OnboardingGuidance: React.FC = () => {
   return (
     <Container
       h="full"
-      maxW={{
-        base: '100%',
-        md: 'xl',
-        lg: '7xl',
-        '2xl': 'full',
-        '4xl': '90%',
-      }}
+      maxW={['100%', 'xl', '7xl', 'full', '90%']}
       pt={{ base: 24, lg: 0 }}
       overflow={{ base: 'auto', lg: 'visible' }}
       centerContent
@@ -90,7 +84,7 @@ const OnboardingGuidance: React.FC = () => {
             </Flex>
           </MetaTileHeader>
           <MetaTileBody>
-            <UnorderedList pt={4} pl={4} fontWeight={300}>
+            <UnorderedList pt={4} pl={4} fontWeight="light">
               <ListItem>You start your journey as a Curious Octo.</ListItem>
               <ListItem>
                 It means your curiosity has led you to look down the MetaGame
@@ -142,7 +136,7 @@ const OnboardingGuidance: React.FC = () => {
             </Flex>
           </MetaTileHeader>
           <MetaTileBody>
-            <UnorderedList pt={4} pl={4} fontWeight={300}>
+            <UnorderedList pt={4} pl={4} fontWeight="light">
               <ListItem>
                 To become an Engaged Octo you need to complete at least one
                 quest & check into&nbsp;Discord.
@@ -178,7 +172,7 @@ const OnboardingGuidance: React.FC = () => {
             </Flex>
           </MetaTileHeader>
           <MetaTileBody>
-            <UnorderedList pt={4} pl={4} fontWeight={300}>
+            <UnorderedList pt={4} pl={4} fontWeight="light">
               <ListItem>
                 Space Octopi aka Players & Patrons are fully grown Octopi with
                 full membership in&nbsp;MetaGame.
