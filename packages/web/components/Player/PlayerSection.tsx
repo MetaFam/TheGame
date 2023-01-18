@@ -1,4 +1,4 @@
-import { Flex, IconButton } from '@metafam/ds';
+import { Box, Flex, IconButton } from '@metafam/ds';
 import { PlayerAchievements } from 'components/Player/Section/PlayerAchievements';
 import { PlayerCompletedQuests } from 'components/Player/Section/PlayerCompletedQuests';
 import { PlayerGallery } from 'components/Player/Section/PlayerGallery';
@@ -78,17 +78,18 @@ export const PlayerSection = forwardRef<HTMLDivElement, Props>(
         minH="100%"
         boxShadow="md"
         pos="relative"
-        pointerEvents={editing ? 'none' : 'initial'}
       >
-        <PlayerSectionInner
-          {...{
-            metadata,
-            type,
-            player,
-            isOwnProfile,
-            editing,
-          }}
-        />
+        <Box pointerEvents={editing ? 'none' : 'initial'}>
+          <PlayerSectionInner
+            {...{
+              metadata,
+              type,
+              player,
+              isOwnProfile,
+              editing,
+            }}
+          />
+        </Box>
         {editing && (
           <Flex
             className="gridItemOverlay"
@@ -103,6 +104,7 @@ export const PlayerSection = forwardRef<HTMLDivElement, Props>(
         {editing && type && type !== BoxTypes.PLAYER_HERO && (
           <IconButton
             aria-label="Remove Profile Section"
+            zIndex={100}
             size="lg"
             pos="absolute"
             top={0}
