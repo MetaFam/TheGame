@@ -4,6 +4,7 @@ import { LatestContent } from 'components/Dashboard/LatestContent';
 import { Leaderboard } from 'components/Dashboard/Leaderboard';
 import { Seed } from 'components/Dashboard/Seed';
 import { XP } from 'components/Dashboard/XP';
+import { CustomTextSection } from 'components/Section/CustomTextSection';
 import { EmbeddedUrl } from 'components/Section/EmbeddedUrlSection';
 import { Player } from 'graphql/autogen/types';
 import React, { forwardRef } from 'react';
@@ -45,6 +46,12 @@ const DashboardSectionInner: React.FC<Props> = ({
     case BoxTypes.EMBEDDED_URL: {
       const { url } = metadata ?? {};
       return url ? <EmbeddedUrl {...{ url, editing }} /> : null;
+    }
+    case BoxTypes.CUSTOM_TEXT: {
+      const { title, content } = metadata ?? {};
+      return title && content ? (
+        <CustomTextSection {...{ title, content }} />
+      ) : null;
     }
     default:
       return null;
