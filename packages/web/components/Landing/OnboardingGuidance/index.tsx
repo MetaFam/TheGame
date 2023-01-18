@@ -30,8 +30,8 @@ const OnboardingGuidance: React.FC = () => {
 
   return (
     <Container
-      overflow={{ base: 'auto', lg: 'visible' }}
       display="flex"
+      height="100%"
       maxW={{
         base: '100%',
         md: 'xl',
@@ -40,11 +40,7 @@ const OnboardingGuidance: React.FC = () => {
         '4xl': '90%',
       }}
       pt={{ base: 24, lg: 0 }}
-      height="100%"
-      sx={{
-        scrollSnapAlign: 'start',
-        scrollSnapStop: 'normal',
-      }}
+      overflow={{ base: 'auto', lg: 'visible' }}
       centerContent
     >
       <VStack
