@@ -63,7 +63,10 @@ export const DashboardQuestsCompleted: React.FC = () => {
   }, [allQuests, statusSelection]);
 
   return (
-    <>
+    <Flex direction="column" p={6} w="100%">
+      <Text fontSize="lg" fontWeight="bold" textTransform="uppercase">
+        Submitted Quests
+      </Text>
       <Box mt={2}>
         {fetching && <LoadingState />}
         {error && <Text>{`Error: ${error.message}`}</Text>}
@@ -106,6 +109,6 @@ export const DashboardQuestsCompleted: React.FC = () => {
           )}
         </Box>
       </Box>
-    </>
+    </Flex>
   );
 };
