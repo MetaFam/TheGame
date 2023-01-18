@@ -1,4 +1,4 @@
-import { Flex, IconButton } from '@metafam/ds';
+import { Box, Flex, IconButton } from '@metafam/ds';
 import { GuildAnnouncements } from 'components/Guild/Section/GuildAnnouncements';
 import { GuildHero } from 'components/Guild/Section/GuildHero';
 import { GuildLinks } from 'components/Guild/Section/GuildLinks';
@@ -57,14 +57,16 @@ export const GuildSection = forwardRef<HTMLDivElement, Props>(
         boxShadow="md"
         pos="relative"
       >
-        <GuildSectionInner
-          {...{
-            metadata,
-            type,
-            guild,
-            editing,
-          }}
-        />
+        <Box pointerEvents={editing ? 'none' : 'initial'}>
+          <GuildSectionInner
+            {...{
+              metadata,
+              type,
+              guild,
+              editing,
+            }}
+          />
+        </Box>
         {editing && (
           <Flex
             className="gridItemOverlay"
