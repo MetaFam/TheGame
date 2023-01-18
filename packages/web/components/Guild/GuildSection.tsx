@@ -3,6 +3,7 @@ import { GuildAnnouncements } from 'components/Guild/Section/GuildAnnouncements'
 import { GuildHero } from 'components/Guild/Section/GuildHero';
 import { GuildLinks } from 'components/Guild/Section/GuildLinks';
 import { GuildPlayers } from 'components/Guild/Section/GuildPlayers';
+import { CustomTextSection } from 'components/Section/CustomTextSection';
 import { EmbeddedUrl } from 'components/Section/EmbeddedUrlSection';
 import { GuildFragment } from 'graphql/autogen/types';
 import React, { forwardRef } from 'react';
@@ -35,6 +36,12 @@ const GuildSectionInner: React.FC<Props & { guild: GuildFragment }> = ({
     case BoxTypes.EMBEDDED_URL: {
       const { url } = metadata ?? {};
       return url ? <EmbeddedUrl {...{ url, editing }} /> : null;
+    }
+    case BoxTypes.CUSTOM_TEXT: {
+      const { title, content } = metadata ?? {};
+      return title && content ? (
+        <CustomTextSection {...{ title, content }} />
+      ) : null;
     }
     default:
       return null;
