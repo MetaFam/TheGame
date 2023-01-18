@@ -27,8 +27,9 @@ const OnboardingGuide: React.FC = () => {
       <LandingHeader />
       <FullPageContainer
         bgImageUrl={BackgroundImage.src}
-        bgPos="cover"
-        bgAttachment="fixed"
+        bgSize="cover"
+        bgPos="center"
+        bgRepeat="no-repeat"
       >
         <OnboardingGuidance />
       </FullPageContainer>
