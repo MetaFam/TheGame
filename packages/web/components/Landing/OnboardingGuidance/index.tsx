@@ -30,8 +30,7 @@ const OnboardingGuidance: React.FC = () => {
 
   return (
     <Container
-      display="flex"
-      height="100%"
+      h="full"
       maxW={{
         base: '100%',
         md: 'xl',
@@ -202,7 +201,6 @@ const OnboardingGuidance: React.FC = () => {
           </MetaTileBody>
         </MetaTile>
       </SimpleGrid>
-
       <MetaButton
         onClick={handleClick}
         colorScheme="purple"
