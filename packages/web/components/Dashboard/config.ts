@@ -43,6 +43,7 @@ export const ALL_BOXES = [
   BoxTypes.DASHBOARD_COMPLETED_QUESTS,
   BoxTypes.DASHBOARD_CREATED_QUESTS,
   BoxTypes.EMBEDDED_URL,
+  BoxTypes.CUSTOM_TEXT,
   // TODO: Add more types of sections
 ];
 
