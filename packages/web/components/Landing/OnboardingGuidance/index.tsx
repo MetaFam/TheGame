@@ -25,7 +25,7 @@ const OnboardingGuidance: React.FC = () => {
   const router = useRouter();
 
   const handleClick = () => {
-    router.push('/start');
+    router.push('/profile/setup/name');
   };
 
   return (
