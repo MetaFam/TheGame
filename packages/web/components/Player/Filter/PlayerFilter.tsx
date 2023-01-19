@@ -67,11 +67,11 @@ export const PlayerFilter: React.FC<Props> = ({
     sortOptionsMap[SortOption.SEASON_XP],
   );
 
-  const SEARCH_STR_MIN_LENGTH = 2; // The text in the search box should be at least this long before the search is triggered
+  const MIN_SEARCH_LENGTH = 2; // The text in the search box should be at least this long before a search is triggered
 
   const onSearch = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (search.length >= SEARCH_STR_MIN_LENGTH) {
+    if (search.length >= MIN_SEARCH_LENGTH) {
       setQueryVariable('search', `%${search}%`);
     } else {
       setSearch('');
@@ -162,7 +162,7 @@ export const PlayerFilter: React.FC<Props> = ({
     borderRadius: '0',
     boxShadow:
       '-1vw 0px 0px var(--chakra-colors-purpleTag70), 1vw 0px 0px var(--chakra-colors-purpleTag70)', // Sticky, fills in the gap left by the 98vw
-    maxWidth: 'auto',
+    maxW: 'auto',
     position: 'sticky',
     px: '2.5em',
     py: '1em',
@@ -173,7 +173,7 @@ export const PlayerFilter: React.FC<Props> = ({
   const searchFiltersNotStickyStyles = {
     bg: 'whiteAlpha.200',
     borderRadius: '6px',
-    maxWidth: '7xl',
+    maxW: '7xl',
     px: '1.5em',
     py: '1em',
     w: '100%',
@@ -187,8 +187,9 @@ export const PlayerFilter: React.FC<Props> = ({
   // Styles that are not toggled
   const searchFiltersBoxCommonStyles = {
     backdropFilter: 'blur(7px)',
-    borderTop: '1px solid transparent', // These styles on top and borderTop are needed for it to stick right
-    top: '-1px', // These styles on top and borderTop are needed for it to stick right
+    // These styles on top and borderTop are needed for it to stick right
+    borderTop: '1px solid transparent',
+    top: '-1px',
     transition: 'all 0.25s',
     zIndex: '1',
   };
@@ -218,42 +219,19 @@ export const PlayerFilter: React.FC<Props> = ({
          * 2xl: search/filters side by side, left is search, right is desktop filters (this is when the screen is wide enough to fit the search and desktop filters on one line)
          */}
         <Flex
-          maxWidth="7xl"
+          maxW="7xl"
           mx="auto"
           w="100%"
           alignItems="center"
           justifyContent="center"
-          flexWrap={{
-            base: 'nowrap',
-            md: 'wrap',
-            '2xl': 'nowrap',
-          }}
-          flexDirection={{
-            base: 'row',
-            md: 'column',
-            '2xl': 'row',
-          }}
+          flexWrap={{ base: 'nowrap', md: 'wrap', '2xl': 'nowrap' }}
+          flexDirection={{ base: 'row', md: 'column', '2xl': 'row' }}
         >
           <Box
-            flexGrow={{
-              base: '2', // expand to take up more space when side-by-side with filters button
-              md: '0',
-            }}
-            marginRight={{
-              base: '4',
-              md: '0',
-              '2xl': '6',
-            }}
-            marginBottom={{
-              base: '0',
-              md: '4',
-              '2xl': '0',
-            }}
-            maxW={{
-              base: 'sm',
-              md: '100%',
-              '2xl': 'sm',
-            }}
+            flexGrow={{ base: 2, md: 0 }}
+            marginRight={{ base: 4, md: 0, '2xl': 6 }}
+            marginBottom={{ base: 0, md: 4, '2xl': 0 }}
+            maxW={{ base: 'sm', md: '100%', '2xl': 'sm' }}
           >
             {/**
              * SEARCH BOX
@@ -269,31 +247,17 @@ export const PlayerFilter: React.FC<Props> = ({
                   children={<SearchIcon />}
                 />
                 <Input
-                  background="dark"
+                  bg="dark"
                   borderColor="borderPurple"
-                  borderLeftRadius={4}
-                  borderRightRadius={{
-                    base: '4',
-                    md: '0',
-                  }}
-                  borderWidth={{
-                    base: '1px',
-                    md: '2px',
-                  }}
-                  fontSize={{
-                    base: 'sm',
-                    md: '1em',
-                  }}
-                  height="40px"
-                  minW={{
-                    base: '14em',
-                    md: '30em',
-                    '2xl': '20em',
-                  }}
-                  onChange={(e) => {
-                    setSearch(e.target.value);
-                    if (e.target.value.length >= SEARCH_STR_MIN_LENGTH) {
-                      setQueryVariable('search', `%${e.target.value}%`); // If using setQueryVariable('search', `%${search}%`) and/or search.length, it misses the last character entered i.e. `vid` comes out as `vi`
+                  borderRadius={4}
+                  borderWidth={{ base: '1px', md: '2px' }}
+                  fontSize={{ base: 'sm', md: '1em' }}
+                  h={{ base: '40px', md: '42px' }} // 40px matches the filters icon on small screens, 42px matchs the dropdown filters on big screens
+                  minW={{ base: '14em', md: '30em', '2xl': '20em' }}
+                  onChange={({ target: { value } }) => {
+                    setSearch(value);
+                    if (value.length >= MIN_SEARCH_LENGTH) {
+                      setQueryVariable('search', `%${value}%`); // If using setQueryVariable('search', `%${search}%`) and/or search.length, it misses the last character entered i.e. `vid` comes out as `vi`
                     } else {
                       setQueryVariable('search', `%%`);
                     }
@@ -308,7 +272,7 @@ export const PlayerFilter: React.FC<Props> = ({
                 {search.length > 0 && (
                   <InputRightElement>
                     <IconButton
-                      p="2"
+                      p={2}
                       variant="link"
                       colorScheme="white"
                       icon={<CloseIcon />}
@@ -323,11 +287,7 @@ export const PlayerFilter: React.FC<Props> = ({
               </InputGroup>
             </Form>
           </Box>
-          <Box
-            flexGrow={{
-              '2xl': '2', // take up more space when side-by-side with search on wide screens
-            }}
-          >
+          <Box flexGrow={{ '2xl': '2' }}>
             {/**
              * Put in the filters button or the DesktopFilters, depending on the screen size
              * The button has a label 'Filters' if the screen is wide enough to fit it
@@ -343,20 +303,13 @@ export const PlayerFilter: React.FC<Props> = ({
                 color="white"
                 onClick={onOpen}
                 fontSize="sm"
-                fontWeight="400"
+                fontWeight="normal"
                 px={3}
                 minH="2.5rem"
                 size="md"
               >
                 <FiltersIcon marginTop="1px" />
-                <Text
-                  as="span"
-                  display={{
-                    base: 'none',
-                    sm: 'inline',
-                  }}
-                  paddingLeft={2}
-                >
+                <Text as="span" display={['none', 'inline']} pl={2}>
                   FILTERS
                 </Text>
               </Button>
