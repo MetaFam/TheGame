@@ -30,7 +30,7 @@ const OnboardingGuide: React.FC = () => {
         bgSize="cover"
         bgPos="center"
         bgRepeat="no-repeat"
-        overflow="auto"
+        overflow="scroll"
       >
         <OnboardingGuidance />
       </FullPageContainer>
