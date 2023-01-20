@@ -3,13 +3,7 @@ import React from 'react';
 
 export const WhatsTheProduct: React.FC = () => (
   <Container as="section" className="mg-patron-join-section">
-    <Heading
-      as="h2"
-      color="white"
-      fontFamily="mono"
-      fontWeight={700}
-      mb={[4, 4, 4, 12]}
-    >
+    <Heading as="h2" fontFamily="mono" fontWeight={700} mb={[4, 4, 4, 12]}>
       So what’s the product, what’s the revenue model???
     </Heading>
 
@@ -22,17 +16,16 @@ export const WhatsTheProduct: React.FC = () => (
         There are a few, actually, along with various monetization &amp;
         sustainability strategies. If you want to dig deeper, it might be best
         to dig down the raids section &amp; ask some questions or read the
-        Purplepaper 🙃
+        Purplepaper&nbsp;🙃
       </Text>
     </Container>
 
     <Heading
       as="h2"
-      color="white"
       fontFamily="mono"
       fontWeight={700}
       mb={[4, 4, 4, 12]}
-      mt={{ base: 8, md: 20 }} // Match the spacing of the VStack that wraps all of these headings+boxes
+      mt={{ base: 8, md: 12 }} // Match the spacing of the VStack that wraps all of these headings+boxes
     >
       Why you should become a Patron of MetaGame?
     </Heading>

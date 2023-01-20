@@ -122,18 +122,12 @@ export const RankedLeagues: React.FC<Props> = ({
       className="mg-patron-join-section"
       my={[8, 8, 8, 12]}
     >
-      <Heading
-        as="h2"
-        color="white"
-        fontFamily="mono"
-        fontWeight={700}
-        mb={[4, 4, 4, 12]}
-      >
+      <Heading as="h2" fontFamily="mono" fontWeight={700} mb={[4, 4, 4, 12]}>
         Leagues &amp; Perks
       </Heading>
 
       <VStack spacing={8}>
-        <Box p={6} maxW="3xl" className="mg-patron-join-card-bg">
+        <Box p={6} maxW="lg" className="mg-patron-join-card-bg">
           <Text as="p" mb={3}>
             Becoming a patron also comes with some perks!
           </Text>
@@ -141,7 +135,7 @@ export const RankedLeagues: React.FC<Props> = ({
             The total number of Patrons in Phase I is limited to 150. The rank
             requirements are subject to change based on top 150 pSeed hodlors
             &amp; most perks (besides seasonal) will only be unlocked in the
-            transition to Phase II — set for Q3 2023.
+            transition to Phase II — set for Q3&nbsp;2023.
           </Text>
         </Box>
 
