@@ -13,7 +13,7 @@ export const LeagueCardItem: React.FC<ItemProps> = ({ text }: ItemProps) => (
     alignItems="center"
     justifyContent="space-between"
   >
-    <Text color="white" fontSize="md" lineHeight={1.3}>
+    <Text fontSize="md" lineHeight={1.3}>
       {text}
     </Text>
     <Image

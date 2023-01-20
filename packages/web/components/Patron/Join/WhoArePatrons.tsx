@@ -4,13 +4,7 @@ import React from 'react';
 
 export const WhoArePatrons: React.FC = () => (
   <Container as="section" className="mg-patron-join-section">
-    <Heading
-      as="h2"
-      color="white"
-      fontFamily="mono"
-      fontWeight={700}
-      mb={[4, 4, 4, 12]}
-    >
+    <Heading as="h2" fontFamily="mono" fontWeight={700} mb={[4, 4, 4, 12]}>
       Who are Patrons?
     </Heading>
 

@@ -83,7 +83,6 @@ const PatronsJoinLanding: React.FC<Props> = ({
       <Container w="100%" maxW="6xl">
         <Heading
           as="h1"
-          color="white"
           fontFamily="mono"
           fontSize="6xl"
           fontWeight={700}
@@ -114,14 +113,8 @@ const PatronsJoinLanding: React.FC<Props> = ({
       {/* Section: Other patrons include... */}
 
       <Container as="section" className="mg-patron-join-section">
-        <Heading
-          as="h2"
-          color="white"
-          fontFamily="mono"
-          fontWeight={700}
-          my={[4, 4, 4, 12]}
-        >
-          Other patrons include...
+        <Heading as="h2" fontFamily="mono" fontWeight={700} my={[4, 4, 4, 12]}>
+          Other patrons include&hellip;
         </Heading>
 
         <Container
@@ -134,11 +127,9 @@ const PatronsJoinLanding: React.FC<Props> = ({
           <PatronList patrons={patrons.slice(0, 6)} pSeedPrice={pSeedPrice} />
           <Box mt={12} mb={4} px={2}>
             <MetaButton
-              maxW=""
               as="a"
-              bg="#E839B7"
+              bg="landing450"
               borderRadius={0}
-              color="white"
               href="/patrons"
               minW="10rem"
               mt={{ base: 8, md: 12 }}
