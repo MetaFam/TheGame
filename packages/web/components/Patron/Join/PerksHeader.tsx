@@ -19,7 +19,7 @@ export const PerksHeader = ({ title, count, pSeeds, amountUsd }: Props) => {
       })}`
     : pSeedLabel;
   let amountDisplay = (
-    <Text color="white" fontSize="md">
+    <Text fontSize="md" ml={4}>
       Current req: {amountLabel}
     </Text>
   );
@@ -37,7 +37,6 @@ export const PerksHeader = ({ title, count, pSeeds, amountUsd }: Props) => {
     >
       <Flex alignItems="baseline">
         <Text
-          color="white"
           fontSize="md"
           fontWeight="bold"
           mr={{
