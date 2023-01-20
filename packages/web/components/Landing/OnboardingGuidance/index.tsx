@@ -30,10 +30,10 @@ const OnboardingGuidance: React.FC = () => {
 
   return (
     <Container
+      px={0}
       h="full"
+      pt={{ base: 24, lg: 12 }}
       maxW={['100%', 'xl', '7xl', 'full', '90%']}
-      pt={{ base: 24, lg: 0 }}
-      overflow={{ base: 'auto', lg: 'visible' }}
       centerContent
     >
       <VStack
@@ -59,7 +59,6 @@ const OnboardingGuidance: React.FC = () => {
         mb={{ base: 4, lg: 24 }}
         columns={[1, null, 2, 3]}
         spacing={{ base: 20, md: 8 }}
-        autoRows="minmax(35rem, auto)"
       >
         <MetaTile>
           <MetaTileHeader>
@@ -84,7 +83,7 @@ const OnboardingGuidance: React.FC = () => {
             </Flex>
           </MetaTileHeader>
           <MetaTileBody>
-            <UnorderedList pt={4} pl={4} fontWeight="light">
+            <UnorderedList pt={4} pl={2} fontWeight="light">
               <ListItem>You start your journey as a Curious Octo.</ListItem>
               <ListItem>
                 It means your curiosity has led you to look down the MetaGame
@@ -94,7 +93,7 @@ const OnboardingGuidance: React.FC = () => {
             <Flex
               pos="absolute"
               bottom={{ base: -24, lg: -32 }}
-              right={{ base: 20, md: 28, lg: 32 }}
+              right={{ base: 28, lg: 32 }}
               direction="column"
               alignItems="center"
               justifyContent="start"
@@ -136,7 +135,7 @@ const OnboardingGuidance: React.FC = () => {
             </Flex>
           </MetaTileHeader>
           <MetaTileBody>
-            <UnorderedList pt={4} pl={4} fontWeight="light">
+            <UnorderedList pt={4} pl={2} fontWeight="light">
               <ListItem>
                 To become an Engaged Octo you need to complete at least one
                 quest & check into&nbsp;Discord.
@@ -172,7 +171,7 @@ const OnboardingGuidance: React.FC = () => {
             </Flex>
           </MetaTileHeader>
           <MetaTileBody>
-            <UnorderedList pt={4} pl={4} fontWeight="light">
+            <UnorderedList pt={4} pl={2} fontWeight="light">
               <ListItem>
                 Space Octopi aka Players & Patrons are fully grown Octopi with
                 full membership in&nbsp;MetaGame.
