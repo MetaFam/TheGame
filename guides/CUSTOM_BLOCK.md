@@ -1,6 +1,6 @@
 # MyMeta - Custom Blocks
 
-This shall serve a minimal guide towards developing custom blocks and linking your MyMeta player profiles, guild profiles and/or personal dashboards with external applications or APIs.
+This shall serve as a minimal guide towards developing custom blocks and linking your MyMeta player profiles, guild profiles and/or personal dashboards with external applications or APIs.
 
 ## Pre-requesites
 
@@ -26,7 +26,7 @@ This shall serve a minimal guide towards developing custom blocks and linking yo
 
 ## Steps
 
-> We shall be creating a simple block with a custom title and description. Similar steps can be followed to create more complex custom blocks.
+> We shall be creating a simple block with a custom title and content. Similar steps can be followed to create more complex custom blocks.
 
 ### Step 1: Create a new BoxType
 
