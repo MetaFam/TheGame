@@ -17,6 +17,7 @@ import {
 import { useRouter } from 'next/router';
 import Page404 from 'pages/404';
 import React from 'react';
+import { FaArrowLeft } from 'react-icons/fa';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
@@ -83,13 +84,16 @@ const SubmitQuestCompletionPage: React.FC<Props> = ({ quest }) => {
       >
         <Flex flex={1} direction="column">
           <MetaLink as={`/quest/${quest.id}`} href="/quest/[id]">
+            <FaArrowLeft
+              fontSize="0.875rem"
+              style={{ display: 'inline-block', marginRight: '0.5rem' }}
+            />
             Back to Quest
           </MetaLink>
-          <Heading>Claim quest</Heading>
+          <Heading my={5}>Claim Quest</Heading>
 
           <CompletionForm
-            onSubmit={onSubmit}
-            quest={quest}
+            {...{ onSubmit, quest }}
             success={
               !!createQuestCompletionState.data?.createQuestCompletion
                 ?.quest_completion_id

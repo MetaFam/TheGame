@@ -1,5 +1,4 @@
 import { Box, chakra, keyframes } from '@metafam/ds';
-import React from 'react';
 
 const wave = keyframes`
   0% {
@@ -20,6 +19,11 @@ const upDown = keyframes`
   to {
     transform: translateY(30px);
   }
+`;
+
+const upDownShort = keyframes`
+  from { transform: translateY(-15px) }
+  to { transform: translateY(5px) }
 `;
 
 const waveAnimation = (length: string) =>
@@ -56,6 +60,7 @@ const InnerWaveC = chakra('div', {
 
 export const wavesAnimation = `${wave} 10s ease-in-out infinite alternate`;
 export const upDownAnimation = `${upDown} 10s ease-in-out infinite alternate`;
+export const upDownShortAnimation = `${upDownShort} 10s ease-in-out infinite alternate`;
 export const upDownAnimationLong = `${upDown} 20s cubic-bezier(.29,.25,.38,.69) infinite alternate`;
 
 const LandingSVG = chakra('svg');

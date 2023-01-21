@@ -44,7 +44,7 @@ export const MegaMenuFooter = () => {
       bg="rgba(0, 0, 0, 0.75)"
       borderColor="#2B2244"
       px={4}
-      sx={{ backdropFilter: 'blur(10px)' }}
+      backdropFilter="blur(10px)"
     >
       {connected && !!user && !fetching && !connecting ? (
         <>

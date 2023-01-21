@@ -69,8 +69,7 @@ const SetupGuild: React.FC = () => {
       if (saveGuildResponse?.success) {
         toast({
           title: 'Guild information submitted',
-          description:
-            'Please allow a few days to review your guild information',
+          description: 'Thanks! Your guild will go live shortly 🚀',
           status: 'success',
           isClosable: true,
           duration: 5000,
@@ -111,7 +110,7 @@ const SetupGuild: React.FC = () => {
         <Flex
           direction="column"
           bg="whiteAlpha.200"
-          style={{ backdropFilter: 'blur(7px)' }}
+          backdropFilter="blur(7px)"
           rounded="lg"
           p="6"
           my="6"

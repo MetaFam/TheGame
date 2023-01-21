@@ -31,8 +31,8 @@ const heading: Components['h1'] = (props) => {
 };
 
 const markdownTheme: Components = {
-  a: (props) => (
-    <MetaLink color="cyan" isExternal href={props.href ?? ''} {...props} />
+  a: ({ href, ...props }) => (
+    <MetaLink color="cyan" isExternal href={href ?? '#'} {...props} />
   ),
   h1: heading,
   h2: heading,
@@ -41,7 +41,7 @@ const markdownTheme: Components = {
   h5: heading,
   h6: heading,
   hr: () => <Divider borderBottomWidth="4px" my={2} />,
-  blockquote: (props) => (
+  blockquote: ({ children }) => (
     <Box
       w="full"
       as="blockquote"
@@ -51,21 +51,19 @@ const markdownTheme: Components = {
       borderColor="inherit"
       my={2}
     >
-      {props.children}
+      {children}
     </Box>
   ),
   table: (props) => <Table w="auto" {...props} />,
-  th: (props) => <Th fontFamily="body">{props.children}</Th>,
+  th: ({ children }) => <Th fontFamily="body">{children}</Th>,
   br: () => <Spacer />,
-  img: (props) => <Image w="100%" {...props} />,
-  p: (props) => (
+  img: (props) => <Image w="full" {...props} />,
+  p: ({ children, ...props }) => (
     <Text mb={2} {...props}>
-      {props.children}
+      {children}
     </Text>
   ),
-  code: (props) => {
-    const { inline } = props;
-
+  code: ({ inline, ...props }) => {
     if (inline) {
       return <Code {...props} />;
     }
@@ -87,7 +85,7 @@ const markdownTheme: Components = {
 type MarkdownViewerProps = { children: string };
 
 const Viewer: React.FC<MarkdownViewerProps> = ({ children }) => (
-  <Box w="100%" color="white">
+  <Box w="full" color="white">
     <ReactMarkdown
       components={{ ...ChakraUIRenderer(), ...markdownTheme }}
       remarkPlugins={[remarkGfm]}

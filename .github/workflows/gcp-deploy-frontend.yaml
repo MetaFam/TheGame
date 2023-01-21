@@ -167,6 +167,7 @@ jobs:
             --set-env-vars NODE_ENV=${{needs.env.outputs.NODE_ENV}} \
             --set-env-vars WEB3_STORAGE_TOKEN=${{secrets.WEB3_STORAGE_TOKEN}} \
             --set-env-vars OPENSEA_API_KEY=${{secrets.OPENSEA_API_KEY}} \
+            --set-env-vars NEXT_PUBLIC_APP_ENV=${{needs.env.outputs.NODE_ENV}} \
             --set-env-vars NEXT_PUBLIC_IMGIX_TOKEN=${{secrets.IMGIX_TOKEN}} \
             --set-env-vars NEXT_PUBLIC_YOUTUBE_API_KEY=${{secrets.YOUTUBE_API_KEY}} \
             --set-env-vars NEXT_PUBLIC_GRAPHQL_URL=${{needs.env.outputs.GRAPHQL_URL}} \

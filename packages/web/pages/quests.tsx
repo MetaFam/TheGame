@@ -5,14 +5,12 @@ import {
   InfoIcon,
   LoadingState,
   MetaButton,
-  MetaSecondaryButton,
   Text,
   Tooltip,
   useToast,
 } from '@metafam/ds';
 import { Constants } from '@metafam/utils';
 import { PageContainer } from 'components/Container';
-import { MetaLink } from 'components/Link';
 import { QuestFilter } from 'components/Quest/QuestFilter';
 import { QuestList } from 'components/Quest/QuestList';
 import { HeadComponent } from 'components/Seo';

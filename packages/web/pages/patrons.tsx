@@ -2,7 +2,9 @@ import {
   ArrowUpIcon,
   Box,
   Button,
+  Center,
   Image,
+  Link,
   MetaButton,
   Text,
   Tooltip,
@@ -124,8 +126,38 @@ const PatronsPage: React.FC<Props> = ({ patrons, pSeedPrice }) => {
         Patrons of MetaGame
       </VisuallyHidden>
 
-      {/* VStack is used to make a consistent gap between the Patrons list, the Load More button, the X of Y patrons text, and the Octo image and back to top link */}
-      <VStack maxW="7xl" w="100%" spacing={{ base: 4, md: 8 }}>
+      {/* VStack is used to make a consistent gap between the Join CTA, the Patrons list, the Load More button, the X of Y patrons text, and the Octo image and back to top link */}
+      <VStack maxW="7xl" w="100%" spacing={{ base: 6, md: 8 }}>
+        <Center
+          fontSize={{
+            base: 'sm',
+            md: 'md',
+          }}
+          fontWeight={{
+            base: '400',
+            md: '700',
+          }}
+          marginTop={{
+            base: 3, // Consistent gap between top and Patrons list on small screens
+            sm: 0,
+          }}
+          w="100%"
+          maxW="4xl"
+        >
+          <Text as="p" textAlign="center">
+            Want to get on this leaderboard and rank high? Why not{' '}
+            <Link
+              href="/community/join/patrons"
+              color="pink.300"
+              textDecoration="underline"
+              whiteSpace="nowrap"
+            >
+              become a patron
+            </Link>{' '}
+            or up your stake in the Seed farm?
+          </Text>
+        </Center>
+
         <PatronList
           patrons={patrons.slice(0, visible)}
           pSeedPrice={pSeedPrice}

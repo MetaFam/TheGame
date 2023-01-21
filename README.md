@@ -28,6 +28,7 @@ We're using the following stack:
 
 ## MetaGame
 
+- [Website](https://metagame.wtf)
 - [Wiki](https://wiki.metagame.wtf)
 - [Notion](https://www.notion.so/Welcome-to-MetaGame-7e28e75f3c264c7b939eaaa2239b9c28)
 

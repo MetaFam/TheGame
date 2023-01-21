@@ -17,8 +17,8 @@ import React, { useCallback } from 'react';
 import { FaArrowLeft } from 'react-icons/fa';
 import { errorHandler } from 'utils/errorHandler';
 import {
-  QuestChainDetails,
-  QuestChains,
+  QuestChainRolesDetails,
+  QuestChainsRoles,
   QuestChainType,
 } from 'utils/questChains';
 
@@ -26,12 +26,12 @@ const { getQuestChainInfo } = graphql;
 
 type Props = {
   questChain: graphql.QuestChainInfoFragment;
-  path: QuestChainType;
+  name: QuestChainType;
 };
 
 const QuestChainPathPage: React.FC<Props> = ({
   questChain: inputQuestChain,
-  path,
+  name,
 }) => {
   const { address } = useWeb3();
 
@@ -97,7 +97,7 @@ const QuestChainPathPage: React.FC<Props> = ({
             progress,
             canMint,
             refresh,
-            path,
+            name,
           }}
         />
         <Text fontSize={{ base: 30, lg: 40 }} fontFamily="exo2" w="100%">
@@ -125,7 +125,7 @@ export default QuestChainPathPage;
 type QueryParams = { questchain: QuestChainType };
 
 export const getStaticPaths: GetStaticPaths<QueryParams> = async () => ({
-  paths: Object.values(QuestChains).map((questchain) => ({
+  paths: Object.values(QuestChainsRoles).map((questchain) => ({
     params: { questchain },
   })),
   fallback: false,
@@ -146,7 +146,7 @@ export const getStaticProps = async (
 
   let questChain: graphql.QuestChainInfoFragment | null = null;
   try {
-    const info = QuestChainDetails[questchain];
+    const info = QuestChainRolesDetails[questchain];
     questChain = await getQuestChainInfo(info.chainId, info.address);
   } catch (error) {
     // eslint-disable-next-line no-console
@@ -157,7 +157,7 @@ export const getStaticProps = async (
   return {
     props: {
       questChain,
-      path: questchain,
+      name: questchain,
     },
     revalidate: 1,
   };

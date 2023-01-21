@@ -6,31 +6,17 @@ export const WateringSeeds: React.FC = () => (
   <Container as="section" className="mg-patron-join-section" my={[4, 4, 4, 12]}>
     {/* Watering Seeds */}
 
-    <Heading
-      as="h2"
-      color="white"
-      fontFamily="mono"
-      fontWeight={700}
-      mb={[4, 4, 4, 12]}
-    >
+    <Heading as="h2" fontFamily="mono" fontWeight={700} mb={[4, 4, 4, 12]}>
       Watering Seeds
     </Heading>
 
     <Flex direction="column" width="100%" align="center">
-      <Image
-        src={SeedsDiagram.src}
-        height="auto"
-        width="80vw"
-        my="6"
-        maxW="50rem"
-      />
+      <Image alt="Diagram of the Seeds concept" src={SeedsDiagram.src} my="6" />
       <Box mb={4} px={2}>
         <MetaButton
-          maxW=""
           as="a"
-          bg="#E839B7"
+          bg="landing450"
           borderRadius={0}
-          color="white"
           href="/seeds"
           minW="10rem"
           mt={{ base: 8, md: 12 }}

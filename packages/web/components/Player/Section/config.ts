@@ -18,6 +18,7 @@ export const ALL_BOXES = [
   BoxTypes.PLAYER_ROLES,
   BoxTypes.EMBEDDED_URL,
   BoxTypes.PLAYER_COMPLETED_QUESTS,
+  BoxTypes.CUSTOM_TEXT,
   // BoxTypes.PLAYER_ACHIEVEMENTS,
   // TODO: Add more types of sections
 ];

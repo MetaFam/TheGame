@@ -10,10 +10,23 @@ export type HeadMetaProps = {
 };
 
 export const HeadComponent: React.FC<HeadMetaProps> = ({
+  /**
+  * Defaults for the site meta tags and shares via Open Graph tags and Twitter cards
+  * Can/should be customised per page
+  * e.g. 
+  * <HeadComponent
+      title="MetaGame Seeds Page"
+      description="..."
+      url="https://metagame.wtf/seeds"
+    />
+  * The share image is in `/packages/web/public/assets`, so new images are available 
+  * for testing locally or on deployments without having to mess about with host names
+  * ref. https://nextjs.org/docs/basic-features/static-file-serving
+  */
   title = 'MetaGame',
   description = 'MetaGame is a Massive Online Coordination Game! MetaGame is any approach to a game that transcends or operates outside of the prescribed rules of the game, uses external factors to affect the game, or goes beyond the supposed limits or environment set by the game.',
-  url = 'https://my.metagame.wtf/',
-  img = 'https://my.metagame.wtf/_next/image?url=%2Fassets%2Flogo.png&w=1920&q=75',
+  url = 'https://metagame.wtf/',
+  img = '/assets/MG-share-image_octopus-in-space.jpg',
   cardStyle = 'summary',
 }) => (
   <Head>

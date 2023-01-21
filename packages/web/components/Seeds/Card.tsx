@@ -12,9 +12,6 @@ import {
   Text,
   useDisclosure,
 } from '@metafam/ds';
-import BackgroundImage from 'assets/main-background.jpg';
-import ModalCardBg from 'assets/modal-bg.png';
-import SEEDCardBg from 'assets/seed-card-bg.png';
 import React from 'react';
 
 type CardProps = {
@@ -40,7 +37,7 @@ export const Card: React.FC<CardProps> = ({ title, description, Content }) => {
       maxW="md"
       minH="3xs"
       onClick={onOpen}
-      style={{ backdropFilter: 'blur(7px)' }}
+      backdropFilter="blur(7px)"
       textAlign="center"
       textColor="white"
       w={['full', 'auto']}
@@ -76,7 +73,7 @@ export const Card: React.FC<CardProps> = ({ title, description, Content }) => {
           mx={{ base: 0, md: 4 }}
           textColor="white"
           w="full"
-          style={{ backdropFilter: 'blur(7px)' }}
+          backdropFilter="blur(7px)"
         >
           <ModalHeader>{title.toUpperCase()}</ModalHeader>
           <ModalCloseButton />

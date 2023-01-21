@@ -1,5 +1,6 @@
 export { BoxedNextImage } from './BoxedNextImage.js';
 export { ConfirmModal } from './ConfirmModal.js';
+export * from './Field.js';
 export * from './icons/index.js';
 export { LoadingState } from './LoadingState.js';
 export { MetaBox } from './MetaBox.js';
@@ -65,6 +66,7 @@ export {
   HamburgerIcon,
   InfoIcon,
   RepeatClockIcon,
+  SearchIcon,
   SettingsIcon,
   SmallCloseIcon,
 } from '@chakra-ui/icons';
@@ -189,6 +191,7 @@ export {
   TabPanel,
   TabPanels,
   Tabs,
+  TagLabel,
   Tbody,
   Td,
   Text,

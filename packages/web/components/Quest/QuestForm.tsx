@@ -1,20 +1,25 @@
 import {
   Box,
   Button,
+  Center,
   ConfirmModal,
+  Field,
   Flex,
   Input,
   MetaButton,
   MetaTag,
   Select,
+  Spinner,
   Text,
   Textarea,
   VStack,
 } from '@metafam/ds';
+import { httpLink, Maybe } from '@metafam/utils';
 import { FlexContainer } from 'components/Container';
 import { RepetitionColors } from 'components/Quest/QuestTags';
 import { RolesSelect } from 'components/Quest/Roles';
 import { SkillsSelect } from 'components/Quest/Skills';
+import { SquareImage } from 'components/SquareImage';
 import {
   GuildFragment,
   PlayerRole,
@@ -23,8 +28,8 @@ import {
   QuestStatus_Enum,
 } from 'graphql/autogen/types';
 import { useRouter } from 'next/router';
-import React, { useMemo, useState } from 'react';
-import { Controller, FieldError, useForm } from 'react-hook-form';
+import React, { ChangeEvent, useMemo, useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
 import { QuestRepetitionHint, URIRegexp } from 'utils/questHelpers';
 import { RoleOption } from 'utils/roleHelpers';
 import { CategoryOption, SkillOption } from 'utils/skillHelpers';
@@ -52,20 +57,20 @@ const validations = {
     valueAsNumber: true,
     min: 1,
   },
-};
+} as const;
 
 export interface CreateQuestFormInputs {
   title: string;
   description: string;
   repetition: QuestRepetition_Enum;
   status: QuestStatus_Enum;
-  guildId: string | null;
-  externalLink?: string | null;
-  cooldown?: number | null;
-  skills: SkillOption[];
-  roles: RoleOption[];
+  guildId: Maybe<string>;
+  externalLink?: Maybe<string>;
+  cooldown?: Maybe<number>;
+  skills: Array<SkillOption>;
+  roles: Array<RoleOption>;
+  image: Maybe<FileList>;
 }
-
 const MetaFamGuildId = 'f94b7cd4-cf29-4251-baa5-eaacab98a719';
 
 const getDefaultFormValues = (
@@ -79,11 +84,12 @@ const getDefaultFormValues = (
   guildId:
     base?.guildId ??
     guilds.find((g) => g.id === MetaFamGuildId)?.id ??
-    guilds[0].id,
+    guilds[0].id ??
+    null,
   status: base?.status || QuestStatus_Enum.Open,
-  cooldown: base?.cooldown || null,
+  cooldown: base?.cooldown ?? null,
   skills: (base?.quest_skills ?? [])
-    .map((s) => s.skill)
+    .map(({ skill }) => skill)
     .map((s) => ({
       value: s.id,
       label: s.name,
@@ -91,42 +97,17 @@ const getDefaultFormValues = (
     })),
   roles: base
     ? base.quest_roles
-        .map((s) => s.PlayerRole)
-        .map(({ role, label }) => ({
+        .map(({ PlayerRole: role }) => role)
+        .map(({ role: value, label }) => ({
           label,
-          value: role,
+          value,
         }))
     : [],
+  image: null,
 });
 
-type FieldProps = {
-  children: React.ReactNode;
-  label: string;
-  error?: FieldError;
-};
-
-const Field: React.FC<FieldProps> = ({ children, error, label }) => (
-  <Flex mb={2} w="100%" align="center" direction="column">
-    <Flex justify="space-between" w="100%" mb={2}>
-      <Text textStyle="caption" textAlign="left" ml={4}>
-        {label}
-      </Text>
-
-      <Text textStyle="caption" textAlign="left" color="red.400" mr={4}>
-        {error?.type === 'required' && 'Required'}
-        {error?.type === 'pattern' && 'Invalid URL'}
-        {error?.type === 'minLength' && 'Too short'}
-        {error?.type === 'maxLength' && 'Too long'}
-        {error?.type === 'min' && 'Too small'}
-      </Text>
-    </Flex>
-
-    {children}
-  </Flex>
-);
-
 type Props = {
-  guilds: GuildFragment[];
+  guilds: Array<GuildFragment>;
   editQuest?: QuestFragment;
   skillChoices: Array<CategoryOption>;
   roleChoices: Array<PlayerRole>;
@@ -156,7 +137,7 @@ export const QuestForm: React.FC<Props> = ({
   const {
     register,
     control,
-    formState: { errors },
+    formState: { errors, isSubmitting: submitting },
     watch,
     handleSubmit,
   } = useForm<CreateQuestFormInputs>({
@@ -164,11 +145,28 @@ export const QuestForm: React.FC<Props> = ({
   });
   const router = useRouter();
   const [exitAlert, setExitAlert] = useState<boolean>(false);
+  const prevImage = httpLink(editQuest?.image) ?? null;
+  const [previewImg, setPreviewImage] = useState<Maybe<string>>(prevImage);
   const createQuestInput = watch();
+
+  function showImagePreview(e: ChangeEvent<HTMLInputElement>) {
+    const file = e?.target?.files?.[0];
+    if (!file) {
+      setPreviewImage(prevImage);
+    } else {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        if (reader.result) {
+          setPreviewImage(reader.result as string);
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+  }
 
   return (
     <Box w="100%" maxW="30rem">
-      <VStack>
+      <VStack spacing={8} py={6} as="form" onSubmit={handleSubmit(onSubmit)}>
         <Field label="Title" error={errors.title}>
           <Input
             placeholder="Buidl stuff…"
@@ -187,7 +185,7 @@ export const QuestForm: React.FC<Props> = ({
               },
             })}
             isInvalid={!!errors.title}
-            background="dark"
+            bg="dark"
             autoFocus
           />
         </Field>
@@ -202,13 +200,13 @@ export const QuestForm: React.FC<Props> = ({
                 message: 'A description is required.',
               },
               minLength: {
-                value: 13,
+                value: 7,
                 message: 'Too short…',
               },
             }}
             defaultValue={defaultValues.description}
             render={({ field: { onChange, value } }) => (
-              <Textarea {...{ value, onChange }} />
+              <Textarea bg="dark" {...{ value, onChange }} />
             )}
           />
         </Field>
@@ -223,11 +221,11 @@ export const QuestForm: React.FC<Props> = ({
               },
             })}
             isInvalid={!!errors.externalLink}
-            background="dark"
+            bg="dark"
           />
         </Field>
 
-        <Field label="Repetition">
+        <Field label="Repetition" error={errors.repetition}>
           <Select
             {...register('repetition', {
               required: {
@@ -240,7 +238,7 @@ export const QuestForm: React.FC<Props> = ({
             color="white"
           >
             {Object.entries(QuestRepetition_Enum).map(([key, value]) => (
-              <option key={value} value={value}>
+              <option key={value} {...{ value }}>
                 {key}
               </option>
             ))}
@@ -250,7 +248,8 @@ export const QuestForm: React.FC<Props> = ({
             fontWeight="normal"
             p={2}
             mt={2}
-            backgroundColor={RepetitionColors[createQuestInput.repetition]}
+            bgColor={RepetitionColors[createQuestInput.repetition]}
+            alignSelf="start"
           >
             {QuestRepetitionHint[createQuestInput.repetition]}
           </MetaTag>
@@ -258,7 +257,7 @@ export const QuestForm: React.FC<Props> = ({
         {createQuestInput.repetition === QuestRepetition_Enum.Recurring && (
           <Field label="Cooldown (hours)" error={errors.cooldown}>
             <Input
-              placeholder="3600"
+              placeholder="168 = 24 ⨯ 7"
               type="number"
               {...register('cooldown', {
                 valueAsNumber: true,
@@ -272,12 +271,12 @@ export const QuestForm: React.FC<Props> = ({
                 },
               })}
               isInvalid={!!errors.cooldown}
-              background="dark"
+              bg="dark"
             />
           </Field>
         )}
 
-        <Field label="Guild">
+        <Field label="Guild" error={errors.guildId}>
           <Select
             {...register('guildId', {
               required: {
@@ -298,7 +297,7 @@ export const QuestForm: React.FC<Props> = ({
         </Field>
 
         {editQuest && (
-          <Field label="Status">
+          <Field label="Status" error={errors.status}>
             <Select
               {...register('status', {
                 required: {
@@ -320,7 +319,7 @@ export const QuestForm: React.FC<Props> = ({
         )}
 
         <Field label="Skills">
-          <FlexContainer w="100%" align="stretch" maxW="50rem">
+          <FlexContainer w="full" align="stretch" maxW="50rem">
             <Controller
               name="skills"
               {...{ control }}
@@ -338,7 +337,7 @@ export const QuestForm: React.FC<Props> = ({
         </Field>
 
         <Field label="Roles">
-          <FlexContainer w="100%" align="stretch" maxW="50rem">
+          <FlexContainer w="full" align="stretch" maxW="50rem">
             <Controller
               name="roles"
               {...{ control }}
@@ -348,28 +347,61 @@ export const QuestForm: React.FC<Props> = ({
                   {...{ roleChoices }}
                   roles={value}
                   setRoles={onChange}
-                  placeHolder="Select required roles"
+                  placeHolder="Select Required Roles…"
                 />
               )}
             />
           </FlexContainer>
         </Field>
 
-        <Flex justify="space-between" mt={4} w="100%">
+        <Field label="Image" error={errors.image}>
+          <Input
+            {...register('image')}
+            type="file"
+            paddingTop={1}
+            accept="image/*"
+            onChange={(e) => showImagePreview(e)}
+          />
+          <Center
+            as="div"
+            boxSize="sm"
+            rounded="md"
+            border="dashed"
+            borderWidth={6}
+            borderColor="whiteAlpha.500"
+            marginTop={2}
+            width={'full'}
+            overflow="clip"
+            bgColor="blackAlpha.600"
+            backdropFilter="auto"
+            backdropBlur="sm"
+          >
+            {previewImg ? (
+              <Box width={350} padding={2}>
+                <SquareImage src={previewImg} overflow="hidden" />
+              </Box>
+            ) : (
+              <Text color="whiteAlpha.800">
+                See how your image will look on a quest
+              </Text>
+            )}
+          </Center>
+        </Field>
+
+        <Flex justify="space-around" mt={4} w="full">
           <MetaButton
+            type="submit"
             disabled={guilds.length === 0}
             isLoading={fetching}
             loadingText={loadingLabel}
-            onClick={handleSubmit(onSubmit)}
             isDisabled={success}
           >
-            {submitLabel}
+            {submitting ? <Spinner /> : submitLabel}
           </MetaButton>
           <Button
             variant="ghost"
             onClick={() => setExitAlert(true)}
-            isDisabled={fetching || success}
-            _hover={{ bg: '#FFFFFF11' }}
+            _hover={{ bg: 'alphaWhite.400' }}
             _active={{ bg: '#FF000008' }}
             ml={5}
           >

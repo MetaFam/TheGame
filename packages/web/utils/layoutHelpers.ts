@@ -11,7 +11,10 @@ import {
 
 export const GRID_ROW_HEIGHT = 32;
 export const HEIGHT_MODIFIER = 1.8;
-export const MULTIPLE_ALLOWED_BOXES = [BoxTypes.EMBEDDED_URL] as Array<BoxType>;
+export const MULTIPLE_ALLOWED_BOXES = [
+  BoxTypes.EMBEDDED_URL,
+  BoxTypes.CUSTOM_TEXT,
+] as Array<BoxType>;
 
 export const removeBoxFromLayouts = (
   layouts: Layouts,
@@ -189,10 +192,11 @@ const DEFAULT_BOX_HEIGHTS: Partial<Record<BoxType, number>> = {
   // common boxes
   [BoxTypes.ADD_NEW_BOX]: 3,
   [BoxTypes.EMBEDDED_URL]: 7,
+  [BoxTypes.CUSTOM_TEXT]: 7,
 };
 
 export const getBoxLayoutItemDefaults = (type: BoxType): Layout => ({
-  i: createBoxKey(type, type === BoxTypes.EMBEDDED_URL ? {} : undefined),
+  i: createBoxKey(type, undefined),
   x: 0,
   y: 0,
   w: 1,

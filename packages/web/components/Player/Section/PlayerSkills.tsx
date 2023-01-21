@@ -35,7 +35,7 @@ export const PlayerSkills: React.FC<Props> = ({
           defined any skills.
         </Text>
       ) : (
-        <Wrap transition="opacity 0.4s" justify="center">
+        <Wrap transition="opacity 0.4s" justify="center" pb={4}>
           {(skills || []).map(({ id, name, category }) => (
             <WrapItem key={id}>
               <MetaTag

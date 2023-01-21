@@ -80,7 +80,7 @@ const PerksList = [
     rank: PlayerRank_Enum.Silver,
   },
   {
-    title: 'Gold League',
+    title: 'Golden League',
     list: GoldLeagueList,
     rank: PlayerRank_Enum.Gold,
   },
@@ -122,30 +122,26 @@ export const RankedLeagues: React.FC<Props> = ({
       className="mg-patron-join-section"
       my={[8, 8, 8, 12]}
     >
-      <Heading
-        as="h2"
-        color="white"
-        fontFamily="mono"
-        fontWeight={700}
-        mb={[4, 4, 4, 12]}
-      >
-        Ranked Leagues &amp; Perks
+      <Heading as="h2" fontFamily="mono" fontWeight={700} mb={[4, 4, 4, 12]}>
+        Leagues &amp; Perks
       </Heading>
 
-      <VStack>
-        <Flex justify="center">
-          <Box p="4" maxW="45rem" className="mg-patron-join-card-bg">
-            <Text>
-              The total number of Patrons in Phase I is limited to 150. The rank
-              requirements are subject to change based on top 150 pSeed hodlors
-              &amp; most perks (besides seasonal) will only be unlocked in the
-              transition to Phase II — set for Q3 2023.
-            </Text>
-          </Box>
-        </Flex>
-        <Flex pt={'2'}>
-          <Text fontSize={'4xl'}>👇</Text>
-        </Flex>
+      <VStack spacing={8}>
+        <Box p={6} maxW="lg" className="mg-patron-join-card-bg">
+          <Text as="p" mb={3}>
+            Becoming a patron also comes with some perks!
+          </Text>
+          <Text as="p">
+            The total number of Patrons in Phase I is limited to 150. The rank
+            requirements are subject to change based on top 150 pSeed hodlors
+            &amp; most perks (besides seasonal) will only be unlocked in the
+            transition to Phase II — set for Q3&nbsp;2023.
+          </Text>
+        </Box>
+
+        <Text fontSize="4xl" pb={2} textAlign="center">
+          👇
+        </Text>
       </VStack>
 
       <Flex mb={'6'} direction={'column'} align={'center'}>
@@ -182,7 +178,7 @@ export const RankedLeagues: React.FC<Props> = ({
         <Box
           className={'mg-patron-join-card-bg'}
           borderRadius={8}
-          maxW="2xl"
+          maxW="3xl"
           my={4}
         >
           <PerksHeader
@@ -191,8 +187,14 @@ export const RankedLeagues: React.FC<Props> = ({
             pSeeds={topHodlerPSeeds}
             amountUsd={pSeedPrice != null ? topHodlerPSeeds * pSeedPrice : null}
           />
-          <Box p={4} width="100%" color="white">
-            <Flex width="100%" flexDirection="row" flexWrap="wrap">
+          <Box
+            color="white"
+            px={6}
+            paddingBottom={6}
+            paddingTop={4}
+            width="100%"
+          >
+            <Flex width="100%" flexDirection="row" flexWrap="wrap" gap={2}>
               {No1PatronList.map((text: string, index: number) => (
                 <LeagueCardItem key={index} text={text} />
               ))}
@@ -203,11 +205,12 @@ export const RankedLeagues: React.FC<Props> = ({
         <Box
           className={'mg-patron-join-card-bg'}
           borderRadius={8}
-          maxW="2xl"
+          maxW="3xl"
           my={2}
           p={4}
+          width="100%"
         >
-          <Text fontWeight="light" fontSize="lg" textAlign="center">
+          <Text fontSize="md" textAlign="center" width="100%">
             Note: Yes, you get what the previous league gets + your own league
             perks!
           </Text>

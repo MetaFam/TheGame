@@ -14,6 +14,7 @@ export const ALL_BOXES = [
   BoxTypes.GUILD_ANNOUNCEMENTS,
   BoxTypes.GUILD_PLAYERS,
   BoxTypes.EMBEDDED_URL,
+  BoxTypes.CUSTOM_TEXT,
   // BoxTypes.GUILD_SKILLS,
   // TODO: Add more types of sections
 ];

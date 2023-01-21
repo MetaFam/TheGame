@@ -34,8 +34,8 @@ const Custom404: FC = () => {
         h="100vh"
         p={{ xl: 16, md: 16, base: 6 }}
         pt={{ base: '30%', md: '10%', lg: '10%', xl: '10%' }}
-        flexDirection={'column'}
-        backgroundImage={`url(${BackgroundImage})`}
+        direction="column"
+        backgroundImage={`url(${BackgroundImage.src})`}
         backgroundSize={{
           base: '700px',
           md: '1000px',
@@ -49,8 +49,8 @@ const Custom404: FC = () => {
           lg: '85% 70%',
           xl: '70% 65%',
         }}
-        backgroundRepeat={'no-repeat'}
-        minHeight={'inherit'}
+        backgroundRepeat="no-repeat"
+        minHeight="inherit"
         justifyContent={{
           base: 'flex-end',
           sm: 'flex-end',
@@ -63,7 +63,7 @@ const Custom404: FC = () => {
           mb={{ base: 8 }}
           w="3rem"
           h="3rem"
-          src={LogoImage}
+          src={LogoImage.src}
           alt="Avatar"
           display={{ base: 'table', xl: 'none' }}
         />

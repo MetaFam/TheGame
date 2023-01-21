@@ -1,8 +1,9 @@
-import { Flex, IconButton } from '@metafam/ds';
+import { Box, Flex, IconButton } from '@metafam/ds';
 import { GuildAnnouncements } from 'components/Guild/Section/GuildAnnouncements';
 import { GuildHero } from 'components/Guild/Section/GuildHero';
 import { GuildLinks } from 'components/Guild/Section/GuildLinks';
 import { GuildPlayers } from 'components/Guild/Section/GuildPlayers';
+import { CustomTextSection } from 'components/Section/CustomTextSection';
 import { EmbeddedUrl } from 'components/Section/EmbeddedUrlSection';
 import { GuildFragment } from 'graphql/autogen/types';
 import React, { forwardRef } from 'react';
@@ -36,6 +37,12 @@ const GuildSectionInner: React.FC<Props & { guild: GuildFragment }> = ({
       const { url } = metadata ?? {};
       return url ? <EmbeddedUrl {...{ url, editing }} /> : null;
     }
+    case BoxTypes.CUSTOM_TEXT: {
+      const { title, content } = metadata ?? {};
+      return title && content ? (
+        <CustomTextSection {...{ title, content }} />
+      ) : null;
+    }
     default:
       return null;
   }
@@ -57,14 +64,16 @@ export const GuildSection = forwardRef<HTMLDivElement, Props>(
         boxShadow="md"
         pos="relative"
       >
-        <GuildSectionInner
-          {...{
-            metadata,
-            type,
-            guild,
-            editing,
-          }}
-        />
+        <Box pointerEvents={editing ? 'none' : 'initial'}>
+          <GuildSectionInner
+            {...{
+              metadata,
+              type,
+              guild,
+              editing,
+            }}
+          />
+        </Box>
         {editing && (
           <Flex
             className="gridItemOverlay"

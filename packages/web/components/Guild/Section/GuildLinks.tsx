@@ -4,6 +4,7 @@ import {
   Flex,
   Heading,
   IconButton,
+  Link,
   MetaTileLinkWrapper,
   Text,
   VStack,
@@ -142,11 +143,13 @@ export const GuildLinks: React.FC<Props> = ({ guild, editing }) => {
                   </Box>
                   <Heading
                     fontWeight="bold"
-                    style={{ fontVariant: 'small-caps' }}
+                    sx={{
+                      textIndent: [0, '-1em'],
+                      fontVariant: 'small-caps',
+                    }}
                     fontSize="xs"
                     color={daoURL ? 'cyanText' : 'white'}
                     ml={[0, '1em']}
-                    sx={{ textIndent: [0, '-1em'] }}
                     textAlign={['center', 'left']}
                     flexGrow={1}
                   >
@@ -175,11 +178,32 @@ type GuildLinkSmall = {
 };
 
 export const GuildLinksSmall: React.FC<GuildLinkSmall> = ({ guild }) => {
-  const hasIconLink =
-    guild.websiteUrl ||
-    guild.discordInviteUrl ||
-    guild.githubUrl ||
-    guild.twitterUrl;
+  const mediaLinks = [
+    {
+      url: guild.websiteUrl,
+      label: 'Website',
+      icon: <FaGlobe />,
+    },
+    {
+      url: guild.discordInviteUrl,
+      label: 'Discord Server',
+      icon: <FaDiscord />,
+    },
+    {
+      url: guild.githubUrl,
+      label: 'Github',
+      icon: <FaGithub />,
+    },
+    {
+      url: guild.twitterUrl,
+      label: 'Twitter',
+      icon: <FaTwitter />,
+    },
+  ];
+  const hasIconLink = mediaLinks.reduce(
+    (acc, link) => acc || !!link.url,
+    false,
+  );
 
   return (
     <Wrap>

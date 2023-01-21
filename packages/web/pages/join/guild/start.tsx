@@ -64,6 +64,19 @@ const GuildSetupAuthCallback: React.FC = () => {
                 </ListItem>
               </UnorderedList>
             </Text>
+            <Text fontStyle="italic" mt={3}>
+              Wait, why Discord?
+            </Text>
+            <Text mt={2}>
+              Well, turns out that (at this moment anyway) there is no
+              standardized source of truth for determining who is a "member" of
+              a guild. We built an integration with Discord because just about
+              every guild has a Discord server. Most servers use roles to give
+              certain community members additional privileges, which is often a
+              good approximation for "membership". So, by linking your Discord
+              server and telling us what roles determine what, we can determine
+              which MyMeta users are members of your guild!
+            </Text>
             <MetaButton
               size="lg"
               maxW="15rem"
@@ -71,7 +84,7 @@ const GuildSetupAuthCallback: React.FC = () => {
               as="a"
               href={discordAuthURL}
             >
-              Apply to Join
+              Join
             </MetaButton>
           </>
         ) : (

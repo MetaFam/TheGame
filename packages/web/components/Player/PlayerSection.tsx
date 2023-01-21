@@ -1,4 +1,4 @@
-import { Flex, IconButton } from '@metafam/ds';
+import { Box, Flex, IconButton } from '@metafam/ds';
 import { PlayerAchievements } from 'components/Player/Section/PlayerAchievements';
 import { PlayerCompletedQuests } from 'components/Player/Section/PlayerCompletedQuests';
 import { PlayerGallery } from 'components/Player/Section/PlayerGallery';
@@ -8,6 +8,7 @@ import { PlayerPersonalityType } from 'components/Player/Section/PlayerPersonali
 import { PlayerRoles } from 'components/Player/Section/PlayerRoles';
 import { PlayerSkills } from 'components/Player/Section/PlayerSkills';
 import { PlayerType } from 'components/Player/Section/PlayerType';
+import { CustomTextSection } from 'components/Section/CustomTextSection';
 import { EmbeddedUrl } from 'components/Section/EmbeddedUrlSection';
 import { Player } from 'graphql/autogen/types';
 import { useUser } from 'lib/hooks';
@@ -52,6 +53,12 @@ const PlayerSectionInner: React.FC<
       const { url } = metadata ?? {};
       return url ? <EmbeddedUrl {...{ url, editing }} /> : null;
     }
+    case BoxTypes.CUSTOM_TEXT: {
+      const { title, content } = metadata ?? {};
+      return title && content ? (
+        <CustomTextSection {...{ title, content }} />
+      ) : null;
+    }
     default:
       return null;
   }
@@ -78,17 +85,18 @@ export const PlayerSection = forwardRef<HTMLDivElement, Props>(
         minH="100%"
         boxShadow="md"
         pos="relative"
-        pointerEvents={editing ? 'none' : 'initial'}
       >
-        <PlayerSectionInner
-          {...{
-            metadata,
-            type,
-            player,
-            isOwnProfile,
-            editing,
-          }}
-        />
+        <Box pointerEvents={editing ? 'none' : 'initial'}>
+          <PlayerSectionInner
+            {...{
+              metadata,
+              type,
+              player,
+              isOwnProfile,
+              editing,
+            }}
+          />
+        </Box>
         {editing && (
           <Flex
             className="gridItemOverlay"
@@ -103,6 +111,7 @@ export const PlayerSection = forwardRef<HTMLDivElement, Props>(
         {editing && type && type !== BoxTypes.PLAYER_HERO && (
           <IconButton
             aria-label="Remove Profile Section"
+            zIndex={100}
             size="lg"
             pos="absolute"
             top={0}

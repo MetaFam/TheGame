@@ -6,6 +6,7 @@ import {
   Image,
   MetaButton,
   Text,
+  VStack,
 } from '@metafam/ds';
 import PatronCircle from 'assets/patron/patron-circle.png';
 import Seed from 'assets/patron/seed.png';
@@ -13,144 +14,110 @@ import React from 'react';
 
 export const BecomePatron: React.FC = () => (
   <Container as="section" className="mg-patron-join-section" my={[4, 4, 4, 12]}>
-    <Heading
-      as="h2"
-      color="white"
-      fontFamily="mono"
-      fontWeight={700}
-      mb={[8, 8, 8, 12]}
-    >
+    <Heading as="h2" fontFamily="mono" fontWeight={700} mb={[8, 8, 8, 12]}>
       How to become a patron?
     </Heading>
 
     <Flex
-      direction={{ base: 'column', md: 'row' }}
+      direction={{ base: 'column', lg: 'row' }}
+      alignItems={{ base: 'center', lg: 'stretch' }}
       justifyContent="center"
-      alignItems="center"
     >
-      <Flex direction="column" width="100%" align="center">
-        <Flex
-          direction="column"
-          bg="whiteAlpha.200"
-          style={{ backdropFilter: 'blur(7px)' }}
-          rounded="lg"
-          p={6}
-          maxW="25rem" // (2 / 3.5) = ~0.571 aspect ratio desired
-          w="100%"
-          h="100%"
-          align="stretch"
-          position="relative"
-          overflow="hidden"
-          justify="space-between"
-          my={12}
-          height="40em"
-        >
-          <Flex justify="center" align="center">
-            <Image src={Seed.src} height="auto" maxW="16rem" my="6" />
-          </Flex>
-          <Text textAlign="center" fontSize="xl" as="p" marginBottom="8">
-            Water Seeds yourself
-          </Text>
-          <Text mb={4}>
-            Watering Seeds means adding Ether & Rai to the Seed pool aka
+      <Box
+        className="mg-patron-join-card-bg" // CSS class defined in packages/web/pages/Patron/Join/index.tsx
+        maxW={{ base: 'md', lg: '24rem' }}
+        p={6}
+      >
+        <VStack spacing={4}>
+          <Image
+            src={Seed.src}
+            alt="Seed icon"
+            mx="auto"
+            maxH={{ md: '20rem', lg: '12rem' }}
+            width="auto"
+          />
+          <Text fontSize="lg">Water Seeds yourself</Text>
+          <Text>
+            Watering Seeds means adding Ether &amp; RAI to the Seed pool aka
             plantation. You’ll need to have some Ether on Polygon, add it to the
-            pool, join discord & talk to the collab land bot to let you in.
+            pool, join Discord &amp; talk to the CollabLand bot to let
+            you&nbsp;in.
           </Text>
           <Text>Want a more detailed guide?</Text>
+          <Box>
+            <MetaButton
+              as="a"
+              bg="landing450"
+              borderRadius={0}
+              href="/play/paths/patrons-path"
+              minW="10rem"
+              my={2}
+              px={6}
+              _hover={{
+                backgroundColor: 'rgba(232, 57, 183, 0.6)',
+              }}
+              _active={{
+                backgroundColor: 'rgba(232, 57, 183, 0.6)',
+                transform: 'scale(0.8)',
+              }}
+            >
+              YES PLS!
+            </MetaButton>
+          </Box>
+        </VStack>
+      </Box>
 
-          <Flex mt="6" justifyContent="center">
-            <Box mt={6} mb={4} px={2}>
-              <MetaButton
-                maxW=""
-                as="a"
-                bg="#E839B7"
-                borderRadius={0}
-                color="white"
-                href="/play/paths/patrons-path"
-                minW="10rem"
-                mt={8}
-                px={6}
-                textTransform="uppercase"
-                _hover={{
-                  backgroundColor: 'rgba(232, 57, 183, 0.6)',
-                }}
-                _active={{
-                  backgroundColor: 'rgba(232, 57, 183, 0.6)',
-                  transform: 'scale(0.8)',
-                }}
-              >
-                YES PLS!
-              </MetaButton>
-            </Box>
-          </Flex>
-        </Flex>
-      </Flex>
-
-      <Flex height="100%" justifyContent="center">
-        <Text my="12" fontSize="lg" fontWeight="bold" as="h3">
+      <Box textAlign="center" p={9} alignSelf="center">
+        <Text fontFamily="mono" fontSize="lg">
           OR
         </Text>
-      </Flex>
+      </Box>
 
-      <Flex direction="column" width="100%" align="center">
-        <Flex
-          direction="column"
-          bg="whiteAlpha.200"
-          style={{ backdropFilter: 'blur(7px)' }}
-          rounded="lg"
-          p={6}
-          maxW="25rem" // (2 / 3.5) = ~0.571 aspect ratio desired
-          w="100%"
-          h="100%"
-          align="stretch"
-          position="relative"
-          overflow="hidden"
-          justify="space-between"
-          my={12}
-          height="40em"
-        >
-          <Flex justify="center" align="center">
-            <Image src={PatronCircle.src} height="auto" maxW="16rem" my="6" />
-          </Flex>
-          <Text textAlign="center" fontSize="xl" as="p" marginBottom="8">
-            Buy & forget about it
-          </Text>
-          <Text mb={4}>
-            Too busy for buying the esoteric Rai, bridging over to Polygon &
+      <Box
+        className="mg-patron-join-card-bg"
+        maxW={{ base: 'md', lg: '24rem' }}
+        p={6}
+      >
+        <VStack spacing={4}>
+          <Image
+            src={PatronCircle.src}
+            alt="Cloaked figure with staff"
+            mx="auto"
+            maxH={{ md: '20rem', lg: '12rem' }}
+            width="auto"
+          />
+          <Text fontSize="lg">Buy &amp; forget about it</Text>
+          <Text>
+            Too busy for buying the esoteric Rai, bridging over to Polygon &amp;
             patiently watering Seeds over a long period of time so as to not
-            overwater & slip?
+            overwater &amp;&nbsp;slip?
           </Text>
           <Text>
-            We got you covered! You can buy a chunk directly from MetaFam, just
-            ask.
+            We got you covered! You can buy a chunk directly from MetaFam,
+            just&nbsp;ask.
           </Text>
-          <Flex mt="6" justifyContent="center">
-            <Box mt={12} mb={4} px={2}>
-              <MetaButton
-                maxW=""
-                as="a"
-                bg="#E839B7"
-                borderRadius={0}
-                color="white"
-                href="https://form.typeform.com/to/mAmXKSAc"
-                minW="10rem"
-                mt={8}
-                px={6}
-                textTransform="uppercase"
-                _hover={{
-                  backgroundColor: 'rgba(232, 57, 183, 0.6)',
-                }}
-                _active={{
-                  backgroundColor: 'rgba(232, 57, 183, 0.6)',
-                  transform: 'scale(0.8)',
-                }}
-              >
-                PERFECT!
-              </MetaButton>
-            </Box>
-          </Flex>
-        </Flex>
-      </Flex>
+          <Box>
+            <MetaButton
+              as="a"
+              bg="landing450"
+              borderRadius={0}
+              href="https://form.typeform.com/to/mAmXKSAc"
+              minW="10rem"
+              my={2}
+              px={6}
+              _hover={{
+                backgroundColor: 'rgba(232, 57, 183, 0.6)',
+              }}
+              _active={{
+                backgroundColor: 'rgba(232, 57, 183, 0.6)',
+                transform: 'scale(0.8)',
+              }}
+            >
+              PERFECT!
+            </MetaButton>
+          </Box>
+        </VStack>
+      </Box>
     </Flex>
   </Container>
 );

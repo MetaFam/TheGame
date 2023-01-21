@@ -11,11 +11,12 @@ import { WhyAreWeHere } from 'components/Landing/WhyAreWeHere';
 import { WildWeb } from 'components/Landing/WildWeb';
 import { MetaLink } from 'components/Link';
 import { HeadComponent } from 'components/Seo';
+import { CONFIG } from 'config';
 // import { gsap } from "gsap";
 // import { ScrollToPlugin } from 'gsap/dist/ScrollToPlugin';
 // import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
 import { useRouter } from 'next/router';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   FaDiscord,
   FaGithub,
@@ -66,10 +67,7 @@ const Landing: React.FC = () => {
       ? document.getElementById('scroll-container')
       : null;
   const [section, setSection] = useState(0);
-  const hostName = useRef('https://metagame.wtf');
-  const setHostName = useCallback((host: string) => {
-    hostName.current = host;
-  }, []);
+  const [hostName, setHostName] = useState(CONFIG.hostName);
 
   const handleScroll = useCallback(() => {
     if (!scrollContainer) return;
@@ -102,9 +100,7 @@ const Landing: React.FC = () => {
     document.addEventListener('keydown', handleKeyDown);
     document.querySelector('body')?.classList.add('landing');
 
-    if (typeof window !== 'undefined') {
-      setHostName(window.location.origin);
-    }
+    setHostName(window.location.origin);
 
     return () => {
       scrollContainer?.removeEventListener('scroll', handleScroll);
@@ -117,8 +113,8 @@ const Landing: React.FC = () => {
       <HeadComponent
         title="MetaGame: A Massive Online Coordination Game!"
         description="To play metagame is to play life in the optimal way. Coordinating with others to build a better world; make a positive impact, make you happy, &amp; earn you money."
-        url={hostName.current}
-        img={`${hostName.current}/assets/social.png`}
+        url={hostName}
+        img={`${hostName}/assets/social.png`}
         cardStyle="summary_large_image"
       />
       <LandingHeader />
@@ -163,7 +159,7 @@ const Landing: React.FC = () => {
         right={{ base: 0, md: 4 }}
         href="#start"
         opacity={section === 0 ? 0 : 1}
-        transform={`translate3d(0,${section === 0 ? '30px' : '0px'},0)`}
+        transform={`translate3d(0, ${section === 0 ? '30px' : 0}, 0)`}
         transition="transform 0.3s 0.3s ease-in-out, opacity 0.3s 0.3s ease-in-out"
         _hover={{ textDecor: 'none' }}
         zIndex={10}
@@ -173,7 +169,7 @@ const Landing: React.FC = () => {
           colorScheme="white"
           rightIcon={<ArrowUp />}
         >
-          Back to top
+          Back to Top
         </Button>
       </MetaLink>
     </>
@@ -196,7 +192,7 @@ export const Socials: React.FC = () => (
       position="relative"
       display="flex"
       alignItems="center"
-      height="100%"
+      height="full"
       // opacity={currentWaypoint === 4 ? 0 : 1}
       transition="transform 0.3s 0.1s ease, opacity 0.3s 0.3s ease"
       // transform={`translate3d(${currentWaypoint === 4 ? -200 : 0}px, 0, 0)`}
@@ -209,15 +205,14 @@ export const Socials: React.FC = () => (
         sx={{
           opacity: 0.3,
           transition: 'opacity 0.2s 0.2s ease',
-          '&:hover': {
-            opacity: 0.8,
-          },
+          '&:hover': { opacity: 0.8 },
           a: {
             color: 'white',
             fontSize: { base: 'md', lg: '2xl' },
             transition: 'transform 0.2s ease',
             '&:hover': {
               transform: 'scale(1.1)',
+              filter: 'drop-shadow(0 0 30px #333)',
             },
           },
         }}

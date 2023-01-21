@@ -22,6 +22,7 @@ import { GuildFragment, Player } from 'graphql/autogen/types';
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { BoxMetadata, BoxType, BoxTypes } from 'utils/boxTypes';
 
+import { CustomTextSectionMetadata } from './CustomTextSection';
 import { EmbeddedUrlMetadata } from './EmbeddedUrlSection';
 
 type Props = FlexProps & {
@@ -83,15 +84,15 @@ export const AddBoxSection = React.forwardRef<HTMLDivElement, Props>(
           border="dashed 1px rgba(255, 255, 255, 0.3)"
           borderRadius="lg"
           boxShadow="md"
-          w="100%"
-          h="100%"
-          css={{ backdropFilter: 'blur(8px)' }}
+          w="full"
+          h="full"
+          backdropFilter="blur(8px)"
           {...props}
         >
           <Button
             onClick={onOpen}
-            w="100%"
-            h="100%"
+            w="full"
+            h="full"
             m={0}
             bg="blue20"
             color="offwhite"
@@ -111,7 +112,7 @@ export const AddBoxSection = React.forwardRef<HTMLDivElement, Props>(
                 <VStack
                   spacing={6}
                   color="white"
-                  w="100%"
+                  w="full"
                   maxW="30rem"
                   align="center"
                   mx="auto"
@@ -150,8 +151,8 @@ export const AddBoxSection = React.forwardRef<HTMLDivElement, Props>(
                     <Flex
                       w={{ base: '100%', sm: '30rem' }}
                       maxW="30rem"
-                      bg={'whiteAlpha.200'}
-                      style={{ backdropFilter: 'blur(7px)' }}
+                      bg="whiteAlpha.200"
+                      backdropFilter="blur(7px)"
                       borderRadius="lg"
                     >
                       <Preview
@@ -208,11 +209,13 @@ export const AddBoxSection = React.forwardRef<HTMLDivElement, Props>(
 export const EditMetadata: React.FC<{
   type: BoxType;
   metadata: BoxMetadata;
-  setMetadata: (d: BoxMetadata) => void;
+  setMetadata: React.Dispatch<React.SetStateAction<BoxMetadata>>;
 }> = ({ type, ...props }) => {
   switch (type) {
     case BoxTypes.EMBEDDED_URL:
       return <EmbeddedUrlMetadata {...props} />;
+    case BoxTypes.CUSTOM_TEXT:
+      return <CustomTextSectionMetadata {...props} />;
     default:
       return null;
   }

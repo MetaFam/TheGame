@@ -1,6 +1,5 @@
-import { Box, Flex, MetaTag, Text } from '@metafam/ds';
+import { Flex, MetaTag, Text } from '@metafam/ds';
 import { computeRank, Constants, Maybe } from '@metafam/utils';
-import Triangle from 'assets/triangle.svg';
 import { utils } from 'ethers';
 import { Player } from 'graphql/autogen/types';
 import { Patron } from 'graphql/types';
@@ -35,7 +34,7 @@ export const PatronRank: React.FC<Props> = ({ index, patron, pSeedPrice }) => {
 
   return (
     <Flex
-      flexDir="column"
+      direction="column"
       gap={1}
       pos="absolute"
       left={-8}
@@ -46,7 +45,7 @@ export const PatronRank: React.FC<Props> = ({ index, patron, pSeedPrice }) => {
       borderRadius="8px"
       zIndex={1}
     >
-      <Flex flexDir="column" gap={2} zIndex={2}>
+      <Flex direction="column" gap={2} zIndex={2}>
         {patronRank && (
           <MetaTag
             backgroundColor={patronRank?.toLowerCase()}
@@ -58,13 +57,13 @@ export const PatronRank: React.FC<Props> = ({ index, patron, pSeedPrice }) => {
           </MetaTag>
         )}
         {patron.pSeedBalance != null && (
-          <Text fontSize="sm" color="white">
+          <Text fontSize="sm" color="blueLight">
             {displayBalance}
           </Text>
         )}
-        <Text fontSize="sm" color="white">{`XP: ${Math.floor(
-          player.totalXP,
-        ).toLocaleString()}`}</Text>
+        <Text fontSize="sm" color="blueLight">
+          {`XP: ${Math.floor(player.totalXP).toLocaleString()}`}
+        </Text>
       </Flex>
     </Flex>
   );

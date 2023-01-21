@@ -3,6 +3,7 @@ export { ChainIcon } from './ChainIcon.js';
 export { Dashboard } from './Dashboard.js';
 export { DropDownIcon } from './DropDownIcon.js';
 export { EthereumIcon } from './EthereumIcon.js';
+export { FiltersIcon } from './FiltersIcon.js';
 export { GnosisIcon } from './GnosisIcon.js';
 export { Icon3box } from './Icon3box.js';
 export { LogOut } from './LogOut.js';

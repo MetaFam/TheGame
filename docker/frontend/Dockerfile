@@ -31,12 +31,15 @@ COPY packages/design-system ./packages/design-system/
 COPY packages/@types ./packages/@types/
 
 # Set env vars
+ARG NODE_ENV=production
+ARG APP_ENV=${NODE_ENV}
 ARG GRAPHQL_HOST=hasura
 ARG GRAPHQL_DOMAIN=onrender.com
 ARG GRAPHQL_URL=https://$GRAPHQL_HOST.$GRAPHQL_DOMAIN/v1/graphql
 
 ENV NEXT_PUBLIC_GRAPHQL_URL $GRAPHQL_URL
 
+ARG NEXT_PUBLIC_APP_ENV=${APP_ENV}
 ARG NEXT_PUBLIC_FRONTEND_URL
 ARG NEXT_PUBLIC_YOUTUBE_API_KEY
 ARG NEXT_PUBLIC_GA4_ID
@@ -50,7 +53,7 @@ RUN yarn web:build
 RUN yarn install --pure-lockfile --production --ignore-scripts --prefer-offline
 
 # Create completely new stage including only necessary files
-FROM node:16-alpine as app
+FROM node:16-slim as app
 WORKDIR /app
 
 # Copy necessary files into the stage

@@ -7,10 +7,21 @@ type ItemProps = {
 };
 
 export const LeagueCardItem: React.FC<ItemProps> = ({ text }: ItemProps) => (
-  <Flex width="100%" flexDirection="row" justifyContent="space-between">
-    <Text color="white" fontSize="lg" fontWeight="light">
+  <Flex
+    width="100%"
+    flexDirection="row"
+    alignItems="center"
+    justifyContent="space-between"
+  >
+    <Text fontSize="md" lineHeight={1.3}>
       {text}
     </Text>
-    <Image src={CheckMark.src} width="1.75rem" height="1.75rem" m={1} />
+    <Image
+      src={CheckMark.src}
+      width="1.5rem"
+      height="1.5rem"
+      marginLeft={2}
+      my={1}
+    />
   </Flex>
 );
