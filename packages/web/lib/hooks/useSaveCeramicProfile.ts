@@ -22,6 +22,7 @@ import {
   simplifyAliases,
   Values,
 } from '@metafam/utils';
+import { CeramicError, handleCeramicAuthenticationError } from 'lib/errors';
 import { useProfileField } from 'lib/hooks/useField';
 import { useUser } from 'lib/hooks/useUser';
 import { useWeb3 } from 'lib/hooks/useWeb3';
@@ -30,13 +31,6 @@ import { ReactElement, useCallback } from 'react';
 import { errorHandler } from 'utils/errorHandler';
 import { isEmpty } from 'utils/objectHelpers';
 import { dispositionFor } from 'utils/playerHelpers';
-
-export class CeramicError extends Error {
-  // eslint-disable-next-line @typescript-eslint/no-useless-constructor
-  constructor(message: string) {
-    super(message);
-  }
-}
 
 export const useSaveCeramicProfile = ({
   debug = false,
@@ -84,17 +78,7 @@ export const useSaveCeramicProfile = ({
           setStatus('Authenticating DID…');
           await ceramic.did?.authenticate();
         } catch (err) {
-          if (
-            (err as Error).message ===
-            'Unexpected token u in JSON at position 0'
-          ) {
-            throw new CeramicError('User canceled authentication.');
-          }
-          if ((err as Error).message === '"undefined" is not valid JSON') {
-            throw new CeramicError('Could not authenticate with Ceramic API');
-          }
-          errorHandler(err as Error);
-          throw err;
+          handleCeramicAuthenticationError(err as Error);
         }
       }
 

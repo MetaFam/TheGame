@@ -54,8 +54,9 @@ import {
 } from 'graphql/autogen/types';
 import { getPlayer } from 'graphql/getPlayer';
 import { useProfileField, useSaveCeramicProfile, useWeb3 } from 'lib/hooks';
+import { useSaveProfileToComposeDB } from 'lib/hooks/useSaveProfileToComposeDB';
 import { useRouter } from 'next/router';
-import type { ChangeEvent, PropsWithChildren } from 'react';
+import type { ChangeEvent, FocusEvent, PropsWithChildren } from 'react';
 import React, {
   ReactElement,
   RefObject,
@@ -92,7 +93,6 @@ const Label: React.FC<FormLabelProps> = React.forwardRef(
   },
 );
 
-export type Merge<P, T> = Omit<P, keyof T> & T;
 export const MotionBox = motion<BoxProps>(Box);
 type PulseHoverBoxProps = PropsWithChildren<{ duration?: number }>;
 export const PulseHoverBox: React.FC<PulseHoverBoxProps> = ({
@@ -144,6 +144,8 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
       ),
     [player],
   );
+
+  const saveUsername = useSaveProfileToComposeDB();
 
   const fields = Object.fromEntries(
     Object.keys(AllProfileFields).map((key) => {
@@ -748,6 +750,9 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
                       value: 150,
                       message: 'Maximum length is 150 characters.',
                     },
+                    onBlur: (event: FocusEvent<HTMLInputElement>) => {
+                      saveUsername({ username: event.target.value });
+                    },
                   })}
                 />
                 <Box minH="3em">
@@ -808,11 +813,11 @@ export const EditProfileModal: React.FC<ProfileEditorProps> = ({
                       min: {
                         value: 0,
                         message:
-                          'It’s not possible to be available for negative time.',
+                          'It’s not possible to be available for negative time!',
                       },
                       max: {
                         value: 24 * 7,
-                        message: `There’s only ${24 * 7} hours in a week.`,
+                        message: `There are only ${24 * 7} hours in a week!`,
                       },
                     })}
                   />
