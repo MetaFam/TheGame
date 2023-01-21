@@ -19,6 +19,7 @@
     "@ceramicnetwork/common": "^2.18.0",
     "@ceramicnetwork/http-client": "^2.15.0",
     "@ceramicnetwork/stream-caip10-link": "^2.13.0",
+    "@composedb/client": "^0.4.4",
     "@datamodels/identity-profile-basic": "^0.2.0",
     "@didtools/pkh-ethereum": "^0.0.3",
     "@ethersproject/address": "5.6.0",
@@ -50,7 +51,7 @@
     "draftjs-to-html": "0.9.1",
     "ethers": "5.7.0",
     "fake-tag": "3.0.0",
-    "graphql": "16.3.0",
+    "graphql": "16.6.0",
     "graphql-request": "^5.0.0",
     "gsap": "3.9.1",
     "html-metadata-parser": "2.0.4",
@@ -91,6 +92,7 @@
     "web3modal": "1.9.5"
   },
   "devDependencies": {
+    "@composedb/types": "^0.3.1",
     "@next/eslint-plugin-next": "^12.3.1",
     "@types/busboy": "1.5.0",
     "@types/deep-equal": "1.0.1",
