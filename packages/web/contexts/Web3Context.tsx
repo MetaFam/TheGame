@@ -2,12 +2,14 @@ import { EthereumAuthProvider, ThreeIdConnect } from '@3id/connect';
 import { getResolver as get3IDResolver } from '@ceramicnetwork/3id-did-resolver';
 import type { CeramicApi } from '@ceramicnetwork/common';
 import { CeramicClient } from '@ceramicnetwork/http-client';
+import { ComposeClient } from '@composedb/client';
 import { EthereumWebAuth, getAccountId } from '@didtools/pkh-ethereum';
 import { ExternalProvider, Web3Provider } from '@ethersproject/providers';
 import { did, Maybe } from '@metafam/utils';
 import { CONFIG } from 'config';
 import { DIDSession } from 'did-session';
 import { DID } from 'dids';
+import { definition } from 'graphql/composeDB/autogen/definition';
 import { getResolver as getKeyResolver } from 'key-did-resolver';
 import {
   clearToken,
@@ -31,6 +33,7 @@ import Web3Modal from 'web3modal';
 export type Web3ContextType = {
   provider: Maybe<Web3Provider>;
   ceramic: Maybe<CeramicApi>;
+  composeDBClient: Maybe<ComposeClient>;
   address: Maybe<string>;
   chainId: Maybe<string>;
   authToken: Maybe<string>;
@@ -44,6 +47,7 @@ export type Web3ContextType = {
 export const Web3Context = createContext<Web3ContextType>({
   provider: null,
   ceramic: null,
+  composeDBClient: null,
   address: null,
   chainId: null,
   authToken: null,
@@ -54,9 +58,9 @@ export const Web3Context = createContext<Web3ContextType>({
   isMetaMask: false,
 });
 
-const [web3Modal, ceramic] =
+const [web3Modal, ceramic, composeDBClient] =
   typeof window === 'undefined'
-    ? [null, null]
+    ? [null, null, null]
     : [
         new Web3Modal({
           network: 'mainnet',
@@ -64,6 +68,7 @@ const [web3Modal, ceramic] =
           providerOptions,
         }),
         new CeramicClient(CONFIG.ceramicURL) as CeramicApi,
+        new ComposeClient({ ceramic: CONFIG.ceramicURL, definition }),
       ];
 
 export async function getExistingAuth(
@@ -175,19 +180,22 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
               resources: ['ceramic://*'],
             });
             ceramic.did = session.did;
+            composeDBClient.setDID(session.did);
             break;
           }
           case '3ID': {
             const authProvider = new EthereumAuthProvider(prov, addr);
             const threeID = new ThreeIdConnect(CONFIG.ceramicNetwork);
             await threeID.connect(authProvider);
-            ceramic.did = new DID({
+            const threeIdDid = new DID({
               provider: threeID.getDidProvider(),
               resolver: {
                 ...get3IDResolver(ceramic),
                 ...getKeyResolver(),
               },
             });
+            ceramic.did = threeIdDid;
+            composeDBClient.setDID(threeIdDid);
             break;
           }
           default: {
@@ -253,6 +261,7 @@ export const Web3ContextProvider: React.FC<Web3ContextProviderOptions> = ({
       value={{
         provider,
         ceramic,
+        composeDBClient,
         connect,
         disconnect,
         connected,
